@@ -553,7 +553,7 @@ header h2 span {
 /* Animation */
 @keyframes updown {
     0% {
-        top: 50px;	
+        top: 40px;	
     }
 
     100% {
