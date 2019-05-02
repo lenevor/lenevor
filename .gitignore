@@ -1,0 +1,22 @@
+#-------------------------
+# Environment Files
+#-------------------------
+.env
+
+#-------------------------
+# Composer
+#-------------------------
+vendor/
+composer.lock
+composer.pchar
+
+#-------------------------
+# Temporary Files
+#-------------------------
+storage/cache/*
+storage/logs/*
+storage/views/*
+public/test.php
+
+# Visual Studio Code
+.vscode/
