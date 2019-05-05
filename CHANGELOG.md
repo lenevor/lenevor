@@ -242,7 +242,7 @@ Release Date: May 28, 2018
 
 ## [Version 0.1.0-alpha.1]
 
-Release Date: April 14, 2018
+Release Date: May 2, 2019
 
 **First Alpha Release: Created date of the Lenevor framework**
 
