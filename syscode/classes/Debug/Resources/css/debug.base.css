@@ -1,7 +1,7 @@
 :root {
-    --main-bg-color: rgb(240, 240, 245);
+    --main-bg-color: rgb(240, 240, 240);
     --first-color: rgb(255, 255, 255);
-    --second-color: rgb(238, 238, 238);
+    --second-color: rgb(243, 243, 243);
     --body-color: rgb(27, 27, 27);
     --border-color: rgb(175, 18, 18);
     --frame-color-menu: rgb(46, 135, 172);
@@ -35,6 +35,7 @@
 
 html {
     background: var(--main-bg-color);
+    z-index: 10000;
 }
 
 body {
@@ -298,12 +299,12 @@ header h2 {
 }
 
 .frame {
-    background-color: rgb(243, 243, 243);
+    background: var(--first-color);
     background: linear-gradient(top, rgb(248, 248, 248) 80%, rgb(240, 240, 240));
-    box-shadow: inset 0 -1px 0 #e2e2e2;
+    box-shadow: inset 0 -1px 0 rgb(238, 238, 238);
     cursor: pointer;
-    overflow: hidden;
-    position: relative;
+    transition: all 0.1s ease;
+    text-shadow: none;
 }
 
 .frame.active:last-child  {
@@ -316,11 +317,11 @@ header h2 {
 
 .frame.active .frame-class,
 .frame.active .frame-file {
-    font-weight: 600;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
 }
 
-.frame.active .frame-class {
+.frame.active .frame-class,
+.frame.active .frame-function {
     color: var(--first-color);
 }
 
@@ -337,37 +338,49 @@ header h2 {
 }
 
 .frame-index { 
-    background-color: rgb(128, 128, 145);  
+    background: rgb(128, 128, 145);  
     border: 2px solid rgb(85, 85, 85); 
     border-radius: 100%; 
     color: rgb(233, 233, 233);
-    padding: 0 1px 0 1px;   
-    position: absolute;
-    text-align: center;  
+    display: inline-block;
+    height: 18px;
+    line-height: 15px;
+    padding: 0 1px 0 1px; 
+    text-align: center;
+    width: 18px;
+}
+
+.frame-index {
+    float: left;
 }
 
 .frame-method-info {
-    position: relative;
+    display: inline-block;
+    margin-left: 10px;
 }
 
 .frame-class,
+.frame-function,
 .frame-file {
     font-weight: 600;
-    height: 1.4em;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    word-wrap: none;
+    
 }
 
-.frame-class {
+.frame-class,
+.frame-function {
     color: rgb(94, 88, 107);
-    font-size: var(--font-size-medium-x);  
+    font-size: var(--font-size-medium-x); 
+}
+
+.frame-function {
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .frame-file {
     color: rgb(170, 170, 180);
-    font-size: var(--font-size-initial);
+    font-size: var(--font-size-small-x);
 }
 
 .delimiter {
@@ -400,28 +413,24 @@ header h2 {
     }
 
     .frame-index {   
-        font-size: var(--font-size-small);    
-        height: 20px;
-        left: 20px;  
-        line-height: 14px;  
-        margin-top: 3px;  
-        width: 20px;
+        font-size: var(--font-size-small); 
+        margin-top: 5px;   
     }
 
     .frame.active .frame-class,
+    .frame.active .frame-function,
     .frame.active .frame-file {
         font-size: .9em;
     }
 
     .frame-class,
+    .frame-function,
     .frame-file {
         display: inline-block;
         font-size: .9em;
-        height: 1.3em;
+        height: 2em;
         letter-spacing: .3px; 
-        line-height: 1.3;
-        margin-left: 30px; 
-        margin-top: 5px;
+        line-height: 2.5;
     }
 }
 
@@ -431,25 +440,30 @@ header h2 {
     .frame {
         min-height: 75px;
         padding: 7px 20px;
+        white-space: nowrap;
+        word-wrap: none;
     }
 
     .frame-index { 
         font-size: .9em;    
         height: 22px;
         left: 20px;  
-        line-height: 18px;  
-        margin-top: 19px; 
+        line-height: 18px;
+        margin-top: 20px;
         width: 22px;
     }
 
     .frame-class,
-    .frame-file {
-        display: block;
-        line-height: 1.3;
-        margin-left: 40px; 
-        margin-top: 8px;
-        overflow-wrap: break-word;
+    .frame-function {
+        height: 2em;
+        line-height: 2.5;
     }
+
+    .frame-file {
+        margin-bottom: 10px;
+        margin-left: 30px;
+    }
+
 }
 
 /* SOURCE */
@@ -459,7 +473,7 @@ header h2 {
     border-radius: 5px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.06), 1px 1px 0 rgba(0, 0, 0, 0.06), -1px 1px 0 rgba(0, 0, 0, 0.06), 0 0 0 4px rgba(0, 0, 0, 0.06);
     display: none;
-    margin-bottom: 2px;
+    margin-bottom: 50px;
     padding: 6px;
 }
 
@@ -486,9 +500,10 @@ header h2 {
     color: rgb(34, 61, 77);
     font-size: var(--font-size-initial);
     font-weight: 600;
-    line-height: 8px;    
+    min-height: 12px;
+    line-height: 12px;    
     overflow: hidden;
-    padding-bottom: 7px;
+    padding: 7px;
     text-overflow: ellipsis;
     text-shadow: none;
     white-space: pre-line;
@@ -617,7 +632,7 @@ header h2 {
     background: var(--first-color);
     border: 1px solid rgb(223, 221, 221);
     border-top: 0;
-    box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.1), inset 1px -1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.05), inset 1px -1px 3px rgba(0, 0, 0, 0.05);
     color: rgb(138, 135, 135);
     padding-bottom: 15px;
     padding-top: 15px;
@@ -757,7 +772,8 @@ code {
 /* INFO PANEL DETAILS*/
 
 .details-description {
-    padding: 50px 0 20px;
+    padding: 0;
+    padding-bottom: 20px;
 }
 
 .details-description:after {
@@ -800,7 +816,7 @@ code {
     color: rgb(6, 154, 173);
     font-size: 16px;
     font-weight: bold;
-    margin: 10px 0;  
+    margin: 10px;  
     display: block;  
     margin-bottom: 10px;
     padding-bottom: 5px;
@@ -857,6 +873,11 @@ code {
     display: inline;
 }
 
+.data-table .debug-list {
+    color: rgb(96, 88, 107);
+    text-shadow: none;
+}
+
 /* ------------------------------------------------------------ 
  * LAYOUT
  * -----------------------------------------------------------*/
@@ -878,6 +899,10 @@ code {
 
     .data-table table {
         padding-left: 10px;
+    }
+
+    .data-table .debug-list {
+        margin-left: 8px;
     }
 }
 
@@ -958,5 +983,29 @@ footer {
         left: 0;
         position: fixed;
         right: 0;
+    }
+}
+
+/* PRINT */
+@media print {
+    header {
+        display: none;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .code-source,
+    .code-source.active {
+        display: none;
+    }
+
+    footer {
+        display: none;
+    }
+
+    @page {
+        margin: .5in;
     }
 }
