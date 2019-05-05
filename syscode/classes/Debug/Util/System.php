@@ -24,7 +24,21 @@ namespace Syscode\Debug\Util;
  * @since       0.8.0
  */
 class System 
-{    
+{
+    /**
+     * Can we at this point in time send HTTP headers?
+     * Currently this checks if we are even serving an HTTP request,
+     * as opposed to running from a command line.
+     * 
+     * If we are serving an HTTP request, we check if it's not too late.
+     * 
+     * @return bool
+     */
+    public static function sendHeaders()
+    {
+        return isset($_SERVER["REQUEST_URI"]) && ! headers_sent();
+    }
+
     /**
      * Turns on output buffering.
      *
