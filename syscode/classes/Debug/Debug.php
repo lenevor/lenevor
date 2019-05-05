@@ -70,7 +70,15 @@ class Debug implements HandlerContract
 	 *
 	 * @var array $phpErrors
 	 */
-	protected $phpErrors = [E_PARSE, E_ERROR, E_USER_ERROR, E_COMPILE_ERROR];
+	protected $phpErrors = [ 
+		E_ERROR, 
+		E_PARSE,
+		E_CORE_ERROR,
+		E_CORE_WARNING,
+		E_USER_ERROR, 
+		E_COMPILE_ERROR,
+		E_COMPILE_WARNING
+	];
 
 	/**
 	 * The send Http code by default: 500 Internal Server Error.
@@ -92,6 +100,13 @@ class Debug implements HandlerContract
 	 * @var string $system
 	 */
 	protected $system;
+
+	/**
+	 * In certain scenarios, like in shutdown handler, we can not throw exceptions.
+	 * 
+	 * @var bool $throwExceptions
+	 */
+	protected $throwExceptions = true;
 
 	/**
 	 * Constructor. The ExceptionHandler class.
@@ -139,10 +154,11 @@ class Debug implements HandlerContract
 		
 		foreach (array_reverse($this->getHandlers()) as $handler)
 		{			
+			$handler->setDebug($this);
 			$handler->setException($exception);
 			$handler->setSupervisor($supervisor);
 			
-			$handlerResponse = $handler->handle($exception);
+			$handlerResponse = $handler->handle();
 
 			// Collect the content type for possible sending in the headers
 			$handlerContentType = method_exists($handler, 'contentType') ? $handler->contentType() : null;
@@ -168,7 +184,7 @@ class Debug implements HandlerContract
 					$this->system->endOutputBuffering();
 				}
 
-				if ($handlerContentType)
+				if (System::sendHeaders() && $handlerContentType)
 				{
 					header("Content-Type: {$handlerContentType}");
 				}
@@ -199,12 +215,25 @@ class Debug implements HandlerContract
 	 *
 	 * @throws \ErrorException
 	 */
-	public function errorHandler($level, $message, $file = null, $line = 0)
+	public function errorHandler($level, $message, $file = null, $line = null)
 	{
-		if ($this->system->getErrorReportingLevel() & $level) 
+		if ($level & $this->system->getErrorReportingLevel()) 
 		{
-			throw new ErrorException($message, 0, $level, $file, $line);
+			$exception = new ErrorException($message, $level, $level, $file, $line);
+
+			if ($this->throwExceptions)
+			{
+				throw $exception;
+			}
+			else
+			{
+				$this->exceptionHandler($exception);
+			}
+
+			return true;
 		}
+
+		return false;
 	}
 
 	/**
@@ -230,15 +259,15 @@ class Debug implements HandlerContract
 	}
 
 	/**
-	 * Determine if the error type is fatal.
+	 * Determine if the error level is fatal.
 	 * 
-	 * @param  int  $type
+	 * @param  int  $level
 	 * 
 	 * @return bool
 	 */
-	protected function isFatal(int $type)
+	protected function isFatal(int $level)
 	{
-		return in_array($type, $this->phpErrors);
+		return in_array($level, $this->phpErrors);
 	}
 	
 	/**
@@ -329,6 +358,8 @@ class Debug implements HandlerContract
 	 */
 	public function shutdownHandler()
 	{
+		$this->throwExceptions = false;
+
 		$error = $this->system->getLastError();
 
 		// If we've got an error that hasn't been displayed, then convert
@@ -336,7 +367,7 @@ class Debug implements HandlerContract
 		// to the user
 		if ($error && $this->isFatal($error['type']))
 		{
-			$this->exceptionHandler(new ErrorException($error['message'], $error['type'], 0, $error['file'], $error['line']));
+			$this->errorHandler($error['type'], $error['message'], $error['file'], $error['line']);
 		}
 	}
 
@@ -368,7 +399,7 @@ class Debug implements HandlerContract
 	 */
 	protected function writeToOutputBuffer($output)
 	{
-		if ($this->sendHttpCode())
+		if ($this->sendHttpCode() && System::sendHeaders())
 		{
 			$this->system->setHttpResponseCode($this->sendHttpCode());
 		}
