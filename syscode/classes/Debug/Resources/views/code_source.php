@@ -1,12 +1,9 @@
 <?php foreach ($frames as $index => $frame) : ?>	
 <div class="code-source <?= ($index == 0 ? 'active' : '') ?> clearfix" data-frame=<?= $index ?>>
-    <?php if ($frame->getFile() && is_file($frame->getFile()) && $frame->getLine()) : ?>
     <div class="title">
-        <h4>
-            <?= e(__('exception.line'))?> <?= $frame->getLine() ?> <?= e(__('exception.inFile'))?> <?= $template->cleanPath($frame->getFile(), $frame->getLine()) ?>
-        </h4>
+        <h4><?= e(__('exception.line'))?> <?= $frame->getLine() ?> <?= e(__('exception.inFile'))?> <?= $template->cleanPath($frame->getFile(), $frame->getLine()) ?></h4>
         <div class="iconlist">            
-            <div class="icon-holder icon-print">
+            <div class="icon-holder icon-print" onclick="javascript:window.print()">
                 <div class="tooltip tooltip-print">
                     Generate print
                 </div>
@@ -30,14 +27,13 @@
         <?= $template->highlightFile($frame->getFile(), $frame->getLine(), 11); ?>
     </div>
     <?php $frameArgs = $template->dumpArgs($frame); ?>
-        <?php if ($frameArgs): ?>
+    <?php if ($frameArgs): ?>
     <div id="frame-code-args-<?=$index?>" class="code-block frame-args">
         <div class="frame-file">
             <?= e(__('exception.arguments')) ?>
         </div>
         <?php echo $frameArgs; ?>
     </div>
-        <?php endif ?>
-    <?php endif; ?>
+    <?php endif ?>
 </div>
 <?php endforeach; ?>
