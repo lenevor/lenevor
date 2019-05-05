@@ -2,7 +2,7 @@
 
 namespace Syscode\Debug\Handlers;
 
-use Syscode\Debug\Engine\{ Formatter, Supervisor };
+use Syscode\Debug\Engine\Formatter;
 
 /**
  * Lenevor PHP Framework
@@ -41,15 +41,13 @@ class JsonResponseHandler extends MainHandler
     /**
      * Given an exception and status code will display the error to the client.
      * 
-     * @param  \Throwable  $exception
-     * 
-     * @return void
+     * @return int
      */
-    public function handle($exception)
+    public function handle()
     {        
         $response = [
             'error' => [
-                Formatter::formatExceptionAsDataArray(new Supervisor($exception)),
+                Formatter::formatExceptionAsDataArray($this->getSupervisor()),
             ]
         ];
 
