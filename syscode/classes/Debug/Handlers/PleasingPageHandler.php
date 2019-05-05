@@ -126,7 +126,7 @@ class PleasingPageHandler extends MainHandler
 			'code_source'       => $this->getResource('views/code_source.php'),
 			'details_content'   => $this->getResource('views/details_content.php'),
 			'footer'            => $this->getResource('views/footer.php'),
- 			'handler'           => $this,
+ 			'handlers'          => $this->getDebug()->getHandlers(),
 			'code'              => $exception->getCode(),
 			'file'              => $exception->getFile(),
 			'line'              => $exception->getLine(),
@@ -274,15 +274,13 @@ class PleasingPageHandler extends MainHandler
 	/**
 	 * Given an exception and status code will display the error to the client.
 	 * 
-	 * @param  \Throwable  $exception
-	 * 
-	 * @return void
+	 * @return int|null
 	 */
-	public function handle($exception)
+	public function handle()
 	{	
 		$templatePath = $this->getResource('debug.layout.php');
 
-		$vars = $this->collectionVars($exception);
+		$vars = $this->collectionVars($this->getException());
 		
 		if (empty($vars['message'])) $vars['message'] = '(null)';
 		
