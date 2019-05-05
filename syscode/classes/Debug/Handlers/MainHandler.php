@@ -2,6 +2,7 @@
 
 namespace Syscode\Debug\Handlers;
 
+use Syscode\Contracts\Debug\Handler;
 use Syscode\Debug\Engine\Supervisor;
 
 /**
@@ -21,7 +22,7 @@ use Syscode\Debug\Engine\Supervisor;
  * @subpackage  Base
  * @author      Javier Alexander Campo M. <jalexcam@gmail.com>
  * @link        https://lenevor.com 
- * @copyright   Copyright (c) 2018-2019 Lenevor Framework 
+ * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.8.0
  */
@@ -31,6 +32,13 @@ class MainHandler
      * The Handler has handled the Throwable in some way, and wishes to quit/stop execution.
      */
     const QUIT = 0x30;
+
+    /**
+     * Get debug.
+     * 
+     * @var \Syscode\Contracts\Debug\Handler $debug
+     */
+    protected $debug;
 
     /**
 	 * Get exception. 
@@ -45,6 +53,16 @@ class MainHandler
 	 * @var string $supervisor
 	 */
     protected $supervisor;
+
+    /**
+     * Gets Debug class with you interface.
+     * 
+     * @return \Syscode\Contracts\Debug\Handler  Interface
+     */
+    public function getDebug()
+    {
+        return $this->debug;
+    }
     
     /**
 	 * Gets exception already specified.
@@ -64,6 +82,18 @@ class MainHandler
     public function getSupervisor()
     {
         return $this->supervisor;
+    }
+
+    /**
+     * Sets debug.
+     * 
+     * @param  \Syscode\Contracts\Debug\Handler  $debug
+     * 
+     * @return void
+     */
+    public function setDebug($debug)
+    {
+        return $this->debug = $debug;
     }
 
     /**
