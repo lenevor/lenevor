@@ -42,8 +42,10 @@
         {
             var el = allFrames[i];
 
-            el.addEventListener(evento, () =>
+            el.addEventListener(evento, (e) =>
             {
+                e.preventDefault();
+                
                 if (previousFrame)
                 {
                     previousFrame.classList.remove("active");
