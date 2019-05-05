@@ -56,14 +56,15 @@ class CallbackHandler extends MainHandler
     /**
      * Given an exception and status code will display the error to the client.
      * 
-     * @param  \Throwable  $exception
-     * 
-     * @return void
+     * @return \callable|int|null
      */
-    public function handle($exception)
+    public function handle()
     {
-        $callable = $this->callable;
+        $exception  = $this->getException();
+        $supervisor = $this->getSupervisor();
+        $debug      = $this->getDebug();
+        $callable   = $this->callable;
 
-        return $callable($exception);
+        return $callable($exception, $supervisor, $debug);
     }
 }
