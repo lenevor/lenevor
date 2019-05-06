@@ -62,7 +62,35 @@ class PlainTextHandler extends MainHandler
      */
     protected function getTraceOutput()
     {
-        $response = "\nStack trace:";
+        $supervisor = $this->getSupervisor();
+        $frames     = $supervisor->getFrames();
+        
+        $response   = "\nStack trace:";
+
+        $line = count($frames);
+
+        foreach ($frames as $frame)
+        {
+            $class = $frame->getClass();
+
+            $template = "\n%3d. %s->%s() %s:%d";
+
+            if ( ! $class)
+            {
+                $template = "\n%3d. %s%s() %s:%d";
+            }
+
+            $response .= sprintf(
+                $template,
+                $line,
+                $class,
+                $frame->getFunction(),
+                $frame->getFile(),
+                $frame->getLine()
+            );
+
+            $line--;
+        }
 
         return $response;
     }
@@ -70,13 +98,11 @@ class PlainTextHandler extends MainHandler
     /**
      * Given an exception and status code will display the error to the client.
      * 
-     * @param  \Throwable  $exception
-     * 
      * @return void
      */
-    public function handle($exception)
+    public function handle()
     {        
-        $response = $this->getResponse($exception);
+        $response = $this->getResponse($this->getException());
 
         echo $response;
 
