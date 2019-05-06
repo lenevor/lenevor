@@ -2,6 +2,7 @@
     --main-bg-color: rgb(240, 240, 240);
     --first-color: rgb(255, 255, 255);
     --second-color: rgb(243, 243, 243);
+    --thrid-color: rgb(145, 107, 37);
     --body-color: rgb(27, 27, 27);
     --border-color: rgb(175, 18, 18);
     --frame-color-menu: rgb(46, 135, 172);
@@ -326,7 +327,11 @@ header h2 {
 }
 
 .frame.active .frame-file {
-    color: rgb(169, 202, 216);
+    color: rgb(170, 205, 219);
+}
+
+.frame.active .frame-line {
+    color: rgb(193, 219, 230); 
 }
 
 .frame:not(.active):hover {
@@ -371,11 +376,6 @@ header h2 {
 .frame-function {
     color: rgb(94, 88, 107);
     font-size: var(--font-size-medium-x); 
-}
-
-.frame-function {
-    margin-left: 10px;
-    margin-right: 10px;
 }
 
 .frame-file {
@@ -461,7 +461,7 @@ header h2 {
 
     .frame-file {
         margin-bottom: 10px;
-        margin-left: 30px;
+        margin-left: 33px;
     }
 
 }
@@ -503,7 +503,7 @@ header h2 {
     min-height: 12px;
     line-height: 12px;    
     overflow: hidden;
-    padding: 7px;
+    padding: 5px 7px;
     text-overflow: ellipsis;
     text-shadow: none;
     white-space: pre-line;
@@ -565,11 +565,11 @@ header h2 {
 }
 
 .icon-holder:hover .tooltip-edit {
-    transform: translate(-60%);
+    transform: translate(-85%);
 }
 
 .icon-holder:last-child .tooltip:before {
-    left: 60%;
+    left: 85%;
 }
 
 .icon-holder i {
@@ -937,7 +937,7 @@ footer {
 }
 
 .info .name {
-    color: rgb(133, 128, 128);
+    color: rgb(167, 161, 161);
     position: relative;
     left: 15px;
 }
@@ -999,6 +999,7 @@ footer {
     .code-source,
     .code-source.active {
         display: none;
+        visibility: hidden;
     }
 
     footer {
