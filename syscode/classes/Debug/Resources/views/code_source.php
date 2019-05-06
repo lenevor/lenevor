@@ -1,23 +1,23 @@
 <?php foreach ($frames as $index => $frame) : ?>	
 <div class="code-source <?= ($index == 0 ? 'active' : '') ?> clearfix" data-frame=<?= $index ?>>
     <div class="title">
-        <h4><?= e(__('exception.line'))?> <?= $frame->getLine() ?> <?= e(__('exception.inFile'))?> <?= $template->cleanPath($frame->getFile(), $frame->getLine()) ?></h4>
+        <h4><?= $template->cleanPath($frame->getFile(), $frame->getLine()) ?></h4>
         <div class="iconlist">            
             <div class="icon-holder icon-print" onclick="javascript:window.print()">
                 <div class="tooltip tooltip-print">
-                    Generate print
+                    <?= e(__('exception.print'))?>
                 </div>
                 <i class="icofont-print"></i>
             </div>      
             <div class="icon-holder icon-pdf">
                 <div class="tooltip tooltip-pdf">
-                    Open the reader pdf
+                    <?= e(__('exception.openReaderPDF'))?>
                 </div>
                 <i class="icofont-file-pdf"></i>
             </div>      
             <div class="icon-holder icon-edit">
                 <div class="tooltip tooltip-edit">
-                    Open the code editor
+                    <?= e(__('exception.openCodeEditor'))?>
                 </div>
                 <i class="icofont-edit"></i>
             </div>          
