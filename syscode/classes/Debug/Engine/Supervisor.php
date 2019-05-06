@@ -65,6 +65,34 @@ class Supervisor
 		if ($this->frames === null)
 		{
 			$frames = $this->getTrace($this->exception);	
+
+			// Fill empty line/file info for call_user_func_array usages 
+			foreach ($frames as $k => $frame) 
+			{
+				if (empty($frame['file']))
+				{
+					// Default values when file and line are missing
+					$file = '[PHP internal Code]';
+					$line = 0;
+					$next_frame = ! empty($frames[$k + 1]) ? $frames[$k + 1] : [];
+					$frames[$k]['file'] = $file;
+					$frames[$k]['line'] = $line;
+				}
+			}
+			// Find latest non-error handling frame index ($i) used to remove error handling frames
+			$i = 0;
+			foreach ($frames as $k => $frame)
+			{
+				if ($frame['file'] == $this->exception->getFile() && $frame['line'] == $this->exception->getLine())
+				{
+					$i = $k;
+				}
+			}
+			// Remove error handling frames
+			if ($i > 0)
+			{
+				array_splice($frames, 0, $i);
+			}
 	
 			$firstFrame = $this->getFrameFromException($this->exception);	
 			array_unshift($frames, $firstFrame);
