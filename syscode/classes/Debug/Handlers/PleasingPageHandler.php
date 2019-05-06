@@ -165,13 +165,13 @@ class PleasingPageHandler extends MainHandler
 	protected function getDefaultTables()
 	{
 		return [
-			new ArrayTable('Get Data', $_GET),
-			new ArrayTable('Post Data', $_POST),
+			new ArrayTable('GET Data', $_GET),
+			new ArrayTable('POST Data', $_POST),
 			new ArrayTable('Files', $_FILES),
 			new ArrayTable('Cookie', $_COOKIE),
 			new ArrayTable('Session', isset($_SESSION) ? $_SESSION : []),
 			new ArrayTable('Server/Request Data', $_SERVER),
-			new ArrayTable('Environment Variables', $_ENV),
+			new ArrayTable(__('exception.environmentVars'), $_ENV),
 		];
 	}
 
