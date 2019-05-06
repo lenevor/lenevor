@@ -30,7 +30,7 @@
 	</div>
 
 	<div class="data-table-container">
-		<label>Registered Handlers</label>
+		<label><?= e(__('exception.RegisteredHandlers')) ?></label>
 		<?php foreach ($handlers as $i => $handler) : ?>
 			<div class="data-table">
 				<span class="debug-list"><?= $i + 1 ?>.&nbsp;&nbsp;<?= e(get_class($handler)) ?></span>
