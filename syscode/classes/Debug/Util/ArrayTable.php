@@ -47,9 +47,7 @@ class ArrayTable implements Table
     public function __construct($label, array $data)
     {
         $this->label = $label;
-
-        ksort($data);
-        $this->data = $data;
+        $this->data  = $data;
     }
 
     /**
