@@ -1,7 +1,10 @@
 <header> 
 <?php foreach ($class as $i => $name) : ?>
 	<?php if ($i == count($class) - 1): ?>
-	<h1><?= htmlspecialchars($name, ENT_SUBSTITUTE, 'UTF-8') ?></h1>
+	<h1><?= htmlspecialchars($name, ENT_SUBSTITUTE, 'UTF-8') ?></h1> 
+	<?php if ($code): ?>
+      	<span title="Exception Code">(<?= e($code) ?>)</span>
+    <?php endif ?>
 	<?php else: ?>
 	<?= e($name).' \\' ?>
 	<?php endif; ?>
