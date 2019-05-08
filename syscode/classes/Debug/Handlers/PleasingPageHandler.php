@@ -5,9 +5,10 @@ namespace Syscode\Debug\Handlers;
 use Exception;
 use Throwable;
 use Traversable;
+use ErrorException;
 use RuntimeException;
 use Syscode\Contracts\Debug\Table;
-use Syscode\Debug\Util\{ ArrayTable, TemplateHandler };
+use Syscode\Debug\Util\{ ArrayTable, Misc, TemplateHandler };
 
 /**
  * Lenevor Framework
@@ -127,7 +128,7 @@ class PleasingPageHandler extends MainHandler
 			'details_content'   => $this->getResource('views/details_content.php'),
 			'footer'            => $this->getResource('views/footer.php'),
  			'handlers'          => $this->getDebug()->getHandlers(),
-			'code'              => $exception->getCode(),
+			'code'              => $this->getExceptionCode(),
 			'file'              => $exception->getFile(),
 			'line'              => $exception->getLine(),
 			'message'           => $exception->getMessage(),
@@ -173,6 +174,24 @@ class PleasingPageHandler extends MainHandler
 			new ArrayTable('Server/Request Data', $_SERVER),
 			new ArrayTable(__('exception.environmentVars'), $_ENV),
 		];
+	}
+
+	/**
+	 * Get the code of the exception that is currently being handled.
+	 * 
+	 * @return string
+	 */
+	protected function getExceptionCode()
+	{
+		$exception = $this->getException();
+		$code      = $exception->getCode();
+
+		if ($exception instanceof ErrorException)
+		{
+			$code = Misc::translateErrorCode($exception->getSeverity());
+		}
+
+		return (string) $code;
 	}
 
 	/**
