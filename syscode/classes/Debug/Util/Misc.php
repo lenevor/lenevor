@@ -26,6 +26,33 @@ namespace Syscode\Debug\Util;
 class Misc
 {
     /**
+	 * The errors of php.
+	 *
+	 * @var array $phpErrors
+	 */
+	protected static $phpErrors = [ 
+		E_ERROR, 
+		E_PARSE,
+		E_CORE_ERROR,
+		E_CORE_WARNING,
+		E_USER_ERROR, 
+		E_COMPILE_ERROR,
+		E_COMPILE_WARNING
+    ];
+    
+    /**
+	 * Determine if the error level is fatal.
+	 * 
+	 * @param  int  $level
+	 * 
+	 * @return bool
+	 */
+	public static function isFatalError(int $level)
+	{
+		return in_array($level, static::$phpErrors);
+    }
+    
+    /**
      * Can we at this point in time send HTTP headers?
      * Currently this checks if we are even serving an HTTP request,
      * as opposed to running from a command line.
@@ -37,5 +64,30 @@ class Misc
     public static function sendHeaders()
     {
         return isset($_SERVER["REQUEST_URI"]) && ! headers_sent();
+    }
+
+    /**
+     * Translate ErrorException code into the represented constant.
+     * 
+     * @param  int  $errorCode
+     * 
+     * @return string
+     */
+    public static function translateErrorCode($errorCode)
+    {
+        $constants = get_defined_constants(true);
+
+        if (array_key_exists('Core', $constants))
+        {
+            foreach ($constants['Core'] as $constant => $value)
+            {
+                if (substr($constant, 0, 2) == 'E_' && $value == $errorCode)
+                {
+                    return $constant;
+                }
+            }
+        }
+
+        return 'E_UNKNOWN';
     }
 }
