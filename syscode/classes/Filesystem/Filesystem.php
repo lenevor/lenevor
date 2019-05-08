@@ -7,7 +7,7 @@ use Syscode\Filesystem\Exceptions\FileException;
 use Syscode\Filesystem\Exceptions\FileNotFoundException;
 
 /**
- * Lenevor PHP Framework
+ * Lenevor Framework
  *
  * LICENSE
  *
@@ -23,9 +23,9 @@ use Syscode\Filesystem\Exceptions\FileNotFoundException;
  * @subpackage  Base
  * @author      Javier Alexander Campo M. <jalexcam@gmail.com>
  * @link        https://lenevor.com 
- * @copyright   Copyright (c) 2018-2019 Lenevor PHP Framework 
+ * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.9.2
+ * @since       0.1.0
  */
 class Filesystem 
 {

@@ -5,7 +5,7 @@ namespace Syscode\Core\Exceptions;
 use Throwable;
 
 /**
- * Lenevor PHP Framework
+ * Lenevor Framework
  *
  * LICENSE
  *
@@ -21,9 +21,9 @@ use Throwable;
  * @subpackage  Base
  * @author      Javier Alexander Campo M. <jalexcam@gmail.com>
  * @link        https://lenevor.com 
- * @copyright   Copyright (c) 2018-2019 Lenevor Framework 
+ * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.6.0
+ * @since       0.1.0
  */
 class HttpException extends LenevorException
 {
@@ -54,7 +54,7 @@ class HttpException extends LenevorException
 	 * 
 	 * @throws \Syscode\Core\Exceptions\LenevorException
 	 */
-	public function __construct($statusCode, $message = null, Throwable $previous = null, array $headers = [], int $code = 0)
+	public function __construct(int $statusCode, string $message = null, Throwable $previous = null, array $headers = [], ?int $code = 0)
 	{
 		$this->statusCode = $statusCode;
 		$this->headers    = $headers;

@@ -5,7 +5,7 @@ namespace Syscode\Database\Holisen;
 use PDO;
 
 /**
- * Lenevor PHP Framework
+ * Lenevor Framework
  *
  * LICENSE
  *
@@ -21,7 +21,7 @@ use PDO;
  * @subpackage  Base
  * @author      Javier Alexander Campo M. <jalexcam@gmail.com>
  * @link        https://lenevor.com 
- * @copyright   Copyright (c) 2018-2019 Lenevor PHP Framework 
+ * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
  */

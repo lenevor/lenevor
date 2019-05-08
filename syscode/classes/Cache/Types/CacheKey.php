@@ -5,7 +5,7 @@ namespace Syscode\Cache\Types;
 use Syscode\Contracts\Cache\Key;
 
 /**
- * Lenevor PHP Framework
+ * Lenevor Framework
  *
  * LICENSE
  *
@@ -21,9 +21,9 @@ use Syscode\Contracts\Cache\Key;
  * @subpackage  Base
  * @author      Javier Alexander Campo M. <jalexcam@gmail.com>
  * @link        https://lenevor.com 
- * @copyright   Copyright (c) 2018-2019 Lenevor Framework 
+ * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.3.0
+ * @since       0.1.0
  */
 class CacheKey implements Key
 {

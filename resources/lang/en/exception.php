@@ -23,7 +23,7 @@ return [
     'memory' => 'Memory',
     'memoryLimit' => 'Memory Limit',
     'memoryUsage' => 'Memory Usage',
-    'openCodeEditor' => 'Open the code editor',
+    'openCodeEditor' => 'Open the code editor {editor}',
     'openReaderPDF' => 'Open the reader PDF',
     'print' => 'Print',
     'RegisteredHandlers' => 'Registered Handlers',

@@ -24,7 +24,7 @@ return [
     'memory' => 'Memoria',
     'memoryLimit' => 'Limite de memoria',
     'memoryUsage' => 'Uso de memoria',
-    'openCodeEditor' => 'Abrir el editor de código',
+    'openCodeEditor' => 'Abrir el editor de código {editor}',
     'openReaderPDF' => 'Abrir el lector de PDF',
     'print' => 'Imprimir',
     'RegisteredHandlers' => 'Manejadores Registrados',

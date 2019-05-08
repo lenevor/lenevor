@@ -5,7 +5,7 @@ namespace Syscode\Debug;
 use Throwable;
 use ErrorException;
 use InvalidArgumentException;
-use Syscode\Debug\Util\System;
+use Syscode\Debug\Util\{ Misc, System };
 use Syscode\Debug\Engine\Supervisor;
 use Syscode\Debug\Handlers\MainHandler;
 use Syscode\Debug\Handlers\CallbackHandler;
@@ -28,9 +28,9 @@ use Syscode\Contracts\Debug\Handler as HandlerContract;
  * @subpackage  Base
  * @author      Javier Alexander Campo M. <jalexcam@gmail.com>
  * @link        https://lenevor.com 
- * @copyright   Copyright (c) 2018-2019 Lenevor Framework 
+ * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.8.0
+ * @since       0.1.0
  */
 class Debug implements HandlerContract
 {
@@ -184,7 +184,7 @@ class Debug implements HandlerContract
 					$this->system->endOutputBuffering();
 				}
 
-				if (System::sendHeaders() && $handlerContentType)
+				if (Misc::sendHeaders() && $handlerContentType)
 				{
 					header("Content-Type: {$handlerContentType}");
 				}
@@ -399,7 +399,7 @@ class Debug implements HandlerContract
 	 */
 	protected function writeToOutputBuffer($output)
 	{
-		if ($this->sendHttpCode() && System::sendHeaders())
+		if ($this->sendHttpCode() && Misc::sendHeaders())
 		{
 			$this->system->setHttpResponseCode($this->sendHttpCode());
 		}

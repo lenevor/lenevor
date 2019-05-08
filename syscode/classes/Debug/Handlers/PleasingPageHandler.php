@@ -7,7 +7,7 @@ use Throwable;
 use Traversable;
 use RuntimeException;
 use Syscode\Contracts\Debug\Table;
-use Syscode\Debug\Util\{ ArrayTable, System, TemplateHandler };
+use Syscode\Debug\Util\{ ArrayTable, TemplateHandler };
 
 /**
  * Lenevor PHP Framework
@@ -26,9 +26,9 @@ use Syscode\Debug\Util\{ ArrayTable, System, TemplateHandler };
  * @subpackage  Base
  * @author      Javier Alexander Campo M. <jalexcam@gmail.com>
  * @link        https://lenevor.com 
- * @copyright   Copyright (c) 2018-2019 Lenevor Framework 
+ * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.8.0
+ * @since       0.1.0
  */
 class PleasingPageHandler extends MainHandler
 {
@@ -37,14 +37,14 @@ class PleasingPageHandler extends MainHandler
 	 * 
 	 * @var string $brand
 	 */
-	public $brand = 'Lenevor Debug';
+	public $brand = 'Lenevor Suram';
 	
 	/**
 	 * The page title main of handler.
 	 * 
 	 * @var string $pageTitle
 	 */
-	public $pageTitle = 'Lenevor Debug! There was an error.';
+	public $pageTitle = 'Lenevor Suram! There was an error.';
 	
 	/**
 	 * Fast lookup cache for known resource locations.

@@ -1,7 +1,7 @@
 <?php 
 
 /**
- * Lenevor PHP Framework
+ * Lenevor Framework
  *
  * LICENSE
  *
@@ -17,7 +17,7 @@
  * @subpackage  Base
  * @author      Javier Alexander Campo M. <jalexcam@gmail.com>
  * @link        https://lenevor.com 
- * @copyright   Copyright (c) 2018-2019 Lenevor PHP Framework 
+ * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
  */
@@ -27,9 +27,9 @@
  */
 
 // You can remove this if you are confident that your PHP version is sufficient
-if (version_compare(PHP_VERSION, '5.6.19') < 0) 
+if (version_compare(PHP_VERSION, '7.1.26') < 0) 
 {
-    trigger_error('Your PHP version must be equal or higher than 5.6.19 to use Lenevor.'.PHP_EOL, E_USER_ERROR);
+    trigger_error('Your PHP version must be equal or higher than 7.1.26 to use Lenevor.'.PHP_EOL, E_USER_ERROR);
 }
 
 // You can remove this if you are confident you have mbstring installed

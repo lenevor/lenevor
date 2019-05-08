@@ -35,7 +35,7 @@ return [
     |
     */
 	
-    'baseUrl' => env('APP_BASEURL', '/lenevor/public/'),
+    'baseUrl' => env('APP_BASE_URL', '/lenevor/public/'),
 
     /*
     |------------------------------------------------------------------------

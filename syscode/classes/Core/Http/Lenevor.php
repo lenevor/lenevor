@@ -10,7 +10,7 @@ use Syscode\Http\{ Http, Request, Response };
 use Syscode\Contracts\Core\Lenevor as LenevorContract;
 
 /**
- * Lenevor PHP Framework
+ * Lenevor Framework
  *
  * LICENSE
  *
@@ -26,9 +26,9 @@ use Syscode\Contracts\Core\Lenevor as LenevorContract;
  * @subpackage  Base
  * @author      Javier Alexander Campo M. <jalexcam@gmail.com>
  * @link        https://lenevor.com 
- * @copyright   Copyright (c) 2018-2019 Lenevor Framework 
+ * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.9.0
+ * @since       0.1.0
  */
 class Lenevor implements LenevorContract
 {
@@ -207,8 +207,7 @@ class Lenevor implements LenevorContract
 	 * Launch the application.
 	 *
 	 * @return void
-	 *
-	 * @uses   Syscode\Config\Configure
+	 * 
 	 * @uses   new \Syscode\Http\Response
 	 */
 	public function handle()

@@ -17,7 +17,7 @@
             </div>      
             <div class="icon-holder icon-edit">
                 <div class="tooltip tooltip-edit">
-                    <?= e(__('exception.openCodeEditor'))?>
+                    <?= e(__('exception.openCodeEditor', ['editor' => null]))?>
                 </div>
                 <i class="icofont-edit"></i>
             </div>          
