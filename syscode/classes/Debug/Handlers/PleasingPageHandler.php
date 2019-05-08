@@ -10,7 +10,7 @@ use Syscode\Contracts\Debug\Table;
 use Syscode\Debug\Util\{ ArrayTable, TemplateHandler };
 
 /**
- * Lenevor PHP Framework
+ * Lenevor Framework
  *
  * LICENSE
  *
@@ -37,14 +37,14 @@ class PleasingPageHandler extends MainHandler
 	 * 
 	 * @var string $brand
 	 */
-	public $brand = 'Lenevor Suram';
+	public $brand = 'Lenevor Debug';
 	
 	/**
 	 * The page title main of handler.
 	 * 
 	 * @var string $pageTitle
 	 */
-	public $pageTitle = 'Lenevor Suram! There was an error.';
+	public $pageTitle = 'Lenevor Debug! There was an error.';
 	
 	/**
 	 * Fast lookup cache for known resource locations.

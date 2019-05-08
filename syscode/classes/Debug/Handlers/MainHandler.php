@@ -6,7 +6,7 @@ use Syscode\Contracts\Debug\Handler;
 use Syscode\Debug\Engine\Supervisor;
 
 /**
- * Lenevor PHP Framework
+ * Lenevor Framework
  *
  * LICENSE
  *

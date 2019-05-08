@@ -5,7 +5,7 @@ namespace Syscode\Debug\Util;
 use Syscode\Debug\Engine\Frame;
 
 /**
- * Lenevor PHP Framework
+ * Lenevor Framework
  *
  * LICENSE
  *

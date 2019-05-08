@@ -9,7 +9,7 @@ use ArrayIterator;
 use IteratorAggregate;
 
 /**
- * Lenevor PHP Framework
+ * Lenevor Framework
  *
  * LICENSE
  *

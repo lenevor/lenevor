@@ -5,7 +5,7 @@ namespace Syscode\Debug\Handlers;
 use InvalidArgumentException;
 
 /**
- * Lenevor PHP Framework
+ * Lenevor Framework
  *
  * LICENSE
  *

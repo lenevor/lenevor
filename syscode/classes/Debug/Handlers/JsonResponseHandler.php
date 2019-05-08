@@ -5,7 +5,7 @@ namespace Syscode\Debug\Handlers;
 use Syscode\Debug\Engine\Formatter;
 
 /**
- * Lenevor PHP Framework
+ * Lenevor Framework
  *
  * LICENSE
  *

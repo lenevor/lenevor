@@ -5,7 +5,7 @@ namespace Syscode\Debug\Util;
 use Syscode\Contracts\Debug\Table;
 
 /**
- * Lenevor PHP Framework
+ * Lenevor Framework
  *
  * LICENSE
  *

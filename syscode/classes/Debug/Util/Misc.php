@@ -3,7 +3,7 @@
 namespace Syscode\Debug\Util;
 
 /**
- * Lenevor PHP Framework
+ * Lenevor Framework
  *
  * LICENSE
  *

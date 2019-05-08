@@ -12,7 +12,7 @@ use Syscode\Debug\Handlers\CallbackHandler;
 use Syscode\Contracts\Debug\Handler as HandlerContract;
 
 /**
- * Lenevor PHP Framework
+ * Lenevor Framework
  *
  * LICENSE
  *

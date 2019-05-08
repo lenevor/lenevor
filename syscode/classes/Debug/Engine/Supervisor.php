@@ -5,7 +5,7 @@ namespace Syscode\Debug\Engine;
 use Throwable;
 
 /**
- * Lenevor PHP Framework
+ * Lenevor Framework
  *
  * LICENSE
  *
