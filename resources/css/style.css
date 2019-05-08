@@ -182,15 +182,16 @@ img {
 }
 
 h1 {
-	color: rgb(84, 112, 133);
+	color: rgb(66, 85, 100);
 	display: block;
 	font-family: 'Heebo';
 	font-weight: 500;
 	font-size: 3.5em;
 	margin-top: 165px;
 	position: relative;
+	letter-spacing: 10px;
 	text-align: center;
-	text-shadow: 2px 1px 9px rgb(207, 206, 206);
+	text-shadow: 2px 1px 9px rgb(224, 224, 224);
 	z-index: 200;
 }
 
