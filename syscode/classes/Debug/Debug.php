@@ -66,21 +66,6 @@ class Debug implements HandlerContract
 	];
 
 	/**
-	 * The errors of php.
-	 *
-	 * @var array $phpErrors
-	 */
-	protected $phpErrors = [ 
-		E_ERROR, 
-		E_PARSE,
-		E_CORE_ERROR,
-		E_CORE_WARNING,
-		E_USER_ERROR, 
-		E_COMPILE_ERROR,
-		E_COMPILE_WARNING
-	];
-
-	/**
 	 * The send Http code by default: 500 Internal Server Error.
 	 * 
 	 * @var bool $sendHttpCode
@@ -257,18 +242,6 @@ class Debug implements HandlerContract
 	{
 		return new Supervisor($exception);
 	}
-
-	/**
-	 * Determine if the error level is fatal.
-	 * 
-	 * @param  int  $level
-	 * 
-	 * @return bool
-	 */
-	protected function isFatal(int $level)
-	{
-		return in_array($level, $this->phpErrors);
-	}
 	
 	/**
 	 * Registers this instance as an error handler.
@@ -365,7 +338,7 @@ class Debug implements HandlerContract
 		// If we've got an error that hasn't been displayed, then convert
 		// it to an Exception and use the Exception handler to display it
 		// to the user
-		if ($error && $this->isFatal($error['type']))
+		if ($error && Misc::isFatalError($error['type']))
 		{
 			$this->errorHandler($error['type'], $error['message'], $error['file'], $error['line']);
 		}
