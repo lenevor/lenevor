@@ -196,33 +196,39 @@ header:hover {
     z-index: 2;
 }
 
-header h1,
-header h2 {
-    line-height: 1em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: pre;
-}
-
 header:hover h1,
 header:hover h2 {
     height: auto;
-    padding-right: 20px;
     max-height: 100%;
     word-wrap: break-word;
     white-space: pre-wrap;
 }
 
-header h1 {
-    color: rgb(218, 82, 80); 
-    display: inline;
+.exception-title {
+    display: flex;
+    color: rgb(148, 148, 148);
+    line-height: 1.8;
+    margin: 0;
 }
 
-header h2 {
+.exception-title h1 {
+    color: rgb(218, 82, 80); 
+    display: inline;
+    margin-right: 5px;
+}
+
+.exception-title span {
+    color: var(--thrird-color);
+}
+
+.exception-message h2 {
     color: var(--first-color);
     font-weight: 400;
-    line-height: 1.1em;
+    line-height: 1.2em;
     margin-top: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre;
     width: 70%;
 }
 
@@ -239,12 +245,14 @@ header h2 {
         margin: 0 -20px;
     }
 
-    header h1 {
-        font-size: .8rem;
+    .exception-title h1,
+    .exception-title h2 {
+        font-size: var(--font-size-small);
     }
 
-    header h2 {
+    .exception-message h2 {
         font-size: var(--font-size-medium-x);
+        width: 95%;
     }
 
 }
@@ -260,12 +268,12 @@ header h2 {
         top: 0;
     }
 
-    header h1 {
+    .exception-title h1 {
         font-size: var(--font-size-initial);
     }
 
-    header h2 {
-        font-size: var(--font-size-large);
+    .exception-message h2 {
+        font-size: var(--font-size-large-x);
     }
 }
 
@@ -492,7 +500,7 @@ header h2 {
     display: flex;
     font-weight: 200;
     justify-content: space-between;
-    padding: 0 15px;
+    padding: 0 10px;
     padding-right: 0;
 }
 
@@ -589,7 +597,7 @@ header h2 {
 }
 
 .icon-holder .tooltip {
-    background: rgb(38, 67, 77);
+    background: rgb(8, 63, 70);
     border-radius: 5px;
     box-shadow: 1px 1px 20px rgb(38, 53, 65);
     visibility: hidden;
@@ -607,7 +615,7 @@ header h2 {
 }
 
 .icon-holder .tooltip:before {
-    background: rgb(38, 67, 77);
+    background: rgb(8, 63, 70);
     content: "";
     display: block;
     height: 10px;
@@ -617,13 +625,13 @@ header h2 {
     transform: rotate(45deg) translate(-50%);    
     top: -1px;
     width: 10px;
-    z-index: 400;
 }
 
 .icon-holder .tooltip-print,
 .icon-holder .tooltip-pdf,
 .icon-holder .tooltip-edit {
-    box-shadow: 1px 1px 20px rgba(6, 65, 173, 0.3);
+    border: 1px solid rgb(8, 78, 87);
+    box-shadow: 1px 1px 20px rgba(119, 123, 131, 0.3);
     color: rgb(255, 255, 255);
     font-weight: 600;
 }
@@ -789,7 +797,7 @@ code {
 
 .details-description.details-description-application {
     background: transparent;
-    color: rgb(59, 101, 129);
+    color: rgb(54, 93, 119);
     font-size: var(--font-size-large);
     font-weight: 600;
     letter-spacing: .03rem;
@@ -813,7 +821,7 @@ code {
 
 .data-table-container label {
     border-bottom: 1px solid rgb(219, 219, 219);
-    color: rgb(6, 154, 173);
+    color: rgb(3, 128, 145);
     font-size: 16px;
     font-weight: bold;
     margin: 10px;  
