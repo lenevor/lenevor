@@ -6,8 +6,8 @@ use Throwable;
 use ErrorException;
 use InvalidArgumentException;
 use Syscode\Debug\Util\{ Misc, System };
-use Syscode\Debug\Engine\Supervisor;
 use Syscode\Debug\Handlers\MainHandler;
+use Syscode\Debug\FrameHandler\Supervisor;
 use Syscode\Debug\Handlers\CallbackHandler;
 use Syscode\Contracts\Debug\Handler as HandlerContract;
 

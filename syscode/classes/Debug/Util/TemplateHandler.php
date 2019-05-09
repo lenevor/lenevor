@@ -2,7 +2,7 @@
 
 namespace Syscode\Debug\Util;
 
-use Syscode\Debug\Engine\Frame;
+use Syscode\Debug\FrameHandler\Frame;
 
 /**
  * Lenevor Framework
