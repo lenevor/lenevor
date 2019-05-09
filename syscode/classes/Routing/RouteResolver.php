@@ -4,7 +4,7 @@ namespace Syscode\Routing;
 
 use Closure;
 use Syscode\Contracts\Routing\Routable;
-use Syscode\Core\Exceptions\NotFoundHttpException;
+use Syscode\Core\Http\Exceptions\NotFoundHttpException;
 use Syscode\Routing\Exceptions\RouteNotFoundException;
 
 /**
