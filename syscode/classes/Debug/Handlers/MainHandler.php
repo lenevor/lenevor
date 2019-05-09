@@ -3,7 +3,7 @@
 namespace Syscode\Debug\Handlers;
 
 use Syscode\Contracts\Debug\Handler;
-use Syscode\Debug\Engine\Supervisor;
+use Syscode\Debug\FrameHandler\Supervisor;
 
 /**
  * Lenevor Framework

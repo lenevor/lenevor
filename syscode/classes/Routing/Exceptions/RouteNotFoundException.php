@@ -2,7 +2,7 @@
 
 namespace Syscode\Routing\Exceptions;
 
-use Syscode\Core\Exceptions\LenevorException;
+use Syscode\Core\Http\Exceptions\LenevorException;
 
 /**
  * Lenevor Framework
