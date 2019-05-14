@@ -1,7 +1,7 @@
 <?php foreach ($frames as $index => $frame) : ?>	
 <div class="code-source <?= ($index == 0 ? 'active' : '') ?> clearfix" data-frame=<?= $index ?>>
     <div class="title">
-        <h4><?= $template->cleanPath($frame->getFile(), $frame->getLine()) ?></h4>
+        <h4 title="<?= $template->cleanPath($frame->getFile(), $frame->getLine()) ?>"><?= $template->cleanPath($frame->getFile(), $frame->getLine()) ?></h4>
         <div class="iconlist">            
             <div class="icon-holder icon-print" onclick="javascript:window.print()">
                 <div class="tooltip tooltip-print">
@@ -24,14 +24,16 @@
         </div>
     </div>
     <div class="source">
-        <?= $template->highlightFile($frame->getFile(), $frame->getLine(), 11); ?>
+        <code>
+            <?= $template->highlightFile($frame->getFile(), $frame->getLine(), 11); ?>
+        </code>
     </div>
     <?php $frameArgs = $template->dumpArgs($frame); ?>
     <?php if ($frameArgs): ?>
+    <div class="frame-file">
+        <?= e(__('exception.arguments')) ?>
+    </div>
     <div id="frame-code-args-<?=$index?>" class="code-block frame-args">
-        <div class="frame-file">
-            <?= e(__('exception.arguments')) ?>
-        </div>
         <?php echo $frameArgs; ?>
     </div>
     <?php endif ?>
