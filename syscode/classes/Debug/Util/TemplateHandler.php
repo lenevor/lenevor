@@ -184,11 +184,11 @@ class TemplateHandler
 		// Set our highlight colors:
 		if (function_exists('ini_set'))
 		{
-			ini_set('highlight.comment', '#BBBBBB');
-			ini_set('highlight.default', '#1F70F2');
+			ini_set('highlight.comment', '#888888');
+			ini_set('highlight.default', '#CBD6D5');
 			ini_set('highlight.html', '#06B');
-			ini_set('highlight.keyword', '#29B20A;');
-			ini_set('highlight.string', '#CE3BB5');
+			ini_set('highlight.keyword', '#E5C74E;');
+			ini_set('highlight.string', '#41A7D3');
 		}
 
 		try
