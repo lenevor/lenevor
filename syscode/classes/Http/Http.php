@@ -221,13 +221,13 @@ class Http
 	public static function removeRelativeUri($uri) 
 	{
 		// remove base url
-		if ($base = Configure::app('baseUrl')) 
+		if ($base = config('app.baseUrl')) 
 		{
 			$uri = static::remove(rtrim($base, '/'), $uri);
 		}
 
 		// remove index
-		if ($index = Configure::app('indexPage')) 
+		if ($index = config('app.indexPage')) 
 		{
 			$uri = static::remove('/'.$index, $uri);
 		}
