@@ -143,7 +143,7 @@ class Debug implements HandlerContract
 			$handler->setException($exception);
 			$handler->setSupervisor($supervisor);
 			
-			$handlerResponse = $handler->handle($exception);
+			$handlerResponse = $handler->handle();
 
 			// Collect the content type for possible sending in the headers
 			$handlerContentType = method_exists($handler, 'contentType') ? $handler->contentType() : null;
