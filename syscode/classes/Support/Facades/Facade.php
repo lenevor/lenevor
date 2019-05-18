@@ -78,7 +78,7 @@ abstract class Facade
     /**
      * Get the application instance behind the facade.
      * 
-     * @return \Syscode\Contracts\Kernel\Application
+     * @return \Syscode\Contracts\Core\Application
      */
     public static function getFacadeApplication()
     {
@@ -148,6 +148,6 @@ abstract class Facade
             throw new RuntimeException('A facade root has not been set');
         }
 
-        return call_user_func_array([$instance, $method], ...$args);
+        return $instance->$method(...$args);
     }   
 }
