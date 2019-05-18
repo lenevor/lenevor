@@ -130,9 +130,16 @@ class Container implements ArrayAccess, ContainerContract
      * @param  string  $alias
      * 
      * @return void
+     * 
+     * @throws \Syscode\Container\Exceptions\ContainerException
      */
     public function alias($id, $alias)
     {
+        if ($alias === $id)
+        {
+            throw new ContainerException("[ {$id} ] is aliased to itself");
+        }
+
         $this->aliases[$alias] = $id;
     }
 
@@ -316,11 +323,9 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Get the alias for an id if available.
      * 
-     * @param  string
+     * @param  string  $id
      * 
-     * @return void
-     * 
-     * @throws \Syscode\Container\Exceptions\ContainerException
+     * @return string
      */
     public function getAlias($id)
     {
@@ -329,12 +334,7 @@ class Container implements ArrayAccess, ContainerContract
             return $id;
         }
 
-        if ($this->aliases[$id] === $id)
-        {
-            throw new ContainerException("[ {$id} ] is aliased to itself.");
-        }
-
-        return $this->aliases[$id];
+        return $this->getAlias($this->aliases[$id]);
     }
 
     /**
