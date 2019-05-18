@@ -363,6 +363,10 @@ class Application extends Container implements ApplicationContract
         static::setInstance($this);
 
         $this->instance('app', $this);
+        $this->instance(Container::class, $this);
+        $this->instance('config', $this[\Syscode\Config\Configure::class]);
+        $this->instance('router', $this[\Syscode\Routing\Router::class]);
+        $this->instance('translator', $this[\Syscode\Translation\Translator::class]);
     }
 
     /**
@@ -376,13 +380,14 @@ class Application extends Container implements ApplicationContract
             'app'        => [\Syscode\Core\Application::class, \Syscode\Contracts\Container\Container::class,
                              \Syscode\Contracts\Core\Application::class, \Psr\Container\ContainerInterface::class],
             'config'     => [\Syscode\Config\Configure::class, \Syscode\Contracts\Config\Configure::class], 
+            'router'     => [\Syscode\Routing\Router::class],
             'translator' => [\Syscode\Translation\Translator::class],
-            'view'       => [\Syscode\View\View::class, \Syscode\Contracts\View\View::class, \Syscode\Contracts\View\Factory::class],
+            'view'       => [\Syscode\View\View::class, \Syscode\Contracts\View\View::class, \Syscode\Contracts\View\Factory::class]
         ] as $key => $aliases) 
         {
-            foreach ($aliases as $alias) 
+            foreach ((array) $aliases as $alias) 
             {
-               $this->alias($key, $alias);
+                $this->alias($key, $alias);
             }
         }
     }
