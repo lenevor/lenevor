@@ -66,6 +66,34 @@ if ( ! function_exists('app')) {
     }
 }
 
+if ( ! function_exists('config'))
+{
+    /**
+     * Get / set the specified configuration value.
+     * If an array is passed as the key, we will assume you want to set 
+     * an array of values.
+     *
+     * @param   array|string  $key
+     * @param   mixed         $default
+     *
+     * @return  mixed|\Syscode\Config\Configure
+     */
+    function config($key = null, $value = null)
+    {
+        if ($key === null)
+        {
+            return app('config');
+        }
+
+        if (is_array($key))
+        {
+            return app('config')->set($key, $value);
+        }
+        
+        return app('config')->get($key, $value);
+    }
+}
+
 if ( ! function_exists('isImport'))
 {
     /**
@@ -248,6 +276,6 @@ if ( ! function_exists('__'))
      */
     function __($line, array $args = [])
     {
-        return app('\Syscode\Translation\Translator')->getLine($line, $args);
+        return app('translator')->getLine($line, $args);
     }
 }
