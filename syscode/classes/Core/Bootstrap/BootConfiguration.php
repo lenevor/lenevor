@@ -28,21 +28,7 @@ use Syscode\Contracts\Core\Application;
  * @since       0.1.0
  */
 class BootConfiguration
-{
-	/**
-	 * The application implementation.
-	 * 
-	 * @var \Syscode\Contracts\Core\Application $app
-	 */
-	protected $app;
-	
-	/**
-	 * Set default timezone on the server.
-	 * 
-	 * @var string $timezone
-	 */
-	protected $timezone = 'UTC';
-	
+{	
 	/**
 	 * Bootstrap the given application.
 	 * 
@@ -52,38 +38,10 @@ class BootConfiguration
 	 */
 	public function bootstrap(Application $app)
 	{
-		$this->app = $app;
-		
-		$this->timezone();
-		
-		mb_internal_encoding('UTF-8');
-	}
-	
-	/**
-	 * Returns the timezone the application has been set to display
-	 * dates in. This might be different than the timezone set
-	 * at the server level, as you often want to stores dates in UTC
-	 * and convert them on the fly for the user.
-	 *
-	 * @return void
-	 * 
-	 * @uses   \Syscode\Config\Configure::get()
-	 */
-	protected function timezone()
-	{
-		$this->app->instance('config', $config = new Configure);
+		$app->instance('config', $config = new Configure);
 
-		try
-		{
-			// set a default timezone if one is defined
-			$this->timezone = $config->get('app.timezone') ?? date_default_timezone_get();
-			date_default_timezone_set($this->timezone);
-		}
-		catch(Exception $e)
-		{
-			date_default_timezone_set('UTC');
-			throw new Exception($e->getMessage());
-		}
+		// set a default timezone if one is defined
+		date_default_timezone_set($config->get('app.timezone', 'UTC'));
 
 		mb_internal_encoding('UTF-8');
 	}
