@@ -4,6 +4,7 @@ namespace Syscode\Core\Exceptions\FatalExceptions;
 
 use Exception;
 use Throwable;
+use Syscode\Core\Http\Exceptions\HttpException;
 
 /**
  * Lenevor Framework
@@ -103,4 +104,49 @@ class FlattenException
     {
         return static::makeFromThrowable($exception, $statusCode, $headers);
     }
+
+    /**
+     * An exception is loaded to change the initial value in set methods.
+     * 
+     * @param  Throwable  $exception
+     * @param  int|null   $statusCode
+     * @param  array      $headers
+     * 
+     * @return new static
+     */
+    public static function makeFromThrowable(Throwable $exception, ?int $statusCode = null, array $headers = [])
+    {
+        $e = new static;
+        $e->setMessage($exception->getMessage());
+        $e->setCode($exception->getCode());
+
+        if ($exception instanceof HttpException)
+        {
+            $statusCode = $exception->getStatusCode();
+            $headers    = array_merge($headers, $exception->getHeaders());
+        }
+
+        if ($statusCode === null)
+        {
+            $statusCode = 500;
+        }
+
+        $e->setStatusCode($statusCode);
+        $e->setHeaders($headers);
+        $e->setClass($exception instanceof FatalThrowableError ? $exception->getOriginalClassName() : get_class($exception));
+        $e->setFile($exception->getFile());
+        $e->setLine($exception->getLine());
+        $e->setTraceFromThrowable($exception);
+
+        $previous = $exception->getPrevious();
+
+        if ($previous instanceof Throwable)
+        {
+            $e->setPrevious(static::makeFromThrowable($previous));
+        }
+
+        return $e;
+    }
+    
+    
 }
