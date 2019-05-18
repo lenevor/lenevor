@@ -1,7 +1,5 @@
 <?php
 
-use Syscode\Routing\Router;
-
 /*
 |------------------------------------------------------------------------- 
 | Web Routes
@@ -13,8 +11,8 @@ use Syscode\Routing\Router;
 |
 */
 
-Router::get('/', function () {
+Route::get('/', function () {
 	return view('welcome');
 });
 
-Router::get('/home', 'welcome:index');
+Route::get('/home', 'welcome:index');
