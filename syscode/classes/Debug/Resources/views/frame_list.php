@@ -10,7 +10,7 @@
 	<div class="frame-file">
 
 		<div class="delimiter">
-		<?= $frame->getFile() ? $template->cleanPath($frame->getFile()) : '<#unknown>'?>
+			<?= $frame->getFile() ? $template->cleanPath($frame->getFile()) : '<#unknown>'?>
 		</div>		
 		<span class="frame-line">Line&nbsp;<?= (int) $frame->getLine() ?></span>
 
