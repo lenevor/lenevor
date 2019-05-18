@@ -4,7 +4,6 @@ namespace Syscode\Translation;
 
 use MessageFormatter;
 use Syscode\Support\Finder;
-use Syscode\Config\Configure;
 
 /**
  * Lenevor Framework
@@ -70,8 +69,6 @@ class Translator
      * @param  string  $locale
      * 
      * @return void
-     * 
-     * @uses   \Syscode\Config\Configure
      */
     public function __construct()
     {   
