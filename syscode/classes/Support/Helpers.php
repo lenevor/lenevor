@@ -6,7 +6,6 @@ use Syscode\Support\Arr;
 use Syscode\Support\Str;
 use Syscode\Http\Request;
 use Syscode\Http\Response;
-use Syscode\Config\Configure;
 use Syscode\Core\Http\Lenevor;
 
 /**
@@ -158,32 +157,6 @@ if ( ! function_exists('camel_case'))
     function camel_case($string)
     {
         return Str::camelcase($string);
-    }
-}
-
-if ( ! function_exists('config'))
-{
-    /**
-     * Get / set the specified configuration value.
-     * If an array is passed as the key, we will assume you want to set 
-     * an array of values.
-     *
-     * @param   array|string  $key
-     * @param   mixed         $default
-     *
-     * @return  mixed
-     *
-     * @uses    Configure::set
-     * @uses    Configure::get
-     */
-    function config($key = null, $value = null)
-    {
-        if (is_array($key))
-        {
-            return Configure::set($key, $value);
-        }
-        
-        return Configure::get($key, $value);
     }
 }
 
