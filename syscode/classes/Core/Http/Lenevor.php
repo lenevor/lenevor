@@ -140,8 +140,6 @@ class Lenevor implements LenevorContract
 	 *     production
 	 *
 	 * @return string
-	 *
-	 * @uses   Configure::get($key, $default = null)
 	 */
 	protected function loadEnvironment()
 	{
