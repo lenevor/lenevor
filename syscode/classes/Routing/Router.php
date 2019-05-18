@@ -398,8 +398,7 @@ class Router implements Routable
 	{
 		if ($this->config === null)
 		{
-			$config = app('config');
-			$this->config = $config->get('routes');
+			$this->config = app('config')->get('routes');
 		}
 
 		foreach ($this->config['routes'] as $route)
