@@ -4,7 +4,6 @@ namespace Syscode\Core\Http;
 
 use Closure;
 use Exception;
-use Syscode\Routing\Router;
 use Syscode\Contracts\Core\Application;
 use Syscode\Http\{ Http, Request, Response };
 use Syscode\Contracts\Core\Lenevor as LenevorContract;
@@ -230,8 +229,8 @@ class Lenevor implements LenevorContract
 			
 			// With Dependency Injection
 			$dispatch = $this->dispatcher(
-							$this->app[Request::class], 
-							$this->app[Router::class]
+							$this->app['request'], 
+							$this->app['router']
 			);
 
 			$response = new response($dispatch);
