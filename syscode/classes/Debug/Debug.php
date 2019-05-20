@@ -94,14 +94,13 @@ class Debug implements HandlerContract
 	protected $throwExceptions = true;
 
 	/**
-	 * Constructor. The ExceptionHandler class.
+	 * Constructor. The Debug class.
 	 * 
-	 * @param  string                           $http
-	 * @param  \Syscode\Core\Debug\Util\System  $system
+	 * @param  \Syscode\Core\Debug\Util\System|null  $system
 	 * 
 	 * @return void
 	 */
-	public function __construct(System $system)
+	public function __construct(System $system = null)
 	{
 		$this->system = $system;
 	}
@@ -353,7 +352,7 @@ class Debug implements HandlerContract
 	 *
 	 * @return bool
 	 */
-	protected function writeToOutput($send = null)
+	public function writeToOutput($send = null)
 	{
 		if (func_num_args() == 0)
 		{
