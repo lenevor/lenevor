@@ -387,7 +387,7 @@ class FlattenException
      */
     public function setTrace($trace, $file, $line)
     {
-        $this->trace = [];
+        $this->trace   = [];
         $this->trace[] = [
             'namespace'   => '',
             'short_class' => '',
