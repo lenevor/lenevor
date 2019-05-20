@@ -5,6 +5,8 @@ namespace Syscode\Core\Bootstrap;
 use Exception;
 use Syscode\Contracts\Debug\Handler;
 use Syscode\Contracts\Core\Application;
+use Syscode\Debug\Debug;
+use Syscode\Core\Exceptions\DebugHandler;
 use Syscode\Debug\Handlers\{ PlainTextHandler, PleasingPageHandler, JsonResponseHandler };
 
 /**
@@ -58,17 +60,23 @@ class BootHandleExceptions
      */
     protected function renderException()
     {
-        try
-        {
-            $exception = $this->getExceptionHandler();
-            $exception->on();
-            $exception->pushHandler(new PleasingPageHandler);
-        }
-        catch(Exception $e)
-        {
-            return $e;
-        }
+        return take($this->app[Debug::class], function ($debug) {
+            
+            $debug->pushHandler($this->DebugHandler());
+
+        })->on();
     }
+
+    /**
+     * Get the Whoops handler for the application.
+     *
+     * @return \Whoops\Handler\Handler
+     */
+    protected function DebugHandler()
+    {
+        return (new DebugHandler)->initDebug();
+    }
+
     
     /**
      * Get an instance of the exception handler.
