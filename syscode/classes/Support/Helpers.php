@@ -6,7 +6,8 @@ use Syscode\Support\Arr;
 use Syscode\Support\Str;
 use Syscode\Http\Request;
 use Syscode\Http\Response;
-use Syscode\Core\Http\Lenevor;
+use Syscode\Contracts\Core\Lenevor;
+use Syscode\Support\HigherOrderTakeProxy;
 
 /**
  * Lenevor Framework
@@ -173,6 +174,26 @@ if ( ! function_exists('classBasename')) {
         $class = is_object($class) ? get_class($class) : $class;
 
         return basename(str_replace('\\', '/', $class));
+    }
+}
+
+if ( ! function_exists('dd')) 
+{
+    /**
+     * Generate test of variables.
+     * 
+     * @param  mixed
+     * 
+     * @return void
+     */
+    function dd()
+    {
+        array_map(function ($x)
+        {
+            var_dump($x);
+        },  func_get_args());
+            
+        die(1);
     }
 }
 
@@ -388,6 +409,29 @@ if ( ! function_exists('studly_caps'))
     }
 }
 
+if ( ! function_exists('take'))
+{
+    /**
+     * Call the given Closure if this activated then return the value.
+     * 
+     * @param  string          $value
+     * @param  \Callable|null  $callback
+     * 
+     * @return mixed
+     */
+    function take($value, $callback = null)
+    {
+        if (is_null($callback))
+        {
+            return new HigherOrderTakeProxy($value);
+        }
+
+        $callback($value);
+
+        return $value;
+    }
+}
+
 if ( ! function_exists('total_segments'))
 {
   /**
@@ -426,26 +470,6 @@ if ( ! function_exists('url'))
     }
 }
 
-if ( ! function_exists('dd')) 
-{
-    /**
-     * Generate test of variables.
-     * 
-     * @param  mixed
-     * 
-     * @return void
-     */
-    function dd()
-    {
-        array_map(function ($x)
-        {
-            var_dump($x);
-        },  func_get_args());
-            
-        die(1);
-    }
-}
-
 if ( ! function_exists('value')) {
     /**
      * Return the default value of the given value.
@@ -454,7 +478,7 @@ if ( ! function_exists('value')) {
      * 
      * @return mixed
      * 
-     * @uses   \Syscode\Core\Http\Lenevor::value($var)
+     * @uses   \Syscode\Contracts\Core\Lenevor
      */
     function value($value)
     {
