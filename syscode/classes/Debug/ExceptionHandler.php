@@ -1,6 +1,11 @@
 <?php 
 
-namespace Syscode\Core\Exceptions;
+namespace Syscode\Core\Debug;
+
+use Syscode\Debug\FlattenExceptions\{ 
+    FlattenException, 
+    OutOfMemoryException 
+};
 
 /**
  * Lenevor Framework
@@ -25,5 +30,70 @@ namespace Syscode\Core\Exceptions;
  */
 class ExceptionHandler
 {
-    
+    /**
+     * Gets activation of debugging.
+     * 
+     * @var bool $debug
+     */
+    protected $debug;
+
+    /**
+     * Gets the charset. By default UTF-8.
+     * 
+     * @var string $charset
+     */
+    protected $charset;
+
+    /**
+     * Gets an error handler.
+     * 
+     * @var string $handler
+     */
+    protected $handler;
+
+    /**
+     * Register the exception handler.
+     * 
+     * @param  bool         $debug
+     * @param  string|null  $charset
+     * 
+     * @return void
+     */
+    public static function register($debug = true, $charset = null)
+    {
+        $handler = new static($debug, $charset);
+
+        set_exception_handler([$handler, 'handle']);
+
+        return $handler;
+    }
+
+    /**
+     * Constructor. Initialize the ExceptionHandler instance.
+     * 
+     * @param  bool         $debug
+     * @param  string|null  $charset
+     * 
+     * @return void
+     */
+    public function __construct(bool $debug = true, string $charset = null)
+    {
+        $this->debug   = $debug;
+        $this->charset = $charset ?: init_set('default_charset') ?: 'UTF-8'; 
+    }
+
+    /**
+     * Sets a user exception handler.
+     * 
+     * @param  \Callable  $handler
+     * 
+     * @return \Callable|null
+     */
+    public function setHandler(Callable $handler)
+    {
+        $oldHandler    = $this->handler;
+        $this->handler = $handler;
+
+        return $oldHandler;
+    }
 }
