@@ -3,11 +3,10 @@
 namespace Syscode\Core\Bootstrap;
 
 use Exception;
+use Syscode\Debug\Debug;
 use Syscode\Contracts\Debug\Handler;
 use Syscode\Contracts\Core\Application;
-use Syscode\Debug\Debug;
 use Syscode\Core\Exceptions\DebugHandler;
-use Syscode\Debug\Handlers\{ PlainTextHandler, PleasingPageHandler, JsonResponseHandler };
 
 /**
  * Lenevor Framework
@@ -60,17 +59,21 @@ class BootHandleExceptions
      */
     protected function renderException()
     {
-        return take($this->app[Debug::class], function ($debug) {
+        return take(new Debug, function ($debug) {
             
             $debug->pushHandler($this->DebugHandler());
+
+            //$debug->writeToOutput(false);
+
+            //$debug->allowQuit(false);
 
         })->on();
     }
 
     /**
-     * Get the Whoops handler for the application.
+     * Get the Debug handler for the application.
      *
-     * @return \Whoops\Handler\Handler
+     * @return \Syscode\Debug\Handlers\MainHandler
      */
     protected function DebugHandler()
     {
