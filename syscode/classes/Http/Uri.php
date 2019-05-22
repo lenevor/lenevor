@@ -148,7 +148,7 @@ class Uri
 	{
 		is_object($uri) && $uri = null;
 
-		$this->uri = trim($uri ?: Http::detectedUri(), '/');
+		$this->uri = trim($uri ?: (new Http)->detectedUri(), '/');
 
 		if (empty($this->uri))
 		{
