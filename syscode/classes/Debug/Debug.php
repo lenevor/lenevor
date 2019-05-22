@@ -5,7 +5,10 @@ namespace Syscode\Debug;
 use Throwable;
 use ErrorException;
 use InvalidArgumentException;
-use Syscode\Debug\Util\{ Misc, System };
+use Syscode\Debug\Util\{ 
+	Misc, 
+	System 
+};
 use Syscode\Debug\Handlers\MainHandler;
 use Syscode\Debug\FrameHandler\Supervisor;
 use Syscode\Debug\Handlers\CallbackHandler;
