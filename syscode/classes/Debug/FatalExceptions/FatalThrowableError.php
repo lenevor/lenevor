@@ -1,6 +1,6 @@
 <?php 
 
-namespace Syscode\Core\Exceptions\FatalExceptions;
+namespace Syscode\Debug\FatalExceptions;
 
 use Throwable;
 use TypeError;
