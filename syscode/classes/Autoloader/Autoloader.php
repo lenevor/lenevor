@@ -311,7 +311,7 @@ class Autoloader
         
         spl_autoload_register(function ($class) use ($config) 
         {
-            if ( ! array_key_exists($class, $config))
+            if (empty($config[$class]))
             {
                 return false;
             }
