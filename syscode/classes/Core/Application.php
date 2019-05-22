@@ -365,6 +365,7 @@ class Application extends Container implements ApplicationContract
         $this->instance('app', $this);
         $this->instance(Container::class, $this);
         $this->instance('config', $this[\Syscode\Config\Configure::class]);
+        $this->instance('http', $this[\Syscode\Http\Http::class]);
         $this->instance('request', $this[\Syscode\Http\Request::class]);
         $this->instance('router', $this[\Syscode\Routing\Router::class]);
         $this->instance('translator', $this[\Syscode\Translation\Translator::class]);
@@ -381,6 +382,7 @@ class Application extends Container implements ApplicationContract
             'app'        => [\Syscode\Core\Application::class, \Syscode\Contracts\Container\Container::class,
                              \Syscode\Contracts\Core\Application::class, \Psr\Container\ContainerInterface::class],
             'config'     => [\Syscode\Config\Configure::class, \Syscode\Contracts\Config\Configure::class], 
+            'http'       => [\Syscode\Http\Http::class],
             'request'    => [\Syscode\Http\Request::class],
             'router'     => [\Syscode\Routing\Router::class],
             'translator' => [\Syscode\Translation\Translator::class],
