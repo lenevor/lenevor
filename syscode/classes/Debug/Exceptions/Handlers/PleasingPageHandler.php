@@ -8,7 +8,11 @@ use Traversable;
 use ErrorException;
 use RuntimeException;
 use Syscode\Contracts\Debug\Table;
-use Syscode\Debug\Util\{ ArrayTable, Misc, TemplateHandler };
+use Syscode\Debug\Util\{ 
+	ArrayTable, 
+	Misc, 
+	TemplateHandler 
+};
 
 /**
  * Lenevor Framework
