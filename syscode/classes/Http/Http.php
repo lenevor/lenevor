@@ -37,7 +37,7 @@ class Http
 	 * @throws \Syscode\Core\Exceptions\LenevorException
 	 * @throws \OverflowException
 	 */
-	public static function detectedUri()
+	public function detectedUri()
 	{
 		$server = new Server($_SERVER);
 
@@ -51,7 +51,7 @@ class Http
 		  		{
 		  			if ($uri = parse_url($uri, PHP_URL_PATH))
 		  			{
-		  				return static::formats($uri, $server);
+		  				return $this->formats($uri, $server);
 		  			}
 
 		  			throw new LenevorException('Malformed URI');	  			
@@ -70,17 +70,17 @@ class Http
 	 *
 	 * @return string
 	 */
-	public static function formats($uri, $server)
+	public function formats($uri, $server)
 	{
 		// Remove all characters except letters,
 		// digits and $-_.+!*'(),{}|\\^~[]`<>#%";/?:@&=.
 		$uri = filter_var(rawurldecode($uri), FILTER_SANITIZE_URL);
 
 		// Remove script path/name
-		$uri = static::removeScriptName($uri, $server);
+		$uri = $this->removeScriptName($uri, $server);
 
 		// Remove the relative uri
-		$uri = static::removeRelativeUri($uri);
+		$uri = $this->removeRelativeUri($uri);
 
 		// Return argument if not empty or return a single slash
 		return trim($uri, '/') ?: '/';
@@ -91,9 +91,9 @@ class Http
 	 *
 	 * @return bool
 	 */
-	public static function isAjax()
+	public function isAjax()
 	{
-		return (static::server('HTTP_X_REQUESTED_WITH') !== null) and strtolower(static::server('HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest';
+		return ($this->server('HTTP_X_REQUESTED_WITH') !== null) and strtolower($this->server('HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest';
 	}
 
 	/**
@@ -101,7 +101,7 @@ class Http
 	 * 
 	 * @return bool
 	 */
-	public static function isCli()
+	public function isCli()
 	{
 		return (PHP_SAPI === 'cli' || defined('STDIN'));
 	}
@@ -111,9 +111,9 @@ class Http
 	 * 
 	 * @return bool
 	 */
-	public static function isHost()
+	public function isHost()
 	{
-		return static::server('HTTP_HOST');
+		return $this->server('HTTP_HOST');
 	}
 
 	/**
@@ -122,17 +122,17 @@ class Http
 	 * 
 	 * @return bool
 	 */
-	public static function isSecure()
+	public function isSecure()
 	{
-		if ( ! empty(static::server('HTTPS')) && strtolower(static::server('HTTPS')) !== 'off')
+		if ( ! empty($this->server('HTTPS')) && strtolower($this->server('HTTPS')) !== 'off')
 		{
 			return true;
 		}
-		elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && static::server('HTTP_X_FORWARDED_PROTO') === 'https')
+		elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $this->server('HTTP_X_FORWARDED_PROTO') === 'https')
 		{
 			return true;
 		}
-		elseif ( ! empty(static::server('HTTP_FRONT_END_HTTPS')) && strtolower(static::server('HTTP_FRONT_END_HTTPS')) !== 'off')
+		elseif ( ! empty($this->server('HTTP_FRONT_END_HTTPS')) && strtolower($this->server('HTTP_FRONT_END_HTTPS')) !== 'off')
 		{
 			return true;
 		}
@@ -147,9 +147,9 @@ class Http
 	 *
 	 * @return string
 	 */
-	public static function method($default = 'GET')
+	public function method($default = 'GET')
 	{
-		return static::server('REQUEST_METHOD', $default);
+		return $this->server('REQUEST_METHOD', $default);
 	}
 
 	/**
@@ -159,13 +159,13 @@ class Http
 	 *
 	 * @uses   \Config\Configure
 	 */
-	public static function protocol()
+	public function protocol()
 	{
-		if (static::server('HTTPS') == 'on' ||
-			static::server('HTTPS') == 1 ||
-			static::server('SERVER_PORT') == 443 ||
-			(Configure::get('security.allow-x-headers', false) && static::server('HTTP_X_FORWARDED_PROTO') == 'https') ||
-			(Configure::get('security.allow-x-headers', false) && static::server('HTTP_X_FORWARDED_PORT') == 443))
+		if ($this->server('HTTPS') == 'on' ||
+			$this->server('HTTPS') == 1 ||
+			$this->server('SERVER_PORT') == 443 ||
+			(Configure::get('security.allow-x-headers', false) && $this->server('HTTP_X_FORWARDED_PROTO') == 'https') ||
+			(Configure::get('security.allow-x-headers', false) && $this->server('HTTP_X_FORWARDED_PORT') == 443))
 		{
 			return 'https';
 		}
@@ -181,7 +181,7 @@ class Http
 	 *
 	 * @return string
 	 */
-	public static function remove($value, $uri)
+	public function remove($value, $uri)
 	{
 		// make sure our search value is a non-empty string
 		if (is_string($value) && strlen($value))
@@ -204,9 +204,9 @@ class Http
 	 *
 	 * @return string
 	 */
-	public static function removeScriptName($uri, $server)
+	public function removeScriptName($uri, $server)
 	{
-		return static::remove($server->get('SCRIPT_NAME'), $uri);
+		return $this->remove($server->get('SCRIPT_NAME'), $uri);
 	}
 
 	/**
@@ -218,18 +218,18 @@ class Http
 	 *
 	 * @uses   \Config\Configure
 	 */
-	public static function removeRelativeUri($uri) 
+	public function removeRelativeUri($uri) 
 	{
 		// remove base url
 		if ($base = config('app.baseUrl')) 
 		{
-			$uri = static::remove(rtrim($base, '/'), $uri);
+			$uri = $this->remove(rtrim($base, '/'), $uri);
 		}
 
 		// remove index
 		if ($index = config('app.indexPage')) 
 		{
-			$uri = static::remove('/'.$index, $uri);
+			$uri = $this->remove('/'.$index, $uri);
 		}
 
 		return $uri;
@@ -243,7 +243,7 @@ class Http
 	 *
 	 * @return string|array
 	 */
-	public static function server($index = null, $default = null)
+	public function server($index = null, $default = null)
 	{
 		return (func_num_args() === 0) ? $_SERVER : array_get($_SERVER, strtoupper($index), $default);
 	}
@@ -255,8 +255,8 @@ class Http
 	 *
 	 * @return string
 	 */
-	public static function userAgent($default = null)
+	public function userAgent($default = null)
 	{
-		return static::server('HTTP_USER_AGENT', $default);
+		return $this->server('HTTP_USER_AGENT', $default);
 	}
 }
