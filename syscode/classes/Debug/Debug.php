@@ -66,6 +66,13 @@ class Debug implements HandlerContract
 	];
 
 	/**
+	 * Allow Handlers to force the script to quit.
+	 * 
+	 * @var bool $allowQuit
+	 */
+	protected $allowQuit = true;
+
+	/**
 	 * The send Http code by default: 500 Internal Server Error.
 	 * 
 	 * @var bool $sendHttpCode
@@ -94,7 +101,7 @@ class Debug implements HandlerContract
 	protected $throwExceptions = true;
 
 	/**
-	 * Constructor. The Debug class.
+	 * Constructor. The Debug class instance.
 	 * 
 	 * @param  \Syscode\Core\Debug\Util\System|null  $system
 	 * 
@@ -102,7 +109,24 @@ class Debug implements HandlerContract
 	 */
 	public function __construct(System $system = null)
 	{
-		$this->system = $system;
+		$this->system = $system ?: new System;
+	}
+
+	/**
+	 * Allow Handlers to force the script to quit.
+	 * 
+	 * @param  bool|int  $exit
+	 * 
+	 * @return bool
+	 */
+	public function allowQuit($exit = null)
+	{
+		if (func_num_args() == 0)
+		{
+			return $this->allowQuit;
+		}
+
+		return $this->allowQuit = (bool) exit;
 	}
 
 	/**
@@ -126,7 +150,7 @@ class Debug implements HandlerContract
 	 *
 	 * @return string
 	 */
-	public function exceptionHandler(Throwable $exception)
+	public function handlerException(Throwable $exception)
 	{
 		$supervisor = $this->getSupervisor($exception);
 
@@ -147,13 +171,13 @@ class Debug implements HandlerContract
 			// Collect the content type for possible sending in the headers
 			$handlerContentType = method_exists($handler, 'contentType') ? $handler->contentType() : null;
 
-			if (in_array($handlerResponse, [MainHandler::QUIT]))
+			if (in_array($handlerResponse, [MainHandler::LAST_HANDLER, MainHandler::QUIT]))
 			{
 				break;
 			}
 		}
 
-		$Quit = $handlerResponse == MainHandler::QUIT;
+		$Quit = $handlerResponse == MainHandler::QUIT && $this->allowQuit();
 
 		// Returns the contents of the output buffer
 		$buffer = $this->system->CleanOutputBuffer();
@@ -199,7 +223,7 @@ class Debug implements HandlerContract
 	 *
 	 * @throws \ErrorException
 	 */
-	public function errorHandler($level, $message, $file = null, $line = null)
+	public function handlerError($level, $message, $file = null, $line = null)
 	{
 		if ($level & $this->system->getErrorReportingLevel()) 
 		{
@@ -240,6 +264,17 @@ class Debug implements HandlerContract
 	protected function getSupervisor($exception)
 	{
 		return new Supervisor($exception);
+	}
+
+	/**
+	 * Unregisters all handlers registered by this Debug instance.
+	 * 
+	 * @return void
+	 */
+	public function off()
+	{
+		$this->system->restoreExceptionHandler();
+		$this->system->restoreErrorHandler();
 	}
 	
 	/**
@@ -328,7 +363,7 @@ class Debug implements HandlerContract
 	 *
 	 * @throws \ErrorException
 	 */
-	public function shutdownHandler()
+	public function handleShutdown()
 	{
 		$this->throwExceptions = false;
 
