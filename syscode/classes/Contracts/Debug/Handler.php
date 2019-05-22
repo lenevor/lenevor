@@ -25,9 +25,9 @@ namespace Syscode\Contracts\Debug;
  */
 interface Handler
 {
-    const EXCEPTION_HANDLER = "exceptionHandler";
-    const ERROR_HANDLER     = "errorHandler";
-    const SHUTDOWN_HANDLER  = "shutdownHandler"; 
+    const EXCEPTION_HANDLER = "handlerException";
+    const ERROR_HANDLER     = "HandlerError";
+    const SHUTDOWN_HANDLER  = "handleShutdown"; 
 
     /**
 	 * Registers this instance as an error handler.
