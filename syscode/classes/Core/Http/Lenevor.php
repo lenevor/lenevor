@@ -4,8 +4,12 @@ namespace Syscode\Core\Http;
 
 use Closure;
 use Exception;
+use Syscode\Support\Facades\Http;
 use Syscode\Contracts\Core\Application;
-use Syscode\Http\{ Http, Request, Response };
+use Syscode\Http\{ 
+	Request, 
+	Response 
+};
 use Syscode\Contracts\Core\Lenevor as LenevorContract;
 
 /**
