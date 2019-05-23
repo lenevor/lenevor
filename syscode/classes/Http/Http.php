@@ -3,7 +3,6 @@
 namespace Syscode\Http;
 
 use OverflowException;
-use Syscode\Config\Configure;
 use Syscode\Core\Exceptions\LenevorException;
 
 /**
