@@ -152,7 +152,7 @@ class FlattenException
 
     /*
     |-----------------------------------------------------------------
-    | Getter Methods
+    | Getter And Setter Methods
     |-----------------------------------------------------------------
     */
     
@@ -165,92 +165,6 @@ class FlattenException
     {
         return $this->class;
     }
-    
-    /**
-     * Gets the code of error.
-     * 
-     * @return void
-     */
-    public function getCode()
-    {
-        return $this->code;
-    }
-
-    /**
-     * Gets the file path.
-     * 
-     * @return void
-     */
-    public function getFile()
-    {
-        return $this->file;
-    }
-
-    /**
-     * Gets the headers HTTP.
-     * 
-     * @return void
-     */
-    public function getHeaders()
-    {
-        return $this->headers;
-    }
-
-    /**
-     * Gets the line where specifice the line number and code in happened an error.
-     * 
-     * @return void
-     */
-    public function getLine()
-    {
-        return $this->line;
-    }
-
-    /**
-     * Gets the message of exception.
-     * 
-     * @return void
-     */
-    public function getMessage()
-    {
-        return $this->message;
-    }
-
-    /**
-     * Gets the previous exception.
-     * 
-     * @return void
-     */
-    public function getPrevious()
-    {
-        return $this->previous;
-    }
-
-    /**
-     * Gets the status code response.
-     * 
-     * @return void
-     */
-    public function getStatusCode()
-    {
-        return $this->statusCode;
-    }
-
-    /**
-     * Gets the trace.
-     * 
-     * @return void
-     */
-    public function getTrace()
-    {
-        return $this->trace;
-    }
-
-    /*
-    |-----------------------------------------------------------------
-    | Setter Methods
-    |-----------------------------------------------------------------
-    */
 
     /**
      * Sets the class name.
@@ -267,6 +181,16 @@ class FlattenException
     }
     
     /**
+     * Gets the code of error.
+     * 
+     * @return void
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
      * Sets the code of error.
      * 
      * @param  int  $code
@@ -281,6 +205,16 @@ class FlattenException
     }
 
     /**
+     * Gets the file path.
+     * 
+     * @return void
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+     /**
      * Sets the file path.
      * 
      * @param  string  $file
@@ -292,6 +226,16 @@ class FlattenException
         $this->file = $file;
 
         return $this;
+    }
+
+    /**
+     * Gets the headers HTTP.
+     * 
+     * @return void
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
     }
 
     /**
@@ -309,6 +253,16 @@ class FlattenException
     }
 
     /**
+     * Gets the line where specifice the line number and code in happened an error.
+     * 
+     * @return void
+     */
+    public function getLine()
+    {
+        return $this->line;
+    }
+
+    /**
      * Sets the line where specifice the line number and code in happened an error.
      * 
      * @param  int  $line
@@ -320,6 +274,16 @@ class FlattenException
         $this->line = $line;
 
         return $this;
+    }
+
+    /**
+     * Gets the message of exception.
+     * 
+     * @return void
+     */
+    public function getMessage()
+    {
+        return $this->message;
     }
 
     /**
@@ -337,6 +301,16 @@ class FlattenException
     }
 
     /**
+     * Gets the previous exception.
+     * 
+     * @return void
+     */
+    public function getPrevious()
+    {
+        return $this->previous;
+    }
+
+    /**
      * Sets the previous exception.
      * 
      * @param  self  $previous
@@ -348,6 +322,16 @@ class FlattenException
         $this->previous = $previous;
 
         return $this;
+    }
+
+    /**
+     * Gets the status code response.
+     * 
+     * @return void
+     */
+    public function getStatusCode()
+    {
+        return $this->statusCode;
     }
 
     /**
@@ -364,6 +348,16 @@ class FlattenException
         return $this;
     }
 
+    /**
+     * Gets the trace.
+     * 
+     * @return void
+     */
+    public function getTrace()
+    {
+        return $this->trace;
+    }
+    
     /**
      * Sets the trace from throwable.
      * 
