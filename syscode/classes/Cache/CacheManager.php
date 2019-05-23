@@ -2,7 +2,6 @@
 
 namespace Syscode\Cache;
 
-use Syscode\Config\Configure;
 use Syscode\Cache\Drivers\MemcachedStore;
 use Syscode\Cache\Exceptions\CacheDriverException;
 
@@ -178,7 +177,7 @@ use Syscode\Cache\Exceptions\CacheDriverException;
      */
     protected function getConfig($name)
     {
-        return Configure::get("cache.stores.{$name}");
+        return app('config')->get("cache.stores.{$name}");
     }
 
     /**
@@ -188,7 +187,7 @@ use Syscode\Cache\Exceptions\CacheDriverException;
      */
     public function getDefaultDriver()
     {
-       return Configure::get('cache.driver');
+       return app('config')->get('cache.driver');
     }
 
     /**
@@ -214,7 +213,7 @@ use Syscode\Cache\Exceptions\CacheDriverException;
      */
     protected function getPrefix(array $config)
     {
-        return array_get($config, 'prefix') ?: Configure::get('cache.prefix');
+        return array_get($config, 'prefix') ?: app('config')->get('cache.prefix');
     }
     
     /**
@@ -226,7 +225,7 @@ use Syscode\Cache\Exceptions\CacheDriverException;
      */
     public function setDefaultDriver($name)
     {
-        return Configure::set('cache.driver', $name);
+        return app('config')->set('cache.driver', $name);
     }
 
     /**
