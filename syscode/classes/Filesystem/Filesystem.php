@@ -3,8 +3,10 @@
 namespace Syscode\Filesystem;
 
 use FilesystemIterator;
-use Syscode\Filesystem\Exceptions\FileException;
-use Syscode\Filesystem\Exceptions\FileNotFoundException;
+use Syscode\Filesystem\Exceptions\{
+	FileException,
+	FileNotFoundException
+};
 
 /**
  * Lenevor Framework
