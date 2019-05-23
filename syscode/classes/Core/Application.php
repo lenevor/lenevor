@@ -2,9 +2,12 @@
 
 namespace Syscode\Core;
 
+use Syscode\Core\Exceptions\{ 
+    HttpException, 
+    NotFoundHttpException 
+};
 use Syscode\Container\Container;
 use Syscode\Contracts\Core\Application as ApplicationContract;
-use Syscode\Core\Exceptions\{ HttpException, NotFoundHttpException };
 
 /**
  * Lenevor Framework
