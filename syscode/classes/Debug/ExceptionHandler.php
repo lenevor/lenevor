@@ -2,6 +2,8 @@
 
 namespace Syscode\Core\Debug;
 
+use Exception;
+use Throwable;
 use Syscode\Debug\FlattenExceptions\{ 
     FlattenException, 
     OutOfMemoryException 
@@ -26,16 +28,23 @@ use Syscode\Debug\FlattenExceptions\{
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.1.1
  */
 class ExceptionHandler
 {
     /**
-     * Gets activation of debugging.
+     * Gets caught buffer of memory.
      * 
-     * @var bool $debug
+     * @var mixed $caughtBuffer
      */
-    protected $debug;
+    protected $caughtBuffer;
+
+    /**
+     * Gets caught lenght of buffer.
+     * 
+     * @var int $caughtLength
+     */
+    protected $caughtLength;
 
     /**
      * Gets the charset. By default UTF-8.
@@ -43,6 +52,13 @@ class ExceptionHandler
      * @var string $charset
      */
     protected $charset;
+
+    /**
+     * Gets activation of debugging.
+     * 
+     * @var bool $debug
+     */
+    protected $debug;
 
     /**
      * Gets an error handler.
@@ -95,5 +111,139 @@ class ExceptionHandler
         $this->handler = $handler;
 
         return $oldHandler;
+    }
+
+    /**
+     * Sends a response for the given Exception.
+     * 
+     * How does it work:
+     * First, the exception is handled by system exception handler, then by the user exception handler.
+     * The latter has priority and any exit from the first one is canceled.
+     * 
+     * @param  \Exception  $exception
+     * 
+     * @return void
+     */
+    public function handler(Exception $exception)
+    {
+        if ($this->handler === null && $exception instanceof OutOfMemoryException)
+        {
+            $this->sendPhpResponse($exception);
+        }
+
+        $caughtLength = $this->caughtLength = 0;
+
+        ob_start(function ($buffer) {
+            $this->caughtBuffer = $buffer;
+
+            return '';
+        });
+
+        $this->sendPhpResponse($exception);
+
+        if (isset($this->caughtBuffer[0]))
+        {
+            ob_start(function ($buffer) {
+                if ($this->caughtLength)
+                {
+                    $cleanBuffer = substr_replace($buffer, '', 0, $this->caughtLength);
+
+                    if (isset($cleanBuffer[0]))
+                    {
+                        $buffer = $cleanBuffer;
+                    }
+                }
+
+                return $buffer;
+            });
+
+            echo $this->caughtBuffer;
+            // Return the length of the output buffer.
+            $caughtLength = ob_get_length();
+        }
+
+        $this->caughtBuffer = null;
+
+        try
+        {
+            ($this->handler)($exception);
+            $caughtLength = $this->caughtLength;
+        }
+        catch (Exception $e)
+        {
+            if ( ! $caughtLength)
+            {
+                throw $e;
+            }
+        }
+    }
+
+    /**
+     * Sends the error associated with the given Exception as a plain PHP response. 
+     * 
+     * This method uses plain php functions as header and echo to generate the output 
+     * response.
+     * 
+     * @param \Exception|\Syscode\Debug\FlattenExceptions\FlattenException  $exception An \Exception or \FlattenException instance
+     * 
+     * @return string  The HTML content as a string 
+     */
+    public function sendPhpResponse($exception)
+    {
+        if ( ! $exception instanceof FlattenException)
+        {
+            $exception = FlattenException::make($exception);
+        }
+
+        if ( ! headers_sent())
+        {
+            header(sprintf('HTTP/1.0 %s', $exception->getStatusCode()));
+
+            foreach ($exception->getHeaders() as $name => $value)
+            {
+                header($name.':'.$value, false);
+            }
+
+            header('Content-Type: text/html; charset='.$this->charset);
+        }
+
+        echo $this->design($this->getContent($exception), $this->getStylesheet());
+    }
+
+    /**
+     * Gets the full HTML content associated with the given exception.
+     * 
+     * @param  \Exception|\Syscode\Debug\FlattenExceptions\FlattenException  $exception  An \Exception or \FlattenException instance
+     * 
+     * @return string  The HTML content as a string 
+     */
+    public function getHtmlResponse($exception)
+    {
+        if ( ! $exception instanceof FlattenException)
+        {
+            $exception = FlattenException::make($exception);
+        }
+
+        echo $this->design($this->getContent($exception), $this->getStylesheet());
+    }
+
+    private function design($content, $styleCss)
+    {
+        return <<<EOF
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="robots" content="noindex">    
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1">
+        <style>
+            $styleCss
+        <style>
+    </head>
+    <body>
+        $content
+    </body>
+</html>
+EOF;
     }
 }
