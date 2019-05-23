@@ -5,10 +5,8 @@ namespace Syscode\View;
 use Exception;
 use Traversable;
 use Syscode\Support\Finder;
-use Syscode\Core\Application;
 use InvalidArgumentException;
-use Syscode\Core\Http\Lenevor;
-use Syscode\Core\Debug\Handler;
+use Syscode\Contracts\Core\Http\Lenevor;
 use Syscode\View\Exceptions\ViewException;
 use Syscode\Core\Exceptions\LenevorException;
 use Syscode\Contracts\View\View as ViewContract;
@@ -338,7 +336,7 @@ class View implements ViewContract
 	 *
 	 * @return mixed
 	 *
-	 * @uses   \Syscode\Core\Lenevor
+	 * @uses   \Syscode\Contracts\Core\Lenevor
 	 *
 	 * @throws \Syscode\Core\Exceptions\LenevorException
 	 */
