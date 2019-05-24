@@ -325,6 +325,24 @@ class FlattenException
     }
 
     /**
+     * Gets all previous exceptions.
+     * 
+     * @return array
+     */
+    public function getAllPrevious()
+    {
+        $exceptions = [];
+        $exception  = $this;
+
+        while ($exception = $exception->getPrevious())
+        {
+            $exceptions[] = $exception;
+        }
+
+        return $exceptions;
+    }
+
+    /**
      * Gets the status code response.
      * 
      * @return void
@@ -356,6 +374,27 @@ class FlattenException
     public function getTrace()
     {
         return $this->trace;
+    }
+
+    /**
+     * Converts the collection to an array.
+     * 
+     * @return array
+     */
+    public function toArray()
+    {
+        $exceptions = [];
+
+        foreach (array_merge([$this], $this->getAllPrevious()) as $exception)
+        {
+            $exceptions[] = [
+                'message' => $exception->getMessage(),
+                'class'   => $exception->getClass(),
+                'trace'   => $exception->getTrace(),
+            ];
+        }
+
+        return $exceptions;
     }
     
     /**
