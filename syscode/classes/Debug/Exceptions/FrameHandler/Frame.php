@@ -50,57 +50,6 @@ class Frame implements Serializable
     }
 
     /**
-     * Adds a comment to this frame can be used by other handlers.
-     * By default, it is used by the PleasingPageHandler handler.
-     * An interesting use for comments would be, for example, code 
-     * analysis, annotations, etc.
-     * 
-     * @param  string  $comment
-     * @param  string  $context  Optional
-     * 
-     * @return void
-     */
-    public function addComment($comment, $context = 'default')
-    {
-        $this->comments[] = [
-            'comments' => $comment,
-            'context'  => $context
-        ];
-    }
-
-    /**
-     * Gets the trace args of a file.
-     * 
-     * @return array
-     */
-    public function getArgs()
-    {
-        return isset($this->frame['args']) ? $this->frame['args'] : null;
-    }
-
-    /**
-     * Returns all comments for this frame. Optionally allows
-     * a filter to only retrieve comments from a specific context.
-     * 
-     * @param  string|null  $filter
-     * 
-     * @return array
-     */
-    public function getComments($filter = null)
-    {
-        $comments = $this->comments;
-
-        if ($filter !== null)
-        {
-            $comments = array_filter($comments, function ($comment) use ($filter) {
-                return $comment['context'] == $filter;
-            });
-        }
-
-        return $comments;
-    }
-
-    /**
      * Gets the trace class of a file.
      * 
      * @return string|null
@@ -154,6 +103,57 @@ class Frame implements Serializable
     public function getLine()
     {
         return isset($this->frame['line']) ? $this->frame['line'] : null;
+    }
+
+    /**
+     * Gets the trace args of a file.
+     * 
+     * @return array
+     */
+    public function getArgs()
+    {
+        return isset($this->frame['args']) ? $this->frame['args'] : null;
+    }
+
+    /**
+     * Adds a comment to this frame can be used by other handlers.
+     * By default, it is used by the PleasingPageHandler handler.
+     * An interesting use for comments would be, for example, code 
+     * analysis, annotations, etc.
+     * 
+     * @param  string  $comment
+     * @param  string  $context  Optional
+     * 
+     * @return void
+     */
+    public function addComment($comment, $context = 'default')
+    {
+        $this->comments[] = [
+            'comments' => $comment,
+            'context'  => $context
+        ];
+    }
+
+    /**
+     * Returns all comments for this frame. Optionally allows
+     * a filter to only retrieve comments from a specific context.
+     * 
+     * @param  string|null  $filter
+     * 
+     * @return array
+     */
+    public function getComments($filter = null)
+    {
+        $comments = $this->comments;
+
+        if ($filter !== null)
+        {
+            $comments = array_filter($comments, function ($comment) use ($filter) {
+                return $comment['context'] == $filter;
+            });
+        }
+
+        return $comments;
     }
 
     /**
