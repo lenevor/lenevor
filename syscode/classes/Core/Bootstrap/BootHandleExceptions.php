@@ -3,7 +3,7 @@
 namespace Syscode\Core\Bootstrap;
 
 use Exception;
-use Syscode\Debug\Debug;
+use Syscode\Debug\GDebug;
 use Syscode\Contracts\Debug\Handler;
 use Syscode\Contracts\Core\Application;
 use Syscode\Core\Exceptions\DebugHandler;
@@ -59,7 +59,7 @@ class BootHandleExceptions
      */
     protected function renderException()
     {
-        return take(new Debug, function ($debug) {
+        return take(new GDebug, function ($debug) {
             
             $debug->pushHandler($this->DebugHandler());
 
