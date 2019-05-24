@@ -179,6 +179,27 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
+     * Get the closure to be used when building a type.
+     * 
+     * @param  string  $id
+     * @param  string  $value
+     * 
+     * @return \Closure
+     */
+    protected function getClosure($id, $value)
+    {
+        return function ($container, $parameters = []) use ($id, $value) {
+            if ($id == $value)
+            {
+                return $container->build($value);
+            }
+                       
+            return $container->make($value, $parameters);
+        };
+
+    }
+
+    /**
      * Instantiate a class instance of the given type.
      * 
      * @param  string  $class
@@ -242,6 +263,120 @@ class Container implements ArrayAccess, ContainerContract
         {
             $message = "Target [ {$class} ] is not instantiable.";
         }
+
+        throw new BindingResolutionException($message);
+    }
+
+    /**
+     * Resolve all of the dependencies from the ReflectionParameters.
+     * 
+     * @param  array  $dependencies
+     * 
+     * @return array
+     */
+    protected function getDependencies(array $dependencies) 
+    {
+        $param = [];
+
+        foreach ($dependencies as $dependency)
+        {
+            if ($this->getHasParameters($dependency))
+            {
+                $param[] = $this->getParameterOverride($dependency);
+
+                continue;
+            }
+
+            $param[] = is_null($dependency->getClass()) 
+                       ? $this->getResolveNonClass($dependency) 
+                       : $this->getResolveClass($dependency);
+        }
+
+        return $param;
+    }
+
+    /**
+     * Determine if the given dependency has a parameter override.
+     *
+     * @param  \ReflectionParameter  $dependency
+     * 
+     * @return bool
+     */
+    protected function getHasParameters($dependency)
+    {
+        return array_key_exists($dependency->name, $this->getLastParameterOverride());
+    }
+
+    /**
+     * Get the last parameter override.
+     *
+     * @return array
+     */
+    protected function getLastParameterOverride()
+    {
+        return count($this->across) ? end($this->across) : [];
+    }
+
+    /**
+     * Get a parameter override for a dependency.
+     *
+     * @param  \ReflectionParameter  $dependency
+     * 
+     * @return mixed
+     */
+    protected function getParameterOverride($dependency)
+    {
+        return $this->getLastParameterOverride()[$dependency->name];
+    }
+
+    /**
+     * Resolve a class based dependency from the container.
+     *
+     * @param  \ReflectionParameter  $parameter
+     * 
+     * @return mixed
+     *
+     * @throws \Syscode\Container\Exceptions\BindingResolutionException
+     */
+    protected function getResolveClass(ReflectionParameter $parameter)
+    {
+        try 
+        {
+            return $this->make($parameter->getClass()->name);
+        }
+        catch (BindingResolutionException $e) 
+        {
+            if ($parameter->isOptional()) 
+            {
+                return $parameter->getDefaultValue();
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Resolve a non-class hinted dependency.
+     *
+     * @param  \ReflectionParameter  $parameter
+     * 
+     * @return mixed
+     *
+     * @throws \Syscode\Container\Exceptions\BindingResolutionException
+     */
+    protected function getResolveNonClass(ReflectionParameter $parameter)
+    {
+        if ( ! is_null($class = $parameter->name)) 
+        {
+            return $class instanceof Closure ? $class($this) : $class;
+        }
+
+        if ($parameter->isDefaultValueAvailable()) 
+        {
+            return $parameter->getDefaultValue();
+        }
+
+        $message = "Unresolvable dependency resolving [ {$parameter} ] in class [ {$parameter->getDeclaringClass()->getName()} ]";
 
         throw new BindingResolutionException($message);
     }
@@ -357,27 +492,6 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * Get the closure to be used when building a type.
-     * 
-     * @param  string  $id
-     * @param  string  $value
-     * 
-     * @return \Closure
-     */
-    protected function getClosure($id, $value)
-    {
-        return function ($container, $parameters = []) use ($id, $value) {
-            if ($id == $value)
-            {
-                return $container->build($value);
-            }
-                       
-            return $container->make($value, $parameters);
-        };
-
-    }
-
-    /**
      * Get the class type for a given id.
      * 
      * @param  string  $id
@@ -395,35 +509,6 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * Resolve all of the dependencies from the ReflectionParameters.
-     * 
-     * @param  array  $dependencies
-     * 
-     * @return array
-     */
-    protected function getDependencies(array $dependencies) 
-    {
-        $param = [];
-
-        foreach ($dependencies as $dependency)
-        {
-            if ($this->getHasParameters($dependency))
-            {
-                $param[] = $this->getParameterOverride($dependency);
-
-                continue;
-            }
-
-            $param[] = is_null($dependency->getClass()) 
-                       ? $this->getResolveNonClass($dependency) 
-                       : $this->getResolveClass($dependency);
-
-        }
-
-        return $param;
-    }
-
-    /**
      * Get the has callbacks for a given type.
      * 
      * @param  string  $id
@@ -438,92 +523,6 @@ class Container implements ArrayAccess, ContainerContract
         }
 
         return [];
-    }
-
-    /**
-     * Determine if the given dependency has a parameter override.
-     *
-     * @param  \ReflectionParameter  $dependency
-     * 
-     * @return bool
-     */
-    protected function getHasParameters($dependency)
-    {
-        return array_key_exists($dependency->name, $this->getLastParameterOverride());
-    }
-
-    /**
-     * Get the last parameter override.
-     *
-     * @return array
-     */
-    protected function getLastParameterOverride()
-    {
-        return count($this->across) ? end($this->across) : [];
-    }
-
-    /**
-     * Get a parameter override for a dependency.
-     *
-     * @param  \ReflectionParameter  $dependency
-     * 
-     * @return mixed
-     */
-    protected function getParameterOverride($dependency)
-    {
-        return $this->getLastParameterOverride()[$dependency->name];
-    }
-
-    /**
-     * Resolve a class based dependency from the container.
-     *
-     * @param  \ReflectionParameter  $parameter
-     * 
-     * @return mixed
-     *
-     * @throws \Syscode\Container\Exceptions\BindingResolutionException
-     */
-    protected function getResolveClass(ReflectionParameter $parameter)
-    {
-        try 
-        {
-            return $this->make($parameter->getClass()->name);
-        }
-        catch (BindingResolutionException $e) 
-        {
-            if ($parameter->isOptional()) 
-            {
-                return $parameter->getDefaultValue();
-            }
-
-            throw $e;
-        }
-    }
-
-    /**
-     * Resolve a non-class hinted dependency.
-     *
-     * @param  \ReflectionParameter  $parameter
-     * 
-     * @return mixed
-     *
-     * @throws \Syscode\Container\Exceptions\BindingResolutionException
-     */
-    protected function getResolveNonClass(ReflectionParameter $parameter)
-    {
-        if ( ! is_null($class = $parameter->name)) 
-        {
-            return $class instanceof Closure ? $class($this) : $class;
-        }
-
-        if ($parameter->isDefaultValueAvailable()) 
-        {
-            return $parameter->getDefaultValue();
-        }
-
-        $message = "Unresolvable dependency resolving [ {$parameter} ] in class [ {$parameter->getDeclaringClass()->getName()} ]";
-
-        throw new BindingResolutionException($message);
     }
 
     /**
