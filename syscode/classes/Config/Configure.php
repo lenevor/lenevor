@@ -36,25 +36,6 @@ class Configure implements ConfigureContract
 	public static $vars = [];
 
 	/**
-	 * Deletes a (dot notated) config item.
-	 *
-	 * @param  string  $key  A (dot notated) config key
-	 *
-	 * @return array|bool
-	 *
-	 * @uses   \Syscode\Support\Arr
-	 */
-	public function erase($key)
-	{
-		if (isset(static::$vars[$key]))
-		{
-			unset(static::$vars[$key]);
-		}
-		
-		Arr::erase(static::$vars, $key);
-	}	
-
-	/**
 	 * Returns a (dot notated) config setting.
 	 *
 	 * @param  string  $key      The dot-notated key or array of keys
@@ -98,6 +79,25 @@ class Configure implements ConfigureContract
 		
 		Arr::set(static::$vars, $key, $value);
 	}
+
+	/**
+	 * Deletes a (dot notated) config item.
+	 *
+	 * @param  string  $key  A (dot notated) config key
+	 *
+	 * @return array|bool
+	 *
+	 * @uses   \Syscode\Support\Arr
+	 */
+	public function erase($key)
+	{
+		if (isset(static::$vars[$key]))
+		{
+			unset(static::$vars[$key]);
+		}
+		
+		Arr::erase(static::$vars, $key);
+	}	
 
 	/**
 	 * Returns a value from the config array using the method call 
