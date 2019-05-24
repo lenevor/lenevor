@@ -285,34 +285,52 @@ header:hover h2 {
     border-bottom: solid 4px var(--border-color);
     border-radius: 5px;
     border-top: solid 4px var(--border-color);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.08), 1px 1px 0 rgba(0, 0, 0, 0.08), -1px 1px 0 rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.06), 1px 1px 0 rgba(0, 0, 0, 0.05), -1px 1px 0 rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.06);
+    padding: 5px;
 }
 
 .frame-description {
     background: var(--second-color);
     border-bottom: solid 1px rgb(212, 213, 218);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);   
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1); 
+    margin: -5px;
+    margin-bottom: 5px;
     text-align: justify;
-    width: 100%;
+    min-width: 100%;
 }
 
 .frame-description.frame-description-application {
     color: rgb(179, 179, 179);
-    display: inline-block;    
+    display: flex;    
     font-size: var(--font-size-small-x);
     font-weight: bold;
-    padding: 7px 20px;
+    justify-content: space-between;
     text-decoration: none;
     text-shadow: 0 1px 0 rgba(236, 236, 236, 0.6);
+}
+
+.frame-description-application span {
+    padding: 8px 25px;
+}
+
+/* Icon border */
+.frame-description-application .icon-holder:last-child {
+    *border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
 }
 
 .frame {
     background: var(--first-color);
     background: linear-gradient(top, rgb(248, 248, 248) 80%, rgb(240, 240, 240));
-    box-shadow: inset 0 -1px 0 rgb(238, 238, 238);
+    box-shadow: inset 0 -1px 0 rgb(236, 236, 236);
     cursor: pointer;
     transition: all 0.1s ease;
     text-shadow: none;
+}
+
+.frame:last-child {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
 }
 
 .frame.active:last-child  {
@@ -415,10 +433,6 @@ header:hover h2 {
 /* SMALL */
 @media (max-width: 1100px)
 {
-    .frame-description.frame-description-application {
-        padding-left: 20px;
-    }
-
     .frame-method-info {
         color: var(--first-color);
         overflow: hidden;
@@ -455,6 +469,10 @@ header:hover h2 {
         display: block;
         overflow: hidden;
         text-overflow: ellipsis; 
+    }
+
+    .frame-description-application .iconlist {
+        display: none;
     }
 }
 
@@ -510,7 +528,7 @@ header:hover h2 {
     align-items: center;
     background: var(--second-color);
     border: none;
-    border-bottom: 1px solid rgb(218, 218, 218);
+    border-bottom: solid 1px rgb(212, 213, 218);
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     display: flex;
@@ -537,135 +555,10 @@ header:hover h2 {
     white-space: pre-line;
 }
 
-.iconlist {
-    display: flex;    
-    flex-direction: row;
-    justify-content: flex-end;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-}
-
-.icon-holder {
-    background: var(--first-color);
-    border-left: 1px solid rgb(232, 233, 238);
-    cursor: pointer;
-    height: 34px;
-    padding: 8px; 
-    position: relative;
-    text-align: center;
-    text-shadow: none;
-    transition: all 0.2s linear 0s;
-    width: 44px;
-}
-
-.icon-holder:last-child {
+/* Icon border */
+.title .icon-holder:last-child {
     *border-bottom-right-radius: 4px;
     border-top-right-radius: 4px;
-}
-
-.icon-holder:hover {
-    background: rgb(0, 195, 218);
-    border-left: 1px solid rgb(0, 195, 218);
-    color: var(--first-color);
-}
-
-.icon-holder:hover i {
-    color: var(--first-color);
-}
-
-.icon-holder:hover .tooltip {
-    animation: updown .8s ease-in-out infinite alternate;
-    visibility: visible;
-}
-
-/* Animation */
-@keyframes updown {
-    0% {
-        top: 40px;	
-    }
-
-    100% {
-        top: 45px;	
-    }
-}
-
-.icon-holder:hover .tooltip-edit {
-    transform: translate(-85%);
-}
-
-.icon-holder:last-child .tooltip:before, 
-.icon-holder:last-child .tooltip:after {
-    left: 85%;
-}
-
-.icon-holder i {
-    font-size: 1.4em;
-}
-
-.icon-holder .icofont-print {
-    color: rgb(114, 112, 100);
-}
-
-.icon-holder .icofont-file-pdf {
-    color: rgb(219, 22, 170);
-}
-
-.icon-holder .icofont-edit {
-    color: rgb(12, 136, 219);
-}
-
-.icon-holder .tooltip {
-    background: var(--four-color);
-    border-radius: 5px;
-    visibility: hidden;
-    font-size: var(--font-size-small-x);
-    left: 50%;
-    padding: 6px;
-    position: absolute;
-    transform: translate(-50%);
-    transform-style: preserve-3d;
-    top: 40px;
-    width: auto;
-    white-space: nowrap;
-    word-wrap: nowrap;
-    z-index: 200;
-}
-
-.icon-holder .tooltip:after {
-    background: var(--four-color);
-    content: "";
-    display: block;
-    height: 10px;
-    left: 50%;
-    position: absolute;
-    transform-origin: 50% 50%;
-    transform: rotate(45deg) translateX(-50%);
-    top: -1px;
-    width: 10px;
-    z-index: 400;
-}
-
-.icon-holder .tooltip:before {
-    background: rgba(168, 168, 175, 0.9);
-    content: "";
-    display: block;
-    height: 10px;
-    left: 50%;
-    position: absolute;        
-    transform-origin: 50% 50%;
-    transform: rotate(45deg) translate(-50%);    
-    top: -2px;
-    width: 10px;
-    z-index: -1;
-}
-
-.icon-holder .tooltip-print,
-.icon-holder .tooltip-pdf,
-.icon-holder .tooltip-edit {
-    border: 1px solid var(--four-color);
-    color: rgb(255, 255, 255);
-    font-weight: 600;
 }
 
 .source {
@@ -803,7 +696,7 @@ code {
         padding: 9px 9px 5px;
     }
 
-    .iconlist {
+    .title .iconlist {
         display: none;
     }
 }
@@ -1031,6 +924,134 @@ footer {
         position: fixed;
         right: 0;
     }
+}
+
+/* ICON LIST */
+.iconlist {
+    display: flex;    
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.icon-holder {
+    background: var(--first-color);
+    border-left: 1px solid rgb(232, 233, 238);
+    cursor: pointer;
+    height: 34px;
+    padding: 8px; 
+    position: relative;
+    text-align: center;
+    text-shadow: none;
+    transition: all 0.2s linear 0s;
+    width: 44px;
+}
+
+.icon-holder:hover {
+    background: rgb(0, 195, 218);
+    border-left: 1px solid rgb(0, 195, 218);
+    color: var(--first-color);
+}
+
+.icon-holder:hover i {
+    color: var(--first-color);
+}
+
+.icon-holder:hover .tooltip {
+    animation: updown .8s ease-in-out infinite alternate;
+    visibility: visible;
+}
+
+/* Animation */
+@keyframes updown {
+    0% {
+        top: 40px;	
+    }
+
+    100% {
+        top: 45px;	
+    }
+}
+
+.icon-holder:hover .tooltip-edit,
+.icon-holder:hover .tooltip-pdf {
+    transform: translate(-85%);
+}
+
+.icon-holder:last-child .tooltip:before, 
+.icon-holder:last-child .tooltip:after {
+    left: 85%;
+}
+
+.icon-holder i {
+    font-size: 1.4em;
+}
+
+.icon-holder .icofont-print {
+    color: rgb(114, 112, 100);
+}
+
+.icon-holder .icofont-file-pdf {
+    color: rgb(219, 22, 170);
+}
+
+.icon-holder .icofont-edit {
+    color: rgb(12, 136, 219);
+}
+
+.icon-holder .tooltip {
+    background: rgb(87, 55, 82);
+    border-radius: 5px;
+    visibility: hidden;
+    font-size: var(--font-size-small-x);
+    left: 50%;
+    padding: 6px;
+    position: absolute;
+    transform: translate(-50%);
+    transform-style: preserve-3d;
+    top: 40px;
+    width: auto;
+    white-space: nowrap;
+    word-wrap: nowrap;
+    z-index: 200;
+}
+
+.icon-holder .tooltip:after {
+    background: rgb(87, 55, 82);
+    content: "";
+    display: block;
+    height: 10px;
+    left: 50%;
+    position: absolute;
+    transform-origin: 50% 50%;
+    transform: rotate(45deg) translateX(-50%);
+    top: -1px;
+    width: 10px;
+    z-index: 400;
+}
+
+.icon-holder .tooltip:before {
+    background: rgba(87, 55, 82, .9);
+    content: "";
+    display: block;
+    height: 10px;
+    left: 50%;
+    position: absolute;        
+    transform-origin: 50% 50%;
+    transform: rotate(45deg) translate(-50%);    
+    top: -2px;
+    width: 10px;
+    z-index: -1;
+}
+
+.icon-holder .tooltip-print,
+.icon-holder .tooltip-pdf,
+.icon-holder .tooltip-edit {
+    border: 1px solid rgb(66, 40, 62);
+    color: rgb(255, 255, 255);
+    font-weight: 600;
 }
 
 /* PRINT */
