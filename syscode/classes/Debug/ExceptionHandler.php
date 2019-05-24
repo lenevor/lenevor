@@ -61,6 +61,13 @@ class ExceptionHandler
     protected $debug;
 
     /**
+     * Gets the file link format.
+     * 
+     * @var string $fileLinkFormat
+     */
+    protected $fileLinkFormat;
+
+    /**
      * Gets an error handler.
      * 
      * @var string $handler
@@ -72,12 +79,13 @@ class ExceptionHandler
      * 
      * @param  bool         $debug
      * @param  string|null  $charset
+     * @param  string|null  $fileLinkformat
      * 
-     * @return void
+     * @return static
      */
-    public static function register($debug = true, $charset = null)
+    public static function register($debug = true, $charset = null, $fileLinkFormat = null)
     {
-        $handler = new static($debug, $charset);
+        $handler = new static($debug, $charset, $fileLinkFormat);
 
         set_exception_handler([$handler, 'handle']);
 
@@ -89,13 +97,15 @@ class ExceptionHandler
      * 
      * @param  bool         $debug
      * @param  string|null  $charset
+     * @param  string|null  $fileLinkformat
      * 
      * @return void
      */
-    public function __construct(bool $debug = true, string $charset = null)
+    public function __construct(bool $debug = true, string $charset = null, $fileLinkFormat = null)
     {
-        $this->debug   = $debug;
-        $this->charset = $charset ?: init_set('default_charset') ?: 'UTF-8'; 
+        $this->debug          = $debug;
+        $this->charset        = $charset ?: init_set('default_charset') ?: 'UTF-8'; 
+        $this->fileLinkFormat = $fileLinkFormat;
     }
 
     /**
@@ -106,6 +116,21 @@ class ExceptionHandler
      * @return \Callable|null
      */
     public function setHandler(Callable $handler)
+    {
+        $oldHandler    = $this->handler;
+        $this->handler = $handler;
+
+        return $oldHandler;
+    }
+
+    /**
+     * Sets the format for links to source files.
+     * 
+     * @param  string|FileLinkFormatter  $fileLinkFormat
+     * 
+     * @return string
+     */
+    public function setFileLinkFormat($fileLinkFormat)
     {
         $oldHandler    = $this->handler;
         $this->handler = $handler;
@@ -227,6 +252,14 @@ class ExceptionHandler
         echo $this->design($this->getContent($exception), $this->getStylesheet());
     }
 
+    /**
+     * Layout HTML for gets the content and style css.
+     * 
+     * @param  string  $content
+     * @param  string  $styleCss
+     * 
+     * @return string
+     */
     private function design($content, $styleCss)
     {
         return <<<EOF
@@ -245,5 +278,49 @@ class ExceptionHandler
     </body>
 </html>
 EOF;
+    }
+
+    /**
+     * Gets the HTML content associated with the given exception.
+     * 
+     * @param  \Syscode\Debug\FlattenExceptions\FlattenException  $exception
+     * 
+     * @return string  The HTML content as a string
+     */
+    public function getContent(FlattenException $exception)
+    {
+
+    }
+
+    /**
+     * Gets the class where the exception.
+     * 
+     * @param  string  $class
+     * 
+     * @return string
+     */
+    private function getClass($class)
+    {
+        $parts = explode('\\', $class);
+
+        return sprintf('<abbr title="%s">%s</abbr>', $class, array_pop($parts));
+    }
+
+    private function getPath($path, $line)
+    {
+        $file   = $this->escapeHmtl(preg_match('#[^/\\\\]*+S#', $path, $file) ? $file[0] : $path);
+        $format = $this->fileLinkFormat ?: ini_set('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
+    }
+
+    /**
+     * Gets HTML-encode as a string.
+     * 
+     * @param  string  $string
+     * 
+     * @return string
+     */
+    private function escapeHtml($string)
+    {
+        return htmlspecialchars($string, ENT_COMPAT | ENT_SUBSTITUTE, $this->charset);
     }
 }
