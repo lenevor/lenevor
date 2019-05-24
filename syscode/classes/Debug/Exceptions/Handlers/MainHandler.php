@@ -69,26 +69,6 @@ class MainHandler
     {
         return $this->debug;
     }
-    
-    /**
-	 * Gets exception already specified.
-	 * 
-	 * @return \Throwable
-	 */
-    public function getException()
-    {
-        return $this->exception;
-    }
-
-    /**
-	 * Gets supervisor already specified.
-	 * 
-	 * @return \Syscode\Debug\Engine\Supervisor
-	 */
-    public function getSupervisor()
-    {
-        return $this->supervisor;
-    }
 
     /**
      * Sets debug.
@@ -101,6 +81,16 @@ class MainHandler
     {
         return $this->debug = $debug;
     }
+    
+    /**
+	 * Gets exception already specified.
+	 * 
+	 * @return \Throwable
+	 */
+    public function getException()
+    {
+        return $this->exception;
+    }
 
     /**
      * Sets exception.
@@ -112,6 +102,16 @@ class MainHandler
     public function setException($exception)
     {
         $this->exception = $exception;
+    }
+
+    /**
+	 * Gets supervisor already specified.
+	 * 
+	 * @return \Syscode\Debug\Engine\Supervisor
+	 */
+    public function getSupervisor()
+    {
+        return $this->supervisor;
     }
 
     /**
