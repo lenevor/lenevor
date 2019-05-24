@@ -51,7 +51,7 @@ class RouteResponse
      * Return a new response from the application.
      *
      * @param  string  $body
-     * @param  int     $status
+     * @param  int     $status  The default 200
      * @param  array   $headers
      * 
      * @return \Syscode\Http\Response
