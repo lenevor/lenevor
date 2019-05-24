@@ -79,8 +79,10 @@ class Supervisor
 					$frames[$k]['line'] = $line;
 				}
 			}
+			
 			// Find latest non-error handling frame index ($i) used to remove error handling frames
 			$i = 0;
+
 			foreach ($frames as $k => $frame)
 			{
 				if ($frame['file'] == $this->exception->getFile() && $frame['line'] == $this->exception->getLine())
