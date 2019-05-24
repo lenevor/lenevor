@@ -102,7 +102,7 @@ return [
     'Syscode\\Debug\\Util\\System' => SYS_PATH.'classes/Debug/Exceptions/Util/System.php', 
     'Syscode\\Debug\\Util\\TableLabel' => SYS_PATH.'classes/Debug/Exceptions/Util/TableLabel.php',
     'Syscode\\Debug\\Util\\TemplateHandler' => SYS_PATH.'classes/Debug/Exceptions/Util/TemplateHandler.php',
-    'Syscode\\Debug\\Debug' => SYS_PATH.'classes/Debug/Debug.php', 
+    'Syscode\\Debug\\GDebug' => SYS_PATH.'classes/Debug/GDebug.php', 
     'Syscode\\Filesystem\\Exceptions\\FileException' => SYS_PATH.'classes/Filesystem/Exceptions/FileException.php',
     'Syscode\\Filesystem\\Exceptions\\FileNotFoundException' => SYS_PATH.'classes/Filesystem/Exceptions/FileNotFoundException.php',
     'Syscode\\Filesystem\\FileMimeType' => SYS_PATH.'classes/Filesystem/FileMimeType.php',
