@@ -2,6 +2,8 @@
 
 namespace Syscode\Core\Exceptions;
 
+use Syscode\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
+
 /**
  * Lenevor Framework
  *
@@ -23,7 +25,7 @@ namespace Syscode\Core\Exceptions;
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
  */
-class Handler
+class Handler implements ExceptionHandlerContract
 {
     
 }
