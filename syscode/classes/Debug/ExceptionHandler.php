@@ -4,7 +4,7 @@ namespace Syscode\Core\Debug;
 
 use Exception;
 use Throwable;
-use Syscode\Debug\FlattenExceptions\{ 
+use Syscode\Debug\FatalExceptions\{ 
     FlattenException, 
     OutOfMemoryException 
 };
@@ -289,27 +289,288 @@ EOF;
      */
     public function getContent(FlattenException $exception)
     {
+        switch ($exception->getStatusCode())
+        {
+            case 404:
+                $title = 'Sorry, the page you are looking to could not be found';
+                break;
+            default:
+                $title = 'Whoops, looks like something went wrong';
+        }
 
+        if ( ! $this->debug)
+        {
+            return <<<EOF
+                <div class="container">
+                    <h1>$title</h1>
+                </div>
+EOF;
+        }
+
+        $content = '';
+
+        try
+        {
+            $count = count($exception->getAllPrevious());
+            $total = $count + 1;
+
+            foreach ($exception->toArray() as $position => $e)
+            {
+                $index   = $count - $position + 1;
+                $class   = $this->formatClass($e['class']);
+                $message = nl2br($this->escapeHtml($e['message']));
+                $content = sprintf(<<<'EOF'
+                    <div class="trace trace-as-html">
+                        <table class="trace-details">
+                            <thead class="trace-head"><tr><th>                   
+                                <h3 class="trace-class">
+                                    <span class="text-muted">(%d/(%d)</span>
+                                    <span class="exception-title">%s</span>
+                                </h3>
+                                <p class="break-long-words trace-message">%s</p>
+                            </th></tr></thead>
+                            <tbody>
+EOF
+                    , 
+                    $index, 
+                    $total, 
+                    $class, 
+                    $message
+                );
+
+                foreach ($e['trace'] as $trace)
+                {
+                    $content .= '<tr><td>';
+
+                    if ($trace['function']) 
+                    {
+                        $content .= sprintf('from <span class="trace-class">%s</span><span class="trace-type">%s</span><span class="trace-method">%s</span>(<span class="trace-args">%s</span>',
+                            $this->formatClass($trace['class']),
+                            $trace['type'],
+                            $trace['function'],
+                            $this->formatArgs($trace['args'])
+                        );
+                    }
+
+                    if (isset($trace['file']) && isset($trace['line'])) 
+                    {
+                        $content .= $this->formatPath($trace['file'], $trace['line']);
+                    }
+
+                    $content .= '</td></tr>\n';
+                }
+
+                $content .= '</tbody>\n</table>\n</div>\n';
+            }
+        }
+        catch (Exception $e)
+        {
+            if ($this->debug)
+            {
+                $e     = FlattenException::make($e);
+                $title = sprintf('Exception thrown when handling an exception: (%s: %s)',
+                    $e->getClass(),
+                    $this->escapeHtml($e->getMessage())
+                );
+            }
+            else
+            {
+                $title = 'Whoops, looks like something went wrong';
+            }
+        }
+
+        return <<<EOF
+            <div class="exception">
+                <div clas="container">
+                    <div class="exception-wrapper">
+                        <h1 class="break-long-words exception-message">$title</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                $content
+            </div>
+EOF;
+    }
+
+    public function getStylesheet()
+    {
+        if ( ! $this->debug) {
+            return <<<'EOF'
+                body { background-color: #fff; color: #222; font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; margin: 0; }
+                .container { margin: 30px; max-width: 600px; }
+                h1 { color: #dc3545; font-size: 24px; }
+EOF;
+        }
+
+        return <<<'EOF'
+            body { background-color: #F9F9F9; color: #222; font: 14px/1.4 Helvetica, Arial, sans-serif; margin: 0; padding-bottom: 45px; }
+
+            a { cursor: pointer; text-decoration: none; }
+            a:hover { text-decoration: underline; }
+            abbr[title] { border-bottom: none; cursor: help; text-decoration: none; }
+
+            code, pre { font: 13px/1.5 Consolas, Monaco, Menlo, "Ubuntu Mono", "Liberation Mono", monospace; }
+
+            table, tr, th, td { background: #FFF; border-collapse: collapse; vertical-align: top; }
+            table { background: #FFF; border: 1px solid #E0E0E0; box-shadow: 0px 0px 1px rgba(128, 128, 128, .2); margin: 1em 0; width: 100%; }
+            table th, table td { border: solid #E0E0E0; border-width: 1px 0; padding: 8px 10px; }
+            table th { background-color: #E0E0E0; font-weight: bold; text-align: left; }
+
+            .hidden-xs-down { display: none; }
+            .block { display: block; }
+            .break-long-words { -ms-word-break: break-all; word-break: break-all; word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; }
+            .text-muted { color: #999; }
+
+            .container { max-width: 1024px; margin: 0 auto; padding: 0 15px; }
+            .container::after { content: ""; display: table; clear: both; }
+
+            .exception-summary { background: #B0413E; border-bottom: 2px solid rgba(0, 0, 0, 0.1); border-top: 1px solid rgba(0, 0, 0, .3); flex: 0 0 auto; margin-bottom: 30px; }
+
+            .exception-wrapper { display: flex; align-items: center; min-height: 70px; }
+            .exception-message { flex-grow: 1; padding: 30px 0; }
+            .exception-message, .exception-message a { color: #FFF; font-size: 21px; font-weight: 400; margin: 0; }
+            .exception-message.long { font-size: 18px; }
+            .exception-message a { border-bottom: 1px solid rgba(255, 255, 255, 0.5); font-size: inherit; text-decoration: none; }
+            .exception-message a:hover { border-bottom-color: #ffffff; }
+
+            .exception-illustration { flex-basis: 111px; flex-shrink: 0; height: 66px; margin-left: 15px; opacity: .7; }
+
+            .trace + .trace { margin-top: 30px; }
+            .trace-head .trace-class { color: #222; font-size: 18px; font-weight: bold; line-height: 1.3; margin: 0; position: relative; }
+
+            .trace-message { font-size: 14px; font-weight: normal; margin: .5em 0 0; }
+
+            .trace-file, .trace-file a { color: #222; margin-top: 3px; font-size: 13px; }
+            .trace-class { color: #B0413E; }
+            .trace-type { padding: 0 2px; }
+            .trace-method { color: #B0413E; font-weight: bold; }
+            .trace-args { color: #777; font-weight: normal; padding-left: 2px; }
+
+            @media (min-width: 575px) {
+                .hidden-xs-down { display: initial; }
+            }
+EOF;
     }
 
     /**
-     * Gets the class where the exception.
+     * Gets the format class where the exception.
      * 
      * @param  string  $class
      * 
      * @return string
      */
-    private function getClass($class)
+    private function formatClass($class)
     {
         $parts = explode('\\', $class);
 
         return sprintf('<abbr title="%s">%s</abbr>', $class, array_pop($parts));
     }
 
-    private function getPath($path, $line)
+    /**
+     * Gets the path file with you line code.
+     * 
+     * @param  string  $path
+     * @param  int     $line
+     * 
+     * @return string
+     */
+    private function formatPath($path, $line)
     {
-        $file   = $this->escapeHmtl(preg_match('#[^/\\\\]*+S#', $path, $file) ? $file[0] : $path);
-        $format = $this->fileLinkFormat ?: ini_set('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
+        $file = $this->escapeHmtl(preg_match('#[^/\\\\]*+S#', $path, $file) ? $file[0] : $path);
+        $frmt = $this->fileLinkFormat ?: ini_set('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
+
+        if ( ! $format)
+        {
+            return sprintf('<span class="block trace-file">in <span title="%s%3%s"><b>%s</b>%s</span></span>', 
+                $this->escapeHtml($path),
+                $file,
+                $line > 0 ? ' line '.$line : ''
+            );
+        }
+
+        if (is_string($frmt))
+        {
+            $index  = strpos($f = $frmt, '&', max(strrpos($f, '%f'), strrpos($f, '%l')) ?: strlen($f));
+            $frmt = [substr($f, 0, $index)] + preg_split('/&([^>]++)>/', substr($f, $index), -1, PREG_SPLIT_DELIM_CAPTURE);
+
+            for ($index = 1; isset($frmt[$index]); ++$index)
+            {
+                if (strpos($path, $k = $frmt[$index++]))
+                {
+                    $path = substr_replace($path, $frmt[$index], 0, strlen($k));
+                    break;
+                }
+            }
+
+            $data = strstr($frmt[0], ['%f' => $file, '%l' => $line]);
+        }
+        else
+        {
+            try
+            {
+                $data = $frmt->format($file, $line);
+            }
+            catch (Exception $e)
+            {
+                return sprintf('<span class="block trace-file">in <span title="%s%3%s"><b>%s</b>%s</span></span>', 
+                    $this->escapeHtml($path),
+                    $file,
+                    $line > 0 ? ' line '.$line : ''
+                );
+            }
+        }
+
+        return sprintf('<span class="block trace-file">in <a href="%s" title="Go to source"><b>%s</b>%s</a></span>', 
+            $this->escapeHtml($data),
+            $file,
+            $line > 0 ? ' line '.$line : ''
+        );
+    }
+
+    /**
+     * Formats an array as a string.
+     * 
+     * @param  array  $args
+     * 
+     * @return string
+     */
+    private function formatArgs(array $args)
+    {
+        $result = [];
+
+        foreach ($args as $key => $value)
+        {
+            if ($value[0] === 'object')
+            {
+                $formatValue = sprintf('<em>(Object)</em>%s', $this->formatClass($value[1]));
+            }
+            elseif ($value[0] === 'array')
+            {
+                $formatValue = sprintf('<em>(array)</em>%s', is_array($value[1]) ? $this->formatArgs($value[1]) : $value[1]);
+            }
+            elseif ($value[0] === 'null')
+            {
+                $formatValue = '<em>Null</em>';
+            }
+            elseif ($value[0] === 'boolean')
+            {
+                $formatValue = '<em>'.strtolower(var_export($value[1], true)).'</em>';
+            }
+            elseif ($value[0] === 'resource')
+            {
+                $formatValue = '<em>resource</em>';
+            }
+            else
+            {
+                $formatValue = str_replace("\n", '', $this->escapeHtml(var_export($value[1], true)));
+            }
+
+            $result[] = is_int($key) ? $formatValue : sprintf("'%s' => %s", $this->escapeHtml($key), $formatValue);
+        }
+
+        return implode(', ', $result);
     }
 
     /**
