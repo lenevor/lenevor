@@ -12,7 +12,7 @@ use Syscode\Debug\Util\{
 use Syscode\Debug\Handlers\MainHandler;
 use Syscode\Debug\FrameHandler\Supervisor;
 use Syscode\Debug\Handlers\CallbackHandler;
-use Syscode\Contracts\Debug\Handler as HandlerContract;
+use Syscode\Contracts\Debug\GDebug as DebugContract;
 
 /**
  * Lenevor Framework
@@ -35,7 +35,7 @@ use Syscode\Contracts\Debug\Handler as HandlerContract;
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
  */
-class GDebug implements HandlerContract
+class GDebug implements DebugContract
 {
 	/**
 	 * The handler stack.
