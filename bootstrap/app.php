@@ -41,7 +41,7 @@ $app->singleton(
 );
 
 $app->singleton(
-    Syscode\Contracts\Debug\Handler::class, 
+    Syscode\Contracts\Debug\ExceptionHandler::class, 
     App\Exceptions\Handler::class
 );
 
