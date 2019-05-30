@@ -24,6 +24,7 @@ return [
     'memory' => 'Memoria',
     'memoryLimit' => 'Limite de memoria',
     'memoryUsage' => 'Uso de memoria',
+    'noMessage' => 'Sin mensaje',
     'openCodeEditor' => 'Abrir el editor de código {editor}',
     'openReaderPDF' => 'Abrir el lector de PDF',
     'print' => 'Imprimir',
