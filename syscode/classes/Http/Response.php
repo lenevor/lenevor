@@ -67,60 +67,52 @@ class Response extends Status
 	}
 
 	/**
-	 * Creates an instance of the same response class for rendering contents to the body, 
+	 * Creates an instance of the same response class for rendering contents to the content, 
 	 * status code and headers.
 	 *
-	 * @param  string  $body     The response body  
+	 * @param  string  $content  The response content  
 	 * @param  int     $status   The HTTP response status for this response
 	 * @param  array   $headers  Array of HTTP headers for this response
 	 *
 	 * @return response
 	 */
-	public static function render($body = null, $status = 200, array $headers = [])
+	public static function render($content = null, $status = 200, array $headers = [])
 	{
-		$response = new static($body, $status, $headers);
+		$response = new static($content, $status, $headers);
 
 		return $response;
 	}
 
 	/**
-	 * Sends the Body of the message to the browser.
+	 * Sets up the response with a content and a status code.
 	 *
-	 * @param  string|bool  $content  The response content
-	 *
-	 * @return string
-	 */
-	public function body($content = false)
-	{
-		if (func_num_args())
-		{
-			$this->body = $content;
-
-			return $this;
-		}
-
-		return $this->body;
-	}
-
-	/**
-	 * Sets up the response with a body and a status code.
-	 *
-	 * @param  string  $body     The response body
+	 * @param  string  $content     The response content
 	 * @param  int     $status   The response status
 	 * @param  array   $headers
 	 *
 	 * @return string
 	 */
-	public function __construct($body = null, $status = 200, array $headers = [])
+	public function __construct($content = null, $status = 200, array $headers = [])
 	{
 		foreach ($headers as $key => $value)
 		{
 			$this->setHeader($key, $value);
 		}
 
-		$this->body   = $body;
-		$this->status = $status;
+		$this->setContent($content);
+		$this->setStatusCode($status);
 	}
+
+	/**
+	 * Gets the current response content.
+	 * 
+	 * @return string
+	 */
+	public function getContent()
+	{
+		return $this->content;
+	}
+
 
 	/**
 	 * Get a HTTP response header.
@@ -165,43 +157,55 @@ class Response extends Status
 	 *
 	 * @return bool
 	 *
-	 * @uses   \Syscode\Http\Input
+	 * @uses   \Syscode\Http\Http
 	 */
 	public function sendHeaders()
 	{
 		// Have the headers already been sent?
-		if ( ! headers_sent())
+		if (headers_sent())
 		{
-			// Send the protocol/status line first, FCGI servers need different status header
-			if ( ! empty($_SERVER['FCGI_SERVER_VERSION']))
+			return $this;
+		}
+			
+		// Headers
+		foreach ($this->headers as $name => $value) 
+		{
+			// Parse non-replace headers
+			if (is_int($name) && is_array($value))
 			{
-				header('Status: '.$this->status.' '.$this->statusCodes[$this->status]);
-			}
-			else
-			{
-				$protocol = (string) Http::server('SERVER_PROTOCOL') ?: 'HTTP/1.1';
-				header($protocol.' '.$this->status.' '.$this->statusCodes[$this->status]);
-			}
-
-			foreach ($this->headers as $name => $value) 
-			{
-				// Parse non-replace headers
-				if (is_int($name) && is_array($value))
-				{
-					isset($value[0]) && $name = $value[0];
-					isset($value[1]) && $name = $value[1];
-				}
-
-				// Create the header
-				is_string($name) && $value = "{$name}: {$value}";
-
-				header($value, true);
+				isset($value[0]) && $name = $value[0];
+				isset($value[1]) && $name = $value[1];
 			}
 
-			return true;
+			// Create the header
+			is_string($name) && $value = "{$name}: {$value}";
+
+			header($value, true, $this->status);
 		}
 
-		return false;
+		// Status
+		if ( ! empty($_SERVER['FCGI_SERVER_VERSION']))
+		{
+			// Send the protocol/status line first, FCGI servers need different status header
+			header(sprintf('Status: %s %s', $this->status, $this->statusText));
+		}
+		else
+		{
+			$protocol = (string) Http::server('SERVER_PROTOCOL') ?: 'HTTP/1.1';
+			header(sprintf('%s %s %s', $protocol, $this->status, $this->statusText), true, $this->status);
+		}
+	}
+
+	/**
+	 * Sends content for the current web response.
+	 * 
+	 * @return $this
+	 */
+	public function sendContent()
+	{
+		echo $this->content;
+
+		return $this;
 	}
 
 	/**
@@ -213,17 +217,35 @@ class Response extends Status
 	 */
 	public function send($sendHeader = false)
 	{
-		$sendBody = $this->__toString();
+		$sendContent = $this->getContent();
 
 		if ($sendHeader)
 		{
 			$this->sendHeaders();
 		}
 
-		if ($this->body != null) 
+		if ($this->content != null) 
 		{
-			echo $sendBody;
+			$this->sendContent();
 		}
+	}
+
+	/**
+	 * Sends the content of the message to the browser.
+	 *
+	 * @param  string  $content  The response content
+	 *
+	 * @return $this
+	 */
+	public function setContent($content)
+	{
+		if (null !== $content && ! is_string($content) && ! is_numeric($content) && ! is_callable([$content, '__toString'])) {
+            throw new \UnexpectedValueException(sprintf('The Response content must be a string or object implementing __toString(), "%s" given.', \gettype($content)));
+		}
+		
+		$this->content = (string) $content;
+
+		return $this;
 	}
 
 	/**
@@ -276,27 +298,58 @@ class Response extends Status
 	*
 	* @throws \InvalidArgumentException
 	*/
-	public function setStatusCode($code = 200)
+	public function setStatusCode($code = 200, $text = null)
 	{
+		$this->status = $code; 
+
 		// Valid range?
-		if ($code < 100 || $code > 599)
+		if ($this->isInvalid())
 		{
 			throw new InvalidArgumentException("[{$code}] is not a valid HTTP return status code.");
 		}
 
-		$this->status = $code;
+		if ($text === null)
+		{
+			$this->statusText = isset($this->statusCodes[$code]) ? $this->statusCodes[$code] : 'Unknown status';
+
+			return $this;
+		}
+
+		if ($text === false)
+		{
+			$this->statusText = '';
+
+			return $this;
+		}
+
+		$this->statusText = $text;
 
 		return $this;
 	}
 
 	/**
-	 * Returns the body as a string.
+	 * Is response invalid?
+	 * 
+	 * @final
+	 * 
+	 * @return void
+	 */
+	public function isInvalid(): bool
+	{
+		return $this->status < 100 || $this->status >= 600;
+	}
+
+	/**
+	 * Returns the Response as an HTTP string.
 	 *
 	 * @return string
 	 */
 	public function __toString()
 	{
-		return (string) $this->body;
+		return 
+			sprintf('%s %s %s', $protocol, $this->status, $this->statusText)."\r\n".
+			$this->getHeader()."\r\n".
+			$this->getContent();
 	}
 
 }
