@@ -3,7 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
-use Syscode\Debug\Debug as ExceptionHandler;
+use Syscode\Core\Exceptions\Handler as ExceptionHandler;
 
 /**
  * Lenevor Framework
@@ -28,5 +28,15 @@ use Syscode\Debug\Debug as ExceptionHandler;
  */
 class Handler extends ExceptionHandler 
 {
-    
+    /**
+     * Render an exception into an HTTP response.
+     * 
+     * @param  \Exception  $exception
+     * 
+     * @return \Syscode\Http\Response
+     */
+    public function render(Exception $exception)
+    {
+        return parent::render($exception);
+    }
 }
