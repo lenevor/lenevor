@@ -2,11 +2,11 @@
 
 namespace Syscode\Core;
 
-use Syscode\Core\Exceptions\{ 
+use Syscode\Container\Container;
+use Syscode\Core\Http\Exceptions\{ 
     HttpException, 
     NotFoundHttpException 
 };
-use Syscode\Container\Container;
 use Syscode\Contracts\Core\Application as ApplicationContract;
 
 /**
@@ -101,8 +101,8 @@ class Application extends Container implements ApplicationContract
      * 
      * @return void
      *
-     * @throws \Syscode\Core\Exceptions\NotFoundHttpException
-     * @throws \Syscode\Core\Exceptions\HttpException
+     * @throws \Syscode\Core\Http\Exceptions\NotFoundHttpException
+     * @throws \Syscode\Core\Http\Exceptions\HttpException
      */
     public function abort($code, $message = '', array $headers = [])
     {
@@ -372,6 +372,9 @@ class Application extends Container implements ApplicationContract
         $this->instance('request', $this[\Syscode\Http\Request::class]);
         $this->instance('router', $this[\Syscode\Routing\Router::class]);
         $this->instance('translator', $this[\Syscode\Translation\Translator::class]);
+        $this->singleton('view', function () {
+            return new \Syscode\View\View;
+        });
     }
 
     /**
