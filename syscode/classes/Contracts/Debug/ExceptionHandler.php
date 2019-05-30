@@ -35,5 +35,5 @@ interface ExceptionHandler
      * 
      * @return \Syscode\Http\Response
      */
-    public function render($request, Exception $e);
+    public function render(Exception $e);
 }
