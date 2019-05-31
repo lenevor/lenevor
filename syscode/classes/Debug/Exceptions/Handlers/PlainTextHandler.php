@@ -2,6 +2,8 @@
 
 namespace Syscode\Debug\Handlers;
 
+use Throwable;
+
 /**
  * Lenevor Framework
  *
@@ -43,7 +45,7 @@ class PlainTextHandler extends MainHandler
      * 
      * @return string
      */
-    protected function getResponse($exception)
+    protected function getResponse(Throwable $exception)
     {
         return sprintf(
             "%s: %s in file %s on line %d%s\n",
