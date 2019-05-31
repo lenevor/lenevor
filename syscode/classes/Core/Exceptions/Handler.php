@@ -81,7 +81,7 @@ class Handler implements ExceptionHandlerContract
     {
         if ( ! $this->isHttpException($e) && config('app.debug'))
         {
-            return $this->convertExceptionToResponse($e);
+            return $this->toSyscodeResponse($this->convertExceptionToResponse($e), $e);
         }
 
         if ( ! $this->isHttpException($e)) 
@@ -89,7 +89,9 @@ class Handler implements ExceptionHandlerContract
             $e = new HttpException(500, $e->getMessage());
         }
 
-        return $this->renderHttpException($e);
+        return $this->toSyscodeResponse(
+            $this->renderHttpException($e), $e
+        );
     }
 
     /**
@@ -105,8 +107,8 @@ class Handler implements ExceptionHandlerContract
 
         if (view()->viewExists($paths))
         {
-            return Response::render(
-                view(
+            return response()->make(
+                view()->render(
                     $paths,
                     ['exception' => $e]
                 ),
@@ -196,6 +198,25 @@ class Handler implements ExceptionHandlerContract
         return (new ExceptionHandler($debug))->getHtmlResponse(
             FlattenException::make($e)
         );
+    }
+
+    /**
+     * Map the given exception into an Syscode response.
+     * 
+     * @param  \Syscode\Http\Response  $e
+     * @param   
+     * 
+     * @return $\Syscode\Http\Response
+     */
+    protected function toSyscodeResponse($response, Exception $e)
+    {
+        $response = new Response(
+            $response->getContent(),
+            $response->getStatusCode(),
+            $response->getHeader()
+        );
+
+        return $response;
     }
 
     /**
