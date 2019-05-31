@@ -60,11 +60,6 @@ class HttpException extends LenevorException
 		$this->headers    = $headers;
 		
 		parent::__construct($message, $code, $previous);
-
-		if ($this->statusCode <= 399 || $this->statusCode >= 520)
-		{
-			throw new LenevorException(__('exception.errorHttpCode', ['code' => $this->statusCode]));
-		}
 	}
 
 	/**
