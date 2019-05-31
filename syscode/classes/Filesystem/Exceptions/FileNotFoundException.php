@@ -2,8 +2,6 @@
 
 namespace Syscode\Filesystem\Exceptions;
 
-use InvalidArgumentException;
-
 /**
  * Lenevor Framework
  *
@@ -25,4 +23,7 @@ use InvalidArgumentException;
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
  */
-class FileNotFoundException extends InvalidArgumentException {}
+class FileNotFoundException extends FileException
+{
+    
+}
