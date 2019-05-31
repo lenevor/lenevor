@@ -52,7 +52,7 @@ class HttpException extends LenevorException
 	 * 
 	 * @return void
 	 * 
-	 * @throws \Syscode\Core\Exceptions\LenevorException
+	 * @throws \Syscode\Core\Http\Exceptions\LenevorException
 	 */
 	public function __construct(int $statusCode, string $message = null, Throwable $previous = null, array $headers = [], ?int $code = 0)
 	{
