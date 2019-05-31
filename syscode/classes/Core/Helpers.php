@@ -37,8 +37,8 @@ if ( ! function_exists('abort'))
      * 
      * @return void
      *
-     * @throws \Syscode\Core\Exceptions\HttpException
-     * @throws \Syscode\Core\Exceptions\LenevorException
+     * @throws \Syscode\Core\Http\Exceptions\HttpException
+     * @throws \Syscode\Core\Http\Exceptions\LenevorException
      */
     function abort($code, $message = '', array $headers = [])
     {
