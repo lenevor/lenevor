@@ -4,11 +4,11 @@ namespace Syscode\Debug;
 
 use Throwable;
 use ErrorException;
-use InvalidArgumentException;
 use Syscode\Debug\Util\{ 
 	Misc, 
 	System 
 };
+use InvalidArgumentException;
 use Syscode\Debug\Handlers\MainHandler;
 use Syscode\Debug\FrameHandler\Supervisor;
 use Syscode\Debug\Handlers\CallbackHandler;
@@ -124,7 +124,7 @@ class GDebug implements DebugContract
 	 *
 	 * @return string
 	 */
-	public function handleException($exception)
+	public function handleException(Throwable $exception)
 	{
 		$supervisor = $this->getSupervisor($exception);
 
@@ -140,7 +140,7 @@ class GDebug implements DebugContract
 			$handler->setException($exception);
 			$handler->setSupervisor($supervisor);
 			
-			$handlerResponse = $handler->handle($exception);
+			$handlerResponse = $handler->handle();
 
 			// Collect the content type for possible sending in the headers
 			$handlerContentType = method_exists($handler, 'contentType') ? $handler->contentType() : null;
@@ -331,7 +331,7 @@ class GDebug implements DebugContract
 	 * 
 	 * @return \Syscode\Debug\Engine\Supervisor
 	 */
-	protected function getSupervisor($exception)
+	protected function getSupervisor(Throwable $exception)
 	{
 		return new Supervisor($exception);
 	}
