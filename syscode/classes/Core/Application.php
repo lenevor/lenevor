@@ -370,9 +370,10 @@ class Application extends Container implements ApplicationContract
         $this->instance('config', $this[\Syscode\Config\Configure::class]);
         $this->instance('http', $this[\Syscode\Http\Http::class]);
         $this->instance('request', $this[\Syscode\Http\Request::class]);
+        $this->instance('response', $this[\Syscode\Routing\RouteResponse::class]);
         $this->instance('router', $this[\Syscode\Routing\Router::class]);
         $this->instance('translator', $this[\Syscode\Translation\Translator::class]);
-        $this->singleton('view', function () {
+        $this->instance('view', function () {
             return new \Syscode\View\View;
         });
     }
@@ -390,6 +391,7 @@ class Application extends Container implements ApplicationContract
             'config'     => [\Syscode\Config\Configure::class, \Syscode\Contracts\Config\Configure::class], 
             'http'       => [\Syscode\Http\Http::class],
             'request'    => [\Syscode\Http\Request::class],
+            'response'   => [\Syscode\Routing\RouteResponse::class],
             'router'     => [\Syscode\Routing\Router::class],
             'translator' => [\Syscode\Translation\Translator::class],
             'view'       => [\Syscode\View\View::class, \Syscode\Contracts\View\View::class, \Syscode\Contracts\View\Factory::class]
