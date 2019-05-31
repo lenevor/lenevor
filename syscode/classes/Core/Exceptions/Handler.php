@@ -2,6 +2,16 @@
 
 namespace Syscode\Core\Exceptions;
 
+use Exception;
+use Syscode\Debug\GDebug;
+use Syscode\Http\Response;
+use Syscode\Core\Http\Exceptions\{
+    HttpException,
+    NotFoundHttpException
+};
+use Syscode\Debug\ExceptionHandler;
+use Syscode\Debug\FatalExceptions\FlattenException;
+use Syscode\Routing\Exceptions\RouteNotFoundException;
 use Syscode\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 
 /**
@@ -27,5 +37,176 @@ use Syscode\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
  */
 class Handler implements ExceptionHandlerContract
 {
-    
+    /**
+     * Render an exception into a response.
+     *
+     * @param  \Exception  $e
+     * 
+     * @return \Syscode\Http\Response
+     */
+    public function render(Exception $e)
+    {
+        $e = $this->prepareException($e);
+
+        return $this->prepareResponse($e);
+    }
+
+    /**
+     * Prepare exception for rendering.
+     * 
+     * @param  \Exception  $e
+     * 
+     * @return \Exception
+     */
+    protected function prepareException(Exception $e)
+    {
+        if ($e instanceof RouteNotFoundException)
+        {
+            $e = new NotFoundHttpException($e->getMessage(), $e);
+        }
+
+        return $e;
+    }
+     
+    /**
+     * Prepare a response for the given exception.
+     * 
+     * @param  \Exception  $e
+     * 
+     * @return \Syscode\Http\Response
+     * 
+     * @uses   \Syscode\Core\Http\Exceptions\HttpException
+     */
+    protected function prepareResponse(Exception $e)
+    {
+        if ( ! $this->isHttpException($e) && config('app.debug'))
+        {
+            return $this->convertExceptionToResponse($e);
+        }
+
+        if ( ! $this->isHttpException($e)) 
+        {
+            $e = new HttpException(500, $e->getMessage());
+        }
+
+        return $this->renderHttpException($e);
+    }
+
+    /**
+     * Render the given HttpException.
+     * 
+     * @param  \Syscode\Core\Http\Exceptions\HttpException  $e
+     * 
+     * @return \Syscode\Http\Response
+     */
+    protected function renderHttpException(HttpException $e)
+    {
+        $paths = "errors.{$e->getStatusCode()}";
+
+        if (view()->viewExists($paths))
+        {
+            return Response::render(
+                view(
+                    $paths,
+                    ['exception' => $e]
+                ),
+                $e->getStatusCode(),
+                $e->getHeaders()
+            );
+        }
+
+        return $this->convertExceptionToResponse($e);
+    }
+
+    /**
+     * Create a response for the given exception.
+     * 
+     * @param  \Exception  $e
+     * 
+     * @return \Syscode\Http\Response
+     */
+    protected function convertExceptionToResponse(Exception $e)
+    {
+        return Response::render(
+            $this->renderExceptionContent($e),
+            $this->isHttpException($e) ? $e->getStatusCode() : 500,
+            $this->isHttpException($e) ? $e->getHeaders() : []
+        );
+    }
+
+    /**
+     * Gets the response content for the given exception.
+     * 
+     * @param  \Exception  $e
+     * 
+     * @return string
+     */
+    protected function renderExceptionContent(Exception $e)
+    {
+        try 
+        {
+            return config('app.debug') && class_exists(GDebug::class)
+                        ? $this->renderExceptionWithGDebug($e) 
+                        : $this->renderExceptionWithFlatDesignDebug($e, config('app.debug'));
+        }
+        catch (Exception $e)
+        {
+            $this->renderExceptionWithFlatDesignDebug($e, config('app.debug'));
+        }
+    }
+
+    /**
+     * Handle an incoming HTTP request.
+     * 
+     * @param  \Exception  $e
+     * 
+     * @return void
+     * 
+     * @uses   \Syscode\Debug\GDebug
+     */
+    protected function renderExceptionWithGDebug(Exception $e)
+    {
+        return take(new GDebug, function ($debug) {
+            
+            $debug->pushHandler($this->DebugHandler());
+
+        })->handleException($e);
+    }
+
+    /**
+     * Get the Debug handler for the application.
+     *
+     * @return \Syscode\Debug\Handlers\MainHandler
+     */
+    protected function DebugHandler()
+    {
+        return (new DebugHandler)->initDebug();
+    }
+
+    /**
+     * Render an exception to a string using Flat Design Debug.
+     * 
+     * @param  \Exception  $e
+     * @param  bool        $debug
+     * 
+     * @return string
+     */
+    protected function renderExceptionWithFlatDesignDebug(Exception $e, $debug)
+    {
+        return (new ExceptionHandler($debug))->getHtmlResponse(
+            FlattenException::make($e)
+        );
+    }
+
+    /**
+     * Determine if the given exception is an HTTP exception.
+     * 
+     * @param  \Exception  $e
+     * 
+     * @return bool
+     */
+    protected function isHttpException(Exception $e)
+    {
+        return $e instanceof HttpException;
+    }
 }
