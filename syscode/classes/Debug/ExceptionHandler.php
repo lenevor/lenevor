@@ -1,6 +1,6 @@
 <?php 
 
-namespace Syscode\Core\Debug;
+namespace Syscode\Debug;
 
 use Exception;
 use Throwable;
@@ -104,7 +104,7 @@ class ExceptionHandler
     public function __construct(bool $debug = true, string $charset = null, $fileLinkFormat = null)
     {
         $this->debug          = $debug;
-        $this->charset        = $charset ?: init_set('default_charset') ?: 'UTF-8'; 
+        $this->charset        = $charset ?: ini_get('default_charset') ?: 'UTF-8'; 
         $this->fileLinkFormat = $fileLinkFormat;
     }
 
@@ -266,12 +266,12 @@ class ExceptionHandler
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta charset="{$this->charset}" />
         <meta name="robots" content="noindex">    
         <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1">
         <style>
             $styleCss
-        <style>
+        </style>
     </head>
     <body>
         $content
@@ -319,45 +319,34 @@ EOF;
                 $index   = $count - $position + 1;
                 $class   = $this->formatClass($e['class']);
                 $message = nl2br($this->escapeHtml($e['message']));
-                $content = sprintf(<<<'EOF'
+                $content .= sprintf(<<<'EOF'
                     <div class="trace trace-as-html">
                         <table class="trace-details">
                             <thead class="trace-head"><tr><th>                   
                                 <h3 class="trace-class">
-                                    <span class="text-muted">(%d/(%d)</span>
+                                    <span class="text-muted">(%d/%d)</span>
                                     <span class="exception-title">%s</span>
                                 </h3>
                                 <p class="break-long-words trace-message">%s</p>
                             </th></tr></thead>
                             <tbody>
 EOF
-                    , 
-                    $index, 
-                    $total, 
-                    $class, 
-                    $message
-                );
+                    , $index, $total, $class, $message);
 
-                foreach ($e['trace'] as $trace)
+                foreach ($e['trace'] as $trace) 
                 {
                     $content .= '<tr><td>';
 
                     if ($trace['function']) 
                     {
-                        $content .= sprintf('from <span class="trace-class">%s</span><span class="trace-type">%s</span><span class="trace-method">%s</span>(<span class="trace-args">%s</span>',
-                            $this->formatClass($trace['class']),
-                            $trace['type'],
-                            $trace['function'],
-                            $this->formatArgs($trace['args'])
-                        );
+                        $content .= sprintf('from <span class="trace-class">%s</span><span class="trace-type">%s</span><span class="trace-method">%s</span>(<span class="trace-arguments">%s</span>)', $this->formatClass($trace['class']), $trace['type'], $trace['function'], $this->formatArgs($trace['args']));
                     }
 
                     if (isset($trace['file']) && isset($trace['line'])) 
                     {
                         $content .= $this->formatPath($trace['file'], $trace['line']);
                     }
-
-                    $content .= '</td></tr>\n';
+                    $content .= "</td></tr>\n";
                 }
 
                 $content .= '</tbody>\n</table>\n</div>\n';
@@ -478,10 +467,10 @@ EOF;
      */
     private function formatPath($path, $line)
     {
-        $file = $this->escapeHmtl(preg_match('#[^/\\\\]*+S#', $path, $file) ? $file[0] : $path);
-        $frmt = $this->fileLinkFormat ?: ini_set('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
+        $file = $this->escapeHtml(preg_match('#[^/\\\\]*+S#', $path, $file) ? $file[0] : $path);
+        $frmt = $this->fileLinkFormat ?: ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
 
-        if ( ! $format)
+        if ( ! $frmt)
         {
             return sprintf('<span class="block trace-file">in <span title="%s%3%s"><b>%s</b>%s</span></span>', 
                 $this->escapeHtml($path),
@@ -514,19 +503,13 @@ EOF;
             }
             catch (Exception $e)
             {
-                return sprintf('<span class="block trace-file">in <span title="%s%3%s"><b>%s</b>%s</span></span>', 
-                    $this->escapeHtml($path),
-                    $file,
-                    $line > 0 ? ' line '.$line : ''
-                );
+                return sprintf('<span class="block trace-file-path">in <span title="%s%3$s"><strong>%s</strong>%s</span></span>', 
+                        $this->escapeHtml($path), $file, 0 < $line ? ' line '.$line : '');
             }
         }
 
         return sprintf('<span class="block trace-file">in <a href="%s" title="Go to source"><b>%s</b>%s</a></span>', 
-            $this->escapeHtml($data),
-            $file,
-            $line > 0 ? ' line '.$line : ''
-        );
+                $this->escapeHtml($data), $file, $line > 0 ? ' line '.$line : '');
     }
 
     /**
