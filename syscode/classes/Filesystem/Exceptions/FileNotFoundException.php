@@ -25,5 +25,15 @@ namespace Syscode\Filesystem\Exceptions;
  */
 class FileNotFoundException extends FileException
 {
-    
+    /**
+     * Constructor. Initialize FileNotFoundException class.
+     * 
+     * @param  string  $path
+     * 
+     * @return void
+     */
+    public function __construct(string $path)
+    {
+        parent::__construct(sprintf('The file "%s" does not exist', $path));
+    }
 }
