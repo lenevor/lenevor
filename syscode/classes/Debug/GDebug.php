@@ -12,7 +12,7 @@ use Syscode\Debug\Util\{
 use Syscode\Debug\Handlers\MainHandler;
 use Syscode\Debug\FrameHandler\Supervisor;
 use Syscode\Debug\Handlers\CallbackHandler;
-use Syscode\Contracts\Debug\GDebug as DebugContract;
+use Syscode\Contracts\Debug\Handler as DebugContract;
 
 /**
  * Lenevor Framework
@@ -124,7 +124,7 @@ class GDebug implements DebugContract
 	 *
 	 * @return string
 	 */
-	public function handlerException(Throwable $exception)
+	public function handleException($exception)
 	{
 		$supervisor = $this->getSupervisor($exception);
 
@@ -140,7 +140,7 @@ class GDebug implements DebugContract
 			$handler->setException($exception);
 			$handler->setSupervisor($supervisor);
 			
-			$handlerResponse = $handler->handle();
+			$handlerResponse = $handler->handle($exception);
 
 			// Collect the content type for possible sending in the headers
 			$handlerContentType = method_exists($handler, 'contentType') ? $handler->contentType() : null;
@@ -252,7 +252,7 @@ class GDebug implements DebugContract
 	 *
 	 * @throws \ErrorException
 	 */
-	public function handlerError($level, $message, $file = null, $line = null)
+	public function handleError($level, $message, $file = null, $line = null)
 	{
 		if ($level & $this->system->getErrorReportingLevel()) 
 		{
