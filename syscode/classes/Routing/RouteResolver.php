@@ -4,7 +4,6 @@ namespace Syscode\Routing;
 
 use Closure;
 use Syscode\Contracts\Routing\Routable;
-use Syscode\Core\Http\Exceptions\NotFoundHttpException;
 use Syscode\Routing\Exceptions\RouteNotFoundException;
 
 /**
@@ -103,13 +102,7 @@ class RouteResolver
 			}
 		}
 
-		// If no route is found throw an HttpNotFoundException, when it is in production
-		if (config('app.env') === 'production')
-		{
-			throw new NotFoundHttpException;
-		} 
-		
-		throw new RouteNotFoundException(__('route.routeMatches', ['method' => $method, 'uri' => $uri]));
+		throw new RouteNotFoundException;
 	}
 
 	/**
