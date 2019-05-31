@@ -3,10 +3,13 @@
 namespace Syscode\Core\Bootstrap;
 
 use Exception;
-use Syscode\Debug\GDebug;
-use Syscode\Contracts\Debug\Handler;
+use ErrorException;
+use Syscode\Debug\FatalExceptions\{
+    FatalErrorException,
+    FatalThrowableError
+};
 use Syscode\Contracts\Core\Application;
-use Syscode\Core\Exceptions\DebugHandler;
+use Syscode\Contracts\Debug\ExceptionHandler;
 
 /**
  * Lenevor Framework
@@ -48,38 +51,103 @@ class BootHandleExceptions
     public function bootstrap(Application $app)
     {
        $this->app = $app;
+       
+       set_error_handler([$this, 'handleError']);
 
-       $this->renderException();
+       set_exception_handler([$this, 'handleException']);
+
+       register_shutdown_function([$this, 'handleShutdown']);
     }
-    
+
     /**
-     * Handle an incoming HTTP request.
+     * Handle a PHP error for the application.
+     * 
+     * @param  int          $level
+     * @param  string       $message
+     * @param  string|null  $file
+     * @param  int          $line
+     * @param  array        $context
+     * 
+     * @return void
+     * 
+     * @throws \ErrorException
+     */
+    public function handleError($level, $message, $file = '', $line = 0, $context = [])
+    {
+        if (error_reporting() & $level)
+        {
+            throw new ErrorException($message, 0, $level, $file, $line);
+        }
+    }
+
+    /**
+     * Handle an exception for the application.
+     * 
+     * @param  \Throwable  $e
      * 
      * @return void
      */
-    protected function renderException()
+    public function handleException($e)
     {
-        return take(new GDebug, function ($debug) {
-            
-            $debug->pushHandler($this->DebugHandler());
+        if ( ! $e instanceof Exception)
+        {
+            $e =  new FatalThrowableError($e);
+        }
 
-            //$debug->writeToOutput(false);
-
-            //$debug->allowQuit(false);
-
-        })->on();
+        $this->renderHttpResponse($e);
     }
 
     /**
-     * Get the Debug handler for the application.
-     *
-     * @return \Syscode\Debug\Handlers\MainHandler
+     * Render an exception as an HTTP response and send it.
+     * 
+     * @param  \Exception  $e
+     * 
+     * @return void
      */
-    protected function DebugHandler()
+    protected function renderHttpResponse(Exception $e)
     {
-        return (new DebugHandler)->initDebug();
+        $this->getExceptionHandler()->render($e)->send(true);
     }
-
+    
+    /**
+     * Handle the PHP shutdown event.
+     * 
+     * @return void
+     */
+    public function handleShutdown()
+    {
+        if ( ! is_null($error = error_get_last()) && $this->isFatal($error['type']))
+        {
+            $this->handleException($this->fatalExceptionFromError($error, 0));
+        }
+    }
+    
+    /**
+     * Determine if the error type is fatal.
+     * 
+     * @param  int   $type
+     * 
+     * @return bool
+     */
+    protected function isFatal($type)
+    {
+        return in_array($type, array(E_ERROR, E_CORE_ERROR, E_COMPILE_ERROR, E_PARSE));
+    }
+    
+    /**
+     * Create a new fatal exception instance from an error array.
+     * 
+     * @param  array     $error
+     * @param  int|null  $traceOffset
+     * 
+     * @return \Syscode\Debug\FatalExceptions\FatalErrorException
+     */
+    protected function fatalExceptionFromError(array $error, $traceOffset = null)
+    {
+        return new FatalErrorException(
+            $error['message'], $error['type'], 0, $error['file'], $error['line'], $traceOffset
+        );
+    }
     
     /**
      * Get an instance of the exception handler.
@@ -88,6 +156,6 @@ class BootHandleExceptions
      */
     protected function getExceptionHandler()
     {    
-        return $this->app->make(Handler::class);
+        return $this->app->make(ExceptionHandler::class);
     }
 }
