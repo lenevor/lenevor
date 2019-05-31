@@ -26,6 +26,27 @@ namespace Syscode\Http;
 class Status 
 {
 	/**
+	 * The content of the response.
+	 * 
+	 * @var string $content
+	 */
+	protected $content = null;
+
+	/**
+	 * An array of HTTP headers.
+	 *
+	 * @var array $herders
+	 */
+	public $headers = [];
+
+	/**
+	 * The HTTP status code.
+	 *
+	 * @var int $status
+	 */
+	protected $status = 200;
+
+	/**
 	 * An array of status codes and messages.
 	 *
 	 * @var array $statusCode
@@ -106,23 +127,9 @@ class Status
 	];
 
 	/**
-	 * Int  The HTTP status code.
-	 *
-	 * @var int $status
-	 */
-	public $status = 200;
-
-	/**
-	 * Array  An array of HTTP headers.
-	 *
-	 * @var array $herders
-	 */
-	public $headers = [];
-
-	/**
-	 * The content of the response.
+	 * Gets string of status code.
 	 * 
-	 * @var string|null $body
+	 * @var string $statusText
 	 */
-	public $body = null;
+	protected $statusText;
 }
