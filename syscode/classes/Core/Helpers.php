@@ -2,7 +2,6 @@
 
 use Syscode\View\View;
 use Syscode\Core\Application;
-use Syscode\Routing\RouteResponse;
 
 /**
  * Lenevor Framework
@@ -202,7 +201,7 @@ if ( ! function_exists('response')) {
      */
     function response($body = '', $status = 200, array $headers = [])
     {
-        $response = new RouteResponse(new View);
+        $response = app('response');
 
         if (func_num_args() === 0) 
         {
