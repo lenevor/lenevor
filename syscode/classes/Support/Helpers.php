@@ -6,7 +6,7 @@ use Syscode\Support\Arr;
 use Syscode\Support\Str;
 use Syscode\Http\Request;
 use Syscode\Http\Response;
-use Syscode\Contracts\Core\Lenevor;
+use Syscode\Core\Http\Lenevor;
 use Syscode\Support\HigherOrderTakeProxy;
 
 /**
