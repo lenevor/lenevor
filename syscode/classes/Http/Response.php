@@ -217,8 +217,6 @@ class Response extends Status
 	 */
 	public function send($sendHeader = false)
 	{
-		$sendContent = $this->getContent();
-
 		if ($sendHeader)
 		{
 			$this->sendHeaders();
