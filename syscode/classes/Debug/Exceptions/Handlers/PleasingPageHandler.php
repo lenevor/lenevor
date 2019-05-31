@@ -111,7 +111,7 @@ class PleasingPageHandler extends MainHandler
 	 * 
 	 * @return  array
 	 */
-	protected function collectionVars(Throwable $exception)
+	protected function collectionVars($exception)
 	{
 		$style   = file_get_contents($this->getResource('css/debug.base.css'));
 		$jscript = file_get_contents($this->getResource('js/debug.base.js'));
@@ -305,7 +305,7 @@ class PleasingPageHandler extends MainHandler
 
 		$vars = $this->collectionVars($this->getException());
 		
-		if (empty($vars['message'])) $vars['message'] = '(null)';
+		if (empty($vars['message'])) $vars['message'] = __('exception.noMessage');
 		
 		$this->template->setVariables($vars);
 		$this->template->render($templatePath);
