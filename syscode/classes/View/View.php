@@ -8,8 +8,8 @@ use Syscode\Support\Finder;
 use InvalidArgumentException;
 use Syscode\Contracts\Core\Http\Lenevor;
 use Syscode\View\Exceptions\ViewException;
-use Syscode\Core\Exceptions\LenevorException;
 use Syscode\Contracts\View\View as ViewContract;
+use Syscode\Core\Http\Exceptions\LenevorException;
 
 /**
  * Lenevor Framework
@@ -146,7 +146,7 @@ class View implements ViewContract
 		{
 			$data = get_object_vars($data);
 		}
-		elseif ($data AND is_array($data) === false)
+		elseif ($data AND ! is_array($data))
 		{
 			throw new InvalidArgumentException(__('view.dataObjectArray'));
 		}
@@ -379,17 +379,16 @@ class View implements ViewContract
 
 	/**
 	 * Check existance view file.
-	 *
-	 * @access public
+	 
 	 * @param  string  $file
 	 *
 	 * @return bool
 	 */
-	protected function has($file)
+	public function viewExists($file)
 	{
-		$view = $this->resolverPath($file);
+		$file = $this->resolverPath($file);
 
-		return is_file($view);
+		return is_file($file);
 	}
 
 	/**
@@ -402,7 +401,7 @@ class View implements ViewContract
 	 */
 	public function insert($file, array $data = [])
 	{
-		$this->makeViewExists($file);
+		$this->has($file);
 
 		$path = $this->resolverPath($file);
 
@@ -445,7 +444,7 @@ class View implements ViewContract
 	}
 
 	/**
-	 * Check existance view file
+	 * Check existance view file.
 	 *
 	 * @param  string  $file
 	 *
@@ -453,9 +452,9 @@ class View implements ViewContract
 	 *
 	 * @throws \Syscode\View\Exceptions\ViewException
 	 */
-	protected function makeViewExists($file)
+	protected function has($file)
 	{
-		if ( ! $this->has($file)) 
+		if ( ! $this->viewExists($file)) 
 		{
 			throw new ViewException(__('view.notExists', ['file' => $file]));
 		}
