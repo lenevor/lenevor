@@ -239,8 +239,8 @@ class Response extends Status
 	 */
 	public function setContent($content)
 	{
-		if (null !== $content && ! is_string($content) && ! is_numeric($content) && ! is_callable([$content, '__toString'])) {
-            throw new \UnexpectedValueException(sprintf('The Response content must be a string or object implementing __toString(), "%s" given.', \gettype($content)));
+		if ($content !== null && ! is_string($content) && ! is_numeric($content) && ! is_callable([$content, '__toString'])) {
+            throw new UnexpectedValueException(sprintf('The Response content must be a string or object implementing __toString(), "%s" given.', gettype($content)));
 		}
 		
 		$this->content = (string) $content;
