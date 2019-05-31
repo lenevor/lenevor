@@ -2,7 +2,6 @@
 
 namespace Syscode\Debug\Handlers;
 
-use Exception;
 use Throwable;
 use Traversable;
 use ErrorException;
@@ -111,7 +110,7 @@ class PleasingPageHandler extends MainHandler
 	 * 
 	 * @return  array
 	 */
-	protected function collectionVars($exception)
+	protected function collectionVars(Throwable $exception)
 	{
 		$style   = file_get_contents($this->getResource('css/debug.base.css'));
 		$jscript = file_get_contents($this->getResource('js/debug.base.js'));
