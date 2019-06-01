@@ -295,7 +295,7 @@ EOF;
                 $title = 'Sorry, the page you are looking to could not be found';
                 break;
             default:
-                $title = 'Whoops, looks like something went wrong';
+                $title = 'Whoops, there seems to be a problem viewing this page. Please try again later...';
         }
 
         if ( ! $this->debug)
