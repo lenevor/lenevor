@@ -29,7 +29,7 @@ use Syscode\Contracts\Routing\Routable;
  */
 class Router implements Routable
 {
-	use RouteMap;
+	use RouteMapTrait;
 
 	/** 
 	 * Variable flag for routes.
