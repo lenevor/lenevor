@@ -10,6 +10,7 @@ use Syscode\Core\Http\Exceptions\{
     NotFoundHttpException
 };
 use Syscode\Debug\ExceptionHandler;
+use Syscode\Http\Exceptions\HttpResponseException;
 use Syscode\Debug\FatalExceptions\FlattenException;
 use Syscode\Routing\Exceptions\RouteNotFoundException;
 use Syscode\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
@@ -47,6 +48,11 @@ class Handler implements ExceptionHandlerContract
     public function render(Exception $e)
     {
         $e = $this->prepareException($e);
+
+        if ($e instanceof HttpResponseException)
+        {
+            $e-> getResponse();
+        }
 
         return $this->prepareResponse($e);
     }
@@ -89,9 +95,7 @@ class Handler implements ExceptionHandlerContract
             $e = new HttpException(500, $e->getMessage());
         }
 
-        return $this->toSyscodeResponse(
-            $this->renderHttpException($e), $e
-        );
+        return $this->toSyscodeResponse($this->renderHttpException($e), $e);
     }
 
     /**
@@ -103,15 +107,12 @@ class Handler implements ExceptionHandlerContract
      */
     protected function renderHttpException(HttpException $e)
     {
-        $paths = "errors.{$e->getStatusCode()}";
-
-        if (view()->viewExists($paths))
+        if (view()->viewExists($paths = "errors::{$e->getStatusCode()}"))
         {
             return response()->make(
-                view()->render(
-                    $paths,
-                    ['exception' => $e]
-                ),
+                view()->render($paths, [
+                    'exception' => $e
+                ]),
                 $e->getStatusCode(),
                 $e->getHeaders()
             );
@@ -203,20 +204,20 @@ class Handler implements ExceptionHandlerContract
     /**
      * Map the given exception into an Syscode response.
      * 
-     * @param  \Syscode\Http\Response  $e
-     * @param   
+     * @param  \Syscode\Http\Response  $response
+     * @param  \Exception              $e 
      * 
      * @return $\Syscode\Http\Response
      */
     protected function toSyscodeResponse($response, Exception $e)
     {
         $response = new Response(
-            $response->getContent(),
-            $response->getStatusCode(),
-            $response->getHeader()
+            $response->content(),
+            $response->status(),
+            $response->header()
         );
 
-        return $response;
+        return $response->withException($e);
     }
 
     /**
