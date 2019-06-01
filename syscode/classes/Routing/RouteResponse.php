@@ -3,7 +3,7 @@
 namespace Syscode\Routing;
 
 use Syscode\Http\Response;
-use Syscode\Contracts\View\View as ViewFactory;
+use Syscode\View\View;
 
 /**
  * Lenevor Framework
@@ -42,9 +42,9 @@ class RouteResponse
      * 
      * @return void  
      */
-    public function __construct(ViewFactory $view)
+    public function __construct()
     {
-        $this->view = $view;
+        $this->view = new View;
     }
 
     /**
