@@ -4,6 +4,7 @@ namespace Syscode\Http;
 
 use BadMethodCallException;
 use InvalidArgumentException;
+use Syscode\Filesystem\Exceptions\UnexpectedTypeException;
 
 /**
  * Lenevor Framework
@@ -28,6 +29,8 @@ use InvalidArgumentException;
  */
 class Response extends Status 
 {
+	use ResponseTrait;
+
    /**
     * Redirects to another url. Sets the redirect header, sends the headers and exits.
     * Can redirect via a Location header or using a refresh header.
@@ -86,13 +89,13 @@ class Response extends Status
 	/**
 	 * Sets up the response with a content and a status code.
 	 *
-	 * @param  string  $content     The response content
+	 * @param  string  $content  The response content
 	 * @param  int     $status   The response status
 	 * @param  array   $headers
 	 *
 	 * @return string
 	 */
-	public function __construct($content = null, $status = 200, array $headers = [])
+	public function __construct($content = null, int $status = 200, array $headers = [])
 	{
 		foreach ($headers as $key => $value)
 		{
@@ -117,7 +120,7 @@ class Response extends Status
 	/**
 	 * Get a HTTP response header.
 	 *
-	 * @param  string  $name  The header name, or null for all headers
+	 * @param  string|null  $name  The header name, or null for all headers
 	 *
 	 * @return mixed
 	 */
@@ -247,6 +250,16 @@ class Response extends Status
 	}
 
 	/**
+	 * Returns all the headers.
+	 * 
+	 * @return array
+	 */
+	public function all()
+	{
+		return $this->headers;
+	}
+
+	/**
 	 * Adds a header to the queue.
 	 * 
 	 * @param  string       $name     The header name
@@ -259,7 +272,7 @@ class Response extends Status
 	{
 		if ($replace)
 		{
-			$this->headers = [$name => $value];
+			$this->headers[$name] = $value;
 		}
 		else
 		{
@@ -303,7 +316,7 @@ class Response extends Status
 		// Valid range?
 		if ($this->isInvalid())
 		{
-			throw new InvalidArgumentException("[{$code}] is not a valid HTTP return status code.");
+			throw new InvalidArgumentException(sprintf("[%s] is not a valid HTTP return status code", $code));
 		}
 
 		if ($text === null)
