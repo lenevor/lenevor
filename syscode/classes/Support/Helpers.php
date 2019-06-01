@@ -418,6 +418,8 @@ if ( ! function_exists('take'))
      * @param  \Callable|null  $callback
      * 
      * @return mixed
+     * 
+     * @uses   \Syscode\Support\HigherOrderTakeProxy
      */
     function take($value, $callback = null)
     {
