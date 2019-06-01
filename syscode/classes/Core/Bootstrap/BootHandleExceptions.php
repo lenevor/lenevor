@@ -50,13 +50,13 @@ class BootHandleExceptions
      */
     public function bootstrap(Application $app)
     {
-       $this->app = $app;
-       
-       set_error_handler([$this, 'handleError']);
+        $this->app = $app;
+        
+        set_error_handler([$this, 'handleError']);
 
-       set_exception_handler([$this, 'handleException']);
+        set_exception_handler([$this, 'handleException']);
 
-       register_shutdown_function([$this, 'handleShutdown']);
+        register_shutdown_function([$this, 'handleShutdown']);
     }
 
     /**
