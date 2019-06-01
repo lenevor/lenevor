@@ -69,9 +69,9 @@ class Finder
     /**
      * An alias for Finder::instance()->locate().
      *
-     * @param  string  $file       The file
-     * @param  string  $directory  The directory
-     * @param  string  $extension  The file extension
+     * @param  string       $file       The file
+     * @param  string       $directory  The directory
+     * @param  string|null  $extension  The file extension
      *
      * @return mixed   Path, or paths, or false
      */
@@ -161,7 +161,7 @@ class Finder
      *
      * @throws \InvalidArgumentException
      */
-    public function locate($file, $directory, $extension = null)
+    public function locate(string $file, string $directory, $extension = null)
     {
         $found = false;
 
@@ -180,14 +180,14 @@ class Finder
 
         if ( ! empty($file)) 
         {
-            $file = str_replace('.', DIRECTORY_SEPARATOR, $file);
+            $file = str_replace(['::', '.'], DIRECTORY_SEPARATOR, $file);
         }
         else 
         {
             throw new InvalidArgumentException("File not found: [ {$file} ]");
         }
 
-        $directory = str_replace('.', DIRECTORY_SEPARATOR, $directory);
+        $directory = str_replace(['::', '.'], DIRECTORY_SEPARATOR, $directory);
         
         $path = $directory.DIRECTORY_SEPARATOR.$file.$extension;
 
