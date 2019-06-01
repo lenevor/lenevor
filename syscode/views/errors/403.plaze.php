@@ -1,4 +1,4 @@
-<?= $this->extend('errors.layout') ?>
+<?= $this->extend('errors::layout') ?>
 
 <?= $this->section('title') ?>
 

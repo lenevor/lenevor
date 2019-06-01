@@ -1,4 +1,4 @@
-<?= $this->extend('errors.layout') ?>
+<?= $this->extend('errors::layout') ?>
 
 <?= $this->section('title') ?>
 
@@ -14,6 +14,6 @@
 
 <?= $this->section('message') ?>
 
-			<?= __($exception->getMessage() ?: 'Too Many Requests') ?>
+			<?= __('Too Many Requests') ?>
 
 <?= $this->stop() ?>

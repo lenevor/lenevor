@@ -1,4 +1,4 @@
-<?= $this->extend('errors.layout') ?>
+<?= $this->extend('errors::layout') ?>
 
 <?= $this->section('title') ?>
 
@@ -14,6 +14,6 @@
 
 <?= $this->section('message') ?>
 
-				<?= __($exception->getMessage() ?: 'Internal Server Error') ?>
+				<?= __('Internal Server Error') ?>
 
 <?= $this->stop() ?>
