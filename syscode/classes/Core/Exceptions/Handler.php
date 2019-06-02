@@ -90,6 +90,7 @@ class Handler implements ExceptionHandlerContract
             return $this->toSyscodeResponse($this->convertExceptionToResponse($e), $e);
         }
 
+        // When the debug is not active, the HTTP 500 code view is throw
         if ( ! $this->isHttpException($e)) 
         {
             $e = new HttpException(500, $e->getMessage());
@@ -107,12 +108,13 @@ class Handler implements ExceptionHandlerContract
      */
     protected function renderHttpException(HttpException $e)
     {
-        if (view()->viewExists($paths = "errors::{$e->getStatusCode()}"))
+        if (view()->viewExists($view = "errors::{$e->getStatusCode()}"))
         {
-            return response()->make(
-                view()->render($paths, [
+            return response()->view(
+                $view, 
+                [
                     'exception' => $e
-                ]),
+                ],
                 $e->getStatusCode(),
                 $e->getHeaders()
             );
