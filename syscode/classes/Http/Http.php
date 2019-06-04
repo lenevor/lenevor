@@ -84,17 +84,7 @@ class Http
 		// Return argument if not empty or return a single slash
 		return trim($uri, '/') ?: '/';
 	}
-
-	/**
-	 * Return's whether this is an AJAX request or not.
-	 *
-	 * @return bool
-	 */
-	public function isAjax()
-	{
-		return ($this->server('HTTP_X_REQUESTED_WITH') !== null) and strtolower($this->server('HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest';
-	}
-
+	
 	/**
 	 * Determines if this request was made from the command line (CLI).
 	 * 
@@ -103,16 +93,6 @@ class Http
 	public function isCli()
 	{
 		return (PHP_SAPI === 'cli' || defined('STDIN'));
-	}
-
-	/**
-	 * Contents of the Host: header from the current request, if there is one.
-	 * 
-	 * @return bool
-	 */
-	public function isHost()
-	{
-		return $this->server('HTTP_HOST');
 	}
 
 	/**
@@ -137,18 +117,6 @@ class Http
 		}
 
 		return false;
-	}
-
-	/**
-	 * Return's the input method used (GET, POST, DELETE, etc.).
-	 *
-	 * @param  string  $default
-	 *
-	 * @return string
-	 */
-	public function method($default = 'GET')
-	{
-		return $this->server('REQUEST_METHOD', $default);
 	}
 
 	/**
@@ -245,17 +213,5 @@ class Http
 	public function server($index = null, $default = null)
 	{
 		return (func_num_args() === 0) ? $_SERVER : array_get($_SERVER, strtoupper($index), $default);
-	}
-
-	/**
-	 * Return's the user agent.
-	 *
-	 * @param  string  $default
-	 *
-	 * @return string
-	 */
-	public function userAgent($default = null)
-	{
-		return $this->server('HTTP_USER_AGENT', $default);
 	}
 }
