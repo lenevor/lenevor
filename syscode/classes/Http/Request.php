@@ -146,20 +146,20 @@ class Request
 	/**
 	 * Constructor: Call uri.
 	 * 
+	 * @param  \Syscode\Http\Uri   $uri
 	 * @param  \Syscode\Http\Http  $http
 	 * 
 	 * @return string
 	 *
-	 * @uses   \Syscode\Http\Server($_SERVER)
-	 * @uses   \Syscode\Http\Uri
+	 * @uses   \Syscode\Http\Server($_SERVER)	 
 	 */
-	public function __construct(Http $http)
+	public function __construct(Uri $uri, Http $http, Server $server)
 	{
 		static::$active     = $this;
-		$this->method       = (new Server($_SERVER))->get('REQUEST_METHOD');
-		$this->uri          = new Uri;
+		$this->uri          = $uri;
 		$this->http         = $http;
 		$this->validLocales = config('app.supportedLocales');
+		$this->method       = $server->get('REQUEST_METHOD') ?? 'GET';
 
 		$this->detectLocale();
 	}
@@ -208,7 +208,7 @@ class Request
 	 */
 	public function getHost()
 	{
-		return $this->http->isHost();
+		return $this->http->server('HTTP_HOST');
 	}
 
 	/**
@@ -234,44 +234,25 @@ class Request
 	}
 
 	/**
-	 * Return's the protocol that the request was made with.
-	 *
-	 * @return string
-	 */
-	public function getProtocol()
-	{
-		return $this->http->protocol();
-	}
-
-	/**
 	 * Return's whether this is an AJAX request or not.
 	 *
 	 * @return bool
 	 */
 	public function isAjax()
 	{
-		return $this->http->isAjax();
+		return ($this->http->server('HTTP_X_REQUESTED_WITH') !== null) and strtolower($this->http->server('HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest';
 	}
 
 	/**
-	 * Determines if this request was made from the command line (CLI).
-	 * 
-	 * @return bool
+	 * Return's the input method used (GET, POST, DELETE, etc.).
+	 *
+	 * @param  string  $default
+	 *
+	 * @return string
 	 */
-	public function isCli()
+	public function method($default = 'GET')
 	{
-		return $this->http->isCli();
-	}
-
-	/**
-	 * Attempts to detect if the current connection is secure through a few 
-	 * different methods.
-	 * 
-	 * @return bool
-	 */
-	public function isSecure()
-	{
-		return $this->http->isSecure();
+		return $this->http->server('REQUEST_METHOD', $default);
 	}
 
 	/**
@@ -325,6 +306,6 @@ class Request
 	 */
 	public function userAgent($default = null)
 	{
-		return $this->http->userAgent($default);
+		return $this->http->server('HTTP_USER_AGENT', $default);
 	}
 }
