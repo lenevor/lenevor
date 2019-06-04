@@ -41,11 +41,12 @@ class Handler implements ExceptionHandlerContract
     /**
      * Render an exception into a response.
      *
-     * @param  \Exception  $e
+     * @param  \Syscode\Http\Request  $request
+     * @param  \Exception             $e
      * 
      * @return \Syscode\Http\Response
      */
-    public function render(Exception $e)
+    public function render($request, Exception $e)
     {
         $e = $this->prepareException($e);
 
@@ -54,7 +55,7 @@ class Handler implements ExceptionHandlerContract
             $e-> getResponse();
         }
 
-        return $this->prepareResponse($e);
+        return $this->prepareResponse($request, $e);
     }
 
     /**
@@ -77,13 +78,14 @@ class Handler implements ExceptionHandlerContract
     /**
      * Prepare a response for the given exception.
      * 
-     * @param  \Exception  $e
+     * @param  \Syscode\Http\Request  $request
+     * @param  \Exception             $e
      * 
      * @return \Syscode\Http\Response
      * 
      * @uses   \Syscode\Core\Http\Exceptions\HttpException
      */
-    protected function prepareResponse(Exception $e)
+    protected function prepareResponse($request, Exception $e)
     {
         if ( ! $this->isHttpException($e) && config('app.debug'))
         {
@@ -112,9 +114,7 @@ class Handler implements ExceptionHandlerContract
         {
             return response()->view(
                 $view, 
-                [
-                    'exception' => $e
-                ],
+                ['exception' => $e],
                 $e->getStatusCode(),
                 $e->getHeaders()
             );
