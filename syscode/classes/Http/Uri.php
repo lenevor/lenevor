@@ -68,6 +68,7 @@ class Uri
 	public static function create($uri)
 	{
 		$url = '';
+
 		is_null($uri) && $uri = Uri::get();
 
 		// If the given uri is not a full URL
@@ -85,7 +86,6 @@ class Uri
 
 		return $url;
 	}
-
 
 	/**
 	 * Get a path relative to the application.
@@ -138,15 +138,17 @@ class Uri
 	/**
 	 * Constructor: Call Uri.
 	 * 
-	 * @param  string  $uri
+	 * @param  string|null  $uri
 	 *
 	 * @return null|segment
 	 * 
 	 * @uses   \Syscode\Http\Http
 	 */
-	public function __construct($uri = null) 
+	public function __construct(string $uri = null) 
 	{
-		is_object($uri) && $uri = null;
+		// Identifies if the variable don't is an object or have value is null then 
+		// initializes to and create new instance the Uri class
+		! is_object($uri) && $uri = null;
 
 		$this->uri = trim($uri ?: (new Http)->detectedUri(), '/');
 
