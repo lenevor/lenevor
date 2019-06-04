@@ -31,9 +31,9 @@ interface ExceptionHandler
      * Render an exception into an HTTP response.
      * 
      * @param  \Syscode\Http\Request  $request
-     * @param  \Exception  $e
+     * @param  \Exception             $e
      * 
      * @return \Syscode\Http\Response
      */
-    public function render(Exception $e);
+    public function render($request, Exception $e);
 }
