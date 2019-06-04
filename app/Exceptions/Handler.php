@@ -31,12 +31,13 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      * 
-     * @param  \Exception  $exception
+     * @param  \Syscode\Http\Request  $request
+     * @param  \Exception             $exception
      * 
      * @return \Syscode\Http\Response
      */
-    public function render(Exception $exception)
+    public function render($request, Exception $exception)
     {
-        return parent::render($exception);
+        return parent::render($request, $exception);
     }
 }
