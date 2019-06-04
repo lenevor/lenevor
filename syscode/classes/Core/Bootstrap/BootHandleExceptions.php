@@ -106,7 +106,7 @@ class BootHandleExceptions
      */
     protected function renderHttpResponse(Exception $e)
     {
-        $this->getExceptionHandler()->render($e)->send(true);
+        $this->getExceptionHandler()->render($this->app['request'], $e)->send(true);
     }
     
     /**
