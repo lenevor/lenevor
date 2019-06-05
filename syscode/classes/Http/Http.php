@@ -36,9 +36,9 @@ class Http
 	 * @throws \Syscode\Core\Exceptions\LenevorException
 	 * @throws \OverflowException
 	 */
-	public function detectedUri()
+	public function detectedURI()
 	{
-		$server = new Server($_SERVER);
+		$server = new Parameter($_SERVER);
 
 		$vars = ['REQUEST_URI', 'PATH_INFO', 'ORIG_PATH_INFO'];
 
@@ -59,6 +59,18 @@ class Http
 				throw new OverflowException('Uri was not detected. Make sure the REQUEST_URI is set.');			    			    		
 			}		
 		}			    			    		
+	}
+
+
+
+	protected function parseRequestURI()
+	{
+
+	}
+
+	protected function parseQueryString()
+	{
+
 	}
 
 	/**
@@ -200,6 +212,32 @@ class Http
 		}
 
 		return $uri;
+	}
+
+	/**
+	 * Fetch an item from the COOKIE array.
+	 *
+	 * @param  string  $index    The index key
+	 * @param  mixed   $default  The default value
+	 *
+	 * @return string|array
+	 */
+	public function cookie($index = null, $default = null)
+	{
+		return (func_num_args() === 0) ? $_COOKIE : array_get($_COOKIE, strtoupper($index), $default);
+	}
+
+	/**
+	 * Fetch an item from the FILE array.
+	 *
+	 * @param  string  $index    The index key
+	 * @param  mixed   $default  The default value
+	 *
+	 * @return string|array
+	 */
+	public function file($index = null, $default = null)
+	{
+		return (func_num_args() === 0) ? $_FILES : array_get($_FILES, strtoupper($index), $default);
 	}
 
 	/**
