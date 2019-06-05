@@ -162,9 +162,9 @@ class Lenevor implements LenevorContract
 		if ( ! $router->initialized)
 		{
  			$router->start();
- 		}
-
- 		return $router->resolve($request->get(), $request->getMethod());
+		}
+		
+ 		return $router->resolve($request->getUri(), $request->method());
 	}
 
 	/**
