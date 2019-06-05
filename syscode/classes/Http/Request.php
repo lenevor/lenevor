@@ -36,6 +36,13 @@ class Request
 	protected static $active = false;
 
 	/**
+	 * Gets the string with format JSON.
+	 * 
+	 * @var string $body 
+	 */
+	protected $body;
+
+	/**
 	 * The default Locale this request.
 	 * 
 	 * @var string $defaultLocale
@@ -62,6 +69,13 @@ class Request
 	 * @var string|null $method
 	 */
 	protected $method = null;
+
+	/**
+	 * The parameter array.
+	 * 
+	 * @var array  $param
+	 */
+	protected $param;
 
 	/** 
 	 * List of routes uri.
@@ -97,7 +111,7 @@ class Request
 	/**
 	 * Returns the desired segment, or $default if it does not exist.
 	 *
-	 * @param  int    $index  The segment number (1-based index)
+	 * @param  int    $index    The segment number (1-based index)
 	 * @param  mixed  $default  Default value to return
 	 *
 	 * @return  string
@@ -144,22 +158,30 @@ class Request
 	}
 
 	/**
-	 * Constructor: Call uri.
+	 * Constructor: Initialize the Request class.
 	 * 
-	 * @param  \Syscode\Http\Uri   $uri
-	 * @param  \Syscode\Http\Http  $http
+	 * @param  string|null              $body
+	 * @param  \Syscode\Http\Uri        $uri
+	 * @param  \Syscode\Http\Http       $http
+	 * @param  \Syscode\Http\Parameter  $param
 	 * 
 	 * @return string
-	 *
-	 * @uses   \Syscode\Http\Server($_SERVER)	 
 	 */
-	public function __construct(Uri $uri, Http $http, Server $server)
+	public function __construct(string $body = 'php://input', Uri $uri, Http $http, Parameter $param)
 	{
 		static::$active     = $this;
+		
+		// Get our body from php://input
+		if ($body === 'php://input')
+		{
+			$body = file_get_contents('php://input');
+		}
+
+		$this->body         = $body;   
 		$this->uri          = $uri;
 		$this->http         = $http;
+		$this->param        = $param;
 		$this->validLocales = config('app.supportedLocales');
-		$this->method       = $server->get('REQUEST_METHOD') ?? 'GET';
 
 		$this->detectLocale();
 	}
@@ -177,21 +199,6 @@ class Request
 	}
 
 	/**
-	 * Returns the full request string.
-	 *
-	 * @return string  The Request string
-	 */
-	public function get() 
-	{
-		if ($request = self::active())
-		{
-			return $request->uri->get();
-		}
-
-		return null;
-	}
-
-	/**
 	 * Returns the default locale as set.
 	 * 
 	 * @return string
@@ -202,16 +209,6 @@ class Request
 	}
 
 	/**
-	 * Contents of the Host: header from the current request, if there is one.
-	 * 
-	 * @return bool
-	 */
-	public function getHost()
-	{
-		return $this->http->server('HTTP_HOST');
-	}
-
-	/**
 	 * Gets the current locale, with a fallback to the default.
 	 * 
 	 * @return string 
@@ -219,40 +216,6 @@ class Request
 	public function getLocale()
 	{
 		return $this->locale ?: $this->defaultLocale;
-	}
-
-	/**
-	 * Returns the request method.
-	 *
-	 * @param  bool  $upper  Whether to return in upper or lower case
-	 * 
-	 * @return string  
-	 */
-	public function getMethod($upper = true)
-	{
-		return ($upper) ? strtoupper($this->method) : strtolower($this->method);
-	}
-
-	/**
-	 * Return's whether this is an AJAX request or not.
-	 *
-	 * @return bool
-	 */
-	public function isAjax()
-	{
-		return ($this->http->server('HTTP_X_REQUESTED_WITH') !== null) and strtolower($this->http->server('HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest';
-	}
-
-	/**
-	 * Return's the input method used (GET, POST, DELETE, etc.).
-	 *
-	 * @param  string  $default
-	 *
-	 * @return string
-	 */
-	public function method($default = 'GET')
-	{
-		return $this->http->server('REQUEST_METHOD', $default);
 	}
 
 	/**
@@ -284,27 +247,103 @@ class Request
 	}
 
 	/**
+	 * Returns the full request string.
+	 *
+	 * @return string  The Request string
+	 */
+	public function getUri() 
+	{
+		$this->method = $this->param->get('REQUEST_METHOD') ?? 'GET';
+
+		if ($request = self::active())
+		{
+			return $request->uri->get();
+		}
+
+		return null;
+	}
+
+	/**
+	 * Contents of the Host: header from the current request, if there is one.
+	 * 
+	 * @return bool
+	 */
+	public function getHost()
+	{
+		return $this->http->server('HTTP_HOST');
+	}
+
+	/**
+	 * A convenience method that grabs the raw input stream and decodes
+	 * the JSON into an array.
+	 * 
+	 * @param  bool  $assoc
+	 * @param  int   $depth
+	 * @param  int   $options
+	 * 
+	 * @return mixed
+	 */
+	public function getJSON(bool $assoc = false, int $depth = 512, int $options = 0)
+	{
+		return json_decode($this->body, $assoc, $depth, $options);
+	}
+
+	/**
+	 * Returns whether this is an AJAX request or not.
+	 *
+	 * @return bool
+	 */
+	public function isAJAX()
+	{
+		return ! empty($this->http->server('HTTP_X_REQUESTED_WITH')) && 
+				strtolower($this->http->server('HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest';
+	}
+
+	/**
+	 * Returns the input method used (GET, POST, DELETE, etc.).
+	 *
+	 * @param  bool  $upper  Whether to return in upper or lower case
+	 * 
+	 * @return string  
+	 */
+	public function method(bool $upper = true)
+	{
+		return ($upper) ? strtoupper($this->method) : strtolower($this->method);
+	}
+
+	/**
 	 * Sets the request method.
 	 *
 	 * @param  string  $method  
 	 *
 	 * @return object  $this
 	 */
-	public function setMethod($method) 
+	public function setMethod(string $method) 
 	{
-		$this->method = $method;
-
-		return $this;
+		$this->method = null;
+		$this->param->set('REQUEST_METHOD', $method);
 	}
 
 	/**
-	 * Return's the user agent.
-	 *
+	 * Returns the referer.
+	 * 
 	 * @param  string  $default
+	 * 
+	 * @return string
+	 */
+	public function referer(string $default = '')
+	{
+		return $this->http->server('HTTP_REFERER', $default);
+	}
+
+	/**
+	 * Returns the user agent.
+	 *
+	 * @param  string|null  $default
 	 *
 	 * @return string
 	 */
-	public function userAgent($default = null)
+	public function userAgent(string $default = null)
 	{
 		return $this->http->server('HTTP_USER_AGENT', $default);
 	}
