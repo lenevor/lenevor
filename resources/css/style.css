@@ -1,12 +1,12 @@
 @font-face {
-  font-family: 'icomoon';
-  src:  url('fonts/icomoon/icomoon.eot?5q3dvi');
-  src:  url('fonts/icomoon/icomoon.eot?5q3dvi#iefix') format('embedded-opentype'),
-        url('fonts/icomoon/icomoon.ttf?5q3dvi') format('truetype'),
-        url('fonts/icomoon/icomoon.woff?5q3dvi') format('woff'),
-        url('fonts/icomoon/icomoon.svg?5q3dvi#icomoon') format('svg');
-  font-style: normal;
-  font-weight: normal;
+	font-family: 'icomoon';
+	src:  url('fonts/icomoon/icomoon.eot?5q3dvi');
+	src:  url('fonts/icomoon/icomoon.eot?5q3dvi#iefix') format('embedded-opentype'),
+			url('fonts/icomoon/icomoon.ttf?5q3dvi') format('truetype'),
+			url('fonts/icomoon/icomoon.woff?5q3dvi') format('woff'),
+			url('fonts/icomoon/icomoon.svg?5q3dvi#icomoon') format('svg');
+	font-style: normal;
+	font-weight: normal;
 }
 
 *,
@@ -23,7 +23,7 @@ html {
 
 html, 
 body {
-	background: rgb(249, 249, 249);
+	background: rgb(250, 246, 246);
 	color: rgba(60, 72, 88, .9);
 	font-family: 'icommon', Heebo, sans-serif;
 	font-weight: 100;
