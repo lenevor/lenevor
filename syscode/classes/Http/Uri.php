@@ -46,7 +46,7 @@ class Uri
 	 *
 	 * @return string
 	 */
-	public static function base($indexPage = true)
+	public static function base(bool $indexPage = true)
 	{
 		$url = config('baseUrl');
 
@@ -65,7 +65,7 @@ class Uri
 	 *
 	 * @return string
 	 */
-	public static function create($uri)
+	public static function create(string $uri)
 	{
 		$url = '';
 
@@ -94,7 +94,7 @@ class Uri
 	 *
 	 * @return string
 	 */
-	public static function to($uri) 
+	public static function to(string $uri) 
 	{
 		if (strpos($uri, '://')) return $uri;
 
@@ -116,12 +116,12 @@ class Uri
 	 *
 	 * @return string
 	 */
-	public static function full($uri, $secure = null) 
+	public static function full(string $uri, $secure = null) 
 	{
 		if (strpos($uri, '://')) return $uri;
 
 		// create a server object from global
-		$server = new Server($_SERVER);
+		$server = new Parameter($_SERVER);
 
 		if ( ! is_null($secure)) 
 		{
@@ -150,7 +150,7 @@ class Uri
 		// initializes to and create new instance the Uri class
 		! is_object($uri) && $uri = null;
 
-		$this->uri = trim($uri ?: (new Http)->detectedUri(), '/');
+		$this->uri = trim($uri ?: (new Http)->detectedURI(), '/');
 
 		if (empty($this->uri))
 		{
@@ -160,7 +160,7 @@ class Uri
 		{
 			$this->segments = explode('/', $this->uri);
 		}
-	}
+	} 
 
 	/**
 	 * Returns the full URI string.
@@ -181,7 +181,7 @@ class Uri
 	 *
 	 * @return mixed
 	 */
-	public function getSegment($index, $default = null)
+	public function getSegment(int $index, $default = null)
 	{
 		return array_get($this->getSegments(), $index - 1, $default);
 	}
