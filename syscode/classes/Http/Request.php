@@ -50,13 +50,6 @@ class Request
 	protected $defaultLocale;
 
 	/**
-	 * The detected uri and server variables.
-	 * 
-	 * @var string $http
-	 */
-	protected $http;
-
-	/**
 	 * The current Locale of the application.
 	 * 
 	 * @var string $locale
@@ -73,9 +66,16 @@ class Request
 	/**
 	 * The parameter array.
 	 * 
-	 * @var array  $param
+	 * @var array  $parameters
 	 */
-	protected $param;
+	protected $parameters;
+
+	/**
+	 * The detected uri and server variables.
+	 * 
+	 * @var string $server
+	 */
+	protected $server;
 
 	/** 
 	 * List of routes uri.
@@ -162,14 +162,12 @@ class Request
 	 * 
 	 * @param  string|null              $body
 	 * @param  \Syscode\Http\Uri        $uri
-	 * @param  \Syscode\Http\Http       $http
-	 * @param  \Syscode\Http\Parameter  $param
 	 * 
 	 * @return string
 	 */
-	public function __construct(string $body = 'php://input', Uri $uri, Http $http, Parameter $param)
+	public function __construct(string $body = 'php://input', Uri $uri)
 	{
-		static::$active     = $this;
+		static::$active = $this;
 		
 		// Get our body from php://input
 		if ($body === 'php://input')
@@ -179,9 +177,9 @@ class Request
 
 		$this->body         = $body;   
 		$this->uri          = $uri;
-		$this->http         = $http;
-		$this->param        = $param;
+		$this->server       = new Parameter($_SERVER);
 		$this->validLocales = config('app.supportedLocales');
+		$this->method       = $this->server->get('REQUEST_METHOD') ?? 'GET';
 
 		$this->detectLocale();
 	}
@@ -249,12 +247,10 @@ class Request
 	/**
 	 * Returns the full request string.
 	 *
-	 * @return string  The Request string
+	 * @return string|null  The Request string
 	 */
 	public function getUri() 
 	{
-		$this->method = $this->param->get('REQUEST_METHOD') ?? 'GET';
-
 		if ($request = self::active())
 		{
 			return $request->uri->get();
@@ -270,7 +266,7 @@ class Request
 	 */
 	public function getHost()
 	{
-		return $this->http->server('HTTP_HOST');
+		return $this->server->get('HTTP_HOST');
 	}
 
 	/**
@@ -293,10 +289,10 @@ class Request
 	 *
 	 * @return bool
 	 */
-	public function isAJAX()
+	public function isXmlHttpRequest()
 	{
-		return ! empty($this->http->server('HTTP_X_REQUESTED_WITH')) && 
-				strtolower($this->http->server('HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest';
+		return ! empty($this->server->get('HTTP_X_REQUESTED_WITH')) && 
+				strtolower($this->server->get('HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest';
 	}
 
 	/**
@@ -320,8 +316,9 @@ class Request
 	 */
 	public function setMethod(string $method) 
 	{
-		$this->method = null;
-		$this->param->set('REQUEST_METHOD', $method);
+		$this->method = $method;
+
+		return $this;
 	}
 
 	/**
@@ -333,7 +330,7 @@ class Request
 	 */
 	public function referer(string $default = '')
 	{
-		return $this->http->server('HTTP_REFERER', $default);
+		return $this->server->get('HTTP_REFERER', $default);
 	}
 
 	/**
@@ -345,6 +342,6 @@ class Request
 	 */
 	public function userAgent(string $default = null)
 	{
-		return $this->http->server('HTTP_USER_AGENT', $default);
+		return $this->server->get('HTTP_USER_AGENT', $default);
 	}
 }
