@@ -61,18 +61,6 @@ class Http
 		}			    			    		
 	}
 
-
-
-	protected function parseRequestURI()
-	{
-
-	}
-
-	protected function parseQueryString()
-	{
-
-	}
-
 	/**
 	 * Format the uri string remove any malicious characters and relative paths.
 	 *
@@ -88,13 +76,110 @@ class Http
 		$uri = filter_var(rawurldecode($uri), FILTER_SANITIZE_URL);
 
 		// Remove script path/name
-		$uri = $this->removeScriptName($uri, $server);
+		$uri = $this->filterScriptName($uri, $server);
 
 		// Remove the relative uri
-		$uri = $this->removeRelativeUri($uri);
+		$uri = $this->filterRelativeUri($uri);
 
 		// Return argument if not empty or return a single slash
 		return trim($uri, '/') ?: '/';
+	}
+
+	/**
+	 * Filters the SCRIPT_NAME from the uri path.
+	 *
+	 * @param  string  $uri
+	 * @param  string  $server
+	 *
+	 * @return string
+	 */
+	public function filterScriptName($uri, $server)
+	{
+		return $this->parseRequestURI($server->get('SCRIPT_NAME'), $uri);
+	}
+
+	/**
+	 * Filters the relative path from the uri set in the config folder.
+	 *
+	 * @param  string  $uri
+	 *
+	 * @return string
+	 */
+	public function filterRelativeUri($uri) 
+	{
+		// remove base url
+		if ($base = config('app.baseUrl')) 
+		{
+			$uri = $this->parseRequestURI(rtrim($base, '/'), $uri);
+		}
+
+		// remove index
+		if ($index = config('app.indexPage')) 
+		{
+			$uri = $this->parseRequestURI('/'.$index, $uri);
+		}
+
+		return $uri;
+	}
+
+	/**
+	 * Filters a value from the start of a string in this case the passed uri string.
+	 *
+	 * @param  string  $value
+	 * @param  string  $uri
+	 *
+	 * @return string
+	 */
+	public function parseRequestURI($value, $uri)
+	{
+		if ( ! isset($uri, $value))
+		{
+			return '';
+		}
+
+		$parts = parse_url('http://dummy'.$uri);
+		$query = $parts['query'] ?? '';
+		$uri   = $parts['path'] ?? '';
+
+		// If the search value is at the start
+		if (isset($value[0]))
+		{
+			if (strpos($uri, $value) === 0)
+			{
+				$uri = (string) substr($uri, strlen($value));
+			}
+			elseif (strpos($uri, $value) > 0)
+			{
+				$uri = (string) substr($uri, strpos($uri, $value) + strlen($value));
+			}
+			elseif (strpos($uri, dirname($value)) === 0)
+			{
+				$uri = (string) substr($uri, strlen(dirname($value)));
+			}
+		}
+
+		// This section ensures that even on servers that require the URI to contain 
+		// the query string (Nginx) is the correctly
+		if (trim($uri, '/') === '' && strncmp($query, '/', 1) === 0) 
+		{
+			$query					 = explode('?', $query, 2);
+			$uri  					 = $query[0];
+			$_SERVER['QUERY_STRING'] = $query[1] ?? '';
+		}
+		else
+		{
+			$_SERVER['QUERY_STRING'] = $query;
+		}
+
+		// Parses the string into variables
+		parse_str($_SERVER['QUERY_STRING'], $_GET);
+
+		if ($uri === '/' || $uri === '')
+		{
+			return '/';
+		}
+
+		return $uri;
 	}
 	
 	/**
@@ -150,68 +235,6 @@ class Http
 		}
 
 		return 'http';
-	}
-
-	/**
-	 * Remove a value from the start of a string in this case the passed uri string.
-	 *
-	 * @param  string  $value
-	 * @param  string  $uri
-	 *
-	 * @return string
-	 */
-	public function remove($value, $uri)
-	{
-		// make sure our search value is a non-empty string
-		if (is_string($value) && strlen($value))
-		{
-			// If the search value is at the start
-			if (strpos($uri, $value) === 0)
-			{
-				$uri = substr($uri, strlen($value));
-			}
-		}
-
-		return $uri;
-	}
-
-	/**
-	 * Remove the SCRIPT_NAME from the uri path.
-	 *
-	 * @param  string  $uri
-	 * @param  string  $server
-	 *
-	 * @return string
-	 */
-	public function removeScriptName($uri, $server)
-	{
-		return $this->remove($server->get('SCRIPT_NAME'), $uri);
-	}
-
-	/**
-	 * Remove the relative path from the uri set in the config folder.
-	 *
-	 * @param  string  $uri
-	 *
-	 * @return string
-	 *
-	 * @uses   \Config\Configure
-	 */
-	public function removeRelativeUri($uri) 
-	{
-		// remove base url
-		if ($base = config('app.baseUrl')) 
-		{
-			$uri = $this->remove(rtrim($base, '/'), $uri);
-		}
-
-		// remove index
-		if ($index = config('app.indexPage')) 
-		{
-			$uri = $this->remove('/'.$index, $uri);
-		}
-
-		return $uri;
 	}
 
 	/**
