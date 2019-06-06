@@ -27,15 +27,19 @@ return [
     |
     |     'baseUrl' => '/bar/'
     |
+    |        or
+    |
+    |     'baseUrl' => 'http://localhost'
+    |
     |        or 
     |
-    |     'baseUrl' => 'http://bar.com/'
+    |     'baseUrl' => 'http://bar.com'
     |
     | Set this to null to have it automatically detected.
     |
     */
 	
-    'baseUrl' => env('APP.BASE.URL', '/lenevor/public/'),
+    'baseUrl' => env('APP.BASE.URL', 'http://localhost'),
 
     /*
     |------------------------------------------------------------------------
