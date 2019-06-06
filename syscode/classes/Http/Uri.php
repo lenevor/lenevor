@@ -74,7 +74,7 @@ class Uri
 		// If the given uri is not a full URL
 		if ( ! preg_match("#^(http|https|ftp)://#i", $uri))
 		{
-			$url .= config('baseUrl');
+			$url .= config('baseUrl').$_SERVER['REQUEST_URI'];
 
 			if ($indexPage = config('indexPage'))
 			{
@@ -98,7 +98,7 @@ class Uri
 	{
 		if (strpos($uri, '://')) return $uri;
 
-		$base = config('app.baseUrl');
+		$base = config('app.baseUrl').$_SERVER['REQUEST_URI'];
 
 		if ($index = config('app.indexPage')) 
 		{
@@ -132,34 +132,23 @@ class Uri
 			$scheme = ($server->has('HTTPS') and $server->get('HTTPS')) !== '' ? 'http://' : 'https://';
 		}
 
-		return $scheme . $server->get('HTTP_HOST').self::to($uri);
+		return $scheme.$server->get('HTTP_HOST').self::to($uri);
 	}
 
 	/**
-	 * Constructor: Call Uri.
+	 * Constructor: Initialize the Uri class.
 	 * 
-	 * @param  string|null  $uri
+	 * @param  \Syscode\Http\Http  $http
 	 *
-	 * @return null|segment
-	 * 
-	 * @uses   \Syscode\Http\Http
+	 * @return void
 	 */
-	public function __construct(string $uri = null) 
+	public function __construct(Http $http) 
 	{
-		// Identifies if the variable don't is an object or have value is null then 
-		// initializes to and create new instance the Uri class
-		! is_object($uri) && $uri = null;
+		$this->uri = $uri = $http->detectedURI();
 
-		$this->uri = trim($uri ?: (new Http)->detectedURI(), '/');
+		$this->set($uri);
 
-		if (empty($this->uri))
-		{
-			$this->segments = [];
-		}
-		else
-		{
-			$this->segments = explode('/', $this->uri);
-		}
+		$this->filterSegments($uri);
 	} 
 
 	/**
@@ -170,6 +159,32 @@ class Uri
 	public function get()
 	{
 		return '/'.ltrim($this->uri, '/');
+	}
+
+	/**
+	 * Sets of URI string.
+	 * 
+	 * @param  string  $uri
+	 * 
+	 * @return $this
+	 */
+	public function set(string $uri)
+	{
+		$this->uri = $uri;
+
+		return $this;
+	}
+
+	/**
+	 * Filter the segments of path.
+	 * 
+	 * @param  string  $uri
+	 * 
+	 * @return string[]
+	 */
+	protected function filterSegments(string $uri)
+	{
+		$this->segments = ( ! empty($uri) ? explode('/', $uri) : []);
 	}
 
 	/**
