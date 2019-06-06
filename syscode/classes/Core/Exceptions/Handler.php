@@ -52,7 +52,7 @@ class Handler implements ExceptionHandlerContract
 
         if ($e instanceof HttpResponseException)
         {
-            $e-> getResponse();
+            $e->getResponse();
         }
 
         return $this->prepareResponse($request, $e);
