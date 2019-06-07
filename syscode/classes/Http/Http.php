@@ -3,7 +3,7 @@
 namespace Syscode\Http;
 
 use OverflowException;
-use Syscode\Core\Exceptions\LenevorException;
+use Syscode\Core\Http\Exceptions\BadRequestHttpException;
 
 /**
  * Lenevor Framework
@@ -33,32 +33,27 @@ class Http
 	 *
 	 * @return string
 	 *
-	 * @throws \Syscode\Core\Exceptions\LenevorException
+	 * @throws \Syscode\Core\Http\Exceptions\BadRequestHttpException
 	 * @throws \OverflowException
 	 */
 	public function detectedURI()
 	{
 		$server = new Parameter($_SERVER);
 
-		$vars = ['REQUEST_URI', 'PATH_INFO', 'ORIG_PATH_INFO'];
-
-		foreach ($vars as $httpVar) 
+		if ($server->has(config('app.uriProtocol')) && $uri = $server->get(config('app.uriProtocol')))
 		{
-		  	if ($server->has($httpVar) && $uri = $server->get($httpVar))
-		  	{
-		  		if ($uri = filter_var($uri, FILTER_SANITIZE_URL))
-		  		{
-		  			if ($uri = parse_url($uri, PHP_URL_PATH))
-		  			{
-		  				return $this->formats($uri, $server);
-		  			}
-
-		  			throw new LenevorException('Malformed URI');	  			
+			if ($uri = filter_var($uri, FILTER_SANITIZE_URL))
+			{
+				if ($uri = parse_url($uri, PHP_URL_PATH))
+				{
+					return $this->formats($uri, $server);
 				}
 
-				throw new OverflowException('Uri was not detected. Make sure the REQUEST_URI is set.');			    			    		
-			}		
-		}			    			    		
+				throw new BadRequestHttpException('Malformed URI');	  			
+			}
+
+			throw new OverflowException('Uri was not detected. Make sure the REQUEST_URI is set.');			    			    		
+		}		    			    		
 	}
 
 	/**
@@ -75,51 +70,16 @@ class Http
 		// digits and $-_.+!*'(),{}|\\^~[]`<>#%";/?:@&=.
 		$uri = filter_var(rawurldecode($uri), FILTER_SANITIZE_URL);
 
-		// Remove script path/name
-		$uri = $this->filterScriptName($uri, $server);
-
-		// Remove the relative uri
-		$uri = $this->filterRelativeUri($uri);
+		// Filters a value from the start of a string
+		$uri = $this->parseRequestURI($server->get('SCRIPT_NAME'), $uri);
 
 		// Return argument if not empty or return a single slash
 		return trim($uri, '/') ?: '/';
 	}
 
-	/**
-	 * Filters the SCRIPT_NAME from the uri path.
-	 *
-	 * @param  string  $uri
-	 * @param  string  $server
-	 *
-	 * @return string
-	 */
-	public function filterScriptName($uri, $server)
+	protected function detectPatch(string $protocol, $server, $uri) 
 	{
-		return $this->parseRequestURI($server->get('SCRIPT_NAME'), $uri);
-	}
 
-	/**
-	 * Filters the relative path from the uri set in the config folder.
-	 *
-	 * @param  string  $uri
-	 *
-	 * @return string
-	 */
-	public function filterRelativeUri($uri) 
-	{
-		// remove base url
-		if ($base = config('app.baseUrl')) 
-		{
-			$uri = $this->parseRequestURI(rtrim($base, '/'), $uri);
-		}
-
-		// remove index
-		if ($index = config('app.indexPage')) 
-		{
-			$uri = $this->parseRequestURI('/'.$index, $uri);
-		}
-
-		return $uri;
 	}
 
 	/**
@@ -130,7 +90,7 @@ class Http
 	 *
 	 * @return string
 	 */
-	public function parseRequestURI($value, $uri)
+	protected function parseRequestURI($value, $uri)
 	{
 		if ( ! isset($uri, $value))
 		{
@@ -178,6 +138,33 @@ class Http
 		{
 			return '/';
 		}
+
+		return $uri;
+	}
+
+	/**
+	 * Will parse QUERY_STRING and automatically detect the URI from it.
+	 * 
+	 * @param  string  $server
+	 * 
+	 * @return string
+	 */
+	protected function parseQueryString($server)
+	{
+		$uri = $server ?? @getenv('QUERY_STRING');
+
+		if (trim($uri, '/') === '')
+		{
+			return '';
+		}
+		elseif (strncmp($uri, '/', 1) === 0)
+		{
+			$uri    = explode('?', $uri, 2);
+			$server = $uri[1] ?? '';
+			$uri    = $uri[0] ?? '';
+		}
+
+		parse_str($server, $_GET);
 
 		return $uri;
 	}
