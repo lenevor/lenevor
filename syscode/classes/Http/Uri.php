@@ -168,7 +168,7 @@ class Uri
 	 * 
 	 * @return $this
 	 */
-	public function set(string $uri)
+	public function set($uri)
 	{
 		$this->uri = $uri;
 
@@ -182,7 +182,7 @@ class Uri
 	 * 
 	 * @return string[]
 	 */
-	protected function filterSegments(string $uri)
+	protected function filterSegments($uri)
 	{
 		$this->segments = ( ! empty($uri) ? explode('/', $uri) : []);
 	}
