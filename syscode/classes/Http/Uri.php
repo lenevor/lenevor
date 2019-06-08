@@ -136,22 +136,6 @@ class Uri
 	}
 
 	/**
-	 * Constructor: Initialize the Uri class.
-	 * 
-	 * @param  \Syscode\Http\Http  $http
-	 *
-	 * @return void
-	 */
-	public function __construct(Http $http) 
-	{
-		$this->uri = $uri = $http->detectedURI();
-
-		$this->set($uri);
-
-		$this->filterSegments($uri);
-	} 
-
-	/**
 	 * Returns the full URI string.
 	 *
 	 * @return string  The URI string
@@ -173,6 +157,36 @@ class Uri
 		$this->uri = $uri;
 
 		return $this;
+	}
+
+	/**
+	 * Sets the path portion of the URI.
+	 * 
+	 * @param  string  $path
+	 *
+	 * @return void
+	 */
+	public function setPath(string $path) 
+	{
+		$this->uri = $this->filterPath($path);
+
+		$this->filterSegments($this->uri);
+
+		return $this;
+	} 
+
+	/**
+	 * Encodes any dangerous characters.
+	 * 
+	 * @param  string|null  $path
+	 * 
+	 * @return string
+	 */
+	protected function filterPath(string $path = null)
+	{
+		$path = urldecode($path);
+
+		return $path;
 	}
 
 	/**
