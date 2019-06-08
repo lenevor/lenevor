@@ -113,6 +113,7 @@ return [
     'Syscode\\Filesystem\\FilesystemServiceProvider' => SYS_PATH.'classes/Filesystem/FilesystemServiceProvider.php',  
     'Syscode\\Http\\Exceptions\\HttpResponseException' => SYS_PATH.'classes/Http/Exceptions/HttpResponseException.php',
     'Syscode\\Http\\Exceptions\\PostTooLargeHttpException' => SYS_PATH.'classes/Http/Exceptions/PostTooLargeHttpException.php',
+    'Syscode\\Http\\Exceptions\\RequestErrorException' => SYS_PATH.'classes/Http/Exceptions/RequestErrorException.php',
     'Syscode\\Http\\Http' => SYS_PATH.'classes/Http/Http.php',
     'Syscode\\Http\\Request' => SYS_PATH.'classes/Http/Request.php',
     'Syscode\\Http\\Response' => SYS_PATH.'classes/Http/Response.php',
