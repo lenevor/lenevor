@@ -4,6 +4,8 @@ namespace Syscode\Http;
 
 Use Locale;
 use Exception;
+use Syscode\Http\Exceptions\RequestErrorException;
+
 
 /**
  * Lenevor Framework
@@ -48,6 +50,13 @@ class Request
 	 * @var string $defaultLocale
 	 */
 	protected $defaultLocale;
+
+	/**
+	 * The detected uri and server variables.
+	 * 
+	 * @var string $http
+	 */
+	protected $http;
 
 	/**
 	 * The current Locale of the application.
@@ -160,12 +169,13 @@ class Request
 	/**
 	 * Constructor: Initialize the Request class.
 	 * 
-	 * @param  string|null              $body
-	 * @param  \Syscode\Http\Uri        $uri
+	 * @param  string|null         $body
+	 * @param  \Syscode\Http\Uri   $uri
+	 * @param  \Syscode\Http\Http  $http
 	 * 
 	 * @return string
 	 */
-	public function __construct(string $body = 'php://input', Uri $uri)
+	public function __construct(string $body = 'php://input', Uri $uri, Http $http)
 	{
 		static::$active = $this;
 		
@@ -177,11 +187,37 @@ class Request
 
 		$this->body         = $body;   
 		$this->uri          = $uri;
+		$this->http         = $http;
 		$this->server       = new Parameter($_SERVER);
 		$this->validLocales = config('app.supportedLocales');
 		$this->method       = $this->server->get('REQUEST_METHOD') ?? 'GET';
 
+		$this->detectURI(config('app.uriProtocol'), config('app.baseUrl'));
 		$this->detectLocale();
+	}
+
+	/**
+	 * Detects and returns the current URI based on a number of different server variables.
+	 * 
+	 * @param  string  $protocol
+	 * 
+	 * @return string
+	 */
+	protected function detectURI(string $protocol, string $baseUrl)
+	{
+		$this->uri->setPath($this->http->detectPath($protocol));
+
+		if ( ! empty($baseUrl))
+		{
+			// Finish (ojo)
+		}
+		else 
+		{
+			if ( ! $this->http->isCli())
+			{
+				exit('You have an empty or invalid base URL. The baseURL value must be set in config/app.php, or through the .env file.');
+			}
+		}
 	}
 
 	/**
