@@ -2,9 +2,6 @@
 
 namespace Syscode\Http;
 
-use OverflowException;
-use Syscode\Core\Http\Exceptions\BadRequestHttpException;
-
 /**
  * Lenevor Framework
  *
@@ -29,92 +26,68 @@ use Syscode\Core\Http\Exceptions\BadRequestHttpException;
 class Http
 {
 	/**
-	 * Detects and returns the current URI based on a number of different server variables.
-	 *
+	 * Gets the URIProtocol based setting, will attempt to detect the path 
+	 * portion of the current URI.
+	 * 
+	 * @param  string  $protocol
+	 * @param  string  $value
+	 * 
 	 * @return string
-	 *
-	 * @throws \Syscode\Core\Http\Exceptions\BadRequestHttpException
-	 * @throws \OverflowException
 	 */
-	public function detectedURI()
+	public function detectPath(string $protocol = '') 
 	{
-		$server = new Parameter($_SERVER);
-
-		if ($server->has(config('app.uriProtocol')) && $uri = $server->get(config('app.uriProtocol')))
+		if (empty($protocol))
 		{
-			if ($uri = filter_var($uri, FILTER_SANITIZE_URL))
-			{
-				if ($uri = parse_url($uri, PHP_URL_PATH))
-				{
-					return $this->formats($uri, $server);
-				}
+			$protocol = 'REQUEST_URI';
+		}
 
-				throw new BadRequestHttpException('Malformed URI');	  			
-			}
+		switch($protocol)
+		{
+			case 'REQUEST_URI':
+				$path = $this->parseRequestURI();
+				break;
+			case 'QUERY_STRING':
+				$path = $this->parseQueryString();
+				break;
+			case 'PATH_INFO':
+			default:
+				$path = $this->server($protocol) ?? $this->parseRequestURI();
+				break;
+		}
 
-			throw new OverflowException('Uri was not detected. Make sure the REQUEST_URI is set.');			    			    		
-		}		    			    		
-	}
-
-	/**
-	 * Format the uri string remove any malicious characters and relative paths.
-	 *
-	 * @param  string  $uri
-	 * @param  string  $server
-	 *
-	 * @return string
-	 */
-	public function formats($uri, $server)
-	{
-		// Remove all characters except letters,
-		// digits and $-_.+!*'(),{}|\\^~[]`<>#%";/?:@&=.
-		$uri = filter_var(rawurldecode($uri), FILTER_SANITIZE_URL);
-
-		// Filters a value from the start of a string
-		$uri = $this->parseRequestURI($server->get('SCRIPT_NAME'), $uri);
-
-		// Return argument if not empty or return a single slash
-		return trim($uri, '/') ?: '/';
-	}
-
-	protected function detectPatch(string $protocol, $server, $uri) 
-	{
-
+		return $path;
 	}
 
 	/**
 	 * Filters a value from the start of a string in this case the passed uri string.
 	 *
-	 * @param  string  $value
-	 * @param  string  $uri
-	 *
 	 * @return string
 	 */
-	protected function parseRequestURI($value, $uri)
+	protected function parseRequestURI()
 	{
-		if ( ! isset($uri, $value))
+		if ( ! isset($_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME']))
 		{
 			return '';
 		}
 
-		$parts = parse_url('http://dummy'.$uri);
+		$parts = parse_url('http://dummy'.$_SERVER['REQUEST_URI']);
 		$query = $parts['query'] ?? '';
 		$uri   = $parts['path'] ?? '';
 
 		// If the search value is at the start
-		if (isset($value[0]))
+		if (isset($_SERVER['SCRIPT_NAME'][0]))
 		{
-			if (strpos($uri, $value) === 0)
+			if (strpos($uri, $_SERVER['SCRIPT_NAME']) === 0)
 			{
-				$uri = (string) substr($uri, strlen($value));
+				$uri = (string) substr($uri, strlen($_SERVER['SCRIPT_NAME']));
 			}
-			elseif (strpos($uri, $value) > 0)
+			elseif (strpos($uri, $_SERVER['SCRIPT_NAME']) > 0)
 			{
-				$uri = (string) substr($uri, strpos($uri, $value) + strlen($value));
+				$uri = (string) substr($uri, strpos($uri, $_SERVER['SCRIPT_NAME']) + strlen($_SERVER['SCRIPT_NAME']));
 			}
-			elseif (strpos($uri, dirname($value)) === 0)
+			elseif (strpos($uri, dirname($_SERVER['SCRIPT_NAME'])) === 0)
 			{
-				$uri = (string) substr($uri, strlen(dirname($value)));
+				$uri = (string) substr($uri, strlen(dirname($_SERVER['SCRIPT_NAME'])));
 			}
 		}
 
@@ -139,19 +112,17 @@ class Http
 			return '/';
 		}
 
-		return $uri;
+		return $this->filterDecode($uri);
 	}
 
 	/**
 	 * Will parse QUERY_STRING and automatically detect the URI from it.
 	 * 
-	 * @param  string  $server
-	 * 
 	 * @return string
 	 */
-	protected function parseQueryString($server)
+	protected function parseQueryString()
 	{
-		$uri = $server ?? @getenv('QUERY_STRING');
+		$uri = $_SERVER['QUERY_STRING'] ?? @getenv('QUERY_STRING');
 
 		if (trim($uri, '/') === '')
 		{
@@ -159,14 +130,31 @@ class Http
 		}
 		elseif (strncmp($uri, '/', 1) === 0)
 		{
-			$uri    = explode('?', $uri, 2);
-			$server = $uri[1] ?? '';
-			$uri    = $uri[0] ?? '';
+			$uri    				 = explode('?', $uri, 2);
+			$_SERVER['QUERY_STRING'] = $uri[1] ?? '';
+			$uri    				 = $uri[0] ?? '';
 		}
 
-		parse_str($server, $_GET);
+		parse_str($_SERVER['QUERY_STRING'], $_GET);
 
-		return $uri;
+		return $this->filterDecode($uri);
+	}
+
+	/**
+	 * Filters the uri string remove any malicious characters and inappropriate slashes.
+	 *
+	 * @param  string  $uri
+	 *
+	 * @return string
+	 */
+	public function filterDecode($uri)
+	{
+		// Remove all characters except letters,
+		// digits and $-_.+!*'(),{}|\\^~[]`<>#%";/?:@&=.
+		$uri = filter_var(rawurldecode($uri), FILTER_SANITIZE_URL);
+
+		// Return argument if not empty or return a single slash
+		return trim($uri, '/') ?: '/';
 	}
 	
 	/**
