@@ -6,12 +6,12 @@ use Throwable;
 use Traversable;
 use ErrorException;
 use RuntimeException;
-use Syscode\Contracts\Debug\Table;
 use Syscode\Debug\Util\{ 
 	ArrayTable, 
 	Misc, 
 	TemplateHandler 
 };
+use Syscode\Contracts\Debug\Table;
 
 /**
  * Lenevor Framework
