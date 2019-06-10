@@ -4,7 +4,6 @@ namespace Syscode\Http;
 
 Use Locale;
 use Exception;
-use Syscode\Http\Exceptions\RequestErrorException;
 
 
 /**
