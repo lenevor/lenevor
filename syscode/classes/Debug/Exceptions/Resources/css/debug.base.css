@@ -904,6 +904,7 @@ footer {
     cursor: help;
     color: var(--first-color); 
     font-size: 12px; 
+    font-weight: 600;
     padding: 9px;
 }
 
