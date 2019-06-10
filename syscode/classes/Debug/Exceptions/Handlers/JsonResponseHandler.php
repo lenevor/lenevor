@@ -2,7 +2,7 @@
 
 namespace Syscode\Debug\Handlers;
 
-use Syscode\Debug\Engine\Formatter;
+use Syscode\Debug\FrameHandler\Formatter;
 
 /**
  * Lenevor Framework
