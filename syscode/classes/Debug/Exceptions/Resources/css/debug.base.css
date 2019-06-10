@@ -899,6 +899,24 @@ footer {
     width: 16px;
 }
 
+.info .status-code,
+.info .php-version {
+    cursor: help;
+    color: var(--first-color); 
+    font-size: 13px; 
+    padding: 8px;
+}
+
+.info .status-code {
+    background: var(--border-color);     
+    margin-left: 10px;
+}
+
+.info .php-version {
+    background: var(--frame-color-menu);
+    margin-left: -5px;
+}
+
 .info .copy {
     color: rgb(116, 111, 111);
 }
