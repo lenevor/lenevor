@@ -4,7 +4,7 @@
 
 		<div class="name">
 			<?= e($brand) ?>
-			<span class="status-code" title="Status Code"><?= (new \Syscode\Debug\GDebug)->sendHttpCode() ?></span>
+			<span class="status-code" title="Status Code"><?= $debug->sendHttpCode() ?></span>
 			<span class="php-version" title="php version"><?= phpversion() ?></span>
 			
 		</div>
