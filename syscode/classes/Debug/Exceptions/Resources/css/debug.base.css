@@ -286,15 +286,15 @@ header:hover h2 {
     border-radius: 5px;
     border-top: solid 4px var(--border-color);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.06), 1px 1px 0 rgba(0, 0, 0, 0.05), -1px 1px 0 rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.06);
-    padding: 5px;
+    padding: 10px;
 }
 
 .frame-description {
     background: var(--second-color);
     border-bottom: solid 1px rgb(212, 213, 218);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1); 
-    margin: -5px;
-    margin-bottom: 5px;
+    margin: -10px;
+    margin-bottom: 10px;
     text-align: justify;
     min-width: 100%;
 }
@@ -310,7 +310,7 @@ header:hover h2 {
 }
 
 .frame-description-application span {
-    padding: 8px 25px;
+    padding: 8px 10px;
 }
 
 /* Icon border */
@@ -438,6 +438,23 @@ header:hover h2 {
 /* SMALL */
 @media (max-width: 1100px)
 {
+    .sidebar {
+        padding: 0;
+    }
+
+    .frame-description {
+        margin: 0;
+    }
+
+    .frame-description-application span {
+        padding-left: 15px;
+    }
+
+    .frame:nth-child(2),
+    .frame:last-child {
+        border-radius: 0;
+    }
+
     .frame-method-info {
         color: var(--first-color);
         overflow: hidden;
@@ -446,7 +463,7 @@ header:hover h2 {
 
     .frame {
         max-height: 200px;
-        padding: 5px 20px;
+        padding: 5px 15px;
     }
 
     .frame-index {   
@@ -521,7 +538,7 @@ header:hover h2 {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.06), 1px 1px 0 rgba(0, 0, 0, 0.06), -1px 1px 0 rgba(0, 0, 0, 0.06), 0 0 0 4px rgba(0, 0, 0, 0.06);
     display: none;
     margin-bottom: 50px;
-    padding: 22px;
+    padding: 10px;
     position: relative;
 }
 
@@ -539,8 +556,8 @@ header:hover h2 {
     display: flex;
     font-weight: 200;
     justify-content: space-between;
-    margin-left: -22px;
-    margin-top: -22px;
+    margin-left: -10px;
+    margin-top: -10px;
     padding: 0 10px;
     padding-right: 0;
     position: absolute;
@@ -554,7 +571,7 @@ header:hover h2 {
     min-height: 12px;
     line-height: 12px;
     overflow: hidden; 
-    padding: 5px 12px;
+    padding: 5px 3px;
     text-overflow: ellipsis;
     text-shadow: none;
     white-space: pre-line;
