@@ -103,6 +103,7 @@ return [
     'Syscode\\Debug\\Util\\System' => SYS_PATH.'classes/Debug/Exceptions/Util/System.php', 
     'Syscode\\Debug\\Util\\TableLabel' => SYS_PATH.'classes/Debug/Exceptions/Util/TableLabel.php',
     'Syscode\\Debug\\Util\\TemplateHandler' => SYS_PATH.'classes/Debug/Exceptions/Util/TemplateHandler.php',
+    'Syscode\\Debug\\Benchmark' => SYS_PATH.'classes/Debug/Benchmark.php',
     'Syscode\\Debug\\ExceptionHandler' => SYS_PATH.'classes/Debug/ExceptionHandler.php',
     'Syscode\\Debug\\GDebug' => SYS_PATH.'classes/Debug/GDebug.php', 
     'Syscode\\Filesystem\\Exceptions\\FileException' => SYS_PATH.'classes/Filesystem/Exceptions/FileException.php',
