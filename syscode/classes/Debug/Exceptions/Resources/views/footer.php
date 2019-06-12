@@ -6,6 +6,7 @@
 			<?= e($brand) ?>
 			<span class="status-code" title="Status Code"><?= $debug->sendHttpCode() ?></span>
 			<span class="php-version" title="php version"><?= phpversion() ?></span>
+			<span class="benchmark" title="Benchmark">{elapsed_time}</span>
 			
 		</div>
 		
