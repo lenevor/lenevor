@@ -99,4 +99,9 @@ class Benchmark
 
         return (float) number_format($timer['end'] - $timer['start'], $decimal);
     }
+
+    public function has(string $name)
+	{
+		return array_key_exists(strtolower($name), $this->timers);
+	}
 }
