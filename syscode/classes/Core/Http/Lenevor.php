@@ -4,12 +4,13 @@ namespace Syscode\Core\Http;
 
 use Closure;
 use Exception;
-use Syscode\Support\Facades\Http;
-use Syscode\Contracts\Core\Application;
 use Syscode\Http\{ 
 	Request, 
 	Response 
 };
+use Syscode\Debug\Benchmark;
+use Syscode\Support\Facades\Http;
+use Syscode\Contracts\Core\Application;
 use Syscode\Contracts\Core\Lenevor as LenevorContract;
 
 /**
@@ -41,6 +42,13 @@ class Lenevor implements LenevorContract
 	 * @var \Syscode\Contracts\Core\Application $app
 	 */
 	protected $app;
+
+	/**
+	 * Benchmark instance.
+	 * 
+	 * @var string $benchmark
+	 */
+	protected $benchmark;
 	
 	/**
 	 * The bootstrap classes for the application.
@@ -74,6 +82,13 @@ class Lenevor implements LenevorContract
 	 * @var bool $response
 	 */
 	protected $response = false;
+
+	/**
+	 * Total app execution time.
+	 * 
+	 * @var float $totalTime
+	 */
+	protected $totalTime;
 
 	/**
 	 * Constructor. Lenevor class instance.
@@ -213,6 +228,9 @@ class Lenevor implements LenevorContract
 	 */
 	public function handle()
 	{
+		// Start the benchmark
+		$this->startBenchmark();
+
 		// Load configuration system
 		$this->bootstrap();
 
@@ -238,9 +256,37 @@ class Lenevor implements LenevorContract
 			);
 
 			$response = new response($dispatch);
+			$response->setContent($this->displayPerformanceMetrics($dispatch));
 		}   
 		   
 		return $response;
+	}
+
+	/**
+	 * Start the benchmark.
+	 * 
+	 * @return void
+	 */
+	protected function startBenchmark()
+	{
+		$this->benchmark = new Benchmark;
+		$this->benchmark->start('total_execution', LENEVOR_START);
+	}
+
+	/**
+	 * Replaces the memory_usage and elapsed_time tags.
+	 * 
+	 * @param  string  $output
+	 * 
+	 * @return string
+	 */
+	public function displayPerformanceMetrics(string $output)
+	{
+		$this->totalTime = $this->benchmark->getElapsedTime('total_execution');
+
+		$output = str_replace('{elapsed_time}', $this->totalTime, $output);
+
+		return $output;
 	}
 	 
  	/**
