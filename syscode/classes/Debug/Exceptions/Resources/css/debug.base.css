@@ -4,6 +4,7 @@
     --second-color: rgb(243, 243, 243);
     --thrid-color: rgb(145, 107, 37);
     --four-color: rgb(0, 150, 177);
+    --five-color: rgb(13, 139, 51);
     --body-color: rgb(27, 27, 27);
     --border-color: rgb(175, 18, 18);
     --frame-color-menu: rgb(46, 135, 172);
@@ -917,12 +918,18 @@ footer {
 }
 
 .info .status-code,
-.info .php-version {
+.info .php-version,
+.info .benchmark {
     cursor: help;
     color: var(--first-color); 
     font-size: 12px; 
     font-weight: 600;
     padding: 9px;
+}
+
+.info .php-version,
+.info .benchmark {
+    border-left: 1px dashed rgb(73, 73, 73);
 }
 
 .info .status-code {
@@ -932,7 +939,12 @@ footer {
 
 .info .php-version {
     background: var(--frame-color-menu);
-    margin-left: -5px;
+    margin-left: -3.5px;
+}
+
+.info .benchmark {
+    background: var(--five-color);
+    margin-left: -4px;
 }
 
 .info .copy {
