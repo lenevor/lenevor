@@ -36,6 +36,13 @@ trait ResponseTrait
     protected $exception;
 
     /**
+     * Gets the protocol Http.
+     * 
+     * @var string $protocol
+     */
+    protected $protocol;
+
+    /**
      * Gets the content of the response.
      * 
      * @return string
