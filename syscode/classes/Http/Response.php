@@ -194,8 +194,8 @@ class Response extends Status
 		}
 		else
 		{
-			$protocol = (string) Http::server('SERVER_PROTOCOL') ?: 'HTTP/1.1';
-			header(sprintf('%s %s %s', $protocol, $this->status, $this->statusText), true, $this->status);
+			$this->protocol = (string) Http::server('SERVER_PROTOCOL') ?: 'HTTP/1.1';
+			header(sprintf('%s %s %s', $this->protocol, $this->status, $this->statusText), true, $this->status);
 		}
 	}
 
@@ -357,10 +357,9 @@ class Response extends Status
 	 */
 	public function __toString()
 	{
-		return 
-			sprintf('%s %s %s', $protocol, $this->status, $this->statusText)."\r\n".
-			$this->getHeader()."\r\n".
-			$this->getContent();
+		return sprintf('%s %s %s', $this->protocol, $this->statusCode, $this->statusText)."\r\n".
+            $this->headers."\r\n".
+            $this->getContent();
 	}
 
 }
