@@ -77,11 +77,11 @@ class Benchmark
      * Returns the duration of a recorded timer.
      * 
      * @param  string  $name
-     * @param  int     $decimal
+     * @param  int     $decimals
      * 
      * @return null|float
      */
-    public function getElapsedTime(string $name, int $decimal = 4)
+    public function getElapsedTime(string $name, int $decimals = 4)
     {
         $name = strtolower($name);
 
@@ -97,9 +97,40 @@ class Benchmark
             $timer['end'] = microtime(true);
         }
 
-        return (float) number_format($timer['end'] - $timer['start'], $decimal);
+        return (float) number_format($timer['end'] - $timer['start'], $decimals);
     }
 
+    /**
+     * Returns the array of timers, with the duration pre-calculated for you.
+     * 
+     * @param  int  $decimals
+     * 
+     * @return array
+     */
+    public function getTimers(int $decimals = 4)
+    {
+        $timers = $this->timers;
+
+        foreach ($timers as $timer)
+        {
+            if (empty($timer['end']))
+            {
+                $timer['end'] = microtime(true);
+            }
+
+            $timer['duration'] = (float) number_format($timer['end'], $timer['start'], $decimals);
+        }
+
+        return $timers;
+    }
+
+    /**
+     * Checks whether or not a timer with the specified name exists.
+     * 
+     * @param  string  $name
+     * 
+     * @return boolean
+     */
     public function has(string $name)
 	{
 		return array_key_exists(strtolower($name), $this->timers);
