@@ -6,7 +6,8 @@ use Throwable;
 use ErrorException;
 use Syscode\Debug\Util\{ 
 	Misc, 
-	System 
+	System,
+	TemplateHandler 
 };
 use InvalidArgumentException;
 use Syscode\Debug\Handlers\MainHandler;
@@ -126,6 +127,10 @@ class GDebug implements DebugContract
 	 */
 	public function handleException(Throwable $exception)
 	{
+		$template = app(TemplateHandler::class);		
+		// The start benchmark
+		$template->startBenchmark();
+
 		$supervisor = $this->getSupervisor($exception);
 
 		// Start buffer
@@ -155,6 +160,9 @@ class GDebug implements DebugContract
 
 		// Returns the contents of the output buffer
 		$buffer = $this->system->CleanOutputBuffer();
+
+		// Returns the contents of the output buffer for loading time of page
+		$buffer = $template->displayPerformanceMetrics($buffer);
 
 		if ($this->writeToOutput())
 		{
