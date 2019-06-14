@@ -974,6 +974,11 @@ footer {
     .info .name {
         padding-right: 30px;
     }
+
+    .info .status-code {
+        background: none;
+        color: rgb(255, 0, 0);  
+    }
 }
 
 /* WIDE */
