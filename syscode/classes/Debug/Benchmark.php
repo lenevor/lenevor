@@ -97,7 +97,9 @@ class Benchmark
             $timer['end'] = microtime(true);
         }
 
-        return (float) number_format($timer['end'] - $timer['start'], $decimals);
+        $operation = $timer['end'] - $timer['start'];
+
+        return (float) number_format($operation, $decimals).$this->formatPeriod($operation);
     }
 
     /**
@@ -118,11 +120,39 @@ class Benchmark
                 $timer['end'] = microtime(true);
             }
 
-            $timer['duration'] = (float) number_format($timer['end'], $timer['start'], $decimals);
+            $operation = $timer['end'] - $timer['start'];
+
+            $timer['duration'] = (float) number_format($operation, $decimals).$this->formatPeriod($operation);
         }
 
         return $timers;
     }
+
+    /**
+     * Returns the converter in words of the loading time.
+     * 
+     * @param  float  $operation
+     * 
+     * @return string
+     */
+    protected function formatPeriod(float $operation) 
+    { 
+        $duration = $operation; 
+        $hours    = (int) ($duration / 60 / 60); 
+        $minutes  = (int) (($duration / 60) - $hours * 60); 
+        $seconds  = (int) ($duration - $hours * 60 * 60 - $minutes * 60); 
+        
+        if ($seconds <= 0)
+        {
+           return ' ms';
+        }
+        elseif ($seconds > 0)
+        {
+            return ' s';
+        }
+
+        return ' m';
+    } 
 
     /**
      * Checks whether or not a timer with the specified name exists.
