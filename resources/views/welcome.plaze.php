@@ -1,4 +1,4 @@
-<?= $this->extend('layouts.app') ?>
+<?= $this->extend('layouts::app') ?>
 
 <?= $this->section('content') ?>
 
@@ -20,7 +20,7 @@
 						If you want to know more about Lenevor and exploring many of its features, I recommend you start by reading the <a href="#">User Guide</a>.
 					</p>
 
-					<?= $this->insert('partials.footer') ?>
+					<?= $this->insert('partials::footer') ?>
 					
 				</div>
 			</div>
