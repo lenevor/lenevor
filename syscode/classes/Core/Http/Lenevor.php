@@ -95,13 +95,15 @@ class Lenevor implements LenevorContract
 	 * 
 	 * @param  \Syscode\Contracts\Core\Application  $app
 	 * @param  \Syscode\Http\Request                $request
+	 * @param  \Syscode\Debug\Benchmark             $benchmark
 	 * 
 	 * @return void
 	 */
-	public function __construct(Application $app, Request $request)
+	public function __construct(Application $app, Request $request, Benchmark $benchmark)
 	{
-		$this->app     = $app;
-		$this->request = $request;
+		$this->app       = $app;
+		$this->request   = $request;
+		$this->benchmark = $benchmark;
 	}
 
 	/**
@@ -269,7 +271,6 @@ class Lenevor implements LenevorContract
 	 */
 	protected function startBenchmark()
 	{
-		$this->benchmark = new Benchmark;
 		$this->benchmark->start('total_execution', LENEVOR_START);
 	}
 
