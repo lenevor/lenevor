@@ -22,7 +22,7 @@
 	</head>
 	<body>
 
-		<?= $this->insert('partials.header') ?>
+		<?= $this->insert('partials::header') ?>
 
 		<?= $this->give('content') ?>
 
