@@ -922,7 +922,7 @@ footer {
 .info .php-version,
 .info .status-code,
 .info .benchmark-time,
-.info .benchmark-memory {
+.info .memory {
     cursor: help;
     color: var(--first-color);
     font-size: 12px; 
@@ -932,7 +932,6 @@ footer {
 }
 
 .info .php-version {
-    color: var(--first-color);
     margin-left: -2px;
 }
 
@@ -944,26 +943,16 @@ footer {
 }
 
 .info .benchmark-time #cronometro,
-.info .benchmark-memory #chipset {
+.info .memory #chipset {
     fill: rgb(170, 170, 170);
-}
-
-.info .benchmark-time #cronometro {
     height: 18px;
-    margin-top: 1px;
-    position: absolute;
-    width: 18px;
-}
-
-.info .benchmark-memory #chipset {
-    height: 18px;
-    margin-top: 1px;
+    margin-top: .3px;
     position: absolute;
     width: 18px;
 }
 
 .info .benchmark-time span,
-.info .benchmark-memory span {
+.info .memory span {
     margin-left: 22px;
 }
 
