@@ -2,6 +2,7 @@
 
 namespace Syscode\Debug\Util;
 
+use Syscode\Debug\Benchmark;
 use Syscode\Debug\FrameHandler\Frame;
 
 /**
@@ -27,6 +28,13 @@ use Syscode\Debug\FrameHandler\Frame;
  */
 class TemplateHandler
 {
+	/**
+	 * Benchmark instance.
+	 * 
+	 * @var string $benchmark
+	 */
+	protected $benchmark;
+
 	/**
 	 * Nesting level of the output buffering mechanism.
 	 *
@@ -55,8 +63,9 @@ class TemplateHandler
 	 */
 	public function __construct()
 	{
-		$this->system   = new System;
-		$this->obLevel  = $this->system->getOutputBufferLevel();
+		$this->system    = new System;
+		$this->benchmark = new Benchmark;
+		$this->obLevel   = $this->system->getOutputBufferLevel();
 	}
 
 	/**
@@ -112,6 +121,22 @@ class TemplateHandler
 		}
 
 		return round($bytes/1048576, 2).'MB';
+	}
+	
+	/**
+	 * Replaces the memory_usage and elapsed_time tags.
+	 * 
+	 * @param  string  $output
+	 * 
+	 * @return string
+	 */
+	public function displayPerformanceMetrics(string $output)
+	{
+		$totalTime = $this->benchmark->getElapsedTime('total_execution');
+
+		$output = str_replace('{elapsed_time}', $totalTime, $output);
+
+		return $output;
 	}
 	
 	/**
@@ -274,6 +299,16 @@ class TemplateHandler
 		$slug = preg_replace('/[^\w\d\-\_]/i',' ', $slug);
 
 		return strtolower($slug);
+	}
+
+	/**
+	 * Start the benchmark.
+	 * 
+	 * @return void
+	 */
+	public function startBenchmark()
+	{
+		$this->benchmark->start('total_execution', LENEVOR_START);
 	}
 
 	/**
