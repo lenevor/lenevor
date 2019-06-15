@@ -2,7 +2,7 @@
 
 namespace Syscode\Routing\Exceptions;
 
-use Syscode\Core\Http\Exceptions\LenevorException;
+use Syscode\Core\Http\Exceptions\NotFoundHttpException;
 
 /**
  * Lenevor Framework
@@ -25,4 +25,4 @@ use Syscode\Core\Http\Exceptions\LenevorException;
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
  */
-class RouteNotFoundException extends LenevorException {}
+class RouteNotFoundException extends NotFoundHttpException {}
