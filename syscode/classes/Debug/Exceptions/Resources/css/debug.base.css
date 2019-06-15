@@ -20,16 +20,6 @@
     --font-size-large: 1.6em;
 }
 
-@font-face {
-    font-family: IcoFont;
-    font-style: Regular;
-    font-weight: 400;
-    src:
-        url(fonts/icofont/icofont.tff) format("ttf"),
-        url(fonts/icofont/icofont.woff2) format("woff2"),
-        url(fonts/icofont/icofont.woff) format("woff")
-}
-
 * {
 	box-sizing: border-box;
 	margin: 0;
@@ -88,31 +78,6 @@ h4 {
 ul, 
 ol {
     font-size: var(--font-size-medium-x);
-}
-
-[class*=" icofont-"],
-[class^=icofont-] {
-    direction: ltr;
-    font-family: IcoFont!important;
-    font-style: normal;
-    font-weight: 300;
-    font-variant: normal;
-    line-height: 1;
-    text-transform: none;
-    white-space: nowrap;
-    word-wrap: normal;
-}
-
-.icofont-print:before {
-    content: "\efc6";
-}
-
-.icofont-file-pdf:before {
-    content: "\eb1e";
-}
-
-.icofont-edit:before {
-    content: "\ef10";
 }
 
 /* ------------------------------------------------------------ 
@@ -1016,14 +981,13 @@ footer {
     width: 44px;
 }
 
-.icon-holder:hover {
+.icon-holder:hover,
+.icon-holder:hover .ico-print,
+.icon-holder:hover .ico-file-pdf,
+.icon-holder:hover .ico-file-edit {
     background: rgb(0, 195, 218);
     border-left: 1px solid rgb(0, 195, 218);
-    color: var(--first-color);
-}
-
-.icon-holder:hover i {
-    color: var(--first-color);
+    fill: var(--first-color);
 }
 
 .icon-holder:hover .tooltip {
@@ -1052,20 +1016,28 @@ footer {
     left: 85%;
 }
 
-.icon-holder i {
+.icon-holder i  {
     font-size: 1.4em;
 }
 
-.icon-holder .icofont-print {
-    color: rgb(114, 112, 100);
+.icon-holder .ico-print {
+    fill: rgb(119, 119, 106);
+    height: 17px;
+    width: 19px;
 }
 
-.icon-holder .icofont-file-pdf {
-    color: rgb(219, 22, 170);
+.icon-holder .ico-file-pdf {
+    fill: rgb(167, 17, 129);
+    height: 17px;
+    width: 17px;
 }
 
-.icon-holder .icofont-edit {
-    color: rgb(12, 136, 219);
+.icon-holder .ico-file-edit {
+    fill: rgb(12, 136, 219);
+    height: 22px;
+    margin-left: 2px;
+    margin-top: -2px;
+    width: 26px;
 }
 
 .icon-holder .tooltip {
