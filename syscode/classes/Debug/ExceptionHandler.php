@@ -295,7 +295,7 @@ EOF;
                 $title = 'Sorry, the page you are looking to could not be found';
                 break;
             default:
-                $title = 'Whoops, there seems to be a problem viewing this page. Please try again later...';
+                $title = 'Whoops, looks like something went wrong';
         }
 
         if ( ! $this->debug)
@@ -320,16 +320,15 @@ EOF;
                 $class   = $this->formatClass($e['class']);
                 $message = nl2br($this->escapeHtml($e['message']));
                 $content .= sprintf(<<<'EOF'
-                    <div class="trace trace-as-html">
-                        <table class="trace-details">
-                            <thead class="trace-head"><tr><th>                   
-                                <h3 class="trace-class">
-                                    <span class="text-muted">(%d/%d)</span>
-                                    <span class="exception-title">%s</span>
-                                </h3>
-                                <p class="break-long-words trace-message">%s</p>
-                            </th></tr></thead>
-                            <tbody>
+                    <div class="trace">
+                        <table>
+                            <tr class="trace-head"><th> 
+                                    <h3 class="trace-class">
+                                        <span class="text-muted">(%d/%d)</span>
+                                        <span class="exception_title">%s</span>
+                                    </h3>
+                                    <p class="break-long-words trace-message">%s</p>
+                            </th></tr>
 EOF
                     , $index, $total, $class, $message);
 
@@ -346,10 +345,11 @@ EOF
                     {
                         $content .= $this->formatPath($trace['file'], $trace['line']);
                     }
+                    
                     $content .= "</td></tr>\n";
                 }
 
-                $content .= '</tbody>\n</table>\n</div>\n';
+                $content .= "</table>\n</div>\n";
             }
         }
         catch (Exception $e)
@@ -370,7 +370,7 @@ EOF
 
         return <<<EOF
             <div class="exception">
-                <div clas="container">
+                <div class="container">
                     <div class="exception-wrapper">
                         <h1 class="break-long-words exception-message">$title</h1>
                     </div>
@@ -389,7 +389,7 @@ EOF;
             return <<<'EOF'
                 body { background-color: #fff; color: #222; font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; margin: 0; }
                 .container { margin: 30px; max-width: 600px; }
-                h1 { color: #dc3545; font-size: 24px; }
+                h1 { color: #dc3545; font-size: 24px; text-shadow: none; }
 EOF;
         }
 
@@ -415,10 +415,10 @@ EOF;
             .container { max-width: 1024px; margin: 0 auto; padding: 0 15px; }
             .container::after { content: ""; display: table; clear: both; }
 
-            .exception-summary { background: #B0413E; border-bottom: 2px solid rgba(0, 0, 0, 0.1); border-top: 1px solid rgba(0, 0, 0, .3); flex: 0 0 auto; margin-bottom: 30px; }
+            .exception { background: #B0413E; border-bottom: 2px solid rgba(0, 0, 0, 0.1); border-top: 1px solid rgba(0, 0, 0, .3); flex: 0 0 auto; margin-bottom: 30px; }
 
             .exception-wrapper { display: flex; align-items: center; min-height: 70px; }
-            .exception-message { flex-grow: 1; padding: 30px 0; }
+            .exception-message { flex-grow: 1; padding: 30px 0; text-shadow: none; }
             .exception-message, .exception-message a { color: #FFF; font-size: 21px; font-weight: 400; margin: 0; }
             .exception-message.long { font-size: 18px; }
             .exception-message a { border-bottom: 1px solid rgba(255, 255, 255, 0.5); font-size: inherit; text-decoration: none; }
@@ -467,15 +467,15 @@ EOF;
      */
     private function formatPath($path, $line)
     {
-        $file = $this->escapeHtml(preg_match('#[^/\\\\]*+S#', $path, $file) ? $file[0] : $path);
+        $file = $this->escapeHtml(preg_match('#[^/\\\\]*+$#', $path, $file) ? $file[0] : $path);
         $frmt = $this->fileLinkFormat ?: ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
 
         if ( ! $frmt)
         {
-            return sprintf('<span class="block trace-file">in <span title="%s%3%s"><b>%s</b>%s</span></span>', 
+            return sprintf('<span class="block trace-file">in <span title="%s%3$s"><strong>%s</strong>%s</span></span>', 
                 $this->escapeHtml($path),
                 $file,
-                $line > 0 ? ' line '.$line : ''
+                0 < $line ? ' line '.$line : ''
             );
         }
 
