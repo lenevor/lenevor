@@ -12,7 +12,7 @@ use Syscode\Core\Http\Exceptions\{
 use Syscode\Debug\ExceptionHandler;
 use Syscode\Http\Exceptions\HttpResponseException;
 use Syscode\Debug\FatalExceptions\FlattenException;
-use Syscode\Routing\Exceptions\RouteNotFoundException;
+use Syscode\Database\Exceptions\ModelNotFoundException;
 use Syscode\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 
 /**
@@ -67,7 +67,7 @@ class Handler implements ExceptionHandlerContract
      */
     protected function prepareException(Exception $e)
     {
-        if ($e instanceof RouteNotFoundException)
+        if ($e instanceof ModelNotFoundException)
         {
             $e = new NotFoundHttpException($e->getMessage(), $e);
         }
