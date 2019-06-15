@@ -1023,9 +1023,9 @@ footer {
 }
 
 .icon-holder .ico-print {
-    fill: rgb(119, 119, 106);
-    height: 17px;
-    width: 19px;
+    fill: rgb(82, 82, 75);
+    height: 19px;
+    width: 17px;
 }
 
 .icon-holder .ico-file-pdf {
@@ -1035,11 +1035,11 @@ footer {
 }
 
 .icon-holder .ico-file-edit {
-    fill: rgb(12, 136, 219);
-    height: 28px;
-    margin-left: 2px;
-    margin-top: -6px;
-    width: 28px;
+    fill: rgb(27, 125, 182);
+    height: 30px;
+    margin-left: -5px;
+    margin-top: -7px;
+    width: 40px;
 }
 
 .icon-holder .tooltip {
