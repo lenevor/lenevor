@@ -981,12 +981,14 @@ footer {
     width: 44px;
 }
 
-.icon-holder:hover,
+.icon-holder:hover {
+    background: rgb(0, 195, 218);
+    border-left: 1px solid rgb(0, 195, 218);
+}
+
 .icon-holder:hover .ico-print,
 .icon-holder:hover .ico-file-pdf,
 .icon-holder:hover .ico-file-edit {
-    background: rgb(0, 195, 218);
-    border-left: 1px solid rgb(0, 195, 218);
     fill: var(--first-color);
 }
 
@@ -1034,10 +1036,10 @@ footer {
 
 .icon-holder .ico-file-edit {
     fill: rgb(12, 136, 219);
-    height: 22px;
+    height: 28px;
     margin-left: 2px;
-    margin-top: -2px;
-    width: 26px;
+    margin-top: -6px;
+    width: 28px;
 }
 
 .icon-holder .tooltip {
