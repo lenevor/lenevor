@@ -78,7 +78,7 @@ return [
     'Syscode\\Database\\Connectors\\PostgresConnector' => SYS_PATH.'classes/Database/Connectors/PostgresConnector.php',
     'Syscode\\Database\\Connectors\\SQLiteConnector' => SYS_PATH.'classes/Database/Connectors/SQLiteConnector.php',
     'Syscode\\Database\\Connectors\\SqlServerConnector' => SYS_PATH.'classes/Database/Connectors/SqlServerConnector.php',
-    'Syscode\\Database\\Exceptions\\DatabaseException' => SYS_PATH.'classes/Database/Exceptions/DatabaseException.php',
+    'Syscode\\Database\\Exceptions\\ModelNotFoundException' => SYS_PATH.'classes/Database/Exceptions/ModelNotFoundException.php',
     'Syscode\\Database\\Holisen\\Builder' => SYS_PATH.'classes/Database/Holisen/Builder.php',
     'Syscode\\Database\\Holisen\\Collection' => SYS_PATH.'classes/Database/Holisen/Collection.php',
     'Syscode\\Database\\Holisen\\Model' => SYS_PATH.'classes/Database/Holisen/Model.php',
