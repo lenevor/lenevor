@@ -1,5 +1,5 @@
 <?php foreach ($frames as $index => $frame) : ?>	
-<div class="code-source clearfix" data-frame=<?= $index ?>>
+<div class="code-source clearfix <?= ($index == 0) ? 'active' : '' ?>" data-frame=<?= $index ?>>
     <div class="title">
         <h4 title="<?= $template->cleanPath($frame->getFile(), $frame->getLine()) ?>"><?= $template->cleanPath($frame->getFile(), $frame->getLine()) ?></h4>
         <div class="iconlist">                

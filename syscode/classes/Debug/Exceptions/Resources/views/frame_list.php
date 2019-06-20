@@ -1,5 +1,5 @@
 <?php foreach ($frames as $index => $frame) : ?>
-<div class="frame frame-application" data-index="<?= $index ?>">
+<div class="frame frame-application <?= ($index == 0) ? 'active' : '' ?>" data-index="<?= $index ?>">
 	
 	<div class="frame-index"><?= (count($frames) - $index - 1) + 1 ?></div>
 		
