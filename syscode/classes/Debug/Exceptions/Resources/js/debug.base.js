@@ -16,11 +16,11 @@
 
     function changeTo(el) 
     {
-        if (previousInfo) previousInfo.style.display = "none";
+        if (previousInfo) previousInfo.classList.remove("active");
 
         previousInfo = el;
 
-        el.style.display = "block";
+        el.classList.add("active");
     }
 
     function selectFrameInfo(index)
@@ -38,18 +38,23 @@
 
     for (var i = 0; i < allFrames.length; i++)
     {
-        (function(i)
+        (function(i, el)
         {
             var el = allFrames[i];
+            
+            allFrames[0].classList.add("active");
+            allFramesCode[0].classList.add("active");
 
             el.addEventListener(evento, (e) =>
             {
                 e.preventDefault();
+
+                allFrames[0].classList.remove("active");
+                allFramesCode[0].classList.remove("active");
                 
                 if (previousFrame)
                 {
-                    previousFrame.classList.remove("active");
-                    el.classList.add("active"); 
+                    previousFrame.classList.remove("active");                    
                 }
                 
                 el.classList.add("active");  
