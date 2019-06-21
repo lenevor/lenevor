@@ -30,12 +30,32 @@ class DebugHandler
     /**
      * Create a new Debug handler for debug mode.
      * 
-     * @return \Syscode\Debug\Handlers\PleasingPageHandler;
+     * @return \Syscode\Debug\Handlers\PleasingPageHandler
      */
     public function initDebug()
     {
-        return take(new PleasingPageHandler, function ($debug) {
-            return $debug;
+        return take(new PleasingPageHandler, function ($handler) {
+
+            $this->registerEditor($handler);
+
+            return $handler;
         });
+    }
+
+    /**
+     * Register the editor with the handler.
+     *
+     * @param  \Syscode\Debug\Handlers\PleasingPageHandler $handler
+     * 
+     * @return $this
+     */
+    protected function registerEditor($handler)
+    {
+        if (config('app.editor', false)) 
+        {
+            $handler->setEditor(config('app.editor'));
+        }
+
+        return $this;
     }
 }
