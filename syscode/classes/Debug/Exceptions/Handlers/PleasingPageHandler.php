@@ -11,6 +11,8 @@ use Syscode\Debug\Util\{
 	Misc, 
 	TemplateHandler 
 };
+use InvalidArgumentException;
+use UnexpectedValueException;
 use Syscode\Contracts\Debug\Table;
 
 /**
@@ -41,14 +43,36 @@ class PleasingPageHandler extends MainHandler
 	 * 
 	 * @var string $brand
 	 */
-	public $brand = 'Lenevor Debug';
+	protected $brand = 'Lenevor Debug';
+
+	/**
+	 * A string identifier for a known IDE/text editor, or a closure
+     * that resolves a string that can be used to open a given file
+     * in an editor.
+	 * 
+	 * @var mixed $editor
+	 */
+	protected $editor;
+
+	/**
+	 * A list of known editor strings.
+	 * 
+	 * @var array $editors
+	 */
+	protected $editors = [
+		"vscode"   => "vscode://file/%file:%line",
+		"sublime"  => "subl://open?url=file://%file&line=%line",
+		"phpstorm" => "phpstorm://open?file://%file&line=%line",
+		"textmate" => "txmt://open?url=file://%file&line=%line",
+		"atom"     => "atom://core/open/file?filename=%file&line=%line",
+	];
 	
 	/**
 	 * The page title main of handler.
 	 * 
 	 * @var string $pageTitle
 	 */
-	public $pageTitle = 'Lenevor Debug! There was an error.';
+	protected $pageTitle = 'Lenevor Debug! There was an error.';
 	
 	/**
 	 * Fast lookup cache for known resource locations.
@@ -90,6 +114,20 @@ class PleasingPageHandler extends MainHandler
 	}
 
 	/**
+	 * Adds an editor resolver, identified by a string name, and that may be a 
+	 * string path, or a callable resolver.
+	 * 
+	 * @param  string            $identifier
+	 * @param  string|\Callable  $resolver
+	 * 
+	 * @return void
+	 */
+	public function addEditor($identifier, $resolver)
+	{
+		$this->editors[$identifier] = $resolver;
+	}
+
+	/**
 	 * Adds an entry to the list of tables displayed in the template.
 	 * The expected data is a simple associative array. Any nested arrays
      * will be flattened with print_r.
@@ -116,10 +154,8 @@ class PleasingPageHandler extends MainHandler
 		$jscript = file_get_contents($this->getResource('js/debug.base.js'));
 		$tables  = array_merge($this->getDefaultTables(), $this->tables);
 		
-		return [
-			'brand'             => $this->getBrand(),
+		return [ 
 			'class'             => explode('\\', getClass($exception)),
-			'title'             => $this->getPageTitle(),
 			'stylesheet'        => preg_replace('#[\r\n\t ]+#', ' ', $style),
 			'javascript'        => preg_replace('#[\r\n\t ]+#', ' ', $jscript),
 			'header'            => $this->getResource('views/header.php'),
@@ -130,6 +166,7 @@ class PleasingPageHandler extends MainHandler
 			'code_source'       => $this->getResource('views/code_source.php'),
 			'details_content'   => $this->getResource('views/details_content.php'),
 			'footer'            => $this->getResource('views/footer.php'),
+			'handler'           => $this,
 			'handlers'          => $this->getDebug()->getHandlers(),
 			'debug'             => $this->getDebug(),
 			'code'              => $this->getExceptionCode(),
@@ -151,13 +188,13 @@ class PleasingPageHandler extends MainHandler
 	{
 		return 'text/html;charset=UTF-8';
 	}
-	
+
 	/**
 	 * Gets the brand of project.
 	 * 
 	 * @return string
 	 */
-	protected function getBrand()
+	public function getBrand()
 	{
 		return $this->brand;
 	}
@@ -215,7 +252,7 @@ class PleasingPageHandler extends MainHandler
 	 * 
 	 * @return string
 	 */
-	protected function getPageTitle()
+	public function getPageTitle()
 	{
 		return $this->pageTitle;
 	}
@@ -311,6 +348,119 @@ class PleasingPageHandler extends MainHandler
 		$this->template->render($templatePath);
 		
 		return MainHandler::QUIT;
+	}
+
+	/**
+	 * Set the editor to use to open referenced files, by a string identifier or callable
+	 * that will be executed for every file reference. Should return a string.
+	 * 
+	 * @example  $debug->setEditor(function($file, $line) { return "file:///{$file}"; });
+	 * @example  $debug->setEditor('vscode');
+	 * 
+	 * @param  string  $editor
+	 * 
+	 * @return void
+	 * 
+	 * @throws \InvalidArgumentException
+	 */
+	public function setEditor($editor)
+	{
+		if ( ! is_callable($editor) && ! isset($this->editors[$editor]))
+		{
+			throw new InvalidArgumentException("Unknown editor identifier: [{$editor}]. Known editors: " .
+				implode(', ', array_keys($this->editors))
+			);
+		}
+
+		$this->editor = $editor;
+	}
+
+	/**
+	 * Given a string file path, and an integer file line,
+     * executes the editor resolver and returns.
+	 * 
+	 * @param  string  $file
+	 * @param  int	   $line
+	 * 
+	 * @return string|bool
+	 * 
+	 * @throws \UnexpectedValueException
+	 */
+	public function getEditorAtHref($file, $line)
+	{
+		$editor = $this->getEditor($file, $line);
+
+		if (empty($editor))
+		{
+			return false;
+		}
+
+		if ( ! isset($editor['url']) || ! is_string($editor['url']))
+		{
+			throw new UnexpectedValueException(__METHOD__.'should always resolve to a string or a valid editor array');
+		}
+
+		$editor['url'] = str_replace("%file", rawurldecode($file), $editor['url']);
+		$editor['url'] = str_replace("%line", rawurldecode($line), $editor['url']);
+
+		return $editor['url'];
+	}
+
+	/**
+	 * The editor must be a valid callable function/closure.
+	 * 
+	 * @param  string  $file
+	 * @param  int	   $line
+	 * 
+	 * @return array
+	 */
+	protected function getEditor($file, $line)
+	{
+		if ( ! $this->editor || ( ! is_string($this->editor) && ! is_callable($this->editor))) 
+		{
+            return [];
+        }
+
+		if (is_string($this->editor) && isset($this->editors[$this->editor]) && ! is_callable($this->editors[$this->editor])) 
+		{
+            return ['url' => $this->editors[$this->editor]];
+        }
+
+		if (is_callable($this->editor) || (isset($this->editors[$this->editor]) && is_callable($this->editors[$this->editor]))) 
+		{
+			if (is_callable($this->editor)) 
+			{
+                $callback = call_user_func($this->editor, $filePath, $line);
+			} 
+			else 
+			{
+                $callback = call_user_func($this->editors[$this->editor], $filePath, $line);
+            }
+
+			if (empty($callback)) 
+			{
+                return [];
+            }
+
+			if (is_string($callback)) 
+			{
+                return ['url' => $callback];
+            }
+
+            return ['url' => isset($callback['url']) ? $callback['url'] : $callback];
+        }
+
+        return [];
+	}
+
+	/**
+	 * Registered the editor.
+	 * 
+	 * @return string
+	 */
+	public function getEditorcode()
+	{
+		return $this->editor;
 	}
 	
 	/**
