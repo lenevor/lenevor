@@ -46,30 +46,6 @@ class GDebug implements DebugContract
 	protected $handlerStack = [];
 
 	/**
-	 * The levels of error.
-	 *
-	 * @var array $levels
-	 */
-	protected $levels = [
-		0                   => 'Error',
-		E_ERROR             => 'Fatal Error',
-		E_WARNING           => 'Warning',
-		E_PARSE             => 'Parsing Error',
-		E_NOTICE            => 'Notice',
-		E_CORE_ERROR        => 'Core Error',
-		E_CORE_WARNING      => 'Core Warning',
-		E_COMPILE_ERROR     => 'Compile Error',
-		E_COMPILE_WARNING   => 'Compile Warning',
-		E_USER_ERROR        => 'User Error',
-		E_USER_WARNING      => 'User Warning',
-		E_USER_NOTICE       => 'User Notice',
-		E_STRICT            => 'Runtime Notice',
-		E_RECOVERABLE_ERROR => 'Runtime Recoverable error',
-		E_DEPRECATED        => 'Runtime Deprecated code usage',
-		E_USER_DEPRECATED   => 'User Deprecated code usage'		
-	];
-
-	/**
 	 * Allow Handlers to force the script to quit.
 	 * 
 	 * @var bool $allowQuit
@@ -98,6 +74,13 @@ class GDebug implements DebugContract
 	protected $system;
 
 	/**
+	 * The template handler system.
+	 * 
+	 * @var string $template
+	 */
+	protected $template;
+
+	/**
 	 * In certain scenarios, like in shutdown handler, we can not throw exceptions.
 	 * 
 	 * @var bool $throwExceptions
@@ -113,7 +96,8 @@ class GDebug implements DebugContract
 	 */
 	public function __construct(System $system = null)
 	{
-		$this->system = $system ?: new System;
+		$this->system   = $system ?: new System;
+		$this->template = new TemplateHandler;
 	}
 
 	/**
@@ -126,10 +110,9 @@ class GDebug implements DebugContract
 	 * @return string
 	 */
 	public function handleException(Throwable $exception)
-	{
-		$template = app(TemplateHandler::class);		
+	{	
 		// The start benchmark
-		$template->startBenchmark();
+		$this->template->startBenchmark();
 
 		$supervisor = $this->getSupervisor($exception);
 
@@ -162,7 +145,7 @@ class GDebug implements DebugContract
 		$buffer = $this->system->CleanOutputBuffer();
 
 		// Returns the contents of the output buffer for loading time of page
-		$buffer = $template->displayPerformanceMetrics($buffer);
+		$buffer = $this->template->displayPerformanceMetrics($buffer);
 
 		if ($this->writeToOutput())
 		{
