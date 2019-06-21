@@ -3,7 +3,7 @@
 	<div class="info">
 
 		<div class="name">
-			<?= e($brand) ?>
+			<?= e($handler->getBrand()) ?>
 			<span class="php-version" title="Lenevor version"><?= \Syscode\Version::RELEASE.'-'.\Syscode\Version::STATUS ?></span>
 			<span class="status-code" title="Status Code"><?= $debug->sendHttpCode() ?></span>
 			<span class="benchmark-time" title="Benchmark: Loading time">
