@@ -7,7 +7,7 @@
 		
 		<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1">
 
-		<title><?= e($title) ?></title>   
+		<title><?= e($handler->getPageTitle()) ?></title>   
 		
 		<link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
 		
