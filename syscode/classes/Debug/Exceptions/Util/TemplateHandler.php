@@ -41,6 +41,13 @@ class TemplateHandler
 	 * @var string $obLevel
 	 */
 	public $obLevel;
+
+	/**
+	 * The application root path.
+	 * 
+	 * @var string $applicationRootPath
+	 */
+	protected $applicationRootPath;
 	
 	/**
 	 * The functions of system what control errors and exceptions.
@@ -66,6 +73,7 @@ class TemplateHandler
 		$this->system    = new System;
 		$this->benchmark = new Benchmark;
 		$this->obLevel   = $this->system->getOutputBufferLevel();
+		$this->applicationRootPath = dirname(dirname(dirname(dirname(dirname(dirname(__DIR__))))));
 	}
 
 	/**
@@ -97,6 +105,10 @@ class TemplateHandler
 		{
 			$file = 'RES_PATH'.DIRECTORY_SEPARATOR.substr($file, strlen(RES_PATH));
 		}
+		elseif ($this->applicationRootPath != "/")
+		{
+			$file = str_replace($this->applicationRootPath, '&hellip;', $file);
+		}
 
 		return $file;
 	}
@@ -121,22 +133,6 @@ class TemplateHandler
 		}
 
 		return round($bytes/1048576, 2).'MB';
-	}
-	
-	/**
-	 * Replaces the memory_usage and elapsed_time tags.
-	 * 
-	 * @param  string  $output
-	 * 
-	 * @return string
-	 */
-	public function displayPerformanceMetrics(string $output)
-	{
-		$totalTime = $this->benchmark->getElapsedTime('total_execution');
-
-		$output = str_replace('{elapsed_time}', $totalTime, $output);
-
-		return $output;
 	}
 	
 	/**
@@ -302,16 +298,6 @@ class TemplateHandler
 	}
 
 	/**
-	 * Start the benchmark.
-	 * 
-	 * @return void
-	 */
-	public function startBenchmark()
-	{
-		$this->benchmark->start('total_execution', LENEVOR_START);
-	}
-
-	/**
 	 * Given an exception and status code will display the error to the client.
 	 *
 	 * @param  string  $template
@@ -334,5 +320,32 @@ class TemplateHandler
 			extract(func_get_arg(1));
 			include func_get_arg(0);
 		}, $template, $vars);
+	}
+	
+	/**
+	 * Escapes a string for output in an HTML document.
+	 * 
+	 * @param  string  $text
+	 * 
+	 * @return string
+	 */
+	public function escape($text)
+	{
+		$flags = ENT_QUOTES;
+		
+		// HHVM has all constants defined, but only ENT_IGNORE
+		// works at the moment
+		if (defined("ENT_SUBSTITUTE") && ! defined("HHVM_VERSION"))
+		{
+			$flags |= ENT_SUBSTITUTE;
+		}
+		else
+		{
+			$flags |= ENT_IGNORE;
+		}
+		
+		$text = str_replace(chr(9), '    ', $text);
+		
+		return htmlspecialchars($text, $flags, "UTF-8");
 	}
 }
