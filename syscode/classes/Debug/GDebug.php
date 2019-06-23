@@ -9,6 +9,7 @@ use Syscode\Debug\Util\{
 	System,
 	TemplateHandler 
 };
+use Syscode\Debug\Benchmark;
 use InvalidArgumentException;
 use Syscode\Debug\Handlers\MainHandler;
 use Syscode\Debug\FrameHandler\Supervisor;
@@ -74,11 +75,11 @@ class GDebug implements DebugContract
 	protected $system;
 
 	/**
-	 * The template handler system.
+	 * Benchmark instance.
 	 * 
-	 * @var string $template
+	 * @var string $benchmark
 	 */
-	protected $template;
+	protected $benchmark;
 
 	/**
 	 * In certain scenarios, like in shutdown handler, we can not throw exceptions.
@@ -97,7 +98,7 @@ class GDebug implements DebugContract
 	public function __construct(System $system = null)
 	{
 		$this->system   = $system ?: new System;
-		$this->template = new TemplateHandler;
+		$this->benchmark = new Benchmark;
 	}
 
 	/**
@@ -112,7 +113,7 @@ class GDebug implements DebugContract
 	public function handleException(Throwable $exception)
 	{	
 		// The start benchmark
-		$this->template->startBenchmark();
+		$this->benchmark->start('total_execution', LENEVOR_START);
 
 		$supervisor = $this->getSupervisor($exception);
 
@@ -145,7 +146,8 @@ class GDebug implements DebugContract
 		$buffer = $this->system->CleanOutputBuffer();
 
 		// Returns the contents of the output buffer for loading time of page
-		$buffer = $this->template->displayPerformanceMetrics($buffer);
+		$totalTime = $this->benchmark->getElapsedTime('total_execution');
+		$buffer    = str_replace('{elapsed_time}', $totalTime, $buffer);
 
 		if ($this->writeToOutput())
 		{
