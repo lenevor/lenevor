@@ -199,6 +199,10 @@ header:hover h2 {
     width: 70%;
 }
 
+.plain-exception {
+    display: none;
+}
+
 /* ------------------------------------------------------------ 
  * LAYOUT
  * -----------------------------------------------------------*/
@@ -1096,7 +1100,27 @@ footer {
 /* PRINT */
 @media print {
     header {
+        box-shadow: none;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .exception-title, 
+    .exception-message {
         display: none;
+    }
+
+    .plain-exception {
+        border: 0;
+        color: #000000;
+        display: block;  
+    }
+
+    .plain-exception pre {
+        font-family: "Helvetica Neue", helvetica, lucida grande, sans-serif;
+        font-size: 14px;
+        font-weight: 400; 
+        word-break: break-word;      
     }
 
     .sidebar {
@@ -1109,11 +1133,15 @@ footer {
         visibility: hidden;
     }
 
+    .details-description {
+        margin-top: -10px;
+    }
+
     footer {
         display: none;
     }
 
     @page {
-        margin: .5in;
+        margin: .4in;
     }
 }
