@@ -32,7 +32,7 @@ class Formatter
      * 
      * @return array
      */
-    public static function formatExceptionAsDataArray($supervisor)
+    public static function formatExceptionAsDataArray(Supervisor $supervisor)
     {
         $exception = $supervisor->getException();
 
@@ -53,5 +53,39 @@ class Formatter
         }
 
         return $response;
+    }
+
+    /**
+     * Returns all basic information about the exception in a plain text.
+     * 
+     * @param  \Syscode\Debug\Engine\Supervisor  $supervisor
+     * 
+     * @return string
+     */
+    public static function formatExceptionAsPlainText(Supervisor $supervisor)
+    {
+        $message = $supervisor->getException()->getMessage();
+        $frames  = $supervisor->getFrames();
+
+        $plainText  = $supervisor->getExceptionName();
+        $plainText .= ' thrown with message ';
+        $plainText .= $message;
+        $plainText .= '"'."\n\n";
+
+        $plainText .= "Stacktrace:\n";
+
+        foreach ($frames as $i => $frame)
+        {
+            $plainText .= "#".(count($frames) - $i - 1)." ";
+            $plainText .= $frame->getClass() ?: '';
+            $plainText .= $frame->getClass() && $frame->getFunction() ? ":" : '';
+            $plainText .= $frame->getFunction() ?: '';
+            $plainText .= ' in ';
+            $plainText .= $frame->getFile() ?: "<#unknown>";
+            $plainText .= ' : ';
+            $plainText .= (int) $frame->getLine()."\n";
+        }
+
+        return $plainText;
     }
 }
