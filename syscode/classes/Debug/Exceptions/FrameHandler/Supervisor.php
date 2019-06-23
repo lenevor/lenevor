@@ -134,6 +134,16 @@ class Supervisor
 	{
 		return $this->exception;
 	}
+
+	/**
+	 * Gets the class name of exception.
+	 * 
+	 * @return string
+	 */
+	public function getExceptionName()
+	{
+		return get_class($this->exception);
+	}
 	
 	/**
 	 * Gets the backtrace from an exception.
