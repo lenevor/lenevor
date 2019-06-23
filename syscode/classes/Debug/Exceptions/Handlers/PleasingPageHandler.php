@@ -14,6 +14,7 @@ use Syscode\Debug\Util\{
 use InvalidArgumentException;
 use UnexpectedValueException;
 use Syscode\Contracts\Debug\Table;
+use Syscode\Debug\FrameHandler\Formatter;
 
 /**
  * Lenevor Framework
@@ -166,6 +167,7 @@ class PleasingPageHandler extends MainHandler
 			'code_source'       => $this->getResource('views/code_source.php'),
 			'details_content'   => $this->getResource('views/details_content.php'),
 			'footer'            => $this->getResource('views/footer.php'),
+			'plain_exception'   => Formatter::formatExceptionAsPlainText($this->getSupervisor()),
 			'handler'           => $this,
 			'handlers'          => $this->getDebug()->getHandlers(),
 			'debug'             => $this->getDebug(),
