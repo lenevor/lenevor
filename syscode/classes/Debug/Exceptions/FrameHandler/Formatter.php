@@ -2,6 +2,8 @@
 
 namespace Syscode\Debug\FrameHandler;
 
+use Syscode\Debug\Util\TemplateHandler;
+
 /**
  * Lenevor Framework
  *
@@ -64,8 +66,9 @@ class Formatter
      */
     public static function formatExceptionAsPlainText(Supervisor $supervisor)
     {
-        $message = $supervisor->getException()->getMessage();
-        $frames  = $supervisor->getFrames();
+        $message  = $supervisor->getException()->getMessage();
+        $frames   = $supervisor->getFrames();
+        $template = new TemplateHandler;
 
         $plainText  = $supervisor->getExceptionName();
         $plainText .= ' thrown with message ';
@@ -81,7 +84,7 @@ class Formatter
             $plainText .= $frame->getClass() && $frame->getFunction() ? ":" : '';
             $plainText .= $frame->getFunction() ?: '';
             $plainText .= ' in ';
-            $plainText .= $frame->getFile() ?: "<#unknown>";
+            $plainText .= $template->cleanPath($frame->getFile()) ?: "<#unknown>";
             $plainText .= ' : ';
             $plainText .= (int) $frame->getLine()."\n";
         }
