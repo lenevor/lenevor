@@ -390,6 +390,7 @@ header:hover h2 {
 
 .frame-file {
     color: rgb(170, 170, 180);
+    font-family: "Inconsolata", "Fira Mono", "Source Code Pro", Monaco, Consolas, "Lucida Console", monospace;
     font-size: var(--font-size-small-x);
 }
 
@@ -399,6 +400,7 @@ header:hover h2 {
 
 .frame-line:before {
     content: ":";
+    margin-left: -3px;
     margin-right: 3px;
 }
 
@@ -537,8 +539,9 @@ header:hover h2 {
 }
 
 .title h4 {
-    color: rgb(86, 107, 121);
-    font-size: var(--font-size-initial);
+    color: rgb(105, 102, 102);
+    font-family: "Inconsolata", "Fira Mono", "Source Code Pro", Monaco, Consolas, "Lucida Console", monospace;
+    font-size: var(--font-size-small-x);
     font-weight: 600;
     min-height: 12px;
     line-height: 12px;
@@ -556,14 +559,16 @@ header:hover h2 {
 }
 
 .source {
-    background: rgb(46, 46, 46);
+    background: rgb(54, 52, 52);
     border-top: 0;
     border-radius: 5px;
-    box-shadow: 0 3px 0 rgba(0, 0, 0, .05),
-                0 10px 30px rgba(0, 0, 0, .05),
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .02),
+                0 0 2px rgba(0, 0, 0, .3),
                 inset 0 0 1px 0 rgba(255, 255, 255, .07);
     color: rgb(138, 135, 135);
     margin-top: 35px;
+    padding-bottom: 10px;
+    padding-top: 10px;
     text-shadow: none;
 }
 
@@ -584,12 +589,12 @@ code,
 }
 
 .source span.line .number {
-    color: rgb(119, 119, 119);
+    color: rgb(172, 167, 167);
     display: inline-table;
 }
 
 .source .line .highlight {
-    background: rgba(245, 153, 153, 0.2);
+    background: rgba(184, 69, 69, 0.3);
     color: var(--first-color);
     display: block; 
     padding-left: 20px;
@@ -604,7 +609,7 @@ code,
 }
 
 .source span.highlight .number {
-    color: var(--first-color);
+    color: var(--third-color);
     margin-left: 0;
     padding-top: 0;
 }
@@ -623,7 +628,7 @@ code {
 /* FRAME OF ARGUMENTS */
 .code-source .frame-file {
     border-bottom: none;
-    color: rgb(141, 140, 140);
+    color: var(--code-color-highlight);
     margin-left: 0;
     margin-top: 10px;
     text-shadow: none;
@@ -631,7 +636,7 @@ code {
 
 .code-block {
     border-radius: 5px;
-    box-shadow: 0 3px 0 rgba(0, 0, 0, .05), 0 10px 30px rgba(0, 0, 0, .05), inset 0 0 1px 0 rgba(255, 255, 255, .07);
+    box-shadow: 0 0 2px rgba(0, 0, 0, .3), 0 10px 30px rgba(0, 0, 0, .05), inset 0 0 1px 0 rgba(255, 255, 255, .07);
     margin: 0;
     padding: 6px 0 12px;
     -moz-tab-size: 4;
@@ -641,20 +646,20 @@ code {
 }
 
 .frame-args.code-block {
-    background: rgb(46, 46, 46);
+    background: rgb(54, 52, 52);
 }
 
 .linenums {
     counter-reset: item;
     list-style: none;
     margin: 0;
-    margin-left: 28px;
-    margin-right: 28px;
+    margin-left: 50px;
+    margin-right: 35px;
     margin-top: 5px;
 }
 
 .linenums li {
-    color: rgb(188, 212, 42);
+    color: rgb(184, 209, 24);
     font-family: monospace;
     font-size: var(--font-size-small);
     font-weight: 400;
@@ -662,12 +667,13 @@ code {
 
 .linenums li:before {
     display: inline-block;
-    content: counter(item) ".  ";
+    content: counter(item) ". ";
     counter-increment: item;
-    color: rgb(145, 145, 145);
+    color: rgb(172, 167, 167);
     font: bold var(--font-size-small);
-    margin-left: -5px;
-    margin-right: 5px;
+    margin-left: -28px;
+    margin-right: 4px;
+    padding-left: 10px;
 }
 
 /* ------------------------------------------------------------ 
@@ -1113,14 +1119,13 @@ footer {
     .plain-exception {
         border: 0;
         color: #000000;
-        display: block;  
+        display: block; 
     }
 
     .plain-exception pre {
         font-family: "Helvetica Neue", helvetica, lucida grande, sans-serif;
         font-size: 14px;
         font-weight: 400; 
-        word-break: break-word;      
     }
 
     .sidebar {
@@ -1142,6 +1147,6 @@ footer {
     }
 
     @page {
-        margin: .4in;
+        margin: .25in;
     }
 }
