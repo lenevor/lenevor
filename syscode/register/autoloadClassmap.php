@@ -22,7 +22,6 @@ return [
     'Syscode\\Cache\\Utils\\FileCacheRegister' => SYS_PATH.'classes/Cache/Utils/FileCacheRegister.php', 
     'Syscode\\Cache\\CacheManager' => SYS_PATH.'classes/Cache/CacheManager.php',
     'Syscode\\Cache\\CacheServiceProvider' => SYS_PATH.'classes/Cache/CacheServiceProvider.php',
-    'Syscode\\Cache\\Factory' => SYS_PATH.'classes/Cache/CacheFactory.php', 
     'Syscode\\Config\\Configure' => SYS_PATH.'classes/Config/Configure.php', 
     'Syscode\\Config\\ParserEnv' => SYS_PATH.'classes/Config/ParserEnv.php', 
     'Syscode\\Console\\Application' => SYS_PATH.'classes/Console/Application.php',
