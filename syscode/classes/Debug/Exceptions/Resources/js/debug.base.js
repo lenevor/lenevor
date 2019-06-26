@@ -41,9 +41,6 @@
         (function(i, el)
         {
             var el = allFrames[i];
-            
-            allFrames[0].classList.add("active");
-            allFramesCode[0].classList.add("active");
 
             el.addEventListener(evento, (e) =>
             {
