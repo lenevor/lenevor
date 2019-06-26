@@ -29,6 +29,13 @@ use Syscode\Debug\FrameHandler\Frame;
 class TemplateHandler
 {
 	/**
+	 * The application root path.
+	 * 
+	 * @var string $applicationRootPath
+	 */
+	protected $applicationRootPath;
+
+	/**
 	 * Benchmark instance.
 	 * 
 	 * @var string $benchmark
@@ -41,13 +48,6 @@ class TemplateHandler
 	 * @var string $obLevel
 	 */
 	public $obLevel;
-
-	/**
-	 * The application root path.
-	 * 
-	 * @var string $applicationRootPath
-	 */
-	protected $applicationRootPath;
 	
 	/**
 	 * The functions of system what control errors and exceptions.
@@ -70,9 +70,9 @@ class TemplateHandler
 	 */
 	public function __construct()
 	{
-		$this->system    = new System;
-		$this->benchmark = new Benchmark;
-		$this->obLevel   = $this->system->getOutputBufferLevel();
+		$this->system              = new System;
+		$this->benchmark           = new Benchmark;
+		$this->obLevel             = $this->system->getOutputBufferLevel();
 		$this->applicationRootPath = dirname(dirname(dirname(dirname(dirname(dirname(__DIR__))))));
 	}
 
@@ -107,7 +107,7 @@ class TemplateHandler
 		}
 		elseif ($this->applicationRootPath != "/")
 		{
-			$file = str_replace($this->applicationRootPath, '&hellip;', $file);
+			$file = str_replace($this->applicationRootPath, '...', $file);
 		}
 
 		return $file;
@@ -165,13 +165,40 @@ class TemplateHandler
 			
 			foreach ($frame->getArgs() as $j => $frameArg)
 			{
-				$html .= '<li>'. $this->dump($frameArg) .'</li>';
+				$html .= '<li>'.ucfirst($this->dump($frameArg)).'</li>';
 			}
 			
 			$html .= '</ol>';
 		}
 		
 		return $html;
+	}
+
+	/**
+	 * Escapes a string for output in an HTML document.
+	 * 
+	 * @param  string  $text
+	 * 
+	 * @return string
+	 */
+	public function escape($text)
+	{
+		$flags = ENT_QUOTES;
+		
+		// HHVM has all constants defined, but only ENT_IGNORE
+		// works at the moment
+		if (defined("ENT_SUBSTITUTE") && ! defined("HHVM_VERSION"))
+		{
+			$flags |= ENT_SUBSTITUTE;
+		}
+		else
+		{
+			$flags |= ENT_IGNORE;
+		}
+		
+		$text = str_replace(chr(9), '    ', $text);
+		
+		return htmlspecialchars($text, $flags, "UTF-8");
 	}
 
 	/**
@@ -205,11 +232,11 @@ class TemplateHandler
 		// Set our highlight colors:
 		if (function_exists('ini_set'))
 		{
-			ini_set('highlight.comment', '#888888');
-			ini_set('highlight.default', '#CBD6D5');
+			ini_set('highlight.comment', '#919090');
+			ini_set('highlight.default', '#4BB1B1');
 			ini_set('highlight.html', '#06B');
-			ini_set('highlight.keyword', '#E5C74E;');
-			ini_set('highlight.string', '#41A7D3');
+			ini_set('highlight.keyword', '#F3F1EF;');
+			ini_set('highlight.string', '#BCD42A');
 		}
 
 		try
@@ -320,32 +347,5 @@ class TemplateHandler
 			extract(func_get_arg(1));
 			include func_get_arg(0);
 		}, $template, $vars);
-	}
-	
-	/**
-	 * Escapes a string for output in an HTML document.
-	 * 
-	 * @param  string  $text
-	 * 
-	 * @return string
-	 */
-	public function escape($text)
-	{
-		$flags = ENT_QUOTES;
-		
-		// HHVM has all constants defined, but only ENT_IGNORE
-		// works at the moment
-		if (defined("ENT_SUBSTITUTE") && ! defined("HHVM_VERSION"))
-		{
-			$flags |= ENT_SUBSTITUTE;
-		}
-		else
-		{
-			$flags |= ENT_IGNORE;
-		}
-		
-		$text = str_replace(chr(9), '    ', $text);
-		
-		return htmlspecialchars($text, $flags, "UTF-8");
 	}
 }
