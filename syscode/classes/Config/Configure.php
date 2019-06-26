@@ -1,10 +1,5 @@
 <?php 
 
-namespace Syscode\Config;
-
-use Syscode\Support\Arr;
-use Syscode\Contracts\Config\Configure as ConfigureContract;
-
 /**
  * Lenevor Framework
  *
@@ -25,6 +20,20 @@ use Syscode\Contracts\Config\Configure as ConfigureContract;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Config;
+
+use Syscode\Support\Arr;
+use Syscode\Contracts\Config\Configure as ConfigureContract;
+
+/**
+ * Class Configure
+ * 
+ * Not intended to be used on its own, this class will attempt to
+ * automatically populate the child class' properties with values.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Configure implements ConfigureContract
 {

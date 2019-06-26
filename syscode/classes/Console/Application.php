@@ -1,11 +1,5 @@
 <?php
 
-namespace Syscode\Console;
-
-use Syscode\Version;
-use Syscode\Contracts\Core\Lenevor;
-use Syscode\Contracts\Console\Application as ApplicationContracts;
-
 /**
  * Lenevor Framework
  *
@@ -26,6 +20,18 @@ use Syscode\Contracts\Console\Application as ApplicationContracts;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Console;
+
+use Syscode\Version;
+use Syscode\Contracts\Core\Lenevor;
+use Syscode\Contracts\Console\Application as ApplicationContracts;
+
+/**
+ * Console application.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Application implements ApplicationContracts
 {

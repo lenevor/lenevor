@@ -1,24 +1,5 @@
 <?php 
 
-namespace Syscode\Container;
-
-use Closure;
-use ArrayAccess;
-use ReflectionClass;
-use ReflectionParameter;
-use Syscode\Container\Exceptions\{ 
-    ContainerException, 
-    UnknownIdentifierException 
-};
-use Syscode\Contracts\Container\{ 
-    NotFoundException, 
-    Container as ContainerContract 
-};
-use Syscode\Contracts\Container\{ 
-    BindingResolutionException, 
-    ExpectedInvokableException 
-};
-
 /**
  * Lenevor Framework
  *
@@ -39,6 +20,33 @@ use Syscode\Contracts\Container\{
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Container;
+
+use Closure;
+use ArrayAccess;
+use ReflectionClass;
+use ReflectionParameter;
+use Syscode\Contracts\Container\{ 
+    BindingResolutionException, 
+    ExpectedInvokableException 
+};
+use Syscode\Container\Exceptions\{ 
+    ContainerException, 
+    UnknownIdentifierException 
+};
+use Syscode\Contracts\Container\{ 
+    NotFoundException, 
+    Container as ContainerContract 
+};
+
+/**
+ * Class responsible of registering the bindings, instances and 
+ * dependencies of classes when are contained for to be executes 
+ * in the services providers.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Container implements ArrayAccess, ContainerContract
 {

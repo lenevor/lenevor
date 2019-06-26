@@ -1,12 +1,5 @@
 <?php
 
-namespace Syscode\Console;
-
-use Exception;
-use Syscode\Support\Arr;
-use Syscode\Contracts\Core\Lenevor;
-use Syscode\Core\Exceptions\LenevorException;
-
 /**
  * Lenevor Framework
  *
@@ -27,6 +20,19 @@ use Syscode\Core\Exceptions\LenevorException;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Console;
+
+use Exception;
+use Syscode\Support\Arr;
+use Syscode\Contracts\Core\Lenevor;
+use Syscode\Core\Exceptions\LenevorException;
+
+/**
+ * Set of static methods useful for CLI request handling.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Cli
 {

@@ -1,15 +1,4 @@
-<?php 
-
-namespace Syscode\Core\Bootstrap;
-
-use Exception;
-use ErrorException;
-use Syscode\Debug\FatalExceptions\{
-    FatalErrorException,
-    FatalThrowableError
-};
-use Syscode\Contracts\Core\Application;
-use Syscode\Contracts\Debug\ExceptionHandler;
+<?php
 
 /**
  * Lenevor Framework
@@ -31,6 +20,24 @@ use Syscode\Contracts\Debug\ExceptionHandler;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Core\Bootstrap;
+
+use Exception;
+use ErrorException;
+use Syscode\Debug\FatalExceptions\{
+    FatalErrorException,
+    FatalThrowableError
+};
+use Syscode\Contracts\Core\Application;
+use Syscode\Contracts\Debug\ExceptionHandler;
+
+/**
+ * It is an integrated exception handler that allows you to report and 
+ * generate exceptions in a simple and friendly way.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class BootHandleExceptions
 {

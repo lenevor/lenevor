@@ -1,9 +1,5 @@
 <?php
 
-namespace Syscode\Cache\Drivers\Utils;
-
-use Serializable;
-
 /**
  * Lenevor Framework
  *
@@ -24,6 +20,18 @@ use Serializable;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Cache\Drivers\Utils;
+
+use Serializable;
+
+/**
+ * Class cache.
+ * 
+ * Allows to record data and its expiration time.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class FileCacheRegister implements Serializable
 {

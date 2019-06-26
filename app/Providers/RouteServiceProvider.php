@@ -1,10 +1,5 @@
 <?php 
 
-namespace App\Providers;
-
-use Syscode\Support\Facades\Route;
-use Syscode\Support\Services\ServiceProvider;
-
 /**
  * Lenevor Framework
  *
@@ -25,6 +20,18 @@ use Syscode\Support\Services\ServiceProvider;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace App\Providers;
+
+use Syscode\Support\Facades\Route;
+use Syscode\Support\Services\ServiceProvider;
+
+/**
+ * The route service provider facilitates the register of a namespace your 
+ * loaded in file route and executed in a group route.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class RouteServiceProvider extends ServiceProvider
 {

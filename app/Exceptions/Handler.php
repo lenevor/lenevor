@@ -1,10 +1,5 @@
 <?php
 
-namespace App\Exceptions;
-
-use Exception;
-use Syscode\Core\Exceptions\Handler as ExceptionHandler;
-
 /**
  * Lenevor Framework
  *
@@ -25,6 +20,17 @@ use Syscode\Core\Exceptions\Handler as ExceptionHandler;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace App\Exceptions;
+
+use Exception;
+use Syscode\Core\Exceptions\Handler as ExceptionHandler;
+
+/**
+ * The system's main exception handler is loaded for extend the rendering method.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Handler extends ExceptionHandler 
 {

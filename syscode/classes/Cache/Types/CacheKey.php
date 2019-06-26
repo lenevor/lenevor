@@ -1,9 +1,5 @@
 <?php 
 
-namespace Syscode\Cache\Types;
-
-use Syscode\Contracts\Cache\Key;
-
 /**
  * Lenevor Framework
  *
@@ -24,6 +20,16 @@ use Syscode\Contracts\Cache\Key;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Cache\Types;
+
+use Syscode\Contracts\Cache\Key;
+
+/**
+ * This class generate a key random.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class CacheKey implements Key
 {

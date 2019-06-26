@@ -1,10 +1,5 @@
 <?php
 
-namespace Syscode\Cache;
-
-use Syscode\Cache\Drivers\MemcachedStore;
-use Syscode\Cache\Exceptions\CacheDriverException;
-
 /**
  * Lenevor Framework
  *
@@ -26,8 +21,21 @@ use Syscode\Cache\Exceptions\CacheDriverException;
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
  */
- class CacheManager
- {
+
+namespace Syscode\Cache;
+
+use Syscode\Cache\Drivers\MemcachedStore;
+use Syscode\Cache\Exceptions\CacheDriverException;
+
+/**
+ * Class cache.
+ * 
+ * This class is responsible for loading any available cache driver.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ */
+class CacheManager
+{
     /**
      * The fileSystem instance.
      * 
@@ -201,7 +209,7 @@ use Syscode\Cache\Exceptions\CacheDriverException;
     {
         $cache = ucfirst($cacheManager);
 
-        return "\\Lenevor\\Sys\\Cache\\Drivers\\{$cache}Store";
+        return "\\Syscode\\Cache\\Drivers\\{$cache}Store";
     }
 
     /**
@@ -284,5 +292,4 @@ use Syscode\Cache\Exceptions\CacheDriverException;
     {
         return $this->store()->$method(...$params);
     }
-
- }
+}
