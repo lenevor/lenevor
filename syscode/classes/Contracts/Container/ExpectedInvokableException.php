@@ -1,10 +1,5 @@
 <?php 
 
-namespace Syscode\Contracts\Container;
-
-use InvalidArgumentException;
-use Psr\Container\ContainerExceptionInterface;
-
 /**
  * Lenevor Framework
  *
@@ -26,4 +21,10 @@ use Psr\Container\ContainerExceptionInterface;
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
  */
+
+namespace Syscode\Contracts\Container;
+
+use InvalidArgumentException;
+use Psr\Container\ContainerExceptionInterface;
+
 class ExpectedInvokableException extends InvalidArgumentException implements ContainerExceptionInterface {}

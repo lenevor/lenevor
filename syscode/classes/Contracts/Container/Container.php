@@ -1,10 +1,5 @@
 <?php
 
-namespace Syscode\Contracts\Container;
-
-use Closure;
-use Psr\Container\ContainerInterface;
-
 /**
  * Lenevor Framework
  *
@@ -25,6 +20,19 @@ use Psr\Container\ContainerInterface;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Contracts\Container;
+
+use Closure;
+use Psr\Container\ContainerInterface;
+
+/**
+ * Class responsible of registering the bindings, instances and 
+ * dependencies of classes when are contained for to be executes 
+ * in the services providers.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 interface Container extends ContainerInterface
 {

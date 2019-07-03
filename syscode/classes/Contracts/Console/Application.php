@@ -1,7 +1,5 @@
 <?php
 
-namespace Syscode\Contracts\Console;
-
 /**
  * Lenevor Framework
  *
@@ -22,6 +20,14 @@ namespace Syscode\Contracts\Console;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Contracts\Console;
+
+/**
+ * It allows to show the line header and the start of the Lenevor command console.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 interface Application
 {
