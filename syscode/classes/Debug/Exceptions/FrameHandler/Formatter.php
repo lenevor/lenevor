@@ -71,15 +71,15 @@ class Formatter
         $template = new TemplateHandler;
 
         $plainText  = $supervisor->getExceptionName();
-        $plainText .= ' thrown with message ';
-        $plainText .= $message;
+        $plainText .= " thrown with message: \n";
+        $plainText .= ucfirst($message);
         $plainText .= '"'."\n\n";
 
         $plainText .= "Stacktrace:\n";
 
         foreach ($frames as $i => $frame)
         {
-            $plainText .= "#".(count($frames) - $i - 1)." ";
+            $plainText .= "#".(count($frames) - $i)." ";
             $plainText .= $frame->getClass() ?: '';
             $plainText .= $frame->getClass() && $frame->getFunction() ? ":" : '';
             $plainText .= $frame->getFunction() ?: '';
