@@ -97,7 +97,7 @@ class GDebug implements DebugContract
 	 */
 	public function __construct(System $system = null)
 	{
-		$this->system   = $system ?: new System;
+		$this->system    = $system ?: new System;
 		$this->benchmark = new Benchmark;
 	}
 
