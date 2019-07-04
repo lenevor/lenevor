@@ -245,7 +245,7 @@ class GDebug implements DebugContract
 	 *
 	 * @throws \ErrorException
 	 */
-	public function handleError($level, $message, $file = null, $line = null)
+	public function handleError(int $level, string $message, string $file = null, int $line = null)
 	{
 		if ($level & $this->system->getErrorReportingLevel()) 
 		{

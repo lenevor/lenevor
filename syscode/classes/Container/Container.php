@@ -150,7 +150,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @throws \Syscode\Container\Exceptions\ContainerException
      */
-    public function alias($id, $alias)
+    public function alias(string $id, string $alias)
     {
         if ($alias === $id)
         {
@@ -169,8 +169,8 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return void
      */
-    public function bind($id, $value = null, $singleton = false)
-    {
+    public function bind(string $id, $value = null, bool $singleton = false)
+    { 
         $this->dropInstances($id);
 
         if (is_null($value))        
@@ -194,7 +194,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return \Closure
      */
-    protected function getClosure($id, $value)
+    protected function getClosure(string $id, string $value)
     {
         return function ($container, $parameters = []) use ($id, $value) {
             if ($id == $value)
@@ -259,7 +259,7 @@ class Container implements ArrayAccess, ContainerContract
      *
      * @throws \Syscode\Contracts\Container\BindingResolutionException
      */
-    protected function buildNotInstantiable($class)
+    protected function buildNotInstantiable(string $class)
     {
         if ( ! empty($this->buildStack))
         {
@@ -397,7 +397,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return void
      */
-    public function extend($id, Closure $closure) 
+    public function extend(string $id, Closure $closure) 
     {
         $id = $this->getAlias($id);
 
@@ -425,7 +425,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return void
      */
-    protected function destroyBinding($id)
+    protected function destroyBinding(string $id)
     {
         if ($this->has($id))
         {
@@ -440,7 +440,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return void
      */
-    protected function dropInstances($id)
+    protected function dropInstances(string $id)
     {
         unset($this->instances[$id], $this->aliases[$id]);
     }
@@ -479,7 +479,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return string
      */
-    public function getAlias($id)
+    public function getAlias(string $id)
     {
         if ( ! isset($this->aliases[$id]))
         {
@@ -506,7 +506,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    protected function getValue($id)
+    protected function getValue(string $id)
     {
         if (isset($this->bindings[$id])) 
         {
@@ -523,7 +523,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return array
      */
-    protected function getHasCallbacks($id)
+    protected function getHasCallbacks(string $id)
     {
         if (isset($this->hasCallbacks[$id]))
         {
@@ -540,7 +540,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return array
      */
-    protected function getServices($id)
+    protected function getServices(string $id)
     {
         $id = $this->getAlias($id);
 
@@ -559,7 +559,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    protected function getSingletonInstance($id)
+    protected function getSingletonInstance(string $id)
     {
         return $this->singletonResolved($id) ? $this->instances[$id] : null;
     }
@@ -572,7 +572,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    public function instance($id, $instance) 
+    public function instance(string $id, $instance) 
     {
         $isHas = $this->has($id);
 
@@ -595,7 +595,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return bool
      */
-    public function isAlias($name)
+    public function isAlias(string $name)
     {
         return isset($this->aliases[$name]);
     }
@@ -620,7 +620,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return bool
      */
-    protected function isSingleton($id)
+    protected function isSingleton(string $id)
     {
         return isset($this->instances[$id]) ||
                (isset($this->bindings[$id]['singleton']) &&
@@ -645,7 +645,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return object
      */
-    public function make($id, array $parameters = []) 
+    public function make(string $id, array $parameters = []) 
     {
         return $this->resolve($id, $parameters);
     }
@@ -657,7 +657,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return void
      */
-    protected function reHas($id)
+    protected function reHas(string $id)
     {
         $instance = $this->make($id);
 
@@ -674,7 +674,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return $this
      */
-    public function remove($id)
+    public function remove(string $id)
     {
         $this->destroyBinding($id);
 
@@ -689,7 +689,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    public function resolve($id, array $parameters = []) 
+    public function resolve(string $id, array $parameters = []) 
     {
         $id = $this->getAlias($id);
 
@@ -735,7 +735,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return bool
      */
-    public function resolved($id)
+    public function resolved(string $id)
     {
         if ($this->isAlias($id)) 
         {
@@ -752,7 +752,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    protected function resolveObject($id, $object)
+    protected function resolveObject(string $id, $object)
     {
         if ($this->isSingleton($id)) 
         {
@@ -772,7 +772,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @throws \Syscode\Container\Exceptions\ContainerException
      */
-    public function set($id, $value)
+    public function set(string $id, $value)
     {
         if ( ! $this->has($id))
         {
@@ -792,7 +792,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return void
      */
-    public function singleton($id, $value = null)
+    public function singleton(string $id, $value = null)
     {
         $this->bind($id, $value, true);
     }
@@ -804,7 +804,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return bool
      */
-    public function singletonResolved($id)
+    public function singletonResolved(string $id)
     {
         return array_key_exists($id, $this->instances);
     }
@@ -917,7 +917,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    public function __get($key)
+    public function __get(string $key)
     {
         return $this[$key];
     }
@@ -930,7 +930,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    public function __set($key, $value)
+    public function __set(string $key, $value)
     {
         return $this[$key] = $value;
     }

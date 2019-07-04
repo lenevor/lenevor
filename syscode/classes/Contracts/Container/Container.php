@@ -44,7 +44,7 @@ interface Container extends ContainerInterface
      * 
      * @return void
      */
-    public function alias($id, $alias);
+    public function alias(string $id, string $alias);
 
     /**
      * Register a binding with container.
@@ -55,7 +55,7 @@ interface Container extends ContainerInterface
      * 
      * @return void
      */
-    public function bind($id, $value = null, $singleton = false);
+    public function bind(string $id, $value = null, bool $singleton = false);
 
     /**
      * Extender an id type in the container.
@@ -65,7 +65,7 @@ interface Container extends ContainerInterface
      * 
      * @return void
      */
-    public function extend($id, Closure $closure);
+    public function extend(string $id, Closure $closure);
 
      /**
      * Marks a callable as being a factory service.
@@ -74,7 +74,7 @@ interface Container extends ContainerInterface
      * 
      * @return \Closure
      */
-    public function factory($id);
+    public function factory(string $id);
 
     /**
      * Return and array containing all bindings.
@@ -91,7 +91,7 @@ interface Container extends ContainerInterface
      * 
      * @return mixed
      */
-    public function instance($id, $instance);
+    public function instance(string $id, $instance);
 
     /**
      * Resolve the given type from the container.
@@ -101,7 +101,7 @@ interface Container extends ContainerInterface
      * 
      * @return object
      */
-    public function make($id, array $parameters = []);
+    public function make(string $id, array $parameters = []);
 
     /**
      * Remove all id traces of the specified binding.
@@ -110,7 +110,7 @@ interface Container extends ContainerInterface
      * 
      * @return void
      */
-    public function remove($id);
+    public function remove(string $id);
 
     /**
      * Set the binding with given key / value.
@@ -120,7 +120,7 @@ interface Container extends ContainerInterface
      * 
      * @return $this
      */
-    public function set($id, $value);
+    public function set(string $id, string $value);
 
      /**
      * Register a singleton binding in the container.
@@ -130,5 +130,5 @@ interface Container extends ContainerInterface
      * 
      * @return void
      */
-    public function singleton($id, $value = null);
+    public function singleton(string $id, $value = null);
 }

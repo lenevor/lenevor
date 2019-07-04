@@ -124,7 +124,7 @@ class Application extends Container implements ApplicationContract
      * 
      * @return $this
      */
-    public function setBasePath($path)
+    public function setBasePath(string $path)
     {
         $this->basePath = rtrim($path, '\/');
 

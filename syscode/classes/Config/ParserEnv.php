@@ -43,6 +43,13 @@ class ParserEnv
     protected $path;
 
     /**
+     * Activate use of putenv, by default is true.
+     * 
+     * @var bool $usePutenv 
+     */
+    protected $usePutenv = true;
+
+    /**
      * Constructor. Builds the path to our file.
      * 
      * @param  string       $path
@@ -50,9 +57,10 @@ class ParserEnv
      * 
      * @return void
      */
-    public function __construct($path, $file = null)
+    public function __construct(string $path, bool $usePutenv = true, string $file = null)
     {
-        $this->path = $this->getFilePath($path, $file ?: '.env');
+        $this->path      = $this->getFilePath($path, $file ?: '.env');
+        $this->usePutenv = $usePutenv;
     }
 
     /**
@@ -63,7 +71,7 @@ class ParserEnv
      * 
      * @return string
      */
-    protected function getFilePath($path, $file)
+    protected function getFilePath(string $path, string $file)
     {
        return rtrim($path, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$file;
     }
@@ -75,7 +83,7 @@ class ParserEnv
      * 
      * @return bool
      */
-    protected function isComment($line)
+    protected function isComment(string $line)
     {
         return strpos(ltrim($line), '#') === 0;
     }
@@ -87,7 +95,7 @@ class ParserEnv
      * 
      * @return bool
      */
-    protected function checkedLikeSetter($line)
+    protected function checkedLikeSetter(string $line)
     {
         return strpos($line, '=') !== false;
     }
@@ -136,11 +144,12 @@ class ParserEnv
      * 
      * @return void
      */
-    protected function setVariable($name, $value = null)
+    protected function setVariable(string $name, $value = null)
     {
         list($name, $value) = $this->normaliseEnvironmentVariable($name, $value);
+        $notHttpName = 0 !== strpos($name, 'HTTP_');
 
-        if ( ! getenv($name))
+        if ($this->usePutenv)
         {
             putenv("$name=$value");
         }   
@@ -150,7 +159,7 @@ class ParserEnv
             $_ENV[$name] = $value;
         }
 
-        if (empty($_SERVER[$name]))
+        if ($notHttpName)
         {
             $_SERVER[$name] = $value;
         }
@@ -164,7 +173,7 @@ class ParserEnv
      * 
      * @return array
      */
-    public function normaliseEnvironmentVariable($name, $value)
+    public function normaliseEnvironmentVariable(string $name, $value)
     {
         // Split our compound string into it's parts.
         if (strpos($name, '=') !== false)
@@ -194,7 +203,7 @@ class ParserEnv
      * 
      * @return array
      */
-    protected function sanitizeName($name, $value)
+    protected function sanitizeName(string $name, $value)
     {
         $name = str_replace(array('export ', '\'', '"'), '', $name);
 
@@ -214,7 +223,7 @@ class ParserEnv
      * 
      * @throws \InvalidArgumentException
      */
-    protected function sanitizeValue($name, $value)
+    protected function sanitizeValue(string $name, $value)
     {
         if ( ! $value)
         {
@@ -273,7 +282,7 @@ class ParserEnv
      * 
      * @return string
      */
-    protected function resolveNestedVariables($value)
+    protected function resolveNestedVariables(string $value)
     {
         if (strpos($value, '$') !== false)
         {
@@ -304,7 +313,7 @@ class ParserEnv
      * 
      * @return string|null
      */
-    protected function getVariable($name)
+    protected function getVariable(string $name)
     {
         switch (true)
         {

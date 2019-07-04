@@ -54,7 +54,7 @@ class Configure implements ConfigureContract
 	 *
 	 * @uses   \Syscode\Support\Arr
 	 */
-	public static function get($key, $default = null)
+	public static function get(string $key, $default = null)
 	{
 		$keys = explode('.', $key);
 
@@ -82,7 +82,7 @@ class Configure implements ConfigureContract
 	 *
 	 * @uses   \Syscode\Support\Arr
 	 */
-	public function set($key, $value)
+	public function set(string $key, $value)
 	{
 		strpos($key, '.') === false OR static::$vars[$key] = $value;
 		
@@ -98,7 +98,7 @@ class Configure implements ConfigureContract
 	 *
 	 * @uses   \Syscode\Support\Arr
 	 */
-	public function erase($key)
+	public function erase(string $key)
 	{
 		if (isset(static::$vars[$key]))
 		{
@@ -119,7 +119,7 @@ class Configure implements ConfigureContract
 	 *
 	 * @return mixed
 	 */
-	public static function __callStatic($name, $value)
+	public static function __callStatic(string $name, array $value)
 	{
 		$key      = $name;
 		$fallback = null;

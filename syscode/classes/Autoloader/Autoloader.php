@@ -95,7 +95,7 @@ class Autoloader
      *
      * @return void
      */
-    public function addNamespace($namespace, $path)
+    public function addNamespace(string $namespace, string $path)
     {
         if (isset($this->prefixes[$namespace]))
         {
@@ -121,7 +121,7 @@ class Autoloader
      *
      * @return void
      */
-    public function addClasses($classes)
+    public function addClasses(array $classes)
     {
         foreach ($classes as $class => $path) 
         {
@@ -137,7 +137,7 @@ class Autoloader
      * 
      * @return mixed
      */
-    public function getAutoloaderFileRequire($fileIdentifier, $file)
+    public function getAutoloaderFileRequire($fileIdentifier, string $file)
     {
         if (empty($GLOBALS['__lenevor_autoload_files'][$fileIdentifier]))
         {
@@ -154,7 +154,7 @@ class Autoloader
      *
      * @return string   
      */
-    public function loadClass($class)
+    public function loadClass(string $class)
     {
         $class = trim($class, '\\');
         
@@ -177,7 +177,7 @@ class Autoloader
      *
      * @return mixed
      */
-    protected function loadInNamespace($class)
+    protected function loadInNamespace(string $class)
     {
         if (strpos($class, '\\') === 0)
         {
@@ -219,7 +219,7 @@ class Autoloader
      *
      * @return mixed  
      */
-    protected function loadLegacy($class)
+    protected function loadLegacy(string $class)
     {
         // If there is a namespace on this class, then
         // we cannot load it from traditional locations.
@@ -253,7 +253,7 @@ class Autoloader
      *
      * @return $this
      */
-    public function removeNamespace($namespace)
+    public function removeNamespace(string $namespace)
     {
         unset($this->prefixes[$namespace]);
 
@@ -268,7 +268,7 @@ class Autoloader
      *
      * @return bool
      */
-    protected function sendFilePath($file)
+    protected function sendFilePath(string $file)
     {
         $file = $this->sanitizeFile($file);
 
@@ -295,7 +295,7 @@ class Autoloader
      *
      * @return string    
      */
-    public function sanitizeFile($filename)
+    public function sanitizeFile(string $filename)
     {
         $filename = preg_replace('/[^a-zA-Z0-9\s\/\-\_\.\:\\\\]/', '', $filename);
 

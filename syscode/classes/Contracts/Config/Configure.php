@@ -40,7 +40,7 @@ interface Configure
 	 * 
 	 * @uses   \Syscode\Support\Arr
 	 */	
-	public function erase($key);
+	public function erase(string $key);
 
 	/**
 	 * Returns a (dot notated) config setting.
@@ -52,7 +52,7 @@ interface Configure
 	 *
 	 * @uses    \Syscode\Support\Arr
 	 */
-	public static function get($key, $default = null);
+	public static function get(string $key, $default = null);
 	
 	/**
 	 * Sets a value in the config array.
@@ -64,5 +64,5 @@ interface Configure
 	 *
 	 * @uses  \Syscode\Support\Arr
 	 */
-	public function set($key, $value);
+	public function set(string $key, $value);
 }

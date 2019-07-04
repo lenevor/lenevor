@@ -126,7 +126,7 @@ class Cli
 	 *
  	 * @return int
  	 */
- 	public static function bell($num = 1)
+ 	public static function bell(int $num = 1)
  	{
  		echo str_repeat("\x07", $num);
  	}
@@ -160,7 +160,7 @@ class Cli
  	 *
  	 * @throws \Syscode\Core\Exceptions\LenevorException
  	 */
- 	public static function color($text, $foreground, $background = null, $format = null)
+ 	public static function color(string $text, string $foreground, string $background = null, string $format = null)
  	{
  		if (static::isWindows())
  		{
@@ -208,7 +208,7 @@ class Cli
  	 *
  	 * @return string
  	 */
- 	public static function error($text = '', $foreground = 'light_red', $background = null)
+ 	public static function error(string $text = '', string $foreground = 'light_red', string $background = null)
  	{
  		if (is_array($text))
  		{
@@ -297,7 +297,7 @@ class Cli
  	 *
  	 * @return void
  	 */
- 	public static function newLine($num = 1)
+ 	public static function newLine(int $num = 1)
  	{
  		for ($i = 0; $i < $num; $i++)
  		{			
@@ -472,7 +472,7 @@ class Cli
  	 *
  	 * @return string
  	 */
- 	public static function wait($seconds = 0, $countdown = false)
+ 	public static function wait(int $seconds = 0, bool $countdown = false)
  	{
  		if ($countdown === true)
  		{
@@ -511,7 +511,7 @@ class Cli
  	 *
  	 * @return string
  	 */
- 	public static function write($text = '', $foreground = null, $background = null)
+ 	public static function write(string $text = '', string $foreground = null, string $background = null)
  	{
  		if (is_array($text))
  		{

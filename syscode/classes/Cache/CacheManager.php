@@ -69,7 +69,7 @@ class CacheManager
      * 
      * @return \Syscode\Cache\Drivers\ApcStore
      */
-    protected function createApcDriver($config)
+    protected function createApcDriver(array $config)
     {
         $prefix = $this->getPrefix($config);
 
@@ -183,7 +183,7 @@ class CacheManager
      * 
      * @return array
      */
-    protected function getConfig($name)
+    protected function getConfig(string $name)
     {
         return app('config')->get("cache.stores.{$name}");
     }
@@ -205,7 +205,7 @@ class CacheManager
      *
      * @return string
      */
-    protected function getFullManagerPath($cacheManager)
+    protected function getFullManagerPath(string $cacheManager)
     {
         $cache = ucfirst($cacheManager);
 
@@ -231,7 +231,7 @@ class CacheManager
      * 
      * @return array
      */
-    public function setDefaultDriver($name)
+    public function setDefaultDriver(string $name)
     {
         return app('config')->set('cache.driver', $name);
     }
@@ -243,7 +243,7 @@ class CacheManager
      * 
      * @return mixed
      */
-    public function store($name = null)
+    public function store(string $name = null)
     {
         $name = $name ?: $this->getDefaultDriver();
 
@@ -259,7 +259,7 @@ class CacheManager
      * 
      * @throws acheDriverException
      */
-    protected function resolve($name)
+    protected function resolve(string $name)
     {
         $config = $this->getConfig($name);
 
@@ -288,7 +288,7 @@ class CacheManager
      * 
      * @return mixed
      */
-    public function __call($method, $params)
+    public function __call(string $method, array $params)
     {
         return $this->store()->$method(...$params);
     }
