@@ -1,7 +1,5 @@
 <?php 
 
-namespace Syscode\Contracts\Debug;
-
 /**
  * Lenevor Framework
  *
@@ -22,6 +20,14 @@ namespace Syscode\Contracts\Debug;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+*/
+
+namespace Syscode\Contracts\Debug;
+
+/**
+ * Returns data for an associative array.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 interface Table
 {

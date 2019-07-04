@@ -26,7 +26,12 @@ namespace Syscode\Contracts\Core;
 
 use Syscode\Contracts\Container\Container;
 
-
+/**
+ * Allows the loading of service providers and functions to activate 
+ * routes, environments and calls of main classes.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ */
 interface Application extends Container
 {
     /**
@@ -36,5 +41,5 @@ interface Application extends Container
      * 
      * @return $this
      */
-    public function setBasePath($path);
+    public function setBasePath(string $path);
 }

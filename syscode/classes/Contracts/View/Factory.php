@@ -1,7 +1,5 @@
 <?php 
 
-namespace Syscode\Contracts\View;
-
 /**
  * Lenevor Framework
  *
@@ -22,6 +20,14 @@ namespace Syscode\Contracts\View;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Contracts\View;
+
+/**
+ * Gets the contents of a view.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 interface Factory
 {

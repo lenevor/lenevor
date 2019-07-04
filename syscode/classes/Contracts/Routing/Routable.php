@@ -1,9 +1,5 @@
 <?php 
 
-namespace Syscode\Contracts\Routing;
-
-use Syscode\Routing\Route;
-
 /**
  * Lenevor Framework
  *
@@ -25,12 +21,22 @@ use Syscode\Routing\Route;
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
  */
+
+namespace Syscode\Contracts\Routing;
+
+use Syscode\Routing\Route;
+
+/**
+ * All Lenevor routes are defined in your route files, which are located in the routes 
+ * directory and called depending on the HTTP verbs used by the user.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ */
 interface Routable
 {
 	/**
-	 * Add a route 
+	 * Add a route. 
 	 *
-	 * @access  public
 	 * @param   Route  $route
 	 *
 	 * @return  route
@@ -38,20 +44,18 @@ interface Routable
 	public function addRoute(Route $route);
 
 	/**
-	 * Add a route for all posible methods
+	 * Add a route for all posible methods.
 	 *
-	 * @access  public 
 	 * @param   string                 $route
 	 * @param   \Closure|array|string  $action
 	 *
 	 * @return  void
 	 */
-	public function any($route, $action);
+	public function any(string $route, $action);
 
 	/**
-	 * Add a route with delete method
+	 * Add a route with delete method.
 	 *
-	 * @access  public
 	 * @param   string                 $route
 	 * @param   \Closure|array|string  $action
 	 *
@@ -60,9 +64,8 @@ interface Routable
 	public function delete($route, $action);
 
 	/**
-	 * Add a route with get method
-	 *
-	 * @access  public 
+	 * Add a route with get method.
+	 * 
 	 * @param   string                 $route
 	 * @param   \Closure|array|string  $action
 	 *
@@ -71,9 +74,8 @@ interface Routable
 	public function get($route, $action);
 
 	/**
-	 * Add a route with head method
+	 * Add a route with head method.
 	 *
-	 * @access  public
 	 * @param   string                 $route
 	 * @param   \Closure|array|string  $action
 	 *
@@ -84,7 +86,6 @@ interface Routable
 	/**
 	 * Add a route with options method
 	 *
-	 * @access  public
 	 * @param   string                 $route
 	 * @param   \Closure|array|string  $action
 	 *
@@ -93,9 +94,8 @@ interface Routable
 	public function options($route, $action);
 
 	/**
-	 * Add a route with patch method
+	 * Add a route with patch method.
 	 *
-	 * @access  public
 	 * @param   string                 $route
 	 * @param   \Closure|array|string  $action
 	 *
@@ -104,9 +104,8 @@ interface Routable
 	public function patch($route, $action);
 
 	/**
-	 * Add a route with post method
+	 * Add a route with post method.
 	 *
-	 * @access  public
 	 * @param   string                 $route
 	 * @param   \Closure|array|string  $action
 	 *
@@ -115,9 +114,8 @@ interface Routable
 	public function post($route, $action);
 
 	/**
-	 * Add a route with put method
+	 * Add a route with put method.
 	 *
-	 * @access  public
 	 * @param   string                 $route
 	 * @param   \Closure|array|string  $action
 	 *

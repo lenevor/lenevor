@@ -1,9 +1,5 @@
 <?php 
 
-namespace Syscode\Contracts\Debug;
-
-use Throwable;
-
 /**
  * Lenevor Framework
  *
@@ -24,6 +20,16 @@ use Throwable;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Contracts\Debug;
+
+use Throwable;
+
+/**
+ * Sets any uncaught errors and exceptions, including most Fatal errors and HTTP code submissions.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 interface Handler
 {
@@ -89,7 +95,7 @@ interface Handler
 	 *
 	 * @throws \ErrorException
 	 */
-	public function handleError($level, $message, $file = null, $line = null);
+	public function handleError(int $level, string $message, string $file = null, int $line = null);
 	
 	/**
 	 * Lenevor Exception will by default send HTTP code 500, but you may wish
