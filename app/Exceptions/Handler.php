@@ -28,7 +28,8 @@ use Exception;
 use Syscode\Core\Exceptions\Handler as ExceptionHandler;
 
 /**
- * The system's main exception handler is loaded for extend the rendering method.
+ * Class is where all exceptions triggered by your application are logged 
+ * and then rendered back to the user.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
