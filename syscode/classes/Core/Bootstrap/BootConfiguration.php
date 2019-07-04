@@ -29,7 +29,9 @@ use Syscode\Config\Configure;
 use Syscode\Contracts\Core\Application;
 
 /**
+ * Initialize boot of setting file.
  * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class BootConfiguration
 {	

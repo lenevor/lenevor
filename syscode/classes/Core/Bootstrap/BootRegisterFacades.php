@@ -1,10 +1,5 @@
 <?php
 
-namespace Syscode\Core\Bootstrap;
-
-use Syscode\Core\AliasLoader;
-use Syscode\Support\Facades\Facade;
-use Syscode\Contracts\Core\Application;
 /**
  * Lenevor Framework
  *
@@ -25,6 +20,18 @@ use Syscode\Contracts\Core\Application;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Core\Bootstrap;
+
+use Syscode\Core\AliasLoader;
+use Syscode\Support\Facades\Facade;
+use Syscode\Contracts\Core\Application;
+
+/**
+ * Initialize boot the register facades from setting file called services.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class BootRegisterFacades
 {

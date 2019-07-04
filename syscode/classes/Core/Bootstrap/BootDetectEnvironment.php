@@ -1,11 +1,5 @@
 <?php 
 
-namespace Syscode\Core\Bootstrap;
-
-use Exception;
-use Syscode\Config\ParserEnv;
-use Syscode\Contracts\Core\Application;
-
 /**
  * Lenevor Framework
  *
@@ -26,6 +20,18 @@ use Syscode\Contracts\Core\Application;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Core\Bootstrap;
+
+use Exception;
+use Syscode\Config\ParserEnv;
+use Syscode\Contracts\Core\Application;
+
+/**
+ * Initialize boot of a ParseEnv instance.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class BootDetectEnvironment
 {

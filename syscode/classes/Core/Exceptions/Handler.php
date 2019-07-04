@@ -1,20 +1,5 @@
 <?php 
 
-namespace Syscode\Core\Exceptions;
-
-use Exception;
-use Syscode\Debug\GDebug;
-use Syscode\Http\Response;
-use Syscode\Core\Http\Exceptions\{
-    HttpException,
-    NotFoundHttpException
-};
-use Syscode\Debug\ExceptionHandler;
-use Syscode\Http\Exceptions\HttpResponseException;
-use Syscode\Debug\FatalExceptions\FlattenException;
-use Syscode\Database\Exceptions\ModelNotFoundException;
-use Syscode\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
-
 /**
  * Lenevor Framework
  *
@@ -35,6 +20,27 @@ use Syscode\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Core\Exceptions;
+
+use Exception;
+use Syscode\Debug\GDebug;
+use Syscode\Http\Response;
+use Syscode\Core\Http\Exceptions\{
+    HttpException,
+    NotFoundHttpException
+};
+use Syscode\Debug\ExceptionHandler;
+use Syscode\Http\Exceptions\HttpResponseException;
+use Syscode\Debug\FatalExceptions\FlattenException;
+use Syscode\Database\Exceptions\ModelNotFoundException;
+use Syscode\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
+
+/**
+ * The system's main exception class is loaded for activate the render method of debugging.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Handler implements ExceptionHandlerContract
 {

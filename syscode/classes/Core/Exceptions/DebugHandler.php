@@ -1,9 +1,5 @@
 <?php 
 
-namespace Syscode\Core\Exceptions;
-
-use Syscode\Debug\Handlers\PleasingPageHandler;
-
 /**
  * Lenevor Framework
  *
@@ -24,6 +20,16 @@ use Syscode\Debug\Handlers\PleasingPageHandler;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.1
+ */
+
+namespace Syscode\Core\Exceptions;
+
+use Syscode\Debug\Handlers\PleasingPageHandler;
+
+/**
+ * Creates a new Debug handler instance.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class DebugHandler
 {
