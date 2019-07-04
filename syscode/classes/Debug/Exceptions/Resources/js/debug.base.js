@@ -36,7 +36,7 @@
         }
     }
 
-    for (var i = 0; i < allFrames.length; i++)
+    for (let i = 0; i < allFrames.length; i++)
     {
         (function(i, el)
         {
