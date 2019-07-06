@@ -1,9 +1,5 @@
 <?php 
 
-namespace Syscode\Core\Http\Exceptions;
-
-use Throwable;
-
 /**
  * Lenevor Framework
  *
@@ -24,6 +20,17 @@ use Throwable;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Core\Http\Exceptions;
+
+use Throwable;
+
+/**
+ * It is activated when the requested method is known by the server 
+ * but it has been disabled and can not be used.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class MethodNotAllowedHttpException extends HttpException
 {	

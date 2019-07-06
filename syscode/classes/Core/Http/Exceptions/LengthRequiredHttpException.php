@@ -1,9 +1,5 @@
 <?php 
 
-namespace Syscode\Core\Http\Exceptions;
-
-use Throwable;
-
 /**
  * Lenevor Framework
  *
@@ -24,6 +20,17 @@ use Throwable;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Core\Http\Exceptions;
+
+use Throwable;
+
+/**
+ * It is activated when the server rejects the request because the Content-Length 
+ * header field is not defined and the server requires it.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class LengthRequiredHttpException extends HttpException
 {
