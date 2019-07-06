@@ -1,9 +1,5 @@
 <?php 
 
-namespace Syscode\Core\Http\Exceptions;
-
-use Throwable;
-
 /**
  * Lenevor Framework
  *
@@ -24,6 +20,16 @@ use Throwable;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.1
+ */
+
+namespace Syscode\Core\Http\Exceptions;
+
+use Throwable;
+
+/**
+ * It is activated when the user has sent too many requests in a given period of time.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class TooManyRequestsHttpException extends HttpException
 {

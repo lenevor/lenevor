@@ -1,9 +1,5 @@
 <?php 
 
-namespace Syscode\Core\Http\Exceptions;
-
-use Throwable;
-
 /**
  * Lenevor Framework
  *
@@ -24,6 +20,19 @@ use Throwable;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Core\Http\Exceptions;
+
+use Throwable;
+
+/**
+ * It is activated when the origin server requires that the request be conditional. 
+ * It intends to prevent 'lost update' problems, where a client GETS a state of the 
+ * resource, modifies it, and PUTS it back to the server, while a third party has 
+ * modified the status of the server, leading to a conflict.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class PreconditionRequiredHttpException extends HttpException
 {

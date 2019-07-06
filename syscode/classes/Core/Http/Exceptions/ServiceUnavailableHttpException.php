@@ -1,9 +1,5 @@
 <?php 
 
-namespace Syscode\Core\Http\Exceptions;
-
-use Throwable;
-
 /**
  * Lenevor Framework
  *
@@ -24,6 +20,20 @@ use Throwable;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Core\Http\Exceptions;
+
+use Throwable;
+
+/**
+ * It is activated when the server is not ready to handle the request. 
+ * Common causes may be that the server is down due to maintenance or 
+ * is overloaded. These responses should be used for temporary conditions 
+ * and the HTTP Retry-After header: should, if possible, contain the estimated 
+ * time before the recovery of the service.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class ServiceUnavailableHttpException extends HttpException
 {

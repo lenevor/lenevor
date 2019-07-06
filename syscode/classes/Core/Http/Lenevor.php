@@ -1,18 +1,5 @@
 <?php
 
-namespace Syscode\Core\Http;
-
-use Closure;
-use Exception;
-use Syscode\Http\{ 
-	Request, 
-	Response 
-};
-use Syscode\Debug\Benchmark;
-use Syscode\Support\Facades\Http;
-use Syscode\Contracts\Core\Application;
-use Syscode\Contracts\Core\Lenevor as LenevorContract;
-
 /**
  * Lenevor Framework
  *
@@ -33,6 +20,25 @@ use Syscode\Contracts\Core\Lenevor as LenevorContract;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Core\Http;
+
+use Closure;
+use Exception;
+use Syscode\Http\{ 
+	Request, 
+	Response 
+};
+use Syscode\Debug\Benchmark;
+use Syscode\Support\Facades\Http;
+use Syscode\Contracts\Core\Application;
+use Syscode\Contracts\Core\Lenevor as LenevorContract;
+
+/**
+ * The Lenevor class is the heart of the system framework.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Lenevor implements LenevorContract
 {
