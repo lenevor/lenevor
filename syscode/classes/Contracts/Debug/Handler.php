@@ -46,14 +46,14 @@ interface Handler
 	 *
 	 * @return string
 	 */
-	public function handleException(Throwable $exception);
+	public function handleException($exception);
 	
 	/**
 	 * Pushes a handler to the end of the stack.
 	 * 
 	 * @param  string|callable  $handler
 	 * 
-	 * @return $this
+	 * @return \Syscode\Contracts\Debug\Handler
 	 */
 	public function pushHandler($handler);
 	
