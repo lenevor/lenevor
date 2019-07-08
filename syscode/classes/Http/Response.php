@@ -79,11 +79,9 @@ class Response extends Status
 	 *
 	 * @return response
 	 */
-	public static function render($content = null, $status = 200, array $headers = [])
+	public static function render($content = null, $status = 200, $headers = [])
 	{
-		$response = new static($content, $status, $headers);
-
-		return $response;
+		return new static($content, $status, $headers);
 	}
 
 	/**
@@ -104,6 +102,8 @@ class Response extends Status
 
 		$this->setContent($content);
 		$this->setStatusCode($status);
+
+		$this->parameters = new Parameter($_SERVER);
 	}
 
 	/**
@@ -194,7 +194,7 @@ class Response extends Status
 		}
 		else
 		{
-			$this->protocol = (string) Http::server('SERVER_PROTOCOL') ?: 'HTTP/1.1';
+			$this->protocol = (string) $this->parameters->get('SERVER_PROTOCOL') ?: 'HTTP/1.1';
 			header(sprintf('%s %s %s', $this->protocol, $this->status, $this->statusText), true, $this->status);
 		}
 	}
@@ -303,13 +303,14 @@ class Response extends Status
 	/**
 	* Sets the response status code.
 	*
-	* @param  int  $code  The status code
+	* @param  int          $code  The status code
+	* @param  string|null  $text  The status text
 	*
 	* @return $this
 	*
 	* @throws \InvalidArgumentException
 	*/
-	public function setStatusCode($code = 200, $text = null)
+	public function setStatusCode(int $code = 200, $text = null)
 	{
 		$this->status = $code; 
 
@@ -357,7 +358,7 @@ class Response extends Status
 	 */
 	public function __toString()
 	{
-		return sprintf('%s %s %s', $this->protocol, $this->statusCode, $this->statusText)."\r\n".
+		return sprintf('%s %s %s', $this->protocol, $this->status, $this->statusText)."\r\n".
             $this->headers."\r\n".
             $this->getContent();
 	}
