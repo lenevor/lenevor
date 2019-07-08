@@ -34,6 +34,13 @@ trait ResponseTrait
      * @var \Exception|null $exception
      */
     protected $exception;
+    
+	/**
+	 * The parameter array.
+	 * 
+	 * @var array  $parameters
+	 */
+	protected $parameters;
 
     /**
      * Gets the protocol Http.
