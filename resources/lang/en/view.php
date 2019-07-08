@@ -14,9 +14,8 @@ return [
     */
    
     'dataObjectArray' => 'The data parameter only accepts objects and arrays.',    
-    'notExists' => 'View [{file}] is not exists.',    
+    'notFound' => 'View [{file}] not found.',    
     'rendering' => 'You must set the file to use within your view before rendering.',
-    'requested' => 'The requested view [{file}] could not be found.',
     'variableNotSet' => 'View variable is not set: [{key}].',   
 
     /*

@@ -16,9 +16,8 @@ return [
 
     
     'dataObjectArray' => 'El parámetro de datos solo acepta objetos y matrices.',
-    'notExists' => 'La vista [{file}] no existe.',
+    'notFound' => 'Vista [{file}] no encontrada.',
     'rendering' => 'Debe configurar el archivo para usar dentro de su vista antes de renderizar.',
-    'requested' => 'La vista solicitada [{file}] no se puede encontrar.',    
     'variableNotSet' => 'La variable de vista no está configurada: [{key}].',
 
     /*
