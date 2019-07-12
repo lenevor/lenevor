@@ -3,7 +3,7 @@
 	<div class="exception-title">
 		<?php foreach ($class as $i => $name) : ?>
 			<?php if ($i == count($class) - 1): ?>
-		<h1><?= htmlspecialchars($name, ENT_SUBSTITUTE, 'UTF-8') ?></h1> 
+		<h1><?= $template->escape($name) ?></h1> 
 			<?php else: ?>
 		<?= $template->escape($name).' \\' ?>
 			<?php endif; ?>
@@ -13,7 +13,7 @@
 		<?php endif ?>
 	</div>
 	<div class="exception-message">
-		<h2><?= ucfirst(htmlspecialchars($message, ENT_SUBSTITUTE)) ?></h2>
+		<h2><?= ucfirst($template->escape($message)) ?></h2>
 	</div>
 	<span class="plain-exception"><pre><?= $template->escape($plain_exception) ?></pre></span>
 
