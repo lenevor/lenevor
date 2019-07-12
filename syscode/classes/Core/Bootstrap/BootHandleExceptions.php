@@ -98,7 +98,7 @@ class BootHandleExceptions
     {
         if ( ! $e instanceof Exception)
         {
-            $e =  new FatalThrowableError($e);
+            $e = new FatalThrowableError($e);
         }
 
         $this->renderHttpResponse($e);
@@ -138,7 +138,7 @@ class BootHandleExceptions
      */
     protected function isFatal($type)
     {
-        return in_array($type, array(E_ERROR, E_CORE_ERROR, E_COMPILE_ERROR, E_PARSE));
+        return in_array($type, array(E_COMPILE_ERROR, E_CORE_ERROR, E_ERROR, E_PARSE));
     }
     
     /**
