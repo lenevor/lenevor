@@ -13,7 +13,7 @@ return [
     |
     */
     
-    'name' => env('APP.NAME', 'Lenevor'),
+    'name' => env('APP_NAME', 'Lenevor'),
 
     /*
     |------------------------------------------------------------------------
@@ -39,7 +39,7 @@ return [
     |
     */
 	
-    'baseUrl' => env('APP.BASE.URL', 'http://localhost'),
+    'baseUrl' => env('APP_BASE_URL', 'http://localhost'),
 
     /*
     |------------------------------------------------------------------------
@@ -71,7 +71,7 @@ return [
     |
     */
     
-    'env' => env('APP.ENV', 'production'),
+    'env' => env('APP_ENV', 'production'),
 
     /*
     |------------------------------------------------------------------------
@@ -85,7 +85,7 @@ return [
     |
     */
     
-    'debug' => env('APP.DEBUG', false),
+    'debug' => env('APP_DEBUG', false),
 
     /*
     |-------------------------------------------------------------------------
