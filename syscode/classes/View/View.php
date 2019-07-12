@@ -378,20 +378,6 @@ class View implements ViewContract
 	}
 
 	/**
-	 * Check existance view file.
-	 
-	 * @param  string  $file
-	 *
-	 * @return bool
-	 */
-	public function viewExists($file)
-	{
-		$file = $this->resolverPath($file);
-
-		return is_file($file);
-	}
-
-	/**
 	 * Include another view in a view.
 	 *
 	 * @param  string  $file
@@ -456,10 +442,24 @@ class View implements ViewContract
 	{
 		if ( ! $this->viewExists($file)) 
 		{
-			throw new ViewException(__('view.notExists', ['file' => $file]));
+			throw new ViewException(__('view.notFound', ['file' => $file]));
 		}
 
 		return true;
+	}
+
+	/**
+	 * Check existance view file.
+	 
+	 * @param  string  $file
+	 *
+	 * @return bool
+	 */
+	public function viewExists($file)
+	{
+		$file = $this->resolverPath($file);
+
+		return is_file($file);
 	}
 
 	/**
@@ -534,7 +534,7 @@ class View implements ViewContract
 	{
 		if (($path = $this->resolverPath($file)) === false)
 		{
-			throw new ViewException(__('view.requested', ['file' => $file]));
+			throw new ViewException(__('view.notFound', ['file' => $file]));
 		}
 
 		// Store the file path locally and extension
