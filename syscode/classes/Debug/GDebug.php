@@ -40,18 +40,25 @@ use Syscode\Contracts\Debug\Handler as DebugContract;
 class GDebug implements DebugContract
 {
 	/**
-	 * The handler stack.
-	 * 
-	 * @var array $handlerStack
-	 */
-	protected $handlerStack = [];
-
-	/**
 	 * Allow Handlers to force the script to quit.
 	 * 
 	 * @var bool $allowQuit
 	 */
 	protected $allowQuit = true;
+	
+	/**
+	 * Benchmark instance.
+	 * 
+	 * @var string $benchmark
+	 */
+	protected $benchmark;
+
+	/**
+	 * The handler stack.
+	 * 
+	 * @var array $handlerStack
+	 */
+	protected $handlerStack = [];
 
 	/**
 	 * The send Http code by default: 500 Internal Server Error.
@@ -75,13 +82,6 @@ class GDebug implements DebugContract
 	protected $system;
 
 	/**
-	 * Benchmark instance.
-	 * 
-	 * @var string $benchmark
-	 */
-	protected $benchmark;
-
-	/**
 	 * In certain scenarios, like in shutdown handler, we can not throw exceptions.
 	 * 
 	 * @var bool $throwExceptions
@@ -91,7 +91,7 @@ class GDebug implements DebugContract
 	/**
 	 * Constructor. The Debug class instance.
 	 * 
-	 * @param  \Syscode\Core\Debug\Util\System|null  $system
+	 * @param  \Syscode\Debug\Util\System|null  $system
 	 * 
 	 * @return void
 	 */
@@ -110,7 +110,7 @@ class GDebug implements DebugContract
 	 *
 	 * @return string
 	 */
-	public function handleException(Throwable $exception)
+	public function handleException($exception)
 	{	
 		// The start benchmark
 		$this->benchmark->start('total_execution', LENEVOR_START);
@@ -123,31 +123,36 @@ class GDebug implements DebugContract
 		$handlerResponse    = null;
 		$handlerContentType = null;
 		
-		foreach (array_reverse($this->getHandlers()) as $handler)
-		{			
-			$handler->setDebug($this);
-			$handler->setException($exception);
-			$handler->setSupervisor($supervisor);
-			
-			$handlerResponse = $handler->handle();
-
-			// Collect the content type for possible sending in the headers
-			$handlerContentType = method_exists($handler, 'contentType') ? $handler->contentType() : null;
-
-			if (in_array($handlerResponse, [MainHandler::LAST_HANDLER, MainHandler::QUIT]))
-			{
-				break;
+		try 
+		{
+			foreach ($this->handlerStack as $handler)
+			{			
+				$handler->setDebug($this);
+				$handler->setException($exception);
+				$handler->setSupervisor($supervisor);
+				
+				$handlerResponse = $handler->handle();
+	
+				// Collect the content type for possible sending in the headers
+				$handlerContentType = method_exists($handler, 'contentType') ? $handler->contentType() : null;
+	
+				if (in_array($handlerResponse, [MainHandler::LAST_HANDLER, MainHandler::QUIT]))
+				{
+					break;
+				}
 			}
+	
+			$Quit = $handlerResponse == MainHandler::QUIT && $this->allowQuit();
 		}
-
-		$Quit = $handlerResponse == MainHandler::QUIT && $this->allowQuit();
-
-		// Returns the contents of the output buffer
-		$buffer = $this->system->CleanOutputBuffer();
+		finally
+		{
+			// Returns the contents of the output buffer
+			$output = $this->system->CleanOutputBuffer();	
+		}
 
 		// Returns the contents of the output buffer for loading time of page
 		$totalTime = $this->benchmark->getElapsedTime('total_execution');
-		$buffer    = str_replace('{elapsed_time}', $totalTime, $buffer);
+		$output    = str_replace('{elapsed_time}', $totalTime, $output);
 
 		if ($this->writeToOutput())
 		{
@@ -165,7 +170,7 @@ class GDebug implements DebugContract
 				}
 			}
 
-			$this->writeToOutputBuffer($buffer);
+			$this->writeToOutputBuffer($output);
 		}
 
 		if ($Quit)
@@ -174,7 +179,7 @@ class GDebug implements DebugContract
 			$this->system->stopException(1);
 		}
 
-		return $buffer;
+		return $output;
 	}
 
 	/**
@@ -191,7 +196,7 @@ class GDebug implements DebugContract
 			return $this->allowQuit;
 		}
 
-		return $this->allowQuit = (bool) exit;
+		return $this->allowQuit = (bool) $exit;
 	}
 
 	/**
@@ -257,7 +262,7 @@ class GDebug implements DebugContract
 			}
 			else
 			{
-				$this->exceptionHandler($exception);
+				$this->handleException($exception);
 			}
 
 			return true;
@@ -269,20 +274,67 @@ class GDebug implements DebugContract
 	/**
 	 * Pushes a handler to the end of the stack.
 	 * 
-	 * @param  string|callable  $handler
+	 * @param  \Callable|\Syscode\Contracts\Debug\Handler  $handler
+	 * 
+	 * @return \Syscode\Contracts\Debug\Handler
+	 */
+	public function pushHandler($handler)
+	{
+		return $this->prependHandler($handler);
+	}
+
+	/**
+	 * Appends a handler to the end of the stack.
+	 * 
+	 * @param  \Callable|\Syscode\Contracts\Debug\Handler  $handler
 	 * 
 	 * @return $this
 	 */
-	public function pushHandler($handler)
+	public function appendHandler($handler)
+	{
+		array_unshift($this->handlerStack, $this->resolveHandler($handler));
+
+		return $this;
+	}
+
+	/**
+	 * Prepends a handler to the start of the stack.
+	 * 
+	 * @param  \Callable|\Syscode\Contracts\Debug\Handler  $handler
+	 * 
+	 * @return $this
+	 */
+	public function prependHandler($handler)
+	{
+		array_unshift($this->handlerStack, $this->resolveHandler($handler));
+
+		return $this;
+	}
+
+	/**
+	 * Create a CallbackHandler from callable and throw if handler is invalid.
+	 * 
+	 * @param  \Callable|\Syscode\Contracts\Debug\Handler  $handler
+	 * 
+	 * @return \Syscode\Contracts\Debug\Handler
+	 * 
+	 * @throws \InvalidArgumentException If argument is not callable or instance of \Syscode\Contracts\Debug\Handler
+	 */
+	protected function resolveHandler($handler)
 	{
 		if (is_callable($handler))
 		{
 			$handler = new CallbackHandler($handler);
 		}
 
-		$this->handlerStack[] = $handler;
+		if ( ! $handler instanceof MainHandler) {
+            throw new InvalidArgumentException(
+                "Argument to " . __METHOD__ . " must be a callable, or instance of " .
+                "Syscode\\Contracts\\Debug\\Handler"
+            );
+        }
 
-		return $this;
+		return $handler;
 	}
 
 	/**
