@@ -320,6 +320,12 @@ class Response extends Status
 			throw new InvalidArgumentException(sprintf("[%s] is not a valid HTTP return status code", $code));
 		}
 
+		if ($this->isInformational() || $this->isEmpty()) 
+		{
+            $this->setContent(null);
+            unset($this->headers['Content-Type'], $this->headers['Content-Length']);
+		}
+
 		if ($text === null)
 		{
 			$this->statusText = isset($this->statusCodes[$code]) ? $this->statusCodes[$code] : 'Unknown status';
@@ -350,6 +356,30 @@ class Response extends Status
 	{
 		return $this->status < 100 || $this->status >= 600;
 	}
+
+	/**
+     * Is response informative?
+     *
+     * @final
+	 * 
+	 * @return void
+     */
+    public function isInformational()
+    {
+        return $this->status >= 100 && $this->status < 200;
+    }
+
+	/**
+     * Is the response empty?
+     *
+     * @final
+	 * 
+	 * @return void
+     */
+    public function isEmpty()
+    {
+        return in_array($this->status, [204, 304]);
+    }
 
 	/**
 	 * Returns the Response as an HTTP string.
