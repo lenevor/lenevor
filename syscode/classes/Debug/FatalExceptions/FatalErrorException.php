@@ -57,7 +57,7 @@ class FatalErrorException extends ErrorException
     {
         parent::__construct($message, $code, $severity, $filename, $lineno, $previous);
 
-        if ($trace !== null)
+        if (null !== $trace)
         {
             if ( ! $traceArgs)
             {
@@ -69,7 +69,7 @@ class FatalErrorException extends ErrorException
 
             $this->setTrace($trace);
         }
-        elseif ($traceOffset !== null)
+        elseif (null !== $traceOffset)
         {
             if (function_exists('xdebug_get_function_stack'))
             {
