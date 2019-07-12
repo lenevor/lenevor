@@ -287,7 +287,7 @@ class Lenevor implements LenevorContract
 	 * 
 	 * @return string
 	 */
-	public function displayPerformanceMetrics(string $output)
+	public function displayPerformanceMetrics($output)
 	{
 		$this->totalTime = $this->benchmark->getElapsedTime('total_execution');
 
