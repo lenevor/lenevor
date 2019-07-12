@@ -167,7 +167,7 @@ class Handler implements ExceptionHandlerContract
     }
 
     /**
-     * Handle an incoming HTTP request.
+     * Render an exception to a string using "GDebug".
      * 
      * @param  \Exception  $e
      * 
@@ -180,6 +180,10 @@ class Handler implements ExceptionHandlerContract
         return take(new GDebug, function ($debug) {
             
             $debug->pushHandler($this->DebugHandler());
+
+            $debug->writeToOutput(false);
+
+            $debug->allowQuit(false);
 
         })->handleException($e);
     }
