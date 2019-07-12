@@ -109,7 +109,7 @@ class System
      * 
      * @return string|false
      */
-    public function CleanOutputBuffer()
+    public function cleanOutputBuffer()
     {
         return ob_get_clean();
     }
