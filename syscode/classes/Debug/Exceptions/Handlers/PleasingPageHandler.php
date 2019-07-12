@@ -145,18 +145,17 @@ class PleasingPageHandler extends MainHandler
 	/**
 	 * Gathers the variables that will be made available to the view.
 	 * 
-	 * @param  \Throwable  $exception
-	 * 
 	 * @return  array
 	 */
-	protected function collectionVars(Throwable $exception)
+	protected function collectionVars()
 	{
-		$style   = file_get_contents($this->getResource('css/debug.base.css'));
-		$jscript = file_get_contents($this->getResource('js/debug.base.js'));
-		$tables  = array_merge($this->getDefaultTables(), $this->tables);
+		$supervisor = $this->getSupervisor();
+		$style      = file_get_contents($this->getResource('css/debug.base.css'));
+		$jscript    = file_get_contents($this->getResource('js/debug.base.js'));
+		$tables     = array_merge($this->getDefaultTables(), $this->tables);
 		
 		return [ 
-			'class'             => explode('\\', getClass($exception)),
+			'class'             => explode("\\", $supervisor->getExceptionName()),
 			'stylesheet'        => preg_replace('#[\r\n\t ]+#', ' ', $style),
 			'javascript'        => preg_replace('#[\r\n\t ]+#', ' ', $jscript),
 			'header'            => $this->getResource('views/header.php'),
@@ -172,9 +171,7 @@ class PleasingPageHandler extends MainHandler
 			'handlers'          => $this->getDebug()->getHandlers(),
 			'debug'             => $this->getDebug(),
 			'code'              => $this->getExceptionCode(),
-			'file'              => $exception->getFile(),
-			'line'              => $exception->getLine(),
-			'message'           => $exception->getMessage(),
+			'message'           => $supervisor->getExceptionMessage(),
 			'frames'            => $this->getExceptionFrames(),
 			'tables'            => $this->getProcessTables($tables),
 		];
@@ -342,7 +339,7 @@ class PleasingPageHandler extends MainHandler
 	{	
 		$templatePath = $this->getResource('debug.layout.php');
 
-		$vars = $this->collectionVars($this->getException());
+		$vars = $this->collectionVars();
 		
 		if (empty($vars['message'])) $vars['message'] = __('exception.noMessage');
 		
