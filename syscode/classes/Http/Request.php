@@ -72,13 +72,6 @@ class Request
 	protected $method = null;
 
 	/**
-	 * The parameter array.
-	 * 
-	 * @var array  $parameters
-	 */
-	protected $parameters;
-
-	/**
 	 * The detected uri and server variables.
 	 * 
 	 * @var string $server
