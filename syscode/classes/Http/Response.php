@@ -149,6 +149,9 @@ class Response extends Status
 		{
 			return $this;
 		}
+
+		// Valid headers
+		$this->prepare();
 			
 		// Headers
 		foreach ($this->headers->all() as $name => $value) 
@@ -230,6 +233,23 @@ class Response extends Status
 	}
 
 	/**
+	 * Prepares the Response before it is sent to the client.
+	 * 
+	 * @return void
+	 */
+	public function prepare()
+	{
+		$headers = $this->headers;
+
+		if ($this->isInformational() || $this->isEmpty()) 
+		{
+            $this->setContent(null);
+			$headers->remove('Content-Type');
+            $headers->remove('Content-Length');
+		}
+	}
+
+	/**
 	* Sets the response status code.
 	*
 	* @param  int          $code  The status code
@@ -247,12 +267,6 @@ class Response extends Status
 		if ($this->isInvalid())
 		{
 			throw new InvalidArgumentException(sprintf("[%s] is not a valid HTTP return status code", $code));
-		}
-
-		if ($this->isInformational() || $this->isEmpty()) 
-		{
-            $this->setContent(null);
-            unset($this->headers['Content-Type'], $this->headers['Content-Length']);
 		}
 
 		if ($text === null)
@@ -318,8 +332,15 @@ class Response extends Status
 	public function __toString()
 	{
 		return sprintf('%s %s %s', $this->protocol, $this->status, $this->statusText)."\r\n".
-            $this->headers->all()."\r\n".
+            $this->headers."\r\n".
             $this->getContent();
 	}
 
+	/**
+	 * Clone the current Response instance.
+	 */
+	public function __clone()
+	{
+		$this->headers = clone $this->headers;
+	}
 }
