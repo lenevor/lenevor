@@ -4,7 +4,7 @@ namespace Syscode\Http;
 
 Use Locale;
 use Exception;
-
+use Syscode\Http\Contributors\Parameters;
 
 /**
  * Lenevor Framework
@@ -180,7 +180,7 @@ class Request
 		$this->body         = $body;   
 		$this->uri          = $uri;
 		$this->http         = $http;
-		$this->server       = new Parameter($_SERVER);
+		$this->server       = new Parameters($_SERVER);
 		$this->validLocales = config('app.supportedLocales');
 		$this->method       = $this->server->get('REQUEST_METHOD') ?? 'GET';
 
