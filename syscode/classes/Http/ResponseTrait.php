@@ -26,14 +26,28 @@ use Syscode\Http\Exceptions\HttpResponseException;
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.1
  */
-trait ResponseTrait
+trait ResponseTrait 
 {
+    /**
+	 * The content of the response.
+	 * 
+	 * @var string $content
+	 */
+    protected $content = null;
+    
     /**
      * The exception that triggered the error response (if applicable).
      * 
      * @var \Exception|null $exception
      */
     protected $exception;
+
+    /**
+	 * The Headers class instance.
+	 *
+	 * @var \Syscode\Http\Headers $headers
+	 */
+	protected $headers;
     
 	/**
 	 * The parameter array.
@@ -76,7 +90,7 @@ trait ResponseTrait
      */
     public function header()
     {
-        return $this->getHeader();
+        return $this->headers->getHeader();
     }
 
     /**
