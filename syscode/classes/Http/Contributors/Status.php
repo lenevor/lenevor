@@ -1,7 +1,5 @@
 <?php
 
-namespace Syscode\Http;
-
 /**
  * Lenevor Framework
  *
@@ -23,22 +21,11 @@ namespace Syscode\Http;
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
  */
+ 
+namespace Syscode\Http\Contributors;
+
 class Status 
 {
-	/**
-	 * The content of the response.
-	 * 
-	 * @var string $content
-	 */
-	protected $content = null;
-
-	/**
-	 * An array of HTTP headers.
-	 *
-	 * @var array $herders
-	 */
-	public $headers = [];
-
 	/**
 	 * The HTTP status code.
 	 *
