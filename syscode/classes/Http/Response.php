@@ -4,6 +4,10 @@ namespace Syscode\Http;
 
 use BadMethodCallException;
 use InvalidArgumentException;
+use Syscode\Http\Contributors\{
+	Parameters,
+	Status
+};
 use Syscode\Filesystem\Exceptions\UnexpectedTypeException;
 
 /**
@@ -95,15 +99,11 @@ class Response extends Status
 	 */
 	public function __construct($content = null, int $status = 200, array $headers = [])
 	{
-		foreach ($headers as $key => $value)
-		{
-			$this->setHeader($key, $value);
-		}
-
 		$this->setContent($content);
 		$this->setStatusCode($status);
 
-		$this->parameters = new Parameter($_SERVER);
+		$this->headers    = new Headers($headers);
+		$this->parameters = new Parameters($_SERVER);
 	}
 
 	/**
@@ -114,26 +114,6 @@ class Response extends Status
 	public function getContent()
 	{
 		return $this->content;
-	}
-
-
-	/**
-	 * Get a HTTP response header.
-	 *
-	 * @param  string|null  $name  The header name, or null for all headers
-	 *
-	 * @return mixed
-	 */
-	public function getHeader($name = null)
-	{
-		if (func_num_args())
-		{
-			return isset($this->headers[$name]) ? $this->headers[$name] : null;
-		}
-		else
-		{
-			return $this->headers;
-		}
 	}
 
 	/**
@@ -171,7 +151,7 @@ class Response extends Status
 		}
 			
 		// Headers
-		foreach ($this->headers as $name => $value) 
+		foreach ($this->headers->all() as $name => $value) 
 		{
 			// Parse non-replace headers
 			if (is_int($name) && is_array($value))
@@ -245,57 +225,6 @@ class Response extends Status
 		}
 		
 		$this->content = (string) $content;
-
-		return $this;
-	}
-
-	/**
-	 * Returns all the headers.
-	 * 
-	 * @return array
-	 */
-	public function all()
-	{
-		return $this->headers;
-	}
-
-	/**
-	 * Adds a header to the queue.
-	 * 
-	 * @param  string       $name     The header name
-	 * @param  string       $value    The header value
-	 * @param  string|bool  $replace  If you want to replace the value exists by the header, it is not overwritten / overwritten when it is false
-	 *
-	 * @return $this
-	 */
-	public function setHeader($name, $value, $replace = true)
-	{
-		if ($replace)
-		{
-			$this->headers[$name] = $value;
-		}
-		else
-		{
-			$this->headers[] = [$name, $value];
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Adds multiple header to the queue.
-	 *
-	 * @param  array        $header   The header name
-	 * @param  string|bool  $replace  If you want to replace the value exists by the header, it is not overwritten / overwritten when it is false
-	 *
-	 * @return mixed
-	 */
-	public function setHeaders($header, $replace = true)
-	{
-		foreach ($header as $key => $value) 
-		{
-			$this->setHeader($key, $value, $replace);
-		}
 
 		return $this;
 	}
@@ -389,7 +318,7 @@ class Response extends Status
 	public function __toString()
 	{
 		return sprintf('%s %s %s', $this->protocol, $this->status, $this->statusText)."\r\n".
-            $this->headers."\r\n".
+            $this->headers->all()."\r\n".
             $this->getContent();
 	}
 
