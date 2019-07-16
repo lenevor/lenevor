@@ -90,7 +90,7 @@ trait ResponseTrait
      */
     public function header()
     {
-        return $this->headers->getHeader();
+        return $this->headers->get();
     }
 
     /**
