@@ -51,9 +51,11 @@ return [
         'Http' => Syscode\Support\Facades\Http::class,
         'Lang' => Syscode\Support\Facades\Lang::class,
         'Prime' => Syscode\Support\Facades\Prime::class,
+        'Redirect' => Illuminate\Support\Facades\Redirect::class,
         'Request' => Syscode\Support\Facades\Request::class,
         'Response' => Syscode\Support\Facades\Response::class,
         'Route' => Syscode\Support\Facades\Route::class,
+        'URL' => Syscode\Support\Facades\URL::class,
         'View' => Syscode\Support\Facades\View::class,
 
     ],
