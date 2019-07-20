@@ -197,7 +197,7 @@ header:hover h2 {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: pre;
-    width: 70%;
+    width: 60%;
 }
 
 .plain-exception {
