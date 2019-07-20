@@ -4,7 +4,7 @@ return [
 
     /*
     |------------------------------------------------------------------------
-    | View Language Lines                                                       
+    | Exception Language Lines                                                       
     |------------------------------------------------------------------------
     |
     | The following language lines contain the error messages pre-determined 

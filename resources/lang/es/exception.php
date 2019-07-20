@@ -4,7 +4,7 @@ return [
 
     /*
     |------------------------------------------------------------------------
-    | Vista de Líneas De Idioma                                                       
+    | Líneas De Idioma De Excepciones                                                     
     |------------------------------------------------------------------------
     |
     | Las siguientes líneas de idioma contienen los mensajes de error 
