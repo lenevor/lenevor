@@ -47,7 +47,7 @@ trait ResponseTrait
 	 *
 	 * @var \Syscode\Http\Headers $headers
 	 */
-	protected $headers;
+	public $headers;
     
 	/**
 	 * The parameter array.
@@ -84,13 +84,19 @@ trait ResponseTrait
     }
 
     /**
-     * Gets a header on the response.
+     * Sets a header on the response.
+     * 
+     * @param  string  $key      The header name
+	 * @param  string  $values   The value or an array of values
+	 * @param  bool    $replace  If you want to replace the value exists by the heade
      * 
      * @return array
      */
-    public function header()
+    public function header($key, $values, $replace = true)
     {
-        return $this->headers->get();
+        $this->headers->set($key, $values, $replace);
+
+        return $this;
     }
 
     /**
