@@ -166,7 +166,7 @@ class Str
      */
     public static function startsWith($haystack, $needles)
     {
-        foreach ($needles as $needle) 
+        foreach ((array) $needles as $needle) 
         {
             if (($needle != '') && substr($haystack, 0, strlen($needle)) === (string) $needle)
             {
