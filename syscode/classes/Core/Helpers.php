@@ -24,6 +24,8 @@
  
 use Syscode\View\View;
 use Syscode\Core\Application;
+use Syscode\Routing\Redirector;
+use Syscode\Http\RedirectResponse;
 
 if ( ! function_exists('abort')) 
 {
@@ -188,6 +190,27 @@ if ( ! function_exists('isGetCommonPath'))
     }
 }
 
+if ( ! function_exists('redirect'))
+{
+    /**
+     * Get an instance of the redirect.
+     *
+     * @param  string|null  $url      The url  
+     * @param  int          $code     The redirect status code
+     * @param  array        $headers  An array of headers
+     *
+     * @return void
+     */
+    function redirect($url = null, $code = 302, $headers = [])
+    {
+        if (null === $url)
+        {
+            return app('redirect');
+        }
+        
+        return app('redirect')->to($url, $code, $headers);
+    }
+}
 
 if ( ! function_exists('response')) {
     /**
