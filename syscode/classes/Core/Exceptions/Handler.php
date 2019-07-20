@@ -219,15 +219,22 @@ class Handler implements ExceptionHandlerContract
      * @param  \Syscode\Http\Response  $response
      * @param  \Exception              $e 
      * 
-     * @return $\Syscode\Http\Response
+     * @return \Syscode\Http\Response
      */
     protected function toSyscodeResponse($response, Exception $e)
     {
-        $response = new Response(
-            $response->content(),
-            $response->status(),
-            $response->header()
-        );
+        if ($response instanceof RedirectResponse)
+        {
+            $response = new RedirectResponse(
+                $response->getTargetUrl(), $response->status(), $response->headers->all()
+            );
+        }
+        else
+        {
+            $response = new Response(
+                $response->content(), $response->status(), $response->headers->all()
+            );
+        }
 
         return $response->withException($e);
     }
