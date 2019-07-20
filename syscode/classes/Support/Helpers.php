@@ -5,7 +5,6 @@ use Syscode\View\View;
 use Syscode\Support\Arr;
 use Syscode\Support\Str;
 use Syscode\Http\Request;
-use Syscode\Http\Response;
 use Syscode\Core\Http\Lenevor;
 use Syscode\Support\HigherOrderTakeProxy;
 
@@ -271,26 +270,6 @@ if ( ! function_exists('last'))
     }
 }
 
-if ( ! function_exists('redirect'))
-{
-    /**
-     * Redirects to another url. Sets the redirect header, sends the headers and exits.  
-     * Can redirect via a Location header or using a refresh header.
-     *
-     * @param  string  $url     The url  
-     * @param  string  $method  The redirect method to use 'Location' or 'Refresh'
-     * @param  int     $code    The redirect status code
-     *
-     * @return void
-     *
-     * @uses   Response::redirect
-     */
-    function redirect($url = '', $method = 'auto', $code = 302)
-    {
-        Response::redirect($url, $method, $code);
-    }
-}
-
 if ( ! function_exists('segment'))
 {
   /**
@@ -468,7 +447,7 @@ if ( ! function_exists('url'))
             $path = implode('/', $path);
         }
 
-        return Uri::to($path);
+        return config('app.baseUrl').$_SERVER['REQUEST_URI'].$path;
     }
 }
 
