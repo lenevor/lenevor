@@ -158,6 +158,66 @@ class Http
 	}
 	
 	/**
+	 * Prepares the base URL.
+	 * 
+	 * @return string
+	 */
+	public function prepareBaseUrl() 
+	{
+		$filename = basename($this->server('SCRIPT_FILENAME'));
+		
+		if (basename($this->server('SCRIPT_NAME')) === $filename)
+		{
+			$baseUrl = $this->server('SCRIPT_NAME');
+		}
+		elseif (basename($this->server('PHP_SELF')) === $filename)
+		{
+			$baseUrl = $this->server('PHP_SELF');
+		}
+		elseif (basename($this->server('ORIG_SCRIPT_NAME')) === $filename)
+		{
+			$baseUrl = $this->server('ORIG_SCRIPT_NAME');
+		}
+		else
+		{
+			$path = $this->server('PHP_SELF', '');
+			$file = $this->server('SCRIPT_FILENAME', '');
+			$segs = explode('/', trim($file, '/'));
+			$segs = array_reverse($segs);
+			$index = 0;
+			$last = count($segs);
+			$baseUrl = '';
+			
+			do
+			{
+				$seg = $segs[$index];
+				$baseUrl = '/'.$seg.$baseUrl;
+				++$index;
+			} while ($last > $index && (false !== $pos = strpos($path, $baseUrl)) && 0 != $pos);
+		}
+
+		$baseUrl = dirname(($baseUrl));
+		
+		// Does the baseUrl have anything in common with the request_uri?
+		$requestUri = $this->parseRequestURI();
+
+		if ('' !== $requestUri && '/' !== $requestUri[0])
+		{
+			$requestUri = '/'.$requestUri;
+		}
+		
+		// If using mod_rewrite or ISAPI_Rewrite strip the script filename
+		// out of baseUrl. $pos !== 0 makes sure it is not matching a value
+		// from PATH_INFO or QUERY_STRING
+		if (strlen($requestUri) >= strlen($baseUrl) && (false !== $pos = strpos($requestUri, $baseUrl)) && 0 !== $pos)
+		{
+			$baseUrl = substr($requestUri, 0, $pos + strlen($baseUrl));
+		}
+		
+		return rtrim($baseUrl, '/'.DIRECTORY_SEPARATOR);
+	}
+	
+	/**
 	 * Determines if this request was made from the command line (CLI).
 	 * 
 	 * @return bool
@@ -203,8 +263,8 @@ class Http
 		if ($this->server('HTTPS') == 'on' ||
 			$this->server('HTTPS') == 1 ||
 			$this->server('SERVER_PORT') == 443 ||
-			(Configure::get('security.allow-x-headers', false) && $this->server('HTTP_X_FORWARDED_PROTO') == 'https') ||
-			(Configure::get('security.allow-x-headers', false) && $this->server('HTTP_X_FORWARDED_PORT') == 443))
+			(config('security.allow-x-headers', false) && $this->server('HTTP_X_FORWARDED_PROTO') == 'https') ||
+			(config('security.allow-x-headers', false) && $this->server('HTTP_X_FORWARDED_PORT') == 443))
 		{
 			return 'https';
 		}
