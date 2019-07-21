@@ -2,6 +2,10 @@
 
 namespace Syscode\Http;
 
+use InvalidArgumentException;
+use Syscode\Http\Contributors\Parameters;
+use Syscode\Http\Exceptions\HttpURIException;
+
 /**
  * Lenevor Framework
  *
@@ -21,118 +25,133 @@ namespace Syscode\Http;
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.1.1
  */
-class Uri
+class URI
 {
+	/**
+	 * Returns default schemes/ports.
+	 * 
+	 * @var array $defaultPorts
+	 */
+	protected $defaultPorts = [
+		'http'  => 80,
+		'https' => 443,
+		'ftp'   => 21,
+		'sftp'  => 22
+	];
+
+	/**
+	 * The name of any fragment.
+	 * 
+	 * @var string $fragment
+	 */
+	protected $fragment = '';
+
+	/**
+	 * The URI Host.
+	 * 
+	 * @var string $host
+	 */
+	protected $host;
+	
+	/**
+	 * The URI User Password.
+	 * 
+	 * @var string $password
+	 */
+	protected $password;
+
+	/**
+	 * The URI path.
+	 * 
+	 * @var string $path
+	 */
+	protected $path;
+
+	/**
+	 * The URI Port.
+	 * 
+	 * @var int $port
+	 */
+	protected $port;
+
+	/**
+	 * The query string.
+	 * 
+	 * @var string $query
+	 */
+	protected $query;
+
+	/**
+	 * The URI Scheme.
+	 * 
+	 * @var string $scheme
+	 */
+	protected $scheme = 'http';
+
 	/**
 	 * The URI segments.
 	 *
 	 * @var array $segments
 	 */
-	protected $segments = null;
+	protected $segments = [];
 
 	/**
-	 * The URI string.
-	 *
-	 * @var string $uri
+	 * Whether passwords should be shown in userInfo/authority calls.
+	 * 
+	 * @var boolean $showPassword
 	 */
-	protected $uri = null;
+	protected $showPassword = false;
+	
+	/**
+	 * The URI User Info.
+	 * 
+	 * @var string $user
+	 */
+	protected $user;
 
 	/**
-	 * Gets the base URL, including the indexPage if wanted.
-	 *
-	 * @param  bool  $indexPage  Include index.php in the URL as optional
-	 *
-	 * @return string
+	 * Constructor. The URI class instance.
+	 * 
+	 * @param  string|null  $uri
+	 * 
+	 * @return void
+	 * 
+	 * @throws \Syscode\Http\Exceptions\ErrorToParseURIException
 	 */
-	public static function base(bool $indexPage = true)
+	public function __construct(string $uri = null)
 	{
-		$url = config('baseUrl');
-
-		if ($indexPage && config('indexPage'))
+		if ( ! is_null($uri))
 		{
-			$url .= config('indexPage').'/';
+			$this->setUri($uri);
 		}
-
-		return $url;
 	}
 
 	/**
-	 * Creates a url with the given uri, including the base url.
-	 *
-	 * @param  string  $uri  The uri to create the URL
-	 *
-	 * @return string
+	 * Sets and overwrites any current URI information.
+	 * 
+	 * @param  string|null  $uri
+	 * 
+	 * @return mixed
+	 * 
+	 * @throws \Syscode\Http\Exceptions\HttpURIException
 	 */
-	public static function create(string $uri)
+	public function setUri(string $uri = null)
 	{
-		$url = '';
-
-		is_null($uri) && $uri = Uri::get();
-
-		// If the given uri is not a full URL
-		if ( ! preg_match("#^(http|https|ftp)://#i", $uri))
+		if ( ! is_null($uri))
 		{
-			$url .= config('baseUrl').$_SERVER['REQUEST_URI'];
+			$parts = parse_url($uri);
 
-			if ($indexPage = config('indexPage'))
+			if ($parts === false)
 			{
-				$url .= $indexPage.'/';
+				throw HttpURIException::UnableToParseURI($uri);
 			}
+
+			$this->applyParts($parts);
 		}
 
-		$url .= ltrim($uri, '/');
-
-		return $url;
-	}
-
-	/**
-	 * Get a path relative to the application.
-	 *
-	 * @param  string  $uri
-	 *
-	 * @return string
-	 */
-	public static function to(string $uri) 
-	{
-		if (strpos($uri, '://')) return $uri;
-
-		$base = config('app.baseUrl').$_SERVER['REQUEST_URI'];
-
-		if ($index = config('app.indexPage')) 
-		{
-			$index .= '/';
-		}
-
-		return rtrim($base, '/').'/'.$index.ltrim($uri, '/');
-	}
-
-	/**
-	 * Get full uri relative to the application.
-	 *
-	 * @param  string       $uri
-	 * @param  string|null  $secure
-	 *
-	 * @return string
-	 */
-	public static function full(string $uri, $secure = null) 
-	{
-		if (strpos($uri, '://')) return $uri;
-
-		// create a server object from global
-		$server = new Parameter($_SERVER);
-
-		if ( ! is_null($secure)) 
-		{
-			$scheme = $secure ? 'https://' : 'http://';
-		}
-		else 
-		{
-			$scheme = ($server->has('HTTPS') and $server->get('HTTPS')) !== '' ? 'http://' : 'https://';
-		}
-
-		return $scheme.$server->get('HTTP_HOST').self::to($uri);
+		return $this;
 	}
 
 	/**
@@ -142,7 +161,7 @@ class Uri
 	 */
 	public function get()
 	{
-		return '/'.ltrim($this->uri, '/');
+		return '/'.ltrim($this->path, '/');
 	}
 
 	/**
@@ -154,9 +173,20 @@ class Uri
 	 */
 	public function set($uri)
 	{
-		$this->uri = $uri;
+		$this->path = $uri;
 
 		return $this;
+	}
+
+	/**
+	 * Retrieve the path component of the URI. The path can either be empty or absolute 
+	 * (starting with a slash) or rootless (not starting with a slash).
+	 * 
+	 * @return string
+	 */
+	public function getPath()
+	{
+		return (is_null($this->path) ? '' : $this->path);
 	}
 
 	/**
@@ -168,9 +198,9 @@ class Uri
 	 */
 	public function setPath(string $path) 
 	{
-		$this->uri = $this->filterPath($path);
+		$this->path = $this->filterPath($path);
 
-		$this->filterSegments($this->uri);
+		$this->filterSegments($this->path);
 
 		return $this;
 	} 
@@ -198,7 +228,7 @@ class Uri
 	 */
 	protected function filterSegments($uri)
 	{
-		$this->segments = ( ! empty($uri) ? explode('/', $uri) : []);
+		$this->segments = (empty($uri) ? [] : explode('/', $uri));
 	}
 
 	/**
@@ -238,12 +268,280 @@ class Uri
 	}
 
 	/**
+	 * Retrieve the scheme component of the URI.
+	 * 
+	 * @return string
+	 */
+	public function getScheme()
+	{
+		return $this->scheme;
+	}
+
+	/**
+	 * Sets the scheme for this URI.
+	 * 
+	 * @param  string  $str
+	 * 
+	 * @return $this
+	 */
+	public function setScheme(string $str)
+	{
+		$str = preg_replace('~:(//)?$~', '', strtolower($str));
+
+		$this->scheme = $str;
+
+		return $this->scheme;
+	}
+
+	/**
+	 * Retrieve the user component of the URI.
+	 * 
+	 * @return string|null
+	 */
+	public function getUserInfo()
+	{
+		$user = $this->user;
+
+		if ($this->showPassword === true && ! empty($this->password))
+		{
+			$user .= ":$this->password";
+		}
+
+		return $user;
+	}
+
+	/**
+	 * Sets the userInfo/Authority portion of the URI.
+	 * 
+	 * @param  string  $user
+	 * @param  string  $pass
+	 * 
+	 * @return $this
+	 */
+	public function setUserInfo(string $user, string $pass)
+	{
+		$this->user     = trim($user);
+		$this->password = trim($pass);
+
+		return $this;
+	}
+
+	/**
+	 * Temporarily sets the URI to show a password in userInfo.
+	 * 
+	 * @param  boolean  $option  (true by default)
+	 * 
+	 * @return $this
+	 */
+	public function showPassword(bool $option = true)
+	{
+		$this->password = $option;
+
+		return $this->password;
+	}
+
+	/**
+	 * Retrieve the authority component of the URI.
+	 * 
+	 * @param  boolean  $ignore  (true by default)
+	 * 
+	 * @return string
+	 */
+	public function getAuthority(bool $ignore = false)
+	{
+		if (empty($this->host))
+		{
+			return '';
+		}
+
+		$authority = $this->host;
+
+		if ( ! empty($this->getUserInfo()))
+		{
+			$authority = $this->getUserInfo().'@'.$authority;
+		}
+
+		if ( ! empty($this->port) && ! $ignore)
+		{
+			if ($this->port !== $this->defaultPorts[$this->scheme])
+			{
+				$authority .= ":$this->port";
+			}
+		}
+
+		$this->showPassword = false;
+
+		return $authority;
+	}
+
+	/**
+	 * Parses the given string an saves the appropriate authority pieces.
+	 * 
+	 * @param  string  $str
+	 * 
+	 * @return $this
+	 */
+	public function setAuthority(string $str)
+	{
+		$parts = parse_url($str);
+
+		if (empty($parts['host']) && ! empty($parts['path']))
+		{
+			$parts['host'] = $parts['path'];
+			unset($parts['path']);
+		}
+
+		$this->applyParts($parts);
+
+		return $this;
+	}
+
+	/**
+	 * Retrieve the host component of the URI.
+	 * 
+	 * @return string
+	 */
+	public function getHost()
+	{
+		return $this->host;
+	}
+
+	/**
+	 * Sets the host name to use.
+	 * 
+	 * @param  string  $str
+	 * 
+	 * @return $this
+	 */
+	public function setHost(string $str)
+	{
+		$this->host = trim($str);
+
+		return $this->host;
+	}
+
+	/**
+	 * Retrieve the port component of the URI.
+	 * 
+	 * @return int|null
+	 */
+	public function getPort()
+	{
+		return $this->port;
+	}
+
+	/**
+	 * Sets the port portion of the URI.
+	 * 
+	 * @param  int|null  $port  (null by default)
+	 * 
+	 * @return string
+	 */
+	public function setPort(int $port = null)
+	{
+		if (is_null($port))
+		{
+			return $this;
+		}
+
+		if ($port <= 0 || $port > 65355)
+		{
+			throw HttpURIException::invalidPort($port);
+		}
+
+		$this->port = $port;
+
+		return $this->port;
+	}
+
+	/**
+	 * Retrieve a URI fragment.
+	 * 
+	 * @return string
+	 */
+	public function getFragment()
+	{
+		return is_null($this->fragment) ? '' : $this->fragment;
+	}
+
+	/**
+	 * Sets the fragment portion of the URI.
+	 * 
+	 * @param  string  $str
+	 * 
+	 * @return $this
+	 */
+	public function setFragment(string $str)
+	{
+		$this->fragment = trim(str, '# ');
+
+		return $this->fragment;
+	}
+
+	/**
+	 * Saves our parts from a parse_url call.
+	 * 
+	 * @param  array  $parts
+	 * 
+	 * @return mixed
+	 */
+	public function applyParts(array $paths)
+	{
+		if (isset($parts['scheme']))
+		{
+			$this->SetScheme(rtrim($parts['scheme'], ':/'));
+		}
+		else
+		{
+			$this->setScheme('http');
+		}
+
+		if ( ! empty($parts['host']))
+		{
+			$this->host = $parts['host'];
+		}
+
+		if (isset($parts['port']))
+		{
+			if ( ! is_null($parts['port']))
+			{
+				$this->port = $parts['port'];
+			}
+		}
+
+		if ( ! empty($parts['user']))
+		{
+			$this->user = $parts['user'];
+		}
+
+		if ( ! empty($parts['pass']))
+		{
+			$this->password = $parts['pass'];
+		}
+
+		if ( ! empty($parts['path']))
+		{
+			$this->path = $this->filterPath($parts['path']);
+		}
+
+		if ( ! empty($parts['fragment']))
+		{
+			$this->fragment = $parts['fragment'];
+		}
+
+		if ( ! empty($parts['path']))
+		{
+			$this->segments = explode('/', $parts['path'], '/');
+		}
+	}
+
+	/**
 	 * Returns the URI string.
 	 *
 	 * @return string
 	 */
 	public function __toString()
 	{
-		return (string) $this->get();
+		return (string) $this->getPath();
 	}
 }
