@@ -37,6 +37,13 @@ class Request
 	protected static $active = false;
 
 	/**
+	 * The base URL.
+	 * 
+	 * @var string $baseUrl
+	 */
+	protected $baseUrl;
+
+	/**
 	 * Gets the string with format JSON.
 	 * 
 	 * @var string $body 
@@ -83,7 +90,7 @@ class Request
 	 *
 	 * @var array|null $uri 
 	 */
-	public $uri = null;
+	protected $uri = null;
 
 	/**
 	 * Stores the valid locale codes.
@@ -91,6 +98,36 @@ class Request
 	 * @var array $validLocales
 	 */
 	protected $validLocales = [];
+
+	/**
+	 * Constructor: Initialize the Request class.
+	 * 
+	 * @param  string|null         $body
+	 * @param  \Syscode\Http\Uri   $uri
+	 * @param  \Syscode\Http\Http  $http
+	 * 
+	 * @return string
+	 */
+	public function __construct(string $body = 'php://input', URI $uri, Http $http)
+	{
+		static::$active = $this;
+		
+		// Get our body from php://input
+		if ($body === 'php://input')
+		{
+			$body = file_get_contents('php://input');
+		}
+
+		$this->body         = $body;   
+		$this->uri          = $uri;
+		$this->http         = $http;
+		$this->server       = new Parameters($_SERVER);
+		$this->validLocales = config('app.supportedLocales');
+		$this->method       = $this->server->get('REQUEST_METHOD') ?? 'GET';
+
+		$this->detectURI(config('app.uriProtocol'), config('app.baseUrl'));
+		$this->detectLocale();
+	}
 
 	/**
 	 * Returns the active request currently being used.
@@ -159,39 +196,10 @@ class Request
 	}
 
 	/**
-	 * Constructor: Initialize the Request class.
-	 * 
-	 * @param  string|null         $body
-	 * @param  \Syscode\Http\Uri   $uri
-	 * @param  \Syscode\Http\Http  $http
-	 * 
-	 * @return string
-	 */
-	public function __construct(string $body = 'php://input', Uri $uri, Http $http)
-	{
-		static::$active = $this;
-		
-		// Get our body from php://input
-		if ($body === 'php://input')
-		{
-			$body = file_get_contents('php://input');
-		}
-
-		$this->body         = $body;   
-		$this->uri          = $uri;
-		$this->http         = $http;
-		$this->server       = new Parameters($_SERVER);
-		$this->validLocales = config('app.supportedLocales');
-		$this->method       = $this->server->get('REQUEST_METHOD') ?? 'GET';
-
-		$this->detectURI(config('app.uriProtocol'), config('app.baseUrl'));
-		$this->detectLocale();
-	}
-
-	/**
 	 * Detects and returns the current URI based on a number of different server variables.
 	 * 
 	 * @param  string  $protocol
+	 * @param  string  $baseUrl
 	 * 
 	 * @return string
 	 */
@@ -199,9 +207,13 @@ class Request
 	{
 		$this->uri->setPath($this->http->detectPath($protocol));
 
+		$baseUrl = ! empty($baseUrl) ? rtrim($baseUrl, '/ ').'/' : $baseUrl;
+
 		if ( ! empty($baseUrl))
 		{
-			// Finish (ojo)
+			$this->uri->setScheme(parse_url($baseUrl, PHP_URL_SCHEME));
+			$this->uri->setHost(parse_url($baseUrl, PHP_URL_HOST));
+			$this->uri->setPort(parse_url($baseUrl, PHP_URL_PORT));
 		}
 		else 
 		{
@@ -288,16 +300,6 @@ class Request
 	}
 
 	/**
-	 * Contents of the Host: header from the current request, if there is one.
-	 * 
-	 * @return bool
-	 */
-	public function getHost()
-	{
-		return $this->server->get('HTTP_HOST');
-	}
-
-	/**
 	 * A convenience method that grabs the raw input stream and decodes
 	 * the JSON into an array.
 	 * 
@@ -347,6 +349,102 @@ class Request
 		$this->method = $method;
 
 		return $this;
+	}
+
+	/**
+	 * Returns the root URL from which this request is executed.
+	 * 
+	 * @return string
+	 */
+	public function getBaseUrl()
+	{
+		if (null === $this->baseUrl)
+		{
+			$this->baseUrl = $this->http->prepareBaseUrl();
+		}
+
+		return $this->baseUrl;
+	}
+	
+	/**
+	 * Gets the request's scheme.
+	 * 
+	 * @return string
+	 */
+	public function getScheme()
+	{
+		return $this->http->isSecure() ? $this->uri->setScheme('https') : $this->uri->setScheme('http');
+	}
+
+	/**
+	 * Returns the host name.
+	 * 
+	 * @return void
+	 */
+	public function getHost()
+	{
+		if ( ! $host = $this->server->get('SERVER_NAME'))
+		{
+			$host = $this->server->get('SERVER_ADDR', '');
+		}
+
+		$host = strtolower(preg_replace('/:\d+$/', '', $this->uri->setHost($host)));
+
+		return $host;
+	}
+
+	/**
+	 * Returns the port on which the request is made.
+	 * 
+	 * @return int
+	 */
+	public function getPort()
+	{
+		if ( ! $this->server->get('HTTP_HOST')) 
+		{
+			return $this->server->get('SERVER_PORT');
+		}
+		
+		return 'https' === $this->getScheme() ? $this->uri->setPort(443) : $this->uri->setPort(80);
+	}
+
+	/**
+	 * Returns the HTTP host being requested.
+	 * 
+	 * @return string
+	 */
+	public function getHttpHost()
+	{
+		$scheme = $this->getScheme();
+		$host   = $this->getHost();
+		$port   = $this->getPort();
+
+		if (('http' === $scheme && 80 === $port) || ('https' === $scheme && 443 === $port))		
+		{
+			return $host;
+		}
+
+		return $host.':'.$port;
+	}
+
+	/**
+	 * Gets the scheme and HTTP host.
+	 * 
+	 * @return string
+	 */
+	public function getSchemeWithHttpHost()
+	{
+		return $this->getScheme().'://'.$this->getHttpHost();
+	}
+
+	/**
+	 * Get the root URL for the application.
+	 * 
+	 * @return string
+	 */
+	public function root()
+	{
+		return rtrim($this->getSchemeWithHttpHost().$this->getBaseUrl(), '/');
 	}
 
 	/**
