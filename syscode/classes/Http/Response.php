@@ -4,6 +4,7 @@ namespace Syscode\Http;
 
 use BadMethodCallException;
 use InvalidArgumentException;
+use UnexpectedValueException;
 use Syscode\Http\Contributors\{
 	Parameters,
 	Status
@@ -35,59 +36,6 @@ class Response extends Status
 {
 	use ResponseTrait;
 
-   /**
-    * Redirects to another url. Sets the redirect header, sends the headers and exits.
-    * Can redirect via a Location header or using a refresh header.
-    *
-    * @param  string  $url     The url
-    * @param  string  $method  The redirect method to use 'Location' or 'Refresh'
-    * @param  int     $code    The redirect status code
-    *
-    * @return void
-    *
-    * @uses   \Syscode\Http\Uri
-    */
-	public static function redirect($url = '', $method = 'auto', $code = 302)
-	{
-		$response = new static;
-
-		$response->setStatusCode($code);
-
-		if (strpos($url, '://') === false)
-		{
-			$url = $url !== '' ? Uri::create($url) : Uri::base();
-		}
-
-		switch($method)
-		{
-			case 'refresh':
-				$response->setHeader('Refresh', '0;url='.$url);
-				break;
-			default:
-				$response->setHeader('Location', $url);
-				break; 
-		}
-
-		$response->send(true);
-
-		exit;
-	}
-
-	/**
-	 * Creates an instance of the same response class for rendering contents to the content, 
-	 * status code and headers.
-	 *
-	 * @param  string  $content  The response content  
-	 * @param  int     $status   The HTTP response status for this response
-	 * @param  array   $headers  Array of HTTP headers for this response
-	 *
-	 * @return response
-	 */
-	public static function render($content = null, $status = 200, $headers = [])
-	{
-		return new static($content, $status, $headers);
-	}
-
 	/**
 	 * Sets up the response with a content and a status code.
 	 *
@@ -97,13 +45,28 @@ class Response extends Status
 	 *
 	 * @return string
 	 */
-	public function __construct($content = null, int $status = 200, array $headers = [])
+	public function __construct($content = '', int $status = 200, array $headers = [])
 	{
 		$this->setContent($content);
 		$this->setStatusCode($status);
 
 		$this->headers    = new Headers($headers);
 		$this->parameters = new Parameters($_SERVER);
+	}
+
+	/**
+	 * Creates an instance of the same response class for rendering contents to the content, 
+	 * status code and headers.
+	 *
+	 * @param  mixed   $content  The response content  
+	 * @param  int     $status   The HTTP response status for this response (200 by default)
+	 * @param  array   $headers  Array of HTTP headers for this response
+	 *
+	 * @return static
+	 */
+	public static function render($content = '', $status = 200, $headers = [])
+	{
+		return new static($content, $status, $headers);
 	}
 
 	/**
@@ -154,19 +117,12 @@ class Response extends Status
 		$this->prepare();
 			
 		// Headers
-		foreach ($this->headers->all() as $name => $value) 
+		foreach ($this->headers->all() as $name => $values) 
 		{
-			// Parse non-replace headers
-			if (is_int($name) && is_array($value))
+			foreach ($values as $value)
 			{
-				isset($value[0]) && $name = $value[0];
-				isset($value[1]) && $name = $value[1];
+				header("{$name}: {$value}", true, $this->status);
 			}
-
-			// Create the header
-			is_string($name) && $value = "{$name}: {$value}";
-
-			header($value, true, $this->status);
 		}
 
 		// Status
@@ -310,6 +266,18 @@ class Response extends Status
     public function isInformational()
     {
         return $this->status >= 100 && $this->status < 200;
+	}
+	
+	/**
+     * Is the response a redirect?
+     *
+     * @final
+	 * 
+	 * @return void
+     */
+    public function isRedirection()
+    {
+        return $this->status >= 300 && $this->status < 400;
     }
 
 	/**
