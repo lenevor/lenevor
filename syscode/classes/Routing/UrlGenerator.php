@@ -69,6 +69,41 @@ class UrlGenerator
     }
 
     /**
+     * Get the current URL for the request.
+     * 
+     * @return string
+     */
+    public function current()
+    {
+        return $this->to($this->request->getPathInfo());
+    }
+
+    /**
+     * Get the URL for the previous request.
+     * 
+     * @param  mixed  $fallback
+     * 
+     * @return string
+     */
+    public function previuos($fallback = false)
+    {
+        $referer = $this->request->referer();
+
+        $url = $referer ? $this->to($referer) : [];
+
+        if ($url)
+        {
+            return $url;
+        }
+        elseif ($fallback)
+        {
+            return $this->to($fallback);
+        }
+
+        return $this->to('/');
+    }
+
+    /**
      * Generate a absolute URL to the given path.
      * 
      * @param  string     $path
@@ -79,6 +114,9 @@ class UrlGenerator
      */
     public function to($path, $options = [], $secure = null)
     {
+        // First we will check if the URL is already a valid URL. If it is we will not
+        // try to generate a new one but will simply return the URL as is, which is
+        // convenient since developers do not always have to check if it's valid.
         if ($this->isValidUrl($path))
         {
             return $path;
@@ -91,6 +129,68 @@ class UrlGenerator
         $root = $this->getRootUrl($scheme);
 
         return $this->trim($root, $path, $tail);
+    }
+
+    /**
+     * Generate a secure, absolute URL to the given path.
+     * 
+     * @param  string  $path
+     * @param  array   $parameters
+     * 
+     * @return string
+     */
+    public function secure($path, $parameters = [])
+    {
+        return $this->to($path, $parameters, true);
+    }
+
+    /**
+     * Generate a URL to an application asset.
+     * 
+     * @param  string     $path
+     * @param  bool|null  $secure  (null by default)
+     * 
+     * @return string
+     */
+    public function asset($path, $secure = null)
+    {
+        if ($this->isValidUrl($path))
+        {
+            return $path;
+        }
+
+        // Once we get the root URL, we will check to see if it contains an index.php
+        // file in the paths. If it does, we will remove it since it is not needed
+        // for asset paths, but only for routes to endpoints in the application.
+        $root = $this->getRootUrl($this->getScheme($secure));
+
+        return $this->removeIndex($root).'/'.trim($path, '/');
+    }
+    
+    /**
+     * Generate a URL to a secure asset.
+     * 
+     * @param  string
+     * 
+     * @return string
+     */
+    public function secureAsset($path)
+    {
+        return $this->asset($path, true);
+    }
+
+    /**
+     * Remove the index.php file from a path.
+     * 
+     * @param  string  $root
+     * 
+     * @return string
+     */
+    protected function removeIndex($root)
+    {
+        $index = 'index.php';
+
+        return Str::contains($root, $index) ? str_replace('/'.$index, '', $root) : $root;
     }
 
     /**
@@ -163,7 +263,7 @@ class UrlGenerator
      */
     public function isValidUrl($path)
     {
-        if (Str::startsWith($path, array('#', '//', 'mailto:', 'tel:', 'http://', 'https://'))) 
+        if (Str::startsWith($path, ['#', '//', 'mailto:', 'tel:', 'http://', 'https://'])) 
         {
             return true;
         }
