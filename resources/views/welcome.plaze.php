@@ -12,7 +12,7 @@
 
 				<div class="info">
 					<h1>Welcome to <?= config('app.name') ?></h1>
-					<img src="<?= url('svg/logo.svg') ?>">
+					<img src="<?= asset('svg/logo.svg') ?>">
 					<p class="message">
 						You have successfully installed your  Lenevor application.
 					</p>
