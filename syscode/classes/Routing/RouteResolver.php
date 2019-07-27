@@ -38,7 +38,6 @@ class RouteResolver
 	 *
 	 * @return mixed
 	 *
-	 * @throws \Syscode\Core\Exceptions\NotFoundHttpException
 	 * @throws \Syscode\Routing\Exceptions\RouteNotFoundException
 	 */
 	public function resolve(Routable $router, $uri, $method)
@@ -81,10 +80,10 @@ class RouteResolver
 					return call_user_func_array($route->getAction(), $arguments);
 				}
 				// If not, check the existence of special parameters
-				elseif (stripos($route->getAction(), ':') !== false)
+				elseif (stripos($route->getAction(), '@') !== false)
 				{
 					// Explode segments of given route
-					list($class, $action) = explode(':', $route->getAction());
+					list($class, $action) = explode('@', $route->getAction());
 
 					$route->setNamespace('App\Http\Controllers');
 
