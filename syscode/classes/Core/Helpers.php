@@ -24,8 +24,7 @@
  
 use Syscode\View\View;
 use Syscode\Core\Application;
-use Syscode\Routing\Redirector;
-use Syscode\Http\RedirectResponse;
+use Syscode\Routing\UrlGenerator;
 
 if ( ! function_exists('abort')) 
 {
@@ -64,6 +63,22 @@ if ( ! function_exists('app')) {
         }
 
         return Application::getInstance()->make($id, $parameters);
+    }
+}
+
+if ( ! function_exists('asset')) 
+{
+    /**
+     * Generate an asset path for the application.
+     * 
+     * @param  string  $path
+     * @param  bool    $secure
+     * 
+     * @return string
+     */
+    function asset($path, $secure = null)
+    {
+        return app('url')->asset($path, $secure);
     }
 }
 
@@ -195,8 +210,8 @@ if ( ! function_exists('redirect'))
     /**
      * Get an instance of the redirect.
      *
-     * @param  string|null  $url      The url  
-     * @param  int          $code     The redirect status code
+     * @param  string|null  $url      The url                   (null by default)
+     * @param  int          $code     The redirect status code  (302 by default)
      * @param  array        $headers  An array of headers
      *
      * @return void
@@ -217,7 +232,7 @@ if ( ! function_exists('response')) {
      * Return a new Response from the application.
      *
      * @param  string  $body
-     * @param  int     $status  The default 200
+     * @param  int     $status   (200 by default)
      * @param  array   $headers
      * 
      * @return \Syscode\Http\Response|\Syscode\Routing\RouteResponse
@@ -260,6 +275,28 @@ if ( ! function_exists('storagePath')) {
     function storagePath($path = '')
     {
         return app('path.storage').($path ? DIRECTORY_SEPARATOR.$path : $path);
+    }
+}
+
+if ( ! function_exists('url'))
+{
+    /**
+     * Generate a URL for the application.
+     *
+     * @param  string|null  $path        (null by default)
+     * @param  array        $parameters
+     * @param  bool|null    $secure      (null by default)
+     *
+     * @return string
+     */
+    function url($path = null, $parameters = [], $secure = null)
+    {
+        if (is_null($path)) 
+        {
+            return app(UrlGenerator::class);
+        }
+
+        return app(UrlGenerator::class)->to($path, $parameters, $secure);
     }
 }
 
