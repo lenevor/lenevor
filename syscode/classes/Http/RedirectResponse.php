@@ -65,10 +65,16 @@ class RedirectResponse extends Response
 
         $this->setTargetUrl($url);
 
-        if ( ! $this->isRedirection())
+        if ( ! $this->isRedirect())
         {
             throw new InvalidArgumentException(sprintf('The HTTP status code is not a redirect ("%s" given).', $status));
         }
+
+        // Loaded the headers and status code
+        $this->send(true);
+
+        // Terminate the current script 
+        exit;
     }
 
     /**
@@ -81,7 +87,7 @@ class RedirectResponse extends Response
 	 *
 	 * @return static
 	 */
-	public static function render($url = '', $status = 200, $headers = [])
+	public static function render($url = '', $status = 302, $headers = [])
 	{
 		return new static($url, $status, $headers);
 	}
@@ -127,8 +133,31 @@ class RedirectResponse extends Response
         </body>
     </html>', htmlspecialchars($url, ENT_QUOTES, 'UTF-8')));
 
-		$this->headers->set('Location', $url);
+        $this->headers->set("Location", $url);
 		        
         return $this;
-	}
+    }
+    
+    
+    /**
+     * Gets the Request instance.
+     * 
+     * @return \Syscode\Http\Request
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    /**
+     * Sets the current Request instance.
+     * 
+     * @param  \Syscode\Http\Request  $request
+     * 
+     * @return void
+     */
+    public function setRequest(Request $request)
+    {
+        $this->request = $request;
+    }
 }
