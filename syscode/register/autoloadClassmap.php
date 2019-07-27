@@ -67,6 +67,7 @@ return [
     'Syscode\\Core\\Http\\Exceptions\\PreconditionRequiredHttpException' => SYS_PATH.'classes/Core/Http/Exceptions/PreconditionRequiredHttpException.php',
     'Syscode\\Core\\Http\\Exceptions\\ServerErrorHttpException' => SYS_PATH.'classes/Core/Http/Exceptions/ServerErrorHttpException.php',
     'Syscode\\Core\\Http\\Exceptions\\ServiceUnavailableHttpException' => SYS_PATH.'classes/Core/Http/Exceptions/ServiceUnavailableHttpException.php',
+    'Syscode\\Core\\Http\\Exceptions\\TooManyRequestsHttpException' => SYS_PATH.'classes/Core/Http/Exceptions/TooManyRequestsHttpException.php',
     'Syscode\\Core\\Http\\Exceptions\\UnauthorizedHttpException' => SYS_PATH.'classes/Core/Http/Exceptions/UnauthorizedHttpException.php',
     'Syscode\\Core\\Http\\Exceptions\\UnprocessableEntityHttpException' => SYS_PATH.'classes/Core/Http/Exceptions/UnprocessableEntityHttpException.php',
     'Syscode\\Core\\Http\\Exceptions\\UnsupportedMediaTypeHttpException' => SYS_PATH.'classes/Core/Http/Exceptions/UnsupportedMediaTypeHttpException.php',
