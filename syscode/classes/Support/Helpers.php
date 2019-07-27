@@ -428,29 +428,6 @@ if ( ! function_exists('total_segments'))
     }
 }
 
-if ( ! function_exists('url'))
-{
-    /**
-     * Return the base URL to use in views.
-     *
-     * @param  string|array  $path 
-     *
-     * @return string
-     * 
-     * @uses   Uri::to
-     */
-    function url($path = '')
-    {
-        // Convert segment array to string
-        if (is_array($path))
-        {
-            $path = implode('/', $path);
-        }
-
-        return config('app.baseUrl').$_SERVER['REQUEST_URI'].$path;
-    }
-}
-
 if ( ! function_exists('value')) {
     /**
      * Return the default value of the given value.
