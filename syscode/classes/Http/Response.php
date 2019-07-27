@@ -39,9 +39,9 @@ class Response extends Status
 	/**
 	 * Sets up the response with a content and a status code.
 	 *
-	 * @param  string  $content  The response content
-	 * @param  int     $status   The response status
-	 * @param  array   $headers
+	 * @param  string  $content  The response content 
+	 * @param  int     $status   The response status (200 by default)
+	 * @param  array   $headers  Array of HTTP headers for this response
 	 *
 	 * @return string
 	 */
@@ -115,13 +115,15 @@ class Response extends Status
 
 		// Valid headers
 		$this->prepare();
-			
+
 		// Headers
-		foreach ($this->headers->all() as $name => $values) 
+		foreach ($this->headers->allPreserveCase() as $name => $values) 
 		{
+			$replace = 0 === strcasecmp($name, 'Content-Type');
+
 			foreach ($values as $value)
 			{
-				header("{$name}: {$value}", true, $this->status);
+				header($name.': '. $value, $replace, $this->status);
 			}
 		}
 
@@ -155,7 +157,7 @@ class Response extends Status
 	 *
 	 * @param  bool  $sendHeader  Whether or not to send the defined HTTP headers
 	 *
-	 * @return void
+	 * @return $this
 	 */
 	public function send($sendHeader = false)
 	{
@@ -164,10 +166,12 @@ class Response extends Status
 			$this->sendHeaders();
 		}
 
-		if ($this->content != null) 
+		if ($this->content !== null) 
 		{
 			$this->sendContent();
 		}
+
+		return $this;
 	}
 
 	/**
@@ -225,14 +229,14 @@ class Response extends Status
 			throw new InvalidArgumentException(sprintf("[%s] is not a valid HTTP return status code", $code));
 		}
 
-		if ($text === null)
+		if (null === $text)
 		{
 			$this->statusText = isset($this->statusCodes[$code]) ? $this->statusCodes[$code] : 'Unknown status';
 
 			return $this;
 		}
 
-		if ($text === false)
+		if (false === $text)
 		{
 			$this->statusText = '';
 
@@ -290,6 +294,16 @@ class Response extends Status
     public function isEmpty()
     {
         return in_array($this->status, [204, 304]);
+	}
+	
+	/**
+	 * Is the response a redirect of some form?
+	 * 
+	 * @return bool
+     */
+    public function isRedirect()
+    {
+        return in_array($this->status, [301, 302, 303, 307, 308]);
     }
 
 	/**
