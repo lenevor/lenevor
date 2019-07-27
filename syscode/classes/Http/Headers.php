@@ -115,6 +115,23 @@ class Headers implements IteratorAggregate, Countable
 		return $this;
 	}
 
+	/**
+     * Returns the headers, with original capitalizations.
+     *
+     * @return array An array of headers
+     */
+    public function allPreserveCase()
+    {
+		$headers = [];
+		
+		foreach ($this->all() as $name => $value)
+		{
+            $headers[$name] = $value;
+		}
+
+        return $headers;
+    }
+
     /**
 	 * Gets a header value by name.
 	 *
@@ -159,31 +176,30 @@ class Headers implements IteratorAggregate, Countable
 	 */
 	public function set($key, $values, $replace = true)
 	{
-		$key     = str_replace('_', '-', strtolower($key));
-		$headers = $this->all();
+		//$key = str_replace('_', '-', strtolower($key));
 
 		if (is_array($values))
 		{
 			$values = array_values($values);
 
-			if (true === $replace || ! isset($headers[$key]))
+			if (true === $replace || ! isset($this->headers[$key]))
 			{
-				$headers[$key] = $values;
+				$this->headers[$key] = $values;
 			}
 			else
 			{
-				$headers[$key] = array_merge($headers[$key], $values);
+				$this->headers[$key] = array_merge($this->headers[$key], $values);
 			}
 		}
 		else
 		{
-			if (true === $replace || ! isset($headers[$key]))
+			if (true === $replace || ! isset($this->headers[$key]))
 			{
-				$headers[$key] = [$values];
+				$this->headers[$key] = [$values];
 			}
 			else
 			{
-				$headers[$key][] = $values;
+				$this->headers[$key][] = $values;
 			}
 		}
 
@@ -240,4 +256,32 @@ class Headers implements IteratorAggregate, Countable
 	{
 		return count($this->headers);
 	}
+
+	/**
+     * Returns the headers as a string.
+     *
+     * @return string The headers
+     */
+    public function __toString()
+    {
+        if ( ! $headers = $this->all()) {
+            return '';
+        }
+
+        ksort($headers);
+        $max = max(array_map('strlen', array_keys($headers))) + 1;
+		$content = '';
+		
+		foreach ($headers as $name => $values) 
+		{
+			$name = ucwords($name, '-');
+			
+			foreach ($values as $value) 
+			{
+                $content .= sprintf("%-{$max}s %s\r\n", $name.':', $value);
+            }
+        }
+
+        return $content;
+    }
 }
