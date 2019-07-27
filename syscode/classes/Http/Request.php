@@ -79,6 +79,13 @@ class Request
 	protected $method = null;
 
 	/**
+	 * The path info of URL.
+	 * 
+	 * @var string $pathInfo
+	 */
+	protected $pathInfo;
+
+	/**
 	 * The detected uri and server variables.
 	 * 
 	 * @var string $server
@@ -121,6 +128,8 @@ class Request
 		$this->body         = $body;   
 		$this->uri          = $uri;
 		$this->http         = $http;
+		$this->baseUrl      = null;
+		$this->pathInfo     = null;
 		$this->server       = new Parameters($_SERVER);
 		$this->validLocales = config('app.supportedLocales');
 		$this->method       = $this->server->get('REQUEST_METHOD') ?? 'GET';
@@ -360,10 +369,37 @@ class Request
 	{
 		if (null === $this->baseUrl)
 		{
-			$this->baseUrl = $this->http->prepareBaseUrl();
+			$this->baseUrl = $this->http->parseBaseUrl();
 		}
 
 		return $this->baseUrl;
+	}
+
+	/**
+	 * Returns the path being requested relative to the executed script. 
+	 * 
+	 * @return string
+	 */
+	public function getPathInfo()
+	{
+		if (null === $this->pathInfo)
+		{
+			$this->pathInfo = $this->http->parsePathInfo();
+		}
+
+		return $this->pathInfo;
+	}
+
+	/**
+	 * Get the current path info for the request.
+	 * 
+	 * @return string
+	 */
+	public function path()
+	{
+		$path = trim($this->getPathInfo(), '/');
+
+		return $path == '' ? '/' : $path;
 	}
 	
 	/**
@@ -373,7 +409,7 @@ class Request
 	 */
 	public function getScheme()
 	{
-		return $this->http->isSecure() ? $this->uri->setScheme('https') : $this->uri->setScheme('http');
+		return $this->secure() ? $this->uri->setScheme('https') : $this->uri->setScheme('http');
 	}
 
 	/**
@@ -458,6 +494,18 @@ class Request
 	{
 		return $this->server->get('HTTP_REFERER', $default);
 	}
+
+	
+	/**
+	 * Determine if the request is over HTTPS.
+	 * 
+	 * @return bool
+	 */
+	public function secure()
+	{
+		return $this->http->isSecure();
+	}
+
 
 	/**
 	 * Returns the user agent.
