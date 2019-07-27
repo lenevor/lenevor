@@ -52,7 +52,7 @@ trait ResponseTrait
 	/**
 	 * The parameter array.
 	 * 
-	 * @var array  $parameters
+	 * @var array $parameters
 	 */
 	protected $parameters;
 
