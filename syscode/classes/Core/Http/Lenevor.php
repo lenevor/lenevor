@@ -263,7 +263,7 @@ class Lenevor implements LenevorContract
 							$this->app['router']
 			);
 
-			$response = new response($dispatch);
+			$response = new response;
 			$response->setContent($this->displayPerformanceMetrics($dispatch));
 		}   
 		   
