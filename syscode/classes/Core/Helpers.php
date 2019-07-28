@@ -82,6 +82,24 @@ if ( ! function_exists('asset'))
     }
 }
 
+if ( ! function_exists('back')) 
+{
+    /**
+     * Create a new redirect response to the previous location.
+     * 
+     * @param  int    $status    (302 by default)
+     * @param  array  $headers
+     * @param  mixed  $fallback  (false by default)
+     * 
+     * @return \Syscode\Http\RedirectResponse
+     */
+    function back($status = 302, $headers = [], $fallback = false)
+    {
+        return app('redirect')->back($status, $headers, $fallback);
+    }
+}
+
+
 if ( ! function_exists('config'))
 {
     /**
@@ -210,20 +228,21 @@ if ( ! function_exists('redirect'))
     /**
      * Get an instance of the redirect.
      *
-     * @param  string|null  $url      The url                   (null by default)
-     * @param  int          $code     The redirect status code  (302 by default)
+     * @param  string|null  $url      The url                        (null by default)
+     * @param  int          $code     The redirect status code       (302 by default)
      * @param  array        $headers  An array of headers
+     * @param  bool|null    $secure   Type of protocol (http|https)  (null by default)
      *
-     * @return void
+     * @return \Syscode\Routing\
      */
-    function redirect($url = null, $code = 302, $headers = [])
+    function redirect($url = null, $code = 302, $headers = [], $secure = null)
     {
         if (null === $url)
         {
             return app('redirect');
         }
         
-        return app('redirect')->to($url, $code, $headers);
+        return app('redirect')->to($url, $code, $headers, $secure);
     }
 }
 
@@ -261,6 +280,37 @@ if ( ! function_exists('resourcePath')) {
     function resourcePath($path = '')
     {
         return app()->resourcePath($path);
+    }
+}
+
+if ( ! function_exists('secureAsset'))
+{
+    /**
+     * Generate an asset path for the application.
+     * 
+     * @param  string  $path
+     * 
+     * @return string
+     */
+    function secureAsset($path)
+    {
+        return asset($path, true);
+    }
+}
+
+if ( ! function_exists('secureUrl'))
+{
+    /**
+     * Generate a HTTPS URL for the application.
+     * 
+     * @param  string  $path
+     * @param  array   $parameters
+     * 
+     * @return string
+     */
+    function secureUrl($path, $parameters = [])
+    {
+        return url($path, $parameters, true);
     }
 }
 
@@ -304,9 +354,9 @@ if ( ! function_exists('view'))
 {
     /**
      * Returns a new View object. If you do not define the "file" parameter, 
-     * you must call [View::setFilename].
+     * you must call [$view->setFilename].
      *
-     * @example View::render($file, $data);
+     * @example $view->render($file, $data, $extension);
      *  
      * @param  string       $file       View filename
      * @param  array|null   $data       Array of values
@@ -318,7 +368,14 @@ if ( ! function_exists('view'))
      */
     function view($file = null, array $data = null, $extension = null)
     {
-        return View::render($file, $data, $extension);
+        $view = app('view');
+
+        if (func_num_args() === 0) 
+        {
+            return $view;
+        }
+
+        return $view->render($file, $data, $extension);
     }
 }
 
