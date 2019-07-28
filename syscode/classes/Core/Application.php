@@ -378,11 +378,13 @@ class Application extends Container implements ApplicationContract
         $this->instance('http', $this[\Syscode\Http\Http::class]);
         $this->instance('redirect', $this[\Syscode\Routing\Redirector::class]);
         $this->instance('request', $this[\Syscode\Http\Request::class]);
-        $this->instance('response', $this[\Syscode\Routing\RouteResponse::class]);
+        $this->singleton('response', function() {
+            return new \Syscode\Routing\RouteResponse($this['view'], $this['redirect']);
+        });
         $this->instance('router', $this[\Syscode\Routing\Router::class]);
         $this->instance('translator', $this[\Syscode\Translation\Translator::class]);
         $this->instance('url', $this[\Syscode\Routing\UrlGenerator::class]);
-        $this->instance('view', function () {
+        $this->singleton('view', function () {
             return new \Syscode\View\View;
         });
     }
