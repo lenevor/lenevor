@@ -84,39 +84,6 @@ class View implements ViewContract
 	protected $sections = [];
 
 	/**
-	 * Assigns a global variable by reference, similar to [$this->bind], 
-	 * except that the variable will be accessible to all views.
-	 *
-	 * @example View::bindGlobal($key, $value);
-	 *
-	 * @param  string  $key    Variable name
-	 * @param  mixed   $value  Referenced variable
-	 *
-	 * @return void
-	 */
-	public static function bindGlobal($key, & $value) 
-	{
-		static::$globalData[$key] =& $value;
-	}
-
-	/**
-	 * Returns a new View object. If you do not define the "file" parameter, 
-	 * you must call [View::setFilename].
-	 *
-	 * @example View::render($file, $data, $extension);
-	 *
-	 * @param  string       $file       View filename
-	 * @param  array|null   $data       Array of values
-	 * @param  string|null  $extension  String extension
-	 * 
-	 * @return void
-	 */
-	public static function render($file = null, array $data = null, $extension = null)
-	{
-		return new static($file, $data, $extension);
-	}
-
-	/**
 	 * Constructor: Call the file and your data.
 	 *
 	 * @example $view = new View($file);
@@ -161,6 +128,39 @@ class View implements ViewContract
 			// Add the values to the current data
 			$this->data = $data + $this->data;
 		}
+	}
+
+	/**
+	 * Assigns a global variable by reference, similar to [$this->bind], 
+	 * except that the variable will be accessible to all views.
+	 *
+	 * @example View::bindGlobal($key, $value);
+	 *
+	 * @param  string  $key    Variable name
+	 * @param  mixed   $value  Referenced variable
+	 *
+	 * @return void
+	 */
+	public static function bindGlobal($key, & $value) 
+	{
+		static::$globalData[$key] =& $value;
+	}
+
+	/**
+	 * Returns a new View object. If you do not define the "file" parameter, 
+	 * you must call [View::setFilename].
+	 *
+	 * @example View::render($file, $data, $extension);
+	 *
+	 * @param  string       $file       View filename
+	 * @param  array|null   $data       Array of values
+	 * @param  string|null  $extension  String extension
+	 * 
+	 * @return void
+	 */
+	public static function render($file = null, array $data = null, $extension = null)
+	{
+		return new static($file, $data, $extension);
 	}
 
 	/**
@@ -402,8 +402,8 @@ class View implements ViewContract
 	 *
 	 * @example $output = $view->make();
 	 *
-	 * @param  string  $file  View filename
-	 * @param  array   $data  Array of values
+	 * @param  string|null  $file  View filename
+	 * @param  array|null   $data  Array of values
 	 *
 	 * @return string
 	 *
@@ -412,9 +412,14 @@ class View implements ViewContract
 	public function make($file = null, $data = null) 
 	{
 		// Override the view filename if needed
-		if ($file !== null)
+		if (null !== $file)
 		{
 			$this->setFilename($file);
+		}
+
+		if (null !== $data)
+		{
+			$this->getData($data);
 		}
 
 		// And make sure we have one
