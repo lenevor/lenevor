@@ -3,7 +3,8 @@
 namespace Syscode\Routing;
 
 use Syscode\Http\Response;
-use Syscode\View\View;
+use Syscode\Routing\Redirector;
+use Syscode\Contracts\View\View;
 
 /**
  * Lenevor Framework
@@ -31,27 +32,36 @@ class RouteResponse
     /**
      * The View class instance.
      * 
-     * @var \Syscode\Contracts\View\Factory $view
+     * @var Syscode\Contracts\View\View $view
      */
     protected $view;
 
     /**
+     * The Redirector class instance.
+     * 
+     * @var \Syscode\Routing\Redirector $redirector
+     */
+    protected $redirector;
+
+    /**
      * Constructor. Create a new RouteResponse instance.
      * 
-     * @param  \Syscode\Contracts\View\View|string  $view
+     * @param  Syscode\Contracts\View\View  $view
+     * @param  \Syscode\Routing\Redirector  $redirector
      * 
      * @return void  
      */
-    public function __construct()
+    public function __construct(View $view, Redirector $redirector)
     {
-        $this->view = new View;
+        $this->view       = $view;
+        $this->redirector = $redirector;
     }
 
     /**
      * Return a new response from the application.
      *
      * @param  string  $body
-     * @param  int     $status  The default 200
+     * @param  int     $status   (200 by default)
      * @param  array   $headers
      * 
      * @return \Syscode\Http\Response
@@ -62,17 +72,45 @@ class RouteResponse
     }
 
     /**
+     * Creates a new 'no content' response.
+     * 
+     * @param  int    $status   (204 by default)
+     * @param  array  $headers
+     * 
+     * @return \Syscode\Http\Response
+     */
+    public function noContent($status = 204, array $headers = [])
+    {
+        return $this->make('', $status, $headers);
+    }
+
+    /**
      * Return a new view Response from the application.
      *
      * @param  string  $view
      * @param  array   $data
-     * @param  int     $status  The default 200
+     * @param  int     $status   (200 by default)
      * @param  array   $headers
      * 
      * @return  \Syscode\Http\Response
      */
     public function view($view, array $data = [], $status = 200, array $headers = [])
     {
-        return static::make($this->view->make($view, $this->view->getData($data)), $status, $headers);
+        return static::make($this->view->make($view, $data), $status, $headers);
+    }
+
+    /**
+     * Create a new redirect response to the given path.
+     * 
+     * @param  string     $path
+     * @param  int        $status   (302 by default)
+     * @param  array      $headers
+     * @param  bool|null  $secure   (null by default)
+     * 
+     * @return \Syscode\Http\RedirectResponse
+     */
+    public function redirectTo($path, $status = 302, $headers = [], $secure = null)
+    {
+        return $this->redirector->to($path, $status, $headers, $secure);
     }
 }
