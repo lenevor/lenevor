@@ -1,10 +1,5 @@
 <?php 
 
-namespace Syscode\Debug\Util;
-
-use Syscode\Debug\Benchmark;
-use Syscode\Debug\FrameHandler\Frame;
-
 /**
  * Lenevor Framework
  *
@@ -25,6 +20,17 @@ use Syscode\Debug\FrameHandler\Frame;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Debug\Util;
+
+use Syscode\Debug\Benchmark;
+use Syscode\Debug\FrameHandler\Frame;
+
+/**
+ * Exposes useful tools for working with/in templates.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class TemplateHandler
 {
@@ -64,7 +70,7 @@ class TemplateHandler
 	protected $variables = [];
 
 	/**
-	 * Constructor. TemplateHandler class instance.
+	 * Constructor. The TemplateHandler class instance.
 	 * 
 	 * @return void
 	 */

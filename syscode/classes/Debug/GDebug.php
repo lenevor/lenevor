@@ -1,21 +1,5 @@
 <?php 
 
-namespace Syscode\Debug;
-
-use Throwable;
-use ErrorException;
-use Syscode\Debug\Util\{ 
-	Misc, 
-	System,
-	TemplateHandler 
-};
-use Syscode\Debug\Benchmark;
-use InvalidArgumentException;
-use Syscode\Debug\Handlers\MainHandler;
-use Syscode\Debug\FrameHandler\Supervisor;
-use Syscode\Debug\Handlers\CallbackHandler;
-use Syscode\Contracts\Debug\Handler as DebugContract;
-
 /**
  * Lenevor Framework
  *
@@ -36,6 +20,28 @@ use Syscode\Contracts\Debug\Handler as DebugContract;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Debug;
+
+use Throwable;
+use ErrorException;
+use Syscode\Debug\Util\{ 
+	Misc, 
+	System,
+	TemplateHandler 
+};
+use Syscode\Debug\Benchmark;
+use InvalidArgumentException;
+use Syscode\Debug\Handlers\MainHandler;
+use Syscode\Debug\FrameHandler\Supervisor;
+use Syscode\Debug\Handlers\CallbackHandler;
+use Syscode\Contracts\Debug\Handler as DebugContract;
+
+/**
+ * Allows automatically load everything related to exception handlers.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class GDebug implements DebugContract
 {

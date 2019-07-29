@@ -1,14 +1,5 @@
 <?php 
 
-namespace Syscode\Debug;
-
-use Exception;
-use Throwable;
-use Syscode\Debug\FatalExceptions\{ 
-    FlattenException, 
-    OutOfMemoryException 
-};
-
 /**
  * Lenevor Framework
  *
@@ -28,7 +19,22 @@ use Syscode\Debug\FatalExceptions\{
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.1
+ * @since       0.1.0
+ */
+
+namespace Syscode\Debug;
+
+use Exception;
+use Throwable;
+use Syscode\Debug\FatalExceptions\{ 
+    FlattenException, 
+    OutOfMemoryException 
+};
+
+/**
+ * A generic ErrorHandler for the PHP engine.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class ExceptionHandler
 {

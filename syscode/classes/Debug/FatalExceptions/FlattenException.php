@@ -1,12 +1,5 @@
 <?php 
 
-namespace Syscode\Debug\FatalExceptions;
-
-use Exception;
-use Throwable;
-use ArrayObject;
-use Syscode\Core\Http\Exceptions\HttpException;
-
 /**
  * Lenevor Framework
  *
@@ -26,7 +19,21 @@ use Syscode\Core\Http\Exceptions\HttpException;
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.1
+ * @since       0.2.0
+ */
+
+namespace Syscode\Debug\FatalExceptions;
+
+use Exception;
+use Throwable;
+use ArrayObject;
+use Syscode\Core\Http\Exceptions\HttpException;
+
+/**
+ * FlattenException wraps a PHP Error or Exception to be able to serialize it.
+ * Basically, this class removes all objects from the trace.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class FlattenException
 {

@@ -1,21 +1,5 @@
 <?php 
 
-namespace Syscode\Debug\Handlers;
-
-use Throwable;
-use Traversable;
-use ErrorException;
-use RuntimeException;
-use Syscode\Debug\Util\{ 
-	ArrayTable, 
-	Misc, 
-	TemplateHandler 
-};
-use InvalidArgumentException;
-use UnexpectedValueException;
-use Syscode\Contracts\Debug\Table;
-use Syscode\Debug\FrameHandler\Formatter;
-
 /**
  * Lenevor Framework
  *
@@ -36,6 +20,28 @@ use Syscode\Debug\FrameHandler\Formatter;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Debug\Handlers;
+
+use Throwable;
+use Traversable;
+use ErrorException;
+use RuntimeException;
+use Syscode\Debug\Util\{ 
+	ArrayTable, 
+	Misc, 
+	TemplateHandler 
+};
+use InvalidArgumentException;
+use UnexpectedValueException;
+use Syscode\Contracts\Debug\Table;
+use Syscode\Debug\FrameHandler\Formatter;
+
+/**
+ * Generates exceptions in mode of graphic interface.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class PleasingPageHandler extends MainHandler
 {

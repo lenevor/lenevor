@@ -1,9 +1,5 @@
 <?php 
 
-namespace Syscode\Debug\Util;
-
-use Syscode\Contracts\Debug\Table;
-
 /**
  * Lenevor Framework
  *
@@ -24,6 +20,16 @@ use Syscode\Contracts\Debug\Table;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Debug\Util;
+
+use Syscode\Contracts\Debug\Table;
+
+/**
+ * Gets an associated label with its respective data array.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class ArrayTable implements Table
 {

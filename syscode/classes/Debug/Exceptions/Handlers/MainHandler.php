@@ -1,10 +1,5 @@
 <?php 
 
-namespace Syscode\Debug\Handlers;
-
-use Syscode\Contracts\Debug\Handler;
-use Syscode\Debug\FrameHandler\Supervisor;
-
 /**
  * Lenevor Framework
  *
@@ -25,6 +20,17 @@ use Syscode\Debug\FrameHandler\Supervisor;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Debug\Handlers;
+
+use Syscode\Contracts\Debug\Handler;
+use Syscode\Debug\FrameHandler\Supervisor;
+
+/**
+ * Abstract implementation of a Handler.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class MainHandler
 { 

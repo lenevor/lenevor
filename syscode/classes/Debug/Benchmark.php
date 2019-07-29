@@ -1,9 +1,5 @@
 <?php
 
-namespace Syscode\Debug;
-
-use Syscode\Core\Http\Exceptions\LenevorException;
-
 /**
  * Lenevor Framework
  *
@@ -23,7 +19,18 @@ use Syscode\Core\Http\Exceptions\LenevorException;
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.1
+ * @since       0.1.0
+ */
+
+namespace Syscode\Debug;
+
+use Syscode\Core\Http\Exceptions\LenevorException;
+
+/**
+ * Provides a simple way to measure the amount of time
+ * that elapses between two points.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Benchmark 
 {

@@ -1,11 +1,5 @@
 <?php 
 
-namespace Syscode\Debug\FatalExceptions;
-
-use Throwable;
-use ErrorException;
-use ReflectionProperty;
-
 /**
  * Lenevor Framework
  *
@@ -25,7 +19,19 @@ use ReflectionProperty;
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.1
+ * @since       0.2.0
+ */
+
+namespace Syscode\Debug\FatalExceptions;
+
+use Throwable;
+use ErrorException;
+use ReflectionProperty;
+
+/**
+ * Fatal Error Exception.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class FatalErrorException extends ErrorException
 {
