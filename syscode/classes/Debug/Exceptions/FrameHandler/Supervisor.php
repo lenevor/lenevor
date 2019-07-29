@@ -1,9 +1,5 @@
 <?php 
 
-namespace Syscode\Debug\FrameHandler;
-
-use Throwable;
-
 /**
  * Lenevor Framework
  *
@@ -25,6 +21,16 @@ use Throwable;
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
  */
+
+namespace Syscode\Debug\FrameHandler;
+
+use Throwable;
+
+/**
+ * Loads the frames to identify a possible exception.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ */
 class Supervisor
 {
 	/**
@@ -42,7 +48,7 @@ class Supervisor
 	protected $frames;
 
 	/**
-	 * Constructor. The supervisor class.
+	 * Constructor. The Supervisor class instance.
 	 * 
 	 * @param  \Throwable  $exception
 	 * 

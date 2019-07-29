@@ -26,4 +26,9 @@ namespace Syscode\Core\Http\Exceptions;
 
 use RuntimeException;
 
+/**
+ * LenevorException.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ */
 class LenevorException extends RuntimeException {}

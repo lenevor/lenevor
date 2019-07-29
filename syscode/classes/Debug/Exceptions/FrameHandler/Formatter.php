@@ -1,9 +1,5 @@
 <?php 
 
-namespace Syscode\Debug\FrameHandler;
-
-use Syscode\Debug\Util\TemplateHandler;
-
 /**
  * Lenevor Framework
  *
@@ -24,6 +20,17 @@ use Syscode\Debug\Util\TemplateHandler;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Debug\FrameHandler;
+
+use Syscode\Debug\Util\TemplateHandler;
+
+/**
+ * Returns all basic information about the exception in a simple array and
+ * in a plain text.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Formatter
 {

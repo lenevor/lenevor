@@ -1,13 +1,5 @@
 <?php 
 
-namespace Syscode\Debug\FrameHandler;
-
-use Countable;
-use Exception;
-use ArrayAccess;
-use ArrayIterator;
-use IteratorAggregate;
-
 /**
  * Lenevor Framework
  *
@@ -28,6 +20,21 @@ use IteratorAggregate;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Debug\FrameHandler;
+
+use Countable;
+use Exception;
+use ArrayAccess;
+use ArrayIterator;
+use IteratorAggregate;
+
+/**
+ * Exposes a fluent interface for dealing with an ordered list
+ * of stack-trace frames.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Collection implements ArrayAccess, IteratorAggregate, Countable
 {

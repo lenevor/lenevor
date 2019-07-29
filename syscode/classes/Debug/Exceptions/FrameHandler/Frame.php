@@ -1,9 +1,5 @@
 <?php 
 
-namespace Syscode\Debug\FrameHandler;
-
-use Serializable;
-
 /**
  * Lenevor Framework
  *
@@ -24,6 +20,16 @@ use Serializable;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Debug\FrameHandler;
+
+use Serializable;
+
+/**
+ * Returns the content of an exception through a trace.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Frame implements Serializable
 {

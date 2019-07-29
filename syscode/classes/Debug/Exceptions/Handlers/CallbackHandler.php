@@ -1,9 +1,5 @@
 <?php 
 
-namespace Syscode\Debug\Handlers;
-
-use InvalidArgumentException;
-
 /**
  * Lenevor Framework
  *
@@ -24,6 +20,18 @@ use InvalidArgumentException;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Debug\Handlers;
+
+use InvalidArgumentException;
+
+/**
+ * Wrapper for Closures passed as handlers. Can be used directly, 
+ * or will be instantiated automagically by Debug\GDebug if passed 
+ * to GDebug::pushHandler.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class CallbackHandler extends MainHandler
 {
