@@ -21,8 +21,7 @@
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
  */
- 
-use Syscode\View\View;
+
 use Syscode\Core\Application;
 use Syscode\Routing\UrlGenerator;
 
