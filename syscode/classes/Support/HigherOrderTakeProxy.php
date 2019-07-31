@@ -1,7 +1,5 @@
 <?php 
 
-namespace Syscode\Support;
-
 /**
  * Lenevor Framework
  *
@@ -21,7 +19,15 @@ namespace Syscode\Support;
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.1
+ * @since       0.2.0
+ */
+
+namespace Syscode\Support;
+
+/**
+ * Allows a new take proxy instance.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class HigherOrderTakeProxy
 {

@@ -1,10 +1,5 @@
 <?php
 
-namespace Syscode\Support;
-
-use OutOfBoundsException;
-use InvalidArgumentException;
-
 /**
  * Lenevor Framework
  *
@@ -26,6 +21,17 @@ use InvalidArgumentException;
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
  */
+
+namespace Syscode\Support;
+
+use OutOfBoundsException;
+use InvalidArgumentException;
+
+/**
+ * Finder allows to find files and directories in all the system.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ */
 class Finder
 {   
     /**
@@ -43,6 +49,18 @@ class Finder
     protected $paths = [];
 
     /**
+     * Takes in an array of paths, preps them and gets the party started.
+     *
+     * @param  array  $paths  The paths to initialize with
+     *
+     * @return void
+     */
+    public function __construct($paths = [])
+    {
+        return $this->addPath($paths);
+    }
+
+    /**
      * Gets a singleton instance of Finder.
      *
      * @return \Syscode\Support\Finder
@@ -51,33 +69,17 @@ class Finder
     {
         if ( ! static::$instance)
         {
-            static::$instance = static::render(
-                [
-                    APP_PATH, 
-                    BST_PATH, 
-                    CON_PATH, 
-                    RES_PATH, 
-                    ROU_PATH, 
-                    SYS_PATH
-                ]
-            );
+            static::$instance = static::render([
+                APP_PATH, 
+                BST_PATH, 
+                CON_PATH, 
+                RES_PATH, 
+                ROU_PATH, 
+                SYS_PATH
+            ]);
         }
 
         return static::$instance;
-    }
-
-    /**
-     * An alias for Finder::instance()->locate().
-     *
-     * @param  string       $file       The file
-     * @param  string       $directory  The directory
-     * @param  string|null  $extension  The file extension
-     *
-     * @return mixed   Path, or paths, or false
-     */
-    public static function search($file, $directory, $extension = null)
-    {
-        return static::instance()->locate($file, $directory, $extension);
     }
 
     /**
@@ -93,15 +95,17 @@ class Finder
     }
 
     /**
-     * Takes in an array of paths, preps them and gets the party started.
+     * An alias for Finder::instance()->locate().
      *
-     * @param  array  $paths  The paths to initialize with
+     * @param  string       $file       The file
+     * @param  string       $directory  The directory
+     * @param  string|null  $extension  The file extension  (null by default)
      *
-     * @return void
+     * @return mixed        Path, or paths, or false
      */
-    public function __construct($paths = [])
+    public static function search($file, $directory, $extension = null)
     {
-        return $this->addPath($paths);
+        return static::instance()->locate($file, $directory, $extension);
     }
 
     /**
@@ -113,7 +117,7 @@ class Finder
      *   (index): The path will get inserted AFTER the given index
      *
      * @param  string|array  $paths  The path to add
-     * @param  int           $pos    The position to add the path
+     * @param  int           $pos    The position to add the path  (null by default)
      *
      * @return $this
      *
@@ -155,7 +159,7 @@ class Finder
      *
      * @param  string  $file       The file
      * @param  string  $directory  The directory
-     * @param  string  $extension  The file extension 
+     * @param  string  $extension  The file extension  (null by default)
      *
      * @return bool|string
      *
@@ -184,7 +188,7 @@ class Finder
         }
         else 
         {
-            throw new InvalidArgumentException("File not found: [ {$file} ]");
+            throw new InvalidArgumentException("File not found: [{$file}]");
         }
 
         $directory = str_replace(['::', '.'], DIRECTORY_SEPARATOR, $directory);

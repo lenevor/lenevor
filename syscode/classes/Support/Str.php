@@ -1,7 +1,5 @@
 <?php
 
-namespace Syscode\Support;
-
 /**
  * Lenevor Framework
  *
@@ -22,6 +20,15 @@ namespace Syscode\Support;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Support;
+
+/**
+ * Allows convert a string in diferentes modes of text presentation, either, 
+ * camel-cased, studlycaps and replace characters in a string.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Str
 {

@@ -1,11 +1,5 @@
 <?php 
 
-namespace Syscode\Support;
-
-use ArrayAccess;
-use InvalidArgumentException;
-use Syscode\Core\Http\Lenevor;
-
 /**
  * Lenevor Framework
  *
@@ -26,6 +20,18 @@ use Syscode\Core\Http\Lenevor;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Support;
+
+use ArrayAccess;
+use InvalidArgumentException;
+use Syscode\Core\Http\Lenevor;
+
+/**
+ * Gets all a given array for return dot-notated key from an array.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Arr
 {
@@ -212,7 +218,7 @@ class Arr
 
 		foreach (explode('.', $key) as $segm)
 		{
-			if ( static::access($array) && static::exists($array, $segm))
+			if (static::access($array) && static::exists($array, $segm))
 			{
 				$array = $array[$segm];
 			}

@@ -1,9 +1,5 @@
 <?php 
 
-namespace Syscode\Support\Services;
-
-use Syscode\Contracts\Core\Application;
-
 /**
  * Lenevor Framework
  *
@@ -25,6 +21,14 @@ use Syscode\Contracts\Core\Application;
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
  */
+
+namespace Syscode\Support\Services;
+
+/**
+ * Loads all the services provider of system.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ */
 abstract class ServiceProvider 
 {
     /**
@@ -41,7 +45,7 @@ abstract class ServiceProvider
      * 
      * @return void
      */
-    public function __construct(Application $app)
+    public function __construct($app)
     {
         $this->app =  $app;
     }

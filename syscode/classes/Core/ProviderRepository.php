@@ -24,6 +24,9 @@
 
 namespace Syscode\Core;
 
+/**
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ */
 class ProviderRepository
 {
     
