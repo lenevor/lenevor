@@ -28,7 +28,8 @@ use BadMethodCallException;
 use InvalidArgumentException;
 use UnexpectedValueException;
 use Syscode\Http\Contributors\{
-	Parameters,
+	Headers,
+	Server,
 	Status
 };
 use Syscode\Filesystem\Exceptions\UnexpectedTypeException;
@@ -56,8 +57,8 @@ class Response extends Status
 		$this->setContent($content);
 		$this->setStatusCode($status);
 
-		$this->headers    = new Headers($headers);
-		$this->parameters = new Parameters($_SERVER);
+		$this->headers = new Headers($headers);
+		$this->server  = new Server($_SERVER);
 	}
 
 	/**
@@ -141,7 +142,7 @@ class Response extends Status
 		}
 		else
 		{
-			$this->protocol = (string) $this->parameters->get('SERVER_PROTOCOL') ?: 'HTTP/1.1';
+			$this->protocol = (string) $this->server->get('SERVER_PROTOCOL') ?: 'HTTP/1.1';
 			header(sprintf('%s %s %s', $this->protocol, $this->status, $this->statusText), true, $this->status);
 		}
 	}
