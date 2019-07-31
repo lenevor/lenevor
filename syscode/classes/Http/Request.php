@@ -26,7 +26,7 @@ namespace Syscode\Http;
 
 Use Locale;
 use Exception;
-use Syscode\Http\Contributors\Parameters;
+use Syscode\Http\Contributors\Server;
 
 /**
  * Request represents an HTTP request.
@@ -94,9 +94,9 @@ class Request
 	/**
 	 * The detected uri and server variables.
 	 * 
-	 * @var string $server
+	 * @var array $server
 	 */
-	protected $server;
+	protected $server = [];
 
 	/** 
 	 * List of routes uri.
@@ -136,7 +136,7 @@ class Request
 		$this->http         = $http;
 		$this->baseUrl      = null;
 		$this->pathInfo     = null;
-		$this->server       = new Parameters($_SERVER);
+		$this->server       = new Server($_SERVER);
 		$this->validLocales = config('app.supportedLocales');
 		$this->method       = $this->server->get('REQUEST_METHOD') ?? 'GET';
 
@@ -500,7 +500,6 @@ class Request
 	{
 		return $this->server->get('HTTP_REFERER', $default);
 	}
-
 	
 	/**
 	 * Determine if the request is over HTTPS.
@@ -512,7 +511,6 @@ class Request
 		return $this->http->isSecure();
 	}
 
-
 	/**
 	 * Returns the user agent.
 	 *
@@ -523,5 +521,22 @@ class Request
 	public function userAgent(string $default = null)
 	{
 		return $this->server->get('HTTP_USER_AGENT', $default);
+	}
+
+	/**
+	 * Get an element from the request.
+	 */
+	public function __get($key)
+	{
+		$all = $this->server->all();
+
+		if (array_key_exists($key, $all))
+		{
+			return $all[$key];
+		}
+		else
+		{
+			return $key;
+		}
 	}
 }
