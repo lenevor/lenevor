@@ -1,13 +1,5 @@
 <?php 
 
-use Syscode\Http\Uri;
-use Syscode\View\View;
-use Syscode\Support\Arr;
-use Syscode\Support\Str;
-use Syscode\Http\Request;
-use Syscode\Core\Http\Lenevor;
-use Syscode\Support\HigherOrderTakeProxy;
-
 /**
  * Lenevor Framework
  *
@@ -29,6 +21,11 @@ use Syscode\Support\HigherOrderTakeProxy;
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
  */
+
+use Syscode\Support\Arr;
+use Syscode\Support\Str;
+use Syscode\Core\Http\Lenevor;
+use Syscode\Support\HigherOrderTakeProxy;
 
 if ( ! function_exists('array_add'))
 {
@@ -270,39 +267,6 @@ if ( ! function_exists('last'))
     }
 }
 
-if ( ! function_exists('segment'))
-{
-  /**
-     * Returns the desired segment, or $default if it does not exist.
-     *
-     * @param  int    $segment  
-     * @param  mixed  $default  
-     *
-     * @return string
-     *
-     * @uses   Request::segment
-     */
-    function segment($index, $default = null)
-    {
-        return Request::segment($index, $default);
-    }
-}
-
-if ( ! function_exists('segments'))
-{
-  /**
-     * Returns all segments in an array.
-     *
-     * @return array
-     *
-     * @uses   Request::segments
-     */
-    function segments()
-    {
-        return Request::segments();
-    }
-}
-
 if ( ! function_exists('str_dash'))
 {
     /**
@@ -410,21 +374,6 @@ if ( ! function_exists('take'))
         $callback($value);
 
         return $value;
-    }
-}
-
-if ( ! function_exists('total_segments'))
-{
-  /**
-     * Returns the total number of segment.
-     *
-     * @return int
-     *
-     * @uses   Request::totalSegments
-     */
-    function total_segments()
-    {
-        return Request::totalSegments();
     }
 }
 
