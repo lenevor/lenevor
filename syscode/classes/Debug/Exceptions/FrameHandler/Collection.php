@@ -58,18 +58,6 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
-     * Count all elements of an object Frame.
-     * 
-     * @see    Countable::count
-     * 
-     * @return int
-     */
-    public function count()
-    {
-        return count($this->frames);
-    }
-
-    /**
      * Returns an array with all frames.
      * 
      * @see    Collection::getIterator
@@ -80,23 +68,29 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     {
         return $this->frames;
     }
-
+    
     /**
-     * Retrieve an external iterator.
+     * Array of Frame instances.
      * 
-     * @see    IteratorAggregate::getIterator
+     * @param  array  $frames
      * 
-     * @return new \ArrayIterator
+     * @return array
      */
-    public function getIterator()
+    public function prependFrames(array $frames)
     {
-        return new ArrayIterator($this->frames);
+        $this->frames = array_merge($frames, $this->frames);
     }
+
+    /*
+    |-----------------------------------------------------------------
+    | ArrayAccess Methods
+    |-----------------------------------------------------------------
+    */
 
     /**
      * Whether or not an offset exists.
      * 
-     * @see    \ArrayAccess::offsetExists
+     * @see    \ArrayAccess::offsetExists($offset)
      * 
      * @return int
      */
@@ -108,7 +102,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Retrieve a value offset.
      * 
-     * @see    \ArrayAccess::offsetGet
+     * @see    \ArrayAccess::offsetGet($offset)
      * @param  int  $offset
      * 
      * @return int
@@ -121,7 +115,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Assigns a value to the specified offset.
      * 
-     * @see    \ArrayAccess::offsetSet
+     * @see    \ArrayAccess::offsetSet($offset, $value)
      * @param  int  $offset
      * 
      * @throws \Exception
@@ -134,7 +128,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Unset an offset.
      * 
-     * @see    \ArrayAccess::offsetUnset
+     * @see    \ArrayAccess::offsetUnset($offset)
      * @param  int  $offset
      * 
      * @throws \Exception
@@ -144,15 +138,39 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
         throw new Exception(__CLASS__.' is read only');
     }
 
+    /*
+    |-----------------------------------------------------------------
+    | IteratorAggregate Method
+    |-----------------------------------------------------------------
+    */
+
     /**
-     * Array of Frame instances.
+     * Retrieve an external iterator.
      * 
-     * @param  array  $frames
+     * @see    \IteratorAggregate::getIterator
      * 
-     * @return array
+     * @return new \ArrayIterator
      */
-    public function prependFrames(array $frames)
+    public function getIterator()
     {
-        $this->frames = array_merge($frames, $this->frames);
+        return new ArrayIterator($this->frames);
+    }
+
+    /*
+    |-----------------------------------------------------------------
+    | Countable Method
+    |-----------------------------------------------------------------
+    */
+
+    /**
+     * Count all elements of an object Frame.
+     * 
+     * @see    Countable::count
+     * 
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->frames);
     }
 }
