@@ -55,6 +55,16 @@ class Parameters implements IteratorAggregate, Countable
 	}
 
 	/**
+	 * Returns the parameters.
+	 * 
+	 * @return array
+	 */
+	public function all()
+	{
+		return $this->parameters;
+	}
+
+	/**
 	 * Get a parameter array item.
 	 *
 	 * @param  string       $key
