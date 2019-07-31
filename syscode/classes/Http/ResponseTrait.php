@@ -54,13 +54,6 @@ trait ResponseTrait
 	 * @var \Syscode\Http\Headers $headers
 	 */
 	public $headers;
-    
-	/**
-	 * The parameter array.
-	 * 
-	 * @var array $parameters
-	 */
-	protected $parameters;
 
     /**
      * Gets the protocol Http.
@@ -68,6 +61,13 @@ trait ResponseTrait
      * @var string $protocol
      */
     protected $protocol;
+
+    /**
+	 * The server array.
+	 * 
+	 * @var array $server
+	 */
+	protected $server;
 
     /**
      * Gets the content of the response.
