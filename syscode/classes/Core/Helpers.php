@@ -232,7 +232,7 @@ if ( ! function_exists('redirect'))
      * @param  array        $headers  An array of headers
      * @param  bool|null    $secure   Type of protocol (http|https)  (null by default)
      *
-     * @return \Syscode\Routing\
+     * @return \Syscode\Routing\Redirector
      */
     function redirect($url = null, $code = 302, $headers = [], $secure = null)
     {
