@@ -169,7 +169,7 @@ class Request
 	 *
 	 * @return  string
 	 */
-	public static function segment($index, $default = null)
+	public function segment($index, $default = null)
 	{
 		if ($request = self::active())
 		{
@@ -185,7 +185,7 @@ class Request
 	 *
 	 * @return array
 	 */
-	public static function segments()
+	public function segments()
 	{
 		if ($request = self::active())
 		{
@@ -200,7 +200,7 @@ class Request
 	 *
 	 * @return int|null  
 	 */
-	public static function totalSegments()
+	public function totalSegments()
 	{
 		if ($request = self::active())
 		{
