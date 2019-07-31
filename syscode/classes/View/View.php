@@ -1,16 +1,5 @@
 <?php 
 
-namespace Syscode\View;
-
-use Exception;
-use Traversable;
-use Syscode\Support\Finder;
-use InvalidArgumentException;
-use Syscode\Contracts\Core\Http\Lenevor;
-use Syscode\View\Exceptions\ViewException;
-use Syscode\Contracts\View\View as ViewContract;
-use Syscode\Core\Http\Exceptions\LenevorException;
-
 /**
  * Lenevor Framework
  *
@@ -31,6 +20,23 @@ use Syscode\Core\Http\Exceptions\LenevorException;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\View;
+
+use Exception;
+use Traversable;
+use Syscode\Support\Finder;
+use InvalidArgumentException;
+use Syscode\Contracts\Core\Http\Lenevor;
+use Syscode\View\Exceptions\ViewException;
+use Syscode\Contracts\View\View as ViewContract;
+use Syscode\Core\Http\Exceptions\LenevorException;
+
+/**
+ * This class control the views.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class View implements ViewContract
 {

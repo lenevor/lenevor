@@ -24,6 +24,11 @@
  
 namespace Syscode\Http\Contributors;
 
+/**
+ * This class is responsible for loading the different HTTP status codes existing. 
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ */
 class Status 
 {
 	/**
@@ -86,7 +91,6 @@ class Status
 		416 => 'Requested Range Not Satisfiable',
 		417 => 'Expectation Failed',
 		418 => 'I\'m a Teapot',
-
 		// 419 (Authentication Timeout) is a non-standard status code with unknown origin
 		421 => 'Misdirected Request',
 		422 => 'Unprocessable Entity',

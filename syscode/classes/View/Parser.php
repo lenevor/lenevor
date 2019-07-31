@@ -1,10 +1,5 @@
 <?php
 
-namespace Syscode\View;
-
-use Exception;
-use InvalidArgumentException;
-
 /**
  * Lenevor Framework
  *
@@ -25,6 +20,18 @@ use InvalidArgumentException;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\View;
+
+use Exception;
+use InvalidArgumentException;
+
+/**
+ * Allows the parsing of views to load the instructions into a 
+ * template without any PHP code.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Parser extends View
 {

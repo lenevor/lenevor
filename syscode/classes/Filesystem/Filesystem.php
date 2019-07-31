@@ -1,13 +1,5 @@
 <?php 
 
-namespace Syscode\Filesystem;
-
-use FilesystemIterator;
-use Syscode\Filesystem\Exceptions\{
-	FileException,
-	FileNotFoundException
-};
-
 /**
  * Lenevor Framework
  *
@@ -28,6 +20,20 @@ use Syscode\Filesystem\Exceptions\{
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Filesystem;
+
+use FilesystemIterator;
+use Syscode\Filesystem\Exceptions\{
+	FileException,
+	FileNotFoundException
+};
+
+/**
+ * Provides basic utility to manipulate the file system.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Filesystem 
 {
@@ -105,7 +111,7 @@ class Filesystem
 	/**
 	 * Clear PHP's internal stat cache.
 	 *
-	 * @param  bool  $all Clear all cache or not
+	 * @param  bool  $all  Clear all cache or not
 	 *
 	 * @return void
 	 */

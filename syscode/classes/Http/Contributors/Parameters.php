@@ -25,27 +25,33 @@
 namespace Syscode\Http\Contributors;
 
 use Countable;
+use IteratorAggregate;
 use Syscode\Support\Arr;
 
-class Parameters implements Countable
+/**
+ * Parameters is a container for key/value pairs.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ */
+class Parameters implements IteratorAggregate, Countable
 {
 	/**
-	 * Array parameter from the Server global.
+	 * Array parameters from the Server global.
 	 *
-	 * @var array $parameter
+	 * @var array $parameters
 	 */
 	protected $parameters = [];
 
 	/**
 	 * Parameter Object Constructor.
 	 *
-	 * @param  array  $parameter
+	 * @param  array  $parameters
 	 *
 	 * @return array
 	 */
-	public function __construct(array $parameter = [])
+	public function __construct(array $parameters = [])
 	{
-		$this->parameters = $parameter;
+		$this->parameters = $parameters;
 	}
 
 	/**
@@ -105,6 +111,30 @@ class Parameters implements Countable
 			unset($this->parameters[$key]);
 		}
 	}
+
+	/*
+    |-----------------------------------------------------------------
+    | IteratorAggregate Method
+    |-----------------------------------------------------------------
+    */
+
+	/**
+     * Retrieve an external iterator.
+     * 
+     * @see    \IteratorAggregate::getIterator
+     * 
+     * @return new \ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->frames);
+	}
+	
+	/*
+    |-----------------------------------------------------------------
+    | Countable Method
+    |-----------------------------------------------------------------
+    */
 	
 	/**
 	 * Returns the number of parameters.

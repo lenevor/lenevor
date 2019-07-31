@@ -1,11 +1,5 @@
 <?php 
 
-namespace Syscode\Routing;
-
-use Closure;
-use Syscode\Contracts\Routing\Routable;
-use Syscode\Routing\Exceptions\RouteNotFoundException;
-
 /**
  * Lenevor Framework
  *
@@ -27,10 +21,22 @@ use Syscode\Routing\Exceptions\RouteNotFoundException;
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
  */
+
+namespace Syscode\Routing;
+
+use Closure;
+use Syscode\Contracts\Routing\Routable;
+use Syscode\Routing\Exceptions\RouteNotFoundException;
+
+/**
+ * This class resolve the given route and called the method that belongs to the route.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ */
 class RouteResolver
 {
 	/**
-	 * Resolve the given url and call the method that belongs to the route.
+	 * Resolve the given route and call the method that belongs to the route.
 	 *
 	 * @param  \Syscode\Contracts\Routing\Routable  $router 
 	 * @param  string                               $uri 

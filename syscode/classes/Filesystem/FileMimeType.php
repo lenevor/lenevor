@@ -1,7 +1,5 @@
 <?php 
 
-namespace Syscode\Filesystem;
-
 /**
  * Lenevor Framework
  *
@@ -22,6 +20,15 @@ namespace Syscode\Filesystem;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Filesystem;
+
+/**
+ * This class loads an array of mime types.
+ * to help identify allowed file types.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class FileMimeType
 {

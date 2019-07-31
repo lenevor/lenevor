@@ -1,16 +1,5 @@
 <?php
 
-namespace Syscode\Http;
-
-use BadMethodCallException;
-use InvalidArgumentException;
-use UnexpectedValueException;
-use Syscode\Http\Contributors\{
-	Parameters,
-	Status
-};
-use Syscode\Filesystem\Exceptions\UnexpectedTypeException;
-
 /**
  * Lenevor Framework
  *
@@ -31,6 +20,23 @@ use Syscode\Filesystem\Exceptions\UnexpectedTypeException;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+ 
+namespace Syscode\Http;
+
+use BadMethodCallException;
+use InvalidArgumentException;
+use UnexpectedValueException;
+use Syscode\Http\Contributors\{
+	Parameters,
+	Status
+};
+use Syscode\Filesystem\Exceptions\UnexpectedTypeException;
+
+/**
+ * Response represents an HTTP response.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Response extends Status 
 {

@@ -1,7 +1,5 @@
 <?php 
 
-namespace Syscode\Filesystem\Exceptions;
-
 /**
  * Lenevor Framework
  *
@@ -21,7 +19,15 @@ namespace Syscode\Filesystem\Exceptions;
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since     
+ * @since       0.1.0
+ */
+
+namespace Syscode\Filesystem\Exceptions;
+
+/**
+ * UnexpectedTypeException.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class UnexpectedTypeException extends FileException
 {

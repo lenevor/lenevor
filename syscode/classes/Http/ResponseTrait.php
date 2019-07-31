@@ -1,10 +1,5 @@
 <?php
 
-namespace Syscode\Http;
-
-use Exception;
-use Syscode\Http\Exceptions\HttpResponseException;
-
 /**
  * Lenevor Framework
  *
@@ -24,7 +19,18 @@ use Syscode\Http\Exceptions\HttpResponseException;
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.1
+ * @since       0.1.0
+ */
+
+namespace Syscode\Http;
+
+use Exception;
+use Syscode\Http\Exceptions\HttpResponseException;
+
+/**
+ * Loads the response trait of headers, status code and content message.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 trait ResponseTrait 
 {
@@ -111,5 +117,15 @@ trait ResponseTrait
         $this->exception = $e;
 
         return $this;
+    }
+
+    /**
+     * Throws the response in a HttpResponseException instance.
+     * 
+     * @throws \Syscode\Http\Exceptions\HttpResponseException
+     */
+    public function throwResponse()
+    {
+        throw new HttpResponseException($this);
     }
 }

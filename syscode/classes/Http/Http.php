@@ -1,7 +1,5 @@
 <?php 
 
-namespace Syscode\Http;
-
 /**
  * Lenevor Framework
  *
@@ -22,6 +20,14 @@ namespace Syscode\Http;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Http;
+
+/**
+ * Returns the HTTP requests is filtered and detected in the routes set by the user.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Http
 {
@@ -120,7 +126,7 @@ class Http
 	}
 	
 	/**
-	 * Gets the URIProtocol based setting, will attempt to detect the path 
+	 * Gets the URI Protocol based setting, will attempt to detect the path 
 	 * portion of the current URI.
 	 * 
 	 * @param  string  $protocol
@@ -164,31 +170,31 @@ class Http
 			return '';
 		}
 
-		$requestURI = $this->server('request_uri') ?? '/';
+		$requestURI = $this->server('REQUEST_URI') ?? '/';
 		$components = parse_url($requestURI);
 		$query      = $components['query'] ?? '';
 		$uri        = $components['path'] ?? '';
 
 		// If the search value is at the start
-		if (isset($this->server('script_name')[0]))
+		if (isset($this->server('SCRIPT_NAME')[0]))
 		{
-			if (strpos($uri, $this->server('script_name')) === 0)
+			if (strpos($uri, 0 === $this->server('SCRIPT_NAME')))
 			{
-				$uri = (string) substr($uri, strlen($this->server('script_name')));
+				$uri = (string) substr($uri, strlen($this->server('SCRIPT_NAME')));
 			}
-			elseif (strpos($uri, $this->server('script_name')) > 0)
+			elseif (0 < strpos($uri, $this->server('SCRIPT_NAME')))
 			{
-				$uri = (string) substr($uri, strpos($uri, $this->server('script_name')) + strlen($this->server('script_name')));
+				$uri = (string) substr($uri, strpos($uri, $this->server('SCRIPT_NAME')) + strlen($this->server('SCRIPT_NAME')));
 			}
-			elseif (strpos($uri, dirname($this->server('script_name'))) === 0)
+			elseif (0 === strpos($uri, dirname($this->server('SCRIPT_NAME'))))
 			{
-				$uri = (string) substr($uri, strlen(dirname($this->server('script_name'))));
+				$uri = (string) substr($uri, strlen(dirname($this->server('SCRIPT_NAME'))));
 			}
 		}
 
 		// This section ensures that even on servers that require the URI to contain 
 		// the query string (Nginx) is the correctly
-		if (trim($uri, '/') === '' && strncmp($query, '/', 1) === 0) 
+		if ('' === trim($uri, '/') && 0 === strncmp($query, '/', 1)) 
 		{
 			$query					 = explode('?', $query, 2);
 			$uri  					 = $query[0];
@@ -223,7 +229,7 @@ class Http
 		{
 			return '';
 		}
-		elseif (strncmp($uri, '/', 1) === 0)
+		elseif (0 === strncmp($uri, '/', 1))
 		{
 			$uri    				 = explode('?', $uri, 2);
 			$_SERVER['QUERY_STRING'] = $uri[1] ?? '';
@@ -261,15 +267,15 @@ class Http
 	{
 		$filename = basename($this->server('SCRIPT_FILENAME'));
 		
-		if (basename($this->server('SCRIPT_NAME')) === $filename)
+		if ($filename === basename($this->server('SCRIPT_NAME')))
 		{
 			$baseUrl = $this->server('SCRIPT_NAME');
 		}
-		elseif (basename($this->server('PHP_SELF')) === $filename)
+		elseif ($filename === basename($this->server('PHP_SELF')))
 		{
 			$baseUrl = $this->server('PHP_SELF');
 		}
-		elseif (basename($this->server('ORIG_SCRIPT_NAME')) === $filename)
+		elseif ($filename === basename($this->server('ORIG_SCRIPT_NAME')))
 		{
 			$baseUrl = $this->server('ORIG_SCRIPT_NAME');
 		}

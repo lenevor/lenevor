@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.1
+ * @since       0.2.0
  */
 
 namespace Syscode\Http;
@@ -109,8 +109,6 @@ class RedirectResponse extends Response
     * @param  string  $url  The url
     *
     * @return $this
-    *
-    * @uses   \Syscode\Http\Uri
     */
 	public function setTargetUrl($url)
 	{

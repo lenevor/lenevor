@@ -1,11 +1,5 @@
 <?php 
 
-namespace Syscode\Routing;
-
-use Syscode\Http\Response;
-use Syscode\Routing\Redirector;
-use Syscode\Contracts\View\View;
-
 /**
  * Lenevor Framework
  *
@@ -26,6 +20,19 @@ use Syscode\Contracts\View\View;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Routing;
+
+use Syscode\Http\Response;
+use Syscode\Routing\Redirector;
+use Syscode\Contracts\View\View;
+
+/**
+ * This class allows you to control the use of the HTTP response 
+ * along with routes redirection.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class RouteResponse
 {

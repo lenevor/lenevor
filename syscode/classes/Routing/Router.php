@@ -1,11 +1,5 @@
 <?php 
 
-namespace Syscode\Routing;
-
-use Closure;
-use InvalidArgumentException;
-use Syscode\Contracts\Routing\Routable;
-
 /**
  * Lenevor Framework
  *
@@ -26,6 +20,18 @@ use Syscode\Contracts\Routing\Routable;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Routing;
+
+use Closure;
+use InvalidArgumentException;
+use Syscode\Contracts\Routing\Routable;
+
+/**
+ * The Router class allows the integration of an easy-to-use routing system.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Router implements Routable
 {

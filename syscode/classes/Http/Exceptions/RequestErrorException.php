@@ -1,9 +1,5 @@
 <?php 
 
-namespace Syscode\Http\Exceptions;
-
-use Syscode\Core\Http\Exceptions\LenevorException;
-
 /**
  * Lenevor Framework
  *
@@ -24,5 +20,15 @@ use Syscode\Core\Http\Exceptions\LenevorException;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Http\Exceptions;
+
+use Syscode\Core\Http\Exceptions\LenevorException;
+
+/**
+ * RequestErrorException.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class RequestErrorException extends LenevorException {}

@@ -1,11 +1,5 @@
 <?php    
 
-namespace Syscode\Http;
-
-use InvalidArgumentException;
-use Syscode\Http\Contributors\Parameters;
-use Syscode\Http\Exceptions\HttpURIException;
-
 /**
  * Lenevor Framework
  *
@@ -25,7 +19,19 @@ use Syscode\Http\Exceptions\HttpURIException;
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.1
+ * @since       0.1.0
+ */
+
+namespace Syscode\Http;
+
+use InvalidArgumentException;
+use Syscode\Http\Contributors\Parameters;
+use Syscode\Http\Exceptions\HttpURIException;
+
+/**
+ * Abstraction for a uniform resource identifier (URI).
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class URI
 {
@@ -118,7 +124,7 @@ class URI
 	 * 
 	 * @return void
 	 * 
-	 * @throws \Syscode\Http\Exceptions\ErrorToParseURIException
+	 * @throws \Syscode\Http\Exceptions\HttpURIException
 	 */
 	public function __construct(string $uri = null)
 	{

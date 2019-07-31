@@ -1,7 +1,5 @@
 <?php 
 
-namespace Syscode\Routing;
-
 /**
  * Lenevor Framework
  *
@@ -23,8 +21,16 @@ namespace Syscode\Routing;
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
  */
- class RouteGroup
- {
+
+namespace Syscode\Routing;
+
+/**
+ * Groups attributes according at called for route prefixes or middleware.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ */
+class RouteGroup
+{
  	/**
 	 * Middleware for function of filters
 	 *  
@@ -100,4 +106,4 @@ namespace Syscode\Routing;
  		$this->prefix     = '';
  		$this->middleware = [];
  	}
- }
+}

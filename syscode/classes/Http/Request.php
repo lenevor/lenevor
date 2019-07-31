@@ -1,11 +1,5 @@
 <?php
 
-namespace Syscode\Http;
-
-Use Locale;
-use Exception;
-use Syscode\Http\Contributors\Parameters;
-
 /**
  * Lenevor Framework
  *
@@ -26,6 +20,18 @@ use Syscode\Http\Contributors\Parameters;
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
+ */
+
+namespace Syscode\Http;
+
+Use Locale;
+use Exception;
+use Syscode\Http\Contributors\Parameters;
+
+/**
+ * Request represents an HTTP request.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Request
 {

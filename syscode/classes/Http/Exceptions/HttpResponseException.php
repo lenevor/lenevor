@@ -1,10 +1,5 @@
 <?php
 
-namespace Syscode\Http\Exceptions;
-
-use RuntimeException;
-use Syscode\Http\Response;
-
 /**
  * Lenevor Framework
  *
@@ -26,6 +21,19 @@ use Syscode\Http\Response;
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
  */
+
+namespace Syscode\Http\Exceptions;
+
+use RuntimeException;
+use Syscode\Http\Response;
+
+/**
+ *This class is responsible for calling the Response class to be loaded 
+ * in an exception depending on the error message provided by the user 
+ * or the system. 
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ */
 class HttpResponseException extends RuntimeException
 {
     /**
@@ -36,7 +44,7 @@ class HttpResponseException extends RuntimeException
     protected $response;
 
     /**
-     * Constructor. The HttpResponseException class.
+     * Constructor. The HttpResponseException class instance.
      * 
      * @param  \Syscode\Http\Response  $response
      * 
