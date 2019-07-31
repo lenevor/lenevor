@@ -22,8 +22,11 @@
  * @since       0.1.0
  */
 
+use Syscode\View\View;
 use Syscode\Core\Application;
 use Syscode\Routing\UrlGenerator;
+use Syscode\Routing\RouteResponse;
+use Syscode\Support\Facades\Facade;
 
 if ( ! function_exists('abort')) 
 {
@@ -47,21 +50,21 @@ if ( ! function_exists('abort'))
 
 if ( ! function_exists('app')) {
     /**
-     * Get the available Application instance.
+     * Get the available Application instance or a Facade class instance.
      *
      * @param  string  $id
      * @param  array   $parameters
      * 
-     * @return mixed|\Syscode\Core\Application
+     * @return \Syscode\Core\Application|\Syscode\Support\Facades\Facade
      */
     function app($id = null, $parameters = [])
     {
-        if (is_null($id))
+        if ( ! is_null($id))
         {
-            return Application::getInstance();
+            return Application::getInstance()->make($id, $parameters);
         }
 
-        return Application::getInstance()->make($id, $parameters);
+        return Facade::getFacadeApplication();
     }
 }
 
@@ -97,7 +100,6 @@ if ( ! function_exists('back'))
         return app('redirect')->back($status, $headers, $fallback);
     }
 }
-
 
 if ( ! function_exists('config'))
 {
@@ -245,6 +247,29 @@ if ( ! function_exists('redirect'))
     }
 }
 
+if ( ! function_exists('request'))
+{
+    /**
+     * Get an instance of the current request or an input item from the request.
+     * 
+     * @param  array|string|null  $key      (null by default)
+     * @param  mixed              $default  (null by default)
+     * 
+     * @return \Syscode\Http\Request|string|array 
+     */
+    function request($key = null, $default = null)
+    {
+        if (null === $key)
+        {
+            return app('request');
+        }
+
+        $value = app('request')->__get($key);
+
+        return null === $value ? value($default) : $value;
+    }
+}
+
 if ( ! function_exists('response')) {
     /**
      * Return a new Response from the application.
@@ -257,7 +282,7 @@ if ( ! function_exists('response')) {
      */
     function response($body = '', $status = 200, array $headers = [])
     {
-        $response = app('response');
+        $response = app(RouteResponse::class);
 
         if (func_num_args() === 0) 
         {
@@ -313,6 +338,35 @@ if ( ! function_exists('secureUrl'))
     }
 }
 
+if ( ! function_exists('segment'))
+{
+  /**
+     * Returns the desired segment, or $default if it does not exist.
+     *
+     * @param  int    $segment  
+     * @param  mixed  $default  
+     *
+     * @return string
+     */
+    function segment($index, $default = null)
+    {
+        return request()->segment($index, $default);
+    }
+}
+
+if ( ! function_exists('segments'))
+{
+  /**
+     * Returns all segments in an array.
+     *
+     * @return array
+     */
+    function segments()
+    {
+        return request()->segments();
+    }
+}
+
 if ( ! function_exists('storagePath')) {
     /**
      * Get the path to the storage folder.
@@ -324,6 +378,36 @@ if ( ! function_exists('storagePath')) {
     function storagePath($path = '')
     {
         return app('path.storage').($path ? DIRECTORY_SEPARATOR.$path : $path);
+    }
+}
+
+if ( ! function_exists('totalSegments'))
+{
+  /**
+     * Returns the total number of segment.
+     *
+     * @return int
+     */
+    function totalSegments()
+    {
+        return request()->totalSegments();
+    }
+}
+
+if ( ! function_exists('__'))
+{
+    /**
+     * A convenience method to translate a string and format it
+     * with the intl extension's MessageFormatter object.
+     * 
+     * @param  string  $line
+     * @param  array   $args
+     * 
+     * @return string
+     */
+    function __($line, array $args = [])
+    {
+        return app('translator')->getLine($line, $args);
     }
 }
 
@@ -362,12 +446,10 @@ if ( ! function_exists('view'))
      * @param  string|null  $extension  String extension
      * 
      * @return void
-     *
-     * @uses   \Syscode\View\View
      */
     function view($file = null, array $data = null, $extension = null)
     {
-        $view = app('view');
+        $view = app(View::class);
 
         if (func_num_args() === 0) 
         {
@@ -375,22 +457,5 @@ if ( ! function_exists('view'))
         }
 
         return $view->render($file, $data, $extension);
-    }
-}
-
-if ( ! function_exists('__'))
-{
-    /**
-     * A convenience method to translate a string and format it
-     * with the intl extension's MessageFormatter object.
-     * 
-     * @param  string  $line
-     * @param  array   $args
-     * 
-     * @return string
-     */
-    function __($line, array $args = [])
-    {
-        return app('translator')->getLine($line, $args);
     }
 }
