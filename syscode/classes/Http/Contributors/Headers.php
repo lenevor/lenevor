@@ -176,7 +176,7 @@ class Headers implements IteratorAggregate, Countable
 	 */
 	public function set($key, $values, $replace = true)
 	{
-		//$key = str_replace('_', '-', strtolower($key));
+		$key = str_replace('_', '-', strtolower($key));
 
 		if (is_array($values))
 		{
