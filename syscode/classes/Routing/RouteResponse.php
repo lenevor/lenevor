@@ -25,6 +25,7 @@
 namespace Syscode\Routing;
 
 use Syscode\Http\Response;
+use Syscode\Http\JsonResponse;
 use Syscode\Routing\Redirector;
 use Syscode\Contracts\View\View;
 
@@ -92,7 +93,7 @@ class RouteResponse
     }
 
     /**
-     * Return a new view Response from the application.
+     * Return a new View Response from the application.
      *
      * @param  string  $view
      * @param  array   $data
@@ -103,7 +104,22 @@ class RouteResponse
      */
     public function view($view, array $data = [], $status = 200, array $headers = [])
     {
-        return static::make($this->view->make($view, $data), $status, $headers);
+        return $this->make($this->view->make($view, $data), $status, $headers);
+    }
+
+    /**
+     * Create a new JSON response instance.
+     * 
+     * @param  mixed  $data
+     * @param  int    $status
+     * @param  array  $headers
+     * @param  int    $options
+     * 
+     * @return \Syscode\Http\JsonResponse
+     */
+    public function json($data = [], $status = 200, array $headers = [], $options = 0)
+    {
+        return new JsonResponse($data, $status, $headers, $options);
     }
 
     /**
