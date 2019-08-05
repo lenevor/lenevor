@@ -121,6 +121,7 @@ return [
     'Syscode\\Http\\Exceptions\\PostTooLargeHttpException' => SYS_PATH.'classes/Http/Exceptions/PostTooLargeHttpException.php',
     'Syscode\\Http\\Exceptions\\RequestErrorException' => SYS_PATH.'classes/Http/Exceptions/RequestErrorException.php',
     'Syscode\\Http\\Http' => SYS_PATH.'classes/Http/Http.php',
+    'Syscode\\Http\\JsonResponse' => SYS_PATH.'classes/Http/JsonResponse.php',
     'Syscode\\Http\\RedirectResponse' => SYS_PATH.'classes/Http/RedirectResponse.php',
     'Syscode\\Http\\Request' => SYS_PATH.'classes/Http/Request.php',
     'Syscode\\Http\\Response' => SYS_PATH.'classes/Http/Response.php',
