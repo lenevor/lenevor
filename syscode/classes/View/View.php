@@ -78,9 +78,9 @@ class View implements ViewContract
 	/**
 	 * Set the view filename.
 	 *
-	 * @var string|null $filename
+	 * @var string $filename
 	 */
-	protected $filename = null;
+	protected $filename;
 
 	/**
 	 * Started blocks.
@@ -94,7 +94,7 @@ class View implements ViewContract
 	 *
 	 * @example $view = new View($file);
 	 * 
-	 * @param  string       $file  View filename
+	 * @param  string|null  $file  View filename
 	 * @param  array        $data  Array of values
 	 * @param  string|null  $extension
 	 *
@@ -102,7 +102,7 @@ class View implements ViewContract
 	 *
 	 * @throws \InvalidArgumentException
 	 */
-	public function __construct($file = null, $data = null, $extension = null)
+	public function __construct($file = null, $data = [], $extension = null)
 	{
 		// Add the extension
 		if (is_null($extension))
@@ -124,12 +124,12 @@ class View implements ViewContract
 			throw new InvalidArgumentException(__('view.dataObjectArray'));
 		}
 		
-		if ($file !== null) 
+		if (is_file($file))
 		{
 			$this->setFilename($file);
 		}
 
-		if ($data !== null)
+		if (null !== $data)
 		{
 			// Add the values to the current data
 			$this->data = $data + $this->data;
@@ -159,12 +159,12 @@ class View implements ViewContract
 	 * @example View::render($file, $data, $extension);
 	 *
 	 * @param  string       $file       View filename
-	 * @param  array|null   $data       Array of values
+	 * @param  array        $data       Array of values
 	 * @param  string|null  $extension  String extension
 	 * 
 	 * @return void
 	 */
-	public static function render($file = null, array $data = null, $extension = null)
+	public static function render($file = null, array $data = [], $extension = null)
 	{
 		return new static($file, $data, $extension);
 	}
@@ -322,7 +322,7 @@ class View implements ViewContract
 	 * 
 	 * @param  array  $data
 	 * 
-	 * @return array|null
+	 * @return array
 	 */
 	public function getData(array $data = [])
 	{
@@ -408,17 +408,17 @@ class View implements ViewContract
 	 *
 	 * @example $output = $view->make();
 	 *
-	 * @param  string|null  $file  View filename
-	 * @param  array|null   $data  Array of values
+	 * @param  string  $file  View filename
+	 * @param  array   $data  Array of values
 	 *
 	 * @return string
 	 *
 	 * @throws \Syscode\View\Exceptions\ViewException
 	 */
-	public function make($file = null, $data = null) 
+	public function make($file, $data = []) 
 	{
 		// Override the view filename if needed
-		if (null !== $file)
+		if ($this->has($file))
 		{
 			$this->setFilename($file);
 		}
@@ -549,7 +549,7 @@ class View implements ViewContract
 		}
 
 		// Store the file path locally and extension
-		if ( ! file_exists($file))
+		if ($this->has($file))
 		{
 			$this->filename = $path;
 		}
