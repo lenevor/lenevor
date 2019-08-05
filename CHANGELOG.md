@@ -1,13 +1,13 @@
 # Release Notes
 
-## [Version 0.1.1-alpha.2]
+## [Version 0.2.0-alpha.2]
 
 Release Date: May 7, 2019
 
 **Next alpha release of Lenevor**
 
 ### Changed
-- Changed Release 0.1.1-alpha.2
+- Changed Release 0.2.0-alpha.2
 
 
 ## [Version 0.1.0-alpha.1]
