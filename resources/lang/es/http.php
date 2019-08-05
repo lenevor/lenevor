@@ -15,6 +15,7 @@ return [
     */
     
     'cannotParseURI' => 'No se puede analizar URI: {0}',
+    'invalidJson' => 'Error al analizar la cadena json, error: "{0}"',
     'invalidPort' => 'Los puertos deben estar entre 0 y 65535. Dado: {0}',
 
 ];

@@ -14,6 +14,6 @@ return [
     */
     
     'cannotParseURI' => 'Unable to parse URI: {0}',
+    'invalidJson' => 'Failed to parse json string, error: "{0}"',
     'invalidPort' => 'Ports must be between 0 and 65535. Given: {0}',
-
 ];
