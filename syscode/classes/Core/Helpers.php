@@ -441,13 +441,12 @@ if ( ! function_exists('view'))
      *
      * @example $view->render($file, $data, $extension);
      *  
-     * @param  string       $file       View filename
-     * @param  array|null   $data       Array of values
-     * @param  string|null  $extension  String extension
+     * @param  string|null  $file       View filename
+     * @param  array        $data       Array of values
      * 
      * @return void
      */
-    function view($file = null, array $data = null, $extension = null)
+    function view($file = null, array $data = [])
     {
         $view = app(View::class);
 
@@ -456,6 +455,6 @@ if ( ! function_exists('view'))
             return $view;
         }
 
-        return $view->render($file, $data, $extension);
+        return $view->make($file, $data);
     }
 }
