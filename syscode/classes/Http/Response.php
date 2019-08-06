@@ -145,6 +145,8 @@ class Response extends Status
 			$this->protocol = (string) $this->server->get('SERVER_PROTOCOL') ?: 'HTTP/1.1';
 			header(sprintf('%s %s %s', $this->protocol, $this->status, $this->statusText), true, $this->status);
 		}
+
+		return $this;
 	}
 
 	/**
@@ -173,7 +175,7 @@ class Response extends Status
 			$this->sendHeaders();
 		}
 
-		if ($this->content !== null) 
+		if (null !== $this->content) 
 		{
 			$this->sendContent();
 		}
