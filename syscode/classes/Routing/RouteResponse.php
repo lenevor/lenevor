@@ -76,7 +76,13 @@ class RouteResponse
      */
     public function make($body = '', $status = 200, array $headers = [])
     {
-        return new Response($body, $status, $headers);
+        $res = new Response($body, $status, $headers);
+
+        // Loaded the headers and status code
+        $res->send(true);
+                
+        // Terminate the current script 
+        exit;
     }
 
     /**
@@ -111,9 +117,9 @@ class RouteResponse
      * Create a new JSON response instance.
      * 
      * @param  mixed  $data
-     * @param  int    $status
+     * @param  int    $status   (200 by default)
      * @param  array  $headers
-     * @param  int    $options
+     * @param  int    $options  (0 by default)
      * 
      * @return \Syscode\Http\JsonResponse
      */
