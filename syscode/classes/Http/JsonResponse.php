@@ -47,7 +47,7 @@ class JsonResponse extends Response
      * 
      * @var int $jsonEncodingOptions
      */
-    protected $jsonEncodingOptions;
+    protected $jsonEncodingOptions = 15;
 
     /**
      * Constructor. The JsonReponse classs instance.
@@ -72,6 +72,12 @@ class JsonResponse extends Response
         }
         
         $json ? $this->setJson($data) : $this->setData($data);
+
+        // Loaded the headers and status code
+        $this->send(true);
+        
+        // Terminate the current script 
+        exit;
     }
 
     /**
@@ -125,7 +131,7 @@ class JsonResponse extends Response
             $this->data = json_encode($data, $this->jsonEncodingOptions);
         }
 
-        if ($this->hasJsonValidOptions(json_last_error()))
+        if ( ! $this->hasJsonValidOptions(json_last_error()))
         {
             throw new InvalidArgumentException(__('Http.invalidJson', [json_last_error_msg()]));
         }
@@ -174,7 +180,7 @@ class JsonResponse extends Response
      * 
      * @return $this
      */
-    public function setJson(string $json)
+    public function setJson($json)
     {
         $this->data = $json;
 
