@@ -63,11 +63,11 @@ trait ResponseTrait
     protected $protocol;
 
     /**
-	 * The server array.
-	 * 
-	 * @var array $server
-	 */
-	protected $server;
+     * The server array.
+     * 
+     * @var array $server
+     */
+    protected $server;
 
     /**
      * Gets the content of the response.
@@ -93,8 +93,8 @@ trait ResponseTrait
      * Sets a header on the response.
      * 
      * @param  string  $key      The header name
-	 * @param  string  $values   The value or an array of values
-	 * @param  bool    $replace  If you want to replace the value exists by the heade
+     * @param  string  $values   The value or an array of values
+     * @param  bool    $replace  If you want to replace the value exists by the header
      * 
      * @return array
      */
