@@ -96,6 +96,21 @@ class JsonResponse extends Response
     }
 
     /**
+     * Allows have a string with Key : value de manera so you must write
+     * the entire process in a manul way and without errors
+     * 
+     * @param  mixed|null  $data     (null by default)
+     * @param  int         $status   (200 by default)
+     * @param  array       $headers  
+     * 
+     * @return 'Clase')
+     */
+    public static function toJsonString($data = null, $status = 200, $headers = [])
+    {
+        return new static($data, $status, $headers, true);
+    }
+
+    /**
      * Get the json_decoded() data from the response.
      * 
      * @param  bool  $options  (false by default)
