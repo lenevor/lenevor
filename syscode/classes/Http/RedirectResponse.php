@@ -78,19 +78,19 @@ class RedirectResponse extends Response
     }
 
     /**
-	 * Creates an instance of the same redirect class for rendering URL's to the url, method rules defined
-	 * status code and headers.
-	 *
-	 * @param  mixed   $url      The URL to redirect to  
-	 * @param  int     $status   The HTTP response status for this response (200 by default)
-	 * @param  array   $headers  Array of HTTP headers for this response
-	 *
-	 * @return static
-	 */
-	public static function render($url = '', $status = 302, $headers = [])
-	{
-		return new static($url, $status, $headers);
-	}
+     * Creates an instance of the same redirect class for rendering URL's to the url, method rules defined
+     * status code and headers.
+     * 
+     * @param  mixed   $url      The URL to redirect to
+     * @param  int     $status   The HTTP response status for this response (200 by default)
+     * @param  array   $headers  Array of HTTP headers for this response
+     * 
+     * @return static
+     */
+    public static function render($url = '', $status = 302, $headers = [])
+    {
+        return new static($url, $status, $headers);
+    }
 
     /**
      * Returns the target URL.
