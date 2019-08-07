@@ -110,13 +110,13 @@ class RedirectResponse extends Response
     *
     * @return $this
     */
-	public function setTargetUrl($url)
-	{
-        if ('' === ($url ?? '')) 
+    public function setTargetUrl($url)
+    {
+        if ('' === ($url ?? ''))
         {
             throw new InvalidArgumentException('Cannot redirect to an empty URL');
         }
-
+        
         $this->targetUrl = $url;
         
         $this->setContent(sprintf('<!DOCTYPE html>
@@ -130,9 +130,9 @@ class RedirectResponse extends Response
             Redirecting to <a href="%1$s">%1$s</a>.
         </body>
     </html>', htmlspecialchars($url, ENT_QUOTES, 'UTF-8')));
-
+    
         $this->headers->set("Location", $url);
-		        
+        
         return $this;
     }
     
