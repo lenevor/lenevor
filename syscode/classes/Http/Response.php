@@ -192,8 +192,9 @@ class Response extends Status
 	 */
 	public function setContent($content)
 	{
-		if ($content !== null && ! is_string($content) && ! is_numeric($content) && ! is_callable([$content, '__toString'])) {
-            throw new UnexpectedValueException(sprintf('The Response content must be a string or object implementing __toString(), "%s" given.', gettype($content)));
+		if ($content !== null && ! is_string($content) && ! is_numeric($content) && ! is_callable([$content, '__toString'])) 
+		{
+			throw new UnexpectedValueException(sprintf('The Response content must be a string or object implementing __toString(), "%s" given.', gettype($content)));
 		}
 		
 		$this->content = (string) $content;
@@ -212,9 +213,9 @@ class Response extends Status
 
 		if ($this->isInformational() || $this->isEmpty()) 
 		{
-            $this->setContent(null);
+			$this->setContent(null);
 			$headers->remove('Content-Type');
-            $headers->remove('Content-Length');
+			$headers->remove('Content-Length');
 		}
 	}
 
@@ -271,62 +272,62 @@ class Response extends Status
 
 	/**
      * Is response informative?
-     *
-     * @final
+	 * 
+	 * @final
 	 * 
 	 * @return void
-     */
-    public function isInformational()
-    {
-        return $this->status >= 100 && $this->status < 200;
+	 */
+	public function isInformational()
+	{
+		return $this->status >= 100 && $this->status < 200;
 	}
 	
 	/**
-     * Is the response a redirect?
-     *
-     * @final
+	 * Is the response a redirect?
+	 * 
+	 * @final
 	 * 
 	 * @return void
-     */
-    public function isRedirection()
-    {
-        return $this->status >= 300 && $this->status < 400;
-    }
-
+	 */
+	public function isRedirection()
+	{
+		return $this->status >= 300 && $this->status < 400;
+	}
+	
 	/**
-     * Is the response empty?
-     *
-     * @final
+	 * Is the response empty?
+	 * 
+	 * @final
 	 * 
 	 * @return void
-     */
-    public function isEmpty()
-    {
-        return in_array($this->status, [204, 304]);
+	 */
+	public function isEmpty()
+	{
+		return in_array($this->status, [204, 304]);
 	}
 	
 	/**
 	 * Is the response a redirect of some form?
 	 * 
 	 * @return bool
-     */
-    public function isRedirect()
-    {
-        return in_array($this->status, [301, 302, 303, 307, 308]);
-    }
-
+	 */
+	public function isRedirect()
+	{
+		return in_array($this->status, [301, 302, 303, 307, 308]);
+	}
+	
 	/**
 	 * Returns the Response as an HTTP string.
-	 *
+	 * 
 	 * @return string
 	 */
 	public function __toString()
 	{
 		return sprintf('%s %s %s', $this->protocol, $this->status, $this->statusText)."\r\n".
-            $this->headers."\r\n".
-            $this->getContent();
+			$this->headers."\r\n".
+			$this->getContent();
 	}
-
+	
 	/**
 	 * Clone the current Response instance.
 	 */
