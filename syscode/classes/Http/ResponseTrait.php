@@ -35,10 +35,10 @@ use Syscode\Http\Exceptions\HttpResponseException;
 trait ResponseTrait 
 {
     /**
-	 * The content of the response.
-	 * 
-	 * @var string $content
-	 */
+     * The content of the response.
+     * 
+     * @var string $content
+     */
     protected $content = null;
     
     /**
@@ -49,10 +49,10 @@ trait ResponseTrait
     protected $exception;
 
     /**
-	 * The Headers class instance.
-	 *
-	 * @var \Syscode\Http\Headers $headers
-	 */
+     * The Headers class instance.
+     * 
+     * @var \Syscode\Http\Headers $headers
+     */
 	public $headers;
 
     /**
