@@ -31,18 +31,19 @@ namespace Syscode\Contracts\View;
  */
 interface View
 {
-    /**
-	 * Add a piece of data to the view
+	/**
+	 * Add a piece of data to the view.
 	 * 
 	 * @example  $view->assign($content, $data);
 	 * 
 	 * @param  string|array  $key
 	 * @param  mixed         $value
+	 * 
 	 * @return $this
 	 */
-    public function assign($key, $value = null);
-
-    /**
+	public function assign($key, $value = null);
+	
+	/**
 	 * Assigns a value by reference. The benefit of binding is that values can be altered
 	 * without re-setting them. It is also possible to bind variables before they have values.
 	 * Assigned values will be available as a variable within the view file:
