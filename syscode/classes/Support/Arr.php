@@ -174,7 +174,7 @@ class Arr
 		}
 		
 		return array_values($results);
-    }
+	}
 
 	/**
 	 * Return the first element in an array passing a given truth test.
