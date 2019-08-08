@@ -123,28 +123,28 @@ class Parameters implements IteratorAggregate, Countable
 	}
 
 	/*
-    |-----------------------------------------------------------------
-    | IteratorAggregate Method
-    |-----------------------------------------------------------------
-    */
-
+	|-----------------------------------------------------------------
+	| IteratorAggregate Method
+	|-----------------------------------------------------------------
+	*/
+	
 	/**
-     * Retrieve an external iterator.
-     * 
-     * @see    \IteratorAggregate::getIterator
-     * 
-     * @return new \ArrayIterator
-     */
-    public function getIterator()
-    {
-        return new ArrayIterator($this->frames);
+	 * Retrieve an external iterator.
+	 * 
+	 * @see    \IteratorAggregate::getIterator
+	 * 
+	 * @return new \ArrayIterator
+	 */
+	public function getIterator()
+	{
+		return new ArrayIterator($this->frames);
 	}
 	
 	/*
-    |-----------------------------------------------------------------
-    | Countable Method
-    |-----------------------------------------------------------------
-    */
+	|-----------------------------------------------------------------
+	| Countable Method
+	|-----------------------------------------------------------------
+	*/
 	
 	/**
 	 * Returns the number of parameters.
