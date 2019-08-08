@@ -48,7 +48,8 @@ if ( ! function_exists('abort'))
     }
 }
 
-if ( ! function_exists('app')) {
+if ( ! function_exists('app')) 
+{
     /**
      * Get the available Application instance or a Facade class instance.
      *
@@ -270,7 +271,8 @@ if ( ! function_exists('request'))
     }
 }
 
-if ( ! function_exists('response')) {
+if ( ! function_exists('response')) 
+{
     /**
      * Return a new Response from the application.
      *
@@ -293,7 +295,8 @@ if ( ! function_exists('response')) {
     }
 }
 
-if ( ! function_exists('resourcePath')) {
+if ( ! function_exists('resourcePath')) 
+{
     /**
      * Get the path to the resources folder.
      *
@@ -367,7 +370,8 @@ if ( ! function_exists('segments'))
     }
 }
 
-if ( ! function_exists('storagePath')) {
+if ( ! function_exists('storagePath')) 
+{
     /**
      * Get the path to the storage folder.
      *
