@@ -307,10 +307,11 @@ class Http
 
 		$baseUrl = dirname($baseUrl);
 
-		if (empty($baseUrl) || false !== strpos(rawurldecode($requestUri), $baseUrl)) {
-            // no match whatsoever; set it blank
-            return '';
-        }
+		if (empty($baseUrl) || false !== strpos(rawurldecode($requestUri), $baseUrl))
+		{
+			// no match whatsoever; set it blank
+			return '';
+		}
 		
 		// If using mod_rewrite or ISAPI_Rewrite strip the script filename
 		// out of baseUrl. $pos !== 0 makes sure it is not matching a value
