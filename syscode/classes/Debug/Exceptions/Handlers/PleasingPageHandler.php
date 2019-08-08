@@ -54,8 +54,8 @@ class PleasingPageHandler extends MainHandler
 
 	/**
 	 * A string identifier for a known IDE/text editor, or a closure
-     * that resolves a string that can be used to open a given file
-     * in an editor.
+	 * that resolves a string that can be used to open a given file
+	 * in an editor.
 	 * 
 	 * @var mixed $editor
 	 */
@@ -137,7 +137,7 @@ class PleasingPageHandler extends MainHandler
 	/**
 	 * Adds an entry to the list of tables displayed in the template.
 	 * The expected data is a simple associative array. Any nested arrays
-     * will be flattened with print_r.
+	 * will be flattened with print_r.
 	 * 
 	 * @param  \Syscode\Contracts\Debug\Table  $table
 	 * 
@@ -241,16 +241,16 @@ class PleasingPageHandler extends MainHandler
 	}
 
 	/**
-     * Get the stack trace frames of the exception that is currently being handled.
-     *
-     * @return \Syscode\Debug\Engine\Supervisor;
-     */
-    protected function getExceptionFrames()
-    {
-        $frames = $this->getSupervisor()->getFrames();
-        
-        return $frames;
-    }
+	 * Get the stack trace frames of the exception that is currently being handled.
+	 * 
+	 * @return \Syscode\Debug\Engine\Supervisor;
+	 */
+	protected function getExceptionFrames()
+	{
+		$frames = $this->getSupervisor()->getFrames();
+		
+		return $frames;
+	}
 	
 	/**
 	 * Gets the page title web.
@@ -382,7 +382,7 @@ class PleasingPageHandler extends MainHandler
 
 	/**
 	 * Given a string file path, and an integer file line,
-     * executes the editor resolver and returns.
+	 * executes the editor resolver and returns.
 	 * 
 	 * @param  string  $file
 	 * @param  int	   $line
@@ -423,39 +423,39 @@ class PleasingPageHandler extends MainHandler
 	{
 		if ( ! $this->editor || ( ! is_string($this->editor) && ! is_callable($this->editor))) 
 		{
-            return [];
-        }
+			return [];
+		}
 
 		if (is_string($this->editor) && isset($this->editors[$this->editor]) && ! is_callable($this->editors[$this->editor])) 
 		{
-            return ['url' => $this->editors[$this->editor]];
-        }
+			return ['url' => $this->editors[$this->editor]];
+		}
 
 		if (is_callable($this->editor) || (isset($this->editors[$this->editor]) && is_callable($this->editors[$this->editor]))) 
 		{
 			if (is_callable($this->editor)) 
 			{
-                $callback = call_user_func($this->editor, $filePath, $line);
+				$callback = call_user_func($this->editor, $filePath, $line);
 			} 
 			else 
 			{
-                $callback = call_user_func($this->editors[$this->editor], $filePath, $line);
-            }
+				$callback = call_user_func($this->editors[$this->editor], $filePath, $line);
+			}
 
 			if (empty($callback)) 
 			{
-                return [];
-            }
+				return [];
+			}
 
 			if (is_string($callback)) 
 			{
-                return ['url' => $callback];
-            }
-
-            return ['url' => isset($callback['url']) ? $callback['url'] : $callback];
-        }
-
-        return [];
+				return ['url' => $callback];
+			}
+			
+			return ['url' => isset($callback['url']) ? $callback['url'] : $callback];
+		}
+		
+		return [];
 	}
 
 	/**
