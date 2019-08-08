@@ -103,7 +103,7 @@ class JsonResponse extends Response
      * @param  int         $status   (200 by default)
      * @param  array       $headers  
      * 
-     * @return 'Clase')
+     * @return static
      */
     public static function toJsonString($data = null, $status = 200, $headers = [])
     {
