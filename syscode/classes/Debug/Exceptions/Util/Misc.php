@@ -43,7 +43,7 @@ class Misc
         E_CORE_WARNING,
         E_USER_ERROR,
         E_COMPILE_ERROR,
-		E_COMPILE_WARNING
+        E_COMPILE_WARNING
     ];
     
     /**
