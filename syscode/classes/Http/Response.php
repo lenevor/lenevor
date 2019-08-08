@@ -271,7 +271,7 @@ class Response extends Status
 	}
 
 	/**
-     * Is response informative?
+	 * Is response informative?
 	 * 
 	 * @final
 	 * 
