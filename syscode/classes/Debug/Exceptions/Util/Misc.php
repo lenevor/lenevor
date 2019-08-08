@@ -32,30 +32,30 @@ namespace Syscode\Debug\Util;
 class Misc
 {
     /**
-	 * The errors of php.
-	 *
-	 * @var array $phpErrors
-	 */
-	protected static $phpErrors = [ 
-		E_ERROR, 
-		E_PARSE,
-		E_CORE_ERROR,
-		E_CORE_WARNING,
-		E_USER_ERROR, 
-		E_COMPILE_ERROR,
+     * The errors of php.
+     * 
+     * @var array $phpErrors
+     */
+    protected static $phpErrors = [
+        E_ERROR,
+        E_PARSE,
+        E_CORE_ERROR,
+        E_CORE_WARNING,
+        E_USER_ERROR,
+        E_COMPILE_ERROR,
 		E_COMPILE_WARNING
     ];
     
     /**
-	 * Determine if the error level is fatal.
-	 * 
-	 * @param  int  $level
-	 * 
-	 * @return bool
-	 */
-	public static function isFatalError(int $level)
-	{
-		return in_array($level, static::$phpErrors);
+     * Determine if the error level is fatal.
+     * 
+     * @param  int  $level
+     * 
+     * @return bool
+     */
+    public static function isFatalError(int $level)
+    {
+        return in_array($level, static::$phpErrors);
     }
     
     /**
