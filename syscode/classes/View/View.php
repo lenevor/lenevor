@@ -461,6 +461,7 @@ class View implements ViewContract
 
 	/**
 	 * Check existance view file.
+	 * 
 	 * @param  string  $file
 	 *
 	 * @return bool
