@@ -40,23 +40,23 @@ class Headers implements IteratorAggregate, Countable
 	 * 
 	 * @var array $herders
 	 */
-    protected $headers = [];
-    
-    /**
-     * Specifies the directives for the caching mechanisms in both 
-     * the requests and the responses.
-     * 
-     * @var array $cacheControl
-     */
-    protected $cacheControl = [];
-
-    /**
-     * Constructor. The Headers class instance.
-     * 
-     * @param  array  $headers
-     * 
-     * @return void
-     */
+	protected $headers = [];
+	
+	/**
+	 * Specifies the directives for the caching mechanisms in both
+	 * the requests and the responses.
+	 * 
+	 * @var array $cacheControl
+	 */
+	protected $cacheControl = [];
+	
+	/**
+	 * Constructor. The Headers class instance.
+	 * 
+	 * @param  array  $headers
+	 * 
+	 * @return void
+	 */
 	public function __construct(array $headers = [])
 	{
 		foreach ($headers as $key => $values)
@@ -64,8 +64,8 @@ class Headers implements IteratorAggregate, Countable
 			$this->set($key, $values);
 		}
 	}
-
-    /**
+	
+	/**
 	 * Returns all the headers.
 	 * 
 	 * @return array
@@ -84,7 +84,7 @@ class Headers implements IteratorAggregate, Countable
 	{
 		return array_keys($this->all());
 	}
-
+	
 	/**
 	 * Replaces the current HTTP headers by a new set.
 	 * 
@@ -97,47 +97,47 @@ class Headers implements IteratorAggregate, Countable
 		$this->headers = [];
 		$this->add($headers);
 	}
-
+	
 	/**
 	 * Adds multiple header to the queue.
-	 *
+	 * 
 	 * @param  array  $headers  The header name
-	 *
+	 * 
 	 * @return mixed
 	 */
 	public function add(array $headers)
 	{
-		foreach ($headers as $key => $values) 
+		foreach ($headers as $key => $values)
 		{
 			$this->set($key, $values);
 		}
-
+		
 		return $this;
 	}
-
+	
 	/**
-     * Returns the headers, with original capitalizations.
-     *
-     * @return array An array of headers
-     */
-    public function allPreserveCase()
-    {
+	 * Returns the headers, with original capitalizations.
+	 * 
+	 * @return array An array of headers
+	 */
+	public function allPreserveCase()
+	{
 		$headers = [];
 		
 		foreach ($this->all() as $name => $value)
 		{
-            $headers[$name] = $value;
+			$headers[$name] = $value;
 		}
-
-        return $headers;
-    }
-
-    /**
+		
+		return $headers;
+	}
+	
+	/**
 	 * Gets a header value by name.
 	 *
 	 * @param  string       $key      The header name, or null for all headers
 	 * @param  string|null  $default  The default value
-     * @param  bool         $option   Whether to return the option value or all header values (true by default)
+	 * @param  bool         $option   Whether to return the option value or all header values (true by default)
 	 *
 	 * @return mixed
 	 */
