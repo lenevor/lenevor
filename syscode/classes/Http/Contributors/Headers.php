@@ -59,7 +59,7 @@ class Headers implements IteratorAggregate, Countable
      */
     public function __construct(array $headers = []) 
     {
-        foreach ($headers as $key => $values)
+		foreach ($headers as $key => $values)
 		{
 			$this->set($key, $values);
 		}
