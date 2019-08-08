@@ -146,10 +146,10 @@ class Supervisor
 	 * 
 	 * @return string
 	 */
-    public function getExceptionMessage()
-    {
-        return $this->exception->getMessage();
-    }
+	public function getExceptionMessage()
+	{
+		return $this->exception->getMessage();
+	}
 
 	/**
 	 * Gets the class name of exception.
