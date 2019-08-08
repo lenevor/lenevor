@@ -14,6 +14,6 @@
 
 <?= $this->section('message') ?>
 
-			<?= __($exception->getMessage() ?: 'Unsupported Media Type') ?>
+			<?= __('Unsupported Media Type') ?>
 
 <?= $this->stop() ?>

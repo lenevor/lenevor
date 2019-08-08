@@ -14,6 +14,6 @@
 
 <?= $this->section('message') ?>
 
-			<?= __($exception->getMessage() ?: 'Gone') ?>
+			<?= __('Gone') ?>
 
 <?= $this->stop() ?>

@@ -14,6 +14,6 @@
 
 <?= $this->section('message') ?>
 
-			<?= __($exception->getMessage() ?: 'Conflict') ?>
+			<?= __('Conflict') ?>
 
 <?= $this->stop() ?>

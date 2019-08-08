@@ -14,6 +14,6 @@
 
 <?= $this->section('message') ?>
 
-			<?= __($exception->getMessage() ?: 'Precondition Failed') ?>
+			<?= __('Precondition Failed') ?>
 
 <?= $this->stop() ?>

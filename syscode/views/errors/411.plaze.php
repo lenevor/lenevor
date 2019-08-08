@@ -14,6 +14,6 @@
 
 <?= $this->section('message') ?>
 
-			<?= __($exception->getMessage() ?: 'Length Required') ?>
+			<?= __('Length Required') ?>
 
 <?= $this->stop() ?>

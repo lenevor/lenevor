@@ -14,6 +14,6 @@
 
 <?= $this->section('message') ?>
 
-			<?= __($exception->getMessage() ?: 'Request Entity Too Large') ?>
+			<?= __('Request Entity Too Large') ?>
 
 <?= $this->stop() ?>

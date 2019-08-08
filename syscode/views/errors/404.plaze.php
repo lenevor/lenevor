@@ -14,6 +14,6 @@
 
 <?= $this->section('message') ?>
 
-			<?= __($exception->getMessage() ?: 'Not Found') ?>
+			<?= __('Not Found') ?>
 
 <?= $this->stop() ?>

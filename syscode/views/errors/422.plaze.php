@@ -14,6 +14,6 @@
 
 <?= $this->section('message') ?>
 
-			<?= __($exception->getMessage() ?: 'Unprocessable Entity') ?>
+			<?= __('Unprocessable Entity') ?>
 
 <?= $this->stop() ?>

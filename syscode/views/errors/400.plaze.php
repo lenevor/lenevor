@@ -14,6 +14,6 @@
 
 <?= $this->section('message') ?>
 
-				<?= __($exception->getMessage() ?: 'Bad Request') ?>
+				<?= __('Bad Request') ?>
 
 <?= $this->stop() ?>

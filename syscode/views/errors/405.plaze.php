@@ -14,6 +14,6 @@
 
 <?= $this->section('message') ?>
 
-			<?= __($exception->getMessage() ?: 'Method Not Allowed') ?>
+			<?= __('Method Not Allowed') ?>
 
 <?= $this->stop() ?>
