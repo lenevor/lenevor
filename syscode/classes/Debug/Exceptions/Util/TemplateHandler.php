@@ -147,19 +147,19 @@ class TemplateHandler
 	 * @param  mixed  $value
 	 * 
 	 * @return string
-     */
+	 */
 	public function dump($value)
 	{
 		return htmlspecialchars(print_r($value, true));
 	}
-
-    /**
+	
+	/**
 	 * Format the args of the given Frame as a human readable html string.
 	 * 
 	 * @param  Frame  $frame
 	 * 
 	 * @return string  The rendered html
-     */
+	 */
 	public function dumpArgs(Frame $frame)
 	{
 		$html      = '';
