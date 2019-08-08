@@ -161,8 +161,8 @@ class Headers implements IteratorAggregate, Countable
 			return count($headers[$key]) ? $headers[$key][0] : $default;
 		}
 		
-		return $headers[$key];		
-    }
+		return $headers[$key];
+	}
 
 	/**
 	 * Sets a header by name.
@@ -256,32 +256,33 @@ class Headers implements IteratorAggregate, Countable
 	{
 		return count($this->headers);
 	}
-
+	
 	/**
-     * Returns the headers as a string.
-     *
-     * @return string The headers
-     */
-    public function __toString()
-    {
-        if ( ! $headers = $this->all()) {
-            return '';
-        }
-
-        ksort($headers);
-        $max = max(array_map('strlen', array_keys($headers))) + 1;
+	 * Returns the headers as a string.
+	 * 
+	 * @return string The headers
+	 */
+	public function __toString()
+	{
+		if ( ! $headers = $this->all())
+		{
+			return '';
+		}
+		
+		ksort($headers);
+		$max     = max(array_map('strlen', array_keys($headers))) + 1;
 		$content = '';
 		
-		foreach ($headers as $name => $values) 
+		foreach ($headers as $name => $values)
 		{
 			$name = ucwords($name, '-');
 			
-			foreach ($values as $value) 
+			foreach ($values as $value)
 			{
-                $content .= sprintf("%-{$max}s %s\r\n", $name.':', $value);
-            }
-        }
+				$content .= sprintf("%-{$max}s %s\r\n", $name.':', $value);
+			}
+		}
 
-        return $content;
-    }
+		return $content;
+	}
 }
