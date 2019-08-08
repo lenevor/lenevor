@@ -344,7 +344,7 @@ class Application extends Container implements ApplicationContract
      * 
      * @return mixed
      */
-    public function make($id, array $parameters = [])
+    public function make(string $id, array $parameters = [])
     {
         $id = $this->getAlias($id);
        
