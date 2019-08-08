@@ -51,19 +51,19 @@ class MainHandler
      * @var \Syscode\Contracts\Debug\Handler $debug
      */
     protected $debug;
-
+    
     /**
-	 * Get exception. 
-	 * 
-	 * @var \Throwable $exception
-	 */
+     * Get exception.
+     * 
+     * @var \Throwable $exception
+     */
     protected $exception;
     
     /**
-	 * Get supervisor. 
-	 * 
-	 * @var string $supervisor
-	 */
+     * Get supervisor.
+     * 
+     * @var string $supervisor
+     */
     protected $supervisor;
 
     /**
@@ -89,10 +89,10 @@ class MainHandler
     }
     
     /**
-	 * Gets exception already specified.
-	 * 
-	 * @return \Throwable
-	 */
+     * Gets exception already specified.
+     * 
+     * @return \Throwable
+     */
     public function getException()
     {
         return $this->exception;
@@ -109,12 +109,12 @@ class MainHandler
     {
         $this->exception = $exception;
     }
-
+    
     /**
-	 * Gets supervisor already specified.
-	 * 
-	 * @return \Syscode\Debug\Engine\Supervisor
-	 */
+     * Gets supervisor already specified.
+     * 
+     * @return \Syscode\Debug\Engine\Supervisor
+     */
     public function getSupervisor()
     {
         return $this->supervisor;
