@@ -157,7 +157,8 @@ if ( ! function_exists('camel_case'))
     }
 }
 
-if ( ! function_exists('classBasename')) {
+if ( ! function_exists('classBasename')) 
+{
     /**
      * Get the class "basename" of the given object / class.
      *
@@ -193,7 +194,8 @@ if ( ! function_exists('dd'))
     }
 }
 
-if ( ! function_exists('env')) {
+if ( ! function_exists('env')) 
+{
     /**
      * Gets the value of an environment variable.
      * 
@@ -377,7 +379,8 @@ if ( ! function_exists('take'))
     }
 }
 
-if ( ! function_exists('value')) {
+if ( ! function_exists('value')) 
+{
     /**
      * Return the default value of the given value.
      *
