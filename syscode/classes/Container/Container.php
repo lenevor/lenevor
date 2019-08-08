@@ -772,7 +772,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @throws \Syscode\Container\Exceptions\ContainerException
      */
-    public function set(string $id, $value)
+    public function set(string $id, string $value)
     {
         if ( ! $this->has($id))
         {
