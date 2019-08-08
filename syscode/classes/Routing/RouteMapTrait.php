@@ -97,14 +97,14 @@ trait RouteMapTrait
 	}
 
 	/**
-     * Register a new route with the given methods.
-     *
-     * @param  array|string          $methods
-     * @param  string                $route
-     * @param  string|null|callable  $action
-     *
-     * @return void
-     */
+	 * Register a new route with the given methods.
+	 * 
+	 * @param  array|string          $methods
+	 * @param  string                $route
+	 * @param  string|null|callable  $action
+	 * 
+	 * @return void
+	 */
 	public function match($methods, $route, $action = null)
 	{
 		return $this->map($methods, $route, $action);
