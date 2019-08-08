@@ -147,33 +147,33 @@ class Arr
 
 		return true;
 	}
-
+	
 	/**
-     * Fetch a flattened array of a nested array element.
-     *
+	 * Fetch a flattened array of a nested array element.
+	 * 
 	 * @param  array   $array
-     * @param  string  $key
-     *
-     * @return array
-     */
-    public static function fetch($array, $key)
-    {
-        foreach (explode('.', $key) as $segment)
-        {
-            $results = array();
-
-            foreach ($array as $value)
-            {
-                if (array_key_exists($segment, $value = (array) $value))
-                {
-                    $results[] = $value[$segment];
-                }
-            }
-
-            $array = array_values($results);
-        }
-
-        return array_values($results);
+	 * @param  string  $key
+	 * 
+	 * @return array
+	 */
+	public static function fetch($array, $key)
+	{
+		foreach (explode('.', $key) as $segment)
+		{
+			$results = array();
+			
+			foreach ($array as $value)
+			{
+				if (array_key_exists($segment, $value = (array) $value))
+				{
+					$results[] = $value[$segment];
+				}
+			}
+			
+			$array = array_values($results);
+		}
+		
+		return array_values($results);
     }
 
 	/**
