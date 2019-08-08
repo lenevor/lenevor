@@ -51,7 +51,7 @@ interface Routable
 	 *
 	 * @return  void
 	 */
-	public function any(string $route, $action);
+	public function any($route, $action);
 
 	/**
 	 * Add a route with delete method.
