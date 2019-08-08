@@ -74,7 +74,7 @@ interface Container extends ContainerInterface
      * 
      * @return \Closure
      */
-    public function factory(string $id);
+    public function factory($id);
 
     /**
      * Return and array containing all bindings.
