@@ -299,7 +299,7 @@ class Route
 		{
 			$this->wheres = [$param => $regex];	
 		}
-
-        return $this;
+		
+		return $this;
 	}
 }
