@@ -334,11 +334,11 @@ class GDebug implements DebugContract
 		}
 
 		if ( ! $handler instanceof MainHandler) {
-            throw new InvalidArgumentException(
-                "Argument to " . __METHOD__ . " must be a callable, or instance of " .
-                "Syscode\\Contracts\\Debug\\Handler"
-            );
-        }
+			throw new InvalidArgumentException(
+				"Argument to " . __METHOD__ . " must be a callable, or instance of ".
+				"Syscode\\Contracts\\Debug\\Handler"
+			);
+		}
 
 		return $handler;
 	}
