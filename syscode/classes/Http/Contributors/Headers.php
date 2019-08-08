@@ -35,9 +35,9 @@ use IteratorAggregate;
  */
 class Headers implements IteratorAggregate, Countable
 {
-    /**
+	/**
 	 * An array of HTTP headers.
-	 *
+	 * 
 	 * @var array $herders
 	 */
     protected $headers = [];
@@ -57,8 +57,8 @@ class Headers implements IteratorAggregate, Countable
      * 
      * @return void
      */
-    public function __construct(array $headers = []) 
-    {
+	public function __construct(array $headers = [])
+	{
 		foreach ($headers as $key => $values)
 		{
 			$this->set($key, $values);
