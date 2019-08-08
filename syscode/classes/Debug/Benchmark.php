@@ -169,7 +169,7 @@ class Benchmark
      * @return boolean
      */
     public function has(string $name)
-	{
-		return array_key_exists(strtolower($name), $this->timers);
-	}
+    {
+        return array_key_exists(strtolower($name), $this->timers);
+    }
 }
