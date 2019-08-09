@@ -55,7 +55,7 @@ interface Store
      * 
      * @return mixed
      */
-    public function decrement($key, $value = 1);
+    public function decrement(string $key, $value = 1);
 
     /**
      * Deletes a specific item from the cache store.
@@ -64,7 +64,7 @@ interface Store
      * 
      * @return mixed
      */
-    public function erase($key);
+    public function erase(string $key);
 
     /**
      * Remove all items from the cache.
@@ -80,7 +80,7 @@ interface Store
      * 
      * @return mixed
      */
-    public function get($key);
+    public function get(string $key);
     
     /**
      * Returns information on the entire cache.
@@ -96,7 +96,7 @@ interface Store
      * 
      * @return mixed
      */
-    public function getMetaData($key);
+    public function getMetaData(string $key);
 
     /**
      * Get the cache key prefix
@@ -113,7 +113,7 @@ interface Store
      * 
      * @return mixed
      */
-    public function increment($key, $value = 1);
+    public function increment(string $key, $value = 1);
 
     /**
      * Determines if the driver is supported on this system.
@@ -125,11 +125,9 @@ interface Store
     /**
      * Saves an item to the cache store.
      * 
-     * @param  string  $key
-     * @param  mixed   $value
-     * @param  int     $ttl    The default ttl (60
-     * 
-     * @return mixed
+     * @param  string    $key    Cache item name
+     * @param  mixed     $value  The data to save 
+     * @param  int|null  $ttl    Time To Live, in seconds (null by default)
      */
-    public function save($key, $value, $ttl = 60);
+    public function save(string $key, $value, $ttl = null);
 }
