@@ -1,5 +1,16 @@
 # Release Notes
 
+## [Version 0.3.0-alpha.3]
+
+Release Date: 
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added `CacheRepository` class
+- Added `InteractsWithTime` class
+
+
 ## [Version 0.2.0-alpha.2]
 
 Release Date: Aug 08, 2019
