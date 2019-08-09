@@ -19,11 +19,16 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.3.0
  */
 
 namespace Syscode\Cache\Exception;
 
 use InvalidArgumentException;
 
+/**
+ * CacheDriverException.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ */
 class CacheDriverException extends InvalidArgumentException {}
