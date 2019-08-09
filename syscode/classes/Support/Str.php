@@ -47,6 +47,18 @@ class Str
     protected static $studlyCache = [];
 
     /**
+     * Transliterate a UTF-8 value to ASCII.
+     * 
+     * @param  string  $value
+     * 
+     * @return string
+     */
+    public static function ascii($value)
+    {
+        return str_replace('/[^\x20-\x7E]/u', '', $value);
+    }
+
+    /**
      * Convert the string with spaces or underscore in camelcase notation.
      *
      * @param  string  $value  String to convert
@@ -170,6 +182,31 @@ class Str
     public static function lower($value)
     {
         return mb_strtolower($value);
+    }
+
+    /**
+     * Generate a URL friendly "slug" from a given string.
+     * 
+     * @param  string  $title
+     * @param  string  $separator
+     * 
+     * @return string
+     */
+    public static function slug($title, $separator = '-')
+    {
+        $title = static::ascii($title);
+        
+        // Convert all dashes/underscores into separator
+        $flip  = $separator == '-' ? '_' : '-';
+        $title = preg_replace('!['.preg_quote($flip).']+!u', $separator, $title);
+        
+        // Remove all characters that are not the separator, letters, numbers, or whitespace.
+        $title = preg_replace('![^'.preg_quote($separator).'\pL\pN\s]+!u', '', mb_strtolower($title));
+        
+        // Replace all separator characters and whitespace by a single separator
+        $title = preg_replace('!['.preg_quote($separator).'\s]+!u', $separator, $title);
+        
+        return trim($title, $separator);
     }
 
     /**
