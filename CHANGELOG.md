@@ -2,12 +2,34 @@
 
 ## [Version 0.2.0-alpha.2]
 
-Release Date: May 7, 2019
+Release Date: Aug 08, 2019
 
 **Next alpha release of Lenevor**
 
+### Added
+- Added `FatalErrorException` class
+- Added `FatalThrowableError` class
+- Added `FlattenException` class
+- Added `JsonResponse` class
+- Added `Headers` class
+- Added `OutOfMemoryException` class
+- Added `Parameters` class
+- Added `Redirector` class
+- Added `RedirectResponse` class
+- Added `RouteResponse` class
+- Added `UrlGenerator` class
+- Added new methods from the `Core/helpers`
+- Added new class for redirection links in `Core/Exceptions/Handler` class
+- Added new instances in `Core/Application` class
+- Addded method for prepare base URL in `Http` class
+- Added methods for control to the parse URL in `Request` class
+- Added new method isRedirect for have a range of status code in `Response` class
+- Added variables and method for parse URL in `URI` class
+- Added new variables and methods of handler stack in `GDebug` class
+
 ### Changed
 - Changed Release 0.2.0-alpha.2
+- Changed for title when don't this active the debug in `ExceptionHandler` class
 
 
 ## [Version 0.1.0-alpha.1]
