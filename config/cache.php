@@ -1,5 +1,7 @@
 <?php
 
+use Syscode\Support\Str;
+
 return [
 	
 	/*
@@ -15,7 +17,7 @@ return [
 	|
 	*/
 	
-	'driver' => 'file',
+	'driver' => env('CACHE_DRIVER', file),
 
 	/*
 	|------------------------------------------------------------------------
@@ -32,18 +34,6 @@ return [
 
 	/*
 	|------------------------------------------------------------------------
-	| Caching
-	|------------------------------------------------------------------------
-	|
-	| Enable caching to streamline view rendering and information flow in
-	| databases.
-	|
-	*/
-
-	'caching' => false,
-
-	/*
-	|------------------------------------------------------------------------
 	| Cache Key Prefix
 	|------------------------------------------------------------------------
 	|
@@ -51,7 +41,8 @@ return [
 	| if you run multiple applications with the same cache engine.
 	|
 	*/
-	'prefix' => '',
+	
+	'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'Lenevor'), '_').'_cache'),
 
 	/*
 	|------------------------------------------------------------------------
