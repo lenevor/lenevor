@@ -67,8 +67,8 @@ class FileStore implements Store
     public function __construct(FileSystem $files, $directory)
     {
         $this->files     = $files;
-        $this->directory = ! empty($directory) ? $directory : STO_PATH.'cache';
-        $this->directory = rtrim($this->directory, '/').'/';
+        $directory       = ! empty($directory) ? $directory : STO_PATH.'cache';
+        $this->directory = rtrim($directory, '/').'/';
     }
 
     /**
