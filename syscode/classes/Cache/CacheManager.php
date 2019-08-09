@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.3.0
  */
 
 namespace Syscode\Cache;
@@ -37,11 +37,11 @@ use Syscode\Cache\Exceptions\CacheDriverException;
 class CacheManager
 {
     /**
-     * The fileSystem instance.
+     * The application instance.
      * 
-     * @var string $file
+     * @var string $app
      */
-    protected  $files;
+    protected $app;
 
     /**
      * The cache store implementation.
@@ -53,13 +53,13 @@ class CacheManager
     /**
      * Constructor. Create a new cache manager instance.
      * 
-     * @param  \Syscode\FileSystem\FileSystem  $files
+     * @param  \Syscode\Contracts\Core\Application  $app
      * 
      * @return void  
      */
-    public function __construct($files)
+    public function __construct($app)
     {
-        $this->files = $files;
+        $this->app = $app;
     }
 
     /**
@@ -185,7 +185,7 @@ class CacheManager
      */
     protected function getConfig(string $name)
     {
-        return app('config')->get("cache.stores.{$name}");
+        return $this->app['config']["cache.stores.{$name}"];
     }
 
     /**
@@ -195,7 +195,7 @@ class CacheManager
      */
     public function getDefaultDriver()
     {
-       return app('config')->get('cache.driver');
+       return $this->app['config']['cache.driver'];
     }
 
     /**
@@ -221,7 +221,7 @@ class CacheManager
      */
     protected function getPrefix(array $config)
     {
-        return array_get($config, 'prefix') ?: app('config')->get('cache.prefix');
+        return array_get($config, 'prefix') ?: $this->app['config']['cache.prefix'];
     }
     
     /**
@@ -233,7 +233,7 @@ class CacheManager
      */
     public function setDefaultDriver(string $name)
     {
-        return app('config')->set('cache.driver', $name);
+        $this->app['config']['cache.driver'] = $name;
     }
 
     /**
