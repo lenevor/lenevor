@@ -38,6 +38,6 @@ class File extends Facade
      */
     public static function getFacadeAccessor()
     {
-        return 'filesystem';
+        return 'files';
     }
 }
