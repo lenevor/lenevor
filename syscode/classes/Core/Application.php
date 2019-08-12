@@ -374,6 +374,9 @@ class Application extends Container implements ApplicationContract
 
         $this->instance('app', $this);
         $this->instance('config', $this[\Syscode\Config\Configure::class]);
+        $this->singleton('files', function() {
+            return new \Syscode\Filesystem\Filesystem;
+        });
         $this->instance('http', $this[\Syscode\Http\Http::class]);
         $this->instance('redirect', $this[\Syscode\Routing\Redirector::class]);
         $this->instance('request', $this[\Syscode\Http\Request::class]);
@@ -399,6 +402,7 @@ class Application extends Container implements ApplicationContract
             'app'        => [\Syscode\Core\Application::class, \Syscode\Contracts\Container\Container::class,
                              \Syscode\Contracts\Core\Application::class, \Psr\Container\ContainerInterface::class],
             'config'     => [\Syscode\Config\Configure::class, \Syscode\Contracts\Config\Configure::class], 
+            'files'      => [\Syscode\Filesystem\Filesystem::class],
             'http'       => [\Syscode\Http\Http::class],
             'redirect'   => [\Syscode\Routing\Redirector::class],
             'request'    => [\Syscode\Http\Request::class],
