@@ -115,9 +115,7 @@ class CacheManager
      */
     protected function createFileDriver(array $config)
     {
-        $cache = $this->getFullManagerPath('file');
-
-        return new $cache($this->files, $config['path']);
+        return $this->getRepositoryManager(new FileStore($this->app['files'], $config['path']));
     }
 
     /**
@@ -199,17 +197,15 @@ class CacheManager
     }
 
     /**
-     * Get manager path cache.
+     * Create a new cache repository with the given implementation.
      * 
-     * @param  string  $cacheManager
+     * @param  \Syscode\Contracts\Cache\Store  $store
      *
-     * @return string
+     * @return \Syscode\Cache\CacheRepository
      */
-    protected function getFullManagerPath(string $cacheManager)
+    public function getRepositoryManager(store $store)
     {
-        $cache = ucfirst($cacheManager);
-
-        return "\\Syscode\\Cache\\Drivers\\{$cache}Store";
+        return new CacheRepository($store);
     }
 
     /**
