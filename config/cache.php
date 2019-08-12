@@ -82,7 +82,7 @@ return [
 
 			'driver'   => 'file',
 			'lifetime' => 3600,
-			'path'     => STO_PATH.'cache'
+			'path'     => storagePath('/cache')
 
 		],
 
