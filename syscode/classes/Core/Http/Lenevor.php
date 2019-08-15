@@ -169,7 +169,7 @@ class Lenevor implements LenevorContract
 	 */
 	protected function loadEnvironment()
 	{
-		define('ENVIRONMENT', app('config')->get('app.env'));
+		define('ENVIRONMENT', $this->app['config']->get('app.env'));
 	}
 
  	/**
@@ -252,9 +252,9 @@ class Lenevor implements LenevorContract
 		// Activate the base URL, the route for html and desactive the route for CLI
 		if ( ! $this->initCli())
 		{
-			if (app('config')->get('app.baseUrl') === null)
+			if ($this->app['config']->get('app.baseUrl') === null)
 			{
-				app('config')->set('app.baseUrl', self::getBaseUrl());
+				$this->app['config']->set('app.baseUrl', self::getBaseUrl());
 			}
 			
 			// With Dependency Injection
@@ -263,8 +263,7 @@ class Lenevor implements LenevorContract
 							$this->app['router']
 			);
 
-			$response = new response;
-			$response->setContent($this->displayPerformanceMetrics($dispatch));
+			$response = (new response)->setContent($this->displayPerformanceMetrics($dispatch));
 		}   
 		   
 		return $response;
