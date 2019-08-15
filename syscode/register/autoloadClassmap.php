@@ -109,6 +109,7 @@ return [
     'Syscode\\Debug\\GDebug' => SYS_PATH.'classes/Debug/GDebug.php', 
     'Syscode\\Filesystem\\Exceptions\\FileException' => SYS_PATH.'classes/Filesystem/Exceptions/FileException.php',
     'Syscode\\Filesystem\\Exceptions\\FileNotFoundException' => SYS_PATH.'classes/Filesystem/Exceptions/FileNotFoundException.php',
+    'Syscode\\Filesystem\\Exceptions\\FileUnableToMoveException' => SYS_PATH.'classes/Filesystem/Exceptions/FileUnableToMoveException.php',
     'Syscode\\Filesystem\\Exceptions\\UnexpectedTypeException' => SYS_PATH.'classes/Filesystem/Exceptions/UnexpectedTypeException.php',
     'Syscode\\Filesystem\\FileMimeType' => SYS_PATH.'classes/Filesystem/FileMimeType.php',
     'Syscode\\Filesystem\\Filesystem' => SYS_PATH.'classes/Filesystem/Filesystem.php',  
