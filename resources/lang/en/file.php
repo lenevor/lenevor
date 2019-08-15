@@ -13,10 +13,11 @@ return [
     |
     */
     
+    'cannotMove' => 'Could not move file {0} to {1} ({2})',
     'identifierEmpty' => 'The identifier file of autoloader this empty!!!',
-    'identifierNotAlpha' => 'Contains non-alphanumeric identifier [ {identifier} ]!!!',
-    'identifierLenght' => 'The identifier [ {identifier} ] must be a length  20 digits.',
-    'notExistPath' => 'File does not exist at [ {path} ].',
-    'notCreatedDirectory' => 'The directory [ {path} ] could not be created.', 
+    'identifierNotAlpha' => 'Contains non-alphanumeric identifier [{identifier}]!!!',
+    'identifierLenght' => 'The identifier [{identifier}] must be a length  20 digits.',
+    'notExistPath' => 'The file [{0}] does not exist.',
+    'notCreatedDirectory' => 'The directory [{0}] could not be created.', 
 
 ];
