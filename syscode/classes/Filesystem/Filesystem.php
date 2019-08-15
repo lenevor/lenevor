@@ -19,15 +19,17 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.3.0
  */
 
 namespace Syscode\Filesystem;
 
+use ErrorException;
 use FilesystemIterator;
 use Syscode\Filesystem\Exceptions\{
 	FileException,
-	FileNotFoundException
+	FileNotFoundException,
+	FileUnableToMoveException,
 };
 
 /**
@@ -52,20 +54,6 @@ class Filesystem
 	protected $handler;
 
 	/**
-	 * The options for active flags.
-	 *
-	 * @var string $options
-	 */
-	protected $options;
-
-	/**
-	 * The path of file.
-	 *
-	 * @var string $path
-	 */
-	protected $path;
-
-	/**
 	 * The files size in bytes.
 	 *
 	 * @var float $size
@@ -75,54 +63,15 @@ class Filesystem
 	/**
 	 * Append given data string to this file.
 	 *
+	 * @param  string  $path
 	 * @param  string  $data
 	 * @param  bool    $force
 	 *
 	 * @return bool
 	 */
-	public function append($data, $force = false)
+	public function append($path, $data, $force = false)
 	{
-		return $this->write($data, 'a', $force);
-	}
-
-	/**
-	 * Constructor with an optional verification that the path is 
-	 * really a file.
-	 *
-	 * @param  string  $path
-	 * @param  string  $options
-	 * @param  bool    $check
-	 * 
-	 * @return string
-	 *
-	 * @throws FileNotFoundException
-	 */
-	public function __construct($path, $options = null, $check = false)
-	{
-		if ($check && ! $this->isFile($path))
-		{
-			throw new FileNotFoundException();
-		}
-
-		$this->path    = $path;
-		$this->options = $options;
-	}
-
-	/**
-	 * Clear PHP's internal stat cache.
-	 *
-	 * @param  bool  $all  Clear all cache or not
-	 *
-	 * @return void
-	 */
-	public function clearStatCache($all = false)
-	{
-		if ($all === false) 
-		{
-			clearstatcache(true, $this->path);
-		}
-
-		clearstatcache();
+		return $this->write($path, $data, 'a', $force);
 	}
 
 	/**
@@ -142,7 +91,7 @@ class Filesystem
 
 	/**
 	 * Copy a file to a new location.
-	 * 
+	 *
 	 * @param  string  $path
 	 * @param  string  $target
 	 * 
@@ -154,15 +103,159 @@ class Filesystem
 	}
 
 	/**
-	 * Creates the file.
+	 * Returns true if the file is executable.
+	 *
+	 * @param  string  $path
+	 * 
+	 * @return bool  True if file is executable, false otherwise
+	 */
+	public function exec($path)
+	{
+		return is_executable($path);
+	}
+
+	/**
+	 * Delete the file at a given path.
+	 * 
+	 * @param  string  $paths
+	 * 
+	 * @return bool
+	 */
+	public function delete($paths)
+	{
+		if (is_resource($this->handler))
+		{
+			fclose($this->handler);
+			$this->handler = null;
+		}
+
+		$paths = is_array($paths) ? $paths : func_get_args();
+
+		$success = true;
+
+		foreach ($paths as $path)
+		{
+			try
+			{
+				if ( ! @unlink($path))
+				{
+					return $success = false;
+				}
+			}
+			catch (ErrorException $e)
+			{
+				return $success = false;
+			}
+		}
+
+		return $success;
+	}
+
+	/**
+	 * Get the contents of a file.
+	 *
+	 * @param  string  $path
+	 * @param  string  $mode
+	 * @param  bool    $force
+	 * @param  bool    $lock
+	 *
+	 * @return string
+	 *
+	 * @throws FileNotFoundException
+	 */
+	public function get($path, $mode = 'r', $force = false, $lock = false)
+	{
+		if ($this->isFile($path))
+		{
+			return $lock ? $this->read($path, $mode, $force) : file_get_contents($path);
+		}
+
+		throw new FileNotFoundException($path);
+	}
+
+	/**
+	 * Get contents of a file with shared access.
+	 *
+	 * @param  string  $path
+	 * @param  string  $mode  A `fread` compatible mode
+	 * @param  bool    $force  
+	 *
+	 * @return string
+	 */
+	public function read($path, $mode, $force = false)
+	{
+		$contents = '';
+
+		$this->open($path, $mode, $force);
+		
+		if ($this->handler) 
+		{
+			try
+			{
+				if (flock($this->handler, LOCK_SH))
+				{
+					$this->clearStatCache($path);
+
+					$contents = fread($this->handler, $this->getSize($path) ?: 1);
+					
+					while ( ! feof($this->handler))
+					{
+						$contents .= fgets($this->handler, 4096);
+					}
+
+					flock($this->handler, LOCK_UN);
+				}
+			}
+			finally
+			{
+				$this->close();
+			}
+		}
+
+		return trim($contents);
+	}
+
+	/**
+	 * Opens the current file with a given $mode.
+	 *
+	 * @param  string  $path
+	 * @param  string  $mode   A valid 'fopen' mode string (r|w|a ...)
+	 * @param  bool    $force  
 	 *
 	 * @return bool
 	 */
-	public function create()
+	public function open($path, $mode = 'r', $force = false)
 	{
-		if ($this->isDirectory($this->path) && $this->isWritable() && ! $this->exists())
+		if ( ! $force && is_resource($this->handler))
 		{
-			if (touch($this->path))
+			return true;
+		}
+
+		if ($this->exists($path) === false)
+		{
+			if ($this->create($path) === false)
+			{
+				return false;
+			}
+		}
+
+		$this->handler = fopen($path, $mode);
+
+		return is_resource($this->handler);
+	}
+
+	/**
+	 * Creates the file.
+	 * 
+	 * @param  string  $path
+	 * 
+	 * @return bool
+	 */
+	public function create($path)
+	{
+		if ($this->isDirectory($path) && $this->isWritable($path) || ! $this->exists($path))
+		{
+			if (touch($path))
 			{
 				return true;
 			}
@@ -172,56 +265,35 @@ class Filesystem
 	}
 
 	/**
-	 * Returns true if the file is executable.
-	 *
-	 * @return bool  True if file is executable, false otherwise
-	 */
-	public function exec()
-	{
-		return is_executable($this->path);
-	}
-
-	/**
 	 * Determine if a file exists.
 	 *
-	 * @param  string|null  $path
+	 * @param  string  $path
 	 *
 	 * @return bool
 	 */
-	public function exists($path = null)
+	public function exists($path)
 	{
-		$this->clearStatCache();
+		$this->clearStatCache($path);
 
-		if ($path !== null)
-		{
-			$this->path = $path;
-		}
-
-		return file_exists($this->path);
-	}
-
-	public function delete()
-	{
-		
+		return file_exists($path);
 	}
 
 	/**
-	 * Get the contents of a file.
+	 * Clear PHP's internal stat cache.
 	 *
-	 * @param  bool  $lock
+	 * @param  string  $path
+	 * @param  bool    $all  Clear all cache or not
 	 *
-	 * @return string
-	 *
-	 * @throws FileNotFoundException
+	 * @return void
 	 */
-	public function get($mode = 'r', $force = false, $lock = false)
+	public function clearStatCache($path, $all = false)
 	{
-		if ($this->isFile($this->path))
+		if ($all === false) 
 		{
-			return $lock ? $this->read($mode, $force) : file_get_contents($this->path);
+			clearstatcache(true, $path);
 		}
 
-		throw new FileNotFoundException("File does not exist at path [{$this->path}]");
+		clearstatcache();
 	}
 
 	/**
@@ -231,17 +303,17 @@ class Filesystem
 	 * the file in the $_FILES array if available, as PHP calculates this
 	 * based on the actual size transmitted.
 	 *
-	 * @param  string    $unit 
+	 * @param  string  $path
 	 * 
 	 * @return int|null  The file size in bytes or null if unknown
 	 */
-	public function getSize($unit = 'b')
+	public function getSize($path, $unit = 'b')
 	{
-		if ($this->exists())
+		if ($this->exists($path))
 		{
 			if (is_null($this->size))
 			{
-				$this->size = filesize($this->path);
+				$this->size = filesize($path);
 			}
 
 			switch (strtolower($unit))
@@ -259,15 +331,21 @@ class Filesystem
 	}
 
 	/**
+	 * Find path names matching a given pattern.
+	 */
+
+	/**
 	 * Returns the file's group.
 	 *
+	 * @param  string  $path
+	 * 
 	 * @return int|bool  The file group, or false in case of an error
 	 */
-	public function group()
+	public function group($path)
 	{
-		if ($this->exists())
+		if ($this->exists($path))
 		{
-			return filegroup($this->path);
+			return filegroup($path);
 		}
 
 		return false;
@@ -300,23 +378,39 @@ class Filesystem
 	/**
 	 * Determine if the given path is writable.
 	 * 
+	 * @param  string  $path
+	 * 
 	 * @return bool
 	 */
-	public function isWritable()
+	public function isWritable($path)
 	{
-		return is_writable($this->path);
+		return is_writable($path);
+	}
+
+	/**
+	 * Returns if true the file is readable.
+	 *
+	 * @param  string  $path
+	 * 
+	 * @return bool  True if file is readable, false otherwise
+	 */
+	public function isReadable($path)
+	{
+		return is_readable($path);
 	}
 
 	/**
 	 * Returns last access time.
 	 *
+	 * @param  string    $path
+	 * 
 	 * @return int|bool  Timestamp of last access time, or false in case of an error
 	 */
-	public function lastAccess()
+	public function lastAccess($path)
 	{
-		if ($this->exists())
+		if ($this->exists($path))
 		{
-			return fileatime($this->path);
+			return fileatime($path);
 		}
 
 		return false;
@@ -325,13 +419,15 @@ class Filesystem
 	/**
 	 * Returns last modified time.
 	 *
+	 * @param  string    $path
+	 * 
 	 * @return int|bool  Timestamp of last modified time, or false in case of an error
 	 */
-	public function lastChange()
+	public function lastChange($path)
 	{
-		if ($this->exists())
+		if ($this->exists($path))
 		{
-			return filemtime($this->path);
+			return filemtime($path);
 		}
 
 		return false;
@@ -355,70 +451,257 @@ class Filesystem
 		{
 			if (($result = @mkdir($path, $mode, $recursive) === false))
 			{
-				throw new FileException("The directory [ {$path} ] could not be created");
+				throw new FileException("The directory [{$path}] could not be created");
 			}
 		}
 
 		$result = mkdir($path, $mode, $recursive);
 
-		chmod($path, $mode);
-
 		return $result;
+	}
+
+	/**
+	 * Copy a directory from one location to another.
+	 * 
+	 * @param  string  $directory
+	 * @param  string  $destination
+	 * @param  int     $options      (null by default)
+	 * 
+	 * @return bool
+	 */
+	public function copyDirectory($directory, $destination, $options = null)
+	{
+		if ( ! $this->isDirectory($directory)) return false;
+
+		$options = $options ?: FilesystemIterator::SKIP_DOTS;
+		
+		// If the destination directory does not actually exist, we will go ahead and
+		// create it recursively, which just gets the destination prepared to copy
+		// the files over. Once we make the directory we'll proceed the copying.
+		if ( ! $this->isdirectory($destination))
+		{
+			$this->makeDirectory($destination, 0777, true);
+		}
+
+		$iterators = new FilesystemIterator($directory, $options);
+
+		foreach ($iterators as $iterator)
+		{
+			$target = $destination.DIRECTORY_SEPARATOR.$iterator->getBasename();
+			
+			// As we spin through items, we will check to see if the current file is actually
+            // a directory or a file. When it is actually a directory we will need to call
+            // back into this function recursively to keep copying these nested folders.
+			if ($iterator->isDir())
+			{
+				if ( ! $this->copyDirectory($iterator->getPathname(), $target, $options)) return false;
+			}
+			// If the current items is just a regular file, we will just copy this to the new
+			// location and keep looping. If for some reason the copy fails we'll bail out
+			// and return false, so the developer is aware that the copy process failed.
+			else
+			{
+				if ( ! $this->copy($iterator->getPathname(), $target)) return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Recursively delete a directory and optionally you can keep 
+	 * the directory if you wish.
+	 * 
+	 * @param  string  $directory
+	 * @param  bool    $keep
+	 * 
+	 * @return bool
+	 */
+	public function deleteDirectory($directory, $keep = false)
+	{
+		if ( ! $this->isDirectory($directory)) return false;
+
+		$iterators = new filesystemIterator($directory);
+
+		foreach ($iterators as $iterator)
+		{
+			// If the item is a directory, we can just recurse into the function and delete 
+			// that sub-directory otherwise we'll just delete the file and keep iterating 
+			// through each file until the directory is cleaned.
+			if ($iterator->isDir() && ! $iterator->isLink())
+			{
+				$this->deleteDirectory($iterator->getPathname());
+			}
+			// If the item is just a file, we can go ahead and delete it since we're
+			// just looping through and waxing all of the files in this directory
+			// and calling directories recursively, so we delete the real path.
+			else
+			{
+				$this->delete($iterator->getPathname());
+			}
+		}
+
+		if ( ! $keep) @rmdir($directory);
+
+		return true;
+	}
+
+	/**
+	 * Empty the specified directory of all files and folders.
+	 * 
+	 * 
+	 * @param  string  $directory
+	 * 
+	 * @return bool
+	 */
+	public function cleanDirectory($directory)
+	{
+		return $this->deleteDirectory($directory, true);
+	}
+
+	/**
+	 * Moves a file to a new location.
+	 * 
+	 * @param  string  $from
+	 * @param  string  $to
+	 * @param  bool    $overwrite   (false by default)
+	 * 
+	 * @return bool
+	 */
+	public function moveDirectory($from, $to, $overwrite = false)
+	{
+		if ($overwrite && $this->isDirectory($to) && ! $this->deleteDirectory($to)) return false;
+
+		if (false === @rename($from, $to))
+		{
+			$error = error_get_last();
+
+			throw new FileUnableToMoveException($from, $to, strip_tags($error['message']));
+		}
+
+		$this->perms($to, 0777 & ~umask());
+	}
+
+	/**
+	 * Attempts to determine the file extension based on the trusted
+	 * getType() method. If the mime type is unknown, will return null.
+	 * 
+	 * @param  string  $path
+	 * 
+	 * @return string|null
+	 */
+	public function guessExtension($path)
+	{
+		return FileMimeType::guessExtensionFromType($this->getMimeType($path));
+	}
+
+	/**
+	 * Retrieve the media type of the file. 
+	 * 
+	 * @param  string  $path
+	 * 
+	 * @return string|null
+	 */
+	public function getMimeType($path)
+	{
+		$finfo    = finfo_open(FILEINFO_MIME_TYPE);
+
+		$mimeType = finfo_file($finfo, $path);
+
+		finfo_close($finfo);
+
+		return $mimeType;
 	}
 
 	/**
 	 * Move a file to a new location.
 	 *
+	 * @param  string  $path
 	 * @param  string  $target
 	 *
 	 * @return bool
 	 */
-	public function rename($target)
+	public function move($path, $target)
 	{
-		if ($this->exists()) 
+		if ($this->exists($path)) 
 		{
-			return rename($this->path, $target);
+			return rename($path, $target);
 		}
 	}
 
 	/**
-	 * Opens the current file with a given $mode.
-	 *
-	 * @param  string  $mode   A valid 'fopen' mode string (r|w|a ...)
-	 * @param  bool    $force  
-	 *
-	 * @return bool
+	 * Extract the file name from a file path.
+	 * 
+	 * @param  string  $path
+	 * 
+	 * @return string
 	 */
-	public function open($mode = 'r', $force = false)
+	public function name($path)
 	{
-		if ( ! $force && is_resource($this->handler))
-		{
-			return true;
-		}
+		return pathinfo($path, PATHINFO_FILENAME);
+	}
 
-		if ($this->exists() === false)
-		{
-			if ($this->create() === false)
-			{
-				return false;
-			}
-		}
+	/**
+	 * Extract the trailing name component from a file path.
+	 * 
+	 * @param  string
+	 * 
+	 * @return string
+	 */
+	public function basename($path)
+	{
+		return pathinfo($path, PATHINFO_BASENAME);
+	}
 
-		$this->handler = fopen($this->path, $mode);
+	/**
+	 * Extract the parent directory from a file path.
+	 * 
+	 * @param  string  $path
+	 * 
+	 * @return string
+	 */
+	public function dirname($path)
+	{
+		return pathinfo($path, PATHINFO_DIRNAME);
+	}
 
-		return is_resource($this->handler);
+	/**
+	 * Extract the file extension from a file path.
+	 * 
+	 * @param  string  $path
+	 * 
+	 * @return string
+	 */
+	public function extension($path)
+	{
+		return pathinfo($path, PATHINFO_EXTENSION);
+	}
+
+	/**
+	 *  Find path names matching a given pattern.
+	 * 
+	 * @param  string  $pattern
+	 * @param  int     $flags  (0 by default)
+	 * 
+	 * @return array
+	 */
+	public function glob($pattern, $flags = 0)
+	{
+		return glob($pattern, $flags);
 	}
 
 	/**
 	 * Returns the file's owner.
 	 *
+	 * @param  string    $path
+	 * 
 	 * @return int|bool  The file owner, or false in case of an error
 	 */
-	public function owner()
+	public function owner($path)
 	{
-		if ($this->exists())
+		if ($this->exists($path))
 		{
-			return fileowner($this->path);
+			return fileowner($path);
 		}
 
 		return false;
@@ -427,93 +710,77 @@ class Filesystem
 	/**
 	 * Returns the "chmod" (permissions) of the file.
 	 *
-	 * @return string|bool  Permissions for the file, or false in case of an error
+	 * @param  string    $path
+	 * @param  int|null  $mode  (null by default)
+	 * 
+	 * @return mixed  Permissions for the file, or false in case of an error
 	 */
-	public function perms()
+	public function perms($path, $mode = null)
 	{
-		if ($this->exists())
+		if ($mode)
 		{
-			return substr(sprintf('%o', fileperms($this->path)), -4);
+			chmod($path, $mode);
 		}
 
-		return false;
+		return substr(sprintf('%o', fileperms($path)), -4);
+	}
+
+	/**
+	 * Prepend to a file.
+	 * 
+	 * @param  string  $path
+	 * @param  string  $data
+	 * 
+	 * @return int
+	 */
+	public function prepend($path, $data)
+	{
+		if ($this->exists($path))
+		{
+			$this->put($path, $data.$this->get($path));
+		}
+
+		return $this->put($path, $data);
 	}
 
 	/**
 	 * Write the content of a file.
 	 *
+	 * @param  string  $path
 	 * @param  string  $contents
-	 * @param  bool    $lock
+	 * @param  bool    $lock      (false by default)
 	 *
 	 * @return int
 	 */
-	public function put($contents, $lock = false)
+	public function put($path, $contents, $lock = false)
 	{
-		return file_put_contents($this->path, $contents, $lock ? LOCK_EX : 0);
+		return file_put_contents($path, $contents, $lock ? LOCK_EX : 0);
 	}
 
 	/**
-	 * Get contents of a file with shared access.
-	 *
-	 * @param  string  $path   A `fread` compatible mode
-	 * @param  bool    $force  
-	 *
+	 * Get the file type of a given file.
+	 * 
+	 * @param  string  $path
+	 * 
 	 * @return string
 	 */
-	public function read($mode, $force = false)
+	public function type($path)
 	{
-		$contents = '';
-
-		$this->open($mode, $force);
-		
-		if ($this->handler) 
-		{
-			try
-			{
-				if (flock($this->handler, LOCK_SH))
-				{
-					$this->clearStatCache();
-
-					$contents = fread($this->handler, $this->getSize() ?: 1);
-					
-					while ( ! feof($this->handler))
-					{
-						$contents .= fgets($this->handler, 4096);
-					}
-
-					flock($this->handler, LOCK_UN);
-				}
-			}
-			finally
-			{
-				$this->close();
-			}
-		}
-
-		return trim($contents);
-	}
-
-	/**
-	 * Returns if true the file is readable.
-	 *
-	 * @return bool  True if file is readable, false otherwise
-	 */
-	public function readable()
-	{
-		return is_readable($this->path);
+		return filetype($path);
 	}
 
 	/**
 	 * Searches for a given text and replaces the text if found.
 	 *
+	 * @param  string  $path
 	 * @param  string  $search
 	 * @param  string  $replace
 	 *
 	 * @return bool
 	 */
-	public function replaceText($search, $replace)
+	public function replaceText($path, $search, $replace)
 	{
-		if ( ! $this->open('r+'))
+		if ( ! $this->open($path, 'r+'))
 		{
 			return false;
 		}
@@ -526,7 +793,7 @@ class Filesystem
 			}
 		}
 
-		$replaced = $this->write(str_replace($search, $replace, $this->get()), 'w', true);
+		$replaced = $this->write($path, str_replace($search, $replace, $this->get($path)), 'w', true);
 
 		if ($this->lock !== null)
 		{
@@ -541,17 +808,18 @@ class Filesystem
 	/**
 	 * Write given data to this file.
 	 *
+	 * @param  string  $path
 	 * @param  string  $data   Data to write to this File
 	 * @param  string  $mode   Mode of writing
 	 * @param  bool    $force  The file to open
 	 *
 	 * @return bool
 	 */
-	public function write($data, $mode = 'w', $force = false)
+	public function write($path, $data, $mode = 'w', $force = false)
 	{
 		$success = false;
 
-		if ($this->open($mode, $force) === true)
+		if ($this->open($path, $mode, $force) === true)
 		{
 			if ($this->lock !== null)
 			{
