@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.3.0
  */
 
 namespace Syscode\Filesystem\Exceptions;
@@ -40,6 +40,6 @@ class FileNotFoundException extends FileException
      */
     public function __construct(string $path)
     {
-        parent::__construct(sprintf('The file "%s" does not exist', $path));
+        parent::__construct(__('file.notExistPath', [$path]));
     }
 }
