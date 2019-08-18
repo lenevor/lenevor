@@ -24,17 +24,28 @@
 
 namespace Syscode\Cache;
 
-use Syscode\Cache\Drivers\MemcachedStore;
+use Closure;
+use Syscode\Cache\Drivers\{
+    ApcStore,
+    ApcWrapper,
+    ArrayStore,
+    DatabaseStore,
+    FileStore,
+    MemcachedStore,
+    NullStore,
+    RedisStore
+};
 use Syscode\Cache\Exceptions\CacheDriverException;
+use Syscode\Contracts\Cache\Manager as ManagerContract;
 
 /**
- * Class cache.
+ * Class cache manager.
  * 
  * This class is responsible for loading any available cache driver.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class CacheManager
+class CacheManager implements ManagerContract
 {
     /**
      * The application instance.
@@ -42,6 +53,13 @@ class CacheManager
      * @var string $app
      */
     protected $app;
+
+    /**
+     * The registered custom drivers.
+     * 
+     * @var array $customDriver
+     */
+    protected $customDriver;
 
     /**
      * The cache store implementation.
@@ -63,103 +81,29 @@ class CacheManager
     }
 
     /**
-     * Create an instance of the Apc cache driver.
-     * 
-     * @param  array  $config
-     * 
-     * @return \Syscode\Cache\Drivers\ApcStore
-     */
-    protected function createApcDriver(array $config)
-    {
-        $prefix = $this->getPrefix($config);
-
-        $cache = $this->getFullManagerPath('apc');
-
-        return new $cache($config, $prefix);
-    }
-
-    /**
-     * Create an instance of the Array cache driver.
-     * 
-     * @return \Syscode\Cache\Drivers\ArrayStore
-     */
-    protected function createArrayDriver()
-    {
-        $cache = $this->getFullManagerPath('array');
-
-        return new $cache();
-    }
-
-    /**
-     * Create an instance of the File cache driver.
-     * 
-     * @param  array  $config
-     * 
-     * @return \Syscode\Cache\Drivers\DatabaseStore
-     */
-    protected function createDatabaseDriver(array $config)
-    {
-        $prefix = $this->getPrefix($config);
-
-        $cache  = $this->getFullManagerPath('database');
-
-        return new $cache($config['connection'], $config['table'], $prefix);
-    }
-
-    /**
-     * Create an instance of the File cache driver.
-     * 
-     * @param  array  $config
-     * 
-     * @return \Syscode\Cache\Drivers\FileStore
-     */
-    protected function createFileDriver(array $config)
-    {
-        return $this->getRepositoryManager(new FileStore($this->app['files'], $config['path']));
-    }
-
-    /**
-     * Create an instance of the Memcached cache driver.
-     * 
-     * @param  array  $config
-     * 
-     * @return \Syscode\Cache\Drivers\MemcachedStore
-     */
-    protected function createMemcachedDriver(array $config)
-    {
-        $prefix = getPrefix($config);
-
-        $cache = $this->getFullManagerPath('memcached');
-
-        return new $cache($config, $prefix);
-    }
-
-    /**
-     * Create an instance of the Redis cache driver.
-     * 
-     * @param  array  $config
-     * 
-     * @return \Syscode\Cache\Drivers\RedisStore
-     */
-    protected function createRedisDriver(array $config)
-    {
-        $prefix = getPrefix($config);
-
-        $cache = $this->getFullManagerPath('redis');
-
-        return new $cache($config, $prefix);
-    }
-
-    /**
      * Get a cache driver instance.
      * 
      * @param  string|null
      * 
-     * @return ixed
+     * @return \Syscode\Cache\CacheRepository
      */
     public function driver($driver = null)
     {
         return $this->store($driver);
+    }
+    
+    /**
+     * Get a cache store instance by name.
+     * 
+     * @param  string|null  $name
+     * 
+     * @return \Syscode\Cache\CacheRepository
+     */
+    public function store(string $name = null)
+    {
+        $name = $name ?: $this->getDefaultDriver();
+
+        return $this->stores[$name] = $this->get($name);
     }
 
     /**
@@ -167,13 +111,62 @@ class CacheManager
      * 
      * @param  string  $name
      * 
-     * @return mixed
+     * @return \Syscode\Cache\CacheRepository
      */
     public function get($name)
     {
-        return isset($this->stores[$name]) ? $this->stores[$name] : $this->resolve($name);
+        return $this->stores[$name] ?? $this->resolve($name);
     }
 
+    /**
+     * Resolve the given store.
+     * 
+     * @param  string  $name
+     * 
+     * @return \Syscode\Cache\CacheRepository
+     * 
+     * @throws \CacheDriverException
+     */
+    protected function resolve($name)
+    {
+        $config = $this->getConfig($name);
+
+        if (is_null($config))
+        {
+            throw new CacheDriverException(__('cache.storeNotDefined'));
+        }
+
+        if (isset($this->customDriver[$config['driver']]))
+        {
+            return $this->callCustomDriver($config);
+        }
+        else
+        {
+            $driver = 'create'.ucfirst($config['driver']).'Driver';
+    
+            if (method_exists($this, $driver))
+            {
+                return $this->{$driver}($config);
+            }
+            else
+            {
+                throw new CacheDriverException(__('cache.driverNotSupported'));
+            }
+        }
+    }
+
+    /**
+     * Call a custom driver.
+     * 
+     * @param  array  $config
+     * 
+     * @return mixed
+     */
+    protected function callCustomDriver(array $config)
+    {
+        return $this->customDriver[$config['driver']]($this->app, $config);
+    }
+    
     /**
      * Get the cache connection configuration.
      * 
@@ -187,25 +180,89 @@ class CacheManager
     }
 
     /**
-     * Get the default cache driver name.
+     * Create an instance of the Apc cache driver.
      * 
-     * @return array
+     * @param  array  $config
+     * 
+     * @return \Syscode\Cache\CacheRepository
      */
-    public function getDefaultDriver()
+    protected function createApcDriver(array $config)
     {
-       return $this->app['config']['cache.driver'];
+        $prefix = $this->getPrefix($config);
+
+        return $this->getRepository(new ApcStore(new ApcWrapper), $prefix);
     }
 
     /**
-     * Create a new cache repository with the given implementation.
+     * Create an instance of the Array cache driver.
      * 
-     * @param  \Syscode\Contracts\Cache\Store  $store
-     *
      * @return \Syscode\Cache\CacheRepository
      */
-    public function getRepositoryManager(store $store)
+    protected function createArrayDriver()
     {
-        return new CacheRepository($store);
+        return $this->getRepository(new ArrayStore);
+    }
+
+    /**
+     * Create an instance of the File cache driver.
+     * 
+     * @param  array  $config
+     * 
+     * @return \Syscode\Cache\CacheRepository
+     */
+    protected function createDatabaseDriver(array $config)
+    {
+        return;
+    }
+
+    /**
+     * Create an instance of the File cache driver.
+     * 
+     * @param  array  $config
+     * 
+     * @return \Syscode\Cache\CacheRepository
+     */
+    protected function createFileDriver(array $config)
+    {
+        return $this->getRepository(new FileStore($this->app['files'], $config['path']));
+    }
+
+    /**
+     * Create an instance of the Memcached cache driver.
+     * 
+     * @param  array  $config
+     * 
+     * @return \Syscode\Cache\CacheRepository
+     */
+    protected function createMemcachedDriver(array $config)
+    {
+        $prefix = $this->getPrefix($config);
+
+        return;
+    }
+
+    /**
+     * Create an instance of the Null cache driver.
+     * 
+     * @return \Syscode\Cache\CacheRepository
+     */
+    protected function createNullDriver()
+    {
+        return $this->getRepository(new NullStore);
+    }
+
+    /**
+     * Create an instance of the Redis cache driver.
+     * 
+     * @param  array  $config
+     * 
+     * @return \Syscode\Cache\CacheRepository
+     */
+    protected function createRedisDriver(array $config)
+    {
+        $prefix = $this->getPrefix($config);
+
+        return;
     }
 
     /**
@@ -217,7 +274,29 @@ class CacheManager
      */
     protected function getPrefix(array $config)
     {
-        return array_get($config, 'prefix') ?: $this->app['config']['cache.prefix'];
+        return $config['prefix'] ?? $this->app['config']['cache.prefix'];
+    }
+    
+    /**
+     * Create a new cache repository with the given implementation.
+     * 
+     * @param  \Syscode\Contracts\Cache\Store  $store
+     *
+     * @return \Syscode\Cache\CacheRepository
+     */
+    public function getRepository(store $store)
+    {
+        return new CacheRepository($store);
+    }
+
+    /**
+     * Get the default cache driver name.
+     * 
+     * @return array
+     */
+    public function getDefaultDriver()
+    {
+       return $this->app['config']['cache.driver'];
     }
     
     /**
@@ -233,47 +312,18 @@ class CacheManager
     }
 
     /**
-     * Get a cache store instance by name.
+     * Register a custom driver creator Closure.
      * 
-     * @param  string|null  $name
+     * @param  string    $driver
+     * @param  \Closure  $callback
      * 
-     * @return mixed
+     * @return $this
      */
-    public function store(string $name = null)
+    public function extend($driver, Closure $callback)
     {
-        $name = $name ?: $this->getDefaultDriver();
+        $this->customDriver[$driver] = $callback->bindTo($this, $this);
 
-        return $this->stores[$name] = $this->get($name);
-    }
-
-    /**
-     * Resolve the given store.
-     * 
-     * @param  string  $name
-     * 
-     * @return mixed
-     * 
-     * @throws acheDriverException
-     */
-    protected function resolve(string $name)
-    {
-        $config = $this->getConfig($name);
-
-        if (is_null($config))
-        {
-            throw new CacheDriverException(__('cache.storeNotDefined'));
-        }
-
-        $driver = 'create'.ucfirst($config['driver']).'Driver';
-
-        if (method_exists($this, $driver))
-        {
-            return $this->{$driver}($config);
-        }
-        else
-        {
-            throw new CacheDriverException(__('cache.driverNotSupported'));
-        }
+        return $this;
     }
 
     /**
