@@ -373,6 +373,9 @@ class Application extends Container implements ApplicationContract
         static::setInstance($this);
 
         $this->instance('app', $this);
+        $this->singleton('cache', function () {
+            return new \Syscode\Cache\CacheManager($this);
+        });
         $this->instance('config', $this[\Syscode\Config\Configure::class]);
         $this->singleton('files', function() {
             return new \Syscode\Filesystem\Filesystem;
@@ -401,6 +404,7 @@ class Application extends Container implements ApplicationContract
         foreach ([
             'app'        => [\Syscode\Core\Application::class, \Syscode\Contracts\Container\Container::class,
                              \Syscode\Contracts\Core\Application::class, \Psr\Container\ContainerInterface::class],
+            'cache'      => [\Syscode\Cache\CacheManager::class, \Syscode\Contracts\Cache\Manager::class],
             'config'     => [\Syscode\Config\Configure::class, \Syscode\Contracts\Config\Configure::class], 
             'files'      => [\Syscode\Filesystem\Filesystem::class],
             'http'       => [\Syscode\Http\Http::class],
