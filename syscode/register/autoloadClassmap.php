@@ -13,9 +13,12 @@
 return [
     
     'Syscode\\Cache\\Drivers\\ApcStore' => SYS_PATH.'classes/Cache/Drivers/ApcStore',
+    'Syscode\\Cache\\Drivers\\ApcWrapper' => SYS_PATH.'classes/Cache/Drivers/ApcWrapper',
     'Syscode\\Cache\\Drivers\\ArrayStore' => SYS_PATH.'classes/Cache/Drivers/ArrayStore.php',
+    'Syscode\\Cache\\Drivers\\DatabaseStore' => SYS_PATH.'classes/Cache/Drivers/DatabaseStore.php',
     'Syscode\\Cache\\Drivers\\FileStore' => SYS_PATH.'classes/Cache/Drivers/FileStore.php',
     'Syscode\\Cache\\Drivers\\MemcachedStore' => SYS_PATH.'classes/Cache/Drivers/MemcachedStore.php',
+    'Syscode\\Cache\\Drivers\\NullStore' => SYS_PATH.'classes/Cache/Drivers/NullStore.php',
     'Syscode\\Cache\\Drivers\\RedisStore' => SYS_PATH.'classes/Cache/Drivers/RedisStore.php',
     'Syscode\\Cache\\Exceptions\\CacheDriverException' => SYS_PATH.'classes/Cache/Exceptions/CacheDriverException.php',  
     'Syscode\\Cache\\Types\\CacheKey' => SYS_PATH.'classes/Cache/Types/CacheKey.php',  
@@ -32,6 +35,7 @@ return [
     'Syscode\\Container\\Exceptions\\UnknownIdentifierException' => SYS_PATH.'classes/Container/Exceptions/UnknownIdentifierException.php',
     'Syscode\\Container\\Container' => SYS_PATH.'classes/Container/Container.php',
     'Syscode\\Contracts\\Cache\\Key' => SYS_PATH.'classes/Contracts/Cache/Key.php',
+    'Syscode\\Contracts\\Cache\\Manager' => SYS_PATH.'classes/Contracts/Cache/Manager.php',
     'Syscode\\Contracts\\Cache\\Store' => SYS_PATH.'classes/Contracts/Cache/Store.php',
     'Syscode\\Contracts\\Config\\Configure' => SYS_PATH.'classes/Contracts/Config/Configure.php', 
     'Syscode\\Contracts\\Console\\Application' => SYS_PATH.'classes/Contracts/Console/Application.php',
