@@ -329,11 +329,7 @@ class Filesystem
 			return $this->size;
 		}
 	}
-
-	/**
-	 * Find path names matching a given pattern.
-	 */
-
+	
 	/**
 	 * Returns the file's group.
 	 *
