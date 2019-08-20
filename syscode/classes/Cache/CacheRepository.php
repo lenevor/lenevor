@@ -72,7 +72,7 @@ class CacheRepository implements ArrayAccess
      * 
      * @return mixed
      */
-    public function get(string $key, $default = null)
+    public function get($key, $default = null)
     {
         $value = $this->store->get($key);
 
@@ -91,7 +91,7 @@ class CacheRepository implements ArrayAccess
      * @param  mixed     $value  The data to save 
      * @param  int|null  $ttl    Time To Live, in seconds (null by default)
      */
-    public function save(string $key, $value, $ttl = null)
+    public function save($key, $value, $ttl = null)
     {
         $seconds = $this->getSeconds($ttl);
 
