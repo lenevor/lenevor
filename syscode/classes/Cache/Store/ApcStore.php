@@ -119,7 +119,7 @@ class ApcStore implements Store
     }
 
     /**
-     * Remove an item from the cache.
+     * Remove a specific item from the cache store.
      * 
      * @param  string  $key
      * 
@@ -161,5 +161,15 @@ class ApcStore implements Store
     public function getPrefix()
     {
         return $this->prefix;
+    }
+
+    /**
+     * Determines if the driver is supported on this system.
+     * 
+     * @return boolean
+     */
+    public function isSupported()
+    {
+        return;
     }
 }
