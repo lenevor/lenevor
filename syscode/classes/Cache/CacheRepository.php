@@ -97,7 +97,7 @@ class CacheRepository implements ArrayAccess
 
         if ($seconds <= 0)
         {
-            return $this->erase($key);
+            return $this->delete($key);
         }
 
         return $this->store->save($this->itemKey($key), $value, $seconds);
