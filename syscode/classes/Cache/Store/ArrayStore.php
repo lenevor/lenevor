@@ -25,6 +25,7 @@
 namespace Syscode\Cache\Store;
 
 use Syscode\Contracts\Cache\Store;
+use Syscode\Support\InteractsWithTime;
 
 /**
  * Array cache handler.
@@ -33,5 +34,47 @@ use Syscode\Contracts\Cache\Store;
  */
 class ArrayStore implements Store
 {
-    
+    use InteractsWithTime;
+
+    /**
+     * The array storaged value.
+     * 
+     * @var array $storage
+     */
+    protected $storage = [];
+
+    /**
+     * Gets an item from the cache by key.
+     * 
+     * @param  string|array  $key
+     * 
+     * @return mixed
+     */
+    public function get($key)
+    {
+        if ( ! isset($this->storage[$key])) return;
+
+        $item = $this->storage[$key];
+
+        return $item['value'];
+    }
+
+    /**
+     * Store an item in the cache for a given number of seconds.
+     * 
+     * @param  string  $key
+     * @param  mixed   $value
+     * @param  int     $seconds
+     * 
+     * @return bool
+     */
+    public function put($key, $value, $seconds)
+    {
+        $this->storage[$key] = [
+            'value'      => $value,
+            'expiration' => $seconds
+        ];
+
+        return true;
+    }
 }
