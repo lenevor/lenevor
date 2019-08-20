@@ -80,7 +80,7 @@ interface Store
      * 
      * @return mixed
      */
-    public function get(string $key);
+    public function get($key);
     
     /**
      * Returns information on the entire cache.
@@ -96,7 +96,7 @@ interface Store
      * 
      * @return mixed
      */
-    public function getMetaData(string $key);
+    public function getMetaData($key);
 
     /**
      * Get the cache key prefix
@@ -113,7 +113,7 @@ interface Store
      * 
      * @return mixed
      */
-    public function increment(string $key, $value = 1);
+    public function increment($key, $value = 1);
 
     /**
      * Determines if the driver is supported on this system.
@@ -129,5 +129,5 @@ interface Store
      * @param  mixed     $value  The data to save 
      * @param  int|null  $ttl    Time To Live, in seconds (null by default)
      */
-    public function save(string $key, $value, $ttl = null);
+    public function save($key, $value, $ttl = null);
 }
