@@ -25,7 +25,7 @@
 namespace Syscode\Cache;
 
 use Closure;
-use Syscode\Cache\Drivers\{
+use Syscode\Cache\Store\{
     ApcStore,
     ApcWrapper,
     ArrayStore,
