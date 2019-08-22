@@ -56,6 +56,15 @@ class ArrayStore implements Store
 
         $item = $this->storage[$key];
 
+        $expiration = $item['expiration'] ?? 0;
+
+        if ($expiration !== 0 && $this->currenTime() > $expiration)
+        {
+            $this->delete($key);
+
+            return;
+        }
+
         return $item['value'];
     }
 
@@ -72,9 +81,122 @@ class ArrayStore implements Store
     {
         $this->storage[$key] = [
             'value'      => $value,
-            'expiration' => $seconds
+            'expiration' => $this->calcExpiration($seconds)
         ];
 
         return true;
+    }
+
+    /**
+     * Increment the value of an item in the cache.
+     * 
+     * @param  string  $key
+     * @param  mixed   $value  (1 by default)
+     * 
+     * @return int
+     */
+    public function increment($key, $value = 1)
+    {
+        if ( ! isset($this->storage[$key]))
+        {
+            $this->forever($key, $value);
+
+            return $this->storage[$key]['value'];
+        }
+
+        $this->storage[$key]['value'] = ((int) $this->storage[$key]['value']) + $value;
+
+        return $this->storage[$key]['value'];
+    }
+
+    /**
+     * Decrement the value of an item in the cache.
+     * 
+     * @param  string  $key
+     * @param  mixed   $value  (1 by default)
+     * 
+     * @return int
+     */
+    protected function decrement($key, $value = 1)
+    {
+        return $this->increment($key, $value * -1);
+    }
+
+    /**
+     * Remove a specific item from the cache store.
+     * 
+     * @param  string  $key
+     * 
+     * @return bool
+     */
+    public function delete($key)
+    {
+        if (array_key_exists($key, $this->storage))
+        {
+            unset($this->storage[$key]);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Stores an item in the cache indefinitely.
+     * 
+     * @param  string  $key
+     * @param  mixed   $value
+     * 
+     * @return bool
+     */
+    public function forever($key, $value)
+    {
+        return $this->put($key, $value, 0);
+    }
+
+    /**
+     * Remove all items from the cache.
+     * 
+     * @return bool
+     */
+    public function flush()
+    {
+        $this->storage = [];
+
+        return true;
+    }
+
+    /**
+     * Gets the cache key prefix.
+     * 
+     * @return string
+     */
+    public function getPrefix()
+    {
+        return '';
+    }
+
+    /**
+     * Gets the expiration time of the key.
+     * 
+     * @param  int  $seconds
+     * 
+     * @return int
+     */
+    protected function calcExpiration($seconds)
+    {
+        return $this->toTimestamp($seconds);
+    }
+
+    /**
+     * Gets the UNIX timestamp for the given number of seconds.
+     * 
+     * @param  int  $seconds
+     * 
+     * @return int
+     */
+    protected function toTimestamp($seconds)
+    {
+        return $seconds > 0 ? $this->availableAt($seconds) : 0;
     }
 }
