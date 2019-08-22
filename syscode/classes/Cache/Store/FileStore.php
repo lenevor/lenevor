@@ -67,8 +67,31 @@ class FileStore implements Store
     public function __construct(FileSystem $files, $directory)
     {
         $this->files     = $files;
-        $directory       = ! empty($directory) ? $directory : storagePath('/cache');
-        $this->directory = rtrim($directory, '/').'/';
+        $this->directory = $directory;
+    }
+
+    /**
+     * Retrieve an item from the cache by key.
+     * 
+     * @param  string  $key
+     * 
+     * @return mixed
+     */
+    public function get($key)
+    {
+        return $this->getPayLoad($key)['data'] ?? null;
+    }
+
+    /**
+     * Retrieve an item and expiry time from the cache by key.
+     * 
+     * @param  string  $key
+     * 
+     * @return array
+     */
+    protected function getPayLoad($key)
+    {
+        $path = $this->path($key);
     }
 
     /**
@@ -115,16 +138,6 @@ class FileStore implements Store
     {
         return '';
     }
-
-    /**
-     * Determines if the driver is supported on this system.
-     * 
-     * @return boolean
-     */
-    public function isSupported()
-    {
-        return is_writable($this->directory);
-    }
    
     /**
      * Gets the path for a given key.
@@ -137,7 +150,7 @@ class FileStore implements Store
     {
         $key = new CacheKey($key);
 
-        return $this->directory.$key.$this->extension;
+        return $this->directory.DIRECTORY_SEPARATOR.$key.$this->extension;
     }
 
     /**
