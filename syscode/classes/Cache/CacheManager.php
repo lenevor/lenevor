@@ -164,7 +164,7 @@ class CacheManager implements ManagerContract
      */
     protected function callCustomDriver(array $config)
     {
-        return $this->customDriver[$config['driver']]($this->app, $config);
+        return $this->customDriver[$config['default']]($this->app, $config);
     }
     
     /**
@@ -296,7 +296,7 @@ class CacheManager implements ManagerContract
      */
     public function getDefaultDriver()
     {
-       return $this->app['config']['cache.driver'];
+       return $this->app['config']['cache.default'];
     }
     
     /**
@@ -308,7 +308,7 @@ class CacheManager implements ManagerContract
      */
     public function setDefaultDriver(string $name)
     {
-        $this->app['config']['cache.driver'] = $name;
+        $this->app['config']['cache.default'] = $name;
     }
 
     /**
