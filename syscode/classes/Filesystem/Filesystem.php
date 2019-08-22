@@ -155,19 +155,18 @@ class Filesystem
 	 * Get the contents of a file.
 	 *
 	 * @param  string  $path
-	 * @param  string  $mode
-	 * @param  bool    $force
-	 * @param  bool    $lock
+	 * @param  bool    $lock   (false by default)
+	 * @param  bool    $force  (false by default)
 	 *
 	 * @return string
 	 *
 	 * @throws FileNotFoundException
 	 */
-	public function get($path, $mode = 'r', $force = false, $lock = false)
+	public function get($path, $lock = false, $force = false)
 	{
 		if ($this->isFile($path))
 		{
-			return $lock ? $this->read($path, $mode, $force) : file_get_contents($path);
+			return $lock ? $this->read($path, $force) : file_get_contents($path);
 		}
 
 		throw new FileNotFoundException($path);
@@ -182,11 +181,11 @@ class Filesystem
 	 *
 	 * @return string
 	 */
-	public function read($path, $mode, $force = false)
+	public function read($path, $force = false)
 	{
 		$contents = '';
 
-		$this->open($path, $mode, $force);
+		$this->open($path, 'rb', $force);
 		
 		if ($this->handler) 
 		{
@@ -224,7 +223,7 @@ class Filesystem
 	 *
 	 * @return bool
 	 */
-	public function open($path, $mode = 'r', $force = false)
+	public function open($path, $mode, $force = false)
 	{
 		if ( ! $force && is_resource($this->handler))
 		{
@@ -789,7 +788,7 @@ class Filesystem
 			}
 		}
 
-		$replaced = $this->write($path, str_replace($search, $replace, $this->get($path)), 'w', true);
+		$replaced = $this->write($path, str_replace($search, $replace, $this->get($path)), true);
 
 		if ($this->lock !== null)
 		{
@@ -811,11 +810,11 @@ class Filesystem
 	 *
 	 * @return bool
 	 */
-	public function write($path, $data, $mode = 'w', $force = false)
+	public function write($path, $data, $force = false)
 	{
 		$success = false;
 
-		if ($this->open($path, $mode, $force) === true)
+		if ($this->open($path, 'w', $force) === true)
 		{
 			if ($this->lock !== null)
 			{
