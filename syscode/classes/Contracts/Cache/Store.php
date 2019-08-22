@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.3.0
  */
 
 namespace Syscode\Contracts\Cache;
@@ -103,11 +103,4 @@ interface Store
      * @return string
      */
     public function getPrefix();
-
-    /**
-     * Determines if the driver is supported on this system.
-     * 
-     * @return boolean
-     */
-    public function isSupported();
 }
