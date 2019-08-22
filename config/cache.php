@@ -17,20 +17,7 @@ return [
 	|
 	*/
 	
-	'driver' => env('CACHE_DRIVER', file),
-
-	/*
-	|------------------------------------------------------------------------
-	| Default Backup Driver
-	|------------------------------------------------------------------------
-	|
-	| The name of the handler that will be used in case the first one is
-	| unreachable. Often, 'file' is used here since the filesystem is always
-	| available, though that's not always practical for the app.
-	|
-	*/
-
-	'backupDriver' => 'array',
+	'default' => env('CACHE_DRIVER', file),
 
 	/*
 	|------------------------------------------------------------------------
