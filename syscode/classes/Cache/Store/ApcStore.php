@@ -162,14 +162,4 @@ class ApcStore implements Store
     {
         return $this->prefix;
     }
-
-    /**
-     * Determines if the driver is supported on this system.
-     * 
-     * @return boolean
-     */
-    public function isSupported()
-    {
-        return;
-    }
 }
