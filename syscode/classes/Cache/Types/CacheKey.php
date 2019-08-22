@@ -88,6 +88,8 @@ class CacheKey implements Key
      */
     public function getFixKeyChars($key)
     {
-        return preg_replace(static::$invalidCharRegex, '', substr(sha1($key), 0, 30));
+        $parts = preg_replace(static::$invalidCharRegex, '', array_slice(str_split($hash = sha1($key), 2), 0, 2));
+
+        return implode(DIRECTORY_SEPARATOR, $parts).DIRECTORY_SEPARATOR.$hash;
     }
 }
