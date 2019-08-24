@@ -18,6 +18,7 @@ return [
     'Syscode\\Cache\\Store\\ArrayStore' => SYS_PATH.'classes/Cache/Store/ArrayStore.php',
     'Syscode\\Cache\\Store\\DatabaseStore' => SYS_PATH.'classes/Cache/Store/DatabaseStore.php',
     'Syscode\\Cache\\Store\\FileStore' => SYS_PATH.'classes/Cache/Store/FileStore.php',
+    'Syscode\\Cache\\Store\\MemcachedConnector' => SYS_PATH.'classes/Cache/Store/MemcachedConnector.php',
     'Syscode\\Cache\\Store\\MemcachedStore' => SYS_PATH.'classes/Cache/Store/MemcachedStore.php',
     'Syscode\\Cache\\Store\\NullStore' => SYS_PATH.'classes/Cache/Store/NullStore.php',
     'Syscode\\Cache\\Store\\RedisStore' => SYS_PATH.'classes/Cache/Store/RedisStore.php', 
