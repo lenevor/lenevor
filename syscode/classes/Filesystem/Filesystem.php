@@ -26,6 +26,7 @@ namespace Syscode\Filesystem;
 
 use ErrorException;
 use FilesystemIterator;
+use Syscode\Support\Finder;
 use Syscode\Filesystem\Exceptions\{
 	FileException,
 	FileNotFoundException,
@@ -75,21 +76,6 @@ class Filesystem
 	}
 
 	/**
-	 * Closes the current file if it is opened.
-	 *
-	 * @return bool
-	 */
-	public function close()
-	{
-		if ( ! is_resource($this->handler))
-		{
-			return true;
-		}
-
-		return fclose($this->handler);
-	}
-
-	/**
 	 * Copy a file to a new location.
 	 *
 	 * @param  string  $path
@@ -100,55 +86,6 @@ class Filesystem
 	public function copy($path, $target)
 	{
 		return copy($path, $target);
-	}
-
-	/**
-	 * Returns true if the file is executable.
-	 *
-	 * @param  string  $path
-	 * 
-	 * @return bool  True if file is executable, false otherwise
-	 */
-	public function exec($path)
-	{
-		return is_executable($path);
-	}
-
-	/**
-	 * Delete the file at a given path.
-	 * 
-	 * @param  string  $paths
-	 * 
-	 * @return bool
-	 */
-	public function delete($paths)
-	{
-		if (is_resource($this->handler))
-		{
-			fclose($this->handler);
-			$this->handler = null;
-		}
-
-		$paths = is_array($paths) ? $paths : func_get_args();
-
-		$success = true;
-
-		foreach ($paths as $path)
-		{
-			try
-			{
-				if ( ! @unlink($path))
-				{
-					return $success = false;
-				}
-			}
-			catch (ErrorException $e)
-			{
-				return $success = false;
-			}
-		}
-
-		return $success;
 	}
 
 	/**
@@ -345,6 +282,18 @@ class Filesystem
 
 		return false;
 	}
+	
+	/**
+	 * Returns true if the file is executable.
+	 *
+	 * @param  string  $path
+	 * 
+	 * @return bool  True if file is executable, false otherwise
+	 */
+	public function exec($path)
+	{
+		return is_executable($path);
+	}
 
 	/**
 	 * Determine if the given path is a directory.
@@ -426,6 +375,63 @@ class Filesystem
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get all of the directories within a given directory.
+	 * 
+	 * @param  string       $directory
+	 * @param  string|null  $extension  (null by default)
+	 * 
+	 * @return array
+	 */
+	public function directories($directory, $extension = null)
+	{
+		$directories = [];
+
+		foreach (Finder::search($this->glob('*'), $directory, $extension) as $dir)
+		{
+			$directories[] = $dir->prepPath($directory);
+		}
+
+		return $directories;
+	}
+
+	/**
+	 * Delete the file at a given path.
+	 * 
+	 * @param  string  $paths
+	 * 
+	 * @return bool
+	 */
+	public function delete($paths)
+	{
+		if (is_resource($this->handler))
+		{
+			fclose($this->handler);
+			$this->handler = null;
+		}
+
+		$paths = is_array($paths) ? $paths : func_get_args();
+
+		$success = true;
+
+		foreach ($paths as $path)
+		{
+			try
+			{
+				if ( ! @unlink($path))
+				{
+					return $success = false;
+				}
+			}
+			catch (ErrorException $e)
+			{
+				return $success = false;
+			}
+		}
+
+		return $success;
 	}
 
 	/**
@@ -600,7 +606,6 @@ class Filesystem
 	public function getMimeType($path)
 	{
 		$finfo    = finfo_open(FILEINFO_MIME_TYPE);
-
 		$mimeType = finfo_file($finfo, $path);
 
 		finfo_close($finfo);
@@ -798,6 +803,21 @@ class Filesystem
 		$this->close();
 
 		return $replaced;
+	}	
+
+	/**
+	 * Closes the current file if it is opened.
+	 *
+	 * @return bool
+	 */
+	public function close()
+	{
+		if ( ! is_resource($this->handler))
+		{
+			return true;
+		}
+
+		return fclose($this->handler);
 	}
 
 	/**
