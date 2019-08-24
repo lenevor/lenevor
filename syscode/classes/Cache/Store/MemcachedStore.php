@@ -22,9 +22,10 @@
  * @since       0.3.0
  */
 
-namespace Syscode\Cache\Sore;
+namespace Syscode\Cache\Store;
 
 use Syscode\Contracts\Cache\Store;
+use Syscode\Support\InteractsWithTime;
 
 /**
  * Memcached cache handler.
@@ -33,5 +34,45 @@ use Syscode\Contracts\Cache\Store;
  */
 class MemcachedStore implements Store
 {
+    use InteractsWithTime;
 
+    /**
+     * The Memcached instance.
+     * 
+     * @var \Memcached $memcached
+     */
+    protected $memcached;
+
+    /**
+     * A string that should be prepended to keys.
+     * 
+     * @var string $prefix
+     */
+    protected $prefix;
+
+    /**
+     * Constructor. The new Memcached store instance.
+     * 
+     * @param  \Memcached  $memcached
+     * @param  string      $prefix
+     * 
+     * @return void
+     */
+    public function __construct($memcached, $prefix = '')
+    {
+        $this->setPrefix($prefix);
+        $this->memcached = $memcached;
+    }
+
+    /**
+     * Set the cache key prefix.
+     * 
+     * @param  string  $prefix
+     * 
+     * @return void
+     */
+    public function setPrefix($prefix)
+    {
+        $this->prefix = ! empty($prefix) ? $prefix.':' : '';
+    }
 }
