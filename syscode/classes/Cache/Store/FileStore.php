@@ -281,7 +281,7 @@ class FileStore implements Store
             return false;
         }
 
-        foreach ($this->files->directories($this->directory, $this->extension) as $directory)
+        foreach ($this->files->directories($this->directory) as $directory)
         {
             if ( ! $this->files->deleteDirectory($directory))
             {
