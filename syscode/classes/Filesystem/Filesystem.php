@@ -381,15 +381,14 @@ class Filesystem
 	 * Get all of the directories within a given directory.
 	 * 
 	 * @param  string       $directory
-	 * @param  string|null  $extension  (null by default)
 	 * 
 	 * @return array
 	 */
-	public function directories($directory, $extension = null)
+	public function directories($directory)
 	{
 		$directories = [];
 
-		foreach (Finder::search($this->glob('*'), $directory, $extension) as $dir)
+		foreach (Finder::search($this->glob('*'), $directory) as $dir)
 		{
 			$directories[] = $dir->prepPath($directory);
 		}
