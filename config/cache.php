@@ -45,69 +45,45 @@ return [
 	'stores' => [
 
 		'apc' => [
-
-			'driver'  => 'apc',
-			'enabled' => true
-			
+			'driver'  => 'apc'		
 		],
 
 		'array' => [
-
-			'driver'  => 'array'
-
+			'driver' => 'array'
 		],
 
 		'database' => [
-
-			'driver'     => 'database',
-			'table'      => 'cache',
+			'driver' => 'database',
+			'table' => 'cache',
 			'connection' => null
-
 		],
 
 		'file' => [
+			'driver' => 'file',
+			'path' => storagePath('/cache')
+		],
 
-			'driver'   => 'file',
-			'lifetime' => 3600,
-			'path'     => storagePath('/cache')
+		'memcached' => [
+			'driver' => 'memcached',
+			'persistentID' => null,
+			'sasl' => [
+				'username' => null,
+				'password' => null
+			],
+			'options' => [
+
+			],
+			'servers' => [				
+				'host' => '127.0.0.1',
+				'port' => 11211,
+				'weight' => 100				
+			],
 
 		],
 
-		'servers' => [
-
-			'memcached' => [
-
-				'driver'       => 'memcached',
-				'persistentID' => null,
-				'sasl'         => [
-
-					'username' => null,
-					'password' => null
-
-				],
-				'options'      => [
-
-				],
-				'servers'      => [
-					
-					'host'         => '127.0.0.1',
-					'port'         => 11211,
-					'weight'       => 100
-					
-				],
-
-			],
-
-			'redis' => [
-
-				'driver'   => 'redis',
-				'host'     => '127.0.0.1',
-				'password' => null,
-				'port'     => 6379,
-				'timeOut'  => 0
-
-			]
-
+		'redis' => [
+			'driver' => 'redis',
+			'connection' => 'cache'
 		]
 
 	],
