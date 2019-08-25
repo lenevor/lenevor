@@ -100,7 +100,7 @@ class CacheRepository implements ArrayAccess
             return $this->delete($key);
         }
 
-        return $this->store->save($this->itemKey($key), $value, $seconds);
+        return $this->store->put($this->itemKey($key), $value, $seconds);
     }
 
     /**
