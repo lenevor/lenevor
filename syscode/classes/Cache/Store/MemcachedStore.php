@@ -24,6 +24,7 @@
 
 namespace Syscode\Cache\Store;
 
+use Memcached;
 use Syscode\Contracts\Cache\Store;
 use Syscode\Support\InteractsWithTime;
 
@@ -62,6 +63,19 @@ class MemcachedStore implements Store
     {
         $this->setPrefix($prefix);
         $this->memcached = $memcached;
+    }
+
+    /**
+     * Destructor. Closes the connection to Memcache(d) if present.
+     * 
+     * @return void
+     */
+    public function __destruct()
+    {
+        if ($this->memcached instanceof Memcached)
+        {
+            $this->memcached->quit();
+        }
     }
 
     /**
