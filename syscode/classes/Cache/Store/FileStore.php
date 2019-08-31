@@ -234,7 +234,7 @@ class FileStore implements Store
      * 
      * @return int
      */
-    protected function decrement($key, $value = 1)
+    public function decrement($key, $value = 1)
     {
         return $this->increment($key, $value * -1);
     }
