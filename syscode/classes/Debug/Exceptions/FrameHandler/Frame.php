@@ -162,6 +162,12 @@ class Frame implements Serializable
         return $comments;
     }
 
+    /*
+    |-----------------------------------------------------------------
+    | Serializable Methods
+    |-----------------------------------------------------------------
+    */
+
     /**
      * Implements the Serializable interface.
      * 
