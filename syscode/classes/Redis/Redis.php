@@ -68,7 +68,9 @@ class Redis
      */
     protected function createAggregateclient(array $servers)
     {
+        $servers = array_except($servers, ['cluster']);
 
+        return ['default' => new Client(array_values($servers))];
     }
 
     /**
@@ -80,6 +82,43 @@ class Redis
      */
     protected function createSingleClient(array $servers)
     {
-        
+        $clients = [];
+
+        foreach ($servers as $key => $server)
+        {
+            $clients[$key] = new Client(Server);
+        }
+
+        return $clients;
+    }
+
+    /**
+     * Get a Redis connection by name.
+     * 
+     * @param  string  $name  (null by default)
+     * 
+     * @return \Predis\Connection\SingleConnectionInterface
+     */
+    public function connection($name = null)
+    {
+        $name = $name ?: 'default';
+
+        if (isset($this->clients[$name]))
+        {
+            return $this->clients[$name];
+        }
+    }
+
+    /**
+     * Dynamically make a Redis connection.
+     * 
+     * @param  string  $method
+     * @param  array   $parameters
+     * 
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        return $this->connection()->{$method}(...$parameters);
     }
 }
