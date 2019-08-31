@@ -121,4 +121,16 @@ class CacheRepository implements ArrayAccess
 
         return (int) $duration > 0 ? $duration : 0;
     }
+
+    /**
+     * Format the key for a cache item.
+     * 
+     * @param  string  $key
+     * 
+     * @return string
+     */
+    protected function itemKey($key)
+    {
+        return $key;
+    }
 }
