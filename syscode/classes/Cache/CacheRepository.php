@@ -39,18 +39,18 @@ class CacheRepository implements ArrayAccess
     use InteractsWithTime;
 
     /**
+     * The default number of seconds to store items.
+     * 
+     * @var int $cacheTime
+     */
+    protected $cacheTime = 3600;
+
+    /**
      * The cache store implementation.
      * 
      * @var \Syscode\Contracts\Cache\Store $store
      */
     protected $store;
-
-    /**
-     * The default number of seconds to store items.
-     * 
-     * @var int $time
-     */
-    protected $time = 3600;
 
     /**
      * Constructor. Create a new cache repository instance.
@@ -62,6 +62,18 @@ class CacheRepository implements ArrayAccess
     public function __construct(Store $store)
     {
         $this->store = $store;
+    }
+
+    /**
+     * Determine if an item exists in the cache.
+     * 
+     * @param  string  $key
+     * 
+     * @return bool
+     */
+    public function has($key)
+    {
+        return ! is_null($this->get($key));
     }
 
     /**
@@ -85,6 +97,21 @@ class CacheRepository implements ArrayAccess
     }
 
     /**
+     * Retrieve an item from the cache and delete it.
+     * 
+     * @param  string  $key
+     * @param  mixed   $default  (null by default)
+     * 
+     * @return mixed
+     */
+    public function pull($key, $default = null)
+    {
+        return take($this->get($key, $default), function () use ($key) {
+            $this->delete($key);
+        });
+    }
+
+    /**
      * Saves an item to the cache store.
      * 
      * @param  string    $key    Cache item name
@@ -101,6 +128,67 @@ class CacheRepository implements ArrayAccess
         }
 
         return $this->store->put($this->itemKey($key), $value, $seconds);
+    }
+
+    /**
+     * Increment the value of an item in the cache.
+     * 
+     * @param  string  $key
+     * @param  mixed   $value  (1 by default)
+     * 
+     * @return int
+     */
+    public function increment($key, $value = 1)
+    {
+        return $this->store->increment($key, $value);
+    }
+
+    /**
+     * Decrement the value of an item in the cache.
+     * 
+     * @param  string  $key
+     * @param  mixed   $value  (1 by default)
+     * 
+     * @return int
+     */
+    public function decrement($key, $value = 1)
+    {
+        return $this->store->decrement($key, $value);
+    }
+
+    /**
+     * Remove a specific item from the cache store.
+     * 
+     * @param  string  $key
+     * 
+     * @return bool
+     */
+    public function delete($key)
+    {
+        return $this->store->delete($this->itemKey($key));
+    }
+
+    /**
+     * Stores an item in the cache indefinitely.
+     * 
+     * @param  string  $key
+     * @param  mixed   $value
+     * 
+     * @return bool
+     */
+    public function forever($key, $value)
+    {
+        return $this->store->forever($this->itemKey($key), $value);
+    }
+
+    /**
+     * Remove all items from the cache.
+     * 
+     * @return bool
+     */
+    public function clear()
+    {
+        return $this->store->flush();
     }
 
     /**
@@ -132,5 +220,117 @@ class CacheRepository implements ArrayAccess
     protected function itemKey($key)
     {
         return $key;
+    }
+
+    /**
+     * Get the cache store implementation.
+     * 
+     * @return \Syscode\Contracts\Cache\Store
+     */
+    public function getStore()
+    {
+        return $this->store;
+    }
+
+    /**
+     * Get the default cache time.
+     * 
+     * @return int
+     */
+    public function getCacheTime()
+    {
+        return $this->cacheTime;
+    }
+
+    /**
+     * Set the default cache time in seconds
+     * 
+     * @param  int|null  $seconds
+     * 
+     * @return $this
+     */
+    public function setCacheTime($seconds)
+    {
+        $this->cacheTime = $seconds;
+
+        return $this;
+    }
+
+    /*
+    |-----------------------------------------------------------------
+    | ArrayAccess Methods
+    |-----------------------------------------------------------------
+    */
+
+    /**
+     * Determine if a cached value exists.
+     * 
+     * @param  string  $offset
+     * 
+     * @return bool
+     */
+    public function offsetExists($offset)
+    {
+        return $this->has($offset);
+    }
+
+    /**
+     * Retrieve an item from the cache by key.
+     * 
+     * @param  string  $offset
+     * 
+     * @return mixed
+     */
+    public function offsetGet($offset)
+    {
+        return $this->get($offset);
+    }
+
+    /**
+     * Store an item in the cache for the default time.
+     * 
+     * @param  string  $offset
+     * @param  mixed   $value
+     * 
+     * @return void
+     */
+    public function offsetSet($offset, $value)
+    {
+        return $this->put($key, $value, $this->cacheTime);
+    }
+
+    /**
+     * Remove an item from the cache.
+     * 
+     * @param  string  $offset
+     * 
+     * @return void
+     */
+    public function offsetUnset($offset)
+    {
+        return $this->delete($offset);
+    }
+
+    /**
+     * Handle dynamic calls into missing methods to the store.
+     * 
+     * @param  string  $method
+     * @param  array   $parameters
+     * 
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        return $this->store->{$method}(...$parameters);
+    }
+
+    /**
+     * Clone cache repository instance.
+     * 
+     * return void
+     */
+    public function __clone()
+    {
+        $this->store = clone $this->store;
     }
 }
