@@ -374,7 +374,7 @@ class Application extends Container implements ApplicationContract
 
         $this->instance('app', $this);
         $this->singleton('cache', function () {
-            return new \Syscode\Cache\CacheManager($this);
+            return (new \Syscode\Cache\CacheManager($this))->driver();
         });
         $this->instance('config', $this[\Syscode\Config\Configure::class]);
         $this->singleton('files', function() {
