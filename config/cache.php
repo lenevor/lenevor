@@ -17,7 +17,7 @@ return [
 	|
 	*/
 	
-	'default' => env('CACHE_DRIVER', file),
+	'default' => env('CACHE_DRIVER', 'file'),
 
 	/*
 	|------------------------------------------------------------------------
@@ -60,7 +60,7 @@ return [
 
 		'file' => [
 			'driver' => 'file',
-			'path' => storagePath('/cache')
+			'path' => storagePath('cache')
 		],
 
 		'memcached' => [
