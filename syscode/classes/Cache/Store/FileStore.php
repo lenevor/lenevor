@@ -25,9 +25,9 @@
 namespace Syscode\Cache\Store;
 
 use Exception;
-use Syscode\Contracts\Store;
 use Syscode\Cache\Types\CacheKey;
-use Syscode\Filesystem\Filesytem;
+use Syscode\Filesystem\Filesystem;
+use Syscode\Contracts\Cache\Store;
 use Syscode\Support\InteractsWithTime;
 use Syscode\Cache\Utils\FileCacheRegister;
 
@@ -64,12 +64,12 @@ class FileStore implements Store
     /**
      * Constructor. Create a new file cache store instance.
      * 
-     * @param   \Syscode\FileSystem\FileSystem  $files
+     * @param   \Syscode\FileSystem\Filesystem  $files
      * @param   string                          $directory
      * 
      * @return  void
      */
-    public function __construct(FileSystem $files, $directory)
+    public function __construct(Filesystem $files, $directory)
     {
         $this->files     = $files;
         $this->directory = $directory;
@@ -119,11 +119,9 @@ class FileStore implements Store
             return $this->emptyPayLoad();
         }
 
-        $CacheRegistered = new FileCacheRegister;
-
         try
         {            
-            $data = $CacheRegistered->unserialize(substr($contents, 10));
+            $data = unserialize(substr($contents, 10));
         }
         catch (Exception $e)
         {
@@ -170,8 +168,7 @@ class FileStore implements Store
      */
     public function put($key, $value, $seconds)
     {
-        $CacheRegistered = new FileCacheRegister($value);
-        $value           = $this->expiration($seconds).$CacheRegistered->serialize();
+        $value = $this->expiration($seconds).serialize($value);
 
         $this->createCacheDirectory($path = $this->path($key));
 
