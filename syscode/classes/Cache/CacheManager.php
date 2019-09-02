@@ -35,6 +35,7 @@ use Syscode\Cache\Store\{
     NullStore,
     RedisStore
 };
+use Syscode\Contracts\Cache\Store;
 use Syscode\Cache\Exceptions\CacheDriverException;
 use Syscode\Contracts\Cache\Manager as ManagerContract;
 
@@ -133,7 +134,7 @@ class CacheManager implements ManagerContract
 
         if (is_null($config))
         {
-            throw new CacheDriverException(__('cache.storeNotDefined'));
+            throw new CacheDriverException(__('cache.storeNotDefined', ['name' => $name]));
         }
 
         if (isset($this->customDriver[$config['driver']]))
@@ -150,7 +151,7 @@ class CacheManager implements ManagerContract
             }
             else
             {
-                throw new CacheDriverException(__('cache.driverNotSupported'));
+                throw new CacheDriverException(__('cache.driverNotSupported', ['config' => $config]));
             }
         }
     }
@@ -176,7 +177,7 @@ class CacheManager implements ManagerContract
      */
     protected function getConfig(string $name)
     {
-        return $this->app['config']["cache.stores.{$name}"];
+        return $this->app['config']->get("cache.stores.{$name}");
     }
 
     /**
@@ -284,7 +285,7 @@ class CacheManager implements ManagerContract
      *
      * @return \Syscode\Cache\CacheRepository
      */
-    public function getRepository(store $store)
+    public function getRepository(Store $store)
     {
         return new CacheRepository($store);
     }
@@ -296,7 +297,7 @@ class CacheManager implements ManagerContract
      */
     public function getDefaultDriver()
     {
-       return $this->app['config']['cache.default'];
+       return $this->app['config']->get('cache.default');
     }
     
     /**
@@ -308,7 +309,7 @@ class CacheManager implements ManagerContract
      */
     public function setDefaultDriver(string $name)
     {
-        $this->app['config']['cache.default'] = $name;
+        $this->app['config']->set('cache.default', $name);
     }
 
     /**
