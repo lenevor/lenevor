@@ -26,7 +26,6 @@ namespace Syscode\Filesystem;
 
 use ErrorException;
 use FilesystemIterator;
-use Syscode\Support\Finder;
 use Syscode\Filesystem\Exceptions\{
 	FileException,
 	FileNotFoundException,
@@ -118,7 +117,7 @@ class Filesystem
 	 *
 	 * @return string
 	 */
-	public function read($path, $force = false)
+	protected function read($path, $force = false)
 	{
 		$contents = '';
 
@@ -380,7 +379,7 @@ class Filesystem
 	/**
 	 * Get all of the directories within a given directory.
 	 * 
-	 * @param  string       $directory
+	 * @param  string  $directory
 	 * 
 	 * @return array
 	 */
@@ -388,9 +387,11 @@ class Filesystem
 	{
 		$directories = [];
 
-		foreach (Finder::search($this->glob('*'), $directory) as $dir)
+		$iterators = new FilesystemIterator($directory);
+
+		foreach ($iterators as $iterator)
 		{
-			$directories[] = $dir->prepPath($directory);
+			$directories[] = trim($iterator->getPathname(), '/').'/';
 		}
 
 		return $directories;
@@ -449,15 +450,10 @@ class Filesystem
 	{
 		if ($force)
 		{
-			if (($result = @mkdir($path, $mode, $recursive) === false))
-			{
-				throw new FileException("The directory [{$path}] could not be created");
-			}
+			return @mkdir($path, $mode, $recursive);
 		}
 
-		$result = mkdir($path, $mode, $recursive);
-
-		return $result;
+		mkdir($path, $mode, $recursive);
 	}
 
 	/**
