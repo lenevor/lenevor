@@ -86,14 +86,14 @@ class CacheRepository implements ArrayAccess
      */
     public function get($key, $default = null)
     {
-        $value = $this->store->get($key);
+        $value = $this->store->get($this->itemKey($key));
 
-        if ( ! is_null($default))
+        if (is_null($value))
         {
-            return $value;
+            $value = value($default);
         }
 
-        return value($default);
+        return $value;
     }
 
     /**
