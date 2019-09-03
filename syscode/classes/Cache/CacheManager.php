@@ -239,7 +239,14 @@ class CacheManager implements ManagerContract
     {
         $prefix = $this->getPrefix($config);
 
-        return;
+        $memcached = $this->app['memcached.connector']->connect(
+            $config['servers'],
+            $config['persistentID'] ?? null,
+            $config['options'] ?? [],
+            array_filter($config['sasl'] ?? [])
+        );
+
+        return $this->getRepository(new MemcachedStore($memcached, $prefix));
     }
 
     /**
@@ -261,9 +268,11 @@ class CacheManager implements ManagerContract
      */
     protected function createRedisDriver(array $config)
     {
-        $prefix = $this->getPrefix($config);
+        $redis      = $this->app['redis'];
+        $prefix     = $this->getPrefix($config);
+        $connection = $config['connection'] ?? 'default';
 
-        return;
+        return $this->getRepository(new RedisStore($redis, $prefix, $connection));
     }
 
     /**
@@ -275,7 +284,7 @@ class CacheManager implements ManagerContract
      */
     protected function getPrefix(array $config)
     {
-        return $config['prefix'] ?? $this->app['config']['cache.prefix'];
+        return $config['prefix'] ?? $this->app['config']->get('cache.prefix');
     }
     
     /**
