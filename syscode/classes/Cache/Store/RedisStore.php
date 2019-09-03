@@ -24,7 +24,7 @@
 
 namespace Syscode\Cache\Store;
 
-use Syscode\Redis\Redis;
+use Syscode\Redis\RedisManager;
 use Syscode\Contracts\Cache\Store;
 
 /**
@@ -51,20 +51,20 @@ class RedisStore implements Store
     /**
      * The Redis database connection.
      * 
-     * @var \Syscode\Redis\Redis $redis 
+     * @var \Syscode\Redis\RedisManager $redis 
      */
     protected $redis;
 
     /**
      * Constructor. Create a new Redis store.
      * 
-     * @param  \Syscode\Redis\Redis  $redis 
-     * @param  string                $prefix
-     * @param  string                $connection  
+     * @param  \Syscode\Redis\RedisManager  $redis 
+     * @param  string                       $prefix
+     * @param  string                       $connection  
      * 
      * @return void
      */
-    public function __construct(Redis $redis, $prefix = '', $connection = 'default')
+    public function __construct(RedisManager $redis, $prefix = '', $connection = 'default')
     {
         $this->redis = $redis;
         $this->setPrefix($prefix);
@@ -169,7 +169,7 @@ class RedisStore implements Store
     /**
      * Get the Redis database instance.
      * 
-     * @return \Syscode\Redis\Redis
+     * @return \Syscode\Redis\RedisManager
      */
     public function getRedis()
     {
