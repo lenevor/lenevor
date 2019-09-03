@@ -120,6 +120,11 @@ class CacheRepository implements ArrayAccess
      */
     public function save($key, $value, $ttl = null)
     {
+        if (null === $ttl)
+        {
+            return $this->forever($key, $value);
+        }
+        
         $seconds = $this->getSeconds($ttl);
 
         if ($seconds <= 0)
