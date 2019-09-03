@@ -58,7 +58,7 @@ class ArrayStore implements Store
 
         $expiration = $item['expiration'] ?? 0;
 
-        if ($expiration !== 0 && $this->currenTime() > $expiration)
+        if ($expiration !== 0 && $this->currentTime() > $expiration)
         {
             $this->delete($key);
 
