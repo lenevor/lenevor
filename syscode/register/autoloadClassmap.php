@@ -135,7 +135,7 @@ return [
     'Syscode\\Http\\ResponseTrait' => SYS_PATH.'classes/Http/ResponseTrait.php',
     'Syscode\\Http\\URI' => SYS_PATH.'classes/Http/URI.php',
     'Syscode\\Log\\Logger' => SYS_PATH.'classes/Log/Logger.php',
-    'Syscode\\Redis\\Redis' => SYS_PATH.'classes/Redis/Redis.php',       
+    'Syscode\\Redis\\RedisManager' => SYS_PATH.'classes/Redis/RedisManager.php',       
     'Syscode\\Routing\\Exceptions\\RouteNotFoundException' => SYS_PATH.'classes/Routing/Exceptions/RouteNotFoundException.php',
     'Syscode\\Routing\\Redirector' => SYS_PATH.'classes/Routing/Redirector.php',
     'Syscode\\Routing\\Route' => SYS_PATH.'classes/Routing/Route.php',
