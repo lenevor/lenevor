@@ -57,7 +57,6 @@ return [
     'connections' => [
         
         'mysql' => [
-
             'driver'    => 'mysql',
             'host'      =>'localhost',
             'port'      => 3306,
@@ -69,11 +68,8 @@ return [
             'prefix'    => '',
             'strict'    => true,
             'engine'    => null
-        
         ],
-
         'pgsql' => [
-
             'driver'   => 'pgsql',
             'host'     => 'localhost',
             'port'     => 5432,
@@ -84,15 +80,11 @@ return [
             'prefix'   => '',
             'schema'   => 'public',
             'sslmode'  => 'prefer'
-
         ],
-
         'sqlite' => [
-
             'driver' => 'sqlite',
             'database' => 'database.sqlite',
             'prefix' => ''
-
         ],
     
     ],
@@ -111,14 +103,17 @@ return [
     'redis' => [
 
         'cluster' => false,
-
         'default' => [
-
             'host'     => 'localhost',
             'password' => null,
             'port'     => 6379,
             'database' => 0
-            
+        ],
+        'cache' => [
+            'host'     => 'localhost',
+            'password' => null,
+            'port'     => 6379,
+            'database' => 1
         ]
 
     ],
