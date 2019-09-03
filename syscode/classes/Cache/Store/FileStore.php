@@ -120,8 +120,10 @@ class FileStore implements Store
         }
 
         try
-        {            
-            $data = unserialize(substr($contents, 10));
+        {   
+            $data = (new FileCacheRegister)
+                    ->unserialize(substr($contents, 10))
+                    ->getData();
         }
         catch (Exception $e)
         {
@@ -168,7 +170,7 @@ class FileStore implements Store
      */
     public function put($key, $value, $seconds)
     {
-        $value = $this->expiration($seconds).serialize($value);
+        $value = $this->expiration($seconds).(new FileCacheRegister($value))->serialize();
 
         $this->createCacheDirectory($path = $this->path($key));
 
