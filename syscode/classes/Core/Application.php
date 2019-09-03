@@ -376,12 +376,18 @@ class Application extends Container implements ApplicationContract
         $this->singleton('cache', function () {
             return (new \Syscode\Cache\CacheManager($this))->driver();
         });
+        $this->singleton('memcached.connector', function () {
+            return new \Syscode\Cache\Store\MemcachedConnector;
+        });
         $this->instance('config', $this[\Syscode\Config\Configure::class]);
         $this->singleton('files', function() {
             return new \Syscode\Filesystem\Filesystem;
         });
         $this->instance('http', $this[\Syscode\Http\Http::class]);
         $this->instance('redirect', $this[\Syscode\Routing\Redirector::class]);
+        $this->singleton('redis', function () {
+            return (new \Syscode\Redis\RedisManager($this['config']->get('database.redis', [])))->connection();
+        });
         $this->instance('request', $this[\Syscode\Http\Request::class]);
         $this->singleton('response', function() {
             return new \Syscode\Routing\RouteResponse($this['view'], $this['redirect']);
@@ -409,6 +415,7 @@ class Application extends Container implements ApplicationContract
             'files'      => [\Syscode\Filesystem\Filesystem::class],
             'http'       => [\Syscode\Http\Http::class],
             'redirect'   => [\Syscode\Routing\Redirector::class],
+            'redis'      => [\Syscode\Redis\RedisManager::class],
             'request'    => [\Syscode\Http\Request::class],
             'response'   => [\Syscode\Routing\RouteResponse::class],
             'router'     => [\Syscode\Routing\Router::class],
