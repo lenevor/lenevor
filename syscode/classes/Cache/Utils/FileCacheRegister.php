@@ -43,24 +43,15 @@ class FileCacheRegister implements Serializable
     protected $data;
 
     /**
-     * Time expired in to be stored.
-     * 
-     * @var int $expires
-     */
-    protected $expires;
-
-    /**
      * Constructor class.
      * 
-     * @param  string  $data     (null by default)
-     * @param  int     $expires  (null by default)
+     * @param  string  $data  (null by default)
      * 
      * @return string
      */
-    public function __construct($data = null, $expires = null)
+    public function __construct($data = null)
     {
-        $this->data    = $data;
-        $this->expires = $expiration;
+        $this->data = $data;
     }
 
     /**
@@ -74,36 +65,26 @@ class FileCacheRegister implements Serializable
     }
 
     /**
-     * Get the expired of time.
-     * 
-     * @return int
-     */
-    public function getExpires()
-    {
-        return $this->expires;
-    }
-
-    /**
      * Representation in chain format of an object.
      * 
      * @return mixed
      */
     public function serialize()
     {
-        return serialize([$this->data, $this->expires]);
+        return serialize($this->data);
     }
     
     /**
      * Constructs the object.
      * 
-     * @param  string  $serialized
+     * @param  string  $unserialize
      * 
-     * @return string
+     * @return $this
      */
-    public function unserialize($serialized)
+    public function unserialize($unserialize)
     {
-        $unserialize   = unserialize($serialized);
-        $this->data    = $unserialize[0];
-        $this->expires = $unserialize[1];
+        $this->data = unserialize($unserialize);
+        
+        return $this;
     }
 }
