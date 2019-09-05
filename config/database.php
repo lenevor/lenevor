@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => 'mysql',
+    'default' => env('DB_CONNECTION', 'mysql'),
 
     /*
     |------------------------------------------------------------------------
@@ -57,33 +57,43 @@ return [
     'connections' => [
         
         'mysql' => [
-            'driver'    => 'mysql',
-            'host'      =>'localhost',
-            'port'      => 3306,
-            'database'  => '',
-            'username'  => 'root',
-            'password'  => '',
-            'charset'   => 'utf8',
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', 'localhost'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE', 'lenevor'),
+            'username' => env('DB_USERNAME', 'home'),
+            'password' => env('DB_PASSWORD', ''),
+            'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-            'strict'    => true,
-            'engine'    => null
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null
         ],
         'pgsql' => [
-            'driver'   => 'pgsql',
-            'host'     => 'localhost',
-            'port'     => 5432,
-            'database' => '',
-            'username' => 'root',
-            'password' => '',
-            'charset'  => 'utf8',
-            'prefix'   => '',
-            'schema'   => 'public',
-            'sslmode'  => 'prefer'
+            'driver' => 'pgsql',
+            'host' => env('DB_HOST', 'localhost'),
+            'port' => env('DB_PORT', '5432'),
+            'database' => env('DB_DATABASE', 'lenevor'),
+            'username' => env('DB_USERNAME', 'home'),
+            'password' => env('DB_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'schema' => 'public',
+            'sslmode' => 'prefer'
         ],
         'sqlite' => [
             'driver' => 'sqlite',
-            'database' => 'database.sqlite',
+            'database' => env('DB_DATABASE', databasePath('database.sqlite')),
+            'prefix' => ''
+        ],
+        'sqlsrv' => [
+            'driver' => 'sqlsrv',
+            'host' => env('DB_HOST', 'localhost'),
+            'port' => env('DB_PORT', '1433'),
+            'database' => env('DB_DATABASE', 'lenevor'),
+            'username' => env('DB_USERNAME', 'home'),
+            'password' => env('DB_PASSWORD', ''),
+            'charset' => 'utf8',
             'prefix' => ''
         ],
     
@@ -114,7 +124,7 @@ return [
             'password' => null,
             'port'     => 6379,
             'database' => 1
-        ]
+        ],
 
     ],
 
