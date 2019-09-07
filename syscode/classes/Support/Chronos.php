@@ -24,14 +24,14 @@
 
 namespace Syscode\Support;
 
-use Syscode\Support\Chronos\Date as BaseChronos;
+use Syscode\Support\Chronos\Time as BaseTime;
 
 /**
- * Class that inherits all Time methods.
+ * Class that inherits all methods the Time class.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class Chronos extends BaseChronos
+class Chronos extends BaseTime
 {
     //
 }
