@@ -25,6 +25,7 @@
 use Syscode\View\View;
 use Syscode\Core\Application;
 use Syscode\Routing\UrlGenerator;
+use Syscode\Support\Facades\Date;
 use Syscode\Routing\RouteResponse;
 use Syscode\Support\Facades\Facade;
 
@@ -262,6 +263,21 @@ if ( ! function_exists('isGetCommonPath'))
         }
         
         return $common;
+    }
+}
+
+if ( ! function_exists('now'))
+{
+    /**
+     * Create a new Chronos class instance for the current time.
+     * 
+     * @param  \DateTimeZone|string|null  $timezone
+     * 
+     * @return \Syscode\Support\Chronos
+     */
+    function now($timezone = null)
+    {
+        return Date::now($timezone);
     }
 }
 
