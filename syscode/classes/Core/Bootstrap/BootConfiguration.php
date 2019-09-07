@@ -46,7 +46,7 @@ class BootConfiguration
 	{
 		$app->instance('config', $config = new Configure);
 
-		// set a default timezone if one is defined
+		// Set a default timezone if one is defined
 		date_default_timezone_set($config->get('app.timezone', 'UTC'));
 
 		mb_internal_encoding('UTF-8');
