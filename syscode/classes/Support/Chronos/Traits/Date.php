@@ -1,0 +1,100 @@
+<?php 
+
+/**
+ * Lenevor Framework
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file license.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://lenevor.com/license
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@Lenevor.com so we can send you a copy immediately.
+ *
+ * @package     Lenevor
+ * @subpackage  Base
+ * @author      Javier Alexander Campo M. <jalexcam@gmail.com>
+ * @link        https://lenevor.com 
+ * @copyright   Copyright (c) 2019 Lenevor Framework 
+ * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
+ * @since       0.3.0
+ */
+
+namespace Syscode\Support\Chronos\Traits;
+
+use DateTime;
+use DateInterval;
+use IntlCalendar;
+use IntlDateFormatter;
+
+/**
+ * A localized date/time package inspired
+ * by Nesbot/Carbon.
+ * 
+ * A simple API extension for DateTime.
+ * 
+ * Requires the intl PHP extension.
+ * 
+ * @method now($timezone = null, string $locale = null)    Returns a new Time instance with the timezone
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ */
+trait Date
+{
+    use Factory;
+
+    /**
+     * Identifier used to get language.
+     * 
+     * @var string $locale
+     */
+    protected $locale;
+
+    /**
+	 * Used to check time string to determine if it is relative time or not.
+	 *
+	 * @var string $relativePattern
+	 */
+    protected static $relativePattern = '/this|next|last|tomorrow|yesterday|midnight|today|[+-]|first|last|ago/i';
+    
+    /**
+     * @var \Syscode\Support\Chronos\Date $testNow
+     */
+    protected static $testNow;
+
+    /**
+     * Get a timezone.
+     * 
+     * @var string $timezone
+     */
+    protected $timezone;
+
+    /**
+     * Format to use when displaying datetime through __toString.
+     * 
+     * @var string $toStringFormat
+     */
+    protected $toStringFormat = 'yyyy-MM-dd HH:mm:ss';
+    
+    /**
+     * Returns the name of the current timezone.
+     * 
+     * @return string
+     */
+    public function getTimezoneName()
+    {
+        return $this->timezone->getName();
+    }
+
+    /**
+     * Get the locale of system.
+     * 
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+}
