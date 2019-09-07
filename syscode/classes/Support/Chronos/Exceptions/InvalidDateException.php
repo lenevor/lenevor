@@ -22,7 +22,7 @@
  * @since       0.3.0
  */
 
-namespace Syscode\Support\Chronos\Exceptions;
+namespace Syscode\Support\Time\Exceptions;
 
 use Exception;
 use InvalidArgumentException;
