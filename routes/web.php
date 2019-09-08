@@ -1,5 +1,7 @@
 <?php
 
+use Syscode\Support\Facades\Date;
+
 /*
 |------------------------------------------------------------------------- 
 | Web Routes
@@ -15,4 +17,4 @@ Route::get('/', function () {
 	return view('welcome');
 });
 
-Route::get('/home', 'welcome:index');
+Route::get('/home', 'welcome@index');
