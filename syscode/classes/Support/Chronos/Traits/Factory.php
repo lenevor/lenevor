@@ -98,10 +98,52 @@ trait Factory
      * @param  string|null  $timezone
      * @param  string|null  $locale
      * 
-     * @return \Syscode\Support\Chronos\Date
+     * @return \Syscode\Support\Chronos\Time
      */
     public static function now($timezone = null, string $locale = null)
     {
         return new static(null, $timezone, $locale);
     }
+
+    /**
+     * Returns a new Time instance while parsing a datetime string.
+     * 
+     * @param  string       $time
+     * @param  string|null  $timezone
+     * @param  string|null  $locale
+     * 
+     * @return \Syscode\Support\Chronos\Time
+     */
+    public static function parse(string $time, $timezone = null, string $locale = null)
+    {
+        return new static($time, $timezone, $locale);
+    }
+
+    /**
+     * Return a new time with the time set to midnight.
+     * 
+     * @param  string|null  $timezone
+     * @param  string|null  $locale
+     * 
+     * @return \Syscode\Support\Chronos\Time
+     */
+    public static function today($timezone = null, string $locale = null)
+    {
+        return new static(date('Y-m-d 00:00:00'), $timezone, $locale);
+    }
+    
+    /**
+     * Returns an instance set to midnight yesterday morning.
+     * 
+     * @param  string|null  $timezone
+     * @param  string|null  $locale
+     * 
+     * @return \Syscode\Support\Chronos\Time
+     */
+    public static function yesterday($timezone = null, string $locale = null)
+	{
+		return new static(date('Y-m-d 00:00:00', strtotime('-1 day')), $timezone, $locale);
+    }
+    
+    
 }
