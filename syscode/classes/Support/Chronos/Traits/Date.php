@@ -97,4 +97,27 @@ trait Date
     {
         return $this->locale;
     }
+
+    /**
+     * Converts the current instance to a mutable DateTime object.
+     * 
+     * @return \DateTime
+     */
+    public function toDateTime()
+    {
+        $dateTime = new DateTime(null, $this->getTimezone());
+        $dateTime->setTimestamp(parent::getTimestamp());
+        
+        return $dateTime;
+    }
+    
+    /**
+     * Outputs a short format version of the datetime.
+     * 
+     * @return string
+     */
+    public function __toString()
+    {
+        return IntlDateFormatter::formatObject($this->toDateTime(), $this->toStringFormat, $this->locale);
+    }
 }
