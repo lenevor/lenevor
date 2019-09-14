@@ -88,7 +88,7 @@
 		
 		<div class="copy">
 			Displayed at <?= date('H:i:sa') ?> &mdash;
-			Php <?= phpversion() ?> &mdash;			
+			PHP <?= phpversion() ?> &mdash;			
 			<?= \Syscode\Version::shortVersion() ?>
 		</div>
 
