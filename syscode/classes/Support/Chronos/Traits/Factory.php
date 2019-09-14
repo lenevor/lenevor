@@ -129,7 +129,7 @@ trait Factory
      */
     public static function today($timezone = null, string $locale = null)
     {
-        return new static(date('Y-m-d 00:00:00'), $timezone, $locale);
+        return static::parse(date('Y-m-d 00:00:00'), $timezone, $locale);
     }
     
     /**
@@ -142,7 +142,7 @@ trait Factory
      */
     public static function yesterday($timezone = null, string $locale = null)
 	{
-		return new static(date('Y-m-d 00:00:00', strtotime('-1 day')), $timezone, $locale);
+		return static::parse(date('Y-m-d 00:00:00', strtotime('-1 day')), $timezone, $locale);
     }
     
     
