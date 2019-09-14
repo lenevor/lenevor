@@ -110,6 +110,25 @@ trait Date
         
         return $dateTime;
     }
+
+    /**
+     * Allow for property-type access to any getX method.
+     * 
+     * @param  string  $name
+     * 
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        $method = 'get'.ucfirst($name);
+
+        if (method_exists($this, $method))
+        {
+            return $this->$method();
+        }
+
+        return null;
+    }
     
     /**
      * Outputs a short format version of the datetime.
