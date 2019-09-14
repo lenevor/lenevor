@@ -25,7 +25,6 @@
 namespace Syscode\Support\Chronos\Traits;
 
 use Locale;
-use DateTime;
 use DateTimeZone;
 
 /**
@@ -65,14 +64,14 @@ trait Factory
 		{
 			if (is_string($time) && static::hasRelativeKeywords($time))
 			{
-				$dateTime = new DateTime('now', $this->timezone);
+				$dateTime = parent::__construct('now', $this->timezone);
 				$dateTime->modify($time);
 
 				$time = $dateTime->format('Y-m-d H:i:s');
 			}
         }
         
-        return parent::__construct($time ?: 'now', $this->timezone);
+        return parent::__construct($time, $this->timezone);
     }
     
     /**
@@ -144,6 +143,144 @@ trait Factory
 	{
 		return static::parse(date('Y-m-d 00:00:00', strtotime('-1 day')), $timezone, $locale);
     }
-    
-    
+
+    /**
+     * Returns an instance set to midnight tomorrow morning.
+     * 
+     * @param  string|null  $timezone
+     * @param  string|null  $locale
+     * 
+     * @return \Syscode\Support\Chronos\Time
+     */
+    public static function tomorrow($timezone = null, string $locale = null)
+	{
+		return static::parse(date('Y-m-d 00:00:00', strtotime('+1 day')), $timezone, $locale);
+    }
+
+    /**
+     * Returns a new instance based on the year, month and day. 
+     * If any of those three are left empty, will default to the current value.
+     * 
+     * @param  int|null     $year
+     * @param  int|null     $month
+     * @param  int|null     $day
+     * @param  string|null  $timezone
+     * @param  string|null  $locale
+     * 
+     * @return \Syscode\Support\Chronos\Time
+     */
+    public static function createFromDate(
+        int $year      = null, 
+        int $month     = null, 
+        int $day       = null, 
+        $timezone      = null, 
+        string $locale = null
+    ) {
+        return static::create($year, $month, $day, null, null, null, $timezone, $locale);
+    }
+
+    /**
+     * Returns a new instance with the date set to today, and 
+     * the time set to the values passed in.
+     * 
+     * @param  int|null     $hour
+     * @param  int|null     $minutes
+     * @param  int|null     $seconds
+     * @param  string|null  $timezone
+     * @param  string|null  $locale
+     * 
+     * @return \Syscode\Support\Chronos\Time
+     */
+    public static function createFromTime(
+        int $hour      = null, 
+        int $minutes   = null,
+        int $seconds   = null,
+        $timezone      = null,
+        string $locale = null
+    ) {
+        return static::create(null, null, null, $hour, $minutes, $seconds, $timezone, $locale);
+    }
+
+    /**
+     * Returns a new instance with the date time values individually set.
+     * 
+     * @param  int|null     $year
+     * @param  int|null     $month
+     * @param  int|null     $day
+     * @param  int|null     $hour
+     * @param  int|null     $minutes
+     * @param  int|null     $seconds
+     * @param  string|null  $timezone
+     * @param  string|null  $locale
+     * 
+     * @return \Syscode\Support\Chronos\Time
+     */
+    public static function create(
+        int $year      = null, 
+        int $month     = null, 
+        int $day       = null, 
+        int $hour      = null, 
+        int $minutes   = null,
+        int $seconds   = null,
+        $timezone      = null,
+        string $locale = null
+    ) {
+        $year    = is_null($year) ? date('Y') : $year;
+        $month   = is_null($month) ? date('m') : $month;
+        $day     = is_null($day) ? date('d') : $day;
+        $hour    = empty($hour) ? 0 : $hour;
+        $minutes = empty($minutes) ? 0 : $minutes;
+        $seconds = empty($seconds) ? 0 : $seconds;
+
+        return static::parse(date('Y-m-d H:i:s', strtotime("{$year}-{$month}-{$day} {$hour}:{$minutes}:{$seconds}")), $timezone, $locale);
+    }
+
+    /**
+     * Provides a replacement for DateTime’s method of the same name.
+     * This allows the timezone to be set at the same time, and returns 
+     * a Time instance, instead of DateTime.
+     * 
+     * @param  string                     $format
+     * @param  string                     $datetime
+     * @param  \DateTimeZone|string|null  $timezone
+     * 
+     * @return \Syscode\Support\Chronos\Time
+     */
+    public static function createFromFormat($format, $datetime, $timezone = null)
+    {
+        $date = parent::createFromFormat($format, $datetime);
+
+        return static::parse($date->format('Y-m-d H:i:s'), $timezone);
+    }
+
+    /**
+     * Returns a new instance with the datetime set based on the provided UNIX timestamp.
+     * 
+     * @param  int          $timestamp
+     * @param  string|null  $timezone
+     * @param  string|null  $locale+
+     * 
+     * @return \Syscode\Support\Chronos\Time
+     */
+    public static function createFromTimestamp(int $timestamp, $timezone = null, string $locale = null)
+    {
+        return static::parse(date('Y-m-d H:i:s', $timestamp), $timezone, $locale);
+    }
+
+    /**
+     * Takes an instance of DateTime and returns an instance 
+     * of Time with it's same values.
+     * 
+     * @param  \DateTime    $dateTime
+     * @param  string|null  $locale
+     * 
+     * @return \Syscode\Support\Chronos\Time
+     */
+    public static function instance($dateTime, string $locale = null)
+    {
+        $date     = $dateTime->format('Y-m-d H:i:s');
+        $timezone = $dateTime->getTimezone();
+
+        return static::parse($date, $timezone, $locale);
+    }
 }
