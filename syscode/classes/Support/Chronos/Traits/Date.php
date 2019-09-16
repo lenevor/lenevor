@@ -37,13 +37,18 @@ use IntlDateFormatter;
  * 
  * Requires the intl PHP extension.
  * 
- * @method now($timezone = null, string $locale = null)    Returns a new Time instance with the timezone
+ * @method now($timezone = null, string $locale = null)            Returns a new Time instance with the timezone
+ * @method today($timezone = null, string $locale = null)          Return a new time with the time set to midnight.
+ * @method yesterday($timezone = null, string $locale = null)      Returns an instance set to midnight yesterday morning. 
+ * @method tomorrow($timezone = null, string $locale = null)       Returns an instance set to midnight tomorrow morning.
+ * 
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 trait Date
 {
     use Factory;
+    use Schedule;
 
     /**
      * Identifier used to get language.
@@ -105,10 +110,23 @@ trait Date
      */
     public function toDateTime()
     {
-        $dateTime = new DateTime(null, $this->getTimezone());
-        $dateTime->setTimestamp(parent::getTimestamp());
+        $datetime = (new DateTime(null, $this->getTimezone()))::setTimestamp(parent::getTimestamp());
         
-        return $dateTime;
+        return $datetime;
+    }
+
+    /**
+     * Returns the localized value of this instance in a format specific by the user.
+     * 
+     * @param  string|null  $format
+     * 
+     * @return string|bool
+     */
+    public function toLocalizedFormatter(?string $format = null)
+    {
+        $format = $format ?? $this->$toStringFormat;
+
+        return IntlDateFormatter::formatObject($this->toDateTime(), $format, $this->locale);
     }
 
     /**
