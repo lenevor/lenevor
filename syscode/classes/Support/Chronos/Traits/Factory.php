@@ -25,6 +25,7 @@
 namespace Syscode\Support\Chronos\Traits;
 
 use Locale;
+use DateTime;
 use DateTimeZone;
 
 /**
@@ -271,16 +272,57 @@ trait Factory
      * Takes an instance of DateTime and returns an instance 
      * of Time with it's same values.
      * 
-     * @param  \DateTime    $dateTime
+     * @param  \DateTime    $datetime
      * @param  string|null  $locale
      * 
      * @return \Syscode\Support\Chronos\Time
      */
-    public static function instance($dateTime, string $locale = null)
+    public static function instance($datetime, string $locale = null)
     {
-        $date     = $dateTime->format('Y-m-d H:i:s');
-        $timezone = $dateTime->getTimezone();
+        $date     = $datetime->format('Y-m-d H:i:s');
+        $timezone = $datetime->getTimezone();
 
         return static::parse($date, $timezone, $locale);
+    }
+
+    /**
+     * Creates an instance of Time that will be returned during testing
+	 * when calling 'Time::now' instead of the current time.
+     * 
+     * @param  \Syscode\Support\Chronos\Time|string  $datetime
+     * @param  string|null                           $timezone
+     * @param  string|null                           $locale
+     * 
+     * @return static
+     */
+    public static function setTestNow($datetime = null, $timezone = null, string $locale = null)
+    {
+        if (null === $datetime)
+        {
+            static::$testNow = null;
+
+            return;
+        }
+
+        if (is_string($datetime))
+        {
+            $time = static::parse($datetime, $timezone, $locale);
+        }
+        elseif ($datetime instanceof DateTime && ! $datetime instanceof static)
+        {
+            $time = static::parse($datetime->format('Y-m-d H:i:s'), $timezone);
+        }
+
+        static::$testNow = $time;
+    }
+
+    /**
+     * Returns whether we have a testNow instance saved.
+     * 
+     * @return bool
+     */
+    public static function hasTestNow()
+    {
+        return ! is_null(static::$testNow);
     }
 }
