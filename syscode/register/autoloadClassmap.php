@@ -150,6 +150,7 @@ return [
     'Syscode\\Support\\Chronos\\Traits\\Date' => SYS_PATH.'classes/Support/Chronos/Traits/Date.php',
     'Syscode\\Support\\Chronos\\Traits\\Difference' => SYS_PATH.'classes/Support/Chronos/Traits/Difference.php',
     'Syscode\\Support\\Chronos\\Traits\\Factory' => SYS_PATH.'classes/Support/Chronos/Traits/Factory.php',
+    'Syscode\\Support\\Chronos\\Traits\\Schedule' => SYS_PATH.'classes/Support/Chronos/Traits/Schedule.php',
     'Syscode\\Support\\Chronos\\Time' => SYS_PATH.'classes/Support/Chronos/Time.php',
     'Syscode\\Support\\Facades\\App' => SYS_PATH.'classes/Support/Facades/App.php',
     'Syscode\\Support\\Facades\\Cache' => SYS_PATH.'classes/Support/Facades/Cache.php',
