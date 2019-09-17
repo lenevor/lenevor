@@ -24,6 +24,9 @@
 
 namespace Syscode\Support\Chronos\Traits;
 
+use InvalidArgumentException;
+use Syscode\Support\Chronos\Exceptions\InvalidDateTimeException;
+
 /**
  * Trait Schedule.
  * 
@@ -133,5 +136,104 @@ trait Schedule
     public function getWeekOfYear()
     {
         return $this->toLocalizedFormatter('w');
+    }
+
+    /**
+     * Returns the age in years from the "current" date and 'now'.
+     * 
+     * @return int
+     */
+    public function getAge()
+    {
+        $now  = static::now()->getTimestamp();
+        $time = $this->getTimestamp();
+
+        return max(0, date('Y', $now) - date('Y', $time));
+    }
+
+    /**
+     * Allows to know if we are in daylight savings.
+     * 
+     * @return bool
+     */
+    public function getDst()
+    {
+        $start       = strtotime('-1 year', $this->getTimestamp());
+        $end         = strtotime('+2 year', $start);
+        $transitions = $this->timezone->getTransitions($start, $end);
+
+        $dayLightSaving = false;
+
+        foreach ($transitions as $transition)
+        {
+            if ($transition['time'] > $this->format('U'))
+            {
+               $dayLightSaving = (bool) $transition['isdst'] ?? $dayLightSaving;
+            }
+        }
+
+        return $dayLightSaving;
+    }
+
+    /**
+     * Returns the number of the current quarter for the year.
+     * 
+     * @return string
+     */
+    public function getQuater()
+    {
+        return $this->toLocalizedFormatter('Q');
+    }
+
+    // Setters
+
+    /**
+     * Sets the localized Year.
+     * 
+     * @return string
+     */
+    public function setYear($value)
+    {
+        return $this->setValue('year', $value);
+    }
+    
+    /**
+     * Sets the localized month in the year.
+     * 
+     * @return string
+     */
+    public function setMonth($value)
+    {
+        if (is_numeric($value) && $value < 1 || $value > 12)
+        {
+            throw new InvalidDateTimeException("Months must be between 1 and 12. Given: {$value}");
+        }
+        
+        if (is_string($value) && ! is_numeric($value))
+        {
+            $value = date('m', strtotime("{$value} 1 2017"));
+        }
+        
+        return $this->setValue('month', $value);
+    }
+
+    /**
+     * Sets the localized day in the month.
+     * 
+     * @return string
+     */
+    public function setDay($value)
+    {
+        return $this->setValue('day', $value);
+    }
+
+    /**
+     * Sets the localized day in the month.
+     * 
+     * @return string
+     */
+    public function setHour($value)
+    {
+        return $this->setValue('Hour', $value);
     }
 }
