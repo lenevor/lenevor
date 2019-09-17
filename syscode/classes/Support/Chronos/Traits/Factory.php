@@ -65,7 +65,7 @@ trait Factory
 		{
 			if (is_string($time) && static::hasRelativeKeywords($time))
 			{
-				$dateTime = parent::__construct('now', $this->timezone);
+				$dateTime = new DateTime('now', $this->timezone);
 				$dateTime->modify($time);
 
 				$time = $dateTime->format('Y-m-d H:i:s');
