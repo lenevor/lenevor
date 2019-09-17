@@ -94,6 +94,16 @@ trait Date
     }
 
     /**
+     * Returns boolean whether object is in UTC.
+     * 
+     * @return bool
+     */
+    public function getUtc()
+    {
+        return $this->getOffset() === 0;
+    }
+
+    /**
      * Get the locale of system.
      * 
      * @return string
@@ -101,6 +111,37 @@ trait Date
     public function getLocale()
     {
         return $this->locale;
+    }
+
+    /**
+     * Returns boolean whether the passed timezone is the same as
+	 * the local timezone.
+     * 
+     * @return bool
+     */
+    public function getLocalized()
+    {
+        $local = date_default_timezone_get();
+
+        return $local === $this->getTimezoneName();
+    }
+
+    /**
+     * Helper method to capture the data of reference of the 'setX' methods.
+     * 
+     * @param  string  $name
+     * @param  string  $value
+     * 
+     * @return \Syscode\Support\Chronos\Time;
+     */
+    protected function setValue(string $name, $value)
+    {
+        list($year, $month, $day, $hour, $minute, $second) = explode('-', $this->format('Y-n-j-G-i-s'));
+        $$name                                             = $value;
+
+        return static::create(
+            $year, $month, $day, $hour, $minute, $second, $this->getTimezoneName(), $this->locale
+        );
     }
 
     /**
