@@ -24,11 +24,27 @@
 
 namespace Syscode\Support\Chronos\Exceptions;
 
+use Exception;
 use InvalidArgumentException;
 
 /**
- * Invalid date exception.
+ * Invalid datetime exception.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class InvalidDateTimeException extends InvalidArgumentException {}
+class InvalidDateTimeException extends InvalidArgumentException
+{
+    /**
+     * Constructor. The InvalidDateTimeException class instance.
+     * 
+     * @param  string           $message
+     * @param  int              $code
+     * @param  \Exception|null  $previous 
+     * 
+     * @return void
+     */
+    public function __construct(string $message, int $code = 0, Exception $previous = null)
+    {
+        return parent::__construct($message, $code, $previous);
+    }
+}
