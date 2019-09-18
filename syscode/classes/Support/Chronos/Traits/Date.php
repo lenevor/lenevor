@@ -132,7 +132,7 @@ trait Date
      * @param  string  $name
      * @param  string  $value
      * 
-     * @return \Syscode\Support\Chronos\Time;
+     * @return \Syscode\Support\Chronos\Time
      */
     protected function setValue(string $name, $value)
     {
