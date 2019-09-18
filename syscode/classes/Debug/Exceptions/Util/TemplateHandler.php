@@ -156,7 +156,7 @@ class TemplateHandler
 	/**
 	 * Format the args of the given Frame as a human readable html string.
 	 * 
-	 * @param  Frame  $frame
+	 * @param  \Syscode\Debug\FrameHandler\Frame  $frame
 	 * 
 	 * @return string  The rendered html
 	 */
