@@ -24,7 +24,6 @@
 
 namespace Syscode\Support\Chronos\Traits;
 
-use InvalidArgumentException;
 use Syscode\Support\Chronos\Exceptions\InvalidDateTimeException;
 
 /**
@@ -190,7 +189,11 @@ trait Schedule
     /**
      * Sets the localized Year.
      * 
-     * @return string
+     * @param  string  $value
+     * 
+     * @return \Syscode\Support\Chronos\Time
+     * 
+     * @throws \Syscode\Support\Chronos\Exceptions\InvalidDateTimeException
      */
     public function setYear($value)
     {
@@ -200,7 +203,11 @@ trait Schedule
     /**
      * Sets the localized month in the year.
      * 
-     * @return string
+     * @param  string  $value
+     * 
+     * @return \Syscode\Support\Chronos\Time
+     * 
+     * @throws \Syscode\Support\Chronos\Exceptions\InvalidDateTimeException
      */
     public function setMonth($value)
     {
@@ -220,20 +227,84 @@ trait Schedule
     /**
      * Sets the localized day in the month.
      * 
-     * @return string
+     * @param  string  $value
+     * 
+     * @return \Syscode\Support\Chronos\Time
+     * 
+     * @throws \Syscode\Support\Chronos\Exceptions\InvalidDateTimeException
      */
     public function setDay($value)
     {
+        if ($value < 1 || $value > 31)
+        {
+            throw new InvalidDateTimeException("Days must be between 1 and 31. Given: {$value}");
+        }
+        
+        $date    = $this->getYear().'-'.$this->getMonth();
+        $lastDay = date('t', strtotime($date));
+        
+        if ($value > $lastDay)
+        {
+            throw new InvalidDateTimeException("Days must be between 1 and {$lastDay}. Given: {$value}");
+        }
+
         return $this->setValue('day', $value);
     }
 
     /**
-     * Sets the localized day in the month.
+     * Sets the hour of the day (24 hour cycle).
      * 
-     * @return string
+     * @param  string  $value
+     * 
+     * @return \Syscode\Support\Chronos\Time
+     * 
+     * @throws \Syscode\Support\Chronos\Exceptions\InvalidDateTimeException
      */
     public function setHour($value)
     {
-        return $this->setValue('Hour', $value);
+        if ($value < 0 || $value > 23)
+        {
+            throw new InvalidDateTimeException("Hours must be between 0 and 23. Given: {$value}");
+        }
+
+        return $this->setValue('hour', $value);
+    }
+
+    /**
+     * Sets the minute of the hour.
+     * 
+     * @param  string  $value
+     * 
+     * @return \Syscode\Support\Chronos\Time
+     * 
+     * @throws \Syscode\Support\Chronos\Exceptions\InvalidDateTimeException
+     */
+    public function setMinute($value)
+    {
+        if ($value < 0 || $value > 59)
+        {
+            throw new InvalidDateTimeException("Minutes must be between 0 and 59. Given: {$value}");
+        }
+
+        return $this->setValue('minute', $value);
+    }
+
+    /**
+     * Sets the second of the minute.
+     * 
+     * @param  string  $value
+     * 
+     * @return \Syscode\Support\Chronos\Time
+     * 
+     * @throws \Syscode\Support\Chronos\Exceptions\InvalidDateTimeException
+     */
+    public function setSecond($value)
+    {
+        if ($value < 0 || $value > 59)
+        {
+            throw new InvalidDateTimeException("Seconds must be between 0 and 59. Given: {$value}");
+        }
+
+        return $this->setValue('second', $value);
     }
 }
