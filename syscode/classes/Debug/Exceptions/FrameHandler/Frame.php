@@ -118,7 +118,7 @@ class Frame implements Serializable
      */
     public function getArgs()
     {
-        return isset($this->frame['args']) ? $this->frame['args'] : null;
+        return isset($this->frame['args']) ? (array) $this->frame['args'] : [];
     }
 
     /**
