@@ -24,6 +24,7 @@
 
 namespace Syscode\Support\Chronos\Traits;
 
+use DateInterval;
 use Syscode\Support\Chronos\Exceptions\InvalidDateTimeException;
 
 /**
@@ -306,5 +307,17 @@ trait Schedule
         }
 
         return $this->setValue('second', $value);
+    }
+
+    // ADD|SUBTRACT
+
+    /**
+     * 
+     */
+    public function addSeconds(int $seconds)
+    {
+        $time = clone($this);
+
+        return $time->add(DateInterval::createFromDateString("{$seconds} seconds"));
     }
 }
