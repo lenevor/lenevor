@@ -37,7 +37,7 @@ trait InteractsWithTime
     /**
      * Get the number of seconds until the given DateTime.
      * 
-     * @param  \DateTime|DateInterval|int  $delay
+     * @param  \DateTime|\DateInterval|int  $delay
      * 
      * @return int
      */
@@ -45,7 +45,7 @@ trait InteractsWithTime
     {
         $delay = $this->parseDateInterval($delay);
 
-        return $delay instanceof Datetime
+        return $delay instanceof DateTime
                             ? max(0, $delay->getTimestamp() - $this->currentTime())
                             : (int) $delay;
     }
@@ -53,7 +53,7 @@ trait InteractsWithTime
     /**
      * Get the "available at" UNIX timestamp.
      * 
-     * @param  \DataTime|int  $delay  (0 by default)
+     * @param  \DataTime|\DateInterval|int  $delay  (0 by default)
      * 
      * @return int
      */
@@ -63,7 +63,7 @@ trait InteractsWithTime
 
         return $delay instanceof DateTime
                             ? $delay->getTimestamp()
-                            : $this->addRealSeconds($delay)->getTimestamp();
+                            : Chronos::now()->addRealSeconds($delay)->getTimestamp();
     }
 
     /**
@@ -77,7 +77,7 @@ trait InteractsWithTime
     {
         if ($delay instanceof DateInterval)
         {
-            $delay = (new DateTime)->add($delay);
+            $delay = Chronos::now()->add($delay);
         }
 
         return $delay;
@@ -90,7 +90,7 @@ trait InteractsWithTime
      */
     protected function currentTime()
     {
-        return (new DateTime)->getTimestamp();
+        return Chronos::now()->getTimestamp();
     }
 
     /**
@@ -102,8 +102,6 @@ trait InteractsWithTime
      */
     public function addRealSeconds($value)
     {
-        $dateTime = new DateTime;
-
-        return $dateTime->setTimestamp($dateTime->getTimestamp() + $value);
+        return Chronos::now()->setTimestamp(Chronos::now()->getTimestamp() + $value);
     }
 }
