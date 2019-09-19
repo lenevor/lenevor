@@ -25,7 +25,6 @@
 namespace Syscode\Support\Chronos\Traits;
 
 use DateTime;
-use DateInterval;
 use IntlCalendar;
 use IntlDateFormatter;
 
@@ -82,6 +81,8 @@ trait Date
      * @var string $toStringFormat
      */
     protected $toStringFormat = 'yyyy-MM-dd HH:mm:ss';
+
+    // Getters
     
     /**
      * Returns the name of the current timezone.
@@ -126,6 +127,34 @@ trait Date
         return $local === $this->getTimezoneName();
     }
 
+    // Setters
+
+    /**
+     * Returns a new instance with the timezone.
+     * 
+     * @param  \DateTimeZone  $timezone
+     * 
+     * @return \Syscode\Support\Chronos\Time
+     */
+    public function setTimezone($timezone)
+    {
+        return static::parse($this->toDateTimeString(), $timezone, $this->locale);
+    }
+
+    /**
+     * Returns a new instance with the date set to the new timestamp.
+     * 
+     * @param  int  $timestamp
+     * 
+     * @return \Syscode\Support\Chronos\Time
+     */
+    public function setTimestamp($timestamp)
+    {
+        $time = date('Y-m-d H:i:s', $timestamp);
+
+        return static::parse($time, $this->timezone, $this->locale);
+    }
+
     /**
      * Helper method to capture the data of reference of the 'setX' methods.
      * 
@@ -154,6 +183,48 @@ trait Date
         $datetime = (new DateTime(null, $this->getTimezone()))::setTimestamp(parent::getTimestamp());
         
         return $datetime;
+    }
+
+    /**
+     * Returns the localized value of the date in the format 'Y-m-d H:i:s'.
+     * 
+     * @return string
+     */
+    public function toDateTimeString()
+    {
+        return $this->toLocalizedFormatter('yyyy-MM-dd HH:mm:ss');
+    }
+
+    /**
+     * Returns a localized version of the date in Y-m-d format.
+     * 
+     * i.e. Oct 9, 2019
+     */
+    public function toFormattedDateString()
+    {
+        return $this->toLocalizedFormatter('MMM d, yyyy');
+    }
+
+    /**
+     * Returns a localized version of the date in Y-m-d format.
+     * 
+     * @return string
+     */
+    public function toDateString()
+    {
+        return $this->toLocalizedFormatter('yyyy-MM-dd');
+    }
+
+     /**
+     * Returns a localized version of the time in nicer date format.
+     * 
+     * i.e. 10:20:33
+     * 
+     * @return string
+     */
+    public function toTimeString()
+    {
+        return $this->toLocalizedFormatter('HH:mm:ss');
     }
 
     /**
