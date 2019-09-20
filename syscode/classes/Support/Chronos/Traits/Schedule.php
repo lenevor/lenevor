@@ -214,7 +214,7 @@ trait Schedule
     {
         if (is_numeric($value) && $value < 1 || $value > 12)
         {
-            throw new InvalidDateTimeException("Months must be between 1 and 12. Given: {$value}");
+            throw new InvalidDateTimeException(__('time.invalidMonth', [$value]));
         }
         
         if (is_string($value) && ! is_numeric($value))
@@ -238,7 +238,7 @@ trait Schedule
     {
         if ($value < 1 || $value > 31)
         {
-            throw new InvalidDateTimeException("Days must be between 1 and 31. Given: {$value}");
+            throw new InvalidDateTimeException("Days must be between 1 and 31. You have erroneously placed: {0}");
         }
         
         $date    = $this->getYear().'-'.$this->getMonth();
@@ -309,15 +309,173 @@ trait Schedule
         return $this->setValue('second', $value);
     }
 
-    // ADD|SUBTRACT
+    // Add|Subtract
 
     /**
+     * Returns a new Time instance with hours added to the time.
      * 
+     * @param  int  $hours
+     * 
+     * @return static
+     */
+    public function addHours(int $hours)
+    {
+        $time = clone($this);
+
+        return $time->add(DateInterval::createFromDateString("{$hours} hours"));
+    }
+
+    /**
+     * Returns a new Time instance with minutes added to the time.
+     * 
+     * @param  int  $minutes
+     * 
+     * @return static
+     */
+    public function addMinutes(int $minutes)
+    {
+        $time = clone($this);
+
+        return $time->add(DateInterval::createFromDateString("{$minutes} minutes"));
+    }
+
+    /**
+     * Returns a new Time instance with seconds added to the time.
+     * 
+     * @param  int  $seconds
+     * 
+     * @return static
      */
     public function addSeconds(int $seconds)
     {
         $time = clone($this);
 
         return $time->add(DateInterval::createFromDateString("{$seconds} seconds"));
+    }
+
+    /**
+     * Returns a new Time instance with years added to the time.
+     * 
+     * @param  int  $years
+     * 
+     * @return static
+     */
+    public function addYears(int $years)
+    {
+        $time = clone($this);
+
+        return $time->add(DateInterval::createFromDateString("{$years} years"));
+    }
+
+    /**
+     * Returns a new Time instance with months added to the time.
+     * 
+     * @param  int  $months
+     * 
+     * @return static
+     */
+    public function addMonths(int $months)
+    {
+        $time = clone($this);
+
+        return $time->add(DateInterval::createFromDateString("{$months} months"));
+    }
+
+    /**
+     * Returns a new Time instance with days added to the time.
+     * 
+     * @param  int  $days
+     * 
+     * @return static
+     */
+    public function addDays(int $days)
+    {
+        $time = clone($this);
+
+        return $time->add(DateInterval::createFromDateString("{$days} days"));
+    }
+
+    /**
+     * Returns a new Time instance with hours subtracted from the time.
+     * 
+     * @param  int  $hours
+     * 
+     * @return static
+     */
+    public function subHours(int $hours)
+    {
+        $time = clone($this);
+
+        return $time->sub(DateInterval::createFromDateString("{$hours} hours"));
+    }
+
+    /**
+     * Returns a new Time instance with minutes subtracted from the time.
+     * 
+     * @param  int  $minutes
+     * 
+     * @return static
+     */
+    public function subMinutes(int $minutes)
+    {
+        $time = clone($this);
+
+        return $time->sub(DateInterval::createFromDateString("{$minutes} minutes"));
+    }
+
+    /**
+     * Returns a new Time instance with seconds subtracted from the time.
+     * 
+     * @param  int  $seconds
+     * 
+     * @return static
+     */
+    public function subSeconds(int $seconds)
+    {
+        $time = clone($this);
+
+        return $time->sub(DateInterval::createFromDateString("{$seconds} seconds"));
+    }
+
+    /**
+     * Returns a new Time instance with years subtracted from the time.
+     * 
+     * @param  int  $years
+     * 
+     * @return static
+     */
+    public function subYears(int $years)
+    {
+        $time = clone($this);
+
+        return $time->sub(DateInterval::createFromDateString("{$years} years"));
+    }
+
+    /**
+     * Returns a new Time instance with months subtracted from the time.
+     * 
+     * @param  int  $months
+     * 
+     * @return static
+     */
+    public function subMonths(int $months)
+    {
+        $time = clone($this);
+
+        return $time->sub(DateInterval::createFromDateString("{$months} months"));
+    }
+
+    /**
+     * Returns a new Time instance with days subtracted from the time.
+     * 
+     * @param  int  $days
+     * 
+     * @return static
+     */
+    public function subDays(int $days)
+    {
+        $time = clone($this);
+
+        return $time->sub(DateInterval::createFromDateString("{$days} days"));
     }
 }
