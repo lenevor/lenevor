@@ -142,8 +142,8 @@ ol {
 /* HEADER */
 
 header {
-    background-image: linear-gradient(236deg, rgb(30, 41, 59), rgb(30, 42, 51));
-    box-shadow: inset 0 -5px 3px -3px rgba(150, 109, 109, 0.09), inset 0 -1px 0 rgba(0, 0, 0, 0.09);
+    background-image: linear-gradient(236deg, rgb(245, 245, 245), rgb(248, 248, 248));
+    box-shadow: inset 0 -5px 3px -3px rgba(54, 46, 46, 0.09), inset 0 -1px 0 rgba(99, 88, 88, 0.09);
     box-sizing: border-box;
     color: rgb(114, 114, 114);
     font-size: var(--font-size-medium-xx);
@@ -180,7 +180,7 @@ header:hover h2 {
 }
 
 .exception-title h1 {
-    color: rgb(233, 83, 83); 
+    color: rgb(144, 139, 164); 
     display: inline;
     font-weight: 400;
 }
@@ -190,8 +190,8 @@ header:hover h2 {
 }
 
 .exception-message h2 {
-    color: var(--first-color);
-    font-weight: 400;
+    color: rgb(74, 71, 99);
+    font-weight: 600;
     line-height: 1em;
     margin-top: -3px;
     overflow: hidden;
@@ -252,10 +252,10 @@ header:hover h2 {
 /* FRAMES */
 
 .sidebar {
-    background: rgb(226, 226, 233);
-    border-bottom: solid 4px var(--border-color);
+    background: rgb(231, 231, 240);
+    border-bottom: solid 3px rgb(181, 179, 201);
     border-radius: 5px;
-    border-top: solid 4px var(--border-color);
+    border-top: solid 3px rgb(181, 179, 201);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.06), 1px 1px 0 rgba(0, 0, 0, 0.05), -1px 1px 0 rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.06);
     padding: 10px;
 }
@@ -272,7 +272,7 @@ header:hover h2 {
 }
 
 .frame-description.frame-description-application {
-    color: rgb(179, 179, 179);
+    color: rgb(182, 180, 197);
     display: flex;    
     font-size: var(--font-size-small-x);
     font-weight: bold;
@@ -509,10 +509,10 @@ header:hover h2 {
 .code-source {
     background: var(--first-color);
     border-radius: 5px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.06), 1px 1px 0 rgba(0, 0, 0, 0.06), -1px 1px 0 rgba(0, 0, 0, 0.06), 0 0 0 4px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 0 10px rgba(181, 179, 201, .6), 1px 1px 0 rgba(181, 179, 201, .06), -1px 1px 0 rgba(181, 179, 201, .06), 0 0 0 4px rgba(0, 0, 0, .06);
     display: none;
     margin-bottom: 50px;
-    padding: 10px;
+    padding: 0;
     position: relative;
 }
 
@@ -531,8 +531,7 @@ header:hover h2 {
     font-weight: 200;
     justify-content: space-between;
     height: 35px;
-    margin-left: -10px;
-    margin-top: -10px;
+    margin-bottom: 20px;
     padding: 10px;
     padding-right: 0;
     position: absolute;
@@ -540,7 +539,7 @@ header:hover h2 {
 }
 
 .title h4 {
-    color: rgb(105, 102, 102);
+    color: rgb(74, 71, 99);
     font-family: "Inconsolata", "Fira Mono", "Source Code Pro", Monaco, Consolas, "Lucida Console", monospace;
     font-size: var(--font-size-small-x);
     font-weight: 600;
@@ -560,17 +559,17 @@ header:hover h2 {
 }
 
 .source {
-    background: rgb(54, 52, 52);
+    background: var(--first-color);
     border-top: 0;
-    border-radius: 5px;
-    box-shadow: 0 1px 0 rgba(0, 0, 0, .02),
-                0 0 2px rgba(0, 0, 0, .3),
-                inset 0 0 1px 0 rgba(255, 255, 255, .07);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
     color: rgb(138, 135, 135);
-    margin-top: 35px;
     padding-bottom: 10px;
-    padding-top: 10px;
+    padding-top: 45px;
     text-shadow: none;
+    min-width: 100%;
 }
 
 pre, 
@@ -586,20 +585,20 @@ code,
 
 .source span.line {
     line-height: 1.5;
-    padding-left: 20px; 
+    padding-left: 15px; 
 }
 
 .source span.line .number {
-    color: rgb(172, 167, 167);
+    color: rgb(186, 182, 205);
     display: inline-table;
 }
 
 .source .line .highlight {
-    background: rgba(184, 69, 69, 0.3);
-    color: var(--first-color);
+    background: rgba(236, 211, 252, .6);
+    color: rgb(144, 139, 164);
     display: block; 
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 15px;
+    padding-right: 5px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: pre;
@@ -629,14 +628,14 @@ code {
 /* FRAME OF ARGUMENTS */
 .code-source .frame-file {
     border-bottom: none;
-    color: var(--code-color-highlight);
+    color: rgb(118, 113, 139);
+    padding-left: 15px;
     margin-left: 0;
-    margin-top: 10px;
+    padding-top: 10px;
     text-shadow: none;
 }
 
 .code-block {
-    border-radius: 5px;
     box-shadow: 0 0 2px rgba(0, 0, 0, .3), 0 10px 30px rgba(0, 0, 0, .05), inset 0 0 1px 0 rgba(255, 255, 255, .07);
     margin: 0;
     padding: 6px 0 12px;
