@@ -173,6 +173,8 @@ trait Date
         );
     }
 
+    // Formatters
+
     /**
      * Converts the current instance to a mutable DateTime object.
      * 
@@ -240,6 +242,8 @@ trait Date
 
         return IntlDateFormatter::formatObject($this->toDateTime(), $format, $this->locale);
     }
+
+    // Magic Methods
 
     /**
      * Allow for property-type access to any getX method.
