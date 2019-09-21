@@ -238,7 +238,7 @@ trait Schedule
     {
         if ($value < 1 || $value > 31)
         {
-            throw new InvalidDateTimeException("Days must be between 1 and 31. You have erroneously placed: {0}");
+            throw new InvalidDateTimeException(__('time.invalidDay', [$value]));
         }
         
         $date    = $this->getYear().'-'.$this->getMonth();
@@ -246,7 +246,7 @@ trait Schedule
         
         if ($value > $lastDay)
         {
-            throw new InvalidDateTimeException("Days must be between 1 and {$lastDay}. Given: {$value}");
+            throw new InvalidDateTimeException(__('time.invalidOverDay', [$lastDay, $value]));
         }
 
         return $this->setValue('day', $value);
@@ -265,7 +265,7 @@ trait Schedule
     {
         if ($value < 0 || $value > 23)
         {
-            throw new InvalidDateTimeException("Hours must be between 0 and 23. Given: {$value}");
+            throw new InvalidDateTimeException(__('time.invalidHour', [$value]));
         }
 
         return $this->setValue('hour', $value);
@@ -284,7 +284,7 @@ trait Schedule
     {
         if ($value < 0 || $value > 59)
         {
-            throw new InvalidDateTimeException("Minutes must be between 0 and 59. Given: {$value}");
+            throw new InvalidDateTimeException(__('time.invalidMinutes', [$value]));
         }
 
         return $this->setValue('minute', $value);
@@ -303,7 +303,7 @@ trait Schedule
     {
         if ($value < 0 || $value > 59)
         {
-            throw new InvalidDateTimeException("Seconds must be between 0 and 59. Given: {$value}");
+            throw new InvalidDateTimeException(__('time.invalidSeconds', [$value]));
         }
 
         return $this->setValue('second', $value);
