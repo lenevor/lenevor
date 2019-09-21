@@ -28,11 +28,11 @@ use Datetime;
 use IntlCalendar;
 
 /**
- * Trait TimeDifference.
+ * Trait Difference.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 trait Difference
 {
-
+    
 }
