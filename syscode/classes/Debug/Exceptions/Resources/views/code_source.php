@@ -27,7 +27,7 @@
     <?php $frameArgs = $template->dumpArgs($frame); ?>
     <?php if ($frameArgs): ?>
     <div class="frame-file">
-        <?= e(__('exception.arguments')) ?>
+        <?= e(__('exception.arguments')) ?> &darr;
     </div>
     <div id="frame-code-args-<?=$index?>" class="code-block frame-args">
         <?= $frameArgs ?>
