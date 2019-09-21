@@ -147,6 +147,7 @@ return [
     'Syscode\\Routing\\RoutingServiceProvider' => SYS_PATH.'classes/Routing/RoutingServiceProvider.php',
     'Syscode\\Routing\\UrlGenerator' => SYS_PATH.'classes/Routing/UrlGenerator.php',
     'Syscode\\Support\\Chronos\\Exceptions\\InvalidDateTimeException' => SYS_PATH.'classes/Support/Chronos/Exceptions/InvalidDateTimeException.php',
+    'Syscode\\Support\\Chronos\\Traits\\Comparison' => SYS_PATH.'classes/Support/Chronos/Traits/Comparison.php',
     'Syscode\\Support\\Chronos\\Traits\\Date' => SYS_PATH.'classes/Support/Chronos/Traits/Date.php',
     'Syscode\\Support\\Chronos\\Traits\\Difference' => SYS_PATH.'classes/Support/Chronos/Traits/Difference.php',
     'Syscode\\Support\\Chronos\\Traits\\Factory' => SYS_PATH.'classes/Support/Chronos/Traits/Factory.php',
