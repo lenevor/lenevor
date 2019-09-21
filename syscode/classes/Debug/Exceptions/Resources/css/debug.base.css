@@ -1,5 +1,5 @@
 :root {
-    --main-bg-color: rgb(240, 240, 240);
+    --main-bg-color: rgb(250, 250, 250);
     --first-color: rgb(255, 255, 255);
     --second-color: rgb(243, 243, 243);
     --thrid-color: rgb(145, 107, 37);
@@ -7,7 +7,7 @@
     --five-color: rgb(41, 196, 3);
     --body-color: rgb(27, 27, 27);
     --border-color: rgb(175, 18, 18);
-    --frame-color-menu: rgb(46, 135, 172);
+    --frame-color-menu: rgb(104, 108, 151);
     --code-color-highlight: rgb(42, 38, 38);
     --font-size-small: .8em;
     --font-size-small-x: .9em;
@@ -190,7 +190,7 @@ header:hover h2 {
 }
 
 .exception-message h2 {
-    color: rgb(74, 71, 99);
+    color: rgb(94, 90, 133);
     font-weight: 600;
     line-height: 1em;
     margin-top: -3px;
@@ -253,9 +253,9 @@ header:hover h2 {
 
 .sidebar {
     background: rgb(231, 231, 240);
-    border-bottom: solid 3px rgb(181, 179, 201);
+    border-bottom: solid 3px rgb(187, 185, 212);
     border-radius: 5px;
-    border-top: solid 3px rgb(181, 179, 201);
+    border-top: solid 3px rgb(187, 185, 212);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.06), 1px 1px 0 rgba(0, 0, 0, 0.05), -1px 1px 0 rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.06);
     padding: 10px;
 }
@@ -283,6 +283,7 @@ header:hover h2 {
 
 .frame-description-application span {
     padding: 8px 10px;
+    text-shadow: none;
 }
 
 /* Icon border */
@@ -329,11 +330,16 @@ header:hover h2 {
 }
 
 .frame.active .frame-file {
-    color: rgb(170, 205, 219);
+    color: rgb(210, 204, 245);
 }
 
 .frame.active .frame-line {
-    color: rgb(193, 219, 230); 
+    color: rgb(229, 216, 241);
+}
+
+.frame.active .frame-index {
+    background: rgb(236, 237, 252);  
+    color: rgb(85, 101, 141);
 }
 
 .frame:not(.active):hover {
@@ -345,10 +351,10 @@ header:hover h2 {
 }
 
 .frame-index { 
-    background: rgb(128, 128, 145);  
-    border: 2px solid rgb(85, 85, 85); 
+    background: rgb(235, 235, 255);  
+    border: 2px solid rgb(212, 212, 212); 
     border-radius: 100%; 
-    color: rgb(233, 233, 233);
+    color: var(--frame-color-menu);
     display: inline-block;
     height: 18px;
     line-height: 15px;
@@ -377,7 +383,7 @@ header:hover h2 {
 
 .frame-class,
 .frame-function {
-    color: rgb(94, 88, 107);
+    color: rgb(118, 113, 139);
     font-size: var(--font-size-medium-x); 
 }
 
@@ -539,14 +545,14 @@ header:hover h2 {
 }
 
 .title h4 {
-    color: rgb(74, 71, 99);
+    color: rgb(141, 139, 160);
     font-family: "Inconsolata", "Fira Mono", "Source Code Pro", Monaco, Consolas, "Lucida Console", monospace;
     font-size: var(--font-size-small-x);
     font-weight: 600;
     min-height: 12px;
     line-height: 12px;
     overflow: hidden; 
-    padding: 5px 3px;
+    padding: 5px 5px;
     text-overflow: ellipsis;
     text-shadow: none;
     white-space: pre-line;
@@ -594,7 +600,7 @@ code,
 }
 
 .source .line .highlight {
-    background: rgba(236, 211, 252, .6);
+    background: rgb(234, 218, 245);
     color: rgb(144, 139, 164);
     display: block; 
     padding-left: 15px;
@@ -627,16 +633,22 @@ code {
 
 /* FRAME OF ARGUMENTS */
 .code-source .frame-file {
+    background: rgb(81, 83, 105);
     border-bottom: none;
-    color: rgb(118, 113, 139);
-    padding-left: 15px;
+    border-top: 1px solid rgb(226, 222, 240);
+    color: rgb(173, 180, 189);
+    margin-bottom: 0;
     margin-left: 0;
-    padding-top: 10px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    padding-top: 5px;
     text-shadow: none;
 }
 
 .code-block {
-    box-shadow: 0 0 2px rgba(0, 0, 0, .3), 0 10px 30px rgba(0, 0, 0, .05), inset 0 0 1px 0 rgba(255, 255, 255, .07);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, .2), 0 10px 30px rgba(0, 0, 0, .05), inset 0 0 1px 0 rgba(255, 255, 255, .07);
     margin: 0;
     padding: 6px 0 12px;
     -moz-tab-size: 4;
@@ -646,7 +658,7 @@ code {
 }
 
 .frame-args.code-block {
-    background: rgb(54, 52, 52);
+    background: rgb(81, 83, 105);
 }
 
 .linenums {
@@ -659,7 +671,7 @@ code {
 }
 
 .linenums li {
-    color: rgb(184, 209, 24);
+    color: rgb(204, 233, 19);
     font-family: monospace;
     font-size: var(--font-size-small);
     font-weight: 400;
@@ -669,7 +681,7 @@ code {
     display: inline-block;
     content: counter(item) ". ";
     counter-increment: item;
-    color: rgb(172, 167, 167);
+    color: rgb(202, 202, 202);
     font: bold var(--font-size-small);
     margin-left: -28px;
     margin-right: 4px;
@@ -1051,7 +1063,7 @@ footer {
 }
 
 .icon-holder .tooltip {
-    background: rgb(87, 55, 82);
+    background: rgb(82, 75, 114);
     border-radius: 5px;
     visibility: hidden;
     font-size: var(--font-size-small-x);
@@ -1068,7 +1080,7 @@ footer {
 }
 
 .icon-holder .tooltip:after {
-    background: rgb(87, 55, 82);
+    background: rgb(82, 75, 114);
     content: "";
     display: block;
     height: 10px;
@@ -1082,7 +1094,7 @@ footer {
 }
 
 .icon-holder .tooltip:before {
-    background: rgba(87, 55, 82, .9);
+    background: rgb(82, 75, 114);
     content: "";
     display: block;
     height: 10px;
