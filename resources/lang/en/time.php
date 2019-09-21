@@ -13,6 +13,23 @@ return [
     |
     */
 
-    'invalidMonth' => 'Months must be between 1 and 12. You have erroneously placed: {0}'
+    'invalidMonth' => 'Months must be between 1 and 12. You have erroneously placed: {0}',
+    'invalidDay' => 'Days must be between 1 and 31. You have erroneously placed: {0}',
+    'invalidOverDay' => 'Days must be between 1 and {0}. You have erroneously placed: {1}',
+    'invalidHour' => 'Hours must be between 0 and 23. You have erroneously placed: {0}',
+    'invalidMinutes' => 'Minutes must be between 0 and 59. You have erroneously placed: {0}',
+    'invalidSeconds' => 'Seconds must be between 0 and 59. You have erroneously placed: {0}',
+    'years' => '{0, plural, =1{# year} others{# years}}',
+    'months' => '{0, plural, =1{# month} others{# months}}',
+    'weeks' => '{0, plural, =1{# week} others{# weeks}}',
+    'days' => '{0, plural, =1{# day} others{# days}}',
+    'hours' => '{0, plural, =1{# hour} others{# hours}}',
+    'minutes' => '{0, plural, =1{# minute} others{# minutes}}',
+    'seconds' => '{0, plural, =1{# second} others{# seconds}}',
+    'ago' => '{0} ago',
+    'inFuture' => 'in {0}',
+    'yesterday' => 'Yesterday',
+    'tomorrow' => 'Tomorrow',
+    'now' => 'Just now'
 
 ];
