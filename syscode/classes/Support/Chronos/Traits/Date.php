@@ -48,6 +48,8 @@ trait Date
 {
     use Factory;
     use Schedule;
+    use Comparison;
+    use Difference;
 
     /**
      * Identifier used to get language.
