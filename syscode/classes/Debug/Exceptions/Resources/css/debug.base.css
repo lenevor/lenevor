@@ -633,10 +633,10 @@ code {
 
 /* FRAME OF ARGUMENTS */
 .code-source .frame-file {
-    background: rgb(81, 83, 105);
+    background: rgb(111, 165, 209);
     border-bottom: none;
     border-top: 1px solid rgb(226, 222, 240);
-    color: rgb(173, 180, 189);
+    color: rgb(255, 255, 255);
     margin-bottom: 0;
     margin-left: 0;
     padding-bottom: 5px;
