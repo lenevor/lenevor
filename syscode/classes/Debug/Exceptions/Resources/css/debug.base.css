@@ -7,7 +7,7 @@
     --five-color: rgb(41, 196, 3);
     --body-color: rgb(27, 27, 27);
     --border-color: rgb(175, 18, 18);
-    --frame-color-menu: rgb(104, 108, 151);
+    --frame-color-menu: rgb(112, 108, 153);
     --code-color-highlight: rgb(42, 38, 38);
     --font-size-small: .8em;
     --font-size-small-x: .9em;
@@ -252,7 +252,7 @@ header:hover h2 {
 /* FRAMES */
 
 .sidebar {
-    background: rgb(231, 231, 240);
+    background: rgb(241, 241, 248);
     border-bottom: solid 3px rgb(187, 185, 212);
     border-radius: 5px;
     border-top: solid 3px rgb(187, 185, 212);
@@ -295,7 +295,7 @@ header:hover h2 {
 .frame {
     background: var(--first-color);
     background: linear-gradient(top, rgb(248, 248, 248) 80%, rgb(240, 240, 240));
-    box-shadow: inset 0 -1px 0 rgb(236, 236, 236);
+    box-shadow: 0 -1px 0 rgb(236, 236, 236);
     cursor: pointer;
     transition: all 0.1s ease;
     text-shadow: none;
@@ -741,7 +741,7 @@ code {
 
 .details-description.details-description-application {
     background: transparent;
-    color: rgb(54, 93, 119);
+    color: rgb(77, 94, 126);
     font-size: var(--font-size-large);
     font-weight: 600;
     letter-spacing: .03rem;
