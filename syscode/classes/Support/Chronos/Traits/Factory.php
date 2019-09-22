@@ -74,23 +74,6 @@ trait Factory
         
         return parent::__construct($time, $this->timezone);
     }
-    
-    /**
-     * Check a time string to see if it includes a relative date.
-     * 
-     * @param  string  $time
-     * 
-     * @return bool
-     */
-    protected static function hasRelativeKeywords(string $time)
-    {
-        if (preg_match('/[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}/', $time) !== 1)
-        {
-            return preg_match(static::$relativePattern, $time) > 0;
-        }
-        
-        return false;
-    }
 
     /**
      * Returns a new Time instance with the timezone set.
