@@ -545,7 +545,7 @@ header:hover h2 {
 }
 
 .title h4 {
-    color: rgb(141, 139, 160);
+    color: rgb(131, 130, 144);
     font-family: "Inconsolata", "Fira Mono", "Source Code Pro", Monaco, Consolas, "Lucida Console", monospace;
     font-size: var(--font-size-small-x);
     font-weight: 600;
@@ -600,8 +600,8 @@ code,
 }
 
 .source .line .highlight {
-    background: rgb(234, 218, 245);
-    color: rgb(144, 139, 164);
+    background: rgb(240, 225, 250);
+    color: rgb(142, 137, 160);
     display: block; 
     padding-left: 15px;
     padding-right: 5px;
