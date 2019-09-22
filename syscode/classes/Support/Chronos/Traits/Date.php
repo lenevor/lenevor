@@ -25,7 +25,6 @@
 namespace Syscode\Support\Chronos\Traits;
 
 use DateTime;
-use IntlCalendar;
 use IntlDateFormatter;
 
 /**
@@ -48,6 +47,7 @@ trait Date
 {
     use Factory;
     use Schedule;
+    use Utilities;
     use Comparison;
     use Difference;
 
