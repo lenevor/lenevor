@@ -24,6 +24,9 @@
 
 namespace Syscode\Support\Chronos\traits;
 
+use DateTime;
+use DateTimeZone;
+
 /**
  * Trait Comparison.
  * 
@@ -31,5 +34,84 @@ namespace Syscode\Support\Chronos\traits;
  */
 trait Comparison
 {
+    /**
+     * Determines if the datetime passed in is equal to the current instance.
+     * 
+     * @param  \Syscode\Support\Chronos\Time|\DateTime|string  $time
+     * @param  \DateTimeZone|string|null                       $timezone
+     * 
+     * @return bool
+     */
+    public function equals($time, string $timezone = null)
+    {
+        $testTime = $this->getConvertedUTC($time, $timezone);
+        $ourTime  = $this->toDateTime()
+                         ->setTimezone(new DateTimeZone('UTC'))
+                         ->format('Y-m-d H:i:s');
 
+        return $testTime->format('Y-m-d H:i:s') === $ourTime;
+    }
+
+    /**
+     * Determines if the current instance's time is before test time, 
+     * after converting to UTC.
+     * 
+     * @param  \DateTime|string           $time
+     * @param  \DatetimeZone|string|null  $timezone
+     * 
+     * @return bool
+     */
+    public function isBefore($time, string $timezone = null)
+    {
+        $testTime = $this->getConvertedUTC($time, $timezone)->getTimestamp();
+        $ourTime  = $this->getTimestamp();
+
+        return $testTime < $ourTime;
+    }
+
+     /**
+     * Determines if the current instance's time is after test time, 
+     * after converting to UTC.
+     * 
+     * @param  \DateTime|string           $time
+     * @param  \DatetimeZone|string|null  $timezone
+     * 
+     * @return bool
+     */
+    public function isAfter($time, string $timezone = null)
+    {
+        $testTime = $this->getConvertedUTC($time, $timezone)->getTimestamp();
+        $ourTime  = $this->getTimestamp();
+
+        return $testTime > $ourTime;
+    }
+
+    /**
+     * Ensures that the times are identical, taking timezone into account.
+     * 
+     * @param  \Syscode\Support\Chronos\Time\DateTime|string  $time
+     * @param  \DatetimeZone|string|null                      $timezone
+     * 
+     * @return bool
+     */
+    public function sameAs($time, string $timezone = null)
+    {
+        $testTime = '';
+
+        if ($time instanceof DateTime)
+        {
+            $testTime = $time->format('Y-m-d H:i:s');
+        }
+        elseif (is_string($time))
+        {
+            $timezone = $timezone ?: $this->timezone;
+            $timezone = $timezone instanceof DateTimeZone ? $timezone : new DateTimeZone($timezone);
+            $testTime = new DateTime($time, $timezone);
+            $testTime = $testTime->format('Y-m-d H:i:s');
+        }
+        
+        $ourTime = $this->toDateTimeString();
+        
+        return $testTime === $ourTime;
+    }
 }
