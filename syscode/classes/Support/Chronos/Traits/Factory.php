@@ -308,4 +308,22 @@ trait Factory
     {
         return ! is_null(static::$testNow);
     }
+
+    // Difference
+
+    /**
+     * Get difference time depending on a specific period of time.
+     * 
+     * @param  string       $time
+     * @param  string|null  $timezone
+     * 
+     * @return void
+     */
+    public function difference($time, string $timezone = null)
+    {
+        $testTime = $this->getConvertedUTC($time, $timezone);
+        $ourTime  = $this->getConvertedUTC($this);
+
+        return $this->getDifferenceTime($ourTime, $testTime);
+    }
 }
