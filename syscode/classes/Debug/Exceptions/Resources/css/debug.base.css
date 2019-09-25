@@ -572,7 +572,7 @@ header:hover h2 {
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
     color: rgb(138, 135, 135);
-    padding-bottom: 10px;
+    padding-bottom: 13px;
     padding-top: 45px;
     text-shadow: none;
     min-width: 100%;
@@ -633,7 +633,7 @@ code {
 
 /* FRAME OF ARGUMENTS */
 .code-source .frame-file {
-    background: rgb(111, 165, 209);
+    background: rgb(52, 98, 136);
     border-bottom: none;
     border-top: 1px solid rgb(226, 222, 240);
     color: rgb(255, 255, 255);
@@ -658,7 +658,7 @@ code {
 }
 
 .frame-args.code-block {
-    background: rgb(81, 83, 105);
+    background: rgb(56, 100, 134);
 }
 
 .linenums {
@@ -671,7 +671,7 @@ code {
 }
 
 .linenums li {
-    color: rgb(204, 233, 19);
+    color: rgb(209, 238, 20);
     font-family: monospace;
     font-size: var(--font-size-small);
     font-weight: 400;
