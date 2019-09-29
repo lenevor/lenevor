@@ -1,5 +1,5 @@
 :root {
-    --main-bg-color: rgb(250, 250, 250);
+    --main-bg-color: rgb(247, 249, 252);
     --first-color: rgb(255, 255, 255);
     --second-color: rgb(243, 243, 243);
     --thrid-color: rgb(145, 107, 37);
@@ -142,7 +142,7 @@ ol {
 /* HEADER */
 
 header {
-    background-image: linear-gradient(236deg, rgb(245, 245, 245), rgb(248, 248, 248));
+    background-image: linear-gradient(236deg, rgb(250, 250, 250), rgb(253, 253, 253));
     box-shadow: inset 0 -5px 3px -3px rgba(54, 46, 46, 0.09), inset 0 -1px 0 rgba(99, 88, 88, 0.09);
     box-sizing: border-box;
     color: rgb(114, 114, 114);
@@ -180,7 +180,7 @@ header:hover h2 {
 }
 
 .exception-title h1 {
-    color: rgb(144, 139, 164); 
+    color: rgb(127, 122, 145); 
     display: inline;
     font-weight: 400;
 }
@@ -252,7 +252,7 @@ header:hover h2 {
 /* FRAMES */
 
 .sidebar {
-    background: rgb(241, 241, 248);
+    background: rgb(244, 244, 250);
     border-bottom: solid 3px rgb(187, 185, 212);
     border-radius: 5px;
     border-top: solid 3px rgb(187, 185, 212);
@@ -295,7 +295,7 @@ header:hover h2 {
 .frame {
     background: var(--first-color);
     background: linear-gradient(top, rgb(248, 248, 248) 80%, rgb(240, 240, 240));
-    box-shadow: 0 -1px 0 rgb(236, 236, 236);
+    box-shadow: 0 -1px 0 rgb(238, 238, 238), -1px 1px 0 rgb(228, 228, 228), 0 -1px 0 rgb(238, 238, 238), 1px 1px 0 rgb(228, 228, 228);
     cursor: pointer;
     transition: all 0.1s ease;
     text-shadow: none;
@@ -329,6 +329,10 @@ header:hover h2 {
     color: var(--first-color);
 }
 
+.frame.active .frame-class {
+    margin-left: 10px;
+}
+
 .frame.active .frame-file {
     color: rgb(210, 204, 245);
 }
@@ -340,10 +344,14 @@ header:hover h2 {
 .frame.active .frame-index {
     background: rgb(236, 237, 252);  
     color: rgb(85, 101, 141);
+    font-weight: 600;
+    height: 22px;
+    line-height: 18px;
+    width: 22px;
 }
 
 .frame:not(.active):hover {
-    background: rgb(212, 238, 245);
+    background: rgb(229, 241, 252);
 }
 
 .frame:not(.active):hover .frame-file {
@@ -351,16 +359,16 @@ header:hover h2 {
 }
 
 .frame-index { 
-    background: rgb(235, 235, 255);  
+    background: rgb(94, 94, 146);  
     border: 2px solid rgb(212, 212, 212); 
     border-radius: 100%; 
-    color: var(--frame-color-menu);
+    color: var(--first-color);
     display: inline-block;
-    height: 18px;
-    line-height: 15px;
+    height: 22px;
+    line-height: 18px;
     padding: 0 1px 0 1px; 
     text-align: center;
-    width: 18px;
+    width: 22px;
 }
 
 .frame-index {
@@ -378,7 +386,7 @@ header:hover h2 {
 }
 
 .frame-class {
-    margin-left: 10px;
+    margin-left: 5px;
 }
 
 .frame-class,
@@ -446,6 +454,13 @@ header:hover h2 {
         padding: 5px 15px;
     }
 
+    .frame.active .frame-index {
+        font-size: var(--font-size-small);
+        height: 18px;
+        line-height: 14px;
+        width: 18px;
+    }
+
     .frame-index {   
         font-size: var(--font-size-small); 
         margin-top: 5px;   
@@ -490,11 +505,10 @@ header:hover h2 {
 
     .frame-index { 
         font-size: .9em;    
-        height: 22px;
-        left: 20px;  
-        line-height: 18px;
+        height: 26px;
+        line-height: 22px;
         margin-top: 20px;
-        width: 22px;
+        width: 26px;
     }
 
     .frame-class,
@@ -595,13 +609,13 @@ code,
 }
 
 .source span.line .number {
-    color: rgb(186, 182, 205);
+    color: rgb(178, 174, 196);
     display: inline-table;
 }
 
 .source .line .highlight {
     background: rgb(240, 225, 250);
-    color: rgb(142, 137, 160);
+    color: rgb(127, 122, 143);
     display: block; 
     padding-left: 15px;
     padding-right: 5px;
@@ -612,6 +626,7 @@ code,
 
 .source span.highlight {
     margin-left: 0;
+    margin-right: 0;
 }
 
 .source span.highlight .number {
@@ -633,7 +648,7 @@ code {
 
 /* FRAME OF ARGUMENTS */
 .code-source .frame-file {
-    background: rgb(52, 98, 136);
+    background: rgb(32, 54, 73);
     border-bottom: none;
     border-top: 1px solid rgb(226, 222, 240);
     color: rgb(255, 255, 255);
@@ -658,7 +673,7 @@ code {
 }
 
 .frame-args.code-block {
-    background: rgb(56, 100, 134);
+    background: rgb(33, 58, 77);
 }
 
 .linenums {
@@ -741,7 +756,7 @@ code {
 
 .details-description.details-description-application {
     background: transparent;
-    color: rgb(77, 94, 126);
+    color: rgb(105, 115, 124);
     font-size: var(--font-size-large);
     font-weight: 600;
     letter-spacing: .03rem;
@@ -765,7 +780,7 @@ code {
 
 .data-table-container label {
     border-bottom: 1px solid rgb(219, 219, 219);
-    color: rgb(3, 128, 145);
+    color: rgb(79, 95, 126);
     font-size: 16px;
     font-weight: bold;
     margin: 10px;  
