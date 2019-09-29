@@ -756,7 +756,7 @@ code {
 
 .details-description.details-description-application {
     background: transparent;
-    color: rgb(105, 115, 124);
+    color: rgb(90, 112, 133);
     font-size: var(--font-size-large);
     font-weight: 600;
     letter-spacing: .03rem;
@@ -780,7 +780,7 @@ code {
 
 .data-table-container label {
     border-bottom: 1px solid rgb(219, 219, 219);
-    color: rgb(79, 95, 126);
+    color: rgb(79, 113, 126);
     font-size: 16px;
     font-weight: bold;
     margin: 10px;  
