@@ -285,7 +285,7 @@ class TemplateHandler
 			if (($n+$start+1) == $lineNumber)
 			{
 				preg_match_all('#<[^>]+>#', $row, $tags);
-				$out .= sprintf("<span class='line highlight'><span class='number'>{$format}.</span> %s\n</span>%s",
+				$out .= sprintf("<span class='line highlight'><span class='number'>{$format}</span> %s\n</span>%s",
 						$n + $start + 1,
 						strip_tags($row),
 						implode('', $tags[0])
@@ -293,7 +293,7 @@ class TemplateHandler
 			}
 			else
 			{
-				$out .= sprintf('<span class="line"><span class="number">'.$format.'.</span> %s', $n + $start +1, $row) ."\n";
+				$out .= sprintf('<span class="number">'.$format.'</span> %s <span class="line">', $n + $start +1, $row) ."\n";
 			}
 		}
 
