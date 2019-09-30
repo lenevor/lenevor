@@ -527,7 +527,7 @@ header:hover h2 {
 /* SOURCE */
 
 .code-source {
-    background: var(--first-color);
+    background: var(--second-color);
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(181, 179, 201, .6), 1px 1px 0 rgba(181, 179, 201, .06), -1px 1px 0 rgba(181, 179, 201, .06), 0 0 0 4px rgba(0, 0, 0, .06);
     display: none;
@@ -544,7 +544,7 @@ header:hover h2 {
     align-items: center;
     background: var(--second-color);
     border: none;
-    border-bottom: solid 1px rgb(212, 213, 218);
+    *border-bottom: 1px solid rgb(212, 213, 218);
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     display: flex;
@@ -566,7 +566,7 @@ header:hover h2 {
     min-height: 12px;
     line-height: 12px;
     overflow: hidden; 
-    padding: 5px 5px;
+    padding: 5px 45px;
     text-overflow: ellipsis;
     text-shadow: none;
     white-space: pre-line;
@@ -579,15 +579,14 @@ header:hover h2 {
 }
 
 .source {
-    background: var(--first-color);
-    border-top: 0;
+    background: var(--second-color);
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
     color: rgb(138, 135, 135);
-    padding-bottom: 13px;
-    padding-top: 45px;
+    padding-bottom: 0;
+    padding-top: 35px;
     text-shadow: none;
     min-width: 100%;
 }
@@ -603,18 +602,23 @@ code,
     font-size: 13px;
 }
 
-.source span.line {
+.source span.line { 
     line-height: 1.5;
     padding-left: 15px; 
 }
 
-.source span.line .number {
-    color: rgb(178, 174, 196);
+.source .number {
+    background: var(--second-color);
+    color: rgb(178, 170, 199);
     display: inline-table;
+    padding: 0 15px 0 15px;
+    margin-left: -53px;
+    position: absolute;
+    width: 52px;
 }
 
 .source .line .highlight {
-    background: rgb(240, 225, 250);
+    background: rgb(248, 239, 253);
     color: rgb(127, 122, 143);
     display: block; 
     padding-left: 15px;
@@ -625,17 +629,23 @@ code,
 }
 
 .source span.highlight {
-    margin-left: 0;
+    margin-left: -15px;;
     margin-right: 0;
 }
 
 .source span.highlight .number {
-    color: var(--third-color);
-    margin-left: 0;
-    padding-top: 0;
+    background: rgb(217, 204, 224);
+    color: rgb(142, 121, 168);
+    padding: 0 15px 0 15px;
 }
 
 pre {
+    background: var(--first-color);
+    border-top: 1px solid rgb(212, 213, 218);
+    border-left: 1px solid rgb(212, 213, 218);
+    margin-left: 52px;
+    padding-bottom: 10px;
+    padding-top: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: pre;
