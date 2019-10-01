@@ -24,6 +24,7 @@ return [
     'memory' => 'Memoria',
     'memoryLimit' => 'Limite de memoria',
     'memoryUsage' => 'Uso de memoria',
+    'noArguments' => 'No hay argumentos para este marco de pila.',
     'noMessage' => 'Sin mensaje',
     'openCodeEditor' => 'Abrir el editor de código {editor}',
     'openReaderPDF' => 'Abrir el lector de PDF',

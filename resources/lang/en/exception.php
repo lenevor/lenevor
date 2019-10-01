@@ -23,6 +23,7 @@ return [
     'memory' => 'Memory',
     'memoryLimit' => 'Memory Limit',
     'memoryUsage' => 'Memory Usage',
+    'noArguments' => 'No Arguments for this stack frame.',
     'noMessage' => 'No message',
     'openCodeEditor' => 'Open the code editor {editor}',
     'openReaderPDF' => 'Open the reader PDF',
