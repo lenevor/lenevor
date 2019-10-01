@@ -1,5 +1,5 @@
 :root {
-    --main-bg-color: rgb(247, 249, 252);
+    --main-bg-color: rgb(249, 250, 252);
     --first-color: rgb(255, 255, 255);
     --second-color: rgb(243, 243, 243);
     --thrid-color: rgb(145, 107, 37);
@@ -262,7 +262,7 @@ header:hover h2 {
 
 .frame-description {
     background: var(--second-color);
-    border-bottom: solid 1px rgb(212, 213, 218);
+    border-bottom: solid 1px rgb(216, 217, 224);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1); 
     height: 35px;
     margin: -10px;
@@ -272,7 +272,7 @@ header:hover h2 {
 }
 
 .frame-description.frame-description-application {
-    color: rgb(182, 180, 197);
+    color: rgb(174, 172, 189);
     display: flex;    
     font-size: var(--font-size-small-x);
     font-weight: bold;
@@ -532,6 +532,7 @@ header:hover h2 {
     box-shadow: 0 0 10px rgba(181, 179, 201, .6), 1px 1px 0 rgba(181, 179, 201, .06), -1px 1px 0 rgba(181, 179, 201, .06), 0 0 0 4px rgba(0, 0, 0, .06);
     display: none;
     margin-bottom: 50px;
+    margin-top: -1px;
     padding: 0;
     position: relative;
 }
@@ -544,7 +545,6 @@ header:hover h2 {
     align-items: center;
     background: var(--second-color);
     border: none;
-    *border-bottom: 1px solid rgb(212, 213, 218);
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     display: flex;
@@ -566,7 +566,7 @@ header:hover h2 {
     min-height: 12px;
     line-height: 12px;
     overflow: hidden; 
-    padding: 5px 45px;
+    padding: 5px;
     text-overflow: ellipsis;
     text-shadow: none;
     white-space: pre-line;
@@ -580,10 +580,10 @@ header:hover h2 {
 
 .source {
     background: var(--second-color);
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
     color: rgb(138, 135, 135);
     padding-bottom: 0;
     padding-top: 35px;
@@ -609,17 +609,18 @@ code,
 
 .source .number {
     background: var(--second-color);
-    color: rgb(178, 170, 199);
+    color: rgb(182, 175, 202);
     display: inline-table;
     padding: 0 15px 0 15px;
     margin-left: -53px;
     position: absolute;
+    text-align: center;
     width: 52px;
 }
 
 .source .line .highlight {
-    background: rgb(248, 239, 253);
-    color: rgb(127, 122, 143);
+    background: rgb(248, 243, 251);
+    color: rgb(147, 142, 158);
     display: block; 
     padding-left: 15px;
     padding-right: 5px;
@@ -637,14 +638,18 @@ code,
     background: rgb(217, 204, 224);
     color: rgb(142, 121, 168);
     padding: 0 15px 0 15px;
+    width: 53px;
 }
 
 pre {
     background: var(--first-color);
-    border-top: 1px solid rgb(212, 213, 218);
-    border-left: 1px solid rgb(212, 213, 218);
+    border-bottom: 1px solid rgb(231, 231, 236);
+    border-left: 1px solid rgb(231, 231, 236);
+    border-top: 1px solid rgb(231, 231, 236);
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
     margin-left: 52px;
-    padding-bottom: 10px;
+    padding-bottom: 12px;
     padding-top: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -658,22 +663,20 @@ code {
 
 /* FRAME OF ARGUMENTS */
 .code-source .frame-file {
-    background: rgb(32, 54, 73);
+    background: var(--second-color);
     border-bottom: none;
-    border-top: 1px solid rgb(226, 222, 240);
-    color: rgb(255, 255, 255);
+    color: rgb(131, 130, 144);
+    font-size: 12px;
     margin-bottom: 0;
     margin-left: 0;
-    padding-bottom: 5px;
-    padding-left: 15px;
-    padding-top: 5px;
+    margin-top: 10px;
+    padding: 5px 15px 10px;
     text-shadow: none;
 }
 
 .code-block {
     border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    box-shadow: 0 0 2px rgba(0, 0, 0, .2), 0 10px 30px rgba(0, 0, 0, .05), inset 0 0 1px 0 rgba(255, 255, 255, .07);
+    border-bottom-right-radius: 4px; 
     margin: 0;
     padding: 6px 0 12px;
     -moz-tab-size: 4;
@@ -683,7 +686,9 @@ code {
 }
 
 .frame-args.code-block {
-    background: rgb(33, 58, 77);
+    background: var(--first-color);
+    border-top: 1px solid rgb(231, 231, 236);    
+    margin-left: 0;
 }
 
 .linenums {
@@ -696,21 +701,29 @@ code {
 }
 
 .linenums li {
-    color: rgb(209, 238, 20);
+    color: rgb(80, 92, 119);
     font-family: monospace;
     font-size: var(--font-size-small);
     font-weight: 400;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .linenums li:before {
     display: inline-block;
     content: counter(item) ". ";
     counter-increment: item;
-    color: rgb(202, 202, 202);
+    color: rgb(152, 145, 173);
     font: bold var(--font-size-small);
-    margin-left: -28px;
+    margin-left: -20px;
     margin-right: 4px;
-    padding-left: 10px;
+}
+
+.frame-noArgument {
+    color: rgb(175, 173, 184);
+    font-weight: 500;
+    margin-left: 15px;
+    padding: 15px 0 10px;
 }
 
 /* ------------------------------------------------------------ 
@@ -736,6 +749,10 @@ code {
     .title .iconlist {
         display: none;
     }
+
+    .frame-noArgument {
+        font-size: 11px;
+    }
 }
 
 /* WIDE */
@@ -743,6 +760,10 @@ code {
 {
     .code-source {
         left: 0;
+    }
+
+    .frame-noArgument {
+        font-size: var(--font-size-small-x);
     }
 }
 
