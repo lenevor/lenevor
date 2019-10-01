@@ -206,4 +206,63 @@ trait Difference
 
         return $time->fieldDifference($this->testTime, IntlCalendar::FIELD_SECOND);
     }
+
+    /**
+     * Convert the time to human readable format.
+     * 
+     * @param  string|null  $locale
+     * 
+     * @return string
+     */
+    public function humanize(string $locale = null)
+    {
+        $current = clone($this->currentTime);
+        $years   = $current->fieldDifference($this->testTime, IntlCalendar::FIELD_YEAR);
+        $months  = $current->fieldDifference($this->testTime, IntlCalendar::FIELD_MONTH);
+        $days    = $current->fieldDifference($this->testTime, IntlCalendar::FIELD_DAY_OF_YEAR);
+        $hours   = $current->fieldDifference($this->testTime, IntlCalendar::FIELD_HOUR_OF_DAY);
+        $minutes = $current->fieldDifference($this->testTime, IntlCalendar::FIELD_MINUTE);
+
+        $phrase = null;
+
+        if ($years !== 0)
+        {
+            $phrase = __('time.years', [abs($years)], $locale);
+            $before = $years < 0;
+        }
+        else if ($months !== 0)
+        {
+            $phrase = __('time.months', [abs($months)], $locale);
+            $before = $months < 0;
+        }
+        else if ($days !== 0 && (abs($days) >= 7))
+        {
+            $weeks  = ceil($days / 7);
+            $phrase = __('time.weeks', [abs($weeks)], $locale);
+            $before = $days < 0;
+        }
+        else if ($days !== 0)
+        {
+            $phrase = __('time.days', [abs($days)], $locale);
+            $before = $days < 0;
+        }
+        else if ($hours !== 0)
+        {
+            $phrase = __('time.hours', [abs($hours)], $locale);
+            $before = $hours < 0;
+        }
+        else if ($minutes !== 0)
+        {
+            $phrase = __('time.minutes', [abs($minutes)], $locale);
+            $before = $minutes < 0;
+        }
+        else
+        {
+            return __('time.now', [], $locale);
+        }
+        
+        return $before
+            ? __('time.ago', [$phrase], $locale)
+            : __('time.inFuture', [$phrase], $locale);
+    }
 }
