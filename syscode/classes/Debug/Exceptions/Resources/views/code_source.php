@@ -27,11 +27,13 @@
     <?php $frameArgs = $template->dumpArgs($frame); ?>
     <?php if ($frameArgs): ?>
     <div class="frame-file">
-        <?= e(__('exception.arguments')) ?> &darr;
+        <?= e(__('exception.arguments')) ?>
     </div>
     <div id="frame-code-args-<?=$index?>" class="code-block frame-args">
         <?= $frameArgs ?>
     </div>
+    <?php else: ?>
+        <div class="frame-noArgument"><?= e(__('exception.noArguments')) ?></div>
     <?php endif; ?>
 </div>
 <?php endforeach; ?>
