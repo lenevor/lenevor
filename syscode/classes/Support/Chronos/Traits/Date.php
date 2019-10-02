@@ -25,6 +25,7 @@
 namespace Syscode\Support\Chronos\Traits;
 
 use DateTime;
+use IntlCalendar;
 use IntlDateFormatter;
 
 /**
@@ -52,18 +53,18 @@ trait Date
     use Difference;
 
     /**
-     * Identifier used to get language.
-     * 
-     * @var string $locale
-     */
-    protected $locale;
-
-    /**
 	 * Used to check time string to determine if it is relative time or not.
 	 *
 	 * @var string $relativePattern
 	 */
     protected static $relativePattern = '/this|next|last|tomorrow|yesterday|midnight|today|[+-]|first|last|ago/i';
+
+    /**
+     * Identifier used to get language.
+     * 
+     * @var string $locale
+     */
+    protected $locale;
     
     /**
      * @var \Syscode\Support\Chronos\Date $testNow
@@ -243,6 +244,82 @@ trait Date
         $format = $format ?? $this->$toStringFormat;
 
         return IntlDateFormatter::formatObject($this->toDateTime(), $format, $this->locale);
+    }
+
+    // Difference
+
+    /**
+     * Returns a text string that is easily readable that describes a 
+     * date and time that has elapsed in a period of time specified 
+     * by the user or system, like:
+     * 
+     * - 10 days ago
+     * - in 2 days
+     * - 9 hours ago
+     * 
+     * @return mixed
+     */
+    public function humanize()
+    {
+        $now     = IntlCalendar::fromDateTime(static::now($this->timezone)->toDateTimeString());
+        $time    = $this->getCalendar()->getTime();
+        $years   = $now->fieldDifference($time, IntlCalendar::FIELD_YEAR);
+        $months  = $now->fieldDifference($time, IntlCalendar::FIELD_MONTH);
+        $days    = $now->fieldDifference($time, IntlCalendar::FIELD_DAY_OF_YEAR);
+        $hours   = $now->fieldDifference($time, IntlCalendar::FIELD_HOUR_OF_DAY);
+        $minutes = $now->fieldDifference($time, IntlCalendar::FIELD_MINUTE);
+
+        $phrase = null;
+        
+        if ($years !== 0)
+        {
+            $phrase = __('time.years', [abs($years)]);
+            $before = $years < 0;
+        }
+        elseif ($months !== 0)
+        {
+            $phrase = __('time.months', [abs($months)]);
+            $before = $months < 0;
+        }
+        elseif ($days !== 0 && (abs($days) >= 7))
+        {
+            $weeks  = ceil($days / 7);
+            $phrase = __('time.weeks', [abs($weeks)]);
+            $before = $days < 0;
+        }
+        elseif ($days !== 0)
+        {
+            $before = $days < 0;
+            $phrase = __('time.days', [abs($days)]);
+            
+            // Yesterday/Tomorrow special cases
+            if (abs($days) === 1)
+            {
+                return $before ? __('time.yesterday') : __('time.tomorrow');
+            }
+            else
+            {
+                $phrase = __('time.days', [abs($days) + 1]);
+            }
+        }
+        elseif ($hours !== 0)
+        {
+            // Display the actual time instead of a regular phrase.
+            return $this->format('g:i a');
+        }
+        elseif ($minutes !== 0)
+        {
+            $phrase = __('time.minutes', [abs($minutes)]);
+            $before = $minutes < 0;
+        }
+        else
+        {
+            return __('time.now');
+        }
+        
+        return $before 
+            ? __('time.ago', [$phrase]) 
+            : __('time.inFuture', [$phrase]);
     }
 
     // Magic Methods
