@@ -2,13 +2,19 @@
 
 ## [Version 0.3.0-alpha.3]
 
-Release Date: 
+Release Date: Oct 03, 2019
 
 **Next alpha release of Lenevor**
 
 ### Added
 - Added `CacheRepository` class
 - Added `InteractsWithTime` class
+- Added `Chronos` DateTime system
+- Added new methods of the `Filesystem` class
+
+### Changed
+- Changed Release 0.3.0-alpha.3
+- Changed interface of GDebug system
 
 
 ## [Version 0.2.0-alpha.2]
