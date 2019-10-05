@@ -2,7 +2,7 @@
 
 ## [Version 0.3.0-alpha.3]
 
-Release Date: Oct 03, 2019
+Release Date: Sep 07, 2019
 
 **Next alpha release of Lenevor**
 
