@@ -66,6 +66,7 @@ class Lenevor implements LenevorContract
 		\Syscode\Core\Bootstrap\BootConfiguration::class,
 		\Syscode\Core\Bootstrap\BootHandleExceptions::class,
 		\Syscode\Core\Bootstrap\BootRegisterFacades::class,
+		\Syscode\Core\Bootstrap\BootRegisterProviders::class,
 	];
 	
 	/**
