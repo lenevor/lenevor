@@ -25,7 +25,7 @@
 namespace App\Providers;
 
 use Syscode\Support\Facades\Route;
-use Syscode\Support\Services\ServiceProvider;
+use Syscode\Support\ServiceProvider;
 
 /**
  * The route service provider facilitates the register of a namespace your 
@@ -36,18 +36,14 @@ use Syscode\Support\Services\ServiceProvider;
 class RouteServiceProvider extends ServiceProvider
 {
     /**
-     * This namespace is applied to your controller routes
+     * This namespace is applied to your controller routes.
      * 
-     * @var     $namespace
-     * @access  protected
-     * @param   string
+     * @var string $namespace
      */
     protected $namespace = 'App\Http\Controllers';
     
     /**
-     * Define your route model bindings, namespaces, etc
-     * 
-     * @access  public
+     * Define your route model bindings, namespaces, etc.
      * 
      * @return  void
      */
@@ -57,9 +53,7 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Loaded file of route
-     * 
-     * @access  public
+     * Loaded file of route.
      * 
      * @return  void
      */
