@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.4.0
  */
 
 namespace Syscode\Core;
@@ -80,6 +80,20 @@ class Application extends Container implements ApplicationContract
      * @var bool $hasBeenBootstrapped
      */
     protected $hasBeenBootstrapped = false;
+
+    /**
+     * The names of the loaded service providers.
+     * 
+     * @var array $loadServiceProviders
+     */
+    protected $loadServiceProviders = [];
+
+    /**
+     * All of the registered services providers.
+     * 
+     * @var \Syscode\Support\ServiceProvider[] $serviceProviders
+     */
+    protected $serviceProviders = [];
 
     /**
      * Constructor. Create a new Application instance.
@@ -354,13 +368,73 @@ class Application extends Container implements ApplicationContract
     /**
      * Register a service provider.
      * 
+     * @param  \Syscode\Support\ServiceProvider|string  $provider
+     * @param  bool                                     $force
+     * 
+     * @return \Syscode\Support\ServiceProvider
+     */
+    public function register($provider, $force = false)
+    {
+        if ($registered = $this->getProviderHasBeenLoaded($provider) && ! $force)
+        {
+            return $registered;
+        }
+
+        if (is_string($provider))
+        {
+            $provider = $this->resolveProviderClass($provider);
+        }
+
+        $provider->register();
+
+        $this->markAsRegistered($provider);
+
+        return $provider;
+    }
+
+    /**
+     * Get the registered service provider instance if it exists.
+     * 
+     * @param  \Syscode\Support\ServiceProvider|string  $provider
+     * 
+     * @return \Syscode\Support\ServiceProvider
+     */
+    protected function getProviderHasBeenLoaded($provider)
+    {
+        $name = is_string($provider) ? $provider : get_class($provider);
+
+        if (array_key_exists($name, $loadServiceProviders))
+        {
+            return array_first($this->serviceProviders, function($key, $value) use ($name) {
+                return get_class($value) == $name;
+            });
+        }
+    }
+
+    /**
+     * Resolve a service provider instance from the class name.
+     * 
      * @param  string  $provider
      * 
-     * @return $this
+     * @return \Syscode\Support\ServiceProvider
      */
-    public function register($provider)
+    public function resolveProviderClass($provider)
     {
-        $provider->register($this);
+        return new $provider($this);
+    }
+
+    /**
+     * Mark the given provider as registered.
+     * 
+     * @param  \Syscode\Support\ServiceProvider  $provider
+     * 
+     * @return void
+     */
+    protected function markAsRegistered($provider)
+    {
+        $this->serviceProviders[] = $provider;
+        
+        $this->loadServiceProviders[get_class($provider)] = true;
     }
 
     /**

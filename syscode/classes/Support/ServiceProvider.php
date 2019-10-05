@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.4.0
  */
 
 namespace Syscode\Support\Services;
@@ -34,7 +34,7 @@ abstract class ServiceProvider
     /**
      * The application instance.
      * 
-     * @var \Syscode\contracts\Core\Application $app
+     * @var \Syscode\Contracts\Core\Application $app
      */
     protected $app;
 
@@ -49,4 +49,11 @@ abstract class ServiceProvider
     {
         $this->app =  $app;
     }
+
+    /**
+     * Register the service provider.
+     * 
+     * @return void
+     */
+    abstract public function register();
 }
