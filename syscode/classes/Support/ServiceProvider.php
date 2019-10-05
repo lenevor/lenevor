@@ -22,7 +22,7 @@
  * @since       0.4.0
  */
 
-namespace Syscode\Support\Services;
+namespace Syscode\Support;
 
 /**
  * Loads all the services provider of system.
