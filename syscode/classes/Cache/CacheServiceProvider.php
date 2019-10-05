@@ -33,5 +33,13 @@ use Syscode\Support\ServiceProvider;
  */
 class CacheServiceProvider extends ServiceProvider
 {
-    
+    /**
+     * Register the service provider.
+     * 
+     * @return void
+     */
+    public function register()
+    {
+        
+    }
 }
