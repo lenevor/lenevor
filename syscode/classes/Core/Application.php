@@ -364,6 +364,17 @@ class Application extends Container implements ApplicationContract
        
         return parent::make($id, $parameters);
     }
+
+    /**
+     * Register all of the configured providers.
+     * 
+     * @return void
+     */
+    public function registerConfiguredProviders()
+    {
+        (new ProviderRepository($this))
+                ->load($this['config']->get('services.providers'));
+    }
     
     /**
      * Register a service provider.
@@ -403,7 +414,7 @@ class Application extends Container implements ApplicationContract
     {
         $name = is_string($provider) ? $provider : get_class($provider);
 
-        if (array_key_exists($name, $loadServiceProviders))
+        if (array_key_exists($name, $this->loadServiceProviders))
         {
             return array_first($this->serviceProviders, function($key, $value) use ($name) {
                 return get_class($value) == $name;
