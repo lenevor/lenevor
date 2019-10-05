@@ -29,5 +29,37 @@ namespace Syscode\Core;
  */
 class ProviderRepository
 {
+    /**
+     * The application implementation.
+     * 
+     * @var \Syscode\Contracts\Core\Application $app
+     */
+    protected $app;
     
+    /**
+     * Constructor. The ProviderRepository class instance.
+     * 
+     * @param  \Syscode\Contracts\Core\Application  $app
+     * 
+     * @return void
+     */
+    public function __construct(Application $app)
+    {
+        $this->app = $app;
+    }
+    
+    /**
+     * Register the application service providers.
+     * 
+     * @param  array  $providers
+     * 
+     * @return void
+     */
+    public function load(array $providers)
+    {
+        foreach ($providers as $provider)
+        {
+            $this->app->register($provider);
+        }
+    }
 }
