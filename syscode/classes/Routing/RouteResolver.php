@@ -91,8 +91,6 @@ class RouteResolver
 					// Explode segments of given route
 					list($class, $action) = explode('@', $route->getAction());
 
-					$route->setNamespace('App\Http\Controllers');
-
 					if ($route->getNamespace() !== null)
 					{
 						$controller = $route->getNamespace().'\\'.$class;
