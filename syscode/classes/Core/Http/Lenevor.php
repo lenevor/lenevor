@@ -26,12 +26,11 @@ namespace Syscode\Core\Http;
 
 use Closure;
 use Exception;
-use Syscode\Http\{ 
-	Request, 
-	Response 
-};
+use Syscode\Http\Response;
 use Syscode\Debug\Benchmark;
 use Syscode\Support\Facades\Http;
+use Syscode\Support\Facades\Route;
+use Syscode\Support\Facades\Request;
 use Syscode\Contracts\Core\Application;
 use Syscode\Contracts\Core\Lenevor as LenevorContract;
 
@@ -67,6 +66,7 @@ class Lenevor implements LenevorContract
 		\Syscode\Core\Bootstrap\BootHandleExceptions::class,
 		\Syscode\Core\Bootstrap\BootRegisterFacades::class,
 		\Syscode\Core\Bootstrap\BootRegisterProviders::class,
+		\Syscode\Core\Bootstrap\BootProviders::class,
 	];
 	
 	/**
@@ -174,21 +174,13 @@ class Lenevor implements LenevorContract
 	}
 
  	/**
- 	 * The dispatcher of routes.
- 	 *
- 	 * @param  \Syscode\Http\Request    $request  The request
- 	 * @param  \Syscode\Routing\Router  $router  The router (interface)
- 	 * 
+	  * The dispatcher of routes.
+	  
  	 * @return void
  	 */
- 	protected function dispatcher($request, $router)
- 	{
-		if ( ! $router->initialized)
-		{
- 			$router->start();
-		}
-		
- 		return $router->resolve($request->getUri(), $request->method());
+ 	protected function dispatcher()
+ 	{		
+ 		return Route::resolve($this->request::getUri(), $this->request::method());
 	}
 
 	/**
@@ -257,14 +249,10 @@ class Lenevor implements LenevorContract
 			{
 				$this->app['config']->set('app.baseUrl', self::getBaseUrl());
 			}
-			
-			// With Dependency Injection
-			$dispatch = $this->dispatcher(
-							$this->app['request'], 
-							$this->app['router']
-			);
 
-			$response = (new response)->setContent($this->displayPerformanceMetrics($dispatch));
+			$response = (new response)->setContent(
+				$this->displayPerformanceMetrics($this->dispatcher())
+			);
 		}   
 		   
 		return $response;
