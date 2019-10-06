@@ -29,6 +29,7 @@ use Syscode\Core\Http\Exceptions\{
     HttpException, 
     NotFoundHttpException 
 };
+use Syscode\Support\ServiceProvider;
 use Syscode\Contracts\Core\Application as ApplicationContract;
 
 /**
@@ -59,6 +60,27 @@ class Application extends Container implements ApplicationContract
      * @var string $basePath
      */
     protected $basePath;
+
+    /**
+     * Indicates if the application has 'booted'.
+     * 
+     * @var bool $booted
+     */
+    protected $booted = false;
+
+    /**
+     * The array of booted callbacks.
+     * 
+     * @var callable[] $bootedCallbacks
+     */
+    protected $bootedCallbacks = [];
+
+    /**
+     * The array of booting callbacks.
+     * 
+     * @var callable[] $bootingCallbacks
+     */
+    protected $bootingCallbacks = [];
 
     /**
      * The custom environment path defined by the developer.
@@ -395,7 +417,7 @@ class Application extends Container implements ApplicationContract
         {
             $provider = $this->resolveProviderClass($provider);
         }
-
+        
         $provider->register();
 
         $this->markAsRegistered($provider);
@@ -446,6 +468,98 @@ class Application extends Container implements ApplicationContract
         $this->serviceProviders[] = $provider;
         
         $this->loadServiceProviders[get_class($provider)] = true;
+    }
+
+    /**
+     * Determine if the application has booted.
+     * 
+     * @return bool
+     */
+    public function isBooted()
+    {
+        return $this->booted;
+    }
+
+    /**
+     * Boot the application´s service providers.
+     * 
+     * @return void
+     */
+    public function boot()
+    {
+        if ($this->isbooted())
+        {
+            return;
+        }
+
+        $this->bootAppCallbacks($this->bootingCallbacks);
+
+        array_walk($this->serviceProviders, function ($provider) {
+            $this->bootProviderClass($provider);
+        });
+
+        $this->booted = true;
+
+        $this->bootAppCallbacks($this->bootedCallbacks);
+    }
+
+    /**
+     * Call the booting callbacks for the application.
+     * 
+     * @param  callable[]  $callbacks
+     * 
+     * @return void
+     */
+    protected function bootAppCallbacks(array $callbacks)
+    {
+        foreach ($callbacks as $callback)
+        {
+            $callback($this);
+        }
+    }
+
+    /**
+     * Boot the given service provider.
+     * 
+     * @param  \Syscode\Support\ServiceProvider  $provider
+     * 
+     * @return mixed
+     */
+    protected function bootProviderClass(ServiceProvider $provider)
+    {
+        if (method_exists($provider, 'boot'))
+        {
+            $provider->boot();
+        }
+    }
+
+    /**
+     * Register a new boot listener.
+     * 
+     * @param  callable  $callback
+     * 
+     * @return void
+     */
+    public function booting($callback)
+    {
+        $this->bootingCallbacks[] = $callback;
+    }
+
+    /**
+     * Register a new 'booted' listener.
+     * 
+     * @param  callable  $callback
+     * 
+     * @return void
+     */
+    public function booted($callback)
+    {
+        $this->bootedCallbacks[] = $callback;
+
+        if ($this->isBooted())
+        {
+            $this->bootAppCallbacks([$callback]);
+        }
     }
 
     /**
