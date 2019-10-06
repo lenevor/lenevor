@@ -25,7 +25,7 @@
 namespace App\Providers;
 
 use Syscode\Support\Facades\Route;
-use Syscode\Support\ServiceProvider;
+use Syscode\Core\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 /**
  * The route service provider facilitates the register of a namespace your 
@@ -43,13 +43,13 @@ class RouteServiceProvider extends ServiceProvider
     protected $namespace = 'App\Http\Controllers';
     
     /**
-     * Define your route model bindings, namespaces, etc.
+     * Bootstrap any application services.
      * 
      * @return  void
      */
-    public function register()
+    public function boot()
     {
-        Route::setNamespace($this->namespace);
+        parent::boot();
     }
 
     /**
@@ -57,5 +57,11 @@ class RouteServiceProvider extends ServiceProvider
      * 
      * @return  void
      */
-    public function loadMap() {}
+    public function loadMap()
+    {
+       Route::group('', function() {
+            Route::setNamespace($this->namespace);
+            include basePath('routes/web.php');
+       });
+    }
 }
