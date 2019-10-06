@@ -103,6 +103,21 @@ if ( ! function_exists('back'))
     }
 }
 
+if ( ! function_exists('basePath')) 
+{
+    /**
+     * Get the path to the base of the install.
+     *
+     * @param  string  $path
+     * 
+     * @return string
+     */
+    function basePath($path = '')
+    {
+        return app()->basePath($path);
+    }
+}
+
 if ( ! function_exists('cache'))
 {
     /**
