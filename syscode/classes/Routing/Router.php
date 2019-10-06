@@ -37,20 +37,6 @@ class Router implements Routable
 {
 	use RouteMapTrait;
 
-	/** 
-	 * Variable flag for routes.
-	 *
-	 * @var string|bool $initialized
-	 */
-	public $initialized = false;
-
-	/**
-	 * Configure routes.
-	 * 
-	 * @var string|null $config
-	 */
-	public $config = null;
-
 	/**
 	 * Get the route factory. 
 	 * 
@@ -394,24 +380,4 @@ class Router implements Routable
 	{
 		$this->namespace = $namespace;
 	} 
-
-	/**
-	 * Add the routes. 
-	 *
-	 * @return void
-	 */
-	public function start()
-	{
-		if ($this->config === null)
-		{
-			$this->config = app('config')->get('routes');
-		}
-
-		foreach ($this->config['routes'] as $route)
-		{
-			include $this->config['path'].$route.'.php';
-		}
-
-		$this->initialized = true;
-	}	
 }
