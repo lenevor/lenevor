@@ -59,9 +59,17 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function loadMap()
     {
-       Route::group('', function() {
-            Route::setNamespace($this->namespace);
-            include basePath('routes/web.php');
-       });
+        $this->loadMapWebRoute();
+    }
+
+    /**
+     * Define the "web" routes for the application.
+     * 
+     * @return void
+     */
+    protected function loadMapWebRoute()
+    {
+        Route::namespace($this->namespace)
+             ->group('', basePath('routes/web.php'));
     }
 }
