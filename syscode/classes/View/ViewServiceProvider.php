@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.4.0
  */
 
 namespace Syscode\View;
@@ -27,6 +27,8 @@ namespace Syscode\View;
 use Syscode\Support\ServiceProvider;
 
 /**
+ * For loading the classes from the container of services.
+ * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class ViewServiceProvider extends ServiceProvider
@@ -38,6 +40,8 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        
+        $this->app->singleton('view', function () {
+            return new View;
+        });
     }
 }
