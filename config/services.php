@@ -22,6 +22,7 @@ return [
         Syscode\Database\DatabaseServiceProvider::class,
         Syscode\Filesystem\FilesystemServiceProvider::class,
         Syscode\Routing\RoutingServiceProvider::class,
+        Syscode\Translation\TranslationServiceProvider::class,
         Syscode\View\ViewServiceProvider::class,
 
 
