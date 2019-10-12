@@ -25,7 +25,6 @@
 namespace Syscode\Core\Bootstrap;
 
 use Exception;
-use Syscode\Config\Configure;
 use Syscode\Contracts\Core\Application;
 
 /**
@@ -44,10 +43,8 @@ class BootConfiguration
 	 */
 	public function bootstrap(Application $app)
 	{
-		$app->instance('config', $config = new Configure);
-
 		// Set a default timezone if one is defined
-		date_default_timezone_set($config->get('app.timezone', 'UTC'));
+		date_default_timezone_set($app['config']->get('app.timezone', 'UTC'));
 
 		mb_internal_encoding('UTF-8');
 	}
