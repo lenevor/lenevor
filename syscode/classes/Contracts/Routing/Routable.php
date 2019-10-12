@@ -37,9 +37,9 @@ interface Routable
 	/**
 	 * Add a route. 
 	 *
-	 * @param   Route  $route
+	 * @param   \Syscode\Routing\Route  $route
 	 *
-	 * @return  route
+	 * @return  \Syscode\Routing\Route
 	 */
 	public function addRoute(Route $route);
 
