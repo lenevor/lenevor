@@ -27,6 +27,8 @@ namespace Syscode\Database;
 use Syscode\Support\ServiceProvider;
 
 /**
+ * For loading the classes from the container of services.
+ * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class DatabaseServiceProvider extends ServiceProvider
