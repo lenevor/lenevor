@@ -19,15 +19,16 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.3.0
+ * @since       0.4.0
  */
 
 namespace Syscode\Cache;
 
 use Syscode\Support\ServiceProvider;
+use Syscode\Cache\Store\MemcachedConnector;
 
 /**
- * For loading the classes from the container of servicios.
+ * For loading the classes from the container of services.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
@@ -40,6 +41,16 @@ class CacheServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        
+        $this->app->singleton('cache', function ($app) {
+            return (new CacheManager($app))->driver();
+        });
+
+        $this->app->singleton('cache.store', function ($app) {
+            return $app['cache']->driver();
+        });
+
+        $this->app->singleton('memcached.connector', function () {
+            return new MemcachedConnector;
+        });
     }
 }
