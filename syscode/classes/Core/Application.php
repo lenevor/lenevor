@@ -572,31 +572,9 @@ class Application extends Container implements ApplicationContract
         static::setInstance($this);
 
         $this->instance('app', $this);
-        $this->singleton('cache', function () {
-            return (new \Syscode\Cache\CacheManager($this))->driver();
-        });
-        $this->singleton('memcached.connector', function () {
-            return new \Syscode\Cache\Store\MemcachedConnector;
-        });
         $this->instance('config', $this[\Syscode\Config\Configure::class]);
-        $this->singleton('files', function() {
-            return new \Syscode\Filesystem\Filesystem;
-        });
         $this->instance('http', $this[\Syscode\Http\Http::class]);
-        $this->instance('redirect', $this[\Syscode\Routing\Redirector::class]);
-        $this->singleton('redis', function () {
-            return (new \Syscode\Redis\RedisManager($this['config']->get('database.redis', [])))->connection();
-        });
-        $this->instance('request', $this[\Syscode\Http\Request::class]);
-        $this->singleton('response', function() {
-            return new \Syscode\Routing\RouteResponse($this['view'], $this['redirect']);
-        });
-        $this->instance('router', $this[\Syscode\Routing\Router::class]);
-        $this->instance('translator', $this[\Syscode\Translation\Translator::class]);
-        $this->instance('url', $this[\Syscode\Routing\UrlGenerator::class]);
-        $this->singleton('view', function () {
-            return new \Syscode\View\View;
-        });
+        $this->instance('request', $this[\Syscode\Http\Request::class]);        
     }
 
     /**
@@ -610,12 +588,9 @@ class Application extends Container implements ApplicationContract
             'app'        => [\Syscode\Core\Application::class, \Syscode\Contracts\Container\Container::class,
                              \Syscode\Contracts\Core\Application::class, \Psr\Container\ContainerInterface::class],
             'cache'      => [\Syscode\Cache\CacheManager::class, \Syscode\Contracts\Cache\Manager::class],
-            'config'     => [\Syscode\Config\Configure::class, \Syscode\Contracts\Config\Configure::class], 
             'files'      => [\Syscode\Filesystem\Filesystem::class],
-            'http'       => [\Syscode\Http\Http::class],
             'redirect'   => [\Syscode\Routing\Redirector::class],
             'redis'      => [\Syscode\Redis\RedisManager::class],
-            'request'    => [\Syscode\Http\Request::class],
             'response'   => [\Syscode\Routing\RouteResponse::class],
             'router'     => [\Syscode\Routing\Router::class],
             'translator' => [\Syscode\Translation\Translator::class],
