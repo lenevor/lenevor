@@ -63,7 +63,7 @@ trait InteractsWithTime
 
         return $delay instanceof DateTime
                             ? $delay->getTimestamp()
-                            : Chronos::now()->addRealSeconds($delay)->getTimestamp();
+                            : $this->addRealSeconds($delay)->getTimestamp();
     }
 
     /**
