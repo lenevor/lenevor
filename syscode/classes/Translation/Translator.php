@@ -77,9 +77,9 @@ class Translator
      * 
      * @return void
      */
-    public function __construct()
+    public function __construct($locale)
     {   
-        $this->locale = app('config')->get('app.locale');
+        $this->locale = $locale;
 
         if (class_exists('\MessageFormatter'))
         {
