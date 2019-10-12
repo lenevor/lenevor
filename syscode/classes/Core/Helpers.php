@@ -26,8 +26,8 @@ use Syscode\View\View;
 use Syscode\Core\Application;
 use Syscode\Routing\UrlGenerator;
 use Syscode\Support\Facades\Date;
-use Syscode\Routing\RouteResponse;
 use Syscode\Support\Facades\Facade;
+use Syscode\Contracts\Routing\RouteResponse;
 
 if ( ! function_exists('abort')) 
 {
