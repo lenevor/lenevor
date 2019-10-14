@@ -1,7 +1,5 @@
 <?php
 
-use Lenevor\Sys\Logger\Log;
-
 return [
 	/*
 	|------------------------------------------------------------------------
@@ -11,21 +9,24 @@ return [
 	| You can enable error logging by setting a threshold over zero. The
 	| threshold determines what gets logged. Threshold options are:
 	|
-	| Log::L_NONE    = 0    -  Disables logging, Error logging TURNED OFF
-	| Log::L_ALL     = 99   -  All Messages
-	| Log::L_DEBUG   = 100  -  Detailed debug information
-	| Log::L_INFO    = 200  -  Interesting events, like user logging in, etc
-	| Log::L_WARNING = 300  -  Exceptional occurrences that are not errors
-	| Log::L_ERROR   = 400  -  Don't need immediate action, but should be monitored
-	| Log::L_NOTICES = 500  -  Normal but significant events
+	| 0    NONE                -  Disables logging, Error logging TURNED OFF
+	| 1    EMERGENCY MESSAGES  -  System is unusable
+	| 2    ALERT MESSAGES      -  Action Must Be Taken Immediately
+	| 3    CRITICAL MESSAGES   -  Application component unavailable, unexpected exception
+	| 4    RUNTIME ERRORS      -  Don't need immediate action, but should be monitored.
+	| 5    WARNINGS            -  Exceptional occurrences that are not errors
+	| 6    NOTICES             -  Normal but significant events
+	| 7    INFO     		   -  Interesting events, like user logging in, etc
+	| 8    DEBUG    		   -  Detailed debug information	
+	| 9    ALL MESSAGES
 	|
 	*/
 
-	'logThreshold' => Log::L_NONE,
+	'logThreshold' => 0,
 
 	/*
 	|------------------------------------------------------------------------
-	| Active report
+	| Active Report
 	|------------------------------------------------------------------------
 	|
 	| Actived the schema to reports generated in the system.
@@ -36,7 +37,7 @@ return [
 
 	/*
 	|------------------------------------------------------------------------
-	| Date Format for Logs
+	| Date Format or Logs
 	|------------------------------------------------------------------------
 	|
 	| Each item that is logged has an associated date. You can use PHP date
