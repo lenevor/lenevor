@@ -25,6 +25,7 @@
 namespace Syscode\Routing;
 
 use Closure;
+use Syscode\Support\Arr;
 use InvalidArgumentException;
 use Syscode\Contracts\Routing\Routable;
 
@@ -36,13 +37,6 @@ use Syscode\Contracts\Routing\Routable;
 class Router implements Routable
 {
 	use RouteMapTrait;
-
-	/**
-	 * Get the route factory. 
-	 * 
-	 * @var string $factory
-	 */
-	protected $factory;
 
 	/**
 	 * Variable of group route.
@@ -80,6 +74,7 @@ class Router implements Routable
 		'~(\\\/)?{\?:[^\/{}]+}~' => '\/?([^\/]*)', 		 // Optional placeholder
 		'~{[^\/{}]+}~'           => '([^\/]++)'	 		 // Normal placeholder
 	];
+	//protected $patterns = [];
 
 	/**
 	 * Default resolver.
@@ -110,18 +105,6 @@ class Router implements Routable
 	protected $routes = [];
 
 	/**
-	 * Add a route. 
-	 *
-	 * @param   string $route
-	 *
-	 * @return  route
-	 */
-	public function addRoute(Route $route)
-	{
-		$this->routes[] = $route;
-	}
-
-	/**
 	 * Constructor initialize namespace.
 	 *
 	 * @param  string                          $namespace
@@ -139,6 +122,18 @@ class Router implements Routable
 
 		// Instance the RouteDispatcher class 
 		$this->resolver = $resolver;
+	}
+
+	/**
+	 * Add a route. 
+	 *
+	 * @param   string $route
+	 *
+	 * @return  route
+	 */
+	public function addRoute(Route $route)
+	{
+		$this->routes[] = $route;
 	}
 
 	/**
@@ -254,14 +249,7 @@ class Router implements Routable
 
 		$method = array_map('strtoupper', (array)$method);
 
-		$route  = new Route(
-					$method,
-					$this->parseRoute(self::prefix($route)),
-					$action,
-					$this->parseArgs($route)
-				);
-
-		$route->setNamespace($this->namespace);
+		$route = $this->newRoute($method, $this->prefix($route), $action);
 
 		$this->addRoute($route);		
 
@@ -269,7 +257,40 @@ class Router implements Routable
 		{
 			$this->routesByMethod[$verbs][] = $route;
 		}
+
+		$this->addWhereToRoute($route);
 		
+		return $route;
+	}
+
+	/**
+	 * Create a new Route object.
+	 * 
+	 * @param  array|string  $method
+	 * @param  string        $uri
+	 * @param  mixed         $action
+	 * 
+	 * @return \Syscode\Routing\Route
+	 */
+	protected function newRoute($method, $uri, $action)
+	{
+		return take(new Route($method, $uri, $action))
+		            ->setNamespace($this->namespace);
+	}
+
+	/**
+	 * Add the necessary where clauses to the route based on its initial registration.
+	 * 
+	 * @param  \Syscode\Routing\Route
+	 * 
+	 * @return \Syscode\Routing\Route
+	 */
+	protected function addWhereToRoute($route)
+	{
+		$route->where(array_merge(
+			$this->patterns, Arr::get($route->getAction(), 'where', [])
+		));
+
 		return $route;
 	}
 
@@ -296,6 +317,19 @@ class Router implements Routable
 		return trim(trim($this->getGroupPrefix(), '/').'/'.trim($uri, '/'), '/') ?: '/';
 	}
 
+	public function pattern($name, $regex)
+	{
+		return $this->patterns[$name] = $regex;
+	}
+
+	public function patterns($patterns)
+	{
+		foreach ($patterns as $key => $pattern)
+		{
+			$this->patterns[$key] = $pattern;
+		}
+	}
+
 	/**
 	 * Called the namespace and controller.
 	 *
@@ -307,25 +341,6 @@ class Router implements Routable
 	public function namespaces($route, $classname)
 	{
 		return $this;		
-	}
-
-	/**
-	 * Parse arguments into a regex route.
-	 *
-	 * @param  string  $route
-	 *
-	 * @return array
-	 */
-	protected function parseArgs($route)
-	{
-		preg_match_all('~{(n:|a:|an:|w:|\*:|\?:)?([a-zA-Z0-9_]+)}~', $route, $matches);
-		
-		if (isset($matches[2]) && ! empty($matches[2])) 
-		{
-			return $matches[2];
-		}
-
-		return [];
 	}
 
 	/**
@@ -376,8 +391,10 @@ class Router implements Routable
 	 *
 	 * @return string|bool 
 	 */
-	public function setNamespace($namespace)
+	public function namespace($namespace)
 	{
 		$this->namespace = $namespace;
+
+		return $this;
 	} 
 }
