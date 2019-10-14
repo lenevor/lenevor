@@ -611,11 +611,10 @@ code,
     background: var(--second-color);
     color: rgb(182, 175, 202);
     display: inline-table;
-    padding: 0 15px 0 15px;
-    margin-left: -53px;
+    margin-left: -61px;
     position: absolute;
     text-align: center;
-    width: 52px;
+    width: 61px;
 }
 
 .source .line .highlight {
@@ -630,15 +629,22 @@ code,
 }
 
 .source span.highlight {
-    margin-left: -15px;;
+    margin-left: -23px;
     margin-right: 0;
 }
 
 .source span.highlight .number {
     background: rgb(217, 204, 224);
     color: rgb(142, 121, 168);
-    padding: 0 15px 0 15px;
-    width: 53px;
+    text-align: center;
+}
+
+.code-source span.highlight {
+    margin-left: -15px;
+}
+
+.code-source span.highlight .number {
+    margin-left: -61px;
 }
 
 pre {
@@ -648,7 +654,7 @@ pre {
     border-top: 1px solid rgb(231, 231, 236);
     border-bottom-left-radius: 4px;
     border-top-left-radius: 4px;
-    margin-left: 52px;
+    margin-left: 60px;
     padding-bottom: 12px;
     padding-top: 10px;
     overflow: hidden;
