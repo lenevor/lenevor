@@ -100,10 +100,12 @@ class RouteGroup
 
  		if (is_callable($callback))
  		{
- 			call_user_func($callback);
+			call_user_func($callback);
  		}
 
  		$this->prefix     = '';
- 		$this->middleware = [];
+		$this->middleware = [];
+
+		include $callback;
  	}
 }
