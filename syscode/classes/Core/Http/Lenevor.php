@@ -32,6 +32,7 @@ use Syscode\Support\Facades\Http;
 use Syscode\Support\Facades\Route;
 use Syscode\Support\Facades\Request;
 use Syscode\Contracts\Core\Application;
+use Syscode\Contracts\Routing\RouteResponse;
 use Syscode\Contracts\Core\Lenevor as LenevorContract;
 
 /**
@@ -239,9 +240,6 @@ class Lenevor implements LenevorContract
 		$this->loadEnvironment();
 		$this->bootEnvironment();
 
-		// Initialize variable in empty
-		$response = '';
-		
 		// Activate the base URL, the route for html and desactive the route for CLI
 		if ( ! $this->initCli())
 		{
@@ -250,7 +248,7 @@ class Lenevor implements LenevorContract
 				$this->app['config']->set('app.baseUrl', self::getBaseUrl());
 			}
 
-			$response = (new response)->setContent(
+			$response = Response::render()->setContent(
 				$this->displayPerformanceMetrics($this->dispatcher())
 			);
 		}   
