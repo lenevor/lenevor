@@ -60,10 +60,9 @@ class RouteResolver
 			$matches = [];
 
 			// If the requested route matches one of the defined routes
-			if ($route->getRoute() === $requestedUri || preg_match('~^'.$route->getRoute().'$~', $requestedUri, $matches)) 
+			if ($route->getRoute() === $requestedUri || preg_match_all('~^'.$route->getRoute().'$~', $requestedUri, $matches)) 
 			{	
 				$arguments = [];
-
 				$params    = $this->getParams($matches);
 
 				if (is_array($route->getArguments()) && count($route->getArguments()) > 0)
