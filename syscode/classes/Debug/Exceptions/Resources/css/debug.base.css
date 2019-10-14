@@ -610,7 +610,7 @@ code,
 .source .number {
     background: var(--second-color);
     color: rgb(182, 175, 202);
-    display: inline-table;
+    display: inline-block;
     margin-left: -61px;
     position: absolute;
     text-align: center;
