@@ -14,5 +14,5 @@ return [
 
     '256f4ee8a901bd923c73' => SYS_PATH.'classes/Core/Helpers.php',
     '102ba5d118e42f3abd85' => SYS_PATH.'classes/Support/Helpers.php',
-    
+        
 ];
