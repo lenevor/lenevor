@@ -187,8 +187,14 @@ return [
     'Syscode\\View\\Parser' => SYS_PATH.'classes/View/Parser.php',
     'Syscode\\View\\View' => SYS_PATH.'classes/View/View.php',
     'Syscode\\View\\ViewServiceProvider' => SYS_PATH.'classes/View/ViewServiceProvider.php',
-    'Psr\\Container\\ContainerExceptionInterface' => SYS_PATH.'external/psr/container/src/ContainerExceptionInterface.php',
-    'Psr\\Container\\ContainerInterface' => SYS_PATH.'external/psr/container/src/ContainerInterface.php',
-    'Psr\\Container\\NotFoundExceptionInterface' => SYS_PATH.'external/psr/container/src/NotFoundExceptionInterface.php',
+    'Psr\\Container\\ContainerExceptionInterface' => SYS_PATH.'external/psr/Container/src/ContainerExceptionInterface.php',
+    'Psr\\Container\\ContainerInterface' => SYS_PATH.'external/psr/Container/src/ContainerInterface.php',
+    'Psr\\Container\\NotFoundExceptionInterface' => SYS_PATH.'external/psr/Container/src/NotFoundExceptionInterface.php',
+    'Psr\\Log\\AbstractLogger' => SYS_PATH.'external/psr/Log/src/AbstractLogger.php',
+    'Psr\\Log\\InvalidArgumentException' => SYS_PATH.'external/psr/Log/src/InvalidArgumentException.php',
+    'Psr\\Log\\LoggerAwareInterface' => SYS_PATH.'external/psr/Log/src/LoggerAwareInterface.php',
+    'Psr\\Log\\LoggerTrait' => SYS_PATH.'external/psr/Log/src/LoggerTrait.php',
+    'Psr\\Log\\LogLevel' => SYS_PATH.'external/psr/Log/src/LogLevel.php',
+    'Psr\\Log\\NullLogger' => SYS_PATH.'external/psr/Log/src/NullLogger.php',
 
 ];
