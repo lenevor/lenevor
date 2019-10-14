@@ -63,7 +63,14 @@ class Route
 	protected $namespace;
 
 	/**
-	 * Url of route.
+	 * The array of matched parameters.
+	 * 
+	 * @var array $parameters
+	 */
+	protected $parameters = [];
+
+	/**
+	 * The URI pattern the route responds to.
 	 *
 	 * @var array $uri
 	 */
@@ -82,11 +89,10 @@ class Route
 	 * @param  array|string     $method
 	 * @param  string           $uri
 	 * @param  \Closure|string  $action
-	 * @param  array            $arguments
 	 *
 	 * @return void
 	 */
-	public function __construct($method = null, $uri = null, $action = null, array $arguments = [])
+	public function __construct($method = null, $uri = null, $action = null)
 	{
 		// Set the method
 		$this->parseMethod($method);
@@ -94,9 +100,9 @@ class Route
 		$this->parseRoute($uri);
 		// Set the action
 		$this->parseAction($action);
-		// Set the arguments
-		$this->wheres = $arguments;
 	}
+
+	// Getters
 
 	/**
 	 * Get the action of the current route.
@@ -171,6 +177,8 @@ class Route
 		die();
 	}
 
+	// Setters
+
 	/**
 	 * Set the name.
 	 *
@@ -197,7 +205,7 @@ class Route
 	 *
 	 * @param  \Closure|string  $action
 	 *
-	 * @return \Closure|string  $this
+	 * @return $this
 	 *
 	 * @throws \InvalidArgumentException
 	 */
@@ -260,9 +268,24 @@ class Route
 			throw new InvalidArgumentException('No route provided, for root use /');
 		}
 
-		$this->uri = $uri;
+		$this->uri = trim($uri, '\/?');
 
 		return $this;
+	}
+
+	/**
+	 * Parse arguments into a regex route.
+	 *
+	 * @return array
+	 */
+	public function parseArgs()
+	{
+		preg_match_all('/\{(.*?)\}/', $this->uri, $matches);
+		
+		return array_map(function ($match)
+		{
+			return trim($match, '?');
+		}, $matches[1]);
 	}
 
 	/**
@@ -270,7 +293,7 @@ class Route
 	 *
 	 * @param  string  $namespace
 	 *
-	 * @return bool
+	 * @return $this
 	 */
 	public function setNamespace($namespace)
 	{
@@ -282,24 +305,30 @@ class Route
 	/**
 	 * Set the where.
 	 *
-	 * @param  string  $name
+	 * @param  array|string  $name
+	 * @param  string|null   $regex
 	 *
 	 * @return $this
 	 */
-	public function where($param, $regex)
+	public function where($name, $regex = null)
 	{
-		if (is_array($param))
-		{
-			foreach ($param as $key => $value)
-			{
-				$this->wheres = [$key => $value];
-			}
-		}
-		else 
-		{
-			$this->wheres = [$param => $regex];	
+		foreach ($this->parseWhere($name, $regex) as $name => $regex) {
+			$this->wheres[$name] = $regex;
 		}
 		
 		return $this;
+	}
+	
+	/**
+	 * Parse arguments to the where method into an array.
+	 * 
+	 * @param  array|string  $name
+	 * @param  string   $regex
+	 * 
+	 * @return array
+	 */
+	protected function parseWhere($name, $regex)
+	{
+		return is_array($name) ? $name : [$name => $regex];
 	}
 }
