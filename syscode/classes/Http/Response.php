@@ -106,7 +106,8 @@ class Response extends Status
 	}
 
 	/**
-	 * Sends the headers if they haven't already been sent. Returns whether they were sent or not.
+	 * Sends the headers if they haven't already been sent. 
+	 * Returns whether they were sent or not.
 	 *
 	 * @return bool
 	 *
@@ -119,9 +120,6 @@ class Response extends Status
 		{
 			return $this;
 		}
-
-		// Valid headers
-		$this->prepare();
 
 		// Headers
 		foreach ($this->headers->allPreserveCase() as $name => $values) 
@@ -146,7 +144,7 @@ class Response extends Status
 			header(sprintf('%s %s %s', $this->protocol, $this->status, $this->statusText), true, $this->status);
 		}
 
-		return $this;
+		return $this->prepare();
 	}
 
 	/**
@@ -205,7 +203,7 @@ class Response extends Status
 	/**
 	 * Prepares the Response before it is sent to the client.
 	 * 
-	 * @return void
+	 * @return $this
 	 */
 	public function prepare()
 	{
@@ -217,6 +215,8 @@ class Response extends Status
 			$headers->remove('Content-Type');
 			$headers->remove('Content-Length');
 		}
+
+		return $this;
 	}
 
 	/**
@@ -229,16 +229,17 @@ class Response extends Status
 	*
 	* @throws \InvalidArgumentException
 	*/
-	public function setStatusCode(int $code = 200, $text = null)
+	public function setStatusCode(int $code, $text = null)
 	{
 		$this->status = $code; 
 
 		// Valid range?
 		if ($this->isInvalid())
 		{
-			throw new InvalidArgumentException(sprintf("[%s] is not a valid HTTP return status code", $code));
+			throw new InvalidArgumentException(sprintf("[%s] is not a valid HTTP return status code", $code));			
 		}
 
+		// Check if you have an accepted status code if not shows to a message of unknown status
 		if (null === $text)
 		{
 			$this->statusText = isset($this->statusCodes[$code]) ? $this->statusCodes[$code] : 'Unknown status';
