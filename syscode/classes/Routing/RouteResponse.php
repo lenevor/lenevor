@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.2.0
+ * @since       0.4.0
  */
 
 namespace Syscode\Routing;
@@ -28,6 +28,7 @@ use Syscode\Http\Response;
 use Syscode\Http\JsonResponse;
 use Syscode\Routing\Redirector;
 use Syscode\Contracts\View\View;
+use Syscode\Contracts\Routing\RouteResponse as ResponseContract;
 
 /**
  * This class allows you to control the use of the HTTP response 
@@ -35,7 +36,7 @@ use Syscode\Contracts\View\View;
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class RouteResponse
+class RouteResponse implements ResponseContract
 {
     /**
      * The View class instance.
