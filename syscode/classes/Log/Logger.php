@@ -19,50 +19,19 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.4.0
  */
 
 namespace Syscode\Log;
+
+use Psr\Log\AbstractLogger;
 
 /**
  * The Lenevor Logger of errors.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class Logger
+class Logger extends AbstractLogger
 {
-	/**
-	 * No exist error level.
-	 */
- 	const L_NONE = 0;
-
-	/**
-	 * Activate all errors level
-	 */
-	const L_ALL = 99;
-
-	/**
-	 * Activate error level DEBUG
-	 */
-	const L_DEBUG = 100;
-
-	/**
-	 * Activate error level INFO
-	 */
-	const L_INFO = 200;
-
-	/**
-	 * Activate error level WARNING
-	 */
-	const L_WARNING = 300;
-
-	/**
-	 * Activate error level ERROR
-	 */
-	const L_ERROR = 400;
-
-	/**
-	 * Activate error level NOTICES
-	 */
-	const L_NOTICES = 500;
- }
+	
+}
