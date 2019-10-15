@@ -176,7 +176,7 @@ header:hover h2 {
 .exception-title {
     color: rgb(167, 167, 167);
     line-height: 2.5;
-    margin: 0;
+    margin-top: -5px;
 }
 
 .exception-title h1 {
@@ -192,7 +192,7 @@ header:hover h2 {
 .exception-message h2 {
     color: rgb(94, 90, 133);
     font-weight: 600;
-    line-height: 1em;
+    line-height: 1.1em;
     margin-top: -3px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -245,7 +245,7 @@ header:hover h2 {
     }
 
     .exception-message h2 {
-        font-size: var(--font-size-large-x);
+        font-size: var(--font-size-large-xx);
     }
 }
 
@@ -295,7 +295,7 @@ header:hover h2 {
 .frame {
     background: var(--first-color);
     background: linear-gradient(top, rgb(248, 248, 248) 80%, rgb(240, 240, 240));
-    box-shadow: 0 -1px 0 rgb(238, 238, 238), -1px 1px 0 rgb(228, 228, 228), 0 -1px 0 rgb(238, 238, 238), 1px 1px 0 rgb(228, 228, 228);
+    box-shadow: 0 -1px 0 rgb(233, 233, 233), -1px 1px 0 rgb(233, 233, 233), 0 -1px 0 rgb(238, 238, 238), 1px 1px 0 rgb(228, 228, 228);
     cursor: pointer;
     transition: all 0.1s ease;
     text-shadow: none;
@@ -613,7 +613,6 @@ code,
     display: inline-block;
     margin-left: -61px;
     position: absolute;
-    text-align: center;
     width: 61px;
 }
 
@@ -635,8 +634,13 @@ code,
 
 .source span.highlight .number {
     background: rgb(217, 204, 224);
-    color: rgb(142, 121, 168);
-    text-align: center;
+    color: rgb(142, 121, 168);    
+}
+
+.source .number,
+.source span.highlight .number {
+    padding-right: 10px;
+    text-align: right;
 }
 
 .code-source span.highlight {
