@@ -32,12 +32,14 @@ namespace Syscode\Contracts\Core;
 interface Lenevor
 {
     /**
-	 * Handle an incoming HTTP request. Initializes the framework, 
-	 * this can only be called once. Launch the application.
+	 * Initializes the framework, this can only be called once.
+	 * Launch the application.
+	 * 
+	 * @param  \Syscode\http\Request  $request
 	 *
 	 * @return void
 	 * 
-	 * @throws \Syscode\Core\Exceptions\LenevorException
+	 * @uses   new \Syscode\Http\Response
 	 */
- 	public function handle();
+ 	public function handle($request);
 }
