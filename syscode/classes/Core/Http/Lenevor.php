@@ -26,14 +26,17 @@ namespace Syscode\Core\Http;
 
 use Closure;
 use Exception;
+use Throwable;
 use Syscode\Http\Response;
 use Syscode\Debug\Benchmark;
 use Syscode\Support\Facades\Http;
 use Syscode\Support\Facades\Route;
-use Syscode\Support\Facades\Request;
+use Syscode\Support\Facades\Facade;
 use Syscode\Contracts\Core\Application;
 use Syscode\Contracts\Routing\RouteResponse;
+use Syscode\Contracts\Debug\ExceptionHandler;
 use Syscode\Contracts\Core\Lenevor as LenevorContract;
+use Syscode\Debug\FatalExceptions\FatalThrowableError;
 
 /**
  * The Lenevor class is the heart of the system framework.
@@ -76,13 +79,6 @@ class Lenevor implements LenevorContract
 	 * @var bool $isCli
 	 */
 	protected $isCli = false;
-
-	/**
-	 * The request implementation.
-	 * 
-	 * @var string $request
-	 */
-	protected $request;
 	
 	/**
 	 * Verify if response is activate.
@@ -107,10 +103,9 @@ class Lenevor implements LenevorContract
 	 * 
 	 * @return void
 	 */
-	public function __construct(Application $app, Request $request, Benchmark $benchmark)
+	public function __construct(Application $app, Benchmark $benchmark)
 	{
 		$this->app       = $app;
-		$this->request   = $request;
 		$this->benchmark = $benchmark;
 	}
 
@@ -175,13 +170,15 @@ class Lenevor implements LenevorContract
 	}
 
  	/**
-	  * The dispatcher of routes.
-	  
+	 * The dispatcher of routes.
+	 * 
+	 * @param  \Syscode\Http\Request  $request
+	 * 	  
  	 * @return void
  	 */
- 	protected function dispatcher()
+ 	protected function dispatcher($request)
  	{		
- 		return Route::resolve($this->request::getUri(), $this->request::method());
+ 		return Route::resolve($request->getUri(), $request->method());
 	}
 
 	/**
@@ -223,13 +220,44 @@ class Lenevor implements LenevorContract
 	/**
 	 * Initializes the framework, this can only be called once.
 	 * Launch the application.
-	 *
-	 * @return void
 	 * 
-	 * @uses   new \Syscode\Http\Response
+	 * @param  \Syscode\http\Request  $request
+	 *
+	 * @return \Syscode\Http\Response
 	 */
-	public function handle()
+	public function handle($request)
 	{
+		try
+		{
+			$response = $this->sendRequestThroughRouter($request);
+		}
+		catch (Exception $e)
+		{
+			$response = $this->renderException($request, $e);
+		}
+		catch (Throwable $e)
+		{
+			$e = new FatalThrowableError($e);
+
+			$response = $this->renderException($request, $e);
+		}		
+
+		return $response;
+	}
+
+	/**
+	 * Send the given request through the router.
+	 * 
+	 * @param  \Syscode\Http\Request  $request
+	 * 
+	 * @return \Syscode\Http\Response
+	 */
+	protected function sendRequestThroughRouter($request)
+	{
+		$this->app->instance('request', $request);  
+
+		Facade::clearResolvedInstance('request');
+
 		// Start the benchmark
 		$this->startBenchmark();
 
@@ -247,13 +275,11 @@ class Lenevor implements LenevorContract
 			{
 				$this->app['config']->set('app.baseUrl', self::getBaseUrl());
 			}
+		}
 
-			$response = Response::render()->setContent(
-				$this->displayPerformanceMetrics($this->dispatcher())
-			);
-		}   
-		   
-		return $response;
+		return Response::render()->setContent(
+					$this->displayPerformanceMetrics($this->dispatcher($request))
+		);
 	}
 
 	/**
@@ -280,6 +306,19 @@ class Lenevor implements LenevorContract
 		$output = str_replace('{elapsed_time}', $this->totalTime, $output);
 
 		return $output;
+	}
+	
+	/**
+	 * Render the exception to a response.
+	 * 
+	 * @param  \Syscode\Http\Request  $request
+	 * @param  \Exception             $e
+	 * 
+	 * @return \Syscode\Http\Response
+	 */
+	protected function renderException($request, Exception $e)
+	{
+		return $this->app[ExceptionHandler::class]->render($request, $e);
 	}
 	 
  	/**
