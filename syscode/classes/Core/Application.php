@@ -574,7 +574,6 @@ class Application extends Container implements ApplicationContract
         $this->instance('app', $this);
         $this->instance('config', $this[\Syscode\Config\Configure::class]);
         $this->instance('http', $this[\Syscode\Http\Http::class]);
-        $this->instance('request', $this[\Syscode\Http\Request::class]);        
     }
 
     /**
