@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.4.0
  */
 
 namespace App\Exceptions;
@@ -35,6 +35,18 @@ use Syscode\Core\Exceptions\Handler as ExceptionHandler;
  */
 class Handler extends ExceptionHandler 
 {
+    /**
+     * Report or log an exception.
+     * 
+     * @param  Exception  $exception
+     * 
+     * @return void
+     */
+    public function report(Exception $exception)
+    {
+        return parent::report($exception);
+    }
+
     /**
      * Render an exception into an HTTP response.
      * 
