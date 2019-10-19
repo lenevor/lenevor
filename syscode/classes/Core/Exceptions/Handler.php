@@ -19,14 +19,17 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.4.0
  */
 
 namespace Syscode\Core\Exceptions;
 
 use Exception;
+use Syscode\Support\Arr;
+use Syscode\Log\Logger;
 use Syscode\Debug\GDebug;
 use Syscode\Http\Response;
+use Syscode\Container\Container;
 use Syscode\Core\Http\Exceptions\{
     HttpException,
     NotFoundHttpException
@@ -44,6 +47,110 @@ use Syscode\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
  */
 class Handler implements ExceptionHandlerContract
 {
+    /**
+     * The container implementation.
+     * 
+     * @var \Syscode\Container\Container $container
+     */
+    protected $container;
+
+    /**
+     * A list of the exception types that should not be reported.
+     * 
+     * @var array $dontReport
+     */
+    protected $dontReport = [];
+
+    /**
+     * A list of the Core exception types that should not be reported.
+     * 
+     * @var array $coreDontReport
+     */
+    protected $coreDontReport = [
+        HttpException::class,
+        HttpResponseException::class,
+        ModelNotFoundException::class,
+    ];
+
+    /**
+     * Constructor. Create a new exception handler instance.
+     * 
+     * @param  \Syscode\Container\Container  $container
+     * 
+     * @return void
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
+    
+    /**
+     * Report or log an exception.
+     * 
+     * @param  \Exception  $e
+     * 
+     * @return mixed
+     * 
+     * @throws \Exception
+     */
+    public function report(Exception $e)
+    {
+        if ($this->shouldntReport($e))
+        {
+            return;
+        }
+
+        if (method_exists($e, 'report'))
+        {
+            return $e->report($e);
+        }
+
+        try
+        {
+            $logger = $this->container->make(logger::class);
+        }
+        catch (Exception $e)
+        {
+            throw $e;
+        }
+
+        $logger->error($e->getMessage());
+    }
+
+    /**
+     * Determine if the exception should be reported.
+     * 
+     * @param  \Exception  $e
+     * 
+     * @return bool
+     */
+    public function shouldReport(Exception $e)
+    {
+        return ! $this->shouldntReport($e);
+    }
+
+    /**
+     * Determine if the exception is in the "do not report" list.
+     * 
+     * @param  \Exception  $e
+     * 
+     * @return bool
+     */
+    public function shouldntReport(Exception $e)
+    {
+        $dontReport = array_merge($this->dontReport, $this->coreDontReport);
+
+        foreach ($dontReport as $type) 
+        {
+            if ($e instanceof $type) 
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Render an exception into a response.
      *
