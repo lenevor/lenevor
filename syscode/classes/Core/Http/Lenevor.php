@@ -233,11 +233,13 @@ class Lenevor implements LenevorContract
 		}
 		catch (Exception $e)
 		{
+			$this->reportException($e);
+
 			$response = $this->renderException($request, $e);
 		}
 		catch (Throwable $e)
 		{
-			$e = new FatalThrowableError($e);
+			$this->reportException($e = new FatalThrowableError($e));
 
 			$response = $this->renderException($request, $e);
 		}		
@@ -306,6 +308,18 @@ class Lenevor implements LenevorContract
 		$output = str_replace('{elapsed_time}', $this->totalTime, $output);
 
 		return $output;
+	}
+
+	/**
+	 * Report the exception to the exception handler.
+	 * 
+	 * @param  \Exception  $e
+	 * 
+	 * @return void
+	 */
+	protected function reportException(Exception $e)
+	{
+		return $this->app[ExceptionHandler::class]->report($e);
 	}
 	
 	/**
