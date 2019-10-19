@@ -101,6 +101,15 @@ class BootHandleExceptions
             $e = new FatalThrowableError($e);
         }
 
+        try
+        {
+            $this->getExceptionHandler()->report($e);
+        }
+        catch (Exception $e)
+        {
+            //
+        }
+
         $this->renderHttpResponse($e);
     }
 
