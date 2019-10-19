@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.4.0
  */
 
 namespace Syscode\Contracts\Debug;
@@ -33,6 +33,15 @@ use Exception;
  */
 interface ExceptionHandler
 {
+    /**
+     * Report or log an exception.
+     * 
+     * @param  \Exception  $e
+     * 
+     * @return mixed
+     */
+    public function report(Exception $e);
+
     /**
      * Render an exception into an HTTP response.
      * 
