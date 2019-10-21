@@ -12,7 +12,7 @@
 */
 return [
 
-    'App' => APP_PATH,
-    'Syscode' => realpath(SYS_PATH),
+    'App\\' => APP_PATH,
+    'Syscode\\' => realpath(SYS_PATH),
 
 ];
