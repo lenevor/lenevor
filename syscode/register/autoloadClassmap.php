@@ -13,9 +13,6 @@
 
 return [
     
-    'App\\Http\\Controller' => APP_PATH.'/Http/Controller.php',
-    'App\\Exceptions\\Handler' => APP_PATH.'Exceptions/Handler.php',
-    'App\\Providers\\RouteServiceProvider' => APP_PATH.'Providers\RouteServiceProvider.php',
     'Syscode\\Cache\\Exceptions\\CacheDriverException' => SYS_PATH.'/classes/Cache/Exceptions/CacheDriverException.php',
     'Syscode\\Cache\\Store\\ApcStore' => SYS_PATH.'/classes/Cache/Store/ApcStore',
     'Syscode\\Cache\\Store\\ApcWrapper' => SYS_PATH.'/classes/Cache/Store/ApcWrapper',
@@ -147,6 +144,7 @@ return [
     'Syscode\\Log\\Logger' => SYS_PATH.'/classes/Log/Logger.php',
     'Syscode\\Log\\LoggerServiceProvider' => SYS_PATH.'/classes/Log/LoggerServiceProvider.php',
     'Syscode\\Redis\\RedisManager' => SYS_PATH.'/classes/Redis/RedisManager.php',       
+    'Syscode\\Routing\\Exceptions\\ActionNotFoundException' => SYS_PATH.'/classes/Routing/Exceptions/ActionNotFoundException.php',
     'Syscode\\Routing\\Exceptions\\RouteNotFoundException' => SYS_PATH.'/classes/Routing/Exceptions/RouteNotFoundException.php',
     'Syscode\\Routing\\Redirector' => SYS_PATH.'/classes/Routing/Redirector.php',
     'Syscode\\Routing\\Route' => SYS_PATH.'/classes/Routing/Route.php',
