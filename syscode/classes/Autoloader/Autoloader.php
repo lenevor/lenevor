@@ -190,22 +190,21 @@ class Autoloader
             {
                 $directories = [$directories];
             }
-
-            foreach ($directories as $directory) 
+            
+            if (0 === strpos($class, $namespace))
             {
-                $directory = rtrim($directory, DIRECTORY_SEPARATOR);
-
-                if (strpos($class, $namespace) === 0)
+                foreach ($directories as $directory) 
                 {
-                    $filePath = $directory.str_replace('\\', DIRECTORY_SEPARATOR, substr($class, strlen($namespace))).'.php';
-
+                    $lastPos = strrpos($namespace, '\\');
+                    $pathPsr4 = strtr($class, '\\', DIRECTORY_SEPARATOR).'.php';
+                    $filePath = $directory.substr($pathPsr4, $lastPos + 1);
                     $filename = $this->sendFilePath($filePath);
 
                     if ($filename)
                     {
                         return $filename;
                     }
-                }                
+                }               
             }
         }
     }
