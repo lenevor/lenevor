@@ -25,8 +25,11 @@
 namespace Syscode\Routing;
 
 use Closure;
+use Syscode\Routing\Exceptions\{
+	ActionNotFoundException,
+	RouteNotFoundException
+};
 use Syscode\Contracts\Routing\Routable;
-use Syscode\Routing\Exceptions\RouteNotFoundException;
 
 /**
  * This class resolve the given route and called the method that belongs to the route.
@@ -98,6 +101,10 @@ class RouteResolver
 					// If exist the controller
 					if (class_exists($controller))
 					{
+						if ( ! method_exists($controller, $action))
+						{
+							throw new ActionNotFoundException("Method [$action] no exist in the $controller class");
+						}
 						return call_user_func_array([new $controller, $action], $arguments);	
 					}
 				}				
