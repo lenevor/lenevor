@@ -195,10 +195,12 @@ class Autoloader
             {
                 foreach ($directories as $directory) 
                 {
-                    $lastPos = strrpos($namespace, '\\');
-                    $pathPsr4 = strtr($class, '\\', DIRECTORY_SEPARATOR).'.php';
-                    $filePath = $directory.substr($pathPsr4, $lastPos + 1);
-                    $filename = $this->sendFilePath($filePath);
+                    if (false !== $lastPos = strrpos($namespace, '\\'))
+                    {
+                        $pathPsr4 = strtr($class, '\\', DIRECTORY_SEPARATOR).'.php';
+                        $filePath = $directory.substr($pathPsr4, $lastPos + 1);
+                        $filename = $this->sendFilePath($filePath); 
+                    }
 
                     if ($filename)
                     {
