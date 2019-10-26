@@ -84,6 +84,8 @@ class RouteGroup
 			$this->middleware = $middleware;
 			$this->prefix     = $prefix;
 		}
+
+		return $this;
 	}
 
  	/**
