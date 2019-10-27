@@ -25,8 +25,8 @@
 namespace Syscode\Core\Exceptions;
 
 use Exception;
-use Syscode\Support\Arr;
 use Syscode\Log\Logger;
+use Syscode\Support\Arr;
 use Syscode\Debug\GDebug;
 use Syscode\Http\Response;
 use Syscode\Container\Container;
