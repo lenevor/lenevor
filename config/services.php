@@ -21,6 +21,7 @@ return [
         Syscode\Cache\CacheServiceProvider::class,
         Syscode\Database\DatabaseServiceProvider::class,
         Syscode\Filesystem\FilesystemServiceProvider::class,
+        Syscode\Log\LoggerServiceProvider::class,
         Syscode\Routing\RoutingServiceProvider::class,
         Syscode\Translation\TranslationServiceProvider::class,
         Syscode\View\ViewServiceProvider::class,
