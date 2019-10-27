@@ -209,7 +209,7 @@ class Router implements Routable
 	 */
 	public function group($params, $callback) 
 	{
-		if ( ! isset($params))
+		if ( ! isset($params) && ! is_null($params))
  		{
  			throw new InvalidArgumentException('Params must be set');
  		}
