@@ -46,7 +46,8 @@ class RouteGroup
 	public $prefix;
 
 	/**
- 	 * Definer the middleware's and prefix. Execute the parameters  if a match was found
+	 * Definer the middleware's and prefix. Execute the parameters
+	 * if a match was found.
  	 *
  	 * @param  array|string  $params  The value to middleware/prefix the routes
  	 *
@@ -58,7 +59,7 @@ class RouteGroup
 		{
 			$this->prefix = $params;
 		}
-		elseif (is_array($params))
+		else if (is_array($params))
 		{
 			if (isset($params['middleware']))
 			{
@@ -71,21 +72,15 @@ class RouteGroup
 			$this->middleware = ( ! isset($params['middleware']) || ! is_array($option  = $params['middleware'])) ? [] : $option;
 			$this->prefix     = ( ! isset($params['prefix']) || ! is_string($option = $params['prefix'])) ? '' : $option;
 		}
-		else
+		else if (is_callable($params))
 		{
-			if (is_callable($params))
-			{
-				$prefix               = $params;
-				$middleware           = $params;
-				$params               = [];
-				$params['middleware'] = ['middleware'];
-			}
-
+			$prefix               = $params;
+			$middleware           = $params;
+			$params               = [];
+			$params['middleware'] = ['middleware'];
 			$this->middleware = $middleware;
 			$this->prefix     = $prefix;
 		}
-
-		return $this;
 	}
 
  	/**
@@ -98,16 +93,21 @@ class RouteGroup
  	 */
  	public function group($params, $callback)
  	{
- 		$this->attributes($params);
+		if ( is_null($params))
+		{
+			$this->attributes($params);
+		}
 
  		if (is_callable($callback))
  		{
 			call_user_func($callback);
- 		}
+		}
+		else
+		{
+			include $callback;
+		}
 
  		$this->prefix     = '';
 		$this->middleware = [];
-
-		include $callback;
  	}
 }
