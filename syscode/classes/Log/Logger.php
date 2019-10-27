@@ -25,16 +25,26 @@
 namespace Syscode\Log;
 
 use Psr\Log\LogLevel;
-use Psr\Log\AbstractLogger;
+use Psr\Log\LoggerTrait;
 use Psr\Log\InvalidArgumentException;
+use Psr\Log\LoggerInterface as PsrLoggerInterface;
 
 /**
  * The Lenevor Logger of errors.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class Logger extends AbstractLogger
+class Logger implements PsrLoggerInterface
 {
+    use LoggerTrait;
+
+    /**
+     * The application implementation.
+     *
+     * @var \Syscode\Contracts\Core\Application $app
+     */
+    protected $app;
+
     /**
      * This holds the file handle for this instance's log file.
      * 
@@ -80,20 +90,18 @@ class Logger extends AbstractLogger
     ];
 
     /**
-     * Anything options not considered 'core' to the logging library should be
-     * settable view the third parameter in the constructor.
+     * Constructor. The Logger class instance.
      * 
-     * @var array $options
+     * @param  \Syscode\Contracts\Core\Application  $app
+     * 
+     * @return void
      */
-    protected $options = [
-        'extension'      => 'txt',
-        'dateFormat'     => 'Y-m-d G:i:s.u',
-        'filename'       => false,
-        'flushFrequency' => false,
-        'prefix'         => 'log_',
-        'logFormat'      => false,
-        'appendContext'  => true,
-    ];
+    public function __construct($config)
+    {
+        $this->loggableLevels = ! is_array($config->get('logger.logThreshold')) 
+                                    ? $config->get('logger.logThreshold') 
+                                    : range(1, (int) $config->get('logger.logThreshold'));
+    }
 
     /**
      * Logs with an arbitrary level.
