@@ -40,8 +40,10 @@ class LoggerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('log', function() {
-            return new Logger;
+        $this->app->singleton('log', function($app) {
+            $config = $app['config'];
+            
+            return new Logger($config);
         });
     }
 }
