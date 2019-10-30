@@ -26,7 +26,8 @@ namespace Syscode\Log;
 
 use Psr\Log\LogLevel;
 use Psr\Log\LoggerTrait;
-use Psr\Log\InvalidArgumentException;
+use Syscode\Support\Chronos;
+use Syscode\Log\Exceptions\LogException;
 use Psr\Log\LoggerInterface as PsrLoggerInterface;
 
 /**
@@ -46,11 +47,11 @@ class Logger implements PsrLoggerInterface
     protected $app;
 
     /**
-     * This holds the file handle for this instance's log file.
+     * Format of the timestamp for log files.
      * 
-     * @var string $logFileHandler
+     * @var string $logDateFormat
      */
-    protected $logFileHandler;
+    protected $logDateFormat = 'Y-m-d H:i:s';
 
     /**
      * Path to the log file.
@@ -74,19 +75,33 @@ class Logger implements PsrLoggerInterface
     protected $loggableLevels = [];
 
     /**
+     * Caches instances of the handlers.
+     * 
+     * @var array $logHandlers
+     */
+    protected $logHandlers = [];
+
+    /**
+     * Holds the configuration for each handler.
+     * 
+     * @var array $logHandlerConfig
+     */
+    protected $logHandlerConfig = [];
+
+    /**
      * Array of log levels.
      * 
      * @var array $loglevels
      */
     protected $loglevels = [
-        LogLevel::EMERGENCY => 0,
-        LogLevel::ALERT     => 1,
-        LogLevel::CRITICAL  => 2,
-        LogLevel::ERROR     => 3,
-        LogLevel::WARNING   => 4,
-        LogLevel::NOTICE    => 5,
-        LogLevel::INFO      => 6,
-        LogLevel::DEBUG     => 7,
+        LogLevel::EMERGENCY => 1,
+        LogLevel::ALERT     => 2,
+        LogLevel::CRITICAL  => 3,
+        LogLevel::ERROR     => 4,
+        LogLevel::WARNING   => 5,
+        LogLevel::NOTICE    => 6,
+        LogLevel::INFO      => 7,
+        LogLevel::DEBUG     => 8,
     ];
 
     /**
@@ -96,20 +111,45 @@ class Logger implements PsrLoggerInterface
      * 
      * @return void
      */
-    public function __construct($config)
+    public function __construct($app)
     {
-        $this->loggableLevels = ! is_array($config->get('logger.logThreshold')) 
-                                    ? $config->get('logger.logThreshold') 
-                                    : range(1, (int) $config->get('logger.logThreshold'));
+        $this->app           = $app;
+        $this->logDateFormat = $this->app['config']->get('logger.logDateFormat') ?? $this->logDateFormat;
+    }
+
+    public function debug($message, array $context = array())
+    {
+        $this->log(__FUNCTION__, $message, $context);
     }
 
     /**
-     * Logs with an arbitrary level.
+     * Log a message to the logs.
      * 
-     * 
+     * @param  string  $level
+     * @
      */
-    public function log($level, $message, array $context = [])
+    public function log($level, $message = null, array $context = [])
     {
+        $level = ENVIRONMENT.'.'.strtoupper($level);
+        $message = "[{$this->getTimestamp()}] [ {$level} ]: {$message}";
+
+        echo $message.PHP_EOL;
+    }
+    
+    /**
+     * Gets the correctly formatted Date/Time for the log entry.
+     * 
+     * PHP DateTime is dump, and you have to resort to trickery to get microseconds
+     * to work correctly, so here it is.
+     * 
+     * @return string
+     */
+    private function getTimestamp()
+    {
+        $originalTime = microtime(true);
+        $micro        = sprintf("%06d", ($originalTime - floor($originalTime)) * 1000000);
+        $date         = new Chronos(date('Y-m-d H:i:s.'.$micro, $originalTime));
         
+        return $date->format($this->logDateFormat);
     }
 }
