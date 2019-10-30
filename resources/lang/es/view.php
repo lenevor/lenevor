@@ -10,7 +10,7 @@ return [
     | Las siguientes líneas de idioma contienen los mensajes de error 
     | predeterminados por la clase View. Usted es libre de cambiar cualquier 
     | valor que desee personalizar en estas líneas que mejor se adapte a su 
-    | solicitud.
+    | aplicación.
     |
     */
 

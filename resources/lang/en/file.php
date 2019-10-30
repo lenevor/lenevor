@@ -8,8 +8,8 @@ return [
     |------------------------------------------------------------------------
     |
     | The following language lines contain the error messages pre-determined 
-    | by the Filesystem and AutoloadConfig class. You are free to change any 
-    | value you want to customize in these lines that best match your application.
+    | by the Filesystem class. You are free to change any value you want to 
+    | customize in these lines that best match your application.
     |
     */
     
