@@ -3,37 +3,16 @@
 return [
 	/*
 	|------------------------------------------------------------------------
-	| Error Logging Threshold
+	| Default Log Driver
 	|------------------------------------------------------------------------
 	|
-	| You can enable error logging by setting a threshold over zero. The
-	| threshold determines what gets logged. Threshold options are:
-	|
-	| 0    NONE                -  Disables logging, Error logging TURNED OFF
-	| 1    EMERGENCY MESSAGES  -  System is unusable
-	| 2    ALERT MESSAGES      -  Action Must Be Taken Immediately
-	| 3    CRITICAL MESSAGES   -  Application component unavailable, unexpected exception
-	| 4    RUNTIME ERRORS      -  Don't need immediate action, but should be monitored.
-	| 5    WARNINGS            -  Exceptional occurrences that are not errors
-	| 6    NOTICES             -  Normal but significant events
-	| 7    INFO     		   -  Interesting events, like user logging in, etc
-	| 8    DEBUG    		   -  Detailed debug information	
-	| 9    ALL MESSAGES
+	| This option defines the default log driver that gets used when writing
+    | messages to the logs. The name specified in this option should match
+    | one of the drivers defined in the "logDriver" configuration array.
 	|
 	*/
 
-	'logThreshold' => 0,
-
-	/*
-	|------------------------------------------------------------------------
-	| Active Report
-	|------------------------------------------------------------------------
-	|
-	| Actived the schema to reports generated in the system.
-	|
-	*/
-
-	'LogReport' => true,
+	'logDriver' => env('LOG_DRIVER', 'file'),
 
 	/*
 	|------------------------------------------------------------------------
@@ -49,43 +28,29 @@ return [
 
 	/*
 	|------------------------------------------------------------------------
-	| Extension Name Logging
+	| Log Handlers
 	|------------------------------------------------------------------------
 	|
-	| The default filename extension for log files. The default '.log' allows
-	| for protecting the log files via basic scripting, when they are to be
-	| stored under a publicly accessible directory.
+	| The logging system supports multiple actions to be taken when something
+	| is logged. This is done by allowing for multiple Handlers, special classes
+	| designed to write the log to their chosen destinations, whether that is
+	| a file on the getServer, a cloud-based service, or even taking actions such
+	| as emailing the dev team.
 	|
-	| Note: Leaving it blank will default to '.log'.
-	|
+	| Handlers are executed in the order defined in this array, starting with
+	| the handler on top and continuing down.
 	*/
 
-	'logExtension' => '.log',
+	'logHandlers' => [
 
-	/*
-	|------------------------------------------------------------------------
-	| Error Logging Directory Path
-	|------------------------------------------------------------------------
-	|
-	| Leave this BLANK unless you would like to set something other than the
-	| default storage/logs directory. Use a full getServer path with
-	| trailing slash.
-	*/
+		'file' => [
+			'driver' => 'file',
+			'level' => 'debug',
+			'logPath' => STO_PATH.'logs/',
+			'logExtension' => '.log',
+			'logPermission' => FILE_READ_MODE,
+		],
 
-	'logPath' => STO_PATH.'logs/',
-
-	/*
-	|------------------------------------------------------------------------
-	| File System Permissions
-	|------------------------------------------------------------------------
-	|
-	| The file system permissions to be applied on newly created log files.
-	|
-	| IMPORTANT: This MUST be an integer (no quotes) and you MUST use octal
-	| integer notation (i.e. 0700, 0644, etc.)
-	|
-	*/
-
-	'logPermission' => FILE_READ_MODE,
+	],
 
 ];
