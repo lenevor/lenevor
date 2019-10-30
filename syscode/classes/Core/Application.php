@@ -587,6 +587,7 @@ class Application extends Container implements ApplicationContract
             'app'        => [\Syscode\Core\Application::class, \Syscode\Contracts\Container\Container::class,
                              \Syscode\Contracts\Core\Application::class, \Psr\Container\ContainerInterface::class],
             'cache'      => [\Syscode\Cache\CacheManager::class, \Syscode\Contracts\Cache\Manager::class],
+            'config'     => [\Syscode\Config\Configure::class, \Syscode\Contracts\Config\Configure::class],
             'files'      => [\Syscode\Filesystem\Filesystem::class],
             'redirect'   => [\Syscode\Routing\Redirector::class],
             'redis'      => [\Syscode\Redis\RedisManager::class],
