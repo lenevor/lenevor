@@ -14,6 +14,6 @@ return [
     */
 
     'driverNotSupported' => 'Driver [{config}] is not supported.',
-    'storeNotDefined' => 'Cache store [{name}] is not defined.'
+    'logNotDefined' => 'Cache [{name}] is not defined.'
 
 ];
