@@ -256,19 +256,21 @@ class Lenevor implements LenevorContract
 	 */
 	protected function sendRequestThroughRouter($request)
 	{
+		// Start the benchmark
+		$this->startBenchmark();
+		
 		$this->app->instance('request', $request);  
 
 		Facade::clearResolvedInstance('request');
-
-		// Start the benchmark
-		$this->startBenchmark();
+		
+		// Initialize environment
+		$this->loadEnvironment();	
+				
+		// Activate environment
+		$this->bootEnvironment();
 
 		// Load configuration system
 		$this->bootstrap();
-
-		// Activate environment
-		$this->loadEnvironment();
-		$this->bootEnvironment();
 
 		// Activate the base URL, the route for html and desactive the route for CLI
 		if ( ! $this->initCli())
