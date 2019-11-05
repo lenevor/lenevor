@@ -24,24 +24,11 @@
 
 namespace Syscode\Log\Exceptions;
 
-use Syscode\Core\Http\Exceptions\LenevorException;
+use InvalidArgumentException;
 
 /**
  * LogException.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class LogException extends LenevorException
-{
-    /**
-     * Constructor. Initialize LogException class.
-     * 
-     * @param  string  $level
-     * 
-     * @return void
-     */
-    public function __construct(string $level)
-    {
-        parent::__construct(__('log.invalidLogLevel', [$level]));
-    }
-}
+class LogException extends InvalidArgumentException {}
