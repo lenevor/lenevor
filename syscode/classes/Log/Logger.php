@@ -24,132 +24,177 @@
 
 namespace Syscode\Log;
 
-use Psr\Log\LogLevel;
-use Psr\Log\LoggerTrait;
-use Syscode\Support\Chronos;
-use Syscode\Log\Exceptions\LogException;
-use Psr\Log\LoggerInterface as PsrLoggerInterface;
+use Psr\Log\LoggerInterface;
+use Syscode\Contracts\Log\Handler;
 
 /**
  * The Lenevor Logger of errors.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class Logger implements PsrLoggerInterface
+class Logger implements LoggerInterface
 {
-    use LoggerTrait;
-
     /**
-     * The application implementation.
-     *
-     * @var \Syscode\Contracts\Core\Application $app
-     */
-    protected $app;
-
-    /**
-     * Format of the timestamp for log files.
+     * The underlying logger implementation.
      * 
-     * @var string $logDateFormat
+     * @var \Psr\Log\LoggerInterface $logger
      */
-    protected $logDateFormat = 'Y-m-d H:i:s';
-
-    /**
-     * Path to the log file.
-     * 
-     * @var string $logFilePath
-     */
-    protected $logFilePath;
-
-    /**
-     * Octal notation for default permissions of the log file.
-     * 
-     * @var int $logFilePermissions
-     */
-    protected $logFilePermissions = 0644;
-
-    /**
-     * Array of levels to be logged.
-     * 
-     * @var int $loggableLevels
-     */
-    protected $loggableLevels = [];
-
-    /**
-     * Caches instances of the handlers.
-     * 
-     * @var array $logHandlers
-     */
-    protected $logHandlers = [];
-
-    /**
-     * Holds the configuration for each handler.
-     * 
-     * @var array $logHandlerConfig
-     */
-    protected $logHandlerConfig = [];
-
-    /**
-     * Array of log levels.
-     * 
-     * @var array $loglevels
-     */
-    protected $loglevels = [
-        LogLevel::EMERGENCY => 1,
-        LogLevel::ALERT     => 2,
-        LogLevel::CRITICAL  => 3,
-        LogLevel::ERROR     => 4,
-        LogLevel::WARNING   => 5,
-        LogLevel::NOTICE    => 6,
-        LogLevel::INFO      => 7,
-        LogLevel::DEBUG     => 8,
-    ];
+    protected $logger;
 
     /**
      * Constructor. The Logger class instance.
      * 
-     * @param  \Syscode\Contracts\Core\Application  $app
+     * @param  \Syscode\Contracts\Log\Handler  $logger
      * 
      * @return void
      */
-    public function __construct($app)
+    public function __construct(Handler $logger)
     {
-        $this->app           = $app;
-        $this->logDateFormat = $this->app['config']->get('logger.logDateFormat') ?? $this->logDateFormat;
+        $this->logger = $logger;
     }
 
-    public function debug($message, array $context = array())
+    /**
+     * Log a alert message to the logs.
+     * 
+     * @param  string  $message
+     * @param  array   $context
+     * 
+     * @return void
+     */
+    public function alert($message, array $context = [])
     {
-        $this->log(__FUNCTION__, $message, $context);
+        $this->writeLog(__FUNCTION__, $message, $context);
+    }
+
+    /**
+     * Log a critical message to the logs.
+     * 
+     * @param  string  $message
+     * @param  array   $context
+     * 
+     * @return void
+     */
+    public function critical($message, array $context = [])
+    {
+        $this->writeLog(__FUNCTION__, $message, $context);
+    }
+
+    /**
+     * Log a debug message to the logs.
+     * 
+     * @param  string  $message
+     * @param  array   $context
+     * 
+     * @return void
+     */
+    public function debug($message, array $context = [])
+    {
+        $this->writeLog(__FUNCTION__, $message, $context);
+    }
+
+    /**
+     * Log a warning message to the logs.
+     * 
+     * @param  string  $message
+     * @param  array   $context
+     * 
+     * @return void
+     */
+    public function emergency($message, array $context = [])
+    {
+        $this->writeLog(__FUNCTION__, $message, $context);
+    }
+
+    /**
+     * Log a error message to the logs.
+     * 
+     * @param  string  $message
+     * @param  array   $context
+     * 
+     * @return void
+     */
+    public function error($message, array $context = [])
+    {
+        $this->writeLog(__FUNCTION__, $message, $context);
+    }
+
+    /**
+     * Log a info message to the logs.
+     * 
+     * @param  string  $message
+     * @param  array   $context
+     * 
+     * @return void
+     */
+    public function info($message, array $context = [])
+    {
+        $this->writeLog(__FUNCTION__, $message, $context);
+    }
+
+    /**
+     * Log a notice message to the logs.
+     * 
+     * @param  string  $message
+     * @param  array   $context
+     * 
+     * @return void
+     */
+    public function notice($message, array $context = [])
+    {
+        $this->writeLog(__FUNCTION__, $message, $context);
+    }
+
+    /**
+     * Log a warning message to the logs.
+     * 
+     * @param  string  $message
+     * @param  array   $context
+     * 
+     * @return void
+     */
+    public function warning($message, array $context = [])
+    {
+        $this->writeLog(__FUNCTION__, $message, $context);
     }
 
     /**
      * Log a message to the logs.
      * 
-     * @param  string  $level
-     * @
+     * @param  string       $level
+     * @param  string|null  $message
+     * @param  array        $context
+     * 
+     * @return void
      */
     public function log($level, $message = null, array $context = [])
     {
-        $level = ENVIRONMENT.'.'.strtoupper($level);
-        $message = "[{$this->getTimestamp()}] [ {$level} ]: {$message}";
+        $this->writeLog($level, $message, $context);
+    }
 
-        echo $message.PHP_EOL;
+    /**
+     * Write a message to the log.
+     * 
+     * @param  string  $level
+     * @param  string  $message
+     * @param  array   $context
+     * 
+     * @return void
+     */
+    protected function writeLog($level, $message, array $context = [])
+    {
+        $this->logger->{$level}($message, $context);
     }
     
     /**
-     * Gets the correctly formatted Date/Time for the log entry.
+     * Dynamically proxy method calls to the underlying logger.
      * 
-     * PHP DateTime is dump, and you have to resort to trickery to get microseconds
-     * to work correctly, so here it is.
+     * @param  string  $method
+     * @param  array   $parameters
      * 
-     * @return string
+     * @return mixed
      */
-    private function getTimestamp()
+    public function __call($method, $parameters)
     {
-        $originalTime = microtime(true);
-        $micro        = sprintf("%06d", ($originalTime - floor($originalTime)) * 1000000);
-        $date         = new Chronos(date('Y-m-d H:i:s.'.$micro, $originalTime));
-        
-        return $date->format($this->logDateFormat);
+        return $this->logger->{$method}(...$parameters);
     }
 }
