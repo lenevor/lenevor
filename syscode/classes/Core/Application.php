@@ -30,6 +30,8 @@ use Syscode\Core\Http\Exceptions\{
     NotFoundHttpException 
 };
 use Syscode\Support\ServiceProvider;
+use Syscode\Log\LoggerServiceProvider;
+use Syscode\Routing\RoutingServiceProvider;
 use Syscode\Contracts\Core\Application as ApplicationContract;
 
 /**
@@ -132,6 +134,7 @@ class Application extends Container implements ApplicationContract
         }
 
         $this->registerBaseBindings();
+        $this->registerBaseServiceProviders();
         $this->registerCoreContainerAliases();
     }
 
@@ -174,6 +177,17 @@ class Application extends Container implements ApplicationContract
         $this->bindContainerPaths();
 
         return $this;
+    }
+    
+    /**
+     * Register all of the base service providers.
+     * 
+     * @return void
+     */
+    protected function registerBaseServiceProviders()
+    {
+        $this->register(new LoggerServiceProvider($this));
+        $this->register(new RoutingServiceProvider($this));
     }
 
     /**
@@ -380,7 +394,7 @@ class Application extends Container implements ApplicationContract
      * 
      * @return mixed
      */
-    public function make(string $id, array $parameters = [])
+    public function make($id, array $parameters = [])
     {
         $id = $this->getAlias($id);
        
@@ -572,6 +586,8 @@ class Application extends Container implements ApplicationContract
         static::setInstance($this);
 
         $this->instance('app', $this);
+        $this->instance(Container::class, $this);
+        
         $this->instance('config', $this[\Syscode\Config\Configure::class]);
         $this->instance('http', $this[\Syscode\Http\Http::class]);
     }
@@ -584,11 +600,11 @@ class Application extends Container implements ApplicationContract
     public function registerCoreContainerAliases()
     {
         foreach ([
-            'app'        => [\Syscode\Core\Application::class, \Syscode\Contracts\Container\Container::class,
-                             \Syscode\Contracts\Core\Application::class, \Psr\Container\ContainerInterface::class],
+            'app'        => [self::class, \Syscode\Contracts\Container\Container::class, \Syscode\Contracts\Core\Application::class, \Psr\Container\ContainerInterface::class],
             'cache'      => [\Syscode\Cache\CacheManager::class, \Syscode\Contracts\Cache\Manager::class],
             'config'     => [\Syscode\Config\Configure::class, \Syscode\Contracts\Config\Configure::class],
             'files'      => [\Syscode\Filesystem\Filesystem::class],
+            'log'        => [\Syscode\Log\LogManager::class, \Psr\Log\LoggerInterface::class],
             'redirect'   => [\Syscode\Routing\Redirector::class],
             'redis'      => [\Syscode\Redis\RedisManager::class],
             'response'   => [\Syscode\Routing\RouteResponse::class],
