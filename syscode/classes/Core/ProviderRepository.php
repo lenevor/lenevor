@@ -24,6 +24,8 @@
 
 namespace Syscode\Core;
 
+use Syscode\Contracts\Core\Application;
+
 /**
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
