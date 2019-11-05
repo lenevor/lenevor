@@ -47,7 +47,7 @@ abstract class ServiceProvider
      */
     public function __construct($app)
     {
-        $this->app =  $app;
+        $this->app = $app;
     }
 
     /**
