@@ -1,6 +1,7 @@
 <?php
 
 return [
+
 	/*
 	|------------------------------------------------------------------------
 	| Default Log Driver
@@ -12,7 +13,7 @@ return [
 	|
 	*/
 
-	'logDriver' => env('LOG_DRIVER', 'file'),
+	'default' => env('LOG_DRIVER', 'file'),
 
 	/*
 	|------------------------------------------------------------------------
@@ -24,8 +25,8 @@ return [
 	|
 	*/
 
-	'logDateFormat' => 'Y-m-d H:i:s',
-
+	'dateFormat' => 'Y-m-d H:i:s',
+	
 	/*
 	|------------------------------------------------------------------------
 	| Log Handlers
@@ -41,14 +42,14 @@ return [
 	| the handler on top and continuing down.
 	*/
 
-	'logHandlers' => [
+	'handlers' => [
 
 		'file' => [
 			'driver' => 'file',
 			'level' => 'debug',
-			'logPath' => STO_PATH.'logs/',
-			'logExtension' => '.log',
-			'logPermission' => FILE_READ_MODE,
+			'path' => storagePath('logs'),
+			'extension' => '.log',
+			'filePermission' => FILE_READ_MODE,
 		],
 
 	],
