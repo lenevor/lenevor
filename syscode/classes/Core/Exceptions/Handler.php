@@ -25,16 +25,17 @@
 namespace Syscode\Core\Exceptions;
 
 use Exception;
-use Syscode\Log\Logger;
+
 use Syscode\Support\Arr;
 use Syscode\Debug\GDebug;
 use Syscode\Http\Response;
-use Syscode\Container\Container;
+use Psr\Log\LoggerInterface;
 use Syscode\Core\Http\Exceptions\{
     HttpException,
     NotFoundHttpException
 };
 use Syscode\Debug\ExceptionHandler;
+use Syscode\Contracts\Container\Container;
 use Syscode\Http\Exceptions\HttpResponseException;
 use Syscode\Debug\FatalExceptions\FlattenException;
 use Syscode\Database\Exceptions\ModelNotFoundException;
@@ -50,7 +51,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * The container implementation.
      * 
-     * @var \Syscode\Container\Container $container
+     * @var \Syscode\Contracts\Container\Container $container
      */
     protected $container;
 
@@ -75,7 +76,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Constructor. Create a new exception handler instance.
      * 
-     * @param  \Syscode\Container\Container  $container
+     * @param  \Syscode\Contracts\Container\Container  $container
      * 
      * @return void
      */
@@ -107,13 +108,13 @@ class Handler implements ExceptionHandlerContract
 
         try
         {
-            $logger = $this->container->make(logger::class);
+            $logger = $this->container->make(LoggerInterface::class);
         }
         catch (Exception $e)
         {
             throw $e;
         }
-
+        
         $logger->error($e->getMessage());
     }
 
