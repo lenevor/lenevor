@@ -24,12 +24,59 @@
 
 namespace Syscode\Log\Handlers;
 
+use Psr\Log\LoggerTrait;
+use Syscode\Support\Chronos;
+use Syscode\Contracts\Log\Handler;
+
 /**
  * The Lenevor Logger of errors.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class FileLogger
+class FileLogger implements Handler
 {
+    use LoggerTrait;
+    
+    protected $logDateFormat = 'Y-m-d H:i:s';
+
+    /**
+     * Gets the correctly formatted Date/Time for the log entry.
+     * 
+     * PHP DateTime is dump, and you have to resort to trickery to get microseconds
+     * to work correctly, so here it is.
+     * 
+     * @return string
+     */
+    private function getTimestamp()
+    {
+        $logDateFormat = app('config')->get('logger.logDateFormat') ?? $this->logDateFormat;
+        $originalTime  = microtime(true);
+        $micro         = sprintf("%06d", ($originalTime - floor($originalTime)) * 1000000);
+        $date          = new Chronos(date('Y-m-d H:i:s.'.$micro, $originalTime));
+        
+        return $date->format($logDateFormat);
+    }
+
+   /**
+     * Handles logging the message.
+     * 
+     * @param  string  $level
+     * @param  string  $message
+     * 
+     * @return bool
+     */
+    public function handle($level, $message)
+    {
+        
+    }
+
+    public function log($level, $message = null, array $context = [])
+    {
+        $level   = ENVIRONMENT.'.'.strtolower($level);
+        $message = ucfirst($message);
+        $message = "[{$this->getTimestamp()}] [{$level}] {$message}";
+        echo $message;
+    }
+
     
 }
