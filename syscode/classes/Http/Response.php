@@ -236,13 +236,13 @@ class Response extends Status
 		// Valid range?
 		if ($this->isInvalid())
 		{
-			throw new InvalidArgumentException(sprintf("[%s] is not a valid HTTP return status code", $code));			
+			throw new InvalidArgumentException(__('response.statusCodeNotValid', ['code' => $code]));			
 		}
 
 		// Check if you have an accepted status code if not shows to a message of unknown status
 		if (null === $text)
 		{
-			$this->statusText = isset($this->statusCodes[$code]) ? $this->statusCodes[$code] : 'Unknown status';
+			$this->statusText = isset($this->statusCodes[$code]) ? $this->statusCodes[$code] : __('response.UnknownStatus');
 
 			return $this;
 		}
