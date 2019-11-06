@@ -211,10 +211,10 @@ class Router implements Routable
 	{
 		if ( ! isset($params) && ! is_null($params))
  		{
- 			throw new InvalidArgumentException('Params must be set');
- 		}
-
- 		if ( ! (is_callable($callback) && ($callback instanceof Closure)) && ($callback === null || $callback === ''))
+			throw new InvalidArgumentException('Params must be set');
+		}
+		
+		if ( ! (is_callable($callback) && ($callback instanceof Closure)) && ($callback === null || $callback === ''))
 		{
 			throw new InvalidArgumentException('Callback must be set');
 		}
