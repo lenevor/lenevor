@@ -24,8 +24,10 @@
 
 namespace Syscode\Log;
 
+use Psr\Log\LogLevel;
 use Psr\Log\LoggerInterface;
 use Syscode\Contracts\Log\Handler;
+use Syscode\Log\Exceptions\LogException;
 
 /**
  * The Lenevor Logger of errors.
@@ -40,6 +42,22 @@ class Logger implements LoggerInterface
      * @var \Psr\Log\LoggerInterface $logger
      */
     protected $logger;
+
+    /**
+     * Array of log levels.
+     * 
+     * @var array $loglevels
+     */
+    protected $logLevels = [
+        LogLevel::EMERGENCY => 0,
+        LogLevel::ALERT     => 1,
+        LogLevel::CRITICAL  => 2,
+        LogLevel::ERROR     => 3,
+        LogLevel::WARNING   => 4,
+        LogLevel::NOTICE    => 5,
+        LogLevel::INFO      => 6,
+        LogLevel::DEBUG     => 7,
+    ];
 
     /**
      * Constructor. The Logger class instance.
@@ -182,6 +200,11 @@ class Logger implements LoggerInterface
      */
     protected function writeLog($level, $message, array $context = [])
     {
+        if ( ! array_key_exists($level, $this->logLevels))
+        {
+            throw new LogException(__('response.notFoundLevel', ['level' => $level]));
+        }
+
         $this->logger->{$level}($message, $context);
     }
     
@@ -195,6 +218,11 @@ class Logger implements LoggerInterface
      */
     public function __call($method, $parameters)
     {
+        if ( ! array_key_exists($method, $this->logLevels))
+        {
+            throw new LogException(__('response.notFoundLevel', ['level' => $method]));
+        }
+
         return $this->logger->{$method}(...$parameters);
     }
 }
