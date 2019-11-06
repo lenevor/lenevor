@@ -584,9 +584,8 @@ class Application extends Container implements ApplicationContract
     public function registerBaseBindings() 
     {
         static::setInstance($this);
-
+        
         $this->instance('app', $this);
-        $this->instance(Container::class, $this);
         
         $this->instance('config', $this[\Syscode\Config\Configure::class]);
         $this->instance('http', $this[\Syscode\Http\Http::class]);
