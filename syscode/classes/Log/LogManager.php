@@ -24,7 +24,6 @@
 
 namespace Syscode\Log;
 
-use Psr\Log\LogLevel;
 use Psr\Log\LoggerInterface;
 use Syscode\Contracts\Log\Handler;
 use Syscode\Log\Handlers\FileLogger;
@@ -38,69 +37,11 @@ use Syscode\Log\Exceptions\LogException;
 class LogManager implements LoggerInterface
 {
     /**
-     * Format of the timestamp for log files.
-     * 
-     * @var string $logDateFormat
-     */
-    protected $logDateFormat = 'Y-m-d H:i:s';
-
-    /**
-     * Path to the log file.
-     * 
-     * @var string $logFilePath
-     */
-    protected $logFilePath;
-
-    /**
-     * Octal notation for default permissions of the log file.
-     * 
-     * @var int $logFilePermissions
-     */
-    protected $logFilePermissions = 0644;
-
-    /**
-     * Array of levels to be logged.
-     * 
-     * @var int $loggableLevels
-     */
-    protected $loggableLevels = [];
-
-    /**
      * The array of resolved logges.
      * 
      * @var array $logges
      */
     protected $logges = [];
-
-    /**
-     * Caches instances of the handlers.
-     * 
-     * @var array $logHandlers
-     */
-    protected $logHandlers = [];
-
-    /**
-     * Holds the configuration for each handler.
-     * 
-     * @var array $logHandlerConfig
-     */
-    protected $logHandlerConfig = [];
-
-    /**
-     * Array of log levels.
-     * 
-     * @var array $loglevels
-     */
-    protected $loglevels = [
-        LogLevel::EMERGENCY => 1,
-        LogLevel::ALERT     => 2,
-        LogLevel::CRITICAL  => 3,
-        LogLevel::ERROR     => 4,
-        LogLevel::WARNING   => 5,
-        LogLevel::NOTICE    => 6,
-        LogLevel::INFO      => 7,
-        LogLevel::DEBUG     => 8,
-    ];
 
     /**
      * Constructor. The LogManager class instance.
@@ -340,7 +281,7 @@ class LogManager implements LoggerInterface
      */
     public function warning($message, array $context = [])
     {
-        $this->driver()->log($message, $context);
+        $this->driver()->warning($message, $context);
     }
 
     /**
