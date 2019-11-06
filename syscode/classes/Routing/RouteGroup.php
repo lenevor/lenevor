@@ -107,7 +107,7 @@ class RouteGroup
 			include $callback;
 		}
 
- 		$this->prefix     = '';
+		$this->prefix     = '';
 		$this->middleware = [];
  	}
 }
