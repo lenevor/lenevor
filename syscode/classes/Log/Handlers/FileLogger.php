@@ -27,6 +27,7 @@ namespace Syscode\Log\Handlers;
 use Psr\Log\LoggerTrait;
 use Syscode\Support\Chronos;
 use Syscode\Contracts\Log\Handler;
+use Syscode\Log\Exceptions\LogException;
 
 /**
  * The Lenevor Logger of errors.
@@ -36,8 +37,74 @@ use Syscode\Contracts\Log\Handler;
 class FileLogger implements Handler
 {
     use LoggerTrait;
-    
+
+    /**
+     * Array of levels to be logged.
+     * 
+     * @var int $loggableLevels
+     */
+    protected $loggableLevels = [];
+
+    /**
+     * Format of the timestamp for log files.
+     * 
+     * @var string $logDateFormat
+     */
     protected $logDateFormat = 'Y-m-d H:i:s';
+
+    /**
+     * Path to the log file.
+     * 
+     * @var string $logFilePath
+     */
+    protected $logFilePath;
+
+    /**
+     * Octal notation for default permissions of the log file.
+     * 
+     * @var int $logFilePermissions
+     */
+    protected $logFilePermissions = 0644;
+
+    /**
+     * Caches instances of the handlers.
+     * 
+     * @var array $logHandlers
+     */
+    protected $logHandlers = [];
+
+    /**
+     * Holds the configuration for each handler.
+     * 
+     * @var array $logHandlerConfig
+     */
+    protected $logHandlerConfig = [];
+
+    public function log($level, $message = null, array $context = [])
+    {
+        if (is_numeric($level))
+        {
+            $level = array_search((int) $level, $this->logLevels);
+        }        
+
+        return $this->handle($level, $message);
+    }
+
+    /**
+     * Handles logging the message.
+     * 
+     * @param  string  $level
+     * @param  string  $message
+     * 
+     * @return bool
+     */
+    public function handle($level, $message)
+    {
+        $level   = ENVIRONMENT.'.'.strtolower($level);
+        $message = ucfirst($message);
+        $message = "[{$this->getTimestamp()}] [{$level}] {$message}";
+        echo $message;
+    }
 
     /**
      * Gets the correctly formatted Date/Time for the log entry.
@@ -56,27 +123,5 @@ class FileLogger implements Handler
         
         return $date->format($logDateFormat);
     }
-
-   /**
-     * Handles logging the message.
-     * 
-     * @param  string  $level
-     * @param  string  $message
-     * 
-     * @return bool
-     */
-    public function handle($level, $message)
-    {
-        
-    }
-
-    public function log($level, $message = null, array $context = [])
-    {
-        $level   = ENVIRONMENT.'.'.strtolower($level);
-        $message = ucfirst($message);
-        $message = "[{$this->getTimestamp()}] [{$level}] {$message}";
-        echo $message;
-    }
-
     
 }
