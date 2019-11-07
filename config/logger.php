@@ -46,10 +46,9 @@ return [
 
 		'file' => [
 			'driver' => 'file',
-			'level' => 'debug',
 			'path' => storagePath('logs'),
-			'extension' => '.log',
-			'filePermission' => FILE_READ_MODE,
+			'extension' => 'log',
+			'permission' => FILE_READ_MODE,
 		],
 
 	],
