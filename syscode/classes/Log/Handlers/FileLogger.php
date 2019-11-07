@@ -53,6 +53,13 @@ class FileLogger implements Handler
     protected $logDateFormat = 'Y-m-d H:i:s';
 
     /**
+     * Extension to use for log files.
+     * 
+     * @var string $logExtension
+     */
+    protected $logFileExtension;
+
+    /**
      * Path to the log file.
      * 
      * @var string $logFilePath
@@ -64,7 +71,7 @@ class FileLogger implements Handler
      * 
      * @var int $logFilePermissions
      */
-    protected $logFilePermissions = 0644;
+    protected $logFilePermissions;
 
     /**
      * Caches instances of the handlers.
@@ -80,14 +87,37 @@ class FileLogger implements Handler
      */
     protected $logHandlerConfig = [];
 
+    /**
+     * Constructor. The FileLogger class instance.
+     * 
+     * @param  array  $config
+     * 
+     * @return void
+     */
+    public function __construct(array $config = [])
+    {
+        $this->logFilePath = $config['path'].DIRECTORY_SEPARATOR ?? STO_PATH.'logs'.DIRECTORY_SEPARATOR;
+
+        $fileExtension          = empty($config['extension']) ? 'log' : $config['extension'];
+        $this->logFileExtension = ltrim($fileExtension, '.');
+
+        $this->logFilePermissions = $config['permission'] ?? 0644;
+    }
+    
+    /**
+     * Logs with an arbitrary level.
+     * 
+     * @param  mixed   $level
+     * @param  string  $message
+     * @param  array   $context
+     * 
+     * @return bool
+     */
     public function log($level, $message = null, array $context = [])
     {
-        if (is_numeric($level))
-        {
-            $level = array_search((int) $level, $this->logLevels);
-        }        
+        $this->handle($level, $message);
 
-        return $this->handle($level, $message);
+        return true;
     }
 
     /**
@@ -99,11 +129,53 @@ class FileLogger implements Handler
      * @return bool
      */
     public function handle($level, $message)
-    {
+    {        
+        $path = $this->logFilePath.'lenevor-'.date('Y-m-d').'.'.$this->logFileExtension;
+
+        $msg = '';
+
+        if ( ! is_file($path))
+        {
+            $newFile = true;
+
+            if ($this->logFileExtension === 'php')
+            {
+                $msg .= "<?php // Log file was generated ?>\n\n";
+            }
+        }
+
+        if ( ! $fp = fopen($path, 'ab'))
+        {
+            return false;
+        }
+
         $level   = ENVIRONMENT.'.'.strtolower($level);
         $message = ucfirst($message);
-        $message = "[{$this->getTimestamp()}] [{$level}] {$message}";
-        echo $message;
+
+        $msg .= "[{$this->getTimestamp()}] [{$level}] {$message}\n";
+        
+        flock($fp, LOCK_EX);
+        
+        for ($written = 0, $length = strlen($msg); $written < $length; $written += $result)
+        {
+            if (($result = fwrite($fp, substr($msg, $written))) === false)
+            {
+                // if we get this far, we'll never see this during travis-ci
+                // @codeCoverageIgnoreStart
+                break;
+                // @codeCoverageIgnoreEnd
+            }
+        }
+        
+        flock($fp, LOCK_UN);
+        fclose($fp);
+        
+        if (isset($newfile) && $newfile === true)
+        {
+            chmod($path, $this->logFilePermissions);
+        }
+        
+        return is_int($result);
     }
 
     /**
@@ -116,12 +188,11 @@ class FileLogger implements Handler
      */
     private function getTimestamp()
     {
-        $logDateFormat = app('config')->get('logger.logDateFormat') ?? $this->logDateFormat;
+        $logDateFormat = config('logger.logDateFormat') ?? $this->logDateFormat;
         $originalTime  = microtime(true);
         $micro         = sprintf("%06d", ($originalTime - floor($originalTime)) * 1000000);
         $date          = new Chronos(date('Y-m-d H:i:s.'.$micro, $originalTime));
         
         return $date->format($logDateFormat);
-    }
-    
+    }    
 }
