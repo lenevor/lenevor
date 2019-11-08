@@ -171,19 +171,24 @@ class FileLogger implements Handler
                 $replace["{{$key}}"] = '['.gettype($value).']';
             }
         }
+        
+        // Add special placeholders
+        $replace['{post_vars}'] = '$_POST: '.print_r($_POST, true);
+        $replace['{get_vars}']  = '$_GET: '.print_r($_GET, true);
+        $replace['{env}']       = '['.ENVIRONMENT.']';
 
         return strtr($message, $replace);
     }
 
     /**
-	 * Cleans the paths of filenames by replacing APPPATH, SYSTEMPATH, FCPATH
+	 * Cleans the paths of filenames by replacing APPPATH, SYSTEMPATH
 	 * with the actual var. i.e.
 	 *
-	 *  /var/www/site/app/Controllers/Home.php
+	 *  /var/www/site/app/Http/Controllers/Home.php
 	 *      becomes:
-	 *  APPPATH/Controllers/Home.php
+	 *  APPPATH/Http/Controllers/Home.php
 	 *
-	 * @param $file
+	 * @param  string  $file
 	 *
 	 * @return string
 	 */
