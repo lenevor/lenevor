@@ -106,7 +106,10 @@ class FileLogger implements Handler
      */
     public function __destruct()
     {
-        fclose($this->logHandler);
+        if ($this->logHandler)
+        {
+            fclose($this->logHandler);
+        }
     }
     
     /**
