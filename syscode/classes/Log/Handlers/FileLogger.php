@@ -24,6 +24,8 @@
 
 namespace Syscode\Log\Handlers;
 
+use DateTime;
+use Throwable;
 use Psr\Log\LoggerTrait;
 use Syscode\Support\Chronos;
 use Syscode\Contracts\Log\Handler;
@@ -37,13 +39,6 @@ use Syscode\Log\Exceptions\LogException;
 class FileLogger implements Handler
 {
     use LoggerTrait;
-
-    /**
-     * Array of levels to be logged.
-     * 
-     * @var int $loggableLevels
-     */
-    protected $loggableLevels = [];
 
     /**
      * Format of the timestamp for log files.
@@ -76,16 +71,16 @@ class FileLogger implements Handler
     /**
      * Caches instances of the handlers.
      * 
-     * @var array $logHandlers
+     * @var string $logHandler
      */
-    protected $logHandlers = [];
+    protected $logHandler;
 
     /**
-     * Holds the configuration for each handler.
+     * Write message in log file.
      * 
-     * @var array $logHandlerConfig
+     * @var string $message
      */
-    protected $logHandlerConfig = [];
+    protected $message;
 
     /**
      * Constructor. The FileLogger class instance.
@@ -98,10 +93,20 @@ class FileLogger implements Handler
     {
         $this->logFilePath = $config['path'].DIRECTORY_SEPARATOR ?? STO_PATH.'logs'.DIRECTORY_SEPARATOR;
 
-        $fileExtension          = empty($config['extension']) ? 'log' : $config['extension'];
-        $this->logFileExtension = ltrim($fileExtension, '.');
+        $this->logFileExtension = empty($config['extension']) ? 'log' : $config['extension'];
+        $this->logFileExtension = ltrim($this->logFileExtension, '.');
 
         $this->logFilePermissions = $config['permission'] ?? 0644;
+    }
+
+    /**
+     * Destructor. Close.
+     * 
+     * @return bool
+     */
+    public function __destruct()
+    {
+        fclose($this->logHandler);
     }
     
     /**
@@ -113,12 +118,82 @@ class FileLogger implements Handler
      * 
      * @return bool
      */
-    public function log($level, $message = null, array $context = [])
+    public function log($level, $message, array $context = [])
     {
+        $message =  $this->exchangeProcess($message, $context);
+
         $this->handle($level, $message);
 
         return true;
     }
+
+    /**
+     * Replaces any placeholders in the message with variables
+	 * from the context.
+     * 
+     * @param  string  $message
+     * @param  array   $context
+     * 
+     * @return mixed
+     */
+    protected function exchangeProcess($message, array $context = [])
+    {
+        if ( ! is_string($message))
+        {
+            return $message;
+        }
+
+        $replace = [];
+
+        foreach ($context as $key => $value)
+        {
+            if ($key === 'exception' && $value instanceof Throwable)
+			{
+                $value = $value->getMessage() . ' ' . $this->cleanFileNames($value->getFile()) . ':' . $value->getLine();
+                
+                // Todo - sanitize input before writing to file?
+			    $replace["{{$key}}"] = $value;
+			}
+            elseif (null === $value || is_scalar($value) || (is_object($value) && method_exists($value, '__toString'))) 
+            {
+                $replace["{{$key}}"] = $value;
+            } 
+            elseif ($value instanceof DateTime)
+            {
+                $replace["{{$key}}"] = $value->format(DateTime::RFC3339);
+            }
+            elseif (is_object($value)) 
+            {
+                $replace["{{$key}}"] = '[object '.get_class($value).']';
+            }
+            else
+            {
+                $replace["{{$key}}"] = '['.gettype($value).']';
+            }
+        }
+
+        return strtr($message, $replace);
+    }
+
+    /**
+	 * Cleans the paths of filenames by replacing APPPATH, SYSTEMPATH, FCPATH
+	 * with the actual var. i.e.
+	 *
+	 *  /var/www/site/app/Controllers/Home.php
+	 *      becomes:
+	 *  APPPATH/Controllers/Home.php
+	 *
+	 * @param $file
+	 *
+	 * @return string
+	 */
+	protected function cleanFileNames(string $file)
+	{
+		$file = str_replace(APP_PATH, 'APPPATH/', $file);
+        $file = str_replace(SYS_PATH, 'SYSPATH/', $file);
+        
+		return $file;
+	}
 
     /**
      * Handles logging the message.
@@ -132,8 +207,6 @@ class FileLogger implements Handler
     {        
         $path = $this->logFilePath.'lenevor-'.date('Y-m-d').'.'.$this->logFileExtension;
 
-        $msg = '';
-
         if ( ! is_file($path))
         {
             $newFile = true;
@@ -144,21 +217,15 @@ class FileLogger implements Handler
             }
         }
 
-        if ( ! $fp = fopen($path, 'ab'))
-        {
-            return false;
-        }
+        $this->open($path);
 
-        $level   = ENVIRONMENT.'.'.strtolower($level);
-        $message = ucfirst($message);
-
-        $msg .= "[{$this->getTimestamp()}] [{$level}] {$message}\n";
+        $this->logMessage($level, $message);
         
-        flock($fp, LOCK_EX);
+        flock($this->logHandler, LOCK_EX);
         
-        for ($written = 0, $length = strlen($msg); $written < $length; $written += $result)
+        for ($written = 0, $length = strlen($this->message); $written < $length; $written += $result)
         {
-            if (($result = fwrite($fp, substr($msg, $written))) === false)
+            if (($result = fwrite($this->logHandler, substr($this->message, $written))) === false)
             {
                 // if we get this far, we'll never see this during travis-ci
                 // @codeCoverageIgnoreStart
@@ -167,8 +234,7 @@ class FileLogger implements Handler
             }
         }
         
-        flock($fp, LOCK_UN);
-        fclose($fp);
+        flock($this->logHandler, LOCK_UN);
         
         if (isset($newfile) && $newfile === true)
         {
@@ -176,6 +242,41 @@ class FileLogger implements Handler
         }
         
         return is_int($result);
+    }
+
+    /**
+     * Opens the current file.
+     * 
+     * @param  string  $path
+     * 
+     * @return bool
+     */
+    private function open($path)
+    {
+        if (false === $this->logHandler = is_resource($path) ? $path : @fopen($path, 'ab'))
+        {
+            throw new LogException(sprintf('Unable to open "%s".', $path));
+        }
+
+        return true;
+    }
+
+    /**
+     * Write message of log file.
+     * 
+     * @param  mixed   $level
+     * @param  string  $messsage
+     * 
+     * @return $this
+     */
+    private function logMessage($level, $message)
+    {
+        $level   = ENVIRONMENT.'.'.strtolower($level);
+        $message = ucfirst($message);
+
+        $this->message .= "[{$this->getTimestamp()}] [{$level}] {$message}\n";
+
+        return $this;
     }
 
     /**
