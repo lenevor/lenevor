@@ -36,7 +36,7 @@ use Syscode\Cache\Store\{
     RedisStore
 };
 use Syscode\Contracts\Cache\Store;
-use Syscode\Cache\Exceptions\CacheDriverException;
+use Syscode\Cache\Exceptions\CacheException;
 use Syscode\Contracts\Cache\Manager as ManagerContract;
 
 /**
@@ -126,7 +126,7 @@ class CacheManager implements ManagerContract
      * 
      * @return \Syscode\Cache\CacheRepository
      * 
-     * @throws \CacheDriverException
+     * @throws \CacheException
      */
     protected function resolve($name)
     {
@@ -134,7 +134,7 @@ class CacheManager implements ManagerContract
 
         if (is_null($config))
         {
-            throw new CacheDriverException(__('cache.storeNotDefined', ['name' => $name]));
+            throw new CacheException(__('cache.storeNotDefined', ['name' => $name]));
         }
 
         if (isset($this->customDriver[$config['driver']]))
@@ -151,7 +151,7 @@ class CacheManager implements ManagerContract
             }
             else
             {
-                throw new CacheDriverException(__('cache.driverNotSupported', ['config' => $config]));
+                throw new CacheException(__('cache.driverNotSupported', ['config' => $config]));
             }
         }
     }
