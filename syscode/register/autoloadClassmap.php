@@ -13,7 +13,7 @@
 
 return [
     
-    'Syscode\\Cache\\Exceptions\\CacheDriverException' => SYS_PATH.'/classes/Cache/Exceptions/CacheDriverException.php',
+    'Syscode\\Cache\\Exceptions\\CacheException' => SYS_PATH.'/classes/Cache/Exceptions/CacheException.php',
     'Syscode\\Cache\\Store\\ApcStore' => SYS_PATH.'/classes/Cache/Store/ApcStore',
     'Syscode\\Cache\\Store\\ApcWrapper' => SYS_PATH.'/classes/Cache/Store/ApcWrapper',
     'Syscode\\Cache\\Store\\ArrayStore' => SYS_PATH.'/classes/Cache/Store/ArrayStore.php',
