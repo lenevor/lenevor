@@ -78,9 +78,9 @@ class FileLogger implements Handler
     /**
      * Write message in log file.
      * 
-     * @var string $message
+     * @var string $logMessage
      */
-    protected $message;
+    protected $logMessage;
 
     /**
      * Constructor. The FileLogger class instance.
@@ -176,15 +176,15 @@ class FileLogger implements Handler
         }
         
         // Add special placeholders
-        $replace['{post_vars}'] = '$_POST: '.print_r($_POST, true);
-        $replace['{get_vars}']  = '$_GET: '.print_r($_GET, true);
+        $replace['{postVars}'] = '$_POST: '.print_r($_POST, true);
+        $replace['{getVars}']  = '$_GET: '.print_r($_GET, true);
         $replace['{env}']       = '['.ENVIRONMENT.']';
 
         return strtr($message, $replace);
     }
 
     /**
-	 * Cleans the paths of filenames by replacing APPPATH, SYSTEMPATH
+	 * Cleans the paths of filenames by replacing APPPATH, SYSPATH
 	 * with the actual var. i.e.
 	 *
 	 *  /var/www/site/app/Http/Controllers/Home.php
@@ -221,7 +221,7 @@ class FileLogger implements Handler
 
             if ($this->logFileExtension === 'php')
             {
-                $msg .= "<?php // Log file was generated ?>\n\n";
+                $this->logMessage .= "<?php // Log file was generated ?>\n\n";
             }
         }
 
@@ -231,9 +231,9 @@ class FileLogger implements Handler
         
         flock($this->logHandler, LOCK_EX);
         
-        for ($written = 0, $length = strlen($this->message); $written < $length; $written += $result)
+        for ($written = 0, $length = strlen($this->logMessage); $written < $length; $written += $result)
         {
-            if (($result = fwrite($this->logHandler, substr($this->message, $written))) === false)
+            if (($result = fwrite($this->logHandler, substr($this->logMessage, $written))) === false)
             {
                 // if we get this far, we'll never see this during travis-ci
                 // @codeCoverageIgnoreStart
@@ -282,7 +282,7 @@ class FileLogger implements Handler
         $level   = ENVIRONMENT.'.'.strtolower($level);
         $message = ucfirst($message);
 
-        $this->message .= "[{$this->getTimestamp()}] [{$level}] {$message}\n";
+        $this->logMessage .= "[{$this->getTimestamp()}] [{$level}] {$message}\n";
 
         return $this;
     }
