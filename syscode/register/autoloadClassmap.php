@@ -186,6 +186,7 @@ return [
     'Syscode\\Support\\Finder' => SYS_PATH.'/classes/Support/Finder.php',
     'Syscode\\Support\\HigherOrderTakeProxy' => SYS_PATH.'/classes/Support/HigherOrderTakeProxy.php',
     'Syscode\\Support\\InteractsWithTime' => SYS_PATH.'/classes/Support/InteractsWithTime.php',
+    'Syscode\\Support\\Manager' => SYS_PATH.'/classes/Support/Manager.php',
     'Syscode\\Support\\ServiceProvider' => SYS_PATH.'/classes/Support/ServiceProvider.php',
     'Syscode\\Support\\Str' => SYS_PATH.'/classes/Support/Str.php',
     'Syscode\\Translation\\TranslationServiceProvider' => SYS_PATH.'/classes/Translation/TranslationServiceProvider.php',
