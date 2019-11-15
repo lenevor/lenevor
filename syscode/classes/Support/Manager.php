@@ -26,6 +26,7 @@ namespace Syscode\Support;
 
 use Closure;
 use InvalidArgumentException;
+use Syscode\Contracts\Container\Container;
 
 /**
  * This class manage the creation of driver based components.
@@ -44,9 +45,9 @@ abstract class Manager
     /**
      * The registered custom driver creators.
      * 
-     * @var array $cumtomCreators
+     * @var array $customCreators
      */
-    protected $cumtomCreators = [];
+    protected $customCreators = [];
 
     /**
      * The array of created drivers.
@@ -58,13 +59,13 @@ abstract class Manager
     /**
      * Constructor. The Manager class instance.
      * 
-     * @param  \Syscode\Contracts\Core\Application  $app
+     * @param  \Syscode\Contracts\Container\Container  $container
      * 
      * @return void
      */
-    public function __construct($app)
+    public function __construct(Container $container)
     {
-        $this->app = $app;
+        $this->app = $container;
     }
 
     /**
@@ -101,10 +102,80 @@ abstract class Manager
     }
 
     /**
+     * Create a new driver instance.
      * 
+     * @param  string  $driver
+     * 
+     * @return mixed
+     * 
+     * @throws \InvalidArgumentException
      */
     protected function createDriver($driver)
     {
-        
+        if (isset($this->customCreators[$driver]))
+        {
+            return $this->callCustomCreators($driver);
+        }
+        else
+        {
+            $method = 'create'.Str::studlycaps($driver).'Driver';
+
+            if (method_exists($this, $method))
+            {
+                return $this->$method();
+            }
+        }
+
+        throw new InvalidArgumentException("Driver [{$driver}] not supported.");
+    }
+
+    /**
+     * Call a custom driver creator.
+     * 
+     * @param  string  $driver
+     * 
+     * @return mixed
+     */
+    protected function callCustomCreators($driver)
+    {
+        return $this->customCreators[$driver]($this->app);
+    }
+
+    /**
+     * Register a custom driver creator Closure.
+     * 
+     * @param  string    $driver
+     * @param  \Closure  $callback
+     * 
+     * @return $this
+     */
+    public function extend($driver, Closure $callback)
+    {
+        $this->customCreators[$driver] = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Get all of the created drivers.
+     * 
+     * @return array
+     */
+    public function getDrivers()
+    {
+        return $this->drivers;
+    }
+
+    /**
+     * Dynamically call the default driver instance.
+     * 
+     * @param  string  $method
+     * @param  array   $parameters
+     * 
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        return $this->driver()->{$method}(...$parameters);
     }
 }
