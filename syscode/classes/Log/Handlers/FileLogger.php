@@ -26,7 +26,6 @@ namespace Syscode\Log\Handlers;
 
 use DateTime;
 use Throwable;
-use Psr\Log\LoggerTrait;
 use Syscode\Support\Chronos;
 use Syscode\Contracts\Log\Handler;
 use Syscode\Log\Exceptions\LogException;
@@ -38,8 +37,6 @@ use Syscode\Log\Exceptions\LogException;
  */
 class FileLogger implements Handler
 {
-    use LoggerTrait;
-
     /**
      * Format of the timestamp for log files.
      * 
