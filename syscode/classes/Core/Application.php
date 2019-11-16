@@ -599,18 +599,20 @@ class Application extends Container implements ApplicationContract
     public function registerCoreContainerAliases()
     {
         foreach ([
-            'app'        => [self::class, \Syscode\Contracts\Container\Container::class, \Syscode\Contracts\Core\Application::class, \Psr\Container\ContainerInterface::class],
-            'cache'      => [\Syscode\Cache\CacheManager::class, \Syscode\Contracts\Cache\Manager::class],
-            'config'     => [\Syscode\Config\Configure::class, \Syscode\Contracts\Config\Configure::class],
-            'files'      => [\Syscode\Filesystem\Filesystem::class],
-            'log'        => [\Syscode\Log\LogManager::class, \Psr\Log\LoggerInterface::class],
-            'redirect'   => [\Syscode\Routing\Redirector::class],
-            'redis'      => [\Syscode\Redis\RedisManager::class],
-            'response'   => [\Syscode\Routing\RouteResponse::class],
-            'router'     => [\Syscode\Routing\Router::class],
-            'translator' => [\Syscode\Translation\Translator::class],
-            'url'        => [\Syscode\Routing\UrlGenerator::class],
-            'view'       => [\Syscode\View\View::class, \Syscode\Contracts\View\View::class, \Syscode\Contracts\View\Factory::class]
+            'app'           => [self::class, \Syscode\Contracts\Container\Container::class, \Syscode\Contracts\Core\Application::class, \Psr\Container\ContainerInterface::class],
+            'cache'         => [\Syscode\Cache\CacheManager::class, \Syscode\Contracts\Cache\Manager::class],
+            'config'        => [\Syscode\Config\Configure::class, \Syscode\Contracts\Config\Configure::class],
+            'files'         => [\Syscode\Filesystem\Filesystem::class],
+            'log'           => [\Syscode\Log\LogManager::class, \Psr\Log\LoggerInterface::class],
+            'redirect'      => [\Syscode\Routing\Redirector::class],
+            'redis'         => [\Syscode\Redis\RedisManager::class],
+            'response'      => [\Syscode\Routing\RouteResponse::class],
+            'router'        => [\Syscode\Routing\Router::class],
+            'session'       => [\Syscode\Session\SessionManager::class],
+            'session.store' => [\Syscode\Session\Store::class, \Syscode\Contracts\Session\Session::class],
+            'translator'    => [\Syscode\Translation\Translator::class],
+            'url'           => [\Syscode\Routing\UrlGenerator::class],
+            'view'          => [\Syscode\View\View::class, \Syscode\Contracts\View\View::class, \Syscode\Contracts\View\Factory::class]
         ] as $key => $aliases) 
         {
             foreach ((array) $aliases as $alias) 
