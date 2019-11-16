@@ -21,6 +21,7 @@ return [
         Syscode\Cache\CacheServiceProvider::class,
         Syscode\Database\DatabaseServiceProvider::class,
         Syscode\Filesystem\FilesystemServiceProvider::class,
+        Syscode\Session\SessionServiceProvider::class,
         Syscode\Translation\TranslationServiceProvider::class,
         Syscode\View\ViewServiceProvider::class,
 
@@ -57,6 +58,7 @@ return [
         'Request' => Syscode\Support\Facades\Request::class,
         'Response' => Syscode\Support\Facades\Response::class,
         'Route' => Syscode\Support\Facades\Route::class,
+        'Session' => Syscode\Support\Facades\Session::class,
         'URL' => Syscode\Support\Facades\URL::class,
         'View' => Syscode\Support\Facades\View::class,
 
