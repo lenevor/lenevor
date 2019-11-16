@@ -210,7 +210,7 @@ class Logger implements LoggerInterface
             throw new LogException(__('response.notFoundLevel', ['level' => $level]));
         }
 
-        $this->logger->{$level}($message, $context);
+        $this->logger->log($level, $message, $context);
     }
     
     /**
