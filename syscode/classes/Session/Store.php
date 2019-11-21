@@ -107,7 +107,9 @@ class Store implements Session
      */
     public function start()
     {
+        $data = $this->handler->read($this->getId());
 
+        return $data ? @unserialize($data) : [];
     }
 
     /**
@@ -127,7 +129,7 @@ class Store implements Session
      */
     public function getId()
     {
-
+        return $this->id;
     }
 
     /**
@@ -139,7 +141,29 @@ class Store implements Session
      */
     public function setId($id)
     {
-
+        $this->id = $this->isValidId($id) ? $id : $this->generateSessionId();
+    }
+    
+    /**
+     * Determine if this is a valid session ID.
+     * 
+     * @param  string  $id
+     * 
+     * @return bool
+     */
+    public function isValidId($id)
+    {
+        return is_string($id) && ctype_alnum($id) && strlen($id) === 40;
+    }
+    
+    /**
+     * Get a new, random session ID.
+     * 
+     * @return string
+     */
+    protected function generateSessionId()
+    {
+        return Str::random(40);
     }
 
     /**
@@ -149,7 +173,7 @@ class Store implements Session
      */
     public function save()
     {
-        
+        return $this->handler->write($this->getId(), serialize('hola mundo'));
     }
 
     /**
@@ -211,7 +235,8 @@ class Store implements Session
      */
     public function remove($key)
     {
-
+        dd();
+        return $this->handler->destroy();
     }
 
     /**
