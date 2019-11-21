@@ -25,6 +25,7 @@
 namespace Syscode\Session\Handlers;
 
 use SessionHandlerInterface;
+use Syscode\Filesystem\Filesystem;
 
 /**
  * 
@@ -32,7 +33,46 @@ use SessionHandlerInterface;
 class FileSession implements SessionHandlerInterface
 {
     /**
-     * {@inheritdoc}
+     * The filesystem instance.
+     * 
+     * @var \Syscode\Filesystem\filesystem $files
+     */
+    protected $files;
+
+    /**
+     * The file name.
+     * 
+     * @var string $path
+     */
+    protected $path;
+
+    /**
+     * The number of minutes the session should be valid.
+     * 
+     * @var int $minutes
+     */
+    protected $minutes;
+
+    /**
+     * Constructor. The FileSession class instance.
+     * 
+     * @param  \Syscode\Filesystem\filesystem  $file
+     * @param  string                          $path
+     * @param  int                             $minutes
+     * 
+     * @return void
+     */
+    public function __construct(Filesystem $file, $path, $minutes)
+    {
+        $this->files   = $file;
+        $this->path    = $path;
+        $this->minutes = $minutes;
+    }    
+    
+    /**
+     * Open session name.
+     * 
+     * @return bool
      */
     public function open($savePath, $sessionName)
     {
@@ -40,7 +80,9 @@ class FileSession implements SessionHandlerInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Close session.
+     * 
+     * @return bool
      */
     public function close()
     {
@@ -48,27 +90,49 @@ class FileSession implements SessionHandlerInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Reads session data and acquires a lock.
+     * 
+     * @param  string  $sessionId
+     * 
+     * @return string
      */
     public function read($sessionId)
     {
-       
+        if ($this->files->isFile($path = $this->path.DIRECTORY_SEPARATOR.$sessionId))
+        {
+            return $this->files->get($path);
+        }
+        
+        return '';
     }
     
     /**
-     * {@inheritdoc}
+     * Writes (create / update) session data.
+     * 
+     * @param  string  $sessionId
+     * @param  string  $data
+     * 
+     * @return bool
      */
     public function write($sessionId, $data)
     {
-        echo $sessionId.$data;
+        $this->files->put($this->path.DIRECTORY_SEPARATOR.$sessionId, $data, true);
+
+        return true;
     }
     
     /**
-     * {@inheritdoc}
+     * Destroys the current session.
+     * 
+     * @param  string  $sessionId
+     * 
+     * @return bool
      */
     public function destroy($sessionId)
     {
+        $this->files->delete($this->path.DIRECTORY_SEPARATOR.$sessionId);
 
+        return true;
     }
     
     /**
