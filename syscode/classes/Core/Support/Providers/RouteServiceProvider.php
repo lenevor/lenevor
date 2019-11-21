@@ -24,7 +24,6 @@
 
 namespace Syscode\Core\Support\Providers;
 
-use Syscode\Support\Facades\Route;
 use Syscode\Support\ServiceProvider;
 
 /**
