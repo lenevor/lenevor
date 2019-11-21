@@ -41,7 +41,12 @@ class SessionManager extends Manager
      */
     protected function createFileDriver()
     {
-        return $this->buildSession(new FileSession);
+        $lifetime = $this->config->get('session.lifetime');
+        $path     = $this->config->get('session.files');
+
+        return $this->buildSession(new FileSession(
+                $this->app->make('files'), $path, $lifetime
+        ));
     }
 
     /**
