@@ -76,13 +76,23 @@ interface Session
     public function save();
 
     /**
-     * Checks if a key exists.
+     * Remove one or many items from the session.
      * 
-     * @param  string|array  $key
+     * @param  string|array  $keys
      * 
      * @return void
      */
-    public function exists($key);
+    public function pull($keys);
+
+    /**
+     * Push a value onto a session array.
+     * 
+     * @param  string  $key
+     * @param  mixed   $value
+     * 
+     * @return void
+     */
+    public function push($key, $value);
 
     /**
      * Checks if an a key is present and not null.
@@ -123,6 +133,16 @@ interface Session
     public function remove($key);
 
     /**
+     * Flash a key / value pair to the session.
+     * 
+     * @param  string  $key
+     * @param  mixed   $value  (true by default)
+     * 
+     * @return void
+     */
+    public function flash(string $key, $value = true);
+
+    /**
      * Remove all of the keys from the session.
      * 
      * @return void
@@ -135,6 +155,22 @@ interface Session
      * @return string
      */
     public function token();
+
+    /**
+     * Regenerate the CSRF token value.
+     * 
+     * @return void
+     */
+    public function regenerateToken();
+
+    /**
+     * Generate a new session identifier.
+     * 
+     * @param  bool  $destroy
+     * 
+     * @return void
+     */
+    public function regenerate($destroy = false);
 
     /**
      * Generate a new session ID for the session.
