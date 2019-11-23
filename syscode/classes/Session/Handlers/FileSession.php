@@ -24,6 +24,7 @@
 
 namespace Syscode\Session\Handlers;
 
+use Syscode\Support\Finder;
 use SessionHandlerInterface;
 use Syscode\Filesystem\Filesystem;
 
@@ -136,10 +137,22 @@ class FileSession implements SessionHandlerInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Deletes expired sessions.
+     * 
+     * @param  int  $lifetime
+     * 
+     * @return bool
      */
     public function gc($lifetime)
     {
+        $files = Finder::render($this->path);
 
+        foreach ($files as $file)
+        {
+            if ($this->files->lastChange($file) + $lifetime < time() && $this->files->exists($file))
+            {
+                $this->files->delete($file);
+            }
+        }
     }
 }
