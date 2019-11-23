@@ -22,6 +22,7 @@
  * @since       0.4.0
  */
 
+//use RuntimeException;
 use Syscode\Core\Application;
 use Syscode\Contracts\View\View;
 use Syscode\Routing\UrlGenerator;
@@ -183,6 +184,41 @@ if ( ! function_exists('config'))
         }
         
         return app('config')->get($key, $value);
+    }
+}
+
+if ( ! function_exists('csrfField'))
+{
+    /**
+     * Generate a CSRF token form field.
+     * 
+     * @return string
+     */
+    function csrfField()
+    {
+        return '<input type="hidden" name="_token" value="'.csrfToken().'">';
+    }
+}
+
+if ( ! function_exists('csrfToken'))
+{
+    /**
+     * Get the CSRF token value.
+     * 
+     * @return string
+     * 
+     * @throws \RuntimeException
+     */
+    function csrfToken()
+    {
+        $session = app('session');
+        
+        if (isset($session))
+        {
+            return $session->token();
+        }
+
+        throw new RuntimeException('Application session store not set.');
     }
 }
 
@@ -412,13 +448,39 @@ if ( ! function_exists('secureUrl'))
     }
 }
 
+if ( ! function_exists('session'))
+{
+    /**
+     * Get / set the specified session value.
+     * 
+     * @param  string  $key      (null by default)
+     * @param  mixed   $default  (null by default)
+     * 
+     * @return mixed|\Syscode\Session\Store|\Syscode\Session\SessionManager
+     */
+    function session($key = null, $default = null)
+    {
+        if (is_null($key))
+        {
+            return app('session');
+        }
+
+        if (is_array($key))
+        {
+            return app('session')->put($key, $default);
+        }
+
+        return app('session')->get($key, $default);
+    }
+}
+
 if ( ! function_exists('segment'))
 {
   /**
      * Returns the desired segment, or $default if it does not exist.
      *
      * @param  int    $segment  
-     * @param  mixed  $default  
+     * @param  mixed  $default  (null by default)
      *
      * @return string
      */
