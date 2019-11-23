@@ -25,7 +25,6 @@
 namespace Syscode\Session;
 
 use Closure;
-use StdClass;
 use Syscode\Support\Arr;
 use Syscode\Support\Str;
 use SessionHandlerInterface;
@@ -206,15 +205,32 @@ class Store implements Session
     }
 
     /**
-     * Checks if a key exists.
+     * Remove one or many items from the session.
      * 
-     * @param  string|array  $key
+     * @param  string|array  $keys
      * 
      * @return void
      */
-    public function exists($key)
+    public function pull($keys)
     {
-        
+        Arr::pull($this->items, $keys);
+    }
+
+    /**
+     * Push a value onto a session array.
+     * 
+     * @param  string  $key
+     * @param  mixed   $value
+     * 
+     * @return void
+     */
+    public function push($key, $value)
+    {
+        $array = $this->get($key, []);
+
+        $array[] = $value;
+
+        $this->put($key, $array);
     }
 
     /**
@@ -272,7 +288,34 @@ class Store implements Session
      */
     public function remove($key)
     {
-        return Arr::erase($this->items, $key);
+        return Arr::pull($this->items, $key);
+    }
+
+    /**
+     * Flash a key / value pair to the session.
+     * 
+     * @param  string  $key
+     * @param  mixed   $value  (true by default)
+     * 
+     * @return void
+     */
+    public function flash(string $key, $value = true)
+    {
+        $this->put($key, $value);
+        $this->push('_flash.new', $value);
+        $this->removeFlashData([$key]);
+    }
+
+    /**
+     * Remove the given keys from the old flash data.
+     * 
+     * @param  array  $keys
+     * 
+     * @return void
+     */
+    protected function removeFlashData(array $keys)
+    {
+        $this->put('_flash.old', array_diff($this->get('_flash.old', []), $keys));
     }
 
     /**
@@ -306,6 +349,20 @@ class Store implements Session
     }
 
     /**
+     * Generate a new session identifier.
+     * 
+     * @param  bool  $destroy
+     * 
+     * @return void
+     */
+    public function regenerate($destroy = false)
+    {
+        return take($this->migrate($destroy), function () {
+            $this->regenerateToken();
+        });
+    }
+
+    /**
      * Generate a new session ID for the session.
      * 
      * @param  bool  $destroy
@@ -314,7 +371,14 @@ class Store implements Session
      */
     public function migrate($destroy = false)
     {
+        if ($destroy)
+        {
+            $this->handler->destroy($this->getId());
+        }
 
+        $this->setId($this->generateSessionId());
+
+        return $this->started = true;
     }
 
     /**
@@ -324,6 +388,6 @@ class Store implements Session
      */
     public function isStarted()
     {
-
+        return $this->started;
     }
 }
