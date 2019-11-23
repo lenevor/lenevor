@@ -25,7 +25,11 @@
 namespace Syscode\Session;
 
 use Syscode\Support\Manager;
-use Syscode\Session\Handlers\FileSession;
+use Syscode\Session\Handlers\{
+    FileSession,
+    NullSession,
+    CacheBasedSession
+};
 
 /**
  * Lenevor session storage.
@@ -35,9 +39,30 @@ use Syscode\Session\Handlers\FileSession;
 class SessionManager extends Manager
 {
     /**
+     * Call a custom driver creator.
+     * 
+     * @param  string  $driver
+     * 
+     * @return mixed
+     */
+    protected function callCustomCreator($driver)
+    {
+        return $this->buildSession(parent::callCustomCreator($driver));
+    }
+    /**
+     * Create an instance of the array session driver.
+     * 
+     * @return \Syscode\Session\Store
+     */
+    protected function createArrayDriver()
+    {
+        return $this->buildSession(new NullSession);
+    }
+
+    /**
      * Create an instance of the file session driver.
      * 
-     * @return \Illuminate\Session\Store
+     * @return \Syscode\Session\Store
      */
     protected function createFileDriver()
     {
@@ -47,6 +72,70 @@ class SessionManager extends Manager
         return $this->buildSession(new FileSession(
                 $this->app->make('files'), $path, $lifetime
         ));
+    }
+
+    /**
+     * Create an instance of the APC session driver.
+     * 
+     * @return \Syscode\Session\Store
+     */
+    protected function createApcDriver()
+    {
+        return $this->createCacheBased('apc');
+    }
+
+    /**
+     * Create an instance of the Memcached session driver.
+     * 
+     * @return \Syscode\Session\Store
+     */
+    protected function createMemcachedDriver()
+    {
+        return $this->createCacheBased('memcached');
+    }
+
+    /**
+     * Create an instance of the Redis session driver.
+     * 
+     * @return \Syscode\Session\Store
+     */
+    protected function createRedisDriver()
+    {
+        $store      = $this->createCacheBased('redis');
+        $connection = $this->config->get('session.connection');
+
+        $store->getRedis()->setConnection($connection);
+
+        return $this->buildSession($store);
+    }
+
+    /**
+     * Create an instance of a cache driven driver.
+     * 
+     * @param  string  $driver
+     * 
+     * @return \Syscode\Session\Store
+     */
+    protected function createCacheBased($driver)
+    {
+        return $this->buildSession($this->createCacheBased($driver));
+    }
+
+    /**
+     * Create the cache based session handler instance.
+     * 
+     * @param  string  $driver
+     * 
+     * @return \Syscode\Session\Handlers\CacheBasedSession
+     */
+    protected function createCacheHandler($driver)
+    {
+        $store = $this->config->get('session.store') ?: $driver;
+
+        return new CacheBasedSession(
+            $this->app->make('cache')->driver($store),
+            $this->config->get('session.lifetime')
+        );
     }
 
     /**
