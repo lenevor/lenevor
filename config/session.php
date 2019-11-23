@@ -31,9 +31,9 @@ return [
     'lifetime' => env('SESSION_LIFETIME', 120),
     
     /*
-    |---------------------------------------------------------------------------
+    |--------------------------------------------------------------------------
     | Session File Location
-    |---------------------------------------------------------------------------
+    |--------------------------------------------------------------------------
     | When using the native session driver, we need a location where session 
     | files may be stored. A default has been set for you but a different 
     | location may be specified. This is only needed for file sessions.
@@ -41,5 +41,30 @@ return [
     */
     
     'files' => storagePath('sessions'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Session Database Connection
+    |--------------------------------------------------------------------------
+    |
+    | When using the "database" or "redis" session drivers, you may specify a
+    | connection that should be used to manage these sessions. This should
+    | correspond to a connection in your database configuration options.
+    |
+    */
+    'connection' => env('SESSION_CONNECTION', null),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Session Cache Store
+    |--------------------------------------------------------------------------
+    |
+    | When using the "apc", "memcached", or "redis" session drivers you may
+    | list a cache store that should be used for these sessions. This value
+    | must match with one of the application's configured cache "stores".
+    |
+    */
+
+    'store' => env('SESSION_STORE', null),
 
 ];
