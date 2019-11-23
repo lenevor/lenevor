@@ -122,7 +122,7 @@ abstract class Manager
     {
         if (isset($this->customCreators[$driver]))
         {
-            return $this->callCustomCreators($driver);
+            return $this->callCustomCreator($driver);
         }
         else
         {
@@ -144,7 +144,7 @@ abstract class Manager
      * 
      * @return mixed
      */
-    protected function callCustomCreators($driver)
+    protected function callCustomCreator($driver)
     {
         return $this->customCreators[$driver]($this->app);
     }
