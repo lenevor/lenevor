@@ -117,35 +117,56 @@ class Arr
 	 * Unsets dot-notated key from an array.
 	 *
 	 * @param  array  $array  The search array
-	 * @param  mixed  $key    The dot-notated key or array of keys
+	 * @param  mixed  $keys   The dot-notated key or array of keys
 	 *
 	 * @return mixed
 	 */
-	public static function erase(&$array, $key)
+	public static function erase(&$array, $keys)
 	{
-		if (is_null($key)) 
+		$original =& $array;
+
+		$keys = (array) $keys;
+
+		if (count($keys) === 0) 
 		{
-			return false;
+			return;
 		}
 
-		$keys = explode('.', $key);
-
-		// traverse the array into the second last key
-		while (count($keys) > 1) 
+		foreach ($keys as $key)
 		{
-			$key = array_shift($keys);
+			if (static::exists($array, $key))
+			{
+				unset($array[$key]);
 
-			if (array_key_exists($key, $array)) {
-				$array =& $array[$key];
+				continue;
+			}
+			
+			$parts = explode('.', $key);
+
+			// Clean up after each pass
+			$array =& $original;
+	
+			// traverse the array into the second last key
+			while (count($parts) > 1) 
+			{
+				$part = array_shift($parts);
+	
+				if (isset($array[$part]) && is_array($array[$part])) 
+				{
+					$array =& $array[$key];
+				}
+				else
+				{
+					continue 2;
+				}
+			}
+	
+			// if the last key exists unset it
+			if (static::exists($array, $key = array_shift($parts))) 
+			{
+				unset($array[$key]);
 			}
 		}
-
-		// if the last key exists unset it
-		if (array_key_exists($key = array_shift($keys), $array)) {
-			unset($array[$key]);
-		}
-
-		return true;
 	}
 	
 	/**
@@ -275,5 +296,23 @@ class Arr
 		$array[array_shift($keys)] = $value;
 
 		return $array;
+	}
+
+	/**
+	 * Get a value from the array, and remove it.
+	 * 
+	 * @param  array   $array
+	 * @param  string  $key
+	 * @param  mixed   $default  (null by default)
+	 * 
+	 * @return mixed
+	 */
+	public function pull(&$array, $key, $default = null)
+	{
+		$value = static::get($array, $key, $default);
+
+		static::erase($array, $key);
+
+		return $value;
 	}
 }
