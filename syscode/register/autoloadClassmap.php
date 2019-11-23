@@ -160,7 +160,6 @@ return [
     'Syscode\\Routing\\RouteResponse' => SYS_PATH.'classes/Routing/RouteResponse.php',
     'Syscode\\Routing\\RoutingServiceProvider' => SYS_PATH.'classes/Routing/RoutingServiceProvider.php',
     'Syscode\\Routing\\UrlGenerator' => SYS_PATH.'classes/Routing/UrlGenerator.php',
-    'Syscode\\Session\\Handlers\\ArraySession' => SYS_PATH.'classes/Session/Handlers/ArraySession.php',
     'Syscode\\Session\\Handlers\\FileSession' => SYS_PATH.'classes/Session/Handlers/FileSession.php',
     'Syscode\\Session\\Handlers\\NullSession' => SYS_PATH.'classes/Session/Handlers/NullSession.php',
     'Syscode\\Session\\SessionManager' => SYS_PATH.'classes/Session/SessionManager.php',
