@@ -24,12 +24,17 @@
 
 namespace Syscode\Session\Handlers;
 
-use Syscode\Support\Finder;
+use Syscode\Support\{
+    Finder,
+    Chronos
+};
 use SessionHandlerInterface;
 use Syscode\Filesystem\Filesystem;
 
 /**
+ * Session handler using file system for storage.
  * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class FileSession implements SessionHandlerInterface
 {
@@ -101,7 +106,10 @@ class FileSession implements SessionHandlerInterface
     {
         if ($this->files->isFile($path = $this->path.DIRECTORY_SEPARATOR.$sessionId))
         {
-            return $this->files->get($path);
+            if (filemtime($path) >= Chronos::now()->subMinutes($this->minutes)->getTimestamp()) 
+            {
+                return $this->files->get($path);
+            }
         }
         
         return '';
