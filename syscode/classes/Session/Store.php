@@ -39,18 +39,18 @@ use Syscode\Contracts\Session\Session;
 class Store implements Session
 {
     /**
-     * The session attributes.
-     * 
-     * @var array $attributes
-     */
-    protected $attributes = [];
-
-    /**
      * The session ID.
      * 
      * @var string $id
      */
     protected $id;
+
+    /**
+     * The session items.
+     * 
+     * @var array $items
+     */
+    protected $items = [];
 
     /**
      * The handler session.
@@ -107,6 +107,33 @@ class Store implements Session
      */
     public function start()
     {
+        $this->loadSession();
+
+        if ( ! $this->has('_token'))
+        {
+            $this->regenerateToken();
+        }
+
+        return $this->started = true;
+    }
+
+    /**
+     * Load the session data from the handler.
+     * 
+     * @return void
+     */
+    protected function loadSession()
+    {
+        $this->items = array_merge($this->items, $this->readToHandler());
+    }
+
+    /**
+     * Read the session data from the handler.
+     * 
+     * @return array
+     */
+    protected function readToHandler()
+    {
         $data = $this->handler->read($this->getId());
 
         return $data ? @unserialize($data) : [];
@@ -119,7 +146,7 @@ class Store implements Session
      */
     public function all()
     {
-
+        return $this->items;
     }
 
     /**
@@ -173,7 +200,9 @@ class Store implements Session
      */
     public function save()
     {
-        return $this->handler->write($this->getId(), serialize('hola mundo'));
+        $this->handler->write($this->getId(), serialize($this->items));
+
+        $this->started = false;
     }
 
     /**
@@ -197,7 +226,7 @@ class Store implements Session
      */
     public function has($key)
     {
-
+        return ! is_null($this->get($key));
     }
 
     /**
@@ -210,7 +239,7 @@ class Store implements Session
      */
     public function get($key, $default = null)
     {
-
+        return Arr::get($this->items, $key, $default);
     }
 
     /**
@@ -223,7 +252,15 @@ class Store implements Session
      */
     public function put($key, $value = null)
     {
+        if ( ! is_array($key))
+        {
+            $key = [$key => $value];
+        }
 
+        foreach ($key as $itemKey => $itemValue)
+        {
+            Arr::set($this->items, $itemKey, $itemValue);
+        }
     }
 
     /**
@@ -235,8 +272,7 @@ class Store implements Session
      */
     public function remove($key)
     {
-        dd();
-        return $this->handler->destroy();
+        return Arr::erase($this->items, $key);
     }
 
     /**
@@ -246,7 +282,7 @@ class Store implements Session
      */
     public function flush()
     {
-
+        $this->items = [];
     }
 
     /**
@@ -256,7 +292,17 @@ class Store implements Session
      */
     public function token()
     {
+        return $this->get('_token');
+    }
 
+    /**
+     * Regenerate the CSRF token value.
+     * 
+     * @return void
+     */
+    public function regenerateToken()
+    {
+        $this->put('_token', Str::random(40));
     }
 
     /**
