@@ -1,6 +1,37 @@
 # Release Notes
 
-## [Version 0.3.0-alpha.3]
+## [Version 0.4.0-alpha.4] 
+
+Release Date: Nov 25, 2019
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added Session system
+- Added Service providers system
+- Added Logger system
+- Added new facade for logging
+- Added new method for delete keys and your contents
+- Added new class called `Manager`
+- Added function static random in the `Str` class
+- Added new method for call all the service providers in the `Application` class
+- Added new keys for session system in the `Application` class
+- Added reportException method in the `Lenevor` class
+- Added methods for report logging in the `Core/Exceptions/Handler` class
+- Added new class boot for configured providers 
+- Added new class for initialize providers
+- Added new functions for security of sessions in `Core/Helpers` file
+- Added new interface of session
+- Added new interface for log system
+- Added new keys for session in `.env.dist` file
+- Added function of language in the `Response` class
+
+### Changed
+- Changed Release 0.4.0-alpha.4
+- Changed new number version
+
+
+## [Version 0.3.0-alpha.3] 
 
 Release Date: Sep 07, 2019
 
