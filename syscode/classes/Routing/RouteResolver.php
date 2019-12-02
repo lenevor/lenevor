@@ -67,8 +67,8 @@ class RouteResolver
 			if ($route->getRoute() === $requestedUri || preg_match_all('~^'.$route->getRoute().'$~', $requestedUri, $matches)) 
 			{	
 				$arguments = [];
-				$params    = $this->getParams($matches);
-
+				$params    = $this->getParams($matches);				
+				
 				if (is_array($route->getArguments()) && count($route->getArguments()) > 0)
 				{
 					foreach ($route->getArguments() as $key => $args) 
@@ -129,18 +129,14 @@ class RouteResolver
 	 */
 	protected function getParams($matches)
 	{
-		$params = [];
-
 		foreach ($matches as $key => $match) 
 		{
 			if ($key === 0) continue;
 
-			if (strlen($match) > 0) 
+			if (strlen($key) > 0) 
 			{
-				$params[] = $match;
+				return $match;
 			}
 		}
-
-		return $params;
 	}
 }
