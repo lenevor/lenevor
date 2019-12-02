@@ -89,10 +89,11 @@ class Route
 	 * @param  array|string     $method
 	 * @param  string           $uri
 	 * @param  \Closure|string  $action
+	 * @param  array            $arguments
 	 *
 	 * @return void
 	 */
-	public function __construct($method = null, $uri = null, $action = null)
+	public function __construct($method = null, $uri = null, $action = null, array $arguments = [])
 	{
 		// Set the method
 		$this->parseMethod($method);
@@ -100,6 +101,8 @@ class Route
 		$this->parseRoute($uri);
 		// Set the action
 		$this->parseAction($action);
+
+		$this->wheres = $arguments;
 	}
 
 	// Getters
@@ -274,21 +277,6 @@ class Route
 	}
 
 	/**
-	 * Parse arguments into a regex route.
-	 *
-	 * @return array
-	 */
-	public function parseArgs()
-	{
-		preg_match_all('/\{(.*?)\}/', $this->uri, $matches);
-		
-		return array_map(function ($match)
-		{
-			return trim($match, '?');
-		}, $matches[1]);
-	}
-
-	/**
 	 * Set the namespace.
 	 *
 	 * @param  string  $namespace
@@ -312,23 +300,20 @@ class Route
 	 */
 	public function where($name, $regex = null)
 	{
-		foreach ($this->parseWhere($name, $regex) as $name => $regex) {
+		if (is_array($name))
+		{
+			foreach ($name as $key => $value)
+			{
+				$this->wheres[$key] = $value;
+			}
+		}
+		else
+		{
 			$this->wheres[$name] = $regex;
 		}
+
+		
 		
 		return $this;
-	}
-	
-	/**
-	 * Parse arguments to the where method into an array.
-	 * 
-	 * @param  array|string  $name
-	 * @param  string   $regex
-	 * 
-	 * @return array
-	 */
-	protected function parseWhere($name, $regex)
-	{
-		return is_array($name) ? $name : [$name => $regex];
 	}
 }
