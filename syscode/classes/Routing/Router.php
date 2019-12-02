@@ -247,9 +247,14 @@ class Router implements Routable
 			throw new InvalidArgumentException("Route must be set");
 		}
 
-		$method = array_map('strtoupper', (array)$method);
+		$method = array_map('strtoupper', (array) $method);
 
-		$route = $this->newRoute($method, $this->prefix($route), $action);
+		$route = $this->newRoute(
+						$method, 
+						$this->parseRoute($this->prefix($route)), 
+						$action, 
+						$this->parseArgs($route)
+		);
 
 		$this->addRoute($route);		
 
@@ -272,9 +277,9 @@ class Router implements Routable
 	 * 
 	 * @return \Syscode\Routing\Route
 	 */
-	protected function newRoute($method, $uri, $action)
+	protected function newRoute($method, $uri, $action, $args)
 	{
-		return take(new Route($method, $uri, $action))
+		return take(new Route($method, $uri, $action, $args))
 		            ->setNamespace($this->namespace);
 	}
 
@@ -359,6 +364,23 @@ class Router implements Routable
 		$uri 	 = trim($uri, '\/');
 		
 		return $uri;
+	}
+
+	/**
+	 * Parse arguments into a regex route.
+	 *
+	 * @return array
+	 */
+	protected function parseArgs($route)
+	{
+		preg_match_all('~{(n:|a:|an:|w:|\*:|\?:)?([a-zA-Z0-9_]+)}~', $route, $matches);
+		
+		if (isset($matches[2]) && ! empty($matches[2])) 
+		{
+			return $matches[2];
+		}
+
+		return [];
 	}
 
 	/**
