@@ -67,7 +67,7 @@ class RouteResolver
 			if ($route->getRoute() === $requestedUri || preg_match_all('~^'.$route->getRoute().'$~', $requestedUri, $matches)) 
 			{	
 				$arguments = [];
-				$params    = $this->getParams($matches);				
+				$params    = (new RouteParams($matches))->toEachCountItems();
 				
 				if (is_array($route->getArguments()) && count($route->getArguments()) > 0)
 				{
@@ -92,7 +92,7 @@ class RouteResolver
 				elseif (stripos($route->getAction(), '@') !== false)
 				{
 					// Explode segments of given route
-					list($class, $action) = explode('@', $route->getAction());
+					list($class, $method) = explode('@', $route->getAction());
 
 					if ($route->getNamespace() !== null)
 					{
@@ -102,41 +102,24 @@ class RouteResolver
 					// If exist the controller
 					if (class_exists($controller))
 					{
-						if ( ! method_exists($controller, $action))
+						if ( ! method_exists($controller, $method))
 						{
-							throw new ActionNotFoundException("The [ $action ] method no exist in the [ $controller ] class"); 
+							throw new ActionNotFoundException(__('route.methodNotFound', [
+									'method' => $method, 
+									'class' => $controller
+							])); 
 						}
 						
-						return call_user_func_array([new $controller, $action], $arguments);	
+						return call_user_func_array([new $controller, $method], $arguments);	
 					}
 					else
 					{
-						throw new ClassNotFoundException("The [ $controller ] class not exist"); 
+						throw new ClassNotFoundException(__('route.classNotFound', ['class' => $controller])); 
 					}
 				}				
 			}
 		}
 
 		throw new RouteNotFoundException;
-	}
-
-	/**
-	 * Get parameters.
-	 * 
-	 * @param  array  $matches
-	 *
-	 * @return array
-	 */
-	protected function getParams($matches)
-	{
-		foreach ($matches as $key => $match) 
-		{
-			if ($key === 0) continue;
-
-			if (strlen($key) > 0) 
-			{
-				return $match;
-			}
-		}
 	}
 }
