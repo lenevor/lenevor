@@ -13,6 +13,8 @@ return [
     |
     */
     
-    'routeMatches' => "Oops, no route matches [ {method} ] \"{uri}\"",
+    'classNotFound' => 'The [ {class} ] class not exist',
+    'methodNotFound' => 'The [ {method} ] method no exist in the [ {class} ] class',
+    'paramNoExist' => 'There are no elements in the parameter array',
 
 ];

@@ -14,6 +14,8 @@ return [
     |
     */
 
-    'routeMatches' => "Ups, ninguna ruta coincide [ {method} ] \"{uri}\"",
+    'classNotFound' => 'La clase [{class}] no existe',
+    'methodNotFound' => 'El método [{method}] no existe en la clase [{class}]',
+    'paramNoExist' => 'No hay elementos en la matriz de parámetros',
 
 ];
