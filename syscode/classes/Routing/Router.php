@@ -74,7 +74,13 @@ class Router implements Routable
 		'~(\\\/)?{\?:[^\/{}]+}~' => '\/?([^\/]*)', 		 // Optional placeholder
 		'~{[^\/{}]+}~'           => '([^\/]++)'	 		 // Normal placeholder
 	];
-	//protected $patterns = [];
+	
+	/**
+	 * The globally available parameter patterns.
+	 * 
+	 * @var array $regex
+	 */
+	protected $regex = [];
 
 	/**
 	 * Default resolver.
@@ -258,12 +264,10 @@ class Router implements Routable
 
 		$this->addRoute($route);		
 
-		foreach ($route->getMethod() as $verbs)
+		foreach ($route->getMethod() as $method)
 		{
-			$this->routesByMethod[$verbs][] = $route;
+			$this->routesByMethod[$method][] = $route;
 		}
-
-		$this->addWhereToRoute($route);
 		
 		return $route;
 	}
@@ -281,22 +285,6 @@ class Router implements Routable
 	{
 		return take(new Route($method, $uri, $action, $args))
 		            ->setNamespace($this->namespace);
-	}
-
-	/**
-	 * Add the necessary where clauses to the route based on its initial registration.
-	 * 
-	 * @param  \Syscode\Routing\Route
-	 * 
-	 * @return \Syscode\Routing\Route
-	 */
-	protected function addWhereToRoute($route)
-	{
-		$route->where(array_merge(
-			$this->patterns, Arr::get($route->getAction(), 'where', [])
-		));
-
-		return $route;
 	}
 
 	/**
@@ -322,16 +310,22 @@ class Router implements Routable
 		return trim(trim($this->getGroupPrefix(), '/').'/'.trim($uri, '/'), '/') ?: '/';
 	}
 
+	/**
+	 * 
+	 */
 	public function pattern($name, $regex)
 	{
-		return $this->patterns[$name] = $regex;
+		return $this->regex[$name] = $regex;
 	}
 
+	/**
+	 * 
+	 */
 	public function patterns($patterns)
 	{
 		foreach ($patterns as $key => $pattern)
 		{
-			$this->patterns[$key] = $pattern;
+			$this->regex[$key] = $pattern;
 		}
 	}
 
@@ -374,7 +368,7 @@ class Router implements Routable
 	protected function parseArgs($route)
 	{
 		preg_match_all('~{(n:|a:|an:|w:|\*:|\?:)?([a-zA-Z0-9_]+)}~', $route, $matches);
-		
+	
 		if (isset($matches[2]) && ! empty($matches[2])) 
 		{
 			return $matches[2];
