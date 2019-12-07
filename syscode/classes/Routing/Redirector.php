@@ -63,7 +63,7 @@ class Redirector
      */
     public function back($status = 302, $headers = [], $fallback = false)
     {
-        return $this->createRedirect($this->generator->previuos($fallback), $status, $headers);
+        return $this->createRedirect($this->generator->previous($fallback), $status, $headers);
     }
 
     /**
