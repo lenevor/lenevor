@@ -315,16 +315,9 @@ class Route
 	 * @param  string  $namespace
 	 *
 	 * @return $this
-	 * 
-	 * @throws \Syscode\Routing\Exceptions\NamespaceNotFoundException
 	 */
 	public function setNamespace($namespace)
 	{   
-		if (strrpos($namespace, 's') === false)
-		{
-			throw new NamespaceNotFoundException(__('route.namespaceNotFound', ['namespace' => $namespace]));
-		}
-
 		$this->namespace = $namespace;
 	
 		return $this;
