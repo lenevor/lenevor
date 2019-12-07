@@ -24,6 +24,8 @@
 
 namespace Syscode\Support\Facades;
 
+use Syscode\Contracts\Routing\RouteResponse as ResponseContract;
+
 /**
  * Initialize the Response class facade.
  *
@@ -38,6 +40,6 @@ class Response extends Facade
      */
     public static function getFacadeAccessor()
     {
-        return 'RouteResponse';
+        return ResponseContract::class;
     }
 }
