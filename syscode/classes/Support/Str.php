@@ -183,6 +183,20 @@ class Str
     {
         return mb_strtolower($value);
     }
+
+    /**
+     * Parse a Class@method style callback into class and method.
+     * Puts the class name with the first capital letter.
+     * 
+     * @param  string       $callback
+     * @param  string|null  $default   (null by default)
+     * 
+     * @return array
+     */
+    public static function parseCallback($callback, $default = null)
+    {
+        return static::contains($callback, '@') ? explode('@', ucfirst($callback), 2) : [$callback, $default];
+    }
     
     /**
      * Generate a more truly "random" alpha-numeric string.
