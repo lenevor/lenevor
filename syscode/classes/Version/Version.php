@@ -39,12 +39,12 @@ final class Version
     /** 
      * Version Lenevor.
      */
-    const RELEASE = '0.3.0';
+    const RELEASE = '0.5.0';
 
     /**
      * Release status.
      */
-    const STATUS = 'alpha.3';
+    const STATUS = 'alpha.5';
 
     /**
      * The codename in key.
