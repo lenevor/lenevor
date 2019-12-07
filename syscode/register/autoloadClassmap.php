@@ -150,6 +150,7 @@ return [
     'Syscode\\Redis\\RedisManager' => SYS_PATH.'classes/Redis/RedisManager.php',       
     'Syscode\\Routing\\Exceptions\\ActionNotFoundException' => SYS_PATH.'classes/Routing/Exceptions/ActionNotFoundException.php',
     'Syscode\\Routing\\Exceptions\\ClassNotFoundException' => SYS_PATH.'classes/Routing/Exceptions/ClassNotFoundException.php',
+    'Syscode\\Routing\\Exceptions\\NamespaceNotFoundException' => SYS_PATH.'classes/Routing/Exceptions/NamespaceNotFoundException.php',
     'Syscode\\Routing\\Exceptions\\RouteNotFoundException' => SYS_PATH.'classes/Routing/Exceptions/RouteNotFoundException.php',
     'Syscode\\Routing\\Redirector' => SYS_PATH.'classes/Routing/Redirector.php', 
     'Syscode\\Routing\\Route' => SYS_PATH.'classes/Routing/Route.php',
