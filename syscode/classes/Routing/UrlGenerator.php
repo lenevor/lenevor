@@ -85,7 +85,7 @@ class UrlGenerator
      * 
      * @return string
      */
-    public function previuos($fallback = false)
+    public function previous($fallback = false)
     {
         $referer = $this->request->referer();
 
