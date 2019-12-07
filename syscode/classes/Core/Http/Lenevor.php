@@ -27,13 +27,12 @@ namespace Syscode\Core\Http;
 use Closure;
 use Exception;
 use Throwable;
-use Syscode\Http\Response;
 use Syscode\Debug\Benchmark;
 use Syscode\Support\Facades\Http;
 use Syscode\Support\Facades\Route;
 use Syscode\Support\Facades\Facade;
+use Syscode\Support\Facades\Response;
 use Syscode\Contracts\Core\Application;
-use Syscode\Contracts\Routing\RouteResponse;
 use Syscode\Contracts\Debug\ExceptionHandler;
 use Syscode\Contracts\Core\Lenevor as LenevorContract;
 use Syscode\Debug\FatalExceptions\FatalThrowableError;
@@ -281,7 +280,7 @@ class Lenevor implements LenevorContract
 			}
 		}
 
-		return Response::render()->setContent(
+		return Response::make()->setContent(
 					$this->displayPerformanceMetrics($this->dispatcher($request))
 		);
 	}
