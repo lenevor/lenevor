@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.5.0
  */
 
 namespace Syscode\Routing;
@@ -83,40 +83,32 @@ class RouteResolver
 						}
 					}
 				}
-
+				
 				if (is_object($route->getAction()) && ($route->getAction() instanceof Closure)) 
 				{
 					return call_user_func_array($route->getAction(), $arguments);
 				}
-				// If not, check the existence of special parameters
-				elseif (stripos($route->getAction(), '@') !== false)
+
+				$controller = $route->getController();
+				$method     = $route->getControllerMethod();
+				
+				//If exist the controller
+				if (class_exists($controller))
 				{
-					// Explode segments of given route
-					list($class, $method) = explode('@', $route->getAction());
-
-					if ($route->getNamespace() !== null)
+					if ( ! method_exists($controller, $method))
 					{
-						$controller = $route->getNamespace().'\\'.$class;
+						throw new ActionNotFoundException(__('route.methodNotFound', [
+								'method' => $method, 
+								'class' => $controller
+						])); 
 					}
-
-					// If exist the controller
-					if (class_exists($controller))
-					{
-						if ( ! method_exists($controller, $method))
-						{
-							throw new ActionNotFoundException(__('route.methodNotFound', [
-									'method' => $method, 
-									'class' => $controller
-							])); 
-						}
-						
-						return call_user_func_array([new $controller, $method], $arguments);	
-					}
-					else
-					{
-						throw new ClassNotFoundException(__('route.classNotFound', ['class' => $controller])); 
-					}
-				}				
+					
+					return (new $controller)->{$method}(...$arguments);	
+				}
+				else
+				{
+					throw new ClassNotFoundException(__('route.classNotFound', ['class' => $controller])); 
+				}								
 			}
 		}
 
