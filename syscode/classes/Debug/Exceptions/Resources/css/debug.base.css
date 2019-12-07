@@ -175,14 +175,14 @@ header:hover h2 {
 
 .exception-title {
     color: rgb(167, 167, 167);
-    line-height: 2.5;
-    margin-top: -5px;
+    line-height: 2.4;
+    margin-top: -2px;
 }
 
 .exception-title h1 {
-    color: rgb(127, 122, 145); 
+    color: rgb(175, 173, 187); 
     display: inline;
-    font-weight: 400;
+    font-weight: 600;
 }
 
 .exception-title span {
@@ -241,7 +241,7 @@ header:hover h2 {
     }
 
     .exception-title h1 {
-        font-size: var(--font-size-initial);
+        font-size: var(--font-size-medium-xx);
     }
 
     .exception-message h2 {
