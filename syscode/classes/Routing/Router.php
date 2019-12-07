@@ -243,16 +243,6 @@ class Router implements Routable
 	 */
 	public function map($method, $route, $action) 
 	{
-		if ( ! isset($method)) 
-		{ 
-			throw new InvalidArgumentException("Method must be set");
-		}
-
-		if ( ! isset($route))
-		{
-			throw new InvalidArgumentException("Route must be set");
-		}
-
 		$method = array_map('strtoupper', (array) $method);
 
 		$route = $this->newRoute(
