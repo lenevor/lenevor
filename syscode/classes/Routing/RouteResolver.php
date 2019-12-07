@@ -91,24 +91,23 @@ class RouteResolver
 
 				$controller = $route->getController();
 				$method     = $route->getControllerMethod();
-				
-				//If exist the controller
-				if (class_exists($controller))
-				{
-					if ( ! method_exists($controller, $method))
-					{
-						throw new ActionNotFoundException(__('route.methodNotFound', [
-								'method' => $method, 
-								'class' => $controller
-						])); 
-					}
-					
-					return (new $controller)->{$method}(...$arguments);	
-				}
-				else
+
+				// If exist the controller
+				if ( ! class_exists($controller))
 				{
 					throw new ClassNotFoundException(__('route.classNotFound', ['class' => $controller])); 
-				}								
+				}
+
+				// If exist the method
+				if ( ! method_exists($controller, $method))
+				{
+					throw new ActionNotFoundException(__('route.methodNotFound', [
+							'method' => $method, 
+							'class' => $controller
+					])); 
+				}
+
+				return (new $controller)->{$method}(...$arguments);	
 			}
 		}
 
