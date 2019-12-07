@@ -25,7 +25,9 @@
 namespace Syscode\Routing;
 
 use Closure;
+use Syscode\Support\Str;
 use InvalidArgumentException;
+use Syscode\Routing\Exceptions\NamespaceNotFoundException;
 
 /**
  * A Route describes a route and its parameters.
@@ -37,9 +39,16 @@ class Route
 	/**
 	 * Action that the route will use when called.
 	 *
-	 * @var \Closure|string $action
+	 * @var \Closure|string|array $action
 	 */
 	protected $action;
+
+	/**
+	 * The controller instance.
+	 * 
+	 * @var string $controller
+	 */
+	protected $controller;
 
 	/**
 	 * Variable of HTTP method.
@@ -114,7 +123,7 @@ class Route
 	 */
 	public function getAction()
 	{
-		return $this->action;
+		return $this->action['uses'];
 	}
 
 	/**
@@ -125,6 +134,33 @@ class Route
 	public function getArguments()
 	{
 		return $this->wheres;
+	}
+
+	/**
+	 * Get the controller instance for the route.
+	 * 
+	 * @return mixed
+	 */
+	public function getController()
+	{
+		if ( ! $this->controller)
+		{
+			$class = $this->getNamespace().'\\'.$this->parseControllerCallback()[0];
+
+			$this->controller = ltrim($class, '\\');
+		}
+
+		return $this->controller;
+	}
+
+	/**
+	 * Get the controller method used for the route.
+	 * 
+	 * @return string
+	 */
+	public function getControllerMethod()
+	{
+		return $this->parseControllerCallback()[1];
 	}
 
 	/**
@@ -168,16 +204,13 @@ class Route
 	}
 
 	/**
-	 * Display all routes.
+	 * Parse the controller.
 	 * 
-	 * @return array|null
+	 * @return array
 	 */
-	public function getList()
+	public function parseControllerCallback()
 	{
-		echo '<pre style="border:1px solid #eee;padding:0 10px;width:960px;max-height:780;margin:20px auto;font-size:17px;overflow:auto;">';
-		var_dump($this->getRoute());
-		echo '</pre>';
-		die();
+		return Str::parseCallback($this->action['uses']);
 	}
 
 	// Setters
@@ -216,10 +249,10 @@ class Route
 	{
 		if ( ! (is_object($action) && ($action instanceof Closure)) && ($action === null || $action === ''))
 		{
-			throw new InvalidArgumentException('Action should be a Closure or a path to a function');
+			throw new InvalidArgumentException(__('route.actionClosureOrFunction'));
 		}
 
-		$this->action = $action;
+		$this->action = RouteAction::parse($this->uri, $action);
 
 		return $this;
 	}
@@ -237,7 +270,7 @@ class Route
 	{
 		if ($method === null || ! is_array($method) || empty($method))
 		{
-			throw new InvalidArgumentException('No method provided');
+			throw new InvalidArgumentException(__('route.methodNotProvided'));
 			
 		}
 
@@ -245,7 +278,7 @@ class Route
 		{
 			if ( ! in_array($httpMethod, ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD', 'ANY']))	
 			{
-				throw new InvalidArgumentException('Method not allowed. allowed methods: GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD, ANY');
+				throw new InvalidArgumentException(__('route.methodNotAllowed'));
 				
 			}
 		}
@@ -268,7 +301,7 @@ class Route
 	{
 		if ($uri === null) 
 		{
-			throw new InvalidArgumentException('No route provided, for root use /');
+			throw new InvalidArgumentException(__('route.uriNotProvided'));
 		}
 
 		$this->uri = trim($uri, '\/?');
@@ -282,9 +315,16 @@ class Route
 	 * @param  string  $namespace
 	 *
 	 * @return $this
+	 * 
+	 * @throws \Syscode\Routing\Exceptions\NamespaceNotFoundException
 	 */
 	public function setNamespace($namespace)
-	{
+	{   
+		if (strrpos($namespace, 's') === false)
+		{
+			throw new NamespaceNotFoundException(__('route.namespaceNotFound', ['namespace' => $namespace]));
+		}
+
 		$this->namespace = $namespace;
 	
 		return $this;
@@ -311,8 +351,6 @@ class Route
 		{
 			$this->wheres[$name] = $regex;
 		}
-
-		
 		
 		return $this;
 	}
