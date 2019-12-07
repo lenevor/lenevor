@@ -28,6 +28,7 @@ use Closure;
 use Syscode\Routing\Exceptions\{
 	ActionNotFoundException,
 	ClassNotFoundException,
+	NamespaceNotFoundException,
 	RouteNotFoundException
 };
 use Syscode\Contracts\Routing\Routable;
@@ -49,6 +50,7 @@ class RouteResolver
 	 * @return mixed
 	 *
 	 * @throws \Syscode\Routing\Exceptions\RouteNotFoundException
+	 * @throws \Syscode\Routing\Exceptions\NamespaceNotFoundException
 	 */
 	public function resolve(Routable $router, $uri, $method)
 	{
@@ -91,6 +93,12 @@ class RouteResolver
 
 				$controller = $route->getController();
 				$method     = $route->getControllerMethod();
+
+				// If exist the namespace
+				if (strrpos($namespace = $route->getNamespace(), 's') === false)
+				{
+					throw new NamespaceNotFoundException(__('route.namespaceNotFound', ['namespace' => $namespace]));
+				}
 
 				// If exist the controller
 				if ( ! class_exists($controller))
