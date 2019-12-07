@@ -24,15 +24,101 @@
 
 namespace Syscode\Routing;
 
-use Closure;
-use InvalidArgumentException;
+use LogicException;
+use Syscode\Support\{
+    Arr,
+    Str
+};
+use UnexpectedValueException;
 
 /**
- * A Route describes a route and its parameters.
+ * Solve the actions obtained from a route.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class RouteAction
 {
+    /**
+     * Parse the given action into an array.
+     * 
+     * @param  string  $uri
+     * @param  mixed   $action
+     * 
+     * @return array
+     */
+    public static function parse($uri, $action)
+    {
+        if (is_null($action))
+        {
+            return static::usesAction($uri);
+        }
 
+        if (is_callable($action, true))
+        {
+            return ! is_array($action) ? ['uses' => $action] : [
+                    'uses' => $action[0].'@'.$action[1],
+                    'controller' => $action[0].'@'.$action[1],
+            ];
+        }
+        elseif ( ! isset($action['uses']))
+        {
+            $action['uses'] = static::findCallableAction($action);
+        }
+
+        if (is_string($action['uses']) && Str::contains($action['uses'], '@'))
+        {
+            $action['uses'] = static::makeInvokable($action['uses']);
+        }
+        
+        return $action;
+    }
+    
+    /**
+     * Get an action for a route that has no action.
+     * 
+     * @param  string  $uri
+     *
+     * @return array
+     * 
+     * @throws \LogicException
+     */
+    protected static function usesAction($uri)
+    {
+        return ['uses' => function () use ($uri) {
+            throw new LogicException(__('route.hasNoAction', ['uri' => $uri]));
+        }];
+    }
+    
+    /**
+     * Find the callable in an action array.
+     * 
+     * @param  array  $action
+     * 
+     * @return callable
+     */
+    protected static function findCallableAction(array $action)
+    {
+        return Arr::first($action, function ($value, $key) {
+            return is_callable($value) && is_numeric($key);
+        });
+    }
+    
+    /**
+     * Make an action for an invokable controller.
+     * 
+     * @param  string  $action
+     * 
+     * @return string
+     * 
+     * @throws \UnexpectedValueException
+     */
+    protected static function makeInvokable($action)
+    {
+        if (! method_exists($action, '__invoke'))
+        {
+            throw new UnexpectedValueException(__('route.invalidAction', ['action' => $action]));
+        }
+        
+        return $action.'@__invoke';
+    }
 } 
