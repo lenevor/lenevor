@@ -77,13 +77,7 @@ class RouteResponse implements ResponseContract
      */
     public function make($body = '', $status = 200, array $headers = [])
     {
-        $res = new Response($body, $status, $headers);
-
-        // Loaded the headers and status code
-        $res->send(true);
-                
-        // Terminate the current script 
-        exit;
+        return new Response($body, $status, $headers);
     }
 
     /**
