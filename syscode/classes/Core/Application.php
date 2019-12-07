@@ -606,7 +606,6 @@ class Application extends Container implements ApplicationContract
             'log'           => [\Syscode\Log\LogManager::class, \Psr\Log\LoggerInterface::class],
             'redirect'      => [\Syscode\Routing\Redirector::class],
             'redis'         => [\Syscode\Redis\RedisManager::class],
-            'response'      => [\Syscode\Routing\RouteResponse::class],
             'router'        => [\Syscode\Routing\Router::class],
             'session'       => [\Syscode\Session\SessionManager::class],
             'session.store' => [\Syscode\Session\Store::class, \Syscode\Contracts\Session\Session::class],
