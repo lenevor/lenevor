@@ -13,8 +13,15 @@ return [
     |
     */
     
+    'actionClosureOrFunction' => 'Action should be a Closure or a path to a function',
     'classNotFound' => 'The [ {class} ] class not exist',
-    'methodNotFound' => 'The [ {method} ] method no exist in the [ {class} ] class',
+    'hasNoAction' => 'Route for [ {uri} ] has no action',
+    'invalidAction' => 'Invalid route action: [ {action} ]',
+    'methodNotAllowed' => 'Method not allowed. allowed methods: GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD, ANY',
+    'methodNotFound' => 'The [ {method} ] method not exist in the [ {class} ] class',
+    'methodNotProvided' => 'No method provided',
+    'namespaceNotFound' => 'The [ {namespace} ] namespace assigned for this route does not exist',
     'paramNoExist' => 'There are no elements in the parameter array',
+    'uriNotProvided' => 'No route provided, for root use /',
 
 ];
