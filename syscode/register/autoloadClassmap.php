@@ -155,6 +155,7 @@ return [
     'Syscode\\Routing\\Redirector' => SYS_PATH.'classes/Routing/Redirector.php', 
     'Syscode\\Routing\\Route' => SYS_PATH.'classes/Routing/Route.php',
     'Syscode\\Routing\\RouteAction' => SYS_PATH.'classes/Routing/RouteAction.php',
+    'Syscode\\Routing\\RouteFileRegister' => SYS_PATH.'classes/Routing/RouteFileRegister.php',
     'Syscode\\Routing\\RouteGroup' => SYS_PATH.'classes/Routing/RouteGroup.php',
     'Syscode\\Routing\\RouteMapTrait' => SYS_PATH.'classes/Routing/RouteMapTrait.php',
     'Syscode\\Routing\\RouteParams' => SYS_PATH.'classes/Routing/RouteParams.php',
