@@ -19,95 +19,116 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.5.0
  */
 
 namespace Syscode\Routing;
 
+use Syscode\Support\Arr;
+
 /**
- * Groups attributes according at called for route prefixes or middleware.
+ * Groups attributes according.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class RouteGroup
 {
  	/**
-	 * Middleware for function of filters
-	 *  
-	 * @var string[] $middleware
+	 * Merge the given group attributes.
+	 * 
+	 * @param  array  $new
+	 * @param  array  $old
+	 * 
+	 * @return array
 	 */
-	public $middleware = [];
-
- 	/**
-	 * Variable of prefix route
-	 *  
-	 * @var string $prefix
-	 */
-	public $prefix;
-
-	/**
-	 * Definer the middleware's and prefix. Execute the parameters
-	 * if a match was found.
- 	 *
- 	 * @param  array|string  $params  The value to middleware/prefix the routes
- 	 *
- 	 * @return mixed
- 	 */
-	public function attributes($params)
+	public static function mergeGroup($new, $old)
 	{
-		if (is_string($params))
+		if (isset($new['domain']))
 		{
-			$this->prefix = $params;
+			unset($old['domain']);
 		}
-		else if (is_array($params))
-		{
-			if (isset($params['middleware']))
-			{
-				if ( ! is_array($params['middleware']))
-				{
-					$params['middleware'] = [$params['middleware']];
-				}
-			}
 
-			$this->middleware = ( ! isset($params['middleware']) || ! is_array($option  = $params['middleware'])) ? [] : $option;
-			$this->prefix     = ( ! isset($params['prefix']) || ! is_string($option = $params['prefix'])) ? '' : $option;
-		}
-		else if (is_callable($params))
-		{
-			$prefix               = $params;
-			$middleware           = $params;
-			$params               = [];
-			$params['middleware'] = ['middleware'];
-			$this->middleware = $middleware;
-			$this->prefix     = $prefix;
-		}
+		$new = array_merge(static::formatUseAs($new, $old), 
+			[
+				'namespace' => static::formatUseNamespace($new, $old),
+				'prefix'    => static::formatUsePrefix($new, $old),
+				'where'     => static::formatUseWhere($new, $old),
+			]
+		);
+
+		return array_merge_recursive(Arr::except(
+			$old, ['namespace', 'prefix', 'where', 'as']
+		), $new);
 	}
 
- 	/**
- 	 * Group a series of routes under a single URL segment
- 	 *
- 	 * @param  string           $params  The value to group/prefix the routes
- 	 * @param  \Closure|string  $callback 
- 	 *
- 	 * @return void
- 	 */
- 	public function group($params, $callback)
- 	{
-		if ( is_null($params))
+	/**
+	 * Format the "as" clause of the new group attributes.
+	 * 
+	 * @param  array  $new
+	 * @param  array  $old
+	 * 
+	 * @return array
+	 */
+	protected static function formatUseAs($new, $old)
+	{
+		if (isset($old['as']))
 		{
-			$this->attributes($params);
+			$new['as'] = $old['as'].($new['as'] ?? '');
 		}
 
- 		if (is_callable($callback))
- 		{
-			call_user_func($callback);
-		}
-		else
+		return $new;
+	}
+
+	/**
+	 * Format the uses namespace for the new group attributes.
+	 * 
+	 * @param  array  $new
+	 * @param  array  $old
+	 * 
+	 * @return string|null
+	 */
+	protected static function formatUseNamespace($new, $old)
+	{
+		if (isset($new['namespace']))
 		{
-			include $callback;
+			return isset($old['namespace'])
+				   ? trim($old['namespace'], '\\').'\\'.trim($new['namespace'], '\\')
+				   : trim($new['namespace'], '\\');
 		}
 
-		$this->prefix     = '';
-		$this->middleware = [];
- 	}
+		return $old['namespace'] ?? null;
+	}
+
+	/**
+	 * Format the prefix for the new group attributes.
+	 * 
+	 * @param  array  $new
+	 * @param  array  $old
+	 * 
+	 * @return string|null
+	 */
+	protected static function formatUsePrefix($new, $old)
+	{
+		$old = $old['prefix'] ?? null;
+
+		return isset($new['prefix']) 
+					? trim($old, '/').'/'.trim($new['prefix'], '/')
+					: $old;
+	}
+
+	/**
+	 * Format the "wheres" for the new group attributes.
+	 * 
+	 * @param  array  $new
+	 * @param  array  $old
+	 * 
+	 * @return array
+	 */
+	protected static function formatUseWhere($new, $old)
+	{
+		return array_merge(
+			$old['where'] ?? [],
+			$new['where'] ?? []
+		);
+	}
 }
