@@ -42,7 +42,6 @@ class RoutingServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerRouter();
-        $this->registerRouteGroup();
         $this->registerRouteResolver();
         $this->registerRouteResponse();
         $this->registerUrlGenerator();
@@ -57,19 +56,7 @@ class RoutingServiceProvider extends ServiceProvider
     protected function registerRouter()
     {
         $this->app->singleton('router', function ($app) {
-            return new Router(null, $app['routeGroup'], $app['routeResolver']);
-        });
-    }
-
-    /**
-     * Register the route group service.
-     * 
-     * @return void
-     */
-    protected function registerRouteGroup()
-    {
-        $this->app->singleton('routeGroup', function () {
-            return new RouteGroup;
+            return new Router(null, $app['routeResolver']);
         });
     }
 
