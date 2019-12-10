@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.5.0
  */
 
 namespace Syscode\Routing;
@@ -41,9 +41,9 @@ class Router implements Routable
 	/**
 	 * Variable of group route.
 	 *  
-	 * @var string $groupStack
+	 * @var array $groupStack
 	 */
-	protected $groupStack;
+	protected $groupStack = [];
 
 	/**
 	 * Middleware for function of filters
@@ -96,13 +96,6 @@ class Router implements Routable
 	 */
 	protected $routesByMethod = [];
 
-	/**
-	 * Get the group of routes.
-	 * 
-	 * @var string $routeGroup
-	 */
-	protected $routeGroup;
-
 	/** 
 	 * Currently registered routes. 
 	 * 
@@ -114,17 +107,13 @@ class Router implements Routable
 	 * Constructor initialize namespace.
 	 *
 	 * @param  string                          $namespace
-	 * @param  \Syscode\Routing\RouteGroup     $group
 	 * @param  \Syscode\Routing\RouteResolver  $resolver
 	 * 
 	 * @return void
 	 */
-	public function __construct($namespace = null, RouteGroup $group, RouteResolver $resolver)
+	public function __construct($namespace = null, RouteResolver $resolver)
 	{
 		$this->namespace = $namespace;
-
-		// Instance the RouteGroup class 
-		$this->routeGroup = $group;
 
 		// Instance the RouteDispatcher class 
 		$this->resolver = $resolver;
@@ -161,12 +150,21 @@ class Router implements Routable
 	 */
 	public function getGroupPrefix()
 	{
-		$this->groupStack = $this->routeGroup->prefix ?: '';
+		// $this->groupStack = $this->routeGroup->prefix ?: '';
+
+		// if ( ! empty($this->groupStack))
+		// {
+		// 	return $this->groupStack;
+		// }
 
 		if ( ! empty($this->groupStack))
 		{
-			return $this->groupStack;
+			$last = end($this->groupStack);
+
+			return $last['prefix'] ?? '';
 		}
+
+		return '';
 	}
 
 	/**
@@ -204,30 +202,80 @@ class Router implements Routable
 	 *
 	 *      });
 	 *
-	 * @param  string           $params
+	 * @param  array           $params
 	 * @param  \Closure|string  $callback
 	 *
-	 * @return $this
-	 *
-	 * @uses   \Closure    
-	 *
- 	 * @throws \InvalidArgumentException
+	 * @return void
 	 */
-	public function group($params, $callback) 
+	public function group(array $attributes, $callback) 
 	{
-		if ( ! isset($params) && ! is_null($params))
- 		{
-			throw new InvalidArgumentException('Params must be set');
-		}
+		// if ( ! isset($params) && ! is_null($params))
+ 		// {
+		// 	throw new InvalidArgumentException('Params must be set');
+		// }
 		
-		if ( ! (is_callable($callback) && ($callback instanceof Closure)) && ($callback === null || $callback === ''))
+		// if ( ! (is_callable($callback) && ($callback instanceof Closure)) && ($callback === null || $callback === ''))
+		// {
+		// 	throw new InvalidArgumentException('Callback must be set');
+		// }
+
+		// $this->routeGroup->group($params, $callback);
+
+		// return $this;
+
+		$this->updateGroupStack($attributes);
+
+		$this->loadRoutes($callback);
+
+		array_pop($this->groupStack);
+	}
+
+	/**
+	 * Update the group stack with the given attributes.
+	 * 
+	 * @param  array  $attributes
+	 * 
+	 * @return void
+	 */
+	protected function updateGroupStack(array $attributes)
+	{
+		if ( ! empty($this->groupStack))
 		{
-			throw new InvalidArgumentException('Callback must be set');
+			$attributes = $this->mergeGroup($attributes);
 		}
 
-		$this->routeGroup->group($params, $callback);
+		$this->groupStack[] = $attributes;
+	}
 
-		return $this;
+	/**
+	 * Merge the given group attributes.
+	 * 
+	 * @param  array  $new
+	 * 
+	 * @return array
+	 */
+	protected function mergeGroup($new)
+	{
+		return RouteGroup::mergeGroup($new, end($this->groupStack));
+	}
+	
+	/**
+	 * Load the provided routes.
+	 * 
+	 * @param  \Closure|string  $callback
+	 * 
+	 * @return void
+	 */
+	protected function loadRoutes($callback)
+	{
+		if ($callback instanceof Closure) 
+		{
+			$callback($this);
+		}
+		else
+		{
+			(new RouteFileRegister($this))->register($callback);
+		}
 	}
 
 	/**
@@ -252,8 +300,8 @@ class Router implements Routable
 						$this->parseArgs($route)
 		);
 
-		$this->addRoute($route);		
-
+		$this->addRoute($route);	
+		
 		foreach ($route->getMethod() as $method)
 		{
 			$this->routesByMethod[$method][] = $route;
@@ -276,6 +324,17 @@ class Router implements Routable
 		return take(new Route($method, $uri, $action, $args))
 		            ->setNamespace($this->namespace);
 	}
+
+	/**
+     * Merge the group stack with the controller action.
+     *
+     * @param  \Illuminate\Routing\Route  $route
+     * @return void
+     */
+    protected function mergeGroupAttributesIntoRoute($route)
+    {
+        $route->parseAction($this->mergeGroup($route->getAction()));
+    }
 
 	/**
 	 * Add a prefix to the route URI.
