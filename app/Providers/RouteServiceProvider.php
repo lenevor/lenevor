@@ -70,6 +70,6 @@ class RouteServiceProvider extends ServiceProvider
     protected function loadMapWebRoute()
     {
         Route::namespace($this->namespace)
-             ->group(null, basePath('routes/web.php'));
+             ->group([], basePath('routes/web.php'));
     }
 }
