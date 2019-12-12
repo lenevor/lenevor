@@ -26,6 +26,7 @@ namespace Syscode\Routing;
 
 use Closure;
 use Syscode\Support\Arr;
+use BadMethodCallException;
 use InvalidArgumentException;
 use Syscode\Contracts\Routing\Routable;
 
@@ -44,6 +45,13 @@ class Router implements Routable
 	 * @var array $groupStack
 	 */
 	protected $groupStack = [];
+
+	/**
+     * The registered string macros.
+     *
+     * @var array
+     */
+    protected $macros = [];
 
 	/**
 	 * Middleware for function of filters
@@ -202,27 +210,13 @@ class Router implements Routable
 	 *
 	 *      });
 	 *
-	 * @param  array           $params
+	 * @param  array            $attributes
 	 * @param  \Closure|string  $callback
 	 *
 	 * @return void
 	 */
 	public function group(array $attributes, $callback) 
 	{
-		// if ( ! isset($params) && ! is_null($params))
- 		// {
-		// 	throw new InvalidArgumentException('Params must be set');
-		// }
-		
-		// if ( ! (is_callable($callback) && ($callback instanceof Closure)) && ($callback === null || $callback === ''))
-		// {
-		// 	throw new InvalidArgumentException('Callback must be set');
-		// }
-
-		// $this->routeGroup->group($params, $callback);
-
-		// return $this;
-
 		$this->updateGroupStack($attributes);
 
 		$this->loadRoutes($callback);
@@ -291,6 +285,11 @@ class Router implements Routable
 	 */
 	public function map($method, $route, $action) 
 	{
+		if ($this->actionReferencesController($action))
+		{
+            $action = $this->convertToControllerAction($action);
+		}
+		
 		$method = array_map('strtoupper', (array) $method);
 
 		$route = $this->newRoute(
@@ -300,14 +299,91 @@ class Router implements Routable
 						$this->parseArgs($route)
 		);
 
-		$this->addRoute($route);	
-		
+		$this->addRoute($route);
+
+		if ($this->hasGroupStack())
+		{
+			$this->mergeGroupAttributesIntoRoute($route);			
+		}
+
+		$this->addWhereClausesToRoute($route);
+
 		foreach ($route->getMethod() as $method)
 		{
 			$this->routesByMethod[$method][] = $route;
 		}
 		
 		return $route;
+	}
+	
+	/**
+	 * Determine if the action is routing to a controller.
+	 * 
+	 * @param  array  $action
+	 * 
+	 * @return bool
+	 */
+	protected function actionReferencesController($action)
+	{
+		if ($action instanceof Closure)
+		{
+			return false;
+		}
+		
+		return is_string($action) || (isset($action['uses']) && is_string($action['uses']));
+	}
+	
+	/**
+	 * Add a controller based route action to the action array.
+	 * 
+	 * @param  array|string  $action
+	 * 
+	 * @return array
+	 */
+	protected function convertToControllerAction($action)
+	{
+		if (is_string($action))
+		{
+			$action = ['uses' => $action];
+		}
+		
+		if (! empty($this->groupStack))
+		{
+			$action['uses'] = $this->prependGroupUses($action['uses']);
+		}
+		
+		$action['controller'] = $action['uses'];
+		
+		return $action;
+	}
+	
+	/**
+	 * Prepend the last group uses onto the use clause.
+	 * 
+	 * @param  string  $uses
+	 * 
+	 * @return string
+	 */
+	protected function prependGroupUses($uses)
+	{
+		$group = end($this->groupStack);
+		
+		return isset($group['namespace']) ? $group['namespace'] .'\\' .$uses : $uses;
+	}
+	
+	/**
+	 * Find the Closure in an action array.
+	 * 
+	 * @param  array  $action
+	 * 
+	 * @return \Closure
+	 */
+	protected function findActionClosure(array $action)
+	{
+		return Arr::first($action, function ($key, $value)
+		{
+			return is_callable($value) && is_numeric($key);
+		});
 	}
 
 	/**
@@ -324,17 +400,46 @@ class Router implements Routable
 		return take(new Route($method, $uri, $action, $args))
 		            ->setNamespace($this->namespace);
 	}
-
+	
 	/**
-     * Merge the group stack with the controller action.
-     *
-     * @param  \Illuminate\Routing\Route  $route
-     * @return void
-     */
-    protected function mergeGroupAttributesIntoRoute($route)
-    {
-        $route->parseAction($this->mergeGroup($route->getAction()));
-    }
+	 * Determine if the router currently has a group stack.
+	 * 
+	 * @return bool
+	 */
+	public function hasGroupStack()
+	{
+		return ! empty($this->groupStack);
+	}
+	
+	/**
+	 * Merge the group stack with the controller action.
+	 * 
+	 * @param  \Syscpde\Routing\Route  $route
+	 * 
+	 * @return void
+	 */
+	protected function mergeGroupAttributesIntoRoute($route)
+	{
+		$action = static::mergeGroup($route->getAction(), end($this->groupStack));
+		
+		$route->setAction($action);
+	}
+	
+	/**
+	 * Add the necessary where clauses to the route based on its initial registration.
+	 * 
+	 * @param  \Syscode\Routing\Route  $route
+	 * 
+	 * @return \Syscode\Routing\Route
+	 */
+	protected function addWhereClausesToRoute($route)
+	{
+		$route->where(array_merge(
+			$this->regex, $route->getAction()['where'] ?? []
+		));
+		
+		return $route;
+	}
 
 	/**
 	 * Add a prefix to the route URI.
@@ -461,5 +566,47 @@ class Router implements Routable
 		$this->namespace = $namespace;
 
 		return $this;
-	} 
+	}
+
+	/**
+     * Register a custom macro.
+     *
+     * @param  string    $name
+     * @param  callable  $callback
+     * @return void
+     */
+    public function macro($name, callable $callback)
+    {
+        $this->macros[$name] = $callback;
+    }
+    /**
+     * Checks if macro is registered
+     *
+     * @param  string    $name
+     * @return boolean
+     */
+    public function hasMacro($name)
+    {
+        return isset($this->macros[$name]);
+    }
+	
+	/**
+	 * Dynamically handle calls into the router instance.
+	 * 
+	 * @param  string  $method
+	 * @param  array  $parameters
+	 * 
+	 * @return mixed
+	 */
+	public function __call($method, $parameters)
+	{
+		if (isset($this->macros[$method]))
+		{
+			$callback = $this->macros[$method];
+			
+            return call_user_func_array($callback, $parameters);
+		}
+
+		throw new BadMethodCallException("Method [ {$method} ] does not exist.");
+	}
 }
