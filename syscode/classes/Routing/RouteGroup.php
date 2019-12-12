@@ -43,40 +43,19 @@ class RouteGroup
 	 */
 	public static function mergeGroup($new, $old)
 	{
-		if (isset($new['domain']))
+		if (isset($new['domain'])) 
 		{
-			unset($old['domain']);
+            unset($old['domain']);
 		}
 
-		$new = array_merge(static::formatUseAs($new, $old), 
-			[
-				'namespace' => static::formatUseNamespace($new, $old),
-				'prefix'    => static::formatUsePrefix($new, $old),
-				'where'     => static::formatUseWhere($new, $old),
-			]
-		);
-
-		return array_merge_recursive(Arr::except(
-			$old, ['namespace', 'prefix', 'where', 'as']
-		), $new);
-	}
-
-	/**
-	 * Format the "as" clause of the new group attributes.
-	 * 
-	 * @param  array  $new
-	 * @param  array  $old
-	 * 
-	 * @return array
-	 */
-	protected static function formatUseAs($new, $old)
-	{
-		if (isset($old['as']))
-		{
-			$new['as'] = $old['as'].($new['as'] ?? '');
-		}
-
-		return $new;
+		$new['namespace'] = static::formatUseNamespace($new, $old);
+		$new['prefix']    = static::formatUsePrefix($new, $old);		
+		$new['where']     = static::formatUseWhere($new, $old);
+		$new['as']        = static::formatUseAs($new, $old);
+		
+        return array_merge_recursive(
+            Arr::except($old, array('namespace', 'prefix', 'where', 'as')), $new
+        );
 	}
 
 	/**
@@ -130,5 +109,23 @@ class RouteGroup
 			$old['where'] ?? [],
 			$new['where'] ?? []
 		);
+	}
+
+	/**
+	 * Format the "as" clause of the new group attributes.
+	 * 
+	 * @param  array  $new
+	 * @param  array  $old
+	 * 
+	 * @return array
+	 */
+	protected static function formatUseAs($new, $old)
+	{
+		if (isset($old['as']))
+		{
+			$new['as'] = $old['as'].($new['as'] ?? '');
+		}
+
+		return $new;
 	}
 }
