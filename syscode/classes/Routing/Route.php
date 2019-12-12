@@ -41,7 +41,7 @@ class Route
 	 *
 	 * @var \Closure|string|array $action
 	 */
-	public $action;
+	protected $action;
 
 	/**
 	 * The controller instance.
