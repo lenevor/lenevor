@@ -86,36 +86,39 @@ class RouteResolver
 					}
 				}
 				
-				if (is_object($route->getAction()) && ($route->getAction() instanceof Closure)) 
+				if (is_object($route->getAction()['uses']) && ($route->getAction()['uses'] instanceof Closure)) 
 				{
-					return call_user_func_array($route->getAction(), $arguments);
+					return call_user_func_array($route->getAction()['uses'], $arguments);
 				}
-
-				$controller = $route->getController();
-				$method     = $route->getControllerMethod();
-
-				// If exist the namespace
-				if (strrpos($namespace = $route->getNamespace(), 's') === false)
+				
+				if ($route->isControllerAction()) 
 				{
-					throw new NamespaceNotFoundException(__('route.namespaceNotFound', ['namespace' => $namespace]));
-				}
+					$controller = $route->getController();
+					$method     = $route->getControllerMethod();
+					
+					// If exist the namespace
+					if (strrpos($namespace = $route->getcontroller(), 's') === false)
+					{
+						throw new NamespaceNotFoundException(__('route.namespaceNotFound', ['namespace' => $namespace]));
+					}
 
-				// If exist the controller
-				if ( ! class_exists($controller))
-				{
-					throw new ClassNotFoundException(__('route.classNotFound', ['class' => $controller])); 
-				}
+					if ( ! class_exists($controller))
+					{
+						// If exist the controller
+						throw new ClassNotFoundException(__('route.classNotFound', ['class' => $controller]));  
+					}
 
-				// If exist the method
-				if ( ! method_exists($controller, $method))
-				{
-					throw new ActionNotFoundException(__('route.methodNotFound', [
-							'method' => $method, 
-							'class' => $controller
-					])); 
-				}
+					// If exist the method
+					if ( ! method_exists($controller, $method))
+					{
+						throw new ActionNotFoundException(__('route.methodNotFound', [
+								'method' => $method, 
+								'class' => $controller
+						])); 
+					}
 
-				return (new $controller)->{$method}(...$arguments);	
+					return (new $controller)->{$method}(...$arguments);
+				}
 			}
 		}
 
