@@ -64,8 +64,8 @@ class RouteAction
         {
             $action['uses'] = static::findCallableAction($action);
         }
-
-        if (is_string($action['uses']) && Str::contains($action['uses'], '@'))
+        
+        if (is_string($action['uses']) && ! Str::contains($action['uses'], '@'))
         {
             $action['uses'] = static::makeInvokable($action['uses']);
         }
@@ -114,7 +114,7 @@ class RouteAction
      */
     protected static function makeInvokable($action)
     {
-        if (! method_exists($action, '__invoke'))
+        if ( ! method_exists($action, '__invoke'))
         {
             throw new UnexpectedValueException(__('route.invalidAction', ['action' => $action]));
         }
