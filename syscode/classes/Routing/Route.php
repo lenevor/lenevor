@@ -41,7 +41,7 @@ class Route
 	 *
 	 * @var \Closure|string|array $action
 	 */
-	protected $action;
+	public $action;
 
 	/**
 	 * The controller instance.
@@ -123,7 +123,7 @@ class Route
 	 */
 	public function getAction()
 	{
-		return $this->action['uses'];
+		return $this->action;
 	}
 
 	/**
@@ -146,7 +146,7 @@ class Route
 		if ( ! $this->controller)
 		{
 			$class = $this->getNamespace().'\\'.$this->parseControllerCallback()[0];
-
+ 
 			$this->controller = ltrim($class, '\\');
 		}
 
@@ -211,6 +211,16 @@ class Route
 	public function parseControllerCallback()
 	{
 		return Str::parseCallback($this->action['uses']);
+	}
+	
+	/**
+	 * Checks whether the route's action is a controller.
+	 * 
+	 * @return bool
+	 */
+	public function isControllerAction()
+	{
+		return is_string($this->action['uses']);
 	}
 
 	// Setters
@@ -306,6 +316,20 @@ class Route
 
 		$this->uri = trim($uri, '\/?');
 
+		return $this;
+	}
+	
+	/**
+	 * Set the action array for the route.
+	 * 
+	 * @param  array  $action
+	 * 
+	 * @return $this
+	 */
+	public function setAction(array $action)
+	{
+		$this->action = $action;
+		
 		return $this;
 	}
 
