@@ -370,21 +370,6 @@ class Router implements Routable
 		
 		return isset($group['namespace']) ? $group['namespace'] .'\\' .$uses : $uses;
 	}
-	
-	/**
-	 * Find the Closure in an action array.
-	 * 
-	 * @param  array  $action
-	 * 
-	 * @return \Closure
-	 */
-	protected function findActionClosure(array $action)
-	{
-		return Arr::first($action, function ($key, $value)
-		{
-			return is_callable($value) && is_numeric($key);
-		});
-	}
 
 	/**
 	 * Create a new Route object.
@@ -607,6 +592,6 @@ class Router implements Routable
             return call_user_func_array($callback, $parameters);
 		}
 
-		throw new BadMethodCallException("Method [ {$method} ] does not exist.");
+		throw new BadMethodCallException("Method [ {$method} ] does not exist");
 	}
 }
