@@ -19,12 +19,48 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.5.0
  */
 
 namespace Syscode\Controller;
 
+use BadMethodCallException;
+
+/**
+ * This class allows you to manage the actions and parameters 
+ * in each controller created by the user.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ */
 abstract class Controller
 {
-    
+    /**
+     * Execute an action on the controller.
+     * 
+     * @param  string  $method
+     * @param  array   $parameters
+     * 
+     * @return void
+     */
+    public function callAction($method, $parameters)
+    {
+        return call_user_func_array([$this, $method], $parameters);
+    }
+
+    /**
+     * Dynamically handle calls to methods on the controller.
+     * 
+     * @param  string  $method
+     * @param  array   $parameters
+     * 
+     * @return mixed
+     * 
+     * @throws \BadMethodCallException
+     */
+    public function __call($method, $parameters)
+    {
+        throw new BadMethodCallException(sprintf(
+            'Method %s::%s does not exist', static::class, $method
+        ));
+    }
 }
