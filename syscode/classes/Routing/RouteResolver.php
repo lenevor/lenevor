@@ -25,13 +25,8 @@
 namespace Syscode\Routing;
 
 use Closure;
-use Syscode\Routing\Exceptions\{
-	ActionNotFoundException,
-	ClassNotFoundException,
-	NamespaceNotFoundException,
-	RouteNotFoundException
-};
 use Syscode\Contracts\Routing\Routable;
+use Syscode\Routing\Exceptions\RouteNotFoundException;
 
 /**
  * This class resolve the given route and called the method that belongs to the route.
@@ -85,43 +80,11 @@ class RouteResolver
 						}
 					}
 				}
-				
-				if (is_object($route->getAction()['uses']) && ($route->getAction()['uses'] instanceof Closure)) 
-				{
-					return call_user_func_array($route->getAction()['uses'], $arguments);
-				}
-				
-				if ($route->isControllerAction()) 
-				{
-					$controller = $route->getController();
-					$method     = $route->getControllerMethod();
-					
-					// If exist the namespace
-					if (strrpos($namespace = $route->getcontroller(), 's') === false)
-					{
-						throw new NamespaceNotFoundException(__('route.namespaceNotFound', ['namespace' => $namespace]));
-					}
 
-					if ( ! class_exists($controller))
-					{
-						// If exist the controller
-						throw new ClassNotFoundException(__('route.classNotFound', ['class' => $controller]));  
-					}
-
-					// If exist the method
-					if ( ! method_exists($controller, $method))
-					{
-						throw new ActionNotFoundException(__('route.methodNotFound', [
-								'method' => $method, 
-								'class' => $controller
-						])); 
-					}
-
-					return (new $controller)->{$method}(...$arguments);
-				}
+				return $route->runResolver($arguments);
 			}
 		}
 
 		throw new RouteNotFoundException;
-	}
+	}	
 }
