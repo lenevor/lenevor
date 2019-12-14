@@ -27,7 +27,9 @@ namespace Syscode\Routing;
 use Closure;
 use Syscode\Support\Str;
 use InvalidArgumentException;
-use Syscode\Routing\Exceptions\NamespaceNotFoundException;
+use Syscode\Container\Container;
+use Syscode\Controller\ControllerDispatcher;
+use Syscode\Http\Exceptions\HttpResponseException;
 
 /**
  * A Route describes a route and its parameters.
@@ -42,6 +44,13 @@ class Route
 	 * @var \Closure|string|array $action
 	 */
 	protected $action;
+
+	/**
+	 * The container instance used by the route.
+	 * 
+	 * @var \Syscode\Container\Container $container
+	 */
+	protected $container;
 
 	/**
 	 * The controller instance.
@@ -112,6 +121,8 @@ class Route
 		$this->parseAction($action);
 
 		$this->wheres = $arguments;
+
+		$this->container = new Container;
 	}
 
 	// Getters
@@ -137,6 +148,56 @@ class Route
 	}
 
 	/**
+	 * Run the route action and return the response.
+	 * 
+	 * @param  array  $parameters
+	 * 
+	 * @return mixed
+	 */
+	public function runResolver($parameters)
+	{
+		try
+		{
+			if ($this->isControllerAction())
+			{
+				return $this->runResolverController($parameters);
+			}
+
+			return $this->runResolverCallable($parameters);
+		}
+		catch (HttpResponseException $e)
+		{
+			return $e->getResponse();
+		}
+	}
+
+	/**
+	 * Run the route action and return the response.
+	 * 
+	 * @param  array  $parameters
+	 * 
+	 * @return mixed
+	 */
+	protected function runResolverCallable($parameters)
+	{
+		$callable = $this->action['uses'];
+
+		return $callable(...array_values($parameters));
+	}
+
+	/**
+	 * Run the route action and return the response.
+	 * 
+	 * @param  array  $parameters 
+	 * 
+	 * @return mixed
+	 */
+	protected function runResolverController($parameters)
+	{
+		return $this->controllerDispatcher()->dispatch($this->getController(), $this->getControllerMethod(), $parameters);
+	}
+
+	/**
 	 * Get the controller instance for the route.
 	 * 
 	 * @return mixed
@@ -147,7 +208,7 @@ class Route
 		{
 			$class = $this->getNamespace().'\\'.$this->parseControllerCallback()[0];
  
-			$this->controller = ltrim($class, '\\');
+			$this->controller = $this->container->make(ltrim($class, '\\'));
 		}
 
 		return $this->controller;
@@ -221,6 +282,16 @@ class Route
 	public function isControllerAction()
 	{
 		return is_string($this->action['uses']);
+	}
+
+	/**
+	 * Get the dispatcher for the route's controller.
+	 * 
+	 * @return \Syscode\Controller\ControllerDispacther
+	 */
+	private function controllerDispatcher()
+	{
+		return new ControllerDispatcher;
 	}
 
 	// Setters
