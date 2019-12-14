@@ -62,7 +62,7 @@ class RouteAction
         }
         elseif ( ! isset($action['uses']))
         {
-            $action['uses'] = static::findCallableAction($action);
+            $action['uses'] = static::findClosureAction($action);
         }
         
         if (is_string($action['uses']) && ! Str::contains($action['uses'], '@'))
@@ -94,9 +94,9 @@ class RouteAction
      * 
      * @param  array  $action
      * 
-     * @return callable
+     * @return \Closure
      */
-    protected static function findCallableAction(array $action)
+    protected static function findClosureAction(array $action)
     {
         return Arr::first($action, function ($value, $key) {
             return is_callable($value) && is_numeric($key);
