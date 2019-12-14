@@ -18,7 +18,7 @@ return [
     'hasNoAction' => 'Route for [ {uri} ] has no action',
     'invalidAction' => 'Invalid route action: [ {action} ]',
     'methodNotAllowed' => 'Method not allowed. allowed methods: GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD, ANY',
-    'methodNotFound' => 'The [ {method} ] method not exist in the [ {class} ] class',
+    'methodNotFound' => 'The [ {method} ] method not exist on the controller',
     'methodNotProvided' => 'No method provided',
     'namespaceNotFound' => 'The [ {namespace} ] namespace assigned for this route does not exist',
     'paramNoExist' => 'There are no elements in the parameter array',
