@@ -66,22 +66,6 @@ class Router implements Routable
 	 * @var string $namecepace
 	 */
 	protected $namespace;
-
-	/**
-	* Patterns that should be replaced.
-	*
-	* @var array $patterns 
-	*/
-	protected $patterns = [
-		'~/~'             		 =>  '\/',				 // Slash
-		'~{an:[^\/{}]+}~' 		 => '([0-9a-zA-Z]++)',   // Placeholder accepts alphabetic and numeric chars
-		'~{n:[^\/{}]+}~'  		 => '([0-9]++)',         // Placeholder accepts only numeric
-		'~{a:[^\/{}]+}~'  		 => '([a-zA-Z]++)',      // Placeholder accepts only alphabetic chars
-		'~{w:[^\/{}]+}~'  		 => '([0-9a-zA-Z-_]++)', // Placeholder accepts alphanumeric and underscore
-		'~{\*:[^\/{}]+}~' 		 => '(.++)',             // Placeholder match rest of url
-		'~(\\\/)?{\?:[^\/{}]+}~' => '\/?([^\/]*)', 		 // Optional placeholder
-		'~{[^\/{}]+}~'           => '([^\/]++)'	 		 // Normal placeholder
-	];
 	
 	/**
 	 * The globally available parameter patterns.
@@ -122,9 +106,7 @@ class Router implements Routable
 	public function __construct($namespace = null, RouteResolver $resolver)
 	{
 		$this->namespace = $namespace;
-
-		// Instance the RouteDispatcher class 
-		$this->resolver = $resolver;
+		$this->resolver  = $resolver;
 	}
 
 	/**
@@ -158,13 +140,6 @@ class Router implements Routable
 	 */
 	public function getGroupPrefix()
 	{
-		// $this->groupStack = $this->routeGroup->prefix ?: '';
-
-		// if ( ! empty($this->groupStack))
-		// {
-		// 	return $this->groupStack;
-		// }
-
 		if ( ! empty($this->groupStack))
 		{
 			$last = end($this->groupStack);
@@ -294,9 +269,8 @@ class Router implements Routable
 
 		$route = $this->newRoute(
 						$method, 
-						$this->parseRoute($this->prefix($route)), 
-						$action, 
-						$this->parseArgs($route)
+						$this->prefix($route), 
+						$action
 		);
 
 		$this->addRoute($route);
@@ -368,7 +342,7 @@ class Router implements Routable
 	{
 		$group = end($this->groupStack);
 		
-		return isset($group['namespace']) ? $group['namespace'] .'\\' .$uses : $uses;
+		return isset($group['namespace']) ? $group['namespace'].'\\'.$uses : $uses;
 	}
 
 	/**
@@ -380,9 +354,10 @@ class Router implements Routable
 	 * 
 	 * @return \Syscode\Routing\Route
 	 */
-	protected function newRoute($method, $uri, $action, $args)
+	protected function newRoute($method, $uri, $action)
 	{
-		return take(new Route($method, $uri, $action, $args))
+		return take(new Route($method, $uri, $action))
+		            ->parseArgs($uri)
 		            ->setNamespace($this->namespace);
 	}
 	
@@ -450,7 +425,12 @@ class Router implements Routable
 	}
 
 	/**
+	 * Set a global where pattern on all routes.
 	 * 
+	 * @param  string  $name
+	 * @param  string  $regex
+	 * 
+	 * @return void
 	 */
 	public function pattern($name, $regex)
 	{
@@ -458,7 +438,11 @@ class Router implements Routable
 	}
 
 	/**
+	 * Set a group of global where patterns on all routes.
 	 * 
+	 * @param  array  $patterns
+	 * 
+	 * @return void
 	 */
 	public function patterns($patterns)
 	{
@@ -479,41 +463,6 @@ class Router implements Routable
 	public function namespaces($route, $classname)
 	{
 		return $this;		
-	}
-
-	/**
-	 * Parse url into a regex route.
-	 *
-	 * @param  string  $route
-	 *
-	 * @return string
-	 */
-	protected function parseRoute($route)
-	{
-		$pattern = array_keys($this->patterns);
-		$replace = array_values($this->patterns);
-		$uri 	 = preg_replace($pattern, $replace, $route);
-		$uri 	 = trim($uri, '\/?');
-		$uri 	 = trim($uri, '\/');
-		
-		return $uri;
-	}
-
-	/**
-	 * Parse arguments into a regex route.
-	 *
-	 * @return array
-	 */
-	protected function parseArgs($route)
-	{
-		preg_match_all('~{(n:|a:|an:|w:|\*:|\?:)?([a-zA-Z0-9_]+)}~', $route, $matches);
-	
-		if (isset($matches[2]) && ! empty($matches[2])) 
-		{
-			return $matches[2];
-		}
-
-		return [];
 	}
 
 	/**
@@ -542,12 +491,17 @@ class Router implements Routable
 	/**
 	 * Set namespace.
 	 *
-	 * @param  string  $namespace
+	 * @param  string|null  $namespace
 	 *
 	 * @return string|bool 
 	 */
-	public function namespace($namespace)
+	public function namespace($namespace = null)
 	{
+		if (is_null($namespace))
+		{
+			throw new InvalidArgumentException(__('route.namespaceNotExist'));
+		}
+
 		$this->namespace = $namespace;
 
 		return $this;
