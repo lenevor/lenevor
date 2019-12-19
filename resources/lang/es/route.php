@@ -21,7 +21,7 @@ return [
     'methodNotAllowed' => 'Método no permitido. métodos permitidos: GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD, ANY',
     'methodNotFound' => 'El método [ {método} ] no existe en el controlador',
     'methodNotProvided' => 'Ningún método proporcionado',
-    'namespaceNotFound' => 'El espacio de nombres [ {namespace} ] asignado para esta ruta no existe',
+    'namespaceNotExist' => 'El espacio de nombres no existe o la asignación es nula',
     'paramNoExist' => 'No hay elementos en la matriz de parámetros',
     'uriNotProvided' => 'No route provided, for root use /',
 
