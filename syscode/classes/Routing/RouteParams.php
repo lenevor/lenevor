@@ -55,7 +55,7 @@ class RouteParams
     /**
      * Makes count the item content in an array.
      * 
-     * @return array
+     * @return array|bool
      */
     public function toEachCountItems()
     {
@@ -67,12 +67,14 @@ class RouteParams
         foreach ($this->params as $key => $value)
         {
             if ($key === 0) continue;
-
-			if (strlen($key) > 0) 
+            
+			if (count($value) > 0) 
 			{
 				return $value;
 			}
         }
+
+        return false;
     }
 
     /**
