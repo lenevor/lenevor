@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.5.0
  */
 
 namespace Syscode\Routing;
@@ -60,6 +60,13 @@ class Route
 	protected $controller;
 
 	/**
+	 * The default values for the route.
+	 * 
+	 * @var array $defaults
+	 */
+	protected $defaults = [];
+
+	/**
 	 * Variable of HTTP method.
 	 *  
 	 * @var array|string $method
@@ -88,6 +95,22 @@ class Route
 	protected $parameters = [];
 
 	/**
+	* Patterns that should be replaced.
+	*
+	* @var array $patterns 
+	*/
+	protected $patterns = [
+		'~/~'             		 =>  '\/',				 // Slash
+		'~{an:[^\/{}]+}~' 		 => '([0-9a-zA-Z]++)',   // Placeholder accepts alphabetic and numeric chars
+		'~{n:[^\/{}]+}~'  		 => '([0-9]++)',         // Placeholder accepts only numeric
+		'~{a:[^\/{}]+}~'  		 => '([a-zA-Z]++)',      // Placeholder accepts only alphabetic chars
+		'~{w:[^\/{}]+}~'  		 => '([0-9a-zA-Z-_]++)', // Placeholder accepts alphanumeric and underscore
+		'~{\*:[^\/{}]+}~' 		 => '(.++)',             // Placeholder match rest of url
+		'~(\\\/)?{\?:[^\/{}]+}~' => '\/?([^\/]*)', 		 // Optional placeholder
+		'~{[^\/{}]+}~'           => '([^\/]++)'	 		 // Normal placeholder
+	];
+
+	/**
 	 * The URI pattern the route responds to.
 	 *
 	 * @var array $uri
@@ -107,11 +130,10 @@ class Route
 	 * @param  array|string     $method
 	 * @param  string           $uri
 	 * @param  \Closure|string  $action
-	 * @param  array            $arguments
 	 *
 	 * @return void
 	 */
-	public function __construct($method = null, $uri = null, $action = null, array $arguments = [])
+	public function __construct($method = null, $uri = null, $action = null)
 	{
 		// Set the method
 		$this->parseMethod($method);
@@ -119,10 +141,6 @@ class Route
 		$this->parseRoute($uri);
 		// Set the action
 		$this->parseAction($action);
-
-		$this->wheres = $arguments;
-
-		$this->container = new Container;
 	}
 
 	// Getters
@@ -145,56 +163,6 @@ class Route
 	public function getArguments()
 	{
 		return $this->wheres;
-	}
-
-	/**
-	 * Run the route action and return the response.
-	 * 
-	 * @param  array  $parameters
-	 * 
-	 * @return mixed
-	 */
-	public function runResolver($parameters)
-	{
-		try
-		{
-			if ($this->isControllerAction())
-			{
-				return $this->runResolverController($parameters);
-			}
-
-			return $this->runResolverCallable($parameters);
-		}
-		catch (HttpResponseException $e)
-		{
-			return $e->getResponse();
-		}
-	}
-
-	/**
-	 * Run the route action and return the response.
-	 * 
-	 * @param  array  $parameters
-	 * 
-	 * @return mixed
-	 */
-	protected function runResolverCallable($parameters)
-	{
-		$callable = $this->action['uses'];
-
-		return $callable(...array_values($parameters));
-	}
-
-	/**
-	 * Run the route action and return the response.
-	 * 
-	 * @param  array  $parameters 
-	 * 
-	 * @return mixed
-	 */
-	protected function runResolverController($parameters)
-	{
-		return $this->controllerDispatcher()->dispatch($this->getController(), $this->getControllerMethod(), $parameters);
 	}
 
 	/**
@@ -265,6 +233,18 @@ class Route
 	}
 
 	/**
+	 * Get the domain defined for the route.
+	 * 
+	 * @return string|null
+	 */
+	public function getDomain()
+	{
+		return isset($this->action['domain']) 
+				? str_replace(['http://', 'https://'], '', $this->action['domain']) 
+				: null;
+	}
+
+	/**
 	 * Parse the controller.
 	 * 
 	 * @return array
@@ -295,6 +275,58 @@ class Route
 	}
 
 	// Setters
+	
+	/**
+	 * Run the route action and return the response.
+	 * 
+	 * @param  array  $parameters
+	 * 
+	 * @return mixed
+	 */
+	public function runResolver($parameters)
+	{
+		$this->container = $this->container ?: new Container;
+
+		try
+		{
+			if ($this->isControllerAction())
+			{
+				return $this->runResolverController($parameters);
+			}
+
+			return $this->runResolverCallable($parameters);
+		}
+		catch (HttpResponseException $e)
+		{
+			return $e->getResponse();
+		}
+	}
+
+	/**
+	 * Run the route action and return the response.
+	 * 
+	 * @param  array  $parameters
+	 * 
+	 * @return mixed
+	 */
+	protected function runResolverCallable($parameters)
+	{
+		$callable = $this->action['uses'];
+
+		return $callable(...array_values($parameters));
+	}
+
+	/**
+	 * Run the route action and return the response.
+	 * 
+	 * @param  array  $parameters 
+	 * 
+	 * @return mixed
+	 */
+	protected function runResolverController($parameters)
+	{
+		return $this->controllerDispatcher()->dispatch($this->getController(), $this->getControllerMethod(), $parameters);
+	}
 
 	/**
 	 * Set the name.
@@ -385,7 +417,29 @@ class Route
 			throw new InvalidArgumentException(__('route.uriNotProvided'));
 		}
 
+		$pattern = array_keys($this->patterns);
+		$replace = array_values($this->patterns);
+		$uri 	 = preg_replace($pattern, $replace, $uri);
+		$uri 	 = trim($uri, '\/');
+
 		$this->uri = trim($uri, '\/?');
+
+		return $this;
+	}
+
+	/**
+	 * Parse arguments into a regex route.
+	 *
+	 * @return array
+	 */
+	public function parseArgs($route)
+	{ 
+		preg_match_all('~{(n:|a:|an:|w:|\*:|\?:)?([a-zA-Z0-9_]+)}~', $route, $matches);
+	
+		if (isset($matches[2]) && ! empty($matches[2])) 
+		{
+			$this->wheres = $matches[2];
+		}
 
 		return $this;
 	}
@@ -401,6 +455,21 @@ class Route
 	{
 		$this->action = $action;
 		
+		return $this;
+	}
+
+	/**
+	 * Set a default value for the route.
+	 * 
+	 * @param  string  $key
+	 * @param  mixed   $value
+	 * 
+	 * @return $this
+	 */
+	public function defaults($key, $value)
+	{
+		$this->defaults[$key] = $value;
+
 		return $this;
 	}
 
