@@ -24,7 +24,6 @@
  
 namespace Syscode\Controller;
 
-use Syscode\Routing\Exceptions\ActionNotFoundException;
 use Syscode\Controller\Contracts\ControllerDispatcher as ControllerDispatcherContract;
 
 /**
