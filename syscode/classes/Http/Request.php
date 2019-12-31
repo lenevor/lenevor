@@ -103,7 +103,7 @@ class Request
 	 *
 	 * @var array|null $uri 
 	 */
-	protected $uri = null;
+	public $uri = null;
 
 	/**
 	 * Stores the valid locale codes.
@@ -525,6 +525,8 @@ class Request
 
 	/**
 	 * Get an element from the request.
+	 * 
+	 * @return string[]
 	 */
 	public function __get($key)
 	{
