@@ -45,13 +45,13 @@ class Router implements Routable
 	 * @var array $groupStack
 	 */
 	protected $groupStack = [];
-
+	
 	/**
-     * The registered string macros.
-     *
-     * @var array
-     */
-    protected $macros = [];
+	 * The registered string macros.
+	 * 
+	 * @var array $macros
+	 */
+	protected $macros = [];
 
 	/**
 	 * Middleware for function of filters
@@ -262,7 +262,7 @@ class Router implements Routable
 	{
 		if ($this->actionReferencesController($action))
 		{
-            $action = $this->convertToControllerAction($action);
+			$action = $this->convertToControllerAction($action);
 		}
 		
 		$method = array_map('strtoupper', (array) $method);
@@ -283,7 +283,7 @@ class Router implements Routable
 		$this->addWhereClausesToRoute($route);
 
 		foreach ($route->getMethod() as $method)
-		{
+		{			
 			$this->routesByMethod[$method][] = $route;
 		}
 		
@@ -354,7 +354,7 @@ class Router implements Routable
 	 * 
 	 * @return \Syscode\Routing\Route
 	 */
-	protected function newRoute($method, $uri, $action)
+	public function newRoute($method, $uri, $action)
 	{
 		return take(new Route($method, $uri, $action))
 		            ->parseArgs($uri)
@@ -408,7 +408,7 @@ class Router implements Routable
 	 *
 	 * @return string
 	 */
-	public function prefix($uri)
+	protected function prefix($uri)
 	{
 		$uri = is_null($uri) ? '' : trim($uri, '/').'/';
 
@@ -468,14 +468,13 @@ class Router implements Routable
 	/**
 	 * Resolve the given url and call the method that belongs to the route.
 	 *
-	 * @param  string  $uri
-	 * @param  string  $method
+	 * @param  \Syscode\Http\Request  $request
 	 *
 	 * @return array
 	 */
-	public function resolve($uri, $method)
+	public function resolve($request)
 	{
-		return $this->resolver->resolve($this, $uri, $method);
+		return $this->resolver->resolve($this, $request);
 	}
 
 	/**
@@ -506,34 +505,36 @@ class Router implements Routable
 
 		return $this;
 	}
-
+	
 	/**
-     * Register a custom macro.
-     *
-     * @param  string    $name
-     * @param  callable  $callback
-     * @return void
-     */
-    public function macro($name, callable $callback)
-    {
-        $this->macros[$name] = $callback;
-    }
-    /**
-     * Checks if macro is registered
-     *
-     * @param  string    $name
-     * @return boolean
-     */
-    public function hasMacro($name)
-    {
-        return isset($this->macros[$name]);
-    }
+	 * Register a custom macro.
+	 * 
+	 * @param  string    $name
+	 * @param  callable  $callback
+	 * 
+	 * @return void
+	 */
+	public function macro($name, callable $callback)
+	{
+		$this->macros[$name] = $callback;
+	}
+	
+	/**
+	 * Checks if macro is registered.
+	 * @param  string    $name
+	 * 
+	 * @return boolean
+	 */
+	public function hasMacro($name)
+	{
+		return isset($this->macros[$name]);
+	}
 	
 	/**
 	 * Dynamically handle calls into the router instance.
 	 * 
 	 * @param  string  $method
-	 * @param  array  $parameters
+	 * @param  array   $parameters
 	 * 
 	 * @return mixed
 	 */
@@ -542,10 +543,10 @@ class Router implements Routable
 		if (isset($this->macros[$method]))
 		{
 			$callback = $this->macros[$method];
-			
-            return call_user_func_array($callback, $parameters);
-		}
 
+			return call_user_func_array($callback, $parameters);
+		}
+		
 		throw new BadMethodCallException("Method [ {$method} ] does not exist");
 	}
 }
