@@ -479,7 +479,7 @@ class URI
 	 */
 	public function setFragment(string $str)
 	{
-		$this->fragment = trim(str, '# ');
+		$this->fragment = trim($str, '# ');
 
 		return $this->fragment;
 	}
