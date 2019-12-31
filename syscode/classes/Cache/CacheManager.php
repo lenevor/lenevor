@@ -19,25 +19,16 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.3.0
+ * @since       0.3.1
  */
 
 namespace Syscode\Cache;
 
 use Closure;
-use Syscode\Cache\Store\{
-    ApcStore,
-    ApcWrapper,
-    ArrayStore,
-    DatabaseStore,
-    FileStore,
-    MemcachedStore,
-    NullStore,
-    RedisStore
-};
 use Syscode\Contracts\Cache\Store;
 use Syscode\Cache\Exceptions\CacheException;
 use Syscode\Contracts\Cache\Manager as ManagerContract;
+use Syscode\Cache\Store\{ ApcStore, ApcWrapper, ArrayStore, DatabaseStore, FileStore, MemcachedStore, NullStore, RedisStore };
 
 /**
  * Class cache manager.
