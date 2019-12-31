@@ -26,11 +26,7 @@ namespace Syscode\Filesystem;
 
 use ErrorException;
 use FilesystemIterator;
-use Syscode\Filesystem\Exceptions\{
-	FileException,
-	FileNotFoundException,
-	FileUnableToMoveException,
-};
+use Syscode\Filesystem\Exceptions\{ FileException, FileNotFoundException, FileUnableToMoveException };
 
 /**
  * Provides basic utility to manipulate the file system.

@@ -24,12 +24,9 @@
 
 namespace Syscode\Session\Handlers;
 
-use Syscode\Support\{
-    Finder,
-    Chronos
-};
 use SessionHandlerInterface;
 use Syscode\Filesystem\Filesystem;
+use Syscode\Support\{ Finder, Chronos };
 
 /**
  * Session handler using file system for storage.

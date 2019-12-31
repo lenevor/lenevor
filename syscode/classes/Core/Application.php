@@ -25,14 +25,11 @@
 namespace Syscode\Core;
 
 use Syscode\Container\Container;
-use Syscode\Core\Http\Exceptions\{ 
-    HttpException, 
-    NotFoundHttpException 
-};
 use Syscode\Support\ServiceProvider;
 use Syscode\Log\LoggerServiceProvider;
 use Syscode\Routing\RoutingServiceProvider;
 use Syscode\Contracts\Core\Application as ApplicationContract;
+use Syscode\Core\Http\Exceptions\{ HttpException, NotFoundHttpException };
 
 /**
  * Allows the loading of service providers and functions to activate 

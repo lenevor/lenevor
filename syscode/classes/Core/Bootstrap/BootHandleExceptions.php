@@ -26,12 +26,9 @@ namespace Syscode\Core\Bootstrap;
 
 use Exception;
 use ErrorException;
-use Syscode\Debug\FatalExceptions\{
-    FatalErrorException,
-    FatalThrowableError
-};
 use Syscode\Contracts\Core\Application;
 use Syscode\Contracts\Debug\ExceptionHandler;
+use Syscode\Debug\FatalExceptions\{ FatalErrorException, FatalThrowableError };
 
 /**
  * It is an integrated exception handler that allows you to report and 

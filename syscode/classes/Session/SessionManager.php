@@ -25,11 +25,7 @@
 namespace Syscode\Session;
 
 use Syscode\Support\Manager;
-use Syscode\Session\Handlers\{
-    FileSession,
-    NullSession,
-    CacheBasedSession
-};
+use Syscode\Session\Handlers\{ FileSession, NullSession, CacheBasedSession };
 
 /**
  * Lenevor session storage.

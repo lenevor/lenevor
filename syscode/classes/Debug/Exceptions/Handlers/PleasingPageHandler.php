@@ -28,15 +28,11 @@ use Throwable;
 use Traversable;
 use ErrorException;
 use RuntimeException;
-use Syscode\Debug\Util\{ 
-	ArrayTable, 
-	Misc, 
-	TemplateHandler 
-};
 use InvalidArgumentException;
 use UnexpectedValueException;
 use Syscode\Contracts\Debug\Table;
 use Syscode\Debug\FrameHandler\Formatter;
+use Syscode\Debug\Util\{ ArrayTable, Misc, TemplateHandler };
 
 /**
  * Generates exceptions in mode of graphic interface.
