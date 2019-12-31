@@ -38,6 +38,8 @@ use Syscode\Http\Exceptions\HttpResponseException;
  */
 class Route 
 {
+	use RouteConditionTrait;
+	
 	/**
 	 * Action that the route will use when called.
 	 *
@@ -100,12 +102,12 @@ class Route
 	* @var array $patterns 
 	*/
 	protected $patterns = [
-		'~/~'             		 =>  '\/',				 // Slash
-		'~{an:[^\/{}]+}~' 		 => '([0-9a-zA-Z]++)',   // Placeholder accepts alphabetic and numeric chars
-		'~{n:[^\/{}]+}~'  		 => '([0-9]++)',         // Placeholder accepts only numeric
-		'~{a:[^\/{}]+}~'  		 => '([a-zA-Z]++)',      // Placeholder accepts only alphabetic chars
-		'~{w:[^\/{}]+}~'  		 => '([0-9a-zA-Z-_]++)', // Placeholder accepts alphanumeric and underscore
-		'~{\*:[^\/{}]+}~' 		 => '(.++)',             // Placeholder match rest of url
+		'~/~'                    =>  '\/',               // Slash
+		'~{an:[^\/{}]+}~'        => '([0-9a-zA-Z]++)',   // Placeholder accepts alphabetic and numeric chars
+		'~{n:[^\/{}]+}~'         => '([0-9]++)',         // Placeholder accepts only numeric
+		'~{a:[^\/{}]+}~'         => '([a-zA-Z]++)',      // Placeholder accepts only alphabetic chars
+		'~{w:[^\/{}]+}~'         => '([0-9a-zA-Z-_]++)', // Placeholder accepts alphanumeric and underscore
+		'~{\*:[^\/{}]+}~'        => '(.++)',             // Placeholder match rest of url
 		'~(\\\/)?{\?:[^\/{}]+}~' => '\/?([^\/]*)', 		 // Optional placeholder
 		'~{[^\/{}]+}~'           => '([^\/]++)'	 		 // Normal placeholder
 	];
@@ -415,16 +417,28 @@ class Route
 		if ($uri === null) 
 		{
 			throw new InvalidArgumentException(__('route.uriNotProvided'));
-		}
+		}	
 
-		$pattern = array_keys($this->patterns);
-		$replace = array_values($this->patterns);
-		$uri 	 = preg_replace($pattern, $replace, $uri);
-		$uri 	 = trim($uri, '\/');
-
-		$this->uri = trim($uri, '\/?');
+		$this->uri = $this->parseRoutePath($uri);
 
 		return $this;
+	}
+
+	/**
+	 * Replace word patterns with regex in route path.
+	 * 
+	 * @param  string  $path
+	 * 
+	 * @return string
+	 */
+	protected function parseRoutePath(string $path)
+	{
+		$pattern = array_keys($this->patterns);
+		$replace = array_values($this->patterns);
+		$uri 	 = trim($path, '\/');
+		$uri     = trim($uri, '\/?');
+
+		return preg_replace($pattern, $replace, $uri);
 	}
 
 	/**
@@ -508,7 +522,7 @@ class Route
 		{
 			$this->wheres[$name] = $regex;
 		}
-		
+
 		return $this;
 	}
 }
