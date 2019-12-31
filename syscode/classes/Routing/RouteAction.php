@@ -25,11 +25,8 @@
 namespace Syscode\Routing;
 
 use LogicException;
-use Syscode\Support\{
-    Arr,
-    Str
-};
 use UnexpectedValueException;
+use Syscode\Support\{ Arr, Str };
 
 /**
  * Solve the actions obtained from a route.
