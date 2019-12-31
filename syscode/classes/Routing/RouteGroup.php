@@ -43,9 +43,9 @@ class RouteGroup
 	 */
 	public static function mergeGroup($new, $old)
 	{
-		if (isset($new['domain'])) 
+		if (isset($new['domain']))
 		{
-            unset($old['domain']);
+			unset($old['domain']);
 		}
 
 		$new['namespace'] = static::formatUseNamespace($new, $old);
@@ -53,9 +53,9 @@ class RouteGroup
 		$new['where']     = static::formatUseWhere($new, $old);
 		$new['as']        = static::formatUseAs($new, $old);
 		
-        return array_merge_recursive(
-            Arr::except($old, array('namespace', 'prefix', 'where', 'as')), $new
-        );
+		return array_merge_recursive(
+			Arr::except($old, array('namespace', 'prefix', 'where', 'as')), $new
+		);
 	}
 
 	/**
