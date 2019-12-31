@@ -39,27 +39,35 @@ class RouteResolver
 	 * Resolve the given route and call the method that belongs to the route.
 	 *
 	 * @param  \Syscode\Contracts\Routing\Routable  $router 
-	 * @param  string                               $uri 
-	 * @param  string  								$method 
+	 * @param  \Syscode\Http\Request                $request
 	 *
 	 * @return mixed
 	 *
 	 * @throws \Syscode\Routing\Exceptions\RouteNotFoundException
-	 * @throws \Syscode\Routing\Exceptions\NamespaceNotFoundException
 	 */
-	public function resolve(Routable $router, $uri, $method)
+	public function resolve(Routable $router, $request)
 	{
 		// Get all register routes with the same request method
-		$routes = $router->getRoutesByMethod($method);
+		$routes = $router->getRoutesByMethod($request->method());
 		
 		// Remove trailing and leading slash
-		$requestedUri = trim(preg_replace('/\?.*/', '', $uri), '/');
+		$requestedUri = trim(preg_replace('/\?.*/', '', $request->getUri()), '/');
 
 		// Loop trough the posible routes
-		foreach ($routes as $route) 
+		foreach ($routes as $key => $route) 
 		{
 			$matches = [];
 
+			if ($route->getRoute())
+			{
+				$host = $route->getHost();
+
+				if ($host !== null && $host !== $request->uri->getHost()) 
+				{
+					continue;
+				}
+			}
+			
 			// If the requested route matches one of the defined routes
 			if ($route->getRoute() === $requestedUri || preg_match_all('~^'.$route->getRoute().'$~', $requestedUri, $matches)) 
 			{	
