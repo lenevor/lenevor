@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.1.1
  */
  
 namespace Syscode\Http;
@@ -27,12 +27,8 @@ namespace Syscode\Http;
 use BadMethodCallException;
 use InvalidArgumentException;
 use UnexpectedValueException;
-use Syscode\Http\Contributors\{
-	Headers,
-	Server,
-	Status
-};
 use Syscode\Filesystem\Exceptions\UnexpectedTypeException;
+use Syscode\Http\Contributors\{ Headers, Server, Status };
 
 /**
  * Response represents an HTTP response.

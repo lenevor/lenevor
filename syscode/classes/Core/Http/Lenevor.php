@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.5.0
  */
 
 namespace Syscode\Core\Http;
@@ -28,14 +28,11 @@ use Closure;
 use Exception;
 use Throwable;
 use Syscode\Debug\Benchmark;
-use Syscode\Support\Facades\Http;
-use Syscode\Support\Facades\Route;
-use Syscode\Support\Facades\Facade;
-use Syscode\Support\Facades\Response;
 use Syscode\Contracts\Core\Application;
 use Syscode\Contracts\Debug\ExceptionHandler;
 use Syscode\Contracts\Core\Lenevor as LenevorContract;
 use Syscode\Debug\FatalExceptions\FatalThrowableError;
+use Syscode\Support\Facades\{ Http, Route, Facade, Response };
 
 /**
  * The Lenevor class is the heart of the system framework.
@@ -177,7 +174,7 @@ class Lenevor implements LenevorContract
  	 */
  	protected function dispatcher($request)
  	{		
- 		return Route::resolve($request->getUri(), $request->method());
+ 		return Route::resolve($request);
 	}
 
 	/**
