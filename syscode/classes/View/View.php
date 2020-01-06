@@ -129,7 +129,7 @@ class View implements ViewContract
 			$this->setFilename($file);
 		}
 
-		if (null !== $data)
+		if ([] !== $data)
 		{
 			// Add the values to the current data
 			$this->data = $data + $this->data;
@@ -415,7 +415,7 @@ class View implements ViewContract
 	 *
 	 * @throws \Syscode\View\Exceptions\ViewException
 	 */
-	public function make($file, $data = []) 
+	public function make($file = null, $data = []) 
 	{
 		// Override the view filename if needed
 		if ($this->has($file))
@@ -423,7 +423,7 @@ class View implements ViewContract
 			$this->setFilename($file);
 		}
 
-		if (null !== $data)
+		if ([] !== $data)
 		{
 			$this->getData($data);
 		}
@@ -543,7 +543,7 @@ class View implements ViewContract
 	 */
 	public function setFilename($file)
 	{
-		if (($path = $this->resolverPath($file)) === false)
+		if ( ! ($path = $this->resolverPath($file)))
 		{
 			throw new ViewException(__('view.notFound', ['file' => $file]));
 		}
