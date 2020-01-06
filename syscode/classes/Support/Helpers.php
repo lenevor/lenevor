@@ -377,8 +377,8 @@ if ( ! function_exists('take'))
     /**
      * Call the given Closure if this activated then return the value.
      * 
-     * @param  string          $value
-     * @param  \Callable|null  $callback
+     * @param  string         $value
+     * @param  \Closure|null  $callback
      * 
      * @return mixed
      * 
