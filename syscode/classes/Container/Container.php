@@ -662,13 +662,11 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @param  string  $id
      * 
-     * @return $this
+     * @return void
      */
     public function remove($id)
     {
-        $this->destroyBinding($id);
-
-        return $this;
+        return $this->destroyBinding($id);
     }
 
     /**
@@ -885,7 +883,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function offsetSet($offset, $value)
     {
-        return $this->set($offset, $value);
+        $this->set($offset, $value);
     }
 
     /**
@@ -897,7 +895,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function offsetUnset($offset)
     {
-        return $this->remove($offset);
+        $this->remove($offset);
     }
 
     /**
