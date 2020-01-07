@@ -157,7 +157,7 @@ class PleasingPageHandler extends MainHandler
 		$tables     = array_merge($this->getDefaultTables(), $this->tables);
 		
 		return [ 
-			'class'             => explode("\\", $supervisor->getExceptionName()),
+			'class'             => explode('\\', $supervisor->getExceptionName()),
 			'stylesheet'        => preg_replace('#[\r\n\t ]+#', ' ', $style),
 			'javascript'        => preg_replace('#[\r\n\t ]+#', ' ', $jscript),
 			'header'            => $this->getResource('views/header.php'),
