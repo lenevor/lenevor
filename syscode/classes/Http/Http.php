@@ -178,7 +178,7 @@ class Http
 		// If the search value is at the start
 		if (isset($this->server('SCRIPT_NAME')[0]))
 		{
-			if (strpos($uri, 0 === $this->server('SCRIPT_NAME')))
+			if (0 === strpos($uri, $this->server('SCRIPT_NAME')))
 			{
 				$uri = (string) substr($uri, strlen($this->server('SCRIPT_NAME')));
 			}
