@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.4.0
+ * @since       0.4.1
  */
 
 //use RuntimeException;
@@ -271,14 +271,15 @@ if ( ! function_exists('getClass'))
      * only the name of the class.
      * 
      * @param  string  $classname
+     * @param  bool    $bool       (false by default)
      * 
      * @return array
      */
-    function getClass($classname)
+    function getClass($classname, $bool = false)
     {
         $position = explode('\\', get_class($classname));
         
-        return end($position);
+        return ! $bool ? array_pop($position) : get_class($classname);
     }
 }
 
