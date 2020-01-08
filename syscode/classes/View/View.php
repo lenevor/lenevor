@@ -17,7 +17,7 @@
  * @subpackage  Base
  * @author      Javier Alexander Campo M. <jalexcam@gmail.com>
  * @link        https://lenevor.com 
- * @copyright   Copyright (c) 2019 Lenevor Framework 
+ * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
  */
@@ -104,6 +104,23 @@ class View implements ViewContract
 	 */
 	public function __construct($file = null, $data = [], $extension = null)
 	{
+		$this->filename = $file;
+		
+		if (is_object($data) === true)
+		{
+			$data = get_object_vars($data);
+		}
+		elseif ($data AND ! is_array($data))
+		{
+			throw new InvalidArgumentException(__('view.dataObjectArray'));
+		}
+
+		if ([] !== $data)
+		{
+			// Add the values to the current data
+			$this->data = $data + $this->data;
+		}
+
 		// Add the extension
 		if (is_null($extension))
 		{
@@ -113,26 +130,6 @@ class View implements ViewContract
 		else
 		{
 			$this->extension = $extension;
-		}
-
-		if (is_object($data) === true)
-		{
-			$data = get_object_vars($data);
-		}
-		elseif ($data AND ! is_array($data))
-		{
-			throw new InvalidArgumentException(__('view.dataObjectArray'));
-		}
-		
-		if (is_file($file))
-		{
-			$this->setFilename($file);
-		}
-
-		if ([] !== $data)
-		{
-			// Add the values to the current data
-			$this->data = $data + $this->data;
 		}
 	}
 
@@ -417,27 +414,26 @@ class View implements ViewContract
 	 */
 	public function make($file = null, $data = []) 
 	{
-		// Override the view filename if needed
-		if ($this->has($file))
+		try
 		{
-			$this->setFilename($file);
+			// Override the view filename if needed
+			if ($this->has($file))
+			{
+				$this->setFilename($file);
+			}
+	
+			if ([] !== $data)
+			{
+				$this->getData($data);
+			}
+	
+			// Combine local and global data and capture the output
+			return $this->capture();
 		}
-
-		if ([] !== $data)
+		catch(Exception $e)
 		{
-			$this->getData($data);
+			throw $e;
 		}
-
-		// And make sure we have one
-		if (empty($this->filename))
-		{
-			throw new ViewException(__('view.rendering'));
-		}
-
-		// Combine local and global data and capture the output
-		$output = $this->capture();
-
-		return $output;
 	}
 
 	/**
@@ -549,10 +545,7 @@ class View implements ViewContract
 		}
 
 		// Store the file path locally and extension
-		if ($this->has($file))
-		{
-			$this->filename = $path;
-		}
+		$this->filename = $path;
 
 		return $this;
 	}
@@ -690,14 +683,7 @@ class View implements ViewContract
 	 */
 	public function __toString() 
 	{
-		try
-		{
-			return $this->make();
-		}
-		catch (Exception $e)
-		{
-			throw $e;
-		}
+		return $this->make();
 	}
 
 	/**

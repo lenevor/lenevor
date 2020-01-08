@@ -17,7 +17,7 @@
  * @subpackage  Base
  * @author      Javier Alexander Campo M. <jalexcam@gmail.com>
  * @link        https://lenevor.com 
- * @copyright   Copyright (c) 2019 Lenevor Framework 
+ * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
  */
@@ -64,10 +64,11 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 */
 
 $lenevor = $app->make(Syscode\Contracts\Core\Lenevor::class);
-$request = $app->make(Syscode\Http\Request::class);
 
 // Initialize services
-$response = $lenevor->handle($request);
+$response = $lenevor->handle(
+    $request = $app->make(Syscode\Http\Request::class)
+);
 
 // Sends HTTP headers and content
 $response->send(true);

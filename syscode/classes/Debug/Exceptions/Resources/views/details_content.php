@@ -31,11 +31,11 @@
 
 	<div class="data-table-container">
 		<label><?= e(__('exception.RegisteredHandlers')) ?></label>
-		<?php foreach ($handlers as $i => $handler) : ?>
 			<div class="data-table">
-				<span class="debug-list"><?= $i + 1 ?>.&nbsp;&nbsp;<?= e(get_class($handler)) ?></span>
+			<?php foreach ($handlers as $i => $handler) : ?>
+				<div class="debug-list"><?= $i + 1 ?>.&nbsp;&nbsp;<?= e(get_class($handler)) ?></div>
+			<?php endforeach; ?>
 			</div>
-		<?php endforeach; ?>
 	</div>
 
 </div>

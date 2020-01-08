@@ -17,7 +17,7 @@
  * @subpackage  Base
  * @author      Javier Alexander Campo M. <jalexcam@gmail.com>
  * @link        https://lenevor.com 
- * @copyright   Copyright (c) 2019 Lenevor Framework 
+ * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
  */
@@ -242,7 +242,7 @@ class TemplateHandler
 			ini_set('highlight.default', '#5399BA');
 			ini_set('highlight.html', '#06B');
 			ini_set('highlight.keyword', '#7081A5;');
-			ini_set('highlight.string', '#EFB032');
+			ini_set('highlight.string', '#d8A134');
 		}
 
 		try

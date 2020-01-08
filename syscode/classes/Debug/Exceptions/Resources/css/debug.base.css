@@ -206,7 +206,7 @@ ol {
 
     .details-panel::-webkit-scrollbar-thumb {
         background: var(--gray-600);
-        border-radius: 4px;
+        border-radius: 0;
     }
 
     .details-panel::-webkit-scrollbar-thumb:active {
@@ -215,15 +215,15 @@ ol {
 
     .details-panel::-webkit-scrollbar-track {
         background: var(--white);
-        border-left: 1px solid var(--gray-300);
-        border-radius: 4px;
+        border: 1px solid var(--gray-300);
+        border-radius: 0;
     }
 }
 
 /* HEADER */
 
 header {
-    background-image: linear-gradient(236deg, rgb(255, 255, 255), rgb(253, 252, 252));
+    background-image: linear-gradient(236deg, var(--white), var(--white));
     box-shadow: inset 0 -5px 3px -3px rgba(54, 46, 46, 0.09), inset 0 -1px 0 rgba(99, 88, 88, 0.09);
     box-sizing: border-box;
     color: rgb(136, 136, 136);
@@ -255,13 +255,14 @@ header:hover h2 {
 
 .exception-title {
     color: rgb(199, 199, 199);
-    font-weight: 600;
-    line-height: 1.5;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.7;
     margin-top: -5px;
 }
 
 .exception-title h1 {
-    color: rgb(171, 167, 187); 
+    color: var(--gray-500); 
     display: inline;
     font-weight: 500;
 }
@@ -330,10 +331,6 @@ header:hover h2 {
         top: 0;
     }
 
-    .exception-title {
-        font-size: var(--font-size-large_xxx);
-    }
-
     .exception-title h1 {
         font-size: var(--font-size-initial);
     }
@@ -350,9 +347,9 @@ header:hover h2 {
 /* FRAMES */
 
 .sidebar {
-    background: var(--tint-50);
+    background: var(--white);
     border-bottom: solid 3px rgb(187, 185, 212);
-    border-radius: 5px;
+    border-radius: 3px;
     border-top: solid 3px rgb(187, 185, 212);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.06), 
                 1px 1px 0 rgba(0, 0, 0, 0.05), 
@@ -362,7 +359,7 @@ header:hover h2 {
 }
 
 .frame-description {
-    background: var(--second-color);
+    background: var(--gray-100);
     border-bottom: solid 1px rgb(216, 217, 224);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1); 
     height: 35px;
@@ -373,7 +370,7 @@ header:hover h2 {
 }
 
 .frame-description.frame-description-application {
-    color: var(--gray-600);
+    color: var(--dark-purple-500);
     display: flex;    
     font-size: var(--font-size-small-xx);
     font-weight: lighter;
@@ -395,10 +392,10 @@ header:hover h2 {
 
 .frame-container-scroll {
     background: var(--main-bg-color);
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
     box-shadow: 0 -1px 0 rgb(226, 226, 226), 
                 -1px 1px 0 rgb(219, 219, 219), 
                 0 -1px 0 rgb(165, 165, 165), 
@@ -432,7 +429,7 @@ header:hover h2 {
 .frame {
     background: var(--first-color);  
     background: linear-gradient(top, rgb(248, 248, 248) 80%, rgb(240, 240, 240));  
-    box-shadow: 0 -1px 0 rgb(241, 241, 241);
+    box-shadow: 0 -1px 0 var(--purple-100);
     cursor: pointer;
     overflow: hidden;
     position: relative;
@@ -474,7 +471,7 @@ header:hover h2 {
 
 .frame.active .frame-index {
     background: rgb(253, 253, 253);  
-    color: rgb(85, 101, 141);
+    color: var(--dark-purple-400);
     font-weight: 600;
     height: 26px;
     line-height: 20px;
@@ -565,6 +562,8 @@ header:hover h2 {
 @media (max-width: 1100px)
 {
     .sidebar {
+        border-bottom: solid 4px rgb(187, 185, 212);
+        border-top: solid 4px rgb(187, 185, 212);
         padding: 0;
     }
 
@@ -575,7 +574,22 @@ header:hover h2 {
     }
 
     .frame-container-scroll {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
         height: 300px;
+    }
+
+    .frame-description {
+        height: 35px;
+        margin: 0;
+    }
+
+    .frame-description-application .iconlist {
+        display: none;
+    }
+
+    .scrollbar::-webkit-scrollbar-thumb {
+        border-radius: 0;
     }
 
     .frame {
@@ -628,11 +642,6 @@ header:hover h2 {
         overflow: hidden;
         text-overflow: ellipsis; 
     }
-
-    .frame-description.frame-description-application,
-    .frame-description-application .iconlist {
-        display: none;
-    }
 }
 
 /* WIDE */
@@ -668,8 +677,8 @@ header:hover h2 {
 /* SOURCE */
 
 .code-source {
-    background: var(--second-color);
-    border-radius: 5px;
+    background: var(--gray-50);
+    border-radius: 3px;
     box-shadow: 0 0 10px rgba(181, 179, 201, .6), 
                 1px 1px 0 rgba(181, 179, 201, .06), 
                 -1px 1px 0 rgba(181, 179, 201, .06), 
@@ -703,9 +712,8 @@ header:hover h2 {
 }
 
 .title h4 {
-    color: rgb(131, 130, 144);
-    font-family: "Inconsolata", "Fira Mono", "Source Code Pro", Monaco, Consolas, "Lucida Console", monospace;
-    font-size: var(--font-size-small-x);
+    color: var(--gray-700);
+    font-size: var(--font-size-medium-xx);
     font-weight: 600;
     min-height: 12px;
     line-height: 12px;
@@ -714,6 +722,12 @@ header:hover h2 {
     text-overflow: ellipsis;
     text-shadow: none;
     white-space: pre-line;
+}
+
+.title h4 span {
+    color: var(--dark-purple-200);
+    font-size: var(--font-size-small);
+    font-weight: 400;
 }
 
 /* Icon border */
@@ -798,14 +812,14 @@ pre {
     background: var(--first-color);
     border-right: 1px solid rgba(187, 187, 187, .5);
     box-shadow: inset 0 0 0 1px rgba(187, 187, 187, .4);
-    border-bottom-left-radius: 4px;
-    border-top-left-radius: 4px;
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
     margin-left: 60px;
     margin-right: -2px;
     padding-bottom: 12px;
     padding-top: 10px;
     overflow-x: auto;
-    overflow-y: hidden;    
+    overflow-y: hidden;  
 }
 
 /* Manipulate the scroll bar. Only for browsers that use the webkit engine. */
@@ -864,14 +878,15 @@ code {
     background: var(--first-color);
     border-top: 1px solid rgb(231, 231, 236);    
     margin-left: 0;
+    word-break: break-all;
 }
 
 .linenums {
     counter-reset: item;
     list-style: none;
     margin: 0;
-    margin-left: 61px;
-    margin-right: 39px;
+    margin-left: 15px;
+    margin-right: 19px;
     margin-top: 5px;
 }
 
@@ -881,7 +896,7 @@ code {
     font-size: var(--font-size-small);
     font-weight: 400;
     margin-left: 20px;
-    margin-right: 20px;
+    margin-right: 10px;
 }
 
 .linenums li:before {
@@ -1068,14 +1083,29 @@ code {
     .data-table-container label {
         font-size: var(--font-size-medium-x);
         margin-left: 8px;
+        margin-bottom: 0;
     }
 
     .data-table table {
         padding-left: 10px;
     }
 
+    .data-table tr > td {
+        display: block;
+    }
+
+    .data-table td:first-child {
+        margin-top: 10px;
+    }
+
+    .data-table td:last-child {
+        width: 100%;
+    }
+
     .data-table .debug-list {
         margin-left: 8px;
+        margin-top: 10px;
+        word-break: break-all;
     }
 }
 
@@ -1149,7 +1179,7 @@ footer {
     background: rgb(255, 0, 0);  
     font-size: 13px;  
     margin-left: 10px;
-    padding: 8px;
+    padding: 7px;
 }
 
 .info .benchmark-time #cronometro,
@@ -1168,6 +1198,7 @@ footer {
 
 .info .copy {
     color: rgb(116, 111, 111);
+    margin-top: -4px;
 }
 
 /* ------------------------------------------------------------ 
@@ -1181,13 +1212,34 @@ footer {
         margin: 0 -20px;     
     }
 
-    .info .name {
-        padding-right: 30px;
+    .info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        margin-top: 10px;
     }
 
-    .info .status-code {
-        background: none;
-        color: rgb(255, 0, 0);  
+    .info .name {
+        left: 10px;
+        line-height: 1;
+        margin-right: 10px;
+    }
+
+    .info .name:before {
+        top: -.2px;
+    }
+
+    .info .php-version,
+    .info .status-code,
+    .info .benchmark-time,
+    .info .memory {
+        display: none;
+    }
+
+    .copy {
+        line-height: 1.2;
+        width: 53%;
+        margin-right: -10px;
     }
 }
 
@@ -1264,13 +1316,13 @@ footer {
 }
 
 .icon-holder .ico-print {
-    fill: rgb(82, 82, 75);
+    fill: var(--gray-700);
     height: 19px;
     width: 17px;
 }
 
 .icon-holder .ico-file-pdf {
-    fill: rgb(167, 17, 129);
+    fill: var(--red-400);
     height: 17px;
     width: 17px;
 }
@@ -1350,15 +1402,20 @@ footer {
     }
 
     .plain-exception {
-        border: 0;
         color: #000000;
         display: block; 
     }
 
     .plain-exception pre {
+        border: 0;
+        box-shadow: none;
         font-family: "Helvetica Neue", helvetica, lucida grande, sans-serif;
         font-size: 14px;
-        font-weight: 400; 
+        font-weight: 400;
+        margin-left: 0; 
+        outline: hidden;
+        white-space: pre-wrap;
+        word-break: break-all;
     }
 
     .sidebar {

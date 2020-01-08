@@ -11,15 +11,16 @@ return [
     |
     */
 
-    'allow-x-headers' => false, 
-
+    'allow-x-headers' => false,
+    
     /*
-     |----------------------------------------------------------------------
-     |  Security CSRF Activate
-     |----------------------------------------------------------------------
-     |
-     |  Prevents the website from CSRF attacks.
-     */
+    |-----------------------------------------------------------------------
+    |  Security CSRF Activate
+    |-----------------------------------------------------------------------
+    |
+    |  Prevents the website from CSRF attacks.
+    */
+    
     'csrf' => true,
 
     /*
@@ -33,6 +34,8 @@ return [
     |
     */
 
-    'Key' => 'Place-your-encrypted-key-here',
+    'key' => env('APP_KEY'),
+
+    'cipher' => 'AES-256-CBC',
 
 ];

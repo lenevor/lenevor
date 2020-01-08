@@ -17,7 +17,7 @@
  * @subpackage  Base
  * @author      Javier Alexander Campo M. <jalexcam@gmail.com>
  * @link        https://lenevor.com 
- * @copyright   Copyright (c) 2019 Lenevor Framework 
+ * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.1.0
  */
@@ -103,7 +103,7 @@ class Finder
      *
      * @return mixed        Path, or paths, or false
      */
-    public static function search($file, $directory, $extension = null)
+    public static function search(string $file = null, $directory, $extension = null)
     {
         return static::instance()->locate($file, $directory, $extension);
     }
@@ -165,7 +165,7 @@ class Finder
      *
      * @throws \InvalidArgumentException
      */
-    public function locate(string $file, string $directory, $extension = null)
+    public function locate(?string $file, string $directory, $extension = null)
     {
         $found = false;
 
@@ -182,12 +182,14 @@ class Finder
             $extension = '';
         }
 
-        if ( ! empty($file)) 
+        if ( ! empty($file) || ! is_null($file)) 
         {
             $file = str_replace(['::', '.'], DIRECTORY_SEPARATOR, $file);
         }
         else 
         {
+            $file = $file ?: 'empty';
+
             throw new InvalidArgumentException("File not found: [{$file}]");
         }
 
