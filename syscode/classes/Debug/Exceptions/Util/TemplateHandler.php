@@ -35,13 +35,6 @@ use Syscode\Debug\FrameHandler\Frame;
 class TemplateHandler
 {
 	/**
-	 * The application root path.
-	 * 
-	 * @var string $applicationRootPath
-	 */
-	protected $applicationRootPath;
-
-	/**
 	 * Benchmark instance.
 	 * 
 	 * @var string $benchmark
@@ -79,7 +72,6 @@ class TemplateHandler
 		$this->system              = new System;
 		$this->benchmark           = new Benchmark;
 		$this->obLevel             = $this->system->getOutputBufferLevel();
-		$this->applicationRootPath = dirname(dirname(dirname(dirname(dirname(dirname(__DIR__))))));
 	}
 
 	/**
@@ -111,9 +103,9 @@ class TemplateHandler
 		{
 			$file = 'RES_PATH'.DIRECTORY_SEPARATOR.substr($file, strlen(RES_PATH));
 		}
-		elseif ($this->applicationRootPath != "/")
+		elseif (strpos($file, RTR_PATH) === 0)
 		{
-			$file = str_replace($this->applicationRootPath, '...', $file);
+			$file = 'RTR_PATH'.DIRECTORY_SEPARATOR.substr($file, strlen(RTR_PATH));
 		}
 
 		return $file;
