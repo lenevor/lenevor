@@ -35,7 +35,7 @@ define('CON_PATH', realpath($config['path.config']).DIRECTORY_SEPARATOR);
 define('DBD_PATH', realpath($config['path.database']).DIRECTORY_SEPARATOR);
 define('PUB_PATH', realpath($config['path.index']).DIRECTORY_SEPARATOR);
 define('RES_PATH', realpath($config['path.resources']).DIRECTORY_SEPARATOR);
-define('ROU_PATH', realpath($config['path.routes']).DIRECTORY_SEPARATOR);
+define('RTR_PATH', realpath($config['path.routes']).DIRECTORY_SEPARATOR);
 define('STO_PATH', realpath($config['path.storage']).DIRECTORY_SEPARATOR);
 define('SYS_PATH', realpath($config['path.sys']).DIRECTORY_SEPARATOR);
 
