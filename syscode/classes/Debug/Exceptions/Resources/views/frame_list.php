@@ -7,17 +7,17 @@
 		</div>
 			
 		<div class="frame-method-info">
-			<span class="frame-class"><?= e($frame->getClass()) ?: '' ?></span>
-			<span class="frame-function"><?= e($frame->getFunction()) ?: '' ?></span>
+			<span class="frame-file"><?= $frame->getFile() ? $frame->getFile() : '<#unknown>'?></span>
+			
+			<div class="frame-info-class">
+				<span class="frame-class"><?= e($frame->getClass()) ?: '' ?></span>
+				<span class="frame-function"><?= e($frame->getFunction()) ?: '' ?></span>
+			</div>
 		</div>
-		<div class="frame-file">
 
-			<div class="delimiter">
-				<?= $frame->getFile() ? $template->cleanPath($frame->getFile()) : '<#unknown>'?>
-			</div>		
-			<span class="frame-line">Line&nbsp;<?= (int) $frame->getLine() ?></span>
-
-		</div>
+		<div class="frame-line-number">
+			<span class="frame-line"><?= (int) $frame->getLine() ?></span>
+		</div>		
 		
 	</div>		
 <?php endforeach; ?>	
