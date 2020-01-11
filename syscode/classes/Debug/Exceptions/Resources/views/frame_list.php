@@ -10,8 +10,14 @@
 			<span class="frame-file"><?= $frame->getFile() ? $frame->getFile() : '<#unknown>'?></span>
 			
 			<div class="frame-info-class">
-				<span class="frame-class"><?= e($frame->getClass()) ?: '' ?></span>
-				<span class="frame-function"><?= e($frame->getFunction()) ?: '' ?></span>
+			<?php if ($frame->getClass() == '') : ?>
+				<span class="frame-function"><?= e($frame->getFunction()) ?></span>
+			<?php else: ?>
+				<span class="frame-class"><?= e($frame->getClass()) ?></span>
+				<?php if ($frame->getFunction() != '') : ?>
+				<span class="frame-function"><?= e($frame->getFunction()) ?></span>
+				<?php endif ?>
+			<?php endif ?>
 			</div>
 		</div>
 
