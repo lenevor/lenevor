@@ -222,30 +222,19 @@ if ( ! function_exists('csrfToken'))
     }
 }
 
-if ( ! function_exists('isImport'))
+if ( ! function_exists('decrypt'))
 {
     /**
-     * Loads in a core class and optionally an app class override if it exists.
+     * Decrypt the given value.
      * 
-     * @param  string  $path
-     * @param  string  $folder
-     * @return void
+     * @param  mixed  $value
+     * @param  bool   $unserialize  (true by default)
+     * 
+     * @return string
      */
-    function isImport($path, $folder = 'classes')
+    function decrypt($value, $unserialize = true)
     {
-        $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
-        
-        // load it ffrom the core if it exists
-        if (is_file(SYS_PATH.$folder.DIRECTORY_SEPARATOR.$path.'.php'))
-        {
-            require_once SYS_PATH.$folder.DIRECTORY_SEPARATOR.$path.'.php';
-        }
-        
-        // if the app has an override (or a non-core file), load that too
-        if (is_file(APP_PATH.$folder.DIRECTORY_SEPARATOR.$path.'.php'))
-        {
-            require_once APP_PATH.$folder.DIRECTORY_SEPARATOR.$path.'.php';
-        }
+        return app('encrypter')->decrypt($value, $unserialize);
     }
 }
 
@@ -261,6 +250,22 @@ if ( ! function_exists('e'))
     function e($value)
     {
         return htmlentities($value, ENT_QUOTES, 'UTF-8', false);
+    }
+}
+
+if ( ! function_exists('encrypt'))
+{
+    /**
+     * Encrypt the given value.
+     * 
+     * @param  mixed  $value
+     * @param  bool   $serialize  (true by default)
+     * 
+     * @return string
+     */
+    function encrypt($value, $serialize = true)
+    {
+        return app('encrypter')->encrypt($value, $serialize);
     }
 }
 
@@ -315,6 +320,33 @@ if ( ! function_exists('isGetCommonPath'))
         }
         
         return $common;
+    }
+}
+
+if ( ! function_exists('isImport'))
+{
+    /**
+     * Loads in a core class and optionally an app class override if it exists.
+     * 
+     * @param  string  $path
+     * @param  string  $folder
+     * @return void
+     */
+    function isImport($path, $folder = 'classes')
+    {
+        $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
+        
+        // load it ffrom the core if it exists
+        if (is_file(SYS_PATH.$folder.DIRECTORY_SEPARATOR.$path.'.php'))
+        {
+            require_once SYS_PATH.$folder.DIRECTORY_SEPARATOR.$path.'.php';
+        }
+        
+        // if the app has an override (or a non-core file), load that too
+        if (is_file(APP_PATH.$folder.DIRECTORY_SEPARATOR.$path.'.php'))
+        {
+            require_once APP_PATH.$folder.DIRECTORY_SEPARATOR.$path.'.php';
+        }
     }
 }
 
