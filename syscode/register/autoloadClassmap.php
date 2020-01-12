@@ -185,6 +185,7 @@ return [
     'Syscode\\Support\\Facades\\App' => SYS_PATH.'classes/Support/Facades/App.php',
     'Syscode\\Support\\Facades\\Cache' => SYS_PATH.'classes/Support/Facades/Cache.php',
     'Syscode\\Support\\Facades\\Config' => SYS_PATH.'classes/Support/Facades/Config.php',
+    'Syscode\\Support\\Facades\\Crypt' => SYS_PATH.'classes/Support/Facades/Crypt.php',
     'Syscode\\Support\\Facades\\Date' => SYS_PATH.'classes/Support/Facades/Date.php',
     'Syscode\\Support\\Facades\\Facade' => SYS_PATH.'classes/Support/Facades/Facade.php',
     'Syscode\\Support\\Facades\\File' => SYS_PATH.'classes/Support/Facades/File.php',
