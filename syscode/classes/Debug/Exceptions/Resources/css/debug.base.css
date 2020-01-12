@@ -19,6 +19,7 @@
     --blue-200: rgb(0, 188, 255);
     --blue-300: rgb(0, 122, 255);
     --blue-400: rgb(122, 122, 255);
+    --blue-500: rgb(36, 100, 204);
     --green-100: rgb(227, 255, 242);
     --green-300: rgb(148, 242, 200);
     --green-400: rgb(114, 224, 175);
@@ -89,7 +90,7 @@
 }
 
 html {
-    background: var(--main-bg-color);
+    background: var(--gray-100);
     z-index: 10000;
 }
 
@@ -170,6 +171,11 @@ ol {
         padding: 0;
         margin: 20px 0;
     }
+
+    .details-panel {
+        border-color: none;
+        border-left-width: 0;
+    }
 }
 
 /* WIDE */
@@ -190,12 +196,14 @@ ol {
     }
     
     .details-panel {
+        border-color: var(--gray-200);
+        border-left-width: 1px;
         bottom: 60px;
         font-family: "Lato";
         left: 40%;
-        top: 163px;
+        top: 160px;
         margin-left: 50px;
-        padding-left: 10px;
+        padding-left: 20px;
         padding-right: 30px;
         padding-top: 5px;
         right: 0;
@@ -228,7 +236,7 @@ ol {
 
 header {
     background-image: linear-gradient(236deg, var(--white), var(--white));
-    box-shadow: inset 0 -5px 3px -3px rgba(54, 46, 46, 0.09), inset 0 -1px 0 rgba(99, 88, 88, 0.09);
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.06);
     box-sizing: border-box;
     color: rgb(136, 136, 136);
     margin-bottom: 20px;
@@ -352,20 +360,20 @@ header:hover h2 {
 
 .sidebar {
     background: var(--white);
-    border-bottom: solid 3px rgb(187, 185, 212);
+    border-bottom: solid 3px var(--tint-500);
     border-radius: 3px;
-    border-top: solid 3px rgb(187, 185, 212);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.06), 
-                1px 1px 0 rgba(0, 0, 0, 0.05), 
-                -1px 1px 0 rgba(0, 0, 0, 0.05), 
-                0 0 0 1px rgba(0, 0, 0, 0.06);
+    border-top: solid 3px var(--tint-500);
+    box-shadow: 0 1px 1px var(--gray-300), 
+                1px 1px 0 var(--gray-300), 
+                -1px 1px 0 var(--gray-300), 
+                0 0 0 1px var(--gray-100);
     overflow-y: hidden;
     padding: 10px 10px 50px;
 }
 
 .frame-description {
-    background: var(--gray-100);
-    border-bottom: solid 1px rgb(216, 217, 224);
+    background: var(--gray-50);
+    border-bottom: solid 1px var(--gray-300);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1); 
     height: 40px;
     line-height: 1.6;
@@ -381,7 +389,7 @@ header:hover h2 {
     font-weight: 400;
     justify-content: space-between;
     text-decoration: none;
-    text-shadow: 0 1px 0 rgba(236, 236, 236, 0.6);
+    text-shadow: none; /*text-shadow: 0 1px 0 rgba(236, 236, 236, 0.6);*/
 }
 
 .frame-description-application span {
@@ -400,10 +408,10 @@ header:hover h2 {
     border-top-right-radius: 3px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
-    box-shadow: 0 -1px 0 rgb(226, 226, 226), 
-                -1px 1px 0 rgb(219, 219, 219), 
-                0 -1px 0 rgb(165, 165, 165), 
-                1px 1px 0 rgb(219, 219, 219);
+    box-shadow: 0 -1px 0 var(--gray-300), 
+                -1px 1px 0 var(--gray-300), 
+                0 -1px 0 var(--gray-300), 
+                1px 1px 0 var(--gray-300);
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
@@ -417,12 +425,12 @@ header:hover h2 {
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-    background: linear-gradient(to bottom, var(--gray-500), var(--gray-400));
+    background: linear-gradient(to bottom, var(--gray-400), var(--gray-300));
     border-radius: 2px;
 }
 
 .scrollbar::-webkit-scrollbar-thumb:active {
-    background: var(--blue-400);      
+    background: var(--gray-500);      
 }
 
 .scrollbar::-webkit-scrollbar-track {
@@ -451,7 +459,7 @@ header:hover h2 {
 }
 
 .frame.active {
-    background: var(--frame-color-background);
+    background: var(--purple-100);
     border-bottom-width: 1px;
     border-color: var(--gray-200);
 }
@@ -487,9 +495,10 @@ header:hover h2 {
 }
 
 .frame-index { 
-    border: 2px solid rgb(212, 212, 212); 
+    background: var(--gray-200);
+    border: 2px solid var(--gray-500); 
     border-radius: 100%; 
-    color: var(--purple-400);
+    color: var(--tint-600);
     font-feature-settings: "tnum";
     font-variant-numeric: tabular-nums;
 }
@@ -512,6 +521,7 @@ header:hover h2 {
 .frame-class,
 .frame-function,
 .frame-function-optional {
+    color: var(--gray-600);
     font-size: var(--font-size-small-x);
 }
 
@@ -525,51 +535,44 @@ header:hover h2 {
     opacity: 0.75;
 }
 
-.frame-class {
-    color: var(--gray-600);
-    left: 38px;
-    position: relative;
-}
-
-.frame-class:before {
-    background: rgb(60, 176, 243);
-    border: 1px solid var(--blue-200);
-    border-radius: 5px;
-    color: var(--white);
-    content: 'Class';
+.frame-class:before,
+.frame-function:before {
+    border-radius: 2px;
+    color: var(--gray-50);
     font-size: var(--font-size-small);
+    font-weight: 600;
     display: inline-block;
     height: 5px;
-    left: -38px;
     line-height: 0.3;
     padding: 5px 1px;
     position: absolute;
     top: 10px;
     text-align: center;
+}
+
+.frame-class {
+    left: 38px;
+    position: relative;
+}
+
+.frame-class:before {    
+    background: var(--tint-700);
+    border: 1px solid var(--tint-700);
+    content: 'Class';
+    left: -38px;
     width: 30px; 
 }
 
 .frame-function {
-    color: var(--gray-500);
     left: 58px;
     position: relative;
 }
 
 .frame-function:before {
-    background: rgb(221, 86, 7);
-    border: 1px solid var(--thrid-color);
-    border-radius: 5px;
-    color: var(--white);
+    background: var(--blue-300);
+    border: 1px solid var(--blue-500);
     content: 'Function';
-    font-size: var(--font-size-small);
-    display: inline-block;
-    height: 5px;
     left: -58px;
-    line-height: 0.3;
-    padding: 5px 1px;
-    position: absolute;
-    top: 10px;
-    text-align: center;
     width: 50px; 
 }
 
@@ -600,8 +603,6 @@ header:hover h2 {
 @media (max-width: 1100px)
 {
     .sidebar {
-        border-bottom: solid 4px rgb(187, 185, 212);
-        border-top: solid 4px rgb(187, 185, 212);
         padding: 0;
     }
 
@@ -644,9 +645,9 @@ header:hover h2 {
 
     .frame.active .frame-index,
     .frame .frame-index {
-        font-size: var(--font-size-small);
+        font-size: 9px;
         height: 18px;
-        line-height: 14px;
+        line-height: 12px;
         text-align: center;
         width: 18px;
     }
@@ -706,6 +707,10 @@ header:hover h2 {
         text-overflow: ellipsis; 
     }
 
+    .frame-function {
+        color: var(--gray-500);
+    }
+
     .frame-line-number {
         margin: auto 5px;
         margin-bottom: 15px;
@@ -761,11 +766,13 @@ header:hover h2 {
 
 .code-source {
     background: var(--gray-50);
+    border-bottom: solid 3px var(--tint-500);
     border-radius: 3px;
-    box-shadow: 0 0 10px rgba(181, 179, 201, .6), 
-                1px 1px 0 rgba(181, 179, 201, .06), 
-                -1px 1px 0 rgba(181, 179, 201, .06), 
-                0 0 0 4px rgba(0, 0, 0, .06);
+    border-top: solid 3px var(--tint-500);
+    box-shadow: 0 1px 1px var(--gray-300), 
+                1px 1px 0 var(--gray-300), 
+                -1px 1px 0 var(--gray-300), 
+                0 0 0 1px var(--gray-300);
     display: none;
     margin-bottom: 50px;
     margin-top: -1px;
@@ -780,8 +787,8 @@ header:hover h2 {
 .title {
     align-items: center;
     border: none;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
     display: grid;
     font-weight: 200;
     grid-template-columns: auto auto;
@@ -819,7 +826,7 @@ header:hover h2 {
 
 /* Icon border */
 .title .icon-holder:last-child {
-    border-top-right-radius: 4px;
+    border-top-right-radius: 2px;
 }
 
 .source {
@@ -828,6 +835,7 @@ header:hover h2 {
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     color: rgb(138, 135, 135);
+    overflow: hidden;
     padding-bottom: 0;
     padding-top: 40px;
     text-shadow: none;
@@ -896,8 +904,8 @@ code,
 
 pre {
     background: var(--first-color);
-    border-right: 1px solid rgba(187, 187, 187, .5);
-    box-shadow: inset 0 0 0 1px rgba(187, 187, 187, .4);
+    border-right: 1px solid transparent;
+    box-shadow: inset 0 0 0 1px var(--gray-300);
     border-bottom-left-radius: 3px;
     border-top-left-radius: 3px;
     margin-left: 60px;
@@ -917,10 +925,7 @@ pre::-webkit-scrollbar-corner {
 
 pre::-webkit-scrollbar-thumb {
     background: var(--gray-400);
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
+    border-radius: 0;
 }
 
 pre::-webkit-scrollbar-thumb:active {
@@ -938,10 +943,11 @@ code {
 }
 
 /* FRAME OF ARGUMENTS */
-.code-source .frame-file {
+.code-source .frame-file-arguments {
     border-bottom: none;
-    color: rgb(131, 130, 144);
+    color: var(--gray-500);
     font-size: 12px;
+    font-weight: 400;
     margin-bottom: 0;
     margin-left: 0;
     margin-top: 10px;
@@ -1366,10 +1372,10 @@ footer {
 }
 
 .icon-holder {
-    background: var(--first-color);
-    border-left: 1px solid rgb(232, 233, 238);
+    border-left-width: 1px;
+    border-color: var(--gray-200);
     cursor: pointer;
-    height: 39px;
+    height: 40px;
     padding: 11px; 
     position: relative;
     text-align: center;
@@ -1380,7 +1386,6 @@ footer {
 
 .icon-holder:hover {
     background: rgb(0, 195, 218);
-    border-left: 1px solid rgb(0, 195, 218);
 }
 
 .icon-holder:hover .ico-print,
@@ -1415,20 +1420,25 @@ footer {
     left: 85%;
 }
 
-.icon-holder .ico-print {
+.icon-holder .ico-print,
+.icon-holder .ico-file-pdf,
+.icon-holder .ico-file-edit {
     fill: var(--gray-700);
-    height: 19px;
-    width: 17px;
+}
+
+.icon-holder .ico-print {
+    height: 22px;
+    margin-top: -2px;
+    width: 21px;
 }
 
 .icon-holder .ico-file-pdf {
-    fill: var(--red-400);
-    height: 17px;
-    width: 17px;
+    height: 21px;
+    margin-top: -2px;
+    width: 21px;
 }
 
 .icon-holder .ico-file-edit {
-    fill: rgb(27, 125, 182);
     height: 30px;
     margin-left: -8px;
     margin-top: -7px;
@@ -1437,7 +1447,7 @@ footer {
 
 .icon-holder .tooltip {
     background: rgb(82, 75, 114);
-    border-radius: 5px;
+    border-radius: 4px;
     visibility: hidden;
     font-size: var(--font-size-small-x);
     left: 50%;
