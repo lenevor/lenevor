@@ -20,6 +20,7 @@ return [
          */
         Syscode\Cache\CacheServiceProvider::class,
         Syscode\Database\DatabaseServiceProvider::class,
+        Syscode\Encryption\EncryptionServiceProvider::class,
         Syscode\Filesystem\FilesystemServiceProvider::class,
         Syscode\Session\SessionServiceProvider::class,
         Syscode\Translation\TranslationServiceProvider::class,
@@ -48,6 +49,7 @@ return [
         'App' => Syscode\Support\Facades\App::class,
         'Cache' => Syscode\Support\Facades\Cache::class,
         'Config' => Syscode\Support\Facades\Config::class,
+        'Crypt' => Syscode\Support\Facades\Crypt::class,
         'File' => Syscode\Support\Facades\File::class,
         'Http' => Syscode\Support\Facades\Http::class,
         'Lang' => Syscode\Support\Facades\Lang::class,
