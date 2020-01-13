@@ -666,7 +666,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function remove($id)
     {
-        return $this->destroyBinding($id);
+        $this->destroyBinding($id);
     }
 
     /**
