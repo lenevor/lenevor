@@ -115,22 +115,11 @@ class View implements ViewContract
 			throw new InvalidArgumentException(__('view.dataObjectArray'));
 		}
 
-		if ([] !== $data)
-		{
-			// Add the values to the current data
-			$this->data = $data + $this->data;
-		}
+		// Add the values to the current data
+		$this->data = $data + $this->data;
 
-		// Add the extension
-		if (is_null($extension))
-		{
-			$extension       = (new Extension)->get();
-			$this->extension = $extension;
-		}
-		else
-		{
-			$this->extension = $extension;
-		}
+		// Add the file extension
+		$this->extension = $extension ?: (new Extension)->get();
 	}
 
 	/**
@@ -275,11 +264,11 @@ class View implements ViewContract
 
 				if ($this->extend)
 				{
-					$view = $this->extend;
+					$extendView = $this->extend;
 
-					$this->extend = '';
+					$this->extend = null;
 
-					$output = $this->make($view, $__data);
+					$output = $this->make($extendView, $__data);
 				}
 			}
 			catch (Exception $e)
@@ -419,7 +408,7 @@ class View implements ViewContract
 			// Override the view filename if needed
 			if ($this->has($file))
 			{
-				$this->setFilename($file);
+				$this->filename = $this-> resolverPath($file);
 			}
 	
 			$this->getData($data);
@@ -521,30 +510,6 @@ class View implements ViewContract
 		$this->sections[] = $blockName;
 
 		ob_start();
-	}
-
-	/**
-	 * Sets the view filename.
-	 * 
-	 * @example $output = $view->setFilename($file);
-	 *
-	 * @param  string  $file  View filename
-	 *
-	 * @return $this
-	 *
-	 * @throws \Syscode\View\Exceptions\ViewException
-	 */
-	public function setFilename($file)
-	{
-		if ('' === ($path = $this->resolverPath($file)))
-		{
-			throw new ViewException(__('view.notFound', ['file' => $file]));
-		}
-
-		// Store the file path locally and extension
-		$this->filename = $path;
-
-		return $this;
 	}
 
 	/**
