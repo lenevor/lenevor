@@ -1,5 +1,25 @@
 # Release Notes
 
+## [Version 0.5.0-alpha.5] 
+
+Release Date: Jan 12, 2020
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added new class called `RouteAction`
+- Added new trait for the `Route` class
+- Added new methods for the `RouteGroup` class
+- Added attribute macros of type array in the `Router` class
+- Added new class called `RouteFileRegister`
+- Added new system of encryption
+
+### Changed
+- Changed new theme for the debug system
+- Changed Release 0.5.0-alpha.5
+- Changed new number version
+
+
 ## [Version 0.4.0-alpha.4] 
 
 Release Date: Nov 25, 2019
