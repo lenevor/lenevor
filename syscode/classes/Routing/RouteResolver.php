@@ -58,11 +58,25 @@ class RouteResolver
 		{
 			$matches = [];
 
-			if ($route->getRoute())
+			if (isset($requestedUri))
 			{
 				$host = $route->getHost();
-
-				if ($host !== null && $host !== $request->uri->getHost()) 
+				
+				if ($host !== null && $host != $request->getHost())
+				{
+					continue;
+				}
+				
+				$scheme = $route->getScheme();
+				
+				if ($scheme !== null && $scheme !== $request->getScheme())
+				{
+					continue;
+				}
+				
+				$port = $route->getPort();
+				
+				if ($port !== null && $port !== $request->getPort())
 				{
 					continue;
 				}
