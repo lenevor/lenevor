@@ -390,7 +390,7 @@ class Application extends Container implements ApplicationContract
 	public function generateKey()
 	{
 		return 'base64:'.base64_encode(
-			Encrypter::generateRandomKey($this['config']->get('security.cipher'))
+			\Syscode\Encryption\Encrypter::generateRandomKey($this['config']->get('security.cipher'))
 		);
 	}
 	
