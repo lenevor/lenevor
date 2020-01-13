@@ -26,7 +26,8 @@ namespace Syscode\Debug;
 
 use Exception;
 use Throwable;
-use Syscode\Debug\FatalExceptions\{ FlattenException, OutOfMemoryException };
+use Syscode\Debug\FatalExceptions\FlattenException;
+use Syscode\Debug\FatalExceptions\OutOfMemoryException;
 
 /**
  * A generic ErrorHandler for the PHP engine.

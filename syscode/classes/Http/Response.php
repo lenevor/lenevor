@@ -27,8 +27,10 @@ namespace Syscode\Http;
 use BadMethodCallException;
 use InvalidArgumentException;
 use UnexpectedValueException;
+use Syscode\Http\Contributors\Server;
+use Syscode\Http\Contributors\Status;
+use Syscode\Http\Contributors\Headers;
 use Syscode\Filesystem\Exceptions\UnexpectedTypeException;
-use Syscode\Http\Contributors\{ Headers, Server, Status };
 
 /**
  * Response represents an HTTP response.

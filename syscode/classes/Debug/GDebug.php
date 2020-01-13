@@ -27,12 +27,14 @@ namespace Syscode\Debug;
 use Throwable;
 use ErrorException;
 use Syscode\Debug\Benchmark;
+use Syscode\Debug\Util\Misc;
 use InvalidArgumentException;
+use Syscode\Debug\Util\System;
 use Syscode\Debug\Handlers\MainHandler;
+use Syscode\Debug\Util\TemplateHandler;
 use Syscode\Debug\FrameHandler\Supervisor;
 use Syscode\Debug\Handlers\CallbackHandler;
 use Syscode\Contracts\Debug\Handler as DebugContract;
-use Syscode\Debug\Util\{ Misc, System, TemplateHandler };
 
 /**
  * Allows automatically load everything related to exception handlers.

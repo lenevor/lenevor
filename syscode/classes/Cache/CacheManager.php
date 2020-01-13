@@ -25,10 +25,17 @@
 namespace Syscode\Cache;
 
 use Closure;
+use Syscode\Cache\Store\ApcStore;
+use Syscode\Cache\Store\FileStore;
+use Syscode\Cache\Store\NullStore;
 use Syscode\Contracts\Cache\Store;
+use Syscode\Cache\Store\ApcWrapper;
+use Syscode\Cache\Store\ArrayStore;
+use Syscode\Cache\Store\RedisStore;
+use Syscode\Cache\Store\DatabaseStore;
+use Syscode\Cache\Store\MemcachedStore;
 use Syscode\Cache\Exceptions\CacheException;
 use Syscode\Contracts\Cache\Manager as ManagerContract;
-use Syscode\Cache\Store\{ ApcStore, ApcWrapper, ArrayStore, DatabaseStore, FileStore, MemcachedStore, NullStore, RedisStore };
 
 /**
  * Class cache manager.

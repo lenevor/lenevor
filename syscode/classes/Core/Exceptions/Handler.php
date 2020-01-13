@@ -30,15 +30,13 @@ use Syscode\Support\Arr;
 use Syscode\Debug\GDebug;
 use Syscode\Http\Response;
 use Psr\Log\LoggerInterface;
-use Syscode\Core\Http\Exceptions\{
-    HttpException,
-    NotFoundHttpException
-};
 use Syscode\Debug\ExceptionHandler;
 use Syscode\Contracts\Container\Container;
+use Syscode\Core\Http\Exceptions\HttpException;
 use Syscode\Http\Exceptions\HttpResponseException;
 use Syscode\Debug\FatalExceptions\FlattenException;
 use Syscode\Database\Exceptions\ModelNotFoundException;
+use Syscode\Core\Http\Exceptions\NotFoundHttpException;
 use Syscode\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 
 /**
