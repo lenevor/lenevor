@@ -51,7 +51,11 @@ class RouteGroup
 		$new['namespace'] = static::formatUseNamespace($new, $old);
 		$new['prefix']    = static::formatUsePrefix($new, $old);		
 		$new['where']     = static::formatUseWhere($new, $old);
-		$new['as']        = static::formatUseAs($new, $old);
+
+		if (isset($old['as']))
+		{
+			$new['as'] = static::formatUseAs($new, $old);
+		}
 		
 		return array_merge_recursive(
 			Arr::except($old, array('namespace', 'prefix', 'where', 'as')), $new
@@ -121,10 +125,7 @@ class RouteGroup
 	 */
 	protected static function formatUseAs($new, $old)
 	{
-		if (isset($old['as']))
-		{
-			$new['as'] = $old['as'].($new['as'] ?? '');
-		}
+		$new['as'] = $old['as'].($new['as'] ?? '');
 
 		return $new;
 	}
