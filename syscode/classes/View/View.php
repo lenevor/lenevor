@@ -323,7 +323,7 @@ class View implements ViewContract
 	 */
 	public function getData(array $data = [])
 	{
-		return $this->data = is_null($data) ? $this->data : $data;
+		return $this->data = $data ?: $this->data;
 	}
 
 	/**
@@ -422,11 +422,8 @@ class View implements ViewContract
 				$this->setFilename($file);
 			}
 	
-			if ([] !== $data)
-			{
-				$this->getData($data);
-			}
-	
+			$this->getData($data);
+				
 			// Combine local and global data and capture the output
 			return $this->capture();
 		}
