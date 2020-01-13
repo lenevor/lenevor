@@ -470,7 +470,7 @@ class Application extends Container implements ApplicationContract
      */
     public function register($provider, $force = false)
     {
-        if ($registered = $this->getProviderHasBeenLoaded($provider) && ! $force)
+        if (($registered = $this->getProviderHasBeenLoaded($provider)) && ! $force)
         {
             return $registered;
         }
