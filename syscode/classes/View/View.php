@@ -536,7 +536,7 @@ class View implements ViewContract
 	 */
 	public function setFilename($file)
 	{
-		if (false == ($path = $this->resolverPath($file)))
+		if ('' === ($path = $this->resolverPath($file)))
 		{
 			throw new ViewException(__('view.notFound', ['file' => $file]));
 		}
