@@ -166,24 +166,15 @@ class Router implements Routable
 	 * Group a series of routes under a single URL segment. This is handy
 	 * for grouping items into an admin area, like:
 	 *
-	 *   Example 1:
+	 *   Example:
 	 *      // Creates route: /admin show the word 'User'
-	 *      Router::group('/admin', function() {	 
+	 *      Route::group(['prefix' => 'admin'], function() {	 
 	 *
-	 *          Router::get('/', function() {
+	 *          Route::get('/user', function() {
 	 *	            echo 'Hello world..!';
 	 *          });
 	 *
-	 *      });
-	 *   Example 2:
-	 *      // Creates route: /admin show the word 'User'
-	 *      Router::group(['prefix' => 'admin'], function() {	 
-	 *
-	 *          Router::get('/', function() {
-	 *	            echo 'Hello world..!';
-	 *          });
-	 *
-	 *      });
+	 *      }); /admin/user
 	 *
 	 * @param  array            $attributes
 	 * @param  \Closure|string  $callback
