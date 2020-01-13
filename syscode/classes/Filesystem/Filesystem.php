@@ -186,7 +186,7 @@ class Filesystem
 	 */
 	public function create($path)
 	{
-		if ($this->isDirectory($path) && $this->isWritable($path) || ! $this->exists($path))
+		if (($this->isDirectory($path)) && ($this->isWritable($path)) || ! $this->exists($path))
 		{
 			if (touch($path))
 			{
