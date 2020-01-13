@@ -103,7 +103,7 @@ class Encrypter implements EncrypterContract
      */
     public static function generateRandomKey($cipher)
     {
-        return random_bytes($cipher === 'AES_128_CBC' ? 16 : 32);
+        return random_bytes($cipher === 'AES-128-CBC' ? 16 : 32);
     }
 
     /**
