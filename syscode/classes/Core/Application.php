@@ -370,6 +370,56 @@ class Application extends Container implements ApplicationContract
     {
         return $this->environmentFile ?: '.env';
     }
+    
+    /**
+     * Get the fully qualified path to the environment file.
+     * 
+     * @return string
+     */
+    public function environmentFilePath()
+    {
+        return $this->environmentPath().DIRECTORY_SEPARATOR.$this->environmentFile();
+    }
+
+    /**
+	 * Generate a random key for the application.
+	 * 
+	 * @return string
+	 */
+	public function generateKey()
+	{
+		return 'base64:'.base64_encode(
+			Encrypter::generateRandomKey($this['config']->get('security.cipher'))
+		);
+	}
+	
+	/**
+	 * Write a new environment file with the given key.
+	 * 
+	 * @param  string  $key
+	 * 
+	 * @return void
+	 */
+	public function writeNewEnvironmentFileWith($key)
+	{
+		file_put_contents($this->environmentFilePath(), preg_replace(
+			$this->keyReplacementPattern(),
+			"APP_KEY = $key",
+			file_get_contents($this->environmentFilePath())
+		));
+	}
+	
+	/**
+	 * Get a regex pattern that will match env APP_KEY with any random key.
+	 * 
+	 * @return string
+	 */
+	protected function keyReplacementPattern()
+	{
+        $escaped = preg_quote(' = '.$this['config']->get('security.key'), '/');
+        
+		return "/^APP_KEY{$escaped}/m";
+	}
 
     /**
      * Determine if the application has been bootstrapped before.
@@ -599,6 +649,7 @@ class Application extends Container implements ApplicationContract
             'app'           => [self::class, \Syscode\Contracts\Container\Container::class, \Syscode\Contracts\Core\Application::class, \Psr\Container\ContainerInterface::class],
             'cache'         => [\Syscode\Cache\CacheManager::class, \Syscode\Contracts\Cache\Manager::class],
             'config'        => [\Syscode\Config\Configure::class, \Syscode\Contracts\Config\Configure::class],
+            'encrypter'     => [\Syscode\Encryption\Encrypter::class, \Syscode\Contracts\Encryption\Encrypter::class],
             'files'         => [\Syscode\Filesystem\Filesystem::class],
             'log'           => [\Syscode\Log\LogManager::class, \Psr\Log\LoggerInterface::class],
             'redirect'      => [\Syscode\Routing\Redirector::class],
