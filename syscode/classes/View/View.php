@@ -116,7 +116,7 @@ class View implements ViewContract
 		}
 
 		// Add the values to the current data
-		$this->data = $data + $this->data;
+		$this->data = (array) $data;
 
 		// Add the file extension
 		$this->extension = $extension ?: (new Extension)->get();
@@ -201,7 +201,7 @@ class View implements ViewContract
 		} 
 		else 
 		{
-			$this->data = [$key => $value];
+			$this->data[$key] = $value;
 		}
 
 		return $this;
@@ -312,7 +312,7 @@ class View implements ViewContract
 	 */
 	public function getData(array $data = [])
 	{
-		return $this->data = $data ?: $this->data;
+		return array_merge($data, $this->data);
 	}
 
 	/**
@@ -401,7 +401,7 @@ class View implements ViewContract
 	 *
 	 * @throws \Syscode\View\Exceptions\ViewException
 	 */
-	public function make($file = null, $data = []) 
+	public function make($file, $data = []) 
 	{
 		try
 		{
@@ -411,7 +411,7 @@ class View implements ViewContract
 				$this->filename = $this-> resolverPath($file);
 			}
 	
-			$this->getData($data);
+			$this->data = $this->getData($data);
 				
 			// Combine local and global data and capture the output
 			return $this->capture();
@@ -645,7 +645,7 @@ class View implements ViewContract
 	 */
 	public function __toString() 
 	{
-		return $this->make();
+		return $this->make($this->filename, $this->data);
 	}
 
 	/**
