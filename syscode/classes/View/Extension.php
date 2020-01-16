@@ -34,7 +34,7 @@ class Extension
 	/**
 	 * The file extension.
 	 *
-	 * @var string|null $extension
+	 * @var array $extension
 	 */
 	protected $extension = ['plaze.php', 'php'];
 	
@@ -43,7 +43,10 @@ class Extension
 	 *
 	 * @var array $extensions
 	 */
-	protected $fileExtensions = ['plaze.php' => 'plaze', 'php' => 'php'];
+	protected $extensions = [
+		'plaze.php' => 'plaze', 
+		'php' => 'php'
+	];
 
 	/**
 	 * Constructor. Create new FileExtension instance.
@@ -66,7 +69,7 @@ class Extension
 	 */
 	public function set($extension)
 	{
-		foreach ($this->fileExtensions as $key => $value) 
+		foreach ($this->extensions as $key => $value) 
 		{
 			if ($value === $extension)
 			{
