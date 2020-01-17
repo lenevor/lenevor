@@ -404,10 +404,10 @@ header:hover h2 {
 
 .frame-container-scroll {
     background: var(--main-bg-color);
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
     box-shadow: 0 -1px 0 var(--gray-300), 
                 -1px 1px 0 var(--gray-300), 
                 0 -1px 0 var(--gray-300), 
