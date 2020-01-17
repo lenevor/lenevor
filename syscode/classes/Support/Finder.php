@@ -103,7 +103,7 @@ class Finder
      *
      * @return mixed        Path, or paths, or false
      */
-    public static function search(string $file = null, $directory, $extension = null)
+    public static function search(string $file = null, string $directory, $extension = null)
     {
         return static::instance()->locate($file, $directory, $extension);
     }
