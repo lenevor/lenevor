@@ -210,6 +210,7 @@ return [
     'Syscode\\Translation\\TranslationServiceProvider' => SYS_PATH.'classes/Translation/TranslationServiceProvider.php',
     'Syscode\\Translation\\Translator' => SYS_PATH.'classes/Translation/Translator.php',
     'Syscode\\Version' => SYS_PATH.'classes/Version/Version.php',
+    'Syscode\\View\\Engines\\EngineResolver' => SYS_PATH.'classes/View/Engines/EngineResolver.php',
     'Syscode\\View\\Establishes\\ManagesLayouts' => SYS_PATH.'classes/View/Establishes/ManagesLayouts.php',
     'Syscode\\View\\Exceptions\\ViewException' => SYS_PATH.'classes/View/Exceptions/ViewException.php',
     'Syscode\\View\\Extensions' => SYS_PATH.'classes/View/Extensions.php',
