@@ -41,9 +41,9 @@ interface ViewFinder
     /**
      * Get the complete location of the view.
      * 
-     * @param  string  $view
+     * @param  string  $name
      *
      * @return string
      */
-    public function find($view);
+    public function find($name);
 }
