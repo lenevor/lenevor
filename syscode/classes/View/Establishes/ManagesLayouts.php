@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.6.0
  */
 
 namespace Syscode\View\Establishes;
@@ -31,6 +31,39 @@ namespace Syscode\View\Establishes;
  */
 trait ManagesLayouts
 {
+	/**
+	 * Empty default block to be extended by child templates.
+	 *
+	 * @var array $blocks
+	 */
+	protected $blocks = [];
+
+	/**
+	 * Extend a parent template.
+	 *
+	 * @var string $extend
+	 */
+	protected $extend;
+
+	/**
+	 * Started blocks.
+	 *
+	 * @var array $sections
+	 */
+	protected $sections = [];
+
+	/**
+	 * Extending a view.
+	 *
+	 * @param  string  $layout
+	 *
+	 * @return string
+	 */
+	public function extend($layout)
+	{
+		$this->extend = $layout;
+	}
+
     /**
 	 * Give sections the page view from the master page.
 	 *
@@ -46,23 +79,6 @@ trait ManagesLayouts
 	}
 
 	/**
-	 * Include another view in a view.
-	 *
-	 * @param  string  $file
-	 * @param  array   $data
-	 *
-	 * @return string
-	 */
-	public function insert($file, array $data = [])
-	{
-		$path = $this->finder->find($file);
-
-		extract($data, EXTR_SKIP);
-		
-		include $path;
-    }
-    
-    /**
 	 * Alias of @parent.
 	 *
 	 * @return string
@@ -94,25 +110,34 @@ trait ManagesLayouts
 	}
 
 	/**
+	 * Include another view in a view.
+	 *
+	 * @param  string  $file
+	 * @param  array   $data
+	 *
+	 * @return string
+	 */
+	public function insert($file, array $data = [])
+	{
+		$path = $this->finder->find($file);
+
+		extract($data, EXTR_SKIP);
+		
+		include $path;
+    }
+    
+    /**
 	 * Starting section.
 	 *
 	 * @param  string  $section
 	 *
 	 * @return array
 	 */
-	public function section($section, $content = null)
+	public function section($section)
 	{
-		if (null === $content)
-		{
-			if (ob_start())
-			{
-				$this->sections[] = $section;
-			}
-		}
-		else
-		{
-			$this->sections[$section] = e($content);
-		}		
+		$this->sections[] = $section;
+		
+		ob_start();
     }
     
     /**
@@ -142,7 +167,7 @@ trait ManagesLayouts
 
 		if ( ! array_key_exists($sections, $this->blocks))
 		{
-			$this->blocks[$sections] = [];
+		 	$this->blocks[$sections] = [];
 		}
 
 		$this->blocks[$sections][] = ob_get_clean();
