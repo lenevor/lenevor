@@ -25,9 +25,9 @@
 namespace Syscode\View;
 
 use Syscode\Support\Finder;
-use InvalidArgumentException;
 use Syscode\Filesystem\Filesystem;
 use Syscode\Contracts\View\ViewFinder;
+use Syscode\View\Exceptions\ViewException;
 
 /**
  * Allows location of a view.
@@ -36,12 +36,7 @@ use Syscode\Contracts\View\ViewFinder;
  */
 class FileViewFinder implements ViewFinder
 {
-    /**
-	 * The file extension.
-	 *
-	 * @var array $extensions
-	 */
-    protected $extensions = ['plaze.php', 'php'];
+    use Extensions;
     
     /**
      * The filesystem instance.
@@ -61,7 +56,6 @@ class FileViewFinder implements ViewFinder
      * Constructor. Create a new FileViewFinder class instance.
      * 
      * @param  \Syscode\Filesystem\Filesystem  $files
-     * @param  array  $paths
      * @param  array|null $extensions  (null by default) 
      * 
      * @return void
@@ -77,10 +71,10 @@ class FileViewFinder implements ViewFinder
     }
 
     /**
-     * Get the location of the view.
+     * Get the complete location of the view.
      * 
-     * @param  string  $views
-     * 
+     * @param  string  $name
+     *
      * @return string
      */
     public function find($name)
@@ -112,7 +106,7 @@ class FileViewFinder implements ViewFinder
             }
         }        
         
-        throw new InvalidArgumentException("View [{$name}] not found.");
+        throw new ViewException(__('view.notFound', ['file' => $name]));
     }
 
     /**
@@ -127,6 +121,6 @@ class FileViewFinder implements ViewFinder
         return array_map(function ($extension) use ($name)
         {
             return Finder::search($name, 'views', $extension);   
-        }, $this->extensions);
+        }, $this->getExtensions());
     }
 }
