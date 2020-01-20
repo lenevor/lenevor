@@ -8,7 +8,7 @@
 		
 		<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1">
 		
-		<title><?= config('app.name') ?></title>
+		<title><?= $this->giveContent('title') ?></title>
 		
 		<!-- Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -24,7 +24,7 @@
 
 		<?= $this->insert('partials::header') ?>
 
-		<?= $this->give('content') ?>
+		<?= $this->giveContent('content') ?>
 
 		<script>
 			<?= preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(resourcePath('js/menu.js'))) ?>
