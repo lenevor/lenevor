@@ -24,11 +24,11 @@
 
 namespace Syscode\View\Exceptions;
 
-use Syscode\Core\Http\Exceptions\LenevorException;
+use InvalidArgumentException;
 
 /**
  * ViewException.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class ViewException extends LenevorException {}
+class ViewException extends InvalidArgumentException {}
