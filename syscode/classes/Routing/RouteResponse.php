@@ -55,7 +55,7 @@ class RouteResponse implements ResponseContract
     /**
      * Constructor. Create a new RouteResponse instance.
      * 
-     * @param  Syscode\Contracts\View\View  $view
+     * @param  \Syscode\Contracts\View\View  $view
      * @param  \Syscode\Routing\Redirector  $redirector
      * 
      * @return void  
