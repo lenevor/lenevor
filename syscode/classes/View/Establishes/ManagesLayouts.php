@@ -24,6 +24,9 @@
 
 namespace Syscode\View\Establishes;
 
+use InvalidArgumentException;
+use Syscode\Contracts\View\View;
+
 /**
  * Trait ManagesLayouts.
  * 
@@ -32,13 +35,6 @@ namespace Syscode\View\Establishes;
 trait ManagesLayouts
 {
 	/**
-	 * Empty default block to be extended by child templates.
-	 *
-	 * @var array $blocks
-	 */
-	protected $blocks = [];
-
-	/**
 	 * Extend a parent template.
 	 *
 	 * @var string $extend
@@ -46,11 +42,25 @@ trait ManagesLayouts
 	protected $extend;
 
 	/**
+	 * Extend data.
+	 * 
+	 * @var array $extendData
+	 */
+	protected $extendData = [];
+
+	/**
 	 * Started blocks.
 	 *
 	 * @var array $sections
 	 */
 	protected $sections = [];
+	
+	/**
+	 * The stack of in-progress sections.
+	 * 
+	 * @var array $sectionStack
+     */
+    protected $sectionStack = [];
 
 	/**
 	 * Extending a view.
@@ -59,54 +69,150 @@ trait ManagesLayouts
 	 *
 	 * @return string
 	 */
-	public function extend($layout)
+	public function extends($layout, $data = [])
 	{
-		$this->extend = $layout;
+		$this->extend     = $layout;
+		$this->extendData = $data;
+	}
+    
+    /**
+	 * Starting section.
+	 *
+	 * @param  string  $section
+	 * @param  string|null  $content  (null by default)
+	 *
+	 * @return array
+	 */
+	public function beginSection($section, $content = null)
+	{
+		if (null === $content)
+		{
+			$this->sectionStack[] = $section;
+			
+			ob_start();
+			
+		}
+		else
+		{
+			$this->extendSection($section, $content instanceof View ? $content : e($content));
+		}
 	}
 
+	/**
+	 * Append content to a given section.
+	 * 
+	 * @param  string  $section
+	 * @param  string  $content
+	 * 
+	 * @return void
+	 */
+	protected function extendSection($section, $content)
+	{
+		if (isset($this->sections[$section]))
+		{
+			$content = str_replace('@@parent', $content, $this->sections[$section]);
+		}
+
+		$this->sections[$section] = $content;
+	}
+    
     /**
+	 * Close and printing section.
+	 * 
+	 * @return string
+	 */
+	public function showSection()
+	{
+		return $this->giveContent($this->stopSection());
+	}
+	
+	/**
+	 * Closing section.
+	 * 
+	 * @param  bool  $overwrite  (false by default)
+	 *
+	 * @return mixed
+	 * 
+	 * @throws \InvalidArgumentException
+	 */
+	public function stopSection($overwrite = false)	
+	{
+		if (empty($this->sectionStack))
+		{
+			throw new InvalidArgumentException('You cannot finish a section without first starting with one.');
+		}
+
+		$last = array_pop($this->sectionStack);
+
+		if ($overwrite)
+		{
+			$this->sections[$last] = ob_get_clean();
+		}
+		else
+		{
+			$this->extendSection($last, ob_get_clean());
+		}
+
+		return $last;
+	}
+
+	/**
+	 * Stop injecting content into a section and append it.
+	 * 
+	 * @return string
+	 * 
+	 * @throws \InvalidArgumentException
+	 */
+	public function appendSection()
+	{
+		if (empty($this->sectionStack))
+		{
+			throw new InvalidArgumentException('You cannot finish a section without first starting with one.');
+		}
+
+		$last = array_pop($this->sectionStack);
+
+		if (isset($this->sections[$last]))
+		{
+			$this->sections[$last] .= ob_get_clean();
+		}
+		else
+		{
+			$this->sections[$last] = ob_get_clean();
+		}
+
+		return $last;
+	}
+
+	/**
+	 * Check if section exists.
+	 * 
+	 * @param  string  $name
+	 * 
+	 * @return bool
+	 */
+	public function hasSection($name)
+	{
+		return array_key_exists($name, $this->sections);
+	}
+
+	/**
 	 * Give sections the page view from the master page.
 	 *
 	 * @param  string  $name
 	 *
 	 * @return string
 	 */
-	public function give($name)
+	public function giveContent($name, $default = '')
 	{
-		$stacks = array_key_exists($name, $this->blocks) ? $this->blocks[$name] : null;
+		$sectionContent = $default instanceof View ? $default : e($default);
 
-		return $stacks ? $this->renderStacks($stacks) : '';
-	}
-
-	/**
-	 * Alias of @parent.
-	 *
-	 * @return string
-	 */
-	public function parent()
-	{
-		return '@parent';
-	}
-
-	/**
-	 * Render block stacks.
-	 *
-	 * @param  array  $stacks
-	 *
-	 * @return mixed
-	 */
-	protected function renderStacks(array $stacks)
-	{
-		$current = array_pop($stacks);
-
-		if (count($stacks)) 
+		if (isset($this->sections[$name]))
 		{
-	   		return str_replace('@parent', $current, $this->renderStacks($stacks));
-		} 
-		else 
-		{
-	    	return $current;
+			$sectionContent = $this->sections[$name];
 		}
+
+		return str_replace('@@parent', '', $sectionContent);
 	}
 
 	/**
@@ -124,52 +230,16 @@ trait ManagesLayouts
 		extract($data, EXTR_SKIP);
 		
 		include $path;
-    }
-    
-    /**
-	 * Starting section.
-	 *
-	 * @param  string  $section
-	 *
-	 * @return array
-	 */
-	public function section($section)
-	{
-		$this->sections[] = $section;
-		
-		ob_start();
-    }
-    
-    /**
-	 * Close and printing section.
-	 * 
-	 * @return string
-	 */
-	public function show()
-	{
-		$section = $this->sections[count($this->sections)-1];
-
-		$this->stop();
-
-		echo $this->give($section);
 	}
 	
 	/**
-	 * Closing section.
-	 *
-	 * @param  array|string  $blockName
-	 *
-	 * @return mixed
+	 * Flush all of the section contents.
+	 * 
+	 * @return void
 	 */
-	public function stop()	
+	public function flushSections()
 	{
-		$sections = array_pop($this->sections);
-
-		if ( ! array_key_exists($sections, $this->blocks))
-		{
-		 	$this->blocks[$sections] = [];
-		}
-
-		$this->blocks[$sections][] = ob_get_clean();
+		$this->sections     = [];
+		$this->sectionStack = [];
 	}
 }
