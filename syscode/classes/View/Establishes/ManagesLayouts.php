@@ -231,6 +231,16 @@ trait ManagesLayouts
 		
 		include $path;
 	}
+
+	/**
+	 * Get the entire array of sections.
+	 * 
+	 * @return array
+	 */
+	public function getSections()
+	{
+		return $this->sections;
+	}
 	
 	/**
 	 * Flush all of the section contents.
