@@ -26,10 +26,8 @@ namespace Syscode\View;
 
 use Exception;
 use Traversable;
-use Syscode\Support\Finder;
 use InvalidArgumentException;
 use Syscode\Contracts\Core\Http\Lenevor;
-use Syscode\View\Exceptions\ViewException;
 use Syscode\Contracts\View\View as ViewContract;
 use Syscode\Core\Http\Exceptions\LenevorException;
 
@@ -40,19 +38,14 @@ use Syscode\Core\Http\Exceptions\LenevorException;
  */
 class View implements ViewContract
 {
+	use Establishes\ManagesLayouts;
+	
 	/**
 	 * Array of global variables.
 	 * 
 	 * @var array $globalData
 	 */
 	protected static $globalData = [];
-
-	/**
-	 * Empty default block to be extended by child templates.
-	 *
-	 * @var array $blocks
-	 */
-	protected $blocks = [];
 
 	/**
 	 * Array of local variables.
@@ -62,64 +55,34 @@ class View implements ViewContract
 	protected $data = [];
 
 	/**
-	 * Extend a parent template.
-	 *
-	 * @var string $extend
+	 * The view finder implementation.
+	 * 
+	 * @var \Syscode\View\FileViewFinder $finder
 	 */
-	protected $extend;
+	protected $finder;
 
 	/**
-	 * The extension to engine bindings.
+	 * Set the view.
 	 *
-	 * @var string $extension
+	 * @var string $view
 	 */
-	protected $extension;
-
-	/**
-	 * Set the view filename.
-	 *
-	 * @var string $filename
-	 */
-	protected $filename;
-
-	/**
-	 * Started blocks.
-	 *
-	 * @var array $sections
-	 */
-	protected $sections = [];
+	protected $view;
 
 	/**
 	 * Constructor: Call the file and your data.
 	 *
-	 * @example $view = new View($file);
 	 * 
-	 * @param  string|null  $file  View filename
-	 * @param  array        $data  Array of values
-	 * @param  string|null  $extension
+	 * @param  \Syscode\View\FileViewFinder  $finder
 	 *
 	 * @return void
 	 *
 	 * @throws \InvalidArgumentException
 	 */
-	public function __construct($file = null, $data = [], $extension = null)
+	public function __construct(FileViewFinder $finder, $view = null, $data = [])
 	{
-		$this->filename = $file;
-		
-		if (is_object($data) === true)
-		{
-			$data = get_object_vars($data);
-		}
-		elseif ($data AND ! is_array($data))
-		{
-			throw new InvalidArgumentException(__('view.dataObjectArray'));
-		}
-
-		// Add the values to the current data
-		$this->data = (array) $data;
-
-		// Add the file extension
-		$this->extension = $extension ?: (new Extension)->get();
+		$this->finder = $finder;
+		$this->view   = $view;
+		$this->data   = $this->getData($data);
 	}
 
 	/**
@@ -140,19 +103,18 @@ class View implements ViewContract
 
 	/**
 	 * Returns a new View object. If you do not define the "file" parameter, 
-	 * you must call [View::setFilename].
+	 * you must call [View::setview].
 	 *
-	 * @example View::render($file, $data, $extension);
+	 * @example View::render($file, $data);
 	 *
-	 * @param  string       $file       View filename
+	 * @param  string       $file       View view
 	 * @param  array        $data       Array of values
-	 * @param  string|null  $extension  String extension
 	 * 
 	 * @return void
 	 */
-	public static function render($file = null, array $data = [], $extension = null)
+	public static function render($file = null, array $data = [])
 	{
-		return new static($file, $data, $extension);
+		return self::make($file, $data);
 	}
 
 	/**
@@ -238,7 +200,7 @@ class View implements ViewContract
 	 *
 	 * @throws \Exception
 	 */
-	protected function capture($override = false)
+	public function capture($override = false)
 	{	
 		$cleanRender = function($__file, array $__data)
 		{
@@ -268,7 +230,7 @@ class View implements ViewContract
 
 					$this->extend = null;
 
-					$output = $this->make($extendView, $__data);
+					$output = $this->make($extendView, array_merge($__data, $this->extendData));
 				}
 			}
 			catch (Exception $e)
@@ -284,23 +246,9 @@ class View implements ViewContract
 			return $output;
 		};
 
-		$result = $cleanRender($override ?: $this->filename, $this->data);
+		$result = $cleanRender($override ?: $this->view, $this->data);
 		
 		return $result;
-	}
-
-	/**
-	 * Extending a view.
-	 *
-	 * @param  string  $layout
-	 *
-	 * @return string
-	 */
-	public function extend($layout)
-	{
-		$this->extend = $layout;
-
-		ob_start();
 	}
 
 	/**
@@ -313,6 +261,57 @@ class View implements ViewContract
 	public function getData(array $data = [])
 	{
 		return array_merge($data, $this->data);
+	}
+
+	/**
+	 * Global and local data are merged and extracted to create local variables within the view file.
+	 * Renders the view object to a string.
+	 *
+	 * @example $output = $view->make();
+	 *
+	 * @param  string  $file  View view  (null by default)
+	 * @param  array   $data  Array of values
+	 *
+	 * @return string
+	 *
+	 * @throws \Syscode\View\Exceptions\ViewException
+	 */
+	public function make($file = null, $data = []) 
+	{
+		try
+		{
+			// Override the view view if needed
+			$this->view = $this->finder->find($file);
+			$this->data = $this->getData($data);
+				
+			// Combine local and global data and capture the output
+			return $this->capture();
+		}
+		catch(Exception $e)
+		{
+			throw $e;
+		}
+	}
+
+	/**
+	 * Check existance view file.
+	 * 
+	 * @param  string  $file
+	 *
+	 * @return bool
+	 */
+	public function viewExists($file)
+	{
+		try 
+		{
+			$this->finder->find($file);
+		}
+		catch(InvalidArgumentException $e)
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -356,163 +355,6 @@ class View implements ViewContract
 	}
 
 	/**
-	 * Give sections the page view from the master page.
-	 *
-	 * @param  string  $blockName
-	 *
-	 * @return string
-	 */
-	public function give($blockName)
-	{
-		$stacks = array_key_exists($blockName, $this->blocks) ? $this->blocks[$blockName] : null;
-
-		return $stacks ? $this->renderStacks($stacks) : '';
-	}
-
-	/**
-	 * Include another view in a view.
-	 *
-	 * @param  string  $file
-	 * @param  array   $data
-	 *
-	 * @return string
-	 */
-	public function insert($file, array $data = [])
-	{
-		$this->has($file);
-
-		$path = $this->resolverPath($file);
-
-		extract($data, EXTR_SKIP);
-		
-		include $path;
-	}
-
-	/**
-	 * Global and local data are merged and extracted to create local variables within the view file.
-	 * Renders the view object to a string.
-	 *
-	 * @example $output = $view->make();
-	 *
-	 * @param  string  $file  View filename
-	 * @param  array   $data  Array of values
-	 *
-	 * @return string
-	 *
-	 * @throws \Syscode\View\Exceptions\ViewException
-	 */
-	public function make($file, $data = []) 
-	{
-		try
-		{
-			// Override the view filename if needed
-			if ($this->has($file))
-			{
-				$this->filename = $this-> resolverPath($file);
-			}
-	
-			$this->data = $this->getData($data);
-				
-			// Combine local and global data and capture the output
-			return $this->capture();
-		}
-		catch(Exception $e)
-		{
-			throw $e;
-		}
-	}
-
-	/**
-	 * Check existance view file.
-	 * 
-	 * @param  string  $file
-	 *
-	 * @return true
-	 *
-	 * @throws \Syscode\View\Exceptions\ViewException
-	 */
-	protected function has($file)
-	{
-		if ( ! $this->viewExists($file)) 
-		{
-			throw new ViewException(__('view.notFound', ['file' => $file]));
-		}
-
-		return true;
-	}
-
-	/**
-	 * Check existance view file.
-	 * 
-	 * @param  string  $file
-	 *
-	 * @return bool
-	 */
-	public function viewExists($file)
-	{
-		$file = $this->resolverPath($file);
-
-		return is_file($file);
-	}
-
-	/**
-	 * Alias of @parent.
-	 *
-	 * @return string
-	 */
-	public function parent()
-	{
-		return '@parent';
-	}
-
-	/**
-	 * Render block stacks.
-	 *
-	 * @param  array  $stacks
-	 *
-	 * @return mixed
-	 */
-	protected function renderStacks(array $stacks)
-	{
-		$current = array_pop($stacks);
-
-		if (count($stacks)) 
-		{
-	   		return str_replace('@parent', $current, $this->renderStacks($stacks));
-		} 
-		else 
-		{
-	    	return $current;
-		}
-	}
-
-	/**
-	 * Resolve view directory.
-	 *
-	 * @param  string  $file
-	 *
-	 * @return string  The view directory
-	 */
-	public function resolverPath($file)
-	{
-		return Finder::search($file, 'views', $this->extension);
-	}
-
-	/**
-	 * Starting section.
-	 *
-	 * @param  string  $blockName
-	 *
-	 * @return array
-	 */
-	public function section($blockName)
-	{
-		$this->sections[] = $blockName;
-
-		ob_start();
-	}
-
-	/**
 	 * Assigns a variable by name. Assigned values will be available as a
 	 * variable within the view file:
 	 *
@@ -548,41 +390,6 @@ class View implements ViewContract
 		}
 
 		return $this;
-	}
-
-	/**
-	 * Close and printing section.
-	 *
-	 * @param  string  $blockName
-	 * 
-	 * @return string
-	 */
-	public function show()
-	{
-		$blockName = $this->sections[count($this->sections)-1];
-
-		$this->stop();
-
-		echo $this->give($blockName);
-	}
-	
-	/**
-	 * Closing section.
-	 *
-	 * @param  array|string  $blockName
-	 *
-	 * @return mixed
-	 */
-	public function stop()	
-	{
-		$blockName = array_pop($this->sections);
-
-		if ( ! array_key_exists($blockName, $this->blocks))
-		{
-			$this->blocks[$blockName] = [];
-		}
-
-		$this->blocks[$blockName][] = ob_get_clean();
 	}	
 
 	/**
@@ -645,7 +452,7 @@ class View implements ViewContract
 	 */
 	public function __toString() 
 	{
-		return $this->make($this->filename, $this->data);
+		return $this->make();
 	}
 
 	/**
