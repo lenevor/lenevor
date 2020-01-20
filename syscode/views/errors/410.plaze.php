@@ -1,19 +1,7 @@
-<?= $this->extend('errors::layout') ?>
+<?= $this->extends('errors::layout') ?>
 
-<?= $this->section('title') ?>
+<?= $this->beginSection('title', 'Gone') ?>
 
-		<title><?= __('Gone') ?></title>
+<?= $this->beginSection('code', 410) ?>
 
-<?= $this->stop() ?>
-
-<?= $this->section('code') ?>
-
-			<h1>410</h1>
-
-<?= $this->stop() ?>
-
-<?= $this->section('message') ?>
-
-			<?= __('Gone') ?>
-
-<?= $this->stop() ?>
+<?= $this->beginSection('message', 'Gone') ?>

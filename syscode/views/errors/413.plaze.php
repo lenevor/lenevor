@@ -1,19 +1,7 @@
-<?= $this->extend('errors::layout') ?>
+<?= $this->extends('errors::layout') ?>
 
-<?= $this->section('title') ?>
+<?= $this->beginSection('title', 'Request Entity Too Large') ?>
 
-		<title><?= __('Request Entity Too Large') ?></title>
+<?= $this->beginSection('code', 413) ?>
 
-<?= $this->stop() ?>
-
-<?= $this->section('code') ?>
-
-			<h1>413</h1>
-
-<?= $this->stop() ?>
-
-<?= $this->section('message') ?>
-
-			<?= __('Request Entity Too Large') ?>
-
-<?= $this->stop() ?>
+<?= $this->beginSection('message', 'Request Entity Too Large') ?>

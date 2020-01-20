@@ -1,19 +1,7 @@
-<?= $this->extend('errors::layout') ?>
+<?= $this->extends('errors::layout') ?>
 
-<?= $this->section('title') ?>
+<?= $this->beginSection('title', 'Too Many Requests') ?>
 
-		<title><?= __('Too Many Requests') ?></title>
+<?= $this->beginSection('code', 429) ?>
 
-<?= $this->stop() ?>
-
-<?= $this->section('code') ?>
-
-			<h1>429</h1>
-
-<?= $this->stop() ?>
-
-<?= $this->section('message') ?>
-
-			<?= __('Too Many Requests') ?>
-
-<?= $this->stop() ?>
+<?= $this->beginSection('message', 'Too Many Requests') ?>

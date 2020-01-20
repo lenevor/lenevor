@@ -1,19 +1,7 @@
-<?= $this->extend('errors::layout') ?>
+<?= $this->extends('errors::layout') ?>
 
-<?= $this->section('title') ?>
+<?= $this->beginSection('title', 'Service Unavailable') ?>
 
-		<title><?= __('Service Unavailable') ?></title>
+<?= $this->beginSection('code', 503) ?>
 
-<?= $this->stop() ?>
-
-<?= $this->section('code') ?>
-
-				<h1>503</h1>
-
-<?= $this->stop() ?>
-
-<?= $this->section('message') ?>
-
-				<?= __($exception->getMessage() ?: 'Service Unavailable') ?>
-
-<?= $this->stop() ?>
+<?= $this->beginSection('message', $exception->getMessage() ?: 'Service Unavailable') ?>

@@ -1,19 +1,7 @@
-<?= $this->extend('errors::layout') ?>
+<?= $this->extends('errors::layout') ?>
 
-<?= $this->section('title') ?>
+<?= $this->beginSection('title', 'Page Expired') ?>
 
-		<title><?= __('Page Expired') ?></title>
+<?= $this->beginSection('code', 419) ?>
 
-<?= $this->stop() ?>
-
-<?= $this->section('code') ?>
-
-			<h1>419</h1>
-
-<?= $this->stop() ?>
-
-<?= $this->section('message') ?>
-
-			<?= __('Page Expired') ?>
-
-<?= $this->stop() ?>
+<?= $this->beginSection('message', 'Page Expired') ?>

@@ -1,19 +1,7 @@
-<?= $this->extend('errors::layout') ?>
+<?= $this->extends('errors::layout') ?>
 
-<?= $this->section('title') ?>
+<?= $this->beginSection('title', 'Unprocessable Entity') ?>
 
-		<title><?= __('Unprocessable Entity') ?></title>
+<?= $this->beginSection('code', 422) ?>
 
-<?= $this->stop() ?>
-
-<?= $this->section('code') ?>
-
-			<h1>422</h1>
-
-<?= $this->stop() ?>
-
-<?= $this->section('message') ?>
-
-			<?= __('Unprocessable Entity') ?>
-
-<?= $this->stop() ?>
+<?= $this->beginSection('message', 'Unprocessable Entity') ?>

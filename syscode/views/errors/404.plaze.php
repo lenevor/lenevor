@@ -1,19 +1,7 @@
-<?= $this->extend('errors::layout') ?>
+<?= $this->extends('errors::layout') ?>
 
-<?= $this->section('title') ?>
+<?= $this->beginSection('title', 'Not Found') ?>
 
-		<title><?= __('Not Found') ?></title>
+<?= $this->beginSection('code', 404) ?>
 
-<?= $this->stop() ?>
-
-<?= $this->section('code') ?>
-
-			<h1>404</h1>
-
-<?= $this->stop() ?>
-
-<?= $this->section('message') ?>
-
-			<?= __('Not Found') ?>
-
-<?= $this->stop() ?>
+<?= $this->beginSection('message', 'Not Found') ?>

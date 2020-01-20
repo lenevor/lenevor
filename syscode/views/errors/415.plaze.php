@@ -1,19 +1,7 @@
-<?= $this->extend('errors::layout') ?>
+<?= $this->extends('errors::layout') ?>
 
-<?= $this->section('title') ?>
+<?= $this->beginSection('title', 'Unsupported Media Type') ?>
 
-		<title><?= __('Unsupported Media Type') ?></title>
+<?= $this->beginSection('code', 415) ?>
 
-<?= $this->stop() ?>
-
-<?= $this->section('code') ?>
-
-			<h1>415</h1>
-
-<?= $this->stop() ?>
-
-<?= $this->section('message') ?>
-
-			<?= __('Unsupported Media Type') ?>
-
-<?= $this->stop() ?>
+<?= $this->beginSection('message', 'Unsupported Media Type') ?>

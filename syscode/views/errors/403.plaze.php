@@ -1,19 +1,7 @@
-<?= $this->extend('errors::layout') ?>
+<?= $this->extends('errors::layout') ?>
 
-<?= $this->section('title') ?>
+<?= $this->beginSection('title', 'Forbidden') ?>
 
-		<title><?= __('Forbidden') ?></title>
+<?= $this->beginSection('code', 403) ?>
 
-<?= $this->stop() ?>
-
-<?= $this->section('code') ?>
-
-				<h1>403</h1>
-
-<?= $this->stop() ?>
-
-<?= $this->section('message') ?>
-
-				<?= __($exception->getMessage() ?: 'Forbidden') ?>
-
-<?= $this->stop() ?>
+<?= $this->beginSection('message', $exception->getMessage() ?: 'Forbidden') ?>

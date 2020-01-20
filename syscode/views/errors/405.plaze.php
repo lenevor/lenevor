@@ -1,19 +1,7 @@
-<?= $this->extend('errors::layout') ?>
+<?= $this->extends('errors::layout') ?>
 
-<?= $this->section('title') ?>
+<?= $this->beginSection('title', 'Method Not Allowed') ?>
 
-		<title><?= __('Method Not Allowed') ?></title>
+<?= $this->beginSection('code', 405) ?>
 
-<?= $this->stop() ?>
-
-<?= $this->section('code') ?>
-
-			<h1>405</h1>
-
-<?= $this->stop() ?>
-
-<?= $this->section('message') ?>
-
-			<?= __('Method Not Allowed') ?>
-
-<?= $this->stop() ?>
+<?= $this->beginSection('message', 'Method Not Allowed') ?>

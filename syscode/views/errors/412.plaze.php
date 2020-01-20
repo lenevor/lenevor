@@ -1,19 +1,7 @@
-<?= $this->extend('errors::layout') ?>
+<?= $this->extends('errors::layout') ?>
 
-<?= $this->section('title') ?>
+<?= $this->beginSection('title', 'Precondition Failed') ?>
 
-		<title><?= __('Precondition Failed') ?></title>
+<?= $this->beginSection('code', 412) ?>
 
-<?= $this->stop() ?>
-
-<?= $this->section('code') ?>
-
-			<h1>412</h1>
-
-<?= $this->stop() ?>
-
-<?= $this->section('message') ?>
-
-			<?= __('Precondition Failed') ?>
-
-<?= $this->stop() ?>
+<?= $this->beginSection('message', 'Precondition Failed') ?> 

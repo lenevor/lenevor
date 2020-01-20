@@ -1,19 +1,7 @@
-<?= $this->extend('errors::layout') ?>
+<?= $this->extends('errors::layout') ?>
 
-<?= $this->section('title') ?>
+<?= $this->beginSection('title', 'Conflict') ?>
 
-		<title><?= __('Conflict') ?></title>
+<?= $this->beginSection('code', 409) ?>
 
-<?= $this->stop() ?>
-
-<?= $this->section('code') ?>
-
-			<h1>409</h1>
-
-<?= $this->stop() ?>
-
-<?= $this->section('message') ?>
-
-			<?= __('Conflict') ?>
-
-<?= $this->stop() ?>
+<?= $this->beginSection('message', 'Conflict') ?>

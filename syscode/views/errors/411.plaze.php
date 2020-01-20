@@ -1,19 +1,7 @@
-<?= $this->extend('errors::layout') ?>
+<?= $this->extends('errors::layout') ?>
 
-<?= $this->section('title') ?>
+<?= $this->beginSection('title', 'Length Required') ?>
 
-		<title><?= __('Length Required') ?></title>
+<?= $this->beginSection('code', 411) ?>
 
-<?= $this->stop() ?>
-
-<?= $this->section('code') ?>
-
-			<h1>411</h1>
-
-<?= $this->stop() ?>
-
-<?= $this->section('message') ?>
-
-			<?= __('Length Required') ?>
-
-<?= $this->stop() ?>
+<?= $this->beginSection('message', 'Length Required') ?>

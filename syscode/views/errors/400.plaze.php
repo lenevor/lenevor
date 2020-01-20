@@ -1,19 +1,7 @@
-<?= $this->extend('errors::layout') ?>
+<?= $this->extends('errors::layout') ?>
 
-<?= $this->section('title') ?>
+<?= $this->beginSection('title', 'Bad Request') ?>
 
-		<title><?= __('Bad Request') ?></title>
+<?= $this->beginSection('code', 400) ?>
 
-<?= $this->stop() ?>
-
-<?= $this->section('code') ?>
-
-				<h1>400</h1>
-
-<?= $this->stop() ?>
-
-<?= $this->section('message') ?>
-
-				<?= __('Bad Request') ?>
-
-<?= $this->stop() ?>
+<?= $this->beginSection('message', 'Bad Request') ?>

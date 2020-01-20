@@ -8,7 +8,7 @@
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<?= $this->give('title') ?>
+		<title><?= __($this->giveContent('title')) ?></title>
 
 		<!-- Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
@@ -24,11 +24,11 @@
 		<div class="flex-center full-height">
 		
 			<div class="code">
-				<?= $this->give('code') ?>
+				<h1><?= $this->giveContent('code') ?></h1>
 			</div>
 			
 			<div class="message" style="padding: 10px;">
-				<?= $this->give('message') ?>
+				<?= __($this->giveContent('message')) ?>
 			</div>
 			
 		</div>

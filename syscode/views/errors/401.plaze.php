@@ -1,19 +1,7 @@
-<?= $this->extend('errors::layout') ?>
+<?= $this->extends('errors::layout') ?>
 
-<?= $this->section('title') ?>
+<?= $this->beginSection('title', 'Unauthorized') ?>
 
-		<title><?= __('Unauthorized') ?></title>
+<?= $this->beginSection('code', 401) ?>
 
-<?= $this->stop() ?>
-
-<?= $this->section('code') ?>
-
-				<h1>401</h1>
-
-<?= $this->stop() ?>
-
-<?= $this->section('message') ?>
-
-				<?= __('Unauthorized') ?>
-
-<?= $this->stop() ?>
+<?= $this->beginSection('message', 'Unauthorized') ?>

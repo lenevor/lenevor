@@ -1,19 +1,7 @@
-<?= $this->extend('errors::layout') ?>
+<?= $this->extends('errors::layout') ?>
 
-<?= $this->section('title') ?>
+<?= $this->beginSection('title', 'Internal Server Error') ?>
 
-		<title><?= __('Internal Server Error') ?></title>
+<?= $this->beginSection('code', 500) ?>
 
-<?= $this->stop() ?>
-
-<?= $this->section('code') ?>
-
-				<h1>500</h1>
-
-<?= $this->stop() ?>
-
-<?= $this->section('message') ?>
-
-				<?= __('Internal Server Error') ?>
-
-<?= $this->stop() ?>
+<?= $this->beginSection('message', 'Internal Server Error') ?>
