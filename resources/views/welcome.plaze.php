@@ -1,6 +1,8 @@
-<?= $this->extend('layouts::app') ?>
+<?= $this->extends('layouts::app') ?>
 
-<?= $this->section('content') ?>
+<?= $this->beginSection('title', config('app.name')) ?>
+
+<?= $this->beginSection('content') ?>
 
 		<div class="content">
 
@@ -27,4 +29,4 @@
 		  
 		</div>	
 
-<?= $this->stop() ?>
+<?= $this->stopSection() ?>
