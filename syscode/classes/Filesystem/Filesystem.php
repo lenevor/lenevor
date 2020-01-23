@@ -364,7 +364,7 @@ class Filesystem
 	 * 
 	 * @return int|bool  Timestamp of last modified time, or false in case of an error
 	 */
-	public function lastChange($path)
+	public function lastModified($path)
 	{
 		if ($this->exists($path))
 		{
