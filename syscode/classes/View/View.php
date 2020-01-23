@@ -62,7 +62,7 @@ class View implements ViewContract
 	protected $finder;
 
 	/**
-	 * Set the view.
+	 * Get the view.
 	 *
 	 * @var string $view
 	 */
@@ -204,6 +204,9 @@ class View implements ViewContract
 	{	
 		$cleanRender = function($__file, array $__data)
 		{
+			// Capture the view output
+			ob_start();
+
 			// Import the view variables to local namespace
 			extract($__data, EXTR_SKIP);
 
@@ -212,9 +215,6 @@ class View implements ViewContract
 				// Import the global view variables to local namespace
 				extract(static::$globalData, EXTR_SKIP | EXTR_REFS);
 			}
-
-			// Capture the view output
-			ob_start();
 
 			try
 			{
