@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.4.0
+ * @since       0.4.1
  */
 
 namespace Syscode\View;
@@ -40,8 +40,31 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('view', function () {
-            return new View;
+        $this->registerView();
+        $this->registerViewFinder();
+    }
+
+    /**
+     * Register the view environment.
+     * 
+     * @return void
+     */
+    public function registerView()
+    {
+        $this->app->singleton('view', function ($app) {
+            return new View($app['view.finder']);
+        });
+    }
+
+    /**
+     * Register the view finder implementation.
+     * 
+     * @return void
+     */
+    public function registerViewFinder()
+    {
+        $this->app->bind('view.finder', function ($app) {
+            return new FileViewFinder($app['files']);
         });
     }
 }
