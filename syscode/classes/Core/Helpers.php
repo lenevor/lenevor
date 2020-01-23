@@ -607,16 +607,16 @@ if ( ! function_exists('view'))
 {
     /**
      * Returns a new View object. If you do not define the "file" parameter, 
-     * you must call [$view->setFilename].
+     * you must call [$this->view].
      *
-     * @example $view->render($file, $data, $extension);
+     * @example $view->make($file, $data);
      *  
      * @param  string|null  $file       View filename
      * @param  array        $data       Array of values
      * 
      * @return void
      */
-    function view($file = null, array $data = [])
+    function view($file = null, $data = [])
     {
         $view = app(View::class);
 
