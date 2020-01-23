@@ -44,7 +44,7 @@ interface Parser
      * Get the contents of a view.
      * 
      * @param  string  $view
-     * @param  array   $data
+     * @param  array  $data
      * 
      * @return \Syscode\Contracts\View\View
      */

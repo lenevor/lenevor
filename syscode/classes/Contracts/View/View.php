@@ -37,7 +37,7 @@ interface View
 	 * @example  $view->assign($content, $data);
 	 * 
 	 * @param  string|array  $key
-	 * @param  mixed         $value
+	 * @param  mixed  $value
 	 * 
 	 * @return $this
 	 */
@@ -50,8 +50,8 @@ interface View
 	 * 
 	 * @example  $view->bind('ref', $bar);
 	 * 
-	 * @param  string  $key    Variable name
-	 * @param  mixed   $value  Referenced variable
+	 * @param  string  $key  Variable name
+	 * @param  mixed  $value  Referenced variable
 	 * 
 	 * @return $this
 	 */
