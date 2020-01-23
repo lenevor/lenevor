@@ -55,6 +55,7 @@ return [
     'Syscode\\Contracts\\Routing\\Routable' => SYS_PATH.'classes/Contracts/Routing/Routable.php',
     'Syscode\\Contracts\\Routing\\RouteResponse' => SYS_PATH.'classes/Contracts/Routing/RouteResponse.php',
     'Syscode\\Contracts\\Session\\Session' => SYS_PATH.'classes/Contracts/Session/Session.php',
+    'Syscode\\Contracts\\View\\Engine' => SYS_PATH.'classes/Contracts/View/Engine.php',
     'Syscode\\Contracts\\View\\Parser' => SYS_PATH.'classes/Contracts/View/Parser.php',
     'Syscode\\Contracts\\View\\View' => SYS_PATH.'classes/Contracts/View/View.php',
     'Syscode\\Contracts\\View\\ViewFinder' => SYS_PATH.'classes/Contracts/View/ViewFinder.php',
