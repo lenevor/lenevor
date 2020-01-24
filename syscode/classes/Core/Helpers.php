@@ -24,9 +24,9 @@
 
 //use RuntimeException;
 use Syscode\Core\Application;
-use Syscode\Contracts\View\View;
 use Syscode\Routing\UrlGenerator;
 use Syscode\Support\Facades\Date;
+use Syscode\Contracts\View\Parser;
 use Syscode\Support\Facades\Facade;
 use Syscode\Contracts\Routing\RouteResponse;
 
@@ -618,7 +618,7 @@ if ( ! function_exists('view'))
      */
     function view($file = null, $data = [])
     {
-        $view = app(View::class);
+        $view = app(Parser::class);
 
         if (func_num_args() === 0) 
         {
