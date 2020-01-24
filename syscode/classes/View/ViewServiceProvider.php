@@ -24,7 +24,13 @@
 
 namespace Syscode\View;
 
+use Syscode\View\Engines\PhpEngine;
 use Syscode\Support\ServiceProvider;
+use Syscode\View\Compilers\Compiler;
+use Syscode\View\Engines\FileEngine;
+use Syscode\View\Engines\CompilerEngine;
+use Syscode\View\Engines\EngineResolver;
+use Syscode\View\Compilers\PlazeCompiler;
 
 /**
  * For loading the classes from the container of services.
@@ -42,6 +48,9 @@ class ViewServiceProvider extends ServiceProvider
     {
         $this->registerView();
         $this->registerViewFinder();
+        $this->registerPlazeCompiler();
+        $this->registerEngineResolver();
+
     }
 
     /**
@@ -52,7 +61,7 @@ class ViewServiceProvider extends ServiceProvider
     public function registerView()
     {
         $this->app->singleton('view', function ($app) {
-            return new View($app['view.finder']);
+            return new Parser($app['view.engine.resolver'], $app['view.finder']);
         });
     }
 
@@ -65,6 +74,81 @@ class ViewServiceProvider extends ServiceProvider
     {
         $this->app->bind('view.finder', function ($app) {
             return new FileViewFinder($app['files']);
+        });
+    }
+    
+    /**
+     * Register the Plaze compiler implementation.
+     * 
+     * @return void
+     */
+    public function registerPlazeCompiler()
+    {
+        $this->app->singleton('plaze.compiler', function ($app) {
+            return new PlazeCompiler(
+                $app['files'], $app['config']->get('view.compiled')
+            );
+        });
+    }
+    
+    /**
+     * Register the engine resolver instance.
+     * 
+     * @return void
+     */
+    public function registerEngineResolver()
+    {
+        $this->app->singleton('view.engine.resolver', function () {
+            $resolver = new EngineResolver;
+
+            // Register of the various view engines with the resolver
+            foreach (['file', 'php', 'plaze'] as $engine) {
+                $this->{'register'.ucfirst($engine).'Engine'}($resolver);
+            }
+            
+            return $resolver;
+        });
+    }
+    
+    /**
+     * Register the file engine implementation.
+     * 
+     * @param  \Syscode\View\Engines\EngineResolver  $resolver
+     * 
+     * @return void
+     */
+    public function registerFileEngine($resolver)
+    {
+        $resolver->register('file', function () {
+            return new FileEngine;
+        });
+    }
+    
+    /**
+     * Register the PHP engine implementation.
+     * 
+     * @param  \Syscode\View\Engines\EngineResolver  $resolver
+     * 
+     * @return void
+     */
+    public function registerPhpEngine($resolver)
+    {
+        $resolver->register('php', function () {
+            return new PhpEngine;
+        });
+    }
+    
+    /**
+     * Register the Plaze engine implementation.
+     * 
+     * @param  \Syscode\View\Engines\EngineResolver  $resolver
+     * 
+     * @return void
+     */
+    public function registerPlazeEngine($resolver)
+    {
+        $resolver->register('plaze', function () {
+            return new CompilerEngine($this->app['plaze.compiler']);
         });
     }
 }
