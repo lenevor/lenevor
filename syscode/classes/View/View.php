@@ -25,8 +25,11 @@
 namespace Syscode\View;
 
 use Exception;
+use Throwable;
 use Traversable;
+use ArrayAccess;
 use InvalidArgumentException;
+use Syscode\Contracts\View\Engine;
 use Syscode\Contracts\Core\Http\Lenevor;
 use Syscode\Contracts\View\View as ViewContract;
 use Syscode\Core\Http\Exceptions\LenevorException;
@@ -36,17 +39,8 @@ use Syscode\Core\Http\Exceptions\LenevorException;
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class View implements ViewContract
+class View implements ArrayAccess, ViewContract
 {
-	use Establishes\ManagesLayouts;
-	
-	/**
-	 * Array of global variables.
-	 * 
-	 * @var array $globalData
-	 */
-	protected static $globalData = [];
-
 	/**
 	 * Array of local variables.
 	 *
@@ -55,11 +49,18 @@ class View implements ViewContract
 	protected $data = [];
 
 	/**
-	 * The view finder implementation.
+	 * The engine implementation.
 	 * 
-	 * @var \Syscode\View\FileViewFinder $finder
+	 * @var \Syscode\Contracts\View\Engine $engine
 	 */
-	protected $finder;
+	protected $engine;
+
+	/**
+	 * The view factory instance.
+	 * 
+	 * @var \Syscode\View\Parser $parser
+	 */
+	protected $parser;
 
 	/**
 	 * Get the view.
@@ -69,80 +70,104 @@ class View implements ViewContract
 	protected $view;
 
 	/**
-	 * Constructor: Call the file and your data.
-	 *
+	 * Constructor: Create a new view instance.
 	 * 
-	 * @param  \Syscode\View\FileViewFinder  $finder
+	 * @param  \Syscode\View\Parser  $parser
+	 * @param  \Syscode\Contracts\View\Engine  $engine
+	 * @param  string  $view
+	 * @param  array  $data
 	 *
 	 * @return void
 	 *
 	 * @throws \InvalidArgumentException
 	 */
-	public function __construct(FileViewFinder $finder, $view = null, $data = [])
+	public function __construct(Parser $parser, Engine $engine, $view, $data = [])
 	{
-		$this->finder = $finder;
+		$this->parser = $parser;
+		$this->engine = $engine;
 		$this->view   = $view;
-		$this->data   = $this->getData($data);
+		$this->data   = (array) $data;
 	}
 
 	/**
-	 * Assigns a global variable by reference, similar to [$this->bind], 
-	 * except that the variable will be accessible to all views.
-	 *
-	 * @example View::bindGlobal($key, $value);
-	 *
-	 * @param  string  $key    Variable name
-	 * @param  mixed   $value  Referenced variable
-	 *
-	 * @return void
-	 */
-	public static function bindGlobal($key, & $value) 
-	{
-		static::$globalData[$key] =& $value;
-	}
-
-	/**
-	 * Returns a new View object. If you do not define the "file" parameter, 
-	 * you must call [View::setview].
+	 * Get the string contents of the view.
 	 *
 	 * @example View::render($file, $data);
 	 *
-	 * @param  string       $file       View view
-	 * @param  array        $data       Array of values
+	 * @param  \Callable|null  $callback  (null by default)
 	 * 
-	 * @return void
+	 * @return array|string
+	 * 
+	 * @throws \Throwable
 	 */
-	public static function render($file = null, array $data = [])
+	public function render(Callable $callback = null)
 	{
-		return self::make($file, $data);
+		try
+		{
+			$contents = $this->renderContents();
+
+			$response = isset($callback) ? $callback($this, $contents) : null;
+
+			return $response ?: $contents;
+		}
+		catch(Exception $e)
+		{
+			throw $e;
+		}
+		catch(Throwable $e)
+		{
+			throw $e;
+		}
 	}
 
 	/**
-	 * Sets a global variable, similar to [static::set], except that the
-	 * variable will be accessible to all views.
-	 *
-	 * @example View::setGlobal($key, $value); 
-	 *
-	 * @param  string|array  $key    Variable name
-	 * @param  mixed         $value  Value
-	 *
+	 * Get the contents of the view instance.
+	 * 
 	 * @return void
-	 *
-	 * @uses   instanceof \Traversable
 	 */
-	public static function setGlobal($key, $value = null) 
+	protected function renderContents()
 	{
-		if (is_array($key) || $key instanceof Traversable)
-		{
-			foreach ($key as $name => $value)
-			{
-				static::$globalData = [$name => $value];
-			}
-		} 
-		else 
-		{
-			static::$globalData = [$key => $value];
-		}
+		$contents = $this->getContents();
+
+		return $contents;
+	}
+
+	/**
+	 * Get the evaluated contents of the view.
+	 * 
+	 * @return void
+	 */
+	protected function getContents()
+	{
+		return $this->engine->get($this->view, $this->getData());
+	}
+
+	/**
+	 * The view data will be extracted.
+	 * 
+	 * @return array
+	 */
+	public function getData()
+	{
+		$data = array_merge($this->parser->getShared(), $this->data);
+
+		return array_map(function ($value) {
+			return $value;
+		}, $data);
+	}
+
+	/**
+	 * Get the sections of the rendered view.
+	 * 
+	 * @return array
+	 * 
+	 * @throws \Throwable
+	 */
+	public function renderSections()
+	{
+		return $this->render(function () {
+			return $this->parser->getSections();
+		});
 	}
 
 	/**
@@ -189,132 +214,6 @@ class View implements ViewContract
 	}
 
 	/**
-	 * Captures the output that is generated when a view is included. 
-	 * The view data will be extracted to make local variables.
-	 *
-	 * @example $output = $view->capture();
-	 *
-	 * @param  bool  $override  File override
-	 *
-	 * @return string
-	 *
-	 * @throws \Exception
-	 */
-	public function capture($override = false)
-	{	
-		$cleanRender = function($__file, array $__data)
-		{
-			// Capture the view output
-			ob_start();
-
-			// Import the view variables to local namespace
-			extract($__data, EXTR_SKIP);
-
-			if ( ! empty(static::$globalData))
-			{
-				// Import the global view variables to local namespace
-				extract(static::$globalData, EXTR_SKIP | EXTR_REFS);
-			}
-
-			try
-			{
-				// Load the view within the current scope
-				include $__file;
-
-				// Get the captured output and close the buffer
-				$output = ob_get_clean();
-
-				if ($this->extend)
-				{
-					$extendView = $this->extend;
-
-					$this->extend = null;
-
-					$output = $this->make($extendView, array_merge($__data, $this->extendData));
-				}
-			}
-			catch (Exception $e)
-			{
-				// Delete the output buffer				
-				if (@ob_end_clean() !== false)
-				{
-					// Re-throw the exception
-					throw $e;
-				}
-			}
-
-			return $output;
-		};
-
-		$result = $cleanRender($override ?: $this->view, $this->data);
-		
-		return $result;
-	}
-
-	/**
-	 * The view data will be extracted.
-	 * 
-	 * @param  array  $data
-	 * 
-	 * @return array
-	 */
-	public function getData(array $data = [])
-	{
-		return array_merge($data, $this->data);
-	}
-
-	/**
-	 * Global and local data are merged and extracted to create local variables within the view file.
-	 * Renders the view object to a string.
-	 *
-	 * @example $output = $view->make();
-	 *
-	 * @param  string  $file  View view  (null by default)
-	 * @param  array   $data  Array of values
-	 *
-	 * @return string
-	 *
-	 * @throws \Syscode\View\Exceptions\ViewException
-	 */
-	public function make($file = null, $data = []) 
-	{
-		try
-		{
-			// Override the view view if needed
-			$this->view = $this->finder->find($file);
-			$this->data = $this->getData($data);
-				
-			// Combine local and global data and capture the output
-			return $this->capture();
-		}
-		catch(Exception $e)
-		{
-			throw $e;
-		}
-	}
-
-	/**
-	 * Check existance view file.
-	 * 
-	 * @param  string  $file
-	 *
-	 * @return bool
-	 */
-	public function viewExists($file)
-	{
-		try 
-		{
-			$this->finder->find($file);
-		}
-		catch(InvalidArgumentException $e)
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * Searches for the given variable and returns its value.
 	 * Local variables will be returned before global variables.
 	 *
@@ -338,10 +237,6 @@ class View implements ViewContract
 			if (array_key_exists($key, $this->data))
 			{
 				return $this->data[$key];
-			}
-			elseif (array_key_exists($key, static::$globalData))
-			{
-				return static::$globalData[$key];
 			}
 			else
 			{
@@ -390,7 +285,56 @@ class View implements ViewContract
 		}
 
 		return $this;
-	}	
+	}
+
+	/**
+	 * Whether or not an offset exists.
+	 * 
+	 * @param  string  $offset
+	 * 
+	 * @return bool
+	 */
+	public function offsetExists($offset)
+	{
+		return array_key_exists($offset, $this->data);
+	}
+
+	/**
+	 * Returns the value at specified offset.
+	 * 
+	 * @param  string  $offset
+	 * 
+	 * @return mixed
+	 */
+	public function offsetGet($offset)
+	{
+		return $this->data[$offset];
+	}
+
+	/**
+	 * Assigns a value to the specified offset
+	 * 
+	 * @param  string  $offset
+	 * @param  mixed  $value
+	 * 
+	 * @return void
+	 */
+	public function offsetSet($offset, $value)
+	{
+		$this->assign($offset, $value);
+	}
+
+	/**
+	 * Unsets an offset.
+	 * 
+	 * @param  string  $offset
+	 * 
+	 * @return void
+	 */
+	public function offsetUnset($offset)
+	{
+		unset($this->data[$offset]);
+	}
 
 	/**
 	 * Magic method. Searches for the given variable and returns its value.
@@ -404,26 +348,9 @@ class View implements ViewContract
 	 *
 	 * @throws \Syscode\LenevorException
 	 */
-	public function & __get($key) 
+	public function &__get($key) 
 	{
 		return $this->get($key);
-	}
-
-	/**
-	 * Magic method. Determines if a variable is set.
-	 *
-	 * @example isset($view->foo);
-	 *
-	 * Variables are not considered to be set.
-	 *
-	 * @access public
-	 * @param  string  $key  variable name
-	 *
-	 * @return boolean
-	 */
-	public function __isset($key) 
-	{
-		return (isset($this->data[$key]) || isset(static::$globalData[$key]));
 	}
 
 	/**
@@ -442,17 +369,20 @@ class View implements ViewContract
 	}
 
 	/**
-	 * Magic method. Returns the output of [static::render].
+	 * Magic method. Determines if a variable is set.
 	 *
-	 * @return string
+	 * @example isset($view->foo);
 	 *
-	 * @uses   View->make()
-	 * 
-	 * @throws \Exception
+	 * Variables are not considered to be set.
+	 *
+	 * @access public
+	 * @param  string  $key  variable name
+	 *
+	 * @return boolean
 	 */
-	public function __toString() 
+	public function __isset($key) 
 	{
-		return $this->make();
+		return (isset($this->data[$key]));
 	}
 
 	/**
@@ -466,6 +396,20 @@ class View implements ViewContract
 	 */
 	public function __unset($key) 
 	{
-		unset($this->data[$key], static::$globalData[$key]);
+		unset($this->data[$key]);
+	}
+
+	/**
+	 * Magic method. Returns the output of [static::render].
+	 *
+	 * @return string
+	 *
+	 * @uses   View->render()
+	 * 
+	 * @throws \Throwable
+	 */
+	public function __toString() 
+	{
+		return $this->render();
 	}
 }
