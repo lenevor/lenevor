@@ -27,7 +27,7 @@ namespace Syscode\Routing;
 use Syscode\Http\Response;
 use Syscode\Http\JsonResponse;
 use Syscode\Routing\Redirector;
-use Syscode\Contracts\View\View;
+use Syscode\Contracts\View\Parser;
 use Syscode\Contracts\Routing\RouteResponse as ResponseContract;
 
 /**
@@ -41,7 +41,7 @@ class RouteResponse implements ResponseContract
     /**
      * The View class instance.
      * 
-     * @var Syscode\Contracts\View\View $view
+     * @var Syscode\Contracts\View\Parser $view
      */
     protected $view;
 
@@ -55,14 +55,14 @@ class RouteResponse implements ResponseContract
     /**
      * Constructor. Create a new RouteResponse instance.
      * 
-     * @param  \Syscode\Contracts\View\View  $view
+     * @param  \Syscode\Contracts\View\Parser  $parser
      * @param  \Syscode\Routing\Redirector  $redirector
      * 
      * @return void  
      */
-    public function __construct(View $view, Redirector $redirector)
+    public function __construct(Parser $parser, Redirector $redirector)
     {
-        $this->view       = $view;
+        $this->view       = $parser;
         $this->redirector = $redirector;
     }
 
