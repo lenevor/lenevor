@@ -31,7 +31,7 @@ use Syscode\Contracts\View\Engine;
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class FileEngine
+class FileEngine implements Engine
 {
     /**
      * Get the evaluated contents of the view.

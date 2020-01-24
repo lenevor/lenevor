@@ -34,7 +34,7 @@ use Syscode\Debug\FatalExceptions\FatalThrowableError;
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class PhpEngine
+class PhpEngine implements Engine
 {
     /**
      * Get the evaluated contents of the view.
@@ -59,7 +59,7 @@ class PhpEngine
      */
     protected function evaluatePath($path, $data)
     {
-        $cleanRender = function($__path, $data)
+        $cleanRender = function($__path, $__data)
         {
             $obLevel = ob_get_level();
 
