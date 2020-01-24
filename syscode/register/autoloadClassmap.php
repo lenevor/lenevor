@@ -213,6 +213,7 @@ return [
     'Syscode\\Version' => SYS_PATH.'classes/Version/Version.php',
     'Syscode\\View\\Compilers\\Compiler' => SYS_PATH.'classes/View/Compilers/Compiler.php',
     'Syscode\\View\\Compilers\\CompilerInterface' => SYS_PATH.'classes/View/Compilers/CompilerInterface.php',
+    'Syscode\\View\\Compilers\\PlazeCompiler' => SYS_PATH.'classes/View/Compilers/PlazeCompiler.php',
     'Syscode\\View\\Engines\\CompilerEngine' => SYS_PATH.'classes/View/Engines/CompilerEngine.php',
     'Syscode\\View\\Engines\\EngineResolver' => SYS_PATH.'classes/View/Engines/EngineResolver.php',
     'Syscode\\View\\Engines\\FileEngine' => SYS_PATH.'classes/View/Engines/FileEngine.php',
