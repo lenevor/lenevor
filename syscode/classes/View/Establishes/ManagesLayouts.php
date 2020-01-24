@@ -69,10 +69,9 @@ trait ManagesLayouts
 	 *
 	 * @return string
 	 */
-	public function extends($layout, $data = [])
+	public function extendsLayout($layout)
 	{
-		$this->extend     = $layout;
-		$this->extendData = $data;
+		return $this->make($layout)->render();
 	}
     
     /**
