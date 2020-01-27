@@ -78,7 +78,7 @@ class CompilerEngine extends PhpEngine
             $this->compiler->compile($path);
         }
 
-        $compiled = $this->getCompilePath($path);
+        $compiled = $this->compiler->getCompilePath($path);
 
         $output = $this->evaluatePath($compiled, $data);
 
