@@ -30,9 +30,7 @@ use Traversable;
 use ArrayAccess;
 use InvalidArgumentException;
 use Syscode\Contracts\View\Engine;
-use Syscode\Contracts\Core\Http\Lenevor;
 use Syscode\Contracts\View\View as ViewContract;
-use Syscode\Core\Http\Exceptions\LenevorException;
 
 /**
  * This class control the views.
@@ -139,7 +137,7 @@ class View implements ArrayAccess, ViewContract
 	 */
 	protected function getContents()
 	{
-		return $this->engine->get($this->view, $this->getData());
+		return $this->engine->get($this->view, $this->getArrayData());
 	}
 
 	/**
@@ -147,7 +145,7 @@ class View implements ArrayAccess, ViewContract
 	 * 
 	 * @return array
 	 */
-	public function getData()
+	public function getArrayData()
 	{
 		$data = array_merge($this->parser->getShared(), $this->data);
 
@@ -214,6 +212,46 @@ class View implements ArrayAccess, ViewContract
 	}
 
 	/**
+	 * Get the array of view data.
+	 * 
+	 * @return array
+	 */
+	public function getData()
+	{
+		return $this->data;
+	}
+
+	/**
+	 * Get the name of the view.
+	 * 
+	 * @return string
+	 */
+	public function getView()
+	{
+		return $this->view;
+	}
+
+	/**
+	 * Get the view parser instance.
+	 * 
+	 * @return \Syscode\View\Parser
+	 */
+	public function getParser()
+	{
+		return $this->parser;
+	}
+
+	/**
+	 * Get the view's rendering engine.
+	 * 
+	 * @return \Syscode\Contracts\View\Engine
+	 */
+	public function getEngine()
+	{
+		return $this->engine;
+	}
+
+	/**
 	 * Searches for the given variable and returns its value.
 	 * Local variables will be returned before global variables.
 	 *
@@ -228,7 +266,7 @@ class View implements ArrayAccess, ViewContract
 	 *
 	 * @uses   \Syscode\Contracts\Core\Lenevor
 	 *
-	 * @throws \Syscode\Core\Exceptions\LenevorException
+	 * @throws \InvalidArgumentException
 	 */
 	public function &get($key, $default = null)
 	{
@@ -240,12 +278,12 @@ class View implements ArrayAccess, ViewContract
 			}
 			else
 			{
-				throw new LenevorException(__('view.variableNotSet'));
+				throw new InvalidArgumentException(__('view.variableNotSet'));
 			}
 		}
 		else
 		{
-			return Lenevor::value($default);
+			return value($default);
 		}
 	}
 
