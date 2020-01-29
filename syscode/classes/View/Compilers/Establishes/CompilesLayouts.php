@@ -24,6 +24,8 @@
 
 namespace Syscode\View\Compilers\Establishes;
 
+use Syscode\View\Parser as ViewParser;
+
 /**
  * Trait CompilesLayouts.
  * 
@@ -42,7 +44,7 @@ trait CompilesLayouts
     {
         $expression = $this->stripParentheses($expression);
 
-        $data = "<?php echo \$__env->extendsLayout({$expression}); ?>";
+        $data = "<?php echo \$__env->extendsLayout({$expression}, array_except(get_defined_vars(), ['data', 'path'])) ?>";
 
         $this->footer[] = $data;
 
@@ -71,6 +73,16 @@ trait CompilesLayouts
     protected function compileGive($expression)
     {
         return "<?php echo \$__env->giveContent{$expression}; ?>";
+    }
+
+    /**
+     * Replace the @parent directive to a placeholder.
+     * 
+     * @return string
+     */
+    protected function compileParent()
+    {
+        return ViewParser::parent();
     }
 
     /**
