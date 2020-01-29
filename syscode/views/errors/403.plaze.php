@@ -1,7 +1,5 @@
-<?= $this->extends('errors::layout') ?>
+<@extends('errors::layout')
 
-<?= $this->beginSection('title', 'Forbidden') ?>
-
-<?= $this->beginSection('code', 403) ?>
-
-<?= $this->beginSection('message', $exception->getMessage() ?: 'Forbidden') ?>
+<@section('title', 'Forbidden')
+<@section('code', 403)
+<@section('message', $exception->getMessage() ?: 'Forbidden')

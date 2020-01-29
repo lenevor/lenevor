@@ -1,7 +1,5 @@
-<?= $this->extends('errors::layout') ?>
+<@extends('errors::layout')
 
-<?= $this->beginSection('title', 'Method Not Allowed') ?>
-
-<?= $this->beginSection('code', 405) ?>
-
-<?= $this->beginSection('message', 'Method Not Allowed') ?>
+<@section('title', 'Method Not Allowed')
+<@section('code', 405)
+<@section('message', 'Method Not Allowed')

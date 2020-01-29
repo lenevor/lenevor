@@ -1,8 +1,8 @@
-<?= $this->extends('layouts::app') ?>
+<@extends('layouts::app')
 
-<?= $this->beginSection('title', config('app.name')) ?>
+<@section('title', config('app.name'))
 
-<?= $this->beginSection('content') ?>
+<@section('content')
 
 		<div class="content">
 
@@ -16,17 +16,17 @@
 					<h1>Welcome to <?= config('app.name') ?></h1>
 					<img src="<?= asset('svg/logo.svg') ?>">
 					<p class="message">
-						You have successfully installed your Lenevor application.
+						You have successfully installed your Lenevor application. 
 					</p>
 					<p class="message">
 						If you want to know more about Lenevor and exploring many of its features, I recommend you start by reading the <a href="#">User Guide</a>.
 					</p>
 
-					<?= $this->insert('partials::footer') ?>
+					<@include('partials::footer')
 					
 				</div>
 			</div>
 		  
 		</div>	
 
-<?= $this->stopSection() ?>
+<@stop

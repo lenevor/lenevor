@@ -1,7 +1,5 @@
-<?= $this->extends('errors::layout') ?>
+<@extends('errors::layout')
 
-<?= $this->beginSection('title', 'Internal Server Error') ?>
-
-<?= $this->beginSection('code', 500) ?>
-
-<?= $this->beginSection('message', 'Internal Server Error') ?>
+<@section('title', 'Internal Server Error')
+<@section('code', 500)
+<@section('message', 'Internal Server Error')

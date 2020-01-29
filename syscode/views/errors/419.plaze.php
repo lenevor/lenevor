@@ -1,7 +1,5 @@
-<?= $this->extends('errors::layout') ?>
+<@extends('errors::layout')
 
-<?= $this->beginSection('title', 'Page Expired') ?>
-
-<?= $this->beginSection('code', 419) ?>
-
-<?= $this->beginSection('message', 'Page Expired') ?>
+<@section('title', 'Page Expired')
+<@section('code', 419)
+<@section('message', 'Page Expired')

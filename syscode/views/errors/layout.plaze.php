@@ -8,14 +8,14 @@
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<title><?= __($this->giveContent('title')) ?></title>
+		<title><@give('title')</title>
 
 		<!-- Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 		
 		<!-- Styles -->
 		<style type="text/css">
-		   <?= preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'style.css')) ?>
+		   <?= preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(SYS_PATH.'views/errors/css/style.css')) ?>
 		</style>
 
 	</head>
@@ -24,11 +24,11 @@
 		<div class="flex-center full-height">
 		
 			<div class="code">
-				<h1><?= $this->giveContent('code') ?></h1>
+				<h1><@give('code')</h1>
 			</div>
 			
 			<div class="message" style="padding: 10px;">
-				<?= __($this->giveContent('message')) ?>
+				<@give('message')
 			</div>
 			
 		</div>

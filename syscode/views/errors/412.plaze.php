@@ -1,7 +1,5 @@
-<?= $this->extends('errors::layout') ?>
+<@extends('errors::layout')
 
-<?= $this->beginSection('title', 'Precondition Failed') ?>
-
-<?= $this->beginSection('code', 412) ?>
-
-<?= $this->beginSection('message', 'Precondition Failed') ?> 
+<@section('title', 'Precondition Failed')
+<@section('code', 412)
+<@section('message', 'Precondition Failed')

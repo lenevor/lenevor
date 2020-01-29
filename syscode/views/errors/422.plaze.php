@@ -1,7 +1,5 @@
-<?= $this->extends('errors::layout') ?>
+<@extends('errors::layout')
 
-<?= $this->beginSection('title', 'Unprocessable Entity') ?>
-
-<?= $this->beginSection('code', 422) ?>
-
-<?= $this->beginSection('message', 'Unprocessable Entity') ?>
+<@section('title', 'Unprocessable Entity')
+<@section('code', 422)
+<@section('message', 'Unprocessable Entity')

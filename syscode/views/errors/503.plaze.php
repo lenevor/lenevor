@@ -1,7 +1,5 @@
-<?= $this->extends('errors::layout') ?>
+<@extends('errors::layout')
 
-<?= $this->beginSection('title', 'Service Unavailable') ?>
-
-<?= $this->beginSection('code', 503) ?>
-
-<?= $this->beginSection('message', $exception->getMessage() ?: 'Service Unavailable') ?>
+<@section('title', 'Service Unavailable')
+<@section('code', 503)
+<@section('message', $exception->getMessage() ?: 'Service Unavailable')

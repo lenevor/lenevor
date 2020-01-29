@@ -1,7 +1,5 @@
-<?= $this->extends('errors::layout') ?>
+<@extends('errors::layout')
 
-<?= $this->beginSection('title', 'Too Many Requests') ?>
-
-<?= $this->beginSection('code', 429) ?>
-
-<?= $this->beginSection('message', 'Too Many Requests') ?>
+<@section('title', 'Too Many Requests')
+<@section('code', 429)
+<@section('message', 'Too Many Requests')

@@ -1,7 +1,5 @@
-<?= $this->extends('errors::layout') ?>
+<@extends('errors::layout')
 
-<?= $this->beginSection('title', 'Unsupported Media Type') ?>
-
-<?= $this->beginSection('code', 415) ?>
-
-<?= $this->beginSection('message', 'Unsupported Media Type') ?>
+<@section('title', 'Unsupported Media Type')
+<@section('code', 415)
+<@section('message', 'Unsupported Media Type')
