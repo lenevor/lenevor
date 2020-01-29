@@ -36,9 +36,10 @@ use Syscode\Contracts\View\Parser as ParserContract;
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Parser implements ParserContract
-{	
+{
 	use Extensions,
-	    Establishes\ManagesLayouts;
+		Establishes\ManagesLayouts,
+		Establishes\ManagesIncludes;
 
 	/**
 	 * The engine implementation.
@@ -116,7 +117,9 @@ class Parser implements ParserContract
 		$file = $this->finder->find($file);
 		
 		// Loader class instance.
-		return $this->viewInstance($file, $data);
+		return take($this->viewInstance($file, $data), function ($view) {
+			return $view;
+		});
     }
     
     /**
