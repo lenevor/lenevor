@@ -84,13 +84,15 @@ class Arr
 	 * Get all of the given array except for a specified array of items.
 	 *
 	 * @param  array         $array
-	 * @param  string|array  $key
+	 * @param  string|array  $keys
 	 *
 	 * @return array
 	 */
-	public static function except($array, $key)
+	public static function except($array, $keys)
 	{
-		return array_diff_key($array, array_flip((array) $key));
+		static::erase($array, $keys);
+
+		return $array;
 	}
 	
 	/**
@@ -123,7 +125,7 @@ class Arr
 	 */
 	public static function erase(&$array, $keys)
 	{
-		$original =& $array;
+		$original = &$array;
 
 		$keys = (array) $keys;
 
@@ -144,7 +146,7 @@ class Arr
 			$parts = explode('.', $key);
 
 			// Clean up after each pass
-			$array =& $original;
+			$array = &$original;
 	
 			// traverse the array into the second last key
 			while (count($parts) > 1) 
@@ -153,19 +155,15 @@ class Arr
 	
 				if (isset($array[$part]) && is_array($array[$part])) 
 				{
-					$array =& $array[$key];
+					$array = &$array[$key];
 				}
 				else
 				{
 					continue 2;
 				}
 			}
-	
-			// if the last key exists unset it
-			if (static::exists($array, $key = array_shift($parts))) 
-			{
-				unset($array[$key]);
-			}
+
+			unset($array[array_shift($parts)]);
 		}
 	}
 	
