@@ -90,7 +90,7 @@ class View implements ArrayAccess, ViewContract
 	/**
 	 * Get the string contents of the view.
 	 *
-	 * @example View::render($file, $data);
+	 * @example View::render();
 	 *
 	 * @param  \Callable|null  $callback  (null by default)
 	 * 
