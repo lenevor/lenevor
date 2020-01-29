@@ -59,12 +59,13 @@ trait ManagesLayouts
 	 * Extending a view.
 	 *
 	 * @param  string  $layout
+	 * @param  array  $data
 	 *
 	 * @return string
 	 */
-	public function extendsLayout($layout)
+	public function extendsLayout($layout, $data)
 	{
-		echo $this->make($layout, array_except(get_defined_vars(), ['data', 'path']))->render();
+		return $this->make($layout, $data)->render();
 	}
     
     /**
@@ -198,18 +199,6 @@ trait ManagesLayouts
 		}
 
 		return $last;
-	}
-
-	/**
-	 * Include another view in a view.
-	 *
-	 * @param  string  $file
-	 *
-	 * @return string
-	 */
-	public function include($file)
-	{
-		return $this->make($file, array_except(get_defined_vars(), ['data', 'path']))->render();
 	}
 	
 	/**
