@@ -104,14 +104,14 @@ class Parser implements ParserContract
 	 *
 	 * @example $output = $view->make();
 	 *
-	 * @param  string  $file  View filename  (null by default)
-	 * @param  array   $data  Array of values
+	 * @param  string  $file  View filename
+	 * @param  array  $data  Array of values
 	 *
 	 * @return string
 	 *
 	 * @throws \Syscode\View\Exceptions\ViewException
 	 */
-	public function make($file = null, $data = []) 
+	public function make($file, $data = []) 
 	{
 		$file = $this->finder->find($file);
 		
