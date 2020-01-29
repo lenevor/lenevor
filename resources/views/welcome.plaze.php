@@ -16,7 +16,7 @@
 					<h1>Welcome to <?= config('app.name') ?></h1>
 					<img src="<?= asset('svg/logo.svg') ?>">
 					<p class="message">
-						You have successfully installed your Lenevor application. 
+						You have successfully installed your Lenevor application.
 					</p>
 					<p class="message">
 						If you want to know more about Lenevor and exploring many of its features, I recommend you start by reading the <a href="#">User Guide</a>.
