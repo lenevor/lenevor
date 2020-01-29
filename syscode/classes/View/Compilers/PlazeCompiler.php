@@ -29,17 +29,41 @@ use Syscode\Support\Str;
 
 class PlazeCompiler extends Compiler implements CompilerInterface
 {
-    use Establishes\CompilesLayouts,
+    use Establishes\CompilesEchos,
+        Establishes\CompilesLayouts,
+        Establishes\CompilesComments,
         Establishes\CompilesIncludes;
-
     /**
      * All of the available compiler functions.
      * 
      * @var array $compilers
      */
     protected $compilers = [
+        'Comments',
         'Statements',
+        'Echos',
     ];
+    
+    /**
+     * Array of opening and closing tags for regular echos.
+     * 
+     * @var array $contentTags
+     */
+    protected $contentTags = ['{{', '}}'];
+
+    /**
+     * Array of opening and closing tags for escaped echos.
+     *
+     * @var array
+     */
+    protected $escapedTags = ['{{{', '}}}'];
+
+    /**
+     * The "regular" / legacy echo string format.
+     *
+     * @var string
+     */
+    protected $echoFormat = 'e(%s)';
 
     /**
      * Array of footer lines to be added to template.
@@ -47,6 +71,13 @@ class PlazeCompiler extends Compiler implements CompilerInterface
      * @var array $footer
      */
     protected $footer = [];
+
+    /**
+     * Array of opening and closing tags for raw echos.
+     *
+     * @var array
+     */
+    protected $rawTags = ['{!!', '!!}'];
 
     /**
      * Compile the view at the given path.
@@ -104,9 +135,7 @@ class PlazeCompiler extends Compiler implements CompilerInterface
         {
             foreach ($this->compilers as $type)
             {
-                $method = 'compile'.$type;
-                
-                $content = call_user_func(array($this, $method), $content);
+                $content = $this->{"compile{$type}"}($content);
             }
         }
         
