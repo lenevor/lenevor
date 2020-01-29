@@ -211,6 +211,8 @@ return [
     'Syscode\\Translation\\TranslationServiceProvider' => SYS_PATH.'classes/Translation/TranslationServiceProvider.php',
     'Syscode\\Translation\\Translator' => SYS_PATH.'classes/Translation/Translator.php',
     'Syscode\\Version' => SYS_PATH.'classes/Version/Version.php',
+    'Syscode\\View\\Compilers\\Establishes\\CompilesIncludes' => SYS_PATH.'classes/View/Compilers/Establishes/CompilesIncludes.php',
+    'Syscode\\View\\Compilers\\Establishes\\CompilesLayouts' => SYS_PATH.'classes/View/Compilers/Establishes/CompilesLayouts.php',
     'Syscode\\View\\Compilers\\Compiler' => SYS_PATH.'classes/View/Compilers/Compiler.php',
     'Syscode\\View\\Compilers\\CompilerInterface' => SYS_PATH.'classes/View/Compilers/CompilerInterface.php',
     'Syscode\\View\\Compilers\\PlazeCompiler' => SYS_PATH.'classes/View/Compilers/PlazeCompiler.php',
