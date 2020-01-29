@@ -40,6 +40,8 @@ trait CompilesIncludes
      */
     protected function compileInclude($expression)
     {
-        return "<?php echo \$__env->include{$expression}; ?>";
+        $expression = $this->stripParentheses($expression);
+
+        return "<?php echo \$__env->include({$expression}, array_except(get_defined_vars(), ['data', 'path'])); ?>";
     }
 }
