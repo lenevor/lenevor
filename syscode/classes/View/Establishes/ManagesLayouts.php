@@ -42,13 +42,6 @@ trait ManagesLayouts
 	protected $extend;
 
 	/**
-	 * Extend data.
-	 * 
-	 * @var array $extendData
-	 */
-	protected $extendData = [];
-
-	/**
 	 * Started blocks.
 	 *
 	 * @var array $sections
@@ -71,7 +64,7 @@ trait ManagesLayouts
 	 */
 	public function extendsLayout($layout)
 	{
-		return $this->make($layout)->render();
+		echo $this->make($layout, array_except(get_defined_vars(), ['data', 'path']))->render();
 	}
     
     /**
@@ -86,10 +79,10 @@ trait ManagesLayouts
 	{
 		if (null === $content)
 		{
-			$this->sectionStack[] = $section;
-			
-			ob_start();
-			
+			if (ob_start())
+			{
+				$this->sectionStack[] = $section;			
+			}
 		}
 		else
 		{
@@ -109,7 +102,7 @@ trait ManagesLayouts
 	{
 		if (isset($this->sections[$section]))
 		{
-			$content = str_replace('@@parent', $content, $this->sections[$section]);
+			$content = str_replace(static::parent(), $content, $this->sections[$section]);
 		}
 
 		$this->sections[$section] = $content;
@@ -122,7 +115,31 @@ trait ManagesLayouts
 	 */
 	public function showSection()
 	{
+		if (empty($this->sectionStack))
+		{
+			return '';
+		}
+		
 		return $this->giveContent($this->stopSection());
+	}
+	
+	/**
+	 * Give sections the page view from the master page.
+	 *
+	 * @param  string  $name
+	 *
+	 * @return string
+	 */
+	public function giveContent($name, $default = '')
+	{
+		$sectionContent = $default instanceof View ? $default : e($default);
+
+		if (isset($this->sections[$name]))
+		{
+			$sectionContent = $this->sections[$name];
+		}
+
+		return str_replace(static::parent(), '', $sectionContent);
 	}
 	
 	/**
@@ -184,6 +201,18 @@ trait ManagesLayouts
 	}
 
 	/**
+	 * Include another view in a view.
+	 *
+	 * @param  string  $file
+	 *
+	 * @return string
+	 */
+	public function include($file)
+	{
+		return $this->make($file, array_except(get_defined_vars(), ['data', 'path']))->render();
+	}
+	
+	/**
 	 * Check if section exists.
 	 * 
 	 * @param  string  $name
@@ -196,42 +225,6 @@ trait ManagesLayouts
 	}
 
 	/**
-	 * Give sections the page view from the master page.
-	 *
-	 * @param  string  $name
-	 *
-	 * @return string
-	 */
-	public function giveContent($name, $default = '')
-	{
-		$sectionContent = $default instanceof View ? $default : e($default);
-
-		if (isset($this->sections[$name]))
-		{
-			$sectionContent = $this->sections[$name];
-		}
-
-		return str_replace('@@parent', '', $sectionContent);
-	}
-
-	/**
-	 * Include another view in a view.
-	 *
-	 * @param  string  $file
-	 * @param  array   $data
-	 *
-	 * @return string
-	 */
-	public function insert($file, array $data = [])
-	{
-		$path = $this->finder->find($file);
-
-		extract($data, EXTR_SKIP);
-		
-		include $path;
-	}
-
-	/**
 	 * Get the entire array of sections.
 	 * 
 	 * @return array
@@ -239,6 +232,16 @@ trait ManagesLayouts
 	public function getSections()
 	{
 		return $this->sections;
+	}
+
+	/**
+	 * Replace the @parent directive to a placeholder.
+	 * 
+	 * @return string
+	 */
+	public static function parent()
+	{
+		return '@parent';
 	}
 	
 	/**
