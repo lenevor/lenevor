@@ -25,7 +25,7 @@
 namespace Syscode\View;
 
 /**
- * The Extension class.
+ * The Extension trait.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
