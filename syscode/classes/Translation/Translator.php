@@ -35,9 +35,9 @@ use Syscode\Support\Finder;
  */
 class Translator
 {
-   /**
+    /**
      * The fallback locale used by the translator.
-     *
+     * 
      * @var string $fallback
      */
     protected $fallback;
@@ -91,7 +91,7 @@ class Translator
      * Advanced message formatting.
      * 
      * @param  string  $message
-     * @param  array   $args
+     * @param  array  $args
      * 
      * @return string|array  Returns formatted message
      */
@@ -120,7 +120,7 @@ class Translator
      * getting the line.
      * 
      * @param  string  $line
-     * @param  array   $args
+     * @param  array  $args
      * @return string|array  Returns line
      */
     public function getLine($line, array $args = [])
@@ -181,7 +181,7 @@ class Translator
      * 
      * @param  string  $file
      * @param  string  $locale
-     * @param  bool    $return
+     * @param  bool  $return  (false by default)
      * 
      * @return array|null
      */

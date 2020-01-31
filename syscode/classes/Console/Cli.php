@@ -151,10 +151,10 @@ class Cli
  	 * Returns the given text with the correct color codes for a foreground and
 	 * optionally a background color.
  	 *
- 	 * @param  string  $text        The text to color
+ 	 * @param  string  $text  The text to color
  	 * @param  string  $foreground  The foreground color
  	 * @param  string  $background  The background color
- 	 * @param  string  $format      Other formatting to apply. Currently only 'underline' is understood
+ 	 * @param  string  $format  Other formatting to apply. Currently only 'underline' is understood
  	 *
  	 * @return string  The color coded string
  	 *
@@ -202,9 +202,9 @@ class Cli
  	/**
  	 * Outputs an error to the CLI using STDERR instead of STDOUT.
  	 *
- 	 * @param  string|array  $text        The text to output, or array of errors
- 	 * @param  string        $foreground  The foreground color
- 	 * @param  string|null   $background  the background color
+ 	 * @param  string|array  $text  The text to output, or array of errors
+ 	 * @param  string  $foreground  The foreground color
+ 	 * @param  string|null  $background  the background color
  	 *
  	 * @return string
  	 */
@@ -308,8 +308,8 @@ class Cli
  	/**
 	 * Returns the option with the given name. You can also give the option number.
 	 *
-	 * @param  string|int  $name     The name of the option (int if unnamed)
-	 * @param  mixed       $default  The value to return if the option is not defined
+	 * @param  string|int  $name  The name of the option (int if unnamed)
+	 * @param  mixed  $default  The value to return if the option is not defined
 	 *
 	 * @return mixed
 	 * 
@@ -443,7 +443,7 @@ class Cli
  	/**
  	 * Allows you to set a commandline option from code.
  	 *
- 	 * @param  string|int  $name   The name of the option (int if unnamed)
+ 	 * @param  string|int  $name  The name of the option (int if unnamed)
 	 * @param  mixed|null  $value  The value to set, or null to delete the option
 	 *
 	 * @return mixed
@@ -467,7 +467,7 @@ class Cli
  	 * Waits a certain number of seconds, optionally showing a wait message and
 	 * waiting for a key press.
  	 *
- 	 * @param  int   $seconds    Number of seconds
+ 	 * @param  int  $seconds  Number of seconds
  	 * @param  bool  $countdown  Show a countdown or not
  	 *
  	 * @return string
@@ -505,9 +505,9 @@ class Cli
  	 * Outputs a string to the cli.	If you send an array it will implode them 
  	 * with a line break.
  	 * 
- 	 * @param  string|array  $text        The text to output, or array of lines
- 	 * @param  string|null   $foreground  The foreground color
- 	 * @param  string|null   $background  The background color
+ 	 * @param  string|array  $text  The text to output, or array of lines
+ 	 * @param  string|null  $foreground  The foreground color
+ 	 * @param  string|null  $background  The background color
  	 *
  	 * @return string
  	 */

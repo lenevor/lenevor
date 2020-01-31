@@ -139,9 +139,9 @@ class Application extends Container implements ApplicationContract
     /**
      * Throw an HttpException with the given data.
      *
-     * @param  int     $code
+     * @param  int  $code
      * @param  string  $message
-     * @param  array   $headers
+     * @param  array  $headers
      * 
      * @return void
      *
@@ -464,7 +464,7 @@ class Application extends Container implements ApplicationContract
      * Register a service provider.
      * 
      * @param  \Syscode\Support\ServiceProvider|string  $provider
-     * @param  bool                                     $force
+     * @param  bool  $force
      * 
      * @return \Syscode\Support\ServiceProvider
      */

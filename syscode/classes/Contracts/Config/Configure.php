@@ -45,8 +45,8 @@ interface Configure
 	/**
 	 * Returns a (dot notated) config setting.
 	 *
-	 * @param  string  $key      The dot-notated key or array of keys
-	 * @param  mixed   $default  The default value
+	 * @param  string  $key  The dot-notated key or array of keys
+	 * @param  mixed  $default  The default value
 	 *
 	 * @return mixed
 	 *
@@ -57,8 +57,8 @@ interface Configure
 	/**
 	 * Sets a value in the config array.
 	 *
-	 * @param  string  $key    The dot-notated key or array of keys
-	 * @param  mixed   $value  The default value
+	 * @param  string  $key  The dot-notated key or array of keys
+	 * @param  mixed  $value  The default value
 	 *
 	 * @return mixed
 	 *

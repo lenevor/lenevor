@@ -75,9 +75,9 @@ class Store implements Session
     /**
      * Constructor. The Store class instance.
      * 
-     * @param  string                    $name
+     * @param  string  $name
      * @param  \SessionHandlerInterface  $handler
-     * @param  string|null               $id
+     * @param  string|null  $id
      * 
      * @return void
      */
@@ -220,7 +220,7 @@ class Store implements Session
      * Push a value onto a session array.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return void
      */
@@ -249,7 +249,7 @@ class Store implements Session
      * Get an key from the session.
      * 
      * @param  string  $key
-     * @param  mixed   $default
+     * @param  mixed  $default
      * 
      * @return mixed
      */
@@ -262,7 +262,7 @@ class Store implements Session
      * Put a key / value pair or array of key / value pairs in the session.
      * 
      * @param  string|array  $key
-     * @param  mixed         $value
+     * @param  mixed  $value
      * 
      * @return mixed
      */
@@ -295,7 +295,7 @@ class Store implements Session
      * Flash a key / value pair to the session.
      * 
      * @param  string  $key
-     * @param  mixed   $value  (true by default)
+     * @param  mixed  $value  (true by default)
      * 
      * @return void
      */

@@ -118,8 +118,8 @@ class FlattenException
      * An exception is loaded to change the initial value in set methods.
      * 
      * @param  Throwable  $exception
-     * @param  int|null   $statusCode
-     * @param  array      $headers
+     * @param  int|null  $statusCode
+     * @param  array  $headers
      * 
      * @return new static
      */

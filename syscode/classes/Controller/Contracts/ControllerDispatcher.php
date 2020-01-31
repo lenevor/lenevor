@@ -35,9 +35,9 @@ interface ControllerDispatcher
     /**
      * Dispatch a request to a given controller and method.
      * 
-     * @param  mixed   $controller
+     * @param  mixed  $controller
      * @param  string  $method
-     * @param  array   $parameters
+     * @param  array  $parameters
      * 
      * @return mixed
      */

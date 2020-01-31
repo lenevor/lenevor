@@ -25,7 +25,6 @@
 namespace Syscode\Core\Exceptions;
 
 use Exception;
-
 use Syscode\Support\Arr;
 use Syscode\Debug\GDebug;
 use Syscode\Http\Response;
@@ -154,7 +153,7 @@ class Handler implements ExceptionHandlerContract
      * Render an exception into a response.
      *
      * @param  \Syscode\Http\Request  $request
-     * @param  \Exception             $e
+     * @param  \Exception  $e
      * 
      * @return \Syscode\Http\Response
      */
@@ -191,7 +190,7 @@ class Handler implements ExceptionHandlerContract
      * Prepare a response for the given exception.
      * 
      * @param  \Syscode\Http\Request  $request
-     * @param  \Exception             $e
+     * @param  \Exception  $e
      * 
      * @return \Syscode\Http\Response
      * 
@@ -308,7 +307,7 @@ class Handler implements ExceptionHandlerContract
      * Render an exception to a string using Flat Design Debug.
      * 
      * @param  \Exception  $e
-     * @param  bool        $debug
+     * @param  bool  $debug
      * 
      * @return string
      */
@@ -323,7 +322,7 @@ class Handler implements ExceptionHandlerContract
      * Map the given exception into an Syscode response.
      * 
      * @param  \Syscode\Http\Response  $response
-     * @param  \Exception              $e 
+     * @param  \Exception  $e 
      * 
      * @return \Syscode\Http\Response
      */

@@ -45,7 +45,7 @@ class Benchmark
      * Starts a timer running.
      * 
      * @param  string  $name
-     * @param  float   $time
+     * @param  float  $time
      * 
      * @return $this
      */
@@ -84,7 +84,7 @@ class Benchmark
      * Returns the duration of a recorded timer.
      * 
      * @param  string  $name
-     * @param  int     $decimals
+     * @param  int  $decimals
      * 
      * @return null|float
      */

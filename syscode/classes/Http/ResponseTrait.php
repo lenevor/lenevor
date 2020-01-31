@@ -92,9 +92,9 @@ trait ResponseTrait
     /**
      * Sets a header on the response.
      * 
-     * @param  string  $key      The header name
-     * @param  string  $values   The value or an array of values
-     * @param  bool    $replace  If you want to replace the value exists by the header
+     * @param  string  $key  The header name
+     * @param  string  $values  The value or an array of values
+     * @param  bool  $replace  If you want to replace the value exists by the header
      * 
      * @return array
      */

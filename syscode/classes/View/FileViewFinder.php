@@ -56,7 +56,7 @@ class FileViewFinder implements ViewFinder
      * Constructor. Create a new FileViewFinder class instance.
      * 
      * @param  \Syscode\Filesystem\Filesystem  $files
-     * @param  array|null $extensions  (null by default) 
+     * @param  array|null  $extensions  (null by default) 
      * 
      * @return void
      */

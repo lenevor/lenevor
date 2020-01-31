@@ -79,7 +79,7 @@ class Str
     /**
      * Determine if a given string contains a given substring.
      * 
-     * @param  string        $haystack
+     * @param  string  $haystack
      * @param  string|array  $needles
      * 
      * @return bool
@@ -100,7 +100,7 @@ class Str
     /**
      * Determine if a given string ends with a given substring.
      *
-     * @param  string        $haystack
+     * @param  string  $haystack
      * @param  string|array  $needles
      *
      * @return bool
@@ -158,7 +158,7 @@ class Str
      * Limit the number of characters in a string.
      *
      * @param  string  $value
-     * @param  int     $limit
+     * @param  int  $limit
      * @param  string  $end
      *
      * @return tring
@@ -201,7 +201,7 @@ class Str
     /**
      * Generate a more truly "random" alpha-numeric string.
      * 
-     * @param  int  $length
+     * @param  int  $length  (16 by default)
      * 
      * @return string
      */
@@ -259,7 +259,7 @@ class Str
     /**
      * Determine if a given string starts with a given substring.
      *
-     * @param  string        $haystack
+     * @param  string  $haystack
      * @param  string|array  $needles
      *
      * @return bool

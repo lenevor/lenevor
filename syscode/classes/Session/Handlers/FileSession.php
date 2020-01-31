@@ -60,8 +60,8 @@ class FileSession implements SessionHandlerInterface
      * Constructor. The FileSession class instance.
      * 
      * @param  \Syscode\Filesystem\filesystem  $file
-     * @param  string                          $path
-     * @param  int                             $minutes
+     * @param  string  $path
+     * @param  int  $minutes
      * 
      * @return void
      */

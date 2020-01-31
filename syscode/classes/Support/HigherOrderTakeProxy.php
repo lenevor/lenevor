@@ -52,7 +52,7 @@ class HigherOrderTakeProxy
      * Dynamically pass method calls to the target.
      * 
      * @param  string  $method
-     * @param  array   $parameters
+     * @param  array  $parameters
      * 
      * @return mixed
      */

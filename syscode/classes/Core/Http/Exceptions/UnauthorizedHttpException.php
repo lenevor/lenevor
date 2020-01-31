@@ -37,11 +37,11 @@ class UnauthorizedHttpException extends HttpException
 	/**
 	 * Initialize constructor. 
 	 * 
-	 * @param  string      $challenge
-	 * @param  string      $message  
+	 * @param  string  $challenge
+	 * @param  string  $message  
 	 * @param  \Throwable  $previous
-	 * @param  int         $code
-	 * @param  array       $headers
+	 * @param  int  $code
+	 * @param  array  $headers
 	 * 
 	 * @return void
 	 */

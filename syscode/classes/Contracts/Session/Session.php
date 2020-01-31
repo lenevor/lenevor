@@ -88,7 +88,7 @@ interface Session
      * Push a value onto a session array.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return void
      */
@@ -107,7 +107,7 @@ interface Session
      * Get an key from the session.
      * 
      * @param  string  $key
-     * @param  mixed   $default
+     * @param  mixed  $default
      * 
      * @return mixed
      */
@@ -117,7 +117,7 @@ interface Session
      * Put a key / value pair or array of key / value pairs in the session.
      * 
      * @param  string|array  $key
-     * @param  mixed         $value
+     * @param  mixed  $value
      * 
      * @return mixed
      */
@@ -136,7 +136,7 @@ interface Session
      * Flash a key / value pair to the session.
      * 
      * @param  string  $key
-     * @param  mixed   $value  (true by default)
+     * @param  mixed  $value  (true by default)
      * 
      * @return void
      */

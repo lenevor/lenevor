@@ -52,7 +52,7 @@ class ParserEnv
     /**
      * Constructor. Builds the path to our file.
      * 
-     * @param  string       $path
+     * @param  string  $path
      * @param  string|null  $file
      * 
      * @return void
@@ -139,7 +139,7 @@ class ParserEnv
      * Sets the variable into the environment. 
      * Will parse the string to look for {name}={value} pattern.
      * 
-     * @param  string       $name
+     * @param  string  $name
      * @param  string|null  $value
      * 
      * @return void

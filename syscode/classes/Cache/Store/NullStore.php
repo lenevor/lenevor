@@ -56,8 +56,8 @@ class NullStore implements Store
      * Store an item in the cache for a given number of seconds.
      * 
      * @param  string  $key
-     * @param  mixed   $value
-     * @param  int     $seconds
+     * @param  mixed  $value
+     * @param  int  $seconds
      * 
      * @return bool
      */
@@ -70,7 +70,7 @@ class NullStore implements Store
      * Increment the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value  (1 by default)
+     * @param  mixed  $value  (1 by default)
      * 
      * @return int
      */
@@ -83,7 +83,7 @@ class NullStore implements Store
      * Decrement the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value  (1 by default)
+     * @param  mixed  $value  (1 by default)
      * 
      * @return int
      */
@@ -108,7 +108,7 @@ class NullStore implements Store
      * Stores an item in the cache indefinitely.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return bool
      */

@@ -89,8 +89,8 @@ class Http
 	/**
 	 * Fetch an item from the COOKIE array.
 	 *
-	 * @param  string  $index    The index key
-	 * @param  mixed   $default  The default value
+	 * @param  string  $index  The index key
+	 * @param  mixed  $default  The default value
 	 *
 	 * @return string|array
 	 */
@@ -102,8 +102,8 @@ class Http
 	/**
 	 * Fetch an item from the FILE array.
 	 *
-	 * @param  string  $index    The index key
-	 * @param  mixed   $default  The default value
+	 * @param  string  $index  The index key
+	 * @param  mixed  $default  The default value
 	 *
 	 * @return string|array
 	 */
@@ -115,8 +115,8 @@ class Http
 	/**
 	 * Fetch an item from the SERVER array.
 	 *
-	 * @param  string  $index    The index key
-	 * @param  mixed   $default  The default value
+	 * @param  string  $index  The index key
+	 * @param  mixed  $default  The default value
 	 *
 	 * @return string|array
 	 */

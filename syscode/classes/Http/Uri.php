@@ -120,7 +120,7 @@ class URI
 	/**
 	 * Constructor. The URI class instance.
 	 * 
-	 * @param  string|null  $uri
+	 * @param  string|null  $uri  (null by default)
 	 * 
 	 * @return void
 	 * 
@@ -137,7 +137,7 @@ class URI
 	/**
 	 * Sets and overwrites any current URI information.
 	 * 
-	 * @param  string|null  $uri
+	 * @param  string|null  $uri  (null by default)
 	 * 
 	 * @return mixed
 	 * 
@@ -241,7 +241,7 @@ class URI
 	 * Get the specified URI segment, return default if it doesn't exist.
 	 * Segment index is 1 based, not 0 based.
 	 *
-	 * @param  int    $index    The 1-based segment index
+	 * @param  int  $index  The 1-based segment index
 	 * @param  mixed  $default  The default value
 	 *
 	 * @return mixed

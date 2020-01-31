@@ -50,11 +50,11 @@ class HttpException extends LenevorException
 	/**
 	 * Initialize constructor. 
 	 * 
-	 * @param  int         $statusCode
-	 * @param  string      $message  
+	 * @param  int  $statusCode
+	 * @param  string  $message  
 	 * @param  \Throwable  $previous 
-	 * @param  array       $headers
-	 * @param  int         $code
+	 * @param  array  $headers
+	 * @param  int  $code
 	 * 
 	 * @return void
 	 * 

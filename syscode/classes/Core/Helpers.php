@@ -35,9 +35,9 @@ if ( ! function_exists('abort'))
     /**
      * Throw an HttpException with the given data.
      *
-     * @param  int     $code
+     * @param  int  $code
      * @param  string  $message
-     * @param  array   $headers
+     * @param  array  $headers
      * 
      * @return void
      *
@@ -56,7 +56,7 @@ if ( ! function_exists('app'))
      * Get the available Application instance or a Facade class instance.
      *
      * @param  string  $id
-     * @param  array   $parameters
+     * @param  array  $parameters
      * 
      * @return \Syscode\Core\Application|\Syscode\Support\Facades\Facade
      */
@@ -77,7 +77,7 @@ if ( ! function_exists('asset'))
      * Generate an asset path for the application.
      * 
      * @param  string  $path
-     * @param  bool    $secure
+     * @param  bool  $secure
      * 
      * @return string
      */
@@ -92,7 +92,7 @@ if ( ! function_exists('back'))
     /**
      * Create a new redirect response to the previous location.
      * 
-     * @param  int    $status    (302 by default)
+     * @param  int  $status    (302 by default)
      * @param  array  $headers
      * @param  mixed  $fallback  (false by default)
      * 
@@ -127,7 +127,8 @@ if ( ! function_exists('cache'))
      * If an array is passed, we'll assume you want to put to the cache.
      *
      * @param  dynamic  key|key,default|data,expiration|null
-     * @return mixed|\Illuminate\Cache\CacheManager
+     * 
+     * @return mixed|\Syscode\Cache\CacheManager
      *
      * @throws \Exception
      */
@@ -167,7 +168,7 @@ if ( ! function_exists('config'))
      * an array of values.
      *
      * @param   array|string  $key
-     * @param   mixed         $default
+     * @param   mixed  $default
      *
      * @return  mixed|\Syscode\Config\Configure
      */
@@ -228,7 +229,7 @@ if ( ! function_exists('decrypt'))
      * Decrypt the given value.
      * 
      * @param  mixed  $value
-     * @param  bool   $unserialize  (true by default)
+     * @param  bool  $unserialize  (true by default)
      * 
      * @return string
      */
@@ -259,7 +260,7 @@ if ( ! function_exists('encrypt'))
      * Encrypt the given value.
      * 
      * @param  mixed  $value
-     * @param  bool   $serialize  (true by default)
+     * @param  bool  $serialize  (true by default)
      * 
      * @return string
      */
@@ -276,7 +277,7 @@ if ( ! function_exists('getClass'))
      * only the name of the class.
      * 
      * @param  string  $classname
-     * @param  bool    $bool       (false by default)
+     * @param  bool  $bool       (false by default)
      * 
      * @return array
      */
@@ -293,7 +294,7 @@ if ( ! function_exists('isGetCommonPath'))
     /**
      * Find the common "root" path of two given paths or FQFN's.
      * 
-     * @param  array   $paths  Array with the paths to compare
+     * @param  array  $paths  Array with the paths to compare
      * 
      * @return string  The determined common path section
      */
@@ -330,6 +331,7 @@ if ( ! function_exists('isImport'))
      * 
      * @param  string  $path
      * @param  string  $folder
+     * 
      * @return void
      */
     function isImport($path, $folder = 'classes')
@@ -370,10 +372,10 @@ if ( ! function_exists('redirect'))
     /**
      * Get an instance of the redirect.
      *
-     * @param  string|null  $url      The url                        (null by default)
-     * @param  int          $code     The redirect status code       (302 by default)
-     * @param  array        $headers  An array of headers
-     * @param  bool|null    $secure   Type of protocol (http|https)  (null by default)
+     * @param  string|null  $url  The url  (null by default)
+     * @param  int   $code  The redirect status code  (302 by default)
+     * @param  array  $headers  An array of headers
+     * @param  bool|null  $secure  Type of protocol (http|https)  (null by default)
      *
      * @return \Syscode\Routing\Redirector
      */
@@ -393,8 +395,8 @@ if ( ! function_exists('request'))
     /**
      * Get an instance of the current request or an input item from the request.
      * 
-     * @param  array|string|null  $key      (null by default)
-     * @param  mixed              $default  (null by default)
+     * @param  array|string|null  $key  (null by default)
+     * @param  mixed  $default  (null by default)
      * 
      * @return \Syscode\Http\Request|string|array 
      */
@@ -417,8 +419,8 @@ if ( ! function_exists('response'))
      * Return a new Response from the application.
      *
      * @param  string  $body
-     * @param  int     $status   (200 by default)
-     * @param  array   $headers
+     * @param  int  $status  (200 by default)
+     * @param  array  $headers
      * 
      * @return \Syscode\Http\Response|\Syscode\Routing\RouteResponse
      */
@@ -471,7 +473,7 @@ if ( ! function_exists('secureUrl'))
      * Generate a HTTPS URL for the application.
      * 
      * @param  string  $path
-     * @param  array   $parameters
+     * @param  array  $parameters
      * 
      * @return string
      */
@@ -486,8 +488,8 @@ if ( ! function_exists('session'))
     /**
      * Get / set the specified session value.
      * 
-     * @param  string  $key      (null by default)
-     * @param  mixed   $default  (null by default)
+     * @param  string  $key  (null by default)
+     * @param  mixed  $default  (null by default)
      * 
      * @return mixed|\Syscode\Session\Store|\Syscode\Session\SessionManager
      */
@@ -512,7 +514,7 @@ if ( ! function_exists('segment'))
   /**
      * Returns the desired segment, or $default if it does not exist.
      *
-     * @param  int    $segment  
+     * @param  int  $segment  
      * @param  mixed  $default  (null by default)
      *
      * @return string
@@ -571,7 +573,7 @@ if ( ! function_exists('__'))
      * with the intl extension's MessageFormatter object.
      * 
      * @param  string  $line
-     * @param  array   $args
+     * @param  array  $args
      * 
      * @return string
      */
@@ -586,9 +588,9 @@ if ( ! function_exists('url'))
     /**
      * Generate a URL for the application.
      *
-     * @param  string|null  $path        (null by default)
-     * @param  array        $parameters
-     * @param  bool|null    $secure      (null by default)
+     * @param  string|null  $path  (null by default)
+     * @param  array  $parameters
+     * @param  bool|null  $secure  (null by default)
      *
      * @return string
      */
@@ -611,8 +613,8 @@ if ( ! function_exists('view'))
      *
      * @example $view->make($file, $data);
      *  
-     * @param  string|null  $file       View filename
-     * @param  array        $data       Array of values
+     * @param  string|null  $file  View filename
+     * @param  array  $data  Array of values
      * 
      * @return void
      */

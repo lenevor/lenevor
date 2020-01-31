@@ -98,7 +98,7 @@ class Router implements Routable
 	/**
 	 * Constructor initialize namespace.
 	 *
-	 * @param  string                          $namespace
+	 * @param  string  $namespace
 	 * @param  \Syscode\Routing\RouteResolver  $resolver
 	 * 
 	 * @return void
@@ -242,8 +242,8 @@ class Router implements Routable
 	 * Add new route to routes array.
 	 *
 	 * @param  array|string  $method
-	 * @param  string        $route
-	 * @param  mixed         $action
+	 * @param  string  $route
+	 * @param  mixed  $action
 	 *
 	 * @return void
 	 * 
@@ -446,7 +446,7 @@ class Router implements Routable
 	/**
 	 * Called the namespace and controller.
 	 *
-	 * @param  string           $route
+	 * @param  string  $route
 	 * @param  \Closure|string  $classname
 	 *
 	 * @return string
@@ -500,7 +500,7 @@ class Router implements Routable
 	/**
 	 * Register a custom macro.
 	 * 
-	 * @param  string    $name
+	 * @param  string  $name
 	 * @param  callable  $callback
 	 * 
 	 * @return void
@@ -512,7 +512,7 @@ class Router implements Routable
 	
 	/**
 	 * Checks if macro is registered.
-	 * @param  string    $name
+	 * @param  string  $name
 	 * 
 	 * @return boolean
 	 */
@@ -525,7 +525,7 @@ class Router implements Routable
 	 * Dynamically handle calls into the router instance.
 	 * 
 	 * @param  string  $method
-	 * @param  array   $parameters
+	 * @param  array  $parameters
 	 * 
 	 * @return mixed
 	 */

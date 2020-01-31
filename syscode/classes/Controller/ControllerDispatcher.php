@@ -33,12 +33,12 @@ use Syscode\Controller\Contracts\ControllerDispatcher as ControllerDispatcherCon
  */
 class ControllerDispatcher implements ControllerDispatcherContract
 {
-	/**
+    /**
      * Dispatch a request to a given controller and method.
      * 
-     * @param  mixed   $controller
+     * @param  mixed  $controller
      * @param  string  $method
-     * @param  array   $parameters
+     * @param  array  $parameters
      * 
      * @return mixed
      */
@@ -48,7 +48,7 @@ class ControllerDispatcher implements ControllerDispatcherContract
         {
             return $controller->callAction($method, $parameters);
         }
-
+        
         return $controller->{$method}(...array_values($parameters));
     }
 }

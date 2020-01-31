@@ -58,7 +58,7 @@ class LogManager implements LoggerInterface
     /**
      * Get a log driver instance.
      * 
-     * @param  string|null
+     * @param  string|null  $driver  (null by default)
      * 
      * @return mixed
      */
@@ -183,7 +183,7 @@ class LogManager implements LoggerInterface
      * Action must be taken immediately.
      * 
      * @param  string  $message
-     * @param  array   $context
+     * @param  array  $context
      * 
      * @return void
      */
@@ -196,7 +196,7 @@ class LogManager implements LoggerInterface
      * Critical conditions.
      * 
      * @param  string  $message
-     * @param  array   $context
+     * @param  array  $context
      * 
      * @return void
      */
@@ -209,7 +209,7 @@ class LogManager implements LoggerInterface
      * Detailed debug information.
      * 
      * @param  string  $message
-     * @param  array   $context
+     * @param  array  $context
      * 
      * @return void
      */
@@ -222,7 +222,7 @@ class LogManager implements LoggerInterface
      * System is unusable.
      * 
      * @param  string  $message
-     * @param  array   $context
+     * @param  array  $context
      * 
      * @return void
      */
@@ -236,7 +236,7 @@ class LogManager implements LoggerInterface
      * be logged and monitored.
      * 
      * @param  string  $message
-     * @param  array   $context
+     * @param  array  $context
      * 
      * @return void
      */
@@ -249,7 +249,7 @@ class LogManager implements LoggerInterface
      * Interesting events.
      * 
      * @param  string  $message
-     * @param  array   $context
+     * @param  array  $context
      * 
      * @return void
      */
@@ -262,7 +262,7 @@ class LogManager implements LoggerInterface
      * Normal but significant events.
      * 
      * @param  string  $message
-     * @param  array   $context
+     * @param  array  $context
      * 
      * @return void
      */
@@ -275,7 +275,7 @@ class LogManager implements LoggerInterface
      * Exceptional occurrences that are not errors.
      * 
      * @param  string  $message
-     * @param  array   $context
+     * @param  array  $context
      * 
      * @return void
      */
@@ -289,7 +289,7 @@ class LogManager implements LoggerInterface
      * 
      * @param  string  $level
      * @param  string  $message
-     * @param  array   $context
+     * @param  array  $context
      * 
      * @return void
      */
@@ -302,7 +302,7 @@ class LogManager implements LoggerInterface
      * Dynamically call the default driver instance.
      * 
      * @param  string  $method
-     * @param  array   $parameters
+     * @param  array  $parameters
      * 
      * @return mixed
      */

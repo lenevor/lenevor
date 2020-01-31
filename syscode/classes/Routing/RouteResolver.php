@@ -39,7 +39,7 @@ class RouteResolver
 	 * Resolve the given route and call the method that belongs to the route.
 	 *
 	 * @param  \Syscode\Contracts\Routing\Routable  $router 
-	 * @param  \Syscode\Http\Request                $request
+	 * @param  \Syscode\Http\Request  $request
 	 *
 	 * @return mixed
 	 *

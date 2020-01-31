@@ -37,8 +37,8 @@ class InvalidDateTimeException extends InvalidArgumentException
     /**
      * Constructor. The InvalidDateTimeException class instance.
      * 
-     * @param  string           $message
-     * @param  int              $code
+     * @param  string  $message
+     * @param  int  $code
      * @param  \Exception|null  $previous 
      * 
      * @return void

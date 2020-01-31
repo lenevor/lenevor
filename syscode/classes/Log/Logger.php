@@ -75,7 +75,7 @@ class Logger implements LoggerInterface
      * Log a alert message to the logs.
      * 
      * @param  string  $message
-     * @param  array   $context
+     * @param  array  $context
      * 
      * @return void
      */
@@ -88,7 +88,7 @@ class Logger implements LoggerInterface
      * Log a critical message to the logs.
      * 
      * @param  string  $message
-     * @param  array   $context
+     * @param  array  $context
      * 
      * @return void
      */
@@ -101,7 +101,7 @@ class Logger implements LoggerInterface
      * Log a debug message to the logs.
      * 
      * @param  string  $message
-     * @param  array   $context
+     * @param  array  $context
      * 
      * @return void
      */
@@ -114,7 +114,7 @@ class Logger implements LoggerInterface
      * Log a warning message to the logs.
      * 
      * @param  string  $message
-     * @param  array   $context
+     * @param  array  $context
      * 
      * @return void
      */
@@ -127,7 +127,7 @@ class Logger implements LoggerInterface
      * Log a error message to the logs.
      * 
      * @param  string  $message
-     * @param  array   $context
+     * @param  array  $context
      * 
      * @return void
      */
@@ -140,7 +140,7 @@ class Logger implements LoggerInterface
      * Log a info message to the logs.
      * 
      * @param  string  $message
-     * @param  array   $context
+     * @param  array  $context
      * 
      * @return void
      */
@@ -153,7 +153,7 @@ class Logger implements LoggerInterface
      * Log a notice message to the logs.
      * 
      * @param  string  $message
-     * @param  array   $context
+     * @param  array  $context
      * 
      * @return void
      */
@@ -166,7 +166,7 @@ class Logger implements LoggerInterface
      * Log a warning message to the logs.
      * 
      * @param  string  $message
-     * @param  array   $context
+     * @param  array  $context
      * 
      * @return void
      */
@@ -178,9 +178,9 @@ class Logger implements LoggerInterface
     /**
      * Log a message to the logs.
      * 
-     * @param  string       $level
+     * @param  string  $level
      * @param  string|null  $message
-     * @param  array        $context
+     * @param  array  $context
      * 
      * @return void
      */
@@ -194,7 +194,7 @@ class Logger implements LoggerInterface
      * 
      * @param  string  $level
      * @param  string  $message
-     * @param  array   $context
+     * @param  array  $context
      * 
      * @return void
      */
@@ -217,7 +217,7 @@ class Logger implements LoggerInterface
      * Dynamically proxy method calls to the underlying logger.
      * 
      * @param  string  $method
-     * @param  array   $parameters
+     * @param  array  $parameters
      * 
      * @return mixed
      */

@@ -33,7 +33,7 @@ use Syscode\View\Parser as ViewParser;
  */
 trait CompilesLayouts
 {
-	/**
+    /**
      * Compile the extends statements into valid PHP.
      * 
      * @param  string  $expression

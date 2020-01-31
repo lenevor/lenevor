@@ -69,9 +69,9 @@ class TemplateHandler
 	 */
 	public function __construct()
 	{
-		$this->system              = new System;
-		$this->benchmark           = new Benchmark;
-		$this->obLevel             = $this->system->getOutputBufferLevel();
+		$this->system    = new System;
+		$this->benchmark = new Benchmark;
+		$this->obLevel   = $this->system->getOutputBufferLevel();
 	}
 
 	/**

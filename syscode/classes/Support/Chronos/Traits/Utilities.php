@@ -57,8 +57,8 @@ trait Utilities
     /**
      * Returns a Time instance with the timezone converted to UTC.
      * 
-     * @param  \DateTime|string           $time
-     * @param  \DateTimeZone|string|null  $timezone
+     * @param  \DateTime|string  $time
+     * @param  \DateTimeZone|string|null  $timezone  (null by default)
      * 
      * @return \DateTime|\Syscode\Support\Chronos\Time
      */

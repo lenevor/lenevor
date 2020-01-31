@@ -50,7 +50,7 @@ interface Container extends ContainerInterface
      * Register a binding with container.
      * 
      * @param  string  $id
-     * @param  \Closure|string|null $value
+     * @param  \Closure|string|null  $value
      * @param  bool  $singleton
      * 
      * @return void
@@ -87,7 +87,7 @@ interface Container extends ContainerInterface
      * Register an existing instance as singleton in the container.
      *
      * @param  string  $id
-     * @param  mixed   $instance
+     * @param  mixed  $instance
      * 
      * @return mixed
      */
@@ -97,7 +97,7 @@ interface Container extends ContainerInterface
      * Resolve the given type from the container.
      * 
      * @param  string  $id
-     * @param  array   $parameters
+     * @param  array  $parameters
      * 
      * @return object
      */

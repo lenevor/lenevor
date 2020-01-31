@@ -47,8 +47,8 @@ class Configure implements ConfigureContract
 	/**
 	 * Returns a (dot notated) config setting.
 	 *
-	 * @param  string  $key      The dot-notated key or array of keys
-	 * @param  mixed   $default  The default value
+	 * @param  string  $key  The dot-notated key or array of keys
+	 * @param  mixed  $default  The default value
 	 *
 	 * @return mixed
 	 *
@@ -75,8 +75,8 @@ class Configure implements ConfigureContract
 	/**
 	 * Sets a value in the config array.
 	 *
-	 * @param  string  $key    The dot-notated key or array of keys
-	 * @param  mixed   $value  The default value
+	 * @param  string  $key  The dot-notated key or array of keys
+	 * @param  mixed  $value  The default value
 	 *
 	 * @return mixed
 	 *
@@ -114,8 +114,8 @@ class Configure implements ConfigureContract
 	 *
 	 * @example Configure::app('baseUrl');
 	 *
-	 * @param  string  $name   The variable name     
-	 * @param  array   $value  Value
+	 * @param  string  $name  The variable name     
+	 * @param  array  $value  Value
 	 *
 	 * @return mixed
 	 */

@@ -51,7 +51,7 @@ class CacheBasedSession implements SessionHandlerInterface
      * Constructor. The FileSession class instance.
      * 
      * @param  \Syscode\Contracts\Cache\Store  $cache
-     * @param  int                             $minutes
+     * @param  int  $minutes
      * 
      * @return void
      */

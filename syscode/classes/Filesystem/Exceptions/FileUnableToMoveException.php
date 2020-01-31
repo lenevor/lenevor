@@ -34,8 +34,8 @@ class FileUnableToMoveException extends FileException
     /**
      * Constructor. Initialize FileUnableToMoveException class.
      * 
-     * @param  string  $path   (null by default)
-     * @param  string  $to     (null by default)
+     * @param  string  $path  (null by default)
+     * @param  string  $to  (null by default)
      * @param  string  $error  (null by default)
      * 
      * @return void

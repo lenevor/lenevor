@@ -59,8 +59,8 @@ class RedisStore implements Store
      * Constructor. Create a new Redis store.
      * 
      * @param  \Syscode\Redis\RedisManager  $redis 
-     * @param  string                       $prefix
-     * @param  string                       $connection  
+     * @param  string  $prefix
+     * @param  string  $connection  
      * 
      * @return void
      */
@@ -89,8 +89,8 @@ class RedisStore implements Store
      * Store an item in the cache for a given number of seconds.
      * 
      * @param  string  $key
-     * @param  mixed   $value
-     * @param  int     $seconds
+     * @param  mixed  $value
+     * @param  int  $seconds
      * 
      * @return bool
      */
@@ -107,7 +107,7 @@ class RedisStore implements Store
      * Increment the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value  (1 by default)
+     * @param  mixed  $value  (1 by default)
      * 
      * @return int
      */
@@ -120,7 +120,7 @@ class RedisStore implements Store
      * Decrement the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value  (1 by default)
+     * @param  mixed  $value  (1 by default)
      * 
      * @return int
      */
@@ -145,7 +145,7 @@ class RedisStore implements Store
      * Stores an item in the cache indefinitely.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return bool
      */

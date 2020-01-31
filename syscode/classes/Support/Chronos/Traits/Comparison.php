@@ -38,7 +38,7 @@ trait Comparison
      * Determines if the datetime passed in is equal to the current instance.
      * 
      * @param  \Syscode\Support\Chronos\Time|\DateTime|string  $time
-     * @param  \DateTimeZone|string|null                       $timezone
+     * @param  \DateTimeZone|string|null  $timezone
      * 
      * @return bool
      */
@@ -56,7 +56,7 @@ trait Comparison
      * Determines if the current instance's time is before test time, 
      * after converting to UTC.
      * 
-     * @param  \DateTime|string           $time
+     * @param  \DateTime|string  $time
      * @param  \DatetimeZone|string|null  $timezone
      * 
      * @return bool
@@ -73,7 +73,7 @@ trait Comparison
      * Determines if the current instance's time is after test time, 
      * after converting to UTC.
      * 
-     * @param  \DateTime|string           $time
+     * @param  \DateTime|string  $time
      * @param  \DatetimeZone|string|null  $timezone
      * 
      * @return bool
@@ -90,7 +90,7 @@ trait Comparison
      * Ensures that the times are identical, taking timezone into account.
      * 
      * @param  \Syscode\Support\Chronos\Time\DateTime|string  $time
-     * @param  \DatetimeZone|string|null                      $timezone
+     * @param  \DatetimeZone|string|null  $timezone
      * 
      * @return bool
      */

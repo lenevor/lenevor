@@ -33,15 +33,15 @@ use Syscode\Contracts\Core\Application;
  */
 class BootProviders
 {
-    /**
+	/**
 	 * Bootstrap the given application.
 	 * 
 	 * @param  \Syscode\Contracts\Core\Application  $app
 	 * 
 	 * @return void
 	 */
-    public function Bootstrap(Application $app)
-    {
-        return $app->boot();
-    }
+	public function Bootstrap(Application $app)
+	{
+		return $app->boot();
+	}
 }

@@ -32,7 +32,7 @@ class ContainerException extends InvalidArgumentException implements ContainerEx
     /**
      * Constructor. Message error.
      * 
-     * @param  string  $id Identifier of the service
+     * @param  string  $id  Identifier of the service
      * 
      * @return void
      */

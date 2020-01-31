@@ -55,7 +55,7 @@ class Redirector
     /**
      * Create a new redirect response to the previous location.
      * 
-     * @param  int    $status    (302 by default)
+     * @param  int  $status  (302 by default)
      * @param  array  $headers
      * @param  mixed  $fallback  (false by default)
      * 
@@ -69,7 +69,7 @@ class Redirector
     /**
      * Create a new redirect response to the current URI.
      * 
-     * @param  int    $status   (302 by default)
+     * @param  int  $status  (302 by default)
      * @param  array  $headers
      * 
      * @return \Syscode\Http\RedirectResponse
@@ -82,10 +82,10 @@ class Redirector
     /**
      * Create a new redirect response to the given path.
      * 
-     * @param  string     $path
-     * @param  int        $status   (302 by default)
-     * @param  array      $headers
-     * @param  bool|null  $secure   (null by default)
+     * @param  string  $path
+     * @param  int  $status  (302 by default)
+     * @param  array  $headers
+     * @param  bool|null  $secure  (null by default)
      * 
      * @return \Syscode\Http\RedirectResponse
      */
@@ -98,8 +98,8 @@ class Redirector
      * Create a new redirect response to an external URL (no validation).
      * 
      * @param  string  $path
-     * @param  int     $status  (302 by default)
-     * @param  array   $headers
+     * @param  int  $status  (302 by default)
+     * @param  array  $headers
      * 
      * @return \Syscode\Http\RedirectResponse
      */
@@ -112,8 +112,8 @@ class Redirector
      * Create a new redirect response to the given HTTPS path.
      * 
      * @param  string  $path
-     * @param  int     $status   (302 by default)
-     * @param  array   $headers
+     * @param  int  $status  (302 by default)
+     * @param  array  $headers
      * 
      * @return \Syscode\Http\RedirectResponse
      */
@@ -126,8 +126,8 @@ class Redirector
      * Creates a new redirect response.
      * 
      * @param  string  $path
-     * @param  int     $status
-     * @param  array   $headers
+     * @param  int  $status
+     * @param  array  $headers
      * 
      * @return \Syscode\Http\RedirectResponse
      */

@@ -110,7 +110,7 @@ class Encrypter implements EncrypterContract
      * Encrypt the given value.
      * 
      * @param  mixed  $value
-     * @param  bool   $serialize  (true by default)
+     * @param  bool  $serialize  (true by default)
      * 
      * @return string
      * 
@@ -147,7 +147,7 @@ class Encrypter implements EncrypterContract
      * Create a keyed has for the given value.
      * 
      * @param  string  $iv
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return string
      */
@@ -172,7 +172,7 @@ class Encrypter implements EncrypterContract
      * Decrypt the given value.
      * 
      * @param  string  $value
-     * @param  bool    $unserialize  (true by default)
+     * @param  bool  $unserialize  (true by default)
      * 
      * @return mixed
      * 
@@ -253,7 +253,7 @@ class Encrypter implements EncrypterContract
     /**
      * Calculate the hash of the given payload.
      * 
-     * @param  array   $payload
+     * @param  array  $payload
      * @param  string  $bytes
      * 
      * @return string

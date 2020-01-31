@@ -97,11 +97,11 @@ class Finder
     /**
      * An alias for Finder::instance()->locate().
      *
-     * @param  string       $file       The file
-     * @param  string       $directory  The directory
+     * @param  string  $file  The file  (null by default)
+     * @param  string   $directory  The directory
      * @param  string|null  $extension  The file extension  (null by default)
      *
-     * @return mixed        Path, or paths, or false
+     * @return mixed  Path, or paths, or false
      */
     public static function search(string $file = null, string $directory, $extension = null)
     {
@@ -117,7 +117,7 @@ class Finder
      *   (index): The path will get inserted AFTER the given index
      *
      * @param  string|array  $paths  The path to add
-     * @param  int           $pos    The position to add the path  (null by default)
+     * @param  int  $pos  The position to add the path  (null by default)
      *
      * @return $this
      *
@@ -157,7 +157,7 @@ class Finder
     /**
      * Returns the search for a directory and file with their respective extension.
      *
-     * @param  string  $file       The file
+     * @param  string  $file  The file
      * @param  string  $directory  The directory
      * @param  string  $extension  The file extension  (null by default)
      *

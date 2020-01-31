@@ -79,8 +79,8 @@ class CacheRepository implements ArrayAccess
     /**
      * Attempts to retrieve an item from the cache by key.
      * 
-     * @param  string  $key      Cache item name
-     * @param  mixed   $default  (null by default)
+     * @param  string  $key  Cache item name
+     * @param  mixed  $default  (null by default)
      * 
      * @return mixed
      */
@@ -100,7 +100,7 @@ class CacheRepository implements ArrayAccess
      * Retrieve an item from the cache and delete it.
      * 
      * @param  string  $key
-     * @param  mixed   $default  (null by default)
+     * @param  mixed  $default  (null by default)
      * 
      * @return mixed
      */
@@ -114,9 +114,9 @@ class CacheRepository implements ArrayAccess
     /**
      * Saves an item to the cache store.
      * 
-     * @param  string    $key    Cache item name
-     * @param  mixed     $value  The data to save 
-     * @param  int|null  $ttl    Time To Live, in seconds (null by default)
+     * @param  string  $key  Cache item name
+     * @param  mixed  $value  The data to save 
+     * @param  int|null  $ttl  Time To Live, in seconds (null by default)
      */
     public function save($key, $value, $ttl = null)
     {
@@ -139,7 +139,7 @@ class CacheRepository implements ArrayAccess
      * Increment the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value  (1 by default)
+     * @param  mixed  $value  (1 by default)
      * 
      * @return int
      */
@@ -152,7 +152,7 @@ class CacheRepository implements ArrayAccess
      * Decrement the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value  (1 by default)
+     * @param  mixed  $value  (1 by default)
      * 
      * @return int
      */
@@ -177,7 +177,7 @@ class CacheRepository implements ArrayAccess
      * Stores an item in the cache indefinitely.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return bool
      */
@@ -295,7 +295,7 @@ class CacheRepository implements ArrayAccess
      * Store an item in the cache for the default time.
      * 
      * @param  string  $offset
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return void
      */
@@ -320,7 +320,7 @@ class CacheRepository implements ArrayAccess
      * Handle dynamic calls into missing methods to the store.
      * 
      * @param  string  $method
-     * @param  array   $parameters
+     * @param  array  $parameters
      * 
      * @return mixed
      */

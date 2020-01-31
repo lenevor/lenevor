@@ -37,11 +37,11 @@ class MethodNotAllowedHttpException extends HttpException
 	/**
 	 * Initialize constructor.
 	 * 
-	 * @param  array       $allow
-	 * @param  string      $message  
+	 * @param  array  $allow
+	 * @param  string  $message  
 	 * @param  \Throwable  $previous
-	 * @param  int         $code 
-	 * @param  array       $headers
+	 * @param  int  $code 
+	 * @param  array  $headers
 	 * 
 	 * @return void
 	 */

@@ -38,7 +38,7 @@ abstract class Controller
      * Execute an action on the controller.
      * 
      * @param  string  $method
-     * @param  array   $parameters
+     * @param  array  $parameters
      * 
      * @return void
      */
@@ -51,7 +51,7 @@ abstract class Controller
      * Dynamically handle calls to methods on the controller.
      * 
      * @param  string  $method
-     * @param  array   $parameters
+     * @param  array  $parameters
      * 
      * @return mixed
      * 

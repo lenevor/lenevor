@@ -247,10 +247,10 @@ class GDebug implements DebugContract
 	 * This will catch the php native error and treat it as a exception which will 
 	 * provide a full back trace on all errors.
 	 *
-	 * @param  int          $level
-	 * @param  string       $message
+	 * @param  int  $level
+	 * @param  string  $message
 	 * @param  string|null  $file
-	 * @param  int|null     $line
+	 * @param  int|null  $line
 	 *
 	 * @throws \ErrorException
 	 */

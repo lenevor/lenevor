@@ -54,6 +54,7 @@ class RouteFileRegister
      * Require the given routes file.
      *
      * @param  string  $routes
+     * 
      * @return void
      */
     public function register($routes)

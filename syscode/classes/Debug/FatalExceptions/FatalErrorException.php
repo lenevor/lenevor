@@ -38,16 +38,17 @@ class FatalErrorException extends ErrorException
     /**
      * Constructor. Initialize FatalErrorException class.
      * 
-     * @param  string      $message
-     * @param  int         $code
-     * @param  int         $severity
-     * @param  string      $filename
-     * @param  int         $lineno
-     * @param  int|null    $traceOffset
-     * @param  bool        $traceArgs
+     * @param  string  $message
+     * @param  int  $code
+     * @param  int  $severity
+     * @param  string  $filename
+     * @param  int  $lineno
+     * @param  int|null  $traceOffset
+     * @param  bool  $traceArgs
      * @param  array|null  $trace
      * @param  \Throwable  $previous
      * 
+     * @return void
      */
     public function __construct(
         string    $message,

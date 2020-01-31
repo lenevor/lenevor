@@ -91,7 +91,7 @@ class Autoloader
      * Registers a namespace with the autoloader.
      *
      * @param  string  $namespace  The namespace
-     * @param  string  $path       The path 
+     * @param  string  $path  The path 
      *
      * @return void
      */
@@ -133,7 +133,7 @@ class Autoloader
      * Loader of files with ID global.
      * 
      * @param  bool|int  $fileIdentifier
-     * @param  string    $file
+     * @param  string  $file
      * 
      * @return mixed
      */
@@ -230,8 +230,9 @@ class Autoloader
         }
 
         $paths = [
-            APP_PATH.'Http/Controllers/',
+            APP_PATH.'Models/',
             APP_PATH.'Console/',
+            APP_PATH.'Http/Controllers/',
         ];
 
         $class = str_replace('\\', DIRECTORY_SEPARATOR, $class).'.php';

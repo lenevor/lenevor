@@ -81,7 +81,7 @@ class ExceptionHandler
     /**
      * Register the exception handler.
      * 
-     * @param  bool         $debug
+     * @param  bool  $debug
      * @param  string|null  $charset
      * @param  string|null  $fileLinkformat
      * 
@@ -99,7 +99,7 @@ class ExceptionHandler
     /**
      * Constructor. Initialize the ExceptionHandler instance.
      * 
-     * @param  bool         $debug
+     * @param  bool  $debug
      * @param  string|null  $charset
      * @param  string|null  $fileLinkformat
      * 
@@ -465,7 +465,7 @@ EOF;
      * Gets the path file with you line code.
      * 
      * @param  string  $path
-     * @param  int     $line
+     * @param  int  $line
      * 
      * @return string
      */

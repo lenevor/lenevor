@@ -76,9 +76,9 @@ class Parser implements ParserContract
 		$this->finder  = $finder;
 
 		$this->share('__env', $this);
-    }
-
-    /**
+	}
+	
+	/**
 	 * Check existance view file.
 	 * 
 	 * @param  string  $view
@@ -97,9 +97,9 @@ class Parser implements ParserContract
 		}
 
 		return true;
-    }
-    
-    /**
+	}
+	
+	/**
 	 * Global and local data are merged and extracted to create local variables within the view file.
 	 * Renders the view object to a string.
 	 *
@@ -120,19 +120,19 @@ class Parser implements ParserContract
 		return take($this->viewInstance($file, $data), function ($view) {
 			return $view;
 		});
-    }
-    
-    /**
-     * Create a new view instance from the given arguments.
-     * 
-     * @param  string  $file  View filename  (null by default)
-	 * @param  array   $data  Array of values
-     * 
-     * @return \Syscode\Contracts\View\View
-     */
-    protected function viewInstance($view, $data)
-    {
-        return new View($this, $this->getEngineFromPath($view), $view, $data);
+	}
+	
+	/**
+	 * Create a new view instance from the given arguments.
+	 * 
+	 * @param  string  $file  View filename  (null by default)
+	 * @param  array  $data  Array of values
+	 * 
+	 * @return \Syscode\Contracts\View\View
+	 */
+	protected function viewInstance($view, $data)
+	{
+		return new View($this, $this->getEngineFromPath($view), $view, $data);
 	}
 	
 	/**

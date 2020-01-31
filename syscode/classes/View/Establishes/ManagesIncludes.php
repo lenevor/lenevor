@@ -31,12 +31,12 @@ namespace Syscode\View\Establishes;
  */
 trait ManagesIncludes
 {
-    /**
+	/**
 	 * Include another view in a view.
-	 *
+	 * 
 	 * @param  string  $file
 	 * @param  array  $data
-	 *
+	 * 
 	 * @return string
 	 */
 	public function include($file, $data)

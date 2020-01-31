@@ -64,8 +64,8 @@ class ApcWrapper
      * Store an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value
-     * @param  int     $seconds
+     * @param  mixed  $value
+     * @param  int  $seconds
      * 
      * @return array|bool
      */
@@ -78,7 +78,7 @@ class ApcWrapper
      * Increment the value of an time in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return int|bool
      */
@@ -91,7 +91,7 @@ class ApcWrapper
      * Decrement the value of an time in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return int|bool
      */

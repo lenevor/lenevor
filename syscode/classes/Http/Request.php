@@ -115,8 +115,8 @@ class Request
 	/**
 	 * Constructor: Initialize the Request class.
 	 * 
-	 * @param  string|null         $body
-	 * @param  \Syscode\Http\Uri   $uri
+	 * @param  string|null  $body
+	 * @param  \Syscode\Http\Uri  $uri
 	 * @param  \Syscode\Http\Http  $http
 	 * 
 	 * @return string
@@ -164,7 +164,7 @@ class Request
 	/**
 	 * Returns the desired segment, or $default if it does not exist.
 	 *
-	 * @param  int    $index    The segment number (1-based index)
+	 * @param  int  $index  The segment number (1-based index)
 	 * @param  mixed  $default  Default value to return
 	 *
 	 * @return  string
@@ -319,8 +319,8 @@ class Request
 	 * the JSON into an array.
 	 * 
 	 * @param  bool  $assoc
-	 * @param  int   $depth
-	 * @param  int   $options
+	 * @param  int  $depth
+	 * @param  int  $options
 	 * 
 	 * @return mixed
 	 */

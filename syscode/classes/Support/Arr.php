@@ -52,9 +52,9 @@ class Arr
 	/**
 	 * Add an element to an array using "dot" notation if it doesn't exist.
 	 *
-	 * @param  array   $array  The search array 
-	 * @param  string  $key    The key exist
-	 * @param  mixed   $value  The default value
+	 * @param  array  $array  The search array 
+	 * @param  string  $key  The key exist
+	 * @param  mixed  $value  The default value
 	 *
 	 * @return array 
 	 */
@@ -83,7 +83,7 @@ class Arr
 	/**
 	 * Get all of the given array except for a specified array of items.
 	 *
-	 * @param  array         $array
+	 * @param  array  $array
 	 * @param  string|array  $keys
 	 *
 	 * @return array
@@ -99,7 +99,7 @@ class Arr
 	 * Determine if the given key exists in the provided array.
 	 *
 	 * @param  ArrayAccess|array  $array  The search array
-	 * @param  string|int         $key    The key exist
+	 * @param  string|int  $key  The key exist
 	 *
 	 * @return bool
 	 *
@@ -119,7 +119,7 @@ class Arr
 	 * Unsets dot-notated key from an array.
 	 *
 	 * @param  array  $array  The search array
-	 * @param  mixed  $keys   The dot-notated key or array of keys
+	 * @param  mixed  $keys  The dot-notated key or array of keys
 	 *
 	 * @return mixed
 	 */
@@ -170,7 +170,7 @@ class Arr
 	/**
 	 * Fetch a flattened array of a nested array element.
 	 * 
-	 * @param  array   $array
+	 * @param  array  $array
 	 * @param  string  $key
 	 * 
 	 * @return array
@@ -198,9 +198,9 @@ class Arr
 	/**
 	 * Return the first element in an array passing a given truth test.
 	 *
-	 * @param  array     $array 
+	 * @param  array  $array 
 	 * @param  \Closure  $callback
-	 * @param  mixed     $default
+	 * @param  mixed  $default  (null by default)
 	 *
 	 * @return mixed
 	 */
@@ -217,9 +217,9 @@ class Arr
 	/**
 	 * Get an item from an array using "dot" notation.
 	 *
-	 * @param  ArrayAccess|array  $array    The search array
-	 * @param  string             $key      The dot-notated key or array of keys
-	 * @param  mixed              $default  The default value
+	 * @param  ArrayAccess|array  $array  The search array
+	 * @param  string  $key  The dot-notated key or array of keys
+	 * @param  mixed  $default  The default value
 	 *
 	 * @return mixed
 	 */
@@ -253,9 +253,9 @@ class Arr
 	/**
 	 * Return the last element in an array passing a given truth test.
 	 *
-	 * @param  array     $array 
+	 * @param  array  $array 
 	 * @param  \Closure  $callback
-	 * @param  mixed     $default 
+	 * @param  mixed  $default 
 	 *
 	 * @return mixed
 	 *
@@ -269,9 +269,9 @@ class Arr
 	/**
 	 * Sets a value in an array using "dot" notation.
 	 *
-	 * @param  array   $array  The search array
-	 * @param  string  $key    The dot-notated key or array of keys
-	 * @param  mixed   $value  The default value
+	 * @param  array  $array  The search array
+	 * @param  string  $key  The dot-notated key or array of keys
+	 * @param  mixed  $value  The default value
 	 *
 	 * @return mixed
 	 */
@@ -299,9 +299,9 @@ class Arr
 	/**
 	 * Get a value from the array, and remove it.
 	 * 
-	 * @param  array   $array
+	 * @param  array  $array
 	 * @param  string  $key
-	 * @param  mixed   $default  (null by default)
+	 * @param  mixed  $default  (null by default)
 	 * 
 	 * @return mixed
 	 */

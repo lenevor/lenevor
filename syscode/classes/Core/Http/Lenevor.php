@@ -96,8 +96,8 @@ class Lenevor implements LenevorContract
 	 * Constructor. Lenevor class instance.
 	 * 
 	 * @param  \Syscode\Contracts\Core\Application  $app
-	 * @param  \Syscode\Http\Request                $request
-	 * @param  \Syscode\Debug\Benchmark             $benchmark
+	 * @param  \Syscode\Http\Request   $request
+	 * @param  \Syscode\Debug\Benchmark  $benchmark
 	 * 
 	 * @return void
 	 */
@@ -326,7 +326,7 @@ class Lenevor implements LenevorContract
 	 * Render the exception to a response.
 	 * 
 	 * @param  \Syscode\Http\Request  $request
-	 * @param  \Exception             $e
+	 * @param  \Exception  $e
 	 * 
 	 * @return \Syscode\Http\Response
 	 */

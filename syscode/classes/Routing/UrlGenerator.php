@@ -81,7 +81,7 @@ class UrlGenerator
     /**
      * Get the URL for the previous request.
      * 
-     * @param  mixed  $fallback
+     * @param  mixed  $fallback  (false by default)
      * 
      * @return string
      */
@@ -106,8 +106,8 @@ class UrlGenerator
     /**
      * Generate a absolute URL to the given path.
      * 
-     * @param  string     $path
-     * @param  mixed      $options
+     * @param  string  $path
+     * @param  mixed  $options
      * @param  bool|null  $secure
      * 
      * @return string
@@ -135,7 +135,7 @@ class UrlGenerator
      * Generate a secure, absolute URL to the given path.
      * 
      * @param  string  $path
-     * @param  array   $parameters
+     * @param  array  $parameters
      * 
      * @return string
      */
@@ -147,7 +147,7 @@ class UrlGenerator
     /**
      * Generate a URL to an application asset.
      * 
-     * @param  string     $path
+     * @param  string  $path
      * @param  bool|null  $secure  (null by default)
      * 
      * @return string
@@ -170,7 +170,7 @@ class UrlGenerator
     /**
      * Generate a URL to a secure asset.
      * 
-     * @param  string
+     * @param  string  $path
      * 
      * @return string
      */
@@ -225,7 +225,7 @@ class UrlGenerator
     /**
      * Get the base URL for the request.
      * 
-     * @param  string       $scheme
+     * @param  string  $scheme
      * @param  string|null  $root
      * 
      * @return string

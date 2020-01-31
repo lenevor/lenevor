@@ -28,8 +28,12 @@ use Closure;
 use ArrayAccess;
 use ReflectionClass;
 use ReflectionParameter;
-use Syscode\Container\Exceptions\{ ContainerException, UnknownIdentifierException };
-use Syscode\Contracts\Container\{ NotFoundException, BindingResolutionException, ExpectedInvokableException, Container as ContainerContract };
+use Syscode\Contracts\Container\NotFoundException;
+use Syscode\Container\Exceptions\ContainerException;
+use Syscode\Contracts\Container\BindingResolutionException;
+use Syscode\Contracts\Container\ExpectedInvokableException;
+use Syscode\Container\Exceptions\UnknownIdentifierException;
+use Syscode\Contracts\Container\Container as ContainerContract;
 
 /**
  * Class responsible of registering the bindings, instances and 
@@ -153,9 +157,9 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Register a binding with container.
      * 
-     * @param  string                $id
+     * @param  string  $id
      * @param  \Closure|string|null  $value
-     * @param  bool                  $singleton
+     * @param  bool  $singleton
      * 
      * @return void
      */
@@ -382,7 +386,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Extender an id type in the container.
      *
-     * @param  string    $id
+     * @param  string  $id
      * @param  \Closure  $closure
      * 
      * @return void
@@ -526,7 +530,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Get the services callbacks for a given type.
      * 
-     * @param  string
+     * @param  string  $id
      * 
      * @return array
      */
@@ -558,7 +562,7 @@ class Container implements ArrayAccess, ContainerContract
      * Register an existing instance as singleton in the container.
      *
      * @param  string  $id
-     * @param  mixed   $instance
+     * @param  mixed  $instance
      * 
      * @return mixed
      */
@@ -631,7 +635,7 @@ class Container implements ArrayAccess, ContainerContract
      * Resolve the given type from the container.
      * 
      * @param  string  $id
-     * @param  array   $parameters
+     * @param  array  $parameters
      * 
      * @return object
      */
@@ -643,7 +647,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Activate the  callbacks for the given id type.
      * 
-     * @param  string
+     * @param  string  $id
      * 
      * @return void
      */
@@ -673,7 +677,7 @@ class Container implements ArrayAccess, ContainerContract
      * Resolve the given type from the container.
      * 
      * @param  string  $id
-     * @param  array   $parameters
+     * @param  array  $parameters
      * 
      * @return mixed
      */
@@ -877,7 +881,7 @@ class Container implements ArrayAccess, ContainerContract
      * Set the value at a given offset.
      * 
      * @param  string  $offset
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return void
      */
@@ -914,7 +918,7 @@ class Container implements ArrayAccess, ContainerContract
      * Dynamically set container services.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return mixed
      */

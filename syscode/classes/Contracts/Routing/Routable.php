@@ -37,89 +37,89 @@ interface Routable
 	/**
 	 * Add a route. 
 	 *
-	 * @param   \Syscode\Routing\Route  $route
+	 * @param  \Syscode\Routing\Route  $route
 	 *
-	 * @return  \Syscode\Routing\Route
+	 * @return \Syscode\Routing\Route
 	 */
 	public function addRoute(Route $route);
 
 	/**
 	 * Add a route for all posible methods.
 	 *
-	 * @param   string                 $route
-	 * @param   \Closure|array|string  $action
+	 * @param  string  $route
+	 * @param  \Closure|array|string  $action
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function any($route, $action);
 
 	/**
 	 * Add a route with delete method.
 	 *
-	 * @param   string                 $route
-	 * @param   \Closure|array|string  $action
+	 * @param  string  $route
+	 * @param  \Closure|array|string  $action
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function delete($route, $action);
 
 	/**
 	 * Add a route with get method.
 	 * 
-	 * @param   string                 $route
-	 * @param   \Closure|array|string  $action
+	 * @param  string  $route
+	 * @param  \Closure|array|string  $action
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function get($route, $action);
 
 	/**
 	 * Add a route with head method.
 	 *
-	 * @param   string                 $route
-	 * @param   \Closure|array|string  $action
+	 * @param  string  $route
+	 * @param  \Closure|array|string  $action
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function head($route, $action);
 
 	/**
 	 * Add a route with options method
 	 *
-	 * @param   string                 $route
-	 * @param   \Closure|array|string  $action
+	 * @param  string  $route
+	 * @param  \Closure|array|string  $action
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function options($route, $action);
 
 	/**
 	 * Add a route with patch method.
 	 *
-	 * @param   string                 $route
-	 * @param   \Closure|array|string  $action
+	 * @param  string  $route
+	 * @param  \Closure|array|string  $action
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function patch($route, $action);
 
 	/**
 	 * Add a route with post method.
 	 *
-	 * @param   string                 $route
-	 * @param   \Closure|array|string  $action
+	 * @param  string  $route
+	 * @param  \Closure|array|string  $action
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function post($route, $action);
 
 	/**
 	 * Add a route with put method.
 	 *
-	 * @param   string                 $route
-	 * @param   \Closure|array|string  $action
+	 * @param  string  $route
+	 * @param  \Closure|array|string  $action
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function put($route, $action);
 }

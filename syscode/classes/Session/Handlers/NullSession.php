@@ -37,6 +37,9 @@ class NullSession implements SessionHandlerInterface
     /**
      * Open session name.
      * 
+     * @param  string  $savePath
+     * @param  string  $sessionName
+     * 
      * @return bool
      */
     public function open($savePath, $sessionName)

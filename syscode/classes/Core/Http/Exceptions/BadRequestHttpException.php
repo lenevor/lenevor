@@ -36,10 +36,10 @@ class BadRequestHttpException extends HttpException
 	/**
 	 * Initialize constructor.
 	 * 
-	 * @param  string      $message  
+	 * @param  string  $message  
 	 * @param  \Throwable  $previous
-	 * @param  int         $code 
-	 * @param  array       $headers
+	 * @param  int  $code 
+	 * @param  array  $headers
 	 * 
 	 * @return void
 	 */

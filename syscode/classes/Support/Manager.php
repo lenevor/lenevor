@@ -152,7 +152,7 @@ abstract class Manager
     /**
      * Register a custom driver creator Closure.
      * 
-     * @param  string    $driver
+     * @param  string  $driver
      * @param  \Closure  $callback
      * 
      * @return $this
@@ -178,7 +178,7 @@ abstract class Manager
      * Dynamically call the default driver instance.
      * 
      * @param  string  $method
-     * @param  array   $parameters
+     * @param  array  $parameters
      * 
      * @return mixed
      */

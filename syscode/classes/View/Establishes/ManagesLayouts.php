@@ -36,14 +36,14 @@ trait ManagesLayouts
 {
 	/**
 	 * Extend a parent template.
-	 *
+	 * 
 	 * @var string $extend
 	 */
 	protected $extend;
-
+	
 	/**
 	 * Started blocks.
-	 *
+	 * 
 	 * @var array $sections
 	 */
 	protected $sections = [];
@@ -52,28 +52,28 @@ trait ManagesLayouts
 	 * The stack of in-progress sections.
 	 * 
 	 * @var array $sectionStack
-     */
-    protected $sectionStack = [];
-
+	 */
+	protected $sectionStack = [];
+	
 	/**
 	 * Extending a view.
-	 *
+	 * 
 	 * @param  string  $layout
 	 * @param  array  $data
-	 *
+	 * 
 	 * @return string
 	 */
 	public function extendsLayout($layout, $data)
 	{
 		return $this->make($layout, $data)->render();
 	}
-    
-    /**
+	
+	/**
 	 * Starting section.
-	 *
+	 * 
 	 * @param  string  $section
 	 * @param  string|null  $content  (null by default)
-	 *
+	 * 
 	 * @return array
 	 */
 	public function beginSection($section, $content = null)
@@ -82,7 +82,7 @@ trait ManagesLayouts
 		{
 			if (ob_start())
 			{
-				$this->sectionStack[] = $section;			
+				$this->sectionStack[] = $section;
 			}
 		}
 		else
@@ -90,7 +90,7 @@ trait ManagesLayouts
 			$this->extendSection($section, $content instanceof View ? $content : e($content));
 		}
 	}
-
+	
 	/**
 	 * Append content to a given section.
 	 * 
@@ -105,11 +105,11 @@ trait ManagesLayouts
 		{
 			$content = str_replace(static::parent(), $content, $this->sections[$section]);
 		}
-
+		
 		$this->sections[$section] = $content;
 	}
-    
-    /**
+	
+	/**
 	 * Close and printing section.
 	 * 
 	 * @return string
@@ -126,20 +126,20 @@ trait ManagesLayouts
 	
 	/**
 	 * Give sections the page view from the master page.
-	 *
+	 * 
 	 * @param  string  $name
-	 *
+	 * 
 	 * @return string
 	 */
 	public function giveContent($name, $default = '')
 	{
 		$sectionContent = $default instanceof View ? $default : e($default);
-
+		
 		if (isset($this->sections[$name]))
 		{
 			$sectionContent = $this->sections[$name];
 		}
-
+		
 		return str_replace(static::parent(), '', $sectionContent);
 	}
 	
@@ -147,20 +147,20 @@ trait ManagesLayouts
 	 * Closing section.
 	 * 
 	 * @param  bool  $overwrite  (false by default)
-	 *
+	 * 
 	 * @return mixed
 	 * 
 	 * @throws \InvalidArgumentException
 	 */
-	public function stopSection($overwrite = false)	
+	public function stopSection($overwrite = false)
 	{
 		if (empty($this->sectionStack))
 		{
 			throw new InvalidArgumentException('You cannot finish a section without first starting with one.');
 		}
-
+		
 		$last = array_pop($this->sectionStack);
-
+		
 		if ($overwrite)
 		{
 			$this->sections[$last] = ob_get_clean();
@@ -169,10 +169,10 @@ trait ManagesLayouts
 		{
 			$this->extendSection($last, ob_get_clean());
 		}
-
+		
 		return $last;
 	}
-
+	
 	/**
 	 * Stop injecting content into a section and append it.
 	 * 
@@ -186,9 +186,9 @@ trait ManagesLayouts
 		{
 			throw new InvalidArgumentException('You cannot finish a section without first starting with one.');
 		}
-
+		
 		$last = array_pop($this->sectionStack);
-
+		
 		if (isset($this->sections[$last]))
 		{
 			$this->sections[$last] .= ob_get_clean();
@@ -197,7 +197,7 @@ trait ManagesLayouts
 		{
 			$this->sections[$last] = ob_get_clean();
 		}
-
+		
 		return $last;
 	}
 	
@@ -212,7 +212,7 @@ trait ManagesLayouts
 	{
 		return array_key_exists($name, $this->sections);
 	}
-
+	
 	/**
 	 * Get the entire array of sections.
 	 * 
@@ -222,7 +222,7 @@ trait ManagesLayouts
 	{
 		return $this->sections;
 	}
-
+	
 	/**
 	 * Replace the @parent directive to a placeholder.
 	 * 

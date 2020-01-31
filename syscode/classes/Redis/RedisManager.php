@@ -113,7 +113,7 @@ class RedisManager
      * Dynamically make a Redis connection.
      * 
      * @param  string  $method
-     * @param  array   $parameters
+     * @param  array  $parameters
      * 
      * @return mixed
      */

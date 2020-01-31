@@ -67,7 +67,7 @@ class Parameters implements IteratorAggregate, Countable
 	/**
 	 * Get a parameter array item.
 	 *
-	 * @param  string       $key
+	 * @param  string  $key
 	 * @param  string|null  $fallback 
 	 *
 	 * @return mixed

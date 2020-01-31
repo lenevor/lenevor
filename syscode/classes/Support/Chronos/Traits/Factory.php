@@ -40,9 +40,9 @@ trait Factory
     /**
      * Constructor. The Date class instance.
      * 
-     * @param  string|null  $time
-     * @param  string|null  $timezone
-     * @param  string|null  $locale
+     * @param  string|null  $time  (null by default)
+     * @param  string|null  $timezone  (null by default)
+     * @param  string|null  $locale  (null by default)
      */
     public function __construct(string $time = null, $timezone = null, string $locale = null)
     {
@@ -78,8 +78,8 @@ trait Factory
     /**
      * Returns a new Time instance with the timezone set.
      * 
-     * @param  string|null  $timezone
-     * @param  string|null  $locale
+     * @param  string|null  $timezone  (null by default)
+     * @param  string|null  $locale  (null by default)
      * 
      * @return \Syscode\Support\Chronos\Time
      */
@@ -92,8 +92,8 @@ trait Factory
      * Returns a new Time instance while parsing a datetime string.
      * 
      * @param  string       $time
-     * @param  string|null  $timezone
-     * @param  string|null  $locale
+     * @param  string|null  $timezone  (null by default)
+     * @param  string|null  $locale  (null by default)
      * 
      * @return \Syscode\Support\Chronos\Time
      */
@@ -105,8 +105,8 @@ trait Factory
     /**
      * Return a new time with the time set to midnight.
      * 
-     * @param  string|null  $timezone
-     * @param  string|null  $locale
+     * @param  string|null  $timezone  (null by default)
+     * @param  string|null  $locale  (null by default)
      * 
      * @return \Syscode\Support\Chronos\Time
      */
@@ -118,8 +118,8 @@ trait Factory
     /**
      * Returns an instance set to midnight yesterday morning.
      * 
-     * @param  string|null  $timezone
-     * @param  string|null  $locale
+     * @param  string|null  $timezone  (null by default)
+     * @param  string|null  $locale  (null by default)
      * 
      * @return \Syscode\Support\Chronos\Time
      */
@@ -131,8 +131,8 @@ trait Factory
     /**
      * Returns an instance set to midnight tomorrow morning.
      * 
-     * @param  string|null  $timezone
-     * @param  string|null  $locale
+     * @param  string|null  $timezone  (null by default)
+     * @param  string|null  $locale  (null by default)
      * 
      * @return \Syscode\Support\Chronos\Time
      */
@@ -145,11 +145,11 @@ trait Factory
      * Returns a new instance based on the year, month and day. 
      * If any of those three are left empty, will default to the current value.
      * 
-     * @param  int|null     $year
-     * @param  int|null     $month
-     * @param  int|null     $day
-     * @param  string|null  $timezone
-     * @param  string|null  $locale
+     * @param  int|null  $year  (null by default)
+     * @param  int|null  $month  (null by default)
+     * @param  int|null  $day  (null by default)
+     * @param  string|null  $timezone  (null by default)
+     * @param  string|null  $locale  (null by default)
      * 
      * @return \Syscode\Support\Chronos\Time
      */
@@ -167,11 +167,11 @@ trait Factory
      * Returns a new instance with the date set to today, and 
      * the time set to the values passed in.
      * 
-     * @param  int|null     $hour
-     * @param  int|null     $minutes
-     * @param  int|null     $seconds
-     * @param  string|null  $timezone
-     * @param  string|null  $locale
+     * @param  int|null  $hour  (null by default)
+     * @param  int|null  $minutes  (null by default)
+     * @param  int|null  $seconds  (null by default)
+     * @param  string|null  $timezone  (null by default)
+     * @param  string|null  $locale  (null by default)
      * 
      * @return \Syscode\Support\Chronos\Time
      */
@@ -188,14 +188,14 @@ trait Factory
     /**
      * Returns a new instance with the date time values individually set.
      * 
-     * @param  int|null     $year
-     * @param  int|null     $month
-     * @param  int|null     $day
-     * @param  int|null     $hour
-     * @param  int|null     $minutes
-     * @param  int|null     $seconds
-     * @param  string|null  $timezone
-     * @param  string|null  $locale
+     * @param  int|null  $year  (null by default)
+     * @param  int|null  $month  (null by default)
+     * @param  int|null  $day  (null by default)
+     * @param  int|null  $hour  (null by default)
+     * @param  int|null  $minutes  (null by default)
+     * @param  int|null  $seconds  (null by default)
+     * @param  string|null  $timezone  (null by default)
+     * @param  string|null  $locale  (null by default)
      * 
      * @return \Syscode\Support\Chronos\Time
      */
@@ -224,9 +224,9 @@ trait Factory
      * This allows the timezone to be set at the same time, and returns 
      * a Time instance, instead of DateTime.
      * 
-     * @param  string                     $format
-     * @param  string                     $datetime
-     * @param  \DateTimeZone|string|null  $timezone
+     * @param  string  $format
+     * @param  string  $datetime
+     * @param  \DateTimeZone|string|null  $timezone  (null by default)
      * 
      * @return \Syscode\Support\Chronos\Time
      */
@@ -240,9 +240,9 @@ trait Factory
     /**
      * Returns a new instance with the datetime set based on the provided UNIX timestamp.
      * 
-     * @param  int          $timestamp
-     * @param  string|null  $timezone
-     * @param  string|null  $locale+
+     * @param  int  $timestamp
+     * @param  string|null  $timezone  (null by default)
+     * @param  string|null  $locale  (null by default)
      * 
      * @return \Syscode\Support\Chronos\Time
      */
@@ -255,8 +255,8 @@ trait Factory
      * Takes an instance of DateTime and returns an instance 
      * of Time with it's same values.
      * 
-     * @param  \DateTime    $datetime
-     * @param  string|null  $locale
+     * @param  \DateTime  $datetime
+     * @param  string|null  $locale  (null by default)
      * 
      * @return \Syscode\Support\Chronos\Time
      */
@@ -272,9 +272,9 @@ trait Factory
      * Creates an instance of Time that will be returned during testing
 	 * when calling 'Time::now' instead of the current time.
      * 
-     * @param  \Syscode\Support\Chronos\Time|string  $datetime
-     * @param  string|null                           $timezone
-     * @param  string|null                           $locale
+     * @param  \Syscode\Support\Chronos\Time|string  $datetime  (null by default)
+     * @param  string|null  $timezone (null by default)
+     * @param  string|null  $locale  (null by default)
      * 
      * @return static
      */
@@ -314,8 +314,8 @@ trait Factory
     /**
      * Get difference time depending on a specific period of time.
      * 
-     * @param  string       $time
-     * @param  string|null  $timezone
+     * @param  string   $time
+     * @param  string|null  $timezone  (null by default)
      * 
      * @return void
      */

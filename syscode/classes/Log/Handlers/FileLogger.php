@@ -112,9 +112,9 @@ class FileLogger implements Handler
     /**
      * Logs with an arbitrary level.
      * 
-     * @param  mixed   $level
+     * @param  mixed  $level
      * @param  string  $message
-     * @param  array   $context
+     * @param  array  $context
      * 
      * @return bool
      */
@@ -129,10 +129,10 @@ class FileLogger implements Handler
 
     /**
      * Replaces any placeholders in the message with variables
-	 * from the context.
+     * from the context.
      * 
      * @param  string  $message
-     * @param  array   $context
+     * @param  array  $context
      * 
      * @return mixed
      */
@@ -142,27 +142,26 @@ class FileLogger implements Handler
         {
             return $message;
         }
-
+        
         $replace = [];
-
+        
         foreach ($context as $key => $value)
         {
             if ($key === 'exception' && $value instanceof Throwable)
-			{
+            {
                 $value = $value->getMessage() . ' ' . $this->cleanFileNames($value->getFile()) . ':' . $value->getLine();
-                
                 // Todo - sanitize input before writing to file?
-			    $replace["{{$key}}"] = $value;
-			}
-            elseif (null === $value || is_scalar($value) || (is_object($value) && method_exists($value, '__toString'))) 
+                $replace["{{$key}}"] = $value;
+            }
+            elseif (null === $value || is_scalar($value) || (is_object($value) && method_exists($value, '__toString')))
             {
                 $replace["{{$key}}"] = $value;
-            } 
+            }
             elseif ($value instanceof DateTime)
             {
                 $replace["{{$key}}"] = $value->format(DateTime::RFC3339);
             }
-            elseif (is_object($value)) 
+            elseif (is_object($value))
             {
                 $replace["{{$key}}"] = '[object '.get_class($value).']';
             }
@@ -175,30 +174,31 @@ class FileLogger implements Handler
         // Add special placeholders
         $replace['{postVars}'] = '$_POST: '.print_r($_POST, true);
         $replace['{getVars}']  = '$_GET: '.print_r($_GET, true);
-        $replace['{env}']       = '['.ENVIRONMENT.']';
-
+        $replace['{env}']      = '['.ENVIRONMENT.']';
+        
         return strtr($message, $replace);
     }
-
     /**
-	 * Cleans the paths of filenames by replacing APPPATH, SYSPATH
-	 * with the actual var. i.e.
-	 *
-	 *  /var/www/site/app/Http/Controllers/Home.php
-	 *      becomes:
-	 *  APPPATH/Http/Controllers/Home.php
-	 *
-	 * @param  string  $file
-	 *
-	 * @return string
-	 */
-	protected function cleanFileNames(string $file)
-	{
-		$file = str_replace(APP_PATH, 'APPPATH/', $file);
+     * Cleans the paths of filenames by replacing APPPATH, SYSPATH
+     * with the actual var. i.e.
+     * 
+     * /var/www/site/app/Http/Controllers/Home.php
+     * 
+     * becomes:
+     * 
+     * APPPATH/Http/Controllers/Home.php
+     * 
+     * @param  string  $file
+     * 
+     * @return string
+     */
+    protected function cleanFileNames(string $file)
+    {
+        $file = str_replace(APP_PATH, 'APPPATH/', $file);
         $file = str_replace(SYS_PATH, 'SYSPATH/', $file);
         
-		return $file;
-	}
+        return $file;
+    }
 
     /**
      * Handles logging the message.
@@ -269,7 +269,7 @@ class FileLogger implements Handler
     /**
      * Write message of log file.
      * 
-     * @param  mixed   $level
+     * @param  mixed  $level
      * @param  string  $messsage
      * 
      * @return $this

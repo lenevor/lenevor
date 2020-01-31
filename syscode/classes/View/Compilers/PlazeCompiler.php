@@ -33,6 +33,7 @@ class PlazeCompiler extends Compiler implements CompilerInterface
         Establishes\CompilesLayouts,
         Establishes\CompilesComments,
         Establishes\CompilesIncludes;
+        
     /**
      * All of the available compiler functions.
      * 
@@ -82,7 +83,7 @@ class PlazeCompiler extends Compiler implements CompilerInterface
     /**
      * Compile the view at the given path.
      * 
-     * @param  string|null  $path
+     * @param  string|null  $path  (null by default)
      * 
      * @return void
      */

@@ -108,8 +108,8 @@ class Route
 		'~{a:[^\/{}]+}~'         => '([a-zA-Z]++)',      // Placeholder accepts only alphabetic chars
 		'~{w:[^\/{}]+}~'         => '([0-9a-zA-Z-_]++)', // Placeholder accepts alphanumeric and underscore
 		'~{\*:[^\/{}]+}~'        => '(.++)',             // Placeholder match rest of url
-		'~(\\\/)?{\?:[^\/{}]+}~' => '\/?([^\/]*)', 		 // Optional placeholder
-		'~{[^\/{}]+}~'           => '([^\/]++)'	 		 // Normal placeholder
+		'~(\\\/)?{\?:[^\/{}]+}~' => '\/?([^\/]*)',		 // Optional placeholder
+		'~{[^\/{}]+}~'           => '([^\/]++)'			 // Normal placeholder
 	];
 
 	/**
@@ -129,9 +129,9 @@ class Route
 	/**
 	 * Constructor. Initialize route.
 	 *
-	 * @param  array|string     $method
-	 * @param  string           $uri
-	 * @param  \Closure|string  $action
+	 * @param  array|string|null  $method  (null by default)
+	 * @param  string|null  $uri  (null by default)
+	 * @param  \Closure|string|null  $action  (null by default)
 	 *
 	 * @return void
 	 */
@@ -505,7 +505,7 @@ class Route
 	 * Set the where.
 	 *
 	 * @param  array|string  $name
-	 * @param  string|null   $regex
+	 * @param  string|null  $regex  (null by default)
 	 *
 	 * @return $this
 	 */

@@ -67,11 +67,11 @@ class BootHandleExceptions
     /**
      * Handle a PHP error for the application.
      * 
-     * @param  int          $level
-     * @param  string       $message
+     * @param  int  $level
+     * @param  string  $message
      * @param  string|null  $file
-     * @param  int          $line
-     * @param  array        $context
+     * @param  int  $line
+     * @param  array  $context
      * 
      * @return void
      * 
@@ -139,7 +139,7 @@ class BootHandleExceptions
     /**
      * Determine if the error type is fatal.
      * 
-     * @param  int   $type
+     * @param  int  $type
      * 
      * @return bool
      */
@@ -151,7 +151,7 @@ class BootHandleExceptions
     /**
      * Create a new fatal exception instance from an error array.
      * 
-     * @param  array     $error
+     * @param  array  $error
      * @param  int|null  $traceOffset
      * 
      * @return \Syscode\Debug\FatalExceptions\FatalErrorException

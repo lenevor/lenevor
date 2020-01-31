@@ -322,7 +322,7 @@ class CacheManager implements ManagerContract
     /**
      * Register a custom driver creator Closure.
      * 
-     * @param  string    $driver
+     * @param  string  $driver
      * @param  \Closure  $callback
      * 
      * @return $this
@@ -338,7 +338,7 @@ class CacheManager implements ManagerContract
      * Dynamically call the default driver instance.
      * 
      * @param  string  $method
-     * @param  array   $params
+     * @param  array  $params
      * 
      * @return mixed
      */

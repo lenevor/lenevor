@@ -37,7 +37,7 @@ interface Encrypter
      * Encrypt the given value.
      * 
      * @param  mixed  $value
-     * @param  bool   $serialize  (true by defect) 
+     * @param  bool  $serialize  (true by defect) 
      * 
      * @return string
      * 
@@ -49,7 +49,7 @@ interface Encrypter
      * Encrypt the given value.
      * 
      * @param  string  $value
-     * @param  bool    $unserialize  (true by defect) 
+     * @param  bool  $unserialize  (true by defect) 
      * 
      * @return mixed
      * 

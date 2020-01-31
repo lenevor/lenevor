@@ -65,7 +65,7 @@ class FileStore implements Store
      * Constructor. Create a new file cache store instance.
      * 
      * @param   \Syscode\FileSystem\Filesystem  $files
-     * @param   string                          $directory
+     * @param   string  $directory
      * 
      * @return  void
      */
@@ -163,8 +163,8 @@ class FileStore implements Store
      * Store an item in the cache for a given number of seconds.
      * 
      * @param  string  $key
-     * @param  mixed   $value
-     * @param  int     $seconds
+     * @param  mixed  $value
+     * @param  int  $seconds
      * 
      * @return bool
      */
@@ -211,7 +211,7 @@ class FileStore implements Store
      * Increment the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value  (1 by default)
+     * @param  mixed  $value  (1 by default)
      * 
      * @return int
      */
@@ -229,7 +229,7 @@ class FileStore implements Store
      * Decrement the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value  (1 by default)
+     * @param  mixed  $value  (1 by default)
      * 
      * @return int
      */
@@ -259,7 +259,7 @@ class FileStore implements Store
      * Stores an item in the cache indefinitely.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return bool
      */

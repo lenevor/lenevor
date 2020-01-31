@@ -32,7 +32,7 @@ class UnknownIdentifierException extends InvalidArgumentException implements Con
     /**
      * Constructor. Message error.
      * 
-     * @param  string  $id The unknown identifier
+     * @param  string  $id  The unknown identifier
      * 
      * @return void
      */

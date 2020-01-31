@@ -70,8 +70,8 @@ class RouteResponse implements ResponseContract
      * Return a new response from the application.
      *
      * @param  string  $body
-     * @param  int     $status   (200 by default)
-     * @param  array   $headers
+     * @param  int  $status  (200 by default)
+     * @param  array  $headers
      * 
      * @return \Syscode\Http\Response
      */
@@ -83,7 +83,7 @@ class RouteResponse implements ResponseContract
     /**
      * Creates a new 'no content' response.
      * 
-     * @param  int    $status   (204 by default)
+     * @param  int  $status  (204 by default)
      * @param  array  $headers
      * 
      * @return \Syscode\Http\Response
@@ -97,9 +97,9 @@ class RouteResponse implements ResponseContract
      * Return a new View Response from the application.
      *
      * @param  string  $view
-     * @param  array   $data
-     * @param  int     $status   (200 by default)
-     * @param  array   $headers
+     * @param  array  $data
+     * @param  int  $status  (200 by default)
+     * @param  array  $headers
      * 
      * @return  \Syscode\Http\Response
      */
@@ -112,9 +112,9 @@ class RouteResponse implements ResponseContract
      * Create a new JSON response instance.
      * 
      * @param  mixed  $data
-     * @param  int    $status   (200 by default)
+     * @param  int  $status  (200 by default)
      * @param  array  $headers
-     * @param  int    $options  (0 by default)
+     * @param  int  $options  (0 by default)
      * 
      * @return \Syscode\Http\JsonResponse
      */
@@ -126,10 +126,10 @@ class RouteResponse implements ResponseContract
     /**
      * Create a new redirect response to the given path.
      * 
-     * @param  string     $path
-     * @param  int        $status   (302 by default)
-     * @param  array      $headers
-     * @param  bool|null  $secure   (null by default)
+     * @param  string  $path
+     * @param  int  $status  (302 by default)
+     * @param  array  $headers
+     * @param  bool|null  $secure  (null by default)
      * 
      * @return \Syscode\Http\RedirectResponse
      */

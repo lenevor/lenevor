@@ -34,8 +34,8 @@ trait RouteMapTrait
 	/**
 	 * Add new route to routes array.
 	 *
-	 * @param  string           $method
-	 * @param  string           $route
+	 * @param  string  $method
+	 * @param  string  $route
 	 * @param  string|callable  $action
 	 *
 	 * @return \Syscode\Routing\Route
@@ -45,7 +45,7 @@ trait RouteMapTrait
 	/**
 	 * Add a route for all posible methods.
 	 *
-	 * @param  string           $route
+	 * @param  string  $route
 	 * @param  string|callable  $action
 	 *
 	 * @return void
@@ -60,7 +60,7 @@ trait RouteMapTrait
 	/**
 	 * Add a route with delete method.
 	 *
-	 * @param  string           $route
+	 * @param  string  $route
 	 * @param  string|callable  $action
 	 *
 	 * @return void
@@ -73,7 +73,7 @@ trait RouteMapTrait
 	/**
 	 * Add a route with get method.
 	 *
-	 * @param  string           $route
+	 * @param  string  $route
 	 * @param  string|callable  $action
 	 *
 	 * @return void
@@ -86,7 +86,7 @@ trait RouteMapTrait
 	/**
 	 * Add a route with head method.
 	 *
-	 * @param  string           $route
+	 * @param  string  $route
 	 * @param  string|callable  $action
 	 *
 	 * @return void
@@ -99,8 +99,8 @@ trait RouteMapTrait
 	/**
 	 * Register a new route with the given methods.
 	 * 
-	 * @param  array|string          $methods
-	 * @param  string                $route
+	 * @param  array|string  $methods
+	 * @param  string  $route
 	 * @param  string|null|callable  $action
 	 * 
 	 * @return void
@@ -113,7 +113,7 @@ trait RouteMapTrait
 	/**
 	 * Add a route with options method.
 	 *
-	 * @param  string           $route
+	 * @param  string  $route
 	 * @param  string|callable  $action
 	 *
 	 * @return void
@@ -126,7 +126,7 @@ trait RouteMapTrait
 	/**
 	 * Add a route with patch method.
 	 *
-	 * @param  string           $route
+	 * @param  string  $route
 	 * @param  string|callable  $action
 	 *
 	 * @return void
@@ -139,7 +139,7 @@ trait RouteMapTrait
 	/**
 	 * Add a route with post method.
 	 *
-	 * @param  string           $route
+	 * @param  string  $route
 	 * @param  string|callable  $action
 	 *
 	 * @return void
@@ -152,7 +152,7 @@ trait RouteMapTrait
 	/**
 	 * Add a route with put method.
 	 *
-	 * @param  string           $route
+	 * @param  string  $route
 	 * @param  string|callable  $action
 	 *
 	 * @return void

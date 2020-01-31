@@ -63,7 +63,7 @@ class Filesystem
 	 *
 	 * @param  string  $path
 	 * @param  string  $data
-	 * @param  bool    $force
+	 * @param  bool  $force
 	 *
 	 * @return bool
 	 */
@@ -89,8 +89,8 @@ class Filesystem
 	 * Get the contents of a file.
 	 *
 	 * @param  string  $path
-	 * @param  bool    $lock   (false by default)
-	 * @param  bool    $force  (false by default)
+	 * @param  bool  $lock  (false by default)
+	 * @param  bool  $force  (false by default)
 	 *
 	 * @return string
 	 *
@@ -111,7 +111,7 @@ class Filesystem
 	 *
 	 * @param  string  $path
 	 * @param  string  $mode  A `fread` compatible mode
-	 * @param  bool    $force  
+	 * @param  bool  $force  
 	 *
 	 * @return string
 	 */
@@ -153,7 +153,7 @@ class Filesystem
 	 *
 	 * @param  string  $path
 	 * @param  string  $mode   A valid 'fopen' mode string (r|w|a ...)
-	 * @param  bool    $force  
+	 * @param  bool  $force  
 	 *
 	 * @return bool
 	 */
@@ -215,7 +215,7 @@ class Filesystem
 	 * Clear PHP's internal stat cache.
 	 *
 	 * @param  string  $path
-	 * @param  bool    $all  Clear all cache or not
+	 * @param  bool  $all  Clear all cache or not
 	 *
 	 * @return void
 	 */
@@ -343,7 +343,7 @@ class Filesystem
 	/**
 	 * Returns last access time.
 	 *
-	 * @param  string    $path
+	 * @param  string  $path
 	 * 
 	 * @return int|bool  Timestamp of last access time, or false in case of an error
 	 */
@@ -360,7 +360,7 @@ class Filesystem
 	/**
 	 * Returns last modified time.
 	 *
-	 * @param  string    $path
+	 * @param  string  $path
 	 * 
 	 * @return int|bool  Timestamp of last modified time, or false in case of an error
 	 */
@@ -436,9 +436,9 @@ class Filesystem
 	 * Create a directory.
 	 *
 	 * @param  string  $path
-	 * @param  int     $mode
-	 * @param  bool    $recursive
-	 * @param  bool    $force
+	 * @param  int  $mode
+	 * @param  bool  $recursive
+	 * @param  bool  $force
 	 *
 	 * @return bool
 	 * 
@@ -459,7 +459,7 @@ class Filesystem
 	 * 
 	 * @param  string  $directory
 	 * @param  string  $destination
-	 * @param  int     $options      (null by default)
+	 * @param  int  $options  (null by default)
 	 * 
 	 * @return bool
 	 */
@@ -507,7 +507,7 @@ class Filesystem
 	 * the directory if you wish.
 	 * 
 	 * @param  string  $directory
-	 * @param  bool    $keep
+	 * @param  bool  $keep
 	 * 
 	 * @return bool
 	 */
@@ -558,7 +558,7 @@ class Filesystem
 	 * 
 	 * @param  string  $from
 	 * @param  string  $to
-	 * @param  bool    $overwrite   (false by default)
+	 * @param  bool  $overwrite  (false by default)
 	 * 
 	 * @return bool
 	 */
@@ -637,7 +637,7 @@ class Filesystem
 	/**
 	 * Extract the trailing name component from a file path.
 	 * 
-	 * @param  string
+	 * @param  string  $path
 	 * 
 	 * @return string
 	 */
@@ -674,7 +674,7 @@ class Filesystem
 	 *  Find path names matching a given pattern.
 	 * 
 	 * @param  string  $pattern
-	 * @param  int     $flags  (0 by default)
+	 * @param  int  $flags  (0 by default)
 	 * 
 	 * @return array
 	 */
@@ -686,7 +686,7 @@ class Filesystem
 	/**
 	 * Returns the file's owner.
 	 *
-	 * @param  string    $path
+	 * @param  string  $path
 	 * 
 	 * @return int|bool  The file owner, or false in case of an error
 	 */
@@ -703,7 +703,7 @@ class Filesystem
 	/**
 	 * Returns the "chmod" (permissions) of the file.
 	 *
-	 * @param  string    $path
+	 * @param  string  $path
 	 * @param  int|null  $mode  (null by default)
 	 * 
 	 * @return mixed  Permissions for the file, or false in case of an error
@@ -741,7 +741,7 @@ class Filesystem
 	 *
 	 * @param  string  $path
 	 * @param  string  $contents
-	 * @param  bool    $lock      (false by default)
+	 * @param  bool  $lock  (false by default)
 	 *
 	 * @return int
 	 */
@@ -817,9 +817,9 @@ class Filesystem
 	 * Write given data to this file.
 	 *
 	 * @param  string  $path
-	 * @param  string  $data   Data to write to this File
-	 * @param  string  $mode   Mode of writing
-	 * @param  bool    $force  The file to open
+	 * @param  string  $data  Data to write to this File
+	 * @param  string  $mode  Mode of writing
+	 * @param  bool  $force  The file to open
 	 *
 	 * @return bool
 	 */

@@ -51,11 +51,11 @@ if ( ! function_exists('array_except'))
     /**
      * Get all of the given array except for a specified array of items.
      * 
-     * @param  array         $array
-	 * @param  string|array  $key
-	 *
-	 * @return array
-     *
+     * @param  array  $array
+     * @param  string|array  $key
+     * 
+     * @return array
+     * 
      * @uses   Arr::except
      */
     function array_except($array, $key)

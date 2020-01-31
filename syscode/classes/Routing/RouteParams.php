@@ -68,10 +68,10 @@ class RouteParams
         {
             if ($key === 0) continue;
             
-			if (count($value) > 0) 
-			{
-				return $value;
-			}
+            if (count($value) > 0)
+            {
+                return $value;
+            }
         }
 
         return false;
