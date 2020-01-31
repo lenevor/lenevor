@@ -204,26 +204,5 @@ return [
     */
 
     'uriProtocol' => 'REQUEST_URI',
-
-    /*
-    |------------------------------------------------------------------------
-    | View Type Engine
-    |------------------------------------------------------------------------
-    |
-    | Lenevor allows you to use a system with pure PHP in your view pages 
-    | since it allows you to run a little faster (this is the optimal option 
-    | and it is by default). However, some developers prefer to use a 
-    | template engine if they work with designers who will find some confusion 
-    | when working with PHP. In this case, Kovenen also has a template engine 
-    | for the viewing of pages.
-    |
-    | Uses: The default option is 'php' to use PHP in your view pages 
-    |       or 
-    |       you change the 'parser' option to activate the compiled in your 
-    |       view pages.       
-    |
-    */
-
-    'engine' => 'php',
             
 ];
