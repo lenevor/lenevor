@@ -32,7 +32,9 @@ class PlazeCompiler extends Compiler implements CompilerInterface
     use Establishes\CompilesEchos,
         Establishes\CompilesLayouts,
         Establishes\CompilesComments,
-        Establishes\CompilesIncludes;
+        Establishes\CompilesIncludes,
+        Establishes\CompilesConditionals,
+        Establishes\CompilesTranslations;
         
     /**
      * All of the available compiler functions.
@@ -159,7 +161,7 @@ class PlazeCompiler extends Compiler implements CompilerInterface
                 $match[0] = call_user_func([$this, $method], Arr::get($match, 3));
             }
             
-            return isset($match[3]) ? $match[0] : $match[0] .$match[2];
+            return isset($match[3]) ? $match[0] : $match[0].$match[2];
         };
         
         return preg_replace_callback('/\B<@(\w+)([ \t]*)(\( ( (?>[^()]+) | (?3) )* \))?/x', $callback, $value);
