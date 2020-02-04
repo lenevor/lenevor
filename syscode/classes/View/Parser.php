@@ -28,6 +28,7 @@ use Syscode\Support\Arr;
 use Syscode\Support\Str;
 use InvalidArgumentException;
 use Syscode\View\Engines\EngineResolver;
+use Syscode\Contracts\Container\Container;
 use Syscode\Contracts\View\Parser as ParserContract;
 
 /**
@@ -39,7 +40,15 @@ class Parser implements ParserContract
 {
 	use Extensions,
 		Establishes\ManagesLayouts,
-		Establishes\ManagesIncludes;
+		Establishes\ManagesIncludes,
+		Establishes\ManagesTranslations;
+	
+	/**
+	 * The IoC container instance.
+	 * 
+	 * @var \Syscode\Contracts\Container\Container $container
+	 */
+	protected $container;
 
 	/**
 	 * The engine implementation.
@@ -211,5 +220,27 @@ class Parser implements ParserContract
 	public function getShared()
 	{
 		return $this->shared;
+	}
+
+	/**
+	 * Get the IoC container instance.
+	 * 
+	 * @return \Syscode\Contracts\Container\Container
+	 */
+	public function getContainer()
+	{
+		return $this->container;
+	}
+
+	/**
+	 * Set the IoC container instance.
+	 * 
+	 * @param  \Syscode\Contracts\Container\Container  $container
+	 * 
+	 * @return void
+	 */
+	public function setContainer($container)
+	{
+		$this->container = $container;
 	}
 }
