@@ -61,7 +61,19 @@ class ViewServiceProvider extends ServiceProvider
     public function registerView()
     {
         $this->app->singleton('view', function ($app) {
-            return new Parser($app['view.engine.resolver'], $app['view.finder']);
+            // The resolver will be used by an environment to get each of the various 
+            // engine implementations such as plain PHP or Plaze engine.
+            $resolver = $app['view.engine.resolver'];
+            
+            $finder   = $app['view.finder'];
+
+            $parser = new Parser($resolver, $finder);
+
+            $parser->setContainer($app);
+
+            $parser->share('app', $app);
+
+            return $parser;
         });
     }
 
