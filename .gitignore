@@ -15,6 +15,7 @@ composer.pchar
 #-------------------------
 storage/cache/*
 storage/logs/*
+storage/sessions/*
 storage/views/*
 public/test.php
 
