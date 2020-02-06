@@ -13,7 +13,7 @@
     <img src="https://img.shields.io/badge/PHP-7.2.14-blue.svg" title="Readme file">
 </a>
 <a href="https://packagist.org/packages/lenevor/lenevor">
-    <img src="https://img.shields.io/badge/dev-v0.1.0--alpha.1-blue.svg" title="Readme file">
+    <img src="https://img.shields.io/badge/dev-0.6.0--alpha.6-blue.svg" title="Readme file">
 </a>
 </p>
 
