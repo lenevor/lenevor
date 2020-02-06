@@ -33,6 +33,7 @@ class PlazeCompiler extends Compiler implements CompilerInterface
         Establishes\CompilesLayouts,
         Establishes\CompilesComments,
         Establishes\CompilesIncludes,
+        Establishes\CompilesComponents,
         Establishes\CompilesConditionals,
         Establishes\CompilesTranslations;
         
