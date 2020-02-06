@@ -41,6 +41,7 @@ class Parser implements ParserContract
 	use Extensions,
 		Establishes\ManagesLayouts,
 		Establishes\ManagesIncludes,
+		Establishes\ManagesComponents,
 		Establishes\ManagesTranslations;
 	
 	/**
