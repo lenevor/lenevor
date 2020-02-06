@@ -25,7 +25,7 @@
 namespace Syscode\View\Compilers\Establishes;
 
 /**
- * Trait CompilesIncludes.
+ * Trait CompilesComments.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
