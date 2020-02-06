@@ -59,6 +59,6 @@ trait CompilesTranslations
      */
     public function compileEndlang()
     {
-        return '<?php echo \$__env->renderTranslation(); ?>';
+        return '<?php echo $__env->renderTranslation(); ?>';
     }
 }

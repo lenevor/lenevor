@@ -92,7 +92,7 @@ trait CompilesLayouts
      */
     protected function compileAppend()
     {
-        return "<?php \$__env->appendSection(); ?>";
+        return '<?php $__env->appendSection(); ?>';
     }
 
     /**
@@ -102,7 +102,7 @@ trait CompilesLayouts
      */
     protected function compileShow()
     {
-        return "<?php echo \$__env->showSection(); ?>";
+        return '<?php echo $__env->showSection(); ?>';
     }
 
     /**
@@ -112,6 +112,6 @@ trait CompilesLayouts
      */
     protected function compileStop()
     {
-        return "<?php \$__env->stopSection(); ?>";
+        return '<?php $__env->stopSection(); ?>';
     }
 }
