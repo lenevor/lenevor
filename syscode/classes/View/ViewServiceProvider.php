@@ -48,7 +48,6 @@ class ViewServiceProvider extends ServiceProvider
     {
         $this->registerView();
         $this->registerViewFinder();
-        $this->registerPlazeCompiler();
         $this->registerEngineResolver();
 
     }
@@ -86,20 +85,6 @@ class ViewServiceProvider extends ServiceProvider
     {
         $this->app->bind('view.finder', function ($app) {
             return new FileViewFinder($app['files']);
-        });
-    }
-    
-    /**
-     * Register the Plaze compiler implementation.
-     * 
-     * @return void
-     */
-    public function registerPlazeCompiler()
-    {
-        $this->app->singleton('plaze.compiler', function ($app) {
-            return new PlazeCompiler(
-                $app['files'], $app['config']->get('view.compiled')
-            );
         });
     }
     
@@ -159,6 +144,12 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function registerPlazeEngine($resolver)
     {
+        $this->app->singleton('plaze.compiler', function ($app) {
+            return new PlazeCompiler(
+                $app['files'], $app['config']->get('view.compiled')
+            );
+        });
+
         $resolver->register('plaze', function () {
             return new CompilerEngine($this->app['plaze.compiler']);
         });
