@@ -74,8 +74,6 @@ trait ManagesComponents
             throw new ViewException('No active component in this block. Make sure you have open component using \'component\' method.');
         }
 
-        $component['data']['slot'] = trim(ob_get_clean());
-
         return $this->make($component['view'], $this->getComponentData($component))->render();
     }
 
@@ -88,6 +86,7 @@ trait ManagesComponents
     {
         return array_merge(
             $component['data'],
+            ['slot' => trim(ob_get_clean())], 
             $component['slots']
         );
     }
