@@ -24,6 +24,7 @@
 
 namespace Syscode\View\Establishes;
 
+use Syscode\Support\WebString;
 use Syscode\View\Exceptions\ViewException;
 
 /**
@@ -86,7 +87,7 @@ trait ManagesComponents
     {
         return array_merge(
             $component['data'],
-            ['slot' => trim(ob_get_clean())], 
+            ['slot' => new WebString(trim(ob_get_clean()))], 
             $component['slots']
         );
     }
@@ -133,7 +134,7 @@ trait ManagesComponents
             throw new ViewException('No active slot in this block. Make sure you have open slot using \'slot\' method.');
         }
 
-        $this->components[$this->currentComponent()]['data'][$currentSlot] = ob_get_clean();
+        $this->components[$this->currentComponent()]['data'][$currentSlot] = new WebString(trim(ob_get_clean()));
     }
 
     /**
