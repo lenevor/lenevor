@@ -39,7 +39,7 @@ trait ManagesIncludes
 	 * 
 	 * @return string
 	 */
-	public function include($file, $data)
+	public function include($file, $data = [])
 	{
 		return $this->make($file, $data)->render();
 	}
