@@ -30,6 +30,7 @@ use Syscode\Support\Str;
 class PlazeCompiler extends Compiler implements CompilerInterface
 {
     use Establishes\CompilesEchos,
+        Establishes\CompilesLoops,
         Establishes\CompilesLayouts,
         Establishes\CompilesComments,
         Establishes\CompilesIncludes,
