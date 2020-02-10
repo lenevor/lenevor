@@ -24,7 +24,7 @@
 
 namespace Syscode\View\Compilers\Establishes;
 
-use Syscode\View\Parser as ViewParser;
+use Syscode\Contracts\View\Parser as ViewParser;
 
 /**
  * Trait CompilesLayouts.
