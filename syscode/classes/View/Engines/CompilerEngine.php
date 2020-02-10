@@ -83,7 +83,7 @@ class CompilerEngine extends PhpEngine
         $output = $this->evaluatePath($compiled, $data);
 
         array_pop($this->lastCompiled);
-
+        
         return $output;
     }
 
