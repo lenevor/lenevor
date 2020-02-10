@@ -42,6 +42,6 @@ trait CompilesIncludes
     {
         $expression = $this->stripParentheses($expression);
 
-        return "<?php echo \$__env->include({$expression}, array_except(get_defined_vars(), ['data', 'path'])); ?>";
+        return "<?php echo \$__env->make({$expression}, array_except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
     }
 }

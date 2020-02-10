@@ -44,7 +44,7 @@ trait CompilesLayouts
     {
         $expression = $this->stripParentheses($expression);
 
-        $data = "<?php echo \$__env->extendsLayout({$expression}, array_except(get_defined_vars(), ['data', 'path'])) ?>";
+        $data = "<?php echo \$__env->make({$expression}, array_except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
 
         $this->footer[] = $data;
 
