@@ -58,6 +58,8 @@ class EngineResolver
      */
     public function register($engine, Closure $resolver)
     {
+        unset($this->resolved[$engine]);
+        
         $this->resolvers[$engine] = $resolver;
     }
 
