@@ -33,14 +33,7 @@ use Syscode\Contracts\View\View;
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 trait ManagesLayouts
-{
-	/**
-	 * Extend a parent template.
-	 * 
-	 * @var string $extend
-	 */
-	protected $extend;
-	
+{	
 	/**
 	 * Started blocks.
 	 * 
@@ -54,19 +47,6 @@ trait ManagesLayouts
 	 * @var array $sectionStack
 	 */
 	protected $sectionStack = [];
-	
-	/**
-	 * Extending a view.
-	 * 
-	 * @param  string  $layout
-	 * @param  array  $data
-	 * 
-	 * @return string
-	 */
-	public function extendsLayout($layout, $data = [])
-	{
-		return $this->make($layout, $data)->render();
-	}
 	
 	/**
 	 * Starting section.
