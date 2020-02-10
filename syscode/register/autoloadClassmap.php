@@ -228,7 +228,6 @@ return [
     'Syscode\\View\\Engines\\FileEngine' => SYS_PATH.'classes/View/Engines/FileEngine.php',
     'Syscode\\View\\Engines\\PhpEngine' => SYS_PATH.'classes/View/Engines/PhpEngine.php',
     'Syscode\\View\\Establishes\\ManagesComponents' => SYS_PATH.'classes/View/Establishes/ManagesComponents.php',
-    'Syscode\\View\\Establishes\\ManagesIncludes' => SYS_PATH.'classes/View/Establishes/ManagesIncludes.php',
     'Syscode\\View\\Establishes\\ManagesLayouts' => SYS_PATH.'classes/View/Establishes/ManagesLayouts.php',
     'Syscode\\View\\Establishes\\ManagesTranslations' => SYS_PATH.'classes/View/Establishes/ManagesTranslations.php',
     'Syscode\\View\\Exceptions\\ViewException' => SYS_PATH.'classes/View/Exceptions/ViewException.php',
