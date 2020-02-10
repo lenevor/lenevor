@@ -106,7 +106,7 @@ class View implements ArrayAccess, ViewContract
 
 			$response = isset($callback) ? $callback($this, $contents) : null;
 
-			return $response ?: $contents;
+			return ! is_null($response) ? $response : $contents;
 		}
 		catch(Exception $e)
 		{
@@ -314,7 +314,7 @@ class View implements ArrayAccess, ViewContract
 		{
 			if (strpos($key, '.') === false)
 			{
-				$this->data = [$key => $value];
+				$this->data[$key] = $value;
 			}
 			else
 			{
@@ -420,7 +420,7 @@ class View implements ArrayAccess, ViewContract
 	 */
 	public function __isset($key) 
 	{
-		return (isset($this->data[$key]));
+		return isset($this->data[$key]);
 	}
 
 	/**
