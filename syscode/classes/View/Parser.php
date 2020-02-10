@@ -118,8 +118,6 @@ class Parser implements ParserContract
 	 * @param  array  $data  Array of values
 	 *
 	 * @return string
-	 *
-	 * @throws \Syscode\View\Exceptions\ViewException
 	 */
 	public function make($view, $data = []) 
 	{
