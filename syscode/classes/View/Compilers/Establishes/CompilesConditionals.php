@@ -70,7 +70,7 @@ trait CompilesConditionals
      * 
      * @return string
      */
-    public function compileEndif($expression)
+    public function compileEndif()
     {
         return '<?php endif; ?>';
     }
@@ -92,7 +92,7 @@ trait CompilesConditionals
      * 
      * @return string
      */
-    public function compileEndIsset($expression)
+    public function compileEndIsset()
     {
         return '<?php endif; ?>';
     }
@@ -114,7 +114,7 @@ trait CompilesConditionals
      * 
      * @return string
      */
-    public function compileEndunless($expression)
+    public function compileEndunless()
     {
         return '<?php endif; ?>';
     }
