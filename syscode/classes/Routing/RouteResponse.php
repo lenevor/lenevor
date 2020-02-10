@@ -105,7 +105,7 @@ class RouteResponse implements ResponseContract
      */
     public function view($view, array $data = [], $status = 200, array $headers = [])
     {
-        return $this->make($this->view->make($view, $data)->render(), $status, $headers);
+        return $this->make($this->view->make($view, $data), $status, $headers);
     }
 
     /**
