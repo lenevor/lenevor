@@ -127,4 +127,57 @@ trait CompilesLoops
     {
         return $expression ? "<?php if{$expression} continue; ?>" : '<?php continue; ?>';
     }
+
+    /**
+     * Compile the forelse statements into valid PHP.
+     * 
+     *  @param  string  $expression
+     * 
+     * @return string
+     */
+    public function compileForElse($expression)
+    {
+        $empty = '$__empty_'.++$this->forElseCounter;
+        
+        return "<?php {$empty} = true; foreach{$expression}: {$empty} = false; ?>";
+    }
+
+    /**
+     * Compile the for-else-empty statements into valid PHP.
+     * 
+     *  @param  string  $expression
+     * 
+     * @return string
+     */
+    public function compileEmpty($expression)
+    {
+        if ($expression)
+        {
+            return "<?php if(empty{$expression}): ?>";
+        }
+
+        $empty = '$__empty_'.$this->forElseCounter--;
+        
+        return "<?php endforeach; if ({$empty}): ?>";
+    }
+
+    /**
+     * Compile the end-empty statements into valid PHP.
+     * 
+     * @return string
+     */
+    public function compileEndEmpty()
+    {
+        return '<?php endif; ?>';
+    }
+    
+    /**
+     * Compile the end-foreach statements into valid PHP.
+     * 
+     * @return string
+     */
+    public function compileEndForElse()
+    {
+        return '<?php endif; ?>';
+    }
 }
