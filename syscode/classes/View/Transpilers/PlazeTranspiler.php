@@ -205,7 +205,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * 
      * @return string
      */
-    public function transpileExtensions($value)
+    protected function transpileExtensions($value)
     {
         foreach ($this->extensions as $extension)
         {
