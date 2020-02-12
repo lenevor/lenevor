@@ -31,6 +31,7 @@ class PlazeCompiler extends Compiler implements CompilerInterface
 {
     use Establishes\CompilesEchos,
         Establishes\CompilesLoops,
+        Establishes\CompilesRawPhp,
         Establishes\CompilesLayouts,
         Establishes\CompilesComments,
         Establishes\CompilesIncludes,
@@ -95,9 +96,11 @@ class PlazeCompiler extends Compiler implements CompilerInterface
     {
         if ( ! is_null($this->cachePath))
         {
-            $contents =  $this->displayString($this->files->get($path));
+            $contents = $this->displayString($this->files->get($path));
             
-            $this->files->put($this->getCompilePath($path), $contents);
+            $this->files->put(
+                $this->getCompilePath($path), $contents
+            );
         }        
     }
 
