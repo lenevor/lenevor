@@ -32,6 +32,13 @@ namespace Syscode\View\Compilers\Establishes;
 trait CompilesConditionals
 {
     /**
+     * Identifier for the first case in switch statement.
+     * 
+     * @var bool $switchIdentifyFirstCase
+     */
+    protected $switchIdentifyFirstCase = true;
+
+    /**
      * Compile the if statements into valid PHP.
      * 
      * @param  string  $expression
@@ -129,5 +136,58 @@ trait CompilesConditionals
     public function compileHasSection($expression)
     {
         return "<?php if( ! empty(trim(\$__env->hasSection{$expression}))): ?>";
+    }
+
+    /**
+     * Compile the switch statements into valid PHP.
+     * 
+     * @param  string  $expression
+     * 
+     * @return string
+     */
+    public function compileSwitch($expression)
+    {
+        $this->switchIdentifyFirstCase = true;
+
+        return "<?php switch{$expression}: ?>";
+    }
+
+    /**
+     * Compile the case statements into valid PHP.
+     * 
+     * @param  string  $expression
+     * 
+     * @return string
+     */
+    public function compileCase($expression)
+    {
+        if ($this->switchIdentifyFirstCase)
+        {
+            $this->switchIdentifyFirstCase = false;
+
+            return "case {$expression}: ?>";
+        }
+
+        return "<?php case {$expression}: ?>";
+    }
+
+    /**
+     * Compile the default statements in switch case into valid PHP.
+     * 
+     * @return string
+     */
+    public function compileDefault()
+    {
+        return '<?php default: ?>';
+    }
+
+    /**
+     * Compile the end-switch statements into valid PHP.
+     * 
+     * @return string
+     */
+    public function compileEndSwitch()
+    {
+        return '<?php endswitch; ?>';
     }
 }
