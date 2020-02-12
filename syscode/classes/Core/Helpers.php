@@ -24,6 +24,7 @@
 
 //use RuntimeException;
 use Syscode\Core\Application;
+use Syscode\Support\WebString;
 use Syscode\Routing\UrlGenerator;
 use Syscode\Support\Facades\Date;
 use Syscode\Contracts\View\Parser;
@@ -197,7 +198,7 @@ if ( ! function_exists('csrfField'))
      */
     function csrfField()
     {
-        return '<input type="hidden" name="_token" value="'.csrfToken().'">';
+        return new WebString('<input type="hidden" name="_token" value="'.csrfToken().'">');
     }
 }
 
