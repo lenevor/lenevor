@@ -26,11 +26,11 @@ namespace Syscode\View;
 
 use Syscode\View\Engines\PhpEngine;
 use Syscode\Support\ServiceProvider;
-use Syscode\View\Compilers\Compiler;
+use Syscode\View\Transpilers\Transpiler;
 use Syscode\View\Engines\FileEngine;
-use Syscode\View\Engines\CompilerEngine;
+use Syscode\View\Engines\TranspilerEngine;
 use Syscode\View\Engines\EngineResolver;
-use Syscode\View\Compilers\PlazeCompiler;
+use Syscode\View\Transpilers\PlazeTranspiler;
 
 /**
  * For loading the classes from the container of services.
@@ -144,14 +144,14 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function registerPlazeEngine($resolver)
     {
-        $this->app->singleton('plaze.compiler', function ($app) {
-            return new PlazeCompiler(
-                $app['files'], $app['config']->get('view.compiled')
+        $this->app->singleton('plaze.transpiler', function ($app) {
+            return new PlazeTranspiler(
+                $app['files'], $app['config']->get('view.transpiled')
             );
         });
 
         $resolver->register('plaze', function () {
-            return new CompilerEngine($this->app['plaze.compiler']);
+            return new TranspilerEngine($this->app['plaze.transpiler']);
         });
     }
 }
