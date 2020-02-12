@@ -94,7 +94,7 @@ class FileViewFinder implements ViewFinder
      * 
      * @return string
      * 
-     * @throws \InvalidArgumentException
+     * @throws \Syscode\View\Exceptions\ViewException
      */
     protected function findPaths($name)
     {

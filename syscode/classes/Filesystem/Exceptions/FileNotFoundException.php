@@ -38,7 +38,7 @@ class FileNotFoundException extends FileException
      * 
      * @return void
      */
-    public function __construct(string $path)
+    public function __construct($path)
     {
         parent::__construct(__('file.notExistPath', [$path]));
     }

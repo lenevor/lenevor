@@ -26,8 +26,10 @@ namespace Syscode\View;
 
 use Exception;
 use Throwable;
-use Traversable;
 use ArrayAccess;
+use Traversable;
+use Syscode\Support\Str;
+use BadMethodCallException;
 use InvalidArgumentException;
 use Syscode\Contracts\View\Engine;
 use Syscode\Contracts\View\View as ViewContract;
@@ -314,7 +316,7 @@ class View implements ArrayAccess, ViewContract
 		{
 			if (strpos($key, '.') === false)
 			{
-				$this->data = [$key => $value];
+				$this->data[$key] = $value;
 			}
 			else
 			{
@@ -420,7 +422,7 @@ class View implements ArrayAccess, ViewContract
 	 */
 	public function __isset($key) 
 	{
-		return (isset($this->data[$key]));
+		return isset($this->data[$key]);
 	}
 
 	/**
@@ -435,6 +437,30 @@ class View implements ArrayAccess, ViewContract
 	public function __unset($key) 
 	{
 		unset($this->data[$key]);
+	}
+
+	/**
+	 * Magic Method for handling dynamic functions.
+	 * 
+	 * @param  string  $method
+	 * @param  array  $parameters
+	 * 
+	 * @return mixed
+	 * 
+	 * @throws \BadMethodCallException;
+	 */
+	public function __call($method, $parameters)
+	{
+		if (Str::startsWith($method, 'assign'))
+		{
+			$name = Str::camelcase(substr($method, 4));
+
+			return $this->assign($name, array_shift($parameters));
+		}
+
+		throw new BadMethodCallException(sprintf(
+			'Method %s::%s does not exist.', static::class, $method)
+		);
 	}
 
 	/**

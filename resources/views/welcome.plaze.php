@@ -21,7 +21,7 @@
 					<p class="message">
 						If you want to know more about Lenevor and exploring many of its features, I recommend you start by reading the <a href="#">User Guide</a>.
 					</p>
-
+					
 					<@include('partials::footer')
 					
 				</div>

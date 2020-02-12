@@ -52,40 +52,33 @@ class PhpEngine implements Engine
     /**
      * Get the evaluated contents of the view at the given path.
      * 
-     * @param  string  $path
-     * @param  array  $data
+     * @param  string  $__path
+     * @param  array  $__data
      * 
      * @return string
      */
-    protected function evaluatePath($path, $data)
-    {
-        $cleanRender = function($__path, $__data)
+    protected function evaluatePath($__path, $__data)
+    {        
+        $obLevel = ob_get_level();
+
+        ob_start();
+
+        extract($__data, EXTR_SKIP);
+
+        try
         {
-            $obLevel = ob_get_level();
+            include $__path;
+        }
+        catch(Exception $e)
+        {
+            $this->handleViewException($e, $obLevel);
+        }
+        catch(Throwable $e)
+        {
+            $this->handleViewException(new FatalThrowableError($e), $obLevel);
+        }
 
-            ob_start();
-
-            extract($__data, EXTR_SKIP);
-
-            try
-            {
-                include $__path;
-            }
-            catch(Exception $e)
-            {
-                $this->handleViewException($e, $obLevel);
-            }
-            catch(Throwable $e)
-            {
-                $this->handleViewException(new FatalThrowableError($e), $obLevel);
-            }
-
-            return ltrim(ob_get_clean());
-        };
-
-        $output = $cleanRender($path, $data);
-
-        return $output;
+        return ltrim(ob_get_clean());        
     }
 
     /**

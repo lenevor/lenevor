@@ -40,7 +40,7 @@ class Parser implements ParserContract
 {
 	use Extensions,
 		Establishes\ManagesLayouts,
-		Establishes\ManagesIncludes,
+		Establishes\ManagesComponents,
 		Establishes\ManagesTranslations;
 	
 	/**
@@ -114,27 +114,25 @@ class Parser implements ParserContract
 	 *
 	 * @example $output = $view->make();
 	 *
-	 * @param  string  $file  View filename
+	 * @param  string  $view  View filename
 	 * @param  array  $data  Array of values
 	 *
 	 * @return string
-	 *
-	 * @throws \Syscode\View\Exceptions\ViewException
 	 */
-	public function make($file, $data = []) 
+	public function make($view, $data = []) 
 	{
-		$file = $this->finder->find($file);
+		$view = $this->finder->find($view);
 		
 		// Loader class instance.
-		return take($this->viewInstance($file, $data), function ($view) {
+		return take($this->viewInstance($view, $data), function ($view) {
 			return $view;
 		});
 	}
-	
+
 	/**
 	 * Create a new view instance from the given arguments.
 	 * 
-	 * @param  string  $file  View filename  (null by default)
+	 * @param  string  $file  View filename
 	 * @param  array  $data  Array of values
 	 * 
 	 * @return \Syscode\Contracts\View\View
@@ -178,7 +176,7 @@ class Parser implements ParserContract
 		
 		return Arr::first($extensions, function($key, $value) use ($path)
 		{
-			return Str::endsWith($path, $value);
+			return Str::endsWith($path, '.'.$value);
 		});
 	}
 	
