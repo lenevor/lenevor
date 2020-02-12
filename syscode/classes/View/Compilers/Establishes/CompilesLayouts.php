@@ -114,4 +114,26 @@ trait CompilesLayouts
     {
         return '<?php $__env->stopSection(); ?>';
     }
+
+    /**
+     * Compile the push statements into valid PHP.
+     * 
+     * @param  string  $expression
+     * 
+     * @return string
+     */
+    public function compilePush($expression)
+    {
+        return "<?php \$__env->beginSection{$expression}; ?>";
+    }
+
+    /**
+     * Compile the end-push statements into valid PHP.
+     * 
+     * @return string
+     */
+    protected function compileEndPush()
+    {
+        return '<?php $__env->appendSection(); ?>';
+    }
 }
