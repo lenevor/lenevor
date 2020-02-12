@@ -220,6 +220,7 @@ return [
     'Syscode\\View\\Compilers\\Establishes\\CompilesIncludes' => SYS_PATH.'classes/View/Compilers/Establishes/CompilesIncludes.php',
     'Syscode\\View\\Compilers\\Establishes\\CompilesLayouts' => SYS_PATH.'classes/View/Compilers/Establishes/CompilesLayouts.php',
     'Syscode\\View\\Compilers\\Establishes\\CompilesLoops' => SYS_PATH.'classes/View/Compilers/Establishes/CompilesLoops.php',
+    'Syscode\\View\\Compilers\\Establishes\\CompilesRawPhp' => SYS_PATH.'classes/View/Compilers/Establishes/CompilesRawPhp.php',
     'Syscode\\View\\Compilers\\Establishes\\CompilesTranslations' => SYS_PATH.'classes/View/Compilers/Establishes/CompilesTranslations.php',
     'Syscode\\View\\Compilers\\Compiler' => SYS_PATH.'classes/View/Compilers/Compiler.php',
     'Syscode\\View\\Compilers\\CompilerInterface' => SYS_PATH.'classes/View/Compilers/CompilerInterface.php',
