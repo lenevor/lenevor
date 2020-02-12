@@ -24,6 +24,7 @@
 
 namespace Syscode\Config;
 
+use ArrayAccess;
 use Syscode\Support\Arr;
 use Syscode\Contracts\Config\Configure as ConfigureContract;
 
@@ -35,14 +36,26 @@ use Syscode\Contracts\Config\Configure as ConfigureContract;
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class Configure implements ConfigureContract
+class Configure implements ArrayAccess, ConfigureContract
 {
 	/**
 	 * Currently registered routes.
 	 * 
 	 * @var array $vars
 	 */
-	public static $vars = [];
+	protected $vars = [];
+
+	/**
+	 * Determine if the given configuration value exists.
+	 * 
+	 * @param  string  $key
+	 * 
+	 * @return bool
+	 */
+	public function has(string $key)
+	{
+		return Arr::has($this->vars, $key);
+	}
 
 	/**
 	 * Returns a (dot notated) config setting.
@@ -54,22 +67,22 @@ class Configure implements ConfigureContract
 	 *
 	 * @uses   \Syscode\Support\Arr
 	 */
-	public static function get(string $key, $default = null)
+	public function get(string $key, $default = null)
 	{
 		$keys = explode('.', $key);
 
-		if ( ! array_key_exists($file = current($keys), static::$vars))
+		if ( ! array_key_exists($file = current($keys), $this->vars))
 		{
 			foreach ([CON_PATH, SYS_PATH.'config/'] as $paths)
 			{
 				if (is_readable($path = $paths.$file.'.php'))
 				{
-					static::$vars[$file] = require $path;
+					$this->vars[$file] = require $path;
 				}				
 			}
 		} 
 
-		return Arr::get(static::$vars, $key, $default);
+		return Arr::get($this->vars, $key, $default);
 	}
 
 	/**
@@ -84,9 +97,9 @@ class Configure implements ConfigureContract
 	 */
 	public function set(string $key, $value)
 	{
-		strpos($key, '.') === false OR static::$vars[$key] = $value;
+		strpos($key, '.') === false || $this->vars[$key] = $value;
 		
-		Arr::set(static::$vars, $key, $value);
+		Arr::set($this->$vars, $key, $value);
 	}
 
 	/**
@@ -100,36 +113,76 @@ class Configure implements ConfigureContract
 	 */
 	public function erase(string $key)
 	{
-		if (isset(static::$vars[$key]))
+		if (isset($this->$vars[$key]))
 		{
-			unset(static::$vars[$key]);
+			unset($this->$vars[$key]);
 		}
 		
-		Arr::erase(static::$vars, $key);
-	}	
+		Arr::erase($this->$vars, $key);
+	}
 
 	/**
-	 * Returns a value from the config array using the method call 
-	 * as the file reference.
-	 *
-	 * @example Configure::app('baseUrl');
-	 *
-	 * @param  string  $name  The variable name     
-	 * @param  array  $value  Value
-	 *
+	 * Get all of the configuration items for the application.
+	 * 
+	 * @return array
+	 */
+	public function all()
+	{
+		return $this->vars;
+	}
+
+	/*
+    |-----------------------------------------------------------------
+    | ArrayAccess Methods
+    |-----------------------------------------------------------------
+	*/
+	
+	/**
+	 * Determine if the given configuration option exists.
+	 * 
+	 * @param  string  $key
+	 * 
+	 * @return bool
+	 */
+	public function offsetExists($key)
+	{
+		return $this->has($key);
+	}
+	
+	/**
+	 * Get a configuration option.
+	 * 
+	 * @param  string  $key
+	 * 
 	 * @return mixed
 	 */
-	public static function __callStatic(string $name, array $value)
+	public function offsetGet($key)
 	{
-		$key      = $name;
-		$fallback = null;
-
-		if (count($value))
-		{
-			$key      .= '.'.array_shift($value);
-			$fallback  = array_shift($value);
-		}
-
-		return static::get($key, $fallback);
+		return $this->get($key);
+	}
+	
+	/**
+	 * Set a configuration option.
+	 * 
+	 * @param  string  $key
+	 * @param  mixed  $value
+	 * 
+	 * @return void
+	 */
+	public function offsetSet($key, $value)
+	{
+		$this->set($key, $value);
+	}
+	
+	/**
+	 * Unset a configuration option.
+	 * 
+	 * @param  string  $key
+	 * 
+	 * @return void
+	 */
+	public function offsetUnset($key)
+	{
+		$this->set($key, null);
 	}
 }
