@@ -28,6 +28,29 @@ namespace Syscode\Support\Facades;
  * Initialize the App class facade.
  *
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ * 
+ * @method static string basePath(string $path = '')
+ * @method static string bootstrapPath(string $path = '')
+ * @method static string configPath(string $path = '')
+ * @method static string databasePath(string $path = '')
+ * @method static string resourcePath(string $path = '')
+ * @method static string storagePath(string $path = '')
+ * @method static void bootstrapWith(array $bootstrappers) 
+ * @method static string setEnvironmentPath(string $path)
+ * @method static string setEnvironmentFile(string $file)
+ * @method static string environmentPath()
+ * @method static string environmentFile()
+ * @method static string environmentFilePath()
+ * @method static bool hasBeenBootstrapped()
+ * @method static void registerConfiguredProviders()
+ * @method static \Syscode\Support\ServiceProvider register(\Syscode\Support\ServiceProvider $provider, bool $force = false)
+ * @method static \Syscode\Support\ServiceProvider resolveProviderClass(string $provider)
+ * @method static void isBooted()
+ * @method static void boot()
+ * @method static void booting(callable $callback)
+ * @method static void booted(callable $callback)
+ * 
+ * @see \Syscode\Contracts\Core\Application
  */
 class App extends Facade
 {

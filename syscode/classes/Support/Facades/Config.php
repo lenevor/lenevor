@@ -28,6 +28,14 @@ namespace Syscode\Support\Facades;
  * Initialize the Config class facade.
  *
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ * 
+ * @method static bool has(string $key)
+ * @method static mixed get(string $key, mixed $default = null)
+ * @method static array|bool erase(string $key)
+ * @method static void set(string $key, mixed $value = null)
+ * @method static array all()
+ * 
+ * @see \Syscode\Config\Configure
  */
 class Config extends Facade
 {
