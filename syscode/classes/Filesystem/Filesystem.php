@@ -110,7 +110,6 @@ class Filesystem
 	 * Get contents of a file with shared access.
 	 *
 	 * @param  string  $path
-	 * @param  string  $mode  A `fread` compatible mode
 	 * @param  bool  $force  
 	 *
 	 * @return string
@@ -152,7 +151,7 @@ class Filesystem
 	 * Opens the current file with a given $mode.
 	 *
 	 * @param  string  $path
-	 * @param  string  $mode   A valid 'fopen' mode string (r|w|a ...)
+	 * @param  string  $mode  A valid 'fopen' mode string (r|w|a ...)
 	 * @param  bool  $force  
 	 *
 	 * @return bool
@@ -237,6 +236,7 @@ class Filesystem
 	 * based on the actual size transmitted.
 	 *
 	 * @param  string  $path
+	 * @param  string  $unit  ('b' by default)
 	 * 
 	 * @return int|null  The file size in bytes or null if unknown
 	 */
@@ -818,7 +818,6 @@ class Filesystem
 	 *
 	 * @param  string  $path
 	 * @param  string  $data  Data to write to this File
-	 * @param  string  $mode  Mode of writing
 	 * @param  bool  $force  The file to open
 	 *
 	 * @return bool
