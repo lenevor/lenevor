@@ -27,8 +27,6 @@ namespace Syscode\Support\Facades;
 /**
  * Initialize the Cache class facade.
  *
- * @author Javier Alexander Campo M. <jalexcam@gmail.com>
- * 
  * @method static \Syscode\Cache\CacheRepository store(string $name = null)
  * @method static bool has(string $key)
  * @method static mixed get(string $key, mixed $default = null)
@@ -42,6 +40,8 @@ namespace Syscode\Support\Facades;
  * 
  * @see  \Syscode\Cache\CacheManager
  * @see  \Syscode\Cache\CacheRepository
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Cache extends Facade
 {

@@ -27,8 +27,6 @@ namespace Syscode\Support\Facades;
 /**
  * Initialize the App class facade.
  *
- * @author Javier Alexander Campo M. <jalexcam@gmail.com>
- * 
  * @method static string basePath(string $path = '')
  * @method static string bootstrapPath(string $path = '')
  * @method static string configPath(string $path = '')
@@ -51,6 +49,8 @@ namespace Syscode\Support\Facades;
  * @method static void booted(callable $callback)
  * 
  * @see \Syscode\Contracts\Core\Application
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class App extends Facade
 {

@@ -28,6 +28,16 @@ namespace Syscode\Support\Facades;
  * Initialize the Encrypter class facade.
  *
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ * 
+ * @method static bool supported(string $key, string $cipher)
+ * @method static string generateRandomKey(string $cipher)
+ * @method static string encrypt(mixed $value, bool $serialize = true)
+ * @method static string encryptString(string $value)
+ * @method static mixed decrypt(mixed $value, bool $unserialize = true)
+ * @method static string decryptString(string $value)
+ * @method static string getKey()
+ * 
+ * @see \Syscode\Encryption\Encrypter
  */
 class Crypt extends Facade
 {
