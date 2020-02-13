@@ -54,6 +54,7 @@ return [
         'Http' => Syscode\Support\Facades\Http::class,
         'Lang' => Syscode\Support\Facades\Lang::class,
         'Log' => Syscode\Support\Facades\Log::class,
+        'Plaze' => Syscode\Support\Facades\Plaze::class,
         'Prime' => Syscode\Support\Facades\Prime::class,
         'Redirect' => Syscode\Support\Facades\Redirect::class,
         'Redis' => Syscode\Support\Facades\Redis::class,

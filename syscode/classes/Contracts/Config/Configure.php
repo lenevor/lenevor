@@ -32,6 +32,15 @@ namespace Syscode\Contracts\Config;
 interface Configure
 {
 	/**
+	 * Determine if the given configuration value exists.
+	 * 
+	 * @param  string  $key
+	 * 
+	 * @return bool
+	 */
+	public function has(string $key);
+
+	/**
 	 * Deletes a (dot notated) config item.
 	 * 
 	 * @param  string  $key  A (dot notated) config key
@@ -52,7 +61,7 @@ interface Configure
 	 *
 	 * @uses    \Syscode\Support\Arr
 	 */
-	public static function get(string $key, $default = null);
+	public function get(string $key, $default = null);
 	
 	/**
 	 * Sets a value in the config array.
@@ -65,4 +74,11 @@ interface Configure
 	 * @uses  \Syscode\Support\Arr
 	 */
 	public function set(string $key, $value);
+
+	/**
+	 * Get all of the configuration items for the application.
+	 * 
+	 * @return array
+	 */
+	public function all();
 }

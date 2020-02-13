@@ -27,6 +27,20 @@ namespace Syscode\Support\Facades;
 /**
  * Initialize the Cache class facade.
  *
+ * @method static \Syscode\Cache\CacheRepository store(string $name = null)
+ * @method static bool has(string $key)
+ * @method static mixed get(string $key, mixed $default = null)
+ * @method static mixed pull(string $key, mixed $default = null)
+ * @method static int|bool increment(string $key, mixed $value = 1)
+ * @method static int|bool decrement(string $key, mixed $value = 1)
+ * @method static mixed delete(string $key)
+ * @method static bool forever(string $key, mixed $value)
+ * @method static void flush()
+ * @method static string getPrefix()
+ * 
+ * @see  \Syscode\Cache\CacheManager
+ * @see  \Syscode\Cache\CacheRepository
+ * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Cache extends Facade

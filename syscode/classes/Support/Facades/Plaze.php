@@ -19,27 +19,25 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.5.0
+ * @since       0.4.0
  */
 
 namespace Syscode\Support\Facades;
 
 /**
- * Initialize the Encrypter class facade.
+ * Initialize the Plaze engine class facade.
  *
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  * 
- * @method static bool supported(string $key, string $cipher)
- * @method static string generateRandomKey(string $cipher)
- * @method static string encrypt(mixed $value, bool $serialize = true)
- * @method static string encryptString(string $value)
- * @method static mixed decrypt(mixed $value, bool $unserialize = true)
- * @method static string decryptString(string $value)
- * @method static string getKey()
+ * @method static void transpile($path = null)
+ * @method static string displayString(string $value)
+ * @method static string stripParentheses(string $expression)
+ * @method static void extend(callable $extend)
+ * @method static array getExtensions()
  * 
- * @see \Syscode\Encryption\Encrypter
+ * @see \Syscode\View\Transpilers\PlazeTranspiler
  */
-class Crypt extends Facade
+class Plaze extends Facade
 {
     /**
      * Get the registered name of the component.
@@ -48,6 +46,6 @@ class Crypt extends Facade
      */
     public static function getFacadeAccessor()
     {
-        return 'encrypter';
+        return 'plaze.transpiler';
     }
 }

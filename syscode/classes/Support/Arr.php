@@ -217,7 +217,7 @@ class Arr
 	/**
 	 * Get an item from an array using "dot" notation.
 	 *
-	 * @param  ArrayAccess|array  $array  The search array
+	 * @param  \ArrayAccess|array  $array  The search array
 	 * @param  string  $key  The dot-notated key or array of keys
 	 * @param  mixed  $default  The default value
 	 *
@@ -264,6 +264,33 @@ class Arr
 	public static function last($array, $callback, $default = null)
 	{
 		return static::first(array_reverse($array), $callback, $default);
+	}
+
+	/**
+	 * Check if an item exists in an array using "dot" notation.
+	 * 
+	 * @param  array  $array
+	 * @param  string  $key
+	 * 
+	 * @return bool
+	 */
+	public function has($array, $key)
+	{
+		if (empty($array) || is_null($key)) return false;
+		
+		if (array_key_exists($key, $array)) return true;
+		
+		foreach (explode('.', $key) as $segment)
+		{
+			if ( ! is_array($array) || ! static::exists($array, $segment))
+			{
+				return false;
+			}
+			
+			$array = $array[$segment];
+		}
+		
+		return true;
 	}
 
 	/**
