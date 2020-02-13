@@ -34,6 +34,25 @@ namespace Syscode\Contracts\Encryption;
 interface Encrypter
 {
     /**
+     * Determine if the given key and cipher combination is valid.
+     * 
+     * @param  string  $key
+     * @param  string  $cipher
+     * 
+     * @return bool
+     */
+    public static function supported($key, $cipher);
+
+    /**
+     * Generate the IV size for the cipher.
+     * 
+     * @param  string  $cipher
+     * 
+     * @return string
+     */
+    public static function generateRandomKey($cipher);
+
+    /**
      * Encrypt the given value.
      * 
      * @param  mixed  $value
@@ -46,6 +65,15 @@ interface Encrypter
     public function encrypt($value, $serialize = true);
 
     /**
+     * Encrypt the given string without serialization.
+     * 
+     * @param  string  $value
+     * 
+     * @return string
+     */
+    public function encryptString($value);
+
+    /**
      * Encrypt the given value.
      * 
      * @param  string  $value
@@ -56,4 +84,22 @@ interface Encrypter
      * @throws \Syscode\Encryption\Exceptions\DecryptException
      */
     public function decrypt($value, $unserialize = true);
+
+    /**
+     * Decrypt the given string without unserialization.
+     * 
+     * @param  string  $value
+     * 
+     * @return string
+     * 
+     * @throws \Syscode\Encryption\Enxceptions\DecryptException
+     */
+    public function decryptString($value);
+
+    /**
+     * Gets the encryption key.
+     * 
+     * @return string
+     */
+    public function getKey();
 }
