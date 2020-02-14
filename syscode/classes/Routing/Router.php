@@ -112,9 +112,9 @@ class Router implements Routable
 	/**
 	 * Add a route. 
 	 *
-	 * @param   string $route
+	 * @param  string  $route
 	 *
-	 * @return  route
+	 * @return \Syscode\Routing\Route
 	 */
 	public function addRoute(Route $route)
 	{
