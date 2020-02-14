@@ -28,6 +28,21 @@ namespace Syscode\Support\Facades;
  * Initialize the URL class facade.
  *
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ * 
+ * @method static string current()
+ * @method static string previous(mixed $fallback = false)
+ * @method static string to(string $path, mixed $options = [], bool $secure = null)
+ * @method static string secure(string $path, array $parameters = [])
+ * @method static string asset(string $path, bool $secure = null)
+ * @method static string secureAsset(string $path)
+ * @method static string getScheme(bool $secure)
+ * @method static void forcedSchema(string $schema)
+ * @method static void forcedRoot(string $root)
+ * @method static bool isValidUrl(string $path)
+ * @method static \Syscode\Http\Request getRequest()
+ * @method static void setRequest(\Syscode\Http\Request $request)
+ * 
+ * @see \Syscode\Routing\UrlGenerator
  */
 class URL extends Facade
 {

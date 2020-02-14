@@ -28,6 +28,18 @@ namespace Syscode\Support\Facades;
  * Initialize the Logger class facade.
  *
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ * 
+ * @method static void emergency(string $message, array $context = [])
+ * @method static void alert(string $message, array $context = [])
+ * @method static void critical(string $message, array $context = [])
+ * @method static void error(string $message, array $context = [])
+ * @method static void warning(string $message, array $context = [])
+ * @method static void notice(string $message, array $context = [])
+ * @method static void info(string $message, array $context = [])
+ * @method static void debug(string $message, array $context = [])
+ * @method static void log(string $level, string $message = null, array $context = [])
+ * 
+ * @see \Syscode\Log\Logger
  */
 class Log extends Facade
 {

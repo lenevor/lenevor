@@ -28,6 +28,8 @@ use Syscode\Support\Chronos;
 
 /**
  * Initialize the Date class facade.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  *
  * @method static \Syscode\Support\Chronos\Time now(string $timezone = null, string $locale = null)
  * @method static \Syscode\Support\Chronos\Time parse(string $time, string $timezone = null, string $locale = null)
@@ -89,8 +91,6 @@ use Syscode\Support\Chronos;
  * @method static \IntlCalendar getCalendar()
  * 
  * @see \Syscode\Support\time
- *  
- * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Date extends Facade
 {

@@ -27,6 +27,8 @@ namespace Syscode\Support\Facades;
 /**
  * Initialize the File class facade.
  * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ * 
  * @method static bool append(string $path, string $data, bool $force = false)
  * @method static bool copy(string $path, string $target)
  * @method static string get(string $path, bool $lock = false, bool $force = false)
@@ -69,8 +71,6 @@ namespace Syscode\Support\Facades;
  * @method static bool write(string $path, string $data, bool $force = false)
  * 
  * @see \Syscode\Filesystem\Filesystem
- *
- * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class File extends Facade
 {

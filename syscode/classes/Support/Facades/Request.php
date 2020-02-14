@@ -28,6 +28,34 @@ namespace Syscode\Support\Facades;
  * Initialize the Request class facade.
  *
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ * 
+ * @method static \Syscode\Http\Request active(\Syscode\Http\Request|bool $request = false)
+ * @method static string segment(int $index, mixed $default = null)
+ * @method static array segments()
+ * @method static int totalSegments()
+ * @method static void detectLocale()
+ * @method static string getDefaultLocale()
+ * @method static string getLocale()
+ * @method static \Syscode\Http\Request setLocale(string $locale)
+ * @method static string getUri()
+ * @method static mixed getJSON(bool $assoc = false, int $depth = 512, int $options = 0)
+ * @method static bool isXmlHttpRequest()
+ * @method static string method(bool $upper = true)
+ * @method static $this setMethod(string $method)
+ * @method static string getBaseUrl()
+ * @method static string getPathInfo()
+ * @method static string path()
+ * @method static string getScheme()
+ * @method static void getHost()
+ * @method static int getPort()
+ * @method static string getHttpHost()
+ * @method static string getSchemeWithHttpHost()
+ * @method static string root()
+ * @method static string referer(string $default = '')
+ * @method static bool secure()
+ * @method static userAgent(string $default = null)
+ * 
+ * @see \Syscode\Http\Request
  */
 class Request extends Facade
 {

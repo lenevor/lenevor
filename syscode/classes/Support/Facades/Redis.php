@@ -28,6 +28,10 @@ namespace Syscode\Support\Facades;
  * Initialize the Redis class facade.
  *
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ * 
+ * @method static \Predis\Connection\SingleConnectionInterface connection(string $name = null)
+ * 
+ * @see \Syscode\Redis\RedisManager
  */
 class Redis extends Facade
 {

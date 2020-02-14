@@ -28,6 +28,10 @@ namespace Syscode\Support\Facades;
  * Initialize the Lang class facade.
  *
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ * 
+ * @method static string|array getLine($line, array $args = [])
+ * 
+ * @see \Syscode\Translation\Translator
  */
 class Lang extends Facade
 {

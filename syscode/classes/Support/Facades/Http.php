@@ -26,8 +26,20 @@ namespace Syscode\Support\Facades;
 
 /**
  * Initialize the Http class facade.
- *
+ * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ * 
+ * @method static bool isCli()
+ * @method static bool isSecure()
+ * @method static string protocol()
+ * @method static string|array cookie(string $index = null, mixed $default = null)
+ * @method static string|array file(string $index = null, mixed $default = null)
+ * @method static string|array server(string $index = null, mixed $default = null)
+ * @method static string detectPath(string $protocol = '')
+ * @method static string parseBaseUrl()
+ * @method static string parsePathInfo()
+ * 
+ * @see \Syscode\Http\Http
  */
 class Http extends Facade
 {
