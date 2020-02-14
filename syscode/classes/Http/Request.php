@@ -276,7 +276,7 @@ class Request
 	 * 
 	 * @param  string  $locale
 	 * 
-	 * @return Request
+	 * @return \Syscode\Http\Request
 	 */
 	public function setLocale($locale)
 	{
