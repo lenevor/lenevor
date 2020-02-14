@@ -69,8 +69,6 @@ class Http
 	 * Return's the protocol that the request was made with.
 	 *
 	 * @return string
-	 *
-	 * @uses   \Config\Configure
 	 */
 	public function protocol()
 	{
@@ -130,7 +128,6 @@ class Http
 	 * portion of the current URI.
 	 * 
 	 * @param  string  $protocol
-	 * @param  string  $value
 	 * 
 	 * @return string
 	 */
@@ -248,7 +245,7 @@ class Http
 	 *
 	 * @return string
 	 */
-	public function filterDecode($uri)
+	protected function filterDecode($uri)
 	{
 		// Remove all characters except letters,
 		// digits and $-_.+!*'(),{}|\\^~[]`<>#%";/?:@&=.
