@@ -180,6 +180,19 @@ class LogManager implements LoggerInterface
     }
 
     /**
+     * System is unusable.
+     * 
+     * @param  string  $message
+     * @param  array  $context
+     * 
+     * @return void
+     */
+    public function emergency($message, array $context = [])
+    {
+        $this->driver()->emergency($message, $context);
+    }
+
+    /**
      * Action must be taken immediately.
      * 
      * @param  string  $message
@@ -206,32 +219,6 @@ class LogManager implements LoggerInterface
     }
 
     /**
-     * Detailed debug information.
-     * 
-     * @param  string  $message
-     * @param  array  $context
-     * 
-     * @return void
-     */
-    public function debug($message, array $context = [])
-    {
-        $this->driver()->debug($message, $context);
-    }
-
-    /**
-     * System is unusable.
-     * 
-     * @param  string  $message
-     * @param  array  $context
-     * 
-     * @return void
-     */
-    public function emergency($message, array $context = [])
-    {
-        $this->driver()->emergency($message, $context);
-    }
-
-    /**
      * Runtime errors that do not require immediate action but should typically
      * be logged and monitored.
      * 
@@ -246,16 +233,16 @@ class LogManager implements LoggerInterface
     }
 
     /**
-     * Interesting events.
+     * Exceptional occurrences that are not errors.
      * 
      * @param  string  $message
      * @param  array  $context
      * 
      * @return void
      */
-    public function info($message, array $context = [])
+    public function warning($message, array $context = [])
     {
-        $this->driver()->info($message, $context);
+        $this->driver()->warning($message, $context);
     }
 
     /**
@@ -272,16 +259,29 @@ class LogManager implements LoggerInterface
     }
 
     /**
-     * Exceptional occurrences that are not errors.
+     * Interesting events.
      * 
      * @param  string  $message
      * @param  array  $context
      * 
      * @return void
      */
-    public function warning($message, array $context = [])
+    public function info($message, array $context = [])
     {
-        $this->driver()->warning($message, $context);
+        $this->driver()->info($message, $context);
+    }
+
+    /**
+     * Detailed debug information.
+     * 
+     * @param  string  $message
+     * @param  array  $context
+     * 
+     * @return void
+     */
+    public function debug($message, array $context = [])
+    {
+        $this->driver()->debug($message, $context);
     }
 
     /**
