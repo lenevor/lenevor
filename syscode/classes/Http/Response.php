@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.1
+ * @since       0.1.2
  */
  
 namespace Syscode\Http;
@@ -50,7 +50,7 @@ class Response extends Status
 	 *
 	 * @return string
 	 */
-	public function __construct($content = '', int $status = 200, array $headers = [])
+	public function __construct(?string $content = '', int $status = 200, array $headers = [])
 	{
 		$this->setContent($content);
 		$this->setStatusCode($status);
@@ -186,7 +186,7 @@ class Response extends Status
 	 *
 	 * @return $this
 	 */
-	public function setContent($content)
+	public function setContent(?string $content)
 	{
 		if ($content !== null && ! is_string($content) && ! is_numeric($content) && ! is_callable([$content, '__toString'])) 
 		{
