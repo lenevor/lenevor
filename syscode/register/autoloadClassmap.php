@@ -129,6 +129,8 @@ return [
     'Syscode\\Encryption\\Exceptions\\EncryptException' => SYS_PATH.'classes/Encryption/Exceptions/EncryptException.php',
     'Syscode\\Encryption\\Encrypter' => SYS_PATH.'classes/Encryption/Encrypter.php', 
     'Syscode\\Encryption\\EncryptionServiceProvider' => SYS_PATH.'classes/Encryption/EncryptionServiceProvider.php',
+    'Syscode\\Events\\Dispatcher' => SYS_PATH.'classes/Events/Dispatcher.php', 
+    'Syscode\\Events\\EventServiceProvider' => SYS_PATH.'classes/Events/EventServiceProvider.php',
     'Syscode\\Filesystem\\Exceptions\\FileException' => SYS_PATH.'classes/Filesystem/Exceptions/FileException.php',
     'Syscode\\Filesystem\\Exceptions\\FileNotFoundException' => SYS_PATH.'classes/Filesystem/Exceptions/FileNotFoundException.php',
     'Syscode\\Filesystem\\Exceptions\\FileUnableToMoveException' => SYS_PATH.'classes/Filesystem/Exceptions/FileUnableToMoveException.php',
