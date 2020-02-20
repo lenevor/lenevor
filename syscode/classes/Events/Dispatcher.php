@@ -99,7 +99,7 @@ class Dispatcher
             }
             else
             {
-                $this->listeners[$vent][$priority][] = $this->makeListener($listener);
+                $this->listeners[$event][$priority][] = $this->makeListener($listener);
 
                 $this->clearSortedListeners($event);
             }
@@ -202,5 +202,18 @@ class Dispatcher
     protected function clearSortedListeners($event)
     {
         unset($this->sorted[$event]);
+    }
+
+    /**
+     * Determine if a given event has listeners.
+     * 
+     * @param  string  $event
+     * 
+     * @return bool
+     */
+    public function hasListeners($event)
+    {
+        return isset($this->listeners[$event]) || 
+               isset($this->wilcards[$event]);
     }
 }
