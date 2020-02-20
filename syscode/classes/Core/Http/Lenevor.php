@@ -164,7 +164,7 @@ class Lenevor implements LenevorContract
 	 */
 	protected function loadEnvironment()
 	{
-		define('ENVIRONMENT', $this->app['config']->get('app.env'));
+		define('ENVIRONMENT', $this->app['config']['app.env']);
 	}
 
  	/**
@@ -177,32 +177,6 @@ class Lenevor implements LenevorContract
  	protected function dispatcher($request)
  	{		
  		return Route::resolve($request);
-	}
-
-	/**
- 	 * Generates a base URL.
- 	 *
- 	 * @return string  The base URL
- 	 * 
- 	 * @uses   \Syscode\Http\Http
- 	 */
-	public static function getBaseUrl()
-	{
-		$baseUrl = '';
-
-		if (Http::server('http_host'))
-		{
-			$baseUrl .= Http::protocol().'://'.Http::server('http_host');
-		}
-
-		if (Http::server('script_name'))
-		{
-			$common = isGetCommonPath([Http::server('request_uri'), Http::server('script_name')]);
-
-			$baseUrl .= $common;
-		}
-
-		return rtrim($baseUrl, '/').'/';
 	}
 	
 	/** 
@@ -269,15 +243,6 @@ class Lenevor implements LenevorContract
 
 		// Load configuration system
 		$this->bootstrap();
-
-		// Activate the base URL, the route for html and desactive the route for CLI
-		if ( ! $this->initCli())
-		{
-			if ($this->app['config']->get('app.baseUrl') === null)
-			{
-				$this->app['config']->set('app.baseUrl', self::getBaseUrl());
-			}
-		}
 
 		return Response::make()->setContent(
 					$this->displayPerformanceMetrics($this->dispatcher($request))
