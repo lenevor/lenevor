@@ -130,7 +130,7 @@ class LogManager implements LoggerInterface
      */
     protected function configurationLogger(string $name)
     {
-        return $this->app['config']->get("logger.handlers.{$name}");
+        return $this->app['config']["logger.handlers.{$name}"];
     }
 
     /**
@@ -164,7 +164,7 @@ class LogManager implements LoggerInterface
      */
     public function getDefaultDriver()
     {
-        return $this->app['config']->get('logger.default');
+        return $this->app['config']['logger.default'];
     }
     
     /**
@@ -176,7 +176,7 @@ class LogManager implements LoggerInterface
      */
     public function setDefaultDriver(string $name)
     {
-        $this->app['config']->set('logger.default', $name);
+        $this->app['config']['logger.default'] = $name;
     }
 
     /**
