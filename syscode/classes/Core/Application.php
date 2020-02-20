@@ -650,8 +650,10 @@ class Application extends Container implements ApplicationContract
         foreach ([
             'app'              => [self::class, \Syscode\Contracts\Container\Container::class, \Syscode\Contracts\Core\Application::class, \Psr\Container\ContainerInterface::class],
             'cache'            => [\Syscode\Cache\CacheManager::class, \Syscode\Contracts\Cache\Manager::class],
+            'cache.store'      => [\Syscode\Cache\CacheRepository::class],
             'config'           => [\Syscode\Config\Configure::class, \Syscode\Contracts\Config\Configure::class],
             'encrypter'        => [\Syscode\Encryption\Encrypter::class, \Syscode\Contracts\Encryption\Encrypter::class],
+            'events'           => [\Syscode\Events\Dispatcher::class, \Syscode\Contracts\Events\Dispatcher::class],
             'files'            => [\Syscode\Filesystem\Filesystem::class],
             'log'              => [\Syscode\Log\LogManager::class, \Psr\Log\LoggerInterface::class],
             'plaze.transpiler' => [\Syscode\View\Transpilers\PlazeTranspiler::class],
