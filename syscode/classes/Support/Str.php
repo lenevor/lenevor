@@ -143,6 +143,44 @@ class Str
     }
 
     /**
+     * Determine if a given string matches a given pattern.
+     * 
+     * @param  string  $pattern
+     * @param  string  $value
+     * 
+     * @return bool
+     */
+    public static function is($pattern, $value)
+    {
+        $patterns = Arr::wrap($pattern);
+
+        if (is_null($patterns))
+        {
+            return false;
+        }
+
+        foreach ($patterns as $pattern)
+        {
+            if ($pattern == $value)
+            {
+                return true;
+            }
+
+            $pattern = preg_quote($pattern, '#');
+
+            // Asterisks are translate into regular expression wildcards to verify a string
+            $pattern = str_replace('\*', '.*', $pattern).'\z';
+
+            if (preg_match('#^'.$pattern.'#u', $value) === 1)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Return the length of the given string.
      *
      * @param  string  $value  String to length
