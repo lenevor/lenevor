@@ -65,6 +65,13 @@ class Parser implements ParserContract
 	protected $finder;
 
 	/**
+	 * The number of active rendering operations.
+	 * 
+	 * @var int $renderCount
+	 */
+	protected $renderCount = 0;
+
+	/**
 	 * Array of shared data.
 	 * 
 	 * @var array $shared
@@ -208,6 +215,61 @@ class Parser implements ParserContract
 		}
 		
 		return $value;
+	}
+
+	/**
+	 * Increment the rendering counter.
+	 * 
+	 * @return void
+	 */
+	public function increment()
+	{
+		return $this->renderCount++;
+	}
+
+	/**
+	 * Decrement the rendering counter.
+	 * 
+	 * @return void
+	 */
+	public function decrement()
+	{
+		return $this->renderCount--;
+	}
+
+	/**
+	 * Check if there are no active render operations.
+	 * 
+	 * @return bool
+	 */
+	public function doneRendering()
+	{
+		return $this->renderCount == 0;
+	}
+
+	/**
+	 * Flush all of the parser state like sections.
+	 * 
+	 * @return void
+	 */
+	public function flushState()
+	{
+		$this->renderCount = 0;
+
+		$this->flushSections();
+	}
+
+	/**
+	 * Flush all of the section contents if done rendering.
+	 * 
+	 * @return void
+	 */
+	public function flushStateIfDoneRendering()
+	{
+		if ($this->doneRendering())
+		{
+			$this->flushState();
+		}
 	}
 
 	/**
