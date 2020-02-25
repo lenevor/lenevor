@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.6.0
  */
 
 namespace Syscode\View;
@@ -108,14 +108,20 @@ class View implements ArrayAccess, ViewContract
 
 			$response = isset($callback) ? $callback($this, $contents) : null;
 
+			$this->parser->flushStateIfDoneRendering();
+
 			return $response ?: $contents;
 		}
 		catch(Exception $e)
 		{
+			$this->parser->flushState();
+
 			throw $e;
 		}
 		catch(Throwable $e)
 		{
+			$this->parser->flushState();
+
 			throw $e;
 		}
 	}
@@ -127,7 +133,11 @@ class View implements ArrayAccess, ViewContract
 	 */
 	protected function renderContents()
 	{
+		$this->parser->increment();
+
 		$contents = $this->getContents();
+
+		$this->parser->decrement();
 
 		return $contents;
 	}
