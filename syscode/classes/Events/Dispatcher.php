@@ -24,19 +24,22 @@
 
 namespace Syscode\Events;
 
-use Syscode\Container\Container;
+use Syscode\Support\Arr;
+use Syscode\Support\Str;
+use Syscode\Contracts\Container\Container;
+use Syscode\Contracts\Events\Dispatcher as DispatcherContract;
 
 /**
  * Dispatches events to registered listeners.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class Dispatcher
+class Dispatcher implements DispatcherContract
 {
     /**
      * The registered IoC container instance.
      * 
-     * @var \Syscode\Container\Container $container
+     * @var \Syscode\Contracts\Container\Container $container
      */
     protected $container;
 
@@ -71,7 +74,7 @@ class Dispatcher
     /**
      * Constructor. Create a new event distpacher instance.
      * 
-     * @param  \Syscode\Container\Container|null  $container  (null by default)
+     * @param  \Syscode\Contracts\Container\Container|null  $container  (null by default)
      * 
      * @return void
      */
@@ -207,13 +210,219 @@ class Dispatcher
     /**
      * Determine if a given event has listeners.
      * 
-     * @param  string  $event
+     * @param  string  $eventName
      * 
      * @return bool
      */
-    public function hasListeners($event)
+    public function hasListeners($eventName)
     {
-        return isset($this->listeners[$event]) || 
-               isset($this->wilcards[$event]);
+        return isset($this->listeners[$eventName]) || 
+               isset($this->wilcards[$eventName]) ||
+               $this->hasWilcardListeners($eventName);
+    }
+
+    /**
+     * Determine if the given event has any wildcard listeners.
+     * 
+     * @param  string  $eventName
+     * 
+     * @return bool
+     */
+    public function hasWilcardListeners($eventName)
+    {
+        foreach ($this->wilcards as $key => $listeners)
+        {
+            if (Str::is($key, $eventName))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Register an event subscriber with the dispatcher.
+     * 
+     * @param  object|string  $subscriber
+     * 
+     * @return void
+     */
+    public function subscribe($subscriber)
+    {
+        $subscriber = $this->resolveSubscriber($subscriber);
+
+        $subscriber->subscribe($this);
+    }
+
+    /**
+     * Resolve the subscriber instance.
+     * 
+     * @param  object|string  $subscriber
+     * 
+     * @return mixed
+     */
+    public function resolveSubscriber($subscriber)
+    {
+        if (is_string($subscriber))
+        {
+            return $this->container->make($subscriber);
+        }
+
+        return $subscriber;
+    }
+
+    /**
+     * Dispatch an event and call the listeners.
+     * 
+     * @param  string|object  $event
+     * @param  mixed  $payload
+     * @param  bool  $halt  (false by default)
+     * 
+     * @return array|null
+     */
+    public function dispatch($event, $payload = [], $halt = false)
+    {
+        $responses = [];
+
+        list($event, $payload) = $this->parseEventPayload($event, $payload);
+
+        $this->dispatching[] = $event;
+
+        foreach ($this->getListeners($event) as $listener)
+        {
+            $response = $listener($event, $payload);
+
+            // If the listener returns a response and it is verified that the halting 
+            // of the event is enabled, only this response will be returned, and the 
+            // rest of the listeners are not called. Otherwise, the response is added 
+            // in the response list.
+            if ($halt && ! is_null($response))
+            {
+                array_pop($this->dispatching);
+
+                return $response;
+            }
+
+            // If a boolean false is returned from a listener, the event is stopped 
+            // spreading to other listeners in the chain, otherwise we will continue 
+            // touring the listeners and dispatching everyone in our sequence.
+            if ($response === false)
+            {
+                break;
+            }
+
+            $responses[] = $response;
+        }
+
+        array_pop($this->dispatching);
+
+        return $halt ? null : $responses;
+    }
+
+    /**
+     * Parse the given event and payload and prepare them for dispatching.
+     * 
+     * @param  mixed  $event
+     * @param  mixed  $payload
+     * 
+     * @return array
+     */
+    protected function parseEventPayload($event, $payload)
+    {
+        if (is_object($event))
+        {
+            list($payload, $event) = [[$event], getClass($event, false)];
+        }
+        elseif ( ! is_array($payload))
+        {
+            $payload = [$payload];
+        }
+
+        return [$event, Arr::wrap($payload)];
+    }
+
+    /**
+     * Get all of the listeners for a given event name.
+     * 
+     * @param  string  $eventName
+     * 
+     * @return array
+     */
+    public function getListeners($eventName)
+    {
+        $wilcards = $this->getWilcardListeners($eventName);
+
+        if ( ! isset($this->sorted[$eventName]))
+        {
+            $this->sortListeners($eventName);
+        }
+
+        return array_merge($this->sorted[$eventName], $wilcards);
+    }
+
+    /**
+     * Get the wildcard listeners for the event.
+     * 
+     * @param  string  $eventName
+     * 
+     * @return array
+     */
+    protected function getWilcardListeners($eventName)
+    {
+        $wilcards = [];
+
+        foreach ($this->wilcards as $key => $listeners)
+        {
+            if (Str::is($key, $eventName))
+            {
+                $wilcards = array_merge($wilcards, $listeners);
+            }
+        }
+
+        return $wilcards;
+    }
+
+    /**
+     * Sort the listeners for a given event by priority.
+     * 
+     * @param  string  $eventName
+     * 
+     * @return array
+     */
+    protected function sortListeners($eventName)
+    {
+        $this->sorted[$eventName] = [];
+        
+        // If listeners exist for the given event, we will sort them by the priority
+        // so that we can call them in the correct order. We will cache off and
+        // sorted event listeners so we do not have to re-sort on every events.
+        if ($this->listeners[$eventName])
+        {
+            krsort($this->listeners[$eventName]);
+
+            $this->sorted[$eventName] = call_user_func_array(
+                'array_merge', $this->listeners[$eventName]
+            );
+        }
+    }
+
+    /**
+     * Remove a set of listeners from the dispatcher.
+     * 
+     * @param  string  $event
+     * 
+     * @return void
+     */
+    public function delete($event)
+    {
+        if (Str::contains($event, '*'))
+        {
+            unset($this->wilcards[$event]);
+        }
+        else
+        {
+            unset($this->listeners[$event], $this->sorted[$event]);
+        }
     }
 }
