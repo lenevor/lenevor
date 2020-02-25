@@ -114,7 +114,7 @@ class GDebug implements DebugContract
 	 *
 	 * @return string
 	 */
-	public function handleException($exception)
+	public function handleException(Throwable $exception)
 	{	
 		// The start benchmark
 		$this->benchmark->start('total_execution', LENEVOR_START);
