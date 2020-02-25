@@ -30,6 +30,7 @@ return [
         /**
          * Application Service Providers
          */
+        App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
     ],
@@ -50,6 +51,7 @@ return [
         'Cache' => Syscode\Support\Facades\Cache::class,
         'Config' => Syscode\Support\Facades\Config::class,
         'Crypt' => Syscode\Support\Facades\Crypt::class,
+        'Event' => Syscode\Support\Facades\Event::class,
         'File' => Syscode\Support\Facades\File::class,
         'Http' => Syscode\Support\Facades\Http::class,
         'Lang' => Syscode\Support\Facades\Lang::class,
