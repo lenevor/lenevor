@@ -72,6 +72,19 @@ class Logger implements LoggerInterface
     }
 
     /**
+     * Log a warning message to the logs.
+     * 
+     * @param  string  $message
+     * @param  array  $context
+     * 
+     * @return void
+     */
+    public function emergency($message, array $context = [])
+    {
+        $this->writeLog(__FUNCTION__, $message, $context);
+    }
+
+    /**
      * Log a alert message to the logs.
      * 
      * @param  string  $message
@@ -98,32 +111,6 @@ class Logger implements LoggerInterface
     }
 
     /**
-     * Log a debug message to the logs.
-     * 
-     * @param  string  $message
-     * @param  array  $context
-     * 
-     * @return void
-     */
-    public function debug($message, array $context = [])
-    {
-        $this->writeLog(__FUNCTION__, $message, $context);
-    }
-
-    /**
-     * Log a warning message to the logs.
-     * 
-     * @param  string  $message
-     * @param  array  $context
-     * 
-     * @return void
-     */
-    public function emergency($message, array $context = [])
-    {
-        $this->writeLog(__FUNCTION__, $message, $context);
-    }
-
-    /**
      * Log a error message to the logs.
      * 
      * @param  string  $message
@@ -137,14 +124,14 @@ class Logger implements LoggerInterface
     }
 
     /**
-     * Log a info message to the logs.
+     * Log a warning message to the logs.
      * 
      * @param  string  $message
      * @param  array  $context
      * 
      * @return void
      */
-    public function info($message, array $context = [])
+    public function warning($message, array $context = [])
     {
         $this->writeLog(__FUNCTION__, $message, $context);
     }
@@ -163,14 +150,27 @@ class Logger implements LoggerInterface
     }
 
     /**
-     * Log a warning message to the logs.
+     * Log a info message to the logs.
      * 
      * @param  string  $message
      * @param  array  $context
      * 
      * @return void
      */
-    public function warning($message, array $context = [])
+    public function info($message, array $context = [])
+    {
+        $this->writeLog(__FUNCTION__, $message, $context);
+    }
+
+    /**
+     * Log a debug message to the logs.
+     * 
+     * @param  string  $message
+     * @param  array  $context
+     * 
+     * @return void
+     */
+    public function debug($message, array $context = [])
     {
         $this->writeLog(__FUNCTION__, $message, $context);
     }

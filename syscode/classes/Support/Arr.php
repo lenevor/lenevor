@@ -274,7 +274,7 @@ class Arr
 	 * 
 	 * @return bool
 	 */
-	public function has($array, $key)
+	public static function has($array, $key)
 	{
 		if (empty($array) || is_null($key)) return false;
 		
@@ -332,12 +332,54 @@ class Arr
 	 * 
 	 * @return mixed
 	 */
-	public function pull(&$array, $key, $default = null)
+	public static function pull(&$array, $key, $default = null)
 	{
 		$value = static::get($array, $key, $default);
 
 		static::erase($array, $key);
 
 		return $value;
+	}
+
+	/**
+	 * Convert the array into a query string.
+	 * 
+	 * @param  array  $array
+	 * 
+	 * @return array
+	 */
+	public static function query($array)
+	{
+		return http_build_query($array, null, '&', PHP_QUERY_RFC3986);
+	}
+
+	/**
+	 * Filter the array using the given callback.
+	 * 
+	 * @param  array  $array
+	 * @param  \Callable  $callback
+	 * 
+	 * @return array
+	 */
+	public static function where($array, Callable $callback)
+	{
+		return array_filter($array, $callback, ARRAY_FILTER_USE_BOTH);
+	}
+
+	/**
+	 * If the given value is not an array and not null, wrap it in one.
+	 * 
+	 * @param  mixed  $value
+	 * 
+	 * @return array
+	 */
+	public static function wrap($value)
+	{
+		if (is_null($value))
+		{
+			return [];
+		}
+
+		return is_array($value) ? $value : [$value];
 	}
 }

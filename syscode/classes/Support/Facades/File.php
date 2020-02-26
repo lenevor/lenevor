@@ -19,13 +19,15 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.3.0
  */
 
 namespace Syscode\Support\Facades;
 
 /**
  * Initialize the File class facade.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  * 
  * @method static bool append(string $path, string $data, bool $force = false)
  * @method static bool copy(string $path, string $target)
@@ -69,8 +71,6 @@ namespace Syscode\Support\Facades;
  * @method static bool write(string $path, string $data, bool $force = false)
  * 
  * @see \Syscode\Filesystem\Filesystem
- *
- * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class File extends Facade
 {
@@ -79,7 +79,7 @@ class File extends Facade
      * 
      * @return string
      */
-    public static function getFacadeAccessor()
+    protected static function getFacadeAccessor()
     {
         return 'files';
     }

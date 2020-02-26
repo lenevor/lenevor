@@ -25,10 +25,6 @@ return [
     |
     | You can set this to a full or relative URL:
     |
-    |     'baseUrl' => '/bar/'
-    |
-    |        or
-    |
     |     'baseUrl' => 'http://localhost'
     |
     |        or 

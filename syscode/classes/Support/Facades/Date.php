@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.3.0
  */
 
 namespace Syscode\Support\Facades;
@@ -28,6 +28,8 @@ use Syscode\Support\Chronos;
 
 /**
  * Initialize the Date class facade.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  *
  * @method static \Syscode\Support\Chronos\Time now(string $timezone = null, string $locale = null)
  * @method static \Syscode\Support\Chronos\Time parse(string $time, string $timezone = null, string $locale = null)
@@ -89,8 +91,6 @@ use Syscode\Support\Chronos;
  * @method static \IntlCalendar getCalendar()
  * 
  * @see \Syscode\Support\time
- *  
- * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Date extends Facade
 {
@@ -101,7 +101,7 @@ class Date extends Facade
      * 
      * @return string
      */
-    public static function getFacadeAccessor()
+    protected static function getFacadeAccessor()
     {
         return 'date';
     }

@@ -121,6 +121,7 @@ class Translator
      * 
      * @param  string  $line
      * @param  array  $args
+     * 
      * @return string|array  Returns line
      */
     public function getLine($line, array $args = [])

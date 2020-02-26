@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.2.0
  */
 
 namespace Syscode\Support\Facades;
@@ -28,6 +28,14 @@ namespace Syscode\Support\Facades;
  * Initialize the Redirect class facade.
  *
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ * 
+ * @method static \Syscode\Http\RedirectResponse back(int $status = 302, array $headers = [], bool $fallback = false)
+ * @method static \Syscode\Http\RedirectResponse refresh(int $status = 302, array $headers = [])
+ * @method static \Syscode\Http\RedirectResponse to(string $path, int $status = 302, array $headers = [], bool $secure = null)
+ * @method static \Syscode\Http\RedirectResponse away(string $path, int $status = 302, array $headers = [])
+ * @method static \Syscode\Http\RedirectResponse secure(string $path, int $status = 302, array $headers = [])
+ * 
+ * @see \Syscode\Routing\Redirector
  */
 class Redirect extends Facade
 {
@@ -36,7 +44,7 @@ class Redirect extends Facade
      * 
      * @return string
      */
-    public static function getFacadeAccessor()
+    protected static function getFacadeAccessor()
     {
         return 'redirect';
     }

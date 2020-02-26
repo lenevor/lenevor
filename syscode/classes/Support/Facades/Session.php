@@ -28,6 +28,30 @@ namespace Syscode\Support\Facades;
  * Initialize the Session class facade.
  *
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ * 
+ * @method static string getName()
+ * @method static bool start()
+ * @method static array all()
+ * @method static string getId()
+ * @method static void setId(string $id)
+ * @method static bool isValidId(string $id)
+ * @method static void save()
+ * @method static void pull(array|string $keys)
+ * @method static void push(string $key, mixed $value)
+ * @method static bool has(array|string $key)
+ * @method static mixed get(string $key, mixed $default = null)
+ * @method static mixed put(array|string $key, mixed $value = null)
+ * @method static mixed remove(string $key)
+ * @method static void flush()
+ * @method static string token()
+ * @method static void regenerateToken()
+ * @method static void regenerate(bool $destroy = false)
+ * @method static bool migrate(bool $destroy = false)
+ * @method static bool isStarted()
+ * @method static string getDefaultDriver()
+ * 
+ * @see \Syscode\Session\Store
+ * @see \Syscode\Session\SessionManager
  */
 class Session extends Facade
 {
@@ -36,7 +60,7 @@ class Session extends Facade
      * 
      * @return string
      */
-    public static function getFacadeAccessor()
+    protected static function getFacadeAccessor()
     {
         return 'session';
     }

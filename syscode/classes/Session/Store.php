@@ -238,7 +238,7 @@ class Store implements Session
      * 
      * @param  string|array  $key
      * 
-     * @return void
+     * @return bool
      */
     public function has($key)
     {

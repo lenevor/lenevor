@@ -19,13 +19,15 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.3.0
  */
 
 namespace Syscode\Support\Facades;
 
 /**
  * Initialize the Cache class facade.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  *
  * @method static \Syscode\Cache\CacheRepository store(string $name = null)
  * @method static bool has(string $key)
@@ -40,8 +42,6 @@ namespace Syscode\Support\Facades;
  * 
  * @see  \Syscode\Cache\CacheManager
  * @see  \Syscode\Cache\CacheRepository
- * 
- * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Cache extends Facade
 {
@@ -50,7 +50,7 @@ class Cache extends Facade
      * 
      * @return string
      */
-    public static function getFacadeAccessor()
+    protected static function getFacadeAccessor()
     {
         return 'cache';
     }

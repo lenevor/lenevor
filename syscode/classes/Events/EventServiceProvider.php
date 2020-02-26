@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 /**
  * Lenevor Framework
@@ -19,35 +19,29 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.5.0
+ * @since       0.6.0
  */
 
-namespace Syscode\Support\Facades;
+namespace Syscode\Events;
+
+use Syscode\Support\ServiceProvider;
 
 /**
- * Initialize the Encrypter class facade.
- *
+ * For loading the classes from the container of services.
+ * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
- * 
- * @method static bool supported(string $key, string $cipher)
- * @method static string generateRandomKey(string $cipher)
- * @method static string encrypt(mixed $value, bool $serialize = true)
- * @method static string encryptString(string $value)
- * @method static mixed decrypt(mixed $value, bool $unserialize = true)
- * @method static string decryptString(string $value)
- * @method static string getKey()
- * 
- * @see \Syscode\Encryption\Encrypter
  */
-class Crypt extends Facade
+class EventServiceProvider extends ServiceProvider
 {
     /**
-     * Get the registered name of the component.
+     * Register the service provider.
      * 
-     * @return string
+     * @return void
      */
-    protected static function getFacadeAccessor()
+    public function register()
     {
-        return 'encrypter';
+        $this->app->singleton('events', function ($app) {
+            return new Dispatcher($app);
+        });
     }
 }

@@ -22,26 +22,8 @@
  * @since       0.6.0
  */
 
-namespace Syscode\View\Transpilers\Establishes;
-
 /**
- * Trait TranspilesIncludes.
+ * Events - all standard Events are defined here.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-trait TranspilesIncludes
-{
-    /**
-     * Transpile the include statements into valid PHP.
-     * 
-     * @param  string  $expression
-     * 
-     * @return string
-     */
-    protected function TranspileInclude($expression)
-    {
-        $expression = $this->stripParentheses($expression);
-
-        return "<?php echo \$__env->make({$expression}, \Syscode\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
-    }
-}

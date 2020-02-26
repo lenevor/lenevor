@@ -131,7 +131,7 @@ class Redirector
      * 
      * @return \Syscode\Http\RedirectResponse
      */
-    public function createRedirect($path, $status, $headers)
+    protected function createRedirect($path, $status, $headers)
     {
         return take(new RedirectResponse($path, $status, $headers), function($redirect) {
             $redirect->setRequest($this->generator->getRequest());

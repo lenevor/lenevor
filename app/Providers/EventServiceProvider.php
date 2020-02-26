@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 /**
  * Lenevor Framework
@@ -19,35 +19,41 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.5.0
+ * @since       0.6.0
  */
 
-namespace Syscode\Support\Facades;
+namespace App\Providers;
+
+use Syscode\Support\Facades\Event;
+use Syscode\Core\Support\Providers\EventServiceProvider as ServiceProvider;
 
 /**
- * Initialize the Encrypter class facade.
- *
+ * Manage all events occurred in the application.
+ * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
- * 
- * @method static bool supported(string $key, string $cipher)
- * @method static string generateRandomKey(string $cipher)
- * @method static string encrypt(mixed $value, bool $serialize = true)
- * @method static string encryptString(string $value)
- * @method static mixed decrypt(mixed $value, bool $unserialize = true)
- * @method static string decryptString(string $value)
- * @method static string getKey()
- * 
- * @see \Syscode\Encryption\Encrypter
  */
-class Crypt extends Facade
+class EventServiceProvider extends ServiceProvider
 {
     /**
-     * Get the registered name of the component.
+     * The event handler mappings for the application.
      * 
-     * @return string
+     * @var array $listen
      */
-    protected static function getFacadeAccessor()
+    protected $listen = [
+        //
+    ];
+
+    /**
+     * Bootstrap any application services.
+     * 
+     * @return  void
+     */
+    public function boot()
     {
-        return 'encrypter';
+        parent::boot();
+
+        $path = $this->app->path('Events/Events.php');
+
+        $this->loadEventPath($path);
     }
 }

@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.3.0
  */
 
 namespace Syscode\Support\Facades;
@@ -28,6 +28,10 @@ namespace Syscode\Support\Facades;
  * Initialize the Redis class facade.
  *
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ * 
+ * @method static \Predis\Connection\SingleConnectionInterface connection(string $name = null)
+ * 
+ * @see \Syscode\Redis\RedisManager
  */
 class Redis extends Facade
 {
@@ -36,7 +40,7 @@ class Redis extends Facade
      * 
      * @return string
      */
-    public static function getFacadeAccessor()
+    protected static function getFacadeAccessor()
     {
         return 'redis';
     }

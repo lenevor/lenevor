@@ -26,6 +26,8 @@ namespace Syscode\Support\Facades;
 
 /**
  * Initialize the Config class facade.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  *
  * @method static bool has(string $key)
  * @method static mixed get(string $key, mixed $default = null)
@@ -34,8 +36,6 @@ namespace Syscode\Support\Facades;
  * @method static array all()
  * 
  * @see \Syscode\Config\Configure
- * 
- * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class Config extends Facade
 {
@@ -44,7 +44,7 @@ class Config extends Facade
      * 
      * @return string
      */
-    public static function getFacadeAccessor()
+    protected static function getFacadeAccessor()
     {
         return 'config';
     }

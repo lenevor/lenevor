@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.3.1
+ * @since       0.3.2
  */
 
 namespace Syscode\Cache;
@@ -175,7 +175,7 @@ class CacheManager implements ManagerContract
      */
     protected function getConfig(string $name)
     {
-        return $this->app['config']->get("cache.stores.{$name}");
+        return $this->app['config']["cache.stores.{$name}"];
     }
 
     /**
@@ -282,7 +282,7 @@ class CacheManager implements ManagerContract
      */
     protected function getPrefix(array $config)
     {
-        return $config['prefix'] ?? $this->app['config']->get('cache.prefix');
+        return $config['prefix'] ?? $this->app['config']['cache.prefix'];
     }
     
     /**
@@ -304,7 +304,7 @@ class CacheManager implements ManagerContract
      */
     public function getDefaultDriver()
     {
-       return $this->app['config']->get('cache.default');
+       return $this->app['config']['cache.default'];
     }
     
     /**
@@ -316,7 +316,7 @@ class CacheManager implements ManagerContract
      */
     public function setDefaultDriver(string $name)
     {
-        $this->app['config']->set('cache.default', $name);
+        $this->app['config']['cache.default'] = $name;
     }
 
     /**

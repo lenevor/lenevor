@@ -46,7 +46,7 @@ interface Handler
 	 *
 	 * @return string
 	 */
-	public function handleException($exception);
+	public function handleException(Throwable $exception);
 	
 	/**
 	 * Pushes a handler to the end of the stack.

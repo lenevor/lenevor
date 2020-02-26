@@ -130,7 +130,7 @@ class LogManager implements LoggerInterface
      */
     protected function configurationLogger(string $name)
     {
-        return $this->app['config']->get("logger.handlers.{$name}");
+        return $this->app['config']["logger.handlers.{$name}"];
     }
 
     /**
@@ -164,7 +164,7 @@ class LogManager implements LoggerInterface
      */
     public function getDefaultDriver()
     {
-        return $this->app['config']->get('logger.default');
+        return $this->app['config']['logger.default'];
     }
     
     /**
@@ -176,7 +176,20 @@ class LogManager implements LoggerInterface
      */
     public function setDefaultDriver(string $name)
     {
-        $this->app['config']->set('logger.default', $name);
+        $this->app['config']['logger.default'] = $name;
+    }
+
+    /**
+     * System is unusable.
+     * 
+     * @param  string  $message
+     * @param  array  $context
+     * 
+     * @return void
+     */
+    public function emergency($message, array $context = [])
+    {
+        $this->driver()->emergency($message, $context);
     }
 
     /**
@@ -206,32 +219,6 @@ class LogManager implements LoggerInterface
     }
 
     /**
-     * Detailed debug information.
-     * 
-     * @param  string  $message
-     * @param  array  $context
-     * 
-     * @return void
-     */
-    public function debug($message, array $context = [])
-    {
-        $this->driver()->debug($message, $context);
-    }
-
-    /**
-     * System is unusable.
-     * 
-     * @param  string  $message
-     * @param  array  $context
-     * 
-     * @return void
-     */
-    public function emergency($message, array $context = [])
-    {
-        $this->driver()->emergency($message, $context);
-    }
-
-    /**
      * Runtime errors that do not require immediate action but should typically
      * be logged and monitored.
      * 
@@ -246,16 +233,16 @@ class LogManager implements LoggerInterface
     }
 
     /**
-     * Interesting events.
+     * Exceptional occurrences that are not errors.
      * 
      * @param  string  $message
      * @param  array  $context
      * 
      * @return void
      */
-    public function info($message, array $context = [])
+    public function warning($message, array $context = [])
     {
-        $this->driver()->info($message, $context);
+        $this->driver()->warning($message, $context);
     }
 
     /**
@@ -272,16 +259,29 @@ class LogManager implements LoggerInterface
     }
 
     /**
-     * Exceptional occurrences that are not errors.
+     * Interesting events.
      * 
      * @param  string  $message
      * @param  array  $context
      * 
      * @return void
      */
-    public function warning($message, array $context = [])
+    public function info($message, array $context = [])
     {
-        $this->driver()->warning($message, $context);
+        $this->driver()->info($message, $context);
+    }
+
+    /**
+     * Detailed debug information.
+     * 
+     * @param  string  $message
+     * @param  array  $context
+     * 
+     * @return void
+     */
+    public function debug($message, array $context = [])
+    {
+        $this->driver()->debug($message, $context);
     }
 
     /**

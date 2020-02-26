@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.4.1
+ * @since       0.6.1
  */
 
 namespace Syscode\View;
@@ -48,8 +48,8 @@ class ViewServiceProvider extends ServiceProvider
     {
         $this->registerView();
         $this->registerViewFinder();
+        $this->registerPlazeTranspiler();
         $this->registerEngineResolver();
-
     }
 
     /**
@@ -63,10 +63,12 @@ class ViewServiceProvider extends ServiceProvider
             // The resolver will be used by an environment to get each of the various 
             // engine implementations such as plain PHP or Plaze engine.
             $resolver = $app['view.engine.resolver'];
-            
-            $finder   = $app['view.finder'];
 
-            $parser = new Parser($resolver, $finder);
+            $finder = $app['view.finder'];
+            
+            $events = $app['events'];
+
+            $parser = new Parser($resolver, $finder, $events);
 
             $parser->setContainer($app);
 
@@ -85,6 +87,20 @@ class ViewServiceProvider extends ServiceProvider
     {
         $this->app->bind('view.finder', function ($app) {
             return new FileViewFinder($app['files']);
+        });
+    }
+
+    /**
+     * Register the Plaze transpiler implementation.
+     * 
+     * @return void
+     */
+    public function registerPlazeTranspiler()
+    {
+        $this->app->singleton('plaze.transpiler', function () {
+            return new PlazeTranspiler(
+                $this->app['files'], $this->app['config']['view.transpiled']
+            );
         });
     }
     
@@ -144,12 +160,6 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function registerPlazeEngine($resolver)
     {
-        $this->app->singleton('plaze.transpiler', function ($app) {
-            return new PlazeTranspiler(
-                $app['files'], $app['config']->get('view.transpiled')
-            );
-        });
-
         $resolver->register('plaze', function () {
             return new TranspilerEngine($this->app['plaze.transpiler']);
         });

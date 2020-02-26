@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.6.0
  */
 
 namespace Syscode\Support\Facades;
@@ -28,6 +28,17 @@ namespace Syscode\Support\Facades;
  * Initialize the View class facade.
  *
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ * 
+ * @method static bool viewExists(string $view)
+ * @method static \Syscode\Contracts\View\View make(string $view, array $data = [])
+ * @method static \Illuminate\Contracts\View\Engine getEngineFromPath(string $path)
+ * @method static array getExtensions()
+ * @method static mixed share(array|string $key, mixed $value = null)
+ * @method static void getShared()
+ * @method static \Syscode\Contracts\Container\Container getContainer()
+ * @method static \Syscode\Contracts\Container\Container setContainer(\Syscode\Contracts\Container\Container $container)
+ * 
+ * @see \Syscode\View\Parser
  */
 class View extends Facade
 {
@@ -36,7 +47,7 @@ class View extends Facade
      * 
      * @return string
      */
-    public static function getFacadeAccessor()
+    protected static function getFacadeAccessor()
     {
         return 'view';
     }
