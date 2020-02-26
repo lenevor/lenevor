@@ -40,7 +40,7 @@ class EventServiceProvider extends ServiceProvider
      * @var array $listen
      */
     protected $listen = [
-
+        //
     ];
 
     /**
@@ -52,7 +52,7 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        $path = app()->path('Events/Events.php');
+        $path = $this->app->path('Events/Events.php');
 
         $this->loadEventPath($path);
     }
