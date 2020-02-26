@@ -284,7 +284,7 @@ class Dispatcher implements DispatcherContract
     public function dispatch($event, $payload = [], $halt = false)
     {
         $responses = [];
-
+        
         list($event, $payload) = $this->parseEventPayload($event, $payload);
 
         $this->dispatching[] = $event;
@@ -397,7 +397,7 @@ class Dispatcher implements DispatcherContract
         // If listeners exist for the given event, we will sort them by the priority
         // so that we can call them in the correct order. We will cache off and
         // sorted event listeners so we do not have to re-sort on every events.
-        if ($this->listeners[$eventName])
+        if (isset($this->listeners[$eventName]))
         {
             krsort($this->listeners[$eventName]);
 
