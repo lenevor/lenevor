@@ -62,9 +62,13 @@ class ViewServiceProvider extends ServiceProvider
         $this->app->singleton('view', function ($app) {
             // The resolver will be used by an environment to get each of the various 
             // engine implementations such as plain PHP or Plaze engine.
-            $resolver = $app['view.engine.resolver'];            
-            $finder   = $app['view.finder'];
-            $parser   = new Parser($resolver, $finder);
+            $resolver = $app['view.engine.resolver'];
+
+            $finder = $app['view.finder'];
+            
+            $events = $app['events'];
+
+            $parser = new Parser($resolver, $finder, $events);
 
             $parser->setContainer($app);
 
