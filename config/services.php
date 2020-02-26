@@ -21,6 +21,7 @@ return [
         Syscode\Cache\CacheServiceProvider::class,
         Syscode\Database\DatabaseServiceProvider::class,
         Syscode\Encryption\EncryptionServiceProvider::class,
+        Syscode\Events\EventServiceProvider::class,
         Syscode\Filesystem\FilesystemServiceProvider::class,
         Syscode\Session\SessionServiceProvider::class,
         Syscode\Translation\TranslationServiceProvider::class,
