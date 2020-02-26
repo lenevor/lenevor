@@ -27,6 +27,7 @@ namespace Syscode\View;
 use Syscode\Support\Arr;
 use Syscode\Support\Str;
 use InvalidArgumentException;
+use Syscode\Contracts\Events\Dispatcher;
 use Syscode\View\Engines\EngineResolver;
 use Syscode\Contracts\Container\Container;
 use Syscode\Contracts\View\Parser as ParserContract;
@@ -58,6 +59,13 @@ class Parser implements ParserContract
 	protected $engines;
 
 	/**
+	 * The event dispatcher instance.
+	 * 
+	 * @var \Syscode\Contracts\Events\Dispatcher $events
+	 */
+	protected $events;
+
+	/**
 	 * The view finder implementation.
 	 * 
 	 * @var \Syscode\View\FileViewFinder $finder
@@ -83,13 +91,15 @@ class Parser implements ParserContract
 	 * 
 	 * @param  \Syscode\View\Engines\EngineResolver  $engine
 	 * @param  \Syscode\View\FileViewFinder  $finder
+	 * @param  \Syscode\Contracts\Events\Dispatcher  $events
 	 *
 	 * @return void
 	 */
-	public function __construct(EngineResolver $engines, FileViewFinder $finder)
+	public function __construct(EngineResolver $engines, FileViewFinder $finder, Dispatcher $events)
 	{
-		$this->engines = $engines;
 		$this->finder  = $finder;
+		$this->engines = $engines;
+		$this->events  = $events;
 
 		$this->share('__env', $this);
 	}
@@ -132,7 +142,7 @@ class Parser implements ParserContract
 		
 		// Loader class instance.
 		return take($this->viewInstance($view, $data), function ($view) {
-			return $view;
+			$this->callCreator($view);
 		});
 	}
 
@@ -185,6 +195,18 @@ class Parser implements ParserContract
 		{
 			return Str::endsWith($path, '.'.$value);
 		});
+	}
+	
+	/**
+	 * Call the creator for a given view.
+	 * 
+	 * @param  \Syscode\View\View  $view
+	 * 
+	 * @return void
+	 */
+	public function callCreator(View $view)
+	{
+		$this->events->dispatch('creating: '.$view->getView(), [$view]);
 	}
 	
 	/**
