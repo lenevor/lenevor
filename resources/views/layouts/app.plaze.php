@@ -21,14 +21,8 @@
 
 	</head>
 	<body>
-	
-		<@include('partials::header')
 
 		<@give('content')
-
-		<script>
-			<?= preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(resourcePath('js/menu.js'))) ?>
-		</script>
 
 	</body>
 </html>
