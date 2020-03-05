@@ -27,7 +27,6 @@ namespace Syscode\Core\Http;
 use Closure;
 use Exception;
 use Throwable;
-use Syscode\Debug\Benchmark;
 use Syscode\Support\Facades\Http; 
 use Syscode\Support\Facades\Route;
 use Syscode\Support\Facades\Facade;
@@ -49,13 +48,6 @@ class Lenevor implements LenevorContract
 	 * @var \Syscode\Contracts\Core\Application $app
 	 */
 	protected $app;
-
-	/**
-	 * Benchmark instance.
-	 * 
-	 * @var string $benchmark
-	 */
-	protected $benchmark;
 	
 	/**
 	 * The bootstrap classes for the application.
@@ -96,15 +88,12 @@ class Lenevor implements LenevorContract
 	 * Constructor. Lenevor class instance.
 	 * 
 	 * @param  \Syscode\Contracts\Core\Application  $app
-	 * @param  \Syscode\Http\Request   $request
-	 * @param  \Syscode\Debug\Benchmark  $benchmark
 	 * 
 	 * @return void
 	 */
-	public function __construct(Application $app, Benchmark $benchmark)
+	public function __construct(Application $app)
 	{
-		$this->app       = $app;
-		$this->benchmark = $benchmark;
+		$this->app = $app;
 	}
 
 	/**
@@ -228,9 +217,6 @@ class Lenevor implements LenevorContract
 	 */
 	protected function sendRequestThroughRouter($request)
 	{
-		// Start the benchmark
-		$this->startBenchmark();
-		
 		$this->app->instance('request', $request);  
 
 		Facade::clearResolvedInstance('request');
@@ -244,35 +230,7 @@ class Lenevor implements LenevorContract
 		// Load configuration system
 		$this->bootstrap();
 
-		return Response::make()->setContent(
-					$this->displayPerformanceMetrics($this->dispatcher($request))
-		);
-	}
-
-	/**
-	 * Start the benchmark.
-	 * 
-	 * @return void
-	 */
-	protected function startBenchmark()
-	{
-		$this->benchmark->start('total_execution', LENEVOR_START);
-	}
-
-	/**
-	 * Replaces the memory_usage and elapsed_time tags.
-	 * 
-	 * @param  string  $output
-	 * 
-	 * @return string
-	 */
-	public function displayPerformanceMetrics($output)
-	{
-		$this->totalTime = $this->benchmark->getElapsedTime('total_execution');
-
-		$output = str_replace('{elapsed_time}', $this->totalTime, $output);
-
-		return $output;
+		return Response::make()->setContent($this->dispatcher($request));
 	}
 
 	/**
