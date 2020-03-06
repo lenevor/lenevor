@@ -1,6 +1,6 @@
 :root {
-	--color-location: rgb(84, 119, 155);
-	--color-icon: rgb(82, 114, 139);
+	--color-location: hsl(210, 30%, 47%);
+	--color-icon: hsl(197, 56%, 41%);
 }
 
 @font-face {
@@ -23,10 +23,10 @@
 }
 
 body {
-	background: hsla(240, 20%, 95%, 1);
+	background: rgb(245, 244, 244);
 	color: hsla(240, 20%, 45%, 1);
 	display: flex;
-	font-family: 'icommon', Heebo, sans-serif;
+	font: 16px/1.5 'icommon', Heebo, sans-serif;
 	font-weight: 100;
 	justify-content: center;
 	margin: 0;
@@ -39,6 +39,10 @@ a:visited {
 	color: rgb(107, 120, 128);
 	font-weight: 500;
 }
+
+h1, h2 { line-height: 1.2; margin: 0 0 .5em; }
+h1 { font-size: 36px; }
+h2 { font-size: 21px; margin-bottom: 1em; }
 
 [class^="icon-"], [class*=" icon-"] {
 	/* use !important to prevent issues with browser extensions that change fonts */
@@ -53,20 +57,6 @@ a:visited {
 	/* Better Font Rendering =========== */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-}
-
-.icon-checkmark:before {
-	background: rgb(255, 255, 255);
-	border: 2px solid rgb(203, 213, 223);
-	border-radius: 100%;
-	color: var(--color-icon);
-	content: "\ea10";
-	font-size: 1.2em;
-	font-weight: 500;
-	left: 10px;
-	padding: 3px;
-	position: absolute;
-	top: 8px;
 }
 
 .icon-books:before {
@@ -98,7 +88,7 @@ a:visited {
 }
 
 .container {
-	background: radial-gradient(ellipse at bottom, hsl(197, 27%, 41%) 0%, hsl(240, 20%, 13%) 100%);
+	background: radial-gradient(ellipse at bottom, hsl(197, 56%, 41%) 0%, hsl(240, 20%, 13%) 100%);
     background-attachment: fixed;
 	color: hsla(240, 20%, 95%, 1);
 	position: relative;
@@ -116,58 +106,66 @@ a:visited {
 }
 
 .info {
-	margin-bottom: -5em;
+	margin-bottom: 3em;
 	padding-top: 4em;
+}
+
+.info small { display: block; font-size: 85%; }
+
+.container .logo { 
+	margin-bottom: 1em; 
+}
+
+.container .logo svg { 
+	fill: hsl(104, 20%, 26%); 
 }
 
 h1 {
 	color: rgb(255, 255, 255);	
 	font-family: 'Heebo';
-	font-size: 2.5em;
-	font-weight: 500;
+	font-size: 2em;
+	font-weight: 600;
 	letter-spacing: 2px;
 	line-height: 1.2;
 	margin: 0 0 .5em;
 }
 
-h1 span {
-	display: block;
-	font-size: 4.5rem;
-	font-weight: 600;
-}
-
 .status {
-	padding-bottom: 2em;
+	padding-bottom: 1em;
 }
 
-code {
-	align-items: center;
-	background: rgb(255, 255, 255);
-	border-radius: 25px;
-	margin-bottom: 200px;
-    box-shadow: 0 0 45px -15px hsl(112, 20%, 2%);
-    color: hsla(112, 20%, 45%, 1);
-	font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-	font-size: 1.2em;
-	top: 30px;
-	padding: 10px;
-    position: relative;
-    word-wrap: break-word;
-    z-index: 1;
+.status code, 
+.status .status-message { 
+	display: none; 
 }
 
-.check svg {
+.status code {
+	align-items: center; 
+	background: hsla(104, 20%, 95%, 1); 
+	border-radius: 25px; 
+	box-shadow: 0 0 45px -15px hsl(104, 20%, 2%); 
+	color: hsla(104, 20%, 45%, 1); 
+	font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; 
+	justify-content: center;
+	padding-right: 20px; 
+	position: relative; 
+	word-wrap: break-word; 
+	z-index: 1;
+}
+
+.status .check svg {
     fill: rgb(255, 255, 255);
 }
 
-.check {
-	background: hsl(197, 27%, 41%);
+.status .check {
+	align-items: center;
+	background: var(--color-icon);
     border-radius: 20px;
-	height: 37px;
-	margin-right: 10px;
-	padding: 5px;
-	text-align: center;
-	width: 20px;
+    display: flex;
+    justify-content: center;
+    height: 37px;
+	margin: 6px 8px 6px 6px;
+	width: 50px;
 }
 
 svg {
@@ -175,16 +173,17 @@ svg {
 	vertical-align: text-bottom;
 }
 
-code .location {
+.status code span {
 	color: var(--color-location);
 }
 
 .status-message {
-	color: rgba(255, 255, 255, 0.829);
-	font-size: 1.3em;
+	color: rgb(255, 255, 255);
 	font-weight: 500;
-	margin: 108px 0 -70px 0;
+	margin: 28px 0 0 0;
 }
+
+.container svg.wave { position: absolute; bottom: -2px; left: 0; z-index: 1; }
 
 .resources {
 	margin: 0 auto;
@@ -192,115 +191,57 @@ code .location {
 	padding: 2.5em 0 3.5em;
 }
 
-.row {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-evenly;
+.resources .row {
+	display: flex; 
+	justify-content: space-evenly; 
+	margin-left: 30px; 
+	margin-right: 30px; 
 }
 
-.resource {
+.resources .resource {
+	padding: 0 10px;
 	position: relative;
-	top: 300px;
-	width: 100%;
-	z-index: 100;
 }
 
 .resources .resource .icon-books:before {
-	margin-left: 90px;
+	margin-left: 55px;
 }
 
 .resources .resource .icon-embed:before {
-	margin-left: 40px;
+	margin-left: 25px;
 }
 
 .resources .resource .icon-users:before {
-	margin-left: 60px;
+	margin-left: 35px;
 }
 
-h2 {
-	color: rgb(59, 131, 179);
-}
+.resource h2 { color: rgb(65, 78, 87); font-size: 18px; font-weight: normal; margin-bottom: 5px; }
+.resource p { margin-top: 5px; }
+.resource a { font-size: 14px; }
 
-/* Smarthphone */
-@media screen and (max-width: 767px) {
-	.info {
-		min-height: 100%;
-	}
-
-	#svg8 {
-		height: 40%;
-		width: 40%;
-	}
-
-	h1 {
-		font-size: 1.5em;
-	}
-	
-	h1 span {
-		font-size: 2.5rem;
-	}
-
-	code {
-		padding: 5px;
-	}
-
-	.check {
-		margin-right: 4px;
-		padding: 2px;
-	}
-
-	.location {
-		font-size: .8em;
-	}
-
-	.status-message {
-		display: none;
-	}
-
-	.resources {
-		margin: 0;
-		margin-top: -250px; 
-	}
-
-	.row {
-		flex-direction: column;
-		margin-top: 10px;
-	}
-}
-
-/* Tablet */
 @media screen and (min-width: 768px) {
+	body {
+		font-size: 20px;
+	}
 	
-}
-
-/* Desktop */
-@media screen and (min-width: 1024px) {
-	#svg8 {
-		height: 10%;
-		width: 10%;
+	.status {
+		padding-bottom: 4em;
 	}
 
-	h2 {
-		font-size: 2.2em;
+	.status code {
+		display: inline-flex;
 	}
 
-	a {
-		font-size: 1em;
-	}
-}
-
-/* 4K Ultra HD TV */
-@media screen and (min-width: 3640px) {
-	.info {
-		max-width: 3060px;
+	.status .status-message {
+		display: block;
 	}
 
-	h1 {
-		font-size: 5rem;
-		margin-top: 185px;
+	.resources .row { 
+		margin-left: 50px;
+		margin-right: 50px;
 	}
 
-	.message {
-		font-size: 2.2em;
-	}
+	.resource { padding: 0 30px; }
+	.resource h2 { font-size: 22px; }
+    .resource span { font-size: 16px; margin-top: 0; }
 }
