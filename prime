@@ -66,8 +66,9 @@ $application = $app->make(Syscode\Contracts\Console\Application::class);
 error_reporting(-1);
 ini_set('display_errors', 1);
 
-$exitCode  = $application->showHeader();
-$exitCode .= $application->run();
+$application->showHeader();
+
+$response = $application->run();
 
 // Once Prime has finish running 
-exit($exitCode);
+exit($response);
