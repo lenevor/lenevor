@@ -27,7 +27,7 @@ namespace Syscode\Core\Http;
 use Closure;
 use Exception;
 use Throwable;
-use Syscode\Support\Facades\Http; 
+use Syscode\Http\Http; 
 use Syscode\Support\Facades\Route;
 use Syscode\Support\Facades\Facade;
 use Syscode\Support\Facades\Response;
@@ -175,7 +175,7 @@ class Lenevor implements LenevorContract
 	 */
 	public function initCli()
 	{
-		return $this->isCli = Http::isCli();
+		return $this->isCli = (new Http)->isCli();
 	}
 	 
 	/**
@@ -184,7 +184,7 @@ class Lenevor implements LenevorContract
 	 * 
 	 * @param  \Syscode\http\Request  $request
 	 *
-	 * @return \Syscode\Http\Response
+	 * @return \Syscode\Support\Facades\Response
 	 */
 	public function handle($request)
 	{
@@ -213,7 +213,7 @@ class Lenevor implements LenevorContract
 	 * 
 	 * @param  \Syscode\Http\Request  $request
 	 * 
-	 * @return \Syscode\Http\Response
+	 * @return \Syscode\Support\Facades\Response
 	 */
 	protected function sendRequestThroughRouter($request)
 	{
