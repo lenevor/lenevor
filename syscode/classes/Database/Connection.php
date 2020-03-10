@@ -24,6 +24,9 @@
  
 namespace Syscode\Database;
 
+use PDO;
+
+
 /**
  * Creates a database connection using PDO.
  * 
@@ -31,20 +34,20 @@ namespace Syscode\Database;
  */
 class Connection
 {
-    protected $link;
+    /**
+     * The active PDO connection.
+     * 
+     * @var \PDO $pdo
+     */
+    protected $pdo;
 
     /**
-     * Connection constructor
+     * Constructor. Connection constructor.
      * 
      * @return  void 
      */
     public function __construct()
     {
-        $this->connect();
-    }
 
-    private function connect()
-    {
-        
     }
 }
