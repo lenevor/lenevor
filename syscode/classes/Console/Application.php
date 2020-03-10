@@ -19,13 +19,14 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.1.1
  */
 
 namespace Syscode\Console;
 
 use Syscode\Version;
 use Syscode\Contracts\Core\Lenevor;
+use Syscode\Support\Facades\Request;
 use Syscode\Contracts\Console\Application as ApplicationContracts;
 
 /**
@@ -36,23 +37,28 @@ use Syscode\Contracts\Console\Application as ApplicationContracts;
 class Application implements ApplicationContracts
 {
 	/**
+	 * Get the Lenevor class instance.
+	 * 
+	 * @var \Syscode\Contracts\Core\Lenevor $core
+	 */
+	protected $core;
+
+	/**
 	 * Console constructor. Initialize the console of Lenevor.
 	 *
-	 * @param  \Syscode\Contracts\Core\Lenevor|string  $core
-	 * @param  \Syscode\Console\Cli|string             $command 
+	 * @param  \Syscode\Contracts\Core\Lenevor  $core
 	 * 
-	 * @return bool
+	 * @return void
 	 */
-	public function __construct(Lenevor $core, Cli $command)
-	{
+	public function __construct(Lenevor $core)
+	{		
 		// Initialize the Cli
 		if ($core->initCli())
 		{			
-			$core->handle();
-			$command::initialize($core);
+			Cli::initialize($core);
 		}
 
-		return false;
+		$this->core = $core;
 	}
 
 	/**
@@ -60,7 +66,10 @@ class Application implements ApplicationContracts
 	 *
 	 * @return void
 	 */
-	public function run() {}
+	public function run()
+	{
+		
+	}
 
 	/**
 	 * Displays basic information about the Console.
@@ -73,8 +82,8 @@ class Application implements ApplicationContracts
 	public function showHeader()
 	{		
 		Cli::write(Version::PRODUCT.' '
-			.Cli::color(Version::RELEASE, 'light_green').' '
-			.'Server Time: '.Cli::color(date('Y/m/d H:i:sa'), 'light_yellow').' '
+			.Cli::color(Version::RELEASE, 'light_green').' | '
+			.'Server Time: '.Cli::color(date('Y/m/d H:i:sa'), 'light_yellow').' | '
 			.cli::color('['.PHP_OS.']', 'light_purple')
 		);
 
