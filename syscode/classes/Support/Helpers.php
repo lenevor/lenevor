@@ -22,6 +22,7 @@
  * @since       0.1.0
  */
 
+use Syscode\Version;
 use Syscode\Support\Arr;
 use Syscode\Support\Str;
 use Syscode\Core\Http\Lenevor;
@@ -411,6 +412,19 @@ if ( ! function_exists('value'))
     function value($value)
     {
         return Lenevor::value($value);
+    }
+}
+
+if ( ! function_exists('version'))
+{
+    /**
+     * Return number version of the Lenevor.
+     * 
+     * @return string
+     */
+    function version()
+    {
+        return Version::RELEASE;
     }
 }
 
