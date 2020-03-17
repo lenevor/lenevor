@@ -22,6 +22,13 @@ return [
      * View 
      */
 
-    'documentation' => 'documentation',
+    'community' => 'Community',
+    'createPage' => 'Create your first page',
+    'documentation' => 'Documentation',
+    'guides' => 'Guides',
+    'references' => 'references',
+    'successfullyInstalled' => 'Your have successfully installed this application, you can use it now.',
+    'tutorials' => 'Tutorials',
+    'welcomeTo' => 'Welcome to',
 
 ];

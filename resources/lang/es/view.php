@@ -24,6 +24,13 @@ return [
      * Vista 
      */
 
-    'documentation' => 'documentación',
+    'community' => 'Comunidad',
+    'createPage' => 'Crea tu primera página',
+    'documentation' => 'Documentación',
+    'guides' => 'Guías',
+    'references' => 'referencias',
+    'successfullyInstalled' => 'Has instalado correctamente esta aplicación, puedes usarla ahora.',
+    'tutorials' => 'Tutoriales',
+    'welcomeTo' => 'Bienvenido a',
 
 ];
