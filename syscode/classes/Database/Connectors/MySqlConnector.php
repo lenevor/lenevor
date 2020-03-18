@@ -25,7 +25,7 @@
 namespace Syscode\Database\Connectors;
 
 /**
- * A PDO based MySql Database Connector.
+ * A PDO based MySQL Database Connector.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */

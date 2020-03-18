@@ -27,7 +27,7 @@ namespace Syscode\Database\Connectors;
 use PDO;
 
 /**
- * A PDO based SQLServer Database Connector.
+ * A PDO based SqlServer Database Connector.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
