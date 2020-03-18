@@ -50,7 +50,7 @@ h2 { font-size: 21px; margin-bottom: 1em; }
 .container .logo { margin-bottom: 1em; }
 h1 { color: var(--color-white);	font-family: 'Heebo'; font-size: 2em; font-weight: 600; letter-spacing: 2px; line-height: 1.2; margin: 0 0 1em; }
 .status { padding-bottom: 1em; }
-.status code { align-items: center; background: hsla(104, 20%, 95%, 1); border-radius: 25px; box-shadow: 0 0 45px -15px hsl(104, 20%, 2%); color: hsla(104, 20%, 45%, 1); display: inline-flex; font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; justify-content: center; padding-right: 10px; position: relative; word-wrap: break-word; z-index: 1; }
+.status code { align-items: center; background: var(--color-white); border-radius: 25px; box-shadow: 0 0 45px -15px hsl(104, 20%, 2%); color: hsla(104, 20%, 45%, 1); display: inline-flex; font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; justify-content: center; padding-right: 10px; position: relative; word-wrap: break-word; z-index: 1; }
 .status .check svg { fill: var(--color-white); }
 .status .check { align-items: center; background: var(--color-darkgray-200); border-radius: 20px; display: inline-flex; justify-content: center; height: 27px; margin: 6px 8px 6px 6px; width: 40px; }
 svg { overflow: hidden; vertical-align: text-bottom; } 
