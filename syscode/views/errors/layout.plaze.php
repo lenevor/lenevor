@@ -15,7 +15,7 @@
 		
 		<!-- Styles -->
 		<style type="text/css">
-		   <?= preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(SYS_PATH.'views/errors/css/style.css')) ?>
+		   <?= preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(basePath('syscode/views/errors/css/style.css'))) ?>
 		</style>
 
 	</head>
@@ -25,8 +25,7 @@
 		
 			<div class="code">
 				<h1><@give('code')</h1>
-			</div>
-			
+			</div>			
 			<div class="message" style="padding: 10px;">
 				<@give('message')
 			</div>
