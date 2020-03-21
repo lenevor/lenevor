@@ -58,9 +58,9 @@ class View implements ArrayAccess, ViewContract
 	/**
 	 * The view factory instance.
 	 * 
-	 * @var \Syscode\View\Parser $parser
+	 * @var \Syscode\View\factory $factory
 	 */
-	protected $parser;
+	protected $factory;
 
 	/**
 	 * Get the view.
@@ -72,7 +72,7 @@ class View implements ArrayAccess, ViewContract
 	/**
 	 * Constructor: Create a new view instance.
 	 * 
-	 * @param  \Syscode\View\Parser  $parser
+	 * @param  \Syscode\View\factory  $factory
 	 * @param  \Syscode\Contracts\View\Engine  $engine
 	 * @param  string  $view
 	 * @param  array  $data
@@ -81,12 +81,12 @@ class View implements ArrayAccess, ViewContract
 	 *
 	 * @throws \InvalidArgumentException
 	 */
-	public function __construct(Parser $parser, Engine $engine, $view, $data = [])
+	public function __construct(Factory $factory, Engine $engine, $view, $data = [])
 	{
-		$this->parser = $parser;
-		$this->engine = $engine;
-		$this->view   = $view;
-		$this->data   = (array) $data;
+		$this->factory = $factory;
+		$this->engine  = $engine;
+		$this->view    = $view;
+		$this->data    = (array) $data;
 	}
 
 	/**
@@ -108,19 +108,19 @@ class View implements ArrayAccess, ViewContract
 
 			$response = isset($callback) ? $callback($this, $contents) : null;
 
-			$this->parser->flushStateIfDoneRendering();
+			$this->factory->flushStateIfDoneRendering();
 
 			return $response ?: $contents;
 		}
 		catch(Exception $e)
 		{
-			$this->parser->flushState();
+			$this->factory->flushState();
 
 			throw $e;
 		}
 		catch(Throwable $e)
 		{
-			$this->parser->flushState();
+			$this->factory->flushState();
 
 			throw $e;
 		}
@@ -133,11 +133,11 @@ class View implements ArrayAccess, ViewContract
 	 */
 	protected function renderContents()
 	{
-		$this->parser->increment();
+		$this->factory->increment();
 
 		$contents = $this->getContents();
 
-		$this->parser->decrement();
+		$this->factory->decrement();
 
 		return $contents;
 	}
@@ -159,7 +159,7 @@ class View implements ArrayAccess, ViewContract
 	 */
 	public function getArrayData()
 	{
-		$data = array_merge($this->parser->getShared(), $this->data);
+		$data = array_merge($this->factory->getShared(), $this->data);
 
 		return array_map(function ($value) {
 			return $value;
@@ -176,7 +176,7 @@ class View implements ArrayAccess, ViewContract
 	public function renderSections()
 	{
 		return $this->render(function () {
-			return $this->parser->getSections();
+			return $this->factory->getSections();
 		});
 	}
 
@@ -244,13 +244,13 @@ class View implements ArrayAccess, ViewContract
 	}
 
 	/**
-	 * Get the view parser instance.
+	 * Get the view factory instance.
 	 * 
-	 * @return \Syscode\View\Parser
+	 * @return \Syscode\View\factory
 	 */
-	public function getParser()
+	public function getFactory()
 	{
-		return $this->parser;
+		return $this->factory;
 	}
 
 	/**
