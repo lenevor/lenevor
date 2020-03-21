@@ -664,7 +664,7 @@ class Application extends Container implements ApplicationContract
             'session.store'    => [\Syscode\Session\Store::class, \Syscode\Contracts\Session\Session::class],
             'translator'       => [\Syscode\Translation\Translator::class],
             'url'              => [\Syscode\Routing\UrlGenerator::class],
-            'view'             => [\Syscode\View\Parser::class, \Syscode\Contracts\View\Parser::class]
+            'view'             => [\Syscode\View\Factory::class, \Syscode\Contracts\View\Factory::class]
         ] as $key => $aliases) 
         {
             foreach ((array) $aliases as $alias) 
