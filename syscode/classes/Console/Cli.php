@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.1.1
  */
 
 namespace Syscode\Console;
@@ -162,11 +162,6 @@ class Cli
  	 */
  	public static function color(string $text, string $foreground, string $background = null, string $format = null)
  	{
- 		if (static::isWindows())
- 		{
- 			return $text;
- 		}
-
  		if (static::$noColor)
  		{
  			return $text;
