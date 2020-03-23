@@ -54,7 +54,7 @@ class Application implements ApplicationContracts
 	{		
 		// Initialize the Cli
 		if ($core->initCli())
-		{			
+		{
 			Cli::initialize($core);
 		}
 
@@ -82,9 +82,9 @@ class Application implements ApplicationContracts
 	public function showHeader()
 	{		
 		Cli::write(Version::PRODUCT.' '
-			.Cli::color('('.Version::RELEASE.')', 'cyan').' | '
+			.Cli::color(Version::RELEASE, 'cyan').' | '
 			.'Server Time: '.Cli::color(date('Y/m/d H:i:sa'), 'light_yellow').' | '
-			.cli::color('['.PHP_OS.']', 'purple')
+			.cli::color('['.PHP_OS.']', 'white')
 		);
 
 		Cli::newLine(1);
