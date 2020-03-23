@@ -27,7 +27,7 @@ namespace Syscode\Console;
 use Exception;
 use Syscode\Support\Arr;
 use Syscode\Contracts\Core\Lenevor;
-use Syscode\Core\Exceptions\LenevorException;
+use Syscode\Core\Http\Exceptions\LenevorException;
 
 /**
  * Set of static methods useful for CLI request handling.
@@ -169,12 +169,12 @@ class Cli
 
  		if ( ! Arr::exists(static::$foregroundColors, $foreground))
  		{
- 			throw new LenevorException("Invalid CLI foreground color: {$foreground}.");
+ 			throw new LenevorException(static::error("Invalid CLI foreground color: {$foreground}."));
  		}
 
  		if ( $background !== null && ! Arr::exists(static::$backgroundColors, $background))
  		{
- 			throw new LenevorException("Invalid CLI background color: {$background}.");
+ 			throw new LenevorException(static::error("Invalid CLI background color: {$background}."));
  		}
 
  		$string = "\033[".static::$foregroundColors[$foreground]."m";
@@ -205,18 +205,18 @@ class Cli
  	 */
  	public static function error(string $text = '', string $foreground = 'light_red', string $background = null)
  	{
- 		if (is_array($text))
- 		{
- 			$text = implode(PHP_EOL, $text);
- 		}
-
- 		if ($foreground || $background)
- 		{
- 			$text = static::color($text, $foreground, $background);
- 		}
-
- 		fwrite(static::$stderr, $text.PHP_EOL);
- 	}
+		if (is_array($text))
+		{
+			$text = implode(PHP_EOL, $text);
+		}
+		
+		if ($foreground || $background)
+		{
+			$text = static::color($text, $foreground, $background);
+		}
+		
+		fwrite(static::$stderr, $text.PHP_EOL);
+	}
 
  	/**
 	 * Static constructor. Parses all the CLI params.
@@ -471,7 +471,7 @@ class Cli
  	{
  		if ($countdown === true)
  		{
- 			$time = $seconds;
+			$time = $seconds;
 
  			while ($time > 0)
  			{
