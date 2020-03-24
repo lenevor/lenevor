@@ -21,5 +21,52 @@
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  * @since       0.7.0
  */
- 
+
 namespace Syscode\Database\Query;
+
+/**
+ * Get values for query sql.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ */
+class Expression
+{
+    /**
+     * Get the value of the expression.
+     * 
+     * @var mixed $value
+     */
+    protected $value;
+
+    /**
+     * Constructor. Create a new Expression class instance.
+     * 
+     * @param  mixed  $value
+     * 
+     * @return void
+     */
+    public function __construct($value)
+    {
+        $this->value = $value;
+    }
+
+    /**
+     * Get the value of the expression.
+     * 
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * Get the value of the expression.
+     * 
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getValue();
+    }
+}
