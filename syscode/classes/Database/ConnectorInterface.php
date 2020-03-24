@@ -31,5 +31,12 @@ namespace Syscode\Database\Connectors;
  */
 interface ConnectorInterface
 {
-    
+    /**
+     * Begin a fluent query against a database table.
+     * 
+     * @param  string  $table
+     * 
+     * @return \Syscode\Database\Query\Builder
+     */
+    public function table($table);
 }
