@@ -22,7 +22,7 @@
  * @since       0.7.0
  */
 
-namespace Syscode\Database\Connectors;
+namespace Syscode\Database;
 
 /**
  * Allows establish a query for return results in connection with database.
