@@ -108,6 +108,7 @@ return [
     'Syscode\\Database\\Holisen\\Model' => SYS_PATH.'classes/Database/Holisen/Model.php',
     'Syscode\\Database\\Query\\Grammars\\Grammar' => SYS_PATH.'classes/Database/Query/Grammars/Grammar.php',
     'Syscode\\Database\\Query\\Builder' => SYS_PATH.'classes/Database/Query/Builder.php',
+    'Syscode\\Database\\Query\\Expression' => SYS_PATH.'classes/Database/Query/Expression.php',
     'Syscode\\Database\\Query\\Grammar' => SYS_PATH.'classes/Database/Query/Grammar.php',
     'Syscode\\Database\\Connection' => SYS_PATH.'classes/Database/Connection.php',
     'Syscode\\Database\\ConnectionFactory' => SYS_PATH.'classes/Database/ConnectionFactory.php',
