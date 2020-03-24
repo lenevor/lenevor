@@ -39,4 +39,13 @@ interface ConnectorInterface
      * @return \Syscode\Database\Query\Builder
      */
     public function table($table);
+
+    /**
+     * Get a new raw query expression.
+     * 
+     * @param  mixed  $value
+     * 
+     * @return \Syscode\Database\Query\Expression
+     */
+    public function raw($value);
 }
