@@ -24,6 +24,8 @@
  
 namespace Syscode\Database\Query;
 
+use Closure;
+
 /**
  * Lenevor database query builder provides a convenient, fluent interface 
  * to creating and running database queries. and works on all supported 
