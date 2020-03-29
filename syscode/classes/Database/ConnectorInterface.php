@@ -24,6 +24,8 @@
 
 namespace Syscode\Database;
 
+use Closure;
+
 /**
  * Allows establish a query for return results in connection with database.
  * 
@@ -48,4 +50,140 @@ interface ConnectorInterface
      * @return \Syscode\Database\Query\Expression
      */
     public function raw($value);
+
+    /**
+     * Run a select statement and return a single result.
+     * 
+     * @param  string  $query
+     * @param  array  $bindings
+     * 
+     * @return mixed
+     */
+    public function fetchOne($query, $bindings = []);
+
+    /**
+     * Run a select statement against the database.
+     * 
+     * @param  string  $query
+     * @param  array  $bindings
+     * 
+     * @return array
+     */
+    public function fetch($query, $bindings = []);
+
+    /**
+     * Run a select statement against the database.
+     * 
+     * @param  string  $query
+     * @param  array  $bindings
+     * 
+     * @return array
+     */
+    public function fetchAll($query, $bindings = []);
+
+    /**
+     * Execute an SQL statement and return the boolean result.
+     * 
+     * @param  string  $query
+     * @param  array  $bindings
+     * 
+     * @return \PDOStatement
+     */
+    public function query($query, $bindings = []);
+
+    /**
+     * Run an insert statement against the database.
+     * 
+     * @param  string  $query
+     * @param  array  $bindings
+     * 
+     * @return bool
+     */
+    public function insert($query, $bindings = []);
+
+    /**
+     * Run an update statement against the database.
+     * 
+     * @param  string  $query
+     * @param  array  $bindings
+     * 
+     * @return int
+     */
+    public function update($query, $bindings = []);
+
+    /**
+     * Run an delete statement against the database.
+     * 
+     * @param  string  $query
+     * @param  array  $bindings
+     * 
+     * @return int
+     */
+    public function delete($query, $bindings = []);
+
+    /**
+     * Return the auto-increment ID of the last inserted row.
+     * 
+     * @param  string|null  $id  (null by default)
+     * 
+     * @return mixed
+     */
+    public function lastInsertId($name = null);
+
+    /**
+     * Prepare the query bindings for execution.
+     * 
+     * @param  array  $bindings
+     * 
+     * @return array
+     */
+    public function prepareBindings($bindings = []);
+
+    /**
+     * Execute a Closure within a transaction.
+     * 
+     * @param  \Closure  $callback
+     * 
+     * @return mixed
+     * 
+     * @throws \Throwable
+     */
+    public function transaction(Closure $callback);
+
+    /**
+     * Start a new database transaction.
+     * 
+     * @return void
+     */
+    public function beginTransaction();
+
+    /**
+     * Commit the active database transaction.
+     * 
+     * @return void
+     */
+    public function commit();
+
+    /**
+     * Rollback the active database transaction.
+     * 
+     * @return void
+     */
+    public function rollback();
+
+    /**
+     * Checks the connection to see if there is an active transaction.
+     * 
+     * @return int
+     */
+    public function inTransaction();
+
+    /**
+     * Execute the given callback in "dry run" mode.
+     * 
+     * @param  \Closure  $callback
+     * 
+     * @return array
+     */
+    public function prepend(Closure $callback);
 }
