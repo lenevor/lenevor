@@ -31,7 +31,7 @@ use PDO;
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class Connection
+class Connection implements ConnectorInterface
 {
     /**
      * The active PDO connection.
