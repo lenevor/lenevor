@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0 
+ * @since       0.1.1 
  */
 
 namespace Syscode;
@@ -41,6 +41,16 @@ class Autoloader
      * @var array $classmap
      */
     protected $classmap = [];
+
+    /**
+     * List map of classes or namespaces.
+     * 
+     * @var array $classOrNamespaceListMap
+     */
+    protected $classOrNamespaceListMap = [
+        BST_PATH.'register'.DIRECTORY_SEPARATOR.'autoloadPsr4.php',
+        BST_PATH.'register'.DIRECTORY_SEPARATOR.'autoloadClassmap.php',
+    ];
 
     /** 
      * Array of files
@@ -69,12 +79,12 @@ class Autoloader
     {
         if (isset($config->psr4))
         {
-           $this->prefixes = $config->psr4;
+           $this->prefixes = $config->addPsr4($this->listPsr4());
         }
 
         if (isset($config->classmap))
         {
-            $this->classmap = $config->classmap;
+            $this->classmap = $config->addClassMap($this->listClassMap());
         }
 
         if (isset($config->includeFiles))
@@ -85,6 +95,26 @@ class Autoloader
         unset($config);
 
         return $this;
+    }
+
+    /**
+     * Get the list namespace in PSR-4.
+     * 
+     * @return void
+     */
+    protected function listPsr4()
+    {
+        return (require $this->classOrNamespaceListMap[0]);
+    }
+
+    /**
+     * Get the list classMap.
+     * 
+     * @return void
+     */
+    protected function listClassMap()
+    {
+        return (require $this->classOrNamespaceListMap[1]);
     }
 
     /**
