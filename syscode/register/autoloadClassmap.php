@@ -113,6 +113,7 @@ return [
     'Syscode\\Database\\Connection' => SYS_PATH.'classes/Database/Connection.php',
     'Syscode\\Database\\ConnectionFactory' => SYS_PATH.'classes/Database/ConnectionFactory.php',
     'Syscode\\Database\\DatabaseServiceProvider' => SYS_PATH.'classes/Database/DatabaseServiceProvider.php',
+    'Syscode\\Database\\Query\\Grammar' => SYS_PATH.'classes/Database/Query/Grammar.php',
     'Syscode\\Debug\\FatalExceptions\\FatalErrorException' => SYS_PATH.'classes/Debug/FatalExceptions/FatalErrorException.php',
     'Syscode\\Debug\\FatalExceptions\\FatalThrowableError' => SYS_PATH.'classes/Debug/FatalExceptions/FatalThrowableError.php',
     'Syscode\\Debug\\FatalExceptions\\FlattenException' => SYS_PATH.'classes/Debug/FatalExceptions/FlattenException.php',
