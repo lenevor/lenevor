@@ -68,13 +68,13 @@ class ViewServiceProvider extends ServiceProvider
             
             $events = $app['events'];
 
-            $parser = new Factory($resolver, $finder, $events);
+            $factory = new Factory($resolver, $finder, $events);
 
-            $parser->setContainer($app);
+            $factory->setContainer($app);
 
-            $parser->share('app', $app);
+            $factory->share('app', $app);
 
-            return $parser;
+            return $factory;
         });
     }
 
