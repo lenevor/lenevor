@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.7.0
  */
 
 namespace Syscode\Database\Exceptions;
@@ -31,4 +31,38 @@ use Syscode\Core\Http\Exceptions\LenevorException;
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class ModelNotFoundException extends LenevorException {}
+class ModelNotFoundException extends LenevorException
+{
+    /**
+     * Name of the affected Holisen model.
+     * 
+     * @var string $model
+     */
+    protected $model;
+
+    /**
+     * Set the affected Holisen model.
+     * 
+     * @param  string  $model
+     * 
+     * @return $this
+     */
+    public function setModel($model)
+    {
+        $this->model = $model;
+
+        $this->message = "No query results for model [{$model}].";
+
+        return $this;
+    }
+
+    /**
+     * Get the affected Holisen model.
+     * 
+     * @return string
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
+}
