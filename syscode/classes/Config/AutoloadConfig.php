@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.1.1
  */
 
 namespace Syscode\Config;
@@ -62,6 +62,18 @@ class AutoloadConfig
 	{
 		/**
 		 * ---------------------------------------------------------------------
+		 * Namespaces
+		 * ---------------------------------------------------------------------
+		 *
+		 * This maps the locations of any namespaces in your application to 
+		 * their location on the file system. These are used by the Autoloader 
+		 * to locate files the first time they have been instantiated. 
+		 * 
+		 */
+		$this->psr4 = require SYS_PATH.'register'.DIRECTORY_SEPARATOR.'autoloadPsr4.php';
+		
+		/**
+		 * ---------------------------------------------------------------------
 		 * Class Map
 		 * ---------------------------------------------------------------------
 		 *
@@ -69,10 +81,7 @@ class AutoloadConfig
 		 * on the drive.
 		 *  
 		 */
-		$sys = require SYS_PATH.'register'.DIRECTORY_SEPARATOR.'autoloadClassmap.php';
-		$bst = require BST_PATH.'register'.DIRECTORY_SEPARATOR.'autoloadClassmap.php';
-
-		$this->classmap = array_merge($bst, $sys);
+		$this->classmap = require SYS_PATH.'register'.DIRECTORY_SEPARATOR.'autoloadClassmap.php';
 
 		/**
 		 * ---------------------------------------------------------------------
@@ -87,20 +96,47 @@ class AutoloadConfig
 		$bst = require BST_PATH.'register'.DIRECTORY_SEPARATOR.'autoloadFiles.php';
 
 		$this->includeFiles = array_merge($bst, $sys);
+	}
 
-		/**
-		 * ---------------------------------------------------------------------
-		 * Namespaces
-		 * ---------------------------------------------------------------------
-		 *
-		 * This maps the locations of any namespaces in your application to 
-		 * their location on the file system. These are used by the Autoloader 
-		 * to locate files the first time they have been instantiated. 
-		 * 
-		 */
-		$sys = require SYS_PATH.'register'.DIRECTORY_SEPARATOR.'autoloadPsr4.php';
-		$bst = require BST_PATH.'register'.DIRECTORY_SEPARATOR.'autoloadPsr4.php';
+	/**
+	 * Get the classes to filename map.
+	 * 
+	 * @param  array  $classmap
+	 * 
+	 * @return void
+	 */
+	public function addClassMap(array $classmap)
+	{
+		if (isset($this->classmap))
+		{
+			$this->classmap = array_merge($this->classmap, $classmap);
+		}
+		else
+		{
+			$this->classmap = $classmap;
+		}
 
-		$this->psr4 = array_merge($bst, $sys);
+		return $this->classmap;
+	}
+
+	/**
+	 * Registers a set of PSR-4 directories for a given namespace.
+	 * 
+	 * @param  array  $psr4
+	 * 
+	 * @return void
+	 */
+	public function addPsr4(array $psr4)
+	{
+		if (isset($this->classmap))
+		{
+			$this->psr4 = array_merge($this->psr4, $psr4);
+		}
+		else
+		{
+			$this->psr4 = $psr4;
+		}
+
+		return $this->psr4;
 	}
 }
