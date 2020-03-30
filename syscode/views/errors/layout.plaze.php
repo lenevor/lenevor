@@ -21,7 +21,7 @@
 	</head>
 	<body>
 
-		<div class="flex-center full-height">
+		<div class="box flex-center full-height full-width">
 		
 			<div class="code">
 				<h1><@give('code')</h1>
