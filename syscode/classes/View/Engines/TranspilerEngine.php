@@ -79,9 +79,9 @@ class TranspilerEngine extends PhpEngine
         }
 
         $transpiled = $this->transpiler->getTranspilePath($path);
-
-        $output = $this->evaluatePath($transpiled, $data);
-
+        
+        $output = parent::get($transpiled, $data);
+        
         array_pop($this->lastTranspiled);
         
         return $output;
