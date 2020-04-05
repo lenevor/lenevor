@@ -41,8 +41,16 @@ abstract class Grammar
     protected $tablePrefix = '';
 
     /**
+     * Get the value of a raw expression.
      * 
+     * @param  \Syscode\Database\Query\Expression  $expression
+     * 
+     * @return string
      */
+    public function getValue(Expression $expression)
+    {
+        return $expression->getValue();
+    }
 
     /**
      * Determine if the given value is a raw expression.
