@@ -24,12 +24,152 @@
  
 namespace Syscode\Database\Query;
 
+use Syscode\Database\Grammar as BaseGrammar;
+
 /**
  * Allows make the grammar's for get results of the database.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class Grammar
+class Grammar extends BaseGrammar
 {
-    
+    /**
+     * Get the components for use a select statement.
+     * 
+     * @var array $components
+     */
+    protected $components = [
+        'aggregate',
+        'columns',
+        'from',
+        'joins',
+        'wheres',
+        'groups',        
+        'havings',
+        'orders',
+        'limit',
+        'offset',
+        'unions'
+    ];
+
+    /**
+     * Compile a select query into sql.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * 
+     * @return string
+     */
+    public function compileSelect(Builder $builder)
+    {
+        if (is_null($builder->columns))
+        {
+            $builder->columns = ['*'];
+        }
+
+        return trim($this->concatenate($this->components($builder)));
+    }
+
+    /**
+     * Compile the components necessary for a select clause.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * 
+     * @return array
+     */
+    protected function components(Builder $builder)
+    {
+        $sql = [];
+
+        foreach ($this->components as $component)
+        {
+            if ( ! is_null($builder->$component))
+            {
+                $method = 'compile'.ucfirst($component);
+
+                $sql[$component] = $this->$method($builder, $builder->component);
+            }
+        }
+
+        return $sql;
+    }
+
+    /**
+     * Compile an aggregated select clause.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * @param  array  $aggregate
+     * 
+     * @return string
+     */
+    public function compileAggregate(Builder $builder, $aggregate)
+    {
+        $column = $this->columnize($aggregate['columns']);
+
+        if ($builder->distinct && $column !== '*')
+        {
+            $column = 'DISTINCT '.$column;
+        }
+
+        return 'SELECT '.$aggregate['function'].'('.$column.') AS AGGREGATE';
+    }
+
+    /**
+     * Compile the "select *" portion of the query.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * @param  array  $columns
+     * 
+     * @return string
+     */
+    public function compileColumns(Builder $builder, $columns)
+    {
+        if ( ! is_null($builder->columns))
+        {
+            return;
+        }
+
+        $select = $builder->distinct ? 'SELECT DISTINCT ' : 'SELECT ';
+
+        return $select.$this->columnize($columns);
+    }
+
+    /**
+     * Compile the "from" portion of the query.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * @param  string  $table
+     * 
+     * @return string
+     */
+    public function compileFrom(Builder $builder, $table)
+    {
+        return 'FROM '.$this->tablePrefix.$table;
+    }
+
+    /**
+     * Compile the "join" portions of the query.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * @param  string  $joins
+     * 
+     * @return string
+     */
+    public function compileJoin(Builder $builder, $joins)
+    {
+        
+    }
+
+    /**
+     * Concatenate an array of segments, removing empties.
+     * 
+     * @param  array  $segments
+     * 
+     * @return string
+     */
+    protected function concatenate($segments)
+    {
+        return implode(' ', array_filter($segments, function ($value) {
+            return (string) $value !== '';
+        }));
+    }
 }
