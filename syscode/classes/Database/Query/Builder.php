@@ -35,5 +35,87 @@ use Closure;
  */
 class Builder
 {
-    
+    /**
+     * An aggregate function and column to be run.
+     * 
+     * @var array $aggregate
+     */
+    public $aggregate;
+
+    /**
+     * Get the columns of a table.
+     * 
+     * @var array $columns
+     */
+    public $columns;
+
+    /**
+     * Indicates if the query returns distinct results.
+     * 
+     * @var bool $distinct
+     */
+    public $distinct = false;
+
+    /**
+     * Get the table name for the query.
+     * 
+     * @var string $from
+     */
+    public $from;
+
+    /**
+     * Get the grouping for the query.
+     * 
+     * @var array $groups
+     */
+    public $groups;
+
+    /**
+     * Get the having constraints for the query.
+     * 
+     * @var array $havings
+     */
+    public $havings;
+
+    /**
+     * Get the table joins for the query.
+     * 
+     * @var array $joins
+     */
+    public $joins;
+
+    /**
+     * Get the maximum number of records to return.
+     * 
+     * @var int $limit
+     */
+    public $limit;
+
+    /**
+     * Get the number of records to skip.
+     * 
+     * @var int $offset
+     */
+    public $offset;
+
+    /**
+     * Get the orderings for the query.
+     * 
+     * @var array $orders
+     */
+    public $orders;
+
+    /**
+     * Get the query union statements.
+     * 
+     * @var array $unions
+     */
+    public $unions;
+
+    /**
+     * Get the where constraints for the query.
+     * 
+     * @var array $wheres
+     */
+    public $wheres;
 }
