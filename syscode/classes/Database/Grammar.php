@@ -231,5 +231,4 @@ abstract class Grammar
 
         return $this;
     }
-
 }
