@@ -84,7 +84,7 @@ class Application implements ApplicationContracts
 		Cli::write(Version::PRODUCT.' '
 			.Cli::color(Version::RELEASE, 'cyan').' | '
 			.'Server Time: '.Cli::color(date('Y/m/d H:i:sa'), 'light_yellow').' | '
-			.cli::color('['.PHP_OS.']', 'white')
+			.cli::color('['.PHP_OS.']', 'light_purple')
 		);
 
 		Cli::newLine(1);
