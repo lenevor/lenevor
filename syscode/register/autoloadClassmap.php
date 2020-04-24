@@ -112,6 +112,7 @@ return [
     'Syscode\\Database\\Query\\Grammar' => SYS_PATH.'classes/Database/Query/Grammar.php',
     'Syscode\\Database\\Connection' => SYS_PATH.'classes/Database/Connection.php',
     'Syscode\\Database\\ConnectionFactory' => SYS_PATH.'classes/Database/ConnectionFactory.php',
+    'Syscode\\Database\\ConnectionInterface' => SYS_PATH.'classes/Database/ConnectionInterface.php',
     'Syscode\\Database\\DatabaseServiceProvider' => SYS_PATH.'classes/Database/DatabaseServiceProvider.php',
     'Syscode\\Database\\Query\\Grammar' => SYS_PATH.'classes/Database/Query/Grammar.php',
     'Syscode\\Debug\\FatalExceptions\\FatalErrorException' => SYS_PATH.'classes/Debug/FatalExceptions/FatalErrorException.php',
