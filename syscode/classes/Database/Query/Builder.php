@@ -43,11 +43,32 @@ class Builder
     public $aggregate;
 
     /**
+     * The current query value bindings.
+     * 
+     * @var array $bindings
+     */
+    public $bindings = [
+        'select' => [],
+        'join' => [],
+        'where' => [],
+        'groupBy' => [],
+        'having' => [],
+        'order' => [],
+    ];
+
+    /**
      * Get the columns of a table.
      * 
      * @var array $columns
      */
     public $columns;
+
+    /**
+     * The database connection instance.
+     * 
+     * @var \Syscode\Database\ConnectionInterface $connection
+     */
+    protected $connection;
 
     /**
      * Indicates if the query returns distinct results.
@@ -62,6 +83,13 @@ class Builder
      * @var string $from
      */
     public $from;
+
+    /**
+     * The database query grammar instance.
+     * 
+     * @var \Syscode\Database\Query\Grammar $grammar
+     */
+    protected $grammar;
 
     /**
      * Get the grouping for the query.
