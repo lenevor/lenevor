@@ -79,12 +79,12 @@ class Autoloader
     {
         if (isset($config->psr4))
         {
-           $this->prefixes = $config->addPsr4($this->listPsr4());
+           $this->prefixes = $config->addPsr4(require $this->classOrNamespaceListMap[0]);
         }
 
         if (isset($config->classmap))
         {
-            $this->classmap = $config->addClassMap($this->listClassMap());
+            $this->classmap = $config->addClassMap(require $this->classOrNamespaceListMap[1]);
         }
 
         if (isset($config->includeFiles))
@@ -95,26 +95,6 @@ class Autoloader
         unset($config);
 
         return $this;
-    }
-
-    /**
-     * Get the list namespace in PSR-4.
-     * 
-     * @return void
-     */
-    protected function listPsr4()
-    {
-        return (require $this->classOrNamespaceListMap[0]);
-    }
-
-    /**
-     * Get the list classMap.
-     * 
-     * @return void
-     */
-    protected function listClassMap()
-    {
-        return (require $this->classOrNamespaceListMap[1]);
     }
 
     /**
