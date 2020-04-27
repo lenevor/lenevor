@@ -946,7 +946,81 @@ class Grammar extends BaseGrammar
 
     /**
      * Compile a delete statement into SQL.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * 
+     * @return string
      */
+    public function compileDelete(Builder $builder)
+    {
+        $table = $this->wrapTable($builder->from);
+
+        $where = $this->compileWheres($builder);
+
+        return trim(
+            isset($builder->joins)
+                ? $this->compileDeleteWithJoins($builder, $table, $where)
+                : $this->compileDeleteWithoutJoins($builder, $table, $where)
+        );
+    }
+
+    /**
+     * Compile an delete statement with joins into SQL.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * @param  string  table
+     * @param  string  $columns
+     * @param  string  $where
+     * 
+     * @return string
+     */
+    public function compileDeleteWithJoins(Builder $builder, $table, $where)
+    {
+        $alias = last(explode(' as ', $table));
+
+        $joins = $this->compileJoins($builder, $builder->joins);
+
+        return "delete {$alias} from {$table} {$joins} {$where}";
+    }
+
+    /**
+     * Compile an delete statement without joins into SQL.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * @param  string  table
+     * @param  string  $where
+     * 
+     * @return string
+     */
+    public function compileDeleteWithoutJoins(Builder $builder, $table, $where)
+    {
+       return "delete from {$table} {$where}";
+    }
+
+    /**
+     * Compile a truncate table statement into SQL.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * 
+     * @return array
+     */
+    public function truncate(Builder $builder)
+    {
+        return ['truncate table '.$this->wrapTable($builder->from) => []];
+    }
+
+    /**
+     * Compile the lock into SQL.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * @param  bool|string  $value
+     * 
+     * @return string
+     */
+    public function compileLock(Builder $builder, $value)
+    {
+        return is_string($value) ? $value : '';
+    }
 
     /**
      * Concatenate an array of segments, removing empties.
