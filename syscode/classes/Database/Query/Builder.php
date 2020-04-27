@@ -141,6 +141,27 @@ class Builder
     public $unions;
 
     /**
+     * Get the maximum number of union records to return.
+     * 
+     * @var int $unionLimit
+     */
+    public $unionLimit;
+
+    /**
+     * Get the number of union records to skip.
+     * 
+     * @var int $unionOffset
+     */
+    public $unionOffset;
+
+    /**
+     * Get the orderings for the union query.
+     * 
+     * @var array $unionOrders
+     */
+    public $unionOrders;
+
+    /**
      * Get the where constraints for the query.
      * 
      * @var array $wheres
