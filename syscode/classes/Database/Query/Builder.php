@@ -120,6 +120,13 @@ class Builder
     public $limit;
 
     /**
+     * Indicates whether row locking is being used.
+     * 
+     * @var string|bool $lock
+     */
+    public $lock;
+
+    /**
      * Get the number of records to skip.
      * 
      * @var int $offset
