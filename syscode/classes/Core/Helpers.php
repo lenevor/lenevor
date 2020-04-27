@@ -224,6 +224,21 @@ if ( ! function_exists('csrfToken'))
     }
 }
 
+if ( ! function_exists('databasePath'))
+{
+    /**
+     * Get the path to the database directory.
+     * 
+     * @param  string  $path
+     * 
+     * @return string
+     */
+    function databasePath($path = '')
+    {
+        return app()->databasePath($path);
+    }
+}
+
 if ( ! function_exists('decrypt'))
 {
     /**
