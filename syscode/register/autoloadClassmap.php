@@ -13,6 +13,12 @@
 
 return [
     
+    'App\\Console\\Application' => APP_PATH.'Console/Application.php',
+    'App\\Console\\Application' => APP_PATH.'Console/Application.php',
+    'App\\Exceptions\\Handler' => APP_PATH.'Exceptions/Handler.php',
+    'App\\Http\\BaseController' => APP_PATH.'Http/BaseController.php',
+    'App\\Providers\\EventServiceProvider' => APP_PATH.'Providers/EventServiceProvider.php',
+    'App\\Providers\\RouteServiceProvider' => APP_PATH.'Providers/RouteServiceProvider.php',
     'Syscode\\Cache\\Exceptions\\CacheException' => SYS_PATH.'classes/Cache/Exceptions/CacheException.php',
     'Syscode\\Cache\\Store\\ApcStore' => SYS_PATH.'classes/Cache/Store/ApcStore',
     'Syscode\\Cache\\Store\\ApcWrapper' => SYS_PATH.'classes/Cache/Store/ApcWrapper',
@@ -110,6 +116,7 @@ return [
     'Syscode\\Database\\Query\\Builder' => SYS_PATH.'classes/Database/Query/Builder.php',
     'Syscode\\Database\\Query\\Expression' => SYS_PATH.'classes/Database/Query/Expression.php',
     'Syscode\\Database\\Query\\Grammar' => SYS_PATH.'classes/Database/Query/Grammar.php',
+    'Syscode\\Database\\Query\\JoinClause' => SYS_PATH.'classes/Database/Query/JoinClause.php',
     'Syscode\\Database\\Connection' => SYS_PATH.'classes/Database/Connection.php',
     'Syscode\\Database\\ConnectionFactory' => SYS_PATH.'classes/Database/ConnectionFactory.php',
     'Syscode\\Database\\ConnectionInterface' => SYS_PATH.'classes/Database/ConnectionInterface.php',
