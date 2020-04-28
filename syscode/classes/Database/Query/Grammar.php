@@ -916,7 +916,7 @@ class Grammar extends BaseGrammar
      * Compile an update statement with joins into SQL.
      * 
      * @param  \Syscode\Database\Query\Builder  $builder
-     * @param  string  table
+     * @param  string  $table
      * @param  string  $columns
      * @param  string  $where
      * 
@@ -933,7 +933,7 @@ class Grammar extends BaseGrammar
      * Compile an update statement without joins into SQL.
      * 
      * @param  \Syscode\Database\Query\Builder  $builder
-     * @param  string  table
+     * @param  string  $table
      * @param  string  $columns
      * @param  string  $where
      * 
@@ -968,7 +968,7 @@ class Grammar extends BaseGrammar
      * Compile an delete statement with joins into SQL.
      * 
      * @param  \Syscode\Database\Query\Builder  $builder
-     * @param  string  table
+     * @param  string  $table
      * @param  string  $columns
      * @param  string  $where
      * 
@@ -987,7 +987,7 @@ class Grammar extends BaseGrammar
      * Compile an delete statement without joins into SQL.
      * 
      * @param  \Syscode\Database\Query\Builder  $builder
-     * @param  string  table
+     * @param  string  $table
      * @param  string  $where
      * 
      * @return string
