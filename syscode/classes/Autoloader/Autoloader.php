@@ -79,12 +79,12 @@ class Autoloader
     {
         if (isset($config->psr4))
         {
-           $this->prefixes = $config->addPsr4(require $this->classOrNamespaceListMap[0]);
+           $this->prefixes = $config->addPsr4((array) $this->classOrNamespaceListMap[0]);
         }
 
         if (isset($config->classmap))
         {
-            $this->classmap = $config->addClassMap(require $this->classOrNamespaceListMap[1]);
+            $this->classmap = $config->addClassMap((array)  $this->classOrNamespaceListMap[1]);
         }
 
         if (isset($config->includeFiles))
