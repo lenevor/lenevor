@@ -150,7 +150,7 @@ class Grammar extends BaseGrammar
      * Compile the "join" portions of the query.
      * 
      * @param  \Syscode\Database\Query\Builder  $builder
-     * @param  string  $joins
+     * @param  array  $joins
      * 
      * @return string
      */
