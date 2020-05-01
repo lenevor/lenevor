@@ -35,5 +35,123 @@ use Syscode\Database\Query\Grammar;
  */
 class MySqlGrammar extends Grammar
 {
-    
+    /**
+     * Compile a select query into sql.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * 
+     * @return string
+     */
+    public function compileSelect(Builder $builder)
+    {
+        $sql = parent::compileSelect($builder);
+
+        if ($builder->unions)
+        {
+            $sql = '('.$sql.') '.$thís->compileUnions($builder);
+        }
+
+        return $sql;
+    }
+
+    /**
+     * Compile an insert statement into SQL.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * @param  array  $values
+     * 
+     * @return string
+     */
+    public function compileInsert(Builder $builder, array $values)
+    {
+        if (empty($values))
+        {
+            $values = [[]];
+        }
+
+        return parent::compileInsert($builder, $values);
+    }
+
+    /**
+     * Compile an update statement without joins into SQL.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * @param  string  $table
+     * @param  string  $columns
+     * @param  string  $where
+     * 
+     * @return string
+     */
+    public function compileUpdateWithoutJoins(Builder $builder, $table, $columns, $where)
+    {
+        $sql = parent::compileUpdateWithoutJoins($builder, $table, $columns, $where);
+
+        if ( ! empty($builder->orders))
+        {
+            $sql .= ' '.$this->compileOrders($builder, $builder->orders);
+        }
+
+        if (isset($builder->limit))
+        {
+            $sql .= ' '.$this->compileLimit($builder, $builder->limit);
+        }
+        
+        return rtrim($sql);
+    }
+
+    /**
+     * Compile an delete statement without joins into SQL.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * @param  string  $table
+     * @param  string  $where
+     * 
+     * @return string
+     */
+    public function compileDeleteWithoutJoins(Builder $builder, $table, $where)
+    {
+        $sql = parent::compileDeleteWithoutJoins($builder, $table, $where);
+
+        if ( ! empty($builder->orders))
+        {
+            $sql .= ' '.$this->compileOrders($builder, $builder->orders);
+        }
+
+        if (isset($builder->limit))
+        {
+            $sql .= ' '.$this->compileLimit($builder, $builder->limit);
+        }
+        
+        return rtrim($sql);
+    }
+
+    /**
+     * Wrap a single string in keyword identifiers.
+     * 
+     * @param  string  $value
+     * 
+     * @return string
+     */
+    protected function wrapValue($value)
+    {
+        return ($value === '*') ? $value : '`'.str_replace('`', '``', $value).'`';
+    }
+
+    /**
+     * Compile the lock into SQL.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * @param  bool|string  $value
+     * 
+     * @return string
+     */
+    public function compileLock(Builder $builder, $value)
+    {
+        if ( ! is_string($value))
+        {
+            return $value ? 'for update' : 'lock in share mode';
+        }
+
+        return $value;
+    }
 }
