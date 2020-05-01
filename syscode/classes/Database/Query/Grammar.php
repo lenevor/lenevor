@@ -191,7 +191,7 @@ class Grammar extends BaseGrammar
      * 
      * @return string
      */
-    protected function compileJoinContraint($clause)
+    protected function compileJoinContraint(array $clause)
     {
         $first  = $this->wrap($clause['first']);
         $second = $clause['where'] ? '?' : $this->wrap($clause['second']);
@@ -615,7 +615,7 @@ class Grammar extends BaseGrammar
      * 
      * @return string
      */
-    protected function compileHaving($having)
+    protected function compileHaving(array $having)
     {
         if ($having['type'] === 'raw')
         {
@@ -764,7 +764,7 @@ class Grammar extends BaseGrammar
      * 
      * @return string
      */
-    protected function compileUnion($union)
+    protected function compileUnion(array $union)
     {
         $joiner = $union['all'] ? ' union all ' : ' union ';
 
@@ -817,7 +817,7 @@ class Grammar extends BaseGrammar
      * 
      * @return string
      */
-    public function compileInsert(Builder $builder, $values)
+    public function compileInsert(Builder $builder, array $values)
     {
         $table = $this->wrapTable($builder->from);
 
@@ -878,7 +878,7 @@ class Grammar extends BaseGrammar
      * 
      * @return string
      */
-    public function compileUpdate(Builder $builder, $values)
+    public function compileUpdate(Builder $builder, array $values)
     {
         $table = $this->wrapTable($builder->from);
 
@@ -900,7 +900,7 @@ class Grammar extends BaseGrammar
      * 
      * @return string
      */
-    public function getUpdateColumns($values)
+    public function getUpdateColumns(array $values)
     {
         $columns = [];
 
