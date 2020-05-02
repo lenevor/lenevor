@@ -35,5 +35,49 @@ use Syscode\Database\Query\Grammar;
  */
 class PostGrammar extends Grammar
 {
-    
+    /**
+     * Compile the lock into SQL.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * @param  bool|string  $value
+     * 
+     * @return string
+     */
+    public function compileLock(Builder $builder, $value)
+    {
+        if ( ! is_string($value))
+        {
+            return $value ? 'for update' : 'for share';
+        }
+
+        return $value;
+    }
+
+    /**
+     * Compile an insert and get ID statement into SQL.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * @param  array  $values
+     * @param  string  $sequence
+     * 
+     * @return string
+     */
+    public function compileInsertGetId(Builder $builder, $values, $sequence)
+    {
+        if (is_null($sequence)) $sequence = 'id' ;
+
+        return $this->compileInsert($builder, $values).' returning '.$this->wrap($sequence);
+    }
+
+     /**
+     * Compile a truncate table statement into SQL.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * 
+     * @return array
+     */
+    public function truncate(Builder $builder)
+    {
+        return ['truncate table '.$this->wrapTable($builder->from).' restart identity cascade' => []];
+    }
 }

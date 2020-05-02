@@ -35,5 +35,124 @@ use Syscode\Database\Query\Grammar;
  */
 class SQLiteGrammar extends Grammar
 {
-    
+    /**
+     * Compile the lock into SQL.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * @param  bool|string  $value
+     * 
+     * @return string
+     */
+    public function compileLock(Builder $builder, $value)
+    {
+        return '';
+    }
+
+    /**
+     * Wrap a union subquery in parentheses.
+     * 
+     * @param  string  $sql
+     * 
+     * @return string
+     */
+    protected function wrapUnion($sql)
+    {
+        return 'select * from ('.$sql.')';
+    }
+
+    /**
+     * Compile a "where date" clause.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * @param  array  $where
+     * 
+     * @return string
+     */
+    protected function whereDate(Builder $builder, $where)
+    {
+        return $this->dateBasedWhere('%Y-%m-%d', $builder, $where);
+    }
+
+    /**
+     * Compile a "where time" clause.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * @param  array  $where
+     * 
+     * @return string
+     */
+    protected function whereTime(Builder $builder, $where)
+    {
+        return $this->dateBasedWhere('%H:%M:%S', $builder, $where);
+    }
+
+    /**
+     * Compile a "where day" clause.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * @param  array  $where
+     * 
+     * @return string
+     */
+    protected function whereDay(Builder $builder, $where)
+    {
+        return $this->dateBasedWhere('%d', $builder, $where);
+    }
+
+    /**
+     * Compile a "where month" clause.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * @param  array  $where
+     * 
+     * @return string
+     */
+    protected function whereMonth(Builder $builder, $where)
+    {
+        return $this->dateBasedWhere('%m', $builder, $where);
+    }
+
+    /**
+     * Compile a "where year" clause.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * @param  array  $where
+     * 
+     * @return string
+     */
+    protected function whereYear(Builder $builder, $where)
+    {
+        return $this->dateBasedWhere('%Y', $builder, $where);
+    }
+
+    /**
+     * Compile a date based where clause.
+     * 
+     * @param  string  $type
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * @param  array  $where
+     * 
+     * @return string
+     */
+    protected function dateBasedWhere($type, Builder $builder, $where)
+    {
+        $value = $this->parameter($where['value']);
+
+        return "strftime('{$type}', {$this->wrap($where['column'])}) {$where['operator']} cast($value) as text";
+    }
+
+    /**
+     * Compile a truncate table statement into SQL.
+     * 
+     * @param  \Syscode\Database\Query\Builder  $builder
+     * 
+     * @return array
+     */
+    public function truncate(Builder $builder)
+    {
+        return [
+            'delete from sqlite_sequence where name = ?' => [],
+            'delete from '.$this->wrapTable($builder->from) => [],
+        ];
+    }
 }
