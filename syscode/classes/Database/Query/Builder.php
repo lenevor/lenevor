@@ -25,6 +25,14 @@
 namespace Syscode\Database\Query;
 
 use Closure;
+use RuntimeException;
+use DateTimeInterface;
+use Syscode\Support\Str;
+use InvalidArgumentException;
+use Syscode\Database\Query\Grammar;
+use Syscode\Database\Query\Expression;
+use Syscode\Database\Query\JoinClause;
+use Syscode\Database\ConnectionInterface;
 
 /**
  * Lenevor database query builder provides a convenient, fluent interface 
@@ -174,4 +182,34 @@ class Builder
      * @var array $wheres
      */
     public $wheres;
+
+    /**
+     * Constructor. Create a new query builder instance.
+     * 
+     * @param  \Syscode\Database\ConnectionInterface  $connection
+     * @param  \Syscode\Database\Query\Grammar  $grammar
+     * 
+     * return void
+     */
+    public function __construct(ConnectionInterface $connection, Grammar $grammar)
+    {
+        $this->grammar = $grammar;
+        $this->connection = $connection;
+    }
+
+    /**
+     * Set the columns to be selected.
+     * 
+     * @param  array  $columns
+     * 
+     * @return $this
+     */
+    public function select($columns = ['*'])
+    {
+        $this->columns = is_array($collumns) ? $columns : func_get_args();
+
+        return $this;
+    }
+
+    
 }
