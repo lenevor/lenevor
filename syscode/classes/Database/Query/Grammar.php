@@ -66,7 +66,7 @@ class Grammar extends BaseGrammar
             $builder->columns = ['*'];
         }
 
-        return trim($this->concatenate($this->components($builder)));
+        return trim($this->concatenate($this->compileComponents($builder)));
     }
 
     /**
@@ -76,7 +76,7 @@ class Grammar extends BaseGrammar
      * 
      * @return array
      */
-    protected function components(Builder $builder)
+    protected function compileComponents(Builder $builder)
     {
         $sql = [];
 
