@@ -206,10 +206,10 @@ class Builder
      */
     public function select($columns = ['*'])
     {
-        $this->columns = is_array($collumns) ? $columns : func_get_args();
+        $this->columns = is_array($columns) ? $columns : func_get_args();
 
         return $this;
     }
 
-    
+        
 }
