@@ -52,6 +52,7 @@ return [
         'Cache' => Syscode\Support\Facades\Cache::class,
         'Config' => Syscode\Support\Facades\Config::class,
         'Crypt' => Syscode\Support\Facades\Crypt::class,
+        'DB' => Syscode\Support\Facades\DB::class,
         'Event' => Syscode\Support\Facades\Event::class,
         'File' => Syscode\Support\Facades\File::class,
         'Http' => Syscode\Support\Facades\Http::class,
