@@ -29,6 +29,7 @@ use RuntimeException;
 use DateTimeInterface;
 use Syscode\Support\Str;
 use InvalidArgumentException;
+use Syscode\Database\Query\Access;
 use Syscode\Database\Query\Grammar;
 use Syscode\Database\Query\Expression;
 use Syscode\Database\Query\JoinClause;
@@ -57,11 +58,13 @@ class Builder
      */
     public $bindings = [
         'select' => [],
+        'from' => [],
         'join' => [],
         'where' => [],
         'groupBy' => [],
         'having' => [],
         'order' => [],
+        'union' => [],
     ];
 
     /**
@@ -149,6 +152,13 @@ class Builder
     public $orders;
 
     /**
+     * The database query post processor instance.
+     * 
+     * @var \Syscode\Database\Query\Processor $processor
+     */
+    protected $processor;
+
+    /**
      * Get the query union statements.
      * 
      * @var array $unions
@@ -188,12 +198,14 @@ class Builder
      * 
      * @param  \Syscode\Database\ConnectionInterface  $connection
      * @param  \Syscode\Database\Query\Grammar  $grammar
+     * @param  \Syscode\Database\Query\Processor  $processor
      * 
      * return void
      */
-    public function __construct(ConnectionInterface $connection, Grammar $grammar)
+    public function __construct(ConnectionInterface $connection, Grammar $grammar = null, Processor $processor = null)
     {
-        $this->grammar = $grammar;
+        $this->grammar = $grammar ?: $this->getQueryGrammar();
+        $this->processor = $processor ?: $this->getQueryProcessor();
         $this->connection = $connection;
     }
 
@@ -211,5 +223,49 @@ class Builder
         return $this;
     }
 
-        
+    /**
+     * Allows force the query for return distinct results.
+     * 
+     * @return $this
+     */
+    public function distinct()
+    {
+        $this->distinct = true;
+
+        return $this;
+    }
+    
+    /**
+     * Set the table which the query.
+     * 
+     * @param  string  $table
+     * 
+     * @return $this
+     */
+    public function from($table)
+    {
+        $this->from = $table;
+
+        return $this;
+    }
+
+    /**
+     * Get the SQL representation of the query.
+     * 
+     * @return string
+     */
+    public function getSql()
+    {
+        return $this->grammar->compileSelect($this);
+    }
+
+    /**
+     * Get a new instance of the query builder.
+     * 
+     * @return \Syscode\Database\Query\Builder
+     */
+    public function newQuery()
+    {
+        return new Builder($this->connection, $this->grammar, $this->processor);
+    }
 }
