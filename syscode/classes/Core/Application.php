@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.4.0
+ * @since       0.4.1
  */
 
 namespace Syscode\Core;
@@ -652,6 +652,7 @@ class Application extends Container implements ApplicationContract
             'cache'            => [\Syscode\Cache\CacheManager::class, \Syscode\Contracts\Cache\Manager::class],
             'cache.store'      => [\Syscode\Cache\CacheRepository::class],
             'config'           => [\Syscode\Config\Configure::class, \Syscode\Contracts\Config\Configure::class],
+            'db'               => [\Syscode\Database\DatabaseManager::class],
             'encrypter'        => [\Syscode\Encryption\Encrypter::class, \Syscode\Contracts\Encryption\Encrypter::class],
             'events'           => [\Syscode\Events\Dispatcher::class, \Syscode\Contracts\Events\Dispatcher::class],
             'files'            => [\Syscode\Filesystem\Filesystem::class],
