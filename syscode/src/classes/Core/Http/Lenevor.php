@@ -103,9 +103,9 @@ class Lenevor implements LenevorContract
 	 */
 	protected function bootEnvironment()
 	{
-		if (file_exists(SYS_PATH.'environment'.DIRECTORY_SEPARATOR.ENVIRONMENT.'.php'))
+		if (file_exists(SYS_PATH.'src'.DIRECTORY_SEPARATOR.'environment'.DIRECTORY_SEPARATOR.ENVIRONMENT.'.php'))
 		{
-			require_once SYS_PATH.'environment'.DIRECTORY_SEPARATOR.ENVIRONMENT.'.php';
+			require_once SYS_PATH.'src'.DIRECTORY_SEPARATOR.'environment'.DIRECTORY_SEPARATOR.ENVIRONMENT.'.php';
 		}
 		else
 		{

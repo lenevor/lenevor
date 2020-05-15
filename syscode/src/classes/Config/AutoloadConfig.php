@@ -70,7 +70,7 @@ class AutoloadConfig
 		 * to locate files the first time they have been instantiated. 
 		 * 
 		 */
-		$this->psr4 = require SYS_PATH.'register'.DIRECTORY_SEPARATOR.'autoloadPsr4.php';
+		$this->psr4 = require SYS_PATH.'src'.DIRECTORY_SEPARATOR.'register'.DIRECTORY_SEPARATOR.'autoloadPsr4.php';
 		
 		/**
 		 * ---------------------------------------------------------------------
@@ -81,7 +81,7 @@ class AutoloadConfig
 		 * on the drive.
 		 *  
 		 */
-		$this->classmap = require SYS_PATH.'register'.DIRECTORY_SEPARATOR.'autoloadClassmap.php';
+		$this->classmap = require SYS_PATH.'src'.DIRECTORY_SEPARATOR.'register'.DIRECTORY_SEPARATOR.'autoloadClassmap.php';
 
 		/**
 		 * ---------------------------------------------------------------------
@@ -92,7 +92,7 @@ class AutoloadConfig
 		 * their location on the file system.
 		 * 
 		 */
-		$sys = require SYS_PATH.'register'.DIRECTORY_SEPARATOR.'autoloadFiles.php';
+		$sys = require SYS_PATH.'src'.DIRECTORY_SEPARATOR.'register'.DIRECTORY_SEPARATOR.'autoloadFiles.php';
 		$bst = require BST_PATH.'register'.DIRECTORY_SEPARATOR.'autoloadFiles.php';
 
 		$this->includeFiles = array_merge($bst, $sys);

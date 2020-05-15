@@ -28,6 +28,7 @@ use Closure;
 use RuntimeException;
 use DateTimeInterface;
 use Syscode\Support\Str;
+use BadMethodCallException;
 use InvalidArgumentException;
 use Syscode\Database\Query\Access;
 use Syscode\Database\Query\Grammar;
@@ -267,5 +268,65 @@ class Builder
     public function newQuery()
     {
         return new Builder($this->connection, $this->grammar, $this->processor);
+    }
+
+    /**
+     * Add a binding to the query sql.
+     * 
+     * @param  mixed  $value
+     * @param  string  $type  ('where' by default)
+     * 
+     * @return $this
+     */
+    public function addBinding($value, $type = 'where')
+    {
+        
+    }
+
+    /**
+     * Get the database connection instance.
+     * 
+     * @return \Syscode\Database\ConnectionInterface
+     */
+    public function getConnection()
+    {
+        return $this->connection;
+    }
+
+    /**
+     * Get the database query processor instance.
+     * 
+     * @return \Syscode\Database\Query\Processor
+     */
+    public function getProcessor()
+    {
+        return $this->processor;
+    }
+
+    /**
+     * Get the database query grammar instance.
+     * 
+     * @return \Syscode\Database\Query\Grammar
+     */
+    public function getGrammar()
+    {
+        return $this->grammar;
+    }
+
+    /**
+     * Dynamically handle calls to methods on the class.
+     * 
+     * @param  string  $method
+     * @param  array  $parameters
+     * 
+     * @return mixed
+     * 
+     * @throws \BadMethodCallException
+     */
+    public function __call($method, $parameters)
+    {
+        $classname = get_class($this);
+
+        throw new BadMethodCallException("Call to undefined method {$classname}::{$method}()");
     }
 }
