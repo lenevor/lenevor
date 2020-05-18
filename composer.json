@@ -17,9 +17,7 @@
 		}
 	],
 	"require": {
-		"php": "^7.3"
-	},
-	"require-dev": {
+		"php": "^7.3",
 		"lenevor/lenevor": "^0.7.0"
 	},
 	"minimum-stability": "dev",
