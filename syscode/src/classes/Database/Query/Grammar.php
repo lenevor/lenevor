@@ -1004,7 +1004,7 @@ class Grammar extends BaseGrammar
      * 
      * @return array
      */
-    public function truncate(Builder $builder)
+    public function compileTruncate(Builder $builder)
     {
         return ['truncate table '.$this->wrapTable($builder->from) => []];
     }
