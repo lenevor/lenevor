@@ -261,6 +261,19 @@ class Builder
     }
 
     /**
+     * Get run a truncate statment on the table.
+     * 
+     * @return void
+     */
+    public function truncate()
+    {
+        foreach ($this->grammar->compileTruncate($this) as $sql => $bindings)
+        {
+            $this->connection->query($sql, $bindings);
+        }
+    }
+
+    /**
      * Get a new instance of the query builder.
      * 
      * @return \Syscode\Database\Query\Builder
@@ -271,16 +284,79 @@ class Builder
     }
 
     /**
+     * Remove all of the expressions from a lists of bindings.
+     * 
+     * @param  array  $bindings
+     * 
+     * @return array
+     */
+    public function cleanBindings(array $bindings)
+    {
+        return array_values(array_filter($bindings, function () {
+            return ! bindings instanceof Expression;
+        }));
+    }
+
+    /**
+     * Get the array of bindings.
+     * 
+     * @return void
+     */
+    public function getBinding()
+    {
+        return $this->bindings;
+    }
+
+    /**
+     * /**
+     * Set the bindings on the query sql.
+     * 
+     * @param  mixed  $value
+     * @param  string  $type  ('where' by default)
+     * 
+     * @return $this
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public function setBinding($value, $type='where')
+    {
+        if ( ! array_key_exists($type, $this->bindings))
+        {
+            throw new InvalidArgumentException("Invalid binding type: {$type}");
+        }
+
+        $this->bindings[$type] = $value;
+
+        return $this;
+    }
+
+    /**
      * Add a binding to the query sql.
      * 
      * @param  mixed  $value
      * @param  string  $type  ('where' by default)
      * 
      * @return $this
+     * 
+     * @throws \InvalidArgumentException
      */
     public function addBinding($value, $type = 'where')
     {
-        
+        if ( ! array_key_exists($type, $this->bindings))
+        {
+            throw new InvalidArgumentException("Invalid binding type: {$type}");
+        }
+
+        if (is_array($value))
+        {
+            $this->bindings[$type] = array_values(array_merge($this->bindings[$type], $value));
+        }
+        else
+        {
+            $this->bindings[$type][] = $value;
+        }
+
+        return $this;
     }
 
     /**
