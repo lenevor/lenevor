@@ -25,7 +25,7 @@
 namespace App\Exceptions;
 
 use Exception;
-use Syscode\Core\Exceptions\Handler as ExceptionHandler;
+use Syscodes\Core\Exceptions\Handler as ExceptionHandler;
 
 /**
  * Class is where all exceptions triggered by your application are logged 
@@ -53,7 +53,7 @@ class Handler extends ExceptionHandler
      * @param  \Syscode\Http\Request  $request
      * @param  \Exception  $exception
      * 
-     * @return \Syscode\Http\Response
+     * @return \Syscodes\Http\Response
      */
     public function render($request, Exception $exception)
     {

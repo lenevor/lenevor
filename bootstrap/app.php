@@ -12,7 +12,7 @@ define('LENEVOR_START', microtime(true));
 |
 */
 
-require __DIR__.'/../syscode/requeriments.php';
+require __DIR__.'/../syscodes/requeriments.php';
 
 /*
 |---------------------------------------------------------------------------
@@ -23,25 +23,25 @@ require __DIR__.'/../syscode/requeriments.php';
 |
 */
 
-require __DIR__.'/../syscode/bootstrap.php';
+require __DIR__.'/../syscodes/bootstrap.php';
 
 // Create the application
-$app = new Syscode\Core\Application(
+$app = new Syscodes\Core\Application(
     dirname(__DIR__)
 );
 
 $app->singleton(
-    Syscode\Contracts\Core\Lenevor::class, 
-    Syscode\Core\Http\Lenevor::class
+    Syscodes\Contracts\Core\Lenevor::class, 
+    Syscodes\Core\Http\Lenevor::class
 );
 
 $app->singleton(
-    Syscode\Contracts\Console\Application::class, 
+    Syscodes\Contracts\Console\Application::class, 
     App\Console\Application::class
 );
 
 $app->singleton(
-    Syscode\Contracts\Debug\ExceptionHandler::class, 
+    Syscodes\Contracts\Debug\ExceptionHandler::class, 
     App\Exceptions\Handler::class
 );
 

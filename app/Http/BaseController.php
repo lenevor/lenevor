@@ -2,7 +2,7 @@
 
 namespace App\Http;
 
-use Syscode\Controller\Controller;
+use Syscodes\Controller\Controller;
 
 class BaseController extends Controller
 {

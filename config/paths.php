@@ -120,7 +120,7 @@ return [
 	| System Folder Nname                                                         
 	|---------------------------------------------------------------------------
 	|
-	| This variable must contain the name of your `syscode` folder.                
+	| This variable must contain the name of your `syscodes` folder.                
 	| It includes the path to the folder.
 	|                                          
 	| Modify the path to the folder if required, depending on the location you 
@@ -128,6 +128,6 @@ return [
 	|
 	*/
 
-	'path.sys' => '../syscode',
+	'path.sys' => '../syscodes',
 
 ];

@@ -24,7 +24,7 @@
 
 namespace App\Console;
 
-use Syscode\Console\Application as ConsoleApplication;
+use Syscodes\Console\Application as ConsoleApplication;
 
 /**
  * Load the console to call arguments and commands.

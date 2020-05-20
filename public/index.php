@@ -63,11 +63,11 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 |
 */
 
-$lenevor = $app->make(Syscode\Contracts\Core\Lenevor::class);
+$lenevor = $app->make(Syscodes\Contracts\Core\Lenevor::class);
 
 // Initialize services
 $response = $lenevor->handle(
-    $request = $app->make(Syscode\Http\Request::class)
+    $request = $app->make(Syscodes\Http\Request::class)
 );
 
 // Sends HTTP headers and content

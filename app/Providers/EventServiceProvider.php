@@ -24,8 +24,8 @@
 
 namespace App\Providers;
 
-use Syscode\Support\Facades\Event;
-use Syscode\Core\Support\Providers\EventServiceProvider as ServiceProvider;
+use Syscodes\Support\Facades\Event;
+use Syscodes\Core\Support\Providers\EventServiceProvider as ServiceProvider;
 
 /**
  * Manage all events occurred in the application.
