@@ -2,7 +2,7 @@
 	"name": "lenevor/lenevor",
 	"type": "project",
 	"description": "The Lenevor Framework.",
-	"keywords": ["framework","lenevor"],
+	"keywords": ["syscodes","lenevor"],
 	"license": "BSD-3-Clause",
 	"homepage": "https://lenevor.com",
 	"support": {
