@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.1 
+ * @since       0.1.2 
  */
 
 namespace Syscodes;
@@ -79,7 +79,7 @@ class Autoloader
     {
         if (isset($config->psr4))
         {
-           $this->prefixes = $config->addPsr4((array) $this->classOrNamespaceListMap[0]);
+           $this->addNamespace($config->addPsr4((array) $this->classOrNamespaceListMap[0]));
         }
 
         if (isset($config->classmap))
@@ -91,6 +91,11 @@ class Autoloader
         {
             $this->includeFiles = $config->includeFiles;
         }
+
+        if ($config->enabledInComposer)
+        {
+            $this->enabledComposerNamespaces();
+        }
         
         unset($config);
 
@@ -100,43 +105,69 @@ class Autoloader
     /**
      * Registers a namespace with the autoloader.
      *
-     * @param  string  $namespace  The namespace
-     * @param  string  $path  The path 
+     * @param  array|string  $namespace  The namespace
+     * @param  string|null  $path  The path  (null by default)
      *
-     * @return void
+     * @return $this
      */
-    public function addNamespace(string $namespace, string $path)
+    public function addNamespace($namespace, string $path = null)
     {
-        if (isset($this->prefixes[$namespace]))
+        if (is_array($namespace))
         {
-            if (is_string($this->prefixes[$namespace]))
+            foreach ($namespace as $prefix => $path)
             {
-                $this->prefixes[$namespace] = [$this->prefixes[$namespace]];
-            }
+                $prefix = trim($prefix, '\\');
 
-            $this->prefixes[$namespace] = array_merge($this->prefixes[$namespace], [$path]);
+                if (is_array($path))
+                {
+                    foreach ($path as $dir)
+                    {
+                        $this->prefixes[$prefix][] = rtrim($dir, '/').'/';
+                    }
+
+                    continue;
+                }
+
+                $this->prefixes[$prefix][] = rtrim($path, '/').'/';
+            }
         }
         else
         {
-            $this->prefixes[$namespace] = [$path];
+            $this->prefixes[trim($namespace, '\\')][] = rtrim($path, '/').'/';
         }
 
-        return $this->prefixes[$namespace];
+        return $this;
     }
 
     /**
-     * Adds multiple class paths to the load path.
+     * Get namespaces with prefixes as keys and paths as values.
      * 
-     * @param  array  $classes  The classnames and paths 
+     * @param  string|null  $prefix  (null by default)
      *
      * @return void
      */
-    public function addClasses(array $classes)
+    public function getNamespace(string $prefix = null)
     {
-        foreach ($classes as $class => $path) 
+        if (null === $prefix)
         {
-           $this->classmap[ucfirst($class)] = $path;
+            return $this->prefixes;
         }
+
+        return $this->prefixes[trim($prefix, '\\')] ?? [];
+    }
+
+    /**
+     * Removes a single namespace from the psr4 settings.
+     * 
+     * @param  string  $namespace
+     * 
+     * @return $this
+     */
+    public function removeNamespace(string $namespace)
+    {
+        unset($this->prefixes[trim($namespace, '\\')]);
+
+        return $this;
     }
     
     /**
@@ -259,20 +290,6 @@ class Autoloader
     }
 
     /**
-     * Removes a single namespace from the psr4 settings.
-     *
-     * @param  string  $namespace
-     *
-     * @return $this
-     */
-    public function removeNamespace(string $namespace)
-    {
-        unset($this->prefixes[$namespace]);
-
-        return $this;
-    }
-
-    /**
      * A central way to require a file is loaded. Split out primarily
      * for testing purposes.
      *
@@ -349,5 +366,39 @@ class Autoloader
         {
             $this->getAutoloaderFileRequire($fileIdentifier, $file);
         }
+    }
+
+    /**
+     * Locates all PSR4 compatible namespaces from Composer.
+     * 
+     * @return void
+     */
+    protected function enabledComposerNamespaces()
+    {
+        if ( ! is_file(COMPOSER_PATH))
+        {
+            return false;
+        }
+
+        $composer = include COMPOSER_PATH;
+        
+        $paths = $composer->getPrefixesPsr4();
+        unset($composer);
+        
+        // Get rid of Lenevor so we don't have duplicates
+        if (isset($paths['Syscodes\\']))
+        {
+            unset($paths['Syscodes\\']);
+        }
+        
+        // Composer stores namespaces with trailing slash. We don't
+        $newPaths = [];
+        
+        foreach ($paths as $key => $value)
+        {
+            $newPaths[rtrim($key, '\\ ')] = $value;
+        }
+        
+        $this->prefixes = array_merge($this->prefixes, $newPaths);
     }
 }
