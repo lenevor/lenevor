@@ -226,22 +226,14 @@ class Autoloader
         }
 
         foreach ($this->prefixes as $namespace => $directories) 
-        {
-            if (is_string($directories))
+        {            
+            foreach ($directories as $directory)
             {
-                $directories = [$directories];
-            }
-            
-            if (0 === strpos($class, $namespace))
-            {
-                foreach ($directories as $directory) 
+                if (0 === strpos($class, $namespace)) 
                 {
-                    if (false !== $lastPos = strrpos($namespace, '\\'))
-                    {
-                        $pathPsr4 = strtr($class, '\\', DIRECTORY_SEPARATOR).'.php';
-                        $filePath = $directory.substr($pathPsr4, $lastPos + 1);
-                        $filename = $this->sendFilePath($filePath); 
-                    }
+                    $filePath = $directory.str_replace('\\', '/', 
+                                substr($class, strlen($namespace))).'.php';
+                    $filename = $this->sendFilePath($filePath); 
 
                     if ($filename)
                     {
@@ -250,6 +242,8 @@ class Autoloader
                 }               
             }
         }
+
+        return false;
     }
 
     /**
