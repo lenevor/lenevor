@@ -2,6 +2,18 @@
 
 /*
 |----------------------------------------------------------------------------
+| Composer Path
+|----------------------------------------------------------------------------
+|
+| The path that Composer's autoload file is expected to live. By default,
+| the vendor folder is in the Root directory, but you can customize that here.
+|
+*/
+
+defined('COMPOSER_PATH') OR define('COMPOSER_PATH', dirname(__DIR__).'/vendor/autoload.php');
+
+/*
+|----------------------------------------------------------------------------
 | File and Directory Modes
 |----------------------------------------------------------------------------
 |
