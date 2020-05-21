@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.1
+ * @since       0.1.2
  */
 
 namespace Syscodes\Config;
@@ -40,6 +40,14 @@ class AutoloadConfig
 	 * @var array $classmap
 	 */
 	public $classmap = [];
+
+	/**
+	 * If true, then auto-enabled will happen across all namespaces 
+	 * loaded by Composer, as well as the namespaces configured locally.
+	 * 
+	 * @var bool $enabledInComposer
+	 */
+	public $enabledInComposer = true;
 
 	/**
 	 * Array of files for autoloading.
