@@ -198,15 +198,15 @@ class Builder
      * Constructor. Create a new query builder instance.
      * 
      * @param  \Syscodes\Database\ConnectionInterface  $connection
-     * @param  \Syscodes\Database\Query\Grammar  $grammar
-     * @param  \Syscodes\Database\Query\Processor  $processor
+     * @param  \Syscodes\Database\Query\Grammar  $grammar  (null by default)
+     * @param  \Syscodes\Database\Query\Processor  $processor  (null by default)
      * 
      * return void
      */
     public function __construct(ConnectionInterface $connection, Grammar $grammar = null, Processor $processor = null)
     {
-        $this->grammar = $grammar ?: $this->getQueryGrammar();
         $this->processor = $processor ?: $this->getQueryProcessor();
+        $this->grammar = $grammar ?: $this->getQueryGrammar();
         $this->connection = $connection;
     }
 
@@ -261,6 +261,140 @@ class Builder
     }
 
     /**
+     * Insert a new record into the database.
+     * 
+     * @param  array  $values
+     * 
+     * @return bool
+     */
+    public function insert(array $values)
+    {
+        if (empty($values))
+        {
+            return true;
+        }
+
+        if ( ! is_array(reset($values)))
+        {
+            $values = [$values];
+        }
+        else
+        {
+            foreach ($values as $key => $value)
+            {
+                ksort($value);
+
+                $values[$key] = $value;
+            }
+        }
+
+        $sql      = $this->grammar->compileInsert($this, $values);
+        $bindings = $this->cleanBindings($this->buildInsertBinding($values));
+
+        return $this->connection->insert($sql, $bindings);
+    }
+
+    /**
+     * It insert like a batch data so we can easily insert each 
+     * records into the database consistenly.
+     * 
+     * @param  array  $values
+     */
+    private function buildInsertBinding(array $values)
+    {
+        $bindings = [];
+
+        foreach ($values as $record)
+        {
+            foreach ($record as $value)
+            {
+                $bindings[] = $value;
+            }
+        }
+
+        return $bindings;
+    }
+
+    /**
+     * Insert a new record and get the value of the primary key.
+     * 
+     * @param  array  $values
+     * @param  string  $sequence  (null by default)
+     * 
+     * @return int
+     */
+    public function insertGetId(array $values, $sequence = null)
+    {
+        $sql = $this->grammar->compileInsertGetId($this, $values, $sequence);
+
+        $values = $this->cleanBindings($values);
+
+        return $this->processor->processInsertGetId($this, $sql, $values, $sequence);
+    }
+
+    /**
+     * Update a record in the database.
+     * 
+     * @param  array  $values
+     * 
+     * @return \PDOStatement
+     */
+    public function update(array $values)
+    {
+        $bindings = array_values(array_merge($values, $this->bindings));
+
+        $sql = $this->grammar->compileUpdate($this, $values);
+
+        return $this->connection->query($sql, $this->cleanBindings($bindings));
+    }
+
+    /**
+     * Increment a column's value by a given amount.
+     * 
+     * @param  string  $column
+     * @param  int  $amount  (1 by default)
+     * @param  array  $extra
+     * 
+     * @return \PDOStatement
+     */
+    public function increment($column, $amount = 1, array $extra = [])
+    {
+        if ( ! is_numeric($amount))
+        {
+            throw new InvalidArgumentException("Non-numeric value passed to increment method");
+        }
+
+        $wrapped = $this->grammar->wrap($column);
+
+        $columns = array_merge([$column => $this->raw("$wrapped + $amount"), $extra]);
+
+        return $this->update($columns);
+    }
+
+    /**
+     * Decrement a column's value by a given amount.
+     * 
+     * @param  string  $column
+     * @param  int  $amount  (1 by default)
+     * @param  array  $extra
+     * 
+     * @return \PDOStatement
+     */
+    public function decrement($column, $amount = 1, array $extra = [])
+    {
+        if ( ! is_numeric($amount))
+        {
+            throw new InvalidArgumentException("Non-numeric value passed to decrement method");
+        }
+
+        $wrapped = $this->grammar->wrap($column);
+
+        $columns = array_merge([$column => $this->raw("$wrapped - $amount"), $extra]);
+
+        return $this->update($columns);
+    }
+
+    /**
      * Get run a truncate statment on the table.
      * 
      * @return void
@@ -271,6 +405,18 @@ class Builder
         {
             $this->connection->query($sql, $bindings);
         }
+    }
+
+    /**
+     * Create a raw database expression.
+     *
+     * @param  mixed  $value
+     * 
+     * @return \Syscodes\Database\Query\Expression
+     */
+    public function raw($value)
+    {
+        return $this->connection->raw($value);
     }
 
     /**
@@ -318,7 +464,7 @@ class Builder
      * 
      * @throws \InvalidArgumentException
      */
-    public function setBinding($value, $type='where')
+    public function setBinding($value, $type = 'where')
     {
         if ( ! array_key_exists($type, $this->bindings))
         {
@@ -355,6 +501,20 @@ class Builder
         {
             $this->bindings[$type][] = $value;
         }
+
+        return $this;
+    }
+
+    /**
+     * Merge an array of bindings into our bindings.
+     * 
+     * @param  \Syscodes\Database\Query\Builder  $builder
+     * 
+     * @return $this
+     */
+    public function mergeBinding(Builder $builder)
+    {
+        $this->bindings = array_merge_recursive($this->bindings, $builder->bindings);
 
         return $this;
     }
