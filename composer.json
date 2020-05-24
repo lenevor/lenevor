@@ -10,12 +10,6 @@
 		"wiki": "https://github.com/lenevor/wiki",
 		"source": "https://github.com/lenevor"
 	},
-	"authors": [
-		{
-			"name": "Alexander Campo",
-			"email": "jalexcam@gmail.com"
-		}
-	],
 	"require": {
 		"php": "^7.3"
 	},
