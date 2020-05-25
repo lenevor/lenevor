@@ -69,6 +69,34 @@ class Builder
     ];
 
     /**
+     * The cache driver to be used.
+     * 
+     * @var string $cacheDriver
+     */
+    protected $cacheDriver;
+
+    /**
+     * The key that should be used when caching the query.
+     * 
+     * @var string $cacheKey
+     */
+    protected $cacheKey;
+
+    /**
+     * The number of minutes to cache the query
+     * 
+     * @var int $cacheMinutes
+     */
+    protected $cacheMinutes;
+
+    /**
+     * The tags for the query cache.
+     * 
+     * @var array $cacheTags
+     */
+    protected $cacheTags;
+
+    /**
      * Get the columns of a table.
      * 
      * @var array $columns
@@ -259,6 +287,41 @@ class Builder
     {
         return $this->grammar->compileSelect($this);
     }
+    
+    /**
+     * Execute the query as a "select" statement.
+     * 
+     * @param  array  $columns
+     * 
+     * @return array|static[]
+     */
+    public function get($columns = ['*'])
+    {
+        if ( ! is_null($this->cacheMinutes))
+        {
+            return $this->getCached($columns);
+        }
+
+        return $this->getFresh($columns);
+    }
+
+    /**
+     * Execute the query as a cached "select" statement.
+     * 
+     * @param  array  $columns
+     * 
+     * @return array
+     */
+    public function getCached($columns = ['*'])
+    {
+        
+    }
+
+    /**
+     * Execute an aggregate function on the database.
+     * 
+     * 
+     */
 
     /**
      * Insert a new record into the database.
