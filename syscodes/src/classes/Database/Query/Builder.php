@@ -30,8 +30,9 @@ use DateTimeInterface;
 use Syscodes\Support\Str;
 use BadMethodCallException;
 use InvalidArgumentException;
-use Syscodes\Database\Query\Access;
+use Syscodes\Database\DatabaseCache;
 use Syscodes\Database\Query\Grammar;
+use Syscodes\Database\Query\Processor;
 use Syscodes\Database\Query\Expression;
 use Syscodes\Database\Query\JoinClause;
 use Syscodes\Database\ConnectionInterface;
@@ -314,7 +315,69 @@ class Builder
      */
     public function getCached($columns = ['*'])
     {
-        
+        if (is_null($this->columns)) 
+        {
+            $this->columns = $columns;
+        }
+
+        list($key, $minutes) = $this->getCacheInfo();
+
+        $cache = $this->getCache();
+
+        if ($minutes > 0)
+        {
+            return $cache->rememberForever($key, $this->getCacheCallback());
+        }
+
+        return $cache->remember($key, $this->getCacheCallback());
+    }
+
+    /**
+     * Get the cache object with tags assigned, if applicable.
+     * 
+     * @return \Syscode\Database\DatabaseCache
+     */
+    public function getCache()
+    {
+        $cache = (new DatabaseCache)->driver($this->cacheDriver);
+
+        return $this->cacheTags ? $cache->tags($this->tags) : $cache;
+    }
+
+    /**
+     * Get the cache key and cache minutes as an array.
+     * 
+     * @return array
+     */
+    public function getCacheInfo()
+    {
+        return [$this->getCacheKey(), $this->cacheMinutes];
+    }
+
+    /**
+     * Get a unique cache key for the complete query.
+     * 
+     * @return string
+     */
+    public function getCacheKey()
+    {
+        $name = $this->connection->getName();
+
+        return md5($name.$this->getSql().serialize($this->getBindings()));
+    }
+
+    /**
+     * Get the Closure callback used when caching queries.
+     * 
+     * @param  array  $columns
+     * 
+     * @return \Closure
+     */
+    protected function getCacheCallback($columns)
+    {
+        return function () use ($columns) {
+            return $this->getFresh($columns);
+        }
     }
 
     /**
