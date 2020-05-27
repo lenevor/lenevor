@@ -377,7 +377,34 @@ class Builder
     {
         return function () use ($columns) {
             return $this->getFresh($columns);
+        };
+    }
+
+    /**
+     * Execute the query as a fresh "select" statement.
+     * 
+     * @param  array  $columns
+     * 
+     * @return array|static[]
+     */
+    public function getFresh($columns = ['*'])
+    {
+        if (is_null($this->columns))
+        {
+            $this->columns = $columns;
         }
+
+        return $this->processor->processSelect($this, $this->runSelect());
+    }
+
+    /**
+     * Run the query as a "select" statement against the connection.
+     * 
+     * @return array
+     */
+    public function runSelect()
+    {
+        return $this->connection->select($this->getSql(), $this->getBinding());
     }
 
     /**
