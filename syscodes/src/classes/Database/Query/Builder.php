@@ -27,6 +27,7 @@ namespace Syscodes\Database\Query;
 use Closure;
 use RuntimeException;
 use DateTimeInterface;
+use Syscodes\Support\Arr;
 use Syscodes\Support\Str;
 use BadMethodCallException;
 use InvalidArgumentException;
@@ -303,7 +304,7 @@ class Builder
             return $this->getCached($columns);
         }
 
-        return $this->getFresh($columns);
+        return $this->getFreshStatement($columns);
     }
 
     /**
@@ -376,7 +377,7 @@ class Builder
     protected function getCacheCallback($columns)
     {
         return function () use ($columns) {
-            return $this->getFresh($columns);
+            return $this->getFreshStatement($columns);
         };
     }
 
@@ -387,14 +388,14 @@ class Builder
      * 
      * @return array|static[]
      */
-    public function getFresh($columns = ['*'])
+    public function getFreshStatement($columns = ['*'])
     {
         if (is_null($this->columns))
         {
             $this->columns = $columns;
         }
 
-        return $this->processor->processSelect($this, $this->runSelect());
+        return $this->processor->processSelect($this, $this->runOnSelectStatement());
     }
 
     /**
@@ -402,7 +403,7 @@ class Builder
      * 
      * @return array
      */
-    public function runSelect()
+    public function runOnSelectStatement()
     {
         return $this->connection->select($this->getSql(), $this->getBinding());
     }
@@ -597,11 +598,21 @@ class Builder
     }
 
     /**
-     * Get the array of bindings.
+     * Get the current query value bindings in a flattened array.
      * 
-     * @return void
+     * @return array
      */
-    public function getBinding()
+    public function getBindings()
+    {
+        return Arr::Flatten($this->bindings);
+    }
+
+    /**
+     * Get the raw array of bindings.
+     * 
+     * @return array
+     */
+    public function getRawBindings()
     {
         return $this->bindings;
     }
@@ -617,7 +628,7 @@ class Builder
      * 
      * @throws \InvalidArgumentException
      */
-    public function setBinding($value, $type = 'where')
+    public function setBindings($value, $type = 'where')
     {
         if ( ! array_key_exists($type, $this->bindings))
         {
@@ -665,7 +676,7 @@ class Builder
      * 
      * @return $this
      */
-    public function mergeBinding(Builder $builder)
+    public function mergeBindings(Builder $builder)
     {
         $this->bindings = array_merge_recursive($this->bindings, $builder->bindings);
 
