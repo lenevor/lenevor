@@ -166,6 +166,24 @@ class Arr
 			unset($array[array_shift($parts)]);
 		}
 	}
+
+	/**
+	 * Flatten a multi-dimensional array into a single level.
+	 * 
+	 * @param  array  $array
+	 * 
+	 * @return array
+	 */
+	public static function flatten($array)
+	{
+		$result = [];
+
+		array_walk_recursive($array, function ($value) use (&$result) {
+			$result[] = $value;
+		});
+
+		return $result;
+	}
 	
 	/**
 	 * Fetch a flattened array of a nested array element.
