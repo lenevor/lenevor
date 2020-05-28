@@ -562,6 +562,34 @@ class Builder
     }
 
     /**
+     * Indicate that the results, if cached, should use the given cache driver.
+     * 
+     * @param  string  $cacheDriver
+     * 
+     * @return $this
+     */
+    public function getCacheDriver($cacheDriver)
+    {
+        $this->cacheDriver = $cacheDriver;
+
+        return $this;
+    }
+
+    /**
+     * Indicate that the results, if cached, should use the given cache tags.
+     * 
+     * @param  array|mixed  $cacheTags
+     * 
+     * @return $this
+     */
+    public function getCacheTags($cacheTags)
+    {
+        $this->cacheTags = $cacheTags;
+
+        return $this;
+    }
+
+    /**
      * Create a raw database expression.
      *
      * @param  mixed  $value
