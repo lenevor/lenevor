@@ -128,6 +128,7 @@ return [
     'Syscodes\\Database\\Connection' => SYS_PATH.'src/classes/Database/Connection.php',
     'Syscodes\\Database\\ConnectionFactory' => SYS_PATH.'src/classes/Database/ConnectionFactory.php',
     'Syscodes\\Database\\ConnectionInterface' => SYS_PATH.'src/classes/Database/ConnectionInterface.php',
+    'Syscodes\\Database\\DatabaseManager' => SYS_PATH.'src/classes/Database/DatabaseManager.php',
     'Syscodes\\Database\\DatabaseServiceProvider' => SYS_PATH.'src/classes/Database/DatabaseServiceProvider.php',
     'Syscodes\\Database\\Query\\Grammar' => SYS_PATH.'src/classes/Database/Query/Grammar.php',
     'Syscodes\\Debug\\FatalExceptions\\FatalErrorException' => SYS_PATH.'src/classes/Debug/FatalExceptions/FatalErrorException.php',
