@@ -299,87 +299,8 @@ class Builder
      */
     public function get($columns = ['*'])
     {
-        if ( ! is_null($this->cacheMinutes))
-        {
-            return $this->getCached($columns);
-        }
-
         return $this->getFreshStatement($columns);
-    }
-
-    /**
-     * Execute the query as a cached "select" statement.
-     * 
-     * @param  array  $columns
-     * 
-     * @return array
-     */
-    public function getCached($columns = ['*'])
-    {
-        if (is_null($this->columns)) 
-        {
-            $this->columns = $columns;
-        }
-
-        list($key, $minutes) = $this->getCacheInfo();
-
-        $cache = $this->getCache();
-
-        if ($minutes > 0)
-        {
-            return $cache->rememberForever($key, $this->getCacheCallback());
-        }
-
-        return $cache->remember($key, $this->getCacheCallback());
-    }
-
-    /**
-     * Get the cache object with tags assigned, if applicable.
-     * 
-     * @return \Syscode\Database\DatabaseCache
-     */
-    public function getCache()
-    {
-        $cache = (new DatabaseCache)->driver($this->cacheDriver);
-
-        return $this->cacheTags ? $cache->tags($this->tags) : $cache;
-    }
-
-    /**
-     * Get the cache key and cache minutes as an array.
-     * 
-     * @return array
-     */
-    public function getCacheInfo()
-    {
-        return [$this->getCacheKey(), $this->cacheMinutes];
-    }
-
-    /**
-     * Get a unique cache key for the complete query.
-     * 
-     * @return string
-     */
-    public function getCacheKey()
-    {
-        $name = $this->connection->getName();
-
-        return md5($name.$this->getSql().serialize($this->getBindings()));
-    }
-
-    /**
-     * Get the Closure callback used when caching queries.
-     * 
-     * @param  array  $columns
-     * 
-     * @return \Closure
-     */
-    protected function getCacheCallback($columns)
-    {
-        return function () use ($columns) {
-            return $this->getFreshStatement($columns);
-        };
-    }
+    }    
 
     /**
      * Execute the query as a fresh "select" statement.
