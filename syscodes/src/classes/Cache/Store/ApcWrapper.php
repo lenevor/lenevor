@@ -22,7 +22,7 @@
  * @since       0.3.0
  */
 
-namespace Syscode\Cache\Store;
+namespace Syscodes\Cache\Store;
 
 /**
  * ApcWrapper cache handler.

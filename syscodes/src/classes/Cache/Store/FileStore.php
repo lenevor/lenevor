@@ -22,14 +22,14 @@
  * @since       0.3.0
  */
 
-namespace Syscode\Cache\Store;
+namespace Syscodes\Cache\Store;
 
 use Exception;
-use Syscode\Cache\Types\CacheKey;
-use Syscode\Filesystem\Filesystem;
-use Syscode\Contracts\Cache\Store;
-use Syscode\Support\InteractsWithTime;
-use Syscode\Cache\Utils\FileCacheRegister;
+use Syscodes\Cache\Types\CacheKey;
+use Syscodes\Filesystem\Filesystem;
+use Syscodes\Contracts\Cache\Store;
+use Syscodes\Support\InteractsWithTime;
+use Syscodes\Cache\Utils\FileCacheRegister;
 
 /**
  * File system cache handler.
@@ -64,7 +64,7 @@ class FileStore implements Store
     /**
      * Constructor. Create a new file cache store instance.
      * 
-     * @param   \Syscode\FileSystem\Filesystem  $files
+     * @param   \Syscodes\FileSystem\Filesystem  $files
      * @param   string  $directory
      * 
      * @return  void

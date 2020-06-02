@@ -22,10 +22,10 @@
  * @since       0.3.0
  */
 
-namespace Syscode\Cache\Store;
+namespace Syscodes\Cache\Store;
 
 use Memcached;
-use Syscode\Core\Http\Exceptions\LenevorException;
+use Syscodes\Core\Http\Exceptions\LenevorException;
 
 /**
  * Allows to connect to the Memcached cache system.
@@ -44,7 +44,7 @@ class MemcachedConnector
      * 
      * @return \Memcached
      * 
-     * @throws \Syscode\Core\Http\Exceptions\LenevorException
+     * @throws \Syscodes\Core\Http\Exceptions\LenevorException
      */
     public function connect(array $servers, $connectionId = null, array $options = [], array $credentials = [])
     {

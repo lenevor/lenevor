@@ -22,9 +22,9 @@
  * @since       0.3.0
  */
 
-namespace Syscode\Cache\Store;
+namespace Syscodes\Cache\Store;
 
-use Syscode\Contracts\Cache\Store;
+use Syscodes\Contracts\Cache\Store;
 
 /**
  * Null cache handler.

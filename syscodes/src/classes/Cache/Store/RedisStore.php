@@ -22,10 +22,10 @@
  * @since       0.3.0
  */
 
-namespace Syscode\Cache\Store;
+namespace Syscodes\Cache\Store;
 
-use Syscode\Redis\RedisManager;
-use Syscode\Contracts\Cache\Store;
+use Syscodes\Redis\RedisManager;
+use Syscodes\Contracts\Cache\Store;
 
 /**
  * Redis cache handler.
@@ -51,14 +51,14 @@ class RedisStore implements Store
     /**
      * The Redis database connection.
      * 
-     * @var \Syscode\Redis\RedisManager $redis 
+     * @var \Syscodes\Redis\RedisManager $redis 
      */
     protected $redis;
 
     /**
      * Constructor. Create a new Redis store.
      * 
-     * @param  \Syscode\Redis\RedisManager  $redis 
+     * @param  \Syscodes\Redis\RedisManager  $redis 
      * @param  string  $prefix
      * @param  string  $connection  
      * 
@@ -169,7 +169,7 @@ class RedisStore implements Store
     /**
      * Get the Redis database instance.
      * 
-     * @return \Syscode\Redis\RedisManager
+     * @return \Syscodes\Redis\RedisManager
      */
     public function getRedis()
     {
