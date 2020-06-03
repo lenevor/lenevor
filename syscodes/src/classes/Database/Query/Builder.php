@@ -71,34 +71,6 @@ class Builder
     ];
 
     /**
-     * The cache driver to be used.
-     * 
-     * @var string $cacheDriver
-     */
-    protected $cacheDriver;
-
-    /**
-     * The key that should be used when caching the query.
-     * 
-     * @var string $cacheKey
-     */
-    protected $cacheKey;
-
-    /**
-     * The number of minutes to cache the query
-     * 
-     * @var int $cacheMinutes
-     */
-    protected $cacheMinutes;
-
-    /**
-     * The tags for the query cache.
-     * 
-     * @var array $cacheTags
-     */
-    protected $cacheTags;
-
-    /**
      * Get the columns of a table.
      * 
      * @var array $columns
@@ -255,6 +227,105 @@ class Builder
     }
 
     /**
+     * Add a subselect expression to the query.
+     * 
+     * @param  \Syscodes\Database\Query\Builder|string  $builder
+     * @param  string  $as
+     * 
+     * @return $this
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public function selectSub($builder, $as)
+    {
+        [$builder, $bindings] = $this->makeSub($builder);
+
+        return $this->selectRaw(
+            '('.$builder.') as '.$this->grammar->wrap($as), $bindings
+        );
+    }
+
+    /**
+     * Makes a subquery and parse it.
+     * 
+     * @param  \Closure|\Syscodes\Database\Query\Builder|string  $builder
+     * 
+     * @return array
+     */
+    protected function makeSub($builder)
+    {
+        if ($builder instanceof Closure)
+        {
+            $callback = $builder;
+
+            $callback($builder = $this->newBuilder());
+        }
+
+        return $this->parseSub($builder);
+    }
+
+    /**
+     * Parse the subquery into SQL and bindings.
+     * 
+     * @param  mixed  $builder
+     * 
+     * @return array
+     * 
+     * @throws \InvalidArgumentException
+     */
+    protected function parseSub($builder)
+    {
+        if ($builder instanceof self)
+        {
+            return [$builder->getSql(), $builder->getBindings()];
+        }
+        elseif (is_string($builder))
+        {
+            return [$builder->getSql(), []];
+        }
+        else
+        {
+            throw new InvalidArgument('A subquery must be a query builder instance, a Closure, or a string.');
+        }
+    }
+
+    /**
+     *  Add a new "raw" select expression to the query.
+     * 
+     * @param  string  $expression
+     * @param  array  $bindings
+     * 
+     * @return $this
+     */
+    public function selectRaw($expression, array $bindings = [])
+    {
+        $this->addSelect(new Expression($expression));
+
+        if ($bindings)
+        {
+            $this->addBinding($bindings, 'select');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add a new select column to the query.
+     * 
+     * @param  mixed  $column
+     * 
+     * @return $this
+     */
+    public function addSelect($column)
+    {
+        $column = is_array($column) ? $column : func_get_args();
+
+        $this->columns = array_merge((array) $this->columns, $column);
+
+        return $this;
+    }
+
+    /**
      * Allows force the query for return distinct results.
      * 
      * @return $this
@@ -289,6 +360,136 @@ class Builder
     {
         return $this->grammar->compileSelect($this);
     }
+
+    /**
+     * Set the "offset" value of the query.
+     * 
+     * @param  int  $value
+     * 
+     * @return $this
+     */
+    public function offset($value)
+    {
+        $property = $this->unions ? 'unionOffset' : 'offset';
+
+        $this->$property = max(0, $value);
+        
+        return $this;
+    }
+
+    /**
+     * Set the "limit" value of the query.
+     * 
+     * @param  int  $value
+     * 
+     * @return $this
+     */
+    public function limit($value)
+    {
+        $property = $this->unions ? 'unionLimit' : 'limit';
+
+        if ($value >= 0)
+        {
+            $this->$property = $value;
+        }
+        return $this;
+    }
+
+    /**
+     * Add a union statement to the query.
+     * 
+     * @param  \Syscodes\Database\Query\Builder|\Closure  $builder
+     * @param  bool  $all  (false by default)
+     * 
+     * @return $this
+     */
+    public function union($builder, $all = false)
+    {
+        if ($builder instanceof Closure)
+        {
+            call_user_func($builder, $builder = $this->newBuilder());
+        }
+
+        $this->unions[] = compact('builder', 'all');
+
+        $this->addBinding($builder->getBindings(), 'union');
+
+        return $this;
+    }
+
+    /**
+     * Add a union all statement to the query.
+     * 
+     * @param  \Syscodes\Database\Query\Builder|\Closure  $builder
+     * 
+     * @return $this
+     */
+    public function unionAll($builder)
+    {
+        return $this->union($builder, true);
+    }
+
+    /**
+     * Lock the selected rows in the table.
+     * 
+     * @param  bool  $value  (true by default)
+     * 
+     * @return $this
+     */
+    public function lock($value = true)
+    {
+        $this->lock = $value;
+
+        return $this;
+    }
+
+    /**
+     * Lock the selected rows in the table for updating.
+     * 
+     * @return \Syscodes\Database\Query\Builder
+     */
+    public function lockRowsUpdate()
+    {
+        return $this->lock(true);
+    }
+
+    /**
+     * Share lock the selected rows in the table.
+     * 
+     * @return \Syscodes\Database\Query\Builder
+     */
+    public function shareRowsLock()
+    {
+        return $this->lock(false);
+    }
+
+    /**
+     * Pluck a single column's value from the first result of a query.
+     * 
+     * @param  string  $column
+     * 
+     * @return mixed
+     */
+    public function pluck($column)
+    {
+        $sql = (array) $this->first([$column]);
+
+        return count($sql) > 0 ? reset($sql) : null;
+    }
+
+    /**
+     * Execute the query and get the first result.
+     * 
+     * @param  array
+     * 
+     * @return mixed
+     */
+    public function first($columns = ['*'])
+    {
+        $sql = $this->limit(1)->get($columns);
+
+        return count($sql) > 0 ? reset($sql) : null;
+    }
     
     /**
      * Execute the query as a "select" statement.
@@ -299,23 +500,42 @@ class Builder
      */
     public function get($columns = ['*'])
     {
-        return $this->getFreshStatement($columns);
-    }    
-
+        return $this->getFresh($columns, function () {
+            return $this->getWithStatement();
+        });
+    }
+    
     /**
-     * Execute the query as a fresh "select" statement.
+     * Execute the given callback while selecting the given columns.
      * 
-     * @param  array  $columns
+     * @param  string  $columns
+     * @param  \callable  $callback
      * 
-     * @return array|static[]
+     * @return mixed 
      */
-    public function getFreshStatement($columns = ['*'])
+    protected function getFresh($columns, $callback)
     {
-        if (is_null($this->columns))
+        $original = $this->columns;
+
+        if (is_null($original))
         {
             $this->columns = $columns;
         }
 
+        $result = $callback();
+
+        $this->columns = $original;
+
+        return $result;
+    }
+
+    /**
+     * Execute the query with a "select" statement.
+     * 
+     * @return array|static[]
+     */
+    protected function getWithStatement()
+    {
         return $this->processor->processSelect($this, $this->runOnSelectStatement());
     }
 
@@ -326,7 +546,7 @@ class Builder
      */
     public function runOnSelectStatement()
     {
-        return $this->connection->select($this->getSql(), $this->getBinding());
+        return $this->connection->select($this->getSql(), $this->getBindings());
     }
 
     /**
@@ -483,34 +703,6 @@ class Builder
     }
 
     /**
-     * Indicate that the results, if cached, should use the given cache driver.
-     * 
-     * @param  string  $cacheDriver
-     * 
-     * @return $this
-     */
-    public function getCacheDriver($cacheDriver)
-    {
-        $this->cacheDriver = $cacheDriver;
-
-        return $this;
-    }
-
-    /**
-     * Indicate that the results, if cached, should use the given cache tags.
-     * 
-     * @param  array|mixed  $cacheTags
-     * 
-     * @return $this
-     */
-    public function getCacheTags($cacheTags)
-    {
-        $this->cacheTags = $cacheTags;
-
-        return $this;
-    }
-
-    /**
      * Create a raw database expression.
      *
      * @param  mixed  $value
@@ -527,9 +719,9 @@ class Builder
      * 
      * @return \Syscodes\Database\Query\Builder
      */
-    public function newQuery()
+    public function newBuilder()
     {
-        return new Builder($this->connection, $this->grammar, $this->processor);
+        return new static($this->connection, $this->grammar, $this->processor);
     }
 
     /**
@@ -660,6 +852,16 @@ class Builder
     public function getGrammar()
     {
         return $this->grammar;
+    }
+
+    /**
+     * Die and dump the current SQL and bindings.
+     * 
+     * @return void
+     */
+    public function dd()
+    {
+        dd($this->getSql(), $this->getBindings());
     }
 
     /**
