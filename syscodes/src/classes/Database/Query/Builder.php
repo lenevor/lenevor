@@ -362,6 +362,19 @@ class Builder
     }
 
     /**
+     * Get a new join clause.
+     * 
+     * @param  string  $type
+     * @param  string  $table
+     * 
+     * @return \Syscodes\Database\Query\JoinClause
+     */
+    protected function newJoinClause($type, $table)
+    {
+        return new JoinClause($type, $table);
+    }
+
+    /**
      * Set the "offset" value of the query.
      * 
      * @param  int  $value
@@ -488,7 +501,7 @@ class Builder
     {
         $sql = $this->limit(1)->get($columns);
 
-        return count($sql) > 0 ? reset($sql) : null;
+        return count($sql) > 0 ? head($sql) : null;
     }
     
     /**
@@ -500,7 +513,7 @@ class Builder
      */
     public function get($columns = ['*'])
     {
-        return $this->getFresh($columns, function () {
+        return $this->getFresh(Arr::wrap($columns), function () {
             return $this->getWithStatement();
         });
     }
