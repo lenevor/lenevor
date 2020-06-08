@@ -158,7 +158,7 @@ class Grammar extends BaseGrammar
     {
         $sql = [];
 
-        foreach ($joins as $join)
+        foreach ((array) $joins as $join)
         {
             $table = $this->wrapTable($join->table);
 
@@ -676,7 +676,7 @@ class Grammar extends BaseGrammar
     {
         if ( ! empty($orders))
         {
-            return 'order by '.$this->compileOrderToArray($builder, $orders);
+            return 'order by '.implode(', ', $this->compileOrderToArray($builder, $orders));
         }
 
         return '';
@@ -693,7 +693,7 @@ class Grammar extends BaseGrammar
     protected function compileOrderToArray(Builder $builder, $orders)
     {
         return array_map(function ($order) {
-            return $order['sql'] ?? $order['column'].' '.$order['direction'];
+            return $order['sql'] ?? $this->wrap($order['column']).' '.$order['direction'];
         }, $orders);
     }
 
