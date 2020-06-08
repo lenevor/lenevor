@@ -285,7 +285,7 @@ class Builder
         }
         else
         {
-            throw new InvalidArgument('A subquery must be a query builder instance, a Closure, or a string.');
+            throw new InvalidArgumentException('A subquery must be a query builder instance, a Closure, or a string.');
         }
     }
 
@@ -301,7 +301,7 @@ class Builder
     {
         $this->addSelect(new Expression($expression));
 
-        if ($bindings)
+        if (! empty($bindings))
         {
             $this->addBinding($bindings, 'select');
         }
@@ -747,7 +747,7 @@ class Builder
     public function cleanBindings(array $bindings)
     {
         return array_values(array_filter($bindings, function () {
-            return ! bindings instanceof Expression;
+            return ! $bindings instanceof Expression;
         }));
     }
 
@@ -852,7 +852,7 @@ class Builder
      * 
      * @return \Syscodes\Database\Query\Processor
      */
-    public function getProcessor()
+    public function getQueryProcessor()
     {
         return $this->processor;
     }
@@ -862,7 +862,7 @@ class Builder
      * 
      * @return \Syscodes\Database\Query\Grammar
      */
-    public function getGrammar()
+    public function getQueryGrammar()
     {
         return $this->grammar;
     }
