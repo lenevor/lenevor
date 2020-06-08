@@ -83,7 +83,7 @@ return [
         ],
         'sqlite' => [
             'driver' => 'sqlite',
-            'database' => env('DB_DATABASE', databasePath('database.sqlite')),
+            'database' => env('DB_DATABASE', databasePath('data/database.sqlite')),
             'prefix' => ''
         ],
         'sqlsrv' => [
