@@ -59,7 +59,7 @@ interface ConnectionInterface
      * 
      * @return mixed
      */
-    public function fetchOne($query, $bindings = []);
+    public function selectOne($query, $bindings = []);
 
     /**
      * Run a select statement against the database.
@@ -69,17 +69,7 @@ interface ConnectionInterface
      * 
      * @return array
      */
-    public function fetch($query, $bindings = []);
-
-    /**
-     * Run a select statement against the database.
-     * 
-     * @param  string  $query
-     * @param  array  $bindings
-     * 
-     * @return array
-     */
-    public function fetchAll($query, $bindings = []);
+    public function select($query, $bindings = []);
 
     /**
      * Execute an SQL statement and return the boolean result.
