@@ -746,8 +746,8 @@ class Builder
      */
     public function cleanBindings(array $bindings)
     {
-        return array_values(array_filter($bindings, function () {
-            return ! $bindings instanceof Expression;
+        return array_values(array_filter($bindings, function ($binding) {
+            return ! $binding instanceof Expression;
         }));
     }
 
