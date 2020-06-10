@@ -155,18 +155,6 @@ class Lenevor implements LenevorContract
 	{
 		define('ENVIRONMENT', $this->app['config']['app.env']);
 	}
-
- 	/**
-	 * The dispatcher of routes.
-	 * 
-	 * @param  \Syscodes\Http\Request  $request
-	 * 	  
- 	 * @return void
- 	 */
- 	protected function dispatcher($request)
- 	{
- 		return Route::resolve($request);
-	}
 	
 	/** 
 	 * Initialize CLI command.
@@ -231,6 +219,20 @@ class Lenevor implements LenevorContract
 		$this->bootstrap();
 
 		return Response::make()->setContent($this->dispatcher($request));
+	}
+
+	/**
+	 * The dispatcher of routes.
+	 * 
+	 * @param  \Syscodes\Http\Request  $request
+	 * 	  
+ 	 * @return void
+ 	 */
+	protected function dispatcher($request)
+	{
+		$this->app->instance('request', $request);
+
+		return Route::resolve($request);
 	}
 
 	/**
