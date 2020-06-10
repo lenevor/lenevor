@@ -19,11 +19,12 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.2
+ * @since       0.2.0
  */
  
 namespace Syscodes\Http;
 
+use JsonSerializable;
 use BadMethodCallException;
 use InvalidArgumentException;
 use UnexpectedValueException;
@@ -191,6 +192,13 @@ class Response extends Status
 		if ($content !== null && ! is_string($content) && ! is_numeric($content) && ! is_callable([$content, '__toString'])) 
 		{
 			throw new UnexpectedValueException(sprintf('The Response content must be a string or object implementing __toString(), "%s" given.', gettype($content)));
+		}
+
+		if ($content instanceof JsonSerializable || is_array($content))
+		{
+			$this->header('Content-Type', 'application/json');
+
+			$content = json_encode($content);
 		}
 		
 		$this->content = $content ?? '';
