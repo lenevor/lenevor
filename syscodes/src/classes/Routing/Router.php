@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.5.0
+ * @since       0.7.0
  */
 
 namespace Syscodes\Routing;
@@ -81,19 +81,12 @@ class Router implements Routable
 	 */
 	protected $resolver;
 
-	/**
-	 * An array with all routes by method.
-	 *
-	 * @var array $routesByMethod
-	 */
-	protected $routesByMethod = [];
-
 	/** 
-	 * Currently registered routes. 
+	 * The route collection instance. 
 	 * 
-	 * @var array $routes
+	 * @var \Syscodes\Routing\RouteCollection $routes
 	 */
-	protected $routes = [];
+	public $routes;
 
 	/**
 	 * Constructor initialize namespace.
@@ -105,20 +98,10 @@ class Router implements Routable
 	 */
 	public function __construct($namespace = null, RouteResolver $resolver)
 	{
-		$this->namespace = $namespace;
 		$this->resolver  = $resolver;
-	}
+		$this->namespace = $namespace;
 
-	/**
-	 * Add a route. 
-	 *
-	 * @param  string  $route
-	 *
-	 * @return \Syscodes\Routing\Route
-	 */
-	public function addRoute(Route $route)
-	{
-		$this->routes[] = $route;
+		$this->routes = new RouteCollection();
 	}
 
 	/**
@@ -148,18 +131,6 @@ class Router implements Routable
 		}
 
 		return '';
-	}
-
-	/**
-	 * Get routes by method.
-	 *
-	 * @param  array|string  $method
-	 *
-	 * @return array 
-	 */
-	public function getRoutesByMethod($method)
-	{
-		return ($this->routesByMethod && isset($this->routesByMethod[$method])) ? $this->routesByMethod[$method] : [];
 	}
 
 	/**
@@ -239,6 +210,20 @@ class Router implements Routable
 	}
 
 	/**
+	 * Add a route to the underlying route collection. 
+	 *
+	 * @param  array|string  $method
+	 * @param  string  $route
+	 * @param  mixed  $action
+	 *
+	 * @return \Syscodes\Routing\Route
+	 */
+	public function addRoute($method, $route, $action)
+	{
+		return $this->routes->add($this->map($method, $route, $action));
+	}
+
+	/**
 	 * Add new route to routes array.
 	 *
 	 * @param  array|string  $method
@@ -256,15 +241,11 @@ class Router implements Routable
 			$action = $this->convertToControllerAction($action);
 		}
 		
-		$method = array_map('strtoupper', (array) $method);
-
 		$route = $this->newRoute(
-						$method, 
+						array_map('strtoupper', (array) $method), 
 						$this->prefix($route), 
 						$action
 		);
-
-		$this->addRoute($route);
 
 		if ($this->hasGroupStack())
 		{
@@ -272,11 +253,6 @@ class Router implements Routable
 		}
 
 		$this->addWhereClausesToRoute($route);
-
-		foreach ($route->getMethod() as $method)
-		{			
-			$this->routesByMethod[$method][] = $route;
-		}
 		
 		return $route;
 	}
