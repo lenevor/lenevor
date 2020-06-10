@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.1.1
  */
 
 namespace Syscodes\Contracts\Routing;
@@ -34,15 +34,6 @@ use Syscodes\Routing\Route;
  */
 interface Routable
 {
-	/**
-	 * Add a route. 
-	 *
-	 * @param  \Syscodes\Routing\Route  $route
-	 *
-	 * @return \Syscodes\Routing\Route
-	 */
-	public function addRoute(Route $route);
-
 	/**
 	 * Add a route for all posible methods.
 	 *
