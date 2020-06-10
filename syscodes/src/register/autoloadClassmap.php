@@ -191,6 +191,7 @@ return [
     'Syscodes\\Routing\\Redirector' => SYS_PATH.'src/classes/Routing/Redirector.php', 
     'Syscodes\\Routing\\Route' => SYS_PATH.'src/classes/Routing/Route.php',
     'Syscodes\\Routing\\RouteAction' => SYS_PATH.'src/classes/Routing/RouteAction.php',
+    'Syscodes\\Routing\\RouteCollection' => SYS_PATH.'src/classes/Routing/RouteCollection.php',
     'Syscodes\\Routing\\RouteConditionTrait' => SYS_PATH.'src/classes/Routing/RouteConditionTrait.php',
     'Syscodes\\Routing\\RouteFileRegister' => SYS_PATH.'src/classes/Routing/RouteFileRegister.php',
     'Syscodes\\Routing\\RouteGroup' => SYS_PATH.'src/classes/Routing/RouteGroup.php',
