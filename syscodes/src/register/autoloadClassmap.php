@@ -199,7 +199,7 @@ return [
     'Syscodes\\Routing\\RouteParams' => SYS_PATH.'src/classes/Routing/RouteParams.php',
     'Syscodes\\Routing\\Router' => SYS_PATH.'src/classes/Routing/Router.php',
     'Syscodes\\Routing\\RouteResolver' => SYS_PATH.'src/classes/Routing/RouteResolver.php',
-    'Syscodes\\Routing\\RouteResolver' => SYS_PATH.'src/classes/Routing/RouteResolver.php',
+    'Syscodes\\Routing\\RouteDependencyResolverTrait' => SYS_PATH.'src/classes/Routing/RouteDependencyResolverTrait.php',
     'Syscodes\\Routing\\RouteResponse' => SYS_PATH.'src/classes/Routing/RouteResponse.php',
     'Syscodes\\Routing\\RoutingServiceProvider' => SYS_PATH.'src/classes/Routing/RoutingServiceProvider.php',
     'Syscodes\\Routing\\UrlGenerator' => SYS_PATH.'src/classes/Routing/UrlGenerator.php',
