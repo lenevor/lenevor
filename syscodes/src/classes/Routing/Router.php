@@ -91,7 +91,7 @@ class Router implements Routable
 	/**
 	 * Constructor initialize namespace.
 	 *
-	 * @param  string  $namespace
+	 * @param  string|null  $namespace  (null by default)
 	 * @param  \Syscodes\Routing\RouteResolver  $resolver
 	 * 
 	 * @return void
