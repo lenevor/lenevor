@@ -102,15 +102,15 @@ class RouteCollection implements Countable, IteratorAggregate
 
         $this->allRoutes[$method.$domainAndRoute] = $route;
     }
-
+    
     /**
-	 * Get all of the routes keyed by their HTTP verb / method.
-	 *
-	 * @return array 
-	 */
-	public function getRoutesByMethod()
-	{
-		return $this->routes;
+     * Get all of the routes keyed by their HTTP verb / method.
+     * 
+     * @return array
+     */
+    public function getRoutesByMethod()
+    {
+        return $this->routes;
     }
 
     /**
