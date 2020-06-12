@@ -107,7 +107,7 @@ trait RouteMapTrait
 	 */
 	public function match($methods, $route, $action = null)
 	{
-		return $this->addRoute($methods, $route, $action);
+		return $this->addRoute($array_map('strtoupper', (array) $methods), $route, $action);
 	}
 
 	/**
