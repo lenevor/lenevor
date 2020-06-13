@@ -19,10 +19,12 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.5.0
+ * @since       0.5.1
  */
 
 namespace Syscodes\Controller\Contracts;
+
+use Syscodes\Routing\Route;
 
 /**
  * Dispatch requests when called a given controller and method.
@@ -35,11 +37,11 @@ interface ControllerDispatcher
     /**
      * Dispatch a request to a given controller and method.
      * 
+     * @param  \Syscodes\Routing\Route  $route
      * @param  mixed  $controller
      * @param  string  $method
-     * @param  array  $parameters
      * 
      * @return mixed
      */
-    public function dispatch($controller, $method, $parameters);
+    public function dispatch(Route $route, $controller, $method);
 }
