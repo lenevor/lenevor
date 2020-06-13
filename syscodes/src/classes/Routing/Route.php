@@ -25,6 +25,9 @@
 namespace Syscodes\Routing;
 
 use Closure;
+use LogicException;
+use ReflectionFunction;
+use Syscodes\Support\Arr;
 use Syscodes\Support\Str;
 use InvalidArgumentException;
 use Syscodes\Container\Container;
@@ -38,7 +41,7 @@ use Syscodes\Http\Exceptions\HttpResponseException;
  */
 class Route 
 {
-	use RouteConditionTrait;
+	use RouteConditionTrait, RouteDependencyResolverTrait;
 	
 	/**
 	 * Action that the route will use when called.
@@ -74,13 +77,6 @@ class Route
 	 * @var array|string $method
 	 */
 	protected $method;
-
-	/**
-	 * The name of the route.
-	 *
-	 * @var string $name
-	 */
-	protected $name;
 
 	/**
 	 * Namespace for the route.
@@ -211,7 +207,7 @@ class Route
 	 */
 	public function getName()
 	{
-		return $this->name;
+		return $this->action['as'] ?? null;
 	}
 
 	/**
@@ -273,7 +269,7 @@ class Route
 	 */
 	private function controllerDispatcher()
 	{
-		return new ControllerDispatcher;
+		return new ControllerDispatcher($this->container);
 	}
 
 	// Setters
@@ -281,11 +277,9 @@ class Route
 	/**
 	 * Run the route action and return the response.
 	 * 
-	 * @param  array  $parameters
-	 * 
 	 * @return mixed
 	 */
-	public function runResolver($parameters)
+	public function runResolver()
 	{
 		$this->container = $this->container ?: new Container;
 
@@ -293,10 +287,10 @@ class Route
 		{
 			if ($this->isControllerAction())
 			{
-				return $this->runResolverController($parameters);
+				return $this->runResolverController();
 			}
 
-			return $this->runResolverCallable($parameters);
+			return $this->runResolverCallable();
 		}
 		catch (HttpResponseException $e)
 		{
@@ -306,28 +300,26 @@ class Route
 
 	/**
 	 * Run the route action and return the response.
-	 * 
-	 * @param  array  $parameters
-	 * 
+	 *  
 	 * @return mixed
 	 */
-	protected function runResolverCallable($parameters)
+	protected function runResolverCallable()
 	{
 		$callable = $this->action['uses'];
 
-		return $callable(...array_values($parameters));
+		return $callable(...array_values($this->resolveMethodDependencies(
+			$this->parametersWithouNulls(), new ReflectionFunction($this->action['uses'])
+		)));
 	}
 
 	/**
 	 * Run the route action and return the response.
 	 * 
-	 * @param  array  $parameters 
-	 * 
 	 * @return mixed
 	 */
-	protected function runResolverController($parameters)
+	protected function runResolverController()
 	{
-		return $this->controllerDispatcher()->dispatch($this->getController(), $this->getControllerMethod(), $parameters);
+		return $this->controllerDispatcher()->dispatch($this, $this->getController(), $this->getControllerMethod());
 	}
 
 	/**
@@ -339,14 +331,7 @@ class Route
 	 */
 	public function name($name)
 	{
-		if ($name !== null)
-		{
-			$this->name = (string) $name;
-		}
-		else
-		{
-			$this->name = $name;
-		}
+		$this->action['as'] = isset($this->action['as']) ? $this->action['as'].$name : $name;
 
 		return $this;
 	}
@@ -524,5 +509,72 @@ class Route
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Get a given parameter from the route.
+	 * 
+	 * @param  string  $name
+	 * @param  mixed  $default  (null by default)
+	 * 
+	 * @return array
+	 */
+	public function parameter($name, $default = null)
+	{
+		return Arr::get($this->parameters(), $name, $default);
+	}
+
+	/**
+	 * Set a parameter to the given value.
+	 * 
+	 * @param  string  $name
+	 * @param  mixed  $value
+	 * 
+	 * @return array
+	 */
+	public function setParameter($name, $value)
+	{
+		$this->parameters();
+
+		$this->parameters[$name] = $value;
+	}
+
+	/**
+	 * Get the key / value list of parameters without null values.
+	 * 
+	 * @return array
+	 */
+	public function parametersWithouNulls()
+	{
+		return array_filter($this->parameters(), function ($parameter) {
+			return ! is_null($parameter);
+		});
+	}
+
+	/**
+	 * Get the key / value list of parameters for the route.
+	 * 
+	 * @return array
+	 */
+	public function parameters()
+	{
+		if (isset($this->parameters))
+		{
+			return $this->parameters;
+		}
+
+		throw new LogicException('The route is not bound.');
+	}
+
+	/**
+	 * Dynamically access route parameters.
+	 * 
+	 * @param  string  $key
+	 * 
+	 * @return mixed
+	 */
+	public function __get($key)
+	{
+		return $this->parameter($key);
 	}
 }
