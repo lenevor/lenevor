@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.7.0
  */
 
 namespace Syscodes\Http;
@@ -382,18 +382,13 @@ class Request
 	}
 
 	/**
-	 * Returns the path being requested relative to the executed script. 
+	 * Get the current decoded path info for the request.
 	 * 
 	 * @return string
 	 */
-	public function getPathInfo()
+	public function decodedPath()
 	{
-		if (null === $this->pathInfo)
-		{
-			$this->pathInfo = $this->http->parsePathInfo();
-		}
-
-		return $this->pathInfo;
+		return rawurldecode($this->path());
 	}
 
 	/**
@@ -406,6 +401,21 @@ class Request
 		$path = trim($this->getPathInfo(), '/');
 
 		return $path == '' ? '/' : $path;
+	}
+
+	/**
+	 * Returns the path being requested relative to the executed script. 
+	 * 
+	 * @return string
+	 */
+	public function getPathInfo()
+	{
+		if (null === $this->pathInfo)
+		{
+			$this->pathInfo = $this->http->parsePathInfo();
+		}
+
+		return $this->pathInfo;
 	}
 	
 	/**
