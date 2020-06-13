@@ -40,6 +40,13 @@ class Router implements Routable
 	use RouteMapTrait;
 
 	/**
+	 * The registered route value binders.
+	 * 
+	 * @var array $binders
+	 */
+	protected $binders = [];
+
+	/**
 	 * Variable of group route.
 	 *  
 	 * @var array $groupStack
