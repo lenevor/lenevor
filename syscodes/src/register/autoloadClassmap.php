@@ -196,7 +196,7 @@ return [
     'Syscodes\\Routing\\RouteFileRegister' => SYS_PATH.'src/classes/Routing/RouteFileRegister.php',
     'Syscodes\\Routing\\RouteGroup' => SYS_PATH.'src/classes/Routing/RouteGroup.php',
     'Syscodes\\Routing\\RouteMapTrait' => SYS_PATH.'src/classes/Routing/RouteMapTrait.php',
-    'Syscodes\\Routing\\RouteParams' => SYS_PATH.'src/classes/Routing/RouteParams.php',
+    'Syscodes\\Routing\\RouteParamBinding' => SYS_PATH.'src/classes/Routing/RouteParamBinding.php',
     'Syscodes\\Routing\\Router' => SYS_PATH.'src/classes/Routing/Router.php',
     'Syscodes\\Routing\\RouteResolver' => SYS_PATH.'src/classes/Routing/RouteResolver.php',
     'Syscodes\\Routing\\RouteDependencyResolverTrait' => SYS_PATH.'src/classes/Routing/RouteDependencyResolverTrait.php',
