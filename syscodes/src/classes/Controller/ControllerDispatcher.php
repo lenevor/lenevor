@@ -19,11 +19,14 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.5.0
+ * @since       0.5.1
  */
  
 namespace Syscodes\Controller;
 
+use Syscodes\Routing\Route;
+use Syscodes\Container\Container;
+use Syscodes\Routing\RouteDependencyResolverTrait;
 use Syscodes\Controller\Contracts\ControllerDispatcher as ControllerDispatcherContract;
 
 /**
@@ -33,17 +36,41 @@ use Syscodes\Controller\Contracts\ControllerDispatcher as ControllerDispatcherCo
  */
 class ControllerDispatcher implements ControllerDispatcherContract
 {
+    use RouteDependencyResolverTrait;
+
+    /**
+     * The container instance.
+     * 
+     * @var \Syscodes\Container\Container $container
+     */
+    protected $container;
+
+    /**
+     * Constructor. The ControllerDispatcher class instance.
+     * 
+     * @param  \Syscodes\Container\Container  $container
+     * 
+     * @return void
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
+
     /**
      * Dispatch a request to a given controller and method.
      * 
      * @param  mixed  $controller
      * @param  string  $method
-     * @param  array  $parameters
      * 
      * @return mixed
      */
-    public function dispatch($controller, $method, $parameters)
+    public function dispatch(Route $route, $controller, $method)
     {
+        $parameters = $this->resolveObjectMethodDependencies(
+            $route->parametersWithouNulls(), $controller, $method
+        );
+        
         if (method_exists($controller, 'callAction'))
         {
             return $controller->callAction($method, $parameters);
