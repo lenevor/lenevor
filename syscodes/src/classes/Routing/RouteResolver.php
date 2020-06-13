@@ -35,6 +35,7 @@ use Syscodes\Routing\Exceptions\RouteNotFoundException;
  */
 class RouteResolver
 {
+	
 	/**
 	 * Resolve the given route and call the method that belongs to the route.
 	 *
@@ -56,8 +57,6 @@ class RouteResolver
 		// Loop trough the posible routes
 		foreach ($routes as $route) 
 		{
-			$matches = [];
-
 			if (isset($requestedUri))
 			{
 				$host = $route->getHost();
@@ -82,32 +81,13 @@ class RouteResolver
 				}
 			}
 			
-			// If the requested route matches one of the defined routes
-			if ($route->getRoute() === $requestedUri || preg_match_all('~^'.$route->getRoute().'$~', $requestedUri, $matches)) 
+			// If the requested route one of the defined routes
+			if ($route->getRoute() === $request->getUri() || preg_match('~^'.$route->getRoute().'$~', $requestedUri)) 
 			{	
-				$arguments = [];
-				$paramArgs = $route->getArguments();
-				$params    = (new RouteParams($matches))->toEachCountItems();
-			
-				if (is_array($paramArgs) && count($paramArgs) > 0)
-				{
-					foreach ($paramArgs as $key => $args)
-					{
-						if (isset($params[$key]))
-						{
-							$arguments[$args] = $params[$key];
-						}
-						else
-						{
-							$arguments[$args] = null;
-						}						
-					}
-				}
-
-				return $route->runResolver($arguments);
+				return $route->runResolver();
 			}
 		}
 
 		throw new RouteNotFoundException;
-	}	
+	}
 }
