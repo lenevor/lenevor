@@ -24,7 +24,6 @@
 
 namespace Syscodes\Routing;
 
-use ReflectionClass;
 use ReflectionMethod;
 use ReflectionParameter;
 use Syscodes\Support\Arr;
@@ -46,7 +45,7 @@ trait RouteDependencyResolverTrait
      * 
      * @return array
      */
-    protected function resolveOjectMethodDependencies(array $parameters, $instance, $method)
+    protected function resolveObjectMethodDependencies(array $parameters, $instance, $method)
     {
         if ( ! method_exists($instance, $method))
         {
@@ -54,7 +53,7 @@ trait RouteDependencyResolverTrait
         }
 
         return $this->resolveMethodDependencies(
-            $parameters, ReflectionMethod($instance, $method)
+            $parameters, new ReflectionMethod($instance, $method)
         );
     }
 
@@ -66,7 +65,7 @@ trait RouteDependencyResolverTrait
      * 
      * @return array
      */
-    protected function resolveObjectMethodDependencies(array $parameters, ReflectionFunctionAbstract $reflector)
+    public function resolveMethodDependencies(array $parameters, ReflectionFunctionAbstract $reflector)
     {
         $count = 0;
 
@@ -82,10 +81,46 @@ trait RouteDependencyResolverTrait
 
                 $this->spliceOnParameters($parameter, $key, $instance);
             }
-            
+            elseif ( ! isset($values[$key - $count]) && $parameter->isDefaultValueAvailable())
+            {
+                $this->spliceOnParameters($parameter, $key, $parameter->getDefaultValue());
+            }            
         }
 
         return $parameters;
+    }
+
+    /**
+     * Attempt to transform the given parameter into a class instance.
+     * 
+     * @param  \ReflectionParameter  $parameter
+     * @param  array  $parameters
+     * 
+     * @return mixed
+     */
+    protected function transformGivenDependency(ReflectionParameter $parameter, array $parameters)
+    {
+        $class = $parameter->getClass();
+
+        if ( ! is_null($class) && ! $this->getInParameters($className = $class->name, $parameters))
+        {
+            return $parameter->isDefaultValueConstant() ? null : $this->container->make($className);
+        }
+    }
+
+    /**
+     * Determine if an object of the given class is in a list of parameters.
+     * 
+     * @param  string  $class
+     * @param  array  $parameters
+     * 
+     * @return
+     */
+    protected function getInParameters($class, array $parameters)
+    {
+        return ! is_null(Arr::first($parameters, function ($value) use ($class) {
+            return $value instanceof $class;
+        }));
     }
 
     /**
