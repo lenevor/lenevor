@@ -1,5 +1,28 @@
 # Release Notes
 
+## [Version 0.7.0-alpha.7] 
+
+Release Date: 
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added methods for insert and update
+- Added methods for process of select statement in the `Builder` class
+
+
+## [Version 0.6.0-alpha.6] 
+
+Release Date: Feb 26, 2020
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added the views system called plaze
+- Added namespace for calls events in view class
+- Added new methods of rendering
+- Added class for rendering string
+
 ## [Version 0.5.0-alpha.5] 
 
 Release Date: Jan 12, 2020
