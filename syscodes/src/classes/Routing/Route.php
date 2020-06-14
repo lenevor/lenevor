@@ -538,6 +538,20 @@ class Route
 	}
 
 	/**
+	 * Bind the route to a given request for execution.
+	 * 
+	 * @param  \Syscodes\Http\Request  $request
+	 * 
+	 * @return $this
+	 */
+	public function bind(Request $request)
+	{
+		$this->parameters = (new RouteParamBinding)->parameters();
+
+		return $this;
+	}
+
+	/**
 	 * Get all of the parameter names for the route.
 	 * 
 	 * @return array
