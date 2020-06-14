@@ -93,6 +93,13 @@ class Route
 	protected $parameters = [];
 
 	/**
+	 * The parameter names for the route.
+	 * 
+	 * @var string|null $parameterNames
+	 */
+	protected $parameterNames;
+
+	/**
 	* Patterns that should be replaced.
 	*
 	* @var array $patterns 
@@ -231,6 +238,25 @@ class Route
 	}
 
 	/**
+	 * Get or set the domain for the route.
+	 * 
+	 * @param  string|null  $domain  (null by default)
+	 * 
+	 * @return $this
+	 */
+	public function domain($domain = null)
+	{
+		if (is_null($domain))
+		{
+			return $this->getDomain();
+		}
+
+		$this->action['domain'] = $domain;
+
+		return $this;
+	}
+
+	/**
 	 * Get the domain defined for the route.
 	 * 
 	 * @return string|null
@@ -320,20 +346,6 @@ class Route
 	protected function runResolverController()
 	{
 		return $this->controllerDispatcher()->dispatch($this, $this->getController(), $this->getControllerMethod());
-	}
-
-	/**
-	 * Set the name.
-	 *
-	 * @param  string  $name
-	 *
-	 * @return string
-	 */
-	public function name($name)
-	{
-		$this->action['as'] = isset($this->action['as']) ? $this->action['as'].$name : $name;
-
-		return $this;
 	}
 
 	/**
@@ -458,6 +470,20 @@ class Route
 	}
 
 	/**
+	 * Set the name.
+	 *
+	 * @param  string  $name
+	 *
+	 * @return string
+	 */
+	public function name($name)
+	{
+		$this->action['as'] = isset($this->action['as']) ? $this->action['as'].$name : $name;
+
+		return $this;
+	}
+
+	/**
 	 * Set a default value for the route.
 	 * 
 	 * @param  string  $key
@@ -509,6 +535,31 @@ class Route
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Get all of the parameter names for the route.
+	 * 
+	 * @return array
+	 */
+	public function parameterNames()
+	{
+		if (isset($this->parameterNames))
+		{
+			return $this->parameterNames;
+		}
+
+		return $this->parameterNames = compileParamNames();
+	}
+
+	/**
+	 * Get the parameter names for the route.
+	 * 
+	 * @return array
+	 */
+	protected function compileParamNames()
+	{
+		preg_match_all('/\{(.*?)\}/', $this->domain().$this->uri, $matches);
 	}
 
 	/**
