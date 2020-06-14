@@ -61,17 +61,17 @@ trait RouteDependencyResolverTrait
      * Resolve the object method's with a type of dependencies.
      * 
      * @param  array  $parameters
-     * @param  \ReflectionFunctionAbstract  $reflector
+     * @param  \ReflectionFunctionAbstract  $reflection
      * 
      * @return array
      */
-    public function resolveMethodDependencies(array $parameters, ReflectionFunctionAbstract $reflector)
+    public function resolveMethodDependencies(array $parameters, ReflectionFunctionAbstract $reflection)
     {
         $count = 0;
 
         $values = array_values($parameters);
 
-        foreach ($reflector->getParameters() as $key => $parameter)
+        foreach ($reflection->getParameters() as $key => $parameter)
         {
             $instance = $this->transformGivenDependency($parameter, $parameters);
 
