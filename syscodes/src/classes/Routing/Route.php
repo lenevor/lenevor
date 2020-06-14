@@ -48,7 +48,7 @@ class Route
 	 *
 	 * @var \Closure|string|array $action
 	 */
-	protected $action;
+	public $action;
 
 	/**
 	 * The container instance used by the route.
@@ -62,49 +62,49 @@ class Route
 	 * 
 	 * @var string $controller
 	 */
-	protected $controller;
+	public $controller;
 
 	/**
 	 * The default values for the route.
 	 * 
 	 * @var array $defaults
 	 */
-	protected $defaults = [];
+	public $defaults = [];
 
 	/**
 	 * Variable of HTTP method.
 	 *  
 	 * @var array|string $method
 	 */
-	protected $method;
+	public $method;
 
 	/**
 	 * Namespace for the route.
 	 *
 	 * @var string $namespace
 	 */
-	protected $namespace;
+	public $namespace;
 
 	/**
 	 * The array of matched parameters.
 	 * 
 	 * @var array $parameters
 	 */
-	protected $parameters = [];
+	public $parameters = [];
 
 	/**
 	 * The parameter names for the route.
 	 * 
 	 * @var string|null $parameterNames
 	 */
-	protected $parameterNames;
+	public $parameterNames;
 
 	/**
 	* Patterns that should be replaced.
 	*
 	* @var array $patterns 
 	*/
-	protected $patterns = [
+	public $patterns = [
 		'~/~'                    =>  '\/',               // Slash
 		'~{an:[^\/{}]+}~'        => '([0-9a-zA-Z]++)',   // Placeholder accepts alphabetic and numeric chars
 		'~{n:[^\/{}]+}~'         => '([0-9]++)',         // Placeholder accepts only numeric
@@ -120,7 +120,7 @@ class Route
 	 *
 	 * @var array $uri
 	 */
-	protected $uri = [];
+	public $uri = [];
 
 	/**
 	 * Contains the arguments of the current route.
@@ -560,6 +560,10 @@ class Route
 	protected function compileParamNames()
 	{
 		preg_match_all('/\{(.*?)\}/', $this->domain().$this->uri, $matches);
+
+		return array_map(function ($match) {
+			return trim($match, '?');
+		}, $matches[1]);
 	}
 
 	/**
