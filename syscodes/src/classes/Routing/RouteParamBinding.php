@@ -25,58 +25,9 @@
 namespace Syscodes\Routing;
 
 /**
- * 
+ * This class 
  */
 class RouteParamBinding
 {
-    /**
-	 * Find the route matching a given request.
-	 * 
-	 * @param  \Syscodes\Contracts\Routing\Routable  $router 
-	 * @param  \Syscodes\Http\Request  $request
-	 * 
-	 * @return \Syscodes\Routing\Route
-	 */
-	protected function findRoute($router, $request)
-	{
-		$route = $router->routes->match($request);
-
-		return $this->sustituteBindings($route);
-	}
-	
-	/**
-	 * Substitute the route bindings onto the route.
-	 * 
-	 * @param  \Syscodes\Routing\Route  $route
-	 * 
-	 * @return \Syscodes\Routing\Route
-	 */
-	protected function sustituteBindings($route)
-	{
-		foreach ($route->parameters() as $key => $value)
-		{
-			if (isset($this->binders[$key]))
-			{
-				$route->setParameter($key, $this->performBinding($key, $value, $route));				
-			}
-		}
-
-		return $route;
-	}
-
-	/**
-	 * Call the binding callback for the given key.
-	 * 
-	 * @param  string  $key
-	 * @param  string  $value
-	 * @param  \Syscodes\Routing\Route  $route
-	 * 
-	 * @return mixed
-	 */
-	protected function performBinding($key, $value, $route)
-	{
-		$callback = $this->binders[$key];
-
-		return call_user_func($key, $value, $route);
-	}
+    
 }
