@@ -79,7 +79,7 @@ class RouteCollection implements Countable, IteratorAggregate
     {
         $this->addRouteCollections($route);
 
-        //$this->addAllList($route);
+        $this->addRouteAllList($route);
 
         return $route;
     }
@@ -102,6 +102,77 @@ class RouteCollection implements Countable, IteratorAggregate
 
         $this->allRoutes[$method.$domainAndRoute] = $route;
     }
+
+    /**
+     * Add the route to the lookup tables if necessary.
+     * 
+     * @param  \Syscodes\Routing\Route  $route
+     * 
+     * @return void
+     */
+    protected function addRouteAllList($route)
+    {
+        if ($name = $route->getName())
+        {
+            $this->nameList[$route] = $name;
+        }
+
+        $action = $route->getAction();
+
+        if (isset($action['controller']))
+        {
+            $this->AddToActionList($action, $route);
+        }
+    }
+
+    /**
+     * Add a route to the controller action dictionary.
+     * 
+     * @param  array  $action
+     * @param  \Sysodde\Routing\route  $route
+     * 
+     * @return void
+     */
+    protected function AddToActionList($action, $route)
+    {
+        $this->actionList[trim($action['controller'], '\\')] = $route;
+    }
+
+    /**
+     * Refresh the name lookup table.
+     * 
+     * @return void
+     */
+    public function refreshNameLookups()
+    {
+        $this->nameList = [];
+
+        foreach ($this->allRoutes as $route)
+        {
+            if ($route->getName())
+            {
+                $this->nameList[$route->getName()] = $route;
+            }
+        }
+    }
+
+    /**
+     * Refresh the action lookup table.
+     * 
+     * @return void
+     */
+    public function refreshActionLookups()
+    {
+        $this->actionList = [];
+
+        foreach ($this->allRoutes as $route)
+        {
+            if (isset($route->getAction()['controller']))
+            {
+                $this->AddToActionList($route->getAction(), $route);
+            }
+        }
+    }
     
     /**
      * Get all of the routes keyed by their HTTP verb / method.
@@ -117,8 +188,6 @@ class RouteCollection implements Countable, IteratorAggregate
      * Find the first route matching a given request.
      * 
      * @param  \Syscodes\Http\Request  $request
-     * 
-     * @return \Syscodes\Routing\Route
      * 
      * @throws \Syscodes\Core\Http\Exceptions\NotFoundHttpException
      */
