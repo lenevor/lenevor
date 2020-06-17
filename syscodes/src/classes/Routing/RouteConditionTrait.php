@@ -79,6 +79,18 @@ trait RouteConditionTrait
     }
 
     /**
+     * Alias to call the host name from a route.
+     * 
+     * @param  string  $host
+     * 
+     * @return $this
+     */
+    public function host(string $host)
+    {
+        return $this->setHost($host);
+    }
+
+    /**
      * Gets the port from a route.
      * 
      * @return void
@@ -103,6 +115,18 @@ trait RouteConditionTrait
     }
 
     /**
+     * Alias to call the port from a route.
+     * 
+     * @param  int  $port
+     * 
+     * @return $this
+     */
+    public function port(int $port)
+    {
+        return $this->setPort($port);
+    }
+
+    /**
      * Gets the scheme from a route.
      * 
      * @return void
@@ -124,5 +148,17 @@ trait RouteConditionTrait
         $this->scheme = $scheme;
 
         return $this;
+    }
+
+    /**
+     * Alias to call the scheme from a route.
+     * 
+     * @param  string  $scheme
+     * 
+     * @return $this
+     */
+    public function scheme(string $scheme)
+    {
+        return $this->setScheme($scheme);
     }
 }
