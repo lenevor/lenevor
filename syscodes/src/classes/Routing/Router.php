@@ -112,16 +112,6 @@ class Router implements Routable
 	}
 
 	/**
-	 * Get all routes.
-	 *
-	 * @return array   
-	 */
-	public function getAllRoutes()
-	{
-		return $this->routes;
-	}
-
-	/**
 	 * Get the prefix from the group on the stack.
 	 *
 	 * @return string
@@ -424,6 +414,16 @@ class Router implements Routable
 		{
 			$this->regex[$key] = $pattern;
 		}
+	}
+
+	/**
+	 * Get the route collection.
+	 *
+	 * @return array   
+	 */
+	public function getRoutes()
+	{
+		return $this->routes;
 	}
 
 	/**
