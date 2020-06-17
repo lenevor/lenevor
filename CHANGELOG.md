@@ -9,6 +9,7 @@ Release Date:
 ### Added
 - Added methods for insert and update
 - Added methods for process of select statement in the `Builder` class
+- Added alias methods for conditionals of route (host, port, scheme) in the `RouteConditionalTrait` trait
 
 
 ## [Version 0.6.0-alpha.6] 
