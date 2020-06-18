@@ -19,11 +19,12 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.2.0
+ * @since       0.2.1
  */
 
 namespace Syscodes\Routing;
 
+use Syscodes\Support\Arr;
 use Syscodes\Support\Str;
 use Syscodes\Http\Request;
 use InvalidArgumentException;
@@ -48,6 +49,13 @@ class UrlGenerator
      * @var string $forcedSchema
      */
     protected $forcedSchema;
+
+    /**
+     * The route collection.
+     * 
+     * @var \Syscodes\Routing\RouteCollection $routes
+     */
+    protected $routes;
      
     /**
      * The Request instance.
@@ -59,12 +67,15 @@ class UrlGenerator
     /**
      * Constructor. The UrlGenerator class instance.
      * 
+     * @param  \Syscodes\Routing\RouteCollection  $route
      * @param  \Syscodes\Http\Request  $request
      * 
      * @return void
      */
-    public function __construct(Request $request)
+    public function __construct(RouteCollection $route, Request $request)
     {
+        $this->routes = $route;
+
         $this->setRequest($request);
     }
 
@@ -128,7 +139,7 @@ class UrlGenerator
 
         $root = $this->getRootUrl($scheme);
 
-        return $this->trim($root, $path, $tail);
+        return $this->trimUrl($root, $path, $tail);
     }
 
     /**
@@ -223,6 +234,200 @@ class UrlGenerator
     }
 
     /**
+     * Get the URL to a named route.
+     * 
+     * @param  string  $name
+     * @param  array  $parameters
+     * @param  bool  $forced  (true by default)
+     * @param  \Syscodes\Routing\Route|null  $route  (null by default)
+     * 
+     * @return string
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public function route($name, array $parameters = [], $forced = true, $route = null)
+    {
+        if ( ! is_null($route = $route ?? $this->routes->getByName($name)))
+        {
+            return $this->toRoute($route, $parameters, $forced);
+        }
+
+        throw new InvalidArgumentException("Route [{$name}] not defined");
+    }
+
+    /**
+     * Get the URL for a given route instance.
+     * 
+     * @param  \Syscodes\Routing\Route  $route
+     * @param  mixed  $parameters
+     * @param  bool  $forced
+     * 
+     * @return string
+     */
+    protected function toRoute($route, $parameters, $forced)
+    {
+        $domain = $this->getRouteDomain($route);
+        $root   = $this->replaceRoot($route, $domain, $parameters);
+
+        $uri = $this->trimUrl($root, $this->replaceRouteParameters($route->getRoute(), $parameters));
+
+        return $forced ? $uri : '/' .ltrim(str_replace($root, '', $uri), '/');
+    }
+    
+    /**
+     * Get the URL to a controller action.
+     * 
+     * @param  string  $action
+     * @param  mixed  $parameters
+     * @param  bool  $forced  (true by default)
+     * 
+     * @return string
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public function action($action, $parameters = [], $forced = true)
+    {
+        return $this->route($action, $parameters, $forced, $this->routes->getByAction($action));
+    }
+    
+    /**
+     * Replace the parameters on the root path.
+     * 
+     * @param  \Syscodes\Routing\Route  $route
+     * @param  string  $domain
+     * @param  array  $parameters
+     * 
+     * @return string
+     */
+    protected function replaceRoot($route, $domain, &$parameters)
+    {
+        return $this->replaceRouteParameters($this->getRouteRoot($route, $domain), $parameters);
+    }
+    
+    /**
+     * Replace all of the wildcard parameters for a route path.
+     * 
+     * @param  string  $path
+     * @param  array  $parameters
+     * 
+     * @return string
+     */
+    protected function replaceRouteParameters($path, array &$parameters)
+    {
+        if (count($parameters) > 0)
+        {
+            $path = preg_replace_sub(
+                '/\{.*?\}/', $parameters, $this->replaceNamedParameters($path, $parameters)
+            );
+        }
+        
+        return trim(preg_replace('/\{.*?\?\}/', '', $path), '/');
+    }
+    
+    /**
+     * Replace all of the named parameters in the path.
+     * 
+     * @param  string  $path
+     * @param  array  $parameters
+     * 
+     * @return string
+     */
+    protected function replaceNamedParameters($path, &$parameters)
+    {
+        return preg_replace_callback('/\{(.*?)\??\}/', function ($match) use (&$parameters)
+        {
+            return isset($parameters[$match[1]]) ? Arr::pull($parameters, $match[1]) : $match[0];
+        }, $path);
+    }
+
+    /**
+     * Get the formatted domain for a given route.
+     * 
+     * @param  \Syscodes\Routing\Route  $route
+     * 
+     * @return string
+     */
+    protected function getRouteDomain($route)
+    {
+        return $route->domain() ? $this->formatDomain($route) : null;
+    }
+
+    /**
+     * Format the domain and port for the route and request.
+     * 
+     * @param  \Syscodes\Routing\Route  $route
+     * 
+     * @return string
+     */
+    protected function formatDomain($route)
+    {
+        return $this->addPortToDomain($this->getDomainAndScheme($route));
+    }
+
+    /**
+     * Add the port to the domain if necessary.
+     * 
+     * @param  string  $domain
+     * 
+     * @return string
+     */
+    protected function addPortToDomain($domain)
+    {
+        if (in_array($this->request->getPort(), [80, 443]))
+        {
+            return $domain;
+        }
+
+        return $domain.':'.$this->request->getPort();
+    }
+
+    /**
+     * Get the domain and scheme for the route.
+     * 
+     * @param  \Syscodes\Routing\Route  $route
+     * 
+     * @return string
+     */
+    protected function getDomainAndScheme($route)
+    {
+        return $this->getRouteScheme($route).$route->domain();
+    }
+
+    /**
+     * Get the root of the route URL.
+     * 
+     * @param  \Syscodes\Routing\Route  $route
+     * @param  string  $domain
+     * 
+     * @return string
+     */
+    protected function getRouteRoot($route, $domain)
+    {
+        return $this->getRootUrl($this->getRouteScheme($route), $domain);
+    }
+
+    /**
+     * Get the scheme for the given route.
+     * 
+     * @param  \Syscodes\Routing\Route  $route
+     * 
+     * @return string
+     */
+    protected function getRouteScheme($route)
+    {
+        if ($route->httpOnly)
+        {
+            return $this->getScheme(false);
+        }
+        elseif ($route->httpsOnly)
+        {
+            return $this->getScheme(true);
+        }
+
+        return $this->getScheme(null);
+    }
+
+    /**
      * Get the base URL for the request.
      * 
      * @param  string  $scheme
@@ -280,7 +485,7 @@ class UrlGenerator
      * 
      * @return string
      */
-    protected function trim($root, $path, $tail = '')
+    protected function trimUrl($root, $path, $tail = '')
     {
         return trim($root.'/'.trim($path.'/'.$tail, '/'), '/');
     }
