@@ -19,16 +19,19 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.7.0
+ * @since       0.7.1
  */
 
 namespace Syscodes\Routing;
 
 use Closure;
 use Syscodes\Support\Arr;
+use Syscodes\Http\Request;
+use Syscodes\Http\Response;
 use BadMethodCallException;
 use InvalidArgumentException;
 use Syscodes\Contracts\Routing\Routable;
+use Syscodes\Contracts\Container\Container;
 
 /**
  * The Router class allows the integration of an easy-to-use routing system.
@@ -45,6 +48,13 @@ class Router implements Routable
 	 * @var array $binders
 	 */
 	protected $binders = [];
+
+	/**
+	 * The container instance used by the router.
+	 * 
+	 * @var \Syscodes\Contracts\Container\Container $container
+	 */
+	protected $container;
 
 	/**
 	 * Variable of group route.
@@ -81,13 +91,6 @@ class Router implements Routable
 	 */
 	protected $regex = [];
 
-	/**
-	 * Default resolver.
-	 * 
-	 * @var string $resolver
-	 */
-	protected $resolver;
-
 	/** 
 	 * The route collection instance. 
 	 * 
@@ -96,17 +99,15 @@ class Router implements Routable
 	public $routes;
 
 	/**
-	 * Constructor initialize namespace.
+	 * Constructor. Create a new Router instance.
 	 *
-	 * @param  string|null  $namespace  (null by default)
-	 * @param  \Syscodes\Routing\RouteResolver  $resolver
+	 * @param  \Syscodes\Contracts\Container\Container  $container
 	 * 
 	 * @return void
 	 */
-	public function __construct($namespace = null, RouteResolver $resolver)
+	public function __construct(Container $container)
 	{
-		$this->resolver  = $resolver;
-		$this->namespace = $namespace;
+		$this->container = $container;
 
 		$this->routes = new RouteCollection();
 	}
@@ -440,15 +441,17 @@ class Router implements Routable
 	}
 
 	/**
-	 * Resolve the given url and call the method that belongs to the route.
+	 * Dispatches the given url and call the method that belongs to the route.
 	 *
 	 * @param  \Syscodes\Http\Request  $request
 	 *
-	 * @return array
+	 * @return mixed
 	 */
-	public function resolve($request)
+	public function dispatch(Request $request)
 	{
-		return $this->resolver->resolve($this, $request);
+		$resolver = $this->container->make(RouteResolver::class);
+
+		return $resolver->resolve($request, $this->routes);
 	}
 
 	/**
