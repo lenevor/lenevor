@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.4.0
+ * @since       0.4.2
  */
 
 namespace Syscodes\Routing;
@@ -42,7 +42,6 @@ class RoutingServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerRouter();
-        $this->registerRouteResolver();
         $this->registerRouteResponse();
         $this->registerUrlGenerator();
         $this->registerRedirector();
@@ -56,19 +55,7 @@ class RoutingServiceProvider extends ServiceProvider
     protected function registerRouter()
     {
         $this->app->singleton('router', function ($app) {
-            return new Router(null, $app['routeResolver']);
-        });
-    }
-
-    /**
-     * Register the route resolver service.
-     * 
-     * @return void
-     */
-    protected function registerRouteResolver()
-    {
-        $this->app->singleton('routeResolver', function () {
-            return new RouteResolver;
+            return new Router($app);
         });
     }
 
@@ -92,7 +79,9 @@ class RoutingServiceProvider extends ServiceProvider
     protected function registerUrlGenerator()
     {
         $this->app->singleton('url', function ($app) {
-            return new UrlGenerator($app['request']);
+            $routes = $app['router']->getRoutes();
+
+            return new UrlGenerator($routes, $app['request']);
         });
     }
 
