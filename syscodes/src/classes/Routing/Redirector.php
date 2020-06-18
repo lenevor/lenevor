@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.2.0
+ * @since       0.7.1
  */
 
 namespace Syscodes\Routing;
@@ -50,6 +50,18 @@ class Redirector
     public function __construct(UrlGenerator $generator)
     {
         $this->generator = $generator;
+    }
+
+    /**
+     * Create a new redirect response to the "home" route.
+     * 
+     * @param  int  $status  (302 by default)
+     * 
+     * @return \Syscodes\Http\RedirectResponse
+     */
+    public function home($status = 302)
+    {
+        return $this->to($this->generator->route('home'), $status);
     }
 
     /**
@@ -120,6 +132,40 @@ class Redirector
     public function secure($path, $status = 302, $headers = [])
     {
         return $this->to($path, $status, $headers, true);
+    }
+
+    /**
+     * Create a new redirect response to a named route.
+     * 
+     * @param  string  $route
+     * @param  array  $parameters
+     * @param  int  $status  (302 by default)
+     * @param  array  $headers
+     * 
+     * @return \Syscodes\Http\RedirectResponse
+     */
+    public function route($route, $parameters = [], $status = 302, $headers = [])
+    {
+        $path = $this->generator->route($route, $parameters);
+
+        return $this->to($path, $status, $headers);
+    }
+
+    /**
+     * Create a new redirect response to a controller action.
+     * 
+     * @param  string|array  $route
+     * @param  array  $parameters
+     * @param  int  $status  (302 by default)
+     * @param  array  $headers
+     * 
+     * @return \Syscodes\Http\RedirectResponse
+     */
+    public function action($route, $parameters = [], $status = 302, $headers = [])
+    {
+        $path = $this->generator->action($route, $parameters);
+
+        return $this->to($path, $status, $headers);
     }
 
     /**
