@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.5.0
+ * @since       0.5.2
  */
 
 namespace Syscodes\Core\Http;
@@ -28,9 +28,8 @@ use Closure;
 use Exception;
 use Throwable;
 use Syscodes\Http\Http; 
-use Syscodes\Support\Facades\Route;
+use Syscodes\Routing\Router;
 use Syscodes\Support\Facades\Facade;
-use Syscodes\Support\Facades\Response;
 use Syscodes\Contracts\Core\Application;
 use Syscodes\Contracts\Debug\ExceptionHandler;
 use Syscodes\Contracts\Core\Lenevor as LenevorContract;
@@ -69,13 +68,13 @@ class Lenevor implements LenevorContract
 	 * @var bool $isCli
 	 */
 	protected $isCli = false;
-	
+
 	/**
-	 * Verify if response is activate.
+	 * The router instance.
 	 * 
-	 * @var bool $response
+	 * @var \Syscodes\Routing\Router $router
 	 */
-	protected $response = false;
+	protected $router;
 
 	/**
 	 * Total app execution time.
@@ -91,9 +90,10 @@ class Lenevor implements LenevorContract
 	 * 
 	 * @return void
 	 */
-	public function __construct(Application $app)
+	public function __construct(Application $app, Router $router)
 	{
-		$this->app = $app;
+		$this->app    = $app;
+		$this->router = $router;
 	}
 
 	/**
@@ -172,7 +172,7 @@ class Lenevor implements LenevorContract
 	 * 
 	 * @param  \Syscodes\http\Request  $request
 	 *
-	 * @return \Syscodes\Support\Facades\Response
+	 * @return \Syscodes\Http\Response
 	 */
 	public function handle($request)
 	{
@@ -201,7 +201,7 @@ class Lenevor implements LenevorContract
 	 * 
 	 * @param  \Syscodes\Http\Request  $request
 	 * 
-	 * @return \Syscodes\Support\Facades\Response
+	 * @return \Syscodes\Http\Response
 	 */
 	protected function sendRequestThroughRouter($request)
 	{
@@ -218,21 +218,17 @@ class Lenevor implements LenevorContract
 		// Load configuration system
 		$this->bootstrap();
 
-		return Response::make()->setContent($this->dispatcher($request));
+		return $this->dispatchToRouter($request);
 	}
 
 	/**
-	 * The dispatcher of routes.
-	 * 
-	 * @param  \Syscodes\Http\Request  $request
+	 * Get the dispatcher of routes.
 	 * 	  
  	 * @return void
  	 */
-	protected function dispatcher($request)
+	protected function dispatchToRouter($request)
 	{
-		$this->app->instance('request', $request);
-
-		return Route::resolve($request);
+		return $this->router->dispatch($request);
 	}
 
 	/**
