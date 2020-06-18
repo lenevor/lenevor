@@ -31,7 +31,7 @@ use IteratorAggregate;
 use Syscodes\Support\Arr;
 use Syscodes\Http\Request;
 use BadMethodCallException;
-use Syscodes\Core\Http\Exceptions\NotFoundHttpException;
+use Syscodes\Routing\Exceptions\RouteNotFoundException;
 
 /**
  * Adds a collection to the arrays of routes.
@@ -114,7 +114,7 @@ class RouteCollection implements Countable, IteratorAggregate
     {
         if ($name = $route->getName())
         {
-            $this->nameList[$route] = $name;
+            $this->nameList[$name] = $route;
         }
 
         $action = $route->getAction();
@@ -189,7 +189,7 @@ class RouteCollection implements Countable, IteratorAggregate
      * 
      * @param  \Syscodes\Http\Request  $request
      * 
-     * @throws \Syscodes\Core\Http\Exceptions\NotFoundHttpException
+     * @throws \Syscodes\Routing\Exceptions\RouteNotFoundException;
      */
     public function match(Request $request)
     {
@@ -200,7 +200,7 @@ class RouteCollection implements Countable, IteratorAggregate
             return $routes;
         }
 
-        throw new NotFoundHttpException;
+        throw new RouteNotFoundException;;
     }
     
     /**
@@ -213,6 +213,42 @@ class RouteCollection implements Countable, IteratorAggregate
     public function get($method = null)
     {
         return is_null($method) ? $this->getRoutes() : Arr::get($this->routes, $method, []);
+    }
+
+    /**
+     * Determine if the route collection contains a given named route.
+     * 
+     * @param  string  $name
+     * 
+     * @return bool
+     */
+    public function hasNamedRoute(string $name)
+    {
+        return ! is_null($this->getByName($name));
+    }
+
+    /**
+     * Get a route instance by its name.
+     * 
+     * @param  string  $name
+     * 
+     * @return \Syscodes\Routing\Route|null
+     */
+    public function getByName(string $name)
+    {
+        return $this->nameList[$name] ?? null;
+    }
+
+    /**
+     * Get a route instance by its controller action.
+     * 
+     * @param  string  $name
+     * 
+     * @return \Syscodes\Routing\Route|null
+     */
+    public function getByAction(string $name)
+    {
+        return $this->actionList[$name] ?? null;
     }
 
     /**
