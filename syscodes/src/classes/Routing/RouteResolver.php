@@ -19,13 +19,16 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.7.0
+ * @since       0.7.1
  */
 
 namespace Syscodes\Routing;
 
 use Closure;
+use JsonSerializable;
+use Syscodes\Http\Response;
 use Syscodes\Contracts\Routing\Routable;
+use Syscodes\Contracts\container\Container;
 use Syscodes\Routing\Exceptions\RouteNotFoundException;
 
 /**
@@ -35,21 +38,106 @@ use Syscodes\Routing\Exceptions\RouteNotFoundException;
  */
 class RouteResolver
 {
-	
+	/**
+	 * The container instance.
+	 * 
+	 * @var \Syscodes\Contracts\Container\Container $container
+	 */
+	protected $container;
+
+	/**
+	 * Constructor. Create a new RouteResolver instance.
+	 * 
+	 * @param  \Syscodes\Contracts\Container\Container  $container
+	 * 
+	 * @return void
+	 */
+	public function __construct(Container $container)
+	{
+		$this->container = $container;
+	}
+
 	/**
 	 * Resolve the given route and call the method that belongs to the route.
 	 *
-	 * @param  \Syscodes\Contracts\Routing\Routable  $router 
 	 * @param  \Syscodes\Http\Request  $request
+	 * @param  \Syscodes\Routing\RouteCollection  $routes 
 	 *
-	 * @return mixed
+	 * @return \Syscodes\Http\Response
+	 */
+	public function resolve($request, Routecollection $routes)
+	{
+		return $this->dispatchToRoute($request, $routes);
+	}
+
+	/**
+	 * Dispatch the request to a route and return the response.
+	 * 
+	 * @param  \Syscodes\Http\Request  $request
+	 * @param  \Syscodes\Routing\RouteCollection  $routes 
 	 *
+	 * @return \Syscodes\Http\Response
+	 */
+	protected function dispatchToRoute($request, $routes)
+	{
+		return $this->runRoute($request, 
+			$this->findRoute($request, $routes)
+		);
+	}
+
+	/**
+	 * Return the response for the given route.
+	 * 
+	 * @param  \Syscodes\Http\Request  $request
+	 * @param  \Syscodes\Routing\Route  $route
+	 * 
+	 * @return \Syscodes\Http\Response 
+	 */
+	protected function runRoute($request, $route)
+	{
+		$this->container->instance(Route::class, $route);
+		
+		return $this->callResponse($request, $route->runResolver());
+	}
+
+	/**
+	 * Create a response instance from the given value.
+	 * 
+	 * @param  \Syscodes\Http\Request  $request
+	 * @param  mixed  $response
+	 * 
+	 * @return \Syscodes\Http\Response
+	 */
+	protected function callResponse($request, $response)
+	{
+		if ( ! $response instanceof Response && 
+		      ($response instanceof Jsonserializable || 
+			   is_array($response)))
+		{
+			$response = new JsonResponse($response);
+		}
+		elseif ( ! $response instanceof Response)
+		{
+			$response = new Response($response, 200, ['Content-Type' => 'text/html']);
+		}
+
+		return $response->prepare($request);
+	}
+
+	/**
+	 * Find the route matching a given request.
+	 * 
+	 * @param  \Syscodes\Http\Request  $request
+	 * @param  \Syscodes\Routing\RouteCollection  $routes
+	 * 
+	 * @return \Syscodes\Routing\Route 
+	 * 
 	 * @throws \Syscodes\Routing\Exceptions\RouteNotFoundException
 	 */
-	public function resolve(Routable $router, $request)
+	protected function findRoute($request, $routes)
 	{
 		// Get all register routes with the same request method
-		$routes = $router->routes->match($request);
+		$routes = $routes->match($request);
 		
 		// Remove trailing and leading slash
 		$requestedUri = trim(preg_replace('/\?.*/', '', $request->getUri()), '/');
@@ -82,9 +170,9 @@ class RouteResolver
 			}
 			
 			// If the requested route one of the defined routes
-			if ($route->getRoute() === $request->getUri() || preg_match('~^'.$route->getRoute().'$~', $requestedUri)) 
+			if ($route->getRoute() === $requestedUri || preg_match('~^'.$route->getRoute().'$~', $requestedUri)) 
 			{	
-				return $route->runResolver();
+				return $route;
 			}
 		}
 
