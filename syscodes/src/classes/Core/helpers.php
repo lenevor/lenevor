@@ -468,6 +468,24 @@ if ( ! function_exists('resourcePath'))
     }
 }
 
+if ( ! function_exists('route'))
+{
+    /**
+     * Get the URL to a named route.
+     * 
+     * @param  string  $name
+     * @param  array  $parameters
+     * @param  bool  $forced  (true by default)
+     * @param  \Syscodes\Routing\Route|null  $route  (null by default)
+     * 
+     * @return string
+     */
+    function route($name, $parameters = [], $forced = true, $route = null)
+    {
+        return app('url')->route($name, $parameters, $forced, $route);
+    }
+}
+
 if ( ! function_exists('secureAsset'))
 {
     /**
