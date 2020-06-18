@@ -143,7 +143,7 @@ class Response extends Status
 			header(sprintf('%s %s %s', $this->protocol, $this->status, $this->statusText), true, $this->status);
 		}
 
-		return $this->prepare();
+		return $this;
 	}
 
 	/**
@@ -209,9 +209,11 @@ class Response extends Status
 	/**
 	 * Prepares the Response before it is sent to the client.
 	 * 
+	 * @param  \Syscodes\Http\Request  $request
+	 * 
 	 * @return $this
 	 */
-	public function prepare()
+	public function prepare($request)
 	{
 		$headers = $this->headers;
 
