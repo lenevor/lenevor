@@ -101,15 +101,15 @@ class Router implements Routable
 	/**
 	 * Constructor. Create a new Router instance.
 	 *
-	 * @param  \Syscodes\Contracts\Container\Container  $container
+	 * @param  \Syscodes\Contracts\Container\Container|null  $container  (null by default)
 	 * 
 	 * @return void
 	 */
-	public function __construct(Container $container)
+	public function __construct(Container $container = null)
 	{
-		$this->container = $container;
-
 		$this->routes = new RouteCollection();
+
+		$this->container = $container ?: new Container;
 	}
 
 	/**
