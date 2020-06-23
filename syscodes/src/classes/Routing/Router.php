@@ -96,7 +96,14 @@ class Router implements Routable
 	 * 
 	 * @var \Syscodes\Routing\RouteCollection $routes
 	 */
-	public $routes;
+	protected $routes;
+
+	/**
+	 * The Resource instance.
+	 * 
+	 * @var \Syscodes\Routing\RouteResource $resources
+	 */
+	protected $resources;
 
 	/**
 	 * Constructor. Create a new Router instance.
@@ -428,6 +435,21 @@ class Router implements Routable
 	}
 
 	/**
+	 * Get a Resource instance.
+	 * 
+	 * @return \Syscodes\Routing\RouteResource
+	 */
+	public function getResource()
+	{
+		if (isset($this->resources))
+		{
+			return $this->resources;
+		}
+
+		return $this->resources = new RouteResource($this);
+	}
+
+	/**
 	 * Called the namespace and controller.
 	 *
 	 * @param  string  $route
@@ -456,7 +478,7 @@ class Router implements Routable
 
 	/**
 	 * 
-	 *
+	 * 
 	 * @param   
 	 */
 	public static function resources() 
