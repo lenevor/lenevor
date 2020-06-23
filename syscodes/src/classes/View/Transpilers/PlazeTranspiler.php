@@ -128,12 +128,12 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
         {
             $result .= is_array($token) ? $this->parseToken($token) : $token;
         }
-
+        
         if (count($this->footer) > 0)
         {
             $result = ltrim($result, PHP_EOL).PHP_EOL.implode(PHP_EOL, array_reverse($this->footer));
         }
-
+        
         return $result;
     }
     
