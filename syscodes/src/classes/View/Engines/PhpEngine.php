@@ -58,11 +58,11 @@ class PhpEngine implements Engine
      * @return string
      */
     protected function evaluatePath($__path, $__data)
-    {        
+    {
         $obLevel = ob_get_level();
-
+        
         ob_start();
-
+        
         extract($__data, EXTR_SKIP);
 
         try
