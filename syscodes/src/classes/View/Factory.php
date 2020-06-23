@@ -138,10 +138,10 @@ class Factory implements FactoryContract
 	 */
 	public function make($view, $data = []) 
 	{
-		$view = $this->finder->find($view);
+		$path = $this->finder->find($view);
 		
 		// Loader class instance.
-		return take($this->viewInstance($view, $data), function ($view) {
+		return take($this->viewInstance($view, $path, $data), function ($view) {
 			$this->callCreator($view);
 		});
 	}
@@ -150,13 +150,14 @@ class Factory implements FactoryContract
 	 * Create a new view instance from the given arguments.
 	 * 
 	 * @param  string  $file  View filename
+	 * * @param  string  $path  Path filename
 	 * @param  array  $data  Array of values
 	 * 
 	 * @return \Syscodes\Contracts\View\View
 	 */
-	protected function viewInstance($view, $data)
+	protected function viewInstance($view, $path, $data)
 	{
-		return new View($this, $this->getEngineFromPath($view), $view, $data);
+		return new View($this, $this->getEngineFromPath($path), $view, $path, $data);
 	}
 	
 	/**
