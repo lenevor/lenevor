@@ -650,7 +650,7 @@ if ( ! function_exists('view'))
      * @param  string|null  $file  View filename
      * @param  array  $data  Array of values
      * 
-     * @return void
+     * @return \Syscodes\View\View|\Syscodes\Contracts\View\Factory
      */
     function view($file = null, $data = [])
     {
