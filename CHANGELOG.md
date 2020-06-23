@@ -10,6 +10,9 @@ Release Date:
 - Added methods for insert and update
 - Added methods for process of select statement in the `Builder` class
 - Added alias methods for conditionals of route (host, port, scheme) in the `RouteConditionalTrait` trait
+- Added the `Renderable` interface in the` RouteResolver` class to automatically trigger the render() method
+- Generate a Resource instance in `Router` class
+- Added function for mapped of arrays in the `RouteMapTrait` trait
 
 
 ## [Version 0.6.0-alpha.6] 
