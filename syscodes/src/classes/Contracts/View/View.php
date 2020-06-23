@@ -19,17 +19,19 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.7.1
  */
 
 namespace Syscodes\Contracts\View;
+
+use Syscodes\Contracts\Support\Renderable;
 
 /**
  * Returns the data by reference to have values imposed by the user.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-interface View
+interface View extends Renderable
 {
 	/**
 	 * Add a piece of data to the view.
