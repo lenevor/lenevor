@@ -24,7 +24,6 @@
 
 namespace Syscodes\View;
 
-use Exception;
 use Throwable;
 use ArrayAccess;
 use Traversable;
@@ -32,6 +31,8 @@ use Syscodes\Support\Str;
 use BadMethodCallException;
 use InvalidArgumentException;
 use Syscodes\Contracts\View\Engine;
+use Syscodes\Contracts\Support\Webable;
+use Syscodes\Contracts\Support\Renderable;
 use Syscodes\Contracts\View\View as ViewContract;
 
 /**
@@ -39,7 +40,7 @@ use Syscodes\Contracts\View\View as ViewContract;
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class View implements ArrayAccess, ViewContract
+class View implements ArrayAccess, Webable, ViewContract
 {
 	/**
 	 * Array of local variables.
@@ -63,7 +64,14 @@ class View implements ArrayAccess, ViewContract
 	protected $factory;
 
 	/**
-	 * Get the view.
+	 * The path to the view file.
+	 * 
+	 * @var string $path
+	 */
+	protected $path;
+
+	/**
+	 * Get the name of the view.
 	 *
 	 * @var string $view
 	 */
@@ -75,17 +83,19 @@ class View implements ArrayAccess, ViewContract
 	 * @param  \Syscodes\View\factory  $factory
 	 * @param  \Syscodes\Contracts\View\Engine  $engine
 	 * @param  string  $view
+	 * @param  string  $path
 	 * @param  array  $data
 	 *
 	 * @return void
 	 *
 	 * @throws \InvalidArgumentException
 	 */
-	public function __construct(Factory $factory, Engine $engine, $view, $data = [])
+	public function __construct(Factory $factory, Engine $engine, $view, $path, $data = [])
 	{
 		$this->factory = $factory;
 		$this->engine  = $engine;
 		$this->view    = $view;
+		$this->path    = $path;
 		$this->data    = (array) $data;
 	}
 
@@ -110,13 +120,7 @@ class View implements ArrayAccess, ViewContract
 
 			$this->factory->flushStateIfDoneRendering();
 
-			return $response ?: $contents;
-		}
-		catch(Exception $e)
-		{
-			$this->factory->flushState();
-
-			throw $e;
+			return ! is_null($response) ? $response : $contents;
 		}
 		catch(Throwable $e)
 		{
@@ -149,7 +153,7 @@ class View implements ArrayAccess, ViewContract
 	 */
 	protected function getContents()
 	{
-		return $this->engine->get($this->view, $this->getArrayData());
+		return $this->engine->get($this->path, $this->getArrayData());
 	}
 
 	/**
@@ -160,9 +164,9 @@ class View implements ArrayAccess, ViewContract
 	public function getArrayData()
 	{
 		$data = array_merge($this->factory->getShared(), $this->data);
-
+		
 		return array_map(function ($value) {
-			return $value;
+			return ($value instanceof Renderable) ? $value->render() : $value;
 		}, $data);
 	}
 
@@ -186,7 +190,7 @@ class View implements ArrayAccess, ViewContract
 	 * @example $view->assign($content, $data);
 	 *
 	 * @param  string|array  $key
-	 * @param  mixed         $value
+	 * @param  mixed  $value  (null by default)
 	 *
 	 * @return $this
 	 */
@@ -198,7 +202,7 @@ class View implements ArrayAccess, ViewContract
 		} 
 		else 
 		{
-			$this->data[$key] = $value;
+			$this->data = [$key => $value];
 		}
 
 		return $this;
@@ -211,8 +215,8 @@ class View implements ArrayAccess, ViewContract
 	 *     
 	 * @example $view->bind('ref', $bar);
 	 *
-	 * @param  string  $key    Variable name
-	 * @param  mixed   $value  Referenced variable
+	 * @param  string  $key  Variable name
+	 * @param  mixed  $value  Referenced variable
 	 *
 	 * @return $this
 	 */
@@ -241,6 +245,28 @@ class View implements ArrayAccess, ViewContract
 	public function getView()
 	{
 		return $this->view;
+	}
+
+	/**
+	 * Get the path to the view file.
+	 * 
+	 * @return string
+	 */
+	public function getPath()
+	{
+		return $this->path;
+	}
+
+	/**
+	 * Set the path to the view file.
+	 * 
+	 * @param  string  $path
+	 * 
+	 * @return void
+	 */
+	public function setPath($path)
+	{
+		$this->path = $path;
 	}
 
 	/**
@@ -465,12 +491,22 @@ class View implements ArrayAccess, ViewContract
 		{
 			$name = Str::camelcase(substr($method, 4));
 
-			return $this->assign($name, array_shift($parameters));
+			return $this->assign($name, $parameters[0]);
 		}
 
 		throw new BadMethodCallException(sprintf(
 			'Method %s::%s does not exist.', static::class, $method)
 		);
+	}
+
+	/**
+	 * Get content as a string of HTML.
+	 * 
+	 * @return string
+	 */
+	public function toHtml()
+	{
+		return $this->render();
 	}
 
 	/**
