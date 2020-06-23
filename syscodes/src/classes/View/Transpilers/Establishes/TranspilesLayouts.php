@@ -24,7 +24,7 @@
 
 namespace Syscodes\View\Transpilers\Establishes;
 
-use Syscodes\Contracts\View\Parser as ViewParser;
+use Syscodes\View\Factory as ViewFactory;
 
 /**
  * Trait TranspilesLayouts.
@@ -82,7 +82,7 @@ trait TranspilesLayouts
      */
     protected function transpileParent()
     {
-        return ViewParser::parent();
+        return ViewFactory::parent();
     }
 
     /**
