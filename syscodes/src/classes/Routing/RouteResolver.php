@@ -27,7 +27,9 @@ namespace Syscodes\Routing;
 use Closure;
 use JsonSerializable;
 use Syscodes\Http\Response;
+use Syscodes\Http\JsonResponse;
 use Syscodes\Contracts\Routing\Routable;
+use Syscodes\Contracts\Support\Renderable;
 use Syscodes\Contracts\Container\Container;
 use Syscodes\Routing\Exceptions\RouteNotFoundException;
 
@@ -118,6 +120,11 @@ class RouteResolver
 		}
 		elseif ( ! $response instanceof Response)
 		{
+			if ($response instanceof Renderable)
+			{
+				$response = $response->render();
+			}
+
 			$response = new Response($response, 200, ['Content-Type' => 'text/html']);
 		}
 
