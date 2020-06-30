@@ -193,14 +193,9 @@ class RouteCollection implements Countable, IteratorAggregate
      */
     public function match(Request $request)
     {
-        $routes = $this->get($request->method());
+        $route = $this->get($request->method());
 
-        if ( ! is_null($routes))
-        {
-            return $routes;
-        }
-
-        throw new RouteNotFoundException;;
+        return $route;
     }
     
     /**
