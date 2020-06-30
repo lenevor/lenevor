@@ -520,6 +520,7 @@ class Router implements Routable
 	
 	/**
 	 * Checks if macro is registered.
+	 * 
 	 * @param  string  $name
 	 * 
 	 * @return boolean
