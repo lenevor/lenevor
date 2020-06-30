@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.7.0
+ * @since       0.7.1
  */
 
 namespace Syscodes\Routing;
@@ -29,6 +29,7 @@ use LogicException;
 use ReflectionFunction;
 use Syscodes\Support\Arr;
 use Syscodes\Support\Str;
+use Syscodes\Http\Request;
 use InvalidArgumentException;
 use Syscodes\Container\Container;
 use Syscodes\Controller\ControllerDispatcher;
@@ -251,7 +252,7 @@ class Route
 			return $this->getDomain();
 		}
 
-		$this->action['domain'] = $domain;
+		$this->action['domain'] = $this->parseRoute($domain);
 
 		return $this;
 	}
@@ -465,6 +466,11 @@ class Route
 	public function setAction(array $action)
 	{
 		$this->action = $action;
+
+		if (isset($this->action['domain']))
+		{
+			$this->domain($this->action['domain']);
+		}
 		
 		return $this;
 	}
@@ -494,6 +500,20 @@ class Route
 	public function defaults($key, $value)
 	{
 		$this->defaults[$key] = $value;
+
+		return $this;
+	}
+
+	/**
+	 * Set a default values for the route.
+	 * 
+	 * @param  string  $defaults
+	 * 
+	 * @return $this
+	 */
+	public function setDefaults(array $defaults)
+	{
+		$this->defaults = $defaults;
 
 		return $this;
 	}
@@ -546,7 +566,7 @@ class Route
 	 */
 	public function bind(Request $request)
 	{
-		$this->parameters = (new RouteParamBinding)->parameters();
+		$this->parameters = (new RouteParamBinding($this))->parameters($request);
 
 		return $this;
 	}
@@ -563,7 +583,7 @@ class Route
 			return $this->parameterNames;
 		}
 
-		return $this->parameterNames = compileParamNames();
+		return $this->parameterNames = $this->compileParamNames();
 	}
 
 	/**
@@ -573,11 +593,11 @@ class Route
 	 */
 	protected function compileParamNames()
 	{
-		preg_match_all('/\{(.*?)\}/', $this->domain().$this->uri, $matches);
+		preg_match_all('~[^\/\{(.*?)\}]~', $this->domain().$this->uri, $matches);
 
 		return array_map(function ($match) {
 			return trim($match, '?');
-		}, $matches[1]);
+		}, $matches[0]);
 	}
 
 	/**
