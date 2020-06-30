@@ -19,15 +19,112 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.7.0
+ * @since       0.7.1
  */
 
 namespace Syscodes\Routing;
 
+use Syscodes\Support\Arr;
+
 /**
- * This class 
+ * Allows the parameter matches for the path portion of the URI.
+ * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class RouteParamBinding
 {
+    /**
+     * The route instance.
+     * 
+     * @var \Syscodes\Routing\Route $route
+     */
+    protected $route;
+
+    /**
+     * Constructor. Create a new Route parameter binder instance.
+     * 
+     * @param  \Syscodes\Routing\Route  $route
+     * 
+     * @return void
+     */
+    public function __construct($route)
+    {
+        $this->route = $route;
+    }
+
+    /**
+     * Get the parameter for the route.
+     * 
+     * @param  \Syscodes\Http\Request  $request
+     * 
+     * @return array
+     */
+    public function parameters($request)
+    {
+        $parameters = $this->bindParameters($request);
+
+        return $this->replaceDefaults($parameters);
+    }
+
+    /**
+     * Get the parameter matches for the path portion of the URI.
+     * 
+     * @param  \Syscodes\Http\Request  $request
+     * 
+     * @return array
+     */
+    protected function bindParameters($request)
+    {
+        $path = ltrim($request->uri, '/');
+
+        preg_match('~^'.$this->route->getRoute().'$~', $path, $matches);
+        
+        return $this->matchToKeys(array_slice($matches, 1));
+    }
     
+    /**
+     * Combine a set of parameter matches with the route's keys.
+     * 
+     * @param  array  $matches
+     * 
+     * @return array
+     */
+    protected function matchToKeys(array $matches)
+    {
+        if (empty($parameterNames = $this->route->parameterNames()))
+        {
+            return [];
+        }
+
+        $parameters = array_intersect_key($matches, array_values($parameterNames));
+        
+        return array_filter($parameters, function ($value) {
+            return (is_string($value) && strlen($value) > 0);
+        });
+    }
+    
+    /**
+     * Replace null parameters with their defaults.
+     * 
+     * @param  array  $parameters
+     * 
+     * @return array
+     */
+    protected function replaceDefaults(array $parameters)
+    {
+        foreach ($parameters as $key => $value)
+        {
+            $parameters[$key] = $value ?? Arr::get($this->route->defaults, $key);
+        }
+        
+        foreach ($this->route->defaults as $key => $value)
+        {
+            if ( ! isset($parameters[$key]))
+            {
+                $parameters[$key] = $value;
+            }
+        }
+        
+        return $parameters;
+    }
 }
