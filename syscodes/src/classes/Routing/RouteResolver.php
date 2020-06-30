@@ -145,7 +145,7 @@ class RouteResolver
 	{
 		// Get all register routes with the same request method
 		$routes = $routes->match($request);
-		
+
 		// Remove trailing and leading slash
 		$requestedUri = trim(preg_replace('/\?.*/', '', $request->getUri()), '/');
 
@@ -179,7 +179,7 @@ class RouteResolver
 			// If the requested route one of the defined routes
 			if ($route->getRoute() === $requestedUri || preg_match('~^'.$route->getRoute().'$~', $requestedUri)) 
 			{	
-				return $route;
+				return $route->bind($request);
 			}
 		}
 
