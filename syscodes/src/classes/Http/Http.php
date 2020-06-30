@@ -355,7 +355,7 @@ class Http
 		{
 			return '/';
 		}
-
+		
 		return (string) $pathInfo;
 	}
 }
