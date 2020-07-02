@@ -329,7 +329,6 @@ class Router implements Routable
 	public function newRoute($method, $uri, $action)
 	{
 		return take(new Route($method, $uri, $action))
-		            ->parseArgs($uri)
 		            ->setNamespace($this->namespace);
 	}
 	
@@ -474,6 +473,20 @@ class Router implements Routable
 		$resolver = $this->container->make(RouteResolver::class);
 
 		return $resolver->resolve($request, $this->routes);
+	}
+
+	/**
+	 * Determine if the current route matches a pattern.
+	 * 
+	 * @param  mixed  ...$patterns
+	 * 
+	 * @return bool
+	 */
+	public function is(...$patterns)
+	{
+		$resolver = $this->container->make(RouteResolver::class);
+
+		return $resolver->currentRouteNamed(...$patterns);
 	}
 
 	/**
