@@ -48,6 +48,13 @@ class RouteResolver
 	protected $container;
 
 	/**
+	 * The currently dispatched route instance.
+	 * 
+	 * @var \Syscodes\Routing\Route|null
+	 */
+	protected $current;
+
+	/**
 	 * Constructor. Create a new RouteResolver instance.
 	 * 
 	 * @param  \Syscodes\Contracts\Container\Container  $container
@@ -63,27 +70,27 @@ class RouteResolver
 	 * Resolve the given route and call the method that belongs to the route.
 	 *
 	 * @param  \Syscodes\Http\Request  $request
-	 * @param  \Syscodes\Routing\RouteCollection  $routes 
+	 * @param  \Syscodes\Routing\RouteCollection  $route 
 	 *
 	 * @return \Syscodes\Http\Response
 	 */
-	public function resolve($request, Routecollection $routes)
+	public function resolve($request, Routecollection $route)
 	{
-		return $this->dispatchToRoute($request, $routes);
+		return $this->dispatchToRoute($request, $route);
 	}
 
 	/**
 	 * Dispatch the request to a route and return the response.
 	 * 
 	 * @param  \Syscodes\Http\Request  $request
-	 * @param  \Syscodes\Routing\RouteCollection  $routes 
+	 * @param  \Syscodes\Routing\RouteCollection  $route 
 	 *
 	 * @return \Syscodes\Http\Response
 	 */
-	protected function dispatchToRoute($request, $routes)
+	protected function dispatchToRoute($request, $route)
 	{
 		return $this->runRoute($request, 
-			$this->findRoute($request, $routes)
+			$this->findRoute($request, $route)
 		);
 	}
 
@@ -96,9 +103,7 @@ class RouteResolver
 	 * @return \Syscodes\Http\Response 
 	 */
 	protected function runRoute($request, $route)
-	{
-		$this->container->instance(Route::class, $route);
-		
+	{		
 		return $this->callResponse($request, $route->runResolver());
 	}
 
@@ -135,19 +140,21 @@ class RouteResolver
 	 * Find the route matching a given request.
 	 * 
 	 * @param  \Syscodes\Http\Request  $request
-	 * @param  \Syscodes\Routing\RouteCollection  $routes
+	 * @param  \Syscodes\Routing\RouteCollection  $route
 	 * 
 	 * @return \Syscodes\Routing\Route 
 	 * 
 	 * @throws \Syscodes\Routing\Exceptions\RouteNotFoundException
 	 */
-	protected function findRoute($request, $routes)
+	protected function findRoute($request, $route)
 	{
 		// Get all register routes with the same request method
-		$routes = $routes->match($request);
+		$routes = $route->match($request);
+		
+		$this->container->instance(Route::class, $routes);
 
 		// Remove trailing and leading slash
-		$requestedUri = trim(preg_replace('/\?.*/', '', $request->getUri()), '/');
+		$requestedUri = $request->url();
 
 		// Loop trough the posible routes
 		foreach ($routes as $route) 
@@ -179,10 +186,34 @@ class RouteResolver
 			// If the requested route one of the defined routes
 			if ($route->getRoute() === $requestedUri || preg_match('~^'.$route->getRoute().'$~', $requestedUri)) 
 			{	
-				return $route->bind($request);
+				$this->current = $route;
+
+				return $this->current()->bind($request);
 			}
 		}
 
 		throw new RouteNotFoundException;
+	}
+
+	/**
+	 * Get the currently dispatched route instance.
+	 * 
+	 * @return \Syscodes\Routing\Route|null
+	 */
+	public function current()
+	{
+		return $this->current;
+	}
+
+	/**
+	 * Determine if the current route matches a pattern.
+	 * 
+	 * @param  mixed  ...$patterns
+	 * 
+	 * @return bool
+	 */
+	public function currentRouteNamed(...$patterns)
+	{
+		return $this->current() && $this->current()->named(...$patterns);
 	}
 }
