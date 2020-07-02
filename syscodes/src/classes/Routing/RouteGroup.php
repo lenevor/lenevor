@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.5.0
+ * @since       0.5.1
  */
 
 namespace Syscodes\Routing;
@@ -48,14 +48,11 @@ class RouteGroup
 			unset($old['domain']);
 		}
 
-		$new['namespace'] = static::formatUseNamespace($new, $old);
-		$new['prefix']    = static::formatUsePrefix($new, $old);		
-		$new['where']     = static::formatUseWhere($new, $old);
-
-		if (isset($old['as']))
-		{
-			$new['as'] = static::formatUseAs($new, $old);
-		}
+		$new = array_merge(static::formatUseAs($new, $old), [
+            'namespace' => static::formatUseNamespace($new, $old),
+            'prefix' => static::formatUsePrefix($new, $old),
+            'where' => static::formatUseWhere($new, $old)
+        ]);
 		
 		return array_merge_recursive(
 			Arr::except($old, array('namespace', 'prefix', 'where', 'as')), $new
@@ -125,7 +122,10 @@ class RouteGroup
 	 */
 	protected static function formatUseAs($new, $old)
 	{
-		$new['as'] = $old['as'].($new['as'] ?? '');
+		if (isset($old['as'])) 
+		{
+            $new['as'] = $old['as'].($new['as'] ?? '');
+        }
 
 		return $new;
 	}
