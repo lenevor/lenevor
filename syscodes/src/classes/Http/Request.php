@@ -26,6 +26,7 @@ namespace Syscodes\Http;
 
 Use Locale;
 use Exception;
+use Syscodes\Support\Str;
 use Syscodes\Http\Contributors\Server;
 
 /**
@@ -365,6 +366,60 @@ class Request
 
 		return $this;
 	}
+	
+	/**
+	 * Determine if the current request URI matches a pattern.
+	 * 
+	 * @param  mixed  ...$patterns
+	 * 
+	 * @return bool
+	 */
+	public function is(...$patterns)
+	{
+		$path = $this->decodedPath();
+		
+		foreach ($patterns as $pattern)
+		{
+			if (Str::is($pattern, $path))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Determine if the route name matches a given pattern.
+	 * 
+	 * @param  mixed  ...$patterns
+	 * 
+	 * @return bool
+	 */
+	public function routeIs(...$patterns)
+	{
+		return $this->route() && $this->route()->is(...$patterns);
+	}
+
+	/**
+	 * Get the route handling the request.
+	 * 
+	 * @param  string|null  $param  (null by default)
+	 * @param  mixed  $default
+	 * 
+	 * @return \Syscodes\Routing\Route|object|string|null
+	 */
+	public function route($param = null, $default = null)
+	{
+		$route = $this->getRouteResolver();
+
+		if (is_null($route) || is_null($param))
+		{
+			return $route;
+		}
+
+		return $route->parameter($param, $default);
+	}
 
 	/**
 	 * Returns the root URL from which this request is executed.
@@ -500,6 +555,16 @@ class Request
 	}
 
 	/**
+	 * Get the URL for the request.
+	 * 
+	 * @return string
+	 */
+	public function url()
+	{
+		return trim(preg_replace('/\?.*/', '', $this->getUri()), '/');
+	}
+
+	/**
 	 * Returns the referer.
 	 * 
 	 * @param  string  $default
@@ -531,6 +596,16 @@ class Request
 	public function userAgent(string $default = null)
 	{
 		return $this->server->get('HTTP_USER_AGENT', $default);
+	}
+
+	/**
+	 * Get the route resolver.
+	 * 
+	 * @return \Syscodes\Routing\Router
+	 */
+	public function getRouteResolver()
+	{
+		return app(\Syscodes\Routing\Router::class);
 	}
 
 	/**
