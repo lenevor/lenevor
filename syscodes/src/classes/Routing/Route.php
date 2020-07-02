@@ -440,23 +440,6 @@ class Route
 	}
 
 	/**
-	 * Parse arguments into a regex route.
-	 *
-	 * @return array
-	 */
-	public function parseArgs($route)
-	{ 
-		preg_match_all('~{(n:|a:|an:|w:|\*:|\?:)?([a-zA-Z0-9_]+)}~', $route, $matches);
-	
-		if (isset($matches[2]) && ! empty($matches[2])) 
-		{
-			$this->wheres = $matches[2];
-		}
-
-		return $this;
-	}
-	
-	/**
 	 * Set the action array for the route.
 	 * 
 	 * @param  array  $action
@@ -487,6 +470,31 @@ class Route
 		$this->action['as'] = isset($this->action['as']) ? $this->action['as'].$name : $name;
 
 		return $this;
+	}
+
+	/**
+	 * Determine whether the route's name matches the given patterns.
+	 * 
+	 * @param  mixed  ...$patterns
+	 * 
+	 * @return bool
+	 */
+	public function named(...$patterns)
+	{
+		if (is_null($routeName = $this->getName()))
+		{
+			return false;
+		}
+
+		foreach ($patterns as $pattern)
+		{
+			if (Str::is($pattern, $routeName))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
