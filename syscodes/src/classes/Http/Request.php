@@ -411,7 +411,7 @@ class Request
 	 */
 	public function route($param = null, $default = null)
 	{
-		$route = $this->getRouteResolver();
+		$route = $this->getRoute();
 
 		if (is_null($route) || is_null($param))
 		{
@@ -603,9 +603,9 @@ class Request
 	 * 
 	 * @return \Syscodes\Routing\Router
 	 */
-	public function getRouteResolver()
+	public function getRoute()
 	{
-		return app(\Syscodes\Routing\Router::class);
+		return app('router');
 	}
 
 	/**
