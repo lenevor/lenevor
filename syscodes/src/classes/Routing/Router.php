@@ -31,7 +31,9 @@ use Syscodes\Http\Response;
 use BadMethodCallException;
 use InvalidArgumentException;
 use Syscodes\Contracts\Routing\Routable;
+use Syscodes\Routing\Traits\RouteMapTrait;
 use Syscodes\Contracts\Container\Container;
+use Syscodes\Routing\Traits\RouteResolverTrait;
 
 /**
  * The Router class allows the integration of an easy-to-use routing system.
@@ -40,7 +42,7 @@ use Syscodes\Contracts\Container\Container;
  */
 class Router implements Routable
 {
-	use RouteMapTrait;
+	use RouteMapTrait, RouteResolverTrait;
 
 	/**
 	 * The registered route value binders.
@@ -470,9 +472,7 @@ class Router implements Routable
 	 */
 	public function dispatch(Request $request)
 	{
-		$resolver = $this->container->make(RouteResolver::class);
-
-		return $resolver->resolve($request, $this->routes);
+		return $this->resolve($request, $this->routes);
 	}
 
 	/**
@@ -484,9 +484,7 @@ class Router implements Routable
 	 */
 	public function is(...$patterns)
 	{
-		$resolver = $this->container->make(RouteResolver::class);
-
-		return $resolver->currentRouteNamed(...$patterns);
+		return $this->currentRouteNamed(...$patterns);
 	}
 
 	/**
