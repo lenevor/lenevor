@@ -33,7 +33,9 @@ use Syscodes\Http\Request;
 use InvalidArgumentException;
 use Syscodes\Container\Container;
 use Syscodes\Controller\ControllerDispatcher;
+use Syscodes\Routing\Traits\RouteConditionTrait;
 use Syscodes\Http\Exceptions\HttpResponseException;
+use Syscodes\Routing\Traits\RouteDependencyResolverTrait;
 
 /**
  * A Route describes a route and its parameters.
