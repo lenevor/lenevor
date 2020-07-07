@@ -113,4 +113,15 @@ interface Routable
 	 * @return void
 	 */
 	public function put($route, $action);
+
+	/**
+	 * Group a series of routes under a single URL segment. This is handy
+	 * for grouping items into an admin area.
+	 * 
+	 * @param  array  $attributes
+	 * @param  \Closure|string  $callback
+	 *
+	 * @return void
+	 */
+	public function group(array $attributes, $parameters);
 }
