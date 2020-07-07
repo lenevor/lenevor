@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.1
+ * @since       0.1.2
  */
 
 namespace Syscodes\Routing\Traits;
@@ -31,6 +31,13 @@ namespace Syscodes\Routing\Traits;
  */
 trait RouteMapTrait
 {
+	/**
+	 * All of the verbs supported by the router.
+	 * 
+	 * @var array $verbs
+	 */
+	public static $verbs = ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'];
+
 	/**
 	 * Add a route to the underlying route collection.
 	 *
@@ -51,10 +58,8 @@ trait RouteMapTrait
 	 * @return void
 	 */
 	public function any($route, $action = null) 
-	{
-		$methods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'];
-		
-		return $this->addRoute($methods, $route, $action);
+	{		
+		return $this->addRoute(self::$verbs, $route, $action);
 	}
 	
 	/**
@@ -67,7 +72,7 @@ trait RouteMapTrait
 	 */
 	public function delete($route, $action = null) 
 	{
-		return $this->addRoute(['DELETE'], $route, $action);
+		return $this->addRoute('DELETE', $route, $action);
 	}
 
 	/**
@@ -93,7 +98,7 @@ trait RouteMapTrait
 	 */
 	public function head($route, $action = null)
 	{
-		return $this->addRoute(['HEAD'], $route, $action);
+		return $this->addRoute('HEAD', $route, $action);
 	}
 
 	/**
@@ -107,7 +112,7 @@ trait RouteMapTrait
 	 */
 	public function match($methods, $route, $action = null)
 	{
-		return $this->addRoute($array_map('strtoupper', (array) $methods), $route, $action);
+		return $this->addRoute(array_map('strtoupper', (array) $methods), $route, $action);
 	}
 
 	/**
@@ -120,7 +125,7 @@ trait RouteMapTrait
 	 */
 	public function options($route, $action = null) 
 	{
-		return $this->addRoute(['OPTIONS'], $route, $action);
+		return $this->addRoute('OPTIONS', $route, $action);
 	}
 
 	/**
@@ -133,7 +138,7 @@ trait RouteMapTrait
 	 */
 	public function patch($route, $action = null)
 	{
-		return $this->addRoute(['PATCH'], $route, $action);
+		return $this->addRoute('PATCH', $route, $action);
 	}
 
 	/**
@@ -146,7 +151,7 @@ trait RouteMapTrait
 	 */
 	public function post($route, $action = null) 
 	{
-		return $this->addRoute(['POST'], $route, $action);
+		return $this->addRoute('POST', $route, $action);
 	}
 
 	/**
@@ -159,6 +164,6 @@ trait RouteMapTrait
 	 */
 	public function put($route, $action = null) 
 	{
-		return $this->addRoute(['PUT'], $route, $action);
+		return $this->addRoute('PUT', $route, $action);
 	}  
 }
