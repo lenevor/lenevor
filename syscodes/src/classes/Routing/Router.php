@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.7.1
+ * @since       0.7.2
  */
 
 namespace Syscodes\Routing;
@@ -30,6 +30,7 @@ use Syscodes\Http\Request;
 use Syscodes\Http\Response;
 use BadMethodCallException;
 use InvalidArgumentException;
+use Syscodes\Http\RedirectResponse;
 use Syscodes\Contracts\Routing\Routable;
 use Syscodes\Routing\Traits\RouteMapTrait;
 use Syscodes\Contracts\Container\Container;
@@ -78,20 +79,13 @@ class Router implements Routable
 	 * @var string[] $middleware
 	 */
 	protected $middleware = [];
-
-	/**
-	 * Default namespace.
-	 * 
-	 * @var string $namecepace
-	 */
-	protected $namespace;
 	
 	/**
 	 * The globally available parameter patterns.
 	 * 
-	 * @var array $regex
+	 * @var array $patterns
 	 */
-	protected $regex = [];
+	protected $patterns = [];
 
 	/** 
 	 * The route collection instance. 
@@ -154,7 +148,7 @@ class Router implements Routable
 	 *
 	 *      }); /admin/user
 	 *
-	 * @param  array            $attributes
+	 * @param  array  $attributes
 	 * @param  \Closure|string  $callback
 	 *
 	 * @return void
@@ -166,6 +160,8 @@ class Router implements Routable
 		$this->loadRoutes($callback);
 
 		array_pop($this->groupStack);
+
+		return $this;
 	}
 
 	/**
@@ -228,6 +224,40 @@ class Router implements Routable
 	public function addRoute($method, $route, $action)
 	{
 		return $this->routes->add($this->map($method, $route, $action));
+	}
+
+	/**
+	 * Create a redirect from one URI to another.
+	 * 
+	 * @param  string  $uri
+	 * @param  string  $destination
+	 * @param  int  $status  (302 by default)
+	 * 
+	 * @return \Syscodes\Routing\Route
+	 */
+	public function redirect($uri, $destination, $status = 302)
+	{
+		return $this->any($uri, function () use ($destination, $status) 
+		{
+			return new RedirectResponse($destination, $status);
+		});
+	}
+
+	/**
+	 * Register a new route that returns a view.
+	 * 
+	 * @param  string  $uri
+	 * @param  string  $view
+	 * @param  array  $data
+	 * 
+	 * @return \Syscodes\Routing\Route
+	 */
+	public function view($uri, $view, $data = [])
+	{
+		return $this->match(['GET', 'HEAD'], $uri, function () use ($view, $data) 
+		{
+			return $this->container->make('view')->make($view, $data);
+		});
 	}
 
 	/**
@@ -295,7 +325,7 @@ class Router implements Routable
 			$action = ['uses' => $action];
 		}
 		
-		if (! empty($this->groupStack))
+		if ( ! empty($this->groupStack))
 		{
 			$action['uses'] = $this->prependGroupUses($action['uses']);
 		}
@@ -323,15 +353,15 @@ class Router implements Routable
 	 * Create a new Route object.
 	 * 
 	 * @param  array|string  $method
-	 * @param  string        $uri
-	 * @param  mixed         $action
+	 * @param  string  $uri
+	 * @param  mixed  $action
 	 * 
 	 * @return \Syscodes\Routing\Route
 	 */
 	public function newRoute($method, $uri, $action)
 	{
 		return take(new Route($method, $uri, $action))
-		            ->setNamespace($this->namespace);
+		            ->setNamespace($this->groupStack);
 	}
 	
 	/**
@@ -368,7 +398,7 @@ class Router implements Routable
 	protected function addWhereClausesToRoute($route)
 	{
 		$route->where(array_merge(
-			$this->regex, $route->getAction()['where'] ?? []
+			$this->patterns, $route->getAction()['where'] ?? []
 		));
 		
 		return $route;
@@ -401,13 +431,13 @@ class Router implements Routable
 	 * Set a global where pattern on all routes.
 	 * 
 	 * @param  string  $name
-	 * @param  string  $regex
+	 * @param  string  $pattern
 	 * 
 	 * @return void
 	 */
-	public function pattern($name, $regex)
+	public function pattern($name, $pattern)
 	{
-		return $this->regex[$name] = $regex;
+		return $this->patterns[$name] = $pattern;
 	}
 
 	/**
@@ -421,7 +451,7 @@ class Router implements Routable
 	{
 		foreach ($patterns as $key => $pattern)
 		{
-			$this->regex[$key] = $pattern;
+			$this->patterns[$key] = $pattern;
 		}
 	}
 
@@ -476,6 +506,28 @@ class Router implements Routable
 	}
 
 	/**
+	 * Check if a route with the given name exists.
+	 * 
+	 * @param  string  $name
+	 * 
+	 * @return bool
+	 */
+	public function has($name)
+	{
+		$names = is_array($name) ? $name : func_get_args();
+
+		foreach ($names as $value)
+		{
+			if ( ! $this->routes->hasNamedRoute($value))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Determine if the current route matches a pattern.
 	 * 
 	 * @param  mixed  ...$patterns
@@ -511,7 +563,7 @@ class Router implements Routable
 			throw new InvalidArgumentException(__('route.namespaceNotExist'));
 		}
 
-		$this->namespace = $namespace;
+		$this->groupStack[] = ['namespace' => $namespace];
 
 		return $this;
 	}
