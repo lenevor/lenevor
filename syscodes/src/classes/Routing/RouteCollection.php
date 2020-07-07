@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.7.0
+ * @since       0.7.2
  */
 
 namespace Syscodes\Routing;
@@ -31,7 +31,6 @@ use IteratorAggregate;
 use Syscodes\Support\Arr;
 use Syscodes\Http\Request;
 use BadMethodCallException;
-use Syscodes\Routing\Exceptions\RouteNotFoundException;
 
 /**
  * Adds a collection to the arrays of routes.
@@ -182,6 +181,16 @@ class RouteCollection implements Countable, IteratorAggregate
     public function getRoutesByMethod()
     {
         return $this->routes;
+    }    
+
+    /**
+     * Get all of the routes keyed by their name.
+     * 
+     * @return \Syscodes\Routing\Route[]
+     */
+    public function getRoutesByName()
+    {
+        return $this->nameList;
     }
 
     /**
