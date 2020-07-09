@@ -10,9 +10,17 @@ Release Date:
 - Added methods for insert and update
 - Added methods for process of select statement in the `Builder` class
 - Added alias methods for conditionals of route (host, port, scheme) in the `RouteConditionalTrait` trait
-- Added the `Renderable` interface in the` RouteResolver` class to automatically trigger the render() method
+- Added the `Renderable` interface in the `Response` class to automatically trigger the render() method
 - Generate a Resource instance in `Router` class
 - Added function for mapped of arrays in the `RouteMapTrait` trait
+- Added methods for get parameters for a route in `RouteParamBinding` class
+
+### Changed
+- Changed release to 0.7.2 and the errors were fixed of syntax in most the classes of routing
+
+### Removed
+- Removed method for route resolver in `RouteServiceProvider` class
+- Removed conditional of Renderable interface in `RouteResolverTrait` trait
 
 
 ## [Version 0.6.0-alpha.6] 
@@ -26,6 +34,7 @@ Release Date: Feb 26, 2020
 - Added namespace for calls events in view class
 - Added new methods of rendering
 - Added class for rendering string
+
 
 ## [Version 0.5.0-alpha.5] 
 
