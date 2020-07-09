@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.2.0
+ * @since       0.7.2
  */
  
 namespace Syscodes\Http;
@@ -31,6 +31,7 @@ use UnexpectedValueException;
 use Syscodes\Http\Contributors\Server;
 use Syscodes\Http\Contributors\Status;
 use Syscodes\Http\Contributors\Headers;
+use Syscodes\Contracts\Support\Renderable;
 use Syscodes\Filesystem\Exceptions\UnexpectedTypeException;
 
 /**
@@ -45,13 +46,13 @@ class Response extends Status
 	/**
 	 * Sets up the response with a content and a status code.
 	 *
-	 * @param  string  $content  The response content 
+	 * @param  mixed  $content  The response content 
 	 * @param  int  $status  The response status  (200 by default)
 	 * @param  array  $headers  Array of HTTP headers for this response
 	 *
 	 * @return string
 	 */
-	public function __construct(?string $content = '', int $status = 200, array $headers = [])
+	public function __construct($content = '', int $status = 200, array $headers = [])
 	{
 		$this->setContent($content);
 		$this->setStatusCode($status);
@@ -183,11 +184,11 @@ class Response extends Status
 	/**
 	 * Sends the content of the message to the browser.
 	 *
-	 * @param  string  $content  The response content
+	 * @param  mixed  $content  The response content
 	 *
 	 * @return $this
 	 */
-	public function setContent(?string $content)
+	public function setContent($content)
 	{
 		if ($content !== null && ! is_string($content) && ! is_numeric($content) && ! is_callable([$content, '__toString'])) 
 		{
@@ -199,6 +200,10 @@ class Response extends Status
 			$this->header('Content-Type', 'application/json');
 
 			$content = json_encode($content);
+		}
+		elseif ($content instanceof Renderable)
+		{
+			$content = $content->render();
 		}
 		
 		$this->content = $content ?? '';
