@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.7.1
+ * @since       0.7.2
  */
 
 namespace Syscodes\Routing\Traits;
@@ -30,7 +30,6 @@ use Syscodes\Http\Response;
 use Syscodes\Http\JsonResponse;
 use Syscodes\Routing\RouteCollection;
 use Syscodes\Contracts\Routing\Routable;
-use Syscodes\Contracts\Support\Renderable;
 use Syscodes\Routing\Exceptions\RouteNotFoundException;
 
 /**
@@ -106,11 +105,6 @@ trait RouteResolverTrait
 		}
 		elseif ( ! $response instanceof Response)
 		{
-			if ($response instanceof Renderable)
-			{
-				$response = $response->render();
-			}
-
 			$response = new Response($response, 200, ['Content-Type' => 'text/html']);
 		}
 
