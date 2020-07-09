@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.7.0
+ * @since       0.7.2
  */
 
 namespace Syscodes\Routing\Traits;
@@ -79,11 +79,11 @@ trait RouteDependencyResolverTrait
             {
                 $count++;
 
-                $this->spliceOnParameters($parameter, $key, $instance);
+                $this->spliceOnParameters($parameters, $key, $instance);
             }
             elseif ( ! isset($values[$key - $count]) && $parameter->isDefaultValueAvailable())
             {
-                $this->spliceOnParameters($parameter, $key, $parameter->getDefaultValue());
+                $this->spliceOnParameters($parameters, $key, $parameter->getDefaultValue());
             }            
         }
 
@@ -104,7 +104,7 @@ trait RouteDependencyResolverTrait
 
         if ( ! is_null($class) && ! $this->getInParameters($className = $class->name, $parameters))
         {
-            return $parameter->isDefaultValueConstant() ? null : $this->container->make($className);
+            return $parameter->isDefaultValueAvailable() ? null : $this->container->make($className);
         }
     }
 
@@ -132,8 +132,8 @@ trait RouteDependencyResolverTrait
      * 
      * return void
      */
-    protected function spliceOnParameters(array $parameters, $key, $instance)
+    protected function spliceOnParameters(array &$parameters, $key, $instance)
     {
-        array_splice($parameters, $key, 0, array($instance));
+        array_splice($parameters, $key, 0, [$instance]);
     }
 }
