@@ -201,6 +201,7 @@ return [
     'Syscodes\\Routing\\RouteGroup' => SYS_PATH.'src/classes/Routing/RouteGroup.php',
     'Syscodes\\Routing\\RouteParamBinding' => SYS_PATH.'src/classes/Routing/RouteParamBinding.php',
     'Syscodes\\Routing\\Router' => SYS_PATH.'src/classes/Routing/Router.php',
+    'Syscodes\\Routing\\RouteRegister' => SYS_PATH.'src/classes/Routing/RouteRegister.php',
     'Syscodes\\Routing\\RouteResource' => SYS_PATH.'src/classes/Routing/RouteResource.php',
     'Syscodes\\Routing\\RouteResponse' => SYS_PATH.'src/classes/Routing/RouteResponse.php',
     'Syscodes\\Routing\\RoutingServiceProvider' => SYS_PATH.'src/classes/Routing/RoutingServiceProvider.php',
