@@ -119,8 +119,6 @@ class Router implements Routable
 	 * Get the prefix from the group on the stack.
 	 *
 	 * @return string
-	 *
-	 * @uses   RouteGroup->prefix
 	 */
 	public function getGroupPrefix()
 	{
@@ -361,7 +359,7 @@ class Router implements Routable
 	public function newRoute($method, $uri, $action)
 	{
 		return take(new Route($method, $uri, $action))
-		            ->setNamespace($this->groupStack);
+		              ->setContainer($this->container);
 	}
 	
 	/**
@@ -481,19 +479,6 @@ class Router implements Routable
 	}
 
 	/**
-	 * Called the namespace and controller.
-	 *
-	 * @param  string  $route
-	 * @param  \Closure|string  $classname
-	 *
-	 * @return string
-	 */
-	public function namespaces($route, $classname)
-	{
-		return $this;		
-	}
-
-	/**
 	 * Dispatches the given url and call the method that belongs to the route.
 	 *
 	 * @param  \Syscodes\Http\Request  $request
@@ -540,32 +525,44 @@ class Router implements Routable
 	}
 
 	/**
+	 * Register an array of resource controllers.
 	 * 
+	 * @param  array  $resources
+	 * @param  array  $options
 	 * 
-	 * @param   
+	 * @return void
 	 */
-	public static function resources() 
+	public function resources(array $resources, array $options = [])
 	{
-
-	} 
+		foreach ($resources as $name => $controller)
+		{
+			$this->resource($name, $controller, $options);
+		}
+	}
 
 	/**
-	 * Set namespace.
-	 *
-	 * @param  string|null  $namespace
-	 *
-	 * @return string|bool 
+	 * Route a resource to a controller.
+	 * 
+	 * @param  string  $name
+	 * @param  string  $controller
+	 * @param  array  $options
+	 * 
+	 * @return \Syscodes\Routing\RouteResourceRegistration
 	 */
-	public function namespace($namespace = null)
+	public function resource($name, $controller, array $options = []) 
 	{
-		if (is_null($namespace))
+		if ($this->container)
 		{
-			throw new InvalidArgumentException(__('route.namespaceNotExist'));
+			$register = $this->container->make(RouteResource::class);
+		}
+		else
+		{
+			$register = new RouteResource($this);
 		}
 
-		$this->groupStack[] = ['namespace' => $namespace];
-
-		return $this;
+		return new RouteResourceRegistration(
+			$register, $name, $controller, $options
+		);
 	}
 	
 	/**
@@ -610,6 +607,6 @@ class Router implements Routable
 			return call_user_func_array($callback, $parameters);
 		}
 		
-		throw new BadMethodCallException("Method [ {$method} ] does not exist");
+		return (new RouteRegister($this))->attribute($method, $parameters[0]);
 	}
 }
