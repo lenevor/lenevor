@@ -82,13 +82,6 @@ class Route
 	public $method;
 
 	/**
-	 * Namespace for the route.
-	 *
-	 * @var string $namespace
-	 */
-	public $namespace;
-
-	/**
 	 * The array of matched parameters.
 	 * 
 	 * @var array $parameters
@@ -149,6 +142,11 @@ class Route
 		$this->parseRoute($uri);
 		// Set the action
 		$this->parseAction($action);
+
+		if ( ! is_null($prefix = Arr::get($this->action, 'prefix')))
+		{
+			$this->prefix($prefix);
+		}
 	}
 
 	// Getters
@@ -218,16 +216,6 @@ class Route
 	public function getName()
 	{
 		return $this->action['as'] ?? null;
-	}
-
-	/**
-	 * Get namespace.
-	 *
-	 * @return string
-	 */
-	public function getNamespace()
-	{
-		return $this->namespace;
 	}
 
 	/**
@@ -435,10 +423,29 @@ class Route
 	{
 		$pattern = array_keys($this->patterns);
 		$replace = array_values($this->patterns);
-		$uri 	 = trim($path, '\/');
+		$uri     = trim($path, '\/');
 		$uri     = trim($uri, '\/?');
 
 		return preg_replace($pattern, $replace, $uri);
+	}
+
+	/**
+	 * Add a prefix to the route URI.
+	 * 
+	 * @param  string  $prefix
+	 * 
+	 * @return $this
+	 */
+	public function prefix($prefix)
+	{
+		if ( ! empty($newPrefix = trim(rtrim($prefix, '/').'/'.ltrim($this->action['prefix'] ?? '', '/'), '/'))) 
+		{
+			$this->action['prefix'] = $newPrefix;
+		}
+		
+		$uri = rtrim($prefix, '/').'/'.ltrim($this->uri, '/');
+		
+		return $this->parseRoute($uri !== '/' ? trim($uri, '/') : $uri);
 	}
 
 	/**
@@ -525,20 +532,6 @@ class Route
 	{
 		$this->defaults = $defaults;
 
-		return $this;
-	}
-
-	/**
-	 * Set the namespace.
-	 *
-	 * @param  string  $namespace
-	 *
-	 * @return $this
-	 */
-	public function setNamespace($namespace)
-	{   
-		$this->namespace = $namespace;
-	
 		return $this;
 	}
 
@@ -693,6 +686,20 @@ class Route
 	public function secure()
 	{
 		return in_array('https', $this->action, true);
+	}
+
+	/**
+	 * Set the container instance on the route.
+	 * 
+	 * @param  \Syscodes\Container\Container  $container
+	 * 
+	 * @return $this
+	 */
+	public function setContainer(Container $container)
+	{
+		$this->container = $container;
+
+		return $this;
 	}
 
 	/**
