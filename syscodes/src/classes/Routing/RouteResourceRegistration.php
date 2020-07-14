@@ -33,5 +33,169 @@ use Syscodes\Support\Arr;
  */
 class RouteResourceRegistration
 {
-    
+    /**
+     * The resource controller.
+     * 
+     * @var string $controller
+     */
+    protected $controller;
+
+    /**
+     * The resource name.
+     * 
+     * @var string $name
+     */
+    protected $name;
+
+    /**
+     * The resource options.
+     * 
+     * @var array $options
+     */
+    protected $options = [];
+
+    /**
+     * The resource register.
+     * 
+     * @var \Syscodes\Routing\RouteRegister $register
+     */
+    protected $register;
+
+    /**
+     * The resource's registration status.
+     * 
+     * @var bool $registered
+     */
+    protected $registered = false;
+
+    /**
+     * Constructor. Create a new route resource registration instance.
+     * 
+     * @param  \Syscodes\Routing\RouteRegister  $register
+     * @param  string  $name
+     * @param  string  $controller
+     * @param  array  $options
+     * 
+     * @return void
+     */
+    public function __construct(RouteRegister $register, $name, $controller, array $options = [])
+    {
+        $this->name = $name;
+        $this->options = $options;
+        $this->register = $register;
+        $this->controller = $controller;
+    }
+
+    /**
+     * Set the methods the controller should apply to.
+     * 
+     * @param  array|string  $methods
+     * 
+     * @return \Syscodes\Routing\RouteResourceRegistration
+     */
+    public function only($methods)
+    {
+        $this->options['only'] = is_array($methods) ? $methods : func_get_args();
+
+        return $this;
+    }
+
+    /**
+     * Set the methods the controller should exclude.
+     * 
+     * @param  array|string  $methods
+     * 
+     * @return \Syscodes\Routing\RouteResourceRegistration
+     */
+    public function except($methods)
+    {
+        $this->options['except'] = is_array($methods) ? $methods : func_get_args();
+
+        return $this;
+    }
+
+    /**
+     * Set the route names for controller actions.
+     * 
+     * @param  array|string  $names
+     * 
+     * @return \Syscodes\Routing\RouteResourceRegistration
+     */
+    public function names($names)
+    {
+        $this->options['names'] = $names;
+
+        return $this;
+    }
+
+    /**
+     * Set the route names for a controller action.
+     * 
+     * @param  string  $method
+     * @param  string  $name
+     * 
+     * @return \Syscodes\Routing\RouteResourceRegistration
+     */
+    public function name($method, $name)
+    {
+        $this->options['names'][$method] = $name;
+
+        return $this;
+    }
+
+    /**
+     * Override the route parameter names.
+     * 
+     * @param  array|string  $parameters
+     * 
+     * @return \Syscodes\Routing\RouteResourceRegistration
+     */
+    public function parameters($parameters)
+    {
+        $this->options['parameters'] = $parameters;
+
+        return $this;
+    }
+
+    /**
+     * Override the route parameter's name.
+     * 
+     * @param  string  $previous
+     * @param  string  $parameter
+     * 
+     * @return \Syscodes\Routing\RouteResourceRegistration
+     */
+    public function parameter($previous, $parameter)
+    {
+        $this->options['parameters'][$previous] = $parameter;
+
+        return $this;
+    }
+
+    /**
+     * Register the resource route.
+     * 
+     * @return \Syscodes\Routing\RouteCollection
+     */
+    public function register()
+    {
+        $this->registered = true;
+
+        return $this->register->register(
+            $this->name, $this->controller, $this->options
+        );
+    }
+
+    /**
+     * Handle the object's destruction.
+     * 
+     * @return void
+     */
+    public function __destruct()
+    {
+        if ( ! $this->registered)
+        {
+            $this->register();
+        }
+    }
 }
