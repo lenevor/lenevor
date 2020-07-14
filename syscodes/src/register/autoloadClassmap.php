@@ -203,6 +203,7 @@ return [
     'Syscodes\\Routing\\Router' => SYS_PATH.'src/classes/Routing/Router.php',
     'Syscodes\\Routing\\RouteRegister' => SYS_PATH.'src/classes/Routing/RouteRegister.php',
     'Syscodes\\Routing\\RouteResource' => SYS_PATH.'src/classes/Routing/RouteResource.php',
+    'Syscodes\\Routing\\RouteResourceRegistration' => SYS_PATH.'src/classes/Routing/RouteResourceRegistration.php',
     'Syscodes\\Routing\\RouteResponse' => SYS_PATH.'src/classes/Routing/RouteResponse.php',
     'Syscodes\\Routing\\RoutingServiceProvider' => SYS_PATH.'src/classes/Routing/RoutingServiceProvider.php',
     'Syscodes\\Routing\\UrlGenerator' => SYS_PATH.'src/classes/Routing/UrlGenerator.php',
