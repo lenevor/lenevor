@@ -50,6 +50,7 @@ class Autoloader
     protected $classOrNamespaceListMap = [
         BST_PATH.'register'.DIRECTORY_SEPARATOR.'autoloadPsr4.php',
         BST_PATH.'register'.DIRECTORY_SEPARATOR.'autoloadClassmap.php',
+        BST_PATH.'register'.DIRECTORY_SEPARATOR.'autoloadFiles.php',
     ];
 
     /** 
@@ -89,7 +90,7 @@ class Autoloader
 
         if (isset($config->includeFiles))
         {
-            $this->includeFiles = $config->includeFiles;
+            $this->includeFiles = $config->addFiles((array)  $this->classOrNamespaceListMap[2]);
         }
 
         if ($config->enabledInComposer)
@@ -356,10 +357,15 @@ class Autoloader
         // Autoloading for the files helpers, hooks or functions
         $files = is_array($this->includeFiles) ? $this->includeFiles : [];
 
-        foreach ($files as $fileIdentifier => $file)
+        spl_autoload_register(function () use ($files)
         {
-            $this->getAutoloaderFileRequire($fileIdentifier, $file);
-        }
+            foreach ($files as $fileIdentifier => $file)
+            {
+                $this->getAutoloaderFileRequire($fileIdentifier, $file);                
+            }
+        }, true, 
+           true
+        );
     }
 
     /**
