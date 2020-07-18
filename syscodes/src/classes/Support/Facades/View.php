@@ -31,14 +31,14 @@ namespace Syscodes\Support\Facades;
  * 
  * @method static bool viewExists(string $view)
  * @method static \Syscodes\Contracts\View\View make(string $view, array $data = [])
- * @method static \Illuminate\Contracts\View\Engine getEngineFromPath(string $path)
+ * @method static \Syscodes\Contracts\View\Engine getEngineFromPath(string $path)
  * @method static array getExtensions()
  * @method static mixed share(array|string $key, mixed $value = null)
  * @method static void getShared()
  * @method static \Syscodes\Contracts\Container\Container getContainer()
  * @method static \Syscodes\Contracts\Container\Container setContainer(\Syscodes\Contracts\Container\Container $container)
  * 
- * @see \Syscodes\View\Parser
+ * @see \Syscodes\View\Factory
  */
 class View extends Facade
 {
