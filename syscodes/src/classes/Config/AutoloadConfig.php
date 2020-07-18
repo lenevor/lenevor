@@ -100,10 +100,7 @@ class AutoloadConfig
 		 * their location on the file system.
 		 * 
 		 */
-		$sys = require SYS_PATH.'src'.DIRECTORY_SEPARATOR.'register'.DIRECTORY_SEPARATOR.'autoloadFiles.php';
-		$bst = require BST_PATH.'register'.DIRECTORY_SEPARATOR.'autoloadFiles.php';
-
-		$this->includeFiles = array_merge($bst, $sys);
+		$this->includeFiles = require SYS_PATH.'src'.DIRECTORY_SEPARATOR.'register'.DIRECTORY_SEPARATOR.'autoloadFiles.php';
 	}
 
 	/**
@@ -125,6 +122,27 @@ class AutoloadConfig
 		}
 
 		return $this->classmap;
+	}
+
+	/**
+	 * Get the filename map.
+	 * 
+	 * @param  array  $files
+	 * 
+	 * @return void
+	 */
+	public function addFiles(array $files)
+	{
+		if (isset($this->includeFiles))
+		{
+			$this->includeFiles = array_merge($this->includeFiles, $files);
+		}
+		else
+		{
+			$this->includeFiles = $files;
+		}
+
+		return $this->includeFiles;
 	}
 
 	/**
