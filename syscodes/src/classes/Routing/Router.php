@@ -43,7 +43,8 @@ use Syscodes\Routing\Traits\RouteResolverTrait;
  */
 class Router implements Routable
 {
-	use RouteMapTrait, RouteResolverTrait;
+	use RouteMapTrait, 
+		RouteResolverTrait;
 
 	/**
 	 * The registered route value binders.
@@ -454,16 +455,6 @@ class Router implements Routable
 	}
 
 	/**
-	 * Get the route collection.
-	 *
-	 * @return array   
-	 */
-	public function getRoutes()
-	{
-		return $this->routes;
-	}
-
-	/**
 	 * Get a Resource instance.
 	 * 
 	 * @return \Syscodes\Routing\RouteResource
@@ -553,16 +544,38 @@ class Router implements Routable
 	{
 		if ($this->container)
 		{
-			$register = $this->container->make(RouteResource::class);
+			$register = $this->container->make(ResourceRegister::class);
 		}
 		else
 		{
-			$register = new RouteResource($this);
+			$register = new ResourceRegister($this);
 		}
 
-		return new RouteResourceRegistration(
+		return new AwaitingResourceRegistration(
 			$register, $name, $controller, $options
 		);
+	}
+
+	/**
+	 * Get the route collection.
+	 *
+	 * @return array   
+	 */
+	public function getRoutes()
+	{
+		return $this->routes;
+	}
+
+	/**
+	 * Get or set the verbs used in the resource URIs.
+	 * 
+	 * @param  array  $verbs
+	 * 
+	 * @return array|null
+	 */
+	public function resourceVerbs(array $verbs = [])
+	{
+		ResourceRegister::verbs($verbs);
 	}
 	
 	/**
