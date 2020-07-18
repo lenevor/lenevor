@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.1.1
  */
 
 /*
@@ -48,8 +48,6 @@ if (is_file(__DIR__.'/../vendor/autoload.php'))
 | browser and viewed for ours users.
 |
 */
-
-chdir(__DIR__);
 
 $app = require_once __DIR__.'/../bootstrap/app.php';
 
