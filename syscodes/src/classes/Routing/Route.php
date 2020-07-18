@@ -44,7 +44,8 @@ use Syscodes\Routing\Traits\RouteDependencyResolverTrait;
  */
 class Route 
 {
-	use RouteConditionTrait, RouteDependencyResolverTrait;
+	use RouteConditionTrait, 
+		RouteDependencyResolverTrait;
 	
 	/**
 	 * Action that the route will use when called.
