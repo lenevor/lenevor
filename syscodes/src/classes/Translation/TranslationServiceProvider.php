@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.4.0
+ * @since       0.4.1
  */
 
 namespace Syscodes\Translation;
@@ -41,9 +41,9 @@ class TranslationServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('translator', function () {
-            $app = $this->app['config']['app.locale'];
+            $locale = $this->app['config']['app.locale'];
             
-            return new Translator($app);
+            return new Translator($locale);
         });
     }
 }
