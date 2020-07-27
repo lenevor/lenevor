@@ -137,14 +137,15 @@ class Route
 	 */
 	public function __construct($method = null, $uri = null, $action = null)
 	{
+		$this->uri = $uri;
+
 		// Set the method
 		$this->parseMethod($method);
-		// Set the route
-		$this->parseRoute($uri);
+
 		// Set the action
 		$this->parseAction($action);
 
-		if ( ! is_null($prefix = Arr::get($this->action, 'prefix')))
+		if (is_null($prefix = Arr::get($this->action, 'prefix')))
 		{
 			$this->prefix($prefix);
 		}
@@ -414,20 +415,36 @@ class Route
 	}
 
 	/**
-	 * Replace word patterns with regex in route path.
+	 * Replace word patterns with regex in route uri.
 	 * 
-	 * @param  string  $path
+	 * @param  string  $uri
 	 * 
 	 * @return string
 	 */
-	protected function parseRoutePath(string $path)
+	protected function parseRoutePath($uri)
 	{
-		$pattern = array_keys($this->patterns);
-		$replace = array_values($this->patterns);
-		$uri     = trim($path, '\/');
-		$uri     = trim($uri, '\/?');
+		$uri = trim($uri, '\/?');
+		$uri = trim($uri, '\/');
 
-		return preg_replace($pattern, $replace, $uri);
+		preg_match_all('/\{([\w\:]+?)\??\}/', $uri, $matches);
+		
+		foreach ($matches[1] as $match) 
+		{
+			if (strpos($match, ':') === false) 
+			{
+                continue;
+            }
+
+			$pattern  = array_keys($this->patterns);
+			$replace  = array_values($this->patterns);
+			$segments = explode(':', trim($match, '{}?'));
+
+            $uri = strpos($match, ':') !== false
+                    ? preg_replace($pattern, $replace, $uri)
+                    : str_replace($match, '{'.$segments[0].'}', $uri);
+        }
+		
+		return $uri;
 	}
 
 	/**
@@ -540,22 +557,17 @@ class Route
 	 * Set the where.
 	 *
 	 * @param  array|string  $name
-	 * @param  string|null  $regex  (null by default)
+	 * @param  string|null  $expression  (null by default)
 	 *
 	 * @return $this
 	 */
-	public function where($name, $regex = null)
+	public function where($name, string $expression = null)
 	{
-		if (is_array($name))
+		$wheres = is_array($name) ? $name : [$name => $expression];
+		
+		foreach ($wheres as $name => $expression)
 		{
-			foreach ($name as $key => $value)
-			{
-				$this->wheres[$key] = $value;
-			}
-		}
-		else
-		{
-			$this->wheres[$name] = $regex;
+			$this->wheres[$name] = $expression;
 		}
 
 		return $this;
