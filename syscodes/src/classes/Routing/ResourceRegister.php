@@ -143,7 +143,7 @@ class ResourceRegister
             $router->resource($name, $controller, $options);
         };
 
-        return $this->router->group(compact($prefix), $callback);
+        return $this->router->group(compact('prefix'), $callback);
     }
 
     /**
@@ -272,7 +272,7 @@ class ResourceRegister
      */
     protected function addResourceEdit($name, $base, $controller, $options)
     {
-        $uri = $this->getResourceUri($name).'/{'.$base.'}/'.static::$verbs['edit'];
+        $uri = $this->getResourceUri($name).'/'.static::$verbs['edit'].'/{'.$base.'}';
 
         $action = $this->getResourceAction($name, $controller, 'edit', $options);
 
