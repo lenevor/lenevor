@@ -131,9 +131,12 @@ trait RouteResolverTrait
 		// Remove trailing and leading slash
 		$requestedUri = $request->url();
 
-		// Loop trough the posible routes
+		// Loop trough the possible routes
 		foreach ($routes as $route) 
 		{
+			// Variable assignment by route
+			$this->current = $route;
+
 			if (isset($requestedUri))
 			{
 				$host = $route->getHost();
@@ -159,15 +162,28 @@ trait RouteResolverTrait
 			}
 			
 			// If the requested route one of the defined routes
-			if ($route->getRoute() === $requestedUri || preg_match('~^'.$route->getRoute().'$~', $requestedUri)) 
-			{	
-				$this->current = $route;
-
-				return $this->current()->bind($request);
+			if ($this->compareUri($route->getRoute(), $requestedUri)) 
+			{					
+				return $route->bind($request);
 			}
 		}
 
 		throw new RouteNotFoundException;
+	}
+
+	/**
+	 * Check if given request uri matches given uri method.
+	 * 
+	 * @param  string  $route
+	 * @param  string  $requestedUri
+	 * 
+	 * @return bool
+	 */
+	protected function compareUri(string $route, string $requestedUri)
+	{
+		$pattern = '~^'.$this->regexUri($route).'$~';
+
+		return preg_match($pattern, $requestedUri);
 	}
 
 	/**
@@ -190,5 +206,34 @@ trait RouteResolverTrait
 	public function currentRouteNamed(...$patterns)
 	{
 		return $this->current() && $this->current()->named(...$patterns);
+	}
+
+	/**
+	 * Convert route to regex.
+	 * 
+	 * @param  string  $route
+	 * 
+	 * @return string
+	 */
+	protected function regexUri(string $route)
+	{
+		return preg_replace_callback('~\{([^/]+)\}~', function (array $match) 
+		{
+			return $this->regexParameter($match[1]);
+		}, $route);
+	}
+
+	/**
+	 * Convert route parameter to regex.
+	 * 
+	 * @param  string  $name
+	 * 
+	 * @return string
+	 */
+	protected function regexParameter(string $name)
+	{
+		$pattern = $this->current->wheres[$name] ?? '[^/]+';
+
+		return '(?<'.$name.'>'.$pattern.')';
 	}
 }
