@@ -276,7 +276,7 @@ class Router implements Routable
 		{
 			$action = $this->convertToControllerAction($action);
 		}
-		
+
 		$route = $this->newRoute(
 				array_map('strtoupper', (array) $method),
 				$this->prefix($route),
@@ -396,11 +396,9 @@ class Router implements Routable
 	 */
 	protected function addWhereClausesToRoute($route)
 	{
-		$route->where(array_merge(
-			$this->patterns, $route->getAction()['where'] ?? []
+		return $route->where(array_merge(
+			$this->patterns, Arr::get($route->getAction(), 'where', [])
 		));
-		
-		return $route;
 	}
 
 	/**
