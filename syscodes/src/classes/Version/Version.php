@@ -39,7 +39,7 @@ final class Version
     /** 
      * Version Lenevor.
      */
-    const RELEASE = '0.7.1';
+    const RELEASE = '0.7.2';
 
     /**
      * Release status.
