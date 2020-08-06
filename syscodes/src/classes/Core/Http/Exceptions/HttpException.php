@@ -62,8 +62,8 @@ class HttpException extends LenevorException
 	 */
 	public function __construct(int $statusCode, string $message = null, Throwable $previous = null, array $headers = [], ?int $code = 0)
 	{
-		$this->statusCode = $statusCode;
 		$this->headers    = $headers;
+		$this->statusCode = $statusCode;
 		
 		parent::__construct($message, $code, $previous);
 	}
