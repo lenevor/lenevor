@@ -41,7 +41,7 @@ class RouteResponse implements ResponseContract
     /**
      * The View class instance.
      * 
-     * @var Syscodes\Contracts\View\Parser $view
+     * @var Syscodes\Contracts\View\Factory $view
      */
     protected $view;
 
