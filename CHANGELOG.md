@@ -14,6 +14,7 @@ Release Date:
 - Generate a Resource instance in `Router` class
 - Added function for mapped of arrays in the `RouteMapTrait` trait
 - Added methods for get parameters for a route in `RouteParamBinding` class
+- Spacing
 
 ### Changed
 - Changed release to 0.7.2 and the errors were fixed of syntax in most the classes of routing
