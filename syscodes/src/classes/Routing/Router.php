@@ -43,8 +43,8 @@ use Syscodes\Routing\Traits\RouteResolverTrait;
  */
 class Router implements Routable
 {
-	use RouteMapTrait, 
-		RouteResolverTrait;
+	use RouteMapTrait,
+	    RouteResolverTrait;
 
 	/**
 	 * The registered route value binders.

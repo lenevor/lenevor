@@ -44,8 +44,8 @@ use Syscodes\Routing\Traits\RouteDependencyResolverTrait;
  */
 class Route 
 {
-	use RouteConditionTrait, 
-		RouteDependencyResolverTrait;
+	use RouteConditionTrait,
+	    RouteDependencyResolverTrait;
 	
 	/**
 	 * Action that the route will use when called.
@@ -256,8 +256,8 @@ class Route
 	 */
 	public function getDomain()
 	{
-		return isset($this->action['domain']) 
-				? str_replace(['http://', 'https://'], '', $this->action['domain']) 
+		return isset($this->action['domain'])
+				? str_replace(['http://', 'https://'], '', $this->action['domain'])
 				: null;
 	}
 
@@ -425,24 +425,24 @@ class Route
 	{
 		$uri = trim($uri, '\/?');
 		$uri = trim($uri, '\/');
-
+		
 		preg_match_all('/\{([\w\:]+?)\??\}/', $uri, $matches);
 		
-		foreach ($matches[1] as $match) 
+		foreach ($matches[1] as $match)
 		{
-			if (strpos($match, ':') === false) 
+			if (strpos($match, ':') === false)
 			{
-                continue;
-            }
-
+				continue;
+			}
+			
 			$pattern  = array_keys($this->patterns);
 			$replace  = array_values($this->patterns);
 			$segments = explode(':', trim($match, '{}?'));
-
-            $uri = strpos($match, ':') !== false
-                    ? preg_replace($pattern, $replace, $uri)
-                    : str_replace($match, '{'.$segments[0].'}', $uri);
-        }
+			
+			$uri = strpos($match, ':') !== false
+					? preg_replace($pattern, $replace, $uri)
+					: str_replace($match, '{'.$segments[0].'}', $uri);
+		}
 		
 		return $uri;
 	}

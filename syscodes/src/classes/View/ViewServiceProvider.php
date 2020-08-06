@@ -60,6 +60,7 @@ class ViewServiceProvider extends ServiceProvider
     public function registerView()
     {
         $this->app->singleton('view', function ($app) {
+
             // The resolver will be used by an environment to get each of the various 
             // engine implementations such as plain PHP or Plaze engine.
             $resolver = $app['view.engine.resolver'];
@@ -75,6 +76,7 @@ class ViewServiceProvider extends ServiceProvider
             $factory->share('app', $app);
 
             return $factory;
+
         });
     }
 
@@ -98,9 +100,11 @@ class ViewServiceProvider extends ServiceProvider
     public function registerPlazeTranspiler()
     {
         $this->app->singleton('plaze.transpiler', function () {
+
             return new PlazeTranspiler(
                 $this->app['files'], $this->app['config']['view.transpiled']
             );
+
         });
     }
     
@@ -112,6 +116,7 @@ class ViewServiceProvider extends ServiceProvider
     public function registerEngineResolver()
     {
         $this->app->singleton('view.engine.resolver', function () {
+
             $resolver = new EngineResolver;
 
             // Register of the various view engines with the resolver
@@ -120,6 +125,7 @@ class ViewServiceProvider extends ServiceProvider
             }
             
             return $resolver;
+
         });
     }
     

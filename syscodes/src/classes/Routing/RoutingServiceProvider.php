@@ -79,9 +79,11 @@ class RoutingServiceProvider extends ServiceProvider
     protected function registerUrlGenerator()
     {
         $this->app->singleton('url', function ($app) {
+            
             $routes = $app['router']->getRoutes();
 
             return new UrlGenerator($routes, $app['request']);
+            
         });
     }
 

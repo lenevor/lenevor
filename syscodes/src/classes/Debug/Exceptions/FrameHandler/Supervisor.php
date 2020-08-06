@@ -186,6 +186,7 @@ class Supervisor
 		$stack = array_reverse(xdebug_get_function_stack());
 		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 		$traces = array_diff_key($stack, $trace);
+		
 		return $traces;
 	}
 }

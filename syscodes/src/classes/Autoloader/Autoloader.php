@@ -234,6 +234,7 @@ class Autoloader
                 {
                     $filePath = $directory.str_replace('\\', '/', 
                                 substr($class, strlen($namespace))).'.php';
+                                
                     $filename = $this->sendFilePath($filePath); 
 
                     if ($filename)
@@ -341,8 +342,8 @@ class Autoloader
         // Now prepend another loader for the files in our class map
         $config = is_array($this->classmap) ? $this->classmap : [];
         
-        spl_autoload_register(function ($class) use ($config) 
-        {
+        spl_autoload_register(function ($class) use ($config) {
+
             if (empty($config[$class]))
             {
                 return false;
@@ -357,12 +358,13 @@ class Autoloader
         // Autoloading for the files helpers, hooks or functions
         $files = is_array($this->includeFiles) ? $this->includeFiles : [];
 
-        spl_autoload_register(function () use ($files)
-        {
+        spl_autoload_register(function () use ($files) {
+
             foreach ($files as $fileIdentifier => $file)
             {
                 $this->getAutoloaderFileRequire($fileIdentifier, $file);                
             }
+            
         }, true, 
            true
         );

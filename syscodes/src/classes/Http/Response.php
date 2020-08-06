@@ -56,9 +56,9 @@ class Response extends Status
 	{
 		$this->setContent($content);
 		$this->setStatusCode($status);
-
-		$this->headers = new Headers($headers);
+		
 		$this->server  = new Server($_SERVER);
+		$this->headers = new Headers($headers);
 	}
 
 	/**

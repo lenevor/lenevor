@@ -138,8 +138,7 @@ class ResourceRegister
     {
         [$name, $prefix] = $this->getResourcePrefix($name);
 
-        $callback = function($router) use ($name, $controller, $options)
-        {
+        $callback = function($router) use ($name, $controller, $options) {
             $router->resource($name, $controller, $options);
         };
 

@@ -59,8 +59,8 @@ class ParserEnv
      */
     public function __construct(string $path, bool $usePutenv = true, string $file = null)
     {
-        $this->path      = $this->getFilePath($path, $file ?: '.env');
         $this->usePutenv = $usePutenv;
+        $this->path      = $this->getFilePath($path, $file ?: '.env');
     }
 
     /**
@@ -288,17 +288,17 @@ class ParserEnv
         {
             $loader = $this;
             $value = preg_replace_callback(self::ALFANUMERIC_REGEX, function ($matchedPatterns) use ($loader) {
-                        $nestedVariable = $loader->getVariable($matchedPatterns[1]);
+                
+                $nestedVariable = $loader->getVariable($matchedPatterns[1]);
 
-                        if (is_null($nestedVariable))
-                        {
-                            return $matchedPatterns[0];
-                        }
-                        
-                        return $nestedVariable;
-                        },
-                        $value
-                    );
+                if (is_null($nestedVariable))
+                {
+                    return $matchedPatterns[0];
+                }
+                
+                return $nestedVariable;
+                
+            }, $value);
         }
         
         return $value;

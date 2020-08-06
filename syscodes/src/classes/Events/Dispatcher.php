@@ -138,12 +138,14 @@ class Dispatcher implements DispatcherContract
         }
 
         return function ($event, $payload) use ($listener, $wilcard) {
+
             if ($wilcard)
             {
                 return $listener($event, $payload);
             }
             
             return $listener(...array_values($payload));
+
         };
     }
 
@@ -158,12 +160,14 @@ class Dispatcher implements DispatcherContract
     public function createClassListener($listener, $wilcard = false)
     {
         return function ($event, $payload) use ($listener, $wilcard) {
+
             if ($wilcard)
             {
                 return call_user_func($this->createClassClosure($listener), $event, $payload);
             }
 
             return call_user_func_array($this->createClassClosure($listener), $payload);
+            
         };
     }
 

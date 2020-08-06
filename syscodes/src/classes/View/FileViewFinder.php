@@ -118,8 +118,7 @@ class FileViewFinder implements ViewFinder
      */
     protected function getFindViewFiles($name)
     {
-        return array_map(function ($extension) use ($name)
-        {
+        return array_map(function ($extension) use ($name) {
             return Finder::search($name, 'views', $extension);   
         }, $this->getExtensions());
     }

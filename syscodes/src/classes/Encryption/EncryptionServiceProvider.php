@@ -43,6 +43,7 @@ class EncryptionServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('encrypter', function ($app) {
+            
             $config = $app->make('config')->get('security');
 
             if (Str::startsWith($key = $this->key($config), 'base64:'))
@@ -51,6 +52,7 @@ class EncryptionServiceProvider extends ServiceProvider
             }
             
             return new Encrypter($key, $config['cipher']);
+
         });
     }
 
@@ -66,10 +68,12 @@ class EncryptionServiceProvider extends ServiceProvider
     protected function key(array $config)
     {
         return take($config['key'], function ($key) {
+
             if (empty($key))
             {
                 throw new RuntimeException('No application encryption key has been specified.');
             }
+            
         });
     }
 }

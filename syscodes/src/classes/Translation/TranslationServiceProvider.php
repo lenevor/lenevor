@@ -41,9 +41,11 @@ class TranslationServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('translator', function () {
+            
             $locale = $this->app['config']['app.locale'];
             
             return new Translator($locale);
+            
         });
     }
 }

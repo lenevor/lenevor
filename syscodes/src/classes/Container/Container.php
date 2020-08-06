@@ -190,7 +190,8 @@ class Container implements ArrayAccess, ContainerContract
      */
     protected function getClosure($id, string $value)
     {
-        return function ($container, $parameters = []) use ($id, $value) {
+        return function ($container, $parameters = []) use ($id, $value) 
+        {
             if ($id == $value)
             {
                 return $container->build($value);
@@ -733,6 +734,7 @@ class Container implements ArrayAccess, ContainerContract
         {
             $id = $this->getAlias($id);
         }
+        
         return isset($this->resolved[$id]) || isset($this->instances[$id]);
     }
 

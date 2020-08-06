@@ -56,7 +56,9 @@ class BootDetectEnvironment
             $this->createEnv($app)->load();
         }
         catch (Exception $e)
-        {}
+        {
+            //
+        }
     }
 
     /**
