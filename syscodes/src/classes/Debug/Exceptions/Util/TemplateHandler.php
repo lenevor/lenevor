@@ -163,7 +163,7 @@ class TemplateHandler
 			
 			foreach ($frame->getArgs() as $j => $frameArg)
 			{
-				$html .= '<li>'.'"'.ucfirst($this->dump($frameArg)).'"'.'</li>';
+				$html .= '<li>'.$this->dump($frameArg).'</li>';
 			}
 			
 			$html .= '</ol>';
