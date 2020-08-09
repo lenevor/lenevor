@@ -37,37 +37,9 @@ use Syscodes\Core\Http\Exceptions\LenevorException;
 class Cli
 {
 	/**
-	 * Indicates that you do not use any color for foreground or background.
-	 *
-	 * @var bool $noColor
-	 */
-	public static $noColor = false;
-
-	/**
-	 * Readline Support for command line.
-	 *
-	 * @var bool $readlineSupport
-	 */
-	public static $readlineSupport = false;
-
-	/**
-	 * Message that tells the user that he is waiting to receive an order.
-	 *
-	 * @var string $waitMsg
-	 */
-	public static $waitMsg = 'Press any key to continue...';
-
-	/**
-	 * String of arguments to be used in console.
-	 *
-	 * @var array $args
-	 */
-	protected static $args = [];
-
-	/**
  	 * Background color identifier.
  	 *
- 	 * @var array $backgroundColor
+ 	 * @var array $backgroundColors
  	 */
  	protected static $backgroundColors = [
  		'black'      => '40',
@@ -83,7 +55,7 @@ class Cli
 	/**
 	 * Foreground color identifier.
  	 *
- 	 * @var array $foregroundColor
+ 	 * @var array $foregroundColors
 	 */
 	protected static $foregroundColors = [
 		'black'         => '0;30',
@@ -105,6 +77,34 @@ class Cli
 		'white'         => '1;37'
  	];
 
+	/**
+	 * Indicates that you do not use any color for foreground or background.
+	 *
+	 * @var bool $noColor
+	 */
+	public static $noColor = false;
+
+	/**
+	 * String of arguments to be used in console.
+	 *
+	 * @var array $options
+	 */
+	protected static $options = [];
+
+	/**
+	 * Readline Support for command line.
+	 *
+	 * @var bool $readlineSupport
+	 */
+	public static $readlineSupport = false;
+
+	/**
+	 * List of array segments.
+	 *
+	 * @var array $segments
+	 */
+	protected static $segments = [];
+
  	/**
  	 * The standar STDERR is where the application writes its error messages.
  	 *
@@ -118,6 +118,45 @@ class Cli
  	 * @var string $stdout
  	 */
  	protected static $stdout;
+
+ 	/**
+	 * Message that tells the user that he is waiting to receive an order.
+	 *
+	 * @var string $waitMsg
+	 */
+	public static $waitMsg = 'Press any key to continue...';
+
+	/**
+	 * Static constructor. Parses all the CLI params.
+	 * 
+	 * @return string
+	 * 
+	 * @uses   \Syscodes\Contracts\Core\Lenevor
+	 * 
+	 * @throws \Exception
+	 */
+ 	public static function initialize(Lenevor $core)
+ 	{
+ 		if ( ! $core->initCli())
+ 		{
+			throw new Exception('Cli class cannot be used outside of the command line');
+ 		}
+
+ 		// Readline is an extension for PHP that makes interactive the command console
+ 		static::$readlineSupport = extension_loaded('readline');
+
+ 		// clear segments & options to keep testing clean
+ 		static::$options  = [];
+ 		static::$segments = [];
+
+ 		static::parseCommandLine();
+
+ 		// Writes its error messages
+ 		static::$stderr = STDERR;
+
+ 		// Records its output messages
+ 		static::$stdout = STDOUT;
+ 	}
 
  	/**
  	 * Beeps a certain number of times.
@@ -195,6 +234,35 @@ class Cli
  	}
 
  	/**
+ 	 * Get the number of characters in a string.
+ 	 *
+ 	 * @param  string  $string
+ 	 *
+ 	 * @return int
+ 	 */
+ 	public static function strlen(?string $string)
+ 	{
+ 		if (is_null($string))
+ 		{
+ 			return 0;
+ 		}
+
+ 		foreach (static::$foregroundColors as $color)
+ 		{
+ 			$string = strtr($string, ["\033[" . $color . 'm' => '']);
+ 		}
+
+ 		foreach (static::$backgroundColors as $color)
+ 		{
+ 			$string = strtr($string, ["\033[" . $color . 'm' => '']);
+ 		}
+
+ 		$string = strtr($string, ["\033[4m" => '', "\033[0m" => '']);
+
+ 		return mb_strlen($string);
+ 	}
+
+ 	/**
  	 * Outputs an error to the CLI using STDERR instead of STDOUT.
  	 *
  	 * @param  string|array  $text  The text to output, or array of errors
@@ -218,43 +286,95 @@ class Cli
 		fwrite(static::$stderr, $text.PHP_EOL);
 	}
 
- 	/**
-	 * Static constructor. Parses all the CLI params.
-	 * 
-	 * @return string
-	 * 
-	 * @uses   \Syscodes\Contracts\Core\Lenevor
-	 * 
-	 * @throws \Exception
+	/**
+	 * Attempts to determine the width of the viewable CLI window.
+	 *
+	 * @param  int  $default
+	 *
+	 * @return int
 	 */
- 	public static function initialize(Lenevor $core)
- 	{
- 		if ( ! $core->initCli())
- 		{
-			throw new Exception('Cli class cannot be used outside of the command line');
- 		}
-
- 		for ($i = 1; $i < $_SERVER['argc']; $i++)
+	public static function getWidth(int $default = 80)
+	{
+		if (static::isWindows() || (int) shell_exec('tput cols') === 0)
 		{
-			$arg = explode('=', $_SERVER['argv'][$i]);
-
-			static::$args[$i] = $arg[0];
-
-			if (count($arg) > 1 || strncmp($arg[0], '-', 1) === 0)
-			{
-				static::$args[ltrim($arg[0], '-')] = isset($arg[1]) ? $arg[1] : true;
-			}
+			return $default;
 		}
 
- 		// Readline is an extension for PHP that makes interactive the command console
- 		static::$readlineSupport = extension_loaded('readline');
+		return (int) shell_exec('tput cols');
+	}
 
- 		// Writes its error messages
- 		static::$stderr = STDERR;
+	/**
+	 * Attempts to determine the height of the viewable CLI window.
+	 *
+	 * @param  int  $default
+	 *
+	 * @return int
+	 */
+	public static function getHeight(int $default = 32)
+	{
+		if (static::isWindows())
+		{
+			return $default;
+		}
 
- 		// Records its output messages
- 		static::$stdout = STDOUT;
- 	}
+		return (int) shell_exec('tput lines');
+	}
+
+	/**
+	 * Takes a string and writes it to the command line, wrapping to a maximum width. 
+	 * If no maximum width is specified, will wrap to the window's max.
+	 *
+	 * @param  string  $string  (null by default)
+	 * @param  int  $max  (0 by default)
+	 * @param  int $padLeft  (0 by default)
+	 *
+	 * @return string
+	 */
+	public static function wrap(string $string = null, int $max = 0, int $padLeft = 0)
+	{
+		if (empty($string))
+		{
+			return '';
+		}
+
+		if ($max === 0)
+		{
+			$max = static::getWidth();
+		}
+
+		if (static::getWidth() < $max)
+		{
+			$max = static::getWidth();
+		}
+
+		$max = $max - $padLeft;
+
+		$lines = wordwrap($string, $max);
+
+		if ($pad_left > 0)
+		{
+			$lines = explode(PHP_EOL, $lines);
+
+			$first = true;
+
+			array_walk ($lines, function (&$line, $index) use ($pad_left, &$first) {
+
+				if ( ! $first)
+				{
+					$line = str_repeat(' ', $pad_left) . $line;
+				}
+				else
+				{
+					$first = false;
+				}
+
+			});
+
+			$lines = implode(PHP_EOL, $lines);
+		}
+
+		return $lines;
+	}
 
  	/**
  	 * Get input from the shell, using readline or the standard STDIN.
@@ -312,13 +432,87 @@ class Cli
 	 */
  	public static function option($name, $default = null)
  	{
- 		if ( ! isset(static::$args[$name]))
+ 		if ( ! isset(static::$options[$name]))
  		{
  			return Lenevor::value($default);
  		}
 
- 		return static::$args[$name];
- 	}
+ 		return static::$options[$name];
+	}
+
+	/**
+	 * Parses the command line it was called from and collects all
+	 * options and valid segments.
+	 * 
+	 * @return bool
+	 */
+	protected static function parseCommandLine()
+	{
+		$options = false;
+
+		for ($i = 1; $i < $_SERVER['argc']; $i++)
+		{
+			if ( ! $options && mb_strpos($_SERVER['argv'][$i], '-') === false)
+			{
+				static::$segments[] = $_SERVER['argv'][$i];
+
+				continue;
+			}
+
+			$options = true;
+
+			$args  = str_replace('-', '', $_SERVER['argv'][$i]);
+			$value = null;
+
+			if (isset($_SERVER['argv'][$i + 1]) && mb_strpos($_SERVER['argv'][$i + 1], '-') !== 0)
+			{
+				$value = $_SERVER['argv'][$i + 1];
+				$i++;
+			}
+
+			static::$options[$args] = $value;
+
+			$options = false;
+		}
+	}
+
+	/**
+	 * Returns the command line string portions of the arguments, minus
+	 * any options, as a string.
+	 *
+	 * @return string
+	 */
+	public static function getURI()
+	{
+		return implode('/', static::$segments);
+	}
+
+	/**
+	 * Returns an individual segment.
+	 *
+	 * @param  int  $index
+	 * 
+	 * @return mixed|null
+	 */
+	public static function getSegment(int $index)
+	{
+		if ( ! isset(static::$segments[$index - 1]))
+		{
+			return null;
+		}
+
+		return static::$segments[$index - 1];
+	}
+
+	/**
+	 * Returns the raw array of segments found.
+	 *
+	 * @return array
+	 */
+	public static function getSegments()
+	{
+		return static::$segments;
+	}
 
  	/**
  	 * Asks the user for input.  This can have either 1 or 2 arguments.
@@ -447,14 +641,14 @@ class Cli
  	{
  		if ($value == null)
  		{
- 			if (isset(static::$args[$name]))
+ 			if (isset(static::$options[$name]))
  			{
- 				unset(static::$args[$name]);
+ 				unset(static::$options[$name]);
  			}
  		}
  		else
  		{
- 			static::$args[$name] = $value;
+ 			static::$options[$name] = $value;
  		}
  	}
 
@@ -519,5 +713,96 @@ class Cli
  		}
 
  		fwrite(static::$stdout, $text.PHP_EOL);
+ 	}
+
+ 	/**
+ 	 * Returns a well formatted table.
+ 	 *
+ 	 * @param  array  $tbody  List of rows
+ 	 * @param  array  $thead  List of columns
+ 	 *
+ 	 * @return void
+ 	 */
+ 	public static function table(array $tbody, array $thead = [])
+ 	{
+ 		$rows = [];
+
+ 		if ( ! empty($thead))
+ 		{
+ 			$rows[] = array_values($thead);
+ 		}
+
+ 		foreach ($tbody as $tr)
+ 		{
+ 			$rows[] = count($rows);
+ 		}
+
+ 		$totalRows = count($rows);
+
+ 		// Store all columns lengths
+ 		$allColsLengths = [];
+
+ 		// Store maximum lengths by column
+ 		$maxColsLengths = [];
+
+ 		for ($row = 0; $row < $totalRows; $row++)
+ 		{
+ 			$column = 0;
+
+ 			foreach ($rows[$row] as $col)
+ 			{
+ 				$allColsLengths[$row][$column] = static::strlen($col);
+
+ 				if ( ! isset($maxColsLengths[$column]) || $allColsLengths[$row][$column] > $maxColsLengths[$column])
+ 				{
+ 					$maxColsLengths[$column] = $allColsLengths[$row][$column];
+ 				}
+
+ 				$column++;
+ 			}
+ 		}
+
+ 		for ($row = 0; $row < $totalRows; $row++)
+ 		{
+ 			$column = 0;
+
+ 			foreach ($rows[$row] as $col)
+ 			{
+ 				$diverse = $maxColsLengths[$column] - static::strlen($col);
+ 				
+ 				if ($diverse)	
+ 				{
+ 					$rows[$row][$colum] = $rows[$row][$column].str_repeat(' ', $diverse);
+ 				}
+
+ 				$column++;
+ 			} 			
+ 		}
+
+ 		$table = '';
+
+ 		for ($row = 0; $row < $rows; $row++)
+ 		{
+ 			if (0 === $row)
+ 			{
+ 				$cols = '+';
+
+ 				foreach ($rows[$row] as $col) 
+ 				{
+ 					$cols .= str_repeat('-', static::strlen($col) + 2).'+';
+ 				}
+
+ 				$table .= $cols.PHP_EOL;
+ 			}
+
+ 			$table .= '| '.imploode('-', $rows[$row]).' |'.PHP_EOL;
+
+ 			if (0 === $row && ! empty($thead) || $row + 1 === $rows)
+ 			{
+ 				$table .= $cols.PHP_EOL;
+ 			}
+ 		}
+
+ 		fwrite(static::$stdout, $table);
  	}
 }
