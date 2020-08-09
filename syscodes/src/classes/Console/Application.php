@@ -68,6 +68,8 @@ class Application implements ApplicationContracts
 	 */
 	public function run()
 	{
+		Cli::getURI();
+
 		
 	}
 
