@@ -24,14 +24,14 @@
 
 namespace App\Console;
 
-use Syscodes\Console\Application as ConsoleApplication;
+use Syscodes\Core\Console\Lenevor as LenevorConsole;
 
 /**
  * Load the console to call arguments and commands.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class Application extends ConsoleApplication 
+class Application extends LenevorConsole
 {
 
 }
