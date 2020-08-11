@@ -45,7 +45,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      * 
-     * @return  void
+     * @return void
      */
     public function boot()
     {
@@ -55,10 +55,11 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Loaded file of route.
      * 
-     * @return  void
+     * @return void
      */
     public function loadMap()
     {
+        $this->loadMapApiRoute();
         $this->loadMapWebRoute();
     }
 
@@ -71,5 +72,17 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::namespace($this->namespace)
              ->group(basePath('routes/web.php'));
+    }
+
+     /**
+     * Define the "api" routes for the application.
+     * 
+     * @return void
+     */
+    protected function loadMapApiRoute()
+    {
+        Route::prefix('api')
+             ->namespace($this->namespace)
+             ->group(basePath('routes/api.php'));
     }
 }
