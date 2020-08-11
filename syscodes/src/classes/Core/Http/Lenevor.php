@@ -34,6 +34,7 @@ use Syscodes\Contracts\Core\Application;
 use Syscodes\Contracts\Debug\ExceptionHandler;
 use Syscodes\Contracts\Core\Lenevor as LenevorContract;
 use Syscodes\Debug\FatalExceptions\FatalThrowableError;
+
 /**
  * The Lenevor class is the heart of the system framework.
  * 
