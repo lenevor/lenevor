@@ -60,7 +60,7 @@ $app = require_once __DIR__.'/bootstrap/app.php';
 |
 */
 
-$application = $app->make(Syscodes\Contracts\Console\Application::class);
+$application = $app->make(Syscodes\Contracts\Console\Lenevor::class);
 
 // We want errors to be shown when using it from the CLI
 error_reporting(-1);
