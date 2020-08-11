@@ -51,7 +51,7 @@ abstract class ServiceProvider
     }
 
     /**
-     * Register the service provider.
+     * Register any application services.
      * 
      * @return void
      */
