@@ -36,7 +36,7 @@ $app->singleton(
 );
 
 $app->singleton(
-    Syscodes\Contracts\Console\Application::class, 
+    Syscodes\Contracts\Console\Lenevor::class, 
     App\Console\Application::class
 );
 
