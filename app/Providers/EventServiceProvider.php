@@ -46,7 +46,7 @@ class EventServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      * 
-     * @return  void
+     * @return void
      */
     public function boot()
     {
