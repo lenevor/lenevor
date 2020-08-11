@@ -14,9 +14,9 @@
 return [
     
     'App\\Console\\Application' => APP_PATH.'Console/Application.php',
-    'App\\Console\\Application' => APP_PATH.'Console/Application.php',
     'App\\Exceptions\\Handler' => APP_PATH.'Exceptions/Handler.php',
     'App\\Http\\BaseController' => APP_PATH.'Http/BaseController.php',
+    'App\\Providers\\AppServiceProvider' => APP_PATH.'Providers/AppServiceProvider.php',
     'App\\Providers\\EventServiceProvider' => APP_PATH.'Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => APP_PATH.'Providers/RouteServiceProvider.php',
     'Syscodes\\Cache\\Exceptions\\CacheException' => SYS_PATH.'src/classes/Cache/Exceptions/CacheException.php',
@@ -47,6 +47,7 @@ return [
     'Syscodes\\Contracts\\Cache\\Store' => SYS_PATH.'src/classes/Contracts/Cache/Store.php',
     'Syscodes\\Contracts\\Config\\Configure' => SYS_PATH.'src/classes/Contracts/Config/Configure.php', 
     'Syscodes\\Contracts\\Console\\Application' => SYS_PATH.'src/classes/Contracts/Console/Application.php',
+    'Syscodes\\Contracts\\Console\\Lenevor' => SYS_PATH.'src/classes/Contracts/Console/Lenevor.php',
     'Syscodes\\Contracts\\Container\\BindingResolutionException' => SYS_PATH.'src/classes/Contracts/Container/BindingResolutionException.php',
     'Syscodes\\Contracts\\Container\\Container' => SYS_PATH.'src/classes/Contracts/Container/Container.php',
     'Syscodes\\Contracts\\Container\\ExpectedInvokableException' => SYS_PATH.'src/classes/Contracts/Container/ExpectedInvokableException.php',
@@ -77,6 +78,7 @@ return [
     'Syscodes\\Core\\Bootstrap\\BootProviders' => SYS_PATH.'src/classes/Core/Bootstrap/BootProviders.php', 
     'Syscodes\\Core\\Bootstrap\\BootRegisterFacades' => SYS_PATH.'src/classes/Core/Bootstrap/BootRegisterFacades.php', 
     'Syscodes\\Core\\Bootstrap\\BootRegisterProviders' => SYS_PATH.'src/classes/Core/Bootstrap/BootRegisterProviders.php',
+    'Syscodes\\Core\\Console\\Lenevor' => SYS_PATH.'src/classes/Core/Console/Lenevor.php',
     'Syscodes\\Core\\Exceptions\\DebugHandler' => SYS_PATH.'src/classes/Core/Exceptions/DebugHandler.php',
     'Syscodes\\Core\\Exceptions\\Handler' => SYS_PATH.'src/classes/Core/Exceptions/Handler.php',
     'Syscodes\\Core\\Http\\Exceptions\\AccessDeniedHttpException' => SYS_PATH.'src/classes/Core/Http/Exceptions/AccessDeniedHttpException.php',
