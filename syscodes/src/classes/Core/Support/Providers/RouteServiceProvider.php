@@ -37,7 +37,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      * 
-     * @return  void
+     * @return void
      */
     public function boot()
     {
@@ -53,7 +53,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Loaded file of route.
      * 
-     * @return  void
+     * @return void
      */
     protected function loadRoutes()
     {
