@@ -19,10 +19,9 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.4.1
+ * @since       0.4.2
  */
 
-//use RuntimeException;
 use Syscodes\Core\Application;
 use Syscodes\Support\WebString;
 use Syscodes\Routing\UrlGenerator;
