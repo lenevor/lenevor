@@ -24,8 +24,6 @@
 
 namespace Syscodes\Contracts\Routing;
 
-use Syscodes\Routing\Route;
-
 /**
  * All Lenevor routes are defined in your route files, which are located in the routes 
  * directory and called depending on the HTTP verbs used by the user.
