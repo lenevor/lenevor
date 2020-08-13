@@ -27,6 +27,7 @@ namespace Syscodes\Core;
 use Syscodes\Container\Container;
 use Syscodes\Support\ServiceProvider;
 use Syscodes\Log\LoggerServiceProvider;
+use Syscodes\Events\EventServiceProvider;
 use Syscodes\Routing\RoutingServiceProvider;
 use Syscodes\Core\Http\Exceptions\HttpException;
 use Syscodes\Core\Http\Exceptions\NotFoundHttpException;
@@ -184,6 +185,7 @@ class Application extends Container implements ApplicationContract
      */
     protected function registerBaseServiceProviders()
     {
+        $this->register(new EventServiceProvider($this));
         $this->register(new LoggerServiceProvider($this));
         $this->register(new RoutingServiceProvider($this));
     }
