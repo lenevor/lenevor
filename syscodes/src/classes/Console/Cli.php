@@ -249,12 +249,12 @@ class Cli
 
  		foreach (static::$foregroundColors as $color)
  		{
- 			$string = strtr($string, ["\033[" . $color . 'm' => '']);
+ 			$string = strtr($string, ["\033[".$color.'m' => '']);
  		}
 
  		foreach (static::$backgroundColors as $color)
  		{
- 			$string = strtr($string, ["\033[" . $color . 'm' => '']);
+ 			$string = strtr($string, ["\033[".$color.'m' => '']);
  		}
 
  		$string = strtr($string, ["\033[4m" => '', "\033[0m" => '']);
@@ -428,7 +428,7 @@ class Cli
 	 *
 	 * @return mixed
 	 * 
-	 * @use    \Syscodes\Contract\Core\Lenevor
+	 * @uses   \Syscodes\Contract\Core\Lenevor
 	 */
  	public static function option($name, $default = null)
  	{
@@ -520,16 +520,16 @@ class Cli
 	 * Usage:
 	 *
 	 * // Waits for any key press
-	 * CLI::prompt();
+	 * Cli::prompt();
 	 *
 	 * // Takes any input
-	 * $color = CLI::prompt('What is your favorite color?');
+	 * $color = Cli::prompt('What is your favorite color?');
 	 *
 	 * // Takes any input, but offers default
-	 * $color = CLI::prompt('What is your favourite color?', 'white');
+	 * $color = Cli::prompt('What is your favourite color?', 'white');
 	 *
 	 * // Will only accept the options in the array
-	 * $ready = CLI::prompt('Are you ready?', array('y','n'));
+	 * $ready = Cli::prompt('Are you ready?', array('y','n'));
 	 *
 	 * @return string The user input
 	 */
@@ -555,13 +555,13 @@ class Cli
 		{
 			case 2:
 
-				// E.g: $ready = CLI::prompt('Are you ready?', ['y','n']);
+				// E.g: $ready = Cli::prompt('Are you ready?', ['y','n']);
 				if (is_array($args[1]))
 				{
 					list($output, $options) = $args;
 				}
 
-				// E.g: $color = CLI::prompt('What is your favourite color?', 'white');
+				// E.g: $color = Cli::prompt('What is your favourite color?', 'white');
 				elseif (is_string($args[1]))
 				{
 					list($output, $default) = $args;
@@ -572,14 +572,14 @@ class Cli
 			case 1:
 
 				// No question (probably been asked already) so just show options
-				// E.g: $ready = CLI::prompt(array('y','n'));
+				// E.g: $ready = Cli::prompt(array('y','n'));
 				if (is_array($args[0]))
 				{
 					$options = $args[0];
 				}
 
 				// Question without options
-				// E.g: $ready = CLI::prompt('What did you do today?');
+				// E.g: $ready = Cli::prompt('What did you do today?');
 				elseif (is_string($args[0]))
 				{
 					$output = $args[0];
