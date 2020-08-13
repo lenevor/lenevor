@@ -13,9 +13,10 @@
 
 return [
     
-    'App\\Console\\Application' => APP_PATH.'Console/Application.php',
+    'App\\Console\\Lenevor' => APP_PATH.'Console/Lenevor.php',
     'App\\Exceptions\\Handler' => APP_PATH.'Exceptions/Handler.php',
-    'App\\Http\\BaseController' => APP_PATH.'Http/BaseController.php',
+    'App\\Http\\Controller' => APP_PATH.'Http/Controller.php',
+    'App\\Http\\Lenevor' => APP_PATH.'Http/Lenevor.php',
     'App\\Providers\\AppServiceProvider' => APP_PATH.'Providers/AppServiceProvider.php',
     'App\\Providers\\EventServiceProvider' => APP_PATH.'Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => APP_PATH.'Providers/RouteServiceProvider.php',
