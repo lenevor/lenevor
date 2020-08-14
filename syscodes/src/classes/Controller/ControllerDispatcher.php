@@ -25,7 +25,7 @@
 namespace Syscodes\Controller;
 
 use Syscodes\Routing\Route;
-use Syscodes\Container\Container;
+use Syscodes\Contracts\Container\Container;
 use Syscodes\Routing\Traits\RouteDependencyResolverTrait;
 use Syscodes\Controller\Contracts\ControllerDispatcher as ControllerDispatcherContract;
 
@@ -41,14 +41,14 @@ class ControllerDispatcher implements ControllerDispatcherContract
     /**
      * The container instance.
      * 
-     * @var \Syscodes\Container\Container $container
+     * @var \Syscodes\Contracts\Container\Container  $container
      */
     protected $container;
 
     /**
      * Constructor. The ControllerDispatcher class instance.
      * 
-     * @param  \Syscodes\Container\Container  $container
+     * @param  \Syscodes\Contracts\Container\Container  $container
      * 
      * @return void
      */
@@ -60,6 +60,7 @@ class ControllerDispatcher implements ControllerDispatcherContract
     /**
      * Dispatch a request to a given controller and method.
      * 
+     * @param  \Syscodes\Routing\Route  $route
      * @param  mixed  $controller
      * @param  string  $method
      * 
