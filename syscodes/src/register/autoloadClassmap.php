@@ -285,6 +285,7 @@ return [
     'Psr\\Log\\AbstractLogger' => SYS_PATH.'src/external/psr/Log/src/AbstractLogger.php',
     'Psr\\Log\\InvalidArgumentException' => SYS_PATH.'src/external/psr/Log/src/InvalidArgumentException.php',
     'Psr\\Log\\LoggerAwareInterface' => SYS_PATH.'src/external/psr/Log/src/LoggerAwareInterface.php',
+    'Psr\\Log\\LoggerAwareTrait' => SYS_PATH.'src/external/psr/Log/src/LoggerAwareTrait.php',
     'Psr\\Log\\LoggerInterface' => SYS_PATH.'src/external/psr/Log/src/LoggerInterface.php',
     'Psr\\Log\\LoggerTrait' => SYS_PATH.'src/external/psr/Log/src/LoggerTrait.php',
     'Psr\\Log\\LogLevel' => SYS_PATH.'src/external/psr/Log/src/LogLevel.php',
