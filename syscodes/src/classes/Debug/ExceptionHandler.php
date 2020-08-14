@@ -163,9 +163,11 @@ class ExceptionHandler
         $caughtLength = $this->caughtLength = 0;
 
         ob_start(function ($buffer) {
+
             $this->caughtBuffer = $buffer;
 
             return '';
+            
         });
 
         $this->sendPhpResponse($exception);
@@ -173,6 +175,7 @@ class ExceptionHandler
         if (isset($this->caughtBuffer[0]))
         {
             ob_start(function ($buffer) {
+
                 if ($this->caughtLength)
                 {
                     $cleanBuffer = substr_replace($buffer, '', 0, $this->caughtLength);
@@ -184,6 +187,7 @@ class ExceptionHandler
                 }
 
                 return $buffer;
+
             });
 
             echo $this->caughtBuffer;
