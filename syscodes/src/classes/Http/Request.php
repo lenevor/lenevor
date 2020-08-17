@@ -19,13 +19,14 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.7.0
+ * @since       0.7.2
  */
 
 namespace Syscodes\Http;
 
 Use Locale;
 use Exception;
+use LogicException;
 use Syscodes\Support\Str;
 use Syscodes\Http\Contributors\Server;
 
@@ -81,9 +82,9 @@ class Request
 	/** 
 	 * The method name.
 	 * 
-	 * @var string|null $method
+	 * @var string $method
 	 */
-	protected $method = null;
+	protected $method;
 
 	/**
 	 * The path info of URL.
@@ -97,14 +98,14 @@ class Request
 	 * 
 	 * @var array $server
 	 */
-	protected $server = [];
+	public $server = [];
 
 	/** 
 	 * List of routes uri.
 	 *
-	 * @var array|null $uri 
+	 * @var string|array $uri 
 	 */
-	public $uri = null;
+	public $uri;
 
 	/**
 	 * Stores the valid locale codes.
@@ -114,35 +115,127 @@ class Request
 	protected $validLocales = [];
 
 	/**
-	 * Constructor: Initialize the Request class.
+	 * Constructor: Create new the Request class.
 	 * 
-	 * @param  string|null  $body
-	 * @param  \Syscodes\Http\Uri  $uri
-	 * @param  \Syscodes\Http\Http  $http
+	 * @param  array  $server
 	 * 
-	 * @return string
+	 * @return void
 	 */
-	public function __construct(string $body = 'php://input', URI $uri, Http $http)
+	public function __construct(array $server = [])
 	{
 		static::$active = $this;
 		
-		// Get our body from php://input
-		if ($body === 'php://input')
-		{
-			$body = file_get_contents('php://input');
-		}
-
-		$this->body         = $body;   
-		$this->uri          = $uri;
-		$this->http         = $http;
-		$this->baseUrl      = null;
-		$this->pathInfo     = null;
-		$this->server       = new Server($_SERVER);
-		$this->validLocales = config('app.supportedLocales');
-		$this->method       = $this->server->get('REQUEST_METHOD') ?? 'GET';
+		$this->initialize($server);
 
 		$this->detectURI(config('app.uriProtocol'), config('app.baseUrl'));
+
 		$this->detectLocale();
+	}
+
+	/**
+	 * Sets the parameters for this request.
+	 * 
+	 * @param  array  $server
+	 * 
+	 * @return void
+	 */
+	public function initialize(array $server = [])
+	{
+		$this->uri          = new URI;
+		$this->http         = new Http;
+		$this->locale       = null;
+		$this->server       = new Server($server);
+		$this->method       = null;
+		$this->baseUrl      = null;
+		$this->pathInfo     = null;
+		$this->validLocales = config('app.supportedLocales');
+	}
+
+	/**
+	 * Create a new Syscodes HTTP request from server variables.
+	 * 
+	 * @return static
+	 */
+	public static function capture()
+	{
+		return static::createFromRequest(static::createFromRequestGlobals());
+	}
+
+	/**
+	 * Creates an Syscodes request from of the Request class instance.
+	 * 
+	 * @param  \Syscodes\Http\Request  $request
+	 * 
+	 * @return static
+	 */
+	public static function createFromRequest($request)
+	{
+		$newRequest = (new static)->duplicate($request->server->all());
+
+		return $newRequest;
+	}
+
+	/**
+	 * Creates a new request with value from PHP's super global.
+	 * 
+	 * @return static
+	 */
+	public static function createFromRequestGlobals()
+	{
+		$request = static::createFromRequestFactory($_SERVER);
+
+		return $request;
+	}
+
+	/**
+	 * Creates a new request from a factory.
+	 * 
+	 * @param  array  $server
+	 * 
+	 * @return static
+	 */
+	protected static function createFromRequestFactory(array $server = [])
+	{
+		if (self::$active)
+		{
+			$request = (self::$active)($server);
+
+			if ( ! $request instanceof self)
+			{
+				throw new LogicException('The Request active must return an instance of Syscodes\Http\Request');
+			}
+
+			return $request;
+		}
+
+		return new static($server);
+	}
+
+	/**
+	 * Clones a request and overrides some of its parameters.
+	 * 
+	 * @param  array  $server
+	 * 
+	 * @return static
+	 */
+	public function duplicate(array $server = [])
+	{
+		$duplicate = clone $this;
+
+		if (null !== $server)
+		{
+			$duplicate->server = new Server($server);
+		}
+
+		$duplicate->uri          = new URI;
+		$duplicate->http         = new Http;
+		$duplicate->locale       = null;
+		$duplicate->method       = null;
+		$duplicate->baseUrl      = null;
+		$duplicate->pathInfo     = null;
+		$duplicate->validLocales = config('app.supportedLocales');
+
+		return $duplicate;		
 	}
 
 	/**
@@ -285,7 +378,7 @@ class Request
 		{
 			$locale = $this->defaultLocale;
 		}
-
+		
 		$this->locale = $locale;
 
 		try
@@ -344,13 +437,25 @@ class Request
 	/**
 	 * Returns the input method used (GET, POST, DELETE, etc.).
 	 *
-	 * @param  bool  $upper  Whether to return in upper or lower case
+	 * @return string
 	 * 
-	 * @return string  
+	 * @throws \LogicException  
 	 */
-	public function method(bool $upper = true)
+	public function method()
 	{
-		return ($upper) ? strtoupper($this->method) : strtolower($this->method);
+		if (null !== $this->method)
+		{
+			return $this->method;
+		}
+		
+		$this->method = strtoupper($this->server->get('REQUEST_METHOD', 'GET'));
+		
+		if (in_array($this->method, ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'PATCH', 'PURGE', 'TRACE'], true))
+		{
+			return $this->method;
+		}
+				
+		throw new logicException(sprintf('Invalid method override "%s"', $this->method));
 	}
 
 	/**
@@ -358,11 +463,13 @@ class Request
 	 *
 	 * @param  string  $method  
 	 *
-	 * @return object  $this
+	 * @return $this
 	 */
 	public function setMethod(string $method) 
 	{
-		$this->method = $method;
+		$this->method = null;
+
+		$this->server->set('REQUEST_METHOD', $method);
 
 		return $this;
 	}
@@ -577,13 +684,27 @@ class Request
 	}
 	
 	/**
-	 * Determine if the request is over HTTPS.
+	 * Attempts to detect if the current connection is secure through 
+	 * over HTTPS protocol.
 	 * 
 	 * @return bool
 	 */
 	public function secure()
 	{
-		return $this->http->isSecure();
+		if ( ! empty($this->server->get('HTTPS')) && strtolower($this->server->get('HTTPS')) !== 'off')
+		{
+			return true;
+		}
+		elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $this->server->get('HTTP_X_FORWARDED_PROTO') === 'https')
+		{
+			return true;
+		}
+		elseif ( ! empty($this->server->get('HTTP_FRONT_END_HTTPS')) && strtolower($this->server->get('HTTP_FRONT_END_HTTPS')) !== 'off')
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
