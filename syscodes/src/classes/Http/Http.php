@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.1.1
  */
 
 namespace Syscodes\Http;
@@ -39,30 +39,6 @@ class Http
 	public function isCli()
 	{
 		return (PHP_SAPI === 'cli' || defined('STDIN'));
-	}
-
-	/**
-	 * Attempts to detect if the current connection is secure through a few 
-	 * different methods.
-	 * 
-	 * @return bool
-	 */
-	public function isSecure()
-	{
-		if ( ! empty($this->server('HTTPS')) && strtolower($this->server('HTTPS')) !== 'off')
-		{
-			return true;
-		}
-		elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $this->server('HTTP_X_FORWARDED_PROTO') === 'https')
-		{
-			return true;
-		}
-		elseif ( ! empty($this->server('HTTP_FRONT_END_HTTPS')) && strtolower($this->server('HTTP_FRONT_END_HTTPS')) !== 'off')
-		{
-			return true;
-		}
-
-		return false;
 	}
 
 	/**
@@ -278,17 +254,17 @@ class Http
 		}
 		else
 		{
-			$path = $this->server('PHP_SELF', '');
-			$file = $this->server('SCRIPT_FILENAME', '');
-			$segs = explode('/', trim($file, '/'));
-			$segs = array_reverse($segs);
-			$index = 0;
-			$last = count($segs);
+			$path    = $this->server('PHP_SELF', '');
+			$file    = $this->server('SCRIPT_FILENAME', '');
+			$segs    = explode('/', trim($file, '/'));
+			$segs    = array_reverse($segs);
+			$index   = 0;
+			$last    = count($segs);
 			$baseUrl = '';
 			
 			do
 			{
-				$seg = $segs[$index];
+				$seg     = $segs[$index];
 				$baseUrl = '/'.$seg.$baseUrl;
 				++$index;
 			} while ($last > $index && (false !== $pos = strpos($path, $baseUrl)) && 0 != $pos);
