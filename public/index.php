@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.1
+ * @since       0.1.2
  */
 
 /*
@@ -65,7 +65,7 @@ $lenevor = $app->make(Syscodes\Contracts\Core\Lenevor::class);
 
 // Initialize services
 $response = $lenevor->handle(
-    $request = $app->make(Syscodes\Http\Request::class)
+    $request = Syscodes\Http\Request::capture()
 );
 
 // Sends HTTP headers and content
