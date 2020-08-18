@@ -144,6 +144,7 @@ class Headers implements IteratorAggregate, Countable
 	public function get($key, $default =  null, $option = true)
 	{
 		$key = str_replace('_', '-', strtolower($key));
+		
 		$headers = $this->all();
 		
 		if ( ! array_key_exists($key, $headers))
