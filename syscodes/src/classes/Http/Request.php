@@ -28,7 +28,10 @@ Use Locale;
 use Exception;
 use LogicException;
 use Syscodes\Support\Str;
+use Syscodes\Http\Contributors\Files;
+use Syscodes\Http\Contributors\Inputs;
 use Syscodes\Http\Contributors\Server;
+use Syscodes\Http\Contributors\Headers;
 
 /**
  * Request represents an HTTP request.
@@ -52,18 +55,32 @@ class Request
 	protected $baseUrl;
 
 	/**
+	 * Gets cookies ($_COOKIE).
+	 * 
+	 * @var string $cookies
+	 */
+	public $cookies;
+
+	/**
 	 * Gets the string with format JSON.
 	 * 
-	 * @var string $body 
+	 * @var string|resource|null $content
 	 */
-	protected $body;
+	protected $content;
 
 	/**
 	 * The default Locale this request.
 	 * 
 	 * @var string $defaultLocale
 	 */
-	protected $defaultLocale;
+	protected $defaultLocale = 'en';
+	
+	/**
+	 * Gets files request ($_FILES).
+	 * 
+	 * @var string $files
+	 */
+	public $files;
 
 	/**
 	 * The detected uri and server variables.
@@ -73,11 +90,11 @@ class Request
 	protected $http;
 
 	/**
-	 * The current Locale of the application.
+	 * The current language of the application.
 	 * 
-	 * @var string $locale
+	 * @var string $languages
 	 */
-	protected $locale;
+	protected $languages;
 	
 	/** 
 	 * The method name.
@@ -94,7 +111,7 @@ class Request
 	protected $pathInfo;
 
 	/**
-	 * The detected uri and server variables.
+	 * The detected uri and server variables ($_FILES).
 	 * 
 	 * @var array $server
 	 */
@@ -117,15 +134,18 @@ class Request
 	/**
 	 * Constructor: Create new the Request class.
 	 * 
+	 * @param  array  $cookies
+	 * @param  array  $files
 	 * @param  array  $server
+	 * @param  string|resource|null $content  (null by default)
 	 * 
 	 * @return void
 	 */
-	public function __construct(array $server = [])
+	public function __construct(array $cookies = [], array $files = [], array $server = [], $content = null)
 	{
 		static::$active = $this;
 		
-		$this->initialize($server);
+		$this->initialize($cookies, $files, $server, $content);
 
 		$this->detectURI(config('app.uriProtocol'), config('app.baseUrl'));
 
@@ -135,19 +155,26 @@ class Request
 	/**
 	 * Sets the parameters for this request.
 	 * 
+	 * @param  array  $cookies
+	 * @param  array  $files
 	 * @param  array  $server
 	 * 
 	 * @return void
 	 */
-	public function initialize(array $server = [])
+	public function initialize(array $cookies = [], array $files = [], array $server = [], $content = null)
 	{
+		$this->cookies      = new Inputs($cookies);
+		$this->files        = new Files($files);
+		$this->server       = new Server($server);
+		$this->headers      = new Headers($this->server->all());
+
 		$this->uri          = new URI;
 		$this->http         = new Http;
-		$this->locale       = null;
-		$this->server       = new Server($server);
 		$this->method       = null;
 		$this->baseUrl      = null;
+		$this->content      = $content;
 		$this->pathInfo     = null;
+		$this->languages    = null;
 		$this->validLocales = config('app.supportedLocales');
 	}
 
@@ -170,7 +197,7 @@ class Request
 	 */
 	public static function createFromRequest($request)
 	{
-		$newRequest = (new static)->duplicate($request->server->all());
+		$newRequest = (new static)->duplicate($request->cookies->all(), $request->files->all(), $request->server->all());
 
 		return $newRequest;
 	}
@@ -182,7 +209,7 @@ class Request
 	 */
 	public static function createFromRequestGlobals()
 	{
-		$request = static::createFromRequestFactory($_SERVER);
+		$request = static::createFromRequestFactory($_COOKIE, $_FILES, $_SERVER);
 
 		return $request;
 	}
@@ -190,15 +217,17 @@ class Request
 	/**
 	 * Creates a new request from a factory.
 	 * 
+	 * @param  array  $cookies
+	 * @param  array  $files
 	 * @param  array  $server
 	 * 
 	 * @return static
 	 */
-	protected static function createFromRequestFactory(array $server = [])
+	protected static function createFromRequestFactory(array $cookies = [], array $files = [], array $server = [])
 	{
 		if (self::$active)
 		{
-			$request = (self::$active)($server);
+			$request = (self::$active)($cookies, $files, $server);
 
 			if ( ! $request instanceof self)
 			{
@@ -208,23 +237,36 @@ class Request
 			return $request;
 		}
 
-		return new static($server);
+		return new static($cookies, $files, $server);
 	}
 
 	/**
 	 * Clones a request and overrides some of its parameters.
 	 * 
+	 * @param  array  $cookies
+	 * @param  array  $files
 	 * @param  array  $server
 	 * 
 	 * @return static
 	 */
-	public function duplicate(array $server = [])
+	public function duplicate(array $cookies = [], array $files = [], array $server = [])
 	{
 		$duplicate = clone $this;
 
+		if (null !== $cookies)
+		{
+			$duplicate->cookies = new Inputs($cookies);
+		}
+
+		if (null !== $files)
+		{
+			$duplicate->files = new Files($files);
+		}
+
 		if (null !== $server)
 		{
-			$duplicate->server = new Server($server);
+			$duplicate->server  = new Server($server);
+			$duplicate->headers = new Headers($duplicate->server->all());
 		}
 
 		$duplicate->uri          = new URI;
@@ -340,7 +382,7 @@ class Request
 	 */
 	public function detectLocale()
 	{
-		$this->locale = $this->defaultLocale = config('app.locale');
+		$this->languages = $this->defaultLocale = config('app.locale');
 
 		$this->setLocale($this->validLocales);
 	}
@@ -362,7 +404,7 @@ class Request
 	 */
 	public function getLocale()
 	{
-		return $this->locale ?: $this->defaultLocale;
+		return $this->languages ?: $this->defaultLocale;
 	}
 
 	/**
@@ -379,7 +421,7 @@ class Request
 			$locale = $this->defaultLocale;
 		}
 		
-		$this->locale = $locale;
+		$this->languages = $locale;
 
 		try
 		{
@@ -420,7 +462,7 @@ class Request
 	 */
 	public function getJSON(bool $assoc = false, int $depth = 512, int $options = 0)
 	{
-		return json_decode($this->body, $assoc, $depth, $options);
+		return json_decode($this->content, $assoc, $depth, $options);
 	}
 
 	/**
@@ -448,14 +490,19 @@ class Request
 			return $this->method;
 		}
 		
-		$this->method = strtoupper($this->server->get('REQUEST_METHOD', 'GET'));
+		$method = strtoupper($this->server->get('REQUEST_METHOD', 'GET'));
 		
-		if (in_array($this->method, ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'PATCH', 'PURGE', 'TRACE'], true))
+		if (in_array($method, ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'PATCH', 'PURGE', 'TRACE'], true))
 		{
-			return $this->method;
+			return $this->method = $method;
 		}
-				
-		throw new logicException(sprintf('Invalid method override "%s"', $this->method));
+		
+		if ( ! preg_match('~^[A-Z]++$#~D', $method))
+		{
+			throw new logicException(sprintf('Invalid method override "%s"', $method));
+		}
+
+		return $this->method = $method;
 	}
 
 	/**
@@ -463,15 +510,12 @@ class Request
 	 *
 	 * @param  string  $method  
 	 *
-	 * @return $this
+	 * @return string
 	 */
 	public function setMethod(string $method) 
 	{
 		$this->method = null;
-
 		$this->server->set('REQUEST_METHOD', $method);
-
-		return $this;
 	}
 	
 	/**
@@ -746,5 +790,15 @@ class Request
 		{
 			return $key;
 		}
+	}
+
+	/**
+	 * Clones the current request.
+	 * 
+	 * @return void
+	 */
+	public function __clone()
+	{
+		$this->server = clone $this->server;
 	}
 }
