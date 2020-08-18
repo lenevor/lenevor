@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor PHP Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.2.0
+ * @since       0.7.2
  */
 
 namespace Syscodes\Http\Contributors;
@@ -65,21 +65,55 @@ class Parameters implements IteratorAggregate, Countable
 	}
 
 	/**
+	 * Returns the parameter keys.
+	 * 
+	 * @return array
+	 */
+	public function keys()
+	{
+		return array_keys($this->parameters);
+	}
+
+	/**
+	 * Replaces the current parameters.
+	 * 
+	 * @param  array  $parameters
+	 * 
+	 * @return array
+	 */
+	public function replace(array $parameters = [])
+	{
+		$this->parameters = $parameters;
+	}
+
+	/**
+	 * Adds parameters.
+	 * 
+	 * @param  array  $parameters
+	 * 
+	 * @return array
+	 */
+	public function add(array $parameters = [])
+	{
+		$this->parameters = array_replace($this->parameters, $parameters);
+	}
+
+	/**
 	 * Get a parameter array item.
 	 *
 	 * @param  string  $key
-	 * @param  string|null  $fallback 
+	 * @param  string|null  $default  (null by default) 
 	 *
 	 * @return mixed
 	 */
-	public function get($key, $fallback = null)
+	public function get($key, $default = null)
 	{
 		if (Arr::exists($this->parameters, $key))
 		{
 			return $this->parameters[$key];
 		}
 
-		return $fallback;
+		return $default;
 	}
 
 	/**
@@ -137,7 +171,7 @@ class Parameters implements IteratorAggregate, Countable
 	 */
 	public function getIterator()
 	{
-		return new ArrayIterator($this->frames);
+		return new ArrayIterator($this->parameters);
 	}
 	
 	/*
