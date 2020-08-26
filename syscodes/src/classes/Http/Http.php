@@ -117,14 +117,14 @@ class Http
 		switch($protocol)
 		{
 			case 'REQUEST_URI':
-				$path = $this->parseRequestURI();
+				$path = $this->parseRequestUri();
 				break;
 			case 'QUERY_STRING':
 				$path = $this->parseQueryString();
 				break;
 			case 'PATH_INFO':
 			default:
-				$path = $this->server($protocol) ?? $this->parseRequestURI();
+				$path = $this->server($protocol) ?? $this->parseRequestUri();
 				break;
 		}
 
@@ -132,11 +132,11 @@ class Http
 	}
 
 	/**
-	 * Filters a value from the start of a string in this case the passed uri string.
+	 * Filters a value from the start of a string in this case the passed URI string.
 	 *
 	 * @return string
 	 */
-	protected function parseRequestURI()
+	protected function parseRequestUri()
 	{
 		if ( ! isset($_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME']))
 		{
@@ -271,7 +271,7 @@ class Http
 		}
 
 		// Does the baseUrl have anything in common with the request_uri?
-		$requestUri = $this->parseRequestURI();
+		$requestUri = $this->parseRequestUri();
 
 		if ('' !== $requestUri && '/' !== $requestUri[0])
 		{
@@ -304,7 +304,7 @@ class Http
 	 */
 	public function parsePathInfo()
 	{
-		if (null === ($requestUri = $this->parseRequestURI()))
+		if (null === ($requestUri = $this->parseRequestUri()))
 		{
 			return '/';
 		}
