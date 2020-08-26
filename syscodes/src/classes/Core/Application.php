@@ -661,6 +661,7 @@ class Application extends Container implements ApplicationContract
             'plaze.transpiler' => [\Syscodes\View\Transpilers\PlazeTranspiler::class],
             'redirect'         => [\Syscodes\Routing\Redirector::class],
             'redis'            => [\Syscodes\Redis\RedisManager::class],
+            'request'          => [\Syscodes\Http\Request::class],
             'router'           => [\Syscodes\Routing\Router::class],
             'session'          => [\Syscodes\Session\SessionManager::class],
             'session.store'    => [\Syscodes\Session\Store::class, \Syscodes\Contracts\Session\Session::class],
