@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.4.2
+ * @since       0.4.3
  */
 
 use Syscodes\Core\Application;
@@ -55,7 +55,7 @@ if ( ! function_exists('app'))
     /**
      * Get the available Application instance or a Facade class instance.
      *
-     * @param  string  $id
+     * @param  string  $id  (null by default)
      * @param  array  $parameters
      * 
      * @return \Syscodes\Core\Application|\Syscodes\Support\Facades\Facade
@@ -77,7 +77,7 @@ if ( ! function_exists('asset'))
      * Generate an asset path for the application.
      * 
      * @param  string  $path
-     * @param  bool  $secure
+     * @param  bool  $secure  (null by default)
      * 
      * @return string
      */
@@ -167,8 +167,8 @@ if ( ! function_exists('config'))
      * If an array is passed as the key, we will assume you want to set 
      * an array of values.
      *
-     * @param   array|string  $key
-     * @param   mixed  $default
+     * @param   array|string  $key  (null by default)
+     * @param   mixed  $default  (null by default)
      *
      * @return  mixed|\Syscodes\Config\Configure
      */
@@ -292,7 +292,7 @@ if ( ! function_exists('getClass'))
      * only the name of the class.
      * 
      * @param  string  $classname
-     * @param  bool  $bool       (false by default)
+     * @param  bool  $bool  (false by default)
      * 
      * @return array
      */
