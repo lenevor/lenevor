@@ -349,7 +349,7 @@ class URI
 	/**
 	 * Retrieve the authority component of the URI.
 	 * 
-	 * @param  boolean  $ignore  (true by default)
+	 * @param  boolean  $ignore  (false by default)
 	 * 
 	 * @return string
 	 */
