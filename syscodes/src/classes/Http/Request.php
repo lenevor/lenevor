@@ -32,6 +32,7 @@ use Syscodes\Http\Contributors\Files;
 use Syscodes\Http\Contributors\Inputs;
 use Syscodes\Http\Contributors\Server;
 use Syscodes\Http\Contributors\Headers;
+use Syscodes\Http\Contributors\Parameters;
 
 /**
  * Request represents an HTTP request.
@@ -43,9 +44,9 @@ class Request
 	/**
 	 * Holds the global active request instance.
 	 *
-	 * @var bool $active
+	 * @var bool $requestURI
 	 */
-	protected static $active = false;
+	protected static $requestURI;
 
 	/**
 	 * The base URL.
@@ -111,6 +112,20 @@ class Request
 	protected $pathInfo;
 
 	/**
+	 * Request body parameters ($_POST).
+	 * 
+	 * @var \Syscodes\Http\Contributors\Parameters $request
+	 */
+	public $request;
+
+	/**
+	 * Get request URI.
+	 * 
+	 * @var string $requestToURI
+	 */
+	protected $requestToURI;
+
+	/**
 	 * The detected uri and server variables ($_FILES).
 	 * 
 	 * @var array $server
@@ -134,6 +149,7 @@ class Request
 	/**
 	 * Constructor: Create new the Request class.
 	 * 
+	 * @param  array  $request
 	 * @param  array  $cookies
 	 * @param  array  $files
 	 * @param  array  $server
@@ -141,11 +157,11 @@ class Request
 	 * 
 	 * @return void
 	 */
-	public function __construct(array $cookies = [], array $files = [], array $server = [], $content = null)
+	public function __construct(array $request = [], array $cookies = [], array $files = [], array $server = [], $content = null)
 	{
-		static::$active = $this;
+		static::$requestURI = $this;
 		
-		$this->initialize($cookies, $files, $server, $content);
+		$this->initialize($request, $cookies, $files, $server, $content);
 
 		$this->detectURI(config('app.uriProtocol'), config('app.baseUrl'));
 
@@ -155,14 +171,16 @@ class Request
 	/**
 	 * Sets the parameters for this request.
 	 * 
+	 * @param  array  $request
 	 * @param  array  $cookies
 	 * @param  array  $files
 	 * @param  array  $server
 	 * 
 	 * @return void
 	 */
-	public function initialize(array $cookies = [], array $files = [], array $server = [], $content = null)
+	public function initialize(array $request = [], array $cookies = [], array $files = [], array $server = [], $content = null)
 	{
+		$this->request      = new Parameters($request);
 		$this->cookies      = new Inputs($cookies);
 		$this->files        = new Files($files);
 		$this->server       = new Server($server);
@@ -197,7 +215,8 @@ class Request
 	 */
 	public static function createFromRequest($request)
 	{
-		$newRequest = (new static)->duplicate($request->cookies->all(), $request->files->all(), $request->server->all());
+		$newRequest = (new static)->duplicate($request->request->all(), $request->cookies->all(), 
+											  $request->files->all(), $request->server->all());
 
 		return $newRequest;
 	}
@@ -209,7 +228,7 @@ class Request
 	 */
 	public static function createFromRequestGlobals()
 	{
-		$request = static::createFromRequestFactory($_COOKIE, $_FILES, $_SERVER);
+		$request = static::createFromRequestFactory($_POST, $_COOKIE, $_FILES, $_SERVER);
 
 		return $request;
 	}
@@ -217,17 +236,18 @@ class Request
 	/**
 	 * Creates a new request from a factory.
 	 * 
+	 * @param  array  $request
 	 * @param  array  $cookies
 	 * @param  array  $files
 	 * @param  array  $server
 	 * 
 	 * @return static
 	 */
-	protected static function createFromRequestFactory(array $cookies = [], array $files = [], array $server = [])
+	protected static function createFromRequestFactory(array $request = [], array $cookies = [], array $files = [], array $server = [])
 	{
-		if (self::$active)
+		if (self::$requestURI)
 		{
-			$request = (self::$active)($cookies, $files, $server);
+			$request = (self::$requestURI)($request, $cookies, $files, $server);
 
 			if ( ! $request instanceof self)
 			{
@@ -237,21 +257,27 @@ class Request
 			return $request;
 		}
 
-		return new static($cookies, $files, $server);
+		return new static($request, $cookies, $files, $server);
 	}
 
 	/**
 	 * Clones a request and overrides some of its parameters.
 	 * 
+	 * @param  array  $request
 	 * @param  array  $cookies
 	 * @param  array  $files
 	 * @param  array  $server
 	 * 
 	 * @return static
 	 */
-	public function duplicate(array $cookies = [], array $files = [], array $server = [])
+	public function duplicate(array $request = [], array $cookies = [], array $files = [], array $server = [])
 	{
 		$duplicate = clone $this;
+
+		if (null !== $request)
+		{
+			$duplicate->request = new Parameters($request);
+		}
 
 		if (null !== $cookies)
 		{
@@ -283,7 +309,9 @@ class Request
 	/**
 	 * Returns the active request currently being used.
 	 *
-	 * @param  \Syscodes\Http\Request|bool|null  $request Overwrite current request before returning, false prevents overwrite
+	 * @param  \Syscodes\Http\Request|bool|null  $request  Overwrite current request 
+	 *                                                     before returning, false prevents 
+	 *                                                     overwrite
 	 *
 	 * @return \Syscodes\Http\Request
 	 */
@@ -291,10 +319,10 @@ class Request
 	{
 		if ($request !== false)
 		{
-			static::$active = $request;
+			static::$requestURI = $request;
 		}
 
-		return static::$active;
+		return static::$requestURI;
 	}
 
 	/**
@@ -307,7 +335,7 @@ class Request
 	 */
 	public function segment($index, $default = null)
 	{
-		if ($request = self::active())
+		if ($request = static::active())
 		{
 			return $request->uri->getSegment($index, $default);
 		}
@@ -323,7 +351,7 @@ class Request
 	 */
 	public function segments()
 	{
-		if ($request = self::active())
+		if ($request = static::active())
 		{
 			return $request->uri->getSegments();
 		}
@@ -338,7 +366,7 @@ class Request
 	 */
 	public function totalSegments()
 	{
-		if ($request = self::active())
+		if ($request = static::active())
 		{
 			return $request->uri->getTotalSegments();
 		}
@@ -440,9 +468,9 @@ class Request
 	 *
 	 * @return string|null  The Request string
 	 */
-	public function getUri() 
+	public function get() 
 	{
-		if ($request = self::active())
+		if ($request = static::active())
 		{
 			return $request->uri->get();
 		}
@@ -454,9 +482,9 @@ class Request
 	 * A convenience method that grabs the raw input stream and decodes
 	 * the JSON into an array.
 	 * 
-	 * @param  bool  $assoc
-	 * @param  int  $depth
-	 * @param  int  $options
+	 * @param  bool  $assoc  (false by default)
+	 * @param  int  $depth  (512 by default)
+	 * @param  int  $options  (0 by default)
 	 * 
 	 * @return mixed
 	 */
@@ -483,7 +511,7 @@ class Request
 	 * 
 	 * @throws \LogicException  
 	 */
-	public function method()
+	public function getmethod()
 	{
 		if (null !== $this->method)
 		{
@@ -556,7 +584,7 @@ class Request
 	 * Get the route handling the request.
 	 * 
 	 * @param  string|null  $param  (null by default)
-	 * @param  mixed  $default
+	 * @param  mixed  $default  (null by default)
 	 * 
 	 * @return \Syscodes\Routing\Route|object|string|null
 	 */
@@ -570,21 +598,6 @@ class Request
 		}
 
 		return $route->parameter($param, $default);
-	}
-
-	/**
-	 * Returns the root URL from which this request is executed.
-	 * 
-	 * @return string
-	 */
-	public function getBaseUrl()
-	{
-		if (null === $this->baseUrl)
-		{
-			$this->baseUrl = $this->http->parseBaseUrl();
-		}
-
-		return $this->baseUrl;
 	}
 
 	/**
@@ -610,6 +623,21 @@ class Request
 	}
 
 	/**
+	 * Retunrs the request body content.
+	 * 
+	 * @return string
+	 */
+	public function getContent()
+	{
+		if (null === $this->content || false === $this->content)
+		{
+			$this->content = file_get_contents('php://input');
+		}
+
+		return $this->content;
+	}
+
+	/**
 	 * Returns the path being requested relative to the executed script. 
 	 * 
 	 * @return string
@@ -622,6 +650,36 @@ class Request
 		}
 
 		return $this->pathInfo;
+	}
+
+	/**
+	 * Returns the root URL from which this request is executed.
+	 * 
+	 * @return string
+	 */
+	public function getBaseUrl()
+	{
+		if (null === $this->baseUrl)
+		{
+			$this->baseUrl = $this->http->parseBaseUrl();
+		}
+
+		return $this->baseUrl;
+	}
+
+	/**
+	 * Returns the requested URI.
+	 * 
+	 * @return string
+	 */
+	public function getRequestUri()
+	{
+		if (null === $this->requestToUri)
+		{
+			$this->requestToUri = $this->http->parseRequestUri();
+		}
+
+		return $this->requestToUri;
 	}
 	
 	/**
@@ -712,7 +770,7 @@ class Request
 	 */
 	public function url()
 	{
-		return trim(preg_replace('/\?.*/', '', $this->getUri()), '/');
+		return trim(preg_replace('/\?.*/', '', $this->get()), '/');
 	}
 
 	/**
@@ -793,12 +851,56 @@ class Request
 	}
 
 	/**
+	 * Returns the Request as an HTTP string.
+	 * 
+	 * @return string
+	 */
+	public function __toString()
+	{
+		try
+		{
+			$content = $this->getContent();
+		}
+		catch (LogicException $e)
+		{
+			if (PHP_VERSION_ID > 70400)
+			{
+				throw $e;
+			}
+
+			return trigger_error($e, E_USER_ERROR);
+		}
+
+		$cookieHeader = '';
+		$cookies      = [];
+
+		foreach ($this->cookies as $key => $value)
+		{
+			$cookies[]= "{$key} = {$value}";
+		}
+
+		if ( ! empty($cookies))
+		{
+			$cookieHeader = 'Cookie: '.implode('; ', $cookies)."\r\n";
+		}
+		
+		return sprintf('%s %s %s', $this->getMethod(), $this->getRequestUri(), $this->server->get('SERVER_PROTOCOL'))."\r\n".
+			$this->headers.
+			$cookieHeader."\r\n".
+			$content;
+	}
+
+	/**
 	 * Clones the current request.
 	 * 
 	 * @return void
 	 */
 	public function __clone()
 	{
-		$this->server = clone $this->server;
+		$this->request = clone $this->request;
+		$this->cookies = clone $this->cookies;
+		$this->files   = clone $this->files;
+		$this->server  = clone $this->server;
+		$this->headers = clone $this->headers;
 	}
 }
