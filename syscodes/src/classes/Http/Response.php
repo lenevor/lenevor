@@ -344,6 +344,8 @@ class Response extends Status
 	
 	/**
 	 * Clone the current Response instance.
+	 * 
+	 * @return void
 	 */
 	public function __clone()
 	{
