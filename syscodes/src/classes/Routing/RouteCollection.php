@@ -202,7 +202,7 @@ class RouteCollection implements Countable, IteratorAggregate
      */
     public function match(Request $request)
     {
-        $route = $this->get($request->method());
+        $route = $this->get($request->getMethod());
 
         return $route;
     }
