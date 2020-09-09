@@ -15,7 +15,7 @@
 							<path d="m 142.50325,84.767449 -14.83261,6.675298 0.0774,20.013973 -15.56282,7.21083 0.18247,-19.526515 -14.284266,6.465235 0.01991,49.54303 43.909766,-23.35561 z" style="opacity:1;fill:#ffffff;fill-opacity:0.97942349;stroke:#383838;stroke-width:0.59641558;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
 						</svg>
 					</div>	
-					<h1><small>{{ __('view.welcomeTo') }}</small><span>{{ config('app.name').' '.version() }}</span></h1>
+					<h1><small>{{ __('view.welcomeTo') }}</small><span>{{ config('app.name') }}</span></h1>
 					<div class="status">
 						<code>
 							<span class="check">
@@ -41,29 +41,29 @@
 
 				<div class="row">
 					<div class="resource">
-						<h2><i class="icon-books"></i>{{ __('view.documentation') }}</h2>
+						<h2><i class="icon-books"></i><a href="#">{{ __('view.documentation') }}</a></h2>
 						<span>
-							<a href="#">{{ __('view.guides') }},</a>
-							<a href="#">api,</a>
-							<a href="#">{{ __('view.references') }}</a>
+							{{ __('view.especification-documentation') }}
 						</span>
 					</div>
 					<div class="resource">
-						<h2><i class="icon-embed"></i>{{ __('view.tutorials') }}</h2>
+						<h2><i class="icon-embed"></i><a href="">{{ __('view.tutorials') }}</a></h2>
 						<span>
-							<a href="#">{{ __('view.createPage') }}</a>
+							{{ __('view.video-tutorials') }}
 						</span>
 					</div>
 					<div class="resource">
-						<h2><i class="icon-users"></i>{{ __('view.community') }}</h2>
+						<h2><i class="icon-users"></i><a href="">{{ __('view.community') }}</a></h2>
 						<span>
-							<a href="#">Blog,</a>
-							<a href="#">github</a>
+							{{ __('view.community-diffusion') }}
 						</span>
-					</div>
+					</div>					
 				</div>
+				<div class="version">
+					Build {{ version() }}
+				</div>	
 
-			</div>			
+			</div>		
 		
 		</div>
 <@stop

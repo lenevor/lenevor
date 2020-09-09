@@ -25,12 +25,12 @@ return [
      */
 
     'community' => 'Comunidad',
-    'createPage' => 'Crea tu primera página',
+    'community-diffusion' => 'El blog de Lenevor es un portal impulsado por la comunidad donde puedes conocer noticias acerca del framework y que incluye nuevos lanzamientos de paquetes y tutoriales. Además, puede clonar el repositorio de github.',
     'documentation' => 'Documentación',
-    'guides' => 'Guías',
-    'references' => 'referencias',
+    'especification-documentation' => 'Lenevor tiene una documentación completa que cubre todas las especificaciones y características del framework. Por tanto, recomendamos leer toda la documentación referente al framework.',
     'successfullyInstalled' => 'Has instalado correctamente esta aplicación, puedes usarla ahora.',
     'tutorials' => 'Tutoriales',
+    'video-tutorials' => 'Los videos tutoriales sobre Lenevor, échales un vistazo, compruébalo por ti mismo y mejora enormemente tus habilidades de desarrollo en el proceso.',
     'welcomeTo' => 'Bienvenido a',
 
 ];
