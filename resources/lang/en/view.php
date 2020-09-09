@@ -23,12 +23,12 @@ return [
      */
 
     'community' => 'Community',
-    'createPage' => 'Create your first page',
+    'community-diffusion' => 'Lenevor blog is a community driven portal donde puedes conocer noticias acerca del framework and including a new package releases and tutorials. Also, you can clone the repository from github.',
     'documentation' => 'Documentation',
-    'guides' => 'Guides',
-    'references' => 'references',
+    'especification-documentation' => 'Lenevor has a thorough documentation covering all the specifications and features of the framework. Therefore, we        recommended reading all of the documentation referring to the framework.',
     'successfullyInstalled' => 'Your have successfully installed this application, you can use it now.',
     'tutorials' => 'Tutorials',
+    'video-tutorials' => 'The videos tutorials on Lenevor, check them out, see for yourself and massively level up your development skills in the process.',
     'welcomeTo' => 'Welcome to',
 
 ];
