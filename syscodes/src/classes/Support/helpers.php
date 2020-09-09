@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.1.1
  */
 
 use Syscodes\Version;
@@ -33,9 +33,9 @@ if ( ! function_exists('array_add'))
     /**
      * Unsets dot-notated key from an array.
      *
-     * @param  array   $array  
+     * @param  array  $array  
      * @param  string  $key  
-     * @param  mixed   $value 
+     * @param  mixed  $value 
      *
      * @return array
      *
@@ -88,9 +88,9 @@ if ( ! function_exists('array_first'))
     /**
      * Return the first element in an array passing a given truth test.
      *
-     * @param  array     $array 
+     * @param  array  $array 
      * @param  \Closure  $callback
-     * @param  mixed     $default
+     * @param  mixed  $default
      *
      * @return mixed
      *
@@ -107,9 +107,9 @@ if ( ! function_exists('array_get'))
     /**
      * Get an item from an array using "dot" notation.
      *
-     * @param  array   $array
+     * @param  array  $array
      * @param  string  $key
-     * @param  mixed   $default
+     * @param  mixed  $default
      *
      * @return mixed
      * 
@@ -126,9 +126,9 @@ if ( ! function_exists('array_last'))
     /**
      * Return the last element in an array passing a given truth test.
      *
-     * @param  array     $array 
+     * @param  array  $array 
      * @param  \Closure  $callback
-     * @param  mixed     $default 
+     * @param  mixed  $default 
      *
      * @return mixed
      *
@@ -145,9 +145,9 @@ if ( ! function_exists('array_set'))
     /**
      * Sets a value in an array using "dot" notation.
      *
-     * @param  array   $array
+     * @param  array  $array
      * @param  string  $key
-     * @param  mixed   $default
+     * @param  mixed  $default
      *
      * @return mixed
      *
@@ -219,7 +219,7 @@ if ( ! function_exists('env'))
      * Gets the value of an environment variable.
      * 
      * @param  string  $key
-     * @param  mixed   $default
+     * @param  mixed  $default
      * 
      * @return mixed
      */
@@ -378,7 +378,7 @@ if ( ! function_exists('take'))
     /**
      * Call the given Closure if this activated then return the value.
      * 
-     * @param  string         $value
+     * @param  string  $value
      * @param  \Closure|null  $callback
      * 
      * @return mixed
@@ -407,7 +407,7 @@ if ( ! function_exists('value'))
      * 
      * @return mixed
      * 
-     * @uses   \Syscodes\Contracts\Core\Lenevor
+     * @uses   \Syscodes\Core\Http\Lenevor
      */
     function value($value)
     {
@@ -424,7 +424,7 @@ if ( ! function_exists('version'))
      */
     function version()
     {
-        return Version::RELEASE;
+        return Version::RELEASE.'-'.Version::STATUS;
     }
 }
 
