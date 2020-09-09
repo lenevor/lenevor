@@ -3,7 +3,7 @@ html, body { background: rgb(251, 252, 253); color: hsl(0, 0%, 100%); font-famil
 .flex-center { align-items: center;	display: flex; justify-content: center; }
 .full-height { height: 100vh; }
 .full-width { width: 100vw; }
-.box { background: linear-gradient(130deg, hsl(209, 92%, 24%) 0%,hsl(261, 58%, 59%) 75%,hsl(286, 40%, 59%) 100%); background-attachment: fixed;background-size: cover; overflow: hidden; position: relative; }
+.box { background: linear-gradient(130deg, hsl(209, 92%, 24%) 0%,hsl(261, 58%, 59%) 75%,hsl(286, 40%, 59%) 100%); background-attachment: fixed; background-size: cover; overflow: hidden; position: relative; }
 .box:before { border-radius: 100%; box-shadow: 166px 427px 0 0 rgba(255,255,255, 0.248), 1675px 726px 0 0 rgba(255,255,255, 0.159); content: ""; height: 150px; left: -10px; position: absolute; top: -10px; width: 150px; }
 .box:after { background: rgba(255, 255, 255, 0.1); border-radius: 100%; box-shadow: 100px 371px 0 0 rgba(255, 255, 255, 0.0856), 16px 861px 0 0 rgba(255,255,255, 0.144), 1075px 386px 0 0 rgba(255,255,255, 0.0524), 1732px 347px 0 0 rgba(255,255,255, 0.416), 1695px 406px 0 0 rgba(255,255,255, 0.279), 1790px 67px 0 0 rgba(255,255,255, 0.119), 1775px 876px 0 0 rgba(255,255,255, 0.109); content: ""; height: 70px; left: -10px; position: absolute; top: -10px; width: 70px; }
 .code { border-right: 2px solid hsl(246, 34%, 51%); font-size: 13px; padding: 0 15px 0 15px; text-align: center; }
