@@ -16,7 +16,7 @@
 		
 		<!-- Styles -->
 		<style type="text/css">
-			<?= preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(resourcePath('css/style.css'))) ?>
+			<?= preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(resourcePath('css/app.css'))) ?>
 		</style>
 
 	</head>
