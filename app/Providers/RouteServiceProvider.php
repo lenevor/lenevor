@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.1
+ * @since       0.7.2
  */
 
 namespace App\Providers;
@@ -34,14 +34,7 @@ use Syscodes\Core\Support\Providers\RouteServiceProvider as ServiceProvider;
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class RouteServiceProvider extends ServiceProvider
-{
-    /**
-     * This namespace is applied to your controller routes.
-     * 
-     * @var string $namespace
-     */
-    protected $namespace = 'App\Http\Controllers';
-    
+{    
     /**
      * Bootstrap any application services.
      * 
@@ -64,17 +57,6 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Define the "web" routes for the application.
-     * 
-     * @return void
-     */
-    protected function loadMapWebRoute()
-    {
-        Route::namespace($this->namespace)
-             ->group(basePath('routes/web.php'));
-    }
-
-     /**
      * Define the "api" routes for the application.
      * 
      * @return void
@@ -82,7 +64,17 @@ class RouteServiceProvider extends ServiceProvider
     protected function loadMapApiRoute()
     {
         Route::prefix('api')
-             ->namespace($this->namespace)
              ->group(basePath('routes/api.php'));
+    }
+
+    /**
+     * Define the "web" routes for the application.
+     * 
+     * @return void
+     */
+    protected function loadMapWebRoute()
+    {
+        Route::namespace('App\Http\Controllers')
+             ->group(basePath('routes/web.php'));
     }
 }
