@@ -285,7 +285,7 @@ class Builder
         }
         else
         {
-            throw new InvalidArgumentException('A subquery must be a query builder instance, a Closure, or a string.');
+            throw new InvalidArgumentException('A subquery must be a query builder instance, a Closure, or a string');
         }
     }
 
@@ -341,12 +341,13 @@ class Builder
      * Set the table which the query.
      * 
      * @param  string  $table
+     * @param  string|null  $as
      * 
      * @return $this
      */
-    public function from($table)
+    public function from($table, $as = null)
     {
-        $this->from = $table;
+        $this->from = $as ? "{$table} as {$as}" : $table;
 
         return $this;
     }
@@ -563,10 +564,94 @@ class Builder
     }
 
     /**
+     * Retrieve the "count" result of the query.
+     * 
+     * @param  string  $columns
+     * 
+     * @return mixed
+     */
+    public function count($columns = '*')
+    {
+        return (int) $this->aggregate(__FUNCTION__, Arr::wrap($columns));
+    }
+
+    /**
+     * Retrieve the max of the values of a given column.
+     * 
+     * @param  string  $column
+     * 
+     * @return mixed
+     */
+    public function max($column)
+    {
+        return $this->aggregate(__FUNCTION__, [$column]);
+    }
+
+    /**
+     * Retrieve the min of the values of a given column.
+     * 
+     * @param  string  $column
+     * 
+     * @return mixed
+     */
+    public function min($column)
+    {
+        return $this->aggregate(__FUNCTION__, [$column]);
+    }
+
+    /**
+     * Retrieve the sum of the values of a given column.
+     * 
+     * @param  string  $column
+     * 
+     * @return mixed
+     */
+    public function sum($column)
+    {
+        $result = $this->aggregate(__FUNCTION__, [$column]);
+
+        return $result ?: 0;
+    }
+
+    /**
+     * Retrieve the average of the values of a given column.
+     * 
+     * @param  string  $column
+     * 
+     * @return mixed
+     */
+    public function avg($column)
+    {
+        return $this->aggregate(__FUNCTION__, [$column]);
+    }
+
+    /**
      * Execute an aggregate function on the database.
      * 
+     * @param  string  $function
+     * @param  array  $columns
      * 
+     * @return mixed
      */
+    public function aggregate($function, $columns = ['*'])
+    {
+        $this->aggregate = compact('function', 'columns');
+
+        $previous = $this->columns;
+
+        $results = $this->get($columns);
+
+        $this->aggregate = null;
+
+        $this->columns = $previous;
+
+        if (isset($results[0])) 
+        {
+            $result = array_change_key((array) $results[0]);
+        }
+
+        return $result['aggregate'];
+    }
 
     /**
      * Insert a new record into the database.
