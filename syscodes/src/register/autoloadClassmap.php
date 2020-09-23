@@ -280,6 +280,7 @@ return [
     'Syscodes\\View\\Factory' => SYS_PATH.'src/classes/View/Factory.php',
     'Syscodes\\View\\FileViewFinder' => SYS_PATH.'src/classes/View/FileViewFinder.php',
     'Syscodes\\View\\View' => SYS_PATH.'src/classes/View/View.php',
+    'Syscodes\\View\\ViewName' => SYS_PATH.'src/classes/View/ViewName.php',
     'Syscodes\\View\\ViewServiceProvider' => SYS_PATH.'src/classes/View/ViewServiceProvider.php',
     'Psr\\Container\\ContainerExceptionInterface' => SYS_PATH.'src/external/psr/Container/src/ContainerExceptionInterface.php',
     'Psr\\Container\\ContainerInterface' => SYS_PATH.'src/external/psr/Container/src/ContainerInterface.php',
