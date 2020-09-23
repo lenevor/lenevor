@@ -34,7 +34,14 @@ use Syscodes\Core\Support\Providers\RouteServiceProvider as ServiceProvider;
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class RouteServiceProvider extends ServiceProvider
-{    
+{   
+    /**
+     * This namespace is applied to your controller routes.
+     * 
+     * @var string $namespace
+     */
+    protected $namespace = 'App\Http\Controllers';
+
     /**
      * Bootstrap any application services.
      * 
@@ -42,29 +49,10 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        parent::boot();
-    }
-
-    /**
-     * Loaded file of route.
-     * 
-     * @return void
-     */
-    public function loadMap()
-    {
-        $this->loadMapApiRoute();
-        $this->loadMapWebRoute();
-    }
-
-    /**
-     * Define the "api" routes for the application.
-     * 
-     * @return void
-     */
-    protected function loadMapApiRoute()
-    {
-        Route::prefix('api')
-             ->group(basePath('routes/api.php'));
+        $this->routes(function () {
+            $this->loadWebRoute();
+            $this->loadApiRoute();
+        });
     }
 
     /**
@@ -72,9 +60,20 @@ class RouteServiceProvider extends ServiceProvider
      * 
      * @return void
      */
-    protected function loadMapWebRoute()
+    protected function loadWebRoute()
     {
-        Route::namespace('App\Http\Controllers')
+        Route::namespace($this->namespace)
              ->group(basePath('routes/web.php'));
+    }    
+    
+    /**
+     * Define the "api" routes for the application.
+     * 
+     * @return void
+     */
+    protected function loadApiRoute()
+    {
+        Route::prefix('api')
+             ->group(basePath('routes/api.php'));
     }
 }
