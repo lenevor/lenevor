@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.6.0
+ * @since       0.7.2
  */
 
 namespace Syscodes\View;
@@ -27,6 +27,7 @@ namespace Syscodes\View;
 use Syscodes\Support\Arr;
 use Syscodes\Support\Str;
 use InvalidArgumentException;
+use Syscodes\Contracts\View\ViewFinder;
 use Syscodes\Contracts\Events\Dispatcher;
 use Syscodes\View\Engines\EngineResolver;
 use Syscodes\Contracts\Container\Container;
@@ -90,12 +91,12 @@ class Factory implements FactoryContract
 	 * Constructor: Create a new Parser class instance.
 	 * 
 	 * @param  \Syscodes\View\Engines\EngineResolver  $engine
-	 * @param  \Syscodes\View\FileViewFinder  $finder
+	 * @param  \Syscodes\Contracts\View\ViewFinder  $finder
 	 * @param  \Syscodes\Contracts\Events\Dispatcher  $events
 	 *
 	 * @return void
 	 */
-	public function __construct(EngineResolver $engines, FileViewFinder $finder, Dispatcher $events)
+	public function __construct(EngineResolver $engines, ViewFinder $finder, Dispatcher $events)
 	{
 		$this->finder  = $finder;
 		$this->engines = $engines;
@@ -138,13 +139,27 @@ class Factory implements FactoryContract
 	 */
 	public function make($view, $data = []) 
 	{
-		$path = $this->finder->find($view);
+		$path = $this->finder->find(
+			$view = $this->normalizeName($view)
+		);
 		
 		// Loader class instance.
 		return take($this->viewInstance($view, $path, $data), function ($view) {
 			$this->callCreator($view);
 		});
 	}
+
+	/**
+	 * Normalize a view name.
+	 * 
+	 * @param  string  $name
+	 * 
+	 * @return string
+	 */
+	protected function normalizeName($name)
+    {
+		return ViewName::normalize($name);
+    }
 
 	/**
 	 * Create a new view instance from the given arguments.
@@ -238,6 +253,21 @@ class Factory implements FactoryContract
 		}
 		
 		return $value;
+	}
+
+	/**
+	 * Replace the namespace hints for the given namespace.
+	 * 
+	 * @param  string  $namespace
+	 * @param  string|array  $hints
+	 * 
+	 * @return $this
+	 */
+	public function replaceNamespace($namespace, $hints)
+	{
+		$this->finder->replaceNamespace($namespace, $hints);
+
+		return $this;
 	}
 
 	/**
