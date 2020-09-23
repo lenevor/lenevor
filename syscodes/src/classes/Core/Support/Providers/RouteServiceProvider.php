@@ -19,11 +19,12 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.7.0
+ * @since       0.7.2
  */
 
 namespace Syscodes\Core\Support\Providers;
 
+use Closure;
 use Syscodes\Support\ServiceProvider;
 
 /**
@@ -35,14 +36,10 @@ use Syscodes\Support\ServiceProvider;
 class RouteServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap any application services.
-     * 
-     * @return void
+     * Register any application services.
      */
-    public function boot()
+    public function register()
     {
-        $this->loadRoutes();
-
         $this->app->booted(function ()
         {
             $this->app['router']->getRoutes()->refreshNameLookups();
@@ -51,15 +48,26 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Loaded file of route.
+     * Bootstrap any application services.
      * 
      * @return void
      */
-    protected function loadRoutes()
+    public function boot()
     {
-        if (method_exists($this, 'loadMap'))
-        {
-            $this->loadMap();
-        }
+        //
+    }
+
+    /**
+     * Register the callback that will be used to load the application's routes.
+     * 
+     * @param  \Closure  $routeCallback
+     * 
+     * @return $this 
+     */
+    protected function routes(Closure $routeCallback)
+    {
+        $routeCallback();
+
+        return $this;
     }
 }
