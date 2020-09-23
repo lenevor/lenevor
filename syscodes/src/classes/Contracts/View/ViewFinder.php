@@ -32,6 +32,13 @@ namespace Syscodes\Contracts\View;
 interface ViewFinder
 {
     /**
+     * Hint path delimiter value.
+     * 
+     * @var string
+     */
+    const HINT_PATH_DELIMITER = '::';
+
+    /**
      * Get the complete location of the view.
      * 
      * @param  string  $name
