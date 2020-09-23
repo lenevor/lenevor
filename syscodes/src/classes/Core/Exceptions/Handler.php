@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.4.0
+ * @since       0.7.2
  */
 
 namespace Syscodes\Core\Exceptions;
@@ -29,6 +29,7 @@ use Syscodes\Support\Arr;
 use Syscodes\Debug\GDebug;
 use Syscodes\Http\Response;
 use Psr\Log\LoggerInterface;
+use Syscodes\Support\Facades\View;
 use Syscodes\Debug\ExceptionHandler;
 use Syscodes\Contracts\Container\Container;
 use Syscodes\Core\Http\Exceptions\HttpException;
@@ -221,6 +222,8 @@ class Handler implements ExceptionHandlerContract
      */
     protected function renderHttpException(HttpException $e)
     {
+        $this->registerViewErrorPaths();
+
         if (view()->viewExists($view = "errors::{$e->getStatusCode()}"))
         {
             return response()->view(
@@ -232,6 +235,16 @@ class Handler implements ExceptionHandlerContract
         }
 
         return $this->convertExceptionToResponse($e);
+    }
+
+    /**
+     * Register the error view paths.
+     * 
+     * @return void
+     */
+    protected function registerViewErrorPaths()
+    {
+        View::replaceNamespace('errors', __DIR__.'/views');
     }
 
     /**
