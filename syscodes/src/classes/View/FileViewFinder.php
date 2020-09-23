@@ -19,12 +19,12 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.6.0
+ * @since       0.7.2
  */
 
 namespace Syscodes\View;
 
-use Syscodes\Support\Finder;
+use InvalidArgumentException;
 use Syscodes\Filesystem\Filesystem;
 use Syscodes\Contracts\View\ViewFinder;
 use Syscodes\View\Exceptions\ViewException;
@@ -46,6 +46,20 @@ class FileViewFinder implements ViewFinder
     protected $files;
 
     /**
+     * The namespace to file path hints.
+     * 
+     * @var array $hints
+     */
+    protected $hints = [];
+
+    /**
+     * The array of active view paths.
+     * 
+     * @var array $paths
+     */
+    protected $paths;
+
+    /**
      * The array of views that have been located.
      * 
      * @var array $views
@@ -56,13 +70,15 @@ class FileViewFinder implements ViewFinder
      * Constructor. Create a new FileViewFinder class instance.
      * 
      * @param  \Syscodes\Filesystem\Filesystem  $files
+     * @param  array  $paths
      * @param  array|null  $extensions  (null by default) 
      * 
      * @return void
      */
-    public function __construct(Filesystem $files, $extensions = null)
+    public function __construct(Filesystem $files, array $paths, $extensions = null)
     {
         $this->files = $files;
+        $this->paths = array_map([$this, 'resolvePath'], $paths);
 
         if (isset($extensions))
         {
@@ -84,29 +100,78 @@ class FileViewFinder implements ViewFinder
             return $this->views[$name];
         }
 
-        return $this->views[$name] = $this->findPaths($name);
+        if ($this->hasHintInfo($name = trim($name)))        
+        {
+            return $this->views[$name] = $this->findNamespacedPaths($name);
+        }
+
+        return $this->views[$name] = $this->findPaths($name, $this->paths);
+    }
+
+    /**
+     * Get the path to a template with a named path.
+     * 
+     * @param  string  $name
+     * 
+     * @return string
+     */
+    protected function findNamespacedPaths($name)
+    {
+        [$namespace, $view] = $this->parseNamespaceSegments($name);
+        
+        return $this->findPaths($view, $this->hints[$namespace]);
+    }
+
+    /**
+     * Get the segments of a template with a named path.
+     * 
+     * @param  string  $name
+     * 
+     * @return array
+     * 
+     * @throws \InvalidArgumentException
+     */
+    protected function parseNamespaceSegments($name)
+    {
+        $segments = explode(static::HINT_PATH_DELIMITER, $name);
+        
+        if (count($segments) !== 2)
+        {
+            throw new InvalidArgumentException("View [{$name}] has an invalid name");
+        }
+        
+        if ( ! isset($this->hints[$segments[0]]))
+        {
+            throw new InvalidArgumentException("No hint path defined for [{$segments[0]}]");
+        }
+        
+        return $segments;
     }
 
     /**
      * Find the given view in the list of paths.
      * 
      * @param  string  $name
+     * @param  array  $paths
      * 
      * @return string
      * 
      * @throws \Syscodes\View\Exceptions\ViewException
      */
-    protected function findPaths($name)
+    protected function findPaths($name, $paths)
     {
-        foreach ($this->getFindViewFiles($name) as $view)
+        foreach ((array) $paths as $path)
         {
-            if ($this->files->exists($view))
+            foreach ($this->getFindViewFiles($name) as $file)
             {
-                return $view;
+                if ($this->files->exists($view = $path.DIRECTORY_SEPARATOR.$file))
+                {
+                    return $view;
+                }
             }
-        }        
+        }
         
-        throw new ViewException(__('view.notFound', ['file' => $name]));
+       throw new ViewException(__('view.notFound', ['file' => $name]));
     }
 
     /**
@@ -119,7 +184,44 @@ class FileViewFinder implements ViewFinder
     protected function getFindViewFiles($name)
     {
         return array_map(function ($extension) use ($name) {
-            return Finder::search($name, 'views', $extension);   
+            return str_replace('.', DIRECTORY_SEPARATOR, $name).'.'.$extension;   
         }, $this->getExtensions());
+    }
+
+    /**
+     * Resolve the path.
+     * 
+     * @param  string  $path
+     * 
+     * @return string
+     */
+    protected function resolvePath($path)
+    {
+        return realpath($path) ?: $path;
+    }
+
+    /**
+     * Replace the namespace hints for the given namespace.
+     * 
+     * @param  string  $namespace
+     * @param  string|array  $hints
+     * 
+     * @return void
+     */
+    public function replaceNamespace($namespace, $hints)
+    {
+        $this->hints[$namespace] = (array) $hints;
+    }
+
+    /**
+     * Returns whether or not the view name has any hint information.
+     * 
+     * @param  string  $name
+     * 
+     * @return bool
+     */
+    protected function hasHintInfo($name)
+    {
+        return strpos($name, static::HINT_PATH_DELIMITER) > 0;
     }
 }
