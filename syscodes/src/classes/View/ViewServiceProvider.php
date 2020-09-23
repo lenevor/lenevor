@@ -19,17 +19,17 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.6.1
+ * @since       0.7.2
  */
 
 namespace Syscodes\View;
 
 use Syscodes\View\Engines\PhpEngine;
 use Syscodes\Support\ServiceProvider;
-use Syscodes\View\Transpilers\Transpiler;
 use Syscodes\View\Engines\FileEngine;
-use Syscodes\View\Engines\TranspilerEngine;
 use Syscodes\View\Engines\EngineResolver;
+use Syscodes\View\Transpilers\Transpiler;
+use Syscodes\View\Engines\TranspilerEngine;
 use Syscodes\View\Transpilers\PlazeTranspiler;
 
 /**
@@ -88,7 +88,7 @@ class ViewServiceProvider extends ServiceProvider
     public function registerViewFinder()
     {
         $this->app->bind('view.finder', function ($app) {
-            return new FileViewFinder($app['files']);
+            return new FileViewFinder($app['files'], $app['config']['view.paths']);
         });
     }
 
@@ -99,10 +99,10 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function registerPlazeTranspiler()
     {
-        $this->app->singleton('plaze.transpiler', function () {
+        $this->app->singleton('plaze.transpiler', function ($app) {
 
             return new PlazeTranspiler(
-                $this->app['files'], $this->app['config']['view.transpiled']
+                $app['files'], $app['config']['view.transpiled']
             );
 
         });
