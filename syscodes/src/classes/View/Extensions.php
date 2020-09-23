@@ -68,7 +68,7 @@ trait Extensions
 	 * 
 	 * @return array
 	 */
-	public function getKeysOfExtensions()
+	public function getKeysToExtensions()
 	{
 		return array_keys($this->extensions);
 	}
