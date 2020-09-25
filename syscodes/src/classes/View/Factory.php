@@ -24,9 +24,9 @@
 
 namespace Syscodes\View;
 
-use Syscodes\Support\Arr;
 use Syscodes\Support\Str;
 use InvalidArgumentException;
+use Syscodes\Collections\Arr;
 use Syscodes\Contracts\View\ViewFinder;
 use Syscodes\Contracts\Events\Dispatcher;
 use Syscodes\View\Engines\EngineResolver;
