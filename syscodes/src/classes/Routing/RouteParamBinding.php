@@ -24,7 +24,7 @@
 
 namespace Syscodes\Routing;
 
-use Syscodes\Support\Arr;
+use Syscodes\Collections\Arr;
 
 /**
  * Allows the parameter matches for the path portion of the URI.
