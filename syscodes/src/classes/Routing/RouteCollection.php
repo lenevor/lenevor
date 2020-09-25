@@ -28,9 +28,9 @@ use Closure;
 use Countable;
 use ArrayIterator;
 use IteratorAggregate;
-use Syscodes\Support\Arr;
 use Syscodes\Http\Request;
 use BadMethodCallException;
+use Syscodes\Collections\Arr;
 
 /**
  * Adds a collection to the arrays of routes.
