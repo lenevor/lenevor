@@ -26,7 +26,7 @@ namespace Syscodes\Routing\Traits;
 
 use ReflectionMethod;
 use ReflectionParameter;
-use Syscodes\Support\Arr;
+use Syscodes\Collections\Arr;
 use ReflectionFunctionAbstract;
 
 /**
