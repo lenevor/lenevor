@@ -25,7 +25,7 @@
 namespace Syscodes\Config;
 
 use ArrayAccess;
-use Syscodes\Support\Arr;
+use Syscodes\Collections\Arr;
 use Syscodes\Contracts\Config\Configure as ConfigureContract;
 
 /**
