@@ -26,7 +26,7 @@ namespace Syscodes\Http\Contributors;
 
 use Countable;
 use IteratorAggregate;
-use Syscodes\Support\Arr;
+use Syscodes\Collections\Arr;
 
 /**
  * Parameters is a container for key/value pairs.
