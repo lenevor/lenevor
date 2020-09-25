@@ -25,11 +25,11 @@
 namespace Syscodes\Routing;
 
 use Closure;
-use Syscodes\Support\Arr;
 use Syscodes\Http\Request;
 use Syscodes\Http\Response;
 use BadMethodCallException;
 use InvalidArgumentException;
+use Syscodes\Collections\Arr;
 use Syscodes\Http\RedirectResponse;
 use Syscodes\Contracts\Routing\Routable;
 use Syscodes\Routing\Traits\RouteMapTrait;
