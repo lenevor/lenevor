@@ -24,8 +24,8 @@
 
 namespace Syscodes\View\Transpilers;
 
-use Syscodes\Support\Arr;
 use Syscodes\Support\Str;
+use Syscodes\Collections\Arr;
 
 class PlazeTranspiler extends Transpiler implements TranspilerInterface
 {
