@@ -24,8 +24,8 @@
 
 namespace Syscodes\Events;
 
-use Syscodes\Support\Arr;
 use Syscodes\Support\Str;
+use Syscodes\Collections\Arr;
 use Syscodes\Contracts\Container\Container;
 use Syscodes\Contracts\Events\Dispatcher as DispatcherContract;
 
