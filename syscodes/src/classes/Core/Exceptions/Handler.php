@@ -25,11 +25,10 @@
 namespace Syscodes\Core\Exceptions;
 
 use Exception;
-use Syscodes\Support\Arr;
 use Syscodes\Debug\GDebug;
 use Syscodes\Http\Response;
 use Psr\Log\LoggerInterface;
-use Syscodes\Support\Facades\View;
+use Syscodes\Collections\Arr;
 use Syscodes\Debug\ExceptionHandler;
 use Syscodes\Contracts\Container\Container;
 use Syscodes\Core\Http\Exceptions\HttpException;
@@ -224,7 +223,7 @@ class Handler implements ExceptionHandlerContract
     {
         $this->registerViewErrorPaths();
 
-        if (view()->viewExists($view = "errors::{$e->getStatusCode()}"))
+        if (view()->viewExists($view = $this->getHttpExceptionView($e)))
         {
             return response()->view(
                 $view, 
@@ -244,7 +243,19 @@ class Handler implements ExceptionHandlerContract
      */
     protected function registerViewErrorPaths()
     {
-        View::replaceNamespace('errors', __DIR__.'/views');
+        (new RegisterErrorViewPaths)();
+    }
+
+    /**
+     * Get the view used to render HTTP exceptions.
+     * 
+     * @param  \Syscodes\Core\Http\Exceptions\HttpException  $e
+     * 
+     * @return string
+     */
+    protected function getHttpExceptionView(HttpException $e)
+    {
+        return "errors::{$e->getStatusCode()}";
     }
 
     /**
