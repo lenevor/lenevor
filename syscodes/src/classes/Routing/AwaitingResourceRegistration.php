@@ -24,7 +24,7 @@
 
 namespace Syscodes\Routing;
 
-use Syscodes\Support\Arr;
+use Syscodes\Collections\Arr;
 
 /**
  * This class uses an awaiting resource registration instance.
