@@ -19,12 +19,11 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.1
+ * @since       0.7.2
  */
 
 use Syscodes\Version;
 use Syscodes\Support\Str;
-use Syscodes\Core\Http\Lenevor;
 
 if ( ! function_exists('camel_case'))
 {
@@ -125,36 +124,6 @@ if ( ! function_exists('env'))
     }
 }
 
-if ( ! function_exists('head'))
-{
-    /**
-     * Get the first element of an array. Useful for method chaining.
-     *
-     * @param  array  $array
-     *
-     * @return mixed
-     */
-    function head($array)
-    {
-        return reset($array);
-    }
-}
-
-if ( ! function_exists('last'))
-{
-    /**
-     * Get the last element from an array.
-     *
-     * @param  array  $array
-     *
-     * @return mixed
-     */
-    function last($array)
-    {
-        return end($array);
-    }
-}
-
 if ( ! function_exists('str_dash'))
 {
     /**
@@ -237,23 +206,6 @@ if ( ! function_exists('studly_caps'))
     function studly_caps($string)
     {
         return Str::studlycaps($string);
-    }
-}
-
-if ( ! function_exists('value')) 
-{
-    /**
-     * Return the default value of the given value.
-     *
-     * @param  mixed  $value
-     * 
-     * @return mixed
-     * 
-     * @uses   \Syscodes\Core\Http\Lenevor
-     */
-    function value($value)
-    {
-        return Lenevor::value($value);
     }
 }
 
