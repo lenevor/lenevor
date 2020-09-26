@@ -23,6 +23,7 @@
  */
 
 use Syscodes\Collections\Arr;
+use Syscodes\Collections\Collection;
 use Syscodes\Collections\HigherOrderTakeProxy;
 
 if ( ! function_exists('array_add'))
@@ -154,29 +155,89 @@ if ( ! function_exists('array_set'))
     {
         return Arr::set($array, $key, $default);
     }
+}
 
-    if ( ! function_exists('take'))
+if ( ! function_exists('collect'))
+{
+    /**
+     * Create a collection from the given value.
+     * 
+     * @param  mixed  $value  (null by default)
+     * 
+     * @return \Syscodes\Collections\Collection
+     */
+    function collect($value = null)
     {
-        /**
-         * Call the given Closure if this activated then return the value.
-         * 
-         * @param  string  $value
-         * @param  \Closure|null  $callback
-         * 
-         * @return mixed
-         * 
-         * @uses   \Syscodes\Collections\HigherOrderTakeProxy
-         */
-        function take($value, $callback = null)
+        return new Collection($value);
+    }
+}
+
+if ( ! function_exists('head'))
+{
+    /**
+     * Get the first element of an array. Useful for method chaining.
+     *
+     * @param  array  $array
+     *
+     * @return mixed
+     */
+    function head($array)
+    {
+        return reset($array);
+    }
+}
+
+if ( ! function_exists('last'))
+{
+    /**
+     * Get the last element from an array.
+     *
+     * @param  array  $array
+     *
+     * @return mixed
+     */
+    function last($array)
+    {
+        return end($array);
+    }
+}
+
+if ( ! function_exists('take'))
+{
+    /**
+     * Call the given Closure if this activated then return the value.
+     * 
+     * @param  string  $value
+     * @param  \Closure|null  $callback
+     * 
+     * @return mixed
+     * 
+     * @uses   \Syscodes\Collections\HigherOrderTakeProxy
+     */
+    function take($value, $callback = null)
+    {
+        if (is_null($callback))
         {
-            if (is_null($callback))
-            {
-                return new HigherOrderTakeProxy($value);
-            }
-
-            $callback($value);
-
-            return $value;
+            return new HigherOrderTakeProxy($value);
         }
+
+        $callback($value);
+
+        return $value;
+    }
+}
+
+if ( ! function_exists('value')) 
+{
+    /**
+     * Return the default value of the given value.
+     *
+     * @param  mixed  $value
+     * 
+     * @return mixed
+     */
+    function value($value)
+    {
+        return $value instanceof \Closure ? $value() : $value;
     }
 }
