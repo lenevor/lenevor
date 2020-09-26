@@ -27,7 +27,7 @@ namespace Syscodes\Core\Exceptions;
 use Syscodes\Support\Facades\View;
 
 /**
- * Allows egister the errors in view paths.
+ * Allows register the errors in view paths.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
@@ -40,6 +40,8 @@ class RegisterErrorViewPaths
      */
     public function __invoke()
     {
-        View::replaceNamespace('errors', __DIR__.'/views');
+        View::replaceNamespace('errors', collect(config('view.paths'))->map(function ($path) {
+            return "{$path}/errors";
+        })->push(__DIR__.'/views')->all());
     }
 }
