@@ -265,6 +265,12 @@ class RouteCollection implements Countable, IteratorAggregate
         return array_values($this->allRoutes);
     }
 
+    /*
+    |-----------------------------------------------------------------
+    | ArrayIterator Methods
+    |-----------------------------------------------------------------
+    */
+
     /**
      * Get an iterator for the items.
      * 
@@ -274,6 +280,12 @@ class RouteCollection implements Countable, IteratorAggregate
     {
         return new ArrayIterator($this->getRoutes());
     }
+
+    /*
+    |-----------------------------------------------------------------
+    | Countable Methods
+    |-----------------------------------------------------------------
+    */
 
     /**
      * Count the number of items in the collection.
