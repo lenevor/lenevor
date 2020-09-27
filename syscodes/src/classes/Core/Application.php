@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.4.1
+ * @since       0.7.2
  */
 
 namespace Syscodes\Core;
@@ -386,46 +386,6 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-	 * Generate a random key for the application.
-	 * 
-	 * @return string
-	 */
-	public function generateKey()
-	{
-		return 'base64:'.base64_encode(
-			\Syscodes\Encryption\Encrypter::generateRandomKey($this['config']->get('security.cipher'))
-		);
-	}
-	
-	/**
-	 * Write a new environment file with the given key.
-	 * 
-	 * @param  string  $key
-	 * 
-	 * @return void
-	 */
-	public function writeNewEnvironmentFileWith($key)
-	{
-		file_put_contents($this->environmentFilePath(), preg_replace(
-			$this->keyReplacementPattern(),
-			"APP_KEY = $key",
-			file_get_contents($this->environmentFilePath())
-		));
-	}
-	
-	/**
-	 * Get a regex pattern that will match env APP_KEY with any random key.
-	 * 
-	 * @return string
-	 */
-	protected function keyReplacementPattern()
-	{
-        $escaped = preg_quote(' = '.$this['config']->get('security.key'), '/');
-        
-		return "/^APP_KEY{$escaped}/m";
-	}
-
-    /**
      * Determine if the application has been bootstrapped before.
      * 
      * @return bool
@@ -625,6 +585,38 @@ class Application extends Container implements ApplicationContract
         {
             $this->bootAppCallbacks([$callback]);
         }
+    }
+
+    /**
+     * Get the current application locale.
+     * 
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this['config']->get('app.locale');
+    }
+
+    /**
+     * Get the current application fallback locale.
+     * 
+     * @return string
+     */
+    public function getFallbackLocale()
+    {
+        return $this['config']->get('app.fallbackLocale');
+    }
+
+    /**
+     * Determine if application locale is the given locale.
+     * 
+     * @param  string  $locale
+     * 
+     * @return bool
+     */
+    public function isLocale($locale)
+    {
+        return $this->getLocale() == $locale;
     }
 
     /**
