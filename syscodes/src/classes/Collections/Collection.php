@@ -67,6 +67,34 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
+     * Diff the collection with the given items.
+     * 
+     * @param  mixed  $items
+     * 
+     * @return static
+     */
+    public function diff($items)
+    {
+        return new static(array_diff($this->items, $this->getArrayItems($items)));
+    }
+
+    /**
+     * Execute a callback over each item.
+     * 
+     * @param  \Closure  $callback
+     * 
+     * @return $this
+     */
+    public function each(Closure $callback)
+    {
+        array_map($callback, $this->items);
+
+        return $this;
+    }
+
+    
+
+    /**
      * Run a map over each of the items.
      * 
      * @param  \Callable  $callback
