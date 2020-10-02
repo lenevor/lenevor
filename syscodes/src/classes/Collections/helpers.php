@@ -22,6 +22,7 @@
  * @since       0.7.2
  */
 
+use Closure;
 use Syscodes\Collections\Arr;
 use Syscodes\Collections\Collection;
 use Syscodes\Collections\HigherOrderTakeProxy;
@@ -42,6 +43,24 @@ if ( ! function_exists('array_add'))
     function array_add($array, $key, $value)
     {
         return Arr::add($array, $key, $value);
+    }
+}
+
+if ( ! function_exists('array_divide'))
+{
+    /**
+     * Divide an array into two arrays. 
+     * One with keys and the other with values.
+     *
+     * @param  array  $array
+     *
+     * @return array
+     *
+     * @uses   Arr::divide
+     */
+    function array_divide($array)
+    {
+        return Arr::divide($array);
     }
 }
 
@@ -81,6 +100,24 @@ if ( ! function_exists('array_erase'))
     }
 }
 
+if ( ! function_exists('array_fetch'))
+{
+    /**
+     * Fetch a flattened array of a nested array element.
+     *
+     * @param  array  $array
+     * @param  mixed  $key
+     *
+     * @return mixed
+     *
+     * @uses   Arr::fetch
+     */
+    function array_fetch($array, $key)
+    {
+        return Arr::fetch($array, $key);
+    }
+}
+
 if ( ! function_exists('array_first'))
 {
     /**
@@ -100,6 +137,23 @@ if ( ! function_exists('array_first'))
     }
 }
 
+if ( ! function_exists('array_flatten'))
+{
+    /**
+     * Flatten a multi-dimensional array into a single level.
+     *
+     * @param  array  $array
+     *
+     * @return array
+     *
+     * @uses   Arr::flatten
+     */
+    function array_flatten($array)
+    {
+        return Arr::flatten($array);
+    }
+}
+
 if ( ! function_exists('array_get'))
 {
     /**
@@ -116,6 +170,22 @@ if ( ! function_exists('array_get'))
     function array_get($array, $key, $default = null)
     {
         return Arr::get($array, $key, $default);
+    }
+}
+
+if ( ! function_exists('array_has'))
+{
+    /**
+	 * Check if an item exists in an array using "dot" notation.
+	 * 
+	 * @param  array  $array
+	 * @param  string  $key
+	 * 
+	 * @return bool
+	 */
+    function array_has($array, $key)
+    {
+        return Arr::has($array, $key);
     }
 }
 
@@ -155,6 +225,43 @@ if ( ! function_exists('array_set'))
     {
         return Arr::set($array, $key, $default);
     }
+}
+
+if ( ! function_exists('array_pull'))
+{
+    /**
+	 * Get a value from the array, and remove it.
+	 * 
+	 * @param  array  $array
+	 * @param  string  $key
+	 * @param  mixed  $default  (null by default)
+	 * 
+	 * @return mixed
+     * 
+     * @uses   Arr::pull
+	 */
+	function array_pull(&$array, $key, $default = null)
+	{
+		return Arr::pull($array, $key, $default);
+	}
+}
+
+if ( ! function_exists('array_where'))
+{
+    /**
+	 * Filter the array using the given Closure.
+	 * 
+	 * @param  array  $array
+	 * @param  \Closure  $callback
+	 * 
+	 * @return array
+     * 
+     * @uses   Arr::where
+	 */
+	function array_where($array, Closure $callback)
+	{
+		return Arr::where($array, $callback);
+	}
 }
 
 if ( ! function_exists('collect'))
@@ -238,6 +345,6 @@ if ( ! function_exists('value'))
      */
     function value($value)
     {
-        return $value instanceof \Closure ? $value() : $value;
+        return $value instanceof Closure ? $value() : $value;
     }
 }
