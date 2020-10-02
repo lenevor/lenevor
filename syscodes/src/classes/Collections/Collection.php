@@ -24,7 +24,6 @@
 
 namespace Syscodes\Collections;
 
-use Closure;
 use Countable;
 use ArrayAccess;
 use ArrayIterator;
@@ -81,18 +80,72 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Execute a callback over each item.
      * 
-     * @param  \Closure  $callback
+     * @param  \Callable  $callback
      * 
      * @return $this
      */
-    public function each(Closure $callback)
+    public function each(Callable $callback)
     {
         array_map($callback, $this->items);
 
         return $this;
     }
 
-    
+    /**
+     * Run a filter over each of the items.
+     * 
+     * @param  \Callable|null  (null by default) 
+     * 
+     * @return static
+     */
+    public function filter(Callable $callback = null)
+    {
+        if ($callback)
+        {
+            return new static(Arr::where($this->items, $callback));
+        }
+
+        return new static(array_filter($this->items));
+    }
+
+    /**
+     * Flip the items in the collection.
+     * 
+     * @return static
+     */
+    public function flip()
+    {
+        return new static(array_flip($this->items));
+    }
+
+    /**
+     * Determine if an item exists in the collection by key.
+     * 
+     * @param  mixed  $keys
+     * 
+     * @return bool
+     */
+    public function has($key)
+    {
+        return Arr::has($this->items, $key);
+    }
+
+    /**
+     * Remove an item from the collection by key.
+     * 
+     * @param  string|array  $keys
+     * 
+     * @return $this
+     */
+    public function erase($keys)
+    {
+        foreach ((array) $keys as $key)
+        {
+            $this->offsetUnset($key);
+        }
+
+        return $this;
+    }
 
     /**
      * Run a map over each of the items.
@@ -101,7 +154,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @return static
      */
-    public function map(Closure $callback)
+    public function map(Callable $callback)
     {
         $keys = array_keys($this->items);
 
