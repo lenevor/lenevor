@@ -78,6 +78,74 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
+     * Returns the items in a collection that are not present 
+     * in the given items, using the callback.
+     * 
+     * @param  mixed  $items
+     * @param  \Callable  $callback
+     * 
+     * @return static
+     */
+    public function diffUsing($items, Callable $callback)
+    {
+        return new static(array_udiff($this->items, $this->getArrayItems($items), $callback));
+    }
+
+    /**
+     * Returns the items in the collection when the keys and values 
+     * are not present in the given items.
+     * 
+     * @param  mixed  $items
+     * 
+     * @return static
+     */
+    public function diffAssoc($items)
+    {
+        return new static(array_diff_assoc($this->items, $this->getArrayItems($items)));
+    }
+
+    /**
+     * Returns the items in the collection when the keys and values 
+     * are not present in the given items, using the callback.
+     * 
+     * @param  mixed  $items
+     * @param  \Callable  $callback
+     * 
+     * @return static
+     */
+    public function diffAssocUsing($items, Callable $callback)
+    {
+        return new static(array_diff_uassoc($this->items, $this->getArrayItems($items), $callback));
+    }
+
+    /**
+     * Returns the items in the collection when the keys 
+     * are not present in the given items.
+     * 
+     * @param  mixed  $items
+     * 
+     * @return static
+     */
+    public function diffKeys($items)
+    {
+        return new static(array_diff_key($this->items, $this->getArrayItems($items)));
+    }
+
+    /**
+     * Returns the items in the collection when the keys are 
+     * not present in the given items, using the callback.
+     * 
+     * @param  mixed  $items
+     * @param  \Callable  $callback
+     * 
+     * @return static
+     */
+    public function diffKeyUsing($items, Callable $callback)
+    {
+        return new static(array_diff_ukey($this->items, $this->getArrayItems($items), $callback));
+    }
+
+    /**
      * Execute a callback over each item.
      * 
      * @param  \Callable  $callback
@@ -109,6 +177,19 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
+     * Get the first item from the collection.
+     * 
+     * @param  \Callable  $callback
+     * @param  mixed|null  $default  (null by default)
+     * 
+     * @return mixed
+     */
+    public function first(Callable $callback, $default = null)
+    {
+        return Arr::first($this->items, $callback, $default);
+    }
+
+    /**
      * Flip the items in the collection.
      * 
      * @return static
@@ -116,6 +197,16 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     public function flip()
     {
         return new static(array_flip($this->items));
+    }
+
+    /**
+     * Get a flattened array of the items in the collection.
+     * 
+     * @return static
+     */
+    public function flatten()
+    {
+        return new static(Arr::flatten($this->items));
     }
 
     /**
