@@ -265,6 +265,30 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
+     * Merge the collection with the given items.
+     * 
+     * @param  mixed  $items
+     * 
+     * @return static
+     */
+    public function merge(array $items)
+    {
+        return new static(array_merge($this->items, $this->getArrayItems($items)));
+    }
+
+    /**
+     * Recursively Merge the collection with the given items.
+     * 
+     * @param  mixed  $items
+     * 
+     * @return static
+     */
+    public function mergeRecursive($items)
+    {
+        return new static(array_recursive_merge($this->items, $this->getArrayItems($items)));
+    }
+
+    /**
      * Push an item onto the end of the collection.
      * 
      * @param  mixed  $values  [optional]
