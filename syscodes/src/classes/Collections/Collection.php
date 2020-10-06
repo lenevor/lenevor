@@ -289,6 +289,19 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
+     * Creates a collection by using this collection for 
+     * keys and other its values.
+     * 
+     * @param  mixed  $items
+     * 
+     * @return static
+     */
+    public function combine($items)
+    {
+        return new static(array_combine($this->all(), $this->getArrayItems($items)));
+    }
+
+    /**
      * Push an item onto the end of the collection.
      * 
      * @param  mixed  $values  [optional]
