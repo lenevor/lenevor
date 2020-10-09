@@ -31,6 +31,7 @@ use Syscodes\Support\Arr;
 use Syscodes\Support\Str;
 use BadMethodCallException;
 use InvalidArgumentException;
+use Syscodes\Collections\Collection;
 use Syscodes\Database\DatabaseCache;
 use Syscodes\Database\Query\Grammar;
 use Syscodes\Database\Query\Processor;
