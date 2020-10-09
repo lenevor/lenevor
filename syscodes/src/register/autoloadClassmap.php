@@ -35,6 +35,7 @@ return [
     'Syscodes\\Cache\\CacheManager' => SYS_PATH.'src/classes/Cache/CacheManager.php',
     'Syscodes\\Cache\\CacheRepository' => SYS_PATH.'src/classes/Cache/CacheRepository.php',
     'Syscodes\\Cache\\CacheServiceProvider' => SYS_PATH.'src/classes/Cache/CacheServiceProvider.php',
+    'Syscodes\\Collections\\Traits\\Enumerates' => SYS_PATH.'src/classes/Collections/Traits/Enumerates.php',
     'Syscodes\\Collections\\Arr' => SYS_PATH.'src/classes/Collections/Arr.php',
     'Syscodes\\Collections\\Collection' => SYS_PATH.'src/classes/Collections/Collection.php',
     'Syscodes\\Collections\\HigherOrderTakeProxy' => SYS_PATH.'src/classes/Collections/HigherOrderTakeProxy.php',
