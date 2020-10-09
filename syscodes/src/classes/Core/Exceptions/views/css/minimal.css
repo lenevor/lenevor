@@ -1,5 +1,5 @@
 * {	box-sizing: border-box;	margin: 0; padding: 0; }
-html, body { background: rgb(253, 253, 253); color: rgb(105, 117, 136); font-family: 'Nunito', sans-serif; font-weight: 100; margin: 0; }
+html, body { background: rgb(253, 253, 253); color: rgb(134, 143, 160); font-family: 'Nunito', sans-serif; font-weight: 100; margin: 0; }
 .flex-center { align-items: center;	display: flex; justify-content: center; }
 .full-height { height: 100vh; }
 .full-width { width: 100vw; }
