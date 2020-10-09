@@ -68,6 +68,32 @@ class Arr
 	}
 
 	/**
+     * Collapse the collection items into a single array.
+     * 
+     * @return static
+     */
+    public static function collapse($array)
+    {
+        $results = [];
+
+        foreach ($array as $values)
+        {
+			if ($values instanceof Collection)
+			{
+				$values = $values->all();
+			}
+			elseif ( ! is_array($values))
+			{
+				continue;
+			}
+
+			$results[] = $values;
+        }
+
+        return array_merge([], ...$results);
+    }
+
+	/**
 	 * Divide an array into two arrays. One with keys and the other with values.
 	 *
 	 * @param  array  $array
@@ -311,6 +337,19 @@ class Arr
 	}
 
 	/**
+	 * Get a subset of the items from the given array.
+	 * 
+	 * @param  array  $array
+	 * @param  array|string  $keys
+	 * 
+	 * @return array
+	 */
+	public static function only($array, $keys)
+	{
+		return array_intersect_key($array, array_flip($array), $keys);
+	}
+
+	/**
 	 * Sets a value in an array using "dot" notation.
 	 *
 	 * @param  array  $array  The search array
@@ -336,6 +375,29 @@ class Arr
 		}
 
 		$array[array_shift($keys)] = $value;
+
+		return $array;
+	}
+
+	/**
+	 * Push an item onto the beginning of an array.
+	 * 
+	 * @param  mixed  $array
+	 * @param  mixed  $value
+	 * @param  mixed  key  (null by default)
+	 * 
+	 * @return array
+	 */
+	public static function prepend($array, $value, $key = null)
+	{
+		if (func_num_args() == 2)
+		{
+			array_unshift($array, $value);
+		}
+		else
+		{
+			$array = [$key => $value] + $array;
+		}
 
 		return $array;
 	}
