@@ -28,6 +28,7 @@ use Countable;
 use ArrayAccess;
 use ArrayIterator;
 use IteratorAggregate;
+use Syscodes\Support\Traits\Enumerates;
 
 /**
  * Allows provide a way for working with arrays of data.
@@ -36,6 +37,8 @@ use IteratorAggregate;
  */
 class Collection implements ArrayAccess, IteratorAggregate, Countable
 {
+    use Enumerates;
+
     /**
      * The items contained in the collection.
      * 
@@ -63,6 +66,16 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     public function all()
     {
         return $this->items;
+    }
+
+    /**
+     * Collapse the collection items into a single array.
+     * 
+     * @return static
+     */
+    public function collapse()
+    {
+        return new static(Arr::collapse($this->items));
     }
 
     /**
@@ -302,6 +315,101 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
+     * Intersect the collection with the given items.
+     * 
+     * @param  mixed  $items
+     * 
+     * @return static
+     */
+    public function intersect($items)
+    {
+        return new static(array_intersect($this->items, $this->getArrayItems($items)));
+    }
+
+    /**
+     * Intersect the collection with the given items by key.
+     * 
+     * @param  mixed  $items
+     * 
+     * @return static
+     */
+    public function intersectKey($items)
+    {
+        return new static(array_intersect_key($this->items, $this->getArrayItems($items)));
+    }
+
+    /**
+     * Determine if the collection is empty or not.
+     * 
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        return empty($this->items);
+    }
+
+    /**
+     * Get the last item from the collection.
+     * 
+     * @param  \Callable|null  $callback  (null by default)
+     * @param  mixed|null  $default  (null by default)
+     * 
+     * @return mixed
+     */
+    public function last(Callable $callback = null, $default = null)
+    {
+        return Arr::last($this->items, $callback, $default);
+    }
+
+    /**
+     * Union the collection with the given items.
+     * 
+     * @param  mixed  $items
+     * 
+     * @return static
+     */
+    public function union($items)
+    {
+        return new static($this->items + $this->getArrayItems($items));
+    }
+
+    /**
+     * Create a collection with the given range.
+     * 
+     * @param  int  $from
+     * @param  int  $to
+     * 
+     * @return static
+     */
+    public function range($from, $to)
+    {
+        return new static(range($from, $to));
+    }
+
+    /**
+     * Get and remove the last item from the collection.
+     * 
+     * @return mixed
+     */
+    public function pop()
+    {
+        return array_pop($this->items);
+    }
+
+    /**
+     * Push an item onto the beginning of the collection.
+     * 
+     * @param  mixed  $value
+     * @param  mixed  $key  (null by default)
+     * 
+     * @return $this
+     */
+    public function prepend($value, $key = null)
+    {
+        return Arr::prepend($this->items, $value, $key);
+    }
+
+    /**
      * Push an item onto the end of the collection.
      * 
      * @param  mixed  $values  [optional]
@@ -316,6 +424,217 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
         }
 
         return $this;
+    }
+
+    /**
+     * Put an item in the collection by key.
+     * 
+     * @param  mixed  $key
+     * @param  mixed  $value
+     * 
+     * @return $this
+     */
+    public function put($key, $value)
+    {
+        $this->offsetSet($key, $value);
+
+        return $this;
+    }
+
+    /**
+     * Get and remove an item from the collection.
+     * 
+     * @param  mixed  $key
+     * @param  mixed  $default  (null by default)
+     * 
+     * @return mixed
+     */
+    public function pull($key, $default = null)
+    {
+        return Arr::pull($this->items, $key, $default);
+    }
+
+    /**
+     * Reduce the collection to a single value.
+     * 
+     * @param  \Callable  $callback
+     * @param  mixed  $initial  (null by default)
+     * 
+     * @return mixed
+     */
+    public function reduce(Callable $callback, $initial = null)
+    {
+        return array_reduce($this->items, $callback, $initial);
+    }
+
+    /**
+     * Replace the collection items with the given items.
+     * 
+     * @param  mixed  $items
+     * 
+     * @return static
+     */
+    public function replace($items)
+    {
+        return new static(array_replace($this->items, $this->getArrayItems($items)));
+    }
+
+    /**
+     * Recursively replace the collection items with the given items.
+     * 
+     * @param  mixed  $items
+     * 
+     * @return static
+     */
+    public function replaceRecursive($items)
+    {
+        return new static(array_replace_recursive($this->items, $this->getArrayItems($items)));
+    }
+
+    /**
+     * Reverse items order.
+     * 
+     * @return static
+     */
+    public function reverse()
+    {
+        return new static(array_reverse($this->items, true));
+    }
+
+    /**
+     * Search the collection for a given value and return the corresponding key if successful.
+     * 
+     * @param  mixed  $value
+     * @param  bool  $strict  (false by default)
+     * 
+     * @return mixed
+     */
+    public function search($value, $strict = false)
+    {
+        if ( ! $this->usesAsCallable($value))
+        {
+            return array_search($value, $this->items, $strict);
+        }
+
+        foreach($this->items as $key => $item)
+        {
+            if ($value($item, $key))
+            {
+                return $key;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get one or more items randomly from the collection.
+     * 
+     * @param  int  $amount  (1 by default)
+     * 
+     * @return mixed
+     */
+    public function random($amount = 1)
+    {
+        $keys = array_rand($this->items, $amount);
+
+        return is_array($keys) ? array_intersect_key($this->items, array_flip($keys)) : $this->items[$keys];
+    }
+
+    /**
+     * Slice the underlying collection array.
+     * 
+     * @param  int  $offset
+     * @param  int|null  $length  (null by default)
+     * 
+     * @return static
+     */
+    public function slice($offset, $length = null)
+    {
+        return new static(array_slice($this->items, $offset, $length, true));
+    }
+
+    /**
+     * Chunk the underlying collection array.
+     * 
+     * @param  int  $size
+     * 
+     * @return static
+     */
+    public function chunk($size)
+    {
+        if ($size <= 0)
+        {
+            return new static;
+        }
+
+        $chunks = [];
+
+        foreach (array_chunk($this->items, $size, true) as $chunk)
+        {
+            $chunks[] = $chunk;
+        }
+
+        return new static($chunks);
+    }
+
+    /**
+     * Get and remove the first item from the collection.
+     * 
+     * @return void
+     */
+    public function shift()
+    {
+        return array_shift($this->items);
+    }
+
+    /**
+     * Splice portion of the underlying collection array.
+     * 
+     * @param  int  $offset
+     * @param  int|null  $length  (null by default)
+     * @param  mixed  $replacement
+     * 
+     * @return static
+     */
+    public function splice($offset, $length = null, $replacement = [])
+    {
+        if (func_num_args() == 1)
+        {
+            return new static(array_splice($this->items, $offset));
+        }
+
+        return new static(array_splice($this->items, $offset, $length, $replacement));
+    }
+
+    /**
+     * Take the first or last {$limit} items.
+     * 
+     * @param  int  $limit
+     * 
+     * @return static
+     */
+    public function take($limit)
+    {
+        if ($limit < 0)
+        {
+            $this->slice($limit, abs($limit));
+        }
+
+        return $this->slice(0, $limit);
+    }
+
+    /**
+     * Pad collection to the specified length with a value.
+     * 
+     * @param  int  $size
+     * @param  mixed  $value
+     * 
+     * @return static
+     */
+    public function pad($size, $value)
+    {
+        return new static(array_pad($this->items, $size, $value));
     }
 
     /**
