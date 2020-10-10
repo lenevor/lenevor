@@ -511,13 +511,13 @@ class Builder
      * 
      * @param  array  $columns
      * 
-     * @return array|static[]
+     * @return \Syscodes\Collections\Collection
      */
     public function get($columns = ['*'])
     {
-        return $this->getFresh(Arr::wrap($columns), function () {
+        return collect($this->getFresh(Arr::wrap($columns), function () {
             return $this->getWithStatement();
-        });
+        }));
     }
     
     /**
