@@ -149,6 +149,17 @@ class Builder
     public $offset;
 
     /**
+     * All of the available clause operators.
+     * 
+     * @var array $operators
+     */
+    public $operators = [
+        '=', '<', '>', '<=', '>=', '<>', '!=',
+        'like', 'not like', 'between', 'ilike',
+        '&', '|', '^', '<<', '>>',
+    ];
+
+    /**
      * Get the orderings for the query.
      * 
      * @var array $orders
@@ -349,6 +360,202 @@ class Builder
     public function from($table, $as = null)
     {
         $this->from = $as ? "{$table} as {$as}" : $table;
+
+        return $this;
+    }
+
+    /**
+     * Add a basic where clause to the query.
+     * 
+     * @param  mixed  $column
+     * @param  mixed  $operator  (null by default)
+     * @param  mixed  $value  (null by default)
+     * @param  mixed  $boolean  ('and' by default)
+     * 
+     * @return $this
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public function where($column, $operator = null, $value = null, $boolean = 'and')
+    {
+        if (is_array($column))
+        {
+            return $this->addArrayWheres($column, $boolean);
+        }
+
+        if (func_num_args() == 2)
+        {
+            [$value, $operator] = [$operator, '='];
+        }
+        elseif ($this->invalidOperatorValue($operator, $value))
+        {
+            throw new InvalidArgumentException('Value must be provided');
+        }
+
+        if ($column instanceof Closure && is_null($operator))
+        {
+            return $this->whereNested($column, $boolean);
+        }
+
+        if ( ! in_array(strtolower($column), $this->operators, true))
+        {
+            [$value, $operator] = [$operator, '='];
+        }
+
+        if ($value instanceof Closure)
+        {
+            return $this->whereSub($column, $operator, $value, $boolean);
+        }
+
+        if (is_null($value))
+        {
+            return $this->whereNull($column, $boolean, $operator !== '=');
+        }
+
+        $type = 'Basic';
+
+        $this->wheres[] = compact($type, $column, $operator, $value, $boolean);
+
+        if ( ! $value instanceof Expression)
+        {
+            $this->addBinding($value, 'where');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add an array of where clauses to the query.
+     * 
+     * @param  string  $column
+     * @param  string  $boolean
+     * @param  string  $method  ('where' by default)
+     * 
+     * @return $this
+     */
+    protected function addArrayWheres($column, $boolean, $method = 'where')
+    {
+        return $this->whereNested(function ($query) use ($column, $method, $boolean)
+        {
+            foreach ($column as $key => $value)
+            {
+                if (is_numeric($key) && is_array($value))
+                {
+                    $query->{$method}(...array_values($value));
+                }
+                else
+                {
+                    $query->{$method}($key, '=', $value, $boolean);
+                }
+            }
+        }, $boolean);
+    }
+
+    /**
+     * Determine if the given operator and value combination is legal.
+     * Prevents using Null values with invalid operators.
+     * 
+     * @param  string  $operator
+     * @param  mixed  $value
+     * 
+     * @return bool
+     */
+    protected function invalidOperatorValue($operator, $value)
+    {
+        return is_null($value) && in_array($operator, $this->operators) && ! in_array($operator, ['=', '<>', '!=']);
+    }
+
+    /**
+     * Add a nested where statement to the query.
+     * 
+     * @param  \Closure  $callback
+     * @param  string  $boolean  ('and' by default)
+     * 
+     * @return $this
+     */
+    public function whereNested(Closure $callback, $boolean = 'and')
+    {
+        $query = $this->forNestedWhere();
+
+        call_user_func($callback, $query);
+
+        return $this->addNestedWhere($query, $boolean);
+    }
+
+    /**
+     * Create a new query instance for nested where condition.
+     * 
+     * @return \Syscodes\Database\Query\Builder
+     */
+    public function forNestedWhere()
+    {
+        return $this->newBuilder()->from($this->from);
+    }
+
+    /**
+     * Add a query builder different from the current one.
+     * 
+     * @param  \Syscodes\Database\Query\Builder  $query
+     * @param  string  $boolean  ('and' by default)
+     * 
+     * @return $this
+     */
+    public function addNestedWhere($query, $boolean = 'and')
+    {
+        if (count($query->wheres))
+        {
+            $type = 'Nested';
+
+            $this->wheres[] = compact('type', 'query', 'boolean');
+
+            $this->addBinding($query->getRawBindings()['where'], 'where');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add a full sub-select to the query.
+     * 
+     * @param  string  $column
+     * @param  string  $operator
+     * @param  \Closure  $callback
+     * @param  string  $boolean
+     * 
+     * @return $this
+     */
+    protected function whereSub($column, $operator, Closure $callback, $boolean)
+    {
+        $type = 'Sub';
+
+        call_user_func($callback, $query = $this->forSubBuilder());
+
+        $this->wheres[] = compact(
+            'type', 'column', 'operator', 'query', 'boolean'
+        );
+
+        $this->addBinding($query->getBindings(), 'where');
+
+        return $this;
+    }
+
+    /**
+     * Add a "where null" clause to the query.
+     * 
+     * @param  string|array  $columns
+     * @param  string  $boolean  ('and' by default)
+     * @param  bool  $not  (false by default)
+     * 
+     * @return $this
+     */
+    public function whereNull($columns, $boolean = 'and', $not = false)
+    {
+        $type = $not ? 'NotNull' : 'Null';
+
+        foreach (Arr::wrap($columns) as $column)
+        {
+            $this->wheres[] = compact('type', 'column', 'boolean');
+        }
 
         return $this;
     }
@@ -821,6 +1028,16 @@ class Builder
     public function newBuilder()
     {
         return new static($this->connection, $this->grammar, $this->processor);
+    }
+
+    /**
+     * Create a new Builder instance for a sub-Builder.
+     * 
+     * @return \Syscodes\Database\Query\Builder
+     */
+    protected function forSubBuilder()
+    {
+        return $this->newBuilder();
     }
 
     /**
