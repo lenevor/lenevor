@@ -712,6 +712,19 @@ class Builder
 
         return count($sql) > 0 ? head($sql) : null;
     }
+
+    /**
+     * Execute a query for a single record by ID.
+     * 
+     * @param  int|string  $id
+     * @param  array  $columns
+     * 
+     * @return mixed
+     */
+    public function find($id, $columns = ['*'])
+    {
+        return $this->where('id', '=', $id)->first($columns);
+    }
     
     /**
      * Execute the query as a "select" statement.
