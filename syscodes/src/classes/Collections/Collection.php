@@ -28,7 +28,7 @@ use Countable;
 use ArrayAccess;
 use ArrayIterator;
 use IteratorAggregate;
-use Syscodes\Support\Traits\Enumerates;
+use Syscodes\Collections\Traits\Enumerates;
 
 /**
  * Allows provide a way for working with arrays of data.
