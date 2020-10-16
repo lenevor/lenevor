@@ -93,7 +93,7 @@ return [
     'Syscodes\\Core\\Http\\Exceptions\\GoneHttpException' => SYS_PATH.'src/classes/Core/Http/Exceptions/GoneHttpException.php',
     'Syscodes\\Core\\Http\\Exceptions\\HttpException' => SYS_PATH.'src/classes/Core/Http/Exceptions/HttpException.php',
     'Syscodes\\Core\\Http\\Exceptions\\LenevorException' => SYS_PATH.'src/classes/Core/Http/Exceptions/LenevorException.php',
-    'Syscodes\\Core\\Http\\Exceptions\\LengthRequiredException' => SYS_PATH.'src/classes/Core/Http/Exceptions/LengthRequiredException.php',
+    'Syscodes\\Core\\Http\\Exceptions\\LengthRequiredHttpException' => SYS_PATH.'src/classes/Core/Http/Exceptions/LengthRequiredHttpException.php',
     'Syscodes\\Core\\Http\\Exceptions\\MethodNotAllowedHttpException' => SYS_PATH.'src/classes/Core/Http/Exceptions/MethodNotAllowedHttpException.php',
     'Syscodes\\Core\\Http\\Exceptions\\NotFoundHttpException' => SYS_PATH.'src/classes/Core/Http/Exceptions/NotFoundHttpException.php',
     'Syscodes\\Core\\Http\\Exceptions\\PreconditionFailedHttpException' => SYS_PATH.'src/classes/Core/Http/Exceptions/PreconditionFailedHttpException.php',
