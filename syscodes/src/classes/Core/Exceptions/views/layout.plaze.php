@@ -21,13 +21,15 @@
 	</head>
 	<body>
 
-		<div class="box flex-center full-height full-width">
+		<div class="container">
 		
-			<div class="code">
-				<h1><@give('code')</h1>
-			</div>			
-			<div class="message" style="padding: 10px;">
-				<@give('message')
+			<div class="flex items-center justify-center w-screen h-screen bg-gradient animated">
+
+				<div class="flex flex-row items-center justify-center sm:flex-col md:flex-row">
+					<h1 class="bg-color border-solid border-color border-width border-shadow text-color-title text-size-title text-shadow font-bold m-right p-full round sm:text-size-title md:text-size-title"><@give('code')</h1>
+					<p class="text-color-subtitle text-size-subtitle text-shadow font-bold uppercase letter-spacing sm:text-size-subtitle md:text-size-subtitle sm:m-top md:m-top md:m-left"><@give('message')</p>
+				</div>
+
 			</div>
 			
 		</div>
