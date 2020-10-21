@@ -20,6 +20,7 @@ body {
 	display: flex;
 }
 
+
 .flex-col { 
 	flex-direction: column;
 }
@@ -46,6 +47,10 @@ body {
 
 .justify-center {
 	justify-content: center;
+}
+
+.justify-between {
+	justify-content: space-between;
 }
 
 .justify-end {
@@ -96,8 +101,16 @@ body {
 	padding: 5px;
 }
 
+.h-200 {
+	height: 200px;
+}
+
 .h-screen {
 	height: 100vh;
+}
+
+.w-300 {
+	width: 300px;
 }
 
 .w-screen {
@@ -106,13 +119,14 @@ body {
 
 .bg-gradient { 
 	--bg-opacity: 1; 
-	background: linear-gradient(150deg, rgb(43, 110, 155) 0%, rgb(51, 89, 151) 25%, rgb(32, 75, 124) 50%,rgb(59, 39, 105) 75%,rgb(99, 7, 107) 100%);
+	background: linear-gradient(150deg, rgba(43, 110, 155, var(--bg-opacity)) 0%, rgba(51, 89, 151, var(--bg-opacity)) 25%, rgba(32, 75, 124, var(--bg-opacity)) 50%, rgba(59, 39, 105, var(--bg-opacity)) 75%, rgba(99, 7, 107, var(--bg-opacity)) 100%);
 	background-size: 200% 200%;
 	position: relative;
 }
 
 .bg-color {
-	background: rgb(190, 59, 92);
+	--text-opacity: 1;
+	background: rgba(190, 59, 92, var(--text-opacity));
 }
 
 .border-solid {
@@ -141,7 +155,7 @@ body {
 .text-color-title {
 	--text-opacity: 1;
 	color: #fcc6dc;
-	color: rgb(218, 229, 252);
+	color: rgba(252, 212, 228, var(--text-opacity));
 }
 
 .text-color-subtitle {
@@ -159,7 +173,8 @@ body {
 }
 
 .text-shadow {
-	text-shadow: 1px 1px 1px rgb(117, 5, 102);
+	--text-opacity: 1;
+	text-shadow: 1px 1px 1px rgba(83, 12, 74, var(--text-opacity));
 }
 
 .tolowercase {
@@ -223,7 +238,7 @@ body {
 	}
 
 	.sm\:m-top {
-		margin-top: 30px;
+		margin-top: 20px;
 	}
 
 	.sm\:m-left {
@@ -255,7 +270,7 @@ body {
 	}
 
 	.sm\:text-size-title {
-		font-size: 1.2rem;
+		font-size: 1.8rem;
 	}
 	
 	.sm\:text-size-subtitle {
@@ -306,7 +321,7 @@ body {
 	}
 
 	.md\:text-size-title {
-		font-size: 1.8rem;
+		font-size: 2rem;
 	}
 	
 	.md\:text-size-subtitle {
