@@ -23,6 +23,7 @@ return [
         Syscodes\Encryption\EncryptionServiceProvider::class,
         Syscodes\Events\EventServiceProvider::class,
         Syscodes\Filesystem\FilesystemServiceProvider::class,
+        Syscodes\Pipeline\PipelineServiceProvider::class,
         Syscodes\Session\SessionServiceProvider::class,
         Syscodes\Translation\TranslationServiceProvider::class,
         Syscodes\View\ViewServiceProvider::class,
