@@ -40,7 +40,7 @@ class RedisServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->singleton('redis', function ($app) {
+        $this->app->singleton('redis', function ($app) {
             $config = $app['config']->get('database.redis', []);
 
             return new RedisManager($config);
