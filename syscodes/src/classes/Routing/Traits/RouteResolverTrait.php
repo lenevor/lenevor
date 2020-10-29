@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.7.2
+ * @since       0.7.3
  */
 
 namespace Syscodes\Routing\Traits;
@@ -28,6 +28,7 @@ use Closure;
 use JsonSerializable;
 use Syscodes\Http\Response;
 use Syscodes\Http\JsonResponse;
+use Syscodes\Pipeline\Pipeline;
 use Syscodes\Routing\RouteCollection;
 use Syscodes\Contracts\Routing\Routable;
 use Syscodes\Routing\Exceptions\RouteNotFoundException;
@@ -84,7 +85,13 @@ trait RouteResolverTrait
 	 */
 	protected function runRoute($request, $route)
 	{		
-		return $this->callResponse($request, $route->runResolver());
+		return (new Pipeline($this->container))
+				->send($request)
+				->then(function ($request) use ($route) {
+					return $this->callResponse(
+						$request, $route->runResolver()
+					); 
+				});
 	}
 
 	/**
