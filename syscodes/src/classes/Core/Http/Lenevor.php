@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.5.2
+ * @since       0.7.3
  */
 
 namespace Syscodes\Core\Http;
@@ -29,6 +29,7 @@ use Exception;
 use Throwable;
 use Syscodes\Http\Http; 
 use Syscodes\Routing\Router;
+use Syscodes\Pipeline\Pipeline;
 use Syscodes\Support\Facades\Facade;
 use Syscodes\Contracts\Core\Application;
 use Syscodes\Contracts\Debug\ExceptionHandler;
@@ -219,17 +220,23 @@ class Lenevor implements LenevorContract
 		// Load configuration system
 		$this->bootstrap();
 
-		return $this->dispatchToRouter($request);
+		return (new Pipeline($this->app))
+				->send($request)
+				->then($this->dispatchToRouter());
 	}
 
 	/**
 	 * Get the dispatcher of routes.
 	 * 	  
- 	 * @return void
+	 * @return \Closure
  	 */
-	protected function dispatchToRouter($request)
+	protected function dispatchToRouter()
 	{
-		return $this->router->dispatch($request);
+		return function ($request) {
+			$this->app->instance('request', $request);
+
+			return $this->router->dispatch($request);
+		};
 	}
 
 	/**
