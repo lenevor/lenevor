@@ -207,6 +207,7 @@ return [
     'Syscodes\\Routing\\Traits\\RouteMapTrait' => SYS_PATH.'src/classes/Routing/Traits/RouteMapTrait.php',
     'Syscodes\\Routing\\Traits\\RouteResolverTrait' => SYS_PATH.'src/classes/Routing/Traits/RouteResolverTrait.php',
     'Syscodes\\Routing\\AwaitingResourceRegistration' => SYS_PATH.'src/classes/Routing/AwaitingResourceRegistration.php',
+    'Syscodes\\Routing\\Pipeline' => SYS_PATH.'src/classes/Routing/Pipeline.php',
     'Syscodes\\Routing\\Redirector' => SYS_PATH.'src/classes/Routing/Redirector.php',
     'Syscodes\\Routing\\ResourceRegister' => SYS_PATH.'src/classes/Routing/ResourceRegister.php',
     'Syscodes\\Routing\\Route' => SYS_PATH.'src/classes/Routing/Route.php',
