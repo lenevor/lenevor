@@ -29,7 +29,7 @@ use Exception;
 use Throwable;
 use Syscodes\Http\Http; 
 use Syscodes\Routing\Router;
-use Syscodes\Pipeline\Pipeline;
+use Syscodes\Routing\Pipeline;
 use Syscodes\Support\Facades\Facade;
 use Syscodes\Contracts\Core\Application;
 use Syscodes\Contracts\Debug\ExceptionHandler;
@@ -89,6 +89,7 @@ class Lenevor implements LenevorContract
 	 * Constructor. Lenevor class instance.
 	 * 
 	 * @param  \Syscodes\Contracts\Core\Application  $app
+	 * @param  \Syscodes\Routing\Router  $router
 	 * 
 	 * @return void
 	 */
