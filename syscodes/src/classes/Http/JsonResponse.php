@@ -27,6 +27,8 @@ namespace Syscodes\Http;
 use ArrayObject;
 use JsonSerializable;
 use InvalidArgumentException;
+use Syscodes\Contracts\Support\Jsonable;
+use Syscodes\Contracts\Support\Arrayable;
 
 /**
  * Response represents an HTTP response in JSON format.
@@ -134,12 +136,21 @@ class JsonResponse extends Response
      */
     public function setData($data = [])
     {
-        $options                   = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
+        $options = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
+
         $this->jsonEncodingOptions = ENVIRONMENT === 'production' ? $options : $options | JSON_PRETTY_PRINT;
         
-        if ($data instanceof JsonSerializable)
+        if ($data instanceof Jsonable)
+        {
+            $this->data = $data->toJson($this->jsonEncodingOptions);
+        }
+        elseif ($data instanceof JsonSerializable)
         {
             $this->data = json_encode($data->jsonSerialize(), $this->jsonEncodingOptions);
+        }
+        elseif ($data instanceof Arrayable)
+        {
+            $this->data = json_encode($data->toArray(), $this->jsonEncodingOptions);
         }
         else
         {
