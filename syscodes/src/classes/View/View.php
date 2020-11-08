@@ -32,6 +32,7 @@ use BadMethodCallException;
 use InvalidArgumentException;
 use Syscodes\Contracts\View\Engine;
 use Syscodes\Contracts\Support\Webable;
+use Syscodes\Contracts\Support\Arrayable;
 use Syscodes\Contracts\Support\Renderable;
 use Syscodes\Contracts\View\View as ViewContract;
 
@@ -96,7 +97,7 @@ class View implements ArrayAccess, Webable, ViewContract
 		$this->engine  = $engine;
 		$this->view    = $view;
 		$this->path    = $path;
-		$this->data    = (array) $data;
+		$this->data    = $data instanceof Arrayable ? $data->toArray() : (array) $data;
 	}
 
 	/**
