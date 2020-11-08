@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.7.2
+ * @since       0.7.3
  */
 
 namespace Syscodes\Collections;
@@ -28,6 +28,8 @@ use Countable;
 use ArrayAccess;
 use ArrayIterator;
 use IteratorAggregate;
+use Syscodes\Contracts\Support\Jsonable;
+use Syscodes\Contracts\Support\Arrayable;
 use Syscodes\Collections\Traits\Enumerates;
 
 /**
@@ -683,6 +685,14 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
         if (is_array($items))
         {
             return $items;
+        }
+        elseif($items instanceof Arrayable)
+        {
+            return $items->toArray();
+        }
+        elseif ($items instanceof Jsonable)
+        {
+            return json_decode($items->toJson(), true);
         }
         elseif ($items instanceof Collection)
         {
