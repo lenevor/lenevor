@@ -219,9 +219,9 @@ class Builder
      */
     public function __construct(ConnectionInterface $connection, Grammar $grammar = null, Processor $processor = null)
     {
-        $this->processor = $processor ?: $this->getQueryProcessor();
-        $this->grammar = $grammar ?: $this->getQueryGrammar();
         $this->connection = $connection;
+        $this->grammar    = $grammar ?: $this->getQueryGrammar();
+        $this->processor  = $processor ?: $this->getQueryProcessor();
     }
 
     /**
