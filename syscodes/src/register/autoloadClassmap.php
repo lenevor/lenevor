@@ -69,6 +69,8 @@ return [
     'Syscodes\\Contracts\\Routing\\Routable' => SYS_PATH.'src/classes/Contracts/Routing/Routable.php',
     'Syscodes\\Contracts\\Routing\\RouteResponse' => SYS_PATH.'src/classes/Contracts/Routing/RouteResponse.php',
     'Syscodes\\Contracts\\Session\\Session' => SYS_PATH.'src/classes/Contracts/Session/Session.php',
+    'Syscodes\\Contracts\\Support\\Arrayable' => SYS_PATH.'src/classes/Contracts/Support/Arrayable.php',
+    'Syscodes\\Contracts\\Support\\Jsonable' => SYS_PATH.'src/classes/Contracts/Support/Jsonable.php',
     'Syscodes\\Contracts\\Support\\Renderable' => SYS_PATH.'src/classes/Contracts/Support/Renderable.php',
     'Syscodes\\Contracts\\Support\\Webable' => SYS_PATH.'src/classes/Contracts/Support/Webable.php',
     'Syscodes\\Contracts\\View\\Engine' => SYS_PATH.'src/classes/Contracts/View/Engine.php',
