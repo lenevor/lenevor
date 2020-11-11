@@ -364,6 +364,12 @@ class View implements ArrayAccess, Webable, ViewContract
 		return $this;
 	}
 
+	/*
+    |-----------------------------------------------------------------
+    | ArrayAccess Methods
+    |-----------------------------------------------------------------
+    */
+
 	/**
 	 * Whether or not an offset exists.
 	 * 
@@ -452,7 +458,6 @@ class View implements ArrayAccess, Webable, ViewContract
 	 *
 	 * Variables are not considered to be set.
 	 *
-	 * @access public
 	 * @param  string  $key  variable name
 	 *
 	 * @return boolean
