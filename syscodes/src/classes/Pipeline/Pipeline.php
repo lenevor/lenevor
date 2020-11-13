@@ -274,4 +274,3 @@ class Pipeline implements PipelineContract
         return $this;
     }
 }
-
