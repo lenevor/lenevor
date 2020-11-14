@@ -112,15 +112,6 @@ interface ConnectionInterface
     public function delete($query, $bindings = []);
 
     /**
-     * Return the auto-increment ID of the last inserted row.
-     * 
-     * @param  string|null  $id  (null by default)
-     * 
-     * @return mixed
-     */
-    public function lastInsertId($name = null);
-
-    /**
      * Prepare the query bindings for execution.
      * 
      * @param  array  $bindings
