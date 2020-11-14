@@ -32,10 +32,10 @@ use Syscodes\Http\Request;
 use InvalidArgumentException;
 use Syscodes\Collections\Arr;
 use Syscodes\Container\Container;
+use Syscodes\Routing\Traits\RouteCondition;
 use Syscodes\Controller\ControllerDispatcher;
-use Syscodes\Routing\Traits\RouteConditionTrait;
 use Syscodes\Http\Exceptions\HttpResponseException;
-use Syscodes\Routing\Traits\RouteDependencyResolverTrait;
+use Syscodes\Routing\Traits\RouteDependencyResolver;
 
 /**
  * A Route describes a route and its parameters.
@@ -44,8 +44,8 @@ use Syscodes\Routing\Traits\RouteDependencyResolverTrait;
  */
 class Route 
 {
-	use RouteConditionTrait,
-	    RouteDependencyResolverTrait;
+	use RouteCondition,
+	    RouteDependencyResolver;
 	
 	/**
 	 * Action that the route will use when called.
