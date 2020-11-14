@@ -31,10 +31,10 @@ use BadMethodCallException;
 use InvalidArgumentException;
 use Syscodes\Collections\Arr;
 use Syscodes\Http\RedirectResponse;
+use Syscodes\Routing\Traits\RouteMap;
 use Syscodes\Contracts\Routing\Routable;
-use Syscodes\Routing\Traits\RouteMapTrait;
+use Syscodes\Routing\Traits\RouteResolver;
 use Syscodes\Contracts\Container\Container;
-use Syscodes\Routing\Traits\RouteResolverTrait;
 
 /**
  * The Router class allows the integration of an easy-to-use routing system.
@@ -43,8 +43,8 @@ use Syscodes\Routing\Traits\RouteResolverTrait;
  */
 class Router implements Routable
 {
-	use RouteMapTrait,
-	    RouteResolverTrait;
+	use RouteMap,
+	    RouteResolver;
 
 	/**
 	 * The registered route value binders.
