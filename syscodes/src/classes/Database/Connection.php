@@ -34,7 +34,6 @@ use Syscodes\Collections\Arr;
 use Syscodes\Database\Query\Processor;
 use Syscodes\Database\Query\Expression;
 use Syscodes\Contracts\Events\Dispatcher;
-use Syscodes\Database\Traits\DetectLostConnections;
 use Syscodes\Database\Query\Builder as QueryBuilder;
 use Syscodes\Database\Query\Grammar as QueryGrammar;
 
@@ -45,7 +44,7 @@ use Syscodes\Database\Query\Grammar as QueryGrammar;
  */
 class Connection implements ConnectionInterface
 {
-    use DetectLostConnections;
+    use Concerns\DetectLostConnections;
     
     /**
      * The database connection configuration options.
@@ -206,10 +205,11 @@ class Connection implements ConnectionInterface
      * 
      * @param  string  $query
      * @param  array  $bindings
+     * @param  bool  $useReadPdo  (true by default)
      * 
      * @return array
      */
-    public function select($query, $bindings = [])
+    public function select($query, $bindings = [], $useReadPdo = true)
     {
 
     }
