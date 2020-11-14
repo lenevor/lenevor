@@ -34,8 +34,9 @@ use Syscodes\Collections\Arr;
 use Syscodes\Database\Query\Processor;
 use Syscodes\Database\Query\Expression;
 use Syscodes\Contracts\Events\Dispatcher;
-use Syscodes\Database\Query\Grammar as QueryGrammar;
+use Syscodes\Database\Traits\DetectLostConnections;
 use Syscodes\Database\Query\Builder as QueryBuilder;
+use Syscodes\Database\Query\Grammar as QueryGrammar;
 
 /**
  * Creates a database connection using PDO.
@@ -44,6 +45,8 @@ use Syscodes\Database\Query\Builder as QueryBuilder;
  */
 class Connection implements ConnectionInterface
 {
+    use DetectLostConnections;
+    
     /**
      * The database connection configuration options.
      * 
@@ -80,11 +83,32 @@ class Connection implements ConnectionInterface
     protected $postProcessor;
 
     /**
+     * The active PDO connection used for reads.
+     * 
+     * @var \PDO $readPdo
+     */
+    protected $readPdo;
+
+    /**
+     * The reconnector instance for the connection.
+     * 
+     * @var callable $reconnector
+     */
+    protected $reconnector;
+
+    /**
      * The table prefix for the connection.
      * 
      * @var string $tablePrefix
      */
     protected $tablePrefix;
+
+    /**
+     * The number of active transactions.
+     * 
+     * @var int $transactions
+     */
+    protected $transactions = 0;
 
     /**
      * Constructor. Create new a Database connection instance.
@@ -153,12 +177,28 @@ class Connection implements ConnectionInterface
      * 
      * @param  string  $query
      * @param  array  $bindings
+     * @param  bool  $useReadPdo  (true by default)
      * 
      * @return mixed
      */
-    public function selectOne($query, $bindings = [])
+    public function selectOne($query, $bindings = [], $useReadPdo = true)
     {
+        $records = $this->select($query, $bindings, $useReadPdo);
 
+        return array_shift($records);
+    }
+
+    /**
+     * Run a select statement against the database.
+     * 
+     * @param  string  $query
+     * @param  array  $bindings
+     * 
+     * @return array
+     */
+    public function selectFromConnection($query, $bindings)
+    {
+        return $this->select($query, $bindings, false);
     }
 
     /**
@@ -209,18 +249,6 @@ class Connection implements ConnectionInterface
      * @return int
      */
     public function delete($query, $bindings = [])
-    {
-
-    }
-
-    /**
-     * Return the auto-increment ID of the last inserted row.
-     * 
-     * @param  string|null  $id  (null by default)
-     * 
-     * @return mixed
-     */
-    public function lastInsertId($name = null)
     {
 
     }
@@ -301,6 +329,107 @@ class Connection implements ConnectionInterface
     public function prepend(Closure $callback)
     {
 
+    }
+
+    /**
+     * Reconnect to the database.
+     * 
+     * @return void
+     * 
+     * @throws \LogicException
+     */
+    public function reconnect()
+    {
+        if (is_callable($this->reconnector))
+        {
+            return call_user_func($this->reconnector, $this);
+        }
+
+        throw new LogicException('Lost connection and no reconnector available');
+    }
+
+    /**
+     * Get the PDO instance.
+     * 
+     * @return \PDO
+     */
+    public function getPdo()
+    {
+        return $this->pdo;
+    }
+
+    /**
+     * Get the current PDO connection used for reading.
+     * 
+     * @return \PDO
+     */
+    public function getReadPdo()
+    {
+        if ($this->transactions > 0)
+        {
+            return $this->getPdo();
+        }
+        
+        if ($this->readPdo instanceof Closure)
+        {
+            return $this->readPdo = call_user_func($this->readPdo);
+        }
+        
+        return $this->readPdo ?: $this->getPdo();
+    }
+
+    /**
+     * Get the current read PDO connection parameter without executing any reconnect logic.
+     * 
+     * @return \PDO|\Closure|null
+     */
+    public function getRawReadPdo()
+    {
+        return $this->readPdo;
+    }
+
+    /**
+     * Set the PDO connection.
+     * 
+     * @param  \PDO|\Closure|null  $pdo
+     * 
+     * @return $this
+     */
+    public function setPdo($pdo)
+    {
+        $this->transactions = 0;
+
+        $this->pdo = $pdo;
+
+        return $this;
+    }
+
+    /**
+     * Set the PDO connection used for reading.
+     * 
+     * @param  \PDO|\Closure|null  $pdo
+     * 
+     * @return $this
+     */
+    public function setReadPdo($pdo)
+    {
+        $this->readPdo = $pdo;
+
+        return $this;
+    }
+
+    /**
+     * Set the reconnect instance on the connection.
+     * 
+     * @param  Callablle  $reconnector
+     * 
+     * @return $this
+     */
+    public function setReconnector(callable $reconnector)
+    {
+        $this->reconnector = $reconnector;
+
+        return $this;
     }
 
     /**
