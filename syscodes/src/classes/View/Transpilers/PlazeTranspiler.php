@@ -29,16 +29,16 @@ use Syscodes\Collections\Arr;
 
 class PlazeTranspiler extends Transpiler implements TranspilerInterface
 {
-    use Establishes\TranspilesEchos,
-        Establishes\TranspilesLoops,
-        Establishes\TranspilesRawPhp,
-        Establishes\TranspilesHelpers,
-        Establishes\TranspilesLayouts,
-        Establishes\TranspilesComments,
-        Establishes\TranspilesIncludes,
-        Establishes\TranspilesComponents,
-        Establishes\TranspilesConditionals,
-        Establishes\TranspilesTranslations;
+    use Concerns\TranspilesEchos,
+        Concerns\TranspilesLoops,
+        Concerns\TranspilesRawPhp,
+        Concerns\TranspilesHelpers,
+        Concerns\TranspilesLayouts,
+        Concerns\TranspilesComments,
+        Concerns\TranspilesIncludes,
+        Concerns\TranspilesComponents,
+        Concerns\TranspilesConditionals,
+        Concerns\TranspilesTranslations;
         
     /**
      * All of the available transpiler functions.
