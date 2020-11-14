@@ -41,9 +41,9 @@ use Syscodes\Contracts\View\Factory as FactoryContract;
 class Factory implements FactoryContract
 {
 	use Extensions,
-		Establishes\ManagesLayouts,
-		Establishes\ManagesComponents,
-		Establishes\ManagesTranslations;
+		Concerns\ManagesLayouts,
+		Concerns\ManagesComponents,
+		Concerns\ManagesTranslations;
 	
 	/**
 	 * The IoC container instance.
