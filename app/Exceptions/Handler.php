@@ -47,7 +47,7 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      * 
-     * @param  Exception  $exception
+     * @param  \Exception  $exception
      * 
      * @return void
      */
@@ -59,7 +59,7 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      * 
-     * @param  \Syscode\Http\Request  $request
+     * @param  \Syscodes\Http\Request  $request
      * @param  \Exception  $exception
      * 
      * @return \Syscodes\Http\Response
