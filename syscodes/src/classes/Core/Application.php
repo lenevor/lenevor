@@ -24,6 +24,7 @@
 
 namespace Syscodes\Core;
 
+use Syscodes\Collections\Arr;
 use Syscodes\Container\Container;
 use Syscodes\Support\ServiceProvider;
 use Syscodes\Log\LoggerServiceProvider;
@@ -463,7 +464,7 @@ class Application extends Container implements ApplicationContract
 
         if (array_key_exists($name, $this->loadServiceProviders))
         {
-            return array_first($this->serviceProviders, function($key, $value) use ($name) {
+            return Arr::first($this->serviceProviders, function($key, $value) use ($name) {
                 return get_class($value) == $name;
             });
         }
