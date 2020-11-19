@@ -24,6 +24,8 @@
 
 namespace Syscodes\Http;
 
+use Syscodes\Collections\Arr;
+
 /**
  * Returns the HTTP requests is filtered and detected in the routes set by the user.
  * 
@@ -70,7 +72,7 @@ class Http
 	 */
 	public function cookie($index = null, $default = null)
 	{
-		return (func_num_args() === 0) ? $_COOKIE : array_get($_COOKIE, strtoupper($index), $default);
+		return (func_num_args() === 0) ? $_COOKIE : Arr::get($_COOKIE, strtoupper($index), $default);
 	}
 
 	/**
@@ -83,7 +85,7 @@ class Http
 	 */
 	public function file($index = null, $default = null)
 	{
-		return (func_num_args() === 0) ? $_FILES : array_get($_FILES, strtoupper($index), $default);
+		return (func_num_args() === 0) ? $_FILES : Arr::get($_FILES, strtoupper($index), $default);
 	}
 
 	/**
@@ -96,7 +98,7 @@ class Http
 	 */
 	public function server($index = null, $default = null)
 	{
-		return (func_num_args() === 0) ? $_SERVER : array_get($_SERVER, strtoupper($index), $default);
+		return (func_num_args() === 0) ? $_SERVER : Arr::get($_SERVER, strtoupper($index), $default);
 	}
 	
 	/**
