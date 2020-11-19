@@ -30,6 +30,7 @@ use Traversable;
 use Syscodes\Support\Str;
 use BadMethodCallException;
 use InvalidArgumentException;
+use Syscodes\Collections\Arr;
 use Syscodes\Contracts\View\Engine;
 use Syscodes\Contracts\Support\Webable;
 use Syscodes\Contracts\Support\Arrayable;
@@ -357,7 +358,7 @@ class View implements ArrayAccess, Webable, ViewContract
 			}
 			else
 			{
-				array_set($this->data, $key, $value);
+				Arr::set($this->data, $key, $value);
 			}
 		}
 
