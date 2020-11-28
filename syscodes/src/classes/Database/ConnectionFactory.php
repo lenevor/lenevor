@@ -28,10 +28,10 @@ use PDOException;
 use InvalidArgumentException;
 use Syscodes\Collections\Arr;
 use Syscodes\Contracts\Container\Container;
-use Syscodes\Database\Connectors\MysqlConnectors;
-use Syscodes\Database\Connectors\SQLiteConnectors;
-use Syscodes\Database\Connectors\PostgresConnectors;
-use Syscodes\Database\Connectors\SqlServerConnectors;
+use Syscodes\Database\Connectors\MysqlConnector;
+use Syscodes\Database\Connectors\SQLiteConnector;
+use Syscodes\Database\Connectors\PostgresConnector;
+use Syscodes\Database\Connectors\SqlServerConnector;
 
 use Syscodes\Database\Connections\MysqlConnection;
 use Syscodes\Database\Connections\SQLiteConnection;
@@ -62,5 +62,76 @@ class ConnectionFactory
     public function __construct(Container $container)
     {
         $this->container = $container;
+    }
+
+    /**
+     * Create a connector instance based on the configuration.
+     * 
+     * @param  array  $config
+     * 
+     * @return \Syscodes\Database\Connectors\ConnectorInterface
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public function createConnector(array $config)
+    {
+        if ( ! isset($config['driver']))
+        {
+            throw new InvalidArgumentException('A driver must be specified');
+        }
+        
+        if ($this->container->bound($key = "db.connector.{$config['driver']}"))
+        {
+            return $this->container->make($key);
+        }
+
+        switch ($config['driver'])
+        {
+            case 'mysql':
+                return new MysqlConnector;
+            case 'pgsql':
+                return new PostgresConnector;
+            case 'sqlite':
+                return new SQLiteConnector;
+            case 'sqlsrv':
+                return new SqlServerConnector;
+        }
+
+        throw new InvalidArgumentException("Unsupported driver [{$config['driver']}]");
+    }
+
+    /**
+     * Create a new connection instance.
+     * 
+     * @param  string  $driver
+     * @param  \PDO|\Closure  $connection
+     * @param  string  $database
+     * @param  string  $prefix
+     * @param  array  $config
+     * 
+     * @return \Syscodes\Database\Connection
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public function createConnection($driver, $connection, $database, $prefix = '', array $config = [])
+    {
+        if ($resolver = Connection::getResolver($driver))
+        {
+            return $resolver($connection, $database, $prefix, $config);
+        }
+
+        switch ($driver)
+        {
+            case 'mysql':
+                return new MysqlConnection($connection, $database, $prefix, $config);
+            case 'pgsql':
+                return new PostgresConnection($connection, $database, $prefix, $config);
+            case 'sqlite':
+                return new SQLiteConnection($connection, $database, $prefix, $config);
+            case 'sqlsrv':
+                return new SqlServerConnection($connection, $database, $prefix, $config);
+        }
+
+        throw new InvalidArgumentException("Unsupported driver [{$driver}]");
     }
 }
