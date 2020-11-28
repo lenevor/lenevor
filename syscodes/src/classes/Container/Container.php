@@ -569,13 +569,13 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function instance($id, $instance) 
     {
-        $isHas = $this->has($id);
+        $bound = $this->bound($id);
 
         unset($this->aliases[$id]);
 
         $this->instances[$id] = $instance;
 
-        if ($isHas)
+        if ($bound)
         {
             $this->rehas($id);
         }
@@ -768,7 +768,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function set($id, string $value)
     {
-        if ( ! $this->has($id))
+        if ( ! $this->bound($id))
         {
             throw new ContainerException($id);
         }
@@ -844,6 +844,18 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function has($id)
     {
+        return $this->bound($id);
+    }
+
+    /**
+     * Determine if the given id type has been bound.
+     * 
+     * @param  string  $id
+     * 
+     * @return bool
+     */
+    public function bound($id)
+    {
         return isset($this->bindings[$id])  ||
                isset($this->instances[$id]) ||
                $this->isAlias($id);
@@ -864,7 +876,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function offsetExists($offset)
     {
-        return $this->has($offset);
+        return $this->bound($offset);
     }
 
     /**
