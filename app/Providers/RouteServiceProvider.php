@@ -50,8 +50,8 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->routes(function () {
-            $this->loadWebRoute();
             $this->loadApiRoute();
+            $this->loadWebRoute();
         });
     }
 
@@ -74,6 +74,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function loadApiRoute()
     {
         Route::prefix('api')
+             ->namespace($this->namespace)
              ->group(basePath('routes/api.php'));
     }
 }
