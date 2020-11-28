@@ -130,7 +130,7 @@ class RouteRegister
      * @param  string  $controller
      * @param  array  $options
      * 
-     * @return \Syscodes\Routing\RouteResourceRegistration
+     * @return \Syscodes\Routing\ResourceRegister
      */
     public function resource($name, $controller, array $options = [])
     {
