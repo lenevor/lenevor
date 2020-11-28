@@ -26,7 +26,7 @@ namespace Syscodes\Controller;
 
 use Syscodes\Routing\Route;
 use Syscodes\Contracts\Container\Container;
-use Syscodes\Routing\Traits\RouteDependencyResolverTrait;
+use Syscodes\Routing\Traits\RouteDependencyResolver;
 use Syscodes\Controller\Contracts\ControllerDispatcher as ControllerDispatcherContract;
 
 /**
@@ -36,7 +36,7 @@ use Syscodes\Controller\Contracts\ControllerDispatcher as ControllerDispatcherCo
  */
 class ControllerDispatcher implements ControllerDispatcherContract
 {
-    use RouteDependencyResolverTrait;
+    use RouteDependencyResolver;
 
     /**
      * The container instance.
