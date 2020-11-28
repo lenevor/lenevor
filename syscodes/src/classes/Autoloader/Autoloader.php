@@ -85,12 +85,12 @@ class Autoloader
 
         if (isset($config->classmap))
         {
-            $this->classmap = $config->addClassMap((array)  $this->classOrNamespaceListMap[1]);
+            $this->classmap = $config->addClassMap((array) $this->classOrNamespaceListMap[1]);
         }
 
         if (isset($config->includeFiles))
         {
-            $this->includeFiles = $config->addFiles((array)  $this->classOrNamespaceListMap[2]);
+            $this->includeFiles = $config->addFiles((array) $this->classOrNamespaceListMap[2]);
         }
 
         if ($config->enabledInComposer)
