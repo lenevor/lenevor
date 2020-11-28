@@ -1,34 +1,30 @@
 <?php 
 
-define('LENEVOR_START', microtime(true));
-
 /*
-|---------------------------------------------------------------------------
-| CHECK PLATAFORM REQUIREMENTS
-|---------------------------------------------------------------------------
+|------------------------------------------------------------------------
+| Create the application
+|------------------------------------------------------------------------
 |
-| This verification allows to know the version of the system and other 
-| resources that PHP uses the framework.
+| What we will do is create a new instance of a Lenevor application that 
+| serves to request all the Lenevor components and is the IoC container 
+| for the system that joins all the parts of the framework.
 |
 */
 
-require __DIR__.'/../syscodes/src/requeriments.php';
-
-/*
-|---------------------------------------------------------------------------
-| REGISTER BOOTSTRAP CORE
-|---------------------------------------------------------------------------
-|
-| Load bootstrap from the core of system. 
-|
-*/
-
-require __DIR__.'/../syscodes/src/bootstrap.php';
-
-// Create the application
 $app = new Syscodes\Core\Application(
-    dirname(__DIR__)
+    $_ENV['APP_ROOT_PATH'] ?? dirname(__DIR__)
 );
+
+/*
+|------------------------------------------------------------------------
+| Bind Important Interfaces
+|------------------------------------------------------------------------
+|
+| Next, we need to bind some important interfaces into the container for 
+| be will be able to resolve the incomming requests to this application 
+| from both the web and CLI.
+|
+*/
 
 $app->singleton(
     Syscodes\Contracts\Core\Lenevor::class, 
@@ -44,5 +40,15 @@ $app->singleton(
     Syscodes\Contracts\Debug\ExceptionHandler::class, 
     App\Exceptions\Handler::class
 );
+
+/*
+|------------------------------------------------------------------------
+| Return The Application
+|------------------------------------------------------------------------
+|
+| This variable returns the application instance for the building of 
+| instances from the running of the application and sending responses.
+|
+*/
 
 return $app;
