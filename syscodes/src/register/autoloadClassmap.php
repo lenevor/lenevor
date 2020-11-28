@@ -39,6 +39,7 @@ return [
     'Syscodes\\Collections\\Arr' => SYS_PATH.'src/classes/Collections/Arr.php',
     'Syscodes\\Collections\\Collection' => SYS_PATH.'src/classes/Collections/Collection.php',
     'Syscodes\\Collections\\HigherOrderTakeProxy' => SYS_PATH.'src/classes/Collections/HigherOrderTakeProxy.php',
+    'Syscodes\\Config\\AutoloadConfig' => SYS_PATH.'src/classes/Config/AutoloadConfig.php',
     'Syscodes\\Config\\Configure' => SYS_PATH.'src/classes/Config/Configure.php', 
     'Syscodes\\Config\\ParserEnv' => SYS_PATH.'src/classes/Config/ParserEnv.php', 
     'Syscodes\\Console\\Application' => SYS_PATH.'src/classes/Console/Application.php',
