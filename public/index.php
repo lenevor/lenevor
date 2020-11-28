@@ -19,12 +19,17 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.7.2
+ * @since       0.7.3
  */
+
+use Syscodes\Http\Request;
+use Syscodes\Contracts\Core\Lenevor;
+
+define('LENEVOR_START', microtime(true));
 
 /*
 |------------------------------------------------------------------------
-| REGISTER THE COMPOSER AUTOLOADER
+| Register The Composer auto loader
 |------------------------------------------------------------------------
 |
 | Composer provides a convenient, automatically generated class loader 
@@ -37,6 +42,29 @@ if (is_file(__DIR__.'/../vendor/autoload.php'))
 {
     require __DIR__.'/../vendor/autoload.php';
 }
+
+/*
+|---------------------------------------------------------------------------
+| Check Plataform Requeriments
+|---------------------------------------------------------------------------
+|
+| This verification allows to know the version of the system and other 
+| resources that PHP uses the framework.
+|
+*/
+
+require __DIR__.'/../syscodes/src/requeriments.php';
+
+/*
+|---------------------------------------------------------------------------
+| Register Bootstrap Core
+|---------------------------------------------------------------------------
+|
+| Load bootstrap from the core of system. 
+|
+*/
+
+require __DIR__.'/../syscodes/src/bootstrap.php';
 
 /*
 |------------------------------------------------------------------------
@@ -61,11 +89,11 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 |
 */
 
-$lenevor = $app->make(Syscodes\Contracts\Core\Lenevor::class);
+$lenevor = $app->make(Lenevor::class);
 
 // Initialize services
 $response = $lenevor->handle(
-    $request = Syscodes\Http\Request::capture()
+    $request = Request::capture()
 );
 
 // Sends HTTP headers and content
