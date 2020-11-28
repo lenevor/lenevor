@@ -21,8 +21,10 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.1
+ * @since       0.7.3
  */
+
+use Syscodes\Contracts\Console\Lenevor;
 
 /**
  * Refuse to run prime when called from php-cgi !
@@ -33,34 +35,80 @@ if (substr(php_sapi_name(), 0, 3) === 'cgi')
 }
 
 /*
-|---------------------------------------------------------------------------
-| Launch The Application                                               
-|---------------------------------------------------------------------------
+|------------------------------------------------------------------------
+| Register The Composer auto loader
+|------------------------------------------------------------------------
 |
-| Now that everything is setup, it's time to actually fire up the engines and 
-| make this app do its thing.
+| Composer provides a convenient, automatically generated class loader 
+| for our application. We will need it so that we do not have to worry 
+| about loading any class of third party "manually".
 |
-| Ensure the current directory is pointing to the front controller's 
-| directory.
+*/
+
+if (is_file(__DIR__.'/../vendor/autoload.php'))
+{
+    require __DIR__.'/../vendor/autoload.php';
+}
+
+/*
+|------------------------------------------------------------------------
+| Load Public Directory
+|------------------------------------------------------------------------
+|
+| Ensure the current directory is pointing to the directory front 
+| controller's.
 |
 */
 
 chdir('public');
 
-$app = require_once __DIR__.'/bootstrap/app.php';
-
 /*
-|---------------------------------------------------------------------------
-| Run The Prime Application
-|---------------------------------------------------------------------------
+|------------------------------------------------------------------------
+| Check Plataform Requeriments
+|------------------------------------------------------------------------
 |
-| When we run the console application, the current CLI command will be
-| executed in this console and the response sent back to a terminal or another 
-| output device for the developers.
+| This verification allows to know the version of the system and other 
+| resources that PHP uses the framework.
 |
 */
 
-$application = $app->make(Syscodes\Contracts\Console\Lenevor::class);
+require __DIR__.'/syscodes/src/requeriments.php';
+
+/*
+|------------------------------------------------------------------------
+| Register Bootstrap Core
+|------------------------------------------------------------------------
+|
+| Load bootstrap from the core of system. 
+|
+*/
+
+require __DIR__.'/syscodes/src/bootstrap.php';
+
+/*
+|------------------------------------------------------------------------
+| Launch The Application                                               
+|------------------------------------------------------------------------
+|
+| Now that everything is setup, it's time to actually fire up the engines 
+| and make this app do its thing.
+|
+*/
+
+$app = require_once __DIR__.'/bootstrap/app.php';
+
+/*
+|------------------------------------------------------------------------
+| Run The Prime Application
+|------------------------------------------------------------------------
+|
+| When we run the console application, the current CLI command will be
+| executed in this console and the response sent back to a terminal or 
+| another output device for the developers.
+|
+*/
+
+$application = $app->make(Lenevor::class);
 
 // We want errors to be shown when using it from the CLI
 error_reporting(-1);
