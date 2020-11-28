@@ -138,6 +138,13 @@ class Connection implements ConnectionInterface
     protected $reconnector;
 
     /**
+     * The connection resolvers.
+     * 
+     * @var array $resolvers
+     */
+    protected static $resolvers = [];
+
+    /**
      * The table prefix for the connection.
      * 
      * @var string $tablePrefix
@@ -1004,5 +1011,17 @@ class Connection implements ConnectionInterface
         $grammar->setTablePrefix($this->tablePrefix);
 
         return $grammar;
+    }
+
+    /**
+     * Get the connection resolver for the given driver.
+     * 
+     * @param  string  $driver
+     * 
+     * @return mixed
+     */
+    public static function getResolver($driver)
+    {
+        return static::$resolvers[$driver] ?? null;
     }
 }
