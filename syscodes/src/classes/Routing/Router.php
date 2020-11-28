@@ -98,7 +98,7 @@ class Router implements Routable
 	/**
 	 * The Resource instance.
 	 * 
-	 * @var \Syscodes\Routing\RouteResource $resources
+	 * @var \Syscodes\Routing\ResourceRegister $resources
 	 */
 	protected $resources;
 
@@ -455,7 +455,7 @@ class Router implements Routable
 	/**
 	 * Get a Resource instance.
 	 * 
-	 * @return \Syscodes\Routing\RouteResource
+	 * @return \Syscodes\Routing\ResourceRegister
 	 */
 	public function getResource()
 	{
@@ -464,7 +464,7 @@ class Router implements Routable
 			return $this->resources;
 		}
 
-		return $this->resources = new RouteResource($this);
+		return $this->resources = new ResourceRegister($this);
 	}
 
 	/**
@@ -536,7 +536,7 @@ class Router implements Routable
 	 * @param  string  $controller
 	 * @param  array  $options
 	 * 
-	 * @return \Syscodes\Routing\RouteResourceRegistration
+	 * @return \Syscodes\Routing\AwaitingResourceRegistration
 	 */
 	public function resource($name, $controller, array $options = []) 
 	{
