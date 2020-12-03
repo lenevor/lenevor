@@ -1,5 +1,5 @@
 <@extends('errors::layout')
 
-<@section('title', 'Unsupported Media Type')
-<@section('code', 415)
-<@section('message', 'Unsupported Media Type')
+<@section('title', $exception->getTitle())  {{-- Title: Unsupported Media Type --}}
+<@section('code', $exception->getStatusCode())  {{-- Code: 415 --}} 
+<@section('message', $exception->getMessage())
