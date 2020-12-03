@@ -1,5 +1,5 @@
 <@extends('errors::layout')
 
-<@section('title', 'Precondition Required')
-<@section('code', 428)
-<@section('message', 'Precondition Required')
+<@section('title', $exception->getTitle())  {{-- Title: Precondition Required --}}
+<@section('code', $exception->getStatusCode())  {{-- Code: 428 --}} 
+<@section('message', $exception->getMessage())
