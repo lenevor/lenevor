@@ -1,5 +1,5 @@
 <@extends('errors::layout')
 
-<@section('title', 'Service Unavailable')
-<@section('code', 503)
-<@section('message', $exception->getMessage() ?: 'Service Unavailable')
+<@section('title', $exception->getTitle())  {{-- Title: Service Unavailable --}}
+<@section('code', $exception->getStatusCode())  {{-- Code: 503 --}} 
+<@section('message', $exception->getMessage())
