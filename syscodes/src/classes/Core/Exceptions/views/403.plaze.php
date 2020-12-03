@@ -1,5 +1,5 @@
 <@extends('errors::layout')
 
-<@section('title', 'Forbidden')
-<@section('code', 403)
-<@section('message', $exception->getMessage() ?: 'Forbidden')
+<@section('title', $exception->getTitle())  {{-- Title: Forbidden --}}
+<@section('code', $exception->getStatusCode())  {{-- Code: 403 --}} 
+<@section('message', $exception->getMessage())
