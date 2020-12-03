@@ -19,12 +19,10 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.7.3
  */
 
 namespace Syscodes\Core\Http\Exceptions;
-
-use Throwable;
 
 /**
  * It is activated when it is necessary to authenticate to obtain the requested response. 
@@ -32,23 +30,26 @@ use Throwable;
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class UnauthorizedHttpException extends HttpException
+class UnauthorizedHttpException extends HttpSpecializedException
 {
 	/**
-	 * Initialize constructor. 
+	 * Get the HTTP status code.
 	 * 
-	 * @param  string  $challenge
-	 * @param  string  $message  
-	 * @param  \Throwable  $previous
-	 * @param  int  $code
-	 * @param  array  $headers
-	 * 
-	 * @return void
+	 * @var int $code
 	 */
-	public function __construct($challenge, string $message = null, Throwable $previous = null, ?int $code = 0, array $headers = [])
-	{		
-		$headers['WWW-Authenticate'] = $challenge;
+	protected $code = 401;
 
-		parent::__construct(401, $message, $previous, $headers, $code);
-	}
+	/**
+	 * Get the HTTP message.
+	 * 
+	 * @var string $message
+	 */
+	protected $message = 'Unauthorized';
+
+	/**
+	 * Get the title page exception.
+	 * 
+	 * @var string $title
+	 */
+	protected $title = 'Unauthorized';
 }
