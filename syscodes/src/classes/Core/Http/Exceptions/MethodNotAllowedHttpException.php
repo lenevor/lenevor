@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.7.3
  */
 
 namespace Syscodes\Core\Http\Exceptions;
@@ -32,23 +32,43 @@ use Throwable;
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class MethodNotAllowedHttpException extends HttpException
+class MethodNotAllowedHttpException extends HttpSpecializedException
 {	
+	/**
+	 * Get the HTTP status code.
+	 * 
+	 * @var int $code
+	 */
+	protected $code = 405;
+
+	/**
+	 * Get the HTTP message.
+	 * 
+	 * @var string $message
+	 */
+	protected $message = 'Method Not Allowed';
+
+	/**
+	 * Get the title page exception.
+	 * 
+	 * @var string $title
+	 */
+	protected $title = 'Method Not Allowed';
+
 	/**
 	 * Initialize constructor.
 	 * 
 	 * @param  array  $allow
-	 * @param  string  $message  
-	 * @param  \Throwable  $previous
-	 * @param  int  $code 
+	 * @param  string|null  $message  (null by default)
+	 * @param  \Throwable|null  $previous  (null by default)
 	 * @param  array  $headers
 	 * 
 	 * @return void
 	 */
-	public function __construct(array $allow, string $message = null, Throwable $previous = null, ?int $code = 0, array $headers = [])
+	public function __construct(array $allow = [], string $message = null, Throwable $previous = null, array $headers = [])
 	{
 		$headers['Allow'] = strtoupper(implode(', ', $allow));
 
-		parent::__construct(405, $message, $previous, $headers, $code);
+		parent::__construct($this->message, $previous, $headers);
 	}
 }
