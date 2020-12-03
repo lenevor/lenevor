@@ -1,5 +1,5 @@
 <@extends('errors::layout')
 
-<@section('title', 'Method Not Allowed')
-<@section('code', 405)
-<@section('message', 'Method Not Allowed')
+<@section('title', $exception->getTitle())  {{-- Title: Method Not Allowed --}}
+<@section('code', $exception->getStatusCode())  {{-- Code: 405 --}} 
+<@section('message', $exception->getMessage())
