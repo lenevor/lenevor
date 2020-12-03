@@ -1,5 +1,5 @@
 <@extends('errors::layout')
 
-<@section('title', 'Too Many Requests')
-<@section('code', 429)
-<@section('message', 'Too Many Requests')
+<@section('title', $exception->getTitle())  {{-- Title: Too Many Requests --}}
+<@section('code', $exception->getStatusCode())  {{-- Code: 429 --}} 
+<@section('message', $exception->getMessage())
