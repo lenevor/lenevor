@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.7.3
  */
 
 namespace Syscodes\Core\Http\Exceptions;
@@ -36,9 +36,9 @@ class HttpException extends LenevorException
 	/**
 	 * Loader the Status Code HTTP.
 	 * 
-	 * @var int $statusCode
+	 * @var int $code
 	 */
-	protected $statusCode;
+	protected $code;
 
 	/**
 	 * Loader the headers HTTP.
@@ -46,6 +46,13 @@ class HttpException extends LenevorException
 	 * @var array $headers 
 	 */
 	protected $headers;
+
+	/**
+	 * Get the title page exception.
+	 * 
+	 * @var string $title
+	 */
+	protected $title = '';
 
 	/**
 	 * Initialize constructor. 
@@ -62,8 +69,8 @@ class HttpException extends LenevorException
 	 */
 	public function __construct(int $statusCode, string $message = null, Throwable $previous = null, array $headers = [], ?int $code = 0)
 	{
-		$this->headers    = $headers;
-		$this->statusCode = $statusCode;
+		$this->headers = $headers;
+		$this->code    = $statusCode;
 		
 		parent::__construct($message, $code, $previous);
 	}
@@ -75,7 +82,7 @@ class HttpException extends LenevorException
 	 */
 	public function getStatusCode()
 	{
-		return $this->statusCode;
+		return $this->code;
 	}
 	
 	/**
@@ -98,5 +105,29 @@ class HttpException extends LenevorException
 	public function setHeaders(array $headers)
 	{
 		$this->headers = $headers;
+	}
+
+	/**
+	 * Get the title page exception.
+	 * 
+	 * @return string
+	 */
+	public function getTitle()
+	{
+		return $this->title;
+	}
+
+	/**
+	 * Set the title page exception.
+	 * 
+	 * @param  string  $title
+	 * 
+	 * @return $this
+	 */
+	public function setTitle(string $title)
+	{
+		$this->title = $title;
+
+		return $this;
 	}
 }
