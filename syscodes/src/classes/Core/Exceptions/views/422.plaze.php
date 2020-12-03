@@ -1,5 +1,5 @@
 <@extends('errors::layout')
 
-<@section('title', 'Unprocessable Entity')
-<@section('code', 422)
-<@section('message', 'Unprocessable Entity')
+<@section('title', $exception->getTitle())  {{-- Title: Unprocessable Entity --}}
+<@section('code', $exception->getStatusCode())  {{-- Code: 422 --}} 
+<@section('message', $exception->getMessage())
