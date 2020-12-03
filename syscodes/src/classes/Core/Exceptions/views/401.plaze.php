@@ -1,5 +1,5 @@
 <@extends('errors::layout')
 
-<@section('title', 'Unauthorized')
-<@section('code', 401)
-<@section('message', 'Unauthorized')
+<@section('title', $exception->getTitle())  {{-- Title: Unauthorized --}}
+<@section('code', $exception->getStatusCode())  {{-- Code: 401 --}} 
+<@section('message', $exception->getMessage())
