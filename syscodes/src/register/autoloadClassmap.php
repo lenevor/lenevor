@@ -96,6 +96,7 @@ return [
     'Syscodes\\Core\\Http\\Exceptions\\ConflictHttpException' => SYS_PATH.'src/classes/Core/Http/Exceptions/ConflictHttpException.php',
     'Syscodes\\Core\\Http\\Exceptions\\GoneHttpException' => SYS_PATH.'src/classes/Core/Http/Exceptions/GoneHttpException.php',
     'Syscodes\\Core\\Http\\Exceptions\\HttpException' => SYS_PATH.'src/classes/Core/Http/Exceptions/HttpException.php',
+    'Syscodes\\Core\\Http\\Exceptions\\HttpSpecializedException' => SYS_PATH.'src/classes/Core/Http/Exceptions/HttpSpecializedException.php',
     'Syscodes\\Core\\Http\\Exceptions\\LenevorException' => SYS_PATH.'src/classes/Core/Http/Exceptions/LenevorException.php',
     'Syscodes\\Core\\Http\\Exceptions\\LengthRequiredHttpException' => SYS_PATH.'src/classes/Core/Http/Exceptions/LengthRequiredHttpException.php',
     'Syscodes\\Core\\Http\\Exceptions\\MethodNotAllowedHttpException' => SYS_PATH.'src/classes/Core/Http/Exceptions/MethodNotAllowedHttpException.php',
