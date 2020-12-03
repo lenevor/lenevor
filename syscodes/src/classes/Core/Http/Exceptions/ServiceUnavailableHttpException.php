@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.7.3
  */
 
 namespace Syscodes\Core\Http\Exceptions;
@@ -35,26 +35,47 @@ use Throwable;
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class ServiceUnavailableHttpException extends HttpException
+class ServiceUnavailableHttpException extends HttpSpecializedException
 {
+	/**
+	 * Get the HTTP status code.
+	 * 
+	 * @var int $code
+	 */
+	protected $code = 503;
+	
+	/**
+	 * Get the HTTP message.
+	 * 
+	 * @var string $message
+	 */
+	protected $message = 'Unprocessable Entity';
+
+	/**
+	 * Get the title page exception.
+	 * 
+	 * @var string $title
+	 */
+	protected $title = 'Unprocessable Entity';
+
 	/**
 	 * Initialize constructor. 
 	 * 
-	 * @param  int|string  $retryAfter  The number of seconds or HTTP-date after which the request may be retried
-	 * @param  string  $message  
-	 * @param  \Throwable  $previous
-	 * @param  int  $code
+	 * @param  int|string|null  $retryAfter  The number of seconds or HTTP-date after 
+	 * 										 which the request may be retried  (null by default)
+	 * @param  string|null $message  (null by default)
+	 * @param  \Throwable|null  $previous  (null by default)
 	 * @param  array  $headers
 	 * 
 	 * @return void
 	 */
-	public function __construct($retryAfter = null, string $message = null, Throwable $previous = null, ?int $code = 0, array $headers = [])
+	public function __construct($retryAfter = null, string $message = null, Throwable $previous = null, array $headers = [])
 	{		
 		if ($retryAfter)
 		{
 			$headers['Retry-After'] = $retryAfter;
 		}
 
-		parent::__construct(503, $message, $previous, $headers, $code);
+		parent::__construct($this->message, $previous, $headers);
 	}
 }
