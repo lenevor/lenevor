@@ -1,9 +1,5 @@
 <?php 
 
-namespace Syscodes\Core\Http\Exceptions;
-
-use Throwable;
-
 /**
  * Lenevor Framework
  *
@@ -23,32 +19,36 @@ use Throwable;
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.7.3
  */
 
 namespace Syscodes\Core\Http\Exceptions;
-
-use Throwable;
 
 /**
  * It is activated when a request has conflict with the current state of the server.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class ConflictHttpException extends HttpException
+class ConflictHttpException extends HttpSpecializedException
 {
 	/**
-	 * Initialize constructor.
+	 * Get the HTTP status code.
 	 * 
-	 * @param  string  $message  
-	 * @param  \Throwable  $previous
-	 * @param  int  $code 
-	 * @param  array  $headers
-	 * 
-	 * @return void
+	 * @var int $code
 	 */
-	public function __construct(string $message = null, Throwable $previous = null, int $code = 0, array $headers = [])
-	{		
-		parent::__construct(409, $message, $previous, $headers);
-	}
+	protected $code = 409;
+
+	/**
+	 * Get the HTTP message.
+	 * 
+	 * @var string $message
+	 */
+	protected $message = 'Conflict';
+
+	/**
+	 * Get the title page exception.
+	 * 
+	 * @var string $title
+	 */
+	protected $title = 'Conflict';
 }
