@@ -56,17 +56,6 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Define the "web" routes for the application.
-     * 
-     * @return void
-     */
-    protected function loadWebRoute()
-    {
-        Route::namespace($this->namespace)
-             ->group(basePath('routes/web.php'));
-    }    
-    
-    /**
      * Define the "api" routes for the application.
      * 
      * @return void
@@ -77,4 +66,15 @@ class RouteServiceProvider extends ServiceProvider
              ->namespace($this->namespace)
              ->group(basePath('routes/api.php'));
     }
+
+    /**
+     * Define the "web" routes for the application.
+     * 
+     * @return void
+     */
+    protected function loadWebRoute()
+    {
+        Route::namespace($this->namespace)
+             ->group(basePath('routes/web.php'));
+    }    
 }
