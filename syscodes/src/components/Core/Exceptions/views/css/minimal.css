@@ -1,0 +1,65 @@
+* {	
+    box-sizing: border-box;	
+    margin: 0; 
+    padding: 0; 
+}
+
+body { 
+    background: rgb(253, 253, 253); 
+    color: rgb(134, 143, 160); 
+    font-family: 'Nunito', sans-serif; 
+    font-weight: 100; 
+    margin: 0; 
+}
+
+.flex {
+	display: flex;
+}
+
+.flex-col { 
+	flex-direction: column;
+}
+
+.flex-row {
+	flex-direction: row;
+}
+
+.items-start {
+	align-items: flex-start;
+}
+
+.items-center { 
+	align-items: center;
+}
+
+.items-end {
+	align-items: flex-end;
+}
+
+.justify-start {
+	justify-content: flex-start;
+}
+
+.justify-center {
+	justify-content: center;
+}
+
+.justify-end {
+	justify-content: end;
+}
+
+.h-screen { 
+    height: 100vh; 
+}
+
+.w-screen { 
+    width: 100vw; 
+}
+
+h1 {
+    display: none;
+}
+
+.text-size-subtitle {
+    font-size: 3rem;
+}
