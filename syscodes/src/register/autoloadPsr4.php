@@ -10,7 +10,6 @@
 | Note: [!!] Do not modify it directly.
 |
 */
-
 return [
 
     'App\\' => APP_PATH,
