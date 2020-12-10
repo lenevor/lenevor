@@ -19,15 +19,64 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2020 Lenevor PHP Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.7.0
+ * @since       0.7.3
  */
 
 namespace Syscodes\Database;
 
+use PDO;
+use Syscodes\Support\Str;
+use Syscodes\Collections\Arr;
+use InvalidArgumentException;
+
 /**
+ * It is used to instantiate the connection and its respective settings.
  * 
+ * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class DatabaseManager
+class DatabaseManager implements ConnectionResolverInterface
 {
+    /**
+     * The appilcation instance.
+     * 
+     * @var \Syscodes\Contracts\Core\Application $app
+     */
+    protected $app;
+
+    /**
+     * The active connection instances.
+     * 
+     * @var array $connections
+     */
+    protected $connections = [];
+
+    /**
+     * The database connection factory instance.
+     * 
+     * @var \Syscodes\Database\ConnectionFactory $factory
+     */
+    protected $factory;
+
+    /**
+     * The custom connection resolvers.
+     * 
+     * @var array $extensions
+     */
+    protected $extensions = [];
+
+    /**
+     * Constructor. Create a new DatabaseManager instance.
+     * 
+     * @param  \Syscodes\Contracts\Core\Application  $app
+     * @param  \Syscodes\Database\ConnectionFactory  $factory
+     * 
+     * @return void
+     */
+    public function __construct($app, ConnectionFactory $factory)
+    {
+        $this->app     = $app;
+        $this->factory = $factory;
+    }
+
     
 }
