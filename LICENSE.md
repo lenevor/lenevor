@@ -1,6 +1,6 @@
 BSD 3-Clause "New" or "Revised" License
 
-Copyright (c) 2019-2020 Lenevor PHP Framework  
+Copyright (c) 2019-2021 Lenevor PHP Framework  
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are 
