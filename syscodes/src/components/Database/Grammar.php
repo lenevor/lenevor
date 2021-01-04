@@ -113,7 +113,7 @@ abstract class Grammar
 
         foreach ($segments as $key => $segment)
         {
-            $wrapped[] = ($key == 0 && count($segment) > 1)
+            $wrapped[] = ($key == 0 && count($segments) > 1)
                         ? $this->wrapTable($segment)
                         : $this->wrapValue($segment);
         }
@@ -171,7 +171,7 @@ abstract class Grammar
      */
     public function parameter($value)
     {
-        return $this->isExpression($value) ? $this->getValue($value) : '?';
+        return $this->isExpression($value) ? $this->getValue($value) : $value;
     }
 
     /**
