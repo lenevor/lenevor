@@ -194,14 +194,21 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Get the first item from the collection.
      * 
-     * @param  \Callable  $callback
-     * @param  mixed|null  $default  (null by default)
+     * @param  \Callable|null  $callback  (null by default)
+     * @param  mixed  $default  (null by default)
      * 
      * @return mixed
      */
-    public function first(Callable $callback, $default = null)
+    public function first(Callable $callback = null, $default = null)
     {
-        return Arr::first($this->items, $callback, $default);
+        if (is_null($callback))
+        {
+            return count($this->items) > 0 ? head($this->items) : null;
+        }
+        else
+        {
+            return Arr::first($this->items, $callback, $default);
+        }
     }
 
     /**
