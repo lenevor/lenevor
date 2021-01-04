@@ -22,7 +22,7 @@
  * @since       0.7.0
  */
  
-namespace Syscodes\Database\Query\Grammar;
+namespace Syscodes\Database\Query\Grammars;
 
 use Syscodes\Database\Query\Builder;
 use Syscodes\Database\Query\Grammar;
