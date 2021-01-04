@@ -40,6 +40,28 @@ class DatabaseServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerConfigurationServices();
+    }
+
+    /**
+     * Register the primary database bindings.
+     * 
+     * @return void
+     */
+    protected function registerConfigurationServices()
+    {
+        $this->app->singleton('db.factory', function ($app)
+        {
+            return new ConnectionFactory($app);
+        });
+
+        $this->app->singleton('db', function ($app)
+        {
+            return new DatabaseManager($app, $app['db.factory']);
+        });
         
+        $this->app->bind('db.connection', function ($app) {
+            return $app['db']->connection();
+        });
     }
 }
