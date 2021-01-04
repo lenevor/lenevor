@@ -268,6 +268,8 @@ class Str
      */
     public static function replaceArray($search, array $replace, $subject)
     {
+        $result = '';
+        
         foreach ($replace as $value)
         {
             $result = preg_replace('/'.$search.'/', $value, $subject, 1);
