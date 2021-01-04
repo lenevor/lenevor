@@ -27,8 +27,8 @@ namespace Syscodes\Database\Query;
 use Closure;
 use RuntimeException;
 use DateTimeInterface;
-use Syscodes\Support\Arr;
-use Syscodes\Support\Str;
+use Syscodes\Collections\Arr;
+use Syscodes\Collections\Str;
 use BadMethodCallException;
 use InvalidArgumentException;
 use Syscodes\Collections\Collection;
@@ -233,7 +233,17 @@ class Builder
      */
     public function select($columns = ['*'])
     {
-        $this->columns = is_array($columns) ? $columns : func_get_args();
+        $this->columns = [];
+        $this->bindings['select'] = [];
+        $columns = is_array($columns) ? $columns : func_get_args();
+
+        foreach ($columns as $as => $column) {
+            if (is_string($as)) {
+                $this->selectSub($column, $as);
+            } else {
+                $this->columns[] = $column;
+            }
+        }
 
         return $this;
     }
@@ -382,22 +392,17 @@ class Builder
         {
             return $this->addArrayWheres($column, $boolean);
         }
-
-        if (func_num_args() == 2)
-        {
-            [$value, $operator] = [$operator, '='];
-        }
-        elseif ($this->invalidOperatorValue($operator, $value))
-        {
-            throw new InvalidArgumentException('Value must be provided');
-        }
+        
+        [$value, $operator] = $this->prepareValueAndOperator(
+            $value, $operator, func_num_args() === 2
+        );
 
         if ($column instanceof Closure && is_null($operator))
         {
             return $this->whereNested($column, $boolean);
         }
 
-        if ( ! in_array(strtolower($column), $this->operators, true))
+        if ($this->invalidOperator($operator))
         {
             [$value, $operator] = [$operator, '='];
         }
@@ -414,9 +419,9 @@ class Builder
 
         $type = 'Basic';
 
-        $this->wheres[] = compact($type, $column, $operator, $value, $boolean);
+        $this->wheres[] = compact('type', 'column', 'operator', 'value', 'boolean');
 
-        if ( ! $value instanceof Expression)
+        if ($value instanceof Expression)
         {
             $this->addBinding($value, 'where');
         }
@@ -450,6 +455,31 @@ class Builder
             }
         }, $boolean);
     }
+    
+    /**
+     * Prepare the value and operator for a where clause.
+     * 
+     * @param  string  $value
+     * @param  string  $operator
+     * @param  bool  $useDefault
+     * 
+     * @return array
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public function prepareValueAndOperator($value, $operator, $useDefault = false)
+    {
+        if ($useDefault)
+        {
+            return [$operator, '='];
+        } 
+        elseif ($this->invalidOperatorValue($operator, $value))
+        {
+            throw new InvalidArgumentException('Illegal operator and value combination.');
+        }
+            
+        return [$value, $operator];
+    }
 
     /**
      * Determine if the given operator and value combination is legal.
@@ -463,6 +493,18 @@ class Builder
     protected function invalidOperatorValue($operator, $value)
     {
         return is_null($value) && in_array($operator, $this->operators) && ! in_array($operator, ['=', '<>', '!=']);
+    }
+    
+    /**
+     * Determine if the given operator is supported.
+     * 
+     * @param  string  $operator
+     * 
+     * @return bool
+     */
+    protected function invalidOperator($operator)
+    {
+        return ! in_array(strtolower($operator), $this->operators, true);
     }
 
     /**
@@ -708,9 +750,9 @@ class Builder
      */
     public function first($columns = ['*'])
     {
-        $sql = $this->limit(1)->get($columns);
+        $results = $this->limit(1)->get($columns);
 
-        return count($sql) > 0 ? head($sql) : null;
+        return count($results) > 0 ? head($results) : null;
     }
 
     /**
@@ -1019,6 +1061,131 @@ class Builder
         {
             $this->connection->query($sql, $bindings);
         }
+    }
+
+    /**
+     * Add a "group by" clause to the query.
+     * 
+     * @param  array|string  ...$groups
+     * 
+     * @return $this
+     */
+    public function groupBy(...$groups)
+    {
+        foreach ($groups as $group)
+        {
+            $this->groups = array_merge(
+                (array) $this->groups,
+                Arr::wrap($group)
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add a "having" clause to the query.
+     *
+     * @param  string  $column
+     * @param  string|null  $operator
+     * @param  string|null  $value
+     * @param  string  $boolean
+     * @return $this
+     */
+    public function having($column, $operator = null, $value = null, $boolean = 'and')
+    {
+        $type = 'basic';
+
+        $this->havings[] = compact('type', 'column', 'operator', 'value', 'boolean');
+
+        if ($value instanceof Expression)
+        {
+            $this->addBinding($value, 'having');
+        }
+
+        return $this;
+    }
+    
+    /**
+     * Add an "order by" clause to the query.
+     * 
+     * @param  string  $column
+     * @param  string  $direction  (asc by default)
+     * 
+     * @return $this
+     */
+    public function orderBy($column, $direction = 'asc')
+    {
+        $property = $this->unions ? 'unionOrders' : 'orders';
+        
+        $direction = strtolower($direction);
+        
+        if ( ! in_array($direction, ['asc', 'desc'], true))
+        {
+            throw new InvalidArgumentException('Order direction must be "asc" or "desc"');
+        }
+        
+        $this->{$property}[] = [
+            'column' => $column,
+            'direction' => $direction,
+        ];
+        
+        return $this;
+    }
+
+    /**
+     * Add a descending "order by" clause to the query.
+     * 
+     * @param  string  $column
+     * 
+     * @return $this
+     */
+    public function orderByDesc($column)
+    {
+        return $this->orderBy($column, 'desc');
+    }
+
+    /**
+     * Add an "order by" clause for a timestamp to the query.
+     * 
+     * @param  string  $column  (created_at by default)
+     * 
+     * @return $this
+     */
+    public function latest($column = 'created_at')
+    {
+        return $this->orderBy($column, 'desc');
+    }
+
+    /**
+     * Add an "order by" clause for a timestamp to the query.
+     * 
+     * @param  string  $column  (created_at by default)
+     * 
+     * @return $this
+     */
+    public function oldest($column = 'created_at')
+    {
+        return $this->orderBy($column, 'asc');
+    }
+
+    /**
+     * Add a raw "order by" clause to the query.
+     * 
+     * @param  string  $sql
+     * @param  array  $bindings
+     * 
+     * @return $this
+     */
+    public function orderByRaw($sql, $bindings = [])
+    {
+        $type = 'Raw';
+
+        $this->{$this->unions ? 'unionOrders' : 'orders'}[] = compact('type', 'sql');
+
+        $this->addBinding($bindings, $this->unions ? 'unionOrder' : 'order');
+
+        return $this;
     }
 
     /**
