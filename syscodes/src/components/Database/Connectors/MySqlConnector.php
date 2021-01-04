@@ -24,6 +24,8 @@
  
 namespace Syscodes\Database\Connectors;
 
+use PDO;
+
 /**
  * A PDO based MySQL Database Connector.
  * 
@@ -110,9 +112,9 @@ class MySqlConnector extends Connector implements ConnectorInterface
     {
         extract($config, EXTR_SKIP);
         
-        return isset($config['port'])
-                ? "mysql:host={$config['host']};port={$config['port']};dbname={$config['database']}"
-                : "mysql:host={$config['host']};dbname={$config['database']}";
+        return isset($port)
+                ? "mysql:host={$host};port={$port};dbname={$database}"
+                : "mysql:host={$host};dbname={$database}";
     }
 
     /**
