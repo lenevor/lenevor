@@ -74,12 +74,9 @@ interface ConnectionInterface
     /**
      * Execute an SQL statement and return the boolean result.
      * 
-     * @param  string  $query
-     * @param  array  $bindings
-     * 
      * @return \PDOStatement
      */
-    public function query($query, $bindings = []);
+    public function query();
 
     /**
      * Run an insert statement against the database.
@@ -118,7 +115,7 @@ interface ConnectionInterface
      * 
      * @return array
      */
-    public function prepareBindings($bindings = []);
+    public function prepareBindings(array $bindings);
 
     /**
      * Execute a Closure within a transaction.
