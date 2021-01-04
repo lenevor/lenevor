@@ -29,12 +29,12 @@ use InvalidArgumentException;
 use Syscodes\Collections\Arr;
 use Syscodes\Contracts\Container\Container;
 // Connector
-use Syscodes\Database\Connectors\MysqlConnector;
+use Syscodes\Database\Connectors\MySqlConnector;
 use Syscodes\Database\Connectors\SQLiteConnector;
 use Syscodes\Database\Connectors\PostgresConnector;
 use Syscodes\Database\Connectors\SqlServerConnector;
 // Connection
-use Syscodes\Database\Connections\MysqlConnection;
+use Syscodes\Database\Connections\MySqlConnection;
 use Syscodes\Database\Connections\SQLiteConnection;
 use Syscodes\Database\Connections\PostgresConnection;
 use Syscodes\Database\Connections\SqlServerConnection;
@@ -217,7 +217,7 @@ class ConnectionFactory
         switch ($config['driver'])
         {
             case 'mysql':
-                return new MysqlConnector;
+                return new MySqlConnector;
             case 'pgsql':
                 return new PostgresConnector;
             case 'sqlite':
@@ -252,7 +252,7 @@ class ConnectionFactory
         switch ($driver)
         {
             case 'mysql':
-                return new MysqlConnection($connection, $database, $prefix, $config);
+                return new MySqlConnection($connection, $database, $prefix, $config);
             case 'pgsql':
                 return new PostgresConnection($connection, $database, $prefix, $config);
             case 'sqlite':
