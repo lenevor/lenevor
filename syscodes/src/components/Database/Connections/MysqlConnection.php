@@ -25,20 +25,20 @@
 namespace Syscodes\Database\Connections;
 
 use Syscodes\Database\Connection;
-use Syscodes\Database\Query\MysqlGrammar as QueryGrammar;
-use Syscodes\Database\Query\MysqlProcessor as QueryProcessor;
+use Syscodes\Database\Query\Grammars\MySqlGrammar as QueryGrammar;
+use Syscodes\Database\Query\Processors\MySqlProcessor as QueryProcessor;
 
 /**
  * Mysql connection.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class MysqlConnection extends Connection
+class MySqlConnection extends Connection
 {
     /**
      * Get the default query grammar instance.
      * 
-     * @return Syscodes\Database\Query\MysqlGrammar
+     * @return Syscodes\Database\Query\Grammars\MySqlGrammar
      */
     public function getDefaultQueryGrammar()
     {
@@ -48,7 +48,7 @@ class MysqlConnection extends Connection
     /**
      * Get the default post processor instance.
      * 
-     * @return Syscodes\Database\Query\MysqlProcessor
+     * @return Syscodes\Database\Query\Processors\MySqlProcessor
      */
     public function getDefaultPost()
     {
