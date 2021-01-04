@@ -86,7 +86,7 @@ class Grammar extends BaseGrammar
             {
                 $method = 'compile'.ucfirst($component);
 
-                $sql[$component] = $this->$method($builder, $builder->component);
+                $sql[$component] = $this->$method($builder, $builder->$component);
             }
         }
 
@@ -123,7 +123,7 @@ class Grammar extends BaseGrammar
      */
     protected function compileColumns(Builder $builder, $columns)
     {
-        if ( ! is_null($builder->columns))
+        if (is_null($builder->columns))
         {
             return;
         }
@@ -278,9 +278,9 @@ class Grammar extends BaseGrammar
      */
     protected function whereBasic(Builder $builder, $where)
     {
-        $value = $this->parameter($where['value']);
-
-        return $this->wrap($where['column']).' '.$where['operator'].' '.$value;
+        $operator = str_replace('?', '??', $where['operator']);
+       
+        return $this->wrap($where['column']).' '.$where['operator'].' '.$where['value'];
     }
 
     /**
@@ -659,7 +659,7 @@ class Grammar extends BaseGrammar
     {
         $column = $this->wrap($having['column']);
 
-        $parameter = $this->parameter($having['values']);
+        $parameter = $this->parameter($having['value']);
 
         return $having['boolean'].' '.$column.' '.$having['operator'].' '.$parameter;
     }
