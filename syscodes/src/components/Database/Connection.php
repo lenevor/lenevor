@@ -30,6 +30,7 @@ use DateTime;
 use Exception;
 use PDOStatement;
 use LogicException;
+use Syscodes\Support\Str;
 use Syscodes\Collections\Arr;
 use Syscodes\Database\Query\Processor;
 use Syscodes\Database\Query\Expression;
@@ -50,7 +51,7 @@ use Syscodes\Database\Query\Grammar as QueryGrammar;
  */
 class Connection implements ConnectionInterface
 {
-    use Concerns\ManagesTransations,
+    use Concerns\ManagesTransactions,
         Concerns\DetectLostConnections;
     
     /**
@@ -174,7 +175,7 @@ class Connection implements ConnectionInterface
 
         $this->database = $database;
 
-        $this->tablePrefix = $prefix;
+        $this->tablePrefix = $tablePrefix;
 
         $this->config = $config;
 
@@ -462,7 +463,7 @@ class Connection implements ConnectionInterface
         }
         catch (QueryException $e)
         {
-            $result = handleQueryException(
+            $result = $this->handleQueryException(
                 $e, $query, $bindings, $callback
             );
         }
@@ -487,15 +488,17 @@ class Connection implements ConnectionInterface
      */
     protected function runQueryCallback($query, $bindings, Closure $callback)
     {
+        $result = '';
+
         try
         {
             $result = $callback($query, $bindings);
         }
         catch (Exception $e)
         {
-            throw new QueryException(
-                $query, $this->prepareBindings($bindings), $e 
-            );
+            // throw new QueryException(
+            //     $query, $this->prepareBindings($bindings), $e 
+            // );
         }
 
         return $result;
@@ -544,7 +547,7 @@ class Connection implements ConnectionInterface
             throw $e;
         }
 
-        return tryIfAgainCausedByLostConnection(
+        return $this->tryIfAgainCausedByLostConnection(
             $e, $query, $bindings, $callback
         );
     }
@@ -563,7 +566,7 @@ class Connection implements ConnectionInterface
      */
     protected function tryIfAgainCausedByLostConnection(QueryException $e, $query, $bindings, Closure $callback)
     {
-        if (causedByLostConnections($e->getPrevious()))
+        if ($this->causedByLostConnections($e->getPrevious()))
         {
             $this->reconnect();
 
@@ -721,6 +724,21 @@ class Connection implements ConnectionInterface
      */
     public function getPdo()
     {
+        if ($this->pdo instanceof Closure)
+        {
+            return $this->pdo = call_user_func($this->pdo);
+        }
+        
+        return $this->pdo;
+    }
+
+    /**
+     * Get the current PDO connection parameter without executing any reconnect logic.
+     * 
+     * @return \PDO|\Closure|null
+     */
+    public function getRawPdo()
+    {
         return $this->pdo;
     }
 
@@ -787,7 +805,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the reconnect instance on the connection.
      * 
-     * @param  Callablle  $reconnector
+     * @param  \Callablle  $reconnector
      * 
      * @return $this
      */
@@ -909,6 +927,20 @@ class Connection implements ConnectionInterface
     public function setDatabase($database)
     {
         $this->database = $database;
+
+        return $this;
+    }
+
+    /**
+     * Set the event dispatcher instance on the connection.
+     * 
+     * @param  \Syscodes\Contracts\Events\Dispatcher  $events
+     * 
+     * @return $this
+     */
+    public function setEventDispatcher(Dispatcher $events)
+    {
+        $this->events = $events;
 
         return $this;
     }
