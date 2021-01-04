@@ -247,7 +247,7 @@ class Arr
 	 *
 	 * @return mixed
 	 */
-	public static function first($array, $callback, $default = null)
+	public static function first($array, callable $callback, $default = null)
 	{
 		foreach ($array as $key => $value)
 		{ 
