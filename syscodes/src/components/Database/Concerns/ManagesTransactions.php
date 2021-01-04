@@ -32,8 +32,7 @@ use Throwable;
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-
-Trait ManagesTransactions
+trait ManagesTransactions
 {
     /**
      * Execute a Closure within a transaction.
