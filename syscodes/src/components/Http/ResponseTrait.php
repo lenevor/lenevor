@@ -19,12 +19,12 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2021 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.1.1
  */
 
 namespace Syscodes\Http;
 
-use Exception;
+use Throwable;
 use Syscodes\Http\Exceptions\HttpResponseException;
 
 /**
@@ -108,11 +108,11 @@ trait ResponseTrait
     /**
      * Sets the exception to the response.
      * 
-     * @param  \Exception  $e
+     * @param  \Throwable  $e
      * 
      * @return $this
      */
-    public function withException(Exception $e)
+    public function withException(Throwable $e)
     {
         $this->exception = $e;
 
