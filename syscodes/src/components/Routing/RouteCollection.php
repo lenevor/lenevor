@@ -31,6 +31,7 @@ use IteratorAggregate;
 use Syscodes\Http\Request;
 use BadMethodCallException;
 use Syscodes\Collections\Arr;
+use Syscodes\Routing\Exceptions\RouteNotFoundException;
 
 /**
  * Adds a collection to the arrays of routes.
@@ -40,11 +41,11 @@ use Syscodes\Collections\Arr;
 class RouteCollection implements Countable, IteratorAggregate
 {
     /**
-     * An array of the routes keyed by method.
+     * Gets a table of routes by controller action.
      * 
-     * @var array $routes
+     * @var \Syscodes\Routing\Route[] $actionList
      */
-    protected $routes = [];
+    protected $actionList = [];
 
     /**
      * An array set to all of the routes.
@@ -61,11 +62,18 @@ class RouteCollection implements Countable, IteratorAggregate
     protected $nameList = [];
 
     /**
-     * Gets a table of routes by controller action.
+	 * The Route instance.
+	 * 
+	 * @var \Syscodes\Routing\Route|null
+	 */
+	protected $route;
+
+    /**
+     * An array of the routes keyed by method.
      * 
-     * @var \Syscodes\Routing\Route[] $actionList
+     * @var array $routes
      */
-    protected $actionList = [];
+    protected $routes = [];
 
     /**
      * Add a Route instance to the collection.
@@ -198,14 +206,116 @@ class RouteCollection implements Countable, IteratorAggregate
      * 
      * @param  \Syscodes\Http\Request  $request
      * 
-     * @throws \Syscodes\Routing\Exceptions\RouteNotFoundException;
+     * @return \Syscodes\Routing\Route
+     * 
+     * @throws \Syscodes\Routing\Exceptions\RouteNotFoundException
      */
     public function match(Request $request)
     {
-        $route = $this->get($request->getMethod());
+        $routes = $this->get($request->getMethod());       
 
-        return $route;
+        if ( ! is_null($route = $this->findRoute($request, $routes)))
+        {
+            return $route;
+        }
+        
+        throw new RouteNotFoundException;
     }
+
+    /**
+     * Find the first route matching a given request.
+     * 
+     * @param  \Syscodes\Http\Request  $request
+     * @param  array  $routes
+     * 
+     * @return \Syscodes\Routing\Route;
+     */
+    protected function findRoute($request, array $routes)
+    {
+         // Remove trailing and leading slash
+		$requestedUri = $request->url();
+
+		// Loop trough the possible routes
+		foreach ($routes as $route) 
+		{
+			// Variable assignment by route
+			$this->route = $route;
+
+			if (isset($requestedUri))
+			{
+				$host = $route->getHost();
+				
+				if ($host !== null && $host != $request->getHost())
+				{
+					continue;
+				}
+				
+				$scheme = $route->getScheme();
+				
+				if ($scheme !== null && $scheme !== $request->getScheme())
+				{
+					continue;
+				}
+				
+				$port = $route->getPort();
+				
+				if ($port !== null && $port !== $request->getPort())
+				{
+					continue;
+                }
+            }
+            
+            // If the requested route one of the defined routes
+			if ($this->compareUri($route->getRoute(), $requestedUri)) 
+			{					
+				return $route->bind($request);
+			}
+        }
+    }
+
+    /**
+	 * Check if given request uri matches given uri method.
+	 * 
+	 * @param  string  $route
+	 * @param  string  $requestedUri
+	 * 
+	 * @return bool
+	 */
+	protected function compareUri(string $route, string $requestedUri)
+	{
+		$pattern = '~^'.$this->regexUri($route).'$~';
+
+		return preg_match($pattern, $requestedUri);
+	}
+
+    /**
+	 * Convert route to regex.
+	 * 
+	 * @param  string  $route
+	 * 
+	 * @return string
+	 */
+	protected function regexUri(string $route)
+	{
+		return preg_replace_callback('~\{([^/]+)\}~', function (array $match) 
+		{
+			return $this->regexParameter($match[1]);
+		}, $route);
+	}
+
+	/**
+	 * Convert route parameter to regex.
+	 * 
+	 * @param  string  $name
+	 * 
+	 * @return string
+	 */
+	protected function regexParameter(string $name)
+	{
+		$pattern = $this->route->wheres[$name] ?? '[^/]+';
+
+		return '(?<'.$name.'>'.$pattern.')';
+	}
     
     /**
      * Get routes from the collection by method.
