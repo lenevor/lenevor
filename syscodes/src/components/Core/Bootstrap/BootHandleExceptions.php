@@ -25,6 +25,7 @@
 namespace Syscodes\Core\Bootstrap;
 
 use Exception;
+use Throwable;
 use ErrorException;
 use Syscodes\Contracts\Core\Application;
 use Syscodes\Contracts\Debug\ExceptionHandler;
@@ -92,7 +93,7 @@ class BootHandleExceptions
      * 
      * @return void
      */
-    public function handleException($e)
+    public function handleException(Throwable $e)
     {
         if ( ! $e instanceof Exception)
         {
@@ -114,11 +115,11 @@ class BootHandleExceptions
     /**
      * Render an exception as an HTTP response and send it.
      * 
-     * @param  \Exception  $e
+     * @param  \Throwable  $e
      * 
      * @return void
      */
-    protected function renderHttpResponse(Exception $e)
+    protected function renderHttpResponse(Throwable $e)
     {
         $this->getExceptionHandler()->render($this->app['request'], $e)->send(true);
     }
