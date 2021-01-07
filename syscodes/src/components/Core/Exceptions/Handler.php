@@ -25,6 +25,7 @@
 namespace Syscodes\Core\Exceptions;
 
 use Exception;
+use Throwable;
 use Syscodes\Debug\GDebug;
 use Syscodes\Http\Response;
 use Psr\Log\LoggerInterface;
@@ -91,7 +92,7 @@ class Handler implements ExceptionHandlerContract
      * 
      * @throws \Exception
      */
-    public function report(Exception $e)
+    public function report(Throwable $e)
     {
         if ($this->shouldntReport($e))
         {
@@ -118,11 +119,11 @@ class Handler implements ExceptionHandlerContract
     /**
      * Determine if the exception should be reported.
      * 
-     * @param  \Exception  $e
+     * @param  \Throwable  $e
      * 
      * @return bool
      */
-    public function shouldReport(Exception $e)
+    public function shouldReport(Throwable $e)
     {
         return ! $this->shouldntReport($e);
     }
@@ -130,11 +131,11 @@ class Handler implements ExceptionHandlerContract
     /**
      * Determine if the exception is in the "do not report" list.
      * 
-     * @param  \Exception  $e
+     * @param  \Throwable  $e
      * 
      * @return bool
      */
-    public function shouldntReport(Exception $e)
+    public function shouldntReport(Throwable $e)
     {
         $dontReport = array_merge($this->dontReport, $this->coreDontReport);
 
@@ -153,11 +154,11 @@ class Handler implements ExceptionHandlerContract
      * Render an exception into a response.
      *
      * @param  \Syscodes\Http\Request  $request
-     * @param  \Exception  $e
+     * @param  \Throwable  $e
      * 
      * @return \Syscodes\Http\Response
      */
-    public function render($request, Exception $e)
+    public function render($request, Throwable $e)
     {
         $e = $this->prepareException($e);
 
@@ -172,11 +173,11 @@ class Handler implements ExceptionHandlerContract
     /**
      * Prepare exception for rendering.
      * 
-     * @param  \Exception  $e
+     * @param  \Throwable  $e
      * 
-     * @return \Exception
+     * @return \Throwable
      */
-    protected function prepareException(Exception $e)
+    protected function prepareException(Throwable $e)
     {
         if ($e instanceof ModelNotFoundException)
         {
@@ -190,13 +191,13 @@ class Handler implements ExceptionHandlerContract
      * Prepare a response for the given exception.
      * 
      * @param  \Syscodes\Http\Request  $request
-     * @param  \Exception  $e
+     * @param  \Throwable  $e
      * 
      * @return \Syscodes\Http\Response
      * 
      * @uses   \Syscodes\Core\Http\Exceptions\HttpException
      */
-    protected function prepareResponse($request, Exception $e)
+    protected function prepareResponse($request, Throwable $e)
     {
         if ( ! $this->isHttpException($e) && config('app.debug'))
         {
@@ -265,7 +266,7 @@ class Handler implements ExceptionHandlerContract
      * 
      * @return \Syscodes\Http\Response
      */
-    protected function convertExceptionToResponse(Exception $e)
+    protected function convertExceptionToResponse(Throwable $e)
     {
         return Response::render(
             $this->renderExceptionContent($e),
@@ -277,11 +278,11 @@ class Handler implements ExceptionHandlerContract
     /**
      * Gets the response content for the given exception.
      * 
-     * @param  \Exception  $e
+     * @param  \Throwable  $e
      * 
      * @return string
      */
-    protected function renderExceptionContent(Exception $e)
+    protected function renderExceptionContent(Throwable $e)
     {
         try 
         {
@@ -298,13 +299,13 @@ class Handler implements ExceptionHandlerContract
     /**
      * Render an exception to a string using "GDebug".
      * 
-     * @param  \Exception  $e
+     * @param  \Throwable  $e
      * 
      * @return void
      * 
      * @uses   \Syscodes\Debug\GDebug
      */
-    protected function renderExceptionWithGDebug(Exception $e)
+    protected function renderExceptionWithGDebug(Throwable $e)
     {
         return take(new GDebug, function ($debug) {
             
@@ -330,12 +331,12 @@ class Handler implements ExceptionHandlerContract
     /**
      * Render an exception to a string using Flat Design Debug.
      * 
-     * @param  \Exception  $e
+     * @param  \Throwable  $e
      * @param  bool  $debug
      * 
      * @return string
      */
-    protected function renderExceptionWithFlatDesignDebug(Exception $e, $debug)
+    protected function renderExceptionWithFlatDesignDebug(Throwable $e, $debug)
     {
         return (new ExceptionHandler($debug))->getHtmlResponse(
             FlattenException::make($e)
@@ -350,7 +351,7 @@ class Handler implements ExceptionHandlerContract
      * 
      * @return \Syscodes\Http\Response
      */
-    protected function toSyscodesResponse($response, Exception $e)
+    protected function toSyscodesResponse($response, Throwable $e)
     {
         if ($response instanceof RedirectResponse)
         {
@@ -371,11 +372,11 @@ class Handler implements ExceptionHandlerContract
     /**
      * Determine if the given exception is an HTTP exception.
      * 
-     * @param  \Exception  $e
+     * @param  \Throwable  $e
      * 
      * @return bool
      */
-    protected function isHttpException(Exception $e)
+    protected function isHttpException(Throwable $e)
     {
         return $e instanceof HttpException;
     }
