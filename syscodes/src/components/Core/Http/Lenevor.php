@@ -25,7 +25,6 @@
 namespace Syscodes\Core\Http;
 
 use Closure;
-use Exception;
 use Throwable;
 use Syscodes\Http\Http; 
 use Syscodes\Routing\Router;
@@ -183,15 +182,9 @@ class Lenevor implements LenevorContract
 		{
 			$response = $this->sendRequestThroughRouter($request);
 		}
-		catch (Exception $e)
-		{
-			$this->reportException($e);
-
-			$response = $this->renderException($request, $e);
-		}
 		catch (Throwable $e)
 		{
-			$this->reportException($e = new FatalThrowableError($e));
+			$this->reportException($e);
 
 			$response = $this->renderException($request, $e);
 		}		
@@ -243,11 +236,11 @@ class Lenevor implements LenevorContract
 	/**
 	 * Report the exception to the exception handler.
 	 * 
-	 * @param  \Exception  $e
+	 * @param  \Throwable  $e
 	 * 
 	 * @return void
 	 */
-	protected function reportException(Exception $e)
+	protected function reportException(Throwable $e)
 	{
 		return $this->app[ExceptionHandler::class]->report($e);
 	}
@@ -256,11 +249,11 @@ class Lenevor implements LenevorContract
 	 * Render the exception to a response.
 	 * 
 	 * @param  \Syscodes\Http\Request  $request
-	 * @param  \Exception  $e
+	 * @param  \Throwable  $e
 	 * 
 	 * @return \Syscodes\Http\Response
 	 */
-	protected function renderException($request, Exception $e)
+	protected function renderException($request, Throwable $e)
 	{
 		return $this->app[ExceptionHandler::class]->render($request, $e);
 	}
