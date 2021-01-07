@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2021 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.7.2
+ * @since       0.7.3
  */
 
 namespace Syscodes\Routing;
@@ -31,9 +31,7 @@ use BadMethodCallException;
 use InvalidArgumentException;
 use Syscodes\Collections\Arr;
 use Syscodes\Http\RedirectResponse;
-use Syscodes\Routing\Traits\RouteMap;
 use Syscodes\Contracts\Routing\Routable;
-use Syscodes\Routing\Traits\RouteResolver;
 use Syscodes\Contracts\Container\Container;
 
 /**
@@ -43,8 +41,8 @@ use Syscodes\Contracts\Container\Container;
  */
 class Router implements Routable
 {
-	use RouteMap,
-	    RouteResolver;
+	use Concerns\RouteMap,
+	    Concerns\RouteResolver;
 
 	/**
 	 * The registered route value binders.
@@ -502,6 +500,16 @@ class Router implements Routable
 	}
 
 	/**
+	 * Get the currently dispatched route instance.
+	 * 
+	 * @return \Syscodes\Routing\Route|null
+	 */
+	public function current()
+	{
+		return $this->current;
+	}
+
+	/**
 	 * Determine if the current route matches a pattern.
 	 * 
 	 * @param  mixed  ...$patterns
@@ -511,6 +519,18 @@ class Router implements Routable
 	public function is(...$patterns)
 	{
 		return $this->currentRouteNamed(...$patterns);
+	}
+
+	/**
+	 * Determine if the current route matches a pattern.
+	 * 
+	 * @param  mixed  ...$patterns
+	 * 
+	 * @return bool
+	 */
+	public function currentRouteNamed(...$patterns)
+	{
+		return $this->current() && $this->current()->named(...$patterns);
 	}
 
 	/**
