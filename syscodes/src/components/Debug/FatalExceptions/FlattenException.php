@@ -24,7 +24,6 @@
 
 namespace Syscodes\Debug\FatalExceptions;
 
-use Exception;
 use Throwable;
 use ArrayObject;
 use Syscodes\Core\Http\Exceptions\HttpException;
@@ -103,13 +102,13 @@ class FlattenException
     /**
      * Load the exception with their respective status code and headers.
      * 
-     * @param  \Exception  $exception
+     * @param  \Throwable  $exception
      * @param  int|null    $statusCode
      * @param  array       $headers
      * 
      * @return void
      */
-    public static function make(Exception $exception, $statusCode = null, array $headers = [])
+    public static function make(Throwable $exception, $statusCode = null, array $headers = [])
     {
         return static::makeFromThrowable($exception, $statusCode, $headers);
     }
@@ -117,7 +116,7 @@ class FlattenException
     /**
      * An exception is loaded to change the initial value in set methods.
      * 
-     * @param  Throwable  $exception
+     * @param  \Throwable  $exception
      * @param  int|null  $statusCode
      * @param  array  $headers
      * 
