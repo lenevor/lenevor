@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2021 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.7.2
+ * @since       0.7.3
  */
 
 namespace Syscodes\Routing;
@@ -32,10 +32,8 @@ use Syscodes\Http\Request;
 use InvalidArgumentException;
 use Syscodes\Collections\Arr;
 use Syscodes\Container\Container;
-use Syscodes\Routing\Traits\RouteCondition;
 use Syscodes\Controller\ControllerDispatcher;
 use Syscodes\Http\Exceptions\HttpResponseException;
-use Syscodes\Routing\Traits\RouteDependencyResolver;
 
 /**
  * A Route describes a route and its parameters.
@@ -44,8 +42,8 @@ use Syscodes\Routing\Traits\RouteDependencyResolver;
  */
 class Route 
 {
-	use RouteCondition,
-	    RouteDependencyResolver;
+	use Concerns\RouteCondition,
+	    Concerns\RouteDependencyResolver;
 	
 	/**
 	 * Action that the route will use when called.
