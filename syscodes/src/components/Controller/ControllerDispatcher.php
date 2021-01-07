@@ -26,7 +26,7 @@ namespace Syscodes\Controller;
 
 use Syscodes\Routing\Route;
 use Syscodes\Contracts\Container\Container;
-use Syscodes\Routing\Traits\RouteDependencyResolver;
+use Syscodes\Routing\Concerns\RouteDependencyResolver;
 use Syscodes\Controller\Contracts\ControllerDispatcher as ControllerDispatcherContract;
 
 /**
