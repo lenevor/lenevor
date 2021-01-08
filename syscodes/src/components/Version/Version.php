@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2021 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.7.2
+ * @since       0.7.3
  */
 
 namespace Syscodes;
@@ -39,7 +39,7 @@ final class Version
     /** 
      * Version Lenevor.
      */
-    const RELEASE = 'v0.7.2';
+    const RELEASE = 'v0.7.3';
 
     /**
      * Release status.
@@ -69,7 +69,7 @@ final class Version
     /**
      * Year actual.
      */
-    const YEAR = '2020';
+    const YEAR = '2021';
 
     /**
      * Gets a string version of " PHP normalized" for the Lenevor Framework.
