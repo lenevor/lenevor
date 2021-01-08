@@ -1,5 +1,23 @@
 # Release Notes
 
+## [Version 0.7.3-alpha.7] 
+
+Release Date: Jan 08, 2021
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added new methods for allows connection with the database
+- Added methods for query builder
+- Added new Pipeline class for handle the given exception
+- Added methods for finds route to given request
+
+### Changed
+- Changed release to 0.7.3
+- Changed for variables of database settings
+- Changed traits namespace in the `Routing` classes
+
+
 ## [Version 0.7.2-alpha.7] 
 
 Release Date: Aug 01, 2020
