@@ -1,5 +1,5 @@
 <@extends('errors::layout')
 
-<@section('title', $exception->getTitle())  {{-- Title: Internal Server Error --}}
-<@section('code', $exception->getStatusCode())  {{-- Code: 500 --}} 
-<@section('message', $exception->getMessage())
+<@section('title',  __('Internal Server Error'))
+<@section('code', '500')
+<@section('message', __('Internal Server Error'))

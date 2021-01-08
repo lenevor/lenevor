@@ -1,5 +1,5 @@
 <@extends('errors::layout')
 
-<@section('title', $exception->getTitle())  {{-- Title: Length Required --}}
-<@section('code', $exception->getStatusCode())  {{-- Code: 411 --}} 
-<@section('message', $exception->getMessage())
+<@section('title', __('Length Required'))
+<@section('code', '411')
+<@section('message', __('Length Required'))

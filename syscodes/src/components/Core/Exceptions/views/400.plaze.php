@@ -1,5 +1,5 @@
 <@extends('errors::layout')
 
-<@section('title', $exception->getTitle())  {{-- Title: Bad Request --}}
-<@section('code', $exception->getStatusCode())  {{-- Code: 400 --}} 
-<@section('message', $exception->getMessage())
+<@section('title', __('Bad Request'))
+<@section('code', '400')  
+<@section('message', __('Bad Request'))
