@@ -48,13 +48,6 @@ class HttpException extends LenevorException
 	protected $headers;
 
 	/**
-	 * Get the title page exception.
-	 * 
-	 * @var string $title
-	 */
-	protected $title = '';
-
-	/**
 	 * Initialize constructor. 
 	 * 
 	 * @param  int  $statusCode
@@ -64,14 +57,17 @@ class HttpException extends LenevorException
 	 * @param  int  $code
 	 * 
 	 * @return void
-	 * 
-	 * @throws \Syscodes\Core\Http\Exceptions\LenevorException
 	 */
-	public function __construct(int $statusCode, string $message = null, Throwable $previous = null, array $headers = [], ?int $code = 0)
-	{
+	public function __construct(
+		int $statusCode, 
+		string $message = null, 
+		Throwable $previous = null, 
+		array $headers = [], 
+		?int $code = 0
+	) {
 		$this->headers = $headers;
 		$this->code    = $statusCode;
-		
+				
 		parent::__construct($message, $code, $previous);
 	}
 
@@ -105,29 +101,5 @@ class HttpException extends LenevorException
 	public function setHeaders(array $headers)
 	{
 		$this->headers = $headers;
-	}
-
-	/**
-	 * Get the title page exception.
-	 * 
-	 * @return string
-	 */
-	public function getTitle()
-	{
-		return $this->title;
-	}
-
-	/**
-	 * Set the title page exception.
-	 * 
-	 * @param  string  $title
-	 * 
-	 * @return $this
-	 */
-	public function setTitle(string $title)
-	{
-		$this->title = $title;
-
-		return $this;
 	}
 }
