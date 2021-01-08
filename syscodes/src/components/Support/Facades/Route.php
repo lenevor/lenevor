@@ -47,7 +47,7 @@ namespace Syscodes\Support\Facades;
  * @method static \Syscodes\Routing\Route newRoute(array|string $method, string $uri, mixed $action)
  * @method static bool hasGroupStack()
  * @method static array resolve(\Syscodes\Http\Request $request)
- * @method static string|bool namespace(string $namespace = null)
+ * @method static string namespace(string $namespace = null)
  * 
  * @see \Syscodes\Routing\Router
  */
