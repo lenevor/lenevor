@@ -24,12 +24,14 @@
 
 namespace Syscodes\Core\Http\Exceptions;
 
+use Throwable;
+
 /**
  * It is activated when a request has conflict with the current state of the server.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class ConflictHttpException extends HttpSpecializedException
+class ConflictHttpException extends HttpException
 {
 	/**
 	 * Get the HTTP status code.
@@ -39,16 +41,27 @@ class ConflictHttpException extends HttpSpecializedException
 	protected $code = 409;
 
 	/**
-	 * Get the HTTP message.
+	 * Initialize constructor. 
 	 * 
-	 * @var string $message
-	 */
-	protected $message = 'Conflict';
-
-	/**
-	 * Get the title page exception.
+	 * @param  string|null  $message  (null by default) 
+	 * @param  \Throwable|null  $previous  (null by default)
+	 * @param  int  $code  (0 by default)
+	 * @param  array  $headers
 	 * 
-	 * @var string $title
+	 * @return void
 	 */
-	protected $title = 'Conflict';
+	public function __construct(
+		string $message = null, 
+		Throwable $previous = null, 
+		int $code = 0, 
+		array $headers = []
+	) {
+        parent::__construct(
+			$this->code, 
+			$message, 
+			$previous, 
+			$headers, 
+			$code
+		);
+	}
 }

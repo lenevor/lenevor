@@ -24,13 +24,15 @@
 
 namespace Syscodes\Core\Http\Exceptions;
 
+use Throwable;
+
 /**
  * It is activated when the multimedia format of the requested data is not supported 
  * by the server, for which reason the server rejects the request.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class UnsupportedMediaTypeHttpException extends HttpSpecializedException
+class UnsupportedMediaTypeHttpException extends HttpException
 {
 	/**
 	 * Get the HTTP status code.
@@ -40,16 +42,27 @@ class UnsupportedMediaTypeHttpException extends HttpSpecializedException
 	protected $code = 415;
 
 	/**
-	 * Get the HTTP message.
+	 * Initialize constructor. 
 	 * 
-	 * @var string $message
-	 */
-	protected $message = 'Unsupported Media Type';
-
-	/**
-	 * Get the title page exception.
+	 * @param  string|null  $message  (null by default)
+	 * @param  \Throwable|null  $previous  (null by default)
+	 * @param  int  $code  (0 by default)
+	 * @param  array  $headers
 	 * 
-	 * @var string $title
+	 * @return void
 	 */
-	protected $title = 'Unsupported Media Type';
+	public function __construct(
+		string $message = null, 
+		Throwable $previous = null, 
+		int $code = 0,
+		array $headers = []
+	) {	
+		parent::__construct(
+			$this->code, 
+			$message, 
+			$previous, 
+			$headers, 
+			$code
+		);
+	}
 }

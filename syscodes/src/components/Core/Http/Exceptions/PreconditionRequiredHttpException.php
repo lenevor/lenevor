@@ -24,6 +24,8 @@
 
 namespace Syscodes\Core\Http\Exceptions;
 
+use Throwable;
+
 /**
  * It is activated when the origin server requires that the request be conditional. 
  * It intends to prevent 'lost update' problems, where a client GETS a state of the 
@@ -32,7 +34,7 @@ namespace Syscodes\Core\Http\Exceptions;
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class PreconditionRequiredHttpException extends HttpSpecializedException
+class PreconditionRequiredHttpException extends HttpException
 {
 	/**
 	 * Get the HTTP status code.
@@ -40,18 +42,29 @@ class PreconditionRequiredHttpException extends HttpSpecializedException
 	 * @var int $code
 	 */
 	protected $code = 428;
-	
-	/**
-	 * Get the HTTP message.
-	 * 
-	 * @var string $message
-	 */
-	protected $message = 'Precondition Required';
 
 	/**
-	 * Get the title page exception.
+	 * Initialize constructor. 
 	 * 
-	 * @var string $title
+	 * @param  string|null  $message  (null by default) 
+	 * @param  \Throwable|null  $previous  (null by default)
+	 * @param  int  $code  (0 by default)
+	 * @param  array  $headers
+	 * 
+	 * @return void
 	 */
-	protected $title = 'Precondition Required';
+	public function __construct( 
+		string $message = null, 
+		Throwable $previous = null, 
+		int $code = 0, 
+		array $headers = []
+	) {
+		parent::__construct(
+			$this->code, 
+			$message, 
+			$previous, 
+			$headers, 
+			$code
+		);
+	}
 }

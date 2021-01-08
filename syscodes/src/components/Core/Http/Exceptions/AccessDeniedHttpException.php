@@ -24,13 +24,15 @@
 
 namespace Syscodes\Core\Http\Exceptions;
 
+use Throwable;
+
 /**
  * It is activated when the client does not have the necessary 
  * permissions for certain content.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class AccessDeniedHttpException extends HttpSpecializedException
+class AccessDeniedHttpException extends HttpException
 {
 	/**
 	 * Get the HTTP status code.
@@ -40,16 +42,27 @@ class AccessDeniedHttpException extends HttpSpecializedException
 	protected $code = 403;
 
 	/**
-	 * Get the HTTP message.
+	 * Initialize constructor. 
 	 * 
-	 * @var string $message
-	 */
-	protected $message = 'Forbidden';
-
-	/**
-	 * Get the title page exception.
+	 * @param  string|null  $message  (null by default) 
+	 * @param  \Throwable|null  $previous  (null by default)
+	 * @param  int  $code  (0 by default)
+	 * @param  array  $headers
 	 * 
-	 * @var string $title
+	 * @return void
 	 */
-	protected $title = 'Forbidden';
+	public function __construct(
+		string $message = null, 
+		Throwable $previous = null, 
+		int $code = 0, 
+		array $headers = []
+	) {
+        parent::__construct(
+			$this->code, 
+			$message, 
+			$previous, 
+			$headers, 
+			$code
+		);
+	}
 }

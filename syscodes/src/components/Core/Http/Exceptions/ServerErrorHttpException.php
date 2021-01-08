@@ -24,12 +24,14 @@
 
 namespace Syscodes\Core\Http\Exceptions;
 
+use Throwable;
+
 /**
  * It is activated when the server has found a situation that does not know how to handle it.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class ServerErrorHttpException extends HttpSpecializedException
+class ServerErrorHttpException extends HttpException
 {
 	/**
 	 * Get the HTTP status code.
@@ -37,18 +39,29 @@ class ServerErrorHttpException extends HttpSpecializedException
 	 * @var int $code
 	 */
 	protected $code = 500;
-	
-	/**
-	 * Get the HTTP message.
-	 * 
-	 * @var string $message
-	 */
-	protected $message = 'Internal Server Error';
 
 	/**
-	 * Get the title page exception.
+	 * Initialize constructor. 
 	 * 
-	 * @var string $title
+	 * @param  string|null  $message  (null by default) 
+	 * @param  \Throwable|null  $previous  (null by default)
+	 * @param  int  $code  (0 by default)
+	 * @param  array  $headers
+	 * 
+	 * @return void
 	 */
-	protected $title = 'Internal Server Error';
+	public function __construct(
+		string $message = null, 
+		Throwable $previous = null, 
+		int $code = 0, 
+		array $headers = []
+	) {
+        parent::__construct(
+			$this->code, 
+			$message, 
+			$previous, 
+			$headers, 
+			$code
+		);
+	}
 }

@@ -24,12 +24,14 @@
 
 namespace Syscodes\Core\Http\Exceptions;
 
+use Throwable;
+
 /**
  * It is activated when the server could not interpret the request given an invalid syntax.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class BadRequestHttpException extends HttpSpecializedException
+class BadRequestHttpException extends HttpException
 {
 	/**
 	 * Get the HTTP status code.
@@ -39,16 +41,27 @@ class BadRequestHttpException extends HttpSpecializedException
 	protected $code = 400;
 
 	/**
-	 * Get the HTTP message.
+	 * Initialize constructor. 
 	 * 
-	 * @var string $message
-	 */
-	protected $message = 'Bad Request';
-
-	/**
-	 * Get the title page exception.
+	 * @param  string|null  $message  (null by default) 
+	 * @param  \Throwable|null  $previous  (null by default)
+	 * @param  int  $code  (0 by default)
+	 * @param  array  $headers
 	 * 
-	 * @var string $title
+	 * @return void
 	 */
-	protected $title = 'Bad Request';
+	public function __construct(
+		string $message = null, 
+		Throwable $previous = null, 
+		int $code = 0, 
+		array $headers = []
+	) {
+        parent::__construct(
+			$this->code, 
+			$message, 
+			$previous, 
+			$headers, 
+			$code
+		);
+	}
 }

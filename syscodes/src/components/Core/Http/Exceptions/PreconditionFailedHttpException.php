@@ -24,13 +24,15 @@
 
 namespace Syscodes\Core\Http\Exceptions;
 
+use Throwable;
+
 /**
  * It is activated when the client has indicated pre-conditions in 
  * their headers which the server does not comply with.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class PreconditionFailedHttpException extends HttpSpecializedException
+class PreconditionFailedHttpException extends HttpException
 {
 	/**
 	 * Get the HTTP status code.
@@ -40,16 +42,27 @@ class PreconditionFailedHttpException extends HttpSpecializedException
 	protected $code = 412;
 
 	/**
-	 * Get the HTTP message.
+	 * Initialize constructor. 
 	 * 
-	 * @var string $message
-	 */
-	protected $message = 'Precondition Failed';
-
-	/**
-	 * Get the title page exception.
+	 * @param  string|null  $message  (null by default) 
+	 * @param  \Throwable|null  $previous  (null by default)
+	 * @param  int  $code  (0 by default)
+	 * @param  array  $headers
 	 * 
-	 * @var string $title
+	 * @return void
 	 */
-	protected $title = 'Precondition Failed';
+	public function __construct( 
+		string $message = null, 
+		Throwable $previous = null, 
+		int $code = 0, 
+		array $headers = []
+	) {
+		parent::__construct(
+			$this->code, 
+			$message, 
+			$previous, 
+			$headers, 
+			$code
+		);
+	}
 }

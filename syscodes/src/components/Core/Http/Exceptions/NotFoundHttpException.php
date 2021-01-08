@@ -24,12 +24,14 @@
 
 namespace Syscodes\Core\Http\Exceptions;
 
+use Throwable;
+
 /**
  * It is activated when the server could not find the requested content.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class NotFoundHttpException extends HttpSpecializedException
+class NotFoundHttpException extends HttpException
 {
 	/**
 	 * Get the HTTP status code.
@@ -37,18 +39,29 @@ class NotFoundHttpException extends HttpSpecializedException
 	 * @var int $code
 	 */
 	protected $code = 404;
-	
-	/**
-	 * Get the HTTP message.
-	 * 
-	 * @var string $message
-	 */
-	protected $message = 'Not Found';
 
 	/**
-	 * Get the title page exception.
+	 * Initialize constructor. 
 	 * 
-	 * @var string $title
+	 * @param  string|null  $message  (null by default) 
+	 * @param  \Throwable|null  $previous  (null by default)
+	 * @param  int  $code  (0 by default)
+	 * @param  array  $headers
+	 * 
+	 * @return void
 	 */
-	protected $title = 'Not Found';
+	public function __construct(
+		?string $message = null, 
+		?Throwable $previous = null, 
+		int $code = 0, 
+		array $headers = []
+	) {
+        parent::__construct(
+			$this->code, 
+			$message, 
+			$previous, 
+			$headers, 
+			$code
+		);
+	}
 }

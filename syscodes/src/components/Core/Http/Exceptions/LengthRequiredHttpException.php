@@ -24,13 +24,15 @@
 
 namespace Syscodes\Core\Http\Exceptions;
 
+use Throwable;
+
 /**
  * It is activated when the server rejects the request because the Content-Length 
  * header field is not defined and the server requires it.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class LengthRequiredHttpException extends HttpSpecializedException
+class LengthRequiredHttpException extends HttpException
 {
 	/**
 	 * Get the HTTP status code.
@@ -40,16 +42,27 @@ class LengthRequiredHttpException extends HttpSpecializedException
 	protected $code = 411;
 
 	/**
-	 * Get the HTTP message.
+	 * Initialize constructor. 
 	 * 
-	 * @var string $message
-	 */
-	protected $message = 'Length Required';
-
-	/**
-	 * Get the title page exception.
+	 * @param  string|null  $message  (null by default) 
+	 * @param  \Throwable|null  $previous  (null by default)
+	 * @param  int  $code  (0 by default)
+	 * @param  array  $headers
 	 * 
-	 * @var string $title
+	 * @return void
 	 */
-	protected $title = 'Length Required';
+	public function __construct( 
+		string $message = null, 
+		Throwable $previous = null, 
+		int $code = 0, 
+		array $headers = []
+	) {
+		parent::__construct(
+			$this->code, 
+			$message, 
+			$previous, 
+			$headers, 
+			$code
+		);
+	}
 }

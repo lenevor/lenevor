@@ -24,7 +24,8 @@
 
 namespace Syscodes\Http\Exceptions;
 
-use Syscodes\Core\Http\Exceptions\HttpSpecializedException;
+use Throwable;
+use Syscodes\Core\Http\Exceptions\HttpException;
 
 /**
  * The request entity returns when it is longer than the limits 
@@ -32,7 +33,7 @@ use Syscodes\Core\Http\Exceptions\HttpSpecializedException;
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class PostTooLargeHttpException extends HttpSpecializedException
+class PostTooLargeHttpException extends HttpException
 {
 	/**
 	 * Get the HTTP status code.
@@ -42,16 +43,27 @@ class PostTooLargeHttpException extends HttpSpecializedException
 	protected $code = 413;
 
 	/**
-	 * Get the HTTP message.
+	 * Initialize constructor. 
 	 * 
-	 * @var string $message
-	 */
-	protected $message = 'Request Entity Too Large';
-
-	/**
-	 * Get the title page exception.
+	 * @param  string|null  $message  (null by default) 
+	 * @param  \Throwable|null  $previous  (null by default)
+	 * @param  int  $code  (0 by default)
+	 * @param  array  $headers
 	 * 
-	 * @var string $title
+	 * @return void
 	 */
-	protected $title = 'Request Entity Too Large';
+	public function __construct(
+		string $message = null, 
+		Throwable $previous = null, 
+		int $code = 0, 
+		array $headers = []
+	) {
+        parent::__construct(
+			$this->code, 
+			$message, 
+			$previous, 
+			$headers, 
+			$code
+		);
+	}
 }

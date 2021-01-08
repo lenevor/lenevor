@@ -24,13 +24,15 @@
 
 namespace Syscodes\Core\Http\Exceptions;
 
+use Throwable;
+
 /**
  * It was activated when the request was well formed but could not be 
  * followed due to semantic errors.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class UnprocessableEntityHttpException extends HttpSpecializedException
+class UnprocessableEntityHttpException extends HttpException
 {
 	/**
 	 * Get the HTTP status code.
@@ -38,18 +40,29 @@ class UnprocessableEntityHttpException extends HttpSpecializedException
 	 * @var int $code
 	 */
 	protected $code = 422;
-	
-	/**
-	 * Get the HTTP message.
-	 * 
-	 * @var string $message
-	 */
-	protected $message = 'Unprocessable Entity';
 
 	/**
-	 * Get the title page exception.
+	 * Initialize constructor. 
 	 * 
-	 * @var string $title
+	 * @param  string|null  $message  (null by default)
+	 * @param  \Throwable|null  $previous  (null by default)
+	 * @param  int  $code  (0 by default)
+	 * @param  array  $headers
+	 * 
+	 * @return void
 	 */
-	protected $title = 'Unprocessable Entity';
+	public function __construct(
+		string $message = null, 
+		Throwable $previous = null, 
+		int $code = 0,
+		array $headers = []
+	) {	
+		parent::__construct(
+			$this->code, 
+			$message, 
+			$previous, 
+			$headers, 
+			$code
+		);
+	}
 }

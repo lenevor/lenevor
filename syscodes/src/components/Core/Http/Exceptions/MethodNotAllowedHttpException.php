@@ -32,7 +32,7 @@ use Throwable;
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class MethodNotAllowedHttpException extends HttpSpecializedException
+class MethodNotAllowedHttpException extends HttpException
 {	
 	/**
 	 * Get the HTTP status code.
@@ -40,35 +40,33 @@ class MethodNotAllowedHttpException extends HttpSpecializedException
 	 * @var int $code
 	 */
 	protected $code = 405;
-
+	
 	/**
-	 * Get the HTTP message.
-	 * 
-	 * @var string $message
-	 */
-	protected $message = 'Method Not Allowed';
-
-	/**
-	 * Get the title page exception.
-	 * 
-	 * @var string $title
-	 */
-	protected $title = 'Method Not Allowed';
-
-	/**
-	 * Initialize constructor.
+	 * Initialize constructor. 
 	 * 
 	 * @param  array  $allow
-	 * @param  string|null  $message  (null by default)
+	 * @param  string|null  $message  (null by default) 
 	 * @param  \Throwable|null  $previous  (null by default)
+	 * @param  int  $code  (0 by default)
 	 * @param  array  $headers
 	 * 
 	 * @return void
 	 */
-	public function __construct(array $allow = [], string $message = null, Throwable $previous = null, array $headers = [])
-	{
+	public function __construct(
+		array $allow = [], 
+		string $message = null, 
+		Throwable $previous = null, 
+		?int $code = 0, 
+		array $headers = []
+	) {
 		$headers['Allow'] = strtoupper(implode(', ', $allow));
 
-		parent::__construct($this->message, $previous, $headers);
+		parent::__construct(
+			$this->code, 
+			$message, 
+			$previous, 
+			$headers, 
+			$code
+		);
 	}
 }

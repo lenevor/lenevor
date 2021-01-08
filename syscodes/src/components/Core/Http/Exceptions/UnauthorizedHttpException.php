@@ -24,13 +24,15 @@
 
 namespace Syscodes\Core\Http\Exceptions;
 
+use Throwable;
+
 /**
  * It is activated when it is necessary to authenticate to obtain the requested response. 
  * This is similar to 403, but in this case, authentication is possible.
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class UnauthorizedHttpException extends HttpSpecializedException
+class UnauthorizedHttpException extends HttpException
 {
 	/**
 	 * Get the HTTP status code.
@@ -40,16 +42,30 @@ class UnauthorizedHttpException extends HttpSpecializedException
 	protected $code = 401;
 
 	/**
-	 * Get the HTTP message.
+	 * Initialize constructor. 
 	 * 
-	 * @var string $message
+	 * @param  string|null  $message  (null by default) 
+	 * @param  \Throwable|null  $previous  (null by default)
+	 * @param  int  $code  (0 by default)
+	 * @param  array  $headers
+	 * 
+	 * @return void
 	 */
-	protected $message = 'Unauthorized';
+	public function __construct(
+		string $challenge,
+		string $message = null, 
+		Throwable $previous = null, 
+		?int $code = 0, 
+		array $headers = []
+	) {
+		$headers['WWW-Authenticate'] = $challenge;
 
-	/**
-	 * Get the title page exception.
-	 * 
-	 * @var string $title
-	 */
-	protected $title = 'Unauthorized';
+        parent::__construct(
+			$this->code, 
+			$message, 
+			$previous, 
+			$headers, 
+			$code
+		);
+	}
 }

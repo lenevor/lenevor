@@ -31,7 +31,7 @@ use Throwable;
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class TooManyRequestsHttpException extends HttpSpecializedException
+class TooManyRequestsHttpException extends HttpException
 {
 	/**
 	 * Get the HTTP status code.
@@ -40,20 +40,6 @@ class TooManyRequestsHttpException extends HttpSpecializedException
 	 */
 	protected $code = 429;
 	
-	/**
-	 * Get the HTTP message.
-	 * 
-	 * @var string $message
-	 */
-	protected $message = 'Too Many Requests';
-
-	/**
-	 * Get the title page exception.
-	 * 
-	 * @var string $title
-	 */
-	protected $title = 'Too Many Requests';
-
 	/**
 	 * Initialize constructor. 
 	 * 
@@ -65,13 +51,23 @@ class TooManyRequestsHttpException extends HttpSpecializedException
 	 * 
 	 * @return void
 	 */
-	public function __construct($retryAfter = null, string $message = null, Throwable $previous = null, array $headers = [])
-	{		
-		if ($retryAfter)
-		{
+	public function __construct(
+		$retryAfter = null, 
+		string $message = null, 
+		Throwable $previous = null, 
+		?int $code = 0,
+		array $headers = []
+	) {		
+		if ($retryAfter) {
 			$headers['Retry-After'] = $retryAfter;
 		}
 
-		parent::__construct($this->message, $previous, $headers);
+		parent::__construct(
+			$this->code, 
+			$message, 
+			$previous, 
+			$headers, 
+			$code
+		);
 	}
 }

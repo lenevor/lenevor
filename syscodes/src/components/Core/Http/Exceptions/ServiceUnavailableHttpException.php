@@ -35,7 +35,7 @@ use Throwable;
  * 
  * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
-class ServiceUnavailableHttpException extends HttpSpecializedException
+class ServiceUnavailableHttpException extends HttpException
 {
 	/**
 	 * Get the HTTP status code.
@@ -43,20 +43,6 @@ class ServiceUnavailableHttpException extends HttpSpecializedException
 	 * @var int $code
 	 */
 	protected $code = 503;
-	
-	/**
-	 * Get the HTTP message.
-	 * 
-	 * @var string $message
-	 */
-	protected $message = 'Unprocessable Entity';
-
-	/**
-	 * Get the title page exception.
-	 * 
-	 * @var string $title
-	 */
-	protected $title = 'Unprocessable Entity';
 
 	/**
 	 * Initialize constructor. 
@@ -65,17 +51,28 @@ class ServiceUnavailableHttpException extends HttpSpecializedException
 	 * 										 which the request may be retried  (null by default)
 	 * @param  string|null $message  (null by default)
 	 * @param  \Throwable|null  $previous  (null by default)
+	 * @param  int  $code  (0 by default)
 	 * @param  array  $headers
 	 * 
 	 * @return void
 	 */
-	public function __construct($retryAfter = null, string $message = null, Throwable $previous = null, array $headers = [])
-	{		
-		if ($retryAfter)
-		{
+	public function __construct(
+		$retryAfter = null, 
+		string $message = null, 
+		Throwable $previous = null, 
+		?int $code = 0,
+		array $headers = []
+	) {		
+		if ($retryAfter) {
 			$headers['Retry-After'] = $retryAfter;
 		}
 
-		parent::__construct($this->message, $previous, $headers);
+		parent::__construct(
+			$this->code, 
+			$message, 
+			$previous, 
+			$headers, 
+			$code
+		);
 	}
 }
