@@ -14,7 +14,7 @@ return [
 	|
 	*/
 
-	'path.app' => '../app',
+	'path.app' => __DIR__.'/../app',
 
 	/*
 	|---------------------------------------------------------------------------
@@ -28,7 +28,7 @@ return [
 	|
 	*/
 
-	'path.bootstrap' => '../bootstrap',
+	'path.bootstrap' => __DIR__.'/../bootstrap',
 
 	/*
 	|---------------------------------------------------------------------------
@@ -42,36 +42,7 @@ return [
 	|
 	*/
 
-	'path.config' => '../config',
-
-	/*
-	|---------------------------------------------------------------------------
-	| Database Folder Name                                                            
-	|---------------------------------------------------------------------------
-	|
-	| This variable must contain the name of your `database` folder.                                  
-	| You can change setting the name of folder here.    
-	|                                          
-	| You can also rename or relocate it anywhere on your server.                                   
-	|
-	*/
-
-	'path.database' => '../database',
-
-	/*
-	|---------------------------------------------------------------------------
-	| Public Directory Name
-	|---------------------------------------------------------------------------
-	|
-	| This variable must contain the name of the directory that contains the main 
-	| index.php front-controller.  By default, this is the `public` directory.
-	|
-	| Ensure the current directory is pointing to the front controller's 
-	| directory.
-	|
-	*/
-
-	'path.index' => '../public',
+	'path.config' => __DIR__.'/../config',
 
 	/*
 	|---------------------------------------------------------------------------
@@ -85,35 +56,7 @@ return [
 	|
 	*/
 
-	'path.resources' => '../resources',
-
-	/*
-	|---------------------------------------------------------------------------
-	| Routes Folder Name                                                            
-	|---------------------------------------------------------------------------
-	|
-	| This variable must contain the name of your `routes` folder.                                  
-	| You can change setting the name of folder here. 
-	|                                             
-	| You can also rename or relocate it anywhere on your server.                                   
-	|
-	*/
-
-	'path.routes' => '../routes',
-
-	/*
-	|---------------------------------------------------------------------------
-	| Storage Folder Name                                                            
-	|---------------------------------------------------------------------------
-	|
-	| This variable must contain the name of your "storage" folder.                                  
-	| You can change setting the name of folder here. 
-	|                                             
-	| You can also rename or relocate it anywhere on your server.                                   
-	|
-	*/
-
-	'path.storage' => '../storage',
+	'path.resources' => __DIR__.'/../resources',
 
 	/*
 	|---------------------------------------------------------------------------
@@ -128,6 +71,6 @@ return [
 	|
 	*/
 
-	'path.sys' => '../syscodes',
+	'path.sys' => __DIR__.'/../syscodes',
 
 ];
