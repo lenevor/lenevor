@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2021 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.7.3
+ * @since       0.7.4
  */
 
 use Syscodes\Http\Request;
@@ -38,33 +38,44 @@ define('LENEVOR_START', microtime(true));
 |
 */
 
-if (is_file(__DIR__.'/../vendor/autoload.php'))
+if (file_exists(__DIR__.'/../vendor/autoload.php'))
 {
     require __DIR__.'/../vendor/autoload.php';
 }
 
 /*
-|---------------------------------------------------------------------------
+|------------------------------------------------------------------------
+| Call Configured Paths
+|------------------------------------------------------------------------
+|
+| Calls all the pathname of settings for manages an application web.
+|
+*/
+
+$paths = require __DIR__.'/../config/paths.php';
+
+/*
+|------------------------------------------------------------------------
 | Check Plataform Requeriments
-|---------------------------------------------------------------------------
+|------------------------------------------------------------------------
 |
 | This verification allows to know the version of the system and other 
 | resources that PHP uses the framework.
 |
 */
 
-require __DIR__.'/../syscodes/src/requeriments.php';
+require $paths['path.sys'].'/src/requeriments.php';
 
 /*
-|---------------------------------------------------------------------------
+|------------------------------------------------------------------------
 | Register Bootstrap Core
-|---------------------------------------------------------------------------
+|------------------------------------------------------------------------
 |
 | Load bootstrap from the core of system. 
 |
 */
 
-require __DIR__.'/../syscodes/src/bootstrap.php';
+require $paths['path.sys'].'/src/bootstrap.php';
 
 /*
 |------------------------------------------------------------------------
@@ -77,7 +88,7 @@ require __DIR__.'/../syscodes/src/bootstrap.php';
 |
 */
 
-$app = require_once __DIR__.'/../bootstrap/app.php';
+$app = require_once $paths['path.bootstrap'].'/app.php';
 
 /*
 |------------------------------------------------------------------------
