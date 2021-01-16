@@ -1,6 +1,6 @@
 BSD 3-Clause "New" or "Revised" License
 
-Copyright (c) 2019-2021 Alexander Campo  
+Copyright (c) 2019 - 2021, Alexander Campo 
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are 
@@ -13,7 +13,7 @@ permitted provided that the following conditions are met:
    of conditions and the following disclaimer in the documentation and/or other materials 
    provided with the distribution.
 
-3. Neither the name of Lenevor PHP Framework nor the names of its contributors may be used 
+3. Neither the name of the copyright holder nor the names of its contributors may be used 
    to endorse or promote products derived from this software without specific prior written 
    permission. 
 
