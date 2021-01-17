@@ -19,11 +19,13 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2021 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.7.2
+ * @since       0.7.4
  */
 
 namespace Syscodes\Core;
 
+use Closure;
+use Syscodes\Support\Str;
 use Syscodes\Collections\Arr;
 use Syscodes\Container\Container;
 use Syscodes\Support\ServiceProvider;
@@ -83,6 +85,13 @@ class Application extends Container implements ApplicationContract
      * @var callable[] $bootingCallbacks
      */
     protected $bootingCallbacks = [];
+
+    /**
+     * Get the current application environment.
+     * 
+     * @var string
+     */
+    protected $env;
 
     /**
      * The custom environment path defined by the developer.
@@ -387,6 +396,111 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
+     * Get or check the current application environment.
+     * 
+     * @param  string|array  ...$environments
+     * 
+     * @return string|bool
+     */
+    public function environment(...$environments)
+    {
+        if (count($environments) > 0) {
+            $pattern = is_array($environments[0]) ? $environments[0] : $environments;
+
+            return Str::is($pattern, $this->env);
+        }
+
+        return $this->env;
+    }
+
+    /**
+     * Detect the application's current environment.
+     * 
+     * @param  \Closure  $callback
+     *
+     * @return string
+     */
+    public function detectEnvironment(Closure $callback)
+    {
+        return $this->env = (new EnvironmentDetector)->detect($callback);
+    }
+    
+    /**
+     * Determine if application is in local environment.
+     * 
+     * @return bool
+     */
+    public function isLocal()
+    {
+        return $this->env === 'local';
+    }
+    
+    /**
+     * Determine if application is in production environment.
+     * 
+     * @return bool
+     */
+    public function isProduction()
+    {
+        return $this->env === 'production';
+    }
+    
+    /**
+     * Determine if the application is unit tests.
+     * 
+     * @return bool
+     */
+    public function isUnitTests()
+    {
+        return $this->env === 'testing';
+    }
+
+    /**
+	 * You can load different configurations depending on your
+	 * current environment. Setting the environment also influences
+	 * things like logging and error reporting.
+	 *
+	 * This can be set to anything, but default usage is:
+	 *
+	 *     local (development)
+	 *     testing
+	 *     production
+	 *
+	 * @return string
+	 */
+	public function bootEnvironment()
+	{
+		if (file_exists(SYS_PATH.'src'.DIRECTORY_SEPARATOR.'environment'.DIRECTORY_SEPARATOR.$this->environment().'.php')) {
+			require_once SYS_PATH.'src'.DIRECTORY_SEPARATOR.'environment'.DIRECTORY_SEPARATOR.$this->environment().'.php';
+		} else {
+			header('HTTP/1.1 503 Service Unavailable.', true, 503);
+            print('<style>
+                    body {
+                        align-items: center;
+                        background: #FBFCFC;
+                        display: flex;
+                        font-family: verdana, sans-seif;
+                        font-size: .9em;
+                        font-weight: 600;
+                        justify-content: center;
+                    }
+                    p {
+                        background: #F0F3F4 ;
+                        border-radius: 5px;
+                        box-shadow: 0 1px 4px #333333;
+                        color: #34495E;
+                        padding: 10px;
+                        text-align: center;
+                        text-shadow: 0 1px 0 #424949;
+                        width: 25%;
+                    }
+                  </style>
+                  <p>The application environment is not set correctly.</p>');
+			exit(0); // EXIT_ERROR
+		}
+	}
+
+    /**
      * Determine if the application has been bootstrapped before.
      * 
      * @return bool
@@ -494,6 +608,18 @@ class Application extends Container implements ApplicationContract
         $this->serviceProviders[] = $provider;
         
         $this->loadServiceProviders[get_class($provider)] = true;
+    }
+
+     /**
+     * Determine if the given id type has been bound.
+     * 
+     * @param  string  $id
+     * 
+     * @return bool
+     */
+    public function bound($id)
+    {
+        return parent::bound($id);
     }
 
     /**
