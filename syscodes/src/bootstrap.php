@@ -19,33 +19,22 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2021 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.2
+ * @since       0.2.0
  */
 
-$sysDir  = dirname(__FILE__);
-$rootDir = dirname(dirname($sysDir));
-
-// Location to the paths config file
-$config = require $rootDir.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'paths.php';
-
 // Define the absolute paths for configured directories
-define('APP_PATH', realpath($config['path.app']).DIRECTORY_SEPARATOR);
-define('BST_PATH', realpath($config['path.bootstrap']).DIRECTORY_SEPARATOR);
-define('CON_PATH', realpath($config['path.config']).DIRECTORY_SEPARATOR);
-define('DBD_PATH', realpath($config['path.database']).DIRECTORY_SEPARATOR);
-define('PUB_PATH', realpath($config['path.index']).DIRECTORY_SEPARATOR);
-define('RES_PATH', realpath($config['path.resources']).DIRECTORY_SEPARATOR);
-define('RTR_PATH', realpath($config['path.routes']).DIRECTORY_SEPARATOR);
-define('STO_PATH', realpath($config['path.storage']).DIRECTORY_SEPARATOR);
-define('SYS_PATH', realpath($config['path.sys']).DIRECTORY_SEPARATOR);
+if ( ! defined('APP_PATH')) define('APP_PATH', realpath($paths['path.app']).DIRECTORY_SEPARATOR);
+if ( ! defined('BST_PATH')) define('BST_PATH', realpath($paths['path.bootstrap']).DIRECTORY_SEPARATOR);
+if ( ! defined('CON_PATH')) define('CON_PATH', realpath($paths['path.config']).DIRECTORY_SEPARATOR);
+if ( ! defined('RES_PATH')) define('RES_PATH', realpath($paths['path.resources']).DIRECTORY_SEPARATOR);
+if ( ! defined('SYS_PATH')) define('SYS_PATH', realpath($paths['path.sys']).DIRECTORY_SEPARATOR);
 
 // Call the file constants
-require $rootDir.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'constants.php';
-
+require CON_PATH.'constants.php';
 // Activate the framework class autoloader
-require $sysDir.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'Autoloader'.DIRECTORY_SEPARATOR.'Autoloader.php';
+require SYS_PATH.'src/components/Autoloader/Autoloader.php';
 // Call the class configuration Autoloader
-require $sysDir.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'Config'.DIRECTORY_SEPARATOR.'AutoloadConfig.php';
+require SYS_PATH.'src/components/Config/AutoloadConfig.php';
 
 // Aliases of the class autoloader 
 class_alias('Syscodes\\Autoloader', 'Autoloader');
@@ -54,7 +43,3 @@ class_alias('Syscodes\\Autoloader', 'Autoloader');
 (new Autoloader)
     ->initialize(new Syscodes\Config\AutoloadConfig())
     ->register();
-
-// Load environment settings from .env files into $_SERVER and $_ENV 
-(new Syscodes\Config\ParserEnv($rootDir))
-    ->load();
