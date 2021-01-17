@@ -19,13 +19,13 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2021 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @since       0.1.1
  */
 
 namespace Syscodes\Core\Bootstrap;
 
 use Exception;
-use Syscodes\Config\ParserEnv;
+use Syscodes\Dotenv\Dotenv;
 use Syscodes\Contracts\Core\Application;
 
 /**
@@ -66,13 +66,13 @@ class BootDetectEnvironment
      * 
      * @param  \Syscodes\Contracts\Core\Application  $app
      * 
-     * @return new ParserEnv
+     * @return \Syscodes\Dotenv\Dotenv
      */
     protected function createEnv($app)
     {
-        return (new ParserEnv(
-                $app->environmentPath(), 
-                $app->environmentFile()
-        ));
+        return Dotenv::create(
+               $app->environmentPath(),
+               $app->environmentFile()
+        );
     }
 }
