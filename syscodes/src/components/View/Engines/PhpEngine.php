@@ -19,15 +19,14 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2021 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.6.0
+ * @since       0.6.1
  */
 
 namespace Syscodes\View\Engines;
 
-use Exception;
 use Throwable;
 use Syscodes\Contracts\View\Engine;
-use Syscodes\Debug\FatalExceptions\FatalThrowableError;
+use Syscodes\Filesystem\Filesystem;
 
 /**
  * The file PHP engine.
@@ -36,6 +35,25 @@ use Syscodes\Debug\FatalExceptions\FatalThrowableError;
  */
 class PhpEngine implements Engine
 {
+    /**
+     * The Filesystem instance
+     * 
+     * @var \Syscodes\Filesystem\Filesystem $files
+     */
+    protected $files;
+    
+    /**
+     * Constructor. Create new a PhpEngine instance.
+     * 
+     * @param  \Syscodes\Filesystem\Filesystem  $files
+     * 
+     * @return void
+     */
+    public function __construct(Filesystem $files)
+    {
+        $this->files = $files;
+    }
+
     /**
      * Get the evaluated contents of the view.
      * 
@@ -52,30 +70,24 @@ class PhpEngine implements Engine
     /**
      * Get the evaluated contents of the view at the given path.
      * 
-     * @param  string  $__path
-     * @param  array  $__data
+     * @param  string  $path
+     * @param  array  $data
      * 
      * @return string
      */
-    protected function evaluatePath($__path, $__data)
+    protected function evaluatePath($path, $data)
     {
         $obLevel = ob_get_level();
         
         ob_start();
-        
-        extract($__data, EXTR_SKIP);
 
         try
         {
-            include $__path;
-        }
-        catch(Exception $e)
-        {
-            $this->handleViewException($e, $obLevel);
+            $this->files->getRequire($path, $data);
         }
         catch(Throwable $e)
         {
-            $this->handleViewException(new FatalThrowableError($e), $obLevel);
+            return $this->handleViewException($e, $obLevel);
         }
 
         return ltrim(ob_get_clean());        
@@ -84,14 +96,14 @@ class PhpEngine implements Engine
     /**
      * Handle a View Exception.
      * 
-     * @param  \Exception  $e
+     * @param  \Throwable  $e
      * @param  int  $obLevel
      * 
      * @return void
      * 
-     * @throws \Exception
+     * @throws \Throwable
      */
-    protected function handleViewException(Exception $e, $obLevel)
+    protected function handleViewException(Throwable $e, $obLevel)
     {
         while(ob_get_level() > $obLevel)
         {
