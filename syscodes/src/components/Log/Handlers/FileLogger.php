@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2021 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.4.0
+ * @since       0.4.1
  */
 
 namespace Syscodes\Log\Handlers;
@@ -29,6 +29,7 @@ use Throwable;
 use Syscodes\Support\Chronos;
 use Syscodes\Contracts\Log\Handler;
 use Syscodes\Log\Exceptions\LogException;
+use Syscodes\Log\Concerns\ParseLogEnvironment;
 
 /**
  * The Lenevor Logger of errors.
@@ -37,6 +38,15 @@ use Syscodes\Log\Exceptions\LogException;
  */
 class FileLogger implements Handler
 {
+    use ParseLogEnvironment;
+    
+    /**
+	 * The application implementation.
+	 * 
+	 * @var \Syscodes\Contracts\Core\Application $app
+	 */
+    protected $app;
+
     /**
      * Format of the timestamp for log files.
      * 
@@ -83,11 +93,14 @@ class FileLogger implements Handler
      * Constructor. The FileLogger class instance.
      * 
      * @param  array  $config
+     * @param  \Syscodes\Contracts\Core\Application  $app
      * 
      * @return void
      */
-    public function __construct(array $config = [])
+    public function __construct(array $config = [], $app)
     {
+        $this->app = $app;
+
         $this->logFilePath = $config['path'].DIRECTORY_SEPARATOR ?? STO_PATH.'logs'.DIRECTORY_SEPARATOR;
 
         $this->logFileExtension = empty($config['extension']) ? 'log' : $config['extension'];
@@ -120,7 +133,7 @@ class FileLogger implements Handler
      */
     public function log($level, $message, array $context = [])
     {
-        $message =  $this->exchangeProcess($message, $context);
+        $message = $this->exchangeProcess($message, $context);
 
         $this->handle($level, $message);
 
@@ -174,7 +187,7 @@ class FileLogger implements Handler
         // Add special placeholders
         $replace['{postVars}'] = '$_POST: '.print_r($_POST, true);
         $replace['{getVars}']  = '$_GET: '.print_r($_GET, true);
-        $replace['{env}']      = '['.ENVIRONMENT.']';
+        $replace['{env}']      = '['.$this->getLogEnvironment().']';
         
         return strtr($message, $replace);
     }
@@ -276,7 +289,8 @@ class FileLogger implements Handler
      */
     private function logMessage($level, $message)
     {
-        $level   = ENVIRONMENT.'.'.strtolower($level);
+        $level = $this->getLogEnvironment().'.'.strtolower($level);
+
         $message = ucfirst($message);
 
         $this->logMessage .= "[{$this->getTimestamp()}] [{$level}] {$message}\n";
@@ -294,11 +308,11 @@ class FileLogger implements Handler
      */
     private function getTimestamp()
     {
-        $logDateFormat = config('logger.logDateFormat') ?? $this->logDateFormat;
+        $logDateFormat = $this->app['config']['logger.dateFormat'] ?? $this->logDateFormat;
         $originalTime  = microtime(true);
         $micro         = sprintf("%06d", ($originalTime - floor($originalTime)) * 1000000);
         $date          = new Chronos(date('Y-m-d H:i:s.'.$micro, $originalTime));
         
         return $date->format($logDateFormat);
-    }    
+    }   
 }
