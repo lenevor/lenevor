@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2021 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.7.3
+ * @since       0.7.4
  */
 
 namespace Syscodes\Core\Http;
@@ -33,7 +33,6 @@ use Syscodes\Support\Facades\Facade;
 use Syscodes\Contracts\Core\Application;
 use Syscodes\Contracts\Debug\ExceptionHandler;
 use Syscodes\Contracts\Core\Lenevor as LenevorContract;
-use Syscodes\Debug\FatalExceptions\FatalThrowableError;
 
 /**
  * The Lenevor class is the heart of the system framework.
@@ -97,66 +96,6 @@ class Lenevor implements LenevorContract
 		$this->app    = $app;
 		$this->router = $router;
 	}
-
-	/**
-	 * Load any custom boot files based upon the current environment.
-	 *
-	 * @return void
-	 */
-	protected function bootEnvironment()
-	{
-		if (file_exists(SYS_PATH.'src'.DIRECTORY_SEPARATOR.'environment'.DIRECTORY_SEPARATOR.ENVIRONMENT.'.php'))
-		{
-			require_once SYS_PATH.'src'.DIRECTORY_SEPARATOR.'environment'.DIRECTORY_SEPARATOR.ENVIRONMENT.'.php';
-		}
-		else
-		{
-			header('HTTP/1.1 503 Service Unavailable.', true, 503);
-			print('The application environment is not set correctly.');
-			exit(0); // EXIT_ERROR
-		}
-	}
-
-	/**
-	 * Bootstrap the application for HTTP requests.
-	 * 
-	 * @return void
-	 */
-	protected function bootstrap()
-	{
-		if ( ! $this->app->hasBeenBootstrapped())
-		{
-			$this->app->bootstrapWith($this->bootstrappers());
-		}
-	}
-
-	/**
-	 * Get the bootstrap classes for the application.
-	 * 
-	 * @return array
-	 */
-	protected function bootstrappers()
-	{
-		return $this->bootstrappers;
-	}
-
-	/**
-	 * You can load different configurations depending on your
-	 * current environment. Setting the environment also influences
-	 * things like logging and error reporting.
-	 *
-	 * This can be set to anything, but default usage is:
-	 *
-	 *     local (development)
-	 *     testing
-	 *     production
-	 *
-	 * @return string
-	 */
-	protected function loadEnvironment()
-	{
-		define('ENVIRONMENT', $this->app['config']['app.env']);
-	}
 	
 	/** 
 	 * Initialize CLI command.
@@ -204,12 +143,6 @@ class Lenevor implements LenevorContract
 		$this->app->instance('request', $request);  
 
 		Facade::clearResolvedInstance('request');
-		
-		// Initialize environment
-		$this->loadEnvironment();	
-				
-		// Activate environment
-		$this->bootEnvironment();
 
 		// Load configuration system
 		$this->bootstrap();
@@ -217,6 +150,29 @@ class Lenevor implements LenevorContract
 		return (new Pipeline($this->app))
 				->send($request)
 				->then($this->dispatchToRouter());
+	}
+
+	/**
+	 * Bootstrap the application for HTTP requests.
+	 * 
+	 * @return void
+	 */
+	protected function bootstrap()
+	{		
+		if ( ! $this->app->hasBeenBootstrapped())
+		{
+			$this->app->bootstrapWith($this->bootstrappers());
+		}
+	}
+
+	/**
+	 * Get the bootstrap classes for the application.
+	 * 
+	 * @return array
+	 */
+	protected function bootstrappers()
+	{
+		return $this->bootstrappers;
 	}
 
 	/**
