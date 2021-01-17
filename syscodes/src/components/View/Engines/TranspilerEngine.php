@@ -19,13 +19,14 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2021 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.6.0
+ * @since       0.6.1
  */
 
 namespace Syscodes\View\Engines;
 
-use Exception;
+use Throwable;
 use ErrorException;
+use Syscodes\Filesystem\Filesystem;
 use Syscodes\View\Transpilers\TranspilerInterface;
 
 /**
@@ -56,8 +57,10 @@ class TranspilerEngine extends PhpEngine
      * 
      * @return void
      */
-    public function __construct(TranspilerInterface $transpiler)
+    public function __construct(TranspilerInterface $transpiler, Filesystem $files = null)
     {
+        parent::__construct($files ?: new Filesystem);
+
         $this->transpiler = $transpiler;
     }
 
@@ -90,14 +93,14 @@ class TranspilerEngine extends PhpEngine
     /**
      * Handle a view exception.
      * 
-     * @param  \Exception  $e
+     * @param  \Throwable  $e
      * @param  int  $obLevel
      * 
      * @return void
      * 
-     * @throws \Exception 
+     * @throws \Throwable 
      */
-    protected function handleViewException(Exception $e, $obLevel)
+    protected function handleViewException(Throwable $e, $obLevel)
     {
         $e = new ErrorException($this->getMessage($e), 0, 1, $e->getFile(), $e->getLine(), $e);
 
@@ -107,11 +110,11 @@ class TranspilerEngine extends PhpEngine
     /**
      * Get the exception message for an exception.
      * 
-     * @param  \Exception  $e
+     * @param  \Throwable  $e
      * 
      * @return string
      */
-    protected function getMessage(Exception $e)
+    protected function getMessage(Throwable $e)
     {
         return $e->getMessage().' (View: '.realpath(last($this->lastTranspiled)).')';
     }
