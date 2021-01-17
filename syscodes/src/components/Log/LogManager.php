@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2021 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.4.0
+ * @since       0.4.1
  */
 
 namespace Syscodes\Log;
@@ -36,6 +36,13 @@ use Syscodes\Log\Exceptions\LogException;
  */
 class LogManager implements LoggerInterface
 {
+    /**
+	 * The application implementation.
+	 * 
+	 * @var \Syscodes\Contracts\Core\Application $app
+	 */
+    protected $app;
+    
     /**
      * The array of resolved logges.
      * 
@@ -115,7 +122,7 @@ class LogManager implements LoggerInterface
     
         if (method_exists($this, $driver))
         {
-            return $this->{$driver}($config);
+            return $this->{$driver}($config, $this->app);
         }
         
         throw new LogException(__('logger.driverNotSupported', ['config' => $config]));
@@ -137,12 +144,13 @@ class LogManager implements LoggerInterface
      * Create an instance of the File log driver.
      * 
      * @param  array  $config
+     * @param  \Syscodes\Contracts\Core\Application  $app
      * 
      * @return \Psr\Log\LoggerInterface
      */
-    protected function createFileDriver(array $config)
+    protected function createFileDriver(array $config, $app)
     {
-        return $this->getLogger(new FileLogger($config));
+        return $this->getLogger(new FileLogger($config, $app));
     }
 
     /**
