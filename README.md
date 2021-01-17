@@ -10,10 +10,10 @@
     <img src="https://scrutinizer-ci.com/g/lenevor/lenevor/badges/build.png?b=0.7.0" title="Buid status">
 </a>  
 <a href="https://github.com/lenevor/lenevor/blob/master/readme.md">
-    <img src="https://img.shields.io/badge/PHP-7.3.12-yellow.svg" title="Readme file">
+    <img src="https://img.shields.io/badge/PHP-7.3.12-blue.svg" title="Readme file">
 </a>
 <a href="https://packagist.org/packages/lenevor/lenevor">
-    <img src="https://img.shields.io/badge/dev-v0.7.4--alpha.7-blue.svg" title="Readme file">
+    <img src="https://img.shields.io/badge/dev-v0.7.4--alpha.7-yellowgreen.svg" title="Readme file">
 </a>
 </p>
 
