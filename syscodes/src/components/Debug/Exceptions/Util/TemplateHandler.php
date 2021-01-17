@@ -95,17 +95,9 @@ class TemplateHandler
 		{
 			$file = 'CON_PATH'.DIRECTORY_SEPARATOR.substr($file, strlen(CON_PATH));
 		}
-		elseif (strpos($file, PUB_PATH) === 0)
-		{
-			$file = 'PUB_PATH'.DIRECTORY_SEPARATOR.substr($file, strlen(PUB_PATH));
-		}
 		elseif (strpos($file, RES_PATH) === 0)
 		{
 			$file = 'RES_PATH'.DIRECTORY_SEPARATOR.substr($file, strlen(RES_PATH));
-		}
-		elseif (strpos($file, RTR_PATH) === 0)
-		{
-			$file = 'RTR_PATH'.DIRECTORY_SEPARATOR.substr($file, strlen(RTR_PATH));
 		}
 
 		return $file;
