@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2021 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.3.0
+ * @since       0.4.0
  */
 
 namespace Syscodes\Filesystem;
@@ -226,6 +226,58 @@ class Filesystem
 		}
 
 		clearstatcache();
+	}
+
+	/**
+	 * Get the returned value of a file.
+	 * 
+	 * @param  string  $path
+	 * @param  array  $data
+	 * 
+	 * @return mixed
+	 * 
+	 * @throws \Syscodes\Filesystem\Exceptions\FileNotFoundException
+	 */
+	public function getRequire($path, array $data = [])
+	{
+		if ($this->isFile($path)) {
+			$__path = $path;
+			$__data = $data;
+
+			return (static function () use ($__path, $__data) {
+				extract($__data, EXTR_SKIP);
+
+				return require $__path;
+			})();
+		}
+
+		throw new FileNotFoundException($path);
+	}
+
+	/**
+	 * Require the given file once.
+	 * 
+	 * @param  string  $path
+	 * @param  array  $data
+	 * 
+	 * @return mixed
+	 * 
+	 * @throws \Syscodes\Filesystem\Exceptions\FileNotFoundException
+	 */
+	public function getRequireOnce($path, array $data = [])
+	{
+		if ($this->isFile($path)) {
+			$__path = $path;
+			$__data = $data;
+
+			return (static function () use ($__path, $__data) {
+				extract($__data, EXTR_SKIP);
+
+				return require_once $__path;
+			})();
+		}
+
+		throw new FileNotFoundException($path);
 	}
 
 	/**
