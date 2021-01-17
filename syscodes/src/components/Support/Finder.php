@@ -74,7 +74,6 @@ class Finder
                 BST_PATH, 
                 CON_PATH, 
                 RES_PATH, 
-                RTR_PATH, 
                 SYS_PATH
             ]);
         }
