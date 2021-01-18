@@ -1,7 +1,6 @@
 BSD 3-Clause "New" or "Revised" License
 
 Copyright (c) 2019 - 2021, Alexander Campo
-
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are 
