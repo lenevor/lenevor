@@ -3,10 +3,12 @@
 </h1>
 
 <p align="center">
-![Packagist License](https://img.shields.io/packagist/l/lenevor/lenevor?style=flat-square)
-![Packagist Downloads](https://img.shields.io/packagist/dt/lenevor/lenevor?color=green&style=flat-square)
-![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/lenevor/lenevor)
-![Packagist Version](https://img.shields.io/packagist/v/lenevor/lenevor?color=blue&label=Lenevor&style=flat-square)
+<a href="https://scrutinizer-ci.com/g/lenevor/lenevor/?branch=0.7.0">
+    <img src="https://scrutinizer-ci.com/g/lenevor/lenevor/badges/build.png?b=0.7.0" title="Buid status">
+</a>
+<a href="https://packagist.org/packages/lenevor/lenevor"> 
+    <img src="https://poser.pugx.org/lenevor/lenevor/license" title="Total Downloads">
+</a>
 </p>
 
 ## About Lenevor
