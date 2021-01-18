@@ -3,18 +3,10 @@
 </h1>
 
 <p align="center">
-<a href="https://github.com/lenevor/lenevor/blob/master/license.md">
-    <img src="https://img.shields.io/badge/License-new%20BSD-orange.svg" title="License">
-</a>
-<a href="https://scrutinizer-ci.com/g/lenevor/lenevor/?branch=0.7.0">
-    <img src="https://scrutinizer-ci.com/g/lenevor/lenevor/badges/build.png?b=0.7.0" title="Buid status">
-</a>  
-<a href="https://github.com/lenevor/lenevor/blob/master/readme.md">
-    <img src="https://img.shields.io/badge/PHP-7.3.12-blue.svg" title="Readme file">
-</a>
-<a href="https://packagist.org/packages/lenevor/lenevor">
-    <img src="https://img.shields.io/badge/dev-v0.7.4--alpha.7-yellowgreen.svg" title="Readme file">
-</a>
+![Packagist License](https://img.shields.io/packagist/l/lenevor/lenevor?style=flat-square)
+![Packagist Downloads](https://img.shields.io/packagist/dt/lenevor/lenevor?color=green&style=flat-square)
+![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/lenevor/lenevor)
+![Packagist Version](https://img.shields.io/packagist/v/lenevor/lenevor?color=blue&label=Lenevor&style=flat-square)
 </p>
 
 ## About Lenevor
