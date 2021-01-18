@@ -4,7 +4,7 @@
     <a href="https://scrutinizer-ci.com/g/lenevor/lenevor/?branch=0.7.0"><img src="https://scrutinizer-ci.com/g/lenevor/lenevor/badges/build.png?b=0.7.0" title="Buid status"></a>
     <a href="https://packagist.org/packages/lenevor/lenevor"><img src="https://poser.pugx.org/lenevor/lenevor/d/total.svg" title="Total Downloads"></a>
     <a href="https://packagist.org/packages/lenevor/lenevor"><img src="https://poser.pugx.org/lenevor/lenevor/v/stable.svg" title="Latest Stable Version"></a>
-    <a href="https://packagist.org/packages/lenevor/lenevor"><img src="https://img.shields.io/packagist/php-v/lenevor/lenevor?color=golden" title="PHP Version Support"></a>
+    <a href="https://packagist.org/packages/lenevor/lenevor"><img src="https://img.shields.io/packagist/php-v/lenevor/lenevor?color=green" title="PHP Version Support"></a>
     <a href="https://packagist.org/packages/lenevor/lenevor"><img src="https://poser.pugx.org/lenevor/lenevor/license.svg" title="Licence"></a>
 </p>
 
