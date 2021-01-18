@@ -1,6 +1,4 @@
-<h1 align="center">
-    <img src="" title="Lenevor logo"> 
-</h1>
+<p align="center"><a href="lenevor.com" target="_blank"><img src="https://avatars2.githubusercontent.com/u/50193329?s=200&v=4" title="Lenevor logo" width="400"></a></p>
 
 <p align="center">
     <a href="https://scrutinizer-ci.com/g/lenevor/lenevor/?branch=0.7.0"><img src="https://scrutinizer-ci.com/g/lenevor/lenevor/badges/build.png?b=0.7.0" title="Buid status"></a>
