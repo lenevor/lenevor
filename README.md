@@ -3,12 +3,12 @@
 </h1>
 
 <p align="center">
-<a href="https://scrutinizer-ci.com/g/lenevor/lenevor/?branch=0.7.0">
-    <img src="https://scrutinizer-ci.com/g/lenevor/lenevor/badges/build.png?b=0.7.0" title="Buid status">
-</a>
-<a href="https://packagist.org/packages/lenevor/lenevor"> 
-    <img src="https://poser.pugx.org/lenevor/lenevor/license" title="Total Downloads">
-</a>
+    <a href="https://scrutinizer-ci.com/g/lenevor/lenevor/?branch=0.7.0"><img src="https://scrutinizer-ci.com/g/lenevor/lenevor/badges/build.png?b=0.7.0" title="Buid status"></a>
+    <a href="https://packagist.org/packages/lenevor/lenevor"><img src="https://poser.pugx.org/lenevor/lenevor/license" title="Licence"></a>
+    <a href="https://packagist.org/packages/lenevor/lenevor"><img src="https://poser.pugx.org/lenevor/lenevor/downloads" title="Total Downloads"></a>
+    <a href="https://packagist.org/packages/lenevor/lenevor"><img src="https://poser.pugx.org/lenevor/lenevor/v/stable.svg" title="Latest Stable Version"></a>
+
+    [![Latest Stable Version](https://poser.pugx.org/lenevor/lenevor/v)](//packagist.org/packages/lenevor/lenevor)
 </p>
 
 ## About Lenevor
@@ -27,7 +27,7 @@ Lenevor it strives to stay simple, by focusing on the basics, Lenevor will provi
 
 ## Documentation
 
-Lenevor's documentation can be found at <https://lenevor.com/docs> which also contains an API browser.
+Lenevor's documentation can be found at [lenevor docs](https://lenevor.com/docs) which also contains an API browser.
 
 The `docs` module included in all Lenevor releases also allows you to view the documentation locally. Once the `userguide` module is enabled in the bootstrap, it is accessible from your site via `/index.php/docs` (or just `userguide` if you are rewriting your URLs).
 
@@ -36,4 +36,3 @@ Lenevor is very powerful but accessible, it provides tools for large and robust 
 ## License
 
 Check the project license [lenevor License](https://opensource.org/licenses/BSD-3-Clause).
-
