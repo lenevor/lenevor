@@ -7,6 +7,7 @@
     <a href="https://packagist.org/packages/lenevor/lenevor"><img src="https://poser.pugx.org/lenevor/lenevor/license.svg" title="Licence"></a>
     <a href="https://packagist.org/packages/lenevor/lenevor"><img src="https://poser.pugx.org/lenevor/lenevor/d/total.svg" title="Total Downloads"></a>
     <a href="https://packagist.org/packages/lenevor/lenevor"><img src="https://img.shields.io/packagist/php-v/lenevor/lenevor?color=yellow" title="PHP Version Support"></a>
+    <a href="https://packagist.org/packages/lenevor/lenevor"><img src="https://poser.pugx.org/lenevor/lenevor/v/stable.svg" title="Latest Stable Version"></a>
 </p>
 
 ## About Lenevor
