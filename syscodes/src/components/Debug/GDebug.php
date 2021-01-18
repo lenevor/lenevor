@@ -15,11 +15,10 @@
  *
  * @package     Lenevor
  * @subpackage  Base
- * @author      Javier Alexander Campo M. <jalexcam@gmail.com>
- * @link        https://lenevor.com 
- * @copyright   Copyright (c) 2019-2021 Lenevor Framework 
- * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.1.0
+ * @link        https://lenevor.com
+ * @copyright   Copyright (c) 2019 - 2021 Alexander Campo <jalexcam@gmail.com>
+ * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
+ * @since       0.1.1
  */
 
 namespace Syscodes\Debug;
@@ -39,7 +38,7 @@ use Syscodes\Contracts\Debug\Handler as DebugContract;
 /**
  * Allows automatically load everything related to exception handlers.
  * 
- * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ * @author Alexander Campo <jalexcam@gmail.com>
  */
 class GDebug implements DebugContract
 {

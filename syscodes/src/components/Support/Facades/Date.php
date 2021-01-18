@@ -19,7 +19,7 @@
  * @link        https://lenevor.com 
  * @copyright   Copyright (c) 2019-2021 Lenevor Framework 
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.3.0
+ * @since       0.3.1
  */
 
 namespace Syscodes\Support\Facades;
@@ -29,7 +29,7 @@ use Syscodes\Support\Chronos;
 /**
  * Initialize the Date class facade.
  * 
- * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ * @author Alexander Campo <jalexcam@gmail.com>
  *
  * @method static \Syscodes\Support\Chronos\Time now(string $timezone = null, string $locale = null)
  * @method static \Syscodes\Support\Chronos\Time parse(string $time, string $timezone = null, string $locale = null)

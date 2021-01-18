@@ -15,11 +15,10 @@
  *
  * @package     Lenevor
  * @subpackage  Base
- * @author      Javier Alexander Campo M. <jalexcam@gmail.com>
- * @link        https://lenevor.com 
- * @copyright   Copyright (c) 2019-2021 Lenevor Framework 
- * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.6.0
+ * @link        https://lenevor.com
+ * @copyright   Copyright (c) 2019 - 2021 Alexander Campo <jalexcam@gmail.com>
+ * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
+ * @since       0.6.1
  */
 
 namespace Syscodes\View\Transpilers;
@@ -27,6 +26,11 @@ namespace Syscodes\View\Transpilers;
 use Syscodes\Support\Str;
 use Syscodes\Collections\Arr;
 
+/**
+ * System to transpile views according to your label or your template.
+ * 
+ * @author Alexander Campo <jalexcam@gmail.com>
+ */
 class PlazeTranspiler extends Transpiler implements TranspilerInterface
 {
     use Concerns\TranspilesEchos,

@@ -15,11 +15,10 @@
  *
  * @package     Lenevor
  * @subpackage  Base
- * @author      Javier Alexander Campo M. <jalexcam@gmail.com>
- * @link        https://lenevor.com 
- * @copyright   Copyright (c) 2019-2021 Lenevor Framework 
- * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.3.0
+ * @link        https://lenevor.com
+ * @copyright   Copyright (c) 2019 - 2021 Alexander Campo <jalexcam@gmail.com>
+ * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
+ * @since       0.3.1
  */
 
 namespace Syscodes\Support\Chronos\Traits;
@@ -42,7 +41,7 @@ use IntlDateFormatter;
  * @method tomorrow($timezone = null, string $locale = null)       Returns an instance set to midnight tomorrow morning.
  * 
  * 
- * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait Date
 {

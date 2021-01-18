@@ -15,11 +15,10 @@
  *
  * @package     Lenevor
  * @subpackage  Base
- * @author      Javier Alexander Campo M. <jalexcam@gmail.com>
- * @link        https://lenevor.com 
- * @copyright   Copyright (c) 2019-2021 Lenevor PHP Framework 
- * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.7.0
+ * @link        https://lenevor.com
+ * @copyright   Copyright (c) 2019 - 2021 Alexander Campo <jalexcam@gmail.com>
+ * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
+ * @since       0.7.1
  */
  
 namespace Syscode\Database\Query\Processors;
@@ -29,7 +28,7 @@ use Syscode\Database\Query\Processor;
 /**
  * Allows show the results of a column listing query for SqlServer Database.
  * 
- * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ * @author Alexander Campo <jalexcam@gmail.com>
  */
 class SqlServerProcessor extends Processor
 {

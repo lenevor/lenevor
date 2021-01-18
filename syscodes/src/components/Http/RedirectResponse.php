@@ -15,11 +15,10 @@
  *
  * @package     Lenevor
  * @subpackage  Base
- * @author      Javier Alexander Campo M. <jalexcam@gmail.com>
- * @link        https://lenevor.com 
- * @copyright   Copyright (c) 2019-2021 Lenevor Framework 
- * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.2.0
+ * @link        https://lenevor.com
+ * @copyright   Copyright (c) 2019 - 2021 Alexander Campo <jalexcam@gmail.com>
+ * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
+ * @since       0.2.1
  */
 
 namespace Syscodes\Http;
@@ -30,7 +29,7 @@ use InvalidArgumentException;
  * Redirects to another URL. Sets the redirect header, sends the headers and exits.
  * Can redirect via a Location header or using a Refresh header.
  * 
- * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ * @author Alexander Campo <jalexcam@gmail.com>
  */
 class RedirectResponse extends Response
 {

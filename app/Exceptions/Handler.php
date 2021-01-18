@@ -14,12 +14,10 @@
  * to license@Lenevor.com so we can send you a copy immediately.
  *
  * @package     Lenevor
- * @subpackage  Base
- * @author      Javier Alexander Campo M. <jalexcam@gmail.com>
- * @link        https://lenevor.com 
- * @copyright   Copyright (c) 2019-2021 Lenevor Framework 
- * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
- * @since       0.4.0
+ * @link        https://lenevor.com
+ * @copyright   Copyright (c) 2019 - 2021 Alexander Campo <jalexcam@gmail.com>
+ * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
+ * @since       0.4.1
  */
 
 namespace App\Exceptions;
@@ -31,7 +29,7 @@ use Syscodes\Core\Exceptions\Handler as ExceptionHandler;
  * Class is where all exceptions triggered by your application are logged 
  * and then rendered back to the user.
  * 
- * @author Javier Alexander Campo M. <jalexcam@gmail.com>
+ * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Handler extends ExceptionHandler 
 {
