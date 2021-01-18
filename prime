@@ -64,6 +64,17 @@ chdir('public');
 
 /*
 |------------------------------------------------------------------------
+| Call Configured Paths
+|------------------------------------------------------------------------
+|
+| Calls all the pathname of settings for manages an application web.
+|
+*/
+
+$paths = require __DIR__.'/config/paths.php';
+
+/*
+|------------------------------------------------------------------------
 | Check Plataform Requeriments
 |------------------------------------------------------------------------
 |
@@ -72,7 +83,7 @@ chdir('public');
 |
 */
 
-require __DIR__.'/syscodes/src/requeriments.php';
+require $paths['path.sys'].'/src/requeriments.php';
 
 /*
 |------------------------------------------------------------------------
@@ -83,7 +94,7 @@ require __DIR__.'/syscodes/src/requeriments.php';
 |
 */
 
-require __DIR__.'/syscodes/src/bootstrap.php';
+require $paths['path.sys'].'/src/bootstrap.php';
 
 /*
 |------------------------------------------------------------------------
@@ -95,7 +106,7 @@ require __DIR__.'/syscodes/src/bootstrap.php';
 |
 */
 
-$app = require_once __DIR__.'/bootstrap/app.php';
+$app = require_once $paths['path.bootstrap'].'/app.php';
 
 /*
 |------------------------------------------------------------------------
