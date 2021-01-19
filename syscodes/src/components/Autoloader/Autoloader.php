@@ -18,7 +18,6 @@
  * @link        https://lenevor.com
  * @copyright   Copyright (c) 2019 - 2021 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
- * @since       0.1.4 
  */
 
 namespace Syscodes;
@@ -69,31 +68,25 @@ class Autoloader
     /**
      * Initialize variables of configuration.
      * 
-     * @param  array  $config
+     * @param  \Syscodes\Config\AutoloadConfig  $config
      *
-     * @return array
-     *
-     * @uses   \Syscodes\Config\AutoloadConfig
+     * @return $this
      */
     public function initialize(AutoloadConfig $config)
     {
-        if (isset($config->psr4))
-        {
+        if (isset($config->psr4)) {
            $this->addNamespace($config->addPsr4((array) $this->classOrNamespaceListMap[0]));
         }
 
-        if (isset($config->classmap))
-        {
+        if (isset($config->classmap)) {
             $this->classmap = $config->addClassMap((array) $this->classOrNamespaceListMap[1]);
         }
 
-        if (isset($config->includeFiles))
-        {
+        if (isset($config->includeFiles)) {
             $this->includeFiles = $config->addFiles((array) $this->classOrNamespaceListMap[2]);
         }
 
-        if ($config->enabledInComposer)
-        {
+        if ($config->enabledInComposer) {
             $this->enabledComposerNamespaces();
         }
         
@@ -112,16 +105,12 @@ class Autoloader
      */
     public function addNamespace($namespace, string $path = null)
     {
-        if (is_array($namespace))
-        {
-            foreach ($namespace as $prefix => $path)
-            {
+        if (is_array($namespace)) {
+            foreach ($namespace as $prefix => $path) {
                 $prefix = trim($prefix, '\\');
 
-                if (is_array($path))
-                {
-                    foreach ($path as $dir)
-                    {
+                if (is_array($path)) {
+                    foreach ($path as $dir) {
                         $this->prefixes[$prefix][] = rtrim($dir, '/').'/';
                     }
 
@@ -130,9 +119,7 @@ class Autoloader
 
                 $this->prefixes[$prefix][] = rtrim($path, '/').'/';
             }
-        }
-        else
-        {
+        } else {
             $this->prefixes[trim($namespace, '\\')][] = rtrim($path, '/').'/';
         }
 
@@ -144,12 +131,11 @@ class Autoloader
      * 
      * @param  string|null  $prefix  (null by default)
      *
-     * @return void
+     * @return array
      */
     public function getNamespace(string $prefix = null)
     {
-        if (null === $prefix)
-        {
+        if (null === $prefix) {
             return $this->prefixes;
         }
 
@@ -180,8 +166,7 @@ class Autoloader
      */
     public function getAutoloaderFileRequire($fileIdentifier, string $file)
     {
-        if (empty($GLOBALS['__lenevor_autoload_files'][$fileIdentifier]))
-        {
+        if (empty($GLOBALS['__lenevor_autoload_files'][$fileIdentifier])) {
             require $file;
             
             $GLOBALS['__lenevor_autoload_files'][$fileIdentifier] = true;
@@ -203,8 +188,7 @@ class Autoloader
 
         $mapFile = $this->loadInNamespace($class);
 
-        if ( ! $mapFile)
-        {
+        if ( ! $mapFile) {
             $mapFile = $this->loadLegacy($class);
         }
 
@@ -220,24 +204,19 @@ class Autoloader
      */
     protected function loadInNamespace(string $class)
     {
-        if (strpos($class, '\\') === 0)
-        {
+        if (strpos($class, '\\') === 0) {
             return true;
         }
 
-        foreach ($this->prefixes as $namespace => $directories) 
-        {            
-            foreach ($directories as $directory)
-            {
-                if (0 === strpos($class, $namespace)) 
-                {
+        foreach ($this->prefixes as $namespace => $directories) {            
+            foreach ($directories as $directory) {
+                if (0 === strpos($class, $namespace)) {
                     $filePath = $directory.str_replace('\\', '/', 
                                 substr($class, strlen($namespace))).'.php';
                                 
                     $filename = $this->sendFilePath($filePath); 
 
-                    if ($filename)
-                    {
+                    if ($filename) {
                         return $filename;
                     }
                 }               
@@ -260,8 +239,7 @@ class Autoloader
     {
         // If there is a namespace on this class, then
         // we cannot load it from traditional locations.
-        if (strpos($class, '\\') !== false)
-        {
+        if (strpos($class, '\\') !== false) {
             return false;
         }
 
@@ -273,10 +251,8 @@ class Autoloader
 
         $class = str_replace('\\', DIRECTORY_SEPARATOR, $class).'.php';
 
-        foreach ($paths as $path)
-        {
-            if ($file = $this->sendFilePath($path.$class))
-            {
+        foreach ($paths as $path) {
+            if ($file = $this->sendFilePath($path.$class)) {
                 return $file;
             }
         }
@@ -296,8 +272,7 @@ class Autoloader
     {
         $file = $this->sanitizeFile($file);
 
-        if (file_exists($file))
-        {
+        if (file_exists($file)) {
             require_once $file;
 
             return $file;
@@ -343,8 +318,7 @@ class Autoloader
         
         spl_autoload_register(function ($class) use ($config) {
 
-            if (empty($config[$class]))
-            {
+            if (empty($config[$class])) {
                 return false;
             }
 
@@ -359,8 +333,7 @@ class Autoloader
 
         spl_autoload_register(function () use ($files) {
 
-            foreach ($files as $fileIdentifier => $file)
-            {
+            foreach ($files as $fileIdentifier => $file) {
                 $this->getAutoloaderFileRequire($fileIdentifier, $file);                
             }
             
@@ -376,8 +349,7 @@ class Autoloader
      */
     protected function enabledComposerNamespaces()
     {
-        if ( ! is_file(COMPOSER_PATH))
-        {
+        if ( ! is_file(COMPOSER_PATH)) {
             return false;
         }
 
@@ -387,16 +359,14 @@ class Autoloader
         unset($composer);
         
         // Get rid of Lenevor so we don't have duplicates
-        if (isset($paths['Syscodes\\']))
-        {
+        if (isset($paths['Syscodes\\'])) {
             unset($paths['Syscodes\\']);
         }
         
         // Composer stores namespaces with trailing slash. We don't
         $newPaths = [];
         
-        foreach ($paths as $key => $value)
-        {
+        foreach ($paths as $key => $value) {
             $newPaths[rtrim($key, '\\ ')] = $value;
         }
         
