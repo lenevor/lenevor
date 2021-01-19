@@ -18,7 +18,6 @@
  * @link        https://lenevor.com
  * @copyright   Copyright (c) 2019 - 2021 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
- * @since       0.1.3
  */
 
 namespace Syscodes\Config;
@@ -111,12 +110,9 @@ class AutoloadConfig
 	 */
 	public function addClassMap(array $classmap)
 	{
-		if (isset($this->classmap))
-		{
+		if (isset($this->classmap)) {
 			$this->classmap = array_merge($this->classmap, $classmap);
-		}
-		else
-		{
+		} else {
 			$this->classmap = $classmap;
 		}
 
@@ -132,12 +128,9 @@ class AutoloadConfig
 	 */
 	public function addFiles(array $files)
 	{
-		if (isset($this->includeFiles))
-		{
+		if (isset($this->includeFiles)) {
 			$this->includeFiles = array_merge($this->includeFiles, $files);
-		}
-		else
-		{
+		} else {
 			$this->includeFiles = $files;
 		}
 
@@ -153,12 +146,9 @@ class AutoloadConfig
 	 */
 	public function addPsr4(array $psr4)
 	{
-		if (isset($this->classmap))
-		{
+		if (isset($this->psr4)) {
 			$this->psr4 = array_merge($this->psr4, $psr4);
-		}
-		else
-		{
+		} else {
 			$this->psr4 = $psr4;
 		}
 
