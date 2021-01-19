@@ -18,7 +18,6 @@
  * @link        https://lenevor.com
  * @copyright   Copyright (c) 2019 - 2021 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
- * @since       0.1.1
  */
 
 namespace Syscodes\Config;
@@ -72,7 +71,7 @@ class Configure implements ArrayAccess, ConfigureContract
 
 		if ( ! array_key_exists($file = current($keys), $this->vars))
 		{
-			foreach ([CON_PATH, SYS_PATH.'config/'] as $paths)
+			foreach ([CON_PATH] as $paths)
 			{
 				if (is_readable($path = $paths.$file.'.php'))
 				{
