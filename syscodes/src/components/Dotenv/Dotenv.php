@@ -18,12 +18,12 @@
  * @link        https://lenevor.com
  * @copyright   Copyright (c) 2019 - 2021 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
- * @since       0.7.4 
  */
 
 namespace Syscodes\Dotenv;
 
 use InvalidArgumentException;
+use Syscodes\Dotenv\Resolve\Resolver;
 
 /**
  * Manages .env files.
@@ -32,7 +32,21 @@ use InvalidArgumentException;
  */
 final class Dotenv
 {
-    const ALFANUMERIC_REGEX = '/\${([a-zA-Z0-9_]+)}/';
+    protected const ALFANUMERIC_REGEX = '/\${([a-zA-Z0-9_]+)}/';
+
+    /**
+     * Get the file .env.
+     * 
+     * @var string $file 
+     */
+    protected $file;
+
+    /**
+     * The loader instance.
+     * 
+     * @var \Syscodes\Dotenv\Loader\Loader $loader
+     */
+    protected $loader;
 
     /**
      * The directory where the .env file is located.
@@ -61,7 +75,9 @@ final class Dotenv
     public function __construct(string $path, string $file = null, bool $usePutenv = true)
     {
         $this->usePutenv = $usePutenv;
-        $this->path      = $this->getFilePath($path, $file ?: '.env');
+        $this->path      = $path;
+        $this->file      = $file;
+        //$this->loader    = $loader;
     }
 
     /**
@@ -82,14 +98,11 @@ final class Dotenv
     /**
      * Returns the full path to the file.
      * 
-     * @param  string  $path
-     * @param  string  $file
-     * 
      * @return string
      */
-    protected function getFilePath(string $path, string $file)
+    protected function filePath()
     {
-       return rtrim($path, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$file;
+        return Resolver::getFilePath($this->path, $this->file);
     }
 
     /**
@@ -125,11 +138,11 @@ final class Dotenv
     public function load()
     {
         // Ensure file is readable
-        if ( ! is_readable($this->path) && ! is_file($this->path)) {
-            throw new InvalidArgumentException(sprintf("The .env file is not readable: %s", $this->path));
+        if ( ! is_readable($this->filePath()) && ! is_file($this->filePath())) {
+            throw new InvalidArgumentException(sprintf("The .env file is not readable: %s", $this->filePath()));
         }
         
-        $lines = file($this->path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        $lines = file($this->filePath(), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
         foreach ($lines as $line) {
             // Is it a comment?
