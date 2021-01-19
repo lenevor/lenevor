@@ -60,7 +60,7 @@
 					</div>					
 				</div>
 				<div class="version">
-					Build {{ version() }}
+					Lenevor {{ version() }}
 				</div>	
 
 			</div>		
