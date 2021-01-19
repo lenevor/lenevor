@@ -23,7 +23,7 @@ return [
      */
 
     'community' => 'Community',
-    'community-diffusion' => 'Lenevor blog is a community driven portal donde puedes conocer noticias acerca del framework and including a new package releases and tutorials. Also, you can clone the repository from github.',
+    'community-diffusion' => 'Lenevor blog is a community driven portal where you can get news about the framework and including a new package releases and tutorials. Also, you can clone the repository from github.',
     'documentation' => 'Documentation',
     'especification-documentation' => 'Lenevor has a thorough documentation covering all the specifications and features of the framework. Therefore, we        recommended reading all of the documentation referring to the framework.',
     'successfullyInstalled' => 'Your have successfully installed this application, you can use it now.',
