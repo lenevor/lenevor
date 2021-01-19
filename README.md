@@ -2,7 +2,7 @@
 
 <p align="center">
     <a href="https://scrutinizer-ci.com/g/lenevor/lenevor"><img src="https://scrutinizer-ci.com/g/lenevor/lenevor/badges/build.png" title="Build status"></a>
-    <a href="https://packagist.org/packages/lenevor/lenevor"><img src="https://img.shields.io/packagist/dt/lenevor/lenevor?color=blue" title="Total Downloads"></a>
+    <a href="https://packagist.org/packages/lenevor/lenevor"><img src="https://img.shields.io/packagist/dt/lenevor/lenevor?color=gr" title="Total Downloads"></a>
     <a href="https://packagist.org/packages/lenevor/lenevor"><img src="https://img.shields.io/packagist/v/lenevor/lenevor?color=blue" title="Latest Stable Version"></a>
     <a href="https://packagist.org/packages/lenevor/lenevor"><img src="https://img.shields.io/packagist/php-v/lenevor/lenevor" title="PHP Version Support"></a>
     <a href="https://packagist.org/packages/lenevor/lenevor"><img src="https://img.shields.io/packagist/l/lenevor/lenevor" title="Licence"></a>
