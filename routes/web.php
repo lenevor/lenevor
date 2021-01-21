@@ -15,4 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', 'welcome@index');
+Route::get('/home', 'Welcome@index');
