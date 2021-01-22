@@ -3,7 +3,7 @@
 <@section('title', 'Welcome to '.config('app.name'))
 
 <@section('content')
-        <div class="wrapper">
+<div class="wrapper">
 
 			<div class="container">
 				
