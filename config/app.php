@@ -29,7 +29,7 @@ return [
     |
     |        or 
     |
-    |     'baseUrl' => 'http://bar.com'
+    |     'baseUrl' => 'https://bar.com'
     |
     | Set this to null to have it automatically detected.
     |
