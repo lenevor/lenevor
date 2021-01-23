@@ -23,8 +23,11 @@
 namespace Syscodes\Dotenv\Repository;
 
 use Syscodes\Contracts\Dotenv\Adapter;
+use Syscodes\Dotenv\Repository\Adapters\EnvAdapter;
 use Syscodes\Dotenv\Repository\Adapters\ArrayAdapter;
 use Syscodes\Dotenv\Repository\Adapters\ApacheAdapter;
+use Syscodes\Dotenv\Repository\Adapters\DefineAdapter;
+use Syscodes\Dotenv\Repository\Adapters\GlobalAdapter;
 use Syscodes\Dotenv\Repository\Adapters\PutenvAdapter;
 use Syscodes\Dotenv\Repository\Adapters\ServerAdapter;
 
@@ -36,8 +39,11 @@ use Syscodes\Dotenv\Repository\Adapters\ServerAdapter;
 final class RepositoryCreator
 {
     protected const ADAPTERS_DEFAULT = [
-        ApacheAdapter::class,
+        EnvAdapter::class,
         ArrayAdapter::class,
+        ApacheAdapter::class,
+        DefineAdapter::class,
+        GlobalAdapter::class,
         PutenvAdapter::class,
         ServerAdapter::class,
     ];
