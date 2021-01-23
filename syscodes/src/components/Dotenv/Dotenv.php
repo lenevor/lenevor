@@ -23,6 +23,8 @@
 namespace Syscodes\Dotenv;
 
 use InvalidArgumentException;
+use Syscodes\Dotenv\Loader\Loader;
+use Syscodes\Dotenv\Loader\Parser;
 use Syscodes\Dotenv\Resolve\Resolver;
 
 /**
@@ -49,6 +51,13 @@ final class Dotenv
     protected $loader;
 
     /**
+     * The Parser instance.
+     * 
+     * @var \Syscodes\Dotenv\Loader\Parser $parser
+     */
+    protected $parser;
+
+    /**
      * The directory where the .env file is located.
      * 
      * @var string $path  
@@ -68,16 +77,15 @@ final class Dotenv
      * 
      * @param  string  $path
      * @param  string|null  $file  (null by default)
-     * @param  bool  $usePutenv  (true by default)
      * 
      * @return void
      */
-    public function __construct(string $path, string $file = null, bool $usePutenv = true)
+    public function __construct(string $path, string $file = null)
     {
-        $this->usePutenv = $usePutenv;
-        $this->path      = $path;
-        $this->file      = $file;
-        //$this->loader    = $loader;
+        $this->path   = $path;
+        $this->file   = $file;
+        $this->loader = new Loader;
+        $this->parser = new Parser;
     }
 
     /**
@@ -322,7 +330,7 @@ final class Dotenv
     /**
      * Search the different places for environment variables and return first value found.
      * This was borrowed from the excellent phpdotenv with very few changes.
-     * https://github.com/vlucas/phpdoten
+     * https://github.com/vlucas/phpdotenv
      * 
      * @param  string  $name
      * 
