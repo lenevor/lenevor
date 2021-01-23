@@ -6,7 +6,7 @@
  * LICENSE
  *
  * This source file is subject to the new BSD license that is bundled
- * with this package in the file license.md.
+ * with this package in the file LICENSE.
  * It is also available through the world-wide-web at this URL:
  * https://lenevor.com/license
  * If you did not receive a copy of the license and are unable to
@@ -17,7 +17,7 @@
  * @subpackage  Base
  * @link        https://lenevor.com
  * @copyright   Copyright (c) 2019 - 2021 Alexander Campo <jalexcam@gmail.com>
- * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
+ * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /LICENSE
  */
 
 namespace Syscodes\Dotenv\Repository\Adapters;
@@ -33,15 +33,41 @@ use Syscodes\Contracts\Dotenv\Adapter;
 class ApacheAdapter implements Adapter
 {
     /**
-     * Read an environment variable.
+     * Determines if the adapter is supported.
+     * 
+     * @return bool
+     */
+    public function isSupported()
+    {
+        return function_exists('apache_getenv' && function_exists('apache_setenv'));
+    }
+
+    /**
+     * Check if a variable exists.
      * 
      * @param  string  $name
      * 
      * @return bool
      */
+    public function has(string $name)
+    {
+        return false === apache_getenv($name);
+    }
+
+    /**
+     * Read an environment variable.
+     * 
+     * @param  string  $name
+     * 
+     * @return mixed
+     */
     public function read(string $name)
     {
-        return apache_getenv($name);
+        if ($this->has($name)) {
+            return apache_getenv($name);
+        }
+
+        return null;
     }
 
      /**
