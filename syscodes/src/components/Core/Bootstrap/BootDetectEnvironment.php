@@ -26,6 +26,7 @@ namespace Syscodes\Core\Bootstrap;
 use Exception;
 use Syscodes\Dotenv\Dotenv;
 use Syscodes\Contracts\Core\Application;
+use Syscodes\Dotenv\Repository\RepositoryCreator;
 
 /**
  * Initialize boot of a ParseEnv instance.
@@ -70,6 +71,7 @@ class BootDetectEnvironment
     protected function createEnv($app)
     {
         return Dotenv::create(
+               new RepositoryCreator,
                $app->environmentPath(),
                $app->environmentFile()
         );
