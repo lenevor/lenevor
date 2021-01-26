@@ -61,7 +61,7 @@ h1 { color: var(--color-white);	font-family: 'Heebo'; font-size: 2em; font-weigh
 svg { overflow: hidden; vertical-align: text-bottom; } 
 .status code span {	color: var(--color-darkgray-200); }
 .status .status-message { color: var(--color-white); font-size: .9rem; font-weight: 500; margin: 28px 0 60px 0; }
-.container svg.wave { fill: var(--color-gray-500); fill-opacity: 1; position: absolute; bottom: 0; left: 0; z-index: 300; }
+.container svg.wave { fill: var(--color-gray-500); fill-opacity: 1; position: absolute; bottom: -1px; left: 0; z-index: 300; }
 .resources { display: flex; justify-content: center; flex-direction: column; margin-left: 35px; margin-right: 35px; z-index: 300; }
 .resources .row { align-items: center; display: flex; flex-direction: column; z-index: 200; }
 .resources .resource { background: var(--color-gray-600); border: 1px solid var(--color-gray-500); border-radius: 10px; margin-bottom: 20px; padding: 20px; padding-top: 50px; position: relative; }
