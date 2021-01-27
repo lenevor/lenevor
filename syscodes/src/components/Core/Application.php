@@ -349,7 +349,17 @@ class Application extends Container implements ApplicationContract
 
         return $this;
     }
-    
+
+    /**
+     * Get the path to the environment file directory.
+     * 
+     * @return string
+     */
+    public function environmentPath()
+    {
+        return $this->environmentPath ?: $this->basePath;
+    }
+
     /**
      * Set the environment file to be loaded during bootstrapping.
      * 
@@ -362,16 +372,6 @@ class Application extends Container implements ApplicationContract
         $this->environmentFile = $file;
 
         return $this;
-    }
-
-    /**
-     * Get the path to the environment file directory.
-     * 
-     * @return string
-     */
-    public function environmentPath()
-    {
-        return $this->environmentPath ?: $this->basePath;
     }
 
     /**
