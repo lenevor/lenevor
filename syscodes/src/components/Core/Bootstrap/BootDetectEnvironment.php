@@ -51,6 +51,7 @@ class BootDetectEnvironment
      */
     public function bootstrap(Application $app)
     {
+        $this->detectEnvironmentFile($app);
         try
         {
             $this->createEnv($app)->load();
@@ -59,6 +60,45 @@ class BootDetectEnvironment
         {
             //
         }
+    }
+
+    /**
+     * Detect if a custom environment file matching the APP_ENV exists.
+     * 
+     * @param  \Syscodes\Contracts\Core\Application  $app
+     * 
+     * @return bool
+     */
+    protected function detectEnvironmentFile($app)
+    {
+        $environment = env('APP_ENV');
+
+        if ( ! $environment) {
+            return;
+        }
+
+        $this->setEnvironmentFilePath(
+            $app, $app->environmentFile().'.'.$environment
+        );
+    }
+
+    /**
+     * Load a custom environment file.
+     * 
+     * @param  \Syscodes\Contracts\Core\Application  $app
+     * @param  string  $file
+     * 
+     * @return bool
+     */
+    protected function setEnvironmentFilePath($app, $file)
+    {
+        if (is_file($app->environmentPath().'/'.$file)) {
+            $app->setEnvironmentFile($file);
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
