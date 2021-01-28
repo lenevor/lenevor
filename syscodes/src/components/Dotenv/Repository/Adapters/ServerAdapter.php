@@ -79,7 +79,11 @@ class ServerAdapter implements Adapter
      */
     public function write(string $name, string $value)
     {
-        $_SERVER[$name] = $value;
+        $notHttpName = 0 !== strpos($name, 'HTTP_');
+        
+        if ($notHttpName) {
+            $_SERVER[$name] = $value;
+        }
 
         return true;
     }
