@@ -22,13 +22,11 @@
 
 namespace Syscodes\Dotenv\Repository;
 
+use InvalidaArgumentException;
 use Syscodes\Contracts\Dotenv\Adapter;
+use Syscodes\Dotenv\Repository\Adapters\Readers;
+use Syscodes\Dotenv\Repository\Adapters\Writers;
 use Syscodes\Dotenv\Repository\Adapters\EnvAdapter;
-use Syscodes\Dotenv\Repository\Adapters\ArrayAdapter;
-use Syscodes\Dotenv\Repository\Adapters\ApacheAdapter;
-use Syscodes\Dotenv\Repository\Adapters\DefineAdapter;
-use Syscodes\Dotenv\Repository\Adapters\GlobalAdapter;
-use Syscodes\Dotenv\Repository\Adapters\PutenvAdapter;
 use Syscodes\Dotenv\Repository\Adapters\ServerAdapter;
 
 /**
@@ -40,11 +38,6 @@ final class RepositoryCreator
 {
     protected const ADAPTERS_DEFAULT = [
         EnvAdapter::class,
-        ArrayAdapter::class,
-        ApacheAdapter::class,
-        DefineAdapter::class,
-        GlobalAdapter::class,
-        PutenvAdapter::class,
         ServerAdapter::class,
     ];
 
@@ -56,15 +49,33 @@ final class RepositoryCreator
     protected $allowlist;
 
     /**
+     * The set of readers to use.
+     * 
+     * @var \Syscodes\Dotenv\Repository\Adapters\Readers $readers
+     */
+    protected $readers;
+
+    /**
+     * The set of writers to use.
+     * 
+     * @var \Syscodes\Dotenv\Repository\Adapters\Writers $writers
+     */
+    protected $writers;
+
+    /**
      * Constructor. Create a new Repository creator instance.
      * 
-     * @param  \Syscodes\Contracts\Dotenv\Adapter[]  $adapter
+     * @param  \Syscodes\Dotenv\Repository\Adapters\Readers  $readers
+     * @param  \Syscodes\Dotenv\Repository\Adapters\Writers  $writers
+     * @param  string[]|null  $allowList
      * 
      * @return void
      */
-    public function __construct(array $adapter = [])
+    public function __construct(array $readers = [], array $writers = [], array $allowList = null)
     {
-        $this->allowList = $adapter;
+        $this->readers   = $readers;
+        $this->writers   = $writers;
+        $this->allowList = $allowList;
     }
 
     /**
@@ -72,11 +83,11 @@ final class RepositoryCreator
      * 
      * @return \Syscodes\Dotenv\Repository\RepositoryCreator
      */
-    public function createDefaultAdapters()
+    public static function createDefaultAdapters()
     {
         $adapters = iterator_to_array(self::defaultAdapters());
 
-        return new static($adapters);
+        return new static($adapters, $adapters);
     }
     
     /**
@@ -87,17 +98,58 @@ final class RepositoryCreator
     protected static function defaultAdapters()
     {
         foreach (self::ADAPTERS_DEFAULT as $adapter) {
-            yield new $adapter;
+            return new $adapter;
         }
+    }
+
+    /**
+     * Determine if the given name if of an adapter class.
+     * 
+     * @param  string  $name
+     * 
+     * @return bool
+     */
+    protected static function inAdapterClass(string $name)
+    {
+        if ( ! class_exists($name))
+        {
+            return false;
+        }
+
+        return (new ReflectionClass($name))->implementsInterface(Adapter::class);
+    }
+
+    /**
+     * Creates a repository builder with the given reader added.
+     * 
+     * @param  string  $adapter
+     * 
+     * @return new static
+     * 
+     * @return \InvalidArgumentException
+     */
+    public function addAdapter(string $adapter)
+    {
+        if ( ! is_string($adapter) && ! ($adapter instanceof Adapter)) {
+            throw new InvalidaArgumentException("Expected either an instance of [{$this->allowList}]");
+        }
+
+        $readers = array_merge($this->readers, [$adapter]);
+        $writers = array_merge($this->writers, [$adapter]);
+
+        return new static($readers, $writers, $this->allowList);
     }
 
     /**
      * Creates a new repository instance.
      * 
-     * @return \Syscodes\Contracts\Dotenv\Repository
+     * @return \Syscodes\Dotenv\Repository\AdapterRepository
      */
     public function make()
     {
-        return new AdapterRepository($this->allowlist);
+        $readers = new Readers($this->readers);
+        $writers = new Writers($this->writers);
+
+        return new AdapterRepository($readers, $writers);
     }
 }
