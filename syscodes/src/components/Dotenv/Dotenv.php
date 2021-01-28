@@ -23,9 +23,8 @@
 namespace Syscodes\Dotenv;
 
 use InvalidArgumentException;
-use Syscodes\Dotenv\Loader\Loader;
-use Syscodes\Dotenv\Loader\Parser;
-use Syscodes\Dotenv\Resolve\Resolver;
+use Syscodes\Dotenv\Store\StoreBuilder;
+use Syscodes\Dotenv\Repository\RepositoryCreator;
 
 /**
  * Manages .env files.
@@ -35,13 +34,6 @@ use Syscodes\Dotenv\Resolve\Resolver;
 final class Dotenv
 {
     protected const ALFANUMERIC_REGEX = '/\${([a-zA-Z0-9_]+)}/';
-
-    /**
-     * Get the file .env.
-     * 
-     * @var string $file 
-     */
-    protected $file;
 
     /**
      * The loader instance.
@@ -58,11 +50,18 @@ final class Dotenv
     protected $parser;
 
     /**
-     * The directory where the .env file is located.
+     * The Repository creator instance.
      * 
-     * @var string $path  
+     * @var \Syscodes\Dotenv\Repository\RepositoryCreator $repository
      */
-    protected $path;
+    protected $repository;
+
+    /**
+     * The file store instance.
+     * 
+     * @var \Syscodes\Dotenv\Repository\FileStore $store
+     */
+    protected $store;
 
     /**
      * Activate use of putenv, by default is true.
@@ -73,44 +72,46 @@ final class Dotenv
 
     /**
      * Constructor. Create a new Dotenv instance.
-     * Builds the path to our file.
      * 
-     * @param  string  $path
-     * @param  string|null  $file  (null by default)
+     * @param  \Syscodes\Dotenv\Store\StoreBuilder  $store
+     * @param  \Syscodes\Dotenv\Repository\RepositoryCreator  $repository
      * 
      * @return void
      */
-    public function __construct(string $path, string $file = null)
+    public function __construct($store, RepositoryCreator $repository)
     {
-        $this->path   = $path;
-        $this->file   = $file;
-        $this->loader = new Loader;
-        $this->parser = new Parser;
+        $this->store      = $store;
+        $this->repository = $repository;
     }
 
     /**
      * Create a new Dotenv instance.
      * Builds the path to our file.
      * 
-     * @param  string  $path
-     * @param  string|null  $file  (null by default)
-     * @param  bool  $usePutenv  (true by default)
+     * @param  \Syscodes\Dotenv\Repository\RepositoryCreator  $repository
+     * @param  string|string[]  $path
+     * @param  string|string[]  $names
+     * @param  bool  $modeEnabled  (true by default)
      * 
      * @return \Syscodes\Dotenv\Dotenv
      */
-    public static function create(string $path, string $file = null, bool $usePutenv = true)
+    public static function create(RepositoryCreator $repository, $paths, $names = null, bool $modeEnabled = true)
     {
-        return new self($path, $file, $usePutenv);
-    }
+        $store = $names === null ? StoreBuilder::createWithDefaultName() : StoreBuilder::createWithNoNames();
 
-    /**
-     * Returns the full path to the file.
-     * 
-     * @return string
-     */
-    protected function filePath()
-    {
-        return Resolver::getFilePath($this->path, $this->file);
+        foreach ((array) $paths as $path) {
+            $store = $store->addPath($path);
+        }
+        
+        foreach ((array) $names as $name) {
+            $store = $store->addName($name);
+        }
+
+        if ($modeEnabled) {
+            $store = $store->modeEnabled();
+        }
+
+        return new self($store->make(), $repository);
     }
 
     /**
@@ -145,21 +146,14 @@ final class Dotenv
      */
     public function load()
     {
-        // Ensure file is readable
-        if ( ! is_readable($this->filePath()) && ! is_file($this->filePath())) {
-            throw new InvalidArgumentException(sprintf("The .env file is not readable: %s", $this->filePath()));
-        }
-        
-        $lines = file($this->filePath(), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-
-        foreach ($lines as $line) {
+        foreach ($this->store->read() as $line) {
             // Is it a comment?
             if ($this->isComment($line)) {
                 continue;
             }
 
             // If there is an equal sign, then we know we
-			// are assigning a variable.
+            // are assigning a variable.
             if ($this->checkedLikeSetter($line)) {
                 $this->setVariable($line);
             }
