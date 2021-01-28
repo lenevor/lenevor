@@ -32,22 +32,31 @@ use Syscodes\Contracts\Dotenv\Repository;
 final class AdapterRepository implements Repository
 {
     /**
-     * Get an adapter to use.
+     * The set of readers to use.
      * 
-     * @var \Syscodes\Contracts\Dotenv\Adapter $adapter
+     * @var \Syscodes\Dotenv\Repository\Adapters\Readers $readers
      */
-    protected $adapter;
+    protected $readers;
+
+    /**
+     * The set of writers to use.
+     * 
+     * @var \Syscodes\Dotenv\Repository\Adapters\Writers $writers
+     */
+    protected $writers;
 
     /**
      * Constructor. Create a new AdapterRepository instance.
      * 
-     * @param  \Syscodes\Contracts\Dotenv\Adapter  $adapter
+     * @param  \Syscodes\Dotenv\Repository\Adapters\Readers  $readers
+     * @param  \Syscodes\Dotenv\Repository\Adapters\Writers  $writers
      * 
      * @return void
      */
-    public function __construct(Adapter $adapter)
+    public function __construct(Readers $readers, Writers $writers)
     {
-        $this->adapter = $adapter;
+        $this->readers = $readers;
+        $this->writers = $writers;
     }
 
     /**
@@ -59,7 +68,7 @@ final class AdapterRepository implements Repository
      */
     public function get(string $name)
     {
-        return $this->adapter->read($name);
+        return $this->readers->read($name);
     }
 
      /**
@@ -72,7 +81,7 @@ final class AdapterRepository implements Repository
      */
     public function set(string $name, string $value)
     {
-        return $this->adapter->write($name);
+        return $this->writers->write($name);
     }
 
     /**
@@ -84,6 +93,6 @@ final class AdapterRepository implements Repository
      */
     public function clear(string $name)
     {
-        return $this->adapter->delete($name);
+        return $this->writers->delete($name);
     }
 }
