@@ -80,7 +80,10 @@ class EnvAdapter implements Adapter
      */
     public function write(string $name, string $value)
     {
-        $_ENV[$name] = $value;
+        if (empty($_ENV[$name]))
+        {
+            $_ENV[$name] = $value;
+        }
 
         return true;
     }
