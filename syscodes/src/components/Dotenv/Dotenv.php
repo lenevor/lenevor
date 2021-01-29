@@ -33,8 +33,6 @@ use Syscodes\Dotenv\Repository\RepositoryCreator;
  */
 final class Dotenv
 {
-    protected const ALFANUMERIC_REGEX = '/\${([a-zA-Z0-9_]+)}/';
-
     /**
      * The loader instance.
      * 
@@ -155,11 +153,54 @@ final class Dotenv
             // If there is an equal sign, then we know we
             // are assigning a variable.
             if ($this->checkedLikeSetter($line)) {
-                $this->setVariable($line);
+                list($name, $value) = $this->normaliseEnvironmentVariable($line);
+                $this->setVariable($name, $value);
             }
         }
 
         return true;
+    }
+
+    /**
+     * Normalise the given environment variable.
+     * 
+     * @param  string  $name
+     * @param  string  $value
+     * 
+     * @return array
+     */
+    public function normaliseEnvironmentVariable(string $name, string $value = '')
+    {
+        // Split our compound string into it's parts.
+        if (strpos($name, '=') !== false) {
+            list($name, $value) = explode('=', $name, 2);
+        }
+        
+        $name  = trim($name);
+        $value = trim($value);
+        
+        // Sanitize the name
+        $name = $this->sanitizeName($name);
+        
+        // Sanitize the value
+        $value = $this->sanitizeValue($value);
+        
+        // Get environment variables
+        $value = $this->getResolverVariables($value);
+        
+        return [$name, $value];
+    }
+
+    /**
+     * Strips quotes and the optional leading "export " from the environment variable name.
+     * 
+     * @param  string  $name
+     * 
+     * @return array
+     */
+    protected function sanitizeName(string $name)
+    {
+        return str_replace(array('export ', '\'', '"'), '', $name);
     }
 
     /**
@@ -173,10 +214,6 @@ final class Dotenv
      */
     protected function setVariable(string $name, $value = null)
     {
-        list($name, $value) = $this->normaliseEnvironmentVariable($name, $value);
-        
-        $notHttpName = 0 !== strpos($name, 'HTTP_');
-
         if ($this->usePutenv) {
             putenv("$name=$value");
         }   
@@ -185,53 +222,9 @@ final class Dotenv
             $_ENV[$name] = $value;
         }
 
-        if ($notHttpName) {
+        if (empty($_SERVER[$name])) {
             $_SERVER[$name] = $value;
         }
-    }
-
-    /**
-     * Normalise the given environment variable.
-     * 
-     * @param  string  $name
-     * @param  string  $value
-     * 
-     * @return array
-     */
-    public function normaliseEnvironmentVariable(string $name, $value)
-    {
-        // Split our compound string into it's parts.
-        if (strpos($name, '=') !== false) {
-            list($name, $value) = explode('=', $name, 2);
-        }
-        
-        $name  = trim($name);
-        $value = trim($value);
-        
-        // Sanitize the name
-        list($name, $value) = $this->sanitizeName($name, $value);
-        
-        // Sanitize the value
-        list($name, $value) = $this->sanitizeValue($name, $value);
-        
-        $value = $this->resolveNestedVariables($value);
-        
-        return [$name, $value];
-    }
-
-    /**
-     * Strips quotes and the optional leading "export " from the environment variable name.
-     * 
-     * @param  string  $name
-     * @param  string  $value
-     * 
-     * @return array
-     */
-    protected function sanitizeName(string $name, $value)
-    {
-        $name = str_replace(array('export ', '\'', '"'), '', $name);
-
-        return [$name, $value];
     }
 
     /**
@@ -240,17 +233,16 @@ final class Dotenv
      * This was borrowed from the excellent phpdotenv with very few changes.
      * https://github.com/vlucas/phpdotenv
      * 
-     * @param  string  $name
      * @param  string  $value
      * 
      * @return array
      * 
      * @throws \InvalidArgumentException
      */
-    protected function sanitizeValue(string $name, $value)
+    protected function sanitizeValue($value)
     {
         if ( ! $value) {
-            return [$name, $value];
+            return $value;
         }
         
         // Does it begin with a quote?
@@ -285,7 +277,7 @@ final class Dotenv
             }
         }
         
-        return [$name, $value];
+        return $value;
     }
     
     /**
@@ -301,11 +293,11 @@ final class Dotenv
      * 
      * @return string
      */
-    protected function resolveNestedVariables(string $value)
+    protected function getResolverVariables(string $value)
     {
         if (strpos($value, '$') !== false) {
             $loader = $this;
-            $value = preg_replace_callback(self::ALFANUMERIC_REGEX, function ($matchedPatterns) use ($loader) {
+            $value = preg_replace_callback('~\${([a-zA-Z0-9_]+)}~', function ($matchedPatterns) use ($loader) {
                 
                 $nestedVariable = $loader->getVariable($matchedPatterns[1]);
 
