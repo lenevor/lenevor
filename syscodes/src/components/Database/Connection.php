@@ -432,7 +432,7 @@ class Connection implements ConnectionInterface
         foreach ($bindings as $key => $value)
         {
             $statement->bindValue(
-                is_string(key) ? $key : $key + 1,
+                is_string($key) ? $key : $key + 1,
                 $value,
                 is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR
             );
@@ -804,7 +804,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the reconnect instance on the connection.
      * 
-     * @param  \Callablle  $reconnector
+     * @param  \Callable  $reconnector
      * 
      * @return $this
      */
