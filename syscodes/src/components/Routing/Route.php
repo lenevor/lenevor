@@ -281,7 +281,7 @@ class Route
 	/**
 	 * Get the dispatcher for the route's controller.
 	 * 
-	 * @return \Syscodes\Controller\ControllerDispacther
+	 * @return \Syscodes\Controller\ControllerDispatcher
 	 */
 	private function controllerDispatcher()
 	{
