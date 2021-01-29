@@ -770,7 +770,7 @@ class Cli
  				
  				if ($diverse)	
  				{
- 					$rows[$row][$colum] = $rows[$row][$column].str_repeat(' ', $diverse);
+ 					$rows[$row][$column] = $rows[$row][$column].str_repeat(' ', $diverse);
  				}
 
  				$column++;
@@ -793,7 +793,7 @@ class Cli
  				$table .= $cols.PHP_EOL;
  			}
 
- 			$table .= '| '.imploode('-', $rows[$row]).' |'.PHP_EOL;
+ 			$table .= '| '.implode('-', $rows[$row]).' |'.PHP_EOL;
 
  			if (0 === $row && ! empty($thead) || $row + 1 === $rows)
  			{
