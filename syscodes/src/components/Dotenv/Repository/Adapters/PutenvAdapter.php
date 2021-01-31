@@ -65,7 +65,7 @@ class PutenvAdapter implements Adapter
     {
         $value = getenv($name);
 
-        if ( ! empty($value)) {
+        if ($this->has($value)) {
             return $value;
         }
 
