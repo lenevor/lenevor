@@ -39,7 +39,7 @@ final class Readers
     /**
      * Constructor. The create new Readers instance.
      * 
-     * @param  \Syscodes\Dotenv\Repository\Adapters\Readers  $readers
+     * @param  \Syscodes\Dotenv\Repository\Adapters\Readers|array  $readers
      * 
      * return void
      */

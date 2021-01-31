@@ -39,7 +39,7 @@ final class Writers
     /**
      * Constructor. Create a new Writers instance.
      * 
-     * @param  \Syscodes\Dotenv\Repository\Adapters\Writers  $writers
+     * @param  \Syscodes\Dotenv\Repository\Adapters\Writers|array  $writers
      * 
      * @return void
      */
