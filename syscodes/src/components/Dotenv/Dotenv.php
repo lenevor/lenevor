@@ -34,20 +34,6 @@ use Syscodes\Dotenv\Repository\RepositoryCreator;
 final class Dotenv
 {
     /**
-     * The loader instance.
-     * 
-     * @var \Syscodes\Dotenv\Loader\Loader $loader
-     */
-    protected $loader;
-
-    /**
-     * The Parser instance.
-     * 
-     * @var \Syscodes\Dotenv\Loader\Parser $parser
-     */
-    protected $parser;
-
-    /**
      * The Repository creator instance.
      * 
      * @var \Syscodes\Dotenv\Repository\RepositoryCreator $repository
@@ -72,11 +58,11 @@ final class Dotenv
      * Constructor. Create a new Dotenv instance.
      * 
      * @param  \Syscodes\Dotenv\Store\StoreBuilder  $store
-     * @param  \Syscodes\Dotenv\Repository\RepositoryCreator  $repository
+p  * @param  \Syscodes\Dotenv\Repository\RepositoryCreator  $repository
      * 
      * @return void
      */
-    public function __construct($store, RepositoryCreator $repository)
+    public function __construct($store, $repository)
     {
         $this->store      = $store;
         $this->repository = $repository;
@@ -93,7 +79,7 @@ final class Dotenv
      * 
      * @return \Syscodes\Dotenv\Dotenv
      */
-    public static function create(RepositoryCreator $repository, $paths, $names = null, bool $modeEnabled = true)
+    public static function create($repository, $paths, $names = null, bool $modeEnabled = true)
     {
         $store = $names === null ? StoreBuilder::createWithDefaultName() : StoreBuilder::createWithNoNames();
 
@@ -143,7 +129,7 @@ final class Dotenv
      * @return bool
      */
     public function load()
-    {
+    {        
         foreach ($this->store->read() as $line) {
             // Is it a comment?
             if ($this->isComment($line)) {
@@ -208,23 +194,13 @@ final class Dotenv
      * Will parse the string to look for {name}={value} pattern.
      * 
      * @param  string  $name
-     * @param  string|null  $value
+     * @param  string|null  $value  (null by default)
      * 
      * @return void
      */
     protected function setVariable(string $name, $value = null)
-    {
-        if ($this->usePutenv) {
-            putenv("$name=$value");
-        }   
-        
-        if (empty($_ENV[$name])) {
-            $_ENV[$name] = $value;
-        }
-
-        if (empty($_SERVER[$name])) {
-            $_SERVER[$name] = $value;
-        }
+    {        
+        return $this->repository->set($name, $value);
     }
 
     /**
@@ -296,13 +272,13 @@ final class Dotenv
     protected function getResolverVariables(string $value)
     {
         if (strpos($value, '$') !== false) {
-            $loader = $this;
-            $value = preg_replace_callback('~\${([a-zA-Z0-9_]+)}~', function ($matchedPatterns) use ($loader) {
-                
-                $nestedVariable = $loader->getVariable($matchedPatterns[1]);
+            $repository = $this->repository;
+
+            $value = preg_replace_callback('~\${([a-zA-Z0-9_]+)}~', function ($pattern) use ($repository) {
+                $nestedVariable = $repository->get($pattern[1]);
 
                 if (is_null($nestedVariable)) {
-                    return $matchedPatterns[0];
+                    return $pattern[0];
                 }
                 
                 return $nestedVariable;
@@ -311,30 +287,5 @@ final class Dotenv
         }
         
         return $value;
-    }
-    
-    /**
-     * Search the different places for environment variables and return first value found.
-     * This was borrowed from the excellent phpdotenv with very few changes.
-     * https://github.com/vlucas/phpdotenv
-     * 
-     * @param  string  $name
-     * 
-     * @return string|null
-     */
-    protected function getVariable(string $name)
-    {
-        switch (true) {
-            case array_key_exists($name, $_ENV):
-                return $_ENV[$name];
-                break;
-            case array_key_exists($name, $_SERVER):
-                return $_SERVER[$name];
-                break;
-            default:
-                $value = getenv($name);
-                // switch getenv default to null
-                return $value === false ? null : $value;
-        }
     }
 }
