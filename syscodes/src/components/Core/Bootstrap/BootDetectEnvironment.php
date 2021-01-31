@@ -25,6 +25,7 @@ namespace Syscodes\Core\Bootstrap;
 
 use Exception;
 use Syscodes\Dotenv\Dotenv;
+use Syscodes\Support\Environment;
 use Syscodes\Contracts\Core\Application;
 use Syscodes\Dotenv\Repository\RepositoryCreator;
 
@@ -52,6 +53,7 @@ class BootDetectEnvironment
     public function bootstrap(Application $app)
     {
         $this->detectEnvironmentFile($app);
+        
         try
         {
             $this->createEnv($app)->load();
@@ -71,7 +73,7 @@ class BootDetectEnvironment
      */
     protected function detectEnvironmentFile($app)
     {
-        $environment = env('APP_ENV');
+        $environment = Environment::get('APP_ENV');
 
         if ( ! $environment) {
             return;
@@ -111,7 +113,7 @@ class BootDetectEnvironment
     protected function createEnv($app)
     {
         return Dotenv::create(
-               new RepositoryCreator,
+               Environment::getRepositoryCreator(),
                $app->environmentPath(),
                $app->environmentFile()
         );
