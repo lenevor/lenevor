@@ -47,16 +47,41 @@ class Environment
     protected static $repository;
 
     /**
+     * Get the environment repository instance.
+     * 
+     * @return  Syscodes\Dotenv\Repository\RepositoryCreator
+     */
+    public static function getRepositoryCreator()
+    {
+        if (null === static::$repository) {
+            $repository = RepositoryCreator::createDefaultAdapters();
+
+            if (static::$enabledPutenv) {
+                $repository = $repository->addAdapter(PutenvAdapter::class);
+            }
+
+            static::$repository = $repository->make();
+        }
+
+        return static::$repository;
+    }
+
+    /**
      * Gets the value of an environment variable.
      * 
      * @param  string  $key
-     * @param  mixed  $default
+     * @param  mixed|null  $default (null by default)
      * 
      * @return mixed
      */
     public static function get($key, $default = null)
     {
-        $value = static::getRepositoryCreator()->get($key);
+        $value = Environment::getRepositoryCreator()->get($key);
+
+        if ($value === null)
+        {
+            $value = $_ENV[$key] ?? $_SERVER[$key] ?? false;
+        }
 
         if ($value === false)
         {
@@ -81,25 +106,5 @@ class Environment
         }
         
         return $value;
-    }
-
-    /**
-     * Get the environment repository instance.
-     * 
-     * @return  Syscodes\Dotenv\Repository\RepositoryCreator
-     */
-    public static function getRepositoryCreator()
-    {
-        if (null === static::$repository) {
-            $repository = RepositoryCreator::createDefaultAdapters();
-
-            if (static::$enabledPutenv) {
-                $repository = $repository->addAdapter(PutenvAdapter::class);
-            }
-
-            static::$repository = $repository->make();
-        }
-
-        return static::$repository;
     }
 }
