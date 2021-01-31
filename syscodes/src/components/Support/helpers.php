@@ -23,6 +23,7 @@
 
 use Syscodes\Version;
 use Syscodes\Support\Str;
+use Syscodes\Support\Environment;
 
 if ( ! function_exists('camel_case'))
 {
@@ -84,42 +85,13 @@ if ( ! function_exists('env'))
      * Gets the value of an environment variable.
      * 
      * @param  string  $key
-     * @param  mixed  $default
+     * @param  mixed  $default  (null by default)
      * 
      * @return mixed
      */
     function env($key, $default = null)
     {
-        $value = getenv($key);
-        
-        if ($value === false)
-        {
-            $value = $_ENV[$key] ?? $_SERVER[$key] ?? false;
-        }
-
-        if ($value === false)
-        {
-            return value($default);
-        }
-
-        // Handle any boolean values
-        switch (strtolower($value))
-        {
-            case 'true':
-            case '(true)':
-                return true;
-            case 'false':
-            case '(false)':
-                return false;
-            case 'empty':
-            case '(empty)':
-                return '';
-            case 'null':
-            case '(null)':
-                return null;
-        }
-        
-        return $value;
+        return Environment::get($key, $default);
     }
 }
 
