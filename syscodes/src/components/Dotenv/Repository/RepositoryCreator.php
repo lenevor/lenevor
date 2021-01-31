@@ -22,6 +22,7 @@
 
 namespace Syscodes\Dotenv\Repository;
 
+use ReflectionClass;
 use InvalidaArgumentException;
 use Syscodes\Contracts\Dotenv\Adapter;
 use Syscodes\Dotenv\Repository\Adapters\Readers;
@@ -36,7 +37,7 @@ use Syscodes\Dotenv\Repository\Adapters\ServerAdapter;
  */
 final class RepositoryCreator
 {
-    protected const ADAPTERS_DEFAULT = [
+    protected static $adapterDefault = [
         EnvAdapter::class,
         ServerAdapter::class,
     ];
@@ -86,7 +87,7 @@ final class RepositoryCreator
     public static function createDefaultAdapters()
     {
         $adapters = iterator_to_array(self::defaultAdapters());
-
+        
         return new static($adapters, $adapters);
     }
     
@@ -97,8 +98,8 @@ final class RepositoryCreator
      */
     protected static function defaultAdapters()
     {
-        foreach (self::ADAPTERS_DEFAULT as $adapter) {
-            return new $adapter;
+        foreach (static::$adapterDefault as $adapter) {
+            yield new $adapter;
         }
     }
 
@@ -134,10 +135,26 @@ final class RepositoryCreator
             throw new InvalidaArgumentException("Expected either an instance of [{$this->allowList}]");
         }
 
+        $adapter = $this->getReflectionClass($adapter);
+
         $readers = array_merge($this->readers, [$adapter]);
         $writers = array_merge($this->writers, [$adapter]);
 
         return new static($readers, $writers, $this->allowList);
+    }
+
+    /**
+     * Gets class.
+     * 
+     * @param  string  $class
+     * 
+     * @return object
+     */
+    protected function getReflectionClass($class)
+    {
+        $object = new ReflectionClass($class);
+
+        return $object->newInstanceWithoutConstructor();
     }
 
     /**
