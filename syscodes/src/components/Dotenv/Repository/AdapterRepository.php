@@ -23,6 +23,8 @@
 namespace Syscodes\Dotenv\Repository;
 
 use Syscodes\Contracts\Dotenv\Repository;
+use Syscodes\Dotenv\Repository\Adapters\Readers;
+use Syscodes\Dotenv\Repository\Adapters\Writers;
 
 /**
  * Gets to all the adapters.
@@ -81,7 +83,7 @@ final class AdapterRepository implements Repository
      */
     public function set(string $name, string $value)
     {
-        return $this->writers->write($name);
+        return $this->writers->write($name, $value);
     }
 
     /**
