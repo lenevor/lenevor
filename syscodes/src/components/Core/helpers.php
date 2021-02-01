@@ -26,7 +26,6 @@ use Syscodes\Support\WebString;
 use Syscodes\Routing\UrlGenerator;
 use Syscodes\Support\Facades\Date;
 use Syscodes\Contracts\View\Factory;
-use Syscodes\Support\Facades\Facade;
 use Syscodes\Contracts\Routing\RouteResponse;
 
 if ( ! function_exists('abort')) 
@@ -52,21 +51,21 @@ if ( ! function_exists('abort'))
 if ( ! function_exists('app')) 
 {
     /**
-     * Get the available Application instance or a Facade class instance.
+     * Get the available Application instance.
      *
      * @param  string  $id  (null by default)
      * @param  array  $parameters
      * 
-     * @return \Syscodes\Core\Application|\Syscodes\Support\Facades\Facade
+     * @return mixed|\Syscodes\Contracts\Core\Application
      */
-    function app($id = null, $parameters = [])
+    function app($id = null, array $parameters = [])
     {
-        if ( ! is_null($id))
+        if (is_null($id))
         {
-            return Application::getInstance()->make($id, $parameters);
+            return Application::getInstance();
         }
 
-        return Facade::getFacadeApplication();
+        return Application::getInstance()->make($id, $parameters);
     }
 }
 
