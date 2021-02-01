@@ -495,7 +495,7 @@ class Application extends Container implements ApplicationContract
                     }
                   </style>
                   <p>The application environment is not set correctly.</p>');
-			exit(0); // EXIT_ERROR
+			exit; // EXIT_ERROR
 		}
 	}
 
