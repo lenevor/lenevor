@@ -33,7 +33,7 @@ use Syscodes\Dotenv\Repository\Adapters\PutenvAdapter;
 class Environment
 {
     /**
-     * Indicates if the putenv adapter is enabled.
+     * Activate use of putenv, by default is true.
      * 
      * @var bool $enabledPutenv
      */
