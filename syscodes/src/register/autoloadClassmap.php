@@ -182,6 +182,7 @@ return [
     'Syscodes\\Debug\\Benchmark' => SYS_PATH.'src/components/Debug/Benchmark.php',
     'Syscodes\\Debug\\ExceptionHandler' => SYS_PATH.'src/components/Debug/ExceptionHandler.php',
     'Syscodes\\Debug\\GDebug' => SYS_PATH.'src/components/Debug/GDebug.php',
+    'Syscodes\\Dotenv\\Loader\\Loader' => SYS_PATH.'src/components/Dotenv/Loader/Loader.php',
     'Syscodes\\Dotenv\\Repository\\Adapters\\ApacheAdapter' => SYS_PATH.'src/components/Dotenv/Repository/Adapters/ApacheAdapter.php',
     'Syscodes\\Dotenv\\Repository\\Adapters\\ArrayAdapter' => SYS_PATH.'src/components/Dotenv/Repository/Adapters/ArrayAdapter.php',
     'Syscodes\\Dotenv\\Repository\\Adapters\\DefineAdapter' => SYS_PATH.'src/components/Dotenv/Repository/Adapters/DefineAdapter.php',
