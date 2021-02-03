@@ -18,7 +18,6 @@
  * @link        https://lenevor.com
  * @copyright   Copyright (c) 2019 - 2021 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
- * @since       0.7.3
  */
  
 namespace Syscodes\Database\Query;
@@ -26,10 +25,10 @@ namespace Syscodes\Database\Query;
 use Closure;
 use RuntimeException;
 use DateTimeInterface;
-use Syscodes\Collections\Arr;
-use Syscodes\Collections\Str;
 use BadMethodCallException;
 use InvalidArgumentException;
+use Syscodes\Collections\Arr;
+use Syscodes\Collections\Str;
 use Syscodes\Collections\Collection;
 use Syscodes\Database\DatabaseCache;
 use Syscodes\Database\Query\Grammar;
