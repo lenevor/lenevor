@@ -23,7 +23,7 @@
 namespace Syscodes\Console;
 
 use Syscodes\Version;
-use Syscodes\Contracts\Core\Lenevor;
+use Syscodes\Contracts\Http\Lenevor;
 use Syscodes\Support\Facades\Request;
 use Syscodes\Contracts\Console\Application as ApplicationContracts;
 

@@ -24,7 +24,7 @@ namespace Syscodes\Console;
 
 use Exception;
 use Syscodes\Collections\Arr;
-use Syscodes\Contracts\Core\Lenevor;
+use Syscodes\Contracts\Http\Lenevor;
 use Syscodes\Core\Http\Exceptions\LenevorException;
 
 /**

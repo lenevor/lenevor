@@ -30,7 +30,7 @@ use Syscodes\Routing\Pipeline;
 use Syscodes\Support\Facades\Facade;
 use Syscodes\Contracts\Core\Application;
 use Syscodes\Contracts\Debug\ExceptionHandler;
-use Syscodes\Contracts\Core\Lenevor as LenevorContract;
+use Syscodes\Contracts\Http\Lenevor as LenevorContract;
 
 /**
  * The Lenevor class is the heart of the system framework.
