@@ -27,7 +27,7 @@ $app = new Syscodes\Core\Application(
 */
 
 $app->singleton(
-    Syscodes\Contracts\Core\Lenevor::class, 
+    Syscodes\Contracts\Http\Lenevor::class, 
     App\Http\Lenevor::class
 );
 

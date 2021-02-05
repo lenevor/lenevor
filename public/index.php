@@ -20,7 +20,7 @@
  */
 
 use Syscodes\Http\Request;
-use Syscodes\Contracts\Core\Lenevor;
+use Syscodes\Contracts\Http\Lenevor;
 
 define('LENEVOR_START', microtime(true));
 
