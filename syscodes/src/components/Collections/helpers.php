@@ -83,8 +83,7 @@ if ( ! function_exists('take'))
      */
     function take($value, $callback = null)
     {
-        if (is_null($callback))
-        {
+        if (is_null($callback)) {
             return new HigherOrderTakeProxy($value);
         }
 

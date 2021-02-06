@@ -115,12 +115,9 @@ class Lenevor implements LenevorContract
 	 */
 	public function handle($request)
 	{
-		try
-		{
+		try {
 			$response = $this->sendRequestThroughRouter($request);
-		}
-		catch (Throwable $e)
-		{
+		} catch (Throwable $e) {
 			$this->reportException($e);
 
 			$response = $this->renderException($request, $e);
@@ -157,8 +154,7 @@ class Lenevor implements LenevorContract
 	 */
 	protected function bootstrap()
 	{		
-		if ( ! $this->app->hasBeenBootstrapped())
-		{
+		if ( ! $this->app->hasBeenBootstrapped()) {
 			$this->app->bootstrapWith($this->bootstrappers());
 		}
 	}

@@ -112,8 +112,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     public static function getInstance()
     {
-        if (is_null(static::$instance))
-        {
+        if (is_null(static::$instance)) {
             static::$instance = new static;
         }
 
@@ -144,8 +143,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function alias($id, string $alias)
     {
-        if ($alias === $id)
-        {
+        if ($alias === $id) {
             throw new ContainerException("[ {$id} ] is aliased to itself");
         }
 
@@ -165,13 +163,11 @@ class Container implements ArrayAccess, ContainerContract
     { 
         $this->dropInstances($id);
 
-        if (is_null($value))        
-        {
+        if (is_null($value)) {
             $value = $id;
         }
 
-        if ( ! $value instanceof Closure)
-        {
+        if ( ! $value instanceof Closure) {
             $value = $this->getClosure($id, $value);
         }
 
@@ -188,10 +184,8 @@ class Container implements ArrayAccess, ContainerContract
      */
     protected function getClosure($id, string $value)
     {
-        return function ($container, $parameters = []) use ($id, $value) 
-        {
-            if ($id == $value)
-            {
+        return function ($container, $parameters = []) use ($id, $value) {
+            if ($id == $value) {
                 return $container->build($value);
             }
                        
@@ -211,15 +205,13 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function build($class)
     {
-        if ($class instanceof Closure)
-        {
+        if ($class instanceof Closure) {
             return $class($this, $this->getLastParameterOverride());
         }
 
         $reflection = new ReflectionClass($class);
 
-        if ( ! $reflection->isInstantiable())
-        {
+        if ( ! $reflection->isInstantiable()) {
             return $this->buildNotInstantiable($class);
         }
 
@@ -227,8 +219,7 @@ class Container implements ArrayAccess, ContainerContract
 
         $constructor = $reflection->getConstructor();
 
-        if (is_null($constructor))
-        {
+        if (is_null($constructor)) {
             array_pop($this->buildStack);
 
             return new $class;
@@ -254,14 +245,11 @@ class Container implements ArrayAccess, ContainerContract
      */
     protected function buildNotInstantiable(string $class)
     {
-        if ( ! empty($this->buildStack))
-        {
+        if ( ! empty($this->buildStack)) {
            $reset   = implode(', ', $this->buildStack);
 
            $message = "Target [ {$class} ] is not instantiable while building [ {$reset} ]."; 
-        } 
-        else
-        {
+        } else {
             $message = "Target [ {$class} ] is not instantiable.";
         }
 
@@ -279,10 +267,8 @@ class Container implements ArrayAccess, ContainerContract
     {
         $param = [];
 
-        foreach ($dependencies as $dependency)
-        {
-            if ($this->getHasParameters($dependency))
-            {
+        foreach ($dependencies as $dependency) {
+            if ($this->getHasParameters($dependency)) {
                 $param[] = $this->getParameterOverride($dependency);
 
                 continue;
@@ -341,14 +327,10 @@ class Container implements ArrayAccess, ContainerContract
      */
     protected function getResolveClass(ReflectionParameter $parameter)
     {
-        try 
-        {
+        try {
             return $this->make($parameter->getClass()->name);
-        }
-        catch (BindingResolutionException $e) 
-        {
-            if ($parameter->isOptional()) 
-            {
+        } catch (BindingResolutionException $e) {
+            if ($parameter->isOptional()) {
                 return $parameter->getDefaultValue();
             }
 
@@ -367,13 +349,11 @@ class Container implements ArrayAccess, ContainerContract
      */
     protected function getResolveNonClass(ReflectionParameter $parameter)
     {
-        if ( ! is_null($class = $parameter->name)) 
-        {
+        if ( ! is_null($class = $parameter->name)) {
             return $class instanceof Closure ? $class($this) : $class;
         }
 
-        if ($parameter->isDefaultValueAvailable()) 
-        {
+        if ($parameter->isDefaultValueAvailable()) {
             return $parameter->getDefaultValue();
         }
 
@@ -394,18 +374,14 @@ class Container implements ArrayAccess, ContainerContract
     {
         $id = $this->getAlias($id);
 
-        if (isset($this->instances[$id]))
-        {
+        if (isset($this->instances[$id])) {
             $this->instances[$id] = $closure($this->instances[$id], $this);
 
             $this->reHas($id);
-        }
-        else
-        {
+        } else {
             $this->services[$id][] = $closure;
             
-            if ($this->resolved($id)) 
-            {
+            if ($this->resolved($id)) {
                 $this->reHas($id);
             }
         }
@@ -420,8 +396,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     protected function destroyBinding($id)
     {
-        if ($this->has($id))
-        {
+        if ($this->has($id)) {
             unset($this->bindings[$id], $this->instances[$id], $this->resolved[$id]);
         }
     }
@@ -474,8 +449,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function getAlias($id)
     {
-        if ( ! isset($this->aliases[$id]))
-        {
+        if ( ! isset($this->aliases[$id])) {
             return $id;
         }
 
@@ -501,8 +475,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     protected function getValue($id)
     {
-        if (isset($this->bindings[$id])) 
-        {
+        if (isset($this->bindings[$id])) {
             return $this->bindings[$id]['value'];
         }
 
@@ -518,8 +491,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     protected function getHasCallbacks($id)
     {
-        if (isset($this->hasCallbacks[$id]))
-        {
+        if (isset($this->hasCallbacks[$id])) {
             return $this->hasCallbacks[$id];
         }
 
@@ -537,8 +509,7 @@ class Container implements ArrayAccess, ContainerContract
     {
         $id = $this->getAlias($id);
 
-        if (isset($this->services[$id]))
-        {
+        if (isset($this->services[$id])) {
             return $this->services[$id];
         }
 
@@ -573,8 +544,7 @@ class Container implements ArrayAccess, ContainerContract
 
         $this->instances[$id] = $instance;
 
-        if ($bound)
-        {
+        if ($bound) {
             $this->rehas($id);
         }
 
@@ -654,8 +624,7 @@ class Container implements ArrayAccess, ContainerContract
     {
         $instance = $this->make($id);
 
-        foreach ($this->getHasCallbacks($id) as $callback)
-        {
+        foreach ($this->getHasCallbacks($id) as $callback) {
             call_user_func($callback, $this, $instance);
         }
     }
@@ -684,8 +653,7 @@ class Container implements ArrayAccess, ContainerContract
     {
         $id = $this->getAlias($id);
 
-        if (isset($this->instances[$id])) 
-        {
+        if (isset($this->instances[$id])) {
             return $this->instances[$id];
         }
 
@@ -693,22 +661,17 @@ class Container implements ArrayAccess, ContainerContract
         
         $value = $this->getValue($id);
 
-        if ($this->isSingleton($id) && $this->singletonResolved($id))
-        {
+        if ($this->isSingleton($id) && $this->singletonResolved($id)) {
             return $this->getSingletonInstance($id);
         }
 
-        if ($this->isBuildable($value, $id))
-        {
+        if ($this->isBuildable($value, $id)) {
             $object = $this->build($value);
-        }
-        else
-        {
+        } else {
             $object = $this->make($value);
         }
 
-        foreach ($this->getServices($id) as $services)
-        {
+        foreach ($this->getServices($id) as $services) {
             $object = $services($object, $this);
         }
 
@@ -728,8 +691,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function resolved($id)
     {
-        if ($this->isAlias($id)) 
-        {
+        if ($this->isAlias($id)) {
             $id = $this->getAlias($id);
         }
         
@@ -746,8 +708,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     protected function resolveObject($id, $object)
     {
-        if ($this->isSingleton($id)) 
-        {
+        if ($this->isSingleton($id)) {
             $this->instances[$id] = $object;
         }
 
@@ -766,8 +727,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function set($id, string $value)
     {
-        if ( ! $this->bound($id))
-        {
+        if ( ! $this->bound($id)) {
             throw new ContainerException($id);
         }
 
@@ -818,14 +778,10 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function get($id)
     {
-        try 
-        {
+        try {
             return $this->resolve($id);
-        }
-        catch (Exception $e)
-        {
-            if ( ! $this->has($id))
-            {
+        } catch (Exception $e) {
+            if ( ! $this->has($id)) {
                 throw new $e;
             }   
 

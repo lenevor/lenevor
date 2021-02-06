@@ -53,16 +53,13 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        foreach ($this->listens() as $event => $listeners)
-        {
-            foreach ($listeners as $listener)
-            {
+        foreach ($this->listens() as $event => $listeners) {
+            foreach ($listeners as $listener) {
                 Event::listen($event, $listener);
             }
         }
         
-        foreach ($this->subscribe as $subscriber)
-        {
+        foreach ($this->subscribe as $subscriber) {
             Event::subscribe($subscriber);
         }
     }

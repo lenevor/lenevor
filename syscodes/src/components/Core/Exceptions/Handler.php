@@ -92,22 +92,17 @@ class Handler implements ExceptionHandlerContract
      */
     public function report(Throwable $e)
     {
-        if ($this->shouldntReport($e))
-        {
+        if ($this->shouldntReport($e)) {
             return;
         }
 
-        if (method_exists($e, 'report'))
-        {
+        if (method_exists($e, 'report')) {
             return $e->report($e);
         }
 
-        try
-        {
+        try {
             $logger = $this->container->make(LoggerInterface::class);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             throw $e;
         }
         
@@ -137,10 +132,8 @@ class Handler implements ExceptionHandlerContract
     {
         $dontReport = array_merge($this->dontReport, $this->coreDontReport);
 
-        foreach ($dontReport as $type) 
-        {
-            if ($e instanceof $type) 
-            {
+        foreach ($dontReport as $type) {
+            if ($e instanceof $type) {
                 return true;
             }
         }
@@ -160,8 +153,7 @@ class Handler implements ExceptionHandlerContract
     {
         $e = $this->prepareException($e);
 
-        if ($e instanceof HttpResponseException)
-        {
+        if ($e instanceof HttpResponseException) {
             $e->getResponse();
         }
 
@@ -177,8 +169,7 @@ class Handler implements ExceptionHandlerContract
      */
     protected function prepareException(Throwable $e)
     {
-        if ($e instanceof ModelNotFoundException)
-        {
+        if ($e instanceof ModelNotFoundException) {
             $e = new NotFoundHttpException($e->getMessage(), $e);
         }
 
@@ -197,14 +188,12 @@ class Handler implements ExceptionHandlerContract
      */
     protected function prepareResponse($request, Throwable $e)
     {
-        if ( ! $this->isHttpException($e) && config('app.debug'))
-        {
+        if ( ! $this->isHttpException($e) && config('app.debug')) {
             return $this->toSyscodesResponse($this->convertExceptionToResponse($e), $e);
         }
 
         // When the debug is not active, the HTTP 500 code view is throw
-        if ( ! $this->isHttpException($e)) 
-        {
+        if ( ! $this->isHttpException($e)) {
             $e = new HttpException(500, $e->getMessage());
         }
 
@@ -222,8 +211,7 @@ class Handler implements ExceptionHandlerContract
     {
         $this->registerViewErrorPaths();
 
-        if (view()->viewExists($view = $this->getHttpExceptionView($e)))
-        {
+        if (view()->viewExists($view = $this->getHttpExceptionView($e))) {
             return response()->view(
                 $view, 
                 ['exception' => $e],
@@ -282,14 +270,11 @@ class Handler implements ExceptionHandlerContract
      */
     protected function renderExceptionContent(Throwable $e)
     {
-        try 
-        {
+        try {
             return config('app.debug') && class_exists(GDebug::class)
                         ? $this->renderExceptionWithGDebug($e) 
                         : $this->renderExceptionWithFlatDesignDebug($e, config('app.debug'));
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $this->renderExceptionWithFlatDesignDebug($e, config('app.debug'));
         }
     }
@@ -351,14 +336,11 @@ class Handler implements ExceptionHandlerContract
      */
     protected function toSyscodesResponse($response, Throwable $e)
     {
-        if ($response instanceof RedirectResponse)
-        {
+        if ($response instanceof RedirectResponse) {
             $response = new RedirectResponse(
                 $response->getTargetUrl(), $response->status(), $response->headers->all()
             );
-        }
-        else
-        {
+        } else {
             $response = new Response(
                 $response->content(), $response->status(), $response->headers->all()
             );

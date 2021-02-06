@@ -128,25 +128,18 @@ class CacheManager implements ManagerContract
     {
         $config = $this->getConfig($name);
 
-        if (is_null($config))
-        {
+        if (is_null($config)) {
             throw new CacheException(__('cache.storeNotDefined', ['name' => $name]));
         }
 
-        if (isset($this->customDriver[$config['driver']]))
-        {
+        if (isset($this->customDriver[$config['driver']])) {
             return $this->callCustomDriver($config);
-        }
-        else
-        {
+        } else {
             $driver = 'create'.ucfirst($config['driver']).'Driver';
     
-            if (method_exists($this, $driver))
-            {
+            if (method_exists($this, $driver)) {
                 return $this->{$driver}($config);
-            }
-            else
-            {
+            } else {
                 throw new CacheException(__('cache.driverNotSupported', ['config' => $config]));
             }
         }

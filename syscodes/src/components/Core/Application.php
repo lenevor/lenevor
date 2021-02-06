@@ -162,8 +162,7 @@ class Application extends Container implements ApplicationContract
         // Convert the first letter in capital
         $message = ucfirst($message);
 
-        if ($code == 404)
-        {
+        if ($code == 404) {
             throw new NotFoundHttpException($message);
         }
 
@@ -329,8 +328,7 @@ class Application extends Container implements ApplicationContract
     {
         $this->hasBeenBootstrapped = true;
 
-        foreach ($bootstrappers as $bootstrapper)
-        {
+        foreach ($bootstrappers as $bootstrapper) {
             $this->make($bootstrapper)->bootstrap($this);
         }
     }
@@ -546,13 +544,11 @@ class Application extends Container implements ApplicationContract
      */
     public function register($provider, $force = false)
     {
-        if (($registered = $this->getProviderHasBeenLoaded($provider)) && ! $force)
-        {
+        if (($registered = $this->getProviderHasBeenLoaded($provider)) && ! $force) {
             return $registered;
         }
 
-        if (is_string($provider))
-        {
+        if (is_string($provider)) {
             $provider = $this->resolveProviderClass($provider);
         }
         
@@ -574,8 +570,7 @@ class Application extends Container implements ApplicationContract
     {
         $name = is_string($provider) ? $provider : get_class($provider);
 
-        if (array_key_exists($name, $this->loadServiceProviders))
-        {
+        if (array_key_exists($name, $this->loadServiceProviders)) {
             return Arr::first($this->serviceProviders, function($key, $value) use ($name) {
                 return get_class($value) == $name;
             });
@@ -637,8 +632,7 @@ class Application extends Container implements ApplicationContract
      */
     public function boot()
     {
-        if ($this->isbooted())
-        {
+        if ($this->isbooted()) {
             return;
         }
 
@@ -662,8 +656,7 @@ class Application extends Container implements ApplicationContract
      */
     protected function bootAppCallbacks(array $callbacks)
     {
-        foreach ($callbacks as $callback)
-        {
+        foreach ($callbacks as $callback) {
             $callback($this);
         }
     }
@@ -706,8 +699,7 @@ class Application extends Container implements ApplicationContract
     {
         $this->bootedCallbacks[] = $callback;
 
-        if ($this->isBooted())
-        {
+        if ($this->isBooted()) {
             $this->bootAppCallbacks([$callback]);
         }
     }
@@ -786,10 +778,8 @@ class Application extends Container implements ApplicationContract
             'translator'       => [\Syscodes\Translation\Translator::class],
             'url'              => [\Syscodes\Routing\UrlGenerator::class],
             'view'             => [\Syscodes\View\Factory::class, \Syscodes\Contracts\View\Factory::class]
-        ] as $key => $aliases) 
-        {
-            foreach ((array) $aliases as $alias) 
-            {
+        ] as $key => $aliases) {
+            foreach ((array) $aliases as $alias) {
                 $this->alias($key, $alias);
             }
         }

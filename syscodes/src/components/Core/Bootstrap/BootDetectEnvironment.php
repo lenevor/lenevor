@@ -53,12 +53,9 @@ class BootDetectEnvironment
     {
         $this->detectEnvironmentFile($app);
         
-        try
-        {
+        try {
             $this->createEnv($app)->load();
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             //
         }
     }

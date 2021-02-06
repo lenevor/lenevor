@@ -70,8 +70,7 @@ class MemcachedStore implements Store
      */
     public function __destruct()
     {
-        if ($this->memcached instanceof Memcached)
-        {
+        if ($this->memcached instanceof Memcached) {
             $this->memcached->quit();
         }
     }
@@ -87,8 +86,7 @@ class MemcachedStore implements Store
     {
         $value = $this->memcached->get($this->prefix.$key);
 
-        if ($this->memcached->getResultCode() == 0)
-        {
+        if ($this->memcached->getResultCode() == 0) {
             return $value;
         }
     }

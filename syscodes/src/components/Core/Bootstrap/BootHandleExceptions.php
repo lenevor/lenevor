@@ -64,8 +64,7 @@ class BootHandleExceptions
 
         register_shutdown_function([$this, 'handleShutdown']);
 
-        if ( ! $app->isUnitTests())
-        {
+        if ( ! $app->isUnitTests()) {
             ini_set('display_errors', 'off');
         }
     }
@@ -85,8 +84,7 @@ class BootHandleExceptions
      */
     public function handleError($level, $message, $file = '', $line = 0, $context = [])
     {
-        if (error_reporting() & $level)
-        {
+        if (error_reporting() & $level) {
             throw new ErrorException($message, 0, $level, $file, $line);
         }
     }
@@ -100,17 +98,13 @@ class BootHandleExceptions
      */
     public function handleException(Throwable $e)
     {
-        if ( ! $e instanceof Exception)
-        {
+        if ( ! $e instanceof Exception) {
             $e = new FatalThrowableError($e);
         }
 
-        try
-        {
+        try {
             $this->getExceptionHandler()->report($e);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             //
         }
 
@@ -136,8 +130,7 @@ class BootHandleExceptions
      */
     public function handleShutdown()
     {
-        if ( ! is_null($error = error_get_last()) && $this->isFatal($error['type']))
-        {
+        if ( ! is_null($error = error_get_last()) && $this->isFatal($error['type'])) {
             $this->handleException($this->fatalExceptionFromError($error, 0));
         }
     }

@@ -92,14 +92,10 @@ class Dispatcher implements DispatcherContract
      */
     public function listen($events, $listener, $priority = 0)
     {
-        foreach ((array) $events as $event)
-        {
-            if (Str::contains($event, '*'))
-            {
+        foreach ((array) $events as $event) {
+            if (Str::contains($event, '*')) {
                 $this->setupWilcardListen($event, $listener);
-            }
-            else
-            {
+            } else {
                 $this->listeners[$event][$priority][] = $this->makeListener($listener);
 
                 $this->clearSortedListeners($event);
@@ -130,20 +126,16 @@ class Dispatcher implements DispatcherContract
      */
     public function makeListener($listener, $wilcard = false)
     {
-        if (is_string($listener))
-        {
+        if (is_string($listener)) {
             return $this->createClassListener($listener, $wilcard);
         }
 
         return function ($event, $payload) use ($listener, $wilcard) {
-
-            if ($wilcard)
-            {
+            if ($wilcard) {
                 return $listener($event, $payload);
             }
             
             return $listener(...array_values($payload));
-
         };
     }
 
@@ -158,9 +150,7 @@ class Dispatcher implements DispatcherContract
     public function createClassListener($listener, $wilcard = false)
     {
         return function ($event, $payload) use ($listener, $wilcard) {
-
-            if ($wilcard)
-            {
+            if ($wilcard) {
                 return call_user_func($this->createClassClosure($listener), $event, $payload);
             }
 
@@ -232,10 +222,8 @@ class Dispatcher implements DispatcherContract
      */
     public function hasWilcardListeners($eventName)
     {
-        foreach ($this->wilcards as $key => $listeners)
-        {
-            if (Str::is($key, $eventName))
-            {
+        foreach ($this->wilcards as $key => $listeners) {
+            if (Str::is($key, $eventName)) {
                 return true;
             }
         }
@@ -266,8 +254,7 @@ class Dispatcher implements DispatcherContract
      */
     public function resolveSubscriber($subscriber)
     {
-        if (is_string($subscriber))
-        {
+        if (is_string($subscriber)) {
             return $this->container->make($subscriber);
         }
 
@@ -291,16 +278,14 @@ class Dispatcher implements DispatcherContract
 
         $this->dispatching[] = $event;
 
-        foreach ($this->getListeners($event) as $listener)
-        {
+        foreach ($this->getListeners($event) as $listener) {
             $response = $listener($event, $payload);
 
             // If the listener returns a response and it is verified that the halting 
             // of the event is enabled, only this response will be returned, and the 
             // rest of the listeners are not called. Otherwise, the response is added 
             // in the response list.
-            if ($halt && ! is_null($response))
-            {
+            if ($halt && ! is_null($response)) {
                 array_pop($this->dispatching);
 
                 return $response;
@@ -309,8 +294,7 @@ class Dispatcher implements DispatcherContract
             // If a boolean false is returned from a listener, the event is stopped 
             // spreading to other listeners in the chain, otherwise we will continue 
             // touring the listeners and dispatching everyone in our sequence.
-            if ($response === false)
-            {
+            if ($response === false) {
                 break;
             }
 
@@ -332,12 +316,9 @@ class Dispatcher implements DispatcherContract
      */
     protected function parseEventPayload($event, $payload)
     {
-        if (is_object($event))
-        {
+        if (is_object($event)) {
             list($payload, $event) = [[$event], getClass($event, false)];
-        }
-        elseif ( ! is_array($payload))
-        {
+        } elseif ( ! is_array($payload)) {
             $payload = [$payload];
         }
 
@@ -355,8 +336,7 @@ class Dispatcher implements DispatcherContract
     {
         $wilcards = $this->getWilcardListeners($eventName);
 
-        if ( ! isset($this->sorted[$eventName]))
-        {
+        if ( ! isset($this->sorted[$eventName])) {
             $this->sortListeners($eventName);
         }
 
@@ -374,10 +354,8 @@ class Dispatcher implements DispatcherContract
     {
         $wilcards = [];
 
-        foreach ($this->wilcards as $key => $listeners)
-        {
-            if (Str::is($key, $eventName))
-            {
+        foreach ($this->wilcards as $key => $listeners) {
+            if (Str::is($key, $eventName)) {
                 $wilcards = array_merge($wilcards, $listeners);
             }
         }
@@ -399,8 +377,7 @@ class Dispatcher implements DispatcherContract
         // If listeners exist for the given event, we will sort them by the priority
         // so that we can call them in the correct order. We will cache off and
         // sorted event listeners so we do not have to re-sort on every events.
-        if (isset($this->listeners[$eventName]))
-        {
+        if (isset($this->listeners[$eventName])) {
             krsort($this->listeners[$eventName]);
 
             $this->sorted[$eventName] = call_user_func_array(
@@ -418,12 +395,9 @@ class Dispatcher implements DispatcherContract
      */
     public function delete($event)
     {
-        if (Str::contains($event, '*'))
-        {
+        if (Str::contains($event, '*')) {
             unset($this->wilcards[$event]);
-        }
-        else
-        {
+        } else {
             unset($this->listeners[$event], $this->sorted[$event]);
         }
     }

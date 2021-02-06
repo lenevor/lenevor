@@ -96,35 +96,27 @@ class FileStore implements Store
     {
         $path = $this->path($key);
 
-        if ( ! $this->files->exists($path))
-        {
+        if ( ! $this->files->exists($path)) {
             return $this->emptyPayLoad();
         }
 
-        try
-        {
+        try {
             $expires = substr($contents = $this->files->get($path, true), 0, 10);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             return $this->emptyPayLoad();
         }
 
-        if ($this->currentTime() >= $expires)
-        {
+        if ($this->currentTime() >= $expires) {
             $this->delete($key);
 
             return $this->emptyPayLoad();
         }
 
-        try
-        {   
+        try {   
             $data = (new FileCacheRegister)
                     ->unserialize(substr($contents, 10))
                     ->getData();
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             return $this->emptyPayLoad();
         }
 
@@ -186,8 +178,7 @@ class FileStore implements Store
      */
     protected function createCacheDirectory($path)
     {
-        if ( ! $this->files->exists(dirname($path)))
-        {
+        if ( ! $this->files->exists(dirname($path))) {
             $this->files->makeDirectory(dirname($path), DIR_READ_WRITE_MODE, true, true);
         }
     }
@@ -245,8 +236,7 @@ class FileStore implements Store
      */
     public function delete($key)
     {
-        if ($this->files->exists($file = $this->path($key)))
-        {
+        if ($this->files->exists($file = $this->path($key))) {
             return $this->files->delete($file);
         }
 
@@ -273,15 +263,12 @@ class FileStore implements Store
      */
     public function flush()
     {
-        if ( ! $this->files->isDirectory($this->directory)) 
-        {
+        if ( ! $this->files->isDirectory($this->directory)) {
             return false;
         }
 
-        foreach ($this->files->directories($this->directory) as $directory)
-        {
-            if ( ! $this->files->deleteDirectory($directory))
-            {
+        foreach ($this->files->directories($this->directory) as $directory) {
+            if ( ! $this->files->deleteDirectory($directory)) {
                 return false;
             }
         }

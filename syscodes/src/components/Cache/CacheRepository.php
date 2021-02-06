@@ -86,8 +86,7 @@ class CacheRepository implements ArrayAccess
     {
         $value = $this->store->get($this->itemKey($key));
 
-        if (is_null($value))
-        {
+        if (is_null($value)) {
             $value = value($default);
         }
 
@@ -118,15 +117,13 @@ class CacheRepository implements ArrayAccess
      */
     public function save($key, $value, $ttl = null)
     {
-        if (null === $ttl)
-        {
+        if (null === $ttl) {
             return $this->forever($key, $value);
         }
         
         $seconds = $this->getSeconds($ttl);
 
-        if ($seconds <= 0)
-        {
+        if ($seconds <= 0) {
             return $this->delete($key);
         }
 
@@ -205,8 +202,7 @@ class CacheRepository implements ArrayAccess
     {
         $duration = $this->parseDateInterval($ttl);
 
-        if ($duration instanceof DateTime)
-        {
+        if ($duration instanceof DateTime) {
             $duration = $duration->diff($duration, false);
         }
 

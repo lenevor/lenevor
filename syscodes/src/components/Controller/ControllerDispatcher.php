@@ -70,8 +70,7 @@ class ControllerDispatcher implements ControllerDispatcherContract
             $route->parametersWithouNulls(), $controller, $method
         );
         
-        if (method_exists($controller, 'callAction'))
-        {
+        if (method_exists($controller, 'callAction')) {
             return $controller->callAction($method, $parameters);
         }
         

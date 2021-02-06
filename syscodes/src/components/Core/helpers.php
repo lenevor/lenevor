@@ -59,8 +59,7 @@ if ( ! function_exists('app'))
      */
     function app($id = null, array $parameters = [])
     {
-        if (is_null($id))
-        {
+        if (is_null($id)) {
             return Application::getInstance();
         }
 
@@ -133,23 +132,19 @@ if ( ! function_exists('cache'))
     {
         $arguments = func_get_args();
         
-        if (empty($arguments))
-        {
+        if (empty($arguments)) {
             return app('cache');
         }
         
-        if (is_string($arguments[0]))
-        {
+        if (is_string($arguments[0])) {
             return app('cache')->get(...$arguments);
         }
         
-        if ( ! is_array($arguments[0]))
-        {
+        if ( ! is_array($arguments[0])) {
             throw new Exception('When setting a value in the cache, you must pass an array of key / value pairs.');
         }
         
-        if ( ! isset($arguments[1]))
-        {
+        if ( ! isset($arguments[1])) {
             throw new Exception('You must specify an expiration time when setting a value in the cache.');
         }
         
@@ -171,13 +166,11 @@ if ( ! function_exists('config'))
      */
     function config($key = null, $value = null)
     {
-        if ($key === null)
-        {
+        if ($key === null) {
             return app('config');
         }
 
-        if (is_array($key))
-        {
+        if (is_array($key)) {
             return app('config')->set($key, $value);
         }
         
@@ -211,8 +204,7 @@ if ( ! function_exists('csrfToken'))
     {
         $session = app('session');
         
-        if (isset($session))
-        {
+        if (isset($session)) {
             return $session->token();
         }
 
@@ -315,15 +307,12 @@ if ( ! function_exists('isGetCommonPath'))
         $lastOffset = 1;
         $common     = '/';
         
-        while (($index = strpos($paths[0], '/', $lastOffset)) !== false)
-        {
+        while (($index = strpos($paths[0], '/', $lastOffset)) !== false) {
             $dirLen = $index - $lastOffset + 1; // include
             $dir = substr($paths[0], $lastOffset, $dirLen);
             
-            foreach ($paths as $path)
-            {
-                if (substr($path, $lastOffset, $dirLen) != $dir)
-                {
+            foreach ($paths as $path) {
+                if (substr($path, $lastOffset, $dirLen) != $dir) {
                     return $common;
                 }
             }
@@ -351,14 +340,12 @@ if ( ! function_exists('isImport'))
         $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
         
         // load it ffrom the core if it exists
-        if (is_file(SYS_PATH.$folder.DIRECTORY_SEPARATOR.$path.'.php'))
-        {
+        if (is_file(SYS_PATH.$folder.DIRECTORY_SEPARATOR.$path.'.php')) {
             require_once SYS_PATH.$folder.DIRECTORY_SEPARATOR.$path.'.php';
         }
         
         // if the app has an override (or a non-core file), load that too
-        if (is_file(APP_PATH.$folder.DIRECTORY_SEPARATOR.$path.'.php'))
-        {
+        if (is_file(APP_PATH.$folder.DIRECTORY_SEPARATOR.$path.'.php')) {
             require_once APP_PATH.$folder.DIRECTORY_SEPARATOR.$path.'.php';
         }
     }
@@ -393,8 +380,7 @@ if ( ! function_exists('redirect'))
      */
     function redirect($url = null, $code = 302, $headers = [], $secure = null)
     {
-        if (null === $url)
-        {
+        if (null === $url) {
             return app('redirect');
         }
         
@@ -414,8 +400,7 @@ if ( ! function_exists('request'))
      */
     function request($key = null, $default = null)
     {
-        if (null === $key)
-        {
+        if (null === $key) {
             return app('request');
         }
 
@@ -440,8 +425,7 @@ if ( ! function_exists('response'))
     {
         $response = app(RouteResponse::class);
 
-        if (func_num_args() === 0) 
-        {
+        if (func_num_args() === 0) {
             return $response;
         }
 
@@ -525,13 +509,11 @@ if ( ! function_exists('session'))
      */
     function session($key = null, $default = null)
     {
-        if (is_null($key))
-        {
+        if (is_null($key)) {
             return app('session');
         }
 
-        if (is_array($key))
-        {
+        if (is_array($key)) {
             return app('session')->put($key, $default);
         }
 
@@ -626,8 +608,7 @@ if ( ! function_exists('url'))
      */
     function url($path = null, $parameters = [], $secure = null)
     {
-        if (is_null($path)) 
-        {
+        if (is_null($path)) {
             return app(UrlGenerator::class);
         }
 
@@ -652,8 +633,7 @@ if ( ! function_exists('view'))
     {
         $view = app(Factory::class);
 
-        if (func_num_args() === 0) 
-        {
+        if (func_num_args() === 0) {
             return $view;
         }
 

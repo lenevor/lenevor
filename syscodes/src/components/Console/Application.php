@@ -51,8 +51,7 @@ class Application implements ApplicationContracts
 	public function __construct(Lenevor $core)
 	{		
 		// Initialize the Cli
-		if ($core->initCli())
-		{
+		if ($core->initCli()) {
 			Cli::initialize($core);
 		}
 

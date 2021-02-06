@@ -57,8 +57,7 @@ class Arr
 	 */
 	public static function add($array, $key, $value)
 	{
-		if (is_null(static::get($array, $key)))
-		{
+		if (is_null(static::get($array, $key))) {
 			static::set($array, $key, $value);
 		}
 
@@ -74,14 +73,10 @@ class Arr
     {
         $results = [];
 
-        foreach ($array as $values)
-        {
-			if ($values instanceof Collection)
-			{
+        foreach ($array as $values) {
+			if ($values instanceof Collection) {
 				$values = $values->all();
-			}
-			elseif ( ! is_array($values))
-			{
+			} elseif ( ! is_array($values)) {
 				continue;
 			}
 
@@ -130,8 +125,7 @@ class Arr
 	 */
 	public static function exists($array, $key) 
 	{
-		if ($array instanceof ArrayAccess) 
-		{
+		if ($array instanceof ArrayAccess) {
 			return $array->offsetExists($key);
 		}
 		
@@ -152,15 +146,12 @@ class Arr
 
 		$keys = (array) $keys;
 
-		if (count($keys) === 0) 
-		{
+		if (count($keys) === 0) {
 			return;
 		}
 
-		foreach ($keys as $key)
-		{
-			if (static::exists($array, $key))
-			{
+		foreach ($keys as $key) {
+			if (static::exists($array, $key)) {
 				unset($array[$key]);
 
 				continue;
@@ -172,16 +163,12 @@ class Arr
 			$array = &$original;
 	
 			// traverse the array into the second last key
-			while (count($parts) > 1) 
-			{
+			while (count($parts) > 1) {
 				$part = array_shift($parts);
 	
-				if (isset($array[$part]) && is_array($array[$part])) 
-				{
+				if (isset($array[$part]) && is_array($array[$part])) {
 					$array = &$array[$key];
-				}
-				else
-				{
+				} else {
 					continue 2;
 				}
 			}
@@ -218,14 +205,11 @@ class Arr
 	 */
 	public static function fetch($array, $key)
 	{
-		foreach (explode('.', $key) as $segment)
-		{
+		foreach (explode('.', $key) as $segment) {
 			$results = array();
 			
-			foreach ($array as $value)
-			{
-				if (array_key_exists($segment, $value = (array) $value))
-				{
+			foreach ($array as $value) {
+				if (array_key_exists($segment, $value = (array) $value)) {
 					$results[] = $value[$segment];
 				}
 			}
@@ -247,8 +231,7 @@ class Arr
 	 */
 	public static function first($array, callable $callback, $default = null)
 	{
-		foreach ($array as $key => $value)
-		{ 
+		foreach ($array as $key => $value) { 
 			if (call_user_func($callback, $key, $value)) return $value;
 		}
 
@@ -266,24 +249,18 @@ class Arr
 	 */
 	public static function get($array, $key, $default = null)
 	{
-		if ( ! static::access($array))
-		{
+		if ( ! static::access($array)) {
 			return value($default);
 		}
 
-		if (static::exists($array, $key)) 
-		{
+		if (static::exists($array, $key)) {
 			return $array[$key];
 		}
 
-		foreach (explode('.', $key) as $segm)
-		{
-			if (static::access($array) && static::exists($array, $segm))
-			{
+		foreach (explode('.', $key) as $segm) {
+			if (static::access($array) && static::exists($array, $segm)) {
 				$array = $array[$segm];
-			}
-			else
-			{
+			} else {
 				return value($default);
 			}
 		}
@@ -321,10 +298,8 @@ class Arr
 		
 		if (array_key_exists($key, $array)) return true;
 		
-		foreach (explode('.', $key) as $segment)
-		{
-			if ( ! is_array($array) || ! static::exists($array, $segment))
-			{
+		foreach (explode('.', $key) as $segment) {
+			if ( ! is_array($array) || ! static::exists($array, $segment)) {
 				return false;
 			}
 			
@@ -360,12 +335,10 @@ class Arr
 	{
 		$keys = explode('.', $key);
 
-		while (count($keys) > 1)
-		{
+		while (count($keys) > 1) {
 			$key = array_shift($keys);
 
-			if ( ! static::exists($array, $key))
-			{
+			if ( ! static::exists($array, $key)) {
 				$array[$key] = [];
 			}
 
@@ -388,12 +361,9 @@ class Arr
 	 */
 	public static function prepend($array, $value, $key = null)
 	{
-		if (func_num_args() == 2)
-		{
+		if (func_num_args() == 2) {
 			array_unshift($array, $value);
-		}
-		else
-		{
+		} else {
 			$array = [$key => $value] + $array;
 		}
 
@@ -452,8 +422,7 @@ class Arr
 	 */
 	public static function wrap($value)
 	{
-		if (is_null($value))
-		{
+		if (is_null($value)) {
 			return [];
 		}
 

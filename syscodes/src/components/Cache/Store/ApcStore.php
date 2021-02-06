@@ -70,8 +70,7 @@ class ApcStore implements Store
     {
         $value = $this->apc->get($this->prefix.$key);
 
-        if (false !== $value)
-        {
+        if (false !== $value) {
             return $value;
         }
     }

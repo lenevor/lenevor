@@ -69,12 +69,9 @@ class Configure implements ArrayAccess, ConfigureContract
 	{
 		$keys = explode('.', $key);
 
-		if ( ! array_key_exists($file = current($keys), $this->vars))
-		{
-			foreach ([CON_PATH] as $paths)
-			{
-				if (is_readable($path = $paths.$file.'.php'))
-				{
+		if ( ! array_key_exists($file = current($keys), $this->vars)) {
+			foreach ([CON_PATH] as $paths) {
+				if (is_readable($path = $paths.$file.'.php')) {
 					$this->vars[$file] = require $path;
 				}				
 			}
@@ -111,8 +108,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	 */
 	public function erase(string $key)
 	{
-		if (isset($this->$vars[$key]))
-		{
+		if (isset($this->$vars[$key])) {
 			unset($this->$vars[$key]);
 		}
 		

@@ -181,8 +181,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      */
     public function filter(Callable $callback = null)
     {
-        if ($callback)
-        {
+        if ($callback) {
             return new static(Arr::where($this->items, $callback));
         }
 
@@ -199,12 +198,9 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      */
     public function first(Callable $callback = null, $default = null)
     {
-        if (is_null($callback))
-        {
+        if (is_null($callback)) {
             return count($this->items) > 0 ? head($this->items) : null;
-        }
-        else
-        {
+        } else {
             return Arr::first($this->items, $callback, $default);
         }
     }
@@ -250,8 +246,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      */
     public function erase($keys)
     {
-        foreach ((array) $keys as $key)
-        {
+        foreach ((array) $keys as $key) {
             $this->offsetUnset($key);
         }
 
@@ -425,8 +420,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      */
     public function push(...$values)
     {
-        foreach ($values as $value)
-        {
+        foreach ($values as $value) {
             $this->items[] = $value;
         }
 
@@ -518,15 +512,12 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      */
     public function search($value, $strict = false)
     {
-        if ( ! $this->usesAsCallable($value))
-        {
+        if ( ! $this->usesAsCallable($value)) {
             return array_search($value, $this->items, $strict);
         }
 
-        foreach($this->items as $key => $item)
-        {
-            if ($value($item, $key))
-            {
+        foreach($this->items as $key => $item) {
+            if ($value($item, $key)) {
                 return $key;
             }
         }
@@ -570,15 +561,13 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      */
     public function chunk($size)
     {
-        if ($size <= 0)
-        {
+        if ($size <= 0) {
             return new static;
         }
 
         $chunks = [];
 
-        foreach (array_chunk($this->items, $size, true) as $chunk)
-        {
+        foreach (array_chunk($this->items, $size, true) as $chunk) {
             $chunks[] = $chunk;
         }
 
@@ -606,8 +595,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      */
     public function splice($offset, $length = null, $replacement = [])
     {
-        if (func_num_args() == 1)
-        {
+        if (func_num_args() == 1) {
             return new static(array_splice($this->items, $offset));
         }
 
@@ -623,8 +611,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      */
     public function take($limit)
     {
-        if ($limit < 0)
-        {
+        if ($limit < 0) {
             $this->slice($limit, abs($limit));
         }
 
@@ -687,20 +674,13 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      */
     private function getArrayItems($items)
     {
-        if (is_array($items))
-        {
+        if (is_array($items)) {
             return $items;
-        }
-        elseif($items instanceof Arrayable)
-        {
+        } elseif($items instanceof Arrayable) {
             return $items->toArray();
-        }
-        elseif ($items instanceof Jsonable)
-        {
+        } elseif ($items instanceof Jsonable) {
             return json_decode($items->toJson(), true);
-        }
-        elseif ($items instanceof Collection)
-        {
+        } elseif ($items instanceof Collection) {
             return $items->all();
         }
 
@@ -779,12 +759,9 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      */
     public function offsetSet($offset, $value)
     {
-        if (is_null($offset))
-        {
+        if (is_null($offset)) {
             $this->items[] = $value;
-        }
-        else
-        {
+        } else {
             $this->items[$offset] = $value;
         }
     }

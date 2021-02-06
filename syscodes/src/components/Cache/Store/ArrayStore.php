@@ -56,8 +56,7 @@ class ArrayStore implements Store
 
         $expiration = $item['expiration'] ?? 0;
 
-        if ($expiration !== 0 && $this->currentTime() > $expiration)
-        {
+        if ($expiration !== 0 && $this->currentTime() > $expiration) {
             $this->delete($key);
 
             return;
@@ -95,8 +94,7 @@ class ArrayStore implements Store
      */
     public function increment($key, $value = 1)
     {
-        if ( ! isset($this->storage[$key]))
-        {
+        if ( ! isset($this->storage[$key])) {
             $this->forever($key, $value);
 
             return $this->storage[$key]['value'];

@@ -135,8 +135,7 @@ class Cli
 	 */
  	public static function initialize(Lenevor $core)
  	{
- 		if ( ! $core->initCli())
- 		{
+ 		if ( ! $core->initCli()) {
 			throw new Exception('Cli class cannot be used outside of the command line');
  		}
 
@@ -204,25 +203,21 @@ class Cli
  			return $text;
  		}
 
- 		if ( ! Arr::exists(static::$foregroundColors, $foreground))
- 		{
+ 		if ( ! Arr::exists(static::$foregroundColors, $foreground)) {
  			throw new LenevorException(static::error("Invalid CLI foreground color: {$foreground}."));
  		}
 
- 		if ( $background !== null && ! Arr::exists(static::$backgroundColors, $background))
- 		{
+ 		if ( $background !== null && ! Arr::exists(static::$backgroundColors, $background)) {
  			throw new LenevorException(static::error("Invalid CLI background color: {$background}."));
  		}
 
  		$string = "\033[".static::$foregroundColors[$foreground]."m";
 
- 		if ($background !== null)
- 		{
+ 		if ($background !== null) {
  			$string .= "\033[".static::$backgroundColors[$background]."m";
  		}
 
- 		if ($format === 'underline')
- 		{
+ 		if ($format === 'underline') {
  			$string .= "\033[4m";
  		}
 
@@ -240,18 +235,15 @@ class Cli
  	 */
  	public static function strlen(?string $string)
  	{
- 		if (is_null($string))
- 		{
+ 		if (is_null($string)) {
  			return 0;
  		}
 
- 		foreach (static::$foregroundColors as $color)
- 		{
+ 		foreach (static::$foregroundColors as $color) {
  			$string = strtr($string, ["\033[".$color.'m' => '']);
  		}
 
- 		foreach (static::$backgroundColors as $color)
- 		{
+ 		foreach (static::$backgroundColors as $color) {
  			$string = strtr($string, ["\033[".$color.'m' => '']);
  		}
 
@@ -271,13 +263,11 @@ class Cli
  	 */
  	public static function error(string $text = '', string $foreground = 'light_red', string $background = null)
  	{
-		if (is_array($text))
-		{
+		if (is_array($text)) {
 			$text = implode(PHP_EOL, $text);
 		}
 		
-		if ($foreground || $background)
-		{
+		if ($foreground || $background) {
 			$text = static::color($text, $foreground, $background);
 		}
 		
@@ -293,8 +283,7 @@ class Cli
 	 */
 	public static function getWidth(int $default = 80)
 	{
-		if (static::isWindows() || (int) shell_exec('tput cols') === 0)
-		{
+		if (static::isWindows() || (int) shell_exec('tput cols') === 0) {
 			return $default;
 		}
 
@@ -310,8 +299,7 @@ class Cli
 	 */
 	public static function getHeight(int $default = 32)
 	{
-		if (static::isWindows())
-		{
+		if (static::isWindows()) {
 			return $default;
 		}
 
@@ -330,18 +318,15 @@ class Cli
 	 */
 	public static function wrap(string $string = null, int $max = 0, int $padLeft = 0)
 	{
-		if (empty($string))
-		{
+		if (empty($string)) {
 			return '';
 		}
 
-		if ($max === 0)
-		{
+		if ($max === 0) {
 			$max = static::getWidth();
 		}
 
-		if (static::getWidth() < $max)
-		{
+		if (static::getWidth() < $max) {
 			$max = static::getWidth();
 		}
 
@@ -349,20 +334,16 @@ class Cli
 
 		$lines = wordwrap($string, $max);
 
-		if ($pad_left > 0)
-		{
+		if ($pad_left > 0) {
 			$lines = explode(PHP_EOL, $lines);
 
 			$first = true;
 
 			array_walk ($lines, function (&$line, $index) use ($pad_left, &$first) {
 
-				if ( ! $first)
-				{
+				if ( ! $first) {
 					$line = str_repeat(' ', $pad_left) . $line;
-				}
-				else
-				{
+				} else {
 					$first = false;
 				}
 
@@ -383,8 +364,7 @@ class Cli
  	 */
  	public static function input($prefix = '')
  	{
- 		if (static::$readlineSupport)
- 		{
+ 		if (static::$readlineSupport) {
  			return readline($prefix);
  		}
 
@@ -412,8 +392,7 @@ class Cli
  	 */
  	public static function newLine(int $num = 1)
  	{
- 		for ($i = 0; $i < $num; $i++)
- 		{			
+ 		for ($i = 0; $i < $num; $i++) {			
  			static::write();
  		}
  	}
@@ -430,8 +409,7 @@ class Cli
 	 */
  	public static function option($name, $default = null)
  	{
- 		if ( ! isset(static::$options[$name]))
- 		{
+ 		if ( ! isset(static::$options[$name])) {
  			return Lenevor::value($default);
  		}
 
@@ -448,10 +426,8 @@ class Cli
 	{
 		$options = false;
 
-		for ($i = 1; $i < $_SERVER['argc']; $i++)
-		{
-			if ( ! $options && mb_strpos($_SERVER['argv'][$i], '-') === false)
-			{
+		for ($i = 1; $i < $_SERVER['argc']; $i++) {
+			if ( ! $options && mb_strpos($_SERVER['argv'][$i], '-') === false) {
 				static::$segments[] = $_SERVER['argv'][$i];
 
 				continue;
@@ -462,8 +438,7 @@ class Cli
 			$args  = str_replace('-', '', $_SERVER['argv'][$i]);
 			$value = null;
 
-			if (isset($_SERVER['argv'][$i + 1]) && mb_strpos($_SERVER['argv'][$i + 1], '-') !== 0)
-			{
+			if (isset($_SERVER['argv'][$i + 1]) && mb_strpos($_SERVER['argv'][$i + 1], '-') !== 0) {
 				$value = $_SERVER['argv'][$i + 1];
 				$i++;
 			}
@@ -494,8 +469,7 @@ class Cli
 	 */
 	public static function getSegment(int $index)
 	{
-		if ( ! isset(static::$segments[$index - 1]))
-		{
+		if ( ! isset(static::$segments[$index - 1])) {
 			return null;
 		}
 
@@ -549,19 +523,15 @@ class Cli
 		$required === true and --$arg_count;
 
 		// This method can take a few crazy combinations of arguments, so lets work it out
-		switch ($arg_count)
-		{
+		switch ($arg_count) {
 			case 2:
 
 				// E.g: $ready = Cli::prompt('Are you ready?', ['y','n']);
-				if (is_array($args[1]))
-				{
+				if (is_array($args[1])) {
 					list($output, $options) = $args;
 				}
-
 				// E.g: $color = Cli::prompt('What is your favourite color?', 'white');
-				elseif (is_string($args[1]))
-				{
+				elseif (is_string($args[1])) {
 					list($output, $default) = $args;
 				}
 
@@ -571,15 +541,12 @@ class Cli
 
 				// No question (probably been asked already) so just show options
 				// E.g: $ready = Cli::prompt(array('y','n'));
-				if (is_array($args[0]))
-				{
+				if (is_array($args[0])) {
 					$options = $args[0];
 				}
-
 				// Question without options
 				// E.g: $ready = Cli::prompt('What did you do today?');
-				elseif (is_string($args[0]))
-				{
+				elseif (is_string($args[0])) {
 					$output = $args[0];
 				}
 
@@ -587,16 +554,12 @@ class Cli
 		}
 
 		// If a question has been asked with the read
-		if ($output !== '')
-		{
+		if ($output !== '') {
 			$extra_output = '';
 
-			if ($default !== null)
-			{
+			if ($default !== null) {
 				$extra_output = ' [ Default: "'.$default.'" ]';
-			}
-			elseif ($options !== [])
-			{
+			} elseif ($options !== []) {
 				$extra_output = ' [ '.implode(' | ', $options).' ]';
 			}
 
@@ -607,8 +570,7 @@ class Cli
 		$input = trim(static::input()) ?: $default;
 
 		// No input provided and we require one (default will stop this being called)
-		if (empty($input) and $required === true)
-		{
+		if (empty($input) and $required === true) {
 			static::write('This is required.');
 			static::newLine();
 
@@ -616,8 +578,7 @@ class Cli
 		}
 
 		// If options are provided and the choice is not in the array, tell them to try again
-		if ( ! empty($options) and ! in_array($input, $options))
-		{
+		if ( ! empty($options) and ! in_array($input, $options)) {
 			static::write('This is not a valid option. Please try again.');
 			static::newLine();
 
@@ -637,15 +598,11 @@ class Cli
 	 */
  	public static function setOption($name, $value = null)
  	{
- 		if ($value == null)
- 		{
- 			if (isset(static::$options[$name]))
- 			{
+ 		if ($value == null) {
+ 			if (isset(static::$options[$name])) {
  				unset(static::$options[$name]);
  			}
- 		}
- 		else
- 		{
+ 		} else {
  			static::$options[$name] = $value;
  		}
  	}
@@ -661,27 +618,20 @@ class Cli
  	 */
  	public static function wait(int $seconds = 0, bool $countdown = false)
  	{
- 		if ($countdown === true)
- 		{
+ 		if ($countdown === true) {
 			$time = $seconds;
 
- 			while ($time > 0)
- 			{
+ 			while ($time > 0) {
  				fwrite(static::$stdout, $time.'... ');
  				sleep(1);
  				$time--;
  			}
 
  			static::write();
- 		}
- 		else
- 		{
- 			if ($seconds = 0)
- 			{
+ 		} else {
+ 			if ($seconds = 0) {
  				sleep($seconds);
- 			}
- 			else
- 			{
+ 			} else {
  				static::write(static::$waitMsg);
  				static::input();
  			}
@@ -700,13 +650,11 @@ class Cli
  	 */
  	public static function write(string $text = '', string $foreground = null, string $background = null)
  	{
- 		if (is_array($text))
- 		{
+ 		if (is_array($text)) {
  			$text = implode(PHP_EOL, $text);
  		}
 
- 		if ($foreground OR $background)
- 		{
+ 		if ($foreground OR $background) {
  			$text = static::color($text, $foreground, $background);
  		}
 
@@ -725,13 +673,11 @@ class Cli
  	{
  		$rows = [];
 
- 		if ( ! empty($thead))
- 		{
+ 		if ( ! empty($thead)) {
  			$rows[] = array_values($thead);
  		}
 
- 		foreach ($tbody as $tr)
- 		{
+ 		foreach ($tbody as $tr) {
  			$rows[] = count($rows);
  		}
 
@@ -743,16 +689,13 @@ class Cli
  		// Store maximum lengths by column
  		$maxColsLengths = [];
 
- 		for ($row = 0; $row < $totalRows; $row++)
- 		{
+ 		for ($row = 0; $row < $totalRows; $row++) {
  			$column = 0;
 
- 			foreach ($rows[$row] as $col)
- 			{
+ 			foreach ($rows[$row] as $col) {
  				$allColsLengths[$row][$column] = static::strlen($col);
 
- 				if ( ! isset($maxColsLengths[$column]) || $allColsLengths[$row][$column] > $maxColsLengths[$column])
- 				{
+ 				if ( ! isset($maxColsLengths[$column]) || $allColsLengths[$row][$column] > $maxColsLengths[$column]) {
  					$maxColsLengths[$column] = $allColsLengths[$row][$column];
  				}
 
@@ -760,16 +703,14 @@ class Cli
  			}
  		}
 
- 		for ($row = 0; $row < $totalRows; $row++)
- 		{
+ 		for ($row = 0; $row < $totalRows; $row++) {
  			$column = 0;
 
  			foreach ($rows[$row] as $col)
  			{
  				$diverse = $maxColsLengths[$column] - static::strlen($col);
  				
- 				if ($diverse)	
- 				{
+ 				if ($diverse) {
  					$rows[$row][$column] = $rows[$row][$column].str_repeat(' ', $diverse);
  				}
 
@@ -779,14 +720,11 @@ class Cli
 
  		$table = '';
 
- 		for ($row = 0; $row < $rows; $row++)
- 		{
- 			if (0 === $row)
- 			{
+ 		for ($row = 0; $row < $rows; $row++) {
+ 			if (0 === $row) {
  				$cols = '+';
 
- 				foreach ($rows[$row] as $col) 
- 				{
+ 				foreach ($rows[$row] as $col) {
  					$cols .= str_repeat('-', static::strlen($col) + 2).'+';
  				}
 
@@ -795,8 +733,7 @@ class Cli
 
  			$table .= '| '.implode('-', $rows[$row]).' |'.PHP_EOL;
 
- 			if (0 === $row && ! empty($thead) || $row + 1 === $rows)
- 			{
+ 			if (0 === $row && ! empty($thead) || $row + 1 === $rows) {
  				$table .= $cols.PHP_EOL;
  			}
  		}
