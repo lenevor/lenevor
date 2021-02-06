@@ -89,6 +89,13 @@ class Request
 	protected $http;
 
 	/**
+	 * The decoded JSON content for the request.
+	 * 
+	 * @var \Syscodes\Http\Contributors\Parameters|null $json
+	 */
+	protected $json;
+
+	/**
 	 * The current language of the application.
 	 * 
 	 * @var string $languages
@@ -213,8 +220,12 @@ class Request
 	 */
 	public static function createFromRequest($request)
 	{
-		$newRequest = (new static)->duplicate($request->request->all(), $request->cookies->all(), 
-											  $request->files->all(), $request->server->all());
+		$newRequest = (new static)->duplicate(
+			$request->request->all(), $request->cookies->all(), 
+			$request->files->all(), $request->server->all()
+		);
+
+		$newRequest->content = $request->content;
 
 		return $newRequest;
 	}
@@ -477,18 +488,38 @@ class Request
 	}
 
 	/**
-	 * A convenience method that grabs the raw input stream and decodes
-	 * the JSON into an array.
+	 * Get the JSON payload for the request.
 	 * 
-	 * @param  bool  $assoc  (false by default)
-	 * @param  int  $depth  (512 by default)
-	 * @param  int  $options  (0 by default)
+	 * @param  string|null  $key  (null by default)
+	 * @param  mixed  $default  (null by default)
 	 * 
-	 * @return mixed
+	 * @return \Syscodes\Http\Contributors\Parameters|mixed
 	 */
-	public function getJSON(bool $assoc = false, int $depth = 512, int $options = 0)
+	public function json($key = null, $default = null)
 	{
-		return json_decode($this->content, $assoc, $depth, $options);
+		if ( ! isset($this->json)) {
+			$this->json = new Parameters((array) json_decode($this->getContent(), true));
+		}
+
+		if (is_null($key)) {
+			return $this->json;
+		}
+
+		return Arr::get($this->json->all(), $key, $default);
+	}
+
+	/**
+	 * Set the JSON payload for the request
+	 * 
+	 * @param  \Syscodes\Http\Contributors\Parameters  $json
+	 * 
+	 * @return $this
+	 */
+	public function setJson($json)
+	{
+		$this->json = $json;
+
+		return $this;
 	}
 
 	/**
@@ -541,6 +572,7 @@ class Request
 	public function setMethod(string $method) 
 	{
 		$this->method = null;
+
 		$this->server->set('REQUEST_METHOD', $method);
 	}
 	
@@ -697,13 +729,19 @@ class Request
 	 */
 	public function getHost()
 	{
-		if ( ! $host = $this->server->get('SERVER_NAME'))
-		{
-			$host = $this->server->get('SERVER_ADDR', '');
+		if ($forwardedHost = $this->server->get('HTTP_X_FORWARDED_HOST')) {
+			$host = $forawardedHost[0];
+		}
+		elseif ( ! $host = $this->headers->get('HOST')) {
+			if ( ! $host = $this->server->get('SERVER_NAME')) {
+				$host = $this->server->get('REMOTE_ADDR', '');
+			}
 		}
 
-		$host = strtolower(preg_replace('/:\d+$/', '', $this->uri->setHost($host)));
+		$host = $_SERVER['SERVER_NAME'];
 
+		$host = strtolower(preg_replace('/:\d+$/', '', trim(($host))));
+		
 		return $host;
 	}
 
@@ -730,15 +768,14 @@ class Request
 	public function getHttpHost()
 	{
 		$scheme = $this->getScheme();
-		$host   = $this->getHost();
 		$port   = $this->getPort();
 
 		if (('http' === $scheme && 80 === $port) || ('https' === $scheme && 443 === $port))		
 		{
-			return $host;
+			return $this->getHost();
 		}
 
-		return $host.':'.$port;
+		return $this->getHost().':'.$port;
 	}
 
 	/**
