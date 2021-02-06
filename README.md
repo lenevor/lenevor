@@ -20,7 +20,8 @@ Lenevor it strives to stay simple, by focusing on the basics, such as:
 - Multiple back-ends for session and cache storage.
 - Real-time event broadcasting.
 - Separation between the bussines logic and presentation through the Plaze template engine.
-- Lenevor is accessible, powerful, and provides tools required for large, robust applications.
+
+Lenevor is accessible, powerful, and provides tools required for large, robust applications.
 
 ## Security Vulnerabilities
 
