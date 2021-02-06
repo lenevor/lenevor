@@ -106,7 +106,7 @@ class Parameters implements IteratorAggregate, Countable
 	 */
 	public function get($key, $default = null)
 	{
-		if (Arr::exists($this->parameters, $key))
+		if ($this->has($key))
 		{
 			return $this->parameters[$key];
 		}
