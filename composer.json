@@ -6,8 +6,7 @@
 	"license": "BSD-3-Clause",
 	"homepage": "https://lenevor.com",
 	"support": {
-		"forum": "https://forum.lenevor.com/",
-		"wiki": "https://github.com/lenevor/wiki",
+		"wiki": "https://github.com/lenevor/lenevor/wiki",
 		"source": "https://github.com/lenevor"
 	},
 	"authors": [
