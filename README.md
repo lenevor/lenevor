@@ -16,10 +16,10 @@ Lenevor it strives to stay simple, by focusing on the basics, such as:
 
 - A simple, fast routing engine.
 - Powerful dependency injection container.
-- Separation between the bussines logic and presentation through the Plaze template engine.
 - Connection with the database using Query Builder.
 - Multiple back-ends for session and cache storage.
 - Real-time event broadcasting.
+- Separation between the bussines logic and presentation through the Plaze template engine.
 - Lenevor is accessible, powerful, and provides tools required for large, robust applications.
 
 ## Security Vulnerabilities
