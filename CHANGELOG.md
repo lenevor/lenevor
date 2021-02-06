@@ -62,7 +62,7 @@ Release Date: Jun 22, 2020
 
 ## [Version 0.7.0-alpha.7] 
 
-Release Date: Jul 07, 2020
+Release Date: May 20, 2020
 
 **Next alpha release of Lenevor**
 
