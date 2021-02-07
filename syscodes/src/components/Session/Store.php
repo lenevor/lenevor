@@ -107,8 +107,7 @@ class Store implements Session
     {
         $this->loadSession();
 
-        if ( ! $this->has('_token'))
-        {
+        if ( ! $this->has('_token')) {
             $this->regenerateToken();
         }
 
@@ -267,13 +266,11 @@ class Store implements Session
      */
     public function put($key, $value = null)
     {
-        if ( ! is_array($key))
-        {
+        if ( ! is_array($key)) {
             $key = [$key => $value];
         }
 
-        foreach ($key as $itemKey => $itemValue)
-        {
+        foreach ($key as $itemKey => $itemValue) {
             Arr::set($this->items, $itemKey, $itemValue);
         }
     }
@@ -370,8 +367,7 @@ class Store implements Session
      */
     public function migrate($destroy = false)
     {
-        if ($destroy)
-        {
+        if ($destroy) {
             $this->handler->destroy($this->getId());
         }
 

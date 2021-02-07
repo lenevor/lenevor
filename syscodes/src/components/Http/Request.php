@@ -254,12 +254,10 @@ class Request
 	 */
 	protected static function createFromRequestFactory(array $request = [], array $cookies = [], array $files = [], array $server = [])
 	{
-		if (self::$requestURI)
-		{
+		if (self::$requestURI) {
 			$request = (self::$requestURI)($request, $cookies, $files, $server);
 
-			if ( ! $request instanceof self)
-			{
+			if ( ! $request instanceof self) {
 				throw new LogicException('The Request active must return an instance of Syscodes\Http\Request');
 			}
 
@@ -283,23 +281,19 @@ class Request
 	{
 		$duplicate = clone $this;
 
-		if (null !== $request)
-		{
+		if (null !== $request) {
 			$duplicate->request = new Parameters($request);
 		}
 
-		if (null !== $cookies)
-		{
+		if (null !== $cookies) {
 			$duplicate->cookies = new Inputs($cookies);
 		}
 
-		if (null !== $files)
-		{
+		if (null !== $files) {
 			$duplicate->files = new Files($files);
 		}
 
-		if (null !== $server)
-		{
+		if (null !== $server) {
 			$duplicate->server  = new Server($server);
 			$duplicate->headers = new Headers($duplicate->server->all());
 		}
@@ -326,8 +320,7 @@ class Request
 	 */
 	public static function active($request = false)
 	{
-		if ($request !== false)
-		{
+		if ($request !== false) {
 			static::$requestURI = $request;
 		}
 
@@ -344,8 +337,7 @@ class Request
 	 */
 	public function segment($index, $default = null)
 	{
-		if ($request = static::active())
-		{
+		if ($request = static::active()) {
 			return $request->uri->getSegment($index, $default);
 		}
 
@@ -360,8 +352,7 @@ class Request
 	 */
 	public function segments()
 	{
-		if ($request = static::active())
-		{
+		if ($request = static::active()) {
 			return $request->uri->getSegments();
 		}
 
@@ -375,8 +366,7 @@ class Request
 	 */
 	public function totalSegments()
 	{
-		if ($request = static::active())
-		{
+		if ($request = static::active()) {
 			return $request->uri->getTotalSegments();
 		}
 
@@ -397,16 +387,12 @@ class Request
 
 		$baseUrl = ! empty($baseUrl) ? rtrim($baseUrl, '/ ').'/' : $baseUrl;
 
-		if ( ! empty($baseUrl))
-		{
+		if ( ! empty($baseUrl)) {
 			$this->uri->setScheme(parse_url($baseUrl, PHP_URL_SCHEME));
 			$this->uri->setHost(parse_url($baseUrl, PHP_URL_HOST));
 			$this->uri->setPort(parse_url($baseUrl, PHP_URL_PORT));
-		}
-		else 
-		{
-			if ( ! $this->http->isCli())
-			{
+		} else {
+			if ( ! $this->http->isCli()) {
 				exit('You have an empty or invalid base URL. The baseURL value must be set in config/app.php, or through the .env file.');
 			}
 		}
@@ -453,21 +439,17 @@ class Request
 	 */
 	public function setLocale($locale)
 	{
-		if ( ! in_array($locale, $this->validLocales))
-		{
+		if ( ! in_array($locale, $this->validLocales)) {
 			$locale = $this->defaultLocale;
 		}
 		
 		$this->languages = $locale;
 
-		try
-		{
-		    if (class_exists('Locale', false))
-			{
+		try {
+		    if (class_exists('Locale', false)) {
 				Locale::setDefault($locale);
 			}
-		}
-		catch (Exception $exception) {}
+		} catch (Exception $exception) {}
 
 		return $this;
 	}
@@ -479,8 +461,7 @@ class Request
 	 */
 	public function get() 
 	{
-		if ($request = static::active())
-		{
+		if ($request = static::active()) {
 			return $request->uri->get();
 		}
 
@@ -542,20 +523,17 @@ class Request
 	 */
 	public function getmethod()
 	{
-		if (null !== $this->method)
-		{
+		if (null !== $this->method) {
 			return $this->method;
 		}
 		
 		$method = strtoupper($this->server->get('REQUEST_METHOD', 'GET'));
 		
-		if (in_array($method, ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'PATCH', 'PURGE', 'TRACE'], true))
-		{
+		if (in_array($method, ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'PATCH', 'PURGE', 'TRACE'], true)) {
 			return $this->method = $method;
 		}
 		
-		if ( ! preg_match('~^[A-Z]++$#~D', $method))
-		{
+		if ( ! preg_match('~^[A-Z]++$#~D', $method)) {
 			throw new logicException(sprintf('Invalid method override "%s"', $method));
 		}
 
@@ -587,10 +565,8 @@ class Request
 	{
 		$path = $this->decodedPath();
 		
-		foreach ($patterns as $pattern)
-		{
-			if (Str::is($pattern, $path))
-			{
+		foreach ($patterns as $pattern) {
+			if (Str::is($pattern, $path)) {
 				return true;
 			}
 		}
@@ -622,8 +598,7 @@ class Request
 	{
 		$route = $this->getRoute();
 
-		if (is_null($route) || is_null($param))
-		{
+		if (is_null($route) || is_null($param)) {
 			return $route;
 		}
 
@@ -704,8 +679,7 @@ class Request
 	 */
 	public function getRequestUri()
 	{
-		if (null === $this->requestToUri)
-		{
+		if (null === $this->requestToUri) {
 			$this->requestToUri = $this->http->parseRequestUri();
 		}
 
@@ -731,8 +705,7 @@ class Request
 	{
 		if ($forwardedHost = $this->server->get('HTTP_X_FORWARDED_HOST')) {
 			$host = $forawardedHost[0];
-		}
-		elseif ( ! $host = $this->headers->get('HOST')) {
+		} elseif ( ! $host = $this->headers->get('HOST')) {
 			if ( ! $host = $this->server->get('SERVER_NAME')) {
 				$host = $this->server->get('REMOTE_ADDR', '');
 			}
@@ -828,16 +801,11 @@ class Request
 	 */
 	public function secure()
 	{
-		if ( ! empty($this->server->get('HTTPS')) && strtolower($this->server->get('HTTPS')) !== 'off')
-		{
+		if ( ! empty($this->server->get('HTTPS')) && strtolower($this->server->get('HTTPS')) !== 'off') {
 			return true;
-		}
-		elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $this->server->get('HTTP_X_FORWARDED_PROTO') === 'https')
-		{
+		} elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $this->server->get('HTTP_X_FORWARDED_PROTO') === 'https') {
 			return true;
-		}
-		elseif ( ! empty($this->server->get('HTTP_FRONT_END_HTTPS')) && strtolower($this->server->get('HTTP_FRONT_END_HTTPS')) !== 'off')
-		{
+		} elseif ( ! empty($this->server->get('HTTP_FRONT_END_HTTPS')) && strtolower($this->server->get('HTTP_FRONT_END_HTTPS')) !== 'off') {
 			return true;
 		}
 
@@ -875,12 +843,9 @@ class Request
 	{
 		$all = $this->server->all();
 
-		if (array_key_exists($key, $all))
-		{
+		if (array_key_exists($key, $all)) {
 			return $all[$key];
-		}
-		else
-		{
+		} else {
 			return $key;
 		}
 	}

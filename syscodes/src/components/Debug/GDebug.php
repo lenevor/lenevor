@@ -125,10 +125,8 @@ class GDebug implements DebugContract
 		$handlerResponse    = null;
 		$handlerContentType = null;
 		
-		try 
-		{
-			foreach ($this->handlerStack as $handler)
-			{			
+		try {
+			foreach ($this->handlerStack as $handler) {			
 				$handler->setDebug($this);
 				$handler->setException($exception);
 				$handler->setSupervisor($supervisor);
@@ -138,16 +136,14 @@ class GDebug implements DebugContract
 				// Collect the content type for possible sending in the headers
 				$handlerContentType = method_exists($handler, 'contentType') ? $handler->contentType() : null;
 	
-				if (in_array($handlerResponse, [MainHandler::LAST_HANDLER, MainHandler::QUIT]))
-				{
+				if (in_array($handlerResponse, [MainHandler::LAST_HANDLER, MainHandler::QUIT])) {
 					break;
 				}
 			}
 	
 			$Quit = $handlerResponse == MainHandler::QUIT && $this->allowQuit();
 		}
-		finally
-		{
+		finally {
 			// Returns the contents of the output buffer
 			$output = $this->system->CleanOutputBuffer();	
 		}
@@ -156,18 +152,14 @@ class GDebug implements DebugContract
 		$totalTime = $this->benchmark->getElapsedTime('total_execution');
 		$output    = str_replace('{elapsed_time}', $totalTime, $output);
 
-		if ($this->writeToOutput())
-		{
-			if ($Quit)
-			{
-				while ($this->system->getOutputBufferLevel() > 0) 
-				{
+		if ($this->writeToOutput()) {
+			if ($Quit) {
+				while ($this->system->getOutputBufferLevel() > 0) {
 					// Cleanes the output buffer
 					$this->system->endOutputBuffering();
 				}
 
-				if (Misc::sendHeaders() && $handlerContentType)
-				{
+				if (Misc::sendHeaders() && $handlerContentType)	{
 					header("Content-Type: {$handlerContentType}");
 				}
 			}
@@ -175,8 +167,7 @@ class GDebug implements DebugContract
 			$this->writeToOutputBuffer($output);
 		}
 
-		if ($Quit)
-		{
+		if ($Quit) {
 			$this->system->flushOutputBuffer();
 			$this->system->stopException(1);
 		}
@@ -193,8 +184,7 @@ class GDebug implements DebugContract
 	 */
 	public function allowQuit($exit = null)
 	{
-		if (func_num_args() == 0)
-		{
+		if (func_num_args() == 0) {
 			return $this->allowQuit;
 		}
 
@@ -212,8 +202,7 @@ class GDebug implements DebugContract
 	 */
 	public function writeToOutput($send = null)
 	{
-		if (func_num_args() == 0)
-		{
+		if (func_num_args() == 0) {
 			return $this->sendOutput;
 		}
 		
@@ -229,8 +218,7 @@ class GDebug implements DebugContract
 	 */
 	protected function writeToOutputBuffer($output)
 	{
-		if ($this->sendHttpCode() && Misc::sendHeaders())
-		{
+		if ($this->sendHttpCode() && Misc::sendHeaders()) {
 			$this->system->setHttpResponseCode($this->sendHttpCode());
 		}
 		
@@ -254,16 +242,12 @@ class GDebug implements DebugContract
 	 */
 	public function handleError(int $level, string $message, string $file = null, int $line = null)
 	{
-		if ($level & $this->system->getErrorReportingLevel()) 
-		{
+		if ($level & $this->system->getErrorReportingLevel()) {
 			$exception = new ErrorException($message, $level, $level, $file, $line);
 
-			if ($this->throwExceptions)
-			{
+			if ($this->throwExceptions) {
 				throw $exception;
-			}
-			else
-			{
+			} else {
 				$this->handleException($exception);
 			}
 
@@ -324,8 +308,7 @@ class GDebug implements DebugContract
 	 */
 	protected function resolveHandler($handler)
 	{
-		if (is_callable($handler))
-		{
+		if (is_callable($handler)) {
 			$handler = new CallbackHandler($handler);
 		}
 
@@ -421,23 +404,19 @@ class GDebug implements DebugContract
 	 */
 	public function sendHttpCode($code = null)
 	{
-		if (func_num_args() == 0)
-		{
+		if (func_num_args() == 0) {
 			return $this->sendHttpCode;
 		}
 		
-		if ( ! $code)
-		{
+		if ( ! $code) {
 			return $this->sendHttpCode = false;
 		}
 		
-		if ($code === true)
-		{
+		if ($code === true) {
 			$code = 500;
 		}
 		
-		if ($code < 400 || 600 <= $code)
-		{
+		if ($code < 400 || 600 <= $code) {
 			throw new InvalidArgumentException("Invalid status code {$code}, must be 4xx or 5xx");
 		}
 		
@@ -460,8 +439,7 @@ class GDebug implements DebugContract
 		// If we've got an error that hasn't been displayed, then convert
 		// it to an Exception and use the Exception handler to display it
 		// to the user
-		if ($error && Misc::isFatalError($error['type']))
-		{
+		if ($error && Misc::isFatalError($error['type'])) {
 			$this->errorHandler($error['type'], $error['message'], $error['file'], $error['line']);
 		}
 	}

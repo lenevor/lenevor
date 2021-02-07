@@ -55,8 +55,7 @@ class Files extends Parameters
 	 */
 	public function add(array $files = [])
 	{
-        foreach ($files as $key => $file)
-        {
+        foreach ($files as $key => $file) {
             $this->set($key, $file);
         }
 	}

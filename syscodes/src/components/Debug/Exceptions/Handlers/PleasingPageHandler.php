@@ -228,8 +228,7 @@ class PleasingPageHandler extends MainHandler
 		$exception = $this->getException();
 		$code      = $exception->getCode();
 
-		if ($exception instanceof ErrorException)
-		{
+		if ($exception instanceof ErrorException) {
 			$code = Misc::translateErrorCode($exception->getSeverity());
 		}
 
@@ -269,26 +268,20 @@ class PleasingPageHandler extends MainHandler
 	{
 		$processTables = [];
 
-		foreach ($tables as $table)
-		{
-			if ( ! $table instanceof Table)
-			{
+		foreach ($tables as $table) {
+			if ( ! $table instanceof Table) {
 				continue;
 			}
 
 			$label = $table->getLabel();
 
-			try
-			{
+			try {
 				$data = $table->getData();
 
-				if ( ! (is_array($data) || $data instanceof Traversable))
-				{
+				if ( ! (is_array($data) || $data instanceof Traversable)) {
 					$data = [];
 				}
-			}
-			catch (Exception $e)
-			{
+			} catch (Exception $e) {
 				$data = [];
 			}
 
@@ -309,17 +302,14 @@ class PleasingPageHandler extends MainHandler
 	 */
 	protected function getResource($resource)
 	{
-		if (isset($this->resourceCache[$resource]))
-		{
+		if (isset($this->resourceCache[$resource])) {
 			return $this->resourceCache[$resource];
 		}
 
-		foreach ($this->searchPaths as $path)
-		{
+		foreach ($this->searchPaths as $path) {
 			$fullPath = $path.DIRECTORY_SEPARATOR.$resource;
 
-			if (is_file($fullPath))
-			{
+			if (is_file($fullPath)) {
 				// Cache:
 				$this->resourceCache[$resource] = $fullPath;
 
@@ -366,8 +356,7 @@ class PleasingPageHandler extends MainHandler
 	 */
 	public function setEditor($editor)
 	{
-		if ( ! is_callable($editor) && ! isset($this->editors[$editor]))
-		{
+		if ( ! is_callable($editor) && ! isset($this->editors[$editor])) {
 			throw new InvalidArgumentException("Unknown editor identifier: [{$editor}]. Known editors: " .
 				implode(', ', array_keys($this->editors))
 			);
@@ -391,13 +380,11 @@ class PleasingPageHandler extends MainHandler
 	{
 		$editor = $this->getEditor($file, $line);
 
-		if (empty($editor))
-		{
+		if (empty($editor))	{
 			return false;
 		}
 
-		if ( ! isset($editor['url']) || ! is_string($editor['url']))
-		{
+		if ( ! isset($editor['url']) || ! is_string($editor['url'])) {
 			throw new UnexpectedValueException(__METHOD__.'should always resolve to a string or a valid editor array');
 		}
 
@@ -417,34 +404,26 @@ class PleasingPageHandler extends MainHandler
 	 */
 	protected function getEditor($file, $line)
 	{
-		if ( ! $this->editor || ( ! is_string($this->editor) && ! is_callable($this->editor))) 
-		{
+		if ( ! $this->editor || ( ! is_string($this->editor) && ! is_callable($this->editor))) {
 			return [];
 		}
 
-		if (is_string($this->editor) && isset($this->editors[$this->editor]) && ! is_callable($this->editors[$this->editor])) 
-		{
+		if (is_string($this->editor) && isset($this->editors[$this->editor]) && ! is_callable($this->editors[$this->editor])) {
 			return ['url' => $this->editors[$this->editor]];
 		}
 
-		if (is_callable($this->editor) || (isset($this->editors[$this->editor]) && is_callable($this->editors[$this->editor]))) 
-		{
-			if (is_callable($this->editor)) 
-			{
+		if (is_callable($this->editor) || (isset($this->editors[$this->editor]) && is_callable($this->editors[$this->editor]))) {
+			if (is_callable($this->editor)) {
 				$callback = call_user_func($this->editor, $filePath, $line);
-			} 
-			else 
-			{
+			} else {
 				$callback = call_user_func($this->editors[$this->editor], $filePath, $line);
 			}
 
-			if (empty($callback)) 
-			{
+			if (empty($callback)) {
 				return [];
 			}
 
-			if (is_string($callback)) 
-			{
+			if (is_string($callback)) {
 				return ['url' => $callback];
 			}
 			

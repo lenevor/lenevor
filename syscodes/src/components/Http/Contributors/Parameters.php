@@ -106,8 +106,7 @@ class Parameters implements IteratorAggregate, Countable
 	 */
 	public function get($key, $default = null)
 	{
-		if ($this->has($key))
-		{
+		if ($this->has($key)) {
 			return $this->parameters[$key];
 		}
 
@@ -148,8 +147,7 @@ class Parameters implements IteratorAggregate, Countable
 	 */
 	public function remove($key)
 	{
-		if ($this->has($key))
-		{
+		if ($this->has($key)) {
 			unset($this->parameters[$key]);
 		}
 	}

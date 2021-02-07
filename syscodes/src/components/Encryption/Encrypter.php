@@ -64,13 +64,10 @@ class Encrypter implements EncrypterContract
     {
         $this->key = (string) $key;
         
-        if (static::supported($key, $cipher))
-        {
+        if (static::supported($key, $cipher)) {
             $this->key    = $key;
             $this->cipher = $cipher;
-        }
-        else 
-        {
+        } else   {
             throw new RuntimeException('The only supported ciphers are AES-128-CBC and AES-256-CBC with the correct key lengths.');
         }
         
@@ -124,8 +121,7 @@ class Encrypter implements EncrypterContract
             $this->cipher, $this->key, 0, $iv
         );
 
-        if (false === $value)
-        {
+        if (false === $value) {
             throw new EncryptException('Could not encrypt the data');
         }
 
@@ -133,8 +129,7 @@ class Encrypter implements EncrypterContract
         $hmac = $this->hash($iv, $value);
         $json = json_encode(compact('iv', 'value', 'hmac'));
 
-        if (json_last_error() !== JSON_ERROR_NONE)
-        {
+        if (json_last_error() !== JSON_ERROR_NONE) {
             throw new EncryptException('Could not encrypt the data');
         }
 
@@ -181,11 +176,10 @@ class Encrypter implements EncrypterContract
         $payload   = $this->getJsonPayload($value);
         $iv        = base64_decode($payload['iv']);
         $decrypted = openssl_decrypt(
-            $payload['value'], $this->cipher, $this->key, 0, $iv
+                $payload['value'], $this->cipher, $this->key, 0, $iv
         );
 
-        if (false === $decrypted)
-        {
+        if (false === $decrypted) {
             throw new DecryptException('Could not decrypt the data');
         }
 
@@ -205,13 +199,11 @@ class Encrypter implements EncrypterContract
     {
         $payload = json_decode(base64_decode($value), true);
 
-        if ( ! $this->validPayload($payload))
-        {
+        if ( ! $this->validPayload($payload)) {
             throw new DecryptException('The payload is invalid');
         }
 
-        if ( ! $this->validHmac($payload))
-        {
+        if ( ! $this->validHmac($payload)) {
             throw new DecryptException('The Hmac is invalid');
         }
 

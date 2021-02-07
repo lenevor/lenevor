@@ -153,33 +153,26 @@ class ExceptionHandler
      */
     public function handler(Exception $exception)
     {
-        if ($this->handler === null && $exception instanceof OutOfMemoryException)
-        {
+        if ($this->handler === null && $exception instanceof OutOfMemoryException) {
             $this->sendPhpResponse($exception);
         }
 
         $caughtLength = $this->caughtLength = 0;
 
         ob_start(function ($buffer) {
-
             $this->caughtBuffer = $buffer;
 
-            return '';
-            
+            return '';            
         });
 
         $this->sendPhpResponse($exception);
 
-        if (isset($this->caughtBuffer[0]))
-        {
+        if (isset($this->caughtBuffer[0])) {
             ob_start(function ($buffer) {
-
-                if ($this->caughtLength)
-                {
+                if ($this->caughtLength) {
                     $cleanBuffer = substr_replace($buffer, '', 0, $this->caughtLength);
 
-                    if (isset($cleanBuffer[0]))
-                    {
+                    if (isset($cleanBuffer[0])) {
                         $buffer = $cleanBuffer;
                     }
                 }
@@ -195,15 +188,11 @@ class ExceptionHandler
 
         $this->caughtBuffer = null;
 
-        try
-        {
+        try {
             ($this->handler)($exception);
             $caughtLength = $this->caughtLength;
-        }
-        catch (Exception $e)
-        {
-            if ( ! $caughtLength)
-            {
+        } catch (Exception $e) {
+            if ( ! $caughtLength) {
                 throw $e;
             }
         }
@@ -221,17 +210,14 @@ class ExceptionHandler
      */
     public function sendPhpResponse($exception)
     {
-        if ( ! $exception instanceof FlattenException)
-        {
+        if ( ! $exception instanceof FlattenException) {
             $exception = FlattenException::make($exception);
         }
 
-        if ( ! headers_sent())
-        {
+        if ( ! headers_sent()) {
             header(sprintf('HTTP/1.0 %s', $exception->getStatusCode()));
 
-            foreach ($exception->getHeaders() as $name => $value)
-            {
+            foreach ($exception->getHeaders() as $name => $value) {
                 header($name.':'.$value, false);
             }
 
@@ -250,8 +236,7 @@ class ExceptionHandler
      */
     public function getHtmlResponse($exception)
     {
-        if ( ! $exception instanceof FlattenException)
-        {
+        if ( ! $exception instanceof FlattenException) {
             $exception = FlattenException::make($exception);
         }
 
@@ -295,8 +280,7 @@ EOF;
      */
     public function getContent(FlattenException $exception)
     {
-        switch ($exception->getStatusCode())
-        {
+        switch ($exception->getStatusCode()) {
             case 404:
                 $title = 'Sorry, the page you are looking to could not be found';
                 break;
@@ -304,8 +288,7 @@ EOF;
                 $title = 'Whoops, looks like something went wrong';
         }
 
-        if ( ! $this->debug)
-        {
+        if ( ! $this->debug) {
             return <<<EOF
                 <div class="container">
                     <h1>$title</h1>
@@ -315,13 +298,11 @@ EOF;
 
         $content = '';
 
-        try
-        {
+        try {
             $count = count($exception->getAllPrevious());
             $total = $count + 1;
 
-            foreach ($exception->toArray() as $position => $e)
-            {
+            foreach ($exception->toArray() as $position => $e) {
                 $index   = $count - $position + 1;
                 $class   = $this->formatClass($e['class']);
                 $message = nl2br($this->escapeHtml($e['message']));
@@ -338,17 +319,14 @@ EOF;
 EOF
                     , $index, $total, $class, $message);
 
-                foreach ($e['trace'] as $trace) 
-                {
+                foreach ($e['trace'] as $trace) {
                     $content .= '<tr><td>';
 
-                    if ($trace['function']) 
-                    {
+                    if ($trace['function']) {
                         $content .= sprintf('from <span class="trace-class">%s</span><span class="trace-type">%s</span><span class="trace-method">%s</span>(<span class="trace-arguments">%s</span>)', $this->formatClass($trace['class']), $trace['type'], $trace['function'], $this->formatArgs($trace['args']));
                     }
 
-                    if (isset($trace['file']) && isset($trace['line'])) 
-                    {
+                    if (isset($trace['file']) && isset($trace['line'])) {
                         $content .= $this->formatPath($trace['file'], $trace['line']);
                     }
                     
@@ -357,19 +335,14 @@ EOF
 
                 $content .= "</table>\n</div>\n";
             }
-        }
-        catch (Exception $e)
-        {
-            if ($this->debug)
-            {
+        } catch (Exception $e) {
+            if ($this->debug) {
                 $e     = FlattenException::make($e);
                 $title = sprintf('Exception thrown when handling an exception: (%s: %s)',
                     $e->getClass(),
                     $this->escapeHtml($e->getMessage())
                 );
-            }
-            else
-            {
+            } else {
                 $title = 'Whoops, looks like something went wrong';
             }
         }
@@ -476,8 +449,7 @@ EOF;
         $file = $this->escapeHtml(preg_match('#[^/\\\\]*+$#', $path, $file) ? $file[0] : $path);
         $frmt = $this->fileLinkFormat ?: ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
 
-        if ( ! $frmt)
-        {
+        if ( ! $frmt) {
             return sprintf('<span class="block trace-file">in <span title="%s%3$s"><strong>%s</strong>%s</span></span>', 
                 $this->escapeHtml($path),
                 $file,
@@ -485,30 +457,22 @@ EOF;
             );
         }
 
-        if (is_string($frmt))
-        {
+        if (is_string($frmt)) {
             $index  = strpos($f = $frmt, '&', max(strrpos($f, '%f'), strrpos($f, '%l')) ?: strlen($f));
             $frmt = [substr($f, 0, $index)] + preg_split('/&([^>]++)>/', substr($f, $index), -1, PREG_SPLIT_DELIM_CAPTURE);
 
-            for ($index = 1; isset($frmt[$index]); ++$index)
-            {
-                if (strpos($path, $k = $frmt[$index++]))
-                {
+            for ($index = 1; isset($frmt[$index]); ++$index) {
+                if (strpos($path, $k = $frmt[$index++])) {
                     $path = substr_replace($path, $frmt[$index], 0, strlen($k));
                     break;
                 }
             }
 
             $data = strstr($frmt[0], ['%f' => $file, '%l' => $line]);
-        }
-        else
-        {
-            try
-            {
+        } else {
+            try {
                 $data = $frmt->format($file, $line);
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 return sprintf('<span class="block trace-file-path">in <span title="%s%3$s"><strong>%s</strong>%s</span></span>', 
                         $this->escapeHtml($path), $file, 0 < $line ? ' line '.$line : '');
             }
@@ -529,30 +493,18 @@ EOF;
     {
         $result = [];
 
-        foreach ($args as $key => $value)
-        {
-            if ($value[0] === 'object')
-            {
+        foreach ($args as $key => $value) {
+            if ($value[0] === 'object') {
                 $formatValue = sprintf('<em>(Object)</em>%s', $this->formatClass($value[1]));
-            }
-            elseif ($value[0] === 'array')
-            {
+            } elseif ($value[0] === 'array') {
                 $formatValue = sprintf('<em>(array)</em>%s', is_array($value[1]) ? $this->formatArgs($value[1]) : $value[1]);
-            }
-            elseif ($value[0] === 'null')
-            {
+            } elseif ($value[0] === 'null') {
                 $formatValue = '<em>Null</em>';
-            }
-            elseif ($value[0] === 'boolean')
-            {
+            } elseif ($value[0] === 'boolean') {
                 $formatValue = '<em>'.strtolower(var_export($value[1], true)).'</em>';
-            }
-            elseif ($value[0] === 'resource')
-            {
+            } elseif ($value[0] === 'resource') {
                 $formatValue = '<em>resource</em>';
-            }
-            else
-            {
+            } else {
                 $formatValue = str_replace("\n", '', $this->escapeHtml(var_export($value[1], true)));
             }
 

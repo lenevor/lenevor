@@ -86,8 +86,7 @@ class JoinClause
     {
         $this->clauses[] = compact('first', 'operator', 'second', 'boolean', 'where');
 
-        if ($where)
-        {
+        if ($where) {
             $this->bindings[] = $second;
         }
 

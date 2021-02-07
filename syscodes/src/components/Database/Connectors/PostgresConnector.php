@@ -80,13 +80,11 @@ class PostgresConnector extends Connector implements ConnectorInterface
 
         $dsn = "pgsql:{$host}";
 
-        if (isset($config['database']))
-        {
+        if (isset($config['database'])) {
             $dsn .= ";dbname={$config['database']}";
         }
 
-        if (isset($config['port']))
-        {
+        if (isset($config['port'])) {
             $dsn .= ";port={$config['port']}";
         }
 
@@ -105,8 +103,7 @@ class PostgresConnector extends Connector implements ConnectorInterface
     {
         foreach (['sslmode', 'sslcert', 'sslkey', 'sslrootcert'] as $option)
         {
-            if (isset($config[$option]))
-            {
+            if (isset($config[$option])) {
                 $dsn .= ";{$option}={$config[$option]}";
             }
         }
@@ -124,8 +121,7 @@ class PostgresConnector extends Connector implements ConnectorInterface
      */
     protected function configureEncoding($connection, array $config)
     {
-        if ( ! isset($config['charset']))
-        {
+        if ( ! isset($config['charset'])) {
             return;
         }
 
@@ -142,8 +138,7 @@ class PostgresConnector extends Connector implements ConnectorInterface
      */
     protected function configureTimezone($connection, array $config)
     {
-        if (isset($config['timezone']))
-        {
+        if (isset($config['timezone'])) {
             $connection->prepare("set time zone {$config['timezone']}")->execute();
         }
     }
@@ -158,8 +153,7 @@ class PostgresConnector extends Connector implements ConnectorInterface
      */
     protected function configureSchema($connection, array $config)
     {
-        if (isset($config['schema']))
-        {
+        if (isset($config['schema'])) {
             $connection->prepare("set search_path to {$config['schema']}")->execute();
         }
     }

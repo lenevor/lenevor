@@ -81,20 +81,13 @@ class TemplateHandler
 	 */
 	public function cleanPath($file)
 	{
-		if (strpos($file, APP_PATH) === 0)
-		{
+		if (strpos($file, APP_PATH) === 0) {
 			$file = 'APP_PATH'.DIRECTORY_SEPARATOR.substr($file, strlen(APP_PATH));
-		}
-		elseif (strpos($file, SYS_PATH) === 0)
-		{
+		} elseif (strpos($file, SYS_PATH) === 0) {
 			$file = 'SYS_PATH'.DIRECTORY_SEPARATOR.substr($file, strlen(SYS_PATH));
-		}
-		elseif (strpos($file, CON_PATH) === 0)
-		{
+		} elseif (strpos($file, CON_PATH) === 0) {
 			$file = 'CON_PATH'.DIRECTORY_SEPARATOR.substr($file, strlen(CON_PATH));
-		}
-		elseif (strpos($file, RES_PATH) === 0)
-		{
+		} elseif (strpos($file, RES_PATH) === 0) {
 			$file = 'RES_PATH'.DIRECTORY_SEPARATOR.substr($file, strlen(RES_PATH));
 		}
 
@@ -111,12 +104,9 @@ class TemplateHandler
 	 */
 	public function displayMemory(int $bytes)
 	{
-		if ($bytes < 1024)
-		{
+		if ($bytes < 1024) {
 			return $bytes.'B';
-		}
-		else if ($bytes < 1048576)
-		{
+		} else if ($bytes < 1048576) {
 			return round($bytes/1024, 2).'KB';
 		}
 
@@ -147,12 +137,10 @@ class TemplateHandler
 		$html      = '';
 		$numFrames = count($frame->getArgs());
 		
-		if ($numFrames > 0)
-		{
+		if ($numFrames > 0) {
 			$html = '<ol class="linenums">';
 			
-			foreach ($frame->getArgs() as $j => $frameArg)
-			{
+			foreach ($frame->getArgs() as $j => $frameArg) {
 				$html .= '<li>'.$this->dump($frameArg).'</li>';
 			}
 			
@@ -175,12 +163,9 @@ class TemplateHandler
 		
 		// HHVM has all constants defined, but only ENT_IGNORE
 		// works at the moment
-		if (defined("ENT_SUBSTITUTE") && ! defined("HHVM_VERSION"))
-		{
+		if (defined("ENT_SUBSTITUTE") && ! defined("HHVM_VERSION")) {
 			$flags |= ENT_SUBSTITUTE;
-		}
-		else
-		{
+		} else {
 			$flags |= ENT_IGNORE;
 		}
 		
@@ -212,14 +197,12 @@ class TemplateHandler
 	 */
 	public function highlightFile($file, $lineNumber, $lines = 15)
 	{
-		if (empty ($file) || ! is_readable($file))
-		{
+		if (empty ($file) || ! is_readable($file)) {
 			return false;
 		}
 
 		// Set our highlight colors:
-		if (function_exists('ini_set'))
-		{
+		if (function_exists('ini_set')) {
 			ini_set('highlight.comment', '#C5C5C5');
 			ini_set('highlight.default', '#5399BA');
 			ini_set('highlight.html', '#06B');
@@ -227,12 +210,9 @@ class TemplateHandler
 			ini_set('highlight.string', '#d8A134');
 		}
 
-		try
-		{
+		try {
 			$origin = file_get_contents($file);
-		}
-		catch (Exception $e)
-		{
+		} catch (Exception $e) {
 			return false;
 		}
 
@@ -259,22 +239,18 @@ class TemplateHandler
 		// showing correctly.
 		$spans = 1;
 
-		foreach ($origin as $n => $row)
-		{
+		foreach ($origin as $n => $row) {
 			$spans += substr_count($row, '<span') - substr_count($row, '</span');
 			$row = str_replace(["\r", "\n"], ['', ''], $row);
 
-			if (($n+$start+1) == $lineNumber)
-			{
+			if (($n+$start+1) == $lineNumber) {
 				preg_match_all('#<[^>]+>#', $row, $tags);
 				$out .= sprintf("<span class='line highlight'><span class='number'>{$format}</span> %s\n</span>%s",
 						$n + $start + 1,
 						strip_tags($row),
 						implode('', $tags[0])
 				);
-			}
-			else
-			{
+			} else {
 				$out .= sprintf('<span class="number">'.$format.'</span> %s <span class="line">', $n + $start +1, $row) ."\n";
 			}
 		}
@@ -325,8 +301,7 @@ class TemplateHandler
 
 		$vars['template'] = $this;
 		
-		if ($this->system->getOutputBufferLevel() > $this->obLevel + 1)
-		{
+		if ($this->system->getOutputBufferLevel() > $this->obLevel + 1) {
 			@$this->system->endOutputBuffering();
 		}
 

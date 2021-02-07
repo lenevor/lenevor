@@ -57,8 +57,7 @@ class Headers implements IteratorAggregate, Countable
 	 */
 	public function __construct(array $headers = [])
 	{
-		foreach ($headers as $key => $values)
-		{
+		foreach ($headers as $key => $values) {
 			$this->set($key, $values);
 		}
 	}
@@ -105,8 +104,7 @@ class Headers implements IteratorAggregate, Countable
 	 */
 	public function add(array $headers)
 	{
-		foreach ($headers as $key => $values)
-		{
+		foreach ($headers as $key => $values) {
 			$this->set($key, $values);
 		}
 		
@@ -122,8 +120,7 @@ class Headers implements IteratorAggregate, Countable
 	{
 		$headers = [];
 		
-		foreach ($this->all() as $name => $value)
-		{
+		foreach ($this->all() as $name => $value) {
 			$headers[$name] = $value;
 		}
 		
@@ -145,18 +142,15 @@ class Headers implements IteratorAggregate, Countable
 		
 		$headers = $this->all();
 		
-		if ( ! array_key_exists($key, $headers))
-		{
-			if (null === $default)
-			{
+		if ( ! array_key_exists($key, $headers)) {
+			if (null === $default) {
 				return $option ? null : [];
 			}
 			
 			return $option ? $default : [$default];
 		}
 		
-		if ($option)
-		{
+		if ($option) {
 			return count($headers[$key]) ? $headers[$key][0] : $default;
 		}
 		
@@ -177,27 +171,18 @@ class Headers implements IteratorAggregate, Countable
 	{
 		$key = str_replace('_', '-', strtolower($key));
 
-		if (is_array($values))
-		{
+		if (is_array($values)) {
 			$values = array_values($values);
 
-			if (true === $replace || ! isset($this->headers[$key]))
-			{
+			if (true === $replace || ! isset($this->headers[$key])) {
 				$this->headers[$key] = $values;
-			}
-			else
-			{
+			} else {
 				$this->headers[$key] = array_merge($this->headers[$key], $values);
 			}
-		}
-		else
-		{
-			if (true === $replace || ! isset($this->headers[$key]))
-			{
+		} else {
+			if (true === $replace || ! isset($this->headers[$key])) {
 				$this->headers[$key] = [$values];
-			}
-			else
-			{
+			} else {
 				$this->headers[$key][] = $values;
 			}
 		}
@@ -230,8 +215,7 @@ class Headers implements IteratorAggregate, Countable
 
 		unset($this->headers[$key]);
 
-		if ('cache-control' === $key)
-		{
+		if ('cache-control' === $key) {
 			$this->cacheControl = [];
 		}
 	}
@@ -263,8 +247,7 @@ class Headers implements IteratorAggregate, Countable
 	 */
 	public function __toString()
 	{
-		if ( ! $headers = $this->all())
-		{
+		if ( ! $headers = $this->all()) {
 			return '';
 		}
 		
@@ -272,12 +255,10 @@ class Headers implements IteratorAggregate, Countable
 		$max     = max(array_map('strlen', array_keys($headers))) + 1;
 		$content = '';
 		
-		foreach ($headers as $name => $values)
-		{
+		foreach ($headers as $name => $values) {
 			$name = ucwords($name, '-');
 			
-			foreach ($values as $value)
-			{
+			foreach ($values as $value) {
 				$content .= sprintf("%-{$max}s %s\r\n", $name.':', $value);
 			}
 		}

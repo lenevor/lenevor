@@ -96,8 +96,7 @@ class Filesystem
 	 */
 	public function get($path, $lock = false, $force = false)
 	{
-		if ($this->isFile($path))
-		{
+		if ($this->isFile($path)) {
 			return $lock ? $this->read($path, $force) : file_get_contents($path);
 		}
 
@@ -118,26 +117,20 @@ class Filesystem
 
 		$this->open($path, 'rb', $force);
 		
-		if ($this->handler) 
-		{
-			try
-			{
-				if (flock($this->handler, LOCK_SH))
-				{
+		if ($this->handler) {
+			try {
+				if (flock($this->handler, LOCK_SH)) {
 					$this->clearStatCache($path);
 
 					$contents = fread($this->handler, $this->getSize($path) ?: 1);
 					
-					while ( ! feof($this->handler))
-					{
+					while ( ! feof($this->handler)) {
 						$contents .= fgets($this->handler, 4096);
 					}
 
 					flock($this->handler, LOCK_UN);
 				}
-			}
-			finally
-			{
+			} finally {
 				$this->close();
 			}
 		}
@@ -156,15 +149,12 @@ class Filesystem
 	 */
 	public function open($path, $mode, $force = false)
 	{
-		if ( ! $force && is_resource($this->handler))
-		{
+		if ( ! $force && is_resource($this->handler)) {
 			return true;
 		}
 
-		if ($this->exists($path) === false)
-		{
-			if ($this->create($path) === false)
-			{
+		if ($this->exists($path) === false) {
+			if ($this->create($path) === false) {
 				return false;
 			}
 		}
@@ -183,10 +173,8 @@ class Filesystem
 	 */
 	public function create($path)
 	{
-		if (($this->isDirectory($path)) && ($this->isWritable($path)) || ! $this->exists($path))
-		{
-			if (touch($path))
-			{
+		if (($this->isDirectory($path)) && ($this->isWritable($path)) || ! $this->exists($path)) {
+			if (touch($path)) {
 				return true;
 			}
 		}
@@ -218,8 +206,7 @@ class Filesystem
 	 */
 	public function clearStatCache($path, $all = false)
 	{
-		if ($all === false) 
-		{
+		if ($all === false) {
 			clearstatcache(true, $path);
 		}
 
@@ -292,15 +279,12 @@ class Filesystem
 	 */
 	public function getSize($path, $unit = 'b')
 	{
-		if ($this->exists($path))
-		{
-			if (is_null($this->size))
-			{
+		if ($this->exists($path)) {
+			if (is_null($this->size)) {
 				$this->size = filesize($path);
 			}
 
-			switch (strtolower($unit))
-			{
+			switch (strtolower($unit)) {
 				case 'kb':
 					return number_format($this->size / 1024, 3);
 					break;
@@ -322,8 +306,7 @@ class Filesystem
 	 */
 	public function group($path)
 	{
-		if ($this->exists($path))
-		{
+		if ($this->exists($path)) {
 			return filegroup($path);
 		}
 
@@ -399,8 +382,7 @@ class Filesystem
 	 */
 	public function lastAccess($path)
 	{
-		if ($this->exists($path))
-		{
+		if ($this->exists($path)) {
 			return fileatime($path);
 		}
 
@@ -416,8 +398,7 @@ class Filesystem
 	 */
 	public function lastModified($path)
 	{
-		if ($this->exists($path))
-		{
+		if ($this->exists($path)) {
 			return filemtime($path);
 		}
 
@@ -437,8 +418,7 @@ class Filesystem
 
 		$iterators = new FilesystemIterator($directory);
 
-		foreach ($iterators as $iterator)
-		{
+		foreach ($iterators as $iterator) {
 			$directories[] = trim($iterator->getPathname(), '/').'/';
 		}
 
@@ -454,8 +434,7 @@ class Filesystem
 	 */
 	public function delete($paths)
 	{
-		if (is_resource($this->handler))
-		{
+		if (is_resource($this->handler)) {
 			fclose($this->handler);
 			$this->handler = null;
 		}
@@ -464,17 +443,12 @@ class Filesystem
 
 		$success = true;
 
-		foreach ($paths as $path)
-		{
-			try
-			{
-				if ( ! @unlink($path))
-				{
+		foreach ($paths as $path) {
+			try {
+				if ( ! @unlink($path)) {
 					return $success = false;
 				}
-			}
-			catch (ErrorException $e)
-			{
+			} catch (ErrorException $e) {
 				return $success = false;
 			}
 		}
@@ -496,8 +470,7 @@ class Filesystem
 	 */
 	public function makeDirectory($path, $mode = 0755, $recursive = false, $force = false)
 	{
-		if ($force)
-		{
+		if ($force) {
 			return @mkdir($path, $mode, $recursive);
 		}
 
@@ -522,29 +495,25 @@ class Filesystem
 		// If the destination directory does not actually exist, we will go ahead and
 		// create it recursively, which just gets the destination prepared to copy
 		// the files over. Once we make the directory we'll proceed the copying.
-		if ( ! $this->isdirectory($destination))
-		{
+		if ( ! $this->isdirectory($destination)) {
 			$this->makeDirectory($destination, 0777, true);
 		}
 
 		$iterators = new FilesystemIterator($directory, $options);
 
-		foreach ($iterators as $iterator)
-		{
+		foreach ($iterators as $iterator) {
 			$target = $destination.DIRECTORY_SEPARATOR.$iterator->getBasename();
 			
 			// As we spin through items, we will check to see if the current file is actually
             // a directory or a file. When it is actually a directory we will need to call
             // back into this function recursively to keep copying these nested folders.
-			if ($iterator->isDir())
-			{
+			if ($iterator->isDir()) {
 				if ( ! $this->copyDirectory($iterator->getPathname(), $target, $options)) return false;
 			}
 			// If the current items is just a regular file, we will just copy this to the new
 			// location and keep looping. If for some reason the copy fails we'll bail out
 			// and return false, so the developer is aware that the copy process failed.
-			else
-			{
+			else {
 				if ( ! $this->copy($iterator->getPathname(), $target)) return false;
 			}
 		}
@@ -567,20 +536,17 @@ class Filesystem
 
 		$iterators = new filesystemIterator($directory);
 
-		foreach ($iterators as $iterator)
-		{
+		foreach ($iterators as $iterator) {
 			// If the item is a directory, we can just recurse into the function and delete 
 			// that sub-directory otherwise we'll just delete the file and keep iterating 
 			// through each file until the directory is cleaned.
-			if ($iterator->isDir() && ! $iterator->isLink())
-			{
+			if ($iterator->isDir() && ! $iterator->isLink()) {
 				$this->deleteDirectory($iterator->getPathname());
 			}
 			// If the item is just a file, we can go ahead and delete it since we're
 			// just looping through and waxing all of the files in this directory
 			// and calling directories recursively, so we delete the real path.
-			else
-			{
+			else {
 				$this->delete($iterator->getPathname());
 			}
 		}
@@ -616,8 +582,7 @@ class Filesystem
 	{
 		if ($overwrite && $this->isDirectory($to) && ! $this->deleteDirectory($to)) return false;
 
-		if (false === @rename($from, $to))
-		{
+		if (false === @rename($from, $to)) {
 			$error = error_get_last();
 
 			throw new FileUnableToMoveException($from, $to, strip_tags($error['message']));
@@ -666,8 +631,7 @@ class Filesystem
 	 */
 	public function move($path, $target)
 	{
-		if ($this->exists($path)) 
-		{
+		if ($this->exists($path)) {
 			return rename($path, $target);
 		}
 	}
@@ -742,8 +706,7 @@ class Filesystem
 	 */
 	public function owner($path)
 	{
-		if ($this->exists($path))
-		{
+		if ($this->exists($path)) {
 			return fileowner($path);
 		}
 
@@ -760,8 +723,7 @@ class Filesystem
 	 */
 	public function perms($path, $mode = null)
 	{
-		if ($mode)
-		{
+		if ($mode) {
 			chmod($path, $mode);
 		}
 
@@ -778,8 +740,7 @@ class Filesystem
 	 */
 	public function prepend($path, $data)
 	{
-		if ($this->exists($path))
-		{
+		if ($this->exists($path)) {
 			$this->put($path, $data.$this->get($path));
 		}
 
@@ -823,13 +784,11 @@ class Filesystem
 	 */
 	public function replaceText($path, $search, $replace)
 	{
-		if ( ! $this->open($path, 'r+'))
-		{
+		if ( ! $this->open($path, 'r+')) {
 			return false;
 		}
 
-		if ($this->lock !== null)
-		{
+		if ($this->lock !== null) {
 			if (flock($this->handler, LOCK_EX) === false)
 			{
 				return false;
@@ -838,8 +797,7 @@ class Filesystem
 
 		$replaced = $this->write($path, str_replace($search, $replace, $this->get($path)), true);
 
-		if ($this->lock !== null)
-		{
+		if ($this->lock !== null) {
 			flock($this->handler, LOCK_UN);
 		}
 
@@ -855,8 +813,7 @@ class Filesystem
 	 */
 	public function close()
 	{
-		if ( ! is_resource($this->handler))
-		{
+		if ( ! is_resource($this->handler)) {
 			return true;
 		}
 
@@ -876,23 +833,18 @@ class Filesystem
 	{
 		$success = false;
 
-		if ($this->open($path, 'w', $force) === true)
-		{
-			if ($this->lock !== null)
-			{
-				if (flock($this->handler, LOCK_EX) === false)
-				{
+		if ($this->open($path, 'w', $force) === true) {
+			if ($this->lock !== null) {
+				if (flock($this->handler, LOCK_EX) === false) {
 					return false;
 				}
 			}
 
-			if (fwrite($this->handler, $data) !== false)
-			{
+			if (fwrite($this->handler, $data) !== false) {
 				$success = true;
 			}
 
-			if ($this->lock !== null)
-			{
+			if ($this->lock !== null) {
 				flock($this->handler, LOCK_UN);
 			}
 		}

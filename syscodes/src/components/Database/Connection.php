@@ -261,8 +261,7 @@ class Connection implements ConnectionInterface
     {
         return $this->run($query, $bindings, function ($query, $bindings) use ($useReadPdo) {
 
-            if ($this->pretending())
-            {
+            if ($this->pretending()) {
                 return [];
             }
 
@@ -275,7 +274,6 @@ class Connection implements ConnectionInterface
             $statement->execute();
 
             return $statement->fetchAll();
-
         });
     }
 
@@ -329,9 +327,7 @@ class Connection implements ConnectionInterface
     public function statement($query, $bindings = [])
     {
         return $this->run($query, $bindings, function ($query, $bindings) {
-
-            if ($this->pretending())
-            {
+            if ($this->pretending()) {
                 return true;
             }
 
@@ -428,8 +424,7 @@ class Connection implements ConnectionInterface
      */
     public function bindValues($statement, $bindings)
     {
-        foreach ($bindings as $key => $value)
-        {
+        foreach ($bindings as $key => $value) {
             $statement->bindValue(
                 is_string($key) ? $key : $key + 1,
                 $value,
@@ -455,12 +450,9 @@ class Connection implements ConnectionInterface
 
         $start = microtime(true);
 
-        try
-        {
+        try {
             $result = $this->runQueryCallback($query, $bindings, $callback);
-        }
-        catch (QueryException $e)
-        {
+        } catch (QueryException $e) {
             $result = $this->handleQueryException(
                 $e, $query, $bindings, $callback
             );
@@ -488,12 +480,9 @@ class Connection implements ConnectionInterface
     {
         $result = '';
 
-        try
-        {
+        try {
             $result = $callback($query, $bindings);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             // throw new QueryException(
             //     $query, $this->prepareBindings($bindings), $e 
             // );
@@ -511,14 +500,10 @@ class Connection implements ConnectionInterface
      */
     public function prepareBindings(array $bindings)
     {
-        foreach ($bindings as $key => $value)
-        {
-            if ($value instanceof DateTime)
-            {
+        foreach ($bindings as $key => $value) {
+            if ($value instanceof DateTime) {
                 $bindings[$key] = $value->format($this->getQueryGrammar()->getDateFormat());
-            }
-            elseif (is_bool($value))
-            {
+            } elseif (is_bool($value)) {
                 $bindings[$key] = (int) $value;
             }
         }
@@ -540,8 +525,7 @@ class Connection implements ConnectionInterface
      */
     protected function handleQueryException(QueryException $e, $query, $bindings, Closure $callback)
     {
-        if ($this->transactions >= 1)
-        {
+        if ($this->transactions >= 1) {
             throw $e;
         }
 
@@ -564,8 +548,7 @@ class Connection implements ConnectionInterface
      */
     protected function tryIfAgainCausedByLostConnection(QueryException $e, $query, $bindings, Closure $callback)
     {
-        if ($this->causedByLostConnections($e->getPrevious()))
-        {
+        if ($this->causedByLostConnections($e->getPrevious())) {
             $this->reconnect();
 
             return $this->runQueryCallback($query, $bindings, $callback);
@@ -587,8 +570,7 @@ class Connection implements ConnectionInterface
     {
         $this->event(new QueryExecuted($query, $bindings, $time, $this));
 
-        if ($this->loggingQueries)
-        {
+        if ($this->loggingQueries) {
             $this->queryLog[] = compact('query', 'bindings', 'time');
         }
     }
@@ -602,8 +584,7 @@ class Connection implements ConnectionInterface
      */
     protected function fireConnectionEvent($event)
     {
-        if ( ! $this->events)
-        {
+        if ( ! $this->events) {
             return;
         }
 
@@ -625,8 +606,7 @@ class Connection implements ConnectionInterface
      */
     public function reconnectIfMissingConnection()
     {
-        if (is_null($this->pdo))
-        {
+        if (is_null($this->pdo)) {
             $this->reconnect();
         }
     }
@@ -662,8 +642,7 @@ class Connection implements ConnectionInterface
      */
     public function event($event)
     {
-        if (isset($this->events))
-        {
+        if (isset($this->events)) {
             $this->events->dispatch($event);
         }
     }
@@ -677,8 +656,7 @@ class Connection implements ConnectionInterface
      */
     public function reconnect()
     {
-        if (is_callable($this->reconnector))
-        {
+        if (is_callable($this->reconnector)) {
             return call_user_func($this->reconnector, $this);
         }
 
@@ -722,8 +700,7 @@ class Connection implements ConnectionInterface
      */
     public function getPdo()
     {
-        if ($this->pdo instanceof Closure)
-        {
+        if ($this->pdo instanceof Closure) {
             return $this->pdo = call_user_func($this->pdo);
         }
         
@@ -747,13 +724,11 @@ class Connection implements ConnectionInterface
      */
     public function getReadPdo()
     {
-        if ($this->transactions > 0)
-        {
+        if ($this->transactions > 0) {
             return $this->getPdo();
         }
         
-        if ($this->readPdo instanceof Closure)
-        {
+        if ($this->readPdo instanceof Closure) {
             return $this->readPdo = call_user_func($this->readPdo);
         }
         

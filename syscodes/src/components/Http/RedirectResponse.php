@@ -53,8 +53,7 @@ class RedirectResponse extends Response
      */
     public function __construct(?string $url, int $status = 302, array $headers = [])
     {
-        if (null === $url)
-        {
+        if (null === $url) {
             @trigger_error(sprintf('Passing a null url when instantiating a "%s"', __CLASS__), E_USER_DEPRECATED);
             $url = '';
         }
@@ -63,8 +62,7 @@ class RedirectResponse extends Response
 
         $this->setTargetUrl($url);
 
-        if ( ! $this->isRedirect())
-        {
+        if ( ! $this->isRedirect()) {
             throw new InvalidArgumentException(sprintf('The HTTP status code is not a redirect ("%s" given).', $status));
         }
 
@@ -110,8 +108,7 @@ class RedirectResponse extends Response
     */
     public function setTargetUrl($url)
     {
-        if ('' === ($url ?? ''))
-        {
+        if ('' === ($url ?? '')) {
             throw new InvalidArgumentException('Cannot redirect to an empty URL');
         }
         

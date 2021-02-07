@@ -43,8 +43,7 @@ class PostGrammar extends Grammar
      */
     public function compileLock(Builder $builder, $value)
     {
-        if ( ! is_string($value))
-        {
+        if ( ! is_string($value)) {
             return $value ? 'for update' : 'for share';
         }
 

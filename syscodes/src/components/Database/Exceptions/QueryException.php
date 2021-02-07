@@ -65,8 +65,7 @@ class QueryException extends PDOException
         $this->code     = $previous->getCode();
         $this->message  = $this->formatMessage($sql, $bindings, $previous);
 
-        if ($previous instanceof PDOException)
-        {
+        if ($previous instanceof PDOException) {
             $this->errorInfo = $previous->errorInfo;
         }
     }

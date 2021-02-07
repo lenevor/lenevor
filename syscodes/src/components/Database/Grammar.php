@@ -47,8 +47,7 @@ abstract class Grammar
      */
     public function wrapTable($table)
     {
-        if ( ! $this->isExpression($table))
-        {
+        if ( ! $this->isExpression($table)) {
             return $this->wrap($this->tablePrefix.$table, true);
         }
 
@@ -65,13 +64,11 @@ abstract class Grammar
      */
     public function wrap($value, $prefix = false)
     {
-        if ($this->isExpression($value))
-        {
+        if ($this->isExpression($value)) {
             return $this->getValue($value);
         }
 
-        if (strpos($value, ' as ') !== false)
-        {
+        if (strpos($value, ' as ') !== false) {
             return $this->wrapAliasedValues($value, $prefix);
         }
 
@@ -90,8 +87,7 @@ abstract class Grammar
     {
         $segments = explode(' ', $value);
 
-        if ($prefix)
-        {
+        if ($prefix) {
             $segments[2] = $this->tablePrefix.$segments[2];
         }
 
@@ -109,8 +105,7 @@ abstract class Grammar
     {
         $wrapped = [];
 
-        foreach ($segments as $key => $segment)
-        {
+        foreach ($segments as $key => $segment) {
             $wrapped[] = ($key == 0 && count($segments) > 1)
                         ? $this->wrapTable($segment)
                         : $this->wrapValue($segment);
@@ -128,8 +123,7 @@ abstract class Grammar
      */
     protected function wrapValue($value)
     {
-        if ($value !== '*')
-        {
+        if ($value !== '*') {
             return '"'.str_replace('"', '""', $value).'"';
         }
 

@@ -66,8 +66,7 @@ class JsonResponse extends Response
 
         parent::__construct('', $status, $headers);
 
-        if (null === $data)
-        {
+        if (null === $data) {
             $data = new ArrayObject;
         }
         
@@ -138,25 +137,17 @@ class JsonResponse extends Response
 
         $this->jsonEncodingOptions = ENVIRONMENT === 'production' ? $options : $options | JSON_PRETTY_PRINT;
         
-        if ($data instanceof Jsonable)
-        {
+        if ($data instanceof Jsonable) {
             $this->data = $data->toJson($this->jsonEncodingOptions);
-        }
-        elseif ($data instanceof JsonSerializable)
-        {
+        } elseif ($data instanceof JsonSerializable) {
             $this->data = json_encode($data->jsonSerialize(), $this->jsonEncodingOptions);
-        }
-        elseif ($data instanceof Arrayable)
-        {
+        } elseif ($data instanceof Arrayable) {
             $this->data = json_encode($data->toArray(), $this->jsonEncodingOptions);
-        }
-        else
-        {
+        } else {
             $this->data = json_encode($data, $this->jsonEncodingOptions);
         }
 
-        if ( ! $this->hasJsonValidOptions(json_last_error()))
-        {
+        if ( ! $this->hasJsonValidOptions(json_last_error())) {
             throw new InvalidArgumentException(__('Http.invalidJson', [json_last_error_msg()]));
         }
 
@@ -172,8 +163,7 @@ class JsonResponse extends Response
      */
     protected function hasJsonValidOptions($jsonError)
     {
-        if ($jsonError === JSON_ERROR_NONE)
-        {
+        if ($jsonError === JSON_ERROR_NONE) {
             return true;
         }
 
@@ -232,8 +222,7 @@ class JsonResponse extends Response
      */
     protected function update()
     {
-        if ( ! $this->headers->has('Content-Type') || 'text/javascript' === $this->headers->get('Content-Type'))
-        {
+        if ( ! $this->headers->has('Content-Type') || 'text/javascript' === $this->headers->get('Content-Type')) {
             $this->headers->set('Content-Type', 'application/json');
         }
 

@@ -72,12 +72,9 @@ class SqlServerConnector
         
         $port = isset($config['port']) ? ','.$port : '';
         
-        if (in_array('dblib', $this->getAvailableDrivers()))
-        {
+        if (in_array('dblib', $this->getAvailableDrivers())) {
             return "dblib:host={$host}{$port};dbname={$database}";
-        } 
-        else 
-        {
+        } else {
             $dbName = $database != '' ? ";Database={$database}" : '';
             
             return "sqlsrv:Server={$host}{$port}{$dbName}";

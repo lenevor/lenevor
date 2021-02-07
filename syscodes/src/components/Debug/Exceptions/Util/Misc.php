@@ -81,12 +81,9 @@ class Misc
     {
         $constants = get_defined_constants(true);
 
-        if (array_key_exists('Core', $constants))
-        {
-            foreach ($constants['Core'] as $constant => $value)
-            {
-                if (substr($constant, 0, 2) == 'E_' && $value == $errorCode)
-                {
+        if (array_key_exists('Core', $constants)) {
+            foreach ($constants['Core'] as $constant => $value) {
+                if (substr($constant, 0, 2) == 'E_' && $value == $errorCode) {
                     return $constant;
                 }
             }

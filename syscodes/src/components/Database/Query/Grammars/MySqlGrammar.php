@@ -44,8 +44,7 @@ class MySqlGrammar extends Grammar
     {
         $sql = parent::compileSelect($builder);
 
-        if ($builder->unions)
-        {
+        if ($builder->unions) {
             $sql = '('.$sql.') '.$thís->compileUnions($builder);
         }
 
@@ -62,8 +61,7 @@ class MySqlGrammar extends Grammar
      */
     public function compileInsert(Builder $builder, array $values)
     {
-        if (empty($values))
-        {
+        if (empty($values)) {
             $values = [[]];
         }
 
@@ -84,13 +82,11 @@ class MySqlGrammar extends Grammar
     {
         $sql = parent::compileUpdateWithoutJoins($builder, $table, $columns, $where);
 
-        if ( ! empty($builder->orders))
-        {
+        if ( ! empty($builder->orders)) {
             $sql .= ' '.$this->compileOrders($builder, $builder->orders);
         }
 
-        if (isset($builder->limit))
-        {
+        if (isset($builder->limit)) {
             $sql .= ' '.$this->compileLimit($builder, $builder->limit);
         }
         
@@ -110,13 +106,11 @@ class MySqlGrammar extends Grammar
     {
         $sql = parent::compileDeleteWithoutJoins($builder, $table, $where);
 
-        if ( ! empty($builder->orders))
-        {
+        if ( ! empty($builder->orders)) {
             $sql .= ' '.$this->compileOrders($builder, $builder->orders);
         }
 
-        if (isset($builder->limit))
-        {
+        if (isset($builder->limit)) {
             $sql .= ' '.$this->compileLimit($builder, $builder->limit);
         }
         
@@ -145,8 +139,7 @@ class MySqlGrammar extends Grammar
      */
     public function compileLock(Builder $builder, $value)
     {
-        if ( ! is_string($value))
-        {
+        if ( ! is_string($value)) {
             return $value ? 'for update' : 'lock in share mode';
         }
 

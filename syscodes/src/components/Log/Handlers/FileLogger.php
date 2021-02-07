@@ -114,8 +114,7 @@ class FileLogger implements Handler
      */
     public function __destruct()
     {
-        if ($this->logHandler)
-        {
+        if ($this->logHandler) {
             fclose($this->logHandler);
         }
     }
@@ -149,35 +148,24 @@ class FileLogger implements Handler
      */
     protected function exchangeProcess($message, array $context = [])
     {
-        if ( ! is_string($message))
-        {
+        if ( ! is_string($message)) {
             return $message;
         }
         
         $replace = [];
         
-        foreach ($context as $key => $value)
-        {
-            if ($key === 'exception' && $value instanceof Throwable)
-            {
+        foreach ($context as $key => $value) {
+            if ($key === 'exception' && $value instanceof Throwable) {
                 $value = $value->getMessage() . ' ' . $this->cleanFileNames($value->getFile()) . ':' . $value->getLine();
                 // Todo - sanitize input before writing to file?
                 $replace["{{$key}}"] = $value;
-            }
-            elseif (null === $value || is_scalar($value) || (is_object($value) && method_exists($value, '__toString')))
-            {
+            } elseif (null === $value || is_scalar($value) || (is_object($value) && method_exists($value, '__toString'))) {
                 $replace["{{$key}}"] = $value;
-            }
-            elseif ($value instanceof DateTime)
-            {
+            } elseif ($value instanceof DateTime) {
                 $replace["{{$key}}"] = $value->format(DateTime::RFC3339);
-            }
-            elseif (is_object($value))
-            {
+            } elseif (is_object($value)) {
                 $replace["{{$key}}"] = '[object '.get_class($value).']';
-            }
-            else
-            {
+            } else {
                 $replace["{{$key}}"] = '['.gettype($value).']';
             }
         }
@@ -223,12 +211,10 @@ class FileLogger implements Handler
     {        
         $path = $this->logFilePath.'lenevor-'.date('Y-m-d').'.'.$this->logFileExtension;
 
-        if ( ! is_file($path))
-        {
+        if ( ! is_file($path)) {
             $newFile = true;
 
-            if ($this->logFileExtension === 'php')
-            {
+            if ($this->logFileExtension === 'php') {
                 $this->logMessage .= "<?php // Log file was generated ?>\n\n";
             }
         }
@@ -239,10 +225,8 @@ class FileLogger implements Handler
         
         flock($this->logHandler, LOCK_EX);
         
-        for ($written = 0, $length = strlen($this->logMessage); $written < $length; $written += $result)
-        {
-            if (($result = fwrite($this->logHandler, substr($this->logMessage, $written))) === false)
-            {
+        for ($written = 0, $length = strlen($this->logMessage); $written < $length; $written += $result) {
+            if (($result = fwrite($this->logHandler, substr($this->logMessage, $written))) === false) {
                 // if we get this far, we'll never see this during travis-ci
                 // @codeCoverageIgnoreStart
                 break;
@@ -252,8 +236,7 @@ class FileLogger implements Handler
         
         flock($this->logHandler, LOCK_UN);
         
-        if (isset($newfile) && $newfile === true)
-        {
+        if (isset($newfile) && $newfile === true) {
             chmod($path, $this->logFilePermissions);
         }
         
@@ -269,8 +252,7 @@ class FileLogger implements Handler
      */
     private function open($path)
     {
-        if (false === $this->logHandler = is_resource($path) ? $path : @fopen($path, 'ab'))
-        {
+        if (false === $this->logHandler = is_resource($path) ? $path : @fopen($path, 'ab')) {
             throw new LogException(sprintf('Unable to open "%s".', $path));
         }
 

@@ -46,8 +46,7 @@ class ConnectionException extends PDOException
 
         $this->code = $exception->getCode();
 
-        if ($exception instanceof PDOException)
-        {
+        if ($exception instanceof PDOException) {
             $this->errorInfo = $exception->errorInfo;
         }
     }

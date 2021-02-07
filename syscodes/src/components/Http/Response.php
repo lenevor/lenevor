@@ -95,8 +95,7 @@ class Response extends Status
 	 */
 	public function getStatusCode()
 	{
-		if (empty($this->status))
-		{
+		if (empty($this->status)) {
 			throw new BadMethodCallException('HTTP Response is missing a status code.');
 		}
 
@@ -114,30 +113,24 @@ class Response extends Status
 	public function sendHeaders()
 	{
 		// Have the headers already been sent?
-		if (headers_sent())
-		{
+		if (headers_sent()) {
 			return $this;
 		}
 
 		// Headers
-		foreach ($this->headers->allPreserveCase() as $name => $values) 
-		{
+		foreach ($this->headers->allPreserveCase() as $name => $values) {
 			$replace = 0 === strcasecmp($name, 'Content-Type');
 
-			foreach ($values as $value)
-			{
+			foreach ($values as $value) {
 				header($name.': '. $value, $replace, $this->status);
 			}
 		}
 
 		// Status
-		if ( ! empty($_SERVER['FCGI_SERVER_VERSION']))
-		{
+		if ( ! empty($_SERVER['FCGI_SERVER_VERSION'])) {
 			// Send the protocol/status line first, FCGI servers need different status header
 			header(sprintf('Status: %s %s', $this->status, $this->statusText));
-		}
-		else
-		{
+		} else {
 			$this->protocol = (string) $this->server->get('SERVER_PROTOCOL') ?: 'HTTP/1.1';
 			header(sprintf('%s %s %s', $this->protocol, $this->status, $this->statusText), true, $this->status);
 		}
@@ -166,13 +159,11 @@ class Response extends Status
 	 */
 	public function send($sendHeader = false)
 	{
-		if ($sendHeader)
-		{
+		if ($sendHeader) {
 			$this->sendHeaders();
 		}
 
-		if (null !== $this->content) 
-		{
+		if (null !== $this->content) {
 			$this->sendContent();
 		}
 
@@ -188,19 +179,15 @@ class Response extends Status
 	 */
 	public function setContent($content)
 	{
-		if ($content !== null && ! is_string($content) && ! is_numeric($content) && ! is_callable([$content, '__toString'])) 
-		{
+		if ($content !== null && ! is_string($content) && ! is_numeric($content) && ! is_callable([$content, '__toString'])) {
 			throw new UnexpectedValueException(sprintf('The Response content must be a string or object implementing __toString(), "%s" given.', gettype($content)));
 		}
 
-		if ($content instanceof JsonSerializable || is_array($content))
-		{
+		if ($content instanceof JsonSerializable || is_array($content)) {
 			$this->header('Content-Type', 'application/json');
 
 			$content = json_encode($content);
-		}
-		elseif ($content instanceof Renderable)
-		{
+		} elseif ($content instanceof Renderable) {
 			$content = $content->render();
 		}
 		
@@ -220,8 +207,7 @@ class Response extends Status
 	{
 		$headers = $this->headers;
 
-		if ($this->isInformational() || $this->isEmpty()) 
-		{
+		if ($this->isInformational() || $this->isEmpty()) {
 			$this->setContent(null);
 			$headers->remove('Content-Type');
 			$headers->remove('Content-Length');
@@ -245,21 +231,18 @@ class Response extends Status
 		$this->status = $code; 
 
 		// Valid range?
-		if ($this->isInvalid())
-		{
+		if ($this->isInvalid()) {
 			throw new InvalidArgumentException(__('response.statusCodeNotValid', ['code' => $code]));			
 		}
 
 		// Check if you have an accepted status code if not shows to a message of unknown status
-		if (null === $text)
-		{
+		if (null === $text) {
 			$this->statusText = isset($this->statusCodes[$code]) ? $this->statusCodes[$code] : __('response.UnknownStatus');
 
 			return $this;
 		}
 
-		if (false === $text)
-		{
+		if (false === $text) {
 			$this->statusText = '';
 
 			return $this;

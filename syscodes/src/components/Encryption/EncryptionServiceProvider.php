@@ -44,8 +44,7 @@ class EncryptionServiceProvider extends ServiceProvider
             
             $config = $app->make('config')->get('security');
 
-            if (Str::startsWith($key = $this->key($config), 'base64:'))
-            {
+            if (Str::startsWith($key = $this->key($config), 'base64:')) {
                 $key = base64_decode(substr($key, 7));
             }
             
@@ -66,12 +65,9 @@ class EncryptionServiceProvider extends ServiceProvider
     protected function key(array $config)
     {
         return take($config['key'], function ($key) {
-
-            if (empty($key))
-            {
+            if (empty($key)) {
                 throw new RuntimeException('No application encryption key has been specified.');
-            }
-            
+            }            
         });
     }
 }

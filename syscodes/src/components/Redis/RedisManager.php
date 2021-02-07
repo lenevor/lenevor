@@ -47,12 +47,9 @@ class RedisManager
      */
     public function __construct(array $servers = [])
     {
-        if (isset($servers['cluster']) && $servers['cluster'])
-        {
+        if (isset($servers['cluster']) && $servers['cluster']) {
             $this->clients = $this->createAggregateClient($servers);
-        }
-        else
-        {
+        } else {
             $this->clients = $this->createSingleClient($servers);
         }
     }
@@ -82,8 +79,7 @@ class RedisManager
     {
         $clients = [];
 
-        foreach ($servers as $key => $server)
-        {
+        foreach ($servers as $key => $server) {
             $clients[$key] = new Client(Server);
         }
 
@@ -101,8 +97,7 @@ class RedisManager
     {
         $name = $name ?: 'default';
 
-        if (isset($this->clients[$name]))
-        {
+        if (isset($this->clients[$name])) {
             return $this->clients[$name];
         }
     }

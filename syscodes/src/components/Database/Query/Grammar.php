@@ -59,8 +59,7 @@ class Grammar extends BaseGrammar
      */
     public function compileSelect(Builder $builder)
     {
-        if (is_null($builder->columns))
-        {
+        if (is_null($builder->columns)) {
             $builder->columns = ['*'];
         }
 
@@ -78,10 +77,8 @@ class Grammar extends BaseGrammar
     {
         $sql = [];
 
-        foreach ($this->components as $component)
-        {
-            if ( ! is_null($builder->$component))
-            {
+        foreach ($this->components as $component) {
+            if ( ! is_null($builder->$component)) {
                 $method = 'compile'.ucfirst($component);
 
                 $sql[$component] = $this->$method($builder, $builder->$component);
@@ -103,8 +100,7 @@ class Grammar extends BaseGrammar
     {
         $column = $this->columnize($aggregate['columns']);
 
-        if ($builder->distinct && $column !== '*')
-        {
+        if ($builder->distinct && $column !== '*') {
             $column = 'distinct '.$column;
         }
 
@@ -121,8 +117,7 @@ class Grammar extends BaseGrammar
      */
     protected function compileColumns(Builder $builder, $columns)
     {
-        if (is_null($builder->columns))
-        {
+        if (is_null($builder->columns)) {
             return;
         }
 
@@ -156,19 +151,16 @@ class Grammar extends BaseGrammar
     {
         $sql = [];
 
-        foreach ((array) $joins as $join)
-        {
+        foreach ((array) $joins as $join) {
             $table = $this->wrapTable($join->table);
 
             $clauses = [];
 
-            foreach ($join->clauses as $clause)
-            {
+            foreach ($join->clauses as $clause)  {
                 $clauses[] = $this->compileJoinContraint($clause);
             }
 
-            foreach ($join->bindings as $binding)
-            {
+            foreach ($join->bindings as $binding) {
                 $query->addBinding($binding, 'join');
             }
 
@@ -206,13 +198,11 @@ class Grammar extends BaseGrammar
      */
     protected function compileWheres(Builder $builder)
     {
-       if (is_null($builder->wheres))
-       {
+       if (is_null($builder->wheres)) {
            return '';
        }
 
-       if (count($sql = $this->compileWheresToArray($builder)) > 0)
-       {
+       if (count($sql = $this->compileWheresToArray($builder)) > 0) {
             return $this->concatenateWheresClauses($builder, $sql);
        }
 
@@ -230,8 +220,7 @@ class Grammar extends BaseGrammar
     {
         $sql = [];
 
-        foreach ($query->wheres as $where)
-        {
+        foreach ($query->wheres as $where) {
             $sql[] = $where['boolean'].' '.$this->{"where{$where['type']}"}($query, $where);
         }
 
@@ -334,8 +323,7 @@ class Grammar extends BaseGrammar
     {
         $values = $this->parameterize($where['query']);
 
-        if ( ! empty($where['query']))
-        {
+        if ( ! empty($where['query'])) {
             return $this->wrap($where['column']).' in ('.$values.')';
         }
 
@@ -354,8 +342,7 @@ class Grammar extends BaseGrammar
     {
         $values = $this->parameterize($where['query']);
 
-        if ( ! empty($where['query']))
-        {
+        if ( ! empty($where['query'])) {
             return $this->wrap($where['column']).' not in ('.$values.')';
         }
 
@@ -372,8 +359,7 @@ class Grammar extends BaseGrammar
      */
     protected function whereNotInRaw(Builder $builder, $where)
     {
-        if ( ! empty($where['query']))
-        {
+        if ( ! empty($where['query'])) {
             return $this->wrap($where['column']).' not in ('.implode(', ', $where['values']).')';
         }
 
@@ -390,8 +376,7 @@ class Grammar extends BaseGrammar
      */
     protected function whereInRaw(Builder $builder, $where)
     {
-        if ( ! empty($where['query']))
-        {
+        if ( ! empty($where['query'])) {
             return $this->wrap($where['column']).' in ('.implode(', ', $where['values']).')';
         }
 
@@ -615,12 +600,9 @@ class Grammar extends BaseGrammar
      */
     protected function compileHaving(array $having)
     {
-        if ($having['type'] === 'raw')
-        {
+        if ($having['type'] === 'raw') {
             return $having['boolean'].' '.$having['sql'];
-        }
-        elseif ($having['type'] === 'between')
-        {
+        } elseif ($having['type'] === 'between') {
             return $this->compileHavingBetween($having);
         }
 
@@ -672,8 +654,7 @@ class Grammar extends BaseGrammar
      */
     protected function compileOrders(Builder $builder, $orders)
     {
-        if ( ! empty($orders))
-        {
+        if ( ! empty($orders)) {
             return 'order by '.implode(', ', $this->compileOrderToArray($builder, $orders));
         }
 
@@ -732,23 +713,19 @@ class Grammar extends BaseGrammar
     {
         $sql = '';
 
-        foreach ($builder->unions as $union)
-        {
+        foreach ($builder->unions as $union) {
             $sql .= $this->compileUnion($union);
         }
 
-        if ( ! empty($builder->unionOrders))
-        {
+        if ( ! empty($builder->unionOrders)) {
             $sql .= ' '.$this->compileOrders($builder, $builder->unionOrders);
         }
 
-        if (isset($builder->unionLimit))
-        {
+        if (isset($builder->unionLimit)) {
             $sql .= ' '.$this->compileLimit($builder, $builder->unionLimit);
         }
 
-        if (isset($builder->unionOffset))
-        {
+        if (isset($builder->unionOffset)) {
             $sql .= ' '.$this->compileOffset($builder, $builder->unionOffset);
         }
 
@@ -819,13 +796,11 @@ class Grammar extends BaseGrammar
     {
         $table = $this->wrapTable($builder->from);
 
-        if (empty($values))
-        {
+        if (empty($values)) {
             return "insert into {$table} default values";
         }
 
-        if ( ! is_array(head($values)))
-        {
+        if ( ! is_array(head($values))) {
             $values = [$values];
         }
 
@@ -902,8 +877,7 @@ class Grammar extends BaseGrammar
     {
         $columns = [];
 
-        foreach ($values as $key => $value)
-        {
+        foreach ($values as $key => $value) {
             $columns[] = $this->wrap($key).' = '.$this->parameter($value);
         }
 

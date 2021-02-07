@@ -75,14 +75,12 @@ class PlainTextHandler extends MainHandler
 
         $line = count($frames);
 
-        foreach ($frames as $frame)
-        {
+        foreach ($frames as $frame) {
             $class = $frame->getClass();
 
             $template = "\n%3d. %s->%s() %s:%d";
 
-            if ( ! $class)
-            {
+            if ( ! $class) {
                 $template = "\n%3d. %s%s() %s:%d";
             }
 

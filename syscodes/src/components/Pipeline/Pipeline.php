@@ -153,22 +153,16 @@ class Pipeline implements PipelineContract
     {
         return function ($stack, $pipe) {
             return function ($passable) use ($stack, $pipe) {
-                try 
-                {
-                    if (is_callable($pipe))
-                    {
+                try {
+                    if (is_callable($pipe)) {
                         return $pipe($passable, $stack);
-                    }
-                    elseif ( ! is_object($pipe))
-                    {
+                    } elseif ( ! is_object($pipe)) {
                         [$name, $parameters] = $this->parsePipeString($pipe);
 
                         $pipe = $this->getContainer()->make($name);
 
                         $parameters = array_merge([$passable, $stack], $parameters);
-                    } 
-                    else 
-                    {
+                    } else {
                         $parameters = [$passable, $stack];
                     }
                     
@@ -177,9 +171,7 @@ class Pipeline implements PipelineContract
                                 : $pipe(...$parameters);
                                 
                     return $pipeline;
-                }
-                catch (Throwable $e)
-                {
+                } catch (Throwable $e) {
                     return $this->handleException($passable, $e);
                 }
             };
@@ -197,8 +189,7 @@ class Pipeline implements PipelineContract
     {
         [$name, $parameters] = array_pad(explode(':', $pipe, 2), 2, []);
         
-        if (is_string($parameters))
-        {
+        if (is_string($parameters)) {
             $parameters = explode(',', $parameters);
         }
         
@@ -215,12 +206,9 @@ class Pipeline implements PipelineContract
     protected function prepareDestination(Closure $destination)
     {
         return function ($passable) use ($destination) {
-            try 
-            {
+            try {
                 return $destination($passable);
-            }
-            catch(Throwable $e)
-            {
+            } catch(Throwable $e)  {
                 return $this->handleException($passable, $e);
             }
         };
@@ -250,8 +238,7 @@ class Pipeline implements PipelineContract
      */
     protected function getContainer()
     {
-        if ( ! $this->container)
-        {
+        if ( ! $this->container) {
             throw new RuntimeException('A container instance has not been passed to the Pipeline');
         }
 

@@ -79,8 +79,7 @@ class Translator
     {   
         $this->locale = $locale;
 
-        if (class_exists('\MessageFormatter'))
-        {
+        if (class_exists('\MessageFormatter')) {
             $this->intlSupport = true;
         }
     }
@@ -95,15 +94,12 @@ class Translator
      */
     protected function formatMessage($message, array $args = [])
     {
-        if ( ! $this->intlSupport || ! count($args))
-        {
+        if ( ! $this->intlSupport || ! count($args)) {
             return $message;
         }
 
-        if (is_array($message))
-        {
-            foreach ($message as $index => $value)
-            {
+        if (is_array($message)) {
+            foreach ($message as $index => $value) {
                 $message[$index] = $this->formatMessage($value, $args);
             }
 
@@ -130,8 +126,7 @@ class Translator
         
         $output = $this->language[$this->locale][$file][$parseLine] ?? $line;
 
-        if ( ! empty($args))
-        {
+        if ( ! empty($args)) {
             $output = $this->formatMessage($output, $args);
         }
         
@@ -151,8 +146,7 @@ class Translator
         // If there's no possibility of a filename being in the string
         // simply return the string, and they can parse the replacement
         // without it being in a file.
-        if (strpos($line, '.') === false)
-        {
+        if (strpos($line, '.') === false) {
             return [
                 null,
                 $line
@@ -162,8 +156,7 @@ class Translator
         $file = substr($line, 0, strpos($line, '.'));
         $line = substr($line, strlen($file) + 1);
 
-        if ( ! array_key_exists($line, $this->language))
-        {
+        if ( ! array_key_exists($line, $this->language)) {
             $this->load($file, $this->locale);
         }
         
@@ -186,23 +179,19 @@ class Translator
      */
     protected function load($file, $locale, $return = false)
     {
-        if ( ! array_key_exists($locale, $this->loaded))
-        {
+        if ( ! array_key_exists($locale, $this->loaded)) {
             $this->loaded[$locale] = [];
         }
         
-        if (in_array($file, $this->loaded))
-        {
+        if (in_array($file, $this->loaded)) {
             return [];
         }
 
-        if ( ! array_key_exists($locale, $this->language))
-        {
+        if ( ! array_key_exists($locale, $this->language)) {
             $this->language[$locale] = [];
         }
 
-        if ( ! array_key_exists($file, $this->language[$locale]))
-        {
+        if ( ! array_key_exists($file, $this->language[$locale])) {
             $this->language[$locale][$file] = [];
         }
 
@@ -210,8 +199,7 @@ class Translator
 
         $lang = $this->requireFile($path);
 
-        if ($return)
-        {
+        if ($return) {
             return $lang;
         }
 
@@ -231,10 +219,8 @@ class Translator
     {
         $files = (array) Finder::search($path, 'lang');
 
-        foreach ($files as $file)
-        {
-            if ( ! is_file($file))
-            {
+        foreach ($files as $file) {
+            if ( ! is_file($file)) {
                 continue;
             }
             

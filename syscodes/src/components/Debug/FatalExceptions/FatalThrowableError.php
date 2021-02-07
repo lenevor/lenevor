@@ -52,16 +52,11 @@ class FatalThrowableError extends FatalErrorException
     {
         $this->originalClassName = get_class($exception);
 
-        if ($exception instanceof ParseError)
-        {
+        if ($exception instanceof ParseError) {
             $severity = E_PARSE;
-        }
-        elseif ($exception instanceof TypeError)
-        {
+        } elseif ($exception instanceof TypeError) {
             $severity = E_RECOVERABLE_ERROR;
-        }
-        else
-        {
+        } else {
             $severity = E_ERROR;
         }
 

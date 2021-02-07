@@ -46,8 +46,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
 
         $connection = $this->createConnection($dsn, $config, $options);
 
-        if ( ! empty($config['database']))
-        {
+        if ( ! empty($config['database'])) {
             $connection->exec("use `{$config['database']}`;");
         }
 
@@ -125,8 +124,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
      */
     protected function configureEncoding($connection, array $config)
     {
-        if ( ! isset($config['charset']))
-        {
+        if ( ! isset($config['charset'])) {
             return $connection;
         }
 
@@ -157,8 +155,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
      */
     protected function configureTimezone($connection, array $config)
     {
-        if (isset($config['timezone']))
-        {
+        if (isset($config['timezone'])) {
             $connection->prepare('set time_zone="'.$config['timezone'].'"')->execute();
         }
     }
@@ -176,8 +173,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
         // If the "strict" option has been configured for the connection we'll enable
         // strict mode on all of these tables. This enforces some extra rules when
         // using the MySQL database system and is a quicker way to enforce them.
-        if (isset($config['strict']) && $config['strict'])
-        {
+        if (isset($config['strict']) && $config['strict']) {
             $connection->prepare("set session sql_mode='STRICT_ALL_TABLES'")->execute();
         }
     }

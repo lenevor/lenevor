@@ -62,53 +62,36 @@ class FatalErrorException extends ErrorException
     {
         parent::__construct($message, $code, $severity, $filename, $lineno, $previous);
 
-        if (null !== $trace)
-        {
-            if ( ! $traceArgs)
-            {
-                foreach ($trace as &$frame)
-                {
+        if (null !== $trace) {
+            if ( ! $traceArgs) {
+                foreach ($trace as &$frame) {
                     unset($frame['args'], $frame['this'], $frame);
                 }
             }
 
             $this->setTrace($trace);
-        }
-        elseif (null !== $traceOffset)
-        {
-            if (function_exists('xdebug_get_function_stack'))
-            {
+        } elseif (null !== $traceOffset) {
+            if (function_exists('xdebug_get_function_stack')) {
                 $trace = xdebug_get_function_stack();
 
-                if ($traceOffset > 0)
-                {
+                if ($traceOffset > 0) {
                     array_slice($trace, -$traceOffset);
                 }
 
-                foreach ($trace as &$frame)
-                {
-                    if ( ! isset($frame['type']))
-                    {
-                        if (isset($frame['class']))
-                        {
+                foreach ($trace as &$frame) {
+                    if ( ! isset($frame['type'])) {
+                        if (isset($frame['class'])) {
                             $frame['type'] = '::';
                         }
-                    }
-                    elseif ('dynamic' === $frame['type'])
-                    {
+                    } elseif ('dynamic' === $frame['type']) {
                         $frame['type'] = '->';
-                    }
-                    elseif ('static' === $frame['type'])
-                    {
+                    } elseif ('static' === $frame['type']) {
                         $frame['type'] = '::';
                     }
 
-                    if ( ! $traceArgs)
-                    {
+                    if ( ! $traceArgs) {
                         unset($frame['params'], $frame['args']);
-                    }
-                    elseif (isset($frame['params']) && ! $frame['args'])
-                    {
+                    } elseif (isset($frame['params']) && ! $frame['args']) {
                         $frame['args'] = $frame['params'];
                         unset($frame['params']);
                     }
@@ -116,9 +99,7 @@ class FatalErrorException extends ErrorException
                 
                 unset($frame);
                 $trace = array_reverse($trace);
-            }
-            else
-            {
+            } else {
                 $trace = [];
             }
 

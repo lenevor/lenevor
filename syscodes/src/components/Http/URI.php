@@ -127,8 +127,7 @@ class URI
 	 */
 	public function __construct(string $uri = null)
 	{
-		if ( ! is_null($uri))
-		{
+		if ( ! is_null($uri)) {
 			$this->setUri($uri);
 		}
 	}
@@ -144,12 +143,10 @@ class URI
 	 */
 	public function setUri(string $uri = null)
 	{
-		if ( ! is_null($uri))
-		{
+		if ( ! is_null($uri)) {
 			$parts = parse_url($uri);
 
-			if ($parts === false)
-			{
+			if ($parts === false) {
 				throw HttpURIException::UnableToParseURI($uri);
 			}
 
@@ -307,8 +304,7 @@ class URI
 	{
 		$user = $this->user;
 
-		if ($this->showPassword === true && ! empty($this->password))
-		{
+		if ($this->showPassword === true && ! empty($this->password)) {
 			$user .= ":$this->password";
 		}
 
@@ -354,22 +350,18 @@ class URI
 	 */
 	public function getAuthority(bool $ignore = false)
 	{
-		if (empty($this->host))
-		{
+		if (empty($this->host)) {
 			return '';
 		}
 
 		$authority = $this->host;
 
-		if ( ! empty($this->getUserInfo()))
-		{
+		if ( ! empty($this->getUserInfo())) {
 			$authority = $this->getUserInfo().'@'.$authority;
 		}
 
-		if ( ! empty($this->port) && ! $ignore)
-		{
-			if ($this->port !== $this->defaultPorts[$this->scheme])
-			{
+		if ( ! empty($this->port) && ! $ignore) {
+			if ($this->port !== $this->defaultPorts[$this->scheme]) {
 				$authority .= ":$this->port";
 			}
 		}
@@ -390,8 +382,7 @@ class URI
 	{
 		$parts = parse_url($str);
 
-		if (empty($parts['host']) && ! empty($parts['path']))
-		{
+		if (empty($parts['host']) && ! empty($parts['path'])) {
 			$parts['host'] = $parts['path'];
 			unset($parts['path']);
 		}
@@ -444,13 +435,11 @@ class URI
 	 */
 	public function setPort(int $port = null)
 	{
-		if (is_null($port))
-		{
+		if (is_null($port)) {
 			return $this;
 		}
 
-		if ($port <= 0 || $port > 65355)
-		{
+		if ($port <= 0 || $port > 65355) {
 			throw HttpURIException::invalidPort($port);
 		}
 
@@ -492,50 +481,39 @@ class URI
 	 */
 	public function applyParts(array $paths)
 	{
-		if (isset($parts['scheme']))
-		{
+		if (isset($parts['scheme'])) {
 			$this->SetScheme(rtrim($parts['scheme'], ':/'));
-		}
-		else
-		{
+		} else {
 			$this->setScheme('http');
 		}
 
-		if ( ! empty($parts['host']))
-		{
+		if ( ! empty($parts['host'])) {
 			$this->host = $parts['host'];
 		}
 
-		if (isset($parts['port']))
-		{
-			if ( ! is_null($parts['port']))
-			{
+		if (isset($parts['port'])) {
+			if ( ! is_null($parts['port'])) {
 				$this->port = $parts['port'];
 			}
 		}
 
-		if ( ! empty($parts['user']))
-		{
+		if ( ! empty($parts['user'])) {
 			$this->user = $parts['user'];
 		}
 
-		if ( ! empty($parts['pass']))
-		{
+		if ( ! empty($parts['pass'])) {
 			$this->password = $parts['pass'];
 		}
 
-		if ( ! empty($parts['path']))
-		{
+		if ( ! empty($parts['path'])) {
 			$this->path = $this->filterPath($parts['path']);
 		}
 
-		if ( ! empty($parts['fragment']))
-		{
+		if ( ! empty($parts['fragment'])) {
 			$this->fragment = $parts['fragment'];
 		}
 
-		if ( ! empty($parts['path']))
-		{
+		if ( ! empty($parts['path'])) {
 			$this->segments = explode('/', $parts['path'], '/');
 		}
 	}

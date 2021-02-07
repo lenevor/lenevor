@@ -51,8 +51,7 @@ class CallbackHandler extends MainHandler
      */
     public function __construct($callable)
     {
-        if ( ! is_callable($callable))
-        {
+        if ( ! is_callable($callable)) {
             throw new InvalidArgumentException('Argument to '.__METHOD__.' must be valid callable');            
         }
 

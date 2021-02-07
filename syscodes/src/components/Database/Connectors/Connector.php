@@ -78,12 +78,9 @@ abstract class Connector
             $config['password'] ?? null
         ];
 
-        try
-        {
+        try {
             return new PDO($dsn, $username, $password, $options);
-        }
-        catch (PDOException $e)
-        {
+        } catch (PDOException $e) {
             throw new ConnectionException("Connection to [ {$dsn} ] failed: ".$e->getMessage(), $e);
         }
     }

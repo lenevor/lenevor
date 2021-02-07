@@ -59,8 +59,7 @@ class FileMimeType
 	{
 		$extension = trim(strtolower($extension), '. ');
 
-		if ( ! array_key_exists($extension, static::$mimes))
-		{
+		if ( ! array_key_exists($extension, static::$mimes)) {
 			return null;
 		}
 		
@@ -78,14 +77,10 @@ class FileMimeType
 	{
 		$type = trim(strtolower($type), '. ');
 
-		foreach (static::$mimes as $ext => $types)
-		{
-			if (is_string($types) && $types == $type)
-			{
+		foreach (static::$mimes as $ext => $types) {
+			if (is_string($types) && $types == $type) {
 				return $ext;
-			}
-			else if (is_array($types) && in_array($type, $types))
-			{
+			} elseif (is_array($types) && in_array($type, $types)) {
 				return $ext;
 			}
 		}

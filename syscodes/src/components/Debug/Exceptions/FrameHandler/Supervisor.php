@@ -66,15 +66,12 @@ class Supervisor
 	 */
 	public function getFrames()
 	{
-		if ($this->frames === null)
-		{
+		if ($this->frames === null) {
 			$frames = $this->getTrace($this->exception);	
 
 			// Fill empty line/file info for call_user_func_array usages 
-			foreach ($frames as $k => $frame) 
-			{
-				if (empty($frame['file']))
-				{
+			foreach ($frames as $k => $frame) {
+				if (empty($frame['file'])) {
 					// Default values when file and line are missing
 					$file = '[PHP internal Code]';
 					$line = 0;
@@ -87,16 +84,13 @@ class Supervisor
 			// Find latest non-error handling frame index ($i) used to remove error handling frames
 			$i = 0;
 
-			foreach ($frames as $k => $frame)
-			{
-				if ($frame['file'] == $this->exception->getFile() && $frame['line'] == $this->exception->getLine())
-				{
+			foreach ($frames as $k => $frame) {
+				if ($frame['file'] == $this->exception->getFile() && $frame['line'] == $this->exception->getLine()) {
 					$i = $k;
 				}
 			}
 			// Remove error handling frames
-			if ($i > 0)
-			{
+			if ($i > 0) {
 				array_splice($frames, 0, $i);
 			}
 	
@@ -170,13 +164,11 @@ class Supervisor
 	{
 		$traces = $exception->getTrace();
 
-		if ( ! $exception instanceof ErrorException)
-		{
+		if ( ! $exception instanceof ErrorException) {
 			return $traces;
 		}
 
-		if ( ! extension_loaded('xdebug') || ! xdebug_is_enabled()) 
-		{
+		if ( ! extension_loaded('xdebug') || ! xdebug_is_enabled()) {
 			return [];
 		}
 		

@@ -198,13 +198,11 @@ class Logger implements LoggerInterface
      */
     protected function writeLog($level, $message, array $context = [])
     {
-        if (is_numeric($level))
-        {
+        if (is_numeric($level)) {
             $level = array_search((int) $level, $this->logLevels);
         } 
         
-        if ( ! array_key_exists($level, $this->logLevels))
-        {
+        if ( ! array_key_exists($level, $this->logLevels)) {
             throw new LogException(__('response.notFoundLevel', ['level' => $level]));
         }
 
@@ -221,8 +219,7 @@ class Logger implements LoggerInterface
      */
     public function __call($method, $parameters)
     {
-        if ( ! array_key_exists($method, $this->logLevels))
-        {
+        if ( ! array_key_exists($method, $this->logLevels)) {
             throw new LogException(__('response.notFoundLevel', ['level' => $method]));
         }
 

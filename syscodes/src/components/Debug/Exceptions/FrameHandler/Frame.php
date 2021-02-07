@@ -70,8 +70,7 @@ class Frame implements Serializable
      */
     public function getFile()
     {
-        if (empty($this->frame['file']))
-        {
+        if (empty($this->frame['file'])) {
             return null;
         }
 
@@ -150,8 +149,7 @@ class Frame implements Serializable
     {
         $comments = $this->comments;
 
-        if ($filter !== null)
-        {
+        if ($filter !== null) {
             $comments = array_filter($comments, function ($comment) use ($filter) {
                 return $comment['context'] == $filter;
             });

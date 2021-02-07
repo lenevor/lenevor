@@ -44,15 +44,13 @@ class SQLiteConnector extends Connector implements ConnectorInterface
     {
         $options = $this->getOptions($config);
 
-        if ($config['database'] === ':memory:')
-        {
+        if ($config['database'] === ':memory:') {
             return $this->createConnection('sqlite::memory:', $config, $options);
         }
 
         $path = realpath($config['path']);
 
-        if ($path === false)
-        {
+        if ($path === false) {
             throw new InvalidArgumentException("Database [ {$config['database']} ] does not exist.");
         }
 

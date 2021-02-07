@@ -89,8 +89,7 @@ class DatabaseManager implements ConnectionResolverInterface
 
         $name = $name ?: $database;
 
-        if ( ! isset($this->connections[$name]))
-        {
+        if ( ! isset($this->connections[$name])) {
             $connection = $this->makeConnection($name);
 
             $this->connections[$name] = $this->configure($connection, $type);
@@ -126,15 +125,13 @@ class DatabaseManager implements ConnectionResolverInterface
     {
         $config = $this->getConfiguration($name);
 
-        if (isset($this->extensions[$name]))
-        {
+        if (isset($this->extensions[$name])) {
             return call_user_func($this->extensions[$name], $config, $name);
         }
 
         $driver = $config['driver'];
 
-        if (isset($this->extensions[$driver]))
-        {
+        if (isset($this->extensions[$driver])) {
             return call_user_func($this->extensions[$driver], $config, $name);
         }
 
@@ -156,8 +153,7 @@ class DatabaseManager implements ConnectionResolverInterface
 
         $connections = $this->app['config']['database.connections'];
 
-        if (is_null($config = Arr::get($connections, $name)))
-        {
+        if (is_null($config = Arr::get($connections, $name))) {
             throw new InvalidArgumentException("Database connection [{$name}] not configured");
         }
 
@@ -176,13 +172,11 @@ class DatabaseManager implements ConnectionResolverInterface
     {
         $connection = $this->setPdoForType($connection, $type);
 
-        if ($this->app->bound('events'))
-        {
+        if ($this->app->bound('events')) {
             $connection->setEventDispatcher($this->app['events']);
         }
 
-        $connection->setReconnector(function ($connection)
-        {
+        $connection->setReconnector(function ($connection) {
             $this->reconnect($connection->getName());
         });
 
@@ -199,12 +193,9 @@ class DatabaseManager implements ConnectionResolverInterface
      */
     protected function setPdoForType(Connection $connection, $type)
     {
-        if ($type === 'read')
-        {
+        if ($type === 'read') {
             $connection->setPdo($connection->getReadPdo());
-        }
-        elseif ($type === 'write')
-        {
+        } elseif ($type === 'write') {
             $connection->setReadPdo($connection->getPdo());
         }
 
@@ -222,8 +213,7 @@ class DatabaseManager implements ConnectionResolverInterface
     {
         $this->disconnect($name = $name ?: $this->getDefaultConnection());
 
-        if ( ! isset($this->connections[$name]))
-        {
+        if ( ! isset($this->connections[$name])) {
             return $this->connection($name);
         }
 
@@ -239,8 +229,7 @@ class DatabaseManager implements ConnectionResolverInterface
      */
     public function disconnect($name = null)
     {
-        if (isset($this->connections[$name = $name ?: $this->getDefaultConnection()]))
-        {
+        if (isset($this->connections[$name = $name ?: $this->getDefaultConnection()])) {
             $this->connections[$name]->disconnect();
         }
     }

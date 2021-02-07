@@ -44,8 +44,7 @@ class SqlServerGrammar extends Grammar
     {
         $components = $this->compileComponents($builder);
 
-        if ($builder->offset > 0)
-        {
+        if ($builder->offset > 0) {
             return $this->compileAnsiOffset($builder, $components);
         }
 
@@ -62,8 +61,7 @@ class SqlServerGrammar extends Grammar
      */
     protected function compileAnsiOffset(Builder $buiilder, $components)
     {
-        if ( ! isset($components['orders']))
-        {
+        if ( ! isset($components['orders'])) {
             $components['orders'] = 'order by (select 0)';
         }
 
@@ -114,8 +112,7 @@ class SqlServerGrammar extends Grammar
     {
         $begin = $builder->offset + 1;
 
-        if ($builder->limit > 0)
-        {
+        if ($builder->limit > 0) {
             $finish = $builder->offset + $builder->limit;
 
             return "between {$start} and {$finish}";
@@ -231,15 +228,13 @@ class SqlServerGrammar extends Grammar
      */
     protected function compileColumns(Builder $builder, $columns)
     {
-        if ( ! is_null($builder->aggregate))
-        {
+        if ( ! is_null($builder->aggregate)) {
             return;
         }
 
         $select = $builder->distinct ? 'select distinct ' : 'select ';
 
-        if ($builder->limit > 0 && $builder->offset <= 0)
-        {
+        if ($builder->limit > 0 && $builder->offset <= 0) {
             $select .= 'top '.$builder->limit.' ';
         }
 
@@ -258,13 +253,11 @@ class SqlServerGrammar extends Grammar
     {
         $from = parent::compileFrom($builder, $table);
 
-        if (is_string($builder->lock))
-        {
+        if (is_string($builder->lock)) {
             return $from.' '.$builder;
         }
 
-        if ( ! is_null($builder->lock))
-        {
+        if ( ! is_null($builder->lock)) {
             return $from.' with(rowlock,'.($builder->lock ? 'uplock,' : '').'holdlock)';
         }
     }

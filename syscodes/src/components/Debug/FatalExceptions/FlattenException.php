@@ -126,14 +126,12 @@ class FlattenException
         $e->setMessage($exception->getMessage());
         $e->setCode($exception->getCode());
 
-        if ($exception instanceof HttpException)
-        {
+        if ($exception instanceof HttpException) {
             $statusCode = $exception->getStatusCode();
             $headers    = array_merge($headers, $exception->getHeaders());
         }
 
-        if ($statusCode === null)
-        {
+        if ($statusCode === null) {
             $statusCode = 500;
         }
 
@@ -146,8 +144,7 @@ class FlattenException
 
         $previous = $exception->getPrevious();
 
-        if ($previous instanceof Throwable)
-        {
+        if ($previous instanceof Throwable) {
             $e->setPrevious(static::makeFromThrowable($previous));
         }
 
@@ -338,8 +335,7 @@ class FlattenException
         $exceptions = [];
         $exception  = $this;
 
-        while ($exception = $exception->getPrevious())
-        {
+        while ($exception = $exception->getPrevious()) {
             $exceptions[] = $exception;
         }
 
@@ -389,8 +385,7 @@ class FlattenException
     {
         $exceptions = [];
 
-        foreach (array_merge([$this], $this->getAllPrevious()) as $exception)
-        {
+        foreach (array_merge([$this], $this->getAllPrevious()) as $exception) {
             $exceptions[] = [
                 'message' => $exception->getMessage(),
                 'class'   => $exception->getClass(),
@@ -436,13 +431,11 @@ class FlattenException
             'args'        => [],
         ];
 
-        foreach ($trace as $item)
-        {
+        foreach ($trace as $item) {
             $class     = '';
             $namespace = '';
 
-            if (isset($item['class']))
-            {
+            if (isset($item['class'])) {
                 $parts     = explode('\\', $item['class']);
                 $class     = array_pop($parts);
                 $namespace = implode('\\', $parts);
@@ -476,54 +469,32 @@ class FlattenException
     {   
         $result = [];
 
-        foreach ($args as $key => $value)
-        {
-            if (++$count > 1e4)
-            {
+        foreach ($args as $key => $value) {
+            if (++$count > 1e4) {
                 return ['array', '*SKIPPED over 10000 entries*'];
             }
 
-            if ($value instanceof \__PHP_Incomplete_Class)
-            {
+            if ($value instanceof \__PHP_Incomplete_Class) {
                 $result[$key] = ['incomplete-object', $this->getClassNameFromIncomplete($value)];
-            }
-            elseif (is_object($value))
-            {
+            } elseif (is_object($value)) {
                 $result[$key] = ['object', get_class($value)];
-            }
-            elseif (is_array($value))
-            {
-                if ($level > 10)
-                {
+            } elseif (is_array($value)) {
+                if ($level > 10) {
                     $result[$key] = ['array', '*DEEP NESTED ARRAY*'];
-                }
-                else 
-                {
+                } else {
                     $result[$key] = ['array', $this->flattenArgs($value, $level + 1, $count)];
                 }
-            }
-            elseif ($value === null)
-            {
+            } elseif ($value === null) {
                 $result[$key] = ['null', null];
-            }
-            elseif (is_bool($value))
-            {
+            } elseif (is_bool($value)) {
                 $result[$key] = ['boolean', $value];
-            }
-            elseif (is_int($value))
-            {
+            } elseif (is_int($value)) {
                 $result[$key] = ['integer', $value];
-            }
-            elseif (is_float($value))
-            {
+            } elseif (is_float($value)) {
                 $result[$key] = ['float', $value];
-            }
-            elseif (is_resource($value))
-            {
+            } elseif (is_resource($value)) {
                 $result[$key] = ['resource', get_resource_type($value)];
-            }
-            else
-            {
+            } else {
                 $result[$key] = ['string', (string) $value];
             }
         }

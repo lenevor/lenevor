@@ -100,10 +100,8 @@ class FileSession implements SessionHandlerInterface
      */
     public function read($sessionId)
     {
-        if ($this->files->isFile($path = $this->path.DIRECTORY_SEPARATOR.$sessionId))
-        {
-            if (filemtime($path) >= Chronos::now()->subMinutes($this->minutes)->getTimestamp()) 
-            {
+        if ($this->files->isFile($path = $this->path.DIRECTORY_SEPARATOR.$sessionId)) {
+            if (filemtime($path) >= Chronos::now()->subMinutes($this->minutes)->getTimestamp()) {
                 return $this->files->get($path);
             }
         }
@@ -151,10 +149,8 @@ class FileSession implements SessionHandlerInterface
     {
         $files = Finder::render($this->path);
 
-        foreach ($files as $file)
-        {
-            if ($this->files->lastChange($file) + $lifetime < time() && $this->files->exists($file))
-            {
+        foreach ($files as $file) {
+            if ($this->files->lastChange($file) + $lifetime < time() && $this->files->exists($file)) {
                 $this->files->delete($file);
             }
         }

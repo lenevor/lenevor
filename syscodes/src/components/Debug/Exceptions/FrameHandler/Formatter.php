@@ -52,8 +52,7 @@ class Formatter
             'trace'   => $exception->getTrace(),
         ];
 
-        if ($exception->getPrevious())
-        {
+        if ($exception->getPrevious()) {
             $response = [$response];
             $newError = static::formatExceptionAsDataArray($exception->getPrevious());
             array_unshift($response, $newError);
@@ -82,8 +81,7 @@ class Formatter
 
         $plainText .= "Stacktrace:\n";
 
-        foreach ($frames as $i => $frame)
-        {
+        foreach ($frames as $i => $frame) {
             $plainText .= "#".(count($frames) - $i)." ";
             $plainText .= $frame->getClass() ?: '';
             $plainText .= $frame->getClass() && $frame->getFunction() ? ":" : '';

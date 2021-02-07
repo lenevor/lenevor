@@ -68,8 +68,7 @@ class Benchmark
     {
         $name = strtolower($name);
 
-        if (empty($this->timers[$name]))
-        {
+        if (empty($this->timers[$name])) {
             throw new LenevorException('Cannot stop timer: invalid name given');
         }
 
@@ -90,15 +89,13 @@ class Benchmark
     {
         $name = strtolower($name);
 
-        if (empty($this->timers[$name]))
-        {
+        if (empty($this->timers[$name])) {
             return null;
         }
 
         $timer = $this->timers[$name];
 
-        if (empty($timer['end']))
-        {
+        if (empty($timer['end'])) {
             $timer['end'] = microtime(true);
         }
 
@@ -118,10 +115,8 @@ class Benchmark
     {
         $timers = $this->timers;
 
-        foreach ($timers as $timer)
-        {
-            if (empty($timer['end']))
-            {
+        foreach ($timers as $timer) {
+            if (empty($timer['end'])) {
                 $timer['end'] = microtime(true);
             }
 
@@ -147,12 +142,9 @@ class Benchmark
         $minutes  = (int) (($duration / 60) - $hours * 60); 
         $seconds  = (int) ($duration - $hours * 60 * 60 - $minutes * 60); 
         
-        if ($seconds <= 0)
-        {
+        if ($seconds <= 0) {
            return ' ms';
-        }
-        elseif ($seconds > 0)
-        {
+        } elseif ($seconds > 0) {
             return ' s';
         }
 

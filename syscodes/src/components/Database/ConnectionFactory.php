@@ -202,13 +202,11 @@ class ConnectionFactory
      */
     public function createConnector(array $config)
     {
-        if ( ! isset($config['driver']))
-        {
+        if ( ! isset($config['driver'])) {
             throw new InvalidArgumentException('A driver must be specified');
         }
         
-        if ($this->container->bound($key = "db.connector.{$config['driver']}"))
-        {
+        if ($this->container->bound($key = "db.connector.{$config['driver']}")) {
             return $this->container->make($key);
         }
 
@@ -242,13 +240,11 @@ class ConnectionFactory
      */
     public function createConnection($driver, $connection, $database, $prefix = '', array $config = [])
     {
-        if ($resolver = Connection::getResolver($driver))
-        {
+        if ($resolver = Connection::getResolver($driver)) {
             return $resolver($connection, $database, $prefix, $config);
         }
 
-        switch ($driver)
-        {
+        switch ($driver) {
             case 'mysql':
                 return new MySqlConnection($connection, $database, $prefix, $config);
             case 'pgsql':

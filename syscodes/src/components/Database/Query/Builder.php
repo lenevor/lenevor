@@ -274,8 +274,7 @@ class Builder
      */
     protected function makeSub($builder)
     {
-        if ($builder instanceof Closure)
-        {
+        if ($builder instanceof Closure) {
             $callback = $builder;
 
             $callback($builder = $this->newBuilder());
@@ -295,16 +294,11 @@ class Builder
      */
     protected function parseSub($builder)
     {
-        if ($builder instanceof self)
-        {
+        if ($builder instanceof self) {
             return [$builder->getSql(), $builder->getBindings()];
-        }
-        elseif (is_string($builder))
-        {
+        } elseif (is_string($builder)) {
             return [$builder->getSql(), []];
-        }
-        else
-        {
+        } else {
             throw new InvalidArgumentException('A subquery must be a query builder instance, a Closure, or a string');
         }
     }
@@ -321,8 +315,7 @@ class Builder
     {
         $this->addSelect(new Expression($expression));
 
-        if (! empty($bindings))
-        {
+        if (! empty($bindings)) {
             $this->addBinding($bindings, 'select');
         }
 
@@ -386,8 +379,7 @@ class Builder
      */
     public function where($column, $operator = null, $value = null, $boolean = 'and')
     {
-        if (is_array($column))
-        {
+        if (is_array($column)) {
             return $this->addArrayWheres($column, $boolean);
         }
         
@@ -395,23 +387,19 @@ class Builder
             $value, $operator, func_num_args() === 2
         );
 
-        if ($column instanceof Closure && is_null($operator))
-        {
+        if ($column instanceof Closure && is_null($operator)) {
             return $this->whereNested($column, $boolean);
         }
 
-        if ($this->invalidOperator($operator))
-        {
+        if ($this->invalidOperator($operator)) {
             [$value, $operator] = [$operator, '='];
         }
 
-        if ($value instanceof Closure)
-        {
+        if ($value instanceof Closure) {
             return $this->whereSub($column, $operator, $value, $boolean);
         }
 
-        if (is_null($value))
-        {
+        if (is_null($value)) {
             return $this->whereNull($column, $boolean, $operator !== '=');
         }
 
@@ -419,8 +407,7 @@ class Builder
 
         $this->wheres[] = compact('type', 'column', 'operator', 'value', 'boolean');
 
-        if ($value instanceof Expression)
-        {
+        if ($value instanceof Expression) {
             $this->addBinding($value, 'where');
         }
 
@@ -438,16 +425,11 @@ class Builder
      */
     protected function addArrayWheres($column, $boolean, $method = 'where')
     {
-        return $this->whereNested(function ($query) use ($column, $method, $boolean)
-        {
-            foreach ($column as $key => $value)
-            {
-                if (is_numeric($key) && is_array($value))
-                {
+        return $this->whereNested(function ($query) use ($column, $method, $boolean) {
+            foreach ($column as $key => $value) {
+                if (is_numeric($key) && is_array($value)) {
                     $query->{$method}(...array_values($value));
-                }
-                else
-                {
+                } else {
                     $query->{$method}($key, '=', $value, $boolean);
                 }
             }
@@ -467,12 +449,9 @@ class Builder
      */
     public function prepareValueAndOperator($value, $operator, $useDefault = false)
     {
-        if ($useDefault)
-        {
+        if ($useDefault) {
             return [$operator, '='];
-        } 
-        elseif ($this->invalidOperatorValue($operator, $value))
-        {
+        } elseif ($this->invalidOperatorValue($operator, $value)) {
             throw new InvalidArgumentException('Illegal operator and value combination.');
         }
             
@@ -542,8 +521,7 @@ class Builder
      */
     public function addNestedWhere($query, $boolean = 'and')
     {
-        if (count($query->wheres))
-        {
+        if (count($query->wheres)) {
             $type = 'Nested';
 
             $this->wheres[] = compact('type', 'query', 'boolean');
@@ -592,8 +570,7 @@ class Builder
     {
         $type = $not ? 'NotNull' : 'Null';
 
-        foreach (Arr::wrap($columns) as $column)
-        {
+        foreach (Arr::wrap($columns) as $column) {
             $this->wheres[] = compact('type', 'column', 'boolean');
         }
 
@@ -650,8 +627,7 @@ class Builder
     {
         $property = $this->unions ? 'unionLimit' : 'limit';
 
-        if ($value >= 0)
-        {
+        if ($value >= 0) {
             $this->$property = $value;
         }
         return $this;
@@ -667,8 +643,7 @@ class Builder
      */
     public function union($builder, $all = false)
     {
-        if ($builder instanceof Closure)
-        {
+        if ($builder instanceof Closure) {
             call_user_func($builder, $builder = $this->newBuilder());
         }
 
@@ -792,8 +767,7 @@ class Builder
     {
         $original = $this->columns;
 
-        if (is_null($original))
-        {
+        if (is_null($original)) {
             $this->columns = $columns;
         }
 
@@ -906,8 +880,7 @@ class Builder
 
         $this->columns = $previous;
 
-        if (isset($results[0])) 
-        {
+        if (isset($results[0]))  {
             $result = array_change_key((array) $results[0]);
         }
 
@@ -923,26 +896,22 @@ class Builder
      */
     public function insert(array $values)
     {
-        if (empty($values))
-        {
+        if (empty($values)) {
             return true;
         }
 
-        if ( ! is_array(reset($values)))
-        {
-            $values = [$values];
-        }
-        else
-        {
-            foreach ($values as $key => $value)
-            {
+        if ( ! is_array(reset($values))) {
+            $values = [$values]; 
+        } else {
+            foreach ($values as $key => $value) {
                 ksort($value);
 
                 $values[$key] = $value;
             }
         }
 
-        $sql      = $this->grammar->compileInsert($this, $values);
+        $sql = $this->grammar->compileInsert($this, $values);
+
         $bindings = $this->cleanBindings($this->buildInsertBinding($values));
 
         return $this->connection->insert($sql, $bindings);
@@ -958,10 +927,8 @@ class Builder
     {
         $bindings = [];
 
-        foreach ($values as $record)
-        {
-            foreach ($record as $value)
-            {
+        foreach ($values as $record) {
+            foreach ($record as $value) {
                 $bindings[] = $value;
             }
         }
@@ -1013,8 +980,7 @@ class Builder
      */
     public function increment($column, $amount = 1, array $extra = [])
     {
-        if ( ! is_numeric($amount))
-        {
+        if ( ! is_numeric($amount)) {
             throw new InvalidArgumentException("Non-numeric value passed to increment method");
         }
 
@@ -1036,8 +1002,7 @@ class Builder
      */
     public function decrement($column, $amount = 1, array $extra = [])
     {
-        if ( ! is_numeric($amount))
-        {
+        if ( ! is_numeric($amount)) {
             throw new InvalidArgumentException("Non-numeric value passed to decrement method");
         }
 
@@ -1055,8 +1020,7 @@ class Builder
      */
     public function truncate()
     {
-        foreach ($this->grammar->compileTruncate($this) as $sql => $bindings)
-        {
+        foreach ($this->grammar->compileTruncate($this) as $sql => $bindings) {
             $this->connection->query($sql, $bindings);
         }
     }
@@ -1070,8 +1034,7 @@ class Builder
      */
     public function groupBy(...$groups)
     {
-        foreach ($groups as $group)
-        {
+        foreach ($groups as $group) {
             $this->groups = array_merge(
                 (array) $this->groups,
                 Arr::wrap($group)
@@ -1096,8 +1059,7 @@ class Builder
 
         $this->havings[] = compact('type', 'column', 'operator', 'value', 'boolean');
 
-        if ($value instanceof Expression)
-        {
+        if ($value instanceof Expression) {
             $this->addBinding($value, 'having');
         }
 
@@ -1118,8 +1080,7 @@ class Builder
         
         $direction = strtolower($direction);
         
-        if ( ! in_array($direction, ['asc', 'desc'], true))
-        {
+        if ( ! in_array($direction, ['asc', 'desc'], true)) {
             throw new InvalidArgumentException('Order direction must be "asc" or "desc"');
         }
         
@@ -1265,8 +1226,7 @@ class Builder
      */
     public function setBindings($value, $type = 'where')
     {
-        if ( ! array_key_exists($type, $this->bindings))
-        {
+        if ( ! array_key_exists($type, $this->bindings)) {
             throw new InvalidArgumentException("Invalid binding type: {$type}");
         }
 
@@ -1287,17 +1247,13 @@ class Builder
      */
     public function addBinding($value, $type = 'where')
     {
-        if ( ! array_key_exists($type, $this->bindings))
-        {
+        if ( ! array_key_exists($type, $this->bindings)) {
             throw new InvalidArgumentException("Invalid binding type: {$type}");
         }
 
-        if (is_array($value))
-        {
+        if (is_array($value)) {
             $this->bindings[$type] = array_values(array_merge($this->bindings[$type], $value));
-        }
-        else
-        {
+        } else {
             $this->bindings[$type][] = $value;
         }
 

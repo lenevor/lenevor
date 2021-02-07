@@ -111,15 +111,13 @@ class LogManager implements LoggerInterface
     {
         $config = $this->configurationLogger($name);
 
-        if (is_null($config))
-        {
+        if (is_null($config)) {
             throw new LogException(__('logger.LogNotDefined', ['name' => $name]));
         }
 
         $driver = 'create'.ucfirst($config['driver']).'Driver';
     
-        if (method_exists($this, $driver))
-        {
+        if (method_exists($this, $driver)) {
             return $this->{$driver}($config, $this->app);
         }
         
