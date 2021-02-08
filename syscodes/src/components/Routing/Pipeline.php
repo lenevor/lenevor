@@ -46,8 +46,7 @@ class Pipeline extends BasePipeline
      */
     protected function handleException($passable, Throwable $e)
     {
-        if ( ! $passable instanceof Request)
-        {
+        if ( ! $passable instanceof Request) {
             throw $e;
         }
         
@@ -57,8 +56,7 @@ class Pipeline extends BasePipeline
 
         $response = $handler->render($passable, $e);
 
-        if (is_object($response) && method_exists($response, 'withException'))
-        {
+        if (is_object($response) && method_exists($response, 'withException')) {
             $response->withException($e);
         }
 

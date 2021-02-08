@@ -112,8 +112,7 @@ class View implements ArrayAccess, Webable, ViewContract
 	 */
 	public function render(Callable $callback = null)
 	{
-		try
-		{
+		try {
 			$contents = $this->renderContents();
 
 			$response = isset($callback) ? $callback($this, $contents) : null;
@@ -121,9 +120,7 @@ class View implements ArrayAccess, Webable, ViewContract
 			$this->factory->flushStateIfDoneRendering();
 
 			return ! is_null($response) ? $response : $contents;
-		}
-		catch(Throwable $e)
-		{
+		} catch(Throwable $e) {
 			$this->factory->flushState();
 
 			throw $e;
@@ -196,12 +193,9 @@ class View implements ArrayAccess, Webable, ViewContract
 	 */
 	public function assign($key, $value = null)
 	{
-		if (is_array($key)) 
-		{
+		if (is_array($key)) {
 			$this->data = array_merge($this->data, $key);
-		} 
-		else 
-		{
+		} else {
 			$this->data = [$key => $value];
 		}
 
@@ -308,19 +302,13 @@ class View implements ArrayAccess, Webable, ViewContract
 	 */
 	public function &get($key, $default = null)
 	{
-		if (strpos($key, '.') === false)
-		{
-			if (array_key_exists($key, $this->data))
-			{
+		if (strpos($key, '.') === false) {
+			if (array_key_exists($key, $this->data)) {
 				return $this->data[$key];
-			}
-			else
-			{
+			} else {
 				throw new InvalidArgumentException(__('view.variableNotSet'));
 			}
-		}
-		else
-		{
+		} else {
 			return value($default);
 		}
 	}
@@ -341,21 +329,14 @@ class View implements ArrayAccess, Webable, ViewContract
 	 */
 	public function set($key, $value = null) 
 	{
-		if (is_array($key) || $key instanceof Traversable)
-		{
-			foreach ($key as $name => $value) 
-			{
+		if (is_array($key) || $key instanceof Traversable) {
+			foreach ($key as $name => $value) {
 				$this->set($name, $value);
 			}
-		}
-		else
-		{
-			if (strpos($key, '.') === false)
-			{
+		} else {
+			if (strpos($key, '.') === false) {
 				$this->data[$key] = $value;
-			}
-			else
-			{
+			} else {
 				Arr::set($this->data, $key, $value);
 			}
 		}
@@ -492,8 +473,7 @@ class View implements ArrayAccess, Webable, ViewContract
 	 */
 	public function __call($method, $parameters)
 	{
-		if (Str::startsWith($method, 'assign'))
-		{
+		if (Str::startsWith($method, 'assign')) {
 			$name = Str::camelcase(substr($method, 4));
 
 			return $this->assign($name, $parameters[0]);

@@ -50,8 +50,7 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      */
     public function __construct($attributes = [])
     {
-        foreach ($attributes as $key => $values)
-        {
+        foreach ($attributes as $key => $values) {
             $this->attributes[$key] = $values;
         }
     }
@@ -66,8 +65,7 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      */
     public function get($key, $default = null)
     {
-        if (array_key_exists($key, $this->attributes))
-        {
+        if (array_key_exists($key, $this->attributes)) {
             return $this->attributes[$key];
         }
 

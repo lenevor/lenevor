@@ -96,12 +96,9 @@ trait Comparison
     {
         $testTime = '';
 
-        if ($time instanceof DateTime)
-        {
+        if ($time instanceof DateTime) {
             $testTime = $time->format('Y-m-d H:i:s');
-        }
-        elseif (is_string($time))
-        {
+        } elseif (is_string($time)) {
             $timezone = $timezone ?: $this->timezone;
             $timezone = $timezone instanceof DateTimeZone ? $timezone : new DateTimeZone($timezone);
             $testTime = new DateTime($time, $timezone);

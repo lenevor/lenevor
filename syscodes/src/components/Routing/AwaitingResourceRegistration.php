@@ -191,8 +191,7 @@ class AwaitingResourceRegistration
      */
     public function __destruct()
     {
-        if ( ! $this->registered)
-        {
+        if ( ! $this->registered) {
             $this->register();
         }
     }

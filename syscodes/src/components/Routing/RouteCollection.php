@@ -100,8 +100,7 @@ class RouteCollection implements Countable, IteratorAggregate
     {
         $domainAndRoute = $route->domain().$route->getRoute();
 
-        foreach ($route->getMethod() as $method)
-        {
+        foreach ($route->getMethod() as $method) {
             $this->routes[$method][$domainAndRoute] = $route;
         }
 
@@ -117,15 +116,13 @@ class RouteCollection implements Countable, IteratorAggregate
      */
     protected function addRouteAllList($route)
     {
-        if ($name = $route->getName())
-        {
+        if ($name = $route->getName()) {
             $this->nameList[$name] = $route;
         }
 
         $action = $route->getAction();
 
-        if (isset($action['controller']))
-        {
+        if (isset($action['controller'])) {
             $this->AddToActionList($action, $route);
         }
     }
@@ -152,10 +149,8 @@ class RouteCollection implements Countable, IteratorAggregate
     {
         $this->nameList = [];
 
-        foreach ($this->allRoutes as $route)
-        {
-            if ($route->getName())
-            {
+        foreach ($this->allRoutes as $route) {
+            if ($route->getName()) {
                 $this->nameList[$route->getName()] = $route;
             }
         }
@@ -170,10 +165,8 @@ class RouteCollection implements Countable, IteratorAggregate
     {
         $this->actionList = [];
 
-        foreach ($this->allRoutes as $route)
-        {
-            if (isset($route->getAction()['controller']))
-            {
+        foreach ($this->allRoutes as $route) {
+            if (isset($route->getAction()['controller'])) {
                 $this->AddToActionList($route->getAction(), $route);
             }
         }
@@ -212,8 +205,7 @@ class RouteCollection implements Countable, IteratorAggregate
     {
         $routes = $this->get($request->getMethod());       
 
-        if ( ! is_null($route = $this->findRoute($request, $routes)))
-        {
+        if ( ! is_null($route = $this->findRoute($request, $routes))) {
             return $route;
         }
         

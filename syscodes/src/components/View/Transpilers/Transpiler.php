@@ -58,8 +58,7 @@ abstract class Transpiler
      */
     public function __construct(Filesystem $files, $cachePath)
     {
-        if ( ! $cachePath)
-        {
+        if ( ! $cachePath) {
             throw new InvalidArgumentException('Please verify that the cache path is valid.');
         }
 
@@ -90,8 +89,7 @@ abstract class Transpiler
     {
         $compiled = $this->getTranspilePath($path);
 
-        if ( ! $this->files->exists($compiled))
-        {
+        if ( ! $this->files->exists($compiled)) {
             return true;
         }
 

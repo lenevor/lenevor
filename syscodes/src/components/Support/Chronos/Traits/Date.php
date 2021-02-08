@@ -269,49 +269,33 @@ trait Date
 
         $phrase = null;
         
-        if ($years !== 0)
-        {
+        if ($years !== 0) {
             $phrase = __('time.years', [abs($years)]);
             $before = $years < 0;
-        }
-        elseif ($months !== 0)
-        {
+        } elseif ($months !== 0) {
             $phrase = __('time.months', [abs($months)]);
             $before = $months < 0;
-        }
-        elseif ($days !== 0 && (abs($days) >= 7))
-        {
+        } elseif ($days !== 0 && (abs($days) >= 7)) {
             $weeks  = ceil($days / 7);
             $phrase = __('time.weeks', [abs($weeks)]);
             $before = $days < 0;
-        }
-        elseif ($days !== 0)
-        {
+        } elseif ($days !== 0) {
             $before = $days < 0;
             $phrase = __('time.days', [abs($days)]);
             
             // Yesterday/Tomorrow special cases
-            if (abs($days) === 1)
-            {
+            if (abs($days) === 1) {
                 return $before ? __('time.yesterday') : __('time.tomorrow');
-            }
-            else
-            {
+            } else {
                 $phrase = __('time.days', [abs($days) + 1]);
             }
-        }
-        elseif ($hours !== 0)
-        {
+        } elseif ($hours !== 0) {
             // Display the actual time instead of a regular phrase.
             return $this->format('g:i a');
-        }
-        elseif ($minutes !== 0)
-        {
+        } elseif ($minutes !== 0) {
             $phrase = __('time.minutes', [abs($minutes)]);
             $before = $minutes < 0;
-        }
-        else
-        {
+        } else {
             return __('time.now');
         }
         
@@ -333,8 +317,7 @@ trait Date
     {
         $method = 'get'.ucfirst($name);
 
-        if (method_exists($this, $method))
-        {
+        if (method_exists($this, $method)) {
             return $this->$method();
         }
 

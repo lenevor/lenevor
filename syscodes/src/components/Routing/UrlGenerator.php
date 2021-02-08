@@ -100,12 +100,9 @@ class UrlGenerator
 
         $url = $referer ? $this->to($referer) : [];
 
-        if ($url)
-        {
+        if ($url) {
             return $url;
-        }
-        elseif ($fallback)
-        {
+        } elseif ($fallback) {
             return $this->to($fallback);
         }
 
@@ -126,8 +123,7 @@ class UrlGenerator
         // First we will check if the URL is already a valid URL. If it is we will not
         // try to generate a new one but will simply return the URL as is, which is
         // convenient since developers do not always have to check if it's valid.
-        if ($this->isValidUrl($path))
-        {
+        if ($this->isValidUrl($path)) {
             return $path;
         }
 
@@ -163,8 +159,7 @@ class UrlGenerator
      */
     public function asset($path, $secure = null)
     {
-        if ($this->isValidUrl($path))
-        {
+        if ($this->isValidUrl($path)) {
             return $path;
         }
 
@@ -211,8 +206,7 @@ class UrlGenerator
      */
     public function getScheme($secure)
     {
-        if (is_null($secure))
-        {
+        if (is_null($secure)) {
             return $this->forcedSchema ?: $this->request->getScheme().'://';
         }
 
@@ -245,8 +239,7 @@ class UrlGenerator
      */
     public function route($name, array $parameters = [], $forced = true, $route = null)
     {
-        if ( ! is_null($route = $route ?? $this->routes->getByName($name)))
-        {
+        if ( ! is_null($route = $route ?? $this->routes->getByName($name))) {
             return $this->toRoute($route, $parameters, $forced);
         }
 
@@ -312,8 +305,7 @@ class UrlGenerator
      */
     protected function replaceRouteParameters($path, array &$parameters)
     {
-        if (count($parameters) > 0)
-        {
+        if (count($parameters) > 0) {
             $path = preg_replace_sub(
                 '/\{.*?\}/', $parameters, $this->replaceNamedParameters($path, $parameters)
             );
@@ -332,8 +324,7 @@ class UrlGenerator
      */
     protected function replaceNamedParameters($path, &$parameters)
     {
-        return preg_replace_callback('/\{(.*?)\??\}/', function ($match) use (&$parameters)
-        {
+        return preg_replace_callback('/\{(.*?)\??\}/', function ($match) use (&$parameters) {
             return isset($parameters[$match[1]]) ? Arr::pull($parameters, $match[1]) : $match[0];
         }, $path);
     }
@@ -371,8 +362,7 @@ class UrlGenerator
      */
     protected function addPortToDomain($domain)
     {
-        if (in_array($this->request->getPort(), [80, 443]))
-        {
+        if (in_array($this->request->getPort(), [80, 443])) {
             return $domain;
         }
 
@@ -413,12 +403,9 @@ class UrlGenerator
      */
     protected function getRouteScheme($route)
     {
-        if ($route->httpOnly)
-        {
+        if ($route->httpOnly) {
             return $this->getScheme(false);
-        }
-        elseif ($route->httpsOnly)
-        {
+        } elseif ($route->httpsOnly) {
             return $this->getScheme(true);
         }
 
@@ -435,8 +422,7 @@ class UrlGenerator
      */
     protected function getRootUrl($scheme, $root = null)
     {
-        if (is_null($root))
-        {
+        if (is_null($root)) {
             $root = $this->forcedRoot ?: $this->request->root();
         }
 
@@ -466,8 +452,7 @@ class UrlGenerator
      */
     public function isValidUrl($path)
     {
-        if (Str::startsWith($path, ['#', '//', 'mailto:', 'tel:', 'http://', 'https://'])) 
-        {
+        if (Str::startsWith($path, ['#', '//', 'mailto:', 'tel:', 'http://', 'https://'])) {
             return true;
         }
         

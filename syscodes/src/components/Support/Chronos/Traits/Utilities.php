@@ -42,8 +42,7 @@ trait Utilities
      */
     protected static function hasRelativeKeywords(string $time)
     {
-        if (preg_match('/[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}/', $time) !== 1)
-        {
+        if (preg_match('/[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}/', $time) !== 1) {
             return preg_match(static::$relativePattern, $time) > 0;
         }
         
@@ -62,16 +61,11 @@ trait Utilities
      */
     protected function getConvertedUTC($time, string $timezone = null)
     {
-        if ($time instanceof static)
-        {
+        if ($time instanceof static) {
             $time = $time->toDateTime()->setTimezone(new DateTimeZone('UTC'));
-        }
-        elseif ($time instanceof DateTime)
-        {
+        } elseif ($time instanceof DateTime) {
             $time = $time->setTimezone(new DateTimeZone('UTC'));
-        }
-        elseif (is_string($time))
-        {
+        } elseif (is_string($time)) {
             $timezone = $timezone ?: $this->timezone;
             $timezone = $timezone instanceof DateTimeZone ? $timezone : new DateTimeZone('UTC');
             $time     = new DateTime($time, $timezone);

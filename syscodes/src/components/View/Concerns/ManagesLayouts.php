@@ -56,15 +56,11 @@ trait ManagesLayouts
 	 */
 	public function beginSection($section, $content = null)
 	{
-		if (null === $content)
-		{
-			if (ob_start())
-			{
+		if (null === $content) {
+			if (ob_start()) {
 				$this->sectionStack[] = $section;
 			}
-		}
-		else
-		{
+		} else {
 			$this->extendSection($section, $content instanceof View ? $content : e($content));
 		}
 	}
@@ -79,8 +75,7 @@ trait ManagesLayouts
 	 */
 	protected function extendSection($section, $content)
 	{
-		if (isset($this->sections[$section]))
-		{
+		if (isset($this->sections[$section])) {
 			$content = str_replace(static::parent(), $content, $this->sections[$section]);
 		}
 		
@@ -94,8 +89,7 @@ trait ManagesLayouts
 	 */
 	public function showSection()
 	{
-		if (empty($this->sectionStack))
-		{
+		if (empty($this->sectionStack)) {
 			return '';
 		}
 		
@@ -113,8 +107,7 @@ trait ManagesLayouts
 	{
 		$sectionContent = $default instanceof View ? $default : e($default);
 		
-		if (isset($this->sections[$name]))
-		{
+		if (isset($this->sections[$name])) {
 			$sectionContent = $this->sections[$name];
 		}
 		
@@ -132,19 +125,15 @@ trait ManagesLayouts
 	 */
 	public function stopSection($overwrite = false)
 	{
-		if (empty($this->sectionStack))
-		{
+		if (empty($this->sectionStack)) {
 			throw new InvalidArgumentException('You cannot finish a section without first starting with one.');
 		}
 		
 		$last = array_pop($this->sectionStack);
 		
-		if ($overwrite)
-		{
+		if ($overwrite) { 
 			$this->sections[$last] = ob_get_clean();
-		}
-		else
-		{
+		} else {
 			$this->extendSection($last, ob_get_clean());
 		}
 		
@@ -160,19 +149,15 @@ trait ManagesLayouts
 	 */
 	public function appendSection()
 	{
-		if (empty($this->sectionStack))
-		{
+		if (empty($this->sectionStack)) {
 			throw new InvalidArgumentException('You cannot finish a section without first starting with one.');
 		}
 		
 		$last = array_pop($this->sectionStack);
 		
-		if (isset($this->sections[$last]))
-		{
+		if (isset($this->sections[$last])) {
 			$this->sections[$last] .= ob_get_clean();
-		}
-		else
-		{
+		} else {
 			$this->sections[$last] = ob_get_clean();
 		}
 		

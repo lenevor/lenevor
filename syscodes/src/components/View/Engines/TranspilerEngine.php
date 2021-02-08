@@ -74,8 +74,7 @@ class TranspilerEngine extends PhpEngine
     {
         $this->lastTranspiled[] = $path;
 
-        if ($this->transpiler->isExpired($path))
-        {
+        if ($this->transpiler->isExpired($path)) {
             $this->transpiler->transpile($path);
         }
 

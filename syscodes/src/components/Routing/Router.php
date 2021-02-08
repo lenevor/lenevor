@@ -119,8 +119,7 @@ class Router implements Routable
 	 */
 	public function getGroupPrefix()
 	{
-		if ( ! empty($this->groupStack))
-		{
+		if ( ! empty($this->groupStack)) {
 			$last = end($this->groupStack);
 
 			return $last['prefix'] ?? '';
@@ -168,8 +167,7 @@ class Router implements Routable
 	 */
 	protected function updateGroupStack(array $attributes)
 	{
-		if ( ! empty($this->groupStack))
-		{
+		if ( ! empty($this->groupStack)) {
 			$attributes = $this->mergeGroup($attributes);
 		}
 
@@ -197,12 +195,9 @@ class Router implements Routable
 	 */
 	protected function loadRoutes($callback)
 	{
-		if ($callback instanceof Closure) 
-		{
+		if ($callback instanceof Closure) {
 			$callback($this);
-		}
-		else
-		{
+		} else {
 			(new RouteFileRegister($this))->register($callback);
 		}
 	}
@@ -232,8 +227,7 @@ class Router implements Routable
 	 */
 	public function redirect($uri, $destination, $status = 302)
 	{
-		return $this->any($uri, function () use ($destination, $status) 
-		{
+		return $this->any($uri, function () use ($destination, $status) {
 			return new RedirectResponse($destination, $status);
 		});
 	}
@@ -249,8 +243,7 @@ class Router implements Routable
 	 */
 	public function view($uri, $view, $data = [])
 	{
-		return $this->match(['GET', 'HEAD'], $uri, function () use ($view, $data) 
-		{
+		return $this->match(['GET', 'HEAD'], $uri, function () use ($view, $data) {
 			return $this->container->make('view')->make($view, $data);
 		});
 	}
@@ -268,8 +261,7 @@ class Router implements Routable
 	 */
 	public function map($method, $route, $action) 
 	{
-		if ($this->actionReferencesController($action))
-		{
+		if ($this->actionReferencesController($action)) {
 			$action = $this->convertToControllerAction($action);
 		}
 
@@ -279,8 +271,7 @@ class Router implements Routable
 				$action
 		);
 
-		if ($this->hasGroupStack())
-		{
+		if ($this->hasGroupStack()) {
 			$this->mergeGroupAttributesIntoRoute($route);			
 		}
 
@@ -298,8 +289,7 @@ class Router implements Routable
 	 */
 	protected function actionReferencesController($action)
 	{
-		if ($action instanceof Closure)
-		{
+		if ($action instanceof Closure) {
 			return false;
 		}
 		
@@ -315,13 +305,11 @@ class Router implements Routable
 	 */
 	protected function convertToControllerAction($action)
 	{
-		if (is_string($action))
-		{
+		if (is_string($action)) {
 			$action = ['uses' => $action];
 		}
 		
-		if ( ! empty($this->groupStack))
-		{
+		if ( ! empty($this->groupStack)) {
 			$action['uses'] = $this->prependGroupUses($action['uses']);
 		}
 		
@@ -412,8 +400,7 @@ class Router implements Routable
 
 		// While we want to add a route within a group of '/',
 		// it doens't work with matching, so remove them...
-		if ($uri != '/')
-		{
+		if ($uri != '/') {
 			$uri = ltrim($uri, '/');
 		}
 
@@ -442,8 +429,7 @@ class Router implements Routable
 	 */
 	public function patterns($patterns)
 	{
-		foreach ($patterns as $key => $pattern)
-		{
+		foreach ($patterns as $key => $pattern) {
 			$this->patterns[$key] = $pattern;
 		}
 	}
@@ -455,8 +441,7 @@ class Router implements Routable
 	 */
 	public function getResource()
 	{
-		if (isset($this->resources))
-		{
+		if (isset($this->resources)) {
 			return $this->resources;
 		}
 
@@ -486,10 +471,8 @@ class Router implements Routable
 	{
 		$names = is_array($name) ? $name : func_get_args();
 
-		foreach ($names as $value)
-		{
-			if ( ! $this->routes->hasNamedRoute($value))
-			{
+		foreach ($names as $value) {
+			if ( ! $this->routes->hasNamedRoute($value)) {
 				return false;
 			}
 		}
@@ -541,8 +524,7 @@ class Router implements Routable
 	 */
 	public function resources(array $resources, array $options = [])
 	{
-		foreach ($resources as $name => $controller)
-		{
+		foreach ($resources as $name => $controller) {
 			$this->resource($name, $controller, $options);
 		}
 	}
@@ -558,12 +540,9 @@ class Router implements Routable
 	 */
 	public function resource($name, $controller, array $options = []) 
 	{
-		if ($this->container)
-		{
+		if ($this->container) {
 			$register = $this->container->make(ResourceRegister::class);
-		}
-		else
-		{
+		} else {
 			$register = new ResourceRegister($this);
 		}
 
@@ -629,8 +608,7 @@ class Router implements Routable
 	 */
 	public function __call($method, $parameters)
 	{
-		if (isset($this->macros[$method]))
-		{
+		if (isset($this->macros[$method])) {
 			$callback = $this->macros[$method];
 
 			return call_user_func_array($callback, $parameters);

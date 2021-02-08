@@ -94,13 +94,11 @@ abstract class Manager
     {
         $driver = $driver ?: $this->getDefaultDriver();
 
-        if (is_null($driver))
-        {
+        if (is_null($driver)) {
             throw new InvalidArgumentException(sprintf('Unable to resolve NULL driver for [%s].', static::class));
         }
 
-        if ( ! isset($this->drivers[$driver]))
-        {
+        if ( ! isset($this->drivers[$driver])) {
             $this->drivers[$driver] = $this->createDriver($driver);
         }
 
@@ -118,16 +116,12 @@ abstract class Manager
      */
     protected function createDriver($driver)
     {
-        if (isset($this->customCreators[$driver]))
-        {
+        if (isset($this->customCreators[$driver])) {
             return $this->callCustomCreator($driver);
-        }
-        else
-        {
+        } else {
             $method = 'create'.Str::studlycaps($driver).'Driver';
 
-            if (method_exists($this, $method))
-            {
+            if (method_exists($this, $method)) {
                 return $this->$method();
             }
         }

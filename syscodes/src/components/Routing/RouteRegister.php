@@ -111,8 +111,7 @@ class RouteRegister
      */
     public function attribute($key, $value)
     {
-        if ( ! in_array($key, $this->allowedAttributes))
-        {
+        if ( ! in_array($key, $this->allowedAttributes)) {
             throw new InvalidArgumentException("Attribute [{$key}] does not exist.");
         }
         
@@ -172,8 +171,7 @@ class RouteRegister
      */
     protected function registerRoute($method, $uri, $action = null)
     {
-        if ( ! is_array($action))
-        {
+        if ( ! is_array($action)) {
             $action = array_merge($this->attributes, $action ? ['uses' => $action] : []);
         }
         
@@ -189,13 +187,11 @@ class RouteRegister
      */
     protected function compileAction($action)
     {
-        if (is_null($action))
-        {
+        if (is_null($action)) {
             return $this->attributes;
         }
         
-        if (is_string($action) || $action instanceof Closure)
-        {
+        if (is_string($action) || $action instanceof Closure) {
             $action = ['uses' => $action];
         }
         
@@ -214,13 +210,11 @@ class RouteRegister
      */
     public function __call($method, $parameters)
     {
-        if (in_array($method, $this->verbs))
-        {
+        if (in_array($method, $this->verbs)) {
             return $this->registerRoute($method, ...$parameters);
         }
         
-        if (in_array($method, $this->allowedAttributes))
-        {
+        if (in_array($method, $this->allowedAttributes)) {
             return $this->attribute($method, $parameters[0]);
         }
         

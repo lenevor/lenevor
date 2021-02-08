@@ -87,16 +87,14 @@ class ResourceRegister
      */
     public function register($name, $controller, array $options = [])
     {
-        if (isset($options['parameters']) && ! isset($this->parameters))
-        {
+        if (isset($options['parameters']) && ! isset($this->parameters)) {
             $this->parameters = $options['parameters'];
         }
 
         // If the resource name contains a slash, we will assume the developer wishes 
         // to register these resource routes with a prefix so we will set that up out 
         // of the box so they don't have to mess with it. Otherwise, we will continue.
-        if (Str::contains($name, '/'))
-        {
+        if (Str::contains($name, '/')) {
             $this->prefixedResource($name, $controller, $options);
 
             return;
@@ -113,8 +111,7 @@ class ResourceRegister
 
         $collection = new RouteCollection;
 
-        foreach ($methods as $method)
-        {
+        foreach ($methods as $method) {
             $collection->add($this->{'addResource'.ucfirst($method)}(
                 $name, $base, $controller, $options
             ));
@@ -169,12 +166,9 @@ class ResourceRegister
      */
     protected function getResourceMethods($defaults, array $options)
     {
-        if (isset($options['only']))
-        {
+        if (isset($options['only'])) {
             return array_intersect($defaults, (array) $options['only']);
-        }
-        elseif (isset($options['except']))
-        {
+        } elseif (isset($options['except'])) {
             return array_diff($defaults, (array) $options['except']);
         }
 
@@ -323,8 +317,7 @@ class ResourceRegister
      */
     public function getResourceUri($resource)
     {
-        if ( ! Str::contains($resource, '.'))
-        {
+        if ( ! Str::contains($resource, '.')) {
             return $resource;
         }
 
@@ -346,8 +339,7 @@ class ResourceRegister
      */
     protected function getNestedResourceUri(array $segments)
     {
-        return implode('/', array_map(function ($segment) 
-        {
+        return implode('/', array_map(function ($segment) {
             return $segment.'/{'.$this->getResourceWilcard($segment).'}';
         }, $segments));
     }
@@ -385,14 +377,10 @@ class ResourceRegister
      */
     protected function getResourceRouteName($resource, $method, $options)
     {
-        if (isset($options['names']))
-        {
-            if (is_string($options['names']))
-            {
+        if (isset($options['names'])) {
+            if (is_string($options['names'])) {
                 $resource = $options['names'];
-            }
-            elseif (isset($options['names'][$method]))
-            {
+            } elseif (isset($options['names'][$method])) {
                 return $options['names'][$method];
             }
         }
@@ -411,8 +399,7 @@ class ResourceRegister
      */
     public function getResourceWilcard($value)
     {
-        if (isset(static::$parameters[$value]))
-        {
+        if (isset(static::$parameters[$value])) {
             $value = static::$parameters[$value];
         }
 
@@ -440,12 +427,9 @@ class ResourceRegister
      */
     public static function verbs(array $verbs = [])
     {
-        if (empty($verbs))
-        {
+        if (empty($verbs)) {
             return static::$verbs;
-        }
-        else
-        {
+        } else {
             static::$verbs = array_merge(static::$verbs, $verbs);
         }
     }

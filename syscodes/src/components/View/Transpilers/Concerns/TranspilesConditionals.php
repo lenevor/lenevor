@@ -159,8 +159,7 @@ trait TranspilesConditionals
      */
     protected function transpileCase($expression)
     {
-        if ($this->switchIdentifyFirstCase)
-        {
+        if ($this->switchIdentifyFirstCase) {
             $this->switchIdentifyFirstCase = false;
 
             return "case {$expression}: ?>";

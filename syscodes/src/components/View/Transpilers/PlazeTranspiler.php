@@ -106,8 +106,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      */
     public function transpile($path = null)
     {
-        if ( ! is_null($this->cachePath))
-        {
+        if ( ! is_null($this->cachePath)) {
             $contents = $this->displayString($this->files->get($path));
             
             $this->files->put(
@@ -127,13 +126,11 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     {
         [$this->footer, $result] = [[], ''];
 
-        foreach (token_get_all($value) as $token)
-        {
+        foreach (token_get_all($value) as $token) {
             $result .= is_array($token) ? $this->parseToken($token) : $token;
         }
         
-        if (count($this->footer) > 0)
-        {
+        if (count($this->footer) > 0) {
             $result = ltrim($result, PHP_EOL).PHP_EOL.implode(PHP_EOL, array_reverse($this->footer));
         }
         
@@ -151,10 +148,8 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     {
         list($id, $content) = $token;
         
-        if ($id == T_INLINE_HTML)
-        {
-            foreach ($this->transpilers as $type)
-            {
+        if ($id == T_INLINE_HTML) {
+            foreach ($this->transpilers as $type) {
                 $content = $this->{"transpile{$type}"}($content);
             }
         }
@@ -171,10 +166,8 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      */
     protected function transpileStatements($value)
     {
-        $callback = function($match) 
-        {
-            if (method_exists($this, $method = 'transpile'.ucfirst($match[1])))
-            {
+        $callback = function($match) {
+            if (method_exists($this, $method = 'transpile'.ucfirst($match[1]))) {
                 $match[0] = call_user_func([$this, $method], Arr::get($match, 3));
             }
             
@@ -193,8 +186,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      */
     public function stripParentheses($expression)
     {
-        if (Str::startsWith($expression, '(') && Str::endsWith($expression, ')'))
-        {
+        if (Str::startsWith($expression, '(') && Str::endsWith($expression, ')')) {
             $expression = substr($expression, 1, -1);
         }
         
@@ -210,8 +202,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      */
     protected function transpileExtensions($value)
     {
-        foreach ($this->extensions as $extension)
-        {
+        foreach ($this->extensions as $extension) {
             $value = $extension($value, $this);
         }
 

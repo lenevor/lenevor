@@ -65,8 +65,7 @@ class Finder
      */
     public static function instance()
     {
-        if ( ! static::$instance)
-        {
+        if ( ! static::$instance) {
             static::$instance = static::render([
                 APP_PATH, 
                 BST_PATH, 
@@ -122,25 +121,17 @@ class Finder
      */
     public function addPath($paths, $pos = null)
     {
-        if ( ! is_array($paths))
-        {
+        if ( ! is_array($paths)) {
             $paths = [$paths];
         }
 
-        foreach ($paths as $path) 
-        {
-            if ($pos === null)
-            {
+        foreach ($paths as $path) {
+            if ($pos === null) {
                 $this->paths[] = $this->prepPath($path);
-            }
-            elseif ($pos === -1)
-            {
+            } elseif ($pos === -1) {
                 array_unshift($this->paths, $this->prepPath($path));
-            }
-            else
-            {
-                if ($pos > count($this->paths))
-                {
+            } else {
+                if ($pos > count($this->paths)) {
                     throw new OutOfBoundsException(sprintf("Position %s is out of range", $pos));
                 }
                 
@@ -166,25 +157,17 @@ class Finder
     {
         $found = false;
 
-        if (is_null($extension))
-        {
+        if (is_null($extension)) {
             $extension = '.php';
-        }
-        elseif (isset($extension))
-        {
+        } elseif (isset($extension)) {
             $extension = ".{$extension}";
-        }
-        else
-        {
+        } else {
             $extension = '';
         }
 
-        if ( ! empty($file) || ! is_null($file)) 
-        {
+        if ( ! empty($file) || ! is_null($file)) {
             $file = str_replace(['::', '.'], DIRECTORY_SEPARATOR, $file);
-        }
-        else 
-        {
+        } else  {
             $file = $file ?: 'empty';
 
             throw new InvalidArgumentException("File not found: [{$file}]");
@@ -194,10 +177,8 @@ class Finder
         
         $path = $directory.DIRECTORY_SEPARATOR.$file.$extension;
 
-        foreach ($this->paths as $dir)
-        {
-            if (is_file($dir.$path))
-            {
+        foreach ($this->paths as $dir) {
+            if (is_file($dir.$path)) {
                 $found = $dir.$path;
                 break;
             }

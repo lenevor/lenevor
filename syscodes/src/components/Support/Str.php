@@ -67,8 +67,7 @@ class Str
      */
     public static function camelcase($value)
     {
-        if (isset(static::$camelCache[$value]))
-        {
+        if (isset(static::$camelCache[$value])) {
             return static::$camelCache[$value];
         }
 
@@ -86,10 +85,8 @@ class Str
      */
     public static function contains($haystack, $needles)
     {
-        foreach ((array) $needles as $needle)
-        {
-            if ($needle !== '' && mb_strpos($haystack, $needle) !== false)
-            {
+        foreach ((array) $needles as $needle) {
+            if ($needle !== '' && mb_strpos($haystack, $needle) !== false) {
                 return true;
             }
         }
@@ -107,10 +104,8 @@ class Str
      */
     public static function endsWith($haystack, $needles)
     {
-        foreach ((array) $needles as $needle)
-        {
-            if (substr($haystack, -strlen($needle)) === (string) $needle)
-            {
+        foreach ((array) $needles as $needle) {
+            if (substr($haystack, -strlen($needle)) === (string) $needle) {
                 return true;
             }
         }
@@ -154,15 +149,12 @@ class Str
     {
         $patterns = Arr::wrap($pattern);
 
-        if (is_null($patterns))
-        {
+        if (is_null($patterns)) {
             return false;
         }
 
-        foreach ($patterns as $pattern)
-        {
-            if ($pattern == $value)
-            {
+        foreach ($patterns as $pattern) {
+            if ($pattern == $value) {
                 return true;
             }
 
@@ -171,8 +163,7 @@ class Str
             // Asterisks are translate into regular expression wildcards to verify a string
             $pattern = str_replace('\*', '.*', $pattern).'\z';
 
-            if (preg_match('#^'.$pattern.'#u', $value) === 1)
-            {
+            if (preg_match('#^'.$pattern.'#u', $value) === 1) {
                 return true;
             }
         }
@@ -247,8 +238,7 @@ class Str
     {
         $string = '';
         
-        while (($len = strlen($string)) < $length)
-        {
+        while (($len = strlen($string)) < $length) {
             $size = $length - $len;
             $bytes = random_bytes($size);
             $string .= substr(str_replace(['/', '+', '='], '', base64_encode($bytes)), 0, $size);
@@ -270,8 +260,7 @@ class Str
     {
         $result = '';
         
-        foreach ($replace as $value)
-        {
+        foreach ($replace as $value) {
             $result = preg_replace('/'.$search.'/', $value, $subject, 1);
         }
 
@@ -325,10 +314,8 @@ class Str
      */
     public static function startsWith($haystack, $needles)
     {
-        foreach ((array) $needles as $needle) 
-        {
-            if (($needle != '') && substr($haystack, 0, strlen($needle)) === (string) $needle)
-            {
+        foreach ((array) $needles as $needle) {
+            if (($needle != '') && substr($haystack, 0, strlen($needle)) === (string) $needle) {
                 return true;
             }
         }
@@ -347,8 +334,7 @@ class Str
     {
         $key = $value;
 
-        if (isset(static::$studlyCache[$key]))
-        {
+        if (isset(static::$studlyCache[$key])) {
             return static::$studlyCache[$key];
         }
 

@@ -81,8 +81,7 @@ trait Difference
      */
     public function getYears(bool $raw = false)
     {
-        if ($raw)
-        {
+        if ($raw) {
             return $this->difference / 31536000;
         }
 
@@ -100,8 +99,7 @@ trait Difference
      */
     public function getMonths(bool $raw = false)
     {
-        if ($raw)
-        {
+        if ($raw) {
             return $this->difference / 2629750;
         }
 
@@ -119,8 +117,7 @@ trait Difference
      */
     public function getWeeks(bool $raw = false)
     {
-        if ($raw)
-        {
+        if ($raw) {
             return $this->difference / 604800;
         }
 
@@ -138,8 +135,7 @@ trait Difference
      */
     public function getDays(bool $raw = false)
     {
-        if ($raw)
-        {
+        if ($raw) {
             return $this->difference / 86400;
         }
 
@@ -157,8 +153,7 @@ trait Difference
      */
     public function getHours(bool $raw = false)
     {
-        if ($raw)
-        {
+        if ($raw) {
             return $this->difference / 3600;
         }
 
@@ -176,8 +171,7 @@ trait Difference
      */
     public function getMinutes(bool $raw = false)
     {
-        if ($raw)
-        {
+        if ($raw) {
             return $this->difference / 60;
         }
 
@@ -195,8 +189,7 @@ trait Difference
      */
     public function getSeconds(bool $raw = false)
     {
-        if ($raw)
-        {
+        if ($raw) {
             return $this->difference / 1;
         }
 
@@ -223,39 +216,26 @@ trait Difference
 
         $phrase = null;
 
-        if ($years !== 0)
-        {
+        if ($years !== 0) {
             $phrase = __('time.years', [abs($years)], $locale);
             $before = $years < 0;
-        }
-        else if ($months !== 0)
-        {
+        } else if ($months !== 0) {
             $phrase = __('time.months', [abs($months)], $locale);
             $before = $months < 0;
-        }
-        else if ($days !== 0 && (abs($days) >= 7))
-        {
+        } else if ($days !== 0 && (abs($days) >= 7)) {
             $weeks  = ceil($days / 7);
             $phrase = __('time.weeks', [abs($weeks)], $locale);
             $before = $days < 0;
-        }
-        else if ($days !== 0)
-        {
+        } else if ($days !== 0) {
             $phrase = __('time.days', [abs($days)], $locale);
             $before = $days < 0;
-        }
-        else if ($hours !== 0)
-        {
+        } else if ($hours !== 0) {
             $phrase = __('time.hours', [abs($hours)], $locale);
             $before = $hours < 0;
-        }
-        else if ($minutes !== 0)
-        {
+        } else if ($minutes !== 0) {
             $phrase = __('time.minutes', [abs($minutes)], $locale);
             $before = $minutes < 0;
-        }
-        else
-        {
+        } else {
             return __('time.now', [], $locale);
         }
         

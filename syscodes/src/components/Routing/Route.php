@@ -141,8 +141,7 @@ class Route
 		// Set the action
 		$this->parseAction($action);
 
-		if (is_null($prefix = Arr::get($this->action, 'prefix')))
-		{
+		if (is_null($prefix = Arr::get($this->action, 'prefix'))) {
 			$this->prefix($prefix);
 		}
 	}
@@ -176,8 +175,7 @@ class Route
 	 */
 	public function getController()
 	{
-		if ( ! $this->controller)
-		{
+		if ( ! $this->controller) {
 			$class = $this->parseControllerCallback()[0];
  
 			$this->controller = $this->container->make(ltrim($class, '\\'));
@@ -235,8 +233,7 @@ class Route
 	 */
 	public function domain($domain = null)
 	{
-		if (is_null($domain))
-		{
+		if (is_null($domain)) {
 			return $this->getDomain();
 		}
 
@@ -298,17 +295,13 @@ class Route
 	{
 		$this->container = $this->container ?: new Container;
 
-		try
-		{
-			if ($this->isControllerAction())
-			{
+		try {
+			if ($this->isControllerAction()) {
 				return $this->runResolverController();
 			}
 
 			return $this->runResolverCallable();
-		}
-		catch (HttpResponseException $e)
-		{
+		} catch (HttpResponseException $e) {
 			return $e->getResponse();
 		}
 	}
@@ -348,8 +341,7 @@ class Route
 	 */
 	public function parseAction($action)
 	{
-		if ( ! (is_object($action) && ($action instanceof Closure)) && ($action === null || $action === ''))
-		{
+		if ( ! (is_object($action) && ($action instanceof Closure)) && ($action === null || $action === '')) {
 			throw new InvalidArgumentException(__('route.actionClosureOrFunction'));
 		}
 
@@ -369,18 +361,14 @@ class Route
 	 */
 	public function parseMethod($method)
 	{
-		if ($method === null || ! is_array($method) || empty($method))
-		{
+		if ($method === null || ! is_array($method) || empty($method)) {
 			throw new InvalidArgumentException(__('route.methodNotProvided'));
 			
 		}
 
-		foreach ($method as $httpMethod) 
-		{
-			if ( ! in_array($httpMethod, ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD', 'ANY']))	
-			{
-				throw new InvalidArgumentException(__('route.methodNotAllowed'));
-				
+		foreach ($method as $httpMethod) {
+			if ( ! in_array($httpMethod, ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD', 'ANY'])) {
+				throw new InvalidArgumentException(__('route.methodNotAllowed'));				
 			}
 		}
 
@@ -400,8 +388,7 @@ class Route
 	 */
 	public function parseRoute($uri)
 	{
-		if ($uri === null) 
-		{
+		if ($uri === null) {
 			throw new InvalidArgumentException(__('route.uriNotProvided'));
 		}	
 
@@ -424,10 +411,8 @@ class Route
 		
 		preg_match_all('/\{([\w\:]+?)\??\}/', $uri, $matches);
 		
-		foreach ($matches[1] as $match)
-		{
-			if (strpos($match, ':') === false)
-			{
+		foreach ($matches[1] as $match) {
+			if (strpos($match, ':') === false) {
 				continue;
 			}
 			
@@ -452,8 +437,7 @@ class Route
 	 */
 	public function prefix($prefix)
 	{
-		if ( ! empty($newPrefix = trim(rtrim($prefix, '/').'/'.ltrim($this->action['prefix'] ?? '', '/'), '/'))) 
-		{
+		if ( ! empty($newPrefix = trim(rtrim($prefix, '/').'/'.ltrim($this->action['prefix'] ?? '', '/'), '/'))) {
 			$this->action['prefix'] = $newPrefix;
 		}
 		
@@ -473,8 +457,7 @@ class Route
 	{
 		$this->action = $action;
 
-		if (isset($this->action['domain']))
-		{
+		if (isset($this->action['domain'])) {
 			$this->domain($this->action['domain']);
 		}
 		
@@ -504,15 +487,12 @@ class Route
 	 */
 	public function named(...$patterns)
 	{
-		if (is_null($routeName = $this->getName()))
-		{
+		if (is_null($routeName = $this->getName())) {
 			return false;
 		}
 
-		foreach ($patterns as $pattern)
-		{
-			if (Str::is($pattern, $routeName))
-			{
+		foreach ($patterns as $pattern) {
+			if (Str::is($pattern, $routeName)) {
 				return true;
 			}
 		}
@@ -561,8 +541,7 @@ class Route
 	{
 		$wheres = is_array($name) ? $name : [$name => $expression];
 		
-		foreach ($wheres as $name => $expression)
-		{
+		foreach ($wheres as $name => $expression) {
 			$this->wheres[$name] = $expression;
 		}
 
@@ -590,8 +569,7 @@ class Route
 	 */
 	public function parameterNames()
 	{
-		if (isset($this->parameterNames))
-		{
+		if (isset($this->parameterNames)) {
 			return $this->parameterNames;
 		}
 
@@ -659,8 +637,7 @@ class Route
 	 */
 	public function parameters()
 	{
-		if (isset($this->parameters))
-		{
+		if (isset($this->parameters)) {
 			return $this->parameters;
 		}
 

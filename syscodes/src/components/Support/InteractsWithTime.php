@@ -73,8 +73,7 @@ trait InteractsWithTime
      */
     protected function parseDateInterval($delay)
     {
-        if ($delay instanceof DateInterval)
-        {
+        if ($delay instanceof DateInterval) {
             $delay = Chronos::now()->add($delay);
         }
 

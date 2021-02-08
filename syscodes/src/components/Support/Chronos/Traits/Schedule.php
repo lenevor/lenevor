@@ -162,10 +162,8 @@ trait Schedule
 
         $dayLightSaving = false;
 
-        foreach ($transitions as $transition)
-        {
-            if ($transition['time'] > $this->format('U'))
-            {
+        foreach ($transitions as $transition) {
+            if ($transition['time'] > $this->format('U')) {
                $dayLightSaving = (bool) $transition['isdst'] ?? $dayLightSaving;
             }
         }
@@ -210,13 +208,11 @@ trait Schedule
      */
     public function setMonth($value)
     {
-        if (is_numeric($value) && $value < 1 || $value > 12)
-        {
+        if (is_numeric($value) && $value < 1 || $value > 12) {
             throw new InvalidDateTimeException(__('time.invalidMonth', [$value]));
         }
         
-        if (is_string($value) && ! is_numeric($value))
-        {
+        if (is_string($value) && ! is_numeric($value)) {
             $value = date('m', strtotime("{$value} 1 2017"));
         }
         
@@ -234,16 +230,14 @@ trait Schedule
      */
     public function setDay($value)
     {
-        if ($value < 1 || $value > 31)
-        {
+        if ($value < 1 || $value > 31) {
             throw new InvalidDateTimeException(__('time.invalidDay', [$value]));
         }
         
         $date    = $this->getYear().'-'.$this->getMonth();
         $lastDay = date('t', strtotime($date));
         
-        if ($value > $lastDay)
-        {
+        if ($value > $lastDay) {
             throw new InvalidDateTimeException(__('time.invalidOverDay', [$lastDay, $value]));
         }
 
@@ -261,8 +255,7 @@ trait Schedule
      */
     public function setHour($value)
     {
-        if ($value < 0 || $value > 23)
-        {
+        if ($value < 0 || $value > 23) {
             throw new InvalidDateTimeException(__('time.invalidHour', [$value]));
         }
 
@@ -280,8 +273,7 @@ trait Schedule
      */
     public function setMinute($value)
     {
-        if ($value < 0 || $value > 59)
-        {
+        if ($value < 0 || $value > 59) {
             throw new InvalidDateTimeException(__('time.invalidMinutes', [$value]));
         }
 
@@ -299,8 +291,7 @@ trait Schedule
      */
     public function setSecond($value)
     {
-        if ($value < 0 || $value > 59)
-        {
+        if ($value < 0 || $value > 59) {
             throw new InvalidDateTimeException(__('time.invalidSeconds', [$value]));
         }
 

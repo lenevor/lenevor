@@ -41,8 +41,7 @@ class RouteGroup
 	 */
 	public static function mergeGroup($new, $old)
 	{
-		if (isset($new['domain']))
-		{
+		if (isset($new['domain'])) {
 			unset($old['domain']);
 		}
 
@@ -67,8 +66,7 @@ class RouteGroup
 	 */
 	protected static function formatUseNamespace($new, $old)
 	{
-		if (isset($new['namespace']))
-		{
+		if (isset($new['namespace'])) {
 			return isset($old['namespace'])
 				   ? trim($old['namespace'], '\\').'\\'.trim($new['namespace'], '\\')
 				   : trim($new['namespace'], '\\');
@@ -120,8 +118,7 @@ class RouteGroup
 	 */
 	protected static function formatUseAs($new, $old)
 	{
-		if (isset($old['as'])) 
-		{
+		if (isset($old['as'])) {
             $new['as'] = $old['as'].($new['as'] ?? '');
         }
 

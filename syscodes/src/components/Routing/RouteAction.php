@@ -44,20 +44,16 @@ class RouteAction
      */
     public static function parse($uri, $action)
     {
-        if (is_null($action))
-        {
+        if (is_null($action)) {
             return static::usesAction($uri);
         }
 
-        if (is_callable($action, true))
-        {
+        if (is_callable($action, true)) {
             return ! is_array($action) ? ['uses' => $action] : [
                     'uses' => $action[0].'@'.$action[1],
                     'controller' => $action[0].'@'.$action[1],
             ];
-        }
-        elseif ( ! isset($action['uses']))
-        {
+        } elseif ( ! isset($action['uses'])) {
             $action['uses'] = static::findClosureAction($action);
         }
         

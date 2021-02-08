@@ -38,12 +38,9 @@ trait TranspilesTranslations
      */
     protected function transpileLang($expression)
     {
-        if (is_null($expression))
-        {
+        if (is_null($expression)) {
             return '<?php \$__env->beginTranslation(); ?>';
-        }
-        elseif ($expression[1] === '[')
-        {
+        } elseif ($expression[1] === '[') {
             return "<?php \$__env->beginTranslation{$expression}; ?>";
         }
 

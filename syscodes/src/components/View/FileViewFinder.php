@@ -78,8 +78,7 @@ class FileViewFinder implements ViewFinder
         $this->files = $files;
         $this->paths = array_map([$this, 'resolvePath'], $paths);
 
-        if (isset($extensions))
-        {
+        if (isset($extensions)) {
             $this->extensions = $extensions;
         }
     }
@@ -93,13 +92,11 @@ class FileViewFinder implements ViewFinder
      */
     public function find($name)
     {
-        if (isset($this->views[$name]))
-        {
+        if (isset($this->views[$name])) {
             return $this->views[$name];
         }
 
-        if ($this->hasHintInfo($name = trim($name)))        
-        {
+        if ($this->hasHintInfo($name = trim($name))) {
             return $this->views[$name] = $this->findNamespacedPaths($name);
         }
 
@@ -133,13 +130,11 @@ class FileViewFinder implements ViewFinder
     {
         $segments = explode(static::HINT_PATH_DELIMITER, $name);
         
-        if (count($segments) !== 2)
-        {
+        if (count($segments) !== 2) {
             throw new InvalidArgumentException("View [{$name}] has an invalid name");
         }
         
-        if ( ! isset($this->hints[$segments[0]]))
-        {
+        if ( ! isset($this->hints[$segments[0]])) {
             throw new InvalidArgumentException("No hint path defined for [{$segments[0]}]");
         }
         
@@ -158,12 +153,9 @@ class FileViewFinder implements ViewFinder
      */
     protected function findPaths($name, $paths)
     {
-        foreach ((array) $paths as $path)
-        {
-            foreach ($this->getFindViewFiles($name) as $file)
-            {
-                if ($this->files->exists($view = $path.DIRECTORY_SEPARATOR.$file))
-                {
+        foreach ((array) $paths as $path) {
+            foreach ($this->getFindViewFiles($name) as $file) {
+                if ($this->files->exists($view = $path.DIRECTORY_SEPARATOR.$file)) {
                     return $view;
                 }
             }

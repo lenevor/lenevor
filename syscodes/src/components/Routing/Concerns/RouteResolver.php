@@ -103,12 +103,9 @@ trait RouteResolver
 	{
 		if ( ! $response instanceof Response && 
 		      ($response instanceof Jsonserializable || 
-			   is_array($response)))
-		{
+			   is_array($response))) {
 			$response = new JsonResponse($response);
-		}
-		elseif ( ! $response instanceof Response)
-		{
+		} elseif ( ! $response instanceof Response) {
 			$response = new Response($response, 200, ['Content-Type' => 'text/html']);
 		}
 

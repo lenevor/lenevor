@@ -46,10 +46,8 @@ trait Factory
     {
         $this->locale = ! empty($locale) ? $locale : Locale::getDefault();
 
-        if (is_null($time) && static::$testNow instanceof static)
-        {
-            if (empty($timezone))
-            {
+        if (is_null($time) && static::$testNow instanceof static) {
+            if (empty($timezone)) {
                 $timezone = static::$testNow->getTimezone();
             }
 
@@ -59,10 +57,8 @@ trait Factory
         $timezone       = ! empty($timezone) ? $timezone : date_default_timezone_get();
         $this->timezone = $timezone instanceof DateTimeZone ? $timezone : new DateTimeZone($timezone);
         
-        if ( ! empty($time))
-		{
-			if (is_string($time) && static::hasRelativeKeywords($time))
-			{
+        if ( ! empty($time)) {
+			if (is_string($time) && static::hasRelativeKeywords($time)) {
 				$dateTime = new DateTime('now', $this->timezone);
 				$dateTime->modify($time);
 
@@ -278,19 +274,15 @@ trait Factory
      */
     public static function setTestNow($datetime = null, $timezone = null, string $locale = null)
     {
-        if (null === $datetime)
-        {
+        if (null === $datetime) {
             static::$testNow = null;
 
             return;
         }
 
-        if (is_string($datetime))
-        {
+        if (is_string($datetime)) {
             $time = static::parse($datetime, $timezone, $locale);
-        }
-        elseif ($datetime instanceof DateTime && ! $datetime instanceof static)
-        {
+        } elseif ($datetime instanceof DateTime && ! $datetime instanceof static) {
             $time = static::parse($datetime->format('Y-m-d H:i:s'), $timezone);
         }
 

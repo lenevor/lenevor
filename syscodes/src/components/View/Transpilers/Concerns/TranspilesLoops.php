@@ -149,8 +149,7 @@ trait TranspilesLoops
      */
     protected function transpileEmpty($expression)
     {
-        if ($expression)
-        {
+        if ($expression) {
             return "<?php if(empty{$expression}): ?>";
         }
 

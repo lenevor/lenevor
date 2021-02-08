@@ -89,15 +89,13 @@ class RouteParamBinding
      */
     protected function matchToKeys(array $matches)
     {
-        if (empty($parameterNames = $this->route->parameterNames()))
-        {
+        if (empty($parameterNames = $this->route->parameterNames())) {
             return [];
         }
 
         $parameters = array_intersect_key($matches, array_values($parameterNames));
         
-        return array_filter($parameters, function ($value) 
-        {
+        return array_filter($parameters, function ($value) {
             return (is_string($value) && strlen($value) > 0);
         });
     }
@@ -111,15 +109,12 @@ class RouteParamBinding
      */
     protected function replaceDefaults(array $parameters)
     {
-        foreach ($parameters as $key => $value)
-        {
+        foreach ($parameters as $key => $value) {
             $parameters[$key] = $value ?? Arr::get($this->route->defaults, $key);
         }
         
-        foreach ($this->route->defaults as $key => $value)
-        {
-            if ( ! isset($parameters[$key]))
-            {
+        foreach ($this->route->defaults as $key => $value) {
+            if ( ! isset($parameters[$key])) {
                 $parameters[$key] = $value;
             }
         }

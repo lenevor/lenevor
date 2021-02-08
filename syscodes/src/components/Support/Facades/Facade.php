@@ -78,8 +78,7 @@ abstract class Facade
     {
         static::$resolvedInstance[static::getFacadeAccessor()] = $instance;
         
-        if (isset(static::$app))
-        {
+        if (isset(static::$app)) {
             static::$app->instance(static::getFacadeAccessor(), $instance);
         }
     }
@@ -125,13 +124,11 @@ abstract class Facade
      */
     protected static function resolveFacadeInstance($name)
     {
-        if (is_object($name))
-        {
+        if (is_object($name)) {
             return $name;
         }
 
-        if (isset(static::$resolvedInstance[$name]))
-        {
+        if (isset(static::$resolvedInstance[$name])) {
             return static::$resolvedInstance[$name];
         }
 
@@ -164,8 +161,7 @@ abstract class Facade
     {   
         $instance = static::getFacadeRoot();
 
-        if ( ! $instance)
-        {
+        if ( ! $instance) {
             throw new RuntimeException('A facade root has not been set');
         }
 

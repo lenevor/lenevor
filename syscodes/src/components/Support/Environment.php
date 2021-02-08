@@ -78,19 +78,16 @@ class Environment
     {
         $value = Environment::getRepositoryCreator()->get($key);
 
-        if ($value === null)
-        {
+        if ($value === null) {
             $value = $_ENV[$key] ?? $_SERVER[$key] ?? false;
         }
 
-        if ($value === false)
-        {
+        if ($value === false) {
             return value($default);
         }
 
         // Handle any boolean values
-        switch (strtolower($value))
-        {
+        switch (strtolower($value)) {
             case 'true':
             case '(true)':
                 return true;

@@ -45,8 +45,7 @@ trait RouteDependencyResolver
      */
     protected function resolveObjectMethodDependencies(array $parameters, $instance, $method)
     {
-        if ( ! method_exists($instance, $method))
-        {
+        if ( ! method_exists($instance, $method)) {
             return $parameters;
         }
 
@@ -69,18 +68,14 @@ trait RouteDependencyResolver
 
         $values = array_values($parameters);
 
-        foreach ($reflection->getParameters() as $key => $parameter)
-        {
+        foreach ($reflection->getParameters() as $key => $parameter) {
             $instance = $this->transformGivenDependency($parameter, $parameters);
 
-            if ( ! is_null($instance))
-            {
+            if ( ! is_null($instance)) {
                 $count++;
 
                 $this->spliceOnParameters($parameters, $key, $instance);
-            }
-            elseif ( ! isset($values[$key - $count]) && $parameter->isDefaultValueAvailable())
-            {
+            } elseif ( ! isset($values[$key - $count]) && $parameter->isDefaultValueAvailable()) {
                 $this->spliceOnParameters($parameters, $key, $parameter->getDefaultValue());
             }            
         }
@@ -100,8 +95,7 @@ trait RouteDependencyResolver
     {
         $class = $parameter->getClass();
 
-        if ( ! is_null($class) && ! $this->getInParameters($className = $class->name, $parameters))
-        {
+        if ( ! is_null($class) && ! $this->getInParameters($className = $class->name, $parameters)) {
             return $parameter->isDefaultValueAvailable() ? null : $this->container->make($className);
         }
     }

@@ -49,8 +49,7 @@ trait ManagesComponents
      */
     public function beginComponent($view, array $data = [])
     {
-        if (ob_start())
-        {
+        if (ob_start()) {
             $this->components[] = [
                 'view' => $view,
                 'data' => $data,
@@ -68,8 +67,7 @@ trait ManagesComponents
     {
         $component = array_pop($this->components);
 
-        if ( ! $component)
-        {
+        if ( ! $component) {
             throw new ViewException('No active component in this block. Make sure you have open component using \'component\' method.');
         }
 
@@ -100,16 +98,11 @@ trait ManagesComponents
      */
     public function slot($name, $content = null)
     {
-        if (func_num_args() > 2)
-        {
+        if (func_num_args() > 2) {
             throw new ViewException("You passed too many arguments to the [$name] slot.");
-        }
-        elseif (func_num_args() === 2)
-        {
+        } elseif (func_num_args() === 2) {
             $this->components[$this->currentComponent()]['slots'][$name] = $content;
-        }
-        elseif (ob_start())
-        {
+        } elseif (ob_start()) {
             $this->components[$this->currentComponent()]['slots'][] = $name;
         }
     }
@@ -127,8 +120,7 @@ trait ManagesComponents
             $this->components[$this->currentComponent()]['slots']
         );
 
-        if ( ! $currentSlot)
-        {
+        if ( ! $currentSlot) {
             throw new ViewException('No active slot in this block. Make sure you have open slot using \'slot\' method.');
         }
 

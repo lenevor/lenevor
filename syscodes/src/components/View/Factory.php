@@ -112,12 +112,9 @@ class Factory implements FactoryContract
 	 */
 	public function viewExists($view)
 	{
-		try 
-		{
+		try {
 			$this->finder->find($view);
-		}
-		catch(InvalidArgumentException $e)
-		{
+		} catch(InvalidArgumentException $e) {
 			return false;
 		}
 
@@ -184,8 +181,7 @@ class Factory implements FactoryContract
 	 */
 	public function getEngineFromPath($path)
 	{
-		if ( ! $extension = $this->getExtension($path))
-		{
+		if ( ! $extension = $this->getExtension($path)) {
 			throw new InvalidArgumentException("Unrecognized extension in file: {$path}");
 		}
 		
@@ -205,8 +201,7 @@ class Factory implements FactoryContract
 	{
 		$extensions = array_keys($this->extensions);
 		
-		return Arr::first($extensions, function($key, $value) use ($path)
-		{
+		return Arr::first($extensions, function($key, $value) use ($path) {
 			return Str::endsWith($path, '.'.$value);
 		});
 	}
@@ -245,8 +240,7 @@ class Factory implements FactoryContract
 	{
 		$keys = is_array($key) ? $key : [$key => $value];
 		
-		foreach ($keys as $key => $value)
-		{
+		foreach ($keys as $key => $value) {
 			$this->shared[$key] = $value;
 		}
 		
@@ -317,8 +311,7 @@ class Factory implements FactoryContract
 	 */
 	public function flushStateIfDoneRendering()
 	{
-		if ($this->doneRendering())
-		{
+		if ($this->doneRendering()) {
 			$this->flushState();
 		}
 	}

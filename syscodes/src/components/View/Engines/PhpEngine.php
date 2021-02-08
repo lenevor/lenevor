@@ -79,12 +79,9 @@ class PhpEngine implements Engine
         
         ob_start();
 
-        try
-        {
+        try {
             $this->files->getRequire($path, $data);
-        }
-        catch(Throwable $e)
-        {
+        } catch(Throwable $e) {
             return $this->handleViewException($e, $obLevel);
         }
 
@@ -103,8 +100,7 @@ class PhpEngine implements Engine
      */
     protected function handleViewException(Throwable $e, $obLevel)
     {
-        while(ob_get_level() > $obLevel)
-        {
+        while(ob_get_level() > $obLevel) {
             ob_end_clean();
         }
 
