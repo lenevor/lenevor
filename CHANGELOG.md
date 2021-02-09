@@ -1,5 +1,24 @@
 # Release Notes
 
+## [Version 0.7.4-alpha.7] 
+
+Release Date: Feb 09, 2021
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added methods of checked of variables of environment
+- Added class for gets to all the adapters in `Dotenv` class
+- Create class for allows will load the .env
+- Added method for get a class with ReflectionClass
+
+### Fixed
+- Fix missing parameter problem
+
+### Updated
+- Updated comments
+
+
 ## [Version 0.7.3-alpha.7] 
 
 Release Date: Jan 08, 2021
