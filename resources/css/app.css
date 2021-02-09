@@ -12,10 +12,11 @@
 	--color-gray-400: hsl(0, 3%, 87%);
 	--color-gray-500: hsl(0, 0%, 96%);
 	--color-gray-600: hsl(0, 0%, 98%);
-	--color-darkgray-100: rgb(83, 105, 128);
-	--color-darkgray-200: rgb(87, 110, 133);
+	--color-darkgray-100: hsl(211, 21%, 41%);
+	--color-darkgray-200: hsl(210, 21%, 43%);
 	--color-darkgray-300: hsl(213, 4%, 54%);
 	--color-darkgray-400: hsl(217, 13%, 65%);
+	--color-darkgray-500: hsl(214, 20%, 69%);
 	--color-purple-100: hsl(306, 19%, 33%);
 	--color-purple-200: hsl(282, 17%, 44%);
 	--color-purple-300: hsl(272, 27%, 60%);	
@@ -71,7 +72,7 @@ svg { overflow: hidden; vertical-align: text-bottom; }
 .resources .resource .icon-users:before { font-size: 2em; margin-left: 25px; top: 10px; }
 .resource a { color: var(--color-darkgray-100); font-size: 18px; }
 .resource span { color: var(--color-darkgray-400); display: flex; font-size: 14px; font-weight: 500; text-align: justify; }
-.resources .version { color: var(--color-darkgray-400); font-size: 12px; font-weight: 500; margin-bottom: 20px; text-align: right; z-index: 200; }
+.resources .version { color: var(--color-darkgray-500); font-size: 12px; font-weight: 400; margin-bottom: 20px; text-align: right; z-index: 200; }
 
 /* TABLET AND DESKTOP */
 @media (min-width: 768px) {
@@ -96,5 +97,5 @@ svg { overflow: hidden; vertical-align: text-bottom; }
 	.resource h2 { display: flex; margin-left: 60px; margin-top: -25px; }
 	.resource a { font-size: 1em; font-weight: 600; }
 	.resource span { color: var(--color-darkgray-400); font-size: 16px; padding: 0 10px 0 65px; margin-top: 20px; }
-	.resources .version { font-size: 15px; margin-top: 20px; }
+	.resources .version { font-size: 14px; margin-top: 20px; }
 }
