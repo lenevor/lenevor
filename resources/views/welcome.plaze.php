@@ -60,7 +60,7 @@
 					</div>					
 				</div>
 				<div class="version">
-					Lenevor {{ version() }}
+					Lenevor {{ version() }} (PHP v{{ PHP_VERSION }})
 				</div>	
 
 			</div>		
