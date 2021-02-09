@@ -21,8 +21,8 @@
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"scripts": {
-        "post-create-project-cmd": [
-            "@php -r \"file_exists('.env') || copy('.env.dist', '.env');\""
-        ]
-    }
+		"post-create-project-cmd": [
+			"@php -r \"file_exists('.env') || copy('.env.dist', '.env');\""
+		]
+	}
 }
