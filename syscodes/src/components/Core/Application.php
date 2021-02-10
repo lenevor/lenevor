@@ -49,6 +49,11 @@ class Application extends Container implements ApplicationContract
      */
     protected static $instance;
 
+    /**
+     * Php version.
+     */
+    protected static $phpVersion = '7.3.12';
+
      /**
      * The custom application path defined by the developer.
      *
@@ -143,6 +148,8 @@ class Application extends Container implements ApplicationContract
         $this->registerBaseBindings();
         $this->registerBaseServiceProviders();
         $this->registerCoreContainerAliases();
+        $this->requerimentVersion(static::$phpVersion);
+        $this->getExtensionLoaded(['mbstring']);
     }
 
     /**
@@ -504,6 +511,45 @@ class Application extends Container implements ApplicationContract
     public function hasBeenBootstrapped()
     {
         return $this->hasBeenBootstrapped;
+    }
+
+    /**
+     * You can empty out this file, if you are certain that you match all requirements.
+     * You can remove this if you are confident that your PHP version is sufficient.
+     * 
+     * @return string
+     */
+    protected function requerimentVersion($version)
+    {
+        if (version_compare(PHP_VERSION, $version) < 0) {
+            if (PHP_SAPI == 'cli') {
+                $string  = "\033[1;36m";
+                $string .= "$version\033[0m";
+                trigger_error("Your PHP version must be equal or higher than {$string} to use Lenevor Framework.".PHP_EOL, E_USER_ERROR);
+            }
+    
+            exit("Your PHP version must be equal or higher than <b>{$version}</b> to use Lenevor Framework.");
+        }
+    }
+
+    /**
+     * You can remove this if you are confident you have mbstring installed.
+     * 
+     * @return string
+     */
+    protected function getExtensionLoaded(array $extensionLoaded)
+    {
+        foreach ($extensionLoaded as $value) {
+            if ( ! extension_loaded($value)) {
+                if (PHP_SAPI == 'cli') {
+                    $string  = "\033[1;36m";
+                    $string .= "$value\033[0m";
+                    trigger_error("You must enable the {$string} extension to use Lenevor Framework.".PHP_EOL, E_USER_ERROR);
+                }
+
+                exit("You must enable the <b>{$value}</b> extension to use Lenevor Framework.");
+            }
+        }
     }
 
     /**
