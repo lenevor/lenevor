@@ -35,7 +35,7 @@ final class Version
     const PRODUCT = 'Lenevor Framework';
 
     /** 
-     * Version Lenevor.
+     * Lenevor's version.
      */
     const RELEASE = 'v0.7.4';
 
