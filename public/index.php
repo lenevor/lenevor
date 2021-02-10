@@ -53,18 +53,6 @@ $paths = require __DIR__.'/../config/paths.php';
 
 /*
 |------------------------------------------------------------------------
-| Check Plataform Requeriments
-|------------------------------------------------------------------------
-|
-| This verification allows to know the version of the system and other 
-| resources that PHP uses the framework.
-|
-*/
-
-require $paths['path.sys'].'/src/requeriments.php';
-
-/*
-|------------------------------------------------------------------------
 | Register Bootstrap Core
 |------------------------------------------------------------------------
 |
