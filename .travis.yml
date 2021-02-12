@@ -1,7 +1,7 @@
+language: php
+
 php:
-  preset: lenevor
-  disabled:
-    - no_unused_imports
-  finder:
-    not-name:
-      - index.php
+  - 7.3
+  - 7.4
+
+os: linux
