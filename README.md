@@ -1,7 +1,6 @@
 <p align="center"><a href="https://lenevor.com" target="_blank"><img src="https://avatars2.githubusercontent.com/u/50193329?s=200&v=4" title="Lenevor logo" height="100" width="100"></a></p>
 
 <p align="center">
-    <a href="https://travis-ci.org/github/lenevor/lenevor"><img src="https://travis-ci.org/lenevor/lenevor.svg?branch=master" title="Build status"></a>
     <a href="https://packagist.org/packages/lenevor/lenevor"><img src="https://img.shields.io/packagist/dt/lenevor/lenevor?color=gr" title="Total Downloads"></a>
     <a href="https://packagist.org/packages/lenevor/lenevor"><img src="https://img.shields.io/packagist/v/lenevor/lenevor?color=blue" title="Latest Stable Version"></a>
     <a href="https://packagist.org/packages/lenevor/lenevor"><img src="https://img.shields.io/packagist/php-v/lenevor/lenevor" title="PHP Version Support"></a>
