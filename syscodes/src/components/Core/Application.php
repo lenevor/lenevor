@@ -528,7 +528,7 @@ class Application extends Container implements ApplicationContract
                 trigger_error("Your PHP version must be equal or higher than {$string} to use Lenevor Framework.".PHP_EOL, E_USER_ERROR);
             }
     
-            exit("Your PHP version must be equal or higher than <b>{$version}</b> to use Lenevor Framework.");
+            die("Your PHP version must be equal or higher than <b>{$version}</b> to use Lenevor Framework.");
         }
     }
 
@@ -547,7 +547,7 @@ class Application extends Container implements ApplicationContract
                     trigger_error("You must enable the {$string} extension to use Lenevor Framework.".PHP_EOL, E_USER_ERROR);
                 }
 
-                exit("You must enable the <b>{$value}</b> extension to use Lenevor Framework.");
+                die("You must enable the <b>{$value}</b> extension to use Lenevor Framework.");
             }
         }
     }
