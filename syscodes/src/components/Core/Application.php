@@ -53,8 +53,8 @@ class Application extends Container implements ApplicationContract
      * Php version.
      */
     protected static $phpVersion = '7.3.12';
-
-     /**
+    
+    /**
      * The custom application path defined by the developer.
      *
      * @var string $appPath
@@ -457,26 +457,25 @@ class Application extends Container implements ApplicationContract
     {
         return $this->env === 'testing';
     }
-
+    
     /**
-	 * You can load different configurations depending on your
-	 * current environment. Setting the environment also influences
-	 * things like logging and error reporting.
-	 *
-	 * This can be set to anything, but default usage is:
-	 *
-	 *     local (development)
-	 *     testing
-	 *     production
-	 *
-	 * @return string
-	 */
-	public function bootEnvironment()
-	{
-		if (file_exists(SYS_PATH.'src'.DIRECTORY_SEPARATOR.'environment'.DIRECTORY_SEPARATOR.$this->environment().'.php')) {
-			require_once SYS_PATH.'src'.DIRECTORY_SEPARATOR.'environment'.DIRECTORY_SEPARATOR.$this->environment().'.php';
-		} else {
-			header('HTTP/1.1 503 Service Unavailable.', true, 503);
+     * You can load different configurations depending on your
+     * current environment. Setting the environment also influences
+     * things like logging and error reporting.
+     * 
+     * This can be set to anything, but default usage is:
+     *     local (development)
+     *     testing
+     *     production
+     * 
+     * @return string
+     */
+    public function bootEnvironment()
+    {
+        if (file_exists(SYS_PATH.'src'.DIRECTORY_SEPARATOR.'environment'.DIRECTORY_SEPARATOR.$this->environment().'.php')) {
+            require_once SYS_PATH.'src'.DIRECTORY_SEPARATOR.'environment'.DIRECTORY_SEPARATOR.$this->environment().'.php';
+        } else {
+            header('HTTP/1.1 503 Service Unavailable.', true, 503);
             print('<style>
                     body {
                         align-items: center;
@@ -487,8 +486,9 @@ class Application extends Container implements ApplicationContract
                         font-weight: 600;
                         justify-content: center;
                     }
+                    
                     p {
-                        background: #F0F3F4 ;
+                        background: #F0F3F4;
                         border-radius: 5px;
                         box-shadow: 0 1px 4px #333333;
                         color: #34495E;
@@ -497,11 +497,11 @@ class Application extends Container implements ApplicationContract
                         text-shadow: 0 1px 0 #424949;
                         width: 25%;
                     }
-                  </style>
-                  <p>The application environment is not set correctly.</p>');
-			exit; // EXIT_ERROR
-		}
-	}
+                </style>
+                <p>The application environment is not set correctly.</p>');
+            exit; // EXIT_ERROR
+        }
+    }
 
     /**
      * Determine if the application has been bootstrapped before.
@@ -648,8 +648,8 @@ class Application extends Container implements ApplicationContract
         
         $this->loadServiceProviders[get_class($provider)] = true;
     }
-
-     /**
+    
+    /**
      * Determine if the given id type has been bound.
      * 
      * @param  string  $id
