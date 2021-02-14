@@ -225,7 +225,7 @@ class Arr
 	 *
 	 * @param  array  $array 
 	 * @param  \Closure  $callback
-	 * @param  mixed  $default  (null by default)
+	 * @param  mixed  $default
 	 *
 	 * @return mixed
 	 */
@@ -355,7 +355,7 @@ class Arr
 	 * 
 	 * @param  mixed  $array
 	 * @param  mixed  $value
-	 * @param  mixed  key  (null by default)
+	 * @param  mixed  key
 	 * 
 	 * @return array
 	 */
@@ -375,7 +375,7 @@ class Arr
 	 * 
 	 * @param  array  $array
 	 * @param  string  $key
-	 * @param  mixed  $default  (null by default)
+	 * @param  mixed  $default
 	 * 
 	 * @return mixed
 	 */

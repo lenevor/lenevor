@@ -175,7 +175,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Run a filter over each of the items.
      * 
-     * @param  \Callable|null  (null by default) 
+     * @param  \Callable|null 
      * 
      * @return static
      */
@@ -191,8 +191,8 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Get the first item from the collection.
      * 
-     * @param  \Callable|null  $callback  (null by default)
-     * @param  mixed  $default  (null by default)
+     * @param  \Callable|null  $callback
+     * @param  mixed  $default
      * 
      * @return mixed
      */
@@ -353,8 +353,8 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Get the last item from the collection.
      * 
-     * @param  \Callable|null  $callback  (null by default)
-     * @param  mixed|null  $default  (null by default)
+     * @param  \Callable|null  $callback
+     * @param  mixed|null  $default
      * 
      * @return mixed
      */
@@ -402,7 +402,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * Push an item onto the beginning of the collection.
      * 
      * @param  mixed  $value
-     * @param  mixed  $key  (null by default)
+     * @param  mixed  $key
      * 
      * @return $this
      */
@@ -446,7 +446,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * Get and remove an item from the collection.
      * 
      * @param  mixed  $key
-     * @param  mixed  $default  (null by default)
+     * @param  mixed  $default
      * 
      * @return mixed
      */
@@ -459,7 +459,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * Reduce the collection to a single value.
      * 
      * @param  \Callable  $callback
-     * @param  mixed  $initial  (null by default)
+     * @param  mixed  $initial
      * 
      * @return mixed
      */
@@ -543,7 +543,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * Slice the underlying collection array.
      * 
      * @param  int  $offset
-     * @param  int|null  $length  (null by default)
+     * @param  int|null  $length
      * 
      * @return static
      */
@@ -588,7 +588,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * Splice portion of the underlying collection array.
      * 
      * @param  int  $offset
-     * @param  int|null  $length  (null by default)
+     * @param  int|null  $length
      * @param  mixed  $replacement
      * 
      * @return static

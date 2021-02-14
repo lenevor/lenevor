@@ -127,9 +127,7 @@ class Cli
 	/**
 	 * Static constructor. Parses all the CLI params.
 	 * 
-	 * @return string
-	 * 
-	 * @uses   \Syscodes\Contracts\Core\Lenevor
+	 * @return \Syscodes\Contracts\Core\Lenevor  $core
 	 * 
 	 * @throws \Exception
 	 */
@@ -310,9 +308,9 @@ class Cli
 	 * Takes a string and writes it to the command line, wrapping to a maximum width. 
 	 * If no maximum width is specified, will wrap to the window's max.
 	 *
-	 * @param  string  $string  (null by default)
-	 * @param  int  $max  (0 by default)
-	 * @param  int $padLeft  (0 by default)
+	 * @param  string  $string
+	 * @param  int  $max
+	 * @param  int $padLeft
 	 *
 	 * @return string
 	 */

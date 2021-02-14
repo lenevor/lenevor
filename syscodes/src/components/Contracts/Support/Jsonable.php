@@ -32,7 +32,7 @@ interface Jsonable
     /**
      * Convert the object to its JSON representation.
      * 
-     * @param  int  $options  (0 by default)
+     * @param  int  $options
      * 
      * @return string
      */

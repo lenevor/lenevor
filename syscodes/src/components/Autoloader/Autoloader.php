@@ -99,7 +99,7 @@ class Autoloader
      * Registers a namespace with the autoloader.
      *
      * @param  array|string  $namespace  The namespace
-     * @param  string|null  $path  The path  (null by default)
+     * @param  string|null  $path  The path
      *
      * @return $this
      */
@@ -129,7 +129,7 @@ class Autoloader
     /**
      * Get namespaces with prefixes as keys and paths as values.
      * 
-     * @param  string|null  $prefix  (null by default)
+     * @param  string|null  $prefix
      *
      * @return array
      */

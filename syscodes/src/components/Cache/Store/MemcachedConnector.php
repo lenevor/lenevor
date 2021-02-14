@@ -36,7 +36,7 @@ class MemcachedConnector
      * Create new Memcached connection.
      * 
      * @param  array  $servers
-     * @param  string  $connectionId  (null by default)
+     * @param  string  $connectionId
      * @param  array  $options
      * @param  array  $credentials
      * 

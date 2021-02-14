@@ -29,7 +29,7 @@ if ( ! function_exists('collect'))
     /**
      * Create a collection from the given value.
      * 
-     * @param  mixed  $value  (null by default)
+     * @param  mixed  $value
      * 
      * @return \Syscodes\Collections\Collection
      */

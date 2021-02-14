@@ -123,7 +123,7 @@ class MemcachedStore implements Store
      * Increment the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed  $value  (1 by default)
+     * @param  mixed  $value
      * 
      * @return int
      */
@@ -136,7 +136,7 @@ class MemcachedStore implements Store
      * Decrement the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed  $value  (1 by default)
+     * @param  mixed  $value
      * 
      * @return int
      */

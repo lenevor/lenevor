@@ -43,7 +43,7 @@ class FileCacheRegister implements Serializable
     /**
      * Constructor class.
      * 
-     * @param  string  $data  (null by default)
+     * @param  string  $data
      * 
      * @return string
      */

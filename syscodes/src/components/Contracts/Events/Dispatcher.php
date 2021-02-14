@@ -34,7 +34,7 @@ interface Dispatcher
      * 
      * @param  string|array  $events
      * @param  \Closure|string  $listener
-     * @param  int  $priority  (0 by default)
+     * @param  int  $priority
      * 
      * @return void
      */
@@ -72,7 +72,7 @@ interface Dispatcher
      * 
      * @param  string|object  $event
      * @param  mixed  $payload
-     * @param  bool  $halt  (false by default)
+     * @param  bool  $halt
      * 
      * @return array|null
      */

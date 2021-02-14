@@ -78,7 +78,7 @@ class CacheRepository implements ArrayAccess
      * Attempts to retrieve an item from the cache by key.
      * 
      * @param  string  $key  Cache item name
-     * @param  mixed  $default  (null by default)
+     * @param  mixed  $default
      * 
      * @return mixed
      */
@@ -97,7 +97,7 @@ class CacheRepository implements ArrayAccess
      * Retrieve an item from the cache and delete it.
      * 
      * @param  string  $key
-     * @param  mixed  $default  (null by default)
+     * @param  mixed  $default
      * 
      * @return mixed
      */
@@ -113,7 +113,7 @@ class CacheRepository implements ArrayAccess
      * 
      * @param  string  $key  Cache item name
      * @param  mixed  $value  The data to save 
-     * @param  int|null  $ttl  Time To Live, in seconds (null by default)
+     * @param  int|null  $ttl  Time To Live, in second
      */
     public function save($key, $value, $ttl = null)
     {
@@ -134,7 +134,7 @@ class CacheRepository implements ArrayAccess
      * Increment the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed  $value  (1 by default)
+     * @param  mixed  $value
      * 
      * @return int
      */
@@ -147,7 +147,7 @@ class CacheRepository implements ArrayAccess
      * Decrement the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed  $value  (1 by default)
+     * @param  mixed  $value
      * 
      * @return int
      */
