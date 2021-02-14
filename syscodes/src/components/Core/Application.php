@@ -341,6 +341,17 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
+     * Determine if middleware has been disabled for the application.
+     * 
+     * @return bool
+     */
+    public function skipGoingMiddleware()
+    {
+        return $this->bound('middleware.disable') &&
+               $this->make('middleware.disable') === true;
+    }
+
+    /**
      * Set the directory for the environment file.
      * 
      * @param  string  $path
