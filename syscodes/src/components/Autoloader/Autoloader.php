@@ -22,6 +22,7 @@
 
 namespace Syscodes;
 
+use InvalidArgumentException;
 use Syscodes\Config\AutoloadConfig;
 
 /**
@@ -219,7 +220,9 @@ class Autoloader
                     if ($filename) {
                         return $filename;
                     }
-                }               
+                } else {
+                    throw new InvalidArgumentException("Does not recognize the [{$class}] class, problems with the call at object or string");
+                }             
             }
         }
 
