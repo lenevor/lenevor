@@ -3,4 +3,4 @@ language: php
 php:
   - 7.3
 
-os: linux
+os: windows
