@@ -88,9 +88,6 @@ $app = require_once $paths['path.bootstrap'].'/app.php';
 $lenevor = $app->make(Lenevor::class);
 
 // Initialize services
-$response = $lenevor->handle(
+$response = take($lenevor->handle(
     $request = Request::capture()
-);
-
-// Sends HTTP headers and content
-$response->send(true);
+))->send(true); // Sends HTTP headers and contents
