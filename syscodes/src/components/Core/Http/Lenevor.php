@@ -68,6 +68,13 @@ class Lenevor implements LenevorContract
 	protected $isCli = false;
 
 	/**
+	 * Get the application's middleware.
+	 * 
+	 * @var array $middleware
+	 */
+	protected $middleware = [];
+
+	/**
 	 * The router instance.
 	 * 
 	 * @var \Syscodes\Routing\Router $router
@@ -144,6 +151,7 @@ class Lenevor implements LenevorContract
 
 		return (new Pipeline($this->app))
 				->send($request)
+				->through($this->app->skipGoingMiddleware() ? [] : $this->middleware)
 				->then($this->dispatchToRouter());
 	}
 
