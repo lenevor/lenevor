@@ -30,5 +30,12 @@ use Syscodes\Core\Http\Lenevor as HttpLenevor;
  */
 class Lenevor extends HttpLenevor
 {
-    //
+    /**
+     * Get the application's global HTTP middleware.
+     * 
+     * @var array $middleware
+     */
+    protected $middleware = [
+        //
+    ];
 }
