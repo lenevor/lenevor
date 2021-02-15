@@ -107,6 +107,13 @@ interface Application extends Container
     public function environmentFilePath();
 
     /**
+     * Determine if middleware has been disabled for the application.
+     * 
+     * @return bool
+     */
+    public function skipGoingMiddleware();
+
+    /**
      * Determine if the application has been bootstrapped before.
      * 
      * @return bool
