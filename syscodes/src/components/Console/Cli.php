@@ -24,7 +24,6 @@ namespace Syscodes\Console;
 
 use Exception;
 use Syscodes\Collections\Arr;
-use Syscodes\Contracts\Http\Lenevor;
 use Syscodes\Core\Http\Exceptions\LenevorException;
 
 /**
@@ -113,7 +112,7 @@ class Cli
  	/**
  	 * The estandar STDOUT is where the application records its output messages.
  	 *
- 	 * @var string $stdout
+ 	 * @var resource $stdout
  	 */
  	protected static $stdout;
 
@@ -131,12 +130,8 @@ class Cli
 	 * 
 	 * @throws \Exception
 	 */
- 	public static function initialize(Lenevor $core)
+ 	public static function initialize()
  	{
- 		if ( ! $core->initCli()) {
-			throw new Exception('Cli class cannot be used outside of the command line');
- 		}
-
  		// Readline is an extension for PHP that makes interactive the command console
  		static::$readlineSupport = extension_loaded('readline');
 
@@ -172,11 +167,9 @@ class Cli
  	 */
  	public static function clearScreen()
  	{
- 		static::isWindows() 
-
+ 		static::isWindows()
  			// Windows doesn't work for this, but their terminal is tiny so shove this in
  			? static::newLine(40)
-
  			// Anything with a flair of Unix will handle these magic characters
  			: fwrite(static::$stdout, chr(27)."[H".chr(27)."[2J");
  	}
@@ -269,7 +262,7 @@ class Cli
 			$text = static::color($text, $foreground, $background);
 		}
 		
-		fwrite(static::$stderr, $text.PHP_EOL);
+		static::fwrite(static::$stderr, $text.PHP_EOL);
 	}
 
 	/**
@@ -338,13 +331,11 @@ class Cli
 			$first = true;
 
 			array_walk ($lines, function (&$line, $index) use ($pad_left, &$first) {
-
 				if ( ! $first) {
 					$line = str_repeat(' ', $pad_left) . $line;
 				} else {
 					$first = false;
 				}
-
 			});
 
 			$lines = implode(PHP_EOL, $lines);
@@ -378,7 +369,7 @@ class Cli
  	 */
  	public static function isWindows()
  	{
- 		return 'win' === strtolower(substr(php_uname("s"), 0, 3));
+ 		return stripos(PHP_OS, 'WIN') === 0;
  	}
 
  	/**
@@ -561,7 +552,7 @@ class Cli
 				$extra_output = ' [ '.implode(' | ', $options).' ]';
 			}
 
-			fwrite(static::$stdout, $output.$extra_output.': ');
+			static::fwrite(static::$stdout, $output.$extra_output.': ');
 		}
 
 		// Read the input from keyboard.
@@ -656,7 +647,7 @@ class Cli
  			$text = static::color($text, $foreground, $background);
  		}
 
- 		fwrite(static::$stdout, $text.PHP_EOL);
+ 		static::fwrite(static::$stdout, $text.PHP_EOL);
  	}
 
  	/**
@@ -717,6 +708,7 @@ class Cli
  		}
 
  		$table = '';
+		$cols  = '';
 
  		for ($row = 0; $row < $rows; $row++) {
  			if (0 === $row) {
@@ -731,11 +723,31 @@ class Cli
 
  			$table .= '| '.implode('-', $rows[$row]).' |'.PHP_EOL;
 
- 			if (0 === $row && ! empty($thead) || $row + 1 === $rows) {
+ 			if (0 === $row && ( ! empty($thead)) || ($row + 1) === $rows) {
  				$table .= $cols.PHP_EOL;
  			}
  		}
 
- 		fwrite(static::$stdout, $table);
+ 		static::write($table);
  	}
+
+	/**
+	 * The library is intended for used on Cli commanda, 
+	 * this commands can be called from controllers and 
+	 * elsewhere of framework.
+	 * 
+	 * @param  resource  $handle
+	 * @param  string  $text
+	 * 
+	 * @return string
+	 */
+	protected static function fwrite($handle, string $text)
+	{
+		if (isCli()) {
+			fwrite($handle, $text);
+			return;
+		}
+
+		echo $text;
+	}
 }

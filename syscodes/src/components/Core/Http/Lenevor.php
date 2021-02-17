@@ -23,8 +23,7 @@
 namespace Syscodes\Core\Http;
 
 use Closure;
-use Throwable;
-use Syscodes\Http\Http; 
+use Throwable; 
 use Syscodes\Routing\Router;
 use Syscodes\Routing\Pipeline;
 use Syscodes\Support\Facades\Facade;
@@ -59,13 +58,6 @@ class Lenevor implements LenevorContract
 		\Syscodes\Core\Bootstrap\BootRegisterProviders::class,
 		\Syscodes\Core\Bootstrap\BootProviders::class,
 	];
-	
-	/**
-	 * Activate the console mode.
-	 * 
-	 * @var bool $isCli
-	 */
-	protected $isCli = false;
 
 	/**
 	 * Get the application's middleware.
@@ -100,16 +92,6 @@ class Lenevor implements LenevorContract
 	{
 		$this->app    = $app;
 		$this->router = $router;
-	}
-	
-	/** 
-	 * Initialize CLI command.
-	 * 
-	 * @return bool
-	 */
-	public function initCli()
-	{
-		return $this->isCli = (new Http)->isCli();
 	}
 	 
 	/**
