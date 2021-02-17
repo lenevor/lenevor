@@ -61,13 +61,12 @@ class Filesystem
 	 *
 	 * @param  string  $path
 	 * @param  string  $data
-	 * @param  bool  $force
 	 *
 	 * @return bool
 	 */
-	public function append($path, $data, $force = false)
+	public function append($path, $data)
 	{
-		return $this->write($path, $data, 'a', $force);
+		return file_put_contents($path, $data, FILE_APPEND);
 	}
 
 	/**
@@ -173,7 +172,7 @@ class Filesystem
 	 */
 	public function create($path)
 	{
-		if (($this->isDirectory($path)) && ($this->isWritable($path)) || ! $this->exists($path)) {
+		if (($this->isDirectory($path)) && ($this->isWritable($path)) || ( ! $this->exists($path))) {
 			if (touch($path)) {
 				return true;
 			}

@@ -151,7 +151,7 @@ class Route
 	/**
 	 * Get the action of the current route.
 	 *
-	 * @return \Closure|string
+	 * @return \Closure|string|array
 	 */
 	public function getAction()
 	{
@@ -161,7 +161,7 @@ class Route
 	/**
 	 * Get the arguments of the current route.
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function getArguments()
 	{
@@ -197,7 +197,7 @@ class Route
 	/**
 	 * Get the request method of the current route.
 	 *
-	 * @return array
+	 * @return array|string
 	 */
 	public function getMethod()
 	{
@@ -217,7 +217,7 @@ class Route
 	/**
 	 * Get the url of the current route.
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function getRoute()
 	{
@@ -361,7 +361,7 @@ class Route
 	 */
 	public function parseMethod($method)
 	{
-		if ($method === null || ! is_array($method) || empty($method)) {
+		if ($method === null || empty($method)) {
 			throw new InvalidArgumentException(__('route.methodNotProvided'));
 			
 		}
@@ -380,7 +380,7 @@ class Route
 	/**
 	 * Set the route.
 	 *
-	 * @param  string  $uri
+	 * @param  string|array|null  $uri
 	 *
 	 * @return string
 	 *
@@ -469,7 +469,7 @@ class Route
 	 *
 	 * @param  string  $name
 	 *
-	 * @return string
+	 * @return $this
 	 */
 	public function name($name)
 	{

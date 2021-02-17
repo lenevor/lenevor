@@ -37,7 +37,7 @@ class RouteAction
     /**
      * Parse the given action into an array.
      * 
-     * @param  string  $uri
+     * @param  string|array  $uri
      * @param  mixed  $action
      * 
      * @return array
