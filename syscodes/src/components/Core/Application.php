@@ -419,9 +419,9 @@ class Application extends Container implements ApplicationContract
     public function environment(...$environments)
     {
         if (count($environments) > 0) {
-            $pattern = is_array($environments[0]) ? $environments[0] : $environments;
+            $patterns = is_array($environments[0]) ? $environments[0] : $environments;
 
-            return Str::is($pattern, $this->env);
+            return Str::is($patterns, $this->env);
         }
 
         return $this->env;
@@ -510,7 +510,7 @@ class Application extends Container implements ApplicationContract
                     }
                 </style>
                 <p>The application environment is not set correctly.</p>');
-            exit; // EXIT_ERROR
+            die(); // EXIT_ERROR
         }
     }
 
