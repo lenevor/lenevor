@@ -293,6 +293,20 @@ if ( ! function_exists('getClass'))
     }
 }
 
+if ( ! function_exists('isCli'))
+{
+    /**
+     * Determines if this request was made from the command line (CLI).
+     * 
+     * @return bool
+     */
+    function isCli()
+    {
+        return (PHP_SAPI === 'cli' || defined('STDIN'));
+    }
+}
+
+
 if ( ! function_exists('isGetCommonPath'))
 {
     /**
