@@ -32,16 +32,6 @@ use Syscodes\Collections\Arr;
 class Http
 {
 	/**
-	 * Determines if this request was made from the command line (CLI).
-	 * 
-	 * @return bool
-	 */
-	public function isCli()
-	{
-		return (PHP_SAPI === 'cli' || defined('STDIN'));
-	}
-
-	/**
 	 * Return's the protocol that the request was made with.
 	 *
 	 * @return string
