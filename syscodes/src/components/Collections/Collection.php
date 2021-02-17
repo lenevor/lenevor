@@ -300,7 +300,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      */
     public function mergeRecursive($items)
     {
-        return new static(array_recursive_merge($this->items, $this->getArrayItems($items)));
+        return new static(array_merge_recursive($this->items, $this->getArrayItems($items)));
     }
 
     /**
