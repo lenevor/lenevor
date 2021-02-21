@@ -29,7 +29,7 @@ return [
 
     'transpiled' => env(
         'TRANSPILED_VIEW_PATH', 
-        realpath(storagePath('views'))
+        realpath(storagePath('framework/views'))
     ),
 
 ];
