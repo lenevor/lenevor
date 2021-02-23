@@ -47,33 +47,25 @@ class EventServiceProvider extends ServiceProvider
     protected $subscribe = [];
 
     /**
-     * Bootstrap any application services.
+     * Register any application services.
      * 
-     * @return  void
+     * @return void
      */
-    public function boot()
+    public function register()
     {
-        foreach ($this->listens() as $event => $listeners) {
-            foreach ($listeners as $listener) {
-                Event::listen($event, $listener);
-            }
-        }
-        
-        foreach ($this->subscribe as $subscriber) {
-            Event::subscribe($subscriber);
-        }
-    }
+        $this->booting(function () {
+            $events = $this->listens();
 
-    /**
-     * Load the standard Events file.
-     * 
-     * @param  string  $path
-     * 
-     * @return mixed
-     */
-    protected function loadEventPath($path)
-    {
-        return require $path;
+            foreach ((array) $events as $event => $listeners) {
+                foreach ($listeners as $listener) {
+                    Event::listen($event, $listener);
+                }
+            }
+            
+            foreach ($this->subscribe as $subscriber) {
+                Event::subscribe($subscriber);
+            }
+        });
     }
 
     /**
