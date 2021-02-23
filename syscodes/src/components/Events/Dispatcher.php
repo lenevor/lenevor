@@ -56,18 +56,18 @@ class Dispatcher implements DispatcherContract
     protected $listeners = [];
 
     /**
-     * The sorted event listeners.
-     * 
-     * @var array $sorted
-     */
-    protected $sorted = [];
-
-    /**
      * The wilcards listeners.
      * 
      * @var array $wilcards
      */
-    protected $wilcards = [];
+    protected $wildcards = [];
+
+    /**
+     * The cached wildcard listeners.
+     * 
+     * @var array $wildcardsCache
+     */
+    protected $wildcardsCache = [];
 
     /**
      * Constructor. Create a new event distpacher instance.
@@ -85,20 +85,17 @@ class Dispatcher implements DispatcherContract
      * Register an event listener with the dispatcher.
      * 
      * @param  string|array  $events
-     * @param  \Closure|string  $listener
-     * @param  int  $priority  (0 by default)
+     * @param  \Closure|string|null  $listener
      * 
      * @return void
      */
-    public function listen($events, $listener, $priority = 0)
+    public function listen($events, $listener = null)
     {
         foreach ((array) $events as $event) {
             if (Str::contains($event, '*')) {
                 $this->setupWilcardListen($event, $listener);
             } else {
-                $this->listeners[$event][$priority][] = $this->makeListener($listener);
-
-                $this->clearSortedListeners($event);
+                $this->listeners[$event][] = $this->makeListener($listener);
             }
         }
     }
@@ -113,25 +110,31 @@ class Dispatcher implements DispatcherContract
      */
     protected function setupWilcardListen($event, $listener)
     {
-        $this->wilcards[$event][] = $this->makeListener($listener, true);
+        $this->wildcards[$event][] = $this->makeListener($listener, true);
+
+        $this->wildcardsCache = [];
     }
 
     /**
      * Register an event listener with the dispatcher.
      * 
      * @param  \Closure|string  $listener
-     * @param  bool  $wilcard  (false by default)
+     * @param  bool  $wildcard  (false by default)
      * 
      * @return \Closure
      */
-    public function makeListener($listener, $wilcard = false)
+    public function makeListener($listener, $wildcard = false)
     {
         if (is_string($listener)) {
-            return $this->createClassListener($listener, $wilcard);
+            return $this->createClassListener($listener, $wildcard);
+        }
+        
+        if (is_array($listener) && isset($listener[0]) && is_string($listener[0])) {
+            return $this->createClassListener($listener, $wildcard);
         }
 
-        return function ($event, $payload) use ($listener, $wilcard) {
-            if ($wilcard) {
+        return function ($event, $payload) use ($listener, $wildcard) {
+            if ($wildcard) {
                 return $listener($event, $payload);
             }
             
@@ -143,19 +146,20 @@ class Dispatcher implements DispatcherContract
      * Create a class based listener using the IoC container.
      * 
      * @param  string  $listener
-     * @param  bool  $wilcard  (false by default)
+     * @param  bool  $wildcard  (false by default)
      * 
      * @return \Closure
      */
-    public function createClassListener($listener, $wilcard = false)
+    public function createClassListener($listener, $wildcard = false)
     {
-        return function ($event, $payload) use ($listener, $wilcard) {
-            if ($wilcard) {
+        return function ($event, $payload) use ($listener, $wildcard) {
+            if ($wildcard) {
                 return call_user_func($this->createClassClosure($listener), $event, $payload);
             }
-
-            return call_user_func_array($this->createClassClosure($listener), $payload);
             
+            $callable = $this->createClassClosure($listener);
+            
+            return $callable(...array_values($payload));
         };
     }
 
@@ -168,7 +172,13 @@ class Dispatcher implements DispatcherContract
      */
     protected function createClassClosure($listener)
     {
-        list($class, $method) = $this->parseClassCallback($listener);
+        [$class, $method] = is_array($listener)
+                          ? $listener
+                          : $this->parseClassCallback($listener);
+                                
+        if ( ! method_exists($class, $method)) {
+            $method = '__invoke';
+        }
 
         $instance = $this->container->make($class);
 
@@ -188,18 +198,6 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Clear the sorted listeners for an event.
-     * 
-     * @param  string  $event
-     * 
-     * @return void
-     */
-    protected function clearSortedListeners($event)
-    {
-        unset($this->sorted[$event]);
-    }
-
-    /**
      * Determine if a given event has listeners.
      * 
      * @param  string  $eventName
@@ -209,7 +207,7 @@ class Dispatcher implements DispatcherContract
     public function hasListeners($eventName)
     {
         return isset($this->listeners[$eventName]) || 
-               isset($this->wilcards[$eventName]) ||
+               isset($this->wildcards[$eventName]) ||
                $this->hasWilcardListeners($eventName);
     }
 
@@ -220,9 +218,9 @@ class Dispatcher implements DispatcherContract
      * 
      * @return bool
      */
-    public function hasWilcardListeners($eventName)
+    public function hasWildcardListeners($eventName)
     {
-        foreach ($this->wilcards as $key => $listeners) {
+        foreach ($this->wildcards as $key => $listeners) {
             if (Str::is($key, $eventName)) {
                 return true;
             }
@@ -242,7 +240,15 @@ class Dispatcher implements DispatcherContract
     {
         $subscriber = $this->resolveSubscriber($subscriber);
 
-        $subscriber->subscribe($this);
+        $events = $subscriber->subscribe($this);
+        
+        if (is_array($events)) {
+            foreach ($events as $event => $listeners) {
+                foreach ($listeners as $listener) {
+                    $this->listen($event, $listener);
+                }
+            }
+        }
     }
 
     /**
@@ -271,13 +277,15 @@ class Dispatcher implements DispatcherContract
      * @return array|null
      */
     public function dispatch($event, $payload = [], $halt = false)
-    {
-        $responses = [];
-        
-        list($event, $payload) = $this->parseEventPayload($event, $payload);
+    {        
+        [$event, $payload] = $this->parseEventPayload(
+            $event, $payload
+        );
 
         $this->dispatching[] = $event;
 
+        $responses = [];
+        
         foreach ($this->getListeners($event) as $listener) {
             $response = $listener($event, $payload);
 
@@ -317,7 +325,7 @@ class Dispatcher implements DispatcherContract
     protected function parseEventPayload($event, $payload)
     {
         if (is_object($event)) {
-            list($payload, $event) = [[$event], getClass($event, false)];
+            [$payload, $event] = [[$event], getClass($event, true)];
         } elseif ( ! is_array($payload)) {
             $payload = [$payload];
         }
@@ -334,13 +342,16 @@ class Dispatcher implements DispatcherContract
      */
     public function getListeners($eventName)
     {
-        $wilcards = $this->getWilcardListeners($eventName);
+        $listeners = $this->listeners[$eventName] ?? [];
 
-        if ( ! isset($this->sorted[$eventName])) {
-            $this->sortListeners($eventName);
-        }
+        $listeners = array_merge(
+            $listeners,
+            $this->wildcardsCache[$eventName] ?? $this->getWilcardListeners($eventName)
+        );
 
-        return array_merge($this->sorted[$eventName], $wilcards);
+        return class_exists($eventName, false) 
+                    ? $this->addInterfaceListener($eventName, $listeners)
+                    : $listeners;
     }
 
     /**
@@ -352,38 +363,37 @@ class Dispatcher implements DispatcherContract
      */
     protected function getWilcardListeners($eventName)
     {
-        $wilcards = [];
+        $wildcards = [];
 
-        foreach ($this->wilcards as $key => $listeners) {
+        foreach ($this->wildcards as $key => $listeners) {
             if (Str::is($key, $eventName)) {
-                $wilcards = array_merge($wilcards, $listeners);
+                $wildcards = array_merge($wildcards, $listeners);
             }
         }
 
-        return $wilcards;
+        return $this->wildcardsCache[$eventName] = $wildcards;
     }
 
     /**
-     * Sort the listeners for a given event by priority.
+     * Add the listeners for the event's interfaces to the given array.
      * 
      * @param  string  $eventName
+     * @param  array  $listeners
      * 
      * @return array
      */
-    protected function sortListeners($eventName)
+    protected function addInterfaceListener($eventName, array $listeners = [])
     {
-        $this->sorted[$eventName] = [];
-        
-        // If listeners exist for the given event, we will sort them by the priority
-        // so that we can call them in the correct order. We will cache off and
-        // sorted event listeners so we do not have to re-sort on every events.
-        if (isset($this->listeners[$eventName])) {
-            krsort($this->listeners[$eventName]);
-
-            $this->sorted[$eventName] = call_user_func_array(
-                'array_merge', $this->listeners[$eventName]
-            );
+        foreach (class_implements($eventName) as $interface) {
+            if (iseet($this->listeners[$interface])) {
+                foreach ($this->listeners[$interface] as $names)
+                {
+                    $listeners = array_merge($listeners, (array) $names);
+                }
+            }
         }
+
+        return $listeners;
     }
 
     /**
@@ -396,9 +406,15 @@ class Dispatcher implements DispatcherContract
     public function delete($event)
     {
         if (Str::contains($event, '*')) {
-            unset($this->wilcards[$event]);
+            unset($this->wildcards[$event]);
         } else {
-            unset($this->listeners[$event], $this->sorted[$event]);
+            unset($this->listeners[$event]);
+        }
+
+        foreach ($this->wildcardsCache as $key => $listeners) {
+            if (Str::is($event, $key)) {
+                unset($this->wildcardsCache[$key]);
+            }
         }
     }
 }
