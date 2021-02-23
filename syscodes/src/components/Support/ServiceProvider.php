@@ -37,6 +37,13 @@ abstract class ServiceProvider
     protected $app;
 
     /**
+     * The array of booting callbacks.
+     * 
+     * @var callable[] $bootingCallbacks
+     */
+    protected $bootingCallbacks = [];
+
+    /**
      * Constructor. Create a new service provider instance.
      * 
      * @param  \Syscodes\Contracts\Core\Applicacion  $app
@@ -54,4 +61,16 @@ abstract class ServiceProvider
      * @return void
      */
     public function register() {}
+
+    /**
+     * Register a new boot listener.
+     * 
+     * @param  callable  $callback
+     * 
+     * @return void
+     */
+    public function booting($callback)
+    {
+        $callback();
+    }
 }

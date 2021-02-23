@@ -274,6 +274,21 @@ if ( ! function_exists('encrypt'))
     }
 }
 
+if ( ! function_exists('event'))
+{
+    /**
+     * Dispatch an event and call the listeners.
+     * 
+     * @param  string|array  $args
+     * 
+     * @return array|null
+     */
+    function event($args) 
+    {
+        return app('events')->dispatch($args);
+    }
+}
+
 if ( ! function_exists('getClass'))
 {
     /**
