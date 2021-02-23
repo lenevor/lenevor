@@ -21,7 +21,6 @@
 
 namespace App\Providers;
 
-use Syscodes\Support\Facades\Event;
 use Syscodes\Core\Support\Providers\EventServiceProvider as ServiceProvider;
 
 /**
@@ -43,14 +42,17 @@ class EventServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      * 
+     * Nota: Events - all standard Events are defined here, as 
+     * determined for all the framework using closures. 
+     * 
+     * You add the 'Event' facade with the purpose call the Listen method 
+     * and generate actions in custom events for all the application's 
+     * which it is developing, if desired.
+     * 
      * @return void
      */
     public function boot()
     {
-        parent::boot();
-
-        $path = $this->app->path('Events/Events.php');
-
-        $this->loadEventPath($path);
+        //
     }
 }
