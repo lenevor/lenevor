@@ -278,6 +278,7 @@ return [
     'Syscodes\\Support\\Facades\\Crypt' => SYS_PATH.'src/components/Support/Facades/Crypt.php',
     'Syscodes\\Support\\Facades\\Date' => SYS_PATH.'src/components/Support/Facades/Date.php',
     'Syscodes\\Support\\Facades\\DB' => SYS_PATH.'src/components/Support/Facades/DB.php',
+    'Syscodes\\Support\\Facades\\Event' => SYS_PATH.'src/components/Support/Facades/Event.php',
     'Syscodes\\Support\\Facades\\Facade' => SYS_PATH.'src/components/Support/Facades/Facade.php',
     'Syscodes\\Support\\Facades\\File' => SYS_PATH.'src/components/Support/Facades/File.php',
     'Syscodes\\Support\\Facades\\Http' => SYS_PATH.'src/components/Support/Facades/Http.php',
