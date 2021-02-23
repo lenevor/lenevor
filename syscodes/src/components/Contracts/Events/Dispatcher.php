@@ -33,12 +33,11 @@ interface Dispatcher
      * Register an event listener with the dispatcher.
      * 
      * @param  string|array  $events
-     * @param  \Closure|string  $listener
-     * @param  int  $priority
+     * @param  \Closure|string|null  $listener
      * 
      * @return void
      */
-    public function listen($events, $listener, $priority = 0);
+    public function listen($events, $listener = null);
 
     /**
      * Determine if a given event has listeners.
@@ -56,7 +55,7 @@ interface Dispatcher
      * 
      * @return bool
      */
-    public function hasWilcardListeners($eventName);
+    public function hasWildcardListeners($eventName);
 
     /**
      * Register an event subscriber with the dispatcher.
