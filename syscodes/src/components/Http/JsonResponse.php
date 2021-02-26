@@ -135,7 +135,7 @@ class JsonResponse extends Response
     {
         $options = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
 
-        $this->jsonEncodingOptions = ENVIRONMENT === 'production' ? $options : $options | JSON_PRETTY_PRINT;
+        $this->jsonEncodingOptions = app()->environment() === 'production' ? $options : $options | JSON_PRETTY_PRINT;
         
         if ($data instanceof Jsonable) {
             $this->data = $data->toJson($this->jsonEncodingOptions);

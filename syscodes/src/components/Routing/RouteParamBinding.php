@@ -73,7 +73,7 @@ class RouteParamBinding
      */
     protected function bindParameters($request)
     {
-        $path = '/'.ltrim($request->decodedPath(), '/');
+        $path = '/'.ltrim($request->get(), '/');
 
         preg_match('#[^/]+$#sDu', $path, $matches);
         

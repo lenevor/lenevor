@@ -23,6 +23,7 @@
 namespace Syscodes\Http\Contributors;
 
 use Countable;
+use ArrayIterator;
 use IteratorAggregate;
 use Syscodes\Collections\Arr;
 

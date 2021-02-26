@@ -139,7 +139,7 @@ class Route
 		$this->parseMethod($method);
 
 		// Set the action
-		$this->parseAction($action);
+		$this->action = Arr::except($this->parseAction($action), ['prefix']);
 
 		if (is_null($prefix = Arr::get($this->action, 'prefix'))) {
 			$this->prefix($prefix);
@@ -345,9 +345,7 @@ class Route
 			throw new InvalidArgumentException(__('route.actionClosureOrFunction'));
 		}
 
-		$this->action = RouteAction::parse($this->uri, $action);
-
-		return $this;
+		return RouteAction::parse($this->uri, $action);
 	}
 
 	/**
