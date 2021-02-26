@@ -24,8 +24,8 @@ namespace Syscodes\Routing;
 
 use LogicException;
 use Syscodes\Support\Str;
-use UnexpectedValueException;
 use Syscodes\Collections\Arr;
+use UnexpectedValueException;
 
 /**
  * Solve the actions obtained from a route.
@@ -55,6 +55,10 @@ class RouteAction
             ];
         } elseif ( ! isset($action['uses'])) {
             $action['uses'] = static::findClosureAction($action);
+        }
+        
+        if (is_string($action['uses']) && ! Str::contains($action['uses'], '@')) {
+            $action['uses'] = static::callInvokable($action['uses']);
         }
         
         return $action;
@@ -88,5 +92,22 @@ class RouteAction
         return Arr::first($action, function ($value, $key) {
             return is_callable($value) && is_numeric($key);
         });
+    }
+    
+    /**
+     * Call an action for an invokable controller.
+     * @param  string  $action
+     * 
+     * @return string
+     * 
+     * @throws \UnexpectedValueException
+     */
+    protected static function callInvokable($action)
+    {
+        if ( ! method_exists($action, '__invoke')) {
+            throw new UnexpectedValueException("Invalid route action: [{$action}].");
+        }
+        
+        return $action.'@__invoke';
     }
 } 
