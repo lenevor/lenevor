@@ -35,9 +35,16 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * This namespace is applied to your controller routes.
      * 
+     * Nota: If desired, uncomment this variable and assign it in 
+     * the 'namespace' method where your parameter is null by default.
+     * It is found in the methods of this class: 
+     * loadApiRoute() and loadWebRoute().
+     *  
+     * Used until version 0.7.4 of framework.
+     * 
      * @var string $namespace
      */
-    protected $namespace = 'App\Http\Controllers';
+    //protected $namespace = 'App\Http\Controllers';
 
     /**
      * Bootstrap any application services.
@@ -60,7 +67,8 @@ class RouteServiceProvider extends ServiceProvider
     protected function loadApiRoute()
     {
         Route::prefix('api')
-             ->namespace($this->namespace)
+             ->middleware('api')
+             ->namespace(null)
              ->group(basePath('routes/api.php'));
     }
 
@@ -71,7 +79,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function loadWebRoute()
     {
-        Route::namespace($this->namespace)
+        Route::middleware('web')
+             ->namespace(null)
              ->group(basePath('routes/web.php'));
     }    
 }
