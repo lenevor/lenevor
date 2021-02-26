@@ -26,6 +26,7 @@ Use Locale;
 use Exception;
 use LogicException;
 use Syscodes\Support\Str;
+use Syscodes\Collections\Arr;
 use Syscodes\Http\Contributors\Files;
 use Syscodes\Http\Contributors\Inputs;
 use Syscodes\Http\Contributors\Server;
