@@ -75,7 +75,7 @@ class RouteRegister
      * @var array $allowedAttributes
      */
     protected $allowedAttributes = [
-        'as', 'domain', 'name', 'namespace', 'prefix', 'where',
+        'as', 'domain', 'name', 'namespace', 'middleware', 'prefix', 'where',
     ];
     
     /**
@@ -193,6 +193,17 @@ class RouteRegister
         
         if (is_string($action) || $action instanceof Closure) {
             $action = ['uses' => $action];
+        }
+        
+        if (is_array($action) && is_callable($action)) {
+            if (strncmp($action[0], '\\', 1)) {
+                $action[0] = '\\'.$action[0];
+            }
+            
+            $action = [
+                'uses' => $action[0].'@'.$action[1],
+                'controller' => $action[0].'@'.$action[1],
+            ];
         }
         
         return array_merge($this->attributes, $action);
