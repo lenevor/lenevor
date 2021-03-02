@@ -51,7 +51,7 @@ trait RouteMap
 	 * Add a route for all posible methods.
 	 *
 	 * @param  string  $route
-	 * @param  string|callable  $action
+	 * @param  string|callable|null  $action
 	 *
 	 * @return void
 	 */
@@ -64,7 +64,7 @@ trait RouteMap
 	 * Add a route with delete method.
 	 *
 	 * @param  string  $route
-	 * @param  string|callable  $action
+	 * @param  string|callable|null  $action
 	 *
 	 * @return void
 	 */
@@ -77,7 +77,7 @@ trait RouteMap
 	 * Add a route with get method.
 	 *
 	 * @param  string  $route
-	 * @param  string|callable  $action
+	 * @param  string|callable|null  $action
 	 *
 	 * @return void
 	 */
@@ -90,7 +90,7 @@ trait RouteMap
 	 * Add a route with head method.
 	 *
 	 * @param  string  $route
-	 * @param  string|callable  $action
+	 * @param  string|callable|null  $action
 	 *
 	 * @return void
 	 */
@@ -104,7 +104,7 @@ trait RouteMap
 	 * 
 	 * @param  array|string  $methods
 	 * @param  string  $route
-	 * @param  string|null|callable  $action
+	 * @param  string|callable|null  $action
 	 * 
 	 * @return void
 	 */
@@ -117,7 +117,7 @@ trait RouteMap
 	 * Add a route with options method.
 	 *
 	 * @param  string  $route
-	 * @param  string|callable  $action
+	 * @param  string|callable|null  $action
 	 *
 	 * @return void
 	 */
@@ -130,7 +130,7 @@ trait RouteMap
 	 * Add a route with patch method.
 	 *
 	 * @param  string  $route
-	 * @param  string|callable  $action
+	 * @param  string|callable|null  $action
 	 *
 	 * @return void
 	 */
@@ -143,7 +143,7 @@ trait RouteMap
 	 * Add a route with post method.
 	 *
 	 * @param  string  $route
-	 * @param  string|callable  $action
+	 * @param  string|callable|null  $action
 	 *
 	 * @return void
 	 */
@@ -156,7 +156,7 @@ trait RouteMap
 	 * Add a route with put method.
 	 *
 	 * @param  string  $route
-	 * @param  string|callable  $action
+	 * @param  string|callable|null  $action
 	 *
 	 * @return void
 	 */
