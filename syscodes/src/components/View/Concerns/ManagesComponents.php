@@ -92,7 +92,7 @@ trait ManagesComponents
      * Begin the slot rendering.
      * 
      * @param  string  $name
-     * @param  string|null  $content  (null by default)
+     * @param  string|null  $content  
      * 
      * @return void
      */

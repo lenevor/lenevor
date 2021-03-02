@@ -93,9 +93,9 @@ class Finder
     /**
      * An alias for Finder::instance()->locate().
      *
-     * @param  string  $file  The file  (null by default)
+     * @param  string  $file  The file  
      * @param  string   $directory  The directory
-     * @param  string|null  $extension  The file extension  (null by default)
+     * @param  string|null  $extension  The file extension  
      *
      * @return mixed  Path, or paths, or false
      */
@@ -113,7 +113,7 @@ class Finder
      *   (index): The path will get inserted AFTER the given index
      *
      * @param  string|array  $paths  The path to add
-     * @param  int  $pos  The position to add the path  (null by default)
+     * @param  int  $pos  The position to add the path  
      *
      * @return $this
      *
@@ -147,7 +147,7 @@ class Finder
      *
      * @param  string  $file  The file
      * @param  string  $directory  The directory
-     * @param  string  $extension  The file extension  (null by default)
+     * @param  string  $extension  The file extension  
      *
      * @return bool|string
      *

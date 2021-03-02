@@ -44,7 +44,7 @@ class RedirectResponse extends Response
      * defined for a redirect status code.
      * 
      * @param  string  $url  The URL to redirect to
-     * @param  int  $status  The redirect status code  (302 by default)
+     * @param  int  $status  The redirect status code  
      * @param  array  $headers  The header array
      * 
      * @return void
@@ -78,7 +78,7 @@ class RedirectResponse extends Response
      * status code and headers.
      * 
      * @param  mixed  $url  The URL to redirect to
-     * @param  int  $status  The HTTP response status for this response  (200 by default)
+     * @param  int  $status  The HTTP response status for this response  
      * @param  array  $headers  Array of HTTP headers for this response
      * 
      * @return static

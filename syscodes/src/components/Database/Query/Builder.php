@@ -210,8 +210,8 @@ class Builder
      * Constructor. Create a new query builder instance.
      * 
      * @param  \Syscodes\Database\ConnectionInterface  $connection
-     * @param  \Syscodes\Database\Query\Grammar  $grammar  (null by default)
-     * @param  \Syscodes\Database\Query\Processor  $processor  (null by default)
+     * @param  \Syscodes\Database\Query\Grammar  $grammar  
+     * @param  \Syscodes\Database\Query\Processor  $processor  
      * 
      * return void
      */
@@ -369,9 +369,9 @@ class Builder
      * Add a basic where clause to the query.
      * 
      * @param  mixed  $column
-     * @param  mixed  $operator  (null by default)
-     * @param  mixed  $value  (null by default)
-     * @param  mixed  $boolean  ('and' by default)
+     * @param  mixed  $operator  
+     * @param  mixed  $value  
+     * @param  mixed  $boolean  
      * 
      * @return $this
      * 
@@ -419,7 +419,7 @@ class Builder
      * 
      * @param  string  $column
      * @param  string  $boolean
-     * @param  string  $method  ('where' by default)
+     * @param  string  $method  
      * 
      * @return $this
      */
@@ -488,7 +488,7 @@ class Builder
      * Add a nested where statement to the query.
      * 
      * @param  \Closure  $callback
-     * @param  string  $boolean  ('and' by default)
+     * @param  string  $boolean  
      * 
      * @return $this
      */
@@ -515,7 +515,7 @@ class Builder
      * Add a query builder different from the current one.
      * 
      * @param  \Syscodes\Database\Query\Builder  $query
-     * @param  string  $boolean  ('and' by default)
+     * @param  string  $boolean  
      * 
      * @return $this
      */
@@ -561,7 +561,7 @@ class Builder
      * Add a "where null" clause to the query.
      * 
      * @param  string|array  $columns
-     * @param  string  $boolean  ('and' by default)
+     * @param  string  $boolean  
      * @param  bool  $not  (false by default)
      * 
      * @return $this
@@ -940,7 +940,7 @@ class Builder
      * Insert a new record and get the value of the primary key.
      * 
      * @param  array  $values
-     * @param  string  $sequence  (null by default)
+     * @param  string  $sequence  
      * 
      * @return int
      */
@@ -973,7 +973,7 @@ class Builder
      * Increment a column's value by a given amount.
      * 
      * @param  string  $column
-     * @param  int  $amount  (1 by default)
+     * @param  int  $amount  
      * @param  array  $extra
      * 
      * @return \PDOStatement
@@ -995,7 +995,7 @@ class Builder
      * Decrement a column's value by a given amount.
      * 
      * @param  string  $column
-     * @param  int  $amount  (1 by default)
+     * @param  int  $amount  
      * @param  array  $extra
      * 
      * @return \PDOStatement
@@ -1070,7 +1070,7 @@ class Builder
      * Add an "order by" clause to the query.
      * 
      * @param  string  $column
-     * @param  string  $direction  (asc by default)
+     * @param  string  $direction 
      * 
      * @return $this
      */
@@ -1218,7 +1218,7 @@ class Builder
      * Set the bindings on the query sql.
      * 
      * @param  mixed  $value
-     * @param  string  $type  ('where' by default)
+     * @param  string  $type  
      * 
      * @return $this
      * 
@@ -1239,7 +1239,7 @@ class Builder
      * Add a binding to the query sql.
      * 
      * @param  mixed  $value
-     * @param  string  $type  ('where' by default)
+     * @param  string  $type  
      * 
      * @return $this
      * 

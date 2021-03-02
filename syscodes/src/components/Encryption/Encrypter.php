@@ -105,7 +105,7 @@ class Encrypter implements EncrypterContract
      * Encrypt the given value.
      * 
      * @param  mixed  $value
-     * @param  bool  $serialize  (true by default)
+     * @param  bool  $serialize  
      * 
      * @return string
      * 
@@ -165,7 +165,7 @@ class Encrypter implements EncrypterContract
      * Decrypt the given value.
      * 
      * @param  string  $value
-     * @param  bool  $unserialize  (true by default)
+     * @param  bool  $unserialize  
      * 
      * @return mixed
      * 

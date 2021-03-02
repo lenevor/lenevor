@@ -52,7 +52,7 @@ if ( ! function_exists('app'))
     /**
      * Get the available Application instance.
      *
-     * @param  string  $id  (null by default)
+     * @param  string  $id  
      * @param  array  $parameters
      * 
      * @return mixed|\Syscodes\Contracts\Core\Application
@@ -73,7 +73,7 @@ if ( ! function_exists('asset'))
      * Generate an asset path for the application.
      * 
      * @param  string  $path
-     * @param  bool  $secure  (null by default)
+     * @param  bool  $secure  
      * 
      * @return string
      */
@@ -88,9 +88,9 @@ if ( ! function_exists('back'))
     /**
      * Create a new redirect response to the previous location.
      * 
-     * @param  int  $status    (302 by default)
+     * @param  int  $status    
      * @param  array  $headers
-     * @param  mixed  $fallback  (false by default)
+     * @param  mixed  $fallback  
      * 
      * @return \Syscodes\Http\RedirectResponse
      */
@@ -159,8 +159,8 @@ if ( ! function_exists('config'))
      * If an array is passed as the key, we will assume you want to set 
      * an array of values.
      *
-     * @param   array|string  $key  (null by default)
-     * @param   mixed  $default  (null by default)
+     * @param   array|string  $key  
+     * @param   mixed  $default  
      *
      * @return  mixed|\Syscodes\Config\Configure
      */
@@ -233,7 +233,7 @@ if ( ! function_exists('decrypt'))
      * Decrypt the given value.
      * 
      * @param  mixed  $value
-     * @param  bool  $unserialize  (true by default)
+     * @param  bool  $unserialize  
      * 
      * @return string
      */
@@ -264,7 +264,7 @@ if ( ! function_exists('encrypt'))
      * Encrypt the given value.
      * 
      * @param  mixed  $value
-     * @param  bool  $serialize  (true by default)
+     * @param  bool  $serialize  
      * 
      * @return string
      */
@@ -296,7 +296,7 @@ if ( ! function_exists('getClass'))
      * only the name of the class.
      * 
      * @param  string  $classname
-     * @param  bool  $bool  (false by default)
+     * @param  bool  $bool  
      * 
      * @return array
      */
@@ -400,10 +400,10 @@ if ( ! function_exists('redirect'))
     /**
      * Get an instance of the redirect.
      *
-     * @param  string|null  $url  The url  (null by default)
-     * @param  int   $code  The redirect status code  (302 by default)
+     * @param  string|null  $url  The url  
+     * @param  int   $code  The redirect status code  
      * @param  array  $headers  An array of headers
-     * @param  bool|null  $secure  Type of protocol (http|https)  (null by default)
+     * @param  bool|null  $secure  Type of protocol (http|https)  
      *
      * @return \Syscodes\Routing\Redirector
      */
@@ -422,8 +422,8 @@ if ( ! function_exists('request'))
     /**
      * Get an instance of the current request or an input item from the request.
      * 
-     * @param  array|string|null  $key  (null by default)
-     * @param  mixed  $default  (null by default)
+     * @param  array|string|null  $key  
+     * @param  mixed  $default  
      * 
      * @return \Syscodes\Http\Request|string|array 
      */
@@ -484,8 +484,8 @@ if ( ! function_exists('route'))
      * 
      * @param  string  $name
      * @param  array  $parameters
-     * @param  bool  $forced  (true by default)
-     * @param  \Syscodes\Routing\Route|null  $route  (null by default)
+     * @param  bool  $forced  
+     * @param  \Syscodes\Routing\Route|null  $route  
      * 
      * @return string
      */
@@ -531,8 +531,8 @@ if ( ! function_exists('session'))
     /**
      * Get / set the specified session value.
      * 
-     * @param  string  $key  (null by default)
-     * @param  mixed  $default  (null by default)
+     * @param  string  $key  
+     * @param  mixed  $default  
      * 
      * @return mixed|\Syscodes\Session\Store|\Syscodes\Session\SessionManager
      */
@@ -556,7 +556,7 @@ if ( ! function_exists('segment'))
      * Returns the desired segment, or $default if it does not exist.
      *
      * @param  int  $segment  
-     * @param  mixed  $default  (null by default)
+     * @param  mixed  $default  
      *
      * @return string
      */
@@ -629,9 +629,9 @@ if ( ! function_exists('url'))
     /**
      * Generate a URL for the application.
      *
-     * @param  string|null  $path  (null by default)
+     * @param  string|null  $path  
      * @param  array  $parameters
-     * @param  bool|null  $secure  (null by default)
+     * @param  bool|null  $secure  
      *
      * @return string
      */

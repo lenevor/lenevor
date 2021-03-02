@@ -132,7 +132,7 @@ class Headers implements IteratorAggregate, Countable
 	 *
 	 * @param  string  $key  The header name, or null for all headers
 	 * @param  string|null  $default  The default value
-	 * @param  bool  $option  Whether to return the option value or all header values (true by default)
+	 * @param  bool  $option  Whether to return the option value or all header values
 	 *
 	 * @return mixed
 	 */
@@ -163,7 +163,7 @@ class Headers implements IteratorAggregate, Countable
 	 * @param  string  $key  The header name
 	 * @param  string  $values  The value or an array of values
 	 * @param  bool  $replace  If you want to replace the value exists by the header, 
-	 * 					       it is not overwritten (true by default) / overwritten when it is false
+	 * 					       it is not overwritten / overwritten when it is false
 	 *
 	 * @return $this
 	 */

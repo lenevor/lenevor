@@ -63,7 +63,7 @@ class LogManager implements LoggerInterface
     /**
      * Get a log driver instance.
      * 
-     * @param  string|null  $driver  (null by default)
+     * @param  string|null  $driver  
      * 
      * @return mixed
      */

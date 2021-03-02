@@ -29,7 +29,7 @@ use IntlCalendar;
 /**
  * Trait Comparison.
  * 
- * @author Alexander Campo M. <jalexcam@gmail.com>
+ * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait Utilities
 {
@@ -55,7 +55,7 @@ trait Utilities
      * Returns a Time instance with the timezone converted to UTC.
      * 
      * @param  \DateTime|string  $time
-     * @param  \DateTimeZone|string|null  $timezone  (null by default)
+     * @param  \DateTimeZone|string|null  $timezone  
      * 
      * @return \DateTime|\Syscodes\Support\Chronos\Time
      */

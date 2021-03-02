@@ -69,7 +69,7 @@ class FileViewFinder implements ViewFinder
      * 
      * @param  \Syscodes\Filesystem\Filesystem  $files
      * @param  array  $paths
-     * @param  array|null  $extensions  (null by default) 
+     * @param  array|null  $extensions   
      * 
      * @return void
      */

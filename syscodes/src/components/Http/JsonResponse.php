@@ -52,11 +52,11 @@ class JsonResponse extends Response
     /**
      * Constructor. The JsonReponse classs instance.
      * 
-     * @param  mixed|null  $data  (null by default)
-     * @param  int  $status  (200 by default)
+     * @param  mixed|null  $data  
+     * @param  int  $status  
      * @param  array  $headers  
-     * @param  int  $options  (0 by default)
-     * @param  bool  $json  (false by default)
+     * @param  int  $options  
+     * @param  bool  $json  
      * 
      * @return void
      */
@@ -98,8 +98,8 @@ class JsonResponse extends Response
      * Allows have a string with Key : value de manera so you must write
      * the entire process in a manul way and without errors
      * 
-     * @param  mixed|null  $data  (null by default)
-     * @param  int  $status  (200 by default)
+     * @param  mixed|null  $data  
+     * @param  int  $status  
      * @param  array  $headers  
      * 
      * @return static
@@ -112,8 +112,8 @@ class JsonResponse extends Response
     /**
      * Get the json_decoded() data from the response.
      * 
-     * @param  bool  $options (false by default)
-     * @param  int  $depth  (512 by default)
+     * @param  bool  $options 
+     * @param  int  $depth  
      * 
      * @return mixed
      */

@@ -70,7 +70,7 @@ class Environment
      * Gets the value of an environment variable.
      * 
      * @param  string  $key
-     * @param  mixed|null  $default (null by default)
+     * @param  mixed|null  $default 
      * 
      * @return mixed
      */

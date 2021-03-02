@@ -232,7 +232,7 @@ class Factory implements FactoryContract
 	 * Add a piece of shared data to the environment.
 	 * 
 	 * @param  array|string  $key
-	 * @param  mixed|null  $value  (null by default)
+	 * @param  mixed|null  $value  
 	 * 
 	 * @return mixed
 	 */

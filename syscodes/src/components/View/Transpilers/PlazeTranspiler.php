@@ -100,7 +100,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     /**
      * Transpile the view at the given path.
      * 
-     * @param  string|null  $path  (null by default)
+     * @param  string|null  $path  
      * 
      * @return void
      */

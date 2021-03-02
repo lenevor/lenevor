@@ -173,7 +173,7 @@ class Translator
      * 
      * @param  string  $file
      * @param  string  $locale
-     * @param  bool  $return  (false by default)
+     * @param  bool  $return  
      * 
      * @return array|null
      */

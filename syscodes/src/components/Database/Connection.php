@@ -186,7 +186,7 @@ class Connection implements ConnectionInterface
      * Begin a fluent query against a database table.
      * 
      * @param  \Closure|Syscodes\Database\Query\Builder|string  $table
-     * @param  string  $as  (null by default)
+     * @param  string  $as 
      * 
      * @return \Syscodes\Database\Query\Builder
      */
@@ -224,7 +224,7 @@ class Connection implements ConnectionInterface
      * 
      * @param  string  $query
      * @param  array  $bindings
-     * @param  bool  $useReadPdo  (true by default)
+     * @param  bool  $useReadPdo  
      * 
      * @return mixed
      */
@@ -253,7 +253,7 @@ class Connection implements ConnectionInterface
      * 
      * @param  string  $query
      * @param  array  $bindings
-     * @param  bool  $useReadPdo  (true by default)
+     * @param  bool  $useReadPdo  
      * 
      * @return array
      */
@@ -562,7 +562,7 @@ class Connection implements ConnectionInterface
      * 
      * @param  string  $query
      * @param  array  $bindings
-     * @param  float|null  $time  (null by default)
+     * @param  float|null  $time 
      * 
      * @return void
      */
@@ -684,7 +684,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the PDO connection to use for a select query.
      * 
-     * @param  bool  $useReadPdo  (true by default)
+     * @param  bool  $useReadPdo  
      * 
      * @return \PDO
      */
@@ -812,7 +812,7 @@ class Connection implements ConnectionInterface
     /**
      * Get an option from the configuration options.
      * 
-     * @param  string|null  $option  (null by default)
+     * @param  string|null  $option 
      * 
      * @return mixed
      */

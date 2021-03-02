@@ -218,7 +218,7 @@ class Str
      * Puts the class name with the first capital letter.
      * 
      * @param  string       $callback
-     * @param  string|null  $default   (null by default)
+     * @param  string|null  $default   
      * 
      * @return array
      */
@@ -230,7 +230,7 @@ class Str
     /**
      * Generate a more truly "random" alpha-numeric string.
      * 
-     * @param  int  $length  (16 by default)
+     * @param  int  $length  
      * 
      * @return string
      */

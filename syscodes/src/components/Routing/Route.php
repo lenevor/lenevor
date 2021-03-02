@@ -125,9 +125,9 @@ class Route
 	/**
 	 * Constructor. Initialize route.
 	 *
-	 * @param  array|string|null  $method  (null by default)
-	 * @param  string|null  $uri  (null by default)
-	 * @param  \Closure|string|null  $action  (null by default)
+	 * @param  array|string|null  $method  
+	 * @param  string|null  $uri  
+	 * @param  \Closure|string|null  $action  
 	 *
 	 * @return void
 	 */
@@ -227,7 +227,7 @@ class Route
 	/**
 	 * Get or set the domain for the route.
 	 * 
-	 * @param  string|null  $domain  (null by default)
+	 * @param  string|null  $domain  
 	 * 
 	 * @return $this
 	 */
@@ -531,7 +531,7 @@ class Route
 	 * Set the where.
 	 *
 	 * @param  array|string  $name
-	 * @param  string|null  $expression  (null by default)
+	 * @param  string|null  $expression  
 	 *
 	 * @return $this
 	 */
@@ -592,7 +592,7 @@ class Route
 	 * Get a given parameter from the route.
 	 * 
 	 * @param  string  $name
-	 * @param  mixed  $default  (null by default)
+	 * @param  mixed  $default  
 	 * 
 	 * @return array
 	 */

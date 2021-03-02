@@ -79,7 +79,7 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Get a database connection instance.
      * 
-     * @param  string|null  $name  (null by default)
+     * @param  string|null  $name  
      * 
      * @return \Syscodes\Database\Connection
      */
@@ -205,7 +205,7 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Reconnect to the given database.
      * 
-     * @param  string|null  $name  (null by default)
+     * @param  string|null  $name  
      * 
      * @return \Syscodes\Database\Connection
      */
@@ -223,7 +223,7 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Disconnect from the given database.
      * 
-     * @param  string|null  $name  (null by default)
+     * @param  string|null  $name  
      * 
      * @return void
      */
@@ -253,7 +253,7 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Disconnect from the given database and remove from local cache.
      * 
-     * @param  string|null  $name  (null by default)
+     * @param  string|null  $name  
      * 
      * @return void
      */

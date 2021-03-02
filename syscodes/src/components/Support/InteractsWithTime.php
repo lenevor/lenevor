@@ -51,7 +51,7 @@ trait InteractsWithTime
     /**
      * Get the "available at" UNIX timestamp.
      * 
-     * @param  \DataTime|\DateInterval|int  $delay  (0 by default)
+     * @param  \DataTime|\DateInterval|int  $delay  
      * 
      * @return int
      */
