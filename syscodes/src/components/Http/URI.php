@@ -119,7 +119,7 @@ class URI
 	/**
 	 * Constructor. The URI class instance.
 	 * 
-	 * @param  string|null  $uri  (null by default)
+	 * @param  string|null  $uri  
 	 * 
 	 * @return void
 	 * 
@@ -135,7 +135,7 @@ class URI
 	/**
 	 * Sets and overwrites any current URI information.
 	 * 
-	 * @param  string|null  $uri  (null by default)
+	 * @param  string|null  $uri  
 	 * 
 	 * @return mixed
 	 * 
@@ -330,7 +330,7 @@ class URI
 	/**
 	 * Temporarily sets the URI to show a password in userInfo.
 	 * 
-	 * @param  boolean  $option  (true by default)
+	 * @param  boolean  $option  
 	 * 
 	 * @return $this
 	 */
@@ -344,7 +344,7 @@ class URI
 	/**
 	 * Retrieve the authority component of the URI.
 	 * 
-	 * @param  boolean  $ignore  (false by default)
+	 * @param  boolean  $ignore  
 	 * 
 	 * @return string
 	 */
@@ -429,7 +429,7 @@ class URI
 	/**
 	 * Sets the port portion of the URI.
 	 * 
-	 * @param  int|null  $port  (null by default)
+	 * @param  int|null  $port  
 	 * 
 	 * @return string
 	 */

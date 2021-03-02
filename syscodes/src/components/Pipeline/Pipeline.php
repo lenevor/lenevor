@@ -67,7 +67,7 @@ class Pipeline implements PipelineContract
     /**
      * Constructor. Create new Pipeline class instance.
      * 
-     * @param  \Syscodes\Contracts\Container\Container|null  $container  (null by default)
+     * @param  \Syscodes\Contracts\Container\Container|null  $container  
      * 
      * @return void
      */

@@ -50,7 +50,7 @@ trait ManagesLayouts
 	 * Starting section.
 	 * 
 	 * @param  string  $section
-	 * @param  string|null  $content  (null by default)
+	 * @param  string|null  $content  
 	 * 
 	 * @return array
 	 */
@@ -117,7 +117,7 @@ trait ManagesLayouts
 	/**
 	 * Closing section.
 	 * 
-	 * @param  bool  $overwrite  (false by default)
+	 * @param  bool  $overwrite  
 	 * 
 	 * @return mixed
 	 * 

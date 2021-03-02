@@ -43,7 +43,7 @@ class Benchmark
      * Starts a timer running.
      * 
      * @param  string  $name
-     * @param  float  $time
+     * @param  float|null  $time
      * 
      * @return $this
      */

@@ -178,7 +178,7 @@ class GDebug implements DebugContract
 	/**
 	 * Allow Handlers to force the script to quit.
 	 * 
-	 * @param  bool|int  $exit
+	 * @param  bool|int|null  $exit
 	 * 
 	 * @return bool
 	 */
@@ -196,7 +196,7 @@ class GDebug implements DebugContract
 	 * if they are true, but if it is false, the output will be returned 
 	 * by exception.
 	 * 
-	 * @param  bool|int  $send
+	 * @param  bool|int|null  $send
 	 *
 	 * @return bool
 	 */

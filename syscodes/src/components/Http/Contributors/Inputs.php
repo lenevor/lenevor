@@ -67,7 +67,7 @@ final class Inputs extends Parameters
 	 * Gets a string input value by name.
 	 *
 	 * @param  string  $key
-	 * @param  string|null  $default  (null by default)
+	 * @param  string|null  $default  
 	 *
 	 * @return string|null
 	 */

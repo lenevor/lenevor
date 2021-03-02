@@ -119,7 +119,7 @@ class Dispatcher implements DispatcherContract
      * Register an event listener with the dispatcher.
      * 
      * @param  \Closure|string  $listener
-     * @param  bool  $wildcard  (false by default)
+     * @param  bool  $wildcard  
      * 
      * @return \Closure
      */
@@ -146,7 +146,7 @@ class Dispatcher implements DispatcherContract
      * Create a class based listener using the IoC container.
      * 
      * @param  string  $listener
-     * @param  bool  $wildcard  (false by default)
+     * @param  bool  $wildcard  
      * 
      * @return \Closure
      */
@@ -272,7 +272,7 @@ class Dispatcher implements DispatcherContract
      * 
      * @param  string|object  $event
      * @param  mixed  $payload
-     * @param  bool  $halt  (false by default)
+     * @param  bool  $halt  
      * 
      * @return array|null
      */

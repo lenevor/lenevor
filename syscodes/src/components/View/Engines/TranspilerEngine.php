@@ -52,6 +52,7 @@ class TranspilerEngine extends PhpEngine
      * Constructor. Create a new Plaze view engine instance.
      * 
      * @param  \Syscodes\View\Transpilers\TranspilerInterface  $transpiler
+     * @param  \Syscodes\Filesystem\Filesystem|null  $files
      * 
      * @return void
      */

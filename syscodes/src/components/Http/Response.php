@@ -45,7 +45,7 @@ class Response extends Status
 	 * Sets up the response with a content and a status code.
 	 *
 	 * @param  mixed  $content  The response content 
-	 * @param  int  $status  The response status  (200 by default)
+	 * @param  int  $status  The response status  
 	 * @param  array  $headers  Array of HTTP headers for this response
 	 *
 	 * @return string
@@ -64,7 +64,7 @@ class Response extends Status
 	 * status code and headers.
 	 *
 	 * @param  mixed  $content  The response content  
-	 * @param  int  $status  The HTTP response status for this response  (200 by default)
+	 * @param  int  $status  The HTTP response status for this response  
 	 * @param  array  $headers  Array of HTTP headers for this response
 	 *
 	 * @return static

@@ -67,7 +67,7 @@ class ConnectionFactory
      * Establish a PDO connection based on the configuration.
      * 
      * @param  array   $config
-     * @param  string  $name
+     * @param  string|null  $name
      * 
      * @return \Syscodes\Database\Connection
      */

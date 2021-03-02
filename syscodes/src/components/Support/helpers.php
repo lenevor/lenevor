@@ -83,7 +83,7 @@ if ( ! function_exists('env'))
      * Gets the value of an environment variable.
      * 
      * @param  string  $key
-     * @param  mixed  $default  (null by default)
+     * @param  mixed  $default  
      * 
      * @return mixed
      */

@@ -159,7 +159,7 @@ class Request
 	 * @param  array  $cookies
 	 * @param  array  $files
 	 * @param  array  $server
-	 * @param  string|resource|null $content  (null by default)
+	 * @param  string|resource|null $content  
 	 * 
 	 * @return void
 	 */
@@ -472,8 +472,8 @@ class Request
 	/**
 	 * Get the JSON payload for the request.
 	 * 
-	 * @param  string|null  $key  (null by default)
-	 * @param  mixed  $default  (null by default)
+	 * @param  string|null  $key  
+	 * @param  mixed  $default  
 	 * 
 	 * @return \Syscodes\Http\Contributors\Parameters|mixed
 	 */
@@ -590,8 +590,8 @@ class Request
 	/**
 	 * Get the route handling the request.
 	 * 
-	 * @param  string|null  $param  (null by default)
-	 * @param  mixed  $default  (null by default)
+	 * @param  string|null  $param  
+	 * @param  mixed  $default  
 	 * 
 	 * @return \Syscodes\Routing\Route|object|string|null
 	 */

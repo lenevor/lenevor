@@ -86,8 +86,8 @@ class Filesystem
 	 * Get the contents of a file.
 	 *
 	 * @param  string  $path
-	 * @param  bool  $lock  (false by default)
-	 * @param  bool  $force  (false by default)
+	 * @param  bool  $lock  
+	 * @param  bool  $force  
 	 *
 	 * @return string
 	 *
@@ -481,7 +481,7 @@ class Filesystem
 	 * 
 	 * @param  string  $directory
 	 * @param  string  $destination
-	 * @param  int  $options  (null by default)
+	 * @param  int  $options  
 	 * 
 	 * @return bool
 	 */
@@ -573,7 +573,7 @@ class Filesystem
 	 * 
 	 * @param  string  $from
 	 * @param  string  $to
-	 * @param  bool  $overwrite  (false by default)
+	 * @param  bool  $overwrite  
 	 * 
 	 * @return bool
 	 */
@@ -716,7 +716,7 @@ class Filesystem
 	 * Returns the "chmod" (permissions) of the file.
 	 *
 	 * @param  string  $path
-	 * @param  int|null  $mode  (null by default)
+	 * @param  int|null  $mode  
 	 * 
 	 * @return mixed  Permissions for the file, or false in case of an error
 	 */
@@ -751,7 +751,7 @@ class Filesystem
 	 *
 	 * @param  string  $path
 	 * @param  string  $contents
-	 * @param  bool  $lock  (false by default)
+	 * @param  bool  $lock  
 	 *
 	 * @return int
 	 */

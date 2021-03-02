@@ -48,7 +48,7 @@ class Processor
      * @param  \Syscodes\Database\Query\Builder  $builder
      * @param  string  $sql
      * @param  array  $values
-     * @param  string  $sequence  (null by default)
+     * @param  string  $sequence  
      * 
      * @return int
      */

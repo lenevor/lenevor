@@ -226,6 +226,7 @@ class Application extends Container implements ApplicationContract
      * Get the path to the application "app" directory.
      *
      * @param  string  $path
+     * 
      * @return string
      */
     public function path($path = '')
@@ -307,6 +308,7 @@ class Application extends Container implements ApplicationContract
      * Get the path to the resources directory.
      *
      * @param  string  $path $path  Optionally, a path to append to the resources path
+     * 
      * @return string
      */
     public function resourcePath($path = '')

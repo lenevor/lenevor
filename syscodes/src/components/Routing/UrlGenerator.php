@@ -90,7 +90,7 @@ class UrlGenerator
     /**
      * Get the URL for the previous request.
      * 
-     * @param  mixed  $fallback  (false by default)
+     * @param  mixed  $fallback  
      * 
      * @return string
      */
@@ -153,7 +153,7 @@ class UrlGenerator
      * Generate a URL to an application asset.
      * 
      * @param  string  $path
-     * @param  bool|null  $secure  (null by default)
+     * @param  bool|null  $secure  
      * 
      * @return string
      */
@@ -230,8 +230,8 @@ class UrlGenerator
      * 
      * @param  string  $name
      * @param  array  $parameters
-     * @param  bool  $forced  (true by default)
-     * @param  \Syscodes\Routing\Route|null  $route  (null by default)
+     * @param  bool  $forced  
+     * @param  \Syscodes\Routing\Route|null  $route  
      * 
      * @return string
      * 
@@ -270,7 +270,7 @@ class UrlGenerator
      * 
      * @param  string  $action
      * @param  mixed  $parameters
-     * @param  bool  $forced  (true by default)
+     * @param  bool  $forced  
      * 
      * @return string
      * 

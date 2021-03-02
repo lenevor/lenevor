@@ -53,7 +53,7 @@ class Redirector
     /**
      * Create a new redirect response to the "home" route.
      * 
-     * @param  int  $status  (302 by default)
+     * @param  int  $status  
      * 
      * @return \Syscodes\Http\RedirectResponse
      */
@@ -65,7 +65,7 @@ class Redirector
     /**
      * Create a new redirect response to the previous location.
      * 
-     * @param  int  $status  (302 by default)
+     * @param  int  $status  
      * @param  array  $headers
      * @param  mixed  $fallback  (false by default)
      * 
@@ -79,7 +79,7 @@ class Redirector
     /**
      * Create a new redirect response to the current URI.
      * 
-     * @param  int  $status  (302 by default)
+     * @param  int  $status  
      * @param  array  $headers
      * 
      * @return \Syscodes\Http\RedirectResponse
@@ -93,9 +93,9 @@ class Redirector
      * Create a new redirect response to the given path.
      * 
      * @param  string  $path
-     * @param  int  $status  (302 by default)
+     * @param  int  $status  
      * @param  array  $headers
-     * @param  bool|null  $secure  (null by default)
+     * @param  bool|null  $secure  
      * 
      * @return \Syscodes\Http\RedirectResponse
      */
@@ -108,7 +108,7 @@ class Redirector
      * Create a new redirect response to an external URL (no validation).
      * 
      * @param  string  $path
-     * @param  int  $status  (302 by default)
+     * @param  int  $status  
      * @param  array  $headers
      * 
      * @return \Syscodes\Http\RedirectResponse
@@ -122,7 +122,7 @@ class Redirector
      * Create a new redirect response to the given HTTPS path.
      * 
      * @param  string  $path
-     * @param  int  $status  (302 by default)
+     * @param  int  $status  
      * @param  array  $headers
      * 
      * @return \Syscodes\Http\RedirectResponse
@@ -137,7 +137,7 @@ class Redirector
      * 
      * @param  string  $route
      * @param  array  $parameters
-     * @param  int  $status  (302 by default)
+     * @param  int  $status  
      * @param  array  $headers
      * 
      * @return \Syscodes\Http\RedirectResponse
@@ -154,7 +154,7 @@ class Redirector
      * 
      * @param  string|array  $route
      * @param  array  $parameters
-     * @param  int  $status  (302 by default)
+     * @param  int  $status  
      * @param  array  $headers
      * 
      * @return \Syscodes\Http\RedirectResponse

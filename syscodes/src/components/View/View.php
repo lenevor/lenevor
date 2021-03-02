@@ -104,7 +104,7 @@ class View implements ArrayAccess, Webable, ViewContract
 	 *
 	 * @example View::render();
 	 *
-	 * @param  \Callable|null  $callback  (null by default)
+	 * @param  \Callable|null  $callback  
 	 * 
 	 * @return array|string
 	 * 
@@ -187,7 +187,7 @@ class View implements ArrayAccess, Webable, ViewContract
 	 * @example $view->assign($content, $data);
 	 *
 	 * @param  string|array  $key
-	 * @param  mixed  $value  (null by default)
+	 * @param  mixed  $value  
 	 *
 	 * @return $this
 	 */

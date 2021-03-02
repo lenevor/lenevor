@@ -59,7 +59,7 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      * Get an attribute from flowing instance.
      * 
      * @param  string  $key
-     * @param  mixed  $default  (null by default)
+     * @param  mixed  $default  
      * 
      * @return mixed
      */
