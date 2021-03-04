@@ -25,13 +25,49 @@ namespace Syscodes\Controller;
 use BadMethodCallException;
 
 /**
- * This class allows you to manage the actions and parameters 
+ * This class allows you to manage the middlewares, actions and parameters 
  * in each controller created by the user.
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
 abstract class Controller
 {
+    /**
+     * The middleware registered on the controller.
+     * 
+     * @var array $middleware
+     */
+    protected $middleware = [];
+
+    /**
+     * Register middleware on the controller.
+     * 
+     * @param  \Closure|array|string  $middleware
+     * @param  array  $options
+     * 
+     * @return \Syscodes\Controller\ControllerMiddlewareOptions
+     */
+    public function middleware($middleare, array $options = [])
+    {
+        foreach ((array) $middleware as $m) {
+            $this->middleware[$m] = [
+                'options' => &$options
+            ];
+        }
+
+        return new ControllerMiddlewareOptions($options);
+    }
+
+    /**
+     * Get the middleware assigned to the controller.
+     * 
+     * @return array
+     */
+    public function getMiddleware()
+    {
+        return $this->middleware;
+    }
+
     /**
      * Execute an action on the controller.
      * 
