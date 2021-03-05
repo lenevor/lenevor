@@ -23,6 +23,7 @@
 namespace Syscodes\Http;
 
 Use Locale;
+use Closure;
 use Exception;
 use LogicException;
 use Syscodes\Support\Str;
@@ -130,6 +131,13 @@ class Request
 	 * @var string $requestToURI
 	 */
 	protected $requestToURI;
+
+	/**
+	 * Get the route resolver callback.
+	 * 
+	 * @var \Closure $routeResolver
+	 */
+	protected $routeResolver;
 
 	/**
 	 * The detected uri and server variables ($_FILES).
@@ -597,7 +605,7 @@ class Request
 	 */
 	public function route($param = null, $default = null)
 	{
-		$route = $this->getRoute();
+		$route = call_user_func($this->getRouteResolver());
 
 		if (is_null($route) || is_null($param)) {
 			return $route;
@@ -826,13 +834,29 @@ class Request
 	}
 
 	/**
-	 * Get the route resolver.
+	 * Get the route resolver callback.
 	 * 
-	 * @return \Syscodes\Routing\Router
+	 * @return \Closure
 	 */
-	public function getRoute()
+	public function getRouteResolver()
 	{
-		return app('router');
+		return $this->routeResolver ?: function () {
+			//
+		};
+	}
+
+	/**
+	 * Set the route resolver callback.
+	 * 
+	 * @param  \Closure  $callback
+	 * 
+	 * @return $this
+	 */
+	public function setRouteResolver(Closure $callback)
+	{
+		$this->routeResolver = $callback;
+
+		return $this;
 	}
 
 	/**

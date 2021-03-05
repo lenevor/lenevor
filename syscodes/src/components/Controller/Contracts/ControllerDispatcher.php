@@ -42,4 +42,14 @@ interface ControllerDispatcher
      * @return mixed
      */
     public function dispatch(Route $route, $controller, $method);
+
+    /**
+     * Get the middleware for the controller instance.
+     * 
+     * @param  \Syscodes\Controller\Controller  $controller
+     * @param  string  $method
+     * 
+     * @return array
+     */
+    public function getMiddleware($controller, $method);
 }

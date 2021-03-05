@@ -91,3 +91,5 @@ $lenevor = $app->make(Lenevor::class);
 $response = take($lenevor->handle(
     $request = Request::capture()
 ))->send(true); // Sends HTTP headers and contents
+
+$lenevor->shutdown($request, $response);
