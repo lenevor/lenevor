@@ -24,11 +24,11 @@ namespace Syscodes\Routing\Concerns;
 
 use Closure;
 use JsonSerializable;
+use Syscodes\Http\Request;
 use Syscodes\Http\Response;
+use Syscodes\Routing\Route;
 use Syscodes\Routing\Pipeline;
 use Syscodes\Http\JsonResponse;
-use Syscodes\Routing\RouteCollection;
-use Syscodes\Contracts\Routing\Routable;
 
 /**
  * This trait resolve the given route and called the method that belongs to the route.
@@ -48,28 +48,41 @@ trait RouteResolver
 	 * Resolve the given route and call the method that belongs to the route.
 	 *
 	 * @param  \Syscodes\Http\Request  $request
-	 * @param  \Syscodes\Routing\RouteCollection  $route 
 	 *
 	 * @return \Syscodes\Http\Response
 	 */
-	public function resolve($request, Routecollection $route)
+	public function resolve(Request $request)
 	{
-		return $this->dispatchToRoute($request, $route);
+		return $this->dispatchToRoute($request);
 	}
 
 	/**
 	 * Dispatch the request to a route and return the response.
 	 * 
 	 * @param  \Syscodes\Http\Request  $request
-	 * @param  \Syscodes\Routing\RouteCollection  $route 
 	 *
 	 * @return \Syscodes\Http\Response
 	 */
-	protected function dispatchToRoute($request, $route)
+	protected function dispatchToRoute(Request $request)
 	{
-		return $this->runRoute($request, 
-			$this->findRoute($request, $route)
-		);
+		return $this->runRoute($request, $this->findRoute($request));
+	}
+
+	/**
+	 * Find the route matching a given request.
+	 * 
+	 * @param  \Syscodes\Http\Request  $request
+	 * 
+	 * @return \Syscodes\Routing\Route
+	 */
+	protected function findRoute($request)
+	{
+		// Get all register routes with the same request method
+		$this->current = $route = $this->routes->match($request);
+
+		$this->container->instance(Route::class, $route);
+
+		return $route;
 	}
 
 	/**
@@ -78,12 +91,38 @@ trait RouteResolver
 	 * @param  \Syscodes\Http\Request  $request
 	 * @param  \Syscodes\Routing\Route  $route
 	 * 
-	 * @return \Syscodes\Http\Response 
+	 * @return \Syscodes\Http\Response
 	 */
-	protected function runRoute($request, $route)
-	{		
+	protected function runRoute(Request $request, Route $route)
+	{
+		$request->setRouteResolver(function () use ($route) {
+			return $route;
+		});
+
+		return $this->callResponse($request, 
+			$this->runRouteStack($route, $request)
+		); 
+	}
+
+	/**
+	 * Run the given route through a stack response instance.
+	 * 
+	 * @param  \Syscodes\Routing\Route  $route
+	 * @param  \Syscodes\Http\Request  $request
+	 * 
+	 * @return mixed
+	 */
+	protected function runRouteStack(Route $route, Request $request)
+	{
+		$skipMiddleware = $this->container->bound('middleware.disable') &&
+						  ($this->container->make('middleware.disable') === true);
+						  
+		
+		$middleware = $skipMiddleware ? [] : $this->gatherRouteMiddleware($route);
+
 		return (new Pipeline($this->container))
 				->send($request)
+				->through($middleware)
 				->then(function ($request) use ($route) {
 					return $this->callResponse(
 						$request, $route->runResolver()
@@ -110,23 +149,5 @@ trait RouteResolver
 		}
 
 		return $response->prepare($request);
-	}
-
-	/**
-	 * Find the route matching a given request.
-	 * 
-	 * @param  \Syscodes\Http\Request  $request
-	 * @param  \Syscodes\Routing\RouteCollection  $route
-	 * 
-	 * @return \Syscodes\Routing\Route
-	 */
-	protected function findRoute($request, $route)
-	{
-		// Get all register routes with the same request method
-		$this->current = $route = $route->match($request);
-
-		$this->container->instance(Route::class, $route);
-
-		return $route;
 	}
 }
