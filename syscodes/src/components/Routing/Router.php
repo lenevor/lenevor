@@ -73,9 +73,23 @@ class Router implements Routable
 	/**
 	 * Middleware for function of filters
 	 *  
-	 * @var string[] $middleware
+	 * @var array $middleware
 	 */
 	protected $middleware = [];
+	
+	/**
+	 * All of the middleware groups.
+	 * 
+	 * @var array $middlewareGroups
+	 */
+	protected $middlewareGroups = [];
+	
+	/**
+	 * The priority-sorted list of middleware.
+	 * 
+	 * @var array $middlewarePriority
+	 */
+	public $middlewarePriority = [];
 	
 	/**
 	 * The globally available parameter patterns.
@@ -457,7 +471,63 @@ class Router implements Routable
 	 */
 	public function dispatch(Request $request)
 	{
-		return $this->resolve($request, $this->routes);
+		return $this->resolve($request);
+	}
+
+	/**
+	 * Gather the middleware for the given route.
+	 * 
+	 * @param  \Syscodes\Routing\Route  $route
+	 * 
+	 * @return array
+	 */
+	public function gatherRouteMiddleware(Route $route)
+	{
+		$middleware = array_map(function ($name) {
+            return MiddlewareResolver::resolve($name, $this->middleware, $this->middlewareGroups);
+        }, $route->gatherMiddleware());
+
+        return Arr::flatten($middleware);
+	}
+
+	/**
+	 * Get all of the defined middleware
+	 * 
+	 * @return array
+	 */
+	public function getMiddleware()
+	{
+		return $this->middleware;
+	}
+
+	/**
+	 * Register a short-hand name for a middleware.
+	 * 
+	 * @param  string  $name
+	 * @param  string  $class
+	 * 
+	 * @return $this
+	 */
+	public function aliasMiddleware($name, $class)
+	{
+		$this->middleware[$name] = $class;
+
+		return $this;
+	}
+
+	/**
+	 * Register a group of middleware.
+	 * 
+	 * @param  string  $name
+	 * @param  array  $middleware
+	 * 
+	 * @return $this
+	 */
+	public function middlewareGroup($name, array $middleware)
+	{
+		$this->middlewareGroups[$name] = $middleware;
+
+		return $this;
 	}
 
 	/**
