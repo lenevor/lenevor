@@ -37,6 +37,7 @@ use Syscodes\Collections\Arr;
  * @method \Syscodes\Routing\Route any(string $uri, \Closure|array|string|null $action = null)
  * @method \Syscodes\Routing\RouteRegister as(string $value)
  * @method \Syscodes\Routing\RouteRegister domain(string $value)
+ * @method \Syscodes\Routing\RouteRegister middleware(array|string|null $middleware)
  * @method \Syscodes\Routing\RouteRegister name(string $value)
  * @method \Syscodes\Routing\RouteRegister namespace(string $value)
  * @method \Syscodes\Routing\RouteRegister prefix(string  $prefix)
@@ -75,7 +76,7 @@ class RouteRegister
      * @var array $allowedAttributes
      */
     protected $allowedAttributes = [
-        'as', 'domain', 'name', 'namespace', 'middleware', 'prefix', 'where',
+        'as', 'domain', 'middleware', 'name', 'namespace', 'prefix', 'where',
     ];
     
     /**
@@ -226,6 +227,10 @@ class RouteRegister
         }
         
         if (in_array($method, $this->allowedAttributes)) {
+            if ($method === 'middleware') {
+                return $this->attribute($method, is_array($parameters[0] ? $parameters[0] : $parameters));
+            }
+
             return $this->attribute($method, $parameters[0]);
         }
         
