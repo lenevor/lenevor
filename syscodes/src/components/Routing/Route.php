@@ -51,6 +51,13 @@ class Route
 	public $action;
 
 	/**
+	 * The computed gathered middleware.
+	 * 
+	 * @var array|null $computedMiddleware
+	 */
+	public $computedMiddleware;
+
+	/**
 	 * The container instance used by the route.
 	 * 
 	 * @var \Syscodes\Container\Container $container
@@ -360,11 +367,10 @@ class Route
 	public function parseMethod($method)
 	{
 		if ($method === null || empty($method)) {
-			throw new InvalidArgumentException(__('route.methodNotProvided'));
-			
+			throw new InvalidArgumentException(__('route.methodNotProvided'));			
 		}
 
-		foreach ($method as $httpMethod) {
+		foreach ((array) $method as $httpMethod) {
 			if ( ! in_array($httpMethod, ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD', 'ANY'])) {
 				throw new InvalidArgumentException(__('route.methodNotAllowed'));				
 			}
@@ -640,6 +646,77 @@ class Route
 		}
 
 		throw new LogicException('The route is not bound.');
+	}
+
+	/**
+	 * Get all middleware, including the ones from the controller.
+	 * 
+	 * @return array
+	 */
+	public function gatherMiddleware()
+	{
+		if ( ! is_null($this->computedMiddleware)) {
+			return $this->computedMiddleware;
+		}
+
+		$this->computedMiddleware = [];
+
+		return $this->computedMiddleware = array_unique(array_merge(
+			$this->middleware(),
+			$this->controllerMiddleware()
+		), SORT_REGULAR);
+	}
+
+	/**
+	 * Get or set the middlewares attached to the route.
+	 * 
+	 * @param  array|string|null  $middleware
+	 * 
+	 * @return $this|array
+	 */
+	public function middleware($middleware = null)
+	{
+		if (is_null($middleware)) {
+			return $this->getMiddleware();
+		}
+
+		if (is_string($middleware)) {
+			$middleware = func_get_args();
+		}
+
+		$this->action['middleware'] = array_merge(
+			$this->getMiddleware(),
+			$middleware
+		);
+
+		return $this;
+	}
+
+	/**
+	 * Get the middlewares attached to the route.
+	 * 
+	 * @return array
+	 */
+	protected function getMiddleware()
+	{
+		return (array) ($this->action['middleware'] ?? []);
+	}
+
+	/**
+	 * Get the middleware for the route's controller.
+	 * 
+	 * @return array
+	 */
+	public function controllerMiddleware()
+	{
+		if ( ! $this->isControllerAction()) {
+			return [];
+		}
+
+		return $this->controllerDispatcher()->getMiddleware(
+			$this->getController(),
+			$this->getControllerMethod()
+		);
 	}
 
 	/**
