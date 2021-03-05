@@ -24,6 +24,7 @@ namespace Syscodes\Core\Http;
 
 use Closure;
 use Throwable; 
+use Syscodes\Routing\Route;
 use Syscodes\Routing\Router;
 use Syscodes\Routing\Pipeline;
 use Syscodes\Support\Facades\Facade;
@@ -67,11 +68,25 @@ class Lenevor implements LenevorContract
 	protected $middleware = [];
 
 	/**
+	 * Get the application's middleware groups.
+	 * 
+	 * @var array $middlewareGroups
+	 */
+	protected $middlewareGroups = [];
+
+	/**
 	 * The router instance.
 	 * 
 	 * @var \Syscodes\Routing\Router $router
 	 */
 	protected $router;
+
+	/**
+	 * Get the application's route middleware.
+	 * 
+	 * @var array $routeMiddleware
+	 */
+	protected $routeMiddleware = [];
 
 	/**
 	 * Total app execution time.
@@ -92,6 +107,8 @@ class Lenevor implements LenevorContract
 	{
 		$this->app    = $app;
 		$this->router = $router;
+
+		$this->syncMiddlewareRoute();
 	}
 	 
 	/**
@@ -160,6 +177,22 @@ class Lenevor implements LenevorContract
 	}
 
 	/**
+	 * Sync the current state of the middleware to the router.
+	 * 
+	 * @return void
+	 */
+	protected function syncMiddlewareRoute()
+	{
+		foreach ($this->middlewareGroups as $key => $middleware) {
+			$this->router->middlewareGroup($key, $middleware);
+		}
+
+		foreach ($this->routeMiddleware as $key => $middleware) {
+			$this->router->aliasMiddleware($key, $middleware);
+		}
+	}
+
+	/**
 	 * Get the dispatcher of routes.
 	 * 	  
 	 * @return \Closure
@@ -172,6 +205,83 @@ class Lenevor implements LenevorContract
 			return $this->router->dispatch($request);
 		};
 	}
+
+	/**
+	 * Call the shutdown method on any terminable middleware.
+	 * 
+	 * @param  \Syscodes\Http\Request  $request
+	 * @param  \Syscodes\Http\Response  $response
+	 * 
+	 * @return void
+	 */
+	public function shutdown($request, $response)
+	{
+		$this->shutdownMiddleware($request, $response);
+	}
+
+	/**
+	 * Call the terminate method on any terminable middleware.
+	 * 
+	 * @param  \Syscodes\Http\Request  $request
+	 * @param  \Syscodes\Http\Response  $response
+	 * 
+	 * @return void
+	 */
+	protected function shutdownMiddleware($request, $response)
+	{
+		$middlewares = $this->app->skipGoingMiddleware() ? [] : array_merge(
+			$this->gatherRouteMiddleware($request),
+			$this->middleware
+		);
+
+		foreach ($middlewares as $middleware) {
+			if (! is_string($middleware)) {
+				continue;
+			}
+			
+			[$name] = $this->parseMiddleware($middleware);
+			
+			$instance = $this->app->make($name);
+			
+			if (method_exists($instance, 'shutdown')) {
+				$instance->shutdown($request, $response);
+			}
+		}
+	}
+
+	/**
+	 * Gather the route middleware for the given request.
+	 * 
+	 * @param  \Syscodes\Http\Request  $request
+	 * 
+	 * @return array
+	 */
+	protected function gatherRouteMiddleware($request)
+	{
+		if ( ! is_null($route = $request->route())) {
+			return $this->router->gatherRouteMiddleware($route);
+		}
+
+		return [];
+	}
+	
+	/**
+	 * Parse a middleware string to get the name and parameters.
+	 * 
+	 * @param  string  $middleware
+	 * 
+	 * @return array
+	 */
+	protected function parseMiddleware($middleware)
+	{
+		[$name, $parameters] = array_pad(explode(':', $middleware, 2), 2, []);
+		
+		if (is_string($parameters)) {
+			$parameters = explode(',', $parameters);
+		}
+		
+		return [$name, $parameters];
+    }
 
 	/**
 	 * Report the exception to the exception handler.
