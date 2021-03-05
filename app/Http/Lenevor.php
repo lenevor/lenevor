@@ -38,4 +38,28 @@ class Lenevor extends HttpLenevor
     protected $middleware = [
         //
     ];
+
+    /**
+     * Get the application's middleware groups.
+     * 
+     * @var array $middlewareGroups
+     */
+    protected $middlewareGroups = [
+        'web' => [
+            //
+        ],
+
+        'api' => [
+            //
+        ]
+    ];
+
+    /**
+     * Get the application's route middleware.
+     * 
+     * @var array $routeMiddleware
+     */
+    protected $routeMiddleware = [
+        //
+    ];
 }
