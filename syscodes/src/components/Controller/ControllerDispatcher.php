@@ -76,4 +76,40 @@ class ControllerDispatcher implements ControllerDispatcherContract
         
         return $controller->{$method}(...array_values($parameters));
     }
+
+    /**
+     * Get the middleware for the controller instance.
+     * 
+     * @param  \Syscodes\Controller\Controller  $controller
+     * @param  string  $method
+     * 
+     * @return array
+     */
+    public function getMiddleware($controller, $method)
+    {
+        if ( ! method_exists($controller, 'getMiddleware'))
+        {
+            return [];
+        }
+
+        $middleware = $controller->getMiddleware();
+
+        return collect($middleware)->filter(function ($data) use ($method) {
+            return static::methodExcludedByOptions($method, $data['options']);
+        })->all();
+    }
+
+    /**
+     * Determine if the given options exclude a particular method.
+     * 
+     * @param  string  $method
+     * @param  array  $options
+     * 
+     * @return bool
+     */
+    protected function methodExcludedByOptions($method, array $options)
+    {
+        return (isset($options['only']) && ! in_array($method, (array) $options['only'])) ||
+            ( ! empty($options['except']) && in_array($method, (array) $options['except']));
+    }
 }
