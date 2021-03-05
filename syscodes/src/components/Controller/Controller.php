@@ -47,10 +47,11 @@ abstract class Controller
      * 
      * @return \Syscodes\Controller\ControllerMiddlewareOptions
      */
-    public function middleware($middleare, array $options = [])
+    public function middleware($middleware, array $options = [])
     {
         foreach ((array) $middleware as $m) {
-            $this->middleware[$m] = [
+            $this->middleware[] = [
+                'middleware' => $m,
                 'options' => &$options
             ];
         }
