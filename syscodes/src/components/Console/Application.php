@@ -23,8 +23,8 @@
 namespace Syscodes\Console;
 
 use Syscodes\Version;
-use Syscodes\Contracts\Http\Lenevor;
 use Syscodes\Support\Facades\Request;
+use Syscodes\Contracts\Container\Container;
 use Syscodes\Contracts\Console\Application as ApplicationContracts;
 
 /**
@@ -35,11 +35,11 @@ use Syscodes\Contracts\Console\Application as ApplicationContracts;
 class Application implements ApplicationContracts
 {
 	/**
-	 * Get the Lenevor class instance.
+	 * The Lenevor application instance..
 	 * 
-	 * @var \Syscodes\Contracts\Core\Lenevor $core
+	 * @var \Syscodes\Contracts\Container|Container $lenevor
 	 */
-	protected $core;
+	protected $lenevor;
 
 	/**
 	 * Console constructor. Initialize the console of Lenevor.
@@ -48,14 +48,14 @@ class Application implements ApplicationContracts
 	 * 
 	 * @return void
 	 */
-	public function __construct(Lenevor $core)
+	public function __construct(Container $lenevor)
 	{		
 		// Initialize the Cli
 		if (isCli()) {
 			Cli::initialize();
 		}
 
-		$this->core = $core;
+		$this->lenevor = $lenevor;
 	}
 
 	/**
@@ -65,18 +65,15 @@ class Application implements ApplicationContracts
 	 */
 	public function run()
 	{
-		Cli::getURI();
+		$path = Cli::getURI();
 
-		
+				
 	}
 
 	/**
 	 * Displays basic information about the Console.
 	 *
-	 * @return void
-	 *
-	 * @uses   Version::PRODUCT
-	 * @uses   Version::RELEASE 
+	 * @return $this 
 	 */
 	public function showHeader()
 	{		
@@ -87,5 +84,7 @@ class Application implements ApplicationContracts
 		);
 
 		Cli::newLine(1);
+
+		return $this;
 	}
 }
