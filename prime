@@ -22,6 +22,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
+use Syscodes\Http\Request;
 use Syscodes\Contracts\Console\Lenevor;
 
 /**
@@ -105,15 +106,8 @@ $app = require_once $paths['path.bootstrap'].'/app.php';
 |
 */
 
-$application = $app->make(Lenevor::class);
+$console = $app->make(Lenevor::class);
 
-// We want errors to be shown when using it from the CLI
-error_reporting(-1);
-ini_set('display_errors', 1);
-
-$application->showHeader();
-
-$response = $application->run();
-
-// Once Prime has finish running 
-exit($response);
+$console->handle(
+    Request::capture()
+);

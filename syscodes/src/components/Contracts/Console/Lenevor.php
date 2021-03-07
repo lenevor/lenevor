@@ -27,7 +27,21 @@ namespace Syscodes\Contracts\Console;
  * 
  * @author Alexander Campo M. <jalexcam@gmail.com>
  */
-interface Lenevor extends Application
+interface Lenevor 
 {
+    /**
+     * Bootstrap the application for artisan commands.
+     * 
+     * @return void
+     */
+    public function bootstrap();
 
+    /**
+     * Handle an incoming console command.
+     * 
+     * @param  \Syscodes\Http\Request
+     * 
+     * @return int
+     */
+    public function handle($request);
 }
