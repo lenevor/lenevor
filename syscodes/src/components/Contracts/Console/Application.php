@@ -40,8 +40,6 @@ interface Application
 	 * Displays basic information about the Console.
 	 * 
 	 * @return void
-	 * 
-	 * @uses   Version::RELEASE
 	 */ 
 	public function showHeader(); 
 }
