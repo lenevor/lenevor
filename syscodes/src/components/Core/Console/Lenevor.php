@@ -48,20 +48,20 @@ class Lenevor implements LenevorConsole
      * @var \Syscodes\Contracts\Core\Application $app
      */
     protected $app;
-
+    
     /**
-	 * The bootstrap classes for the application.
-	 * 
-	 * @var array $bootstrappers
-	 */
-	protected $bootstrappers = [
-		\Syscodes\Core\Bootstrap\BootDetectEnvironment::class,
-		\Syscodes\Core\Bootstrap\BootConfiguration::class,
-		\Syscodes\Core\Bootstrap\BootHandleExceptions::class,
-		\Syscodes\Core\Bootstrap\BootRegisterFacades::class,
-		\Syscodes\Core\Bootstrap\BootRegisterProviders::class,
-		\Syscodes\Core\Bootstrap\BootProviders::class,
-	];
+     * The bootstrap classes for the application.
+     * 
+     * @var array $bootstrappers
+     */
+    protected $bootstrappers = [
+        \Syscodes\Core\Bootstrap\BootDetectEnvironment::class,
+        \Syscodes\Core\Bootstrap\BootConfiguration::class,
+        \Syscodes\Core\Bootstrap\BootHandleExceptions::class,
+        \Syscodes\Core\Bootstrap\BootRegisterFacades::class,
+        \Syscodes\Core\Bootstrap\BootRegisterProviders::class,
+        \Syscodes\Core\Bootstrap\BootProviders::class,
+    ];
 
     /**
      * Constructor. Create new console Lenevor instance.
@@ -98,7 +98,7 @@ class Lenevor implements LenevorConsole
         }
         
     }
-
+    
     /**
      * Bootstrap the application for artisan commands.
      * 
@@ -107,8 +107,8 @@ class Lenevor implements LenevorConsole
     public function bootstrap()
     {
         if ( ! $this->app->hasBeenBootstrapped()) {
-			$this->app->bootstrapWith($this->bootstrappers());
-		}
+            $this->app->bootstrapWith($this->bootstrappers());
+        }
     }
 
     /**
@@ -130,29 +130,29 @@ class Lenevor implements LenevorConsole
     {
         return (new Prime($this->app))->showHeader();
     }
-
+    
     /**
-	 * Report the exception to the exception handler.
-	 * 
-	 * @param  \Throwable  $e
-	 * 
-	 * @return void
-	 */
-	protected function reportException(Throwable $e)
-	{
-		$this->app[ExceptionHandler::class]->report($e);
-	}
-	
-	/**
-	 * Render the exception to a response.
-	 * 
-	 * @param  \Syscodes\Http\Request  $request
-	 * @param  \Throwable  $e
-	 * 
-	 * @return void
-	 */
-	protected function renderException($request, Throwable $e)
-	{
-		$this->app[ExceptionHandler::class]->render($request, $e);
-	}
+     * Report the exception to the exception handler.
+     * 
+     * @param  \Throwable  $e
+     * 
+     * @return void
+     */
+    protected function reportException(Throwable $e)
+    {
+        $this->app[ExceptionHandler::class]->report($e);
+    }
+    
+    /**
+     * Render the exception to a response.
+     * 
+     * @param  \Syscodes\Http\Request  $request
+     * @param  \Throwable  $e
+     * 
+     * @return void
+     */
+    protected function renderException($request, Throwable $e)
+    {
+        $this->app[ExceptionHandler::class]->render($request, $e);
+    }
 }
