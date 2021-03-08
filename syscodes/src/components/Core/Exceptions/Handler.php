@@ -24,6 +24,7 @@ namespace Syscodes\Core\Exceptions;
 
 use Exception;
 use Throwable;
+use Syscodes\Console\Cli;
 use Syscodes\Debug\GDebug;
 use Syscodes\Http\Response;
 use Psr\Log\LoggerInterface;
@@ -33,8 +34,8 @@ use Syscodes\Contracts\Container\Container;
 use Syscodes\Core\Http\Exceptions\HttpException;
 use Syscodes\Http\Exceptions\HttpResponseException;
 use Syscodes\Debug\FatalExceptions\FlattenException;
-use Syscodes\Database\Exceptions\ModelNotFoundException;
 use Syscodes\Core\Http\Exceptions\NotFoundHttpException;
+use Syscodes\Database\Exceptions\ModelNotFoundException;
 use Syscodes\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 
 /**
@@ -347,6 +348,28 @@ class Handler implements ExceptionHandlerContract
         }
 
         return $response->withException($e);
+    }
+
+    /**
+     * Render an exception to the console.
+     * 
+     * @param  \Throwable  $e
+     * 
+     * @return void
+     */
+    public function renderForConsole(Throwable $e)
+    {
+        $message = sprintf(
+            Cli::color("%s: ", 'light_red').
+            Cli::color("%s in file %s on line %d", 'light_cyan')."\n\n%s\n",
+            getClass($e, true),
+            $e->getMessage(),
+            $e->getFile(),
+            $e->getLine(),
+            $e->getTraceAsString()
+        );
+
+        echo $message;
     }
 
     /**
