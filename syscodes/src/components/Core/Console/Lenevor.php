@@ -110,16 +110,16 @@ class Lenevor implements LenevorConsole
             $this->app->bootstrapWith($this->bootstrappers());
         }
     }
-
+    
     /**
-	 * Get the bootstrap classes for the application.
-	 * 
-	 * @return array
-	 */
-	protected function bootstrappers()
-	{
-		return $this->bootstrappers;
-	}
+     * Get the bootstrap classes for the application.
+     * 
+     * @return array
+     */
+    protected function bootstrappers()
+    {
+        return $this->bootstrappers;
+    }
 
     /**
      * Get the Prime application instance.
