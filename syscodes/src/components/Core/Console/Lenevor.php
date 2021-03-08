@@ -78,21 +78,18 @@ class Lenevor implements LenevorConsole
     /**
      * Handle an incoming console command.
      * 
-     * @param  \Syscodes\Http\Request  $request
-     * 
      * @return int
      */
-    public function handle($request)
+    public function handle()
     {
         try {
             $this->bootstrap();
             
             return $this->getPrime();
         } catch (Throwable $e) {
-            
             $this->reportException($e);
             
-            $this->renderException($request, $e);
+            $this->renderException($e);
 
             return 1;
         }
@@ -146,13 +143,12 @@ class Lenevor implements LenevorConsole
     /**
      * Render the exception to a response.
      * 
-     * @param  \Syscodes\Http\Request  $request
      * @param  \Throwable  $e
      * 
      * @return void
      */
-    protected function renderException($request, Throwable $e)
+    protected function renderException(Throwable $e)
     {
-        $this->app[ExceptionHandler::class]->render($request, $e);
+        $this->app[ExceptionHandler::class]->renderForConsole($e);
     }
 }
