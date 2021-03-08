@@ -108,6 +108,4 @@ $app = require_once $paths['path.bootstrap'].'/app.php';
 
 $console = $app->make(Lenevor::class);
 
-$console->handle(
-    Request::capture()
-);
+$console->handle();
