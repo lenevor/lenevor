@@ -26,6 +26,7 @@ use Closure;
 use Syscodes\Support\Str;
 use Syscodes\Collections\Arr;
 use Syscodes\Container\Container;
+use Syscodes\Support\Environment;
 use Syscodes\Support\ServiceProvider;
 use Syscodes\Log\LoggerServiceProvider;
 use Syscodes\Events\EventServiceProvider;
@@ -116,6 +117,13 @@ class Application extends Container implements ApplicationContract
      * @var bool $hasBeenBootstrapped
      */
     protected $hasBeenBootstrapped = false;
+
+    /**
+     * Indicates if the application is running in the console.
+     * 
+     * @var bool|null $isRunningInConsole
+     */
+    protected $isRunningInConsole;
 
     /**
      * The names of the loaded service providers.
@@ -469,6 +477,20 @@ class Application extends Container implements ApplicationContract
     public function isUnitTests()
     {
         return $this->env === 'testing';
+    }
+
+    /**
+     * Determine if the application is running in the console.
+     * 
+     * @return bool|null
+     */
+    public function runningInConsole()
+    {
+        if (null === $this->isRunningInConsole) {
+            $this->isRunningInConsole = Environment::get('APP_RUNNING_CONSOLE') ?? isCli();
+        }
+
+        return $this->isRunningInConsole;
     }
     
     /**
