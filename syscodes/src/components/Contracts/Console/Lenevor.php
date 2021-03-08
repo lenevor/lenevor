@@ -39,9 +39,7 @@ interface Lenevor
     /**
      * Handle an incoming console command.
      * 
-     * @param  \Syscodes\Http\Request
-     * 
      * @return int
      */
-    public function handle($request);
+    public function handle();
 }

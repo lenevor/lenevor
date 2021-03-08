@@ -108,7 +108,24 @@ class BootHandleExceptions
             //
         }
 
-        $this->renderHttpResponse($e);
+        if ($this->app->runningInConsole())
+        {
+            $this->renderForConsole($e);
+        } else {
+            $this->renderHttpResponse($e);
+        }
+    }
+
+    /**
+     * Render an exception to the console.
+     * 
+     * @param  \Throwable  $e
+     * 
+     * @return void
+     */
+    protected function renderForConsole(Throwable $e)
+    {
+        $this->getExceptionHandler()->renderForConsole($e);
     }
 
     /**
