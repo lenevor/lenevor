@@ -317,7 +317,7 @@ if ( ! function_exists('isCli'))
      */
     function isCli()
     {
-        return (PHP_SAPI === 'cli' || defined('STDIN'));
+        return (\PHP_SAPI === 'cli' || defined('STDIN') || \PHP_SAPI === 'phpdbg');
     }
 }
 
