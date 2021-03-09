@@ -94,6 +94,8 @@ class Handler implements ExceptionHandlerContract
     public function __construct(Container $container)
     {
         $this->container = $container;
+
+        $this->register();
     }
 
     /**
@@ -106,7 +108,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Register a reportable callback.
      * 
-     * @param  \Callable  $callback
+     * @param  \callable  $callback
      * 
      * @return $this
      */
@@ -120,7 +122,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Register a renderable callback.
      * 
-     * @param  \Callable  $callback
+     * @param  \callable  $callback
      * 
      * @return $this
      */
@@ -208,6 +210,14 @@ class Handler implements ExceptionHandlerContract
     public function render($request, Throwable $e)
     {
         $e = $this->prepareException($e);
+        
+        foreach ($this->renderCallbacks as $renderCallback) {
+            $response = $renderCallback($e, $request);
+            
+            if ( ! is_null($response)) {
+                return $response;
+            }
+        }
 
         if ($e instanceof HttpResponseException) {
             $e->getResponse();
