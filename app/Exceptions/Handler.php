@@ -42,27 +42,14 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * Report or log an exception.
-     * 
-     * @param  \Throwable  $exception
+     * Register the exception handling with callbacks for the application.
      * 
      * @return void
      */
-    public function report(Throwable $exception)
+    public function register()
     {
-        return parent::report($exception);
-    }
-
-    /**
-     * Render an exception into an HTTP response.
-     * 
-     * @param  \Syscodes\Http\Request  $request
-     * @param  \Throwable  $exception
-     * 
-     * @return \Syscodes\Http\Response
-     */
-    public function render($request, Throwable $exception)
-    {
-        return parent::render($request, $exception);
+        $this->reportable(function (Throwable $e) {
+           //
+        });
     }
 }

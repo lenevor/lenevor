@@ -71,6 +71,20 @@ class Handler implements ExceptionHandlerContract
     ];
 
     /**
+     * The callbacks that should be used during reporting.
+     * 
+     * @var array $reportCallbacks
+     */
+    protected $reportCallbacks = [];
+
+    /**
+     * The callbacks that should be used during rendering.
+     * 
+     * @var array $renderCallbacks
+     */
+    protected $renderCallbacks = [];
+
+    /**
      * Constructor. Create a new exception handler instance.
      * 
      * @param  \Syscodes\Contracts\Container\Container  $container
@@ -80,6 +94,41 @@ class Handler implements ExceptionHandlerContract
     public function __construct(Container $container)
     {
         $this->container = $container;
+    }
+
+    /**
+     * Register the exception handling with callbacks for the application.
+     * 
+     * @return void
+     */
+    public function register() {}
+
+    /**
+     * Register a reportable callback.
+     * 
+     * @param  \Callable  $callback
+     * 
+     * @return $this
+     */
+    public function reportable(callable $callback)
+    {
+        $this->reportCallbacks[] = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Register a renderable callback.
+     * 
+     * @param  \Callable  $callback
+     * 
+     * @return $this
+     */
+    public function renderable(callable $callback)
+    {
+        $this->renderCallbacks[] = $callback;
+
+        return $this;
     }
     
     /**
@@ -99,6 +148,12 @@ class Handler implements ExceptionHandlerContract
 
         if (method_exists($e, 'report')) {
             return $e->report($e);
+        }
+        
+        foreach ($this->reportCallbacks as $reportCallback) {
+            if ($reportCallback($e) === false) {
+                return;
+            }
         }
 
         try {
