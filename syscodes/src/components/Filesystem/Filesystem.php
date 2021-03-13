@@ -771,6 +771,29 @@ class Filesystem
 	{
 		return filetype($path);
 	}
+	
+	/**
+	 * Write the contents of a file, replacing it atomically if it already exists.
+	 * 
+	 * @param  string  $path
+	 * @param  string  $content
+	 * 
+	 * @return void
+	 */
+	public function replace($path, $content)
+	{
+		$this->clearstatcache($path);
+		
+		$path = realpath($path) ?: $path;
+		
+		$tempPath = tempnam(dirname($path), basename($path));
+		
+		$this->perms($tempPath, 0777 - umask());
+		
+		$this->put($tempPath, $content);
+		
+		$this->move($tempPath, $path);
+    }
 
 	/**
 	 * Searches for a given text and replaces the text if found.
