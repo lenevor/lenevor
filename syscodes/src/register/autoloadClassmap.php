@@ -72,6 +72,7 @@ return [
     'Syscodes\\Contracts\\Routing\\RouteResponse' => SYS_PATH.'src/components/Contracts/Routing/RouteResponse.php',
     'Syscodes\\Contracts\\Session\\Session' => SYS_PATH.'src/components/Contracts/Session/Session.php',
     'Syscodes\\Contracts\\Support\\Arrayable' => SYS_PATH.'src/components/Contracts/Support/Arrayable.php',
+    'Syscodes\\Contracts\\Support\\Deferrable' => SYS_PATH.'src/components/Contracts/Support/Deferrable.php',
     'Syscodes\\Contracts\\Support\\Jsonable' => SYS_PATH.'src/components/Contracts/Support/Jsonable.php',
     'Syscodes\\Contracts\\Support\\Renderable' => SYS_PATH.'src/components/Contracts/Support/Renderable.php',
     'Syscodes\\Contracts\\Support\\Webable' => SYS_PATH.'src/components/Contracts/Support/Webable.php',
