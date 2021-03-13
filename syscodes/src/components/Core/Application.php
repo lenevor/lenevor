@@ -27,6 +27,7 @@ use Syscodes\Support\Str;
 use Syscodes\Collections\Arr;
 use Syscodes\Container\Container;
 use Syscodes\Support\Environment;
+use Syscodes\Filesystem\Filesystem;
 use Syscodes\Support\ServiceProvider;
 use Syscodes\Log\LoggerServiceProvider;
 use Syscodes\Events\EventServiceProvider;
@@ -89,6 +90,13 @@ class Application extends Container implements ApplicationContract
      * @var callable[] $bootingCallbacks
      */
     protected $bootingCallbacks = [];
+
+    /**
+     * The deferred services and their providers.
+     * 
+     * @var array $deferredServices
+     */
+    protected $deferredServices = [];
 
     /**
      * Get the current application environment.
@@ -611,8 +619,8 @@ class Application extends Container implements ApplicationContract
      */
     public function registerConfiguredProviders()
     {
-        (new ProviderRepository($this))
-                ->load($this['config']->get('services.providers'));
+        (new ProviderRepository($this, new Filesystem, $this->getCachedServicesPath()))
+                ->load($this['config']['services.providers']);
     }
     
     /**
@@ -679,9 +687,68 @@ class Application extends Container implements ApplicationContract
      */
     protected function markAsRegistered($provider)
     {
+        $this['events']->dispatch($class = getClass($provider, true), array($provider));
+
         $this->serviceProviders[] = $provider;
         
-        $this->loadServiceProviders[get_class($provider)] = true;
+        $this->loadServiceProviders[$class] = true;
+    }
+
+    /**
+     * Load and boot all of the remaining deferred providers.
+     * 
+     * @return void
+     */
+    public function loadDeferredProviders()
+    {
+        foreach ($this->deferredServices as $service => $provider) {
+            $this->loadDeferredProvider($service);
+        }
+
+        $this->deferredServices = [];
+    }
+
+    /**
+     * Load the provider for a deferred service.
+     * 
+     * @param  string  $service
+     * 
+     * @return void
+     */
+    public function loadDeferredProvider($service)
+    {
+        if ( ! $this->isDeferredService($service)) {
+            return;
+        }
+
+        $provider = $this->deferredServices[$service];
+
+        if ( ! isset($this->loadDeferredProviders[$service])) {
+            $this->registerDeferredProvider($provider, $service);
+        }
+    }
+
+    /**
+     * Register a deferred provider and service.
+     * 
+     * @param  string  $provider
+     * @param  string  $service
+     * 
+     * @return void
+     */
+    public function registerDeferredProvider($provider, $service = null)
+    {
+        if ($service) {
+            unset($this->deferredServices[$service]);
+        }
+
+        $this->register($instance = new $provider($this));
+
+        if ( ! $this->isbooted()) {
+            $this->booting(function () use ($instance) {
+                $this->bootProviderClass($instance);
+            });
+        }
     }
     
     /**
@@ -693,7 +760,7 @@ class Application extends Container implements ApplicationContract
      */
     public function bound($id)
     {
-        return parent::bound($id);
+        return $this->isDeferredService($id) || parent::bound($id);
     }
 
     /**
@@ -783,6 +850,103 @@ class Application extends Container implements ApplicationContract
         if ($this->isBooted()) {
             $this->bootAppCallbacks([$callback]);
         }
+    }
+
+    /**
+     * Get the path to the cached services.php file.
+     * 
+     * @return string
+     */
+    public function getCachedServicesPath()
+    {
+        return $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/services.php');
+    }
+
+    /**
+     * Normalize a relative or absolute path to a cache file.
+     * 
+     * @param  string  $key
+     * @param  string  $default
+     * 
+     * @return string
+     */
+    protected function normalizeCachePath($key, $default)
+    {
+        if (is_null($env = Environment::get($key))) {
+            return $this->bootstrapPath($default);
+        }
+
+        return isset($env) 
+                ? $env
+                : $this->basePath($env);
+    }
+
+    /**
+     * Get the service providers.
+     * 
+     * @return array
+     */
+    public function getLoadedProviders()
+    {
+        return $this->loadServiceProviders;
+    }
+
+    /**
+     * Determine if the given service provider is loaded.
+     * 
+     * @param  string  $provider
+     * 
+     * @return bool
+     */
+    public function providerIsLoaded(string $provider)
+    {
+        return isset($this->loadServiceProviders[$provider]);
+    }
+
+    /**
+     * Get the application's deferred services.
+     * 
+     * @return array
+     */
+    public function getDeferredServices()
+    {
+        return $this->deferredServices;
+    }
+
+    /**
+     * Set the application's deferred services.
+     * 
+     * @param  array  $services
+     * 
+     * @return void
+     */
+    public function setDeferredServices(array $services)
+    {
+        $this->deferredServices = $services;
+    }
+
+    /**
+     * Determine if the given service is a deferred service.
+     * 
+     * @param  string  $service
+     * 
+     * @return bool
+     */
+    public function isDeferredService($service)
+    {
+        return isset($this->deferredServices[$service]);
+    }
+
+    /**
+     * Add an array of services to the application's deferred services.
+     * 
+     * @param  array  $services
+     * 
+     * @return void
+     */
+    public function addDeferredServices(array $services)
+    {
+        $this->deferredServices = array_merge($this->deferredServices, $services);
     }
 
     /**
