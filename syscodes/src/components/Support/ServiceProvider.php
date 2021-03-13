@@ -22,6 +22,8 @@
 
 namespace Syscodes\Support;
 
+use Syscodes\Contracts\Support\Deferrable;
+
 /**
  * Loads all the services provider of system.
  * 
@@ -35,13 +37,6 @@ abstract class ServiceProvider
      * @var \Syscodes\Contracts\Core\Application $app
      */
     protected $app;
-
-    /**
-     * The array of booting callbacks.
-     * 
-     * @var callable[] $bootingCallbacks
-     */
-    protected $bootingCallbacks = [];
 
     /**
      * Constructor. Create a new service provider instance.
@@ -65,12 +60,42 @@ abstract class ServiceProvider
     /**
      * Register a new boot listener.
      * 
-     * @param  callable  $callback
+     * @param  \callable  $callback
      * 
      * @return void
      */
     public function booting($callback)
     {
         $callback();
+    }
+
+    /**
+     * Get the services provided by the provider.
+     * 
+     * @return array
+     */
+    public function provides()
+    {
+        return [];
+    }
+
+    /**
+     * Get the events that trigger this service provider to register.
+     * 
+     * @return array
+     */
+    public function when()
+    {
+        return [];
+    }
+
+    /**
+     * Determine if the provider is deferred.
+     * 
+     * @return bool
+     */
+    public function isDeferred()
+    {
+        return $this instanceof Deferrable;
     }
 }

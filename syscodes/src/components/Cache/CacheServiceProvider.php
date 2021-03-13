@@ -23,6 +23,7 @@
 namespace Syscodes\Cache;
 
 use Syscodes\Support\ServiceProvider;
+use Syscodes\Contracts\Support\Deferrable;
 use Syscodes\Cache\Store\MemcachedConnector;
 
 /**
@@ -30,7 +31,7 @@ use Syscodes\Cache\Store\MemcachedConnector;
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class CacheServiceProvider extends ServiceProvider
+class CacheServiceProvider extends ServiceProvider implements Deferrable
 {
     /**
      * Register the service provider.
@@ -40,7 +41,7 @@ class CacheServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('cache', function ($app) {
-            return (new CacheManager($app))->driver();
+            return (new CacheManager($app));
         });
 
         $this->app->singleton('cache.store', function ($app) {
@@ -50,5 +51,17 @@ class CacheServiceProvider extends ServiceProvider
         $this->app->singleton('memcached.connector', function () {
             return new MemcachedConnector;
         });
+    }
+    
+    /**
+     * Get the services provided by the provider.
+     * 
+     * @return array
+     */
+    public function provides()
+    {
+        return [
+            'cache', 'cache.store', 'memcached.connector',
+        ];
     }
 }
