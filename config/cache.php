@@ -1,6 +1,6 @@
 <?php
 
-use Syscode\Support\Str;
+use Syscodes\Support\Str;
 
 return [
 	
@@ -60,7 +60,7 @@ return [
 
 		'file' => [
 			'driver' => 'file',
-			'path' => storagePath('cache')
+			'path' => storagePath('framework/cache')
 		],
 
 		'memcached' => [
