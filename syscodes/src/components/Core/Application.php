@@ -723,7 +723,7 @@ class Application extends Container implements ApplicationContract
 
         $provider = $this->deferredServices[$service];
 
-        if ( ! isset($this->loadDeferredProviders[$service])) {
+        if ( ! isset($this->loadServiceProviders[$provider])) {
             $this->registerDeferredProvider($provider, $service);
         }
     }
@@ -744,7 +744,7 @@ class Application extends Container implements ApplicationContract
 
         $this->register($instance = new $provider($this));
 
-        if ( ! $this->isbooted()) {
+        if ( ! $this->isBooted()) {
             $this->booting(function () use ($instance) {
                 $this->bootProviderClass($instance);
             });
@@ -1005,7 +1005,7 @@ class Application extends Container implements ApplicationContract
         foreach ([
             'app'              => [self::class, \Syscodes\Contracts\Container\Container::class, \Syscodes\Contracts\Core\Application::class, \Psr\Container\ContainerInterface::class],
             'cache'            => [\Syscodes\Cache\CacheManager::class, \Syscodes\Contracts\Cache\Manager::class],
-            'cache.store'      => [\Syscodes\Cache\CacheRepository::class],
+            'cache.store'      => [\Syscodes\Cache\CacheRepository::class, \Syscodes\Contracts\Cache\Repository::class],
             'config'           => [\Syscodes\Config\Configure::class, \Syscodes\Contracts\Config\Configure::class],
             'db'               => [\Syscodes\Database\DatabaseManager::class, \Syscodes\Database\ConnectionResolverInterface::class],
             'db.connection'    => [\Syscodes\Database\Connection::class, \Syscodes\Database\ConnectionInterface::class],
