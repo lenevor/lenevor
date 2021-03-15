@@ -26,13 +26,14 @@ use Closure;
 use ArrayAccess;
 use Syscodes\Contracts\Cache\Store;
 use Syscodes\Support\InteractsWithTime;
+use Syscodes\Contracts\Cache\Repository;
 
 /**
  * Begin executing operations of storage data if the store supports it.
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class CacheRepository implements ArrayAccess
+class CacheRepository implements ArrayAccess, Repository
 {
     use InteractsWithTime;
 
