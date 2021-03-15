@@ -106,6 +106,8 @@ class Lenevor implements LenevorConsole
         if ( ! $this->app->hasBeenBootstrapped()) {
             $this->app->bootstrapWith($this->bootstrappers());
         }
+
+        $this->app->loadDeferredProviders();
     }
     
     /**
