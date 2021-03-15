@@ -385,7 +385,7 @@ class Dispatcher implements DispatcherContract
     protected function addInterfaceListener($eventName, array $listeners = [])
     {
         foreach (class_implements($eventName) as $interface) {
-            if (iseet($this->listeners[$interface])) {
+            if (isset($this->listeners[$interface])) {
                 foreach ($this->listeners[$interface] as $names)
                 {
                     $listeners = array_merge($listeners, (array) $names);
