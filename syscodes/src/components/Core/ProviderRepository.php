@@ -85,12 +85,12 @@ class ProviderRepository
         
         foreach ($manifest['when'] as $provider => $events) {
             $this->registerLoadEvents($provider, $events);
-        }
+        } 
         
         foreach ($manifest['eager'] as $provider) {
             $this->app->register($provider);
         }
-        
+
         $this->app->addDeferredServices($manifest['deferred']);
     }
     
