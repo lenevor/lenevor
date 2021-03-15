@@ -49,6 +49,7 @@ return [
     'Syscodes\\Container\\Container' => SYS_PATH.'src/components/Container/Container.php',
     'Syscodes\\Contracts\\Cache\\Key' => SYS_PATH.'src/components/Contracts/Cache/Key.php',
     'Syscodes\\Contracts\\Cache\\Manager' => SYS_PATH.'src/components/Contracts/Cache/Manager.php',
+    'Syscodes\\Contracts\\Cache\\Repository' => SYS_PATH.'src/components/Contracts/Cache/Repository.php',
     'Syscodes\\Contracts\\Cache\\Store' => SYS_PATH.'src/components/Contracts/Cache/Store.php',
     'Syscodes\\Contracts\\Config\\Configure' => SYS_PATH.'src/components/Contracts/Config/Configure.php', 
     'Syscodes\\Contracts\\Console\\Application' => SYS_PATH.'src/components/Contracts/Console/Application.php',
