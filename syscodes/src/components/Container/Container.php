@@ -649,7 +649,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    public function resolve($id, array $parameters = []) 
+    protected function resolve($id, array $parameters = []) 
     {
         $id = $this->getAlias($id);
 
