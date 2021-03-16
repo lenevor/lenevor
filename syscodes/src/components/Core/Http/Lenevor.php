@@ -164,8 +164,6 @@ class Lenevor implements LenevorContract
 		if ( ! $this->app->hasBeenBootstrapped()) {
 			$this->app->bootstrapWith($this->bootstrappers());
 		}
-
-		$this->app->loadDeferredProviders();
 	}
 
 	/**
