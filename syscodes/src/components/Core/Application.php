@@ -607,9 +607,40 @@ class Application extends Container implements ApplicationContract
      */
     public function make($id, array $parameters = [])
     {
-        $id = $this->getAlias($id);
+        $this->loadDeferredProviderInstance($id = $this->getAlias($id));
        
         return parent::make($id, $parameters);
+    }
+
+    /**
+     * Resolve the given type from the container.
+     *
+     * (Overriding Container::resolve)
+     * 
+     * @param  string  $id
+     * @param  array   $parameters
+     * 
+     * @return mixed
+     */
+    protected function resolve($id, array $parameters = [])
+    {
+        $this->loadDeferredProviderInstance($id = $this->getAlias($id));
+       
+        return parent::resolve($id, $parameters);
+    }
+    
+    /**
+     * Load the deferred provider if the given type is a deferred service.
+     * 
+     * @param  string  $id
+     * 
+     * @return void
+     */
+    protected function loadDeferredProviderInstance($id)
+    {
+        if ($this->isDeferredService($id) && ! isset($this->instances[$id])) {
+            $this->loadDeferredProvider($id);
+        }
     }
 
     /**
@@ -644,6 +675,10 @@ class Application extends Container implements ApplicationContract
         $provider->register();
 
         $this->markAsRegistered($provider);
+        
+        if ($this->isBooted()) {
+            $this->bootProviderClass($provider);
+        }
 
         return $provider;
     }
@@ -657,11 +692,11 @@ class Application extends Container implements ApplicationContract
      */
     protected function getProviderHasBeenLoaded($provider)
     {
-        $name = is_string($provider) ? $provider : get_class($provider);
+        $name = is_string($provider) ? $provider : getClass($provider, true);
 
         if (array_key_exists($name, $this->loadServiceProviders)) {
             return Arr::first($this->serviceProviders, function($key, $value) use ($name) {
-                return get_class($value) == $name;
+                return getClass($value, true) == $name;
             });
         }
     }
@@ -701,7 +736,7 @@ class Application extends Container implements ApplicationContract
      */
     public function loadDeferredProviders()
     {
-        foreach ($this->deferredServices as $service => $provider) {
+        foreach ($this->deferredServices as $service => $provider) { 
             $this->loadDeferredProvider($service);
         }
 
@@ -720,7 +755,7 @@ class Application extends Container implements ApplicationContract
         if ( ! $this->isDeferredService($service)) {
             return;
         }
-
+        
         $provider = $this->deferredServices[$service];
 
         if ( ! isset($this->loadServiceProviders[$provider])) {
@@ -738,7 +773,7 @@ class Application extends Container implements ApplicationContract
      */
     public function registerDeferredProvider($provider, $service = null)
     {
-        if ($service) {
+        if ( ! is_null($service)) {
             unset($this->deferredServices[$service]);
         }
 
