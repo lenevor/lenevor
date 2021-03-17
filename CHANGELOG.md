@@ -1,5 +1,34 @@
 # Release Notes
 
+## [Version 0.7.5-alpha.7] 
+
+Release Date: Mar 16, 2021
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added call the given take function in bootstrap of framework
+- Added method for determine if has been disable all middleware's
+- Added function isCli()
+- Added function for activate the command line
+- Added methods for register middlewares
+- Added variables for groups and routes of middleware
+- Added new class for include or exclude methods of middlewares
+- Added methods for route resolver callback
+- Added methods for register the report and the render to callback
+- Added method for load the deferred provider
+
+### Changed
+- Changed to environment method of application function helper
+
+### Created
+- Created the event function for dispatcher of events and call of listeners
+- Creates method for call invokable method
+
+### Removed
+- Removed path for requirements file
+
+
 ## [Version 0.7.4-alpha.7] 
 
 Release Date: Feb 09, 2021

@@ -62,7 +62,7 @@ class Lenevor implements LenevorConsole
         \Syscodes\Core\Bootstrap\BootRegisterProviders::class,
         \Syscodes\Core\Bootstrap\BootProviders::class,
     ];
-
+    
     /**
      * Constructor. Create new console Lenevor instance.
      * 
@@ -74,7 +74,7 @@ class Lenevor implements LenevorConsole
     {
         $this->app = $app;
     }
-
+    
     /**
      * Handle an incoming console command.
      * 
@@ -90,10 +90,9 @@ class Lenevor implements LenevorConsole
             $this->reportException($e);
             
             $this->renderException($e);
-
+            
             return 1;
         }
-        
     }
     
     /**
@@ -106,7 +105,7 @@ class Lenevor implements LenevorConsole
         if ( ! $this->app->hasBeenBootstrapped()) {
             $this->app->bootstrapWith($this->bootstrappers());
         }
-
+        
         $this->app->loadDeferredProviders();
     }
     
@@ -119,7 +118,7 @@ class Lenevor implements LenevorConsole
     {
         return $this->bootstrappers;
     }
-
+    
     /**
      * Get the Prime application instance.
      * 
