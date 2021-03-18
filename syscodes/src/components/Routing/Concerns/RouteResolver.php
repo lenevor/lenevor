@@ -138,7 +138,20 @@ trait RouteResolver
 	 * 
 	 * @return \Syscodes\Http\Response
 	 */
-	protected function callResponse($request, $response)
+	public function callResponse($request, $response)
+	{
+		return static::toResponse($request, $response);
+	}
+
+	/**
+	 * Static version of callResponse.
+	 * 
+	 * @param  \Syscodes\Http\Request  $request
+	 * @param  mixed  $response
+	 * 
+	 * @return \Syscodes\Http\Response
+	 */
+	public static function toResponse($request, $response)
 	{
 		if ( ! $response instanceof Response && 
 		      ($response instanceof Jsonserializable || 
