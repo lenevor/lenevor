@@ -28,6 +28,7 @@ use Syscodes\Console\Cli;
 use Syscodes\Debug\GDebug;
 use Syscodes\Http\Response;
 use Psr\Log\LoggerInterface;
+use Syscodes\Routing\Router;
 use Syscodes\Collections\Arr;
 use Syscodes\Debug\ExceptionHandler;
 use Syscodes\Contracts\Container\Container;
@@ -209,11 +210,23 @@ class Handler implements ExceptionHandlerContract
      */
     public function render($request, Throwable $e)
     {
+        if (method_exists($e, 'render') && $response = $e->render($request)) {
+            return Router::toResponse($request, $response);
+        }
+        
         $e = $this->prepareException($e);
         
         foreach ($this->renderCallbacks as $renderCallback) {
             $response = $renderCallback($e, $request);
             
+            if ( ! is_null($response)) {
+                return $response;
+            }
+        }
+
+        foreach ($this->renderCallbacks as $renderCallback) {
+            $response = $renderCallback($e, $request);
+
             if ( ! is_null($response)) {
                 return $response;
             }
