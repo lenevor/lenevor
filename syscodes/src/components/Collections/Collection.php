@@ -95,11 +95,11 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * in the given items, using the callback.
      * 
      * @param  mixed  $items
-     * @param  \Callable  $callback
+     * @param  \callable  $callback
      * 
      * @return static
      */
-    public function diffUsing($items, Callable $callback)
+    public function diffUsing($items, callable $callback)
     {
         return new static(array_udiff($this->items, $this->getArrayItems($items), $callback));
     }
@@ -122,11 +122,11 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * are not present in the given items, using the callback.
      * 
      * @param  mixed  $items
-     * @param  \Callable  $callback
+     * @param  \callable  $callback
      * 
      * @return static
      */
-    public function diffAssocUsing($items, Callable $callback)
+    public function diffAssocUsing($items, callable $callback)
     {
         return new static(array_diff_uassoc($this->items, $this->getArrayItems($items), $callback));
     }
@@ -149,11 +149,11 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * not present in the given items, using the callback.
      * 
      * @param  mixed  $items
-     * @param  \Callable  $callback
+     * @param  \callable  $callback
      * 
      * @return static
      */
-    public function diffKeyUsing($items, Callable $callback)
+    public function diffKeyUsing($items, callable $callback)
     {
         return new static(array_diff_ukey($this->items, $this->getArrayItems($items), $callback));
     }
@@ -161,11 +161,11 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Execute a callback over each item.
      * 
-     * @param  \Callable  $callback
+     * @param  \callable  $callback
      * 
      * @return $this
      */
-    public function each(Callable $callback)
+    public function each(callable $callback)
     {
         array_map($callback, $this->items);
 
@@ -175,11 +175,11 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Run a filter over each of the items.
      * 
-     * @param  \Callable|null 
+     * @param  \callable|null  $callback
      * 
      * @return static
      */
-    public function filter(Callable $callback = null)
+    public function filter(callable $callback = null)
     {
         if ($callback) {
             return new static(Arr::where($this->items, $callback));
@@ -191,12 +191,12 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Get the first item from the collection.
      * 
-     * @param  \Callable|null  $callback
+     * @param  \callable|null  $callback
      * @param  mixed  $default
      * 
      * @return mixed
      */
-    public function first(Callable $callback = null, $default = null)
+    public function first(callable $callback = null, $default = null)
     {
         if (is_null($callback)) {
             return count($this->items) > 0 ? head($this->items) : null;
@@ -256,11 +256,11 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Run a map over each of the items.
      * 
-     * @param  \Callable  $callback
+     * @param  \callable  $callback
      * 
      * @return static
      */
-    public function map(Callable $callback)
+    public function map(callable $callback)
     {
         $keys = array_keys($this->items);
 
@@ -353,12 +353,12 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Get the last item from the collection.
      * 
-     * @param  \Callable|null  $callback
+     * @param  \callable|null  $callback
      * @param  mixed|null  $default
      * 
      * @return mixed
      */
-    public function last(Callable $callback = null, $default = null)
+    public function last(callable $callback = null, $default = null)
     {
         return Arr::last($this->items, $callback, $default);
     }
@@ -454,16 +454,29 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     {
         return Arr::pull($this->items, $key, $default);
     }
+    
+    /**
+     * Get the values of a given key.
+     * 
+     * @param  string|array|int|null  $value
+     * @param  string|null  $key
+     * 
+     * @return static
+     */
+    public function pluck($value, $key = null)
+    {
+        return new static(Arr::pluck($this->items, $value, $key));
+    }
 
     /**
      * Reduce the collection to a single value.
      * 
-     * @param  \Callable  $callback
+     * @param  \callable  $callback
      * @param  mixed  $initial
      * 
      * @return mixed
      */
-    public function reduce(Callable $callback, $initial = null)
+    public function reduce(callable $callback, $initial = null)
     {
         return array_reduce($this->items, $callback, $initial);
     }
@@ -512,7 +525,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      */
     public function search($value, $strict = false)
     {
-        if ( ! $this->usesAsCallable($value)) {
+        if ( ! $this->usesAscallable($value)) {
             return array_search($value, $this->items, $strict);
         }
 
