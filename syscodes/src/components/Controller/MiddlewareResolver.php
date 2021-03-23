@@ -35,6 +35,7 @@ class MiddlewareResolver
      * @param  \Closure|string  $name
      * @param  array  $map
      * @param  array  $middlewareGroups
+     * 
      * @return \Closure|string|array
      */
     public static function resolve($name, $map, $middlewareGroups)
