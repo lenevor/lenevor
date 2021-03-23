@@ -42,13 +42,31 @@ trait Enumerates
     }
 
     /**
+     * Create a collection of all elements that do not pass a given truth test.
+     * 
+     * @param \callable|mixed  $callable
+     * 
+     * @return static
+     */
+    public function reject($callback = true)
+    {
+        $useAsCallable = $this->useAsCallable($callback);
+
+        return $this->filter(function($value, $key) use ($callback, $useAsCallable) {
+            return $useAsCallable
+                ? ! $callback($value, $key)
+                : $value != $callback;
+        });
+    }
+
+    /**
      * Determine if the given value is callable, but not a string.
      * 
      * @param  mixed  $value
      * 
      * @return bool
      */
-    protected function usesAsCallable($value)
+    protected function useAsCallable($value)
     {
         return ! is_string($value) && is_callable($value);
     }
