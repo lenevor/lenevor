@@ -143,7 +143,7 @@ class Route
 		$this->uri = $uri;
 
 		// Set the method
-		$this->parseMethod($method);
+		$this->method = $this->parseMethod($method);
 
 		// Set the action
 		$this->action = Arr::except($this->parseAction($action), ['prefix']);
@@ -376,9 +376,7 @@ class Route
 			}
 		}
 
-	    $this->method = $method;
-
-	    return $this;
+	    return $method;
 	}
 
 	/**
