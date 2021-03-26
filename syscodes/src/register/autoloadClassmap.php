@@ -255,6 +255,7 @@ return [
     'Syscodes\\Routing\\Route' => SYS_PATH.'src/components/Routing/Route.php',
     'Syscodes\\Routing\\RouteAction' => SYS_PATH.'src/components/Routing/RouteAction.php',
     'Syscodes\\Routing\\RouteCollection' => SYS_PATH.'src/components/Routing/RouteCollection.php',
+    'Syscodes\\Routing\\RouteCompiler' => SYS_PATH.'src/components/Routing/RouteCompiler.php',
     'Syscodes\\Routing\\RouteFileRegister' => SYS_PATH.'src/components/Routing/RouteFileRegister.php',
     'Syscodes\\Routing\\RouteGroup' => SYS_PATH.'src/components/Routing/RouteGroup.php',
     'Syscodes\\Routing\\RouteParamBinding' => SYS_PATH.'src/components/Routing/RouteParamBinding.php',
