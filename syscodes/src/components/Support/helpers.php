@@ -24,8 +24,7 @@ use Syscodes\Version;
 use Syscodes\Support\Str;
 use Syscodes\Support\Environment;
 
-if ( ! function_exists('camel_case'))
-{
+if ( ! function_exists('camel_case')) {
     /**
      * Convert the string with spaces or underscore in camelcase notation.
      *
@@ -41,8 +40,7 @@ if ( ! function_exists('camel_case'))
     }
 }
 
-if ( ! function_exists('classBasename')) 
-{
+if ( ! function_exists('classBasename')) {
     /**
      * Get the class "basename" of the given object / class.
      *
@@ -58,8 +56,7 @@ if ( ! function_exists('classBasename'))
     }
 }
 
-if ( ! function_exists('dd')) 
-{
+if ( ! function_exists('dd')) {
     /**
      * Generate test of variables.
      * 
@@ -77,8 +74,7 @@ if ( ! function_exists('dd'))
     }
 }
 
-if ( ! function_exists('env')) 
-{
+if ( ! function_exists('env')) {
     /**
      * Gets the value of an environment variable.
      * 
@@ -93,8 +89,7 @@ if ( ! function_exists('env'))
     }
 }
 
-if ( ! function_exists('str_dash'))
-{
+if ( ! function_exists('str_dash')) {
     /**
      * Replace in the chain the spaces by dashes.
      *
@@ -110,8 +105,7 @@ if ( ! function_exists('str_dash'))
     }
 }
 
-if ( ! function_exists('str_humanize'))
-{
+if ( ! function_exists('str_humanize')) {
     /**
      * Replace in an string the underscore or dashed by spaces.
      *
@@ -127,8 +121,7 @@ if ( ! function_exists('str_humanize'))
     }
 }
 
-if ( ! function_exists('str_smallcase'))
-{
+if ( ! function_exists('str_smallcase')) {
     /**
      * Converts the CamelCase string into smallcase notation.
      *
@@ -144,8 +137,7 @@ if ( ! function_exists('str_smallcase'))
     }
 }
 
-if ( ! function_exists('str_underscore'))
-{
+if ( ! function_exists('str_underscore')) {
   /**
      * Replace in the string the spaces by low dashes.
      *
@@ -161,8 +153,7 @@ if ( ! function_exists('str_underscore'))
     }
 }
 
-if ( ! function_exists('studly_caps'))
-{
+if ( ! function_exists('studly_caps')) {
   /**
      * Convert the string with spaces or underscore in StudlyCaps. 
      *
@@ -178,8 +169,7 @@ if ( ! function_exists('studly_caps'))
     }
 }
 
-if ( ! function_exists('version'))
-{
+if ( ! function_exists('version')) {
     /**
      * Return number version of the Lenevor.
      * 
@@ -191,8 +181,7 @@ if ( ! function_exists('version'))
     }
 }
 
-if ( ! function_exists('winOS'))
-{
+if ( ! function_exists('winOS')) {
     /**
      * Determine whether the current envrionment is Windows based.
      *
