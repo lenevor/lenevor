@@ -27,8 +27,7 @@ use Syscodes\Support\Facades\Date;
 use Syscodes\Contracts\View\Factory;
 use Syscodes\Contracts\Routing\RouteResponse;
 
-if ( ! function_exists('abort')) 
-{
+if ( ! function_exists('abort')) {
     /**
      * Throw an HttpException with the given data.
      *
@@ -47,8 +46,7 @@ if ( ! function_exists('abort'))
     }
 }
 
-if ( ! function_exists('app')) 
-{
+if ( ! function_exists('app')) {
     /**
      * Get the available Application instance.
      *
@@ -67,8 +65,7 @@ if ( ! function_exists('app'))
     }
 }
 
-if ( ! function_exists('asset')) 
-{
+if ( ! function_exists('asset')) {
     /**
      * Generate an asset path for the application.
      * 
@@ -100,8 +97,7 @@ if ( ! function_exists('back'))
     }
 }
 
-if ( ! function_exists('basePath')) 
-{
+if ( ! function_exists('basePath')) {
     /**
      * Get the path to the base of the install.
      *
@@ -115,8 +111,7 @@ if ( ! function_exists('basePath'))
     }
 }
 
-if ( ! function_exists('cache'))
-{
+if ( ! function_exists('cache')) {
     /**
      * Get / set the specified cache value.
      *
@@ -152,8 +147,7 @@ if ( ! function_exists('cache'))
     }
 }
 
-if ( ! function_exists('config'))
-{
+if ( ! function_exists('config')) {
     /**
      * Get / set the specified configuration value.
      * If an array is passed as the key, we will assume you want to set 
@@ -178,8 +172,7 @@ if ( ! function_exists('config'))
     }
 }
 
-if ( ! function_exists('csrfField'))
-{
+if ( ! function_exists('csrfField')) {
     /**
      * Generate a CSRF token form field.
      * 
@@ -191,8 +184,7 @@ if ( ! function_exists('csrfField'))
     }
 }
 
-if ( ! function_exists('csrfToken'))
-{
+if ( ! function_exists('csrfToken')) {
     /**
      * Get the CSRF token value.
      * 
@@ -212,8 +204,7 @@ if ( ! function_exists('csrfToken'))
     }
 }
 
-if ( ! function_exists('databasePath'))
-{
+if ( ! function_exists('databasePath')) {
     /**
      * Get the path to the database directory.
      * 
@@ -227,8 +218,7 @@ if ( ! function_exists('databasePath'))
     }
 }
 
-if ( ! function_exists('decrypt'))
-{
+if ( ! function_exists('decrypt')) {
     /**
      * Decrypt the given value.
      * 
@@ -243,8 +233,7 @@ if ( ! function_exists('decrypt'))
     }
 }
 
-if ( ! function_exists('e'))
-{
+if ( ! function_exists('e')) {
     /**
      * Escape HTML entities in a string.
      *
@@ -258,8 +247,7 @@ if ( ! function_exists('e'))
     }
 }
 
-if ( ! function_exists('encrypt'))
-{
+if ( ! function_exists('encrypt')) {
     /**
      * Encrypt the given value.
      * 
@@ -274,8 +262,7 @@ if ( ! function_exists('encrypt'))
     }
 }
 
-if ( ! function_exists('event'))
-{
+if ( ! function_exists('event')) {
     /**
      * Dispatch an event and call the listeners.
      * 
@@ -289,8 +276,7 @@ if ( ! function_exists('event'))
     }
 }
 
-if ( ! function_exists('getClass'))
-{
+if ( ! function_exists('getClass')) {
     /**
      * Function to crop the full name of the namespace and leave 
      * only the name of the class.
@@ -308,8 +294,7 @@ if ( ! function_exists('getClass'))
     }
 }
 
-if ( ! function_exists('isCli'))
-{
+if ( ! function_exists('isCli')) {
     /**
      * Determines if this request was made from the command line (CLI).
      * 
@@ -322,8 +307,7 @@ if ( ! function_exists('isCli'))
 }
 
 
-if ( ! function_exists('isGetCommonPath'))
-{
+if ( ! function_exists('isGetCommonPath')) {
     /**
      * Find the common "root" path of two given paths or FQFN's.
      * 
@@ -354,8 +338,7 @@ if ( ! function_exists('isGetCommonPath'))
     }
 }
 
-if ( ! function_exists('isImport'))
-{
+if ( ! function_exists('isImport')) {
     /**
      * Loads in a core class and optionally an app class override if it exists.
      * 
@@ -380,8 +363,7 @@ if ( ! function_exists('isImport'))
     }
 }
 
-if ( ! function_exists('now'))
-{
+if ( ! function_exists('now')) {
     /**
      * Create a new Chronos class instance for the current time.
      * 
@@ -395,8 +377,7 @@ if ( ! function_exists('now'))
     }
 }
 
-if ( ! function_exists('redirect'))
-{
+if ( ! function_exists('redirect')) {
     /**
      * Get an instance of the redirect.
      *
@@ -417,8 +398,7 @@ if ( ! function_exists('redirect'))
     }
 }
 
-if ( ! function_exists('request'))
-{
+if ( ! function_exists('request')) {
     /**
      * Get an instance of the current request or an input item from the request.
      * 
@@ -439,8 +419,7 @@ if ( ! function_exists('request'))
     }
 }
 
-if ( ! function_exists('response')) 
-{
+if ( ! function_exists('response')) {
     /**
      * Return a new Response from the application.
      *
@@ -462,8 +441,7 @@ if ( ! function_exists('response'))
     }
 }
 
-if ( ! function_exists('resourcePath')) 
-{
+if ( ! function_exists('resourcePath')) {
     /**
      * Get the path to the resources folder.
      *
@@ -477,8 +455,7 @@ if ( ! function_exists('resourcePath'))
     }
 }
 
-if ( ! function_exists('route'))
-{
+if ( ! function_exists('route')) {
     /**
      * Get the URL to a named route.
      * 
@@ -495,8 +472,7 @@ if ( ! function_exists('route'))
     }
 }
 
-if ( ! function_exists('secureAsset'))
-{
+if ( ! function_exists('secureAsset')) {
     /**
      * Generate an asset path for the application.
      * 
@@ -510,8 +486,7 @@ if ( ! function_exists('secureAsset'))
     }
 }
 
-if ( ! function_exists('secureUrl'))
-{
+if ( ! function_exists('secureUrl')) {
     /**
      * Generate a HTTPS URL for the application.
      * 
@@ -526,8 +501,7 @@ if ( ! function_exists('secureUrl'))
     }
 }
 
-if ( ! function_exists('session'))
-{
+if ( ! function_exists('session')) {
     /**
      * Get / set the specified session value.
      * 
@@ -550,8 +524,7 @@ if ( ! function_exists('session'))
     }
 }
 
-if ( ! function_exists('segment'))
-{
+if ( ! function_exists('segment')) {
   /**
      * Returns the desired segment, or $default if it does not exist.
      *
@@ -566,8 +539,7 @@ if ( ! function_exists('segment'))
     }
 }
 
-if ( ! function_exists('segments'))
-{
+if ( ! function_exists('segments')) {
   /**
      * Returns all segments in an array.
      *
@@ -579,8 +551,7 @@ if ( ! function_exists('segments'))
     }
 }
 
-if ( ! function_exists('storagePath')) 
-{
+if ( ! function_exists('storagePath')) {
     /**
      * Get the path to the storage folder.
      *
@@ -594,8 +565,7 @@ if ( ! function_exists('storagePath'))
     }
 }
 
-if ( ! function_exists('totalSegments'))
-{
+if ( ! function_exists('totalSegments')) {
   /**
      * Returns the total number of segment.
      *
@@ -607,8 +577,7 @@ if ( ! function_exists('totalSegments'))
     }
 }
 
-if ( ! function_exists('__'))
-{
+if ( ! function_exists('__')) {
     /**
      * A convenience method to translate a string and format it
      * with the intl extension's MessageFormatter object.
@@ -624,8 +593,7 @@ if ( ! function_exists('__'))
     }
 }
 
-if ( ! function_exists('url'))
-{
+if ( ! function_exists('url')) {
     /**
      * Generate a URL for the application.
      *
@@ -645,8 +613,7 @@ if ( ! function_exists('url'))
     }
 }
 
-if ( ! function_exists('view'))
-{
+if ( ! function_exists('view')) {
     /**
      * Returns a new View object. If you do not define the "file" parameter, 
      * you must call [$this->view].
