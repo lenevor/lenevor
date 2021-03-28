@@ -24,8 +24,7 @@ use Syscodes\Collections\Arr;
 use Syscodes\Collections\Collection;
 use Syscodes\Collections\HigherOrderTakeProxy;
 
-if ( ! function_exists('collect'))
-{
+if ( ! function_exists('collect')) {
     /**
      * Create a collection from the given value.
      * 
@@ -39,8 +38,7 @@ if ( ! function_exists('collect'))
     }
 }
 
-if ( ! function_exists('head'))
-{
+if ( ! function_exists('head')) {
     /**
      * Get the first element of an array. Useful for method chaining.
      *
@@ -54,8 +52,7 @@ if ( ! function_exists('head'))
     }
 }
 
-if ( ! function_exists('last'))
-{
+if ( ! function_exists('last')) {
     /**
      * Get the last element from an array.
      *
@@ -69,8 +66,7 @@ if ( ! function_exists('last'))
     }
 }
 
-if ( ! function_exists('take'))
-{
+if ( ! function_exists('take')) {
     /**
      * Call the given Closure if this activated then return the value.
      * 
@@ -93,8 +89,7 @@ if ( ! function_exists('take'))
     }
 }
 
-if ( ! function_exists('value')) 
-{
+if ( ! function_exists('value')) {
     /**
      * Return the default value of the given value.
      *
