@@ -24,6 +24,7 @@ namespace Syscodes\Routing;
 
 use LogicExcption;
 use DomainException;
+use Syscodes\Collections\Arr;
 
 /**
  * Allows compile 
@@ -52,12 +53,45 @@ class RouteCompiler
     }
 
     /**
-     * Get the inner route.
+     * Compile the inner Route pattern.
      * 
-     * @return array
+     * @return string
+     * 
+     * @throws \LogicException|\DomainException
      */
-    public function getRoute()
+    public function compile()
     {
-        return $this->route;
+        $uri       = with($route = $this->route)->getRoute();
+        $patterns  = $route->getPatterns();
+        $optionals = 0;
+        $variables = [];
+
+        $pattern = preg_replace_callback('~\{(.*?)(\?)?\}~', function ($matches) use ($uri, $patterns, &$optionals, &$variables) {
+            [$name, $optional] = array_pad($matches, 3, $patterns);
+            
+            if (in_array($name, $variables)) {
+                throw new LogicException("Route pattern [{$uri}] cannot reference variable name [{$name}] more than once.");
+            } elseif (strlen($name) > 32) {
+                throw new DomainException("Variable name [{$name}] cannot be longer than 32 characters in route pattern [{$uri}].");
+            } elseif (preg_match('/^\d/', $name) === 1) {
+                throw new DomainException("Variable name [{$name}] cannot start with a digit in route pattern [{$uri}].");
+            }
+            
+            $variables[] = $name;
+
+            $pattern = Arr::get($patterns, $name, '[^/]+');
+            
+            if ($optional) {
+                $optionals++;
+                
+                return sprintf('(?:/(?P<%s>%s)', $name, $pattern);
+            } elseif ($optionals > 0) {
+                throw new LogicException("Route pattern [{$path}] cannot reference standard variable [{$name}] after optionals.");
+            }
+            
+            return sprintf('/(?P<%s>%s)', $name, $pattern);
+        }, $uri);
+        
+        return sprintf('#^%s%s$#s', $pattern, str_repeat(')?', $optionals));
     }
 }
