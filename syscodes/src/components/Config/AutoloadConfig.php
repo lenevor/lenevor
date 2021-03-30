@@ -33,125 +33,57 @@ namespace Syscodes\Config;
 class AutoloadConfig 
 {
 	/**
-	 * Map of class names and locations.
+	 * ---------------------------------------------------------------------
+	 * Class Map
+	 * ---------------------------------------------------------------------
 	 *
-	 * @var array $classmap
+	 * The class map provides a map of class names and their exact location 
+	 * on the drive.
+	 *  
+	 * @var array $coreClassmap
 	 */
-	public $classmap = [];
+	protected $coreClassmap = [
+		SYS_PATH.'src'.DIRECTORY_SEPARATOR.'register'.DIRECTORY_SEPARATOR.'autoloadClassmap.php',
+	];
 
 	/**
-	 * If true, then auto-enabled will happen across all namespaces 
-	 * loaded by Composer, as well as the namespaces configured locally.
+	 * ---------------------------------------------------------------------
+	 * Include Files
+	 * ---------------------------------------------------------------------
 	 * 
-	 * @var bool $enabledInComposer
-	 */
-	public $enabledInComposer = true;
-
-	/**
-	 * Array of files for autoloading.
+	 * This maps the locations of any files in your application to 
+	 * their location on the file system.
 	 * 
-	 * @var array $includeFiles
+	 * @var array $coreFiles
 	 */
-	public $includeFiles = [];
+	protected $coreFiles = [
+		SYS_PATH.'src'.DIRECTORY_SEPARATOR.'register'.DIRECTORY_SEPARATOR.'autoloadFiles.php'
+	];
 
 	/**
-	 * Array of namespaces for autoloading.
+	 * ---------------------------------------------------------------------
+	 * Namespaces
+	 * ---------------------------------------------------------------------
 	 *
-	 * @var array $psr4
+	 * This maps the locations of any namespaces in your application to 
+	 * their location on the file system. These are used by the Autoloader 
+	 * to locate files the first time they have been instantiated. 
+	 * 
+	 * @var array $corePsr4
 	 */
-	public $psr4 = [];
+	protected $corePsr4 = [
+		SYS_PATH.'src'.DIRECTORY_SEPARATOR.'register'.DIRECTORY_SEPARATOR.'autoloadPsr4.php',
+	];
 
 	/**
-	 * Constructor.
+	 * Constructor. Create a new autoload config instance.
+	 * 
+	 * @return void
 	 */
 	public function __construct()
 	{
-		/**
-		 * ---------------------------------------------------------------------
-		 * Namespaces
-		 * ---------------------------------------------------------------------
-		 *
-		 * This maps the locations of any namespaces in your application to 
-		 * their location on the file system. These are used by the Autoloader 
-		 * to locate files the first time they have been instantiated. 
-		 * 
-		 */
-		$this->psr4 = require SYS_PATH.'src'.DIRECTORY_SEPARATOR.'register'.DIRECTORY_SEPARATOR.'autoloadPsr4.php';
-		
-		/**
-		 * ---------------------------------------------------------------------
-		 * Class Map
-		 * ---------------------------------------------------------------------
-		 *
-		 * The class map provides a map of class names and their exact location 
-		 * on the drive.
-		 *  
-		 */
-		$this->classmap = require SYS_PATH.'src'.DIRECTORY_SEPARATOR.'register'.DIRECTORY_SEPARATOR.'autoloadClassmap.php';
-
-		/**
-		 * ---------------------------------------------------------------------
-		 * Include Files
-		 * ---------------------------------------------------------------------
-		 * 
-		 * This maps the locations of any files in your application to 
-		 * their location on the file system.
-		 * 
-		 */
-		$this->includeFiles = require SYS_PATH.'src'.DIRECTORY_SEPARATOR.'register'.DIRECTORY_SEPARATOR.'autoloadFiles.php';
-	}
-
-	/**
-	 * Get the classes to filename map.
-	 * 
-	 * @param  array  $classmap
-	 * 
-	 * @return void
-	 */
-	public function addClassMap(array $classmap)
-	{
-		if (isset($this->classmap)) {
-			$this->classmap = array_merge($this->classmap, $classmap);
-		} else {
-			$this->classmap = $classmap;
-		}
-
-		return $this->classmap;
-	}
-
-	/**
-	 * Get the filename map.
-	 * 
-	 * @param  array  $files
-	 * 
-	 * @return void
-	 */
-	public function addFiles(array $files)
-	{
-		if (isset($this->includeFiles)) {
-			$this->includeFiles = array_merge($this->includeFiles, $files);
-		} else {
-			$this->includeFiles = $files;
-		}
-
-		return $this->includeFiles;
-	}
-
-	/**
-	 * Registers a set of PSR-4 directories for a given namespace.
-	 * 
-	 * @param  array  $psr4
-	 * 
-	 * @return void
-	 */
-	public function addPsr4(array $psr4)
-	{
-		if (isset($this->psr4)) {
-			$this->psr4 = array_merge($this->psr4, $psr4);
-		} else {
-			$this->psr4 = $psr4;
-		}
-
-		return $this->psr4;
+		$this->classmap     = array_merge(require $this->coreClassmap[0], $this->classmap);
+		$this->includeFiles = array_merge(require $this->coreFiles[0], $this->includeFiles);
+		$this->psr4         = array_merge(require $this->corePsr4[0], $this->prs4);
 	}
 }
