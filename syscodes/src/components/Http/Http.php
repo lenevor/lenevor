@@ -215,7 +215,7 @@ class Http
 		$filename = basename($this->server('SCRIPT_FILENAME'));
 		
 		if ($filename === basename($this->server('SCRIPT_NAME'))) {
-			$baseUrl = $this->server('SCRIPT_NAME');
+			$baseUrl = dirname($this->server('SCRIPT_NAME'));
 		} elseif ($filename === basename($this->server('PHP_SELF'))) {
 			$baseUrl = $this->server('PHP_SELF');
 		} elseif ($filename === basename($this->server('ORIG_SCRIPT_NAME'))) {
@@ -239,13 +239,15 @@ class Http
 		// Does the baseUrl have anything in common with the request_uri?
 		$requestUri = $this->parseRequestUri();
 
-		if ('' !== $requestUri && '/' !== $requestUri[0]) {
-			$requestUri = '/'.$requestUri;
-		}
+		$truncatedRequestUri = $requestUri;
 
-		$baseUrl = dirname($baseUrl);
+		if (false !== $pos = strpos($requestUri, '?')) {
+            $truncatedRequestUri = substr($requestUri, 0, $pos);
+        }
 
-		if (empty($baseUrl) || false !== strpos(rawurldecode($requestUri), $baseUrl)) {
+		$basename = basename($baseUrl);
+
+		if (empty($basename) || ! strpos(rawurldecode($truncatedRequestUri), $basename)) {
 			// no match whatsoever; set it blank
 			return '';
 		}
@@ -286,7 +288,7 @@ class Http
 
 		$pathInfo = substr($requestUri, strlen($baseUrl));
 
-		if (false === $pathInfo && '' === $pathInfo) {
+		if (false === $pathInfo || '' === $pathInfo) {
 			return '/';
 		}
 		
