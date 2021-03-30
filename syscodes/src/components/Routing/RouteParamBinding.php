@@ -73,11 +73,11 @@ class RouteParamBinding
      */
     protected function bindParameters($request)
     {
-        $path = '/'.ltrim($request->get(), '/');
+        $path = '/'.ltrim($request->decodedPath(), '/');
 
-        preg_match('#[^/]+$#sDu', $path, $matches);
+        preg_match_all('#[^/]+$#sDu', $path, $matches);
         
-        return $this->matchToKeys(array_slice($matches, 0));
+        return $this->matchToKeys(array_slice($matches[0], 0));
     }
     
     /**
@@ -96,7 +96,7 @@ class RouteParamBinding
         $parameters = array_intersect_key($matches, array_values($parameterNames));
         
         return array_filter($parameters, function ($value) {
-            return (is_string($value) && strlen($value) > 0);
+            return is_string($value) && strlen($value) > 0;
         });
     }
     
