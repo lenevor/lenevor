@@ -471,7 +471,7 @@ class Request
 	public function get() 
 	{
 		if ($request = static::active()) {
-			return $request->uri->get();
+			return $request->uri->getPath();
 		}
 
 		return null;
