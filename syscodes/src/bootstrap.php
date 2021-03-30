@@ -29,15 +29,19 @@ if ( ! defined('SYS_PATH')) define('SYS_PATH', realpath($paths['path.sys']).DIRE
 
 // Call the file constants
 require CON_PATH.'constants.php';
+
+if ( ! class_exists(Syscodes\Autoload::class, false)) {
+	require_once SYS_PATH.'src/components/Config/AutoloadConfig.php';
+	require_once SYS_PATH.'src/components/Autoloader/Autoload.php';
+}
+
 // Activate the framework class autoloader
 require SYS_PATH.'src/components/Autoloader/Autoloader.php';
-// Call the class configuration Autoloader
-require SYS_PATH.'src/components/Config/AutoloadConfig.php';
 
 // Aliases of the class autoloader 
 class_alias('Syscodes\\Autoloader', 'Autoloader');
 
 // Define the core classes to the autoloader
 (new Autoloader)
-    ->initialize(new Syscodes\Config\AutoloadConfig())
+    ->initialize(new Syscodes\Autoload())
     ->register();
