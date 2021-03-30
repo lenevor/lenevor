@@ -202,7 +202,9 @@ class URI
 	{
 		$this->path = $this->filterPath($path);
 
-		$this->filterSegments($this->path);
+		$tempPath = trim($this->path, '/');
+
+		$this->filterSegments($tempPath);
 
 		return $this;
 	} 
@@ -230,7 +232,7 @@ class URI
 	 */
 	protected function filterSegments($uri)
 	{
-		$this->segments = (empty($uri) ? [] : explode('/', $uri));
+		$this->segments = ($uri === '') ? [] : explode('/', $uri);
 	}
 
 	/**
