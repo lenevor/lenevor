@@ -23,7 +23,6 @@
 namespace Syscodes;
 
 use InvalidArgumentException;
-use Syscodes\Config\AutoloadConfig;
 
 /**
  * Lenevor Autoloader
@@ -69,29 +68,36 @@ class Autoloader
     /**
      * Initialize variables of configuration.
      * 
-     * @param  \Syscodes\Config\AutoloadConfig  $config
+     * @param  \Syscodes\Autoload  $config
      *
      * @return $this
      */
-    public function initialize(AutoloadConfig $config)
+    public function initialize(Autoload $config)
     {
         if (isset($config->psr4)) {
-           $this->addNamespace($config->addPsr4((array) $this->classOrNamespaceListMap[0]));
+            $this->addNamespace(array_merge(
+                require $this->classOrNamespaceListMap[0],
+                $config->psr4
+            ));
         }
 
         if (isset($config->classmap)) {
-            $this->classmap = $config->addClassMap((array) $this->classOrNamespaceListMap[1]);
+            $this->classmap = array_merge(
+                require $this->classOrNamespaceListMap[1],
+                $config->classmap
+            );
         }
 
         if (isset($config->includeFiles)) {
-            $this->includeFiles = $config->addFiles((array) $this->classOrNamespaceListMap[2]);
+            $this->includeFiles = array_merge(
+                require $this->classOrNamespaceListMap[2],
+                $config->includeFiles
+            );
         }
 
         if ($config->enabledInComposer) {
             $this->enabledComposerNamespaces();
         }
-        
-        unset($config);
 
         return $this;
     }
@@ -112,16 +118,16 @@ class Autoloader
 
                 if (is_array($path)) {
                     foreach ($path as $dir) {
-                        $this->prefixes[$prefix][] = rtrim($dir, '/').'/';
+                        $this->prefixes[$prefix][] = rtrim($dir, '\\/').DIRECTORY_SEPARATOR;
                     }
 
                     continue;
                 }
 
-                $this->prefixes[$prefix][] = rtrim($path, '/').'/';
+                $this->prefixes[$prefix][] = rtrim($path, '\\/').DIRECTORY_SEPARATOR;
             }
         } else {
-            $this->prefixes[trim($namespace, '\\')][] = rtrim($path, '/').'/';
+            $this->prefixes[trim($namespace, '\\')][] = rtrim($path, '\\/').DIRECTORY_SEPARATOR;
         }
 
         return $this;
@@ -187,13 +193,7 @@ class Autoloader
         
         $class = str_ireplace('.php', '', $class);
 
-        $mapFile = $this->loadInNamespace($class);
-
-        if ( ! $mapFile) {
-            $mapFile = $this->loadLegacy($class);
-        }
-
-        return $mapFile;
+        return $this->loadInNamespace($class);
     }
 
     /**
@@ -205,24 +205,39 @@ class Autoloader
      */
     protected function loadInNamespace(string $class)
     {
-        if (strpos($class, '\\') === 0) {
-            return true;
+        if (strpos($class, '\\') === false) {
+            // Attempts to load the class from common locations in previous
+            // version of Lenevor, namely: 
+            // 'app/Console', 
+            // 'app/Models', 
+            // 'app/Exceptions',
+            // 'app/Http/Controllers',
+            // 'app/Http/Middleware', 
+            // 'app/Events,
+            // 'app/Listeners.
+            $class    = 'App\\'.$class;
+            $filePath = APP_PATH.str_replace('\\', DIRECTORY_SEPARATOR, $class).'.php';
+            $filename = $this->sendFilePath($filePath);
+
+            if ($filename) {
+                return $filename;
+            }
+            
+            return false;
         }
 
-        foreach ($this->prefixes as $namespace => $directories) {            
+        foreach ($this->prefixes as $namespace => $directories) {
             foreach ($directories as $directory) {
+                $directory = rtrim($directory, '\\/');
+
                 if (0 === strpos($class, $namespace)) {
-                    $filePath = $directory.str_replace('\\', '/', 
-                                substr($class, strlen($namespace))).'.php';
-                                
+                    $filePath = $directory.str_replace('\\', DIRECTORY_SEPARATOR, substr($class, strlen($namespace))).'.php';                                
                     $filename = $this->sendFilePath($filePath); 
 
                     if ($filename) {
                         return $filename;
-                    }
-                } else {
-                    throw new InvalidArgumentException("Does not recognize the [{$class}] class, problems with the call at object or string");
-                }             
+                    } 
+                }                 
             }
         }
 
@@ -275,8 +290,8 @@ class Autoloader
     {
         $file = $this->sanitizeFile($file);
 
-        if (file_exists($file)) {
-            require_once $file;
+        if (is_file($file)) {
+            include_once $file;
 
             return $file;
         }
