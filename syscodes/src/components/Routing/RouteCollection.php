@@ -203,7 +203,7 @@ class RouteCollection implements Countable, IteratorAggregate
      */
     public function match(Request $request)
     {
-        $routes = $this->get($request->getMethod());       
+        $routes = $this->get($request->getMethod()); 
 
         if ( ! is_null($route = $this->findRoute($request, $routes))) {
             return $route;
@@ -221,37 +221,32 @@ class RouteCollection implements Countable, IteratorAggregate
      * @return \Syscodes\Routing\Route;
      */
     protected function findRoute($request, array $routes)
-    {
-        // Remove trailing and leading slash
-        $requestedUri = $request->url();
-        
+    {        
         // Loop trough the possible routes
         foreach ($routes as $route) {
             // Variable assignment by route
             $this->route = $route;
             
-            if (isset($requestedUri)) {
-                $host = $route->getHost();
+            $host = $route->getHost();
 
-                if ($host !== null && $host != $request->getHost()) {
-                    continue;
-                }
-                
-                $scheme = $route->getScheme();
-                
-                if ($scheme !== null && $scheme !== $request->getScheme()) {
-                    continue;
-                }
-                
-                $port = $route->getPort();
-                
-                if ($port !== null && $port !== $request->getPort()) {
-                    continue;
-                }
+            if ($host !== null && $host != $request->getHost()) {
+                continue;
+            }
+            
+            $scheme = $route->getScheme();
+            
+            if ($scheme !== null && $scheme !== $request->getScheme()) {
+                continue;
+            }
+            
+            $port = $route->getPort();
+            
+            if ($port !== null && $port !== $request->getPort()) {
+                continue;
             }
             
             // If the requested route one of the defined routes
-            if ($this->compareUri($route->getRoute(), $requestedUri)) {
+            if ($this->compareUri($route->getRoute(), $request->url())) {
                 return $route->bind($request);
             }
         }
@@ -269,7 +264,9 @@ class RouteCollection implements Countable, IteratorAggregate
     {
         $pattern = '~^'.$this->regexUri($route).'$~';
         
-        return preg_match($pattern, $requestedUri);
+        preg_match_all($pattern, $requestedUri, $match);
+
+        return $match[0];
     }
     
     /**
@@ -281,7 +278,7 @@ class RouteCollection implements Countable, IteratorAggregate
      */
     protected function regexUri(string $route)
     {
-        return preg_replace_callback('~\{([^/]+)\}~', function (array $match) {
+        return preg_replace_callback('~/\{(.*?)(\?)?\}+~', function ($match) {
             return $this->regexParameter($match[1]);
         }, $route);
     }
@@ -297,7 +294,7 @@ class RouteCollection implements Countable, IteratorAggregate
     {
         $pattern = $this->route->wheres[$name] ?? '[^/]+';
         
-        return '(?<'.$name.'>'.$pattern.')';
+        return '/(?P<'.$name.'>'.$pattern.')';
     }
     
     /**
