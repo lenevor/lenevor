@@ -51,6 +51,13 @@ class Route
 	public $action;
 
 	/**
+	 * The compiled version of the route.
+	 * 
+	 * @var \Syscodes\Routing\RouteCompiler $compiled
+	 */
+	public $compiled;
+
+	/**
 	 * The computed gathered middleware.
 	 * 
 	 * @var array|null $computedMiddleware
@@ -166,16 +173,6 @@ class Route
 	}
 
 	/**
-	 * Get the arguments of the current route.
-	 *
-	 * @return array
-	 */
-	public function getArguments()
-	{
-		return $this->wheres;
-	}
-
-	/**
 	 * Get the controller instance for the route.
 	 * 
 	 * @return mixed
@@ -229,6 +226,16 @@ class Route
 	public function getRoute()
 	{
 		return $this->uri;
+	}
+
+	/**
+	 * Get the patterns of the current route.
+	 *
+	 * @return array
+	 */
+	public function getPatterns()
+	{
+		return $this->wheres;
 	}
 
 	/**
@@ -559,9 +566,25 @@ class Route
 	 */
 	public function bind(Request $request)
 	{
+		$this->compileRoute();
+		
 		$this->parameters = (new RouteParamBinding($this))->parameters($request);
 
 		return $this;
+	}
+
+	/**
+	 * Compile into a Route Compile instance.
+	 * 
+	 * @return \Syscodes\Routing\RouteCompiler
+	 */
+	protected function compileRoute()
+	{
+		if ( ! $this->compiled) {
+			$this->compiled = with(new RouteCompiler($this))->compile();
+		}
+
+		return $this->compiled;
 	}
 
 	/**
@@ -585,11 +608,11 @@ class Route
 	 */
 	protected function compileParamNames()
 	{
-		preg_match_all('~[^\/\{(.*?)\}]~', $this->domain().$this->uri, $matches);
+		preg_match_all('/\{(.*?)\}/', $this->domain().$this->uri, $matches);
 
 		return array_map(function ($match) {
 			return trim($match, '?');
-		}, $matches[0]);
+		}, $matches[1]);
 	}
 
 	/**
