@@ -29,8 +29,41 @@ namespace Syscodes\Console;
  */
 class Command
 {
+    /**
+     * The console command description.
+     * 
+     * @var string|null $description
+     */
+    protected $description;
+
+    /**
+     * The Lenevor application instance.
+     * 
+     * @var \Syscodes\Contracts\Core\Application $lenevor
+     */
+    protected $lenevor;
+
+    /**
+     * The console command name.
+     * 
+     * @var string $name
+     */
+    protected $name;
+
+    /**
+     * The name and signature of the console command.
+     * 
+     * @var string $signature
+     */
+    protected $signature;
+
+    /**
+     * Constructor. Create a new Command instance.
+     * 
+     * @return void
+     */
     public function __construct()
     {
-        echo 'Command Instanced';
+        
     }
 }
