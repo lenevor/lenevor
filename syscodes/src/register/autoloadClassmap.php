@@ -42,6 +42,7 @@ return [
     'Syscodes\\Config\\AutoloadConfig' => SYS_PATH.'src/components/Config/AutoloadConfig.php',
     'Syscodes\\Config\\Configure' => SYS_PATH.'src/components/Config/Configure.php',  
     'Syscodes\\Console\\Application' => SYS_PATH.'src/components/Console/Application.php',
+    'Syscodes\\Console\\BaseCommand' => SYS_PATH.'src/components/Console/BaseCommand.php',
     'Syscodes\\Console\\Cli' => SYS_PATH.'src/components/Console/Cli.php',
     'Syscodes\\Console\\Command' => SYS_PATH.'src/components/Console/Command.php',
     'Syscodes\\Container\\Exceptions\\ContainerException' => SYS_PATH.'src/components/Container/Exceptions/ContainerException.php',
