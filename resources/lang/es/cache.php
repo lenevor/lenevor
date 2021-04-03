@@ -15,6 +15,6 @@ return [
     */
 
     'driverNotSupported' => 'El controlador [{config}] no es compatible.',
-    'storeNotDefined' => 'La memoria caché [{name}] no está definida.'
+    'storeNotDefined' => 'La memoria caché [{name}] no está definida.',
 
 ];
