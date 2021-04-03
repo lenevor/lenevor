@@ -37,6 +37,13 @@ class Command
     protected $description;
 
     /**
+     * The console command help text.
+     * 
+     * @var string|null $help
+     */
+    protected $help;
+
+    /**
      * The Lenevor application instance.
      * 
      * @var \Syscodes\Contracts\Core\Application $lenevor
@@ -64,6 +71,8 @@ class Command
      */
     public function __construct()
     {
-        
+        $this->setDescription((string) $this->description);
+
+        $this->setHelp($this->help);
     }
 }
