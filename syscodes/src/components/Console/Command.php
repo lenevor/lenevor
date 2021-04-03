@@ -22,57 +22,53 @@
 
 namespace Syscodes\Console;
 
+use ReflectionClass;
+use ReflectionException;
+use Psr\Log\LoggerInterface;
+
 /**
- * Class Command.
+ * Is class allows functionality for running, listing, etc all commands of framework.
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Command
 {
     /**
-     * The console command description.
+     * Gets the commands.
      * 
-     * @var string|null $description
+     * @var array $commands
      */
-    protected $description;
+    protected $commands = [];
 
     /**
-     * The console command help text.
+     * The Logger instance.
      * 
-     * @var string|null $help
+     * @var \Psr\Log\Interface $logger
      */
-    protected $help;
-
-    /**
-     * The Lenevor application instance.
-     * 
-     * @var \Syscodes\Contracts\Core\Application $lenevor
-     */
-    protected $lenevor;
-
-    /**
-     * The console command name.
-     * 
-     * @var string $name
-     */
-    protected $name;
-
-    /**
-     * The name and signature of the console command.
-     * 
-     * @var string $signature
-     */
-    protected $signature;
+    protected $logger;
 
     /**
      * Constructor. Create a new Command instance.
      * 
+     * @param  \Psr\Log\Interface  $logger
+     * 
      * @return void
      */
-    public function __construct()
+    public function __construct(LoggerInterface $logger)
     {
-        $this->setDescription((string) $this->description);
+        $this->logger = $logger;
+    }
 
-        $this->setHelp($this->help);
+    /**
+     * Runs a command given.
+     * 
+     * @param  string  $command
+     * @param  array  $params
+     * 
+     * @return mixed
+     */
+    public function run(string $command, array $params)
+    {
+        
     }
 }
