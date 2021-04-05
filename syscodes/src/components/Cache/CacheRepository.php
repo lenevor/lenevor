@@ -115,6 +115,8 @@ class CacheRepository implements ArrayAccess, Repository
      * @param  string  $key  Cache item name
      * @param  mixed  $value  The data to save 
      * @param  int|null  $ttl  Time To Live, in second
+     * 
+     * @return mixed
      */
     public function save($key, $value, $ttl = null)
     {
