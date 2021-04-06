@@ -29,7 +29,7 @@ use Syscodes\Container\Container;
 use Syscodes\Support\Environment;
 use Syscodes\Filesystem\Filesystem;
 use Syscodes\Support\ServiceProvider;
-use Syscodes\Log\LoggerServiceProvider;
+use Syscodes\Log\LogServiceProvider;
 use Syscodes\Events\EventServiceProvider;
 use Syscodes\Routing\RoutingServiceProvider;
 use Syscodes\Core\Http\Exceptions\HttpException;
@@ -216,7 +216,7 @@ class Application extends Container implements ApplicationContract
     protected function registerBaseServiceProviders()
     {
         $this->register(new EventServiceProvider($this));
-        $this->register(new LoggerServiceProvider($this));
+        $this->register(new LogServiceProvider($this));
         $this->register(new RoutingServiceProvider($this));
     }
 
@@ -605,9 +605,9 @@ class Application extends Container implements ApplicationContract
      * 
      * @return mixed
      */
-    public function make($id, array $parameters = [])
+    public function make($id, $parameters = [])
     {
-        $this->loadDeferredProviderInstance($id = $this->getAlias($id));
+        $this->loadDeferredProvider($id = $this->getAlias($id));
        
         return parent::make($id, $parameters);
     }
@@ -622,7 +622,7 @@ class Application extends Container implements ApplicationContract
      * 
      * @return mixed
      */
-    protected function resolve($id, array $parameters = [])
+    protected function resolve($id, $parameters = [])
     {
         $this->loadDeferredProviderInstance($id = $this->getAlias($id));
        
@@ -736,7 +736,7 @@ class Application extends Container implements ApplicationContract
      */
     public function loadDeferredProviders()
     {
-        foreach ($this->deferredServices as $service => $provider) { 
+        foreach ($this->deferredServices as $service => $provider) {
             $this->loadDeferredProvider($service);
         }
 
@@ -1026,8 +1026,6 @@ class Application extends Container implements ApplicationContract
         static::setInstance($this);
         
         $this->instance('app', $this);
-        
-        $this->instance('config', $this[\Syscodes\Config\Configure::class]);
     }
 
     /**
