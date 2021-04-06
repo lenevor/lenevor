@@ -26,6 +26,7 @@ use Closure;
 use ArrayAccess;
 use ReflectionClass;
 use ReflectionParameter;
+use InvalidArgumentException;
 use Syscodes\Contracts\Container\NotFoundException;
 use Syscodes\Container\Exceptions\ContainerException;
 use Syscodes\Contracts\Container\BindingResolutionException;
@@ -141,7 +142,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @throws \Syscodes\Container\Exceptions\ContainerException
      */
-    public function alias($id, string $alias)
+    public function alias($id, $alias)
     {
         if ($alias === $id) {
             throw new ContainerException("[ {$id} ] is aliased to itself");
@@ -161,6 +162,12 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function bind($id, $value = null, bool $singleton = false)
     { 
+        if (is_array($id)) {
+            [$id, $alias] = $id;
+
+            $this->alias($id, $alias);
+        }
+
         $this->dropInstances($id);
 
         if (is_null($value)) {
@@ -172,6 +179,10 @@ class Container implements ArrayAccess, ContainerContract
         }
 
         $this->bindings[$id] = compact('value', 'singleton');
+
+        if ($this->resolved($id)) {
+            $this->reBound($id);
+        }
     }
 
     /**
@@ -372,19 +383,21 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function extend($id, Closure $closure) 
     {
-        $id = $this->getAlias($id);
-
+        if ( ! isset($this->bindings[$id])) {
+            throw new InvalidArgumentException("Type {$id} is not bound.");
+        }
+        
         if (isset($this->instances[$id])) {
             $this->instances[$id] = $closure($this->instances[$id], $this);
-
-            $this->reHas($id);
-        } else {
-            $this->services[$id][] = $closure;
             
-            if ($this->resolved($id)) {
-                $this->reHas($id);
-            }
+            return $this->reBound($id);
         }
+        
+        $resolver = $this->bindings[$id]['value'];
+        
+        $this->bind($id, function ($container) use ($resolver, $closure) {
+            return $closure($resolver($container), $container);
+        }, $this->isSingleton($id));
     }
 
     /**
@@ -449,11 +462,9 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function getAlias($id)
     {
-        if ( ! isset($this->aliases[$id])) {
-            return $id;
-        }
-
-        return $this->getAlias($this->aliases[$id]);
+        return isset($this->aliases[$id]) 
+                ? $this->aliases[$id]
+                : $id;
     }
 
     /**
@@ -464,38 +475,6 @@ class Container implements ArrayAccess, ContainerContract
     public function getBindings()
     {
         return $this->bindings;
-    }
-
-    /**
-     * Get the class type for a given id.
-     * 
-     * @param  string  $id
-     * 
-     * @return mixed
-     */
-    protected function getValue($id)
-    {
-        if (isset($this->bindings[$id])) {
-            return $this->bindings[$id]['value'];
-        }
-
-        return $id;
-    }
-
-    /**
-     * Get the has callbacks for a given type.
-     * 
-     * @param  string  $id
-     * 
-     * @return array
-     */
-    protected function getHasCallbacks($id)
-    {
-        if (isset($this->hasCallbacks[$id])) {
-            return $this->hasCallbacks[$id];
-        }
-
-        return [];
     }
 
     /**
@@ -538,17 +517,21 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function instance($id, $instance) 
     {
-        $bound = $this->bound($id);
-
-        unset($this->aliases[$id]);
-
-        $this->instances[$id] = $instance;
-
-        if ($bound) {
-            $this->rehas($id);
+        if (is_array($id)) {
+            [$id, $alias] = $id;
+            
+            $this->alias($id, $alias);
         }
-
-        return $instance;
+        
+        unset($this->aliases[$id]);
+        
+        $bound = $this->bound($id);
+        
+        $this->instances[$id] = $instance;
+        
+        if ($bound) {
+            $this->reBound($id);
+        }
     }
 
     /**
@@ -620,13 +603,29 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return void
      */
-    protected function reHas($id)
+    protected function reBound($id)
     {
         $instance = $this->make($id);
 
-        foreach ($this->getHasCallbacks($id) as $callback) {
+        foreach ($this->getBound($id) as $callback) {
             call_user_func($callback, $this, $instance);
         }
+    }
+
+     /**
+     * Get the has callbacks for a given type.
+     * 
+     * @param  string  $id
+     * 
+     * @return array
+     */
+    protected function getBound($id)
+    {
+        if (isset($this->hasCallbacks[$id])) {
+            return $this->hasCallbacks[$id];
+        }
+
+        return [];
     }
     
     /**
@@ -683,6 +682,22 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
+     * Get the class type for a given id.
+     * 
+     * @param  string  $id
+     * 
+     * @return mixed
+     */
+    protected function getValue($id)
+    {
+        if (isset($this->bindings[$id])) {
+            return $this->bindings[$id]['value'];
+        }
+
+        return $id;
+    }
+
+    /**
      * Determine if the given id type has been resolved.
      *
      * @param  string  $id
@@ -691,10 +706,6 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function resolved($id)
     {
-        if ($this->isAlias($id)) {
-            $id = $this->getAlias($id);
-        }
-        
         return isset($this->resolved[$id]) || isset($this->instances[$id]);
     }
 
@@ -711,6 +722,8 @@ class Container implements ArrayAccess, ContainerContract
         if ($this->isSingleton($id)) {
             $this->instances[$id] = $object;
         }
+
+        $this->resolved[$id] = true;
 
         return $object;
     }
@@ -810,9 +823,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function bound($id)
     {
-        return isset($this->bindings[$id])  ||
-               isset($this->instances[$id]) ||
-               $this->isAlias($id);
+        return isset($this->bindings[$id]) || isset($this->instances[$id]);
     }
 
     /*
