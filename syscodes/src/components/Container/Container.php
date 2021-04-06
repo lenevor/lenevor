@@ -233,7 +233,7 @@ class Container implements ArrayAccess, ContainerContract
         if (is_null($constructor)) {
             array_pop($this->buildStack);
 
-            return new $class;
+            return new $class();
         }
 
         $dependencies = $constructor->getParameters();
@@ -259,9 +259,9 @@ class Container implements ArrayAccess, ContainerContract
         if ( ! empty($this->buildStack)) {
            $reset   = implode(', ', $this->buildStack);
 
-           $message = "Target [ {$class} ] is not instantiable while building [ {$reset} ]."; 
+           $message = "Target [{$class}] is not instantiable while building [{$reset}]."; 
         } else {
-            $message = "Target [ {$class} ] is not instantiable.";
+            $message = "Target [{$class}] is not instantiable.";
         }
 
         throw new BindingResolutionException($message);
@@ -290,7 +290,7 @@ class Container implements ArrayAccess, ContainerContract
                        : $this->getResolveClass($dependency);
         }
 
-        return $param;
+        return (array) $param;
     }
 
     /**
@@ -368,7 +368,7 @@ class Container implements ArrayAccess, ContainerContract
             return $parameter->getDefaultValue();
         }
 
-        $message = "Unresolvable dependency resolving [ {$parameter} ] in class [ {$parameter->getDeclaringClass()->getName()} ]";
+        $message = "Unresolvable dependency resolving [{$parameter}] in class [{$parameter->getDeclaringClass()->getName()}]";
 
         throw new BindingResolutionException($message);
     }
@@ -597,50 +597,6 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * Activate the  callbacks for the given id type.
-     * 
-     * @param  string  $id
-     * 
-     * @return void
-     */
-    protected function reBound($id)
-    {
-        $instance = $this->make($id);
-
-        foreach ($this->getBound($id) as $callback) {
-            call_user_func($callback, $this, $instance);
-        }
-    }
-
-     /**
-     * Get the has callbacks for a given type.
-     * 
-     * @param  string  $id
-     * 
-     * @return array
-     */
-    protected function getBound($id)
-    {
-        if (isset($this->hasCallbacks[$id])) {
-            return $this->hasCallbacks[$id];
-        }
-
-        return [];
-    }
-    
-    /**
-     * Remove all id traces of the specified binding.
-     * 
-     * @param  string  $id
-     * 
-     * @return void
-     */
-    public function remove($id)
-    {
-        $this->destroyBinding($id);
-    }
-
-    /**
      * Resolve the given type from the container.
      * 
      * @param  string  $id
@@ -695,6 +651,50 @@ class Container implements ArrayAccess, ContainerContract
         }
 
         return $id;
+    }
+
+    /**
+     * Activate the  callbacks for the given id type.
+     * 
+     * @param  string  $id
+     * 
+     * @return void
+     */
+    protected function reBound($id)
+    {
+        $instance = $this->make($id);
+
+        foreach ($this->getBound($id) as $callback) {
+            call_user_func($callback, $this, $instance);
+        }
+    }
+
+     /**
+     * Get the has callbacks for a given type.
+     * 
+     * @param  string  $id
+     * 
+     * @return array
+     */
+    protected function getBound($id)
+    {
+        if (isset($this->hasCallbacks[$id])) {
+            return $this->hasCallbacks[$id];
+        }
+
+        return [];
+    }
+    
+    /**
+     * Remove all id traces of the specified binding.
+     * 
+     * @param  string  $id
+     * 
+     * @return void
+     */
+    public function remove($id)
+    {
+        $this->destroyBinding($id);
     }
 
     /**
