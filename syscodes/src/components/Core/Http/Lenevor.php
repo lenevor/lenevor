@@ -24,7 +24,6 @@ namespace Syscodes\Core\Http;
 
 use Closure;
 use Throwable; 
-use Syscodes\Routing\Route;
 use Syscodes\Routing\Router;
 use Syscodes\Routing\Pipeline;
 use Syscodes\Support\Facades\Facade;
@@ -108,6 +107,9 @@ class Lenevor implements LenevorContract
 		$this->app    = $app;
 		$this->router = $router;
 
+		// Load configuration system
+		$this->bootstrap();
+
 		$this->syncMiddlewareRoute();
 	}
 	 
@@ -144,10 +146,7 @@ class Lenevor implements LenevorContract
 		$this->app->instance('request', $request);  
 
 		Facade::clearResolvedInstance('request');
-
-		// Load configuration system
-		$this->bootstrap();
-
+		
 		return (new Pipeline($this->app))
 				->send($request)
 				->through($this->app->skipGoingMiddleware() ? [] : $this->middleware)
