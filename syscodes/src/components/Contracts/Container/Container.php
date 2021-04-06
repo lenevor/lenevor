@@ -42,7 +42,7 @@ interface Container extends ContainerInterface
      * 
      * @return void
      */
-    public function alias($id, string $alias);
+    public function alias($id, $alias);
 
     /**
      * Register a binding with container.
