@@ -145,7 +145,7 @@ class Container implements ArrayAccess, ContainerContract
     public function alias($id, $alias)
     {
         if ($alias === $id) {
-            throw new ContainerException("[ {$id} ] is aliased to itself");
+            throw new ContainerException("[{$id}] is aliased to itself");
         }
 
         $this->aliases[$alias] = $id;
