@@ -162,12 +162,6 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function bind($id, $value = null, bool $singleton = false)
     { 
-        if (is_array($id)) {
-            [$id, $alias] = $id;
-
-            $this->alias($id, $alias);
-        }
-
         $this->dropInstances($id);
 
         if (is_null($value)) {
@@ -200,7 +194,7 @@ class Container implements ArrayAccess, ContainerContract
                 return $container->build($value);
             }
                        
-            return $container->make($value, $parameters);
+            return $container->resolve($value, $parameters);
         };
 
     }
@@ -463,7 +457,7 @@ class Container implements ArrayAccess, ContainerContract
     public function getAlias($id)
     {
         return isset($this->aliases[$id]) 
-                ? $this->aliases[$id]
+                ? $this->getAlias($this->aliases[$id])
                 : $id;
     }
 
@@ -706,6 +700,10 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function resolved($id)
     {
+        if ($this->isAlias($id)) {
+            $id = $this->getAlias($id);
+        }
+
         return isset($this->resolved[$id]) || isset($this->instances[$id]);
     }
 
