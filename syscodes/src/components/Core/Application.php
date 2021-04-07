@@ -169,6 +169,18 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
+     * Register the basic bindings into the container.
+     *
+     * @return void
+     */
+    public function registerBaseBindings() 
+    {
+        static::setInstance($this);
+        
+        $this->instance('app', $this);
+    }
+
+    /**
      * Throw an HttpException with the given data.
      *
      * @param  int  $code
@@ -607,8 +619,8 @@ class Application extends Container implements ApplicationContract
      */
     public function make($id, $parameters = [])
     {
-        $this->loadDeferredProvider($id = $this->getAlias($id));
-       
+        $this->loadDeferredProviderInstance($id = $this->getAlias($id));
+        
         return parent::make($id, $parameters);
     }
 
@@ -722,11 +734,9 @@ class Application extends Container implements ApplicationContract
      */
     protected function markAsRegistered($provider)
     {
-        $this['events']->dispatch($class = getClass($provider, true), array($provider));
-
         $this->serviceProviders[] = $provider;
         
-        $this->loadServiceProviders[$class] = true;
+        $this->loadServiceProviders[getClass($provider, true)] = true;
     }
 
     /**
@@ -773,7 +783,7 @@ class Application extends Container implements ApplicationContract
      */
     public function registerDeferredProvider($provider, $service = null)
     {
-        if ( ! is_null($service)) {
+        if ($service) {
             unset($this->deferredServices[$service]);
         }
 
@@ -853,8 +863,7 @@ class Application extends Container implements ApplicationContract
      */
     protected function bootProviderClass(ServiceProvider $provider)
     {
-        if (method_exists($provider, 'boot'))
-        {
+        if (method_exists($provider, 'boot')) {
             $provider->boot();
         }
     }
@@ -1014,18 +1023,6 @@ class Application extends Container implements ApplicationContract
     public function isLocale($locale)
     {
         return $this->getLocale() == $locale;
-    }
-
-    /**
-     * Register the basic bindings into the container.
-     *
-     * @return void
-     */
-    public function registerBaseBindings() 
-    {
-        static::setInstance($this);
-        
-        $this->instance('app', $this);
     }
 
     /**
