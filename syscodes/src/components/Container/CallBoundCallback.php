@@ -27,6 +27,7 @@ use ReflectionMethod;
 use ReflectionFunction;
 use Syscodes\Support\Str;
 use InvalidArgumentException;
+use ReflectionFunctionAbstract;
 
 /**
  * Allows get a closure / class@method with dependencies.
