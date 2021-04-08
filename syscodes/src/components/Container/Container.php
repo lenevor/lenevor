@@ -678,6 +678,20 @@ class Container implements ArrayAccess, ContainerContract
 
         return [];
     }
+
+    /**
+     * Call the given callable / class@method and inject its dependencies.
+     * 
+     * @param  \callable|string  $callback
+     * @param  array  $parameters
+     * @param  string|null  $defaultMethod
+     * 
+     * @return mixed
+     */
+    public function call($callback, array $parameters = [], string $defaultMethod = null)
+    {
+        return CallBoundCallback::call($this, $callback, $parameters, $defaultMethod);
+    }
     
     /**
      * Remove all id traces of the specified binding.
