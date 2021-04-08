@@ -864,7 +864,7 @@ class Application extends Container implements ApplicationContract
     protected function bootProviderClass(ServiceProvider $provider)
     {
         if (method_exists($provider, 'boot')) {
-            $provider->boot();
+            $this->call([$provider, 'boot']);
         }
     }
 
