@@ -47,6 +47,7 @@ return [
     'Syscodes\\Console\\Command' => SYS_PATH.'src/components/Console/Command.php',
     'Syscodes\\Container\\Exceptions\\ContainerException' => SYS_PATH.'src/components/Container/Exceptions/ContainerException.php',
     'Syscodes\\Container\\Exceptions\\UnknownIdentifierException' => SYS_PATH.'src/components/Container/Exceptions/UnknownIdentifierException.php',
+    'Syscodes\\Container\\CallBoundCallback' => SYS_PATH.'src/components/Container/CallBoundCallback.php',
     'Syscodes\\Container\\Container' => SYS_PATH.'src/components/Container/Container.php',
     'Syscodes\\Contracts\\Cache\\Key' => SYS_PATH.'src/components/Contracts/Cache/Key.php',
     'Syscodes\\Contracts\\Cache\\Manager' => SYS_PATH.'src/components/Contracts/Cache/Manager.php',
