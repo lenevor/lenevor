@@ -161,7 +161,7 @@ class Container implements ArrayAccess, ContainerContract
      * @return void
      */
     public function bind($id, $value = null, bool $singleton = false)
-    { 
+    {   
         $this->dropInstances($id);
 
         if (is_null($value)) {
@@ -198,6 +198,51 @@ class Container implements ArrayAccess, ContainerContract
         };
 
     }
+
+    /**
+     * Determine if the given id type has been resolved.
+     *
+     * @param  string  $id
+     * 
+     * @return bool
+     */
+    public function resolved($id)
+    {
+        if ($this->isAlias($id)) {
+            $id = $this->getAlias($id);
+        }
+
+        return isset($this->resolved[$id]) || isset($this->instances[$id]);
+    }
+
+    /**
+     * Activate the  callbacks for the given id type.
+     * 
+     * @param  string  $id
+     * 
+     * @return void
+     */
+    protected function reBound($id)
+    {
+        $instance = $this->make($id);
+
+        foreach ($this->getBound($id) as $callback) {
+            call_user_func($callback, $this, $instance);
+        }
+    }
+
+    /**
+     * Register a singleton binding in the container.
+     * 
+     * @param  string  $id
+     * @param  \Closure|string|null  $value
+     * 
+     * @return void
+     */
+    public function singleton($id, $value = null)
+    {
+        $this->bind($id, $value, true);
+    }    
 
     /**
      * Instantiate a class instance of the given type.
@@ -435,19 +480,6 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * Flush the container of all bindings and resolved instances.
-     * 
-     * @return void
-     */
-    public function flush()
-    {
-        $this->aliases   = [];
-        $this->resolved  = [];
-        $this->bindings  = [];
-        $this->instances = [];
-    }
-
-    /**
      * Get the alias for an id if available.
      * 
      * @param  string  $id
@@ -480,25 +512,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     protected function getServices($id)
     {
-        $id = $this->getAlias($id);
-
-        if (isset($this->services[$id])) {
-            return $this->services[$id];
-        }
-
-        return [];
-    }
-
-    /**
-     * Get a given instance through of an object singleton.
-     * 
-     * @param  string  $id
-     * 
-     * @return mixed
-     */
-    protected function getSingletonInstance($id)
-    {
-        return $this->singletonResolved($id) ? $this->instances[$id] : null;
+        return $this->services[$this->getAlias($id)] ?? [];
     }
 
     /**
@@ -526,45 +540,6 @@ class Container implements ArrayAccess, ContainerContract
         if ($bound) {
             $this->reBound($id);
         }
-    }
-
-    /**
-     * Determine if a given string is an alias.
-     * 
-     * @param  string  $name
-     * 
-     * @return bool
-     */
-    public function isAlias($name)
-    {
-        return isset($this->aliases[$name]);
-    }
-
-    /**
-     * Determine if the given id is buildable.
-     * 
-     * @param  string  $class
-     * @param  string  $id
-     * 
-     * @return string
-     */
-    protected function isBuildable($class, $id)
-    {
-        return $class === $id || $class instanceof Closure;
-    }
-
-    /**
-     * Determine if a given type is singleton.
-     * 
-     * @param  string  $id
-     * 
-     * @return bool
-     */
-    protected function isSingleton($id)
-    {
-        return isset($this->instances[$id]) ||
-               (isset($this->bindings[$id]['singleton']) &&
-               $this->bindings[$id]['singleton'] === true);
     }
 
     /**
@@ -610,10 +585,6 @@ class Container implements ArrayAccess, ContainerContract
         
         $value = $this->getValue($id);
 
-        if ($this->isSingleton($id) && $this->singletonResolved($id)) {
-            return $this->getSingletonInstance($id);
-        }
-
         if ($this->isBuildable($value, $id)) {
             $object = $this->build($value);
         } else {
@@ -624,11 +595,54 @@ class Container implements ArrayAccess, ContainerContract
             $object = $services($object, $this);
         }
 
+        if ($this->isSingleton($id)) {
+            $this->instances[$id] = $object;
+        }
+
         $this->resolved[$id] = true;
 
         array_pop($this->across);
+        
+        return $object;
+    }
 
-       return $this->resolveObject($id, $object);
+    /**
+     * Determine if a given string is an alias.
+     * 
+     * @param  string  $name
+     * 
+     * @return bool
+     */
+    public function isAlias($name)
+    {
+        return isset($this->aliases[$name]);
+    }
+
+    /**
+     * Determine if the given id is buildable.
+     * 
+     * @param  string  $class
+     * @param  string  $id
+     * 
+     * @return string
+     */
+    protected function isBuildable($class, $id)
+    {
+        return $class === $id || $class instanceof Closure;
+    }
+
+    /**
+     * Determine if a given type is singleton.
+     * 
+     * @param  string  $id
+     * 
+     * @return bool
+     */
+    protected function isSingleton($id)
+    {
+        return isset($this->instances[$id]) ||
+               (isset($this->bindings[$id]['singleton']) &&
+               $this->bindings[$id]['singleton'] === true);
     }
 
     /**
@@ -645,22 +659,6 @@ class Container implements ArrayAccess, ContainerContract
         }
 
         return $id;
-    }
-
-    /**
-     * Activate the  callbacks for the given id type.
-     * 
-     * @param  string  $id
-     * 
-     * @return void
-     */
-    protected function reBound($id)
-    {
-        $instance = $this->make($id);
-
-        foreach ($this->getBound($id) as $callback) {
-            call_user_func($callback, $this, $instance);
-        }
     }
 
      /**
@@ -706,41 +704,6 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * Determine if the given id type has been resolved.
-     *
-     * @param  string  $id
-     * 
-     * @return bool
-     */
-    public function resolved($id)
-    {
-        if ($this->isAlias($id)) {
-            $id = $this->getAlias($id);
-        }
-
-        return isset($this->resolved[$id]) || isset($this->instances[$id]);
-    }
-
-    /**
-     * Register the identifier given for to be instanced to an object already built.
-     * 
-     * @param  string  $id
-     * @param  string  $object
-     * 
-     * @return mixed
-     */
-    protected function resolveObject($id, $object)
-    {
-        if ($this->isSingleton($id)) {
-            $this->instances[$id] = $object;
-        }
-
-        $this->resolved[$id] = true;
-
-        return $object;
-    }
-
-    /**
      * Set the binding with given key / value.
      * 
      * @param  string  $id
@@ -762,28 +725,16 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * Register a singleton binding in the container.
-     * 
-     * @param  string  $id
-     * @param  \Closure|string|null  $value
+     * Flush the container of all bindings and resolved instances.
      * 
      * @return void
      */
-    public function singleton($id, $value = null)
+    public function flush()
     {
-        $this->bind($id, $value, true);
-    }
-
-    /**
-     * Resolve a singleton binding with key array.
-     * 
-     * @param  string  $id
-     * 
-     * @return bool
-     */
-    public function singletonResolved($id)
-    {
-        return array_key_exists($id, $this->instances);
+        $this->aliases   = [];
+        $this->resolved  = [];
+        $this->bindings  = [];
+        $this->instances = [];
     }
 
     /*
