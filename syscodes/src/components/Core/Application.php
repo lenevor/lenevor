@@ -620,7 +620,7 @@ class Application extends Container implements ApplicationContract
     public function make($id, $parameters = [])
     {
         $this->loadDeferredProviderInstance($id = $this->getAlias($id));
-        
+
         return parent::make($id, $parameters);
     }
 
@@ -676,41 +676,51 @@ class Application extends Container implements ApplicationContract
      */
     public function register($provider, $force = false)
     {
-        if (($registered = $this->getProviderHasBeenLoaded($provider)) && ! $force) {
+        if ($registered = $this->getProvider($provider) && ! $force) {
             return $registered;
         }
 
         if (is_string($provider)) {
             $provider = $this->resolveProviderClass($provider);
         }
-        
+
         $provider->register();
 
         $this->markAsRegistered($provider);
-        
+
         if ($this->isBooted()) {
             $this->bootProviderClass($provider);
         }
-
+        
         return $provider;
     }
-
+    
     /**
      * Get the registered service provider instance if it exists.
      * 
-     * @param  \Syscodes\Support\ServiceProvider|string  $provider
+     * @param  \Illuminate\Support\ServiceProvider|string  $provider
      * 
-     * @return \Syscodes\Support\ServiceProvider
+     * @return \Illuminate\Support\ServiceProvider|null
      */
-    protected function getProviderHasBeenLoaded($provider)
+    public function getProvider($provider)
+    {
+        return array_values($this->getProviders($provider))[0] ?? null;
+    }
+    
+    /**
+     * Get the registered service provider instances if any exist.
+     * 
+     * @param  \Illuminate\Support\ServiceProvider|string  $provider
+     * 
+     * @return array
+     */
+    public function getProviders($provider)
     {
         $name = is_string($provider) ? $provider : getClass($provider, true);
-
-        if (array_key_exists($name, $this->loadServiceProviders)) {
-            return Arr::first($this->serviceProviders, function($key, $value) use ($name) {
-                return getClass($value, true) == $name;
-            });
-        }
+        
+        return Arr::where($this->serviceProviders, function ($value) use ($name) {
+            return $value instanceof $name;
+        });
     }
 
     /**
@@ -741,7 +751,7 @@ class Application extends Container implements ApplicationContract
 
     /**
      * Load and boot all of the remaining deferred providers.
-     * 
+     *
      * @return void
      */
     public function loadDeferredProviders()
@@ -750,50 +760,50 @@ class Application extends Container implements ApplicationContract
             $this->loadDeferredProvider($service);
         }
 
-        $this->deferredServices = [];
+        $this->deferredServices = array();
     }
 
     /**
      * Load the provider for a deferred service.
-     * 
+     *
      * @param  string  $service
-     * 
      * @return void
      */
-    public function loadDeferredProvider($service)
+    protected function loadDeferredProvider($service)
     {
         if ( ! $this->isDeferredService($service)) {
             return;
         }
-        
+
         $provider = $this->deferredServices[$service];
 
-        if ( ! isset($this->loadServiceProviders[$provider])) {
+        if (! isset($this->loadServiceProviders[$provider])) {
             $this->registerDeferredProvider($provider, $service);
         }
     }
 
     /**
      * Register a deferred provider and service.
-     * 
+     *
      * @param  string  $provider
      * @param  string  $service
-     * 
      * @return void
      */
     public function registerDeferredProvider($provider, $service = null)
     {
-        if ($service) {
+        if (! is_null($service)) {
             unset($this->deferredServices[$service]);
         }
 
         $this->register($instance = new $provider($this));
 
-        if ( ! $this->isBooted()) {
-            $this->booting(function () use ($instance) {
-                $this->bootProviderClass($instance);
-            });
+        if ($this->isBooted()) {
+            return;
         }
+
+        $this->booting(function() use ($instance) {
+            $this->bootProviderClass($instance);
+        });
     }
     
     /**
