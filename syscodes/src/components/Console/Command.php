@@ -69,6 +69,8 @@ class Command
      */
     public function run(string $command, array $params)
     {
+        $this->discoverCommands();
+
         
     }
 }
