@@ -44,7 +44,7 @@ class Application implements ApplicationContracts
 	/**
 	 * Console constructor. Initialize the console of Lenevor.
 	 *
-	 * @param  \Syscodes\Contracts\Core\Lenevor  $core
+	 * @param  \Syscodes\Contracts\Core\Container  $lenevor
 	 * 
 	 * @return void
 	 */
@@ -65,7 +65,7 @@ class Application implements ApplicationContracts
 	 */
 	public function run()
 	{
-		$path = Cli::getURI();
+		$path = Cli::getURI() ?? 'list';
 
 				
 	}
