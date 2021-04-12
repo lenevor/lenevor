@@ -23,13 +23,15 @@
 namespace Syscodes\Translation;
 
 use Syscodes\Support\ServiceProvider;
+use Syscodes\Contracts\Support\Deferrable;
+use Syscodes\Translation\Loader\FileLoader;
 
 /**
  * For loading the classes from the container of services.
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class TranslationServiceProvider extends ServiceProvider
+class TranslationServiceProvider extends ServiceProvider implements Deferrable
 {
     /**
      * Register the service provider.
@@ -38,14 +40,41 @@ class TranslationServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerLoader();
+
         $this->app->singleton('translator', function ($app) {            
             $locale = $this->app['config']['app.locale'];
+            $loader = $app['translator.loader'];
             
-            $translator = new Translator($locale);
+            $translator = new Translator($locale, $loader);
 
             $translator->setFallback($app['config']['app.fallbackLocale']);
 
             return $translator;
         });
+    }
+
+    /**
+     * Register the translation line loader.
+     * 
+     * @return void
+     */
+    protected function registerLoader()
+    {
+        $this->app->singleton('translator.loader', function ($app) {
+            return new FileLoader($app['files'], $app['path.lang']);
+        });
+    }
+
+    /**
+     * Get the services provided by the provider.
+     * 
+     * @return array
+     */
+    public function provides()
+    {
+        return [
+            'translator', 'translator.loader',
+        ];
     }
 }
