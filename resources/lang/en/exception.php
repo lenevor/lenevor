@@ -17,7 +17,7 @@ return [
     'empty' => 'empty',
     'environment' => 'Environment & details:',
     'environmentVars' => 'Environment Variables',
-    'errorHttpCode' => 'Not found the HTTP Code view [ {code} ].',
+    'errorHttpCode' => 'Not found the HTTP Code view [{code}].',
     'files' => 'Files',
     'maxMemoryUsage' => 'Peak Memory Usage',
     'memory' => 'Memory',
