@@ -583,13 +583,13 @@ if ( ! function_exists('__')) {
      * with the intl extension's MessageFormatter object.
      * 
      * @param  string  $line
-     * @param  array  $args
+     * @param  array  $replace
      * 
      * @return string
      */
-    function __($line, array $args = [])
+    function __($line, array $replace = [])
     {
-        return app('translator')->getLine($line, $args);
+        return app('translator')->get($line, $replace);
     }
 }
 
