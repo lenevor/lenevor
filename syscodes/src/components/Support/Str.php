@@ -342,6 +342,21 @@ class Str
 
         return static::$studlyCache[$key] = str_replace(' ', '', $value);
     }
+    
+    /**
+     * Returns the portion of the string specified by the start and length parameters.
+     * 
+     * @param  string  $string
+     * @param  int  $start
+     * @param  int|null  $length
+     * 
+     * @return string
+     */
+    public static function substr($string, $start, $length = null)
+    {
+        return mb_substr($string, $start, $length, 'UTF-8');
+    }
+
 
     /**
      * Convert the given string to title case.
@@ -377,5 +392,17 @@ class Str
     public static function upper($value)
     {
         return mb_strtoupper($value);
+    }
+
+    /**
+     * Make a string's first character uppercase.
+     * 
+     * @param  string  $value
+     * 
+     * @return string
+     */
+    public static function ucfirst($value)
+    {
+        return static::upper(static::substr($value, 0, 1)).static::substr($value, 1);
     }
 }
