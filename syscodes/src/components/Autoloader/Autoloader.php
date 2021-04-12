@@ -245,40 +245,6 @@ class Autoloader
     }
 
     /**
-     * Attempts to load the class from common locations in previous
-     * version of Lenevor, namely 'app/Console', and
-     * 'app/Models'.
-     * 
-     * @param  string  $class  The class name. This typically should NOT have a namespace.
-     *
-     * @return mixed  
-     */
-    protected function loadLegacy(string $class)
-    {
-        // If there is a namespace on this class, then
-        // we cannot load it from traditional locations.
-        if (strpos($class, '\\') !== false) {
-            return false;
-        }
-
-        $paths = [
-            APP_PATH.'Models/',
-            APP_PATH.'Console/',
-            APP_PATH.'Http/Controllers/',
-        ];
-
-        $class = str_replace('\\', DIRECTORY_SEPARATOR, $class).'.php';
-
-        foreach ($paths as $path) {
-            if ($file = $this->sendFilePath($path.$class)) {
-                return $file;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * A central way to require a file is loaded. Split out primarily
      * for testing purposes.
      *
