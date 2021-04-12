@@ -18,7 +18,7 @@ return [
     'empty' => 'vacío',
     'environment' => 'Entorno y detalles:',
     'environmentVars' => 'Variables de Entorno',
-    'errorHttpCode' => 'No se encontró la vista del código HTTP [ {code} ].',
+    'errorHttpCode' => 'No se encontró la vista del código HTTP [{code}].',
     'files' => 'Archivos',
     'maxMemoryUsage' => 'Uso máximo de la memoria',
     'memory' => 'Memoria',
