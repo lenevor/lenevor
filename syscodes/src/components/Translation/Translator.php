@@ -25,6 +25,9 @@ namespace Syscodes\Translation;
 use MessageFormatter;
 use Syscodes\Support\Str;
 use Syscodes\Support\Finder;
+use InvalidArgumentException;
+use Syscodes\Contracts\Translation\Loader;
+use Syscodes\Contracts\Translation\Translator as TranslatorContract;
 
 /**
  * Handle system messages and localization. Locale-based, 
@@ -32,7 +35,7 @@ use Syscodes\Support\Finder;
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class Translator
+class Translator implements TranslatorContract
 {
     /**
      * The fallback locale used by the translator.
@@ -56,6 +59,13 @@ class Translator
     protected $loaded = [];
 
     /**
+     * The loader implementation.
+     * 
+     * @var \Syscodes\Contracts\Translation\Loader $loader
+     */
+    protected $loader;
+
+    /**
      * The default locale being used by the translator.
      * 
      * @var array $locale
@@ -73,16 +83,34 @@ class Translator
      * Constructor language.
      * 
      * @param  string  $locale
+     * @param  \Syscodes\Contracts\Translation\Loader  $loader
      * 
      * @return void
      */
-    public function __construct($locale)
+    public function __construct($locale, Loader $loader)
     {   
-        $this->locale = $locale;
+        $this->setLocale($locale);
+
+        $this->loader = $loader;
 
         if (class_exists('\MessageFormatter')) {
             $this->intlSupport = true;
         }
+    }
+
+    /**
+     * Get the translation for the given key.
+     * 
+     * @param  string  $key
+     * @param  array  $replace
+     * @param  string|null  $locale
+     * @param  bool  $fallback
+     * 
+     * @return string|array
+     */
+    public function get($key, array $replace = [], string $locale = null, bool $fallback = true)
+    {
+        return $this->getLine($key, $replace);
     }
 
     /**
@@ -94,7 +122,7 @@ class Translator
      * 
      * @return string|array  Returns line
      */
-    public function getLine($line, array $replace = [])
+    protected function getLine($line, array $replace = [])
     {
         // Parse out the file name and the actual alias.
         // Will load the language file and strings.
@@ -252,5 +280,53 @@ class Translator
         }
 
         return MessageFormatter::formatMessage($this->locale, $line, $replace);
+    }
+
+    /**
+     * Get the default locale being used.
+     * 
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     * Set the default locale.
+     * 
+     * @param  string  $locale
+     * 
+     * @return void
+     */
+    public function setLocale($locale)
+    {
+        if (Str::contains($locale, ['/', '\\'])) {
+            throw new InvalidArgumentException('Invalid characters present in locale.');
+        }
+        
+        $this->locale = $locale;
+    }
+
+    /**
+     * Get the fallback locale being used.
+     * 
+     * @return string
+     */
+    public function getFallback()
+    {
+        return $this->fallback;
+    }
+
+    /**
+     * Set the default locale.
+     * 
+     * @param  string  $locale
+     * 
+     * @return void
+     */
+    public function setFallback($fallback)
+    {        
+        $this->fallback = $fallback;
     }
 }
