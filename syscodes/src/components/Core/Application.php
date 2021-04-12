@@ -1060,7 +1060,7 @@ class Application extends Container implements ApplicationContract
             'router'           => [\Syscodes\Routing\Router::class],
             'session'          => [\Syscodes\Session\SessionManager::class],
             'session.store'    => [\Syscodes\Session\Store::class, \Syscodes\Contracts\Session\Session::class],
-            'translator'       => [\Syscodes\Translation\Translator::class],
+            'translator'       => [\Syscodes\Translation\Translator::class, \Syscodes\Contracts\Translation\Translator::class],
             'url'              => [\Syscodes\Routing\UrlGenerator::class],
             'view'             => [\Syscodes\View\Factory::class, \Syscodes\Contracts\View\Factory::class]
         ] as $key => $aliases) {
