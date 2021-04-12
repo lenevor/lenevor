@@ -23,6 +23,7 @@
 namespace Syscodes\Translation;
 
 use MessageFormatter;
+use Syscodes\Support\Str;
 use Syscodes\Support\Finder;
 
 /**
@@ -85,52 +86,31 @@ class Translator
     }
 
     /**
-     * Advanced message formatting.
-     * 
-     * @param  string  $message
-     * @param  array  $args
-     * 
-     * @return string|array  Returns formatted message
-     */
-    protected function formatMessage($message, array $args = [])
-    {
-        if ( ! $this->intlSupport || ! count($args)) {
-            return $message;
-        }
-
-        if (is_array($message)) {
-            foreach ($message as $index => $value) {
-                $message[$index] = $this->formatMessage($value, $args);
-            }
-
-            return $message;
-        }
-
-        return MessageFormatter::formatMessage($this->locale, $message, $args);
-    }
-
-    /**
      * Parses the language string for a file, loads the file, if necessary,
      * getting the line.
      * 
      * @param  string  $line
-     * @param  array  $args
+     * @param  array  $replace
      * 
      * @return string|array  Returns line
      */
-    public function getLine($line, array $args = [])
+    public function getLine($line, array $replace = [])
     {
         // Parse out the file name and the actual alias.
         // Will load the language file and strings.
-        list($file, $parseLine) = $this->parseLine($line);
+        list($file, $group) = $this->parseLine($line);
         
-        $output = $this->language[$this->locale][$file][$parseLine] ?? $line;
+        $output = $this->language[$this->locale][$file][$group] ?? $line;
 
-        if ( ! empty($args)) {
-            $output = $this->formatMessage($output, $args);
+        if (is_string($output)) {
+            return $this->makeReplacements($output, $replace);
+        } elseif (is_array($output) && count($output) > 0) {
+            foreach ($output as $key => $value) {
+                $output[$key] = $this->makeReplacements($value, $replace);
+            }
+
+            return $output;
         }
-        
-        return $output;
     }
     
     /**
@@ -228,5 +208,49 @@ class Translator
         }
 
         return [];
+    }
+
+    /**
+     * Make the place-holder replacements on a line.
+     * 
+     * @param  string  $line
+     * @param  array  $replace
+     * 
+     * @return string
+     */
+    protected function makeReplacements($line, array $replace)
+    {
+        $line = $this->formatMessage($line, $replace);
+
+        if (empty($replace)) {
+            return $line;
+        }
+
+        foreach ($replace as $key => $value) {
+            $line = str_replace(
+                [':'.$key, ':'.Str::upper($key), ':'.Str::ucfirst($key)],
+                [$value, Str::upper($value), Str::ucfirst($value)],
+                $line
+            );
+        }
+
+        return $line;
+    }
+
+    /**
+     * Advanced line formatting.
+     * 
+     * @param  string  $line
+     * @param  array  $replace
+     * 
+     * @return string|array
+     */
+    protected function formatMessage($line, array $replace = [])
+    {
+        if ( ! $this->intlSupport || ! count($replace)) {
+            return $line;
+        }
+
+        return MessageFormatter::formatMessage($this->locale, $line, $replace);
     }
 }
