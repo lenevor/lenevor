@@ -24,7 +24,6 @@ namespace Syscodes\Translation;
 
 use MessageFormatter;
 use Syscodes\Support\Str;
-use Syscodes\Support\Finder;
 use InvalidArgumentException;
 use Syscodes\Contracts\Translation\Loader;
 use Syscodes\Contracts\Translation\Translator as TranslatorContract;
@@ -110,7 +109,17 @@ class Translator implements TranslatorContract
      */
     public function get($key, array $replace = [], string $locale = null, bool $fallback = true)
     {
-        return $this->getLine($key, $replace);
+        $locale = $locale ?: $this->locale;
+
+        $locales = $fallback ? $this->localeArray($locale) : [$locale];
+        
+        foreach ($locales as $locale) {
+            if ( ! is_null($line = $this->getLine($key, $locale, $replace))) {
+                return $line;
+            }
+        }
+
+        return $this->makeReplacements($key, $replace);
     }
 
     /**
@@ -118,17 +127,18 @@ class Translator implements TranslatorContract
      * getting the line.
      * 
      * @param  string  $line
+     * @param  string  $locale
      * @param  array  $replace
      * 
      * @return string|array  Returns line
      */
-    protected function getLine($line, array $replace = [])
-    {
+    protected function getLine($line, $locale, array $replace = [])
+    {   
         // Parse out the file name and the actual alias.
         // Will load the language file and strings.
-        list($file, $group) = $this->parseLine($line);
+        list($file, $group) = $this->parseLine($line, $locale);
         
-        $output = $this->language[$this->locale][$file][$group] ?? $line;
+        $output = $this->language[$locale][$file][$group] ?? $line;
 
         if (is_string($output)) {
             return $this->makeReplacements($output, $replace);
@@ -146,96 +156,40 @@ class Translator implements TranslatorContract
      * filename as the first segment (separated by period).
      * 
      * @param  string  $line
+     * @param  string  $locale
      * 
      * @return array
      */
-    protected function parseLine($line)
+    protected function parseLine(string $line, string $locale)
     {
-        // If there's no possibility of a filename being in the string
-        // simply return the string, and they can parse the replacement
-        // without it being in a file.
-        if (strpos($line, '.') === false) {
-            return [
-                null,
-                $line
-            ];
-        }
-        
         $file = substr($line, 0, strpos($line, '.'));
         $line = substr($line, strlen($file) + 1);
 
-        if ( ! array_key_exists($line, $this->language)) {
-            $this->load($file, $this->locale);
+        if (isset($this->language[$locale][$file])) {
+            $this->load($file, $locale);
+        }
+
+        if ( ! isset($this->language[$locale][$file]) || ! array_key_exists($line, $this->language[$locale][$file])) {
+            $this->load($file, $locale);
         }
         
-        return [
-            $file,
-            $this->language[$this->locale][$line] ?? $line
-        ];
+        return [$file, $line];
     }
 
     /**
-     * Loads a language file in the current locale. If $return is true
-     * will return the file's contents, otherwise will merge with the 
+     * Loads a language file in the current locale, otherwise will merge with the 
      * existing language lines.
      * 
      * @param  string  $file
-     * @param  string  $locale
-     * @param  bool  $return  
+     * @param  string  $locale  
      * 
      * @return array|null
      */
-    protected function load($file, $locale, $return = false)
+    protected function load($file, $locale)
     {
-        if ( ! array_key_exists($locale, $this->loaded)) {
-            $this->loaded[$locale] = [];
-        }
-        
-        if (in_array($file, $this->loaded)) {
-            return [];
-        }
+        $lang = $this->loader->load($locale, $file);
 
-        if ( ! array_key_exists($locale, $this->language)) {
-            $this->language[$locale] = [];
-        }
-
-        if ( ! array_key_exists($file, $this->language[$locale])) {
-            $this->language[$locale][$file] = [];
-        }
-
-        $path = $locale.DIRECTORY_SEPARATOR.$file;
-
-        $lang = $this->requireFile($path);
-
-        if ($return) {
-            return $lang;
-        }
-
-        $this->loaded[$locale][] = $file;
-
-        $this->language[$this->locale][$file] = $lang;
-    }
-
-    /**
-     * A simple method for includin files.
-     * 
-     * @param  string  $path
-     * 
-     * @return array
-     */
-    protected function requireFile($path)
-    {
-        $files = (array) Finder::search($path, 'lang');
-
-        foreach ($files as $file) {
-            if ( ! is_file($file)) {
-                continue;
-            }
-            
-            return require $file;
-        }
-
-        return [];
+        $this->language[$locale][$file] = $lang;
     }
 
     /**
@@ -280,6 +234,18 @@ class Translator implements TranslatorContract
         }
 
         return MessageFormatter::formatMessage($this->locale, $line, $replace);
+    }
+    
+    /**
+     * Get the array of locales to be checked.
+     * 
+     * @param  string|null  $locale
+     * 
+     * @return array
+     */
+    protected function localeArray($locale)
+    {
+        return array_filter([$locale ?: $this->locale, $this->fallback]);
     }
 
     /**
