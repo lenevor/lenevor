@@ -28,7 +28,7 @@ use Syscodes\Contracts\Translation\Loader as LoaderContract;
 
 /**
  * Automatically loads the messages according to the type of 
- * file in php or json format. 
+ * file in php format. 
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
@@ -70,43 +70,14 @@ class FileLoader implements LoaderContract
      * 
      * @return array
      */
-    public function load($locale, $group = '*')
+    public function load($locale, $group)
     {
-        if (isset($group)) {
-            return $this->loadFilePaths($locale, $group);
-        }
-
-        return $this->loadJsonPaths($locale);
-    }
-
-    /**
-     * Load a locale from the given JSON file path.
-     * 
-     * @param  string  $locale
-     * 
-     * @return array
-     * 
-     * @throws \RuntimeException
-     */
-    protected function loadJsonPaths($locale)
-    {
-        if ($this->files->exists($fullPath = "{$this->path}/{$locale}.json")) {
-            $output = json_decode($this->files->get($fullPath), true);
-
-            if (is_null($output) || json_last_error() !== JSON_ERROR_NONE) {
-                throw new RuntimeException("Translation file [{$fullPath}] contains an invalid JSON structure");
-            }
-
-            return $output;
-        }
-
-        return [];
+        return $this->loadFilePaths($locale, $group);
     }
 
     /**
      * Load a locale from a given path.
      * 
-     * @param  string  $path
      * @param  string  $locale
      * @param  string  $group
      * 
