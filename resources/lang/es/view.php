@@ -31,6 +31,6 @@ return [
     'successfullyInstalled' => 'Has instalado correctamente esta aplicación, puedes usarla ahora.',
     'tutorials' => 'Tutoriales',
     'video-tutorials' => 'Los videos tutoriales sobre Lenevor, échales un vistazo, compruébalo por ti mismo y mejora enormemente tus habilidades de desarrollo en el proceso.',
-    'welcomeTo' => 'Bienvenido a',
+    'welcomeTo' => 'Bienvenido a ',
 
 ];
