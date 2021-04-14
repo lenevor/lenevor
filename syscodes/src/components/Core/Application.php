@@ -178,6 +178,7 @@ class Application extends Container implements ApplicationContract
         static::setInstance($this);
         
         $this->instance('app', $this);
+        $this->instance('config', $this[\Syscodes\Config\Configure::class]);
     }
 
     /**
