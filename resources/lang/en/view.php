@@ -29,6 +29,6 @@ return [
     'successfullyInstalled' => 'Your have successfully installed this application, you can use it now.',
     'tutorials' => 'Tutorials',
     'video-tutorials' => 'The videos tutorials on Lenevor, check them out, see for yourself and massively level up your development skills in the process.',
-    'welcomeTo' => 'Welcome to',
+    'welcomeTo' => 'Welcome to ',
 
 ];
