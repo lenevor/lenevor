@@ -107,9 +107,6 @@ class Lenevor implements LenevorContract
 		$this->app    = $app;
 		$this->router = $router;
 
-		// Load configuration system
-		$this->bootstrap();
-
 		$this->syncMiddlewareRoute();
 	}
 	 
@@ -146,6 +143,9 @@ class Lenevor implements LenevorContract
 		$this->app->instance('request', $request);  
 
 		Facade::clearResolvedInstance('request');
+
+		// Load configuration system
+		$this->bootstrap();
 		
 		return (new Pipeline($this->app))
 				->send($request)
