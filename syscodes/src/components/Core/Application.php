@@ -1004,7 +1004,15 @@ class Application extends Container implements ApplicationContract
         $this->deferredServices = array_merge($this->deferredServices, $services);
     }
 
-    
+    /**
+     * Get the current application locale.
+     * 
+     * @return string
+     */
+    public function currentLocale()
+    {
+        return $this->getLocale();
+    }
 
     /**
      * Get the current application locale.
@@ -1026,7 +1034,33 @@ class Application extends Container implements ApplicationContract
         return $this['config']->get('app.fallbackLocale');
     }
 
-    
+    /**
+     * Set the current application locale.
+     * 
+     * @param  string  $locale
+     * 
+     * @return void
+     */
+    public function setLocale($locale)
+    {
+        $this['config']->set('app.locale', $locale);
+
+        $this['translator']->setLocale($locale);
+    }
+
+    /**
+     * Set the current application fallback locale.
+     * 
+     * @param  string  $fallbackLocale
+     * 
+     * @return void
+     */
+    public function setFallbackLocale($fallbackLocale)
+    {
+        $this['config']->set('app.fallbackLocale', $fallbackLocale);
+
+        $this['translator']->setFallback($fallbackLocale);
+    }
 
     /**
      * Determine if application locale is the given locale.
