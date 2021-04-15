@@ -1009,6 +1009,16 @@ class Application extends Container implements ApplicationContract
      * 
      * @return string
      */
+    public function currentLocale()
+    {
+        return $this->getLocale();
+    }
+
+    /**
+     * Get the current application locale.
+     * 
+     * @return string
+     */
     public function getLocale()
     {
         return $this['config']->get('app.locale');
@@ -1022,6 +1032,34 @@ class Application extends Container implements ApplicationContract
     public function getFallbackLocale()
     {
         return $this['config']->get('app.fallbackLocale');
+    }
+
+    /**
+     * Set the current application locale.
+     * 
+     * @param  string  $locale
+     * 
+     * @return void
+     */
+    public function setLocale($locale)
+    {
+        $this['config']->set('app.locale', $locale);
+
+        $this['translator']->setLocale($locale);
+    }
+
+    /**
+     * Set the current application fallback locale.
+     * 
+     * @param  string  $fallbackLocale
+     * 
+     * @return void
+     */
+    public function setFallbackLocale($fallbackLocale)
+    {
+        $this['config']->set('app.fallbackLocale', $fallbackLocale);
+
+        $this['translator']->setFallback($fallbackLocale);
     }
 
     /**
