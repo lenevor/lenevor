@@ -196,7 +196,7 @@ class View implements ArrayAccess, Webable, ViewContract
 		if (is_array($key)) {
 			$this->data = array_merge($this->data, $key);
 		} else {
-			$this->data = [$key => $value];
+			$this->data[$key] = $value;
 		}
 
 		return $this;
@@ -331,7 +331,7 @@ class View implements ArrayAccess, Webable, ViewContract
 	{
 		if (is_array($key) || $key instanceof Traversable) {
 			foreach ($key as $name => $value) {
-				$this->set($name, $value);
+				$this->assign($name, $value);
 			}
 		} else {
 			if (strpos($key, '.') === false) {
