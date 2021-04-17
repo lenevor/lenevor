@@ -160,7 +160,7 @@ class Factory implements FactoryContract
 	 * Create a new view instance from the given arguments.
 	 * 
 	 * @param  string  $file  View filename
-	 * * @param  string  $path  Path filename
+	 * @param  string  $path  Path filename
 	 * @param  array  $data  Array of values
 	 * 
 	 * @return \Syscodes\Contracts\View\View
