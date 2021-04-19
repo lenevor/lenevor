@@ -13,7 +13,7 @@
 	<div class="content">
 		<div class="container">
 			<div class="status">
-				<h2>{{ __('view.welcomeTo') }} {{ config('app.name') }}</h2>
+				<h2 class="text-gradient">{{ __('view.welcomeTo') }} {{ config('app.name') }}</h2>
 				<code>
 					<span class="check">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
