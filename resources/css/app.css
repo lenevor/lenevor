@@ -217,7 +217,8 @@ header h1 {
 .status .status-message { 
 	color: var(--color-gray-300);
 	font-size: .8rem;
-	font-weight: 500;
+	font-weight: 400;
+	letter-spacing: .7px;
 	margin-top: 15px;
 }
 
