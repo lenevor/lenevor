@@ -31,7 +31,7 @@
 				<div class="learn">
 					<h3><i class="icon-books"></i>Learn</h3>
 					<p>
-						The user guide contains
+						The user guide contains the introduction, tutorial and reference to the documentation of all Lenevor components. Check the <a href="https://github.com/lenevor/docs" target="_blank">documentation</a> !
 					</p>
 				</div>
 				<div class="discuss">
@@ -43,7 +43,7 @@
 				<div class="contribute">
 					<h3><i class="icon-users"></i>Contribute</h3>
 					<p>
-						The user guide contains
+						Lenevor is a me driven project and access contributions of code and documentation great for all  the community. Check the <a href="https://github.com/lenevor" target="_blank">github</a> !
 					</p>
 				</div>
 			</div>
