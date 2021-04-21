@@ -31,11 +31,11 @@
 	--color-purple-300: hsl(272, 27%, 60%);	
 	--color-purple-400: hsl(273, 25%, 64%);
 	--color-purple-500: hsl(273, 28%, 67%);
-	--color-darkgray-100: hsl(211, 21%, 41%);
-	--color-darkgray-200: hsl(210, 21%, 43%);
+	--color-darkgray-100: hsl(217, 13%, 65%);
+	--color-darkgray-200: hsl(214, 20%, 69%);
 	--color-darkgray-300: hsl(213, 4%, 54%);
-	--color-darkgray-400: hsl(217, 13%, 65%);
-	--color-darkgray-500: hsl(214, 20%, 69%);
+	--color-darkgray-400: hsl(211, 21%, 41%);
+	--color-darkgray-500: hsl(210, 21%, 43%);
 }
 
 @font-face {
@@ -116,7 +116,7 @@ h2 {
 .icon-books:before, 
 .icon-embed:before, 
 .icon-users:before { 
-	color: var(--color-blue-400); 
+	color: var(--color-darkgray-100); 
 	font-size: 3em; 
 	font-weight: 500; 
 	padding: 3px; 
@@ -224,7 +224,6 @@ header h1 {
 }
 
 .resources {
-	color: var(--color-white);
 	display: grid;
     grid-template-columns: repeat(auto-fit, 400px);
     grid-auto-rows: 200px;
@@ -232,6 +231,27 @@ header h1 {
     justify-content: center;
 	position: relative;
 	top: 70px;
+}
+
+.resources .learn,
+.resources .discuss,
+.resources .contribute {
+	background: linear-gradient(
+		-3100deg,
+		rgb(37, 54, 77),
+		rgb(54, 67, 87)
+	);
+	border-radius: 10px;
+	box-shadow: 0 0 0 1px hsla(0,0%,100%,.1),
+				0 34px 65px hsl(221, 78%, 7%),
+				0 2.76726px 2.24px rgba(0,0,0,.07),
+				0 6.6501px 5.32px rgba(0,0,0,.044),
+				0 12.5216px 10.02px rgba(0,0,0,.034),
+				0 22.3363px 17.87px rgba(0,0,0,.029),
+				0 41.7776px 33.43px rgba(0,0,0,.024),
+				0 100px 80px rgba(0,0,0,.018
+	);
+	position: relative;
 }
 
 .resources .learn .icon-books:before,
@@ -243,11 +263,19 @@ header h1 {
 	top: 5px;
 }
 
-.resources .learn {
-	background: var(--color-black);
-	border-radius: 10px;
-	box-shadow: 0 0 2px hsl(224, 32%, 50%);
-	position: relative;
+.resources .learn h3,
+.resources .discuss h3,
+.resources .contribute h3 {
+	color: var(--color-gray-500);
+}
+
+.resources .learn p,
+.resources .discuss p,
+.resources .contribute p {
+	color: var(--color-darkgray-200);
+	font-weight: 500;
+	margin-right: 20px;
+	margin-top: 20px;
 }
 
 .resources .learn h3 {
@@ -257,15 +285,6 @@ header h1 {
 
 .resources .learn p {
 	margin-left: 75px;
-	margin-right: 20px;
-	margin-top: 20px;
-}
-
-.resources .discuss {
-	background: var(--color-black);
-	border-radius: 10px;
-	box-shadow: 0 0 2px hsl(224, 32%, 50%);
-	position: relative;
 }
 
 .resources .discuss h3 {
@@ -274,16 +293,7 @@ header h1 {
 }
 
 .resources .discuss p {
-	margin-left: 70px;
-	margin-right: 20px;
-	margin-top: 20px;
-}
-
-.resources .contribute {
-	background: var(--color-black);
-	border-radius: 10px;
-	box-shadow: 0 0 2px hsl(224, 32%, 50%);
-	position: relative;
+	margin-left: 70px;;
 }
 
 .resources .contribute h3 {
@@ -293,8 +303,6 @@ header h1 {
 
 .resources .contribute p {
 	margin-left: 75px;
-	margin-right: 20px;
-	margin-top: 20px;
 }
 
 /*
