@@ -37,7 +37,7 @@
 				<div class="discuss">
 					<h3><i class="icon-embed"></i>Discuss</h3>
 					<p>
-						The user guide contains
+						Lenevor is a communited-development open-source project, with several venues for the community members  to gather and exchange ideas. This option to be find in construction.
 					</p>
 				</div>
 				<div class="contribute">
