@@ -5,6 +5,8 @@
 :root {
 	--color-white: hsl(0, 0%, 100%);
 	--color-black: hsl(240, 12%, 16%);
+	--color-black-100: hsl(0, 0%, 23%);
+	--color-black-200: hsl(0, 3%, 28%);
 	--color-blue-100: hsl(212, 71%, 28%);
 	--color-blue-200: hsl(212, 69%, 35%);
 	--color-blue-300: hsl(212, 55%, 51%);
@@ -15,6 +17,11 @@
 	--color-red-300: hsl(0, 49%, 44%);
 	--color-red-400: hsl(0, 81%, 50%);
 	--color-red-500: hsl(0, 100%, 50%);
+	--color-yellow-100: hsl(56, 82%, 19%);
+	--color-yellow-200: hsl(56, 75%, 26%);
+	--color-yellow-300: hsl(56, 76%, 36%);
+	--color-yellow-400: hsl(56, 84%, 43%);
+	--color-yellow-500: hsl(56, 100%, 50%);
 	--color-green-100: rgb(21, 70, 32);
 	--color-green-200: rgb(28, 114, 46);
 	--color-green-300: rgb(37, 161, 62);
@@ -26,11 +33,11 @@
 	--color-gray-400: hsl(0, 3%, 87%);
 	--color-gray-500: hsl(0, 0%, 96%);
 	--color-gray-600: hsl(0, 0%, 98%);
-	--color-purple-100: hsl(306, 19%, 33%);
-	--color-purple-200: hsl(282, 17%, 44%);
-	--color-purple-300: hsl(272, 27%, 60%);	
-	--color-purple-400: hsl(273, 25%, 64%);
-	--color-purple-500: hsl(273, 28%, 67%);
+	--color-purple-100: hsl(305, 16%, 30%);
+	--color-purple-200: hsl(283, 25%, 42%);
+	--color-purple-300: hsl(273, 45%, 57%);	
+	--color-purple-400: hsl(273, 42%, 67%);
+	--color-purple-500: hsl(281, 60%, 72%);
 	--color-darkgray-100: hsl(217, 13%, 65%);
 	--color-darkgray-200: hsl(214, 20%, 69%);
 	--color-darkgray-300: hsl(213, 4%, 54%);
@@ -116,7 +123,7 @@ h2 {
 .icon-books:before, 
 .icon-embed:before, 
 .icon-users:before { 
-	color: var(--color-darkgray-100); 
+	color: var(--color-black-200); 
 	font-size: 3em; 
 	font-weight: 500; 
 	padding: 3px; 
@@ -180,10 +187,8 @@ header h1 {
 }
 
 .status code { 
-	background: var(--color-black);
-    box-shadow: 0 0 0 1px hsl(0deg 0% 100% / 10%), 0 34px 65px #040d21, 0 2.76726px 2.21381px rgb(0 0 0 / 7%), 0 6.6501px 5.32008px rgb(0 0 0 / 4%), 0 12.5216px 10.0172px rgb(0 0 0 / 3%), 0 22.3363px 17.869px rgb(0 0 0 / 3%), 0 41.7776px 33.4221px rgb(0 0 0 / 2%), 0 100px 80px rgb(0 0 0 / 2%);
-	border-radius: 15px;
-	box-shadow: 0 0 2px hsl(231, 79%, 78%);
+	background: var(--color-blue-100);
+	border-radius: 30px;
 	display: flex;
 	font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 	margin: 0 auto;
@@ -257,6 +262,12 @@ header h1 {
 .resources .learn .icon-books:before,
 .resources .discuss .icon-embed:before,
 .resources .contribute .icon-users:before {
+	background: linear-gradient(227deg,#67c3b9 0%,#257192 100%);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-moz-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	-moz-text-fill-color: transparent;
 	font-size: 2em;
 	left: 20px; 
 	position: absolute;
