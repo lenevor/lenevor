@@ -24,8 +24,10 @@ return [
      * Vista 
      */
 
-    'especification-documentation' => 'Lenevor tiene una documentación completa que cubre todas las especificaciones y características del framework. Por tanto, recomendamos leer toda la documentación referente al framework.',
+    'contribute' => 'Lenevor es un proyecto impulsado por mí y accede a contribuciones de código y documentación excelentes para toda la comunidad. <br /> Consulta en <a href="https://github.com/lenevor" target="_blank">github</a> !',
+    'discuss' => 'Lenevor es un proyecto de código abierto de desarrollo comunitario, con varios lugares para que los miembros de la comunidad se reúnan e intercambien ideas. <br />[Esta opción se encuentra en construcción] ',
     'successfullyInstalled' => 'Has instalado correctamente esta aplicación.',
+    'userGuide' => 'La guía del usuario contiene la introducción, el tutorial y la referencia a la documentación de todos los componentes de Lenevor. <br />Consulta la <a href="https://github.com/lenevor/docs" target="\_blank\">documentación</a> !',
     'welcomeTo' => 'Bienvenido a ',
 
 ];
