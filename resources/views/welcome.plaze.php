@@ -30,22 +30,19 @@
 			<div class="resources">
 				<div class="learn">
 					<h3><i class="icon-books"></i>Learn</h3>
-					<p>
-						The user guide contains the introduction, tutorial and reference to the documentation of all Lenevor components. Check the <a href="https://github.com/lenevor/docs" target="_blank">documentation</a> !
-					</p>
+					<p>{!! __('view.userGuide') !!}</p>
 				</div>
 				<div class="discuss">
 					<h3><i class="icon-embed"></i>Discuss</h3>
-					<p>
-						Lenevor is a communited-development open-source project, with several venues for the community members  to gather and exchange ideas. This option to be find in construction.
-					</p>
+					<p>{!! __('view.discuss') !!}</p>
 				</div>
 				<div class="contribute">
 					<h3><i class="icon-users"></i>Contribute</h3>
-					<p>
-						Lenevor is a me driven project and access contributions of code and documentation great for all  the community. Check the <a href="https://github.com/lenevor" target="_blank">github</a> !
-					</p>
+					<p>{!! __('view.contribute') !!}</p>
 				</div>
+			</div>
+			<div class="footer">
+				<p>Lenevor {{ version() }} (PHP v{{ PHP_VERSION }})</p>
 			</div>
 		</div>
 	</div>
