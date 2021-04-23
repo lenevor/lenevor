@@ -4,7 +4,7 @@
 
 :root {
 	--color-white: hsl(0, 0%, 100%);
-	--color-black: hsl(240, 12%, 16%);
+	--color-black: hsl(240, 9%, 18%);
 	--color-black-100: hsl(0, 0%, 23%);
 	--color-black-200: hsl(0, 3%, 28%);
 	--color-blue-100: hsl(212, 71%, 28%);
@@ -38,11 +38,11 @@
 	--color-purple-300: hsl(273, 45%, 57%);	
 	--color-purple-400: hsl(273, 42%, 67%);
 	--color-purple-500: hsl(281, 60%, 72%);
-	--color-darkgray-100: hsl(217, 13%, 65%);
-	--color-darkgray-200: hsl(214, 20%, 69%);
-	--color-darkgray-300: hsl(213, 4%, 54%);
-	--color-darkgray-400: hsl(211, 21%, 41%);
-	--color-darkgray-500: hsl(210, 21%, 43%);
+	--color-darkgray-100: hsl(216, 11%, 63%);
+	--color-darkgray-200: hsl(214, 15%, 64%);
+	--color-darkgray-300: hsl(220, 7%, 60%);
+	--color-darkgray-400: hsl(211, 18%, 48%);
+	--color-darkgray-500: hsl(209, 22%, 45%);
 }
 
 @font-face {
@@ -65,7 +65,7 @@
 }
 
 body {
-	background: linear-gradient(-150deg, var(--color-blue-200) 0%, var(--color-black) 70%); 
+	background: linear-gradient(-160deg, var(--color-blue-200) 20%, var(--color-black) 70%); 
 	background-attachment: fixed;
 	color: var(--color-black); 
 	font: 16px/1.5 'icommon', Heebo, sans-serif; 
@@ -202,7 +202,7 @@ header h1 {
 	border-radius: 15px;
 	display: flex;
 	height: 20px;
-	margin: 8px;
+	margin: 8px 10px;
 	width: 30px; 
 }
 
@@ -216,12 +216,12 @@ header h1 {
 	color: var(--color-gray-300);
 	font-weight: 600;
 	line-height: -1.5px;
-	padding: 5px;
+	padding: 5px 0;
 	word-break: break-all;
 }
 
 .status .status-message { 
-	color: var(--color-darkgray-100);
+	color: var(--color-darkgray-400);
 	font-size: .8rem;
 	font-weight: 700;
 	letter-spacing: .8px;
@@ -242,20 +242,19 @@ header h1 {
 .resources .discuss,
 .resources .contribute {
 	background: linear-gradient(
-		-3100deg,
-		rgb(37, 54, 77),
-		rgb(54, 67, 87)
+		70deg,
+		rgb(51, 71, 97),
+		rgb(61, 81, 109)
 	);
 	border-radius: 10px;
 	box-shadow: 0 0 0 1px hsla(0,0%,100%,.1),
 				0 34px 65px hsl(221, 78%, 7%),
-				0 2.76726px 2.24px rgba(0,0,0,.07),
-				0 6.6501px 5.32px rgba(0,0,0,.044),
-				0 12.5216px 10.02px rgba(0,0,0,.034),
-				0 22.3363px 17.87px rgba(0,0,0,.029),
-				0 41.7776px 33.43px rgba(0,0,0,.024),
-				0 100px 80px rgba(0,0,0,.018
-	);
+				0 2.77px 2.24px hsla(0, 0%, 0%, 0.071),
+				0 6.65px 5.32px hsla(0, 0%, 0%, 0.044),
+				0 12.52px 10.02px hsla(0, 0%, 0%, 0.034),
+				0 22.34px 17.87px hsla(0, 0%, 0%, 0.029),
+				0 41.78px 33.43px hsla(0, 0%, 0%, 0.024),
+				0 100px 80px hsla(0, 0%, 0%, 0.018);
 	position: relative;
 }
 
@@ -283,7 +282,7 @@ header h1 {
 .resources .learn p,
 .resources .discuss p,
 .resources .contribute p {
-	color: var(--color-darkgray-200);
+	color: var(--color-gray-300);
 	font-weight: 500;
 	margin-right: 20px;
 	margin-top: 20px;
@@ -314,6 +313,16 @@ header h1 {
 
 .resources .contribute p {
 	margin-left: 75px;
+}
+
+.container .footer {
+	color: var(--color-darkgray-100);
+	display: flex;
+	font-weight: 500;
+	justify-content: center;
+	margin-bottom: 20px;
+	margin-top: 100px;
+	padding: 0 15px;
 }
 
 /*
@@ -384,5 +393,9 @@ header h1 {
 	
 	.status .status-message {
 		font-size: 1.2em;
+	}
+
+	.container .footer {
+		justify-content: flex-end;
 	}
 }
