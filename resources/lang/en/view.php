@@ -25,7 +25,7 @@ return [
     'contribute' => 'Lenevor is a me driven project and access contributions of code and documentation great for all  the community. <br />Check in <a href="https://github.com/lenevor" target="_blank">github</a> !',
     'discuss' => 'Lenevor is a communited-development open-source project, with several venues for the community members to gather and exchange ideas. <br />[ This option to be find in construction ]',
     'successfullyInstalled' => 'Your have successfully installed this application.',
-    'userGuide' => 'The user guide contains the introduction, tutorial and reference to the documentation of all Lenevor components. Check the <a href="https://github.com/lenevor/docs" target="\_blank\">documentation</a> !',
+    'userGuide' => 'The user guide contains the introduction, tutorial and reference to the documentation of all Lenevor components. <br />Check the <a href="https://github.com/lenevor/docs" target="\_blank\">documentation</a> !',
     'welcomeTo' => 'Welcome to ',
 
 ];
