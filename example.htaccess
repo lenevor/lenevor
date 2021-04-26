@@ -6,7 +6,7 @@ DirectoryIndex index.php
     Options -Indexes
 
     # If you want, add more extensions between the parentheses, separated by |
-    <Files ~ "\.(env|json|config.js|md|db|gitignore|gitattributes|lock|example|cache)$">
+    <Files ~ "\.(env|json|config.js|svg|md|db|gitignore|gitattributes|lock|example|cache)$">
         Order allow,deny
         Deny from all
     </Files>
