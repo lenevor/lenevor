@@ -43,9 +43,9 @@
 	--color-gray-400: hsl(0, 3%, 87%);
 	--color-gray-500: hsl(0, 0%, 96%);
 	--color-gray-600: hsl(0, 0%, 98%);	
-	--color-darkgray-100: hsl(216, 11%, 63%);
-	--color-darkgray-200: hsl(214, 15%, 64%);
-	--color-darkgray-300: hsl(220, 7%, 60%);
+	--color-darkgray-100: hsl(214, 12%, 61%);
+	--color-darkgray-200: hsl(217, 10%, 55%);
+	--color-darkgray-300: hsl(220, 4%, 53%);
 	--color-darkgray-400: hsl(211, 18%, 48%);
 	--color-darkgray-500: hsl(209, 22%, 45%);
 }
@@ -152,7 +152,7 @@ header {
 }
 
 header .brand {
-	padding: 20px 16px 10px;
+	padding: 20px 30px 10px;
 	width: 200px;
 }
 
@@ -167,44 +167,51 @@ header h1 {
 	align-items: center;
 	display: flex;
 	justify-content: center;
+	padding: 0 10px;
 }
 
 .status {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	margin-left: 0;
-	margin-right: 0;
-	padding: 150px 10px 80px;
 	text-align: center;
 }
 
 .status h2 {
 	color: var(--color-gray-600);
-	font-size: 1.8em;
+	font-size: 1.6em;
 	font-weight: 600;
 	letter-spacing: 0.8px;
-	margin-bottom: 60px; 
+	margin: 0 auto;
+	margin-top: 80px;
+	padding-bottom: 10px;
 }
 
 .status h2 span {
 	display: block;
+	font-size: 1.8em;
+	line-height: .8;
 }
 
 .status code { 
-	background: var(--color-orange-200);
+	background: var(--color-orange-100);
 	border-radius: 30px;
+	box-shadow: inset -1px -1px 5px hsla(24, 79%, 40%, 0.1),
+				inset -1px -1px 6px hsla(21, 23%, 22%, 0.5);
 	display: flex;
 	font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 	margin: 0 auto;
+	margin-top: 10px;
 	padding-right: 10px;
-	word-wrap: break-word;
+	word-wrap: break-all;
 }
 
 .status code .check { 
 	align-items: center;
-	background: var(--color-orange-400);
+	background: var(--color-orange-200);
 	border-radius: 15px;
+	box-shadow: inset -1px -1px 5px hsla(24, 79%, 40%, 0.1),
+				inset 1px -1px 2px hsla(22, 85%, 44%, 0.5);
 	display: flex;
 	height: 20px;
 	margin: 8px 10px;
@@ -221,7 +228,8 @@ header h1 {
 	color: var(--color-gray-400);
 	font-weight: 600;
 	line-height: -1.5px;
-	padding: 5px 0;
+	padding: 6px 0;
+	text-align: center;
 	word-break: break-all;
 }
 
@@ -230,17 +238,17 @@ header h1 {
 	font-size: .8rem;
 	font-weight: 700;
 	letter-spacing: .8px;
-	margin-top: 10px;
+	margin: 10px auto;
 }
 
 .resources {
 	display: grid;
-    grid-template-columns: repeat(auto-fit, 400px);
-    grid-auto-rows: 200px;
+    grid-template-columns: repeat(auto-fit, auto);
+    grid-auto-rows: auto;
     grid-gap: 2rem;
     justify-content: center;
+	margin: 80px 5px 20px 5px;
 	position: relative;
-	top: 70px;
 }
 
 .resources .learn,
@@ -260,74 +268,76 @@ header h1 {
 				0 22.34px 17.87px hsla(0, 0%, 0%, 0.029),
 				0 41.78px 33.43px hsla(0, 0%, 0%, 0.024),
 				0 100px 80px hsla(0, 0%, 0%, 0.018);
+	padding-bottom: 10px;
 	position: relative;
 }
 
 .resources .learn .icon-books:before,
 .resources .discuss .icon-embed:before,
 .resources .contribute .icon-users:before {
-	background: linear-gradient(227deg,#4cdac9 10%,#6698c0 90%);
+	background: linear-gradient(227deg,hsl(173, 100%, 73%) 10%,hsl(207, 100%, 78%) 90%);
 	background-clip: text;
 	-webkit-background-clip: text;
 	-moz-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	-moz-text-fill-color: transparent;
-	font-size: 2em;
-	left: 20px; 
+	font-size: 1.4em;
+	left: 8px; 
 	position: absolute;
-	top: 5px;
+	top: 7px;
 }
 
 .resources .learn h3,
 .resources .discuss h3,
 .resources .contribute h3 {
+	background: trasnparente;
+	backdrop-filter: blur(20px);
+	border-radius: 10px;
+	box-shadow: inset -1px -1px 1px hsla(0, 0%, 100%, 0.1),
+				inset -1px -1px 3px hsla(0, 0%, 0%, 0.8);
 	color: var(--color-gray-500);
+	font-size: 0.9em;
+	letter-spacing: .8px;
+	margin-left: 15px;
+	margin-top: 15px;
+	padding: 10px;
+	padding-left: 35px;
+}
+
+.resources .learn h3 {
+	width: 90px;
+}
+
+.resources .discuss h3 {
+	width: 110px;
+}
+
+.resources .contribute h3 {
+	width: 130px;
 }
 
 .resources .learn p,
 .resources .discuss p,
 .resources .contribute p {
 	color: var(--color-gray-400);
+	font-size: 0.9em;
 	font-weight: 500;
-	margin-right: 20px;
+	margin-left: 15px;
+	margin-right: 5px;
 	margin-top: 20px;
 }
 
-.resources .learn h3 {
-	margin-left: 70px;
-	margin-top: 15px;
-}
-
-.resources .learn p {
-	margin-left: 75px;
-}
-
-.resources .discuss h3 {
-	margin-left: 65px;
-	margin-top: 15px;
-}
-
-.resources .discuss p {
-	margin-left: 70px;;
-}
-
-.resources .contribute h3 {
-	margin-left: 70px;
-	margin-top: 15px;
-}
-
-.resources .contribute p {
-	margin-left: 75px;
-}
-
 .container .footer {
-	color: var(--color-darkgray-100);
 	display: flex;
-	font-weight: 500;
 	justify-content: center;
 	margin-bottom: 20px;
-	margin-top: 100px;
-	padding: 0 15px;
+	margin-top: 25px;
+}
+
+.container .footer p {
+	color: var(--color-darkgray-100);
+	font-size: 0.9em;
+	font-weight: 600;
 }
 
 /*
@@ -358,18 +368,26 @@ header h1 {
 	}
 
 	.status h2 {
-		font-size: 2.5em;
+		margin-left: 0;
+		font-size: 2.4em;
+	}
+
+	.status h2 span {
+		font-size: 1.9em;
+		line-height: 60px;
+		margin-left: -5px;
 	}
 
 	.status code {
-		font-size: 0.9em;
-		padding-right: 15px;
+		font-size: 0.7em;
 		margin-left: 0;
+		padding-top: 5px;
+		padding-right: 15px;
 	}
 
 	.status code .check,
 	.status code .check svg { 
-		height: 22px;
+		height: 20px;
 		width: 34px; 
 	}
 
@@ -378,7 +396,45 @@ header h1 {
 	}
 
 	.status .status-message {
+		margin: 10px 0;
 		font-size: .8em;
+	}
+
+	.resources {
+		margin-left: 0;
+		margin-right: 0;
+		top: 50px;
+		padding-bottom: 20px;
+	}
+
+	.resources .learn h3,
+	.resources .discuss h3,
+	.resources .contribute h3 {
+		font-size: 1.1em;
+		padding-left: 40px;
+	}
+
+	.resources .learn h3 {
+		width: 105px;
+	}
+	
+	.resources .discuss h3 {
+		width: 125px;
+	}
+	
+	.resources .contribute h3 {
+		width: 150px;
+	}
+
+	.resources .learn p,
+	.resources .discuss p,
+	.resources .contribute p {
+		font-size: 1em;
+	}
+
+	.container .footer {
+		justify-content: flex-end;
+		margin-top: 55px;
 	}
 }
 
@@ -387,20 +443,40 @@ header h1 {
  */
 @media (min-width: 1024px)
 {
+	.container {
+		width: 1400px;
+	}
+
 	.status h2 {
 		font-size: 4.2em;
+		margin-top: 170px;
 	}
 
 	.status h2 span {
-		font-size: 2em;
+		font-size: 2.2em;
 		line-height: 90px;
 	}
-	
+
+	.status code {
+		margin-top: 70px;
+	}
+
+	.status code .check { 
+		margin-top: 2px;
+	}
+
+	.status code span {
+		font-size: 1.6em;
+		line-height: .7;
+	}
+
 	.status .status-message {
 		font-size: 1.2em;
 	}
 
-	.container .footer {
-		justify-content: flex-end;
+	.resources {
+		grid-template-columns: repeat(auto-fit, 434px);
+		grid-auto-rows: 200px;
+		grid-gap: 3rem;
 	}
 }
