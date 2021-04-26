@@ -70,7 +70,7 @@
 }
 
 body {
-	background: linear-gradient(-160deg, var(--color-blue-100) 30%, rgb(23, 5, 44) 70%); 
+	background: linear-gradient(-160deg, var(--color-blue-100) 30%, rgb(49, 7, 68) 70%); 
 	background-attachment: fixed;
 	color: var(--color-black); 
 	font: 16px/1.5 'icommon', Heebo, sans-serif; 
@@ -81,8 +81,8 @@ body {
 a:active, 
 a:link, 
 a:visited { 
-	color: var(--color-darkgray-100); 
-	font-weight: 500; 
+	color: var(--color-blue-400); 
+	font-weight: 600; 
 }
 
 h1, 
@@ -183,7 +183,7 @@ header h1 {
 	font-weight: 600;
 	letter-spacing: 0.8px;
 	margin: 0 auto;
-	margin-top: 80px;
+	margin-top: 60px;
 	padding-bottom: 10px;
 }
 
@@ -247,7 +247,7 @@ header h1 {
     grid-auto-rows: auto;
     grid-gap: 2rem;
     justify-content: center;
-	margin: 80px 5px 20px 5px;
+	margin: 80px 5px 0 5px;
 	position: relative;
 }
 
@@ -282,19 +282,19 @@ header h1 {
 	-webkit-text-fill-color: transparent;
 	-moz-text-fill-color: transparent;
 	font-size: 1.4em;
-	left: 8px; 
+	left: 22px; 
 	position: absolute;
-	top: 7px;
+	top: 22px;
+	
 }
 
 .resources .learn h3,
 .resources .discuss h3,
 .resources .contribute h3 {
-	background: trasnparente;
-	backdrop-filter: blur(20px);
+	background: transparent;
 	border-radius: 10px;
-	box-shadow: inset -1px -1px 1px hsla(0, 0%, 100%, 0.1),
-				inset -1px -1px 3px hsla(0, 0%, 0%, 0.8);
+	box-shadow: inset -1px -1px 5px hsla(0, 0%, 100%, 0.1),
+				inset -1px -1px 8px hsla(0, 0%, 0%, 0.6);
 	color: var(--color-gray-500);
 	font-size: 0.9em;
 	letter-spacing: .8px;
@@ -325,6 +325,7 @@ header h1 {
 	margin-left: 15px;
 	margin-right: 5px;
 	margin-top: 20px;
+	letter-spacing: .4px;
 }
 
 .container .footer {
@@ -335,9 +336,10 @@ header h1 {
 }
 
 .container .footer p {
-	color: var(--color-darkgray-100);
+	color: var(--color-darkgray-300);
 	font-size: 0.9em;
 	font-weight: 600;
+	z-index: 100;
 }
 
 /*
@@ -345,9 +347,9 @@ header h1 {
  */
 .text-gradient {
 	background: linear-gradient( 
-		-190deg,
-		hsl(151, 73%, 73%),
-		hsl(217, 89%, 71%) 40%
+		150deg,
+		hsl(151, 100%, 82%),
+		hsl(217, 100%, 73%) 60%
 	);
 	background-clip: text;
 	-webkit-background-clip: text;
@@ -368,8 +370,9 @@ header h1 {
 	}
 
 	.status h2 {
-		margin-left: 0;
 		font-size: 2.4em;
+		margin-left: 0;
+		margin-top: 100px;
 	}
 
 	.status h2 span {
@@ -403,14 +406,20 @@ header h1 {
 	.resources {
 		margin-left: 0;
 		margin-right: 0;
-		top: 50px;
 		padding-bottom: 20px;
+	}
+
+	.resources .learn .icon-books:before,
+	.resources .discuss .icon-embed:before,
+	.resources .contribute .icon-users:before {
+		margin-top: -1px;
 	}
 
 	.resources .learn h3,
 	.resources .discuss h3,
 	.resources .contribute h3 {
 		font-size: 1.1em;
+		padding: 8px;
 		padding-left: 40px;
 	}
 
@@ -434,7 +443,7 @@ header h1 {
 
 	.container .footer {
 		justify-content: flex-end;
-		margin-top: 55px;
+		margin-top: 5px;
 	}
 }
 
@@ -478,5 +487,10 @@ header h1 {
 		grid-template-columns: repeat(auto-fit, 434px);
 		grid-auto-rows: 200px;
 		grid-gap: 3rem;
+		top: 50px;
+	}
+
+	.container .footer {
+		margin-top: 55px;
 	}
 }
