@@ -1,4 +1,4 @@
-<p align="center"><a href="https://lenevor.com" target="_blank"><img src="https://avatars2.githubusercontent.com/u/50193329?s=200&v=4" title="Lenevor logo" height="100" width="100">Lenevor</a></p>
+<p align="center"><a href="https://lenevor.com" target="_blank"><img src="https://avatars2.githubusercontent.com/u/50193329?s=200&v=4" title="Lenevor logo" height="100" width="100"></a></p>
 
 <p align="center">
     <a href="https://github.com/lenevor/lenevor/actions"><img src="https://github.com/lenevor/lenevor/workflows/tests/badge.svg" title="Build status"></a>
