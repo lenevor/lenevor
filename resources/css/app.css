@@ -81,7 +81,7 @@ body {
 a:active, 
 a:link, 
 a:visited { 
-	color: var(--color-blue-400); 
+	color: var(--color-gray-400); 
 	font-weight: 600; 
 }
 
@@ -198,10 +198,10 @@ header h1 {
 }
 
 .status code { 
-	background: var(--color-orange-100);
+	background: var(--color-purple-200);
 	border-radius: 30px;
-	box-shadow: inset -1px -1px 5px hsla(24, 79%, 40%, 0.1),
-				inset -1px -1px 6px hsla(21, 23%, 22%, 0.5);
+	box-shadow: inset -1px -1px 5px hsla(2, 82%, 48%, 0.1),
+				inset -1px -1px 6px hsla(22, 30%, 20%, 0.5);
 	display: flex;
 	font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 	margin: 0 auto;
@@ -212,10 +212,10 @@ header h1 {
 
 .status code .check { 
 	align-items: center;
-	background: var(--color-orange-200);
+	background: var(--color-purple-400);
 	border-radius: 15px;
-	box-shadow: inset -1px -1px 5px hsla(24, 79%, 40%, 0.1),
-				inset 1px -1px 2px hsla(22, 85%, 44%, 0.5);
+	box-shadow: inset -1px -1px 5px hsla(278, 23%, 49%, 0.1),
+				inset 1px -1px 2px hsl(266, 43%, 59%);
 	display: flex;
 	height: 20px;
 	margin: 8px 10px;
@@ -238,7 +238,7 @@ header h1 {
 }
 
 .status .status-message { 
-	color: var(--color-darkgray-500);
+	color: var(--color-darkgray-400);
 	font-size: .8rem;
 	font-weight: 700;
 	letter-spacing: .8px;
@@ -260,8 +260,8 @@ header h1 {
 .resources .contribute {
 	background: linear-gradient(
 		90deg,
-		rgb(35, 51, 70),
-		rgb(30, 40, 78)
+		rgba(24, 129, 177, 0.5),
+		rgba(87, 109, 201, 0.5)
 	);
 	border-radius: 10px;
 	box-shadow: 0 0 0 1px hsla(0,0%,100%,.1),
@@ -388,7 +388,6 @@ header h1 {
 	.status code {
 		font-size: 0.7em;
 		margin-left: 0;
-		padding-top: 5px;
 		padding-right: 15px;
 	}
 
@@ -400,6 +399,7 @@ header h1 {
 
 	.status code span {
 		font-size: 1.3em;
+		line-height: 1.6;
 	}
 
 	.status .status-message {
@@ -472,6 +472,7 @@ header h1 {
 
 	.status code {
 		margin-top: 70px;
+		padding-top: 5px;
 	}
 
 	.status code .check { 
