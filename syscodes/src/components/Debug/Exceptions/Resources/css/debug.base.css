@@ -1248,13 +1248,14 @@ footer {
 }
 
 .info .name {
-    color: rgb(167, 161, 161);
-    position: relative;
+    color: var(--gray-600);
+    font-weight: 600;
     left: 15px;
+    position: relative;
 }
 
 .info .name:before {
-    background-image: url('svg/logo-2.svg');
+    background-image: url('svg/logo.svg');
     background-repeat: no-repeat;
     background-size: contain;
     content: '';
