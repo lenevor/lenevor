@@ -149,25 +149,29 @@ header {
 	justify-content: center;
 	margin-left: 0;
 	margin-right: 0;
+	padding: 0 20px;
 }
 
 header .brand {
-	padding: 20px 30px 10px;
+	display: flex;
+	padding: 20px 0 20px;
 	width: 200px;
 }
 
 header h1 {
 	color: var(--color-gray-600);
 	font-size: 1.5em;
-	text-align: justify;
 	letter-spacing: 0.8px;
+	margin-left: 10px;
+	margin-top: 10px;
+	text-align: justify;
 }
 
 .content {
 	align-items: center;
 	display: flex;
 	justify-content: center;
-	padding: 0 10px;
+	padding: 0 20px;
 }
 
 .status {
@@ -458,7 +462,7 @@ header h1 {
 
 	.status h2 {
 		font-size: 4.2em;
-		margin-top: 170px;
+		margin-top: 160px;
 	}
 
 	.status h2 span {
@@ -487,10 +491,10 @@ header h1 {
 		grid-template-columns: repeat(auto-fit, 434px);
 		grid-auto-rows: 200px;
 		grid-gap: 3rem;
-		top: 50px;
+		top: 30px;
 	}
 
 	.container .footer {
-		margin-top: 55px;
+		margin-top: 45px;
 	}
 }
