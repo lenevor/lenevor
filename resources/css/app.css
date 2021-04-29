@@ -41,13 +41,20 @@
 	--color-gray-200: hsl(0, 0%, 65%);
 	--color-gray-300: hsl(0, 0%, 78%);
 	--color-gray-400: hsl(0, 3%, 87%);
-	--color-gray-500: hsl(0, 0%, 96%);
-	--color-gray-600: hsl(0, 0%, 98%);	
+	--color-gray-500: hsl(0, 3%, 96%);	
 	--color-darkgray-100: hsl(214, 12%, 61%);
 	--color-darkgray-200: hsl(217, 10%, 55%);
 	--color-darkgray-300: hsl(220, 4%, 53%);
 	--color-darkgray-400: hsl(211, 18%, 48%);
 	--color-darkgray-500: hsl(209, 22%, 45%);
+	--color-darkpurple-100: hsl(281, 81%, 15%);
+}
+
+.theme {
+	--color-white: hsl(0, 0%, 100%);
+	--color-blue-100: hsl(0, 0%, 100%);
+	--color-darkpurple-100: hsl(0, 0%, 89%);
+	--color-gray-500: hsl(0, 0%, 31%);
 }
 
 @font-face {
@@ -70,7 +77,7 @@
 }
 
 body {
-	background: linear-gradient(-160deg, var(--color-blue-100) 30%, rgb(49, 7, 68) 70%); 
+	background: linear-gradient(-160deg, var(--color-blue-100) 30%, var(--color-darkpurple-100) 70%); 
 	background-attachment: fixed;
 	color: var(--color-black); 
 	font: 16px/1.5 'icommon', Heebo, sans-serif; 
@@ -155,16 +162,65 @@ header {
 header .brand {
 	display: flex;
 	padding: 20px 0 20px;
-	width: 200px;
+	width: 250px;
 }
 
 header h1 {
-	color: var(--color-gray-600);
+	color: var(--color-gray-500);
 	font-size: 1.5em;
 	letter-spacing: 0.8px;
 	margin-left: 10px;
 	margin-top: 10px;
 	text-align: justify;
+}
+
+header .theme {
+	background: hsl(24, 100%, 50%);
+	border: none;
+	border-radius: 1000px;
+	box-shadow: 0 0 1px 2px rgba(13, 45, 75, 0.2);
+	cursor: pointer;
+	display: flex;
+	height: 30px;
+	left: 15px;
+	outline: none;
+	position: relative;
+	top: 8px;
+	width: 60px;
+}
+
+header .theme::after {
+	background: hsl(0, 0%, 100%);
+	border-radius: 100px;
+	box-shadow: 0 0 2px 2px hsla(204, 52%, 19%, 0.2);
+	content: '';
+	display: block;
+	height: 30px;
+	left: 0;
+	position: absolute;
+	right: unset;
+	top: 0;
+	transition: 0.8s ease all;
+	width: 30px;
+}
+
+header .theme.active {
+	background: hsl(0, 0%, 23%);
+	color: hsl(0, 0%, 100%);
+}
+
+header .theme.active::after {
+	right: 0;
+	left: unset;
+}
+
+header .theme span {
+	background: none;
+	color: hsl(0, 0%, 100%);
+	display: block;
+	height: 30px;
+	line-height: 30px;
+	width: 30px;
 }
 
 .content {
