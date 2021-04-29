@@ -33,6 +33,10 @@
 					</defs>
 				</svg>
 				<h1>{{ config('app.name') }}</h1>
+				<button class="theme" id="btnTheme">
+					<span><i class="fas fa-moon"></i></span>
+					<span><i class="fas fa-sun"></i></span>
+				</button>
 			</div>
 		</div>
 	</header>
@@ -72,4 +76,13 @@
 			</div>
 		</div>
 	</div>
+	<script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous" type="text/javascript"></script>
+	<script type="text/javascript">
+		let btnTheme = document.getElementById("btnTheme");
+
+		btnTheme.addEventListener('click', () => {
+			document.body.classList.toggle('theme');
+			btnTheme.classList.toggle('active');
+		});
+	</script>
 <@stop
