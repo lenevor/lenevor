@@ -3,58 +3,46 @@
  */
 
 :root {
-	--color-white: hsl(0, 0%, 100%);
-	--color-black: hsl(240, 9%, 18%);
-	--color-black-100: hsl(0, 0%, 23%);
-	--color-black-200: hsl(0, 3%, 28%);
-	--color-blue-100: hsl(212, 71%, 28%);
-	--color-blue-200: hsl(212, 69%, 35%);
-	--color-blue-300: hsl(212, 55%, 51%);
-	--color-blue-400: hsl(212, 63%, 64%);
-	--color-blue-500: hsl(212, 41%, 67%);
-	--color-red-100: hsl(0, 53%, 23%);
-	--color-red-200: hsl(0, 56%, 30%);
-	--color-red-300: hsl(0, 49%, 44%);
-	--color-red-400: hsl(0, 81%, 50%);
-	--color-red-500: hsl(0, 100%, 50%);
-	--color-yellow-100: hsl(56, 82%, 19%);
-	--color-yellow-200: hsl(56, 75%, 26%);
-	--color-yellow-300: hsl(56, 76%, 36%);
-	--color-yellow-400: hsl(56, 84%, 43%);
-	--color-yellow-500: hsl(56, 100%, 50%);
-	--color-green-100: hsl(133, 54%, 18%);
-	--color-green-200: hsl(133, 61%, 28%);
-	--color-green-300: hsl(132, 63%, 39%);
-	--color-green-400: hsl(133, 75%, 44%);
-	--color-green-500: hsl(133, 100%, 50%);
-	--color-orange-100: rgb(138, 54, 6);
-	--color-orange-200: rgb(167, 82, 33);
-	--color-orange-300: rgb(202, 99, 39);
-	--color-orange-400: rgb(255, 102, 13);
-	--color-orange-500: rgb(253, 134, 64);
-	--color-purple-100: hsl(305, 16%, 30%);
-	--color-purple-200: hsl(283, 25%, 42%);
-	--color-purple-300: hsl(273, 45%, 57%);	
-	--color-purple-400: hsl(273, 42%, 67%);
-	--color-purple-500: hsl(281, 60%, 72%);
-	--color-gray-100: hsl(0, 0%, 59%);
-	--color-gray-200: hsl(0, 0%, 65%);
-	--color-gray-300: hsl(0, 0%, 78%);
-	--color-gray-400: hsl(0, 3%, 87%);
-	--color-gray-500: hsl(0, 3%, 96%);	
-	--color-darkgray-100: hsl(214, 12%, 61%);
-	--color-darkgray-200: hsl(217, 10%, 55%);
-	--color-darkgray-300: hsl(220, 4%, 53%);
-	--color-darkgray-400: hsl(211, 18%, 48%);
-	--color-darkgray-500: hsl(209, 22%, 45%);
-	--color-darkpurple-100: hsl(281, 81%, 15%);
+	--color-white: hsla(0, 0%, 100%, 1);
+	--color-black-1: hsla(240, 9%, 18%, 1);
+	--color-black-2: hsla(0, 0%, 7%, 0.2);
+	--color-black-3: hsla(0, 0%, 23%, 1);
+	--color-black-4: hsla(0, 3%, 28%, 1);
+	--color-blue-1: hsla(212, 71%, 28%, 1);
+	--color-blue-2: hsla(199, 76%, 39%, 0.5);
+	--color-blue-3: hsla(228, 51%, 56%, 0.5);
+	--color-blue-4: hsla(217, 100%, 73%, 1);
+	--color-blue-5: rgb(166, 215, 255);
+	--color-green: hsla(151, 100%, 82%, 1);
+	--color-violet: hsl(173, 100%, 73%);
+	--color-purple-1: hsla(281, 81%, 15%, 1);
+	--color-purple-2: hsla(283, 25%, 42%, 1);
+	--color-purple-3: hsla(273, 41%, 73%, 1);
+	--color-gray-1: hsla(0, 3%, 87%, 1);
+	--color-gray-2: hsla(0, 3%, 99%, 1);
+	--color-orange: hsla(22, 100%, 53%, 1);
+	--color-darkgray-1: hsla(220, 4%, 53%, 1);
+	--color-darkgray-2: hsla(211, 18%, 48%, 1);	
 }
 
 .theme {
-	--color-white: hsl(0, 0%, 100%);
-	--color-blue-100: hsl(0, 0%, 100%);
-	--color-darkpurple-100: hsl(0, 0%, 89%);
-	--color-gray-500: hsl(0, 0%, 31%);
+	--color-black-1: hsla(240, 9%, 18%, 1);
+	--color-black-2: hsla(0, 0%, 10%, 0.2);
+	--color-black-3: hsla(0, 0%, 23%, 1);
+	--color-blue-1: hsla(0, 0%, 91%, 1);
+	--color-blue-2: hsla(202, 8%, 80%, 0.5);
+	--color-blue-3: hsla(224, 21%, 82%, 0.5);
+	--color-blue-4: hsl(215, 38%, 52%);
+	--color-blue-5: hsla(207, 100%, 83%, 1);
+	--color-green: hsla(152, 8%, 43%, 1);
+	--color-violet: hsla(173, 100%, 73%, 1);
+	--color-purple-1: hsla(0, 0%, 100%, 1);
+	--color-purple-2: hsl(210, 25%, 94%);
+	--color-purple-3: rgb(185, 185, 185);
+	--color-gray-1: var(--color-black-3);
+	--color-gray-2: var(--color-black-1);
+	--color-darkgray-1: rgb(92, 92, 92);
+	--color-darkgray-2: hsl(216, 5%, 81%);	
 }
 
 @font-face {
@@ -77,9 +65,9 @@
 }
 
 body {
-	background: linear-gradient(-160deg, var(--color-blue-100) 30%, var(--color-darkpurple-100) 70%); 
+	background: linear-gradient(-160deg, var(--color-blue-1) 30%, var(--color-purple-1) 70%); 
 	background-attachment: fixed;
-	color: var(--color-black); 
+	color: var(--color-black-1); 
 	font: 16px/1.5 'icommon', Heebo, sans-serif; 
 	font-weight: 100;
 	height: 100vh;
@@ -88,7 +76,7 @@ body {
 a:active, 
 a:link, 
 a:visited { 
-	color: var(--color-gray-400); 
+	color: var(--color-gray-1); 
 	font-weight: 600; 
 }
 
@@ -135,7 +123,7 @@ h2 {
 .icon-books:before, 
 .icon-embed:before, 
 .icon-users:before { 
-	color: var(--color-black-200); 
+	color: var(--color-black-3); 
 	font-size: 3em; 
 	font-weight: 500; 
 	padding: 3px; 
@@ -166,7 +154,7 @@ header .brand {
 }
 
 header h1 {
-	color: var(--color-gray-500);
+	color: var(--color-gray-1);
 	font-size: 1.5em;
 	letter-spacing: 0.8px;
 	margin-left: 10px;
@@ -175,10 +163,10 @@ header h1 {
 }
 
 header .theme {
-	background: hsl(24, 100%, 50%);
+	background: var(--color-orange);
 	border: none;
 	border-radius: 1000px;
-	box-shadow: 0 0 1px 2px rgba(13, 45, 75, 0.2);
+	box-shadow: 0 0 1px 2px rgba(var(--color-black-3) 0.2);
 	cursor: pointer;
 	display: flex;
 	height: 30px;
@@ -190,7 +178,7 @@ header .theme {
 }
 
 header .theme::after {
-	background: hsl(0, 0%, 100%);
+	background: var(--color-white);
 	border-radius: 100px;
 	box-shadow: 0 0 2px 2px hsla(204, 52%, 19%, 0.2);
 	content: '';
@@ -199,14 +187,14 @@ header .theme::after {
 	left: 0;
 	position: absolute;
 	right: unset;
+	transition: 0.6s cubic-bezier(0.075, 0.82, 0.165, 1);
 	top: 0;
-	transition: 0.8s ease all;
 	width: 30px;
 }
 
 header .theme.active {
-	background: hsl(0, 0%, 23%);
-	color: hsl(0, 0%, 100%);
+	background: var(--color-black-3);
+	color: var(--color-white);
 }
 
 header .theme.active::after {
@@ -216,7 +204,7 @@ header .theme.active::after {
 
 header .theme span {
 	background: none;
-	color: hsl(0, 0%, 100%);
+	color: var(--color-white);
 	display: block;
 	height: 30px;
 	line-height: 30px;
@@ -238,7 +226,7 @@ header .theme span {
 }
 
 .status h2 {
-	color: var(--color-gray-600);
+	color: var(--color-gray-2);
 	font-size: 1.6em;
 	font-weight: 600;
 	letter-spacing: 0.8px;
@@ -254,9 +242,9 @@ header .theme span {
 }
 
 .status code { 
-	background: var(--color-purple-200);
+	background: var(--color-purple-2);
 	border-radius: 30px;
-	box-shadow: inset -1px -1px 5px hsla(2, 82%, 48%, 0.1),
+	box-shadow: inset -1px -1px 5px hsla(2, 57%, 14%, 0.1),
 				inset -1px -1px 6px hsla(22, 30%, 20%, 0.5);
 	display: flex;
 	font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -268,10 +256,10 @@ header .theme span {
 
 .status code .check { 
 	align-items: center;
-	background: var(--color-purple-400);
+	background: var(--color-purple-3);
 	border-radius: 15px;
-	box-shadow: inset -1px -1px 5px hsla(278, 23%, 49%, 0.1),
-				inset 1px -1px 2px hsl(266, 43%, 59%);
+	box-shadow: inset -1px -1px 5px var(--color-purple-3),
+				inset 1px -1px 2px var(--color-purple-3);
 	display: flex;
 	height: 20px;
 	margin: 8px 10px;
@@ -279,13 +267,13 @@ header .theme span {
 }
 
 .status code .check svg { 
-	fill: var(--color-gray-500);
+	fill: var(--color-gray-1);
 	height: 20px;
 	width: 30px; 
 }
 
 .status code span {
-	color: var(--color-gray-400);
+	color: var(--color-gray-1);
 	font-weight: 600;
 	line-height: -1.5px;
 	padding: 6px 0;
@@ -294,7 +282,7 @@ header .theme span {
 }
 
 .status .status-message { 
-	color: var(--color-darkgray-400);
+	color: var(--color-darkgray-2);
 	font-size: .8rem;
 	font-weight: 700;
 	letter-spacing: .8px;
@@ -316,8 +304,8 @@ header .theme span {
 .resources .contribute {
 	background: linear-gradient(
 		90deg,
-		rgba(24, 129, 177, 0.5),
-		rgba(87, 109, 201, 0.5)
+		var(--color-blue-2),
+		var(--color-blue-3)
 	);
 	border-radius: 10px;
 	box-shadow: 0 0 0 1px hsla(0,0%,100%,.1),
@@ -335,7 +323,11 @@ header .theme span {
 .resources .learn .icon-books:before,
 .resources .discuss .icon-embed:before,
 .resources .contribute .icon-users:before {
-	background: linear-gradient(227deg,hsl(173, 100%, 73%) 10%,hsl(207, 100%, 78%) 90%);
+	background: linear-gradient(
+					227deg, 
+					var(--color-gray-1) 10%, 
+					var(--color-gray-2) 90%
+	);
 	background-clip: text;
 	-webkit-background-clip: text;
 	-moz-background-clip: text;
@@ -355,7 +347,7 @@ header .theme span {
 	border-radius: 10px;
 	box-shadow: inset -1px -1px 5px hsla(0, 0%, 100%, 0.1),
 				inset -1px -1px 8px hsla(0, 0%, 0%, 0.6);
-	color: var(--color-gray-500);
+	color: var(--color-gray-2);
 	font-size: 0.9em;
 	letter-spacing: .8px;
 	margin-left: 15px;
@@ -379,7 +371,7 @@ header .theme span {
 .resources .learn p,
 .resources .discuss p,
 .resources .contribute p {
-	color: var(--color-gray-400);
+	color: var(--color-gray-1);
 	font-size: 0.9em;
 	font-weight: 500;
 	margin-left: 15px;
@@ -396,7 +388,7 @@ header .theme span {
 }
 
 .container .footer p {
-	color: var(--color-darkgray-300);
+	color: var(--color-darkgray-1);
 	font-size: 0.9em;
 	font-weight: 600;
 	z-index: 100;
@@ -408,15 +400,15 @@ header .theme span {
 .text-gradient {
 	background: linear-gradient( 
 		150deg,
-		hsl(151, 100%, 82%),
-		hsl(217, 100%, 73%) 60%
+		var(--color-green),
+		var(--color-blue-4) 60%
 	);
 	background-clip: text;
 	-webkit-background-clip: text;
 	-moz-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	-moz-text-fill-color: transparent;
-	text-shadow: 0 0 10px rgba(17, 17, 17, 0.2);
+	text-shadow: 0 0 10px var(--color-black-2);
 }
 
 /*
