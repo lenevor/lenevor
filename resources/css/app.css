@@ -9,15 +9,15 @@
 	--color-black-3: hsla(0, 0%, 23%, 1);
 	--color-black-4: hsla(0, 3%, 28%, 1);
 	--color-blue-1: hsla(212, 71%, 28%, 1);
-	--color-blue-2: hsla(199, 76%, 39%, 0.5);
-	--color-blue-3: hsla(228, 51%, 56%, 0.5);
+	--color-blue-2: hsla(219, 49%, 38%, 0.4);
+	--color-blue-3: hsla(227, 65%, 62%, 0.4);
 	--color-blue-4: hsla(217, 100%, 73%, 1);
 	--color-blue-5: rgb(166, 215, 255);
 	--color-green: hsla(151, 100%, 82%, 1);
 	--color-violet: hsl(173, 100%, 73%);
 	--color-purple-1: hsla(281, 81%, 15%, 1);
 	--color-purple-2: hsla(283, 25%, 42%, 1);
-	--color-purple-3: hsla(273, 41%, 73%, 1);
+	--color-purple-3: rgb(157, 125, 184);
 	--color-gray-1: hsla(0, 3%, 87%, 1);
 	--color-gray-2: hsla(0, 3%, 99%, 1);
 	--color-orange: hsla(22, 100%, 53%, 1);
@@ -26,23 +26,18 @@
 }
 
 .theme {
-	--color-black-1: hsla(240, 9%, 18%, 1);
-	--color-black-2: hsla(0, 0%, 10%, 0.2);
-	--color-black-3: hsla(0, 0%, 23%, 1);
-	--color-blue-1: hsla(0, 0%, 91%, 1);
-	--color-blue-2: hsla(202, 8%, 80%, 0.5);
-	--color-blue-3: hsla(224, 21%, 82%, 0.5);
-	--color-blue-4: hsl(215, 38%, 52%);
-	--color-blue-5: hsla(207, 100%, 83%, 1);
-	--color-green: hsla(152, 8%, 43%, 1);
-	--color-violet: hsla(173, 100%, 73%, 1);
-	--color-purple-1: hsla(0, 0%, 100%, 1);
-	--color-purple-2: hsl(210, 25%, 94%);
-	--color-purple-3: rgb(185, 185, 185);
-	--color-gray-1: var(--color-black-3);
-	--color-gray-2: var(--color-black-1);
-	--color-darkgray-1: rgb(92, 92, 92);
-	--color-darkgray-2: hsl(216, 5%, 81%);	
+	--color-white-theme-1: hsla(0, 0%, 100%, 1);
+	--color-white-theme-2: rgb(228, 230, 235, 1);
+	--color-blue-theme-1: hsla(219, 15%, 39%, 1);
+	--color-blue-theme-2: hsla(213, 20%, 54%, 1);
+	--color-blue-theme-3: hsla(214, 25%, 41%, 1);
+	--color-blue-theme-4: hsla(215, 72%, 49%, 1);
+	--color-green-theme-1: hsla(182, 76%, 36%, 1);
+	--color-green-theme-2: hsla(173, 60%, 52%, 1);
+	--color-gray-theme-1: hsla(217, 24%, 37%, 1);
+	--color-gray-theme-2: hsl(202, 11%, 86%);
+	--color-gray-theme-3: hsla(206, 13%, 89%, 0.4);
+	--color-gray-theme-4: hsla(222, 23%, 91%, 0.4);
 }
 
 @font-face {
@@ -73,10 +68,22 @@ body {
 	height: 100vh;
 }
 
+body.theme {
+	background: linear-gradient(-160deg, var(--color-white-theme-2) 30%, var(--color-white-theme-1) 70%); 
+	background-attachment: fixed;
+}
+
 a:active, 
 a:link, 
 a:visited { 
 	color: var(--color-gray-1); 
+	font-weight: 600; 
+}
+
+.theme a:active, 
+.theme a:link, 
+.theme a:visited { 
+	color: var(--color-blue-theme-2); 
 	font-weight: 600; 
 }
 
@@ -162,6 +169,10 @@ header h1 {
 	text-align: justify;
 }
 
+.theme header h1 {
+	color: var(--color-gray-theme-1);
+}
+
 header .theme {
 	background: var(--color-orange);
 	border: none;
@@ -244,8 +255,8 @@ header .theme span {
 .status code { 
 	background: var(--color-purple-2);
 	border-radius: 30px;
-	box-shadow: inset -1px -1px 5px hsla(2, 57%, 14%, 0.1),
-				inset -1px -1px 6px hsla(22, 30%, 20%, 0.5);
+	box-shadow: inset -1px -1px 5px hsla(0, 13%, 19%, 0.1),
+				inset -1px -1px 6px hsla(21, 17%, 16%, 0.5);
 	display: flex;
 	font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 	margin: 0 auto;
@@ -254,22 +265,38 @@ header .theme span {
 	word-wrap: break-all;
 }
 
+.theme .status code { 
+	background: var(--color-blue-theme-1);
+	box-shadow: inset -1px -1px 5px hsla(204, 66%, 39%, 0.1),
+				inset -1px -1px 6px hsla(199, 51%, 33%, 0.5);
+}
+
 .status code .check { 
 	align-items: center;
 	background: var(--color-purple-3);
 	border-radius: 15px;
-	box-shadow: inset -1px -1px 5px var(--color-purple-3),
-				inset 1px -1px 2px var(--color-purple-3);
+	box-shadow: inset -1px -1px 5px hsla(0, 13%, 19%, 0.1),
+				inset 1px -1px 2px hsla(0, 13%, 19%, 0.1);
 	display: flex;
 	height: 20px;
 	margin: 8px 10px;
 	width: 30px; 
 }
 
+.theme code .check {
+	background: var(--color-blue-theme-2);
+	box-shadow: inset -1px -1px 5px hsla(207, 73%, 26%, 0.1),
+				inset 1px -1px 2px hsla(204, 79%, 34%, 0.1);	
+}
+
 .status code .check svg { 
 	fill: var(--color-gray-1);
 	height: 20px;
 	width: 30px; 
+}
+
+.theme .status code .check svg {
+	fill: var(--color-white-theme-1);
 }
 
 .status code span {
@@ -281,6 +308,10 @@ header .theme span {
 	word-break: break-all;
 }
 
+.theme .status code span {
+	color: var(--color-white-theme-1);
+}
+
 .status .status-message { 
 	color: var(--color-darkgray-2);
 	font-size: .8rem;
@@ -289,13 +320,19 @@ header .theme span {
 	margin: 10px auto;
 }
 
+.theme .status .status-message {
+	color: var(--color-gray-theme-2);
+}
+
 .resources {
+	background: transparent;
 	display: grid;
     grid-template-columns: repeat(auto-fit, auto);
     grid-auto-rows: auto;
     grid-gap: 2rem;
     justify-content: center;
 	margin: 80px 5px 0 5px;
+	padding-top: 1px;
 	position: relative;
 }
 
@@ -307,17 +344,26 @@ header .theme span {
 		var(--color-blue-2),
 		var(--color-blue-3)
 	);
+	backdrop-filter: blur(10px) brightness(130%);
+	-webkit-backdrop-filter: blur(10px) brightness(130%);
+	box-shadow: 0 0 1px 1px var(--color-blue-3);
 	border-radius: 10px;
-	box-shadow: 0 0 0 1px hsla(0,0%,100%,.1),
-				0 34px 65px hsl(221, 78%, 7%),
-				0 2.77px 2.24px hsla(0, 0%, 0%, 0.071),
-				0 6.65px 5.32px hsla(0, 0%, 0%, 0.044),
-				0 12.52px 10.02px hsla(0, 0%, 0%, 0.034),
-				0 22.34px 17.87px hsla(0, 0%, 0%, 0.029),
-				0 41.78px 33.43px hsla(0, 0%, 0%, 0.024),
-				0 100px 80px hsla(0, 0%, 0%, 0.018);
 	padding-bottom: 10px;
 	position: relative;
+}
+
+.theme .resources .learn,
+.theme .resources .discuss,
+.theme .resources .contribute {
+	background: linear-gradient(
+		90deg,
+		var(--color-gray-theme-3),
+		var(--color-gray-theme-4)
+	);
+	backdrop-filter: blur(10px) brightness(130%);
+	-webkit-backdrop-filter: blur(10px) brightness(130%);
+	box-shadow: 0 0 1px 1px var(--color-gray-theme-2);
+	border-radius: 10px;
 }
 
 .resources .learn .icon-books:before,
@@ -325,8 +371,8 @@ header .theme span {
 .resources .contribute .icon-users:before {
 	background: linear-gradient(
 					227deg, 
-					var(--color-gray-1) 10%, 
-					var(--color-gray-2) 90%
+					var(--color-violet) 10%, 
+					var(--color-blue-4) 90%
 	);
 	background-clip: text;
 	-webkit-background-clip: text;
@@ -334,26 +380,59 @@ header .theme span {
 	-webkit-text-fill-color: transparent;
 	-moz-text-fill-color: transparent;
 	font-size: 1.4em;
-	left: 22px; 
+	left: 34px; 
 	position: absolute;
 	top: 22px;
-	
+}
+
+.theme .resources .learn .icon-books:before,
+.theme .resources .discuss .icon-embed:before,
+.theme .resources .contribute .icon-users:before {
+	background: linear-gradient(
+					227deg, 
+					var(--color-green-theme-2) 10%, 
+					var(--color-blue-theme-4) 90%
+	);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-moz-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	-moz-text-fill-color: transparent;
 }
 
 .resources .learn h3,
 .resources .discuss h3,
 .resources .contribute h3 {
-	background: transparent;
+	background: linear-gradient(
+		90deg,
+		var(--color-blue-2),
+		var(--color-blue-3)
+	);
 	border-radius: 10px;
-	box-shadow: inset -1px -1px 5px hsla(0, 0%, 100%, 0.1),
-				inset -1px -1px 8px hsla(0, 0%, 0%, 0.6);
+	box-shadow: inset 0 -2px 5px hsla(200, 46%, 20%, 0.1),
+				inset 0 0 5px hsla(212, 57%, 27%, 0.1),
+				inset 0 -2px 5px hsla(207, 31%, 33%, 0.1),
+				inset 0 0px 5px hsla(214, 51%, 20%, 0.1);
 	color: var(--color-gray-2);
 	font-size: 0.9em;
 	letter-spacing: .8px;
-	margin-left: 15px;
+	margin-left: 25px;
 	margin-top: 15px;
 	padding: 10px;
 	padding-left: 35px;
+	z-index: 100;
+}
+
+.theme .resources .learn h3,
+.theme .resources .discuss h3,
+.theme .resources .contribute h3 {
+	background: transparent;
+	border-radius: 10px;
+	box-shadow: inset 0 -2px 5px hsla(200, 6%, 50%, 0.1),
+				inset 0 0 5px hsla(212, 9%, 37%, 0.1),
+				inset 0 -2px 5px hsla(204, 4%, 44%, 0.1),
+				inset 0 0px 5px hsla(216, 4%, 56%, 0.1);
+	color: var(--color-blue-theme-2);
 }
 
 .resources .learn h3 {
@@ -374,10 +453,16 @@ header .theme span {
 	color: var(--color-gray-1);
 	font-size: 0.9em;
 	font-weight: 500;
-	margin-left: 15px;
-	margin-right: 5px;
+	margin-left: 25px;
+	margin-right: 15px;
 	margin-top: 20px;
 	letter-spacing: .4px;
+}
+
+.theme .resources .learn p,
+.theme .resources .discuss p,
+.theme .resources .contribute p {
+	color: var(--color-blue-theme-2);
 }
 
 .container .footer {
@@ -391,7 +476,10 @@ header .theme span {
 	color: var(--color-darkgray-1);
 	font-size: 0.9em;
 	font-weight: 600;
-	z-index: 100;
+}
+
+.theme .container .footer p {
+	color: var(--color-gray-theme-2);
 }
 
 /*
@@ -409,6 +497,19 @@ header .theme span {
 	-webkit-text-fill-color: transparent;
 	-moz-text-fill-color: transparent;
 	text-shadow: 0 0 10px var(--color-black-2);
+}
+
+.theme .text-gradient {
+	background: linear-gradient( 
+		150deg,
+		var(--color-green-theme-1),
+		var(--color-blue-theme-3) 60%
+	);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-moz-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	-moz-text-fill-color: transparent;
 }
 
 /*
@@ -459,6 +560,7 @@ header .theme span {
 		margin-left: 0;
 		margin-right: 0;
 		padding-bottom: 20px;
+		overflow: hidden;
 	}
 
 	.resources .learn .icon-books:before,
@@ -544,6 +646,6 @@ header .theme span {
 	}
 
 	.container .footer {
-		margin-top: 45px;
+		margin-top: 40px;
 	}
 }
