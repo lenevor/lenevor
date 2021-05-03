@@ -12,7 +12,7 @@
 	--color-blue-2: hsla(219, 49%, 38%, 0.4);
 	--color-blue-3: hsla(227, 65%, 62%, 0.4);
 	--color-blue-4: hsla(217, 100%, 73%, 1);
-	--color-blue-5: rgb(166, 215, 255);
+	--color-blue-5: hsl(208, 31%, 66%);
 	--color-green: hsla(151, 100%, 82%, 1);
 	--color-violet: hsl(173, 100%, 73%);
 	--color-purple-1: hsla(281, 81%, 15%, 1);
@@ -290,7 +290,7 @@ header .theme span {
 }
 
 .status code .check svg { 
-	fill: var(--color-gray-1);
+	fill: var(--color-gray-2);
 	height: 20px;
 	width: 30px; 
 }
@@ -313,7 +313,7 @@ header .theme span {
 }
 
 .status .status-message { 
-	color: var(--color-darkgray-2);
+	color: var(--color-blue-5);
 	font-size: .8rem;
 	font-weight: 700;
 	letter-spacing: .8px;
