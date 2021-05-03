@@ -69,8 +69,18 @@ class Command
      */
     public function run(string $command, array $params)
     {
-        $this->discoverCommands();
+        $this->exposeCommands();
 
         
+    }
+
+    /**
+     * Calls all the commands.
+     * 
+     * @return void
+     */
+    protected function exposeCommands()
+    {
+
     }
 }
