@@ -283,6 +283,16 @@ class Lenevor implements LenevorContract
     }
 
 	/**
+	 * Gets the Lenevor application instance.
+	 * 
+	 * @return void
+	 */
+	public function getApplication()
+	{
+		return $this->app;
+	}
+
+	/**
 	 * Report the exception to the exception handler.
 	 * 
 	 * @param  \Throwable  $e
