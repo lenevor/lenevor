@@ -75,6 +75,18 @@ class Command
     }
 
     /**
+     * Access to the list of commands.
+     * 
+     * @return array
+     */
+    public function getCommands()
+    {
+        $this->exposeCommands();
+
+        return $this->commands;
+    }
+
+    /**
      * Calls all the commands.
      * 
      * @return void
