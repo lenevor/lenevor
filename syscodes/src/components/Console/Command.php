@@ -22,6 +22,7 @@
 
 namespace Syscodes\Console;
 
+use LogicException;
 use ReflectionClass;
 use ReflectionException;
 use Psr\Log\LoggerInterface;
@@ -33,6 +34,13 @@ use Psr\Log\LoggerInterface;
  */
 class Command
 {
+    /**
+     * Gets the code.
+     * 
+     * @var int $code
+     */
+    protected $code;
+
     /**
      * Gets the commands.
      * 
@@ -87,12 +95,34 @@ class Command
     }
 
     /**
+     * Executes the current command.
+     * 
+     * @return int
+     * 
+     * @throws \LogicException
+     */
+    protected function execute()
+    {
+        throw new LogicException('You remove the execute() method in the active command class');
+    }
+
+    /**
      * Calls all the commands.
      * 
      * @return void
      */
     protected function exposeCommands()
     {
+        if ($this->code) {
+            $statusCode = $this->code;
+        } else {
+            $statusCode = $this->execute();
+        }
+        
+        if ( ! is_int($statusCode)) {
+            throw new \TypeError(sprintf('Return value of "%s::execute()" must be of the type int, "%s" returned.', static::class, get_debug_type($statusCode)));
+        }
 
+        return is_numeric($statusCode) ? (int) $statusCode : 0;
     }
 }
