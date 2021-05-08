@@ -62,7 +62,7 @@ class Command
      * 
      * @return void
      */
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger = null)
     {
         $this->logger = $logger;
     }
@@ -77,21 +77,7 @@ class Command
      */
     public function run(string $command, array $params)
     {
-        $this->exposeCommands();
-
-        
-    }
-
-    /**
-     * Access to the list of commands.
-     * 
-     * @return array
-     */
-    public function getCommands()
-    {
-        $this->exposeCommands();
-
-        return $this->commands;
+        return $this->exposeCommands();        
     }
 
     /**
