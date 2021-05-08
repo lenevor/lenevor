@@ -30,7 +30,7 @@ use Psr\Log\LoggerInterface;
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-abstract class BaseCommand
+class BaseCommand extends Command
 {
     /**
      * Gets the Command's Arguments description.
@@ -38,13 +38,6 @@ abstract class BaseCommand
      * @var array $arguments
      */
     protected $arguments = [];
-
-    /**
-     * Gets the Commands so this commands can call other commands.
-     * 
-     * @var string $commands
-     */
-    protected $commands;
 
     /**
      * The console command description.
@@ -59,6 +52,13 @@ abstract class BaseCommand
      * @var string $group
      */
     protected $group;
+
+    /**
+     * The Lenevor appplication instance.
+     * 
+     * @var \Syscodes\Core\Contracts\Application $lenevor
+     */
+    protected $lenevor;
 
     /**
      * The logger to user for a command.
@@ -92,24 +92,27 @@ abstract class BaseCommand
      * Constructor. Create a new base command instance.
      * 
      * @param  \Psr\Log\LoggerInterface  $logger
-     * @param  \Syscodes\Console\Command  $command
      * 
      * @return void
      */
-    public function __construct(LoggerInterface $logger, Command $commands)
+    public function __construct(LoggerInterface $logger)
     {
-        $this->logger   = $logger;
-        $this->commands = $commands;        
+        $this->logger = $logger;       
     }
 
     /**
-     * Execute a command.
+     * Executes the current command.
      * 
-     * @param  array  $params
+     * @return int
      * 
-     * @return mixed
+     * @throws \LogicException
      */
-    abstract public function run(array $params);
+    protected function execute()
+    {
+        $method = method_exists($this, 'handle') ? 'handle' : '__invoke';
+
+        return (int) $this->lenevor->call([$this, $method]);
+    }
 
     /**
      * Is be used by a command to run other commands.
@@ -123,20 +126,6 @@ abstract class BaseCommand
      */
     public function call(string $command, array $params)
     {
-        return $this->commands->run($command, $params);
-    }
-
-    /**
-     * Show help includes:
-     * - Usage
-     * - Description
-     * - Options
-     * - Arguments
-     * 
-     * @return string
-     */
-    public function showHelp()
-    {
-        
+        return $this->run($command, $params);
     }
 }
