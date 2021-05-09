@@ -101,6 +101,24 @@ class BaseCommand extends Command
     }
 
     /**
+     * Resolve the console command instance.
+     * 
+     * @param  \Syscodes\Console\Command|string  $command
+     * 
+     * @return \Syscodes\Console\Command
+     */
+    public function resolveCommand($command)
+    {
+        $command = $this->getLenevor()->make($command);
+
+        if ($command instanceof self) {
+            $command->setLenevor($this->getLenevor());
+        }
+
+        return $command;
+    }
+
+    /**
      * Executes the current command.
      * 
      * @return int
@@ -127,5 +145,27 @@ class BaseCommand extends Command
     public function call(string $command, array $params)
     {
         return $this->run($command, $params);
+    }
+
+    /**
+     * Get the Lenevor application instance.
+     * 
+     * @return \Syscodes\Contracts\Core\Application
+     */
+    public function getLenevor()
+    {
+        return $this->lenevor;
+    }
+
+    /**
+     * Set the Lenevor application instance.
+     * 
+     * @param  \Syscodes\Contracts\Core\Application  $lenevor
+     * 
+     * @return void
+     */
+    public function setLenevor($lenevor)
+    {
+        $this->lenevor = $lenevor;
     }
 }
