@@ -25,7 +25,7 @@
 	--color-darkgray-2: hsla(211, 18%, 48%, 1);	
 }
 
-.theme {
+.light-theme {
 	--color-white-theme-1: hsla(0, 0%, 100%, 1);
 	--color-white-theme-2: rgb(228, 230, 235, 1);
 	--color-blue-theme-1: hsla(219, 15%, 39%, 1);
@@ -68,7 +68,7 @@ body {
 	height: 100vh;
 }
 
-body.theme {
+body.light-theme {
 	background: linear-gradient(-160deg, var(--color-white-theme-2) 30%, var(--color-white-theme-1) 70%); 
 	background-attachment: fixed;
 }
@@ -80,9 +80,9 @@ a:visited {
 	font-weight: 600; 
 }
 
-.theme a:active, 
-.theme a:link, 
-.theme a:visited { 
+.light-theme a:active, 
+.light-theme a:link, 
+.light-theme a:visited { 
 	color: var(--color-blue-theme-2); 
 	font-weight: 600; 
 }
@@ -169,11 +169,11 @@ header h1 {
 	text-align: justify;
 }
 
-.theme header h1 {
+.light-theme header h1 {
 	color: var(--color-gray-theme-1);
 }
 
-header .theme {
+header button {
 	background: var(--color-orange);
 	border: none;
 	border-radius: 1000px;
@@ -188,7 +188,7 @@ header .theme {
 	width: 58px;
 }
 
-header .theme::after {
+header button::after {
 	background: var(--color-white);
 	border-radius: 100px;
 	box-shadow: 0 0 2px 2px hsla(205, 17%, 36%, 0.6);
@@ -198,22 +198,21 @@ header .theme::after {
 	left: 0;
 	position: absolute;
 	right: unset;
-	transition: 0.6s cubic-bezier(0.075, 0.82, 0.165, 1);
 	top: 0;
 	width: 28px;
 }
 
-header .theme.active {
+header button.active {
 	background: var(--color-black-3);
 	color: var(--color-white);
 }
 
-header .theme.active::after {
+header button.active::after {
 	right: 0;
 	left: unset;
 }
 
-header .theme span {
+header button span {
 	background: none;
 	color: var(--color-white);
 	display: block;
@@ -265,7 +264,7 @@ header .theme span {
 	word-wrap: break-all;
 }
 
-.theme .status code { 
+.light-theme .status code { 
 	background: var(--color-blue-theme-1);
 	box-shadow: inset -1px -1px 5px hsla(204, 66%, 39%, 0.1),
 				inset -1px -1px 6px hsla(199, 51%, 33%, 0.5);
@@ -283,7 +282,7 @@ header .theme span {
 	width: 30px; 
 }
 
-.theme code .check {
+.light-theme code .check {
 	background: var(--color-blue-theme-2);
 	box-shadow: inset -1px -1px 5px hsla(207, 73%, 26%, 0.1),
 				inset 1px -1px 2px hsla(204, 79%, 34%, 0.1);	
@@ -295,7 +294,7 @@ header .theme span {
 	width: 30px; 
 }
 
-.theme .status code .check svg {
+.light-theme .status code .check svg {
 	fill: var(--color-white-theme-1);
 }
 
@@ -308,7 +307,7 @@ header .theme span {
 	word-break: break-all;
 }
 
-.theme .status code span {
+.light-theme .status code span {
 	color: var(--color-white-theme-1);
 }
 
@@ -320,7 +319,7 @@ header .theme span {
 	margin: 10px auto;
 }
 
-.theme .status .status-message {
+.light-theme .status .status-message {
 	color: var(--color-gray-theme-2);
 }
 
@@ -352,9 +351,9 @@ header .theme span {
 	position: relative;
 }
 
-.theme .resources .learn,
-.theme .resources .discuss,
-.theme .resources .contribute {
+.light-theme .resources .learn,
+.light-theme .resources .discuss,
+.light-theme .resources .contribute {
 	background: linear-gradient(
 		90deg,
 		var(--color-gray-theme-3),
@@ -385,9 +384,9 @@ header .theme span {
 	top: 22px;
 }
 
-.theme .resources .learn .icon-books:before,
-.theme .resources .discuss .icon-embed:before,
-.theme .resources .contribute .icon-users:before {
+.light-theme .resources .learn .icon-books:before,
+.light-theme .resources .discuss .icon-embed:before,
+.light-theme .resources .contribute .icon-users:before {
 	background: linear-gradient(
 					227deg, 
 					var(--color-green-theme-2) 10%, 
@@ -423,9 +422,9 @@ header .theme span {
 	z-index: 100;
 }
 
-.theme .resources .learn h3,
-.theme .resources .discuss h3,
-.theme .resources .contribute h3 {
+.light-theme .resources .learn h3,
+.light-theme .resources .discuss h3,
+.light-theme .resources .contribute h3 {
 	background: linear-gradient(
 		90deg,
 		var(--color-gray-1),
@@ -463,9 +462,9 @@ header .theme span {
 	letter-spacing: .4px;
 }
 
-.theme .resources .learn p,
-.theme .resources .discuss p,
-.theme .resources .contribute p {
+.light-theme .resources .learn p,
+.light-theme .resources .discuss p,
+.light-theme .resources .contribute p {
 	color: var(--color-blue-theme-2);
 }
 
@@ -482,7 +481,7 @@ header .theme span {
 	font-weight: 600;
 }
 
-.theme .container .footer p {
+.light-theme .container .footer p {
 	color: var(--color-gray-theme-2);
 }
 
@@ -503,7 +502,7 @@ header .theme span {
 	text-shadow: 0 0 10px var(--color-black-2);
 }
 
-.theme .text-gradient {
+.light-theme .text-gradient {
 	background: linear-gradient( 
 		150deg,
 		var(--color-green-theme-1),
