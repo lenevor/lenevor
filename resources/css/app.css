@@ -10,14 +10,14 @@
 	--color-black-4: hsla(0, 3%, 28%, 1);
 	--color-blue-1: hsla(212, 71%, 28%, 1);
 	--color-blue-2: hsla(219, 49%, 38%, 0.4);
-	--color-blue-3: hsla(227, 65%, 62%, 0.4);
-	--color-blue-4: hsla(217, 100%, 73%, 1);
-	--color-blue-5: hsl(208, 31%, 66%);
-	--color-green: hsla(151, 100%, 82%, 1);
-	--color-violet: hsl(173, 100%, 73%);
+	--color-blue-3: hsla(221, 65%, 62%, 0.4);
+	--color-blue-4: hsl(209, 82%, 59%);
+	--color-blue-5: hsla(208, 31%, 66%, 1);
+	--color-green: hsl(157, 71%, 73%);
+	--color-violet: hsla(173, 100%, 73%, 1);
 	--color-purple-1: hsla(281, 81%, 15%, 1);
 	--color-purple-2: hsla(283, 25%, 42%, 1);
-	--color-purple-3: rgb(157, 125, 184);
+	--color-purple-3: hsla(273, 29%, 61%, 1);
 	--color-gray-1: hsla(0, 3%, 87%, 1);
 	--color-gray-2: hsla(0, 3%, 99%, 1);
 	--color-orange: hsla(22, 100%, 53%, 1);
@@ -30,12 +30,12 @@
 	--color-white-theme-2: rgb(228, 230, 235, 1);
 	--color-blue-theme-1: hsla(219, 15%, 39%, 1);
 	--color-blue-theme-2: hsla(213, 20%, 54%, 1);
-	--color-blue-theme-3: hsla(214, 25%, 41%, 1);
+	--color-blue-theme-3: rgb(69, 97, 121);
 	--color-blue-theme-4: hsla(215, 72%, 49%, 1);
-	--color-green-theme-1: hsla(182, 76%, 36%, 1);
-	--color-green-theme-2: hsla(173, 60%, 52%, 1);
-	--color-gray-theme-1: hsla(217, 24%, 37%, 1);
-	--color-gray-theme-2: hsl(198, 8%, 75%);
+	--color-green-theme-1: rgb(28, 140, 168);
+	--color-green-theme-2: rgb(70, 206, 172);
+	--color-gray-theme-1: rgb(53, 95, 122);
+	--color-gray-theme-2: hsla(198, 8%, 75%, 1);
 	--color-gray-theme-3: hsla(206, 13%, 89%, 0.4);
 	--color-gray-theme-4: hsla(222, 23%, 91%, 0.4);
 }
@@ -345,7 +345,7 @@ header button span {
 	);
 	backdrop-filter: blur(10px) brightness(130%);
 	-webkit-backdrop-filter: blur(10px) brightness(130%);
-	box-shadow: 0 0 1px 1px var(--color-blue-3);
+	box-shadow: 0 0 1px -1px var(--color-blue-3);
 	border-radius: 10px;
 	padding-bottom: 10px;
 	position: relative;
@@ -412,9 +412,9 @@ header button span {
 				inset 0 0 5px hsla(212, 57%, 27%, 0.1),
 				inset 0 -2px 5px hsla(207, 31%, 33%, 0.1),
 				inset 0 0px 5px hsla(214, 51%, 20%, 0.1);
-	color: var(--color-gray-2);
-	font-size: 0.9em;
-	letter-spacing: .8px;
+	color: var(--color-white);
+	font-size: 1em;
+	letter-spacing: .5px;
 	margin-left: 25px;
 	margin-top: 15px;
 	padding: 10px;
@@ -499,7 +499,7 @@ header button span {
 	-moz-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	-moz-text-fill-color: transparent;
-	text-shadow: 0 0 10px var(--color-black-2);
+	text-shadow: inset 0 0 1px var(--color-black-2);
 }
 
 .light-theme .text-gradient {
