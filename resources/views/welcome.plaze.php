@@ -78,6 +78,8 @@
 	</div>
 	<script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous" type="text/javascript"></script>
 	<script type="text/javascript">
-		<@php echo preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(resourcePath('js/app.js')))<@endphp
+		<@php 
+			echo preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(resourcePath('js/app.js')));
+		<@endphp
 	</script>
 <@stop
