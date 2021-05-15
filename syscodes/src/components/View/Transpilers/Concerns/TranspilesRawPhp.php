@@ -38,17 +38,11 @@ trait TranspilesRawPhp
      */
     protected function transpilePhp($expression)
     {
-        return ! empty($expression) ? "<?php {$expression} ?>" : '<?php ';
-    }
+        if ($expression) {
+            return "<?php {$expression}; ?>";
+        }
 
-    /**
-     * Transpile the end-PHP statements into valid PHP.
-     * 
-     * @return string
-     */
-    protected function transpileEndPhp()
-    {
-        return ' ?>';
+        return '<@php';
     }
 
     /**
