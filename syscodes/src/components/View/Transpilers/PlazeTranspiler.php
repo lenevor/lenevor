@@ -54,6 +54,13 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
         'Statements',
         'Echos',
     ];
+
+    /**
+     * All custom "conditions" handlers.
+     * 
+     * @var array $conditions
+     */
+    protected $conditions = [];
     
     /**
      * Array of opening and closing tags for regular echos.
@@ -61,6 +68,13 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * @var array $contentTags
      */
     protected $contentTags = ['{{', '}}'];
+
+    /**
+     * All custom "directives" handlers.
+     * 
+     * @var array $customDirectives
+     */
+    protected $customDirectives = [];
 
     /**
      * Array of opening and closing tags for escaped echos.
@@ -126,6 +140,8 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     {
         [$this->footer, $result] = [[], ''];
 
+        $value = $this->transpileComments($this->storeUncompiledBlocks($value));
+
         foreach (token_get_all($value) as $token) {
             $result .= is_array($token) ? $this->parseToken($token) : $token;
         }
@@ -135,6 +151,37 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
         }
         
         return $result;
+    }
+
+    /**
+     * Store the blocks that do not receive compilation.
+     * 
+     * @param  string  $value
+     * 
+     * @return string
+     */
+    protected function storeUncompiledBlocks($value)
+    {
+        if (strpos($value, '<@php') !== false) {
+            $value = $this->registerPhpBlocks($value);
+        }
+
+        return $value;
+    }
+    
+    /**
+     * Register the PHP blocks and program for expressions or
+     * functions according to your need.
+     * 
+     * @param  string  $value
+     * 
+     * @return string
+     */
+    protected function registerPhpBlocks($value)
+    {
+        return preg_replace_callback('/(?<!<@)<@php(.*?)<@endphp/s', function ($matches) {
+            return "<?php{$matches[1]}?>";
+        }, $value);
     }
     
     /**
@@ -158,23 +205,60 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     }
     
     /**
-     * Transpile template Statements that start with "@".
+     * Transpile Plaze Statements that start with "@".
      * 
      * @param  string  $value
      * 
-     * @return mixed}
+     * @return string
      */
     protected function transpileStatements($value)
     {
-        $callback = function($match) {
-            if (method_exists($this, $method = 'transpile'.ucfirst($match[1]))) {
-                $match[0] = call_user_func([$this, $method], Arr::get($match, 3));
-            }
-            
-            return isset($match[3]) ? $match[0] : $match[0].$match[2];
+        $pattern = '/\B<@(\w+)([ \t]*)(\( ( (?>[^()]+) | (?3) )* \))?/x';
+
+        $callback = function ($match) {
+            return $this->transpileStatement($match);
         };
+
+        return preg_replace_callback($pattern, $callback, $value);
+    }
+
+    /**
+     * Transpile a single Plaze @ statement.
+     * 
+     * @param  string  $match
+     * 
+     * @return string
+     */
+    protected function transpileStatement($match)
+    {
+        if (Str::contains($match[1], '@')) {
+            $match[0] = isset($match[3]) ? $match[1].$match[3] : $match[1];
+        } elseif (isset($this->customDirectives[$match[1]])) {
+            $match[0] = $this->customDirective($match[1]);
+        } elseif (method_exists($this, $method = 'transpile'.ucfirst($match[1]))) {
+            $match[0] = call_user_func([$this, $method], Arr::get($match, 3));
+        }
         
-        return preg_replace_callback('/\B<@(\w+)([ \t]*)(\( ( (?>[^()]+) | (?3) )* \))?/x', $callback, $value);
+        return isset($match[3]) ? $match[0] : $match[0].$match[2];
+    }
+    
+    /**
+     * Gets the given directive with the given value.
+     * 
+     * @param  string  $name
+     * @param  string|null  $value
+     * 
+     * @return string
+     */
+    protected function customDirective($name, $value)
+    {
+        $value = $value ?? '';
+
+        if (Str::startsWith($value, '(') && Str::endsWith($value, ')')) {
+            $value = Str::substr($value, 1, -1);
+        }
+        
+        return call_user_func($this->customDirectives[$name], trim($value));
     }
     
     /**
@@ -207,6 +291,25 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
         }
 
         return $value;
+    }
+
+    /**
+     * Register a callback for custom directives.
+     * 
+     * @param  string  $name
+     * @param  \callable  $callback
+     * 
+     * @param  void
+     * 
+     * @throws \InvalidArgumentException
+     */
+    protected function directive($name, callable $callback)
+    {
+        if (preg_match('/^\w+(?:::\w+)?$/x', $name)) {
+            throw new InvalidArgumentException("The directive name [{$name}] is not valid. Directive names must only contain alphanumeric characters and underscores.");
+        }
+
+        $this->customDirectives[$name] = $callback;
     }
 
     /**
