@@ -187,4 +187,66 @@ trait TranspilesConditionals
     {
         return '<?php endswitch; ?>';
     }
+
+    /**
+     * Transpile the env statements into valid PHP.
+     * 
+     * @param  string  $environments
+     * 
+     * @return string
+     */
+    protected function transpileEnv($environments)
+    {
+        return "<?php if(app()->environment{$environments}): ?>";
+    }
+
+    /**
+     * Transpile the end-env statements into valid PHP.
+     * 
+     * @return string
+     */
+    protected function transpileEndEnv()
+    {
+        return '<?php endif; ?>';
+    }
+
+    /**
+     * Transpile the production statements into valid PHP.
+     * 
+     * @return string
+     */
+    protected function transpileProduction()
+    {
+        return "<?php if(app()->environment('production')): ?>";
+    }
+
+    /**
+     * Transpile the end-production statements into valid PHP.
+     * 
+     * @return string
+     */
+    protected function transpileEndProduction()
+    {
+        return '<?php endif; ?>';
+    }
+
+    /**
+     * Transpile the testing statements into valid PHP.
+     * 
+     * @return string
+     */
+    protected function transpileTesting()
+    {
+        return "<?php if(app()->environment('testing')): ?>";
+    }
+
+    /**
+     * Transpile the end-testing statements into valid PHP.
+     * 
+     * @return string
+     */
+    protected function transpileEndTesting()
+    {
+        return '<?php endif; ?>';
+    }
 }
