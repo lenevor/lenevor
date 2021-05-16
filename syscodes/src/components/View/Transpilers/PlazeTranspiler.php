@@ -262,6 +262,54 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     }
     
     /**
+     * Register an "if" statement directive.
+     * 
+     * @param  string  $name
+     * @param  \callable  $callback
+     * 
+     * @return void
+     */
+    public function if($name, callable $callback)
+    {
+        $this->conditions[$name] = $callback;
+        
+        $this->directive($name, function ($expression) use ($name) {
+            return $expression !== ''
+                    ? "<?php if (\Syscodes\Support\Facades\Plaze::check('{$name}', {$expression})): ?>"
+                    : "<?php if (\Syscodes\Support\Facades\Plaze::check('{$name}')): ?>";
+        });
+        
+        $this->directive('unless'.$name, function ($expression) use ($name) {
+            return $expression !== ''
+                ? "<?php if (! \Syscodes\Support\Facades\Plaze::check('{$name}', {$expression})): ?>"
+                : "<?php if (! \Syscodes\Support\Facades\Plaze::check('{$name}')): ?>";
+        });
+        
+        $this->directive('else'.$name, function ($expression) use ($name) {
+            return $expression !== ''
+                ? "<?php elseif (\Syscodes\Support\Facades\Plaze::check('{$name}', {$expression})): ?>"
+                : "<?php elseif (\Syscodes\Support\Facades\Plaze::check('{$name}')): ?>";
+        });
+        
+        $this->directive('end'.$name, function () {
+            return '<?php endif; ?>';
+        });
+    }
+    
+    /**
+     * Check the result of a condition.
+     * 
+     * @param  string  $name
+     * @param  array  $parameters
+     * 
+     * @return bool
+     */
+    public function check($name, ...$parameters)
+    {
+        return call_user_func($this->conditions[$name], ...$parameters);
+    }
+    
+    /**
      * Strip the parentheses from the given expression.
      * 
      * @param  string  $expression
