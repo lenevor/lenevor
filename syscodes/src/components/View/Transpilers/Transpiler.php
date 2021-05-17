@@ -96,5 +96,19 @@ abstract class Transpiler
         return $this->files->lastModified($path) >=
                $this->files->lastModified($compiled);
     }
+
+    /**
+     * Create the transpiled file directory if neccesary.
+     * 
+     * @param  string  $path
+     * 
+     * @return void
+     */
+    protected function transpiledDirectoryExists($path)
+    {
+        if ( ! $this->files->exists(dirname($path))) {
+            $this->files->makeDirectory(dirname($path), 0777, true, true);
+        }
+    }
 }
 
