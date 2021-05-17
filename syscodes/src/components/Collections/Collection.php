@@ -198,11 +198,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      */
     public function first(callable $callback = null, $default = null)
     {
-        if (is_null($callback)) {
-            return count($this->items) > 0 ? head($this->items) : null;
-        } else {
-            return Arr::first($this->items, $callback, $default);
-        }
+        return Arr::first($this->items, $callback, $default);
     }
 
     /**
