@@ -70,4 +70,14 @@ trait Enumerates
     {
         return ! is_string($value) && is_callable($value);
     }
+    
+    /**
+     * Determine if the collection is not empty.
+     * 
+     * @return bool
+     */
+    public function isNotEmpty()
+    {
+        return ! $this->isEmpty();
+    }
 }
