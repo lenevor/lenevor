@@ -42,18 +42,6 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
         Concerns\TranspilesComponents,
         Concerns\TranspilesConditionals,
         Concerns\TranspilesTranslations;
-        
-    /**
-     * All of the available transpiler functions.
-     * 
-     * @var array $transpilers
-     */
-    protected $transpilers = [
-        'Comments',
-        'Extensions',
-        'Statements',
-        'Echos',
-    ];
 
     /**
      * All custom "conditions" handlers.
@@ -105,11 +93,30 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     protected $footer = [];
 
     /**
+     * Gets the path that was transpiled.
+     * 
+     * @var string $path
+     */
+    protected $path;
+
+    /**
      * Array of opening and closing tags for raw echos.
      *
      * @var array
      */
     protected $rawTags = ['{!!', '!!}'];
+
+    /**
+     * All of the available transpiler functions.
+     * 
+     * @var array $transpilers
+     */
+    protected $transpilers = [
+        'Comments',
+        'Extensions',
+        'Statements',
+        'Echos',
+    ];
 
     /**
      * Transpile the view at the given path.
@@ -120,12 +127,22 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      */
     public function transpile($path = null)
     {
+        if ($path) {
+            $this->setPath($path);
+        }
+
         if ( ! is_null($this->cachePath)) {
-            $contents = $this->displayString($this->files->get($path));
-            
-            $this->files->put(
-                $this->getTranspilePath($path), $contents
+            $contents = $this->displayString($this->files->get($this->getPath()));
+
+            if ( ! empty($this->getPath())) {
+                $contents = $this->AppendFilePath($contents);
+            }
+
+            $this->transpiledDirectoryExists(
+                $transpiledPath = $this->getTranspilePath($this->getPath())
             );
+            
+            $this->files->put($transpiledPath, $contents);
         }        
     }
 
@@ -203,6 +220,41 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
         
         return $content;
     }
+
+    /**
+     * Append the file path to the compiled string.
+     * 
+     * @param  string  $contents
+     * 
+     * @return string
+     */
+    protected function AppendFilePath($contents)
+    {
+        $tokens = $this->getCollectionPHPTokens($contents);
+
+        if ($tokens->isNotEmpty() && $tokens->last() !== T_CLOSE_TAG) {
+            $contents .= ' ?>';
+        }
+
+        return $contents."\n\n<?php /** BEGINPATH {$this->getPath()} ENDPATH **/?>";
+    }
+
+    /**
+     * Get the open and closing PHP tag tokens from the given string.
+     * 
+     * @param  string  $contents
+     * 
+     * @return \Syscodes\Collections\Collection
+     */
+    protected function getCollectionPHPTokens($contents)
+    {
+        return collect(token_get_all($contents))
+                    ->pluck(0)
+                    ->filter(function ($token) {
+                        return in_array($token, [T_OPEN_TAG, T_OPEN_TAG_WITH_ECHO, T_CLOSE_TAG]);
+                    }
+                );
+    }
     
     /**
      * Transpile Plaze Statements that start with "@".
@@ -275,20 +327,20 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
         
         $this->directive($name, function ($expression) use ($name) {
             return $expression !== ''
-                    ? "<?php if (\Syscodes\Support\Facades\Plaze::check('{$name}', {$expression})): ?>"
-                    : "<?php if (\Syscodes\Support\Facades\Plaze::check('{$name}')): ?>";
+                ? "<?php if (\Syscodes\Support\Facades\Plaze::checkpoint('{$name}', {$expression})): ?>"
+                : "<?php if (\Syscodes\Support\Facades\Plaze::checkpoint('{$name}')): ?>";
         });
         
         $this->directive('unless'.$name, function ($expression) use ($name) {
             return $expression !== ''
-                ? "<?php if (! \Syscodes\Support\Facades\Plaze::check('{$name}', {$expression})): ?>"
-                : "<?php if (! \Syscodes\Support\Facades\Plaze::check('{$name}')): ?>";
+                ? "<?php if (! \Syscodes\Support\Facades\Plaze::checkpoint('{$name}', {$expression})): ?>"
+                : "<?php if (! \Syscodes\Support\Facades\Plaze::checkpoint('{$name}')): ?>";
         });
         
         $this->directive('else'.$name, function ($expression) use ($name) {
             return $expression !== ''
-                ? "<?php elseif (\Syscodes\Support\Facades\Plaze::check('{$name}', {$expression})): ?>"
-                : "<?php elseif (\Syscodes\Support\Facades\Plaze::check('{$name}')): ?>";
+                ? "<?php elseif (\Syscodes\Support\Facades\Plaze::checkpoint('{$name}', {$expression})): ?>"
+                : "<?php elseif (\Syscodes\Support\Facades\Plaze::checkpoint('{$name}')): ?>";
         });
         
         $this->directive('end'.$name, function () {
@@ -297,14 +349,14 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     }
     
     /**
-     * Check the result of a condition.
+     * Checkpoint the result of a condition.
      * 
      * @param  string  $name
      * @param  array  $parameters
      * 
      * @return bool
      */
-    public function check($name, ...$parameters)
+    public function checkpoint($name, ...$parameters)
     {
         return call_user_func($this->conditions[$name], ...$parameters);
     }
@@ -358,6 +410,28 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
         }
 
         $this->customDirectives[$name] = $callback;
+    }
+
+    /**
+     * Get the path currently being transpiled.
+     * 
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * Set the path currently being transpiled.
+     * 
+     * @param  string  $path
+     * 
+     * @return void
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
     }
 
     /**
