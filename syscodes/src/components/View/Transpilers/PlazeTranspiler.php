@@ -32,7 +32,8 @@ use Syscodes\Collections\Arr;
  */
 class PlazeTranspiler extends Transpiler implements TranspilerInterface
 {
-    use Concerns\TranspilesEchos,
+    use Concerns\TranspilesJson,
+        Concerns\TranspilesEchos,
         Concerns\TranspilesLoops,
         Concerns\TranspilesRawPhp,
         Concerns\TranspilesHelpers,
