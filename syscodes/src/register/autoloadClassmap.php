@@ -318,6 +318,7 @@ return [
     'Syscodes\\View\\Transpilers\\Concerns\\TranspilesComponents' => SYS_PATH.'src/components/View/Transpilers/Concerns/TranspilesComponents.php',
     'Syscodes\\View\\Transpilers\\Concerns\\TranspilesConditionals' => SYS_PATH.'src/components/View/Transpilers/Concerns/TranspilesConditionals.php',
     'Syscodes\\View\\Transpilers\\Concerns\\TranspilesEchos' => SYS_PATH.'src/components/View/Transpilers/Concerns/TranspilesEchos.php',
+    'Syscodes\\View\\Transpilers\\Concerns\\TranspilesJson' => SYS_PATH.'src/components/View/Transpilers/Concerns/TranspilesJson.php',
     'Syscodes\\View\\Transpilers\\Concerns\\TranspilesHelpers' => SYS_PATH.'src/components/View/Transpilers/Concerns/TranspilesHelpers.php',
     'Syscodes\\View\\Transpilers\\Concerns\\TranspilesIncludes' => SYS_PATH.'src/components/View/Transpilers/Concerns/TranspilesIncludes.php',
     'Syscodes\\View\\Transpilers\\Concerns\\TranspilesLayouts' => SYS_PATH.'src/components/View/Transpilers/Concerns/TranspilesLayouts.php',
