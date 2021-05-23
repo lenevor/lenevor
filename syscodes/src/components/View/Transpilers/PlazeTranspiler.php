@@ -180,11 +180,30 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      */
     protected function storeUncompiledBlocks($value)
     {
+        if (strpos($value, '<@literal') !== false) {
+            $value = $this->registerLiteralBlocks($value);
+        }
+
         if (strpos($value, '<@php') !== false) {
             $value = $this->registerPhpBlocks($value);
         }
 
         return $value;
+    }
+
+    /**
+     * Register the literal blocks and program for expressions or
+     * functions according to your need.
+     * 
+     * @param  string  $value
+     * 
+     * @return string
+     */
+    protected function registerLiteralBlocks($value)
+    {
+        return preg_replace_callback('/(?<!<@)<@literal(.*?)<@endliteral/s', function ($matches) {
+            return "<?php{$matches[1]}?>";
+        }, $value);
     }
     
     /**
