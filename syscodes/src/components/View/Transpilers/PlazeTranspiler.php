@@ -202,7 +202,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     protected function registerLiteralBlocks($value)
     {
         return preg_replace_callback('/(?<!<@)<@literal(.*?)<@endliteral/s', function ($matches) {
-            return "<?php{$matches[1]}?>";
+            return "{$matches[1]}";
         }, $value);
     }
     
