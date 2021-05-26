@@ -33,10 +33,6 @@
 					</defs>
 				</svg>
 				<h1>{{ config('app.name') }}</h1>
-				<button id="btnTheme">
-					<span><i class="fas fa-moon"></i></span>
-					<span><i class="fas fa-sun"></i></span>
-				</button>
 			</div>
 		</div>
 	</header>
@@ -72,6 +68,10 @@
 				</div>
 			</div>
 			<div class="footer">
+				<button id="btnTheme">
+					<span><i class="fas fa-sun"></i></span>
+					<span><i class="fas fa-moon"></i></span>
+				</button>
 				<p>Lenevor {{ version() }} (PHP v{{ PHP_VERSION }})</p>
 			</div>
 		</div>
