@@ -3,41 +3,45 @@
  */
 
 :root {
+	--color-black: hsla(0, 0%, 7%, 0.8);
+	--color-black-1: hsla(216, 2%, 42%, 0.6);
 	--color-white: hsla(0, 0%, 100%, 1);
-	--color-black-1: hsla(240, 9%, 18%, 1);
-	--color-black-2: hsla(0, 0%, 7%, 0.2);
-	--color-black-3: hsla(0, 0%, 23%, 1);
-	--color-black-4: hsla(0, 3%, 28%, 1);
-	--color-blue-1: hsla(212, 71%, 28%, 1);
-	--color-blue-2: hsla(219, 49%, 38%, 0.4);
-	--color-blue-3: hsla(221, 65%, 62%, 0.4);
-	--color-blue-4: hsl(209, 82%, 59%);
-	--color-blue-5: hsla(208, 31%, 66%, 1);
-	--color-green: hsl(157, 71%, 73%);
-	--color-violet: hsla(173, 100%, 73%, 1);
-	--color-purple-1: hsla(281, 81%, 15%, 1);
-	--color-purple-2: hsla(283, 25%, 42%, 1);
-	--color-purple-3: hsla(273, 29%, 61%, 1);
-	--color-gray-1: hsla(0, 3%, 87%, 1);
-	--color-gray-2: hsla(0, 3%, 99%, 1);
-	--color-orange: hsla(22, 100%, 53%, 1);
-	--color-darkgray-1: hsla(220, 4%, 53%, 1);
-	--color-darkgray-2: hsla(211, 18%, 48%, 1);	
+	--color-white-1: hsla(0, 0%, 100%, 1);
+	--color-white-2: hsla(223, 15%, 91%, 1);
+	--color-blue-1: hsla(219, 15%, 39%, 1);
+	--color-blue-2: hsla(213, 20%, 54%, 1);
+	--color-blue-3: hsla(208, 27%, 37%, 1);
+	--color-blue-4: hsla(215, 72%, 49%, 1);
+	--color-green-1: hsla(192, 71%, 38%, 1);
+	--color-green-2: hsla(165, 58%, 54%, 1);
+	--color-gray-1: hsla(203, 39%, 34%, 1);
+	--color-gray-2: hsla(216, 3%, 68%, 0.6);
+	--color-gray-3: hsla(206, 13%, 89%, 0.3);
+	--color-gray-4: hsla(222, 23%, 91%, 0.3);
+	--color-purple: hsla(272, 32%, 25%, 1);
 }
 
-.light-theme {
-	--color-white-theme-1: hsla(0, 0%, 100%, 1);
-	--color-white-theme-2: rgb(228, 230, 235, 1);
-	--color-blue-theme-1: hsla(219, 15%, 39%, 1);
-	--color-blue-theme-2: hsla(213, 20%, 54%, 1);
-	--color-blue-theme-3: rgb(69, 97, 121);
-	--color-blue-theme-4: hsla(215, 72%, 49%, 1);
-	--color-green-theme-1: rgb(28, 140, 168);
-	--color-green-theme-2: rgb(70, 206, 172);
-	--color-gray-theme-1: rgb(53, 95, 122);
-	--color-gray-theme-2: hsla(198, 8%, 75%, 1);
-	--color-gray-theme-3: hsla(206, 13%, 89%, 0.4);
-	--color-gray-theme-4: hsla(222, 23%, 91%, 0.4);
+.dark-theme {
+	--color-white-theme: hsla(0, 0%, 100%, 1);
+	--color-black-theme-1: hsla(240, 9%, 18%, 1);
+	--color-black-theme-2: hsla(0, 0%, 7%, 0.2);
+	--color-black-theme-3: hsla(0, 0%, 21%, 0.7);
+	--color-black-theme-4: hsla(0, 3%, 28%, 1);
+	--color-blue-theme-1: hsla(212, 71%, 28%, 1);
+	--color-blue-theme-2: hsla(219, 49%, 38%, 0.4);
+	--color-blue-theme-3: hsla(221, 65%, 62%, 0.4);
+	--color-blue-theme-4: hsl(209, 100%, 70%);
+	--color-blue-theme-5: hsla(208, 31%, 66%, 1);
+	--color-green-theme: hsla(155, 85%, 57%, 0.87);
+	--color-violet-theme: hsla(173, 100%, 73%, 1);
+	--color-purple-theme-1: hsla(281, 81%, 15%, 1);
+	--color-purple-theme-2: hsla(283, 25%, 42%, 1);
+	--color-purple-theme-3: hsla(273, 29%, 61%, 1);
+	--color-gray-theme-1: hsla(217, 8%, 81%, 1);
+	--color-gray-theme-2: hsla(225, 4%, 78%, 1);
+	--color-orange-theme: hsla(12, 100%, 50%, 1);
+	--color-darkgray-theme-1: hsla(216, 7%, 59%, 0.4);
+	--color-darkgray-theme-2: hsla(211, 18%, 48%, 1);	
 }
 
 @font-face {
@@ -60,7 +64,7 @@
 }
 
 body {
-	background: linear-gradient(-160deg, var(--color-blue-1) 30%, var(--color-purple-1) 70%); 
+	background: linear-gradient(-160deg, var(--color-white-2) 30%, var(--color-white-1) 70%); 
 	background-attachment: fixed;
 	color: var(--color-black-1); 
 	font: 16px/1.5 'icommon', Heebo, sans-serif; 
@@ -68,22 +72,22 @@ body {
 	height: 100vh;
 }
 
-body.light-theme {
-	background: linear-gradient(-160deg, var(--color-white-theme-2) 30%, var(--color-white-theme-1) 70%); 
+body.dark-theme {
+	background: linear-gradient(-160deg, var(--color-blue-theme-1) 30%, var(--color-purple-theme-1) 70%); 
 	background-attachment: fixed;
 }
 
 a:active, 
 a:link, 
 a:visited { 
-	color: var(--color-gray-1); 
+	color: var(--color-blue-2); 
 	font-weight: 600; 
 }
 
-.light-theme a:active, 
-.light-theme a:link, 
-.light-theme a:visited { 
-	color: var(--color-blue-theme-2); 
+.dark-theme a:active, 
+.dark-theme a:link, 
+.dark-theme a:visited { 
+	color: var(--color-gray-theme-1); 
 	font-weight: 600; 
 }
 
@@ -169,56 +173,8 @@ header h1 {
 	text-align: justify;
 }
 
-.light-theme header h1 {
-	color: var(--color-gray-theme-1);
-}
-
-header button {
-	background: var(--color-orange);
-	border: none;
-	border-radius: 1000px;
-	box-shadow: 0 0 1px 2px rgba(var(--color-black-3) 0.2);
-	cursor: pointer;
-	display: flex;
-	height: 28px;
-	left: 15px;
-	outline: none;
-	position: relative;
-	top: 10px;
-	width: 58px;
-}
-
-header button::after {
-	background: var(--color-white);
-	border-radius: 100px;
-	box-shadow: 0 0 2px 2px hsla(205, 17%, 36%, 0.6);
-	content: '';
-	display: block;
-	height: 28px;
-	left: 0;
-	position: absolute;
-	right: unset;
-	top: 0;
-	width: 28px;
-}
-
-header button.active {
-	background: var(--color-black-3);
+.dark-theme header h1 {
 	color: var(--color-white);
-}
-
-header button.active::after {
-	right: 0;
-	left: unset;
-}
-
-header button span {
-	background: none;
-	color: var(--color-white);
-	display: block;
-	height: 30px;
-	line-height: 30px;
-	width: 30px;
 }
 
 .content {
@@ -252,7 +208,7 @@ header button span {
 }
 
 .status code { 
-	background: var(--color-purple-2);
+	background: var(--color-blue-1);
 	border-radius: 30px;
 	box-shadow: inset -1px -1px 5px hsla(0, 13%, 19%, 0.1),
 				inset -1px -1px 6px hsla(21, 17%, 16%, 0.5);
@@ -264,15 +220,15 @@ header button span {
 	word-wrap: break-all;
 }
 
-.light-theme .status code { 
-	background: var(--color-blue-theme-1);
-	box-shadow: inset -1px -1px 5px hsla(204, 66%, 39%, 0.1),
-				inset -1px -1px 6px hsla(199, 51%, 33%, 0.5);
+.dark-theme .status code { 
+	background: var(--color-purple-theme-2);
+	box-shadow: inset -1px -1px 5px hsla(261, 66%, 39%, 0.1),
+				inset -1px -1px 6px hsla(291, 51%, 33%, 0.5);
 }
 
 .status code .check { 
 	align-items: center;
-	background: var(--color-purple-3);
+	background: var(--color-gray-4);
 	border-radius: 15px;
 	box-shadow: inset -1px -1px 5px hsla(0, 13%, 19%, 0.1),
 				inset 1px -1px 2px hsla(0, 13%, 19%, 0.1);
@@ -282,24 +238,24 @@ header button span {
 	width: 30px; 
 }
 
-.light-theme code .check {
-	background: var(--color-blue-theme-2);
-	box-shadow: inset -1px -1px 5px hsla(207, 73%, 26%, 0.1),
-				inset 1px -1px 2px hsla(204, 79%, 34%, 0.1);	
+.dark-theme code .check {
+	background: var(--color-purple-theme-3);
+	box-shadow: inset -1px -1px 5px hsla(281, 73%, 26%, 0.1),
+				inset 1px -1px 2px hsla(276, 79%, 34%, 0.1);	
 }
 
 .status code .check svg { 
-	fill: var(--color-gray-2);
+	fill: var(--color-white-1);
 	height: 20px;
 	width: 30px; 
 }
 
-.light-theme .status code .check svg {
-	fill: var(--color-white-theme-1);
+.dark-theme .status code .check svg {
+	fill: var(--color-white-theme);
 }
 
 .status code span {
-	color: var(--color-gray-1);
+	color: var(--color-white-1);
 	font-weight: 600;
 	line-height: -1.5px;
 	padding: 6px 0;
@@ -307,20 +263,20 @@ header button span {
 	word-break: break-all;
 }
 
-.light-theme .status code span {
-	color: var(--color-white-theme-1);
+.dark-theme .status code span {
+	color: var(--color-white-theme);
 }
 
 .status .status-message { 
-	color: var(--color-blue-5);
+	color: var(--color-gray-2);
 	font-size: .8rem;
 	font-weight: 700;
 	letter-spacing: .8px;
 	margin: 10px auto;
 }
 
-.light-theme .status .status-message {
-	color: var(--color-gray-theme-2);
+.dark-theme .status .status-message {
+	color: var(--color-blue-theme-5);
 }
 
 .resources {
@@ -339,29 +295,29 @@ header button span {
 .resources .discuss,
 .resources .contribute {
 	background: linear-gradient(
-		90deg,
-		var(--color-blue-2),
-		var(--color-blue-3)
+		150deg,
+		var(--color-gray-3),
+		var(--color-gray-4) 70%
 	);
 	backdrop-filter: blur(10px) brightness(130%);
 	-webkit-backdrop-filter: blur(10px) brightness(130%);
-	box-shadow: 0 0 1px -1px var(--color-blue-3);
+	box-shadow: 0 0 3px -1px var(--color-blue-2);
 	border-radius: 10px;
 	padding-bottom: 10px;
 	position: relative;
 }
 
-.light-theme .resources .learn,
-.light-theme .resources .discuss,
-.light-theme .resources .contribute {
+.dark-theme .resources .learn,
+.dark-theme .resources .discuss,
+.dark-theme .resources .contribute {
 	background: linear-gradient(
 		90deg,
-		var(--color-gray-theme-3),
-		var(--color-gray-theme-4)
+		var(--color-blue-theme-2),
+		var(--color-blue-theme-3)
 	);
 	backdrop-filter: blur(10px) brightness(130%);
 	-webkit-backdrop-filter: blur(10px) brightness(130%);
-	box-shadow: 0 0 2px var(--color-gray-theme-2);
+	box-shadow: 0 0 1px var(--color-blue-theme-3);
 	border-radius: 10px;
 }
 
@@ -370,7 +326,7 @@ header button span {
 .resources .contribute .icon-users:before {
 	background: linear-gradient(
 					227deg, 
-					var(--color-violet) 10%, 
+					var(--color-green-2) 10%, 
 					var(--color-blue-4) 90%
 	);
 	background-clip: text;
@@ -378,18 +334,18 @@ header button span {
 	-moz-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	-moz-text-fill-color: transparent;
-	font-size: 1.4em;
-	left: 34px; 
+	font-size: 1.5em;
+	left: 25px; 
 	position: absolute;
 	top: 22px;
 }
 
-.light-theme .resources .learn .icon-books:before,
-.light-theme .resources .discuss .icon-embed:before,
-.light-theme .resources .contribute .icon-users:before {
+.dark-theme .resources .learn .icon-books:before,
+.dark-theme .resources .discuss .icon-embed:before,
+.dark-theme .resources .contribute .icon-users:before {
 	background: linear-gradient(
 					227deg, 
-					var(--color-green-theme-2) 10%, 
+					var(--color-violet-theme) 10%, 
 					var(--color-blue-theme-4) 90%
 	);
 	background-clip: text;
@@ -402,40 +358,21 @@ header button span {
 .resources .learn h3,
 .resources .discuss h3,
 .resources .contribute h3 {
-	background: linear-gradient(
-		90deg,
-		var(--color-blue-2),
-		var(--color-blue-3)
-	);
-	border-radius: 10px;
-	box-shadow: inset 0 -2px 5px hsla(200, 46%, 20%, 0.1),
-				inset 0 0 5px hsla(212, 57%, 27%, 0.1),
-				inset 0 -2px 5px hsla(207, 31%, 33%, 0.1),
-				inset 0 0px 5px hsla(214, 51%, 20%, 0.1);
-	color: var(--color-white);
+	color: var(--color-blue-2);
 	font-size: 1em;
 	letter-spacing: .5px;
-	margin-left: 25px;
+	margin-left: 20px;
 	margin-top: 15px;
 	padding: 10px;
 	padding-left: 35px;
 	z-index: 100;
 }
 
-.light-theme .resources .learn h3,
-.light-theme .resources .discuss h3,
-.light-theme .resources .contribute h3 {
-	background: linear-gradient(
-		90deg,
-		var(--color-gray-1),
-		var(--color-gray-2)
-	);
+.dark-theme .resources .learn h3,
+.dark-theme .resources .discuss h3,
+.dark-theme .resources .contribute h3 {
 	border-radius: 10px;
-	box-shadow: inset 0 -2px 5px hsla(190, 5%, 75%, 0.1),
-				inset 0 0 5px hsla(204, 4%, 55%, 0.1),
-				inset 0 -2px 5px hsla(223, 6%, 75%, 0.1),
-				inset 0 0px 5px hsla(206, 5%, 73%, 0.1);
-	color: var(--color-blue-theme-2);
+	color: var(--color-white-theme);
 }
 
 .resources .learn h3 {
@@ -453,7 +390,7 @@ header button span {
 .resources .learn p,
 .resources .discuss p,
 .resources .contribute p {
-	color: var(--color-gray-1);
+	color: var(--color-blue-2);
 	font-size: 0.9em;
 	font-weight: 500;
 	margin-left: 25px;
@@ -462,27 +399,96 @@ header button span {
 	letter-spacing: .4px;
 }
 
-.light-theme .resources .learn p,
-.light-theme .resources .discuss p,
-.light-theme .resources .contribute p {
-	color: var(--color-blue-theme-2);
+.dark-theme .resources .learn p,
+.dark-theme .resources .discuss p,
+.dark-theme .resources .contribute p {
+	color: var(--color-gray-theme-1);
 }
 
 .container .footer {
-	display: flex;
+	display: grid;
+	grid-template-columns: repeat(auto, 1fr);
+    grid-gap: 1rem;
+	grid-auto-flow: row;
+	font-size: 1.1em;
 	justify-content: center;
 	margin-bottom: 20px;
 	margin-top: 25px;
 }
 
+.container .footer button {
+	background: var(--color-purple);
+	border: none;
+	border-radius: 1000px;
+	box-shadow: 0 0 0 1px hsla(205, 14%, 25%, 0.9);
+	cursor: pointer;
+	display: flex;
+	height: 20px;
+	left: 20px;
+	margin: 0 auto;
+	outline: none;
+	position: relative;
+	bottom: 0;
+	width: 42px;
+}
+
+.container .footer button::before {
+	color: var(--color-gray-2);
+	content: 'Mode';
+	font-size: 1em;
+	font-weight: 600;
+	position: absolute;
+	left: -45px;
+	top: 2px;
+}
+
+.dark-theme .container .footer button::before {
+	color: var(--color-darkgray-theme-1);
+}
+
+.container .footer button::after {
+	background: var(--color-white);
+	border-radius: 100px;
+	box-shadow: 0 0 1px 3px var(--color-black-1);
+	content: '';
+	display: block;
+	height: 20px;
+	left: 0;
+	position: absolute;
+	right: unset;
+	top: 0;
+	width: 20px;
+}
+
+.container .footer button.active {
+	background: var(--color-orange-theme);
+	color: var(--color-orange-theme);
+}
+
+.container .footer button.active::after {
+	box-shadow: 0 0 1px 2px var(--color-gray-theme-2);
+	left: unset;
+	right: 0;
+}
+
+.container .footer button span {
+	background: none;
+	color: var(--color-white);
+	display: block;
+	font-size: 0.8em;
+	height: 25px;
+	line-height: 20px;
+	width: 25px;
+}
+
 .container .footer p {
-	color: var(--color-darkgray-1);
-	font-size: 0.9em;
+	color: var(--color-gray-2);
+	font-size: 0.8em;
 	font-weight: 600;
 }
 
-.light-theme .container .footer p {
-	color: var(--color-gray-theme-2);
+.dark-theme .container .footer p {
+	color: var(--color-darkgray-theme-1);
 }
 
 /*
@@ -491,8 +497,8 @@ header button span {
 .text-gradient {
 	background: linear-gradient( 
 		150deg,
-		var(--color-green),
-		var(--color-blue-4) 60%
+		var(--color-green-1),
+		var(--color-blue-3) 60%
 	);
 	background-clip: text;
 	-webkit-background-clip: text;
@@ -502,11 +508,11 @@ header button span {
 	text-shadow: inset 0 0 1px var(--color-black-2);
 }
 
-.light-theme .text-gradient {
+.dark-theme .text-gradient {
 	background: linear-gradient( 
 		150deg,
-		var(--color-green-theme-1),
-		var(--color-blue-theme-3) 60%
+		var(--color-green-theme),
+		var(--color-blue-theme-4) 60%
 	);
 	background-clip: text;
 	-webkit-background-clip: text;
@@ -575,7 +581,7 @@ header button span {
 	.resources .learn h3,
 	.resources .discuss h3,
 	.resources .contribute h3 {
-		font-size: 1.1em;
+		font-size: 1.2em;
 		padding: 8px;
 		padding-left: 40px;
 	}
@@ -599,8 +605,13 @@ header button span {
 	}
 
 	.container .footer {
-		justify-content: flex-end;
+		justify-content: space-between;
+		grid-auto-flow: column;
 		margin-top: 5px;
+	}
+
+	.container .footer button {
+		left: 45px;
 	}
 }
 
