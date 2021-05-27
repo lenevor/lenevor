@@ -4,20 +4,21 @@
 
 :root {
 	--color-black: hsla(0, 0%, 7%, 0.8);
-	--color-black-1: hsla(216, 2%, 42%, 0.6);
+	--color-black-1: hsla(205, 26%, 22%, 0.719);
 	--color-white: hsla(0, 0%, 100%, 1);
 	--color-white-1: hsla(0, 0%, 100%, 1);
 	--color-white-2: hsla(223, 15%, 91%, 1);
+	--color-white-3: hsla(200, 23%, 95%, 1);
 	--color-blue-1: hsla(219, 15%, 39%, 1);
-	--color-blue-2: hsla(213, 20%, 54%, 1);
-	--color-blue-3: hsla(208, 27%, 37%, 1);
-	--color-blue-4: hsla(215, 72%, 49%, 1);
-	--color-green-1: hsla(192, 71%, 38%, 1);
-	--color-green-2: hsla(165, 58%, 54%, 1);
-	--color-gray-1: hsla(203, 39%, 34%, 1);
-	--color-gray-2: hsla(216, 3%, 68%, 0.6);
-	--color-gray-3: hsla(206, 13%, 89%, 0.3);
-	--color-gray-4: hsla(222, 23%, 91%, 0.3);
+	--color-blue-2: hsla(205, 87%, 65%, 1);
+	--color-blue-3: rgb(113, 132, 149);
+	--color-blue-4: rgb(53, 84, 128);
+	--color-green-1: rgb(59, 159, 172);
+	--color-green-2: rgb(126, 146, 141);
+	--color-gray-1: hsla(202, 31%, 38%, 0.733);
+	--color-gray-2: hsla(240, 0%, 60%, 1);
+	--color-gray-3: hsla(206, 13%, 89%, 1);
+	--color-gray-4: hsla(0, 0%, 77%, 0.918);
 	--color-purple: hsla(272, 32%, 25%, 1);
 }
 
@@ -27,19 +28,19 @@
 	--color-black-theme-2: hsla(0, 0%, 7%, 0.2);
 	--color-black-theme-3: hsla(0, 0%, 21%, 0.7);
 	--color-black-theme-4: hsla(0, 3%, 28%, 1);
-	--color-blue-theme-1: hsla(212, 71%, 28%, 1);
+	--color-blue-theme-1: rgb(32, 64, 100);
 	--color-blue-theme-2: hsla(219, 49%, 38%, 0.4);
 	--color-blue-theme-3: hsla(221, 65%, 62%, 0.4);
 	--color-blue-theme-4: hsl(209, 100%, 70%);
 	--color-blue-theme-5: hsla(208, 31%, 66%, 1);
 	--color-green-theme: hsla(155, 85%, 57%, 0.87);
 	--color-violet-theme: hsla(173, 100%, 73%, 1);
-	--color-purple-theme-1: hsla(281, 81%, 15%, 1);
+	--color-purple-theme-1: rgb(46, 25, 58);
 	--color-purple-theme-2: hsla(283, 25%, 42%, 1);
 	--color-purple-theme-3: hsla(273, 29%, 61%, 1);
 	--color-gray-theme-1: hsla(217, 8%, 81%, 1);
 	--color-gray-theme-2: hsla(225, 4%, 78%, 1);
-	--color-orange-theme: hsla(12, 100%, 50%, 1);
+	--color-orange-theme: rgb(255, 115, 0);
 	--color-darkgray-theme-1: hsla(216, 7%, 59%, 0.4);
 	--color-darkgray-theme-2: hsla(211, 18%, 48%, 1);	
 }
@@ -64,7 +65,7 @@
 }
 
 body {
-	background: linear-gradient(-160deg, var(--color-white-2) 30%, var(--color-white-1) 70%); 
+	background: linear-gradient(-160deg, var(--color-white-1) 30%, var(--color-white) 70%); 
 	background-attachment: fixed;
 	color: var(--color-black-1); 
 	font: 16px/1.5 'icommon', Heebo, sans-serif; 
@@ -73,7 +74,7 @@ body {
 }
 
 body.dark-theme {
-	background: linear-gradient(-160deg, var(--color-blue-theme-1) 30%, var(--color-purple-theme-1) 70%); 
+	background: linear-gradient(-160deg, var(--color-blue-theme-1) 20%, var(--color-purple-theme-1) 80%); 
 	background-attachment: fixed;
 }
 
@@ -165,7 +166,7 @@ header .brand {
 }
 
 header h1 {
-	color: var(--color-gray-1);
+	color: var(--color-blue-1);
 	font-size: 1.5em;
 	letter-spacing: 0.8px;
 	margin-left: 10px;
@@ -192,7 +193,7 @@ header h1 {
 }
 
 .status h2 {
-	color: var(--color-gray-2);
+	color: var(--color-gray-3);
 	font-size: 1.6em;
 	font-weight: 600;
 	letter-spacing: 0.8px;
@@ -228,7 +229,7 @@ header h1 {
 
 .status code .check { 
 	align-items: center;
-	background: var(--color-gray-4);
+	background: var(--color-blue-3);
 	border-radius: 15px;
 	box-shadow: inset -1px -1px 5px hsla(0, 13%, 19%, 0.1),
 				inset 1px -1px 2px hsla(0, 13%, 19%, 0.1);
@@ -268,7 +269,7 @@ header h1 {
 }
 
 .status .status-message { 
-	color: var(--color-gray-2);
+	color: var(--color-gray-1);
 	font-size: .8rem;
 	font-weight: 700;
 	letter-spacing: .8px;
@@ -296,12 +297,12 @@ header h1 {
 .resources .contribute {
 	background: linear-gradient(
 		150deg,
-		var(--color-gray-3),
-		var(--color-gray-4) 70%
+		var(--color-white)10%,
+		var(--color-white-1) 70%
 	);
 	backdrop-filter: blur(10px) brightness(130%);
 	-webkit-backdrop-filter: blur(10px) brightness(130%);
-	box-shadow: 0 0 3px -1px var(--color-blue-2);
+	box-shadow: 0 0 1px 1px var(--color-white-2);
 	border-radius: 10px;
 	padding-bottom: 10px;
 	position: relative;
@@ -325,9 +326,9 @@ header h1 {
 .resources .discuss .icon-embed:before,
 .resources .contribute .icon-users:before {
 	background: linear-gradient(
-					227deg, 
-					var(--color-green-2) 10%, 
-					var(--color-blue-4) 90%
+					100deg, 
+					var(--color-blue-2) 40%, 
+					var(--color-black-1) 50%
 	);
 	background-clip: text;
 	-webkit-background-clip: text;
@@ -358,7 +359,7 @@ header h1 {
 .resources .learn h3,
 .resources .discuss h3,
 .resources .contribute h3 {
-	color: var(--color-blue-2);
+	color: var(--color-black-2);
 	font-size: 1em;
 	letter-spacing: .5px;
 	margin-left: 20px;
@@ -390,7 +391,7 @@ header h1 {
 .resources .learn p,
 .resources .discuss p,
 .resources .contribute p {
-	color: var(--color-blue-2);
+	color: var(--color-gray-1);
 	font-size: 0.9em;
 	font-weight: 500;
 	margin-left: 25px;
@@ -424,32 +425,31 @@ header h1 {
 	cursor: pointer;
 	display: flex;
 	height: 20px;
-	left: 20px;
 	margin: 0 auto;
 	outline: none;
 	position: relative;
 	bottom: 0;
-	width: 42px;
+	width: 43px;
 }
 
 .container .footer button::before {
-	color: var(--color-gray-2);
+	color: var(--color-gray-1);
 	content: 'Mode';
 	font-size: 1em;
-	font-weight: 600;
+	font-weight: 500;
 	position: absolute;
-	left: -45px;
+	left: -43px;
 	top: 2px;
 }
 
 .dark-theme .container .footer button::before {
-	color: var(--color-darkgray-theme-1);
+	color: var(--color-darkgray-theme-2);
 }
 
 .container .footer button::after {
 	background: var(--color-white);
 	border-radius: 100px;
-	box-shadow: 0 0 1px 3px var(--color-black-1);
+	box-shadow: 0 0 1px 2px var(--color-black-1);
 	content: '';
 	display: block;
 	height: 20px;
@@ -466,7 +466,7 @@ header h1 {
 }
 
 .container .footer button.active::after {
-	box-shadow: 0 0 1px 2px var(--color-gray-theme-2);
+	box-shadow: 0 0 1px 2px var(--color-gray-theme-1);
 	left: unset;
 	right: 0;
 }
@@ -482,13 +482,13 @@ header h1 {
 }
 
 .container .footer p {
-	color: var(--color-gray-2);
+	color: var(--color-gray-1);
 	font-size: 0.8em;
-	font-weight: 600;
+	font-weight: 500;
 }
 
 .dark-theme .container .footer p {
-	color: var(--color-darkgray-theme-1);
+	color: var(--color-darkgray-theme-2);
 }
 
 /*
@@ -498,7 +498,7 @@ header h1 {
 	background: linear-gradient( 
 		150deg,
 		var(--color-green-1),
-		var(--color-blue-3) 60%
+		var(--color-blue-1) 60%
 	);
 	background-clip: text;
 	-webkit-background-clip: text;
@@ -569,7 +569,6 @@ header h1 {
 		margin-left: 0;
 		margin-right: 0;
 		padding-bottom: 20px;
-		overflow: hidden;
 	}
 
 	.resources .learn .icon-books:before,
@@ -611,7 +610,7 @@ header h1 {
 	}
 
 	.container .footer button {
-		left: 45px;
+		left: 43px;
 	}
 }
 
