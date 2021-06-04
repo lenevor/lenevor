@@ -363,6 +363,21 @@ if ( ! function_exists('isImport')) {
     }
 }
 
+if ( ! function_exists('methodField'))
+{
+    /**
+     * Generate a form field to spoof the HTTP verb used by forms.
+     * 
+     * @param  string  $method
+     * 
+     * @return \Syscodes\Support\WebString
+     */
+    function methodField($method)
+    {
+        return new WebString('<input type="hidden" name="_method" value="'.$method.'">');
+    }
+}
+
 if ( ! function_exists('now')) {
     /**
      * Create a new Chronos class instance for the current time.
