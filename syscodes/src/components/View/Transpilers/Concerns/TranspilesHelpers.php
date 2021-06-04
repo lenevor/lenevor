@@ -30,7 +30,7 @@ namespace Syscodes\View\Transpilers\Concerns;
 trait TranspilesHelpers
 {
     /**
-     * Compile the CSRF statements into valid PHP.
+     * Transpile the CSRF statements into valid PHP.
      * 
      * @return string
      */
@@ -40,7 +40,7 @@ trait TranspilesHelpers
     }
 
     /**
-     * Compile the 'dd' statements into valid PHP.
+     * Transpile the 'dd' statements into valid PHP.
      * 
      * @param  string  $value
      * 
@@ -49,5 +49,17 @@ trait TranspilesHelpers
     protected function transpileDd($value)
     {
         return "<?php echo dd{$value}; ?>";
+    }
+
+    /**
+     * Transpile the 'method' statements into valid PHP.
+     * 
+     * @param  string  $method
+     * 
+     * @return string
+     */
+    protected function transpileMethod($method)
+    {
+        return "<?php echo methodField{$method}; ?>";
     }
 }
