@@ -64,6 +64,19 @@ trait ManagesLayouts
 			$this->extendSection($section, $content instanceof View ? $content : e($content));
 		}
 	}
+
+	/**
+	 * Inject inline content into a section.
+	 * 
+	 * @param  string  $section
+	 * @param  string  $content
+	 * 
+	 * @return void
+	 */
+	public function injectSection($section, $content)
+	{
+		$this->beginSection($section, $content);
+	}
 	
 	/**
 	 * Append content to a given section.
