@@ -35,6 +35,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     use Concerns\TranspilesJson,
         Concerns\TranspilesEchos,
         Concerns\TranspilesLoops,
+        Concerns\TranspilesStacks,
         Concerns\TranspilesRawPhp,
         Concerns\TranspilesHelpers,
         Concerns\TranspilesLayouts,
