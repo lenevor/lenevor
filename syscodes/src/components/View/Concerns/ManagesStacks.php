@@ -200,7 +200,7 @@ trait ManagesStacks
      * 
      * @return void
      */
-    public function flush()
+    public function flushStacks()
     {
         $this->prepends  = [];
         $this->push      = [];
