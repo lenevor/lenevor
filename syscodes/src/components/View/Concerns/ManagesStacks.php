@@ -60,7 +60,7 @@ trait ManagesStacks
      * 
      * @return void
      */
-    protected function startPush($section, $content = '')
+    public function startPush($section, $content = '')
     {
         if ($content === '') {
             if (ob_start()) {
@@ -78,7 +78,7 @@ trait ManagesStacks
      * 
      * @throws \InvalidArgumentException
      */
-    protected function stopPush()
+    public function stopPush()
     {
         if (empty($this->pushStack)) {
 			throw new InvalidArgumentException('You cannot finish a section without first starting with one.');
@@ -118,7 +118,7 @@ trait ManagesStacks
      * 
      * @return void
      */
-    protected function startPrepend($section, $content = '')
+    public function startPrepend($section, $content = '')
     {
         if ($content === '') {
             if (ob_start()) {
@@ -136,7 +136,7 @@ trait ManagesStacks
      * 
      * @throws \InvalidArgumentException
      */
-    protected function stopPrepend()
+    public function stopPrepend()
     {
         if (empty($this->pushStack)) {
 			throw new InvalidArgumentException('You cannot finish a section without first starting with one.');
@@ -166,5 +166,44 @@ trait ManagesStacks
         } else {
             $this->prepends[$section][$this->renderCount] = $content.$this->prepends[$section][$this->renderCount];
         }
+    }
+
+    /**
+     * Get the string contents of a push section.
+     * 
+     * @param  string  $section
+     * @param  string  $default
+     * 
+     * @return string
+     */
+    public function givePushContent($section, $default = '')
+    {
+        if ( ! isset($this->push[$section]) && ! isset($this->prepends[$section])) {
+            return $default;
+        }
+
+        $result = '';
+
+        if (isset($this->prepends[$section])) {
+            $result .= implode(array_reverse($this->prepends[$section]));
+        }
+
+        if (isset($this->push[$section])) {
+            $result .= implode($this->push[$section]);
+        } 
+
+        return $result;
+    }
+
+    /**
+     * Flush all of the stacks.
+     * 
+     * @return void
+     */
+    public function flush()
+    {
+        $this->prepends  = [];
+        $this->push      = [];
+        $this->pushStack = [];
     }
 }
