@@ -22,6 +22,8 @@
 
 namespace Syscodes\View\Concerns;
 
+use InvalidArgumentException;
+
 /**
  * Trait ManagesStacks.
  * 
@@ -46,9 +48,9 @@ trait ManagesStacks
     /**
      * The stack push sections.
      * 
-     * @var array $stacks
+     * @var array $pushStack
      */
-    protected $stacks = [];
+    protected $pushStack = [];
 
     /**
      * Start content into a push section.
@@ -62,11 +64,29 @@ trait ManagesStacks
     {
         if ($content === '') {
             if (ob_start()) {
-                $this->push[] = $section;
+                $this->pushStack[] = $section;
             }
         } else {
             $this->ExtendPush($section, $content);
         }
+    }
+
+    /**
+     * Stop content into a push section.
+     * 
+     * @return void
+     * 
+     * @throws \InvalidArgumentException
+     */
+    protected function stopPush()
+    {
+        if (empty($this->pushStack)) {
+			throw new InvalidArgumentException('You cannot finish a section without first starting with one.');
+        }
+
+        return take(array_pop($this->pushStack), function ($last) {
+            $this->extendPush($last, ob_get_clean());
+        });
     }
 
     /**
