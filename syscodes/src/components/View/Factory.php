@@ -39,6 +39,7 @@ use Syscodes\Contracts\View\Factory as FactoryContract;
 class Factory implements FactoryContract
 {
 	use Extensions,
+	    Concerns\ManagesStacks,
 		Concerns\ManagesLayouts,
 		Concerns\ManagesComponents,
 		Concerns\ManagesTranslations;
