@@ -30,16 +30,63 @@ namespace Syscodes\View\Concerns;
 trait ManagesStacks
 {
     /**
-     * All of the finished, captured push sections.
+     * Get captured prepend sections.
+     * 
+     * @var array $prepends
+     */
+    protected $prepends = [];
+
+    /**
+     * Get captured push sections.
      * 
      * @var array $push
      */
     protected $push = [];
 
     /**
-     * All of the finished, captured prepend sections.
+     * The stack push sections.
      * 
-     * @var array $prepends
+     * @var array $stacks
      */
-    protected $prepends = [];
+    protected $stacks = [];
+
+    /**
+     * Start content into a push section.
+     * 
+     * @param  string  $section
+     * @param  string  $content
+     * 
+     * @return void
+     */
+    protected function startPush($section, $content = '')
+    {
+        if ($content === '') {
+            if (ob_start()) {
+                $this->push[] = $section;
+            }
+        } else {
+            $this->ExtendPush($section, $content);
+        }
+    }
+
+    /**
+     * Append content to a given stack.
+     * 
+     * @param  string  $section
+     * @param  string  $content
+     * 
+     * @return void
+     */
+    protected function ExtendPush($section, $content)
+    {
+        if ( ! isset($this->prepends[$section])) {
+            $this->prepends[$section] = [];
+        }
+
+        if ( ! isset($this->push[$section][$this->renderCount])) {
+            $this->push[$section][$this->renderCount] = $content;
+        } else {
+            $this->push[$section][$this->renderCount] .= $content;
+        }
+    }
 }
