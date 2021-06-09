@@ -54,7 +54,7 @@ trait ManagesLayouts
 	 * 
 	 * @return array
 	 */
-	public function beginSection($section, $content = null)
+	public function startSection($section, $content = null)
 	{
 		if (null === $content) {
 			if (ob_start()) {
