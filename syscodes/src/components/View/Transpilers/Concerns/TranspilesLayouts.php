@@ -58,11 +58,11 @@ trait TranspilesLayouts
      */
     protected function transpileSection($expression)
     {
-        return "<?php \$__env->beginSection{$expression}; ?>";
+        return "<?php \$__env->startSection{$expression}; ?>";
     }
 
     /**
-     * Transpile the yield statements into valid PHP.
+     * Transpile the give statements into valid PHP.
      * 
      * @param  string  $expression
      * 
@@ -111,27 +111,5 @@ trait TranspilesLayouts
     protected function transpileStop()
     {
         return '<?php $__env->stopSection(); ?>';
-    }
-
-    /**
-     * Transpile the push statements into valid PHP.
-     * 
-     * @param  string  $expression
-     * 
-     * @return string
-     */
-    protected function transpilePush($expression)
-    {
-        return "<?php \$__env->beginSection{$expression}; ?>";
-    }
-
-    /**
-     * Transpile the end-push statements into valid PHP.
-     * 
-     * @return string
-     */
-    protected function transpileEndPush()
-    {
-        return '<?php $__env->appendSection(); ?>';
     }
 }
