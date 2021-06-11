@@ -421,11 +421,11 @@ header h1 {
 
 .container .footer button::before {
 	color: var(--color-gray-1);
-	content: 'Mode';
+	content: '';
 	font-size: 1em;
 	font-weight: 500;
 	position: absolute;
-	left: -43px;
+	left: 0;
 	top: 2px;
 }
 
@@ -463,9 +463,10 @@ header h1 {
 	color: var(--color-white);
 	display: block;
 	font-size: 0.8em;
-	height: 25px;
+	height: 20px;
 	line-height: 20px;
-	width: 25px;
+	padding-left: 4px;
+	width: 20px;
 }
 
 .container .footer p {
@@ -596,7 +597,29 @@ header h1 {
 	}
 
 	.container .footer button {
-		left: 43px;
+		left: 0;
+	}
+
+	.container .footer button {
+		height: 25px;
+		width: 55px;
+	}
+	
+	.container .footer button::before {
+		font-size: 1em;
+	}
+	
+	.container .footer button::after {
+		height: 25px;
+		width: 25px;
+	}
+
+	.container .footer button span {
+		font-size: 1em;
+		height: 25px;
+		line-height: 23px;
+		padding-left: 5px;
+		width: 25px;
 	}
 }
 
