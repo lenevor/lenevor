@@ -11,10 +11,10 @@
 	--color-white-3: hsla(200, 23%, 95%, 1);
 	--color-blue-1: hsla(219, 15%, 39%, 1);
 	--color-blue-2: hsla(205, 87%, 65%, 1);
-	--color-blue-3: rgb(113, 132, 149);
-	--color-blue-4: rgb(53, 84, 128);
-	--color-green-1: rgb(59, 159, 172);
-	--color-green-2: rgb(126, 146, 141);
+	--color-blue-3: hsla(208, 15%, 51%, 1);
+	--color-blue-4: hsla(215, 41%, 35%, 1);
+	--color-green-1: hsla(187, 49%, 45%, 1);
+	--color-green-2: hsla(165, 8%, 53%, 1);
 	--color-gray-1: hsla(202, 31%, 38%, 0.733);
 	--color-gray-2: hsla(240, 0%, 60%, 1);
 	--color-gray-3: hsla(206, 13%, 89%, 1);
@@ -28,19 +28,19 @@
 	--color-black-theme-2: hsla(0, 0%, 7%, 0.2);
 	--color-black-theme-3: hsla(0, 0%, 21%, 0.7);
 	--color-black-theme-4: hsla(0, 3%, 28%, 1);
-	--color-blue-theme-1: rgb(32, 64, 100);
+	--color-blue-theme-1: hsla(212, 52%, 26%, 1);
 	--color-blue-theme-2: hsla(219, 49%, 38%, 0.4);
 	--color-blue-theme-3: hsla(221, 65%, 62%, 0.4);
 	--color-blue-theme-4: hsl(209, 100%, 70%);
 	--color-blue-theme-5: hsla(208, 31%, 66%, 1);
 	--color-green-theme: hsla(155, 85%, 57%, 0.87);
 	--color-violet-theme: hsla(173, 100%, 73%, 1);
-	--color-purple-theme-1: rgb(46, 25, 58);
+	--color-purple-theme-1: hsla(278, 40%, 16%, 1);
 	--color-purple-theme-2: hsla(283, 25%, 42%, 1);
 	--color-purple-theme-3: hsla(273, 29%, 61%, 1);
 	--color-gray-theme-1: hsla(217, 8%, 81%, 1);
 	--color-gray-theme-2: hsla(225, 4%, 78%, 1);
-	--color-orange-theme: rgb(255, 115, 0);
+	--color-orange-theme: hsla(27, 100%, 50%, 1);
 	--color-darkgray-theme-1: hsla(216, 7%, 59%, 0.4);
 	--color-darkgray-theme-2: hsla(211, 18%, 48%, 1);	
 }
@@ -211,8 +211,8 @@ header h1 {
 .status code { 
 	background: var(--color-blue-1);
 	border-radius: 30px;
-	box-shadow: inset -1px -1px 5px hsla(0, 13%, 19%, 0.1),
-				inset -1px -1px 6px hsla(21, 17%, 16%, 0.5);
+	box-shadow: inset -1px -1px 5px hsla(224, 12%, 44%, 0.1),
+				inset -1px -1px 6px hsla(219, 13%, 35%, 0.5);
 	display: flex;
 	font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 	margin: 0 auto;
@@ -231,8 +231,8 @@ header h1 {
 	align-items: center;
 	background: var(--color-blue-3);
 	border-radius: 15px;
-	box-shadow: inset -1px -1px 5px hsla(0, 13%, 19%, 0.1),
-				inset 1px -1px 2px hsla(0, 13%, 19%, 0.1);
+	box-shadow: inset -1px -1px 5px hsla(207, 13%, 34%, 0.1),
+				inset 1px -1px 2px hsla(209, 22%, 35%, 0.1);
 	display: flex;
 	height: 20px;
 	margin: 8px 10px;
@@ -269,7 +269,7 @@ header h1 {
 }
 
 .status .status-message { 
-	color: var(--color-gray-1);
+	color: var(--color-blue-3);
 	font-size: .8rem;
 	font-weight: 700;
 	letter-spacing: .8px;
@@ -304,7 +304,6 @@ header h1 {
 	-webkit-backdrop-filter: blur(10px) brightness(130%);
 	box-shadow: 0 0 1px 1px var(--color-white-2);
 	border-radius: 10px;
-	padding-bottom: 10px;
 	position: relative;
 }
 
@@ -322,28 +321,49 @@ header h1 {
 	border-radius: 10px;
 }
 
-.resources .learn .icon-books:before,
-.resources .discuss .icon-embed:before,
-.resources .contribute .icon-users:before {
-	background: linear-gradient(
-					100deg, 
-					var(--color-blue-2) 40%, 
-					var(--color-black-1) 50%
-	);
+.resources .learn h3,
+.resources .discuss h3,
+.resources .contribute h3 {
+	background: var(--color-white-3);
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border-bottom: 1px solid var(--color-white-2);
+	color: var(--color-blue-3);
+	font-size: 1em;
+	letter-spacing: .5px;
+	padding: 10px;
+	padding-left: 45px;
+	width: 100%;
+	z-index: 100;
+}
+
+.dark-theme .resources .learn h3,
+.dark-theme .resources .discuss h3,
+.dark-theme .resources .contribute h3 {
+	background: var(--color-blue-theme-2);
+	border-bottom: 1px solid var(--color-blue-theme-2);
+	color: var(--color-white-theme);
+	font-size: 1em;
+}
+
+.resources .learn h3 .icon-books:before,
+.resources .discuss h3 .icon-embed:before,
+.resources .contribute h3 .icon-users:before {
+	background: var(--color-blue-3);
 	background-clip: text;
 	-webkit-background-clip: text;
 	-moz-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	-moz-text-fill-color: transparent;
 	font-size: 1.5em;
-	left: 25px; 
+	left: 15px; 
 	position: absolute;
-	top: 22px;
+	top: 7px;
 }
 
-.dark-theme .resources .learn .icon-books:before,
-.dark-theme .resources .discuss .icon-embed:before,
-.dark-theme .resources .contribute .icon-users:before {
+.dark-theme .resources .learn h3 .icon-books:before,
+.dark-theme .resources .discuss h3 .icon-embed:before,
+.dark-theme .resources .contribute h3 .icon-users:before {
 	background: linear-gradient(
 					227deg, 
 					var(--color-violet-theme) 10%, 
@@ -356,47 +376,13 @@ header h1 {
 	-moz-text-fill-color: transparent;
 }
 
-.resources .learn h3,
-.resources .discuss h3,
-.resources .contribute h3 {
-	color: var(--color-black-2);
-	font-size: 1em;
-	letter-spacing: .5px;
-	margin-left: 20px;
-	margin-top: 15px;
-	padding: 10px;
-	padding-left: 35px;
-	z-index: 100;
-}
-
-.dark-theme .resources .learn h3,
-.dark-theme .resources .discuss h3,
-.dark-theme .resources .contribute h3 {
-	border-radius: 10px;
-	color: var(--color-white-theme);
-}
-
-.resources .learn h3 {
-	width: 90px;
-}
-
-.resources .discuss h3 {
-	width: 110px;
-}
-
-.resources .contribute h3 {
-	width: 130px;
-}
-
 .resources .learn p,
 .resources .discuss p,
 .resources .contribute p {
 	color: var(--color-gray-1);
 	font-size: 0.9em;
 	font-weight: 500;
-	margin-left: 25px;
-	margin-right: 15px;
-	margin-top: 20px;
+	margin: 15px;
 	letter-spacing: .4px;
 }
 
@@ -404,6 +390,7 @@ header h1 {
 .dark-theme .resources .discuss p,
 .dark-theme .resources .contribute p {
 	color: var(--color-gray-theme-1);
+	margin: 15px;
 }
 
 .container .footer {
@@ -571,36 +558,35 @@ header h1 {
 		padding-bottom: 20px;
 	}
 
-	.resources .learn .icon-books:before,
-	.resources .discuss .icon-embed:before,
-	.resources .contribute .icon-users:before {
-		margin-top: -1px;
-	}
-
 	.resources .learn h3,
 	.resources .discuss h3,
-	.resources .contribute h3 {
+	.resources .contribute h3,
+	.dark-theme .resources .learn h3,
+	.dark-theme .resources .discuss h3,
+	.dark-theme .resources .contribute h3 {
 		font-size: 1.2em;
-		padding: 8px;
-		padding-left: 40px;
+		padding: 12px;
+		padding-left: 60px;
 	}
 
-	.resources .learn h3 {
-		width: 105px;
-	}
-	
-	.resources .discuss h3 {
-		width: 125px;
-	}
-	
-	.resources .contribute h3 {
-		width: 150px;
+	.resources .learn h3 .icon-books:before,
+	.resources .discuss h3 .icon-embed:before,
+	.resources .contribute h3 .icon-users:before {
+		margin-top: 3px;
+		padding-left: 10px;
 	}
 
 	.resources .learn p,
 	.resources .discuss p,
-	.resources .contribute p {
+	.resources .contribute p,
+	.dark-theme .resources .learn p,
+	.dark-theme .resources .discuss p,
+	.dark-theme .resources .contribute p {
 		font-size: 1em;
+		margin-bottom: 20px;
+		margin-left: 25px;
+		margin-right: 20px;
+		margin-top: 20px;
 	}
 
 	.container .footer {
@@ -653,7 +639,7 @@ header h1 {
 
 	.resources {
 		grid-template-columns: repeat(auto-fit, 434px);
-		grid-auto-rows: 200px;
+		*grid-auto-rows: 200px; /* Row height  */
 		grid-gap: 3rem;
 		top: 30px;
 	}
