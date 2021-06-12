@@ -36,10 +36,24 @@ trait TranspilesIncludes
      * 
      * @return string
      */
-    protected function TranspileInclude($expression)
+    protected function transpileInclude($expression)
     {
         $expression = $this->stripParentheses($expression);
 
         return "<?php echo \$__env->make({$expression}, \Syscodes\Collections\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
+    }
+
+    /**
+     * Transpile the include-if statements into valid PHP.
+     * 
+     * @param  string  $expression
+     * 
+     * @return string
+     */
+    protected function transpileIncludeIf($expression)
+    {
+        $expression = $this->stripParentheses($expression);
+
+        return "<?php if (\$__env->viewExists({$expression})) echo \$__env->make({$expression}, \Syscodes\Collections\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
     }
 }
