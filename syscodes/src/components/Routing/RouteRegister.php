@@ -231,7 +231,9 @@ class RouteRegister
                 return $this->attribute($method, is_array($parameters[0] ? $parameters[0] : $parameters));
             }
 
-            return $this->attribute($method, $parameters[0]);
+            $parameters = isset($parameters[0]) ? $parameters[0] : null;
+
+            return $this->attribute($method, $parameters);
         }
         
         throw new BadMethodCallException(
