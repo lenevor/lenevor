@@ -68,7 +68,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('api')
              ->middleware('api')
-             ->namespace(null)
+             ->namespace()
              ->group(basePath('routes/api.php'));
     }
 
@@ -80,7 +80,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function loadWebRoute()
     {
         Route::middleware('web')
-             ->namespace(null)
+             ->namespace()
              ->group(basePath('routes/web.php'));
     }    
 }
