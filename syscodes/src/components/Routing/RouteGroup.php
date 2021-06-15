@@ -46,10 +46,10 @@ class RouteGroup
 		}
 
 		$new = array_merge(static::formatUseAs($new, $old), [
-            'namespace' => static::formatUseNamespace($new, $old),
-            'prefix' => static::formatUsePrefix($new, $old),
-            'where' => static::formatUseWhere($new, $old)
-        ]);
+			'namespace' => static::formatUseNamespace($new, $old),
+			'prefix' => static::formatUsePrefix($new, $old),
+			'where' => static::formatUseWhere($new, $old)
+		]);
 		
 		return array_merge_recursive(
 			Arr::except($old, array('namespace', 'prefix', 'where', 'as')), $new
