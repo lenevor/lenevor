@@ -87,7 +87,7 @@ class RouteGroup
 	{
 		$old = $old['prefix'] ?? null;
 
-		return isset($new['prefix']) 
+		return isset($new['prefix'])
 					? trim($old, '/').'/'.trim($new['prefix'], '/')
 					: $old;
 	}
@@ -119,8 +119,8 @@ class RouteGroup
 	protected static function formatUseAs($new, $old)
 	{
 		if (isset($old['as'])) {
-            $new['as'] = $old['as'].($new['as'] ?? '');
-        }
+			$new['as'] = $old['as'].($new['as'] ?? '');
+		}
 
 		return $new;
 	}
