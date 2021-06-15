@@ -79,7 +79,7 @@ class RouteResponse implements ResponseContract
     }
 
     /**
-     * Creates a new 'no content' response.
+     * Creates a new 'no-content' response.
      * 
      * @param  int  $status  
      * @param  array  $headers
