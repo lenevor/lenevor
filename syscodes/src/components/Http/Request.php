@@ -643,8 +643,7 @@ class Request
 	 */
 	public function getContent()
 	{
-		if (null === $this->content || false === $this->content)
-		{
+		if (null === $this->content || false === $this->content) {
 			$this->content = file_get_contents('php://input');
 		}
 
@@ -658,8 +657,7 @@ class Request
 	 */
 	public function getPathInfo()
 	{
-		if (null === $this->pathInfo)
-		{
+		if (null === $this->pathInfo) {
 			$this->pathInfo = $this->http->parsePathInfo();
 		}
 
@@ -673,8 +671,7 @@ class Request
 	 */
 	public function getBaseUrl()
 	{
-		if (null === $this->baseUrl)
-		{
+		if (null === $this->baseUrl) {
 			$this->baseUrl = $this->http->parseBaseUrl();
 		}
 
@@ -734,8 +731,7 @@ class Request
 	 */
 	public function getPort()
 	{
-		if ( ! $this->server->get('HTTP_HOST')) 
-		{
+		if ( ! $this->server->get('HTTP_HOST')) {
 			return $this->server->get('SERVER_PORT');
 		}
 		
@@ -752,8 +748,7 @@ class Request
 		$scheme = $this->getScheme();
 		$port   = $this->getPort();
 
-		if (('http' === $scheme && 80 === $port) || ('https' === $scheme && 443 === $port))		
-		{
+		if (('http' === $scheme && 80 === $port) || ('https' === $scheme && 443 === $port))	{
 			return $this->getHost();
 		}
 
@@ -882,14 +877,10 @@ class Request
 	 */
 	public function __toString()
 	{
-		try
-		{
+		try {
 			$content = $this->getContent();
-		}
-		catch (LogicException $e)
-		{
-			if (PHP_VERSION_ID > 70400)
-			{
+		} catch (LogicException $e) {
+			if (PHP_VERSION_ID > 70400)	{
 				throw $e;
 			}
 
@@ -899,13 +890,11 @@ class Request
 		$cookieHeader = '';
 		$cookies      = [];
 
-		foreach ($this->cookies as $key => $value)
-		{
+		foreach ($this->cookies as $key => $value) {
 			$cookies[]= "{$key} = {$value}";
 		}
 
-		if ( ! empty($cookies))
-		{
+		if ( ! empty($cookies)) {
 			$cookieHeader = 'Cookie: '.implode('; ', $cookies)."\r\n";
 		}
 		
