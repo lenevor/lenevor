@@ -156,8 +156,7 @@ class Application extends Container implements ApplicationContract
      */
     public function __construct($path = null)
     {
-        if ($path)
-        {
+        if ($path) {
             $this->setBasePath($path);
         }
 
@@ -1107,5 +1106,21 @@ class Application extends Container implements ApplicationContract
                 $this->alias($key, $alias);
             }
         }
+    }
+
+    /**
+     * Flush the container of all bindings and resolved instances.
+     * 
+     * @return void
+     */
+    public function flush()
+    {
+        parent::flush();
+
+        $this->bootedCallbacks = [];
+        $this->bootingCallbacks = [];
+        $this->deferredServices = [];
+        $this->serviceProviders = [];
+        $this->loadServiceProviders = [];
     }
 }
