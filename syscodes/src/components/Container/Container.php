@@ -23,6 +23,7 @@
 namespace Syscodes\Container;
 
 use Closure;
+use TypeError;
 use ArrayAccess;
 use ReflectionClass;
 use ReflectionParameter;
@@ -169,6 +170,10 @@ class Container implements ArrayAccess, ContainerContract
         }
 
         if ( ! $value instanceof Closure) {
+            if ( ! is_string($value)) {
+                throw new TypeError(self::class.'::bind: Argument #2 ($value) must be of type Closure|string|null');
+            }
+
             $value = $this->getClosure($id, $value);
         }
 
