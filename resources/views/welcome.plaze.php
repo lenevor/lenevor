@@ -68,10 +68,11 @@
 				</div>
 			</div>
 			<div class="footer">
-				<button id="btnTheme">
-					<span><i class="fas fa-sun"></i></span>
-					<span><i class="fas fa-moon"></i></span>
-				</button>
+				<div class="btnTheme">
+					<i class="fas fa-sun"></i>
+					<i class="fas fa-moon"></i>
+					<i class="indicator"></i>
+				</div>
 				<p>Lenevor {{ version() }} (PHP v{{ PHP_VERSION }})</p>
 			</div>
 		</div>
