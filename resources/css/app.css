@@ -408,28 +408,30 @@ header h1 {
 .container .footer .btnTheme {
 	background: var(--color-white);
 	border-radius: 160px;
-	box-shadow: inset 0 2px 60px rgba(0, 0, 0, .1),
-				inset 0 2px 8px rgba(0, 0, 0, .1),
-				inset 0 -4px 8px rgba(0, 0, 0, .1);
+	box-shadow: 0 0 0 1px rgba(194, 194, 194, 0.6),
+				inset 0 1px 2px rgba(230, 230, 230, 0.6),
+				inset 0 -1px 2px rgba(228, 228, 228, 0.6);
 	cursor: pointer;			
-	display: block;
 	height: 20px;
 	margin: 0 auto;
 	position: relative;
-	transition:  0.5s;
+	transition: 0.5s;
 	width: 40px;
 }
 
 .dark-theme .container .footer .btnTheme.active {
-	background: linear-gradient(to bottom, var(--color-purple-theme-3), var(--color-purple-theme-3));
+	background: var(--color-blue-theme-3);
+	box-shadow: 0 0 0 1px rgba(43, 11, 85, 0.8),
+				inset 0 1px 2px rgba(51, 41, 141, 0.8),
+				inset 0 -1px 2px rgba(49, 39, 104, 0.8);
 }
 
 .container .footer .btnTheme .indicator {
-	background: linear-gradient(to bottom, var(--color-white-2), var(--color-white-1));
+	background: linear-gradient(to bottom, var(--color-purple-theme-1), var(--color-purple-theme-1));
 	border-radius: 50%;
-	box-shadow: 0 8px 20px rgba(0, 0, 0, .5),
-				inset 0 4px 4px rgba(255, 255, 255, .2),
-				inset 0 -4px 4px rgba(255, 255, 255, .2);
+	box-shadow: 0 0 0 2px rgba(194, 194, 194, 0.6),
+				inset 0 1px 2px rgba(230, 230, 230, 0.2),
+				inset 0 -1px 2px rgba(228, 228, 228, 0.2);
 	height: 20px;
 	left: 0;
 	position: absolute;
@@ -440,8 +442,10 @@ header h1 {
 }
 
 .dark-theme .container .footer .btnTheme.active .indicator {
-	background: linear-gradient(to bottom, var(--color-purple-theme-1), var(--color-purple-theme-1));
-	box-shadow: 0 8px 20px rgba(0, 0, 0, .1);
+	background: var(--color-blue-theme-3);
+	box-shadow: 0 0 1px 1px rgba(35, 22, 77, 0.6),
+				0 1px 1px 1px rgba(47, 22, 94, 0.6),
+				0 -1px 1px 1px rgba(55, 39, 105, 0.6);
 }
 
 .container .footer .btnTheme.active .indicator {
