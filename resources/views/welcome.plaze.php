@@ -70,8 +70,8 @@
 			<div class="footer">
 				<div class="btnTheme">
 					<i class="fas fa-sun"></i>
-					<i class="fas fa-moon"></i>
 					<i class="indicator"></i>
+					<i class="fas fa-moon"></i>
 				</div>
 				<p>Lenevor {{ version() }} (PHP v{{ PHP_VERSION }})</p>
 			</div>
