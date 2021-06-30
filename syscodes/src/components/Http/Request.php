@@ -235,6 +235,7 @@ class Request
 		);
 
 		$newRequest->content = $request->content;
+		$newRequest->request = $request->request;
 
 		return $newRequest;
 	}
@@ -247,6 +248,9 @@ class Request
 	public static function createFromRequestGlobals()
 	{
 		$request = static::createFromRequestFactory($_POST, $_COOKIE, $_FILES, $_SERVER);
+
+		parse_str($request->getContent(), $data);
+		$request->request = new Parameters($data);
 
 		return $request;
 	}
