@@ -205,7 +205,9 @@ class Arr
 	 */
 	public static function fetch($array, $key)
 	{
-		foreach (explode('.', $key) as $segment) {
+		$segments = explode('.', $key);
+		
+		foreach ($segments as $segment) {
 			$results = array();
 			
 			foreach ($array as $value) {
@@ -253,13 +255,19 @@ class Arr
 			return value($default);
 		}
 
+		if (is_null($key)) {
+			return $array;
+		}
+
 		if (static::exists($array, $key)) {
 			return $array[$key];
 		}
 
-		foreach (explode('.', $key) as $segm) {
-			if (static::access($array) && static::exists($array, $segm)) {
-				$array = $array[$segm];
+		$segments = explode('.', $key);
+
+		foreach ($segments as $segment) {
+			if (static::access($array) && static::exists($array, $segment)) {
+				$array = $array[$segment];
 			} else {
 				return value($default);
 			}
@@ -300,9 +308,11 @@ class Arr
 	{
 		if (empty($array) || is_null($key)) return false;
 		
-		if (array_key_exists($key, $array)) return true;
+		if (static::exists($array, $key)) return true;
+
+		$segments = explode('.', $key);
 		
-		foreach (explode('.', $key) as $segment) {
+		foreach ($segments as $segment) {
 			if ( ! is_array($array) || ! static::exists($array, $segment)) {
 				return false;
 			}
@@ -335,8 +345,12 @@ class Arr
 	 *
 	 * @return mixed
 	 */
-	public static function set(& $array, $key, $value = null)
+	public static function set(&$array, $key, $value = null)
 	{
+		if (is_null($key)) {
+			return $array = $value;
+		}
+
 		$keys = explode('.', $key);
 
 		while (count($keys) > 1) {
@@ -346,7 +360,7 @@ class Arr
 				$array[$key] = [];
 			}
 
-			$array =& $array[$key];
+			$array = &$array[$key];
 		}
 
 		$array[array_shift($keys)] = $value;
