@@ -102,7 +102,7 @@ class Headers implements IteratorAggregate, Countable
 	 * 
 	 * @return mixed
 	 */
-	public function add(array $headers)
+	public function add(array $headers = [])
 	{
 		foreach ($headers as $key => $values) {
 			$this->set($key, $values);
