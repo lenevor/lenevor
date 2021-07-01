@@ -1,0 +1,158 @@
+<?php
+
+/**
+ * Lenevor Framework
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file license.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://lenevor.com/license
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@Lenevor.com so we can send you a copy immediately.
+ *
+ * @package     Lenevor
+ * @subpackage  Base
+ * @link        https://lenevor.com
+ * @copyright   Copyright (c) 2019 - 2021 Alexander Campo <jalexcam@gmail.com>
+ * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
+ */
+
+namespace Syscodes\Http\Concerns;
+
+use Syscodes\Collections\Arr;
+
+/**
+ * Trait InteractsWithInput.
+ * 
+ * @author Alexander Campo <jalexcam@gmail.com>
+ */
+trait InteractsWithInput
+{
+    /**
+     * Retrieve a server variable from the request.
+     * 
+     * @param  string|null  $key
+     * @param  string|null  $default
+     * 
+     * @return mixed
+     */
+    public function server($key = null, $default = null)
+    {
+        return $this->retrieveItem('server', $key, $default);
+    }
+
+    /**
+     * Determine if a header is set on the request.
+     * 
+     * @param  string  $key
+     * 
+     * @return bool
+     */
+    public function hasHeader($key)
+    {
+        return ! is_null($this->header($key));
+    }
+
+    /**
+     * Retrieve a header from the request.
+     * 
+     * @param  string|null  $key
+     * @param  string|null  $default
+     * 
+     * @return mixed
+     */
+    public function header($key = null, $default = null)
+    {
+        return $this->retrieveItem('headers', $key, $default);
+    }
+
+    /**
+     * Adds parameters.
+     * 
+     * @param  array  $key
+     * 
+     * @return array
+     */
+    public function add(array $key = [])
+    {
+        return $this->getInputSource()->add($key);
+    }
+
+    /**
+     * Get all of the input and files for the request.
+     * 
+     * @return array
+     */
+    public function all()
+    {
+        return array_merge_recursive($this->input(), $this->allFiles());
+    }
+
+    /**
+     * Retrieve an input item from the request.
+     * 
+     * @param  string|null  $key
+     * @param  mixed  $default
+     * 
+     * @return mixed
+     */
+    public function input($key = null, $default = null)
+    {
+        $input = $this->getInputSource()->all();
+
+        return Arr::get($input, $key, $default);
+    }
+
+    /**
+     * Get an array of all of the files on the request.
+     * 
+     * @return array
+     */
+    public function allFiles()
+    {
+        return $this->files->all();
+    }
+
+    /**
+     * Gets a request containing a given input item key.
+     * 
+     * @param  string|array  $key
+     * 
+     * @return bool
+     */
+    public function has($key)
+    {
+        $keys = is_array($key) ? $key : func_get_args();
+
+        $array = $this->all();
+
+        foreach ($keys as $value) {
+            if ( ! Arr::has($array, $value)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Retrieve a parameter item from a given source.
+     * 
+     * @param  string  $source
+     * @param  string  $key
+     * @param  mixed  $default
+     * 
+     * @return mixed
+     */
+    protected function retrieveItem($source, $key, $default)
+    {
+        if (null === $key) {
+            return $this->$source->all();
+        }
+
+        return $this->$source->get($key, $default);
+    }
+}
