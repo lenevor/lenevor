@@ -33,6 +33,8 @@ use Syscodes\Http\Contributors\Inputs;
 use Syscodes\Http\Contributors\Server;
 use Syscodes\Http\Contributors\Headers;
 use Syscodes\Http\Contributors\Parameters;
+use Syscodes\Http\Concerns\InteractsWithInput;
+use Syscodes\Http\Concerns\InteractsWithContentTypes;
 
 /**
  * Request represents an HTTP request.
@@ -41,6 +43,9 @@ use Syscodes\Http\Contributors\Parameters;
  */
 class Request
 {
+	use InteractsWithInput,
+	    InteractsWithContentTypes;
+
 	/**
 	 * Holds the global active request instance.
 	 *
@@ -235,7 +240,7 @@ class Request
 		);
 
 		$newRequest->content = $request->content;
-		$newRequest->request = $request->request;
+		$newRequest->request = $newRequest->getInputSource();
 
 		return $newRequest;
 	}
@@ -565,6 +570,20 @@ class Request
 		$this->method = null;
 
 		$this->server->set('REQUEST_METHOD', $method);
+	}
+
+	/**
+	 * Get the input source for the request.
+	 * 
+	 * @return \Syscodes\Http\Contributors\Parameters
+	 */
+	public function getInputSource()
+	{
+		if ($this->isJson()) {
+			return $this->json();
+		}
+
+		return $this->request;
 	}
 	
 	/**
