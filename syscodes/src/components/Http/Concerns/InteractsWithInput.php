@@ -70,6 +70,57 @@ trait InteractsWithInput
     }
 
     /**
+     * Determine if a cookie is set on the request.
+     * 
+     * @param  string  $key
+     * 
+     * @return bool
+     */
+    public function hasCookie($key)
+    {
+        return ! is_null($this->cookie($key));
+    }
+
+    /**
+     * Retrieve a cookie from the request.
+     * 
+     * @param  string|null  $key
+     * @param  string|null  $default
+     * 
+     * @return mixed
+     */
+    public function cookie($key = null, $default = null)
+    {
+        return $this->retrieveItem('cookies', $key, $default);
+    }
+
+    /**
+     * Retrieve a 'request' item from the request.
+     * 
+     * @param  string|null  $key
+     * @param  string|null  $default
+     * 
+     * @return string|array|null
+     */
+    public function post($key = null, $default = null)
+    {
+        return $this->retrieveItem('request', $key, $default);
+    }
+
+    /**
+     * Retrieve a 'request' item from the request.
+     * 
+     * @param  string|null  $key
+     * @param  string|null  $default
+     * 
+     * @return string|array|null
+     */
+    public function file($key = null, $default = null)
+    {
+        return Arr::get($this->allFile(), $key, $default);
+    }
+
+    /**
      * Adds parameters.
      * 
      * @param  array  $key
@@ -114,6 +165,28 @@ trait InteractsWithInput
     public function allFiles()
     {
         return $this->files->all();
+    }
+
+    /**
+     * Replace the input for the current request.
+     * 
+     * @param  array  $key
+     * 
+     * @return void
+     */
+    public function replace(array $key = [])
+    {
+        return $this->getInputSource()->replace($key);
+    }
+
+    /**
+     * Get the keys for all of the input and files.
+     * 
+     * @return array
+     */
+    public function keys()
+    {
+        return array_merge($this->input(), $this->files->keys());
     }
 
     /**
