@@ -523,6 +523,17 @@ class Request
 
 	/**
 	 * Returns whether this is an AJAX request or not.
+	 * Alias of isXmlHttpRequest().
+	 *
+	 * @return bool
+	 */
+	public function ajax()
+	{
+		return $this->isXmlHttpRequest();
+	}
+
+	/**
+	 * Returns whether this is an AJAX request or not.
 	 *
 	 * @return bool
 	 */
