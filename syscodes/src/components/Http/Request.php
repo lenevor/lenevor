@@ -140,9 +140,9 @@ class Request
 	/**
 	 * Get request URI.
 	 * 
-	 * @var string $requestToURI
+	 * @var string $requestToUri
 	 */
-	protected $requestToURI;
+	protected $requestToUri;
 
 	/**
 	 * Get the route resolver callback.
