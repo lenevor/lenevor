@@ -215,7 +215,7 @@ class Http
 		$filename = basename($this->server('SCRIPT_FILENAME'));
 		
 		if ($filename === basename($this->server('SCRIPT_NAME'))) {
-			$baseUrl = dirname($this->server('SCRIPT_NAME'));
+			$baseUrl = $this->server('SCRIPT_NAME');
 		} elseif ($filename === basename($this->server('PHP_SELF'))) {
 			$baseUrl = $this->server('PHP_SELF');
 		} elseif ($filename === basename($this->server('ORIG_SCRIPT_NAME'))) {
@@ -245,7 +245,7 @@ class Http
             $truncatedRequestUri = substr($requestUri, 0, $pos);
         }
 
-		$basename = basename($baseUrl);
+		$basename = basename($baseUrl ?? '');
 
 		if (empty($basename) || ! strpos(rawurldecode($truncatedRequestUri), $basename)) {
 			// no match whatsoever; set it blank
