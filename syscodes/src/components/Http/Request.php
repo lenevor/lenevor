@@ -617,7 +617,7 @@ class Request
 			return $this->json();
 		}
 
-		return $this->request;
+		return in_array($this->getMethod(), ['GET', 'HEAD']) ? $this->queryString : $this->request;
 	}
 	
 	/**
