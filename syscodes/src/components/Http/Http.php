@@ -130,8 +130,8 @@ class Http
 			return '';
 		}
 
-		$requestURI = $this->server('REQUEST_URI') ?? '/';
-		$components = parse_url($requestURI);
+		$requestUri = $this->server('REQUEST_URI') ?? '/';
+		$components = parse_url($requestUri);
 		$query      = $components['query'] ?? '';
 		$uri        = $components['path'] ?? '';
 
@@ -239,18 +239,22 @@ class Http
 		// Does the baseUrl have anything in common with the request_uri?
 		$requestUri = $this->parseRequestUri();
 
+		if ('' !== $requestUri && '/' !== $requestUri[0]) {
+            $requestUri = '/'.$requestUri;
+        }
+
 		$truncatedRequestUri = $requestUri;
 
 		if (false !== $pos = strpos($requestUri, '?')) {
             $truncatedRequestUri = substr($requestUri, 0, $pos);
         }
 
-		$basename = basename($baseUrl ?? '');
+		$baseUrl = dirname($baseUrl ?? '');
 
-		if (empty($basename) || ! strpos(rawurldecode($truncatedRequestUri), $basename)) {
-			// no match whatsoever; set it blank
-			return '';
-		}
+		// if (empty($basename) || ! strpos(rawurldecode($truncatedRequestUri), $basename)) {
+		// 	// no match whatsoever; set it blank
+		// 	return $requestUri;
+		// }
 		
 		// If using mod_rewrite or ISAPI_Rewrite strip the script filename
 		// out of baseUrl. $pos !== 0 makes sure it is not matching a value
