@@ -26,6 +26,7 @@ use Countable;
 use ArrayIterator;
 use IteratorAggregate;
 use Syscodes\Collections\Arr;
+use Syscodes\Http\Exceptions\BadRequestException;
 
 /**
  * Parameters is a container for key/value pairs.
@@ -56,11 +57,19 @@ class Parameters implements IteratorAggregate, Countable
 	/**
 	 * Returns the parameters.
 	 * 
+	 * @param  string|null  $key
+	 * 
 	 * @return array
 	 */
 	public function all()
 	{
-		return $this->parameters;
+		$key = func_num_args() > 0 ? func_get_arg(0) : null;
+
+		if ( ! is_array($value = $this->parameters[$key] ?? [])) {
+			throw new BadRequestException(sprinf("Unexpected value for parameter %s, got %s", $key, get_debug_type($value)));
+		}
+
+		return (null === $key) ? $this->parameters : $value;
 	}
 
 	/**
@@ -105,13 +114,9 @@ class Parameters implements IteratorAggregate, Countable
 	 *
 	 * @return mixed
 	 */
-	public function get($key, $default = null)
+	public function get(string $key, $default = null)
 	{
-		if ($this->has($key)) {
-			return $this->parameters[$key];
-		}
-
-		return $default;
+		return $this->has($key) ? $this->parameters[$key] : $default;
 	}
 
 	/**
@@ -121,7 +126,7 @@ class Parameters implements IteratorAggregate, Countable
 	 *
 	 * @return mixed
 	 */
-	public function has($key)
+	public function has(string $key)
 	{
 		return Arr::exists($this->parameters, $key);
 	}
@@ -134,7 +139,7 @@ class Parameters implements IteratorAggregate, Countable
 	 *
 	 * @return mixed
 	 */
-	public function set($key, $value)
+	public function set(string $key, $value)
 	{
 		$this->parameters[$key] = $value;
 	}
@@ -146,7 +151,7 @@ class Parameters implements IteratorAggregate, Countable
 	 *
 	 * @return void
 	 */
-	public function remove($key)
+	public function remove(string $key)
 	{
 		if ($this->has($key)) {
 			unset($this->parameters[$key]);
