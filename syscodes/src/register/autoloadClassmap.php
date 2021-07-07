@@ -236,6 +236,7 @@ return [
     'Syscodes\\Http\\JsonResponse' => SYS_PATH.'src/components/Http/JsonResponse.php',
     'Syscodes\\Http\\RedirectResponse' => SYS_PATH.'src/components/Http/RedirectResponse.php',
     'Syscodes\\Http\\Request' => SYS_PATH.'src/components/Http/Request.php',
+    'Syscodes\\Http\\RequestUtils' => SYS_PATH.'src/components/Http/RequestUtils.php',
     'Syscodes\\Http\\Response' => SYS_PATH.'src/components/Http/Response.php',
     'Syscodes\\Http\\ResponseTrait' => SYS_PATH.'src/components/Http/ResponseTrait.php',
     'Syscodes\\Http\\URI' => SYS_PATH.'src/components/Http/URI.php',
