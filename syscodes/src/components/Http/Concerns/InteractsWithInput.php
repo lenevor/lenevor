@@ -121,6 +121,19 @@ trait InteractsWithInput
     }
 
     /**
+     * Retrieve a 'queryString' item from the request.
+     * 
+     * @param  string|null  $key
+     * @param  string|null  $default
+     * 
+     * @return string|array|null
+     */
+    public function queryString($key = null, $default = null)
+    {
+        return $this->retrieveItem('queryString', $key, $default);
+    }
+
+    /**
      * Adds parameters.
      * 
      * @param  array  $key
