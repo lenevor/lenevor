@@ -208,8 +208,8 @@ class Request
 	 */
 	public function initialize(array $queryString = [], array $request = [], array $cookies = [], array $files = [], array $server = [], $content = null)
 	{
-		$this->queryString  = new Parameters($queryString);
-		$this->request      = new Parameters($request);
+		$this->queryString  = new Inputs($queryString);
+		$this->request      = new Inputs($request);
 		$this->cookies      = new Inputs($cookies);
 		$this->files        = new Files($files);
 		$this->server       = new Server($server);
@@ -312,11 +312,11 @@ class Request
 		$duplicate = clone $this;
 
 		if (null !== $queryString) {
-			$duplicate->queryString = new Parameters($queryString);
+			$duplicate->queryString = new Inputs($queryString);
 		}
 
 		if (null !== $request) {
-			$duplicate->request = new Parameters($request);
+			$duplicate->request = new Inputs($request);
 		}
 
 		if (null !== $cookies) {
