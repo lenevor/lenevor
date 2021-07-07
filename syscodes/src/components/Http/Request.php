@@ -567,6 +567,18 @@ class Request
 	}
 
 	/**
+	 * Checks if the method request is of specified type.
+	 * 
+	 * @param  string  $method
+	 * 
+	 * @return bool
+	 */
+	public function isMethod(string $method)
+	{
+		return $this->getMethod() === strtoupper($method);
+	}
+
+	/**
 	 * Returns the input method used (GET, POST, DELETE, etc.).
 	 *
 	 * @return string
