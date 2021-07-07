@@ -228,6 +228,7 @@ return [
     'Syscodes\\Http\\Contributors\\Parameters' => SYS_PATH.'src/components/Http/Contributors/Parameters.php',
     'Syscodes\\Http\\Contributors\\Server' => SYS_PATH.'src/components/Http/Contributors/Server.php',
     'Syscodes\\Http\\Contributors\\Status' => SYS_PATH.'src/components/Http/Contributors/Status.php', 
+    'Syscodes\\Http\\Exceptions\\BadRequestException' => SYS_PATH.'src/components/Http/Exceptions/BadRequestException.php',
     'Syscodes\\Http\\Exceptions\\HttpResponseException' => SYS_PATH.'src/components/Http/Exceptions/HttpResponseException.php',
     'Syscodes\\Http\\Exceptions\\HttpURIException' => SYS_PATH.'src/components/Http/Exceptions/HttpURIException.php',
     'Syscodes\\Http\\Exceptions\\PostTooLargeHttpException' => SYS_PATH.'src/components/Http/Exceptions/PostTooLargeHttpException.php',
