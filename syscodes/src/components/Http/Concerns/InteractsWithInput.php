@@ -136,12 +136,14 @@ trait InteractsWithInput
     /**
      * Adds parameters.
      * 
-     * @param  array  $key
+     * @param  string|array  $key
      * 
      * @return array
      */
-    public function add(array $key = [])
+    public function add($key)
     {
+        $key = is_array($key) ? $key : [$key];
+
         return $this->getInputSource()->add($key);
     }
 
@@ -183,12 +185,14 @@ trait InteractsWithInput
     /**
      * Replace the input for the current request.
      * 
-     * @param  array  $key
+     * @param  string|array  $key
      * 
      * @return void
      */
-    public function replace(array $key = [])
+    public function replace($key)
     {
+        $key = is_array($key) ? $key : [$key];
+
         return $this->getInputSource()->replace($key);
     }
 
@@ -222,6 +226,18 @@ trait InteractsWithInput
         }
 
         return true;
+    }
+
+    /**
+	 * Remove a parameter array item.
+	 *
+	 * @param  string  $key 
+	 *
+	 * @return void
+	 */
+	public function remove($key)
+    {
+        return $this->getInputSource()->remove($key);
     }
 
     /**
