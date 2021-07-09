@@ -117,7 +117,7 @@ trait InteractsWithInput
      */
     public function file($key = null, $default = null)
     {
-        return Arr::get($this->allFile(), $key, $default);
+        return Arr::get($this->allFiles(), $key, $default);
     }
 
     /**
