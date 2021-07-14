@@ -22,6 +22,7 @@
 
 namespace Syscodes\Console\Output;
 
+use Syscodes\Collections\Arr;
 use Syscodes\Core\Http\Exceptions\LenevorException;
 
 /**
