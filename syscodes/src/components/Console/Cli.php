@@ -33,46 +33,43 @@ use Syscodes\Core\Http\Exceptions\LenevorException;
  */
 class Cli
 {
+	// [
+	// 	'black'         => '0;30',
+	// 	'dark_gray'     => '1;30',
+	// 	'red'           => '0;31',
+	// 	'light_red'     => '1;31',
+	// 	'green'         => '0;32',
+	// 	'light_green'   => '1;32',
+	// 	'light_yellow'  => '0;33',
+	// 	'yellow'        => '1;33',
+	// 	'blue'          => '0;34',
+	// 	'dark_blue'     => '1;34',
+	// 	'light_blue'    => '1;34',
+	// 	'purple'        => '0;35',
+	// 	'light_purple'  => '1;35',	
+	// 	'cyan'          => '0;36', 
+	// 	'light_cyan'    => '1;36',
+	// 	'light_gray'    => '0;37',
+	// 	'white'         => '1;37'
+ 	// ];
+	 
+	const BLACK    = 30;
+	const RED      = 31;
+	const GREEN    = 32;
+	const YELLOW   = 33;
+	const BLUE     = 34;
+	const PURPLE   = 35;
+	const CYAN     = 36;
+	const WHITE    = 37;
+	const GRAY     = 47;
+	const DARKGRAY = 100;
+	
 	/**
- 	 * Background color identifier.
- 	 *
- 	 * @var array $backgroundColors
- 	 */
- 	protected static $backgroundColors = [
- 		'black'      => '40',
- 		'red'        => '41',
- 		'green'      => '42',
- 		'yellow'     => '43',
- 		'blue'       => '44',
- 		'magenta'    => '45',
- 		'cyan'       => '46',
- 		'light_gray' => '47'
- 	];
-
-	/**
-	 * Foreground color identifier.
- 	 *
- 	 * @var array $foregroundColors
+	 * Get CLI format for color and bold.
+	 * 
+	 * @var string $format
 	 */
-	protected static $foregroundColors = [
-		'black'         => '0;30',
-		'dark_gray'     => '1;30',
-		'blue'          => '0;34',
-		'dark_blue'     => '1;34',
-		'light_blue'    => '1;34',
-		'green'         => '0;32',
-		'light_green'   => '1;32',
-		'cyan'          => '0;36', 
-		'light_cyan'    => '1;36',
-		'red'           => '0;31',
-		'light_red'     => '1;31',
-		'purple'        => '0;35',
-		'light_purple'  => '1;35',
-		'light_yellow'  => '0;33',
-		'yellow'        => '1;33',
-		'light_gray'    => '0;37',
-		'white'         => '1;37'
- 	];
+	protected static $format = "\033[:mod:;:fg:;:bg:m:txt:\033[0m";
 
 	/**
 	 * Indicates that you do not use any color for foreground or background.
@@ -179,40 +176,30 @@ class Cli
 	 * optionally a background color.
  	 *
  	 * @param  string  $text  The text to color
- 	 * @param  string  $foreground  The foreground color
- 	 * @param  string  $background  The background color
- 	 * @param  string  $format  Other formatting to apply. Currently only 'underline' is understood
+ 	 * @param  array  $style  Get style for foreground and background
  	 *
  	 * @return string  The color coded string
  	 *
  	 * @throws \Syscodes\Core\Exceptions\LenevorException
  	 */
- 	public static function color(string $text, string $foreground, string $background = null, string $format = null)
+ 	public static function color(string $text, array $style = [])
  	{
- 		if (static::$noColor)
- 		{
+ 		if (static::$noColor) {
  			return $text;
  		}
 
- 		if ( ! Arr::exists(static::$foregroundColors, $foreground)) {
- 			throw new LenevorException(static::error("Invalid CLI foreground color: {$foreground}."));
- 		}
+		$style += ['bg' => null, 'fg' => static::WHITE, 'bold' => 0, 'mod' => null];
 
- 		if ( $background !== null && ! Arr::exists(static::$backgroundColors, $background)) {
- 			throw new LenevorException(static::error("Invalid CLI background color: {$background}."));
- 		}
+		$format = $style['bg'] === null
+            ? str_replace(';:bg:', '', static::$format)
+            : static::$format;
 
- 		$string = "\033[".static::$foregroundColors[$foreground]."m";
-
- 		if ($background !== null) {
- 			$string .= "\033[".static::$backgroundColors[$background]."m";
- 		}
-
- 		if ($format === 'underline') {
- 			$string .= "\033[4m";
- 		}
-
- 		$string .= $text."\033[0m";
+        $string = strtr($format, [
+			':mod:' => (int) ($style['bold'] ?? $style['bold']),
+            ':fg:'  => (int) $style['fg'],
+            ':bg:'  => (int) $style['bg'] + 10,
+            ':txt:' => $text,
+        ]);
 
  		return $string;
  	}
@@ -221,20 +208,17 @@ class Cli
  	 * Get the number of characters in a string.
  	 *
  	 * @param  string  $string
+	 * @param  array  $style
  	 *
  	 * @return int
  	 */
- 	public static function strlen(?string $string)
+ 	public static function strlen(?string $string, array $style = [])
  	{
  		if (is_null($string)) {
  			return 0;
  		}
 
- 		foreach (static::$foregroundColors as $color) {
- 			$string = strtr($string, ["\033[".$color.'m' => '']);
- 		}
-
- 		foreach (static::$backgroundColors as $color) {
+ 		foreach ($style as $color) {
  			$string = strtr($string, ["\033[".$color.'m' => '']);
  		}
 
@@ -247,21 +231,18 @@ class Cli
  	 * Outputs an error to the CLI using STDERR instead of STDOUT.
  	 *
  	 * @param  string|array  $text  The text to output, or array of errors
- 	 * @param  string  $foreground  The foreground color
- 	 * @param  string|null  $background  the background color
+ 	 * @param  array  $style  Get style for foreground and background
  	 *
  	 * @return string
  	 */
- 	public static function error(string $text = '', string $foreground = 'light_red', string $background = null)
+ 	public static function error(string $text = '', array $style = [])
  	{
 		if (is_array($text)) {
 			$text = implode(PHP_EOL, $text);
 		}
 		
-		if ($foreground || $background) {
-			$text = static::color($text, $foreground, $background);
-		}
-		
+		$text = static::color($text, ['fg' => static::RED] + $style);
+
 		static::fwrite(static::$stderr, $text.PHP_EOL);
 	}
 
@@ -382,7 +363,7 @@ class Cli
  	public static function newLine(int $num = 1)
  	{
  		for ($i = 0; $i < $num; $i++) {			
- 			static::write();
+ 			static::write(\PHP_EOL);
  		}
  	}
 
@@ -632,22 +613,23 @@ class Cli
  	 * with a line break.
  	 * 
  	 * @param  string|array  $text  The text to output, or array of lines
- 	 * @param  string|null  $foreground  The foreground color
- 	 * @param  string|null  $background  The background color
+	 * @param  bool  $eol  End of line command
  	 *
  	 * @return string
  	 */
- 	public static function write(string $text = '', string $foreground = null, string $background = null)
+ 	public static function write(string $text = '', bool $eol = false)
  	{
  		if (is_array($text)) {
  			$text = implode(PHP_EOL, $text);
  		}
 
- 		if ($foreground OR $background) {
- 			$text = static::color($text, $foreground, $background);
- 		}
+ 		$text = static::color($text, []);
 
- 		static::fwrite(static::$stdout, $text.PHP_EOL);
+		if ($eol) {
+			$text .= \PHP_EOL;
+		}
+ 		
+ 		static::fwrite(static::$stdout, $text);
  	}
 
  	/**
@@ -739,15 +721,10 @@ class Cli
 	 * @param  resource  $handle
 	 * @param  string  $text
 	 * 
-	 * @return string
+	 * @return $this
 	 */
 	protected static function fwrite($handle, string $text)
 	{
-		if (isCli()) {
-			fwrite($handle, $text);
-			return;
-		}
-
-		echo $text;
+		\fwrite($handle, $text);
 	}
 }
