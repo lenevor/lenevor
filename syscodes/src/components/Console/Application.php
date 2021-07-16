@@ -77,7 +77,8 @@ class Application implements ApplicationContracts
 	 */
 	public function showHeader()
 	{		
-		Cli::write(Version::PRODUCT.' '
+		Cli::write(
+			Version::PRODUCT.' '
 			.Cli::color(Version::RELEASE, ['fg' => Cli::CYAN]).' | Server Time: '
 			.Cli::color(date('Y/m/d H:i:sa'), ['fg' => Cli::YELLOW]).' | '
 			.Cli::color('['.PHP_OS.']', ['fg' => Cli::PURPLE, 'bold' => 1])
