@@ -77,8 +77,7 @@ class Write
  	 * with a line break.
  	 * 
  	 * @param  string|array  $text  The text to output, or array of lines
- 	 * @param  string|null  $foreground  The foreground color
- 	 * @param  string|null  $background  The background color
+	 * @param  bool  $eol  End of line command
  	 *
  	 * @return string
  	 */
@@ -88,9 +87,13 @@ class Write
  			$text = implode(PHP_EOL, $text);
  		}
 
- 		$text = $this->colorizer->color($text, []);
+ 		$text = $this->colorizer->line($text, []);
 
- 		$this->doWrite($text);
+		if ($eol) {
+			$text .= \PHP_EOL;
+		}
+ 		
+ 		$this->fwrite($this->stdout, $text);
  	}
 
     /**
