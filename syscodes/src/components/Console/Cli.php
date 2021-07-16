@@ -69,7 +69,7 @@ class Cli
 	 * 
 	 * @var string $format
 	 */
-	protected static $format = "\033[:mod:;:fg:;:bg:m:txt:\033[0m";
+	protected static $format = "\033[:mod:;:fg:;:bg:m";
 
 	/**
 	 * Indicates that you do not use any color for foreground or background.
@@ -177,12 +177,11 @@ class Cli
  	 *
  	 * @param  string  $text  The text to color
  	 * @param  array  $style  Get style for foreground and background
+	 * @param  string|null  $type  The 'underline' format
  	 *
  	 * @return string  The color coded string
- 	 *
- 	 * @throws \Syscodes\Core\Exceptions\LenevorException
  	 */
- 	public static function color(string $text, array $style = [])
+ 	public static function color(string $text, array $style = [], string $type = null)
  	{
  		if (static::$noColor) {
  			return $text;
@@ -195,11 +194,16 @@ class Cli
             : static::$format;
 
         $string = strtr($format, [
-			':mod:' => (int) ($style['bold'] ?? $style['bold']),
+			':mod:' => (int) ($style['mod'] ?? $style['bold']),
             ':fg:'  => (int) $style['fg'],
             ':bg:'  => (int) $style['bg'] + 10,
-            ':txt:' => $text,
         ]);
+
+		if ('underline' === $type) {
+			$string .= "\033[4m";
+		}
+		
+		$string .= $text."\033[0m";
 
  		return $string;
  	}
@@ -235,7 +239,7 @@ class Cli
  	 *
  	 * @return string
  	 */
- 	public static function error(string $text = '', array $style = [])
+ 	public static function error(string $text, array $style = [])
  	{
 		if (is_array($text)) {
 			$text = implode(PHP_EOL, $text);
