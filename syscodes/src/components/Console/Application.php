@@ -84,7 +84,7 @@ class Application implements ApplicationContracts
 			.Cli::color('['.PHP_OS.']', ['fg' => Cli::PURPLE, 'bold' => 1])
 		);
 
-		Cli::newLine(1);
+		Cli::newLine();
 
 		return $this;
 	}
