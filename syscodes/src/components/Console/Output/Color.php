@@ -88,7 +88,7 @@ class Color
  	 *
  	 * @return string  The color coded string
  	 */
- 	public function line(string $text, array $style = [], string $type = null)
+ 	public function line(string $text, array $style = [], string $type = null): string
  	{
  		if ($this->noColor) {
  			return $text;
@@ -114,23 +114,38 @@ class Color
 
  		return $string;
  	}
+	 
+	/**
+	 * Returns a line formatted as comment.
+	 * 
+	 * @param  string|array  $text  The text to output, or array of errors
+	 * @param  array  $style  Get style for foreground and background
+	 * 
+	 * @return string
+	 */
+	public function comment(string $text, array $style = []): string
+	{
+		if (is_array($text)) {
+			$text = implode(PHP_EOL, $text);
+		}
+
+		return $this->line($text, [] + $style);
+	}
 
     /**
- 	 * Outputs an error to the CLI using STDERR instead of STDOUT.
+ 	 * Returns a line formatted as error.
  	 *
  	 * @param  string|array  $text  The text to output, or array of errors
  	 * @param  array  $style  Get style for foreground and background
  	 *
  	 * @return string
  	 */
- 	public function error(string $text, array $style = [])
+ 	public function error(string $text, array $style = []): string
  	{
 		if (is_array($text)) {
 			$text = implode(PHP_EOL, $text);
 		}
 		
-		$text = $this->line($text, ['fg' => static::RED] + $style);
-
-		static::fwrite(static::$stderr, $text.PHP_EOL);
+		return $this->line($text, ['fg' => static::WHITE, 'bg' => static::RED] + $style);
 	}
 }
