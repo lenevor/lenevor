@@ -245,9 +245,9 @@ class Cli
 			$text = implode(PHP_EOL, $text);
 		}
 		
-		$text = static::color($text, ['fg' => static::RED] + $style);
+		$text = static::color($text, ['fg' => static::WHITE, 'bg' => static::RED] + $style);
 
-		static::fwrite(static::$stderr, $text.PHP_EOL);
+		static::fwrite(static::$stderr, "\n".$text.PHP_EOL);
 	}
 
 	/**
@@ -362,13 +362,11 @@ class Cli
  	 * 
  	 * @param  int  $num  Number of lines to output
  	 *
- 	 * @return void
+ 	 * @return string
  	 */
  	public static function newLine(int $num = 1)
  	{
- 		for ($i = 0; $i < $num; $i++) {			
- 			static::write(\PHP_EOL);
- 		}
+ 		static::write(str_repeat(\PHP_EOL, \max($num, 1)));
  	}
 
  	/**
