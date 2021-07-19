@@ -52,8 +52,8 @@ class CallBoundCallback
         Container $container, 
         $callback, 
         array $parameters = [], 
-        string $defaultMethod = null)
-    {
+        string $defaultMethod = null
+    ) {
         if (is_string($callback)) {
             $callback = static::resolveStringCallback($container, $callback, $defaultMethod);
         }
