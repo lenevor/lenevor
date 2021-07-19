@@ -85,7 +85,7 @@ class Lenevor implements LenevorConsole
         try {
             $this->bootstrap();
             
-            return $this->getPrime();
+            return $this->getPrime()->run();
         } catch (Throwable $e) {
             $this->reportException($e);
             
@@ -126,7 +126,7 @@ class Lenevor implements LenevorConsole
      */
     protected function getPrime()
     {
-        return (new Prime($this->app))->showHeader()->run();
+        return (new Prime($this->app));
     }
     
     /**
