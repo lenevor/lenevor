@@ -23,6 +23,8 @@
 namespace Syscodes\Console;
 
 use Syscodes\Version;
+use Syscodes\Console\Output\Color;
+use Syscodes\Console\Output\Writer;
 use Syscodes\Support\Facades\Request;
 use Syscodes\Contracts\Container\Container;
 use Syscodes\Contracts\Console\Application as ApplicationContracts;
@@ -52,7 +54,8 @@ class Application implements ApplicationContracts
 	{		
 		// Initialize the Cli
 		if (isCli()) {
-			Cli::initialize();
+			$this->color  = new Color;
+			$this->output = new Writer;
 		}
 
 		$this->lenevor = $lenevor;
@@ -65,9 +68,7 @@ class Application implements ApplicationContracts
 	 */
 	public function run()
 	{
-		$path = Cli::getURI() ?? 'list';
-
-				
+		$this->showHeader();
 	}
 
 	/**
@@ -77,14 +78,14 @@ class Application implements ApplicationContracts
 	 */
 	public function showHeader()
 	{		
-		Cli::write(
-			Version::PRODUCT.' '
-			.Cli::color(Version::RELEASE, ['fg' => Cli::CYAN]).' | Server Time: '
-			.Cli::color(date('Y/m/d H:i:sa'), ['fg' => Cli::YELLOW]).' | '
-			.Cli::color('['.PHP_OS.']', ['fg' => Cli::PURPLE, 'bold' => 1])
+		$this->output->write(
+			Version::PRODUCT.' '.
+			$this->color->line(Version::RELEASE, ['fg' => Color::CYAN]).' | Server Time:'.
+			$this->color->line(date('Y/m/d H:i:sa'), ['fg' => Color::YELLOW]).' | '.
+			$this->color->line('['.PHP_OS.']', ['fg' => Cli::PURPLE, 'bold' => 1])
 		);
 
-		Cli::newLine();
+		$this->output->newLine();
 
 		return $this;
 	}
