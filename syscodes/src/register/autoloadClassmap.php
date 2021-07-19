@@ -46,7 +46,7 @@ return [
     'Syscodes\\Console\\Output\\Color' => SYS_PATH.'src/components/Console/Output/Color.php',
     'Syscodes\\Console\\Output\\Output' => SYS_PATH.'src/components/Console/Output/Output.php',
     'Syscodes\\Console\\Output\\Table' => SYS_PATH.'src/components/Console/Output/Table.php',
-    'Syscodes\\Console\\Output\\Write' => SYS_PATH.'src/components/Console/Output/Write.php',
+    'Syscodes\\Console\\Output\\Writer' => SYS_PATH.'src/components/Console/Output/Writer.php',
     'Syscodes\\Console\\Application' => SYS_PATH.'src/components/Console/Application.php',
     'Syscodes\\Console\\BaseCommand' => SYS_PATH.'src/components/Console/BaseCommand.php',
     'Syscodes\\Console\\Cli' => SYS_PATH.'src/components/Console/Cli.php',
