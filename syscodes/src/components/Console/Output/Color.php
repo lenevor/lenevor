@@ -118,7 +118,7 @@ class Color
 	/**
 	 * Returns a line formatted as comment.
 	 * 
-	 * @param  string|array  $text  The text to output, or array of errors
+	 * @param  string|array  $text  The text to output, or array of comment
 	 * @param  array  $style  Get style for foreground and background
 	 * 
 	 * @return string
@@ -131,21 +131,89 @@ class Color
 
 		return $this->line($text, [] + $style);
 	}
-
-    /**
- 	 * Returns a line formatted as error.
- 	 *
- 	 * @param  string|array  $text  The text to output, or array of errors
- 	 * @param  array  $style  Get style for foreground and background
- 	 *
- 	 * @return string
- 	 */
- 	public function error(string $text, array $style = []): string
- 	{
+	
+	/**
+	 * Returns a line formatted as error.
+	 * 
+	 * @param  string|array  $text  The text to output, or array of errors
+	 * @param  array  $style  Get style for foreground and background
+	 * 
+	 * @return string
+	 */
+	public function error(string $text, array $style = []): string
+	{
 		if (is_array($text)) {
 			$text = implode(PHP_EOL, $text);
 		}
 		
 		return $this->line($text, ['fg' => static::WHITE, 'bg' => static::RED] + $style);
+	}
+	
+	/**
+	 * Returns a line formatted as success (ok).
+	 * 
+	 * @param  string|array  $text  The text to output, or array of success
+	 * @param  array  $style  Get style for foreground and background
+	 * 
+	 * @return string
+	 */
+	public function success(string $text, array $style = []): string
+	{
+		if (is_array($text)) {
+			$text = implode(PHP_EOL, $text);
+		}
+		
+		return $this->line($text, ['fg' => static::BLACK, 'bg' => static::GREEN] + $style);
+	}
+
+	/**
+	 * Returns a line formatted as warning.
+	 * 
+	 * @param  string|array  $text  The text to output, or array of warning
+	 * @param  array  $style  Get style for foreground and background
+	 * 
+	 * @return string
+	 */
+	public function warning(string $text, array $style = []): string
+	{
+		if (is_array($text)) {
+			$text = implode(PHP_EOL, $text);
+		}
+		
+		return $this->line($text, ['fg' => static::BLACK, 'bg' => static::YELLOW] + $style);
+	}
+
+	/**
+	 * Returns a line formatted as info.
+	 * 
+	 * @param  string|array  $text  The text to output, or array of info
+	 * @param  array  $style  Get style for foreground and background
+	 * 
+	 * @return string
+	 */
+	public function info(string $text, array $style = []): string
+	{
+		if (is_array($text)) {
+			$text = implode(PHP_EOL, $text);
+		}
+		
+		return $this->line($text, ['fg' => static::BLUE] + $style);
+	}
+
+	/**
+	 * Returns a line formatted as note.
+	 * 
+	 * @param  string|array  $text  The text to output, or array of note
+	 * @param  array  $style  Get style for foreground and background
+	 * 
+	 * @return string
+	 */
+	public function note(string $text, array $style = []): string
+	{
+		if (is_array($text)) {
+			$text = implode(PHP_EOL, $text);
+		}
+		
+		return $this->line($text, ['fg' => static::YELLOW] + $style);
 	}
 }
