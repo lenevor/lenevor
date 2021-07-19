@@ -35,6 +35,13 @@ class Write
 	protected $colorizer;
 
 	/**
+	 * The method of colorizer command.
+	 * 
+	 * @var string $method 
+	 */
+	protected $method;
+
+	/**
  	 * The standar STDERR is where the application writes its error messages.
  	 *
  	 * @var string $stderr 
