@@ -81,47 +81,91 @@ class Writer
 		$this->stdout = $path ?: \STDOUT;
 	}
 	
-    /**
- 	 * Outputs a string to the cli.	If you send an array it will implode them 
- 	 * with a line break.
- 	 * 
- 	 * @param  string|array  $text  The text to output, or array of lines
-	 * @param  bool  $eol  End of line command
- 	 *
- 	 * @return string
- 	 */
- 	public function write(string $text = '', bool $eol = false)
- 	{
- 		if (is_array($text)) {
- 			$text = implode(PHP_EOL, $text);
- 		}
-
- 		$text = $this->colorizer->line($text, []);
-
-		if ($eol) {
-			$text .= \PHP_EOL;
-		}
- 		
- 		$this->fwrite($this->stdout, $text);
- 	}
-
-    /**
-	 * The library is intended for used on Cli command, 
-	 * this commands can be called from controllers and 
-	 * elsewhere of framework.
+	/**
+	 * Outputs a string to the cli.	If you send an array it will implode them
+	 * with a line break.
 	 * 
-	 * @param  resource  $handle
-	 * @param  string  $text
+	 * @param  string|array  $text  The text to output, or array of lines
+	 * @param  bool  $eol  End of line command
 	 * 
 	 * @return string
 	 */
-	protected function fwrite($handle, string $text)
+	public function write(string $text = '', bool $eol = false)
 	{
-		if (isCli()) {
-			fwrite($handle, $text);
-			return;
+		[$method, $this->method] = [$this->method ?: 'line', ''];
+
+		if (is_array($text)) {
+			$text = implode(PHP_EOL, $text);
+		}
+		
+		$text  = $this->colorizer->{$method}($text, []);
+		$error = (false !== \stripos($method, 'error'));
+		
+		if ($eol) {
+			$text .= \PHP_EOL;
+		}
+		
+		return $this->doWrite($text, $error);
+	}
+	
+	/**
+	 * The library is intended for used on Cli command, this commands 
+	 * may be called from controllers and elsewhere of framework.
+	 * 
+	 * @param  string  $text  The text to output
+	 * @param  bool  $error  Choose the activation of the 'error' method
+	 * 
+	 * @return self
+	 */
+	public function doWrite(string $text, bool $error = false): self
+	{
+		$handle = $error ? $this->stderr : $this->stdout;
+
+		\fwrite($handle, $text);
+
+		return $this;
+	}
+	
+	/**
+	 * Enter a number of empty lines.
+	 * 
+	 * @param  int  $num  Number of lines to output
+	 * 
+	 * @return string
+	 */
+	public function newLine(int $num = 1)
+	{
+		$this->write(str_repeat(\PHP_EOL, \max($num, 1)));
+	}
+
+	/**
+     * Dynamically set methods.
+     * 
+     * @param  string  $name
+     * 
+     * @return self
+     */
+    public function __get(string $name): self
+    {
+        if (false === \strpos($this->method, $name)) {
+			$this->method .= $this->method ? \ucfirst($name) : $name;
 		}
 
-		echo $text;
-	}                                      
+		return $this;
+    }
+	
+	/**
+	 * Dynamically handle calls into the Writer instance.
+	 * 
+	 * @param  string  $method
+	 * @param  array  $parameters
+	 * 
+	 * @return self
+	 */
+	public function __call(string $method, array $parameters): self
+	{
+		$this->method = $method;
+
+		return $this->write(...$arguments);
+	}
 }
