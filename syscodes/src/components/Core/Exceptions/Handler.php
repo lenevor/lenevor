@@ -24,7 +24,6 @@ namespace Syscodes\Core\Exceptions;
 
 use Exception;
 use Throwable;
-use Syscodes\Console\Cli;
 use Syscodes\Debug\GDebug;
 use Syscodes\Http\Response;
 use Psr\Log\LoggerInterface;
@@ -438,10 +437,9 @@ class Handler implements ExceptionHandlerContract
     public function renderForConsole(Throwable $e)
     {
         $message = sprintf(
-            Cli::color("%s: ", 'light_red').
-            Cli::color("%s in file %s on line %d", 'light_cyan')."\n\n%s\n",
+            "%s: %s in file %s on line %d\n\n%s\n",
             getClass($e, true),
-            $e->getMessage(),
+            $e->getMessage(),            
             $e->getFile(),
             $e->getLine(),
             $e->getTraceAsString()
