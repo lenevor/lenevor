@@ -42,6 +42,13 @@ class Writer
 	 * @var string $method 
 	 */
 	protected $method;
+	
+	/**
+	 * Readline Support for command line.
+	 * 
+	 * @var bool $readlineSupport
+	 */
+	protected $readlineSupport = false;
 
 	/**
  	 * The standar STDERR is where the application writes its error messages.
@@ -56,6 +63,13 @@ class Writer
  	 * @var resource $stdout
  	 */
 	protected $stdout;
+	
+	/**
+	 * Message that tells the user that he is waiting to receive an order.
+	 * 
+	 * @var string $waitMsg
+	 */
+	protected $waitMsg = 'Press any key to continue...';
 
 	/**
 	 * Constructor. Create a new Write class instance.
@@ -73,6 +87,9 @@ class Writer
 
 		// Writes with color all messages
 		$this->colorizer = $colorizer ?? new Color;
+		
+		// Readline is an extension for PHP that makes interactive the command console
+		$this->readlineSupport = extension_loaded('readline');
 
 		// Writes its error messages
 		$this->stderr = $path ?: \STDERR;
@@ -136,6 +153,55 @@ class Writer
 	public function newLine(int $num = 1)
 	{
 		$this->write(str_repeat(\PHP_EOL, \max($num, 1)));
+	}
+	
+	/**
+	 * Waits a certain number of seconds, optionally showing a wait message and
+	 * waiting for a key press.
+	 * 
+	 * @param  int  $seconds  Number of seconds
+ 	 * @param  bool  $countdown  Show a countdown or not
+ 	 *
+ 	 * @return string
+	 */
+	public function wait(int $seconds = 0, bool $countdown = false)
+	{
+		if ($countdown === true) {
+			$time = $seconds;
+			
+			while ($time > 0) {
+				fwrite($this->stdout, $time.'... ');
+				sleep(1);
+				$time--;
+			}
+			
+			$this->write();
+		} else {
+			if ($seconds = 0) {
+				sleep($seconds);
+			} else {
+				$this->write($this->waitMsg);
+				$this->input();
+			}
+		}
+	}
+
+	/**
+	 * Get input from the shell, using readline or the standard STDIN.
+	 * 
+	 * @param  string|int  $prefix  The name of the option (int if unnamed)
+	 * 
+	 * @return string
+	 */	
+	public function input($prefix = '')
+	{
+		if ($this->readlineSupport) {
+			return readline($prefix);
+		}
+
+		echo $prefix;
+
+		return fgets(STDIN);
 	}
 
 	/**
