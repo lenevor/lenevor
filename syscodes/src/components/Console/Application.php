@@ -23,6 +23,7 @@
 namespace Syscodes\Console;
 
 use Syscodes\Version;
+use Syscodes\Console\Cli;
 use Syscodes\Console\Output\Color;
 use Syscodes\Console\Output\Writer;
 use Syscodes\Support\Facades\Request;
@@ -47,11 +48,12 @@ class Application implements ApplicationContracts
 	 * Console constructor. Initialize the console of Lenevor.
 	 *
 	 * @param  \Syscodes\Contracts\Core\Container  $lenevor
+	 * @param  string  $version
 	 * 
 	 * @return void
 	 */
 	public function __construct(Container $lenevor)
-	{		
+	{
 		// Initialize the Cli
 		if (isCli()) {
 			$this->color  = new Color;
@@ -72,7 +74,7 @@ class Application implements ApplicationContracts
 	}
 
 	/**
-	 * Displays basic information about the Console.
+	 * Displays basic information on header about the Console.
 	 *
 	 * @return $this 
 	 */
