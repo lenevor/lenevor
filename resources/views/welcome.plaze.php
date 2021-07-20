@@ -73,7 +73,7 @@
 					<i class="indicator"></i>
 					<i class="fas fa-moon"></i>
 				</div>
-				<p>Lenevor {{ version() }} (PHP v{{ PHP_VERSION }})</p>
+				<p>Lenevor {{ version() }} (PHP {{ PHP_VERSION }})</p>
 			</div>
 		</div>
 	</div>
