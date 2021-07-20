@@ -108,7 +108,7 @@ class BootHandleExceptions
             //
         }
 
-        if ($this->app->runningInConsole()) {
+        if ($this->app->runningInConsole()) { 
             $this->renderForConsole($e);
         } else {
             $this->renderHttpResponse($e);
