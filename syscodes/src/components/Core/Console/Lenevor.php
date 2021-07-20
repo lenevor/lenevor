@@ -126,7 +126,7 @@ class Lenevor implements LenevorConsole
      */
     protected function getPrime()
     {
-        return (new Prime($this->app));
+        return (new Prime($this->app, $this->app->version()));
     }
     
     /**
