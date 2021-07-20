@@ -23,13 +23,14 @@
 namespace Syscodes\Core;
 
 use Closure;
+use Syscodes\Version;
 use Syscodes\Support\Str;
 use Syscodes\Collections\Arr;
 use Syscodes\Container\Container;
 use Syscodes\Support\Environment;
 use Syscodes\Filesystem\Filesystem;
-use Syscodes\Support\ServiceProvider;
 use Syscodes\Log\LogServiceProvider;
+use Syscodes\Support\ServiceProvider;
 use Syscodes\Events\EventServiceProvider;
 use Syscodes\Routing\RoutingServiceProvider;
 use Syscodes\Core\Http\Exceptions\HttpException;
@@ -178,6 +179,16 @@ class Application extends Container implements ApplicationContract
         
         $this->instance('app', $this);
         $this->instance('config', $this[\Syscodes\Config\Configure::class]);
+    }
+
+    /**
+     * Get the version number of the application.
+     * 
+     * @return string
+     */
+    public function version()
+    {
+        return Version::RELEASE;
     }
 
     /**
