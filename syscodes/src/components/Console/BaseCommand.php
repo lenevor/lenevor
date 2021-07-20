@@ -24,6 +24,7 @@ namespace Syscodes\Console;
 
 use ReflectionException;
 use Psr\Log\LoggerInterface;
+use Syscodes\Console\Command\Command;
 
 /**
  * Class BaseCommand.
