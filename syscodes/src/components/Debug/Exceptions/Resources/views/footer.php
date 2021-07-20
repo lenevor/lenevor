@@ -3,8 +3,6 @@
 	<div class="info">
 
 		<div class="name">
-			<?= e($handler->getBrand()) ?>
-			<span class="php-version" title="Lenevor version"><?= \Syscodes\Version::RELEASE.'-'.\Syscodes\Version::STATUS ?></span>
 			<span class="status-code" title="Status Code"><?= $debug->sendHttpCode() ?></span>
 			<span class="benchmark-time" title="Benchmark: Loading time">
 				<svg id="cronometro" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 512 512" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -87,9 +85,8 @@
 		</div>
 		
 		<div class="copy">
-			Displayed at <?= date('H:i:sa') ?> &mdash;
-			PHP <?= phpversion() ?> &mdash;			
-			<?= \Syscodes\Version::shortVersion() ?>
+			<?= e($handler->getBrand()) ?>
+			<span class="version" title="Lenevor version"><?= \Syscodes\Version::RELEASE ?></span>
 		</div>
 
 	</div>
