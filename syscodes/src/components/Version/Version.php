@@ -30,9 +30,9 @@ namespace Syscodes;
 final class Version 
 {
     /**
-     * Product name.
+     * The framework name.
      */
-    const PRODUCT = 'Lenevor Framework';
+    const NAME = 'Lenevor Framework';
 
     /** 
      * Lenevor's version.
