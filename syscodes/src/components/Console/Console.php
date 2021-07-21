@@ -29,7 +29,7 @@ namespace Syscodes\Console;
  * 
  * @author Alexander Campo <jalexcam@gmail.com> 
  */
-class Console
+abstract class Console
 {
     /**
      * Gets the name of the aplication.
