@@ -22,6 +22,8 @@
 
 namespace Syscodes\Console\Output;
 
+use Syscodes\Console\Formatter\Color;
+
 /**
  * Outputs many string to the cli.
  * 
@@ -115,14 +117,9 @@ class Writer
 			$text = implode(PHP_EOL, $text);
 		}
 		
-		$text  = $this->colorizer->{$method}($text, []);
-		$error = (false !== \stripos($method, 'error'));
+		$text = $this->colorizer->{$method}($text, []);
 		
-		if ($eol) {
-			$text .= \PHP_EOL;
-		}
-		
-		return $this->doWrite($text, $error);
+		return $this->doWrite($text, $eol);
 	}
 	
 	/**
@@ -134,11 +131,13 @@ class Writer
 	 * 
 	 * @return self
 	 */
-	public function doWrite(string $text, bool $error = false): self
+	public function doWrite(string $text, bool $eol = false): self
 	{
-		$handle = $error ? $this->stderr : $this->stdout;
+		if ($eol) {
+			$text .= \PHP_EOL;
+		}
 
-		\fwrite($handle, $text);
+		@\fwrite($this->stdout, $text);
 
 		return $this;
 	}
