@@ -34,12 +34,5 @@ interface Application
 	 * 
 	 * @return void
 	 */	
-	public function run();
-	
-	/**
-	 * Displays basic information about the Console.
-	 * 
-	 * @return void
-	 */ 
-	public function showHeader(); 
+	public function run(); 
 }
