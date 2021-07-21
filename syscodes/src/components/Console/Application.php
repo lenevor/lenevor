@@ -23,8 +23,6 @@
 namespace Syscodes\Console;
 
 use Syscodes\Version;
-use Syscodes\Console\Output\Color;
-use Syscodes\Console\Output\Writer;
 use Syscodes\Support\Facades\Request;
 use Syscodes\Contracts\Container\Container;
 use Syscodes\Contracts\Console\Application as ApplicationContracts;
@@ -36,6 +34,13 @@ use Syscodes\Contracts\Console\Application as ApplicationContracts;
  */
 class Application extends Console implements ApplicationContracts
 {
+	/**
+	 * The default command.
+	 * 
+	 * @var string $defaultCommand
+	 */
+	protected $defaultCommand;
+
 	/**
 	 * The Lenevor application instance..
 	 * 
@@ -55,13 +60,8 @@ class Application extends Console implements ApplicationContracts
 	{
 		parent::__construct(Version::NAME, $version);
 
-		// Initialize the Cli
-		if (isCli()) {
-			$this->color  = new Color;
-			$this->output = new Writer;
-		}
-
-		$this->lenevor = $lenevor;
+		$this->lenevor 		  = $lenevor;
+		$this->defaultCommand = 'list';
 	}
 
 	/**
@@ -71,25 +71,6 @@ class Application extends Console implements ApplicationContracts
 	 */
 	public function run()
 	{
-		$this->showHeader();
-	}
-
-	/**
-	 * Displays basic information about the Console.
-	 *
-	 * @return self
-	 */
-	public function showHeader(): self
-	{		
-		$this->output->write(
-			$this->getName().' '.
-			$this->color->line($this->getVersion(), ['fg' => Color::CYAN]).' | Server Time: '.
-			$this->color->line(date('Y/m/d H:i:sa'), ['fg' => Color::YELLOW]).' | '.
-			$this->color->line('['.PHP_OS.']', ['fg' => Color::PURPLE, 'bold' => 1])
-		);
-
-		$this->output->newLine();
-
-		return $this;
+		echo $this->getVersion();
 	}
 }
