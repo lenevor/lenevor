@@ -78,20 +78,6 @@ final class Color
 	 * @var string $foreground
 	 */
 	protected $foreground;
-	
-	/**
-	 * Get CLI format for color and bold.
-	 * 
-	 * @var string $format
-	 */
-	protected $format = "\033[:mod:;:fg:;:bg:m";
-
-    /**
-     * Indicates that you do not use any color for foreground or background.
-     *
-     * @var bool $noColor
-     */
-    public $noColor = false;
 
 	/**
 	 * Gets options the colors for CLI command.
@@ -112,7 +98,7 @@ final class Color
 	public function __construct(string $foreground = '', string $background = '', array $options = [])
 	{
 		$this->foreground =  $this->parser($foreground);
-		$this->foreground =  $this->parser($background, true);
+		$this->background =  $this->parser($background, true);
 
 		foreach ($options as $option) {
 			if ( ! isset(self::OPTIONS[$option])) {
@@ -123,8 +109,8 @@ final class Color
 					)
 				);
 			}
-
-			$this->options[$option] = self::OPTIONS;
+			
+			$this->options[$option] = self::OPTIONS[$option];
 		}
 	}
 
@@ -139,25 +125,93 @@ final class Color
 	 * 
 	 * @throws \InvalidArgumentException
 	 */
-	private function parser(string $color, bool $background = false)
+	private function parser(string $color, bool $background = false): string
 	{
 		if ('' === $color) {
 			return '';
 		}
 
 		if (isset(self::COLORS[$color])) {
-			return ($background ? '4' : '3').self::COLORS[$colors];
+			return ($background ? '4' : '3').self::COLORS[$color];
 		}
 
 		if (isset(self::LIGHT_COLORS[$color])) {
-			return ($background ? '10' : '9').self::LIGHT_COLORS[$colors];
+			return ($background ? '10' : '9').self::LIGHT_COLORS[$color];
 		}
 
 		throw new InvalidArgumentException(
 			sprintf('Invalid "% s" color; expected one of (% s). ',
 				$color,
-				implode(array_merge(self::COLORS, self::LIGHT_COLORS))
+				implode(', ',array_merge(array_keys(self::COLORS), array_keys(self::LIGHT_COLORS)))
 			)
 		);
+	}
+
+	/**
+	 * Gets the result of the string applied to the text in the CLI command.
+	 * 
+	 * @param  string  $text
+	 * 
+	 * @return string
+	 */
+	public function apply(string $text): string
+	{
+		return $this->set().$text.$this->unset();
+	}
+
+	/**
+	 * Gets the set color to CLI command.
+	 * 
+	 * @return string
+	 */
+	public function set(): string
+	{
+		$codes = [];
+		
+		if ('' !== $this->foreground) {
+			$codes[] = $this->foreground;
+		}
+		
+		if ('' !== $this->background) {
+			$codes[] = $this->background;
+		}
+		
+		foreach ($this->options as $option) {
+			$codes[] = $option['set'];
+		}
+		
+		if (0 === \count($codes)) {
+			return '';
+		}
+		
+		return sprintf("\033[%sm", implode(';', $codes));
+	}
+
+	/**
+	 * Gets the unset color to CLI command.
+	 * 
+	 * @return string
+	 */
+	public function unset(): string
+	{
+		$codes = [];
+		
+		if ('' !== $this->foreground) {
+			$codes[] = 39;
+		}
+		
+		if ('' !== $this->background) {
+			$codes[] = 49;
+		}
+		
+		foreach ($this->options as $option) {
+			$codes[] = $option['unset'];
+		}
+		
+		if (0 === \count($codes)) {
+			return '';
+		}
+		
+		return sprintf("\033[%sm", implode(';', $codes));
 	}
 }
