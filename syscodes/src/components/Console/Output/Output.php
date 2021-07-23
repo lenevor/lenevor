@@ -38,7 +38,7 @@ class Output
 	 */
 	public function write($messages, bool $newline = false)
     {
-
+		
     }
 
     /**
