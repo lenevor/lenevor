@@ -22,6 +22,7 @@
 
 namespace Syscodes\Console\Formatter;
 
+use InvalidArgumentException;
 use Syscodes\Collections\Arr;
 use Syscodes\Core\Http\Exceptions\LenevorException;
 
@@ -33,36 +34,50 @@ use Syscodes\Core\Http\Exceptions\LenevorException;
  */
 final class Color
 {
-    // [
-	// 	'black'         => '0;30',
-	// 	'dark_gray'     => '1;30',
-	// 	'red'           => '0;31',
-	// 	'light_red'     => '1;31',
-	// 	'green'         => '0;32',
-	// 	'light_green'   => '1;32',
-	// 	'light_yellow'  => '0;33',
-	// 	'yellow'        => '1;33',
-	// 	'blue'          => '0;34',
-	// 	'dark_blue'     => '1;34',
-	// 	'light_blue'    => '1;34',
-	// 	'purple'        => '0;35',
-	// 	'light_purple'  => '1;35',	
-	// 	'cyan'          => '0;36', 
-	// 	'light_cyan'    => '1;36',
-	// 	'light_gray'    => '0;37',
-	// 	'white'         => '1;37'
- 	// ];
-	 
-	const BLACK    = 30;
-	const RED      = 31;
-	const GREEN    = 32;
-	const YELLOW   = 33;
-	const BLUE     = 34;
-	const PURPLE   = 35;
-	const CYAN     = 36;
-	const WHITE    = 37;
-	const GRAY     = 47;
-	const DARKGRAY = 100;
+    protected const COLORS = [
+		'black'   => 0,
+		'red'     => 1,
+		'green'   => 2,
+		'yellow'  => 3,
+		'blue'    => 4,
+		'magenta' => 5,
+		'cyan'    => 6,
+		'white'   => 7,
+		'default' => 9,
+	];
+
+	protected const LIGHT_COLORS = [
+		'gray'          => 0,
+		'light-red'     => 1,
+		'light-green'   => 2,
+		'light-yellow'  => 3,
+		'light-blue'    => 4,
+		'light-magenta' => 5,
+		'light-cyan'    => 6,
+		'light-white'   => 7,
+	];
+
+	protected const OPTIONS = [
+		'bold' => ['set' => 1, 'unset' => 22],
+		'underline' => ['set' => 4, 'unset' => 24],
+		'blink' => ['set' => 5, 'unset' => 25],
+		'reverse' => ['set' => 7, 'unset' => 27],
+		'conceal' => ['set' => 8, 'unset' => 28],
+	];
+
+	/**
+	 * The background color to text or CLI command.
+	 * 
+	 * @var string $background
+	 */
+	protected $background;
+
+	/**
+	 * The foreground color to text or CLI command.
+	 * 
+	 * @var string $foreground
+	 */
+	protected $foreground;
 	
 	/**
 	 * Get CLI format for color and bold.
@@ -78,142 +93,71 @@ final class Color
      */
     public $noColor = false;
 
-    /**
- 	 * Returns the given text with the correct color codes for a foreground and
-	 * optionally a background color.
- 	 *
- 	 * @param  string  $text  The text to color
- 	 * @param  array  $style  Get style for foreground and background
-	 * @param  string|null  $type  The 'underline' format
- 	 *
- 	 * @return string  The color coded string
- 	 */
- 	public function line(string $text, array $style = [], string $type = null): string
- 	{
- 		if ($this->noColor) {
- 			return $text;
- 		}
-
-		$style += ['bg' => null, 'fg' => static::WHITE, 'bold' => 0, 'mod' => null];
-
-		$format = $style['bg'] === null
-            ? str_replace(';:bg:', '', $this->format)
-            : $this->format;
-
-        $string = strtr($format, [
-			':mod:' => (int) ($style['mod'] ?? $style['bold']),
-            ':fg:'  => (int) $style['fg'],
-            ':bg:'  => (int) $style['bg'] + 10,
-        ]);
-
-		if ('underline' === $type) {
-			$string .= "\033[4m";
-		}
-		
-		$string .= $text."\033[0m";
-
- 		return $string;
- 	}
-	 
 	/**
-	 * Returns a line formatted as comment.
+	 * Gets options the colors for CLI command.
 	 * 
-	 * @param  string|array  $text  The text to output, or array of comment
-	 * @param  array  $style  Get style for foreground and background
-	 * 
-	 * @return string
+	 * @var array $options
 	 */
-	public function comment(string $text, array $style = []): string
-	{
-		if (is_array($text)) {
-			$text = implode(PHP_EOL, $text);
-		}
+	protected $options = [];
 
-		return $this->line($text, [] + $style);
-	}
-	
 	/**
-	 * Returns a line formatted as error.
+	 * Constructor. Create a new Color instance.
 	 * 
-	 * @param  string|array  $text  The text to output, or array of errors
-	 * @param  array  $style  Get style for foreground and background
+	 * @param  string  $foreground
+	 * @param  string  $background
+	 * @param  array  $options
 	 * 
-	 * @return string
+	 * @return void
 	 */
-	public function error(string $text, array $style = []): string
+	public function __construct(string $foreground = '', string $background = '', array $options = [])
 	{
-		if (is_array($text)) {
-			$text = implode(PHP_EOL, $text);
+		$this->foreground =  $this->parser($foreground);
+		$this->foreground =  $this->parser($background, true);
+
+		foreach ($options as $option) {
+			if ( ! isset(self::OPTIONS[$option])) {
+				throw new InvalidArgumentException(
+					sprintf('Invalid option specified: "%s". Expected one of (%s).', 
+						$option, 
+						implode(',', array_keys(self::OPTIONS))
+					)
+				);
+			}
+
+			$this->options[$option] = self::OPTIONS;
 		}
-		
-		return $this->line($text, ['fg' => static::WHITE, 'bg' => static::RED] + $style);
-	}
-	
-	/**
-	 * Returns a line formatted as success (ok).
-	 * 
-	 * @param  string|array  $text  The text to output, or array of success
-	 * @param  array  $style  Get style for foreground and background
-	 * 
-	 * @return string
-	 */
-	public function success(string $text, array $style = []): string
-	{
-		if (is_array($text)) {
-			$text = implode(PHP_EOL, $text);
-		}
-		
-		return $this->line($text, ['fg' => static::BLACK, 'bg' => static::GREEN] + $style);
 	}
 
 	/**
-	 * Returns a line formatted as warning.
+	 * Gets the parse color for capture to the color type that is needed 
+	 * on foreground and background of CLI Commands.
 	 * 
-	 * @param  string|array  $text  The text to output, or array of warning
-	 * @param  array  $style  Get style for foreground and background
+	 * @param  string  $color
+	 * @param  bool  $background
 	 * 
 	 * @return string
+	 * 
+	 * @throws \InvalidArgumentException
 	 */
-	public function warning(string $text, array $style = []): string
+	private function parser(string $color, bool $background = false)
 	{
-		if (is_array($text)) {
-			$text = implode(PHP_EOL, $text);
+		if ('' === $color) {
+			return '';
 		}
-		
-		return $this->line($text, ['fg' => static::BLACK, 'bg' => static::YELLOW] + $style);
-	}
 
-	/**
-	 * Returns a line formatted as info.
-	 * 
-	 * @param  string|array  $text  The text to output, or array of info
-	 * @param  array  $style  Get style for foreground and background
-	 * 
-	 * @return string
-	 */
-	public function info(string $text, array $style = []): string
-	{
-		if (is_array($text)) {
-			$text = implode(PHP_EOL, $text);
+		if (isset(self::COLORS[$color])) {
+			return ($background ? '4' : '3').self::COLORS[$colors];
 		}
-		
-		return $this->line($text, ['fg' => static::BLUE] + $style);
-	}
 
-	/**
-	 * Returns a line formatted as note.
-	 * 
-	 * @param  string|array  $text  The text to output, or array of note
-	 * @param  array  $style  Get style for foreground and background
-	 * 
-	 * @return string
-	 */
-	public function note(string $text, array $style = []): string
-	{
-		if (is_array($text)) {
-			$text = implode(PHP_EOL, $text);
+		if (isset(self::LIGHT_COLORS[$color])) {
+			return ($background ? '10' : '9').self::LIGHT_COLORS[$colors];
 		}
-		
-		return $this->line($text, ['fg' => static::YELLOW] + $style);
+
+		throw new InvalidArgumentException(
+			sprintf('Invalid "% s" color; expected one of (% s). ',
+				$color,
+				implode(array_merge(self::COLORS, self::LIGHT_COLORS))
+			)
+		);
 	}
 }
