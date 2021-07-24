@@ -23,8 +23,10 @@
 namespace Syscodes\Console;
 
 use Syscodes\Version;
+use Syscodes\Console\Formatter\Color;
 use Syscodes\Support\Facades\Request;
 use Syscodes\Contracts\Container\Container;
+use Syscodes\Console\Formatter\OutputFormatterStyles;
 use Syscodes\Contracts\Console\Application as ApplicationContracts;
 
 /**
@@ -71,6 +73,8 @@ class Application extends Console implements ApplicationContracts
 	 */
 	public function run()
 	{
-		echo $this->getVersion();
+		echo $this->getVersion().\PHP_EOL;
+
+		echo (new OutputFormatterStyles('cyan'))->apply('asasas').\PHP_EOL;
 	}
 }
