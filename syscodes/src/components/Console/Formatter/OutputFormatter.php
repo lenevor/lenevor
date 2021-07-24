@@ -25,7 +25,7 @@ namespace Syscodes\Console\Formatter;
 /**
  * 
  */
-class Outputformatter
+class OutputFormatter
 {
     
 }
