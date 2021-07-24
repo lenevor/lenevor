@@ -23,8 +23,6 @@
 namespace Syscodes\Console\Formatter;
 
 use InvalidArgumentException;
-use Syscodes\Collections\Arr;
-use Syscodes\Core\Http\Exceptions\LenevorException;
 
 /**
  * Allows in the foreground and background a specific color 
