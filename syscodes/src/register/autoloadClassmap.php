@@ -74,6 +74,7 @@ return [
     'Syscodes\\Contracts\\Console\\ConsoleOutput' => SYS_PATH.'src/components/Contracts/Console/ConsoleOutput.php',
     'Syscodes\\Contracts\\Console\\Lenevor' => SYS_PATH.'src/components/Contracts/Console/Lenevor.php',
     'Syscodes\\Contracts\\Console\\Output' => SYS_PATH.'src/components/Contracts/Console/Output.php',
+    'Syscodes\\Contracts\\Console\\OutputFormatter' => SYS_PATH.'src/components/Contracts/Console/OutputFormatter.php',
     'Syscodes\\Contracts\\Console\\OutputFormatterStyles' => SYS_PATH.'src/components/Contracts/Console/OutputFormatterStyles.php',
     'Syscodes\\Contracts\\Container\\BindingResolutionException' => SYS_PATH.'src/components/Contracts/Container/BindingResolutionException.php',
     'Syscodes\\Contracts\\Container\\Container' => SYS_PATH.'src/components/Contracts/Container/Container.php',
