@@ -23,9 +23,56 @@
 namespace Syscodes\Console\Formatter;
 
 /**
+ * Formatter class for console output.
  * 
+ * @author Alexander Campo <jalexcam@gmail.com>
  */
 class OutputFormatter
 {
-    
+    /**
+     * Gets style options from style with specified name.
+     * 
+     * @return \Syscodes\Contracts\Console\OutputFormatterStyles
+     */
+    public function getStyle(): OutputFormatterStyles
+    {
+
+    }
+
+    /**
+     * Sets a new style.
+     * 
+     * @param  string  $name
+     * @param  \Syscodes\Contracts\Console\OutputFormatterStyles  $style
+     * 
+     * @return void
+     */
+    public function setStyle(string $name, OutputFormatterStyles $style): void
+    {
+
+    }
+
+    /**
+     * Checks if output formatter has style with specified name.
+     * 
+     * @param  string  $name
+     * 
+     * @return bool
+     */
+    public function hasStyle(string $name): bool
+    {
+
+    }
+
+    /**
+     * Formats a message depending to the given styles.
+     * 
+     * @param  string  $message
+     * 
+     * @return string
+     */
+    public function format(?string $message): string
+    {
+
+    }
 }
