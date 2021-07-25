@@ -32,9 +32,13 @@ interface OutputFormatter
     /**
      * Gets style options from style with specified name.
      * 
-     * @return \Syscodes\Contracts\Console\OutputFormatterStyles
+     * @param  string  $name
+     * 
+     * @return array
+     * 
+     * @throws \InvalidArgumentException
      */
-    public function getStyle(): OutputFormatterStyles;
+    public function getStyle(string $name);
 
     /**
      * Sets a new style.
@@ -54,6 +58,22 @@ interface OutputFormatter
      * @return bool
      */
     public function hasStyle(string $name): bool;
+
+    /**
+     * Gets the decorated for styles in messages.
+     * 
+     * @return bool
+     */
+    public function getDecorated(): bool;
+
+    /**
+     * Sets the decorated for styles in messages.
+     * 
+     * @param  bool  $decorated
+     * 
+     * @return void
+     */
+    public function setDecorated(bool $decorated): void;
 
     /**
      * Formats a message depending to the given styles.
