@@ -22,11 +22,37 @@
 
 namespace Syscodes\Console\Output;
 
+use Syscodes\Console\Formatter\OutputFormatter;
+use Syscodes\Console\Formatter\OutputFormatter as OutputFormatterInterface;
+
 /**
+ * Allows the use of the formatter in the messages to be displayed 
+ * in the output console.
+ * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Output
 {
+	/**
+	 * Gets formatter for output console.
+	 * 
+	 * @var \Syscodes\Contracts\Console\OutputFormatter $formatter
+	 */
+	protected $formatter;
+
+	/**
+	 * Constructor. Create a new Output instance.
+	 * 
+	 * @param  bool  $decorated
+	 * @param  \Syscodes\Contracts\Console\OutputFormatter|null  $formatter
+	 * 
+	 * @return void
+	 */
+	public function __construct(bool $decorated = false, OutputFormatterInterface $formatter = null)
+	{
+		$this->formatter = $formatter ?? new OutputFormatter();
+	}
+
     /**
 	 * Outputs a string to the cli.	If you send an array it will implode them
 	 * with a line break.
@@ -38,7 +64,11 @@ class Output
 	 */
 	public function write($messages, bool $newline = false)
     {
-		
+		if ($newline) {
+			$messages .= \PHP_EOL;
+		}
+
+		return $this->formatter->format($messages);
     }
 
     /**
