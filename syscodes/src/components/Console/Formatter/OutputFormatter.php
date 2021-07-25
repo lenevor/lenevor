@@ -22,10 +22,127 @@
 
 namespace Syscodes\Console\Formatter;
 
+use InvalidArgumentException;
+use Syscodes\Console\Formatter\OutputFormatterStyles;
+
 /**
+ * Formatter class for console output.
  * 
+ * @author Alexander Campo <jalexcam@gmail.com>
  */
 class OutputFormatter
 {
-    
+    /**
+     * Checks if the decorated is actived for console output.
+     * 
+     * @var bool $decorated
+     */
+    protected $decorated;
+
+    /**
+     * Gets the styles for console output.
+     * 
+     * @var array $styles
+     */
+    protected $styles = [];
+
+    /**
+     * Constructor. Create a new OutputFormatter instance.
+     * 
+     * @param  bool  $decorated
+     * @param  array  $styles
+     * 
+     * @return void
+     */
+    public function __construct(bool $decorated =  false, array $styles = [])
+    {
+        foreach ($styles as $name => $style) {
+            $this->setStyle($name, $style);
+        }
+
+        $this->setStyle('error', new OutputFormatterStyles('white', 'red'));
+        $this->setStyle('comment', new OutputFormatterStyles('yellow'));
+        $this->setStyle('info', new OutputFormatterStyles('blue'));
+        $this->setStyle('warning', new OutputFormatterStyles('black', 'yellow'));
+        $this->setStyle('success', new OutputFormatterStyles('black', 'green'));
+
+        $this->decorated = $decorated;
+    }
+
+    /**
+     * Gets style options from style with specified name.
+     * 
+     * @param  string  $name
+     * 
+     * @return array
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public function getStyle(string $name): array
+    {
+        if ( ! $this->hasStyle($name)) {
+            throw new InvalidArgumentException(sprintf('Undefined style: "%s"', $name));
+        }
+
+        return $this->styles[\strtolower($name)];
+    }
+
+    /**
+     * Sets a new style.
+     * 
+     * @param  string  $name
+     * @param  \Syscodes\Contracts\Console\OutputFormatterStyles  $style
+     * 
+     * @return void
+     */
+    public function setStyle(string $name, OutputFormatterStyles $style): void
+    {
+        $this->styles[\strtolower($name)] = $style;
+    }
+
+    /**
+     * Checks if output formatter has style with specified name.
+     * 
+     * @param  string  $name
+     * 
+     * @return bool
+     */
+    public function hasStyle(string $name): bool
+    {
+        return isset($this->styles[\strtolower($name)]);
+    }
+
+    /**
+     * Gets the decorated for styles in messages.
+     * 
+     * @return bool
+     */
+    public function getDecorated(): bool
+    {
+        return $this->decorated;
+    }
+
+    /**
+     * Sets the decorated for styles in messages.
+     * 
+     * @param  bool  $decorated
+     * 
+     * @return void
+     */
+    public function setDecorated(bool $decorated): void
+    {
+        $this->decorated = $decorated;
+    }
+
+    /**
+     * Formats a message depending to the given styles.
+     * 
+     * @param  string  $message
+     * 
+     * @return string
+     */
+    public function format(?string $message): string
+    {
+        return (new OutputFormatterStyles('blue'))->apply($message);
+    }
 }
