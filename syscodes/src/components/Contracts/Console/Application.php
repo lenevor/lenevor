@@ -22,6 +22,8 @@
 
 namespace Syscodes\Contracts\Console;
 
+use Syscodes\Contracts\Console\Output as OutputInterface;
+
 /**
  * It allows to show the line header and the start of the Lenevor command console.
  * 
@@ -32,7 +34,9 @@ interface Application
 	/**
 	 * Runs the current command discovered on the CLI.
 	 * 
+	 * @param  \Syscodes\Contracts\Console\Output|null  $output
+	 * 
 	 * @return void
 	 */	
-	public function run(); 
+	public function run(OutputInterface $output = null): int; 
 }
