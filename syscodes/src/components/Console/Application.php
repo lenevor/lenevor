@@ -23,9 +23,10 @@
 namespace Syscodes\Console;
 
 use Syscodes\Version;
-use Syscodes\Console\Output\Output;
 use Syscodes\Support\Facades\Request;
+use Syscodes\Console\Output\ConsoleOutput;
 use Syscodes\Contracts\Container\Container;
+use Syscodes\Contracts\Console\Output as OutputInterface;
 use Syscodes\Contracts\Console\Application as ApplicationContracts;
 
 /**
@@ -67,11 +68,15 @@ class Application extends Console implements ApplicationContracts
 
 	/**
 	 * Runs the current command discovered on the CLI.
+	 * 
+	 * @param  \Syscodes\Contracts\Console\Output|null  $output
 	 *
 	 * @return void
 	 */
-	public function run()
+	public function run(OutputInterface $output = null): int
 	{
-		echo (new Output())->writeln('Hello world!');
+		$output->writeln('Hello world!');
+
+		return 1;
 	}
 }
