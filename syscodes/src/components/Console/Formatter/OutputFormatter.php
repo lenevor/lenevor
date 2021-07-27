@@ -143,6 +143,15 @@ class OutputFormatter
      */
     public function format(?string $message): string
     {
-        return (new OutputFormatterStyles('blue'))->apply($message);
+        //return (new OutputFormatterStyles('cyan'))->apply($message);
+        return $this->formatting($message);
+    }
+
+    /**
+     * 
+     */
+    protected function formatting($message)
+    {
+        return (new OutputFormatterStyles('cyan'))->apply($message);
     }
 }
