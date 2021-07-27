@@ -22,10 +22,88 @@
 
 namespace Syscodes\Console\Output;
 
+use InvalidArgumentException;
+use Syscodes\Contracts\Console\OutputFormatter;
+
 /**
+ * Allows StreamOutput writes the output to a given stream.
+ * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class StreamOutput
+class StreamOutput extends Output
 {
-    
+    /**
+     * Gets the ouput to a given stream.
+     * 
+     * @var resource $stream
+     */
+    protected $stream;
+
+    /**
+     * Constructor. Create a new StreamOutput instance.
+     * 
+     * @param  resource  $stream  The stream resource
+     * @param  bool|null  $decorated  Whether to decorated messages
+     * @param  \Syscodes\Contracts\Console\OutputFormatter|null  $formatter  The output formatter instance
+     * 
+     * @return void
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public function __construct($stream, bool $decorated = false, OutputFormatter $formatter = null)
+    {
+        if ( ! \is_resource($stream) || 'stream' !== \get_resource_type($stream)) {
+            throw new InvalidArgumentException('The StreamOutput class needs a stream as its first argument');
+        }
+
+        $this->stream = $stream;
+
+        if (null === $decorated) {
+            $decorated = $this->hasColorActivated();
+        }
+
+        parent::__construct($decorated, $formatter);
+    }
+
+    /**
+     * Writes a message to the output.
+     * 
+     * @param  string  $message  The text to output
+     * @param  bool  $newline  Add a newline command
+     * 
+     * @return mixed
+     */
+    protected function toWrite(string $message, bool $newline)
+    {
+        if ($newline) {
+			$message .= \PHP_EOL;
+		}
+
+        @fwrite($this->stream, $message);
+
+        \fflush($this->stream);
+    }
+
+    /**
+     * Returns true if the stream supports colorization.
+     * 
+     * @return bool
+     */
+    protected function hasColorActivated(): bool
+    {
+        // Follow https://no-color.org/
+        if (isset($_SERVER['NO_COLOR']) || false !== getenv('NO_COLOR')) {
+            return false;
+        }
+        
+        if (\DIRECTORY_SEPARATOR === '\\') {
+            return (\function_exists('sapi_windows_vt100_support')
+                && @sapi_windows_vt100_support($this->stream))
+                || false !== getenv('ANSICON')
+                || 'ON' === getenv('ConEmuANSI')
+                || 'xterm' === getenv('TERM');
+        }
+        
+        return stream_isatty($this->stream);
+    }
 }
