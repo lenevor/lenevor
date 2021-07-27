@@ -430,15 +430,16 @@ class Handler implements ExceptionHandlerContract
     /**
      * Render an exception to the console.
      * 
+     * @param  \Syscodes\Contracts\Console\Output  $output
      * @param  \Throwable  $e
      * 
      * @return void
      */
-    public function renderForConsole(Throwable $e)
+    public function renderForConsole($output, Throwable $e)
     {
         $message = sprintf(
-            "%s: %s in file %s on line %d\n\n%s\n",
-            getClass($e, true),
+            $output->write((new \Syscodes\Console\Formatter\OutputFormatterStyles('white', 'red', ['bold']))->apply(getClass($e, true)))." %s in file %s on line %d\n\n%s\n",
+            //getClass($e, true),
             $e->getMessage(),            
             $e->getFile(),
             $e->getLine(),
