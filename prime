@@ -23,6 +23,7 @@
  */
 
 use Syscodes\Contracts\Console\Lenevor;
+use Syscodes\Console\Output\ConsoleOutput;
 
 /**
  * Refuse to run prime when called from php-cgi !
@@ -95,4 +96,6 @@ $app = require_once $paths['path.bootstrap'].'/app.php';
 
 $console = $app->make(Lenevor::class);
 
-$console->handle();
+$status = $console->handle(new ConsoleOutput);
+
+exit($status);
