@@ -22,6 +22,8 @@
 
 namespace Syscodes\Contracts\Console;
 
+use Syscodes\Contracts\Console\Output as OutputInterface;
+
 /**
  * <ConsoleOutput> is the interface implemented by ConsoleOutput class.
  * This adds information about stderr and output stream.
@@ -35,12 +37,14 @@ interface ConsoleOutput extends Output
      * 
      * @return \Syscodes\Contracts\Console\Output
      */
-    public function getErrorOutput(): Output;
+    public function getErrorOutput(): OutputInterface;
 
     /**
      * Sets the Output interface for errors.
      * 
+     * @param  Syscodes\Contracts\Console\Output  $error
+     * 
      * @return \Syscodes\Contracts\Console\Output
      */
-    public function SetErrorOutput(Output $error): void;
+    public function SetErrorOutput(OutputInterface $error): void;
 }
