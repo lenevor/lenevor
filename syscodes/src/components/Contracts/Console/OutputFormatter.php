@@ -22,6 +22,8 @@
 
 namespace Syscodes\Contracts\Console;
 
+use Syscodes\Contracts\Console\OutputFormatterStyle as OutputFormatterStyleInterface;
+
 /**
  * <OutputFormatter> is the interface for output console.
  * 
@@ -44,11 +46,11 @@ interface OutputFormatter
      * Sets a new style.
      * 
      * @param  string  $name
-     * @param  \Syscodes\Contracts\Console\OutputFormatterStyles  $style
+     * @param  \Syscodes\Contracts\Console\OutputFormatterStyle  $style
      * 
      * @return void
      */
-    public function setStyle(string $name, OutputFormatterStyles $style): void;
+    public function setStyle(string $name, OutputFormatterStyleInterface $style): void;
 
     /**
      * Checks if output formatter has style with specified name.
