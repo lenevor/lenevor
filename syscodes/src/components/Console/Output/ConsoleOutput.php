@@ -27,6 +27,8 @@ use Syscodes\Contracts\Console\ConsoleOutput as ConsoleOutputInterface;
 use Syscodes\Contracts\Console\OutputFormatter as OutputFormatterInterface;
 
 /**
+ * The ConsoleOutput is the default class for all CLI ouput using STDOUT and STDERR. 
+ * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
