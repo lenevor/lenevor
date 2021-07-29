@@ -23,14 +23,17 @@
 namespace Syscodes\Console\Formatter;
 
 use InvalidArgumentException;
-use Syscodes\Console\Formatter\OutputFormatterStyles;
+use Syscodes\Contracts\Console\Output;
+use Syscodes\Console\Formatter\OutputFormatterStyle;
+use Syscodes\Contracts\Console\OutputFormatter as OutputFormatterInterface;
+use Syscodes\Contracts\Console\OutputFormatterStyle as OutputFormatterStyleInterface;
 
 /**
  * Formatter class for console output.
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class OutputFormatter
+class OutputFormatter implements OutputFormatterInterface
 {
     /**
      * Checks if the decorated is actived for console output.
@@ -60,11 +63,11 @@ class OutputFormatter
             $this->setStyle($name, $style);
         }
 
-        $this->setStyle('error', new OutputFormatterStyles('white', 'red'));
-        $this->setStyle('comment', new OutputFormatterStyles('yellow'));
-        $this->setStyle('info', new OutputFormatterStyles('blue'));
-        $this->setStyle('warning', new OutputFormatterStyles('black', 'yellow'));
-        $this->setStyle('success', new OutputFormatterStyles('black', 'green'));
+        $this->setStyle('error', new OutputFormatterStyle('white', 'red'));
+        $this->setStyle('comment', new OutputFormatterStyle('yellow'));
+        $this->setStyle('info', new OutputFormatterStyle('blue'));
+        $this->setStyle('warning', new OutputFormatterStyle('black', 'yellow'));
+        $this->setStyle('success', new OutputFormatterStyle('black', 'green'));
 
         $this->decorated = $decorated;
     }
@@ -78,7 +81,7 @@ class OutputFormatter
      * 
      * @throws \InvalidArgumentException
      */
-    public function getStyle(string $name): array
+    public function getStyle(string $name)
     {
         if ( ! $this->hasStyle($name)) {
             throw new InvalidArgumentException(sprintf('Undefined style: "%s"', $name));
@@ -91,11 +94,11 @@ class OutputFormatter
      * Sets a new style.
      * 
      * @param  string  $name
-     * @param  \Syscodes\Contracts\Console\OutputFormatterStyles  $style
+     * @param  \Syscodes\Contracts\Console\OutputFormatterStyle  $style
      * 
      * @return void
      */
-    public function setStyle(string $name, OutputFormatterStyles $style): void
+    public function setStyle(string $name, OutputFormatterStyleInterface $style): void
     {
         $this->styles[\strtolower($name)] = $style;
     }
@@ -143,15 +146,39 @@ class OutputFormatter
      */
     public function format(?string $message): string
     {
-        //return (new OutputFormatterStyles('cyan'))->apply($message);
+        //return (new OutputFormatterStyle('cyan'))->apply($message);
         return $this->formatting($message);
     }
 
     /**
+     * Gets a new style instance from a string.
      * 
+     * @param  string  $message
+     * 
+     * @return string
      */
-    protected function formatting($message)
+    protected function formatting(string $message): string
     {
-        return (new OutputFormatterStyles('cyan'))->apply($message);
+        return preg_replace_callback(
+            '/<(?P<tag>[a-z0-9-_]+)>(?P<text>.*?)<\/(\1)>/ims',
+            [$this, 'replaceTags'],
+            $message
+        );
+    }
+
+    /**
+     * Replace tags with color codes.
+     * 
+     * @param  array  $matches
+     * 
+     * @return string 
+     */
+    protected function replaceTags(array $matches): string
+    {
+        $style = $this->getStyle($matches['tag']);
+        
+        if (empty($style)) {
+            $st = '<'.$matches['tag'].'>'.$matches['text'].'</'.$matches['tag'].'>';
+        }
     }
 }
