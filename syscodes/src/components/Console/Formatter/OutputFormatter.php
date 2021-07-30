@@ -57,11 +57,9 @@ class OutputFormatter implements OutputFormatterInterface
      * 
      * @return void
      */
-    public function __construct(bool $decorated =  false, array $styles = [])
+    public function __construct(bool $decorated = false, array $styles = [])
     {
-        foreach ($styles as $name => $style) {
-            $this->setStyle($name, $style);
-        }
+        $this->decorated = $decorated;
 
         $this->setStyle('error', new OutputFormatterStyle('white', 'red'));
         $this->setStyle('comment', new OutputFormatterStyle('yellow'));
@@ -69,7 +67,9 @@ class OutputFormatter implements OutputFormatterInterface
         $this->setStyle('warning', new OutputFormatterStyle('black', 'yellow'));
         $this->setStyle('success', new OutputFormatterStyle('black', 'green'));
 
-        $this->decorated = $decorated;
+        foreach ($styles as $name => $style) {
+            $this->setStyle($name, $style);
+        }
     }
 
     /**
@@ -147,38 +147,62 @@ class OutputFormatter implements OutputFormatterInterface
     public function format(?string $message): string
     {
         //return (new OutputFormatterStyle('cyan'))->apply($message);
-        return $this->formatting($message);
+        return $this->formatInStyle($message);
     }
 
     /**
-     * Gets a new style instance from a string.
+     * Formats a message using to a given style.
      * 
-     * @param  string  $message
+     * @param  string  $messsage
      * 
      * @return string
      */
-    protected function formatting(string $message): string
+    protected function formatInStyle(?string $message): string
     {
         return preg_replace_callback(
             '/<(?P<tag>[a-z0-9-_]+)>(?P<text>.*?)<\/(\1)>/ims',
-            [$this, 'replaceTags'],
+            [$this, 'replaceStyleTags'],
             $message
         );
     }
-
+    
     /**
      * Replace tags with color codes.
      * 
      * @param  array  $matches
      * 
-     * @return string 
+     * @return string
      */
-    protected function replaceTags(array $matches): string
+    protected function replaceStyleTags(array $matches): string
     {
         $style = $this->getStyle($matches['tag']);
         
         if (empty($style)) {
-            $st = '<'.$matches['tag'].'>'.$matches['text'].'</'.$matches['tag'].'>';
+            return "<{$matches['tag']}>{$matches['text']}</{$matches['tag']}>";
         }
+
+        $styleInfo = [];
+
+        $info = [];
+
+        $output = new OutputFormatterStyle();
+
+        if ($output->setForeground($style['text'])) {
+            $info[] = $output->setForeground($style['text']);
+        }
+
+        if ($output->setBackground($style['text'])) {
+            $info[] = $output->setBackground($style['text']);
+        }
+        
+        unset($style['text']);
+        
+        foreach ($style as $option => $value) {
+            if ($value) {
+                $info[] = $output->setOptions[$option];
+            }
+        }
+
+        return $output->apply($info['text']);
     }
 }
