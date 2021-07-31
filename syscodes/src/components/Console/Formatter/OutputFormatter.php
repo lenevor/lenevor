@@ -181,8 +181,6 @@ class OutputFormatter implements OutputFormatterInterface
             return "<{$matches['tag']}>{$matches['text']}</{$matches['tag']}>";
         }
 
-        $styleInfo = [];
-
         $info = [];
 
         $output = new OutputFormatterStyle();
