@@ -111,6 +111,34 @@ abstract class Output implements OutputInterface
 		return str_repeat(\PHP_EOL, \max($num, 1));
 	}
 
+	/**
+	 * Outputs series of minus characters to CLI output, specified as a visual separator. 
+	 * 
+	 * @param  int  $newlines  Number of lines to output, defaults to 0
+	 * @param  int  $width  Width of the line, default to 79
+	 * 
+	 * @return void
+	 */
+	public function hr(int $newlines = 0, $width = 79): void
+	{
+		$this->write('', $newlines);
+		$this->write(str_repeat('-', $width));
+		$this->write('', $newlines);
+	}
+
+	/**
+	 * Writes a message to the output and adds a newline at the end..
+	 * 
+	 * @param  string|iterable  $messages  The message as an iterable of strings or a single string
+	 * @param  int  $options  A bitmask of options (0 is considered the same as self::OUTPUT_NORMAL)
+	 * 
+	 * @return string
+	 */
+	public function writeln($messages, int $options = self::OUTPUT_NORMAL)
+    {
+        return $this->write($messages, true, $options);
+    }
+
     /**
 	 * Outputs a string to the cli.	If you send an array it will implode them
 	 * with a line break.
@@ -144,19 +172,6 @@ abstract class Output implements OutputInterface
 		}
 
 		return $this->toWrite($message ?? '', $newline);
-    }
-
-    /**
-	 * Writes a message to the output and adds a newline at the end..
-	 * 
-	 * @param  string|iterable  $messages  The message as an iterable of strings or a single string
-	 * @param  int  $options  A bitmask of options (0 is considered the same as self::OUTPUT_NORMAL)
-	 * 
-	 * @return string
-	 */
-	public function writeln($messages, int $options = self::OUTPUT_NORMAL)
-    {
-        return $this->write($messages, true, $options);
     }
 
 	/**
