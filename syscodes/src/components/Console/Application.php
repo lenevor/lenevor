@@ -73,11 +73,8 @@ class Application extends Console implements ApplicationContracts
 	 *
 	 * @return void
 	 */
-	public function run(OutputInterface $output = null): int
+	public function run(OutputInterface $output = null)
 	{
-		$output->writeln('<info>Hello world!</info>');
-		$output->hr();
-
-		return 1;
+		$output->writeln('Hello world!');
 	}
 }
