@@ -38,5 +38,5 @@ interface Application
 	 * 
 	 * @return void
 	 */	
-	public function run(OutputInterface $output = null): int; 
+	public function run(OutputInterface $output = null); 
 }
