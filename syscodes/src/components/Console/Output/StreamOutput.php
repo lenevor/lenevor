@@ -71,9 +71,9 @@ class StreamOutput extends Output
      * @param  string  $message  The text to output
      * @param  bool  $newline  Add a newline command
      * 
-     * @return mixed
+     * @return int
      */
-    protected function toWrite(string $message, bool $newline)
+    protected function toWrite(string $message, bool $newline): int
     {
         if ($newline) {
 			$message .= \PHP_EOL;
@@ -81,7 +81,7 @@ class StreamOutput extends Output
 
         @fwrite($this->stream, $message);
 
-        \fflush($this->stream);
+        (int) \fflush($this->stream);
     }
 
     /**
