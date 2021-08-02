@@ -67,15 +67,6 @@ interface Output
 	 */
 	public function setFormatter(OutputFormatterInterface $formatter): void;
 
-	/**
-	 * Enter a number of empty lines.
-	 * 
-	 * @param  int  $num  Number of lines to output
-	 * 
-	 * @return string
-	 */
-	public function newline(int $num = 1);
-
     /**
 	 * Outputs a string to the cli.	If you send an array it will implode them
 	 * with a line break.
