@@ -39,7 +39,9 @@ interface Lenevor
     /**
      * Handle an incoming console command.
      * 
+     * @param  \Syscodes\Contracts\Console\Output|null  $output
+     * 
      * @return int
      */
-    public function handle();
+    public function handle($output = null);
 }
