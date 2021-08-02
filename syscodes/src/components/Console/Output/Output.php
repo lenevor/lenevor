@@ -100,34 +100,7 @@ abstract class Output implements OutputInterface
 	}
 
 	/**
-	 * Enter a number of empty lines.
-	 * 
-	 * @param  int  $num  Number of lines to output
-	 * 
-	 * @return string
-	 */
-	public function newline(int $num = 1)
-	{
-		return str_repeat(\PHP_EOL, \max($num, 1));
-	}
-
-	/**
-	 * Outputs series of minus characters to CLI output, specified as a visual separator. 
-	 * 
-	 * @param  int  $newlines  Number of lines to output, defaults to 0
-	 * @param  int  $width  Width of the line, default to 79
-	 * 
-	 * @return void
-	 */
-	public function hr(int $newlines = 0, $width = 79): void
-	{
-		$this->write('', $newlines);
-		$this->write(str_repeat('-', $width));
-		$this->write('', $newlines);
-	}
-
-	/**
-	 * Writes a message to the output and adds a newline at the end..
+	 * Writes a message to the output and adds a newline at the end.
 	 * 
 	 * @param  string|iterable  $messages  The message as an iterable of strings or a single string
 	 * @param  int  $options  A bitmask of options (0 is considered the same as self::OUTPUT_NORMAL)
