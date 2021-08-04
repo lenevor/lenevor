@@ -44,6 +44,7 @@ return [
     'Syscodes\\Console\\Command\\Command' => SYS_PATH.'src/components/Console/Command/Command.php',
     'Syscodes\\Console\\Command\\HelpCommand' => SYS_PATH.'src/components/Console/Command/HelpCommand.php',
     'Syscodes\\Console\\Command\\ListCommand' => SYS_PATH.'src/components/Console/Command/ListCommand.php',
+    'Syscodes\\Console\\Concerns\\InteractsIO' => SYS_PATH.'src/components/Console/Concerns/InteractsIO.php',
     'Syscodes\\Console\\Formatter\\Color' => SYS_PATH.'src/components/Console/Formatter/Color.php',
     'Syscodes\\Console\\Formatter\\OutputFormatter' => SYS_PATH.'src/components/Console/Formatter/OutputFormatter.php',
     'Syscodes\\Console\\Formatter\\OutputFormatterStyle' => SYS_PATH.'src/components/Console/Formatter/OutputFormatterStyle.php',
