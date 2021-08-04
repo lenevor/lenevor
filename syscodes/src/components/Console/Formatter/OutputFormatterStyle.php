@@ -106,7 +106,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      */
     public function setOption(string $option): void
     {
-        $this->options = [];
+        $this->options[] = $option;
 
         $this->color = new Color($this->foreground, $this->background, $this->options);
     }
