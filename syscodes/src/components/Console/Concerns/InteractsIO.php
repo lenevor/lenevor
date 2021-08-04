@@ -59,7 +59,7 @@ trait InteractsIO
      */
     public function comment($message)
     {
-
+		$this->commandline($message, 'comment');
     }
 
     /**
@@ -71,7 +71,7 @@ trait InteractsIO
      */
     public function success($message)
     {
-
+		$this->commandline($message, 'success');
     }
 
     /**
@@ -83,7 +83,7 @@ trait InteractsIO
      */
     public function info($message)
     {
-
+		$this->commandline($message, 'info');
     }
 
     /**
@@ -95,7 +95,7 @@ trait InteractsIO
      */
     public function warning($message)
     {
-
+		$this->commandline($message, 'warning');
     }
 
     /**
@@ -107,7 +107,7 @@ trait InteractsIO
      */
     public function error($message)
     {
-
+		$this->commandline($message, 'error');
     }
 
     /**
@@ -120,7 +120,9 @@ trait InteractsIO
      */
     public function commandline($message, string $style = null)
     {
+		$styled = $style ? "<$style>$message</$style>" : $message;
 
+		return $this->writeln($styled);
     }
 
 	/**
@@ -133,8 +135,8 @@ trait InteractsIO
 	 */
 	public function hr(int $newlines = 0, $width = 79): void
 	{
-		$this->output->write('', $newlines);
-		$this->output->write(str_repeat('-', $width));
-		$this->output->write('', $newlines);
+		$this->write('', $newlines);
+		$this->write(str_repeat('-', $width));
+		$this->write('', $newlines);
 	}
 }
