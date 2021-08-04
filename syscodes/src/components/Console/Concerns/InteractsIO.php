@@ -131,9 +131,9 @@ trait InteractsIO
 	 * @param  int  $newlines  Number of lines to output, defaults to 0
 	 * @param  int  $width  Width of the line, default to 79
 	 * 
-	 * @return void
+	 * @return string
 	 */
-	public function hr(int $newlines = 0, $width = 79): void
+	public function hr(int $newlines = 0, $width = 79): string
 	{
 		$this->write('', $newlines);
 		$this->write(str_repeat('-', $width));
