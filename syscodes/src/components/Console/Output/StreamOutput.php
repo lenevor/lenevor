@@ -79,9 +79,7 @@ class StreamOutput extends Output
 			$message .= \PHP_EOL;
 		}
 
-        @fwrite($this->stream, $message);
-
-        (int) \fflush($this->stream);
+        return (int) @fwrite($this->stream, $message);
     }
 
     /**
