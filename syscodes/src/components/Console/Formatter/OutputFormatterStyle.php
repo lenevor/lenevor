@@ -22,6 +22,7 @@
 
 namespace Syscodes\Console\Formatter;
 
+use Syscodes\Console\Style\Color;
 use Syscodes\Contracts\Console\OutputFormatterStyle as OutputFormatterStyleInterface;
 
 /**
