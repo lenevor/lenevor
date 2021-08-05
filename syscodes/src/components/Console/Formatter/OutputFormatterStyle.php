@@ -83,7 +83,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      */
     public function setForeground(string $color = null): void
     {
-        $this->color = new Color($this->foreground = $color ?: '', $this->background, $this->options);
+        $this->color = new self($this->foreground = $color ?: '', $this->background, $this->options);
     }
 
     /**
@@ -95,7 +95,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      */
     public function setBackground(string $color = null): void
     {
-        $this->color = new Color($this->foreground, $this->background = $color ?: '', $this->options);
+        $this->color = new self($this->foreground, $this->background = $color ?: '', $this->options);
     }
 
     /**
@@ -109,7 +109,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
     {
         $this->options[] = $option;
 
-        $this->color = new Color($this->foreground, $this->background, $this->options);
+        $this->color = new self($this->foreground, $this->background, $this->options);
     }
 
     /**
@@ -127,7 +127,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
             unset($this->options[$position]);
         }
 
-        $this->color = new Color($this->foreground, $this->background, $this->options);
+        $this->color = new self($this->foreground, $this->background, $this->options);
     }
 
     /**
@@ -139,7 +139,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      */
     public function setOptions(array $options): void
     {
-        $this->color = new Color($this->foreground, $this->background, $this->options = $options);
+        $this->color = new self($this->foreground, $this->background, $this->options = $options);
     }
 
     /**
