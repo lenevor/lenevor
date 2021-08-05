@@ -64,6 +64,107 @@ final class Color
 	];
 
 	/**
+     * There are some internal styles
+     * custom style: fg;bg;opt
+     *
+     * @var array
+     */
+    public const STYLES = [
+        // basic
+        'normal'         => '39',// no color
+        'red'            => '0;31',
+        'red1'           => '1;31',
+        'blue'           => '0;34',
+        'cyan'           => '0;36',
+        'cyan1'          => '1;36',
+        'black'          => '0;30',
+        'green'          => '0;32',
+        'green1'         => '1;32',
+        'brown'          => '0;33',
+        'brown1'         => '1;33',
+        'white'          => '1;37',
+        'ylw0'           => '0;33',
+        'ylw'            => '1;33',
+        'yellow0'        => '0;33',
+        'yellow'         => '1;33',
+        'mga0'           => '0;35',
+        'magenta0'       => '0;35',
+        'mga'            => '1;35',
+        'mga1'           => '1;35',
+        'magenta'        => '1;35',
+
+        // alert
+        'suc'            => '1;32',// same 'green' and 'bold'
+        'success'        => '0;30;42',
+        'info'           => '0;34',// same 'blue'
+        'comment'        => '0;33',// same 'brown'
+        'note'           => '36;1',
+        'notice'         => '36;4',
+        'warn'           => '0;30;43',
+        'warning'        => '0;30;43',
+        'danger'         => '0;31',// same 'red'
+        'err'            => '97;41',
+        'error'          => '97;41',
+
+        // extra
+        'darkDray'       => '90',
+        'dark_gray'      => '90',
+        'hiRed'          => '91',
+        'hiRed1'         => '1;91',
+        'hiGreen'        => '92',
+        'hiGreen1'       => '1;92',
+        'hiYellow'       => '93',
+        'hiYellow1'      => '1;93',
+        'hiBlue'         => '94',
+        'hiBlue1'        => '1;94',
+        'hiMagenta'      => '95',
+        'hiMagenta1'     => '1;95',
+        'hiCyan'         => '96',
+        'hiCyan1'        => '1;96',
+
+        // extra
+        'lightRedEx'     => '91',
+        'light_red_ex'   => '91',
+        'lightGreenEx'   => '92',
+        'light_green_ex' => '92',
+        'lightYellow'    => '93',
+        'light_yellow'   => '93',
+        'lightBlueEx'    => '94',
+        'light_blue_ex'  => '94',
+        'lightMagenta'   => '95',
+        'light_magenta'  => '95',
+        'lightCyanEx'    => '96',
+        'light_cyan_ex'  => '96',
+        'whiteEx'        => '97',
+        'white_ex'       => '97',
+
+        // option
+        'b'              => '0;1',
+        'bold'           => '0;1',
+        'fuzzy'          => '2',
+        'i'              => '0;3',
+        'italic'         => '0;3',
+        'undersline'     => '4',
+        'blink'          => '5',
+        'reverse'        => '7',
+        'concealed'      => '8',
+
+        // ---------- The following is deprecated ----------
+
+        'lightRed'    => '1;31',
+        'light_red'   => '1;31',
+        'lightGreen'  => '1;32',
+        'light_green' => '1;32',
+        'lightBlue'   => '1;34',
+        'light_blue'  => '1;34',
+        'lightCyan'   => '1;36',
+        'light_cyan'  => '1;36',
+        'lightDray'   => '37',
+        'light_gray'  => '37',
+    ];
+
+
+	/**
 	 * The background color to text or CLI command.
 	 * 
 	 * @var string $background
@@ -138,7 +239,7 @@ final class Color
 		}
 
 		throw new InvalidArgumentException(
-			sprintf('Invalid "% s" color; expected one of (% s). ',
+			sprintf('Invalid "%s" color; expected one of (% s). ',
 				$color,
 				implode(', ',array_merge(array_keys(self::COLORS), array_keys(self::LIGHT_COLORS)))
 			)
