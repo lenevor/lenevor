@@ -23,6 +23,7 @@
 namespace Syscodes\Console\Formatter;
 
 use InvalidArgumentException;
+use Syscodes\Console\Style\ColorTag;
 use Syscodes\Contracts\Console\Output;
 use Syscodes\Console\Formatter\OutputFormatterStyle;
 use Syscodes\Contracts\Console\OutputFormatter as OutputFormatterInterface;
@@ -35,6 +36,9 @@ use Syscodes\Contracts\Console\OutputFormatterStyle as OutputFormatterStyleInter
  */
 class OutputFormatter implements OutputFormatterInterface
 {
+    // CLI color template
+    public const COLOR_TPL = "\033[%sm%s\033[0m";
+
     /**
      * Checks if the decorated is actived for console output.
      * 
@@ -153,13 +157,32 @@ class OutputFormatter implements OutputFormatterInterface
      * Formats a message using to a given style.
      * 
      * @param  string  $messsage
+     * @param  int  $with
      * 
      * @return string
      */
     protected function formatInStyle(?string $message): string
     {
-        $style = new OutputFormatterStyle();
+        if ( ! $message || false === strpos($message, '</')) {
+            return $message;
+        }
 
-        return $style->apply($message);
+        if (strpos($message, '</') > 0) {
+            return self::parseTag($message);
+        }
+
+        return sprintf(self::COLOR_TPL, $this->styles[$message], $message);
+    }
+    
+    /**
+     * Parse color tag e.g: <info>message</info>
+     * 
+     * @param  string  $string
+     * 
+     * @return string
+     */
+    public static function parseTag(string $string): string
+    {
+        return ColorTag::parse($string);
     }
 }
