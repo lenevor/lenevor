@@ -31,14 +31,14 @@ use Syscodes\Conttracts\Console\Output as OutputInterface;
  */
 trait InteractsIO
 {
-    /**
-     * The output interface implementation.
-     * 
-     * @var \Syscodes\Contracts\Console\Output $output
-     */
-    protected $output;
-
-    /**
+	/**
+	 * The output interface implementation.
+	 * 
+	 * @var \Syscodes\Contracts\Console\Output $output
+	 */
+	protected $output;
+	
+	/**
 	 * Enter a number of empty lines.
 	 * 
 	 * @param  int  $num  Number of lines to output
@@ -49,84 +49,84 @@ trait InteractsIO
 	{
 		$this->output->newline($num);
 	}
-
+	
 	/**
-     * Writes a string formatting for comment output.
-     * 
-     * @param  string  $message
-     * 
-     * @return void
-     */
-    public function comment($message)
-    {
+	 * Writes a string formatting for comment output.
+	 * 
+	 * @param  string  $message
+	 * 
+	 * @return void
+	 */
+	public function comment($message)
+	{
 		$this->commandline($message, 'comment');
-    }
-
-    /**
-     * Writes a string formatting for success output.
-     * 
-     * @param  string  $message
-     * 
-     * @return void
-     */
-    public function success($message)
-    {
-		$this->commandline($message, 'success');
-    }
-
-    /**
-     * Writes a string formatting for info output.
-     * 
-     * @param  string  $message
-     * 
-     * @return void
-     */
-    public function info($message)
-    {
-		$this->commandline($message, 'info');
-    }
-
-    /**
-     * Writes a string formatting for warning output.
-     * 
-     * @param  string  $message
-     * 
-     * @return void
-     */
-    public function warning($message)
-    {
-		$this->commandline($message, 'warning');
-    }
-
-    /**
-     * Writes a string formatting for error output.
-     * 
-     * @param  string  $message
-     * 
-     * @return void
-     */
-    public function error($message)
-    {
-		$this->commandline($message, 'error');
-    }
-
-    /**
-     * Writes a string formatting for stantard output.
-     * 
-     * @param  string  $message
-     * @param  string|null  $style
-     * 
-     * @return void
-     */
-    public function commandline($message, string $style = null)
-    {
-		$styled = $style ? "<$style>$message</$style>" : $message;
-
-		return $this->writeln($styled);
-    }
-
+	}
+	
 	/**
-	 * Outputs series of minus characters to CLI output, specified as a visual separator. 
+	 * Writes a string formatting for success output.
+	 * 
+	 * @param  string  $message
+	 * 
+	 * @return void
+	 */
+	public function success($message)
+	{
+		$this->commandline($message, 'success');
+	}
+	
+	/**
+	 * Writes a string formatting for info output.
+	 * 
+	 * @param  string  $message
+	 * 
+	 * @return void
+	 */
+	public function info($message)
+	{
+		$this->commandline($message, 'info');
+	}
+	
+	/**
+	 * Writes a string formatting for warning output.
+	 * 
+	 * @param  string  $message
+	 * 
+	 * @return void
+	 */
+	public function warning($message)
+	{
+		$this->commandline($message, 'warning');
+	}
+	
+	/**
+	 * Writes a string formatting for error output.
+	 * 
+	 * @param  string  $message
+	 * 
+	 * @return void
+	 */
+	public function error($message)
+	{
+		$this->commandline($message, 'error');
+	}
+	
+	/**
+	 * Writes a string formatting for stantard output.
+	 * 
+	 * @param  string  $message
+	 * @param  string|null  $style
+	 * 
+	 * @return void
+	 */
+	public function commandline($message, string $style = null)
+	{
+		$styled = $style ? "<$style>$message</$style>" : $message;
+		
+		return $this->writeln($styled);
+	}
+	
+	/**
+	 * Outputs series of minus characters to CLI output, specified as a visual separator.
 	 * 
 	 * @param  int  $newlines  Number of lines to output, defaults to 0
 	 * @param  int  $width  Width of the line, default to 79
