@@ -23,6 +23,7 @@
 namespace Syscodes\Console\Style;
 
 use Syscodes\Console\Style\Color;
+use Syscodes\Console\Formatter\OutputFormatterStyle;
 
 /**
  * Formats for color tags.
@@ -99,6 +100,8 @@ final class ColorTag
 
             if (Color::STYLES[$key]) {
                 $text = self::replaceColor($text, $key, $matches[2][$i], Color::STYLES[$key]);
+            } elseif (strpos($text, '=')) {dd('sdsdd');
+                $text = self::replaceColor($text, $key, $matches[2][$i], static::fromString($key));
             }
         }
 
@@ -120,5 +123,48 @@ final class ColorTag
         $replace = sprintf("\033[%sm%s\033[0m", $colorCode, $match);
 
         return str_replace("<$tag>$match</$tag>", $replace, $text);
+    }
+
+    /**
+     * Create a color style from a parameter string.
+     * 
+     * @param  string  $string  e.g 'fg=white;bg=black;options=bold,underscore;extra=1'
+     * 
+     * @return \OutputFormatterStyle
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public static function fromString(string $string)
+    {
+        $options = [];
+        $parts   = explode(';', str_replace(' ', '', $string));
+        
+        $fg = $bg = '';
+
+        $style = new OutputFormatterStyle();
+        
+        foreach ($parts as $part) {
+            $subParts = explode('=', $part);
+            
+            if (count($subParts) < 2) {
+                continue;
+            }
+            
+            switch ($subParts[0]) {
+                case 'fg':
+                    $style->setForeground($subParts[1]);
+                    break;
+                case 'bg':
+                    $style->setBackground($subParts[1]);
+                    break;
+                case 'options':
+                    explode(',', $style->setOption($subParts[1]));
+                    break;
+                default:
+                    throw new RuntimeException('Invalid option');
+            }
+        }
+        
+        return $style->apply($string);
     }
 }
