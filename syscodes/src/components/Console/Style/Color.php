@@ -247,6 +247,47 @@ final class Color
 	}
 
 	/**
+     * Create a color style from a parameter string.
+     * 
+     * @param  string  $string  e.g 'fg=white;bg=black;options=bold,underscore;extra=1'
+     * 
+     * @return self
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public static function fromString(string $string): self
+    {
+        $options = [];
+        $parts   = explode(';', str_replace(' ', '', $string));
+        
+        $fg = $bg = '';
+
+        foreach ($parts as $part) {
+            $subParts = explode('=', $part);
+            
+            if (count($subParts) < 2) {
+                continue;
+            }
+            
+            switch ($subParts[0]) {
+                case 'fg':
+                    $foreground = $subParts[1];
+                    break;
+                case 'bg':
+                    $background = $subParts[1];
+                    break;
+                case 'options':
+                    $options = explode(',', $subParts[1]);
+                    break;
+                default:
+                    throw new RuntimeException('Invalid option');
+            }
+        }
+        
+        return new self($foreground, $background, $options);
+    }
+
+	/**
 	 * Gets the result of the string applied to the text in the CLI command.
 	 * 
 	 * @param  string  $text
