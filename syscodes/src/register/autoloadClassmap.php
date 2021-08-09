@@ -60,6 +60,8 @@ return [
     'Syscodes\\Console\\Output\\Output' => SYS_PATH.'src/components/Console/Output/Output.php',
     'Syscodes\\Console\\Output\\StreamOutput' => SYS_PATH.'src/components/Console/Output/StreamOutput.php',
     'Syscodes\\Console\\Style\\Color' => SYS_PATH.'src/components/Console/Style/Color.php',
+    'Syscodes\\Console\\Style\\ColorANSICode' => SYS_PATH.'src/components/Console/Style/ColorANSICode.php',
+    'Syscodes\\Console\\Style\\ColorCode' => SYS_PATH.'src/components/Console/Style/ColorCode.php',
     'Syscodes\\Console\\Style\\ColorTag' => SYS_PATH.'src/components/Console/Style/ColorTag.php',
     'Syscodes\\Console\\Application' => SYS_PATH.'src/components/Console/Application.php',
     'Syscodes\\Console\\BaseCommand' => SYS_PATH.'src/components/Console/BaseCommand.php',
