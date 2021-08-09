@@ -49,7 +49,7 @@ final class ColorTag
     }
 
     /**
-     * wrap a color style tag
+     * Wrap a color style tag
      *
      * @param string $text
      * @param string $tag
@@ -66,6 +66,8 @@ final class ColorTag
     }
 
     /**
+     * Checks pattern for color tags.
+     * 
      * @param string $text
      *
      * @return array
@@ -80,6 +82,8 @@ final class ColorTag
     }
 
     /**
+     * Parser match color tags.
+     * 
      * @param string $text
      *
      * @return string
