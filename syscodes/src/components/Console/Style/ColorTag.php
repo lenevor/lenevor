@@ -32,11 +32,14 @@ use Syscodes\Console\Formatter\OutputFormatterStyle;
  */
 final class ColorTag
 {
+    // Regex used for removing color tags.
+    public const REGEX_STRIP_TAGS = '/<[\/]?[a-zA-Z0-9=;]+>/';
+
     // Regex to match tags.
     public const REGEX_TAG = '/<([a-zA-Z0-9=;_]+)>(.*?)<\/\\1>/s';
 
     /**
-     * Alias of the wrap()
+     * Alias of the wrap().
      *
      * @param string $text
      * @param string $tag
@@ -49,7 +52,7 @@ final class ColorTag
     }
 
     /**
-     * Wrap a color style tag
+     * Wrap a color style tag.
      *
      * @param string $text
      * @param string $tag
@@ -103,9 +106,9 @@ final class ColorTag
             $key = $matches[1][$i];
 
             if (isset(Color::STYLES[$key])) {
-                $text = self::replaceColor($text, $key, $matches[2][$i], Color::STYLES[$key]);
-            } elseif (strpos($text, '=')) {
-                $text = self::replaceColor($text, $key, $matches[2][$i], Color::fromString($key));
+                $text = self::replaceColor($text, $key, $matches[2][$i], (string) Color::STYLES[$key]);
+            } elseif (strpos($key, '=')) {
+                $text = self::replaceColor($text, $key, $matches[2][$i], (string) Color::apply($key));
             }
         }
 
