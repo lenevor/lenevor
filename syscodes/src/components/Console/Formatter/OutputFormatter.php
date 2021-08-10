@@ -23,6 +23,7 @@
 namespace Syscodes\Console\Formatter;
 
 use InvalidArgumentException;
+use Syscodes\Console\Style\Color;
 use Syscodes\Console\Style\ColorTag;
 use Syscodes\Contracts\Console\Output;
 use Syscodes\Console\Formatter\OutputFormatterStyle;
@@ -64,6 +65,12 @@ class OutputFormatter implements OutputFormatterInterface
     public function __construct(bool $decorated = false, array $styles = [])
     {
         $this->decorated = $decorated;
+
+        $this->setStyle('error', new OutputFormatterStyle('white', 'red'));
+        $this->setStyle('comment', new OutputFormatterStyle('yellow'));
+        $this->setStyle('info', new OutputFormatterStyle('blue'));
+        $this->setStyle('warning', new OutputFormatterStyle('black', 'yellow'));
+        $this->setStyle('success', new OutputFormatterStyle('black', 'green'));
 
         foreach ($styles as $name => $style) {
             $this->setStyle($name, $style);
@@ -160,23 +167,11 @@ class OutputFormatter implements OutputFormatterInterface
         if ( ! $message || false === strpos($message, '</')) {
             return $message;
         }
-
+        
         if (strpos($message, '</') > 0) {
-            return self::parseTag($message);
+            $text = ColorTag::parse($message);
         }
 
-        return sprintf(self::COLOR_TPL, $this->styles[$message], $message);
-    }
-    
-    /**
-     * Parse color tag e.g: <info>message</info>
-     * 
-     * @param  string  $string
-     * 
-     * @return string
-     */
-    public static function parseTag(string $string): string
-    {
-        return ColorTag::parse($string);
+        return $text;
     }
 }
