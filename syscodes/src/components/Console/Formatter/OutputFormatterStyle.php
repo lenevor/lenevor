@@ -22,7 +22,7 @@
 
 namespace Syscodes\Console\Formatter;
 
-use Syscodes\Console\Style\Color;
+use Syscodes\Console\Style\ColorCode;
 use Syscodes\Contracts\Console\OutputFormatterStyle as OutputFormatterStyleInterface;
 
 /**
@@ -71,7 +71,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      */
     public function __construct(string $foreground = null, string $background = null, array $options = [])
     {
-        $this->color = new Color($this->foreground = $foreground ?: '', $this->background = $background ?: '', $this->options = $options);
+        $this->color = new ColorCode($this->foreground = $foreground ?: '', $this->background = $background ?: '', $this->options = $options);
     }
 
     /**
