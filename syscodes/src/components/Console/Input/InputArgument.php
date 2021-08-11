@@ -87,9 +87,10 @@ class InputArgument implements InputArgumentInterface
             );
         }
 
-        $this->setName($name);
-        $this->setMode($mode);
-        $this->description($description);
+        $this->name        = $name;
+        $this->mode        = $mode;
+        $this->description = $description;
+
         $this->setDefault($default);
     }
 
