@@ -106,7 +106,7 @@ interface InputOption
      * 
      * @return bool  True if value mode is not self::VALUE_NONE, false otherwise
      */
-    public function acceptValue(): bool;
+    public function isAcceptValue(): bool;
 
     /**
      * Gets true if the option requires a value.
