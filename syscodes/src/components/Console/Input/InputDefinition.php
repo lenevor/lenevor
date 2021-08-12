@@ -22,6 +22,7 @@
 
 namespace Syscodes\Console\Input;
 
+use LogicException;
 use InvalidArgumentException;
 
 /**
@@ -32,6 +33,83 @@ use InvalidArgumentException;
 class InputDefinition
 {
     /**
+     * The argument implement.
      * 
+     * @var array $arguments
      */
+    protected $arguments;
+
+    /**
+     * An array argument.
+     * 
+     * @var bool $hasArrayArgument
+     */
+    protected $hasArrayArgument;
+
+    /**
+     * An array optional argument.
+     * 
+     * @var bool $hasOptionalArgument
+     */
+    protected $hasOptionalArgument;
+
+    /**
+     * An array negations.
+     * 
+     * @var array $negations
+     */
+    protected $negations;
+
+    /**
+     * An array InputOption object.
+     * 
+     * @var array $options
+     */
+    protected $options;
+
+    /**
+     * Gets the number of InputArguments.
+     * 
+     * @var int $requiredCount
+     */
+    protected $requiredCount;
+
+    /**
+     * Gets the InputOption to shortcut.
+     * 
+     * @var array $shortcuts
+     */
+    protected $shortcuts;
+
+    /**
+     * Constructor. Create a new InputDefinition instance.
+     * 
+     * @param  array  $arguments  The arguments for command
+     * @param  array $options  The options for command
+     * 
+     * @return void
+     * 
+     * @throws \LogicException
+     * @throws \InvalidArgumentException
+     */
+    public function __construct(array $arguments = [], array $options = [])
+    {
+        $this->setArguments($arguments);
+        $this->setOptions($options);
+    }
+    
+    /*
+    |----------------------------------------------------------------
+    | Some Methods For The Arguments
+    |---------------------------------------------------------------- 
+    */
+
+    
+
+    /*
+    |----------------------------------------------------------------
+    | Some Methods For The Options
+    |---------------------------------------------------------------- 
+    */
+
 }
