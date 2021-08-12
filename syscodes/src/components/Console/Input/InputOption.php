@@ -242,7 +242,7 @@ class InputOption implements InputOptionInterface
      * 
      * @return bool  True if value mode is not self::VALUE_NONE, false otherwise
      */
-    public function acceptValue(): bool
+    public function isAcceptValue(): bool
     {
         return $this->isValueRequired() || $this->isValueOptional();
     }
