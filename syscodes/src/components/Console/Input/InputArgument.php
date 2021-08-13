@@ -72,6 +72,7 @@ class InputArgument implements InputArgumentInterface
      * @return void
      * 
      * @throws \InvalidArgumentException  When argument mode is not valid
+     * @throws \LogicException
      */
     public function __construct(
         string $name, 
