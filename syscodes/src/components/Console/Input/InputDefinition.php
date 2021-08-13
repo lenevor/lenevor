@@ -44,14 +44,14 @@ class InputDefinition
      * 
      * @var bool $hasArrayArgument
      */
-    protected $hasArrayArgument;
+    protected $hasArrayArgument = false;
 
     /**
      * An array optional argument.
      * 
      * @var bool $hasOptionalArgument
      */
-    protected $hasOptionalArgument;
+    protected $hasOptionalArgument = false;
 
     /**
      * An array negations.
@@ -72,7 +72,7 @@ class InputDefinition
      * 
      * @var int $requiredCount
      */
-    protected $requiredCount;
+    protected $requiredCount = 0;
 
     /**
      * Gets the InputOption to shortcut.
@@ -104,7 +104,131 @@ class InputDefinition
     |---------------------------------------------------------------- 
     */
 
-    
+    /**
+     * Sets the InputArgument objects.
+     * 
+     * @param  array  $arguments  The arguments array InputArgument objects
+     * 
+     * @return \Syscodes\Console\Input\inputArgument 
+     */
+    public function setArguments(array $arguments = []): InputArgument
+    {
+        $this->arguments = [];
+
+        $this->addArguments($arguments);
+    }
+
+    /**
+     * Adds a array of InputArgument objects.
+     * 
+     * @param  \Syscodes\Console\Input\InputArgument|array  $arguments  The arguments array InputArgument objects
+     * 
+     * @return \Syscodes\Console\Input\inputArgument
+     */
+    public function addArguments(array $arguments = []): InputArgument
+    {
+        foreach ($arguments as $argument) {
+            $this->addArgument($argument);
+        }
+    }
+
+    /**
+     * Adds an argument.
+     * 
+     * @param  \Syscodes\Console\Input\InputArgument  $argument  The arguments array InputArgument objects
+     * 
+     * @return \Syscodes\Console\Input\InputArgument
+     */
+    public function addArgument(InputArgument $argument): InputArgument
+    {
+        if (isset($this->arguments[$argument->getName()])) {
+            throw new LogicException(sprintf('Whoops! This argument with name "%s" already exists', $argument->getName()));
+        }
+
+        if ($this->hasArrayArgument) {
+            throw new LogicException(sprintf('Cannot add an argument "%s" after an array argument', $argument->getName()));
+        }
+
+        if ($argument->isRequired() && $this->hasOptionalArgument) {
+            throw new LogicException(sprintf('Cannot add a argument "%s" after an optional one', $argument->getName()));
+        }
+
+        if ($argument->isArray()) {
+            $this->hasArrayArgument = true;
+        }
+
+        if ($argument->isRequired()) {
+            ++$this->requiredCount;
+        } else {
+            $this->hasOptionalArgument = true;
+        }
+
+        $this->arguments[$argument->getName()] = $argument;
+    }
+
+    /**
+     * Gets an InputArgument by name or by position of an array.
+     * 
+     * @param  string|int  $name  The InputArgument name or position
+     * 
+     * @return \Syscodes\Console\Input\InputArgument
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public function getArgument($name)
+    {
+        if ( ! $this->hasArgument($name)) {
+            throw new InvalidArgumentException(sprintf('The "%s" argument does not exist', $name));
+        }
+
+        $arguments = \is_int($name) ? array_values($this->arguments) : $this->arguments;
+
+        return $arguments[$name];
+    }
+
+    /**
+     * Checks an InputArgument objects if exists by name or by position.
+     * 
+     * @param  string|int  $name  The InputArgument name or position
+     * 
+     * @return bool  True if the InputArgument object exists, false otherwise
+     */
+    public function hasArgument($name): bool
+    {
+        $arguments = \is_int($name) ? array_values($this->arguments) : $this->arguments;
+
+        return isset($arguments[$name]);
+    }
+
+    /**
+     * Gets the array of InputArgument objects.
+     * 
+     * @return \Syscodes\Console\Input\InputArgument|array  An array the InputArgument objects
+     */
+    public function getArguments(): array
+    {
+        return $this->arguments;
+    }
+
+    /**
+     * Gets the number of arguments.
+     * 
+     * @return int  The number of InputArguments
+     */
+    public function getArgumentCount(): int
+    {
+        return $this->hasArrayArgument ? \PHP_INT_MAX : \count($this->arguments);
+    }
+
+    /**
+     * Gets the number of arguments.
+     * 
+     * @return int  The number of required InputArguments
+     */
+    public function getArgumentRequiredCount(): int
+    {
+        return $this->requiredCount;
+    }
 
     /*
     |----------------------------------------------------------------
