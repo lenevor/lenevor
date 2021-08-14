@@ -58,7 +58,7 @@ class InputDefinition
      * 
      * @var array $negations
      */
-    protected $negations;
+    protected $negations = [];
 
     /**
      * An array InputOption object.
@@ -79,7 +79,7 @@ class InputDefinition
      * 
      * @var array $shortcuts
      */
-    protected $shortcuts;
+    protected $shortcuts = [];
 
     /**
      * Constructor. Create a new InputDefinition instance.
@@ -236,4 +236,55 @@ class InputDefinition
     |---------------------------------------------------------------- 
     */
 
+    /**
+     * Sets the InputOption objects.
+     * 
+     * @param  array  $options  The options array InputOption objects
+     * 
+     * @return \Syscodes\Console\Input\InputOption
+     */
+    public function setOptions(array $options = []): InputOption
+    {
+        $this->options = [];
+
+        $this->addOptions($options);
+    }
+
+    /**
+     * Adds a array of InputOption objects.
+     * 
+     * @param  \Syscodes\Console\Input\InputOption|array  $options  The options array InputOption objects
+     * 
+     * @return \Syscodes\Console\Input\InputOption
+     */
+    public function addOptions(array $options = []): InputOption
+    {
+        foreach ($options as $option) {
+            $this->addOption($option);
+        }
+    }
+
+    /**
+     * Adds an option.
+     * 
+     * @param  \Syscodes\Console\Input\InputOption  $Option  The Options array InputOption objects
+     * 
+     * @return \Syscodes\Console\Input\InputOption
+     * 
+     * @throws \LogicException
+     */
+    public function addOption(InputOption $Option): InputOption
+    {
+        if (isset($this->options[$option->getName()])) {
+            throw new LogicException(sprintf('Whoops! This option with name "%s" already exists', $option->getName()));
+        }
+
+        if (isset($this->negations[$option->getName()])) {
+            throw new LogicException(sprintf('Whoops! This option with name "%s" already exists', $option->getName()));
+        }
+
+        
+
+        $this->options[$option->getName()] = $option;
+    }
 }
