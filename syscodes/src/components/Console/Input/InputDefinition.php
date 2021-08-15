@@ -24,13 +24,14 @@ namespace Syscodes\Console\Input;
 
 use LogicException;
 use InvalidArgumentException;
+use \Syscodes\Contracts\Console\InputDefinition as InputDefinitionInterface;
 
 /**
  * This class valides the arguments and options to set in command line.
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class InputDefinition
+class InputDefinition implements InputDefinitionInterface
 {
     /**
      * The argument implement.
@@ -283,8 +284,138 @@ class InputDefinition
             throw new LogicException(sprintf('Whoops! This option with name "%s" already exists', $option->getName()));
         }
 
-        
+        if ($option->getShortcut()) {
+            foreach (explode('|', $option->getShortcut()) as $shortcut) {
+                if (isset($this->shortcuts[$shortcut])) {
+                    throw new LogicException(sprintf('Whoops! This option with shortcut "%s" already exists', $shortcut));
+                }
+
+                $this->shortcuts[$shortcut] = $option->getName();
+            }
+        }
 
         $this->options[$option->getName()] = $option;
+
+        if ($option->isNegatable()) {
+            $negatedName = 'no-'.$option->getName();
+            
+            if (isset($this->options[$negatedName])) {
+                throw new LogicException(sprintf('An option named "%s" already exists', $negatedName));
+            }
+            
+            $this->negations[$negatedName] = $option->getName();
+        }
+    }
+
+    /**
+     * Gets an InputOption by name of an array.
+     * 
+     * @param  string  $name  The InputOption name
+     * 
+     * @return \Syscodes\Console\Input\InputOption|array
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public function getOption(string $name)
+    {
+        if ( ! $this->hasOption($name)) {
+            throw new InvalidArgumentException(sprintf('The "--%s" option does not exist', $name));
+        }
+
+        return $this->options[$name];
+    }
+
+    /**
+     * Checks an InputOption objects if exists by name.
+     * 
+     * @param  string  $name  The InputOption name
+     * 
+     * @return bool  True if the InputOption object exists, false otherwise
+     */
+    public function hasOption(string $name): bool
+    {
+        return isset($this->options[$name]);
+    }
+
+    /**
+     * Gets the array of InputOption objects.
+     * 
+     * @return \Syscodes\Console\Input\InputOption|array  An array the InputOption objects
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
+
+    /**
+     * Checks an InputOption objects if exists by shortcut.
+     * 
+     * @param  string  $name  The InputOption name
+     * 
+     * @return bool  True if the InputOption object exists, false otherwise
+     */
+    public function getShortcut(string $name): bool
+    {
+        return isset($this->shortcuts[$name]);
+    }
+
+    /**
+     * Gets an InputOption info array.
+     * 
+     * @param  string  $name  The Shortcut name
+     * 
+     * @return \Syscodes\Console\Input\InputOption|array  An InputOption object
+     */
+    public function getOptionByShortcut(string $name): array
+    {
+        return $this->getOption($this->shortcutToName($name));
+    }
+
+    /**
+     * Gets the InputOption name given a shortcut.
+     * 
+     * @param  string  $name  The InputOption name
+     * 
+     * @return mixed  True if the InputOption shortcut exists, false otherwise
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public function shortcutToName(string $name): string
+    {
+        if ( ! isset($this->shortcuts[$name])) {
+            throw new InvalidArgumentException(sprintf('The "-%s" option does not exist', $name));
+        }
+
+        return $this->shortcuts[$name];
+    }
+
+    /**
+     * Checks an InputOption objects if exists by negated name.
+     * 
+     * @param  string  $name  The InputOption name
+     * 
+     * @return bool  True if the InputOption object exists, false otherwise
+     */
+    public function hasNegation(string $name): bool
+    {
+        return isset($this->negations[$name]);
+    }
+
+    /**
+     * Gets the InputOption name given a negation.
+     * 
+     * @param  string  $name  The InputOption name
+     * 
+     * @return mixed  True if the InputOption negation exists, false otherwise
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public function negationToName(string $name): string
+    {
+        if ( ! isset($this->negations[$name])) {
+            throw new InvalidArgumentException(sprintf('The "-%s" option does not exist', $name));
+        }
+
+        return $this->negations[$name];
     }
 }
