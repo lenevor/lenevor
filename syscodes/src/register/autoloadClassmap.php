@@ -75,6 +75,7 @@ return [
     'Syscodes\\Contracts\\Cache\\Repository' => SYS_PATH.'src/components/Contracts/Cache/Repository.php',
     'Syscodes\\Contracts\\Cache\\Store' => SYS_PATH.'src/components/Contracts/Cache/Store.php',
     'Syscodes\\Contracts\\Config\\Configure' => SYS_PATH.'src/components/Contracts/Config/Configure.php',
+    'Syscodes\\Contracts\\Console\\Input' => SYS_PATH.'src/components/Contracts/Console/Input/Input.php',
     'Syscodes\\Contracts\\Console\\InputArgument' => SYS_PATH.'src/components/Contracts/Console/Input/InputArgument.php',
     'Syscodes\\Contracts\\Console\\InputDefinition' => SYS_PATH.'src/components/Contracts/Console/Input/InputDefinition.php',
     'Syscodes\\Contracts\\Console\\InputOption' => SYS_PATH.'src/components/Contracts/Console/Input/InputOption.php',
