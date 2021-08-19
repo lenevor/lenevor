@@ -24,8 +24,8 @@ namespace Syscodes\Console;
 
 use Syscodes\Version;
 use Syscodes\Support\Facades\Request;
-use Syscodes\Console\Output\ConsoleOutput;
 use Syscodes\Contracts\Container\Container;
+use Syscodes\Contracts\Console\Input as InputInterface;
 use Syscodes\Contracts\Console\Output as OutputInterface;
 use Syscodes\Contracts\Console\Application as ApplicationContracts;
 
@@ -67,15 +67,12 @@ class Application extends Console implements ApplicationContracts
 	}
 
 	/**
-	 * Runs the current command discovered on the CLI.
-	 * 
-	 * @param  \Syscodes\Contracts\Console\Output|null  $output
-	 *
-	 * @return void
+	 * {@inheritdoc}
 	 */
-	public function run(OutputInterface $output = null)
+	public function run(InputInterface $input = null, OutputInterface $output = null)
 	{
-		$output->writeln('<info>Hello world!</info>');
-		$output->hr();
+		$exit = parent::run($input, $output);
+
+		return $exit;
 	}
 }
