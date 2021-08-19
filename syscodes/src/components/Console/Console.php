@@ -22,6 +22,12 @@
 
 namespace Syscodes\Console;
 
+use Exception;
+use Syscodes\Console\Input\ArgvInput;
+use Syscodes\Console\Output\ConsoleOutput;
+use Syscodes\Contracts\Console\Input as InputInterface;
+use Syscodes\Contracts\Console\Output as OutputInterface;
+
 /**
  * This is the main entry point of a Console application.
  * 
@@ -48,8 +54,8 @@ abstract class Console
     /**
      * Constructor. Create new Console instance.
      * 
-     * @param  string  $name
-     * @param  string  $version
+     * @param  string  $name  The console name
+     * @param  string  $version  The console version
      * 
      * @return void
      */
@@ -101,5 +107,69 @@ abstract class Console
     public function setVersion(string $version): void
     {
         $this->version = $version;
+    }
+
+    /**
+	 * Runs the current command discovered on the CLI.
+	 * 
+	 * @param  \Syscodes\Contracts\Console\Input|null  $input  The input interface implemented
+	 * @param  \Syscodes\Contracts\Console\Output|null  $output  The output interface implemented
+	 *
+	 * @return int
+	 */
+	public function run(InputInterface $input = null, OutputInterface $output = null)
+	{
+        if (null === $input) {
+            $input = new ArgvInput();
+        }
+
+        if (null === $output) {
+            $output = new ConsoleOutput();
+        }
+
+        try {
+            $this->doExecute($input, $output);
+        } catch (Exception $e) {
+            throw $e;
+        }
+	}
+
+    /**
+     * Executes the current application of console.
+     * 
+     * @param  \Syscodes\Contracts\Console\Input  $input  The input interface implemented
+	 * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
+     * 
+     * @return int
+     */
+    public function doExecute(InputInterface $input, OutputInterface $output)
+    {
+        if (true === $input->hasParameterOption(['--version', '-V'], true)) {
+            $output->writeln($this->getLongVersion());
+
+            return 0;
+        }
+
+        $output->write('<info>Hello world!</info>');
+		$output->hr(1);
+        $output->write('<yellow>Hello world!</yellow>');
+    }
+
+    /**
+     * Returns the long version of the application.
+     *
+     * @return string
+     */
+    public function getLongVersion()
+    {
+        if ('UNKNOWN' !== $this->getName()) {
+            if ('UNKNOWN' !== $this->getVersion()) {
+                return sprintf('%s <cyan>%s</cyan>', $this->getName(), $this->getVersion());
+            }
+
+            return $this->getName();
+        }
+
+        return 'Lenevor CLI Console';
     }
 }
