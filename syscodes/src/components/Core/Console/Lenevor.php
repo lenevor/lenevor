@@ -78,16 +78,17 @@ class Lenevor implements LenevorConsole
     /**
      * Handle an incoming console command.
      * 
+     * @param  \Syscodes\Contracts\Console\Input  $input
      * @param  \Syscodes\Contracts\Console\Output|null  $output
      * 
      * @return int
      */
-    public function handle($output = null)
+    public function handle($input, $output = null)
     {
         try {
             $this->bootstrap();
             
-            return $this->getPrime()->run($output);
+            return $this->getPrime()->run($input, $output);
         } catch (Throwable $e) {
             $this->reportException($e);
             
