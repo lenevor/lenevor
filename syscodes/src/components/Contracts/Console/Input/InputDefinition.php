@@ -20,7 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace \Syscodes\Contracts\Console;
+namespace Syscodes\Contracts\Console;
+
+use Syscodes\Console\Input\InputOption;
+use Syscodes\Console\Input\InputArgument;
 
 /**
  * InputDefinition Interface.
@@ -36,7 +39,7 @@ interface InputDefinition
      * 
      * @return \Syscodes\Console\Input\inputArgument 
      */
-    public function setArguments(array $arguments = []): InputArgument;
+    public function setArguments(array $arguments = []);
 
     /**
      * Adds a array of InputArgument objects.
@@ -45,7 +48,7 @@ interface InputDefinition
      * 
      * @return \Syscodes\Console\Input\inputArgument
      */
-    public function addArguments(array $arguments = []): InputArgument;
+    public function addArguments(array $arguments = []);
 
     /**
      * Adds an argument.
@@ -54,7 +57,7 @@ interface InputDefinition
      * 
      * @return \Syscodes\Console\Input\InputArgument
      */
-    public function addArgument(InputArgument $argument): InputArgument;
+    public function addArgument(InputArgument $argument);
 
     /**
      * Gets an InputArgument by name or by position of an array.
@@ -104,7 +107,7 @@ interface InputDefinition
      * 
      * @return \Syscodes\Console\Input\InputOption
      */
-    public function setOptions(array $options = []): InputOption;
+    public function setOptions(array $options = []);
 
     /**
      * Adds a array of InputOption objects.
@@ -113,7 +116,7 @@ interface InputDefinition
      * 
      * @return \Syscodes\Console\Input\InputOption
      */
-    public function addOptions(array $options = []): InputOption;
+    public function addOptions(array $options = []);
 
     /**
      * Adds an option.
@@ -124,7 +127,7 @@ interface InputDefinition
      * 
      * @throws \LogicException
      */
-    public function addOption(InputOption $Option): InputOption;
+    public function addOption(InputOption $Option);
 
     /**
      * Gets an InputOption by name of an array.
