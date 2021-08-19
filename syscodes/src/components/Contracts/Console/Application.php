@@ -22,6 +22,7 @@
 
 namespace Syscodes\Contracts\Console;
 
+use Syscodes\Contracts\Console\Input as InputInterface;
 use Syscodes\Contracts\Console\Output as OutputInterface;
 
 /**
@@ -34,9 +35,10 @@ interface Application
 	/**
 	 * Runs the current command discovered on the CLI.
 	 * 
+	 * @param  \Syscodes\Contracts\Console\Input  $input
 	 * @param  \Syscodes\Contracts\Console\Output|null  $output
 	 * 
 	 * @return void
 	 */	
-	public function run(OutputInterface $output = null); 
+	public function run(InputInterface $input = null, OutputInterface $output = null); 
 }
