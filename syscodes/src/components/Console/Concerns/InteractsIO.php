@@ -133,7 +133,7 @@ trait InteractsIO
 	 * 
 	 * @return string
 	 */
-	public function hr(int $newlines = 0, $width = 79): string
+	public function hr(int $newlines = 0, $width = 79)
 	{
 		$this->write('', $newlines);
 		$this->write(str_repeat('-', $width));
