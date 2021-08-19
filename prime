@@ -22,6 +22,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
+use Syscodes\Console\Input\ArgvInput;
 use Syscodes\Contracts\Console\Lenevor;
 use Syscodes\Console\Output\ConsoleOutput;
 
@@ -96,6 +97,6 @@ $app = require_once $paths['path.bootstrap'].'/app.php';
 
 $console = $app->make(Lenevor::class);
 
-$status = $console->handle(new ConsoleOutput);
+$status = $console->handle(new ArgvInput, new ConsoleOutput);
 
 exit($status);
