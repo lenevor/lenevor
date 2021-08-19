@@ -22,10 +22,162 @@
 
 namespace Syscodes\Console\Input;
 
+use Syscodes\Console\Input\InputDefinition;
+use Syscodes\Contracts\Console\Input as InputInterface;
+
 /**
+ * The Input base class is the main for all concrete Input classes.
+ * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class Input
+abstract class Input implements InputInterface
 {
+    /**
+     * The argument implement.
+     * 
+     * @var array $arguments
+     */
+    protected $arguments = [];
+
+    /**
+     * The InputDefinition implement.
+     * 
+     * @var \Syscodes\Console\Input\InputDefinition $definition
+     */
+    protected $definition;
+
+    /**
+     * An array InputOption object.
+     * 
+     * @var array $options
+     */
+    protected $options = [];
+
+    /**
+     * Constructor. Create a new Input instance.
+     * 
+     * @param  \Syscodes\Console\Input\InputDefinition|null  $definition
+     * 
+     * @return void  
+     */
+    public function __construct(InputDefinition $definition = null)
+    {
+        if (null === $definition) {
+            $this->definition = new InputDefinition();
+        } else {
+            $this->linked($definition);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function linked(InputDefinition $definition): void
+    {
+        $this->definition = $definition;
+    }
+
+    /*
+    |----------------------------------------------------------------
+    | Some Methods For The Arguments
+    |---------------------------------------------------------------- 
+    */
     
+    /**
+     * {@inheritdoc}
+     */
+    public function getArgument(string $name)
+    {
+        if ( ! $this->definition->hasArgument($name)) {
+            throw new InvalidArgumentException(sprintf('The "%s" argument does not exist', $name));
+        }
+
+        return $this->arguments[$name] ?? $this->definition->getArgument($name)->getDefault();
+    }
+
+    /**
+     * {@inheritdoc} 
+     */
+    public function setArgument(string $name, $value): void
+    {
+        if ( ! $this->definition->hasArgument($name)) {
+            throw new InvalidArgumentException(sprintf('The "%s" argument does not exist', $name));
+        }
+
+        $this->arguments[$name] = $value;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasArgument(string $name): bool
+    {
+        return $this->definition->hasArgument($name);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getArguments(): array
+    {
+        return $this->arguments;
+    }
+
+    /*
+    |----------------------------------------------------------------
+    | Some Methods For The Options
+    |---------------------------------------------------------------- 
+    */
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOption(string $name)
+    {
+        if ($this->definition->hasNegation($name)) {
+            if (null === $value = $this->getOption($this->definition->negationToName($name))) {
+                return $value;
+            }
+
+            return ! $value;
+        }
+
+        if ( ! $this->definition->hasOption($name)) {
+            throw new InvalidArgumentException(sprintf('The "%s" argument does not exist', $name));
+        }
+
+        return \array_key_exists($name, $this->options) ? $this->options[$name] : $this->definition->getOption($name)->getDefault();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setOption(string $name, $value): void
+    {
+        if ($this->definition->hasNegation($name)) {
+            $this->options[$this->definition->negationToName($name)] = ! $value;
+
+            return;
+        } elseif ( ! $this->definition->hasOption($name)) {
+            throw new InvalidArgumentException(sprintf('The "%s" argument does not exist', $name));
+        }
+
+        $this->options[$name] = $value;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasOption(string $name): bool
+    {
+        return $this->definition->hasOption($name) || $this->definition->hasNegation($name);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
 }
