@@ -112,7 +112,7 @@ class InputDefinition implements InputDefinitionInterface
      * 
      * @return \Syscodes\Console\Input\inputArgument 
      */
-    public function setArguments(array $arguments = []): InputArgument
+    public function setArguments(array $arguments = [])
     {
         $this->arguments = [];
 
@@ -126,7 +126,7 @@ class InputDefinition implements InputDefinitionInterface
      * 
      * @return \Syscodes\Console\Input\inputArgument
      */
-    public function addArguments(array $arguments = []): InputArgument
+    public function addArguments(array $arguments = [])
     {
         foreach ($arguments as $argument) {
             $this->addArgument($argument);
@@ -140,7 +140,7 @@ class InputDefinition implements InputDefinitionInterface
      * 
      * @return \Syscodes\Console\Input\InputArgument
      */
-    public function addArgument(InputArgument $argument): InputArgument
+    public function addArgument(InputArgument $argument)
     {
         if (isset($this->arguments[$argument->getName()])) {
             throw new LogicException(sprintf('Whoops! This argument with name "%s" already exists', $argument->getName()));
@@ -244,7 +244,7 @@ class InputDefinition implements InputDefinitionInterface
      * 
      * @return \Syscodes\Console\Input\InputOption
      */
-    public function setOptions(array $options = []): InputOption
+    public function setOptions(array $options = [])
     {
         $this->options = [];
 
@@ -258,7 +258,7 @@ class InputDefinition implements InputDefinitionInterface
      * 
      * @return \Syscodes\Console\Input\InputOption
      */
-    public function addOptions(array $options = []): InputOption
+    public function addOptions(array $options = [])
     {
         foreach ($options as $option) {
             $this->addOption($option);
@@ -274,7 +274,7 @@ class InputDefinition implements InputDefinitionInterface
      * 
      * @throws \LogicException
      */
-    public function addOption(InputOption $Option): InputOption
+    public function addOption(InputOption $Option)
     {
         if (isset($this->options[$option->getName()])) {
             throw new LogicException(sprintf('Whoops! This option with name "%s" already exists', $option->getName()));
