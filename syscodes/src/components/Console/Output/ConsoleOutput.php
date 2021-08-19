@@ -22,7 +22,6 @@
 
 namespace Syscodes\Console\Output;
 
-use Syscodes\Console\Concerns\InteractsIO;
 use Syscodes\Contracts\Console\Output as OutputInterface;
 use Syscodes\Contracts\Console\ConsoleOutput as ConsoleOutputInterface;
 use Syscodes\Contracts\Console\OutputFormatter as OutputFormatterInterface;
@@ -34,8 +33,6 @@ use Syscodes\Contracts\Console\OutputFormatter as OutputFormatterInterface;
  */
 class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
 {
-    use InteractsIO;
-    
     /**
      * Get the stderr for console output.
      * 
