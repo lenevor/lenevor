@@ -22,6 +22,7 @@
 
 namespace Syscodes\Console\Output;
 
+use Syscodes\Console\Concerns\InteractsIO;
 use Syscodes\Console\Formatter\OutputFormatter;
 use Syscodes\Contracts\Console\Output as OutputInterface;
 use Syscodes\Contracts\Console\OutputFormatter as OutputFormatterInterface;
@@ -34,6 +35,8 @@ use Syscodes\Contracts\Console\OutputFormatter as OutputFormatterInterface;
  */
 abstract class Output implements OutputInterface
 {
+	use InteractsIO;
+	
 	/**
 	 * Gets formatter for output console.
 	 * 
