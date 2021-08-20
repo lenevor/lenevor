@@ -24,6 +24,7 @@ namespace Syscodes\Console;
 
 use Exception;
 use Syscodes\Console\Input\ArgvInput;
+use Syscodes\Console\Input\ArrayInput;
 use Syscodes\Console\Output\ConsoleOutput;
 use Syscodes\Contracts\Console\Input as InputInterface;
 use Syscodes\Contracts\Console\Output as OutputInterface;
