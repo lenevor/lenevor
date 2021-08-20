@@ -52,4 +52,62 @@ class ArrayInput extends Input
 
         parent::__construct($definition);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFirstArgument()
+    {
+        foreach ($this->parameters as $parameter => $value) {
+            if ($parameter && \is_string($parameter) && '-' === $parameter[0]) {
+                continue;
+            }
+        }
+        
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasParameterOption($values, bool $params = false): bool
+    {
+        foreach ($this->parameters as $key => $value) {
+            if ( ! \is_int($key)) {
+                $value = $key;
+            }
+
+            if ($params && '--' === $value) {
+                return false;
+            }
+
+            if (\in_array($value, (array) $values)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParameterOption($values, $default = false, bool $params = false)
+    {
+        foreach ($this->parameters as $key => $value) {
+            if ($params && ('--' === $key || (\is_int($key) && '--' === $value))) {
+                return $default;
+            }
+            
+            if (\is_int($key)) {
+                if (\in_array($value, (array) $value)) {
+                    return true;
+                }
+            } elseif (\in_array($key, (array) $value)) {
+                return $value;
+            }
+        }
+        
+        return $default;
+    }
 }
