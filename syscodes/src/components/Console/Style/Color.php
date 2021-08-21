@@ -147,7 +147,7 @@ final class Color
 	 * 
 	 * @return string
 	 */
-	public static function apply(string $text): string
+	public static function apply(string $text)
 	{
 		return ColorCode::fromString($text)->toStyle();
 	}
@@ -181,7 +181,7 @@ final class Color
             return self::parseTag($text);
         }
 
-        if (!$color) {
+        if ( ! $color) {
             return $text;
         }
 
