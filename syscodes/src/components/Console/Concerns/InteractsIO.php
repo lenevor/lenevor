@@ -135,8 +135,8 @@ trait InteractsIO
 	 */
 	public function hr(int $newlines = 0, $width = 79) 
 	{
-		$this->write('', $newlines);
-		$this->write(str_repeat('-', $width));
+		$this->writeln('', $newlines);
+		$this->writeln(str_repeat('-', $width));
 		$this->write('', $newlines);
 	}
 }
