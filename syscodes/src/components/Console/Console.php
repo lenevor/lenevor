@@ -150,10 +150,6 @@ abstract class Console
 
             return 0;
         }
-
-        $output->write('<info>Hello world!</info>');
-		$output->hr(1);
-        $output->write('<yellow>Hello world!</yellow>');
     }
 
     /**
