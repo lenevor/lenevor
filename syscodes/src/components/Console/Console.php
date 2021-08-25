@@ -172,12 +172,12 @@ abstract class Console
     {
         if ('UNKNOWN' !== $this->getName()) {
             if ('UNKNOWN' !== $this->getVersion()) {
-                return sprintf('%s <cyan>%s</cyan> (env: <yellow>%s</yellow> - debug: <yellow>%s</yellow>) | <magenta>%s</magenta>', 
+                return sprintf('%s <info>%s</info> (env: <comment>%s</comment>, debug: <comment>%s</comment>) [<magenta>%s</magenta>]', 
                     $this->getName(), 
                     $this->getVersion(),
                     env('APP_ENV'),
                     env('APP_DEBUG') ? 'true' : 'false',
-			        '['.PHP_OS.']'
+			        PHP_OS
                 );
             }
 
