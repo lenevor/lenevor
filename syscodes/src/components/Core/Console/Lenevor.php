@@ -139,6 +139,19 @@ class Lenevor implements LenevorConsole
     }
     
     /**
+     * Shutdown the application.
+     * 
+     * @param  \Syscodes\Contracts\Console\Input  $input
+	 * @param  int  $status
+     * 
+     * @return void
+     */
+    public function shutdown($input, $status)
+    {
+        $this->app->shutdown();
+    }
+    
+    /**
      * Get the Prime application instance.
      * 
      * @return \Syscodes\Console\Application
