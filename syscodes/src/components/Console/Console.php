@@ -143,7 +143,7 @@ abstract class Console
             throw $e;
         }
 
-        return $exitCode;
+        return (int) $exitCode;
 	}
 
     /**
@@ -157,23 +157,22 @@ abstract class Console
     public function doExecute(InputInterface $input, OutputInterface $output)
     {
         if (true === $input->hasParameterOption(['--version', '-V'], true)) {
-            $output->writeln($this->getLongVersion());
+            $output->writeln($this->getConsoleVersion());
 
             return 0;
         }
     }
 
     /**
-     * Returns the long version of the application.
+     * Returns the version of the console.
      *
      * @return string
      */
-    public function getLongVersion()
+    public function getConsoleVersion()
     {
         if ('UNKNOWN' !== $this->getName()) {
             if ('UNKNOWN' !== $this->getVersion()) {
-                return sprintf(
-                    '%s <cyan>%s</cyan> (env: <lightYellow>%s</lightYellow> - debug: <lightYellow>%s</lightYellow>) | <magenta>%s</magenta>', 
+                return sprintf('%s <cyan>%s</cyan> (env: <yellow>%s</yellow> - debug: <yellow>%s</yellow>) | <magenta>%s</magenta>', 
                     $this->getName(), 
                     $this->getVersion(),
                     env('APP_ENV'),
