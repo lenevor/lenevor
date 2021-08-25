@@ -164,7 +164,7 @@ class Application extends Container implements ApplicationContract
         $this->registerBaseBindings();
         $this->registerBaseServiceProviders();
         $this->registerCoreContainerAliases();
-        $this->requerimentVersion(static::$phpVersion);
+        $this->requerimentPhpVersion(static::$phpVersion);
         $this->getExtensionLoaded(['mbstring']);
     }
 
@@ -585,7 +585,7 @@ class Application extends Container implements ApplicationContract
      * 
      * @return string
      */
-    protected function requerimentVersion($version)
+    protected function requerimentPhpVersion($version)
     {
         if (version_compare(PHP_VERSION, $version) < 0) {
             if (PHP_SAPI == 'cli') {
