@@ -149,6 +149,13 @@ class Application extends Container implements ApplicationContract
     protected $serviceProviders = [];
 
     /**
+     * The array of shutdown callbacks.
+     * 
+     * @var callable[] $shutdownCallbacks
+     */
+    protected $shutdownCallbacks = [];
+
+    /**
      * Constructor. Create a new Application instance.
      * 
      * @param  string|null  $path 
@@ -617,6 +624,32 @@ class Application extends Container implements ApplicationContract
             }
         }
     }
+
+    /**
+     * Register the shutdown callback.
+     * 
+     * @param  callable|string  $callback
+     * 
+     * @return self
+     */
+    public function shutdowning($callback): self
+    {
+        $this->shutdownCallbacks[] = $callback;
+
+        return $this;
+    }
+
+    /**
+	 * Shutdown the application.
+	 * 
+	 * @return void
+	 */
+	public function shutdown()
+	{
+		foreach ($this->shutdownCallbacks as $shutdown) {
+            $this->call($shutdown);
+        }
+	}
 
     /**
      * Resolve the given type from the container.
