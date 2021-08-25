@@ -62,17 +62,33 @@ class Lenevor implements LenevorConsole
         \Syscodes\Core\Bootstrap\BootRegisterProviders::class,
         \Syscodes\Core\Bootstrap\BootProviders::class,
     ];
+
+    /**
+	 * The event dispatcher instance.
+	 * 
+	 * @var \Syscodes\Contracts\Events\Dispatcher $events
+	 */
+	protected $events;
+    
+    /**
+     * The Prime application instance.
+     * 
+     * @var \Syscodes\Console\Application|null
+     */
+    protected $lenevor;
     
     /**
      * Constructor. Create new console Lenevor instance.
      * 
      * @param  \Syscodes\Contracts\Core\Application $app
+     * @param  \Syscodes\Contracts\Events\Dispatcher  $events
      * 
      * @return void
      */
-    public function __construct(Application $app)
+    public function __construct(Application $app, Dispatcher $events)
     {
-        $this->app = $app;
+        $this->app    = $app;
+        $this->events = $events;
     }
     
     /**
@@ -129,7 +145,11 @@ class Lenevor implements LenevorConsole
      */
     protected function getPrime()
     {
-        return (new Prime($this->app, $this->app->version()));
+        if (is_null($this->lenevor)) {
+            $this->lenevor = new Prime($this->app, $this->events, $this->app->version());
+        }
+
+        return $this->lenevor;
     }
     
     /**
