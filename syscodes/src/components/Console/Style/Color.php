@@ -71,9 +71,10 @@ final class Color
         // alert
         'suc'            => '1;32',// same 'green' and 'bold'
         'success'        => '0;30;42',
-        'info'           => '0;34',// same 'blue'
+        'info'           => '0;36',// same 'cyan'
         'comment'        => '0;33',// same 'brown'
         'note'           => '36;1',
+        'note0'          => '35;1',
         'notice'         => '36;4',
         'warn'           => '0;30;43',
         'warning'        => '0;30;43',
