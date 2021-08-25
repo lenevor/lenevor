@@ -39,6 +39,13 @@ use Syscodes\Contracts\Console\Output as OutputInterface;
 abstract class Console
 {
     /**
+	 * The default command.
+	 * 
+	 * @var string $defaultCommand
+	 */
+	protected $defaultCommand;
+
+    /**
      * Gets the name of the aplication.
      * 
      * @var string $name
@@ -64,6 +71,8 @@ abstract class Console
     {
         $this->name    = $name;
         $this->version = $version;
+        
+		$this->defaultCommand = 'list';
     }
 
     /**
@@ -129,10 +138,12 @@ abstract class Console
         }
 
         try {
-            $this->doExecute($input, $output);
+            $exitCode = $this->doExecute($input, $output);
         } catch (Exception $e) {
             throw $e;
         }
+
+        return $exitCode;
 	}
 
     /**
@@ -161,7 +172,14 @@ abstract class Console
     {
         if ('UNKNOWN' !== $this->getName()) {
             if ('UNKNOWN' !== $this->getVersion()) {
-                return sprintf('%s <cyan>%s</cyan>', $this->getName(), $this->getVersion());
+                return sprintf(
+                    '%s <cyan>%s</cyan> (env: <lightYellow>%s</lightYellow> - debug: <lightYellow>%s</lightYellow>) | <magenta>%s</magenta>', 
+                    $this->getName(), 
+                    $this->getVersion(),
+                    env('APP_ENV'),
+                    env('APP_DEBUG') ? 'true' : 'false',
+			        '['.PHP_OS.']'
+                );
             }
 
             return $this->getName();
