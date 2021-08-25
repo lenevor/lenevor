@@ -97,6 +97,11 @@ $app = require_once $paths['path.bootstrap'].'/app.php';
 
 $console = $app->make(Lenevor::class);
 
-$status = $console->handle(new ArgvInput, new ConsoleOutput);
+$status = $console->handle(
+    $input = new ArgvInput, 
+    new ConsoleOutput
+);
+
+$console->shutdown($input, $status); // Shutdown application
 
 exit($status);
