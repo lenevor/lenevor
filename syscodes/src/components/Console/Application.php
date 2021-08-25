@@ -24,6 +24,7 @@ namespace Syscodes\Console;
 
 use Syscodes\Version;
 use Syscodes\Support\Facades\Request;
+use Syscodes\Contracts\Events\Dispatcher;
 use Syscodes\Contracts\Container\Container;
 use Syscodes\Contracts\Console\Input as InputInterface;
 use Syscodes\Contracts\Console\Output as OutputInterface;
@@ -37,14 +38,14 @@ use Syscodes\Contracts\Console\Application as ApplicationContracts;
 class Application extends Console implements ApplicationContracts
 {
 	/**
-	 * The default command.
+	 * The event dispatcher instance.
 	 * 
-	 * @var string $defaultCommand
+	 * @var \Syscodes\Contracts\Events\Dispatcher $events
 	 */
-	protected $defaultCommand;
+	protected $events;
 
 	/**
-	 * The Lenevor application instance..
+	 * The Lenevor application instance.
 	 * 
 	 * @var \Syscodes\Contracts\Container|Container $lenevor
 	 */
@@ -54,16 +55,17 @@ class Application extends Console implements ApplicationContracts
 	 * Console constructor. Initialize the console of Lenevor.
 	 *
 	 * @param  \Syscodes\Contracts\Core\Container  $lenevor
+	 * 
 	 * @param  string  $version
 	 * 
 	 * @return void
 	 */
-	public function __construct(Container $lenevor, string $version)
+	public function __construct(Container $lenevor, Dispatcher $events, string $version)
 	{
 		parent::__construct(Version::NAME, $version);
 
-		$this->lenevor 		  = $lenevor;
-		$this->defaultCommand = 'list';
+		$this->events  = $events;
+		$this->lenevor = $lenevor;
 	}
 
 	/**
@@ -74,5 +76,15 @@ class Application extends Console implements ApplicationContracts
 		$exit = parent::run($input, $output);
 
 		return $exit;
+	}
+
+	/**
+	 * Gets the Lenevor application instance.
+	 * 
+	 * @return void
+	 */
+	public function getLenevor()
+	{
+		return $this->lenevor;
 	}
 }
