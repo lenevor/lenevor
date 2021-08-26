@@ -46,11 +46,11 @@ interface OutputFormatter
      * Sets a new style.
      * 
      * @param  string  $name
-     * @param  \Syscodes\Contracts\Console\OutputFormatterStyle  $style
+     * @param  array  $styleConfig
      * 
-     * @return void
+     * @return $this
      */
-    public function setStyle(string $name, OutputFormatterStyleInterface $style): void;
+    public function setStyle(string $name, array $styleConfig);
 
     /**
      * Checks if output formatter has style with specified name.
