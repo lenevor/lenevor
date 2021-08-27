@@ -24,7 +24,6 @@ namespace Syscodes\Console\Formatter;
 
 use InvalidArgumentException;
 use Syscodes\Console\Style\Color;
-use Syscodes\Console\Style\ColorTag;
 use Syscodes\Contracts\Console\Output;
 use Syscodes\Console\Formatter\OutputFormatterStyle;
 use Syscodes\Contracts\Console\OutputFormatter as OutputFormatterInterface;
@@ -37,9 +36,6 @@ use Syscodes\Contracts\Console\OutputFormatterStyle as OutputFormatterStyleInter
  */
 class OutputFormatter implements OutputFormatterInterface
 {
-    // CLI color template
-    public const COLOR_TPL = "\033[%sm%s\033[0m";
-
     /**
      * Checks if the decorated is actived for console output.
      * 
@@ -55,6 +51,13 @@ class OutputFormatter implements OutputFormatterInterface
     protected $styles = [];
 
     /**
+     * Gets the styles formatter stack.
+     * 
+     * @var \Syscodes\Console\Formatter\OutputFormatterStack $formatterStack
+     */
+    protected $formatterStack;
+
+    /**
      * Constructor. Create a new OutputFormatter instance.
      * 
      * @param  bool  $decorated
@@ -66,15 +69,18 @@ class OutputFormatter implements OutputFormatterInterface
     {
         $this->decorated = $decorated;
 
-        $this->setStyle('error', new OutputFormatterStyle('white', 'red'));
-        $this->setStyle('comment', new OutputFormatterStyle('yellow'));
-        $this->setStyle('info', new OutputFormatterStyle('blue'));
-        $this->setStyle('warning', new OutputFormatterStyle('black', 'yellow'));
-        $this->setStyle('success', new OutputFormatterStyle('black', 'green'));
-
+        $this->setStyle('error', ['fg' => 'white', 'bg' => 'red']);
+        $this->setStyle('comment', ['fg' => 'yellow']);
+        $this->setStyle('info', ['fg' => 'cyan']);
+        $this->setStyle('warning', ['fg' => 'black', 'bg' => 'yellow']);
+        $this->setStyle('success',['fg' => 'black', 'bg' => 'green']);
+        $this->setStyle('note', ['fg' => 'magenta']);
+             
         foreach ($styles as $name => $style) {
             $this->setStyle($name, $style);
         }
+        
+        $this->formatterStack = new OutputFormatterStack();
     }
 
     /**
@@ -99,15 +105,25 @@ class OutputFormatter implements OutputFormatterInterface
      * Sets a new style.
      * 
      * @param  string  $name
-     * @param  \Syscodes\Contracts\Console\OutputFormatterStyle  $style
+     * @param  array  $styleConfig
      * 
-     * @return void
+     * @return $this
      */
-    public function setStyle(string $name, OutputFormatterStyleInterface $style): void
+    public function setStyle(string $name, array $styleConfig)
     {
-        $this->styles[\strtolower($name)] = $style;
+        $style = [
+            'fg'      => '',
+            'bg'      => '',
+            'options' => []
+        ];
+        
+        $config = array_merge($style, $styleConfig);
+        // expand
+        [$fg, $bg, $options] = array_values($config);
+        
+        $this->styles[\strtolower($name)] = new OutputFormatterStyle($fg, $bg, $options);
     }
-
+    
     /**
      * Checks if output formatter has style with specified name.
      * 
@@ -169,9 +185,7 @@ class OutputFormatter implements OutputFormatterInterface
         }
         
         if (strpos($message, '</') > 0) {
-            $text = ColorTag::parse($message);
+            return $this->formatterStack->getCurrent()->apply($message);
         }
-
-        return $text;
     }
 }
