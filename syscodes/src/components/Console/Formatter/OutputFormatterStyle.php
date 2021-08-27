@@ -22,7 +22,7 @@
 
 namespace Syscodes\Console\Formatter;
 
-use Syscodes\Console\Style\ColorCode;
+use Syscodes\Console\Style\Color;
 use Syscodes\Contracts\Console\OutputFormatterStyle as OutputFormatterStyleInterface;
 
 /**
@@ -71,7 +71,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      */
     public function __construct(string $foreground = null, string $background = null, array $options = [])
     {
-        $this->color = new ColorCode($this->foreground = $foreground ?: '', $this->background = $background ?: '', $this->options = $options);
+        $this->color = new Color($this->foreground = $foreground ?: '', $this->background = $background ?: '', $this->options = $options);
     }
 
     /**
@@ -83,7 +83,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      */
     public function setForeground(string $color = null): void
     {
-        $this->color = new self($this->foreground = $color ?: '', $this->background, $this->options);
+        $this->color = new Color($this->foreground = $color ?: '', $this->background, $this->options);
     }
 
     /**
@@ -95,7 +95,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      */
     public function setBackground(string $color = null): void
     {
-        $this->color = new self($this->foreground, $this->background = $color ?: '', $this->options);
+        $this->color = new Color($this->foreground, $this->background = $color ?: '', $this->options);
     }
 
     /**
@@ -109,7 +109,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
     {
         $this->options[] = $option;
 
-        $this->color = new self($this->foreground, $this->background, $this->options);
+        $this->color = new Color($this->foreground, $this->background, $this->options);
     }
 
     /**
@@ -127,7 +127,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
             unset($this->options[$position]);
         }
 
-        $this->color = new self($this->foreground, $this->background, $this->options);
+        $this->color = new Color($this->foreground, $this->background, $this->options);
     }
 
     /**
@@ -139,7 +139,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      */
     public function setOptions(array $options): void
     {
-        $this->color = new self($this->foreground, $this->background, $this->options = $options);
+        $this->color = new Color($this->foreground, $this->background, $this->options = $options);
     }
 
     /**
@@ -151,6 +151,6 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      */
     public function apply(string $text): string
     {
-        return $this->color->apply($text);
+        return $this->color->render($text);
     }
 }
