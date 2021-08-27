@@ -38,7 +38,38 @@ final class Color
 	// CLI color template
 	public const COLOR_TPL = "\033[%sm%s\033[0m";
 
-    /**
+	protected const COLORS = [
+		'black'   => 0,
+		'red'     => 1,
+		'green'   => 2,
+		'yellow'  => 3,
+		'blue'    => 4,
+		'magenta' => 5,
+		'cyan'    => 6,
+		'white'   => 7,
+		'default' => 9,
+	];
+	
+	protected const LIGHT_COLORS = [
+		'gray'          => 0,
+		'light-red'     => 1,
+		'light-green'   => 2,
+		'light-yellow'  => 3,
+		'light-blue'    => 4,
+		'light-magenta' => 5,
+		'light-cyan'    => 6,
+		'light-white'   => 7,
+	];
+	
+	protected const OPTIONS = [
+		'bold'      => ColorANSICode::BOLD,
+		'underline' => ColorANSICode::UNDERLINE,
+		'blink'     => ColorANSICode::BLINK,
+		'reverse'   => ColorANSICode::REVERSE,
+		'concealed' => ColorANSICode::CONCEALED,
+	];
+
+	/**
      * There are some internal styles
      * custom style: fg;bg;opt
      *
@@ -139,57 +170,81 @@ final class Color
         'light_gray'  => '37',
     ];
 
-	
+	/**
+	 * The background color to text or CLI command.
+	 * 
+	 * @var int $background
+	 */
+	protected $background = 0;
 
 	/**
-	 * Gets the result of the string applied to the text in the CLI command.
+	 * The foreground color to text or CLI command.
 	 * 
-	 * @param  string  $text
-	 * 
-	 * @return string
+	 * @var int $foreground
 	 */
-	public static function apply(string $text)
+	protected $foreground = 0;
+
+	/**
+	 * Gets options the colors for CLI command.
+	 * 
+	 * @var array $options
+	 */
+	protected $options = [];
+	
+	/**
+	 * Create a color style from a parameter string.
+	 * 
+	 * @param  string  $string  e.g 'fg=white;bg=black;options=bold,underscore'
+	 * 
+	 * @return self
+	 * 
+	 * @throws \InvalidArgumentException
+	 */
+	public static function fromString(string $string): Color
 	{
-		return ColorCode::fromString($text)->toStyle();
+		$options = [];
+		$parts   = explode(';', str_replace(' ', '', $string));
+		
+		$foreground = $background = '';
+		
+		foreach ($parts as $part) {
+			$subParts = explode('=', $part);
+			
+			if (count($subParts) < 2) {
+				continue;
+			}
+			
+			switch ($subParts[0]) {
+				case 'fg':
+					$foreground = $subParts[1];
+					break;
+				case 'bg':
+					$background = $subParts[1];
+					break;
+				case 'options':
+					$options = explode(',', $subParts[1]);
+					break;
+				default:
+					throw new RuntimeException('Invalid option');
+			}
+		}
+		
+		return new self($foreground, $background, $options);
 	}
 
 	/**
-     * Render text, apply color code.
-     *
-     * @param  string             $text
-     * @param  string|array|null  $style
-     *
+     * Create a color style code from a parameter string.
+     * 
+     * @param  string  $string 
+     * 
      * @return string
      */
-    public static function render(string $text, $style = null): string
+    public static function stringToCode(string $string): string
     {
-        if ( ! $text) {
-            return $text;
-        }
-
-        $color = '';
-
-        // use defined style: 'green'
-        if (is_string($style)) {
-            $color = self::STYLES[$style] ?? '';
-
-            // custom style: [self::FG_GREEN, self::BG_WHITE, self::UNDERSCORE]
-        } elseif (is_array($style)) {
-            $color = implode(';', $style);
-
-            // user color tag: <info>message</info>
-        } elseif (strpos($text, '</') > 0) {
-            return self::parseTag($text);
-        }
-
-        if ( ! $color) {
-            return $text;
-        }
-
-        return sprintf(self::COLOR_TPL, $color, $text);
+        return Color::fromString($string)->toString();
     }
 
-    /**
+	/**
      * Parse color tag e.g: <info>message</info>.
      *
      * @param string $text
@@ -199,5 +254,133 @@ final class Color
     public static function parseTag(string $text): string
     {
         return ColorTag::parse($text);
+    }
+
+	/**
+	 * Constructor. Create a new Color instance.
+	 * 
+	 * @param  string  $foreground
+	 * @param  string  $background
+	 * @param  array  $options
+	 * 
+	 * @return void
+	 */
+	public function __construct(string $foreground = '', string $background = '', array $options = [])
+	{
+		$this->foreground =  $this->parser($foreground);
+		$this->background =  $this->parser($background, true);
+
+		foreach ($options as $option) {
+			if ( ! isset(self::OPTIONS[$option])) {
+				throw new InvalidArgumentException(
+					sprintf('Invalid option specified: "%s". Expected one of (%s).', 
+						$option, 
+						implode(', ', array_keys(self::OPTIONS))
+					)
+				);
+			}
+			
+			$this->options[] = $option;
+		}
+	}
+
+	/**
+	 * Gets the parse color for capture to the color type that is needed 
+	 * on foreground and background of CLI Commands.
+	 * 
+	 * @param  string  $color
+	 * @param  bool  $background
+	 * 
+	 * @return string
+	 * 
+	 * @throws \InvalidArgumentException
+	 */
+	private function parser(string $color, bool $background = false): string
+	{
+		if ('' === $color) {
+			return '';
+		}
+
+		if (isset(self::COLORS[$color])) {
+			return ($background ? '4' : '3').self::COLORS[$color];
+		}
+
+		if (isset(self::LIGHT_COLORS[$color])) {
+			return ($background ? '10' : '9').self::LIGHT_COLORS[$color];
+		}
+
+		throw new InvalidArgumentException(
+			sprintf('Invalid "%s" color; expected one of (% s). ',
+				$color,
+				implode(', ',array_merge(array_keys(self::COLORS), array_keys(self::LIGHT_COLORS)))
+			)
+		);
+	}
+
+	/**
+	 * Gets the set color to CLI command.
+	 * 
+	 * @return string
+	 */
+	public function toStyle(): string
+	{
+		$codes = [];
+		
+		if ($this->foreground) {
+			$codes[] = $this->foreground;
+		}
+		
+		if ($this->background) {
+			$codes[] = $this->background;
+		}
+		
+		foreach ($this->options as $option) {
+			$codes[] = self::OPTIONS[$option];
+		}
+		
+		return implode(';', $codes);
+	}
+	
+	/**
+	 * Returns the Colors as an codes string.
+	 * 
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->toStyle();
+	}
+	/**
+     * Render text, apply color code.
+     *
+     * @param  string  $text
+     * @param  string|array|null  $style
+     *
+     * @return string
+     */
+    public function render(string $text, $style = null): string
+    {
+        if ( ! $text) {
+            return $text;
+        }
+
+        $color = '';
+
+        // use defined style: 'green'
+        if (is_string($style)) {
+            $color = Color::STYLES[$style] ?? '';
+            // custom style: [self::FG_GREEN, self::BG_WHITE, self::UNDERSCORE]
+        } elseif (is_array($style)) {
+            $color = implode(';', $style);
+            // user color tag: <info>message</info>
+        } elseif (strpos($text, '</') > 0) {
+            return static::parseTag($text);
+        }
+
+        if ( ! $color) {
+            return $text;
+        }
+
+        return sprintf(self::COLOR_TPL, $color, $text);
     }
 }
