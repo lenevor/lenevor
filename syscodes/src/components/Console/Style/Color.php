@@ -63,6 +63,8 @@ final class Color
 	
 	protected const OPTIONS = [
 		'bold'      => ColorANSICode::BOLD,
+		'fuzzy'     => ColorANSICode::FUZZY,
+		'italic'    => ColorANSICode::ITALIC, 
 		'underline' => ColorANSICode::UNDERLINE,
 		'blink'     => ColorANSICode::BLINK,
 		'reverse'   => ColorANSICode::REVERSE,
@@ -244,17 +246,7 @@ final class Color
         return Color::fromString($string)->toString();
     }
 
-	/**
-     * Parse color tag e.g: <info>message</info>.
-     *
-     * @param string $text
-     *
-     * @return string
-     */
-    public static function parseTag(string $text): string
-    {
-        return ColorTag::parse($text);
-    }
+	
 
 	/**
 	 * Constructor. Create a new Color instance.
@@ -368,13 +360,13 @@ final class Color
 
         // use defined style: 'green'
         if (is_string($style)) {
-            $color = Color::STYLES[$style] ?? '';
+            $color = self::STYLES[$style] ?? '';
             // custom style: [self::FG_GREEN, self::BG_WHITE, self::UNDERSCORE]
         } elseif (is_array($style)) {
             $color = implode(';', $style);
             // user color tag: <info>message</info>
         } elseif (strpos($text, '</') > 0) {
-            return static::parseTag($text);
+            return $this->parseTag($text);
         }
 
         if ( ! $color) {
@@ -382,5 +374,17 @@ final class Color
         }
 
         return sprintf(self::COLOR_TPL, $color, $text);
+    }
+
+	/**
+     * Parse color tag e.g: <info>message</info>.
+     *
+     * @param string $text
+     *
+     * @return string
+     */
+    public function parseTag(string $text): string
+    {
+        return ColorTag::parse($text);
     }
 }
