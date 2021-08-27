@@ -23,7 +23,7 @@
 namespace Syscodes\Console\Style;
 
 use Syscodes\Console\Style\Color;
-use Syscodes\Console\Formatter\OutputFormatterStyle;
+use Syscodes\Console\Formatter\OutputFormatter;
 
 /**
  * Formats for color tags.
@@ -67,68 +67,58 @@ final class ColorTag
 
         return "<$tag>$text</$tag>";
     }
-
+    
     /**
-     * Checks pattern for color tags.
+     * Parser a text on command console.
      * 
-     * @param string $text
-     *
-     * @return array
-     */
-    public static function matchAll(string $text): array
-    {
-        if ( ! preg_match_all(self::REGEX_TAG, $text, $matches)) {
-            return [];
-        }
-
-        return $matches;
-    }
-
-    /**
-     * Parser match color tags.
+     * @param  string  $text
+     * @param  bool  $recursive  Parse nested tags
      * 
-     * @param string $text
-     *
      * @return string
      */
-    public static function parse(string $text): string
+    public static function parse(string $text, bool $recursive = false): string
     {
-        if (!$text || false === strpos($text, '</')) {
+        if ( ! $text || false === strpos($text, '</')) {
             return $text;
         }
-
-        // match color tags
-        if ( ! $matches = self::matchAll($text)) {
-            return $text;
-        }
-
-        foreach ((array)$matches[0] as $i => $m) {
-            $key = $matches[1][$i];
-
-            if (isset(Color::STYLES[$key])) {
-                $text = self::replaceColor($text, $key, $matches[2][$i], (string) Color::STYLES[$key]);
-            } elseif (strpos($key, '=')) {
-                $text = self::replaceColor($text, $key, $matches[2][$i], (string) Color::apply($key));
-            }
-        }
-
-        return $text;
+        
+        return static::pregReplaceTags($text, $recursive);
     }
-
+    
     /**
-     * Replace color tags in a string.
-     *
-     * @param string $text
-     * @param string $tag       The matched tag.
-     * @param string $match     The matched text
-     * @param string $colorCode The color style to apply.
-     *
-     * @return  string
+     * Replaces tag for formatted text on command console.
+     * 
+     * @param  string  $text
+     * @param  bool  $recursive
+     * 
+     * @return string
      */
-    public static function replaceColor(string $text, string $tag, string $match, string $colorCode): string
+    public static function pregReplaceTags(string $text, bool $recursive = false): string
     {
-        $replace = sprintf("\033[%sm%s\033[0m", $colorCode, $match);
-
-        return str_replace("<$tag>$match</$tag>", $replace, $text);
+        return preg_replace_callback(self::REGEX_TAG, static function (array $match) use ($recursive) {
+            $colorCode = '';            
+            $tagName   = $match[1];
+            
+            if (isset(Color::STYLES[$tagName])) {
+                $colorCode = Color::STYLES[$tagName];
+            } elseif (strpos($tagName, '=')) {
+                $colorCode = Color::stringToCode($tagName);
+            }
+            
+            // Enhance: support parse nested tags
+            $body = $match[2];
+            
+            if ($recursive && false !== strpos($body, '</')) {
+                $body = self::pregReplaceTags($body, $recursive);dd($body);
+            }
+            
+            // wrap body with color codes
+            if ($colorCode) {
+                return sprintf("\033[%sm%s\033[0m", $colorCode, $body);
+            }
+            
+            // return raw contents.
+            return $match[0];
+        }, $text);
     }
 }
