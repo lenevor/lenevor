@@ -23,19 +23,22 @@
 namespace Syscodes\Console;
 
 use Syscodes\Version;
+use Syscodes\Console\Input\ArgvInput;
 use Syscodes\Support\Facades\Request;
+use Syscodes\Console\Input\ArrayInput;
+use Syscodes\Console\Input\InputOption;
 use Syscodes\Contracts\Events\Dispatcher;
 use Syscodes\Contracts\Container\Container;
 use Syscodes\Contracts\Console\Input as InputInterface;
 use Syscodes\Contracts\Console\Output as OutputInterface;
-use Syscodes\Contracts\Console\Application as ApplicationContracts;
+use Syscodes\Contracts\Console\Application as ApplicationContract;
 
 /**
  * Console application.
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class Application extends Console implements ApplicationContracts
+class Application extends Console implements ApplicationContract
 {
 	/**
 	 * The event dispatcher instance.
