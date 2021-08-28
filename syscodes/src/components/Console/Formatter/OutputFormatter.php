@@ -25,7 +25,6 @@ namespace Syscodes\Console\Formatter;
 use InvalidArgumentException;
 use Syscodes\Console\Style\Color;
 use Syscodes\Contracts\Console\Output;
-use Syscodes\Console\Formatter\OutputFormatterStyle;
 use Syscodes\Contracts\Console\OutputFormatter as OutputFormatterInterface;
 use Syscodes\Contracts\Console\OutputFormatterStyle as OutputFormatterStyleInterface;
 
