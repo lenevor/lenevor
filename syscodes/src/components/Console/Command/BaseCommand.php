@@ -22,16 +22,31 @@
 
 namespace Syscodes\Console\Command;
 
+use ReflectionProperty;
 use ReflectionException;
-use Psr\Log\LoggerInterface;
+use Syscodes\Contracts\Console\InputDefinition;
 
 /**
  * Class BaseCommand.
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class BaseCommand 
+abstract class BaseCommand 
 {
+    /**
+     * The default command name.
+     * 
+     * @var string|null $defaultName
+     */
+    protected static $defaultName;
+
+     /**
+     * The default command description.
+     * 
+     * @var string|null $defaultDescription
+     */
+    protected static $defaultDescription;
+
     /**
      * Gets the Command's Arguments description.
      * 
@@ -54,11 +69,11 @@ class BaseCommand
     protected $group;
 
     /**
-     * The logger to user for a command.
+     * The InputDefinition implement.
      * 
-     * @var \Psr\Log\LoggerInterface $logger
+     * @var \Syscodes\Console\Input\InputDefinition $definition
      */
-    protected $logger;
+    protected $definition;
 
     /**
      * The console command name.
@@ -75,41 +90,74 @@ class BaseCommand
     protected $options = [];
 
     /**
-     * The signature of the console command.
+     * Gets the default name.
      * 
-     * @var string $signature
+     * @return string|null
      */
-    protected $signature;
+    public static function getDefaultName()
+    {
+        $class = static::class;
+
+        $property = new ReflectionProperty($class, 'default name');
+
+        return ($class === $property->class) ? static::$defaultName : null;
+    }
+
+    /**
+     * Gets the default description.
+     * 
+     * @return string|null
+     */
+    public static function getDefaultDescription()
+    {
+        $class = static::class;
+
+        $property = new ReflectionProperty($class, 'default description');
+
+        return ($class === $property->class) ? static::$defaultDescription : null;
+    }
 
     /**
      * Constructor. Create a new base command instance.
      * 
-     * @param  \Psr\Log\LoggerInterface  $logger
+     * @param  string|null  $name  The name command
+     * @param  \Syscodes\Console\Input\InputDefinition  $definition
      * 
      * @return void
      */
-    public function __construct(LoggerInterface $logger)
+    public function __construct(string $name = null, InputDefinition $definition = null)
     {
-        $this->logger = $logger;       
+        $this->definition = (null === $definition) ? new InputDefinition() : $definition;
+        
+        if (null === $name && null !== $name = static::getDefaultName()) {
+            $aliases = explode('|', $name);
+            
+            if ('' === $name = array_shift($aliases)) {
+                $this->setHidden(true);
+                
+                $name = array_shift($aliases);
+            }
+            
+            $this->setAliases($aliases);
+        }
+        
+        if (null !== $name) {
+            $this->setName($name);
+        }
+        
+        if ('' === $this->description) {
+            $this->setDescription(static::getDefaultDescription() ?? '');
+        }
+        
+        $this->configure();
     }
 
     /**
-     * Resolve the console command instance.
+     * Configure input definition for command.
      * 
-     * @param  \Syscodes\Console\Command|string  $command
-     * 
-     * @return \Syscodes\Console\Command
+     * @return void
      */
-    public function resolveCommand($command)
-    {
-        $command = $this->getLenevor()->make($command);
-
-        if ($command instanceof self) {
-            $command->setLenevor($this->getLenevor());
-        }
-
-        return $command;
-    }
+    protected function configure(): void {}
 
     /**
      * Executes the current command.
@@ -118,25 +166,21 @@ class BaseCommand
      * 
      * @throws \LogicException
      */
-    protected function execute()
-    {
-        throw new LogicException('You remove the execute() method in the active command class');
-    }
+    abstract protected function execute(): void;
 
     /**
-     * Is be used by a command to run other commands.
+     * Validates a command name. e.g: php prime make:example.
      * 
-     * @param  string  $command
-     * @param  array  $params
+     * @param  string  $name
      * 
-     * @return mixed
+     * @return bool
      * 
-     * @throws \ReflectionException
+     * @throws \InvalidArgumentException
      */
-    public function call(string $command, array $params)
+    private function validateName(string $name)
     {
-        return $this->run($command, $params);
+        if ( ! \preg_match('/^[^\:]++(\:[^\:]++)*$/', $name)) {
+            throw new InvalidArgumentException(\sprintf('Command name "%s" is invalid', $name));
+        }
     }
-
-    
 }
