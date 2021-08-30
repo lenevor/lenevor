@@ -48,6 +48,14 @@ class Command
      */
     protected $commands = [];
 
+    
+    /**
+     * The Lenevor appplication instance.
+     * 
+     * @var \Syscodes\Core\Contracts\Application $lenevor
+     */
+    protected $lenevor;
+
     /**
      * The Logger instance.
      * 
@@ -89,7 +97,9 @@ class Command
      */
     protected function execute()
     {
-        throw new LogicException('You remove the execute() method in the active command class');
+        $method = method_exists($this, 'handle') ? 'handle' : '__invoke';
+
+        return (int) $this->lenevor->call([$this, $method]);
     }
 
     /**
@@ -110,5 +120,27 @@ class Command
         }
 
         return is_numeric($statusCode) ? (int) $statusCode : 0;
+    }
+
+    /**
+     * Get the Lenevor application instance.
+     * 
+     * @return \Syscodes\Contracts\Core\Application
+     */
+    public function getLenevor()
+    {
+        return $this->lenevor;
+    }
+
+    /**
+     * Set the Lenevor application instance.
+     * 
+     * @param  \Syscodes\Contracts\Core\Application  $lenevor
+     * 
+     * @return void
+     */
+    public function setLenevor($lenevor)
+    {
+        $this->lenevor = $lenevor;
     }
 }
