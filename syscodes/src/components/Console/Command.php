@@ -26,13 +26,14 @@ use LogicException;
 use ReflectionClass;
 use ReflectionException;
 use Psr\Log\LoggerInterface;
+use Syscodes\Console\Command\BaseCommand;
 
 /**
  * Is class allows functionality for running, listing, etc all commands of framework.
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class Command
+class Command extends BaseCommand
 {
     /**
      * Gets the code.
@@ -57,22 +58,13 @@ class Command
     protected $lenevor;
 
     /**
-     * The Logger instance.
-     * 
-     * @var \Psr\Log\Interface $logger
-     */
-    protected $logger;
-
-    /**
      * Constructor. Create a new Command instance.
-     * 
-     * @param  \Psr\Log\Interface  $logger
      * 
      * @return void
      */
-    public function __construct(LoggerInterface $logger = null)
+    public function __construct()
     {
-        $this->logger = $logger;
+        
     }
 
     /**
