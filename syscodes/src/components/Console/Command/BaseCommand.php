@@ -24,7 +24,10 @@ namespace Syscodes\Console\Command;
 
 use ReflectionProperty;
 use ReflectionException;
+use InvalidArgumentException;
 use Syscodes\Contracts\Console\InputDefinition;
+use Syscodes\Contracts\Console\Input as InputInterface;
+use Syscodes\Contracts\Console\Output as OutputInterface;
 
 /**
  * Class BaseCommand.
@@ -156,7 +159,6 @@ abstract class BaseCommand
             $this->setDescription(static::getDefaultDescription() ?? '');
         }
         
-        $this->configure();
     }
 
     /**
@@ -164,7 +166,7 @@ abstract class BaseCommand
      * 
      * @return void
      */
-    protected function configure(): void {}
+    abstract protected function configure(): void;
 
     /**
      * Executes the current command.
@@ -174,6 +176,124 @@ abstract class BaseCommand
      * @throws \LogicException
      */
     abstract protected function execute(): void;
+
+    /**
+     * Runs the command.
+     * 
+     * @return int|mixed
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public function run(InputInterface $input, OutputInterface $output)
+    {
+        $this->configure();
+
+
+    }
+
+    /**
+     * Gets the command name.
+     * 
+     * @return string|null
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Sets the name of the command.
+     * 
+     * @param  string  $name  The command name
+     * 
+     * @return self
+     */
+    public function setName(string $name): self
+    {
+        $this->validateName($name);
+
+        $this->name = $name;
+
+        return $this;
+    }
+    
+    /**
+     * Gets whether the command should be publicly shown or not.
+     * 
+     * @return bool
+     */
+    public function isHidden()
+    {
+        return $this->hidden;
+    }
+    
+    /**
+     * Whether or not the command should be hidden from the list of commands.
+     * 
+     * @param  bool  $hidden
+     * 
+     * @return self
+     */
+    public function setHidden(bool $hidden): self
+    {
+        $this->hidden = $hidden;
+        
+        return $this;
+    }
+    
+    /**
+     * Returns the description for the command.
+     * 
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+    
+    /**
+     * Sets the description for the command.
+     * 
+     * @return self
+     */
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+        
+        return $this;
+    }
+
+    /**
+     * Sets the help for the command.
+     *
+     * @return $this
+     */
+    public function setHelp(string $help): self
+    {
+        $this->help = $help;
+
+        return $this;
+    }
+
+    /**
+     * Returns the help for the command.
+     *
+     * @return string
+     */
+    public function getHelp()
+    {
+        return $this->help;
+    }
+
+    /**
+     * Gets the aliases for the command.
+     * 
+     * @return string[]
+     */
+    public function getAliases()
+    {
+        return $this->aliases;
+    }
 
     /**
      * Validates a command name. e.g: php prime make:example.
