@@ -48,6 +48,13 @@ abstract class BaseCommand
     protected static $defaultDescription;
 
     /**
+     * Gets the aliases of command name.
+     * 
+     * @var string[] $aliases
+     */
+    protected $aliases = [];
+
+    /**
      * Gets the Command's Arguments description.
      * 
      * @var array $arguments
