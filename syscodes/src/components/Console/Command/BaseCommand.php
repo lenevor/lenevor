@@ -22,6 +22,8 @@
 
 namespace Syscodes\Console\Command;
 
+use Throwable;
+use TypeError;
 use ReflectionProperty;
 use ReflectionException;
 use InvalidArgumentException;
@@ -65,6 +67,20 @@ abstract class BaseCommand
     protected $arguments = [];
 
     /**
+     * The code to execute some command.
+     * 
+     * @var int $code
+     */
+    protected $code = 0;
+
+    /**
+     * The InputDefinition implement.
+     * 
+     * @var \Syscodes\Console\Input\InputDefinition $definition
+     */
+    protected $definition;
+
+    /**
      * The console command description.
      * 
      * @var string|null $description
@@ -77,13 +93,6 @@ abstract class BaseCommand
      * @var string $group
      */
     protected $group;
-
-    /**
-     * The InputDefinition implement.
-     * 
-     * @var \Syscodes\Console\Input\InputDefinition $definition
-     */
-    protected $definition;
 
     /**
      * The console command name.
@@ -166,19 +175,25 @@ abstract class BaseCommand
      * 
      * @return void
      */
-    abstract protected function configure(): void;
+    abstract protected function configure();
 
     /**
      * Executes the current command.
      * 
-     * @return int
+     * @param  \Syscodes\Contracts\Console\Input  $input
+     * @param  \Syscodes\Contracts\Console\Output  $input
+     * 
+     * @return int|mixed
      * 
      * @throws \LogicException
      */
-    abstract protected function execute(): void;
+    abstract protected function execute(InputInterface $input, OutputInterface $output);
 
     /**
      * Runs the command.
+     * 
+     * @param  \Syscodes\Contracts\Console\Input  $input
+     * @param  \Syscodes\Contracts\Console\Output  $input
      * 
      * @return int|mixed
      * 
@@ -188,7 +203,21 @@ abstract class BaseCommand
     {
         $this->configure();
 
+        try {
+            $input->linked($this->definition);
+        } catch (Throwable $e) {
+            throw $e;
+        }
 
+        if (0 === (int) $this->code) {
+            $statusCode = $this->execute($input, $output);
+        } else {
+            throw new TypeError(
+                sprintf('Returned value in "%s::execute()" must be of the type int, "%s" returned', static::class, \get_debug_type($statusCode))
+            );
+        }
+
+        return is_numeric($statusCode) ? (int) $statusCode : 0;
     }
 
     /**
@@ -213,6 +242,30 @@ abstract class BaseCommand
         $this->validateName($name);
 
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Gets the code when execute a command.
+     * 
+     * @return int
+     */
+    public function getcode(): int
+    {
+        return $this->code;
+    }
+
+    /**
+     * Sets the code when execute a command.
+     * 
+     * @param  int  $code  The code to execute in the command
+     * 
+     * @return self
+     */
+    public function setcode(int $code): self
+    {
+        $this->code = $code;
 
         return $this;
     }
