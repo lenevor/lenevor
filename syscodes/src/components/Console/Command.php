@@ -27,6 +27,8 @@ use ReflectionClass;
 use ReflectionException;
 use Psr\Log\LoggerInterface;
 use Syscodes\Console\Command\BaseCommand;
+use Syscodes\Contracts\Console\Input as InputInterface;
+use Syscodes\Contracts\Console\Output as OutputInterface;
 
 /**
  * Is class allows functionality for running, listing, etc all commands of framework.
@@ -60,58 +62,43 @@ class Command extends BaseCommand
     /**
      * Constructor. Create a new Command instance.
      * 
+     * @param  string|null  $name  The command name
+     * 
      * @return void
      */
-    public function __construct()
+    public function __construct(string $name = null)
     {
-        
+        parent::__construct($name);
     }
 
     /**
      * Runs a command given.
      * 
-     * @param  string  $command
-     * @param  array  $params
+     * @param  \Syscodes\Contracts\Console\Input  $input
+     * @param  \Syscodes\Contracts\Console\Output  $input
      * 
-     * @return mixed
+     * @return int|mixed
      */
-    public function run(string $command, array $params)
+    public function run(InputInterface $input, OutputInterface $output)
     {
-        return $this->exposeCommands();        
+        return parent::run($input, $output);
     }
 
     /**
      * Executes the current command.
      * 
-     * @return int
+     * @param  \Syscodes\Contracts\Console\Input  $input
+     * @param  \Syscodes\Contracts\Console\Output  $input
+     * 
+     * @return int|mixed
      * 
      * @throws \LogicException
      */
-    protected function execute()
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $method = method_exists($this, 'handle') ? 'handle' : '__invoke';
 
         return (int) $this->lenevor->call([$this, $method]);
-    }
-
-    /**
-     * Calls all the commands.
-     * 
-     * @return void
-     */
-    protected function exposeCommands()
-    {
-        if ($this->code) {
-            $statusCode = $this->code;
-        } else {
-            $statusCode = $this->execute();
-        }
-        
-        if ( ! is_int($statusCode)) {
-            throw new \TypeError(sprintf('Return value of "%s::execute()" must be of the type int, "%s" returned.', static::class, get_debug_type($statusCode)));
-        }
-
-        return is_numeric($statusCode) ? (int) $statusCode : 0;
     }
 
     /**
