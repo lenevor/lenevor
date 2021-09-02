@@ -149,9 +149,11 @@ abstract class Console
             $exitCode = $this->doExecute($input, $output);
         } catch (Exception $e) {
             throw $e;
+
+            $exitCode = $e->getCode();
         }
 
-        return (int) $exitCode;
+        return $exitCode;
 	}
 
     /**
