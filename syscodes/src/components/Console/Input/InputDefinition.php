@@ -85,16 +85,41 @@ class InputDefinition implements InputDefinitionInterface
     /**
      * Constructor. Create a new InputDefinition instance.
      * 
-     * @param  array  $arguments  The arguments for command
-     * @param  array $options  The options for command
+     * @param  array  $definition  An array of InputArgument and InputOption instance
      * 
      * @return void
      * 
      * @throws \LogicException
      * @throws \InvalidArgumentException
      */
-    public function __construct(array $arguments = [], array $options = [])
+    public function __construct(array $definition = [])
     {
+        return $this->setDefinition($definition);
+    }
+
+    /**
+     * Sets the definition of the input.
+     * 
+     * @param  array  $definition  An array of InputArgument and InputOption instance
+     * 
+     * @return void
+     * 
+     * @throws \LogicException
+     * @throws \InvalidArgumentException
+     */
+    public function setDefinition(array $definition)
+    {
+        $arguments = [];
+        $options   = [];
+
+        foreach ($definition as $key) {
+            if ($key instanceof InputOption) {
+                $options[] = $key;
+            } else {
+                $arguments[] = $key;
+            }
+        }
+
         $this->setArguments($arguments);
         $this->setOptions($options);
     }
