@@ -24,10 +24,13 @@ namespace Syscodes\Console\Command;
 
 use Throwable;
 use TypeError;
+use LogicException;
 use ReflectionProperty;
 use ReflectionException;
 use InvalidArgumentException;
-use Syscodes\Contracts\Console\InputDefinition;
+use Syscodes\Console\Input\InputOption;
+use Syscodes\Console\Input\InputArgument;
+use Syscodes\Console\Input\InputDefinition;
 use Syscodes\Contracts\Console\Input as InputInterface;
 use Syscodes\Contracts\Console\Output as OutputInterface;
 
@@ -208,6 +211,10 @@ abstract class BaseCommand
         } catch (Throwable $e) {
             throw $e;
         }
+        
+        if ($input->hasArgument('command') && null === $input->getArgument('command')) {
+            $input->setArgument('command', $this->getName());
+        }
 
         if (0 === (int) $this->code) {
             $statusCode = $this->execute($input, $output);
@@ -220,6 +227,92 @@ abstract class BaseCommand
         return is_numeric($statusCode) ? (int) $statusCode : 0;
     }
 
+    /**
+     * Gets the InputDefinition to be used to representate arguments 
+     * and options in a command.
+     * 
+     * @return \Syscodes\Console\Input\InputDefinition
+     */
+    public function getDefinition()
+    {
+        if (null === $this->definition) {
+            throw new LogicException(
+                sprintf('Probably Command class "%s" is not correctly initialized  because forget to call the parent constructor', static::class)
+            );
+        }
+
+        return $this->definition;
+    }
+
+     /**
+     * Sets the InputDefinition to be used to representate arguments 
+     * and options in a command.
+     * 
+     * @param  array|\Syscodes\Console\Input\InputDefinition  $definition  An array of InputArgument and InputOption instance
+     * 
+     * @return self
+     */
+    public function setDefinition($definition): self 
+    {
+        if ($definition instanceof InputDefinition) {
+            $this->definition = $definition;
+        } else {
+            $this->definition->setDefinition($definition);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Adds an argument in a command.
+     * 
+     * @param  string  $name  The argument name
+     * @param  int|null  $mode  The argument mode
+     * @param  string  $description  The description text
+     * @param  mixed  $default  The default value
+     * 
+     * @return $this
+     * 
+     * @throws \InvalidArgumentException  When argument mode is not valid
+     * @throws \LogicException
+     */
+    public function getArgument(
+        string $name,
+        int $mode = null,
+        string $description = '',
+        $default = null
+    ) {
+        $this->definition->addArgument(new InputArgument($name, $mode, $description, $default));
+
+        return $this;
+    }
+
+    /**
+     * Adds an option in a command.
+     * 
+     * @param  string  $name  The argument name
+     * @param  string|array|null  $shortcut  The shortcut of the option
+     * @param  int|null  $mode  The argument mode
+     * @param  string  $description  The description text
+     * @param  mixed  $default  The default value
+     * 
+     * @return $this
+     * 
+     * @throws \InvalidArgumentException  If option mode is invalid
+     */
+    public function getOption(
+        string $name, 
+        $shortcut = null,
+        int $mode = null,
+        string $description = '',
+        $default = null
+    ) {
+        $this->definition->addOption(new InputOption($name, $shortcut, $mode, $description, $default));
+
+        return $this;
+    }
+
+    
     /**
      * Gets the command name.
      * 
