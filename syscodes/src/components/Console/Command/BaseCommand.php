@@ -171,6 +171,7 @@ abstract class BaseCommand
             $this->setDescription(static::getDefaultDescription() ?? '');
         }
         
+        $this->configure();
     }
 
     /**
@@ -204,8 +205,6 @@ abstract class BaseCommand
      */
     public function run(InputInterface $input, OutputInterface $output)
     {
-        $this->configure();
-
         try {
             $input->linked($this->definition);
         } catch (Throwable $e) {
