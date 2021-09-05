@@ -47,6 +47,13 @@ use Syscodes\Contracts\Console\Output as OutputInterface;
 abstract class Console
 {
     /**
+     * Gets the command name.
+     * 
+     * @var array $commands
+     */
+    protected $commands = [];
+    
+    /**
 	 * The default command.
 	 * 
 	 * @var string $defaultCommand
@@ -54,11 +61,25 @@ abstract class Console
 	protected $defaultCommand;
 
     /**
+     * The InputDefinition implement.
+     * 
+     * @var \Syscodes\Console\Input\InputDefinition $definition
+     */
+    protected $definition;
+
+    /**
      * Gets the name of the aplication.
      * 
      * @var string $name
      */
     protected $name;
+
+    /**
+     * The single command.
+     * 
+     * @var bool $singleCommand
+     */
+    protected $singleCommand = false;
 
     /**
      * Gets the version of the application.
@@ -195,5 +216,15 @@ abstract class Console
         }
 
         return 'Lenevor CLI Console';
+    }
+
+    /**
+     * Gets the default commands that should always be available.
+     * 
+     * @return array
+     */
+    protected function getDefaultCommands(): array
+    {
+        return [new HelpCommand(), new ListCommand()];
     }
 }
