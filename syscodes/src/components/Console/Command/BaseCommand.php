@@ -98,6 +98,13 @@ abstract class BaseCommand
     protected $group;
 
     /**
+     * The validation of ignored errors 
+     * 
+     * @var bool $ignoreValidationErrors
+     */
+    protected $ignoreValidationErrors = false;
+
+    /**
      * The console command name.
      * 
      * @var string $name
@@ -206,9 +213,11 @@ abstract class BaseCommand
     public function run(InputInterface $input, OutputInterface $output)
     {
         try {
-            $input->linked($this->definition);
+            $input->linked($this->getDefinition());
         } catch (Throwable $e) {
-            throw $e;
+            if ( ! $this->ignoreValidationErrors) {
+                throw $e;
+            }
         }
         
         if ($input->hasArgument('command') && null === $input->getArgument('command')) {
