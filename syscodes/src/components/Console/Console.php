@@ -24,8 +24,8 @@ namespace Syscodes\Console;
 
 use Exception;
 use Syscodes\Console\Command\Command;
-use Syscodes\Support\Facades\Request;
 use Syscodes\Console\Input\ArgvInput;
+use Syscodes\Support\Facades\Request;
 use Syscodes\Console\Input\ArrayInput;
 use Syscodes\Console\Input\InputOption;
 use Syscodes\Console\Command\HelpCommand;
@@ -216,6 +216,18 @@ abstract class Console
         }
 
         return 'Lenevor CLI Console';
+    }
+
+    /**
+     * Gets the name of the command based on input.
+     * 
+     * @param  \Syscodes\Contracts\Console\Input  $input
+     * 
+     * @return string|null
+     */
+    protected function getCommandName(InputInterface $input)
+    {
+        return $this->singleCommand ? $this->defaultCommand : $input->getFirstArgument();
     }
 
     /**
