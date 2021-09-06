@@ -43,6 +43,7 @@ class StreamOutput extends Output
      * Constructor. Create a new StreamOutput instance.
      * 
      * @param  resource  $stream  The stream resource
+     * @param  int  $verbosity  The verbosity level
      * @param  bool|null  $decorated  Whether to decorated messages
      * @param  \Syscodes\Contracts\Console\OutputFormatter|null  $formatter  The output formatter instance
      * 
@@ -50,7 +51,7 @@ class StreamOutput extends Output
      * 
      * @throws \InvalidArgumentException
      */
-    public function __construct($stream, bool $decorated = false, OutputFormatter $formatter = null)
+    public function __construct($stream, int $verbosity = self::VERBOSITY_NORMAL, bool $decorated = false, OutputFormatter $formatter = null)
     {
         if ( ! \is_resource($stream) || 'stream' !== \get_resource_type($stream)) {
             throw new InvalidArgumentException('The StreamOutput class needs a stream as its first argument');
@@ -62,7 +63,7 @@ class StreamOutput extends Output
             $decorated = $this->hasColorActivated();
         }
 
-        parent::__construct($decorated, $formatter);
+        parent::__construct($verbosity, $decorated, $formatter);
     }
 
     /**
