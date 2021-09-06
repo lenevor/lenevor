@@ -43,6 +43,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     /**
      * Constructor. Create a new StreamOutput instance.
      * 
+     * @param  int  $verbosity  The verbosity level
      * @param  bool|null  $decorated  Whether to decorated messages
      * @param  \Syscodes\Contracts\Console\OutputFormatter|null  $formatter  The output formatter instance
      * 
@@ -50,17 +51,17 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
      * 
      * @throws \InvalidArgumentException
      */
-    public function __construct(bool $decorated = false, OutputFormatter $formatter = null)
+    public function __construct(int $verbosity = self::VERBOSITY_NORMAL, bool $decorated = false, OutputFormatter $formatter = null)
     {
-        parent::__construct($this->OpenOutputStream(), $decorated, $formatter);
+        parent::__construct($this->OpenOutputStream(), $verbosity, $decorated, $formatter);
 
         if (null === $formatter) {
-            $this->stderr = new StreamOutput($this->openErrorStream(), $decorated);
+            $this->stderr = new StreamOutput($this->openErrorStream(), $verbosity, $decorated);
 
             return;
         }
         
-        $this->stderr = new StreamOutput($this->openErrorStream(), $decorated, $this->getFormatter());
+        $this->stderr = new StreamOutput($this->openErrorStream(), $verbosity, $decorated, $this->getFormatter());
 
         if (null === $decorated) {
             $this->setDecorated($this->stderr->getDecorated());
@@ -68,11 +69,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     }
 
     /**
-	 * Sets the decorated flag.
-	 * 
-	 * @param  bool  $decorated  Whether to decorated messages
-	 * 
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public function setDecorated(bool $decorated): void
     {
@@ -82,11 +79,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     }
 
     /**
-	 * Sets a output formatter instance.
-	 * 
-	 * @param  \Syscodes\Contracts\Console\OutputFormatter  $formatter;
-	 * 
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public function setFormatter(OutputFormatterInterface $formatter): void
     {
@@ -96,9 +89,17 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     }
 
     /**
-     * Gets the Output interface for errors.
-     * 
-     * @return \Syscodes\Contracts\Console\Output
+	 * {@inheritdoc}
+	 */
+	public function setVerbosity(int $level): void
+	{
+		parent::setVerbosity($level);
+
+        $this->stderr->setVerbosity($level);
+	}
+
+    /**
+     * {@inheritdoc}
      */
     public function getErrorOutput(): OutputInterface
     {
@@ -106,11 +107,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     }
 
     /**
-     * Sets the Output interface for errors.
-     * 
-     * @param  \Syscodes\Contracts\Console\Output  $error
-     * 
-     * @return \Syscodes\Contracts\Console\Output
+     * {@inheritdoc}
      */
     public function SetErrorOutput(OutputInterface $error): void
     {
