@@ -31,9 +31,17 @@ use Syscodes\Contracts\Console\OutputFormatter as OutputFormatterInterface;
  */
 interface Output
 {
+	// Output formatter
 	public const OUTPUT_NORMAL = 1;
 	public const OUTPUT_RAW = 2;
 	public const OUTPUT_PLAIN = 3;
+
+	// Output verbose
+	public const VERBOSITY_QUIET = 16;
+	public const VERBOSITY_NORMAL = 32;
+	public const VERBOSITY_VERBOSE = 64;
+	public const VERBOSITY_VERY_VERBOSE = 128;
+	public const VERBOSITY_DEBUG = 256;
 
 	/**
 	 * Gets the decorated flag.
@@ -66,6 +74,50 @@ interface Output
 	 * @return void
 	 */
 	public function setFormatter(OutputFormatterInterface $formatter): void;
+
+	/**
+	 * Gets the current verbosity of the output.
+	 * 
+	 * @return int
+	 */
+	public function getVerbosity(): int;
+
+	/**
+	 * Sets the verbosity of the output.
+	 * 
+	 * @param  int  $level
+	 * 
+	 * @return void
+	 */
+	public function setVerbosity(int $level): void;
+
+	/**
+	 * Returns whether verbosity is quiet (-q).
+	 * 
+	 * @return bool
+	 */
+	public function isQuiet(): bool;
+
+	/**
+	 * Returns whether verbosity is verbose (-v).
+	 * 
+	 * @return bool
+	 */
+	public function isVerbose(): bool;
+
+	/**
+	 * Returns whether verbosity is very verbose (-vv).
+	 * 
+	 * @return bool
+	 */
+	public function isVeryVerbose(): bool;
+
+	/**
+	 * Returns whether verbosity is debug (-vvv).
+	 * 
+	 * @return bool
+	 */
+	public function isDebug(): bool;
 
     /**
 	 * Outputs a string to the cli.	If you send an array it will implode them
