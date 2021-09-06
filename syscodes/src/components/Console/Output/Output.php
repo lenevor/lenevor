@@ -45,23 +45,31 @@ abstract class Output implements OutputInterface
 	protected $formatter;
 
 	/**
+	 * Gets the verbosity level.
+	 * 
+	 * @var int $verbosity
+	 */
+	protected $verbosity;
+
+	/**
 	 * Constructor. Create a new Output instance.
 	 * 
+	 * @param  int|null  $verbosity  The verbosity level
 	 * @param  bool  $decorated  Whether to decorated messages
 	 * @param  \Syscodes\Contracts\Console\OutputFormatter|null  $formatter  The output formatter instance
 	 * 
 	 * @return void
 	 */
-	public function __construct(bool $decorated = false, OutputFormatterInterface $formatter = null)
+	public function __construct(?int $verbosity = self::VERBOSITY_NORMAL, bool $decorated = false, OutputFormatterInterface $formatter = null)
 	{
+		$this->verbosity = $verbosity ?? self::VERBOSITY_NORMAL;
 		$this->formatter = $formatter ?? new OutputFormatter();
+
 		$this->formatter->setDecorated($decorated);
 	}
 
 	/**
-	 * Gets the decorated flag.
-	 * 
-	 * @return bool
+	 * {@inheritdoc}
 	 */
 	public function getDecorated(): string
 	{
@@ -69,11 +77,7 @@ abstract class Output implements OutputInterface
 	}
 
 	/**
-	 * Sets the decorated flag.
-	 * 
-	 * @param  bool  $decorated  Whether to decorated messages
-	 * 
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public function setDecorated(bool $decorated): void
 	{
@@ -81,9 +85,7 @@ abstract class Output implements OutputInterface
 	}
 
 	/**
-	 * Returns a output formatter instance.
-	 * 
-	 * @return \Syscodes\Contracts\Console\OutputFormatter
+	 * {@inheritdoc}
 	 */
 	public function getFormatter(): OutputFormatterInterface
 	{
@@ -91,11 +93,7 @@ abstract class Output implements OutputInterface
 	}
 
 	/**
-	 * Sets a output formatter instance.
-	 * 
-	 * @param  \Syscodes\Contracts\Console\OutputFormatter  $formatter;
-	 * 
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public function setFormatter(OutputFormatterInterface $formatter): void
 	{
@@ -103,12 +101,55 @@ abstract class Output implements OutputInterface
 	}
 
 	/**
-	 * Writes a message to the output and adds a newline at the end.
-	 * 
-	 * @param  string|iterable  $messages  The message as an iterable of strings or a single string
-	 * @param  int  $options  A bitmask of options (0 is considered the same as self::OUTPUT_NORMAL)
-	 * 
-	 * @return string
+	 * {@inheritdoc}
+	 */
+	public function getVerbosity(): int
+	{
+		return $this->verbosity;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setVerbosity(int $level): void
+	{
+		$this->verbosity = $level;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isQuiet(): bool
+	{
+		return self::VERBOSITY_QUIET === $this->verbosity;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isVerbose(): bool
+	{
+		return self::VERBOSITY_VERBOSE <= $this->verbosity;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isVeryVerbose(): bool
+	{
+		return self::VERBOSITY_VERY_VERBOSE <= $this->verbosity;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isDebug(): bool
+	{
+		return self::VERBOSITY_QUIET <= $this->verbosity;
+	}
+
+	/**
+	 * {@inheritdoc}
 	 */
 	public function writeln($messages, int $options = self::OUTPUT_NORMAL)
     {
@@ -116,14 +157,7 @@ abstract class Output implements OutputInterface
     }
 
     /**
-	 * Outputs a string to the cli.	If you send an array it will implode them
-	 * with a line break.
-	 * 
-	 * @param  string|iterable  $messages  The text to output, or array of lines
-	 * @param  bool  $newline  Add a newline command
-	 * @param  int  $options  A bitmask of options (0 is considered the same as self::OUTPUT_NORMAL)
-	 * 
-	 * @return string
+	 * {@inheritdoc}
 	 */
 	public function write($messages, bool $newline = false, int $options = self::OUTPUT_NORMAL)
     {
