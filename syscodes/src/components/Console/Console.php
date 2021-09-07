@@ -192,6 +192,8 @@ abstract class Console
 
             return 0;
         }
+
+        $name = $this->getCommandName($input);
     }
 
     /**
@@ -216,6 +218,22 @@ abstract class Console
         }
 
         return 'Lenevor CLI Console';
+    }
+
+    /**
+     * Adds a command object.
+     * 
+     * @param  \Syscodes\Console\Command\Command  $command
+     * 
+     * @return \Syscodes\Console\Command\Command
+     */
+    public function add(Command $command)
+    {
+        $this->initialize();
+
+        $this->commands[$command->getName()] = $command;
+
+        return $this;
     }
 
     /**
