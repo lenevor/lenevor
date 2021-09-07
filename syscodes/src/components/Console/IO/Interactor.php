@@ -23,9 +23,13 @@
 namespace Syscodes\Console\IO;
 
 /**
+ * CLI Interactor.
+ * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Interator
 {
-    
+    /**
+     * 
+     */
 }
