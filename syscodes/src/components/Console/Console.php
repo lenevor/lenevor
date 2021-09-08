@@ -189,11 +189,17 @@ abstract class Console
     {
         if (true === $input->hasParameterOption(['--version', '-V'], true)) {
             $output->writeln($this->getConsoleVersion());
-
+           
             return 0;
         }
+        
+        try {
+            $input->linked($this->getDefinition());
+        } catch (Exception $e) {}
 
         $name = $this->getCommandName($input);
+
+        return $input->linked($this->getDefinition());
     }
 
     /**
@@ -246,6 +252,44 @@ abstract class Console
     protected function getCommandName(InputInterface $input)
     {
         return $this->singleCommand ? $this->defaultCommand : $input->getFirstArgument();
+    }
+
+    /**
+     * Getsinput definition.
+     * 
+     * @return \Syscodes\Console\Input\InputDefinition
+     */
+    public function getDefinition() 
+    {
+        if ( ! $this->definition) {
+            $this->definition = $this->getDefaultInputDefinition();
+        }
+
+        if ($this->singleCommand) {
+            $inputDefinition = $this->definition;
+            $inputDefinition->setArguments();
+            
+            return $inputDefinition;
+        }
+        
+        return $this->definition;
+    }
+
+    /**
+     * Gets the default input definition.
+     * 
+     * @return \Syscodes\Console\Input\InputDefinition
+     */
+    protected function getDefaultInputDefinition()
+    {
+        return new InputDefinition([
+            new InputArgument('command', InputArgument::REQUIRED, 'The command to execute'),
+            new InputOption('--help', '-h', InputOption::VALUE_NONE, 'Display help for the given command. When no command is given display help for the <info>'.$this->defaultCommand.'</info> command'),
+            new InputOption('--quiet', '-q', InputOption::VALUE_NONE, 'Do not output any message'),
+            new InputOption('--verbose', '-v|vv|vvv', InputOption::VALUE_NONE, 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'),
+            new InputOption('--version', '-V', InputOption::VALUE_NONE, 'Display this application version'),
+            new InputOption('--ansi', '', InputOption::VALUE_NEGATABLE, 'Force (or disable --no-ansi) ANSI output', false)
+        ]);
     }
 
     /**
