@@ -23,6 +23,7 @@
 namespace Syscodes\Console;
 
 use Exception;
+use Syscodes\Console\IO\Interactor;
 use Syscodes\Console\Command\Command;
 use Syscodes\Console\Input\ArgvInput;
 use Syscodes\Support\Facades\Request;
@@ -166,6 +167,8 @@ abstract class Console
             $output = new ConsoleOutput();
         }
 
+        $this->configureIO($input, $output);
+
         try {
             $exitCode = $this->doExecute($input, $output);
         } catch (Exception $e) {
@@ -176,6 +179,16 @@ abstract class Console
 
         return $exitCode;
 	}
+
+    /**
+     * Configures the input and output instances.
+     * 
+     * @return \Syscodes\Console\IO\Interactor
+     */
+    protected function configureIO($input, $ouput)
+    {
+        return (new Interactor($input, $output))->getConfigureIO();
+    }
 
     /**
      * Executes the current application of console.
@@ -199,7 +212,7 @@ abstract class Console
 
         $name = $this->getCommandName($input);
 
-        return $input->linked($this->getDefinition());
+        return;
     }
 
     /**
