@@ -56,7 +56,7 @@ class Interactor
      */
     public function __construct(InputInterface $input = null, OutputInterface $output = null)
     {
-        $this->input = $input;
+        $this->input  = $input;
         $this->output = $output;
     }
 
