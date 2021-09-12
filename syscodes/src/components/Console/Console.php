@@ -26,17 +26,19 @@ use Exception;
 use Syscodes\Console\IO\Interactor;
 use Syscodes\Console\Command\Command;
 use Syscodes\Console\Input\ArgvInput;
-use Syscodes\Support\Facades\Request;
 use Syscodes\Console\Input\ArrayInput;
-use Syscodes\Console\Input\InputOption;
 use Syscodes\Console\Command\HelpCommand;
 use Syscodes\Console\Command\ListCommand;
 use Syscodes\Console\Input\InputArgument;
 use Syscodes\Console\Output\ConsoleOutput;
 use Syscodes\Console\Input\InputDefinition;
+use Syscodes\Contracts\Console\InputOption;
+use Syscodes\Console\Concerns\ApplicationHelp;
 use Syscodes\Console\Formatter\OutputFormatter;
 use Syscodes\Contracts\Console\Input as InputInterface;
 use Syscodes\Contracts\Console\Output as OutputInterface;
+use Syscodes\Contracts\Console\InputOption as InputOptionInterface;
+use Syscodes\Contracts\Console\InputArgument as InputArgumentInterface;
 
 /**
  * This is the main entry point of a Console application.
@@ -47,6 +49,20 @@ use Syscodes\Contracts\Console\Output as OutputInterface;
  */
 abstract class Console
 {
+    use ApplicationHelp;
+    
+    /**
+     * The list of internal commands.
+     * 
+     * @var array $internalCommands
+     */
+    protected static $internalCommands = [
+        'version' => 'Displays the application version',
+        'about'   => 'Displays information about the current project',
+        'help'    => 'Displays help for a command',
+        'list'    => 'Lists commands'
+    ];
+
     /**
      * Gets the command name.
      * 
@@ -67,6 +83,13 @@ abstract class Console
      * @var \Syscodes\Console\Input\InputDefinition $definition
      */
     protected $definition;
+
+    /**
+     * Command delimiter.
+     * 
+     * @var string $delimiter
+     */
+    protected $delimiter = ':';
 
     /**
      * Gets the name of the aplication.
@@ -183,9 +206,12 @@ abstract class Console
     /**
      * Configures the input and output instances.
      * 
+     * @param  \Syscodes\Contracts\Console\Input  $input  The input interface implemented
+	 * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
+     * 
      * @return \Syscodes\Console\IO\Interactor
      */
-    protected function configureIO($input, $ouput)
+    protected function configureIO($input, $output)
     {
         return (new Interactor($input, $output))->getConfigureIO();
     }
@@ -200,19 +226,63 @@ abstract class Console
      */
     public function doExecute(InputInterface $input, OutputInterface $output)
     {
-        if (true === $input->hasParameterOption(['--version', '-V'], true)) {
-            $output->writeln($this->getConsoleVersion());
-           
+        if ($this->filterCommands($input, $output)) {
             return 0;
         }
         
         try {
             $input->linked($this->getDefinition());
-        } catch (Exception $e) {}
+        } catch (Exception $e) {}       
+    }
 
-        $name = $this->getCommandName($input);
+    /**
+     * Gets the filter commands.
+     * 
+     * @param  \Syscodes\Contracts\Console\Input  $input  The input interface implemented
+     * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
+     * @param  string|null  $command  The command name
+     * 
+     * @return bool
+     */
+    protected function filterCommands($input, $output, ?string $command = null): bool
+    {
+        if ( ! $command) {
+            if ($input->hasParameterOption(GlobalOption::VERSION_OPTION, true)) {
+                $this->displayVersionInfo($output);
 
-        return;
+                return true;
+            }
+
+            $command = $this->defaultCommand;
+        } elseif ( ! static::$internalCommands) {
+            return false;
+        }
+
+        switch($command) {
+            case 'version':
+                $this->displayVersionInfo($output);
+                break;
+            case 'list':
+                $this->displayVersionInfo($output);
+                $output->writeln("\n".'<yellow>No elements for listing</yellow>');                
+                break;
+            default:
+                false;
+        }
+
+        return true;
+    }
+    
+    /**
+     * Gets internal command.
+     * 
+     * @param  string  $name
+     * 
+     * @return bool
+     */
+    public function isInternalCommand(string $name): bool
+    {
+        return isset(static::$internalCommands[$name]);
     }
 
     /**
@@ -296,12 +366,12 @@ abstract class Console
     protected function getDefaultInputDefinition()
     {
         return new InputDefinition([
-            new InputArgument('command', InputArgument::REQUIRED, 'The command to execute'),
-            new InputOption('--help', '-h', InputOption::VALUE_NONE, 'Display help for the given command. When no command is given display help for the <info>'.$this->defaultCommand.'</info> command'),
-            new InputOption('--quiet', '-q', InputOption::VALUE_NONE, 'Do not output any message'),
-            new InputOption('--verbose', '-v|vv|vvv', InputOption::VALUE_NONE, 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'),
-            new InputOption('--version', '-V', InputOption::VALUE_NONE, 'Display this application version'),
-            new InputOption('--ansi', '', InputOption::VALUE_NEGATABLE, 'Force (or disable --no-ansi) ANSI output', false)
+            new InputArgument('command', InputArgumentInterface::REQUIRED, 'The command to execute'),
+            new InputOption('--help', '-h', InputOptionInterface::VALUE_NONE, 'Display help for the given command. When no command is given display help for the <info>'.$this->defaultCommand.'</info> command'),
+            new InputOption('--quiet', '-q', InputOptionInterface::VALUE_NONE, 'Do not output any message'),
+            new InputOption('--verbose', '-v|vv|vvv', InputOptionInterface::VALUE_NONE, 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'),
+            new InputOption('--version', '-V', InputOptionInterface::VALUE_NONE, 'Display this application version'),
+            new InputOption('--ansi', '', InputOptionInterface::VALUE_NEGATABLE, 'Force (or disable --no-ansi) ANSI output', false)
         ]);
     }
 
