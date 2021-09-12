@@ -66,7 +66,7 @@ class Interactor
      * 
      * @return mixed
      */
-    protected function getConfigureIO()
+    public function getConfigureIO()
     {
         if (true === $this->input->hasParameterOption(['--ansi'], true)) {
             $this->output->setDecorated(true);
