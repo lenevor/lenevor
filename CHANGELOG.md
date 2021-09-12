@@ -1,5 +1,83 @@
 # Release Notes
 
+## [Version 0.7.6-alpha.7] 
+
+Release Date: Sep 12, 2021
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added method for load the deferred provider
+- Added the methods to create a collection which using callback
+- Added new function for return the given value
+- Added type of parameter for implement Container interface
+- Added a route compiler for parameters capture
+- Added loop for get compiler route pattern
+- Added methods for setting console
+- Added method call for used given callable or class@method
+- Added in array the interface implementation in the key of the Translator
+- Added interface of `Translator` and added new methods for the default locale
+- Added SVG tag for show logo of framework
+- Added script of javascript for classes toggle
+- Added method for resolve command instance
+- Added methods for register the conditions of development code web
+- Added new method for create the transpiled file directory
+- Added method for register the literal blocks
+- Added method for generate form field to spoof HTTP verb
+- Added new method for checks the request specified type
+- Added new method for retrieve a query string in request HTTP
+- Added new class referring normalized HTTP requests
+- Added variables and methods for returns the given text with color codes
+- Added variables and methods for outputs a string to the CLI command
+- Added new method for returns of console formatted for comments
+- Added method for show version of the application
+- Added new argument of `app->version()`
+- Added new methods for sets style foreground, background and options defining style
+- Added new methods where formatter show console output messages
+- Added methods for output formatter
+- Added methods for output to a given stream
+- Added new methods for replace tags in color codes output
+- Added method for color style from a parameter string
+- Added methods for represents a command line argument
+- Added methods for shutdown the application
+- Added method for replaces tag on command console
+- Added variable for alias of command name of the class
+- Added the code when execute a command
+- Added conditional for enabled of command errors
+- Added method and variable for verbosity
+- Added configures of input and output instances
+- Added class for list global option of commands
+
+### Fixed
+- Fix bug for include namespace `ReflectionFunctionAbstract`
+- Fix bugs in loops and conditionals
+
+### Changed
+- Changed name of theme to light-theme class
+- Changed result output to string in console system
+- Changed the class name of styles and added method of rendered styles
+- Changed configure() method at __construct method
+
+### Created
+- Created new class for arrays of autoloading
+- Created new interface for loads messages for the given locale
+- Created new interface for gets the translations of text lines
+- Created new class for loads the translation messages to from an array
+- Created method with alias of isXmlHtmlRequest()
+- Created interface for defining styles
+- Created ANSI Code for use the colors and options format on CLI command
+- Created interface for input to CLI arguments
+- Created trait for show internal commands
+
+### Removed
+- Removed type of parameter
+- Removed loadLegacy method in `Autoloader` class
+- Removed keys with your respective values
+- Removed call at methods setStyle
+- Removed indentificated of output arguments in method
+- Removed identificater of method output
+
+
 ## [Version 0.7.5-alpha.7] 
 
 Release Date: Mar 16, 2021
