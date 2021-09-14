@@ -76,6 +76,21 @@ class Application extends Console implements ApplicationContract
 	 */
 	public function run(InputInterface $input = null, OutputInterface $output = null)
 	{
+		$this->setLogo("
+                    __                                                    
+                   / /   ___  ____  ___ _   ______  _____                 
+                  / /   / _ \/ __ \/ _ \ | / / __ \/ ___/                 
+                 / /___/  __/ / / /  __/ |/ / /_/ / /                     
+                /_____/\___/_/ /_/\___/|___/\____/_/                      
+   ________    ____   ___                ___            __  _                
+  / ____/ /   /  _/  /   |  ____  ____  / (_)________ _/ /_(_)___  ____      
+ / /   / /    / /   / /| | / __ \/ __ \/ / / ___/ __ `/ __/ / __ \/ __ \     
+/ /___/ /____/ /   / ___ |/ /_/ / /_/ / / / /__/ /_/ / /_/ / /_/ / / / /     
+\____/_____/___/  /_/  |_/ .___/ .___/_/_/\___/\__,_/\__/_/\____/_/ /_/
+                        /_/   /_/ 
+
+	", 'info');
+
 		$exit = parent::run($input, $output);
 
 		return $exit;
