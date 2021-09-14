@@ -59,9 +59,9 @@ final class ColorTag
      *
      * @return string
      */
-    public static function wrap(string $text, string $tag): string
+    public static function wrap(string $text, string $tag)
     {
-        if (!$text || !$tag) {
+        if ( ! $text || ! $tag) {
             return $text;
         }
 
