@@ -64,6 +64,19 @@ abstract class Console
     ];
 
     /**
+     * Application config data.
+     * 
+     * @var array $config
+     */
+    protected $config = [
+        'homepage'   => '',
+        'createdAt' => '02.05.2019',
+        'updateAt'   => '13.09.2021',
+        'logoText'   => '',
+        'logoStyle'  => 'info',
+    ];
+
+    /**
      * Gets the command name.
      * 
      * @var array $commands
@@ -263,7 +276,7 @@ abstract class Console
                 $this->displayVersionInfo($output);
                 break;
             case 'list':
-                $this->displayVersionInfo($output);
+                $output->writeln($this->getConsoleVersion());
                 $output->writeln("\n".'<yellow>No elements for listing</yellow>');                
                 break;
             default:
@@ -283,30 +296,6 @@ abstract class Console
     public function isInternalCommand(string $name): bool
     {
         return isset(static::$internalCommands[$name]);
-    }
-
-    /**
-     * Returns the version of the console.
-     *
-     * @return string
-     */
-    public function getConsoleVersion()
-    {
-        if ('UNKNOWN' !== $this->getName()) {
-            if ('UNKNOWN' !== $this->getVersion()) {
-                return sprintf('%s <info>%s</info> (env: <comment>%s</comment>, debug: <comment>%s</comment>) [<magenta>%s</magenta>]', 
-                    $this->getName(), 
-                    $this->getVersion(),
-                    env('APP_ENV'),
-                    env('APP_DEBUG') ? 'true' : 'false',
-			        PHP_OS
-                );
-            }
-
-            return $this->getName();
-        }
-
-        return 'Lenevor CLI Console';
     }
 
     /**
@@ -383,5 +372,67 @@ abstract class Console
     protected function getDefaultCommands(): array
     {
         return [new HelpCommand(), new ListCommand()];
+    }
+
+    /**
+     * Gets the logo text for console app.
+     * 
+     * @return string|null
+     */
+    public function getLogoText(): string
+    {
+        return $this->config['logoText'] ?? null;
+    }
+
+    /**
+     * Sets the logo text for console app.
+     * 
+     * @param  string  $logoText
+     * @param  striong|null  $style
+     * 
+     * @return void
+     */
+    public function setLogo(string $logoText, string $style = null): void
+    {
+        $this->config['logoText'] = $logoText;
+
+        if ($style) {
+            $this->config['logoStyle'] = $style;
+        }
+    }
+
+    /**
+     * Gets the logo style for console app.
+     * 
+     * @return string|null 
+     */
+    public function getLogoStyle(): ?string
+    {
+        return $this->config['logoStyle'] ?? 'info';
+    }
+
+    /**
+     * Sets the logo style for console app.
+     * 
+     * @param  string  $style
+     * 
+     * @return void
+     */
+    public function setLogoStyle(string $style): void
+    {
+        $this->config['logoStyle'] = $style;
+    }
+
+    /**
+     * Get config param value.
+     * 
+     * @param  string  $name
+     * @param  string|null  $default
+     * 
+     * @return array|string
+     */
+    public function getParam(string $name, $default = null)
+    {
+        return $this->config[$name] ?? $default;
     }
 }
