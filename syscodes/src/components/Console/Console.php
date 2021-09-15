@@ -70,7 +70,7 @@ abstract class Console
      */
     protected $config = [
         'homepage'   => '',
-        'createdAt' => '02.05.2019',
+        'publishAt'  => '02.05.2019',
         'updateAt'   => '13.09.2021',
         'logoText'   => '',
         'logoStyle'  => 'info',
