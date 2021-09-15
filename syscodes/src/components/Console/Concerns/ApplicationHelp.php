@@ -51,14 +51,14 @@ trait ApplicationHelp
     public function getConsoleWithLogo(): string
     {
         $updateAt  = $this->getParam('updateAt', 'Unknown');
-        $createdAt = $this->getParam('createdAt', 'Unknown');
+        $publishAt = $this->getParam('publishAt', 'Unknown');
 
         if ($logoTxt = $this->getLogoText()) {
             $logo = ColorTag::wrap($logoTxt, $this->getLogoStyle());
         }
 
-        $info = "$logo\n<hiBlue>{$this->getName()}</hiBlue>, Version <yellow>{$this->getVersion()}</yellow>".
-                "\n\n<hiMagenta>Application Info</hiMagenta> : Update at <green>$updateAt</green>, created at <green>$createdAt</green>";
+        $info = "$logo\n<hiBlue>{$this->getName()}</hiBlue>, Version <comment>{$this->getVersion()}</comment>".
+                "\n\n<hiMagenta>Application Info</hiMagenta> : Update at <hiGreen>$updateAt</hiGreen>, publish at <hiGreen>$publishAt</hiGreen>";
 
         if ($hUrl = $this->getParam('homepage')) {
             $info .= "\n\t<hiMagenta>Homepage</hiMagenta> : <undersline>$hUrl</undersline>\n";
