@@ -40,7 +40,7 @@ trait ApplicationHelp
      */
     public function displayVersionInfo($output) 
     {
-        $output->writeln($this->getConsoleWithLogo());
+        $output->writeln($this->makeVersionInfo());
     }
 
     /**
@@ -48,7 +48,7 @@ trait ApplicationHelp
      *
      * @return string
      */
-    public function getConsoleWithLogo(): string
+    public function makeVersionInfo(): string
     {
         $updateAt  = $this->getParam('updateAt', 'Unknown');
         $publishAt = $this->getParam('publishAt', 'Unknown');
