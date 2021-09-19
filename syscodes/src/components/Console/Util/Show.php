@@ -22,6 +22,8 @@
 
 namespace Syscodes\Console\Util;
 
+use Syscodes\Contracts\Console\Output as OutputInterface;
+
 /**
  * Format and render to a list of items.
  * 
@@ -29,5 +31,18 @@ namespace Syscodes\Console\Util;
  */
 class Show
 {
-    
+    /**
+     * Show the single List.
+     * 
+     * @param  mixed  $data  The list of data
+     * @param  string  $title  The title of list
+     * @param  array  $options  The options for list of data
+     * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
+     * 
+     * @return int|string
+     */
+    public static function sList($data, string $title = '', array $options = [], OutputInterface $output)
+    {
+        return SingleList::show($data, $title, $options, $output);
+    }
 }
