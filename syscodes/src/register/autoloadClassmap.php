@@ -66,6 +66,7 @@ return [
     'Syscodes\\Console\\Style\\ColorANSICode' => SYS_PATH.'src/components/Console/Style/ColorANSICode.php',
     'Syscodes\\Console\\Style\\ColorTag' => SYS_PATH.'src/components/Console/Style/ColorTag.php',
     'Syscodes\\Console\\Util\\Cursor' => SYS_PATH.'src/components/Console/Util/Cursor.php',
+    'Syscodes\\Console\\Util\\FormatUtil' => SYS_PATH.'src/components/Console/Util/FormatUtil.php',
     'Syscodes\\Console\\Util\\Show' => SYS_PATH.'src/components/Console/Util/Show.php',
     'Syscodes\\Console\\Util\\Table' => SYS_PATH.'src/components/Console/Util/Table.php',
     'Syscodes\\Console\\Application' => SYS_PATH.'src/components/Console/Application.php',
