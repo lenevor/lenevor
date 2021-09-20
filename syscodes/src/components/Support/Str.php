@@ -357,15 +357,34 @@ class Str
         return mb_substr($string, $start, $length, 'UTF-8');
     }
 
+    /**
+     * Generates the letter first of a word in upper.
+     * 
+     * @param  string  $value
+     * 
+     * @return string
+     */
+    public static function title($value)
+    {
+        $value = \ucwords(\strtolower($value));
+        
+        foreach (['-', '\''] as $delimiter) {
+            if (false !== \strpos($value, $delimiter)) {
+                $value = \implode($delimiter, \array_map('ucfirst', \explode($delimiter, $value)));
+            }
+        }
+        
+        return $value;
+    }
 
     /**
-     * Convert the given string to title case.
+     * Convert the given string to title case in UTF-8 format.
      *
      * @param  string  $value
      *
      * @return string
      */
-    public static function title($value)
+    public static function uTitle($value)
     {
         return mb_convert_case($value, MB_CASE_TITLE, 'UTF-8');
     }
