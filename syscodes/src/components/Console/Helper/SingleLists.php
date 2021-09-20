@@ -22,6 +22,7 @@
 
 namespace Syscodes\Console\Helper;
 
+use Syscodes\Support\Str;
 use Syscodes\Contracts\Console\Output as OutputInterface;
 
 /**
@@ -32,6 +33,8 @@ use Syscodes\Contracts\Console\Output as OutputInterface;
 class SingleList
 {
     /**
+     * Displays the list of data with options.
+     * 
      * @param  mixed  $data  The list of data
      * @param  string  $title  The title of list
      * @param  array  $options  The options for list of data
@@ -39,8 +42,36 @@ class SingleList
      * 
      * @return int|string
      */
-    public static function show($data, string $title = '', array $options = [], OutputInterface $output)
+    public static function show($data, string $title = 'Information', array $options = [], OutputInterface $output)
     {
+        $string = '';
         
+        $options = array_merge([
+            'leftChar'     => '  ', 
+            //'sepChar'      => '  ',
+            'keyStyle'     => 'info',
+            'keyMinWidth'  => 8,
+            'titleStyle'   => 'comment',
+            'ucFirst'      => false,
+            'returned'     => false,
+            'ucTitleWords' => true,
+            'lastNewline'  => true,
+        ], $options);
+        
+        // title
+        if ($title) {
+            $title  = $options['ucTitleWords'] ? Str::title(trim($title)) : $title;
+            $string .= ColorTag::wrap($title, $options['titleStyle']) . PHP_EOL;
+        }
+        
+        // Handle item list
+        $string .= FormatUtil::spliceKeyValue((array)$data, $options);
+        
+        // Return formatted string
+        if ($options['returned']) {
+            return $string;
+        }
+        
+        return $console->writeln($string);
     }
 }
