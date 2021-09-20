@@ -89,10 +89,10 @@ class Application extends Console implements ApplicationContract
 \____/_____/___/  /_/  |_/ .___/ .___/_/_/\___/\__,_/\__/_/\____/_/ /_/
                         /_/   /_/ 
 
-	", 'info');
-
+	", 'normal');
+		
 		$exit = parent::run($input, $output);
-
+		
 		return $exit;
 	}
 
