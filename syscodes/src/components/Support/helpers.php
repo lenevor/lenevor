@@ -138,7 +138,7 @@ if ( ! function_exists('str_smallcase')) {
 }
 
 if ( ! function_exists('str_underscore')) {
-  /**
+    /**
      * Replace in the string the spaces by low dashes.
      *
      * @param  string  $string
@@ -154,7 +154,7 @@ if ( ! function_exists('str_underscore')) {
 }
 
 if ( ! function_exists('studly_caps')) {
-  /**
+    /**
      * Convert the string with spaces or underscore in StudlyCaps. 
      *
      * @param  string  $string
@@ -166,6 +166,38 @@ if ( ! function_exists('studly_caps')) {
     function studly_caps($string)
     {
         return Str::studlycaps($string);
+    }
+}
+
+if ( ! function_exists('title')) {
+    /**
+     * Generates the letter first of a word in upper.
+     * 
+     * @param  string  $string
+     * 
+     * @return string
+     * 
+     * @uses   Str::title
+     */
+    function title($string)
+    {
+        return Str::title($string);
+    }
+}
+
+if ( ! function_exists('uTitle')) {
+    /**
+     * Convert the given string to title case in UTF-8 format.
+     * 
+     * @param  string  $string
+     * 
+     * @return string
+     * 
+     * @uses   Str::uTitle
+     */
+    function uTitle($string)
+    {
+        return Str::uTitle($string);
     }
 }
 
