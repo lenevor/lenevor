@@ -52,13 +52,14 @@ trait ApplicationHelp
     {
         $updateAt  = $this->getParam('updateAt', 'Unknown');
         $publishAt = $this->getParam('publishAt', 'Unknown');
+        $currentAt = date('d.m.Y');
 
         if ($logoTxt = $this->getLogoText()) {
             $logo = ColorTag::wrap($logoTxt, $this->getLogoStyle());
         }
 
-        $info = "$logo\n<hiBlue>{$this->getName()}</hiBlue>, Version <comment>{$this->getVersion()}</comment>".
-                "\n\n<hiMagenta>Application Info</hiMagenta> : Update at <hiGreen>$updateAt</hiGreen>, publish at <hiGreen>$publishAt</hiGreen>";
+        $info = "$logo\n<hiGreen>{$this->getName()}</hiGreen>, Version <info>{$this->getVersion()}</info>".
+                "\n\n<hiGreen>Application Info</hiGreen> : Update at <info>$updateAt</info>, publish at <info>$publishAt</info> (current at <info>$currentAt</info>)";
 
         if ($hUrl = $this->getParam('homepage')) {
             $info .= "\n\t<hiMagenta>Homepage</hiMagenta> : <undersline>$hUrl</undersline>\n";
