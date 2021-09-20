@@ -87,9 +87,9 @@ class Application extends Console implements ApplicationContract
  / /   / /    / /   / /| | / __ \/ __ \/ / / ___/ __ `/ __/ / __ \/ __ \     
 / /___/ /____/ /   / ___ |/ /_/ / /_/ / / / /__/ /_/ / /_/ / /_/ / / / /     
 \____/_____/___/  /_/  |_/ .___/ .___/_/_/\___/\__,_/\__/_/\____/_/ /_/
-                        /_/   /_/ 
-
-	", 'normal');
+                        /_/   /_/
+						
+		", 'normal');
 		
 		$exit = parent::run($input, $output);
 		
