@@ -22,6 +22,7 @@
 
 namespace Syscodes\Console\Concerns;
 
+use Syscodes\Console\Util\Show;
 use Syscodes\Console\Style\ColorTag;
 
 /**
@@ -36,19 +37,28 @@ trait ApplicationHelp
      * 
      * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
      * 
-     * @return int
+     * @return void
      */
-    public function displayVersionInfo($output) 
+    public function displayVersionInfo($output)
     {
-        $output->writeln($this->makeVersionInfo());
+        Show::sList(
+            $this->makeVersionInfo(), 
+            '', 
+            [
+                'leftChar'  => '',
+                'sepChar'   => ' :  ',
+                'keyPadPos' => 'left',
+            ],
+            $output
+        );
     }
 
     /**
      * Returns the version of the console with logo.
      *
-     * @return string
+     * @return array
      */
-    public function makeVersionInfo(): string
+    public function makeVersionInfo(): array
     {
         $updateAt  = $this->getParam('updateAt', 'Unknown');
         $publishAt = $this->getParam('publishAt', 'Unknown');
@@ -58,14 +68,14 @@ trait ApplicationHelp
             $logo = ColorTag::wrap($logoTxt, $this->getLogoStyle());
         }
 
-        $info = "$logo\n<hiGreen>{$this->getName()}</hiGreen>, Version <info>{$this->getVersion()}</info>".
-                "\n\n<hiGreen>Application Info</hiGreen> : Update at <info>$updateAt</info>, publish at <info>$publishAt</info> (current at <info>$currentAt</info>)";
+        $info = [
+            "$logo\n<hiGreen>{$this->getName()}</hiGreen>, Version <info>{$this->getVersion()}</info>\n",
+            'Application Info' => "Update at <info>$updateAt</info>, publish at <info>$publishAt</info> (current at <info>$currentAt</info>)",
+        ];
 
         if ($hUrl = $this->getParam('homepage')) {
-            $info .= "\n\t<hiMagenta>Homepage</hiMagenta> : <undersline>$hUrl</undersline>\n";
-        } elseif ('' !== $this->getParam('homePage')) {
-            $info .= "\n";
-        }
+            $info['Homepage URL'] = "<undersline>$hUrl</undersline>";
+        } 
 
         return $info;
     }
