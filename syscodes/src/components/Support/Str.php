@@ -212,6 +212,39 @@ class Str
     {
         return mb_strtolower($value);
     }
+    
+    /**
+     * Pad a string with the length of another string. 
+     * 
+     * @param  string  $string
+     * @param  int  $padLength
+     * @param  string  $padString
+     * @param  string  $padType
+     * 
+     * @return string 
+     */
+    public static function pad(
+        string $string, 
+        int $padLength,
+        string $padString = ' ',
+        string $padType = 'right'
+    ) {
+        $type = '';
+
+        switch($padType) {
+            case 'right':
+                (int) $type = STR_PAD_RIGHT;
+                break;
+            case 'left':
+                (int) $type = STR_PAD_LEFT;
+                break;
+            case 'both':
+                (int) $type = STR_PAD_BOTH;
+                break;
+        }
+
+        return $padLength > 0 ? \str_pad($string, $padLength, $padString, $type) : $string;
+    }
 
     /**
      * Parse a Class@method style callback into class and method.
