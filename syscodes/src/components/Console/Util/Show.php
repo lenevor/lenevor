@@ -22,6 +22,7 @@
 
 namespace Syscodes\Console\Util;
 
+use Syscodes\Console\Helper\SingleList;
 use Syscodes\Contracts\Console\Output as OutputInterface;
 
 /**
