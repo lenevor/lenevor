@@ -23,6 +23,7 @@
 namespace Syscodes\Console\Util;
 
 use Syscodes\Support\Str;
+use Syscodes\Collections\Arr;
 use Syscodes\Console\Style\ColorTag;
 
 /**
@@ -45,23 +46,34 @@ final class FormatUtil
         $text = '';
 
         $options = array_merge([
-            'leftChar'  => '',   // e.g '  ', ' * '
-            'sepChar'   => ' ',  // e.g ' | ' OUT: key | value
-            'keyStyle'  => '',   // e.g 'info','comment'
-            'valStyle'  => '',   // e.g 'info','comment'
-            'keyPadPos' => 'right',
-            'ucFirst'   => true,  // upper first char for value
+            'leftChar'    => '',   // e.g '  ', ' * '
+            'sepChar'     => ' ',  // e.g ' | ' OUT: key | value
+            'keyStyle'    => '',   // e.g 'info','comment'
+            'valStyle'    => '',   // e.g 'info','comment'
+            'keyMinWidth' => 8,
+            'keyMaxWidth' => 0,
+            'keyPadPos'   => 'right',
+            'ucFirst'     => true,  // upper first char for value
         ], $options);
 
         $keyStyle  = trim($options['keyStyle']);
-        $keyPadPos = (int) $options['keyPadPos'];
+        $keyPadPos = (string) $options['keyPadPos'];
+        
+        if ($options['keyMaxWidth'] < 1) {
+            $options['keyMaxWidth'] = Arr::getMaxWidth($data);
+        }
+        
+        // compare
+        if ((int)$options['keyMinWidth'] > $options['keyMaxWidth']) {
+            $options['keyMaxWidth'] = $options['keyMinWidth'];
+        }
 
         foreach ($data as $key => $value) {
             $hasKey = ! is_int($key);
             $text  .= $options['leftChar'];
 
             if ($hasKey) {
-                $key   = Str::pad((string) $key, 0, ' ', $keyPadPos);
+                $key   = Str::pad((string) $key, $options['keyMaxWidth'], ' ', $keyPadPos);
                 $text .= ColorTag::wrap($key, $keyStyle).$options['sepChar'];
             }
 
