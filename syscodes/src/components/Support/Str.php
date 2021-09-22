@@ -22,6 +22,7 @@
 
 namespace Syscodes\Support;
 
+use InvalidArgumentException;
 use Syscodes\Collections\Arr;
 
 /**
@@ -228,9 +229,7 @@ class Str
         int $padLength,
         string $padString = ' ',
         string $padType = 'right'
-    ) {
-        $type = '';
-
+    ): string {
         switch($padType) {
             case 'right':
                 (int) $type = STR_PAD_RIGHT;
@@ -241,9 +240,11 @@ class Str
             case 'both':
                 (int) $type = STR_PAD_BOTH;
                 break;
+            default:
+                throw new InvalidArgumentException("The position [{$padType}] no found");
         }
 
-        return $padLength > 0 ? \str_pad($string, $padLength, $padString, $type) : $string;
+        return $padLength > 0 ? \str_pad((string) $string, (int) $padLength, $padString, $type) : (string) $string;
     }
 
     /**
