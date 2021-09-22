@@ -324,6 +324,29 @@ class Arr
 	}
 
 	/**
+	 * Gets max width of an array.
+	 * 
+	 * @param  array  $data
+	 * @param  bool  $exclude
+	 * 
+	 * @return int
+	 */
+	public static function getMaxWidth(array $data, bool $exclude = true): int
+	{
+		$maxWidth = 0;
+		
+		foreach ($data as $key => $value) {
+			// key is not a integer
+			if ( ! $exclude || ! is_numeric($key)) {
+				$width    = mb_strlen((string)$key, 'UTF-8');
+				$maxWidth = $width > $maxWidth ? $width : $maxWidth;
+			}
+		}
+		
+		return $maxWidth;
+	}
+
+	/**
 	 * Get a subset of the items from the given array.
 	 * 
 	 * @param  array  $array
