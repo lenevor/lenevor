@@ -32,42 +32,42 @@ final class Version
     /**
      * The framework name.
      */
-    const NAME = 'Lenevor Framework';
+    public const NAME = 'Lenevor Framework';
 
     /** 
      * Lenevor's version.
      */
-    const RELEASE = '0.7.6';
+    public const RELEASE = '0.7.6';
 
     /**
      * Release status.
      */
-    const STATUS = 'alpha.7-dev';
+    public const STATUS = 'alpha.7-dev';
 
     /**
      * The codename in key.
      */
-    const CODENAME = 'Polaris';
+    public const CODENAME = 'Polaris';
 
     /**
      * Data version.
      */
-    const RELEASEDATE = 'Created 02-May-2019';
+    public const RELEASEDATE = 'Created 02-May-2019';
 
     /**
      * Copyright information.
      */
-    const COPYRIGHT = 'All rights reserved';
+    public const COPYRIGHT = 'All rights reserved';
     
     /**
      * Product copyrighting.
      */
-    const COPY = '©';
+    public const COPY = '©';
 
     /**
      * Year actual.
      */
-    const YEAR = '2021';
+    public const YEAR = '2021';
 
     /**
      * Gets a string version of " PHP normalized" for the Lenevor Framework.
