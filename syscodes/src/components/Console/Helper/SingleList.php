@@ -51,8 +51,9 @@ class SingleList
         $options = array_merge([
             'leftChar'     => '  ', 
             //'sepChar'      => '  ',
-            'keyStyle'     => 'info',
-            'titleStyle'   => 'hiGreen',
+            'keyMinWidth'  => 8,
+            'keyStyle'     => 'green',
+            'titleStyle'   => 'green',
             'ucFirst'      => false,
             'returned'     => false,
             'ucTitleWords' => true,
