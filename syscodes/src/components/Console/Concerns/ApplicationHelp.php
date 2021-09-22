@@ -46,7 +46,7 @@ trait ApplicationHelp
             '', 
             [
                 'leftChar'  => '',
-                'sepChar'   => ' :  ',
+                'sepChar'   => ' : ',
                 'keyPadPos' => 'left',
             ],
             $output
@@ -60,17 +60,21 @@ trait ApplicationHelp
      */
     public function makeVersionInfo(): array
     {
-        $updateAt  = $this->getParam('updateAt', 'Unknown');
-        $publishAt = $this->getParam('publishAt', 'Unknown');
-        $currentAt = date('d.m.Y');
+        $logo       = '';
+        $updateAt   = $this->getParam('updateAt', 'Unknown');
+        $publishAt  = $this->getParam('publishAt', 'Unknown');
+        $currentAt  = date('d.m.Y');
+        $phpOS      = PHP_OS;
+        $phpVersion = PHP_VERSION; 
 
         if ($logoTxt = $this->getLogoText()) {
             $logo = ColorTag::wrap($logoTxt, $this->getLogoStyle());
         }
 
         $info = [
-            "$logo\n<hiGreen>{$this->getName()}</hiGreen>, Version <info>{$this->getVersion()}</info>\n",
-            'Application Info' => "Update at <info>$updateAt</info>, publish at <info>$publishAt</info> (current at <info>$currentAt</info>)",
+            "$logo\n  {$this->getName()}, Version <brown>{$this->getVersion()}</brown>\n",
+            'System Info'      => "PHP version <green>{$phpVersion}</green> on <green>{$phpOS}</green> system",
+            'Application Info' => "Update at <green>{$updateAt}</green>, publish at <green>{$publishAt}</green> (current at {$currentAt})",
         ];
 
         if ($hUrl = $this->getParam('homepage')) {
