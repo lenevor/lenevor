@@ -105,6 +105,6 @@ trait ApplicationHelp
             return $this->getName();
         }
 
-        return 'Lenevor CLI Console';
+        return 'Lenevor CLI Application';
     }
 }
