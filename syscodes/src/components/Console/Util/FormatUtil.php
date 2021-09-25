@@ -45,7 +45,7 @@ final class FormatUtil
     {
         $text = '';
 
-        $options = array_merge([
+        $options = \array_merge([
             'leftChar'    => '',   // e.g '  ', ' * '
             'sepChar'     => ' ',  // e.g ' | ' OUT: key | value
             'keyStyle'    => '',   // e.g 'info','comment'
@@ -56,7 +56,7 @@ final class FormatUtil
             'ucFirst'     => true,  // upper first char for value
         ], $options);
 
-        $keyStyle  = trim($options['keyStyle']);
+        $keyStyle  = \trim($options['keyStyle']);
         $keyPadPos = (string) $options['keyPadPos'];
         
         if ($options['keyMaxWidth'] < 1) {
@@ -64,12 +64,12 @@ final class FormatUtil
         }
         
         // compare
-        if ((int)$options['keyMinWidth'] > $options['keyMaxWidth']) {
+        if ((int) $options['keyMinWidth'] > $options['keyMaxWidth']) {
             $options['keyMaxWidth'] = $options['keyMinWidth'];
         }
 
         foreach ($data as $key => $value) {
-            $hasKey = ! is_int($key);
+            $hasKey = ! \is_int($key);
             $text  .= $options['leftChar'];
 
             if ($hasKey) {
@@ -78,27 +78,27 @@ final class FormatUtil
             }
 
             // if value is array, translate array to string
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 $temp = '[';
 
                 foreach ($value as $k => $val) {
-                    if (is_bool($val)) {
+                    if (\is_bool($val)) {
                         $val = $val ? '(True)' : '(False)';
                     } else {
-                        $val = is_scalar($val) ? (string)$val : $val;
+                        $val = \is_scalar($val) ? (string) $val : $val;
                     }
 
-                    $temp .= (!is_numeric($k) ? "$k: " : '') . "$val, ";
+                    $temp .= ( ! \is_numeric($k) ? "$k: " : '') . "$val, ";
                 }
 
-                $value = rtrim($temp, ' ,') . ']';
-            } elseif (is_bool($value)) {
+                $value = \rtrim($temp, ' ,') . ']';
+            } elseif (\is_bool($value)) {
                 $value = $value ? '(True)' : '(False)';
             } else {
                 $value = (string) $value;
             }
 
-            $value  = $hasKey && $options['ucFirst'] ? ucfirst($value) : $value;
+            $value  = $hasKey && $options['ucFirst'] ? \ucfirst($value) : $value;
             $text  .= ColorTag::wrap($value, $options['valStyle'])."\n";
         }
 
