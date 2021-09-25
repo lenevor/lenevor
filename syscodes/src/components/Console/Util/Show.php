@@ -22,6 +22,7 @@
 
 namespace Syscodes\Console\Util;
 
+use Syscodes\Console\Helper\MultiList;
 use Syscodes\Console\Helper\SingleList;
 use Syscodes\Contracts\Console\Output as OutputInterface;
 
@@ -40,10 +41,24 @@ class Show
      * @param  array  $options  The options for list of data
      * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
      * 
-     * @return int|string
+     * @return void
      */
-    public static function sList($data, string $title = '', array $options = [], OutputInterface $output)
+    public static function sList($data, string $title = '', array $options = [], OutputInterface $output): void
     {
-        return SingleList::show($data, $title, $options, $output);
+        SingleList::show($data, $title, $options, $output);
+    }
+
+    /**
+     * Show the multi List.
+     * 
+     * @param  array  $data  The list of data
+     * @param  array  $options  The options for list of data
+     * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
+     * 
+     * @return void
+     */
+    public static function mList($data, array $options = [], OutputInterface $output): void
+    {
+        MultiList::show($data, $options, $output);
     }
 }
