@@ -32,7 +32,7 @@ use Syscodes\Contracts\Console\Output as OutputInterface;
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class SingleList
+final class SingleList
 {
     /**
      * Displays the list of data with options.
@@ -48,7 +48,7 @@ class SingleList
     {
         $string = '';
         
-        $options = array_merge([
+        $options = \array_merge([
             'leftChar'     => '  ', 
             //'sepChar'      => '  ',
             'keyMinWidth'  => 8,
