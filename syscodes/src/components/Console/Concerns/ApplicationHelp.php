@@ -39,7 +39,7 @@ trait ApplicationHelp
      * 
      * @return void
      */
-    public function displayVersionInfo($output)
+    public function displayVersionInfo($output): void
     {
         Show::sList(
             $this->makeVersionInfo(), 
@@ -89,7 +89,7 @@ trait ApplicationHelp
      *
      * @return string
      */
-    public function getConsoleVersion()
+    public function getConsoleVersion(): string
     {
         if ('UNKNOWN' !== $this->getName()) {
             if ('UNKNOWN' !== $this->getVersion()) {
