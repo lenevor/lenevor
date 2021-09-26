@@ -29,8 +29,8 @@
 	--color-black-theme-3: hsla(0, 0%, 21%, 0.7);
 	--color-black-theme-4: hsla(0, 3%, 28%, 1);
 	--color-blue-theme-1: hsla(212, 52%, 26%, 1);
-	--color-blue-theme-2: hsla(219, 49%, 38%, 0.4);
-	--color-blue-theme-3: hsla(221, 65%, 62%, 0.4);
+	--color-blue-theme-2: hsla(219, 49%, 38%, 0.18);
+	--color-blue-theme-3: hsla(221, 65%, 62%, 0.2);
 	--color-blue-theme-4: hsl(209, 100%, 70%);
 	--color-blue-theme-5: hsla(208, 31%, 66%, 1);
 	--color-yellow-theme: hsla(54, 96%, 82%, 1);
@@ -666,6 +666,6 @@ header h1 {
 	}
 
 	.container .footer {
-		margin-top: 40px;
+		margin-top: 30px;
 	}
 }
