@@ -22,12 +22,52 @@
 
 namespace Syscodes\Console\Command;
 
+use Syscodes\Console\Input\InputArgument;
+use Syscodes\Contracts\Console\Input as InputInterface;
+use Syscodes\Contracts\Console\Output as OutputInterface;
+use Syscodes\Contracts\Console\InputArgument as InputArgumentInterface;
+
 /**
  * This class displays the help for a given command.
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class HelpCommand extends BaseCommand
+class HelpCommand extends Command
 {
+    protected $command;
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        $this
+        ->setName('help')
+        ->setDefinition([new InputArgument('command_name', InputArgumentInterface::OPTIONAL, 'The command name', 'help')])
+        ->setDescription('Display help for a command')
+        ->setHelp("Help command...");
+    }
     
+    public function setCommand(Command $command)
+    {
+        $this->command = $command;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output) 
+    {
+        if (null === $this->command) {
+            $this->command = $this->getApplication()->findCommand($input->getArgument('command_name'));
+        }
+
+        $output->writeln($this->getApplication()->getConsoleVersion());
+        $output->writeln('');
+        $output->writeln('Probando ayuda....');
+
+        $this->command = null;
+
+        return 0;
+    }
 }
