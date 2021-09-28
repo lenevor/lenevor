@@ -50,6 +50,7 @@ return [
     'Syscodes\\Console\\Formatter\\OutputFormatter' => SYS_PATH.'src/components/Console/Formatter/OutputFormatter.php',
     'Syscodes\\Console\\Formatter\\OutputFormatterStack' => SYS_PATH.'src/components/Console/Formatter/OutputFormatterStack.php',
     'Syscodes\\Console\\Formatter\\OutputFormatterStyle' => SYS_PATH.'src/components/Console/Formatter/OutputFormatterStyle.php',
+    'Syscodes\\Console\\Helper\\Descriptor' => SYS_PATH.'src/components/Console/Helper/Descriptor.php',
     'Syscodes\\Console\\Helper\\MultiList' => SYS_PATH.'src/components/Console/Helper/MultiList.php',
     'Syscodes\\Console\\Helper\\SingleList' => SYS_PATH.'src/components/Console/Helper/SingleList.php',
     'Syscodes\\Console\\Input\\ArgvInput' => SYS_PATH.'src/components/Console/Input/Args/ArgvInput.php',
