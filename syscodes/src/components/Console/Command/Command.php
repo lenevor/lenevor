@@ -1,0 +1,539 @@
+<?php
+
+/**
+ * Lenevor Framework
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file license.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://lenevor.com/license
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@Lenevor.com so we can send you a copy immediately.
+ *
+ * @package     Lenevor
+ * @subpackage  Base
+ * @link        https://lenevor.com
+ * @copyright   Copyright (c) 2019 - 2021 Alexander Campo <jalexcam@gmail.com>
+ * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
+ */
+
+namespace Syscodes\Console\Command;
+
+use Throwable;
+use TypeError;
+use LogicException;
+use ReflectionProperty;
+use ReflectionException;
+use InvalidArgumentException;
+use Syscodes\Console\Application;
+use Syscodes\Console\Input\InputOption;
+use Syscodes\Console\Input\InputArgument;
+use Syscodes\Console\Input\InputDefinition;
+use Syscodes\Contracts\Console\Input as InputInterface;
+use Syscodes\Contracts\Console\Output as OutputInterface;
+
+/**
+ * Base class for all commands.
+ * 
+ * @author Alexander Campo <jalexcam@gmail.com>
+ */
+class Command 
+{
+    /**
+     * The default application.
+     * 
+     * @var \Syscodes\Console\Application $application
+     */
+    protected $application;
+
+    /**
+     * The default command name.
+     * 
+     * @var string|null $defaultName
+     */
+    protected static $defaultName;
+
+     /**
+     * The default command description.
+     * 
+     * @var string|null $defaultDescription
+     */
+    protected static $defaultDescription;
+
+    /**
+     * Gets the aliases of command name.
+     * 
+     * @var string[] $aliases
+     */
+    protected $aliases = [];
+
+    /**
+     * Gets the Command's Arguments description.
+     * 
+     * @var array $arguments
+     */
+    protected $arguments = [];
+
+    /**
+     * The code to execute some command.
+     * 
+     * @var int $code
+     */
+    protected $code = 0;
+
+    /**
+     * The InputDefinition implement.
+     * 
+     * @var \Syscodes\Console\Input\InputDefinition $definition
+     */
+    protected $definition;
+
+    /**
+     * The console command description.
+     * 
+     * @var string|null $description
+     */
+    protected $description;
+
+    /**
+     * The group of commands is lumped under, when listing commands.
+     * 
+     * @var string $group
+     */
+    protected $group;
+
+    /**
+     * The console command help text.
+     * 
+     * @var string $help
+     */
+    protected $help;
+
+    /**
+     * Indicates whether the command should be shown in the Prime command list.
+     * 
+     * @var bool $hidden
+     */
+    protected $hidden = false;
+
+    /**
+     * The validation of ignored errors 
+     * 
+     * @var bool $ignoreValidationErrors
+     */
+    protected $ignoreValidationErrors = false;
+
+    /**
+     * The console command name.
+     * 
+     * @var string $name
+     */
+    protected $name;
+
+    /**
+     * The Command's options description.
+     * 
+     * @var array $options
+     */
+    protected $options = [];
+
+    /**
+     * Gets the default name.
+     * 
+     * @return string|null
+     */
+    public static function getDefaultName()
+    {
+        $class = static::class;
+
+        $property = new ReflectionProperty($class, 'defaultName');
+
+        return ($class === $property->class) ? static::$defaultName : null;
+    }
+
+    /**
+     * Gets the default description.
+     * 
+     * @return string|null
+     */
+    public static function getDefaultDescription()
+    {
+        $class = static::class;
+
+        $property = new ReflectionProperty($class, 'default description');
+
+        return ($class === $property->class) ? static::$defaultDescription : null;
+    }
+
+    /**
+     * Constructor. Create a new base command instance.
+     * 
+     * @param  string|null  $name  The name command
+     * @param  \Syscodes\Console\Input\InputDefinition  $definition
+     * 
+     * @return void
+     */
+    public function __construct(string $name = null)
+    {
+        $this->definition = new InputDefinition();
+        
+        if (null === $name && null !== $name = static::getDefaultName()) {
+            $aliases = explode('|', $name);
+            
+            if ('' === $name = array_shift($aliases)) {
+                $this->setHidden(true);
+                
+                $name = array_shift($aliases);
+            }
+            
+            $this->setAliases($aliases);
+        }
+        
+        if (null !== $name) {
+            $this->setName($name);
+        }
+        
+        if ('' === $this->description) {
+            $this->setDescription(static::getDefaultDescription() ?? '');
+        }
+        
+        $this->configure();
+    }
+
+    /**
+     * Configure input definition for command.
+     * 
+     * @return void
+     */
+    protected function configure() {}
+
+    /**
+     * Executes the current command.
+     * 
+     * @param  \Syscodes\Contracts\Console\Input  $input
+     * @param  \Syscodes\Contracts\Console\Output  $input
+     * 
+     * @return int|mixed
+     * 
+     * @throws \LogicException
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        throw new LogicException('You must override the execute() method in the concrete command class');
+    }
+
+    /**
+     * Runs the command.
+     * 
+     * @param  \Syscodes\Contracts\Console\Input  $input
+     * @param  \Syscodes\Contracts\Console\Output  $input
+     * 
+     * @return int|mixed
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public function run(InputInterface $input, OutputInterface $output)
+    {
+        try {
+            $input->linked($this->getDefinition());
+        } catch (Throwable $e) {
+            if ( ! $this->ignoreValidationErrors) {
+                throw $e;
+            }
+        }
+        
+        if ($input->hasArgument('command') && null === $input->getArgument('command')) {
+            $input->setArgument('command', $this->getName());
+        }
+
+        if (0 === (int) $this->code) {
+            $statusCode = $this->execute($input, $output);
+        } else {
+            throw new TypeError(
+                sprintf('Returned value in "%s::execute()" must be of the type int, "%s" returned', static::class, \get_debug_type($statusCode))
+            );
+        }
+
+        return is_numeric($statusCode) ? (int) $statusCode : 0;
+    }
+
+    /**
+     * Gets the InputDefinition to be used to representate arguments 
+     * and options in a command.
+     * 
+     * @return \Syscodes\Console\Input\InputDefinition
+     */
+    public function getDefinition()
+    {
+        if (null === $this->definition) {
+            throw new LogicException(
+                sprintf('Probably Command class "%s" is not correctly initialized  because forget to call the parent constructor', static::class)
+            );
+        }
+
+        return $this->definition;
+    }
+
+     /**
+     * Sets the InputDefinition to be used to representate arguments 
+     * and options in a command.
+     * 
+     * @param  array|\Syscodes\Console\Input\InputDefinition  $definition  An array of InputArgument and InputOption instance
+     * 
+     * @return self
+     */
+    public function setDefinition($definition): self 
+    {
+        if ($definition instanceof InputDefinition) {
+            $this->definition = $definition;
+        } else {
+            $this->definition->setDefinition($definition);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Adds an argument in a command.
+     * 
+     * @param  string  $name  The argument name
+     * @param  int|null  $mode  The argument mode
+     * @param  string  $description  The description text
+     * @param  mixed  $default  The default value
+     * 
+     * @return $this
+     * 
+     * @throws \InvalidArgumentException  When argument mode is not valid
+     * @throws \LogicException
+     */
+    public function getArgument(
+        string $name,
+        int $mode = null,
+        string $description = '',
+        $default = null
+    ) {
+        $this->definition->addArgument(new InputArgument($name, $mode, $description, $default));
+
+        return $this;
+    }
+
+    /**
+     * Adds an option in a command.
+     * 
+     * @param  string  $name  The argument name
+     * @param  string|array|null  $shortcut  The shortcut of the option
+     * @param  int|null  $mode  The argument mode
+     * @param  string  $description  The description text
+     * @param  mixed  $default  The default value
+     * 
+     * @return $this
+     * 
+     * @throws \InvalidArgumentException  If option mode is invalid
+     */
+    public function getOption(
+        string $name, 
+        $shortcut = null,
+        int $mode = null,
+        string $description = '',
+        $default = null
+    ) {
+        $this->definition->addOption(new InputOption($name, $shortcut, $mode, $description, $default));
+
+        return $this;
+    }
+
+    
+    /**
+     * Gets the command name.
+     * 
+     * @return string|null
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Sets the name of the command.
+     * 
+     * @param  string  $name  The command name
+     * 
+     * @return self
+     */
+    public function setName(string $name): self
+    {
+        $this->validateName($name);
+
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Gets the application instance for this command.
+     * 
+     * @return \Syscodes\Console\application|null
+     */
+    public function getApplication()
+    {
+        return $this->application;
+    }
+
+    /**
+     * sets the application instance for this command.
+     * 
+     * @return self
+     */
+    public function setApplication(Application $application = null): self
+    {
+       $this->application = $application;
+
+       return $this;
+    }
+
+    /**
+     * Gets the code when execute a command.
+     * 
+     * @return int
+     */
+    public function getcode(): int
+    {
+        return $this->code;
+    }
+
+    /**
+     * Sets the code when execute a command.
+     * 
+     * @param  int  $code  The code to execute in the command
+     * 
+     * @return self
+     */
+    public function setcode(int $code): self
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+    
+    /**
+     * Gets whether the command should be publicly shown or not.
+     * 
+     * @return bool
+     */
+    public function isHidden(): bool
+    {
+        return $this->hidden;
+    }
+    
+    /**
+     * Whether or not the command should be hidden from the list of commands.
+     * 
+     * @param  bool  $hidden
+     * 
+     * @return self
+     */
+    public function setHidden(bool $hidden): self
+    {
+        $this->hidden = $hidden;
+        
+        return $this;
+    }
+    
+    /**
+     * Returns the description for the command.
+     * 
+     * @return string|null
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+    
+    /**
+     * Sets the description for the command.
+     * 
+     * @param  string  $description The command description
+     * 
+     * @return self
+     */
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+        
+        return $this;
+    }
+
+    /**
+     * Returns the help for the command.
+     *
+     * @return string
+     */
+    public function getHelp()
+    {
+        return $this->help;
+    }
+
+    /**
+     * Sets the help for the command.
+     *
+     * @return $this
+     */
+    public function setHelp(string $help): self
+    {
+        $this->help = $help;
+
+        return $this;
+    }
+
+    /**
+     * Gets the aliases for the command.
+     * 
+     * @return string[]
+     */
+    public function getAliases()
+    {
+        return $this->aliases;
+    }
+    
+    /**
+     * Sets the aliases for the command.
+     * 
+     * @param string[] $aliases An array of aliases for the command
+     * 
+     * @return self
+     * 
+     * @throws InvalidArgumentException When an alias is invalid
+     */
+    public function setAliases(iterable $aliases): self
+    {
+        $list = [];
+        
+        foreach ($aliases as $alias) {
+            $this->validateName($alias);
+            $list[] = $alias;
+        }
+        
+        $this->aliases = \is_array($aliases) ? $aliases : $list;
+        
+        return $this;
+    }
+
+    /**
+     * Validates a command name. e.g: php prime make:example.
+     * 
+     * @param  string  $name
+     * 
+     * @return bool
+     * 
+     * @throws \InvalidArgumentException
+     */
+    private function validateName(string $name)
+    {
+        if ( ! \preg_match('/^[^\:]++(\:[^\:]++)*$/', $name)) {
+            throw new InvalidArgumentException(\sprintf('Command name "%s" is invalid', $name));
+        }
+    }
+}
