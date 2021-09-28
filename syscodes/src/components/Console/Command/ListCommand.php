@@ -22,13 +22,37 @@
 
 namespace Syscodes\Console\Command;
 
+use Syscodes\Contracts\Console\Input as InputInterface;
+use Syscodes\Contracts\Console\Output as OutputInterface;
+
 /**
  * This class displays the list of all available commands 
  * enabled for the application. 
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class ListCommand extends BaseCommand
+class ListCommand extends Command
 {
-    
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        $this
+        ->setName('list')
+        ->setDescription('List commands')
+        ->setHelp('List command...');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output) 
+    {
+        $output->writeln($this->getApplication()->getConsoleVersion());
+        $output->writeln('');
+        $output->writeln('Probando lista...');
+
+        return 0;
+    }
 }
