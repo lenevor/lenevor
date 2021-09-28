@@ -26,7 +26,7 @@ use LogicException;
 use ReflectionClass;
 use ReflectionException;
 use Psr\Log\LoggerInterface;
-use Syscodes\Console\Command\BaseCommand;
+use Syscodes\Console\Command\Command as BaseCommand;
 use Syscodes\Contracts\Console\Input as InputInterface;
 use Syscodes\Contracts\Console\Output as OutputInterface;
 
@@ -50,7 +50,27 @@ class Command extends BaseCommand
      * @var array $commands
      */
     protected $commands = [];
+    
+    /**
+     * The console command description.
+     * 
+     * @var string $description
+     */
+    protected $description;
+    
+    /**
+     * The console command help text.
+     * 
+     * @var string $help
+     */
+    protected $help;
 
+    /**
+     * Indicates whether the command should be shown in the Prime command list.
+     * 
+     * @var bool $hidden
+     */
+    protected $hidden = false;
     
     /**
      * The Lenevor appplication instance.
@@ -60,15 +80,24 @@ class Command extends BaseCommand
     protected $lenevor;
 
     /**
-     * Constructor. Create a new Command instance.
+     * The console command name.
      * 
-     * @param  string|null  $name  The command name
+     * @var string $name
+     */
+    protected $name;
+
+    /**
+     * Constructor. Create a new Command instance.
      * 
      * @return void
      */
-    public function __construct(string $name = null)
+    public function __construct()
     {
-        parent::__construct($name);
+        parent::__construct($this->name);
+
+        $this->setDescription((string) $this->description);
+        $this->setHelp((string) $this->help);
+        $this->setHidden($this->isHidden());
     }
 
     /**
