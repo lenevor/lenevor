@@ -23,6 +23,7 @@
 namespace Syscodes\Console;
 
 use Exception;
+use LogicException;
 use Syscodes\Console\IO\Interactor;
 use Syscodes\Console\Command\Command;
 use Syscodes\Console\Input\ArgvInput;
@@ -30,12 +31,13 @@ use Syscodes\Console\Input\ArrayInput;
 use Syscodes\Console\Command\HelpCommand;
 use Syscodes\Console\Command\ListCommand;
 use Syscodes\Console\Input\InputArgument;
+use Syscodes\Console\Concerns\VersionInfo;
 use Syscodes\Console\Output\ConsoleOutput;
 use Syscodes\Console\Input\InputDefinition;
 use Syscodes\Contracts\Console\InputOption;
-use Syscodes\Console\Concerns\ApplicationHelp;
 use Syscodes\Console\Formatter\OutputFormatter;
 use Syscodes\Contracts\Console\Input as InputInterface;
+use Syscodes\Console\Exceptions\CommandNotFoundException;
 use Syscodes\Contracts\Console\Output as OutputInterface;
 use Syscodes\Contracts\Console\InputOption as InputOptionInterface;
 use Syscodes\Contracts\Console\InputArgument as InputArgumentInterface;
@@ -49,7 +51,7 @@ use Syscodes\Contracts\Console\InputArgument as InputArgumentInterface;
  */
 abstract class Console
 {
-    use ApplicationHelp;
+    use VersionInfo;
     
     /**
      * The list of internal commands.
@@ -103,6 +105,20 @@ abstract class Console
      * @var string $delimiter
      */
     protected $delimiter = ':';
+
+    /**
+     * Indicates if this activate the command help.
+     * 
+     * @var bool $helps
+     */
+    protected $helps = false;
+
+    /**
+     * Gets the initialize of commands.
+     * 
+     * @var bool $initialize
+     */
+    protected $initialize;
 
     /**
      * Gets the name of the aplication.
@@ -202,7 +218,7 @@ abstract class Console
         if (null === $output) {
             $output = new ConsoleOutput();
         }
-
+        
         $this->configureIO($input, $output);
 
         try {
@@ -239,51 +255,36 @@ abstract class Console
      */
     public function doExecute(InputInterface $input, OutputInterface $output)
     {
-        if ($this->filterCommands($input, $output)) {
+        if ($input->hasParameterOption(GlobalOption::VERSION_OPTION, true)) {
+            $this->displayVersionInfo($output);
+
             return 0;
         }
         
-        try {
-            $input->linked($this->getDefinition());
-        } catch (Exception $e) {}       
-    }
+        $name = $this->getCommandName($input);
 
-    /**
-     * Gets the filter commands.
-     * 
-     * @param  \Syscodes\Contracts\Console\Input  $input  The input interface implemented
-     * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
-     * @param  string|null  $command  The command name
-     * 
-     * @return bool
-     */
-    protected function filterCommands($input, $output, ?string $command = null): bool
-    {
-        if ( ! $command) {
-            if ($input->hasParameterOption(GlobalOption::VERSION_OPTION, true)) {
-                $this->displayVersionInfo($output);
-
-                return true;
+        if (true === $input->hasParameterOption(GlobalOption::HELP_OPTION, true)) {
+            if ( ! $name) {
+                $name = 'help';
+                $input = new ArrayInput(['command_name' => $this->defaultCommand]);
+            } else {
+                $this->helps = true;
             }
-
-            $command = $this->defaultCommand;
-        } elseif ( ! static::$internalCommands) {
-            return false;
         }
-
-        switch($command) {
-            case 'version':
-                $this->displayVersionInfo($output);
-                break;
-            case 'list':
-                $output->writeln($this->getConsoleVersion());
-                $output->writeln("\n".'<yellow>No elements for listing</yellow>');                
-                break;
-            default:
-                false;
+        
+        if ( ! $name) {
+            $name = $this->defaultCommand;
+        } 
+        
+        try {
+            $command = $this->findCommand($name);
+        } catch(Exception $e) {
+            throw $e;
         }
+        
+        $exitCode = $this->doCommand($command, $input, $output);
 
-        return true;
+        return $exitCode;
     }
     
     /**
@@ -303,15 +304,21 @@ abstract class Console
      * 
      * @param  \Syscodes\Console\Command\Command  $command
      * 
-     * @return \Syscodes\Console\Command\Command
+     * @return \Syscodes\Console\Command\Command|null
+     * 
+     * @throws \LogicException
      */
-    public function add(Command $command)
+    public function addCommand(Command $command)
     {
-        $this->initialize();
-
+        $command->setApplication($this);
+        
+        if ( ! $command->getName()) {
+            throw new LogicException(sprintf('The command defined in "%s" cannot have an empty name', get_debug_type($command)));
+        }
+        
         $this->commands[$command->getName()] = $command;
-
-        return $this;
+        
+        return $command;
     }
 
     /**
@@ -327,7 +334,7 @@ abstract class Console
     }
 
     /**
-     * Getsinput definition.
+     * Gets input definition.
      * 
      * @return \Syscodes\Console\Input\InputDefinition
      */
@@ -355,23 +362,12 @@ abstract class Console
     protected function getDefaultInputDefinition()
     {
         return new InputDefinition([
-            new InputArgument('command', InputArgumentInterface::REQUIRED, 'The command to execute'),
             new InputOption('--help', '-h', InputOptionInterface::VALUE_NONE, 'Display help for the given command. When no command is given display help for the <info>'.$this->defaultCommand.'</info> command'),
             new InputOption('--quiet', '-q', InputOptionInterface::VALUE_NONE, 'Do not output any message'),
             new InputOption('--verbose', '-v|vv|vvv', InputOptionInterface::VALUE_NONE, 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'),
             new InputOption('--version', '-V', InputOptionInterface::VALUE_NONE, 'Display this application version'),
             new InputOption('--ansi', '', InputOptionInterface::VALUE_NEGATABLE, 'Force (or disable --no-ansi) ANSI output', false)
         ]);
-    }
-
-    /**
-     * Gets the default commands that should always be available.
-     * 
-     * @return array
-     */
-    protected function getDefaultCommands(): array
-    {
-        return [new HelpCommand(), new ListCommand()];
     }
 
     /**
@@ -424,6 +420,113 @@ abstract class Console
     }
 
     /**
+     * Finds a command by name.
+     * 
+     * @param  string  $name  The command name
+     * 
+     * @return \Syscodes\Console\Command\Command
+     */
+    public function findCommand(string $name)
+    {
+        $this->initialize();
+
+        foreach ($this->commands as $command) {
+            foreach ($command->getAliases() as $alias) {
+                if ( ! $this->has($alias)) {
+                    $this->commands[$alias] = $command;
+                }
+            }
+        }
+        
+        if ($this->has($name)) {
+            return $this->get($name);
+        }
+        
+        $commands = array_keys($this->commands);
+
+        $command = $this->get(head($commands));
+        
+        if ($command->isHidden()) {
+            throw new CommandNotFoundException(sprintf('The command "%s" does not exist', $name));
+        }
+
+        return $command;
+    }
+
+    /**
+     * Gets a registered command.
+     * 
+     * @param  string  $name  The command name
+     * 
+     * @return \Syscodes\Console\Command\Command
+     * 
+     * @throws \Syscodes\Console\Exceptions\CommandNotFoundException
+     */
+    public function get(string $name)
+    {
+        $this->initialize();
+
+        if ( ! $this->has($name)) {
+            throw new CommandNotFoundException(
+                sprintf('The "%s" command cannot be found because it is registered under multiple names. Make sure you don\'t set a different name via constructor or "setName()"', $name)
+            );
+        }
+        
+        if ( ! isset($this->commands[$name])) {
+            throw new CommandNotFoundException(
+                sprintf('The "%s" command cannot be found because it is registered under multiple names. Make sure you don\'t set a different name via constructor or "setName()".', $name)
+            );
+        }
+
+        $command = $this->commands[$name];
+        
+        if ($this->helps) {
+            $this->helps = false;
+            
+            $helpCommand = $this->get('help');
+            $helpCommand->setCommand($command);
+            
+            return $helpCommand;
+        }
+
+        return $command;
+    }
+
+    /**
+     * Returns true if the command exists, false otherwise.
+     * 
+     * @param  string  $name  The command name
+     * 
+     * @return bool
+     */
+    public function has(string $name): bool
+    {
+        $this->initialize();
+
+        return isset($this->commands[$name]);
+    }
+
+    /**
+     * Runs the current command.
+     * 
+     * @param  \Syscodes\Console\Command\Command  $command  The command name
+     * @param  \Syscodes\Contracts\Console\Input  $input  The input interface implemented
+	 * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
+     * 
+     * @return int  0 if everything went fine, or an error code
+     */
+    public function doCommand(Command $command, InputInterface $input, OutputInterface $output)
+    {
+        try {
+            $exitCode = $command->run($input, $output);
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        return $exitCode;
+    }
+
+    /**
      * Get config param value.
      * 
      * @param  string  $name
@@ -434,5 +537,33 @@ abstract class Console
     public function getParam(string $name, $default = null)
     {
         return $this->config[$name] ?? $default;
+    }
+
+    /**
+     * Initializes the ListCommand and HelpCommand classes.
+     * 
+     * @return void
+     */
+    protected function initialize()
+    {
+        if ($this->initialize) {
+            return;
+        }
+
+        $this->initialize = true;
+
+        foreach ($this->getDefaultCommands() as $command) {
+            $this->addCommand($command);
+        }
+    }
+
+    /**
+     * Gets the default commands that should always be available.
+     * 
+     * @return array
+     */
+    protected function getDefaultCommands(): array
+    {
+        return [new HelpCommand(), new ListCommand()];
     }
 }
