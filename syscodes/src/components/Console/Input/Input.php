@@ -74,6 +74,8 @@ abstract class Input implements InputInterface
      */
     public function linked(InputDefinition $definition): void
     {
+        $this->arguments  = [];
+        $this->options    = [];
         $this->definition = $definition;
     }
 
