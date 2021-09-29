@@ -28,13 +28,13 @@ use Syscodes\Console\IO\Interactor;
 use Syscodes\Console\Command\Command;
 use Syscodes\Console\Input\ArgvInput;
 use Syscodes\Console\Input\ArrayInput;
+use Syscodes\Console\Input\InputOption;
 use Syscodes\Console\Command\HelpCommand;
 use Syscodes\Console\Command\ListCommand;
 use Syscodes\Console\Input\InputArgument;
 use Syscodes\Console\Concerns\VersionInfo;
 use Syscodes\Console\Output\ConsoleOutput;
 use Syscodes\Console\Input\InputDefinition;
-use Syscodes\Contracts\Console\InputOption;
 use Syscodes\Console\Formatter\OutputFormatter;
 use Syscodes\Contracts\Console\Input as InputInterface;
 use Syscodes\Console\Exceptions\CommandNotFoundException;
@@ -52,18 +52,6 @@ use Syscodes\Contracts\Console\InputArgument as InputArgumentInterface;
 abstract class Console
 {
     use VersionInfo;
-    
-    /**
-     * The list of internal commands.
-     * 
-     * @var array $internalCommands
-     */
-    protected static $internalCommands = [
-        'version' => 'Displays the application version',
-        'about'   => 'Displays information about the current project',
-        'help'    => 'Displays help for a command',
-        'list'    => 'Lists commands'
-    ];
 
     /**
      * Application config data.
@@ -260,6 +248,12 @@ abstract class Console
 
             return 0;
         }
+
+        try {
+            $input->linked($this->getDefinition());
+        } catch (Exception $e) {
+            throw $e;
+        }
         
         $name = $this->getCommandName($input);
 
@@ -271,11 +265,18 @@ abstract class Console
                 $this->helps = true;
             }
         }
-        
+
         if ( ! $name) {
             $name = $this->defaultCommand;
-        } 
-        
+            $definition = $this->getDefinition();
+            $definition->setArguments(array_merge(
+                $definition->getArguments(),
+                [
+                    'command' => new InputArgument('command', InputArgument::OPTIONAL, $definition->getArgument('command')->getDescription(), $name),
+                ]
+            ));
+        }
+                
         try {
             $command = $this->findCommand($name);
         } catch(Exception $e) {
@@ -285,18 +286,6 @@ abstract class Console
         $exitCode = $this->doCommand($command, $input, $output);
 
         return $exitCode;
-    }
-    
-    /**
-     * Gets internal command.
-     * 
-     * @param  string  $name
-     * 
-     * @return bool
-     */
-    public function isInternalCommand(string $name): bool
-    {
-        return isset(static::$internalCommands[$name]);
     }
 
     /**
@@ -362,11 +351,13 @@ abstract class Console
     protected function getDefaultInputDefinition()
     {
         return new InputDefinition([
+            new InputArgument('command', InputArgument::REQUIRED, 'The command to execute'),
             new InputOption('--help', '-h', InputOptionInterface::VALUE_NONE, 'Display help for the given command. When no command is given display help for the <info>'.$this->defaultCommand.'</info> command'),
             new InputOption('--quiet', '-q', InputOptionInterface::VALUE_NONE, 'Do not output any message'),
             new InputOption('--verbose', '-v|vv|vvv', InputOptionInterface::VALUE_NONE, 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'),
             new InputOption('--version', '-V', InputOptionInterface::VALUE_NONE, 'Display this application version'),
-            new InputOption('--ansi', '', InputOptionInterface::VALUE_NEGATABLE, 'Force (or disable --no-ansi) ANSI output', false)
+            new InputOption('--ansi', '', InputOptionInterface::VALUE_NEGATABLE, 'Force (or disable --no-ansi) ANSI output', false),
+            new InputOption('--no-interaction', '-n', InputOptionInterface::VALUE_NONE, 'Do not ask any interactive question'),
         ]);
     }
 
@@ -476,18 +467,18 @@ abstract class Console
             throw new CommandNotFoundException(
                 sprintf('The "%s" command cannot be found because it is registered under multiple names. Make sure you don\'t set a different name via constructor or "setName()".', $name)
             );
-        }
+        } 
 
         $command = $this->commands[$name];
-        
+
         if ($this->helps) {
-            $this->helps = false;
+            $this->helps = false;            
             
             $helpCommand = $this->get('help');
             $helpCommand->setCommand($command);
             
             return $helpCommand;
-        }
+        }   
 
         return $command;
     }
@@ -517,6 +508,12 @@ abstract class Console
      */
     public function doCommand(Command $command, InputInterface $input, OutputInterface $output)
     {
+        try {
+            $input->linked($command->getDefinition());
+        } catch (Exception $e) {
+            // ignore invalid options/arguments for now, to allow the event listeners to customize the InputDefinition
+        }
+
         try {
             $exitCode = $command->run($input, $output);
         } catch (Exception $e) {
