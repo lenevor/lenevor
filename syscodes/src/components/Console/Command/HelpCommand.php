@@ -22,9 +22,11 @@
 
 namespace Syscodes\Console\Command;
 
+use Syscodes\Console\Input\InputOption;
 use Syscodes\Console\Input\InputArgument;
 use Syscodes\Contracts\Console\Input as InputInterface;
 use Syscodes\Contracts\Console\Output as OutputInterface;
+use Syscodes\Contracts\Console\InputOption as InputOptionInterface;
 use Syscodes\Contracts\Console\InputArgument as InputArgumentInterface;
 
 /**
@@ -34,6 +36,11 @@ use Syscodes\Contracts\Console\InputArgument as InputArgumentInterface;
  */
 class HelpCommand extends Command
 {
+    /**
+     * The command implement.
+     * 
+     * @var \Syscodes\Console\Command\Command $command
+     */
     protected $command;
 
     /**
@@ -42,12 +49,21 @@ class HelpCommand extends Command
     protected function configure()
     {
         $this
-        ->setName('help')
-        ->setDefinition([new InputArgument('command_name', InputArgumentInterface::OPTIONAL, 'The command name', 'help')])
-        ->setDescription('Display help for a command')
-        ->setHelp("Help command...");
+            ->setName('help')
+            ->setDefinition([
+                new InputArgument('command_name', InputArgumentInterface::OPTIONAL, 'The command name', 'help'),
+            ])
+            ->setDescription('Display help for a command')
+            ->setHelp("Help command...");
     }
-    
+
+    /**
+     * Sets the command.
+     * 
+     * @param  \Syscodes\Console\Command\Command  $command
+     * 
+     * @return void
+     */
     public function setCommand(Command $command)
     {
         $this->command = $command;
@@ -61,11 +77,10 @@ class HelpCommand extends Command
         if (null === $this->command) {
             $this->command = $this->getApplication()->findCommand($input->getArgument('command_name'));
         }
-
+        
         $output->writeln($this->getApplication()->getConsoleVersion());
-        $output->writeln('');
-        $output->writeln('Probando ayuda....');
-
+        $output->writeln("\nProbando ayuda....");
+        
         $this->command = null;
 
         return 0;
