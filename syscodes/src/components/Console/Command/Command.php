@@ -40,7 +40,7 @@ use Syscodes\Contracts\Console\Output as OutputInterface;
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class Command 
+abstract class Command 
 {
     /**
      * The default application.
@@ -208,7 +208,7 @@ class Command
      * 
      * @return void
      */
-    protected function configure() {}
+    abstract protected function configure();
 
     /**
      * Executes the current command.
@@ -220,10 +220,7 @@ class Command
      * 
      * @throws \LogicException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        throw new LogicException('You must override the execute() method in the concrete command class');
-    }
+    abstract protected function execute(InputInterface $input, OutputInterface $output);
 
     /**
      * Runs the command.
