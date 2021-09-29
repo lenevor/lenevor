@@ -23,6 +23,7 @@
 namespace Syscodes\Console\Input;
 
 use Syscodes\Support\Str;
+use InvalidArgumentException;
 use Syscodes\Contracts\Console\InputOption as InputOptionInterface;
 
 /**
@@ -114,8 +115,8 @@ class InputOption implements InputOptionInterface
         }
         
         if (null === $mode) {
-            $mode = self::VALUE_NONE;
-        } elseif ($mode >= (self::VALUE_NEGATABLE << 1) || $mode < 1) {
+            $mode = InputOptionInterface::VALUE_NONE;
+        } elseif ($mode >= (InputOptionInterface::VALUE_NEGATABLE << 1) || $mode < 1) {
             throw new InvalidArgumentException(sprintf('Option mode "%s" is not valid.', $mode));
         }
 
@@ -170,7 +171,7 @@ class InputOption implements InputOptionInterface
      */
     public function setDefault($default = null): void
     {
-        if (InputOptionInterface::VALUE_NONE === (self::VALUE_NONE & $this->mode) && null !== $default) {
+        if (InputOptionInterface::VALUE_NONE === (InputOptionInterface::VALUE_NONE & $this->mode) && null !== $default) {
             throw new LogicException('Cannot set a default value when using InputOptionInterface::VALUE_NONE mode');
         }
 
@@ -182,7 +183,7 @@ class InputOption implements InputOptionInterface
             }
         }
 
-        $this->default = $this->acceptValue() || $this->isNegatable() ? $default : false;
+        $this->default = $this->isAcceptValue() || $this->isNegatable() ? $default : false;
     }
 
     /**
@@ -210,9 +211,9 @@ class InputOption implements InputOptionInterface
     /**
      * Gets the option shortcut.
      * 
-     * @return string|null  The shortcut
+     * @return string|array|null  The shortcut
      */
-    public function getShortcut(): string
+    public function getShortcut()
     {
         return $this->shortcut;
     }
@@ -254,7 +255,7 @@ class InputOption implements InputOptionInterface
      */
     public function isValueRequired(): bool
     {
-        return self::VALUE_REQUIRED === (self::VALUE_REQUIRED & $this->mode);
+        return InputOptionInterface::VALUE_REQUIRED === (InputOptionInterface::VALUE_REQUIRED & $this->mode);
     }
     
     /**
@@ -264,17 +265,17 @@ class InputOption implements InputOptionInterface
      */
     public function isValueOptional(): bool
     {
-        return self::VALUE_OPTIONAL === (self::VALUE_OPTIONAL & $this->mode);
+        return InputOptionInterface::VALUE_OPTIONAL === (InputOptionInterface::VALUE_OPTIONAL & $this->mode);
     }
     
     /**
      * Gets true if the option can take multiple values.
      * 
-     * @return bool  True if mode is self::VALUE_IS_ARRAY, false otherwise
+     * @return bool  True if mode is InputOptionInterface::VALUE_IS_ARRAY, false otherwise
      */
     public function isArray(): bool
     {
-        return self::VALUE_IS_ARRAY === (self::VALUE_IS_ARRAY & $this->mode);
+        return InputOptionInterface::VALUE_IS_ARRAY === (InputOptionInterface::VALUE_IS_ARRAY & $this->mode);
     }
 
     /**
@@ -284,6 +285,6 @@ class InputOption implements InputOptionInterface
      */
     public function isNegatable(): bool
     {
-        return self::VALUE_NEGATABLE === (self::VALUE_NEGATABLE & $this->mode);
+        return InputOptionInterface::VALUE_NEGATABLE === (InputOptionInterface::VALUE_NEGATABLE & $this->mode);
     }
 }
