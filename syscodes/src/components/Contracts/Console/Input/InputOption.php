@@ -88,9 +88,9 @@ interface InputOption
     /**
      * Gets the option shortcut.
      * 
-     * @return string|null  The shortcut
+     * @return string|array|null  The shortcut
      */
-    public function getShortcut(): string;
+    public function getShortcut();
 
     /**
      * Sets the option shortcut.
