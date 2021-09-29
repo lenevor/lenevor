@@ -24,6 +24,7 @@ namespace Syscodes\Console\Input;
 
 use LogicException;
 use InvalidArgumentException;
+use Syscodes\Console\Input\InputOption;
 use \Syscodes\Contracts\Console\InputDefinition as InputDefinitionInterface;
 
 /**
@@ -271,7 +272,8 @@ class InputDefinition implements InputDefinitionInterface
      */
     public function setOptions(array $options = [])
     {
-        $this->options = [];
+        $this->options   = [];
+        $this->shortcuts = [];
 
         $this->addOptions($options);
     }
@@ -293,13 +295,13 @@ class InputDefinition implements InputDefinitionInterface
     /**
      * Adds an option.
      * 
-     * @param  \Syscodes\Console\Input\InputOption  $Option  The Options array InputOption objects
+     * @param  \Syscodes\Console\Input\InputOption  $option  The Options array InputOption objects
      * 
      * @return \Syscodes\Console\Input\InputOption
      * 
      * @throws \LogicException
      */
-    public function addOption(InputOption $Option)
+    public function addOption(InputOption $option)
     {
         if (isset($this->options[$option->getName()])) {
             throw new LogicException(sprintf('Whoops! This option with name "%s" already exists', $option->getName()));
@@ -379,7 +381,7 @@ class InputDefinition implements InputDefinitionInterface
      * 
      * @return bool  True if the InputOption object exists, false otherwise
      */
-    public function getShortcut(string $name): bool
+    public function hasShortcut(string $name): bool
     {
         return isset($this->shortcuts[$name]);
     }
