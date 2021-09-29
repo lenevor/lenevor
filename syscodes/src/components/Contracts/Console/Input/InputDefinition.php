@@ -163,7 +163,7 @@ interface InputDefinition
      * 
      * @return bool  True if the InputOption object exists, false otherwise
      */
-    public function getShortcut(string $name): bool;
+    public function hasShortcut(string $name): bool;
 
     /**
      * Gets an InputOption info array.
