@@ -74,11 +74,11 @@ abstract class Console
     protected $commands = [];
     
     /**
-	 * The default command.
-	 * 
-	 * @var string $defaultCommand
-	 */
-	protected $defaultCommand;
+     * The default command.
+     * 
+     * @var string $defaultCommand
+     */
+    protected $defaultCommand;
 
     /**
      * The InputDefinition implement.
@@ -142,7 +142,7 @@ abstract class Console
         $this->name    = $name;
         $this->version = $version;
         
-		$this->defaultCommand = 'list';
+        $this->defaultCommand = 'list';
     }
 
     /**
@@ -188,43 +188,43 @@ abstract class Console
     {
         $this->version = $version;
     }
-
+    
     /**
-	 * Runs the current command discovered on the CLI.
-	 * 
-	 * @param  \Syscodes\Contracts\Console\Input|null  $input  The input interface implemented
-	 * @param  \Syscodes\Contracts\Console\Output|null  $output  The output interface implemented
-	 *
-	 * @return int
-	 */
-	public function run(InputInterface $input = null, OutputInterface $output = null)
-	{
+     * Runs the current command discovered on the CLI.
+     * 
+     * @param  \Syscodes\Contracts\Console\Input|null  $input  The input interface implemented
+     * @param  \Syscodes\Contracts\Console\Output|null  $output  The output interface implemented
+     * 
+     * @return int
+     */
+    public function run(InputInterface $input = null, OutputInterface $output = null)
+    {
         if (null === $input) {
             $input = new ArgvInput();
         }
-
+        
         if (null === $output) {
             $output = new ConsoleOutput();
         }
         
         $this->configureIO($input, $output);
-
+        
         try {
             $exitCode = $this->doExecute($input, $output);
         } catch (Exception $e) {
             throw $e;
-
+            
             $exitCode = $e->getCode();
         }
-
+        
         return $exitCode;
-	}
-
+    }
+    
     /**
      * Configures the input and output instances.
      * 
      * @param  \Syscodes\Contracts\Console\Input  $input  The input interface implemented
-	 * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
+     * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
      * 
      * @return \Syscodes\Console\IO\Interactor
      */
@@ -232,12 +232,12 @@ abstract class Console
     {
         return (new Interactor($input, $output))->getConfigureIO();
     }
-
+    
     /**
      * Executes the current application of console.
      * 
      * @param  \Syscodes\Contracts\Console\Input  $input  The input interface implemented
-	 * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
+     * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
      * 
      * @return int
      */
