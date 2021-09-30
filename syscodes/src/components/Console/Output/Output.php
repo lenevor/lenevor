@@ -43,14 +43,14 @@ abstract class Output implements OutputInterface
 	 * @var \Syscodes\Contracts\Console\OutputFormatter $formatter
 	 */
 	protected $formatter;
-
+	
 	/**
 	 * Gets the verbosity level.
 	 * 
 	 * @var int $verbosity
 	 */
 	protected $verbosity;
-
+	
 	/**
 	 * Constructor. Create a new Output instance.
 	 * 
@@ -64,10 +64,10 @@ abstract class Output implements OutputInterface
 	{
 		$this->verbosity = $verbosity ?? self::VERBOSITY_NORMAL;
 		$this->formatter = $formatter ?? new OutputFormatter();
-
+		
 		$this->formatter->setDecorated($decorated);
 	}
-
+	
 	/**
 	 * {@inheritdoc}
 	 */
@@ -75,7 +75,7 @@ abstract class Output implements OutputInterface
 	{
 		return $this->formatter->getDecorated();
 	}
-
+	
 	/**
 	 * {@inheritdoc}
 	 */
@@ -83,7 +83,7 @@ abstract class Output implements OutputInterface
 	{
 		$this->formatter->setDecorated($decorated);
 	}
-
+	
 	/**
 	 * {@inheritdoc}
 	 */
@@ -91,7 +91,7 @@ abstract class Output implements OutputInterface
 	{
 		return $this->formatter;
 	}
-
+	
 	/**
 	 * {@inheritdoc}
 	 */
@@ -99,7 +99,7 @@ abstract class Output implements OutputInterface
 	{
 		$this->formatter = $formatter;
 	}
-
+	
 	/**
 	 * {@inheritdoc}
 	 */
@@ -107,7 +107,7 @@ abstract class Output implements OutputInterface
 	{
 		return $this->verbosity;
 	}
-
+	
 	/**
 	 * {@inheritdoc}
 	 */
@@ -115,7 +115,7 @@ abstract class Output implements OutputInterface
 	{
 		$this->verbosity = $level;
 	}
-
+	
 	/**
 	 * {@inheritdoc}
 	 */
@@ -123,7 +123,7 @@ abstract class Output implements OutputInterface
 	{
 		return self::VERBOSITY_QUIET === $this->verbosity;
 	}
-
+	
 	/**
 	 * {@inheritdoc}
 	 */
@@ -131,7 +131,7 @@ abstract class Output implements OutputInterface
 	{
 		return self::VERBOSITY_VERBOSE <= $this->verbosity;
 	}
-
+	
 	/**
 	 * {@inheritdoc}
 	 */
@@ -139,7 +139,7 @@ abstract class Output implements OutputInterface
 	{
 		return self::VERBOSITY_VERY_VERBOSE <= $this->verbosity;
 	}
-
+	
 	/**
 	 * {@inheritdoc}
 	 */
@@ -147,26 +147,26 @@ abstract class Output implements OutputInterface
 	{
 		return self::VERBOSITY_QUIET <= $this->verbosity;
 	}
-
+	
 	/**
 	 * {@inheritdoc}
 	 */
 	public function writeln($messages, int $options = self::OUTPUT_NORMAL)
-    {
-        return $this->write($messages, true, $options);
-    }
-
-    /**
+	{
+		return $this->write($messages, true, $options);
+	}
+	
+	/**
 	 * {@inheritdoc}
 	 */
 	public function write($messages, bool $newline = false, int $options = self::OUTPUT_NORMAL)
-    {
+	{
 		if ( ! is_iterable($messages)) {
 			$messages = [$messages];
 		}
 		
 		$types = self::OUTPUT_NORMAL | self::OUTPUT_RAW | self::OUTPUT_PLAIN;
-		$type = $types & $options ?: self::OUTPUT_NORMAL;
+		$type  = $types & $options ?: self::OUTPUT_NORMAL;
 		
 		foreach ($messages as $message) {
 			switch($type) {
@@ -180,17 +180,17 @@ abstract class Output implements OutputInterface
 					break;
 			}
 		}
-
+		
 		return $this->toWrite($message ?? '', $newline);
-    }
-
+	}
+	
 	/**
-     * Writes a message to the output.
-     * 
-     * @param  string  $message  The text to output
-     * @param  bool  $newline  Add a newline command
-     * 
-     * @return mixed
-     */
-    abstract protected function toWrite(string $message, bool $newline);
+	 * Writes a message to the output.
+	 * 
+	 * @param  string  $message  The text to output
+	 * @param  bool  $newline  Add a newline command
+	 * 
+	 * @return mixed
+	 */
+	abstract protected function toWrite(string $message, bool $newline);
 }
