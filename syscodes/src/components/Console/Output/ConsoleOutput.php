@@ -67,37 +67,37 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
             $this->setDecorated($this->stderr->getDecorated());
         }
     }
-
+    
     /**
-	 * {@inheritdoc}
-	 */
-	public function setDecorated(bool $decorated): void
+     * {@inheritdoc}
+     */
+    public function setDecorated(bool $decorated): void
     {
         parent::setDecorated($decorated);
-
+        
         $this->stderr->setDecorated($decorated);
     }
-
+    
     /**
-	 * {@inheritdoc}
-	 */
-	public function setFormatter(OutputFormatterInterface $formatter): void
+     * {@inheritdoc}
+     */
+    public function setFormatter(OutputFormatterInterface $formatter): void
     {
         parent::setFormatter($formatter);
-
+        
         $this->stderr->setFormatter($formatter);
     }
-
+    
     /**
-	 * {@inheritdoc}
-	 */
-	public function setVerbosity(int $level): void
-	{
-		parent::setVerbosity($level);
-
+     * {@inheritdoc}
+     */
+    public function setVerbosity(int $level): void
+    {
+        parent::setVerbosity($level);
+        
         $this->stderr->setVerbosity($level);
-	}
-
+    }
+    
     /**
      * {@inheritdoc}
      */
@@ -105,7 +105,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     {
         return $this->stderr;
     }
-
+    
     /**
      * {@inheritdoc}
      */
@@ -113,7 +113,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     {
         $this->stderr = $error;
     }
-
+    
     /**
      * Gets the open output to given stream.
      * 
@@ -123,7 +123,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     {
         return @fopen('php://stdout', 'w') ?: @fopen('php://output', 'w');
     }
-
+    
     /**
      * Gets the open output to a given error stream.
      * 
