@@ -77,9 +77,9 @@ class StreamOutput extends Output
     protected function toWrite(string $message, bool $newline): int
     {
         if ($newline) {
-			$message .= \PHP_EOL;
-		}
-
+            $message .= \PHP_EOL;
+        }
+        
         return (int) @fwrite($this->stream, $message);
     }
 
