@@ -23,10 +23,12 @@
 namespace Syscodes\Console\Command;
 
 use Syscodes\Console\Input\InputOption;
+use Syscodes\Console\Input\InputArgument;
 use Syscodes\Console\Helper\DescriptorHelper;
 use Syscodes\Contracts\Console\Input as InputInterface;
 use Syscodes\Contracts\Console\Output as OutputInterface;
 use Syscodes\Contracts\Console\InputOption as InputOptionInterface;
+use Syscodes\Contracts\Console\InputArgument as InputArgumentInterface;
 
 /**
  * This class displays the list of all available commands 
@@ -44,11 +46,29 @@ class ListCommand extends Command
         $this
             ->setName('list')
             ->setDefinition([
+                new InputArgument('namespace', InputArgumentInterface::OPTIONAL, 'The namespace name'),
                 new InputOption('raw', null, InputOptionInterface::VALUE_NONE, 'To output raw command list'),
                 new InputOption('format', null, InputOptionInterface::VALUE_REQUIRED, 'The output format (txt, xml, json)', 'txt'),
             ])
             ->setDescription('List commands')
-            ->setHelp('List command...');
+            ->setHelp(<<<'EOF'
+            The <green>%command-name%</green> command lists all commands:
+            
+                <green>%command-fullname%</green>
+            
+            You can also display the commands for a specific namespace:
+                
+                <green>%command-fullname% test</green>
+            
+            You can also output the greenrmation in other formats by using the <comment>--format</comment> option:
+                
+                <green>%command-fullname% --format=xml</green>
+                
+            It's also possible to get raw list of commands (useful for embedding command runner):
+                
+                <green>%command-fullname% --raw</green>
+            EOF
+            );
     }
 
     /**
