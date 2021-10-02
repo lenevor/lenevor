@@ -32,19 +32,12 @@ use Syscodes\Contracts\Console\Output as OutputInterface;
 use Syscodes\Contracts\Console\Descriptor as DescriptorInterface;
 
 /**
- * This class allows all console description variables to be displayed
+ * This class allows all console description variables to be displayed.
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
 abstract class Descriptor implements DescriptorInterface
 {
-    /**
-     * The output interface implementation.
-     * 
-     * @var \Syscodes\Contracts\Console\Output $output
-     */
-    protected $output;
-
     /**
      * {@inheritdoc}
      */
