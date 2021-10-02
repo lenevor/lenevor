@@ -97,11 +97,13 @@ class ArgvInput extends Input
     {
         $tokens = $this->getTokens();
         
-        if (count($tokens) > 0 ) {
-            reset($tokens);
+        foreach ($tokens as $token) {
+            if ($token && '-' === $token[0]) {
+                continue;
+            }
+            
+            return $token;
         }
-        
-        return null;
     }
 
     /**
