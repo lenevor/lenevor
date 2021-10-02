@@ -299,7 +299,15 @@ abstract class Console
      */
     public function addCommand(Command $command)
     {
+        $this->initialize();
+
         $command->setApplication($this);
+        
+        if ( ! $command->isEnabled()) {
+            $command->setApplication(null);
+            
+            return null;
+        }
         
         if ( ! $command->getName()) {
             throw new LogicException(sprintf('The command defined in "%s" cannot have an empty name', get_debug_type($command)));
@@ -352,7 +360,7 @@ abstract class Console
     {
         return new InputDefinition([
             new InputArgument('command', InputArgument::REQUIRED, 'The command to execute'),
-            new InputOption('--help', '-h', InputOptionInterface::VALUE_NONE, 'Display help for the given command. When no command is given display help for the <info>'.$this->defaultCommand.'</info> command'),
+            new InputOption('--help', '-h', InputOptionInterface::VALUE_NONE, 'Display help for the given command. When no command is given display help for the <comment>'.$this->defaultCommand.'</comment> command'),
             new InputOption('--quiet', '-q', InputOptionInterface::VALUE_NONE, 'Do not output any message'),
             new InputOption('--verbose', '-v|vv|vvv', InputOptionInterface::VALUE_NONE, 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'),
             new InputOption('--version', '-V', InputOptionInterface::VALUE_NONE, 'Display this application version'),
@@ -408,6 +416,16 @@ abstract class Console
     public function setLogoStyle(string $style): void
     {
         $this->config['logoStyle'] = $style;
+    }
+    
+    /**
+     * Gets the help message.
+     * 
+     * @return string
+     */
+    public function getHelp()
+    {
+        return $this->getConsoleVersion();
     }
 
     /**
