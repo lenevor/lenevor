@@ -31,10 +31,17 @@ use Syscodes\Contracts\Console\Output as OutputInterface;
 use Syscodes\Console\Helper\Description\ApplicationDescription;
 
 /**
+ * Text descriptor.
  * 
+ * @author Alexander Campo <jalexcam@gmail.com>
  */
 class TextDescriptor extends Descriptor
 {
+    /**
+     * The output interface implementation.
+     * 
+     * @var \Syscodes\Contracts\Console\Output $output
+     */
     protected $output;
 
     /**
@@ -54,7 +61,6 @@ class TextDescriptor extends Descriptor
         $this->writeText(sprintf('  <green>%s</green>  %s%s%s',
             $argument->getName(),
             str_repeat(' ', $spacingWidth),
-            // + 4 = 2 spaces before <info>, 2 spaces after </info>
             preg_replace('/\s*[\r\n]\s*/', "\n".str_repeat(' ', $totalWidth + 4), $argument->getDescription()),
             $default
         ), $options);
@@ -91,7 +97,6 @@ class TextDescriptor extends Descriptor
         $this->writeText(sprintf('  <green>%s</green>  %s%s%s%s',
             $synopsis,
             str_repeat(' ', $spacingWidth),
-            // + 4 = 2 spaces before <info>, 2 spaces after </info>
             preg_replace('/\s*[\r\n]\s*/', "\n".str_repeat(' ', 4), $option->getDescription()),
             $default,
             $option->isArray() ? '<comment> (multiple values allowed)</comment>' : ''
@@ -148,6 +153,15 @@ class TextDescriptor extends Descriptor
             $this->writeText('  '.$description);
             $this->writeText("\n\n");
         }
+        
+        $this->writeText('<comment>Usage:</comment>', $options);
+        
+        foreach (array_merge([$command->getSynopsis(true)], $command->getAliases(), $command->getUsages()) as $usage) {
+            $this->writeText("\n");
+            $this->writeText('  '.$usage, $options);
+        }
+        
+        $this->writeText("\n\n");
 
         $definition = $command->getDefinition();
         
@@ -156,7 +170,7 @@ class TextDescriptor extends Descriptor
             $this->writeText("\n");
         }
 
-        $help = $command->getHelp();
+        $help = $command->getProccesedHelp();
 
         if ($help && $help !== $description) {
             $this->writeText("\n");
