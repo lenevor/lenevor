@@ -27,6 +27,7 @@ use TypeError;
 use LogicException;
 use ReflectionProperty;
 use ReflectionException;
+use Syscodes\Support\Str;
 use InvalidArgumentException;
 use Syscodes\Console\Application;
 use Syscodes\Console\Input\InputOption;
@@ -146,6 +147,20 @@ abstract class Command
      * @var array $options
      */
     protected $options = [];
+
+    /**
+     * The console command synopsis.
+     * 
+     * @var array $synopsis
+     */
+    protected $synopsis = [];
+
+    /**
+     * The console command usages.
+     * 
+     * @var array $usages
+     */
+    protected $usages = [];
 
     /**
      * Gets the default name.
@@ -511,6 +526,30 @@ abstract class Command
     }
 
     /**
+     * Returns the proccesed help for the command.
+     * 
+     * @return string
+     */
+    public function getProccesedHelp(): string
+    {
+        $name = $this->getName();
+
+        $isSingleCommand = $this->application && $this->application->isSingleCommand();
+
+        $placeholder = [
+            '%command-name%',
+            '%command-fullname%',
+        ];
+
+        $replacement = [
+            $name,
+            $isSingleCommand ? $_SERVER['PHP_SELF'] : $_SERVER['PHP_SELF'].' '.$name,
+        ];
+
+        return str_replace($placeholder, $replacement, $this->getHelp() ?: $this->getDescription());
+    }
+
+    /**
      * Sets the help for the command.
      *
      * @return $this
@@ -520,6 +559,52 @@ abstract class Command
         $this->help = $help;
 
         return $this;
+    }
+
+    /**
+     * Returns alternative usages of the command.
+     * 
+     * @return array
+     */
+    public function getUsages(): array
+    {
+        return $this->usages;
+    }
+
+    /**
+     * Add a command usage as example.
+     * 
+     * @param  string  $usage  The command name usage
+     * 
+     * @return self
+     */
+    public function addUsage(string $usage): self
+    {
+        if ( ! Str::startsWith($usage, $this->name)) {
+            $usage = sprintf('%s %s', $this->name, $usage);
+        }
+
+        $this->usages[] = $usage;
+
+        return $this;
+    }
+
+    /**
+     * Returns the synopsis for the command.
+     * 
+     * @param  bool  short
+     * 
+     * @return string
+     */
+    public function getSynopsis(bool $short = false)
+    {
+        $value = $short ? 'short' : 'long';
+
+        if ( ! isset($this->synopsis[$value])) {
+            $this->synopsis[$value] = sprintf('%s %s', $this->name, $this->definition->getSynopsis($short));
+        }
+
+        return $this->synopsis[$value];
     }
 
     /**
