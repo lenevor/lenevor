@@ -445,4 +445,57 @@ class InputDefinition implements InputDefinitionInterface
 
         return $this->negations[$name];
     }
+    
+    /**
+     * Gets the synopsis.
+     * 
+     * @return string
+     */
+    public function getSynopsis(bool $short = false): string
+    {
+        $elements = [];
+        
+        if ($short && $this->getOptions()) {
+            $elements[] = '[options]';
+        } elseif ( ! $short) {
+            foreach ($this->getOptions() as $option) {
+                $value = '';
+                
+                if ($option->isAcceptValue()) {
+                    $value = sprintf(' %s%s%s',
+                        $option->isValueOptional() ? '[' : '',
+                        \strtoupper($option->getName()),
+                        $option->isValueOptional() ? ']' : ''
+                    );
+                }
+                
+                $shortcut = $option->getShortcut() ? sprintf('-%s|', $option->getShortcut()) : '';
+                $negation = $option->isNegatable() ? sprintf('|--no-%s', $option->getName()) : '';
+                $elements[] = sprintf('[%s--%s%s%s]', $shortcut, $option->getName(), $value, $negation);
+            }
+        }
+        
+        if (\count($elements) && $this->getArguments()) {
+            $elements[] = '[--]';
+        }
+        
+        $tail = '';
+        
+        foreach ($this->getArguments() as $argument) {
+            $element = '<'.$argument->getName().'>';
+            
+            if ($argument->isArray()) {
+                $element .= '...';
+            }
+            
+            if ( ! $argument->isRequired()) {
+                $element = '['.$element;
+                $tail .= ']';
+            }
+
+            $elements[] = $element;
+        }
+        
+        return implode(' ', $elements).$tail;
+    }
 }
