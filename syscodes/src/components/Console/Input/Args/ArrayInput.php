@@ -58,13 +58,13 @@ class ArrayInput extends Input
      */
     public function getFirstArgument()
     {
-        foreach ($this->parameters as $parameter => $value) {
-            if ($parameter && \is_string($parameter) && '-' === $parameter[0]) {
+        foreach ($this->parameters as $key => $value) {
+            if ($key && '-' === $key[0]) {
                 continue;
             }
+            
+            return $value;
         }
-        
-        return null;
     }
 
     /**
