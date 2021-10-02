@@ -272,7 +272,7 @@ abstract class Console
             $definition->setArguments(array_merge(
                 $definition->getArguments(),
                 [
-                    'command' => new InputArgument('command', InputArgument::OPTIONAL, $definition->getArgument('command')->getDescription(), $name),
+                    'command' => new InputArgument('command', InputArgumentInterface::OPTIONAL, $definition->getArgument('command')->getDescription(), $name),
                 ]
             ));
         }
@@ -349,6 +349,14 @@ abstract class Console
         }
         
         return $this->definition;
+    }
+
+    /**
+     * @internal
+     */
+    public function isSingleCommand(): bool
+    {
+        return $this->singleCommand;
     }
 
     /**
