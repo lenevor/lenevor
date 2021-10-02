@@ -22,8 +22,11 @@
 
 namespace Syscodes\Console\Command;
 
+use Syscodes\Console\Input\InputOption;
+use Syscodes\Console\Helper\DescriptorHelper;
 use Syscodes\Contracts\Console\Input as InputInterface;
 use Syscodes\Contracts\Console\Output as OutputInterface;
+use Syscodes\Contracts\Console\InputOption as InputOptionInterface;
 
 /**
  * This class displays the list of all available commands 
@@ -39,9 +42,13 @@ class ListCommand extends Command
     protected function configure()
     {
         $this
-        ->setName('list')
-        ->setDescription('List commands')
-        ->setHelp('List command...');
+            ->setName('list')
+            ->setDefinition([
+                new InputOption('raw', null, InputOptionInterface::VALUE_NONE, 'To output raw command list'),
+                new InputOption('format', null, InputOptionInterface::VALUE_REQUIRED, 'The output format (txt, xml, json)', 'txt'),
+            ])
+            ->setDescription('List commands')
+            ->setHelp('List command...');
     }
 
     /**
@@ -49,9 +56,11 @@ class ListCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output) 
     {
-        $output->writeln($this->getApplication()->getConsoleVersion());
-        $output->writeln('');
-        $output->writeln('Probando lista...');
+        $helper = new DescriptorHelper();
+        $helper->describe($output, $this->getApplication(), [
+            'format' => $input->getOption('format'),
+            'raw_text' => $input->getOption('raw'),
+        ]);
 
         return 0;
     }
