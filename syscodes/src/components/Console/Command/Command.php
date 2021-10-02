@@ -99,6 +99,13 @@ abstract class Command
     protected $description;
 
     /**
+     * The InputDefinition full implemented.
+     * 
+     * @var \Syscodes\Console\Input\InputDefinition $fullDefinition
+     */
+    protected $fullDefinition;
+
+    /**
      * The group of commands is lumped under, when listing commands.
      * 
      * @var string $group
@@ -234,6 +241,9 @@ abstract class Command
      */
     public function run(InputInterface $input, OutputInterface $output)
     {
+        // add the application arguments and options
+        $this->mergeApplicationDefinition();
+
         try {
             $input->linked($this->getDefinition());
         } catch (Throwable $e) {
@@ -256,6 +266,31 @@ abstract class Command
 
         return is_numeric($statusCode) ? (int) $statusCode : 0;
     }
+    
+    /**
+     * Merges the application definition with the command definition.
+     * 
+     * @param  bool  $mergeArgs  Whether to merge or not the Application definition arguments to Command definition arguments
+     * 
+     * @internal
+     */
+    public function mergeApplicationDefinition(bool $mergeArgs = true)
+    {
+        if (null === $this->application) {
+            return;
+        }
+        
+        $this->fullDefinition = new InputDefinition();
+        $this->fullDefinition->setOptions($this->definition->getOptions());
+        $this->fullDefinition->addOptions($this->application->getDefinition()->getOptions());
+        
+        if ($mergeArgs) {
+            $this->fullDefinition->setArguments($this->application->getDefinition()->getArguments());
+            $this->fullDefinition->addArguments($this->definition->getArguments());
+        } else {
+            $this->fullDefinition->setArguments($this->definition->getArguments());
+        }
+    }
 
     /**
      * Gets the InputDefinition to be used to representate arguments 
@@ -271,7 +306,7 @@ abstract class Command
             );
         }
 
-        return $this->definition;
+        return $this->fullDefinition ?? $this->definition;
     }
 
      /**
@@ -289,6 +324,8 @@ abstract class Command
         } else {
             $this->definition->setDefinition($definition);
         }
+        
+        $this->fullDefinition = null;
 
         return $this;
     }
@@ -306,7 +343,7 @@ abstract class Command
      * @throws \InvalidArgumentException  When argument mode is not valid
      * @throws \LogicException
      */
-    public function getArgument(
+    public function addArgument(
         string $name,
         int $mode = null,
         string $description = '',
@@ -330,7 +367,7 @@ abstract class Command
      * 
      * @throws \InvalidArgumentException  If option mode is invalid
      */
-    public function getOption(
+    public function addOption(
         string $name, 
         $shortcut = null,
         int $mode = null,
@@ -516,6 +553,16 @@ abstract class Command
         $this->aliases = \is_array($aliases) ? $aliases : $list;
         
         return $this;
+    }
+    
+    /**
+     * Checks whether the command is enabled or not in the current environment.
+     * 
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return true;
     }
 
     /**
