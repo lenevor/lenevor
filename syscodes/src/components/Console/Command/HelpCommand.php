@@ -24,6 +24,7 @@ namespace Syscodes\Console\Command;
 
 use Syscodes\Console\Input\InputOption;
 use Syscodes\Console\Input\InputArgument;
+use Syscodes\Console\Helper\DescriptorHelper;
 use Syscodes\Contracts\Console\Input as InputInterface;
 use Syscodes\Contracts\Console\Output as OutputInterface;
 use Syscodes\Contracts\Console\InputOption as InputOptionInterface;
@@ -52,9 +53,14 @@ class HelpCommand extends Command
             ->setName('help')
             ->setDefinition([
                 new InputArgument('command_name', InputArgumentInterface::OPTIONAL, 'The command name', 'help'),
+                new InputOption('format', null, InputOptionInterface::VALUE_REQUIRED, 'The output format (txt, xml, json)', 'txt'),
+                new InputOption('raw', null, InputOptionInterface::VALUE_NONE, 'To output raw command help'),
             ])
             ->setDescription('Display help for a command')
-            ->setHelp("Help command...");
+            ->setHelp(<<<'EOF'
+                Help command...
+                EOF
+            );
     }
 
     /**
@@ -78,8 +84,11 @@ class HelpCommand extends Command
             $this->command = $this->getApplication()->findCommand($input->getArgument('command_name'));
         }
         
-        $output->writeln($this->getApplication()->getConsoleVersion());
-        $output->writeln("\nProbando ayuda....");
+        $helper = new DescriptorHelper();
+        $helper->describe($output, $this->command, [
+            'format' => $input->getOption('format'),
+            'raw_text' => $input->getOption('raw'),
+        ]);
         
         $this->command = null;
 
