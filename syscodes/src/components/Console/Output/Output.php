@@ -60,9 +60,9 @@ abstract class Output implements OutputInterface
 	 * 
 	 * @return void
 	 */
-	public function __construct(?int $verbosity = self::VERBOSITY_NORMAL, bool $decorated = false, OutputFormatterInterface $formatter = null)
+	public function __construct(?int $verbosity = OutputInterface::VERBOSITY_NORMAL, bool $decorated = false, OutputFormatterInterface $formatter = null)
 	{
-		$this->verbosity = $verbosity ?? self::VERBOSITY_NORMAL;
+		$this->verbosity = $verbosity ?? OutputInterface::VERBOSITY_NORMAL;
 		$this->formatter = $formatter ?? new OutputFormatter();
 		
 		$this->formatter->setDecorated($decorated);
@@ -121,7 +121,7 @@ abstract class Output implements OutputInterface
 	 */
 	public function isQuiet(): bool
 	{
-		return self::VERBOSITY_QUIET === $this->verbosity;
+		return OutputInterface::VERBOSITY_QUIET === $this->verbosity;
 	}
 	
 	/**
@@ -129,7 +129,7 @@ abstract class Output implements OutputInterface
 	 */
 	public function isVerbose(): bool
 	{
-		return self::VERBOSITY_VERBOSE <= $this->verbosity;
+		return OutputInterface::VERBOSITY_VERBOSE <= $this->verbosity;
 	}
 	
 	/**
@@ -137,7 +137,7 @@ abstract class Output implements OutputInterface
 	 */
 	public function isVeryVerbose(): bool
 	{
-		return self::VERBOSITY_VERY_VERBOSE <= $this->verbosity;
+		return OutputInterface::VERBOSITY_VERY_VERBOSE <= $this->verbosity;
 	}
 	
 	/**
@@ -145,13 +145,13 @@ abstract class Output implements OutputInterface
 	 */
 	public function isDebug(): bool
 	{
-		return self::VERBOSITY_QUIET <= $this->verbosity;
+		return OutputInterface::VERBOSITY_QUIET <= $this->verbosity;
 	}
 	
 	/**
 	 * {@inheritdoc}
 	 */
-	public function writeln($messages, int $options = self::OUTPUT_NORMAL)
+	public function writeln($messages, int $options = OutputInterface::OUTPUT_NORMAL)
 	{
 		return $this->write($messages, true, $options);
 	}
@@ -159,14 +159,22 @@ abstract class Output implements OutputInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function write($messages, bool $newline = false, int $options = self::OUTPUT_NORMAL)
+	public function write($messages, bool $newline = false, int $options = OutputInterface::OUTPUT_NORMAL)
 	{
 		if ( ! is_iterable($messages)) {
 			$messages = [$messages];
 		}
 		
-		$types = self::OUTPUT_NORMAL | self::OUTPUT_RAW | self::OUTPUT_PLAIN;
-		$type  = $types & $options ?: self::OUTPUT_NORMAL;
+		$types = OutputInterface::OUTPUT_NORMAL | OutputInterface::OUTPUT_RAW | OutputInterface::OUTPUT_PLAIN;
+		$type  = $types & $options ?: OutputInterface::OUTPUT_NORMAL;
+		
+		$verbosities = OutputInterface::VERBOSITY_QUIET | OutputInterface::VERBOSITY_NORMAL | OutputInterface::VERBOSITY_VERBOSE | OutputInterface::VERBOSITY_VERY_VERBOSE | OutputInterface::VERBOSITY_DEBUG;
+		
+		$verbosity = $verbosities & $options ?: OutputInterface::VERBOSITY_NORMAL;
+		
+		if ($verbosity > $this->getVerbosity()) {
+			return;
+		}
 		
 		foreach ($messages as $message) {
 			switch($type) {
