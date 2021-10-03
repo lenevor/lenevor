@@ -30,5 +30,6 @@ namespace Syscodes\Console;
 final class GlobalOption
 {
     public const HELP_OPTION    = ['--help', '-h'];
+    public const QUIET_OPTION   = ['--quiet', '-q'];
     public const VERSION_OPTION = ['--version', '-V'];
 }
