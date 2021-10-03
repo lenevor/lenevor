@@ -22,6 +22,7 @@
 
 namespace Syscodes\Console\IO;
 
+use Syscodes\Console\GlobalOption;
 use Syscodes\Contracts\Console\Input as InputInterface;
 use Syscodes\Contracts\Console\Output as OutputInterface;
 
@@ -38,8 +39,8 @@ class Interactor
      * @var \Syscodes\Contracts\Console\Input $input
      */
     protected $input;
-
-   /**
+    
+    /**
      * The Output instance.
      * 
      * @var \Syscodes\Contracts\Console\Output $output
@@ -82,7 +83,7 @@ class Interactor
             default: $shellVerbosity = 0; break;
         }
         
-        if (true === $this->input->hasParameterOption(['--quiet', '-q'], true)) {
+        if (true === $this->input->hasParameterOption(GlobalOption::QUIET_OPTION, true)) {
             $this->output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
             $shellVerbosity = -1;
         } else {
