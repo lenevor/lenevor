@@ -20,6 +20,7 @@ return [
     'App\\Providers\\AppServiceProvider' => APP_PATH.'Providers/AppServiceProvider.php',
     'App\\Providers\\EventServiceProvider' => APP_PATH.'Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => APP_PATH.'Providers/RouteServiceProvider.php',
+    // Components
     'Syscodes\\Cache\\Exceptions\\CacheException' => SYS_PATH.'src/components/Cache/Exceptions/CacheException.php',
     'Syscodes\\Cache\\Store\\ApcStore' => SYS_PATH.'src/components/Cache/Store/ApcStore',
     'Syscodes\\Cache\\Store\\ApcWrapper' => SYS_PATH.'src/components/Cache/Store/ApcWrapper',
@@ -74,7 +75,6 @@ return [
     'Syscodes\\Console\\Util\\Table' => SYS_PATH.'src/components/Console/Util/Table.php',
     'Syscodes\\Console\\Application' => SYS_PATH.'src/components/Console/Application.php',
     'Syscodes\\Console\\Command' => SYS_PATH.'src/components/Console/Command.php',
-    'Syscodes\\Console\\Console' => SYS_PATH.'src/components/Console/Console.php',
     'Syscodes\\Console\\GlobalOption' => SYS_PATH.'src/components/Console/GlobalOption.php',
     'Syscodes\\Container\\Exceptions\\ContainerException' => SYS_PATH.'src/components/Container/Exceptions/ContainerException.php',
     'Syscodes\\Container\\Exceptions\\UnknownIdentifierException' => SYS_PATH.'src/components/Container/Exceptions/UnknownIdentifierException.php',
@@ -402,5 +402,7 @@ return [
     'Psr\\Log\\LoggerTrait' => SYS_PATH.'src/external/psr/Log/src/LoggerTrait.php',
     'Psr\\Log\\LogLevel' => SYS_PATH.'src/external/psr/Log/src/LogLevel.php',
     'Psr\\Log\\NullLogger' => SYS_PATH.'src/external/psr/Log/src/NullLogger.php',
+    // Bundles
+    'Syscodes\\Bundles\\Console\\Application' => SYS_PATH.'src/bundles/Console/Application.php',
 
 ];
