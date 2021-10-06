@@ -84,6 +84,7 @@ class Interactor
         }
         
         if (true === $this->input->hasParameterOption(GlobalOption::QUIET_OPTION, true)) {
+            $this->output->write('<comment> Ok. ByeBye! </comment>', true);
             $this->output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
             $shellVerbosity = -1;
         } else {
