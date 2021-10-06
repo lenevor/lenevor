@@ -222,15 +222,15 @@ abstract class Command
             $this->setDescription(static::getDefaultDescription() ?? '');
         }
         
-        $this->configure();
+        $this->define();
     }
 
     /**
-     * Configure input definition for command.
+     * Gets input definition for command.
      * 
      * @return void
      */
-    abstract protected function configure();
+    abstract protected function define();
 
     /**
      * Executes the current command.
