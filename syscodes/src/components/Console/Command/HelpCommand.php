@@ -47,7 +47,7 @@ class HelpCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function define()
     {
         $this
             ->setName('help')
