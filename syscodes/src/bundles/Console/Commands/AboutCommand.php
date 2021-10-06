@@ -39,7 +39,7 @@ class AboutCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function define()
     {
         $this
             ->setName('about')
