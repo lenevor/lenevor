@@ -22,6 +22,7 @@
 
 namespace Syscodes\Console\Concerns;
 
+use Locale;
 use Syscodes\Console\Util\Show;
 use Syscodes\Console\Style\ColorTag;
 
@@ -46,8 +47,8 @@ trait VersionInfo
             '', 
             [
                 'leftChar'  => '',
-                'sepChar'   => ' : ',
-                'keyPadPos' => 'left',
+                'sepChar'   => '    ',
+                'keyPadPos' => 'right',
             ],
             $output
         );
@@ -60,21 +61,33 @@ trait VersionInfo
      */
     public function makeVersionInfo(): array
     {
-        $logo       = '';
-        $updateAt   = $this->getParam('updateAt', 'Unknown');
-        $publishAt  = $this->getParam('publishAt', 'Unknown');
-        $currentAt  = date('d.m.Y');
-        $phpOS      = PHP_OS;
-        $phpVersion = PHP_VERSION; 
+        $logo         = '';
+        $updateAt     = $this->getParam('updateAt', 'Unknown');
+        $publishAt    = $this->getParam('publishAt', 'Unknown');
+        $currentAt    = date('d.m.Y');
+        $phpOS        = \PHP_OS;
+        $phpVersion   = \PHP_VERSION; 
+        $architecture = \PHP_INT_SIZE * 8;
+        $locale       = class_exists(Locale::class, false) && Locale::getDefault() ? Locale::getDefault() : 'n/a';
 
         if ($logoTxt = $this->getLogoText()) {
             $logo = ColorTag::wrap($logoTxt, $this->getLogoStyle());
         }
 
         $info = [
-            "$logo\n  {$this->getName()}, Version <brown>{$this->getVersion()}</brown>\n",
-            'System Info'      => "PHP version <green>{$phpVersion}</green> on <green>{$phpOS}</green> system",
-            'Application Info' => "Update at <green>{$updateAt}</green>, publish at <green>{$publishAt}</green> (current at {$currentAt})",
+            "$logo\n",
+            "  <hiGreen>{$this->getName()}</hiGreen>\n",
+            "  Version"      => "{$this->getVersion()}",
+            "  Publish at"   => "{$publishAt}",
+            "  Update at"    => "{$updateAt}\n",
+            "  <hiGreen>Core</hiGreen>\n",
+            "  Environment"  => env('APP_ENV'),
+            "  Debug"        => (env('APP_DEBUG') ? "True" : "False")."\n",
+            "  <hiGreen>PHP Info</hiGreen>\n",
+            "  Version "     => "{$phpVersion}",
+            "  Architecture" => "{$architecture} bits",
+            "  Intl Locale"  => "{$locale}",
+            
         ];
 
         if ($hUrl = $this->getParam('homepage')) {
@@ -93,12 +106,9 @@ trait VersionInfo
     {
         if ('UNKNOWN' !== $this->getName()) {
             if ('UNKNOWN' !== $this->getVersion()) {
-                return sprintf('%s <info>%s</info> (env: <comment>%s</comment>, debug: <comment>%s</comment>) [<magenta>%s</magenta>]', 
+                return sprintf('%s <green>%s</green>', 
                     $this->getName(), 
-                    $this->getVersion(),
-                    env('APP_ENV'),
-                    env('APP_DEBUG') ? 'true' : 'false',
-			        PHP_OS
+                    $this->getVersion()
                 );
             }
 
