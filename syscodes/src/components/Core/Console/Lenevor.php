@@ -30,8 +30,8 @@ use Syscodes\Support\Finder;
 use Syscodes\Collections\Arr;
 use Syscodes\Contracts\Core\Application;
 use Syscodes\Contracts\Events\Dispatcher;
-use Syscodes\Console\Application as Prime;
 use Syscodes\Contracts\Debug\ExceptionHandler;
+use Syscodes\Bundles\Console\Application as Prime;
 use Syscodes\Contracts\Console\Lenevor as LenevorConsole;
 
 /**
