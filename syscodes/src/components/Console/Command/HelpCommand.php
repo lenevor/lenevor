@@ -58,7 +58,7 @@ class HelpCommand extends Command
             ])
             ->setDescription('Display help for a command')
             ->setHelp(<<<'EOF'
-            The <green>%command-name%</green> command displays help for a given command:
+            The <comment>%command-name%</comment> command displays help for a given command:
                 
                 <green>%command-fullname% list</green>
                 
