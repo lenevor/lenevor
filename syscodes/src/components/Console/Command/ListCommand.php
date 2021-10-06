@@ -52,7 +52,7 @@ class ListCommand extends Command
             ])
             ->setDescription('List commands')
             ->setHelp(<<<'EOF'
-            The <green>%command-name%</green> command lists all commands:
+            The <comment>%command-name%</comment> command lists all commands:
             
                 <green>%command-fullname%</green>
             
