@@ -41,7 +41,7 @@ class ListCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function define()
     {
         $this
             ->setName('list')
