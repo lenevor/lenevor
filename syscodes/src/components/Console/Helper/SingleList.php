@@ -52,7 +52,7 @@ final class SingleList
             'leftChar'     => '  ', 
             //'sepChar'      => '  ',
             'keyMinWidth'  => 8,
-            'keyStyle'     => 'green',
+            'keyStyle'     => 'white',
             'titleStyle'   => 'green',
             'ucFirst'      => false,
             'returned'     => false,
