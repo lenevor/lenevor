@@ -171,7 +171,7 @@ final class Color
 		'fuzzy'          => '2',
 		'i'              => '0;3',
 		'italic'         => '0;3',
-		'undersline'     => '4',
+		'underline'     => '4',
 		'blink'          => '5',
 		'reverse'        => '7',
 		'concealed'      => '8',
