@@ -109,7 +109,7 @@ final class ColorTag
             $body = $match[2];
             
             if ($recursive && false !== strpos($body, '</')) {
-                $body = self::pregReplaceTags($body, $recursive);dd($body);
+                $body = self::pregReplaceTags($body, $recursive);
             }
             
             // wrap body with color codes
