@@ -522,6 +522,51 @@ class Application implements ApplicationContract
     }
 
     /**
+     * Gets all the namespaces used by currently registered commands.
+     * 
+     * @return string[]
+     */
+    public function getNamespaces()
+    {
+        
+    }
+
+    /**
+     * Finds a registered namespace.
+     * 
+     * @param  string  $namespace
+     * 
+     * @return string
+     */
+    public function findNamespace(string $namespace): string
+    {
+
+    }
+
+    public function renderThrowable(Throwable $e, OutputInterface $output): void
+    {
+
+    }
+
+    protected function doRenderError(Throwable $e, OutputInterface $output): void
+    {
+
+    }
+
+    /**
+     * Finds alternative of `$name` among collection.
+     * 
+     * @param  string  $name
+     * @param  iterable  $collection
+     * 
+     * @return string[]
+     */
+    public function getCommandAlternatives(string $name, iterable $collection): array
+    {
+
+    }
+
+    /**
      * Gets the logo text for console app.
      * 
      * @return string|null
