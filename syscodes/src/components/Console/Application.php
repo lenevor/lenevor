@@ -543,11 +543,27 @@ class Application implements ApplicationContract
 
     }
 
+    /**
+     * Renders errors for define a verbose quiet.
+     * 
+     * @param  \Throwable  $e
+     * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
+     * 
+     * @return void 
+     */
     public function renderThrowable(Throwable $e, OutputInterface $output): void
     {
 
     }
 
+    /**
+     * Renders errors caused by not defining variables, methods and console command classes.
+     * 
+     * @param  \Throwable  $e
+     * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
+     * 
+     * @return void 
+     */
     protected function doRenderError(Throwable $e, OutputInterface $output): void
     {
 
