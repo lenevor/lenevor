@@ -14,6 +14,7 @@
 return [
 
     'App\\' => APP_PATH,
-    'Syscodes\\' => realpath(SYS_PATH),
+    'Syscodes\\Bundles' => SYS_PATH.'src/bundles',
+    'Syscodes\\Components' => SYS_PATH.'src/Components',
 
 ];
