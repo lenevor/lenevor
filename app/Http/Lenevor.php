@@ -21,7 +21,7 @@
 
 namespace App\Http;
 
-use Syscodes\Core\Http\Lenevor as HttpLenevor;
+use Syscodes\Components\Core\Http\Lenevor as HttpLenevor;
 
 /**
  * Core Framework.
