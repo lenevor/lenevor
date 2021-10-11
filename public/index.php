@@ -19,8 +19,8 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-use Syscodes\Http\Request;
-use Syscodes\Contracts\Http\Lenevor;
+use Syscodes\Components\Http\Request;
+use Syscodes\Components\Contracts\Http\Lenevor;
 
 define('LENEVOR_START', microtime(true));
 
