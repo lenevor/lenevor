@@ -21,7 +21,7 @@
 
 namespace App\Providers;
 
-use Syscodes\Support\ServiceProvider;
+use Syscodes\Components\Support\ServiceProvider;
 
 /**
  * Allows to enable everything related to the boot and registration 
