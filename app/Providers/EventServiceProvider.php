@@ -21,7 +21,7 @@
 
 namespace App\Providers;
 
-use Syscodes\Core\Support\Providers\EventServiceProvider as ServiceProvider;
+use Syscodes\Components\Core\Support\Providers\EventServiceProvider as ServiceProvider;
 
 /**
  * Manage all events occurred in the application.
