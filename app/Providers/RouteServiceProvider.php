@@ -21,8 +21,8 @@
 
 namespace App\Providers;
 
-use Syscodes\Support\Facades\Route;
-use Syscodes\Core\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Syscodes\Components\Support\Facades\Route;
+use Syscodes\Components\Core\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 /**
  * The route service provider facilitates the register of a namespace your 
