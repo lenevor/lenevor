@@ -11,7 +11,7 @@
 |
 */
 
-$app = new Syscodes\Core\Application(
+$app = new Syscodes\Components\Core\Application(
     $_ENV['APP_ROOT_PATH'] ?? dirname(__DIR__)
 );
 
@@ -27,17 +27,17 @@ $app = new Syscodes\Core\Application(
 */
 
 $app->singleton(
-    Syscodes\Contracts\Http\Lenevor::class, 
+    Syscodes\Components\Contracts\Http\Lenevor::class, 
     App\Http\Lenevor::class
 );
 
 $app->singleton(
-    Syscodes\Contracts\Console\Lenevor::class, 
+    Syscodes\Components\Contracts\Console\Lenevor::class, 
     App\Console\Lenevor::class
 );
 
 $app->singleton(
-    Syscodes\Contracts\Debug\ExceptionHandler::class, 
+    Syscodes\Components\Contracts\Debug\ExceptionHandler::class, 
     App\Exceptions\Handler::class
 );
 
