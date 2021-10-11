@@ -21,7 +21,7 @@
 
 namespace App\Http;
 
-use Syscodes\Controller\Controller as BaseController;
+use Syscodes\Components\Controller\Controller as BaseController;
 
 /**
  * Controller.
