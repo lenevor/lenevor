@@ -22,7 +22,7 @@
 namespace App\Exceptions;
 
 use Throwable;
-use Syscodes\Core\Exceptions\Handler as ExceptionHandler;
+use Syscodes\Components\Core\Exceptions\Handler as ExceptionHandler;
 
 /**
  * Class is where all exceptions triggered by your application are logged 
