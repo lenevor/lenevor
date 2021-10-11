@@ -22,9 +22,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-use Syscodes\Console\Input\ArgvInput;
-use Syscodes\Contracts\Console\Lenevor;
-use Syscodes\Console\Output\ConsoleOutput;
+use Syscodes\Components\Console\Input\ArgvInput;
+use Syscodes\Components\Contracts\Console\Lenevor;
+use Syscodes\Components\Console\Output\ConsoleOutput;
 
 /**
  * Refuse to run prime when called from php-cgi !
