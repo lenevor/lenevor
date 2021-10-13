@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console\Output;
+namespace Syscodes\Components\Console\Output;
 
 use InvalidArgumentException;
-use Syscodes\Contracts\Console\OutputFormatter;
+use Syscodes\Components\Contracts\Console\OutputFormatter;
 
 /**
  * Allows StreamOutput writes the output to a given stream.
@@ -45,7 +45,7 @@ class StreamOutput extends Output
      * @param  resource  $stream  The stream resource
      * @param  int  $verbosity  The verbosity level
      * @param  bool|null  $decorated  Whether to decorated messages
-     * @param  \Syscodes\Contracts\Console\OutputFormatter|null  $formatter  The output formatter instance
+     * @param  \Syscodes\Components\Contracts\Console\OutputFormatter|null  $formatter  The output formatter instance
      * 
      * @return void
      * 
