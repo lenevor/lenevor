@@ -20,13 +20,13 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Http;
+namespace Syscodes\Components\Http;
 
 use ArrayObject;
 use JsonSerializable;
 use InvalidArgumentException;
-use Syscodes\Contracts\Support\Jsonable;
-use Syscodes\Contracts\Support\Arrayable;
+use Syscodes\Components\Contracts\Support\Jsonable;
+use Syscodes\Components\Contracts\Support\Arrayable;
 
 /**
  * Response represents an HTTP response in JSON format.
