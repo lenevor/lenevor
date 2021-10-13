@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Session\Handlers;
+namespace Syscodes\Components\Session\Handlers;
 
-use Syscodes\Contracts\Cache\Store;
+use Syscodes\Components\Contracts\Cache\Store;
 
 /**
  * Session handler using cache system for storage.
@@ -34,7 +34,7 @@ class CacheBasedSession implements SessionHandlerInterface
     /**
      * The cache repository instance.
      * 
-     * @var \Syscodes\Contracts\Cache\Store $cache
+     * @var \Syscodes\Components\Contracts\Cache\Store $cache
      */
     protected $cache;
 
@@ -48,7 +48,7 @@ class CacheBasedSession implements SessionHandlerInterface
     /**
      * Constructor. The FileSession class instance.
      * 
-     * @param  \Syscodes\Contracts\Cache\Store  $cache
+     * @param  \Syscodes\Components\Contracts\Cache\Store  $cache
      * @param  int  $minutes
      * 
      * @return void
@@ -131,7 +131,7 @@ class CacheBasedSession implements SessionHandlerInterface
     /**
      * Get the underlying cache repository.
      * 
-     * @return \Syscodes\Contracts\Cache\Store
+     * @return \Syscodes\Components\Contracts\Cache\Store
      */
     public function getCache()
     {
