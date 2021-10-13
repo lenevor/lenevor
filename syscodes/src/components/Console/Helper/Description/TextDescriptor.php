@@ -20,15 +20,15 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console\Helper\Description;
+namespace Syscodes\Components\Console\Helper\Description;
 
-use Syscodes\Console\Application;
-use Syscodes\Console\Command\Command;
-use Syscodes\Console\Input\InputOption;
-use Syscodes\Console\Input\InputArgument;
-use Syscodes\Console\Input\InputDefinition;
-use Syscodes\Contracts\Console\Output as OutputInterface;
-use Syscodes\Console\Helper\Description\ApplicationDescription;
+use Syscodes\Components\Console\Application;
+use Syscodes\Components\Console\Command\Command;
+use Syscodes\Components\Console\Input\InputOption;
+use Syscodes\Components\Console\Input\InputArgument;
+use Syscodes\Components\Console\Input\InputDefinition;
+use Syscodes\Components\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Console\Helper\Description\ApplicationDescription;
 
 /**
  * Text descriptor.
@@ -40,7 +40,7 @@ class TextDescriptor extends Descriptor
     /**
      * The output interface implementation.
      * 
-     * @var \Syscodes\Contracts\Console\Output $output
+     * @var \Syscodes\Components\Contracts\Console\Output $output
      */
     protected $output;
 
