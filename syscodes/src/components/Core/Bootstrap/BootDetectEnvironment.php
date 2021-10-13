@@ -20,13 +20,13 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Core\Bootstrap;
+namespace Syscodes\Components\Core\Bootstrap;
 
 use Exception;
-use Syscodes\Dotenv\Dotenv;
-use Syscodes\Support\Environment;
-use Syscodes\Contracts\Core\Application;
-use Syscodes\Dotenv\Repository\RepositoryCreator;
+use Syscodes\Components\Dotenv\Dotenv;
+use Syscodes\Components\Support\Environment;
+use Syscodes\Components\Contracts\Core\Application;
+use Syscodes\Components\Dotenv\Repository\RepositoryCreator;
 
 /**
  * Initialize boot of a ParseEnv instance.
@@ -38,14 +38,14 @@ class BootDetectEnvironment
     /**
      * The application implementation.
      *
-     * @var \Syscodes\Contracts\Core\Application $app
+     * @var \Syscodes\Components\Contracts\Core\Application $app
      */
     protected $app;
     
     /**
      * Bootstrap the given application.
      *
-     * @param  \Syscodes\Contracts\Core\Application  $app
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app
      * 
      * @return void
      */
@@ -63,7 +63,7 @@ class BootDetectEnvironment
     /**
      * Detect if a custom environment file matching the APP_ENV exists.
      * 
-     * @param  \Syscodes\Contracts\Core\Application  $app
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app
      * 
      * @return bool
      */
@@ -83,7 +83,7 @@ class BootDetectEnvironment
     /**
      * Load a custom environment file.
      * 
-     * @param  \Syscodes\Contracts\Core\Application  $app
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app
      * @param  string  $file
      * 
      * @return bool
@@ -102,9 +102,9 @@ class BootDetectEnvironment
     /**
      * Create a ParseEnv instance.
      * 
-     * @param  \Syscodes\Contracts\Core\Application  $app
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app
      * 
-     * @return \Syscodes\Dotenv\Dotenv
+     * @return \Syscodes\Components\Dotenv\Dotenv
      */
     protected function createEnv($app)
     {
