@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support;
+namespace Syscodes\Components\Support;
 
-use Syscodes\Dotenv\Repository\RepositoryCreator;
-use Syscodes\Dotenv\Repository\Adapters\PutenvAdapter;
+use Syscodes\Components\Dotenv\Repository\RepositoryCreator;
+use Syscodes\Components\Dotenv\Repository\Adapters\PutenvAdapter;
 
 /**
  * Gets the adapter environment and value of an environment variable.
@@ -42,14 +42,14 @@ class Environment
     /**
      * The environment repository instance.
      * 
-     * @var Syscodes\Dotenv\Repository\RepositoryCreator|null $repository
+     * @var Syscodes\Components\Dotenv\Repository\RepositoryCreator|null $repository
      */
     protected static $repository;
 
     /**
      * Get the environment repository instance.
      * 
-     * @return  Syscodes\Dotenv\Repository\RepositoryCreator
+     * @return  Syscodes\Components\Dotenv\Repository\RepositoryCreator
      */
     public static function getRepositoryCreator()
     {
