@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Dotenv\Loader;
+namespace Syscodes\Components\Dotenv\Loader;
 
 /**
  * Allows will load the .env file and process it.
