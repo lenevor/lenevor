@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console\Input;
+namespace Syscodes\Components\Console\Input;
 
-use Syscodes\Console\Input\InputDefinition;
-use Syscodes\Contracts\Console\Input as InputInterface;
+use Syscodes\Components\Console\Input\InputDefinition;
+use Syscodes\Components\Contracts\Console\Input as InputInterface;
 
 /**
  * The Input base class is the main for all concrete Input classes.
@@ -42,7 +42,7 @@ abstract class Input implements InputInterface
     /**
      * The InputDefinition implement.
      * 
-     * @var \Syscodes\Console\Input\InputDefinition $definition
+     * @var \Syscodes\Components\Console\Input\InputDefinition $definition
      */
     protected $definition;
 
@@ -56,7 +56,7 @@ abstract class Input implements InputInterface
     /**
      * Constructor. Create a new Input instance.
      * 
-     * @param  \Syscodes\Console\Input\InputDefinition|null  $definition
+     * @param  \Syscodes\Components\Console\Input\InputDefinition|null  $definition
      * 
      * @return void  
      */
