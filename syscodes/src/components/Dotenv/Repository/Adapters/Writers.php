@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /LICENSE
  */
 
-namespace Syscodes\Dotenv\Repository\Adapters;
+namespace Syscodes\Components\Dotenv\Repository\Adapters;
 
 /**
  * Write and delete an environment variable.
@@ -32,14 +32,14 @@ final class Writers
     /**
      * The set of writers to use.
      * 
-     * @var \Syscodes\Dotenv\Repository\Adapters\Writers $writers
+     * @var \Syscodes\Components\Dotenv\Repository\Adapters\Writers $writers
      */
     protected $writers;
 
     /**
      * Constructor. Create a new Writers instance.
      * 
-     * @param  \Syscodes\Dotenv\Repository\Adapters\Writers|array  $writers
+     * @param  \Syscodes\Components\Dotenv\Repository\Adapters\Writers|array  $writers
      * 
      * @return void
      */
