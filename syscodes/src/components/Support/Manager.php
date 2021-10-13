@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support;
+namespace Syscodes\Components\Support;
 
 use Closure;
 use InvalidArgumentException;
-use Syscodes\Contracts\Container\Container;
+use Syscodes\Components\Contracts\Container\Container;
 
 /**
  * This class manage the creation of driver based components.
@@ -36,14 +36,14 @@ abstract class Manager
     /**
      * The application instance.
      * 
-     * @var \Syscodes\Contracts\Core\Application $app
+     * @var \Syscodes\Components\Contracts\Core\Application $app
      */
     protected $app;
 
     /**
      * The configuration repository instance.
      * 
-     * @var \Syscodes\Contracts\Config\Configure $config
+     * @var \Syscodes\Components\Contracts\Config\Configure $config
      */
     protected $config;
 
@@ -64,7 +64,7 @@ abstract class Manager
     /**
      * Constructor. The Manager class instance.
      * 
-     * @param  \Syscodes\Contracts\Container\Container  $container
+     * @param  \Syscodes\Components\Contracts\Container\Container  $container
      * 
      * @return void
      */
