@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Http\Exceptions;
+namespace Syscodes\Components\Http\Exceptions;
 
-use Syscodes\Core\Http\Exceptions\LenevorException;
+use Syscodes\Components\Core\Http\Exceptions\LenevorException;
 
 /**
  * HttpURIException.
@@ -36,7 +36,7 @@ class HttpURIException extends LenevorException
      * 
      * @param  string  $uri
      * 
-     * @return \Syscodes\Http\Exceptions\HttpURIException
+     * @return \Syscodes\Components\Http\Exceptions\HttpURIException
      */
     public static function UnableToParseURI(string $uri)
     {
@@ -48,7 +48,7 @@ class HttpURIException extends LenevorException
      * 
      * @param  int  $port
      * 
-     * @return \Syscodes\Http\Exceptions\HttpURIException
+     * @return \Syscodes\Components\Http\Exceptions\HttpURIException
      */
     public static function InvalidPort(int $port)
     {
