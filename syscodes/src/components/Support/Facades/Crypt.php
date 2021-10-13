@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Facades;
+namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Encrypter class facade.
@@ -35,7 +35,7 @@ namespace Syscodes\Support\Facades;
  * @method static string decryptString(string $value)
  * @method static string getKey()
  * 
- * @see \Syscodes\Encryption\Encrypter
+ * @see \Syscodes\Components\Encryption\Encrypter
  */
 class Crypt extends Facade
 {
