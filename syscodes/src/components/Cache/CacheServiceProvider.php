@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Cache;
+namespace Syscodes\Components\Cache;
 
-use Syscodes\Support\ServiceProvider;
-use Syscodes\Contracts\Support\Deferrable;
-use Syscodes\Cache\Store\MemcachedConnector;
+use Syscodes\Components\Support\ServiceProvider;
+use Syscodes\Components\Contracts\Support\Deferrable;
+use Syscodes\Components\Cache\Store\MemcachedConnector;
 
 /**
  * For loading the classes from the container of services.
