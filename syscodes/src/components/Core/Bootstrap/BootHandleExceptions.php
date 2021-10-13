@@ -20,15 +20,15 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Core\Bootstrap;
+namespace Syscodes\Components\Core\Bootstrap;
 
 use Exception;
 use Throwable;
 use ErrorException;
-use Syscodes\Contracts\Core\Application;
-use Syscodes\Contracts\Debug\ExceptionHandler;
-use Syscodes\Debug\FatalExceptions\FatalErrorException;
-use Syscodes\Debug\FatalExceptions\FatalThrowableError;
+use Syscodes\Components\Contracts\Core\Application;
+use Syscodes\Components\Contracts\Debug\ExceptionHandler;
+use Syscodes\Components\Debug\FatalExceptions\FatalErrorException;
+use Syscodes\Components\Debug\FatalExceptions\FatalThrowableError;
 
 /**
  * It is an integrated exception handler that allows you to report and 
@@ -41,14 +41,14 @@ class BootHandleExceptions
     /**
      * The application implementation.
      *
-     * @var \Syscodes\Contracts\Core\Application $app
+     * @var \Syscodes\Components\Contracts\Core\Application $app
      */
     protected $app;
     
     /**
      * Bootstrap the given application.
      *
-     * @param  \Syscodes\Contracts\Core\Application  $app
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app
      * 
      * @return void
      */
@@ -169,7 +169,7 @@ class BootHandleExceptions
      * @param  array  $error
      * @param  int|null  $traceOffset
      * 
-     * @return \Syscodes\Debug\FatalExceptions\FatalErrorException
+     * @return \Syscodes\Components\Debug\FatalExceptions\FatalErrorException
      */
     protected function fatalExceptionFromError(array $error, $traceOffset = null)
     {
@@ -181,7 +181,7 @@ class BootHandleExceptions
     /**
      * Get an instance of the exception handler.
      *
-     * @return \Syscodes\Contracts\Debug\Handler
+     * @return \Syscodes\Components\Contracts\Debug\Handler
      */
     protected function getExceptionHandler()
     {    
