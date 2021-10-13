@@ -20,12 +20,12 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Debug;
+namespace Syscodes\Components\Debug;
 
 use Exception;
 use Throwable;
-use Syscodes\Debug\FatalExceptions\FlattenException;
-use Syscodes\Debug\FatalExceptions\OutOfMemoryException;
+use Syscodes\Components\Debug\FatalExceptions\FlattenException;
+use Syscodes\Components\Debug\FatalExceptions\OutOfMemoryException;
 
 /**
  * A generic ErrorHandler for the PHP engine.
@@ -204,7 +204,7 @@ class ExceptionHandler
      * This method uses plain php functions as header and echo to generate the output 
      * response.
      * 
-     * @param \Exception|\Syscodes\Debug\FlattenExceptions\FlattenException  $exception An \Exception or \FlattenException instance
+     * @param \Exception|\Syscodes\Components\Debug\FlattenExceptions\FlattenException  $exception An \Exception or \FlattenException instance
      * 
      * @return string  The HTML content as a string 
      */
@@ -230,7 +230,7 @@ class ExceptionHandler
     /**
      * Gets the full HTML content associated with the given exception.
      * 
-     * @param  \Exception|\Syscodes\Debug\FlattenExceptions\FlattenException  $exception  An \Exception or \FlattenException instance
+     * @param  \Exception|\Syscodes\Components\Debug\FlattenExceptions\FlattenException  $exception  An \Exception or \FlattenException instance
      * 
      * @return string  The HTML content as a string 
      */
@@ -274,7 +274,7 @@ EOF;
     /**
      * Gets the HTML content associated with the given exception.
      * 
-     * @param  \Syscodes\Debug\FlattenExceptions\FlattenException  $exception
+     * @param  \Syscodes\Components\Debug\FlattenExceptions\FlattenException  $exception
      * 
      * @return string  The HTML content as a string
      */
