@@ -20,14 +20,14 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Container;
+namespace Syscodes\Components\Container;
 
 use Closure;
 use ReflectionMethod;
 use ReflectionFunction;
-use Syscodes\Support\Str;
 use InvalidArgumentException;
 use ReflectionFunctionAbstract;
+use Syscodes\Components\Support\Str;
 
 /**
  * Allows get a closure / class@method with dependencies.
