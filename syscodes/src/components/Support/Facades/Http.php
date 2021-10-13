@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Facades;
+namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Http class facade.
@@ -37,7 +37,7 @@ namespace Syscodes\Support\Facades;
  * @method static string parseBaseUrl()
  * @method static string parsePathInfo()
  * 
- * @see \Syscodes\Http\Http
+ * @see \Syscodes\Components\Http\Http
  */
 class Http extends Facade
 {
