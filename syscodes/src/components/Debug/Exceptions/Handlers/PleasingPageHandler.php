@@ -20,19 +20,19 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Debug\Handlers;
+namespace Syscodes\Components\Debug\Handlers;
 
 use Throwable;
 use Traversable;
 use ErrorException;
 use RuntimeException;
 use InvalidArgumentException;
-use Syscodes\Debug\Util\Misc;
 use UnexpectedValueException;
-use Syscodes\Debug\Util\ArrayTable;
-use Syscodes\Contracts\Debug\Table;
-use Syscodes\Debug\Util\TemplateHandler;
-use Syscodes\Debug\FrameHandler\Formatter;  
+use Syscodes\Components\Debug\Util\Misc;
+use Syscodes\Components\Debug\Util\ArrayTable;
+use Syscodes\Components\Contracts\Debug\Table;
+use Syscodes\Components\Debug\Util\TemplateHandler;
+use Syscodes\Components\Debug\FrameHandler\Formatter;  
 
 /**
  * Generates exceptions in mode of graphic interface.
@@ -135,7 +135,7 @@ class PleasingPageHandler extends MainHandler
 	 * The expected data is a simple associative array. Any nested arrays
 	 * will be flattened with print_r.
 	 * 
-	 * @param  \Syscodes\Contracts\Debug\Table  $table
+	 * @param  \Syscodes\Components\Contracts\Debug\Table  $table
 	 * 
 	 * @return array
 	 */
@@ -203,7 +203,7 @@ class PleasingPageHandler extends MainHandler
 	/**
 	 * Returns the default tables.
 	 * 
-	 * @return \Syscodes\Contracts\Debug\Table[]
+	 * @return \Syscodes\Components\Contracts\Debug\Table[]
 	 */
 	protected function getDefaultTables()
 	{
@@ -238,7 +238,7 @@ class PleasingPageHandler extends MainHandler
 	/**
 	 * Get the stack trace frames of the exception that is currently being handled.
 	 * 
-	 * @return \Syscodes\Debug\Engine\Supervisor;
+	 * @return \Syscodes\Components\Debug\Engine\Supervisor;
 	 */
 	protected function getExceptionFrames()
 	{
@@ -260,7 +260,7 @@ class PleasingPageHandler extends MainHandler
 	/**
 	 * Processes an array of tables making sure everything is allright.
 	 * 
-	 * @param  \Syscodes\Contracts\Debug\Table[]  $tables
+	 * @param  \Syscodes\Components\Contracts\Debug\Table[]  $tables
 	 * 
 	 * @return array
 	 */
