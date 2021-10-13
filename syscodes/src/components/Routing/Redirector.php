@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Routing;
+namespace Syscodes\Components\Routing;
 
-use Syscodes\Http\RedirectResponse;
+use Syscodes\Components\Http\RedirectResponse;
 
 /**
  * Returns redirect of the routes defined by the user.
@@ -41,7 +41,7 @@ class Redirector
     /**
      * Constructor. The Redirector class instance.
      * 
-     * @param  \Syscodes\Routing\UrlGenerator  $generator
+     * @param  \Syscodes\Components\Routing\UrlGenerator  $generator
      * 
      * @return void
      */
@@ -55,7 +55,7 @@ class Redirector
      * 
      * @param  int  $status  
      * 
-     * @return \Syscodes\Http\RedirectResponse
+     * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function home($status = 302)
     {
@@ -69,7 +69,7 @@ class Redirector
      * @param  array  $headers
      * @param  mixed  $fallback  (false by default)
      * 
-     * @return \Syscodes\Http\RedirectResponse
+     * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function back($status = 302, $headers = [], $fallback = false)
     {
@@ -82,7 +82,7 @@ class Redirector
      * @param  int  $status  
      * @param  array  $headers
      * 
-     * @return \Syscodes\Http\RedirectResponse
+     * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function refresh($status = 302, $headers = [])
     {
@@ -97,7 +97,7 @@ class Redirector
      * @param  array  $headers
      * @param  bool|null  $secure  
      * 
-     * @return \Syscodes\Http\RedirectResponse
+     * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function to($path, $status = 302, $headers = [], $secure = null)
     {
@@ -111,7 +111,7 @@ class Redirector
      * @param  int  $status  
      * @param  array  $headers
      * 
-     * @return \Syscodes\Http\RedirectResponse
+     * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function away($path, $status = 302, $headers = [])
     {
@@ -125,7 +125,7 @@ class Redirector
      * @param  int  $status  
      * @param  array  $headers
      * 
-     * @return \Syscodes\Http\RedirectResponse
+     * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function secure($path, $status = 302, $headers = [])
     {
@@ -140,7 +140,7 @@ class Redirector
      * @param  int  $status  
      * @param  array  $headers
      * 
-     * @return \Syscodes\Http\RedirectResponse
+     * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function route($route, $parameters = [], $status = 302, $headers = [])
     {
@@ -157,7 +157,7 @@ class Redirector
      * @param  int  $status  
      * @param  array  $headers
      * 
-     * @return \Syscodes\Http\RedirectResponse
+     * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function action($route, $parameters = [], $status = 302, $headers = [])
     {
@@ -173,7 +173,7 @@ class Redirector
      * @param  int  $status
      * @param  array  $headers
      * 
-     * @return \Syscodes\Http\RedirectResponse
+     * @return \Syscodes\Components\Http\RedirectResponse
      */
     protected function createRedirect($path, $status, $headers)
     {
