@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\View\Engines;
+namespace Syscodes\Components\View\Engines;
 
 use Throwable;
-use Syscodes\Contracts\View\Engine;
-use Syscodes\Filesystem\Filesystem;
+use Syscodes\Components\Contracts\View\Engine;
+use Syscodes\Components\Filesystem\Filesystem;
 
 /**
  * The file PHP engine.
@@ -36,14 +36,14 @@ class PhpEngine implements Engine
     /**
      * The Filesystem instance
      * 
-     * @var \Syscodes\Filesystem\Filesystem $files
+     * @var \Syscodes\Components\Filesystem\Filesystem $files
      */
     protected $files;
     
     /**
      * Constructor. Create new a PhpEngine instance.
      * 
-     * @param  \Syscodes\Filesystem\Filesystem  $files
+     * @param  \Syscodes\Components\Filesystem\Filesystem  $files
      * 
      * @return void
      */
