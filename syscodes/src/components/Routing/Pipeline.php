@@ -20,12 +20,12 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Routing;
+namespace Syscodes\Components\Routing;
 
 use Throwable;
-use Syscodes\Http\Request;
-use Syscodes\Contracts\Debug\ExceptionHandler;
-use Syscodes\Pipeline\Pipeline as BasePipeline;
+use Syscodes\Components\Http\Request;
+use Syscodes\Components\Contracts\Debug\ExceptionHandler;
+use Syscodes\Components\Pipeline\Pipeline as BasePipeline;
 
 /**
  * This extended pipeline catches any exceptions.
