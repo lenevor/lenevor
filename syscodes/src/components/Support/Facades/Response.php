@@ -20,22 +20,22 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Facades;
+namespace Syscodes\Components\Support\Facades;
 
-use Syscodes\Contracts\Routing\RouteResponse as ResponseContract;
+use Syscodes\Components\Contracts\Routing\RouteResponse as ResponseContract;
 
 /**
  * Initialize the Response class facade.
  *
  * @author Alexander Campo <jalexcam@gmail.com>
  * 
- * @method static \Syscodes\Http\Response make(string $body = '', int $status = 200, array $headers = [])
- * @method static \Syscodes\Http\Response noContent(string $status = 204, array $headers = [])
- * @method static \Syscodes\Http\Response view(string $view, array $data = [], int $status = 200, array $headers = [])
- * @method static \Syscodes\Http\Response json(mixed $data = [], int $status = 200, array $headers = [], int $options = 0)
- * @method static \Syscodes\Http\Response redirectTo(string $path, int $status = 302, array $headers = [], bool $secure = null)
+ * @method static \Syscodes\Components\Http\Response make(string $body = '', int $status = 200, array $headers = [])
+ * @method static \Syscodes\Components\Http\Response noContent(string $status = 204, array $headers = [])
+ * @method static \Syscodes\Components\Http\Response view(string $view, array $data = [], int $status = 200, array $headers = [])
+ * @method static \Syscodes\Components\Http\Response json(mixed $data = [], int $status = 200, array $headers = [], int $options = 0)
+ * @method static \Syscodes\Components\Http\Response redirectTo(string $path, int $status = 302, array $headers = [], bool $secure = null)
  * 
- * @see \Syscodes\Contracts\Routing\RouteResponse
+ * @see \Syscodes\Components\Contracts\Routing\RouteResponse
  */
 class Response extends Facade
 {
