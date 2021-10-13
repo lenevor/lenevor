@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Cache\Store;
+namespace Syscodes\Components\Cache\Store;
 
-use Syscodes\Redis\RedisManager;
-use Syscodes\Contracts\Cache\Store;
+use Syscodes\Components\Redis\RedisManager;
+use Syscodes\Components\Contracts\Cache\Store;
 
 /**
  * Redis cache handler.
@@ -49,14 +49,14 @@ class RedisStore implements Store
     /**
      * The Redis database connection.
      * 
-     * @var \Syscodes\Redis\RedisManager $redis 
+     * @var \Syscodes\Components\Redis\RedisManager $redis 
      */
     protected $redis;
 
     /**
      * Constructor. Create a new Redis store.
      * 
-     * @param  \Syscodes\Redis\RedisManager  $redis 
+     * @param  \Syscodes\Components\Redis\RedisManager  $redis 
      * @param  string  $prefix
      * @param  string  $connection  
      * 
@@ -167,7 +167,7 @@ class RedisStore implements Store
     /**
      * Get the Redis database instance.
      * 
-     * @return \Syscodes\Redis\RedisManager
+     * @return \Syscodes\Components\Redis\RedisManager
      */
     public function getRedis()
     {
