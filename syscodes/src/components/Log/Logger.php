@@ -20,12 +20,12 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Log;
+namespace Syscodes\Components\Log;
 
 use Psr\Log\LogLevel;
 use Psr\Log\LoggerInterface;
-use Syscodes\Contracts\Log\Handler;
-use Syscodes\Log\Exceptions\LogException;
+use Syscodes\Components\Contracts\Log\Handler;
+use Syscodes\Components\Log\Exceptions\LogException;
 
 /**
  * The Lenevor Logger of errors.
@@ -60,7 +60,7 @@ class Logger implements LoggerInterface
     /**
      * Constructor. The Logger class instance.
      * 
-     * @param  \Syscodes\Contracts\Log\Handler  $logger
+     * @param  \Syscodes\Components\Contracts\Log\Handler  $logger
      * 
      * @return void
      */
