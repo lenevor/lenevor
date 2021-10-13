@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Contracts\Debug;
+namespace Syscodes\Components\Contracts\Debug;
 
 use Throwable;
 
@@ -51,7 +51,7 @@ interface Handler
 	 * 
 	 * @param  string|callable  $handler
 	 * 
-	 * @return \Syscodes\Contracts\Debug\Handler
+	 * @return \Syscodes\Components\Contracts\Debug\Handler
 	 */
 	public function pushHandler($handler);
 	
