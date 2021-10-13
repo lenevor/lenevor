@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Http;
+namespace Syscodes\Components\Http;
 
 use InvalidArgumentException;
 
@@ -135,7 +135,7 @@ class RedirectResponse extends Response
     /**
      * Gets the Request instance.
      * 
-     * @return \Syscodes\Http\Request
+     * @return \Syscodes\Components\Http\Request
      */
     public function getRequest()
     {
@@ -145,7 +145,7 @@ class RedirectResponse extends Response
     /**
      * Sets the current Request instance.
      * 
-     * @param  \Syscodes\Http\Request  $request
+     * @param  \Syscodes\Components\Http\Request  $request
      * 
      * @return void
      */
