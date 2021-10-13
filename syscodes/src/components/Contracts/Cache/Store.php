@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Contracts\Cache;
+namespace Syscodes\Components\Contracts\Cache;
 
 /**
  * Sets functions by the item from the cache store.
