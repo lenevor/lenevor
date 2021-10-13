@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Contracts\Routing;
+namespace Syscodes\Components\Contracts\Routing;
 
 /**
  * All Lenevor routes are defined in your route files, which are located in the routes 
