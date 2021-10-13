@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Facades;
+namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the View class facade.
@@ -28,15 +28,15 @@ namespace Syscodes\Support\Facades;
  * @author Alexander Campo <jalexcam@gmail.com>
  * 
  * @method static bool viewExists(string $view)
- * @method static \Syscodes\Contracts\View\View make(string $view, array $data = [])
- * @method static \Syscodes\Contracts\View\Engine getEngineFromPath(string $path)
+ * @method static \Syscodes\Components\Contracts\View\View make(string $view, array $data = [])
+ * @method static \Syscodes\Components\Contracts\View\Engine getEngineFromPath(string $path)
  * @method static array getExtensions()
  * @method static mixed share(array|string $key, mixed $value = null)
  * @method static void getShared()
- * @method static \Syscodes\Contracts\Container\Container getContainer()
- * @method static \Syscodes\Contracts\Container\Container setContainer(\Syscodes\Contracts\Container\Container $container)
+ * @method static \Syscodes\Components\Contracts\Container\Container getContainer()
+ * @method static \Syscodes\Components\Contracts\Container\Container setContainer(\Syscodes\Components\Contracts\Container\Container $container)
  * 
- * @see \Syscodes\View\Factory
+ * @see \Syscodes\Components\View\Factory
  */
 class View extends Facade
 {
