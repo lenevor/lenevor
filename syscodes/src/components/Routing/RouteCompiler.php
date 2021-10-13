@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Routing;
+namespace Syscodes\Components\Routing;
 
 use LogicExcption;
 use DomainException;
-use Syscodes\Collections\Arr;
+use Syscodes\Components\Collections\Arr;
 
 /**
  * Allows compile 
@@ -36,14 +36,14 @@ class RouteCompiler
     /**
      * The Route implementation.
      * 
-     * @var \Syscodes\Routing\Route $route
+     * @var \Syscodes\Components\Routing\Route $route
      */
     protected $route;
 
     /**
      * Constructor. Create a new Route Compiler instance.
      * 
-     * @param  \Syscodes\Routing\Route  $route
+     * @param  \Syscodes\Components\Routing\Route  $route
      * 
      * @return void
      */
