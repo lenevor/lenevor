@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Translation;
+namespace Syscodes\Components\Translation;
 
-use Syscodes\Support\ServiceProvider;
-use Syscodes\Contracts\Support\Deferrable;
-use Syscodes\Translation\Loader\FileLoader;
+use Syscodes\Components\Support\ServiceProvider;
+use Syscodes\Components\Contracts\Support\Deferrable;
+use Syscodes\Components\Translation\Loader\FileLoader;
 
 /**
  * For loading the classes from the container of services.
