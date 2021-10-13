@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console\Helper;
+namespace Syscodes\Components\Console\Helper;
 
-use Syscodes\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\Output as OutputInterface;
 
 /**
  * Format and render to a multi list of items.
@@ -36,7 +36,7 @@ final class MultiList
      * 
      * @param  array  $data  The list of data
      * @param  array  $options  The options for list of data
-     * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Output  $output  The output interface implemented
      * 
      * @return int|string
      */
