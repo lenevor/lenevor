@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Cache\Store;
+namespace Syscodes\Components\Cache\Store;
 
-use Syscodes\Contracts\Cache\Store;
+use Syscodes\Components\Contracts\Cache\Store;
 
 /**
  * Apc cache handler.
@@ -34,7 +34,7 @@ class ApcStore implements Store
     /**
      * The APC wrapper instance.
      * 
-     * @var \Syscodes\Cache\Store\ApcWrapper $apc
+     * @var \Syscodes\Components\Cache\Store\ApcWrapper $apc
      */
     protected $apc;
 
@@ -48,7 +48,7 @@ class ApcStore implements Store
     /**
      * Constructor. The new APC store instance.
      * 
-     * @param  \Syscodes\Cache\Store\ApcWrapper  $apc
+     * @param  \Syscodes\Components\Cache\Store\ApcWrapper  $apc
      * @param  string  $prefix
      * 
      * @return void
