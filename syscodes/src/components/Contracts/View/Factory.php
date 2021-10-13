@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Contracts\View;
+namespace Syscodes\Components\Contracts\View;
 
 /**
  * Gets the contents of a view.
@@ -44,7 +44,7 @@ interface Factory
      * @param  string  $view
      * @param  array  $data
      * 
-     * @return \Syscodes\Contracts\View\View
+     * @return \Syscodes\Components\Contracts\View\View
      */
     public function make($view, $data = []);
 }
