@@ -20,14 +20,14 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Cache\Store;
+namespace Syscodes\Components\Cache\Store;
 
 use Exception;
-use Syscodes\Cache\Types\CacheKey;
-use Syscodes\Filesystem\Filesystem;
-use Syscodes\Contracts\Cache\Store;
-use Syscodes\Support\InteractsWithTime;
-use Syscodes\Cache\Utils\FileCacheRegister;
+use Syscodes\Components\Cache\Types\CacheKey;
+use Syscodes\Components\Filesystem\Filesystem;
+use Syscodes\Components\Contracts\Cache\Store;
+use Syscodes\Components\Support\InteractsWithTime;
+use Syscodes\Components\Cache\Utils\FileCacheRegister;
 
 /**
  * File system cache handler.
@@ -62,7 +62,7 @@ class FileStore implements Store
     /**
      * Constructor. Create a new file cache store instance.
      * 
-     * @param   \Syscodes\FileSystem\Filesystem  $files
+     * @param   \Syscodes\Components\FileSystem\Filesystem  $files
      * @param   string  $directory
      * 
      * @return  void
