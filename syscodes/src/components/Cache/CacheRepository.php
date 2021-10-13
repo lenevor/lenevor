@@ -20,13 +20,13 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Cache;
+namespace Syscodes\Components\Cache;
 
 use Closure;
 use ArrayAccess;
-use Syscodes\Contracts\Cache\Store;
-use Syscodes\Support\InteractsWithTime;
-use Syscodes\Contracts\Cache\Repository;
+use Syscodes\Components\Contracts\Cache\Store;
+use Syscodes\Components\Support\InteractsWithTime;
+use Syscodes\Components\Contracts\Cache\Repository;
 
 /**
  * Begin executing operations of storage data if the store supports it.
@@ -47,14 +47,14 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * The cache store implementation.
      * 
-     * @var \Syscodes\Contracts\Cache\Store $store
+     * @var \Syscodes\Components\Contracts\Cache\Store $store
      */
     protected $store;
 
     /**
      * Constructor. Create a new cache repository instance.
      * 
-     * @param  \Syscodes\Contracts\Cache\Store  $store
+     * @param  \Syscodes\Components\Contracts\Cache\Store  $store
      * 
      * @return void
      */
@@ -227,7 +227,7 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Get the cache store implementation.
      * 
-     * @return \Syscodes\Contracts\Cache\Store
+     * @return \Syscodes\Components\Contracts\Cache\Store
      */
     public function getStore()
     {
