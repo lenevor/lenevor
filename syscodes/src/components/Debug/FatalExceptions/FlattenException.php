@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Debug\FatalExceptions;
+namespace Syscodes\Components\Debug\FatalExceptions;
 
 use Throwable;
 use ArrayObject;
-use Syscodes\Core\Http\Exceptions\HttpException;
+use Syscodes\Components\Core\Http\Exceptions\HttpException;
 
 /**
  * FlattenException wraps a PHP Error or Exception to be able to serialize it.
