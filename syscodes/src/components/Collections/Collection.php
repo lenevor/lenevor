@@ -20,15 +20,15 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Collections;
+namespace Syscodes\Components\Collections;
 
 use Countable;
 use ArrayAccess;
 use ArrayIterator;
 use IteratorAggregate;
-use Syscodes\Contracts\Support\Jsonable;
-use Syscodes\Contracts\Support\Arrayable;
-use Syscodes\Collections\Traits\Enumerates;
+use Syscodes\Components\Contracts\Support\Jsonable;
+use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Collections\Traits\Enumerates;
 
 /**
  * Allows provide a way for working with arrays of data.
