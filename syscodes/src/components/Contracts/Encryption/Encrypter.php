@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Contracts\Encryption;
+namespace Syscodes\Components\Contracts\Encryption;
 
 /**
  * Allows to encrypt and decrypt the values that are required as security
@@ -58,7 +58,7 @@ interface Encrypter
      * 
      * @return string
      * 
-     * @throws \Syscodes\Encryption\Exceptions\EncryptException
+     * @throws \Syscodes\Components\Encryption\Exceptions\EncryptException
      */
     public function encrypt($value, $serialize = true);
 
@@ -79,7 +79,7 @@ interface Encrypter
      * 
      * @return mixed
      * 
-     * @throws \Syscodes\Encryption\Exceptions\DecryptException
+     * @throws \Syscodes\Components\Encryption\Exceptions\DecryptException
      */
     public function decrypt($value, $unserialize = true);
 
@@ -90,7 +90,7 @@ interface Encrypter
      * 
      * @return string
      * 
-     * @throws \Syscodes\Encryption\Enxceptions\DecryptException
+     * @throws \Syscodes\Components\Encryption\Enxceptions\DecryptException
      */
     public function decryptString($value);
 
