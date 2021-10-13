@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Core;
+namespace Syscodes\Components\Core;
 
 /**
  * Receives all the facade classes available for be load use a services provider.
@@ -32,7 +32,7 @@ class AliasLoader
     /**
      * The singleton instance of loader.
      * 
-     * @var \Syscodes\Core\AliasLoader $instance
+     * @var \Syscodes\Components\Core\AliasLoader $instance
      */
     protected static $instance;
 
@@ -62,7 +62,7 @@ class AliasLoader
      * 
      * @param  array  $aliases
      * 
-     * @return \Syscodes\Core\AliasLoader
+     * @return \Syscodes\Components\Core\AliasLoader
      */
     public static function getInstance(array $aliases = []) 
     {
@@ -80,7 +80,7 @@ class AliasLoader
     /**
      * Set the value of the singleton alias loader.
      * 
-     * @param  \Syscodes\Core\AliasLoader  $loader
+     * @param  \Syscodes\Components\Core\AliasLoader  $loader
      * 
      * @return void
      */
