@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\View\Transpilers;
+namespace Syscodes\Components\View\Transpilers;
 
-use Syscodes\Support\Str;
-use Syscodes\Collections\Arr;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Collections\Arr;
 
 /**
  * System to transpile views according to your label or your template.
@@ -265,7 +265,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * 
      * @param  string  $contents
      * 
-     * @return \Syscodes\Collections\Collection
+     * @return \Syscodes\Components\Collections\Collection
      */
     protected function getCollectionPHPTokens($contents)
     {
@@ -348,20 +348,20 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
         
         $this->directive($name, function ($expression) use ($name) {
             return $expression !== ''
-                ? "<?php if (\Syscodes\Support\Facades\Plaze::checkpoint('{$name}', {$expression})): ?>"
-                : "<?php if (\Syscodes\Support\Facades\Plaze::checkpoint('{$name}')): ?>";
+                ? "<?php if (\Syscodes\Components\Support\Facades\Plaze::checkpoint('{$name}', {$expression})): ?>"
+                : "<?php if (\Syscodes\Components\Support\Facades\Plaze::checkpoint('{$name}')): ?>";
         });
         
         $this->directive('unless'.$name, function ($expression) use ($name) {
             return $expression !== ''
-                ? "<?php if (! \Syscodes\Support\Facades\Plaze::checkpoint('{$name}', {$expression})): ?>"
-                : "<?php if (! \Syscodes\Support\Facades\Plaze::checkpoint('{$name}')): ?>";
+                ? "<?php if (! \Syscodes\Components\Support\Facades\Plaze::checkpoint('{$name}', {$expression})): ?>"
+                : "<?php if (! \Syscodes\Components\Support\Facades\Plaze::checkpoint('{$name}')): ?>";
         });
         
         $this->directive('else'.$name, function ($expression) use ($name) {
             return $expression !== ''
-                ? "<?php elseif (\Syscodes\Support\Facades\Plaze::checkpoint('{$name}', {$expression})): ?>"
-                : "<?php elseif (\Syscodes\Support\Facades\Plaze::checkpoint('{$name}')): ?>";
+                ? "<?php elseif (\Syscodes\Components\Support\Facades\Plaze::checkpoint('{$name}', {$expression})): ?>"
+                : "<?php elseif (\Syscodes\Components\Support\Facades\Plaze::checkpoint('{$name}')): ?>";
         });
         
         $this->directive('end'.$name, function () {
