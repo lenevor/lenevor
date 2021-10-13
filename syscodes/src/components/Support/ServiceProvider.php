@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support;
+namespace Syscodes\Components\Support;
 
-use Syscodes\Contracts\Support\Deferrable;
+use Syscodes\Components\Contracts\Support\Deferrable;
 
 /**
  * Loads all the services provider of system.
@@ -34,14 +34,14 @@ abstract class ServiceProvider
     /**
      * The application instance.
      * 
-     * @var \Syscodes\Contracts\Core\Application $app
+     * @var \Syscodes\Components\Contracts\Core\Application $app
      */
     protected $app;
 
     /**
      * Constructor. Create a new service provider instance.
      * 
-     * @param  \Syscodes\Contracts\Core\Applicacion  $app
+     * @param  \Syscodes\Components\Contracts\Core\Applicacion  $app
      * 
      * @return void
      */
