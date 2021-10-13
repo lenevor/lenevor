@@ -20,13 +20,13 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console\Formatter;
+namespace Syscodes\Components\Console\Formatter;
 
 use InvalidArgumentException;
-use Syscodes\Console\Style\Color;
-use Syscodes\Contracts\Console\Output;
-use Syscodes\Contracts\Console\OutputFormatter as OutputFormatterInterface;
-use Syscodes\Contracts\Console\OutputFormatterStyle as OutputFormatterStyleInterface;
+use Syscodes\Components\Console\Style\Color;
+use Syscodes\Components\Contracts\Console\Output;
+use Syscodes\Components\Contracts\Console\OutputFormatter as OutputFormatterInterface;
+use Syscodes\Components\Contracts\Console\OutputFormatterStyle as OutputFormatterStyleInterface;
 
 /**
  * Formatter class for console output.
@@ -52,7 +52,7 @@ class OutputFormatter implements OutputFormatterInterface
     /**
      * Gets the styles formatter stack.
      * 
-     * @var \Syscodes\Console\Formatter\OutputFormatterStack $formatterStack
+     * @var \Syscodes\Components\Console\Formatter\OutputFormatterStack $formatterStack
      */
     protected $formatterStack;
 
