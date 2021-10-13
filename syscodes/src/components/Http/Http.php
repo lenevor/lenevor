@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Http;
+namespace Syscodes\Components\Http;
 
-use Syscodes\Collections\Arr;
+use Syscodes\Components\Collections\Arr;
 
 /**
  * Returns the HTTP requests is filtered and detected in the routes set by the user.
