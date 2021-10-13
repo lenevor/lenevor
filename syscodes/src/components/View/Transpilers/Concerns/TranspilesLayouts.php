@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\View\Transpilers\Concerns;
+namespace Syscodes\Components\View\Transpilers\Concerns;
 
-use Syscodes\View\Factory as ViewFactory;
+use Syscodes\Components\View\Factory as ViewFactory;
 
 /**
  * Trait TranspilesLayouts.
@@ -42,7 +42,7 @@ trait TranspilesLayouts
     {
         $expression = $this->stripParentheses($expression);
 
-        $data = "<?php echo \$__env->make({$expression}, \Syscodes\Collections\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
+        $data = "<?php echo \$__env->make({$expression}, \Syscodes\Components\Collections\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
 
         $this->footer[] = $data;
 
