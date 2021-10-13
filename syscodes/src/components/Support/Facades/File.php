@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Facades;
+namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the File class facade.
@@ -68,7 +68,7 @@ namespace Syscodes\Support\Facades;
  * @method static bool close()
  * @method static bool write(string $path, string $data, bool $force = false)
  * 
- * @see \Syscodes\Filesystem\Filesystem
+ * @see \Syscodes\Components\Filesystem\Filesystem
  */
 class File extends Facade
 {
