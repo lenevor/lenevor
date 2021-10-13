@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console\Style;
+namespace Syscodes\Components\Console\Style;
 
 /**
  * The ANSI code for use the colors and options format on CLI command. 
