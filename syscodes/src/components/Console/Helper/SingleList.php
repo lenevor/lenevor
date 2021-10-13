@@ -20,12 +20,12 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console\Helper;
+namespace Syscodes\Components\Console\Helper;
 
-use Syscodes\Support\Str;
-use Syscodes\Console\Style\ColorTag;
-use Syscodes\Console\Util\FormatUtil;
-use Syscodes\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Console\Style\ColorTag;
+use Syscodes\Components\Console\Util\FormatUtil;
+use Syscodes\Components\Contracts\Console\Output as OutputInterface;
 
 /**
  * Format and render to a single list of items.
@@ -40,7 +40,7 @@ final class SingleList
      * @param  mixed  $data  The list of data
      * @param  string  $title  The title of list
      * @param  array  $options  The options for list of data
-     * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Output  $output  The output interface implemented
      * 
      * @return int|string
      */
