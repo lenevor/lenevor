@@ -20,21 +20,21 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Http;
+namespace Syscodes\Components\Http;
 
 Use Locale;
 use Closure;
 use Exception;
 use LogicException;
-use Syscodes\Support\Str;
-use Syscodes\Collections\Arr;
-use Syscodes\Http\Contributors\Files;
-use Syscodes\Http\Contributors\Inputs;
-use Syscodes\Http\Contributors\Server;
-use Syscodes\Http\Contributors\Headers;
-use Syscodes\Http\Contributors\Parameters;
-use Syscodes\Http\Concerns\InteractsWithInput;
-use Syscodes\Http\Concerns\InteractsWithContentTypes;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Http\Contributors\Files;
+use Syscodes\Components\Http\Contributors\Inputs;
+use Syscodes\Components\Http\Contributors\Server;
+use Syscodes\Components\Http\Contributors\Headers;
+use Syscodes\Components\Http\Contributors\Parameters;
+use Syscodes\Components\Http\Concerns\InteractsWithInput;
+use Syscodes\Components\Http\Concerns\InteractsWithContentTypes;
 
 /**
  * Request represents an HTTP request.
@@ -98,7 +98,7 @@ class Request
 	/**
 	 * The decoded JSON content for the request.
 	 * 
-	 * @var \Syscodes\Http\Contributors\Parameters|null $json
+	 * @var \Syscodes\Components\Http\Contributors\Parameters|null $json
 	 */
 	protected $json;
 
@@ -126,14 +126,14 @@ class Request
 	/**
 	 * Query string parameters ($_GET).
 	 * 
-	 * @var \Syscodes\Http\Contributors\Parameters $queryString
+	 * @var \Syscodes\Components\Http\Contributors\Parameters $queryString
 	 */
 	public $queryString;
 
 	/**
 	 * Request body parameters ($_POST).
 	 * 
-	 * @var \Syscodes\Http\Contributors\Parameters $request
+	 * @var \Syscodes\Components\Http\Contributors\Parameters $request
 	 */
 	public $request;
 
@@ -238,7 +238,7 @@ class Request
 	/**
 	 * Creates an Syscodes request from of the Request class instance.
 	 * 
-	 * @param  \Syscodes\Http\Request  $request
+	 * @param  \Syscodes\Components\Http\Request  $request
 	 * 
 	 * @return static
 	 */
@@ -287,7 +287,7 @@ class Request
 			$request = (self::$requestURI)($queryString, $request, $cookies, $files, $server);
 
 			if ( ! $request instanceof self) {
-				throw new LogicException('The Request active must return an instance of Syscodes\Http\Request');
+				throw new LogicException('The Request active must return an instance of Syscodes\Components\Http\Request');
 			}
 
 			return $request;
@@ -346,11 +346,11 @@ class Request
 	/**
 	 * Returns the active request currently being used.
 	 *
-	 * @param  \Syscodes\Http\Request|bool|null  $request  Overwrite current request 
+	 * @param  \Syscodes\Components\Http\Request|bool|null  $request  Overwrite current request 
 	 *                                                     before returning, false prevents 
 	 *                                                     overwrite
 	 *
-	 * @return \Syscodes\Http\Request
+	 * @return \Syscodes\Components\Http\Request
 	 */
 	public static function active($request = false)
 	{
@@ -469,7 +469,7 @@ class Request
 	 * 
 	 * @param  string  $locale
 	 * 
-	 * @return \Syscodes\Http\Request
+	 * @return \Syscodes\Components\Http\Request
 	 */
 	public function setLocale($locale)
 	{
@@ -515,7 +515,7 @@ class Request
 	 * @param  string|null  $key  
 	 * @param  mixed  $default  
 	 * 
-	 * @return \Syscodes\Http\Contributors\Parameters|mixed
+	 * @return \Syscodes\Components\Http\Contributors\Parameters|mixed
 	 */
 	public function json($key = null, $default = null)
 	{
@@ -533,7 +533,7 @@ class Request
 	/**
 	 * Set the JSON payload for the request.
 	 * 
-	 * @param  \Syscodes\Http\Contributors\Parameters  $json
+	 * @param  \Syscodes\Components\Http\Contributors\Parameters  $json
 	 * 
 	 * @return $this
 	 */
@@ -621,7 +621,7 @@ class Request
 	/**
 	 * Get the input source for the request.
 	 * 
-	 * @return \Syscodes\Http\Contributors\Parameters
+	 * @return \Syscodes\Components\Http\Contributors\Parameters
 	 */
 	public function getInputSource()
 	{
@@ -670,7 +670,7 @@ class Request
 	 * @param  string|null  $param  
 	 * @param  mixed  $default  
 	 * 
-	 * @return \Syscodes\Routing\Route|object|string|null
+	 * @return \Syscodes\Components\Routing\Route|object|string|null
 	 */
 	public function route($param = null, $default = null)
 	{
