@@ -21,7 +21,7 @@
  * @license     https://lenevor.com/license or see /license.md or see https://opensource.org/licenses/BSD-3-Clause New BSD license
  */
 
-namespace Syscodes\Support\Facades;
+namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Lang class facade.
@@ -30,7 +30,7 @@ namespace Syscodes\Support\Facades;
  * 
  * @method static string|array getLine($line, array $args = [])
  * 
- * @see \Syscodes\Translation\Translator
+ * @see \Syscodes\Components\Translation\Translator
  */
 class Lang extends Facade
 {
