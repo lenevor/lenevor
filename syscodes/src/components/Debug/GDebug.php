@@ -20,19 +20,19 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Debug;
+namespace Syscodes\Components\Debug;
 
 use Throwable;
 use ErrorException;
-use Syscodes\Debug\Benchmark;
-use Syscodes\Debug\Util\Misc;
 use InvalidArgumentException;
-use Syscodes\Debug\Util\System;
-use Syscodes\Debug\Handlers\MainHandler;
-use Syscodes\Debug\Util\TemplateHandler;
-use Syscodes\Debug\FrameHandler\Supervisor;
-use Syscodes\Debug\Handlers\CallbackHandler;
-use Syscodes\Contracts\Debug\Handler as DebugContract;
+use Syscodes\Components\Debug\Benchmark;
+use Syscodes\Components\Debug\Util\Misc;
+use Syscodes\Components\Debug\Util\System;
+use Syscodes\Components\Debug\Handlers\MainHandler;
+use Syscodes\Components\Debug\Util\TemplateHandler;
+use Syscodes\Components\Debug\FrameHandler\Supervisor;
+use Syscodes\Components\Debug\Handlers\CallbackHandler;
+use Syscodes\Components\Contracts\Debug\Handler as DebugContract;
 
 /**
  * Allows automatically load everything related to exception handlers.
@@ -93,7 +93,7 @@ class GDebug implements DebugContract
 	/**
 	 * Constructor. The Debug class instance.
 	 * 
-	 * @param  \Syscodes\Debug\Util\System|null  $system
+	 * @param  \Syscodes\Components\Debug\Util\System|null  $system
 	 * 
 	 * @return void
 	 */
@@ -260,9 +260,9 @@ class GDebug implements DebugContract
 	/**
 	 * Pushes a handler to the end of the stack.
 	 * 
-	 * @param  \Callable|\Syscodes\Contracts\Debug\Handler  $handler
+	 * @param  \Callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
 	 * 
-	 * @return \Syscodes\Contracts\Debug\Handler
+	 * @return \Syscodes\Components\Contracts\Debug\Handler
 	 */
 	public function pushHandler($handler)
 	{
@@ -272,7 +272,7 @@ class GDebug implements DebugContract
 	/**
 	 * Appends a handler to the end of the stack.
 	 * 
-	 * @param  \Callable|\Syscodes\Contracts\Debug\Handler  $handler
+	 * @param  \Callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
 	 * 
 	 * @return $this
 	 */
@@ -286,7 +286,7 @@ class GDebug implements DebugContract
 	/**
 	 * Prepends a handler to the start of the stack.
 	 * 
-	 * @param  \Callable|\Syscodes\Contracts\Debug\Handler  $handler
+	 * @param  \Callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
 	 * 
 	 * @return $this
 	 */
@@ -300,11 +300,11 @@ class GDebug implements DebugContract
 	/**
 	 * Create a CallbackHandler from callable and throw if handler is invalid.
 	 * 
-	 * @param  \Callable|\Syscodes\Contracts\Debug\Handler  $handler
+	 * @param  \Callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
 	 * 
-	 * @return \Syscodes\Contracts\Debug\Handler
+	 * @return \Syscodes\Components\Contracts\Debug\Handler
 	 * 
-	 * @throws \InvalidArgumentException If argument is not callable or instance of \Syscodes\Contracts\Debug\Handler
+	 * @throws \InvalidArgumentException If argument is not callable or instance of \Syscodes\Components\Contracts\Debug\Handler
 	 */
 	protected function resolveHandler($handler)
 	{
@@ -315,7 +315,7 @@ class GDebug implements DebugContract
 		if ( ! $handler instanceof MainHandler) {
 			throw new InvalidArgumentException(
 				"Argument to " . __METHOD__ . " must be a callable, or instance of ".
-				"Syscodes\\Contracts\\Debug\\Handler"
+				"Syscodes\Components\\Contracts\\Debug\\Handler"
 			);
 		}
 
@@ -359,7 +359,7 @@ class GDebug implements DebugContract
 	 * 
 	 * @param  \Throwable  $exception
 	 * 
-	 * @return \Syscodes\Debug\Engine\Supervisor
+	 * @return \Syscodes\Components\Debug\Engine\Supervisor
 	 */
 	protected function getSupervisor(Throwable $exception)
 	{
