@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console\Util;
+namespace Syscodes\Components\Console\Util;
 
-use Syscodes\Support\Str;
-use Syscodes\Collections\Arr;
-use Syscodes\Console\Style\ColorTag;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Console\Style\ColorTag;
 
 /**
  * This class allows to format data useful for console.
