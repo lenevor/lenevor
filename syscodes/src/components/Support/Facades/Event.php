@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Facades;
+namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Event class facade.
@@ -36,7 +36,7 @@ namespace Syscodes\Support\Facades;
  * @method static array getListeners(string $eventName)
  * @method static void delete(string $event)
  * 
- * @see \Syscodes\Events\Dispatcher
+ * @see \Syscodes\Components\Events\Dispatcher
  */
 class Event extends Facade
 {
