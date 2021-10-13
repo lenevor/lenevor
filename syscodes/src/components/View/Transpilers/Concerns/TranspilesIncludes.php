@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\View\Transpilers\Concerns;
+namespace Syscodes\Components\View\Transpilers\Concerns;
 
 /**
  * Trait TranspilesIncludes.
@@ -40,7 +40,7 @@ trait TranspilesIncludes
     {
         $expression = $this->stripParentheses($expression);
 
-        return "<?php echo \$__env->make({$expression}, \Syscodes\Collections\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
+        return "<?php echo \$__env->make({$expression}, \Syscodes\Components\Collections\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
     }
 
     /**
@@ -54,6 +54,6 @@ trait TranspilesIncludes
     {
         $expression = $this->stripParentheses($expression);
 
-        return "<?php if (\$__env->viewExists({$expression})) echo \$__env->make({$expression}, \Syscodes\Collections\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
+        return "<?php if (\$__env->viewExists({$expression})) echo \$__env->make({$expression}, \Syscodes\Components\Collections\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
     }
 }
