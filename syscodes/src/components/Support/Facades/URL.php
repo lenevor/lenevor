@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Facades;
+namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the URL class facade.
@@ -37,10 +37,10 @@ namespace Syscodes\Support\Facades;
  * @method static void forcedSchema(string $schema)
  * @method static void forcedRoot(string $root)
  * @method static bool isValidUrl(string $path)
- * @method static \Syscodes\Http\Request getRequest()
- * @method static void setRequest(\Syscodes\Http\Request $request)
+ * @method static \Syscodes\Components\Http\Request getRequest()
+ * @method static void setRequest(\Syscodes\Components\Http\Request $request)
  * 
- * @see \Syscodes\Routing\UrlGenerator
+ * @see \Syscodes\Components\Routing\UrlGenerator
  */
 class URL extends Facade
 {
