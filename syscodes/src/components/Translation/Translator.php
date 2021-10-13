@@ -20,13 +20,13 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Translation;
+namespace Syscodes\Components\Translation;
 
 use MessageFormatter;
-use Syscodes\Support\Str;
 use InvalidArgumentException;
-use Syscodes\Contracts\Translation\Loader;
-use Syscodes\Contracts\Translation\Translator as TranslatorContract;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Contracts\Translation\Loader;
+use Syscodes\Components\Contracts\Translation\Translator as TranslatorContract;
 
 /**
  * Handle system messages and localization. Locale-based, 
@@ -60,7 +60,7 @@ class Translator implements TranslatorContract
     /**
      * The loader implementation.
      * 
-     * @var \Syscodes\Contracts\Translation\Loader $loader
+     * @var \Syscodes\Components\Contracts\Translation\Loader $loader
      */
     protected $loader;
 
@@ -82,7 +82,7 @@ class Translator implements TranslatorContract
      * Constructor language.
      * 
      * @param  string  $locale
-     * @param  \Syscodes\Contracts\Translation\Loader  $loader
+     * @param  \Syscodes\Components\Contracts\Translation\Loader  $loader
      * 
      * @return void
      */
