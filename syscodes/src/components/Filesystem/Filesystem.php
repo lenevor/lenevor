@@ -20,13 +20,13 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Filesystem;
+namespace Syscodes\Components\Filesystem;
 
 use ErrorException;
 use FilesystemIterator;
-use Syscodes\Filesystem\Exceptions\FileException;
-use Syscodes\Filesystem\Exceptions\FileNotFoundException;
-use Syscodes\Filesystem\Exceptions\FileUnableToMoveException;
+use Syscodes\Components\Filesystem\Exceptions\FileException;
+use Syscodes\Components\Filesystem\Exceptions\FileNotFoundException;
+use Syscodes\Components\Filesystem\Exceptions\FileUnableToMoveException;
 
 /**
  * Provides basic utility to manipulate the file system.
