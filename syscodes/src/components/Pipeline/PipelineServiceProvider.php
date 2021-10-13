@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Pipeline;
+namespace Syscodes\Components\Pipeline;
 
-use Syscodes\Support\ServiceProvider;
-use Syscodes\Contracts\Pipeline\Pipeline as PipelineContract;
+use Syscodes\Components\Support\ServiceProvider;
+use Syscodes\Components\Contracts\Pipeline\Pipeline as PipelineContract;
 
 /**
  * For loading the classes from the container of services.
