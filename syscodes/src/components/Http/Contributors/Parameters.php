@@ -20,13 +20,13 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Http\Contributors;
+namespace Syscodes\Components\Http\Contributors;
 
 use Countable;
 use ArrayIterator;
 use IteratorAggregate;
-use Syscodes\Collections\Arr;
-use Syscodes\Http\Exceptions\BadRequestException;
+use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Http\Exceptions\BadRequestException;
 
 /**
  * Parameters is a container for key/value pairs.
