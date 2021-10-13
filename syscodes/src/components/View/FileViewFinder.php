@@ -20,12 +20,12 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\View;
+namespace Syscodes\Components\View;
 
 use InvalidArgumentException;
-use Syscodes\Filesystem\Filesystem;
-use Syscodes\Contracts\View\ViewFinder;
-use Syscodes\View\Exceptions\ViewException;
+use Syscodes\Components\Filesystem\Filesystem;
+use Syscodes\Components\Contracts\View\ViewFinder;
+use Syscodes\Components\View\Exceptions\ViewException;
 
 /**
  * Allows location of a view.
@@ -67,7 +67,7 @@ class FileViewFinder implements ViewFinder
     /**
      * Constructor. Create a new FileViewFinder class instance.
      * 
-     * @param  \Syscodes\Filesystem\Filesystem  $files
+     * @param  \Syscodes\Components\Filesystem\Filesystem  $files
      * @param  array  $paths
      * @param  array|null  $extensions   
      * 
@@ -149,7 +149,7 @@ class FileViewFinder implements ViewFinder
      * 
      * @return string
      * 
-     * @throws \Syscodes\View\Exceptions\ViewException
+     * @throws \Syscodes\Components\View\Exceptions\ViewException
      */
     protected function findPaths($name, $paths)
     {
