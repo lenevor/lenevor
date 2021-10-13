@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\View\Concerns;
+namespace Syscodes\Components\View\Concerns;
 
 use InvalidArgumentException;
-use Syscodes\Contracts\View\View;
+use Syscodes\Components\Contracts\View\View;
 
 /**
  * Trait ManagesLayouts.
