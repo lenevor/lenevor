@@ -20,12 +20,12 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Events;
+namespace Syscodes\Components\Events;
 
-use Syscodes\Support\Str;
-use Syscodes\Collections\Arr;
-use Syscodes\Contracts\Container\Container;
-use Syscodes\Contracts\Events\Dispatcher as DispatcherContract;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Contracts\Container\Container;
+use Syscodes\Components\Contracts\Events\Dispatcher as DispatcherContract;
 
 /**
  * Dispatches events to registered listeners.
@@ -37,7 +37,7 @@ class Dispatcher implements DispatcherContract
     /**
      * The registered IoC container instance.
      * 
-     * @var \Syscodes\Contracts\Container\Container $container
+     * @var \Syscodes\Components\Contracts\Container\Container $container
      */
     protected $container;
 
@@ -72,7 +72,7 @@ class Dispatcher implements DispatcherContract
     /**
      * Constructor. Create a new event distpacher instance.
      * 
-     * @param  \Syscodes\Contracts\Container\Container|null  $container  (null by default)
+     * @param  \Syscodes\Components\Contracts\Container\Container|null  $container  (null by default)
      * 
      * @return void
      */
