@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Contracts\Routing;
+namespace Syscodes\Components\Contracts\Routing;
 
 /**
  * This class allows you to control the use of the HTTP response 
@@ -37,7 +37,7 @@ interface RouteResponse
      * @param  int  $status
      * @param  array  $headers
      * 
-     * @return \Syscodes\Http\Response
+     * @return \Syscodes\Components\Http\Response
      */
     public function make($body = '', $status = 200, array $headers = []);
 
@@ -47,7 +47,7 @@ interface RouteResponse
      * @param  int  $status
      * @param  array  $headers
      * 
-     * @return \Syscodes\Http\Response
+     * @return \Syscodes\Components\Http\Response
      */
     public function noContent($status = 204, array $headers = []);
 
@@ -59,7 +59,7 @@ interface RouteResponse
      * @param  int  $status
      * @param  array  $headers
      * 
-     * @return  \Syscodes\Http\Response
+     * @return  \Syscodes\Components\Http\Response
      */
     public function view($view, array $data = [], $status = 200, array $headers = []);
 
@@ -71,7 +71,7 @@ interface RouteResponse
      * @param  array  $headers
      * @param  int  $options
      * 
-     * @return \Syscodes\Http\JsonResponse
+     * @return \Syscodes\Components\Http\JsonResponse
      */
     public function json($data = [], $status = 200, array $headers = [], $options = 0);
 
@@ -83,7 +83,7 @@ interface RouteResponse
      * @param  array  $headers
      * @param  bool|null  $secure
      * 
-     * @return \Syscodes\Http\RedirectResponse
+     * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function redirectTo($path, $status = 302, $headers = [], $secure = null);
 }
