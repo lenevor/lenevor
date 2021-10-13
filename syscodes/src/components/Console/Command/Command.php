@@ -20,21 +20,21 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console\Command;
+namespace Syscodes\Components\Console\Command;
 
 use Throwable;
 use TypeError;
 use LogicException;
 use ReflectionProperty;
 use ReflectionException;
-use Syscodes\Support\Str;
 use InvalidArgumentException;
-use Syscodes\Console\Application;
-use Syscodes\Console\Input\InputOption;
-use Syscodes\Console\Input\InputArgument;
-use Syscodes\Console\Input\InputDefinition;
-use Syscodes\Contracts\Console\Input as InputInterface;
-use Syscodes\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Console\Application;
+use Syscodes\Components\Console\Input\InputOption;
+use Syscodes\Components\Console\Input\InputArgument;
+use Syscodes\Components\Console\Input\InputDefinition;
+use Syscodes\Components\Contracts\Console\Input as InputInterface;
+use Syscodes\Components\Contracts\Console\Output as OutputInterface;
 
 /**
  * Base class for all commands.
@@ -46,7 +46,7 @@ abstract class Command
     /**
      * The default application.
      * 
-     * @var \Syscodes\Console\Application $application
+     * @var \Syscodes\Components\Console\Application $application
      */
     protected $application;
 
@@ -88,7 +88,7 @@ abstract class Command
     /**
      * The InputDefinition implement.
      * 
-     * @var \Syscodes\Console\Input\InputDefinition $definition
+     * @var \Syscodes\Components\Console\Input\InputDefinition $definition
      */
     protected $definition;
 
@@ -102,7 +102,7 @@ abstract class Command
     /**
      * The InputDefinition full implemented.
      * 
-     * @var \Syscodes\Console\Input\InputDefinition $fullDefinition
+     * @var \Syscodes\Components\Console\Input\InputDefinition $fullDefinition
      */
     protected $fullDefinition;
 
@@ -194,7 +194,7 @@ abstract class Command
      * Constructor. Create a new base command instance.
      * 
      * @param  string|null  $name  The name command
-     * @param  \Syscodes\Console\Input\InputDefinition  $definition
+     * @param  \Syscodes\Components\Console\Input\InputDefinition  $definition
      * 
      * @return void
      */
@@ -235,8 +235,8 @@ abstract class Command
     /**
      * Executes the current command.
      * 
-     * @param  \Syscodes\Contracts\Console\Input  $input
-     * @param  \Syscodes\Contracts\Console\Output  $input
+     * @param  \Syscodes\Components\Contracts\Console\Input  $input
+     * @param  \Syscodes\Components\Contracts\Console\Output  $input
      * 
      * @return int|mixed
      * 
@@ -247,8 +247,8 @@ abstract class Command
     /**
      * Runs the command.
      * 
-     * @param  \Syscodes\Contracts\Console\Input  $input
-     * @param  \Syscodes\Contracts\Console\Output  $input
+     * @param  \Syscodes\Components\Contracts\Console\Input  $input
+     * @param  \Syscodes\Components\Contracts\Console\Output  $input
      * 
      * @return int|mixed
      * 
@@ -311,7 +311,7 @@ abstract class Command
      * Gets the InputDefinition to be used to representate arguments 
      * and options in a command.
      * 
-     * @return \Syscodes\Console\Input\InputDefinition
+     * @return \Syscodes\Components\Console\Input\InputDefinition
      */
     public function getDefinition()
     {
@@ -328,7 +328,7 @@ abstract class Command
      * Sets the InputDefinition to be used to representate arguments 
      * and options in a command.
      * 
-     * @param  array|\Syscodes\Console\Input\InputDefinition  $definition  An array of InputArgument and InputOption instance
+     * @param  array|\Syscodes\Components\Console\Input\InputDefinition  $definition  An array of InputArgument and InputOption instance
      * 
      * @return self
      */
@@ -424,7 +424,7 @@ abstract class Command
     /**
      * Gets the application instance for this command.
      * 
-     * @return \Syscodes\Console\application|null
+     * @return \Syscodes\Components\Console\application|null
      */
     public function getApplication()
     {
