@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Facades;
+namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Config class facade.
@@ -33,7 +33,7 @@ namespace Syscodes\Support\Facades;
  * @method static void set(string $key, mixed $value = null)
  * @method static array all()
  * 
- * @see \Syscodes\Config\Configure
+ * @see \Syscodes\Components\Config\Configure
  */
 class Config extends Facade
 {
