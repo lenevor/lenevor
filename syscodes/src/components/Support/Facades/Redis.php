@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Facades;
+namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Redis class facade.
@@ -29,7 +29,7 @@ namespace Syscodes\Support\Facades;
  * 
  * @method static \Predis\Connection\SingleConnectionInterface connection(string $name = null)
  * 
- * @see \Syscodes\Redis\RedisManager
+ * @see \Syscodes\Components\Redis\RedisManager
  */
 class Redis extends Facade
 {
