@@ -20,15 +20,15 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Dotenv\Repository;
+namespace Syscodes\Components\Dotenv\Repository;
 
 use ReflectionClass;
 use InvalidaArgumentException;
-use Syscodes\Contracts\Dotenv\Adapter;
-use Syscodes\Dotenv\Repository\Adapters\Readers;
-use Syscodes\Dotenv\Repository\Adapters\Writers;
-use Syscodes\Dotenv\Repository\Adapters\EnvAdapter;
-use Syscodes\Dotenv\Repository\Adapters\ServerAdapter;
+use Syscodes\Components\Contracts\Dotenv\Adapter;
+use Syscodes\Components\Dotenv\Repository\Adapters\Readers;
+use Syscodes\Components\Dotenv\Repository\Adapters\Writers;
+use Syscodes\Components\Dotenv\Repository\Adapters\EnvAdapter;
+use Syscodes\Components\Dotenv\Repository\Adapters\ServerAdapter;
 
 /**
  * Allows you to bring all the adapters.
@@ -52,22 +52,22 @@ final class RepositoryCreator
     /**
      * The set of readers to use.
      * 
-     * @var \Syscodes\Dotenv\Repository\Adapters\Readers $readers
+     * @var \Syscodes\Components\Dotenv\Repository\Adapters\Readers $readers
      */
     protected $readers;
 
     /**
      * The set of writers to use.
      * 
-     * @var \Syscodes\Dotenv\Repository\Adapters\Writers $writers
+     * @var \Syscodes\Components\Dotenv\Repository\Adapters\Writers $writers
      */
     protected $writers;
 
     /**
      * Constructor. Create a new Repository creator instance.
      * 
-     * @param  \Syscodes\Dotenv\Repository\Adapters\Readers  $readers
-     * @param  \Syscodes\Dotenv\Repository\Adapters\Writers  $writers
+     * @param  \Syscodes\Components\Dotenv\Repository\Adapters\Readers  $readers
+     * @param  \Syscodes\Components\Dotenv\Repository\Adapters\Writers  $writers
      * @param  string[]|null  $allowList
      * 
      * @return void
@@ -82,7 +82,7 @@ final class RepositoryCreator
     /**
      * Create a new repository creator instance with the default adapters added.
      * 
-     * @return \Syscodes\Dotenv\Repository\RepositoryCreator
+     * @return \Syscodes\Components\Dotenv\Repository\RepositoryCreator
      */
     public static function createDefaultAdapters()
     {
@@ -94,7 +94,7 @@ final class RepositoryCreator
     /**
      * Return the array of default adapters.
      * 
-     * @return \Syscodes\Contracts\Dotenv\Adapter
+     * @return \Syscodes\Components\Contracts\Dotenv\Adapter
      */
     protected static function defaultAdapters()
     {
@@ -160,7 +160,7 @@ final class RepositoryCreator
     /**
      * Creates a new repository instance.
      * 
-     * @return \Syscodes\Dotenv\Repository\AdapterRepository
+     * @return \Syscodes\Components\Dotenv\Repository\AdapterRepository
      */
     public function make()
     {
