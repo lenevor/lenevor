@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Facades;
+namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Session class facade.
@@ -48,8 +48,8 @@ namespace Syscodes\Support\Facades;
  * @method static bool isStarted()
  * @method static string getDefaultDriver()
  * 
- * @see \Syscodes\Session\Store
- * @see \Syscodes\Session\SessionManager
+ * @see \Syscodes\Components\Session\Store
+ * @see \Syscodes\Components\Session\SessionManager
  */
 class Session extends Facade
 {
