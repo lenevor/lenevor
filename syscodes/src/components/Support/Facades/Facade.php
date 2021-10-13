@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Facades;
+namespace Syscodes\Components\Support\Facades;
 
 use RuntimeException;
 
@@ -98,7 +98,7 @@ abstract class Facade
     /**
      * Get the application instance behind the facade.
      * 
-     * @return \Syscodes\Contracts\Core\Application
+     * @return \Syscodes\Components\Contracts\Core\Application
      */
     public static function getFacadeApplication()
     {
@@ -138,7 +138,7 @@ abstract class Facade
     /**
      * Set the application instance.
      * 
-     * @param  \Syscodes\Contracts\core\Application  $app
+     * @param  \Syscodes\Components\Contracts\core\Application  $app
      * 
      * @return void
      */
