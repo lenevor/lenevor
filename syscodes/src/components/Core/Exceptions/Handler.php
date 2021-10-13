@@ -20,23 +20,23 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Core\Exceptions;
+namespace Syscodes\Components\Core\Exceptions;
 
 use Exception;
 use Throwable;
-use Syscodes\Debug\GDebug;
-use Syscodes\Http\Response;
 use Psr\Log\LoggerInterface;
-use Syscodes\Routing\Router;
-use Syscodes\Collections\Arr;
-use Syscodes\Debug\ExceptionHandler;
-use Syscodes\Contracts\Container\Container;
-use Syscodes\Core\Http\Exceptions\HttpException;
-use Syscodes\Http\Exceptions\HttpResponseException;
-use Syscodes\Debug\FatalExceptions\FlattenException;
-use Syscodes\Core\Http\Exceptions\NotFoundHttpException;
-use Syscodes\Database\Exceptions\ModelNotFoundException;
-use Syscodes\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
+use Syscodes\Components\Debug\GDebug;
+use Syscodes\Components\Http\Response;
+use Syscodes\Components\Routing\Router;
+use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Debug\ExceptionHandler;
+use Syscodes\Components\Contracts\Container\Container;
+use Syscodes\Components\Core\Http\Exceptions\HttpException;
+use Syscodes\Components\Http\Exceptions\HttpResponseException;
+use Syscodes\Components\Debug\FatalExceptions\FlattenException;
+use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
+use Syscodes\Components\Database\Exceptions\ModelNotFoundException;
+use Syscodes\Components\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 
 /**
  * The system's main exception class is loaded for activate the render method of debugging.
