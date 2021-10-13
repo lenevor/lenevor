@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Routing;
+namespace Syscodes\Components\Routing;
 
-use Syscodes\Collections\Arr;
+use Syscodes\Components\Collections\Arr;
 
 /**
  * This class uses an awaiting resource registration instance.
@@ -55,7 +55,7 @@ class AwaitingResourceRegistration
     /**
      * The resource register.
      * 
-     * @var \Syscodes\Routing\ResourceRegister $register
+     * @var \Syscodes\Components\Routing\ResourceRegister $register
      */
     protected $register;
 
@@ -69,7 +69,7 @@ class AwaitingResourceRegistration
     /**
      * Constructor. Create a new route resource registration instance.
      * 
-     * @param  \Syscodes\Routing\ResourceRegister  $register
+     * @param  \Syscodes\Components\Routing\ResourceRegister  $register
      * @param  string  $name
      * @param  string  $controller
      * @param  array  $options
@@ -89,7 +89,7 @@ class AwaitingResourceRegistration
      * 
      * @param  array|string  $methods
      * 
-     * @return \Syscodes\Routing\AwaitingResourceRegistration
+     * @return \Syscodes\Components\Routing\AwaitingResourceRegistration
      */
     public function only($methods)
     {
@@ -103,7 +103,7 @@ class AwaitingResourceRegistration
      * 
      * @param  array|string  $methods
      * 
-     * @return \Syscodes\Routing\AwaitingResourceRegistration
+     * @return \Syscodes\Components\Routing\AwaitingResourceRegistration
      */
     public function except($methods)
     {
@@ -117,7 +117,7 @@ class AwaitingResourceRegistration
      * 
      * @param  array|string  $names
      * 
-     * @return \Syscodes\Routing\AwaitingResourceRegistration
+     * @return \Syscodes\Components\Routing\AwaitingResourceRegistration
      */
     public function names($names)
     {
@@ -132,7 +132,7 @@ class AwaitingResourceRegistration
      * @param  string  $method
      * @param  string  $name
      * 
-     * @return \Syscodes\Routing\AwaitingResourceRegistration
+     * @return \Syscodes\Components\Routing\AwaitingResourceRegistration
      */
     public function name($method, $name)
     {
@@ -146,7 +146,7 @@ class AwaitingResourceRegistration
      * 
      * @param  array|string  $parameters
      * 
-     * @return \Syscodes\Routing\AwaitingResourceRegistration
+     * @return \Syscodes\Components\Routing\AwaitingResourceRegistration
      */
     public function parameters($parameters)
     {
@@ -161,7 +161,7 @@ class AwaitingResourceRegistration
      * @param  string  $previous
      * @param  string  $parameter
      * 
-     * @return \Syscodes\Routing\AwaitingResourceRegistration
+     * @return \Syscodes\Components\Routing\AwaitingResourceRegistration
      */
     public function parameter($previous, $parameter)
     {
@@ -173,7 +173,7 @@ class AwaitingResourceRegistration
     /**
      * Register the resource route.
      * 
-     * @return \Syscodes\Routing\RouteCollection
+     * @return \Syscodes\Components\Routing\RouteCollection
      */
     public function register()
     {
