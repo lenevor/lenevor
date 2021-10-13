@@ -20,12 +20,12 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console\Output;
+namespace Syscodes\Components\Console\Output;
 
-use Syscodes\Console\Concerns\InteractsIO;
-use Syscodes\Console\Formatter\OutputFormatter;
-use Syscodes\Contracts\Console\Output as OutputInterface;
-use Syscodes\Contracts\Console\OutputFormatter as OutputFormatterInterface;
+use Syscodes\Components\Console\Concerns\InteractsIO;
+use Syscodes\Components\Console\Formatter\OutputFormatter;
+use Syscodes\Components\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\OutputFormatter as OutputFormatterInterface;
 
 /**
  * Allows the use of the formatter in the messages to be displayed 
@@ -40,7 +40,7 @@ abstract class Output implements OutputInterface
 	/**
 	 * Gets formatter for output console.
 	 * 
-	 * @var \Syscodes\Contracts\Console\OutputFormatter $formatter
+	 * @var \Syscodes\Components\Contracts\Console\OutputFormatter $formatter
 	 */
 	protected $formatter;
 	
@@ -56,7 +56,7 @@ abstract class Output implements OutputInterface
 	 * 
 	 * @param  int|null  $verbosity  The verbosity level
 	 * @param  bool  $decorated  Whether to decorated messages
-	 * @param  \Syscodes\Contracts\Console\OutputFormatter|null  $formatter  The output formatter instance
+	 * @param  \Syscodes\Components\Contracts\Console\OutputFormatter|null  $formatter  The output formatter instance
 	 * 
 	 * @return void
 	 */
