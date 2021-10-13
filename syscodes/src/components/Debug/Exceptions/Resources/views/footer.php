@@ -86,7 +86,7 @@
 		
 		<div class="copy">
 			<?= e($handler->getBrand()) ?>
-			<span class="version" title="Lenevor version"><?= \Syscodes\Version::RELEASE ?></span>
+			<span class="version" title="Lenevor version"><?= \Syscodes\Components\Version::RELEASE ?></span>
 		</div>
 
 	</div>
