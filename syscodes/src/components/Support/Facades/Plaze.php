@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Facades;
+namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Plaze engine class facade.
@@ -33,7 +33,7 @@ namespace Syscodes\Support\Facades;
  * @method static void extend(callable $extend)
  * @method static array getExtensions()
  * 
- * @see \Syscodes\View\Transpilers\PlazeTranspiler
+ * @see \Syscodes\Components\View\Transpilers\PlazeTranspiler
  */
 class Plaze extends Facade
 {
