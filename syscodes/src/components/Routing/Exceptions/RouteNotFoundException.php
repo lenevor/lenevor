@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Routing\Exceptions;
+namespace Syscodes\Components\Routing\Exceptions;
 
-use Syscodes\Core\Http\Exceptions\NotFoundHttpException;
+use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
 
 /**
  * RouteNotFoundException.
