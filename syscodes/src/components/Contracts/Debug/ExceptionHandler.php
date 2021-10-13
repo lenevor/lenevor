@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Contracts\Debug;
+namespace Syscodes\Components\Contracts\Debug;
 
 use Throwable;
 
@@ -52,10 +52,10 @@ interface ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      * 
-     * @param  \Syscodes\Http\Request  $request
+     * @param  \Syscodes\Components\Http\Request  $request
      * @param  \Throwable  $e
      * 
-     * @return \Syscodes\Http\Response
+     * @return \Syscodes\Components\Http\Response
      */
     public function render($request, Throwable $e);
 }
