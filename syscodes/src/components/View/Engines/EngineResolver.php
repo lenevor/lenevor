@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\View\Engines;
+namespace Syscodes\Components\View\Engines;
 
 use Closure;
 use InvalidArgumentException;
@@ -66,7 +66,7 @@ class EngineResolver
      * 
      * @param  string  $engine
      * 
-     * @return \Syscodes\Contracts\View\Engine
+     * @return \Syscodes\Components\Contracts\View\Engine
      * 
      * @throws \InvalidArgumentException
      */
