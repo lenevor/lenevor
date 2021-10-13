@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Controller;
+namespace Syscodes\Components\Controller;
 
 use BadMethodCallException;
 
@@ -45,7 +45,7 @@ abstract class Controller
      * @param  \Closure|array|string  $middleware
      * @param  array  $options
      * 
-     * @return \Syscodes\Controller\ControllerMiddlewareOptions
+     * @return \Syscodes\Components\Controller\ControllerMiddlewareOptions
      */
     public function middleware($middleware, array $options = [])
     {
