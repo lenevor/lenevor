@@ -20,14 +20,14 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Facades;
+namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Cache class facade.
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  *
- * @method static \Syscodes\Cache\CacheRepository store(string $name = null)
+ * @method static \Syscodes\Components\Cache\CacheRepository store(string $name = null)
  * @method static bool has(string $key)
  * @method static mixed get(string $key, mixed $default = null)
  * @method static mixed pull(string $key, mixed $default = null)
@@ -38,8 +38,8 @@ namespace Syscodes\Support\Facades;
  * @method static void flush()
  * @method static string getPrefix()
  * 
- * @see  \Syscodes\Cache\CacheManager
- * @see  \Syscodes\Cache\CacheRepository
+ * @see  \Syscodes\Components\Cache\CacheManager
+ * @see  \Syscodes\Components\Cache\CacheRepository
  */
 class Cache extends Facade
 {
