@@ -20,12 +20,12 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\View\Engines;
+namespace Syscodes\Components\View\Engines;
 
 use Throwable;
 use ErrorException;
-use Syscodes\Filesystem\Filesystem;
-use Syscodes\View\Transpilers\TranspilerInterface;
+use Syscodes\Components\Filesystem\Filesystem;
+use Syscodes\Components\View\Transpilers\TranspilerInterface;
 
 /**
  * The file PHP engine.
@@ -37,7 +37,7 @@ class TranspilerEngine extends PhpEngine
     /**
      * The Plaze transpiler instance.
      * 
-     * @var \Syscodes\View\Transpilers\TranspilerInterface $transpiler
+     * @var \Syscodes\Components\View\Transpilers\TranspilerInterface $transpiler
      */
     protected $transpiler;
 
@@ -51,8 +51,8 @@ class TranspilerEngine extends PhpEngine
     /**
      * Constructor. Create a new Plaze view engine instance.
      * 
-     * @param  \Syscodes\View\Transpilers\TranspilerInterface  $transpiler
-     * @param  \Syscodes\Filesystem\Filesystem|null  $files
+     * @param  \Syscodes\Components\View\Transpilers\TranspilerInterface  $transpiler
+     * @param  \Syscodes\Components\Filesystem\Filesystem|null  $files
      * 
      * @return void
      */
@@ -120,7 +120,7 @@ class TranspilerEngine extends PhpEngine
     /**
      * Get the transpiler implementation.
      * 
-     * @return \Syscodes\View\Transpilers\TranspilerInterface
+     * @return \Syscodes\Components\View\Transpilers\TranspilerInterface
      */
     public function getTranspiler()
     {
