@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\View\Transpilers;
+namespace Syscodes\Components\View\Transpilers;
 
 use InvalidArgumentException;
-use Syscodes\Filesystem\Filesystem;
+use Syscodes\Components\Filesystem\Filesystem;
 
 /**
  * Allows transpilation of view file path.
@@ -35,7 +35,7 @@ abstract class Transpiler
     /**
      * The filesystem instance.
      * 
-     * @var \Syscodes\Filesystem\Filesytem $files
+     * @var \Syscodes\Components\Filesystem\Filesytem $files
      */
     protected $files;
 
@@ -49,7 +49,7 @@ abstract class Transpiler
     /**
      * Constructor. Create a new Transpiler instance.
      * 
-     * @param  \Syscodes\Filesystem\Filesystem  $files
+     * @param  \Syscodes\Components\Filesystem\Filesystem  $files
      * @param  string  $cachePath
      * 
      * @return void
