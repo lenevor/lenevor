@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Debug\Handlers;
+namespace Syscodes\Components\Debug\Handlers;
 
-use Syscodes\Contracts\Debug\Handler;
-use Syscodes\Debug\FrameHandler\Supervisor;
+use Syscodes\Components\Contracts\Debug\Handler;
+use Syscodes\Components\Debug\FrameHandler\Supervisor;
 
 /**
  * Abstract implementation of a Handler.
@@ -46,7 +46,7 @@ class MainHandler
     /**
      * Get debug.
      * 
-     * @var \Syscodes\Contracts\Debug\Handler $debug
+     * @var \Syscodes\Components\Contracts\Debug\Handler $debug
      */
     protected $debug;
     
@@ -67,7 +67,7 @@ class MainHandler
     /**
      * Gets Debug class with you interface.
      * 
-     * @return \Syscodes\Contracts\Debug\Handler  Interface
+     * @return \Syscodes\Components\Contracts\Debug\Handler  Interface
      */
     public function getDebug()
     {
@@ -77,7 +77,7 @@ class MainHandler
     /**
      * Sets debug.
      * 
-     * @param  \Syscodes\Contracts\Debug\Handler  $debug
+     * @param  \Syscodes\Components\Contracts\Debug\Handler  $debug
      * 
      * @return void
      */
@@ -111,7 +111,7 @@ class MainHandler
     /**
      * Gets supervisor already specified.
      * 
-     * @return \Syscodes\Debug\Engine\Supervisor
+     * @return \Syscodes\Components\Debug\Engine\Supervisor
      */
     public function getSupervisor()
     {
@@ -121,7 +121,7 @@ class MainHandler
     /**
      * Sets supervisor.
      * 
-     * @param  \Syscodes\Debug\Engine\Supervisor  $supervisor
+     * @param  \Syscodes\Components\Debug\Engine\Supervisor  $supervisor
      * 
      * @return void
      */
