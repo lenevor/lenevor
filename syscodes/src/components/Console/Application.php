@@ -20,29 +20,29 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console;
+namespace Syscodes\Components\Console;
 
 use Throwable;
 use LogicException;
-use Syscodes\Console\IO\Interactor;
-use Syscodes\Console\Command\Command;
-use Syscodes\Console\Input\ArgvInput;
-use Syscodes\Console\Input\ArrayInput;
-use Syscodes\Console\Input\InputOption;
-use Syscodes\Console\Command\HelpCommand;
-use Syscodes\Console\Command\ListCommand;
-use Syscodes\Console\Input\InputArgument;
-use Syscodes\Console\Command\AboutCommand;
-use Syscodes\Console\Concerns\VersionInfo;
-use Syscodes\Console\Output\ConsoleOutput;
-use Syscodes\Console\Input\InputDefinition;
-use Syscodes\Console\Formatter\OutputFormatter;
-use Syscodes\Contracts\Console\Input as InputInterface;
-use Syscodes\Console\Exceptions\CommandNotFoundException;
-use Syscodes\Contracts\Console\Output as OutputInterface;
-use Syscodes\Contracts\Console\Application as ApplicationContract;
-use Syscodes\Contracts\Console\InputOption as InputOptionInterface;
-use Syscodes\Contracts\Console\InputArgument as InputArgumentInterface;
+use Syscodes\Components\Console\IO\Interactor;
+use Syscodes\Components\Console\Command\Command;
+use Syscodes\Components\Console\Input\ArgvInput;
+use Syscodes\Components\Console\Input\ArrayInput;
+use Syscodes\Components\Console\Input\InputOption;
+use Syscodes\Components\Console\Command\HelpCommand;
+use Syscodes\Components\Console\Command\ListCommand;
+use Syscodes\Components\Console\Input\InputArgument;
+use Syscodes\Components\Console\Command\AboutCommand;
+use Syscodes\Components\Console\Concerns\VersionInfo;
+use Syscodes\Components\Console\Output\ConsoleOutput;
+use Syscodes\Components\Console\Input\InputDefinition;
+use Syscodes\Components\Console\Formatter\OutputFormatter;
+use Syscodes\Components\Contracts\Console\Input as InputInterface;
+use Syscodes\Components\Console\Exceptions\CommandNotFoundException;
+use Syscodes\Components\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\Application as ApplicationContract;
+use Syscodes\Components\Contracts\Console\InputOption as InputOptionInterface;
+use Syscodes\Components\Contracts\Console\InputArgument as InputArgumentInterface;
 
 /**
  * This is the main entry point of a Console application.
@@ -85,7 +85,7 @@ class Application implements ApplicationContract
     /**
      * The InputDefinition implement.
      * 
-     * @var \Syscodes\Console\Input\InputDefinition $definition
+     * @var \Syscodes\Components\Console\Input\InputDefinition $definition
      */
     protected $definition;
 
@@ -196,8 +196,8 @@ class Application implements ApplicationContract
     /**
      * Runs the current command discovered on the CLI.
      * 
-     * @param  \Syscodes\Contracts\Console\Input|null  $input  The input interface implemented
-     * @param  \Syscodes\Contracts\Console\Output|null  $output  The output interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Input|null  $input  The input interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Output|null  $output  The output interface implemented
      * 
      * @return int
      */
@@ -227,10 +227,10 @@ class Application implements ApplicationContract
     /**
      * Configures the input and output instances.
      * 
-     * @param  \Syscodes\Contracts\Console\Input  $input  The input interface implemented
-     * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Input  $input  The input interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Output  $output  The output interface implemented
      * 
-     * @return \Syscodes\Console\IO\Interactor
+     * @return \Syscodes\Components\Console\IO\Interactor
      */
     protected function configureIO($input, $output)
     {
@@ -240,8 +240,8 @@ class Application implements ApplicationContract
     /**
      * Executes the current application of console.
      * 
-     * @param  \Syscodes\Contracts\Console\Input  $input  The input interface implemented
-     * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Input  $input  The input interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Output  $output  The output interface implemented
      * 
      * @return int
      */
@@ -306,9 +306,9 @@ class Application implements ApplicationContract
     /**
      * Adds a command object.
      * 
-     * @param  \Syscodes\Console\Command\Command  $command
+     * @param  \Syscodes\Components\Console\Command\Command  $command
      * 
-     * @return \Syscodes\Console\Command\Command|null
+     * @return \Syscodes\Components\Console\Command\Command|null
      * 
      * @throws \LogicException
      */
@@ -340,7 +340,7 @@ class Application implements ApplicationContract
     /**
      * Gets the name of the command based on input.
      * 
-     * @param  \Syscodes\Contracts\Console\Input  $input
+     * @param  \Syscodes\Components\Contracts\Console\Input  $input
      * 
      * @return string|null
      */
@@ -352,7 +352,7 @@ class Application implements ApplicationContract
     /**
      * Gets input definition.
      * 
-     * @return \Syscodes\Console\Input\InputDefinition
+     * @return \Syscodes\Components\Console\Input\InputDefinition
      */
     public function getDefinition() 
     {
@@ -381,7 +381,7 @@ class Application implements ApplicationContract
     /**
      * Gets the default input definition.
      * 
-     * @return \Syscodes\Console\Input\InputDefinition
+     * @return \Syscodes\Components\Console\Input\InputDefinition
      */
     protected function getDefaultInputDefinition()
     {
@@ -401,9 +401,9 @@ class Application implements ApplicationContract
      * 
      * @param  string  $name  The command name
      * 
-     * @return \Syscodes\Console\Command\Command
+     * @return \Syscodes\Components\Console\Command\Command
      * 
-     * @throws \Syscodes\Console\Exceptions\CommandNotFoundException
+     * @throws \Syscodes\Components\Console\Exceptions\CommandNotFoundException
      */
     public function findCommand(string $name)
     {
@@ -447,9 +447,9 @@ class Application implements ApplicationContract
      * 
      * @param  string  $name  The command name
      * 
-     * @return \Syscodes\Console\Command\Command
+     * @return \Syscodes\Components\Console\Command\Command
      * 
-     * @throws \Syscodes\Console\Exceptions\CommandNotFoundException
+     * @throws \Syscodes\Components\Console\Exceptions\CommandNotFoundException
      */
     public function get(string $name)
     {
@@ -498,9 +498,9 @@ class Application implements ApplicationContract
     /**
      * Runs the current command.
      * 
-     * @param  \Syscodes\Console\Command\Command  $command  The command name
-     * @param  \Syscodes\Contracts\Console\Input  $input  The input interface implemented
-	 * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
+     * @param  \Syscodes\Components\Console\Command\Command  $command  The command name
+     * @param  \Syscodes\Components\Contracts\Console\Input  $input  The input interface implemented
+	 * @param  \Syscodes\Components\Contracts\Console\Output  $output  The output interface implemented
      * 
      * @return int  0 if everything went fine, or an error code
      */
@@ -547,7 +547,7 @@ class Application implements ApplicationContract
      * Renders errors for define a verbose quiet.
      * 
      * @param  \Throwable  $e
-     * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Output  $output  The output interface implemented
      * 
      * @return void 
      */
@@ -560,7 +560,7 @@ class Application implements ApplicationContract
      * Renders errors caused by not defining variables, methods and console command classes.
      * 
      * @param  \Throwable  $e
-     * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Output  $output  The output interface implemented
      * 
      * @return void 
      */
