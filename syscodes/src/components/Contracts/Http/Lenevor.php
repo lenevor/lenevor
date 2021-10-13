@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Contracts\Http;
+namespace Syscodes\Components\Contracts\Http;
 
 /**
  * Handles a Request to convert it to a Response.
@@ -33,11 +33,11 @@ interface Lenevor
 	 * Initializes the framework, this can only be called once.
 	 * Launch the application.
 	 * 
-	 * @param  \Syscodes\http\Request  $request
+	 * @param  \Syscodes\Components\http\Request  $request
 	 *
 	 * @return void
 	 * 
-	 * @uses   new \Syscodes\Http\Response
+	 * @uses   new \Syscodes\Components\Http\Response
 	 */
  	public function handle($request);
 }
