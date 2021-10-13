@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Chronos;
+namespace Syscodes\Components\Support\Chronos;
 
 use DateTime;
-use Syscodes\Support\Chronos\Traits\Date;
+use Syscodes\Components\Support\Chronos\Traits\Date;
 
 /**
  * A simple API extension for DateTime.
@@ -39,13 +39,13 @@ use Syscodes\Support\Chronos\Traits\Date;
  * @method createFromFormat(string $format, string $datetime, \DateTimeZone|string $timezone = null)
  * @method createFromTimestamp(int $timestamp, string $timezone = null, string $locale = null)
  * @method instance(\DateTime $datetime, string $locale = null)
- * @method setTestNow(\Syscodes\Support\Chronos\Time|string $datetime = null, string $timezone = null, string $locale = null)
+ * @method setTestNow(\Syscodes\Components\Support\Chronos\Time|string $datetime = null, string $timezone = null, string $locale = null)
  * @method bool hasTestNow()
  * @method void difference(string $time, string $timezone = null)
- * @method bool equals(\Syscodes\Support\Chronos\Time|\DateTime|string $time, \DateTimeZone|string string $timezone = null)
+ * @method bool equals(\Syscodes\Components\Support\Chronos\Time|\DateTime|string $time, \DateTimeZone|string string $timezone = null)
  * @method bool isBefore(\DateTime|string $time, \DatetimeZone|string string $timezone = null)
  * @method bool isAfter(\DateTime|string $time, \DatetimeZone|string string $timezone = null)
- * @method bool sameAs(\Syscodes\Support\Chronos\Time\DateTime|string $time, \DatetimeZone|string string $timezone = null)
+ * @method bool sameAs(\Syscodes\Components\Support\Chronos\Time\DateTime|string $time, \DatetimeZone|string string $timezone = null)
  * @method float|int getYears(bool $raw = false)
  * @method float|int getMonths(bool $raw = false)
  * @method float|int getWeeks(bool $raw = false)
