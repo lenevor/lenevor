@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Routing;
+namespace Syscodes\Components\Routing;
 
 /**
  * Create a new route file for register instance.
@@ -32,14 +32,14 @@ class RouteFileRegister
     /**
      * The router instance.
      *
-     * @var \Syscodes\Routing\Router $router
+     * @var \Syscodes\Components\Routing\Router $router
      */
     protected $router;
 
     /**
      * Create a new route file registrar instance.
      *
-     * @param  \Syscodes\Routing\Router  $router
+     * @param  \Syscodes\Components\Routing\Router  $router
 
      * @return void
      */
