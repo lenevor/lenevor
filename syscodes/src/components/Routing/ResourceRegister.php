@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Routing;
+namespace Syscodes\Components\Routing;
 
-use Syscodes\Support\Str;
+use Syscodes\Components\Support\Str;
 
 /**
  * Allows generate resources for routes register.
@@ -41,7 +41,7 @@ class ResourceRegister
     /**
      * The router instance.
      * 
-     * @var \Syscodes\Routing\Router $router
+     * @var \Syscodes\Components\Routing\Router $router
      */
     protected $router;
 
@@ -67,7 +67,7 @@ class ResourceRegister
     /**
      * Constructor. Create a new resource register instance.
      * 
-     * @param  \Syscodes\Routing\Router  $router
+     * @param  \Syscodes\Components\Routing\Router  $router
      * 
      * @return void
      */
@@ -83,7 +83,7 @@ class ResourceRegister
      * @param  string  $controller
      * @param  array  $options
      * 
-     * @return \Syscodes\Routing\RouteCollection
+     * @return \Syscodes\Components\Routing\RouteCollection
      */
     public function register($name, $controller, array $options = [])
     {
@@ -183,7 +183,7 @@ class ResourceRegister
      * @param  string  $controller
      * @param  array  $options
      * 
-     * @return \Syscodes\Routing\Route
+     * @return \Syscodes\Components\Routing\Route
      */
     protected function addResourceIndex($name, $base, $controller, $options)
     {
@@ -202,7 +202,7 @@ class ResourceRegister
      * @param  string  $controller
      * @param  array  $options
      * 
-     * @return \Syscodes\Routing\Route
+     * @return \Syscodes\Components\Routing\Route
      */
     protected function addResourceCreate($name, $base, $controller, $options)
     {
@@ -221,7 +221,7 @@ class ResourceRegister
      * @param  string  $controller
      * @param  array  $options
      * 
-     * @return \Syscodes\Routing\Route
+     * @return \Syscodes\Components\Routing\Route
      */
     protected function addResourceStore($name, $base, $controller, $options)
     {
@@ -240,7 +240,7 @@ class ResourceRegister
      * @param  string  $controller
      * @param  array  $options
      * 
-     * @return \Syscodes\Routing\Route
+     * @return \Syscodes\Components\Routing\Route
      */
     protected function addResourceShow($name, $base, $controller, $options)
     {
@@ -259,7 +259,7 @@ class ResourceRegister
      * @param  string  $controller
      * @param  array  $options
      * 
-     * @return \Syscodes\Routing\Route
+     * @return \Syscodes\Components\Routing\Route
      */
     protected function addResourceEdit($name, $base, $controller, $options)
     {
@@ -278,7 +278,7 @@ class ResourceRegister
      * @param  string  $controller
      * @param  array  $options
      * 
-     * @return \Syscodes\Routing\Route
+     * @return \Syscodes\Components\Routing\Route
      */
     protected function addResourceUpdate($name, $base, $controller, $options)
     {
@@ -297,7 +297,7 @@ class ResourceRegister
      * @param  string  $controller
      * @param  array  $options
      * 
-     * @return \Syscodes\Routing\Route
+     * @return \Syscodes\Components\Routing\Route
      */
     protected function addResourceErase($name, $base, $controller, $options)
     {
