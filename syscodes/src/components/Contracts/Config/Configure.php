@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Contracts\Config;
+namespace Syscodes\Components\Contracts\Config;
 
 /**
  * Sets functions for the config item.
@@ -45,7 +45,7 @@ interface Configure
 	 * 
 	 * @return array|bool
 	 * 
-	 * @uses   \Syscodes\Support\Arr
+	 * @uses   \Syscodes\Components\Collections\Arr
 	 */	
 	public function erase(string $key);
 
@@ -57,7 +57,7 @@ interface Configure
 	 *
 	 * @return mixed
 	 *
-	 * @uses    \Syscodes\Support\Arr
+	 * @uses    \Syscodes\Components\Collections\Arr
 	 */
 	public function get(string $key, $default = null);
 	
@@ -69,7 +69,7 @@ interface Configure
 	 *
 	 * @return mixed
 	 *
-	 * @uses  \Syscodes\Support\Arr
+	 * @uses  \Syscodes\Components\Collections\Arr
 	 */
 	public function set(string $key, $value);
 
