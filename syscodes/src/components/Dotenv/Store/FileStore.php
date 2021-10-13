@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Dotenv\Store;
+namespace Syscodes\Components\Dotenv\Store;
 
 use InvalidArgumentException;
-use Syscodes\Dotenv\Store\Contributors\Reader;
+use Syscodes\Components\Dotenv\Store\Contributors\Reader;
 
 /**
  * Reads the content of the environments files.
