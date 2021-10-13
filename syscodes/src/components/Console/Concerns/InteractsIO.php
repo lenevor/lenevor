@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console\Concerns;
+namespace Syscodes\Components\Console\Concerns;
 
-use Syscodes\Conttracts\Console\Output as OutputInterface;
+use Syscodes\Components\Conttracts\Console\Output as OutputInterface;
 
 /**
  * Trait InteractsIO.
@@ -34,7 +34,7 @@ trait InteractsIO
 	/**
 	 * The output interface implementation.
 	 * 
-	 * @var \Syscodes\Contracts\Console\Output $output
+	 * @var \Syscodes\Components\Contracts\Console\Output $output
 	 */
 	protected $output;
 	
