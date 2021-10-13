@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Dotenv\Repository;
+namespace Syscodes\Components\Dotenv\Repository;
 
-use Syscodes\Contracts\Dotenv\Repository;
-use Syscodes\Dotenv\Repository\Adapters\Readers;
-use Syscodes\Dotenv\Repository\Adapters\Writers;
+use Syscodes\Components\Contracts\Dotenv\Repository;
+use Syscodes\Components\Dotenv\Repository\Adapters\Readers;
+use Syscodes\Components\Dotenv\Repository\Adapters\Writers;
 
 /**
  * Gets to all the adapters.
@@ -36,22 +36,22 @@ final class AdapterRepository implements Repository
     /**
      * The set of readers to use.
      * 
-     * @var \Syscodes\Dotenv\Repository\Adapters\Readers $readers
+     * @var \Syscodes\Components\Dotenv\Repository\Adapters\Readers $readers
      */
     protected $readers;
 
     /**
      * The set of writers to use.
      * 
-     * @var \Syscodes\Dotenv\Repository\Adapters\Writers $writers
+     * @var \Syscodes\Components\Dotenv\Repository\Adapters\Writers $writers
      */
     protected $writers;
 
     /**
      * Constructor. Create a new AdapterRepository instance.
      * 
-     * @param  \Syscodes\Dotenv\Repository\Adapters\Readers  $readers
-     * @param  \Syscodes\Dotenv\Repository\Adapters\Writers  $writers
+     * @param  \Syscodes\Components\Dotenv\Repository\Adapters\Readers  $readers
+     * @param  \Syscodes\Components\Dotenv\Repository\Adapters\Writers  $writers
      * 
      * @return void
      */
