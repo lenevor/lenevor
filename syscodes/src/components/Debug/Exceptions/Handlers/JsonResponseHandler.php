@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Debug\Handlers;
+namespace Syscodes\Components\Debug\Handlers;
 
-use Syscodes\Debug\FrameHandler\Formatter;
+use Syscodes\Components\Debug\FrameHandler\Formatter;
 
 /**
  * Catches an exception and converts it to a JSON response.
