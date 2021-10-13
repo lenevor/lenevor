@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Container;
+namespace Syscodes\Components\Container;
 
 use Closure;
 use TypeError;
@@ -28,12 +28,12 @@ use ArrayAccess;
 use ReflectionClass;
 use ReflectionParameter;
 use InvalidArgumentException;
-use Syscodes\Contracts\Container\NotFoundException;
-use Syscodes\Container\Exceptions\ContainerException;
-use Syscodes\Contracts\Container\BindingResolutionException;
-use Syscodes\Contracts\Container\ExpectedInvokableException;
-use Syscodes\Container\Exceptions\UnknownIdentifierException;
-use Syscodes\Contracts\Container\Container as ContainerContract;
+use Syscodes\Components\Contracts\Container\NotFoundException;
+use Syscodes\Components\Container\Exceptions\ContainerException;
+use Syscodes\Components\Contracts\Container\BindingResolutionException;
+use Syscodes\Components\Contracts\Container\ExpectedInvokableException;
+use Syscodes\Components\Container\Exceptions\UnknownIdentifierException;
+use Syscodes\Components\Contracts\Container\Container as ContainerContract;
 
 /**
  * Class responsible of registering the bindings, instances and 
@@ -124,9 +124,9 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Set the shared instance of the container.
      *
-     * @param  \Syscodes\Contracts\Container\Container|null  $container
+     * @param  \Syscodes\Components\Contracts\Container\Container|null  $container
      * 
-     * @return \Syscodes\Contracts\Container\Container|static
+     * @return \Syscodes\Components\Contracts\Container\Container|static
      */
     public static function setInstance(ContainerContract $container = null)
     {
@@ -141,7 +141,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return void
      * 
-     * @throws \Syscodes\Container\Exceptions\ContainerException
+     * @throws \Syscodes\Components\Container\Exceptions\ContainerException
      */
     public function alias($id, $alias)
     {
@@ -256,7 +256,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      * 
-     * @throws \Syscodes\Contracts\Container\BindingResolutionException
+     * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
      */
     public function build($class)
     {
@@ -296,7 +296,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return void
      *
-     * @throws \Syscodes\Contracts\Container\BindingResolutionException
+     * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
      */
     protected function buildNotInstantiable(string $class)
     {
@@ -378,7 +378,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      *
-     * @throws \Syscodes\Container\Exceptions\BindingResolutionException
+     * @throws \Syscodes\Components\Container\Exceptions\BindingResolutionException
      */
     protected function getResolveClass(ReflectionParameter $parameter)
     {
@@ -400,7 +400,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      *
-     * @throws \Syscodes\Container\Exceptions\BindingResolutionException
+     * @throws \Syscodes\Components\Container\Exceptions\BindingResolutionException
      */
     protected function getResolveNonClass(ReflectionParameter $parameter)
     {
@@ -716,7 +716,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return $this
      * 
-     * @throws \Syscodes\Container\Exceptions\ContainerException
+     * @throws \Syscodes\Components\Container\Exceptions\ContainerException
      */
     public function set($id, string $value)
     {
@@ -755,7 +755,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      * 
-     * @throws \Syscodes\Container\Exceptions\UnknownIdentifierException
+     * @throws \Syscodes\Components\Container\Exceptions\UnknownIdentifierException
      */
     public function get($id)
     {
