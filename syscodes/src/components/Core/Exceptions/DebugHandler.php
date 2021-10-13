@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Core\Exceptions;
+namespace Syscodes\Components\Core\Exceptions;
 
-use Syscodes\Debug\Handlers\PleasingPageHandler;
+use Syscodes\Components\Debug\Handlers\PleasingPageHandler;
 
 /**
  * Creates a new Debug handler instance.
@@ -34,7 +34,7 @@ class DebugHandler
     /**
      * Create a new Debug handler for debug mode.
      * 
-     * @return \Syscodes\Debug\Handlers\PleasingPageHandler
+     * @return \Syscodes\Components\Debug\Handlers\PleasingPageHandler
      */
     public function initDebug()
     {
@@ -46,7 +46,7 @@ class DebugHandler
     /**
      * Register the editor with the handler.
      *
-     * @param  \Syscodes\Debug\Handlers\PleasingPageHandler $handler
+     * @param  \Syscodes\Components\Debug\Handlers\PleasingPageHandler $handler
      * 
      * @return $this
      */
