@@ -20,15 +20,15 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\View;
+namespace Syscodes\Components\View;
 
-use Syscodes\View\Engines\PhpEngine;
-use Syscodes\Support\ServiceProvider;
-use Syscodes\View\Engines\FileEngine;
-use Syscodes\View\Engines\EngineResolver;
-use Syscodes\View\Transpilers\Transpiler;
-use Syscodes\View\Engines\TranspilerEngine;
-use Syscodes\View\Transpilers\PlazeTranspiler;
+use Syscodes\Components\View\Engines\PhpEngine;
+use Syscodes\Components\Support\ServiceProvider;
+use Syscodes\Components\View\Engines\FileEngine;
+use Syscodes\Components\View\Engines\EngineResolver;
+use Syscodes\Components\View\Transpilers\Transpiler;
+use Syscodes\Components\View\Engines\TranspilerEngine;
+use Syscodes\Components\View\Transpilers\PlazeTranspiler;
 
 /**
  * For loading the classes from the container of services.
@@ -127,7 +127,7 @@ class ViewServiceProvider extends ServiceProvider
     /**
      * Register the file engine implementation.
      * 
-     * @param  \Syscodes\View\Engines\EngineResolver  $resolver
+     * @param  \Syscodes\Components\View\Engines\EngineResolver  $resolver
      * 
      * @return void
      */
@@ -141,7 +141,7 @@ class ViewServiceProvider extends ServiceProvider
     /**
      * Register the PHP engine implementation.
      * 
-     * @param  \Syscodes\View\Engines\EngineResolver  $resolver
+     * @param  \Syscodes\Components\View\Engines\EngineResolver  $resolver
      * 
      * @return void
      */
@@ -155,7 +155,7 @@ class ViewServiceProvider extends ServiceProvider
     /**
      * Register the Plaze engine implementation.
      * 
-     * @param  \Syscodes\View\Engines\EngineResolver  $resolver
+     * @param  \Syscodes\Components\View\Engines\EngineResolver  $resolver
      * 
      * @return void
      */
