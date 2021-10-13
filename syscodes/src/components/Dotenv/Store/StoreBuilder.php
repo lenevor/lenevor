@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Dotenv\Store;
+namespace Syscodes\Components\Dotenv\Store;
 
-use Syscodes\Dotenv\Store\Contributors\Paths;
+use Syscodes\Components\Dotenv\Store\Contributors\Paths;
 
 /**
  * Create a store builder for environment files.
@@ -78,7 +78,7 @@ final class StoreBuilder
     /**
      * Create a new file store instance with no names.
      * 
-     * @return \Syscodes\Dotenv\Store\StoreBuilder
+     * @return \Syscodes\Components\Dotenv\Store\StoreBuilder
      */
     public static function createWithNoNames()
     {
@@ -88,7 +88,7 @@ final class StoreBuilder
     /**
      * Create a new file store instance with the default name.
      * 
-     * @return \Syscodes\Dotenv\Store\StoreBuilder
+     * @return \Syscodes\Components\Dotenv\Store\StoreBuilder
      */
     public static function createWithDefaultName()
     {
@@ -100,7 +100,7 @@ final class StoreBuilder
      * 
      * @param  string  $path
      * 
-     * @return \Syscodes\Dotenv\Store\StoreBuilder
+     * @return \Syscodes\Components\Dotenv\Store\StoreBuilder
      */
     public function addPath(string $path)
     {
@@ -112,7 +112,7 @@ final class StoreBuilder
      * 
      * @param  string  $name
      * 
-     * @return \Syscodes\Dotenv\Store\StoreBuilder
+     * @return \Syscodes\Components\Dotenv\Store\StoreBuilder
      */
     public function addName(string $name)
     {
@@ -122,7 +122,7 @@ final class StoreBuilder
     /**
      * Creates a store builder with mode enabled break.
      * 
-     * @return \Syscodes\Dotenv\Store\StoreBuilder
+     * @return \Syscodes\Components\Dotenv\Store\StoreBuilder
      */
     public function modeEnabled()
     {
@@ -132,7 +132,7 @@ final class StoreBuilder
     /**
      * Creates a new store instance.
      * 
-     * @return \Syscodes\Dotenv\Store\FileStore
+     * @return \Syscodes\Components\Dotenv\Store\FileStore
      */
     public function make()
     {
