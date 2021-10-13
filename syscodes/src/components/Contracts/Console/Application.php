@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Contracts\Console;
+namespace Syscodes\Components\Contracts\Console;
 
-use Syscodes\Contracts\Console\Input as InputInterface;
-use Syscodes\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\Input as InputInterface;
+use Syscodes\Components\Contracts\Console\Output as OutputInterface;
 
 /**
  * It allows to show the line header and the start of the Lenevor command console.
@@ -35,8 +35,8 @@ interface Application
 	/**
 	 * Runs the current command discovered on the CLI.
 	 * 
-	 * @param  \Syscodes\Contracts\Console\Input  $input
-	 * @param  \Syscodes\Contracts\Console\Output|null  $output
+	 * @param  \Syscodes\Components\Contracts\Console\Input  $input
+	 * @param  \Syscodes\Components\Contracts\Console\Output|null  $output
 	 * 
 	 * @return void
 	 */	

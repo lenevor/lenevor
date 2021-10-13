@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Contracts\Console;
+namespace Syscodes\Components\Contracts\Console;
 
-use Syscodes\Contracts\Console\OutputFormatter as OutputFormatterInterface;
+use Syscodes\Components\Contracts\Console\OutputFormatter as OutputFormatterInterface;
 
 /**
  * <Output> is the interface implemented by all Output classes.
@@ -62,14 +62,14 @@ interface Output
 	/**
 	 * Returns a output formatter instance.
 	 * 
-	 * @return \Syscodes\Contracts\Console\OutputFormatter
+	 * @return \Syscodes\Components\Contracts\Console\OutputFormatter
 	 */
 	public function getFormatter(): OutputFormatterInterface;
 
 	/**
 	 * Sets a output formatter instance.
 	 * 
-	 * @param  \Syscodes\Contracts\Console\OutputFormatter  $formatter;
+	 * @param  \Syscodes\Components\Contracts\Console\OutputFormatter  $formatter;
 	 * 
 	 * @return void
 	 */

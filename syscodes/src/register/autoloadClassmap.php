@@ -21,7 +21,7 @@ return [
     'App\\Providers\\EventServiceProvider' => APP_PATH.'Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => APP_PATH.'Providers/RouteServiceProvider.php',
     // Bundles
-    'Syscodes\\Bundles\\Console\\Application' => SYS_PATH.'src/bundles/Console/Application.php',
+    'Syscodes\\Bundles\\ApplicationBundle\\Console\\Application' => SYS_PATH.'src/bundles/ApplicationBundle/Console/Application.php',
     // Components
     'Syscodes\\Components\\Cache\\Exceptions\\CacheException' => SYS_PATH.'src/components/Cache/Exceptions/CacheException.php',
     'Syscodes\\Components\\Cache\\Store\\ApcStore' => SYS_PATH.'src/components/Cache/Store/ApcStore',

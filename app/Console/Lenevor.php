@@ -21,7 +21,7 @@
 
 namespace App\Console;
 
-use Syscodes\Core\Console\Lenevor as ConsoleLenevor;
+use Syscodes\Components\Core\Console\Lenevor as ConsoleLenevor;
 
 /**
  * Load the console to call arguments and commands.

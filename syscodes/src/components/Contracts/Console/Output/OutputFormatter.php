@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Contracts\Console;
+namespace Syscodes\Components\Contracts\Console;
 
-use Syscodes\Contracts\Console\OutputFormatterStyle as OutputFormatterStyleInterface;
+use Syscodes\Components\Contracts\Console\OutputFormatterStyle as OutputFormatterStyleInterface;
 
 /**
  * <OutputFormatter> is the interface for output console.

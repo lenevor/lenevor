@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Contracts\Console;
+namespace Syscodes\Components\Contracts\Console;
 
 use RuntimeException;
 use InvalidArgumentException;
-use Syscodes\Console\Input\InputDefinition;
+use Syscodes\Components\Console\Input\InputDefinition;
 
 /**
  * Input Interface used by all input classes.

@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Contracts\Console;
+namespace Syscodes\Components\Contracts\Console;
 
-use Syscodes\Console\Input\InputOption;
-use Syscodes\Console\Input\InputArgument;
+use Syscodes\Components\Console\Input\InputOption;
+use Syscodes\Components\Console\Input\InputArgument;
 
 /**
  * InputDefinition Interface.
@@ -37,25 +37,25 @@ interface InputDefinition
      * 
      * @param  array  $arguments  The arguments array InputArgument objects
      * 
-     * @return \Syscodes\Console\Input\inputArgument 
+     * @return \Syscodes\Components\Console\Input\inputArgument 
      */
     public function setArguments(array $arguments = []);
 
     /**
      * Adds a array of InputArgument objects.
      * 
-     * @param  \Syscodes\Console\Input\InputArgument|array  $arguments  The arguments array InputArgument objects
+     * @param  \Syscodes\Components\Console\Input\InputArgument|array  $arguments  The arguments array InputArgument objects
      * 
-     * @return \Syscodes\Console\Input\inputArgument
+     * @return \Syscodes\Components\Console\Input\inputArgument
      */
     public function addArguments(array $arguments = []);
 
     /**
      * Adds an argument.
      * 
-     * @param  \Syscodes\Console\Input\InputArgument  $argument  The arguments array InputArgument objects
+     * @param  \Syscodes\Components\Console\Input\InputArgument  $argument  The arguments array InputArgument objects
      * 
-     * @return \Syscodes\Console\Input\InputArgument
+     * @return \Syscodes\Components\Console\Input\InputArgument
      */
     public function addArgument(InputArgument $argument);
 
@@ -64,7 +64,7 @@ interface InputDefinition
      * 
      * @param  string|int  $name  The InputArgument name or position
      * 
-     * @return \Syscodes\Console\Input\InputArgument
+     * @return \Syscodes\Components\Console\Input\InputArgument
      * 
      * @throws \InvalidArgumentException
      */
@@ -82,7 +82,7 @@ interface InputDefinition
     /**
      * Gets the array of InputArgument objects.
      * 
-     * @return \Syscodes\Console\Input\InputArgument|array  An array the InputArgument objects
+     * @return \Syscodes\Components\Console\Input\InputArgument|array  An array the InputArgument objects
      */
     public function getArguments(): array;
 
@@ -105,25 +105,25 @@ interface InputDefinition
      * 
      * @param  array  $options  The options array InputOption objects
      * 
-     * @return \Syscodes\Console\Input\InputOption
+     * @return \Syscodes\Components\Console\Input\InputOption
      */
     public function setOptions(array $options = []);
 
     /**
      * Adds a array of InputOption objects.
      * 
-     * @param  \Syscodes\Console\Input\InputOption|array  $options  The options array InputOption objects
+     * @param  \Syscodes\Components\Console\Input\InputOption|array  $options  The options array InputOption objects
      * 
-     * @return \Syscodes\Console\Input\InputOption
+     * @return \Syscodes\Components\Console\Input\InputOption
      */
     public function addOptions(array $options = []);
 
     /**
      * Adds an option.
      * 
-     * @param  \Syscodes\Console\Input\InputOption  $Option  The Options array InputOption objects
+     * @param  \Syscodes\Components\Console\Input\InputOption  $Option  The Options array InputOption objects
      * 
-     * @return \Syscodes\Console\Input\InputOption
+     * @return \Syscodes\Components\Console\Input\InputOption
      * 
      * @throws \LogicException
      */
@@ -134,7 +134,7 @@ interface InputDefinition
      * 
      * @param  string  $name  The InputOption name
      * 
-     * @return \Syscodes\Console\Input\InputOption|array
+     * @return \Syscodes\Components\Console\Input\InputOption|array
      * 
      * @throws \InvalidArgumentException
      */
@@ -152,7 +152,7 @@ interface InputDefinition
     /**
      * Gets the array of InputOption objects.
      * 
-     * @return \Syscodes\Console\Input\InputOption|array  An array the InputOption objects
+     * @return \Syscodes\Components\Console\Input\InputOption|array  An array the InputOption objects
      */
     public function getOptions(): array;
 
@@ -170,7 +170,7 @@ interface InputDefinition
      * 
      * @param  string  $name  The Shortcut name
      * 
-     * @return \Syscodes\Console\Input\InputOption|array  An InputOption object
+     * @return \Syscodes\Components\Console\Input\InputOption|array  An InputOption object
      */
     public function getOptionByShortcut(string $name): array;
 
