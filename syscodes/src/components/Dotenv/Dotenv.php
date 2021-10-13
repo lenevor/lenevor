@@ -20,12 +20,12 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Dotenv;
+namespace Syscodes\Components\Dotenv;
 
 use InvalidArgumentException;
-use Syscodes\Dotenv\Loader\Loader;
-use Syscodes\Dotenv\Store\StoreBuilder;
-use Syscodes\Dotenv\Repository\RepositoryCreator;
+use Syscodes\Components\Dotenv\Loader\Loader;
+use Syscodes\Components\Dotenv\Store\StoreBuilder;
+use Syscodes\Components\Dotenv\Repository\RepositoryCreator;
 
 /**
  * Manages .env files.
@@ -37,30 +37,30 @@ final class Dotenv
     /**
      * The Loader instance.
      * 
-     * @var \Syscodes\Dotenv\Loader\Loader $loader
+     * @var \Syscodes\Components\Dotenv\Loader\Loader $loader
      */
     protected $loader;
 
     /**
      * The Repository creator instance.
      * 
-     * @var \Syscodes\Dotenv\Repository\RepositoryCreator $repository
+     * @var \Syscodes\Components\Dotenv\Repository\RepositoryCreator $repository
      */
     protected $repository;
 
     /**
      * The file store instance.
      * 
-     * @var \Syscodes\Dotenv\Repository\FileStore $store
+     * @var \Syscodes\Components\Dotenv\Repository\FileStore $store
      */
     protected $store;
 
     /**
      * Constructor. Create a new Dotenv instance.
      * 
-     * @param  \Syscodes\Dotenv\Store\StoreBuilder  $store
-     * @param  \Syscodes\Dotenv\Loader\Loader  $loader
-     * @param  \Syscodes\Dotenv\Repository\RepositoryCreator  $repository
+     * @param  \Syscodes\Components\Dotenv\Store\StoreBuilder  $store
+     * @param  \Syscodes\Components\Dotenv\Loader\Loader  $loader
+     * @param  \Syscodes\Components\Dotenv\Repository\RepositoryCreator  $repository
      * 
      * @return void
      */
@@ -75,12 +75,12 @@ final class Dotenv
      * Create a new Dotenv instance.
      * Builds the path to our file.
      * 
-     * @param  \Syscodes\Dotenv\Repository\RepositoryCreator  $repository
+     * @param  \Syscodes\Components\Dotenv\Repository\RepositoryCreator  $repository
      * @param  string|string[]  $path
      * @param  string|string[]  $names
      * @param  bool  $modeEnabled  (true by default)
      * 
-     * @return \Syscodes\Dotenv\Dotenv
+     * @return \Syscodes\Components\Dotenv\Dotenv
      */
     public static function create($repository, $paths, $names = null, bool $modeEnabled = true)
     {
