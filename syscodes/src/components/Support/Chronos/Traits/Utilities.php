@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Chronos\traits;
+namespace Syscodes\Components\Support\Chronos\traits;
 
 use DateTime;
 use DateTimeZone;
@@ -57,7 +57,7 @@ trait Utilities
      * @param  \DateTime|string  $time
      * @param  \DateTimeZone|string|null  $timezone  
      * 
-     * @return \DateTime|\Syscodes\Support\Chronos\Time
+     * @return \DateTime|\Syscodes\Components\Support\Chronos\Time
      */
     protected function getConvertedUTC($time, string $timezone = null)
     {
