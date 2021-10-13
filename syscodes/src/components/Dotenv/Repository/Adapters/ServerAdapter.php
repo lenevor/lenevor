@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /LICENSE
  */
 
-namespace Syscodes\Dotenv\Repository\Adapters;
+namespace Syscodes\Components\Dotenv\Repository\Adapters;
 
-use Syscodes\Contracts\Dotenv\Adapter;
+use Syscodes\Components\Contracts\Dotenv\Adapter;
 
 /**
  * Read, write and delete an environment variable for $_SERVER.
