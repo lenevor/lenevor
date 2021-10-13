@@ -20,12 +20,12 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Log;
+namespace Syscodes\Components\Log;
 
 use Psr\Log\LoggerInterface;
-use Syscodes\Contracts\Log\Handler;
-use Syscodes\Log\Handlers\FileLogger;
-use Syscodes\Log\Exceptions\LogException;
+use Syscodes\Components\Contracts\Log\Handler;
+use Syscodes\Components\Log\Handlers\FileLogger;
+use Syscodes\Components\Log\Exceptions\LogException;
 
 /**
  * The Lenevor Logger of errors.
@@ -37,7 +37,7 @@ class LogManager implements LoggerInterface
     /**
 	 * The application implementation.
 	 * 
-	 * @var \Syscodes\Contracts\Core\Application $app
+	 * @var \Syscodes\Components\Contracts\Core\Application $app
 	 */
     protected $app;
     
@@ -51,7 +51,7 @@ class LogManager implements LoggerInterface
     /**
      * Constructor. The LogManager class instance.
      * 
-     * @param  \Syscodes\Contracts\Core\Application  $app
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app
      * 
      * @return void
      */
@@ -105,7 +105,7 @@ class LogManager implements LoggerInterface
      * 
      * @return \Psr\Log\LoggerInterface
      * 
-     * @throws \Syscodes\Log\Exceptions\LogException
+     * @throws \Syscodes\Components\Log\Exceptions\LogException
      */
     protected function resolve($name)
     {
@@ -140,7 +140,7 @@ class LogManager implements LoggerInterface
      * Create an instance of the File log driver.
      * 
      * @param  array  $config
-     * @param  \Syscodes\Contracts\Core\Application  $app
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app
      * 
      * @return \Psr\Log\LoggerInterface
      */
@@ -152,9 +152,9 @@ class LogManager implements LoggerInterface
     /**
      * Create a new log with the given implementation.
      * 
-     * @param  \Syscodes\Contracts\Log\Handler  $logger
+     * @param  \Syscodes\Components\Contracts\Log\Handler  $logger
      *
-     * @return \Syscodes\Contracts\Log\Handler
+     * @return \Syscodes\Components\Contracts\Log\Handler
      */
     public function getLogger(Handler $logger)
     {
