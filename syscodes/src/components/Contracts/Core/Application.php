@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Contracts\Core;
+namespace Syscodes\Components\Contracts\Core;
 
-use Syscodes\Contracts\Container\Container;
+use Syscodes\Components\Contracts\Container\Container;
 
 /**
  * Allows the loading of service providers and functions to activate 
@@ -130,10 +130,10 @@ interface Application extends Container
     /**
      * Register a service provider.
      * 
-     * @param  \Syscodes\Support\ServiceProvider|string  $provider
+     * @param  \Syscodes\Components\Support\ServiceProvider|string  $provider
      * @param  bool  $force
      * 
-     * @return \Syscodes\Support\ServiceProvider
+     * @return \Syscodes\Components\Support\ServiceProvider
      */
     public function register($provider, $force = false);
 
@@ -142,7 +142,7 @@ interface Application extends Container
      * 
      * @param  string  $provider
      * 
-     * @return \Syscodes\Support\ServiceProvider
+     * @return \Syscodes\Components\Support\ServiceProvider
      */
     public function resolveProviderClass($provider);
 
