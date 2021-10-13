@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console\Input;
+namespace Syscodes\Components\Console\Input;
 
 use LogicException;
 use InvalidArgumentException;
-use Syscodes\Contracts\Console\InputArgument as InputArgumentInterface;
+use Syscodes\Components\Contracts\Console\InputArgument as InputArgumentInterface;
 
 /**
  * This class represents a command line argument.
