@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Facades;
+namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Prime class facade.
@@ -36,6 +36,6 @@ class Prime extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'Syscodes\Console\Application';
+        return 'Syscodes\Components\Console\Application';
     }
 }
