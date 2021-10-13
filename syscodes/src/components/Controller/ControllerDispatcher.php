@@ -20,12 +20,12 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
  
-namespace Syscodes\Controller;
+namespace Syscodes\Components\Controller;
 
-use Syscodes\Routing\Route;
-use Syscodes\Contracts\Container\Container;
-use Syscodes\Routing\Concerns\RouteDependencyResolver;
-use Syscodes\Controller\Contracts\ControllerDispatcher as ControllerDispatcherContract;
+use Syscodes\Components\Routing\Route;
+use Syscodes\Components\Contracts\Container\Container;
+use Syscodes\Components\Routing\Concerns\RouteDependencyResolver;
+use Syscodes\Components\Controller\Contracts\ControllerDispatcher as ControllerDispatcherContract;
 
 /**
  * Dispatch requests when called a given controller and method.
