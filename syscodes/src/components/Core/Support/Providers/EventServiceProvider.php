@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Core\Support\Providers;
+namespace Syscodes\Components\Core\Support\Providers;
 
-use Syscodes\Support\Facades\Event;
-use Syscodes\Support\ServiceProvider;
+use Syscodes\Components\Support\Facades\Event;
+use Syscodes\Components\Support\ServiceProvider;
 
 /**
  * Manage all events occurred in the application.
