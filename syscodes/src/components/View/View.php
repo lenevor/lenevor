@@ -20,20 +20,20 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\View;
+namespace Syscodes\Components\View;
 
 use Throwable;
 use ArrayAccess;
 use Traversable;
-use Syscodes\Support\Str;
 use BadMethodCallException;
 use InvalidArgumentException;
-use Syscodes\Collections\Arr;
-use Syscodes\Contracts\View\Engine;
-use Syscodes\Contracts\Support\Webable;
-use Syscodes\Contracts\Support\Arrayable;
-use Syscodes\Contracts\Support\Renderable;
-use Syscodes\Contracts\View\View as ViewContract;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Contracts\View\Engine;
+use Syscodes\Components\Contracts\Support\Webable;
+use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Contracts\Support\Renderable;
+use Syscodes\Components\Contracts\View\View as ViewContract;
 
 /**
  * This class control the views.
@@ -52,14 +52,14 @@ class View implements ArrayAccess, Webable, ViewContract
 	/**
 	 * The engine implementation.
 	 * 
-	 * @var \Syscodes\Contracts\View\Engine $engine
+	 * @var \Syscodes\Components\Contracts\View\Engine $engine
 	 */
 	protected $engine;
 
 	/**
 	 * The view factory instance.
 	 * 
-	 * @var \Syscodes\View\factory $factory
+	 * @var \Syscodes\Components\View\factory $factory
 	 */
 	protected $factory;
 
@@ -80,8 +80,8 @@ class View implements ArrayAccess, Webable, ViewContract
 	/**
 	 * Constructor: Create a new view instance.
 	 * 
-	 * @param  \Syscodes\View\factory  $factory
-	 * @param  \Syscodes\Contracts\View\Engine  $engine
+	 * @param  \Syscodes\Components\View\factory  $factory
+	 * @param  \Syscodes\Components\Contracts\View\Engine  $engine
 	 * @param  string  $view
 	 * @param  string  $path
 	 * @param  array  $data
@@ -266,7 +266,7 @@ class View implements ArrayAccess, Webable, ViewContract
 	/**
 	 * Get the view factory instance.
 	 * 
-	 * @return \Syscodes\View\factory
+	 * @return \Syscodes\Components\View\factory
 	 */
 	public function getFactory()
 	{
@@ -276,7 +276,7 @@ class View implements ArrayAccess, Webable, ViewContract
 	/**
 	 * Get the view's rendering engine.
 	 * 
-	 * @return \Syscodes\Contracts\View\Engine
+	 * @return \Syscodes\Components\Contracts\View\Engine
 	 */
 	public function getEngine()
 	{
@@ -296,7 +296,7 @@ class View implements ArrayAccess, Webable, ViewContract
 	 *
 	 * @return mixed
 	 *
-	 * @uses   \Syscodes\Contracts\Core\Lenevor
+	 * @uses   \Syscodes\Components\Contracts\Core\Lenevor
 	 *
 	 * @throws \InvalidArgumentException
 	 */
@@ -409,7 +409,7 @@ class View implements ArrayAccess, Webable, ViewContract
 	 *
 	 * @return mixed
 	 *
-	 * @throws \Syscodes\LenevorException
+	 * @throws \Syscodes\Components\LenevorException
 	 */
 	public function &__get($key) 
 	{
