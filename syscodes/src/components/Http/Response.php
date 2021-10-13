@@ -20,17 +20,17 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
  
-namespace Syscodes\Http;
+namespace Syscodes\Components\Http;
 
 use JsonSerializable;
 use BadMethodCallException;
 use InvalidArgumentException;
 use UnexpectedValueException;
-use Syscodes\Http\Contributors\Server;
-use Syscodes\Http\Contributors\Status;
-use Syscodes\Http\Contributors\Headers;
-use Syscodes\Contracts\Support\Renderable;
-use Syscodes\Filesystem\Exceptions\UnexpectedTypeException;
+use Syscodes\Components\Http\Contributors\Server;
+use Syscodes\Components\Http\Contributors\Status;
+use Syscodes\Components\Http\Contributors\Headers;
+use Syscodes\Components\Contracts\Support\Renderable;
+use Syscodes\Components\Filesystem\Exceptions\UnexpectedTypeException;
 
 /**
  * Response represents an HTTP response.
@@ -108,7 +108,7 @@ class Response extends Status
 	 *
 	 * @return bool
 	 *
-	 * @uses   \Syscodes\Http\Http
+	 * @uses   \Syscodes\Components\Http\Http
 	 */
 	public function sendHeaders()
 	{
@@ -199,7 +199,7 @@ class Response extends Status
 	/**
 	 * Prepares the Response before it is sent to the client.
 	 * 
-	 * @param  \Syscodes\Http\Request  $request
+	 * @param  \Syscodes\Components\Http\Request  $request
 	 * 
 	 * @return $this
 	 */
