@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Session;
+namespace Syscodes\Components\Session;
 
-use Syscodes\Support\ServiceProvider;
+use Syscodes\Components\Support\ServiceProvider;
 
 /**
  * For loading the classes from the container of services.
