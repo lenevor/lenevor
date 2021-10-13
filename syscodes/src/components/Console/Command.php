@@ -20,15 +20,15 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console;
+namespace Syscodes\Components\Console;
 
 use LogicException;
 use ReflectionClass;
 use ReflectionException;
 use Psr\Log\LoggerInterface;
-use Syscodes\Console\Command\Command as BaseCommand;
-use Syscodes\Contracts\Console\Input as InputInterface;
-use Syscodes\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Console\Command\Command as BaseCommand;
+use Syscodes\Components\Contracts\Console\Input as InputInterface;
+use Syscodes\Components\Contracts\Console\Output as OutputInterface;
 
 /**
  * Is class allows functionality for running, listing, etc all commands of framework.
@@ -75,7 +75,7 @@ class Command extends BaseCommand
     /**
      * The Lenevor appplication instance.
      * 
-     * @var \Syscodes\Core\Contracts\Application $lenevor
+     * @var \Syscodes\Components\Core\Contracts\Application $lenevor
      */
     protected $lenevor;
 
@@ -103,8 +103,8 @@ class Command extends BaseCommand
     /**
      * Runs a command given.
      * 
-     * @param  \Syscodes\Contracts\Console\Input  $input
-     * @param  \Syscodes\Contracts\Console\Output  $input
+     * @param  \Syscodes\Components\Contracts\Console\Input  $input
+     * @param  \Syscodes\Components\Contracts\Console\Output  $input
      * 
      * @return int|mixed
      */
@@ -116,8 +116,8 @@ class Command extends BaseCommand
     /**
      * Executes the current command.
      * 
-     * @param  \Syscodes\Contracts\Console\Input  $input
-     * @param  \Syscodes\Contracts\Console\Output  $input
+     * @param  \Syscodes\Components\Contracts\Console\Input  $input
+     * @param  \Syscodes\Components\Contracts\Console\Output  $input
      * 
      * @return int|mixed
      * 
@@ -133,7 +133,7 @@ class Command extends BaseCommand
     /**
      * Get the Lenevor application instance.
      * 
-     * @return \Syscodes\Contracts\Core\Application
+     * @return \Syscodes\Components\Contracts\Core\Application
      */
     public function getLenevor()
     {
@@ -143,7 +143,7 @@ class Command extends BaseCommand
     /**
      * Set the Lenevor application instance.
      * 
-     * @param  \Syscodes\Contracts\Core\Application  $lenevor
+     * @param  \Syscodes\Components\Contracts\Core\Application  $lenevor
      * 
      * @return void
      */
