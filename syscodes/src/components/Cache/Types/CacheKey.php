@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Cache\Types;
+namespace Syscodes\Components\Cache\Types;
 
-use Syscodes\Contracts\Cache\Key;
+use Syscodes\Components\Contracts\Cache\Key;
 
 /**
  * This class generate a key random.
