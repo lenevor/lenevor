@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Core\Exceptions;
+namespace Syscodes\Components\Core\Exceptions;
 
-use Syscodes\Support\Facades\View;
+use Syscodes\Components\Support\Facades\View;
 
 /**
  * Allows register the errors in view paths.
