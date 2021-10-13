@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\View\Concerns;
+namespace Syscodes\Components\View\Concerns;
 
-use Syscodes\Support\WebString;
-use Syscodes\View\Exceptions\ViewException;
+use Syscodes\Components\Support\WebString;
+use Syscodes\Components\View\Exceptions\ViewException;
 
 /**
  * Trait ManagesComponents.
