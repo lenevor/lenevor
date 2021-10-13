@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Core\Bootstrap;
+namespace Syscodes\Components\Core\Bootstrap;
 
-use Syscodes\Contracts\Core\Application;
+use Syscodes\Components\Contracts\Core\Application;
 
 /**
  * Initialize boot of register providers.
@@ -34,7 +34,7 @@ class BootProviders
 	/**
 	 * Bootstrap the given application.
 	 * 
-	 * @param  \Syscodes\Contracts\Core\Application  $app
+	 * @param  \Syscodes\Components\Contracts\Core\Application  $app
 	 * 
 	 * @return void
 	 */
