@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Http\Contributors;
+namespace Syscodes\Components\Http\Contributors;
 
-use Syscodes\Core\Http\Exceptions\BadRequestHttpException;
+use Syscodes\Components\Core\Http\Exceptions\BadRequestHttpException;
 
 /**
  * Inputs is a container for user input values such as 
