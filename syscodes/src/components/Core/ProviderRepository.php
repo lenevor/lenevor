@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Core;
+namespace Syscodes\Components\Core;
 
 use Exception;
-use Syscodes\Filesystem\Filesystem;
-use Syscodes\Contracts\Core\Application;
+use Syscodes\Components\Filesystem\Filesystem;
+use Syscodes\Components\Contracts\Core\Application;
 
 /**
  * @author Alexander Campo <jalexcam@gmail.com>
@@ -34,14 +34,14 @@ class ProviderRepository
     /**
      * The application implementation.
      * 
-     * @var \Syscodes\Contracts\Core\Application $app
+     * @var \Syscodes\Components\Contracts\Core\Application $app
      */
     protected $app;
 
     /**
      * The filesystem instance.
      * 
-     * @var \Syscodes\Filesystem\Filesystem $files
+     * @var \Syscodes\Components\Filesystem\Filesystem $files
      */
     protected $files;
 
@@ -55,8 +55,8 @@ class ProviderRepository
     /**
      * Constructor. Create a new ProviderRepository class instance.
      * 
-     * @param  \Syscodes\Contracts\Core\Application  $app
-     * @param  \Syscodes\Filesystem\Filesystem  $files
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app
+     * @param  \Syscodes\Components\Filesystem\Filesystem  $files
      * @param  string  $manifestPath
      * 
      * @return void
@@ -209,7 +209,7 @@ class ProviderRepository
      * 
      * @param  string  $provider
      * 
-     * @return \Syscodes\Support\ServiceProvider
+     * @return \Syscodes\Components\Support\ServiceProvider
      */
     public function createProvider($provider)
     {
