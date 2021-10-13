@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Contracts\Events;
+namespace Syscodes\Components\Contracts\Events;
 
 /**
  * For register events and can calls all your listeners.
