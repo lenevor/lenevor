@@ -20,16 +20,16 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Routing;
+namespace Syscodes\Components\Routing;
 
 use Closure;
 use Countable;
 use ArrayIterator;
 use IteratorAggregate;
-use Syscodes\Http\Request;
 use BadMethodCallException;
-use Syscodes\Collections\Arr;
-use Syscodes\Routing\Exceptions\RouteNotFoundException;
+use Syscodes\Components\Http\Request;
+use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Routing\Exceptions\RouteNotFoundException;
 
 /**
  * Adds a collection to the arrays of routes.
@@ -41,28 +41,28 @@ class RouteCollection implements Countable, IteratorAggregate
     /**
      * Gets a table of routes by controller action.
      * 
-     * @var \Syscodes\Routing\Route[] $actionList
+     * @var \Syscodes\Components\Routing\Route[] $actionList
      */
     protected $actionList = [];
 
     /**
      * An array set to all of the routes.
      * 
-     * @var \Syscodes\Routing\Route[] $allRoutes
+     * @var \Syscodes\Components\Routing\Route[] $allRoutes
      */
     protected $allRoutes = [];
 
     /**
      * Gets a table of routes by their names.
      * 
-     * @var \Syscodes\Routing\Route[] $nameList
+     * @var \Syscodes\Components\Routing\Route[] $nameList
      */
     protected $nameList = [];
 
     /**
 	 * The Route instance.
 	 * 
-	 * @var \Syscodes\Routing\Route|null
+	 * @var \Syscodes\Components\Routing\Route|null
 	 */
 	protected $route;
 
@@ -76,9 +76,9 @@ class RouteCollection implements Countable, IteratorAggregate
     /**
      * Add a Route instance to the collection.
      * 
-     * @param  \Syscodes\Routing\Route  $routes
+     * @param  \Syscodes\Components\Routing\Route  $routes
      * 
-     * @return \Syscodes\Routing\Route
+     * @return \Syscodes\Components\Routing\Route
      */
     public function add(Route $route)
     {
@@ -92,7 +92,7 @@ class RouteCollection implements Countable, IteratorAggregate
     /**
      * Add a given route to the arrays of routes.
      * 
-     * @param  \Syscodes\Routing\Route  $route
+     * @param  \Syscodes\Components\Routing\Route  $route
      * 
      * @return void
      */
@@ -110,7 +110,7 @@ class RouteCollection implements Countable, IteratorAggregate
     /**
      * Add the route to the lookup tables if necessary.
      * 
-     * @param  \Syscodes\Routing\Route  $route
+     * @param  \Syscodes\Components\Routing\Route  $route
      * 
      * @return void
      */
@@ -185,7 +185,7 @@ class RouteCollection implements Countable, IteratorAggregate
     /**
      * Get all of the routes keyed by their name.
      * 
-     * @return \Syscodes\Routing\Route[]
+     * @return \Syscodes\Components\Routing\Route[]
      */
     public function getRoutesByName()
     {
@@ -195,11 +195,11 @@ class RouteCollection implements Countable, IteratorAggregate
     /**
      * Find the first route matching a given request.
      * 
-     * @param  \Syscodes\Http\Request  $request
+     * @param  \Syscodes\Components\Http\Request  $request
      * 
-     * @return \Syscodes\Routing\Route
+     * @return \Syscodes\Components\Routing\Route
      * 
-     * @throws \Syscodes\Routing\Exceptions\RouteNotFoundException
+     * @throws \Syscodes\Components\Routing\Exceptions\RouteNotFoundException
      */
     public function match(Request $request)
     {
@@ -215,10 +215,10 @@ class RouteCollection implements Countable, IteratorAggregate
     /**
      * Find the first route matching a given request.
      * 
-     * @param  \Syscodes\Http\Request  $request
+     * @param  \Syscodes\Components\Http\Request  $request
      * @param  array  $routes
      * 
-     * @return \Syscodes\Routing\Route;
+     * @return \Syscodes\Components\Routing\Route;
      */
     protected function findRoute($request, array $routes)
     {        
@@ -302,7 +302,7 @@ class RouteCollection implements Countable, IteratorAggregate
      * 
      * @param  string|null  $method  (null by default)
      * 
-     * @return \Syscodes\Routing\Route[]
+     * @return \Syscodes\Components\Routing\Route[]
      */
     public function get($method = null)
     {
@@ -328,7 +328,7 @@ class RouteCollection implements Countable, IteratorAggregate
      * 
      * @param  string  $name
      * 
-     * @return \Syscodes\Routing\Route|null
+     * @return \Syscodes\Components\Routing\Route|null
      */
     public function getByName(string $name)
     {
@@ -340,7 +340,7 @@ class RouteCollection implements Countable, IteratorAggregate
      * 
      * @param  string  $name
      * 
-     * @return \Syscodes\Routing\Route|null
+     * @return \Syscodes\Components\Routing\Route|null
      */
     public function getByAction(string $name)
     {
