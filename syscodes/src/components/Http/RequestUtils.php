@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Http;
+namespace Syscodes\Components\Http;
 
 /**
  * Allows to use static methods referring normalized HTTP requests.
