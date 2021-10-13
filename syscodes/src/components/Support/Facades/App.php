@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Facades;
+namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the App class facade.
@@ -41,14 +41,14 @@ namespace Syscodes\Support\Facades;
  * @method static string environmentFilePath()
  * @method static bool hasBeenBootstrapped()
  * @method static void registerConfiguredProviders()
- * @method static \Syscodes\Support\ServiceProvider register(\Syscodes\Support\ServiceProvider $provider, bool $force = false)
- * @method static \Syscodes\Support\ServiceProvider resolveProviderClass(string $provider)
+ * @method static \Syscodes\Components\Support\ServiceProvider register(\Syscodes\Components\Support\ServiceProvider $provider, bool $force = false)
+ * @method static \Syscodes\Components\Support\ServiceProvider resolveProviderClass(string $provider)
  * @method static void isBooted()
  * @method static void boot()
  * @method static void booting(callable $callback)
  * @method static void booted(callable $callback)
  * 
- * @see \Syscodes\Contracts\Core\Application
+ * @see \Syscodes\Components\Contracts\Core\Application
  */
 class App extends Facade
 {
