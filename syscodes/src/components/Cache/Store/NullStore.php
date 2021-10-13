@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Cache\Store;
+namespace Syscodes\Components\Cache\Store;
 
-use Syscodes\Contracts\Cache\Store;
+use Syscodes\Components\Contracts\Cache\Store;
 
 /**
  * Null cache handler.
