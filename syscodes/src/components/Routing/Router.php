@@ -20,18 +20,18 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Routing;
+namespace Syscodes\Components\Routing;
 
 use Closure;
-use Syscodes\Http\Request;
 use BadMethodCallException;
-use Syscodes\Http\Response;
 use InvalidArgumentException;
-use Syscodes\Collections\Arr;
-use Syscodes\Http\RedirectResponse;
-use Syscodes\Contracts\Routing\Routable;
-use Syscodes\Contracts\Container\Container;
-use Syscodes\Controller\MiddlewareResolver;
+use Syscodes\Components\Http\Request;
+use Syscodes\Components\Http\Response;
+use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Http\RedirectResponse;
+use Syscodes\Components\Contracts\Routing\Routable;
+use Syscodes\Components\Contracts\Container\Container;
+use Syscodes\Components\Controller\MiddlewareResolver;
 
 /**
  * The Router class allows the integration of an easy-to-use routing system.
@@ -53,7 +53,7 @@ class Router implements Routable
 	/**
 	 * The container instance used by the router.
 	 * 
-	 * @var \Syscodes\Contracts\Container\Container $container
+	 * @var \Syscodes\Components\Contracts\Container\Container $container
 	 */
 	protected $container;
 
@@ -102,21 +102,21 @@ class Router implements Routable
 	/** 
 	 * The route collection instance. 
 	 * 
-	 * @var \Syscodes\Routing\RouteCollection $routes
+	 * @var \Syscodes\Components\Routing\RouteCollection $routes
 	 */
 	protected $routes;
 
 	/**
 	 * The Resource instance.
 	 * 
-	 * @var \Syscodes\Routing\ResourceRegister $resources
+	 * @var \Syscodes\Components\Routing\ResourceRegister $resources
 	 */
 	protected $resources;
 
 	/**
 	 * Constructor. Create a new Router instance.
 	 *
-	 * @param  \Syscodes\Contracts\Container\Container|null  $container  (null by default)
+	 * @param  \Syscodes\Components\Contracts\Container\Container|null  $container  (null by default)
 	 * 
 	 * @return void
 	 */
@@ -224,7 +224,7 @@ class Router implements Routable
 	 * @param  string  $route
 	 * @param  mixed  $action
 	 *
-	 * @return \Syscodes\Routing\Route
+	 * @return \Syscodes\Components\Routing\Route
 	 */
 	public function addRoute($method, $route, $action)
 	{
@@ -238,7 +238,7 @@ class Router implements Routable
 	 * @param  string  $destination
 	 * @param  int  $status  (302 by default)
 	 * 
-	 * @return \Syscodes\Routing\Route
+	 * @return \Syscodes\Components\Routing\Route
 	 */
 	public function redirect($uri, $destination, $status = 302)
 	{
@@ -254,7 +254,7 @@ class Router implements Routable
 	 * @param  string  $view
 	 * @param  array  $data
 	 * 
-	 * @return \Syscodes\Routing\Route
+	 * @return \Syscodes\Components\Routing\Route
 	 */
 	public function view($uri, $view, $data = [])
 	{
@@ -354,7 +354,7 @@ class Router implements Routable
 	 * @param  string  $uri
 	 * @param  mixed  $action
 	 * 
-	 * @return \Syscodes\Routing\Route
+	 * @return \Syscodes\Components\Routing\Route
 	 */
 	public function newRoute($method, $uri, $action)
 	{
@@ -389,9 +389,9 @@ class Router implements Routable
 	/**
 	 * Add the necessary where clauses to the route based on its initial registration.
 	 * 
-	 * @param  \Syscodes\Routing\Route  $route
+	 * @param  \Syscodes\Components\Routing\Route  $route
 	 * 
-	 * @return \Syscodes\Routing\Route
+	 * @return \Syscodes\Components\Routing\Route
 	 */
 	protected function addWhereClausesToRoute($route)
 	{
@@ -452,7 +452,7 @@ class Router implements Routable
 	/**
 	 * Get a Resource instance.
 	 * 
-	 * @return \Syscodes\Routing\ResourceRegister
+	 * @return \Syscodes\Components\Routing\ResourceRegister
 	 */
 	public function getResource()
 	{
@@ -466,7 +466,7 @@ class Router implements Routable
 	/**
 	 * Dispatches the given url and call the method that belongs to the route.
 	 *
-	 * @param  \Syscodes\Http\Request  $request
+	 * @param  \Syscodes\Components\Http\Request  $request
 	 *
 	 * @return mixed
 	 */
@@ -478,7 +478,7 @@ class Router implements Routable
 	/**
 	 * Gather the middleware for the given route.
 	 * 
-	 * @param  \Syscodes\Routing\Route  $route
+	 * @param  \Syscodes\Components\Routing\Route  $route
 	 * 
 	 * @return array
 	 */
@@ -554,7 +554,7 @@ class Router implements Routable
 	/**
 	 * Get the currently dispatched route instance.
 	 * 
-	 * @return \Syscodes\Routing\Route|null
+	 * @return \Syscodes\Components\Routing\Route|null
 	 */
 	public function current()
 	{
@@ -607,7 +607,7 @@ class Router implements Routable
 	 * @param  string  $controller
 	 * @param  array  $options
 	 * 
-	 * @return \Syscodes\Routing\AwaitingResourceRegistration
+	 * @return \Syscodes\Components\Routing\AwaitingResourceRegistration
 	 */
 	public function resource($name, $controller, array $options = []) 
 	{
