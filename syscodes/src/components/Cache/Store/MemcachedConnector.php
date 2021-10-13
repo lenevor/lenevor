@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Cache\Store;
+namespace Syscodes\Components\Cache\Store;
 
 use Memcached;
-use Syscodes\Core\Http\Exceptions\LenevorException;
+use Syscodes\Components\Core\Http\Exceptions\LenevorException;
 
 /**
  * Allows to connect to the Memcached cache system.
@@ -42,7 +42,7 @@ class MemcachedConnector
      * 
      * @return \Memcached
      * 
-     * @throws \Syscodes\Core\Http\Exceptions\LenevorException
+     * @throws \Syscodes\Components\Core\Http\Exceptions\LenevorException
      */
     public function connect(array $servers, $connectionId = null, array $options = [], array $credentials = [])
     {
