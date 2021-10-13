@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console\Style;
+namespace Syscodes\Components\Console\Style;
 
-use Syscodes\Console\Style\Color;
-use Syscodes\Console\Formatter\OutputFormatter;
+use Syscodes\Components\Console\Style\Color;
+use Syscodes\Components\Console\Formatter\OutputFormatter;
 
 /**
  * Formats for color tags.
