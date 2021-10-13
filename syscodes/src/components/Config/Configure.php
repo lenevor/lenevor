@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Config;
+namespace Syscodes\Components\Config;
 
 use ArrayAccess;
-use Syscodes\Collections\Arr;
-use Syscodes\Contracts\Config\Configure as ConfigureContract;
+use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Contracts\Config\Configure as ConfigureContract;
 
 /**
  * Class Configure
@@ -63,7 +63,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	 *
 	 * @return mixed
 	 *
-	 * @uses   \Syscodes\Support\Arr
+	 * @uses   \Syscodes\Components\Collections\Arr
 	 */
 	public function get(string $key, $default = null)
 	{
@@ -88,7 +88,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	 *
 	 * @return mixed
 	 *
-	 * @uses   \Syscodes\Support\Arr
+	 * @uses   \Syscodes\Components\Collections\Arr
 	 */
 	public function set(string $key, $value)
 	{
@@ -104,7 +104,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	 *
 	 * @return array|bool
 	 *
-	 * @uses   \Syscodes\Support\Arr
+	 * @uses   \Syscodes\Components\Collections\Arr
 	 */
 	public function erase(string $key)
 	{
