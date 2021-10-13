@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support;
+namespace Syscodes\Components\Support;
 
 use InvalidArgumentException;
-use Syscodes\Collections\Arr;
+use Syscodes\Components\Collections\Arr;
 
 /**
  * Allows convert a string in diferentes modes of text presentation, either, 
@@ -193,7 +193,7 @@ class Str
      *
      * @return tring
      *
-     * @uses   \Syscodes\Support\Str::length
+     * @uses   \Syscodes\Components\Support\Str::length
      */
     public static function limit($value, $limit, $end = '...')
     {
