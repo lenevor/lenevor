@@ -20,12 +20,12 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Routing\Concerns;
+namespace Syscodes\Components\Routing\Concerns;
 
 use ReflectionMethod;
 use ReflectionParameter;
-use Syscodes\Collections\Arr;
 use ReflectionFunctionAbstract;
+use Syscodes\Components\Collections\Arr;
 
 /**
  * This trait resolver the methods given for the dependencies.
