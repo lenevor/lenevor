@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Http\Exceptions;
+namespace Syscodes\Components\Http\Exceptions;
 
-use Syscodes\Core\Http\Exceptions\LenevorException;
+use Syscodes\Components\Core\Http\Exceptions\LenevorException;
 
 /**
  * RequestErrorException.
