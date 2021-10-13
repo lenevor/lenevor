@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Routing\Concerns;
+namespace Syscodes\Components\Routing\Concerns;
 
 /**
  * The RouteMap trait.
@@ -43,7 +43,7 @@ trait RouteMap
 	 * @param  string  $route
 	 * @param  mixed  $action
 	 *
-	 * @return \Syscodes\Routing\Route
+	 * @return \Syscodes\Components\Routing\Route
 	 */
 	abstract public function addRoute($method, $route, $action);
 
