@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Core\Support\Providers;
+namespace Syscodes\Components\Core\Support\Providers;
 
 use Closure;
-use Syscodes\Support\ServiceProvider;
+use Syscodes\Components\Support\ServiceProvider;
 
 /**
  * The route service provider facilitates the register of a namespace your 
