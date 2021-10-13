@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console\Output;
+namespace Syscodes\Components\Console\Output;
 
-use Syscodes\Contracts\Console\Output as OutputInterface;
-use Syscodes\Contracts\Console\ConsoleOutput as ConsoleOutputInterface;
-use Syscodes\Contracts\Console\OutputFormatter as OutputFormatterInterface;
+use Syscodes\Components\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\ConsoleOutput as ConsoleOutputInterface;
+use Syscodes\Components\Contracts\Console\OutputFormatter as OutputFormatterInterface;
 
 /**
  * The ConsoleOutput is the default class for all CLI ouput using STDOUT and STDERR. 
@@ -45,7 +45,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
      * 
      * @param  int  $verbosity  The verbosity level
      * @param  bool|null  $decorated  Whether to decorated messages
-     * @param  \Syscodes\Contracts\Console\OutputFormatter|null  $formatter  The output formatter instance
+     * @param  \Syscodes\Components\Contracts\Console\OutputFormatter|null  $formatter  The output formatter instance
      * 
      * @return void
      * 
