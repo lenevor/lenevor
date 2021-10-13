@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Contracts\Container;
+namespace Syscodes\Components\Contracts\Container;
 
 use InvalidArgumentException;
 use Psr\Container\NotFoundExceptionInterface;
