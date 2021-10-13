@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Http;
+namespace Syscodes\Components\Http;
 
 use Throwable;
-use Syscodes\Http\Exceptions\HttpResponseException;
+use Syscodes\Components\Http\Exceptions\HttpResponseException;
 
 /**
  * Loads the response trait of headers, status code and content message.
