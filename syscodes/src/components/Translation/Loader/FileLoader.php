@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Translation\Loader;
+namespace Syscodes\Components\Translation\Loader;
 
 use RuntimeException;
-use Syscodes\Filesystem\Filesystem;
-use Syscodes\Contracts\Translation\Loader as LoaderContract;
+use Syscodes\Components\Filesystem\Filesystem;
+use Syscodes\Components\Contracts\Translation\Loader as LoaderContract;
 
 /**
  * Automatically loads the messages according to the type of 
@@ -37,7 +37,7 @@ class FileLoader implements LoaderContract
     /**
      * The filesystem instance.
      * 
-     * @var \Syscodes\Filesystem\Filesystem $files
+     * @var \Syscodes\Components\Filesystem\Filesystem $files
      */
     protected $files;
 
@@ -51,7 +51,7 @@ class FileLoader implements LoaderContract
     /**
      * Constructor. Create a new File Loader instance.
      * 
-     * @param  \Syscodes\Filesystem\Filesystem  $files
+     * @param  \Syscodes\Components\Filesystem\Filesystem  $files
      * @param  string  $path
      * 
      * @return void
