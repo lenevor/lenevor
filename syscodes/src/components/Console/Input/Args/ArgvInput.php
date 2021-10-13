@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console\Input;
+namespace Syscodes\Components\Console\Input;
 
-use Syscodes\Console\Input\InputDefinition;
+use Syscodes\Components\Console\Input\InputDefinition;
 
 /**
  * This class represents an input  coming from the CLI arguments.
@@ -40,7 +40,7 @@ class ArgvInput extends Input
      * Constructor. Create a new ArgvInput instance.
      * 
      * @param  array|null  $argv
-     * @param  \Syscodes\Console\Input\InputDefinition|null  $definition
+     * @param  \Syscodes\Components\Console\Input\InputDefinition|null  $definition
      * 
      * @return void
      */
