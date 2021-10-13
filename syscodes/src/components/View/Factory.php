@@ -20,16 +20,16 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\View;
+namespace Syscodes\Components\View;
 
-use Syscodes\Support\Str;
 use InvalidArgumentException;
-use Syscodes\Collections\Arr;
-use Syscodes\Contracts\View\ViewFinder;
-use Syscodes\Contracts\Events\Dispatcher;
-use Syscodes\View\Engines\EngineResolver;
-use Syscodes\Contracts\Container\Container;
-use Syscodes\Contracts\View\Factory as FactoryContract;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Contracts\View\ViewFinder;
+use Syscodes\Components\Contracts\Events\Dispatcher;
+use Syscodes\Components\View\Engines\EngineResolver;
+use Syscodes\Components\Contracts\Container\Container;
+use Syscodes\Components\Contracts\View\Factory as FactoryContract;
 
 /**
  * This class allows parser of a view.
