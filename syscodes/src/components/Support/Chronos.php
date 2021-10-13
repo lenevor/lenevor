@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support;
+namespace Syscodes\Components\Support;
 
-use Syscodes\Support\Chronos\Time as BaseTime;
+use Syscodes\Components\Support\Chronos\Time as BaseTime;
 
 /**
  * Class that inherits all methods the Time class.
