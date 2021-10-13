@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Http\Exceptions;
+namespace Syscodes\Components\Http\Exceptions;
 
 use RuntimeException;
-use Syscodes\Http\Response;
+use Syscodes\Components\Http\Response;
 
 /**
  *This class is responsible for calling the Response class to be loaded 
