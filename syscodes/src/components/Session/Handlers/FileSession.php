@@ -20,12 +20,12 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Session\Handlers;
+namespace Syscodes\Components\Session\Handlers;
 
 use SessionHandlerInterface;
-use Syscodes\Support\Finder;
-use Syscodes\Support\Chronos;
-use Syscodes\Filesystem\Filesystem;
+use Syscodes\Components\Support\Finder;
+use Syscodes\Components\Support\Chronos;
+use Syscodes\Components\Filesystem\Filesystem;
 
 /**
  * Session handler using file system for storage.
@@ -37,7 +37,7 @@ class FileSession implements SessionHandlerInterface
     /**
      * The filesystem instance.
      * 
-     * @var \Syscodes\Filesystem\filesystem $files
+     * @var \Syscodes\Components\Filesystem\filesystem $files
      */
     protected $files;
 
@@ -58,7 +58,7 @@ class FileSession implements SessionHandlerInterface
     /**
      * Constructor. The FileSession class instance.
      * 
-     * @param  \Syscodes\Filesystem\filesystem  $file
+     * @param  \Syscodes\Components\Filesystem\filesystem  $file
      * @param  string  $path
      * @param  int  $minutes
      * 
