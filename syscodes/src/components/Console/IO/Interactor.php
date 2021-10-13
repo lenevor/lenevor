@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console\IO;
+namespace Syscodes\Components\Console\IO;
 
-use Syscodes\Console\GlobalOption;
-use Syscodes\Contracts\Console\Input as InputInterface;
-use Syscodes\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Console\GlobalOption;
+use Syscodes\Components\Contracts\Console\Input as InputInterface;
+use Syscodes\Components\Contracts\Console\Output as OutputInterface;
 
 /**
  * CLI Interactor.
@@ -36,22 +36,22 @@ class Interactor
     /**
      * The Input instance.
      * 
-     * @var \Syscodes\Contracts\Console\Input $input
+     * @var \Syscodes\Components\Contracts\Console\Input $input
      */
     protected $input;
     
     /**
      * The Output instance.
      * 
-     * @var \Syscodes\Contracts\Console\Output $output
+     * @var \Syscodes\Components\Contracts\Console\Output $output
      */
     protected $output;
 
     /**
      * Constructor. Create a new Interactor instance.
      * 
-     * @param  \Syscodes\Contracts\Console\Input|null  $input  The input interface implemented
-	 * @param  \Syscodes\Contracts\Console\Output|null  $output  The output interface implemented  
+     * @param  \Syscodes\Components\Contracts\Console\Input|null  $input  The input interface implemented
+	 * @param  \Syscodes\Components\Contracts\Console\Output|null  $output  The output interface implemented  
      * 
      * @return void
      */
