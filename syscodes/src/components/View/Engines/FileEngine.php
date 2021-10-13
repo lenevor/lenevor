@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\View\Engines;
+namespace Syscodes\Components\View\Engines;
 
-use Syscodes\Contracts\View\Engine;
+use Syscodes\Components\Contracts\View\Engine;
 
 /**
  * The file engine.
