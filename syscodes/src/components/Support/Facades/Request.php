@@ -20,21 +20,21 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Facades;
+namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Request class facade.
  *
  * @author Alexander Campo <jalexcam@gmail.com>
  * 
- * @method static \Syscodes\Http\Request active(\Syscodes\Http\Request|bool $request = false)
+ * @method static \Syscodes\Components\Http\Request active(\Syscodes\Components\Http\Request|bool $request = false)
  * @method static string segment(int $index, mixed $default = null)
  * @method static array segments()
  * @method static int totalSegments()
  * @method static void detectLocale()
  * @method static string getDefaultLocale()
  * @method static string getLocale()
- * @method static \Syscodes\Http\Request setLocale(string $locale)
+ * @method static \Syscodes\Components\Http\Request setLocale(string $locale)
  * @method static string getUri()
  * @method static mixed getJSON(bool $assoc = false, int $depth = 512, int $options = 0)
  * @method static bool isXmlHttpRequest()
@@ -53,7 +53,7 @@ namespace Syscodes\Support\Facades;
  * @method static bool secure()
  * @method static userAgent(string $default = null)
  * 
- * @see \Syscodes\Http\Request
+ * @see \Syscodes\Components\Http\Request
  */
 class Request extends Facade
 {
