@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Debug;
+namespace Syscodes\Components\Debug;
 
-use Syscodes\Core\Http\Exceptions\LenevorException;
+use Syscodes\Components\Core\Http\Exceptions\LenevorException;
 
 /**
  * Provides a simple way to measure the amount of time
