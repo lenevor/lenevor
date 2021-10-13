@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console\Util;
+namespace Syscodes\Components\Console\Util;
 
-use Syscodes\Console\Helper\MultiList;
-use Syscodes\Console\Helper\SingleList;
-use Syscodes\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Console\Helper\MultiList;
+use Syscodes\Components\Console\Helper\SingleList;
+use Syscodes\Components\Contracts\Console\Output as OutputInterface;
 
 /**
  * Format and render to a list of items.
@@ -39,7 +39,7 @@ class Show
      * @param  mixed  $data  The list of data
      * @param  string  $title  The title of list
      * @param  array  $options  The options for list of data
-     * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Output  $output  The output interface implemented
      * 
      * @return void
      */
@@ -53,7 +53,7 @@ class Show
      * 
      * @param  array  $data  The list of data
      * @param  array  $options  The options for list of data
-     * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Output  $output  The output interface implemented
      * 
      * @return void
      */
