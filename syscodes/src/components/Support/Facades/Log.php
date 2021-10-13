@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Facades;
+namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Logger class facade.
@@ -37,7 +37,7 @@ namespace Syscodes\Support\Facades;
  * @method static void debug(string $message, array $context = [])
  * @method static void log(string $level, string $message = null, array $context = [])
  * 
- * @see \Syscodes\Log\Logger
+ * @see \Syscodes\Components\Log\Logger
  */
 class Log extends Facade
 {
