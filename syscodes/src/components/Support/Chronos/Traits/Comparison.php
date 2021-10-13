@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Chronos\traits;
+namespace Syscodes\Components\Support\Chronos\traits;
 
 use DateTime;
 use DateTimeZone;
@@ -35,7 +35,7 @@ trait Comparison
     /**
      * Determines if the datetime passed in is equal to the current instance.
      * 
-     * @param  \Syscodes\Support\Chronos\Time|\DateTime|string  $time
+     * @param  \Syscodes\Components\Support\Chronos\Time|\DateTime|string  $time
      * @param  \DateTimeZone|string|null  $timezone
      * 
      * @return bool
@@ -87,7 +87,7 @@ trait Comparison
     /**
      * Ensures that the times are identical, taking timezone into account.
      * 
-     * @param  \Syscodes\Support\Chronos\Time\DateTime|string  $time
+     * @param  \Syscodes\Components\Support\Chronos\Time\DateTime|string  $time
      * @param  \DatetimeZone|string|null  $timezone
      * 
      * @return bool
