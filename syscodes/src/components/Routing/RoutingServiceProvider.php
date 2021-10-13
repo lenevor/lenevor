@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Routing;
+namespace Syscodes\Components\Routing;
 
-use Syscodes\Support\ServiceProvider;
-use Syscodes\Contracts\Routing\RouteResponse as ResponseContract;
+use Syscodes\Components\Support\ServiceProvider;
+use Syscodes\Components\Contracts\Routing\RouteResponse as ResponseContract;
 
 /**
  * For loading the classes from the container of services.
