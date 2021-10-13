@@ -20,16 +20,16 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Core\Http;
+namespace Syscodes\Components\Core\Http;
 
 use Closure;
 use Throwable; 
-use Syscodes\Routing\Router;
-use Syscodes\Routing\Pipeline;
-use Syscodes\Support\Facades\Facade;
-use Syscodes\Contracts\Core\Application;
-use Syscodes\Contracts\Debug\ExceptionHandler;
-use Syscodes\Contracts\Http\Lenevor as LenevorContract;
+use Syscodes\Components\Routing\Router;
+use Syscodes\Components\Routing\Pipeline;
+use Syscodes\Components\Support\Facades\Facade;
+use Syscodes\Components\Contracts\Core\Application;
+use Syscodes\Components\Contracts\Debug\ExceptionHandler;
+use Syscodes\Components\Contracts\Http\Lenevor as LenevorContract;
 
 /**
  * The Lenevor class is the heart of the system framework.
@@ -41,7 +41,7 @@ class Lenevor implements LenevorContract
 	/**
 	 * The application implementation.
 	 * 
-	 * @var \Syscodes\Contracts\Core\Application $app
+	 * @var \Syscodes\Components\Contracts\Core\Application $app
 	 */
 	protected $app;
 	
@@ -51,12 +51,12 @@ class Lenevor implements LenevorContract
 	 * @var array $bootstrappers
 	 */
 	protected $bootstrappers = [
-		\Syscodes\Core\Bootstrap\BootDetectEnvironment::class,
-		\Syscodes\Core\Bootstrap\BootConfiguration::class,
-		\Syscodes\Core\Bootstrap\BootHandleExceptions::class,
-		\Syscodes\Core\Bootstrap\BootRegisterFacades::class,
-		\Syscodes\Core\Bootstrap\BootRegisterProviders::class,
-		\Syscodes\Core\Bootstrap\BootProviders::class,
+		\Syscodes\Components\Core\Bootstrap\BootDetectEnvironment::class,
+		\Syscodes\Components\Core\Bootstrap\BootConfiguration::class,
+		\Syscodes\Components\Core\Bootstrap\BootHandleExceptions::class,
+		\Syscodes\Components\Core\Bootstrap\BootRegisterFacades::class,
+		\Syscodes\Components\Core\Bootstrap\BootRegisterProviders::class,
+		\Syscodes\Components\Core\Bootstrap\BootProviders::class,
 	];
 
 	/**
@@ -76,7 +76,7 @@ class Lenevor implements LenevorContract
 	/**
 	 * The router instance.
 	 * 
-	 * @var \Syscodes\Routing\Router $router
+	 * @var \Syscodes\Components\Routing\Router $router
 	 */
 	protected $router;
 
@@ -97,8 +97,8 @@ class Lenevor implements LenevorContract
 	/**
 	 * Constructor. Lenevor class instance.
 	 * 
-	 * @param  \Syscodes\Contracts\Core\Application  $app
-	 * @param  \Syscodes\Routing\Router  $router
+	 * @param  \Syscodes\Components\Contracts\Core\Application  $app
+	 * @param  \Syscodes\Components\Routing\Router  $router
 	 * 
 	 * @return void
 	 */
@@ -114,9 +114,9 @@ class Lenevor implements LenevorContract
 	 * Initializes the framework, this can only be called once.
 	 * Launch the application.
 	 * 
-	 * @param  \Syscodes\http\Request  $request
+	 * @param  \Syscodes\Components\http\Request  $request
 	 *
-	 * @return \Syscodes\Http\Response
+	 * @return \Syscodes\Components\Http\Response
 	 */
 	public function handle($request)
 	{
@@ -134,16 +134,16 @@ class Lenevor implements LenevorContract
 	/**
 	 * Send the given request through the router.
 	 * 
-	 * @param  \Syscodes\Http\Request  $request
+	 * @param  \Syscodes\Components\Http\Request  $request
 	 * 
-	 * @return \Syscodes\Http\Response
+	 * @return \Syscodes\Components\Http\Response
 	 */
 	protected function sendRequestThroughRouter($request)
 	{
 		$this->app->instance('request', $request);  
 
 		Facade::clearResolvedInstance('request');
-
+		
 		// Load configuration system
 		$this->bootstrap();
 		
@@ -208,8 +208,8 @@ class Lenevor implements LenevorContract
 	/**
 	 * Call the shutdown method on any terminable middleware.
 	 * 
-	 * @param  \Syscodes\Http\Request  $request
-	 * @param  \Syscodes\Http\Response  $response
+	 * @param  \Syscodes\Components\Http\Request  $request
+	 * @param  \Syscodes\Components\Http\Response  $response
 	 * 
 	 * @return void
 	 */
@@ -221,8 +221,8 @@ class Lenevor implements LenevorContract
 	/**
 	 * Call the terminate method on any terminable middleware.
 	 * 
-	 * @param  \Syscodes\Http\Request  $request
-	 * @param  \Syscodes\Http\Response  $response
+	 * @param  \Syscodes\Components\Http\Request  $request
+	 * @param  \Syscodes\Components\Http\Response  $response
 	 * 
 	 * @return void
 	 */
@@ -251,7 +251,7 @@ class Lenevor implements LenevorContract
 	/**
 	 * Gather the route middleware for the given request.
 	 * 
-	 * @param  \Syscodes\Http\Request  $request
+	 * @param  \Syscodes\Components\Http\Request  $request
 	 * 
 	 * @return array
 	 */
@@ -307,10 +307,10 @@ class Lenevor implements LenevorContract
 	/**
 	 * Render the exception to a response.
 	 * 
-	 * @param  \Syscodes\Http\Request  $request
+	 * @param  \Syscodes\Components\Http\Request  $request
 	 * @param  \Throwable  $e
 	 * 
-	 * @return \Syscodes\Http\Response
+	 * @return \Syscodes\Components\Http\Response
 	 */
 	protected function renderException($request, Throwable $e)
 	{
