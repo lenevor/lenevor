@@ -20,14 +20,14 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Log\Handlers;
+namespace Syscodes\Components\Log\Handlers;
 
 use DateTime;
 use Throwable;
-use Syscodes\Support\Chronos;
-use Syscodes\Contracts\Log\Handler;
-use Syscodes\Log\Exceptions\LogException;
-use Syscodes\Log\Concerns\ParseLogEnvironment;
+use Syscodes\Components\Support\Chronos;
+use Syscodes\Components\Contracts\Log\Handler;
+use Syscodes\Components\Log\Exceptions\LogException;
+use Syscodes\Components\Log\Concerns\ParseLogEnvironment;
 
 /**
  * The Lenevor Logger of errors.
@@ -41,7 +41,7 @@ class FileLogger implements Handler
     /**
 	 * The application implementation.
 	 * 
-	 * @var \Syscodes\Contracts\Core\Application $app
+	 * @var \Syscodes\Components\Contracts\Core\Application $app
 	 */
     protected $app;
 
@@ -91,7 +91,7 @@ class FileLogger implements Handler
      * Constructor. The FileLogger class instance.
      * 
      * @param  array  $config
-     * @param  \Syscodes\Contracts\Core\Application  $app
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app
      * 
      * @return void
      */
