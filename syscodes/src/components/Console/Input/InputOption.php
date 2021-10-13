@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console\Input;
+namespace Syscodes\Components\Console\Input;
 
-use Syscodes\Support\Str;
 use InvalidArgumentException;
-use Syscodes\Contracts\Console\InputOption as InputOptionInterface;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Contracts\Console\InputOption as InputOptionInterface;
 
 /**
  * This class represents a command line option.
