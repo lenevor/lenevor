@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Controller\Contracts;
+namespace Syscodes\Components\Controller\Contracts;
 
-use Syscodes\Routing\Route;
+use Syscodes\Components\Routing\Route;
 
 /**
  * Dispatch requests when called a given controller and method.
@@ -35,7 +35,7 @@ interface ControllerDispatcher
     /**
      * Dispatch a request to a given controller and method.
      * 
-     * @param  \Syscodes\Routing\Route  $route
+     * @param  \Syscodes\Components\Routing\Route  $route
      * @param  mixed  $controller
      * @param  string  $method
      * 
@@ -46,7 +46,7 @@ interface ControllerDispatcher
     /**
      * Get the middleware for the controller instance.
      * 
-     * @param  \Syscodes\Controller\Controller  $controller
+     * @param  \Syscodes\Components\Controller\Controller  $controller
      * @param  string  $method
      * 
      * @return array
