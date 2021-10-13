@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Chronos\Traits;
+namespace Syscodes\Components\Support\Chronos\Traits;
 
 use DateTime;
 use IntlCalendar;
@@ -65,7 +65,7 @@ trait Date
     protected $locale;
     
     /**
-     * @var \Syscodes\Support\Chronos\Date $testNow
+     * @var \Syscodes\Components\Support\Chronos\Date $testNow
      */
     protected static $testNow;
 
@@ -135,7 +135,7 @@ trait Date
      * 
      * @param  \DateTimeZone  $timezone
      * 
-     * @return \Syscodes\Support\Chronos\Time
+     * @return \Syscodes\Components\Support\Chronos\Time
      */
     public function setTimezone($timezone)
     {
@@ -147,7 +147,7 @@ trait Date
      * 
      * @param  int  $timestamp
      * 
-     * @return \Syscodes\Support\Chronos\Time
+     * @return \Syscodes\Components\Support\Chronos\Time
      */
     public function setTimestamp($timestamp)
     {
@@ -162,7 +162,7 @@ trait Date
      * @param  string  $name
      * @param  string  $value
      * 
-     * @return \Syscodes\Support\Chronos\Time
+     * @return \Syscodes\Components\Support\Chronos\Time
      */
     protected function setValue(string $name, $value)
     {
