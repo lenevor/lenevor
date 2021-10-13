@@ -20,12 +20,12 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support;
+namespace Syscodes\Components\Support;
 
 use ArrayAccess;
 use JsonSerializable;
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Contracts\Support\Arrayable;
+use Syscodes\Components\Contracts\Support\Jsonable;
+use Syscodes\Components\Contracts\Support\Arrayable;
 
 /**
  * Checks if exist an attribute in flowing instance for collections of data.
