@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console\Formatter;
+namespace Syscodes\Components\Console\Formatter;
 
-use Syscodes\Console\Style\Color;
-use Syscodes\Contracts\Console\OutputFormatterStyle as OutputFormatterStyleInterface;
+use Syscodes\Components\Console\Style\Color;
+use Syscodes\Components\Contracts\Console\OutputFormatterStyle as OutputFormatterStyleInterface;
 
 /**
  * Allows that formatter style class for defining styles.
