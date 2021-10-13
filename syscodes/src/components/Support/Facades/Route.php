@@ -20,34 +20,34 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Facades;
+namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Route class facade.
  *
  * @author Alexander Campo <jalexcam@gmail.com>
  * 
- * @method static \Syscodes\Routing\Router any(string $route, string|Callable $action = null) 
- * @method static \Syscodes\Routing\Router delete(string $route, string|Callable $action = null)
- * @method static \Syscodes\Routing\Router get(string $route, string|Callable $action = null)
- * @method static \Syscodes\Routing\Router head(string $route, string|Callable $action = null)
- * @method static \Syscodes\Routing\Router match(string $route, string|Callable $action = null)
- * @method static \Syscodes\Routing\Router options(string $route, string|Callable $action = null)
- * @method static \Syscodes\Routing\Router patch(string $route, string|Callable $action = null)
- * @method static \Syscodes\Routing\Router post(string $route, string|Callable $action = null)
- * @method static \Syscodes\Routing\Router put(string $route, string|Callable $action = null)
- * @method static \Syscodes\Routing\Route addRoute(\Syscodes\Routing\Route $route)
+ * @method static \Syscodes\Components\Routing\Router any(string $route, string|Callable $action = null) 
+ * @method static \Syscodes\Components\Routing\Router delete(string $route, string|Callable $action = null)
+ * @method static \Syscodes\Components\Routing\Router get(string $route, string|Callable $action = null)
+ * @method static \Syscodes\Components\Routing\Router head(string $route, string|Callable $action = null)
+ * @method static \Syscodes\Components\Routing\Router match(string $route, string|Callable $action = null)
+ * @method static \Syscodes\Components\Routing\Router options(string $route, string|Callable $action = null)
+ * @method static \Syscodes\Components\Routing\Router patch(string $route, string|Callable $action = null)
+ * @method static \Syscodes\Components\Routing\Router post(string $route, string|Callable $action = null)
+ * @method static \Syscodes\Components\Routing\Router put(string $route, string|Callable $action = null)
+ * @method static \Syscodes\Components\Routing\Route addRoute(\Syscodes\Components\Routing\Route $route)
  * @method static array getAllRoutes()
  * @method static string getGroupPrefix()
  * @method static array getRoutesByMethod(array|string $method)
  * @method static void group(array $attributes, \Closure|string $callback)
  * @method static void map(array|string $method, string $route, mixed$action) 
- * @method static \Syscodes\Routing\Route newRoute(array|string $method, string $uri, mixed $action)
+ * @method static \Syscodes\Components\Routing\Route newRoute(array|string $method, string $uri, mixed $action)
  * @method static bool hasGroupStack()
- * @method static array resolve(\Syscodes\Http\Request $request)
+ * @method static array resolve(\Syscodes\Components\Http\Request $request)
  * @method static string namespace(string $namespace = null)
  * 
- * @see \Syscodes\Routing\Router
+ * @see \Syscodes\Components\Routing\Router
  */
 class Route extends Facade
 {
