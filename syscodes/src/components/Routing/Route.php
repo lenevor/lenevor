@@ -20,18 +20,18 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Routing;
+namespace Syscodes\Components\Routing;
 
 use Closure;
 use LogicException;
 use ReflectionFunction;
-use Syscodes\Support\Str;
-use Syscodes\Http\Request;
 use InvalidArgumentException;
-use Syscodes\Collections\Arr;
-use Syscodes\Container\Container;
-use Syscodes\Controller\ControllerDispatcher;
-use Syscodes\Http\Exceptions\HttpResponseException;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Http\Request;
+use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Container\Container;
+use Syscodes\Components\Controller\ControllerDispatcher;
+use Syscodes\Components\Http\Exceptions\HttpResponseException;
 
 /**
  * A Route describes a route and its parameters.
@@ -53,7 +53,7 @@ class Route
 	/**
 	 * The compiled version of the route.
 	 * 
-	 * @var \Syscodes\Routing\RouteCompiler $compiled
+	 * @var \Syscodes\Components\Routing\RouteCompiler $compiled
 	 */
 	public $compiled;
 
@@ -67,7 +67,7 @@ class Route
 	/**
 	 * The container instance used by the route.
 	 * 
-	 * @var \Syscodes\Container\Container $container
+	 * @var \Syscodes\Components\Container\Container $container
 	 */
 	protected $container;
 
@@ -291,7 +291,7 @@ class Route
 	/**
 	 * Get the dispatcher for the route's controller.
 	 * 
-	 * @return \Syscodes\Controller\ControllerDispatcher
+	 * @return \Syscodes\Components\Controller\ControllerDispatcher
 	 */
 	private function controllerDispatcher()
 	{
@@ -560,7 +560,7 @@ class Route
 	/**
 	 * Bind the route to a given request for execution.
 	 * 
-	 * @param  \Syscodes\Http\Request  $request
+	 * @param  \Syscodes\Components\Http\Request  $request
 	 * 
 	 * @return $this
 	 */
@@ -576,7 +576,7 @@ class Route
 	/**
 	 * Compile into a Route Compile instance.
 	 * 
-	 * @return \Syscodes\Routing\RouteCompiler
+	 * @return \Syscodes\Components\Routing\RouteCompiler
 	 */
 	protected function compileRoute()
 	{
@@ -773,7 +773,7 @@ class Route
 	/**
 	 * Set the container instance on the route.
 	 * 
-	 * @param  \Syscodes\Container\Container  $container
+	 * @param  \Syscodes\Components\Container\Container  $container
 	 * 
 	 * @return $this
 	 */
