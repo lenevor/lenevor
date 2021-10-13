@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Contracts\View;
+namespace Syscodes\Components\Contracts\View;
 
-use Syscodes\Contracts\Support\Renderable;
+use Syscodes\Components\Contracts\Support\Renderable;
 
 /**
  * Returns the data by reference to have values imposed by the user.
