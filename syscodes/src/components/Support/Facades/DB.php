@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support\Facades;
+namespace Syscodes\Components\Support\Facades;
 
-use Syscodes\Support\Chronos;
+use Syscodes\Components\Support\Chronos;
 
 /**
  * Initialize the Database class facade.
@@ -31,8 +31,8 @@ use Syscodes\Support\Chronos;
  *
  * @method static 
  * 
- * @see \Syscodes\Database\Connection
- * @see \Syscodes\Database\DatabaseManager
+ * @see \Syscodes\Components\Database\Connection
+ * @see \Syscodes\Components\Database\DatabaseManager
  */
 class DB extends Facade
 {
