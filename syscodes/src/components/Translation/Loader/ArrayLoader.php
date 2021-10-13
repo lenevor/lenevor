@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Translation\Loader;
+namespace Syscodes\Components\Translation\Loader;
 
-use Syscodes\Contracts\Translation\Loader;
+use Syscodes\Components\Contracts\Translation\Loader;
 
 /**
  * Loads the translation messages in an array for the given locale.
