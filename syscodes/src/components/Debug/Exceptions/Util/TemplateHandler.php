@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Debug\Util;
+namespace Syscodes\Components\Debug\Util;
 
-use Syscodes\Debug\Benchmark;
-use Syscodes\Debug\FrameHandler\Frame;
+use Syscodes\Components\Debug\Benchmark;
+use Syscodes\Components\Debug\FrameHandler\Frame;
 
 /**
  * Exposes useful tools for working with/in templates.
@@ -128,7 +128,7 @@ class TemplateHandler
 	/**
 	 * Format the args of the given Frame as a human readable html string.
 	 * 
-	 * @param  \Syscodes\Debug\FrameHandler\Frame  $frame
+	 * @param  \Syscodes\Components\Debug\FrameHandler\Frame  $frame
 	 * 
 	 * @return string  The rendered html
 	 */
