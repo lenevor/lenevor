@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Core\Providers;
+namespace Syscodes\Components\Core\Providers;
 
-use Syscodes\Support\ServiceProvider;
+use Syscodes\Components\Support\ServiceProvider;
 
 /**
  * @author Alexander Campo <jalexcam@gmail.com>
