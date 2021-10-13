@@ -20,12 +20,12 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Routing;
+namespace Syscodes\Components\Routing;
 
 use LogicException;
-use Syscodes\Support\Str;
-use Syscodes\Collections\Arr;
 use UnexpectedValueException;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Collections\Arr;
 
 /**
  * Solve the actions obtained from a route.
