@@ -20,15 +20,15 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Routing\Concerns;
+namespace Syscodes\Components\Routing\Concerns;
 
 use Closure;
 use JsonSerializable;
-use Syscodes\Http\Request;
-use Syscodes\Http\Response;
-use Syscodes\Routing\Route;
-use Syscodes\Routing\Pipeline;
-use Syscodes\Http\JsonResponse;
+use Syscodes\Components\Http\Request;
+use Syscodes\Components\Http\Response;
+use Syscodes\Components\Routing\Route;
+use Syscodes\Components\Routing\Pipeline;
+use Syscodes\Components\Http\JsonResponse;
 
 /**
  * This trait resolve the given route and called the method that belongs to the route.
@@ -40,16 +40,16 @@ trait RouteResolver
 	/**
 	 * The currently dispatched route instance.
 	 * 
-	 * @var \Syscodes\Routing\Route|null
+	 * @var \Syscodes\Components\Routing\Route|null
 	 */
 	protected $current;
 
 	/**
 	 * Resolve the given route and call the method that belongs to the route.
 	 *
-	 * @param  \Syscodes\Http\Request  $request
+	 * @param  \Syscodes\Components\Http\Request  $request
 	 *
-	 * @return \Syscodes\Http\Response
+	 * @return \Syscodes\Components\Http\Response
 	 */
 	public function resolve(Request $request)
 	{
@@ -59,9 +59,9 @@ trait RouteResolver
 	/**
 	 * Dispatch the request to a route and return the response.
 	 * 
-	 * @param  \Syscodes\Http\Request  $request
+	 * @param  \Syscodes\Components\Http\Request  $request
 	 *
-	 * @return \Syscodes\Http\Response
+	 * @return \Syscodes\Components\Http\Response
 	 */
 	protected function dispatchToRoute(Request $request)
 	{
@@ -71,9 +71,9 @@ trait RouteResolver
 	/**
 	 * Find the route matching a given request.
 	 * 
-	 * @param  \Syscodes\Http\Request  $request
+	 * @param  \Syscodes\Components\Http\Request  $request
 	 * 
-	 * @return \Syscodes\Routing\Route
+	 * @return \Syscodes\Components\Routing\Route
 	 */
 	protected function findRoute($request)
 	{
@@ -88,10 +88,10 @@ trait RouteResolver
 	/**
 	 * Return the response for the given route.
 	 * 
-	 * @param  \Syscodes\Http\Request  $request
-	 * @param  \Syscodes\Routing\Route  $route
+	 * @param  \Syscodes\Components\Http\Request  $request
+	 * @param  \Syscodes\Components\Routing\Route  $route
 	 * 
-	 * @return \Syscodes\Http\Response
+	 * @return \Syscodes\Components\Http\Response
 	 */
 	protected function runRoute(Request $request, Route $route)
 	{
@@ -107,8 +107,8 @@ trait RouteResolver
 	/**
 	 * Run the given route through a stack response instance.
 	 * 
-	 * @param  \Syscodes\Routing\Route  $route
-	 * @param  \Syscodes\Http\Request  $request
+	 * @param  \Syscodes\Components\Routing\Route  $route
+	 * @param  \Syscodes\Components\Http\Request  $request
 	 * 
 	 * @return mixed
 	 */
@@ -133,10 +133,10 @@ trait RouteResolver
 	/**
 	 * Create a response instance from the given value.
 	 * 
-	 * @param  \Syscodes\Http\Request  $request
+	 * @param  \Syscodes\Components\Http\Request  $request
 	 * @param  mixed  $response
 	 * 
-	 * @return \Syscodes\Http\Response
+	 * @return \Syscodes\Components\Http\Response
 	 */
 	public function callResponse($request, $response)
 	{
@@ -146,10 +146,10 @@ trait RouteResolver
 	/**
 	 * Static version of callResponse.
 	 * 
-	 * @param  \Syscodes\Http\Request  $request
+	 * @param  \Syscodes\Components\Http\Request  $request
 	 * @param  mixed  $response
 	 * 
-	 * @return \Syscodes\Http\Response
+	 * @return \Syscodes\Components\Http\Response
 	 */
 	public static function toResponse($request, $response)
 	{
