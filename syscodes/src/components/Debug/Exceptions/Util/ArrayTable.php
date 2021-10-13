@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Debug\Util;
+namespace Syscodes\Components\Debug\Util;
 
-use Syscodes\Contracts\Debug\Table;
+use Syscodes\Components\Contracts\Debug\Table;
 
 /**
  * Gets an associated label with its respective data array.
