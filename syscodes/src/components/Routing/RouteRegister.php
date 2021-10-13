@@ -20,28 +20,28 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Routing;
+namespace Syscodes\Components\Routing;
 
 use Closure;
 use BadMethodCallException;
 use InvalidArgumentException;
-use Syscodes\Collections\Arr;
+use Syscodes\Components\Collections\Arr;
 
 /**
- * @method \Syscodes\Routing\Route get(string $uri, \Closure|array|string|null $action = null)
- * @method \Syscodes\Routing\Route post(string $uri, \Closure|array|string|null $action = null)
- * @method \Syscodes\Routing\Route put(string $uri, \Closure|array|string|null $action = null)
- * @method \Syscodes\Routing\Route delete(string $uri, \Closure|array|string|null $action = null)
- * @method \Syscodes\Routing\Route patch(string $uri, \Closure|array|string|null $action = null)
- * @method \Syscodes\Routing\Route options(string $uri, \Closure|array|string|null $action = null)
- * @method \Syscodes\Routing\Route any(string $uri, \Closure|array|string|null $action = null)
- * @method \Syscodes\Routing\RouteRegister as(string $value)
- * @method \Syscodes\Routing\RouteRegister domain(string $value)
- * @method \Syscodes\Routing\RouteRegister middleware(array|string|null $middleware)
- * @method \Syscodes\Routing\RouteRegister name(string $value)
- * @method \Syscodes\Routing\RouteRegister namespace(string $value)
- * @method \Syscodes\Routing\RouteRegister prefix(string  $prefix)
- * @method \Syscodes\Routing\RouteRegister where(array  $where)
+ * @method \Syscodes\Components\Routing\Route get(string $uri, \Closure|array|string|null $action = null)
+ * @method \Syscodes\Components\Routing\Route post(string $uri, \Closure|array|string|null $action = null)
+ * @method \Syscodes\Components\Routing\Route put(string $uri, \Closure|array|string|null $action = null)
+ * @method \Syscodes\Components\Routing\Route delete(string $uri, \Closure|array|string|null $action = null)
+ * @method \Syscodes\Components\Routing\Route patch(string $uri, \Closure|array|string|null $action = null)
+ * @method \Syscodes\Components\Routing\Route options(string $uri, \Closure|array|string|null $action = null)
+ * @method \Syscodes\Components\Routing\Route any(string $uri, \Closure|array|string|null $action = null)
+ * @method \Syscodes\Components\Routing\RouteRegister as(string $value)
+ * @method \Syscodes\Components\Routing\RouteRegister domain(string $value)
+ * @method \Syscodes\Components\Routing\RouteRegister middleware(array|string|null $middleware)
+ * @method \Syscodes\Components\Routing\RouteRegister name(string $value)
+ * @method \Syscodes\Components\Routing\RouteRegister namespace(string $value)
+ * @method \Syscodes\Components\Routing\RouteRegister prefix(string  $prefix)
+ * @method \Syscodes\Components\Routing\RouteRegister where(array  $where)
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
@@ -50,7 +50,7 @@ class RouteRegister
     /**
      * The router instance.
      * 
-     * @var \Syscodes\Routing\Router $router
+     * @var \Syscodes\Components\Routing\Router $router
      */
     protected $router;
     
@@ -91,7 +91,7 @@ class RouteRegister
     /**
      * Constructor. Create a new route registrar instance.
      * 
-     * @param  \Syscodes\Routing\Router  $router
+     * @param  \Syscodes\Components\Routing\Router  $router
      * 
      * @return void
      */
@@ -128,7 +128,7 @@ class RouteRegister
      * @param  string  $controller
      * @param  array  $options
      * 
-     * @return \Syscodes\Routing\ResourceRegister
+     * @return \Syscodes\Components\Routing\ResourceRegister
      */
     public function resource($name, $controller, array $options = [])
     {
@@ -154,7 +154,7 @@ class RouteRegister
      * @param  string  $uri
      * @param  \Closure|array|string|null  $action
      * 
-     * @return \Syscodes\Routing\Route
+     * @return \Syscodes\Components\Routing\Route
      */
     public function match($methods, $uri, $action = null)
     {
@@ -168,7 +168,7 @@ class RouteRegister
      * @param  string  $uri
      * @param  \Closure|array|string|null  $action
      * 
-     * @return \Syscodes\Routing\Route
+     * @return \Syscodes\Components\Routing\Route
      */
     protected function registerRoute($method, $uri, $action = null)
     {
@@ -216,7 +216,7 @@ class RouteRegister
      * @param  string  $method
      * @param  array  $parameters
      * 
-     * @return \Syscodes\Routing\Route|$this
+     * @return \Syscodes\Components\Routing\Route|$this
      * 
      * @throws \BadMethodCallException
      */
