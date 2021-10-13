@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /LICENSE
  */
 
-namespace Syscodes\Dotenv\Repository\Adapters;
+namespace Syscodes\Components\Dotenv\Repository\Adapters;
 
 /**
  * Reads an environment variable.
@@ -32,14 +32,14 @@ final class Readers
     /**
      * The set of readers to use.
      * 
-     * @var \Syscodes\Dotenv\Repository\Adapters\Readers $readers
+     * @var \Syscodes\Components\Dotenv\Repository\Adapters\Readers $readers
      */
     protected $readers;
 
     /**
      * Constructor. The create new Readers instance.
      * 
-     * @param  \Syscodes\Dotenv\Repository\Adapters\Readers|array  $readers
+     * @param  \Syscodes\Components\Dotenv\Repository\Adapters\Readers|array  $readers
      * 
      * return void
      */
