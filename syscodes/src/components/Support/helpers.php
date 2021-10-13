@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-use Syscodes\Version;
-use Syscodes\Support\Str;
-use Syscodes\Support\Environment;
+use Syscodes\Components\Version;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\Environment;
 
 if ( ! function_exists('camel_case')) {
     /**
