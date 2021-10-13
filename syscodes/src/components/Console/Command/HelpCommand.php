@@ -20,15 +20,15 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console\Command;
+namespace Syscodes\Components\Console\Command;
 
-use Syscodes\Console\Input\InputOption;
-use Syscodes\Console\Input\InputArgument;
-use Syscodes\Console\Helper\DescriptorHelper;
-use Syscodes\Contracts\Console\Input as InputInterface;
-use Syscodes\Contracts\Console\Output as OutputInterface;
-use Syscodes\Contracts\Console\InputOption as InputOptionInterface;
-use Syscodes\Contracts\Console\InputArgument as InputArgumentInterface;
+use Syscodes\Components\Console\Input\InputOption;
+use Syscodes\Components\Console\Input\InputArgument;
+use Syscodes\Components\Console\Helper\DescriptorHelper;
+use Syscodes\Components\Contracts\Console\Input as InputInterface;
+use Syscodes\Components\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\InputOption as InputOptionInterface;
+use Syscodes\Components\Contracts\Console\InputArgument as InputArgumentInterface;
 
 /**
  * This class displays the help for a given command.
@@ -40,7 +40,7 @@ class HelpCommand extends Command
     /**
      * The command implement.
      * 
-     * @var \Syscodes\Console\Command\Command $command
+     * @var \Syscodes\Components\Console\Command\Command $command
      */
     protected $command;
 
@@ -74,7 +74,7 @@ class HelpCommand extends Command
     /**
      * Sets the command.
      * 
-     * @param  \Syscodes\Console\Command\Command  $command
+     * @param  \Syscodes\Components\Console\Command\Command  $command
      * 
      * @return void
      */
