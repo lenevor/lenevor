@@ -70,7 +70,10 @@ $paths = require __DIR__.'/config/paths.php';
 |
 */
 
-require $paths['path.sys'].'/src/bootstrap.php';
+if (file_exists($paths['path.sys'].'/src/bootstrap/bootstrap.php'))
+{
+    require $paths['path.sys'].'/src/bootstrap/bootstrap.php';
+}
 
 /*
 |------------------------------------------------------------------------
