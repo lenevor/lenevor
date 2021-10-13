@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Support;
+namespace Syscodes\Components\Support;
 
 use OutOfBoundsException;
 use InvalidArgumentException;
@@ -61,7 +61,7 @@ class Finder
     /**
      * Gets a singleton instance of Finder.
      *
-     * @return \Syscodes\Support\Finder
+     * @return \Syscodes\Components\Support\Finder
      */
     public static function instance()
     {
