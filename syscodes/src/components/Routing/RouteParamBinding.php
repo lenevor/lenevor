@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Routing;
+namespace Syscodes\Components\Routing;
 
-use Syscodes\Collections\Arr;
+use Syscodes\Components\Collections\Arr;
 
 /**
  * Allows the parameter matches for the path portion of the URI.
@@ -34,14 +34,14 @@ class RouteParamBinding
     /**
      * The route instance.
      * 
-     * @var \Syscodes\Routing\Route $route
+     * @var \Syscodes\Components\Routing\Route $route
      */
     protected $route;
 
     /**
      * Constructor. Create a new Route parameter binder instance.
      * 
-     * @param  \Syscodes\Routing\Route  $route
+     * @param  \Syscodes\Components\Routing\Route  $route
      * 
      * @return void
      */
@@ -53,7 +53,7 @@ class RouteParamBinding
     /**
      * Get the parameter for the route.
      * 
-     * @param  \Syscodes\Http\Request  $request
+     * @param  \Syscodes\Components\Http\Request  $request
      * 
      * @return array
      */
@@ -67,7 +67,7 @@ class RouteParamBinding
     /**
      * Get the parameter matches for the path portion of the URI.
      * 
-     * @param  \Syscodes\Http\Request  $request
+     * @param  \Syscodes\Components\Http\Request  $request
      * 
      * @return array
      */
