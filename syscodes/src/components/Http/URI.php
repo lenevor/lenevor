@@ -20,12 +20,12 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Http;
+namespace Syscodes\Components\Http;
 
 use InvalidArgumentException;
-use Syscodes\Collections\Arr;
-use Syscodes\Http\Contributors\Parameters;
-use Syscodes\Http\Exceptions\HttpURIException;
+use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Http\Contributors\Parameters;
+use Syscodes\Components\Http\Exceptions\HttpURIException;
 
 /**
  * Abstraction for a uniform resource identifier (URI).
@@ -123,7 +123,7 @@ class URI
 	 * 
 	 * @return void
 	 * 
-	 * @throws \Syscodes\Http\Exceptions\HttpURIException
+	 * @throws \Syscodes\Components\Http\Exceptions\HttpURIException
 	 */
 	public function __construct(string $uri = null)
 	{
@@ -139,7 +139,7 @@ class URI
 	 * 
 	 * @return mixed
 	 * 
-	 * @throws \Syscodes\Http\Exceptions\HttpURIException
+	 * @throws \Syscodes\Components\Http\Exceptions\HttpURIException
 	 */
 	public function setUri(string $uri = null)
 	{
