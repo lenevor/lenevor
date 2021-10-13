@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Debug\FrameHandler;
+namespace Syscodes\Components\Debug\FrameHandler;
 
-use Syscodes\Debug\Util\TemplateHandler;
+use Syscodes\Components\Debug\Util\TemplateHandler;
 
 /**
  * Returns all basic information about the exception in a simple array and
@@ -35,7 +35,7 @@ class Formatter
     /**
      * Returns all basic information about the exception in a simple array.
      * 
-     * @param  \Syscodes\Debug\Engine\Supervisor  $supervisor
+     * @param  \Syscodes\Components\Debug\Engine\Supervisor  $supervisor
      * 
      * @return array
      */
@@ -64,7 +64,7 @@ class Formatter
     /**
      * Returns all basic information about the exception in a plain text.
      * 
-     * @param  \Syscodes\Debug\Engine\Supervisor  $supervisor
+     * @param  \Syscodes\Components\Debug\Engine\Supervisor  $supervisor
      * 
      * @return string
      */
