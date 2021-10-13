@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console\Concerns;
+namespace Syscodes\Components\Console\Concerns;
 
 use Locale;
-use Syscodes\Console\Util\Show;
-use Syscodes\Console\Style\ColorTag;
+use Syscodes\Components\Console\Util\Show;
+use Syscodes\Components\Console\Style\ColorTag;
 
 /**
  * Trait VersionInfo.
@@ -36,7 +36,7 @@ trait VersionInfo
     /**
      * Displays the version info.
      * 
-     * @param  \Syscodes\Contracts\Console\Output  $output  The output interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Output  $output  The output interface implemented
      * 
      * @return void
      */
