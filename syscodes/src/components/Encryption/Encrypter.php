@@ -20,12 +20,12 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Encryption;
+namespace Syscodes\Components\Encryption;
 
 use RuntimeException;
-use Syscodes\Encryption\Exceptions\DecryptException;
-use Syscodes\Encryption\Exceptions\EncryptException;
-use Syscodes\Contracts\Encryption\Encrypter as EncrypterContract;
+use Syscodes\Components\Encryption\Exceptions\DecryptException;
+use Syscodes\Components\Encryption\Exceptions\EncryptException;
+use Syscodes\Components\Contracts\Encryption\Encrypter as EncrypterContract;
 
 /**
  * Lenevor Encryption Manager.
@@ -109,7 +109,7 @@ class Encrypter implements EncrypterContract
      * 
      * @return string
      * 
-     * @throws \Syscodes\Encryption\Exceptions\EncryptionException
+     * @throws \Syscodes\Components\Encryption\Exceptions\EncryptionException
      */
     public function encrypt($value, $serialize = true)
     {
@@ -169,7 +169,7 @@ class Encrypter implements EncrypterContract
      * 
      * @return mixed
      * 
-     * @throws \Syscodes\Encryption\Enxceptions\DecryptException
+     * @throws \Syscodes\Components\Encryption\Enxceptions\DecryptException
      */
     public function decrypt($value, $unserialize = true)
     {
@@ -193,7 +193,7 @@ class Encrypter implements EncrypterContract
      * 
      * @return array
      * 
-     * @throws \Syscodes\Encryption\Enxceptions\DecryptException
+     * @throws \Syscodes\Components\Encryption\Enxceptions\DecryptException
      */
     public function getJsonPayload($value)
     {
@@ -260,7 +260,7 @@ class Encrypter implements EncrypterContract
      * 
      * @return string
      * 
-     * @throws \Syscodes\Encryption\Enxceptions\DecryptException
+     * @throws \Syscodes\Components\Encryption\Enxceptions\DecryptException
      */
     public function decryptString($value)
     {
