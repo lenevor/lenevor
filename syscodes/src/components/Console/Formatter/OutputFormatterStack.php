@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Console\Formatter;
+namespace Syscodes\Components\Console\Formatter;
 
-use Syscodes\Console\Style\Color;
-use Syscodes\Contracts\Console\OutputFormatterStyle as OutputFormatterStyleInterface;
+use Syscodes\Components\Console\Style\Color;
+use Syscodes\Components\Contracts\Console\OutputFormatterStyle as OutputFormatterStyleInterface;
 
 /**
  * Allows that formatter style class.
@@ -35,21 +35,21 @@ class OutputFormatterStack
     /**
      * The empty styles.
      * 
-     * @var \Syscodes\Contracts\Console\OutputFormatterStyle $emptyStack
+     * @var \Syscodes\Components\Contracts\Console\OutputFormatterStyle $emptyStack
      */
     protected $emptyStack;
 
     /**
      * Gets the styles for the text commands.
      * 
-     * @var \Syscodes\Contracts\Console\OutputFormatterStyle $styles
+     * @var \Syscodes\Components\Contracts\Console\OutputFormatterStyle $styles
      */
     protected $styles;
 
     /**
      * Constructor. Create a new OutputFormatterStack instance.
      * 
-     * @param  \Syscodes\Contracts\Console\OutputFormatterStyle|null  $emptyStack
+     * @param  \Syscodes\Components\Contracts\Console\OutputFormatterStyle|null  $emptyStack
      * 
      * @return void
      */
@@ -73,9 +73,9 @@ class OutputFormatterStack
     /**
      * Pushes a style in the stack.
      * 
-     * @param  \Syscodes\Contracts\Console\OutputFormatterStyle|null  $style
+     * @param  \Syscodes\Components\Contracts\Console\OutputFormatterStyle|null  $style
      * 
-     * @return \Syscodes\Console\Formatter\OutputFormatterStyle
+     * @return \Syscodes\Components\Console\Formatter\OutputFormatterStyle
      */
     public function push(OutputFormatterStyleInterface $style =  null)
     {
@@ -85,7 +85,7 @@ class OutputFormatterStack
     /**
      * Gets current style with stacks top codes.
      * 
-     * @return \Syscodes\Console\Formatter\OutputFormatterStyle
+     * @return \Syscodes\Components\Console\Formatter\OutputFormatterStyle
      */
     public function getCurrent()
     {
