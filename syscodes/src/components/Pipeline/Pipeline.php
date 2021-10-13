@@ -20,13 +20,13 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Pipeline;
+namespace Syscodes\Components\Pipeline;
 
 use Closure;
 use Throwable;
 use RuntimeException;
-use Syscodes\Contracts\Container\Container;
-use Syscodes\Contracts\Pipeline\Pipeline as PipelineContract;
+use Syscodes\Components\Contracts\Container\Container;
+use Syscodes\Components\Contracts\Pipeline\Pipeline as PipelineContract;
 
 /**
  * Allows sending an object through several classes to perform any type 
@@ -39,7 +39,7 @@ class Pipeline implements PipelineContract
     /**
      * The container instance.
      * 
-     * @var \Syscodes\Contracts\Container\Container $container
+     * @var \Syscodes\Components\Contracts\Container\Container $container
      */
     protected $container;
 
@@ -67,7 +67,7 @@ class Pipeline implements PipelineContract
     /**
      * Constructor. Create new Pipeline class instance.
      * 
-     * @param  \Syscodes\Contracts\Container\Container|null  $container  
+     * @param  \Syscodes\Components\Contracts\Container\Container|null  $container  
      * 
      * @return void
      */
@@ -232,7 +232,7 @@ class Pipeline implements PipelineContract
     /**
      * Get the container instance.
      * 
-     * @return \Syscodes\Contracts\Container\Container
+     * @return \Syscodes\Components\Contracts\Container\Container
      * 
      * @throws \RuntimeException
      */
@@ -248,7 +248,7 @@ class Pipeline implements PipelineContract
     /**
      * set the container instance.
      * 
-     * @param  \Syscodes\Contracts\Container\Container  $container
+     * @param  \Syscodes\Components\Contracts\Container\Container  $container
      * 
      * @return $this
      */
