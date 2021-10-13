@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Encryption;
+namespace Syscodes\Components\Encryption;
 
 use RuntimeException;
-use Syscodes\Support\Str;
-use Syscodes\Support\ServiceProvider;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\ServiceProvider;
 
 /**
  * For loading the encrypter class from the container of services.
