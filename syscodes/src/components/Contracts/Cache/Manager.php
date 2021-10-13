@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Contracts\Cache;
+namespace Syscodes\Components\Contracts\Cache;
 
 /**
  * Get function for generate a cache store instance by name.
@@ -34,7 +34,7 @@ interface Manager
      * 
      * @param  string|null  $name
      * 
-     * @return \Syscodes\Cache\CacheRepository
+     * @return \Syscodes\Components\Cache\CacheRepository
      */
     public function store(string $store = null);
 }
