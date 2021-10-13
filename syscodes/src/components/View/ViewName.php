@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\View;
+namespace Syscodes\Components\View;
 
-use Syscodes\Contracts\View\ViewFinder;
+use Syscodes\Components\Contracts\View\ViewFinder;
 
 /**
  * Normalizes the view name.
