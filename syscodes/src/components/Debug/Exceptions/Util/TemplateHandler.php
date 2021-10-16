@@ -112,43 +112,6 @@ class TemplateHandler
 
 		return round($bytes/1048576, 2).'MB';
 	}
-	
-	/**
-	 * Format the given value into a human readable string.
-	 * 
-	 * @param  mixed  $value
-	 * 
-	 * @return string
-	 */
-	public function dump($value)
-	{
-		return htmlspecialchars(print_r($value, true));
-	}
-	
-	/**
-	 * Format the args of the given Frame as a human readable html string.
-	 * 
-	 * @param  \Syscodes\Components\Debug\FrameHandler\Frame  $frame
-	 * 
-	 * @return string  The rendered html
-	 */
-	public function dumpArgs(Frame $frame)
-	{
-		$html      = '';
-		$numFrames = count($frame->getArgs());
-		
-		if ($numFrames > 0) {
-			$html = '<ol class="linenums">';
-			
-			foreach ($frame->getArgs() as $j => $frameArg) {
-				$html .= '<li>'.$this->dump($frameArg).'</li>';
-			}
-			
-			$html .= '</ol>';
-		}
-		
-		return $html;
-	}
 
 	/**
 	 * Escapes a string for output in an HTML document.
@@ -223,7 +186,7 @@ class TemplateHandler
 		$origin  = explode("\n", str_replace("\r\n", "\n", $origin));
 
 		// Get just the part to show
-		$start = $lineNumber - (int)round($lines / 2);
+		$start = $lineNumber - (int) round($lines / 2);
 		$start = $start < 0 ? 0 : $start;
 
 		// Get just the lines we need to display, while keeping line numbers...
