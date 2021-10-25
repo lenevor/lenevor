@@ -35,10 +35,10 @@ use Syscodes\Components\Log\Exceptions\LogException;
 class LogManager implements LoggerInterface
 {
     /**
-	 * The application implementation.
-	 * 
-	 * @var \Syscodes\Components\Contracts\Core\Application $app
-	 */
+     * The application implementation.
+     * 
+     * @var \Syscodes\Components\Contracts\Core\Application $app
+     */
     protected $app;
     
     /**
