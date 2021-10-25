@@ -40,9 +40,9 @@ class Factory implements FactoryContract
 {
 	use Extensions,
 	    Concerns\ManagesStacks,
-		Concerns\ManagesLayouts,
-		Concerns\ManagesComponents,
-		Concerns\ManagesTranslations;
+	    Concerns\ManagesLayouts,
+	    Concerns\ManagesComponents,
+	    Concerns\ManagesTranslations;
 	
 	/**
 	 * The IoC container instance.
@@ -153,9 +153,9 @@ class Factory implements FactoryContract
 	 * @return string
 	 */
 	protected function normalizeName($name)
-    {
+	{
 		return ViewName::normalize($name);
-    }
+	}
 
 	/**
 	 * Create a new view instance from the given arguments.
