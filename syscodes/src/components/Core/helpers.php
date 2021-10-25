@@ -360,6 +360,8 @@ if ( ! function_exists('isImport')) {
         if (is_file(APP_PATH.$folder.DIRECTORY_SEPARATOR.$path.'.php')) {
             require_once APP_PATH.$folder.DIRECTORY_SEPARATOR.$path.'.php';
         }
+
+        require_once __DIR__.DIRECTORY_SEPARATOR.$folder.'/'.$path.'.php';
     }
 }
 
