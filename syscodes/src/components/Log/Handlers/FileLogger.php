@@ -39,10 +39,10 @@ class FileLogger implements Handler
     use ParseLogEnvironment;
     
     /**
-	 * The application implementation.
-	 * 
-	 * @var \Syscodes\Components\Contracts\Core\Application $app
-	 */
+     * The application implementation.
+     * 
+     * @var \Syscodes\Components\Contracts\Core\Application $app
+     */
     protected $app;
 
     /**
