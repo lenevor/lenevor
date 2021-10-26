@@ -91,7 +91,7 @@ class StreamOutput extends Output
     protected function hasColorActivated(): bool
     {
         // Follow https://no-color.org/
-        if (isset($_SERVER['NO_COLOR']) || false !== getenv('NO_COLOR')) {
+        if (isset($_SERVER['NO_COLOR']) || false !== \getenv('NO_COLOR')) {
             return false;
         }
         
@@ -103,6 +103,6 @@ class StreamOutput extends Output
                 || 'xterm' === getenv('TERM');
         }
         
-        return stream_isatty($this->stream);
+        return \stream_isatty($this->stream);
     }
 }
