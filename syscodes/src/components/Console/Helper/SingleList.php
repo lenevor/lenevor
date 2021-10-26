@@ -48,7 +48,7 @@ final class SingleList
     {
         $string = '';
         
-        $options = \array_merge([
+        $options = array_merge([
             'leftChar'     => '  ', 
             //'sepChar'      => '  ',
             'keyMinWidth'  => 8,
@@ -62,11 +62,11 @@ final class SingleList
         // title
         if ($title) {
             $title   = $options['ucTitleWords'] ? Str::title(trim($title)) : $title;
-            $string .= ColorTag::wrap($title, $options['titleStyle']).PHP_EOL;
+            $string .= ColorTag::wrap($title, $options['titleStyle']).\PHP_EOL;
         }
         
         // Handle item list
-        $string .= FormatUtil::spliceKeyValue((array)$data, $options);
+        $string .= FormatUtil::spliceKeyValue((array) $data, $options);
         
         // Return formatted string
         if ($options['returned']) {
