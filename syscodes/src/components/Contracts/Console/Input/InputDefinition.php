@@ -172,7 +172,7 @@ interface InputDefinition
      * 
      * @return \Syscodes\Components\Console\Input\InputOption|array  An InputOption object
      */
-    public function getOptionByShortcut(string $name): array;
+    public function getOptionByShortcut(string $name);
 
     /**
      * Gets the InputOption name given a shortcut.
@@ -183,7 +183,7 @@ interface InputDefinition
      * 
      * @throws \InvalidArgumentException
      */
-    public function shortcutToName(string $name): string;
+    public function shortcutToName(string $name);
 
     /**
      * Checks an InputOption objects if exists by negated name.
