@@ -184,7 +184,7 @@ abstract class Output implements OutputInterface
 				case OutputInterface::OUTPUT_RAW:
 					break;
 				case OutputInterface::OUTPUT_PLAIN:
-					$message = strip_tags($this->formatter->format($message));
+					$message = \strip_tags($this->formatter->format($message));
 					break;
 			}
 		}
