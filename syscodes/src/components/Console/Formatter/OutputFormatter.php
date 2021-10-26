@@ -97,7 +97,7 @@ class OutputFormatter implements OutputFormatterInterface
             throw new InvalidArgumentException(sprintf('Undefined style: "%s"', $name));
         }
 
-        return $this->styles[\strtolower($name)] ?? [];
+        return $this->styles[strtolower($name)] ?? [];
     }
 
     /**
@@ -120,7 +120,7 @@ class OutputFormatter implements OutputFormatterInterface
         // expand
         [$fg, $bg, $options] = array_values($config);
         
-        $this->styles[\strtolower($name)] = new OutputFormatterStyle($fg, $bg, $options);
+        $this->styles[strtolower($name)] = new OutputFormatterStyle($fg, $bg, $options);
     }
     
     /**
@@ -132,7 +132,7 @@ class OutputFormatter implements OutputFormatterInterface
      */
     public function hasStyle(string $name): bool
     {
-        return isset($this->styles[\strtolower($name)]);
+        return isset($this->styles[strtolower($name)]);
     }
 
     /**
