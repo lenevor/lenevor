@@ -189,7 +189,7 @@ class InputArgument implements InputArgumentInterface
         if ($this->isArray()) {
             if (null === $default) {
                 $default = [];
-            } elseif ( ! \is_array($default)) {
+            } elseif ( ! is_array($default)) {
                 throw new LogicException('Should get a default value for an array argument');
             }
         }
