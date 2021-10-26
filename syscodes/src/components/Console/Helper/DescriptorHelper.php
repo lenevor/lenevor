@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Console\Helper;
 
+use Syscodes\Components\Console\Helper\Description\XmlDescriptor;
 use Syscodes\Components\Console\Helper\Description\TextDescriptor;
 use Syscodes\Components\Contracts\Console\Output as OutputInterface;
 use Syscodes\Components\Contracts\Console\Descriptor as DescriptorInterface;
@@ -47,7 +48,10 @@ class DescriptorHelper
      */
     public function __construct()
     {
-        $this->register('txt', new TextDescriptor());
+        $this
+            ->register('txt', new TextDescriptor())
+            ->register('xml', new XmlDescriptor())
+        ;
     }
     
     /**
