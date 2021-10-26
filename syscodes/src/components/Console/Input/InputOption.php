@@ -101,13 +101,13 @@ class InputOption implements InputOptionInterface
         }
 
         if (null !== $shortcut) {
-            if (\is_array($shortcut)) {
-                $shortcut = \implode('|', $shortcut);
+            if (is_array($shortcut)) {
+                $shortcut = implode('|', $shortcut);
             }
     
-            $shortcuts = \preg_split('{(\|)-?}', \ltrim($shortcut, '-'));
-            $shortcuts = \array_filter($shortcuts);
-            $shortcut  = \implode('|', $shortcuts);
+            $shortcuts = preg_split('{(\|)-?}', ltrim($shortcut, '-'));
+            $shortcuts = array_filter($shortcuts);
+            $shortcut  = implode('|', $shortcuts);
             
             if (empty($shortcut)) {
                 throw new InvalidArgumentException('An option shortcut cannot be empty');
@@ -178,7 +178,7 @@ class InputOption implements InputOptionInterface
         if ($this->isArray()) {
             if (null === $default) {
                 $default = [];
-            } elseif ( ! \is_array($default)) {
+            } elseif ( ! is_array($default)) {
                 throw new LogicException('Should get a default value for an array argument');
             }
         }
@@ -227,13 +227,13 @@ class InputOption implements InputOptionInterface
      */
     public function setShortcut($shortcut): void
     {
-        if (\is_array($shortcut)) {
-            $shortcut = \implode('|', $shortcut);
+        if (is_array($shortcut)) {
+            $shortcut = implode('|', $shortcut);
         }
 
-        $shortcuts = \preg_split('{(\|)-?}', \ltrim($shortcut, '-'));
-        $shortcuts = \array_filter($shortcuts);
-        $shortcuts = \implode('|', $shortcuts);
+        $shortcuts = preg_split('{(\|)-?}', ltrim($shortcut, '-'));
+        $shortcuts = array_filter($shortcuts);
+        $shortcuts = implode('|', $shortcuts);
 
         $this->shortcut = $shortcuts;
     }
