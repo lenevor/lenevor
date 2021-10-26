@@ -77,7 +77,11 @@ abstract class Input implements InputInterface
         $this->arguments  = [];
         $this->options    = [];
         $this->definition = $definition;
+
+        $this->parse();
     }
+
+    abstract protected function parse();
 
     /*
     |----------------------------------------------------------------
@@ -148,7 +152,7 @@ abstract class Input implements InputInterface
             throw new InvalidArgumentException(sprintf('The "%s" argument does not exist', $name));
         }
 
-        return \array_key_exists($name, $this->options) ? $this->options[$name] : $this->definition->getOption($name)->getDefault();
+        return array_key_exists($name, $this->options) ? $this->options[$name] : $this->definition->getOption($name)->getDefault();
     }
 
     /**
@@ -181,5 +185,17 @@ abstract class Input implements InputInterface
     public function getOptions(): array
     {
         return $this->options;
+    }
+    
+    /**
+     * Escapes a token through escapeshellarg if it contains unsafe chars.
+     * 
+     * @param  string  $token
+     * 
+     * @return string
+     */
+    public function escapeToken($token)
+    {
+        return preg_match('{^[\w-]+$}', $token) ? $token : escapeshellarg($token);
     }
 }
