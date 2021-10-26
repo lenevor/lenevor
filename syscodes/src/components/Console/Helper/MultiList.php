@@ -54,6 +54,6 @@ final class MultiList
             $stringList[] = SingleList::show($list, (string) $title, $options, $output);
         }
 
-        return $output->writeln(implode(PHP_EOL, $stringList));
+        return $output->writeln(implode(\PHP_EOL, $stringList));
     }
 }
