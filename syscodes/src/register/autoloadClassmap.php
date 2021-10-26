@@ -12,7 +12,7 @@
 */
 
 return [
-    // Applications
+
     'App\\Console\\Lenevor' => APP_PATH.'Console/Lenevor.php',
     'App\\Exceptions\\Handler' => APP_PATH.'Exceptions/Handler.php',
     'App\\Http\\Controller' => APP_PATH.'Http/Controller.php',
@@ -54,6 +54,7 @@ return [
     'Syscodes\\Components\\Console\\Formatter\\OutputFormatterStyle' => SYS_PATH.'src/components/Console/Formatter/OutputFormatterStyle.php',
     'Syscodes\\Components\\Console\\Helper\\Description\\Descriptor' => SYS_PATH.'src/components/Console/Helper/Description/Descriptor.php',
     'Syscodes\\Components\\Console\\Helper\\Description\\TextDescriptor' => SYS_PATH.'src/components/Console/Helper/Description/TextDescriptor.php',
+    'Syscodes\\Components\\Console\\Helper\\Description\\XmlDescriptor' => SYS_PATH.'src/components/Console/Helper/Description/XmlDescriptor.php',
     'Syscodes\\Components\\Console\\Helper\\DescriptorHelper' => SYS_PATH.'src/components/Console/Helper/DescriptorHelper.php',
     'Syscodes\\Components\\Console\\Helper\\MultiList' => SYS_PATH.'src/components/Console/Helper/MultiList.php',
     'Syscodes\\Components\\Console\\Helper\\SingleList' => SYS_PATH.'src/components/Console/Helper/SingleList.php',
@@ -403,4 +404,5 @@ return [
     'Psr\\Log\\LoggerTrait' => SYS_PATH.'src/components/ThirdParty/psr/Log/src/LoggerTrait.php',
     'Psr\\Log\\LogLevel' => SYS_PATH.'src/components/ThirdParty/psr/Log/src/LogLevel.php',
     'Psr\\Log\\NullLogger' => SYS_PATH.'src/components/ThirdParty/psr/Log/src/NullLogger.php',
+
 ];
