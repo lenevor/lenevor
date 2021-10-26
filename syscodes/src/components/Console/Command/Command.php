@@ -275,7 +275,7 @@ abstract class Command
             $statusCode = $this->execute($input, $output);
         } else {
             throw new TypeError(
-                sprintf('Returned value in "%s::execute()" must be of the type int, "%s" returned', static::class, \get_debug_type($statusCode))
+                sprintf('Returned value in "%s::execute()" must be of the type int, "%s" returned', static::class, get_debug_type($statusCode))
             );
         }
 
@@ -635,7 +635,7 @@ abstract class Command
             $list[] = $alias;
         }
         
-        $this->aliases = \is_array($aliases) ? $aliases : $list;
+        $this->aliases = is_array($aliases) ? $aliases : $list;
         
         return $this;
     }
@@ -661,8 +661,8 @@ abstract class Command
      */
     private function validateName(string $name)
     {
-        if ( ! \preg_match('/^[^\:]++(\:[^\:]++)*$/', $name)) {
-            throw new InvalidArgumentException(\sprintf('Command name "%s" is invalid', $name));
+        if ( ! preg_match('/^[^\:]++(\:[^\:]++)*$/', $name)) {
+            throw new InvalidArgumentException(sprintf('Command name "%s" is invalid', $name));
         }
     }
 }
