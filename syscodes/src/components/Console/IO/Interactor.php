@@ -100,7 +100,7 @@ class Interactor
             }
         }
         
-        if (\function_exists('putenv')) {
+        if (function_exists('putenv')) {
             @putenv('SHELL_VERBOSITY='.$shellVerbosity);
         }
         
