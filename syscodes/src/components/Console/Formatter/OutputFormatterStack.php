@@ -93,6 +93,6 @@ class OutputFormatterStack
             return $this->emptyStack;
         }
 
-        $this->styles[\count($this->styles) - 1];
+        $this->styles[count($this->styles) - 1];
     }
 }
