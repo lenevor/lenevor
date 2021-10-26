@@ -49,14 +49,14 @@ class TextDescriptor extends Descriptor
      */
     protected function describeArgument(InputArgument $argument, array $options = [])
     {
-        if (null !== $argument->getDefault() && ( ! \is_array($argument->getDefault()) || \count($argument->getDefault()))) {
+        if (null !== $argument->getDefault() && ( ! is_array($argument->getDefault()) || count($argument->getDefault()))) {
             $default = sprintf(' [<info>default: %s</info>] ', $argument->getDefault());
         } else {
             $default = '';
         }
 
-        $totalWidth = \strlen($argument->getName());
-        $spacingWidth = $totalWidth - \strlen($argument->getName());
+        $totalWidth = strlen($argument->getName());
+        $spacingWidth = $totalWidth - strlen($argument->getName());
 
         $this->writeText(sprintf('  <green>%s</green>  %s%s%s',
             $argument->getName(),
@@ -71,7 +71,7 @@ class TextDescriptor extends Descriptor
      */
     protected function describeOption(InputOption $option, array $options = [])
     {
-        if ($option->isAcceptValue() && null !== $option->getDefault() && ( ! \is_array($option->getDefault()) || \count($option->getDefault()))) {
+        if ($option->isAcceptValue() && null !== $option->getDefault() && ( ! is_array($option->getDefault()) || count($option->getDefault()))) {
             $default = sprintf(' [<info>default: %s</info>] ', $option->getDefault());
         } else {
             $default = '';
@@ -92,7 +92,7 @@ class TextDescriptor extends Descriptor
             sprintf($option->isNegatable() ? '--%1$s|--no-%1$s' : '--%1$s%2$s', $option->getName(), $value)
         );
 
-        $spacingWidth = (20 - \strlen($synopsis));
+        $spacingWidth = (20 - strlen($synopsis));
 
         $this->writeText(sprintf('  <green>%s</green>  %s%s%s%s',
             $synopsis,
@@ -211,7 +211,7 @@ class TextDescriptor extends Descriptor
     {
         $this->write(
             isset($options['raw_text']) && $options['raw_text'] ? strip_tags($content) : $content,
-            isset($options['raw_output']) ? !$options['raw_output'] : true
+            isset($options['raw_output']) ? ! $options['raw_output'] : true
         );
     }
 }
