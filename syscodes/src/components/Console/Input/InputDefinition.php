@@ -393,7 +393,7 @@ class InputDefinition implements InputDefinitionInterface
      * 
      * @return \Syscodes\Components\Console\Input\InputOption|array  An InputOption object
      */
-    public function getOptionByShortcut(string $name): array
+    public function getOptionByShortcut(string $name)
     {
         return $this->getOption($this->shortcutToName($name));
     }
@@ -407,7 +407,7 @@ class InputDefinition implements InputDefinitionInterface
      * 
      * @throws \InvalidArgumentException
      */
-    public function shortcutToName(string $name): string
+    public function shortcutToName(string $name)
     {
         if ( ! isset($this->shortcuts[$name])) {
             throw new InvalidArgumentException(sprintf('The "-%s" option does not exist', $name));
