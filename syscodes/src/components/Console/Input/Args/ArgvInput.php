@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Console\Input;
 
+use RuntimeException;
 use Syscodes\Components\Console\Input\InputDefinition;
 
 /**
@@ -35,6 +36,11 @@ class ArgvInput extends Input
      * @var string[] $tokens
      */
     protected $tokens;
+
+    /**
+     * @var string[] $parsed
+     */
+    protected $parsed;
 
     /**
      * Constructor. Create a new ArgvInput instance.
@@ -53,6 +59,136 @@ class ArgvInput extends Input
         $this->tokens = $argv;
 
         parent::__construct($definition);
+    }
+    
+    /**
+     * Processes command line arguments.
+     * 
+     * @return void
+     */
+    protected function parse()
+    {
+        $parseOptions = true;
+        $this->parsed = $this->getTokens();
+        
+        while (null !== $token = array_shift($this->parsed)) {
+            if ($parseOptions && '--' == $token) {
+                $parseOptions = false;
+            } elseif ($parseOptions && 0 === \strpos($token, '--')) {
+                $this->parseLongOption($token);
+            } elseif ($parseOptions && '-' === $token[0] && '-' == $token) {
+                $this->parseShortOption($token);
+            }
+        }
+    }
+    
+    /**
+     * Parses a short option.
+     * 
+     * @param  string  $token  The current token.
+     * 
+     * @return void
+     */
+    private function parseShortOption($token)
+    {
+        $name = substr($token, 1);
+        
+        if (strlen($name) > 1) {
+            if ($this->definition->hasShortcut($name[0]) && $this->definition->getOptionByShortcut($name[0])->isAcceptValue()) {
+                // an option with a value (with no space)
+                $this->addShortOption($name[0], substr($name, 1));
+            } else {
+                $this->parseShortOptionSet($name);
+            }
+        } else {
+            $this->addShortOption($name, null);
+        }
+    }
+    
+    /**
+     * Adds a short option value.
+     * 
+     * @param  string  $shortcut  The short option key
+     * @param  mixed  $value  The value for the option
+     * 
+     * @return void
+     * 
+     * @throws \RuntimeException  When option given doesn't exist
+     */
+    private function addShortOption($shortcut, $value)
+    {
+        if ( ! $this->definition->hasShortcut($shortcut)) {
+            throw new RuntimeException(sprintf('The "-%s" option does not exist.', $shortcut));
+        }
+        
+        $this->addLongOption($this->definition->getOptionByShortcut($shortcut)->getName(), $value);
+    }
+    
+    /**
+     * Parses a short option set.
+     * 
+     * @param  string  $name  The current token
+     * 
+     * @return void
+     * 
+     * @throws \RuntimeException When option given doesn't exist
+     */
+    private function parseShortOptionSet($name)
+    {
+        $len = strlen($name);
+        
+        for ($i = 0; $i < $len; $i++) {
+            if (!$this->definition->hasShortcut($name[$i])) {
+                throw new RuntimeException(sprintf('The "-%s" option does not exist.', $name[$i]));
+            }
+            
+            $option = $this->definition->getOptionByShortcut($name[$i]);
+            
+            if ($option->isAcceptValue()) {
+                $this->addLongOption($option->getName(), $i === $len - 1 ? null : substr($name, $i + 1));
+                
+                break;
+            } else {
+                $this->addLongOption($option->getName(), null);
+            }
+        }
+    }
+    
+    /**
+     * Parses a long option.
+     * 
+     * @param  string  $token  The current token
+     *
+     * @return void 
+     */
+    private function parseLongOption($token)
+    {
+        $name = substr($token, 2);
+        
+        if (false !== $pos = strpos($name, '=')) {
+            if (0 === strlen($value = substr($name, $pos + 1))) {
+                array_unshift($this->parsed, $value);
+            }
+            
+            $this->addLongOption(substr($name, 0, $pos), $value);
+        } else {
+            $this->addLongOption($name, null);
+        }
+    }
+    
+    /**
+     * Adds a long option value.
+     * 
+     * @param  string  $name  The long option key
+     * @param  mixed  $value  The value for the option
+     * 
+     * @return void
+     * 
+     * @throws \RuntimeException  When option given doesn't exist
+     */
+    private function addLongOption($name, $value)
+    {
+        $this->options[$name] = $value;
     }
 
     /**
@@ -137,8 +273,8 @@ class ArgvInput extends Input
         $tokens = $this->getTokens();
         
         foreach ((array) $values as $value) {
-            for (\reset($tokens); null !== \key($tokens); \next($tokens)) {
-                $token = \current($tokens);
+            for (reset($tokens); null !== key($tokens); next($tokens)) {
+                $token = current($tokens);
                 
                 if ($params && '--' === $token) {
                     // end of options (--) signal reached, stop now
@@ -147,23 +283,47 @@ class ArgvInput extends Input
                 
                 // Long/short option with value in the next argument
                 if ($token === $value) {
-                    $next = \next($tokens);
+                    $next = next($tokens);
                     
                     return ($next && '--' !== $next) ? $next : null;
                 }
                 
                 // Long option with =
-                if (0 === \strpos($token, $value.'=')) {
-                    return \substr($token, \strlen($value) + 1);
+                if (0 === strpos($token, $value.'=')) {
+                    return substr($token, strlen($value) + 1);
                 }
                 
                 // Short option
-                if (\strlen($token) > 2 && '-' === $token[0] && '-' !== $token[1] && 0 === \strpos($token, $value)) {
-                    return \substr($token, 2);
+                if (strlen($token) > 2 && '-' === $token[0] && '-' !== $token[1] && 0 === strpos($token, $value)) {
+                    return substr($token, 2);
                 }
             }
         }
         
         return $default;
+    }
+    
+    /**
+     * Returns a stringified representation of the args passed to the command.
+     * 
+     * @return string
+     */
+    public function __toString()
+    {
+        $self = $this;
+        
+        $tokens = array_map(function ($token) use ($self) {
+            if (preg_match('{^(-[^=]+=)(.+)}', $token, $match)) {
+                return $match[1].$self->escapeToken($match[2]);
+            }
+            
+            if ($token && $token[0] !== '-') {
+                return $self->escapeToken($token);
+            }
+            
+            return $token;
+        }, $this->tokens);
+        
+        return implode(' ', $tokens);
     }
 }
