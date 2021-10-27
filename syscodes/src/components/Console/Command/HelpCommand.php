@@ -58,15 +58,15 @@ class HelpCommand extends Command
             ])
             ->setDescription('Display help for a command')
             ->setHelp(<<<'EOF'
-            The <comment>%command-name%</comment> command displays help for a given command:
+            The <comment>%command-name%</> command displays help for a given command:
                 
-                <green>%command-fullname% list</green>
+                <success> %command-fullname% list </>
                 
-            You can also output the help in other formats by using the <comment>--format</comment> option:
+            You can also output the help in other formats by using the <comment>--format</> option:
                 
-                <green>%command-fullname% --format=xml list</green>
+                <success> %command-fullname% --format=xml list </>
                 
-            To display the list of available commands, please use the <comment>list</comment> command.
+            To display the list of available commands, please use the <comment>list</> command.
             EOF
             );
     }
