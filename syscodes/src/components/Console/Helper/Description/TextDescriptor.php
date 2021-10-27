@@ -50,7 +50,7 @@ class TextDescriptor extends Descriptor
     protected function describeArgument(InputArgument $argument, array $options = [])
     {
         if (null !== $argument->getDefault() && ( ! is_array($argument->getDefault()) || count($argument->getDefault()))) {
-            $default = sprintf(' [<info>default: %s</info>] ', $argument->getDefault());
+            $default = sprintf(' [<note>default: %s</>] ', $argument->getDefault());
         } else {
             $default = '';
         }
@@ -58,7 +58,7 @@ class TextDescriptor extends Descriptor
         $totalWidth = strlen($argument->getName());
         $spacingWidth = $totalWidth - strlen($argument->getName());
 
-        $this->writeText(sprintf('  <green>%s</green>  %s%s%s',
+        $this->writeText(sprintf('  <info>%s</>  %s%s%s',
             $argument->getName(),
             str_repeat(' ', $spacingWidth),
             preg_replace('/\s*[\r\n]\s*/', "\n".str_repeat(' ', $totalWidth + 4), $argument->getDescription()),
@@ -72,7 +72,7 @@ class TextDescriptor extends Descriptor
     protected function describeOption(InputOption $option, array $options = [])
     {
         if ($option->isAcceptValue() && null !== $option->getDefault() && ( ! is_array($option->getDefault()) || count($option->getDefault()))) {
-            $default = sprintf(' [<info>default: %s</info>] ', $option->getDefault());
+            $default = sprintf(' [<note>default: %s</>] ', $option->getDefault());
         } else {
             $default = '';
         }
@@ -94,12 +94,12 @@ class TextDescriptor extends Descriptor
 
         $spacingWidth = (20 - strlen($synopsis));
 
-        $this->writeText(sprintf('  <green>%s</green>  %s%s%s%s',
+        $this->writeText(sprintf('  <info>%s</>  %s%s%s%s',
             $synopsis,
             str_repeat(' ', $spacingWidth),
             preg_replace('/\s*[\r\n]\s*/', "\n".str_repeat(' ', 4), $option->getDescription()),
             $default,
-            $option->isArray() ? '<info> (multiple values allowed)</info>' : ''
+            $option->isArray() ? '<info> (multiple values allowed)</>' : ''
         ), $options);
     }
 
@@ -109,7 +109,7 @@ class TextDescriptor extends Descriptor
     protected function describeDefinition(InputDefinition $definition, array $options = [])
     {
         if ($definition->getArguments()) {
-            $this->writeText('<comment>Arguments:</comment>', $options);
+            $this->writeText('<comment>Arguments:</>', $options);
             $this->writeText("\n");
 
             foreach ($definition->getArguments() as $argument) {
@@ -125,7 +125,7 @@ class TextDescriptor extends Descriptor
         if ($definition->getOptions()) {
             $laterOptions = [];
 
-            $this->writeText('<comment>Options:</comment>', $options);
+            $this->writeText('<comment>Options:</>', $options);
 
             foreach ($definition->getOptions() as $option) {
                 if (\strlen($option->getShortcut() ?? '') > 1) {
@@ -154,13 +154,13 @@ class TextDescriptor extends Descriptor
         $this->writeText("\n\n");
 
         if ($description = $command->getDescription()) {
-            $this->writeText('<comment>Description:</comment>', $options);
+            $this->writeText('<comment>Description:</>', $options);
             $this->writeText("\n");
             $this->writeText('  '.$description);
             $this->writeText("\n\n");
         }
         
-        $this->writeText('<comment>Usage:</comment>', $options);
+        $this->writeText('<comment>Usage:</>', $options);
         
         foreach (array_merge([$command->getSynopsis(true)], $command->getAliases(), $command->getUsages()) as $usage) {
             $this->writeText("\n");
@@ -180,7 +180,7 @@ class TextDescriptor extends Descriptor
 
         if ($help && $help !== $description) {
             $this->writeText("\n");
-            $this->writeText('<comment>Help:</comment>', $options);
+            $this->writeText('<comment>Help:</>', $options);
             $this->writeText("\n");
             $this->writeText('  '.str_replace("\n", "\n  ", $help), $options);
             $this->writeText("\n");
@@ -196,7 +196,7 @@ class TextDescriptor extends Descriptor
             $this->writeText("$help\n\n", $options);
         }
         
-        $this->writeText("<comment>Usage:</comment>\n", $options);
+        $this->writeText("<comment>Usage:</>\n", $options);
         $this->writeText("  command [options] [arguments]\n\n", $options);
 
         $this->describeDefinition(new InputDefinition($application->getDefinition()->getOptions()), $options);
