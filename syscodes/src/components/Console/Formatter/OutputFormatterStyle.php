@@ -22,7 +22,8 @@
 
 namespace Syscodes\Components\Console\Formatter;
 
-use Syscodes\Components\Console\Style\Color;
+use InvalidArgumentException;
+use Syscodes\Components\Console\Style\TagStyle;
 use Syscodes\Components\Contracts\Console\OutputFormatterStyle as OutputFormatterStyleInterface;
 
 /**
@@ -69,88 +70,184 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      * 
      * @return void
      */
-    public function __construct(string $foreground = null, string $background = null, array $options = [])
+    public function __construct($foreground = null, $background = null, array $options = [])
     {
-        $this->color = new Color($this->foreground = $foreground ?: '', $this->background = $background ?: '', $this->options = $options);
+        if (null !== $foreground) {
+            $this->setForeground($this->parseColor($foreground));
+        }
+        
+        if (null !== $background) {
+            $this->setBackground($this->parseColor($background, true));
+        }
+        
+        if (count($options)) {
+            $this->setOptions($options);
+        }
     }
-
+    
+    /**
+     * Gets the parse color for capture to the color type that is needed
+     * on foreground and background of CLI Commands.
+     * 
+     * @param  string  $color
+     * @param  bool  $background
+     * 
+     * @return string
+     * 
+     * @throws \InvalidArgumentException
+     */
+    private function parseColor(string $color, bool $background = false): string
+    {
+        if ('' === $color) {
+            return '';
+        }
+        
+        if (isset(TagStyle::COLORS[$color])) {
+            return ($background ? '4' : '3').TagStyle::COLORS[$color];
+        }
+        
+        if (isset(TagStyle::BRIGHT_COLORS[$color])) {
+            return ($background ? '10' : '9').TagStyle::BRIGHT_COLORS[$color];
+        }
+        
+        throw new InvalidArgumentException(
+            sprintf('Invalid "%s" color; expected one of (%s).', 
+                $color, implode(', ', array_merge(array_keys(TagStyle::COLORS), array_keys(TagStyle::BRIGHT_COLORS)))
+            )
+        );
+    }
+    
     /**
      * Sets style foreground color.
      * 
-     * @param  string|null  $color
+     * @param  string  $color  The color name
      * 
      * @return void
+     * 
+     * @throws \InvalidArgumentException  When the color name isn't defined
      */
     public function setForeground(string $color = null): void
     {
-        $this->color = new Color($this->foreground = $color ?: '', $this->background, $this->options);
+        if (null === $color) {
+            $this->foreground = null;
+            
+            return;
+        }
+        
+        $this->foreground = $color;
     }
-
+    
     /**
      * Sets style background color.
      * 
-     * @param  string|null  $color
+     * @param  string  $color  The color name
      * 
      * @return void
+     * 
+     * @throws \InvalidArgumentException  When the color name isn't defined
      */
     public function setBackground(string $color = null): void
     {
-        $this->color = new Color($this->foreground, $this->background = $color ?: '', $this->options);
-    }
+        if (null === $color) {
+            $this->background = null;
 
+            return;
+        }
+        
+        $this->background = $color;
+    }
+    
     /**
      * Sets some specific style option.
      * 
-     * @param  string  $option
+     * @param  string  $option  The option name
      * 
      * @return void
+     * 
+     * @throws \InvalidArgumentException  When the option name isn't defined
      */
     public function setOption(string $option): void
     {
-        $this->options[] = $option;
-
-        $this->color = new Color($this->foreground, $this->background, $this->options);
+        if ( ! isset(TagStyle::AVAILABLE_OPTIONS[$option])) {
+            throw new InvalidArgumentException(
+                sprintf('Invalid option specified: "%s". Expected one of (%s)',
+                    $option,
+                    implode(', ', array_keys(TagStyle::AVAILABLE_OPTIONS))
+                )
+            );
+        }
+        
+        if (false === array_search(TagStyle::AVAILABLE_OPTIONS[$option], $this->options)) {
+            $this->options[] = TagStyle::AVAILABLE_OPTIONS[$option];
+        }
     }
-
+    
     /**
      * Unsets some specific style option.
      * 
-     * @param  string  $option
+     * @param  string  $option  The option name
      * 
      * @return void
+     * 
+     * @throws \InvalidArgumentException  When the option name isn't defined
      */
     public function unsetOption(string $option): void
     {
-        $position = array_search($option, $this->options);
+        if ( ! isset(TagStyle::AVAILABLE_OPTIONS[$option])) {
+            throw new InvalidArgumentException(
+                sprintf('Invalid option specified: "%s". Expected one of (%s)',
+                    $option,
+                    implode(', ', array_keys(TagStyle::AVAILABLE_OPTIONS))
+                )
+            );
+        }
+        
+        $position = array_search(TagStyle::AVAILABLE_OPTIONS[$option], $this->options);
         
         if (false !== $position) {
             unset($this->options[$position]);
         }
-
-        $this->color = new Color($this->foreground, $this->background, $this->options);
     }
-
+    
     /**
      * Sets multiple style options at once.
      * 
-     * @param  array  $option
+     * @param  array  $options
      * 
      * @return void
      */
     public function setOptions(array $options): void
     {
-        $this->color = new Color($this->foreground, $this->background, $this->options = $options);
+        $this->options = [];
+        
+        foreach ($options as $option) {
+            $this->setOption($option);
+        }
     }
-
+    
     /**
      * Applies the style to a given text.
      * 
-     * @param  string  $text
+     * @param  string  $text  The text to style
      * 
      * @return string
      */
     public function apply(string $text): string
     {
-        return $this->color->render($text);
+        $codes = [];
+        
+        if (null !== $this->foreground) {
+            $codes[] = $this->foreground;
+        }
+        
+        if (null !== $this->background) {
+            $codes[] = $this->background;
+        }
+        
+        if (count($this->options)) {
+            $codes = array_merge($codes, $this->options);
+        }
+        
+        return sprintf("\033[%sm%s\033[0m", implode(';', $codes), $text);
     }
 }
