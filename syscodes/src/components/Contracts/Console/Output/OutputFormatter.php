@@ -32,6 +32,11 @@ use Syscodes\Components\Contracts\Console\OutputFormatterStyle as OutputFormatte
 interface OutputFormatter
 {
     /**
+     * The pattern to phrase the format.
+     */
+    public const FORMAT_PATTERN = '#<([a-z][a-z0-9_=;-]+)>(.*?)</\\1?>#is';
+
+    /**
      * Gets style options from style with specified name.
      * 
      * @param  string  $name
@@ -40,17 +45,17 @@ interface OutputFormatter
      * 
      * @throws \InvalidArgumentException
      */
-    public function getStyle(string $name);
+    public function getStyle(string $name): string;
 
     /**
      * Sets a new style.
      * 
      * @param  string  $name
-     * @param  array  $styleConfig
+     * @param  \Syscodes\Components\Contracts\Console\OutputFormatterStyle  $style
      * 
      * @return $this
      */
-    public function setStyle(string $name, array $styleConfig);
+    public function setStyle($name, OutputFormatterStyleInterface $style): void;
 
     /**
      * Checks if output formatter has style with specified name.
