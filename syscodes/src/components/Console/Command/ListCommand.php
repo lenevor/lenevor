@@ -52,21 +52,21 @@ class ListCommand extends Command
             ])
             ->setDescription('List commands')
             ->setHelp(<<<'EOF'
-            The <comment>%command-name%</comment> command lists all commands:
+            The <comment>%command-name%</> command lists all commands:
             
-                <green>%command-fullname%</green>
+                <success> %command-fullname% </>
             
             You can also display the commands for a specific namespace:
                 
-                <green>%command-fullname% test</green>
+                <success> %command-fullname% test </>
             
-            You can also output the greenrmation in other formats by using the <comment>--format</comment> option:
+            You can also output the successrmation in other formats by using the <comment>--format</> option:
                 
-                <green>%command-fullname% --format=xml</green>
+                <success> %command-fullname% --format=xml </>
                 
             It's also possible to get raw list of commands (useful for embedding command runner):
                 
-                <green>%command-fullname% --raw</green>
+                <success> %command-fullname% --raw </>
             EOF
             );
     }
