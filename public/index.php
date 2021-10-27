@@ -26,7 +26,7 @@ define('LENEVOR_START', microtime(true));
 
 /*
 |------------------------------------------------------------------------
-| Register The Composer auto loader
+| Register The Composer Autoloader
 |------------------------------------------------------------------------
 |
 | Composer provides a convenient, automatically generated class loader 
@@ -53,16 +53,17 @@ $paths = require __DIR__.'/../config/paths.php';
 
 /*
 |------------------------------------------------------------------------
-| Register Bootstrap Core
+| Register Bootstrap From Web Resource Bundle
 |------------------------------------------------------------------------
 |
-| Load bootstrap from the core of system. 
+| Load bootstrap from the web resource bundle of system. 
+| (OPTIONAL - If uses composer with repository lenevor/syscodes).
 |
 */
 
-if (file_exists($paths['path.sys'].'/src/bootstrap/bootstrap.php'))
+if (file_exists($paths['path.sys'].'/src/bundles/WebResourceBundle/Bootstrap/bootstrap.php'))
 {
-    require $paths['path.sys'].'/src/bootstrap/bootstrap.php';
+    require $paths['path.sys'].'/src/bundles/WebResourceBundle/Bootstrap/bootstrap.php';
 }
 
 /*
