@@ -61,6 +61,18 @@ trait InteractsIO
 	{
 		$this->commandline($message, 'comment');
 	}
+
+	/**
+	 * Writes a string formatting for note output.
+	 * 
+	 * @param  string  $message
+	 * 
+	 * @return void
+	 */
+	public function note($message)
+	{
+		$this->commandline($message, 'note');
+	}
 	
 	/**
 	 * Writes a string formatting for success output.
@@ -84,6 +96,18 @@ trait InteractsIO
 	public function info($message)
 	{
 		$this->commandline($message, 'info');
+	}
+
+	/**
+	 * Writes a string formatting for question output.
+	 * 
+	 * @param  string  $message
+	 * 
+	 * @return void
+	 */
+	public function question($message)
+	{
+		$this->commandline($message, 'question');
 	}
 	
 	/**
@@ -120,7 +144,7 @@ trait InteractsIO
 	 */
 	public function commandline($message, string $style = null)
 	{
-		$styled = $style ? "<$style>$message</$style>" : $message;
+		$styled = $style ? "<$style>$message</>" : $message;
 		
 		return $this->writeln($styled);
 	}
