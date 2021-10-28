@@ -234,7 +234,7 @@ class Lenevor implements LenevorContract
 		);
 
 		foreach ($middlewares as $middleware) {
-			if (! is_string($middleware)) {
+			if ( ! is_string($middleware)) {
 				continue;
 			}
 			
