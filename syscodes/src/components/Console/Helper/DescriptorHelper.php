@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Console\Helper;
 
+use InvalidArgumentException;
 use Syscodes\Components\Console\Helper\Description\XmlDescriptor;
 use Syscodes\Components\Console\Helper\Description\TextDescriptor;
 use Syscodes\Components\Contracts\Console\Output as OutputInterface;
