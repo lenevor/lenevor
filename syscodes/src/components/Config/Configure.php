@@ -70,7 +70,7 @@ class Configure implements ArrayAccess, ConfigureContract
 		$keys = explode('.', $key);
 
 		if ( ! array_key_exists($file = current($keys), $this->vars)) {
-			foreach ([CON_PATH] as $paths) {
+			foreach ([basepath('config').DIRECTORY_SEPARATOR] as $paths) {
 				if (is_readable($path = $paths.$file.'.php')) {
 					$this->vars[$file] = require $path;
 				}				
