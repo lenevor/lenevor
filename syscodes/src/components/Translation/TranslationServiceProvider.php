@@ -43,7 +43,7 @@ class TranslationServiceProvider extends ServiceProvider implements Deferrable
         $this->registerLoader();
 
         $this->app->singleton('translator', function ($app) {            
-            $locale = $this->app['config']['app.locale'];
+            $locale = $app['config']['app.locale'];
             $loader = $app['translator.loader'];
             
             $translator = new Translator($locale, $loader);
