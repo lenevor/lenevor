@@ -107,8 +107,7 @@ trait VersionInfo
         if ('UNKNOWN' !== $this->getName()) {
             if ('UNKNOWN' !== $this->getVersion()) {
                 return sprintf('%s <info>%s</>', 
-                    $this->getName(), 
-                    $this->getVersion()
+                    $this->getName(), $this->getVersion()
                 );
             }
 
