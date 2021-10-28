@@ -46,20 +46,6 @@ return [
 
 	/*
 	|---------------------------------------------------------------------------
-	| Resources Folder Name                                                            
-	|---------------------------------------------------------------------------
-	|
-	| This variable must contain the name of your `resources` folder.                                  
-	| You can change setting the name of folder here. 
-	|                                             
-	| You can also rename or relocate it anywhere on your server.                                   
-	|
-	*/
-
-	'path.resources' => __DIR__.'/../resources',
-
-	/*
-	|---------------------------------------------------------------------------
 	| System Folder Nname                                                         
 	|---------------------------------------------------------------------------
 	|
