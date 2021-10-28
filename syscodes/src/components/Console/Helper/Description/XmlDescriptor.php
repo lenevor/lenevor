@@ -73,7 +73,7 @@ class XmlDescriptor extends Descriptor
      */
     protected function describeCommand(Command $command, array $options = [])
     {
-        $this->writeText('hola command!!!');
+        $this->writeText(' Hola command!!! ');
     }
 
     /**
@@ -81,7 +81,7 @@ class XmlDescriptor extends Descriptor
      */
     protected function describeApplication(Application $application, array $options = [])
     {
-        $this->writeText('hola application!!!');
+        $this->writeText(' Hola application!!! ');
     } 
 
     /**
@@ -89,6 +89,6 @@ class XmlDescriptor extends Descriptor
      */
     private function writeText(string $content)
     {
-        $this->write($content);
+        $this->write($this->output->note($content));
     }
 }
