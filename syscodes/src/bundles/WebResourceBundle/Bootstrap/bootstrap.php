@@ -23,7 +23,6 @@
 // Define the absolute paths for configured directories
 if ( ! defined('APP_PATH')) define('APP_PATH', realpath($paths['path.app']).DIRECTORY_SEPARATOR);
 if ( ! defined('CON_PATH')) define('CON_PATH', realpath($paths['path.config']).DIRECTORY_SEPARATOR);
-if ( ! defined('RES_PATH')) define('RES_PATH', realpath($paths['path.resources']).DIRECTORY_SEPARATOR);
 if ( ! defined('SYS_PATH')) define('SYS_PATH', realpath($paths['path.sys']).DIRECTORY_SEPARATOR);
 
 // Call the file constants
