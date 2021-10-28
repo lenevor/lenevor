@@ -23,7 +23,6 @@
 namespace Syscodes\Components\Console\Formatter;
 
 use InvalidArgumentException;
-use Syscodes\Components\Console\Style\Color;
 use Syscodes\Components\Contracts\Console\Output;
 use Syscodes\Components\Contracts\Console\OutputFormatter as OutputFormatterInterface;
 use Syscodes\Components\Contracts\Console\OutputFormatterStyle as OutputFormatterStyleInterface;
@@ -66,7 +65,8 @@ class OutputFormatter implements OutputFormatterInterface
         $this->setStyle('comment', new OutputFormatterStyle('yellow'));
         $this->setStyle('question', new OutputFormatterStyle('black', 'cyan'));
         $this->setStyle('success', new OutputFormatterStyle('black', 'green'));
-        $this->setStyle('note', new OutputFormatterStyle('cyan'));
+        $this->setStyle('note', new OutputFormatterStyle('blue'));
+        $this->setStyle('warning', new OutputFormatterStyle('black', 'yellow'));
 
         foreach ($styles as $name => $style) {
             $this->setStyle($name, $style);
@@ -111,7 +111,7 @@ class OutputFormatter implements OutputFormatterInterface
     public function getStyle($name): string
     {
         if (!$this->hasStyle($name)) {
-            throw new \InvalidArgumentException('Undefined style: '.$name);
+            throw new InvalidArgumentException('Undefined style: '.$name);
         }
 
         return $this->styles[strtolower($name)];
