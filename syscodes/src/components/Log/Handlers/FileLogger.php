@@ -99,7 +99,7 @@ class FileLogger implements Handler
     {
         $this->app = $app;
 
-        $this->logFilePath = $config['path'].DIRECTORY_SEPARATOR ?? STO_PATH.'logs'.DIRECTORY_SEPARATOR;
+        $this->logFilePath = $config['path'].DIRECTORY_SEPARATOR ?? $this->app->storagePath().DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR;
 
         $this->logFileExtension = empty($config['extension']) ? 'log' : $config['extension'];
         $this->logFileExtension = ltrim($this->logFileExtension, '.');
