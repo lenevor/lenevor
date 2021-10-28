@@ -545,19 +545,19 @@ class Application extends Container implements ApplicationContract
      */
     public function bootEnvironment()
     {
-        if (file_exists(SYS_PATH.'src'.DIRECTORY_SEPARATOR.'environment'.DIRECTORY_SEPARATOR.$this->environment().'.php')) {
-            require_once SYS_PATH.'src'.DIRECTORY_SEPARATOR.'environment'.DIRECTORY_SEPARATOR.$this->environment().'.php';
+        if (file_exists(__DIR__.DIRECTORY_SEPARATOR.'Http'.DIRECTORY_SEPARATOR.'Environments'.DIRECTORY_SEPARATOR.$this->environment().'.php')) {
+            require_once __DIR__.DIRECTORY_SEPARATOR.'Http'.DIRECTORY_SEPARATOR.'Environments'.DIRECTORY_SEPARATOR.$this->environment().'.php';
         } else {
             header('HTTP/1.1 503 Service Unavailable.', true, 503);
             print('<style>
                     body {
-                        align-items: center;
                         background: #FBFCFC;
                         display: flex;
                         font-family: verdana, sans-seif;
                         font-size: .9em;
                         font-weight: 600;
-                        justify-content: center;
+                        justify-content: flex-start;
+                        margin: 50px;
                     }
                     
                     p {
