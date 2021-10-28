@@ -4,16 +4,16 @@
 
 :root {
 	--color-black: hsla(0, 0%, 7%, 0.8);
-	--color-black-1: hsla(205, 26%, 22%, 0.719);
+	--color-black-1: hsla(206, 63%, 15%, 0.719);
 	--color-white: hsla(0, 0%, 100%, 1);
 	--color-white-1: hsla(0, 0%, 100%, 1);
 	--color-white-2: hsla(223, 15%, 91%, 1);
 	--color-white-3: hsla(200, 23%, 95%, 1);
 	--color-blue-1: hsla(219, 15%, 39%, 1);
 	--color-blue-2: hsla(205, 87%, 65%, 1);
-	--color-blue-3: hsla(208, 15%, 51%, 1);
+	--color-blue-3: rgb(97, 121, 141);
 	--color-blue-4: hsla(215, 41%, 35%, 1);
-	--color-green-1: hsla(187, 49%, 45%, 1);
+	--color-green-1: rgb(56, 154, 167);
 	--color-green-2: hsla(165, 8%, 53%, 1);
 	--color-gray-1: hsla(202, 31%, 38%, 0.733);
 	--color-gray-2: hsla(240, 0%, 60%, 1);
@@ -30,7 +30,7 @@
 	--color-black-theme-4: hsla(0, 3%, 28%, 1);
 	--color-blue-theme-1: hsla(212, 52%, 26%, 1);
 	--color-blue-theme-2: hsla(219, 49%, 38%, 0.18);
-	--color-blue-theme-3: hsla(221, 65%, 62%, 0.2);
+	--color-blue-theme-3: hsla(221, 48%, 38%, 0.2);
 	--color-blue-theme-4: hsl(209, 100%, 70%);
 	--color-blue-theme-5: hsla(208, 31%, 66%, 1);
 	--color-yellow-theme: hsla(54, 96%, 82%, 1);
@@ -210,7 +210,7 @@ header h1 {
 }
 
 .status code { 
-	background: var(--color-blue-1);
+	background: var(--color-black-1);
 	border-radius: 30px;
 	box-shadow: inset -1px -1px 5px hsla(224, 12%, 44%, 0.1),
 				inset -1px -1px 6px hsla(219, 13%, 35%, 0.5);
@@ -287,7 +287,7 @@ header h1 {
     grid-template-columns: repeat(auto-fit, auto);
     grid-auto-rows: auto;
     grid-gap: 2rem;
-    justify-content: center;
+	justify-content: center;
 	margin: 80px 5px 0 5px;
 	padding-top: 1px;
 	position: relative;
@@ -342,7 +342,7 @@ header h1 {
 .dark-theme .resources .discuss h3,
 .dark-theme .resources .contribute h3 {
 	background: var(--color-blue-theme-2);
-	border-bottom: 1px solid var(--color-blue-theme-2);
+	border-bottom: 1px solid var(--color-blue-theme-3);
 	color: var(--color-white-theme);
 	font-size: 1em;
 }
@@ -490,7 +490,7 @@ header h1 {
 	background: linear-gradient( 
 		150deg,
 		var(--color-green-1),
-		var(--color-blue-1) 60%
+		var(--color-blue-4) 60%
 	);
 	background-clip: text;
 	-webkit-background-clip: text;
@@ -659,10 +659,47 @@ header h1 {
 	}
 
 	.resources {
-		grid-template-columns: repeat(auto-fit, 434px);
-		*grid-auto-rows: 200px; /* Row height  */
-		grid-gap: 3rem;
+		grid-template-columns: 1fr 1fr 1fr;
+		grid-template-rows: auto;
+		grid-gap: 0;
 		top: 30px;
+	}
+
+	.resources .learn,
+	.dark-theme .resources .learn {
+		border-bottom-left-radius: 10px;
+		border-bottom-right-radius: 0;
+		border-top-left-radius: 10px;
+		border-top-right-radius: 0;
+	}
+
+	.resources .discuss,
+	.dark-theme .resources .discuss {
+		border-radius: 0;
+	}
+
+	.resources .contribute,
+	.dark-theme .resources .contribute {
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 10px;
+		border-top-left-radius: 0;
+		border-top-right-radius: 10px;
+	}
+
+	.resources .learn h3,
+	.dark-theme .resources .learn h3 {
+		border-top-right-radius: 0;
+	}
+
+	.resources .discuss h3,
+	.dark-theme .resources .discuss h3 {
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+	}
+
+	.resources .contribute h3,
+	.dark-theme .resources .contribute h3 {
+		border-top-left-radius: 0;
 	}
 
 	.container .footer {
