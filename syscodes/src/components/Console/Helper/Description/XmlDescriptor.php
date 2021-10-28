@@ -89,6 +89,6 @@ class XmlDescriptor extends Descriptor
      */
     private function writeText(string $content)
     {
-        $this->write($this->output->note($content));
+        $this->write($content);
     }
 }
