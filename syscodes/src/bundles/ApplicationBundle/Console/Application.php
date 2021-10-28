@@ -98,12 +98,12 @@ class Application extends BaseApplication
 	 * {@inheritdoc}
 	 */
 	public function getConsoleVersion(): string
-    {
+	{
 		return parent::getConsoleVersion().
-		    sprintf(' (env: <comment>%s</>, debug: <comment>%s</>) [<note>%s</>]',
-			    env('APP_ENV'), env('APP_DEBUG') ? 'true' : 'false', PHP_OS
-		    );
-    }
+			sprintf(' (env: <comment>%s</>, debug: <comment>%s</>) [<note>%s</>]',
+				env('APP_ENV'), env('APP_DEBUG') ? 'true' : 'false', PHP_OS
+			);
+	}
 
 	/**
 	 * Gets the Lenevor application instance.
