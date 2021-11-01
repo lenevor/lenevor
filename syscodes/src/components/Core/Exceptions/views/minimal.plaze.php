@@ -21,10 +21,10 @@
 	</head>
 	<body>
 
-		<div class="flex-center full-height full-width">
+		<div class="flex items-center justify-center w-screen h-screen bg-gradient">
 					
-			<div class="message">
-				<@give('message')
+			<div class="text-size-title">
+				<h1 class="text-color-title uppercase"><@give('message')</h1>
 			</div>
 			
 		</div>
