@@ -56,10 +56,22 @@ body {
     width: 100vw; 
 }
 
-h1 {
-    display: none;
+.bg-gradient { 
+	--bg-opacity: 1; 
+	background: linear-gradient(120deg, rgba(209, 216, 223, var(--bg-opacity)), rgba(222, 228, 231, var(--bg-opacity)));	
+	position: relative;
 }
 
-.text-size-subtitle {
-    font-size: 3rem;
+.text-color-title {
+	--text-opacity: 1;
+	color: #5a6672;
+	color: rgba(90, 102, 114, var(--text-opacity));
+}
+
+.text-size-title {
+    font-size: 0.8rem;
+}
+
+.uppercase {
+    text-transform: uppercase;
 }
