@@ -22,10 +22,12 @@
 
 namespace Syscodes\Bundles\ApplicationBundle\Console\Commands;
 
+use Locale;
 use Syscodes\Components\Console\Util\Show;
-use Syscodes\Components\Console\Application;
-use Syscodes\Components\Console\Style\ColorTag;
 use Syscodes\Components\Console\Command\Command;
+use Syscodes\Bundles\ApplicationBundle\Console\Application;
+use Syscodes\Components\Contracts\Console\Input as InputInterface;
+use Syscodes\Components\Contracts\Console\Output as OutputInterface;
 
 /**
  * A console command to display information about of system.
@@ -43,12 +45,12 @@ class AboutCommand extends Command
     protected function define()
     {
         $this
-            ->setName('about')
+            ->setName(static::$defaultName)
             ->setDescription(static::$defaultDescription)
             ->setHelp(<<<'EOT'
-            The <green>%command-name%</green> command displays information about the current Lenevor project.
+            The <comment>%command-name%</> command displays information about the current Lenevor project.
             
-            The <green>PHP</green> section displays important configuration that could affect your application. The values might
+            The <comment>PHP</> section displays important configuration that could affect your application. The values might
             be different between web and CLI.
             EOT
             );
@@ -60,7 +62,7 @@ class AboutCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output) 
     {
         Show::sList(
-            $this->makeVersionInfo($this->getApplication()), 
+            $this->buildInfo($this->getApplication(), $output), 
             '', 
             [
                 'leftChar'  => '',
@@ -74,31 +76,46 @@ class AboutCommand extends Command
     }
 
     /**
-     * Returns the version of the console with logo.
+     * Returns the info of the console with logo.
+     * 
+     * @param  \Syscodes\Bundles\ApplicationBundle\Console\Application  $application
+     * @param  \Syscodes\Components\Contracts\Console\Output  $output
      *
      * @return array
      */
-    public function makeVersionInfo(Application $application): array
+    public function buildInfo(Application $application, OutputInterface $output): array
     {
-        $logo       = '';
-        $updateAt   = $application->getParam('updateAt', 'Unknown');
-        $publishAt  = $application->getParam('publishAt', 'Unknown');
-        $currentAt  = date('d.m.Y');
-        $phpOS      = PHP_OS;
-        $phpVersion = PHP_VERSION; 
+        $logo         = '';
+        $updateAt     = $application->getParam('updateAt', 'Unknown');
+        $publishAt    = $application->getParam('publishAt', 'Unknown');
+        $currentAt    = date('d.m.Y');
+        $phpOS        = \PHP_OS;
+        $phpVersion   = \PHP_VERSION;
+        $phpVersion   = \PHP_VERSION;
+        $architecture = \PHP_INT_SIZE * 8;
+        $locale       = class_exists(Locale::class, false) && Locale::getDefault() ? Locale::getDefault() : 'n/a';
 
         if ($logoTxt = $application->getLogoText()) {
-            $logo = ColorTag::wrap($logoTxt, $application->getLogoStyle());
+            $logo = $output->commandline($logoTxt, $application->getLogoStyle());
         }
 
         $info = [
-            "$logo\n  {$application->getName()}, Version <brown>{$application->getVersion()}</brown>\n",
-            'System Info'      => "PHP version <green>{$phpVersion}</green> on <green>{$phpOS}</green> system",
-            'Application Info' => "Update at <green>{$updateAt}</green>, publish at <green>{$publishAt}</green> (current at {$currentAt})",
+            "$logo\n",
+            "  {$application->getName()}", 
+            "  Version"      => "{$application->getVersion()}",
+            "  Publish at"   => "{$publishAt}",
+            "  Update at"    => "{$updateAt}\n",
+            "  <info>Core</>\n",
+            '  Environment'  => env('APP_ENV'),
+            '  Debug'        => (env('APP_DEBUG') ? "True" : "False")."\n",
+            "  <info>PHP Info</>\n",
+            "  Version "     => "{$phpVersion}",
+            "  Architecture" => "{$architecture} bits",
+            "  Intl Locale"  => "{$locale}",
         ];
 
         if ($hUrl = $application->getParam('homepage')) {
-            $info['Homepage URL'] = "<undersline>$hUrl</undersline>";
+            $info['Homepage URL'] = "<info>$hUrl</>";
         } 
 
         return $info;
