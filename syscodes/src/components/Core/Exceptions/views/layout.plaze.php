@@ -23,11 +23,12 @@
 
 		<div class="container">
 		
-			<div class="flex items-center justify-center w-screen h-screen bg-gradient animated">
+			<div class="flex items-center justify-center w-screen h-screen bg-gradient">
 
-				<div class="flex items-center justify-center sm:flex-col md:flex-row">
-					<h1 class="bg-color border-solid border-color border-width border-shadow text-color-title text-shadow font-bold p-full round sm:text-size-title md:text-size-title md:m-right"><@give('code')</h1>
-					<p class="text-color-subtitle text-size-subtitle text-shadow font-bold uppercase letter-spacing sm:text-size-subtitle md:text-size-subtitle sm:m-top md:m-top md:m-left"><@give('message')</p>				
+				<div class="flex items-center justify-center sm:flex-col md:flex-col sm:p-right md:p-right md:p-full">
+					<h1 class="text-color-title font-bold sm:text-size-title md:text-size-title"><@give('code')</h1>
+					<p class="text-color-subtitle font-bold uppercase letter-spacing sm:text-size-subtitle md:text-size-subtitle"><@give('message')</p>
+					<a href='{{ url('/') }}' class="round p-full sm:m-top md:m-top md:p-full sm:text-size-button md:text-size-button"><@give('button')</a>
 				</div>
 
 			</div>
