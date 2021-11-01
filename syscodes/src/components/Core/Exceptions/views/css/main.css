@@ -8,6 +8,30 @@ body {
 	font-family: "Nunito", sans-serif;
 }
 
+a {
+	background-color: #E6EAEF;
+	background-image: linear-gradient(-45deg, #E6EAEF, #e4edf1);
+	box-shadow: 0 3px 0 0 #b7c3d1, 0 4px 4px -1px rgba(0, 0, 0, 0.6), 0 4px 6px 1px rgba(0, 0, 0, 0.3), 0 1px 2px 1px rgba(0, 0, 0, 0) inset, 0 18px 32px -2px rgba(255, 255, 255, 0.1) inset;
+	color: #495263;
+	cursor: pointer;
+	font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif;
+	text-decoration: none;
+	transition: box-shadow 0.2s, transform 0.2s, color 0.2s;
+	user-select: none;
+	vertical-align: bottom;
+}
+
+a:hover {
+	box-shadow: 0 3px 0 0 #b7c3d1, 0 6px 4px -1px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.5), 0 1px 2px 1px rgba(0, 0, 0, 0) inset, 0 18px 32px -2px rgba(255, 255, 255, 0.14) inset;
+}
+
+a:active {
+	box-shadow: 0 0px 0 0 #a8b6c7, 0 3px 0 0 rgba(0, 0, 0, 0), 0 4px 16px rgba(0, 0, 0, 0), 0 1px 2px 1px rgba(0, 0, 0, 0.5) inset, 0 -18px 32px -2px rgba(255, 255, 255, 0.1) inset;
+	color: #b7c3d1;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+	transition: 0s;
+}
+
 .container {
 	width: 100%;
 }
@@ -19,7 +43,6 @@ body {
 .flex {
 	display: flex;
 }
-
 
 .flex-col { 
 	flex-direction: column;
@@ -119,31 +142,45 @@ body {
 
 .bg-gradient { 
 	--bg-opacity: 1; 
-	background: linear-gradient(150deg, rgba(43, 110, 155, var(--bg-opacity)) 0%, rgba(51, 89, 151, var(--bg-opacity)) 25%, rgba(32, 75, 124, var(--bg-opacity)) 50%, rgba(59, 39, 105, var(--bg-opacity)) 75%, rgba(99, 7, 107, var(--bg-opacity)) 100%);
-	background-size: 200% 200%;
+	background: linear-gradient(120deg, rgba(209, 216, 223, var(--bg-opacity)), rgba(222, 228, 231, var(--bg-opacity)));	
 	position: relative;
 }
 
 .bg-color {
 	--text-opacity: 1;
-	background: rgba(190, 59, 92, var(--text-opacity));
+	background: rgb(8, 93, 177);
 }
 
 .border-solid {
-	border: 1px solid;
+	border-style: solid;
+}
+
+.border-left-solid {
+	border-left-style: solid;
+}
+
+.border-right-solid {
+	border-right-style: solid;
 }
 
 .border-color {
 	--text-opacity: 1;
-	border-color: rgba(190, 59, 105, var(--text-opacity));
+	border-color: rgb(211, 217, 223, var(--text-opacity));
 }
 
 .border-width {
-	border-width: 3px;
+	border-width: 1px;
 }
 
-.border-shadow
-{
+.border-left-width {
+	border-left-width: 1px;
+}
+
+.border-right-width {
+	border-right-width: 1px;
+}
+
+.border-shadow {
 	--text-opacity: 1;
 	box-shadow: inset 0 -1px 5px rgba(104, 25, 104, var(--text-opacity));
 }
@@ -152,16 +189,22 @@ body {
 	border-radius: 5px;
 }
 
+.text-color {
+	--text-opacity: 1;
+	color:#ffffff;
+	color: rgba(255, 255, 255, var(--text-opacity));
+}
+
 .text-color-title {
 	--text-opacity: 1;
-	color: #fcc6dc;
-	color: rgba(252, 212, 228, var(--text-opacity));
+	color: #5a6672;
+	color: rgba(90, 102, 114, var(--text-opacity));
 }
 
 .text-color-subtitle {
 	--text-opacity: 1;
-	color: #FFFFFF;
-	color: rgba(255, 255, 255, var(--text-opacity));
+	color: #4a5d6e;
+	color: rgba(74, 93, 110, var(--text-opacity));
 }
 
 .text-size-title {
@@ -174,7 +217,7 @@ body {
 
 .text-shadow {
 	--text-opacity: 1;
-	text-shadow: 1px 1px 1px rgba(83, 12, 74, var(--text-opacity));
+	text-shadow: 0 2px 1px rgba(181, 184, 187, var(--text-opacity));
 }
 
 .tolowercase {
@@ -238,7 +281,7 @@ body {
 	}
 
 	.sm\:m-top {
-		margin-top: 20px;
+		margin-top: 5px;
 	}
 
 	.sm\:m-left {
@@ -250,7 +293,7 @@ body {
 	}
 
 	.sm\:m-bottom {
-		margin-bottom: 10px;
+		margin-bottom: 5px;
 	}
 
 	.sm\:p-top {
@@ -270,11 +313,15 @@ body {
 	}
 
 	.sm\:text-size-title {
-		font-size: 1.8rem;
+		font-size: 4rem;
 	}
 	
 	.sm\:text-size-subtitle {
 		font-size: 1rem;
+	}
+
+	.sm\:text-size-button {
+		font-size: 0.9rem;
 	}
 }
 
@@ -289,7 +336,7 @@ body {
 	}
 
 	.md\:m-top {
-		margin-top: 0;
+		margin-top: 10px;
 	}
 
 	.md\:m-left {
@@ -308,6 +355,10 @@ body {
 		padding-top: 10px;
 	}
 
+	.md\:p-bottom {
+		padding-bottom: 10px;
+	}
+
 	.md\:p-left {
 		padding-left: 10px;
 	}
@@ -316,15 +367,19 @@ body {
 		padding-right: 10px;
 	}
 
-	.md\:p-bottom {
-		padding-bottom: 10px;
+	.md\:p-full {
+		padding: 10px;
 	}
 
 	.md\:text-size-title {
-		font-size: 2rem;
+		font-size: 9rem;
 	}
 	
 	.md\:text-size-subtitle {
 		font-size: 1.5rem;
+	}
+
+	.sm\:text-size-button {
+		font-size: 1.2rem;
 	}
 }
