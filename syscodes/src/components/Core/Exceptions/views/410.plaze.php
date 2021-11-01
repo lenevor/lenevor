@@ -3,3 +3,4 @@
 <@section('title', __('Gone'))
 <@section('code', '410')
 <@section('message', __('Gone'))
+<@section('button', __('Go Home'))
