@@ -25,8 +25,8 @@
 		
 			<div class="flex items-center justify-center w-screen h-screen bg-gradient">
 
-				<div class="flex items-center justify-center sm:flex-col md:flex-col sm:p-right md:p-right md:p-full">
-					<h1 class="text-color-title font-bold sm:text-size-title md:text-size-title"><@give('code')</h1>
+				<div class="flex items-center justify-center sm:flex-col md:flex-col sm:p-right md:p-right sm:p-full md:p-full">
+					<h1 class="text-color-title font-bold text-shadow sm:text-size-title md:text-size-title"><@give('code')</h1>
 					<p class="text-color-subtitle font-bold uppercase letter-spacing sm:text-size-subtitle md:text-size-subtitle"><@give('message')</p>
 					<a href='{{ url('/') }}' class="round p-full sm:m-top md:m-top md:p-full sm:text-size-button md:text-size-button"><@give('button')</a>
 				</div>
