@@ -41,6 +41,19 @@ use Syscodes\Components\Contracts\Console\Output as OutputInterface;
 class Application extends BaseApplication
 {
 	/**
+	 * Application config data.
+	 * 
+	 * @var array $config
+	 */
+	protected $config = [
+		'homepage'   => '',
+		'publishAt'  => '02.05.2019',
+		'updateAt'   => '13.09.2021',
+		'logoText'   => '',
+		'logoStyle'  => 'info',
+	];
+
+	/**
 	 * The event dispatcher instance.
 	 * 
 	 * @var \Syscodes\Components\Contracts\Events\Dispatcher $events
@@ -104,6 +117,55 @@ class Application extends BaseApplication
 				env('APP_ENV'), env('APP_DEBUG') ? 'true' : 'false', PHP_OS
 			);
 	}
+
+	/**
+     * Gets the logo text for console app.
+     * 
+     * @return string|null
+     */
+    public function getLogoText(): string
+    {
+        return $this->config['logoText'] ?? null;
+    }
+
+    /**
+     * Sets the logo text for console app.
+     * 
+     * @param  string  $logoText
+     * @param  striong|null  $style
+     * 
+     * @return void
+     */
+    public function setLogo(string $logoText, string $style = null): void
+    {
+        $this->config['logoText'] = $logoText;
+
+        if ($style) {
+            $this->config['logoStyle'] = $style;
+        }
+    }
+
+    /**
+     * Gets the logo style for console app.
+     * 
+     * @return string|null 
+     */
+    public function getLogoStyle(): ?string
+    {
+        return $this->config['logoStyle'] ?? 'info';
+    }
+
+    /**
+     * Sets the logo style for console app.
+     * 
+     * @param  string  $style
+     * 
+     * @return void
+     */
+    public function setLogoStyle(string $style): void
+    {
+        $this->config['logoStyle'] = $style;
+    }
 
 	/**
 	 * Gets the Lenevor application instance.
