@@ -142,13 +142,14 @@ a:active {
 
 .bg-gradient { 
 	--bg-opacity: 1; 
-	background: linear-gradient(120deg, rgba(209, 216, 223, var(--bg-opacity)), rgba(222, 228, 231, var(--bg-opacity)));	
+	background: linear-gradient(120deg, rgba(209, 216, 223, var(--bg-opacity)), rgba(222, 228, 231, var(--bg-opacity)));
+	background-size: cover;
 	position: relative;
 }
 
 .bg-color {
 	--text-opacity: 1;
-	background: rgb(8, 93, 177);
+	background: rgba(8, 93, 177, var(--text-opacity));
 }
 
 .border-solid {
@@ -217,7 +218,7 @@ a:active {
 
 .text-shadow {
 	--text-opacity: 1;
-	text-shadow: 0 2px 1px rgba(181, 184, 187, var(--text-opacity));
+	text-shadow: 0 2px 1px rgba(128, 135, 143, var(--text-opacity));
 }
 
 .tolowercase {
@@ -310,6 +311,10 @@ a:active {
 
 	.sm\:p-bottom {
 		padding-bottom: 5px;
+	}
+
+	.sm\:p-full {
+		padding: 5px;
 	}
 
 	.sm\:text-size-title {
