@@ -81,14 +81,14 @@ class TemplateHandler
 	 */
 	public function cleanPath($file)
 	{
-		if (strpos($file, APP_PATH) === 0) {
-			$file = 'APP_PATH'.DIRECTORY_SEPARATOR.substr($file, strlen(APP_PATH));
-		} elseif (strpos($file, SYS_PATH) === 0) {
-			$file = 'SYS_PATH'.DIRECTORY_SEPARATOR.substr($file, strlen(SYS_PATH));
-		} elseif (strpos($file, CON_PATH) === 0) {
-			$file = 'CON_PATH'.DIRECTORY_SEPARATOR.substr($file, strlen(CON_PATH));
-		} elseif (strpos($file, RES_PATH) === 0) {
-			$file = 'RES_PATH'.DIRECTORY_SEPARATOR.substr($file, strlen(RES_PATH));
+		if (strpos($file, appPath().DIRECTORY_SEPARATOR) === 0) {
+			$file = appPath().DIRECTORY_SEPARATOR.substr($file, strlen(appPath().DIRECTORY_SEPARATOR));
+		} elseif (strpos($file, basePath().DIRECTORY_SEPARATOR) === 0) {
+			$file = basePath().DIRECTORY_SEPARATOR.substr($file, strlen(basePath().DIRECTORY_SEPARATOR));
+		} elseif (strpos($file, configPath().DIRECTORY_SEPARATOR) === 0) {
+			$file = configPath().DIRECTORY_SEPARATOR.substr($file, strlen(configPath().DIRECTORY_SEPARATOR));
+		} elseif (strpos($file, resourcePath().DIRECTORY_SEPARATOR) === 0) {
+			$file = resourcePath().DIRECTORY_SEPARATOR.substr($file, strlen(resourcePath().DIRECTORY_SEPARATOR));
 		}
 
 		return $file;
