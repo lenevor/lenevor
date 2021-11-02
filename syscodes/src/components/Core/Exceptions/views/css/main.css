@@ -32,6 +32,74 @@ a:active {
 	transition: 0s;
 }
 
+/* Modify table of errors in PHP */
+table {
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
+	font-weight: 500; 
+	width: 100%;
+}
+
+table,
+tbody,
+tbody,
+th,
+tr, 
+td {
+	border: none;
+}
+
+table span {
+	padding-bottom: 3px;
+}
+
+tbody th{
+	padding-top: 3px;
+}
+
+tbody tr:nth-child(1) th {
+	line-height: 1.4em;
+	padding-bottom: 2px;
+}
+
+tbody tr:nth-child(2) th {
+	padding: 3px;
+}
+
+tbody tr:nth-child(3) th {
+	text-align: left;
+	padding: 3px;
+}
+
+tbody tr:nth-child(3) th:nth-child(1) {
+	text-align: center;
+	width: 30px;
+}
+
+tbody tr:nth-child(1n) td:nth-child(1) {
+	text-align: center;
+}
+
+tbody tr:nth-child(3) th:nth-child(2) {
+	text-align: right;
+	width: 100px;
+}
+
+tbody tr:nth-child(3) th:nth-child(3) {
+	text-align: right;
+	width: 200px;
+}
+
+tbody tr:nth-child(1n) td {
+	text-align: right;
+	padding: 2px;
+}
+
+tbody tr:nth-child(1n) td:nth-child(4),
+tbody tr:nth-child(1n) td:nth-child(5) {
+	text-align: left;
+}
+
+
 .container {
 	width: 100%;
 }
@@ -129,7 +197,7 @@ a:active {
 }
 
 .h-screen {
-	height: 100vh;
+	min-height: 100vh;
 }
 
 .w-300 {
@@ -137,7 +205,7 @@ a:active {
 }
 
 .w-screen {
-	width: 100vw;
+	min-width: 100vw;
 }
 
 .bg-gradient { 
