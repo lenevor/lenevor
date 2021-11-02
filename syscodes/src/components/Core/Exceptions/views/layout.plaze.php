@@ -23,7 +23,7 @@
 
 		<div class="container">
 		
-			<div class="flex items-center justify-center w-screen h-screen bg-gradient">
+			<div class="flex items-center justify-center h-screen bg-gradient">
 
 				<div class="flex items-center justify-center sm:flex-col md:flex-col sm:p-right md:p-right sm:p-full md:p-full">
 					<h1 class="text-color-title font-bold text-shadow sm:text-size-title md:text-size-title"><@give('code')</h1>
