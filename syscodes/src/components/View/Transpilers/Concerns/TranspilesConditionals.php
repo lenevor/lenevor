@@ -249,4 +249,24 @@ trait TranspilesConditionals
     {
         return '<?php endif; ?>';
     }
+
+    /**
+     * Transpile the local statements into valid PHP.
+     * 
+     * @return string
+     */
+    protected function transpilelocal()
+    {
+        return "<?php if(app()->environment('local')): ?>";
+    }
+
+    /**
+     * Transpile the end-local statements into valid PHP.
+     * 
+     * @return string
+     */
+    protected function transpileEndlocal()
+    {
+        return '<?php endif; ?>';
+    }
 }
