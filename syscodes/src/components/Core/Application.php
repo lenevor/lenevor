@@ -93,6 +93,13 @@ class Application extends Container implements ApplicationContract
     protected $bootingCallbacks = [];
 
     /**
+     * The custom database path defined by the developer.
+     * 
+     * @var string $databasePath
+     */
+    protected $databasePath;
+
+    /**
      * The deferred services and their providers.
      * 
      * @var array $deferredServices
@@ -135,6 +142,13 @@ class Application extends Container implements ApplicationContract
     protected $isRunningInConsole;
 
     /**
+     * The custom language path defined by the developer.
+     * 
+     * @var string $langPath
+     */
+    protected $langPath;
+
+    /**
      * The names of the loaded service providers.
      * 
      * @var array $loadServiceProviders
@@ -154,6 +168,13 @@ class Application extends Container implements ApplicationContract
      * @var callable[] $shutdownCallbacks
      */
     protected $shutdownCallbacks = [];
+
+    /**
+     * The custom storage path defined by the developer.
+     * 
+     * @var string $storagePath
+     */
+    protected $storagePath;
 
     /**
      * Constructor. Create a new Application instance.
@@ -193,7 +214,7 @@ class Application extends Container implements ApplicationContract
      * 
      * @return string
      */
-    public function version()
+    public function version(): string
     {
         return Version::RELEASE;
     }
@@ -227,9 +248,9 @@ class Application extends Container implements ApplicationContract
      *
      * @param  string  $path
      * 
-     * @return $this
+     * @return self
      */
-    public function setBasePath(string $path)
+    public function setBasePath(string $path): self
     {
         $this->basePath = rtrim($path, '\/');
 
@@ -275,11 +296,27 @@ class Application extends Container implements ApplicationContract
      * 
      * @return string
      */
-    public function path($path = '')
+    public function path($path = ''): string
     {
         $appPath = $this->basePath.DIRECTORY_SEPARATOR.'app';
         
         return $appPath.($path ? DIRECTORY_SEPARATOR.$path : $path);
+    }
+
+    /**
+     * Set the application directory.
+     * 
+     * @param  string  $path
+     * 
+     * @return self
+     */
+    public function setAppPath($path): self
+    {
+        $this->appPath = $path;
+
+        $this->instance('path', $path);
+
+        return $this;
     }
 
     /**
@@ -289,7 +326,7 @@ class Application extends Container implements ApplicationContract
      * 
      * @return string
      */
-    public function basePath($path = '')
+    public function basePath($path = ''): string
     {
         return $this->basePath.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
@@ -301,7 +338,7 @@ class Application extends Container implements ApplicationContract
      * 
      * @return string
      */
-    public function bootstrapPath($path = '')
+    public function bootstrapPath($path = ''): string
     {
         return $this->basePath.DIRECTORY_SEPARATOR.'bootstrap'.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
@@ -313,7 +350,7 @@ class Application extends Container implements ApplicationContract
      * 
      * @return string
      */
-    public function configPath($path = '')
+    public function configPath($path = ''): string
     {
         return $this->basePath.DIRECTORY_SEPARATOR.'config'.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
@@ -325,9 +362,25 @@ class Application extends Container implements ApplicationContract
      * 
      * @return string
      */
-    public function databasePath($path = '')
+    public function databasePath($path = ''): string
     {
         return $this->basePath.DIRECTORY_SEPARATOR.'database'.($path ? DIRECTORY_SEPARATOR.$path : $path);
+    }
+
+    /**
+     * Set the database directory.
+     * 
+     * @param  string  $path
+     * 
+     * @return self
+     */
+    public function setDatabasePath($path): self
+    {
+        $this->databasePath = $path;
+
+        $this->instance('path.database', $path);
+
+        return $this;
     }
 
     /**
@@ -335,9 +388,33 @@ class Application extends Container implements ApplicationContract
      * 
      * @return string
      */
-    public function langPath()
+    public function langPath(): string
     {
-        return $this->resourcePath().DIRECTORY_SEPARATOR.'lang';
+        if ($this->langPath) {
+            return $this->langPath;
+        }
+
+        if (is_dir($path = $this->resourcePath().DIRECTORY_SEPARATOR.'lang')) {
+            return $path;
+        }
+
+        return $this->basePath().DIRECTORY_SEPARATOR.'lang';
+    }
+
+    /**
+     * Set the lang directory.
+     * 
+     * @param  string  $path
+     * 
+     * @return self
+     */
+    public function setlangPath($path): self
+    {
+        $this->langPath = $path;
+
+        $this->instance('path.lang', $path);
+
+        return $this;
     }
 
     /**
@@ -367,9 +444,39 @@ class Application extends Container implements ApplicationContract
      * 
      * @return string
      */
-    public function storagePath()
+    public function storagePath(): string
     {
-        return $this->basePath.DIRECTORY_SEPARATOR.'storage';
+        return $this->storagePath ?: $this->basePath.DIRECTORY_SEPARATOR.'storage';
+    }
+
+    /**
+     * Set the database directory.
+     * 
+     * @param  string  $path
+     * 
+     * @return self
+     */
+    public function setStoragePath($path): self
+    {
+        $this->storagePath = $path;
+
+        $this->instance('path.storage', $path);
+
+        return $this;
+    }
+
+    /**
+     * Get the path to the views directory.
+     * 
+     * @param  string  $path
+     * 
+     * @return string
+     */
+    public function viewPath($path = ''): string
+    {
+        $viewPath = $this['config']->get('view.paths')[0];
+
+        return rtrim($viewPath, DIRECTORY_SEPARATOR).($path ? DIRECTORY_PATH.$path : $path);
     }
 
     /**
@@ -529,51 +636,6 @@ class Application extends Container implements ApplicationContract
         }
 
         return $this->isRunningInConsole;
-    }
-    
-    /**
-     * You can load different configurations depending on your
-     * current environment. Setting the environment also influences
-     * things like logging and error reporting.
-     * 
-     * This can be set to anything, but default usage is:
-     *     local (development)
-     *     testing
-     *     production
-     * 
-     * @return string
-     */
-    public function bootEnvironment()
-    {
-        if (file_exists(__DIR__.DIRECTORY_SEPARATOR.'Http'.DIRECTORY_SEPARATOR.'Environments'.DIRECTORY_SEPARATOR.$this->environment().'.php')) {
-            require_once __DIR__.DIRECTORY_SEPARATOR.'Http'.DIRECTORY_SEPARATOR.'Environments'.DIRECTORY_SEPARATOR.$this->environment().'.php';
-        } else {
-            header('HTTP/1.1 503 Service Unavailable.', true, 503);
-            print('<style>
-                    body {
-                        background: #FBFCFC;
-                        display: flex;
-                        font-family: verdana, sans-seif;
-                        font-size: .9em;
-                        font-weight: 600;
-                        justify-content: flex-start;
-                        margin: 50px;
-                    }
-                    
-                    p {
-                        background: #F0F3F4;
-                        border-radius: 5px;
-                        box-shadow: 0 1px 4px #333333;
-                        color: #34495E;
-                        padding: 10px;
-                        text-align: center;
-                        text-shadow: 0 1px 0 #424949;
-                        width: 25%;
-                    }
-                </style>
-                <p>The application environment is not set correctly.</p>');
-            die(); // EXIT_ERROR
-        }
     }
 
     /**
