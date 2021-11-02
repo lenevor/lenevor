@@ -42,7 +42,7 @@ abstract class AutoloadConfig
 	 *  
 	 * @var string[] $coreClassmap
 	 */
-	protected $coreClassmap = __DIR__.DIRECTORY_SEPARATOR.'register'.DIRECTORY_SEPARATOR.'autoloadClassmap.php';
+	protected $coreClassmap = __DIR__.DIRECTORY_SEPARATOR.'Register'.DIRECTORY_SEPARATOR.'autoloadClassmap.php';
 
 	/**
 	 * ---------------------------------------------------------------------
@@ -54,7 +54,7 @@ abstract class AutoloadConfig
 	 * 
 	 * @var string[] $coreFiles
 	 */
-	protected $coreFiles = __DIR__.DIRECTORY_SEPARATOR.'register'.DIRECTORY_SEPARATOR.'autoloadFiles.php';
+	protected $coreFiles = __DIR__.DIRECTORY_SEPARATOR.'Register'.DIRECTORY_SEPARATOR.'autoloadFiles.php';
 
 	/**
 	 * ---------------------------------------------------------------------
@@ -67,5 +67,5 @@ abstract class AutoloadConfig
 	 * 
 	 * @var string[] $corePsr4
 	 */
-	protected $corePsr4 = __DIR__.DIRECTORY_SEPARATOR.'register'.DIRECTORY_SEPARATOR.'autoloadPsr4.php';
+	protected $corePsr4 = __DIR__.DIRECTORY_SEPARATOR.'Register'.DIRECTORY_SEPARATOR.'autoloadPsr4.php';
 }
