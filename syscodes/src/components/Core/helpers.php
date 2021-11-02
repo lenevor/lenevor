@@ -65,6 +65,20 @@ if ( ! function_exists('app')) {
     }
 }
 
+if ( ! function_exists('appPath')) {
+    /**
+     * Get the path to the application folder.
+     * 
+     * @param  string  $path
+     * 
+     * @return string
+     */
+    function appPath($path = '')
+    {
+        return app()->path($path);
+    }
+}
+
 if ( ! function_exists('asset')) {
     /**
      * Generate an asset path for the application.
@@ -169,6 +183,20 @@ if ( ! function_exists('config')) {
         }
         
         return app('config')->get($key, $value);
+    }
+}
+
+if ( ! function_exists('configPath')) {
+    /**
+     * Get the path to the configuration folder.
+     *
+     * @param  string  $path
+     * 
+     * @return string
+     */
+    function configPath($path = '')
+    {
+        return app()->configPath($path);
     }
 }
 
@@ -294,6 +322,21 @@ if ( ! function_exists('getClass')) {
     }
 }
 
+if ( ! function_exists('info')) {
+    /**
+     * Write some information to the log.
+     * 
+     * @param  string  $message
+     * @param  array  $context
+     * 
+     * @return void
+     */
+    function info($message, $context = [])
+    {
+        app('log')->info($message, $context);
+    }
+}
+
 if ( ! function_exists('isCli')) {
     /**
      * Determines if this request was made from the command line (CLI).
@@ -362,6 +405,20 @@ if ( ! function_exists('isImport')) {
         }
 
         require_once __DIR__.DIRECTORY_SEPARATOR.$folder.'/'.$path.'.php';
+    }
+}
+
+if ( ! function_exists('langPath')) {
+    /**
+     * Get the path to the language folder.
+     *
+     * @param  string  $path
+     * 
+     * @return string
+     */
+    function langPath($path = '')
+    {
+        return app('path.lang').($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 }
 
