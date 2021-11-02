@@ -48,9 +48,6 @@ class BootConfiguration
 		$app->detectEnvironment(function () use ($config) {
 		    return $config->get('app.env', 'production');
 		});
-		
-		// Load environment
-		$app->bootEnvironment();
 
 		// Set a default timezone if one is defined
 		date_default_timezone_set($config->get('app.timezone', 'UTC'));
