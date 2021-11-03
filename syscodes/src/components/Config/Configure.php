@@ -69,32 +69,34 @@ class Configure implements ArrayAccess, ConfigureContract
 	{
 		$keys = explode('.', $key);
 
-		if ( ! array_key_exists($file = current($keys), $this->vars)) {
-			foreach ([basepath('config').DIRECTORY_SEPARATOR] as $paths) {
+		if ( ! array_key_exists($file = head($keys), $this->vars)) {
+			foreach ([configPath().DIRECTORY_SEPARATOR] as $paths) {
 				if (is_readable($path = $paths.$file.'.php')) {
 					$this->vars[$file] = require $path;
 				}				
 			}
 		} 
-
+		
 		return Arr::get($this->vars, $key, $default);
 	}
 
 	/**
 	 * Sets a value in the config array.
 	 *
-	 * @param  string  $key  The dot-notated key or array of keys
+	 * @param  array|tring  $key  The dot-notated key or array of keys
 	 * @param  mixed  $value  The default value
 	 *
 	 * @return mixed
 	 *
 	 * @uses   \Syscodes\Components\Collections\Arr
 	 */
-	public function set(string $key, $value)
+	public function set($key, $value = null)
 	{
-		strpos($key, '.') === false || $this->vars[$key] = $value;
-		
-		Arr::set($this->$vars, $key, $value);
+		$keys = is_array($key) ? $key : [$key => $value];
+
+        foreach ($keys as $key => $value) {
+            Arr::set($this->vars, $key, $value);
+        }
 	}
 
 	/**
