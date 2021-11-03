@@ -558,12 +558,25 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
+     * An alias function name for make().
+     * 
+     * @param  string  $id
+     * @param  array  $parameters
+     * 
+     * @return mixed
+     */
+    public function makeAssign($id, array $parameters = [])
+    {
+        return $this->make($id, $parameters);
+    }
+
+    /**
      * Resolve the given type from the container.
      * 
      * @param  string  $id
      * @param  array  $parameters
      * 
-     * @return object
+     * @return mixed
      */
     public function make($id, array $parameters = []) 
     {
