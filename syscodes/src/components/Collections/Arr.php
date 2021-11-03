@@ -262,6 +262,10 @@ class Arr
 		if (static::exists($array, $key)) {
 			return $array[$key];
 		}
+		
+		if (strpos($key, '.') === false) {
+			return $array[$key] ?? value($default);
+		}
 
 		$segments = explode('.', $key);
 
