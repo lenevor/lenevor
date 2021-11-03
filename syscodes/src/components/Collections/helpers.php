@@ -40,15 +40,15 @@ if ( ! function_exists('collect')) {
 
 if ( ! function_exists('head')) {
     /**
-     * Get the first element of an array. Useful for method chaining.
+     * Get the actual element of an array. Useful for method chaining.
      *
      * @param  array  $array
      *
      * @return mixed
      */
-    function head($array)
+    function head($array, $bool = false)
     {
-        return reset($array);
+        return $bool ? reset($array) : current($array);
     }
 }
 
