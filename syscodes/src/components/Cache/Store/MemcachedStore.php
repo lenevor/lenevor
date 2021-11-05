@@ -76,11 +76,7 @@ class MemcachedStore implements Store
     }
 
     /**
-     * Gets an item from the cache by key.
-     * 
-     * @param  string|array  $key
-     * 
-     * @return mixed
+     * @inheritdoc
      */
     public function get($key)
     {
@@ -106,13 +102,7 @@ class MemcachedStore implements Store
     }
 
     /**
-     * Store an item in the cache for a given number of seconds.
-     * 
-     * @param  string  $key
-     * @param  mixed  $value
-     * @param  int  $seconds
-     * 
-     * @return bool
+     * @inheritdoc
      */
     public function put($key, $value, $seconds)
     {
@@ -120,12 +110,7 @@ class MemcachedStore implements Store
     }
 
     /**
-     * Increment the value of an item in the cache.
-     * 
-     * @param  string  $key
-     * @param  mixed  $value
-     * 
-     * @return int
+     * @inheritdoc
      */
     public function increment($key, $value = 1)
     {
@@ -133,12 +118,7 @@ class MemcachedStore implements Store
     }
 
     /**
-     * Decrement the value of an item in the cache.
-     * 
-     * @param  string  $key
-     * @param  mixed  $value
-     * 
-     * @return int
+     * @inheritdoc
      */
     public function decrement($key, $value = 1)
     {
@@ -146,11 +126,7 @@ class MemcachedStore implements Store
     }
 
      /**
-     * Remove a specific item from the cache store.
-     * 
-     * @param  string  $key
-     * 
-     * @return bool
+     * @inheritdoc
      */
     public function delete($key)
     {
@@ -158,12 +134,7 @@ class MemcachedStore implements Store
     }
 
     /**
-     * Stores an item in the cache indefinitely.
-     * 
-     * @param  string  $key
-     * @param  mixed  $value
-     * 
-     * @return bool
+     * @inheritdoc
      */
     public function forever($key, $value)
     {
@@ -171,9 +142,7 @@ class MemcachedStore implements Store
     }
 
     /**
-     * Remove all items from the cache.
-     * 
-     * @return bool
+     * R@inheritdoc
      */
     public function flush()
     {
@@ -191,9 +160,7 @@ class MemcachedStore implements Store
     }
 
     /**
-     * Gets the cache key prefix.
-     * 
-     * @return string
+     * @inheritdoc
      */
     public function getPrefix()
     {
