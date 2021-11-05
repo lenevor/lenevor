@@ -96,9 +96,9 @@ interface Store
     public function flush();
     
     /**
-     * Gets the cache key prefix
+     * Gets the cache key prefix.
      *
      * @return string
      */
-    public function getPrefix();
+    public function getPrefix(): string;
 }
