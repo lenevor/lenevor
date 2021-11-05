@@ -34,12 +34,14 @@ interface Key
      * 
      * @return  string
      */
-    public function getKeyName();
+    public function getKeyName(): string;
 
     /**
-     * Returns a key name that is suitable for the cache implementation being used.
+     * Fixes the string to remove unallowed characters.
      *
-     * @return  string
+     * @param  string  $key
+     * 
+     * @return string
      */
-    public function __toString();
+    public function getFixKeyChars(string $key): string;
 }
