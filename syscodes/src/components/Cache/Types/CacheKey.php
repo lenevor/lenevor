@@ -52,42 +52,39 @@ class CacheKey implements Key
      * 
      * @return string 
      */
-    public function __construct($key)
+    public function __construct(string $key)
     {
         $this->keyName = $this->getFixKeyChars($key);
     }
 
     /**
-     * Returns a key name that is suitable for the cache implementation being used.
-     * 
-     * @return string
+     * @inheritdoc
      */
-    public function getKeyName()
+    public function getKeyName(): string
     {
         return $this->keyName;
     }
 
     /**
-     * Returns a key name that is suitable for the cache implementation being used.
+     * @inheritdoc
+     */
+    public function getFixKeyChars(string $key): string
+    {
+        $parts = preg_replace(static::$invalidCharRegex, '', array_slice(str_split($hash = sha1($key), 2), 0, 2));
+
+        return implode(DIRECTORY_SEPARATOR, $parts).DIRECTORY_SEPARATOR.$hash;
+    }
+
+    /**
+     * Magic method. 
+     * 
+     * Returns a key name that is suitable for the cache 
+     * implementation being used.
      * 
      * @return string
      */
     public function __toString()
     {
         return (string) $this->keyName;
-    }
-
-    /**
-     * Fixes the string to remove unallowed characters.
-     *
-     * @param  string  $key
-     * 
-     * @return string
-     */
-    public function getFixKeyChars($key)
-    {
-        $parts = preg_replace(static::$invalidCharRegex, '', array_slice(str_split($hash = sha1($key), 2), 0, 2));
-
-        return implode(DIRECTORY_SEPARATOR, $parts).DIRECTORY_SEPARATOR.$hash;
     }
 }
