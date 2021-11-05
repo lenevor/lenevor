@@ -36,7 +36,7 @@ interface Repository
      * 
      * @return bool
      */
-    public function has($key);
+    public function has($key): bool;
 
     /**
      * Attempts to retrieve an item from the cache by key.
@@ -75,7 +75,7 @@ interface Repository
      * 
      * @return int
      */
-    public function increment($key, $value = 1);
+    public function increment($key, $value = 1): int;
 
     /**
      * Decrement the value of an item in the cache.
@@ -85,7 +85,7 @@ interface Repository
      * 
      * @return int
      */
-    public function decrement($key, $value = 1);
+    public function decrement($key, $value = 1): int;
 
     /**
      * Remove a specific item from the cache store.
@@ -94,7 +94,7 @@ interface Repository
      * 
      * @return bool
      */
-    public function delete($key);
+    public function delete($key): bool;
 
     /**
      * Stores an item in the cache indefinitely.
@@ -104,14 +104,14 @@ interface Repository
      * 
      * @return bool
      */
-    public function forever($key, $value);
+    public function forever($key, $value): bool;
 
     /**
      * Remove all items from the cache.
      * 
      * @return bool
      */
-    public function clear();
+    public function clear(): bool;
 
     /**
      * Get the cache store implementation.
@@ -119,4 +119,20 @@ interface Repository
      * @return \Syscodes\Contracts\Cache\Store
      */
     public function getStore();
+
+    /**
+     * Get the default cache time.
+     * 
+     * @return int
+     */
+    public function getCacheTime(): int;
+
+    /**
+     * Set the default cache time in seconds
+     * 
+     * @param  int|null  $seconds
+     * 
+     * @return self
+     */
+    public function setCacheTime($seconds): self;
 }
