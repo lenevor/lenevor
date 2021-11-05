@@ -70,11 +70,7 @@ class RedisStore implements Store
     }
 
     /**
-     * Gets an item from the cache by key.
-     * 
-     * @param  string|array  $key
-     * 
-     * @return mixed
+     * @inheritdoc
      */
     public function get($key)
     {
@@ -84,13 +80,7 @@ class RedisStore implements Store
     }
 
     /**
-     * Store an item in the cache for a given number of seconds.
-     * 
-     * @param  string  $key
-     * @param  mixed  $value
-     * @param  int  $seconds
-     * 
-     * @return bool
+     * @inheritdoc
      */
     public function put($key, $value, $seconds)
     {
@@ -102,12 +92,7 @@ class RedisStore implements Store
     }
 
     /**
-     * Increment the value of an item in the cache.
-     * 
-     * @param  string  $key
-     * @param  mixed  $value
-     * 
-     * @return int
+     * @inheritdoc
      */
     public function increment($key, $value = 1)
     {
@@ -115,12 +100,7 @@ class RedisStore implements Store
     }
 
     /**
-     * Decrement the value of an item in the cache.
-     * 
-     * @param  string  $key
-     * @param  mixed  $value
-     * 
-     * @return int
+     * @inheritdoc
      */
     public function decrement($key, $value = 1)
     {
@@ -128,11 +108,7 @@ class RedisStore implements Store
     }
 
     /**
-     * Remove a specific item from the cache store.
-     * 
-     * @param  string  $key
-     * 
-     * @return bool
+     * @inheritdoc
      */
     public function delete($key)
     {
@@ -140,12 +116,7 @@ class RedisStore implements Store
     }
 
     /**
-     * Stores an item in the cache indefinitely.
-     * 
-     * @param  string  $key
-     * @param  mixed  $value
-     * 
-     * @return bool
+     * @inheritdoc
      */
     public function forever($key, $value)
     {
@@ -153,9 +124,7 @@ class RedisStore implements Store
     }
 
     /**
-     * Remove all items from the cache.
-     * 
-     * @return bool
+     * @inheritdoc
      */
     public function flush()
     {
@@ -197,11 +166,9 @@ class RedisStore implements Store
     }
 
     /**
-     * Get the cache key prefix.
-     * 
-     * @return string
+     * @inheritdoc
      */
-    public function getPrefix()
+    public function getPrefix(): string
     {
         return $this->prefix;
     }
