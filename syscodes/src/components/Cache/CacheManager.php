@@ -90,11 +90,7 @@ class CacheManager implements ManagerContract
     }
     
     /**
-     * Get a cache store instance by name.
-     * 
-     * @param  string|null  $name
-     * 
-     * @return \Syscodes\Components\Cache\CacheRepository
+     * @inheritdoc
      */
     public function store(string $name = null)
     {
@@ -289,9 +285,7 @@ class CacheManager implements ManagerContract
     }
 
     /**
-     * Get the default cache driver name.
-     * 
-     * @return array
+     * @inheritdoc
      */
     public function getDefaultDriver()
     {
@@ -299,11 +293,7 @@ class CacheManager implements ManagerContract
     }
     
     /**
-     * Set the default cache driver name.
-     * 
-     * @param  string  $name
-     * 
-     * @return array
+     * @inheritdoc
      */
     public function setDefaultDriver(string $name)
     {
@@ -326,6 +316,8 @@ class CacheManager implements ManagerContract
     }
 
     /**
+     * Magic method.
+     * 
      * Dynamically call the default driver instance.
      * 
      * @param  string  $method
