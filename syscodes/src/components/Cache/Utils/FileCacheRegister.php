@@ -43,7 +43,7 @@ class FileCacheRegister implements Serializable
     /**
      * Constructor class.
      * 
-     * @param  string  $data
+     * @param  string|null  $data
      * 
      * @return string
      */
@@ -57,7 +57,7 @@ class FileCacheRegister implements Serializable
      * 
      * @return string
      */
-    public function getData()
+    public function getData(): string
     {
         return $this->data;
     }
@@ -77,9 +77,9 @@ class FileCacheRegister implements Serializable
      * 
      * @param  string  $unserialize
      * 
-     * @return $this
+     * @return self
      */
-    public function unserialize($unserialize)
+    public function unserialize($unserialize): self
     {
         $this->data = unserialize($unserialize);
         
