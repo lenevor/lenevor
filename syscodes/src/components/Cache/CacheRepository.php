@@ -64,24 +64,15 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * Determine if an item exists in the cache.
-     * 
-     * @param  string  $key
-     * 
-     * @return bool
+     * @inheritdoc
      */
-    public function has($key)
+    public function has($key): bool
     {
         return ! is_null($this->get($key));
     }
 
     /**
-     * Attempts to retrieve an item from the cache by key.
-     * 
-     * @param  string  $key  Cache item name
-     * @param  mixed  $default
-     * 
-     * @return mixed
+     * @inheritdoc
      */
     public function get($key, $default = null)
     {
@@ -95,12 +86,7 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * Retrieve an item from the cache and delete it.
-     * 
-     * @param  string  $key
-     * @param  mixed  $default
-     * 
-     * @return mixed
+     * @inheritdoc
      */
     public function pull($key, $default = null)
     {
@@ -110,13 +96,7 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * Saves an item to the cache store.
-     * 
-     * @param  string  $key  Cache item name
-     * @param  mixed  $value  The data to save 
-     * @param  int|null  $ttl  Time To Live, in second
-     * 
-     * @return mixed
+     * @inheritdoc
      */
     public function save($key, $value, $ttl = null)
     {
@@ -134,12 +114,7 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * Increment the value of an item in the cache.
-     * 
-     * @param  string  $key
-     * @param  mixed  $value
-     * 
-     * @return int
+     * @inheritdoc
      */
     public function increment($key, $value = 1)
     {
@@ -147,12 +122,7 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * Decrement the value of an item in the cache.
-     * 
-     * @param  string  $key
-     * @param  mixed  $value
-     * 
-     * @return int
+     * @inheritdoc
      */
     public function decrement($key, $value = 1)
     {
@@ -160,34 +130,23 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * Remove a specific item from the cache store.
-     * 
-     * @param  string  $key
-     * 
-     * @return bool
+     * @inheritdoc
      */
-    public function delete($key)
+    public function delete($key): bool
     {
         return $this->store->delete($this->itemKey($key));
     }
 
     /**
-     * Stores an item in the cache indefinitely.
-     * 
-     * @param  string  $key
-     * @param  mixed  $value
-     * 
-     * @return bool
+     * @inheritdoc
      */
-    public function forever($key, $value)
+    public function forever($key, $value): bool
     {
         return $this->store->forever($this->itemKey($key), $value);
     }
 
     /**
-     * Remove all items from the cache.
-     * 
-     * @return bool
+     * @inheritdoc
      */
     public function clear()
     {
@@ -225,9 +184,7 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * Get the cache store implementation.
-     * 
-     * @return \Syscodes\Components\Contracts\Cache\Store
+     * @inheritdoc
      */
     public function getStore()
     {
@@ -235,9 +192,7 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * Get the default cache time.
-     * 
-     * @return int
+     * @inheritdoc
      */
     public function getCacheTime()
     {
@@ -245,13 +200,9 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * Set the default cache time in seconds
-     * 
-     * @param  int|null  $seconds
-     * 
-     * @return $this
+     * @inheritdoc
      */
-    public function setCacheTime($seconds)
+    public function setCacheTime($seconds): self
     {
         $this->cacheTime = $seconds;
 
