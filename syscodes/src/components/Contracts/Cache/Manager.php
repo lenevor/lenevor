@@ -22,6 +22,8 @@
 
 namespace Syscodes\Components\Contracts\Cache;
 
+use Closure;
+
 /**
  * Get function for generate a cache store instance by name.
  * 
@@ -30,6 +32,15 @@ namespace Syscodes\Components\Contracts\Cache;
 interface Manager
 {
     /**
+     * Get a cache driver instance.
+     * 
+     * @param  string|null
+     * 
+     * @return \Syscodes\Components\Cache\CacheRepository
+     */
+    public function driver($driver = null);
+
+    /**
      * Get a cache store instance by name.
      * 
      * @param  string|null  $name
@@ -37,4 +48,39 @@ interface Manager
      * @return \Syscodes\Components\Cache\CacheRepository
      */
     public function store(string $store = null);
+
+    /**
+     * Get the store from the local cache.
+     * 
+     * @param  string  $name
+     * 
+     * @return \Syscodes\Components\Cache\CacheRepository
+     */
+    public function get($name);
+
+    /**
+     * Get the default cache driver name.
+     * 
+     * @return array
+     */
+    public function getDefaultDriver();
+
+    /**
+     * Set the default cache driver name.
+     * 
+     * @param  string  $name
+     * 
+     * @return array
+     */
+    public function setDefaultDriver(string $name);
+
+    /**
+     * Register a custom driver creator Closure.
+     * 
+     * @param  string  $driver
+     * @param  \Closure  $callback
+     * 
+     * @return $this
+     */
+    public function extend($driver, Closure $callback);
 }
