@@ -36,27 +36,27 @@ interface Pipeline
      * 
      * @param  mixed  $sender
      * 
-     * @return $this
+     * @return self
      */
-    public function send($sender);
+    public function send($sender): self;
 
     /**
      * Set the array of pipes.
      * 
      * @param  array|mixed  $pipes
      * 
-     * @return $this
+     * @return self
      */
-    public function through($pipes);
+    public function through($pipes): self;
 
     /**
      * Set the method to call on the stops.
      * 
      * @param  string  $method
      * 
-     * @return $this
+     * @return self
      */
-    public function method($method);
+    public function method($method): self;
 
     /**
      * Run the pipeline with a final destination callback.
