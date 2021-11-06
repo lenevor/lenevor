@@ -36,7 +36,7 @@ interface Configure
 	 * 
 	 * @return bool
 	 */
-	public function has(string $key);
+	public function has(string $key): bool;
 
 	/**
 	 * Deletes a (dot notated) config item.
