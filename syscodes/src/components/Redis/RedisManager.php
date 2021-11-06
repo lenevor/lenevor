@@ -61,7 +61,7 @@ class RedisManager
      * 
      * @return array
      */
-    protected function createAggregateclient(array $servers)
+    protected function createAggregateclient(array $servers): array
     {
         $servers = array_except($servers, ['cluster']);
 
@@ -75,7 +75,7 @@ class RedisManager
      * 
      * @return array
      */
-    protected function createSingleClient(array $servers)
+    protected function createSingleClient(array $servers): array
     {
         $clients = [];
 
@@ -103,6 +103,8 @@ class RedisManager
     }
 
     /**
+     * Magic method.
+     * 
      * Dynamically make a Redis connection.
      * 
      * @param  string  $method
