@@ -47,7 +47,7 @@ class HigherOrderTakeProxy
     }
 
     /**
-     * Magic method.
+     * Magic method. 
      * 
      * Dynamically pass method calls to the target.
      * 
