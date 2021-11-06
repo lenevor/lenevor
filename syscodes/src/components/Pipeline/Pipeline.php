@@ -81,9 +81,9 @@ class Pipeline implements PipelineContract
      * 
      * @param  mixed  $sender
      * 
-     * @return $this
+     * @return self
      */
-    public function send($sender)
+    public function send($sender): self
     {
         $this->passable = $sender;
 
@@ -95,9 +95,9 @@ class Pipeline implements PipelineContract
      * 
      * @param  array|mixed  $pipes
      * 
-     * @return $this
+     * @return self
      */
-    public function through($pipes)
+    public function through($pipes): self
     {
         $this->pipes = is_array($pipes) ? $pipes : func_get_args();
 
@@ -109,9 +109,9 @@ class Pipeline implements PipelineContract
      * 
      * @param  string  $method
      * 
-     * @return $this
+     * @return self
      */
-    public function method($method)
+    public function method($method): self
     {
         $this->method = $method;
 
@@ -139,7 +139,7 @@ class Pipeline implements PipelineContract
      * 
      * @return array
      */
-    protected function getPipes()
+    protected function getPipes(): array
     {
         return $this->pipes;
     }
@@ -185,7 +185,7 @@ class Pipeline implements PipelineContract
      * 
      * @return array
      */
-    protected function parsePipeString($pipe)
+    protected function parsePipeString($pipe): string
     {
         [$name, $parameters] = array_pad(explode(':', $pipe, 2), 2, []);
         
@@ -250,9 +250,9 @@ class Pipeline implements PipelineContract
      * 
      * @param  \Syscodes\Components\Contracts\Container\Container  $container
      * 
-     * @return $this
+     * @return self
      */
-    protected function setContainer(Container $container)
+    protected function setContainer(Container $container): self
     {
         $this->container = $container;
 
