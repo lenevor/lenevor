@@ -47,6 +47,8 @@ class HigherOrderTakeProxy
     }
 
     /**
+     * Magic method.
+     * 
      * Dynamically pass method calls to the target.
      * 
      * @param  string  $method
