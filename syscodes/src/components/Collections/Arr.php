@@ -37,11 +37,11 @@ class Arr
 	 *
 	 * @param  mixed  $value The default value
 	 *
-	 * @return bool
+	 * @return mixed
 	 *
 	 * @uses   instanceof ArrayAccess
 	 */
-	public static function access($value) 
+	public static function access($value)
 	{
 		return is_array($value) || $value instanceof ArrayAccess;
 	}
@@ -67,9 +67,9 @@ class Arr
 	/**
      * Collapse the collection items into a single array.
      * 
-     * @return static
+     * @return array
      */
-    public static function collapse($array)
+    public static function collapse($array): array
     {
         $results = [];
 
@@ -93,7 +93,7 @@ class Arr
 	 *
 	 * @return array
 	 */
-	public static function divide($array)
+	public static function divide($array): array
 	{
 		return [array_keys($array), array_values($array)];
 	}
@@ -106,7 +106,7 @@ class Arr
 	 *
 	 * @return array
 	 */
-	public static function except($array, $keys)
+	public static function except($array, $keys): array
 	{
 		static::erase($array, $keys);
 
@@ -123,7 +123,7 @@ class Arr
 	 *
 	 * @uses   instaceof ArrayAccess
 	 */
-	public static function exists($array, $key) 
+	public static function exists($array, $key): bool
 	{
 		if ($array instanceof ArrayAccess) {
 			return $array->offsetExists($key);
@@ -184,7 +184,7 @@ class Arr
 	 * 
 	 * @return array
 	 */
-	public static function flatten($array)
+	public static function flatten($array): array
 	{
 		$result = [];
 
@@ -203,7 +203,7 @@ class Arr
 	 * 
 	 * @return array
 	 */
-	public static function fetch($array, $key)
+	public static function fetch($array, $key): array
 	{
 		$segments = explode('.', $key);
 		
@@ -308,7 +308,7 @@ class Arr
 	 * 
 	 * @return bool
 	 */
-	public static function has($array, $key)
+	public static function has($array, $key): bool
 	{
 		if (empty($array) || is_null($key)) return false;
 		
@@ -358,7 +358,7 @@ class Arr
 	 * 
 	 * @return array
 	 */
-	public static function only($array, $keys)
+	public static function only($array, $keys): array
 	{
 		return array_intersect_key($array, array_flip($array), $keys);
 	}
@@ -404,7 +404,7 @@ class Arr
 	 * 
 	 * @return array
 	 */
-	public static function prepend($array, $value, $key = null)
+	public static function prepend($array, $value, $key = null): array
 	{
 		if (func_num_args() == 2) {
 			array_unshift($array, $value);
@@ -442,7 +442,7 @@ class Arr
 	 * 
 	 * @return array
 	 */
-	public static function pluck($array, $value, $key = null)
+	public static function pluck($array, $value, $key = null): array
 	{
 		$results = [];
 
@@ -484,7 +484,7 @@ class Arr
 	 * 
 	 * @return array
 	 */
-	public static function where($array, Callable $callback)
+	public static function where($array, Callable $callback): array
 	{
 		return array_filter($array, $callback, ARRAY_FILTER_USE_BOTH);
 	}
