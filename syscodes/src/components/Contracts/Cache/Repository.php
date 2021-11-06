@@ -73,9 +73,9 @@ interface Repository
      * @param  string  $key
      * @param  mixed  $value
      * 
-     * @return int
+     * @return int|bool
      */
-    public function increment($key, $value = 1): int;
+    public function increment($key, $value = 1);
 
     /**
      * Decrement the value of an item in the cache.
@@ -83,9 +83,9 @@ interface Repository
      * @param  string  $key
      * @param  mixed  $value
      * 
-     * @return int
+     * @return int|bool
      */
-    public function decrement($key, $value = 1): int;
+    public function decrement($key, $value = 1);
 
     /**
      * Remove a specific item from the cache store.
