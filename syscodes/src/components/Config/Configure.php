@@ -50,7 +50,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	 * 
 	 * @return bool
 	 */
-	public function has(string $key)
+	public function has(string $key): bool
 	{
 		return Arr::has($this->vars, $key);
 	}
@@ -122,7 +122,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	 * 
 	 * @return array
 	 */
-	public function all()
+	public function all(): array
 	{
 		return $this->vars;
 	}
