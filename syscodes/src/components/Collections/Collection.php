@@ -63,7 +63,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @return array
      */
-    public function all()
+    public function all(): array
     {
         return $this->items;
     }
@@ -163,9 +163,9 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @param  \callable  $callback
      * 
-     * @return $this
+     * @return self
      */
-    public function each(callable $callback)
+    public function each(callable $callback): self
     {
         array_map($callback, $this->items);
 
@@ -228,7 +228,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @return bool
      */
-    public function has($key)
+    public function has($key): bool
     {
         return Arr::has($this->items, $key);
     }
@@ -238,9 +238,9 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @param  string|array  $keys
      * 
-     * @return $this
+     * @return self
      */
-    public function erase($keys)
+    public function erase($keys): self
     {
         foreach ((array) $keys as $key) {
             $this->offsetUnset($key);
@@ -341,7 +341,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @return bool
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return empty($this->items);
     }
@@ -412,9 +412,9 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @param  mixed  $values  [optional]
      * 
-     * @return $this
+     * @return self
      */
-    public function push(...$values)
+    public function push(...$values): self
     {
         foreach ($values as $value) {
             $this->items[] = $value;
