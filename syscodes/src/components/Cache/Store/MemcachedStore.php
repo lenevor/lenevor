@@ -76,7 +76,7 @@ class MemcachedStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get($key)
     {
@@ -102,7 +102,7 @@ class MemcachedStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function put($key, $value, $seconds)
     {
@@ -110,7 +110,7 @@ class MemcachedStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function increment($key, $value = 1)
     {
@@ -118,7 +118,7 @@ class MemcachedStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function decrement($key, $value = 1)
     {
@@ -126,7 +126,7 @@ class MemcachedStore implements Store
     }
 
      /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function delete($key)
     {
@@ -134,7 +134,7 @@ class MemcachedStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function forever($key, $value)
     {
@@ -142,7 +142,7 @@ class MemcachedStore implements Store
     }
 
     /**
-     * R@inheritdoc
+     * {@inheritdoc}
      */
     public function flush()
     {
@@ -160,7 +160,7 @@ class MemcachedStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getPrefix()
     {
