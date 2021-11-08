@@ -39,7 +39,7 @@ class NullStore implements Store
     protected $storage = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get($key)
     {
@@ -47,7 +47,7 @@ class NullStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function put($key, $value, $seconds)
     {
@@ -55,7 +55,7 @@ class NullStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function increment($key, $value = 1)
     {
@@ -63,7 +63,7 @@ class NullStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function decrement($key, $value = 1)
     {
@@ -71,9 +71,7 @@ class NullStore implements Store
     }
 
     /**
-     * @inheritdoc
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function delete($key)
     {
@@ -81,7 +79,7 @@ class NullStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function forever($key, $value)
     {
@@ -89,7 +87,7 @@ class NullStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function flush()
     {
@@ -97,7 +95,7 @@ class NullStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getPrefix(): string
     {
