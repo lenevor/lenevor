@@ -204,7 +204,7 @@ class FileStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function decrement($key, $value = 1)
     {
@@ -212,7 +212,7 @@ class FileStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function delete($key)
     {
@@ -224,7 +224,7 @@ class FileStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function forever($key, $value)
     {
@@ -232,7 +232,7 @@ class FileStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function flush()
     {
@@ -270,7 +270,7 @@ class FileStore implements Store
     }
 
      /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getPrefix(): string
     {
