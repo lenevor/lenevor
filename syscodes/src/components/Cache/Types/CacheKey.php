@@ -58,7 +58,7 @@ class CacheKey implements Key
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getKeyName(): string
     {
@@ -66,7 +66,7 @@ class CacheKey implements Key
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getFixKeyChars(string $key): string
     {
