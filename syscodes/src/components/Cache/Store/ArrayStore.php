@@ -42,7 +42,7 @@ class ArrayStore implements Store
     protected $storage = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get($key)
     {
@@ -62,7 +62,7 @@ class ArrayStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function put($key, $value, $seconds)
     {
@@ -75,7 +75,7 @@ class ArrayStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function increment($key, $value = 1)
     {
@@ -91,7 +91,7 @@ class ArrayStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function decrement($key, $value = 1)
     {
@@ -99,7 +99,7 @@ class ArrayStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function delete($key)
     {
@@ -114,7 +114,7 @@ class ArrayStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function forever($key, $value)
     {
@@ -122,7 +122,7 @@ class ArrayStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function flush()
     {
@@ -132,7 +132,7 @@ class ArrayStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getPrefix()
     {
