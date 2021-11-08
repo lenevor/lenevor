@@ -60,7 +60,7 @@ class ApcStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get($key)
     {
@@ -72,7 +72,7 @@ class ApcStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function put($key, $value, $seconds)
     {
@@ -80,7 +80,7 @@ class ApcStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function increment($key, $value = 1)
     {
@@ -88,7 +88,7 @@ class ApcStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function decrement($key, $value = 1)
     {
@@ -96,7 +96,7 @@ class ApcStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function delete($key)
     {
@@ -104,7 +104,7 @@ class ApcStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function forever($key, $value)
     {
@@ -112,7 +112,7 @@ class ApcStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function flush()
     {
@@ -120,7 +120,7 @@ class ApcStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getPrefix(): string
     {
