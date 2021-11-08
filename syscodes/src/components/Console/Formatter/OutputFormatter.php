@@ -74,7 +74,7 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setDecorated(bool $decorated): void
     {
@@ -82,7 +82,7 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getDecorated(): bool
     {
@@ -90,7 +90,7 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setStyle($name, OutputFormatterStyleInterface $style): void
     {
@@ -98,7 +98,7 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function hasStyle($name): bool
     {
@@ -106,7 +106,7 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getStyle($name): string
     {
@@ -118,7 +118,7 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function format(?string $message): string
     {
