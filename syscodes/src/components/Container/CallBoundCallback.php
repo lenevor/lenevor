@@ -34,7 +34,7 @@ use Syscodes\Components\Support\Str;
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class CallBoundCallback
+final class CallBoundCallback
 {
     /**
      * Call the given Closure / class@method and inject its dependencies.
@@ -97,6 +97,8 @@ class CallBoundCallback
      * @param  \Syscodes\Container\Container  $container
      * @param  array  $dependencies
      * @param  \ReflectionFunctionAbstract  $reflector
+     * 
+     * @return array
      */
     protected static function getMethodDependencies(Container $container, array $parameters, ReflectionFunctionAbstract $reflector)
     {
