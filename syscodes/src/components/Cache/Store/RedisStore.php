@@ -70,7 +70,7 @@ class RedisStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get($key)
     {
@@ -80,7 +80,7 @@ class RedisStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function put($key, $value, $seconds)
     {
@@ -92,7 +92,7 @@ class RedisStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function increment($key, $value = 1)
     {
@@ -100,7 +100,7 @@ class RedisStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function decrement($key, $value = 1)
     {
@@ -108,7 +108,7 @@ class RedisStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function delete($key)
     {
@@ -116,7 +116,7 @@ class RedisStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function forever($key, $value)
     {
@@ -124,7 +124,7 @@ class RedisStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function flush()
     {
@@ -166,7 +166,7 @@ class RedisStore implements Store
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getPrefix(): string
     {
