@@ -64,7 +64,7 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function has($key): bool
     {
@@ -72,7 +72,7 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get($key, $default = null)
     {
@@ -86,7 +86,7 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function pull($key, $default = null)
     {
@@ -96,7 +96,7 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function save($key, $value, $ttl = null)
     {
@@ -114,7 +114,7 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function increment($key, $value = 1)
     {
@@ -122,7 +122,7 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function decrement($key, $value = 1)
     {
@@ -130,7 +130,7 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function delete($key): bool
     {
@@ -138,7 +138,7 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function forever($key, $value): bool
     {
@@ -146,7 +146,7 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function clear()
     {
@@ -184,7 +184,7 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getStore()
     {
@@ -192,7 +192,7 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getCacheTime()
     {
@@ -200,7 +200,7 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setCacheTime($seconds): self
     {
@@ -278,6 +278,8 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
+     * Magic Method.
+     * 
      * Clone cache repository instance.
      * 
      * return void
