@@ -42,7 +42,7 @@ interface Container extends ContainerInterface
      * 
      * @return void
      */
-    public function alias($id, $alias);
+    public function alias($id, $alias): void;
 
     /**
      * Register a binding with container.
@@ -53,7 +53,16 @@ interface Container extends ContainerInterface
      * 
      * @return void
      */
-    public function bind($id, $value = null, bool $singleton = false);
+    public function bind($id, $value = null, bool $singleton = false): void;
+
+    /**
+     * Determine if the given id type has been resolved.
+     *
+     * @param  string  $id
+     * 
+     * @return bool
+     */
+    public function resolved($id): bool;
 
     /**
      * Extender an id type in the container.
@@ -61,9 +70,19 @@ interface Container extends ContainerInterface
      * @param  string    $id
      * @param  \Closure  $closure
      * 
-     * @return void
+     * @return mixed
      */
     public function extend($id, Closure $closure);
+    
+    /**
+     * Register a singleton binding in the container.
+     * 
+     * @param  string  $id
+     * @param  \Closure|string|null  $value
+     * 
+     * @return void
+     */
+    public function singleton($id, $value = null): void;
 
      /**
      * Marks a callable as being a factory service.
@@ -72,14 +91,23 @@ interface Container extends ContainerInterface
      * 
      * @return \Closure
      */
-    public function factory($id);
+    public function factory($id): Closure;
+
+    /**
+     * Get the alias for an id if available.
+     * 
+     * @param  string  $id
+     * 
+     * @return string
+     */
+    public function getAlias($id): string;
 
     /**
      * Return and array containing all bindings.
      * 
      * @return array
      */
-    public function getBindings();
+    public function getBindings(): array;
 
      /**
      * Register an existing instance as singleton in the container.
@@ -92,6 +120,23 @@ interface Container extends ContainerInterface
     public function instance($id, $instance);
 
     /**
+     * Return all defined value binding.
+     * 
+     * @return array
+     */
+    public function keys(): array;
+
+    /**
+     * An alias function name for make().
+     * 
+     * @param  string  $id
+     * @param  array  $parameters
+     * 
+     * @return mixed
+     */
+    public function makeAssign($id, array $parameters = []);
+
+    /**
      * Resolve the given type from the container.
      * 
      * @param  string  $id
@@ -102,13 +147,33 @@ interface Container extends ContainerInterface
     public function make($id, array $parameters = []);
 
     /**
+     * Determine if a given string is an alias.
+     * 
+     * @param  string  $name
+     * 
+     * @return bool
+     */
+    public function isAlias($name): bool;
+
+    /**
+     * Call the given callable / class@method and inject its dependencies.
+     * 
+     * @param  \callable|string  $callback
+     * @param  array  $parameters
+     * @param  string|null  $defaultMethod
+     * 
+     * @return mixed
+     */
+    public function call($callback, array $parameters = [], string $defaultMethod = null);
+
+    /**
      * Remove all id traces of the specified binding.
      * 
      * @param  string  $id
      * 
      * @return void
      */
-    public function remove($id);
+    public function remove($id): void;
 
     /**
      * Set the binding with given key / value.
@@ -116,17 +181,14 @@ interface Container extends ContainerInterface
      * @param  string  $id
      * @param  string  $value
      * 
-     * @return $this
+     * @return self
      */
-    public function set($id, string $value);
+    public function set($id, string $value): self;
 
-     /**
-     * Register a singleton binding in the container.
-     * 
-     * @param  string  $id
-     * @param  \Closure|string|null  $value
+    /**
+     * Flush the container of all bindings and resolved instances.
      * 
      * @return void
      */
-    public function singleton($id, $value = null);
+    public function flush(): void;
 }
