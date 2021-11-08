@@ -33,13 +33,20 @@ use Syscodes\Components\Contracts\Container\Container;
 interface Application extends Container
 {
     /**
+     * Get the version number of the application.
+     * 
+     * @return string
+     */
+    public function version(): string;
+
+    /**
      * Get the base path of the Lenevor installation.
      *
      * @param  string  $path  Optionally, a path to append to the base path
      * 
      * @return string
      */
-    public function basePath($path = '');
+    public function basePath($path = ''): string;
 
     /**
      * Get the path to the bootstrap directory.
@@ -48,7 +55,7 @@ interface Application extends Container
      * 
      * @return string
      */
-    public function bootstrapPath($path = '');
+    public function bootstrapPath($path = ''): string;
 
     /**
      * Get the path to the application configuration files.
@@ -57,7 +64,7 @@ interface Application extends Container
      * 
      * @return string
      */
-    public function configPath($path = '');
+    public function configPath($path = ''): string;
 
     /**
      * Get the path to the database directory.
@@ -66,7 +73,21 @@ interface Application extends Container
      * 
      * @return string
      */
-    public function databasePath($path = '');
+    public function databasePath($path = ''): string;
+
+    /**
+     * Get the path to the lang directory.
+     * 
+     * @return string
+     */
+    public function langPath(): string;
+
+    /**
+     * Get the path to the public / web directory.
+     * 
+     * @return string
+     */
+    public function publicPath(): string;
 
     /**
      * Get the path to the resources directory.
@@ -74,14 +95,23 @@ interface Application extends Container
      * @param  string  $path $path  Optionally, a path to append to the resources path
      * @return string
      */
-    public function resourcePath($path = '');
+    public function resourcePath($path = ''): string;
 
     /**
      * Get the path to the storage directory.
      * 
      * @return string
      */
-    public function storagePath();
+    public function storagePath(): string;
+
+    /**
+     * Get the path to the views directory.
+     * 
+     * @param  string  $path
+     * 
+     * @return string
+     */
+    public function viewPath($path = ''): string;
 
     /**
      * Run the given array of bootstap classes.
@@ -90,42 +120,70 @@ interface Application extends Container
      * 
      * @return void
      */
-    public function bootstrapWith(array $bootstrappers);
-
-    /**
-     * Get the environment file the application is using.
-     * 
-     * @return string
-     */
-    public function environmentFile();
-
-    /**
-     * Get the fully qualified path to the environment file.
-     * 
-     * @return string
-     */
-    public function environmentFilePath();
+    public function bootstrapWith(array $bootstrappers): void;
 
     /**
      * Determine if middleware has been disabled for the application.
      * 
      * @return bool
      */
-    public function skipGoingMiddleware();
+    public function skipGoingMiddleware(): bool;
+
+    /**
+     * Get the path to the environment file directory.
+     * 
+     * @return string
+     */
+    public function environmentPath(): string;
+
+    /**
+     * Get the environment file the application is using.
+     * 
+     * @return string
+     */
+    public function environmentFile(): string;
+
+    /**
+     * Get the fully qualified path to the environment file.
+     * 
+     * @return string
+     */
+    public function environmentFilePath(): string;
+
+     /**
+     * Determine if application is in local environment.
+     * 
+     * @return bool
+     */
+    public function isLocal(): bool;
+
+    /**
+     * Determine if application is in production environment.
+     * 
+     * @return bool
+     */
+    public function isProduction(): bool;
+
+    /**
+     * Determine if the application is unit tests.
+     * 
+     * @return bool
+     */
+    public function isUnitTests(): bool;
 
     /**
      * Determine if the application has been bootstrapped before.
      * 
      * @return bool
      */
-    public function hasBeenBootstrapped();
+    public function hasBeenBootstrapped(): bool;
 
     /**
      * Register all of the configured providers.
      * 
      * @return void
      */
-    public function registerConfiguredProviders();
+    public function registerConfiguredProviders(): void;
 
     /**
      * Register a service provider.
@@ -147,18 +205,27 @@ interface Application extends Container
     public function resolveProviderClass($provider);
 
     /**
+     * Determine if the given id type has been bound.
+     * 
+     * @param  string  $id
+     * 
+     * @return bool
+     */
+    public function bound($id): bool;
+
+    /**
      * Determine if the application has booted.
      * 
      * @return bool
      */
-    public function isBooted();
+    public function isBooted(): bool;
 
     /**
      * Boot the application´s service providers.
      * 
      * @return void
      */
-    public function boot();
+    public function boot(): void;
 
     /**
      * Register a new boot listener.
@@ -167,7 +234,7 @@ interface Application extends Container
      * 
      * @return void
      */
-    public function booting($callback);
+    public function booting($callback): void;
 
     /**
      * Register a new 'booted' listener.
@@ -176,5 +243,28 @@ interface Application extends Container
      * 
      * @return void
      */
-    public function booted($callback);
+    public function booted($callback): void;
+
+    /**
+     * Get the current application locale.
+     * 
+     * @return string
+     */
+    public function getLocale(): string;
+
+    /**
+     * Set the current application locale.
+     * 
+     * @param  string  $locale
+     * 
+     * @return void
+     */
+    public function setLocale($locale): void;
+
+    /**
+	 * Shutdown the application.
+	 * 
+	 * @return void
+	 */
+	public function shutdown(): void;
 }
