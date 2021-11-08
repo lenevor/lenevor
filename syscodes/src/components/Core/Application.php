@@ -55,7 +55,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Php version.
      */
-    protected static $phpVersion = '7.3.12';
+    protected static $phpVersion = \PHP_VERSION;
     
     /**
      * The custom application path defined by the developer.
@@ -201,7 +201,7 @@ class Application extends Container implements ApplicationContract
      *
      * @return void
      */
-    public function registerBaseBindings() 
+    protected function registerBaseBindings() 
     {
         static::setInstance($this);
         
@@ -218,30 +218,6 @@ class Application extends Container implements ApplicationContract
     {
         return Version::RELEASE;
     }
-
-    /**
-     * Throw an HttpException with the given data.
-     *
-     * @param  int  $code
-     * @param  string  $message
-     * @param  array  $headers
-     * 
-     * @return void
-     *
-     * @throws \Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException
-     * @throws \Syscodes\Components\Core\Http\Exceptions\HttpException
-     */
-    public function abort($code, $message = '', array $headers = [])
-    {
-        // Convert the first letter in capital
-        $message = ucfirst($message);
-
-        if ($code == 404) {
-            throw new NotFoundHttpException($message);
-        }
-
-        throw new HttpException($code, $message, null, $headers);
-    } 
 
     /**
      * Set the base path for the application.
@@ -320,11 +296,7 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Get the base path of the Lenevor installation.
-     *
-     * @param  string  $path  Optionally, a path to append to the base path
-     * 
-     * @return string
+     * {@inheritdoc}
      */
     public function basePath($path = ''): string
     {
@@ -332,11 +304,7 @@ class Application extends Container implements ApplicationContract
     }
     
     /**
-     * Get the path to the bootstrap directory.
-     *
-     * @param  string  $path  Optionally, a path to append to the bootstrap path
-     * 
-     * @return string
+     * {@inheritdoc}
      */
     public function bootstrapPath($path = ''): string
     {
@@ -344,11 +312,7 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Get the path to the application configuration files.
-     *
-     * @param  string  $path  Optionally, a path to append to the config path
-     * 
-     * @return string
+     * {@inheritdoc}
      */
     public function configPath($path = ''): string
     {
@@ -356,11 +320,7 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Get the path to the database directory.
-     *
-     * @param  string  $path  Optionally, a path to append to the database path
-     * 
-     * @return string
+     * {@inheritdoc}
      */
     public function databasePath($path = ''): string
     {
@@ -384,9 +344,7 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Get the path to the lang directory.
-     * 
-     * @return string
+     * {@inheritdoc}
      */
     public function langPath(): string
     {
@@ -418,31 +376,23 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Get the path to the public / web directory.
-     * 
-     * @return string
+     * {@inheritdoc}
      */
-    public function publicPath()
+    public function publicPath(): string
     {
         return $this->basePath.DIRECTORY_SEPARATOR.'public';
     }
 
     /**
-     * Get the path to the resources directory.
-     *
-     * @param  string  $path $path  Optionally, a path to append to the resources path
-     * 
-     * @return string
+     * {@inheritdoc}
      */
-    public function resourcePath($path = '')
+    public function resourcePath($path = ''): string
     {
         return $this->basePath.DIRECTORY_SEPARATOR.'resources'.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 
     /**
-     * Get the path to the storage directory.
-     * 
-     * @return string
+     * {@inheritdoc}
      */
     public function storagePath(): string
     {
@@ -466,11 +416,7 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Get the path to the views directory.
-     * 
-     * @param  string  $path
-     * 
-     * @return string
+     * {@inheritdoc}
      */
     public function viewPath($path = ''): string
     {
@@ -480,13 +426,9 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Run the given array of bootstap classes.
-     * 
-     * @param  string[]  $bootstrappers
-     * 
-     * @return void
+     * {@inheritdoc}
      */
-    public function bootstrapWith(array $bootstrappers)
+    public function bootstrapWith(array $bootstrappers): void
     {
         $this->hasBeenBootstrapped = true;
 
@@ -496,11 +438,9 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Determine if middleware has been disabled for the application.
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
-    public function skipGoingMiddleware()
+    public function skipGoingMiddleware(): bool
     {
         return $this->bound('middleware.disable') &&
                $this->make('middleware.disable') === true;
@@ -511,9 +451,9 @@ class Application extends Container implements ApplicationContract
      * 
      * @param  string  $path
      * 
-     * @return $this
+     * @return self
      */
-    public function setEnvironmentPath($path)
+    public function setEnvironmentPath($path): self
     {
         $this->environmentPath = $path;
 
@@ -521,11 +461,9 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Get the path to the environment file directory.
-     * 
-     * @return string
+     * {@inheritdoc}
      */
-    public function environmentPath()
+    public function environmentPath(): string
     {
         return $this->environmentPath ?: $this->basePath;
     }
@@ -535,9 +473,9 @@ class Application extends Container implements ApplicationContract
      * 
      * @param  string  $file
      * 
-     * @return $this
+     * @return self
      */
-    public function setEnvironmentFile($file)
+    public function setEnvironmentFile($file): self
     {
         $this->environmentFile = $file;
 
@@ -545,21 +483,17 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Get the environment file the application is using.
-     * 
-     * @return string
+     * {@inheritdoc}
      */
-    public function environmentFile()
+    public function environmentFile(): string
     {
         return $this->environmentFile ?: '.env';
     }
     
     /**
-     * Get the fully qualified path to the environment file.
-     * 
-     * @return string
+     * {@inheritdoc}
      */
-    public function environmentFilePath()
+    public function environmentFilePath(): string
     {
         return $this->environmentPath().DIRECTORY_SEPARATOR.$this->environmentFile();
     }
@@ -595,31 +529,25 @@ class Application extends Container implements ApplicationContract
     }
     
     /**
-     * Determine if application is in local environment.
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
-    public function isLocal()
+    public function isLocal(): bool
     {
         return $this->env === 'local';
     }
     
     /**
-     * Determine if application is in production environment.
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
-    public function isProduction()
+    public function isProduction(): bool
     {
         return $this->env === 'production';
     }
     
     /**
-     * Determine if the application is unit tests.
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
-    public function isUnitTests()
+    public function isUnitTests(): bool
     {
         return $this->env === 'testing';
     }
@@ -639,11 +567,9 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Determine if the application has been bootstrapped before.
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
-    public function hasBeenBootstrapped()
+    public function hasBeenBootstrapped(): bool
     {
         return $this->hasBeenBootstrapped;
     }
@@ -686,32 +612,6 @@ class Application extends Container implements ApplicationContract
             }
         }
     }
-
-    /**
-     * Register the shutdown callback.
-     * 
-     * @param  callable|string  $callback
-     * 
-     * @return self
-     */
-    public function shutdowning($callback): self
-    {
-        $this->shutdownCallbacks[] = $callback;
-
-        return $this;
-    }
-
-    /**
-	 * Shutdown the application.
-	 * 
-	 * @return void
-	 */
-	public function shutdown()
-	{
-		foreach ($this->shutdownCallbacks as $shutdown) {
-            $this->call($shutdown);
-        }
-	}
 
     /**
      * Resolve the given type from the container.
@@ -762,23 +662,16 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Register all of the configured providers.
-     * 
-     * @return void
+     * {@inheritdoc}
      */
-    public function registerConfiguredProviders()
+    public function registerConfiguredProviders(): void
     {
         (new ProviderRepository($this, new Filesystem, $this->getCachedServicesPath()))
                 ->load($this['config']['services.providers']);
     }
     
     /**
-     * Register a service provider.
-     * 
-     * @param  \Syscodes\Components\Support\ServiceProvider|string  $provider
-     * @param  bool  $force
-     * 
-     * @return \Syscodes\Components\Support\ServiceProvider
+     * {@inheritdoc}
      */
     public function register($provider, $force = false)
     {
@@ -830,11 +723,7 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Resolve a service provider instance from the class name.
-     * 
-     * @param  string  $provider
-     * 
-     * @return \Syscodes\Components\Support\ServiceProvider
+     * {@inheritdoc}
      */
     public function resolveProviderClass($provider)
     {
@@ -913,33 +802,25 @@ class Application extends Container implements ApplicationContract
     }
     
     /**
-     * Determine if the given id type has been bound.
-     * 
-     * @param  string  $id
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
-    public function bound($id)
+    public function bound($id): bool
     {
         return $this->isDeferredService($id) || parent::bound($id);
     }
 
     /**
-     * Determine if the application has booted.
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
-    public function isBooted()
+    public function isBooted(): bool
     {
         return $this->booted;
     }
 
     /**
-     * Boot the application´s service providers.
-     * 
-     * @return void
+     * {@inheritdoc}
      */
-    public function boot()
+    public function boot(): void
     {
         if ($this->isbooted()) {
             return;
@@ -985,25 +866,17 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Register a new boot listener.
-     * 
-     * @param  callable  $callback
-     * 
-     * @return void
+     * {@inheritdoc}
      */
-    public function booting($callback)
+    public function booting($callback): void
     {
         $this->bootingCallbacks[] = $callback;
     }
 
     /**
-     * Register a new 'booted' listener.
-     * 
-     * @param  callable  $callback
-     * 
-     * @return void
+     * {@inheritdoc}
      */
-    public function booted($callback)
+    public function booted($callback): void
     {
         $this->bootedCallbacks[] = $callback;
 
@@ -1046,7 +919,7 @@ class Application extends Container implements ApplicationContract
      * 
      * @return array
      */
-    public function getLoadedProviders()
+    public function getLoadedProviders(): array
     {
         return $this->loadServiceProviders;
     }
@@ -1058,7 +931,7 @@ class Application extends Container implements ApplicationContract
      * 
      * @return bool
      */
-    public function providerIsLoaded(string $provider)
+    public function providerIsLoaded(string $provider): bool
     {
         return isset($this->loadServiceProviders[$provider]);
     }
@@ -1068,7 +941,7 @@ class Application extends Container implements ApplicationContract
      * 
      * @return array
      */
-    public function getDeferredServices()
+    public function getDeferredServices(): array
     {
         return $this->deferredServices;
     }
@@ -1080,7 +953,7 @@ class Application extends Container implements ApplicationContract
      * 
      * @return void
      */
-    public function setDeferredServices(array $services)
+    public function setDeferredServices(array $services): void
     {
         $this->deferredServices = $services;
     }
@@ -1092,7 +965,7 @@ class Application extends Container implements ApplicationContract
      * 
      * @return bool
      */
-    public function isDeferredService($service)
+    public function isDeferredService($service): bool
     {
         return isset($this->deferredServices[$service]);
     }
@@ -1110,23 +983,55 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Get the current application locale.
+     * Throw an HttpException with the given data.
+     *
+     * @param  int  $code
+     * @param  string  $message
+     * @param  array  $headers
      * 
-     * @return string
+     * @return never
+     *
+     * @throws \Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException
+     * @throws \Syscodes\Components\Core\Http\Exceptions\HttpException
      */
-    public function currentLocale()
+    public function abort($code, $message = '', array $headers = [])
     {
-        return $this->getLocale();
-    }
+        // Convert the first letter in capital
+        $message = ucfirst($message);
+
+        if ($code == 404) {
+            throw new NotFoundHttpException($message);
+        }
+
+        throw new HttpException($code, $message, null, $headers);
+    } 
 
     /**
      * Get the current application locale.
      * 
      * @return string
      */
-    public function getLocale()
+    public function currentLocale(): string
+    {
+        return $this->getLocale();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLocale(): string
     {
         return $this['config']->get('app.locale');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setLocale($locale): void
+    {
+        $this['config']->set('app.locale', $locale);
+
+        $this['translator']->setLocale($locale);
     }
 
     /**
@@ -1134,23 +1039,9 @@ class Application extends Container implements ApplicationContract
      * 
      * @return string
      */
-    public function getFallbackLocale()
+    public function getFallbackLocale(): string
     {
         return $this['config']->get('app.fallbackLocale');
-    }
-
-    /**
-     * Set the current application locale.
-     * 
-     * @param  string  $locale
-     * 
-     * @return void
-     */
-    public function setLocale($locale)
-    {
-        $this['config']->set('app.locale', $locale);
-
-        $this['translator']->setLocale($locale);
     }
 
     /**
@@ -1160,7 +1051,7 @@ class Application extends Container implements ApplicationContract
      * 
      * @return void
      */
-    public function setFallbackLocale($fallbackLocale)
+    public function setFallbackLocale($fallbackLocale): void
     {
         $this['config']->set('app.fallbackLocale', $fallbackLocale);
 
@@ -1174,10 +1065,34 @@ class Application extends Container implements ApplicationContract
      * 
      * @return bool
      */
-    public function isLocale($locale)
+    public function isLocale($locale): bool
     {
         return $this->getLocale() == $locale;
     }
+
+    /**
+     * Register the shutdown callback.
+     * 
+     * @param  callable|string  $callback
+     * 
+     * @return self
+     */
+    public function shutdowning($callback): self
+    {
+        $this->shutdownCallbacks[] = $callback;
+
+        return $this;
+    }
+
+    /**
+	 * {@inheritdoc}
+	 */
+	public function shutdown(): void
+	{
+		foreach ($this->shutdownCallbacks as $shutdown) {
+            $this->call($shutdown);
+        }
+	}
 
     /**
      * Register the core class aliases in the container.
@@ -1219,7 +1134,7 @@ class Application extends Container implements ApplicationContract
      * 
      * @return void
      */
-    public function flush()
+    public function flush(): void
     {
         parent::flush();
 
