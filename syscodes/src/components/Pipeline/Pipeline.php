@@ -185,7 +185,7 @@ class Pipeline implements PipelineContract
      * 
      * @return array
      */
-    protected function parsePipeString($pipe): string
+    protected function parsePipeString($pipe): array
     {
         [$name, $parameters] = array_pad(explode(':', $pipe, 2), 2, []);
         
