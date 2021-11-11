@@ -187,9 +187,26 @@ class Translator implements TranslatorContract
      */
     protected function load($file, $locale)
     {
+        if ($this->isLoaded($file, $locale)) {
+            return;
+        }
+        
         $lang = $this->loader->load($locale, $file);
 
         $this->language[$locale][$file] = $lang;
+    }
+    
+    /**
+     * Determine if the given file has been loaded.
+     * 
+     * @param  string  $file
+     * @param  string  $locale
+     * 
+     * @return bool
+     */
+    protected function isLoaded($file, $locale)
+    {
+        return isset($this->language[$locale][$file]);
     }
 
     /**
@@ -200,7 +217,7 @@ class Translator implements TranslatorContract
      * 
      * @return string
      */
-    protected function makeReplacements($line, array $replace)
+    protected function makeReplacements($line, array $replace): string
     {
         $line = $this->formatMessage($line, $replace);
 
@@ -208,15 +225,15 @@ class Translator implements TranslatorContract
             return $line;
         }
 
+        $shouldReplace = [];
+
         foreach ($replace as $key => $value) {
-            $line = str_replace(
-                [':'.$key, ':'.Str::upper($key), ':'.Str::ucfirst($key)],
-                [$value, Str::upper($value), Str::ucfirst($value)],
-                $line
-            );
+            $shouldReplace[':'.$key]               = $value;
+            $shouldReplace[':'.Str::upper($key)]   = Str::upper($value); 
+            $shouldReplace[':'.Str::ucfirst($key)] = Str::ucfirst($value);
         }
 
-        return $line;
+        return strtr($line, $shouldReplace);
     }
 
     /**
@@ -243,7 +260,7 @@ class Translator implements TranslatorContract
      * 
      * @return array
      */
-    protected function localeArray($locale)
+    protected function localeArray($locale): array
     {
         return array_filter([$locale ?: $this->locale, $this->fallback]);
     }
@@ -253,7 +270,7 @@ class Translator implements TranslatorContract
      * 
      * @return string
      */
-    public function getLocale()
+    public function getLocale(): string
     {
         return $this->locale;
     }
@@ -279,7 +296,7 @@ class Translator implements TranslatorContract
      * 
      * @return string
      */
-    public function getFallback()
+    public function getFallback(): string
     {
         return $this->fallback;
     }
@@ -291,7 +308,7 @@ class Translator implements TranslatorContract
      * 
      * @return void
      */
-    public function setFallback($fallback)
+    public function setFallback($fallback): void
     {        
         $this->fallback = $fallback;
     }
