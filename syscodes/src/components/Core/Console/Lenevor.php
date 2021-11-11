@@ -92,14 +92,9 @@ class Lenevor implements LenevorContract
     }
     
     /**
-     * Handle an incoming console command.
-     * 
-     * @param  \Syscodes\Contracts\Console\Input  $input
-     * @param  \Syscodes\Contracts\Console\Output|null  $output
-     * 
-     * @return int
+     * {@inheritdoc}
      */
-    public function handle($input, $output = null)
+    public function handle($input, $output = null): int
     {
         try {
             $this->bootstrap();
@@ -119,7 +114,7 @@ class Lenevor implements LenevorContract
      * 
      * @return void
      */
-    public function bootstrap()
+    public function bootstrap(): void
     {
         if ( ! $this->app->hasBeenBootstrapped()) {
             $this->app->bootstrapWith($this->bootstrappers());
@@ -146,7 +141,7 @@ class Lenevor implements LenevorContract
      * 
      * @return void
      */
-    public function shutdown($input, $status)
+    public function shutdown($input, $status): void
     {
         $this->app->shutdown();
     }
@@ -154,7 +149,7 @@ class Lenevor implements LenevorContract
     /**
      * Get the Prime application instance.
      * 
-     * @return \Syscodes\Console\Application
+     * @return \Syscodes\Bundles\ApplicationBundle\Console\Application
      */
     protected function getPrime()
     {
@@ -172,7 +167,7 @@ class Lenevor implements LenevorContract
      * 
      * @return void
      */
-    protected function reportException(Throwable $e)
+    protected function reportException(Throwable $e): void
     {
         $this->app[ExceptionHandler::class]->report($e);
     }
@@ -185,7 +180,7 @@ class Lenevor implements LenevorContract
      * 
      * @return void
      */
-    protected function renderException($output, Throwable $e)
+    protected function renderException($output, Throwable $e): void
     {
         $this->app[ExceptionHandler::class]->renderForConsole($output, $e);
     }
