@@ -60,9 +60,9 @@ class RouteServiceProvider extends ServiceProvider
      * 
      * @param  \Closure  $routeCallback
      * 
-     * @return $this 
+     * @return self
      */
-    protected function routes(Closure $routeCallback)
+    protected function routes(Closure $routeCallback): self
     {
         $routeCallback();
 
