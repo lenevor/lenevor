@@ -37,6 +37,8 @@ interface ExceptionHandler
      * @param  \Throwable  $e
      * 
      * @return mixed
+     * 
+     * @throws \Exception
      */
     public function report(Throwable $e);
 
@@ -47,7 +49,16 @@ interface ExceptionHandler
      * 
      * @return bool
      */
-    public function shouldReport(Throwable $e);
+    public function shouldReport(Throwable $e): bool;
+
+    /**
+     * Determine if the exception is in the "do not report" list.
+     * 
+     * @param  \Throwable  $e
+     * 
+     * @return bool
+     */
+    public function shouldntReport(Throwable $e): bool;
 
     /**
      * Render an exception into an HTTP response.
@@ -58,4 +69,14 @@ interface ExceptionHandler
      * @return \Syscodes\Components\Http\Response
      */
     public function render($request, Throwable $e);
+
+    /**
+     * Render an exception to the console.
+     * 
+     * @param  \Syscodes\Contracts\Console\Output  $output
+     * @param  \Throwable  $e
+     * 
+     * @return void
+     */
+    public function renderForConsole($output, Throwable $e);
 }
