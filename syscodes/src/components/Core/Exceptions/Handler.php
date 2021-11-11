@@ -87,7 +87,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Constructor. Create a new exception handler instance.
      * 
-     * @param  \Syscodes\Contracts\Container\Container  $container
+     * @param  \Syscodes\Components\Contracts\Container\Container  $container
      * 
      * @return void
      */
@@ -110,9 +110,9 @@ class Handler implements ExceptionHandlerContract
      * 
      * @param  \callable  $callback
      * 
-     * @return $this
+     * @return self
      */
-    public function reportable(callable $callback)
+    public function reportable(callable $callback): self
     {
         $this->reportCallbacks[] = $callback;
 
@@ -124,9 +124,9 @@ class Handler implements ExceptionHandlerContract
      * 
      * @param  \callable  $callback
      * 
-     * @return $this
+     * @return self
      */
-    public function renderable(callable $callback)
+    public function renderable(callable $callback): self
     {
         $this->renderCallbacks[] = $callback;
 
@@ -134,13 +134,7 @@ class Handler implements ExceptionHandlerContract
     }
     
     /**
-     * Report or log an exception.
-     * 
-     * @param  \Exception  $e
-     * 
-     * @return mixed
-     * 
-     * @throws \Exception
+     * {@inheritdoc}
      */
     public function report(Throwable $e)
     {
@@ -168,25 +162,17 @@ class Handler implements ExceptionHandlerContract
     }
 
     /**
-     * Determine if the exception should be reported.
-     * 
-     * @param  \Throwable  $e
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
-    public function shouldReport(Throwable $e)
+    public function shouldReport(Throwable $e): bool
     {
         return ! $this->shouldntReport($e);
     }
 
     /**
-     * Determine if the exception is in the "do not report" list.
-     * 
-     * @param  \Throwable  $e
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
-    public function shouldntReport(Throwable $e)
+    public function shouldntReport(Throwable $e): bool
     {
         $dontReport = array_merge($this->dontReport, $this->coreDontReport);
 
@@ -200,12 +186,7 @@ class Handler implements ExceptionHandlerContract
     }
 
     /**
-     * Render an exception into a response.
-     *
-     * @param  \Syscodes\Http\Request  $request
-     * @param  \Throwable  $e
-     * 
-     * @return \Syscodes\Http\Response
+     * {@inheritdoc}
      */
     public function render($request, Throwable $e)
     {
@@ -245,7 +226,7 @@ class Handler implements ExceptionHandlerContract
      * 
      * @return \Throwable
      */
-    protected function prepareException(Throwable $e)
+    protected function prepareException(Throwable $e): Throwable
     {
         if ($e instanceof ModelNotFoundException) {
             $e = new NotFoundHttpException($e->getMessage(), $e);
@@ -257,12 +238,12 @@ class Handler implements ExceptionHandlerContract
     /**
      * Prepare a response for the given exception.
      * 
-     * @param  \Syscodes\Http\Request  $request
+     * @param  \Syscodes\Components\Http\Request  $request
      * @param  \Throwable  $e
      * 
-     * @return \Syscodes\Http\Response
+     * @return \Syscodes\Components\Http\Response
      * 
-     * @uses   \Syscodes\Core\Http\Exceptions\HttpException
+     * @uses   \Syscodes\Components\Core\Http\Exceptions\HttpException
      */
     protected function prepareResponse($request, Throwable $e)
     {
@@ -281,9 +262,9 @@ class Handler implements ExceptionHandlerContract
     /**
      * Render the given HttpException.
      * 
-     * @param  \Syscodes\Core\Http\Exceptions\HttpException  $e
+     * @param  \Syscodes\Components\Core\Http\Exceptions\HttpException  $e
      * 
-     * @return \Syscodes\Http\Response
+     * @return \Syscodes\Components\Http\Response
      */
     protected function renderHttpException(HttpException $e)
     {
@@ -306,7 +287,7 @@ class Handler implements ExceptionHandlerContract
      * 
      * @return void
      */
-    protected function registerViewErrorPaths()
+    protected function registerViewErrorPaths(): void
     {
         (new RegisterErrorViewPaths)();
     }
@@ -314,11 +295,11 @@ class Handler implements ExceptionHandlerContract
     /**
      * Get the view used to render HTTP exceptions.
      * 
-     * @param  \Syscodes\Core\Http\Exceptions\HttpException  $e
+     * @param  \Syscodes\Components\Core\Http\Exceptions\HttpException  $e
      * 
      * @return string
      */
-    protected function getHttpExceptionView(HttpException $e)
+    protected function getHttpExceptionView(HttpException $e): string
     {
         return "errors::{$e->getStatusCode()}";
     }
@@ -328,7 +309,7 @@ class Handler implements ExceptionHandlerContract
      * 
      * @param  \Exception  $e
      * 
-     * @return \Syscodes\Http\Response
+     * @return \Syscodes\Components\Http\Response
      */
     protected function convertExceptionToResponse(Throwable $e)
     {
@@ -346,7 +327,7 @@ class Handler implements ExceptionHandlerContract
      * 
      * @return string
      */
-    protected function renderExceptionContent(Throwable $e)
+    protected function renderExceptionContent(Throwable $e): string
     {
         try {
             return config('app.debug') && class_exists(GDebug::class)
@@ -364,7 +345,7 @@ class Handler implements ExceptionHandlerContract
      * 
      * @return void
      * 
-     * @uses   \Syscodes\Debug\GDebug
+     * @uses   \Syscodes\Components\Debug\GDebug
      */
     protected function renderExceptionWithGDebug(Throwable $e)
     {
@@ -382,7 +363,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Get the Debug handler for the application.
      *
-     * @return \Syscodes\Debug\Handlers\MainHandler
+     * @return \Syscodes\Components\Debug\Handlers\MainHandler
      */
     protected function DebugHandler()
     {
@@ -407,10 +388,10 @@ class Handler implements ExceptionHandlerContract
     /**
      * Map the given exception into an Syscodes response.
      * 
-     * @param  \Syscodes\Http\Response  $response
+     * @param  \Syscodes\Components\Http\Response  $response
      * @param  \Exception  $e 
      * 
-     * @return \Syscodes\Http\Response
+     * @return \Syscodes\Components\Http\Response
      */
     protected function toSyscodesResponse($response, Throwable $e)
     {
@@ -428,12 +409,7 @@ class Handler implements ExceptionHandlerContract
     }
 
     /**
-     * Render an exception to the console.
-     * 
-     * @param  \Syscodes\Contracts\Console\Output  $output
-     * @param  \Throwable  $e
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function renderForConsole($output, Throwable $e)
     {
