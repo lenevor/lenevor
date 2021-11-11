@@ -30,13 +30,6 @@ namespace Syscodes\Components\Contracts\Console;
 interface Lenevor 
 {
     /**
-     * Bootstrap the application for artisan commands.
-     * 
-     * @return void
-     */
-    public function bootstrap();
-
-    /**
      * Handle an incoming console command.
      * 
      * @param  \Syscodes\Components\Contracts\Console\Input  $input
@@ -44,5 +37,22 @@ interface Lenevor
      * 
      * @return int
      */
-    public function handle($input, $output = null);
+    public function handle($input, $output = null): int;
+
+    /**
+     * Bootstrap the application for artisan commands.
+     * 
+     * @return void
+     */
+    public function bootstrap(): void;
+
+    /**
+     * Shutdown the application.
+     * 
+     * @param  \Syscodes\Contracts\Console\Input  $input
+	 * @param  int  $status
+     * 
+     * @return void
+     */
+    public function shutdown($input, $status): void;
 }
