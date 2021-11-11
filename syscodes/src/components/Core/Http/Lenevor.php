@@ -111,12 +111,7 @@ class Lenevor implements LenevorContract
 	}
 	 
 	/**
-	 * Initializes the framework, this can only be called once.
-	 * Launch the application.
-	 * 
-	 * @param  \Syscodes\Components\http\Request  $request
-	 *
-	 * @return \Syscodes\Components\Http\Response
+	 * {@inheritdoc}
 	 */
 	public function handle($request)
 	{
@@ -158,7 +153,7 @@ class Lenevor implements LenevorContract
 	 * 
 	 * @return void
 	 */
-	protected function bootstrap()
+	protected function bootstrap(): void
 	{		
 		if ( ! $this->app->hasBeenBootstrapped()) {
 			$this->app->bootstrapWith($this->bootstrappers());
@@ -170,7 +165,7 @@ class Lenevor implements LenevorContract
 	 * 
 	 * @return array
 	 */
-	protected function bootstrappers()
+	protected function bootstrappers(): array
 	{
 		return $this->bootstrappers;
 	}
@@ -180,7 +175,7 @@ class Lenevor implements LenevorContract
 	 * 
 	 * @return void
 	 */
-	protected function syncMiddlewareRoute()
+	protected function syncMiddlewareRoute(): void
 	{
 		foreach ($this->middlewareGroups as $key => $middleware) {
 			$this->router->middlewareGroup($key, $middleware);
@@ -206,14 +201,9 @@ class Lenevor implements LenevorContract
 	}
 
 	/**
-	 * Call the shutdown method on any terminable middleware.
-	 * 
-	 * @param  \Syscodes\Components\Http\Request  $request
-	 * @param  \Syscodes\Components\Http\Response  $response
-	 * 
-	 * @return void
+	 * {@inheritdoc}
 	 */
-	public function shutdown($request, $response)
+	public function shutdown($request, $response): void
 	{
 		$this->shutdownMiddleware($request, $response);
 	}
@@ -226,7 +216,7 @@ class Lenevor implements LenevorContract
 	 * 
 	 * @return void
 	 */
-	protected function shutdownMiddleware($request, $response)
+	protected function shutdownMiddleware($request, $response): void
 	{
 		$middlewares = $this->app->skipGoingMiddleware() ? [] : array_merge(
 			$this->gatherRouteMiddleware($request),
@@ -255,7 +245,7 @@ class Lenevor implements LenevorContract
 	 * 
 	 * @return array
 	 */
-	protected function gatherRouteMiddleware($request)
+	protected function gatherRouteMiddleware($request): array
 	{
 		if ( ! is_null($route = $request->route())) {
 			return $this->router->gatherRouteMiddleware($route);
@@ -271,7 +261,7 @@ class Lenevor implements LenevorContract
 	 * 
 	 * @return array
 	 */
-	protected function parseMiddleware($middleware)
+	protected function parseMiddleware($middleware): array
 	{
 		[$name, $parameters] = array_pad(explode(':', $middleware, 2), 2, []);
 		
@@ -283,9 +273,7 @@ class Lenevor implements LenevorContract
     }
 
 	/**
-	 * Gets the Lenevor application instance.
-	 * 
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public function getApplication()
 	{
