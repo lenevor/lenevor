@@ -72,11 +72,15 @@ class FileLoader implements LoaderContract
      */
     public function load($locale, $group)
     {
+        if ($group === '*') {
+            return $this->loadJsonPaths($locale);
+        }
+
         return $this->loadFilePaths($locale, $group);
     }
 
     /**
-     * Load a locale from a given path.
+     * Load a locale from a given file path.
      * 
      * @param  string  $locale
      * @param  string  $group
@@ -90,5 +94,30 @@ class FileLoader implements LoaderContract
         }
 
         return [];
+    }
+
+    /**
+     * Load a locale from a given Json file path.
+     * 
+     * @param  string  $locale
+     * 
+     * @return array
+     */
+    protected function loadJsonPaths($locale)
+    {
+        return collect([$this->path])
+            ->reduce(function ($output, $path) use ($locale) {
+                if ($this->files->exists($fullPath = "{$path}/{$locale}.json")) {
+                    $decoded = json_decode($this->files->get($fullPath), true);
+                    
+                    if (is_null($decoded) || json_last_error() !== JSON_ERROR_NONE) {
+                        throw new \RuntimeException("Translation file [{$full}] contains an invalid JSON structure");
+                    }
+
+                    $output = array_merge($output, $decoded);
+                }
+
+                return $output;
+            }, []);
     }
 }
