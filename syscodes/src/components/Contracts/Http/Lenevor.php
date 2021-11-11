@@ -49,5 +49,12 @@ interface Lenevor
 	 * 
 	 * @return void
 	 */
-	public function shutdown($request, $response);
+	public function shutdown($request, $response): void;
+
+	/**
+	 * Gets the Lenevor application instance.
+	 * 
+	 * @return void
+	 */
+	public function getApplication();
 }
