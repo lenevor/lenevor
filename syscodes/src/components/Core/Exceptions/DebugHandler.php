@@ -48,9 +48,9 @@ class DebugHandler
      *
      * @param  \Syscodes\Components\Debug\Handlers\PleasingPageHandler $handler
      * 
-     * @return $this
+     * @return self
      */
-    protected function registerEditor($handler)
+    protected function registerEditor($handler): self
     {
         if (config('app.editor', false)) {
             $handler->setEditor(config('app.editor'));
