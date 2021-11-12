@@ -111,6 +111,8 @@ class Translator implements TranslatorContract
     {
         $locale = $locale ?: $this->locale;
 
+        $this->load('*', $locale);
+
         $locales = $fallback ? $this->localeArray($locale) : [$locale];
         
         foreach ($locales as $locale) {
@@ -134,6 +136,8 @@ class Translator implements TranslatorContract
      */
     protected function getLine($line, $locale, array $replace = [])
     {   
+        $this->load($line, $locale);
+        
         // Parse out the file name and the actual alias.
         // Will load the language file and strings.
         list($file, $group) = $this->parseLine($line, $locale);
@@ -162,6 +166,8 @@ class Translator implements TranslatorContract
      */
     protected function parseLine(string $line, string $locale)
     {
+        $this->load($line, $locale);
+
         $file = substr($line, 0, strpos($line, '.'));
         $line = substr($line, strlen($file) + 1);
 
