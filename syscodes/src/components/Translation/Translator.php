@@ -45,18 +45,11 @@ class Translator implements TranslatorContract
     protected $fallback;
 
     /**
-     * Get the language lines from files.
+     * Array of language translation groups.
      * 
      * @var array $language
      */
     protected $language = [];
-
-    /**
-     * Array of loaded files.
-     * 
-     * @var array $loaded
-     */
-    protected $loaded = [];
 
     /**
      * The loader implementation.
@@ -114,7 +107,7 @@ class Translator implements TranslatorContract
 
         $this->load('*', $locale);
         
-        $line = $this->loaded['*'][$locale][$key] ?? null;
+        $line = $this->language['*'][$locale][$key] ?? null;
 
         if ( ! isset($line)) {
             // Parse out the file name and the actual alias.
@@ -143,10 +136,10 @@ class Translator implements TranslatorContract
      * 
      * @return array
      */
-    protected function parseLine(string $key)
+    protected function parseLine(string $key): array
     {
-        if (isset($this->loaded[$key])) {
-            return $this->loaded[$key];
+        if (isset($this->language[$key])) {
+            return $this->language[$key];
         }
         
         if (strpos($key, '::') === false) {
@@ -155,7 +148,7 @@ class Translator implements TranslatorContract
             $parsed = $this->parseSegments($segments);
         }
 
-        return $this->loaded[$key] = $parsed;
+        return $this->language[$key] = $parsed;
     }
     
     /**
@@ -165,7 +158,7 @@ class Translator implements TranslatorContract
      * 
      * @return array
      */
-    protected function parseSegments(array $segments)
+    protected function parseSegments(array $segments): array
     {
         $group = $segments[0];
         
@@ -180,8 +173,9 @@ class Translator implements TranslatorContract
      * Parses the language string for a file, loads the file, if necessary,
      * getting the line.
      * 
-     * @param  string  $line
+     * @param  string  $group
      * @param  string  $locale
+     * @param  string  $item
      * @param  array  $replace
      * 
      * @return string|array  Returns line
@@ -194,7 +188,7 @@ class Translator implements TranslatorContract
     ) {   
         $this->load($group, $locale);       
         
-        $output = Arr::get($this->loaded[$group][$locale], $item);
+        $output = Arr::get($this->language[$group][$locale], $item);
 
         if (is_string($output)) {
             return $this->makeReplacements($output, $replace);
@@ -216,28 +210,28 @@ class Translator implements TranslatorContract
      * 
      * @return void
      */
-    protected function load($group, $locale)
+    protected function load($group, $locale): void
     {
-        if ($this->isLoaded($group, $locale)) {
+        if ($this->isLanguage($group, $locale)) {
             return;
         }
         
         $lang = $this->loader->load($locale, $group);
 
-        $this->loaded[$group][$locale] = $lang;
+        $this->language[$group][$locale] = $lang;
     }
     
     /**
-     * Determine if the given group has been loaded.
+     * Determine if the given group has been language.
      * 
      * @param  string  $group
      * @param  string  $locale
      * 
      * @return bool
      */
-    protected function isLoaded($group, $locale)
+    protected function isLanguage($group, $locale): bool
     {
-        return isset($this->loaded[$group][$locale]);
+        return isset($this->language[$group][$locale]);
     }
 
     /**
@@ -313,7 +307,7 @@ class Translator implements TranslatorContract
      * 
      * @return void
      */
-    public function setLocale($locale)
+    public function setLocale($locale): void
     {
         if (Str::contains($locale, ['/', '\\'])) {
             throw new InvalidArgumentException('Invalid characters present in locale.');
