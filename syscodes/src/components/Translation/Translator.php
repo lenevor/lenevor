@@ -291,6 +291,33 @@ class Translator implements TranslatorContract
     }
 
     /**
+     * Determine if a translation exists for a given locale.
+     * 
+     * @param  string  $key
+     * @param  string|null  $locale
+     * 
+     * @return bool
+     */
+    public function hasForLocale($key, $locale = null)
+    {
+        return $this->has($key, $locale, false);
+    }
+
+    /**
+     * Determine if a translation exists.
+     * 
+     * @param  string  $key
+     * @param  string|null  $locale
+     * @param  bool  $fallback
+     * 
+     * @return bool
+     */
+    public function has($key, $locale = null, $fallback = true)
+    {
+        return $this->get($key, [], $locale, $fallback) !== $key;
+    }
+
+    /**
      * Get the default locale being used.
      * 
      * @return string
