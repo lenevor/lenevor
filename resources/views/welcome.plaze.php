@@ -55,15 +55,15 @@
 			</div>
 			<div class="resources">
 				<div class="learn">
-					<h3><i class="icon-books"></i>Learn</h3>
+					<h3><i class="icon-books"></i>{{ __('view.learn-title') }}</h3>
 					<p>{!! __('view.userGuide') !!}</p>
 				</div>
 				<div class="discuss">
-					<h3><i class="icon-embed"></i>Discuss</h3>
+					<h3><i class="icon-embed"></i>{{ __('view.discuss-title') }}</h3>
 					<p>{!! __('view.discuss') !!}</p>
 				</div>
 				<div class="contribute">
-					<h3><i class="icon-users"></i>Contribute</h3>
+					<h3><i class="icon-users"></i>{{ __('view.contribute-title') }}</h3>
 					<p>{!! __('view.contribute') !!}</p>
 				</div>
 			</div>
