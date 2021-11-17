@@ -292,12 +292,13 @@ class Str
      */
     public static function replaceArray($search, array $replace, $subject)
     {
-        $result = '';
+        $segments = explode($search, $subject);        
+        $result   = array_shift($segments);
         
-        foreach ($replace as $value) {
-            $result = preg_replace('/'.$search.'/', $value, $subject, 1);
+        foreach ($segments as $segment) {
+            $result .= preg_replace('~'.$search.'~', array_shift($replace), $subject, 1).$segment;
         }
-
+        
         return $result;
     }
 
