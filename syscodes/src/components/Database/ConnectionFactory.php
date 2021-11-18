@@ -20,22 +20,22 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Database;
+namespace Syscodes\Components\Database;
 
 use PDOException;
 use InvalidArgumentException;
-use Syscodes\Collections\Arr;
-use Syscodes\Contracts\Container\Container;
+use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Contracts\Container\Container;
 // Connector
-use Syscodes\Database\Connectors\MySqlConnector;
-use Syscodes\Database\Connectors\SQLiteConnector;
-use Syscodes\Database\Connectors\PostgresConnector;
-use Syscodes\Database\Connectors\SqlServerConnector;
+use Syscodes\Components\Database\Connectors\MySqlConnector;
+use Syscodes\Components\Database\Connectors\SQLiteConnector;
+use Syscodes\Components\Database\Connectors\PostgresConnector;
+use Syscodes\Components\Database\Connectors\SqlServerConnector;
 // Connection
-use Syscodes\Database\Connections\MySqlConnection;
-use Syscodes\Database\Connections\SQLiteConnection;
-use Syscodes\Database\Connections\PostgresConnection;
-use Syscodes\Database\Connections\SqlServerConnection;
+use Syscodes\Components\Database\Connections\MySqlConnection;
+use Syscodes\Components\Database\Connections\SQLiteConnection;
+use Syscodes\Components\Database\Connections\PostgresConnection;
+use Syscodes\Components\Database\Connections\SqlServerConnection;
 
 /**
  * Create a new instance based on the configuration of the database.
@@ -47,14 +47,14 @@ class ConnectionFactory
     /**
      * The IoC container instance.
      * 
-     * @var \Syscodes\Contracts\Container\Container $container
+     * @var \Syscodes\Components\Contracts\Container\Container $container
      */
     protected $container;
 
     /**
      * Constructor. Create a new ConnectionFactory class instance.
      * 
-     * @param  \Syscodes\Contracts\Container\Container  $container
+     * @param  \Syscodes\Components\Contracts\Container\Container  $container
      * 
      * @return void
      */
@@ -69,7 +69,7 @@ class ConnectionFactory
      * @param  array   $config
      * @param  string|null  $name
      * 
-     * @return \Syscodes\Database\Connection
+     * @return \Syscodes\Components\Database\Connection
      */
     public function make(array $config, $name = null)
     {
@@ -85,7 +85,7 @@ class ConnectionFactory
      * 
      * @param  array  $config
      * 
-     * @return \Syscodes\Database\Connection
+     * @return \Syscodes\Components\Database\Connection
      */
     protected function createReadWriteConnection(array $config)
     {
@@ -99,7 +99,7 @@ class ConnectionFactory
      * 
      * @param  array  $config
      * 
-     * @return \Syscodes\Database\Connection
+     * @return \Syscodes\Components\Database\Connection
      */
     protected function createSingleConnection(array $config)
     {
@@ -196,7 +196,7 @@ class ConnectionFactory
      * 
      * @param  array  $config
      * 
-     * @return \Syscodes\Database\Connectors\ConnectorInterface
+     * @return \Syscodes\Components\Database\Connectors\ConnectorInterface
      * 
      * @throws \InvalidArgumentException
      */
@@ -234,7 +234,7 @@ class ConnectionFactory
      * @param  string  $prefix
      * @param  array  $config
      * 
-     * @return \Syscodes\Database\Connection
+     * @return \Syscodes\Components\Database\Connection
      * 
      * @throws \InvalidArgumentException
      */
