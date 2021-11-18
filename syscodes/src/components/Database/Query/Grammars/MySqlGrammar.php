@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
  
-namespace Syscodes\Database\Query\Grammars;
+namespace Syscodes\Components\Database\Query\Grammars;
 
-use Syscodes\Database\Query\Builder;
-use Syscodes\Database\Query\Grammar;
+use Syscodes\Components\Database\Query\Builder;
+use Syscodes\Components\Database\Query\Grammar;
 
 /**
  * Allows make the grammar's for get results of the database
@@ -36,7 +36,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile a select query into sql.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * 
      * @return string
      */
@@ -54,7 +54,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile an insert statement into SQL.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $values
      * 
      * @return string
@@ -71,7 +71,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile an update statement without joins into SQL.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  string  $table
      * @param  string  $columns
      * @param  string  $where
@@ -96,7 +96,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile an delete statement without joins into SQL.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  string  $table
      * @param  string  $where
      * 
@@ -132,7 +132,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile the lock into SQL.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  bool|string  $value
      * 
      * @return string
