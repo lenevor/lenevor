@@ -20,22 +20,22 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
  
-namespace Syscodes\Database\Query;
+namespace Syscodes\Components\Database\Query;
 
 use Closure;
 use RuntimeException;
 use DateTimeInterface;
 use BadMethodCallException;
 use InvalidArgumentException;
-use Syscodes\Collections\Arr;
-use Syscodes\Collections\Str;
-use Syscodes\Collections\Collection;
-use Syscodes\Database\DatabaseCache;
-use Syscodes\Database\Query\Grammar;
-use Syscodes\Database\Query\Processor;
-use Syscodes\Database\Query\Expression;
-use Syscodes\Database\Query\JoinClause;
-use Syscodes\Database\ConnectionInterface;
+use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Collections\Str;
+use Syscodes\Components\Collections\Collection;
+use Syscodes\Components\Database\DatabaseCache;
+use Syscodes\Components\Database\Query\Grammar;
+use Syscodes\Components\Database\Query\Processor;
+use Syscodes\Components\Database\Query\Expression;
+use Syscodes\Components\Database\Query\JoinClause;
+use Syscodes\Components\Database\ConnectionInterface;
 
 /**
  * Lenevor database query builder provides a convenient, fluent interface 
@@ -79,7 +79,7 @@ class Builder
     /**
      * The database connection instance.
      * 
-     * @var \Syscodes\Database\ConnectionInterface $connection
+     * @var \Syscodes\Components\Database\ConnectionInterface $connection
      */
     protected $connection;
 
@@ -100,7 +100,7 @@ class Builder
     /**
      * The database query grammar instance.
      * 
-     * @var \Syscodes\Database\Query\Grammar $grammar
+     * @var \Syscodes\Components\Database\Query\Grammar $grammar
      */
     protected $grammar;
 
@@ -167,7 +167,7 @@ class Builder
     /**
      * The database query post processor instance.
      * 
-     * @var \Syscodes\Database\Query\Processor $processor
+     * @var \Syscodes\Components\Database\Query\Processor $processor
      */
     protected $processor;
 
@@ -209,9 +209,9 @@ class Builder
     /**
      * Constructor. Create a new query builder instance.
      * 
-     * @param  \Syscodes\Database\ConnectionInterface  $connection
-     * @param  \Syscodes\Database\Query\Grammar  $grammar  
-     * @param  \Syscodes\Database\Query\Processor  $processor  
+     * @param  \Syscodes\Components\Database\ConnectionInterface  $connection
+     * @param  \Syscodes\Components\Database\Query\Grammar  $grammar  
+     * @param  \Syscodes\Components\Database\Query\Processor  $processor  
      * 
      * return void
      */
@@ -249,7 +249,7 @@ class Builder
     /**
      * Add a subselect expression to the query.
      * 
-     * @param  \Syscodes\Database\Query\Builder|string  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder|string  $builder
      * @param  string  $as
      * 
      * @return $this
@@ -268,7 +268,7 @@ class Builder
     /**
      * Makes a subquery and parse it.
      * 
-     * @param  \Closure|\Syscodes\Database\Query\Builder|string  $builder
+     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|string  $builder
      * 
      * @return array
      */
@@ -504,7 +504,7 @@ class Builder
     /**
      * Create a new query instance for nested where condition.
      * 
-     * @return \Syscodes\Database\Query\Builder
+     * @return \Syscodes\Components\Database\Query\Builder
      */
     public function forNestedWhere()
     {
@@ -514,7 +514,7 @@ class Builder
     /**
      * Add a query builder different from the current one.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $query
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  string  $boolean  
      * 
      * @return $this
@@ -593,7 +593,7 @@ class Builder
      * @param  string  $type
      * @param  string  $table
      * 
-     * @return \Syscodes\Database\Query\JoinClause
+     * @return \Syscodes\Components\Database\Query\JoinClause
      */
     protected function newJoinClause($type, $table)
     {
@@ -636,7 +636,7 @@ class Builder
     /**
      * Add a union statement to the query.
      * 
-     * @param  \Syscodes\Database\Query\Builder|\Closure  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder|\Closure  $builder
      * @param  bool  $all  (false by default)
      * 
      * @return $this
@@ -657,7 +657,7 @@ class Builder
     /**
      * Add a union all statement to the query.
      * 
-     * @param  \Syscodes\Database\Query\Builder|\Closure  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder|\Closure  $builder
      * 
      * @return $this
      */
@@ -683,7 +683,7 @@ class Builder
     /**
      * Lock the selected rows in the table for updating.
      * 
-     * @return \Syscodes\Database\Query\Builder
+     * @return \Syscodes\Components\Database\Query\Builder
      */
     public function lockRowsUpdate()
     {
@@ -693,7 +693,7 @@ class Builder
     /**
      * Share lock the selected rows in the table.
      * 
-     * @return \Syscodes\Database\Query\Builder
+     * @return \Syscodes\Components\Database\Query\Builder
      */
     public function shareRowsLock()
     {
@@ -746,7 +746,7 @@ class Builder
      * 
      * @param  array  $columns
      * 
-     * @return \Syscodes\Collections\Collection
+     * @return \Syscodes\Components\Collections\Collection
      */
     public function get($columns = ['*'])
     {
@@ -900,8 +900,8 @@ class Builder
             return true;
         }
 
-        if ( ! is_array(reset($values))) {
-            $values = [$values]; 
+        if ( ! is_array(head($values))) {
+            $values = [$values];
         } else {
             foreach ($values as $key => $value) {
                 ksort($value);
@@ -910,8 +910,7 @@ class Builder
             }
         }
 
-        $sql = $this->grammar->compileInsert($this, $values);
-
+        $sql      = $this->grammar->compileInsert($this, $values);
         $bindings = $this->cleanBindings($this->buildInsertBinding($values));
 
         return $this->connection->insert($sql, $bindings);
@@ -1152,7 +1151,7 @@ class Builder
      *
      * @param  mixed  $value
      * 
-     * @return \Syscodes\Database\Query\Expression
+     * @return \Syscodes\Components\Database\Query\Expression
      */
     public function raw($value)
     {
@@ -1162,7 +1161,7 @@ class Builder
     /**
      * Get a new instance of the query builder.
      * 
-     * @return \Syscodes\Database\Query\Builder
+     * @return \Syscodes\Components\Database\Query\Builder
      */
     public function newBuilder()
     {
@@ -1172,7 +1171,7 @@ class Builder
     /**
      * Create a new Builder instance for a sub-Builder.
      * 
-     * @return \Syscodes\Database\Query\Builder
+     * @return \Syscodes\Components\Database\Query\Builder
      */
     protected function forSubBuilder()
     {
@@ -1263,7 +1262,7 @@ class Builder
     /**
      * Merge an array of bindings into our bindings.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * 
      * @return $this
      */
@@ -1277,7 +1276,7 @@ class Builder
     /**
      * Get the database connection instance.
      * 
-     * @return \Syscodes\Database\ConnectionInterface
+     * @return \Syscodes\Components\Database\ConnectionInterface
      */
     public function getConnection()
     {
@@ -1287,7 +1286,7 @@ class Builder
     /**
      * Get the database query processor instance.
      * 
-     * @return \Syscodes\Database\Query\Processor
+     * @return \Syscodes\Components\Database\Query\Processor
      */
     public function getQueryProcessor()
     {
@@ -1297,7 +1296,7 @@ class Builder
     /**
      * Get the database query grammar instance.
      * 
-     * @return \Syscodes\Database\Query\Grammar
+     * @return \Syscodes\Components\Database\Query\Grammar
      */
     public function getQueryGrammar()
     {
@@ -1315,6 +1314,8 @@ class Builder
     }
 
     /**
+     * Magic Method.
+     * 
      * Dynamically handle calls to methods on the class.
      * 
      * @param  string  $method
