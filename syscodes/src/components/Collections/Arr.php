@@ -233,8 +233,18 @@ class Arr
 	 */
 	public static function first($array, callable $callback = null, $default = null)
 	{
+		if (is_null($callback)) {
+			if (empty($array)) {
+				return value($default);
+			}
+			
+			foreach ($array as $item) {
+				return $item;
+			}
+		}
+		
 		foreach ($array as $key => $value) { 
-			if (call_user_func($callback, $key, $value)) return $value;
+			if ($callback($key, $value)) return $value;
 		}
 
 		return value($default);
