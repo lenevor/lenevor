@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Database\Connections;
+namespace Syscodes\Components\Database\Connections;
 
-use Syscodes\Database\Connection;
-use Syscodes\Database\Query\PostgresGrammar as QueryGrammar;
-use Syscodes\Database\Query\PostgresProcessor as QueryProcessor;
+use Syscodes\Components\Database\Connection;
+use Syscodes\Components\Database\Query\PostgresGrammar as QueryGrammar;
+use Syscodes\Components\Database\Query\PostgresProcessor as QueryProcessor;
 
 /**
  * Postgres connection.
@@ -36,7 +36,7 @@ class PostConnection extends Connection
     /**
      * Get the default query grammar instance.
      * 
-     * @return Syscodes\Database\QueryMysqlGrammar\
+     * @return Syscodes\Components\Database\QueryMysqlGrammar\
      */
     public function getDefaultQueryGrammar()
     {
@@ -46,7 +46,7 @@ class PostConnection extends Connection
     /**
      * Get the default post processor instance.
      * 
-     * @return Syscodes\Database\Query\Post Processor
+     * @return Syscodes\Components\Database\Query\Post Processor
      */
     public function getDefaultPost()
     {
