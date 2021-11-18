@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Database;
+namespace Syscodes\Components\Database;
 
 use Closure;
 
@@ -36,7 +36,7 @@ interface ConnectionInterface
      * 
      * @param  string  $table
      * 
-     * @return \Syscodes\Database\Query\Builder
+     * @return \Syscodes\Components\Database\Query\Builder
      */
     public function table($table);
 
@@ -45,7 +45,7 @@ interface ConnectionInterface
      * 
      * @param  mixed  $value
      * 
-     * @return \Syscodes\Database\Query\Expression
+     * @return \Syscodes\Components\Database\Query\Expression
      */
     public function raw($value);
 
