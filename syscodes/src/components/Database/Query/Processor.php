@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
  
-namespace Syscodes\Database\Query;
+namespace Syscodes\Components\Database\Query;
 
 /**
  * Allows identify the ID field and results of SELECT query in a table.
@@ -32,7 +32,7 @@ class Processor
     /**
      * Process the results of a "select" query.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $results
      * 
      * @return array
@@ -45,7 +45,7 @@ class Processor
     /**
      * Process an  "insert get ID" query.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  string  $sql
      * @param  array  $values
      * @param  string  $sequence  
