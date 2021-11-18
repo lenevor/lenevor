@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Database\Concerns;
+namespace Syscodes\Components\Database\Concerns;
 
 use Throwable;
-use Syscodes\Support\Str;
+use Syscodes\Components\Support\Str;
 
 /**
  * Gets exceptions was caused by a lost connection.
