@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Database\Connections;
+namespace Syscodes\Components\Database\Connections;
 
-use Syscodes\Database\Connection;
-use Syscodes\Database\Query\Grammars\MySqlGrammar as QueryGrammar;
-use Syscodes\Database\Query\Processors\MySqlProcessor as QueryProcessor;
+use Syscodes\Components\Database\Connection;
+use Syscodes\Components\Database\Query\Grammars\MySqlGrammar as QueryGrammar;
+use Syscodes\Components\Database\Query\Processors\MySqlProcessor as QueryProcessor;
 
 /**
  * Mysql connection.
@@ -36,7 +36,7 @@ class MySqlConnection extends Connection
     /**
      * Get the default query grammar instance.
      * 
-     * @return Syscodes\Database\Query\Grammars\MySqlGrammar
+     * @return Syscodes\Components\Database\Query\Grammars\MySqlGrammar
      */
     public function getDefaultQueryGrammar()
     {
@@ -46,7 +46,7 @@ class MySqlConnection extends Connection
     /**
      * Get the default post processor instance.
      * 
-     * @return Syscodes\Database\Query\Processors\MySqlProcessor
+     * @return Syscodes\Components\Database\Query\Processors\MySqlProcessor
      */
     public function getDefaultPost()
     {
