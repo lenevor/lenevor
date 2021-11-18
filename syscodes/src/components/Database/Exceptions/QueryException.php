@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
  
-namespace Syscodes\Database\Exceptions;
+namespace Syscodes\Components\Database\Exceptions;
 
 use Throwable;
 use PDOException;
-use Syscodes\Support\Str;
+use Syscodes\Components\Support\Str;
 
 /**
  * Get a query exception.
@@ -61,7 +61,7 @@ class QueryException extends PDOException
         parent::__construct('', 0, $previous);
 
         $this->sql      = $sql;
-        $this->bindinds = $bindings;
+        $this->bindings = $bindings;
         $this->code     = $previous->getCode();
         $this->message  = $this->formatMessage($sql, $bindings, $previous);
 
@@ -81,7 +81,7 @@ class QueryException extends PDOException
      */
     protected function formatMessage($sql, array $bindings, Throwable $previous)
     {
-        return $previous->getMessage().' (SQL:'.Str::replaceArray('?', $bindings, $sql).')';
+        return $previous->getMessage().' (SQL: '.Str::replaceArray('?', $bindings, $sql).')';
     }
 
     /**
