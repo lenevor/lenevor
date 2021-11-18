@@ -248,6 +248,25 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
 
         return $this;
     }
+    
+    /**
+     * Concatenate values of a given key as a string.
+     * 
+     * @param  string  $value
+     * @param  string|null  $string
+     * 
+     * @return string
+     */
+    public function implode($value, $string = null)
+    {
+        $first = $this->first();
+        
+        if (is_array($first) || (is_object($first))) {
+            return implode($string ?? '', $this->pluck($value)->all());
+        }
+        
+        return implode($value ?? '', $this->items);
+    }
 
     /**
      * Run a map over each of the items.
