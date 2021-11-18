@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
  
-namespace Syscodes\Database;
+namespace Syscodes\Components\Database;
 
-use Syscodes\Database\Query\Expression;
+use Syscodes\Components\Database\Query\Expression;
 
 /**
  * Allows make the grammar's for get results of the database.
@@ -57,7 +57,7 @@ abstract class Grammar
     /**
      * Wrap a value in keyword identifiers.
      * 
-     * @param  \Syscodes\Database\Query\Expression|string  $value
+     * @param  \Syscodes\Components\Database\Query\Expression|string  $value
      * @param  bool  $prefix
      * 
      * @return string
@@ -169,7 +169,7 @@ abstract class Grammar
     /**
      * Get the value of a raw expression.
      * 
-     * @param  \Syscodes\Database\Query\Expression  $expression
+     * @param  \Syscodes\Components\Database\Query\Expression  $expression
      * 
      * @return string
      */
