@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
  
-namespace Syscodes\Database\Query\Processors;
+namespace Syscodes\Components\Database\Query\Processors;
 
-use Syscodes\Database\Query\Processor;
+use Syscodes\Components\Database\Query\Processor;
 
 /**
  * Allows show the results of a column listing query for Mysql Database.
