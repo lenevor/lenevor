@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Database\Holisen;
+namespace Syscodes\Components\Database\Holisen;
 
 /**
  * Creates a ORM query builder.
