@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Database\Connections;
+namespace Syscodes\Components\Database\Connections;
 
-use Syscodes\Database\Connection;
-use Syscodes\Database\Query\SQLiteGrammar as QueryGrammar;
-use Syscodes\Database\Query\SQLiteProcessor as QueryProcessor;
+use Syscodes\Components\Database\Connection;
+use Syscodes\Components\Database\Query\SQLiteGrammar as QueryGrammar;
+use Syscodes\Components\Database\Query\SQLiteProcessor as QueryProcessor;
 
 /**
  * SQLite connection.
@@ -36,7 +36,7 @@ class SQLiteConnection extends Connection
     /**
      * Get the default query grammar instance.
      * 
-     * @return Syscodes\Database\Query\SQLiteGrammar
+     * @return Syscodes\Components\Database\Query\SQLiteGrammar
      */
     public function getDefaultQueryGrammar()
     {
@@ -46,7 +46,7 @@ class SQLiteConnection extends Connection
     /**
      * Get the default post processor instance.
      * 
-     * @return Syscodes\Database\Query\SQLiteProcessor
+     * @return Syscodes\Components\Database\Query\SQLiteProcessor
      */
     public function getDefaultPost()
     {
