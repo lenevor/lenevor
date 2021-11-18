@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
  
-namespace Syscodes\Database;
+namespace Syscodes\Components\Database;
 
 use PDO;
 use Closure;
@@ -28,19 +28,19 @@ use DateTime;
 use Exception;
 use PDOStatement;
 use LogicException;
-use Syscodes\Support\Str;
-use Syscodes\Collections\Arr;
-use Syscodes\Database\Query\Processor;
-use Syscodes\Database\Query\Expression;
-use Syscodes\Contracts\Events\Dispatcher;
-use Syscodes\Database\Events\QueryExecuted;
-use Syscodes\Database\Events\TransactionBegin;
-use Syscodes\Database\Events\StatementPrepared;
-use Syscodes\Database\Exceptions\QueryException;
-use Syscodes\Database\Events\TransactionRollback;
-use Syscodes\Database\Events\TransactionCommitted;
-use Syscodes\Database\Query\Builder as QueryBuilder;
-use Syscodes\Database\Query\Grammar as QueryGrammar;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Database\Query\Processor;
+use Syscodes\Components\Database\Query\Expression;
+use Syscodes\Components\Contracts\Events\Dispatcher;
+use Syscodes\Components\Database\Events\QueryExecuted;
+use Syscodes\Components\Database\Events\TransactionBegin;
+use Syscodes\Components\Database\Events\StatementPrepared;
+use Syscodes\Components\Database\Exceptions\QueryException;
+use Syscodes\Components\Database\Events\TransactionRollback;
+use Syscodes\Components\Database\Events\TransactionCommitted;
+use Syscodes\Components\Database\Query\Builder as QueryBuilder;
+use Syscodes\Components\Database\Query\Grammar as QueryGrammar;
 
 /**
  * Creates a database connection using PDO.
@@ -69,7 +69,7 @@ class Connection implements ConnectionInterface
     /**
      * The event dispatcher instance.
      * 
-     * @var \Syscodes\Contracts\Events\Dispatcher  $events
+     * @var \Syscodes\Components\Contracts\Events\Dispatcher  $events
      */
     protected $events;
 
@@ -83,7 +83,7 @@ class Connection implements ConnectionInterface
     /**
      * The query grammar implementation.
      * 
-     * @var \Syscodes\Database\Query\Grammar|string
+     * @var \Syscodes\Components\Database\Query\Grammar|string
      */
     protected $queryGrammar;
 
@@ -111,7 +111,7 @@ class Connection implements ConnectionInterface
     /**
      * The query post processor implementation.
      * 
-     * @var \Syscodes\Database\Query\Processor|string $postProcessor
+     * @var \Syscodes\Components\Database\Query\Processor|string $postProcessor
      */
     protected $postProcessor;
 
@@ -185,10 +185,10 @@ class Connection implements ConnectionInterface
     /**
      * Begin a fluent query against a database table.
      * 
-     * @param  \Closure|Syscodes\Database\Query\Builder|string  $table
+     * @param  \Closure|Syscodes\Components\Database\Query\Builder|string  $table
      * @param  string  $as 
      * 
-     * @return \Syscodes\Database\Query\Builder
+     * @return \Syscodes\Components\Database\Query\Builder
      */
     public function table($table, $as = null)
     {
@@ -198,7 +198,7 @@ class Connection implements ConnectionInterface
     /**
      * Get a new query builder instance.
      * 
-     * @return \Syscodes\Database\Query\Builder
+     * @return \Syscodes\Components\Database\Query\Builder
      */
     public function query()
     {
@@ -212,7 +212,7 @@ class Connection implements ConnectionInterface
      * 
      * @param  mixed  $value
      * 
-     * @return \Syscodes\Database\Query\Expression
+     * @return \Syscodes\Components\Database\Query\Expression
      */
     public function raw($value)
     {
@@ -287,7 +287,7 @@ class Connection implements ConnectionInterface
      */
     public function insert($query, $bindings = [])
     {
-        $this->statement($query, $bindings);
+        return $this->statement($query, $bindings);
     }
 
     /**
@@ -336,7 +336,6 @@ class Connection implements ConnectionInterface
             $this->bindValues($statement, $this->prepareBindings($bindings));
 
             return $statement->execute();
-
         });
     }
 
@@ -442,7 +441,7 @@ class Connection implements ConnectionInterface
      * 
      * @return mixed
      * 
-     * @throws \Syscodes\Database\Exceptions\QueryException
+     * @throws \Syscodes\Components\Database\Exceptions\QueryException
      */
     protected function run($query, $bindings, Closure $callback)
     {
@@ -474,7 +473,7 @@ class Connection implements ConnectionInterface
      * 
      * @return mixed
      * 
-     * @throws \Syscodes\Database\Exceptions\QueryException
+     * @throws \Syscodes\Components\Database\Exceptions\QueryException
      */
     protected function runQueryCallback($query, $bindings, Closure $callback)
     {
@@ -483,9 +482,9 @@ class Connection implements ConnectionInterface
         try {
             $result = $callback($query, $bindings);
         } catch (Exception $e) {
-            // throw new QueryException(
-            //     $query, $this->prepareBindings($bindings), $e 
-            // );
+            throw new QueryException(
+                $query, $this->prepareBindings($bindings), $e 
+            );
         }
 
         return $result;
@@ -514,14 +513,14 @@ class Connection implements ConnectionInterface
     /**
      * Handle a query exception.
      * 
-     * @param  \Syscodes\Database\Exceptions\QueryException  $e
+     * @param  \Syscodes\Components\Database\Exceptions\QueryException  $e
      * @param  string  $query
      * @param  array  $bindings
      * @param  \Closure  $callback
      * 
      * @return mixed
      * 
-     * @throws \Syscodes\Database\Exceptions\QueryException
+     * @throws \Syscodes\Components\Database\Exceptions\QueryException
      */
     protected function handleQueryException(QueryException $e, $query, $bindings, Closure $callback)
     {
@@ -537,14 +536,14 @@ class Connection implements ConnectionInterface
     /**
      * Handle a query exception that occurred during query execution.
      * 
-     * @param  \Syscodes\Database\Exceptions\QueryException  $e
+     * @param  \Syscodes\Components\Database\Exceptions\QueryException  $e
      * @param  string  $query
      * @param  array  $bindings
      * @param  \Closure  $callback
      * 
      * @return mixed
      * 
-     * @throws \Syscodes\Database\Exceptions\QueryException
+     * @throws \Syscodes\Components\Database\Exceptions\QueryException
      */
     protected function tryIfAgainCausedByLostConnection(QueryException $e, $query, $bindings, Closure $callback)
     {
@@ -824,7 +823,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the query grammar used by the connection.
      * 
-     * @return \Syscodes\Database\Query\Grammar
+     * @return \Syscodes\Components\Database\Query\Grammar
      */
     public function getQueryGrammar()
     {
@@ -844,7 +843,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the default query grammar instance.
      * 
-     * @return \Syscodes\Database\Query\Grammar
+     * @return \Syscodes\Components\Database\Query\Grammar
      */
     protected function getDefaultQueryGrammar()
     {
@@ -854,7 +853,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the query post processor used by the connection.
      * 
-     * @return \Syscodes\Database\Query\Processor
+     * @return \Syscodes\Components\Database\Query\Processor
      */
     public function getPostProcessor()
     {
@@ -873,7 +872,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the default post processor instance.
      * 
-     * @return \Syscodes\Database\Query\Processor
+     * @return \Syscodes\Components\Database\Query\Processor
      */
     protected function getDefaultProcessor()
     {
@@ -907,7 +906,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the event dispatcher instance on the connection.
      * 
-     * @param  \Syscodes\Contracts\Events\Dispatcher  $events
+     * @param  \Syscodes\Components\Contracts\Events\Dispatcher  $events
      * 
      * @return $this
      */
@@ -1007,9 +1006,9 @@ class Connection implements ConnectionInterface
     /**
      * Set the table prefix and return the grammar.
      * 
-     * @param  \Syscodes\Database\Grammar  $grammar
+     * @param  \Syscodes\Components\Database\Grammar  $grammar
      * 
-     * @return \Syscodes\Database\Grammar
+     * @return \Syscodes\Components\Database\Grammar
      */
     public function withTablePrefix(Grammar $grammar)
     {
