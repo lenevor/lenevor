@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
  
-namespace Syscodes\Database\Events;
+namespace Syscodes\Components\Database\Events;
 
 /**
  * Query executed event.
@@ -39,7 +39,7 @@ class QueryExecuted
     /**
      * The database connection instance.
      * 
-     * @var \Syscodes\Database\Connection $connection
+     * @var \Syscodes\Components\Database\Connection $connection
      */
     public $connection;
 
@@ -70,7 +70,7 @@ class QueryExecuted
      * @param  string  $sql
      * @param  array  $bindings
      * @param  float|null  $time
-     * @param  \Syscodes\Database\Connection  $connection
+     * @param  \Syscodes\Components\Database\Connection  $connection
      * 
      * @return void
      */
