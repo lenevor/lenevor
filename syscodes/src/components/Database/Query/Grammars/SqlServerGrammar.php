@@ -20,10 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
  
-namespace Syscodes\Database\Query\Grammars;
+namespace Syscodes\Components\Database\Query\Grammars;
 
-use Syscodes\Database\Query\Builder;
-use Syscodes\Database\Query\Grammar;
+use Syscodes\Components\Database\Query\Builder;
+use Syscodes\Components\Database\Query\Grammar;
 
 /**
  * Allows make the grammar's for get results of the database
@@ -36,7 +36,7 @@ class SqlServerGrammar extends Grammar
     /**
      * Compile a select query into sql.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * 
      * @return string
      */
@@ -54,7 +54,7 @@ class SqlServerGrammar extends Grammar
     /**
      * Create a full ANSI offset clause for the query.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $components
      * 
      * @return string
@@ -90,7 +90,7 @@ class SqlServerGrammar extends Grammar
      * Compile a common table expression for a query.
      * 
      * @param  string  $sql
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * 
      * @return string
      */
@@ -104,7 +104,7 @@ class SqlServerGrammar extends Grammar
     /**
      * Compile the limit / offset row constraint for a query.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * 
      * @return string
      */
@@ -136,7 +136,7 @@ class SqlServerGrammar extends Grammar
     /**
      * Compile the "limit" portions of the query.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  int  $limit
      * 
      * @return string
@@ -149,7 +149,7 @@ class SqlServerGrammar extends Grammar
     /**
      * Compile the "offset" portions of the query.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  int  $offset
      * 
      * @return string
@@ -162,7 +162,7 @@ class SqlServerGrammar extends Grammar
     /**
      * Compile the lock into SQL.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  bool|string  $value
      * 
      * @return string
@@ -187,7 +187,7 @@ class SqlServerGrammar extends Grammar
      /**
      * Compile a truncate table statement into SQL.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * 
      * @return array
      */
@@ -221,7 +221,7 @@ class SqlServerGrammar extends Grammar
     /**
      * Compile the "select *" portion of the query.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $columns
      * 
      * @return string
@@ -244,7 +244,7 @@ class SqlServerGrammar extends Grammar
     /**
      * Compile the "from" portion of the query.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  string  $table
      * 
      * @return string
