@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
  
-namespace Syscodes\Database\Events;
+namespace Syscodes\Components\Database\Events;
 
 /**
  * Get the database connection event.
@@ -32,7 +32,7 @@ class StatementPrepared
     /**
      * The database connection instance.
      * 
-     * @var \Syscodes\Database\Connection $connection
+     * @var \Syscodes\Components\Database\Connection $connection
      */
     public $connection;
 
@@ -46,7 +46,7 @@ class StatementPrepared
     /**
      * Constructor. Create a new event instance.
      * 
-     * @param  \Syscodes\Database\Connection  $connection
+     * @param  \Syscodes\Components\Database\Connection  $connection
      * @param  \PDOStatement  $statement
      * 
      * @return void
