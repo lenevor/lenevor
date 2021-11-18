@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
  
-namespace Syscodes\Database\Connectors;
+namespace Syscodes\Components\Database\Connectors;
 
 use PDO;
 use PDOException;
-use Syscodes\Database\Exceptions\ConnectionException;
+use Syscodes\Components\Database\Exceptions\ConnectionException;
 
 /**
  * The default PDO connection.
@@ -69,7 +69,7 @@ abstract class Connector
      * 
      * @return \PDO
      * 
-     * @throws \Syscodes\Database\Exceptions\ConnectionException  
+     * @throws \Syscodes\Components\Database\Exceptions\ConnectionException  
      */
     public function createConnection($dsn, array $config, array $options)
     {
@@ -81,7 +81,7 @@ abstract class Connector
         try {
             return new PDO($dsn, $username, $password, $options);
         } catch (PDOException $e) {
-            throw new ConnectionException("Connection to [ {$dsn} ] failed: ".$e->getMessage(), $e);
+            throw new ConnectionException("Connection to [{$dsn}] failed: ".$e->getMessage(), $e);
         }
     }
 
