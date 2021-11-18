@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
  
-namespace Syscodes\Database\Query;
+namespace Syscodes\Components\Database\Query;
 
-use Syscodes\Database\Grammar as BaseGrammar;
+use Syscodes\Components\Database\Grammar as BaseGrammar;
 
 /**
  * Allows make the grammar's for get results of the database.
@@ -53,7 +53,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a select query into sql.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * 
      * @return string
      */
@@ -69,7 +69,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile the components necessary for a select clause.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * 
      * @return array
      */
@@ -91,7 +91,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile an aggregated select clause.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $aggregate
      * 
      * @return string
@@ -110,7 +110,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile the "select *" portion of the query.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $columns
      * 
      * @return string
@@ -129,7 +129,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile the "from" portion of the query.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  string  $table
      * 
      * @return string
@@ -142,7 +142,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile the "join" portions of the query.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $joins
      * 
      * @return string
@@ -192,7 +192,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile the "where" portions of the query.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * 
      * @return string
      */
@@ -212,7 +212,7 @@ class Grammar extends BaseGrammar
     /**
      * Get an array of all the where clauses for the query.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $query
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * 
      * @return array
      */
@@ -230,7 +230,7 @@ class Grammar extends BaseGrammar
     /**
      * Format the where clause statements into one string.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $sql
      * 
      * @return string
@@ -245,7 +245,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a raw where clause.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $where
      * 
      * @return string
@@ -258,7 +258,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a basic where clause.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $where
      * 
      * @return string
@@ -273,7 +273,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "between" where clause.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $where
      * 
      * @return string
@@ -288,7 +288,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a where exists clause.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $where
      * 
      * @return string
@@ -301,7 +301,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a where exists clause.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $where
      * 
      * @return string
@@ -314,7 +314,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "where in" clause.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $where
      * 
      * @return string
@@ -333,7 +333,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "where not in" clause.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $where
      * 
      * @return string
@@ -352,7 +352,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "where not in raw" clause.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $where
      * 
      * @return string
@@ -369,7 +369,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "where in raw" clause.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $where
      * 
      * @return string
@@ -386,7 +386,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a where in sub-select clause.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $where
      * 
      * @return string
@@ -401,7 +401,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a where not in sub-select clause.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $where
      * 
      * @return string
@@ -416,7 +416,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "where null" clause.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $where
      * 
      * @return string
@@ -429,7 +429,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "where not null" clause.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $where
      * 
      * @return string
@@ -442,7 +442,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "where date" clause.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $where
      * 
      * @return string
@@ -455,7 +455,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "where time" clause.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $where
      * 
      * @return string
@@ -468,7 +468,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "where day" clause.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $where
      * 
      * @return string
@@ -481,7 +481,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "where month" clause.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $where
      * 
      * @return string
@@ -494,7 +494,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "where year" clause.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $where
      * 
      * @return string
@@ -508,7 +508,7 @@ class Grammar extends BaseGrammar
      * Compile a date based where clause.
      * 
      * @param  string  $type
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $where
      * 
      * @return string
@@ -523,7 +523,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a nested where clause.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $where
      * 
      * @return string
@@ -538,7 +538,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a where condition with a sub-select.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $where
      * 
      * @return string
@@ -553,7 +553,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a where clause comparing two columns.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $where
      * 
      * @return string
@@ -566,7 +566,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile the "group by" portions of the query.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $groups
      * 
      * @return string
@@ -579,7 +579,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile the "having" portions of the query.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $havings
      * 
      * @return string
@@ -647,7 +647,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile the "order by" portions of the query.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $orders
      * 
      * @return string
@@ -664,7 +664,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile the query orders to an array.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $orders
      * 
      * @return string
@@ -679,7 +679,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile the "limit" portions of the query.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  int  $limit
      * 
      * @return string
@@ -692,7 +692,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile the "offset" portions of the query.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  int  $offset
      * 
      * @return string
@@ -705,7 +705,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile the "union" queries attached to the main query.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * 
      * @return string
      */
@@ -773,7 +773,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile an exists statement into SQL.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * 
      * @return string
      */
@@ -787,7 +787,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile an insert statement into SQL.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $values
      * 
      * @return string
@@ -806,11 +806,9 @@ class Grammar extends BaseGrammar
 
         $columns = $this->columnize(array_keys(head($values)));
 
-        $parameters = $this->parameterize(head($values));
-
-        $value = array_fill(0, count($values), "($parameters)");
-
-        $parameters = implode(', ', $value);
+        $parameters = collect($values)->map(function ($record) {
+            return '('.$this->parameterize($record).')';
+        })->implode(', ');
 
         return "insert into $table ($columns) values $parameters";
     }
@@ -818,7 +816,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile an insert and get ID statement into SQL.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $values
      * @param  string  $sequence
      * 
@@ -832,7 +830,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile an insert statement using a subquery into SQL.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $columns
      * @param  string  $sql
      * 
@@ -846,7 +844,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile an update statement into SQL.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $values
      * 
      * @return string
@@ -887,7 +885,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile an update statement with joins into SQL.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  string  $table
      * @param  string  $columns
      * @param  string  $where
@@ -904,7 +902,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile an update statement without joins into SQL.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  string  $table
      * @param  string  $columns
      * @param  string  $where
@@ -919,7 +917,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a delete statement into SQL.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * 
      * @return string
      */
@@ -939,7 +937,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile an delete statement with joins into SQL.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  string  $table
      * @param  string  $columns
      * @param  string  $where
@@ -958,7 +956,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile an delete statement without joins into SQL.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  string  $table
      * @param  string  $where
      * 
@@ -972,7 +970,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile a truncate table statement into SQL.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * 
      * @return array
      */
@@ -984,7 +982,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile the lock into SQL.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  bool|string  $value
      * 
      * @return string
