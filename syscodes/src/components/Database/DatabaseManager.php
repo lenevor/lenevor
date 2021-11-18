@@ -20,11 +20,11 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Database;
+namespace Syscodes\Components\Database;
 
 use PDO;
-use Syscodes\Support\Str;
-use Syscodes\Collections\Arr;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Collections\Arr;
 use InvalidArgumentException;
 
 /**
@@ -37,7 +37,7 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * The appilcation instance.
      * 
-     * @var \Syscodes\Contracts\Core\Application $app
+     * @var \Syscodes\Components\Contracts\Core\Application $app
      */
     protected $app;
 
@@ -51,7 +51,7 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * The database connection factory instance.
      * 
-     * @var \Syscodes\Database\ConnectionFactory $factory
+     * @var \Syscodes\Components\Database\ConnectionFactory $factory
      */
     protected $factory;
 
@@ -65,8 +65,8 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Constructor. Create a new DatabaseManager instance.
      * 
-     * @param  \Syscodes\Contracts\Core\Application  $app
-     * @param  \Syscodes\Database\ConnectionFactory  $factory
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app
+     * @param  \Syscodes\Components\Database\ConnectionFactory  $factory
      * 
      * @return void
      */
@@ -81,7 +81,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * 
      * @param  string|null  $name  
      * 
-     * @return \Syscodes\Database\Connection
+     * @return \Syscodes\Components\Database\Connection
      */
     public function connection($name = null)
     {
@@ -119,7 +119,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * 
      * @param  string  $name
      * 
-     * @return \Syscodes\Database\Connection 
+     * @return \Syscodes\Components\Database\Connection 
      */
     protected function makeConnection($name)
     {
@@ -163,10 +163,10 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Prepare the database connection instance.
      * 
-     * @param  \Syscodes\Database\Connection  $connection
+     * @param  \Syscodes\Components\Database\Connection  $connection
      * @param  string  $type
      * 
-     * @return \Syscodes\Database\Connection
+     * @return \Syscodes\Components\Database\Connection
      */
     protected function configure(Connection $connection, $type)
     {
@@ -186,10 +186,10 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Prepare the read / write mode for database connection instance.
      * 
-     * @param  \Syscodes\Database\Connection  $connection
+     * @param  \Syscodes\Components\Database\Connection  $connection
      * @param  string|null  $type
      * 
-     * @return \Syscodes\Database\Connection
+     * @return \Syscodes\Components\Database\Connection
      */
     protected function setPdoForType(Connection $connection, $type)
     {
@@ -207,7 +207,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * 
      * @param  string|null  $name  
      * 
-     * @return \Syscodes\Database\Connection
+     * @return \Syscodes\Components\Database\Connection
      */
     public function reconnect($name = null)
     {
@@ -239,7 +239,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * 
      * @param  string  $name
      * 
-     * @return \Syscodes\Database\Connection
+     * @return \Syscodes\Components\Database\Connection
      */
     protected function refreshPdoConnections($name)
     {
