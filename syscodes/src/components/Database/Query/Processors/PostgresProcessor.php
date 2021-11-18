@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
  
-namespace Syscode\Database\Query\Processors;
+namespace Syscodes\Components\Database\Query\Processors;
 
-use Syscode\Database\Query\Processor;
+use Syscodes\Components\Database\Query\Processor;
 
 /**
  * Allows show the results of a column listing query for Postgres Database.
@@ -34,7 +34,7 @@ class PostgresProcessor extends Processor
     /**
      * Process an  "insert get ID" query.
      * 
-     * @param  \Syscode\Database\Query\Builder  $builder
+     * @param  \Syscodes\Database\Query\Builder  $builder
      * @param  string  $sql
      * @param  array  $values
      * @param  string  $sequence  (null by default)
