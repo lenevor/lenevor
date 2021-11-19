@@ -426,7 +426,7 @@ class Builder
     protected function addArrayWheres($column, $boolean, $method = 'where')
     {
         return $this->whereNested(function ($query) use ($column, $method, $boolean) {
-            foreach ($column as $key => $value) {
+            foreach ((array) $column as $key => $value) {
                 if (is_numeric($key) && is_array($value)) {
                     $query->{$method}(...array_values($value));
                 } else {
