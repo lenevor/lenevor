@@ -23,9 +23,10 @@
 namespace Syscodes\Components\Database;
 
 use PDO;
+use InvalidArgumentException;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Collections\Arr;
-use InvalidArgumentException;
+use Syscodes\Components\Database\Connections\Connection;
 
 /**
  * It is used to instantiate the connection and its respective settings.
@@ -81,7 +82,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * 
      * @param  string|null  $name  
      * 
-     * @return \Syscodes\Components\Database\Connection
+     * @return \Syscodes\Components\Database\Connections\Connection
      */
     public function connection($name = null)
     {
@@ -119,7 +120,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * 
      * @param  string  $name
      * 
-     * @return \Syscodes\Components\Database\Connection 
+     * @return \Syscodes\Components\Database\Connections\Connection 
      */
     protected function makeConnection($name)
     {
@@ -163,10 +164,10 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Prepare the database connection instance.
      * 
-     * @param  \Syscodes\Components\Database\Connection  $connection
+     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * @param  string  $type
      * 
-     * @return \Syscodes\Components\Database\Connection
+     * @return \Syscodes\Components\Database\Connections\Connection
      */
     protected function configure(Connection $connection, $type)
     {
@@ -186,10 +187,10 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Prepare the read / write mode for database connection instance.
      * 
-     * @param  \Syscodes\Components\Database\Connection  $connection
+     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * @param  string|null  $type
      * 
-     * @return \Syscodes\Components\Database\Connection
+     * @return \Syscodes\Components\Database\Connections\Connection
      */
     protected function setPdoForType(Connection $connection, $type)
     {
@@ -207,7 +208,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * 
      * @param  string|null  $name  
      * 
-     * @return \Syscodes\Components\Database\Connection
+     * @return \Syscodes\Components\Database\Connections\Connection
      */
     public function reconnect($name = null)
     {
@@ -239,7 +240,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * 
      * @param  string  $name
      * 
-     * @return \Syscodes\Components\Database\Connection
+     * @return \Syscodes\Components\Database\Connections\Connection
      */
     protected function refreshPdoConnections($name)
     {
