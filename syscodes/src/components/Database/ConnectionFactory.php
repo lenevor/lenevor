@@ -32,6 +32,7 @@ use Syscodes\Components\Database\Connectors\SQLiteConnector;
 use Syscodes\Components\Database\Connectors\PostgresConnector;
 use Syscodes\Components\Database\Connectors\SqlServerConnector;
 // Connection
+use Syscodes\Components\Database\Connections\Connection;
 use Syscodes\Components\Database\Connections\MySqlConnection;
 use Syscodes\Components\Database\Connections\SQLiteConnection;
 use Syscodes\Components\Database\Connections\PostgresConnection;
