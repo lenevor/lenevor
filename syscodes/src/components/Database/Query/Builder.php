@@ -35,7 +35,7 @@ use Syscodes\Components\Database\Query\Grammar;
 use Syscodes\Components\Database\Query\Processor;
 use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Database\Query\JoinClause;
-use Syscodes\Components\Database\ConnectionInterface;
+use Syscodes\Components\Database\Connections\ConnectionInterface;
 
 /**
  * Lenevor database query builder provides a convenient, fluent interface 
