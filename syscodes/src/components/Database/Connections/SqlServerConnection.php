@@ -22,7 +22,6 @@
 
 namespace Syscodes\Components\Database\Connections;
 
-use Syscodes\Components\Database\Connection;
 use Syscodes\Components\Database\Query\SqlServerGrammar as QueryGrammar;
 use Syscodes\Components\Database\Query\SqlServerProcessor as QueryProcessor;
 
