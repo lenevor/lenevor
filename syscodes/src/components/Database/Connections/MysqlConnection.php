@@ -22,7 +22,6 @@
 
 namespace Syscodes\Components\Database\Connections;
 
-use Syscodes\Components\Database\Connection;
 use Syscodes\Components\Database\Query\Grammars\MySqlGrammar as QueryGrammar;
 use Syscodes\Components\Database\Query\Processors\MySqlProcessor as QueryProcessor;
 
