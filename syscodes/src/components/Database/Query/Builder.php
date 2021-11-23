@@ -209,7 +209,7 @@ class Builder
     /**
      * Constructor. Create a new query builder instance.
      * 
-     * @param  \Syscodes\Components\Database\ConnectionInterface  $connection
+     * @param  \Syscodes\Components\Database\Connections\ConnectionInterface  $connection
      * @param  \Syscodes\Components\Database\Query\Grammar  $grammar  
      * @param  \Syscodes\Components\Database\Query\Processor  $processor  
      * 
@@ -407,7 +407,7 @@ class Builder
 
         $this->wheres[] = compact('type', 'column', 'operator', 'value', 'boolean');
 
-        if ($value instanceof Expression) {
+        if ( ! $value instanceof Expression) {
             $this->addBinding($value, 'where');
         }
 
@@ -927,7 +927,7 @@ class Builder
         $bindings = [];
 
         foreach ($values as $record) {
-            foreach ($record as $value) {
+            foreach ((array) $record as $value) {
                 $bindings[] = $value;
             }
         }
@@ -945,8 +945,7 @@ class Builder
      */
     public function insertGetId(array $values, $sequence = null)
     {
-        $sql = $this->grammar->compileInsertGetId($this, $values, $sequence);
-
+        $sql    = $this->grammar->compileInsertGetId($this, $values, $sequence);
         $values = $this->cleanBindings($values);
 
         return $this->processor->processInsertGetId($this, $sql, $values, $sequence);
@@ -957,15 +956,14 @@ class Builder
      * 
      * @param  array  $values
      * 
-     * @return \PDOStatement
+     * @return int
      */
     public function update(array $values)
     {
+        $sql      = $this->grammar->compileUpdate($this, $values);
         $bindings = array_values(array_merge($values, $this->bindings));
 
-        $sql = $this->grammar->compileUpdate($this, $values);
-
-        return $this->connection->query($sql, $this->cleanBindings($bindings));
+        return $this->connection->update($sql, $this->cleanBindings($bindings));
     }
 
     /**
