@@ -1,5 +1,46 @@
 # Release Notes
 
+## [Version 0.7.7-alpha.7] 
+
+Release Date: Nov 23, 2021
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added method for pad a strings
+- Added the word reserved `public` en constants
+- Added interface of inputOption for calling to constants
+- Added class for show the description of command attributes
+- Added conditional for path location of bootstrap file
+- Added to a new folder called `ApplicationBundle`
+- Added method for parses a short and long option
+- Added `setDecorated()` function for activates usage of color tags
+- Added new methods for formatting of text output
+- Added new methods for formatting of text output
+- Added new style formats for text output
+- Added conditional to check if string has dots of paths
+- Added an alias function name for `make()`
+- Added new method for call on any terminable middleware
+- Added method for a locale from a given Json
+
+### Changed
+- Changed the format for to color tags of a text
+- Changed the format at representation of SQL parameters
+- Changed variable for '?' of string replace
+
+### Created
+- Created the `SingleLists` and `MultiLists` classes
+- Created class for configure the color to use in any text
+
+### Removed
+- Removed classes for frame of arguments
+- Removed methods for format of arguments 
+- Removed tags for frame of arguments
+- Removed identify of method output
+- Removed `preg_replace` method PHP
+
+
+- Added new methods for environment local
 ## [Version 0.7.6-alpha.7] 
 
 Release Date: Sep 12, 2021
