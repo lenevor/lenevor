@@ -352,9 +352,7 @@ class Connection implements ConnectionInterface
     public function affectingStatement($query, $bindings = [])
     {
         return $this->run($query, $bindings, function ($query, $bindings) {
-
-            if ($this->pretending())
-            {
+            if ($this->pretending()) {
                 return 0;
             }
 
@@ -429,7 +427,7 @@ class Connection implements ConnectionInterface
             $statement->bindValue(
                 is_string($key) ? $key : $key + 1,
                 $value,
-                is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR
+                is_string($value) ? PDO::PARAM_STR : PDO::PARAM_INT
             );
         }
     }
@@ -447,6 +445,8 @@ class Connection implements ConnectionInterface
      */
     protected function run($query, $bindings, Closure $callback)
     {
+        $result = '';
+        
         $this->reconnectIfMissingConnection();
 
         $start = microtime(true);
@@ -479,17 +479,13 @@ class Connection implements ConnectionInterface
      */
     protected function runQueryCallback($query, $bindings, Closure $callback)
     {
-        $result = '';
-
         try {
-            $result = $callback($query, $bindings);
+            return $callback($query, $bindings);
         } catch (Exception $e) {
             throw new QueryException(
                 $query, $this->prepareBindings($bindings), $e 
             );
         }
-
-        return $result;
     }
 
     /**
