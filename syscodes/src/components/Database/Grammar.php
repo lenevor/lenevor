@@ -163,7 +163,7 @@ abstract class Grammar
      */
     public function parameter($value)
     {
-        return $this->isExpression($value) ? $this->getValue($value) : $value;
+        return $this->isExpression($value) ? $this->getValue($value) : '?';
     }
 
     /**
