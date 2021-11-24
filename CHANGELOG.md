@@ -2,7 +2,7 @@
 
 ## [Version 0.7.7-alpha.7] 
 
-Release Date: Nov 23, 2021
+Release Date: Nov 24, 2021
 
 **Next alpha release of Lenevor**
 
