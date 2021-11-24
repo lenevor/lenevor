@@ -23,6 +23,9 @@ Release Date: Nov 23, 2021
 - Added new method for call on any terminable middleware
 - Added method for a locale from a given Json
 
+### Fixed
+- Fix bug in insert and update of `Query Builder`
+
 ### Changed
 - Changed the format for to color tags of a text
 - Changed the format at representation of SQL parameters
