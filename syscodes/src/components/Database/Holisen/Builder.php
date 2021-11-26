@@ -38,5 +38,7 @@ use Syscodes\Components\Database\Query\Builder as QueryBuilder;
  */
 class Builder
 {
-    
+    /**
+     * @var array 
+     */
 }
