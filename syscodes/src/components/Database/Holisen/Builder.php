@@ -39,6 +39,29 @@ use Syscodes\Components\Database\Query\Builder as QueryBuilder;
 class Builder
 {
     /**
-     * @var array 
+     * The query builder instance.
+     * 
+     * @var \Syscodes\Components\Database\Query\Builder $querybuilder
      */
+    protected $queryBuilder;
+
+    /**
+     * The model being queried.
+     * 
+     * @var \Syscodes\Components\Database\Holisen $model
+     */
+    protected $model;
+
+    /**
+     * Constructor. The new Builder clas instance.
+     * 
+     * @param   \Syscodes\Components\Database\query\Builder  $queryBuilder
+     * 
+     * @return void
+     */
+    public function __construct(QueryBuilder $queryBuilder)
+    {
+        $this->queryBuilder = $queryBuilder;
+    }
+    
 }
