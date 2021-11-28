@@ -39,11 +39,11 @@ use Syscodes\Components\Database\Query\Builder as QueryBuilder;
 class Builder
 {
     /**
-     * The query builder instance.
+     * The relationships that should be eagerly loaded by the query.
      * 
-     * @var \Syscodes\Components\Database\Query\Builder $querybuilder
+     * @var array $eagerLoad
      */
-    protected $queryBuilder;
+    protected $eagerLoad = [];
 
     /**
      * The model being queried.
@@ -53,9 +53,41 @@ class Builder
     protected $model;
 
     /**
-     * Constructor. The new Builder clas instance.
+     * The methods that should be returned from query builder.
      * 
-     * @param   \Syscodes\Components\Database\query\Builder  $queryBuilder
+     * @var array $passthru
+     */
+    protected $passthru = [
+        'aggregate',
+        'average',
+        'avg',
+        'count',
+        'exists',
+        'getBindings',
+        'getConnection',
+        'getGrammar',
+        'insert',
+        'insertGetId',
+        'insertOrIgnore',
+        'insertUsing',
+        'max',
+        'min',
+        'raw',
+        'sum',
+        'toSql',
+    ];
+
+    /**
+     * The query builder instance.
+     * 
+     * @var \Syscodes\Components\Database\Query\Builder $querybuilder
+     */
+    protected $queryBuilder;
+
+    /**
+     * Constructor. The new Holisen query builder instance.
+     * 
+     * @param  \Syscodes\Components\Database\query\Builder  $queryBuilder
      * 
      * @return void
      */
@@ -64,4 +96,15 @@ class Builder
         $this->queryBuilder = $queryBuilder;
     }
     
+    /**
+     * Magic method.
+     * 
+     * Force a clone of the underlying query builder when cloning.
+     * 
+     * @return void
+     */
+    public function __clone()
+    {
+        $this->queryBuider = clone $this->queryBuilder;
+    }
 }
