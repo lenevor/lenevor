@@ -95,6 +95,8 @@ class Builder
     {
         $this->queryBuilder = $queryBuilder;
     }
+
+    
     
     /**
      * Magic method.
