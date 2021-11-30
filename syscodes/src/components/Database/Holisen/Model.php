@@ -22,36 +22,33 @@
 
 namespace Syscodes\Components\Database\Holisen;
 
-use PDO;
+use ArrayAccess;
+use LogicException;
+use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Collections\Str;
+use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Collections\Collection as BaseCollection;
 
 /**
  * Creates a ORM model instance.
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class Model
+class Model implements Arrayable, ArrayAccess
 {
 	/**
-	 * Variable of connection database.
+	 * Constructor. The create new Model instance.
 	 *
-	 * @var string|null $pdo
+	 * @param  array  $attributes
+	 *
+	 * @return void
 	 */
-	protected $pdo = null;
-
-	/**
-	 * Constructor. Sets PDO to exception mode.
-	 *
-	 * @param  PDO  $pdo
-	 *
-	 * @return string
-	 */
-	public function __construct(PDO $pdo)
+	public function __construct(array $attributes = [])
 	{
-		// Required for safety
-		$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-
-		$this->pdo = $pdo;
+		
 	}
-
 	
+	/**
+	 * 
+	 */
 }
