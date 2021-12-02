@@ -37,6 +37,27 @@ use Syscodes\Components\Collections\Collection as BaseCollection;
 class Model implements Arrayable, ArrayAccess
 {
 	/**
+	 * The database connection name.
+	 * 
+	 * @var string|null $connection
+	 */
+	protected $connection;
+
+	/**
+	 * The primary key for the model.
+	 * 
+	 * @var string $primaryKey
+	 */
+	protected $primaryKey =  'id';
+
+	/**
+	 * The table associated with the model.
+	 * 
+	 * @var string $table
+	 */
+	protected $table;
+
+	/**
 	 * Constructor. The create new Model instance.
 	 *
 	 * @param  array  $attributes
