@@ -27,6 +27,7 @@ use LogicException;
 use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Collections\Str;
 use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Database\Query\Builder as QueryBuilder;
 use Syscodes\Components\Collections\Collection as BaseCollection;
 
 /**
@@ -70,6 +71,12 @@ class Model implements Arrayable, ArrayAccess
 	}
 	
 	/**
+	 * Get a new query builder instance for the connection.
 	 * 
+	 * @return \Syscodes\Components\Database\Query\Builder
 	 */
+	protected function newBaseQueryBuilder()
+	{
+		return new QueryBuilder();
+	}
 }
