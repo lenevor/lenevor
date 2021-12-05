@@ -69,6 +69,18 @@ class Model implements Arrayable, ArrayAccess
 	{
 		
 	}
+
+	/**
+	 * Create a new Elusen query builder for the model.
+	 * 
+	 * @param  \Syscodes\Components\Database\Query\Builder  $builder
+	 * 
+	 * @return \Syscodes\Components\Database\Elusen\Builder
+	 */
+	public function newQueryBuilder(QueryBuilder $builder)
+	{
+		return new Builder($builder);
+	}
 	
 	/**
 	 * Get a new query builder instance for the connection.
@@ -78,7 +90,7 @@ class Model implements Arrayable, ArrayAccess
 	protected function newBaseQueryBuilder()
 	{
 		return new QueryBuilder(
-			
+
 		);
 	}
 }
