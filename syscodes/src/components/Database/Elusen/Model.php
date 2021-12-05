@@ -77,6 +77,8 @@ class Model implements Arrayable, ArrayAccess
 	 */
 	protected function newBaseQueryBuilder()
 	{
-		return new QueryBuilder();
+		return new QueryBuilder(
+			
+		);
 	}
 }
