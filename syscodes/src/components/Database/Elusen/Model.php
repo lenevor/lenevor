@@ -38,6 +38,13 @@ use Syscodes\Components\Collections\Collection as BaseCollection;
 class Model implements Arrayable, ArrayAccess
 {
 	/**
+	 * The connection resolver instance.
+	 * 
+	 * @var \Syscodes\Components\Database\ConnectionResolverInterface
+	 */
+	protected static $resolver;
+
+	/**
 	 * The database connection name.
 	 * 
 	 * @var string|null $connection
@@ -89,8 +96,81 @@ class Model implements Arrayable, ArrayAccess
 	 */
 	protected function newBaseQueryBuilder()
 	{
-		return new QueryBuilder(
+		$connection = $this->getConnection();
 
+		$grammar   = $connection->getQueryGrammar();
+		$processor = $connection->getPostProcessor();
+
+		return new QueryBuilder(
+			$connection, $grammar, $processor
 		);
+	}
+	
+	/**
+	 * Get the database connection for the model.
+	 * 
+	 * return \Syscodes\Components\Database\Database\Connection
+	 */
+	public function getConnection()
+	{
+		return static::resolveConnection($this->connection);
+	}
+	
+	/**
+	 * Get the current connection name for the model.
+	 * 
+	 * @return string
+	 */
+	public function getConnectionName()
+	{
+		return $this->connection;
+	}
+	
+	/**
+	 * Set the connection associated with the model.
+	 * 
+	 * @param  string  $name
+	 * 
+	 * @return self
+	 */
+	public function setConnection($name)
+	{
+		$this->connection = $name;
+		
+		return $this;
+	}
+
+	/**
+	 * The resolver connection a instance.
+	 * 
+	 * @param  string|null  $connection
+	 * 
+	 * @return \Syscodes\Components\Database\Connections\Connection
+	 */
+	public static function resolveConnection(string $connection = null)
+	{
+		return static::$resolver->connection($connection);
+	}
+
+	/**
+	 * Get the connectiion resolver instance.
+	 * 
+	 * @return \Syscodes\Components\Database\ConnectionResolverInstance
+	 */
+	public static function getConnectionResolver()
+	{
+		return static::$resolver;
+	}
+
+	/**
+	 * Set the connection resolver instance.
+	 * 
+	 * @param  \Syscodes\Components\Database\ConnectionResolverInstance  $resolver
+	 * 
+	 * @return void
+	 */
+	public static function setConnectionResolver(ConnectionResolverIntance $resolver)
+	{
+		static::$resolver = $resolver;
 	}
 }
