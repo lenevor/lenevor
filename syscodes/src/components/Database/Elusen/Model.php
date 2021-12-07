@@ -113,7 +113,7 @@ class Model implements Arrayable, ArrayAccess
 	 */
 	public function getConnection()
 	{
-		return static::resolveConnection($this->connection);
+		return static::resolveConnection($this->getConnectionName());
 	}
 	
 	/**
