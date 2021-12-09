@@ -78,6 +78,16 @@ class Model implements Arrayable, ArrayAccess
 	}
 
 	/**
+	 * 
+	 */
+	public function newQuery()
+	{
+		return $this->newQueryBuilder(
+					$this->newBaseQueryBuilder()
+				);
+	}
+
+	/**
 	 * Create a new Elusen query builder for the model.
 	 * 
 	 * @param  \Syscodes\Components\Database\Query\Builder  $builder
