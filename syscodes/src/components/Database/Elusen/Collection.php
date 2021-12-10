@@ -22,12 +22,32 @@
 
 namespace Syscodes\Components\Database\Elusen;
 
+use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Collections\Collection as BaseCollection;
+
 /**
  * Generate a collection for to exposes registers database.
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class Collection
+class Collection extends BaseCollection
 {
-    
+    /**
+     * Find a model in the collection by key.
+     * 
+     * @param  mixed  $key
+     * @param  mixed  $default
+     * 
+     * @return \Syscodes\Components\Database\Elusen\Model
+     */
+    public function find($key, $default = null)
+    {
+        if ($key instanceof Model) {
+            $key = $key->getKey();
+        }
+        
+        return Arr::first($this->items, function($itemKey, $model) use ($key) {
+            return $model->getKey() == $key;
+        }, $default);
+    }
 }
