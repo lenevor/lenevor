@@ -27,6 +27,7 @@ use LogicException;
 use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Collections\Str;
 use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Database\ConnectionResolverInterface;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
 use Syscodes\Components\Collections\Collection as BaseCollection;
 
@@ -35,7 +36,7 @@ use Syscodes\Components\Collections\Collection as BaseCollection;
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class Model implements Arrayable, ArrayAccess
+class Model /*implements Arrayable, ArrayAccess*/
 {
 	/**
 	 * The connection resolver instance.
@@ -76,15 +77,97 @@ class Model implements Arrayable, ArrayAccess
 	{
 		
 	}
+	
+	/**
+	 * Get all of the models from the database.
+	 * 
+	 * @param  array|mixed  $columns
+	 * 
+	 * @return \Syscodes\Database\Elusen\Collection|static[]
+	 */
+	public static function all($columns = ['*'])
+	{
+		$instance = new static;
+		
+		return $instance->newQuery()->get(
+			is_array($columns) ? $columns : func_get_args()
+		);
+	}
 
 	/**
+	 * Find a model by its primary key.
 	 * 
+	 * @param  mixed  $id
+	 * @param  array  $columns
+	 * 
+	 * @return \Syscodes\Components\Database\Collection|static|null
+	 */
+	public static function find($id, array $columns = ['*'])
+	{
+		$instance = new static;
+
+		return $instance->newQuery()->find($id, $columns);
+	}
+	
+	/**
+	 * Find a model by its primary key or throw an exception.
+	 * 
+	 * @param  mixed  $id
+	 * @param  array  $columns
+	 * 
+	 * @return \Syscodes\Components\Database\Elusen\Model|\Syscodes\Components\Database\Elusen\Collection|static|static[]
+     *
+     * @throws \Syscodes\Components\Database\Elusen\Exceptions\ModelNotFoundException
+     */
+	public static function findOrFail($id, array $columns = ['*'])
+	{
+		$instance = new static;
+
+		return $instance->newQuery()->findOrFail($id, $columns);
+	}
+
+	/**
+     * Get the table qualified key name.
+     *
+     * @return string
+     */
+    public function getQualifiedKeyName()
+    {
+        return $this->getTable().'_'.$this->getKeyName();
+    }
+	
+	/**
+	 * Get the primary key for the model.
+	 * 
+	 * @return string
+	 */
+	public function getKeyName(): string
+	{
+		return $this->primaryKey;
+	}
+	
+	/**
+	 * Set the primary key for the model.
+	 * 
+	 * @param  string  $key
+	 * 
+	 * @return void
+	 */
+	public function setKeyName($key): void
+	{
+		$this->primaryKey = $key;
+	}
+
+	/**
+	 * Get a new query builder for the model's table.
+	 * 
+	 * @return \Syscodes\Components\Database\Elusen\Builder
 	 */
 	public function newQuery()
 	{
 		return $this->newQueryBuilder(
 					$this->newBaseQueryBuilder()
-				);
+				)->setModel($this);
 	}
 
 	/**
@@ -115,6 +198,46 @@ class Model implements Arrayable, ArrayAccess
 			$connection, $grammar, $processor
 		);
 	}
+
+	/**
+	 * Create a new ORM Collection instance.
+	 * 
+	 * @param  array  $models
+	 * 
+	 * @return \Syscodes\Components\Database\Collection
+	 */
+	public function newCollection(array $models = [])
+	{
+		return new Collection($models);
+	}
+
+	/**
+	 * Get the table associated with the model.
+	 * 
+	 * @return string
+	 */
+	public function getTable(): string
+	{
+		if (isset($this->table)) {
+			return $this->table;
+		}
+
+		$class = classBasename($this);
+
+		return str_replace('\\', '', $class);
+	}
+
+	/**
+	 * Set the table associated with the model.
+	 * 
+	 * @param  string  $table
+	 * 
+	 * @return void
+	 */
+	public function setTable(string $table): void
+	{
+		$this->table = $table;
+	}
 	
 	/**
 	 * Get the database connection for the model.
@@ -143,7 +266,7 @@ class Model implements Arrayable, ArrayAccess
 	 * 
 	 * @return self
 	 */
-	public function setConnection($name)
+	public function setConnection($name): self
 	{
 		$this->connection = $name;
 		
@@ -179,7 +302,7 @@ class Model implements Arrayable, ArrayAccess
 	 * 
 	 * @return void
 	 */
-	public static function setConnectionResolver(ConnectionResolverIntance $resolver)
+	public static function setConnectionResolver(ConnectionResolverInterface $resolver): void
 	{
 		static::$resolver = $resolver;
 	}
