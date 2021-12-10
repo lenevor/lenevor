@@ -30,9 +30,10 @@ use BadMethodCallException;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
+use Syscodes\Components\Database\Exceptions\ModelNotFoundException;
 
 /**
- * Creates a ORM query builder.
+ * Creates a Elusen query builder.
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
@@ -95,8 +96,172 @@ class Builder
     {
         $this->queryBuilder = $queryBuilder;
     }
-
     
+    /**
+     * Find a model by its primary key.
+     * 
+     * @param  mixed  $id
+     * @param  array  $columns
+     * 
+     * @return \Syscodes\Components\Database\Elusen\Model|static|null
+     */
+    public function find($id, array $columns = ['*'])
+    {
+        if (is_array($id)) {
+            return $this->findMany($id, $columns);
+        }
+        
+        $keyName = $this->model->getQualifiedKeyName();
+        
+        $where = $this->queryBuilder->where($keyName, '=', $id);
+        
+        return $where->first($columns);
+    }
+    
+    /**
+     * Find a model by its primary key.
+     * 
+     * @param  array  $ids
+     * @param  array  $columns
+     * 
+     * @return \Syscodes\Components\Database\Elusen\Model|Collection|static
+     */
+    public function findMany($ids, array $columns = ['*'])
+    {
+        if (empty($ids)) {
+            return $this->model->newCollection();
+        }
+        
+        $keyName = $this->model->getQualifiedKeyName();
+        
+        $this->queryBuilder->whereIn($keyName, $ids);
+        
+        return $this->get($columns);
+    }
+    
+    /**
+     * Find a model by its primary key or throw an exception.
+     * 
+     * @param  mixed  $id
+     * @param  array  $columns
+     * 
+     * @return \Syscodes\Components\Database\Elusen\Model|static
+     * 
+     * @throws \Syscodes\Components\Database\Elusen\Exceptions\ModelNotFoundException
+     */
+    public function findOrFail($id, array $columns = ['*'])
+    {
+        if ( ! is_null($model = $this->find($id, $columns))) {
+            return $model;
+        }
+        
+        $className = get_class($this->model);
+        
+        throw (new ModelNotFoundException)->setModel($className);
+    }
+
+    /**
+     * Execute the query and get the first result or throw an exception.
+     *
+     * @param  array  $columns
+     * 
+     * @return \Syscodes\Components\Database\Elusen\Model|static
+     *
+     * @throws \Syscodes\Components\Database\Elusen\Exceptions\ModelNotFoundException
+     */
+    public function firstOrFail($columns = ['*'])
+    {
+        if ( ! is_null($model = $this->get($columns))) {
+            return $model;
+        }
+
+        $className = get_class($this->model);
+
+        throw (new ModelNotFoundException)->setModel($className);
+    }
+
+    /**
+     * Execute the query as a "select" statement.
+     *
+     * @param  array  $columns
+     * @return \Syscodes\Components\Database\Elusen\Collection|static[]
+     */
+    public function get($columns = ['*'])
+    {
+        $models = $this->getModels($columns);
+
+        return $this->model->newCollection($models);
+    }
+    
+    /**
+     * Get the hydrated models without eager loading.
+     * 
+     * @param  array  $columns
+     * 
+     * @return \Syscodes\Components\Database\Elusen\Model[]
+     */
+    public function getModels($columns = ['*'])
+    {
+        $results = $this->queryBuilder->get($columns);
+
+        $models = [];
+
+        foreach ($results as $result) {
+            $models[] = $result;
+        }
+
+        return $models;
+    }
+
+    /**
+     * Get the query builder instance.
+     * 
+     * @return \Syscodes\Components\Database\Query\Builder
+     */
+    public function getQuery()
+    {
+        return $this->queryBuilder;
+    }
+
+    /**
+     * Set the query builder instance.
+     * 
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * 
+     * @return self
+     */
+    public function setQuery($builder): self
+    {
+        $this->queryBuilder = $builder;
+
+        return $this;
+    }
+
+    /**
+     * Get the model instance.
+     * 
+     * @return \Syscodes\Components\Database\Elusen\Model|static
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    /**
+     * Set the model instance.
+     * 
+     * @param  \Syscodes\Components\Database\Elusen\Model  $model
+     * 
+     * @return self
+     */
+    public function setModel(Model $model): self
+    {
+        $this->model = $model;
+
+        $this->queryBuilder->from($model->getTable());
+
+        return $this; 
+    }
     
     /**
      * Magic method.
