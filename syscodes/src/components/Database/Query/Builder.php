@@ -630,6 +630,7 @@ class Builder
         if ($value >= 0) {
             $this->$property = $value;
         }
+        
         return $this;
     }
 
