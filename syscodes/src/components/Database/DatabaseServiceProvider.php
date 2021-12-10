@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Database;
 
+use Syscodes\Components\Database\Elusen\Model;
 use Syscodes\Components\Support\ServiceProvider;
 
 /**
@@ -31,6 +32,16 @@ use Syscodes\Components\Support\ServiceProvider;
  */
 class DatabaseServiceProvider extends ServiceProvider
 {
+    /**
+     * Bootstrap the Application events.
+     * 
+     * @return void
+     */
+    public function boot()
+    {
+        Model::setConnectionResolver($this->app['db']);
+    }
+
     /**
      * Register the service provider.
      * 
