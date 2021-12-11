@@ -66,7 +66,7 @@ class SqlServerConnector
      * 
      * @return string
      */
-    protected function getDsn(array $config)
+    protected function getDsn(array $config): string
     {
         extract($config);
         
@@ -86,7 +86,7 @@ class SqlServerConnector
      * 
      * @return array
      */
-    public function getAvailableDrivers()
+    public function getAvailableDrivers(): array
     {
         return PDO::getAvailableDrivers();
     }
