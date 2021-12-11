@@ -23,7 +23,6 @@
 namespace Syscodes\Components\Database\Query\Grammars;
 
 use Syscodes\Components\Database\Query\Builder;
-use Syscodes\Components\Database\Query\Grammar;
 
 /**
  * Allows make the grammar's for get results of the database
@@ -41,7 +40,7 @@ class SQLiteGrammar extends Grammar
      * 
      * @return string
      */
-    public function compileLock(Builder $builder, $value)
+    public function compileLock(Builder $builder, $value): string
     {
         return '';
     }
@@ -53,7 +52,7 @@ class SQLiteGrammar extends Grammar
      * 
      * @return string
      */
-    protected function wrapUnion($sql)
+    protected function wrapUnion($sql): string
     {
         return 'select * from ('.$sql.')';
     }
@@ -66,7 +65,7 @@ class SQLiteGrammar extends Grammar
      * 
      * @return string
      */
-    protected function whereDate(Builder $builder, $where)
+    protected function whereDate(Builder $builder, $where): string
     {
         return $this->dateBasedWhere('%Y-%m-%d', $builder, $where);
     }
@@ -79,7 +78,7 @@ class SQLiteGrammar extends Grammar
      * 
      * @return string
      */
-    protected function whereTime(Builder $builder, $where)
+    protected function whereTime(Builder $builder, $where): string
     {
         return $this->dateBasedWhere('%H:%M:%S', $builder, $where);
     }
@@ -92,7 +91,7 @@ class SQLiteGrammar extends Grammar
      * 
      * @return string
      */
-    protected function whereDay(Builder $builder, $where)
+    protected function whereDay(Builder $builder, $where): string
     {
         return $this->dateBasedWhere('%d', $builder, $where);
     }
@@ -105,7 +104,7 @@ class SQLiteGrammar extends Grammar
      * 
      * @return string
      */
-    protected function whereMonth(Builder $builder, $where)
+    protected function whereMonth(Builder $builder, $where): string
     {
         return $this->dateBasedWhere('%m', $builder, $where);
     }
@@ -118,7 +117,7 @@ class SQLiteGrammar extends Grammar
      * 
      * @return string
      */
-    protected function whereYear(Builder $builder, $where)
+    protected function whereYear(Builder $builder, $where): string
     {
         return $this->dateBasedWhere('%Y', $builder, $where);
     }
@@ -132,7 +131,7 @@ class SQLiteGrammar extends Grammar
      * 
      * @return string
      */
-    protected function dateBasedWhere($type, Builder $builder, $where)
+    protected function dateBasedWhere($type, Builder $builder, $where): string
     {
         $value = $this->parameter($where['value']);
 
@@ -146,7 +145,7 @@ class SQLiteGrammar extends Grammar
      * 
      * @return array
      */
-    public function truncate(Builder $builder)
+    public function truncate(Builder $builder): array
     {
         return [
             'delete from sqlite_sequence where name = ?' => [],
