@@ -116,25 +116,25 @@ class Model /*implements Arrayable, ArrayAccess*/
 	 * @param  array  $columns
 	 * 
 	 * @return \Syscodes\Components\Database\Elusen\Model|\Syscodes\Components\Database\Elusen\Collection|static|static[]
-     *
-     * @throws \Syscodes\Components\Database\Elusen\Exceptions\ModelNotFoundException
-     */
+	 * 
+	 * @throws \Syscodes\Components\Database\Elusen\Exceptions\ModelNotFoundException
+	 */
 	public static function findOrFail($id, array $columns = ['*'])
 	{
 		$instance = new static;
-
+		
 		return $instance->newQuery()->findOrFail($id, $columns);
 	}
-
+	
 	/**
-     * Get the table qualified key name.
-     *
-     * @return string
-     */
-    public function getQualifiedKeyName()
-    {
-        return $this->getTable().'_'.$this->getKeyName();
-    }
+	 * Get the table qualified key name.
+	 * 
+	 * @return string
+	 */
+	public function getQualifiedKeyName()
+	{
+		return $this->getTable().'_'.$this->getKeyName();
+	}
 	
 	/**
 	 * Get the primary key for the model.
