@@ -23,7 +23,6 @@
 namespace Syscodes\Components\Database\Query\Grammars;
 
 use Syscodes\Components\Database\Query\Builder;
-use Syscodes\Components\Database\Query\Grammar;
 
 /**
  * Allows make the grammar's for get results of the database
@@ -40,7 +39,7 @@ class SqlServerGrammar extends Grammar
      * 
      * @return string
      */
-    public function compileSelect(Builder $builder)
+    public function compileSelect(Builder $builder): string
     {
         $components = $this->compileComponents($builder);
 
@@ -59,7 +58,7 @@ class SqlServerGrammar extends Grammar
      * 
      * @return string
      */
-    protected function compileAnsiOffset(Builder $buiilder, $components)
+    protected function compileAnsiOffset(Builder $buiilder, $components): string
     {
         if ( ! isset($components['orders'])) {
             $components['orders'] = 'order by (select 0)';
@@ -81,7 +80,7 @@ class SqlServerGrammar extends Grammar
      * 
      * @return string
      */
-    protected function compileOver($orderings)
+    protected function compileOver($orderings): string
     {
         return ", row_number() over ({$orderings}) as row_num";
     }
@@ -94,7 +93,7 @@ class SqlServerGrammar extends Grammar
      * 
      * @return string
      */
-    protected function compileTableExpression($sql, $builder)
+    protected function compileTableExpression($sql, $builder): string
     {
         $constraint = $this->compileRowConstraint($builder);
 
@@ -108,7 +107,7 @@ class SqlServerGrammar extends Grammar
      * 
      * @return string
      */
-    protected function compileRowConstraint(Builder $builder)
+    protected function compileRowConstraint(Builder $builder): string
     {
         $begin = $builder->offset + 1;
 
@@ -128,7 +127,7 @@ class SqlServerGrammar extends Grammar
      * 
      * @return string
      */
-    public function compileRandom($seed)
+    public function compileRandom($seed): string
     {
         return 'NEWID()';
     }
@@ -141,7 +140,7 @@ class SqlServerGrammar extends Grammar
      * 
      * @return string
      */
-    protected function compileLimit(Builder $builder, $limit)
+    protected function compileLimit(Builder $builder, $limit): string
     {
         return '';
     }
@@ -154,7 +153,7 @@ class SqlServerGrammar extends Grammar
      * 
      * @return string
      */
-    protected function compileOffset(Builder $builder, $offset)
+    protected function compileOffset(Builder $builder, $offset): string
     {
         return '';
     }
@@ -167,7 +166,7 @@ class SqlServerGrammar extends Grammar
      * 
      * @return string
      */
-    public function compileLock(Builder $builder, $value)
+    public function compileLock(Builder $builder, $value): string
     {
         return '';
     }
@@ -179,7 +178,7 @@ class SqlServerGrammar extends Grammar
      * 
      * @return string
      */
-    protected function wrapUnion($sql)
+    protected function wrapUnion($sql): string
     {
         return 'select * from ('.$sql.') as '.$this->wrapTable('temp_table');
     }
@@ -191,7 +190,7 @@ class SqlServerGrammar extends Grammar
      * 
      * @return array
      */
-    public function truncate(Builder $builder)
+    public function truncate(Builder $builder): array
     {
         return ['truncate table '.$this->wrapTable($builder->from) => []];
     }
