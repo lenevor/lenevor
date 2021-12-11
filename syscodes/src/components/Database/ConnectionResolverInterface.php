@@ -43,7 +43,7 @@ interface ConnectionResolverInterface
      * 
      * @return string
      */
-    public function getDefaultConnection();
+    public function getDefaultConnection(): string;
     
     /**
      * Set the default Connection name.
@@ -52,5 +52,5 @@ interface ConnectionResolverInterface
      * 
      * @return void
      */
-    public function setDefaultConnection($name);
+    public function setDefaultConnection($name): void;
 }
