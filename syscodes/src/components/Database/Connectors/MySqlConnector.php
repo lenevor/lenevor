@@ -65,7 +65,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
      * 
      * @return string
      */
-    protected function getDsn(array $config)
+    protected function getDsn(array $config): string
     {
         return $this->hasSocket($config)
                     ? $this->getSocketDsn($config)
@@ -79,7 +79,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
      * 
      * @return bool
      */
-    protected function hasSocket(array $config)
+    protected function hasSocket(array $config): bool
     {
         return isset($config['unix_socket']) && ! empty($config['unix_socket']);
     }
@@ -91,7 +91,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
      * 
      * @return string
      */
-    protected function getSocketDsn(array $config)
+    protected function getSocketDsn(array $config): string
     {
         return "mysql:unix_socket={$config['unix_socket']};dbname={$config['database']}";
     }
@@ -103,7 +103,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
      * 
      * @return string
      */
-    protected function getHostDsn(array $config)
+    protected function getHostDsn(array $config): string
     {
         extract($config, EXTR_SKIP);
         
@@ -138,7 +138,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
      * 
      * @return string
      */
-    protected function getCollation(array $config)
+    protected function getCollation(array $config): string
     {
         return isset($config['collation']) ? " collate '{$config['collation']}'" : '';
     }
@@ -166,7 +166,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
      * 
      * @return void
      */
-    protected function setModes($connection, array $config)
+    protected function setModes($connection, array $config): void
     {
         // If the "strict" option has been configured for the connection we'll enable
         // strict mode on all of these tables. This enforces some extra rules when
