@@ -53,7 +53,7 @@ abstract class Connector
      * 
      * @return array
      */
-    public function getOptions(array $config)
+    public function getOptions(array $config): array
     {
         $options = $config['options'] ?? [];
 
@@ -90,7 +90,7 @@ abstract class Connector
      * 
      * @return array
      */
-    public function getDefaultOptions()
+    public function getDefaultOptions(): array
     {
         return $this->options;
     }
