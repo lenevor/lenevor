@@ -106,7 +106,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * 
      * @return array 
      */
-    protected function parseConnectionName($name)
+    protected function parseConnectionName($name): array
     {
         $name = $name ?: $this->getDefaultConnection();
 
@@ -148,7 +148,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * 
      * @throws \InvalidArgumentException
      */
-    protected function getConfiguration($name)
+    protected function getConfiguration($name): array
     {
         $name = $name ?: $this->getDefaultConnection();
 
@@ -258,7 +258,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * 
      * @return void
      */
-    public function purge($name = null)
+    public function purge($name = null): void
     {
         $name = $name ?: $this->getDefaultConnection();
 
@@ -272,7 +272,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * 
      * @return string
      */
-    public function getDefaultConnection()
+    public function getDefaultConnection(): string
     {
         return $this->app['config']['database.default'];
     }
@@ -280,9 +280,9 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Set the default connection name.
      * 
-     * @return string
+     * @return void
      */
-    public function setDefaultConnection($name)
+    public function setDefaultConnection($name): void
     {
         $this->app['config']['database.default'] = $name;
     }
@@ -295,7 +295,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * 
      * @return void
      */
-    public function extend($name, Callable $resolver)
+    public function extend($name, Callable $resolver): void
     {
         $this->extensions[$name] = $resolver;
     }
@@ -305,7 +305,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * 
      * @return array
      */
-    public function getConnections()
+    public function getConnections(): array
     {
         return $this->connections;
     }
