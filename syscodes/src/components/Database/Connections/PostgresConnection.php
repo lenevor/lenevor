@@ -22,8 +22,8 @@
 
 namespace Syscodes\Components\Database\Connections;
 
-use Syscodes\Components\Database\Query\PostgresGrammar as QueryGrammar;
-use Syscodes\Components\Database\Query\PostgresProcessor as QueryProcessor;
+use Syscodes\Components\Database\Query\Grammars\PostgresGrammar as QueryGrammar;
+use Syscodes\Components\Database\Query\Processors\PostgresProcessor as QueryProcessor;
 
 /**
  * Postgres connection.
