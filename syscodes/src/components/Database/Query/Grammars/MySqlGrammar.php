@@ -23,7 +23,6 @@
 namespace Syscodes\Components\Database\Query\Grammars;
 
 use Syscodes\Components\Database\Query\Builder;
-use Syscodes\Components\Database\Query\Grammar;
 
 /**
  * Allows make the grammar's for get results of the database
@@ -40,7 +39,7 @@ class MySqlGrammar extends Grammar
      * 
      * @return string
      */
-    public function compileSelect(Builder $builder)
+    public function compileSelect(Builder $builder): string
     {
         $sql = parent::compileSelect($builder);
 
@@ -59,7 +58,7 @@ class MySqlGrammar extends Grammar
      * 
      * @return string
      */
-    public function compileInsert(Builder $builder, array $values)
+    public function compileInsert(Builder $builder, array $values): string
     {
         if (empty($values)) {
             $values = [[]];
@@ -78,7 +77,7 @@ class MySqlGrammar extends Grammar
      * 
      * @return string
      */
-    public function compileUpdateWithoutJoins(Builder $builder, $table, $columns, $where)
+    public function compileUpdateWithoutJoins(Builder $builder, $table, $columns, $where): string
     {
         $sql = parent::compileUpdateWithoutJoins($builder, $table, $columns, $where);
 
@@ -102,7 +101,7 @@ class MySqlGrammar extends Grammar
      * 
      * @return string
      */
-    public function compileDeleteWithoutJoins(Builder $builder, $table, $where)
+    public function compileDeleteWithoutJoins(Builder $builder, $table, $where): string
     {
         $sql = parent::compileDeleteWithoutJoins($builder, $table, $where);
 
@@ -124,7 +123,7 @@ class MySqlGrammar extends Grammar
      * 
      * @return string
      */
-    protected function wrapValue($value)
+    protected function wrapValue($value): string
     {
         return ($value === '*') ? $value : '`'.str_replace('`', '``', $value).'`';
     }
@@ -137,7 +136,7 @@ class MySqlGrammar extends Grammar
      * 
      * @return string
      */
-    public function compileLock(Builder $builder, $value)
+    public function compileLock(Builder $builder, $value): string
     {
         if ( ! is_string($value)) {
             return $value ? 'for update' : 'lock in share mode';
