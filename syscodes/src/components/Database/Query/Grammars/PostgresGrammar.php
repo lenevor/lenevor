@@ -23,7 +23,6 @@
 namespace Syscodes\Components\Database\Query\Grammars;
 
 use Syscodes\Components\Database\Query\Builder;
-use Syscodes\Components\Database\Query\Grammar;
 
 /**
  * Allows make the grammar's for get results of the database
@@ -41,7 +40,7 @@ class PostGrammar extends Grammar
      * 
      * @return string
      */
-    public function compileLock(Builder $builder, $value)
+    public function compileLock(Builder $builder, $value): string
     {
         if ( ! is_string($value)) {
             return $value ? 'for update' : 'for share';
@@ -59,7 +58,7 @@ class PostGrammar extends Grammar
      * 
      * @return string
      */
-    public function compileInsertGetId(Builder $builder, $values, $sequence)
+    public function compileInsertGetId(Builder $builder, $values, $sequence): string
     {
         if (is_null($sequence)) $sequence = 'id' ;
 
@@ -73,7 +72,7 @@ class PostGrammar extends Grammar
      * 
      * @return array
      */
-    public function truncate(Builder $builder)
+    public function truncate(Builder $builder): array
     {
         return ['truncate table '.$this->wrapTable($builder->from).' restart identity cascade' => []];
     }
