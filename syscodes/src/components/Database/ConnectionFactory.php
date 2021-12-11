@@ -130,7 +130,7 @@ class ConnectionFactory
      * 
      * @return array
      */
-    protected function getReadConfig(array $config)
+    protected function getReadConfig(array $config): array
     {
         $readConfig = $this->getReadWriteConfig($config, 'read');
         
@@ -144,7 +144,7 @@ class ConnectionFactory
      * 
      * @return array
      */
-    protected function getWriteConfig(array $config)
+    protected function getWriteConfig(array $config): array
     {
         $writeConfig = $this->getReadWriteConfig($config, 'write');
         
@@ -159,7 +159,7 @@ class ConnectionFactory
      * 
      * @return array
      */
-    protected function getReadWriteConfig(array $config, $type)
+    protected function getReadWriteConfig(array $config, $type): array
     {
         return isset($config[$type][0])
                     ? $config[$type][array_rand($config[$type])]
@@ -174,7 +174,7 @@ class ConnectionFactory
      * 
      * @return array
      */
-    protected function mergeReadWriteConfig(array $config, array $merge)
+    protected function mergeReadWriteConfig(array $config, array $merge): array
     {
         return Arr::except(array_merge($config, $merge), ['read', 'write']);
     }
@@ -187,7 +187,7 @@ class ConnectionFactory
      * 
      * @return array
      */
-    protected function parseConfig(array $config, $name)
+    protected function parseConfig(array $config, $name): array
     {
         return Arr::add(Arr::add($config, 'prefix', ''), 'name', $name);
     }
