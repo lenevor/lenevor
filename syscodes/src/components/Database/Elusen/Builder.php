@@ -184,6 +184,7 @@ class Builder
      * Execute the query as a "select" statement.
      *
      * @param  array  $columns
+     * 
      * @return \Syscodes\Components\Database\Elusen\Collection|static[]
      */
     public function get($columns = ['*'])
