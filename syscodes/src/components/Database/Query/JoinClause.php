@@ -80,9 +80,9 @@ class JoinClause
      * @param  string  $boolean  
      * @param  array  $where  
      * 
-     * @return $this
+     * @return self
      */
-    public function on($first, $operator = null, $second = null, $boolean = 'and', $where = false)
+    public function on($first, $operator = null, $second = null, $boolean = 'and', $where = false): self
     {
         $this->clauses[] = compact('first', 'operator', 'second', 'boolean', 'where');
 
