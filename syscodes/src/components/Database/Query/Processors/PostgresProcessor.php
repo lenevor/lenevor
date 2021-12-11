@@ -22,8 +22,6 @@
  
 namespace Syscodes\Components\Database\Query\Processors;
 
-use Syscodes\Components\Database\Query\Processor;
-
 /**
  * Allows show the results of a column listing query for Postgres Database.
  * 
@@ -41,7 +39,7 @@ class PostgresProcessor extends Processor
      * 
      * @return int
      */
-    public function processInsertGetId(Builder $builder, $sql, $values, $sequence = null)
+    public function processInsertGetId(Builder $builder, $sql, $values, $sequence = null): int
     {
         $result = $builder->getConnection()->getFromConnection($sql, $values)[0];
 
@@ -58,7 +56,7 @@ class PostgresProcessor extends Processor
      * 
      * @return array
      */
-    public function processColumnListing($results)
+    public function processColumnListing($results): array
     {
         return array_map(function ($result) {
             return ((object) $result)->column_name;
