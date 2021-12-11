@@ -22,8 +22,6 @@
  
 namespace Syscodes\Components\Database\Query\Processors;
 
-use Syscodes\Components\Database\Query\Processor;
-
 /**
  * Allows show the results of a column listing query for Mysql Database.
  * 
@@ -38,7 +36,7 @@ class MySqlProcessor extends Processor
      * 
      * @return array
      */
-    public function processColumnListing($results)
+    public function processColumnListing($results): array
     {
         return array_map(function ($result) {
             return ((object) $result)->column_name;
