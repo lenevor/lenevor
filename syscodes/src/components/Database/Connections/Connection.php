@@ -30,7 +30,6 @@ use PDOStatement;
 use LogicException;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Collections\Arr;
-use Syscodes\Components\Database\Query\Processor;
 use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\Database\Events\QueryExecuted;
@@ -38,11 +37,12 @@ use Syscodes\Components\Database\Events\TransactionBegin;
 use Syscodes\Components\Database\Events\StatementPrepared;
 use Syscodes\Components\Database\Exceptions\QueryException;
 use Syscodes\Components\Database\Events\TransactionRollback;
+use Syscodes\Components\Database\Query\Processors\Processor;
 use Syscodes\Components\Database\Events\TransactionCommitted;
 use Syscodes\Components\Database\Concerns\ManagesTransactions;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
-use Syscodes\Components\Database\Query\Grammar as QueryGrammar;
 use Syscodes\Components\Database\Concerns\DetectLostConnections;
+use Syscodes\Components\Database\Query\Grammars\Grammar as QueryGrammar;
 
 /**
  * Creates a database connection using PDO.
@@ -262,7 +262,6 @@ class Connection implements ConnectionInterface
     public function select($query, $bindings = [], $useReadPdo = true)
     {
         return $this->run($query, $bindings, function ($query, $bindings) use ($useReadPdo) {
-
             if ($this->pretending()) {
                 return [];
             }
@@ -365,7 +364,6 @@ class Connection implements ConnectionInterface
             $count = $statement->rowCount() > 0;
 
             return $count;
-
         });
     }
 
@@ -379,7 +377,6 @@ class Connection implements ConnectionInterface
     public function prepend(Closure $callback)
     {
         return $this->withFreshQueryLog(function () use ($callback) {
-
             $this->pretending = true;
 
             $callback($this);
@@ -387,7 +384,6 @@ class Connection implements ConnectionInterface
             $this->pretending = false;
 
             return $this->queryLog;
-
         });
     }
     
@@ -421,7 +417,7 @@ class Connection implements ConnectionInterface
      * 
      * @return void
      */
-    public function bindValues($statement, $bindings)
+    public function bindValues($statement, $bindings): void
     {
         foreach ($bindings as $key => $value) {
             $statement->bindValue(
@@ -495,7 +491,7 @@ class Connection implements ConnectionInterface
      * 
      * @return array
      */
-    public function prepareBindings(array $bindings)
+    public function prepareBindings(array $bindings): array
     {
         foreach ($bindings as $key => $value) {
             if ($value instanceof DateTime) {
@@ -601,7 +597,7 @@ class Connection implements ConnectionInterface
      * 
      * @return void
      */
-    public function reconnectIfMissingConnection()
+    public function reconnectIfMissingConnection(): void
     {
         if (is_null($this->pdo)) {
             $this->reconnect();
@@ -613,7 +609,7 @@ class Connection implements ConnectionInterface
      * 
      * @return void
      */
-    public function disconnect()
+    public function disconnect(): void
     {
         $this->setPdo(null)->$this->setReadPdo(null);
     }
@@ -637,7 +633,7 @@ class Connection implements ConnectionInterface
      * 
      * @return void
      */
-    public function event($event)
+    public function event($event): void
     {
         if (isset($this->events)) {
             $this->events->dispatch($event);
@@ -747,9 +743,9 @@ class Connection implements ConnectionInterface
      * 
      * @param  \PDO|\Closure|null  $pdo
      * 
-     * @return $this
+     * @return self
      */
-    public function setPdo($pdo)
+    public function setPdo($pdo): self
     {
         $this->transactions = 0;
 
@@ -763,9 +759,9 @@ class Connection implements ConnectionInterface
      * 
      * @param  \PDO|\Closure|null  $pdo
      * 
-     * @return $this
+     * @return self
      */
-    public function setReadPdo($pdo)
+    public function setReadPdo($pdo): self
     {
         $this->readPdo = $pdo;
 
@@ -777,9 +773,9 @@ class Connection implements ConnectionInterface
      * 
      * @param  \Callable  $reconnector
      * 
-     * @return $this
+     * @return self
      */
-    public function setReconnector(callable $reconnector)
+    public function setReconnector(callable $reconnector): self
     {
         $this->reconnector = $reconnector;
 
@@ -833,7 +829,7 @@ class Connection implements ConnectionInterface
      * 
      * @return void
      */
-    public function useDefaultQueryGrammar()
+    public function useDefaultQueryGrammar(): void
     {
         $this->queryGrammar = $this->getDefaultQueryGrammar();
     }
@@ -862,7 +858,7 @@ class Connection implements ConnectionInterface
      * 
      * @return void
      */
-    public function useDefaultPostProcessor()
+    public function useDefaultPostProcessor(): void
     {
         $this->postProcessor = $this->getDefaultProcessor();
     }
@@ -882,7 +878,7 @@ class Connection implements ConnectionInterface
      * 
      * @return string
      */
-    public function getDatabase()
+    public function getDatabase(): string
     {
         return $this->database;
     }
@@ -892,9 +888,9 @@ class Connection implements ConnectionInterface
      * 
      * @param  string  $database
      * 
-     * @return $this
+     * @return self
      */
-    public function setDatabase($database)
+    public function setDatabase($database): self
     {
         $this->database = $database;
 
@@ -906,9 +902,9 @@ class Connection implements ConnectionInterface
      * 
      * @param  \Syscodes\Components\Contracts\Events\Dispatcher  $events
      * 
-     * @return $this
+     * @return self
      */
-    public function setEventDispatcher(Dispatcher $events)
+    public function setEventDispatcher(Dispatcher $events): self
     {
         $this->events = $events;
 
@@ -920,7 +916,7 @@ class Connection implements ConnectionInterface
      * 
      * @return bool
      */
-    public function pretending()
+    public function pretending(): bool
     {
         return $this->pretending === true;
     }
@@ -930,7 +926,7 @@ class Connection implements ConnectionInterface
      * 
      * @return array
      */
-    public function getQueryLog()
+    public function getQueryLog(): array
     {
         return $this->queryLog;
     }
@@ -940,7 +936,7 @@ class Connection implements ConnectionInterface
      * 
      * @return void
      */
-    public function flushQueryLog()
+    public function flushQueryLog(): void
     {
         $this->queryLog = [];
     }
@@ -950,7 +946,7 @@ class Connection implements ConnectionInterface
      * 
      * @return void
      */
-    public function EnableQueryLog()
+    public function EnableQueryLog(): void
     {
         $this->loggingQueries = true;
     }
@@ -960,7 +956,7 @@ class Connection implements ConnectionInterface
      * 
      * @return void
      */
-    public function disableQueryLog()
+    public function disableQueryLog(): void
     {
         $this->loggingQueries = false;
     }
@@ -970,7 +966,7 @@ class Connection implements ConnectionInterface
      * 
      * @return bool
      */
-    public function logging()
+    public function logging(): bool
     {
         return $this->loggingQueries;
     }
@@ -980,7 +976,7 @@ class Connection implements ConnectionInterface
      * 
      * @return string
      */
-    public function getTablePrefix()
+    public function getTablePrefix(): string
     {
         return $this->tablePrefix;
     }
@@ -990,9 +986,9 @@ class Connection implements ConnectionInterface
      * 
      * @param  string  $tablePrefix
      * 
-     * @return $this
+     * @return self
      */
-    public function setTablePrefix($tablePrefix)
+    public function setTablePrefix($tablePrefix): self
     {
         $this->tablePrefix = $tablePrefix;
 
