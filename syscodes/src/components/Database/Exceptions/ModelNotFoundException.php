@@ -49,7 +49,7 @@ class ModelNotFoundException extends LenevorException
     {
         $this->model = $model;
 
-        $this->message = "No query results for model [{$model}].";
+        $this->message = "No query results for model [{$model}]";
 
         return $this;
     }
