@@ -72,7 +72,7 @@ class PostgresConnector extends Connector implements ConnectorInterface
      * 
      * @return string
      */
-    protected function getDsn(array $config)
+    protected function getDsn(array $config): string
     {
         extract($config, EXTR_SKIP);
 
@@ -99,7 +99,7 @@ class PostgresConnector extends Connector implements ConnectorInterface
      * 
      * @return string
      */
-    protected function addSslOptions($dsn, array $config)
+    protected function addSslOptions($dsn, array $config): string
     {
         foreach (['sslmode', 'sslcert', 'sslkey', 'sslrootcert'] as $option)
         {
@@ -136,7 +136,7 @@ class PostgresConnector extends Connector implements ConnectorInterface
      * 
      * @return void
      */
-    protected function configureTimezone($connection, array $config)
+    protected function configureTimezone($connection, array $config): void
     {
         if (isset($config['timezone'])) {
             $connection->prepare("set time zone {$config['timezone']}")->execute();
@@ -151,7 +151,7 @@ class PostgresConnector extends Connector implements ConnectorInterface
      * 
      * @return void
      */
-    protected function configureSchema($connection, array $config)
+    protected function configureSchema($connection, array $config): void
     {
         if (isset($config['schema'])) {
             $connection->prepare("set search_path to {$config['schema']}")->execute();
