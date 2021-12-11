@@ -22,8 +22,8 @@
 
 namespace Syscodes\Components\Database\Connections;
 
-use Syscodes\Components\Database\Query\SQLiteGrammar as QueryGrammar;
-use Syscodes\Components\Database\Query\SQLiteProcessor as QueryProcessor;
+use Syscodes\Components\Database\Query\Grammars\SQLiteGrammar as QueryGrammar;
+use Syscodes\Components\Database\Query\Processors\SQLiteProcessor as QueryProcessor;
 
 /**
  * SQLite connection.
