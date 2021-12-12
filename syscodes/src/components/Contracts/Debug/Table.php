@@ -32,14 +32,14 @@ interface Table
     /**
      * Returns the label.
      * 
-     * @return void
+     * @return string
      */
-    public function getLabel();
+    public function getLabel(): string;
 
     /**
      * Returns data as associative array.
      * 
-     * @return void
+     * @return array
      */
-    public function getData();
+    public function getData(): array;
 }
