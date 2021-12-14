@@ -112,7 +112,7 @@ class GDebug implements DebugContract
 	 *
 	 * @return string
 	 */
-	public function handleException(Throwable $exception)
+	public function handleException(Throwable $exception): string
 	{	
 		// The start benchmark
 		$this->benchmark->start('total_execution', LENEVOR_START);
@@ -214,9 +214,9 @@ class GDebug implements DebugContract
 	 * 
 	 * @param  string  $output
 	 * 
-	 * @return $this
+	 * @return self
 	 */
-	protected function writeToOutputBuffer($output)
+	protected function writeToOutputBuffer($output): self
 	{
 		if ($this->sendHttpCode() && Misc::sendHeaders()) {
 			$this->system->setHttpResponseCode($this->sendHttpCode());
@@ -274,9 +274,9 @@ class GDebug implements DebugContract
 	 * 
 	 * @param  \Callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
 	 * 
-	 * @return $this
+	 * @return self
 	 */
-	public function appendHandler($handler)
+	public function appendHandler($handler): self
 	{
 		array_unshift($this->handlerStack, $this->resolveHandler($handler));
 
@@ -288,9 +288,9 @@ class GDebug implements DebugContract
 	 * 
 	 * @param  \Callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
 	 * 
-	 * @return $this
+	 * @return self
 	 */
-	public function prependHandler($handler)
+	public function prependHandler($handler): self
 	{
 		array_unshift($this->handlerStack, $this->resolveHandler($handler));
 
@@ -327,7 +327,7 @@ class GDebug implements DebugContract
 	 * 
 	 * @return array
 	 */
-	public function getHandlers()
+	public function getHandlers(): array
 	{
 		return $this->handlerStack;
 	}
@@ -335,9 +335,9 @@ class GDebug implements DebugContract
 	/**
 	 * Clears all handlers in the handlerStack, including the default PleasingPage handler.
 	 * 
-	 * @return $this
+	 * @return self
 	 */
-	public function clearHandlers()
+	public function clearHandlers(): self
 	{
 		$this->handlerStack = [];
 
