@@ -39,7 +39,7 @@ interface Encrypter
      * 
      * @return bool
      */
-    public static function supported($key, $cipher);
+    public static function supported($key, $cipher): bool;
 
     /**
      * Generate the IV size for the cipher.
@@ -48,7 +48,7 @@ interface Encrypter
      * 
      * @return string
      */
-    public static function generateRandomKey($cipher);
+    public static function generateRandomKey($cipher): string;
 
     /**
      * Encrypt the given value.
@@ -60,7 +60,7 @@ interface Encrypter
      * 
      * @throws \Syscodes\Components\Encryption\Exceptions\EncryptException
      */
-    public function encrypt($value, $serialize = true);
+    public function encrypt($value, $serialize = true): string;
 
     /**
      * Encrypt the given string without serialization.
@@ -69,7 +69,7 @@ interface Encrypter
      * 
      * @return string
      */
-    public function encryptString($value);
+    public function encryptString($value): string;
 
     /**
      * Encrypt the given value.
@@ -99,5 +99,5 @@ interface Encrypter
      * 
      * @return string
      */
-    public function getKey();
+    public function getKey(): string;
 }
