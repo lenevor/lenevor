@@ -45,9 +45,9 @@ class Benchmark
      * @param  string  $name
      * @param  float|null  $time
      * 
-     * @return $this
+     * @return self
      */
-    public function start(string $name, float $time = null)
+    public function start(string $name, float $time = null): self
     {
         $this->timers[strtolower($name)] = [
             'start' => ! empty($time) ? $time : microtime(true),
@@ -62,9 +62,9 @@ class Benchmark
      * 
      * @param  string  $name
      * 
-     * @return $this
+     * @return self
      */
-    public function stop(string $name)
+    public function stop(string $name): self
     {
         $name = strtolower($name);
 
@@ -111,7 +111,7 @@ class Benchmark
      * 
      * @return array
      */
-    public function getTimers(int $decimals = 4)
+    public function getTimers(int $decimals = 4): array
     {
         $timers = $this->timers;
 
@@ -135,7 +135,7 @@ class Benchmark
      * 
      * @return string
      */
-    protected function formatPeriod(float $operation) 
+    protected function formatPeriod(float $operation): string
     { 
         $duration = $operation; 
         $hours    = (int) ($duration / 60 / 60); 
@@ -156,9 +156,9 @@ class Benchmark
      * 
      * @param  string  $name
      * 
-     * @return boolean
+     * @return bool
      */
-    public function has(string $name)
+    public function has(string $name): bool
     {
         return array_key_exists(strtolower($name), $this->timers);
     }
