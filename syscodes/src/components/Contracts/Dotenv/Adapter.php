@@ -34,7 +34,7 @@ interface Adapter
      * 
      * @return bool
      */
-    public function isSupported();
+    public function isSupported(): bool;
     
     /**
      * Check if a variable exists.
@@ -43,14 +43,14 @@ interface Adapter
      * 
      * @return bool
      */
-    public function has(string $name);
+    public function has(string $name): bool;
     
     /**
      * Read an environment variable.
      * 
      * @param  string  $name
      * 
-     * @return bool
+     * @return mixed
      */
     public function read(string $name);
 
@@ -62,7 +62,7 @@ interface Adapter
      * 
      * @return bool
      */
-    public function write(string $name, string $value);
+    public function write(string $name, string $value): bool;
 
     /**
      * Delete an environment variable.
@@ -71,5 +71,5 @@ interface Adapter
      * 
      * @return bool
      */
-    public function delete(string $name);
+    public function delete(string $name): bool;
 }
