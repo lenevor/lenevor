@@ -51,7 +51,7 @@ class Misc
      * 
      * @return bool
      */
-    public static function isFatalError(int $level)
+    public static function isFatalError(int $level): bool
     {
         return in_array($level, static::$phpErrors);
     }
@@ -65,7 +65,7 @@ class Misc
      * 
      * @return bool
      */
-    public static function sendHeaders()
+    public static function sendHeaders(): bool
     {
         return isset($_SERVER["REQUEST_URI"]) && ! headers_sent();
     }
@@ -77,7 +77,7 @@ class Misc
      * 
      * @return string
      */
-    public static function translateErrorCode($errorCode)
+    public static function translateErrorCode($errorCode): string
     {
         $constants = get_defined_constants(true);
 
