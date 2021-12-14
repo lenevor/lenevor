@@ -37,7 +37,7 @@ class GlobalAdapter implements Adapter
      * 
      * @return bool
      */
-    public function isSupported()
+    public function isSupported(): bool
     {
         return true;
     }
@@ -49,7 +49,7 @@ class GlobalAdapter implements Adapter
      * 
      * @return bool
      */
-    public function has(string $name)
+    public function has(string $name): bool
     {
         global ${$name};
 
@@ -82,7 +82,7 @@ class GlobalAdapter implements Adapter
      * 
      * @return bool
      */
-    public function write(string $name, string $value)
+    public function write(string $name, string $value): bool
     {
         if ($this->has($name)) {
             global ${$name};
@@ -100,7 +100,7 @@ class GlobalAdapter implements Adapter
      * 
      * @return bool
      */
-    public function delete(string $name)
+    public function delete(string $name): bool
     {
         global ${$name};
         
