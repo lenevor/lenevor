@@ -107,7 +107,7 @@ final class Dotenv
      * 
      * @return bool
      */
-    public function load()
+    public function load(): bool
     {        
         return $this->loader->load($this->store->read());
     }
