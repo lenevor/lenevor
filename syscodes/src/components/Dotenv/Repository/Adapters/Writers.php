@@ -56,7 +56,7 @@ final class Writers
      * 
      * @return bool 
      */
-    public function write(string $name, string $value)
+    public function write(string $name, string $value): bool
     {
         foreach ($this->writers as $writes) {
             if ( ! $writes->write($name, $value)) {
@@ -74,7 +74,7 @@ final class Writers
      * 
      * @return bool 
      */
-    public function delete(string $name)
+    public function delete(string $name): bool
     {
         foreach ($this->writers as $writes) {
             if ( ! $writes->delete($name)) {
