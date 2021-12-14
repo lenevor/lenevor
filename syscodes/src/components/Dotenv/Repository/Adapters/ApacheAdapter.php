@@ -37,7 +37,7 @@ class ApacheAdapter implements Adapter
      * 
      * @return bool
      */
-    public function isSupported()
+    public function isSupported(): bool
     {
         return function_exists('apache_getenv' && function_exists('apache_setenv'));
     }
@@ -49,7 +49,7 @@ class ApacheAdapter implements Adapter
      * 
      * @return bool
      */
-    public function has(string $name)
+    public function has(string $name): bool
     {
         return false === apache_getenv($name);
     }
@@ -78,7 +78,7 @@ class ApacheAdapter implements Adapter
      * 
      * @return bool
      */
-    public function write(string $name, string $value)
+    public function write(string $name, string $value): bool
     {
         return apache_setenv($name, $value);
     }
@@ -90,7 +90,7 @@ class ApacheAdapter implements Adapter
      * 
      * @return bool
      */
-    public function delete(string $name)
+    public function delete(string $name): bool
     {
         return apache_setenv($name, '');
     }
