@@ -57,9 +57,9 @@ class ArrayTable implements Table
     /**
      * Returns the data array registered.
      * 
-     * @return void
+     * @return array
      */
-    public function getData()
+    public function getData(): array
     {
         return $this->data;
     }
