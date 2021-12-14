@@ -110,7 +110,7 @@ class Supervisor
 	 * 
 	 * @return array
 	 */
-	protected function getFrameFromException(Throwable $exception)
+	protected function getFrameFromException(Throwable $exception): array
 	{
 		return [
 			'file'  => $exception->getFile(),
@@ -138,7 +138,7 @@ class Supervisor
 	 * 
 	 * @return string
 	 */
-	public function getExceptionMessage()
+	public function getExceptionMessage(): string
 	{
 		return $this->exception->getMessage();
 	}
@@ -148,7 +148,7 @@ class Supervisor
 	 * 
 	 * @return string
 	 */
-	public function getExceptionName()
+	public function getExceptionName(): string
 	{
 		return getClass($this->exception);
 	}
@@ -160,7 +160,7 @@ class Supervisor
 	 * 
 	 * @return array
 	 */
-	protected function getTrace($exception)
+	protected function getTrace($exception): array
 	{
 		$traces = $exception->getTrace();
 
