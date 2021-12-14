@@ -37,7 +37,7 @@ class PutenvAdapter implements Adapter
      * 
      * @return bool
      */
-    public function isSupported()
+    public function isSupported(): bool
     {
         return function_exists('getenv' && function_exists('putenv'));
     }
@@ -49,7 +49,7 @@ class PutenvAdapter implements Adapter
      * 
      * @return bool
      */
-    public function has(string $name)
+    public function has(string $name): bool
     {
         return ! empty(getenv($name));
     }
@@ -80,7 +80,7 @@ class PutenvAdapter implements Adapter
      * 
      * @return bool
      */
-    public function write(string $name, string $value)
+    public function write(string $name, string $value): bool
     {
         putenv("$name=$value");
 
@@ -94,7 +94,7 @@ class PutenvAdapter implements Adapter
      * 
      * @return bool
      */
-    public function delete(string $name)
+    public function delete(string $name): bool
     {
         putenv($name);
 
