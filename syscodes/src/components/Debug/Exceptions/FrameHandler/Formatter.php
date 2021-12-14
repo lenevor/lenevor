@@ -39,7 +39,7 @@ class Formatter
      * 
      * @return array
      */
-    public static function formatExceptionAsDataArray(Supervisor $supervisor)
+    public static function formatExceptionAsDataArray(Supervisor $supervisor): array
     {
         $exception = $supervisor->getException();
 
@@ -68,7 +68,7 @@ class Formatter
      * 
      * @return string
      */
-    public static function formatExceptionAsPlainText(Supervisor $supervisor)
+    public static function formatExceptionAsPlainText(Supervisor $supervisor): string
     {
         $message  = $supervisor->getException()->getMessage();
         $frames   = $supervisor->getFrames();
