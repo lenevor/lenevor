@@ -83,7 +83,7 @@ class Frame implements Serializable
      * 
      * @return array
      */
-    public function getFrame()
+    public function getFrame(): array
     {
         return $this->frame;
     }
@@ -113,7 +113,7 @@ class Frame implements Serializable
      * 
      * @return array
      */
-    public function getArgs()
+    public function getArgs(): array
     {
         return isset($this->frame['args']) ? (array) $this->frame['args'] : [];
     }
@@ -129,7 +129,7 @@ class Frame implements Serializable
      * 
      * @return void
      */
-    public function addComment($comment, $context = 'default')
+    public function addComment($comment, $context = 'default'): void
     {
         $this->comments[] = [
             'comments' => $comment,
@@ -145,7 +145,7 @@ class Frame implements Serializable
      * 
      * @return array
      */
-    public function getComments($filter = null)
+    public function getComments($filter = null): array
     {
         $comments = $this->comments;
 
