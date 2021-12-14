@@ -78,7 +78,7 @@ class System
      * 
      * @return void 
      */
-    public function restoreExceptionHandler()
+    public function restoreExceptionHandler(): void
     {
         restore_exception_handler();
     }
@@ -88,7 +88,7 @@ class System
      * 
      * @return void
      */
-    public function restoreErrorHandler()
+    public function restoreErrorHandler(): void
     {
         restore_error_handler();
     }
@@ -101,7 +101,7 @@ class System
      * 
      * @return void
      */
-    public function registerShutdownFunction(callable $callback)
+    public function registerShutdownFunction(callable $callback): void
     {
         register_shutdown_function($callback);
     }
@@ -123,7 +123,7 @@ class System
      * 
      * @return int
      */
-    public function getOutputBufferLevel()
+    public function getOutputBufferLevel(): int
     {
         return ob_get_level();
     }
@@ -133,7 +133,7 @@ class System
      * 
      * @return bool
      */
-    public function endOutputBuffering()
+    public function endOutputBuffering(): bool
     {
         return ob_end_clean();
     }
@@ -153,7 +153,7 @@ class System
      * 
      * @return int
      */
-    public function getErrorReportingLevel()
+    public function getErrorReportingLevel(): int
     {
         return error_reporting();
     }
@@ -175,7 +175,7 @@ class System
      *
      * @return int
      */
-    public function setHttpResponseCode($httpCode)
+    public function setHttpResponseCode($httpCode): int
     {
         return http_response_code($httpCode);
     }
@@ -187,7 +187,7 @@ class System
      * 
      * @return void
      */
-    public function stopException($status)
+    public function stopException($status): void
     {
         exit($status);
     }
