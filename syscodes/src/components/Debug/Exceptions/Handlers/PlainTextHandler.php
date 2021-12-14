@@ -37,7 +37,7 @@ class PlainTextHandler extends MainHandler
      * 
      * @return string
      */
-    public function contentType()
+    public function contentType(): string
     {
         return 'text/plain';
     }
@@ -49,7 +49,7 @@ class PlainTextHandler extends MainHandler
      * 
      * @return string
      */
-    protected function getResponse(Throwable $exception)
+    protected function getResponse(Throwable $exception): string
     {
         return sprintf(
             "%s: %s in file %s on line %d%s\n",
@@ -64,9 +64,9 @@ class PlainTextHandler extends MainHandler
     /**
      * Get trace output of response text.
      * 
-     * @return void
+     * @return string
      */
-    protected function getTraceOutput()
+    protected function getTraceOutput(): string
     {
         $supervisor = $this->getSupervisor();
         $frames     = $supervisor->getFrames();
@@ -102,9 +102,9 @@ class PlainTextHandler extends MainHandler
     /**
      * Given an exception and status code will display the error to the client.
      * 
-     * @return void
+     * @return int
      */
-    public function handle()
+    public function handle(): int
     {        
         $response = $this->getResponse($this->getException());
 
