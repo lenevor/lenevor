@@ -208,7 +208,7 @@ class ExceptionHandler
      * 
      * @return string  The HTML content as a string 
      */
-    public function sendPhpResponse($exception)
+    public function sendPhpResponse($exception): string
     {
         if ( ! $exception instanceof FlattenException) {
             $exception = FlattenException::make($exception);
@@ -234,7 +234,7 @@ class ExceptionHandler
      * 
      * @return string  The HTML content as a string 
      */
-    public function getHtmlResponse($exception)
+    public function getHtmlResponse($exception): string
     {
         if ( ! $exception instanceof FlattenException) {
             $exception = FlattenException::make($exception);
@@ -251,7 +251,7 @@ class ExceptionHandler
      * 
      * @return string
      */
-    private function design($content, $styleCss)
+    private function design($content, $styleCss): string
     {
         return <<<EOF
 <!DOCTYPE html>
@@ -278,7 +278,7 @@ EOF;
      * 
      * @return string  The HTML content as a string
      */
-    public function getContent(FlattenException $exception)
+    public function getContent(FlattenException $exception): string
     {
         switch ($exception->getStatusCode()) {
             case 404:
@@ -362,7 +362,7 @@ EOF
 EOF;
     }
 
-    public function getStylesheet()
+    public function getStylesheet(): string
     {
         if ( ! $this->debug) {
             return <<<'EOF'
@@ -429,7 +429,7 @@ EOF;
      * 
      * @return string
      */
-    private function formatClass($class)
+    private function formatClass($class): string
     {
         $parts = explode('\\', $class);
 
@@ -489,7 +489,7 @@ EOF;
      * 
      * @return string
      */
-    private function formatArgs(array $args)
+    private function formatArgs(array $args): string
     {
         $result = [];
 
@@ -521,7 +521,7 @@ EOF;
      * 
      * @return string
      */
-    private function escapeHtml($string)
+    private function escapeHtml($string): string
     {
         return htmlspecialchars($string, ENT_COMPAT | ENT_SUBSTITUTE, $this->charset);
     }
