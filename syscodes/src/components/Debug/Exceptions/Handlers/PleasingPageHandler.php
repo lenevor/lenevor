@@ -125,7 +125,7 @@ class PleasingPageHandler extends MainHandler
 	 * 
 	 * @return void
 	 */
-	public function addEditor($identifier, $resolver)
+	public function addEditor($identifier, $resolver): void
 	{
 		$this->editors[$identifier] = $resolver;
 	}
@@ -139,7 +139,7 @@ class PleasingPageHandler extends MainHandler
 	 * 
 	 * @return array
 	 */
-	public function addTables(Table $table)
+	public function addTables(Table $table): array
 	{
 		$this->tables[] = $table;
 	}
@@ -149,7 +149,7 @@ class PleasingPageHandler extends MainHandler
 	 * 
 	 * @return  array
 	 */
-	protected function collectionVars()
+	protected function collectionVars(): array
 	{
 		$supervisor = $this->getSupervisor();
 		$style      = file_get_contents($this->getResource('css/debug.base.css'));
@@ -185,7 +185,7 @@ class PleasingPageHandler extends MainHandler
 	 * 
 	 * @return string
 	 */
-	public function contentType()
+	public function contentType(): string
 	{
 		return 'text/html;charset=UTF-8';
 	}
@@ -195,7 +195,7 @@ class PleasingPageHandler extends MainHandler
 	 * 
 	 * @return string
 	 */
-	public function getBrand()
+	public function getBrand(): string
 	{
 		return $this->brand;
 	}
@@ -252,7 +252,7 @@ class PleasingPageHandler extends MainHandler
 	 * 
 	 * @return string
 	 */
-	public function getPageTitle()
+	public function getPageTitle(): string
 	{
 		return $this->pageTitle;
 	}
@@ -264,7 +264,7 @@ class PleasingPageHandler extends MainHandler
 	 * 
 	 * @return array
 	 */
-	protected function getProcessTables(array $tables)
+	protected function getProcessTables(array $tables): array
 	{
 		$processTables = [];
 
@@ -402,7 +402,7 @@ class PleasingPageHandler extends MainHandler
 	 * 
 	 * @return array
 	 */
-	protected function getEditor($file, $line)
+	protected function getEditor($file, $line): array
 	{
 		if ( ! $this->editor || ( ! is_string($this->editor) && ! is_callable($this->editor))) {
 			return [];
@@ -438,7 +438,7 @@ class PleasingPageHandler extends MainHandler
 	 * 
 	 * @return string
 	 */
-	public function getEditorcode()
+	public function getEditorcode(): string
 	{
 		return $this->editor;
 	}
@@ -450,7 +450,7 @@ class PleasingPageHandler extends MainHandler
 	 * 
 	 * @return void
 	 */
-	public function setBrand($brand)
+	public function setBrand($brand): void
 	{
 		$this->brand = (string) $brand;
 	}
@@ -462,7 +462,7 @@ class PleasingPageHandler extends MainHandler
 	 * 
 	 * @return void
 	 */
-	public function setPageTitle($title)
+	public function setPageTitle($title): void
 	{
 		$this->pageTitle = (string) $title;
 	}
