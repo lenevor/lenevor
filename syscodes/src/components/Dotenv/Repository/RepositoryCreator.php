@@ -110,7 +110,7 @@ final class RepositoryCreator
      * 
      * @return bool
      */
-    protected static function inAdapterClass(string $name)
+    protected static function inAdapterClass(string $name): bool
     {
         if ( ! class_exists($name))
         {
@@ -150,7 +150,7 @@ final class RepositoryCreator
      * 
      * @return object
      */
-    protected function getReflectionClass($class)
+    protected function getReflectionClass($class): object
     {
         $object = new ReflectionClass($class);
 
