@@ -44,7 +44,7 @@ interface Handler
 	 *
 	 * @return string
 	 */
-	public function handleException(Throwable $exception);
+	public function handleException(Throwable $exception): string;
 	
 	/**
 	 * Pushes a handler to the end of the stack.
@@ -60,14 +60,14 @@ interface Handler
 	 * 
 	 * @return void
 	 */
-	public function off();
+	public function off(): void;
 	
 	/**
 	 * Registers this instance as an error handler.
 	 * 
 	 * @return void
 	 */
-	public function on();
+	public function on(): void;
 	
 	/**
 	 * Lenevor Exception push output directly to the client it the data  
@@ -90,7 +90,9 @@ interface Handler
 	 * @param  string  $message
 	 * @param  string|null  $file
 	 * @param  int|null  $line
-	 *
+	 * 
+	 * @return bool
+	 * 
 	 * @throws \ErrorException
 	 */
 	public function handleError(int $level, string $message, string $file = null, int $line = null);
