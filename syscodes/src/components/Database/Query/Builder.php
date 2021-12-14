@@ -1125,7 +1125,7 @@ class Builder
     /**
      * Add an "order by" clause for a timestamp to the query.
      * 
-     * @param  string  $column  (created_at by default)
+     * @param  string  $column  
      * 
      * @return self
      */
@@ -1137,7 +1137,7 @@ class Builder
     /**
      * Add an "order by" clause for a timestamp to the query.
      * 
-     * @param  string  $column  (created_at by default)
+     * @param  string  $column  
      * 
      * @return self
      */
