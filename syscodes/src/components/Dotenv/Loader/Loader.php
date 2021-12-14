@@ -56,7 +56,7 @@ final class Loader
      * 
      * @return bool
      */
-    public function load(array $entries)
+    public function load(array $entries): bool
     {
         foreach ($entries as $line) {
             // Is it a comment?
@@ -82,7 +82,7 @@ final class Loader
      * 
      * @return bool
      */
-    protected function isComment(string $line)
+    protected function isComment(string $line): bool
     {
         return strpos(ltrim($line), '#') === 0;
     }
@@ -94,7 +94,7 @@ final class Loader
      * 
      * @return bool
      */
-    protected function checkedLikeSetter(string $line)
+    protected function checkedLikeSetter(string $line): bool
     {
         return strpos($line, '=') !== false;
     }
@@ -107,7 +107,7 @@ final class Loader
      * 
      * @return array
      */
-    public function normaliseEnvironmentVariable(string $name, string $value = '')
+    public function normaliseEnvironmentVariable(string $name, string $value = ''): array
     {
         // Split our compound string into it's parts.
         if (strpos($name, '=') !== false) {
@@ -134,9 +134,9 @@ final class Loader
      * 
      * @param  string  $name
      * 
-     * @return array
+     * @return string
      */
-    protected function sanitizeName(string $name)
+    protected function sanitizeName(string $name): string
     {
         return str_replace(array('export ', '\'', '"'), '', $name);
     }
@@ -221,7 +221,7 @@ final class Loader
      * 
      * @return string
      */
-    protected function getResolverVariables(string $value)
+    protected function getResolverVariables(string $value): string
     {
         if (strpos($value, '$') !== false) {
             $repository = $this->repository;
