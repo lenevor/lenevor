@@ -62,7 +62,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @return array
      */
-    public function getArray()
+    public function getArray(): array
     {
         return $this->frames;
     }
@@ -74,7 +74,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @return array
      */
-    public function prependFrames(array $frames)
+    public function prependFrames(array $frames): array
     {
         $this->frames = array_merge($frames, $this->frames);
     }
