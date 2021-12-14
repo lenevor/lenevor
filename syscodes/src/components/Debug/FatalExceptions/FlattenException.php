@@ -160,9 +160,9 @@ class FlattenException
     /**
      * Gets the class name.
      * 
-     * @return void
+     * @return string
      */
-    public function getClass()
+    public function getClass(): string
     {
         return $this->class;
     }
@@ -172,9 +172,9 @@ class FlattenException
      * 
      * @param  string  $class
      * 
-     * @return $this
+     * @return self
      */
-    public function setClass($class)
+    public function setClass($class): self
     {
         $this->class = 'c' === $class[0] && strpos($class, "class@anonymous\0") === 0 ? get_parent_class($class).'@anonymous' : $class;
 
@@ -184,9 +184,9 @@ class FlattenException
     /**
      * Gets the code of error.
      * 
-     * @return void
+     * @return int
      */
-    public function getCode()
+    public function getCode(): int
     {
         return $this->code;
     }
@@ -196,9 +196,9 @@ class FlattenException
      * 
      * @param  int  $code
      * 
-     * @return $this
+     * @return self
      */
-    public function setCode($code)
+    public function setCode($code): self
     {
         $this->code = $code;
 
@@ -208,9 +208,9 @@ class FlattenException
     /**
      * Gets the file path.
      * 
-     * @return void
+     * @return string
      */
-    public function getFile()
+    public function getFile(): string
     {
         return $this->file;
     }
@@ -220,9 +220,9 @@ class FlattenException
      * 
      * @param  string  $file
      * 
-     * @return $this
+     * @return self
      */
-    public function setFile($file)
+    public function setFile($file): self
     {
         $this->file = $file;
 
@@ -232,9 +232,9 @@ class FlattenException
     /**
      * Gets the headers HTTP.
      * 
-     * @return void
+     * @return array
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return $this->headers;
     }
@@ -244,9 +244,9 @@ class FlattenException
      * 
      * @param  array  $headers
      * 
-     * @return $this
+     * @return self
      */
-    public function setHeaders(array $headers)
+    public function setHeaders(array $headers): self
     {
         $this->headers = $headers;
 
@@ -256,9 +256,9 @@ class FlattenException
     /**
      * Gets the line where specifice the line number and code in happened an error.
      * 
-     * @return void
+     * @return int
      */
-    public function getLine()
+    public function getLine(): int
     {
         return $this->line;
     }
@@ -268,9 +268,9 @@ class FlattenException
      * 
      * @param  int  $line
      * 
-     * @return $this
+     * @return self
      */
-    public function setLine($line)
+    public function setLine($line): self
     {
         $this->line = $line;
 
@@ -280,9 +280,9 @@ class FlattenException
     /**
      * Gets the message of exception.
      * 
-     * @return void
+     * @return string
      */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }
@@ -292,9 +292,9 @@ class FlattenException
      * 
      * @param  string  $message
      * 
-     * @return $this
+     * @return self
      */
-    public function setMessage($message)
+    public function setMessage($message): self
     {
         $this->message = $message;
 
@@ -316,9 +316,9 @@ class FlattenException
      * 
      * @param  self  $previous
      * 
-     * @return $this
+     * @return self
      */
-    public function setPrevious(self $previous)
+    public function setPrevious(self $previous): self
     {
         $this->previous = $previous;
 
@@ -330,7 +330,7 @@ class FlattenException
      * 
      * @return array
      */
-    public function getAllPrevious()
+    public function getAllPrevious(): array
     {
         $exceptions = [];
         $exception  = $this;
@@ -345,9 +345,9 @@ class FlattenException
     /**
      * Gets the status code response.
      * 
-     * @return void
+     * @return int
      */
-    public function getStatusCode()
+    public function getStatusCode(): int
     {
         return $this->statusCode;
     }
@@ -357,9 +357,9 @@ class FlattenException
      * 
      * @param  int  $code
      * 
-     * @return $this
+     * @return self
      */
-    public function setStatusCode($code)
+    public function setStatusCode($code): self
     {
         $this->statusCode = $code;
 
@@ -381,7 +381,7 @@ class FlattenException
      * 
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         $exceptions = [];
 
@@ -415,9 +415,9 @@ class FlattenException
      * @param  string  $file
      * @param  int     $line
      * 
-     * @return $this
+     * @return self
      */
-    public function setTrace($trace, $file, $line)
+    public function setTrace($trace, $file, $line): self
     {
         $this->trace   = [];
         $this->trace[] = [
@@ -465,7 +465,7 @@ class FlattenException
      * 
      * @return array
      */
-    private function flattenArgs($args, $level = 0, &$count = 0)
+    private function flattenArgs($args, $level = 0, &$count = 0): array
     {   
         $result = [];
 
@@ -509,7 +509,7 @@ class FlattenException
      * 
      * @return array
      */
-    private function getClassNameFromIncomplete(\__PHP_Incomplete_Class $value)
+    private function getClassNameFromIncomplete(\__PHP_Incomplete_Class $value): array
     {
         $array = new ArrayObject;
         
