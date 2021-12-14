@@ -81,7 +81,7 @@ class Encrypter implements EncrypterContract
      * 
      * @return bool
      */
-    public static function supported($key, $cipher)
+    public static function supported($key, $cipher): bool
     {
         $length = mb_strlen($key, '8bit');
 
@@ -96,7 +96,7 @@ class Encrypter implements EncrypterContract
      * 
      * @return string
      */
-    public static function generateRandomKey($cipher)
+    public static function generateRandomKey($cipher): string
     {
         return random_bytes($cipher === 'AES-128-CBC' ? 16 : 32);
     }
@@ -111,7 +111,7 @@ class Encrypter implements EncrypterContract
      * 
      * @throws \Syscodes\Components\Encryption\Exceptions\EncryptionException
      */
-    public function encrypt($value, $serialize = true)
+    public function encrypt($value, $serialize = true): string
     {
         $iv = random_bytes(openssl_cipher_iv_length($this->cipher));
         
@@ -144,7 +144,7 @@ class Encrypter implements EncrypterContract
      * 
      * @return string
      */
-    protected function hash($iv, $value)
+    protected function hash($iv, $value): string
     {
         return hash_hmac('sha256', $iv.$value, $this->key);
     }
@@ -156,7 +156,7 @@ class Encrypter implements EncrypterContract
      * 
      * @return string
      */
-    public function encryptString($value)
+    public function encryptString($value): string
     {
         return $this->encrypt($value, false);
     }
@@ -217,7 +217,7 @@ class Encrypter implements EncrypterContract
      * 
      * @return bool
      */
-    protected function validPayload($payload)
+    protected function validPayload($payload): bool
     {
         return is_array($payload) && isset($payload['iv'], $payload['value'], $payload['hmac']) && 
                strlen(base64_decode($payload['iv'], true)) === openssl_cipher_iv_length($this->cipher);
@@ -230,7 +230,7 @@ class Encrypter implements EncrypterContract
      * 
      * @return bool
      */
-    protected function validHmac(array $payload)
+    protected function validHmac(array $payload): bool
     {
         $calc = $this->calcHmac($payload, $bytes = random_bytes(16));
 
@@ -248,7 +248,7 @@ class Encrypter implements EncrypterContract
      * 
      * @return string
      */
-    protected function calcHmac($payload, $bytes)
+    protected function calcHmac($payload, $bytes): string
     {
         return hash_hmac('sha256', $this->hash($payload['iv'], $payload['value']), $bytes, true);
     }
@@ -272,7 +272,7 @@ class Encrypter implements EncrypterContract
      * 
      * @return string
      */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
