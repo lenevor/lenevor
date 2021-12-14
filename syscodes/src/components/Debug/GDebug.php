@@ -237,6 +237,8 @@ class GDebug implements DebugContract
 	 * @param  string  $message
 	 * @param  string|null  $file
 	 * @param  int|null  $line
+	 * 
+	 * @return bool
 	 *
 	 * @throws \ErrorException
 	 */
@@ -371,7 +373,7 @@ class GDebug implements DebugContract
 	 * 
 	 * @return void
 	 */
-	public function off()
+	public function off(): void
 	{
 		$this->system->restoreExceptionHandler();
 		$this->system->restoreErrorHandler();
@@ -382,7 +384,7 @@ class GDebug implements DebugContract
 	 * 
 	 * @return void
 	 */
-	public function on() 
+	public function on() : void
 	{
 		// Set the exception handler
 		$this->system->setExceptionHandler([$this, self::EXCEPTION_HANDLER]);
