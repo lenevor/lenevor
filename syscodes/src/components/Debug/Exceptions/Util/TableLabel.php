@@ -39,9 +39,9 @@ trait TableLabel
     /**
      * Returns the label.
      * 
-     * @return void
+     * @return string
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->label;
     }
