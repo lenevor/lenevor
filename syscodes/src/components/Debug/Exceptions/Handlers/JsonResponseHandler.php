@@ -37,7 +37,7 @@ class JsonResponseHandler extends MainHandler
      * 
      * @return string
      */
-    public function contentType()
+    public function contentType(): string
     {
         return 'application/json';
     }
@@ -47,7 +47,7 @@ class JsonResponseHandler extends MainHandler
      * 
      * @return int
      */
-    public function handle()
+    public function handle(): int
     {        
         $response = [
             'error' => [
