@@ -81,9 +81,9 @@ class MainHandler
      * 
      * @return void
      */
-    public function setDebug($debug)
+    public function setDebug($debug): void
     {
-        return $this->debug = $debug;
+        $this->debug = $debug;
     }
     
     /**
@@ -103,7 +103,7 @@ class MainHandler
      * 
      * @return void
      */
-    public function setException($exception)
+    public function setException($exception): void
     {
         $this->exception = $exception;
     }
@@ -125,7 +125,7 @@ class MainHandler
      * 
      * @return void
      */
-    public function setSupervisor(Supervisor $supervisor)
+    public function setSupervisor(Supervisor $supervisor): void
     {
         $this->supervisor = $supervisor;
     }
