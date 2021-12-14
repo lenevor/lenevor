@@ -79,7 +79,7 @@ class TemplateHandler
 	 *
 	 * @return string
 	 */
-	public function cleanPath($file)
+	public function cleanPath($file): string
 	{
 		if (strpos($file, appPath().DIRECTORY_SEPARATOR) === 0) {
 			$file = appPath().DIRECTORY_SEPARATOR.substr($file, strlen(appPath().DIRECTORY_SEPARATOR));
@@ -102,7 +102,7 @@ class TemplateHandler
 	 *
 	 * @return string
 	 */
-	public function displayMemory(int $bytes)
+	public function displayMemory(int $bytes): string
 	{
 		if ($bytes < 1024) {
 			return $bytes.'B';
@@ -120,7 +120,7 @@ class TemplateHandler
 	 * 
 	 * @return string
 	 */
-	public function escape($text)
+	public function escape($text): string
 	{
 		$flags = ENT_QUOTES;
 		
@@ -142,7 +142,7 @@ class TemplateHandler
 	 * 
 	 * @return array
 	 */
-	public function getVariables()
+	public function getVariables(): array
 	{
 		return $this->variables;
 	}
@@ -231,7 +231,7 @@ class TemplateHandler
 	 * 
 	 * @return void
 	 */
-	public function setVariables(array $variables)
+	public function setVariables(array $variables): void
 	{
 		$this->variables = $variables;
 	}
@@ -243,7 +243,7 @@ class TemplateHandler
 	 * 
 	 * @return string
 	 */
-	public function slug($original)
+	public function slug($original): string
 	{
 		$slug = str_replace(" ", "-", $original);
 		$slug = preg_replace('/[^\w\d\-\_]/i',' ', $slug);
@@ -258,7 +258,7 @@ class TemplateHandler
 	 * 
 	 * @return void
 	 */
-	public function render($template)
+	public function render($template): void
 	{
 		$vars = $this->getVariables();
 
