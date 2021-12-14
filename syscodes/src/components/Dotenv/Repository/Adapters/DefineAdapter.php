@@ -37,7 +37,7 @@ class DefineAdapter implements Adapter
      * 
      * @return bool
      */
-    public function isSupported()
+    public function isSupported(): bool
     {
         return true;
     }
@@ -49,7 +49,7 @@ class DefineAdapter implements Adapter
      * 
      * @return bool
      */
-    public function has(string $name)
+    public function has(string $name): bool
     {
         return defined($name);
     }
@@ -78,7 +78,7 @@ class DefineAdapter implements Adapter
      * 
      * @return bool
      */
-    public function write(string $name, string $value)
+    public function write(string $name, string $value): bool
     {
         if ( ! $this->has($name)) {
             return define($name, $value);
@@ -94,7 +94,7 @@ class DefineAdapter implements Adapter
      * 
      * @return bool
      */
-    public function delete(string $name)
+    public function delete(string $name): bool
     {
         if ($this->has($name)) {
             return define($name, '');
