@@ -77,7 +77,7 @@ class Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function copy($path, $target)
+	public function copy($path, $target): bool
 	{
 		return copy($path, $target);
 	}
@@ -93,7 +93,7 @@ class Filesystem
 	 *
 	 * @throws FileNotFoundException
 	 */
-	public function get($path, $lock = false, $force = false)
+	public function get($path, $lock = false, $force = false): string
 	{
 		if ($this->isFile($path)) {
 			return $lock ? $this->read($path, $force) : file_get_contents($path);
@@ -110,7 +110,7 @@ class Filesystem
 	 *
 	 * @return string
 	 */
-	protected function read($path, $force = false)
+	protected function read($path, $force = false): string
 	{
 		$contents = '';
 
@@ -146,7 +146,7 @@ class Filesystem
 	 *
 	 * @return bool
 	 */
-	public function open($path, $mode, $force = false)
+	public function open($path, $mode, $force = false): bool
 	{
 		if ( ! $force && is_resource($this->handler)) {
 			return true;
@@ -170,7 +170,7 @@ class Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function create($path)
+	public function create($path): bool
 	{
 		if (($this->isDirectory($path)) && ($this->isWritable($path)) || ( ! $this->exists($path))) {
 			if (touch($path)) {
@@ -188,7 +188,7 @@ class Filesystem
 	 *
 	 * @return bool
 	 */
-	public function exists($path)
+	public function exists($path): bool
 	{
 		$this->clearStatCache($path);
 
@@ -203,7 +203,7 @@ class Filesystem
 	 *
 	 * @return void
 	 */
-	public function clearStatCache($path, $all = false)
+	public function clearStatCache($path, $all = false): void
 	{
 		if ($all === false) {
 			clearstatcache(true, $path);
@@ -319,7 +319,7 @@ class Filesystem
 	 * 
 	 * @return bool  True if file is executable, false otherwise
 	 */
-	public function exec($path)
+	public function exec($path): bool
 	{
 		return is_executable($path);
 	}
@@ -331,7 +331,7 @@ class Filesystem
 	 *
 	 * @return bool
 	 */
-	public function isDirectory($directory)
+	public function isDirectory($directory): bool
 	{
 		return is_dir($directory);
 	}
@@ -343,7 +343,7 @@ class Filesystem
 	 *
 	 * @return bool
 	 */
-	public function isFile($file)
+	public function isFile($file): bool
 	{
 		return is_file($file);
 	}
@@ -355,7 +355,7 @@ class Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function isWritable($path)
+	public function isWritable($path): bool
 	{
 		return is_writable($path);
 	}
@@ -367,7 +367,7 @@ class Filesystem
 	 * 
 	 * @return bool  True if file is readable, false otherwise
 	 */
-	public function isReadable($path)
+	public function isReadable($path): bool
 	{
 		return is_readable($path);
 	}
@@ -411,7 +411,7 @@ class Filesystem
 	 * 
 	 * @return array
 	 */
-	public function directories($directory)
+	public function directories($directory): array
 	{
 		$directories = [];
 
@@ -431,7 +431,7 @@ class Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function delete($paths)
+	public function delete($paths): bool
 	{
 		if (is_resource($this->handler)) {
 			fclose($this->handler);
@@ -467,7 +467,7 @@ class Filesystem
 	 * 
 	 * @throws FileException
 	 */
-	public function makeDirectory($path, $mode = 0755, $recursive = false, $force = false)
+	public function makeDirectory($path, $mode = 0755, $recursive = false, $force = false): bool
 	{
 		if ($force) {
 			return @mkdir($path, $mode, $recursive);
@@ -485,7 +485,7 @@ class Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function copyDirectory($directory, $destination, $options = null)
+	public function copyDirectory($directory, $destination, $options = null): bool
 	{
 		if ( ! $this->isDirectory($directory)) return false;
 
@@ -529,7 +529,7 @@ class Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function deleteDirectory($directory, $keep = false)
+	public function deleteDirectory($directory, $keep = false): bool
 	{
 		if ( ! $this->isDirectory($directory)) return false;
 
@@ -563,7 +563,7 @@ class Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function cleanDirectory($directory)
+	public function cleanDirectory($directory): bool
 	{
 		return $this->deleteDirectory($directory, true);
 	}
@@ -577,7 +577,7 @@ class Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function moveDirectory($from, $to, $overwrite = false)
+	public function moveDirectory($from, $to, $overwrite = false): bool
 	{
 		if ($overwrite && $this->isDirectory($to) && ! $this->deleteDirectory($to)) return false;
 
@@ -628,7 +628,7 @@ class Filesystem
 	 *
 	 * @return bool
 	 */
-	public function move($path, $target)
+	public function move($path, $target): bool
 	{
 		if ($this->exists($path)) {
 			return rename($path, $target);
@@ -691,7 +691,7 @@ class Filesystem
 	 * 
 	 * @return array
 	 */
-	public function glob($pattern, $flags = 0)
+	public function glob($pattern, $flags = 0): bool
 	{
 		return glob($pattern, $flags);
 	}
@@ -737,7 +737,7 @@ class Filesystem
 	 * 
 	 * @return int
 	 */
-	public function prepend($path, $data)
+	public function prepend($path, $data): int
 	{
 		if ($this->exists($path)) {
 			$this->put($path, $data.$this->get($path));
@@ -755,7 +755,7 @@ class Filesystem
 	 *
 	 * @return int
 	 */
-	public function put($path, $contents, $lock = false)
+	public function put($path, $contents, $lock = false): int
 	{
 		return file_put_contents($path, $contents, $lock ? LOCK_EX : 0);
 	}
@@ -767,7 +767,7 @@ class Filesystem
 	 * 
 	 * @return string
 	 */
-	public function type($path)
+	public function type($path): string
 	{
 		return filetype($path);
 	}
@@ -780,7 +780,7 @@ class Filesystem
 	 * 
 	 * @return void
 	 */
-	public function replace($path, $content)
+	public function replace($path, $content): void
 	{
 		$this->clearstatcache($path);
 		
@@ -833,7 +833,7 @@ class Filesystem
 	 *
 	 * @return bool
 	 */
-	public function close()
+	public function close(): bool
 	{
 		if ( ! is_resource($this->handler)) {
 			return true;
@@ -851,7 +851,7 @@ class Filesystem
 	 *
 	 * @return bool
 	 */
-	public function write($path, $data, $force = false)
+	public function write($path, $data, $force = false): bool
 	{
 		$success = false;
 
