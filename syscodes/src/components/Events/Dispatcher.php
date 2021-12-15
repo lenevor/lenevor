@@ -89,7 +89,7 @@ class Dispatcher implements DispatcherContract
      * 
      * @return void
      */
-    public function listen($events, $listener = null)
+    public function listen($events, $listener = null): void
     {
         foreach ((array) $events as $event) {
             if (Str::contains($event, '*')) {
@@ -108,7 +108,7 @@ class Dispatcher implements DispatcherContract
      * 
      * @return void
      */
-    protected function setupWilcardListen($event, $listener)
+    protected function setupWilcardListen($event, $listener): void
     {
         $this->wildcards[$event][] = $this->makeListener($listener, true);
 
@@ -123,7 +123,7 @@ class Dispatcher implements DispatcherContract
      * 
      * @return \Closure
      */
-    public function makeListener($listener, $wildcard = false)
+    public function makeListener($listener, $wildcard = false): Closure
     {
         if (is_string($listener)) {
             return $this->createClassListener($listener, $wildcard);
@@ -150,7 +150,7 @@ class Dispatcher implements DispatcherContract
      * 
      * @return \Closure
      */
-    public function createClassListener($listener, $wildcard = false)
+    public function createClassListener($listener, $wildcard = false): Closure
     {
         return function ($event, $payload) use ($listener, $wildcard) {
             if ($wildcard) {
@@ -192,7 +192,7 @@ class Dispatcher implements DispatcherContract
      * 
      * @return array
      */
-    protected function parseClassCallback($listener)
+    protected function parseClassCallback($listener): array
     {
         return Str::parseCallback($listener, 'handle');
     }
@@ -204,7 +204,7 @@ class Dispatcher implements DispatcherContract
      * 
      * @return bool
      */
-    public function hasListeners($eventName)
+    public function hasListeners($eventName): bool
     {
         return isset($this->listeners[$eventName]) || 
                isset($this->wildcards[$eventName]) ||
@@ -218,7 +218,7 @@ class Dispatcher implements DispatcherContract
      * 
      * @return bool
      */
-    public function hasWildcardListeners($eventName)
+    public function hasWildcardListeners($eventName): bool
     {
         foreach ($this->wildcards as $key => $listeners) {
             if (Str::is($key, $eventName)) {
@@ -236,7 +236,7 @@ class Dispatcher implements DispatcherContract
      * 
      * @return void
      */
-    public function subscribe($subscriber)
+    public function subscribe($subscriber): void
     {
         $subscriber = $this->resolveSubscriber($subscriber);
 
@@ -322,7 +322,7 @@ class Dispatcher implements DispatcherContract
      * 
      * @return array
      */
-    protected function parseEventPayload($event, $payload)
+    protected function parseEventPayload($event, $payload): array
     {
         if (is_object($event)) {
             [$payload, $event] = [[$event], getClass($event, true)];
@@ -340,7 +340,7 @@ class Dispatcher implements DispatcherContract
      * 
      * @return array
      */
-    public function getListeners($eventName)
+    public function getListeners($eventName): array
     {
         $listeners = $this->listeners[$eventName] ?? [];
 
@@ -361,7 +361,7 @@ class Dispatcher implements DispatcherContract
      * 
      * @return array
      */
-    protected function getWilcardListeners($eventName)
+    protected function getWilcardListeners($eventName): array
     {
         $wildcards = [];
 
@@ -382,12 +382,11 @@ class Dispatcher implements DispatcherContract
      * 
      * @return array
      */
-    protected function addInterfaceListener($eventName, array $listeners = [])
+    protected function addInterfaceListener($eventName, array $listeners = []): array
     {
         foreach (class_implements($eventName) as $interface) {
             if (isset($this->listeners[$interface])) {
-                foreach ($this->listeners[$interface] as $names)
-                {
+                foreach ($this->listeners[$interface] as $names) {
                     $listeners = array_merge($listeners, (array) $names);
                 }
             }
@@ -403,7 +402,7 @@ class Dispatcher implements DispatcherContract
      * 
      * @return void
      */
-    public function delete($event)
+    public function delete($event): void
     {
         if (Str::contains($event, '*')) {
             unset($this->wildcards[$event]);
