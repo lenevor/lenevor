@@ -37,7 +37,7 @@ interface Dispatcher
      * 
      * @return void
      */
-    public function listen($events, $listener = null);
+    public function listen($events, $listener = null): void;
 
     /**
      * Determine if a given event has listeners.
@@ -46,7 +46,7 @@ interface Dispatcher
      * 
      * @return bool
      */
-    public function hasListeners($eventName);
+    public function hasListeners($eventName): bool;
 
     /**
      * Determine if the given event has any wildcard listeners.
@@ -55,7 +55,7 @@ interface Dispatcher
      * 
      * @return bool
      */
-    public function hasWildcardListeners($eventName);
+    public function hasWildcardListeners($eventName): bool;
 
     /**
      * Register an event subscriber with the dispatcher.
@@ -64,7 +64,7 @@ interface Dispatcher
      * 
      * @return void
      */
-    public function subscribe($subscriber);
+    public function subscribe($subscriber): void;
 
     /**
      * Dispatch an event and call the listeners.
@@ -84,5 +84,5 @@ interface Dispatcher
      * 
      * @return void
      */
-    public function delete($event);
+    public function delete($event): void;
 }
