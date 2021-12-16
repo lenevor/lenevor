@@ -47,7 +47,7 @@ interface Store
      * 
      * @return bool
      */
-    public function put($key, $value, $seconds);
+    public function put($key, $value, $seconds): bool;
 
     /**
      * Increment the value of an item in the cache.
@@ -86,7 +86,7 @@ interface Store
      * 
      * @return bool
      */
-    public function forever($key, $value);
+    public function forever($key, $value): bool;
 
     /**
      * Remove all items from the cache.
