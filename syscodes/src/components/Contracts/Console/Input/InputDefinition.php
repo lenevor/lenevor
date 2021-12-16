@@ -84,7 +84,7 @@ interface InputDefinition
      * 
      * @return \Syscodes\Components\Console\Input\InputArgument|array  An array the InputArgument objects
      */
-    public function getArguments(): array;
+    public function getArguments();
 
     /**
      * Gets the number of arguments.
