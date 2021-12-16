@@ -110,9 +110,7 @@ class Lenevor implements LenevorContract
     }
     
     /**
-     * Bootstrap the application for artisan commands.
-     * 
-     * @return void
+     * @inheritdoc
      */
     public function bootstrap(): void
     {
@@ -134,12 +132,7 @@ class Lenevor implements LenevorContract
     }
     
     /**
-     * Shutdown the application.
-     * 
-     * @param  \Syscodes\Contracts\Console\Input  $input
-	 * @param  int  $status
-     * 
-     * @return void
+     * @inheritdoc
      */
     public function shutdown($input, $status): void
     {
