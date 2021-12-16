@@ -81,6 +81,11 @@ abstract class Input implements InputInterface
         $this->parse();
     }
 
+    /**
+     * Processes command line arguments.
+     * 
+     * @return void
+     */
     abstract protected function parse();
 
     /*
@@ -194,7 +199,7 @@ abstract class Input implements InputInterface
      * 
      * @return string
      */
-    public function escapeToken($token)
+    public function escapeToken($token): string
     {
         return preg_match('{^[\w-]+$}', $token) ? $token : escapeshellarg($token);
     }
