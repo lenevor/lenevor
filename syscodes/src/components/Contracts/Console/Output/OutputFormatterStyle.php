@@ -34,7 +34,7 @@ interface OutputFormatterStyle
      * 
      * @param  string|null  $color
      * 
-     * @return void
+     * @return void When the color name isn't defined
      */
     public function setForeground(string $color = null): void;
 
@@ -43,7 +43,7 @@ interface OutputFormatterStyle
      * 
      * @param  string|null  $color
      * 
-     * @return void
+     * @return void When the color name isn't defined
      */
     public function setBackground(string $color = null): void;
 
