@@ -104,12 +104,12 @@ interface InputArgument
      * 
      * @return bool  True if parameter mode is self::REQUIRED, false otherwise
      */
-    public function isRequired();
+    public function isRequired(): bool;
     
     /**
      * Gets true if the argument can take multiple values.
      * 
      * @return bool  True if mode is self::IS_ARRAY, false otherwise
      */
-    public function isArray();
+    public function isArray(): bool;
 }
