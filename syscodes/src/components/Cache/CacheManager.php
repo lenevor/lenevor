@@ -78,11 +78,7 @@ class CacheManager implements ManagerContract
     }
 
     /**
-     * Get a cache driver instance.
-     * 
-     * @param  string|null
-     * 
-     * @return \Syscodes\Components\Cache\CacheRepository
+     * @inheritdoc
      */
     public function driver($driver = null)
     {
@@ -100,11 +96,7 @@ class CacheManager implements ManagerContract
     }
 
     /**
-     * Get the store from the local cache.
-     * 
-     * @param  string  $name
-     * 
-     * @return \Syscodes\Components\Cache\CacheRepository
+     * @inheritdoc
      */
     public function get($name)
     {
@@ -267,7 +259,7 @@ class CacheManager implements ManagerContract
      * 
      * @return string
      */
-    protected function getPrefix(array $config)
+    protected function getPrefix(array $config): string
     {
         return $config['prefix'] ?? $this->app['config']['cache.prefix'];
     }
@@ -287,7 +279,7 @@ class CacheManager implements ManagerContract
     /**
      * @inheritdoc
      */
-    public function getDefaultDriver()
+    public function getDefaultDriver(): string
     {
        return $this->app['config']['cache.default'];
     }
@@ -295,20 +287,15 @@ class CacheManager implements ManagerContract
     /**
      * @inheritdoc
      */
-    public function setDefaultDriver(string $name)
+    public function setDefaultDriver(string $name): void
     {
         $this->app['config']['cache.default'] = $name;
     }
 
     /**
-     * Register a custom driver creator Closure.
-     * 
-     * @param  string  $driver
-     * @param  \Closure  $callback
-     * 
-     * @return $this
+     * @inheritdoc
      */
-    public function extend($driver, Closure $callback)
+    public function extend($driver, Closure $callback): self
     {
         $this->customDriver[$driver] = $callback->bindTo($this, $this);
 
