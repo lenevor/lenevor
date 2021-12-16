@@ -74,7 +74,7 @@ class ApcStore implements Store
     /**
      * {@inheritdoc}
      */
-    public function put($key, $value, $seconds)
+    public function put($key, $value, $seconds): bool
     {
         return $this->apc->put($this->prefix.$key, $value, $seconds);
     }
@@ -106,7 +106,7 @@ class ApcStore implements Store
     /**
      * {@inheritdoc}
      */
-    public function forever($key, $value)
+    public function forever($key, $value): bool
     {
         return $this->put($key, $value, 0);
     }
