@@ -118,7 +118,7 @@ class ArgvInput extends Input
     private function addShortOption($shortcut, $value)
     {
         if ( ! $this->definition->hasShortcut($shortcut)) {
-            throw new RuntimeException(sprintf('The "-%s" option does not exist.', $shortcut));
+            throw new RuntimeException(sprintf('The "-%s" option does not exist', $shortcut));
         }
         
         $this->addLongOption($this->definition->getOptionByShortcut($shortcut)->getName(), $value);
@@ -139,7 +139,7 @@ class ArgvInput extends Input
         
         for ($i = 0; $i < $len; $i++) {
             if (!$this->definition->hasShortcut($name[$i])) {
-                throw new RuntimeException(sprintf('The "-%s" option does not exist.', $name[$i]));
+                throw new RuntimeException(sprintf('The "-%s" option does not exist', $name[$i]));
             }
             
             $option = $this->definition->getOptionByShortcut($name[$i]);
@@ -304,6 +304,8 @@ class ArgvInput extends Input
     }
     
     /**
+     * Magic method.
+     * 
      * Returns a stringified representation of the args passed to the command.
      * 
      * @return string
