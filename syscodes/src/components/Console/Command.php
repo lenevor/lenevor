@@ -147,7 +147,7 @@ class Command extends BaseCommand
      * 
      * @return void
      */
-    public function setLenevor($lenevor)
+    public function setLenevor($lenevor): void
     {
         $this->lenevor = $lenevor;
     }
