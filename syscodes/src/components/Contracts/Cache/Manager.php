@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Contracts\Cache;
 
 use Closure;
+use Syscodes\Components\Contracts\Cache\Store;
 
 /**
  * Get function for generate a cache store instance by name.
@@ -59,20 +60,29 @@ interface Manager
     public function get($name);
 
     /**
+     * Create a new cache repository with the given implementation.
+     * 
+     * @param  \Syscodes\Components\Contracts\Cache\Store  $store
+     *
+     * @return \Syscodes\Components\Cache\CacheRepository
+     */
+    public function getRepository(Store $store);
+
+    /**
      * Get the default cache driver name.
      * 
-     * @return array
+     * @return string
      */
-    public function getDefaultDriver();
+    public function getDefaultDriver(): string;
 
     /**
      * Set the default cache driver name.
      * 
      * @param  string  $name
      * 
-     * @return array
+     * @return void
      */
-    public function setDefaultDriver(string $name);
+    public function setDefaultDriver(string $name): void;
 
     /**
      * Register a custom driver creator Closure.
@@ -80,7 +90,7 @@ interface Manager
      * @param  string  $driver
      * @param  \Closure  $callback
      * 
-     * @return $this
+     * @return self
      */
-    public function extend($driver, Closure $callback);
+    public function extend($driver, Closure $callback): self;
 }
