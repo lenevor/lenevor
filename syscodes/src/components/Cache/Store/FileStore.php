@@ -74,11 +74,7 @@ class FileStore implements Store
     }
 
     /**
-     * Retrieve an item from the cache by key.
-     * 
-     * @param  string  $key
-     * 
-     * @return mixed
+     * {@inheritdoc}
      */
     public function get($key)
     {
@@ -92,7 +88,7 @@ class FileStore implements Store
      * 
      * @return array
      */
-    protected function getPayLoad($key)
+    protected function getPayLoad($key): array
     {
         $path = $this->path($key);
 
@@ -132,7 +128,7 @@ class FileStore implements Store
      * 
      * @return string
      */
-    protected function path($key)
+    protected function path($key): string
     {
         $keyname = new CacheKey($key);
 
@@ -144,7 +140,7 @@ class FileStore implements Store
      * 
      * @return array
      */
-    protected function emptyPayLoad()
+    protected function emptyPayLoad(): array
     {
         return ['data' => null, 'time' => null];
     }
@@ -152,7 +148,7 @@ class FileStore implements Store
     /**
      * @inheritdoc
      */
-    public function put($key, $value, $seconds)
+    public function put($key, $value, $seconds): bool
     {
         $value = $this->expiration($seconds).(new FileCacheRegister($value))->serialize();
 
@@ -170,7 +166,7 @@ class FileStore implements Store
      * 
      * @return void
      */
-    protected function createCacheDirectory($path)
+    protected function createCacheDirectory($path): void
     {
         if ( ! $this->files->exists(dirname($path))) {
             $this->files->makeDirectory(dirname($path), DIR_READ_WRITE_MODE, true, true);
@@ -181,9 +177,10 @@ class FileStore implements Store
      * Get the expiration time based on the given seconds.
      * 
      * @param  int  $seconds
-     * @return int
+     * 
+     * @return bool
      */
-    protected function expiration($seconds)
+    protected function expiration($seconds): bool
     {
         $time = $this->availableAt($seconds);
 
@@ -226,7 +223,7 @@ class FileStore implements Store
     /**
      * {@inheritdoc}
      */
-    public function forever($key, $value)
+    public function forever($key, $value): bool
     {
         return $this->put($key, $value, 0);
     }
@@ -254,7 +251,7 @@ class FileStore implements Store
      * 
      * @return string
      */
-    public function getDirectory()
+    public function getDirectory(): string
     {
         return $this->directory;
     }
@@ -264,7 +261,7 @@ class FileStore implements Store
      * 
      * @return string
      */
-    public function getFileSystem()
+    public function getFileSystem(): string
     {
         return $this->files;
     }
@@ -282,9 +279,9 @@ class FileStore implements Store
      * 
      * @param  string  $extension
      * 
-     * @return string
+     * @return void
      */
-    public function setExtension($extension)
+    public function setExtension($extension): void
     {
         $this->extension = $extension;
     }
