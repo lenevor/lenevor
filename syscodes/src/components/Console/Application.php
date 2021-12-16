@@ -137,9 +137,7 @@ class Application implements ApplicationContract
     }
 
     /**
-     * Gets the name of the application.
-     * 
-     * @return string 
+     * @inheritdoc 
      */
     public function getName(): string
     {
@@ -147,11 +145,7 @@ class Application implements ApplicationContract
     }
 
     /**
-     * Sets the name of the application.
-     * 
-     * @param  string  $name  The application name
-     * 
-     * @return void
+     * @inheritdoc
      */
     public function setName(string $name): void
     {
@@ -159,9 +153,7 @@ class Application implements ApplicationContract
     }
 
     /**
-     * Gets the version of the application.
-     * 
-     * @return string
+     * @inheritdoc
      */
     public function getVersion(): string
     {
@@ -169,11 +161,7 @@ class Application implements ApplicationContract
     }
 
     /**
-     * Sets the name of the application.
-     * 
-     * @param  string  $version  The application version
-     * 
-     * @return void
+     * @inheritdoc
      */
     public function setVersion(string $version): void
     {
@@ -181,12 +169,7 @@ class Application implements ApplicationContract
     }
     
     /**
-     * Runs the current command discovered on the CLI.
-     * 
-     * @param  \Syscodes\Components\Contracts\Console\Input|null  $input  The input interface implemented
-     * @param  \Syscodes\Components\Contracts\Console\Output|null  $output  The output interface implemented
-     * 
-     * @return int
+     * @inheritdoc
      */
     public function run(InputInterface $input = null, OutputInterface $output = null)
     {
@@ -225,14 +208,9 @@ class Application implements ApplicationContract
     }
     
     /**
-     * Executes the current application of console.
-     * 
-     * @param  \Syscodes\Components\Contracts\Console\Input  $input  The input interface implemented
-     * @param  \Syscodes\Components\Contracts\Console\Output  $output  The output interface implemented
-     * 
-     * @return int
+     * @inheritdoc
      */
-    public function doExecute(InputInterface $input, OutputInterface $output)
+    public function doExecute(InputInterface $input, OutputInterface $output): int
     {
         if ($input->hasParameterOption(GlobalOption::VERSION_OPTION, true)) {
             $output->writeln($this->getConsoleVersion());
@@ -291,13 +269,7 @@ class Application implements ApplicationContract
     }
 
     /**
-     * Adds a command object.
-     * 
-     * @param  \Syscodes\Components\Console\Command\Command  $command
-     * 
-     * @return \Syscodes\Components\Console\Command\Command|null
-     * 
-     * @throws \LogicException
+     * @inheritdoc
      */
     public function addCommand(Command $command)
     {
@@ -337,9 +309,7 @@ class Application implements ApplicationContract
     }
 
     /**
-     * Gets input definition.
-     * 
-     * @return \Syscodes\Components\Console\Input\InputDefinition
+     * @inheritdoc
      */
     public function getDefinition() 
     {
@@ -384,13 +354,7 @@ class Application implements ApplicationContract
     }
 
     /**
-     * Finds a command by name.
-     * 
-     * @param  string  $name  The command name
-     * 
-     * @return \Syscodes\Components\Console\Command\Command
-     * 
-     * @throws \Syscodes\Components\Console\Exceptions\CommandNotFoundException
+     * @inheritdoc
      */
     public function findCommand(string $name)
     {
@@ -430,13 +394,7 @@ class Application implements ApplicationContract
     }
 
     /**
-     * Gets a registered command.
-     * 
-     * @param  string  $name  The command name
-     * 
-     * @return \Syscodes\Components\Console\Command\Command
-     * 
-     * @throws \Syscodes\Components\Console\Exceptions\CommandNotFoundException
+     * @inheritdoc
      */
     public function get(string $name)
     {
@@ -469,11 +427,7 @@ class Application implements ApplicationContract
     }
 
     /**
-     * Returns true if the command exists, false otherwise.
-     * 
-     * @param  string  $name  The command name
-     * 
-     * @return bool
+     * @inheritdoc
      */
     public function has(string $name): bool
     {
@@ -483,15 +437,9 @@ class Application implements ApplicationContract
     }
 
     /**
-     * Runs the current command.
-     * 
-     * @param  \Syscodes\Components\Console\Command\Command  $command  The command name
-     * @param  \Syscodes\Components\Contracts\Console\Input  $input  The input interface implemented
-	 * @param  \Syscodes\Components\Contracts\Console\Output  $output  The output interface implemented
-     * 
-     * @return int  0 if everything went fine, or an error code
+     * @inheritdoc
      */
-    public function doCommand(Command $command, InputInterface $input, OutputInterface $output)
+    public function doCommand(Command $command, InputInterface $input, OutputInterface $output): int
     {
         try {
             $input->linked($command->getDefinition());
@@ -570,9 +518,7 @@ class Application implements ApplicationContract
     }
     
     /**
-     * Gets the help message.
-     * 
-     * @return string
+     * @inheritdoc
      */
     public function getHelp(): string
     {
