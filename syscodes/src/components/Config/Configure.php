@@ -100,12 +100,12 @@ class Configure implements ArrayAccess, ConfigureContract
 	{
 		return $this->vars;
 	}
-
+	
 	/*
 	|-----------------------------------------------------------------
 	| ArrayAccess Methods
 	|-----------------------------------------------------------------
-	*/
+	*/ 
 	
 	/**
 	 * Determine if the given configuration option exists.
