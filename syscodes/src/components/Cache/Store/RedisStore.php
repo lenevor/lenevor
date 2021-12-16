@@ -82,7 +82,7 @@ class RedisStore implements Store
     /**
      * {@inheritdoc}
      */
-    public function put($key, $value, $seconds)
+    public function put($key, $value, $seconds): bool
     {
         return (bool) $this->connection()->setex(
                 $this->prefix.$key,
@@ -118,7 +118,7 @@ class RedisStore implements Store
     /**
      * {@inheritdoc}
      */
-    public function forever($key, $value)
+    public function forever($key, $value): bool
     {
         return (bool) $this->connection()->set($this->prefix.$key, $this->serialize($value));
     }
@@ -160,7 +160,7 @@ class RedisStore implements Store
      * 
      * @return void
      */
-    public function setConnection($connection)
+    public function setConnection($connection): void
     {
         $this->connection = $connection;
     }
