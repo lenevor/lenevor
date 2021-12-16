@@ -118,13 +118,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
     }
     
     /**
-     * Sets style foreground color.
-     * 
-     * @param  string  $color  The color name
-     * 
-     * @return void
-     * 
-     * @throws \InvalidArgumentException  When the color name isn't defined
+     * {@inheritdoc}
      */
     public function setForeground(string $color = null): void
     {
@@ -138,13 +132,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
     }
     
     /**
-     * Sets style background color.
-     * 
-     * @param  string  $color  The color name
-     * 
-     * @return void
-     * 
-     * @throws \InvalidArgumentException  When the color name isn't defined
+     * {@inheritdoc}
      */
     public function setBackground(string $color = null): void
     {
@@ -158,13 +146,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
     }
     
     /**
-     * Sets some specific style option.
-     * 
-     * @param  string  $option  The option name
-     * 
-     * @return void
-     * 
-     * @throws \InvalidArgumentException  When the option name isn't defined
+     * {@inheritdoc}
      */
     public function setOption(string $option): void
     {
@@ -183,13 +165,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
     }
     
     /**
-     * Unsets some specific style option.
-     * 
-     * @param  string  $option  The option name
-     * 
-     * @return void
-     * 
-     * @throws \InvalidArgumentException  When the option name isn't defined
+     * {@inheritdoc}
      */
     public function unsetOption(string $option): void
     {
@@ -210,11 +186,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
     }
     
     /**
-     * Sets multiple style options at once.
-     * 
-     * @param  array  $options
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function setOptions(array $options): void
     {
@@ -226,11 +198,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
     }
     
     /**
-     * Applies the style to a given text.
-     * 
-     * @param  string  $text  The text to style
-     * 
-     * @return string
+     * {@inheritdoc}
      */
     public function apply(string $text): string
     {
