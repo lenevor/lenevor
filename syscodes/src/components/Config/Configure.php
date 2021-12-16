@@ -75,10 +75,10 @@ class Configure implements ArrayAccess, ConfigureContract
 	public function set($key, $value = null)
 	{
 		$keys = is_array($key) ? $key : [$key => $value];
-
-        foreach ($keys as $key => $value) {
-            Arr::set($this->vars, $key, $value);
-        }
+		
+		foreach ($keys as $key => $value) {
+			Arr::set($this->vars, $key, $value);
+		}
 	}
 
 	/**
