@@ -96,7 +96,7 @@ class MemcachedStore implements Store
      * 
      * @return bool
      */
-    public function add($key, $value, $seconds)
+    public function add($key, $value, $seconds): bool
     {
         return $this->memcached->add($this->prefix.$key, $value, $this->calcExpiration($seconds));
     }
@@ -104,7 +104,7 @@ class MemcachedStore implements Store
     /**
      * {@inheritdoc}
      */
-    public function put($key, $value, $seconds)
+    public function put($key, $value, $seconds): bool
     {
         return $this->memcached->set($this->prefix.$key, $value, $this->calcExpiration($seconds));
     }
@@ -136,7 +136,7 @@ class MemcachedStore implements Store
     /**
      * {@inheritdoc}
      */
-    public function forever($key, $value)
+    public function forever($key, $value): bool
     {
         return $this->put($this->prefix.$key, $value, 0);
     }
@@ -162,7 +162,7 @@ class MemcachedStore implements Store
     /**
      * {@inheritdoc}
      */
-    public function getPrefix()
+    public function getPrefix(): string
     {
         return $this->prefix;
     }
@@ -174,7 +174,7 @@ class MemcachedStore implements Store
      * 
      * @return void
      */
-    public function setPrefix($prefix)
+    public function setPrefix($prefix): void
     {
         $this->prefix = ! empty($prefix) ? $prefix.':' : '';
     }
@@ -186,7 +186,7 @@ class MemcachedStore implements Store
      * 
      * @return int
      */
-    protected function calcExpiration($seconds)
+    protected function calcExpiration($seconds): int
     {
         return $this->toTimestamp($seconds);
     }
@@ -198,7 +198,7 @@ class MemcachedStore implements Store
      * 
      * @return int
      */
-    protected function toTimestamp($seconds)
+    protected function toTimestamp($seconds): int
     {
         return $seconds > 0 ? $this->availableAt($seconds) : 0;
     }
