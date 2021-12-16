@@ -49,7 +49,7 @@ class NullStore implements Store
     /**
      * {@inheritdoc}
      */
-    public function put($key, $value, $seconds)
+    public function put($key, $value, $seconds): bool
     {
         return false;
     }
@@ -81,7 +81,7 @@ class NullStore implements Store
     /**
      * {@inheritdoc}
      */
-    public function forever($key, $value)
+    public function forever($key, $value): bool
     {
         return false;
     }
