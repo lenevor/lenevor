@@ -160,7 +160,7 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @return int
      */
-    protected function getSeconds($ttl)
+    protected function getSeconds($ttl): int
     {
         $duration = $this->parseDateInterval($ttl);
 
@@ -178,7 +178,7 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @return string
      */
-    protected function itemKey($key)
+    protected function itemKey($key): string
     {
         return $key;
     }
@@ -265,6 +265,8 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
+     * Magic method.
+     * 
      * Handle dynamic calls into missing methods to the store.
      * 
      * @param  string  $method
