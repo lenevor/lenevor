@@ -108,7 +108,7 @@ class InputDefinition implements InputDefinitionInterface
      * @throws \LogicException
      * @throws \InvalidArgumentException
      */
-    public function setDefinition(array $definition)
+    public function setDefinition(array $definition): void
     {
         $arguments = [];
         $options   = [];
@@ -132,11 +132,7 @@ class InputDefinition implements InputDefinitionInterface
     */
 
     /**
-     * Sets the InputArgument objects.
-     * 
-     * @param  array  $arguments  The arguments array InputArgument objects
-     * 
-     * @return \Syscodes\Components\Console\Input\inputArgument 
+     * {@inheritdoc}
      */
     public function setArguments(array $arguments = [])
     {
@@ -146,11 +142,7 @@ class InputDefinition implements InputDefinitionInterface
     }
 
     /**
-     * Adds a array of InputArgument objects.
-     * 
-     * @param  \Syscodes\Components\Console\Input\InputArgument|array  $arguments  The arguments array InputArgument objects
-     * 
-     * @return \Syscodes\Components\Console\Input\inputArgument
+     * {@inheritdoc}
      */
     public function addArguments(array $arguments = [])
     {
@@ -160,11 +152,7 @@ class InputDefinition implements InputDefinitionInterface
     }
 
     /**
-     * Adds an argument.
-     * 
-     * @param  \Syscodes\Components\Console\Input\InputArgument  $argument  The arguments array InputArgument objects
-     * 
-     * @return \Syscodes\Components\Console\Input\InputArgument
+     * {@inheritdoc}
      */
     public function addArgument(InputArgument $argument)
     {
@@ -194,13 +182,7 @@ class InputDefinition implements InputDefinitionInterface
     }
 
     /**
-     * Gets an InputArgument by name or by position of an array.
-     * 
-     * @param  string|int  $name  The InputArgument name or position
-     * 
-     * @return \Syscodes\Components\Console\Input\InputArgument
-     * 
-     * @throws \InvalidArgumentException
+     * {@inheritdoc}
      */
     public function getArgument($name)
     {
@@ -214,11 +196,7 @@ class InputDefinition implements InputDefinitionInterface
     }
 
     /**
-     * Checks an InputArgument objects if exists by name or by position.
-     * 
-     * @param  string|int  $name  The InputArgument name or position
-     * 
-     * @return bool  True if the InputArgument object exists, false otherwise
+     * {@inheritdoc}
      */
     public function hasArgument($name): bool
     {
@@ -228,19 +206,15 @@ class InputDefinition implements InputDefinitionInterface
     }
 
     /**
-     * Gets the array of InputArgument objects.
-     * 
-     * @return \Syscodes\Components\Console\Input\InputArgument|array  An array the InputArgument objects
+     * {@inheritdoc}
      */
-    public function getArguments(): array
+    public function getArguments()
     {
         return $this->arguments;
     }
 
     /**
-     * Gets the number of arguments.
-     * 
-     * @return int  The number of InputArguments
+     * {@inheritdoc}
      */
     public function getArgumentCount(): int
     {
@@ -248,9 +222,7 @@ class InputDefinition implements InputDefinitionInterface
     }
 
     /**
-     * Gets the number of arguments.
-     * 
-     * @return int  The number of required InputArguments
+     * {@inheritdoc}
      */
     public function getArgumentRequiredCount(): int
     {
@@ -264,11 +236,7 @@ class InputDefinition implements InputDefinitionInterface
     */
 
     /**
-     * Sets the InputOption objects.
-     * 
-     * @param  array  $options  The options array InputOption objects
-     * 
-     * @return \Syscodes\Components\Console\Input\InputOption
+     * {@inheritdoc}
      */
     public function setOptions(array $options = [])
     {
@@ -279,11 +247,7 @@ class InputDefinition implements InputDefinitionInterface
     }
 
     /**
-     * Adds a array of InputOption objects.
-     * 
-     * @param  \Syscodes\Components\Console\Input\InputOption|array  $options  The options array InputOption objects
-     * 
-     * @return \Syscodes\Components\Console\Input\InputOption
+     * {@inheritdoc}
      */
     public function addOptions(array $options = [])
     {
@@ -293,13 +257,7 @@ class InputDefinition implements InputDefinitionInterface
     }
 
     /**
-     * Adds an option.
-     * 
-     * @param  \Syscodes\Components\Console\Input\InputOption  $option  The Options array InputOption objects
-     * 
-     * @return \Syscodes\Components\Console\Input\InputOption
-     * 
-     * @throws \LogicException
+     * {@inheritdoc}
      */
     public function addOption(InputOption $option)
     {
@@ -335,13 +293,7 @@ class InputDefinition implements InputDefinitionInterface
     }
 
     /**
-     * Gets an InputOption by name of an array.
-     * 
-     * @param  string  $name  The InputOption name
-     * 
-     * @return \Syscodes\Components\Console\Input\InputOption|array
-     * 
-     * @throws \InvalidArgumentException
+     * {@inheritdoc}
      */
     public function getOption(string $name)
     {
@@ -353,11 +305,7 @@ class InputDefinition implements InputDefinitionInterface
     }
 
     /**
-     * Checks an InputOption objects if exists by name.
-     * 
-     * @param  string  $name  The InputOption name
-     * 
-     * @return bool  True if the InputOption object exists, false otherwise
+     * {@inheritdoc}
      */
     public function hasOption(string $name): bool
     {
@@ -365,9 +313,7 @@ class InputDefinition implements InputDefinitionInterface
     }
 
     /**
-     * Gets the array of InputOption objects.
-     * 
-     * @return \Syscodes\Components\Console\Input\InputOption|array  An array the InputOption objects
+     * {@inheritdoc}
      */
     public function getOptions(): array
     {
@@ -375,10 +321,7 @@ class InputDefinition implements InputDefinitionInterface
     }
 
     /**
-     * Checks an InputOption objects if exists by shortcut.
-     * 
-     * @param  string  $name  The InputOption name
-     * 
+     * {@inheritdoc}
      * @return bool  True if the InputOption object exists, false otherwise
      */
     public function hasShortcut(string $name): bool
@@ -387,11 +330,7 @@ class InputDefinition implements InputDefinitionInterface
     }
 
     /**
-     * Gets an InputOption info array.
-     * 
-     * @param  string  $name  The Shortcut name
-     * 
-     * @return \Syscodes\Components\Console\Input\InputOption|array  An InputOption object
+     * {@inheritdoc}
      */
     public function getOptionByShortcut(string $name)
     {
@@ -399,13 +338,7 @@ class InputDefinition implements InputDefinitionInterface
     }
 
     /**
-     * Gets the InputOption name given a shortcut.
-     * 
-     * @param  string  $name  The InputOption name
-     * 
-     * @return mixed  True if the InputOption shortcut exists, false otherwise
-     * 
-     * @throws \InvalidArgumentException
+     * {@inheritdoc}
      */
     public function shortcutToName(string $name)
     {
@@ -417,11 +350,7 @@ class InputDefinition implements InputDefinitionInterface
     }
 
     /**
-     * Checks an InputOption objects if exists by negated name.
-     * 
-     * @param  string  $name  The InputOption name
-     * 
-     * @return bool  True if the InputOption object exists, false otherwise
+     * {@inheritdoc}
      */
     public function hasNegation(string $name): bool
     {
@@ -429,13 +358,7 @@ class InputDefinition implements InputDefinitionInterface
     }
 
     /**
-     * Gets the InputOption name given a negation.
-     * 
-     * @param  string  $name  The InputOption name
-     * 
-     * @return mixed  True if the InputOption negation exists, false otherwise
-     * 
-     * @throws \InvalidArgumentException
+     * {@inheritdoc}
      */
     public function negationToName(string $name): string
     {
