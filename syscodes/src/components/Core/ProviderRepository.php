@@ -149,7 +149,7 @@ class ProviderRepository
      * 
      * @return array
      */
-    protected function compileManifest($providers)
+    protected function compileManifest($providers): array
     {
         $manifest = $this->freshManifest($providers);
         
@@ -191,7 +191,7 @@ class ProviderRepository
      * 
      * @throws \Exception
      */
-    public function writeManifest($manifest)
+    public function writeManifest($manifest): array
     {
         if ( ! is_writable($dirname = dirname($this->manifestPath))) {
             throw new Exception("The {$dirname} directory must be present and writable.");
