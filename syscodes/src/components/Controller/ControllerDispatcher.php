@@ -85,7 +85,7 @@ class ControllerDispatcher implements ControllerDispatcherContract
      * 
      * @return array
      */
-    public function getMiddleware($controller, $method)
+    public function getMiddleware($controller, $method): array
     {
         if ( ! method_exists($controller, 'getMiddleware'))
         {
@@ -107,7 +107,7 @@ class ControllerDispatcher implements ControllerDispatcherContract
      * 
      * @return bool
      */
-    protected function methodExcludedByOptions($method, array $options)
+    protected function methodExcludedByOptions($method, array $options): bool
     {
         return (isset($options['only']) && ! in_array($method, (array) $options['only'])) ||
             ( ! empty($options['except']) && in_array($method, (array) $options['except']));
