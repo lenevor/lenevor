@@ -110,7 +110,7 @@ class Lenevor implements LenevorContract
     }
     
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function bootstrap(): void
     {
@@ -132,7 +132,7 @@ class Lenevor implements LenevorContract
     }
     
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function shutdown($input, $status): void
     {
