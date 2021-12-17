@@ -210,9 +210,7 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Get the version number of the application.
-     * 
-     * @return string
+     * {@inheritdoc}
      */
     public function version(): string
     {
@@ -220,11 +218,7 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Set the base path for the application.
-     *
-     * @param  string  $path
-     * 
-     * @return self
+     * {@inheritdoc}
      */
     public function setBasePath(string $path): self
     {
