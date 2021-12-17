@@ -220,12 +220,7 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * Extender an id type in the container.
-     *
-     * @param  string  $id
-     * @param  \Closure  $closure
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function extend($id, Closure $closure)
     {
@@ -247,12 +242,7 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * Register a singleton binding in the container.
-     * 
-     * @param  string  $id
-     * @param  \Closure|string|null  $value
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function singleton($id, $value = null): void
     {
@@ -260,13 +250,7 @@ class Container implements ArrayAccess, ContainerContract
     }    
 
     /**
-     * Instantiate a class instance of the given type.
-     * 
-     * @param  string  $class
-     * 
-     * @return mixed
-     * 
-     * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
+     * {@inheritdoc}
      */
     public function build($class)
     {
@@ -660,11 +644,7 @@ class Container implements ArrayAccess, ContainerContract
     }
     
     /**
-     * Remove all id traces of the specified binding.
-     * 
-     * @param  string  $id
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function remove($id): void
     {
