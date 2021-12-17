@@ -84,6 +84,17 @@ interface Container extends ContainerInterface
      */
     public function singleton($id, $value = null): void;
 
+    /**
+     * Instantiate a class instance of the given type.
+     * 
+     * @param  string  $class
+     * 
+     * @return mixed
+     * 
+     * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
+     */
+    public function build($class);
+
      /**
      * Marks a callable as being a factory service.
      * 
