@@ -66,7 +66,7 @@ class MiddlewareResolver
      * 
      * @return array
      */
-    protected static function parseMiddlewareGroup($name, $map, $middlewareGroups)
+    protected static function parseMiddlewareGroup($name, $map, $middlewareGroups): array
     {
         $results = [];
         
