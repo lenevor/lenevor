@@ -78,11 +78,7 @@ class DatabaseManager implements ConnectionResolverInterface
     }
     
     /**
-     * Get a database connection instance.
-     * 
-     * @param  string|null  $name  
-     * 
-     * @return \Syscodes\Components\Database\Connections\Connection
+     * {@inheritdoc}
      */
     public function connection($name = null)
     {
@@ -204,11 +200,7 @@ class DatabaseManager implements ConnectionResolverInterface
     }
 
     /**
-     * Reconnect to the given database.
-     * 
-     * @param  string|null  $name  
-     * 
-     * @return \Syscodes\Components\Database\Connections\Connection
+     * {@inheritdoc}
      */
     public function reconnect($name = null)
     {
@@ -222,11 +214,7 @@ class DatabaseManager implements ConnectionResolverInterface
     }
 
     /**
-     * Disconnect from the given database.
-     * 
-     * @param  string|null  $name  
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function disconnect($name = null)
     {
@@ -252,11 +240,7 @@ class DatabaseManager implements ConnectionResolverInterface
     }
 
     /**
-     * Disconnect from the given database and remove from local cache.
-     * 
-     * @param  string|null  $name  
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function purge($name = null): void
     {
@@ -268,9 +252,7 @@ class DatabaseManager implements ConnectionResolverInterface
     }
 
     /**
-     * Get the default connection name.
-     * 
-     * @return string
+     * {@inheritdoc}
      */
     public function getDefaultConnection(): string
     {
@@ -278,9 +260,7 @@ class DatabaseManager implements ConnectionResolverInterface
     }
 
     /**
-     * Set the default connection name.
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function setDefaultConnection($name): void
     {
@@ -288,12 +268,7 @@ class DatabaseManager implements ConnectionResolverInterface
     }
 
     /**
-     * Register an extension connection resolver.
-     * 
-     * @param  string  $name
-     * @param  \Callable  $resolver
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function extend($name, Callable $resolver): void
     {
@@ -301,9 +276,7 @@ class DatabaseManager implements ConnectionResolverInterface
     }
 
     /**
-     * Return all of the created connections.
-     * 
-     * @return array
+     * {@inheritdoc}
      */
     public function getConnections(): array
     {
@@ -311,6 +284,8 @@ class DatabaseManager implements ConnectionResolverInterface
     }
 
     /**
+     * Magic method.
+     * 
      * Dynamically pass methods to the default connection.
      * 
      * @param  string  $method
