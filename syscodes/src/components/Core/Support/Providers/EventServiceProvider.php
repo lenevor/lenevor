@@ -73,7 +73,7 @@ class EventServiceProvider extends ServiceProvider
      * 
      * @return array
      */
-    public function listens()
+    public function listens(): array
     {
         return $this->listen;
     }
