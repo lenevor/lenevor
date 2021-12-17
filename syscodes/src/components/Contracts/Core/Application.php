@@ -39,6 +39,15 @@ interface Application extends Container
      */
     public function version(): string;
 
+     /**
+     * Set the base path for the application.
+     *
+     * @param  string  $path
+     * 
+     * @return self
+     */
+    public function setBasePath(string $path): self;
+
     /**
      * Get the base path of the Lenevor installation.
      *
