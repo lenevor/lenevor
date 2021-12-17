@@ -64,7 +64,7 @@ abstract class Controller
      * 
      * @return array
      */
-    public function getMiddleware()
+    public function getMiddleware(): array
     {
         return $this->middleware;
     }
@@ -83,6 +83,8 @@ abstract class Controller
     }
 
     /**
+     * Magic method.
+     * 
      * Dynamically handle calls to methods on the controller.
      * 
      * @param  string  $method
