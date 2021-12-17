@@ -170,7 +170,7 @@ class AliasLoader
      * 
      * @return string
      */
-    protected function formatFacadeStub($alias, $stub)
+    protected function formatFacadeStub($alias, $stub): string
     {
         $replacements = [
             str_replace('/', '\\', dirname(str_replace('\\', '/', $alias))),
@@ -198,7 +198,7 @@ class AliasLoader
     /**
      * The load method to the auto-loader stack.
      * 
-     * @return void
+     * @return bool
      */
     protected function registeredLoaderStack()
     {
@@ -210,7 +210,7 @@ class AliasLoader
      * 
      * @return array
      */
-    public function getAliases()
+    public function getAliases(): array
     {
         return $this->aliases;
     }
@@ -220,7 +220,7 @@ class AliasLoader
      * 
      * @return void
      */
-    public function setAliases(array $aliases)
+    public function setAliases(array $aliases): void
     {
         $this->aliases = $aliases;
     }
@@ -233,7 +233,7 @@ class AliasLoader
      * 
      * @return void
      */
-    public function alias($class, $alias)
+    public function alias($class, $alias): void
     {
         $this->aliases[$class] = $alias;
     }
@@ -243,7 +243,7 @@ class AliasLoader
      * 
      * @return bool
      */
-    public function isRegistered()
+    public function isRegistered(): bool
     {
         return $this->registered;
     }
@@ -255,12 +255,14 @@ class AliasLoader
      * 
      * @return void
      */
-    public function setResgistered($value)
+    public function setResgistered($value): void
     {
         $this->registered = $value;
     }
 
     /**
+     * Magin method.
+     * 
      * Private clone.
      * 
      * @return void
