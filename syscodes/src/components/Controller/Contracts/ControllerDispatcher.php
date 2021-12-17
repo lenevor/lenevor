@@ -51,5 +51,5 @@ interface ControllerDispatcher
      * 
      * @return array
      */
-    public function getMiddleware($controller, $method);
+    public function getMiddleware($controller, $method): array;
 }
