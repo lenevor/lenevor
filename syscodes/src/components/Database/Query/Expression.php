@@ -59,6 +59,8 @@ class Expression
     }
 
     /**
+     * Magic method.
+     *
      * Get the value of the expression.
      * 
      * @return string
