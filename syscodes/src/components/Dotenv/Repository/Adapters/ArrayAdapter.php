@@ -39,9 +39,7 @@ class ArrayAdapter implements Adapter
     protected $data = [];
 
     /**
-     * Determines if the adapter is supported.
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function isSupported(): bool
     {
@@ -49,11 +47,7 @@ class ArrayAdapter implements Adapter
     }
 
     /**
-     * Check if a variable exists.
-     * 
-     * @param  string  $name
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function has(string $name): bool
     {
@@ -61,11 +55,7 @@ class ArrayAdapter implements Adapter
     }
 
     /**
-     * Read an environment variable.
-     * 
-     * @param  string  $name
-     * 
-     * @return mixed
+     * {@inheritdoc}
      */
     public function read(string $name)
     {
@@ -77,12 +67,7 @@ class ArrayAdapter implements Adapter
     }
 
      /**
-     * Write to an environment variable.
-     * 
-     * @param  string  $name
-     * @param  string  $value
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function write(string $name, string $value): bool
     {
@@ -92,11 +77,7 @@ class ArrayAdapter implements Adapter
     }
 
     /**
-     * Delete an environment variable.
-     * 
-     * @param  string  $name
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function delete(string $name): bool
     {
