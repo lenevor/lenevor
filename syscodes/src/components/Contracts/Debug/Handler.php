@@ -54,6 +54,24 @@ interface Handler
 	 * @return \Syscodes\Components\Contracts\Debug\Handler
 	 */
 	public function pushHandler($handler);
+
+	/**
+	 * Appends a handler to the end of the stack.
+	 * 
+	 * @param  \Callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
+	 * 
+	 * @return self
+	 */
+	public function appendHandler($handler): self;
+
+	/**
+	 * Prepends a handler to the start of the stack.
+	 * 
+	 * @param  \Callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
+	 * 
+	 * @return self
+	 */
+	public function prependHandler($handler): self;
 	
 	/**
 	 * Unregisters all handlers registered by this Debug instance.
@@ -68,17 +86,47 @@ interface Handler
 	 * @return void
 	 */
 	public function on(): void;
+
+	/**
+	 * Allow Handlers to force the script to quit.
+	 * 
+	 * @param  bool|int|null  $exit
+	 * 
+	 * @return bool
+	 */
+	public function allowQuit($exit = null);
 	
 	/**
 	 * Lenevor Exception push output directly to the client it the data  
 	 * if they are true, but if it is false, the output will be returned 
 	 * by exception.
 	 * 
-	 * @param  bool|int  $send
+	 * @param  bool|int|null  $send
 	 *
 	 * @return bool
 	 */
 	public function writeToOutput($send = null);
+
+	/**
+	 * Returns an array with all handlers, in the order they were added to the stack.
+	 * 
+	 * @return array
+	 */
+	public function getHandlers(): array;
+
+	/**
+	 * Clears all handlers in the handlerStack, including the default PleasingPage handler.
+	 * 
+	 * @return self
+	 */
+	public function clearHandlers(): self;
+
+	/**
+	 * Removes the last handler in the stack and returns it.
+	 * 
+	 * @return array|null
+	 */
+	public function popHandler();
 	
 	/**
 	 * Error handler
@@ -95,7 +143,12 @@ interface Handler
 	 * 
 	 * @throws \ErrorException
 	 */
-	public function handleError(int $level, string $message, string $file = null, int $line = null);
+	public function handleError(
+		int $level, 
+		string $message, 
+		string $file = null, 
+		int $line = null
+	);
 	
 	/**
 	 * Lenevor Exception will by default send HTTP code 500, but you may wish
