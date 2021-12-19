@@ -32,9 +32,7 @@ use Syscodes\Components\Contracts\Dotenv\Adapter;
 class ServerAdapter implements Adapter
 {
     /**
-     * Determines if the adapter is supported.
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function isSupported(): bool
     {
@@ -42,11 +40,7 @@ class ServerAdapter implements Adapter
     }
 
     /**
-     * Check if a variable exists.
-     * 
-     * @param  string  $name
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function has(string $name): bool
     {
@@ -54,11 +48,7 @@ class ServerAdapter implements Adapter
     }
 
     /**
-     * Read an environment variable.
-     * 
-     * @param  string  $name
-     * 
-     * @return array
+     * {@inheritdoc}
      */
     public function read(string $name)
     {
@@ -70,12 +60,7 @@ class ServerAdapter implements Adapter
     }
 
      /**
-     * Write to an environment variable.
-     * 
-     * @param  string  $name
-     * @param  string  $value
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function write(string $name, string $value): bool
     {
@@ -89,11 +74,7 @@ class ServerAdapter implements Adapter
     }
 
     /**
-     * Delete an environment variable.
-     * 
-     * @param  string  $name
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function delete(string $name): bool
     {
