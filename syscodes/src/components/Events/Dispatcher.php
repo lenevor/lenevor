@@ -82,12 +82,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Register an event listener with the dispatcher.
-     * 
-     * @param  string|array  $events
-     * @param  \Closure|string|null  $listener
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function listen($events, $listener = null): void
     {
@@ -116,12 +111,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Register an event listener with the dispatcher.
-     * 
-     * @param  \Closure|string  $listener
-     * @param  bool  $wildcard  
-     * 
-     * @return \Closure
+     * {@inheritdoc}
      */
     public function makeListener($listener, $wildcard = false): Closure
     {
@@ -198,11 +188,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Determine if a given event has listeners.
-     * 
-     * @param  string  $eventName
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function hasListeners($eventName): bool
     {
@@ -212,11 +198,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Determine if the given event has any wildcard listeners.
-     * 
-     * @param  string  $eventName
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function hasWildcardListeners($eventName): bool
     {
@@ -230,11 +212,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Register an event subscriber with the dispatcher.
-     * 
-     * @param  object|string  $subscriber
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function subscribe($subscriber): void
     {
@@ -252,11 +230,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Resolve the subscriber instance.
-     * 
-     * @param  object|string  $subscriber
-     * 
-     * @return mixed
+     * {@inheritdoc}
      */
     public function resolveSubscriber($subscriber)
     {
@@ -268,13 +242,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Dispatch an event and call the listeners.
-     * 
-     * @param  string|object  $event
-     * @param  mixed  $payload
-     * @param  bool  $halt  
-     * 
-     * @return array|null
+     * {@inheritdoc}
      */
     public function dispatch($event, $payload = [], $halt = false)
     {        
@@ -334,11 +302,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Get all of the listeners for a given event name.
-     * 
-     * @param  string  $eventName
-     * 
-     * @return array
+     * {@inheritdoc}
      */
     public function getListeners($eventName): array
     {
@@ -396,11 +360,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Remove a set of listeners from the dispatcher.
-     * 
-     * @param  string  $event
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function delete($event): void
     {
