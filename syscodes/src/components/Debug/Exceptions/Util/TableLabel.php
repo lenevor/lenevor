@@ -37,9 +37,7 @@ trait TableLabel
     protected $label;
 
     /**
-     * Returns the label.
-     * 
-     * @return string
+     * {@inheritdoc}
      */
     public function getLabel(): string
     {
