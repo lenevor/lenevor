@@ -40,6 +40,16 @@ interface Dispatcher
     public function listen($events, $listener = null): void;
 
     /**
+     * Register an event listener with the dispatcher.
+     * 
+     * @param  \Closure|string  $listener
+     * @param  bool  $wildcard  
+     * 
+     * @return \Closure
+     */
+    public function makeListener($listener, $wildcard = false): Closure;
+
+    /**
      * Determine if a given event has listeners.
      * 
      * @param  string  $eventName
@@ -67,6 +77,15 @@ interface Dispatcher
     public function subscribe($subscriber): void;
 
     /**
+     * Resolve the subscriber instance.
+     * 
+     * @param  object|string  $subscriber
+     * 
+     * @return mixed
+     */
+    public function resolveSubscriber($subscriber);
+
+    /**
      * Dispatch an event and call the listeners.
      * 
      * @param  string|object  $event
@@ -76,6 +95,15 @@ interface Dispatcher
      * @return array|null
      */
     public function dispatch($event, $payload = [], $halt = false);
+
+    /**
+     * Get all of the listeners for a given event name.
+     * 
+     * @param  string  $eventName
+     * 
+     * @return array
+     */
+    public function getListeners($eventName): array;
 
     /**
      * Remove a set of listeners from the dispatcher.
