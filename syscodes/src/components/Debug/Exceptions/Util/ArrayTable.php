@@ -55,9 +55,7 @@ class ArrayTable implements Table
     }
 
     /**
-     * Returns the data array registered.
-     * 
-     * @return array
+     * {@inheritdoc}
      */
     public function getData(): array
     {
