@@ -33,9 +33,7 @@ use Syscodes\Components\Contracts\Dotenv\Adapter;
 class DefineAdapter implements Adapter
 {
     /**
-     * Determines if the adapter is supported.
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function isSupported(): bool
     {
@@ -43,11 +41,7 @@ class DefineAdapter implements Adapter
     }
 
     /**
-     * Check if a variable exists.
-     * 
-     * @param  string  $name
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function has(string $name): bool
     {
@@ -55,11 +49,7 @@ class DefineAdapter implements Adapter
     }
 
     /**
-     * Read an environment variable.
-     * 
-     * @param  string  $name
-     * 
-     * @return mixed
+     * {@inheritdoc}
      */
     public function read(string $name)
     {
@@ -71,12 +61,7 @@ class DefineAdapter implements Adapter
     }
 
      /**
-     * Write to an environment variable.
-     * 
-     * @param  string  $name
-     * @param  string  $value
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function write(string $name, string $value): bool
     {
@@ -88,11 +73,7 @@ class DefineAdapter implements Adapter
     }
 
     /**
-     * Delete an environment variable.
-     * 
-     * @param  string  $name
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function delete(string $name): bool
     {
