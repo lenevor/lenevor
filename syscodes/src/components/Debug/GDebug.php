@@ -104,13 +104,7 @@ class GDebug implements DebugContract
 	}
 
 	/**
-	 * Catches any uncaught errors and exceptions, including most Fatal errors. Will log the 
-	 * error, display it if display_errors is on, and fire an event that allows custom actions 
-	 * to be taken at this point.
-	 *
-	 * @param  \Throwable  $exception
-	 *
-	 * @return string
+	 * {@inheritdoc}
 	 */
 	public function handleException(Throwable $exception): string
 	{	
@@ -176,11 +170,7 @@ class GDebug implements DebugContract
 	}
 
 	/**
-	 * Allow Handlers to force the script to quit.
-	 * 
-	 * @param  bool|int|null  $exit
-	 * 
-	 * @return bool
+	 * {@inheritdoc}
 	 */
 	public function allowQuit($exit = null)
 	{
@@ -192,13 +182,7 @@ class GDebug implements DebugContract
 	}
 
 	/**
-	 * Lenevor Exception push output directly to the client it the data  
-	 * if they are true, but if it is false, the output will be returned 
-	 * by exception.
-	 * 
-	 * @param  bool|int|null  $send
-	 *
-	 * @return bool
+	 * {@inheritdoc}
 	 */
 	public function writeToOutput($send = null)
 	{
@@ -228,22 +212,14 @@ class GDebug implements DebugContract
 	}
 
 	/**
-	 * Error handler
-	 *
-	 * This will catch the php native error and treat it as a exception which will 
-	 * provide a full back trace on all errors.
-	 *
-	 * @param  int  $level
-	 * @param  string  $message
-	 * @param  string|null  $file
-	 * @param  int|null  $line
-	 * 
-	 * @return bool
-	 *
-	 * @throws \ErrorException
+	 * {@inheritdoc}
 	 */
-	public function handleError(int $level, string $message, string $file = null, int $line = null)
-	{
+	public function handleError(
+		int $level, 
+		string $message, 
+		string $file = null, 
+		int $line = null
+	) {
 		if ($level & $this->system->getErrorReportingLevel()) {
 			$exception = new ErrorException($message, $level, $level, $file, $line);
 
@@ -260,11 +236,7 @@ class GDebug implements DebugContract
 	}
 
 	/**
-	 * Pushes a handler to the end of the stack.
-	 * 
-	 * @param  \Callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
-	 * 
-	 * @return \Syscodes\Components\Contracts\Debug\Handler
+	 * {@inheritdoc}
 	 */
 	public function pushHandler($handler)
 	{
@@ -272,11 +244,7 @@ class GDebug implements DebugContract
 	}
 
 	/**
-	 * Appends a handler to the end of the stack.
-	 * 
-	 * @param  \Callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
-	 * 
-	 * @return self
+	 * {@inheritdoc}
 	 */
 	public function appendHandler($handler): self
 	{
@@ -286,11 +254,7 @@ class GDebug implements DebugContract
 	}
 
 	/**
-	 * Prepends a handler to the start of the stack.
-	 * 
-	 * @param  \Callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
-	 * 
-	 * @return self
+	 * {@inheritdoc}
 	 */
 	public function prependHandler($handler): self
 	{
@@ -325,9 +289,7 @@ class GDebug implements DebugContract
 	}
 
 	/**
-	 * Returns an array with all handlers, in the order they were added to the stack.
-	 * 
-	 * @return array
+	 * {@inheritdoc}
 	 */
 	public function getHandlers(): array
 	{
@@ -335,9 +297,7 @@ class GDebug implements DebugContract
 	}
 
 	/**
-	 * Clears all handlers in the handlerStack, including the default PleasingPage handler.
-	 * 
-	 * @return self
+	 * {@inheritdoc}
 	 */
 	public function clearHandlers(): self
 	{
@@ -347,9 +307,7 @@ class GDebug implements DebugContract
 	}
 
 	/**
-	 * Removes the last handler in the stack and returns it.
-	 * 
-	 * @return array|null
+	 * {@inheritdoc}
 	 */
 	public function popHandler()
 	{
@@ -369,9 +327,7 @@ class GDebug implements DebugContract
 	}
 
 	/**
-	 * Unregisters all handlers registered by this Debug instance.
-	 * 
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public function off(): void
 	{
@@ -380,9 +336,7 @@ class GDebug implements DebugContract
 	}
 	
 	/**
-	 * Registers this instance as an error handler.
-	 * 
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public function on() : void
 	{
@@ -395,14 +349,7 @@ class GDebug implements DebugContract
 	}
 
 	/**
-	 * Lenevor Exception will by default send HTTP code 500, but you may wish
-	 * to use 502, 503, or another 5xx family code.
-	 * 
-	 * @param  bool|int  $code
-	 * 
-	 * @return int|false
-	 * 
-	 * @throws \InvalidArgumentException
+	 * {@inheritdoc}
 	 */
 	public function sendHttpCode($code = null)
 	{
@@ -426,11 +373,7 @@ class GDebug implements DebugContract
 	}
 
 	/**
-	 * This will catch errors that are generated at the shutdown level of execution.
-	 *
-	 * @return void
-	 *
-	 * @throws \ErrorException
+	 * {@inheritdoc}
 	 */
 	public function handleShutdown()
 	{
