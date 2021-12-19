@@ -84,6 +84,17 @@ interface Encrypter
     public function decrypt($value, $unserialize = true);
 
     /**
+     * Gets the JSON array from the given payload.
+     * 
+     * @param  string  $value
+     * 
+     * @return array
+     * 
+     * @throws \Syscodes\Components\Encryption\Enxceptions\DecryptException
+     */
+    public function getJsonPayload($value);
+
+    /**
      * Decrypt the given string without unserialization.
      * 
      * @param  string  $value
