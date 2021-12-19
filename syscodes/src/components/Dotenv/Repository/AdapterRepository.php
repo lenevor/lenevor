@@ -62,11 +62,7 @@ final class AdapterRepository implements Repository
     }
 
     /**
-     * Get an environment variable.
-     * 
-     * @param  string  $name
-     * 
-     * @return mixed
+     * {@inheritdoc}
      */
     public function get(string $name)
     {
@@ -74,12 +70,7 @@ final class AdapterRepository implements Repository
     }
 
      /**
-     * Set an environment variable.
-     * 
-     * @param  string  $name
-     * @param  string  $value
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function set(string $name, string $value): bool
     {
@@ -87,11 +78,7 @@ final class AdapterRepository implements Repository
     }
 
     /**
-     * Clear an environment variable.
-     * 
-     * @param  string  $name
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function clear(string $name): bool
     {
