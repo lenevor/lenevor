@@ -34,7 +34,7 @@ interface Repository
      * 
      * @param  string  $name
      * 
-     * @return bool
+     * @return mixed
      */
     public function get(string $name);
 
@@ -46,7 +46,7 @@ interface Repository
      * 
      * @return bool
      */
-    public function set(string $name, string $value);
+    public function set(string $name, string $value): bool;
 
     /**
      * Clear an environment variable.
@@ -55,5 +55,5 @@ interface Repository
      * 
      * @return bool
      */
-    public function clear(string $name);
+    public function clear(string $name): bool;
 }
