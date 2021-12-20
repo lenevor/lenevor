@@ -51,7 +51,7 @@ trait InteractsWithInput
      * 
      * @return bool
      */
-    public function hasHeader($key)
+    public function hasHeader($key): bool
     {
         return ! is_null($this->header($key));
     }
@@ -76,7 +76,7 @@ trait InteractsWithInput
      * 
      * @return bool
      */
-    public function hasCookie($key)
+    public function hasCookie($key): bool
     {
         return ! is_null($this->cookie($key));
     }
@@ -140,7 +140,7 @@ trait InteractsWithInput
      * 
      * @return array
      */
-    public function add($key)
+    public function add($key): array
     {
         $key = is_array($key) ? $key : [$key];
 
@@ -152,7 +152,7 @@ trait InteractsWithInput
      * 
      * @return array
      */
-    public function all()
+    public function all(): array
     {
         return array_merge_recursive($this->input(), $this->allFiles());
     }
@@ -177,7 +177,7 @@ trait InteractsWithInput
      * 
      * @return array
      */
-    public function allFiles()
+    public function allFiles(): array
     {
         return $this->files->all();
     }
@@ -201,7 +201,7 @@ trait InteractsWithInput
      * 
      * @return array
      */
-    public function keys()
+    public function keys(): array
     {
         return array_merge($this->input(), $this->files->keys());
     }
@@ -213,7 +213,7 @@ trait InteractsWithInput
      * 
      * @return bool
      */
-    public function has($key)
+    public function has($key): bool
     {
         $keys = is_array($key) ? $key : func_get_args();
 
