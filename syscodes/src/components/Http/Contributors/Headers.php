@@ -67,7 +67,7 @@ class Headers implements IteratorAggregate, Countable
 	 * 
 	 * @return array
 	 */
-	public function all()
+	public function all(): array
 	{
 		return $this->headers;
 	}
@@ -77,7 +77,7 @@ class Headers implements IteratorAggregate, Countable
 	 * 
 	 * @return array An array of parameter keys
 	 */
-	public function keys()
+	public function keys(): array
 	{
 		return array_keys($this->all());
 	}
@@ -87,9 +87,9 @@ class Headers implements IteratorAggregate, Countable
 	 * 
 	 * @param  array  $headers
 	 * 
-	 * @return void
+	 * @return self
 	 */
-	public function replace(array $headers = [])
+	public function replace(array $headers = []): self
 	{
 		$this->headers = [];
 		$this->add($headers);
@@ -116,7 +116,7 @@ class Headers implements IteratorAggregate, Countable
 	 * 
 	 * @return array An array of headers
 	 */
-	public function allPreserveCase()
+	public function allPreserveCase(): array
 	{
 		$headers = [];
 		
@@ -165,9 +165,9 @@ class Headers implements IteratorAggregate, Countable
 	 * @param  bool  $replace  If you want to replace the value exists by the header, 
 	 * 					       it is not overwritten / overwritten when it is false
 	 *
-	 * @return $this
+	 * @return self
 	 */
-	public function set($key, $values, $replace = true)
+	public function set($key, $values, $replace = true): self
 	{
 		$key = str_replace('_', '-', strtolower($key));
 
@@ -197,7 +197,7 @@ class Headers implements IteratorAggregate, Countable
 	 * 
 	 * @return bool  true if the parameter exists, false otherwise
 	 */
-	public function has($key)
+	public function has($key): bool
 	{
 		return array_key_exists(str_replace('_', '-', strtolower($key)), $this->all());
 	}
@@ -235,7 +235,7 @@ class Headers implements IteratorAggregate, Countable
 	 * 
 	 * @return int The number of headers
 	 */
-	public function count()
+	public function count(): int
 	{
 		return count($this->headers);
 	}
@@ -245,7 +245,7 @@ class Headers implements IteratorAggregate, Countable
 	 * 
 	 * @return string The headers
 	 */
-	public function __toString()
+	public function __toString(): string
 	{
 		if ( ! $headers = $this->all()) {
 			return '';
