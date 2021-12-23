@@ -93,7 +93,7 @@ class RedirectResponse extends Response
      * 
      * @return string
      */
-    public function getTargetUrl()
+    public function getTargetUrl(): string
     {
         return $this->targetUrl;
     }
@@ -104,9 +104,9 @@ class RedirectResponse extends Response
     *
     * @param  string  $url  The url
     *
-    * @return $this
+    * @return self
     */
-    public function setTargetUrl($url)
+    public function setTargetUrl($url): self
     {
         if ('' === ($url ?? '')) {
             throw new InvalidArgumentException('Cannot redirect to an empty URL');
@@ -149,7 +149,7 @@ class RedirectResponse extends Response
      * 
      * @return void
      */
-    public function setRequest(Request $request)
+    public function setRequest(Request $request): void
     {
         $this->request = $request;
     }
