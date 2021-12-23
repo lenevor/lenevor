@@ -89,7 +89,7 @@ class Parameters implements IteratorAggregate, Countable
 	 * 
 	 * @return array
 	 */
-	public function replace(array $parameters = []): array
+	public function replace(array $parameters = [])
 	{
 		$this->parameters = $parameters;
 	}
@@ -101,7 +101,7 @@ class Parameters implements IteratorAggregate, Countable
 	 * 
 	 * @return array
 	 */
-	public function add(array $parameters = []): array
+	public function add(array $parameters = [])
 	{
 		$this->parameters = array_replace($this->parameters, $parameters);
 	}
