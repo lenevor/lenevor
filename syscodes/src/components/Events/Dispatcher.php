@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Events;
 
+use Closure;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Contracts\Container\Container;
