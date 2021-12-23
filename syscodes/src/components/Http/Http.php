@@ -36,7 +36,7 @@ class Http
 	 *
 	 * @return string
 	 */
-	public function protocol()
+	public function protocol(): string
 	{
 		if ($this->server('HTTPS') == 'on' ||
 			$this->server('HTTPS') == 1 ||
@@ -97,7 +97,7 @@ class Http
 	 * 
 	 * @return string
 	 */
-	public function detectPath(string $protocol = '') 
+	public function detectPath(string $protocol = ''): string
 	{
 		if (empty($protocol)) {
 			$protocol = 'REQUEST_URI';
@@ -124,7 +124,7 @@ class Http
 	 *
 	 * @return string
 	 */
-	protected function parseRequestUri()
+	protected function parseRequestUri(): string
 	{
 		if ( ! isset($_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME'])) {
 			return '';
@@ -171,7 +171,7 @@ class Http
 	 * 
 	 * @return string
 	 */
-	protected function parseQueryString()
+	protected function parseQueryString(): string
 	{
 		$uri = $_SERVER['QUERY_STRING'] ?? @getenv('QUERY_STRING');
 
@@ -195,7 +195,7 @@ class Http
 	 *
 	 * @return string
 	 */
-	protected function filterDecode($uri)
+	protected function filterDecode($uri): string
 	{
 		// Remove all characters except letters,
 		// digits and $-_.+!*'(),{}|\\^~[]`<>#%";/?:@&=.
@@ -210,7 +210,7 @@ class Http
 	 * 
 	 * @return string
 	 */
-	public function parseBaseUrl() 
+	public function parseBaseUrl(): string
 	{
 		$filename = basename($this->server('SCRIPT_FILENAME'));
 		
@@ -271,7 +271,7 @@ class Http
 	 * 
 	 * @return string
 	 */
-	public function parsePathInfo()
+	public function parsePathInfo(): string
 	{
 		if (null === ($requestUri = $this->parseRequestUri())) {
 			return '/';
