@@ -35,7 +35,7 @@ final class Inputs extends Parameters
     /**
 	 * {@inheritdoc}
 	 */
-	public function all(string $key = null)
+	public function all(string $key = null): array
 	{
 		return parent::all($key);
     }
@@ -50,11 +50,7 @@ final class Inputs extends Parameters
 	}
 
 	/**
-	 * Adds input values.
-     * 
-     * @param  array  $inputs
-     * 
-     * @return mixed
+	 * {@inheritdoc}
 	 */
 	public function add(array $inputs = [])
 	{
