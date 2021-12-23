@@ -127,11 +127,11 @@ class JsonResponse extends Response
      * 
      * @param  array  $data 
      * 
-     * @return $this
+     * @return self
      * 
      * @throws \InvalidArgumentException
      */
-    public function setData($data = [])
+    public function setData($data = []): self
     {
         $options = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
 
@@ -161,7 +161,7 @@ class JsonResponse extends Response
      * 
      * @return bool
      */
-    protected function hasJsonValidOptions($jsonError)
+    protected function hasJsonValidOptions($jsonError): bool
     {
         if ($jsonError === JSON_ERROR_NONE) {
             return true;
@@ -182,7 +182,7 @@ class JsonResponse extends Response
      * 
      * @return bool
      */
-    public function hasJsonEncondingOptions($option)
+    public function hasJsonEncondingOptions($option): bool
     {
         return (bool) ($this->jsonEncodingOptions & $option);
     }
@@ -192,9 +192,9 @@ class JsonResponse extends Response
      * 
      * @param  string  $json
      * 
-     * @return $this
+     * @return self
      */
-    public function setJson($json)
+    public function setJson($json): self
     {
         $this->data = $json;
 
@@ -218,9 +218,9 @@ class JsonResponse extends Response
     /**
      * Updates the content and headers according to the JSON data.
      *
-     * @return $this
+     * @return self
      */
-    protected function update()
+    protected function update(): self
     {
         if ( ! $this->headers->has('Content-Type') || 'text/javascript' === $this->headers->get('Content-Type')) {
             $this->headers->set('Content-Type', 'application/json');
