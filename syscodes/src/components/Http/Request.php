@@ -206,8 +206,14 @@ class Request
 	 * 
 	 * @return void
 	 */
-	public function initialize(array $queryString = [], array $request = [], array $cookies = [], array $files = [], array $server = [], $content = null)
-	{
+	public function initialize(
+		array $queryString = [], 
+		array $request = [], 
+		array $cookies = [], 
+		array $files = [], 
+		array $server = [], 
+		$content = null
+	): void {
 		$this->queryString  = new Inputs($queryString);
 		$this->request      = new Inputs($request);
 		$this->cookies      = new Inputs($cookies);
@@ -281,8 +287,13 @@ class Request
 	 * 
 	 * @return static
 	 */
-	protected static function createFromRequestFactory(array $queryString = [], array $request = [], array $cookies = [], array $files = [], array $server = [])
-	{
+	protected static function createFromRequestFactory(
+		array $queryString = [], 
+		array $request = [], 
+		array $cookies = [], 
+		array $files = [], 
+		array $server = []
+	) {
 		if (self::$requestURI) {
 			$request = (self::$requestURI)($queryString, $request, $cookies, $files, $server);
 
@@ -307,8 +318,13 @@ class Request
 	 * 
 	 * @return static
 	 */
-	public function duplicate(array $queryString = [], array $request = [], array $cookies = [], array $files = [], array $server = [])
-	{
+	public function duplicate(
+		array $queryString = [], 
+		array $request = [], 
+		array $cookies = [],
+		array $files = [],
+		array $server = []
+	) {
 		$duplicate = clone $this;
 
 		if (null !== $queryString) {
