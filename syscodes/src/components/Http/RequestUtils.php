@@ -36,7 +36,7 @@ class RequestUtils
      * 
      * @return string
      */
-    public static function normalizedQueryString(?string $query)
+    public static function normalizedQueryString(?string $query): string
     {
         if ('' === ($query ?? '')) {
             return '';
