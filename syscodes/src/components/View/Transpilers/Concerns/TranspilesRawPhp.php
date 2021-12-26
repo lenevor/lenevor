@@ -36,7 +36,7 @@ trait TranspilesRawPhp
      * 
      * @return string
      */
-    protected function transpilePhp($expression)
+    protected function transpilePhp($expression): string
     {
         if ($expression) {
             return "<?php {$expression}; ?>";
@@ -50,9 +50,9 @@ trait TranspilesRawPhp
      * 
      * @param  string  $expression
      * 
-     * @return
+     * @return string
      */
-    protected function transpileUnset($expression)
+    protected function transpileUnset($expression): string
     {
         return "<?php unset{$expression}; ?>";
     }
