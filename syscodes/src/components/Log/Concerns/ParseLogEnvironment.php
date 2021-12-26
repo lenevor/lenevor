@@ -34,7 +34,7 @@ trait ParseLogEnvironment
      * 
      * @return string
      */
-    protected function getLogEnvironment()
+    protected function getLogEnvironment(): string
     {
         return $this->app->environment() ?? 'production';
     }
