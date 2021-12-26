@@ -77,11 +77,7 @@ class Pipeline implements PipelineContract
     }
 
     /**
-     * Set the given object being sent on the pipeline.
-     * 
-     * @param  mixed  $sender
-     * 
-     * @return self
+     * {@inheritdoc}
      */
     public function send($sender): self
     {
@@ -91,11 +87,7 @@ class Pipeline implements PipelineContract
     }
 
     /**
-     * Set the array of pipes.
-     * 
-     * @param  array|mixed  $pipes
-     * 
-     * @return self
+     * {@inheritdoc}
      */
     public function through($pipes): self
     {
@@ -105,11 +97,7 @@ class Pipeline implements PipelineContract
     }
 
     /**
-     * Set the method to call on the stops.
-     * 
-     * @param  string  $method
-     * 
-     * @return self
+     * {@inheritdoc}
      */
     public function method($method): self
     {
@@ -119,11 +107,7 @@ class Pipeline implements PipelineContract
     }
 
     /**
-     * Run the pipeline with a final destination callback.
-     * 
-     * @param  \Closure  $destination
-     * 
-     * @return mixed
+     * {@inheritdoc}
      */
     public function then(Closure $destination)
     {
@@ -149,7 +133,7 @@ class Pipeline implements PipelineContract
      * 
      * @return \Closure
      */
-    protected function call()
+    protected function call(): Closure
     {
         return function ($stack, $pipe) {
             return function ($passable) use ($stack, $pipe) {
@@ -203,7 +187,7 @@ class Pipeline implements PipelineContract
      * 
      * @return \Closure
      */
-    protected function prepareDestination(Closure $destination)
+    protected function prepareDestination(Closure $destination): Closure
     {
         return function ($passable) use ($destination) {
             try {
