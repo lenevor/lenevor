@@ -105,13 +105,9 @@ class Factory implements FactoryContract
 	}
 	
 	/**
-	 * Check existance view file.
-	 * 
-	 * @param  string  $view
-	 *
-	 * @return bool
+	 * {@inheritdoc}
 	 */
-	public function viewExists($view)
+	public function viewExists($view): bool
 	{
 		try {
 			$this->finder->find($view);
@@ -123,17 +119,9 @@ class Factory implements FactoryContract
 	}
 	
 	/**
-	 * Global and local data are merged and extracted to create local variables within the view file.
-	 * Renders the view object to a string.
-	 *
-	 * @example $output = $view->make();
-	 *
-	 * @param  string  $view  View filename
-	 * @param  array  $data  Array of values
-	 *
-	 * @return string
+	 * {@inheritdoc}
 	 */
-	public function make($view, $data = []) 
+	public function make($view, $data = [])
 	{
 		$path = $this->finder->find(
 			$view = $this->normalizeName($view)
@@ -152,7 +140,7 @@ class Factory implements FactoryContract
 	 * 
 	 * @return string
 	 */
-	protected function normalizeName($name)
+	protected function normalizeName($name): string
 	{
 		return ViewName::normalize($name);
 	}
@@ -176,7 +164,7 @@ class Factory implements FactoryContract
 	 * 
 	 * @param  string  $path
 	 * 
-	 * @return \Illuminate\Contracts\View\Engine
+	 * @return \Syscodes\Contracts\View\Engine
 	 * 
 	 * @throws \InvalidArgumentException
 	 */
@@ -208,34 +196,23 @@ class Factory implements FactoryContract
 	}
 	
 	/**
-	 * Call the creator for a given view.
-	 * 
-	 * @param  \Syscodes\View\View  $view
-	 * 
-	 * @return void
+	 * {@inheritdoc}
 	 */
-	public function callCreator(View $view)
+	public function callCreator(View $view): void
 	{
 		$this->events->dispatch('creating: '.$view->getView(), [$view]);
 	}
 	
 	/**
-	 * Get the extension to engine bindings.
-	 * 
-	 * @return array
+	 * {@inheritdoc}
 	 */
-	public function getExtensions()
+	public function getExtensions(): array
 	{
 		return $this->extensions;
 	}
 	
 	/**
-	 * Add a piece of shared data to the environment.
-	 * 
-	 * @param  array|string  $key
-	 * @param  mixed|null  $value  
-	 * 
-	 * @return mixed
+	 * {@inheritdoc}
 	 */
 	public function share($key, $value = null)
 	{
@@ -249,14 +226,9 @@ class Factory implements FactoryContract
 	}
 
 	/**
-	 * Replace the namespace hints for the given namespace.
-	 * 
-	 * @param  string  $namespace
-	 * @param  string|array  $hints
-	 * 
-	 * @return $this
+	 * {@inheritdoc}
 	 */
-	public function replaceNamespace($namespace, $hints)
+	public function replaceNamespace($namespace, $hints): self
 	{
 		$this->finder->replaceNamespace($namespace, $hints);
 
@@ -264,41 +236,33 @@ class Factory implements FactoryContract
 	}
 
 	/**
-	 * Increment the rendering counter.
-	 * 
-	 * @return void
+	 * {@inheritdoc}
 	 */
-	public function increment()
+	public function increment(): int
 	{
 		return $this->renderCount++;
 	}
 
 	/**
-	 * Decrement the rendering counter.
-	 * 
-	 * @return void
+	 * {@inheritdoc}
 	 */
-	public function decrement()
+	public function decrement(): int
 	{
 		return $this->renderCount--;
 	}
 
 	/**
-	 * Check if there are no active render operations.
-	 * 
-	 * @return bool
+	 * {@inheritdoc}
 	 */
-	public function doneRendering()
+	public function doneRendering(): bool
 	{
 		return $this->renderCount == 0;
 	}
 
 	/**
-	 * Flush all of the parser state like sections.
-	 * 
-	 * @return void
+	 * {@inheritdoc}
 	 */
-	public function flushState()
+	public function flushState(): void
 	{
 		$this->renderCount = 0;
 
@@ -306,11 +270,9 @@ class Factory implements FactoryContract
 	}
 
 	/**
-	 * Flush all of the section contents if done rendering.
-	 * 
-	 * @return void
+	 * {@inheritdoc}
 	 */
-	public function flushStateIfDoneRendering()
+	public function flushStateIfDoneRendering(): void
 	{
 		if ($this->doneRendering()) {
 			$this->flushState();
@@ -318,11 +280,9 @@ class Factory implements FactoryContract
 	}
 
 	/**
-	 * Get all of the shared data for the environment.
-	 * 
-	 * @return void
+	 * {@inheritdoc}
 	 */
-	public function getShared()
+	public function getShared(): array
 	{
 		return $this->shared;
 	}
