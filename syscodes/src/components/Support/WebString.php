@@ -55,12 +55,14 @@ class WebString implements Webable
      * 
      * @return string
      */
-    public function toHtml()
+    public function toHtml(): string
     {
         return $this->html;
     }
 
     /**
+     * Magic method.
+     * 
      * Get the HTML string.
      * 
      * @return string
