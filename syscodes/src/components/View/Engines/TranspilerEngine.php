@@ -71,7 +71,7 @@ class TranspilerEngine extends PhpEngine
      * 
      * @return string
      */
-    public function get($path, array $data = [])
+    public function get($path, array $data = []): string
     {
         $this->lastTranspiled[] = $path;
 
@@ -98,7 +98,7 @@ class TranspilerEngine extends PhpEngine
      * 
      * @throws \Throwable 
      */
-    protected function handleViewException(Throwable $e, $obLevel)
+    protected function handleViewException(Throwable $e, $obLevel): void
     {
         $e = new ErrorException($this->getMessage($e), 0, 1, $e->getFile(), $e->getLine(), $e);
 
@@ -112,7 +112,7 @@ class TranspilerEngine extends PhpEngine
      * 
      * @return string
      */
-    protected function getMessage(Throwable $e)
+    protected function getMessage(Throwable $e): string
     {
         return $e->getMessage().' (View: '.realpath(last($this->lastTranspiled)).')';
     }
