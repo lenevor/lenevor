@@ -43,7 +43,7 @@ trait TranspilesJson
      * 
      * @return string
      */
-    protected function transpileJson($expression)
+    protected function transpileJson($expression): string
     {
         $sections = explode(',', $this->stripParentheses($expression));
 
