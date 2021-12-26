@@ -67,25 +67,17 @@ abstract class Transpiler
     }
 
     /**
-     * Get the path to the transpiled version of a view.
-     * 
-     * @param  string  $path
-     * 
-     * @return string
+     * {@inheritdoc}
      */
-    public function getTranspilePath($path)
+    public function getTranspilePath($path): string
     {
         return $this->cachePath.DIRECTORY_SEPARATOR.sha1($path).'.php';
     }
 
     /**
-     * Determine if the view at the given path is expired.
-     * 
-     * @param  string  $path
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
-    public function isExpired($path)
+    public function isExpired($path): bool
     {
         $compiled = $this->getTranspilePath($path);
 
@@ -104,7 +96,7 @@ abstract class Transpiler
      * 
      * @return void
      */
-    protected function transpiledDirectoryExists($path)
+    protected function transpiledDirectoryExists($path): void
     {
         if ( ! $this->files->exists(dirname($path))) {
             $this->files->makeDirectory(dirname($path), 0777, true, true);
