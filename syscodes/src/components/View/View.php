@@ -146,19 +146,17 @@ class View implements ArrayAccess, Webable, ViewContract
 	/**
 	 * Get the evaluated contents of the view.
 	 * 
-	 * @return void
+	 * @return string
 	 */
-	protected function getContents()
+	protected function getContents(): string
 	{
 		return $this->engine->get($this->path, $this->getArrayData());
 	}
 
 	/**
-	 * The view data will be extracted.
-	 * 
-	 * @return array
+	 * {@inheritdoc}
 	 */
-	public function getArrayData()
+	public function getArrayData(): array
 	{
 		$data = array_merge($this->factory->getShared(), $this->data);
 		
@@ -168,11 +166,7 @@ class View implements ArrayAccess, Webable, ViewContract
 	}
 
 	/**
-	 * Get the sections of the rendered view.
-	 * 
-	 * @return array
-	 * 
-	 * @throws \Throwable
+	 * {@inheritdoc}
 	 */
 	public function renderSections()
 	{
@@ -182,16 +176,9 @@ class View implements ArrayAccess, Webable, ViewContract
 	}
 
 	/**
-	 * Add a piece of data to the view.
-	 *
-	 * @example $view->assign($content, $data);
-	 *
-	 * @param  string|array  $key
-	 * @param  mixed  $value  
-	 *
-	 * @return $this
+	 * {@inheritdoc}
 	 */
-	public function assign($key, $value = null)
+	public function assign($key, $value = null): self
 	{
 		if (is_array($key)) {
 			$this->data = array_merge($this->data, $key);
@@ -203,18 +190,9 @@ class View implements ArrayAccess, Webable, ViewContract
 	}
 
 	/**
-	 * Assigns a value by reference. The benefit of binding is that values can be altered
-	 * without re-setting them. It is also possible to bind variables before they have values. 
-	 * Assigned values will be available as a variable within the view file:
-	 *     
-	 * @example $view->bind('ref', $bar);
-	 *
-	 * @param  string  $key  Variable name
-	 * @param  mixed  $value  Referenced variable
-	 *
-	 * @return $this
+	 * {@inheritdoc}
 	 */
-	public function bind($key, & $value) 
+	public function bind($key, & $value): self
 	{
 		$this->data[$key] =& $value;
 
@@ -222,11 +200,9 @@ class View implements ArrayAccess, Webable, ViewContract
 	}
 
 	/**
-	 * Get the array of view data.
-	 * 
-	 * @return array
+	 * {@inheritdoc}
 	 */
-	public function getData()
+	public function getData(): array
 	{
 		return $this->data;
 	}
@@ -236,29 +212,23 @@ class View implements ArrayAccess, Webable, ViewContract
 	 * 
 	 * @return string
 	 */
-	public function getView()
+	public function getView(): string
 	{
 		return $this->view;
 	}
 
 	/**
-	 * Get the path to the view file.
-	 * 
-	 * @return string
+	 * {@inheritdoc}
 	 */
-	public function getPath()
+	public function getPath(): string
 	{
 		return $this->path;
 	}
 
 	/**
-	 * Set the path to the view file.
-	 * 
-	 * @param  string  $path
-	 * 
-	 * @return void
+	 * {@inheritdoc}
 	 */
-	public function setPath($path)
+	public function setPath($path): void
 	{
 		$this->path = $path;
 	}
@@ -314,20 +284,9 @@ class View implements ArrayAccess, Webable, ViewContract
 	}
 
 	/**
-	 * Assigns a variable by name. Assigned values will be available as a
-	 * variable within the view file:
-	 *
-	 * This value can be accessed as $var within the view
-	 * @example $view->set(array('food' => 'bread', 'beverage' => 'water'));
-	 *
-	 * @param  string|array  $key    Variable name
-	 * @param  mixed         $value  Value
-	 *
-	 * @return $this
-	 *
-	 * @uses   instanceof \Traversable
+	 * {@inheritdoc}
 	 */
-	public function set($key, $value = null) 
+	public function set($key, $value = null): self
 	{
 		if (is_array($key) || $key instanceof Traversable) {
 			foreach ($key as $name => $value) {
@@ -400,7 +359,9 @@ class View implements ArrayAccess, Webable, ViewContract
 	}
 
 	/**
-	 * Magic method. Searches for the given variable and returns its value.
+	 * Magic method.
+	 * 
+	 * Searches for the given variable and returns its value.
 	 * Local variables will be returned before global variables.
 	 *
 	 * @example $value = $view->var;
@@ -417,7 +378,9 @@ class View implements ArrayAccess, Webable, ViewContract
 	}
 
 	/**
-	 * Magic method. Calls [$this->set] with the same parameters.
+	 * Magic method.
+	 * 
+	 * Calls [$this->set] with the same parameters.
 	 *
 	 * @example $view->var = 'something';
 	 *
@@ -432,7 +395,9 @@ class View implements ArrayAccess, Webable, ViewContract
 	}
 
 	/**
-	 * Magic method. Determines if a variable is set.
+	 * Magic method.
+	 * 
+	 * Determines if a variable is set.
 	 *
 	 * @example isset($view->foo);
 	 *
@@ -448,7 +413,9 @@ class View implements ArrayAccess, Webable, ViewContract
 	}
 
 	/**
-	 * Magic method. Unsets a given variable.
+	 * Magic method.
+	 * 
+	 * Unsets a given variable.
 	 *
 	 * @example unset($view->var);
 	 *
@@ -485,9 +452,7 @@ class View implements ArrayAccess, Webable, ViewContract
 	}
 
 	/**
-	 * Get content as a string of HTML.
-	 * 
-	 * @return string
+	 * {@inheritdoc}
 	 */
 	public function toHtml()
 	{
@@ -495,7 +460,9 @@ class View implements ArrayAccess, Webable, ViewContract
 	}
 
 	/**
-	 * Magic method. Returns the output of [static::render].
+	 * Magic method.
+	 * 
+	 * Returns the output of [static::render].
 	 *
 	 * @return string
 	 *
