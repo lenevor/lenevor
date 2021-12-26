@@ -89,19 +89,15 @@ class Store implements Session
     }
 
     /**
-     * Get the name of the session.
-     * 
-     * @return string
+     * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * Start the session.
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function start()
     {
@@ -119,7 +115,7 @@ class Store implements Session
      * 
      * @return void
      */
-    protected function loadSession()
+    protected function loadSession(): void
     {
         $this->items = array_merge($this->items, $this->readToHandler());
     }
@@ -137,45 +133,33 @@ class Store implements Session
     }
 
     /**
-     * Get all of the session data.
-     * 
-     * @return array
+     * {@inheritdoc}
      */
-    public function all()
+    public function all(): array
     {
         return $this->items;
     }
 
     /**
-     * Get the current session ID.
-     * 
-     * @return string
+     * {@inheritdoc}
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
     /**
-     * Set the session ID.
-     * 
-     * @param  string  $id
-     * 
-     * @return void
+     * {@inheritdoc}
      */
-    public function setId($id)
+    public function setId($id): void
     {
         $this->id = $this->isValidId($id) ? $id : $this->generateSessionId();
     }
     
     /**
-     * Determine if this is a valid session ID.
-     * 
-     * @param  string  $id
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
-    public function isValidId($id)
+    public function isValidId($id): bool
     {
         return is_string($id) && ctype_alnum($id) && strlen($id) === 40;
     }
@@ -185,15 +169,13 @@ class Store implements Session
      * 
      * @return string
      */
-    protected function generateSessionId()
+    protected function generateSessionId(): string
     {
         return sha1(uniqid('', true).Str::random(40).microtime(true));
     }
 
     /**
-     * Save the session data to storage.
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function save()
     {
@@ -203,11 +185,7 @@ class Store implements Session
     }
 
     /**
-     * Remove one or many items from the session.
-     * 
-     * @param  string|array  $keys
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function pull($keys)
     {
@@ -215,12 +193,7 @@ class Store implements Session
     }
 
     /**
-     * Push a value onto a session array.
-     * 
-     * @param  string  $key
-     * @param  mixed  $value
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function push($key, $value)
     {
@@ -232,24 +205,15 @@ class Store implements Session
     }
 
     /**
-     * Checks if an a key is present and not null.
-     * 
-     * @param  string|array  $key
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
-    public function has($key)
+    public function has($key): bool
     {
         return ! is_null($this->get($key));
     }
 
     /**
-     * Get an key from the session.
-     * 
-     * @param  string  $key
-     * @param  mixed  $default
-     * 
-     * @return mixed
+     * {@inheritdoc}
      */
     public function get($key, $default = null)
     {
@@ -257,12 +221,7 @@ class Store implements Session
     }
 
     /**
-     * Put a key / value pair or array of key / value pairs in the session.
-     * 
-     * @param  string|array  $key
-     * @param  mixed  $value
-     * 
-     * @return mixed
+     * {@inheritdoc}
      */
     public function put($key, $value = null)
     {
@@ -276,11 +235,7 @@ class Store implements Session
     }
 
     /**
-     * Remove an key from the session.
-     * 
-     * @param  string  $key
-     * 
-     * @return mixed
+     * {@inheritdoc}
      */
     public function remove($key)
     {
@@ -288,12 +243,7 @@ class Store implements Session
     }
 
     /**
-     * Flash a key / value pair to the session.
-     * 
-     * @param  string  $key
-     * @param  mixed  $value  
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function flash(string $key, $value = true)
     {
@@ -315,9 +265,7 @@ class Store implements Session
     }
 
     /**
-     * Remove all of the keys from the session.
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function flush()
     {
@@ -325,9 +273,7 @@ class Store implements Session
     }
 
     /**
-     * Get the CSRF token value.
-     * 
-     * @return string
+     * {@inheritdoc}
      */
     public function token()
     {
@@ -335,9 +281,7 @@ class Store implements Session
     }
 
     /**
-     * Regenerate the CSRF token value.
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function regenerateToken()
     {
@@ -345,11 +289,7 @@ class Store implements Session
     }
 
     /**
-     * Generate a new session identifier.
-     * 
-     * @param  bool  $destroy
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function regenerate($destroy = false)
     {
@@ -365,7 +305,7 @@ class Store implements Session
      * 
      * @return bool
      */
-    public function migrate($destroy = false)
+    public function migrate($destroy = false): bool
     {
         if ($destroy) {
             $this->handler->destroy($this->getId());
@@ -381,7 +321,7 @@ class Store implements Session
      * 
      * @return bool
      */
-    public function isStarted()
+    public function isStarted(): bool
     {
         return $this->started;
     }
