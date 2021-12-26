@@ -39,7 +39,7 @@ class RouteGroup
 	 * 
 	 * @return array
 	 */
-	public static function mergeGroup($new, $old)
+	public static function mergeGroup($new, $old): array
 	{
 		if (isset($new['domain'])) {
 			unset($old['domain']);
@@ -99,7 +99,7 @@ class RouteGroup
 	 * 
 	 * @return array
 	 */
-	protected static function formatUseWhere($new, $old)
+	protected static function formatUseWhere($new, $old): array
 	{
 		return array_merge(
 			$old['where'] ?? [],
@@ -115,7 +115,7 @@ class RouteGroup
 	 * 
 	 * @return array
 	 */
-	protected static function formatUseAs($new, $old)
+	protected static function formatUseAs($new, $old): array
 	{
 		if (isset($old['as'])) {
 			$new['as'] = $old['as'].($new['as'] ?? '');
