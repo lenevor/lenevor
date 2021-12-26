@@ -82,7 +82,7 @@ class UrlGenerator
      * 
      * @return string
      */
-    public function current()
+    public function current(): string
     {
         return $this->to($this->request->getPathInfo());
     }
@@ -94,7 +94,7 @@ class UrlGenerator
      * 
      * @return string
      */
-    public function previous($fallback = false)
+    public function previous($fallback = false): string
     {
         $referer = $this->request->referer();
 
@@ -118,7 +118,7 @@ class UrlGenerator
      * 
      * @return string
      */
-    public function to($path, $options = [], $secure = null)
+    public function to($path, $options = [], $secure = null): string
     {
         // First we will check if the URL is already a valid URL. If it is we will not
         // try to generate a new one but will simply return the URL as is, which is
@@ -144,7 +144,7 @@ class UrlGenerator
      * 
      * @return string
      */
-    public function secure($path, $parameters = [])
+    public function secure($path, $parameters = []): string
     {
         return $this->to($path, $parameters, true);
     }
@@ -157,7 +157,7 @@ class UrlGenerator
      * 
      * @return string
      */
-    public function asset($path, $secure = null)
+    public function asset($path, $secure = null): string
     {
         if ($this->isValidUrl($path)) {
             return $path;
@@ -178,7 +178,7 @@ class UrlGenerator
      * 
      * @return string
      */
-    public function secureAsset($path)
+    public function secureAsset($path): string
     {
         return $this->asset($path, true);
     }
@@ -190,7 +190,7 @@ class UrlGenerator
      * 
      * @return string
      */
-    protected function removeIndex($root)
+    protected function removeIndex($root): string
     {
         $index = 'index.php';
 
@@ -204,7 +204,7 @@ class UrlGenerator
      * 
      * @return string
      */
-    public function getScheme($secure)
+    public function getScheme($secure): string
     {
         if (is_null($secure)) {
             return $this->forcedSchema ?: $this->request->getScheme().'://';
@@ -220,7 +220,7 @@ class UrlGenerator
      * 
      * @return void
      */
-    public function forcedSchema($schema)
+    public function forcedSchema($schema): string
     {
         $this->forcedSchema = $schema.'://'; 
     }
@@ -237,8 +237,12 @@ class UrlGenerator
      * 
      * @throws \InvalidArgumentException
      */
-    public function route($name, array $parameters = [], $forced = true, $route = null)
-    {
+    public function route(
+        $name, 
+        array $parameters = [], 
+        $forced = true, 
+        $route = null
+    ): string {
         if ( ! is_null($route = $route ?? $this->routes->getByName($name))) {
             return $this->toRoute($route, $parameters, $forced);
         }
@@ -255,7 +259,7 @@ class UrlGenerator
      * 
      * @return string
      */
-    protected function toRoute($route, $parameters, $forced)
+    protected function toRoute($route, $parameters, $forced): string
     {
         $domain = $this->getRouteDomain($route);
         $root   = $this->replaceRoot($route, $domain, $parameters);
@@ -276,7 +280,7 @@ class UrlGenerator
      * 
      * @throws \InvalidArgumentException
      */
-    public function action($action, $parameters = [], $forced = true)
+    public function action($action, $parameters = [], $forced = true): string
     {
         return $this->route($action, $parameters, $forced, $this->routes->getByAction($action));
     }
@@ -290,7 +294,7 @@ class UrlGenerator
      * 
      * @return string
      */
-    protected function replaceRoot($route, $domain, &$parameters)
+    protected function replaceRoot($route, $domain, &$parameters): string
     {
         return $this->replaceRouteParameters($this->getRouteRoot($route, $domain), $parameters);
     }
@@ -303,7 +307,7 @@ class UrlGenerator
      * 
      * @return string
      */
-    protected function replaceRouteParameters($path, array &$parameters)
+    protected function replaceRouteParameters($path, array &$parameters): string
     {
         if (count($parameters) > 0) {
             $path = preg_replace_sub(
@@ -336,7 +340,7 @@ class UrlGenerator
      * 
      * @return string
      */
-    protected function getRouteDomain($route)
+    protected function getRouteDomain($route): string
     {
         return $route->domain() ? $this->formatDomain($route) : null;
     }
@@ -348,7 +352,7 @@ class UrlGenerator
      * 
      * @return string
      */
-    protected function formatDomain($route)
+    protected function formatDomain($route): string
     {
         return $this->addPortToDomain($this->getDomainAndScheme($route));
     }
@@ -360,7 +364,7 @@ class UrlGenerator
      * 
      * @return string
      */
-    protected function addPortToDomain($domain)
+    protected function addPortToDomain($domain): string
     {
         if (in_array($this->request->getPort(), [80, 443])) {
             return $domain;
@@ -376,7 +380,7 @@ class UrlGenerator
      * 
      * @return string
      */
-    protected function getDomainAndScheme($route)
+    protected function getDomainAndScheme($route): string
     {
         return $this->getRouteScheme($route).$route->domain();
     }
@@ -389,7 +393,7 @@ class UrlGenerator
      * 
      * @return string
      */
-    protected function getRouteRoot($route, $domain)
+    protected function getRouteRoot($route, $domain): string
     {
         return $this->getRootUrl($this->getRouteScheme($route), $domain);
     }
@@ -401,7 +405,7 @@ class UrlGenerator
      * 
      * @return string
      */
-    protected function getRouteScheme($route)
+    protected function getRouteScheme($route): string
     {
         if ($route->httpOnly) {
             return $this->getScheme(false);
@@ -420,7 +424,7 @@ class UrlGenerator
      * 
      * @return string
      */
-    protected function getRootUrl($scheme, $root = null)
+    protected function getRootUrl($scheme, $root = null): string
     {
         if (is_null($root)) {
             $root = $this->forcedRoot ?: $this->request->root();
@@ -438,7 +442,7 @@ class UrlGenerator
      * 
      * @return void
      */
-    public function forcedRoot($root)
+    public function forcedRoot($root): void
     {
         $this->forcedRoot = $root;
     }
@@ -450,7 +454,7 @@ class UrlGenerator
      * 
      * @return bool
      */
-    public function isValidUrl($path)
+    public function isValidUrl($path): bool
     {
         if (Str::startsWith($path, ['#', '//', 'mailto:', 'tel:', 'http://', 'https://'])) {
             return true;
@@ -468,7 +472,7 @@ class UrlGenerator
      * 
      * @return string
      */
-    protected function trimUrl($root, $path, $tail = '')
+    protected function trimUrl($root, $path, $tail = ''): string
     {
         return trim($root.'/'.trim($path.'/'.$tail, '/'), '/');
     }
@@ -490,7 +494,7 @@ class UrlGenerator
      * 
      * @return void
      */
-    public function setRequest(Request $request)
+    public function setRequest(Request $request): void
     {
         $this->request = $request;
     }
