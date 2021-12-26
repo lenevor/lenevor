@@ -210,6 +210,8 @@ class Logger implements LoggerInterface
     }
     
     /**
+     * Magic method.
+     * 
      * Dynamically proxy method calls to the underlying logger.
      * 
      * @param  string  $method
