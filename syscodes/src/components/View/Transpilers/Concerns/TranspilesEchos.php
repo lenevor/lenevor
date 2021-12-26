@@ -36,7 +36,7 @@ trait TranspilesEchos
      * 
      * @return string
      */
-    protected function transpileEchos($value)
+    protected function transpileEchos($value): string
     {
         foreach ($this->getEchoMethods() as $method)
         {
@@ -51,7 +51,7 @@ trait TranspilesEchos
      * 
      * @return array
      */
-    protected function getEchoMethods()
+    protected function getEchoMethods(): array
     {
         return [
             'transpileRawEchos',
@@ -67,7 +67,7 @@ trait TranspilesEchos
      * 
      * @return string
      */
-    protected function transpileRawEchos($value)
+    protected function transpileRawEchos($value): string
     {
         $pattern = sprintf('/(@)?%s\s*(.+?)\s*%s(\r?\n)?/s', $this->rawTags[0], $this->rawTags[1]);
         
@@ -87,7 +87,7 @@ trait TranspilesEchos
      * 
      * @return string
      */
-    protected function transpileRegularEchos($value)
+    protected function transpileRegularEchos($value): string
     {
         $pattern = sprintf('/(@)?%s\s*(.+?)\s*%s(\r?\n)?/s', $this->contentTags[0], $this->contentTags[1]);
         
@@ -109,7 +109,7 @@ trait TranspilesEchos
      * 
      * @return string
      */
-    protected function transpileEscapedEchos($value)
+    protected function transpileEscapedEchos($value): string
     {
         $pattern = sprintf('/(@)?%s\s*(.+?)\s*%s(\r?\n)?/s', $this->escapedTags[0], $this->escapedTags[1]);
         
