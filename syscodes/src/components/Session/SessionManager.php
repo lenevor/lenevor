@@ -147,9 +147,7 @@ class SessionManager extends Manager
     }
 
     /**
-     * Get the default session driver name.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getDefaultDriver()
     {
