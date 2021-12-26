@@ -106,9 +106,9 @@ trait RouteDependencyResolver
      * @param  string  $class
      * @param  array  $parameters
      * 
-     * @return
+     * @return bool
      */
-    protected function getInParameters($class, array $parameters)
+    protected function getInParameters($class, array $parameters): bool
     {
         return ! is_null(Arr::first($parameters, function ($value) use ($class) {
             return $value instanceof $class;
@@ -122,9 +122,9 @@ trait RouteDependencyResolver
      * @param  string  $key
      * @param  mixed  $instance
      * 
-     * return void
+     * @return void
      */
-    protected function spliceOnParameters(array &$parameters, $key, $instance)
+    protected function spliceOnParameters(array &$parameters, $key, $instance): void
     {
         array_splice($parameters, $key, 0, [$instance]);
     }
