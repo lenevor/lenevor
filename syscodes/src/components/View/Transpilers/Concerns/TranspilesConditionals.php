@@ -43,7 +43,7 @@ trait TranspilesConditionals
      * 
      * @return string
      */
-    protected function transpileIf($expression)
+    protected function transpileIf($expression): string
     {
         return "<?php if{$expression}: ?>";
     }
@@ -55,7 +55,7 @@ trait TranspilesConditionals
      * 
      * @return string
      */
-    protected function transpileElseif($expression)
+    protected function transpileElseif($expression): string
     {
         return "<?php elseif{$expression}: ?>";
     }
@@ -65,7 +65,7 @@ trait TranspilesConditionals
      *  
      * @return string
      */
-    protected function transpileElse()
+    protected function transpileElse(): string
     {
         return '<?php else: ?>';
     }
@@ -75,7 +75,7 @@ trait TranspilesConditionals
      * 
      * @return string
      */
-    protected function transpileEndif()
+    protected function transpileEndif(): string
     {
         return '<?php endif; ?>';
     }
@@ -87,7 +87,7 @@ trait TranspilesConditionals
      * 
      * @return string
      */
-    protected function transpileIsset($expression)
+    protected function transpileIsset($expression): string
     {
         return "<?php if(isset{$expression}): ?>";
     }
@@ -97,7 +97,7 @@ trait TranspilesConditionals
      * 
      * @return string
      */
-    protected function transpileEndIsset()
+    protected function transpileEndIsset(): string
     {
         return '<?php endif; ?>';
     }
@@ -109,7 +109,7 @@ trait TranspilesConditionals
      * 
      * @return string
      */
-    protected function transpileUnless($expression)
+    protected function transpileUnless($expression): string
     {
         return "<?php if( ! {$expression}): ?>";
     }
@@ -119,7 +119,7 @@ trait TranspilesConditionals
      * 
      * @return string
      */
-    protected function transpileEndunless()
+    protected function transpileEndunless(): string
     {
         return '<?php endif; ?>';
     }
@@ -131,7 +131,7 @@ trait TranspilesConditionals
      * 
      * @return string
      */
-    protected function transpileHasSection($expression)
+    protected function transpileHasSection($expression): string
     {
         return "<?php if( ! empty(trim(\$__env->hasSection{$expression}))): ?>";
     }
@@ -143,7 +143,7 @@ trait TranspilesConditionals
      * 
      * @return string
      */
-    protected function transpileSwitch($expression)
+    protected function transpileSwitch($expression): string
     {
         $this->switchIdentifyFirstCase = true;
 
@@ -157,7 +157,7 @@ trait TranspilesConditionals
      * 
      * @return string
      */
-    protected function transpileCase($expression)
+    protected function transpileCase($expression): string
     {
         if ($this->switchIdentifyFirstCase) {
             $this->switchIdentifyFirstCase = false;
@@ -173,7 +173,7 @@ trait TranspilesConditionals
      * 
      * @return string
      */
-    protected function transpileDefault()
+    protected function transpileDefault(): string
     {
         return '<?php default: ?>';
     }
@@ -183,7 +183,7 @@ trait TranspilesConditionals
      * 
      * @return string
      */
-    protected function transpileEndSwitch()
+    protected function transpileEndSwitch(): string
     {
         return '<?php endswitch; ?>';
     }
@@ -195,7 +195,7 @@ trait TranspilesConditionals
      * 
      * @return string
      */
-    protected function transpileEnv($environments)
+    protected function transpileEnv($environments): string
     {
         return "<?php if(app()->environment{$environments}): ?>";
     }
@@ -205,7 +205,7 @@ trait TranspilesConditionals
      * 
      * @return string
      */
-    protected function transpileEndEnv()
+    protected function transpileEndEnv(): string
     {
         return '<?php endif; ?>';
     }
@@ -215,7 +215,7 @@ trait TranspilesConditionals
      * 
      * @return string
      */
-    protected function transpileProduction()
+    protected function transpileProduction(): string
     {
         return "<?php if(app()->environment('production')): ?>";
     }
@@ -225,7 +225,7 @@ trait TranspilesConditionals
      * 
      * @return string
      */
-    protected function transpileEndProduction()
+    protected function transpileEndProduction(): string
     {
         return '<?php endif; ?>';
     }
@@ -235,7 +235,7 @@ trait TranspilesConditionals
      * 
      * @return string
      */
-    protected function transpileTesting()
+    protected function transpileTesting(): string
     {
         return "<?php if(app()->environment('testing')): ?>";
     }
@@ -245,7 +245,7 @@ trait TranspilesConditionals
      * 
      * @return string
      */
-    protected function transpileEndTesting()
+    protected function transpileEndTesting(): string
     {
         return '<?php endif; ?>';
     }
@@ -255,7 +255,7 @@ trait TranspilesConditionals
      * 
      * @return string
      */
-    protected function transpilelocal()
+    protected function transpilelocal(): string
     {
         return "<?php if(app()->environment('local')): ?>";
     }
@@ -265,7 +265,7 @@ trait TranspilesConditionals
      * 
      * @return string
      */
-    protected function transpileEndlocal()
+    protected function transpileEndlocal(): string
     {
         return '<?php endif; ?>';
     }
