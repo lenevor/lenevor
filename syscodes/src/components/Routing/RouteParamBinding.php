@@ -57,7 +57,7 @@ class RouteParamBinding
      * 
      * @return array
      */
-    public function parameters($request)
+    public function parameters($request): array
     {
         $parameters = $this->bindParameters($request);
 
@@ -71,7 +71,7 @@ class RouteParamBinding
      * 
      * @return array
      */
-    protected function bindParameters($request)
+    protected function bindParameters($request): array
     {
         $path = '/'.ltrim($request->decodedPath(), '/');
 
@@ -87,7 +87,7 @@ class RouteParamBinding
      * 
      * @return array
      */
-    protected function matchToKeys(array $matches)
+    protected function matchToKeys(array $matches): array
     {
         if (empty($parameterNames = $this->route->parameterNames())) {
             return [];
@@ -107,7 +107,7 @@ class RouteParamBinding
      * 
      * @return array
      */
-    protected function replaceDefaults(array $parameters)
+    protected function replaceDefaults(array $parameters): array
     {
         foreach ($parameters as $key => $value) {
             $parameters[$key] = $value ?? Arr::get($this->route->defaults, $key);
