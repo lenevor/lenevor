@@ -65,74 +65,56 @@ class RouteResponse implements ResponseContract
     }
 
     /**
-     * Return a new response from the application.
-     *
-     * @param  string  $body
-     * @param  int  $status  
-     * @param  array  $headers
-     * 
-     * @return \Syscodes\Components\Http\Response
+     * {@inheritdoc}
      */
-    public function make($body = '', $status = 200, array $headers = [])
+    public function make($body = '', $status = 200, array $headers = []): Response
     {
         return new Response($body, $status, $headers);
     }
 
     /**
-     * Creates a new 'no-content' response.
-     * 
-     * @param  int  $status  
-     * @param  array  $headers
-     * 
-     * @return \Syscodes\Components\Http\Response
+     * {@inheritdoc}
      */
-    public function noContent($status = 204, array $headers = [])
+    public function noContent($status = 204, array $headers = []): Response
     {
         return $this->make('', $status, $headers);
     }
 
     /**
-     * Return a new View Response from the application.
-     *
-     * @param  string  $view
-     * @param  array  $data
-     * @param  int  $status  
-     * @param  array  $headers
-     * 
-     * @return  \Syscodes\Components\Http\Response
+     * {@inheritdoc}
      */
-    public function view($view, array $data = [], $status = 200, array $headers = [])
-    {
-        return $this->make($this->view->make($view, $data), $status, $headers);
+    public function view(
+        $view, 
+        array $data = [], 
+        $status = 200, 
+        array $headers = []
+    ): Response {
+        return $this->make(
+            $this->view->make($view, $data), $status, $headers
+        );
     }
 
     /**
-     * Create a new JSON response instance.
-     * 
-     * @param  mixed  $data
-     * @param  int  $status  
-     * @param  array  $headers
-     * @param  int  $options  
-     * 
-     * @return \Syscodes\Components\Http\JsonResponse
+     * {@inheritdoc}
      */
-    public function json($data = [], $status = 200, array $headers = [], $options = 0)
-    {
+    public function json(
+        $data = [], 
+        $status = 200, 
+        array $headers = [], 
+        $options = 0
+    ) {
         return new JsonResponse($data, $status, $headers, $options);
     }
 
     /**
-     * Create a new redirect response to the given path.
-     * 
-     * @param  string  $path
-     * @param  int  $status  
-     * @param  array  $headers
-     * @param  bool|null  $secure  
-     * 
-     * @return \Syscodes\Components\Http\RedirectResponse
+     * {@inheritdoc}
      */
-    public function redirectTo($path, $status = 302, $headers = [], $secure = null)
-    {
+    public function redirectTo(
+        $path, 
+        $status = 302, 
+        $headers = [], 
+        $secure = null
+    ) {
         return $this->redirector->to($path, $status, $headers, $secure);
     }
 }
