@@ -89,7 +89,7 @@ class RedisManager
     /**
      * Get a Redis connection by name.
      * 
-     * @param  string  $name  (null by default)
+     * @param  string  $name
      * 
      * @return \Predis\Connection\SingleConnectionInterface
      */
