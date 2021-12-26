@@ -54,7 +54,7 @@ class EngineResolver
      * 
      * @return void
      */
-    public function register($engine, Closure $resolver)
+    public function register($engine, Closure $resolver): void
     {
         unset($this->resolved[$engine]);
         
