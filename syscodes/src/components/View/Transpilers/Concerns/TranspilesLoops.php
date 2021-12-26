@@ -43,7 +43,7 @@ trait TranspilesLoops
      * 
      * @return string
      */
-    protected function transpileFor($expression)
+    protected function transpileFor($expression): string
     {
         return "<?php for{$expression}: ?>";
     }
@@ -53,7 +53,7 @@ trait TranspilesLoops
      * 
      * @return string
      */
-    protected function transpileEndFor()
+    protected function transpileEndFor(): string
     {
         return '<?php endfor; ?>';
     }
@@ -65,7 +65,7 @@ trait TranspilesLoops
      * 
      * @return string
      */
-    protected function transpileForeach($expression)
+    protected function transpileForeach($expression): string
     {
         return "<?php foreach{$expression}: ?>";
     }
@@ -75,7 +75,7 @@ trait TranspilesLoops
      * 
      * @return string
      */
-    protected function transpileEndForeach()
+    protected function transpileEndForeach(): string
     {
         return '<?php endforeach; ?>';
     }
@@ -87,7 +87,7 @@ trait TranspilesLoops
      * 
      * @return string
      */
-    protected function transpileWhile($expression)
+    protected function transpileWhile($expression): string
     {
         return "<?php while{$expression}: ?>";
     }
@@ -97,7 +97,7 @@ trait TranspilesLoops
      * 
      * @return string
      */
-    protected function transpileEndWhile()
+    protected function transpileEndWhile(): string
     {
         return '<?php endwhile; ?>';
     }
@@ -109,7 +109,7 @@ trait TranspilesLoops
      * 
      * @return string
      */
-    protected function transpileBreak($expression)
+    protected function transpileBreak($expression): string
     {
         return $expression ? "<?php if{$expression} break; ?>" : '<?php break; ?>';
     }
@@ -121,7 +121,7 @@ trait TranspilesLoops
      * 
      * @return string
      */
-    protected function transpileContinue($expression)
+    protected function transpileContinue($expression): string
     {
         return $expression ? "<?php if{$expression} continue; ?>" : '<?php continue; ?>';
     }
@@ -133,7 +133,7 @@ trait TranspilesLoops
      * 
      * @return string
      */
-    protected function transpileForElse($expression)
+    protected function transpileForElse($expression): string
     {
         $empty = '$__empty_'.++$this->forElseCounter;
         
@@ -147,7 +147,7 @@ trait TranspilesLoops
      * 
      * @return string
      */
-    protected function transpileEmpty($expression)
+    protected function transpileEmpty($expression): string
     {
         if ($expression) {
             return "<?php if(empty{$expression}): ?>";
@@ -163,7 +163,7 @@ trait TranspilesLoops
      * 
      * @return string
      */
-    protected function transpileEndEmpty()
+    protected function transpileEndEmpty(): string
     {
         return '<?php endif; ?>';
     }
@@ -173,7 +173,7 @@ trait TranspilesLoops
      * 
      * @return string
      */
-    protected function transpileEndForElse()
+    protected function transpileEndForElse(): string
     {
         return '<?php endif; ?>';
     }
