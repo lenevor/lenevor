@@ -40,7 +40,7 @@ trait Utilities
      * 
      * @return bool
      */
-    protected static function hasRelativeKeywords(string $time)
+    protected static function hasRelativeKeywords(string $time): bool
     {
         if (preg_match('/[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}/', $time) !== 1) {
             return preg_match(static::$relativePattern, $time) > 0;
