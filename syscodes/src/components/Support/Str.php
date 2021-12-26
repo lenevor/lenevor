@@ -84,7 +84,7 @@ class Str
      * 
      * @return bool
      */
-    public static function contains($haystack, $needles)
+    public static function contains($haystack, $needles): bool
     {
         foreach ((array) $needles as $needle) {
             if ($needle !== '' && mb_strpos($haystack, $needle) !== false) {
@@ -103,7 +103,7 @@ class Str
      *
      * @return bool
      */
-    public static function endsWith($haystack, $needles)
+    public static function endsWith($haystack, $needles): bool
     {
         foreach ((array) $needles as $needle) {
             if (substr($haystack, -strlen($needle)) === (string) $needle) {
@@ -121,7 +121,7 @@ class Str
      *
      * @return string
      */
-    public static function dash($value)
+    public static function dash($value): string
     {
         return strtr($value, ' ', '-');
     }
@@ -133,7 +133,7 @@ class Str
      *
      * @return string
      */
-    public static function humanize($value)
+    public static function humanize($value): string
     {
         return strtr($value, '_-', '  ');
     }
@@ -146,7 +146,7 @@ class Str
      * 
      * @return bool
      */
-    public static function is($pattern, $value)
+    public static function is($pattern, $value): bool
     {
         $patterns = Arr::wrap($pattern);
 
@@ -179,7 +179,7 @@ class Str
      * 
      * @return int
      */
-    public static function length($value)
+    public static function length($value): int
     {
         return mb_strlen($value);
     }
@@ -191,11 +191,11 @@ class Str
      * @param  int  $limit
      * @param  string  $end
      *
-     * @return tring
+     * @return string
      *
      * @uses   \Syscodes\Components\Support\Str::length
      */
-    public static function limit($value, $limit, $end = '...')
+    public static function limit($value, $limit, $end = '...'): string
     {
         if (static::length($value) <= $limit) return $value;
 
@@ -209,7 +209,7 @@ class Str
      *
      * @return string
      */
-    public static function lower($value)
+    public static function lower($value): string
     {
         return mb_strtolower($value);
     }
@@ -268,7 +268,7 @@ class Str
      * 
      * @return string
      */
-    public static function random($length = 16)
+    public static function random($length = 16): string
     {
         $string = '';
         
@@ -311,7 +311,7 @@ class Str
      * 
      * @return string
      */
-    public static function slug($title, $separator = '-')
+    public static function slug($title, $separator = '-'): string
     {
         $title = static::ascii($title);
         
@@ -335,7 +335,7 @@ class Str
      *
      * @return string
      */
-    public static function smallcase($value)
+    public static function smallcase($value): string
     {
         return mb_strtolower(preg_replace('/([A-Z])/', "_\\1", lcfirst($value)));
     }
@@ -348,7 +348,7 @@ class Str
      *
      * @return bool
      */
-    public static function startsWith($haystack, $needles)
+    public static function startsWith($haystack, $needles): bool
     {
         foreach ((array) $needles as $needle) {
             if (($needle != '') && substr($haystack, 0, strlen($needle)) === (string) $needle) {
@@ -366,7 +366,7 @@ class Str
      *
      * @return string
      */
-    public static function studlycaps($value)
+    public static function studlycaps($value): string
     {
         $key = $value;
 
@@ -388,7 +388,7 @@ class Str
      * 
      * @return string
      */
-    public static function substr($string, $start, $length = null)
+    public static function substr($string, $start, $length = null): string
     {
         return mb_substr($string, $start, $length, 'UTF-8');
     }
@@ -400,7 +400,7 @@ class Str
      * 
      * @return string
      */
-    public static function title($value)
+    public static function title($value): string
     {
         $value = \ucwords(\strtolower($value));
         
@@ -420,7 +420,7 @@ class Str
      *
      * @return string
      */
-    public static function uTitle($value)
+    public static function uTitle($value): string
     {
         return mb_convert_case($value, MB_CASE_TITLE, 'UTF-8');
     }
@@ -432,7 +432,7 @@ class Str
      *
      * @return string
      */
-    public static function underscore($value)
+    public static function underscore($value): string
     {
         return strtr($value, ' ', '_');
     }
@@ -444,7 +444,7 @@ class Str
      *
      * @return string
      */
-    public static function upper($value)
+    public static function upper($value): string
     {
         return mb_strtoupper($value);
     }
@@ -456,7 +456,7 @@ class Str
      * 
      * @return string
      */
-    public static function ucfirst($value)
+    public static function ucfirst($value): string
     {
         return static::upper(static::substr($value, 0, 1)).static::substr($value, 1);
     }
