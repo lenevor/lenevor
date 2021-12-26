@@ -55,7 +55,7 @@ trait RouteCondition
     /**
      * Gets the host from a route.
      * 
-     * @return void
+     * @return string|null
      */
     public function getHost()
     {
@@ -67,9 +67,9 @@ trait RouteCondition
      * 
      * @param  string  $host
      * 
-     * @return $this
+     * @return self
      */
-    public function setHost(string $host)
+    public function setHost(string $host): self
     {
         $this->host = $host;
 
@@ -81,9 +81,9 @@ trait RouteCondition
      * 
      * @param  string  $host
      * 
-     * @return $this
+     * @return self
      */
-    public function host(string $host)
+    public function host(string $host): self
     {
         return $this->setHost($host);
     }
@@ -91,7 +91,7 @@ trait RouteCondition
     /**
      * Gets the port from a route.
      * 
-     * @return void
+     * @return int|null
      */
     public function getPort()
     {
@@ -103,9 +103,9 @@ trait RouteCondition
      * 
      * @param  int  $port
      * 
-     * @return $this
+     * @return self
      */
-    public function setPort(int $port)
+    public function setPort(int $port): self
     {
         $this->port = $port;
 
@@ -117,9 +117,9 @@ trait RouteCondition
      * 
      * @param  int  $port
      * 
-     * @return $this
+     * @return self
      */
-    public function port(int $port)
+    public function port(int $port): self
     {
         return $this->setPort($port);
     }
@@ -127,7 +127,7 @@ trait RouteCondition
     /**
      * Gets the scheme from a route.
      * 
-     * @return void
+     * @return string|null
      */
     public function getScheme()
     {
@@ -139,9 +139,9 @@ trait RouteCondition
      * 
      * @param  string  $scheme
      * 
-     * @return $this
+     * @return self
      */
-    public function setScheme(string $scheme)
+    public function setScheme(string $scheme): self
     {
         $this->scheme = $scheme;
 
@@ -153,9 +153,9 @@ trait RouteCondition
      * 
      * @param  string  $scheme
      * 
-     * @return $this
+     * @return self
      */
-    public function scheme(string $scheme)
+    public function scheme(string $scheme): self
     {
         return $this->setScheme($scheme);
     }
