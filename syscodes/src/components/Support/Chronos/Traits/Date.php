@@ -90,7 +90,7 @@ trait Date
      * 
      * @return string
      */
-    public function getTimezoneName()
+    public function getTimezoneName(): string
     {
         return $this->timezone->getName();
     }
@@ -100,7 +100,7 @@ trait Date
      * 
      * @return bool
      */
-    public function getUtc()
+    public function getUtc(): bool
     {
         return $this->getOffset() === 0;
     }
@@ -110,7 +110,7 @@ trait Date
      * 
      * @return string
      */
-    public function getLocale()
+    public function getLocale(): string
     {
         return $this->locale;
     }
@@ -121,7 +121,7 @@ trait Date
      * 
      * @return bool
      */
-    public function getLocalized()
+    public function getLocalized(): bool
     {
         $local = date_default_timezone_get();
 
@@ -191,7 +191,7 @@ trait Date
     /**
      * Returns the localized value of the date in the format 'Y-m-d H:i:s'.
      * 
-     * @return string
+     * @return mixed
      */
     public function toDateTimeString()
     {
@@ -201,7 +201,7 @@ trait Date
     /**
      * Returns a localized version of the date in Y-m-d format.
      * 
-     * i.e. Oct 9, 2019
+     * @return mixed
      */
     public function toFormattedDateString()
     {
@@ -220,8 +220,6 @@ trait Date
 
      /**
      * Returns a localized version of the time in nicer date format.
-     * 
-     * i.e. 10:20:33
      * 
      * @return string
      */
@@ -325,6 +323,8 @@ trait Date
     }
     
     /**
+     * Magic method.
+     * 
      * Outputs a short format version of the datetime.
      * 
      * @return string
