@@ -170,7 +170,9 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
     }
 
     /**
-	 * Magic method. Searches for the given variable and returns its value.
+	 * Magic method. 
+     * 
+     * Searches for the given variable and returns its value.
 	 *
 	 * @param  string  $key  Variable name
 	 *
@@ -182,7 +184,9 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
 	}
 
 	/**
-	 * Magic method. Calls [$this->set] with the same parameters.
+	 * Magic method. 
+     * 
+     * Calls [$this->set] with the same parameters.
 	 *
 	 * @param  string  $key    Variable name
 	 * @param  mixed   $value  Value
@@ -195,7 +199,9 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
 	}
 
 	/**
-	 * Magic method. Determines if a variable is set.
+	 * Magic method. 
+     * 
+     * Determines if a variable is set.
 	 *
 	 * @param  string  $key  variable name
 	 *
@@ -207,7 +213,9 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
 	}
 
 	/**
-	 * Magic method. Unsets a given variable.
+	 * Magic method. 
+     * 
+     * Unsets a given variable.
 	 *
 	 * @param  string  $key  Variable name
 	 *
@@ -219,6 +227,8 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
 	}
 
     /**
+     * Magic method.
+     * 
      * Handle dynamic calls to the container to set attributes.
      * 
      * @param  string  $method
