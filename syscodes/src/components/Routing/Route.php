@@ -211,7 +211,7 @@ class Route
 	/**
 	 * Get the url of the current route.
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function getName()
 	{
@@ -243,7 +243,7 @@ class Route
 	 * 
 	 * @param  string|null  $domain  
 	 * 
-	 * @return $this
+	 * @return mixed|$this
 	 */
 	public function domain($domain = null)
 	{
@@ -283,7 +283,7 @@ class Route
 	 * 
 	 * @return bool
 	 */
-	public function isControllerAction()
+	public function isControllerAction(): bool
 	{
 		return is_string($this->action['uses']);
 	}
@@ -349,7 +349,7 @@ class Route
 	 *
 	 * @param  \Closure|string  $action
 	 *
-	 * @return $this
+	 * @return voi
 	 *
 	 * @throws \InvalidArgumentException
 	 */
@@ -367,7 +367,7 @@ class Route
 	 *
 	 * @param  array  $method
 	 *
-	 * @return string $this
+	 * @return string
 	 * 
 	 * @throws \InvalidArgumentException
 	 */
@@ -391,11 +391,11 @@ class Route
 	 *
 	 * @param  string|array|null  $uri
 	 *
-	 * @return string
+	 * @return self
 	 *
 	 * @throws  \InvalidArgumentException
 	 */
-	public function parseRoute($uri)
+	public function parseRoute($uri): self
 	{
 		if ($uri === null) {
 			throw new InvalidArgumentException(__('route.uriNotProvided'));
@@ -442,7 +442,7 @@ class Route
 	 * 
 	 * @param  string  $prefix
 	 * 
-	 * @return $this
+	 * @return self
 	 */
 	public function prefix($prefix)
 	{
@@ -460,7 +460,7 @@ class Route
 	 * 
 	 * @param  array  $action
 	 * 
-	 * @return $this
+	 * @return mixed|$this
 	 */
 	public function setAction(array $action)
 	{
@@ -478,9 +478,9 @@ class Route
 	 *
 	 * @param  string  $name
 	 *
-	 * @return $this
+	 * @return self
 	 */
-	public function name($name)
+	public function name($name): self
 	{
 		$this->action['as'] = isset($this->action['as']) ? $this->action['as'].$name : $name;
 
@@ -494,7 +494,7 @@ class Route
 	 * 
 	 * @return bool
 	 */
-	public function named(...$patterns)
+	public function named(...$patterns): bool
 	{
 		if (is_null($routeName = $this->getName())) {
 			return false;
@@ -515,9 +515,9 @@ class Route
 	 * @param  string  $key
 	 * @param  mixed   $value
 	 * 
-	 * @return $this
+	 * @return self
 	 */
-	public function defaults($key, $value)
+	public function defaults($key, $value): self
 	{
 		$this->defaults[$key] = $value;
 
@@ -529,9 +529,9 @@ class Route
 	 * 
 	 * @param  string  $defaults
 	 * 
-	 * @return $this
+	 * @return self
 	 */
-	public function setDefaults(array $defaults)
+	public function setDefaults(array $defaults): self
 	{
 		$this->defaults = $defaults;
 
@@ -544,9 +544,9 @@ class Route
 	 * @param  array|string  $name
 	 * @param  string|null  $expression  
 	 *
-	 * @return $this
+	 * @return self
 	 */
-	public function where($name, string $expression = null)
+	public function where($name, string $expression = null): self
 	{
 		$wheres = is_array($name) ? $name : [$name => $expression];
 		
@@ -562,9 +562,9 @@ class Route
 	 * 
 	 * @param  \Syscodes\Components\Http\Request  $request
 	 * 
-	 * @return $this
+	 * @return self
 	 */
-	public function bind(Request $request)
+	public function bind(Request $request): self
 	{
 		$this->compileRoute();
 		
@@ -592,7 +592,7 @@ class Route
 	 * 
 	 * @return array
 	 */
-	public function parameterNames()
+	public function parameterNames(): array
 	{
 		if (isset($this->parameterNames)) {
 			return $this->parameterNames;
@@ -623,7 +623,7 @@ class Route
 	 * 
 	 * @return array
 	 */
-	public function parameter($name, $default = null)
+	public function parameter($name, $default = null): array
 	{
 		return Arr::get($this->parameters(), $name, $default);
 	}
@@ -636,7 +636,7 @@ class Route
 	 * 
 	 * @return array
 	 */
-	public function setParameter($name, $value)
+	public function setParameter($name, $value): array
 	{
 		$this->parameters();
 
@@ -648,7 +648,7 @@ class Route
 	 * 
 	 * @return array
 	 */
-	public function parametersWithouNulls()
+	public function parametersWithouNulls(): array
 	{
 		return array_filter($this->parameters(), function ($parameter) {
 			return ! is_null($parameter);
@@ -660,7 +660,7 @@ class Route
 	 * 
 	 * @return array
 	 */
-	public function parameters()
+	public function parameters(): array
 	{
 		if (isset($this->parameters)) {
 			return $this->parameters;
@@ -674,7 +674,7 @@ class Route
 	 * 
 	 * @return array
 	 */
-	public function gatherMiddleware()
+	public function gatherMiddleware(): array
 	{
 		if ( ! is_null($this->computedMiddleware)) {
 			return $this->computedMiddleware;
@@ -693,7 +693,7 @@ class Route
 	 * 
 	 * @param  array|string|null  $middleware
 	 * 
-	 * @return $this|array
+	 * @return array|$this
 	 */
 	public function middleware($middleware = null)
 	{
@@ -718,7 +718,7 @@ class Route
 	 * 
 	 * @return array
 	 */
-	protected function getMiddleware()
+	protected function getMiddleware(): array
 	{
 		return (array) ($this->action['middleware'] ?? []);
 	}
@@ -728,7 +728,7 @@ class Route
 	 * 
 	 * @return array
 	 */
-	public function controllerMiddleware()
+	public function controllerMiddleware(): array
 	{
 		if ( ! $this->isControllerAction()) {
 			return [];
@@ -745,7 +745,7 @@ class Route
 	 * 
 	 * @return bool
 	 */
-	public function httpOnly()
+	public function httpOnly(): bool
 	{
 		return in_array('http', $this->action, true);
 	}
@@ -755,7 +755,7 @@ class Route
 	 * 
 	 * @return bool
 	 */
-	public function httpsOnly()
+	public function httpsOnly(): bool
 	{
 		return $this->secure();
 	}
@@ -765,7 +765,7 @@ class Route
 	 * 
 	 * @return bool
 	 */
-	public function secure()
+	public function secure(): bool
 	{
 		return in_array('https', $this->action, true);
 	}
@@ -775,9 +775,9 @@ class Route
 	 * 
 	 * @param  \Syscodes\Components\Container\Container  $container
 	 * 
-	 * @return $this
+	 * @return self
 	 */
-	public function setContainer(Container $container)
+	public function setContainer(Container $container): self
 	{
 		$this->container = $container;
 
@@ -785,6 +785,8 @@ class Route
 	}
 
 	/**
+	 * Magic method.
+	 * 
 	 * Dynamically access route parameters.
 	 * 
 	 * @param  string  $key
