@@ -36,7 +36,7 @@ trait TranspilesStacks
      * 
      * @return string
      */
-    protected function transpileStack($expression)
+    protected function transpileStack($expression): string
     {
         return "<?php echo \$__env->givePushContent{$expression}; ?>";
     }
@@ -48,7 +48,7 @@ trait TranspilesStacks
      * 
      * @return string
      */
-    protected function transpilePush($expression)
+    protected function transpilePush($expression): string
     {
         return "<?php \$__env->startPush{$expression}; ?>";
     }
@@ -58,7 +58,7 @@ trait TranspilesStacks
      * 
      * @return string
      */
-    protected function transpileEndPush()
+    protected function transpileEndPush(): string
     {
         return '<?php $__env->stopPush(); ?>';
     }
@@ -70,7 +70,7 @@ trait TranspilesStacks
      * 
      * @return string
      */
-    protected function transpilePrepend($expression)
+    protected function transpilePrepend($expression): string
     {
         return "<?php \$__env->startPrepend{$expression}; ?>";
     }
@@ -80,7 +80,7 @@ trait TranspilesStacks
      * 
      * @return string
      */
-    protected function transpileEndPrepend()
+    protected function transpileEndPrepend(): string
     {
         return '<?php $__env->stopPrepend(); ?>';
     }
