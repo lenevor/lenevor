@@ -79,7 +79,7 @@ class Response extends Status
 	 * 
 	 * @return string
 	 */
-	public function getContent()
+	public function getContent(): string
 	{
 		return $this->content;
 	}
@@ -93,7 +93,7 @@ class Response extends Status
 	 *
 	 * @throws \BadMethodCallException
 	 */
-	public function getStatusCode()
+	public function getStatusCode(): int
 	{
 		if (empty($this->status)) {
 			throw new BadMethodCallException('HTTP Response is missing a status code.');
@@ -106,7 +106,7 @@ class Response extends Status
 	 * Sends the headers if they haven't already been sent. 
 	 * Returns whether they were sent or not.
 	 *
-	 * @return bool
+	 * @return bool|self
 	 *
 	 * @uses   \Syscodes\Components\Http\Http
 	 */
@@ -141,9 +141,9 @@ class Response extends Status
 	/**
 	 * Sends content for the current web response.
 	 * 
-	 * @return $this
+	 * @return self
 	 */
-	public function sendContent()
+	public function sendContent(): self
 	{
 		echo $this->content;
 
@@ -155,9 +155,9 @@ class Response extends Status
 	 *
 	 * @param  bool  $sendHeader  Whether or not to send the defined HTTP headers
 	 *
-	 * @return $this
+	 * @return  self
 	 */
-	public function send($sendHeader = false)
+	public function send($sendHeader = false): self
 	{
 		if ($sendHeader) {
 			$this->sendHeaders();
@@ -175,9 +175,9 @@ class Response extends Status
 	 *
 	 * @param  mixed  $content  The response content
 	 *
-	 * @return $this
+	 * @return self
 	 */
-	public function setContent($content)
+	public function setContent($content): self
 	{
 		if ($content !== null && ! is_string($content) && ! is_numeric($content) && ! is_callable([$content, '__toString'])) {
 			throw new UnexpectedValueException(sprintf('The Response content must be a string or object implementing __toString(), "%s" given.', gettype($content)));
@@ -201,9 +201,9 @@ class Response extends Status
 	 * 
 	 * @param  \Syscodes\Components\Http\Request  $request
 	 * 
-	 * @return $this
+	 * @return self
 	 */
-	public function prepare($request)
+	public function prepare($request): self
 	{
 		$headers = $this->headers;
 
@@ -222,11 +222,11 @@ class Response extends Status
 	* @param  int  $code  The status code
 	* @param  string|null  $text  The status text
 	*
-	* @return $this
+	* @return self
 	*
 	* @throws \InvalidArgumentException
 	*/
-	public function setStatusCode(int $code, $text = null)
+	public function setStatusCode(int $code, $text = null): self
 	{
 		$this->status = $code; 
 
@@ -258,7 +258,7 @@ class Response extends Status
 	 * 
 	 * @final
 	 * 
-	 * @return void
+	 * @return bool
 	 */
 	public function isInvalid(): bool
 	{
@@ -270,9 +270,9 @@ class Response extends Status
 	 * 
 	 * @final
 	 * 
-	 * @return void
+	 * @return bool
 	 */
-	public function isInformational()
+	public function isInformational(): bool
 	{
 		return $this->status >= 100 && $this->status < 200;
 	}
@@ -284,7 +284,7 @@ class Response extends Status
 	 * 
 	 * @return void
 	 */
-	public function isRedirection()
+	public function isRedirection(): bool
 	{
 		return $this->status >= 300 && $this->status < 400;
 	}
@@ -294,9 +294,9 @@ class Response extends Status
 	 * 
 	 * @final
 	 * 
-	 * @return void
+	 * @return bool
 	 */
-	public function isEmpty()
+	public function isEmpty(): bool
 	{
 		return in_array($this->status, [204, 304]);
 	}
@@ -306,12 +306,14 @@ class Response extends Status
 	 * 
 	 * @return bool
 	 */
-	public function isRedirect()
+	public function isRedirect(): bool
 	{
 		return in_array($this->status, [301, 302, 303, 307, 308]);
 	}
 	
 	/**
+	 * Magic method.
+	 * 
 	 * Returns the Response as an HTTP string.
 	 * 
 	 * @return string
@@ -324,6 +326,8 @@ class Response extends Status
 	}
 	
 	/**
+	 * Magic method.
+	 * 
 	 * Clone the current Response instance.
 	 * 
 	 * @return void
