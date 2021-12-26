@@ -108,6 +108,8 @@ class FileLogger implements Handler
     }
 
     /**
+     * Magic method.
+     * 
      * Destructor. Close.
      * 
      * @return bool
@@ -120,15 +122,9 @@ class FileLogger implements Handler
     }
     
     /**
-     * Logs with an arbitrary level.
-     * 
-     * @param  mixed  $level
-     * @param  string  $message
-     * @param  array  $context
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
-    public function log($level, $message, array $context = [])
+    public function log($level, $message, array $context = []): bool
     {
         $message = $this->exchangeProcess($message, $context);
 
@@ -156,7 +152,7 @@ class FileLogger implements Handler
         
         foreach ($context as $key => $value) {
             if ($key === 'exception' && $value instanceof Throwable) {
-                $value = $value->getMessage() . ' ' . $this->cleanFileNames($value->getFile()) . ':' . $value->getLine();
+                $value = $value->getMessage().' '.$this->cleanFileNames($value->getFile()).':'.$value->getLine();
                 // Todo - sanitize input before writing to file?
                 $replace["{{$key}}"] = $value;
             } elseif (null === $value || is_scalar($value) || (is_object($value) && method_exists($value, '__toString'))) {
@@ -200,14 +196,9 @@ class FileLogger implements Handler
     }
 
     /**
-     * Handles logging the message.
-     * 
-     * @param  string  $level
-     * @param  string  $message
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
-    public function handle($level, $message)
+    public function handle($level, $message): bool
     {        
         $path = $this->logFilePath.'lenevor-'.date('Y-m-d').'.'.$this->logFileExtension;
 
@@ -250,7 +241,7 @@ class FileLogger implements Handler
      * 
      * @return bool
      */
-    private function open($path)
+    private function open($path): bool
     {
         if (false === $this->logHandler = is_resource($path) ? $path : @fopen($path, 'ab')) {
             throw new LogException(sprintf('Unable to open "%s".', $path));
@@ -265,9 +256,9 @@ class FileLogger implements Handler
      * @param  mixed  $level
      * @param  string  $messsage
      * 
-     * @return $this
+     * @return self
      */
-    private function logMessage($level, $message)
+    private function logMessage($level, $message): self
     {
         $level = $this->getLogEnvironment().'.'.strtolower($level);
 
@@ -286,7 +277,7 @@ class FileLogger implements Handler
      * 
      * @return string
      */
-    private function getTimestamp()
+    private function getTimestamp(): string
     {
         $logDateFormat = $this->app['config']['logger.dateFormat'] ?? $this->logDateFormat;
         $originalTime  = microtime(true);
