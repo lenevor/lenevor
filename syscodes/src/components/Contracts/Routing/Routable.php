@@ -71,6 +71,17 @@ interface Routable
 	public function head($route, $action);
 
 	/**
+	 * Register a new route with the given methods.
+	 * 
+	 * @param  array|string  $methods
+	 * @param  string  $route
+	 * @param  string|callable|null  $action
+	 * 
+	 * @return void
+	 */
+	public function match($methods, $route, $action = null);
+
+	/**
 	 * Add a route with options method
 	 *
 	 * @param  string  $route
@@ -112,12 +123,22 @@ interface Routable
 
 	/**
 	 * Group a series of routes under a single URL segment. This is handy
-	 * for grouping items into an admin area.
+	 * for grouping items into an admin area, like:
+	 *
+	 *   Example:
+	 *      // Creates route: /admin show the word 'User'
+	 *      Route::group(['prefix' => 'admin'], function() {	 
+	 *
+	 *          Route::get('/user', function() {
+	 *	            echo 'Hello world..!';
+	 *          });
+	 *
+	 *      }); /admin/user
 	 * 
 	 * @param  array  $attributes
 	 * @param  \Closure|string  $callback
 	 *
-	 * @return void
+	 * @return self
 	 */
-	public function group(array $attributes, $parameters);
+	public function group(array $attributes, $callback): self;
 }
