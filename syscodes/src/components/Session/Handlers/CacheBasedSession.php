@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Session\Handlers;
 
+use SessionHandlerInterface;
 use Syscodes\Components\Contracts\Cache\Store;
 
 /**
