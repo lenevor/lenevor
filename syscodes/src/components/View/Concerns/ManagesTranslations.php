@@ -43,7 +43,7 @@ trait ManagesTranslations
      * 
      * @return void
      */
-    public function beginTranslation($replacements = [])
+    public function beginTranslation($replacements = []): void
     {
         ob_start();
 
@@ -55,7 +55,7 @@ trait ManagesTranslations
      * 
      * @return string
      */
-    public function renderTranslation()
+    public function renderTranslation(): string
     {
         return $this->container->make('translator')->getLine(
             trim(ob_get_clean()), $this->replacements
