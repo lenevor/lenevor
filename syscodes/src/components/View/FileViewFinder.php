@@ -84,13 +84,9 @@ class FileViewFinder implements ViewFinder
     }
 
     /**
-     * Get the complete location of the view.
-     * 
-     * @param  string  $name
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    public function find($name)
+    public function find($name): string
     {
         if (isset($this->views[$name])) {
             return $this->views[$name];
@@ -110,7 +106,7 @@ class FileViewFinder implements ViewFinder
      * 
      * @return string
      */
-    protected function findNamespacedPaths($name)
+    protected function findNamespacedPaths($name): string
     {
         [$namespace, $view] = $this->parseNamespaceSegments($name);
         
@@ -126,7 +122,7 @@ class FileViewFinder implements ViewFinder
      * 
      * @throws \InvalidArgumentException
      */
-    protected function parseNamespaceSegments($name)
+    protected function parseNamespaceSegments($name): array
     {
         $segments = explode(static::HINT_PATH_DELIMITER, $name);
         
@@ -151,7 +147,7 @@ class FileViewFinder implements ViewFinder
      * 
      * @throws \Syscodes\Components\View\Exceptions\ViewException
      */
-    protected function findPaths($name, $paths)
+    protected function findPaths($name, $paths): string
     {
         foreach ((array) $paths as $path) {
             foreach ($this->getFindViewFiles($name) as $file) {
@@ -171,7 +167,7 @@ class FileViewFinder implements ViewFinder
      * 
      * @return array
      */
-    protected function getFindViewFiles($name)
+    protected function getFindViewFiles($name): array
     {
         return array_map(function ($extension) use ($name) {
             return str_replace('.', DIRECTORY_SEPARATOR, $name).'.'.$extension;   
@@ -185,7 +181,7 @@ class FileViewFinder implements ViewFinder
      * 
      * @return string
      */
-    protected function resolvePath($path)
+    protected function resolvePath($path): string
     {
         return realpath($path) ?: $path;
     }
@@ -198,7 +194,7 @@ class FileViewFinder implements ViewFinder
      * 
      * @return void
      */
-    public function replaceNamespace($namespace, $hints)
+    public function replaceNamespace($namespace, $hints): void
     {
         $this->hints[$namespace] = (array) $hints;
     }
@@ -210,7 +206,7 @@ class FileViewFinder implements ViewFinder
      * 
      * @return bool
      */
-    protected function hasHintInfo($name)
+    protected function hasHintInfo($name): bool
     {
         return strpos($name, static::HINT_PATH_DELIMITER) > 0;
     }
