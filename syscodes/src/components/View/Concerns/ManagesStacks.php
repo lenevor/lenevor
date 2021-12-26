@@ -60,7 +60,7 @@ trait ManagesStacks
      * 
      * @return void
      */
-    public function startPush($section, $content = '')
+    public function startPush($section, $content = ''): void
     {
         if ($content === '') {
             if (ob_start()) {
@@ -97,7 +97,7 @@ trait ManagesStacks
      * 
      * @return void
      */
-    protected function ExtendPush($section, $content)
+    protected function ExtendPush($section, $content): void
     {
         if ( ! isset($this->push[$section])) {
             $this->push[$section] = [];
@@ -118,7 +118,7 @@ trait ManagesStacks
      * 
      * @return void
      */
-    public function startPrepend($section, $content = '')
+    public function startPrepend($section, $content = ''): void
     {
         if ($content === '') {
             if (ob_start()) {
@@ -155,7 +155,7 @@ trait ManagesStacks
      * 
      * @return void
      */
-    protected function ExtendPrepend($section, $content)
+    protected function ExtendPrepend($section, $content): void
     {
         if ( ! isset($this->prepends[$section])) {
             $this->prepends[$section] = [];
@@ -176,7 +176,7 @@ trait ManagesStacks
      * 
      * @return string
      */
-    public function givePushContent($section, $default = '')
+    public function givePushContent($section, $default = ''): string
     {
         if ( ! isset($this->push[$section]) && ! isset($this->prepends[$section])) {
             return $default;
@@ -200,7 +200,7 @@ trait ManagesStacks
      * 
      * @return void
      */
-    public function flushStacks()
+    public function flushStacks(): void
     {
         $this->prepends  = [];
         $this->push      = [];
