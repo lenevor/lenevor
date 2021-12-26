@@ -34,7 +34,7 @@ interface Session
      * 
      * @return string
      */
-    public function getName();
+    public function getName(): string;
 
     /**
      * Start the session.
@@ -48,14 +48,14 @@ interface Session
      * 
      * @return array
      */
-    public function all();
+    public function all(): array;
 
     /**
      * Get the current session ID.
      * 
      * @return string
      */
-    public function getId();
+    public function getId(): string;
 
     /**
      * Set the session ID.
@@ -64,7 +64,16 @@ interface Session
      * 
      * @return void
      */
-    public function setId($id);
+    public function setId($id): void;
+
+    /**
+     * Determine if this is a valid session ID.
+     * 
+     * @param  string  $id
+     * 
+     * @return bool
+     */
+    public function isValidId($id): bool;
 
     /**
      * Save the session data to storage.
@@ -97,9 +106,9 @@ interface Session
      * 
      * @param  string|array  $key
      * 
-     * @return void
+     * @return bool
      */
-    public function has($key);
+    public function has($key): bool;
 
     /**
      * Get an key from the session.
@@ -177,12 +186,12 @@ interface Session
      * 
      * @return bool
      */
-    public function migrate($destroy = false);
+    public function migrate($destroy = false): bool;
 
     /**
      * Determine if the session has been started.
      * 
      * @return bool
      */
-    public function isStarted();
+    public function isStarted(): bool;
 }
