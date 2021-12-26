@@ -161,7 +161,7 @@ class URI
 	 *
 	 * @return string  The URI string
 	 */
-	public function get()
+	public function get(): string
 	{
 		return '/'.ltrim($this->path, '/');
 	}
@@ -171,9 +171,9 @@ class URI
 	 * 
 	 * @param  string  $uri
 	 * 
-	 * @return $this
+	 * @return self
 	 */
-	public function set($uri)
+	public function set($uri): self
 	{
 		$this->path = $uri;
 
@@ -186,7 +186,7 @@ class URI
 	 * 
 	 * @return string
 	 */
-	public function getPath()
+	public function getPath(): string
 	{
 		return (is_null($this->path) ? '' : $this->path);
 	}
@@ -196,9 +196,9 @@ class URI
 	 * 
 	 * @param  string  $path
 	 *
-	 * @return void
+	 * @return self
 	 */
-	public function setPath(string $path) 
+	public function setPath(string $path): self
 	{
 		$this->path = $this->filterPath($path);
 
@@ -216,7 +216,7 @@ class URI
 	 * 
 	 * @return string
 	 */
-	protected function filterPath(string $path = null)
+	protected function filterPath(string $path = null): string
 	{
 		$path = urldecode($path);
 
@@ -266,7 +266,7 @@ class URI
 	 *
 	 * @return int  
 	 */
-	public function getTotalSegments()
+	public function getTotalSegments(): int
 	{
 		return count($this->getSegments());
 	}
@@ -276,7 +276,7 @@ class URI
 	 * 
 	 * @return string
 	 */
-	public function getScheme()
+	public function getScheme(): string
 	{
 		return $this->scheme;
 	}
@@ -286,9 +286,9 @@ class URI
 	 * 
 	 * @param  string  $str
 	 * 
-	 * @return $this
+	 * @return string
 	 */
-	public function setScheme(string $str)
+	public function setScheme(string $str): string
 	{
 		$str = preg_replace('~:(//)?$~', '', strtolower($str));
 
@@ -319,9 +319,9 @@ class URI
 	 * @param  string  $user
 	 * @param  string  $pass
 	 * 
-	 * @return $this
+	 * @return self
 	 */
-	public function setUserInfo(string $user, string $pass)
+	public function setUserInfo(string $user, string $pass): self
 	{
 		$this->user     = trim($user);
 		$this->password = trim($pass);
@@ -334,9 +334,9 @@ class URI
 	 * 
 	 * @param  boolean  $option  
 	 * 
-	 * @return $this
+	 * @return string
 	 */
-	public function showPassword(bool $option = true)
+	public function showPassword(bool $option = true): string
 	{
 		$this->password = $option;
 
@@ -350,7 +350,7 @@ class URI
 	 * 
 	 * @return string
 	 */
-	public function getAuthority(bool $ignore = false)
+	public function getAuthority(bool $ignore = false): string
 	{
 		if (empty($this->host)) {
 			return '';
@@ -378,9 +378,9 @@ class URI
 	 * 
 	 * @param  string  $str
 	 * 
-	 * @return $this
+	 * @return self
 	 */
-	public function setAuthority(string $str)
+	public function setAuthority(string $str): self
 	{
 		$parts = parse_url($str);
 
@@ -399,7 +399,7 @@ class URI
 	 * 
 	 * @return string
 	 */
-	public function getHost()
+	public function getHost(): string
 	{
 		return $this->host;
 	}
@@ -409,9 +409,9 @@ class URI
 	 * 
 	 * @param  string  $str
 	 * 
-	 * @return $this
+	 * @return string
 	 */
-	public function setHost(string $str)
+	public function setHost(string $str): string
 	{
 		$this->host = trim($str);
 
@@ -435,7 +435,7 @@ class URI
 	 * 
 	 * @return string
 	 */
-	public function setPort(int $port = null)
+	public function setPort(int $port = null): string
 	{
 		if (is_null($port)) {
 			return $this;
@@ -455,7 +455,7 @@ class URI
 	 * 
 	 * @return string
 	 */
-	public function getFragment()
+	public function getFragment(): string
 	{
 		return is_null($this->fragment) ? '' : $this->fragment;
 	}
@@ -465,9 +465,9 @@ class URI
 	 * 
 	 * @param  string  $str
 	 * 
-	 * @return $this
+	 * @return string
 	 */
-	public function setFragment(string $str)
+	public function setFragment(string $str): string
 	{
 		$this->fragment = trim($str, '# ');
 
@@ -521,6 +521,8 @@ class URI
 	}
 
 	/**
+	 * Magic method.
+	 * 
 	 * Returns the URI string.
 	 *
 	 * @return string
