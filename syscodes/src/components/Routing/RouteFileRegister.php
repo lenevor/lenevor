@@ -55,7 +55,7 @@ class RouteFileRegister
      * 
      * @return void
      */
-    public function register($routes)
+    public function register($routes): void
     {
         $router = $this->router;
         
