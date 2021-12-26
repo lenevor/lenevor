@@ -363,8 +363,8 @@ class Request
 	 * Returns the active request currently being used.
 	 *
 	 * @param  \Syscodes\Components\Http\Request|bool|null  $request  Overwrite current request 
-	 *                                                     before returning, false prevents 
-	 *                                                     overwrite
+	 *                                                      before returning, false prevents 
+	 *                                                      overwrite
 	 *
 	 * @return \Syscodes\Components\Http\Request
 	 */
@@ -398,7 +398,7 @@ class Request
 	 * Returns all segments in an array. For total of segments
 	 * used the function PHP count().
 	 *
-	 * @return array
+	 * @return array|null
 	 */
 	public function segments()
 	{
@@ -453,7 +453,7 @@ class Request
 	 * 
 	 * @return void
 	 */
-	public function detectLocale()
+	public function detectLocale(): void
 	{
 		$this->languages = $this->defaultLocale = config('app.locale');
 
@@ -465,7 +465,7 @@ class Request
 	 * 
 	 * @return string
 	 */
-	public function getDefaultLocale()
+	public function getDefaultLocale(): string
 	{
 		return $this->defaultLocale;
 	}
@@ -475,7 +475,7 @@ class Request
 	 * 
 	 * @return string 
 	 */
-	public function getLocale()
+	public function getLocale(): string
 	{
 		return $this->languages ?: $this->defaultLocale;
 	}
@@ -551,9 +551,9 @@ class Request
 	 * 
 	 * @param  \Syscodes\Components\Http\Contributors\Parameters  $json
 	 * 
-	 * @return $this
+	 * @return self
 	 */
-	public function setJson($json)
+	public function setJson($json): self
 	{
 		$this->json = $json;
 
@@ -566,7 +566,7 @@ class Request
 	 *
 	 * @return bool
 	 */
-	public function ajax()
+	public function ajax(): bool
 	{
 		return $this->isXmlHttpRequest();
 	}
@@ -576,7 +576,7 @@ class Request
 	 *
 	 * @return bool
 	 */
-	public function isXmlHttpRequest()
+	public function isXmlHttpRequest(): bool
 	{
 		return ! empty($this->server->get('HTTP_X_REQUESTED_WITH')) && 
 				strtolower($this->server->get('HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest';
@@ -589,7 +589,7 @@ class Request
 	 * 
 	 * @return bool
 	 */
-	public function isMethod(string $method)
+	public function isMethod(string $method): bool
 	{
 		return $this->getMethod() === strtoupper($method);
 	}
@@ -655,7 +655,7 @@ class Request
 	 * 
 	 * @return bool
 	 */
-	public function is(...$patterns)
+	public function is(...$patterns): bool
 	{
 		$path = $this->decodedPath();
 		
@@ -675,7 +675,7 @@ class Request
 	 * 
 	 * @return bool
 	 */
-	public function routeIs(...$patterns)
+	public function routeIs(...$patterns): bool
 	{
 		return $this->route() && $this->route()->is(...$patterns);
 	}
@@ -704,7 +704,7 @@ class Request
 	 * 
 	 * @return string
 	 */
-	public function decodedPath()
+	public function decodedPath(): string
 	{
 		return rawurldecode($this->path());
 	}
@@ -714,7 +714,7 @@ class Request
 	 * 
 	 * @return string
 	 */
-	public function path()
+	public function path(): string
 	{
 		if (($request = static::active())) {
 			$path = trim($this->getPathInfo(), '/');
@@ -728,7 +728,7 @@ class Request
 	 * 
 	 * @return string
 	 */
-	public function getContent()
+	public function getContent(): string
 	{
 		if (null === $this->content || false === $this->content) {
 			$this->content = file_get_contents('php://input');
@@ -742,7 +742,7 @@ class Request
 	 * 
 	 * @return string
 	 */
-	public function getPathInfo()
+	public function getPathInfo(): string
 	{
 		if (null === $this->pathInfo) {
 			$this->pathInfo = $this->http->parsePathInfo();
@@ -756,7 +756,7 @@ class Request
 	 * 
 	 * @return string
 	 */
-	public function getBaseUrl()
+	public function getBaseUrl(): string
 	{
 		if (null === $this->baseUrl) {
 			$this->baseUrl = $this->http->parseBaseUrl();
@@ -770,7 +770,7 @@ class Request
 	 * 
 	 * @return string
 	 */
-	public function getRequestUri()
+	public function getRequestUri(): string
 	{
 		if (null === $this->requestToUri) {
 			$this->requestToUri = $this->http->parseRequestUri();
@@ -784,7 +784,7 @@ class Request
 	 * 
 	 * @return string
 	 */
-	public function getScheme()
+	public function getScheme(): string
 	{
 		return $this->secure() ? $this->uri->setScheme('https') : $this->uri->setScheme('http');
 	}
@@ -816,7 +816,7 @@ class Request
 	 * 
 	 * @return int
 	 */
-	public function getPort()
+	public function getPort(): int
 	{
 		if ( ! $this->server->get('HTTP_HOST')) {
 			return $this->server->get('SERVER_PORT');
@@ -830,7 +830,7 @@ class Request
 	 * 
 	 * @return string
 	 */
-	public function getHttpHost()
+	public function getHttpHost(): string
 	{
 		$scheme = $this->getScheme();
 		$port   = $this->getPort();
@@ -847,7 +847,7 @@ class Request
 	 * 
 	 * @return string
 	 */
-	public function getSchemeWithHttpHost()
+	public function getSchemeWithHttpHost(): string
 	{
 		return $this->getScheme().'://'.$this->getHttpHost();
 	}
@@ -857,7 +857,7 @@ class Request
 	 * 
 	 * @return string
 	 */
-	public function root()
+	public function root(): string
 	{
 		return rtrim($this->getSchemeWithHttpHost().$this->getBaseUrl(), '/');
 	}
@@ -867,7 +867,7 @@ class Request
 	 * 
 	 * @return string
 	 */
-	public function url()
+	public function url(): string
 	{
 		return trim(preg_replace('/\?.*/', '', $this->path()), '/');
 	}
@@ -879,7 +879,7 @@ class Request
 	 * 
 	 * @return string
 	 */
-	public function referer(string $default = '')
+	public function referer(string $default = ''): string
 	{
 		return $this->server->get('HTTP_REFERER', $default);
 	}
@@ -890,7 +890,7 @@ class Request
 	 * 
 	 * @return bool
 	 */
-	public function secure()
+	public function secure(): bool
 	{
 		if ( ! empty($this->server->get('HTTPS')) && strtolower($this->server->get('HTTPS')) !== 'off') {
 			return true;
@@ -910,7 +910,7 @@ class Request
 	 *
 	 * @return string
 	 */
-	public function userAgent(string $default = null)
+	public function userAgent(string $default = null): string
 	{
 		return $this->server->get('HTTP_USER_AGENT', $default);
 	}
@@ -920,7 +920,7 @@ class Request
 	 * 
 	 * @return \Closure
 	 */
-	public function getRouteResolver()
+	public function getRouteResolver(): Closure
 	{
 		return $this->routeResolver ?: function () {
 			//
@@ -932,9 +932,9 @@ class Request
 	 * 
 	 * @param  \Closure  $callback
 	 * 
-	 * @return $this
+	 * @return self
 	 */
-	public function setRouteResolver(Closure $callback)
+	public function setRouteResolver(Closure $callback): self
 	{
 		$this->routeResolver = $callback;
 
@@ -942,6 +942,8 @@ class Request
 	}
 
 	/**
+	 * Magic method.
+	 * 
 	 * Get an element from the request.
 	 * 
 	 * @return string[]
@@ -958,6 +960,8 @@ class Request
 	}
 
 	/**
+	 * Magic method.
+	 * 
 	 * Returns the Request as an HTTP string.
 	 * 
 	 * @return string
@@ -992,6 +996,8 @@ class Request
 	}
 
 	/**
+	 * Magic method.
+	 * 
 	 * Clones the current request.
 	 * 
 	 * @return void
