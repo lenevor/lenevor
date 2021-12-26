@@ -36,7 +36,7 @@ trait TranspilesComponents
      * 
      * @return string
      */
-    protected function transpileComponent($expression)
+    protected function transpileComponent($expression): string
     {
         return "<?php \$__env->beginComponent{$expression}; ?>";
     }
@@ -46,7 +46,7 @@ trait TranspilesComponents
      * 
      * @return string
      */
-    protected function transpileEndComponent($expression)
+    protected function transpileEndComponent($expression): string
     {
         return '<?php echo $__env->renderComponent(); ?>';
     }
@@ -58,7 +58,7 @@ trait TranspilesComponents
      * 
      * @return string
      */
-    protected function transpileSlot($expression)
+    protected function transpileSlot($expression): string
     {
         return "<?php \$__env->slot{$expression}; ?>";
     }
@@ -68,7 +68,7 @@ trait TranspilesComponents
      * 
      * @return string
      */
-    protected function transpileEndSlot($expression)
+    protected function transpileEndSlot($expression): string
     {
         return '<?php $__env->endSlot(); ?>';
     }
