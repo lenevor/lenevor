@@ -43,5 +43,15 @@ interface ViewFinder
      *
      * @return string
      */
-    public function find($name);
+    public function find($name): string;
+
+    /**
+     * Replace the namespace hints for the given namespace.
+     * 
+     * @param  string  $namespace
+     * @param  string|array  $hints
+     * 
+     * @return void
+     */
+    public function replaceNamespace($namespace, $hints): void;
 }
