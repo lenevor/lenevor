@@ -53,14 +53,9 @@ class PhpEngine implements Engine
     }
 
     /**
-     * Get the evaluated contents of the view.
-     * 
-     * @param  string  $path
-     * @param  array  $data
-     * 
-     * @return string
+     * {@inheritdoc}
      */
-    public function get($path, array $data = [])
+    public function get($path, array $data = []): string
     {
         return $this->evaluatePath($path, $data);
     }
@@ -73,7 +68,7 @@ class PhpEngine implements Engine
      * 
      * @return string
      */
-    protected function evaluatePath($path, $data)
+    protected function evaluatePath($path, $data): string
     {
         $obLevel = ob_get_level();
         
@@ -98,7 +93,7 @@ class PhpEngine implements Engine
      * 
      * @throws \Throwable
      */
-    protected function handleViewException(Throwable $e, $obLevel)
+    protected function handleViewException(Throwable $e, $obLevel): void
     {
         while(ob_get_level() > $obLevel) {
             ob_end_clean();
