@@ -80,7 +80,7 @@ class RouteCollection implements Countable, IteratorAggregate
      * 
      * @return \Syscodes\Components\Routing\Route
      */
-    public function add(Route $route)
+    public function add(Route $route): Route
     {
         $this->addRouteCollections($route);
 
@@ -96,7 +96,7 @@ class RouteCollection implements Countable, IteratorAggregate
      * 
      * @return void
      */
-    protected function addRouteCollections($route)
+    protected function addRouteCollections($route): void
     {
         $domainAndRoute = $route->domain().$route->getRoute();
 
@@ -114,7 +114,7 @@ class RouteCollection implements Countable, IteratorAggregate
      * 
      * @return void
      */
-    protected function addRouteAllList($route)
+    protected function addRouteAllList($route): void
     {
         if ($name = $route->getName()) {
             $this->nameList[$name] = $route;
@@ -135,7 +135,7 @@ class RouteCollection implements Countable, IteratorAggregate
      * 
      * @return void
      */
-    protected function AddToActionList($action, $route)
+    protected function AddToActionList($action, $route): void
     {
         $this->actionList[trim($action['controller'], '\\')] = $route;
     }
@@ -145,7 +145,7 @@ class RouteCollection implements Countable, IteratorAggregate
      * 
      * @return void
      */
-    public function refreshNameLookups()
+    public function refreshNameLookups(): void
     {
         $this->nameList = [];
 
@@ -161,7 +161,7 @@ class RouteCollection implements Countable, IteratorAggregate
      * 
      * @return void
      */
-    public function refreshActionLookups()
+    public function refreshActionLookups(): void
     {
         $this->actionList = [];
 
@@ -177,7 +177,7 @@ class RouteCollection implements Countable, IteratorAggregate
      * 
      * @return array
      */
-    public function getRoutesByMethod()
+    public function getRoutesByMethod(): array
     {
         return $this->routes;
     }    
@@ -258,9 +258,9 @@ class RouteCollection implements Countable, IteratorAggregate
      * @param  string  $route
      * @param  string  $requestedUri
      * 
-     * @return bool
+     * @return array
      */
-    protected function compareUri(string $route, string $requestedUri)
+    protected function compareUri(string $route, string $requestedUri): array
     {
         $pattern = '~^'.$this->regexUri($route).'$~';
         
@@ -276,7 +276,7 @@ class RouteCollection implements Countable, IteratorAggregate
      * 
      * @return string
      */
-    protected function regexUri(string $route)
+    protected function regexUri(string $route): string
     {
         return preg_replace_callback('~/\{(.*?)(\?)?\}+~', function ($match) {
             return $this->regexParameter($match[1]);
@@ -290,7 +290,7 @@ class RouteCollection implements Countable, IteratorAggregate
      * 
      * @return string
      */
-    protected function regexParameter(string $name)
+    protected function regexParameter(string $name): string
     {
         $pattern = $this->route->wheres[$name] ?? '[^/]+';
         
@@ -318,7 +318,7 @@ class RouteCollection implements Countable, IteratorAggregate
      * 
      * @return bool
      */
-    public function hasNamedRoute(string $name)
+    public function hasNamedRoute(string $name): bool
     {
         return ! is_null($this->getByName($name));
     }
@@ -352,7 +352,7 @@ class RouteCollection implements Countable, IteratorAggregate
      * 
      * @return array
      */
-    public function getRoutes()
+    public function getRoutes(): array
     {
         return array_values($this->allRoutes);
     }
