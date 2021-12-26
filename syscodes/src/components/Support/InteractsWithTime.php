@@ -39,7 +39,7 @@ trait InteractsWithTime
      * 
      * @return int
      */
-    protected function secondsUntil($delay)
+    protected function secondsUntil($delay): int
     {
         $delay = $this->parseDateInterval($delay);
 
@@ -55,7 +55,7 @@ trait InteractsWithTime
      * 
      * @return int
      */
-    protected function availableAt($delay = 0)
+    protected function availableAt($delay = 0): int
     {
         $delay = $this->parseDateInterval($delay);
 
@@ -85,7 +85,7 @@ trait InteractsWithTime
      *
      * @return int
      */
-    protected function currentTime()
+    protected function currentTime(): int
     {
         return Chronos::now()->getTimestamp();
     }
