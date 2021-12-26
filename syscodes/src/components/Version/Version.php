@@ -74,7 +74,7 @@ final class Version
      *
      * @return string  Short version
      */
-    public static function shortVersion()
+    public static function shortVersion(): string
     {
         return self::COPY.' '.self::YEAR.' '.self::PRODUCT; 
     }
@@ -84,7 +84,7 @@ final class Version
      * 
      * @return string  Complete version
      */
-    public static function longVersion()
+    public static function longVersion(): string
     {
         return self::COPY.' '.self::YEAR.' '.self::COPYRIGHT.' - '.self::PRODUCT.' ' .self::RELEASE. ' '. 
                self::STATUS.' [ '.self::CODENAME.' ] '.self::RELEASEDATE;
