@@ -39,7 +39,7 @@ class FileEngine implements Engine
      * 
      * @return string
      */
-    public function get($path, array $data = [])
+    public function get($path, array $data = []): string
     {
         return file_get_contents($path);
     }
