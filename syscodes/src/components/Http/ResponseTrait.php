@@ -72,7 +72,7 @@ trait ResponseTrait
      * 
      * @return string
      */
-    public function content()
+    public function content(): string
     {
         return $this->getContent();
     }
@@ -82,7 +82,7 @@ trait ResponseTrait
      * 
      * @return int
      */
-    public function status()
+    public function status(): int
     {
         return $this->getStatusCode();
     }
@@ -94,9 +94,9 @@ trait ResponseTrait
      * @param  string  $values  The value or an array of values
      * @param  bool  $replace  If you want to replace the value exists by the header
      * 
-     * @return array
+     * @return self
      */
-    public function header($key, $values, $replace = true)
+    public function header($key, $values, $replace = true): self
     {
         $this->headers->set($key, $values, $replace);
 
@@ -108,9 +108,9 @@ trait ResponseTrait
      * 
      * @param  \Throwable  $e
      * 
-     * @return $this
+     * @return self
      */
-    public function withException(Throwable $e)
+    public function withException(Throwable $e): self
     {
         $this->exception = $e;
 
