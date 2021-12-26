@@ -205,7 +205,7 @@ trait Difference
      * 
      * @return string
      */
-    public function humanize(string $locale = null)
+    public function humanize(string $locale = null): string
     {
         $current = clone($this->currentTime);
         $years   = $current->fieldDifference($this->testTime, IntlCalendar::FIELD_YEAR);
