@@ -36,16 +36,16 @@ interface TranspilerInterface
      * 
      * @return string
      */
-    public function getTranspilePath($path);
+    public function getTranspilePath($path): string;
 
     /**
-     * Determine if the given view is expired.
+     * Determine if the view at the given view is expired.
      * 
      * @param  string  $path
      * 
      * @return bool
      */
-    public function isExpired($path);
+    public function isExpired($path): bool;
 
     /**
      * Transpile the view at the given path.
@@ -54,5 +54,5 @@ interface TranspilerInterface
      * 
      * @return void
      */
-    public function transpile($path);
+    public function transpile($path): void;
 }
