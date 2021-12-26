@@ -121,13 +121,9 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     ];
 
     /**
-     * Transpile the view at the given path.
-     * 
-     * @param  string|null  $path  
-     * 
-     * @return void
+     * {@inheritdoc}
      */
-    public function transpile($path = null)
+    public function transpile($path = null): void
     {
         if ($path) {
             $this->setPath($path);
@@ -155,7 +151,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * 
      * @return string
      */
-    protected function displayString($value)
+    protected function displayString($value): string
     {
         [$this->footer, $result] = [[], ''];
 
@@ -179,7 +175,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * 
      * @return string
      */
-    protected function storeUncompiledBlocks($value)
+    protected function storeUncompiledBlocks($value): string
     {
         if (strpos($value, '<@literal') !== false) {
             $value = $this->registerLiteralBlocks($value);
@@ -200,7 +196,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * 
      * @return string
      */
-    protected function registerLiteralBlocks($value)
+    protected function registerLiteralBlocks($value): string
     {
         return preg_replace_callback('/(?<!<@)<@literal(.*?)<@endliteral/s', function ($matches) {
             return "{$matches[1]}";
@@ -215,7 +211,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * 
      * @return string
      */
-    protected function registerPhpBlocks($value)
+    protected function registerPhpBlocks($value): string
     {
         return preg_replace_callback('/(?<!<@)<@php(.*?)<@endphp/s', function ($matches) {
             return "<?php{$matches[1]}?>";
@@ -229,7 +225,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * 
      * @return string
      */
-    protected function parseToken($token)
+    protected function parseToken($token): string
     {
         list($id, $content) = $token;
         
@@ -249,7 +245,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * 
      * @return string
      */
-    protected function AppendFilePath($contents)
+    protected function AppendFilePath($contents): string
     {
         $tokens = $this->getCollectionPHPTokens($contents);
 
@@ -284,7 +280,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * 
      * @return string
      */
-    protected function transpileStatements($value)
+    protected function transpileStatements($value): string
     {
         $pattern = '/\B<@(\w+)([ \t]*)(\( ( (?>[^()]+) | (?3) )* \))?/x';
 
@@ -302,7 +298,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * 
      * @return string
      */
-    protected function transpileStatement($match)
+    protected function transpileStatement($match): string
     {
         if (Str::contains($match[1], '@')) {
             $match[0] = isset($match[3]) ? $match[1].$match[3] : $match[1];
@@ -342,7 +338,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * 
      * @return void
      */
-    public function if($name, callable $callback)
+    public function if($name, callable $callback): void
     {
         $this->conditions[$name] = $callback;
         
@@ -377,7 +373,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * 
      * @return bool
      */
-    public function checkpoint($name, ...$parameters)
+    public function checkpoint($name, ...$parameters): bool
     {
         return call_user_func($this->conditions[$name], ...$parameters);
     }
@@ -389,7 +385,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * 
      * @return string
      */
-    public function stripParentheses($expression)
+    public function stripParentheses($expression): string
     {
         if (Str::startsWith($expression, '(') && Str::endsWith($expression, ')')) {
             $expression = substr($expression, 1, -1);
@@ -405,7 +401,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * 
      * @return string
      */
-    protected function transpileExtensions($value)
+    protected function transpileExtensions($value): string
     {
         foreach ($this->extensions as $extension) {
             $value = $extension($value, $this);
@@ -424,7 +420,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * 
      * @throws \InvalidArgumentException
      */
-    protected function directive($name, callable $callback)
+    protected function directive($name, callable $callback): void
     {
         if (preg_match('/^\w+(?:::\w+)?$/x', $name)) {
             throw new InvalidArgumentException("The directive name [{$name}] is not valid. Directive names must only contain alphanumeric characters and underscores.");
@@ -438,7 +434,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * 
      * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -450,7 +446,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * 
      * @return void
      */
-    public function setPath($path)
+    public function setPath($path): void
     {
         $this->path = $path;
     }
@@ -462,7 +458,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * 
      * @return void
      */
-    public function extend($extend)
+    public function extend($extend): void
     {
         $this->extensions[] = $extend;
     }
@@ -472,7 +468,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * 
      * @return array
      */
-    public function getExtensions()
+    public function getExtensions(): array
     {
         return $this->extensions;
     }
