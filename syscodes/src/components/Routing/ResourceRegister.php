@@ -147,7 +147,7 @@ class ResourceRegister
      * 
      * @return array
      */
-    protected function getResourcePrefix($name)
+    protected function getResourcePrefix($name): array
     {
         $segments = explode('/', $name);
 
@@ -164,7 +164,7 @@ class ResourceRegister
      * 
      * @return array
      */
-    protected function getResourceMethods($defaults, array $options)
+    protected function getResourceMethods($defaults, array $options): array
     {
         if (isset($options['only'])) {
             return array_intersect($defaults, (array) $options['only']);
@@ -315,7 +315,7 @@ class ResourceRegister
      * 
      * @return string
      */
-    public function getResourceUri($resource)
+    public function getResourceUri($resource): string
     {
         if ( ! Str::contains($resource, '.')) {
             return $resource;
@@ -337,7 +337,7 @@ class ResourceRegister
      * 
      * @return string
      */
-    protected function getNestedResourceUri(array $segments)
+    protected function getNestedResourceUri(array $segments): string
     {
         return implode('/', array_map(function ($segment) {
             return $segment.'/{'.$this->getResourceWilcard($segment).'}';
@@ -354,7 +354,7 @@ class ResourceRegister
      * 
      * @return array
      */
-    protected function getResourceAction($resource, $controller, $method, $options)
+    protected function getResourceAction($resource, $controller, $method, $options): array
     {
         $name = $this->getResourceRouteName($resource, $method, $options);
 
@@ -375,7 +375,7 @@ class ResourceRegister
      * 
      * @return string
      */
-    protected function getResourceRouteName($resource, $method, $options)
+    protected function getResourceRouteName($resource, $method, $options): string
     {
         if (isset($options['names'])) {
             if (is_string($options['names'])) {
@@ -397,7 +397,7 @@ class ResourceRegister
      * 
      * @return string
      */
-    public function getResourceWilcard($value)
+    public function getResourceWilcard($value): string
     {
         if (isset(static::$parameters[$value])) {
             $value = static::$parameters[$value];
@@ -413,7 +413,7 @@ class ResourceRegister
      * 
      * @return void
      */
-    public static function parameters(array $parameters = [])
+    public static function parameters(array $parameters = []): void
     {
         static::$parameters = $parameters;
     }
@@ -423,9 +423,9 @@ class ResourceRegister
      * 
      * @param  array  $verbs
      * 
-     * @return void
+     * @return array
      */
-    public static function verbs(array $verbs = [])
+    public static function verbs(array $verbs = []): array
     {
         if (empty($verbs)) {
             return static::$verbs;
