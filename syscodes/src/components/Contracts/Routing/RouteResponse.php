@@ -22,6 +22,8 @@
 
 namespace Syscodes\Components\Contracts\Routing;
 
+use Syscodes\Components\Http\Response;
+
 /**
  * This class allows you to control the use of the HTTP response 
  * along with routes redirection.
@@ -39,7 +41,7 @@ interface RouteResponse
      * 
      * @return \Syscodes\Components\Http\Response
      */
-    public function make($body = '', $status = 200, array $headers = []);
+    public function make($body = '', $status = 200, array $headers = []): Response;
 
     /**
      * Creates a new 'no content' response.
@@ -49,7 +51,7 @@ interface RouteResponse
      * 
      * @return \Syscodes\Components\Http\Response
      */
-    public function noContent($status = 204, array $headers = []);
+    public function noContent($status = 204, array $headers = []): Response;
 
     /**
      * Return a new View Response from the application.
@@ -61,7 +63,12 @@ interface RouteResponse
      * 
      * @return  \Syscodes\Components\Http\Response
      */
-    public function view($view, array $data = [], $status = 200, array $headers = []);
+    public function view(
+        $view,
+        array $data = [],
+        $status = 200,
+        array $headers = []
+    ): Response;
 
     /**
      * Create a new JSON response instance.
@@ -73,7 +80,12 @@ interface RouteResponse
      * 
      * @return \Syscodes\Components\Http\JsonResponse
      */
-    public function json($data = [], $status = 200, array $headers = [], $options = 0);
+    public function json(
+        $data = [],
+        $status = 200,
+        array $headers = [],
+        $options = 0
+    );
 
     /**
      * Create a new redirect response to the given path.
@@ -85,5 +97,10 @@ interface RouteResponse
      * 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
-    public function redirectTo($path, $status = 302, $headers = [], $secure = null);
+    public function redirectTo(
+        $path, 
+        $status = 302, 
+        $headers = [], 
+        $secure = null
+    );
 }
