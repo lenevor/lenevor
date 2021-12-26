@@ -115,11 +115,11 @@ class Finder
      * @param  string|array  $paths  The path to add
      * @param  int  $pos  The position to add the path  
      *
-     * @return $this
+     * @return self
      *
      * @throws \OutOfBoundsException
      */
-    public function addPath($paths, $pos = null)
+    public function addPath($paths, $pos = null): self
     {
         if ( ! is_array($paths)) {
             $paths = [$paths];
@@ -195,7 +195,7 @@ class Finder
      *
      * @return string
      */
-    public function prepPath($path)
+    public function prepPath($path): string
     {
         $path = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
 
