@@ -46,7 +46,7 @@ class ArrayLoader implements Loader
      * 
      * @return array
      */
-    public function load($locale, $group)
+    public function load($locale, $group): array
     {
         return $this->messages[$locale][$group] ?? [];
     }
