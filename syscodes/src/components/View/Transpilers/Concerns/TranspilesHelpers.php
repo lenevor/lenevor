@@ -34,7 +34,7 @@ trait TranspilesHelpers
      * 
      * @return string
      */
-    protected function transpileCsrf()
+    protected function transpileCsrf(): string
     {
         return '<?php echo csrfField(); ?>';
     }
@@ -46,7 +46,7 @@ trait TranspilesHelpers
      * 
      * @return string
      */
-    protected function transpileDd($value)
+    protected function transpileDd($value): string
     {
         return "<?php echo dd{$value}; ?>";
     }
@@ -58,7 +58,7 @@ trait TranspilesHelpers
      * 
      * @return string
      */
-    protected function transpileMethod($method)
+    protected function transpileMethod($method): string
     {
         return "<?php echo methodField{$method}; ?>";
     }
