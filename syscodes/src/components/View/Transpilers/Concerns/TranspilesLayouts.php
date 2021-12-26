@@ -38,7 +38,7 @@ trait TranspilesLayouts
      * 
      * @return string
      */
-    protected function transpileExtends($expression)
+    protected function transpileExtends($expression): string
     {
         $expression = $this->stripParentheses($expression);
 
@@ -56,7 +56,7 @@ trait TranspilesLayouts
      * 
      * @return string
      */
-    protected function transpileSection($expression)
+    protected function transpileSection($expression): string
     {
         return "<?php \$__env->startSection{$expression}; ?>";
     }
@@ -68,7 +68,7 @@ trait TranspilesLayouts
      * 
      * @return string
      */
-    protected function transpileGive($expression)
+    protected function transpileGive($expression): string
     {
         return "<?php echo \$__env->giveContent{$expression}; ?>";
     }
@@ -78,7 +78,7 @@ trait TranspilesLayouts
      * 
      * @return string
      */
-    protected function transpileParent()
+    protected function transpileParent(): string
     {
         return ViewFactory::parent();
     }
@@ -88,7 +88,7 @@ trait TranspilesLayouts
      * 
      * @return string
      */
-    protected function transpileAppend()
+    protected function transpileAppend(): string
     {
         return '<?php $__env->appendSection(); ?>';
     }
@@ -98,7 +98,7 @@ trait TranspilesLayouts
      * 
      * @return string
      */
-    protected function transpileShow()
+    protected function transpileShow(): string
     {
         return '<?php echo $__env->showSection(); ?>';
     }
@@ -108,7 +108,7 @@ trait TranspilesLayouts
      * 
      * @return string
      */
-    protected function transpileStop()
+    protected function transpileStop(): string
     {
         return '<?php $__env->stopSection(); ?>';
     }
