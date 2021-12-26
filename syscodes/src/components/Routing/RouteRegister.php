@@ -106,11 +106,11 @@ class RouteRegister
      * @param  string  $key
      * @param  mixed  $value
      * 
-     * @return $this
+     * @return self
      * 
      * @throws \InvalidArgumentException
      */
-    public function attribute($key, $value)
+    public function attribute($key, $value): self
     {
         if ( ! in_array($key, $this->allowedAttributes)) {
             throw new InvalidArgumentException("Attribute [{$key}] does not exist.");
@@ -142,7 +142,7 @@ class RouteRegister
      * 
      * @return void
      */
-    public function group($callback)
+    public function group($callback): void
     {
         $this->router->group($this->attributes, $callback);
     }
@@ -156,7 +156,7 @@ class RouteRegister
      * 
      * @return \Syscodes\Components\Routing\Route
      */
-    public function match($methods, $uri, $action = null)
+    public function match($methods, $uri, $action = null): route
     {
         return $this->router->match($methods, $uri, $this->compileAction($action));
     }
@@ -170,7 +170,7 @@ class RouteRegister
      * 
      * @return \Syscodes\Components\Routing\Route
      */
-    protected function registerRoute($method, $uri, $action = null)
+    protected function registerRoute($method, $uri, $action = null): Route
     {
         if ( ! is_array($action)) {
             $action = array_merge($this->attributes, $action ? ['uses' => $action] : []);
@@ -186,7 +186,7 @@ class RouteRegister
      * 
      * @return array
      */
-    protected function compileAction($action)
+    protected function compileAction($action): array
     {
         if (is_null($action)) {
             return $this->attributes;
