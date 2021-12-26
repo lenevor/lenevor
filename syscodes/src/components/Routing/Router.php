@@ -116,14 +116,13 @@ class Router implements Routable
 	/**
 	 * Constructor. Create a new Router instance.
 	 *
-	 * @param  \Syscodes\Components\Contracts\Container\Container|null  $container  (null by default)
+	 * @param  \Syscodes\Components\Contracts\Container\Container|null  $container
 	 * 
 	 * @return void
 	 */
 	public function __construct(Container $container = null)
 	{
-		$this->routes = new RouteCollection();
-
+		$this->routes    = new RouteCollection();
 		$this->container = $container ?: new Container;
 	}
 
@@ -132,7 +131,7 @@ class Router implements Routable
 	 *
 	 * @return string
 	 */
-	public function getGroupPrefix()
+	public function getGroupPrefix(): string
 	{
 		if ( ! empty($this->groupStack)) {
 			$last = end($this->groupStack);
@@ -160,9 +159,9 @@ class Router implements Routable
 	 * @param  array  $attributes
 	 * @param  \Closure|string  $callback
 	 *
-	 * @return void
+	 * @return self
 	 */
-	public function group(array $attributes, $callback) 
+	public function group(array $attributes, $callback): self
 	{
 		$this->updateGroupStack($attributes);
 
@@ -180,7 +179,7 @@ class Router implements Routable
 	 * 
 	 * @return void
 	 */
-	protected function updateGroupStack(array $attributes)
+	protected function updateGroupStack(array $attributes): void
 	{
 		if ( ! empty($this->groupStack)) {
 			$attributes = $this->mergeGroup($attributes);
@@ -196,7 +195,7 @@ class Router implements Routable
 	 * 
 	 * @return array
 	 */
-	protected function mergeGroup($new)
+	protected function mergeGroup($new): array
 	{
 		return RouteGroup::mergeGroup($new, end($this->groupStack));
 	}
@@ -208,7 +207,7 @@ class Router implements Routable
 	 * 
 	 * @return void
 	 */
-	protected function loadRoutes($callback)
+	protected function loadRoutes($callback): void
 	{
 		if ($callback instanceof Closure) {
 			$callback($this);
@@ -236,11 +235,11 @@ class Router implements Routable
 	 * 
 	 * @param  string  $uri
 	 * @param  string  $destination
-	 * @param  int  $status  (302 by default)
+	 * @param  int  $status
 	 * 
 	 * @return \Syscodes\Components\Routing\Route
 	 */
-	public function redirect($uri, $destination, $status = 302)
+	public function redirect($uri, $destination, $status = 302): Route
 	{
 		return $this->any($uri, function () use ($destination, $status) {
 			return new RedirectResponse($destination, $status);
@@ -256,7 +255,7 @@ class Router implements Routable
 	 * 
 	 * @return \Syscodes\Components\Routing\Route
 	 */
-	public function view($uri, $view, $data = [])
+	public function view($uri, $view, $data = []): Route
 	{
 		return $this->match(['GET', 'HEAD'], $uri, function () use ($view, $data) {
 			return $this->container->make('view')->make($view, $data);
@@ -274,7 +273,7 @@ class Router implements Routable
 	 * 
 	 * @throws \InvalidArgumentException
 	 */
-	public function map($method, $route, $action) 
+	public function map($method, $route, $action)
 	{
 		if ($this->actionReferencesController($action)) {
 			$action = $this->convertToControllerAction($action);
@@ -302,7 +301,7 @@ class Router implements Routable
 	 * 
 	 * @return bool
 	 */
-	protected function actionReferencesController($action)
+	protected function actionReferencesController($action): bool
 	{
 		if ($action instanceof Closure) {
 			return false;
@@ -318,7 +317,7 @@ class Router implements Routable
 	 * 
 	 * @return array
 	 */
-	protected function convertToControllerAction($action)
+	protected function convertToControllerAction($action): array
 	{
 		if (is_string($action)) {
 			$action = ['uses' => $action];
@@ -340,7 +339,7 @@ class Router implements Routable
 	 * 
 	 * @return string
 	 */
-	protected function prependGroupUses($uses)
+	protected function prependGroupUses($uses): string
 	{
 		$group = end($this->groupStack);
 		
@@ -356,7 +355,7 @@ class Router implements Routable
 	 * 
 	 * @return \Syscodes\Components\Routing\Route
 	 */
-	public function newRoute($method, $uri, $action)
+	public function newRoute($method, $uri, $action): route
 	{
 		return take(new Route($method, $uri, $action))
 		              ->setContainer($this->container);
@@ -367,7 +366,7 @@ class Router implements Routable
 	 * 
 	 * @return bool
 	 */
-	public function hasGroupStack()
+	public function hasGroupStack(): bool
 	{
 		return ! empty($this->groupStack);
 	}
@@ -379,7 +378,7 @@ class Router implements Routable
 	 * 
 	 * @return void
 	 */
-	protected function mergeGroupAttributesIntoRoute($route)
+	protected function mergeGroupAttributesIntoRoute($route): void
 	{
 		$action = static::mergeGroup($route->getAction(), end($this->groupStack));
 		
@@ -393,7 +392,7 @@ class Router implements Routable
 	 * 
 	 * @return \Syscodes\Components\Routing\Route
 	 */
-	protected function addWhereClausesToRoute($route)
+	protected function addWhereClausesToRoute($route): Route
 	{
 		return $route->where(array_merge(
 			$this->patterns, Arr::get($route->getAction(), 'where', [])
@@ -407,7 +406,7 @@ class Router implements Routable
 	 *
 	 * @return string
 	 */
-	protected function prefix($uri)
+	protected function prefix($uri): string
 	{
 		$uri = is_null($uri) ? '' : trim($uri, '/').'/';
 
@@ -430,9 +429,9 @@ class Router implements Routable
 	 * 
 	 * @return void
 	 */
-	public function pattern($name, $pattern)
+	public function pattern($name, $pattern): void
 	{
-		return $this->patterns[$name] = $pattern;
+		$this->patterns[$name] = $pattern;
 	}
 
 	/**
@@ -442,7 +441,7 @@ class Router implements Routable
 	 * 
 	 * @return void
 	 */
-	public function patterns($patterns)
+	public function patterns($patterns): void
 	{
 		foreach ($patterns as $key => $pattern) {
 			$this->patterns[$key] = $pattern;
@@ -482,7 +481,7 @@ class Router implements Routable
 	 * 
 	 * @return array
 	 */
-	public function gatherRouteMiddleware(Route $route)
+	public function gatherRouteMiddleware(Route $route): array
 	{
 		$middleware = array_map(function ($name) {
             return MiddlewareResolver::resolve($name, $this->middleware, $this->middlewareGroups);
@@ -496,7 +495,7 @@ class Router implements Routable
 	 * 
 	 * @return array
 	 */
-	public function getMiddleware()
+	public function getMiddleware(): array
 	{
 		return $this->middleware;
 	}
@@ -507,9 +506,9 @@ class Router implements Routable
 	 * @param  string  $name
 	 * @param  string  $class
 	 * 
-	 * @return $this
+	 * @return self
 	 */
-	public function aliasMiddleware($name, $class)
+	public function aliasMiddleware($name, $class): self
 	{
 		$this->middleware[$name] = $class;
 
@@ -522,9 +521,9 @@ class Router implements Routable
 	 * @param  string  $name
 	 * @param  array  $middleware
 	 * 
-	 * @return $this
+	 * @return self
 	 */
-	public function middlewareGroup($name, array $middleware)
+	public function middlewareGroup($name, array $middleware): self
 	{
 		$this->middlewareGroups[$name] = $middleware;
 
@@ -538,7 +537,7 @@ class Router implements Routable
 	 * 
 	 * @return bool
 	 */
-	public function has($name)
+	public function has($name): bool
 	{
 		$names = is_array($name) ? $name : func_get_args();
 
@@ -568,7 +567,7 @@ class Router implements Routable
 	 * 
 	 * @return bool
 	 */
-	public function is(...$patterns)
+	public function is(...$patterns): bool
 	{
 		return $this->currentRouteNamed(...$patterns);
 	}
@@ -580,7 +579,7 @@ class Router implements Routable
 	 * 
 	 * @return bool
 	 */
-	public function currentRouteNamed(...$patterns)
+	public function currentRouteNamed(...$patterns): bool
 	{
 		return $this->current() && $this->current()->named(...$patterns);
 	}
@@ -593,7 +592,7 @@ class Router implements Routable
 	 * 
 	 * @return void
 	 */
-	public function resources(array $resources, array $options = [])
+	public function resources(array $resources, array $options = []): void
 	{
 		foreach ($resources as $name => $controller) {
 			$this->resource($name, $controller, $options);
@@ -652,7 +651,7 @@ class Router implements Routable
 	 * 
 	 * @return void
 	 */
-	public function macro($name, callable $callback)
+	public function macro($name, callable $callback): void
 	{
 		$this->macros[$name] = $callback;
 	}
@@ -662,14 +661,16 @@ class Router implements Routable
 	 * 
 	 * @param  string  $name
 	 * 
-	 * @return boolean
+	 * @return bool
 	 */
-	public function hasMacro($name)
+	public function hasMacro($name): bool
 	{
 		return isset($this->macros[$name]);
 	}
 	
 	/**
+	 * Magic method.
+	 * 
 	 * Dynamically handle calls into the router instance.
 	 * 
 	 * @param  string  $method
