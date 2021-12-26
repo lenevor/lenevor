@@ -76,8 +76,12 @@ class AwaitingResourceRegistration
      * 
      * @return void
      */
-    public function __construct(ResourceRegister $register, $name, $controller, array $options = [])
-    {
+    public function __construct(
+        ResourceRegister $register, 
+        $name, 
+        $controller, 
+        array $options = []
+    ) {
         $this->name = $name;
         $this->options = $options;
         $this->register = $register;
@@ -89,9 +93,9 @@ class AwaitingResourceRegistration
      * 
      * @param  array|string  $methods
      * 
-     * @return \Syscodes\Components\Routing\AwaitingResourceRegistration
+     * @return self
      */
-    public function only($methods)
+    public function only($methods): self
     {
         $this->options['only'] = is_array($methods) ? $methods : func_get_args();
 
@@ -103,9 +107,9 @@ class AwaitingResourceRegistration
      * 
      * @param  array|string  $methods
      * 
-     * @return \Syscodes\Components\Routing\AwaitingResourceRegistration
+     * @return self
      */
-    public function except($methods)
+    public function except($methods): self
     {
         $this->options['except'] = is_array($methods) ? $methods : func_get_args();
 
@@ -117,9 +121,9 @@ class AwaitingResourceRegistration
      * 
      * @param  array|string  $names
      * 
-     * @return \Syscodes\Components\Routing\AwaitingResourceRegistration
+     * @return self
      */
-    public function names($names)
+    public function names($names): self
     {
         $this->options['names'] = $names;
 
@@ -132,9 +136,9 @@ class AwaitingResourceRegistration
      * @param  string  $method
      * @param  string  $name
      * 
-     * @return \Syscodes\Components\Routing\AwaitingResourceRegistration
+     * @return self
      */
-    public function name($method, $name)
+    public function name($method, $name): self
     {
         $this->options['names'][$method] = $name;
 
@@ -146,9 +150,9 @@ class AwaitingResourceRegistration
      * 
      * @param  array|string  $parameters
      * 
-     * @return \Syscodes\Components\Routing\AwaitingResourceRegistration
+     * @return self
      */
-    public function parameters($parameters)
+    public function parameters($parameters): self
     {
         $this->options['parameters'] = $parameters;
 
@@ -161,9 +165,9 @@ class AwaitingResourceRegistration
      * @param  string  $previous
      * @param  string  $parameter
      * 
-     * @return \Syscodes\Components\Routing\AwaitingResourceRegistration
+     * @return self
      */
-    public function parameter($previous, $parameter)
+    public function parameter($previous, $parameter): self
     {
         $this->options['parameters'][$previous] = $parameter;
 
@@ -185,6 +189,8 @@ class AwaitingResourceRegistration
     }
 
     /**
+     * Magic method.
+     * 
      * Handle the object's destruction.
      * 
      * @return void
