@@ -36,7 +36,7 @@ trait TranspilesIncludes
      * 
      * @return string
      */
-    protected function transpileInclude($expression)
+    protected function transpileInclude($expression): string
     {
         $expression = $this->stripParentheses($expression);
 
@@ -50,7 +50,7 @@ trait TranspilesIncludes
      * 
      * @return string
      */
-    protected function transpileIncludeIf($expression)
+    protected function transpileIncludeIf($expression): string
     {
         $expression = $this->stripParentheses($expression);
 
