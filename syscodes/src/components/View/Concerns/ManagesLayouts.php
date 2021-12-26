@@ -100,7 +100,7 @@ trait ManagesLayouts
 	 * 
 	 * @return string
 	 */
-	public function showSection()
+	public function showSection(): string
 	{
 		if (empty($this->sectionStack)) {
 			return '';
@@ -116,7 +116,7 @@ trait ManagesLayouts
 	 * 
 	 * @return string
 	 */
-	public function giveContent($name, $default = '')
+	public function giveContent($name, $default = ''): string
 	{
 		$sectionContent = $default instanceof View ? $default : e($default);
 		
@@ -184,7 +184,7 @@ trait ManagesLayouts
 	 * 
 	 * @return bool
 	 */
-	public function hasSection($name)
+	public function hasSection($name): bool
 	{
 		return array_key_exists($name, $this->sections);
 	}
@@ -194,7 +194,7 @@ trait ManagesLayouts
 	 * 
 	 * @return array
 	 */
-	public function getSections()
+	public function getSections(): array
 	{
 		return $this->sections;
 	}
@@ -204,7 +204,7 @@ trait ManagesLayouts
 	 * 
 	 * @return string
 	 */
-	public static function parent()
+	public static function parent(): string
 	{
 		return '@parent';
 	}
@@ -214,7 +214,7 @@ trait ManagesLayouts
 	 * 
 	 * @return void
 	 */
-	public function flushSections()
+	public function flushSections(): void
 	{
 		$this->sections     = [];
 		$this->sectionStack = [];
