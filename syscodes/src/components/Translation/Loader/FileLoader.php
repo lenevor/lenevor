@@ -70,7 +70,7 @@ class FileLoader implements LoaderContract
      * 
      * @return array
      */
-    public function load($locale, $group)
+    public function load($locale, $group): array
     {
         if ($group === '*') {
             return $this->loadJsonPaths($locale);
@@ -87,7 +87,7 @@ class FileLoader implements LoaderContract
      * 
      * @return array
      */
-    protected function loadFilePaths($locale, $group)
+    protected function loadFilePaths($locale, $group): array
     {
         if ($this->files->exists($fullPath = "{$this->path}/{$locale}/{$group}.php")) {
             return $this->files->getRequire($fullPath);
@@ -103,7 +103,7 @@ class FileLoader implements LoaderContract
      * 
      * @return array
      */
-    protected function loadJsonPaths($locale)
+    protected function loadJsonPaths($locale): array
     {
         return collect([$this->path])
             ->reduce(function ($output, $path) use ($locale) {
