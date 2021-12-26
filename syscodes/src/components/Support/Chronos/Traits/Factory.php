@@ -294,7 +294,7 @@ trait Factory
      * 
      * @return bool
      */
-    public static function hasTestNow()
+    public static function hasTestNow(): bool
     {
         return ! is_null(static::$testNow);
     }
