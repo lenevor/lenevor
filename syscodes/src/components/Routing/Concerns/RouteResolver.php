@@ -51,7 +51,7 @@ trait RouteResolver
 	 *
 	 * @return \Syscodes\Components\Http\Response
 	 */
-	public function resolve(Request $request)
+	public function resolve(Request $request): Response
 	{
 		return $this->dispatchToRoute($request);
 	}
@@ -63,7 +63,7 @@ trait RouteResolver
 	 *
 	 * @return \Syscodes\Components\Http\Response
 	 */
-	protected function dispatchToRoute(Request $request)
+	protected function dispatchToRoute(Request $request): Response
 	{
 		return $this->runRoute($request, $this->findRoute($request));
 	}
@@ -75,7 +75,7 @@ trait RouteResolver
 	 * 
 	 * @return \Syscodes\Components\Routing\Route
 	 */
-	protected function findRoute($request)
+	protected function findRoute($request): Route
 	{
 		// Get all register routes with the same request method
 		$this->current = $route = $this->routes->match($request);
@@ -93,7 +93,7 @@ trait RouteResolver
 	 * 
 	 * @return \Syscodes\Components\Http\Response
 	 */
-	protected function runRoute(Request $request, Route $route)
+	protected function runRoute(Request $request, Route $route): Response
 	{
 		$request->setRouteResolver(function () use ($route) {
 			return $route;
@@ -138,7 +138,7 @@ trait RouteResolver
 	 * 
 	 * @return \Syscodes\Components\Http\Response
 	 */
-	public function callResponse($request, $response)
+	public function callResponse($request, $response): Response
 	{
 		return static::toResponse($request, $response);
 	}
@@ -151,7 +151,7 @@ trait RouteResolver
 	 * 
 	 * @return \Syscodes\Components\Http\Response
 	 */
-	public static function toResponse($request, $response)
+	public static function toResponse($request, $response): Response
 	{
 		if ( ! $response instanceof Response && 
 		      ($response instanceof Jsonserializable || 
