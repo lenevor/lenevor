@@ -36,7 +36,7 @@ trait TranspilesComments
      * 
      * @return string
      */
-    protected function transpileComments($value)
+    protected function transpileComments($value): string
     {
         $pattern = sprintf('/%s--(.*?)--%s/s', $this->contentTags[0], $this->contentTags[1]);
         
