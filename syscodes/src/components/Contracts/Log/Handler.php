@@ -30,6 +30,17 @@ namespace Syscodes\Components\Contracts\Log;
 interface Handler
 {
     /**
+     * Logs with an arbitrary level.
+     * 
+     * @param  mixed  $level
+     * @param  string  $message
+     * @param  array  $context
+     * 
+     * @return bool
+     */
+    public function log($level, $message, array $context = []): bool;
+
+    /**
      * Handles logging the message.
      * 
      * @param  string  $level
@@ -37,5 +48,5 @@ interface Handler
      * 
      * @return bool
      */
-    public function handle($level, $message);
+    public function handle($level, $message): bool;
 }
