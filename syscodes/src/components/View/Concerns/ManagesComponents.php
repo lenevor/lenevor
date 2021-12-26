@@ -132,7 +132,7 @@ trait ManagesComponents
      * 
      * @return int
      */
-    protected function currentComponent()
+    protected function currentComponent(): int
     {
         return count($this->components) - 1;
     }
