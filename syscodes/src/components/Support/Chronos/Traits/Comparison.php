@@ -40,7 +40,7 @@ trait Comparison
      * 
      * @return bool
      */
-    public function equals($time, string $timezone = null)
+    public function equals($time, string $timezone = null): bool
     {
         $testTime = $this->getConvertedUTC($time, $timezone);
         $ourTime  = $this->toDateTime()
@@ -59,7 +59,7 @@ trait Comparison
      * 
      * @return bool
      */
-    public function isBefore($time, string $timezone = null)
+    public function isBefore($time, string $timezone = null): bool
     {
         $testTime = $this->getConvertedUTC($time, $timezone)->getTimestamp();
         $ourTime  = $this->getTimestamp();
@@ -76,7 +76,7 @@ trait Comparison
      * 
      * @return bool
      */
-    public function isAfter($time, string $timezone = null)
+    public function isAfter($time, string $timezone = null): bool
     {
         $testTime = $this->getConvertedUTC($time, $timezone)->getTimestamp();
         $ourTime  = $this->getTimestamp();
@@ -92,7 +92,7 @@ trait Comparison
      * 
      * @return bool
      */
-    public function sameAs($time, string $timezone = null)
+    public function sameAs($time, string $timezone = null): bool
     {
         $testTime = '';
 
