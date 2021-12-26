@@ -42,7 +42,7 @@ class RouteAction
      * 
      * @return array
      */
-    public static function parse($uri, $action)
+    public static function parse($uri, $action): array
     {
         if (is_null($action)) {
             return static::usesAction($uri);
