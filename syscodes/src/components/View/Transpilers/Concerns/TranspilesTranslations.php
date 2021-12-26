@@ -36,7 +36,7 @@ trait TranspilesTranslations
      * 
      * @return string
      */
-    protected function transpileLang($expression)
+    protected function transpileLang($expression): string
     {
         if (is_null($expression)) {
             return '<?php \$__env->beginTranslation(); ?>';
@@ -52,7 +52,7 @@ trait TranspilesTranslations
      * 
      * @return string
      */
-    protected function transpileEndlang()
+    protected function transpileEndlang(): string
     {
         return '<?php echo $__env->renderTranslation(); ?>';
     }
