@@ -110,12 +110,8 @@ class Builder
         if (is_array($id)) {
             return $this->findMany($id, $columns);
         }
-        
-        $keyName = $this->model->getQualifiedKeyName();
-        
-        $where = $this->queryBuilder->where($keyName, '=', $id);
-        
-        return $where->first($columns);
+
+        return $this->whereClauseKey($id)->first($columns);
     }
     
     /**
@@ -145,7 +141,7 @@ class Builder
      * @param  mixed  $id
      * @param  array  $columns
      * 
-     * @return \Syscodes\Components\Database\Elusen\Model|static
+     * @return \Syscodes\Components\Database\Elusen\Model|\Syscodes\Components\Database\Elusen\Collection|static|static[]
      * 
      * @throws \Syscodes\Components\Database\Elusen\Exceptions\ModelNotFoundException
      */
@@ -171,13 +167,42 @@ class Builder
      */
     public function firstOrFail($columns = ['*'])
     {
-        if ( ! is_null($model = $this->get($columns))) {
+        if ( ! is_null($model = $this->queryBuilder->first($columns))) {
             return $model;
         }
 
         $className = get_class($this->model);
 
         throw (new ModelNotFoundException)->setModel($className);
+    }
+
+    /**
+     * Add a where clause on the primary key to the query.
+     * 
+     * @param  mixed  $id
+     * 
+     * @return self
+     */
+    public function whereClauseKey($id)
+    {
+        $keyName = $this->model->getQualifiedKeyName();
+
+        return $this->where($keyName, '=', $id);
+    }
+
+    /**
+     * Add a basic where clause to the query.
+     * 
+     * @param  \Closure|string|array|\Syscodes\Component\Database\Query\Expression  $column
+     * @param  mixed  $operator
+     * @param  mixed  $value
+     * @param  string  $boolean
+     * 
+     * @return self
+     */
+    public function where($column, $operator = null, $value = null, $boolean = 'and')
+    {
+        return $this->queryBuilder->where($column, $operator, $value, $boolean);
     }
 
     /**
@@ -262,6 +287,23 @@ class Builder
         $this->queryBuilder->from($model->getTable());
 
         return $this; 
+    }
+
+    /**
+     * Magic method.
+     * 
+     * Dynamically handle method calls into the Builder instance.
+     * 
+     * @param  string  $method
+     * @param  array  $parameters
+     * 
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        $result = $this->queryBuilder->{$method}($parameters);
+
+        return in_array($method, $this->passthru) ? $result : $this;
     }
     
     /**
