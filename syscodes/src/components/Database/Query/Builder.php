@@ -716,7 +716,7 @@ class Builder
     /**
      * Execute the query and get the first result.
      * 
-     * @param  array
+     * @param  array  $columns
      * 
      * @return mixed
      */
