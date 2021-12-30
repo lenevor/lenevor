@@ -202,7 +202,7 @@ class Builder
      */
     public function where($column, $operator = null, $value = null, $boolean = 'and')
     {
-        return $this->queryBuilder->where($column, $operator, $value, $boolean);
+        return $this->queryBuilder->where(...func_get_args());
     }
 
     /**
