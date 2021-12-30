@@ -57,7 +57,7 @@ class Model /*implements Arrayable, ArrayAccess*/
 	 * 
 	 * @var string $primaryKey
 	 */
-	protected $primaryKey =  'id';
+	protected $primaryKey = 'id';
 
 	/**
 	 * The table associated with the model.
