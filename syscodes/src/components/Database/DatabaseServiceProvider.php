@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\Database;
 
-use Syscodes\Components\Database\Elusen\Model;
+use Syscodes\Components\Database\Erostrine\Model;
 use Syscodes\Components\Support\ServiceProvider;
 
 /**
