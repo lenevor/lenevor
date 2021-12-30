@@ -87,9 +87,7 @@ class Model /*implements Arrayable, ArrayAccess*/
 	 */
 	public static function all($columns = ['*'])
 	{
-		$instance = new static;
-		
-		return $instance->newQuery()->get(
+		return static::query()->get(
 			is_array($columns) ? $columns : func_get_args()
 		);
 	}
@@ -104,9 +102,7 @@ class Model /*implements Arrayable, ArrayAccess*/
 	 */
 	public static function find($id, array $columns = ['*'])
 	{
-		$instance = new static;
-
-		return $instance->newQuery()->find($id, $columns);
+		return static::query()->find($id, $columns);
 	}
 	
 	/**
@@ -121,10 +117,22 @@ class Model /*implements Arrayable, ArrayAccess*/
 	 */
 	public static function findOrFail($id, array $columns = ['*'])
 	{
-		$instance = new static;
-		
-		return $instance->newQuery()->findOrFail($id, $columns);
+		return static::query()->findOrFail($id, $columns);
 	}
+
+	/**
+     * Execute the query and get the first result or throw an exception.
+     *
+     * @param  array  $columns
+     * 
+     * @return \Syscodes\Components\Database\Elusen\Model|static
+     *
+     * @throws \Syscodes\Components\Database\Elusen\Exceptions\ModelNotFoundException
+     */
+    public static function firstOrFail($columns = ['*'])
+    {
+        return static::query()->firstOrFail($columns);
+    }
 	
 	/**
 	 * Get the table qualified key name.
@@ -156,6 +164,16 @@ class Model /*implements Arrayable, ArrayAccess*/
 	public function setKeyName($key): void
 	{
 		$this->primaryKey = $key;
+	}
+
+	/**
+	 * Begin querying the model.
+	 * 
+	 * @return \Syscodes\Components\Database\Elusen\Builder
+	 */
+	public static function query()
+	{
+		return (new static)->newQuery();
 	}
 
 	/**
@@ -306,4 +324,36 @@ class Model /*implements Arrayable, ArrayAccess*/
 	{
 		static::$resolver = $resolver;
 	}
+
+	/**
+	 * Magic method.
+     * 
+     * Dynamically handle method calls into the model instance.
+     * 
+     * @param  string  $method
+     * @param  array  $parameters
+     * 
+     * @return mixed
+	 */
+	public function __call($method, $parameters)
+    {
+		return $this->newQuery()->{$method}($parameters);
+    }
+
+	/**
+	 * Magic method.
+     * 
+     * Dynamically handle static method calls into the model instance.
+     * 
+     * @param  string  $method
+     * @param  array  $parameters
+     * 
+     * @return mixed
+	 */
+	public static function __callStatic($method, $parameters)
+    {
+		$instance = new static;
+
+        return $instance->{$method}($parameters);
+    }
 }
