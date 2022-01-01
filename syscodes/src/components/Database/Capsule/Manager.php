@@ -26,6 +26,7 @@ use Syscodes\Components\Container\Container;
 use Syscodes\Components\Database\DatabaseManager;
 use Syscodes\Components\Database\Erostrine\Model;
 use Syscodes\Components\Database\ConnectionFactory;
+use Syscodes\Components\Database\Concerns\CapsuleManager;
 
 /**
  * Capsules the manager database.
@@ -34,20 +35,8 @@ use Syscodes\Components\Database\ConnectionFactory;
  */
 class Manager
 {
-    /**
-     * The current globally used instance.
-     * 
-     * @var object $instance
-     */
-    protected static $instance;
+    use CapsuleManager;
     
-    /**
-     * The container instance.
-     * 
-     * @var \Syscodes\Components\Container\Container $container
-     */
-    protected $container;
-
     /**
      * The database manager instance.
      * 
@@ -63,9 +52,8 @@ class Manager
      * @return void
      */
     public function __construct(Container $container = null)
-    {        
-        static::$instance = $this;
-        $this->container = $container ?: new Container;
+    {   
+        $this->getContainerManager($container ?: new Container);
 
         $this->getDefaultConfiguration();
 
@@ -77,7 +65,7 @@ class Manager
      *
      * @return void
      */
-    protected function getDefaultConfiguration()
+    protected function getDefaultConfiguration(): void
     {
         $this->container['config']['database.default'] = 'default';
     }
@@ -87,7 +75,7 @@ class Manager
      *
      * @return void
      */
-    protected function getManager()
+    protected function getManager(): void
     {
         $factory = new ConnectionFactory($this->container);
 
@@ -140,7 +128,7 @@ class Manager
      * 
      * @return void
      */
-    public function addConnection(array $config, $name = 'default')
+    public function addConnection(array $config, $name = 'default'): void
     {
         $connections = $this->container['config']['database.connections'];
         
@@ -157,6 +145,16 @@ class Manager
     public function getDatabaseManager()
     {
         return $this->manager;
+    }
+
+    /**
+     * Boot the Erostrine query for usage in any app and database.
+     * 
+     * @return void
+     */
+    public function getBootErostrine(): void
+    {
+        Model::setConnectionResolver($this->manager);
     }
     
     /**
