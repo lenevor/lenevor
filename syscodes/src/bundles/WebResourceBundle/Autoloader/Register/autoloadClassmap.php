@@ -168,6 +168,8 @@ return [
     'Syscodes\\Components\\Core\\Application' => SYS_PATH.'src/components/Core/Application.php',    
     'Syscodes\\Components\\Core\\EnvironmentDetector' => SYS_PATH.'src/components/Core/EnvironmentDetector.php',
     'Syscodes\\Components\\Core\\ProviderRepository' => SYS_PATH.'src/components/Core/ProviderRepository.php',
+    'Syscodes\\Components\\Database\\Capsule\\Manager' => SYS_PATH.'src/components/Database/Capsule/Manager.php',
+    'Syscodes\\Components\\Database\\Concerns\\CapsuleManager' => SYS_PATH.'src/components/Database/Concerns/CapsuleManager.php',
     'Syscodes\\Components\\Database\\Concerns\\DetectLostConnections' => SYS_PATH.'src/components/Database/Concerns/DetectLostConnections.php',
     'Syscodes\\Components\\Database\\Concerns\\ManagesTransactions' => SYS_PATH.'src/components/Database/Concerns/ManagesTransactions.php',
     'Syscodes\\Components\\Database\\Connections\\Connection' => SYS_PATH.'src/components/Database/Connections/Connection.php',
