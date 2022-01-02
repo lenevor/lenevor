@@ -1,6 +1,6 @@
 BSD 3-Clause License
 
-Copyright (c) 2019 - 2021, Alexander Campo
+Copyright (c) 2019 - 2022, Alexander Campo
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
