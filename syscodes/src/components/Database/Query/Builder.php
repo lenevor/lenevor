@@ -483,6 +483,125 @@ class Builder
     }
 
     /**
+     * Add an "or where" clause to the query.
+     * 
+     * @param  \Closure|string|array  $column
+     * @param  mixed  $operator
+     * @param  mixed  $value
+     * 
+     * @return self
+     */
+    public function orWhere($column, $operator = null, $value = null): self
+    {
+        [$value, $operator] = $this->prepareValueAndOperator(
+            $value, $operator, func_num_args() === 2
+        );
+
+        return $this->where($column, $operator, $value, 'or');
+    }
+
+    /**
+     * Add a "where" clause comparing two columns to the query.
+     * 
+     * @param  string|array  $first
+     * @param  string|null  $operator
+     * @param  string|null  $second
+     * @param  string|null  $boolean
+     * 
+     * @return self
+     */
+    public function whereColumn($first, $operator = null, $second = null, $boolean = 'and'): self
+    {
+        if (is_array($first)) {
+            return $this->addArrayWheres($first, $boolean, 'whereColumn');
+        }
+
+        if ($this->invalidOperator($operator)) {
+            [$second, $operator] = [$operator, '='];
+        }
+
+        $type = 'column';
+
+        $this->wheres[] = compact(
+            'type', 'first', 'operator', 'second', 'boolean'
+        );
+
+        return $this;
+    }
+
+    /**
+     * Add a "or where" clause comparing two columns to the query.
+     * 
+     * @param  string|array  $first
+     * @param  string|null  $operator
+     * @param  string|null  $second
+     * 
+     * @return self
+     */
+    public function orWhereColumn($first, $operator = null, $second = null): self
+    {
+        return $this->whereColumn($first, $operator, $second, 'or');
+    }
+
+    /**
+     * Add a raw where clause to the query.
+     * 
+     * @param  string  $sql
+     * @param  array  $bindings
+     * @param  string  $boolean
+     * 
+     * @return self
+     */
+    public function whereRaw($sql, $bindings = [], $boolean = 'and'): self
+    {
+        $this->where[] = [
+            'type' => 'raw',
+            'sql' => $sql,
+            'boolean' => $boolean
+        ];
+
+        $this->addBinding((array) $bindinggs,  'where');
+
+        return $this;
+    }
+
+    /**
+     * Add a raw where clause to the query.
+     * 
+     * @param  string  $sql
+     * @param  array  $bindings
+     * 
+     * @return self
+     */
+    public function orWhereRaw($sql, $bindings = []): self
+    {
+        return $this->whereRaw($sql, $bindings, 'or');
+    }
+
+    /**
+     * Add a "where in" clause to the query.
+     * 
+     * @param  string  $column
+     * @param  mixed  $values
+     * @param  string  $boolean
+     * @param  bool  $negative
+     * 
+     * @return self
+     */
+    public function whereIn($column, $values, $boolean = 'and', $negative = false): self
+    {
+        $type = $negative ? 'NotIn' : 'In';
+
+        $this->wheres[] = compact(
+            'type', 'column', 'values', 'boolean'
+        );
+
+        $this->addBindings($this->cleanBindings($values), 'where');
+
+        return $this;
+    }
+
+    /**
      * Add a nested where statement to the query.
      * 
      * @param  \Closure  $callback
@@ -573,6 +692,82 @@ class Builder
         }
 
         return $this;
+    }
+
+    /**
+     * Add an exists clause to the query.
+     * 
+     * @param  \Closure  $callback
+     * @param  string  $boolean
+     * @param  bool  $negative
+     * 
+     * @return self
+     */
+    public function whereExist(Closure $callback, $boolean = 'and', $negative = false): self
+    {
+        $query = $this->forSubBuilder();
+
+        call_user_func($callback, $query);
+
+        return $this->addWhereExist($query, $boolean, $negative);
+    }
+
+    /**
+     * Add an exists clause to the query.
+     * 
+     * @param  \Syscodes\Components\Database\Query\Builder $query
+     * @param  string  $boolean
+     * @param  bool  $negative
+     * 
+     * @return self
+     */
+    protected function addWhereExist(self $query, $boolean = 'and', $negative = false): self
+    {
+        $type = $negative ? 'NotExists' : 'Exists';
+
+        $this->wheres[] = compact('type', 'query', 'boolean');
+
+        $this->addBinding($query->getBindings(), 'where');
+
+        return $this;
+    }
+
+    /**
+     * Add an or exists clause to the query.
+     * 
+     * @param  \Closure  $callback
+     * @param  bool  $negative
+     * 
+     * @return self
+     */
+    public function orWhereExist(Closure $callback, $negative = false): self
+    {
+        return $this->whereExist($callback, 'or', $negative);
+    }
+
+    /**
+     * Add a where not exists clause to the query.
+     * 
+     * @param  \Closure  $callback
+     * @param  string  $boolean
+     * 
+     * @return self
+     */
+    public function whereNotExist(Closure $callback, $boolean = 'and'): self
+    {
+        return $this->whereExist($callback, $boolean, true);
+    }
+
+    /**
+     * Add an where not exists clause to the query.
+     * 
+     * @param  \Closure  $callback
+     * 
+     * @return self
+     */
+    public function orWhereNotExist(Closure $callback): self
+    {
+        return $this->orWhereExist($callback, true);
     }
 
     /**
@@ -1178,16 +1373,6 @@ class Builder
     }
 
     /**
-     * Get a new instance of the query builder.
-     * 
-     * @return \Syscodes\Components\Database\Query\Builder
-     */
-    public function newBuilder()
-    {
-        return new static($this->connection, $this->grammar, $this->processor);
-    }
-
-    /**
      * Create a new Builder instance for a sub-Builder.
      * 
      * @return \Syscodes\Components\Database\Query\Builder
@@ -1195,6 +1380,16 @@ class Builder
     protected function forSubBuilder()
     {
         return $this->newBuilder();
+    }
+
+    /**
+     * Get a new instance of the query builder.
+     * 
+     * @return \Syscodes\Components\Database\Query\Builder
+     */
+    public function newBuilder()
+    {
+        return new static($this->connection, $this->grammar, $this->processor);
     }
 
     /**
