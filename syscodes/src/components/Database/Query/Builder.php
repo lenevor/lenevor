@@ -596,7 +596,7 @@ class Builder
             'type', 'column', 'values', 'boolean'
         );
 
-        $this->addBindings($this->cleanBindings($values), 'where');
+        $this->addBinding($this->cleanBindings($values), 'where');
 
         return $this;
     }
