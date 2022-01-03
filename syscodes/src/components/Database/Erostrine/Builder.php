@@ -86,6 +86,13 @@ class Builder
     protected $queryBuilder;
 
     /**
+     * The relation tables to be instanced.
+     * 
+     * @var \Syscodes\Components\Database\Erostrine\Relations\Relation $relation
+     */
+    protected $relation;
+
+    /**
      * Constructor. The new Holisen query builder instance.
      * 
      * @param  \Syscodes\Components\Database\query\Builder  $queryBuilder
