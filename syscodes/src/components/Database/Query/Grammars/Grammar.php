@@ -322,13 +322,9 @@ class Grammar extends BaseGrammar
      */
     protected function whereIn(Builder $builder, $where): string
     {
-        $values = $this->parameterize($where['query']);
-
-        if ( ! empty($where['query'])) {
-            return $this->wrap($where['column']).' in ('.$values.')';
-        }
-
-        return '0 = 1';
+        if (empty($where['values'])) return '0 = 1';
+        
+        return $this->wrap($where['column']).' in ('.$this->parameterize($where['values']).')';
     }
 
     /**
