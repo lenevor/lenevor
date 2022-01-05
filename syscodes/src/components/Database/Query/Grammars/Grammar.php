@@ -337,13 +337,11 @@ class Grammar extends BaseGrammar
      */
     protected function whereNotIn(Builder $builder, $where): string
     {
+        if (empty($where['query'])) return '1 = 1';
+
         $values = $this->parameterize($where['query']);
 
-        if ( ! empty($where['query'])) {
-            return $this->wrap($where['column']).' not in ('.$values.')';
-        }
-
-        return '1 = 1';
+        return $this->wrap($where['column']).' not in ('.$values.')';
     }
 
     /**
@@ -356,11 +354,9 @@ class Grammar extends BaseGrammar
      */
     protected function whereNotInRaw(Builder $builder, $where): string
     {
-        if ( ! empty($where['query'])) {
-            return $this->wrap($where['column']).' not in ('.implode(', ', $where['values']).')';
-        }
-
-        return '1 = 1';
+        if (empty($where['values'])) return '1 = 1';
+        
+        return $this->wrap($where['column']).' not in ('.implode(', ', $where['values']).')';
     }
 
     /**
@@ -373,11 +369,9 @@ class Grammar extends BaseGrammar
      */
     protected function whereInRaw(Builder $builder, $where): string
     {
-        if ( ! empty($where['query'])) {
-            return $this->wrap($where['column']).' in ('.implode(', ', $where['values']).')';
-        }
-
-        return '0 = 1';
+        if (empty($where['values'])) return '0 = 1';
+        
+        return $this->wrap($where['column']).' in ('.implode(', ', $where['values']).')';
     }
 
     /**
