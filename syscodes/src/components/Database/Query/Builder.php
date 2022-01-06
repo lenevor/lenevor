@@ -602,6 +602,46 @@ class Builder
     }
 
     /**
+     * Add an "or where in" clause to the query.
+     * 
+     * @param  string  $column
+     * @param  mixed  $values
+     * 
+     * @return self
+     */
+    public function orWhereIn($column, $values): self
+    {
+        return $this->whereIn($column, $values, 'or');
+    }
+
+    /**
+     * Add a "where not in" clause to the query.
+     * 
+     * @param  string  $column
+     * @param  mixed  $values
+     * @param  string  $boolean
+     * 
+     * @return self
+     */
+    public function whereNotIn($column, $values, $boolean = 'and'): self
+    {
+        return $this->whereIn($column, $values, $boolean, true);
+    }
+
+    /**
+     * Add an "or where not in" clause to the query.
+     * 
+     * @param  string  $column
+     * @param  mixed  $values
+     * 
+     * @return self
+     */
+    public function orWhereNotIn($column, $values): self
+    {
+        return $this->whereNotIn($column, $values, 'or');
+    }
+
+    /**
      * Add a nested where statement to the query.
      * 
      * @param  \Closure  $callback
@@ -769,6 +809,10 @@ class Builder
     {
         return $this->orWhereExist($callback, true);
     }
+
+    /**
+     * 
+     */
 
     /**
      * Get the SQL representation of the query.
