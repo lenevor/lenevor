@@ -304,7 +304,7 @@ class Arr
 	public static function last($array, callable $callback = null, $default = null)
 	{
 		if (is_null($callback)) {
-			return empty($array) ? value($default) : end($array);
+			return empty($array) ? value($default) : lastItem($array);
 		}
 		
 		return static::first(array_reverse($array), $callback, $default);
