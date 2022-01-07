@@ -267,8 +267,9 @@ class Grammar extends BaseGrammar
     protected function whereBasic(Builder $builder, $where): string
     {
         $operator = str_replace('?', '??', $where['operator']);
+        $value    = $this->parameter($where['value']);
        
-        return $this->wrap($where['column']).' '.$where['operator'].' '.$where['value'];
+        return $this->wrap($where['column']).' '.$operator.' '.$value;
     }
 
     /**
@@ -281,9 +282,30 @@ class Grammar extends BaseGrammar
      */
     protected function whereBetween(Builder $builder, $where): string
     {
-        $between = $where['not'] ? 'not between' : 'between';
+        $between = $where['negative'] ? 'not between' : 'between';
 
-        return $this->wrap($where['column']).' '.$between.' ? and ?';
+        $min = $this->parameter(headItem($where['values']));
+        $max = $this->parameter(lastItem($where['values']));
+
+        return $this->wrap($where['column']).' '.$between.' '.$min.' and '.$max;
+    }
+
+    /**
+     * Compile a "between" where clause.
+     * 
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  array  $where
+     * 
+     * @return string
+     */
+    public function whereBetweenColumns(Builder $builder, $where): string
+    {
+        $between = $where['negative'] ? 'not between' : 'between';
+
+        $min = $this->wrap(headItem($where['values']));
+        $max = $this->wrap(lastItem($where['values']));
+
+        return $this->wrap($where['column']).' '.$between.' '.$min.' and '.$max;
     }
 
     /**
