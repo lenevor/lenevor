@@ -46,7 +46,7 @@ if ( ! function_exists('head')) {
      *
      * @return mixed
      */
-    function head($array, $bool = false)
+    function headItem($array, $bool = false)
     {
         return $bool ? reset($array) : current($array);
     }
@@ -60,7 +60,7 @@ if ( ! function_exists('last')) {
      *
      * @return mixed
      */
-    function last($array)
+    function lastItem($array)
     {
         return end($array);
     }
