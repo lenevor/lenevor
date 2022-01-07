@@ -406,7 +406,7 @@ class Builder
         $this->wheres[] = compact('type', 'column', 'operator', 'value', 'boolean');
 
         if ( ! $value instanceof Expression) {
-            $this->addBinding($value, 'where');
+            $this->addBinding($this->flattenValue($value), 'where');
         }
 
         return $this;
@@ -719,19 +719,44 @@ class Builder
      * 
      * @param  string|array  $columns
      * @param  string  $boolean  
-     * @param  bool  $not 
+     * @param  bool  $negative 
      * 
      * @return self
      */
-    public function whereNull($columns, $boolean = 'and', $not = false): self
+    public function whereNull($columns, $boolean = 'and', $negative = false): self
     {
-        $type = $not ? 'NotNull' : 'Null';
+        $type = $negative ? 'NotNull' : 'Null';
 
         foreach (Arr::wrap($columns) as $column) {
             $this->wheres[] = compact('type', 'column', 'boolean');
         }
 
         return $this;
+    }
+
+    /**
+     * Add an "or where null" clause to the query.
+     * 
+     * @param  string|array  $columns
+     * 
+     * @return self
+     */
+    public function orWhereNull($columns): self
+    {
+        return $this->whereNull($columns, 'or');
+    }
+
+    /**
+     * Add a "where not null" clause to the query.
+     * 
+     * @param  string|array  $columns
+     * @param  string  $boolean
+     * 
+     * @return self
+     */
+    public function whereNotNull($columns, $boolean = 'and'): self
+    {
+        return $this->whereNull($columns, $boolean, true);
     }
 
     /**
@@ -811,8 +836,361 @@ class Builder
     }
 
     /**
+     * Add a where between statement to the query.
      * 
+     * @param  string  $column
+     * @param  array  $values
+     * @param  string  $boolean
+     * @param  bool  $negative
+     * 
+     * @return self
      */
+    public function whereBetween($column, array $values, $boolean = 'and', $negative = false): self
+    {
+        $type = 'between';
+
+        $this->wheres[] = compact('type', 'column', 'values', 'boolean', 'negative');
+
+        $this->addBinding($values, 'where');
+
+        return $this;
+    }
+
+    /**
+     * Add an or where between statement to the query.
+     * 
+     * @param  string  $column
+     * @param array  $values
+     * 
+     * @return self
+     */
+    public function orWhereBetween($column, array $values): self
+    {
+        return $this->whereBetween($column, $values, 'or');
+    }
+
+    /**
+     * Add a where not between statement to the query.
+     * 
+     * @param  string  $column
+     * @param  array  $values
+     * @param  string  $boolean
+     * 
+     * @return self
+     */
+    public function whereNotBetween($column, array $values, $boolean = 'and'): self
+    {
+        return $this->whereBetween($column, $values, $boolean, true);
+    }
+
+    /**
+     * Add an or where not between statement to the query.
+     * 
+     * @param  string  $column
+     * @param  array  $values
+     * 
+     * @return self
+     */
+    public function orWhereNotBetween($column, array $values): self
+    {
+        return $this->whereNotBetween($column, $array, 'or');
+    }
+
+    /**
+     * Add a where between statement using columns to the query.
+     * 
+     * @param  string  $column
+     * @param  array  $values
+     * @param  string  $boolean
+     * @param  bool  $negative
+     * 
+     * @return self
+     */
+    public function whereBetweenColumns($column, array $values, $boolean = 'and', $negative = false): self
+    {
+        $type = 'betweenColumns';
+
+        $this->wheres[] = compact('type', 'column', 'values', 'boolean', 'negative');
+
+        return $this;
+    }
+
+    /**
+     * Add an or where between statement using columns to the query.
+     * 
+     * @param  string  $column
+     * @param  array  $values
+     * 
+     * @return self
+     */
+    public function orWhereBetweenColumns($column, array $values): self
+    {
+        return $this->whereBetweenColumns($column, $values, 'or');
+    }
+
+    /**
+     * Add a where not between statement using columns to the query.
+     * 
+     * @param  string  $column
+     * @param  array  $values
+     * @param  string  $boolean
+     * 
+     * @return self
+     */
+    public function whereNotBetweenColumns($column, array $values, $boolean = 'and'): self
+    {
+        return $this->whereBetweenColumns($column, $values, $boolean, true);
+    }
+
+    /**
+     * Add an or where not between statement using columns to the query.
+     * 
+     * @param  string  $column
+     * @param  array  $values
+     * 
+     * @return self
+     */
+    public function orWhereNotBetweenColumns($column, array $values): self
+    {
+        return $this->whereNotBetweenColumns($column, $array, 'or');
+    }
+
+    /**
+     * Add a "where date" statement to the query.
+     * 
+     * @param  string  $column
+     * @param  string  $operator
+     * @param  \DateTimeInterface|string|null  $value
+     * @param  string  $boolean
+     * 
+     * @return self
+     */
+    public function whereDate($column, $operator, $value = null, $boolean = 'and'): self
+    {
+        [$value, $operator] = $this->prepareValueAndOperator(
+            $value, $operator, func_num_args() === 2
+        );
+        
+        $value = $this->flattenValue($value);
+        
+        if ($value instanceof DateTimeInterface) {
+            $value = $value->format('Y-m-d');
+        }
+        
+        return $this->addDateBasedWhere('Date', $column, $operator, $value, $boolean);
+    }
+
+    /**
+     * Add a "or where date" statement to the query.
+     * 
+     * @param  string  $column
+     * @param  string  $operator
+     * @param  \DateTimeInterface|string|null  $value
+     * 
+     * @return self
+     */
+    public function orWhereDate($column, $operator, $value = null): self
+    {
+        [$value, $operator] = $this->prepareValueAndOperator(
+            $value, $operator, func_num_args() === 2
+        );
+
+        return $this->whereDate($column, $operator, $value, 'or');
+    }
+
+    /**
+     * Add a "where time" statement to the query.
+     * 
+     * @param  string  $column
+     * @param  string  $operator
+     * @param  \DateTimeInterface|string|null  $value
+     * @param  string  $boolean
+     * 
+     * @return self
+     */
+    public function whereTime($column, $operator, $value = null, $boolean = 'and'): self
+    {
+        [$value, $operator] = $this->prepareValueAndOperator(
+            $value, $operator, func_num_args() === 2
+        );
+        
+        $value = $this->flattenValue($value);
+        
+        if ($value instanceof DateTimeInterface) {
+            $value = $value->format('H:i:s');
+        }
+        
+        return $this->addDateBasedWhere('Time', $column, $operator, $value, $boolean);
+    }
+
+    /**
+     * Add a "or where time" statement to the query.
+     * 
+     * @param  string  $column
+     * @param  string  $operator
+     * @param  \DateTimeInterface|string|null  $value
+     * 
+     * @return self
+     */
+    public function orWhereTime($column, $operator, $value = null): self
+    {
+        [$value, $operator] = $this->prepareValueAndOperator(
+            $value, $operator, func_num_args() === 2
+        );
+
+        return $this->whereTime($column, $operator, $value, 'or');
+    }
+
+    /**
+     * Add a "where day" statement to the query.
+     * 
+     * @param  string  $column
+     * @param  string  $operator
+     * @param  \DateTimeInterface|string|null  $value
+     * @param  string  $boolean
+     * 
+     * @return self
+     */
+    public function whereDay($column, $operator, $value = null, $boolean = 'and'): self
+    {
+        [$value, $operator] = $this->prepareValueAndOperator(
+            $value, $operator, func_num_args() === 2
+        );
+        
+        $value = $this->flattenValue($value);
+        
+        if ($value instanceof DateTimeInterface) {
+            $value = $value->format('d');
+        }
+        
+        return $this->addDateBasedWhere('Day', $column, $operator, $value, $boolean);
+    }
+
+    /**
+     * Add a "or where day" statement to the query.
+     * 
+     * @param  string  $column
+     * @param  string  $operator
+     * @param  \DateTimeInterface|string|null  $value
+     * 
+     * @return self
+     */
+    public function orWhereDay($column, $operator, $value = null): self
+    {
+        [$value, $operator] = $this->prepareValueAndOperator(
+            $value, $operator, func_num_args() === 2
+        );
+
+        return $this->whereDay($column, $operator, $value, 'or');
+    }
+
+    /**
+     * Add a "where month" statement to the query.
+     * 
+     * @param  string  $column
+     * @param  string  $operator
+     * @param  \DateTimeInterface|string|null  $value
+     * @param  string  $boolean
+     * 
+     * @return self
+     */
+    public function whereMonth($column, $operator, $value = null, $boolean = 'and'): self
+    {
+        [$value, $operator] = $this->prepareValueAndOperator(
+            $value, $operator, func_num_args() === 2
+        );
+        
+        $value = $this->flattenValue($value);
+        
+        if ($value instanceof DateTimeInterface) {
+            $value = $value->format('m');
+        }
+        
+        return $this->addDateBasedWhere('Month', $column, $operator, $value, $boolean);
+    }
+
+    /**
+     * Add a "or where month" statement to the query.
+     * 
+     * @param  string  $column
+     * @param  string  $operator
+     * @param  \DateTimeInterface|string|null  $value
+     * 
+     * @return self
+     */
+    public function orWhereMonth($column, $operator, $value = null): self
+    {
+        [$value, $operator] = $this->prepareValueAndOperator(
+            $value, $operator, func_num_args() === 2
+        );
+
+        return $this->whereMonth($column, $operator, $value, 'or');
+    }
+
+    /**
+     * Add a "where Year" statement to the query.
+     * 
+     * @param  string  $column
+     * @param  string  $operator
+     * @param  \DateTimeInterface|string|null  $value
+     * @param  string  $boolean
+     * 
+     * @return self
+     */
+    public function whereYear($column, $operator, $value = null, $boolean = 'and'): self
+    {
+        [$value, $operator] = $this->prepareValueAndOperator(
+            $value, $operator, func_num_args() === 2
+        );
+        
+        $value = $this->flattenValue($value);
+        
+        if ($value instanceof DateTimeInterface) {
+            $value = $value->format('Y');
+        }
+        
+        return $this->addDateBasedWhere('Year', $column, $operator, $value, $boolean);
+    }
+
+    /**
+     * Add a "or where year" statement to the query.
+     * 
+     * @param  string  $column
+     * @param  string  $operator
+     * @param  \DateTimeInterface|string|null  $value
+     * 
+     * @return self
+     */
+    public function orWhereYear($column, $operator, $value = null): self
+    {
+        [$value, $operator] = $this->prepareValueAndOperator(
+            $value, $operator, func_num_args() === 2
+        );
+
+        return $this->whereYear($column, $operator, $value, 'or');
+    }
+
+    /**
+     * Add a date based (year, month, day) statement to the query.
+     * 
+     * @param  string  $type
+     * @param  string  $column
+     * @param  string  $operator
+     * @param  mixed  $value
+     * @param  string  $boolean
+     * 
+     * @return self
+     */
+    protected function addDateBasedWhere($type, $column, $operator, $value, $boolean = 'and'): self
+    {
+        $this->wheres[] = compact('column', 'type', 'boolean', 'operator', 'value');
+
+        if ( ! $value instanceof Expression) {
+            $this->addBinding($value, 'where');
+        }
+
+        return $this;
+    }
 
     /**
      * Get the SQL representation of the query.
@@ -1529,6 +1907,18 @@ class Builder
         $this->bindings = array_merge_recursive($this->bindings, $builder->bindings);
 
         return $this;
+    }
+
+    /**
+     * Get a scalar type value from an unknown type of input.
+     * 
+     * @param  mixed  $value
+     * 
+     * @return mixed
+     */
+    protected function flattenValue($value)
+    {
+        return is_array($value) ? headItem(Arr::Flatten($value)) : $value;
     }
 
     /**
