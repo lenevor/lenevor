@@ -30,6 +30,9 @@ use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Database\ConnectionResolverInterface;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
 use Syscodes\Components\Collections\Collection as BaseCollection;
+use Syscodes\Components\Database\Erostrine\Concerns\HasAttributes;
+use Syscodes\Components\Database\Erostrine\Concerns\GuardsAttributes;
+use Syscodes\Components\Database\Erostrine\Exceptions\MassAssignmentException;
 
 /**
  * Creates a ORM model instance.
@@ -38,6 +41,9 @@ use Syscodes\Components\Collections\Collection as BaseCollection;
  */
 class Model /*implements Arrayable, ArrayAccess*/
 {
+	use GuardsAttributes,
+	    HasAttributes;
+	
 	/**
 	 * The connection resolver instance.
 	 * 
@@ -51,6 +57,20 @@ class Model /*implements Arrayable, ArrayAccess*/
 	 * @var string|null $connection
 	 */
 	protected $connection;
+
+	/**
+	 * Indicates if the model exists.
+	 * 
+	 * @var bool $exists
+	 */
+	protected $exists = false;
+
+	/**
+	 * Indicates if the IDs are auto-incrementing.
+	 * 
+	 * @var bool $incrementing
+	 */
+	protected $incrementing = true;
 
 	/**
 	 * The primary key for the model.
@@ -75,7 +95,9 @@ class Model /*implements Arrayable, ArrayAccess*/
 	 */
 	public function __construct(array $attributes = [])
 	{
-		
+		$this->syncOriginal();
+
+		$this->fill($attributes);
 	}
 	
 	/**
@@ -91,48 +113,6 @@ class Model /*implements Arrayable, ArrayAccess*/
 			is_array($columns) ? $columns : func_get_args()
 		);
 	}
-
-	/**
-	 * Find a model by its primary key.
-	 * 
-	 * @param  mixed  $id
-	 * @param  array  $columns
-	 * 
-	 * @return \Syscodes\Components\Database\Collection|static|null
-	 */
-	public static function find($id, array $columns = ['*'])
-	{
-		return static::query()->find($id, $columns);
-	}
-	
-	/**
-	 * Find a model by its primary key or throw an exception.
-	 * 
-	 * @param  mixed  $id
-	 * @param  array  $columns
-	 * 
-	 * @return \Syscodes\Components\Database\Erostrine\Model|\Syscodes\Components\Database\Erostrine\Collection|static|static[]
-	 * 
-	 * @throws \Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException
-	 */
-	public static function findOrFail($id, array $columns = ['*'])
-	{
-		return static::query()->findOrFail($id, $columns);
-	}
-
-	/**
-     * Execute the query and get the first result or throw an exception.
-     *
-     * @param  array  $columns
-     * 
-     * @return \Syscodes\Components\Database\Erostrine\Model|static
-     *
-     * @throws \Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException
-     */
-    public static function firstOrFail($columns = ['*'])
-    {
-        return static::query()->firstOrFail($columns);
-    }
 	
 	/**
 	 * Get the table qualified key name.
@@ -164,6 +144,152 @@ class Model /*implements Arrayable, ArrayAccess*/
 	public function setKeyName($key): void
 	{
 		$this->primaryKey = $key;
+	}
+
+	/**
+	 * Update the model in the database.
+	 * 
+	 * @param  array  $attributes
+	 * @param  array  $options
+	 * 
+	 * @return bool
+	 */
+	public function update(array $attributes = [], array $options = []): bool
+	{
+		if ( ! $this->exists) {
+			return false;
+		}
+
+		return $this->fill($attributes)->save($options);
+	}
+
+	/**
+	 * Save the model to the database.
+	 * 
+	 * @param  array  $options
+	 * 
+	 * @return bool
+	 */
+	public function save(array $options = []): bool
+	{
+		$query = $this->newQuery();
+
+		if ($this->exists) {
+			$saved = $this->isDirty()
+						  ? $this->performUpdate($query)
+						  : true;
+		} else {
+			$saved = $this->performInsert($query);
+		}
+
+		return $saved;
+	}
+
+	/**
+	 * Perform a model update operation.
+	 * 
+	 * @param  \Syscodes\Components\Database\Erostrine\Builder $builder
+	 * 
+	 * @return bool
+	 */
+	public function performUpdate(Builder $builder): bool
+	{
+		$dirty = $this->getDirty();
+
+        if (count($dirty) > 0) {
+            $this->setKeysForSaveQuery($builder)->update($dirty);
+        }
+
+		return true;
+	}
+	
+	/**
+	 * Set the keys for a save update query.
+	 * 
+	 * @param  \Syscodes\Components\Database\Erostrine\Builder  $query
+	 * 
+	 * @return \Syscodes\Components\Database\Erostrine\Builder
+	 */
+	protected function setKeysForSaveQuery($query)
+	{
+		$query->where($this->getKeyName(), '=', $this->getKeyForSaveQuery());
+		
+		return $query;
+	}
+	
+	/**
+	 * Get the primary key value for a save query.
+	 * 
+	 * @return mixed
+	 */
+	protected function getKeyForSaveQuery()
+	{
+		return $this->original[$this->getKeyName()] ?? 'id';
+	}
+
+	/**
+	 * Perform a model insert operation.
+	 * 
+	 * @param  \Syscodes\Components\Database\Erostrine\Builder  $builder
+	 * 
+	 * @return bool
+	 */
+	public function performInsert(Builder $builder): bool
+	{
+		$attributes = $this->getAttributes();
+
+		if ($this->getIncrementing()) {
+			$this->insertAndSetId($builder, $attributes);
+		} else {
+			if (empty($attributes)) {
+				return true;
+			}
+
+			$builder->insert($attributes);
+		}
+
+		$this->exists = true;
+
+		return true;
+	}
+	
+	/**
+	 * Insert the given attributes and set the ID on the model.
+	 * 
+	 * @param  \Syscodes\Components\Database\Erostrine\Builder  $builder
+	 * @param  array  $attributes
+	 * 
+	 * @return void
+	 */
+	protected function insertAndSetId(Builder $builder, $attributes)
+    {
+		$id = $builder->insertGetId($attributes, $keyName = $this->getKeyName());
+		
+		$this->setAttribute($keyName, $id);
+	}
+	
+	/** 
+	 * Get the value indicating whether the IDs are incrementing.
+	 * 
+	 * @return bool
+	 */
+	public function getIncrementing(): bool
+	{
+		return $this->incrementing;
+    }
+	
+	/**
+	 * Set the value indicating whether the IDs are incrementing.
+	 * 
+	 * @param  bool  $value
+	 * 
+	 * @return self
+	 */
+	public function setIncrementing($value): self
+	{
+		$this->incrementing = $value;
+		
+		return $this;
 	}
 
 	/**
@@ -215,6 +341,33 @@ class Model /*implements Arrayable, ArrayAccess*/
 		return new QueryBuilder(
 			$connection, $grammar, $processor
 		);
+	}
+	
+	/**
+	 * Fill the model with an array of attributes.
+	 * 
+	 * @param  array  $attributes
+	 * 
+	 * @return self
+	 * 
+	 * @throws \Syscodes\Components\Database\Erostrine\Exceptions\MassAssignmentException
+	 */
+	public function fill(array $attributes): self
+	{
+		$totallyGuarded = $this->totallyGuarded();
+		
+		foreach ($this->fillableFromArray($attributes) as $key => $value) {
+			if ($this->isFillable($key)) {
+				$this->setAttribute($key, $value);
+			} else if ($totallyGuarded) {
+				throw new MassAssignmentException(sprintf(
+					'Add [%s] to fillable property to allow mass assignment on [%s].',
+					$key, get_class($this)
+				));
+			}
+		}
+		
+		return $this;
 	}
 
 	/**
@@ -337,7 +490,7 @@ class Model /*implements Arrayable, ArrayAccess*/
 	 */
 	public function __call($method, $parameters)
     {
-		return $this->newQuery()->{$method}($parameters);
+		return $this->newQuery()->{$method}(...$parameters);
     }
 
 	/**
@@ -352,8 +505,6 @@ class Model /*implements Arrayable, ArrayAccess*/
 	 */
 	public static function __callStatic($method, $parameters)
     {
-		$instance = new static;
-
-        return $instance->{$method}($parameters);
+		return (new static)->{$method}(...$parameters);
     }
 }
