@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Database\Query\Grammars;
 
 use Syscodes\Components\Database\Query\Builder;
+use Syscodes\Components\Database\Query\JoinClause;
 use Syscodes\Components\Database\Grammar as BaseGrammar;
 
 /**
@@ -203,9 +204,9 @@ class Grammar extends BaseGrammar
            return '';
        }
 
-       if (count($sql = $this->compileWheresToArray($builder)) > 0) {
-            return $this->concatenateWheresClauses($builder, $sql);
-       }
+       if (count($sql = $this->compileWheresToArray($builder)) > 0) { 
+            return $this->concatenateWheresClauses($builder, $sql); 
+       } 
 
        return '';
     }
@@ -220,11 +221,11 @@ class Grammar extends BaseGrammar
     protected function compileWheresToArray($query): array
     {
         $sql = [];
-
+        
         foreach ($query->wheres as $where) {
             $sql[] = $where['boolean'].' '.$this->{"where{$where['type']}"}($query, $where);
         }
-
+        
         return $sql;
     }
 
@@ -238,7 +239,7 @@ class Grammar extends BaseGrammar
      */
     protected function concatenateWheresClauses($builder, $sql): string
     {
-        $statement = $builder->joins ? 'on' : 'where';
+        $statement = $builder instanceof JoinClause ? 'on' : 'where';
 
         return $statement.' '.$this->removeStatementBoolean(implode(' ', $sql));
     }
@@ -267,9 +268,8 @@ class Grammar extends BaseGrammar
     protected function whereBasic(Builder $builder, $where): string
     {
         $operator = str_replace('?', '??', $where['operator']);
-        $value    = $this->parameter($where['value']);
        
-        return $this->wrap($where['column']).' '.$operator.' '.$value;
+        return $this->wrap($where['column']).' '.$operator.' '.$where['value'];
     }
 
     /**
@@ -635,8 +635,8 @@ class Grammar extends BaseGrammar
 
         $column = $this->wrap($having['column']);
 
-        $min = $this->parameter(head($having['values']));
-        $max = $this->parameter(last($having['values']));
+        $min = $this->parameter(headItem($having['values']));
+        $max = $this->parameter(lastItem($having['values']));
 
         return $having['boolean'].' '.$column.' '.$between.' '.$min.' and '.$max;
     }
@@ -813,11 +813,11 @@ class Grammar extends BaseGrammar
             return "insert into {$table} default values";
         }
 
-        if ( ! is_array(head($values))) {
+        if ( ! is_array(headItem($values))) {
             $values = [$values];
         }
 
-        $columns = $this->columnize(array_keys(head($values)));
+        $columns = $this->columnize(array_keys(headItem($values)));
 
         $parameters = collect($values)->map(function ($record) {
             return '('.$this->parameterize($record).')';
@@ -959,7 +959,7 @@ class Grammar extends BaseGrammar
      */
     public function compileDeleteWithJoins(Builder $builder, $table, $where): string
     {
-        $alias = last(explode(' as ', $table));
+        $alias = lastItem(explode(' as ', $table));
 
         $joins = $this->compileJoins($builder, $builder->joins);
 
