@@ -28,7 +28,6 @@ use DateTimeInterface;
 use BadMethodCallException;
 use InvalidArgumentException;
 use Syscodes\Components\Collections\Arr;
-use Syscodes\Components\Collections\Str;
 use Syscodes\Components\Collections\Collection;
 use Syscodes\Components\Database\DatabaseCache;
 use Syscodes\Components\Database\Query\Grammars\Grammar;
@@ -403,12 +402,14 @@ class Builder
 
         $type = 'Basic';
 
-        $this->wheres[] = compact('type', 'column', 'operator', 'value', 'boolean');
+        $this->wheres[] = compact(
+            'type', 'column', 'operator', 'value', 'boolean'
+        );
 
         if ( ! $value instanceof Expression) {
             $this->addBinding($this->flattenValue($value), 'where');
         }
-
+        
         return $this;
     }
 
@@ -1325,9 +1326,30 @@ class Builder
      */
     public function pluck($column)
     {
-        $sql = (array) $this->first([$column]);
+        $result = $this->first([$column]);
 
-        return count($sql) > 0 ? reset($sql) : null;
+        if ( ! is_null($result)) {
+            $result = (array) $result;
+
+            return (count($result) > 0) ? headItem($result) : null;
+        }
+    }
+
+    /**
+     * Get an array with the values of a given column.
+     * 
+     * @param  string  $column
+     * @param  string|null  $key
+     * 
+     * @return array
+     */
+    public function lists($column, $key = null): array
+    {
+        $columns = is_null($key) ? [$column] : [$column, $key];
+
+        $results = $this->get($columns);
+
+        return Arr::pluck($results, $column, $key);
     }
 
     /**
@@ -1341,7 +1363,7 @@ class Builder
     {
         $results = $this->limit(1)->get($columns);
 
-        return count($results) > 0 ? head($results) : null;
+        return count($results) > 0 ? headItem($results) : null;
     }
 
     /**
@@ -1516,7 +1538,7 @@ class Builder
             return true;
         }
 
-        if ( ! is_array(head($values))) {
+        if ( ! is_array(headItem($values))) {
             $values = [$values];
         } else {
             foreach ($values as $key => $value) {
