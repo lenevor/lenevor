@@ -29,8 +29,10 @@ use ReflectionMethod;
 use BadMethodCallException;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Database\Concerns\MakeQueries;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
-use Syscodes\Components\Database\Exceptions\ModelNotFoundException;
+use Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException;
 
 /**
  * Creates a Erostrine query builder.
@@ -39,6 +41,8 @@ use Syscodes\Components\Database\Exceptions\ModelNotFoundException;
  */
 class Builder
 {
+    use MakeQueries;
+    
     /**
      * The relationships that should be eagerly loaded by the query.
      * 
@@ -71,6 +75,7 @@ class Builder
         'insertGetId',
         'insertOrIgnore',
         'insertUsing',
+        'limit',
         'max',
         'min',
         'raw',
@@ -114,7 +119,7 @@ class Builder
      */
     public function find($id, array $columns = ['*'])
     {
-        if (is_array($id)) {
+        if (is_array($id) || $id instanceof Arrayable) {
             return $this->findMany($id, $columns);
         }
 
@@ -131,15 +136,54 @@ class Builder
      */
     public function findMany($ids, array $columns = ['*'])
     {
+        $ids = $ids instanceof Arrayable ? $ids->toArray() : $ids;
+
         if (empty($ids)) {
             return $this->model->newCollection();
         }
-        
+
+        return $this->whereClauseKey($ids)->get($columns);
+    }
+
+    /**
+     * Add a where clause on the primary key to the query.
+     * 
+     * @param  mixed  $id
+     * 
+     * @return self
+     */
+    public function whereClauseKey($id): self
+    {
+        if ($id instanceof Model) {
+            $id = $id->getKey();
+        }
+
         $keyName = $this->model->getQualifiedKeyName();
-        
-        $this->queryBuilder->whereIn($keyName, $ids);
-        
-        return $this->get($columns);
+
+        if (is_array($id) || $id instanceof Arrayable) {
+            $this->queryBuilder->whereIn($keyName, $id);
+
+            return $this;
+        }
+
+        return $this->where($keyName, '=', $id);
+    }
+
+    /**
+     * Add a basic where clause to the query.
+     * 
+     * @param  \Closure|string|array|\Syscodes\Component\Database\Query\Expression  $column
+     * @param  mixed  $operator
+     * @param  mixed  $value
+     * @param  string  $boolean
+     * 
+     * @return self
+     */
+    public function where($column, $operator = null, $value = null, $boolean = 'and'): self
+    {
+       $this->queryBuilder->where(...func_get_args());
+
+       return $this;
     }
     
     /**
@@ -154,7 +198,15 @@ class Builder
      */
     public function findOrFail($id, array $columns = ['*'])
     {
-        if ( ! is_null($model = $this->find($id, $columns))) {
+        $model = $this->find($id, $columns);
+
+        $id = $id instanceof Arrayable ? $id->toArray() : $id;
+
+        if (is_array($id)) {
+            if (count($model) === count(array_unique($id))) {
+                return $model;
+            }
+        } elseif ( ! is_null($model)) {
             return $model;
         }
         
@@ -174,42 +226,13 @@ class Builder
      */
     public function firstOrFail($columns = ['*'])
     {
-        if ( ! is_null($model = $this->queryBuilder->first($columns))) {
+        if ( ! is_null($model = $this->first($columns))) {
             return $model;
         }
 
         $className = get_class($this->model);
 
         throw (new ModelNotFoundException)->setModel($className);
-    }
-
-    /**
-     * Add a where clause on the primary key to the query.
-     * 
-     * @param  mixed  $id
-     * 
-     * @return self
-     */
-    public function whereClauseKey($id)
-    {
-        $keyName = $this->model->getQualifiedKeyName();
-
-        return $this->where($keyName, '=', $id);
-    }
-
-    /**
-     * Add a basic where clause to the query.
-     * 
-     * @param  \Closure|string|array|\Syscodes\Component\Database\Query\Expression  $column
-     * @param  mixed  $operator
-     * @param  mixed  $value
-     * @param  string  $boolean
-     * 
-     * @return self
-     */
-    public function where($column, $operator = null, $value = null, $boolean = 'and')
-    {
-        return $this->queryBuilder->where(...func_get_args());
     }
 
     /**
@@ -235,15 +258,7 @@ class Builder
      */
     public function getModels($columns = ['*'])
     {
-        $results = $this->queryBuilder->get($columns);
-
-        $models = [];
-
-        foreach ($results as $result) {
-            $models[] = $result;
-        }
-
-        return $models;
+       return $this->queryBuilder->get($columns)->all();
     }
 
     /**
@@ -308,7 +323,7 @@ class Builder
      */
     public function __call($method, $parameters)
     {
-        $result = $this->queryBuilder->{$method}($parameters);
+        $result = $this->getQuery()->{$method}(...$parameters);
 
         return in_array($method, $this->passthru) ? $result : $this;
     }
