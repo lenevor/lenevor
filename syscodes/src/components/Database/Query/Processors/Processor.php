@@ -58,7 +58,7 @@ class Processor
     {
         $builder->getConnection()->insert($sql, $values);
 
-        $id = $builder->getConnection->getPdo()->lastInsertId($sequence);
+        $id = $builder->getConnection()->getPdo()->lastInsertId($sequence);
 
         return is_numeric($id) ? (int) $id : $id;
     }
