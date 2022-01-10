@@ -25,7 +25,6 @@ namespace Syscodes\Components\Database\Erostrine;
 use ArrayAccess;
 use LogicException;
 use Syscodes\Components\Collections\Arr;
-use Syscodes\Components\Collections\Str;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Database\ConnectionResolverInterface;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
@@ -39,7 +38,7 @@ use Syscodes\Components\Database\Erostrine\Exceptions\MassAssignmentException;
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class Model /*implements Arrayable, ArrayAccess*/
+class Model implements Arrayable, ArrayAccess
 {
 	use GuardsAttributes,
 	    HasAttributes;
@@ -135,6 +134,16 @@ class Model /*implements Arrayable, ArrayAccess*/
 	}
 	
 	/**
+	 * Get the value of the model's primary key.
+	 * 
+	 * @return mixed
+	 */
+	public function getKey()
+	{
+		return $this->getAttribute($this->primaryKey);
+	}
+	
+	/**
 	 * Set the primary key for the model.
 	 * 
 	 * @param  string  $key
@@ -175,11 +184,13 @@ class Model /*implements Arrayable, ArrayAccess*/
 		$query = $this->newQuery();
 
 		if ($this->exists) {
-			$saved = $this->isDirty()
-						  ? $this->performUpdate($query)
-						  : true;
+			$saved = $this->performUpdate($query);
 		} else {
 			$saved = $this->performInsert($query);
+		}
+
+		if ($saved) {
+			$this->syncOriginal();
 		}
 
 		return $saved;
@@ -194,10 +205,10 @@ class Model /*implements Arrayable, ArrayAccess*/
 	 */
 	public function performUpdate(Builder $builder): bool
 	{
-		$dirty = $this->getDirty();
+		if ( ! empty($dirty = $this->getDirty())) {
+			$id = Arr::get($this->original, $keyName = $this->getKeyName(), $this->getAttribute($keyName));
 
-        if (count($dirty) > 0) {
-            $this->setKeysForSaveQuery($builder)->update($dirty);
+			$builder->where($keyName, $id)->update($dirty);
         }
 
 		return true;
@@ -244,7 +255,7 @@ class Model /*implements Arrayable, ArrayAccess*/
 			if (empty($attributes)) {
 				return true;
 			}
-
+			
 			$builder->insert($attributes);
 		}
 
@@ -266,6 +277,34 @@ class Model /*implements Arrayable, ArrayAccess*/
 		$id = $builder->insertGetId($attributes, $keyName = $this->getKeyName());
 		
 		$this->setAttribute($keyName, $id);
+	}
+
+	/**
+	 * Delete the model from the database.
+	 * 
+	 * @return bool|null
+	 */
+	public function delete()
+	{
+		if ( ! $this->exists) {
+			return;
+		}
+
+		$this->performDeleteOnModel();
+
+		return true;
+	}
+	
+	/**
+	 * Perform the actual delete query on this model instance.
+	 * 
+	 * @return void
+	 */
+	protected function performDeleteOnModel(): bool
+	{
+		$this->setKeysForSaveQuery($this->newModelQuery())->delete();
+		
+		$this->exists = false;
 	}
 	
 	/** 
@@ -409,6 +448,14 @@ class Model /*implements Arrayable, ArrayAccess*/
 	{
 		$this->table = $table;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function toArray()
+	{
+
+	}
 	
 	/**
 	 * Get the database connection for the model.
@@ -477,6 +524,114 @@ class Model /*implements Arrayable, ArrayAccess*/
 	{
 		static::$resolver = $resolver;
 	}
+
+	/**
+	 * Magic method.
+	 * 
+	 * Dynamically retrieve attributes on the model.
+	 * 
+	 * @param  string  $key
+	 * 
+	 * @return mixed
+	 */
+	public function __get($key)
+	{
+		return $this->getAttribute($key);
+	}
+
+	/**
+	 * Magic method.
+	 * 
+	 * Dynamically set attributes on the model.
+	 * 
+	 * @param  string  $key
+	 * @param  mixed  $value
+	 * 
+	 * @return void
+	 */
+	public function __set($key, $value)
+	{
+		return $this->setAttribute($key, $value);
+	}
+
+	/*
+	|-----------------------------------------------------------------
+	| ArrayAccess Methods
+	|-----------------------------------------------------------------
+	*/
+
+	/**
+	 * Whether or not an offset exists.
+	 * 
+	 * @param  string  $offset
+	 * 
+	 * @return bool
+	 */
+	public function offsetExists($offset)
+	{
+		return ! is_null($this->getAttribute($offset));
+	}
+
+	/**
+	 * Returns the value at specified offset.
+	 * 
+	 * @param  string  $offset
+	 * 
+	 * @return mixed
+	 */
+	public function offsetGet($offset)
+	{
+		return $this->getAttribute($offset);
+	}
+
+	/**
+	 * Set a value to the specified offset
+	 * 
+	 * @param  string  $offset
+	 * @param  mixed  $value
+	 * 
+	 * @return void
+	 */
+	public function offsetSet($offset, $value)
+	{
+		$this->setAttribute($offset, $value);
+	}
+
+	/**
+	 * Unset the value for a given offset.
+	 * 
+	 * @param  string  $offset
+	 * 
+	 * @return void
+	 */
+	public function offsetUnset($offset)
+	{
+		unset($this->attributes[$offset]);
+	}
+
+	/**
+	 * Determine if an attribute or relation exists on the model.
+	 * 
+	 * @param  string  $key
+	 * 
+	 * @return bool
+	 */
+	public function __isset($key)
+	{
+		return $this->offsetExists($key);
+	}
+
+	 /**
+     * Unset an attribute on the model.
+     *
+     * @param  string  $key
+	 * 
+     * @return void
+     */
+    public function __unset($key)
+    {
+        $this->offsetUnset($key);
+    }
 
 	/**
 	 * Magic method.
