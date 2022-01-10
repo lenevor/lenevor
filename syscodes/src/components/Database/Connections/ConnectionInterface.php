@@ -131,14 +131,14 @@ interface ConnectionInterface
      * 
      * @return void
      */
-    public function beginTransaction();
+    public function beginTransaction(): void;
 
     /**
      * Commit the active database transaction.
      * 
      * @return void
      */
-    public function commit();
+    public function commit(): void;
 
     /**
      * Rollback the active database transaction.
@@ -148,11 +148,11 @@ interface ConnectionInterface
     public function rollback();
 
     /**
-     * Checks the connection to see if there is an active transaction.
+     * Get the number of active transactions.
      * 
      * @return int
      */
-    public function inTransaction();
+    public function transactionLevel(): int;
 
     /**
      * Execute the given callback in "dry run" mode.
