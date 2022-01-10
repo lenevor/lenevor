@@ -44,13 +44,25 @@ trait HasAttributes
 	protected $original = [];
 
     /**
-     * Get a given attribute on the model.
+     * Get all given attribute on the model.
      * 
      * @return array
      */
     public function getAttributes(): array
     {
         return $this->attributes;
+    }
+
+    /**
+     * Get a given attribute on the model.
+     * 
+     * @param  string  $key
+     * 
+     * @return array
+     */
+    public function getAttribute($key): array
+    {
+        return $this->attributes[$key];
     }
     
     /**
