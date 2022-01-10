@@ -33,56 +33,66 @@ use Throwable;
 trait ManagesTransactions
 {
     /**
-     * Execute a Closure within a transaction.
-     * 
-     * @param  \Closure  $callback
-     * 
-     * @return mixed
-     * 
-     * @throws \Throwable
+     * {@inheritdoc}
      */
     public function transaction(Closure $callback)
     {
+        $this->beginTransaction();
 
+        try {
+            $result = $callback($this);
+
+            $this->commit();
+        } catch (Throwable $e) {
+            $this->rollback();
+
+            throw $e;
+        }
+
+        return $result;
     }
 
     /**
-     * Start a new database transaction.
-     * 
-     * @return void
+     * {@inheritdoc}
      */
-    public function beginTransaction()
+    public function beginTransaction(): void
     {
+        $this->$transactions++;
 
+        if ($this->transactions == 1) {
+            $this->getPdo()->beginTransaction();
+        }
     }
 
     /**
-     * Commit the active database transaction.
-     * 
-     * @return void
+     * {@inheritdoc}
      */
-    public function commit()
+    public function commit(): void
     {
-
+        if ($this->transactions == 1) {
+            $this->getPdo()->commit();
+        }
     }
 
     /**
-     * Rollback the active database transaction.
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function rollback()
     {
+        if ($this->transactions == 1) {
+            $this->transactions = 0;
 
+            $this->getPdo()->rollback();
+        } else {
+            $this->transactions--;
+        }
     }
 
     /**
-     * Checks the connection to see if there is an active transaction.
-     * 
-     * @return int
+     * {@inheritdoc}
      */
-    public function inTransaction()
+    public function transactionLevel(): int
     {
-
+        return $this->transactions;
     }
 }
