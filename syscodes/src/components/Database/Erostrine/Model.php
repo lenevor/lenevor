@@ -41,14 +41,7 @@ use Syscodes\Components\Database\Erostrine\Exceptions\MassAssignmentException;
 class Model implements Arrayable, ArrayAccess
 {
 	use GuardsAttributes,
-	    HasAttributes;
-	
-	/**
-	 * The connection resolver instance.
-	 * 
-	 * @var \Syscodes\Components\Database\ConnectionResolverInterface
-	 */
-	protected static $resolver;
+	    HasAttribute;
 
 	/**
 	 * The database connection name.
@@ -86,6 +79,48 @@ class Model implements Arrayable, ArrayAccess
 	protected $table;
 
 	/**
+	 * Indicates if the model should be timestamped.
+	 * 
+	 * @var bool $timestamps
+	 */
+	protected $timestamps = true;
+
+	/**
+	 * The array of booted models.
+	 * 
+	 * @var array $booted
+	 */
+	protected static $booted = [];
+
+	/**
+	 * The event dispatcher instance.
+	 * 
+	 * @var \Syscodes\Components\Contracts\Events\Dispatcher $dispatcher
+	 */
+	protected static $dispatcher;
+	
+	/**
+	 * The connection resolver instance.
+	 * 
+	 * @var \Syscodes\Components\Database\ConnectionResolverInterface
+	 */
+	protected static $resolver;
+
+	/**
+	 * The name of the "created at" column.
+	 * 
+	 * @var string|null
+	 */
+	const CREATED_AT = 'created_at';
+
+	/**
+	 * The name of the "updated at" column.
+	 * 
+	 * @var string|null
+	 */
+	const UPDATED_AT = 'updated_at';
+
+	/**
 	 * Constructor. The create new Model instance.
 	 *
 	 * @param  array  $attributes
@@ -104,7 +139,7 @@ class Model implements Arrayable, ArrayAccess
 	 * 
 	 * @param  array|mixed  $columns
 	 * 
-	 * @return \Syscodes\Database\Erostrine\Collection|static[]
+	 * @return \Syscodes\Components\Database\Erostrine\Collection|static[]
 	 */
 	public static function all($columns = ['*'])
 	{
