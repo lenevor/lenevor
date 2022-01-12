@@ -46,6 +46,13 @@ trait GuardsAttributes
     protected $guarded = ['*'];
 
     /**
+     * Indicates if all mass assignment is enabled.
+     * 
+     * @var bool $unguarded
+     */
+    protected static $unguarded = false;
+
+    /**
      * Get the fillable attributes for the model.
      * 
      * @return array
@@ -122,6 +129,60 @@ trait GuardsAttributes
 
         return $this;
     }
+    
+    /**
+     * Disable all mass assignable restrictions.
+     * 
+     * @param  bool  $state
+     * 
+     * @return void
+     */
+    public static function unguard($state = true): void
+    {
+        static::$unguarded = $state;
+    }
+    
+    /**
+     * Enable the mass assignment restrictions.
+     * 
+     * @return void
+     */
+    public static function reguard(): void
+    {
+        static::$unguarded = false;
+    }
+    
+    /**
+     * Determine if the current state is "unguarded".
+     * 
+     * @return bool
+     */
+    public static function isUnguarded(): bool
+    {
+        return static::$unguarded;
+    }
+    
+    /**
+     * Run the given callable while being unguarded.
+     * 
+     * @param  callable  $callback
+     * 
+     * @return mixed
+     */
+    public static function unguarded(callable $callback)
+    {
+        if (static::$unguarded) {
+            return $callback();
+        }
+        
+        static::unguard();
+        
+        try {
+            return $callback();
+        } finally {
+            static::reguard();
+        }
+    }
 
     /**
      * Determine if the given attribute may be mass assigned.
@@ -132,6 +193,10 @@ trait GuardsAttributes
      */
     public function isFillable($key): bool
     {
+        if (static::$unguarded) {
+            return true;
+        }
+        
         if (in_array($key, $this->getFillable())) {
             return true;
         }
@@ -174,7 +239,7 @@ trait GuardsAttributes
      */
     protected function fillableFromArray(array $attributes): array
     {
-        if (count($this->fillable) > 0) {
+        if (count($this->fillable) > 0 && ! static::$unguarded) {
             return array_intersect_key($attributes, array_flip($this->getFillable()));
         }
         
