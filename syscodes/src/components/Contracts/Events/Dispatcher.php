@@ -86,6 +86,16 @@ interface Dispatcher
      * @return mixed
      */
     public function resolveSubscriber($subscriber);
+    
+    /**
+     * Fire an event until the first non-null response is returned.
+     * 
+     * @param  string|object  $event
+     * @param  mixed  $payload
+     * 
+     * @return array|null
+     */
+    public function until($event, $payload = []);
 
     /**
      * Dispatch an event and call the listeners.
