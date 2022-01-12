@@ -245,6 +245,14 @@ class Dispatcher implements DispatcherContract
     /**
      * {@inheritdoc}
      */
+    public function until($event, $payload = [])
+    {
+        return $this->dispatch($vent, $payload, true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function dispatch($event, $payload = [], $halt = false)
     {        
         [$event, $payload] = $this->parseEventPayload(
