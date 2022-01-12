@@ -22,7 +22,6 @@
 
 namespace Syscodes\Components\Support;
 
-use InvalidArgumentException;
 use Syscodes\Components\Collections\Arr;
 
 /**
@@ -39,6 +38,13 @@ class Str
      * @var array $camelCache
      */
     protected static $camelCache = [];
+
+    /**
+     * The cache of snake-cased words.
+     * 
+     * @var array $snakeCache
+     */
+    protected static $snakeCache = [];
 
     /**
      * The cache of studly-cased words.
@@ -173,14 +179,31 @@ class Str
     }
 
     /**
+     * Convert a string to kebab case.
+     * 
+     * @param  string  $value
+     * 
+     * @return string
+     */
+    public static function kebab($value): string
+    {
+        return static::snake('value', '-');
+    }
+
+    /**
      * Return the length of the given string.
      *
      * @param  string  $value  String to length
+     * @param  string|null  $encoding  String encoding
      * 
      * @return int
      */
-    public static function length($value): int
+    public static function length($value, $encoding = null): int
     {
+        if ($encoding) {
+            return mb_strlen($value, $encoding);
+        }
+
         return mb_strlen($value);
     }
 
@@ -211,40 +234,49 @@ class Str
      */
     public static function lower($value): string
     {
-        return mb_strtolower($value);
+        return mb_strtolower($value, 'UTF-8');
     }
     
     /**
-     * Pad a string with the length of another string. 
+     * Pad both sides with the length of another.
      * 
-     * @param  string  $string
+     * @param  string  $value
      * @param  int  $padLength
      * @param  string  $padString
-     * @param  string  $padType
      * 
      * @return string 
      */
-    public static function pad(
-        string $string, 
-        int $padLength,
-        string $padString = ' ',
-        string $padType = 'right'
-    ): string {
-        switch($padType) {
-            case 'right':
-                (int) $type = STR_PAD_RIGHT;
-                break;
-            case 'left':
-                (int) $type = STR_PAD_LEFT;
-                break;
-            case 'both':
-                (int) $type = STR_PAD_BOTH;
-                break;
-            default:
-                throw new InvalidArgumentException("The position [{$padType}] no found");
-        }
+    public static function padBoth(string $value, int $padLength, string $padString = ' '): string 
+    {
+        return str_pad($value, $padLength, $padString, STR_PAD_BOTH);
+    }
 
-        return $padLength > 0 ? \str_pad((string) $string, (int) $padLength, $padString, $type) : (string) $string;
+    /**
+     * Pad the left side with the length of another.
+     * 
+     * @param  string  $value
+     * @param  int  $padLength
+     * @param  string  $padString
+     * 
+     * @return string 
+     */
+    public static function padLeft(string $value, int $padLength, string $padString = ' '): string 
+    {
+        return str_pad($value, $padLength, $padString, STR_PAD_LEFT);
+    }
+
+    /**
+     * Pad the left side with the length of another.
+     * 
+     * @param  string  $value
+     * @param  int  $padLength
+     * @param  string  $padString
+     * 
+     * @return string 
+     */
+    public static function padRight(string $value, int $padLength, string $padString = ' '): string 
+    {
+        return str_pad($value, $padLength, $padString, STR_PAD_RIGHT);
     }
 
     /**
@@ -273,12 +305,25 @@ class Str
         $string = '';
         
         while (($len = strlen($string)) < $length) {
-            $size = $length - $len;
-            $bytes = random_bytes($size);
+            $size    = $length - $len;
+            $bytes   = random_bytes($size);
             $string .= substr(str_replace(['/', '+', '='], '', base64_encode($bytes)), 0, $size);
         }
         
         return $string;
+    }
+
+    /**
+     * Repeat the given string.
+     * 
+     * @param  string  $value
+     * @param  int  $times
+     * 
+     * @return string
+     */
+    public static function repeat($value, $times): string
+    {
+        return str_repeat($value, $times);
     }
 
     /**
@@ -301,6 +346,38 @@ class Str
         }
         
         return $result;
+    }
+
+    /**
+     * Replace the given value in the given string.
+     * 
+     * @param  string|string[]  $search
+     * @param  string|string[]  $replace
+     * @param  string|string[]  $subject
+     * 
+     * @return string
+     */
+    public static function replace($search, $replace, $subject): string
+    {
+        return str_replace($search, $replace, $subject);
+    }
+
+    /**
+     * Remove any occurrence of the given string in the subject.
+     * 
+     * @param  string|string[]  $search
+     * @param  string|string[]  $subject
+     * @param  bool  $caseReplace
+     * 
+     * @param  string
+     */
+    public static function remove($search, $subject, bool $caseReplace = true)
+    {
+        $subject = $caseReplace
+                    ? str_replace($search, '', $subject)
+                    : str_ireplace($search, '', $subject);
+        
+        return $subject;
     }
 
     /**
@@ -338,6 +415,31 @@ class Str
     public static function smallcase($value): string
     {
         return mb_strtolower(preg_replace('/([A-Z])/', "_\\1", lcfirst($value)));
+    }
+
+    /**
+     * Convert a string to snake case.
+     * 
+     * @param  string  $value
+     * @param  string  $delimiter
+     * 
+     * @return string
+     */
+    public static function snake($value, $delimiter = '_'): string
+    {
+        $key = $value;
+
+        if (isset(static::$snakeCache[$key][$delimiter])) {
+            return static::$snakeCache[$key][$delimiter];
+        }
+
+        if ( ! ctype_lower($value)) {
+            $value = preg_replace('/\s+/u', '', ucwords($value));
+            
+            $value = static::lower(preg_replace('/(.)(?=[A-Z])/u', '$1'.$delimiter, $value));
+        }
+
+        return static::$snakeCache[$key][$delimiter] = $value;
     }
 
     /**
@@ -402,11 +504,11 @@ class Str
      */
     public static function title($value): string
     {
-        $value = \ucwords(\strtolower($value));
+        $value = ucwords(strtolower($value));
         
         foreach (['-', '\''] as $delimiter) {
-            if (false !== \strpos($value, $delimiter)) {
-                $value = \implode($delimiter, \array_map('ucfirst', \explode($delimiter, $value)));
+            if (false !== strpos($value, $delimiter)) {
+                $value = implode($delimiter, array_map('ucfirst', explode($delimiter, $value)));
             }
         }
         
