@@ -123,7 +123,7 @@ class Builder
             return $this->findMany($id, $columns);
         }
 
-        return $this->whereClauseKey($id)->first($columns);
+        return $this->whereClauseKey($id)->get($columns)->first();
     }
     
     /**
@@ -152,7 +152,7 @@ class Builder
      * 
      * @return self
      */
-    public function whereClauseKey($id): self
+    public function whereClauseKey($id)
     {
         if ($id instanceof Model) {
             $id = $id->getKey();
@@ -250,7 +250,7 @@ class Builder
     }
     
     /**
-     * Get the hydrated models without eager loading.
+     * Get the hydrated models.
      * 
      * @param  array  $columns
      * 
@@ -258,7 +258,19 @@ class Builder
      */
     public function getModels($columns = ['*'])
     {
-       return $this->queryBuilder->get($columns)->all();
+        $results = $this->queryBuilder->get($columns); 
+        
+        $connection = $this->model->getConnectionName();
+        
+        $models = [];
+        
+        foreach ($results as $result) {
+            $models[] = $model = $this->model->newFromBuilder($result);
+            
+            $model->setConnection($connection);
+        }
+        
+        return $models;
     }
 
     /**
@@ -309,6 +321,20 @@ class Builder
         $this->queryBuilder->from($model->getTable());
 
         return $this; 
+    }
+    
+    /**
+     * Create a new instance of the model being queried.
+     * 
+     * @param  array  $attributes
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model|static
+     */
+    public function newModelInstance($attributes = [])
+    {
+        return $this->model->newInstance($attributes)->setConnection(
+            $this->queryBuilder->getConnection()->getName()
+        );
     }
 
     /**
