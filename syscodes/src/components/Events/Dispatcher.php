@@ -247,7 +247,7 @@ class Dispatcher implements DispatcherContract
      */
     public function until($event, $payload = [])
     {
-        return $this->dispatch($vent, $payload, true);
+        return $this->dispatch($event, $payload, true);
     }
 
     /**
