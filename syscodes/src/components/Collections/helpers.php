@@ -20,6 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
+use Closure;
 use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Collections\Collection;
 use Syscodes\Components\Collections\HigherOrderTakeProxy;
@@ -38,7 +39,7 @@ if ( ! function_exists('collect')) {
     }
 }
 
-if ( ! function_exists('head')) {
+if ( ! function_exists('headItem')) {
     /**
      * Get the actual element of an array. Useful for method chaining.
      *
@@ -52,7 +53,7 @@ if ( ! function_exists('head')) {
     }
 }
 
-if ( ! function_exists('last')) {
+if ( ! function_exists('lastItem')) {
     /**
      * Get the last element from an array.
      *
