@@ -244,7 +244,7 @@ class Arr
 		}
 		
 		foreach ($array as $key => $value) { 
-			if ($callback($key, $value)) return $value;
+			if ($callback($value, $key)) return $value;
 		}
 
 		return value($default);
