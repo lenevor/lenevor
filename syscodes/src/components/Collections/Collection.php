@@ -24,7 +24,9 @@ namespace Syscodes\Components\Collections;
 
 use Countable;
 use ArrayAccess;
+use Traversable;
 use ArrayIterator;
+use JsonSerializable;
 use IteratorAggregate;
 use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Contracts\Support\Arrayable;
@@ -704,12 +706,16 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     {
         if (is_array($items)) {
             return $items;
-        } elseif($items instanceof Arrayable) {
-            return $items->toArray();
-        } elseif ($items instanceof Jsonable) {
-            return json_decode($items->toJson(), true);
         } elseif ($items instanceof Collection) {
             return $items->all();
+        } elseif($items instanceof Arrayable) {
+            return $items->toArray();
+        } elseif ($items instanceof JsonSerializable) {
+            return (array) $items->jsonSerialize();
+        } elseif ($items instanceof Jsonable) {
+            return json_decode($items->toJson(), true);
+        } elseif ($items instanceof Traversable) {
+            return iterator_to_array($items);
         }
 
         return (array) $items;
@@ -804,5 +810,17 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     public function offsetUnset($offset)
     {
         unset($this->items[$offset]);
+    }
+    
+    /**
+     * Magic method.
+     * 
+     * Convert the collection to its string representation.
+     * 
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toJson();
     }
 }
