@@ -22,6 +22,9 @@
 
 namespace Syscodes\Components\Collections\Traits;
 
+use JsonSerializable;
+use Syscodes\Components\Contracts\Support\Arrayable;
+
 /**
  * Trait.
  * 
@@ -79,5 +82,35 @@ trait Enumerates
     public function isNotEmpty()
     {
         return ! $this->isEmpty();
+    }
+    
+    /**
+     * Get the collection of items as JSON.
+     * 
+     * @param  int  $options
+     * 
+     * @return string
+     */
+    public function toJson($options = 0)
+    {
+        return json_encode($this->jsonSerialize(), $options);
+    }
+    
+    /**
+     * Convert the object into something JSON serializable.
+     * 
+     * @return array
+     */
+    public function jsonSerialize(): array
+    {
+        return array_map(function ($value) {
+            if ($value instanceof JsonSerializable) {
+                return $value->jsonSerialize();
+            } elseif ($value instanceof Arrayable) {
+                return $value->toArray();
+            }
+            
+            return $value;
+        }, $this->all());
     }
 }
