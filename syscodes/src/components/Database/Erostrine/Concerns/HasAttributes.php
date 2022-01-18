@@ -22,6 +22,8 @@
 
 namespace Syscodes\Components\Database\Erostrine\Concerns;
 
+use Syscodes\Components\Support\Str;
+
 /**
  * Trait HasAttributes.
  * 
@@ -44,6 +46,20 @@ trait HasAttributes
 	protected $original = [];
 
     /**
+     * Indicates whether attributes are snake cased on arrays.
+     * 
+     * @var bool $snakeAttributes
+     */
+    protected static $snakeAttributes = true;
+
+    /**
+     * The cache of the mutated attributes for each class.
+     * 
+     * @var array $mutatorCache
+     */
+    protected static $mutatorCache = [];
+
+    /**
      * Get all given attribute on the model.
      * 
      * @return array
@@ -60,9 +76,20 @@ trait HasAttributes
      * 
      * @return array
      */
-    public function getAttribute($key): array
+    public function getAttribute($key)
     {
-        return $this->attributes[$key];
+        if ( ! $key) {
+            return;
+        }
+        
+        // If the key references an attribute, return its plain value from the model.
+        if (array_key_exists($key, $this->attributes) || $this->hasGetMutator($key)) {
+            return $this->getAttributeValue($key);
+        }
+
+        if (method_exists(static::class, $key)) {
+            return;
+        }
     }
     
     /**
@@ -71,11 +98,114 @@ trait HasAttributes
      * @param  string  $key
      * @param  mixed  $value
      * 
-     * @return void
+     * @return self
      */
-    public function setAttribute($key, $value): void
+    public function setAttribute($key, $value): self
     {
+        if ($this->hasSetMutator($key)) {
+            $method = 'set'.Str::studlycaps($key).'Attribute';
+            
+            return call_user_func([$this, $method], $value);
+        }
+        
         $this->attributes[$key] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Determine if a get mutator exists for an attribute.
+     * 
+     * @param  string  $key
+     * 
+     * @return bool
+     */
+    public function hasGetMutator($key): bool
+    {
+        $method = 'get'.Str::studlycaps($key).'Attribute';
+
+        return method_exists($this, $method);
+    }
+    
+    /**
+     * Determine if a set mutator exists for an attribute.
+     * 
+     * @param  string  $key
+     * 
+     * @return bool
+     */
+    public function hasSetMutator($key)
+    {
+        $method = 'set'.Str::studlycaps($key).'Attribute';
+        
+        return method_exists($this, $method);
+    }
+
+    
+    /**
+     * Get a plain attribute (not a relationship).
+     * 
+     * @param  string  $key
+     * 
+     * @return mixed
+     */
+    protected function getAttributeValue($key)
+    {
+        $value = $this->getAttributeFromArray($key);
+        
+        if ($this->hasGetMutator($key)) {
+            return $this->mutateAttribute($key, $value);
+        }
+        
+        return $value;
+    }
+    
+    /**
+     * Get an attribute from the $attributes array.
+     * 
+     * @param  string  $key
+     * 
+     * @return mixed
+     */
+    protected function getAttributeFromArray($key)
+    {
+        if (array_key_exists($key, $this->attributes)) {
+            return $this->attributes[$key];
+        }
+    }
+    
+    /**
+     * Get the value of an attribute using its mutator.
+     * 
+     * @param  string  $key
+     * @param  mixed   $value
+     * 
+     * @return mixed
+     */
+    protected function mutateAttribute($key, $value)
+    {
+        $method = 'get'.Str::studlycaps($key).'Attribute';
+        
+        return call_user_func([$this, $method], $value);
+    }
+    
+    /**
+     * Set the array of model attributes. No checking is done.
+     * 
+     * @param  array  $attributes
+     * @param  bool   $sync
+     * 
+     * @return self
+     */
+    public function setRawAttributes(array $attributes, $sync = false): self
+    {
+        $this->attributes = $attributes;
+        
+        if ($sync) {
+            $this->syncOriginal();
+        }
+
+        return $this;
     }
     
     /**
@@ -150,6 +280,4 @@ trait HasAttributes
         
         return $this;
     }
-
-
 }
