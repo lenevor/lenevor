@@ -20,7 +20,6 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-use Closure;
 use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Collections\Collection;
 use Syscodes\Components\Collections\HigherOrderTakeProxy;
@@ -100,6 +99,6 @@ if ( ! function_exists('value')) {
      */
     function value($value)
     {
-        return $value instanceof Closure ? $value() : $value;
+        return $value instanceof \Closure ? $value() : $value;
     }
 }
