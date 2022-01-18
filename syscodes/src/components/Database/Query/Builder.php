@@ -1244,7 +1244,7 @@ class Builder
         $property = $this->unions ? 'unionLimit' : 'limit';
 
         if ($value >= 0) {
-            $this->$property = $value;
+            $this->$property = ! is_null($value) ? (int) $value : null;
         }
         
         return $this;
@@ -1376,7 +1376,7 @@ class Builder
      */
     public function find($id, $columns = ['*'])
     {
-        return $this->where($this->from.'_id', '=', $id)->first($columns);
+        return $this->where('id', '=', $id)->first($columns);
     }
     
     /**
@@ -1660,7 +1660,7 @@ class Builder
     public function delete($id = null)
     {
         if ( ! is_null($id)) {
-            $this->where($this->from.'_id', '=', $id);
+            $this->where('id', '=', $id);
         }
 
         $sql      = $this->grammar->compileDelete($this);
