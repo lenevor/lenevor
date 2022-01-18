@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Database\Erostrine;
 
 use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Collections\Collection as BaseCollection;
 
 /**
@@ -44,6 +45,18 @@ class Collection extends BaseCollection
     {
         if ($key instanceof Model) {
             $key = $key->getKey();
+        }
+        
+        if ($key instanceof Arrayable) {
+            $key = $key->toArray();
+        }
+        
+        if (is_array($key)) {
+            if ($this->isEmpty()) {
+                return new static;
+            }
+            
+            return $this->whereIn($this->first()->getKeyName(), $key);
         }
         
         return Arr::first($this->items, function($itemKey, $model) use ($key) {
