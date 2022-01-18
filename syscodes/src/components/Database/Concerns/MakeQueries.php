@@ -38,6 +38,6 @@ trait MakeQueries
      */
     public function first($column = ['*'])
     {
-        return $this->limit(1)->first($column);
+        return $this->limit(1)->get($column)->first();
     }
 }
