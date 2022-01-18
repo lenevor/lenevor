@@ -24,9 +24,11 @@ namespace Syscodes\Components\Database\Erostrine;
 
 use ArrayAccess;
 use LogicException;
+use Syscodes\Components\Support\Str;
 use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Database\ConnectionResolverInterface;
+use Syscodes\Components\Database\Erostrine\Concerns\HasEvents;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
 use Syscodes\Components\Collections\Collection as BaseCollection;
 use Syscodes\Components\Database\Erostrine\Concerns\HasAttributes;
@@ -40,8 +42,9 @@ use Syscodes\Components\Database\Erostrine\Exceptions\MassAssignmentException;
  */
 class Model implements Arrayable, ArrayAccess
 {
-	use GuardsAttributes,
-	    HasAttribute;
+	use HasAttributes,
+	    HasEvents,
+	    GuardsAttributes;
 
 	/**
 	 * The database connection name.
@@ -129,9 +132,69 @@ class Model implements Arrayable, ArrayAccess
 	 */
 	public function __construct(array $attributes = [])
 	{
+		$this-> bootIfNotBooted();
+
 		$this->syncOriginal();
 
 		$this->fill($attributes);
+	}
+
+	/**
+	 * Check if the model needs to be booted and if so, do it.
+	 * 
+	 * @return void
+	 */
+	public function bootIfNotBooted(): void
+	{
+		if ( ! isset(static::$booted[static::class])) {
+			static::$booted[static::class] = true;
+
+			$this->fireModelEvent('booting', false);
+
+			static::boot();
+
+			$this->fireModelEvent('booted', false);
+		}
+	}
+
+	/**
+	 * The "booting" method of the model.
+	 * 
+	 * @return void
+	 */
+	public static function boot(): void
+	{
+		$class = static::class;
+
+		static::$mutatorCache[$class] = [];
+
+		foreach (get_class_methods($class) as $method) {
+			if (preg_match('/^get(.+)Attribute$/', $method, $matches)) {
+				if (static::$snakeAttributes) {
+					$matches[1] = Str::snake($matches[1]);
+				}
+
+				static::$mutatorCache[$class][] = lcfirst($matches[1]);
+			}
+		}
+
+		static::bootTraits();
+	}
+
+	/**
+	 * Boot all of the bootable traits on the model.
+	 * 
+	 * @return void
+	 */
+	protected static function bootTraits()
+	{
+		$class = static::class;
+
+		foreach (class_recursive($class) as $trait) {
+			if (method_exists($class, $method = 'boot'.class_basename($trait))) {
+				forward_static_call([$class, $method]);
+			}
+		}
 	}
 	
 	/**
@@ -153,9 +216,25 @@ class Model implements Arrayable, ArrayAccess
 	 * 
 	 * @return string
 	 */
-	public function getQualifiedKeyName()
+	public function getQualifiedKeyName(): string
 	{
-		return $this->getTable().'_'.$this->getKeyName();
+		return $this->qualifyColumn($this->getKeyName());
+	}
+	
+	/**
+	 * Qualify the given column name by the model's table.
+	 * 
+	 * @param  string  $column
+	 * 
+	 * @return string
+	 */
+	public function qualifyColumn($column): string
+	{
+		if (Str::contains($column, '.')) {
+			return $column;
+		}
+		
+		return $column;
 	}
 	
 	/**
@@ -175,7 +254,7 @@ class Model implements Arrayable, ArrayAccess
 	 */
 	public function getKey()
 	{
-		return $this->getAttribute($this->primaryKey);
+		return $this->getAttribute($this->getKeyName());
 	}
 	
 	/**
@@ -218,13 +297,19 @@ class Model implements Arrayable, ArrayAccess
 	{
 		$query = $this->newQuery();
 
+		if ($this->fireModelEvent('saving') === false) {
+            return false;
+        }
+
 		if ($this->exists) {
-			$saved = $this->performUpdate($query);
+			$saved = $this->isDirty() ? $this->performUpdate($query) : true;
 		} else {
 			$saved = $this->performInsert($query);
 		}
 
 		if ($saved) {
+			$this->fireModelEvent('saved', false);
+			
 			$this->syncOriginal();
 		}
 
@@ -240,11 +325,17 @@ class Model implements Arrayable, ArrayAccess
 	 */
 	public function performUpdate(Builder $builder): bool
 	{
-		if ( ! empty($dirty = $this->getDirty())) {
-			$id = Arr::get($this->original, $keyName = $this->getKeyName(), $this->getAttribute($keyName));
+		if ($this->fireModelEvent('updating') === false) {
+			return false;
+		}
 
-			$builder->where($keyName, $id)->update($dirty);
-        }
+		$dirty = $this->getDirty();
+		
+		if (count($dirty) > 0) {
+			$this->setKeysForSaveQuery($builder)->update($dirty);
+			
+			$this->fireModelEvent('updated', false);
+		}
 
 		return true;
 	}
@@ -270,7 +361,7 @@ class Model implements Arrayable, ArrayAccess
 	 */
 	protected function getKeyForSaveQuery()
 	{
-		return $this->original[$this->getKeyName()] ?? 'id';
+		return $this->original[$this->getKeyName()] ?? $this->getKey();
 	}
 
 	/**
@@ -335,11 +426,13 @@ class Model implements Arrayable, ArrayAccess
 	 * 
 	 * @return void
 	 */
-	protected function performDeleteOnModel(): bool
+	protected function performDeleteOnModel(): self
 	{
-		$this->setKeysForSaveQuery($this->newModelQuery())->delete();
+		$this->setKeysForSaveQuery($this->newQuery())->delete();
 		
 		$this->exists = false;
+
+		return $this;
 	}
 	
 	/** 
@@ -443,6 +536,46 @@ class Model implements Arrayable, ArrayAccess
 		
 		return $this;
 	}
+	
+	/**
+	 * Create a new instance of the given model.
+	 * 
+	 * @param  array  $attributes
+	 * @param  bool   $exists
+	 * 
+	 * @return static
+	 */
+	public function newInstance($attributes = [], $exists = false)
+	{
+		$model = new static((array) $attributes);		
+		
+		$model->exists = $exists;
+		
+		$model->setConnection(
+            $this->getConnectionName()
+        );
+
+        $model->setTable($this->getTable());
+		
+		return $model;
+	}
+	
+	/**
+	 * Create a new model instance that is existing.
+	 * 
+	 * @param  array  $attributes
+	 * @param  string|null  $connection
+	 * 
+	 * @return static
+	 */
+	public function newFromBuilder($attributes = [], $connection = null)
+	{
+		$instance = $this->newInstance([], true);		
+		$instance->setRawAttributes((array) $attributes, true);
+		$instance->setConnection($connection ?: $this->getConnectionName());
+		
+		return $instance;
+	}
 
 	/**
 	 * Create a new ORM Collection instance.
@@ -489,7 +622,7 @@ class Model implements Arrayable, ArrayAccess
 	 */
 	public function toArray()
 	{
-
+		
 	}
 	
 	/**
@@ -519,7 +652,7 @@ class Model implements Arrayable, ArrayAccess
 	 * 
 	 * @return self
 	 */
-	public function setConnection($name): self
+	public function setConnection($name)
 	{
 		$this->connection = $name;
 		
