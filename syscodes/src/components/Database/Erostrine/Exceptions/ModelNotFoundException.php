@@ -32,20 +32,20 @@ use Syscodes\Components\Core\Http\Exceptions\LenevorException;
 class ModelNotFoundException extends LenevorException
 {
     /**
-     * Name of the affected Holisen model.
+     * Name of the affected Erostrine model.
      * 
      * @var string $model
      */
     protected $model;
 
     /**
-     * Set the affected Holisen model.
+     * Set the affected Erostrine model.
      * 
      * @param  string  $model
      * 
-     * @return $this
+     * @return self
      */
-    public function setModel($model)
+    public function setModel($model): self
     {
         $this->model = $model;
 
@@ -55,7 +55,7 @@ class ModelNotFoundException extends LenevorException
     }
 
     /**
-     * Get the affected Holisen model.
+     * Get the affected Erostrine model.
      * 
      * @return string
      */
