@@ -35,7 +35,7 @@ use Syscodes\Components\Core\Http\Exceptions\HttpException;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
 use Syscodes\Components\Debug\FatalExceptions\FlattenException;
 use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
-use Syscodes\Components\Database\Exceptions\ModelNotFoundException;
+use Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException;
 use Syscodes\Components\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 
 /**
