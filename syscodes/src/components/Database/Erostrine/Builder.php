@@ -75,7 +75,6 @@ class Builder
         'insertGetId',
         'insertOrIgnore',
         'insertUsing',
-        'limit',
         'max',
         'min',
         'raw',
@@ -123,7 +122,7 @@ class Builder
             return $this->findMany($id, $columns);
         }
 
-        return $this->whereClauseKey($id)->get($columns)->first();
+        return $this->whereClauseKey($id)->first($columns);
     }
     
     /**
