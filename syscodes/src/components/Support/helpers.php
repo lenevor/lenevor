@@ -40,7 +40,7 @@ if ( ! function_exists('camel_case')) {
     }
 }
 
-if ( ! function_exists('classBasename')) {
+if ( ! function_exists('class_basename')) {
     /**
      * Get the class "basename" of the given object / class.
      *
@@ -48,11 +48,34 @@ if ( ! function_exists('classBasename')) {
      * 
      * @return string
      */
-    function classBasename($class)
+    function class_basename($class)
     {
         $className = is_object($class) ? get_class($class) : $class;
 
-        return basename(str_replace('\\', '/', $className));
+        return basename(
+            str_replace('\\', '/', $className)
+        );
+    }
+}
+
+if ( ! function_exists('class_recursive'))
+{
+    /**
+     * Returns all traits used by a class, it's subclasses and trait of their traits
+     * 
+     * @param  string  $class
+     * 
+     * @return array
+     */
+    function class_recursive($class)
+    {
+        $results = [];
+        
+        foreach (array_merge(array($class => $class), class_parents($class)) as $class) {
+            $results += trait_recursive($class);
+        }
+        
+        return array_unique($results);
     }
 }
 
@@ -182,6 +205,27 @@ if ( ! function_exists('title')) {
     function title($string)
     {
         return Str::title($string);
+    }
+}
+
+if ( ! function_exists('trait_recursive'))
+{
+    /**
+     * Returns all traits used by a trait and its traits.
+     * 
+     * @param  string  $trait
+     * 
+     * @return array
+     */
+    function trait_recursive($trait)
+    {
+        $traits = class_uses($trait);
+        
+        foreach ($traits as $trait) {
+            $traits += trait_recursive($trait);
+        }
+        
+        return $traits;
     }
 }
 
