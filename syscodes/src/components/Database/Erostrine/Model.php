@@ -270,6 +270,21 @@ class Model implements Arrayable, ArrayAccess
 	}
 
 	/**
+	 * Save a new model and return the instance.
+	 * 
+	 * @param  array  $attributes
+	 * 
+	 * @return static
+	 */
+	public static function create(array $attributes)
+	{
+		$model = new static($attributes);
+		$model->save();
+
+		return $model;
+	}
+
+	/**
 	 * Update the model in the database.
 	 * 
 	 * @param  array  $attributes
@@ -406,13 +421,41 @@ class Model implements Arrayable, ArrayAccess
 	}
 
 	/**
+	 * Eraser the models for the given IDs.
+	 * 
+	 * @param  \Syscodes\Component\Collections\Collection|array|int|string  $ids
+	 * 
+	 * @return int
+	 */
+	public static function eraser($ids): int
+	{
+		$ids = is_array($ids) ? $ids : func_get_args();
+
+		if (count($ids) === 0) {
+			return 0;
+		}
+
+		$key = ($instance = new static)->getKeyName();
+
+		$count = 0;
+
+		foreach ($instance->whereIn($key, $ids)->get() as $model) {
+			if ($model->delete()) {
+				$count++;
+			}
+		}
+
+		return $count;
+	}
+
+	/**
 	 * Delete the model from the database.
 	 * 
 	 * @return bool|null
 	 */
 	public function delete()
 	{
-		if ( ! is_null($this->getKeyName())) {
+		if (is_null($this->getKeyName())) {
 			throw new LogicException('No primary key defined on model');
 		}
 
@@ -446,8 +489,22 @@ class Model implements Arrayable, ArrayAccess
 	}
 
 	/**
-	 * Remove the models for the given IDs.
+	 * Delete the model from the database within a transaction.
+	 * 
+	 * @return bool|null
+	 * 
+	 * @throws \Throwable
 	 */
+	public function deleteOrFail()
+	{
+		if ( ! $this->exists) {
+			return;
+		}
+
+		return $this->getConnection()->transaction(function () {
+			return $this->delete();
+		});
+	}
 	
 	/** 
 	 * Get the value indicating whether the IDs are incrementing.
