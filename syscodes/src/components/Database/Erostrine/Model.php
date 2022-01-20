@@ -412,11 +412,21 @@ class Model implements Arrayable, ArrayAccess
 	 */
 	public function delete()
 	{
+		if ( ! is_null($this->getKeyName())) {
+			throw new LogicException('No primary key defined on model');
+		}
+
+		if ($this->fireModelEvent('deleting') === false) {
+			return false;
+		}
+
 		if ( ! $this->exists) {
 			return;
 		}
 
 		$this->performDeleteOnModel();
+
+		$this->fireModelEvent('deleted', false);
 
 		return true;
 	}
@@ -434,6 +444,10 @@ class Model implements Arrayable, ArrayAccess
 
 		return $this;
 	}
+
+	/**
+	 * Remove the models for the given IDs.
+	 */
 	
 	/** 
 	 * Get the value indicating whether the IDs are incrementing.
