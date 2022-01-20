@@ -57,7 +57,7 @@ trait ManagesTransactions
      */
     public function beginTransaction(): void
     {
-        $this->$transactions++;
+        $this->transactions++;
 
         if ($this->transactions == 1) {
             $this->getPdo()->beginTransaction();
