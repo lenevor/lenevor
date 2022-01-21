@@ -421,13 +421,13 @@ class Model implements Arrayable, ArrayAccess
 	}
 
 	/**
-	 * Eraser the models for the given IDs.
+	 * Deleting the models for the given IDs.
 	 * 
 	 * @param  \Syscodes\Component\Collections\Collection|array|int|string  $ids
 	 * 
 	 * @return int
 	 */
-	public static function eraser($ids): int
+	public static function deleting($ids): int
 	{
 		$ids = is_array($ids) ? $ids : func_get_args();
 
@@ -658,6 +658,21 @@ class Model implements Arrayable, ArrayAccess
 	public function newCollection(array $models = [])
 	{
 		return new Collection($models);
+	}
+
+	/**
+	 * Begin querying the model on a given connection. 
+	 * 
+	 * @param  string|null	$connection
+	 * 
+	 * @return \Syscodes\Components\Database\Erostrine\Builder
+	 */
+	public function on($connection = null)
+	{
+		$instance = new static;
+		$instance->setConnection($connection);
+
+		return $instance->newQuery();
 	}
 
 	/**
