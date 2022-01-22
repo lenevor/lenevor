@@ -32,6 +32,7 @@ use Syscodes\Components\Database\Erostrine\Concerns\HasEvents;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
 use Syscodes\Components\Collections\Collection as BaseCollection;
 use Syscodes\Components\Database\Erostrine\Concerns\HasAttributes;
+use Syscodes\Components\Database\Erostrine\Concerns\HidesAttributes;
 use Syscodes\Components\Database\Erostrine\Concerns\GuardsAttributes;
 use Syscodes\Components\Database\Erostrine\Exceptions\MassAssignmentException;
 
@@ -44,6 +45,7 @@ class Model implements Arrayable, ArrayAccess
 {
 	use HasAttributes,
 	    HasEvents,
+		HidesAttributes,
 	    GuardsAttributes;
 
 	/**
@@ -198,20 +200,6 @@ class Model implements Arrayable, ArrayAccess
 	}
 	
 	/**
-	 * Get all of the models from the database.
-	 * 
-	 * @param  array|mixed  $columns
-	 * 
-	 * @return \Syscodes\Components\Database\Erostrine\Collection|static[]
-	 */
-	public static function all($columns = ['*'])
-	{
-		return static::query()->get(
-			is_array($columns) ? $columns : func_get_args()
-		);
-	}
-	
-	/**
 	 * Get the table qualified key name.
 	 * 
 	 * @return string
@@ -235,6 +223,35 @@ class Model implements Arrayable, ArrayAccess
 		}
 		
 		return $column;
+	}
+
+	/**
+	 * Get all of the models from the database.
+	 * 
+	 * @param  array|mixed  $columns
+	 * 
+	 * @return \Syscodes\Components\Database\Erostrine\Collection|static[]
+	 */
+	public static function all($columns = ['*'])
+	{
+		return static::query()->get(
+			is_array($columns) ? $columns : func_get_args()
+		);
+	}
+
+	/**
+	 * Begin querying the model on a given connection. 
+	 * 
+	 * @param  string|null	$connection
+	 * 
+	 * @return \Syscodes\Components\Database\Erostrine\Builder
+	 */
+	public static function on($connection = null)
+	{
+		$instance = new static;
+		$instance->setConnection($connection);
+
+		return $instance->newQuery();
 	}
 	
 	/**
@@ -269,6 +286,7 @@ class Model implements Arrayable, ArrayAccess
 		$this->primaryKey = $key;
 	}
 
+	
 	/**
 	 * Save a new model and return the instance.
 	 * 
@@ -421,34 +439,6 @@ class Model implements Arrayable, ArrayAccess
 	}
 
 	/**
-	 * Deleting the models for the given IDs.
-	 * 
-	 * @param  \Syscodes\Component\Collections\Collection|array|int|string  $ids
-	 * 
-	 * @return int
-	 */
-	public static function deleting($ids): int
-	{
-		$ids = is_array($ids) ? $ids : func_get_args();
-
-		if (count($ids) === 0) {
-			return 0;
-		}
-
-		$key = ($instance = new static)->getKeyName();
-
-		$count = 0;
-
-		foreach ($instance->whereIn($key, $ids)->get() as $model) {
-			if ($model->delete()) {
-				$count++;
-			}
-		}
-
-		return $count;
-	}
-
-	/**
 	 * Delete the model from the database.
 	 * 
 	 * @return bool|null
@@ -504,6 +494,34 @@ class Model implements Arrayable, ArrayAccess
 		return $this->getConnection()->transaction(function () {
 			return $this->delete();
 		});
+	}
+
+	/**
+	 * Deleting the models for the given IDs.
+	 * 
+	 * @param  \Syscodes\Component\Collections\Collection|array|int|string  $ids
+	 * 
+	 * @return int
+	 */
+	public static function deleting($ids): int
+	{
+		$ids = is_array($ids) ? $ids : func_get_args();
+
+		if (count($ids) === 0) {
+			return 0;
+		}
+
+		$key = ($instance = new static)->getKeyName();
+
+		$count = 0;
+
+		foreach ($instance->whereIn($key, $ids)->get() as $model) {
+			if ($model->delete()) {
+				$count++;
+			}
+		}
+
+		return $count;
 	}
 	
 	/** 
@@ -661,21 +679,6 @@ class Model implements Arrayable, ArrayAccess
 	}
 
 	/**
-	 * Begin querying the model on a given connection. 
-	 * 
-	 * @param  string|null	$connection
-	 * 
-	 * @return \Syscodes\Components\Database\Erostrine\Builder
-	 */
-	public function on($connection = null)
-	{
-		$instance = new static;
-		$instance->setConnection($connection);
-
-		return $instance->newQuery();
-	}
-
-	/**
 	 * Get the table associated with the model.
 	 * 
 	 * @return string
@@ -686,7 +689,7 @@ class Model implements Arrayable, ArrayAccess
 			return $this->table;
 		}
 
-		$class = classBasename($this);
+		$class = class_basename($this);
 
 		return str_replace('\\', '', $class);
 	}
@@ -701,6 +704,18 @@ class Model implements Arrayable, ArrayAccess
 	public function setTable(string $table): void
 	{
 		$this->table = $table;
+	}
+
+	/**
+	 * Get the default foreign key name for the model.
+	 * 
+	 * @return string
+	 */
+	public function getForeignKey(): string
+	{
+		$name = class_basename($this);
+
+		return sprintf("%s_{$this->getKeyName()}", Str::snake($name));
 	}
 
 	/**
