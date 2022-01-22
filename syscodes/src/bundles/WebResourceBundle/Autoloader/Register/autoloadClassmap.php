@@ -188,6 +188,7 @@ return [
     'Syscodes\\Components\\Database\\Erostrine\\Concerns\\GuardsAttributes' => SYS_PATH.'src/components/Database/Erostrine/Concerns/GuardsAttributes.php',
     'Syscodes\\Components\\Database\\Erostrine\\Concerns\\HasAttributes' => SYS_PATH.'src/components/Database/Erostrine/Concerns/HasAttributes.php',
     'Syscodes\\Components\\Database\\Erostrine\\Concerns\\HasEvents' => SYS_PATH.'src/components/Database/Erostrine/Concerns/HasEvents.php',
+    'Syscodes\\Components\\Database\\Erostrine\\Concerns\\HidesAttributes' => SYS_PATH.'src/components/Database/Erostrine/Concerns/HidesAttributes.php',
     'Syscodes\\Components\\Database\\Erostrine\\Exceptions\\MassAssignmentException' => SYS_PATH.'src/components/Database/Erostrine/Exceptions/MassAssignmentException.php',
     'Syscodes\\Components\\Database\\Erostrine\\Exceptions\\ModelNotFoundException' => SYS_PATH.'src/components/Database/Erostrine/Exceptions/ModelNotFoundException.php',
     'Syscodes\\Components\\Database\\Erostrine\\Builder' => SYS_PATH.'src/components/Database/Erostrine/Builder.php',
