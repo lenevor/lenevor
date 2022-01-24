@@ -355,6 +355,7 @@ return [
     'Syscodes\\Components\\Support\\Facades\\Route' => SYS_PATH.'src/components/Support/Facades/Route.php',
     'Syscodes\\Components\\Support\\Facades\\Session' => SYS_PATH.'src/components/Support/Facades/Session.php',
     'Syscodes\\Components\\Support\\Facades\\View' => SYS_PATH.'src/components/Support/Facades/View.php',
+    'Syscodes\\Components\\Support\\Traits\\Macroable' => SYS_PATH.'src/components/Macroable/Traits/Macroable.php',
     'Syscodes\\Components\\Support\\Chronos' => SYS_PATH.'src/components/Support/Chronos.php', 
     'Syscodes\\Components\\Support\\Environment' => SYS_PATH.'src/components/Support/Environment.php',
     'Syscodes\\Components\\Support\\Finder' => SYS_PATH.'src/components/Support/Finder.php',
