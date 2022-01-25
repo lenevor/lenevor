@@ -30,6 +30,7 @@ use InvalidArgumentException;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Contracts\View\Engine;
+use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Contracts\Support\Webable;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Support\Renderable;
@@ -42,6 +43,10 @@ use Syscodes\Components\Contracts\View\View as ViewContract;
  */
 class View implements ArrayAccess, Webable, ViewContract
 {
+	use Macroable {
+		__call as macroCall;
+	}
+
 	/**
 	 * Array of local variables.
 	 *
@@ -436,10 +441,14 @@ class View implements ArrayAccess, Webable, ViewContract
 	 * 
 	 * @return mixed
 	 * 
-	 * @throws \BadMethodCallException;
+	 * @throws \BadMethodCallException
 	 */
 	public function __call($method, $parameters)
 	{
+		if (static::hasMacro($method)) {
+			return $this->macroCall($method, $parameters);
+		}
+
 		if (Str::startsWith($method, 'assign')) {
 			$name = Str::camelcase(substr($method, 4));
 
@@ -447,7 +456,7 @@ class View implements ArrayAccess, Webable, ViewContract
 		}
 
 		throw new BadMethodCallException(sprintf(
-			'Method %s::%s does not exist.', static::class, $method)
+			'Method %s::%s() does not exist', static::class, $method)
 		);
 	}
 
