@@ -46,7 +46,7 @@ class Router implements Routable
 		Macroable {
 			__call as macroCall;
 		}
-
+		
 	/**
 	 * The registered route value binders.
 	 * 
