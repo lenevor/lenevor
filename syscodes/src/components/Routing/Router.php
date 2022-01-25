@@ -29,6 +29,7 @@ use Syscodes\Components\Http\Request;
 use Syscodes\Components\Http\Response;
 use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Http\RedirectResponse;
+use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Contracts\Routing\Routable;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Controller\MiddlewareResolver;
@@ -41,7 +42,10 @@ use Syscodes\Components\Controller\MiddlewareResolver;
 class Router implements Routable
 {
 	use Concerns\RouteMap,
-	    Concerns\RouteResolver;
+	    Concerns\RouteResolver,
+        Macroable {
+			__call as macroCall;
+		}
 
 	/**
 	 * The registered route value binders.
@@ -63,13 +67,6 @@ class Router implements Routable
 	 * @var array $groupStack
 	 */
 	protected $groupStack = [];
-	
-	/**
-	 * The registered string macros.
-	 * 
-	 * @var array $macros
-	 */
-	protected $macros = [];
 
 	/**
 	 * Middleware for function of filters
@@ -642,32 +639,7 @@ class Router implements Routable
 	{
 		ResourceRegister::verbs($verbs);
 	}
-	
-	/**
-	 * Register a custom macro.
-	 * 
-	 * @param  string  $name
-	 * @param  callable  $callback
-	 * 
-	 * @return void
-	 */
-	public function macro($name, callable $callback): void
-	{
-		$this->macros[$name] = $callback;
-	}
-	
-	/**
-	 * Checks if macro is registered.
-	 * 
-	 * @param  string  $name
-	 * 
-	 * @return bool
-	 */
-	public function hasMacro($name): bool
-	{
-		return isset($this->macros[$name]);
-	}
-	
+
 	/**
 	 * Magic method.
 	 * 
@@ -680,10 +652,8 @@ class Router implements Routable
 	 */
 	public function __call($method, $parameters)
 	{
-		if (isset($this->macros[$method])) {
-			$callback = $this->macros[$method];
-
-			return call_user_func_array($callback, $parameters);
+		if (static::hasMacro($method)) {
+			return $this->macroCall($method, $parameters);
 		}
 		
 		return (new RouteRegister($this))->attribute($method, $parameters[0]);
