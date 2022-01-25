@@ -30,6 +30,7 @@ use InvalidArgumentException;
 use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Collections\Collection;
 use Syscodes\Components\Database\DatabaseCache;
+use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Database\Query\Grammars\Grammar;
 use Syscodes\Components\Database\Query\Processors\Processor;
 use Syscodes\Components\Database\Connections\ConnectionInterface;
@@ -43,6 +44,10 @@ use Syscodes\Components\Database\Connections\ConnectionInterface;
  */
 class Builder
 {
+    use Macroable {
+        __call as macroCall;
+    }
+
     /**
      * An aggregate function and column to be run.
      * 
@@ -1997,8 +2002,12 @@ class Builder
      */
     public function __call($method, $parameters)
     {
-        $classname = get_class($this);
+        if (static::hasMacro($method)) {
+            return $this->macroCall($method, $parameters);
+        }
 
-        throw new BadMethodCallException("Call to undefined method {$classname}::{$method}()");
+        throw new BadMethodCallException(sprintf(
+            'Call to undefined method %s::$s()', static::class, $method
+        ));
     }
 }
