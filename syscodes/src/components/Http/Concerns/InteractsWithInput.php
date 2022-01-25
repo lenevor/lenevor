@@ -150,11 +150,25 @@ trait InteractsWithInput
     /**
      * Get all of the input and files for the request.
      * 
+     * @param  array|mixed|null  $keys
+     * 
      * @return array
      */
-    public function all(): array
+    public function all($keys = null): array
     {
-        return array_merge_recursive($this->input(), $this->allFiles());
+        $input = array_merge_recursive($this->input(), $this->allFiles());
+
+        if ( ! $keys) {
+            return $input;
+        }
+        
+        $results = [];
+        
+        foreach (is_array($keys) ? $keys : func_get_args() as $key) {
+            Arr::set($results, $key, Arr::get($input, $key));
+        }
+        
+        return $results;
     }
 
     /**
