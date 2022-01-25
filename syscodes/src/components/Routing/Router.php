@@ -43,7 +43,7 @@ class Router implements Routable
 {
 	use Concerns\RouteMap,
 	    Concerns\RouteResolver,
-        Macroable {
+		Macroable {
 			__call as macroCall;
 		}
 
