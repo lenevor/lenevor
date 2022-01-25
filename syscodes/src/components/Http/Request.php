@@ -189,7 +189,7 @@ class Request
 		static::$requestURI = $this;
 		
 		$this->initialize($queryString, $request, $cookies, $files, $server, $content);
-
+		
 		$this->detectURI(config('app.uriProtocol'), config('app.baseUrl'));
 
 		$this->detectLocale();
@@ -950,13 +950,9 @@ class Request
 	 */
 	public function __get($key)
 	{
-		$all = $this->server->all();
-
-		if (array_key_exists($key, $all)) {
-			return $all[$key];
-		} else {
-			return $key;
-		}
+		return Arr::get($this->all(), $key, function () use ($key) {
+			return $this->route($key);
+		});
 	}
 
 	/**
