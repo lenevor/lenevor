@@ -27,6 +27,7 @@ use LogicException;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Support\Traits\ForwardsCalls;
 use Syscodes\Components\Database\ConnectionResolverInterface;
 use Syscodes\Components\Database\Erostrine\Concerns\HasEvents;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
@@ -46,7 +47,8 @@ class Model implements Arrayable, ArrayAccess
 	use HasAttributes,
 	    HasEvents,
 		HidesAttributes,
-	    GuardsAttributes;
+	    GuardsAttributes,
+	    ForwardsCalls;
 
 	/**
 	 * The database connection name.
@@ -914,7 +916,7 @@ class Model implements Arrayable, ArrayAccess
 	 */
 	public function __call($method, $parameters)
     {
-		return $this->newQuery()->{$method}(...$parameters);
+		return $this->forwardCallTo($this->newQuery(), $method, $parameters);
     }
 
 	/**
