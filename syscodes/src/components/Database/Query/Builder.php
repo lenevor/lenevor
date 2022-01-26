@@ -25,7 +25,6 @@ namespace Syscodes\Components\Database\Query;
 use Closure;
 use RuntimeException;
 use DateTimeInterface;
-use BadMethodCallException;
 use InvalidArgumentException;
 use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Collections\Collection;
@@ -2006,8 +2005,6 @@ class Builder
             return $this->macroCall($method, $parameters);
         }
 
-        throw new BadMethodCallException(sprintf(
-            'Call to undefined method %s::$s()', static::class, $method
-        ));
+        static::badMethodCallException($method);
     }
 }
