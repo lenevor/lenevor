@@ -29,7 +29,9 @@ use ReflectionMethod;
 use BadMethodCallException;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Support\Traits\ForwardsCalls;
 use Syscodes\Components\Database\Concerns\MakeQueries;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
 use Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException;
@@ -41,7 +43,9 @@ use Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException;
  */
 class Builder
 {
-    use MakeQueries;
+    use MakeQueries,
+        Macroable,
+        ForwardsCalls;
     
     /**
      * The relationships that should be eagerly loaded by the query.
@@ -348,9 +352,48 @@ class Builder
      */
     public function __call($method, $parameters)
     {
-        $result = $this->getQuery()->{$method}(...$parameters);
+        if (static::hasMacro($method)) {
+            $macro = static::$macros[$method];
+            
+            if ($macro instanceof Closure) {
+                $macro = $macro->bindTo($this, static::class);
+            }
+            
+            return call_func_user_array($macro, $parameters);
+        }
 
-        return in_array($method, $this->passthru) ? $result : $this;
+        if (in_array($method, $this->passthru)) {
+            return $this->getQuery()->{$method}(...$parameters);
+        }
+        
+        $this->forwardCallTo($this->getQuery(), $method, $parameters);
+
+       return $this;
+    }
+
+    /**
+     * Magic method.
+     * 
+     * Dynamically handle method calls into the Builder instance.
+     * 
+     * @param  string  $method
+     * @param  array  $parameters
+     * 
+     * @return mixed
+     */
+    public static function __callStatic($method, $parameters)
+    {
+        if ( ! static::hasMacro($method)) {
+            static::badMethodCallEcxeption($method);
+        }
+
+        $macro = static::$macros[$method];
+            
+        if ($macro instanceof Closure) {
+            $macro = $macro->bindTo(null, static::class);
+        }
+        
+        return call_func_user_array($macro, $parameters);        
     }
     
     /**
