@@ -287,7 +287,6 @@ class Model implements Arrayable, ArrayAccess
 	{
 		$this->primaryKey = $key;
 	}
-
 	
 	/**
 	 * Save a new model and return the instance.
@@ -619,7 +618,7 @@ class Model implements Arrayable, ArrayAccess
 				$this->setAttribute($key, $value);
 			} else if ($totallyGuarded) {
 				throw new MassAssignmentException(sprintf(
-					'Add [%s] to fillable property to allow mass assignment on [%s].',
+					'Add [%s] to fillable property to allow mass assignment on [%s]',
 					$key, get_class($this)
 				));
 			}
