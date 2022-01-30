@@ -30,6 +30,175 @@ namespace Syscodes\Components\Support\InflectRules;
 class Rules
 {
     /**
+     * Get the words that should uncountables.
      * 
+     * @var array $uncountables
      */
+    protected array $uncountables;
+
+    /**
+     * Constructor. Create a new Rules class instance.
+     * 
+     * @param  array  $uncountables
+     * 
+     * @return void
+     */
+    public function __construct(array $uncountables = [])
+    {
+        $this->uncountables = $uncountables;
+    }
+
+    /**
+     * Added the words uncountables.
+     * 
+     * @param  string  $word
+     * 
+     * @return void
+     */
+    public function addUncountable(string $word): void
+    {
+        $this->uncountables = $word;
+    }
+    
+    /**
+     * @param array $replaceMap
+     * @param array $keepMap
+     * @param array $rules
+     * 
+     * @return \Closure
+     */
+    public function replaceWord($replaceMap, $keepMap, $rules)
+    {
+        return function ($word) use ($replaceMap, $keepMap, $rules) {
+            $token = strtolower($word);
+            
+            if (array_key_exists($token, $keepMap)) {
+                return $this->restore($word, $token);
+            }
+            
+            if (array_key_exists($token, $replaceMap)) {
+                return $this->restore($word, $replaceMap[$token]);
+            }
+            
+            return $this->sanitizeWord($token, $word, $rules);
+        };
+    }
+    
+    /**
+     * Check if a word is part of the map.
+     * 
+     * @param  array  $replaceMap
+     * @param  array  $keepMap
+     * @param  array  $rules
+     * 
+     * @return \Closure
+     */
+    public function checkWord($replaceMap, $keepMap, $rules)
+    {
+        return function ($word) use ($replaceMap, $keepMap, $rules) {
+            $token = strtolower($word);
+            
+            if (array_key_exists($token, $keepMap)) {
+                return true;
+            }
+            
+            if (array_key_exists($token, $replaceMap)) {
+                return false;
+            }
+            
+            return $this->sanitizeWord($token, $word, $rules) === $token;
+        };
+    }
+    
+    /**
+     * @param  string  $word
+     * @param  array  $rule
+     * 
+     * @return  string
+     */
+    protected function replace($word, $rule)
+    {
+        return preg_replace_callback($rule[0], function ($matches) use ($word, $rule) {
+            if ( ! isset($matches[0])) {
+                return $word;
+            }
+            
+            $result = $this->interpolate($rule[1], $matches);
+            
+            if ($matches[0] === '' && isset($matches[1])) {
+                $sub = substr($word, $matches[1] - 1);
+                
+                return $this->restore($sub, $result);
+            }
+            return $this->restore($matches[0], $result);
+        }, $word);
+    }
+    
+    /**
+     * @param  string  $str
+     * @param  array  $args
+     * 
+     * @return string
+     */
+    protected function interpolate($str, $args)
+    {
+        return preg_replace_callback('/\$(\d{1,2})/', function ($matches) use ($args) {
+            return isset($matches[1], $args[$matches[1]])
+                        ? $args[$matches[1]]
+                        : "";
+        }, $str);
+    }
+    
+    /**
+     * @param  string  $word
+     * @param  string  $token
+     * 
+     * @return string
+     */
+    protected function restore($word, $token)
+    {
+        if ($word === $token) {
+            return $token;
+        }
+        
+        if ($word === strtolower($word)) {
+            return strtolower($token);
+        }
+        
+        if ($word === strtoupper($word)) {
+            return strtoupper($token);
+        }
+        
+        if ($word === ucfirst($word)) {
+            return ucfirst($token);
+        }
+        
+        return strtolower($token);
+    }
+    
+    /**
+     * @param  string  $token
+     * @param  string  $word
+     * @param  array  $rules
+     * 
+     * @return string
+     */
+    private function sanitizeWord($token, $word, $rules)
+    {
+        if (empty($token) || array_key_exists($token, $this->uncountables)) {
+            return $word;
+        }
+        
+        $length = count($rules);
+        
+        while ($length--) {
+            $rule = $rules[$length];
+            
+            if (preg_match($rule[0], $word)) {
+                return $this->replace($word, $rule);
+            }
+        }
+        
+        return $word;
+    }
 }
