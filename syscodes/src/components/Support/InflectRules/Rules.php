@@ -22,6 +22,8 @@
 
 namespace Syscodes\Components\Support\InflectRules;
 
+use Closure;
+
 /**
  * Allows use rules for identify the words in plural or singular.
  * 
@@ -61,13 +63,15 @@ class Rules
     }
     
     /**
-     * @param array $replaceMap
-     * @param array $keepMap
-     * @param array $rules
+     * Replace the words with your respective rules.
+     * 
+     * @param  array  $replaceMap
+     * @param  array  $keepMap
+     * @param  array  $rules
      * 
      * @return \Closure
      */
-    public function replaceWord($replaceMap, $keepMap, $rules)
+    public function replace($replaceMap, $keepMap, $rules): Closure
     {
         return function ($word) use ($replaceMap, $keepMap, $rules) {
             $token = strtolower($word);
@@ -93,7 +97,7 @@ class Rules
      * 
      * @return \Closure
      */
-    public function checkWord($replaceMap, $keepMap, $rules)
+    public function checkWord($replaceMap, $keepMap, $rules): Closure
     {
         return function ($word) use ($replaceMap, $keepMap, $rules) {
             $token = strtolower($word);
@@ -111,12 +115,14 @@ class Rules
     }
     
     /**
+     * Replace the words with your respective rules.
+     * 
      * @param  string  $word
      * @param  array  $rule
      * 
      * @return  string
      */
-    protected function replace($word, $rule)
+    protected function replaceWord($word, $rule)
     {
         return preg_replace_callback($rule[0], function ($matches) use ($word, $rule) {
             if ( ! isset($matches[0])) {
@@ -195,7 +201,7 @@ class Rules
             $rule = $rules[$length];
             
             if (preg_match($rule[0], $word)) {
-                return $this->replace($word, $rule);
+                return $this->replaceWord($word, $rule);
             }
         }
         
