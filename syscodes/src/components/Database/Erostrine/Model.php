@@ -686,13 +686,9 @@ class Model implements Arrayable, ArrayAccess
 	 */
 	public function getTable(): string
 	{
-		if (isset($this->table)) {
-			return $this->table;
-		}
-
 		$class = class_basename($this);
 
-		return str_replace('\\', '', $class);
+		return $this->table ?? Str::snake(Str::plural($class));
 	}
 
 	/**
