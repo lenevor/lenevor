@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Support;
 
 use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Support\Inflector;
 
 /**
  * Allows convert a string in diferentes modes of text presentation, either, 
@@ -292,6 +293,19 @@ class Str
     {
         return static::contains($callback, '@') ? explode('@', ucfirst($callback), 2) : [$callback, $default];
     }
+
+    /**
+     * Get the plural form of an English word.
+     * 
+     * @param  string  $value
+     * @param  int|array|\Countable  $count
+     * 
+     * @return string 
+     */
+    public static function plural($value, $count = 2): string
+    {
+        return (new Inflector)->pluralize($value, $count);
+    }
     
     /**
      * Generate a more truly "random" alpha-numeric string.
@@ -378,6 +392,18 @@ class Str
                     : str_ireplace($search, '', $subject);
         
         return $subject;
+    }
+
+    /**
+     * Get the singular form of an English word.
+     * 
+     * @param  string  $value
+     * 
+     * @return string 
+     */
+    public static function singular($value): string
+    {
+        return (new Inflector)->singular($value);
     }
 
     /**
