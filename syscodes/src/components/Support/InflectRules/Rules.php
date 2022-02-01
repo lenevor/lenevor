@@ -36,7 +36,7 @@ class Rules
      * 
      * @var array $uncountables
      */
-    protected array $uncountables;
+    protected $uncountables;
 
     /**
      * Constructor. Create a new Rules class instance.
@@ -59,7 +59,7 @@ class Rules
      */
     public function addUncountable(string $word): void
     {
-        $this->uncountables = $word;
+        $this->uncountables[] = $word;
     }
     
     /**
