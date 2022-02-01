@@ -122,7 +122,7 @@ class Rules
      * 
      * @return  string
      */
-    protected function replaceWord($word, $rule)
+    protected function replaceWord($word, $rule): string
     {
         return preg_replace_callback($rule[0], function ($matches) use ($word, $rule) {
             if ( ! isset($matches[0])) {
@@ -141,6 +141,8 @@ class Rules
     }
     
     /**
+     * Get the arguments based in regex depending of a string.
+     * 
      * @param  string  $str
      * @param  array  $args
      * 
@@ -156,12 +158,14 @@ class Rules
     }
     
     /**
+     * Get a string with the uppercase, lowercase and first-capital functions.
+     * 
      * @param  string  $word
      * @param  string  $token
      * 
      * @return string
      */
-    protected function restore($word, $token)
+    protected function restore($word, $token): string
     {
         if ($word === $token) {
             return $token;
@@ -183,6 +187,8 @@ class Rules
     }
     
     /**
+     * Sanitize a string using a rule words.
+     * 
      * @param  string  $token
      * @param  string  $word
      * @param  array  $rules
