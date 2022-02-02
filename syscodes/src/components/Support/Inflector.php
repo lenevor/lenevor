@@ -35,35 +35,57 @@ use Syscodes\Components\Support\InflectRules\English\Irregularize;
  */
 class Inflector
 {
-    /** @var array  */
-    private $irregularSingles = [];
-
-    /** @var array  */
-    private $irregularPlurals = [];
-
-    /** @var array  */
-    private $pluralRules      = [];
-
-    /** @var array  */
-    private $singularRules    = [];
-
-    /** @var RuleAplicator  */
-    private $aplicator;
-
     /**
-     * Inflector constructor.
+     * Gets the irregular singular word.
+     * 
+     * @var array $irregularSingles
+     */
+    protected $irregularSingles = [];
+    
+    /**
+     * Gets the irregular plural word.
+     * 
+     * @var array $irregularPlurals
+     */
+    protected $irregularPlurals = [];
+    
+    /**
+     * Gets a string plural with your rules.
+     * 
+     * @var array $pluralRules
+     */
+    protected $pluralRules = [];
+    
+    /**
+     * Gets a string singular with your rules.
+     * 
+     * @var array $singularRules
+     */
+    protected $singularRules = [];
+    
+    /**
+     * Get the rules of application.
+     * 
+     * @var \Syscodes\Components\Support\InflectRules\Rules $aplicator
+     */
+    protected $aplicator;
+    
+    /**
+     * Constructor. Create a new Injflector instance.
+     * 
+     * @return void
      */
     public function __construct()
     {
-        $this->pluralRules     = Pluralize::all();
-        $this->singularRules   = Singularize::all();
-        $this->aplicator       = new Rules();
-
+        $this->pluralRules   = Pluralize::all();
+        $this->singularRules = Singularize::all();
+        $this->aplicator     = new Rules();
+        
         foreach (Irregularize::all() as $rule) {
             $this->irregularSingles[$rule[0]] = $rule[1];
             $this->irregularPlurals[$rule[1]] = $rule[0];
         }
-
+        
         foreach (Uncountable::all() as $rule) {
             $this->addUncountableRule($rule);
         }
