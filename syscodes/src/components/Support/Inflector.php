@@ -92,15 +92,17 @@ class Inflector
     }
 
     /**
-     * @param      $text
-     * @param      $count
-     * @param bool $includeCount
+     * Returns a word in plural form.
+     * 
+     * @param  string  $text
+     * @param  int  $count
+     * @param  bool  $includeCount
      *
      * @return string
      */
     public function pluralize($text, $count, $includeCount = false)
     {
-        return ($includeCount ? $count . " " : "")
+        return ($includeCount ? $count." " : "")
             . (intval($count) === 1
                 ? $this->singular($text)
                 : $this->plural($text)
@@ -108,7 +110,9 @@ class Inflector
     }
 
     /**
-     * @param string $text
+     * Returns a word in plural form with replace.
+     * 
+     * @param  string  $text
      *
      * @return string
      */
@@ -124,17 +128,21 @@ class Inflector
     }
 
     /**
-     * @param string $text
+     * Gets a word in plural form.
+     * 
+     * @param  string  $text
      *
      * @return bool
      */
-    public function isPlural($text)
+    public function isPlural($text): bool
     {
-        return !$this->isSingular($text);
+        return ! $this->isSingular($text);
     }
 
     /**
-     * @param string $text
+     * Returns a word in singular form with replace.
+     * 
+     * @param  string  $text
      *
      * @return string
      */
@@ -150,11 +158,13 @@ class Inflector
     }
 
     /**
-     * @param string $text
+     * Gets a word in singular form.
+     * 
+     * @param  string  $text
      *
      * @return bool
      */
-    public function isSingular($text)
+    public function isSingular($text): bool
     {
         $callback = $this->aplicator->checkWord(
             $this->irregularPlurals,
@@ -166,10 +176,12 @@ class Inflector
     }
 
     /**
-     * @see \plejus\PhpPluralize\Rules\PluralizationRule
+     * Adds a word of plural rule.
      *
-     * @param string $rule        Regex string to find
-     * @param string $replacement Replacement with regex match
+     * @param  string  $rule  Regex string to find
+     * @param  string  $replacement  Replacement with regex match
+     * 
+     * @return void
      */
     public function addPluralRule($rule, $replacement)
     {
@@ -177,10 +189,12 @@ class Inflector
     }
 
     /**
-     * @see \plejus\PhpPluralize\Rules\SingularizationRule
+     * Adds a word of singular rule.
      *
-     * @param string $rule        Regex string to find
-     * @param string $replacement Replacement with regex match
+     * @param  string  $rule  Regex string to find
+     * @param  string  $replacement  Replacement with regex match
+     * 
+     * @return void
      */
     public function addSingularRule($rule, $replacement)
     {
@@ -188,8 +202,12 @@ class Inflector
     }
 
     /**
-     * @param string $single
-     * @param string $plural
+     * Adds a word of irregular plural and singular rule.
+     * 
+     * @param  string  $single
+     * @param  string  $plural
+     * 
+     * @return void
      */
     public function addIrregularRule($single, $plural)
     {
@@ -198,12 +216,16 @@ class Inflector
     }
 
     /**
-     * @param string $rule Uncountable word or Regex string
+     * Get a uncountable word or regex string
+     * 
+     * @param  string  $rule  Uncountable word or Regex string
+     * 
+     * @return void
      */
     public function addUncountableRule($rule)
     {
         if (substr($rule, 0, 1) === '/') {
-            $this->pluralRules[]   = [$rule, '$0'];
+            $this->pluralRules[] = [$rule, '$0'];
             $this->singularRules[] = [$rule, '$0'];
         } else {
             $this->aplicator->addUncountable($rule);
