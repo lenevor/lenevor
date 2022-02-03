@@ -23,7 +23,6 @@
 namespace Syscodes\Components\Support;
 
 use Syscodes\Components\Collections\Arr;
-use Syscodes\Components\Support\Inflector;
 
 /**
  * Allows convert a string in diferentes modes of text presentation, either, 
