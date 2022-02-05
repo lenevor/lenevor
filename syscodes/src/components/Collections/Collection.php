@@ -61,6 +61,20 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
+     * Add an item in the collection.
+     * 
+     * @param  mixed  $item
+     * 
+     * @return $this
+     */
+    public function add($item)
+    {
+        $this->items[] = $item;
+
+        return $this;
+    }
+
+    /**
      * Get all of the items in the collection.
      * 
      * @return array
@@ -78,6 +92,41 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     public function collapse()
     {
         return new static(Arr::collapse($this->items));
+    }
+
+    /**
+     * Creates a collection by using this collection for 
+     * keys and other its values.
+     * 
+     * @param  mixed  $items
+     * 
+     * @return static
+     */
+    public function combine($items)
+    {
+        return new static(array_combine($this->all(), $this->getArrayItems($items)));
+    }
+
+    /**
+     * Chunk the underlying collection array.
+     * 
+     * @param  int  $size
+     * 
+     * @return static
+     */
+    public function chunk($size)
+    {
+        if ($size <= 0) {
+            return new static;
+        }
+
+        $chunks = [];
+
+        foreach (array_chunk($this->items, $size, true) as $chunk) {
+            $chunks[] = $chunk;
+        }
+
+        return new static($chunks);
     }
 
     /**
@@ -175,6 +224,40 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
+     * Remove an item from the collection by key.
+     * 
+     * @param  string|array  $keys
+     * 
+     * @return self
+     */
+    public function erase($keys): self
+    {
+        foreach ((array) $keys as $key) {
+            $this->offsetUnset($key);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get all items exceptions with the specified keys.
+     * 
+     * @param  mixed  $keys
+     *
+     * @return static
+     */
+    public function except($keys)
+    {
+        if ($keys instanceof static) {
+            $keys = $keys->all();
+        } else {
+            $keys = func_get_args();
+        }
+
+        return new static(Arr::except($this->items, $keys));
+    }
+
+    /**
      * Run a filter over each of the items.
      * 
      * @param  \callable|null  $callback
@@ -224,6 +307,23 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
+     * Get an item from the collection.
+     * 
+     * @param  mixed  $key
+     * @param  mixed  $default
+     * 
+     * @return mixed
+     */
+    public function get($key, $default = null)
+    {
+        if (array_key_exists($key, $this->items)) {
+            return $this->items[$key];
+        }
+
+        return value($default);
+    }
+
+    /**
      * Determine if an item exists in the collection by key.
      * 
      * @param  mixed  $keys
@@ -232,23 +332,15 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      */
     public function has($key): bool
     {
-        return Arr::has($this->items, $key);
-    }
+        $keys = is_array($key) ? $key : func_get_args();
 
-    /**
-     * Remove an item from the collection by key.
-     * 
-     * @param  string|array  $keys
-     * 
-     * @return self
-     */
-    public function erase($keys): self
-    {
-        foreach ((array) $keys as $key) {
-            $this->offsetUnset($key);
+        foreach ($keys as $value) {
+            if ( ! Arr::exists($this->items, $value)) {
+                return false;
+            }
         }
 
-        return $this;
+        return true;
     }
     
     /**
@@ -268,69 +360,6 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
         }
         
         return implode($value ?? '', $this->items);
-    }
-
-    /**
-     * Run a map over each of the items.
-     * 
-     * @param  \callable  $callback
-     * 
-     * @return static
-     */
-    public function map(callable $callback)
-    {
-        $keys = array_keys($this->items);
-
-        $items = array_map($callback, $this->items, $keys);
-
-        return new static(array_combine($keys, $items));
-    }
-
-     /**
-     * Reset the keys of the collection.
-     * 
-     * @return static
-     */
-    public function keys()
-    {
-        return new static(array_keys($this->items));
-    }
-
-    /**
-     * Merge the collection with the given items.
-     * 
-     * @param  mixed  $items
-     * 
-     * @return static
-     */
-    public function merge(array $items)
-    {
-        return new static(array_merge($this->items, $this->getArrayItems($items)));
-    }
-
-    /**
-     * Recursively Merge the collection with the given items.
-     * 
-     * @param  mixed  $items
-     * 
-     * @return static
-     */
-    public function mergeRecursive($items)
-    {
-        return new static(array_merge_recursive($this->items, $this->getArrayItems($items)));
-    }
-
-    /**
-     * Creates a collection by using this collection for 
-     * keys and other its values.
-     * 
-     * @param  mixed  $items
-     * 
-     * @return static
-     */
-    public function combine($items)
-    {
-        return new static(array_combine($this->all(), $this->getArrayItems($items)));
     }
 
     /**
@@ -366,6 +395,16 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     {
         return empty($this->items);
     }
+    
+    /**
+     * Reset the keys of the collection.
+     * 
+     * @return static
+     */
+    public function keys()
+    {
+        return new static(array_keys($this->items));
+    }
 
     /**
      * Get the last item from the collection.
@@ -381,28 +420,78 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
-     * Union the collection with the given items.
+     * Run a map over each of the items.
+     * 
+     * @param  \callable  $callback
+     * 
+     * @return static
+     */
+    public function map(callable $callback)
+    {
+        $keys = array_keys($this->items);
+
+        $items = array_map($callback, $this->items, $keys);
+
+        return new static(array_combine($keys, $items));
+    }
+
+    /**
+     * Merge the collection with the given items.
      * 
      * @param  mixed  $items
      * 
      * @return static
      */
-    public function union($items)
+    public function merge(array $items)
     {
-        return new static($this->items + $this->getArrayItems($items));
+        return new static(array_merge($this->items, $this->getArrayItems($items)));
     }
 
     /**
-     * Create a collection with the given range.
+     * Recursively Merge the collection with the given items.
      * 
-     * @param  int  $from
-     * @param  int  $to
+     * @param  mixed  $items
      * 
      * @return static
      */
-    public function range($from, $to)
+    public function mergeRecursive($items)
     {
-        return new static(range($from, $to));
+        return new static(array_merge_recursive($this->items, $this->getArrayItems($items)));
+    }
+
+    /**
+     * Get the items with the specified keys.
+     * 
+     * @param  mixed  $keys
+     * 
+     * @return static
+     */
+    public function only($keys)
+    {
+        if (is_null($keys)) {
+            return new static($this->items);
+        }
+
+        if ($keys instanceof static) {
+            $keys = $keys->all() ;
+        }
+
+        $keys = is_array($keys) ? $keys : func_get_args();
+
+        return new static(Arr::only($this->items, $keys));
+    }
+
+    /**
+     * Pad collection to the specified length with a value.
+     * 
+     * @param  int  $size
+     * @param  mixed  $value
+     * 
+     * @return static
+     */
+    public function pad($size, $value)
+    {
+        return new static(array_pad($this->items, $size, $value));
     }
 
     /**
@@ -429,19 +518,16 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
-     * Push an item onto the end of the collection.
+     * Get and remove an item from the collection.
      * 
-     * @param  mixed  $values  [optional]
+     * @param  mixed  $key
+     * @param  mixed  $default
      * 
-     * @return self
+     * @return mixed
      */
-    public function push(...$values): self
+    public function pull($key, $default = null)
     {
-        foreach ($values as $value) {
-            $this->items[] = $value;
-        }
-
-        return $this;
+        return Arr::pull($this->items, $key, $default);
     }
 
     /**
@@ -460,16 +546,19 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
-     * Get and remove an item from the collection.
+     * Push an item onto the end of the collection.
      * 
-     * @param  mixed  $key
-     * @param  mixed  $default
+     * @param  mixed  $values  [optional]
      * 
-     * @return mixed
+     * @return self
      */
-    public function pull($key, $default = null)
+    public function push(...$values): self
     {
-        return Arr::pull($this->items, $key, $default);
+        foreach ($values as $value) {
+            $this->items[] = $value;
+        }
+
+        return $this;
     }
     
     /**
@@ -483,6 +572,19 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     public function pluck($value, $key = null)
     {
         return new static(Arr::pluck($this->items, $value, $key));
+    }
+
+    /**
+     * Create a collection with the given range.
+     * 
+     * @param  int  $from
+     * @param  int  $to
+     * 
+     * @return static
+     */
+    public function range($from, $to)
+    {
+        return new static(range($from, $to));
     }
 
     /**
@@ -570,6 +672,16 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
+     * Get and remove the first item from the collection.
+     * 
+     * @return void
+     */
+    public function shift()
+    {
+        return array_shift($this->items);
+    }
+
+    /**
      * Slice the underlying collection array.
      * 
      * @param  int  $offset
@@ -583,35 +695,82 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
-     * Chunk the underlying collection array.
+     * Sort through each item.
      * 
-     * @param  int  $size
+     * @param  Callable|int|null  $callback
      * 
      * @return static
      */
-    public function chunk($size)
+    public function sort($callback = null)
     {
-        if ($size <= 0) {
-            return new static;
-        }
+        $items =  $this->items;
 
-        $chunks = [];
+        $callback && is_callable($callback)
+            ? uasort($items, $callback)
+            : asort($items, $callback ?? SORT_REGULAR);
 
-        foreach (array_chunk($this->items, $size, true) as $chunk) {
-            $chunks[] = $chunk;
-        }
-
-        return new static($chunks);
+        return new static($items);
     }
 
     /**
-     * Get and remove the first item from the collection.
+     * Sort items in descending order.
      * 
-     * @return void
+     * @param  int  $options
+     * 
+     * @return static
      */
-    public function shift()
+    public function sortDesc($options = SORT_REGULAR)
     {
-        return array_shift($this->items);
+        $items = $this->items;
+
+        arsort($items, $options);
+
+        return new static($items);
+    }
+
+    /**
+     * Sort the collection keys.
+     * 
+     * @param  int  $options
+     * @param  bool  $descending
+     * 
+     * @return static
+     */
+    public function sortKeys($options = SORT_REGULAR, $descending = false)
+    {
+        $items = $this->items;
+
+        $descending ? krsort($items, $options) : ksort($items, $options);
+
+        return new static($items);
+    }
+
+    /**
+     * Sort the collection keys in descending order.
+     * 
+     * @param  int  $options
+     * 
+     * @return static
+     */
+    public function sortKeysDesc($options =  SORT_REGULAR)
+    {
+        return $this->sortKeys($options, true);
+    }
+
+    /**
+     * Sort the collection keys using a callback.
+     * 
+     * @param  callable  $callback
+     * 
+     * @return static
+     */
+    public function sortKeysUsing(callable $callback)
+    {
+        $items = $this->items;
+
+        uksort($items, $callback);
+
+        return new static($items);
     }
 
     /**
@@ -649,16 +808,29 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
-     * Pad collection to the specified length with a value.
+     * Transform each item in the collection.
      * 
-     * @param  int  $size
-     * @param  mixed  $value
+     * @param  callable  $callback
+     * 
+     * @return self
+     */
+    public function transform(callable $callback): self
+    {
+        $this->items = $this->map($callback)->all();
+
+        return $this;
+    }
+
+    /**
+     * Union the collection with the given items.
+     * 
+     * @param  mixed  $items
      * 
      * @return static
      */
-    public function pad($size, $value)
+    public function union($items)
     {
-        return new static(array_pad($this->items, $size, $value));
+        return new static($this->items + $this->getArrayItems($items));
     }
 
     /**
@@ -668,21 +840,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      */
     public function unique()
     {
-        return new static(array_unique($this->items));
-    }
-
-    /**
-     * Add an item in the collection.
-     * 
-     * @param  mixed  $item
-     * 
-     * @return $this
-     */
-    public function add($item)
-    {
-        $this->items[] = $item;
-
-        return $this;
+        return new static(array_unique($this->items, SORT_REGULAR));
     }
 
     /**
