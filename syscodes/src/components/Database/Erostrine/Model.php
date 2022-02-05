@@ -46,6 +46,7 @@ class Model implements Arrayable, ArrayAccess
 {
 	use HasAttributes,
 	    HasEvents,
+	    HasRelations,
 		HidesAttributes,
 	    GuardsAttributes,
 	    ForwardsCalls;
