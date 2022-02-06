@@ -31,7 +31,7 @@ use Syscodes\Components\Database\Erostrine\Relations\Relation;
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class BelongTo extends Relation
+class BelongsTo extends Relation
 {
     /**
      * The child model instance of the relation.
