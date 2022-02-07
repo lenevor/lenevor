@@ -213,7 +213,7 @@ class BelongsTo extends Relation
      * 
      * @return string
      */
-    public function getQuafiedOwnerKeyName(): string
+    public function getQualifiedOwnerKeyName(): string
     {
         return $this->related->getTable().'.'.$this->ownerKey;
     }

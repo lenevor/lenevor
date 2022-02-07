@@ -32,6 +32,7 @@ use Syscodes\Components\Database\ConnectionResolverInterface;
 use Syscodes\Components\Database\Erostrine\Concerns\HasEvents;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
 use Syscodes\Components\Collections\Collection as BaseCollection;
+use Syscodes\Components\Database\Erostrine\Concerns\HasRelations;
 use Syscodes\Components\Database\Erostrine\Concerns\HasAttributes;
 use Syscodes\Components\Database\Erostrine\Concerns\HidesAttributes;
 use Syscodes\Components\Database\Erostrine\Concerns\GuardsAttributes;
