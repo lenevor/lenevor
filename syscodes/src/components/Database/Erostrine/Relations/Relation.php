@@ -143,7 +143,7 @@ abstract class Relation
      * 
      * @return array
      */
-    public function get($columns = ['*']): array
+    public function get($columns = ['*'])
     {
         return $this->queryBuilder->get($columns);
     }
