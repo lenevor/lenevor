@@ -47,7 +47,7 @@ class CacheManager implements ManagerContract
     /**
      * The application instance.
      * 
-     * @var string $app
+     * @var \Syscodes\Components\Contracts\Core\Application $app
      */
     protected $app;
 
