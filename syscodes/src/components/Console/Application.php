@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Console;
 
+use Exception;
 use Throwable;
 use LogicException;
 use Syscodes\Components\Console\IO\Interactor;
@@ -384,7 +385,7 @@ class Application implements ApplicationContract
             throw new CommandNotFoundException($message, array_values($alternatives));
         }
 
-        $command = $this->get(head($commands));
+        $command = $this->get(headItem($commands));
         
         if ($command->isHidden()) {
             throw new CommandNotFoundException(sprintf('The command "%s" does not exist', $name));
@@ -473,7 +474,7 @@ class Application implements ApplicationContract
      * 
      * @return string
      */
-    public function findNamespace(string $namespace): string
+    public function findNamespace(string $namespace)
     {
 
     }
@@ -512,7 +513,7 @@ class Application implements ApplicationContract
      * 
      * @return string[]
      */
-    public function getCommandAlternatives(string $name, iterable $collection): array
+    public function getCommandAlternatives(string $name, iterable $collection)
     {
 
     }
