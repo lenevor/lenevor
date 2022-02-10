@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Console\Input;
 
+use LogicException;
 use InvalidArgumentException;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Contracts\Console\InputOption as InputOptionInterface;
