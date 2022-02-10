@@ -42,7 +42,7 @@ class OutputFormatterStack
     /**
      * Gets the styles for the text commands.
      * 
-     * @var \Syscodes\Components\Contracts\Console\OutputFormatterStyle $styles
+     * @var array|\Syscodes\Components\Contracts\Console\OutputFormatterStyle $styles
      */
     protected $styles;
 
