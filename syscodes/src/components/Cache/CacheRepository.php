@@ -23,8 +23,11 @@
 namespace Syscodes\Components\Cache;
 
 use Closure;
+use DateTime;
 use ArrayAccess;
+use Syscodes\Components\Support\Chronos;
 use Syscodes\Components\Contracts\Cache\Store;
+use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Support\InteractsWithTime;
 use Syscodes\Components\Contracts\Cache\Repository;
 
@@ -35,7 +38,10 @@ use Syscodes\Components\Contracts\Cache\Repository;
  */
 class CacheRepository implements ArrayAccess, Repository
 {
-    use InteractsWithTime;
+    use InteractsWithTime,
+        Macroable {
+            __call as macroCall;
+    }
 
     /**
      * The default number of seconds to store items.
@@ -83,6 +89,24 @@ class CacheRepository implements ArrayAccess, Repository
         }
 
         return $value;
+    }
+    
+    /**
+     * Store an item in the cache.
+     * 
+     * @param  string  $key
+     * @param  mixed   $value
+     * @param  \DateTime|int  $minutes
+     * 
+     * @return bool
+     */
+    public function put($key, $value, $minutes): bool
+    {
+        $minutes = $this->getMinutes($minutes);
+        
+        if ( ! is_null($minutes)) {
+            return $this->store->put($key, $value, $minutes);
+        }
     }
 
     /**
@@ -152,6 +176,24 @@ class CacheRepository implements ArrayAccess, Repository
     {
         return $this->store->flush();
     }
+    
+    /**
+     * Calculate the number of minutes with the given duration.
+     * 
+     * @param  \DateTime|int  $duration
+     * 
+     * @return int|null
+     */
+    protected function getMinutes($duration)
+    {
+        if ($duration instanceof DateTime) {
+            $fromNow = Chronos::instance($duration)->getMinutes();
+            
+            return $fromNow > 0 ? $fromNow : null;
+        }
+        
+        return is_string($duration) ? (int) $duration : $duration;
+    }
 
     /**
      * Calculate the number of seconds with the given duration.
@@ -194,7 +236,7 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * {@inheritdoc}
      */
-    public function getCacheTime()
+    public function getCacheTime(): int
     {
         return $this->cacheTime;
     }
@@ -222,7 +264,7 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return $this->has($offset);
     }
@@ -247,9 +289,9 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @return void
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
-        return $this->put($key, $value, $this->cacheTime);
+       $this->put($offset, $value, $this->cacheTime);
     }
 
     /**
@@ -259,9 +301,9 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @return void
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
-        return $this->delete($offset);
+        $this->delete($offset);
     }
 
     /**
@@ -276,6 +318,10 @@ class CacheRepository implements ArrayAccess, Repository
      */
     public function __call($method, $parameters)
     {
+        if (static::hasMacro($method)) {
+            return $this->macroCall($method, $parameters);
+        }
+        
         return $this->store->{$method}(...$parameters);
     }
 
