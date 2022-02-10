@@ -49,6 +49,17 @@ interface Repository
     public function get($key, $default = null);
 
     /**
+     * Store an item in the cache.
+     * 
+     * @param  string  $key
+     * @param  mixed   $value
+     * @param  \DateTime|int  $minutes
+     * 
+     * @return bool
+     */
+    public function put($key, $value, $minutes): bool;
+
+    /**
      * Retrieve an item from the cache and delete it.
      * 
      * @param  string  $key
@@ -109,9 +120,9 @@ interface Repository
     /**
      * Remove all items from the cache.
      * 
-     * @return bool
+     * @return void
      */
-    public function clear(): bool;
+    public function clear();
 
     /**
      * Get the cache store implementation.
