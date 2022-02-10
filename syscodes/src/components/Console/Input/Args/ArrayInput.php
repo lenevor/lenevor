@@ -54,6 +54,16 @@ class ArrayInput extends Input
     }
 
     /**
+     * Processes command line arguments.
+     * 
+     * @return void
+     */
+    protected function parse()
+    {
+        
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getFirstArgument()

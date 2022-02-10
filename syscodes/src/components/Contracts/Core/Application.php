@@ -159,6 +159,15 @@ interface Application extends Container
      */
     public function environmentFilePath(): string;
 
+    /**
+     * Set the environment file to be loaded during bootstrapping.
+     * 
+     * @param  string  $file
+     * 
+     * @return self
+     */
+    public function setEnvironmentFile($file): self;
+
      /**
      * Determine if application is in local environment.
      * 

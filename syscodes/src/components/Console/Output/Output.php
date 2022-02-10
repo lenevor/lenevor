@@ -149,6 +149,18 @@ abstract class Output implements OutputInterface
 	}
 	
 	/**
+	 * Enter a number of empty lines.
+	 * 
+	 * @param  int  $num  Number of lines to output
+	 * 
+	 * @return string
+	 */
+	public function newLine(int $num = 1)
+	{
+		return $this->write(str_repeat(\PHP_EOL, max($num, 1)));
+	}
+	
+	/**
 	 * {@inheritdoc}
 	 */
 	public function writeln($messages, int $options = OutputInterface::OUTPUT_NORMAL)

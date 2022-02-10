@@ -28,7 +28,7 @@ class ApplicationDescription
 
     protected $commands;
 
-    public function __construct(Application $application)
+    public function __construct($application)
     {
         $this->application = $application;
     }

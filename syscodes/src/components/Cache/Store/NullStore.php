@@ -65,7 +65,7 @@ class NullStore implements Store
     /**
      * {@inheritdoc}
      */
-    protected function decrement($key, $value = 1)
+    public function decrement($key, $value = 1)
     {
         return false;
     }

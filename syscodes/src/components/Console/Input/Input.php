@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Console\Input;
 
+use InvalidArgumentException;
 use Syscodes\Components\Console\Input\InputDefinition;
 use Syscodes\Components\Contracts\Console\Input as InputInterface;
 

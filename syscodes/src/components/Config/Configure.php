@@ -86,11 +86,11 @@ class Configure implements ArrayAccess, ConfigureContract
 	 */
 	public function erase(string $key)
 	{
-		if (isset($this->$vars[$key])) {
-			unset($this->$vars[$key]);
+		if (isset($this->vars[$key])) {
+			unset($this->vars[$key]);
 		}
 		
-		Arr::erase($this->$vars, $key);
+		Arr::erase($this->vars, $key);
 	}
 
 	/**
@@ -114,7 +114,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	 * 
 	 * @return bool
 	 */
-	public function offsetExists($key)
+	public function offsetExists($key): bool
 	{
 		return $this->has($key);
 	}
@@ -139,7 +139,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	 * 
 	 * @return void
 	 */
-	public function offsetSet($key, $value)
+	public function offsetSet($key, $value): void
 	{
 		$this->set($key, $value);
 	}
@@ -151,7 +151,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	 * 
 	 * @return void
 	 */
-	public function offsetUnset($key)
+	public function offsetUnset($key): void
 	{
 		$this->set($key, null);
 	}
