@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Container;
 
 use Closure;
+use Exception;
 use TypeError;
 use ArrayAccess;
 use ReflectionClass;
@@ -741,7 +742,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return $this->bound($offset);
     }
@@ -766,7 +767,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return void
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->set($offset, $value);
     }
@@ -778,7 +779,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return void
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->remove($offset);
     }
