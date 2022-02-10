@@ -41,7 +41,7 @@ use Syscodes\Components\Contracts\Console\Output as OutputInterface;
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-abstract class Command 
+class Command 
 {
     /**
      * The default application.
@@ -202,7 +202,7 @@ abstract class Command
     {
         $this->definition = new InputDefinition();
         
-        if (null === $name && null !== $name = static::getDefaultName()) {
+        if ($name && null !== $name = static::getDefaultName()) {
             $aliases = explode('|', $name);
             
             if ('' === $name = array_shift($aliases)) {
@@ -230,7 +230,7 @@ abstract class Command
      * 
      * @return void
      */
-    abstract protected function define();
+    protected function define() {}
 
     /**
      * Executes the current command.
@@ -242,7 +242,7 @@ abstract class Command
      * 
      * @throws \LogicException
      */
-    abstract protected function execute(InputInterface $input, OutputInterface $output);
+    protected function execute(InputInterface $input, OutputInterface $output) {}
 
     /**
      * Runs the command.
@@ -270,6 +270,8 @@ abstract class Command
         if ($input->hasArgument('command') && null === $input->getArgument('command')) {
             $input->setArgument('command', $this->getName());
         }
+
+        $statusCode = '';
 
         if (0 === (int) $this->code) {
             $statusCode = $this->execute($input, $output);
