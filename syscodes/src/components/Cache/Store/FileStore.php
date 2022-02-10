@@ -48,7 +48,7 @@ class FileStore implements Store
     /**
      * The FileSystem instance.
      * 
-     * @var string $files
+     * @var object $files
      */
     protected $files;
 
@@ -259,9 +259,9 @@ class FileStore implements Store
     /**
      * Get the filesystem instance.
      * 
-     * @return string
+     * @return object
      */
-    public function getFileSystem(): string
+    public function getFileSystem(): object
     {
         return $this->files;
     }
