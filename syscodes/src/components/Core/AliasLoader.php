@@ -141,7 +141,7 @@ class AliasLoader
      */
     protected function loadFacade($alias)
     {
-        require $this->ensureFacadeExists($alias);
+        require $this->ensureFacadeExists($alias); 
     }
 
     /**
@@ -174,7 +174,7 @@ class AliasLoader
     {
         $replacements = [
             str_replace('/', '\\', dirname(str_replace('\\', '/', $alias))),
-            classBasename($alias),
+            class_basename($alias),
             substr($alias, strlen(static::$facadeNamespace)),
         ];
 
