@@ -95,7 +95,7 @@ class ControllerDispatcher implements ControllerDispatcherContract
         $middleware = $controller->getMiddleware();
 
         return collect($middleware)->reject(function ($data) use ($method) {
-            return static::methodExcludedByOptions($method, $data['options']);
+            return $this->methodExcludedByOptions($method, $data['options']);
         })->pluck('middleware')->all();
     }
 
