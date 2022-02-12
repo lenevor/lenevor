@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Dotenv\Repository;
 
 use ReflectionClass;
+use InvalidArgumentException;
 use InvalidaArgumentException;
 use Syscodes\Components\Contracts\Dotenv\Adapter;
 use Syscodes\Components\Dotenv\Repository\Adapters\Readers;
@@ -52,22 +53,22 @@ final class RepositoryCreator
     /**
      * The set of readers to use.
      * 
-     * @var \Syscodes\Components\Dotenv\Repository\Adapters\Readers $readers
+     * @var array|\Syscodes\Components\Dotenv\Repository\Adapters\Readers $readers
      */
     protected $readers;
 
     /**
      * The set of writers to use.
      * 
-     * @var \Syscodes\Components\Dotenv\Repository\Adapters\Writers $writers
+     * @var array|\Syscodes\Components\Dotenv\Repository\Adapters\Writers$writers
      */
     protected $writers;
 
     /**
      * Constructor. Create a new Repository creator instance.
      * 
-     * @param  \Syscodes\Components\Dotenv\Repository\Adapters\Readers  $readers
-     * @param  \Syscodes\Components\Dotenv\Repository\Adapters\Writers  $writers
+     * @param  array|\Syscodes\Components\Dotenv\Repository\Adapters\Readers  $readers
+     * @param  array|\Syscodes\Components\Dotenv\Repository\Adapters\Writers  $writers
      * @param  string[]|null  $allowList
      * 
      * @return void
@@ -86,7 +87,7 @@ final class RepositoryCreator
      */
     public static function createDefaultAdapters()
     {
-        $adapters = iterator_to_array(self::defaultAdapters());
+        $adapters = iterator_to_array(static::defaultAdapters());
         
         return new static($adapters, $adapters);
     }
@@ -94,7 +95,7 @@ final class RepositoryCreator
     /**
      * Return the array of default adapters.
      * 
-     * @return \Syscodes\Components\Contracts\Dotenv\Adapter
+     * @return \Syscodes\Components\Contracts\Dotenv\Adapter|object
      */
     protected static function defaultAdapters()
     {
@@ -132,7 +133,7 @@ final class RepositoryCreator
     public function addAdapter(string $adapter)
     {
         if ( ! is_string($adapter) && ! ($adapter instanceof Adapter)) {
-            throw new InvalidaArgumentException("Expected either an instance of [{$this->allowList}]");
+            throw new InvalidArgumentException("Expected either an instance of [{$this->allowList}]");
         }
 
         $adapter = $this->getReflectionClass($adapter);
