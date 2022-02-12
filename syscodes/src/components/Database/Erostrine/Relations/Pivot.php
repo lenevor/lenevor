@@ -24,6 +24,7 @@ namespace Syscodes\Components\Database\Erostrine\Relations;
 
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Database\Erostrine\Model;
+use Syscodes\Components\Database\Erostrine\Builder;
 
 /**
  * Allows the relation of two tables.
@@ -83,7 +84,7 @@ class Pivot extends Model
      * 
      * @return \Syscodes\Components\Database\Erostrine\Builder
      */
-    protected function setKeysforSaveQuery(Builder $builder)
+    protected function setKeysforSelectQuery(Builder $builder)
     {
         $builder->where(
             $this->foreignKey, $this->getAttribute($this->foreignKey)
