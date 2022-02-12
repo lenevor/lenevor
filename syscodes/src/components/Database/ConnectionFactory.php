@@ -25,7 +25,7 @@ namespace Syscodes\Components\Database;
 use PDOException;
 use InvalidArgumentException;
 use Syscodes\Components\Collections\Arr;
-use Syscodes\Components\Contracts\Container\Container;
+use Syscodes\Components\Container\Container;
 // Connector
 use Syscodes\Components\Database\Connectors\MySqlConnector;
 use Syscodes\Components\Database\Connectors\SQLiteConnector;
@@ -48,14 +48,14 @@ class ConnectionFactory
     /**
      * The IoC container instance.
      * 
-     * @var \Syscodes\Components\Contracts\Container\Container $container
+     * @var \Syscodes\Components\Container\Container $container
      */
     protected $container;
 
     /**
      * Constructor. Create a new ConnectionFactory class instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Container\Container  $container
+     * @param  \Syscodes\Components\Container\Container  $container
      * 
      * @return void
      */
