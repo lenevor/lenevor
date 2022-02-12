@@ -45,7 +45,7 @@ class Lenevor implements LenevorContract
     /**
      * The application implementation.
      * 
-     * @var \Syscodes\Contracts\Core\Application $app
+     * @var \Syscodes\Components\Contracts\Core\Application $app
      */
     protected $app;
     
@@ -66,22 +66,22 @@ class Lenevor implements LenevorContract
     /**
 	 * The event dispatcher instance.
 	 * 
-	 * @var \Syscodes\Contracts\Events\Dispatcher $events
+	 * @var \Syscodes\Components\Contracts\Events\Dispatcher $events
 	 */
 	protected $events;
     
     /**
      * The Prime application instance.
      * 
-     * @var \Syscodes\Console\Application|null
+     * @var \Syscodes\Components\Console\Application|null
      */
     protected $lenevor;
     
     /**
      * Constructor. Create new console Lenevor instance.
      * 
-     * @param  \Syscodes\Contracts\Core\Application $app
-     * @param  \Syscodes\Contracts\Events\Dispatcher  $events
+     * @param  \Syscodes\Components\Contracts\Core\Application $app
+     * @param  \Syscodes\Components\Contracts\Events\Dispatcher  $events
      * 
      * @return void
      */
