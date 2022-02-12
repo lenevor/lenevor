@@ -26,7 +26,6 @@ use Exception;
 use Syscodes\Components\Dotenv\Dotenv;
 use Syscodes\Components\Support\Environment;
 use Syscodes\Components\Contracts\Core\Application;
-use Syscodes\Components\Dotenv\Repository\RepositoryCreator;
 
 /**
  * Initialize boot of a ParseEnv instance.
