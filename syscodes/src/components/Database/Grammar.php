@@ -41,7 +41,7 @@ abstract class Grammar
     /**
      * Wrap a table in keyword identifiers.
      * 
-     * @param  string  $table
+     * @param  \Syscodes\Components\Database\Query\Expression|string  $table
      * 
      * @return string
      */
