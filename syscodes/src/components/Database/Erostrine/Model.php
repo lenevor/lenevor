@@ -20,6 +20,8 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
+
+
 namespace Syscodes\Components\Database\Erostrine;
 
 use ArrayAccess;
@@ -835,8 +837,8 @@ class Model implements Arrayable, ArrayAccess
 	 * 
 	 * @return bool
 	 */
-	public function offsetExists($offset)
-	{
+	public function offsetExists($offset): bool
+	{ 
 		return ! is_null($this->getAttribute($offset));
 	}
 
@@ -860,7 +862,7 @@ class Model implements Arrayable, ArrayAccess
 	 * 
 	 * @return void
 	 */
-	public function offsetSet($offset, $value)
+	public function offsetSet($offset, $value): void
 	{
 		$this->setAttribute($offset, $value);
 	}
@@ -872,7 +874,7 @@ class Model implements Arrayable, ArrayAccess
 	 * 
 	 * @return void
 	 */
-	public function offsetUnset($offset)
+	public function offsetUnset($offset): void
 	{
 		unset($this->attributes[$offset]);
 	}
