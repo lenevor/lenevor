@@ -30,7 +30,7 @@ use Syscodes\Components\Database\Query\Builder;
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class PostGrammar extends Grammar
+class PostgresGrammar extends Grammar
 {
     /**
      * Compile the lock into SQL.
