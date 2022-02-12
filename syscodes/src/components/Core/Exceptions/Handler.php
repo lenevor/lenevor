@@ -28,7 +28,7 @@ use Psr\Log\LoggerInterface;
 use Syscodes\Components\Debug\GDebug;
 use Syscodes\Components\Http\Response;
 use Syscodes\Components\Routing\Router;
-use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Http\RedirectResponse;
 use Syscodes\Components\Debug\ExceptionHandler;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Core\Http\Exceptions\HttpException;
