@@ -22,6 +22,8 @@
 
 namespace Syscodes\Components\Dotenv\Loader;
 
+use InvalidArgumentException;
+
 /**
  * Allows will load the .env file and process it.
  * 
@@ -163,7 +165,7 @@ final class Loader
      * 
      * @param  string  $value
      * 
-     * @return array
+     * @return string
      * 
      * @throws \InvalidArgumentException
      */
