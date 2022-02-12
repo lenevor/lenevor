@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Debug\Util;
 
+use Exception;
 use Syscodes\Components\Debug\Benchmark;
 use Syscodes\Components\Debug\FrameHandler\Frame;
 
@@ -49,7 +50,7 @@ class TemplateHandler
 	/**
 	 * The functions of system what control errors and exceptions.
 	 * 
-	 * @var string $system
+	 * @var string|object $system
 	 */
 	protected $system;
 	
