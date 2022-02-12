@@ -29,7 +29,6 @@ use Syscodes\Components\Debug\Benchmark;
 use Syscodes\Components\Debug\Util\Misc;
 use Syscodes\Components\Debug\Util\System;
 use Syscodes\Components\Debug\Handlers\MainHandler;
-use Syscodes\Components\Debug\Util\TemplateHandler;
 use Syscodes\Components\Debug\FrameHandler\Supervisor;
 use Syscodes\Components\Debug\Handlers\CallbackHandler;
 use Syscodes\Components\Contracts\Debug\Handler as DebugContract;
@@ -51,7 +50,7 @@ class GDebug implements DebugContract
 	/**
 	 * Benchmark instance.
 	 * 
-	 * @var string $benchmark
+	 * @var string|object $benchmark
 	 */
 	protected $benchmark;
 
@@ -79,7 +78,7 @@ class GDebug implements DebugContract
 	/**
 	 * The functions of system what control errors and exceptions.
 	 * 
-	 * @var string $system
+	 * @var string|object $system
 	 */
 	protected $system;
 
@@ -385,7 +384,7 @@ class GDebug implements DebugContract
 		// it to an Exception and use the Exception handler to display it
 		// to the user
 		if ($error && Misc::isFatalError($error['type'])) {
-			$this->errorHandler($error['type'], $error['message'], $error['file'], $error['line']);
+			$this->handleError($error['type'], $error['message'], $error['file'], $error['line']);
 		}
 	}
 }
