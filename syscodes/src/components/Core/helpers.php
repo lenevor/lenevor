@@ -309,10 +309,10 @@ if ( ! function_exists('getClass')) {
      * Function to crop the full name of the namespace and leave 
      * only the name of the class.
      * 
-     * @param  string  $classname
+     * @param  string|object  $classname
      * @param  bool  $bool  
      * 
-     * @return array
+     * @return array|string
      */
     function getClass($classname, $bool = false)
     {
@@ -498,7 +498,7 @@ if ( ! function_exists('response')) {
      * Return a new Response from the application.
      *
      * @param  string  $body
-     * @param  int  $status  (200 by default)
+     * @param  int  $status  
      * @param  array  $headers
      * 
      * @return \Syscodes\Components\Http\Response|\Syscodes\Components\Routing\RouteResponse
