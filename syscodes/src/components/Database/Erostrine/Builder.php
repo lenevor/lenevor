@@ -359,7 +359,7 @@ class Builder
                 $macro = $macro->bindTo($this, static::class);
             }
             
-            return call_func_user_array($macro, $parameters);
+            return call_user_func_array($macro, $parameters);
         }
 
         if (in_array($method, $this->passthru)) {
@@ -393,7 +393,7 @@ class Builder
             $macro = $macro->bindTo(null, static::class);
         }
         
-        return call_func_user_array($macro, $parameters);        
+        return call_user_func_array($macro, $parameters);        
     }
     
     /**
