@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Debug\Handlers;
 
+use Exception;
 use Throwable;
 use Traversable;
 use ErrorException;
@@ -29,8 +30,8 @@ use RuntimeException;
 use InvalidArgumentException;
 use UnexpectedValueException;
 use Syscodes\Components\Debug\Util\Misc;
-use Syscodes\Components\Debug\Util\ArrayTable;
 use Syscodes\Components\Contracts\Debug\Table;
+use Syscodes\Components\Debug\Util\ArrayTable;
 use Syscodes\Components\Debug\Util\TemplateHandler;
 use Syscodes\Components\Debug\FrameHandler\Formatter;  
 
@@ -101,7 +102,7 @@ class PleasingPageHandler extends MainHandler
 	/**
 	 * The template handler system.
 	 * 
-	 * @var string $template
+	 * @var string|object $template
 	 */
 	protected $template;	
 	
@@ -137,9 +138,9 @@ class PleasingPageHandler extends MainHandler
 	 * 
 	 * @param  \Syscodes\Components\Contracts\Debug\Table  $table
 	 * 
-	 * @return array
+	 * @return void
 	 */
-	public function addTables(Table $table): array
+	public function addTables(Table $table): void
 	{
 		$this->tables[] = $table;
 	}
@@ -414,9 +415,9 @@ class PleasingPageHandler extends MainHandler
 
 		if (is_callable($this->editor) || (isset($this->editors[$this->editor]) && is_callable($this->editors[$this->editor]))) {
 			if (is_callable($this->editor)) {
-				$callback = call_user_func($this->editor, $filePath, $line);
+				$callback = call_user_func($this->editor, $file, $line);
 			} else {
-				$callback = call_user_func($this->editors[$this->editor], $filePath, $line);
+				$callback = call_user_func($this->editors[$this->editor], $file, $line);
 			}
 
 			if (empty($callback)) {
