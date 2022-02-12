@@ -30,7 +30,7 @@ use Syscodes\Components\Database\Query\Processors\PostgresProcessor as QueryProc
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class PostConnection extends Connection
+class PostgresConnection extends Connection
 {
     /**
      * Get the default query grammar instance.
