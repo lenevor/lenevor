@@ -80,7 +80,7 @@ class Builder
     /**
      * The database connection instance.
      * 
-     * @var \Syscodes\Components\Database\ConnectionInterface $connection
+     * @var \Syscodes\Components\Database\Connections\ConnectionInterface $connection
      */
     protected $connection;
 
@@ -101,7 +101,7 @@ class Builder
     /**
      * The database query grammar instance.
      * 
-     * @var \Syscodes\Components\Database\Query\Grammar $grammar
+     * @var \Syscodes\Components\Database\Query\Grammars\Grammar $grammar
      */
     protected $grammar;
 
@@ -168,7 +168,7 @@ class Builder
     /**
      * The database query post processor instance.
      * 
-     * @var \Syscodes\Components\Database\Query\Processor $processor
+     * @var \Syscodes\Components\Database\Query\Processors\Processor $processor
      */
     protected $processor;
 
@@ -565,7 +565,7 @@ class Builder
             'boolean' => $boolean
         ];
 
-        $this->addBinding((array) $bindinggs,  'where');
+        $this->addBinding((array) $bindings,  'where');
 
         return $this;
     }
@@ -898,7 +898,7 @@ class Builder
      */
     public function orWhereNotBetween($column, array $values): self
     {
-        return $this->whereNotBetween($column, $array, 'or');
+        return $this->whereNotBetween($column, $values, 'or');
     }
 
     /**
@@ -957,7 +957,7 @@ class Builder
      */
     public function orWhereNotBetweenColumns($column, array $values): self
     {
-        return $this->whereNotBetweenColumns($column, $array, 'or');
+        return $this->whereNotBetweenColumns($column, $values, 'or');
     }
 
     /**
@@ -1523,7 +1523,7 @@ class Builder
         $this->columns = $previous;
 
         if (isset($results[0]))  {
-            $result = array_change_key((array) $results[0]);
+            $result = array_change_key_case((array) $results[0]);
         }
 
         return $result['aggregate'];
