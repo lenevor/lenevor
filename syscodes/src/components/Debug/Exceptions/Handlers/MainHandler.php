@@ -111,7 +111,7 @@ class MainHandler
     /**
      * Gets supervisor already specified.
      * 
-     * @return \Syscodes\Components\Debug\Engine\Supervisor
+     * @return \Syscodes\Components\Debug\FrameHandler\Supervisor
      */
     public function getSupervisor()
     {
@@ -121,7 +121,7 @@ class MainHandler
     /**
      * Sets supervisor.
      * 
-     * @param  \Syscodes\Components\Debug\Engine\Supervisor  $supervisor
+     * @param  \Syscodes\Components\Debug\FrameHandler\Supervisor  $supervisor
      * 
      * @return void
      */
