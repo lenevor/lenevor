@@ -817,7 +817,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the query grammar used by the connection.
      * 
-     * @return \Syscodes\Components\Database\Query\Grammar
+     * @return \Syscodes\Components\Database\Query\Grammars\Grammar
      */
     public function getQueryGrammar()
     {
@@ -847,7 +847,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the query post processor used by the connection.
      * 
-     * @return \Syscodes\Components\Database\Query\Processor
+     * @return \Syscodes\Components\Database\Query\Processors\Processor
      */
     public function getPostProcessor()
     {
