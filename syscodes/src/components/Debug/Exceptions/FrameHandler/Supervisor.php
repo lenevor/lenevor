@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Debug\FrameHandler;
 
 use Throwable;
+use ErrorException;
 
 /**
  * Loads the frames to identify a possible exception.
@@ -146,9 +147,9 @@ class Supervisor
 	/**
 	 * Gets the class name of exception.
 	 * 
-	 * @return string
+	 * @return mixed
 	 */
-	public function getExceptionName(): string
+	public function getExceptionName()
 	{
 		return getClass($this->exception);
 	}

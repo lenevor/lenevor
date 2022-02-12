@@ -25,6 +25,7 @@ namespace Syscodes\Components\Debug\FrameHandler;
 use Countable;
 use Exception;
 use ArrayAccess;
+use Traversable;
 use ArrayIterator;
 use IteratorAggregate;
 
@@ -72,9 +73,9 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @param  array  $frames
      * 
-     * @return array
+     * @return void
      */
-    public function prependFrames(array $frames): array
+    public function prependFrames(array $frames): void
     {
         $this->frames = array_merge($frames, $this->frames);
     }
@@ -90,9 +91,9 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @see    \ArrayAccess::offsetExists($offset)
      * 
-     * @return int
+     * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->frames[$offset]);
     }
@@ -103,7 +104,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * @see    \ArrayAccess::offsetGet($offset)
      * @param  int  $offset
      * 
-     * @return int
+     * @return mixed
      */
     public function offsetGet($offset)
     {
@@ -116,9 +117,11 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * @see    \ArrayAccess::offsetSet($offset, $value)
      * @param  int  $offset
      * 
+     * @return void
+     * 
      * @throws \Exception
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         throw new Exception(__CLASS__.' is read only');
     }
@@ -131,7 +134,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @throws \Exception
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         throw new Exception(__CLASS__.' is read only');
     }
@@ -149,7 +152,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @return new \ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->frames);
     }
@@ -167,7 +170,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->frames);
     }

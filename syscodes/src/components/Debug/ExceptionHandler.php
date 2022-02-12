@@ -135,7 +135,7 @@ class ExceptionHandler
     public function setFileLinkFormat($fileLinkFormat)
     {
         $oldHandler    = $this->handler;
-        $this->handler = $handler;
+        $this->handler = $fileLinkFormat;
 
         return $oldHandler;
     }
@@ -206,9 +206,9 @@ class ExceptionHandler
      * 
      * @param \Exception|\Syscodes\Components\Debug\FlattenExceptions\FlattenException  $exception An \Exception or \FlattenException instance
      * 
-     * @return string  The HTML content as a string 
+     * @return void  The HTML content as a string 
      */
-    public function sendPhpResponse($exception): string
+    public function sendPhpResponse($exception): void
     {
         if ( ! $exception instanceof FlattenException) {
             $exception = FlattenException::make($exception);
@@ -232,9 +232,9 @@ class ExceptionHandler
      * 
      * @param  \Exception|\Syscodes\Components\Debug\FlattenExceptions\FlattenException  $exception  An \Exception or \FlattenException instance
      * 
-     * @return string  The HTML content as a string 
+     * @return void  The HTML content as a string 
      */
-    public function getHtmlResponse($exception): string
+    public function getHtmlResponse($exception): void
     {
         if ( ! $exception instanceof FlattenException) {
             $exception = FlattenException::make($exception);
