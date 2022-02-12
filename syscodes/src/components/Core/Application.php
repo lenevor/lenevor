@@ -416,7 +416,7 @@ class Application extends Container implements ApplicationContract
     {
         $viewPath = $this['config']->get('view.paths')[0];
 
-        return rtrim($viewPath, DIRECTORY_SEPARATOR).($path ? DIRECTORY_PATH.$path : $path);
+        return rtrim($viewPath, DIRECTORY_SEPARATOR).($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 
     /**
@@ -463,11 +463,7 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Set the environment file to be loaded during bootstrapping.
-     * 
-     * @param  string  $file
-     * 
-     * @return self
+     * {@inheritdoc}
      */
     public function setEnvironmentFile($file): self
     {
