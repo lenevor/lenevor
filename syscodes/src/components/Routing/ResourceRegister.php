@@ -105,7 +105,7 @@ class ResourceRegister
         // place-holder on the route wildcards, which should be the base resources.
         $segments = explode('.', $name);
 
-        $base = $this->getResourceWilcard(last($segments));
+        $base = $this->getResourceWilcard(lastItem($segments));
 
         $methods = $this->getResourceMethods($this->resourceDefaults, $options);
 
@@ -153,7 +153,7 @@ class ResourceRegister
 
         $prefix = implode('/', array_slice($segments, 0, -1));
 
-        return [last($segments), $prefix];
+        return [lastItem($segments), $prefix];
     }
 
     /**
@@ -325,7 +325,7 @@ class ResourceRegister
 
         $uri = $this->getNestedResourceUri($segments);
 
-        $name = $this->getResourceWilcard(last($segments));
+        $name = $this->getResourceWilcard(lastItem($segments));
 
         return str_replace('/{'.$name.'}', '', $uri);
     }
