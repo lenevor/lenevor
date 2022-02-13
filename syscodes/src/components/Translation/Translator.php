@@ -275,7 +275,7 @@ class Translator implements TranslatorContract
             return $line;
         }
 
-        return MessageFormatter::formatMessage($this->locale, $line, $replace);
+        return MessageFormatter::formatMessage((string) $this->locale, $line, $replace);
     }
     
     /**
@@ -320,9 +320,9 @@ class Translator implements TranslatorContract
     /**
      * Get the default locale being used.
      * 
-     * @return string
+     * @return array
      */
-    public function getLocale(): string
+    public function getLocale(): array
     {
         return $this->locale;
     }
