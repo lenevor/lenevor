@@ -76,7 +76,7 @@ class FileSession implements SessionHandlerInterface
      * 
      * @return bool
      */
-    public function open($savePath, $sessionName)
+    public function open($savePath, $sessionName): bool
     {
         return true;
     }
@@ -86,7 +86,7 @@ class FileSession implements SessionHandlerInterface
      * 
      * @return bool
      */
-    public function close()
+    public function close(): bool
     {
         return true;
     }
@@ -98,7 +98,7 @@ class FileSession implements SessionHandlerInterface
      * 
      * @return string
      */
-    public function read($sessionId)
+    public function read($sessionId): string
     {
         if ($this->files->isFile($path = $this->path.DIRECTORY_SEPARATOR.$sessionId)) {
             if (filemtime($path) >= Chronos::now()->subMinutes($this->minutes)->getTimestamp()) {
@@ -117,7 +117,7 @@ class FileSession implements SessionHandlerInterface
      * 
      * @return bool
      */
-    public function write($sessionId, $data)
+    public function write($sessionId, $data): bool
     {
         $this->files->put($this->path.DIRECTORY_SEPARATOR.$sessionId, $data, true);
 
@@ -131,7 +131,7 @@ class FileSession implements SessionHandlerInterface
      * 
      * @return bool
      */
-    public function destroy($sessionId)
+    public function destroy($sessionId): bool
     {
         $this->files->delete($this->path.DIRECTORY_SEPARATOR.$sessionId);
 
@@ -145,14 +145,16 @@ class FileSession implements SessionHandlerInterface
      * 
      * @return bool
      */
-    public function gc($lifetime)
+    public function gc($lifetime): bool
     {
         $files = Finder::render($this->path);
 
         foreach ($files as $file) {
-            if ($this->files->lastChange($file) + $lifetime < time() && $this->files->exists($file)) {
+            if ($this->files->lastModified($file) + $lifetime < time() && $this->files->exists($file)) {
                 $this->files->delete($file);
             }
         }
+
+        return true;
     }
 }
