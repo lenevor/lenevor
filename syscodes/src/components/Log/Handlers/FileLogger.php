@@ -200,6 +200,8 @@ class FileLogger implements Handler
      */
     public function handle($level, $message): bool
     {        
+        $result = '';
+        
         $path = $this->logFilePath.'lenevor-'.date('Y-m-d').'.'.$this->logFileExtension;
 
         if ( ! is_file($path)) {
@@ -227,7 +229,7 @@ class FileLogger implements Handler
         
         flock($this->logHandler, LOCK_UN);
         
-        if (isset($newfile) && $newfile === true) {
+        if (isset($newFile) && $newFile === true) {
             chmod($path, $this->logFilePermissions);
         }
         
