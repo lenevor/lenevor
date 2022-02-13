@@ -49,7 +49,7 @@ trait ResponseTrait
     /**
      * The Headers class instance.
      * 
-     * @var \Syscodes\Http\Headers $headers
+     * @var \Syscodes\Components\Http\Headers|object $headers
      */
 	public $headers;
 
@@ -63,7 +63,7 @@ trait ResponseTrait
     /**
      * The server array.
      * 
-     * @var array $server
+     * @var \Syscodes\Components\Http\Server|object $server
      */
     protected $server;
 
