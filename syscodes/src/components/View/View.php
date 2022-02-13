@@ -321,7 +321,7 @@ class View implements ArrayAccess, Webable, ViewContract
 	 * 
 	 * @return bool
 	 */
-	public function offsetExists($offset)
+	public function offsetExists($offset): bool
 	{
 		return array_key_exists($offset, $this->data);
 	}
@@ -346,7 +346,7 @@ class View implements ArrayAccess, Webable, ViewContract
 	 * 
 	 * @return void
 	 */
-	public function offsetSet($offset, $value)
+	public function offsetSet($offset, $value): void
 	{
 		$this->assign($offset, $value);
 	}
@@ -358,7 +358,7 @@ class View implements ArrayAccess, Webable, ViewContract
 	 * 
 	 * @return void
 	 */
-	public function offsetUnset($offset)
+	public function offsetUnset($offset): void
 	{
 		unset($this->data[$offset]);
 	}
