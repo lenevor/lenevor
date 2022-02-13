@@ -156,7 +156,7 @@ class RouteRegister
      * 
      * @return \Syscodes\Components\Routing\Route
      */
-    public function match($methods, $uri, $action = null): route
+    public function match($methods, $uri, $action = null)
     {
         return $this->router->match($methods, $uri, $this->compileAction($action));
     }
