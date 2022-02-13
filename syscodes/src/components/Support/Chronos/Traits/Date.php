@@ -72,7 +72,7 @@ trait Date
     /**
      * Get a timezone.
      * 
-     * @var string $timezone
+     * @var string|object $timezone
      */
     protected $timezone;
 
@@ -183,7 +183,7 @@ trait Date
      */
     public function toDateTime()
     {
-        $datetime = (new DateTime(null, $this->getTimezone()))::setTimestamp(parent::getTimestamp());
+        $datetime = (new DateTime(null, $this->getTimezone()))->setTimestamp(parent::getTimestamp());
         
         return $datetime;
     }
