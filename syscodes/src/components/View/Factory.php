@@ -164,7 +164,7 @@ class Factory implements FactoryContract
 	 * 
 	 * @param  string  $path
 	 * 
-	 * @return \Syscodes\Contracts\View\Engine
+	 * @return \Syscodes\Components\Contracts\View\Engine
 	 * 
 	 * @throws \InvalidArgumentException
 	 */
