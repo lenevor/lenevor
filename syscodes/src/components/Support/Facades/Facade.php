@@ -34,7 +34,7 @@ abstract class Facade
     /**
      * The application instance being facaded.
      * 
-     * @var array $applications
+     * @var array|object $applications
      */
     protected static $applications;
 
@@ -78,8 +78,8 @@ abstract class Facade
     {
         static::$resolvedInstance[static::getFacadeAccessor()] = $instance;
         
-        if (isset(static::$app)) {
-            static::$app->instance(static::getFacadeAccessor(), $instance);
+        if (isset(static::$applications)) {
+            static::$applications->instance(static::getFacadeAccessor(), $instance);
         }
     }
 
