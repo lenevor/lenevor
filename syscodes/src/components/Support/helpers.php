@@ -112,6 +112,24 @@ if ( ! function_exists('env')) {
     }
 }
 
+if ( ! function_exists('preg_replace_sub')) {
+    /**
+     * Replace a given pattern with each value in the array in sequentially.
+     * 
+     * @param  string  $pattern
+     * @param  array   $replacements
+     * @param  string  $subject
+     * 
+     * @return string
+     */
+    function preg_replace_sub($pattern, &$replacements, $subject)
+    {
+        return preg_replace_callback($pattern, function($match) use (&$replacements) {
+            return array_shift($replacements);
+        }, $subject);
+    }
+}
+
 if ( ! function_exists('str_dash')) {
     /**
      * Replace in the chain the spaces by dashes.
