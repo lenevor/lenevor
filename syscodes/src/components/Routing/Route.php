@@ -125,9 +125,9 @@ class Route
 	/**
 	 * The URI pattern the route responds to.
 	 *
-	 * @var array $uri
+	 * @var string $uri
 	 */
-	public $uri = [];
+	public $uri;
 
 	/**
 	 * Contains the arguments of the current route.
@@ -634,9 +634,9 @@ class Route
 	 * @param  string  $name
 	 * @param  mixed  $value
 	 * 
-	 * @return array
+	 * @return void
 	 */
-	public function setParameter($name, $value): array
+	public function setParameter($name, $value): void
 	{
 		$this->parameters();
 
