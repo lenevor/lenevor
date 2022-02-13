@@ -35,7 +35,7 @@ trait Difference
     /**
      * The timestamp of the current time.
      * 
-     * @var int $currentTime
+     * @var int|object $currentTime
      */
     protected $currentTime;
 
