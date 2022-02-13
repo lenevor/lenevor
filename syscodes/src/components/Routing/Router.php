@@ -236,7 +236,7 @@ class Router implements Routable
 	 * 
 	 * @return \Syscodes\Components\Routing\Route
 	 */
-	public function redirect($uri, $destination, $status = 302): Route
+	public function redirect($uri, $destination, $status = 302)
 	{
 		return $this->any($uri, function () use ($destination, $status) {
 			return new RedirectResponse($destination, $status);
@@ -252,7 +252,7 @@ class Router implements Routable
 	 * 
 	 * @return \Syscodes\Components\Routing\Route
 	 */
-	public function view($uri, $view, $data = []): Route
+	public function view($uri, $view, $data = [])
 	{
 		return $this->match(['GET', 'HEAD'], $uri, function () use ($view, $data) {
 			return $this->container->make('view')->make($view, $data);
@@ -266,11 +266,11 @@ class Router implements Routable
 	 * @param  string  $route
 	 * @param  mixed  $action
 	 *
-	 * @return void
+	 * @return \Syscodes\Components\Routing\Route
 	 * 
 	 * @throws \InvalidArgumentException
 	 */
-	public function map($method, $route, $action)
+	public function map($method, $route, $action): Route
 	{
 		if ($this->actionReferencesController($action)) {
 			$action = $this->convertToControllerAction($action);
