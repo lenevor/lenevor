@@ -32,11 +32,11 @@ class RequestUtils
     /**
      * Normalizes a query string.
      * 
-     * @param  string|null  $query
+     * @param  string|array|null  $query
      * 
      * @return string
      */
-    public static function normalizedQueryString(?string $query): string
+    public static function normalizedQueryString($query): string
     {
         if ('' === ($query ?? '')) {
             return '';
