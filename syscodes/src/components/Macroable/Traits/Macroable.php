@@ -82,7 +82,7 @@ trait Macroable
 
         foreach ($methods as $method) {
             if ($bool || ! static::hasMacro($method)) {
-                $method->setAccesible(true);
+                $method->setAccessible(true);
 
                 static::macro($method->name, $method->invoke($mixin));
             }
