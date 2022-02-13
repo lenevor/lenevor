@@ -34,7 +34,7 @@ class Redirector
     /**
      * The URL generator instance.
      * 
-     * @var string $generator
+     * @var object $generator
      */
     protected $generator;
 
