@@ -30,7 +30,6 @@ use Syscodes\Components\Http\Contributors\Server;
 use Syscodes\Components\Http\Contributors\Status;
 use Syscodes\Components\Http\Contributors\Headers;
 use Syscodes\Components\Contracts\Support\Renderable;
-use Syscodes\Components\Filesystem\Exceptions\UnexpectedTypeException;
 
 /**
  * Response represents an HTTP response.
