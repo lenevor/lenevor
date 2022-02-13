@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Redis;
 
 use Predis\Client;
+use Syscodes\Components\Collections\Arr;
 
 /**
  * Redis cache handler.
@@ -63,7 +64,7 @@ class RedisManager
      */
     protected function createAggregateclient(array $servers): array
     {
-        $servers = array_except($servers, ['cluster']);
+        $servers = Arr::except($servers, ['cluster']);
 
         return ['default' => new Client(array_values($servers))];
     }
