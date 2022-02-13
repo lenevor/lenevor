@@ -58,7 +58,7 @@ class UrlGenerator
     /**
      * The Request instance.
      * 
-     * @var string $request
+     * @var object $request
      */
     protected $request;
 
@@ -220,7 +220,7 @@ class UrlGenerator
      * 
      * @return void
      */
-    public function forcedSchema($schema): string
+    public function forcedSchema($schema): void
     {
         $this->forcedSchema = $schema.'://'; 
     }
