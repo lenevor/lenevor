@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Http\Contributors;
 
 use Countable;
+use Traversable;
 use ArrayIterator;
 use IteratorAggregate;
 
@@ -93,6 +94,8 @@ class Headers implements IteratorAggregate, Countable
 	{
 		$this->headers = [];
 		$this->add($headers);
+
+		return $this;
 	}
 	
 	/**
@@ -225,7 +228,7 @@ class Headers implements IteratorAggregate, Countable
 	 * 
 	 * @return \ArrayIterator An \ArrayIterator instance
 	 */
-	public function getIterator()
+	public function getIterator(): Traversable
 	{
 		return new ArrayIterator($this->headers);
 	}
