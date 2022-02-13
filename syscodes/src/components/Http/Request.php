@@ -63,14 +63,14 @@ class Request
 	/**
 	 * Gets cookies ($_COOKIE).
 	 * 
-	 * @var string $cookies
+	 * @var string|object $cookies
 	 */
 	public $cookies;
 
 	/**
 	 * Gets the string with format JSON.
 	 * 
-	 * @var string|resource|null $content
+	 * @var string|resource|object|null $content
 	 */
 	protected $content;
 
@@ -84,14 +84,14 @@ class Request
 	/**
 	 * Gets files request ($_FILES).
 	 * 
-	 * @var string $files
+	 * @var string|object $files
 	 */
 	public $files;
 
 	/**
 	 * The detected uri and server variables.
 	 * 
-	 * @var string $http
+	 * @var string|object $http
 	 */
 	protected $http;
 
@@ -154,14 +154,14 @@ class Request
 	/**
 	 * The detected uri and server variables ($_FILES).
 	 * 
-	 * @var array $server
+	 * @var array|object $server
 	 */
 	public $server = [];
 
 	/** 
 	 * List of routes uri.
 	 *
-	 * @var string|array $uri 
+	 * @var string|array|object $uri 
 	 */
 	public $uri;
 
@@ -797,7 +797,7 @@ class Request
 	public function getHost()
 	{
 		if ($forwardedHost = $this->server->get('HTTP_X_FORWARDED_HOST')) {
-			$host = $forawardedHost[0];
+			$host = $forwardedHost[0];
 		} elseif ( ! $host = $this->headers->get('HOST')) {
 			if ( ! $host = $this->server->get('SERVER_NAME')) {
 				$host = $this->server->get('REMOTE_ADDR', '');
