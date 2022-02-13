@@ -25,8 +25,8 @@ namespace Syscodes\Components\Session;
 
 use Closure;
 use SessionHandlerInterface;
-use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Contracts\Session\Session;
 
 /**
