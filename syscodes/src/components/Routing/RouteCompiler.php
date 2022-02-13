@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\Routing;
 
-use LogicExcption;
+use LogicException;
 use DomainException;
 use Syscodes\Components\Collections\Arr;
 
@@ -86,7 +86,7 @@ class RouteCompiler
                 
                 return sprintf('(?:/(?P<%s>%s)', $name, $pattern);
             } elseif ($optionals > 0) {
-                throw new LogicException("Route pattern [{$path}] cannot reference standard variable [{$name}] after optionals.");
+                throw new LogicException("Route pattern [{$pattern}] cannot reference standard variable [{$name}] after optionals.");
             }
             
             return sprintf('/(?P<%s>%s)', $name, $pattern);
