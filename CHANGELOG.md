@@ -1,5 +1,61 @@
 # Release Notes
 
+## [Version 0.7.8-alpha.7] 
+
+Release Date: Feb 14, 2022
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added new method for calls to `query builder`
+- Added method for bootstrap the database connection resolver
+- Added extend of collection
+- Added the type output of much methods by the php 7.4 version
+- Added method PHP `func_get_args()` for incorporate arguments
+- Added trait and method for connection of database
+- Added variable for relation of tables
+- Added methods of many `where` clause
+- Added new methods for differents `where` clause to query
+- Added new methods for enabled and restrictions attributes in the `model`
+- Added new method for fire an event of null-non responses
+- Added methods for get and convert items in json from `Enumerates` trait
+- Added new methods for save and delete data in `model`
+- Added new method for a given connection in `model`
+- Added `Macroable` trait
+- Added conditional for identify the pluralize of a class
+- Added methods for generate relationship in the `model`
+- Added new method for parser the processes command line
+- Added new method for generate a new command line
+- Added new function for replace a given pattern in `helper`
+
+### Fixed
+- Fix bug for call method incorrect in the `Query builder`
+- Fix bug in named variables incorrectly in the `Query builder`
+- Fix bugs in the called into function helper in `Grammar` database
+- Fix bug of method not invoke in the processor database
+- Fix bug for collection of data in columns in the `Query builder`
+- Fix bug of caracter special in variable from `ManagesTransactions` trait
+
+### Changed
+- Changed comment for word reserved in console system
+- Changed the file to path whitin of the folder `Erostrine`
+- Changed namespace for the `ModelNotFoundException` class
+- Changed Release 0.7.8-alpha.7
+
+### Created
+- Created methods for connection resolver instance
+- Created `Manager` class in database component
+- Created trait for gets attributes on the `model`
+- Created trait for manage events in the model
+- Created class for identify words in irregular plural
+- Created class for identify words in plural
+- Created class for identify words in singular
+- Created class for identify words in uncountable
+
+### Removed
+- Removed the type of parameter in `FlattenException` class
+
+
 ## [Version 0.7.7-alpha.7] 
 
 Release Date: Nov 24, 2021
@@ -43,7 +99,6 @@ Release Date: Nov 24, 2021
 - Removed `preg_replace` method PHP
 
 
-- Added new methods for environment local
 ## [Version 0.7.6-alpha.7] 
 
 Release Date: Sep 12, 2021
