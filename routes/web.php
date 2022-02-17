@@ -1,5 +1,7 @@
 <?php
 
+use Syscodes\Components\Support\Facades\Route;
+
 /*
 |------------------------------------------------------------------------- 
 | Web Routes
