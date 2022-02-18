@@ -206,7 +206,7 @@ class Builder
         $id = $id instanceof Arrayable ? $id->toArray() : $id;
 
         if (is_array($id)) {
-            if (count($model) === count(array_unique($id))) {
+            if (count([$model]) === count(array_unique($id))) {
                 return $model;
             }
         } elseif ( ! is_null($model)) {
@@ -249,6 +249,10 @@ class Builder
     {
         $models = $this->getModels($columns);
 
+        if (count($models) > 0) {
+            $models = $this->eagerLoadRelations($models);
+        }
+
         return $this->model->newCollection($models);
     }
     
@@ -275,6 +279,28 @@ class Builder
         
         return $models;
     }
+
+    /**
+     * Eager load the relationships for the models.
+     * 
+     * @param  array  $models
+     * 
+     * @return array
+     */
+    public function eagerLoadRelations(array $models): array
+    {
+        foreach ($this->eagerLoad as $name => $constraints) {
+            if ( ! Str::contains($name, '.')) {
+                $models = $this->loadRelation($models, $name, $constraints);
+            }
+        }
+
+        return $models;
+    }
+
+    /**
+     * 
+     */
 
     /**
      * Get the query builder instance.
