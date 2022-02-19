@@ -27,6 +27,7 @@ use Syscodes\Components\Database\Erostrine\Model;
 use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Database\Erostrine\Builder;
 use Syscodes\Components\Support\Traits\ForwardsCalls;
+use Syscodes\Components\Database\Erostrine\Collection;
 
 /**
  * This class allows the relations between tables.
@@ -108,7 +109,7 @@ abstract class Relation
      * 
      * @return void
      */
-    abstract public function addConstraints();
+    abstract public function addConstraints(): void;
 
     /**
      * Set the constraints for an eager load of the relation.
@@ -117,7 +118,7 @@ abstract class Relation
      * 
      * @return void
      */
-    abstract public function addEagerConstraints(array $models);
+    abstract public function addEagerConstraints(array $models): void;
 
     /**
      * Initialize the relation on a set of models.
@@ -127,7 +128,18 @@ abstract class Relation
      * 
      * @return array
      */
-    abstract public function initRelation(array $models, $relation);
+    abstract public function initRelation(array $models, $relation): array;
+
+    /**
+     * Match the eagerly loaded results to their parents.
+     * 
+     * @param  array  $models
+     * @param  \Syscodes\Components\Database\Erostrine\Collection  $results
+     * @param  string  $relation
+     * 
+     * @return array
+     */
+    abstract public function match(array $models, Collection $results, $relation): array;
 
     /**
      * Get the results of the relationship.
@@ -135,6 +147,16 @@ abstract class Relation
      * @return mixed
      */
     abstract public function getResults();
+
+    /**
+     * Get the relationship for eager loading.
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Collection
+     */
+    public function getEager()
+    {
+        return $this->get();
+    }
 
     /**
      * Get all of the model results.
