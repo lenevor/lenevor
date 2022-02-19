@@ -24,7 +24,7 @@ namespace Syscodes\Components\Database\Erostrine\Relations;
 
 use Syscodes\Components\Database\Erostrine\Model;
 use Syscodes\Components\Database\Erostrine\Builder;
-use Syscodes\Components\Database\Erostrine\Relations\Relation;
+use Syscodes\Components\Database\Erostrine\Collection;
 
 /**
  * Relation belongTo given on the parent model.
@@ -88,9 +88,7 @@ class BelongsTo extends Relation
     }
 
     /**
-     * Get the results of the relationship.
-     * 
-     * @return mixed
+     * {@inheritdoc}
      */
     public function getResults()
     {
@@ -98,11 +96,9 @@ class BelongsTo extends Relation
     }
 
     /**
-     * Set the base constraints on the relation query.
-     * 
-     * @return void
+     * {@inheritdoc}
      */
-    public function addConstraints()
+    public function addConstraints(): void
     {
         if (static::$constraints) {
             $table = $this->related->getTable();
@@ -112,13 +108,9 @@ class BelongsTo extends Relation
     }
 
     /**
-     * Set the constraints for an eager load of the relation.
-     * 
-     * @param  array  $models
-     * 
-     * @return void
+     * {@inheritdoc}
      */
-    public function addEagerConstraints(array $models)
+    public function addEagerConstraints(array $models): void
     {
         $key = $this->related->getTable().'.'.$this->ownerKey;
 
@@ -148,20 +140,72 @@ class BelongsTo extends Relation
     }
 
      /**
-     * Initialize the relation on a set of models.
-     * 
-     * @param  array  $models
-     * @param  string  $relation
-     * 
-     * @return array
+     * {@inheritdoc}
      */
-    public function initRelation(array $models, $relation)
+    public function initRelation(array $models, $relation): array
     {
         foreach ($models as $model) {
             $model->setRelation($relation, null);
         }
 
         return $models;
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function match(array $models, Collection $results, $relation): array
+    {
+        $foreign = $this->foreignKey;        
+        $other   = $this->otherKey;
+        
+        $dictionary = [];
+        
+        foreach ($results as $result) {
+            $dictionary[$result->getAttribute($other)] = $result;
+        }
+        
+        foreach ($models as $model) {
+            if (isset($dictionary[$model->$foreign])) {
+                $model->setRelation($relation, $dictionary[$model->$foreign]);
+            }
+        }
+        
+        return $models;
+    }
+    
+    /**
+     * Associate the model instance to the given parent.
+     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model|int|string|null  $model
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model
+     */
+    public function associate($model)
+    {
+        $ownerKey = $model instanceof Model ? $model->getAttribute($this->ownerKey) : $model;
+        
+        $this->child->setAttribute($this->foreignKey, $ownerKey);
+        
+        if ($model instanceof Model) {
+            $this->child->setRelation($this->relationName, $model);
+        } else {
+            $this->child->unsetRelation($this->relationName);
+        }
+        
+        return $this->child;
+    }
+    
+    /**
+     * Dissociate previously associated model from the given parent.
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model
+     */
+    public function dissociate()
+    {
+        $this->child->setAttribute($this->foreignKey, null);
+        
+        return $this->child->setRelation($this->relationName, null);
     }
 
     /**
@@ -179,11 +223,21 @@ class BelongsTo extends Relation
     }
 
     /**
+     * Get the child of the relationship.
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model
+     */
+    public function getChild()
+    {
+        return $this->child;
+    }
+
+    /**
      * Get the foreign key of the relationship.
      * 
      * @return string
      */
-    public function getForeignKey(): string
+    public function getForeignKeyName(): string
     {
         return $this->foreignKey;
     }
@@ -216,5 +270,15 @@ class BelongsTo extends Relation
     public function getQualifiedOwnerKeyName(): string
     {
         return $this->related->getTable().'.'.$this->ownerKey;
+    }
+
+    /**
+     * Get the name of the relationship.
+     * 
+     * @return string
+     */
+    public function getRelationName(): string
+    {
+        return $this->relationName;
     }
 }
