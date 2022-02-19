@@ -299,8 +299,23 @@ class Builder
     }
 
     /**
+     * Set the relationships that should be eager loaded.
      * 
+     * @param  string|array  $relations
+     * @param  string|\Closure|null  $callback
+     * 
+     * @return self
      */
+    public function with($relations, $callback = null): self
+    {
+        if ($callback instanceof Closure) {
+            $eagers = $this->parseRelations([$relations => $callback]);
+        } else {
+            $eagers = $this->parseRelations(is_string($relations) ? func_get_args() : $relations);
+        }
+
+        return $this;
+    }
 
     /**
      * Get the query builder instance.
