@@ -35,6 +35,13 @@ use Syscodes\Components\Database\Erostrine\Relations\BelongsTo;
 trait HasRelations
 {
     /**
+     * The loaded relationships for the model.
+     * 
+     * @var array
+     */
+    protected $relations = [];
+
+    /**
      * Define an inverse one-to-one or many relationship.
      * 
      * @param  string  $related
@@ -105,5 +112,82 @@ trait HasRelations
                 $instance->setConnection($this->connection);
             }
         });
+    }
+
+    /**
+     * Get all the loaded relations for the instance.
+     * 
+     * @return array
+     */
+    public function getRelations(): array
+    {
+        return $this->relations;
+    }
+
+    /**
+     * Get a specified relationship.
+     * 
+     * @param  string  $relation
+     * 
+     * @return mixed
+     */
+    public function getRelation(string $relation): mixed
+    {
+        return $this->relations[$relation];
+    }
+
+    /**
+     * Set the given relationship on the model.
+     * 
+     * @param  string  $relation
+     * @param  mixed  $value
+     * 
+     * @return self
+     */
+    public function setRelation(string $relation, $value): self
+    {
+        $this->relations[$relation] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Determine if the given relation is loaded.
+     * 
+     * @param  string  $key
+     * 
+     * @return bool
+     */
+    public function relationLoaded(string $key): bool
+    {
+        return array_key_exists($key, $this->relations);
+    }
+
+    /**
+     * Set the entire relations array on the model.
+     * 
+     * @param  array  $relations
+     * 
+     * @return self
+     */
+    public function setRelations(array $relations): self
+    {
+        $this->relations = $relations;
+
+        return $this;
+    }
+
+    /**
+     * Unset a loaded relationship.
+     * 
+     * @param  string  $relation
+     * 
+     * @return self
+     */
+    public function unsetRelation(string $relation): self
+    {
+        unset($this->relations[$relation]);
+
+        return $this;
     }
 }
