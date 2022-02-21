@@ -192,6 +192,7 @@ return [
     'Syscodes\\Components\\Database\\Erostrine\\Concerns\\HidesAttributes' => SYS_PATH.'src/components/Database/Erostrine/Concerns/HidesAttributes.php',
     'Syscodes\\Components\\Database\\Erostrine\\Exceptions\\MassAssignmentException' => SYS_PATH.'src/components/Database/Erostrine/Exceptions/MassAssignmentException.php',
     'Syscodes\\Components\\Database\\Erostrine\\Exceptions\\ModelNotFoundException' => SYS_PATH.'src/components/Database/Erostrine/Exceptions/ModelNotFoundException.php',
+    'Syscodes\\Components\\Database\\Erostrine\\Exceptions\\RelationNotFoundException' => SYS_PATH.'src/components/Database/Erostrine/Exceptions/RelationNotFoundException.php',
     'Syscodes\\Components\\Database\\Erostrine\\Relations\\BelongsTo' => SYS_PATH.'src/components/Database/Erostrine/Relations/BelongsTo.php',
     'Syscodes\\Components\\Database\\Erostrine\\Relations\\Pivot' => SYS_PATH.'src/components/Database/Erostrine/Relations/Pivot.php',
     'Syscodes\\Components\\Database\\Erostrine\\Relations\\Relation' => SYS_PATH.'src/components/Database/Erostrine/Relations/Relation.php',
