@@ -25,6 +25,8 @@ namespace Syscodes\Components\Database\Erostrine\Concerns;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Database\Erostrine\Model;
 use Syscodes\Components\Database\Erostrine\Builder;
+use Syscodes\Components\Database\Erostrine\Relations\HasOne;
+use Syscodes\Components\Database\Erostrine\Relations\HasMany;
 use Syscodes\Components\Database\Erostrine\Relations\BelongsTo;
 
 /**
@@ -40,6 +42,78 @@ trait HasRelations
      * @var array
      */
     protected $relations = [];
+    
+    /**
+     * Define a one-to-one relationship.
+     * 
+     * @param  string  $related
+     * @param  string|null  $foreignKey
+     * @param  string|null  $localKey
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Relations\HasOne
+     */
+    public function hasOne($related, $foreignKey = null, $localKey = null)
+    {
+        $instance = $this->newRelatedInstance($related);
+        
+        $foreignKey = $foreignKey ?: $this->getForeignKey();
+        $localKey   = $localKey ?: $this->getKeyName();
+        
+        return $this->newHasOne(
+            $instance->newQuery(), $this, $instance->getTable().'.'.$foreignKey, $localKey
+        );
+    }
+    
+    /**
+     * Instantiate a new HasOne relationship.
+     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Builder  $builder
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
+     * @param  string  $foreignKey
+     * @param  string  $localKey
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Relations\HasOne
+     */
+    protected function newHasOne(Builder $builder, Model $parent, $foreignKey, $localKey)
+    {
+        return new HasOne($builder, $parent, $foreignKey, $localKey);
+    }
+
+    /**
+     * Define a one-to-many relationship.
+     * 
+     * @param  string  $related
+     * @param  string|null  $foreignKey
+     * @param  string|null  $localKey
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Relations\HasOne
+     */
+    public function hasMany($related, $foreignKey = null, $localKey = null)
+    {
+        $instance = $this->newRelatedInstance($related);
+        
+        $foreignKey = $foreignKey ?: $this->getForeignKey();
+        $localKey   = $localKey ?: $this->getKeyName();
+        
+        return $this->newHasMany(
+            $instance->newQuery(), $this, $instance->getTable().'.'.$foreignKey, $localKey
+        );
+    }
+    
+    /**
+     * Instantiate a new HasMany relationship.
+     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Builder  $builder
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
+     * @param  string  $foreignKey
+     * @param  string  $localKey
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Relations\HasMany
+     */
+    protected function newHasMany(Builder $builder, Model $parent, $foreignKey, $localKey)
+    {
+        return new HasMany($builder, $parent, $foreignKey, $localKey);
+    }
 
     /**
      * Define an inverse one-to-one or many relationship.
@@ -85,6 +159,8 @@ trait HasRelations
     {
         return new BelongsTo($builder, $child, $foreignKey, $ownerKey, $relation);
     }
+
+
     
     /**
      * Calls the "belongs to" relationship name.
