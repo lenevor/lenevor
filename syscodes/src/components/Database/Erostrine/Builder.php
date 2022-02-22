@@ -23,18 +23,16 @@
 namespace Syscodes\Components\Database\Erostrine;
 
 use Closure;
-use Exception;
-use ReflectionClass;
-use ReflectionMethod;
 use BadMethodCallException;
 use Syscodes\Components\Support\Str;
-use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Support\Traits\ForwardsCalls;
 use Syscodes\Components\Database\Concerns\MakeQueries;
+use Syscodes\Components\Database\Erostrine\Relations\Relation;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
 use Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException;
+use Syscodes\Components\Database\Erostrine\Exceptions\RelationNotFoundException;
 
 /**
  * Creates a Erostrine query builder.
@@ -253,7 +251,7 @@ class Builder
             $models = $this->eagerLoadRelations($models);
         }
 
-        return $this->model->newCollection($models);
+        return $this->getModel()->newCollection($models);
     }
     
     /**
@@ -291,11 +289,99 @@ class Builder
     {
         foreach ($this->eagerLoad as $name => $constraints) {
             if ( ! Str::contains($name, '.')) {
-                $models = $this->loadRelation($models, $name, $constraints);
+                $models = $this->eagerloadRelation($models, $name, $constraints);
             }
         }
 
         return $models;
+    }
+
+    /**
+     * Eagerly load the relationship on a set of models.
+     * 
+     * @param  array  $models
+     * @param  string  $name
+     * @param  \Closure  $constraints
+     * 
+     * @return array
+     */
+    protected function eagerLoadRelation(array $models, string $name, Closure $constraints): array
+    {
+        $relation = $this->getRelation($name);
+
+        $relation->addEagerConstraints($models);
+
+        $constraints($relation);
+
+        return $relation->match(
+            $relation->initRelation($models, $name),
+            $relation->getEager(),
+            $name
+        );
+    }
+
+    /**
+     * Get the relation instance for the given relation name.
+     * 
+     * @param  string  $name
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Relations\Relation
+     * 
+     * @throws \BadMethodCallException
+     * @throws \
+     */
+    protected function getRelation($name)
+    {
+        $relation = Relation::noConstraints(function () use ($name) {
+            try {
+                return $this->getModel()->newInstance()->$name();
+            } catch (BadMethodCallException $e) {
+                throw RelationNotFoundException::make($this->getModel(), $name);
+            }
+        });
+
+        $nested = $this->nestedRelations($name);
+
+        if (count($nested) > 0) {
+            $relation->getQuery()->with($nested);
+        }
+
+        return $relation;
+    }
+
+    /**
+     * Gather the nested includes for a given relationship.
+     * 
+     * @param  string  $relation
+     * 
+     * @return array
+     */
+    protected function nestedRelations($relation): array
+    {
+        $nested = [];
+
+        foreach ($this->eagerLoad as $name => $constraints) {
+            if ($this->isNested($relation, $name)) {
+                $key = substr($name, strlen($relation.'.'));
+
+                $nested[$key] = $constraints;
+            }
+        }
+
+        return $nested;
+    }
+
+    /**
+     * Determine if the relationship is nested.
+     * 
+     * @param  string  $relation
+     * @param  string  $name
+     * 
+     * @return bool
+     */
+    protected function isNested($relation, $name): bool
+    {
+        return Str::contains($name, '.') && Str::startsWith($name, $relation.'.');
     }
 
     /**
@@ -309,12 +395,36 @@ class Builder
     public function with($relations, $callback = null): self
     {
         if ($callback instanceof Closure) {
-            $eagers = $this->parseRelations([$relations => $callback]);
+            $eagers = $this->parseWithRelations([$relations => $callback]);
         } else {
-            $eagers = $this->parseRelations(is_string($relations) ? func_get_args() : $relations);
+            $eagers = $this->parseWithRelations(is_string($relations) ? func_get_args() : $relations);
         }
 
+        $this->eagerLoad = array_merge($this->eagerLoad, $eagers);
+
         return $this;
+    }
+
+    /**
+     * Get the eagerly loaded relationships for the model.
+     * 
+     * @param  array  $relations
+     * 
+     * @return array
+     */
+    protected function parseWithRelations(array $relations): array
+    {
+        $results = [];
+
+        foreach ($relations as $name => $constraints) {
+            if (is_numeric($name)) {
+                [$name, $constraints] = [$constraints, null];
+            }
+
+            $results[$name] = $constraints;
+        }
+
+        return $results;
     }
 
     /**
@@ -407,9 +517,9 @@ class Builder
             return $this->getQuery()->{$method}(...$parameters);
         }
         
-        $this->forwardCallTo($this->getQuery(), $method, $parameters);
+        return $this->forwardCallTo($this->getQuery(), $method, $parameters);
 
-       return $this;
+        return $this;
     }
 
     /**
