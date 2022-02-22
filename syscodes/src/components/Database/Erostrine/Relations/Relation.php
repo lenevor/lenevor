@@ -186,6 +186,16 @@ abstract class Relation
     }
 
     /**
+     * Get the query builder that will contain the relationship constraints.
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Builder
+     */
+    protected function getRelationBuilder()
+    {
+        return $this->queryBuilder;
+    }
+
+    /**
      * Get the underlying query for the relation.
      * 
      * @return \Syscodes\Components\Database\Erostrine\Builder
