@@ -23,16 +23,16 @@
 namespace Syscodes\Components\Database\Query;
 
 use Closure;
-use RuntimeException;
 use DateTimeInterface;
 use InvalidArgumentException;
 use Syscodes\Components\Collections\Arr;
-use Syscodes\Components\Collections\Collection;
-use Syscodes\Components\Database\DatabaseCache;
 use Syscodes\Components\Support\Traits\Macroable;
+use Syscodes\Components\Support\Traits\ForwardsCalls;
 use Syscodes\Components\Database\Query\Grammars\Grammar;
 use Syscodes\Components\Database\Query\Processors\Processor;
+use Syscodes\Components\Database\Erostrine\Relations\Relation;
 use Syscodes\Components\Database\Connections\ConnectionInterface;
+use Syscodes\Components\Database\Erostrine\Builder as ErostrineBuilder;
 
 /**
  * Lenevor database query builder provides a convenient, fluent interface 
@@ -43,9 +43,10 @@ use Syscodes\Components\Database\Connections\ConnectionInterface;
  */
 class Builder
 {
-    use Macroable {
-        __call as macroCall;
-    }
+    use ForwardsCalls,
+        Macroable {
+            __call as macroCall;
+        }
 
     /**
      * An aggregate function and column to be run.
@@ -295,10 +296,10 @@ class Builder
      */
     protected function parseSub($builder): array
     {
-        if ($builder instanceof self) {
+        if ($builder instanceof self || $builder instanceof ErostrineBuilder || $builder instanceof Relation) {
             return [$builder->getSql(), $builder->getBindings()];
         } elseif (is_string($builder)) {
-            return [$builder->getSql(), []];
+            return [$builder, []];
         } else {
             throw new InvalidArgumentException('A subquery must be a query builder instance, a Closure, or a string');
         }
