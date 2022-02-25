@@ -244,7 +244,7 @@ class Builder
      * @return \Syscodes\Components\Database\Erostrine\Collection|static[]
      */
     public function get($columns = ['*'])
-    {
+    {   
         $models = $this->getModels($columns);
 
         if (count($models) > 0) {
@@ -475,6 +475,20 @@ class Builder
         $this->queryBuilder->from($model->getTable());
 
         return $this; 
+    }
+
+    /**
+     * Set a master relation instance.
+     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Relations\Relation  $relation
+     * 
+     * @return self
+     */
+    public function setRelation(Relation $relation): self
+    {
+        $this->relation = $relation;
+
+        return $this;
     }
     
     /**
