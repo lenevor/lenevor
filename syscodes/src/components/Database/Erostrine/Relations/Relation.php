@@ -79,7 +79,7 @@ abstract class Relation
      */
     public function __construct(Builder $builder, Model $parent)
     {
-        $this->queryBuilder = $builder;
+        $this->queryBuilder = $builder->setRelation($this);
         $this->parent       = $parent;
         $this->related      = $builder->getModel();
 
