@@ -60,7 +60,7 @@ trait HasRelations
         $localKey   = $localKey ?: $this->getKeyName();
         
         return $this->newHasOne(
-            $instance->newQuery(), $this, $instance->getTable().'.'.$foreignKey, $localKey
+            $instance->newQuery(), $this,  $instance->getTable().'.'.$foreignKey, $localKey
         );
     }
     
@@ -159,8 +159,6 @@ trait HasRelations
     {
         return new BelongsTo($builder, $child, $foreignKey, $ownerKey, $relation);
     }
-
-
     
     /**
      * Calls the "belongs to" relationship name.
