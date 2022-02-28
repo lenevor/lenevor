@@ -22,7 +22,9 @@
 
 namespace Syscodes\Components\Database\Erostrine\Concerns;
 
+use LogicException;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Database\Erostrine\Relations\Relation;
 
 /**
  * Trait HasAttributes.
@@ -90,6 +92,8 @@ trait HasAttributes
         if (method_exists(static::class, $key)) {
             return;
         }
+
+        return $this->getRelationValue($key);
     }
     
     /**
@@ -187,6 +191,64 @@ trait HasAttributes
         $method = 'get'.Str::studlycaps($key).'Attribute';
         
         return call_user_func([$this, $method], $value);
+    }
+
+    /**
+     * Get a relationships.
+     * 
+     * @param  string  $key
+     * 
+     * @return mixed
+     */
+    public function getRelationValue($key)
+    {
+        if ($this->relationLoaded($key)) {
+            return $this->relations[$key];
+        }
+
+        if ( ! $this->isRelation($key)) {
+            return;
+        }
+
+        return $this->getRelationFromMethod($key);
+    }
+
+    /**
+     * Determine if the given key is a relationship method on the model.
+     * 
+     * @param  string  $key
+     * 
+     * @return bool
+     */
+    public function isRelation($key): bool
+    {
+        return method_exists($this, $key);
+    }
+
+    /**
+     * Get a relationship value from a method.
+     * 
+     * @param  string  $key
+     * 
+     * @return mixed
+     */
+    protected function getRelationFromMethod($method)
+    {
+        $relation = $this->$method();
+        
+        if ( ! $relation instanceof Relation) {
+            if (is_null($relation)) {
+                throw new LogicException(sprintf('%s::%s must return a relationship instance, but "null" was returned. Was the "return" keyword used?', static::class, $method));
+            }
+            
+            throw new LogicException(sprintf(
+                '%s::%s must return a relationship instance.', static::class, $method
+            ));
+        }
+        
+        return take($relation->getResults(), function ($results) use ($method) {
+            $this->setRelation($method, $results);
+        });
     }
     
     /**
