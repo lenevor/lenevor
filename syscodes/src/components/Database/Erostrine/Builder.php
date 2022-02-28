@@ -531,7 +531,7 @@ class Builder
             return $this->getQuery()->{$method}(...$parameters);
         }
         
-        return $this->forwardCallTo($this->getQuery(), $method, $parameters);
+        $this->forwardCallTo($this->getQuery(), $method, $parameters);
 
         return $this;
     }
