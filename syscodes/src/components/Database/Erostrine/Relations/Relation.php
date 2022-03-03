@@ -261,7 +261,9 @@ abstract class Relation
             return $this->macroCall($method, $parameters);
         }
 
-        return $this->forwardObjectCallTo($this->queryBuilder, $method, $parameters);
+        $this->forwardObjectCallTo($this->queryBuilder, $method, $parameters);
+
+        return $this;
     }
 
     /**
