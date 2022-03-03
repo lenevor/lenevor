@@ -720,7 +720,31 @@ class Model implements Arrayable, ArrayAccess
 	 */
 	public function toArray()
 	{
+		$attributes = array_diff_key($this->attributes, array_flip($this->hidden));
 		
+		foreach ($this->relations as $name => $value) {
+			if (in_array($name, $this->hidden)) {
+				continue;
+			}
+			
+			$key = Str::snake($name);
+			
+			if (is_array($value)) {
+				$attributes[$key] = [];
+				
+				foreach ($value as $id => $model) {
+					$attributes[$key][$id] = $model->toArray();
+				}
+			}
+			// The value is not an array of models
+			else if ($value instanceof Arrayable) {
+				$attributes[$key] = $value->toArray();
+			} else if (is_null($value)) {
+				$attributes[$key] = $value;
+			}
+		}
+		
+		return $attributes;
 	}
 	
 	/**
@@ -835,7 +859,10 @@ class Model implements Arrayable, ArrayAccess
 	 */
 	public function offsetExists($offset): bool
 	{ 
-		return ! is_null($this->getAttribute($offset));
+		return isset($this->attributes[$offset]) || 
+		       isset($this->relations[$offset])  ||
+		       $this->hasGetMutator($offset)     && 
+		       ! is_null($this->getAttributeValue($offset));
 	}
 
 	/**
@@ -872,7 +899,7 @@ class Model implements Arrayable, ArrayAccess
 	 */
 	public function offsetUnset($offset): void
 	{
-		unset($this->attributes[$offset]);
+		unset($this->attributes[$offset], $this->relations[$offset]);
 	}
 
 	/**
