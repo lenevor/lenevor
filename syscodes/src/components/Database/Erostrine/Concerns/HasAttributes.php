@@ -80,20 +80,19 @@ trait HasAttributes
      */
     public function getAttribute($key)
     {
-        if ( ! $key) {
-            return;
-        }
-        
         // If the key references an attribute, return its plain value from the model.
         if (array_key_exists($key, $this->attributes) || $this->hasGetMutator($key)) {
             return $this->getAttributeValue($key);
         }
-
-        if (method_exists(static::class, $key)) {
-            return;
+        // If the key already exists in the relationships array
+        elseif (array_key_exists($key, $this->relations)) {
+            return $this->relations[$key];
         }
-
-        return $this->getRelationValue($key);
+        
+        // If the "attribute" exists as a method on the model, it is a relationship.
+        if (method_exists($this, $snake = Str::snake($key))) {
+            return $this->getRelationFromMethod($key, $snake);
+        }        
     }
     
     /**
@@ -194,47 +193,16 @@ trait HasAttributes
     }
 
     /**
-     * Get a relationships.
-     * 
-     * @param  string  $key
-     * 
-     * @return mixed
-     */
-    public function getRelationValue($key)
-    {
-        if ($this->relationLoaded($key)) {
-            return $this->relations[$key];
-        }
-
-        if ( ! $this->isRelation($key)) {
-            return;
-        }
-
-        return $this->getRelationFromMethod($key);
-    }
-
-    /**
-     * Determine if the given key is a relationship method on the model.
-     * 
-     * @param  string  $key
-     * 
-     * @return bool
-     */
-    public function isRelation($key): bool
-    {
-        return method_exists($this, $key);
-    }
-
-    /**
      * Get a relationship value from a method.
      * 
-     * @param  string  $key
+     * @param  string  $method
+     * @param  string  $snake
      * 
      * @return mixed
      */
-    protected function getRelationFromMethod($method)
+    protected function getRelationFromMethod($method, $snake)
     {
-        $relation = $this->$method();
+        $relation = call_user_func([$this, $snake]);
         
         if ( ! $relation instanceof Relation) {
             if (is_null($relation)) {
@@ -242,13 +210,11 @@ trait HasAttributes
             }
             
             throw new LogicException(sprintf(
-                '%s::%s must return a relationship instance.', static::class, $method
+                '%s::%s must return a relationship instance', static::class, $method
             ));
         }
         
-        return take($relation->getResults(), function ($results) use ($method) {
-            $this->setRelation($method, $results);
-        });
+        return $this->relations[$method] = $relation->getResults();
     }
     
     /**
