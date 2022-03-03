@@ -39,7 +39,7 @@ trait HasRelations
     /**
      * The loaded relationships for the model.
      * 
-     * @var array
+     * @var array|object
      */
     protected $relations = [];
     
