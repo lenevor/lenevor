@@ -245,9 +245,7 @@ class Builder
      */
     public function get($columns = ['*'])
     {   
-        $models = $this->getModels($columns);
-
-        if (count($models) > 0) {
+        if (count($models = $this->getModels($columns)) > 0) {
             $models = $this->eagerLoadRelations($models);
         }
 
