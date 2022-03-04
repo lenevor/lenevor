@@ -67,7 +67,7 @@ final class Version
     /**
      * Year actual.
      */
-    public const YEAR = '2021';
+    public const YEAR = '2022';
 
     /**
      * Gets a string version of " PHP normalized" for the Lenevor Framework.
@@ -76,7 +76,7 @@ final class Version
      */
     public static function shortVersion(): string
     {
-        return self::COPY.' '.self::YEAR.' '.self::PRODUCT; 
+        return self::COPY.' '.self::YEAR.' '.self::NAME; 
     }
 
     /**
@@ -86,7 +86,7 @@ final class Version
      */
     public static function longVersion(): string
     {
-        return self::COPY.' '.self::YEAR.' '.self::COPYRIGHT.' - '.self::PRODUCT.' ' .self::RELEASE. ' '. 
+        return self::COPY.' '.self::YEAR.' '.self::COPYRIGHT.' - '.self::NAME.' ' .self::RELEASE. ' '. 
                self::STATUS.' [ '.self::CODENAME.' ] '.self::RELEASEDATE;
     }
 }
