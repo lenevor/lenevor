@@ -495,6 +495,19 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
+     * Get the values of a given key.
+     * 
+     * @param  string|array|int|null  $value
+     * @param  string|null  $key
+     * 
+     * @return static
+     */
+    public function pluck($value, $key = null)
+    {
+        return new static(Arr::pluck($this->items, $value, $key));
+    }
+
+    /**
      * Get and remove the last item from the collection.
      * 
      * @return mixed
@@ -531,21 +544,6 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
-     * Put an item in the collection by key.
-     * 
-     * @param  mixed  $key
-     * @param  mixed  $value
-     * 
-     * @return $this
-     */
-    public function put($key, $value)
-    {
-        $this->offsetSet($key, $value);
-
-        return $this;
-    }
-
-    /**
      * Push an item onto the end of the collection.
      * 
      * @param  mixed  $values  [optional]
@@ -560,18 +558,20 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
 
         return $this;
     }
-    
+
     /**
-     * Get the values of a given key.
+     * Put an item in the collection by key.
      * 
-     * @param  string|array|int|null  $value
-     * @param  string|null  $key
+     * @param  mixed  $key
+     * @param  mixed  $value
      * 
-     * @return static
+     * @return $this
      */
-    public function pluck($value, $key = null)
+    public function put($key, $value)
     {
-        return new static(Arr::pluck($this->items, $value, $key));
+        $this->offsetSet($key, $value);
+
+        return $this;
     }
 
     /**
@@ -644,7 +644,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      */
     public function search($value, $strict = false)
     {
-        if ( ! $this->usesAscallable($value)) {
+        if ( ! $this->useAsCallable($value)) {
             return array_search($value, $this->items, $strict);
         }
 
@@ -890,7 +890,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @return \ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->items);
     }
@@ -906,7 +906,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->items);
     }
@@ -924,7 +924,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->items[$offset]);
     }
@@ -949,7 +949,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @return void
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if (is_null($offset)) {
             $this->items[] = $value;
@@ -965,7 +965,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @return void
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->items[$offset]);
     }
