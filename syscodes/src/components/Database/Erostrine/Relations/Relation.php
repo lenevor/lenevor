@@ -51,9 +51,9 @@ abstract class Relation
     /**
      * The Erostrine query builder instance.
      * 
-     * @var \Syscodes\Components\Database\Erostrine\builder $queryBuilder
+     * @var \Syscodes\Components\Database\Erostrine\builder $query
      */
-    protected $queryBuilder;
+    protected $query;
 
     /**
      * The related model instance.
@@ -79,9 +79,9 @@ abstract class Relation
      */
     public function __construct(Builder $builder, Model $parent)
     {
-        $this->queryBuilder = $builder->setRelation($this);
-        $this->parent       = $parent;
-        $this->related      = $builder->getModel();
+        $this->query    = $builder;
+        $this->parent   = $parent;
+        $this->related  = $builder->getModel();
 
         $this->addConstraints();
     }
@@ -167,7 +167,7 @@ abstract class Relation
      */
     public function get($columns = ['*'])
     {
-        return $this->queryBuilder->get($columns);
+        return $this->query->get($columns);
     }
 
     /**
@@ -190,9 +190,9 @@ abstract class Relation
      * 
      * @return \Syscodes\Components\Database\Erostrine\Builder
      */
-    protected function getRelationBuilder()
+    protected function getRelationQuery()
     {
-        return $this->queryBuilder;
+        return $this->query;
     }
 
     /**
@@ -200,9 +200,9 @@ abstract class Relation
      * 
      * @return \Syscodes\Components\Database\Erostrine\Builder
      */
-    protected function getBuilder()
+    protected function getQuery()
     {
-        return $this->queryBuilder;
+        return $this->query;
     }
 
     /**
@@ -210,9 +210,9 @@ abstract class Relation
      * 
      * @return \Syscodes\Components\Database\Erostrine\Builder
      */
-    public function getBaseBuilder()
+    public function getBaseQuery()
     {
-        return $this->queryBuilder->getQuery();
+        return $this->query->getQuery();
     }
 
     /**
@@ -261,7 +261,7 @@ abstract class Relation
             return $this->macroCall($method, $parameters);
         }
 
-        $this->forwardObjectCallTo($this->queryBuilder, $method, $parameters);
+        $this->forwardObjectCallTo($this->query, $method, $parameters);
 
         return $this;
     }
@@ -275,6 +275,6 @@ abstract class Relation
      */
     public function __clone()
     {
-        $this->queryBuider = clone $this->queryBuilder;
+        $this->query = clone $this->query;
     }
 }
