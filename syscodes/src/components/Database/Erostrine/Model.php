@@ -637,7 +637,7 @@ class Model implements Arrayable, ArrayAccess
 	 */
 	public function newInstance($attributes = [], $exists = false)
 	{
-		$model = new static((array) $attributes);		
+		$model = new static;		
 		
 		$model->exists = $exists;
 		
@@ -646,6 +646,8 @@ class Model implements Arrayable, ArrayAccess
         );
 
         $model->setTable($this->getTable());
+		
+		$model->fill((array) $attributes);
 		
 		return $model;
 	}
