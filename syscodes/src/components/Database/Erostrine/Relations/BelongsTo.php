@@ -34,6 +34,13 @@ use Syscodes\Components\Database\Erostrine\Collection;
 class BelongsTo extends Relation
 {
     /**
+     * The child model instance of the relation.
+     * 
+     * @var \Syscodes\Components\Database\Erostrine\Model $child
+     */
+    protected $child;
+
+    /**
      * The foreign key of the parent model.
      * 
      * @var string $foreignKey
@@ -72,11 +79,12 @@ class BelongsTo extends Relation
         $ownerKey,
         $relationName
     ) {
+        $this->child = $child;
         $this->ownerKey = $ownerKey;
         $this->foreignKey = $foreignKey;
         $this->relationName = $relationName;
 
-        parent::__construct($builder, $child);
+        parent::__construct($builder, $child); 
     }
 
     /**
@@ -84,7 +92,11 @@ class BelongsTo extends Relation
      */
     public function getResults()
     {
-        return $this->query->first();
+        if (is_null($this->child->{$this->foreignKey})) {
+            return $this->getDefaultFor($this->parent);
+        }
+
+        return $this->query->first() ?: $this->getDefaultFor($this->parent);
     }
 
     /**
@@ -95,7 +107,7 @@ class BelongsTo extends Relation
         if (static::$constraints) {
             $table = $this->related->getTable();
 
-            $this->query->where($table.'.'.$this->ownerKey, '=', $this->parent->{$this->foreignKey});
+            $this->query->where($table.'.'.$this->ownerKey, '=', $this->child->{$this->foreignKey});
         }
     }
 
@@ -141,7 +153,7 @@ class BelongsTo extends Relation
     public function initRelation(array $models, $relation): array
     {
         foreach ($models as $model) {
-            $model->setRelation($relation, null);
+            $model->setRelation($relation, $this->getDefaultFor($model));
         }
 
         return $models;
@@ -181,15 +193,15 @@ class BelongsTo extends Relation
     {
         $ownerKey = $model instanceof Model ? $model->getAttribute($this->ownerKey) : $model;
         
-        $this->parent->setAttribute($this->foreignKey, $ownerKey);
+        $this->child->setAttribute($this->foreignKey, $ownerKey);
         
         if ($model instanceof Model) {
-            $this->parent->setRelation($this->relationName, $model);
+            $this->child->setRelation($this->relationName, $model);
         } else {
-            $this->parent->unsetRelation($this->relationName);
+            $this->child->unsetRelation($this->relationName);
         }
         
-        return $this->parent;
+        return $this->child;
     }
     
     /**
@@ -199,9 +211,9 @@ class BelongsTo extends Relation
      */
     public function dissociate()
     {
-        $this->parent->setAttribute($this->foreignKey, null);
+        $this->child->setAttribute($this->foreignKey, null);
         
-        return $this->parent->setRelation($this->relationName, null);
+        return $this->child->setRelation($this->relationName, null);
     }
 
     /**
@@ -217,6 +229,42 @@ class BelongsTo extends Relation
 
         return $instance->fill($attributes)->save();
     }
+    
+    /**
+     * Get the default value for this relation.
+     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model|null
+     */
+    protected function getDefaultFor(Model $parent)
+    {
+        $instance = $this->newRelatedInstanceFor($parent);
+        
+        return $instance;
+    }
+    
+    /**
+     * Make a new related instance for the given model.
+     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model
+     */
+    protected function newRelatedInstanceFor(Model $parent)
+    {
+        return $this->parent->newInstance();
+    }
+    
+    /**
+     * Get the child of the relationship.
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model
+     */
+    public function getChild()
+    {
+        return $this->child;
+    }
 
     /**
      * Get the foreign key of the relationship.
@@ -226,6 +274,16 @@ class BelongsTo extends Relation
     public function getForeignKeyName(): string
     {
         return $this->foreignKey;
+    }
+    
+    /**
+     * Get the key value of the child's foreign key.
+     * 
+     * @return mixed
+     */
+    public function getParentKey()
+    {
+        return $this->child->{$this->foreignKey};
     }
 
     /**
