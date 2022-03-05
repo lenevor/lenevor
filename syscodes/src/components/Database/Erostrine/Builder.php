@@ -87,9 +87,9 @@ class Builder
     /**
      * The query builder instance.
      * 
-     * @var \Syscodes\Components\Database\Query\Builder $querybuilder
+     * @var \Syscodes\Components\Database\Query\Builder $query
      */
-    protected $queryBuilder;
+    protected $query;
 
     /**
      * The relation tables to be instanced.
@@ -101,13 +101,13 @@ class Builder
     /**
      * Constructor. The new Holisen query builder instance.
      * 
-     * @param  \Syscodes\Components\Database\query\Builder  $queryBuilder
+     * @param  \Syscodes\Components\Database\query\Builder  $query
      * 
      * @return void
      */
-    public function __construct(QueryBuilder $queryBuilder)
+    public function __construct(QueryBuilder $query)
     {
-        $this->queryBuilder = $queryBuilder;
+        $this->query = $query;
     }
     
     /**
@@ -116,7 +116,7 @@ class Builder
      * @param  mixed  $id
      * @param  array  $columns
      * 
-     * @return \Syscodes\Components\Database\Erostrine\Model|static|null
+     * @return \Syscodes\Components\Database\Erostrine\Model|static|array|null
      */
     public function find($id, array $columns = ['*'])
     {
@@ -162,7 +162,7 @@ class Builder
         $keyName = $this->model->getQualifiedKeyName();
 
         if (is_array($id) || $id instanceof Arrayable) {
-            $this->queryBuilder->whereIn($keyName, $id);
+            $this->query->whereIn($keyName, $id);
 
             return $this;
         }
@@ -182,9 +182,15 @@ class Builder
      */
     public function where($column, $operator = null, $value = null, $boolean = 'and'): self
     {
-       $this->queryBuilder->where(...func_get_args());
+        if ($column instanceof Closure && is_null($operator)) {
+            $column($query = $this->model->newQuery());
+            
+            $this->query->addNestedWhereQuery($query->getQuery(), $boolean);
+        } else {
+            $this->query->where(...func_get_args());
+        }
 
-       return $this;
+        return $this;
     }
     
     /**
@@ -203,17 +209,21 @@ class Builder
 
         $id = $id instanceof Arrayable ? $id->toArray() : $id;
 
+        $className = get_class($this->model);
+
         if (is_array($id)) {
-            if (count([$model]) === count(array_unique($id))) {
-                return $model;
+            if (count($model) !== count(array_unique($id))) {
+                throw (new ModelNotFoundException)->setModel($className);
             }
-        } elseif ( ! is_null($model)) {
+            
             return $model;
+        } 
+        
+        if (is_null($model)) {
+            throw (new ModelNotFoundException)->setModel($className);
         }
         
-        $className = get_class($this->model);
-        
-        throw (new ModelNotFoundException)->setModel($className);
+        return $model;
     }
 
     /**
@@ -245,11 +255,13 @@ class Builder
      */
     public function get($columns = ['*'])
     {   
-        if (count($models = $this->getModels($columns)) > 0) {
-            $models = $this->eagerLoadRelations($models);
+        $builder = $this->applyScopes();
+
+        if (count($models = $builder->getModels($columns)) > 0) {
+            $models = $builder->eagerLoadRelations($models);
         }
 
-        return $this->getModel()->newCollection($models);
+        return $builder->getModel()->newCollection($models);
     }
     
     /**
@@ -261,7 +273,7 @@ class Builder
      */
     public function getModels($columns = ['*'])
     {
-        $results = $this->queryBuilder->get($columns); 
+        $results = $this->query->get($columns); 
         
         $connection = $this->model->getConnectionName();
         
@@ -426,13 +438,25 @@ class Builder
     }
 
     /**
+     * Apply the scopes to the Eloquent builder instance and return it.
+     * 
+     * @return static
+     */
+    public function applyScopes()
+    {
+        $builder = clone $this;
+
+        return $builder;
+    }
+
+    /**
      * Get the query builder instance.
      * 
      * @return \Syscodes\Components\Database\Query\Builder
      */
     public function getQuery()
     {
-        return $this->queryBuilder;
+        return $this->query;
     }
 
     /**
@@ -444,7 +468,7 @@ class Builder
      */
     public function setQuery($builder): self
     {
-        $this->queryBuilder = $builder;
+        $this->query = $builder;
 
         return $this;
     }
@@ -470,7 +494,7 @@ class Builder
     {
         $this->model = $model;
 
-        $this->queryBuilder->from($model->getTable());
+        $this->query->from($model->getTable());
 
         return $this; 
     }
@@ -499,7 +523,7 @@ class Builder
     public function newModelInstance($attributes = [])
     {
         return $this->model->newInstance($attributes)->setConnection(
-            $this->queryBuilder->getConnection()->getName()
+            $this->query->getConnection()->getName()
         );
     }
 
@@ -568,6 +592,6 @@ class Builder
      */
     public function __clone()
     {
-        $this->queryBuider = clone $this->queryBuilder;
+        $this->queryBuider = clone $this->query;
     }
 }
