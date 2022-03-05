@@ -36,7 +36,7 @@ class HasOne extends HasOneOrMany
      */
     public function getResults()
     {
-        return $this->getRelationBuilder()->first();
+        return $this->getRelationQuery()->first();
     }
     
     /**
