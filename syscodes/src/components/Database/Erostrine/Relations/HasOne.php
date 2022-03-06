@@ -36,7 +36,7 @@ class HasOne extends HasOneOrMany
      */
     public function getResults()
     {
-        return $this->getRelationQuery()->first();
+        return $this->getRelationQuery()->first() ?: $this->getDefaultFor($this->parent);
     }
     
     /**
@@ -45,7 +45,7 @@ class HasOne extends HasOneOrMany
     public function initRelation(array $models, $relation): array
     {
         foreach ($models as $model) {
-            $model->setRelation($relation, null);
+            $model->setRelation($relation, $this->getDefaultFor($model));
         }
         
         return $models;
