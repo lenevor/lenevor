@@ -96,7 +96,7 @@ class BelongsTo extends Relation
             return $this->getDefaultFor($this->parent);
         }
 
-        return $this->query->first() ?: $this->getDefaultFor($this->parent);
+        return $this->getRelationQuery()->first() ?: $this->getDefaultFor($this->parent);
     }
 
     /**
@@ -107,7 +107,7 @@ class BelongsTo extends Relation
         if (static::$constraints) {
             $table = $this->related->getTable();
 
-            $this->query->where($table.'.'.$this->ownerKey, '=', $this->child->{$this->foreignKey});
+            $this->getRelationQuery()->where($table.'.'.$this->ownerKey, '=', $this->child->{$this->foreignKey});
         }
     }
 
@@ -118,7 +118,7 @@ class BelongsTo extends Relation
     {
         $key = $this->related->getTable().'.'.$this->ownerKey;
 
-        $this->query->whereIn($key, $this->getEagerModelkeys($models));
+        $this->getRelationQuery()->whereIn($key, $this->getEagerModelkeys($models));
     }
 
     /**
@@ -138,10 +138,6 @@ class BelongsTo extends Relation
             }
         }
         
-        if (count($keys) == 0) {
-            return array(0);
-        }
-
         sort($keys);
 
         return array_values(array_unique($keys));
@@ -165,12 +161,12 @@ class BelongsTo extends Relation
     public function match(array $models, Collection $results, $relation): array
     {
         $foreign = $this->foreignKey;        
-        $other   = $this->otherKey;
+        $owner   = $this->ownerKey;
         
         $dictionary = [];
         
         foreach ($results as $result) {
-            $dictionary[$result->getAttribute($other)] = $result;
+            $dictionary[$result->getAttribute($owner)] = $result;
         }
         
         foreach ($models as $model) {
@@ -225,9 +221,7 @@ class BelongsTo extends Relation
      */
     public function update(array $attributes)
     {
-        $instance = $this->getResults();
-
-        return $instance->fill($attributes)->save();
+        return $this->getResults()->fill($attributes)->save();
     }
     
     /**
@@ -239,9 +233,7 @@ class BelongsTo extends Relation
      */
     protected function getDefaultFor(Model $parent)
     {
-        $instance = $this->newRelatedInstanceFor($parent);
-        
-        return $instance;
+       return $this->newRelatedInstanceFor($parent);
     }
     
     /**
@@ -253,7 +245,7 @@ class BelongsTo extends Relation
      */
     protected function newRelatedInstanceFor(Model $parent)
     {
-        return $this->parent->newInstance();
+        return $this->related->newInstance();
     }
     
     /**
@@ -293,7 +285,7 @@ class BelongsTo extends Relation
      */
     public function getQualifiedForeignKey(): string
     {
-        return $this->parent->getTable().'.'.$this->foreignkey;
+        return $this->child->qualifyColumn($this->foreignKey);
     }
 
     /**
@@ -313,7 +305,7 @@ class BelongsTo extends Relation
      */
     public function getQualifiedOwnerKeyName(): string
     {
-        return $this->related->getTable().'.'.$this->ownerKey;
+        return $this->related->qualifyColumn($this->ownerKey);
     }
 
     /**
