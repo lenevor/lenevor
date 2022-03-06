@@ -273,19 +273,25 @@ class Builder
      */
     public function getModels($columns = ['*'])
     {
-        $results = $this->query->get($columns); 
+        return $this->model->hydrate(
+            $this->query->get($columns)->all()
+        )->all();
+    }
+    
+    /**
+     * Create a collection of models from plain arrays.
+     * 
+     * @param  array  $items
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model[]
+     */
+    public function hydrate(array $items)
+    {
+        $instance = $this->newModelInstance();
         
-        $connection = $this->model->getConnectionName();
-        
-        $models = [];
-        
-        foreach ($results as $result) {
-            $models[] = $model = $this->model->newFromBuilder($result);
-            
-            $model->setConnection($connection);
-        }
-        
-        return $models;
+        return $instance->newCollection(array_map(function ($item) use ($instance) {
+            return $instance->newFromBuilder($item);
+        }, $items));
     }
 
     /**
