@@ -25,6 +25,7 @@ namespace Syscodes\Components\Database\Erostrine\Relations;
 use Syscodes\Components\Database\Erostrine\Model;
 use Syscodes\Components\Database\Erostrine\Builder;
 use Syscodes\Components\Database\Erostrine\Collection;
+use Syscodes\Components\Database\Erostrine\Relations\Concerns\SupportModelRelations;
 
 /**
  * Relation belongTo given on the parent model.
@@ -33,6 +34,8 @@ use Syscodes\Components\Database\Erostrine\Collection;
  */
 class BelongsTo extends Relation
 {
+    use SupportModelRelations;
+    
     /**
      * The child model instance of the relation.
      * 
@@ -223,19 +226,7 @@ class BelongsTo extends Relation
     {
         return $this->getResults()->fill($attributes)->save();
     }
-    
-    /**
-     * Get the default value for this relation.
-     * 
-     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
-     * 
-     * @return \Syscodes\Components\Database\Erostrine\Model|null
-     */
-    protected function getDefaultFor(Model $parent)
-    {
-       return $this->newRelatedInstanceFor($parent);
-    }
-    
+
     /**
      * Make a new related instance for the given model.
      * 
