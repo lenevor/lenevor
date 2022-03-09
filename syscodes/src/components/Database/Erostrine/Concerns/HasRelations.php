@@ -60,7 +60,7 @@ trait HasRelations
         $localKey   = $localKey ?: $this->getKeyName();
         
         return $this->newHasOne(
-            $instance->newQuery(), $this,  $instance->getTable().'.'.$foreignKey, $localKey
+            $instance->newQuery(), $this, $instance->getTable().'.'.$foreignKey, $localKey
         );
     }
     
