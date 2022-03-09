@@ -22,7 +22,9 @@
 
 namespace Syscodes\Components\Database\Erostrine\Relations;
 
+use Syscodes\Components\Database\Erostrine\Model;
 use Syscodes\Components\Database\Erostrine\Collection;
+use Syscodes\Components\Database\Erostrine\Relations\Concerns\SupportModelRelations;
 
 /**
  * Relation HasOne given on the parent model.
@@ -31,6 +33,8 @@ use Syscodes\Components\Database\Erostrine\Collection;
  */
 class HasOne extends HasOneOrMany
 {
+    use SupportModelRelations;
+    
     /**
      * {@inheritdoc}
      */
@@ -63,5 +67,19 @@ class HasOne extends HasOneOrMany
     public function match(array $models, Collection $results, $relation): array
     {
         return $this->matchOne($models, $results, $relation);
+    }
+
+    /**
+     * Make a new related instance for the given model.
+     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model
+     */
+    protected function newRelatedInstanceFor(Model $parent)
+    {
+        return $this->related->newInstance()->setAttribute(
+            $this->getForeignKeyName(), $parent->{$this->localKey}
+        );
     }
 }
