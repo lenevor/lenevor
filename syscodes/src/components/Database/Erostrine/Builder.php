@@ -317,17 +317,17 @@ class Builder
      * 
      * @param  array  $models
      * @param  string  $name
-     * @param  \Closure  $constraints
+     * @param  \Closure|null  $constraints
      * 
      * @return array
      */
-    protected function eagerLoadRelation(array $models, string $name, Closure $constraints): array
+    protected function eagerLoadRelation(array $models, string $name, Closure $constraints = null): array
     {
         $relation = $this->getRelation($name);
 
         $relation->addEagerConstraints($models);
 
-        $constraints($relation);
+        is_null($constraints) ? $constraints : $constraints($relation);
 
         return $relation->match(
             $relation->initRelation($models, $name),
