@@ -163,7 +163,7 @@ class Grammar extends BaseGrammar
             }
 
             foreach ($join->bindings as $binding) {
-                $query->addBinding($binding, 'join');
+                $builder->addBinding($binding, 'join');
             }
 
             $clauses[0] = $this->removeStatementBoolean($clauses[0]);
