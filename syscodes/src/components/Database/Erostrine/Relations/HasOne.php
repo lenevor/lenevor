@@ -76,7 +76,7 @@ class HasOne extends HasOneOrMany
      * 
      * @return \Syscodes\Components\Database\Erostrine\Model
      */
-    protected function newRelatedInstanceFor(Model $parent)
+    public function newRelatedInstanceFor(Model $parent)
     {
         return $this->related->newInstance()->setAttribute(
             $this->getForeignKeyName(), $parent->{$this->localKey}
