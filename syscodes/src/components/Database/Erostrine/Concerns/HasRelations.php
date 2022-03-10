@@ -54,8 +54,7 @@ trait HasRelations
      */
     public function hasOne($related, $foreignKey = null, $localKey = null)
     {
-        $instance = $this->newRelatedInstance($related);
-        
+        $instance   = $this->newRelatedInstance($related);        
         $foreignKey = $foreignKey ?: $this->getForeignKey();
         $localKey   = $localKey ?: $this->getKeyName();
         
