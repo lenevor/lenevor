@@ -114,6 +114,13 @@ class Model implements Arrayable, ArrayAccess
 	protected static $resolver;
 
 	/**
+	 * The relations to eager load on every query.
+	 * 
+	 * @var array $with
+	 */
+	protected $with = [];
+
+	/**
 	 * The name of the "created at" column.
 	 * 
 	 * @var string|null
@@ -568,7 +575,7 @@ class Model implements Arrayable, ArrayAccess
 	{
 		return $this->newQueryBuilder(
 					$this->newBaseQueryBuilder()
-				)->setModel($this);
+				)->setModel($this)->with($this->with);
 	}
 
 	/**
