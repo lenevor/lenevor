@@ -80,19 +80,20 @@ trait HasAttributes
      */
     public function getAttribute($key)
     {
+        if ( ! $key) {
+            return;
+        }
+        
         // If the key references an attribute, return its plain value from the model.
         if (array_key_exists($key, $this->attributes) || $this->hasGetMutator($key)) {
             return $this->getAttributeValue($key);
         }
-        // If the key already exists in the relationships array
-        elseif (array_key_exists($key, $this->relations)) {
-            return $this->relations[$key];
+        
+        if (method_exists(self::class, $key)) {
+            return;
         }
         
-        // If the "attribute" exists as a method on the model, it is a relationship.
-        if (method_exists($this, $snake = Str::snake($key))) {
-            return $this->getRelationFromMethod($key, $snake);
-        }        
+        return $this->getRelationValue($key);
     }
     
     /**
@@ -191,6 +192,24 @@ trait HasAttributes
         
         return call_user_func([$this, $method], $value);
     }
+    
+    /**
+     * Get a relationship.
+     * 
+     * @param  string  $key
+     * 
+     * @return mixed
+     */
+    public function getRelationValue($key)
+    {
+        if ($this->relationLoaded($key)) {
+            return $this->relations[$key];
+        }
+        
+        if (method_exists($this, $key)) {
+            return $this->getRelationFromMethod($key);
+        }
+    }
 
     /**
      * Get a relationship value from a method.
@@ -200,9 +219,9 @@ trait HasAttributes
      * 
      * @return mixed
      */
-    protected function getRelationFromMethod($method, $snake)
+    protected function getRelationFromMethod($method)
     {
-        $relation = call_user_func([$this, $snake]);
+        $relation = $this->$method();
         
         if ( ! $relation instanceof Relation) {
             if (is_null($relation)) {
@@ -214,7 +233,9 @@ trait HasAttributes
             ));
         }
         
-        return $this->relations[$method] = $relation->getResults();
+        return take($relation->getResults(), function ($results) use ($method) {
+            return $this->setRelation($method, $results);
+        });
     }
     
     /**
