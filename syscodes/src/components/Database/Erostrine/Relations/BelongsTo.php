@@ -173,8 +173,8 @@ class BelongsTo extends Relation
         }
         
         foreach ($models as $model) {
-            if (isset($dictionary[$model->$foreign])) {
-                $model->setRelation($relation, $dictionary[$model->$foreign]);
+            if (isset($dictionary[$model->{$foreign}])) {
+                $model->setRelation($relation, $dictionary[$model->{$foreign}]);
             }
         }
         
