@@ -449,7 +449,7 @@ class Grammar extends BaseGrammar
      */
     protected function whereNotNull(Builder $builder, $where): string
     {
-        return $this->wrap($where['column']).' not is null';
+        return $this->wrap($where['column']).' is not null';
     }
 
     /**
