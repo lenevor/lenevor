@@ -22,6 +22,10 @@
 
 namespace Syscodes\Components\Database\Erostrine\Relations;
 
+use Syscodes\Components\Database\Erostrine\Model;
+use Syscodes\Components\Database\Erostrine\Builder;
+use Syscodes\Components\Database\Erostrine\Collection;
+
 /**
  * Relation belongToMany given on the parent model.
  * 
@@ -29,5 +33,50 @@ namespace Syscodes\Components\Database\Erostrine\Relations;
  */
 class BelongsToMany extends Relation
 {
-    
+    /**
+     * The intermediate table for the relation.
+     * 
+     * @var string $table
+     */
+    protected $table;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getResults()
+    {
+
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addConstraints(): void
+    {
+
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addEagerConstraints(array $models): void
+    {
+
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function initRelation(array $models, $relation): array
+    {
+        return $models;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function match(array $models, Collection $results, $relation): array
+    {
+        return $models;
+    }
 }
