@@ -146,7 +146,7 @@ class BelongsTo extends Relation
         return array_values(array_unique($keys));
     }
 
-     /**
+    /**
      * {@inheritdoc}
      */
     public function initRelation(array $models, $relation): array
