@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Database\Erostrine\Relations;
 
+use Syscodes\Components\Support\Str;
 use Syscodes\Components\Database\Erostrine\Model;
 use Syscodes\Components\Database\Erostrine\Builder;
 use Syscodes\Components\Database\Erostrine\Collection;
@@ -115,7 +116,115 @@ class BelongsToMany extends Relation
      */
     public function getResults()
     {
+        return $this->get();
+    }
+    
+    /**
+     * Get all of the model results.
+     * 
+     * @param  array  $columns
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Collection
+     */
+    public function get($columns = ['*'])
+    {
+        $builder = $this->query->applyScopes();
 
+        $columns = $builder->getQuery()->columns ? array() : $columns;
+
+        $models = $builder->addSelect(
+            $this->getSelectColumns($columns)
+        )->getModels();
+        
+        $this->hydratePivotRelation($models);
+        
+        if (count($models) > 0) {
+            $models = $builder->eagerLoadRelations($models);
+        }
+        
+        return $this->related->newCollection($models);
+    }
+    
+    /**
+     * Set the select clause for the relation query.
+     * 
+     * @param  array  $columns
+     * 
+     * @return array
+     */
+    protected function getSelectColumns(array $columns = array('*')): array
+    {
+        if ($columns == ['*']) {
+            $columns = [$this->related->getTable().'.*'];
+        }
+        
+        return array_merge($columns, $this->getAliasedPivotColumns());
+    }
+    
+    /**
+     * Get the pivot columns for the relation.
+     * 
+     * @return array
+     */
+    protected function getAliasedPivotColumns()
+    {
+        $defaults = [$this->foreignKey, $this->ownerKey];
+        
+        return collect(array_merge($defaults, $this->pivotColumns))->map(function ($column) {
+            return $this->qualifyPivotColumn($column).' as pivot_'.$column;
+        })->unique()->all();
+    }
+    
+    /**
+     * Hydrate the pivot table relationship on the models.
+     * 
+     * @param  array  $models
+     * 
+     * @return void
+     */
+    protected function hydratePivotRelation(array $models): void
+    {
+        foreach ($models as $model) {
+            $model->setRelation($this->accessor, $this->newExistingPivot(
+                $this->migratePivotAttributes($model)
+            ));
+        }
+    }
+    
+    /**
+     * Get the pivot attributes from a model.
+     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $model
+     * 
+     * @return array
+     */
+    protected function migratePivotAttributes(Model $model): array
+    {
+        $values = [];
+        
+        foreach ($model->getAttributes() as $key => $value) {
+            if (Str::startsWith($key, 'pivot_')) {
+                $values[substr($key, 6)] = $value;
+                
+                unset($model->$key);
+            }
+        }
+        
+        return $values;
+    }
+
+    /**
+     * Specify the custom Pivot Model to use for the relationship.
+     * 
+     * @param  string  $classname
+     * 
+     * @return self
+     */
+    public function using($classname): self
+    {
+        $this->using = $classname;
+
+        return $this;
     }
 
     /**
@@ -148,5 +257,19 @@ class BelongsToMany extends Relation
     public function match(array $models, Collection $results, $relation): array
     {
         return $models;
+    }
+    
+    /**
+     * Qualify the given column name by the pivot table.
+     * 
+     * @param  string  $column
+     * 
+     * @return string
+     */
+    public function qualifyPivotColumn($column)
+    {
+        return Str::contains($column, '.')
+                    ? $column
+                    : $this->table.'.'.$column;
     }
 }
