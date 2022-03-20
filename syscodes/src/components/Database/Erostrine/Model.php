@@ -27,6 +27,7 @@ use LogicException;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Support\Traits\ForwardsCalls;
+use Syscodes\Components\Database\Erostrine\Relations\Pivot;
 use Syscodes\Components\Database\ConnectionResolverInterface;
 use Syscodes\Components\Database\Erostrine\Concerns\HasEvents;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
@@ -687,6 +688,23 @@ class Model implements Arrayable, ArrayAccess
 	{
 		return new Collection($models);
 	}
+	
+	/**
+	 * Create a new pivot model instance.
+	 * 
+	 * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
+	 * @param  array  $attributes
+	 * @param  string  $table
+	 * @param  bool  $exists
+	 * @param  string|null  $using
+	 * 
+	 * @return \Syscodes\Components\Database\Eloquent\Relations\Pivot
+	 */
+	public function newPivot(self $parent, array $attributes, $table, $exists, $using = null)
+	{
+		return $using ? $using::fromRawAttributes($parent, $attributes, $table, $exists)
+			          : Pivot::fromAttributes($parent, $attributes, $table, $exists);
+    }
 
 	/**
 	 * Get the table associated with the model.
