@@ -26,6 +26,7 @@ use Syscodes\Components\Support\Str;
 use Syscodes\Components\Database\Erostrine\Model;
 use Syscodes\Components\Database\Erostrine\Builder;
 use Syscodes\Components\Database\Erostrine\Collection;
+use Syscodes\Components\Database\Erostrine\Relations\Concerns\InteractsWithPivotTable;
 
 /**
  * Relation belongToMany given on the parent model.
@@ -34,19 +35,21 @@ use Syscodes\Components\Database\Erostrine\Collection;
  */
 class BelongsToMany extends Relation
 {
+    use InteractsWithPivotTable;
+
     /**
      * The foreign key of the parent model.
      * 
      * @var string $foreignKey
      */
-    protected $foreignKey;
-
+    protected $foreignPivotKey;
+    
     /**
-     * The associated key of the relation.
+     * The key name of the parent model.
      * 
-     * @var string $ownerKey
+     * @var string $parentKey
      */
-    protected $ownerKey;
+    protected $parentKey;
     
     /**
      * The pivot table columns to retrieve.
@@ -56,11 +59,32 @@ class BelongsToMany extends Relation
     protected $pivotColumns = [];
     
     /**
-     * Any pivot table restrictions.
+     * Any pivot table restrictions for where clauses.
      * 
      * @var array $pivotWheres
      */
     protected $pivotWheres = [];
+
+    /**
+     * Any pivot table restrictions for whereIn clauses.
+     * 
+     * @var array $pivotWhereIns
+     */
+    protected $pivotWhereIns = [];
+    
+    /**
+     * The key name of the related model.
+     * 
+     * @var string $relatedKey
+     */
+    protected $relatedKey;
+
+    /**
+     * The associated key of the relation.
+     * 
+     * @var string $relatedKey
+     */
+    protected $relatedPivotKey;
 
     /**
      * The "name" of the relationship.
@@ -89,8 +113,10 @@ class BelongsToMany extends Relation
      * @param  \Syscodes\Components\Database\Erostrine\Builder  $query
      * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
      * @param  string  $table
-     * @param  string  $foreignKey
-     * @param  string  $ownerKey
+     * @param  string  $foreignPivotKey
+     * @param  string  $relatedPivotKey
+     * @param  string  $parentKey
+     * @param  string  $relatedKey
      * @param  string|null  $relationName
      * 
      * @return void
@@ -99,14 +125,18 @@ class BelongsToMany extends Relation
         Builder $query, 
         Model $parent, 
         $table, 
-        $foreignKey, 
-        $ownerKey, 
+        $foreignPivotKey, 
+        $relatedPivotKey,
+        $parentKey,
+        $relatedKey,
         $relationName = null
     ) {
-        $this->table = $table;
-        $this->ownerKey = $ownerKey;
-        $this->foreignKey = $foreignKey;
+        $this->parentKey = $parentKey;
+        $this->relatedKey = $relatedKey;
         $this->relationName = $relationName;
+        $this->foreignPivotKey = $foreignPivotKey;
+        $this->relatedPivotKey = $relatedPivotKey;
+        $this->table = $this->resolveTable($table);
         
         parent::__construct($query, $parent);
     }
@@ -168,7 +198,7 @@ class BelongsToMany extends Relation
      */
     protected function getAliasedPivotColumns()
     {
-        $defaults = [$this->foreignKey, $this->ownerKey];
+        $defaults = [$this->foreignKey, $this->relatedKey];
         
         return collect(array_merge($defaults, $this->pivotColumns))->map(function ($column) {
             return $this->qualifyPivotColumn($column).' as pivot_'.$column;
@@ -185,7 +215,7 @@ class BelongsToMany extends Relation
     protected function hydratePivotRelation(array $models): void
     {
         foreach ($models as $model) {
-            $model->setRelation($this->accessor, $this->newExistingPivot(
+            $model->setRelation('pivot', $this->newExistingPivot(
                 $this->migratePivotAttributes($model)
             ));
         }
@@ -232,7 +262,41 @@ class BelongsToMany extends Relation
      */
     public function addConstraints(): void
     {
-
+        $this->setJoin();
+        
+        if (static::$constraints) {
+            $this->setWhereConstraints();
+        }
+    }
+    
+    /**
+     * Set the join clause for the relation query.
+     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Builder|null $query
+     * 
+     * @return self
+     */
+    protected function setJoin($query = null): self
+    {
+        $query = $query ?: $this->getRelationQuery();
+        
+        $query->join($this->table, $this->getQualifiedRelatedKeyName(), '=', $this->getQualifiedRelatedPivotKeyName());
+        
+        return $this;
+    }
+    
+    /**
+     * Set the where clause for the relation query.
+     * 
+     * @return self
+     */
+    protected function setWhereConstraints(): self
+    {
+        $this->getRelationQuery()->where(
+            $this->getQualifiedForeignPivotKeyName(), '=', $this->parent->{$this->parentKey}
+        );
+        
+        return $this;
     }
 
     /**
@@ -240,7 +304,10 @@ class BelongsToMany extends Relation
      */
     public function addEagerConstraints(array $models): void
     {
-
+        $this->getRelationQuery()->whereIn(
+            $this->getQualifiedForeignPivotKeyName(),
+            $this->getKeys($models, $this->parentKey)
+        );
     }
 
     /**
@@ -248,6 +315,10 @@ class BelongsToMany extends Relation
      */
     public function initRelation(array $models, $relation): array
     {
+        foreach ($models as $model) {
+            $model->setRelation($relation, $this->related->newCollection());
+        }
+        
         return $models;
     }
 
@@ -256,9 +327,147 @@ class BelongsToMany extends Relation
      */
     public function match(array $models, Collection $results, $relation): array
     {
+        $dictionary = $this->buildDictionary($results);
+        
+        foreach ($models as $model) {
+            if (isset($dictionary[$key = $model->{$this->parentKey}])) {
+                $model->setRelation(
+                    $relation, $this->related->newCollection($dictionary[$key])
+                );
+            }
+        }
+        
         return $models;
     }
     
+    /**
+     * Build model dictionary keyed by the relation's foreign key.
+     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Collection  $results
+     * 
+     * @return array
+     */
+    protected function buildDictionary(Collection $results): array
+    {
+        $dictionary = [];
+        
+        foreach ($results as $result) {
+            $dictionary[$result->pivot->{$this->foreignPivotKey}][] = $result;
+        }
+        
+        return $dictionary;
+    }
+    
+    /**
+     * Get the foreign key for the relation.
+     * 
+     * @return string
+     */
+    public function getForeignPivotKeyName(): string
+    {
+        return $this->foreignPivotKey;
+    }
+    
+    /**
+     * Get the fully qualified foreign key for the relation.
+     * 
+     * @return string
+     */
+    public function getQualifiedForeignPivotKeyName(): string
+    {
+        return $this->qualifyPivotColumn($this->foreignPivotKey);
+    }
+    
+    /**
+     * Get the "related key" for the relation.
+     * 
+     * @return string
+     */
+    public function getRelatedPivotKeyName(): string
+    {
+        return $this->relatedPivotKey;
+    }
+    
+    /**
+     * Get the fully qualified "related key" for the relation.
+     * 
+     * @return string
+     */
+    public function getQualifiedRelatedPivotKeyName(): string
+    {
+        return $this->qualifyPivotColumn($this->relatedPivotKey);
+    }
+    
+    /**
+     * Get the parent key for the relationship.
+     * 
+     * @return string
+     */
+    public function getParentKeyName(): string
+    {
+        return $this->parentKey;
+    }
+    
+    /**
+     * Get the fully qualified parent key name for the relation.
+     * 
+     * @return string
+     */
+    public function getQualifiedParentKeyName(): string
+    {
+        return $this->parent->qualifyColumn($this->parentKey);
+    }
+    
+    /**
+     * Get the related key for the relationship.
+     * 
+     * @return string
+     */
+    public function getRelatedKeyName(): string
+    {
+        return $this->relatedKey;
+    }
+    
+    /**
+     * Get the fully qualified related key name for the relation.
+     * 
+     * @return string
+     */
+    public function getQualifiedRelatedKeyName(): string
+    {
+        return $this->related->qualifyColumn($this->relatedKey);
+    }
+    
+    /**
+     * Get the intermediate table for the relationship.
+     * 
+     * @return string
+     */
+    public function getTable(): string
+    {
+        return $this->table;
+    }
+    
+    /**
+     * Get the relationship name for the relationship.
+     * 
+     * @return string
+     */
+    public function getRelationName(): string
+    {
+        return $this->relationName;
+    }
+
+    /**
+     * Get the pivot columns for this relationship.
+     *
+     * @return array
+     */
+    public function getPivotColumns(): array
+    {
+        return $this->pivotColumns;
+    }
+
     /**
      * Qualify the given column name by the pivot table.
      * 
@@ -266,7 +475,7 @@ class BelongsToMany extends Relation
      * 
      * @return string
      */
-    public function qualifyPivotColumn($column)
+    public function qualifyPivotColumn($column): string
     {
         return Str::contains($column, '.')
                     ? $column
