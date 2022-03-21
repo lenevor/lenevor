@@ -1323,38 +1323,20 @@ class Builder
     }
 
     /**
-     * Pluck a single column's value from the first result of a query.
-     * 
-     * @param  string  $column
-     * 
-     * @return mixed
-     */
-    public function pluck($column)
-    {
-        $result = $this->first([$column]);
-
-        if ( ! is_null($result)) {
-            $result = (array) $result;
-
-            return (count($result) > 0) ? headItem($result) : null;
-        }
-    }
-
-    /**
      * Get an array with the values of a given column.
      * 
      * @param  string  $column
      * @param  string|null  $key
      * 
-     * @return array
+     * @return \Syscodes\Components\Collections\Collection
      */
-    public function lists($column, $key = null): array
+    public function pluck($column, $key = null)
     {
         $columns = is_null($key) ? [$column] : [$column, $key];
 
         $results = $this->get($columns);
 
-        return Arr::pluck($results, $column, $key);
+        return $results->pluck($column, $key);
     }
 
     /**
