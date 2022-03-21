@@ -37,7 +37,7 @@ use Syscodes\Components\Collections\Traits\Enumerates;
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class Collection implements ArrayAccess, IteratorAggregate, Countable
+class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
 {
     use Enumerates;
 
@@ -433,6 +433,28 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
         $items = array_map($callback, $this->items, $keys);
 
         return new static(array_combine($keys, $items));
+    }
+
+    /**
+     * Run an associative map over each of the items.
+     * 
+     * @param  \callable  $callback
+     * 
+     * @return static
+     */
+    public function mapKeys(callable $callback)
+    {
+        $result = [];
+
+        foreach ($this->items as $key => $value) {
+            $assoc = $callback($value, $key);
+
+            foreach ($assoc as $mapKey => $mapValue) {
+                $result[$mapKey] = $mapValue;
+            }
+        }
+
+        return new static($result);
     }
 
     /**
@@ -851,6 +873,18 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     public function values()
     {
         return new static(array_values($this->items));
+    }
+    
+    /**
+     * Get the collection of items as a plain array.
+     * 
+     * @return array
+     */
+    public function toArray()
+    {
+        return array_map(function ($value) {
+            return $value instanceof Arrayable ? $value->toArray() : $value;
+        }, $this->items);
     }
 
     /**
