@@ -142,6 +142,32 @@ class BelongsToMany extends Relation
     }
 
     /**
+     * Resolve the table name from the given string.
+     * 
+     * @param  string  $table
+     * 
+     * @return string
+     */
+    protected function resolveTable($table): string
+    {
+        if ( ! Str::contains($table, '\\') || ! class_exists($table)) {
+            return $table;
+        }
+
+        $model = new $table;
+
+        if ( ! $model instanceof Model) {
+            return $table;
+        }
+
+        if ($model instanceof Pivot) {
+            $this->using($table);
+        }
+
+        return $model->getTable();
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getResults()
@@ -356,6 +382,109 @@ class BelongsToMany extends Relation
         }
         
         return $dictionary;
+    }
+
+    /**
+     * Set a where clause for a pivot table column.
+     * 
+     * @param  string  $column
+     * @param  mixed  $operator
+     * @param  mixed  $value
+     * @param  mixed  $boolean
+     * 
+     * @return self
+     */
+    public function wherePivot($column, $operator = null, $value = null, $boolean = 'and'): self
+    {
+        $this->pivotWheres = func_get_args();
+
+        return $this->where($this->qualifyPivotColumn($column), $operator, $value, $boolean);
+    }
+
+    /**
+     * Set a "where between" clause for a pivot table column.
+     * 
+     * @param  string  $column
+     * @param  array  $values
+     * @param  string  $boolean
+     * @param  bool  $negative
+     * 
+     * @return self
+     */
+    public function wherePivotBetween($column, array $values, $boolean = 'and', $negative = false): self
+    {
+        return $this->whereBetween($this->qualifyPivotColumn($column), $values, $boolean, $negative);
+    }
+
+    /**
+     * Set a "or where between" clause for a pivot table column.
+     * 
+     * @param  string  $column
+     * @param  array  $values
+     * 
+     * @return self
+     */
+    public function orWherePivotBetween($column, array $values): self
+    {
+        return $this->wherePivotBetween($column, $values, 'or');
+    }
+
+    /**
+     * Set a "where pivot not between" clause for a pivot table column.
+     * 
+     * @param  string  $column
+     * @param  array  $values
+     * @param  string  $boolean
+     * 
+     * @return self
+     */
+    public function wherePivotNotBetween($column, $values = [], $boolean = 'and'): self
+    {
+        return $this->wherePivotBetween($column, $values, $boolean, true);
+    }
+
+    /**
+     * Set a "or where not between" clause for a pivot table column.
+     * 
+     * @param  string  $column
+     * @param  array  $values
+     * 
+     * @return self
+     */
+    public function orWherePivotNotBetween($column, array $values): self
+    {
+        return $this->wherePivotBetween($column, $values, 'or', true);
+    }
+
+    /**
+     * Set a "where in" clause for a pivot table column.
+     * 
+     * @param  string  $column
+     * @param  mixed  $values
+     * @param  string boolean
+     * @param  bool  $negative
+     * 
+     * @return self
+     */
+    public function wherePivotIn($column, array $values, $boolean = 'and', $negative = false): self
+    {
+        $this->pivotWhereIns = func_get_args();
+
+        return $this->whereIn($this->qualifyPivotColumn($column), $values, $boolean, $negative);
+    }
+
+    /**
+     * Set a "or where" clause for a pivot table column.
+     * 
+     * @param  string  $column
+     * @param  mixed  $operator
+     * @param  mixed  $value
+     * 
+     * @return self
+     */
+    public function orWherePivot($column, $operator = null, $value = null): self
+    {
+        return $this->wherePivot($column, $operator, $value, 'or');
     }
     
     /**
