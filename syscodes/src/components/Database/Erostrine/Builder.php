@@ -194,6 +194,50 @@ class Builder
     }
     
     /**
+     * Add a basic where clause to the query, and return the first result.
+     * 
+     * @param  \Closure|string|array|\Syscodes\Components\Database\Query\Expression  $column
+     * @param  mixed  $operator
+     * @param  mixed  $value
+     * @param  string  $boolean
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model|static|null
+     */
+    public function firstWhere($column, $operator = null, $value = null, $boolean = 'and'): self
+    {
+        return $this->where(...func_get_args())->first();
+    }
+    
+    /**
+     * Add a basic "where not" clause to the query.
+     * 
+     * @param  \Closure|string|array|\Syscodes\Components\Database\Query\Expression  $column
+     * @param  mixed  $operator
+     * @param  mixed  $value
+     * @param  string  $boolean
+     * 
+     * @return self
+     */
+    public function whereNot($column, $operator = null, $value = null, $boolean = 'and'): self
+    {
+        return $this->where($column, $operator, $value, $boolean.' not');
+    }
+    
+    /**
+     * Add an "or where not" clause to the query.
+     * 
+     * @param  \Closure|array|string|\Syscodes\Components\Database\Query\Expression  $column
+     * @param  mixed  $operator
+     * @param  mixed  $value
+     * 
+     * @return self
+     */
+    public function orWhereNot($column, $operator = null, $value = null): self
+    {
+        return $this->whereNot($column, $operator, $value, 'or');
+    }
+    
+    /**
      * Find a model by its primary key or throw an exception.
      * 
      * @param  mixed  $id
@@ -224,6 +268,74 @@ class Builder
         }
         
         return $model;
+    }
+    
+    /**
+     * Find a model by its primary key or return fresh model instance.
+     * 
+     * @param  mixed  $id
+     * @param  array  $columns
+     * 
+     * @return \Syscodes\Components\Database\Eloquent\Model|static
+     */
+    public function findOrNew($id, $columns = ['*'])
+    {
+        if ( ! is_null($model = $this->find($id, $columns))) {
+            return $model;
+        }
+        
+        return $this->newModelInstance();
+    }
+    
+    /**
+     * Get the first record matching the attributes or instantiate it.
+     * 
+     * @param  array  $attributes
+     * @param  array  $values
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model|static
+     */
+    public function firstOrNew(array $attributes = [], array $values = [])
+    {
+        if ( ! is_null($instance = $this->where($attributes)->first())) {
+            return $instance;
+        }
+        
+        return $this->newModelInstance(array_merge($attributes, $values));
+    }
+    
+    /**
+     * Get the first record matching the attributes or create it.
+     * 
+     * @param  array  $attributes
+     * @param  array  $values
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model|static
+     */
+    public function firstOrCreate(array $attributes = [], array $values = [])
+    {
+        if ( ! is_null($instance = $this->where($attributes)->first())) {
+            return $instance;
+        }
+        
+        return take($this->newModelInstance(array_merge($attributes, $values)), function ($instance) {
+            $instance->save();
+        });
+    }
+    
+    /**
+     * Create or update a record matching the attributes, and fill it with values.
+     * 
+     * @param  array  $attributes
+     * @param  array  $values
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model|static
+     */
+    public function updateOrCreate(array $attributes, array $values = [])
+    {
+        return take($this->firstOrNew($attributes), function ($instance) use ($values) {
+            $instance->fill($values)->save();
+        });
     }
 
     /**
@@ -292,6 +404,20 @@ class Builder
         return $instance->newCollection(array_map(function ($item) use ($instance) {
             return $instance->newFromBuilder($item);
         }, $items));
+    }
+    
+    /**
+     * Save a new model and return the instance.
+     *
+     * @param  array  $attributes
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model|$this
+     */
+    public function create(array $attributes = [])
+    {
+        return take($this->newModelInstance($attributes), function ($instance) {
+            $instance->save();
+        });
     }
 
     /**
