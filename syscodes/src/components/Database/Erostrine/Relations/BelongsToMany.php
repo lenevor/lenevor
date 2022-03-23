@@ -22,10 +22,14 @@
 
 namespace Syscodes\Components\Database\Erostrine\Relations;
 
+use Closure;
+use InvalidArgumentException;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Database\Erostrine\Model;
 use Syscodes\Components\Database\Erostrine\Builder;
+use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Database\Erostrine\Collection;
+use Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException;
 use Syscodes\Components\Database\Erostrine\Relations\Concerns\InteractsWithPivotTable;
 
 /**
@@ -59,6 +63,13 @@ class BelongsToMany extends Relation
     protected $pivotColumns = [];
     
     /**
+     * The default values for the pivot columns.
+     * 
+     * @var array $pivotValues
+     */
+    protected $pivotValues = [];
+    
+    /**
      * Any pivot table restrictions for where clauses.
      * 
      * @var array $pivotWheres
@@ -71,6 +82,13 @@ class BelongsToMany extends Relation
      * @var array $pivotWhereIns
      */
     protected $pivotWhereIns = [];
+    
+    /**
+     * Any pivot table restrictions for whereNull clauses.
+     * 
+     * @var array $pivotWhereNulls
+     */
+    protected $pivotWhereNulls = [];
     
     /**
      * The key name of the related model.
@@ -270,20 +288,6 @@ class BelongsToMany extends Relation
     }
 
     /**
-     * Specify the custom Pivot Model to use for the relationship.
-     * 
-     * @param  string  $classname
-     * 
-     * @return self
-     */
-    public function using($classname): self
-    {
-        $this->using = $classname;
-
-        return $this;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function addConstraints(): void
@@ -396,9 +400,23 @@ class BelongsToMany extends Relation
      */
     public function wherePivot($column, $operator = null, $value = null, $boolean = 'and'): self
     {
-        $this->pivotWheres = func_get_args();
+        $this->pivotWheres[] = func_get_args();
 
         return $this->where($this->qualifyPivotColumn($column), $operator, $value, $boolean);
+    }
+
+    /**
+     * Set a "or where" clause for a pivot table column.
+     * 
+     * @param  string  $column
+     * @param  mixed  $operator
+     * @param  mixed  $value
+     * 
+     * @return self
+     */
+    public function orWherePivot($column, $operator = null, $value = null): self
+    {
+        return $this->wherePivot($column, $operator, $value, 'or');
     }
 
     /**
@@ -438,7 +456,7 @@ class BelongsToMany extends Relation
      * 
      * @return self
      */
-    public function wherePivotNotBetween($column, $values = [], $boolean = 'and'): self
+    public function wherePivotNotBetween($column, array $values, $boolean = 'and'): self
     {
         return $this->wherePivotBetween($column, $values, $boolean, true);
     }
@@ -468,23 +486,367 @@ class BelongsToMany extends Relation
      */
     public function wherePivotIn($column, array $values, $boolean = 'and', $negative = false): self
     {
-        $this->pivotWhereIns = func_get_args();
+        $this->pivotWhereIns[] = func_get_args();
 
         return $this->whereIn($this->qualifyPivotColumn($column), $values, $boolean, $negative);
     }
 
     /**
-     * Set a "or where" clause for a pivot table column.
+     * Set an "or where in" clause for a pivot table column.
      * 
      * @param  string  $column
-     * @param  mixed  $operator
-     * @param  mixed  $value
+     * @param  mixed  $values
      * 
      * @return self
      */
-    public function orWherePivot($column, $operator = null, $value = null): self
+    public function orWherePivotIn($column, array $values): self
     {
-        return $this->wherePivot($column, $operator, $value, 'or');
+        return $this->wherePivotIn($column, $values, 'or');
+    }
+
+    /**
+     * Set a "where not in" clause for a pivot table column.
+     * 
+     * @param  string  $column
+     * @param  mixed  $values
+     * @param  string  $boolean
+     * 
+     * @return self
+     */
+    public function wherePivotNotIn($column, $values, $boolean = 'and'): self
+    {
+        return $this->wherePivotIn($column, $values, $boolean, true);
+    }
+
+    /**
+     * Set an "or where not in" clause for a pivot table column.
+     * 
+     * @param  string  $column
+     * @param  mixed  $values
+     * 
+     * @return self
+     */
+    public function orWherePivotNotIn($column, $values): self
+    {
+        return $this->wherePivotNotIn($column, $values, 'or');
+    }
+
+    /**
+     * Set a "where null" clause for a pivot table column.
+     * 
+     * @param  string  $column
+     * @param  string  $boolean
+     * @param  bool  $negative
+     * 
+     * @return self
+     */
+    public function wherePivotNull($column, $boolean = 'and', $negative =  false): self
+    {
+        $this->pivotWhereNulls[] = func_get_args();
+
+        return $this->whereNull($this->qualifyPivotColumn($column), $boolean, $negative);
+    }
+
+    /**
+     * Set a "where not null" clause for a pivot table column.
+     * 
+     * @param  string  $column
+     * @param  string  $boolean
+     * 
+     * @return self
+     */
+    public function wherePivotNotNull($column, $boolean = 'and'): self
+    {
+        return $this->wherePivotNull($column, $boolean, true);
+    }
+
+    /**
+     * Set a "or where null" clause for a pivot table column.
+     * 
+     * @param  string  $column
+     * @param  bool  $negative
+     * 
+     * @return self
+     */
+    public function orWherePivotNull($column, $negative = false): self
+    {
+        return $this->wherePivotNull($column, 'or', $negative);
+    }
+
+    /**
+     * Set a "or where not null" clause for a pivot table column.
+     * 
+     * @param  string  $column
+     * 
+     * @return self
+     */
+    public function orWherePivotNotNull($column): self
+    {
+        return $this->orWherePivotNull($column, true);
+    }
+
+    /**
+     * Add an "order by" clause for a pivot table column.
+     * 
+     * @param  string  $column
+     * @param  string  $direction
+     * 
+     * @return self
+     */
+    public function orderByPivot($column, $direction = 'asc'): self
+    {
+        return $this->orderBy($column, $direction);
+    }
+
+    /**
+     * Find a related model by its primary key or return a new instance of the related model.
+     *
+     * @param  mixed  $id
+     * @param  array  $columns
+     * @return \Illuminate\Support\Collection|\Illuminate\Database\Eloquent\Model
+     */
+    public function findOrNew($id, $columns = ['*'])
+    {
+        if (is_null($instance = $this->find($id, $columns))) {
+            $instance = $this->related->newInstance();
+        }
+
+        return $instance;
+    }
+
+    /**
+     * Get the first related model record matching the attributes or instantiate it.
+     *
+     * @param  array  $attributes
+     * @param  array  $values
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function firstOrNew(array $attributes = [], array $values = [])
+    {
+        if (is_null($instance = $this->related->where($attributes)->first())) {
+            $instance = $this->related->newInstance(array_merge($attributes, $values));
+        }
+
+        return $instance;
+    }
+
+    /**
+     * Get the first related record matching the attributes or create it.
+     *
+     * @param  array  $attributes
+     * @param  array  $values
+     * @param  array  $joining
+     * @param  bool  $touch
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function firstOrCreate(array $attributes = [], array $values = [], array $joining = [], $touch = true)
+    {
+        if (is_null($instance = $this->related->where($attributes)->first())) {
+            $instance = $this->create(array_merge($attributes, $values), $joining, $touch);
+        }
+
+        return $instance;
+    }
+
+    /**
+     * Create or update a related record matching the attributes, and fill it with values.
+     *
+     * @param  array  $attributes
+     * @param  array  $values
+     * @param  array  $joining
+     * @param  bool  $touch
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function updateOrCreate(array $attributes, array $values = [], array $joining = [], $touch = true)
+    {
+        if (is_null($instance = $this->related->where($attributes)->first())) {
+            return $this->create(array_merge($attributes, $values), $joining, $touch);
+        }
+
+        $instance->fill($values);
+
+        $instance->save(['touch' => false]);
+
+        return $instance;
+    }
+    
+    /**
+     * Find a related model by its primary key.
+     * 
+     * @param  mixed  $id
+     * @param  array  $columns
+     * 
+     * @return \Syscodes\components\Database\Erostrine\Model|\Syscodes\components\Database\Erostrine\Collection|null
+     */
+    public function find($id, $columns = ['*'])
+    {
+        if ( ! $id instanceof Model && (is_array($id) || $id instanceof Arrayable)) {
+            return $this->findMany($id, $columns);
+        }
+        
+        return $this->where(
+            $this->getRelated()->getQualifiedKeyName(), '=', $this->parseWithIds($id)
+        )->first($columns);
+    }
+    
+    /**
+     * Find multiple related models by their primary keys.
+     * 
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|array  $ids
+     * @param  array  $columns
+     * 
+     * @return \Syscodes\Components\Database\Eloquent\Collection
+     */
+    public function findMany($ids, $columns = ['*'])
+    {
+        $ids = $ids instanceof Arrayable ? $ids->toArray() : $ids;
+        
+        if (empty($ids)) {
+            return $this->getRelated()->newCollection();
+        }
+        
+        return $this->whereIn(
+            $this->getRelated()->getQualifiedKeyName(), $this->parseWithIds($ids)
+        )->get($columns);
+    }
+    
+    /**
+     * Find a related model by its primary key or throw an exception.
+     * 
+     * @param  mixed  $id
+     * @param  array  $columns
+     * 
+     * @return \Syscodes\Database\Erostrine\Model|\Syscodes\Database\Erostrine\Collection
+     * 
+     * @throws \Syscodes\Database\Erostrine\ModelNotFoundException<\Syscodes\Database\Erostrine\Model>
+     */
+    public function findOrFail($id, $columns = ['*'])
+    {
+        $result = $this->find($id, $columns);
+        
+        $id = $id instanceof Arrayable ? $id->toArray() : $id;
+        
+        if (is_array($id)) {
+            if (count($result) === count(array_unique($id))) {
+                return $result;
+            }
+        } elseif (! is_null($result)) {
+            return $result;
+        }
+        
+        throw (new ModelNotFoundException)->setModel(get_class($this->related));
+    }
+    
+    /**
+     * Add a basic where clause to the query, and return the first result.
+     * 
+     * @param  \Closure|string|array  $column
+     * @param  mixed  $operator
+     * @param  mixed  $value
+     * @param  string  $boolean
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model|static
+     */
+    public function firstWhere($column, $operator = null, $value = null, $boolean = 'and')
+    {
+        return $this->where($column, $operator, $value, $boolean)->first();
+    }
+    
+    /**
+     * Execute the query and get the first result.
+     * 
+     * @param  array  $columns
+     * 
+     * @return mixed
+     */
+    public function first($columns = ['*'])
+    {
+        $results = $this->limit(1)->get($columns);
+        
+        return count($results) > 0 ? $results->first() : null;
+    }
+
+    /**
+     * Execute the query and get the first result or throw an exception.
+     * 
+     * @param  array  $columns
+     * @return \Syscodes\Components\Database\Erostrine\Model|static
+     * 
+     * @throws \Syscodes\Components\Database\Erostrine\ModelNotFoundException<\Syscodes\Components\Database\Erostrine\Model>
+     */
+    public function firstOrFail($columns = ['*'])
+    {
+        if ( ! is_null($model = $this->first($columns))) {
+            return $model;
+        }
+        
+        throw (new ModelNotFoundException)->setModel(get_class($this->related));
+    }
+    
+    /**
+     * Execute the query and get the first result or call a callback.
+     * 
+     * @param  \Closure|array  $columns
+     * @param  \Closure|null  $callback
+     *
+     * @return \Syscodes\Components\Database\Eloquent\Model|static|mixed
+     */
+    public function firstOr($columns = ['*'], Closure $callback = null)
+    {
+        if ($columns instanceof Closure) {
+            $callback = $columns;
+            
+            $columns = ['*'];
+        }
+        
+        if ( ! is_null($model = $this->first($columns))) {
+            return $model;
+        }
+        
+        return $callback();
+    }
+
+    /**
+     * Set a where clause for a pivot table column.
+     * 
+     * @param  string|array  $column
+     * @param  mixed  $value
+     * 
+     * @return self
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public function withPivotValue($column, $value = null): self
+    {
+        if (is_array($column)) {
+            foreach ($column as $name => $value) {
+                $this->withPivoteValue($name, $value);
+            }
+
+            return $this;
+        }
+
+        if (is_null($value)) {
+            throw new InvalidArgumentException('The provided value may not be null');
+        }
+
+        $this->pivotValues[] = compact('column', 'value');
+
+        return $this->wherePivot($column, '=', $value);
+    }
+
+    /**
+     * Specify the custom Pivot Model to use for the relationship.
+     * 
+     * @param  string  $classname
+     * 
+     * @return self
+     */
+    public function using($classname): self
+    {
+        $this->using = $classname;
+
+        return $this;
     }
     
     /**
