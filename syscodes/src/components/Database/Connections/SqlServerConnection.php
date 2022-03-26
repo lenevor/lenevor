@@ -47,7 +47,7 @@ class SqlServerConnection extends Connection
      * 
      * @return Syscodes\Components\Database\Query\SqlServerProcessor
      */
-    public function getDefaultPost()
+    public function getDefaultPostProcessor()
     {
         return new QueryProcessor;
     }
