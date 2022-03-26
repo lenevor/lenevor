@@ -47,7 +47,7 @@ class PostgresConnection extends Connection
      * 
      * @return Syscodes\Components\Database\Query\Post Processor
      */
-    public function getDefaultPost()
+    public function getDefaultPostProcessor()
     {
         return new QueryProcessor;
     }
