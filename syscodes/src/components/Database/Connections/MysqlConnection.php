@@ -22,7 +22,9 @@
 
 namespace Syscodes\Components\Database\Connections;
 
+use Syscodes\Components\Database\Schema\Builders\MySqlBuilder;
 use Syscodes\Components\Database\Query\Grammars\MySqlGrammar as QueryGrammar;
+use Syscodes\Components\Database\Query\Grammars\MySqlGrammar as SchemaGrammar;
 use Syscodes\Components\Database\Query\Processors\MySqlProcessor as QueryProcessor;
 
 /**
@@ -47,8 +49,32 @@ class MySqlConnection extends Connection
      * 
      * @return Syscodes\Components\Database\Query\Processors\MySqlProcessor
      */
-    public function getDefaultPost()
+    public function getDefaultPostProcessor()
     {
         return new QueryProcessor;
+    }
+
+    /**
+     * Get a schema builder instance for the connection.
+     *
+     * @return \Syscodes\Components\Database\Schema\Builders\MySqlBuilder
+     */
+    public function getSchemaBuilder()
+    {
+        if (is_null($this->schemaGrammar)) {
+            $this->useDefaultSchemaGrammar();
+        }
+
+        return new MySqlBuilder($this);
+    }
+
+    /**
+     * Get the default schema grammar instance.
+     *
+     * @return \Syscodes\Components\Database\Schema\Grammars\MySqlGrammar
+     */
+    protected function getDefaultSchemaGrammar()
+    {
+        return $this->withTablePrefix(new SchemaGrammar);
     }
 }
