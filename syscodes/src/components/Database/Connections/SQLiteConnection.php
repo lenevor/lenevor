@@ -47,7 +47,7 @@ class SQLiteConnection extends Connection
      * 
      * @return Syscodes\Components\Database\Query\SQLiteProcessor
      */
-    public function getDefaultPost()
+    public function getDefaultPostProcessor()
     {
         return new QueryProcessor;
     }
