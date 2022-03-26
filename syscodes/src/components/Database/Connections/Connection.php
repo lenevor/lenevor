@@ -28,7 +28,6 @@ use DateTime;
 use Exception;
 use PDOStatement;
 use LogicException;
-use Syscodes\Components\Support\Str;
 use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Contracts\Events\Dispatcher;
@@ -43,6 +42,8 @@ use Syscodes\Components\Database\Concerns\ManagesTransactions;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
 use Syscodes\Components\Database\Concerns\DetectLostConnections;
 use Syscodes\Components\Database\Query\Grammars\Grammar as QueryGrammar;
+use Syscodes\Components\Database\Schema\Builders\Builder as SchemaBuilder;
+use Syscodes\Components\Database\Schema\Grammars\Grammar as SchemaGrammar;
 
 /**
  * Creates a database connection using PDO.
@@ -137,6 +138,13 @@ class Connection implements ConnectionInterface
      * @var callable $reconnector
      */
     protected $reconnector;
+    
+    /**
+     * The schema grammar implementation.
+     * 
+     * @var \Syscodes\Components\Database\Schema\Grammars\Grammar $schemaGrammar
+     */
+    protected $schemaGrammar;
 
     /**
      * The connection resolvers.
@@ -860,7 +868,7 @@ class Connection implements ConnectionInterface
      */
     public function useDefaultPostProcessor(): void
     {
-        $this->postProcessor = $this->getDefaultProcessor();
+        $this->postProcessor = $this->getDefaultPostProcessor();
     }
 
     /**
@@ -868,10 +876,65 @@ class Connection implements ConnectionInterface
      * 
      * @return \Syscodes\Components\Database\Query\Processor
      */
-    protected function getDefaultProcessor()
+    protected function getDefaultPostProcessor()
     {
         return new Processor;
     }
+
+    /**
+     * Get a schema builder instance for the connection.
+     * 
+     * @return \Syscodes\Components\Database\Schema\Builders\Builder
+     */
+    public function getSchemaBuilder()
+    {
+        if (is_null($this->schemaGrammar)) {
+            $this->useDefaultSchemaGrammar();
+        }
+
+        return new SchemaBuilder($this);
+    }
+    
+    /**
+     * Get the query post processor used by the connection.
+     * 
+     * @return \Syscodes\Components\Database\Schema\Grammars\Grammar
+     */
+    public function getSchemaGrammar()
+    {
+        return $this->schemaGrammar;
+    }
+    
+    /**
+     * Set the schema grammar used by the connection.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Grammars\Grammar  $grammar
+     * 
+     * @return $this
+     */
+    public function setSchemaGrammar(SchemaGrammar $grammar)
+    {
+        $this->schemaGrammar = $grammar;
+        
+        return $this;
+    }
+    
+    /**
+     * Set the schema grammar to the default implementation.
+     * 
+     * @return void
+     */
+    public function useDefaultSchemaGrammar(): void
+    {
+        $this->schemaGrammar = $this->getDefaultSchemaGrammar();
+    }
+    
+    /**
+     * Get the default schema grammar instance.
+     * 
+     * @return \Syscodes\Components\Database\Schema\Grammars\Grammar
+     */
+    protected function getDefaultSchemaGrammar() {}
 
     /**
      * Get the name of the connected database.
