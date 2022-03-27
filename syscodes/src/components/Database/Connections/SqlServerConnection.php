@@ -22,7 +22,9 @@
 
 namespace Syscodes\Components\Database\Connections;
 
+use Syscodes\Components\Database\Schema\Builders\SqlServerBuilder;
 use Syscodes\Components\Database\Query\Grammars\SqlServerGrammar as QueryGrammar;
+use Syscodes\Components\Database\Schema\Grammars\SqlServerGrammar as SchemaGrammar;
 use Syscodes\Components\Database\Query\Processors\SqlServerProcessor as QueryProcessor;
 
 /**
@@ -50,5 +52,29 @@ class SqlServerConnection extends Connection
     public function getDefaultPostProcessor()
     {
         return new QueryProcessor;
+    }
+
+    /**
+     * Get a schema builder instance for the connection.
+     *
+     * @return \Syscodes\Components\Database\Schema\Builders\SqlServerBuilder
+     */
+    public function getSchemaBuilder()
+    {
+        if (is_null($this->schemaGrammar)) {
+            $this->useDefaultSchemaGrammar();
+        }
+
+        return new SqlServerBuilder($this);
+    }
+
+    /**
+     * Get the default schema grammar instance.
+     *
+     * @return \Syscodes\Components\Database\Schema\Grammars\SqlServerGrammar
+     */
+    protected function getDefaultSchemaGrammar()
+    {
+        return $this->withTablePrefix(new SchemaGrammar);
     }
 }
