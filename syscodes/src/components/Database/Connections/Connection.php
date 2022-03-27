@@ -29,6 +29,7 @@ use Exception;
 use PDOStatement;
 use LogicException;
 use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Database\Grammar;
 use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\Database\Events\QueryExecuted;
@@ -1067,7 +1068,7 @@ class Connection implements ConnectionInterface
      * 
      * @return \Syscodes\Components\Database\Grammar
      */
-    public function withTablePrefix(QueryGrammar $grammar)
+    public function withTablePrefix(Grammar $grammar)
     {
         $grammar->setTablePrefix($this->tablePrefix);
 
