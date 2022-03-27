@@ -22,7 +22,9 @@
 
 namespace Syscodes\Components\Database\Connections;
 
+use Syscodes\Components\Database\Schema\Builders\PostgresBuilder;
 use Syscodes\Components\Database\Query\Grammars\PostgresGrammar as QueryGrammar;
+use Syscodes\Components\Database\Schema\Grammars\PostgresGrammar as SchemaGrammar;
 use Syscodes\Components\Database\Query\Processors\PostgresProcessor as QueryProcessor;
 
 /**
@@ -50,5 +52,29 @@ class PostgresConnection extends Connection
     public function getDefaultPostProcessor()
     {
         return new QueryProcessor;
+    }
+
+    /**
+     * Get a schema builder instance for the connection.
+     *
+     * @return \Syscodes\Components\Database\Schema\Builders\PostgresBuilder
+     */
+    public function getSchemaBuilder()
+    {
+        if (is_null($this->schemaGrammar)) {
+            $this->useDefaultSchemaGrammar();
+        }
+
+        return new PostgresBuilder($this);
+    }
+
+    /**
+     * Get the default schema grammar instance.
+     *
+     * @return \Syscodes\Components\Database\Schema\Grammars\PostgresGrammar
+     */
+    protected function getDefaultSchemaGrammar()
+    {
+        return $this->withTablePrefix(new SchemaGrammar);
     }
 }

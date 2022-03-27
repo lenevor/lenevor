@@ -22,7 +22,9 @@
 
 namespace Syscodes\Components\Database\Connections;
 
+use Syscodes\Components\Database\Schema\Builders\SQLiteBuilder;
 use Syscodes\Components\Database\Query\Grammars\SQLiteGrammar as QueryGrammar;
+use Syscodes\Components\Database\Schema\Grammars\SQLiteGrammar as SchemaGrammar;
 use Syscodes\Components\Database\Query\Processors\SQLiteProcessor as QueryProcessor;
 
 /**
@@ -50,5 +52,29 @@ class SQLiteConnection extends Connection
     public function getDefaultPostProcessor()
     {
         return new QueryProcessor;
+    }
+
+    /**
+     * Get a schema builder instance for the connection.
+     *
+     * @return \Syscodes\Components\Database\Schema\Builders\SQliteBuilder
+     */
+    public function getSchemaBuilder()
+    {
+        if (is_null($this->schemaGrammar)) {
+            $this->useDefaultSchemaGrammar();
+        }
+
+        return new SQLiteBuilder($this);
+    }
+
+    /**
+     * Get the default schema grammar instance.
+     *
+     * @return \Syscodes\Components\Database\Schema\Grammars\SQliteGrammar
+     */
+    protected function getDefaultSchemaGrammar()
+    {
+        return $this->withTablePrefix(new SchemaGrammar);
     }
 }
