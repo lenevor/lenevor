@@ -28,7 +28,7 @@ namespace Syscodes\Components\Database\Schema\Grammars;
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class MysqlGrammar extends Grammar
+class MySqlGrammar extends Grammar
 {
 
 }
