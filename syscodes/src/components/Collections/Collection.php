@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Collections;
 
+use stdClass;
 use Countable;
 use ArrayAccess;
 use Traversable;
@@ -106,6 +107,29 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
     {
         return new static(array_combine($this->all(), $this->getArrayItems($items)));
     }
+    
+    /**
+     * Determine if an item exists in the collection.
+     * 
+     * @param  (callable(TValue, TKey): bool)|TValue|string  $key
+     * @param  mixed  $operator
+     * @param  mixed  $value
+     * 
+     * @return bool
+     */
+    public function contains($key, $operator = null, $value = null): bool
+    {
+        if (func_num_args() === 1) {
+            if ($this->useAsCallable($key)) {
+                $placeholder = new stdClass;
+                
+                return $this->first($key, $placeholder) !== $placeholder;
+            }
+            
+            return in_array($key, $this->items);
+        }
+    }
+
 
     /**
      * Chunk the underlying collection array.
