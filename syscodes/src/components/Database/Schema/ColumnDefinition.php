@@ -25,7 +25,7 @@ namespace Syscodes\Components\Database\Schema;
 /**
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class SchemaPrint
+class ColumnDefinition extends Flowing
 {
-    
+    //
 }

@@ -127,7 +127,7 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      * 
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->{$offset});
     }
@@ -152,7 +152,7 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      * 
      * @return void
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->{$offset} = $value;
     }
@@ -164,7 +164,7 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      * 
      * @return void
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->{$offset});
     }
