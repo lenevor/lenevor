@@ -185,6 +185,138 @@ class Dataprint
     }
     
     /**
+     * Indicate that the table needs to be created.
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    public function create()
+    {
+        return $this->addCommand('create');
+    }
+    
+    /**
+     * Indicate that the table should be dropped.
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    public function drop()
+    {
+        return $this->addCommand('drop');
+    }
+    
+    /**
+     * Indicate that the table should be dropped if it exists.
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    public function dropIfExists()
+    {
+        return $this->addCommand('dropIfExists');
+    }
+    
+    /**
+     * Indicate that the given columns should be dropped.
+     * 
+     * @param  string|array  $columns
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    public function dropColumn($columns)
+    {
+        $columns = is_array($columns) ? $columns : func_get_args();
+        
+        return $this->addCommand('dropColumn', compact('columns'));
+    }
+    
+    /**
+     * Indicate that the given columns should be renamed.
+     * 
+     * @param  string  $from
+     * @param  string  $to
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    public function renameColumn($from, $to)
+    {
+        return $this->addCommand('renameColumn', compact('from', 'to'));
+    }
+    
+    /**
+     * Create a new drop index command on the data print.
+     * 
+     * @param  string  $command
+     * @param  string  $type
+     * @param  string|array  $index
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    protected function dropIndexCommand($command, $type, $index)
+    {
+        $columns = [];
+
+        if (is_array($index)) {
+            $columns = $index;
+            
+            $index = $this->createIndexName($type, $columns);
+        }
+        
+        return $this->indexCommand($command, $columns, $index);
+    }
+    
+    /**
+     * Add a new index command to the data print.
+     * 
+     * @param  string  $type
+     * @param  string|array  $columns
+     * @param  string  $index
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    protected function indexCommand($type, $columns, $index)
+    {
+        $columns = (array) $columns;
+        
+        $index = $index ?: $this->createIndexName($type, $columns);
+        
+        return $this->addCommand(
+            $type, compact('index', 'columns')
+        );
+    }
+    
+    /**
+     * Create a default index name for the table.
+     * 
+     * @param  string  $type
+     * @param  array  $columns
+     * 
+     * @return string
+     */
+    protected function createIndexName($type, array $columns): string
+    {
+        $index = strtolower($this->prefix.$this->table.'_'.implode('_', $columns).'_'.$type);
+        
+        return str_replace(['-', '.'], '_', $index);
+    }
+    
+    /**
+     * Add a new column to the data print.
+     * 
+     * @param  string  $type
+     * @param  string  $name
+     * @param  array   $parameters
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    protected function addColumn($type, $name, array $parameters = [])
+    {
+        $attributes = array_merge(compact('type', 'name'), $parameters);
+        
+        $this->columns[] = $column = new ColumnDefinition($attributes);
+        
+        return $column;
+    }
+    
+    /**
      * Remove a column from the schema data print.
      * 
      * @param  string  $name
