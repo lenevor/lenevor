@@ -111,7 +111,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
     /**
      * Determine if an item exists in the collection.
      * 
-     * @param  (callable(TValue, TKey): bool)|TValue|string  $key
+     * @param  mixed  $key
      * @param  mixed  $operator
      * @param  mixed  $value
      * 
@@ -128,6 +128,8 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
             
             return in_array($key, $this->items);
         }
+
+        return $this->contains($this->operatorCallback(...func_get_args()));
     }
 
 
