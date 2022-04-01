@@ -94,14 +94,28 @@ class Collection extends BaseCollection
      * Determine if a key exists in the collection.
      * 
      * @param  mixed  $key
+     * @param  mixed  $operator
+     * @param  mixed  $value
      * 
      * @return bool
      */
-    public function contains($key): bool
+    public function contains($key, $operator = null, $value = null): bool
     {
-        return ! is_null($this->find($key));
+        if (func_num_args() > 1 || $this->useAsCallable($key)) {
+            return parent::contains(...func_get_args());
+        }
+
+        if ($key instanceof Model) {
+            return parent::contains(function ($model) use ($key) {
+                return $model->is($key);
+            });
+        }
+        
+        return parent::contains(function ($model) use ($key) {
+            return $model->getKey() == $key;
+        });
     }
-    
+
     /**
      * Fetch a nested element of the collection.
      * 
