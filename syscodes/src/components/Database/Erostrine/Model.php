@@ -773,6 +773,33 @@ class Model implements Arrayable, ArrayAccess
 		
 		return $attributes;
 	}
+
+	/**
+	 * Determine if two models have the same ID and belong to the same table.
+	 * 
+	 * @param  \Syscodes\Components\Database\Erostrine\Model|null  $model
+	 * 
+	 * @return bool
+	 */
+	public function is($model): bool
+	{
+		return ! is_null($model) &&
+		       $this->getKey() === $model->getKey() &&
+			   $this->getTable() === $model->getTable() &&
+			   $this->getConnectionName() === $model->getConnectionName();
+	}
+
+	/**
+	 * Determine if two models are not the same.
+	 * 
+	 * @param  \Syscodes\Components\Database\Erostrine\Model|null  $model
+	 * 
+	 * @return bool
+	 */
+	public function isNot($model): bool
+	{
+		return ! $this->is($model);
+	}
 	
 	/**
 	 * Get the database connection for the model.
