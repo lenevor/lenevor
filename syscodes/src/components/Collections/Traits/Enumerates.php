@@ -45,6 +45,50 @@ trait Enumerates
     }
 
     /**
+     * Get an operator checker callback.
+     * 
+     * @param  \callable|string  $key
+     * @param  string|null  $operator
+     * @param  mixed  $value
+     * 
+     * @return \Closure
+     */
+    public function operatorCallback($key, $operator = null, $value = null)
+    {
+        if ($this->useAsCallable($key)) return $key;
+        
+        if (func_num_args() === 1) {
+            $value = true;
+            
+            $operator = '=';
+        }
+        
+        if (func_num_args() === 2) {
+            $value = $operator;
+            
+            $operator = '=';
+        }
+        
+        return function ($item) use ($key, $operator, $value) {
+            $retrieved = data_get($item, $key);
+
+            switch ($operator) {
+                default:
+                case '=':
+                case '==':  return $retrieved == $value;
+                case '!=':
+                case '<>':  return $retrieved != $value;
+                case '<':   return $retrieved < $value;
+                case '>':   return $retrieved > $value;
+                case '<=':  return $retrieved <= $value;
+                case '>=':  return $retrieved >= $value;
+                case '===': return $retrieved === $value;
+                case '!==': return $retrieved !== $value;
+            }
+        };
+    }
+
+    /**
      * Create a collection of all elements that do not pass a given truth test.
      * 
      * @param \callable|mixed  $callable
@@ -69,7 +113,7 @@ trait Enumerates
      * 
      * @return bool
      */
-    protected function useAsCallable($value)
+    protected function useAsCallable($value): bool
     {
         return ! is_string($value) && is_callable($value);
     }
@@ -79,7 +123,7 @@ trait Enumerates
      * 
      * @return bool
      */
-    public function isNotEmpty()
+    public function isNotEmpty(): bool
     {
         return ! $this->isEmpty();
     }
@@ -91,7 +135,7 @@ trait Enumerates
      * 
      * @return string
      */
-    public function toJson($options = 0)
+    public function toJson($options = 0): string
     {
         return json_encode($this->jsonSerialize(), $options);
     }
