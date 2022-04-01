@@ -41,7 +41,7 @@ class Arr
 	 *
 	 * @uses   instanceof ArrayAccess
 	 */
-	public static function access($value)
+	public static function accessible($value)
 	{
 		return is_array($value) || $value instanceof ArrayAccess;
 	}
@@ -120,8 +120,6 @@ class Arr
 	 * @param  string|int  $key  The key exist
 	 *
 	 * @return bool
-	 *
-	 * @uses   instaceof ArrayAccess
 	 */
 	public static function exists($array, $key): bool
 	{
@@ -261,7 +259,7 @@ class Arr
 	 */
 	public static function get($array, $key, $default = null)
 	{
-		if ( ! static::access($array)) {
+		if ( ! static::accessible($array)) {
 			return value($default);
 		}
 
@@ -280,7 +278,7 @@ class Arr
 		$segments = explode('.', $key);
 
 		foreach ($segments as $segment) {
-			if (static::access($array) && static::exists($array, $segment)) {
+			if (static::accessible($array) && static::exists($array, $segment)) {
 				$array = $array[$segment];
 			} else {
 				return value($default);
@@ -298,8 +296,6 @@ class Arr
 	 * @param  mixed  $default 
 	 *
 	 * @return mixed
-	 *
-	 * @uses   \Syscodes\Support\Arr::first
 	 */
 	public static function last($array, callable $callback = null, $default = null)
 	{
@@ -352,7 +348,7 @@ class Arr
 		foreach ($data as $key => $value) {
 			// key is not a integer
 			if ( ! $exclude || ! is_numeric($key)) {
-				$width    = mb_strlen((string)$key, 'UTF-8');
+				$width    = mb_strlen((string) $key, 'UTF-8');
 				$maxWidth = $width > $maxWidth ? $width : $maxWidth;
 			}
 		}
