@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\View\Transpilers;
 
+use InvalidArgumentException;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Collections\Arr;
 
@@ -319,7 +320,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * 
      * @return string
      */
-    protected function customDirective($name, $value)
+    protected function customDirective($name, $value = null)
     {
         $value = $value ?? '';
 
