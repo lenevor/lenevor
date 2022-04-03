@@ -114,7 +114,7 @@ class TranspilerEngine extends PhpEngine
      */
     protected function getMessage(Throwable $e): string
     {
-        return $e->getMessage().' (View: '.realpath(last($this->lastTranspiled)).')';
+        return $e->getMessage().' (View: '.realpath(lastItem($this->lastTranspiled)).')';
     }
 
     /**
