@@ -242,6 +242,18 @@ class Dataprint
     }
     
     /**
+     * Indicate that the given primary key should be dropped.
+     * 
+     * @param  string|array|null  $index
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    public function dropPrimary($index = null)
+    {
+        return $this->dropIndexCommand('dropPrimary', 'primary', $index);
+    }
+    
+    /**
      * Create a new drop index command on the data print.
      * 
      * @param  string  $command
