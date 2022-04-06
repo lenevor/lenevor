@@ -23,9 +23,16 @@
 namespace Syscodes\Components\Database\Schema\Builders;
 
 /**
+ * Creates a Erostrine schema builder.
+ * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Builder
 {
-    
+    /**
+     * The default string length for migrations.
+     * 
+     * @var int|null $defaultStringLength
+     */
+    public static $defaultStringLength = 255;
 }
