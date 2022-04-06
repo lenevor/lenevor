@@ -24,7 +24,9 @@ namespace Syscodes\Components\Database\Schema;
 
 use Closure;
 use Syscodes\Components\Support\Flowing;
+use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Database\Connections\Connection;
+use Syscodes\Components\Database\Schema\Builders\Builder;
 use Syscodes\Components\Database\Schema\Grammars\Grammar;
 
 /**
@@ -252,6 +254,501 @@ class Dataprint
     {
         return $this->dropIndexCommand('dropPrimary', 'primary', $index);
     }
+    
+    /**
+     * Indicate that the given unique key should be dropped.
+     * 
+     * @param  string|array  $index
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    public function dropUnique($index)
+    {
+        return $this->dropIndexCommand('dropUnique', 'unique', $index);
+    }
+    
+    /**
+     * Indicate that the given index should be dropped.
+     * 
+     * @param  string|array  $index
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    public function dropIndex($index)
+    {
+        return $this->dropIndexCommand('dropIndex', 'index', $index);
+    }
+    
+    /**
+     * Indicate that the given fulltext index should be dropped.
+     * 
+     * @param  string|array  $index
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    public function dropFullText($index)
+    {
+        return $this->dropIndexCommand('dropFullText', 'fulltext', $index);
+    }
+    
+    /**
+     * Indicate that the given spatial index should be dropped.
+     * 
+     * @param  string|array  $index
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    public function dropSpatialIndex($index)
+    {
+        return $this->dropIndexCommand('dropSpatialIndex', 'spatialIndex', $index);
+    }
+    
+    /**
+     * Indicate that the given foreign key should be dropped.
+     * 
+     * @param  string|array  $index
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    public function dropForeign($index)
+    {
+        return $this->dropIndexCommand('dropForeign', 'foreign', $index);
+    }
+    
+    /**
+     * Indicate that the timestamp columns should be dropped.
+     * 
+     * @return void
+     */
+    public function dropTimestamps(): void
+    {
+        $this->dropColumn('created_at', 'updated_at');
+    }
+    
+    /**
+     * Indicate that the timestamp columns should be dropped.
+     * 
+     * @return void
+     */
+    public function dropTimestampsTz(): void
+    {
+        $this->dropTimestamps();
+    }
+    
+    /**
+     * Indicate that the soft delete column should be dropped.
+     * 
+     * @param  string  $column
+     * 
+     * @return void
+     */
+    public function dropSoftDeletes($column = 'deleted_at'): void
+    {
+        $this->dropColumn($column);
+    }
+    
+    /**
+     * Rename the table to a given name.
+     * 
+     * @param  string  $to
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    public function rename($to)
+    {
+        return $this->addCommand('rename', compact('to'));
+    }
+    
+    /**
+     * Specify the primary key(s) for the table.
+     * 
+     * @param  string|array  $columns
+     * @param  string|null  $name
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    public function primary($columns, $name = null)
+    {
+        return $this->indexCommand('primary', $columns, $name);
+    }
+    
+    /**
+     * Specify a unique index for the table.
+     * 
+     * @param  string|array  $columns
+     * @param  string|null  $name
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    public function unique($columns, $name = null)
+    {
+        return $this->indexCommand('unique', $columns, $name);
+    }
+    
+    /**
+     * Specify an index for the table.
+     * 
+     * @param  string|array  $columns
+     * @param  string|null  $name
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    public function index($columns, $name = null)
+    {
+        return $this->indexCommand('index', $columns, $name);
+    }
+    
+    /**
+     * Specify an fulltext for the table.
+     * 
+     * @param  string|array  $columns
+     * @param  string|null  $name
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    public function fullText($columns, $name = null)
+    {
+        return $this->indexCommand('fulltext', $columns, $name);
+    }
+    
+    /**
+     * Specify a spatial index for the table.
+     * 
+     * @param  string|array  $columns
+     * @param  string|null  $name
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    public function spatialIndex($columns, $name = null)
+    {
+        return $this->indexCommand('spatialIndex', $columns, $name);
+    }
+    
+    /**
+     * Specify a raw index for the table.
+     * 
+     * @param  string  $expression
+     * @param  string  $name
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    public function rawIndex($expression, $name)
+    {
+        return $this->index([new Expression($expression)], $name);
+    }
+    
+    /**
+     * Specify a foreign key for the table.
+     * 
+     * @param  string|array  $columns
+     * @param  string  $name
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    public function foreign($columns, $name = null)
+    {
+        return $this->indexCommand('foreign', $columns, $name);
+    }
+    
+    /**
+     * Create a new auto-incrementing big integer (8-byte) column on the table.
+     * 
+     * @param  string  $column
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function id($column = 'id')
+    {
+        return $this->bigIncrements($column);
+    }
+    
+    /**
+     * Create a new auto-incrementing integer (4-byte) column on the table.
+     * 
+     * @param  string  $column
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function increments($column)
+    {
+        return $this->unsignedInteger($column, true);
+    }
+    
+    /**
+     * Create a new auto-incrementing integer (4-byte) column on the table.
+     * 
+     * @param  string  $column
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function integerIncrements($column)
+    {
+        return $this->unsignedInteger($column, true);
+    }
+    
+    /**
+     * Create a new auto-incrementing tiny integer (1-byte) column on the table.
+     *
+     * @param  string  $column
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function tinyIncrements($column)
+    {
+        return $this->unsignedTinyInteger($column, true);
+    }
+    
+    /**
+     * Create a new auto-incrementing small integer (2-byte) column on the table.
+     * 
+     * @param  string  $column
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function smallIncrements($column)
+    {
+        return $this->unsignedSmallInteger($column, true);
+    }
+    
+    /**
+     * Create a new auto-incrementing medium integer (3-byte) column on the table.
+     * 
+     * @param  string  $column
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function mediumIncrements($column)
+    {
+        return $this->unsignedMediumInteger($column, true);
+    }
+    
+    /**
+     * Create a new auto-incrementing big integer (8-byte) column on the table.
+     * 
+     * @param  string  $column
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function bigIncrements($column)
+    {
+        return $this->unsignedBigInteger($column, true);
+    }
+    
+    /**
+     * Create a new char column on the table.
+     * 
+     * @param  string  $column
+     * @param  int|null  $length
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function char($column, $length = null)
+    {
+        $length = ! is_null($length) ? $length : Builder::$defaultStringLength;
+        
+        return $this->addColumn('char', $column, compact('length'));
+    }
+    
+    /**
+     * Create a new string column on the table.
+     * 
+     * @param  string  $column
+     * @param  int|null  $length
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function string($column, $length = null)
+    {
+        $length = $length ?: Builder::$defaultStringLength;
+        
+        return $this->addColumn('string', $column, compact('length'));
+    }
+    
+    /**
+     * Create a new tiny text column on the table.
+     * 
+     * @param  string  $column
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function tinyText($column)
+    {
+        return $this->addColumn('tinyText', $column);
+    }
+    
+    /**
+     * Create a new text column on the table.
+     * 
+     * @param  string  $column
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function text($column)
+    {
+        return $this->addColumn('text', $column);
+    }
+    
+    /**
+     * Create a new medium text column on the table.
+     * 
+     * @param  string  $column
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function mediumText($column)
+    {
+        return $this->addColumn('mediumText', $column);
+    }
+    
+    /**
+     * Create a new long text column on the table.
+     * 
+     * @param  string  $column
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function longText($column)
+    {
+        return $this->addColumn('longText', $column);
+    }
+    
+    /**
+     * Create a new integer (4-byte) column on the table.
+     * 
+     * @param  string  $column
+     * @param  bool  $autoIncrement
+     * @param  bool  $unsigned
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function integer($column, $autoIncrement = false, $unsigned = false)
+    {
+        return $this->addColumn('integer', $column, compact('autoIncrement', 'unsigned'));
+    }
+    
+    /**
+     * Create a new tiny integer (1-byte) column on the table.
+     * 
+     * @param  string  $column
+     * @param  bool  $autoIncrement
+     * @param  bool  $unsigned
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function tinyInteger($column, $autoIncrement = false, $unsigned = false)
+    {
+        return $this->addColumn('tinyInteger', $column, compact('autoIncrement', 'unsigned'));
+    }
+    
+    /**
+     * Create a new small integer (2-byte) column on the table.
+     * 
+     * @param  string  $column
+     * @param  bool  $autoIncrement
+     * @param  bool  $unsigned
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function smallInteger($column, $autoIncrement = false, $unsigned = false)
+    {
+        return $this->addColumn('smallInteger', $column, compact('autoIncrement', 'unsigned'));
+    }
+    
+    /**
+     * Create a new medium integer (3-byte) column on the table.
+     * 
+     * @param  string  $column
+     * @param  bool  $autoIncrement
+     * @param  bool  $unsigned
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function mediumInteger($column, $autoIncrement = false, $unsigned = false)
+    {
+        return $this->addColumn('mediumInteger', $column, compact('autoIncrement', 'unsigned'));
+    }
+    
+    /**
+     * Create a new big integer (8-byte) column on the table.
+     * 
+     * @param  string  $column
+     * @param  bool  $autoIncrement
+     * @param  bool  $unsigned
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function bigInteger($column, $autoIncrement = false, $unsigned = false)
+    {
+        return $this->addColumn('bigInteger', $column, compact('autoIncrement', 'unsigned'));
+    }
+    
+    /**
+     * Create a new unsigned integer (4-byte) column on the table.
+     * 
+     * @param  string  $column
+     * @param  bool  $autoIncrement
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function unsignedInteger($column, $autoIncrement = false)
+    {
+        return $this->integer($column, $autoIncrement, true);
+    }
+
+    /**
+     * Create a new unsigned tiny integer (1-byte) column on the table.
+     * 
+     * @param  string  $column
+     * @param  bool  $autoIncrement
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function unsignedTinyInteger($column, $autoIncrement = false)
+    {
+        return $this->tinyInteger($column, $autoIncrement, true);
+    }
+    
+    /**
+     * Create a new unsigned small integer (2-byte) column on the table.
+     * 
+     * @param  string  $column
+     * @param  bool  $autoIncrement
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function unsignedSmallInteger($column, $autoIncrement = false)
+    {
+        return $this->smallInteger($column, $autoIncrement, true);
+    }
+    
+    /**
+     * Create a new unsigned medium integer (3-byte) column on the table.
+     * 
+     * @param  string  $column
+     * @param  bool  $autoIncrement
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function unsignedMediumInteger($column, $autoIncrement = false)
+    {
+        return $this->mediumInteger($column, $autoIncrement, true);
+    }
+    
+    /**
+     * Create a new unsigned big integer (8-byte) column on the table.
+     * 
+     * @param  string  $column
+     * @param  bool  $autoIncrement
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function unsignedBigInteger($column, $autoIncrement = false)
+    {
+        return $this->bigInteger($column, $autoIncrement, true);
+    }
+
+   
+
     
     /**
      * Create a new drop index command on the data print.
