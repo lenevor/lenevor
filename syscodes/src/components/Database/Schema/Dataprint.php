@@ -746,9 +746,349 @@ class Dataprint
     {
         return $this->bigInteger($column, $autoIncrement, true);
     }
-
-   
-
+    
+    /**
+     * Create a new float column on the table.
+     * 
+     * @param  string  $column
+     * @param  int  $total
+     * @param  int  $places
+     * @param  bool  $unsigned
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function float($column, $total = 8, $places = 2, $unsigned = false)
+    {
+        return $this->addColumn('float', $column, compact('total', 'places', 'unsigned'));
+    }
+    
+    /**
+     * Create a new double column on the table.
+     * 
+     * @param  string  $column
+     * @param  int|null  $total
+     * @param  int|null  $places
+     * @param  bool  $unsigned
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function double($column, $total = null, $places = null, $unsigned = false)
+    {
+        return $this->addColumn('double', $column, compact('total', 'places', 'unsigned'));
+    }
+    
+    /**
+     * Create a new decimal column on the table.
+     * 
+     * @param  string  $column
+     * @param  int  $total
+     * @param  int  $places
+     * @param  bool  $unsigned
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function decimal($column, $total = 8, $places = 2, $unsigned = false)
+    {
+        return $this->addColumn('decimal', $column, compact('total', 'places', 'unsigned'));
+    }
+    
+    /**
+     * Create a new unsigned float column on the table.
+     * 
+     * @param  string  $column
+     * @param  int  $total
+     * @param  int  $places
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function unsignedFloat($column, $total = 8, $places = 2)
+    {
+        return $this->float($column, $total, $places, true);
+    }
+    
+    /**
+     * Create a new unsigned double column on the table.
+     * 
+     * @param  string  $column
+     * @param  int  $total
+     * @param  int  $places
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function unsignedDouble($column, $total = null, $places = null)
+    {
+        return $this->double($column, $total, $places, true);
+    }
+    
+    /**
+     * Create a new unsigned decimal column on the table.
+     * 
+     * @param  string  $column
+     * @param  int  $total
+     * @param  int  $places
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function unsignedDecimal($column, $total = 8, $places = 2)
+    {
+        return $this->decimal($column, $total, $places, true);
+    }
+    
+    /**
+     * Create a new boolean column on the table.
+     * 
+     * @param  string  $column
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function boolean($column)
+    {
+        return $this->addColumn('boolean', $column);
+    }
+    
+    /**
+     * Create a new enum column on the table.
+     *
+     * @param  string  $column
+     * @param  array  $allowed
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function enum($column, array $allowed)
+    {
+        return $this->addColumn('enum', $column, compact('allowed'));
+    }
+    
+    /**
+     * Create a new set column on the table.
+     * 
+     * @param  string  $column
+     * @param  array  $allowed
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function set($column, array $allowed)
+    {
+        return $this->addColumn('set', $column, compact('allowed'));
+    }
+    
+    /**
+     * Create a new json column on the table.
+     * 
+     * @param  string  $column
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function json($column)
+    {
+        return $this->addColumn('json', $column);
+    }
+    
+    /**
+     * Create a new jsonb column on the table.
+     * 
+     * @param  string  $column
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function jsonb($column)
+    {
+        return $this->addColumn('jsonb', $column);
+    }
+    
+    /**
+     * Create a new date column on the table.
+     * 
+     * @param  string  $column
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function date($column)
+    {
+        return $this->addColumn('date', $column);
+    }
+    
+    /**
+     * Create a new date-time column on the table.
+     * 
+     * @param  string  $column
+     * @param  int|null  $precision
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function dateTime($column, $precision = 0)
+    {
+        return $this->addColumn('dateTime', $column, compact('precision'));
+    }
+    
+    /**
+     * Create a new date-time column (with time zone) on the table.
+     * 
+     * @param  string  $column
+     * @param  int|null  $precision
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function dateTimeTz($column, $precision = 0)
+    {
+        return $this->addColumn('dateTimeTz', $column, compact('precision'));
+    }
+    
+    /**
+     * Create a new time column on the table.
+     * 
+     * @param  string  $column
+     * @param  int|null  $precision
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function time($column, $precision = 0)
+    {
+        return $this->addColumn('time', $column, compact('precision'));
+    }
+    
+    /**
+     * Create a new time column (with time zone) on the table.
+     * 
+     * @param  string  $column
+     * @param  int|null  $precision
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function timeTz($column, $precision = 0)
+    {
+        return $this->addColumn('timeTz', $column, compact('precision'));
+    }
+    
+    /**
+     * Create a new timestamp column on the table.
+     * 
+     * @param  string  $column
+     * @param  int|null  $precision
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function timestamp($column, $precision = 0)
+    {
+        return $this->addColumn('timestamp', $column, compact('precision'));
+    }
+    
+    /**
+     * Create a new timestamp (with time zone) column on the table.
+     * 
+     * @param  string  $column
+     * @param  int|null  $precision
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function timestampTz($column, $precision = 0)
+    {
+        return $this->addColumn('timestampTz', $column, compact('precision'));
+    }
+    
+    /**
+     * Add nullable creation and update timestamps to the table.
+     * 
+     * @param  int|null  $precision
+     * 
+     * @return void
+     */
+    public function timestamps($precision = 0): void
+    {
+        $this->timestamp('created_at', $precision)->nullable();
+        
+        $this->timestamp('updated_at', $precision)->nullable();
+    }
+    
+    /**
+     * Add nullable creation and update timestamps to the table.
+     * 
+     * Alias for self::timestamps().
+     * 
+     * @param  int|null  $precision
+     * 
+     * @return void
+     */
+    public function nullableTimestamps($precision = 0): void
+    {
+        $this->timestamps($precision);
+    }
+    
+    /**
+     * Add creation and update timestampTz columns to the table.
+     * 
+     * @param  int|null  $precision
+     * 
+     * @return void
+     */
+    public function timestampsTz($precision = 0): void
+    {
+        $this->timestampTz('created_at', $precision)->nullable();
+        
+        $this->timestampTz('updated_at', $precision)->nullable();
+    }
+    
+    /**
+     * Add a "deleted at" timestamp for the table.
+     * 
+     * @param  string  $column
+     * @param  int|null  $precision
+     *
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function softDeletes($column = 'deleted_at', $precision = 0)
+    {
+        return $this->timestamp($column, $precision)->nullable();
+    }
+    
+    /**
+     * Add a "deleted at" timestampTz for the table.
+     * 
+     * @param  string  $column
+     * @param  int|null  $precision
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function softDeletesTz($column = 'deleted_at', $precision = 0)
+    {
+        return $this->timestampTz($column, $precision)->nullable();
+    }
+    
+    /**
+     * Create a new year column on the table.
+     * 
+     * @param  string  $column
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function year($column)
+    {
+        return $this->addColumn('year', $column);
+    }
+    
+    /**
+     * Create a new binary column on the table.
+     * 
+     * @param  string  $column
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function binary($column)
+    {
+        return $this->addColumn('binary', $column);
+    }
+    
+    /**
+     * Create a new uuid column on the table.
+     * 
+     * @param  string  $column
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function uuid($column = 'uuid')
+    {
+        return $this->addColumn('uuid', $column);
+    }
     
     /**
      * Create a new drop index command on the data print.
