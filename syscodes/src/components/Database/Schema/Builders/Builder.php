@@ -30,6 +30,27 @@ namespace Syscodes\Components\Database\Schema\Builders;
 class Builder
 {
     /**
+     * The database connection instance.
+     *
+     * @var \Syscodes\Components\Database\Connection
+     */
+    protected $connection;
+
+    /**
+     * The schema grammar instance.
+     *
+     * @var \Syscodes\Components\Database\Schema\Grammars\Grammar
+     */
+    protected $grammar;
+
+    /**
+     * The Dataprint resolver callback.
+     *
+     * @var \Closure
+     */
+    protected $resolver;
+
+    /**
      * The default string length for migrations.
      * 
      * @var int|null $defaultStringLength
