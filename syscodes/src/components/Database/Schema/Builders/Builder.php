@@ -22,6 +22,8 @@
 
 namespace Syscodes\Components\Database\Schema\Builders;
 
+use Syscodes\Components\Database\Connections\Connection;
+
 /**
  * Creates a Erostrine schema builder.
  * 
@@ -31,22 +33,22 @@ class Builder
 {
     /**
      * The database connection instance.
-     *
-     * @var \Syscodes\Components\Database\Connection
+     * 
+     * @var \Syscodes\Components\Database\Connections\Connection $connections
      */
     protected $connection;
-
+    
     /**
      * The schema grammar instance.
-     *
-     * @var \Syscodes\Components\Database\Schema\Grammars\Grammar
+     * 
+     * @var \Syscodes\Components\Database\Schema\Grammars\Grammar $grammar
      */
     protected $grammar;
-
+    
     /**
      * The Dataprint resolver callback.
-     *
-     * @var \Closure
+     * 
+     * @var \Closure $resolver
      */
     protected $resolver;
 
@@ -56,4 +58,17 @@ class Builder
      * @var int|null $defaultStringLength
      */
     public static $defaultStringLength = 255;
+
+    /**
+     * Constructor. Create a new database schema manager.
+     * 
+     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
+     * 
+     * @return void
+     */
+    public function __construct(Connection $connection)
+    {
+        $this->connection = $connection;
+        $this->grammar    = $connection->getSchemaGrammar();
+    }
 }
