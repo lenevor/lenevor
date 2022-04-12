@@ -1,5 +1,7 @@
 <?php
 
+use Syscodes\Components\Support\Facades\Facade;
+
 return [
     
     /*
@@ -43,34 +45,13 @@ return [
     | Class Aliases
     |------------------------------------------------------------------------
     |
-    | This array of class aliases will be registered cuando an application is 
+    | This array of class aliases will be registered when an application is 
     | started. You can added the aliases loaded so they don't hinder performance. 
     |
     */
 
-    'aliases' => [
-
-        'App' => Syscodes\Components\Support\Facades\App::class,
-        'Cache' => Syscodes\Components\Support\Facades\Cache::class,
-        'Config' => Syscodes\Components\Support\Facades\Config::class,
-        'Crypt' => Syscodes\Components\Support\Facades\Crypt::class,
-        'DB' => Syscodes\Components\Support\Facades\DB::class,
-        'Event' => Syscodes\Components\Support\Facades\Event::class,
-        'File' => Syscodes\Components\Support\Facades\File::class,
-        'Http' => Syscodes\Components\Support\Facades\Http::class,
-        'Lang' => Syscodes\Components\Support\Facades\Lang::class,
-        'Log' => Syscodes\Components\Support\Facades\Log::class,
-        'Plaze' => Syscodes\Components\Support\Facades\Plaze::class,
-        'Prime' => Syscodes\Components\Support\Facades\Prime::class,
-        'Redirect' => Syscodes\Components\Support\Facades\Redirect::class,
-        'Redis' => Syscodes\Components\Support\Facades\Redis::class,
-        'Request' => Syscodes\Components\Support\Facades\Request::class,
-        'Response' => Syscodes\Components\Support\Facades\Response::class,
-        'Route' => Syscodes\Components\Support\Facades\Route::class,
-        'Session' => Syscodes\Components\Support\Facades\Session::class,
-        'URL' => Syscodes\Components\Support\Facades\URL::class,
-        'View' => Syscodes\Components\Support\Facades\View::class,
-
-    ],
+    'aliases' => Facade::defaultAliases()->merge([
+        // 'ExampleClass' => App\Example\ExampleClass::class,
+    ])->toArray(),
 
 ];
