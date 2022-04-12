@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Database\Schema\Builders;
 
+use LogicException;
 use Syscodes\Components\Database\Connections\Connection;
 
 /**
@@ -71,4 +72,49 @@ class Builder
         $this->connection = $connection;
         $this->grammar    = $connection->getSchemaGrammar();
     }
+    
+    /**
+     * Create a database in the schema.
+     * 
+     * @param  string  $name
+     * 
+     * @return bool
+     * 
+     * @throws \LogicException
+     */
+    public function createDatabase($name): bool
+    {
+        throw new LogicException('This database driver does not support creating databases');
+    }
+    
+    /**
+     * Drop a database from the schema if the database exists.
+     * 
+     * @param  string  $name
+     * 
+     * @return bool
+     * 
+     * @throws \LogicException
+     */
+    public function dropDatabaseIfExists($name): bool
+    {
+        throw new LogicException('This database driver does not support dropping databases');
+    }
+    
+    /**
+     * Determine if the given table exists.
+     * 
+     * @param  string  $table
+     * 
+     * @return bool
+     */
+    public function hasTable($table): bool
+    {
+        $table = $this->connection->getTablePrefix().$table;
+        
+        return count($this->connection->selectFromConnection(
+            $this->grammar->compileTableExists(), [$table])
+        ) > 0;
+    }
+
 }
