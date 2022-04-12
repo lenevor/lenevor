@@ -30,5 +30,13 @@ namespace Syscodes\Components\Database\Schema\Grammars;
  */
 class MySqlGrammar extends Grammar
 {
-
+    /**
+     * Compile the query to determine the list of tables.
+     *
+     * @return string
+     */
+    public function compileTableExists(): string
+    {
+        return "select * from information_schema.tables where table_schema = ? and table_name = ?";
+    }
 }
