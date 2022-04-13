@@ -254,7 +254,7 @@ class Connection implements ConnectionInterface
      * 
      * @return array
      */
-    public function selectFromConnection($query, $bindings)
+    public function selectFromConnection($query, $bindings = [])
     {
         return $this->select($query, $bindings, false);
     }
