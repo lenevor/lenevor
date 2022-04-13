@@ -98,7 +98,7 @@ class Dataprint
      */
     public function build(Connection $connection, Grammar $grammar): void
     {
-        foreach($this->toSql($connection, $grammar) as $statement) {
+        foreach ($this->toSql($connection, $grammar) as $statement) {
             $connection->statement($statement);
         }
     }
