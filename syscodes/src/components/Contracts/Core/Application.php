@@ -223,6 +223,13 @@ interface Application extends Container
     public function resolveProviderClass($provider);
 
     /**
+     * Load and boot all of the remaining deferred providers.
+     *
+     * @return void
+     */
+    public function loadDeferredProviders(): void;
+
+    /**
      * Determine if the given id type has been bound.
      * 
      * @param  string  $id
