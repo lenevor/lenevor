@@ -735,17 +735,15 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Load and boot all of the remaining deferred providers.
-     *
-     * @return void
+     * {@inheritdoc}
      */
-    public function loadDeferredProviders()
+    public function loadDeferredProviders(): void
     {
         foreach ($this->deferredServices as $service => $provider) {
             $this->loadDeferredProvider($service);
         }
 
-        $this->deferredServices = array();
+        $this->deferredServices = [];
     }
 
     /**
@@ -1097,7 +1095,8 @@ class Application extends Container implements ApplicationContract
             'cache.store'      => [\Syscodes\Components\Cache\CacheRepository::class, \Syscodes\Components\Contracts\Cache\Repository::class],
             'config'           => [\Syscodes\Components\Config\Configure::class, \Syscodes\Components\Contracts\Config\Configure::class],
             'db'               => [\Syscodes\Components\Database\DatabaseManager::class, \Syscodes\Components\Database\ConnectionResolverInterface::class],
-            'db.connection'    => [\Syscodes\Components\Database\Connection::class, \Syscodes\Components\Database\ConnectionInterface::class],
+            'db.connection'    => [\Syscodes\Components\Database\Connections\Connection::class, \Syscodes\Components\Database\Connections\ConnectionInterface::class],
+            'db.schema'        => [\Syscodes\Components\Database\Schema\Builders\Builder::class],
             'encrypter'        => [\Syscodes\Components\Encryption\Encrypter::class, \Syscodes\Components\Contracts\Encryption\Encrypter::class],
             'events'           => [\Syscodes\Components\Events\Dispatcher::class, \Syscodes\Components\Contracts\Events\Dispatcher::class],
             'files'            => [\Syscodes\Components\Filesystem\Filesystem::class],
