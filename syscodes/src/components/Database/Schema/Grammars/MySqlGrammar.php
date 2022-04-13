@@ -35,8 +35,18 @@ class MySqlGrammar extends Grammar
      *
      * @return string
      */
-    public function compileTableExists(): string
+    public function compileTableListing(): string
     {
         return "select * from information_schema.tables where table_schema = ? and table_name = ?";
+    }
+
+    /**
+     * Compile the query to determine the list of columns.
+     *
+     * @return string
+     */
+    public function compileColumnListing(): string
+    {
+        return 'select column_name as `column_name` from information_schema.columns where table_schema = ? and table_name = ?';
     }
 }
