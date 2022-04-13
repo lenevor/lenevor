@@ -34,7 +34,7 @@ trait BuildConsoleVersion
      *
      * @return string
      */
-    protected function getConsoleVersion(): string
+    public function getConsoleVersion(): string
     {
         if ('UNKNOWN' !== $this->getName()) {
             if ('UNKNOWN' !== $this->getVersion()) {
