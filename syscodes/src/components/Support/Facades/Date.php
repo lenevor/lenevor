@@ -98,8 +98,10 @@ class Date extends Facade
      * Get the registered name of the component.
      * 
      * @return string
+     * 
+     * @throws \RuntimeException
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return 'date';
     }
@@ -113,9 +115,9 @@ class Date extends Facade
      */
     protected static function resolveFacadeInstance($name)
     {
-        if ( ! isset(static::$resolvedInstance[$name]) && ! isset(static::$app, static::$app[$name]))
-        {
+        if ( ! isset(static::$resolvedInstance[$name]) && ! isset(static::$applications, static::$applications[$name])) {
             $class = static::DEFAULT_FACADE;
+            
             static::swap(new $class);
         }
         
