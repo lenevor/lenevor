@@ -53,6 +53,18 @@ abstract class Grammar
 
         return $this->getValue($table);
     }
+    
+    /**
+     * Wrap an array of values.
+     * 
+     * @param  array  $values
+     * 
+     * @return array
+     */
+    public function wrapArray(array $values): array
+    {
+        return array_map([$this, 'wrap'], $values);
+    }
 
     /**
      * Wrap a value in keyword identifiers.
