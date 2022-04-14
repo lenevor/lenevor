@@ -339,6 +339,30 @@ class Builder
     }
     
     /**
+     * Enable foreign key constraints.
+     * 
+     * @return bool
+     */
+    public function enableForeignKeyConstraints(): bool
+    {
+        return $this->connection->statement(
+            $this->grammar->compileEnableForeignKeyConstraints()
+        );
+    }
+    
+    /**
+     * Disable foreign key constraints.
+     * 
+     * @return bool
+     */
+    public function disableForeignKeyConstraints(): bool
+    {
+        return $this->connection->statement(
+            $this->grammar->compileDisableForeignKeyConstraints()
+        );
+    }
+    
+    /**
      * Get the database connection instance.
      * 
      * @return \Syscodes\Components\Database\Connections\Connection
