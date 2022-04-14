@@ -22,8 +22,6 @@
 
 namespace Syscodes\Components\Support\Facades;
 
-use Syscodes\Components\Support\Chronos;
-
 /**
  * Initialize the Database class facade.
  * 
@@ -40,8 +38,10 @@ class DB extends Facade
      * Get the registered name of the component.
      * 
      * @return string
+     * 
+     * @throws \RuntimeException
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return 'db';
     }
