@@ -22,6 +22,11 @@
 
 namespace Syscodes\Components\Database\Schema\Grammars;
 
+use LogicException;
+use Syscodes\Components\Support\Flowing;
+use Syscodes\Components\Database\Query\Expression;
+use Syscodes\Components\Database\Schema\Dataprint;
+use Syscodes\Components\Database\Connections\Connection;
 use Syscodes\Components\Database\Grammar as BaseGrammar;
 
 /**
@@ -29,5 +34,227 @@ use Syscodes\Components\Database\Grammar as BaseGrammar;
  */
 abstract class Grammar extends BaseGrammar
 {
+    /**
+     * Compile a create database command.
+     * 
+     * @param  string  $name
+     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
+     * 
+     * @return void
+     * 
+     * @throws \LogicException
+     */
+    public function compileCreateDatabase($name, $connection)
+    {
+        throw new LogicException('This database driver does not support creating databases');
+    }
     
+    /**
+     * Compile a drop database if exists command.
+     * 
+     * @param  string  $name
+     * 
+     * @return void
+     * 
+     * @throws \LogicException
+     */
+    public function compileDropDatabaseIfExists($name)
+    {
+        throw new LogicException('This database driver does not support dropping databases');
+    }
+    
+    /**
+     * Compile a rename column command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
+     * 
+     * @return array
+     */
+    public function compileRenameColumn(Dataprint $dataprint, Flowing $command, Connection $connection)
+    {
+        //
+    }
+
+    /**
+     * Compile a foreign key command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileForeign(Dataprint $dataprint, Flowing $command): string
+    {
+        $sql = sprintf('alter table %s add constraint %s ',
+            $this->wrapTable($dataprint),
+            $this->wrap($command->index)
+        );
+
+        $sql .= sprintf('foreign key (%s) references %s (%s)',
+            $this->columnize($command->columns),
+            $this->wrapTable($command->on),
+            $this->columnize($command->references)
+        );
+        
+        // Once we have the basic foreign key creation statement constructed we can
+        // build out the syntax for what should happen on an update or delete of
+        // the affected columns, which will get something like "cascade", etc.
+        if ( ! is_null($command->onDelete)) {
+            $sql .= " on Delete {$command->onDelete}";
+        }
+
+        if ( ! is_null($command->onUpdate)) {
+            $sql .= " on Delete {$command->onUpdate}";
+        }
+
+        return $sql;
+    }
+
+    /**
+     * Compile the dataprint's column definitions.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * 
+     * @return array
+     */
+    protected function getColumns(Dataprint $dataprint): array
+    {
+        $columns = [];
+
+        foreach ($dataprint->getColumns() as $column) {
+            $sql = $this->wrap($column).' '.$this->getType($column);
+
+            $columns[] = $this->addModifiers($sql, $dataprint, $column);
+        }
+
+        return $columns;
+    }
+    
+    /**
+     * Get the SQL for the column data type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function getType(Flowing $column)
+    {
+        return $this->{'type'.ucfirst($column->type)}($column);
+    }
+    
+    /**
+     * Add the column modifiers to the definition.
+     * 
+     * @param  string  $sql
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function addModifiers($sql, Dataprint $dataprint, Flowing $column): string
+    {
+        foreach ($this->modifiers as $modifier) {
+            if (method_exists($this, $method = "modify{$modifier}")) {
+                $sql .= $this->{$method}($dataprint, $column);
+            }
+        }
+        
+        return $sql;
+    }
+    
+    /**
+     * Get the primary key command if it exists on the dataprint.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  string  $name
+     * 
+     * @return \Syscodes\Components\Support\Flowing|null
+     */
+    protected function getCommandByName(Dataprint $dataprint, $name)
+    {
+        $commands = $this->getCommandsByName($dataprint, $name);
+        
+        if (count($commands) > 0) {
+            return reset($commands);
+        }
+    }
+    
+    /**
+     * Get all of the commands with a given name.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  string  $name
+     *
+     * @return array
+     */
+    protected function getCommandsByName(Dataprint $dataprint, $name): array
+    {
+        return array_filter($dataprint->getCommands(), function ($value) use ($name) {
+            return $value->name == $name;
+        });
+    }
+    
+    /**
+     * Add a prefix to an array of values.
+     * 
+     * @param  string  $prefix
+     * @param  array  $values
+     * 
+     * @return array
+     */
+    public function prefixArray($prefix, array $values): array
+    {
+        return array_map(function ($value) use ($prefix) {
+            return $prefix.' '.$value;
+        }, $values);
+    }
+    
+    /**
+     * Wrap a table in keyword identifiers.
+     * 
+     * @param  mixed  $table
+     * 
+     * @return string
+     */
+    public function wrapTable($table): string
+    {
+        return parent::wrapTable(
+            $table instanceof Dataprint ? $table->getTable() : $table
+        );
+    }
+    
+    /**
+     * Wrap a value in keyword identifiers.
+     * 
+     * @param  \Syscodes\Components\Database\Query\Expression|string  $value
+     * @param  bool  $prefix
+     * 
+     * @return string
+     */
+    public function wrap($value, $prefix = false): string
+    {
+        return parent::wrap(
+            $value instanceof Flowing ? $value->name : $value, $prefix
+        );
+    }
+    
+    /**
+     * Format a value so that it can be used in "default" clauses.
+     * 
+     * @param  mixed  $value
+     * 
+     * @return string
+     */
+    protected function getDefaultValue($value): string
+    {
+        if ($value instanceof Expression) {
+            return $value;
+        }
+        
+        return is_bool($value)
+                    ? "'".(int) $value."'"
+                    : "'".(string) $value."'";
+    }
 }
