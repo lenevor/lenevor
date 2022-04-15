@@ -37,6 +37,13 @@ abstract class Facade
      * @var array|object $applications
      */
     protected static $applications;
+    
+    /**
+     * Indicates if the resolved instance should be cached.
+     * 
+     * @var bool $cached
+     */
+    protected static $cached = true;
 
     /**
      * Resolved instances of objects in facade.
@@ -52,7 +59,7 @@ abstract class Facade
      * 
      * @return void
      */
-    public static function clearResolvedInstance($name)
+    public static function clearResolvedInstance($name): void
     {
         unset(static::$resolvedInstance[$name]);
     }
@@ -62,7 +69,7 @@ abstract class Facade
      * 
      * @return void
      */
-    public static function clearResolvedInstances()
+    public static function clearResolvedInstances(): void
     {
         static::$resolvedInstance = [];
     }
@@ -74,7 +81,7 @@ abstract class Facade
      * 
      * @return void
      */
-    public static function swap($instance)
+    public static function swap($instance): void
     {
         static::$resolvedInstance[static::getFacadeAccessor()] = $instance;
         
@@ -90,7 +97,7 @@ abstract class Facade
      * 
      * @throws \RuntimeException
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         throw new RuntimeException('Facade does not implement getFacadeAccessor method');
     }
@@ -120,7 +127,7 @@ abstract class Facade
      * 
      * @param  string  $name
      * 
-     * @return string
+     * @return mixed
      */
     protected static function resolveFacadeInstance($name)
     {
@@ -132,7 +139,45 @@ abstract class Facade
             return static::$resolvedInstance[$name];
         }
 
-        return static::$resolvedInstance[$name] = static::$applications[$name];
+        if (static::$applications) {
+            if (static::$cached) {
+                return static::$resolvedInstance[$name] = static::$applications[$name];
+            }
+
+            return static::$applications[$name];
+        }
+    }
+    
+    /**
+     * Get the application default aliases.
+     * 
+     * @return \Syscodes\Components\Collections\Collection
+     */
+    public static function defaultAliases()
+    {
+        return collect([
+            'App' => App::class,
+            'Cache' => Cache::class,
+            'Config' => Config::class,
+            'Crypt' => Crypt::class,
+            'DB' => DB::class,
+            'Event' => Event::class,
+            'File' => File::class,
+            'Http' => Http::class,
+            'Lang' => Lang::class,
+            'Log' => Log::class,
+            'Plaze' => Plaze::class,
+            'Prime' => Prime::class,
+            'Redirect' => Redirect::class,
+            'Redis' => Redis::class,
+            'Request' => Request::class,
+            'Response' => Response::class,
+            'Route' => Route::class,
+            'Schema' => Schema::class,
+            'Session' => Session::class,
+            'URL' => URL::class,
+            'View' => View::class,
+        ]);
     }
 
     /**
@@ -142,9 +187,9 @@ abstract class Facade
      * 
      * @return void
      */
-    public static function setFacadeApplication($app)
+    public static function setFacadeApplication($app): void
     {
-        return static::$applications = $app;
+        static::$applications = $app;
     }
 
     /**
