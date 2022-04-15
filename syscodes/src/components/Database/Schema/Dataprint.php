@@ -37,6 +37,20 @@ use Syscodes\Components\Database\Schema\Grammars\Grammar;
 class Dataprint
 {
     /**
+     * The default character set that should be used for the table.
+     * 
+     * @var string $charset
+     */
+    public $charset;
+    
+    /**
+     * The collation that should be used for the table.
+     * 
+     * @var string $collation
+     */
+    public $collation;
+
+    /**
      * The columns that should be added to the table.
      * 
      * @var array $columns
@@ -55,7 +69,7 @@ class Dataprint
      * 
      * @var string $engine
      */
-    protected $engine;
+    public $engine;
 
     /**
      * The prefix of the table.
