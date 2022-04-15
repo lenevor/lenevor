@@ -22,6 +22,8 @@
 
 namespace Syscodes\Components\Support\Facades;
 
+use Syscodes\Components\Contracts\Console\Lenevor as LenevorConsole;
+
 /**
  * Initialize the Prime class facade.
  *
@@ -33,9 +35,11 @@ class Prime extends Facade
      * Get the registered name of the component.
      * 
      * @return string
+     * 
+     * @throws \RuntimeException
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
-        return 'Syscodes\Components\Console\Application';
+        return LenevorConsole::class;
     }
 }
