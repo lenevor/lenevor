@@ -22,6 +22,10 @@
 
 namespace Syscodes\Components\Database\Schema\Grammars;
 
+use Syscodes\Components\Support\Flowing;
+use Syscodes\Components\Database\Schema\Dataprint;
+use Syscodes\Components\Database\Connections\Connection;
+
 /**
  * Allows the compilation of sql sentences for the
  * Mysql database.
@@ -30,6 +34,56 @@ namespace Syscodes\Components\Database\Schema\Grammars;
  */
 class MySqlGrammar extends Grammar
 {
+    /**
+     * The possible column modifiers.
+     * 
+     * @var string[] $modifiers
+     */
+    protected $modifiers = [
+        'Unsigned', 'Charset', 'Collate', 'Nullable', 'Invisible',
+        'Default', 'Increment', 'Comment', 'After', 'First',
+    ];
+    
+    /**
+     * The possible column serials.
+     * 
+     * @var string[] $serials
+     */
+    protected $serials = ['bigInteger', 'integer', 'mediumInteger', 'smallInteger', 'tinyInteger'];
+    
+    /**
+     * Compile a create database command.
+     * 
+     * @param  string  $name
+     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
+     * 
+     * @return string
+     */
+    public function compileCreateDatabase($name, $connection)
+    {
+        return sprintf(
+            'create database %s default character set %s default collate %s',
+            $this->wrapValue($name),
+            $this->wrapValue($connection->getConfig('charset')),
+            $this->wrapValue($connection->getConfig('collation')),
+        );
+    }
+
+    /**
+     * Compile a drop database if exists command.
+     * 
+     * @param  string  $name
+     * 
+     * @return string
+     */
+    public function compileDropDatabaseIfExists($name)
+    {
+        return sprintf(
+            'drop database if exists %s',
+            $this->wrapValue($name)
+        );
+    }
+
     /**
      * Compile the query to determine the list of tables.
      *
@@ -49,4 +103,430 @@ class MySqlGrammar extends Grammar
     {
         return 'select column_name as `column_name` from information_schema.columns where table_schema = ? and table_name = ?';
     }
+
+    /**
+     * Compile a create table command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
+     * 
+     * @return string
+     */
+    public function compileCreate(Dataprint $dataprint, Flowing $command, Connection $connection): string
+    {
+        $sql = $this->compileCreateTable(
+            $dataprint, $command, $connection
+        );
+
+        $sql = $this->compileCreateEncoding(
+            $sql, $connection, $dataprint
+        );
+
+        return $this->compileCreateEngine(
+            $sql, $connection, $dataprint
+        );
+    }
+    
+    /**
+     * Create the main create table clause.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
+     * 
+     * @return string
+     */
+    protected function compileCreateTable($dataprint, $command, $connection): string
+    {
+        return trim(sprintf('create table %s (%s)',
+            $this->wrapTable($dataprint),
+            implode(', ', $this->getColumns($dataprint))
+        ));
+    }
+    
+    /**
+     * Append the character set specifications to a command.
+     * 
+     * @param  string  $sql
+     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * 
+     * @return string
+     */
+    protected function compileCreateEncoding($sql, Connection $connection, Dataprint $dataprint): string
+    {
+        if (isset($dataprint->charset)) {
+            $sql .= ' default character set '.$dataprint->charset;
+        } elseif ( ! is_null($charset = $connection->getConfig('charset'))) {
+            $sql .= ' default character set '.$charset;
+        }
+        
+        if (isset($dataprint->collation)) {
+            $sql .= " collate '{$dataprint->collation}'";
+        } elseif ( ! is_null($collation = $connection->getConfig('collation'))) {
+            $sql .= " collate '{$collation}'";
+        }
+        
+        return $sql;
+    }
+    
+    /**
+     * Append the engine specifications to a command.
+     * 
+     * @param  string  $sql
+     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * 
+     * @return string
+     */
+    protected function compileCreateEngine($sql, Connection $connection, Dataprint $dataprint): string
+    {
+        if (isset($dataprint->engine)) {
+            return $sql.' engine = '.$dataprint->engine;
+        } elseif ( ! is_null($engine = $connection->getConfig('engine'))) {
+            return $sql.' engine = '.$engine;
+        }
+        
+        return $sql;
+    }
+    
+    /**
+     * Compile an add column command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileAdd(Dataprint $dataprint, Flowing $command): string
+    {
+        $columns = $this->prefixArray('add', $this->getColumns($dataprint));
+        
+        return 'alter table '.$this->wrapTable($dataprint).' '.implode(', ', $columns);
+    }
+    
+    /**
+     * Compile a primary key command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compilePrimary(Dataprint $dataprint, Flowing $command): string
+    {
+        $command->name(null);
+        
+        return $this->compileKey($dataprint, $command, 'primary key');
+    }
+    
+    /**
+     * Compile a unique key command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileUnique(Dataprint $dataprint, Flowing $command): string
+    {
+        return $this->compileKey($dataprint, $command, 'unique');
+    }
+    
+    /**
+     * Compile a plain index key command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileIndex(Dataprint $dataprint, Flowing $command): string
+    {
+        return $this->compileKey($dataprint, $command, 'index');
+    }
+    
+    /**
+     * Compile a fulltext index key command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileFullText(Dataprint $dataprint, Flowing $command): string
+    {
+        return $this->compileKey($dataprint, $command, 'fulltext');
+    }
+    
+    /**
+     * Compile a spatial index key command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileSpatialIndex(Dataprint $dataprint, Flowing $command): string
+    {
+        return $this->compileKey($dataprint, $command, 'spatial index');
+    }
+    
+    /**
+     * Compile an index creation command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * @param  string  $type
+     * 
+     * @return string
+     */
+    protected function compileKey(Dataprint $dataprint, Flowing $command, $type): string
+    {
+        return sprintf('alter table %s add %s %s(%s)',
+            $this->wrapTable($dataprint),
+            $type,
+            $this->wrap($command->index),
+            $this->columnize($command->columns)
+        );
+    }
+    
+    /**
+     * Compile a drop table command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileDrop(Dataprint $dataprint, Flowing $command): string
+    {
+        return 'drop table '.$this->wrapTable($dataprint);
+    }
+    
+    /**
+     * Compile a drop table (if exists) command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileDropIfExists(Dataprint $dataprint, Flowing $command): string
+    {
+        return 'drop table if exists '.$this->wrapTable($dataprint);
+    }
+    
+    /**
+     * Compile a drop column command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileDropColumn(Dataprint $dataprint, Flowing $command): string
+    {
+        $columns = $this->prefixArray('drop', $this->wrapArray($command->columns));
+        
+        return 'alter table '.$this->wrapTable($dataprint).' '.implode(', ', $columns);
+    }
+    
+    /**
+     * Compile a drop primary key command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileDropPrimary(Dataprint $dataprint, Flowing $command): string
+    {
+        return 'alter table '.$this->wrapTable($dataprint).' drop primary key';
+    }
+    
+    /**
+     * Compile a drop unique key command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileDropUnique(Dataprint $dataprint, Flowing $command): string
+    {
+        $index = $this->wrap($command->index);
+        
+        return "alter table {$this->wrapTable($dataprint)} drop index {$index}";
+    }
+    
+    /**
+     * Compile a drop index command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileDropIndex(Dataprint $dataprint, Flowing $command): string
+    {
+        $index = $this->wrap($command->index);
+        
+        return "alter table {$this->wrapTable($dataprint)} drop index {$index}";
+    }
+    
+    /**
+     * Compile a drop fulltext index command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileDropFullText(Dataprint $dataprint, Flowing $command): string
+    {
+        return $this->compileDropIndex($dataprint, $command);
+    }
+    
+    /**
+     * Compile a drop spatial index command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileDropSpatialIndex(Dataprint $dataprint, Flowing $command): string
+    {
+        return $this->compileDropIndex($dataprint, $command);
+    }
+    
+    /**
+     * Compile a drop foreign key command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileDropForeign(Dataprint $dataprint, Flowing $command): string
+    {
+        $index = $this->wrap($command->index);
+        
+        return "alter table {$this->wrapTable($dataprint)} drop foreign key {$index}";
+    }
+    
+    /**
+     * Compile a rename table command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileRename(Dataprint $dataprint, Flowing $command): string
+    {
+        $from = $this->wrapTable($dataprint);
+        
+        return "rename table {$from} to ".$this->wrapTable($command->to);
+    }
+    
+    /**
+     * Compile a rename index command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileRenameIndex(Dataprint $dataprint, Flowing $command): string
+    {
+        return sprintf('alter table %s rename index %s to %s',
+            $this->wrapTable($dataprint),
+            $this->wrap($command->from),
+            $this->wrap($command->to)
+        );
+    }
+    
+    /**
+     * Compile the SQL needed to drop all tables.
+     * 
+     * @param  array  $tables
+     * 
+     * @return string
+     */
+    public function compileDropAllTables($tables): string
+    {
+        return 'drop table '.implode(',', $this->wrapArray($tables));
+    }
+    
+    /**
+     * Compile the SQL needed to drop all views.
+     * 
+     * @param  array  $views
+     * 
+     * @return string
+     */
+    public function compileDropAllViews($views): string
+    {
+        return 'drop view '.implode(',', $this->wrapArray($views));
+    }
+    
+    /**
+     * Compile the SQL needed to retrieve all table names.
+     * 
+     * @return string
+     */
+    public function compileGetAllTables(): string
+    {
+        return 'SHOW FULL TABLES WHERE table_type = \'BASE TABLE\'';
+    }
+    
+    /**
+     * Compile the SQL needed to retrieve all view names.
+     * 
+     * @return string
+     */
+    public function compileGetAllViews()
+    {
+        return 'SHOW FULL TABLES WHERE table_type = \'VIEW\'';
+    }
+    
+    /**
+     * Compile the command to enable foreign key constraints.
+     * 
+     * @return string
+     */
+    public function compileEnableForeignKeyConstraints(): string
+    {
+        return 'SET FOREIGN_KEY_CHECKS=1;';
+    }
+    
+    /**
+     * Compile the command to disable foreign key constraints.
+     * 
+     * @return string
+     */
+    public function compileDisableForeignKeyConstraints(): string
+    {
+        return 'SET FOREIGN_KEY_CHECKS=0;';
+    }
+    
+    /**
+     * Wrap a single string in keyword identifiers.
+     * 
+     * @param  string  $value
+     * 
+     * @return string
+     */
+    protected function wrapValue($value): string
+    {
+        if ($value !== '*') {
+            return '`'.str_replace('`', '``', $value).'`';
+        }
+        
+        return $value;
+    }
+
 }
