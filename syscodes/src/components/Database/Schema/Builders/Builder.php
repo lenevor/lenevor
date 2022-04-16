@@ -213,41 +213,44 @@ class Builder
             $callback($dataprint);
         }));
     }
-
+    
     /**
      * Drop a table from the schema.
-     *
+     * 
      * @param  string  $table
+     * 
      * @return void
      */
-    public function drop($table)
+    public function drop($table): void
     {
         $this->build(take($this->createDataprint($table), function ($dataprint) {
             $dataprint->drop();
         }));
     }
-
+    
     /**
      * Drop a table from the schema if it exists.
-     *
+     * 
      * @param  string  $table
+     * 
      * @return void
      */
-    public function dropIfExists($table)
+    public function dropIfExists($table): void
     {
         $this->build(take($this->createDataprint($table), function ($dataprint) {
             $dataprint->dropIfExists();
         }));
     }
-
+    
     /**
      * Drop columns from a table schema.
-     *
+     * 
      * @param  string  $table
      * @param  string|array  $columns
+     * 
      * @return void
      */
-    public function dropColumns($table, $columns)
+    public function dropColumns($table, $columns): void
     {
         $this->table($table, function (Dataprint $dataprint) use ($columns) {
             $dataprint->dropColumn($columns);
@@ -285,7 +288,7 @@ class Builder
      * 
      * @throws \LogicException
      */
-    public function getAllTables(): void
+    public function getAllTables()
     {
         throw new LogicException('This database driver does not support getting all tables');
     }
