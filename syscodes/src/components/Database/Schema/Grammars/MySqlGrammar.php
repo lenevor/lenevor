@@ -514,6 +514,166 @@ class MySqlGrammar extends Grammar
     }
     
     /**
+     * Create the column definition for a char type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeChar(Flowing $column): string
+    {
+        return "char({$column->length})";
+    }
+    
+    /**
+     * Create the column definition for a string type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeString(Flowing $column): string
+    {
+        return "varchar({$column->length})";
+    }
+    
+    /**
+     * Create the column definition for a tiny text type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeTinyText(Flowing $column): string
+    {
+        return 'tinytext';
+    }
+    
+    /**
+     * Create the column definition for a text type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeText(Flowing $column): string
+    {
+        return 'text';
+    }
+    
+    /**
+     * Create the column definition for a medium text type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeMediumText(Flowing $column): string
+    {
+        return 'mediumtext';
+    }
+    
+    /**
+     * Create the column definition for a long text type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeLongText(Flowing $column): string
+    {
+        return 'longtext';
+    }
+    
+    /**
+     * Create the column definition for a big integer type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeBigInteger(Flowing $column): string
+    {
+        return 'bigint';
+    }
+    
+    /**
+     * Create the column definition for an integer type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeInteger(Flowing $column): string
+    {
+        return 'int';
+    }
+    
+    /**
+     * Create the column definition for a medium integer type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeMediumInteger(Flowing $column): string
+    {
+        return 'mediumint';
+    }
+    
+    /**
+     * Create the column definition for a tiny integer type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeTinyInteger(Flowing $column): string
+    {
+        return 'tinyint';
+    }
+    
+    /**
+     * Create the column definition for a small integer type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeSmallInteger(Flowing $column): string
+    {
+        return 'smallint';
+    }
+    
+    /**
+     * Create the column definition for a float type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeFloat(Flowing $column): string
+    {
+        return $this->typeDouble($column);
+    }
+    
+    /**
+     * Create the column definition for a double type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeDouble(Flowing $column): string
+    {
+        if ($column->total && $column->places) {
+            return "double({$column->total}, {$column->places})";
+        }
+        
+        return 'double';
+    }
+    
+    /**
      * Wrap a single string in keyword identifiers.
      * 
      * @param  string  $value
