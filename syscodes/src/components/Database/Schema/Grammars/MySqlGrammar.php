@@ -672,6 +672,249 @@ class MySqlGrammar extends Grammar
         
         return 'double';
     }
+   
+    /**
+     * Create the column definition for a decimal type.
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeDecimal(Flowing $column): string
+    {
+        return "decimal({$column->total}, {$column->places})";
+    }
+    
+    /**
+     * Create the column definition for a boolean type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeBoolean(Flowing $column): string
+    {
+        return 'tinyint(1)';
+    }
+    
+    /**
+     * Create the column definition for an enum type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeEnum(Flowing $column): string
+    {
+        return "enum('".implode("', '", $column->allowed)."')";
+    }
+    
+    /**
+     * Create the column definition for a date type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeDate(Flowing $column): string
+    {
+        return 'date';
+    }
+    
+    /**
+     * Create the column definition for a date-time type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeDateTime(Flowing $column): string
+    {
+        return 'datetime';
+    }
+    /**
+     * Create the column definition for a time type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeTime(Flowing $column): string
+    {
+        return 'time';
+    }
+    
+    /**
+     * Create the column definition for a timestamp type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeTimestamp(Flowing $column): string
+    {
+        if ( ! $column->nullable) return 'timestamp default CURRENT_TIMESTAMP';
+        
+        return 'timestamp';
+    }
+    
+    /**
+     * Create the column definition for a binary type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeBinary(Flowing $column): string
+    {
+        return 'blob';
+    }
+    
+    /**
+     * Get the SQL for an unsigned column modifier.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string|null
+     */
+    protected function modifyUnsigned(Dataprint $dataprint, Flowing $column): string
+    {
+        if ($column->unsigned) return ' unsigned';
+    }
+    
+    /**
+     * Get the SQL for a nullable column modifier.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string|null
+     */
+    protected function modifyNullable(Dataprint $dataprint, Flowing $column): string
+    {
+        return $column->nullable ? ' null' : ' not null';
+    }
+    
+    /**
+     * Get the SQL for a character set column modifier.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string|null
+     */
+    protected function modifyCharset(Dataprint $dataprint, Flowing $column)
+    {
+        if ( ! is_null($column->charset)) {
+            return ' character set '.$column->charset;
+        }
+    }
+    
+    /**
+     * Get the SQL for a collation column modifier.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string|null
+     */
+    protected function modifyCollate(Dataprint $dataprint, Flowing $column)
+    {
+        if ( ! is_null($column->collation)) {
+            return " collate '{$column->collation}'";
+        }
+    }
+    
+    /**
+     * Get the SQL for a default column modifier.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string|null
+     */
+    protected function modifyDefault(Dataprint $dataprint, Flowing $column)
+    {
+        if ( ! is_null($column->default))  {
+            return " default ".$this->getDefaultValue($column->default);
+        }
+    }
+    
+    /**
+     * Get the SQL for an invisible column modifier.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string|null
+     */
+    protected function modifyInvisible(Dataprint $dataprint, Flowing $column)
+    {
+        if ( ! is_null($column->invisible)) {
+            return ' invisible';
+        }
+    }
+    
+    /**
+     * Get the SQL for an auto-increment column modifier.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string|null
+     */
+    protected function modifyIncrement(Dataprint $dataprint, Flowing $column)
+    {
+        if (in_array($column->type, $this->serials) && $column->autoIncrement) {
+            return ' auto_increment primary key';
+        }
+    }
+    
+    /**
+     * Get the SQL for an "after" column modifier.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string|null
+     */
+    protected function modifyAfter(Dataprint $dataprint, Flowing $column)
+    {
+        if ( ! is_null($column->after)) {
+            return ' after '.$this->wrap($column->after);
+        }
+    }
+    
+    /**
+     * Get the SQL for a "first" column modifier.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string|null
+     */
+    protected function modifyFirst(Dataprint $dataprint, Flowing $column)
+    {
+        if ( ! is_null($column->first)) {
+            return ' first';
+        }
+    }
+    
+    /**
+     * Get the SQL for an "comment" column modifier.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string|null
+     */
+    protected function modifyComment(Dataprint $dataprint, Flowing $column)
+    {
+        if ( ! is_null($column->comment)) {
+            return ' comment "'.$column->comment.'"';
+        }
+    }
     
     /**
      * Wrap a single string in keyword identifiers.
