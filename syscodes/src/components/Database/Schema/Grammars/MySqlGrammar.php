@@ -61,8 +61,7 @@ class MySqlGrammar extends Grammar
      */
     public function compileCreateDatabase($name, $connection)
     {
-        return sprintf(
-            'create database %s default character set %s default collate %s',
+        return sprintf('create database %s default character set %s default collate %s',
             $this->wrapValue($name),
             $this->wrapValue($connection->getConfig('charset')),
             $this->wrapValue($connection->getConfig('collation')),
@@ -78,8 +77,7 @@ class MySqlGrammar extends Grammar
      */
     public function compileDropDatabaseIfExists($name)
     {
-        return sprintf(
-            'drop database if exists %s',
+        return sprintf('drop database if exists %s',
             $this->wrapValue($name)
         );
     }
@@ -201,9 +199,10 @@ class MySqlGrammar extends Grammar
      */
     public function compileAdd(Dataprint $dataprint, Flowing $command): string
     {
-        $columns = $this->prefixArray('add', $this->getColumns($dataprint));
-        
-        return 'alter table '.$this->wrapTable($dataprint).' '.implode(', ', $columns);
+        return sprintf('alter table %s %s',
+            $this->wrapTable($dataprint),
+            implode(', ', $this->prefixArray('add', $this->getColumns($dataprint)))
+        );
     }
     
     /**
