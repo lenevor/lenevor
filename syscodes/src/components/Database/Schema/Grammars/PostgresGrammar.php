@@ -105,86 +105,15 @@ class PostgresGrammar extends Grammar
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
      * @param  \Syscodes\Components\Support\Flowing  $command
-     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * 
      * @return string
      */
-    public function compileCreate(Dataprint $dataprint, Flowing $command, Connection $connection): string
+    public function compileCreate(Dataprint $dataprint, Flowing $command): string
     {
-        $sql = $this->compileCreateTable(
-            $dataprint, $command, $connection
-        );
-
-        $sql = $this->compileCreateEncoding(
-            $sql, $connection, $dataprint
-        );
-
-        return $this->compileCreateEngine(
-            $sql, $connection, $dataprint
-        );
-    }
-    
-    /**
-     * Create the main create table clause.
-     * 
-     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
-     * 
-     * @return string
-     */
-    protected function compileCreateTable($dataprint, $command, $connection): string
-    {
-        return trim(sprintf('create table %s (%s)',
+        return sprintf('create table %s (%s)',
             $this->wrapTable($dataprint),
             implode(', ', $this->getColumns($dataprint))
-        ));
-    }
-    
-    /**
-     * Append the character set specifications to a command.
-     * 
-     * @param  string  $sql
-     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
-     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * 
-     * @return string
-     */
-    protected function compileCreateEncoding($sql, Connection $connection, Dataprint $dataprint): string
-    {
-        if (isset($dataprint->charset)) {
-            $sql .= ' default character set '.$dataprint->charset;
-        } elseif ( ! is_null($charset = $connection->getConfig('charset'))) {
-            $sql .= ' default character set '.$charset;
-        }
-        
-        if (isset($dataprint->collation)) {
-            $sql .= " collate '{$dataprint->collation}'";
-        } elseif ( ! is_null($collation = $connection->getConfig('collation'))) {
-            $sql .= " collate '{$collation}'";
-        }
-        
-        return $sql;
-    }
-    
-    /**
-     * Append the engine specifications to a command.
-     * 
-     * @param  string  $sql
-     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
-     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * 
-     * @return string
-     */
-    protected function compileCreateEngine($sql, Connection $connection, Dataprint $dataprint): string
-    {
-        if (isset($dataprint->engine)) {
-            return $sql.' engine = '.$dataprint->engine;
-        } elseif ( ! is_null($engine = $connection->getConfig('engine'))) {
-            return $sql.' engine = '.$engine;
-        }
-        
-        return $sql;
+        );
     }
     
     /**
@@ -197,9 +126,10 @@ class PostgresGrammar extends Grammar
      */
     public function compileAdd(Dataprint $dataprint, Flowing $command): string
     {
-        $columns = $this->prefixArray('add', $this->getColumns($dataprint));
-        
-        return 'alter table '.$this->wrapTable($dataprint).' '.implode(', ', $columns);
+        return sprintf('alter table %s %s',
+            $this->wrapTable($dataprint),
+            implode(', ', $this->prefixArray('add column', $this->getColumns($dataprint)))
+        );
     }
     
     /**
