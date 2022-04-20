@@ -142,9 +142,9 @@ class PostgresGrammar extends Grammar
      */
     public function compilePrimary(Dataprint $dataprint, Flowing $command): string
     {
-        $command->name(null);
-        
-        return $this->compileKey($dataprint, $command, 'primary key');
+        $columns = $this->columnize($command->columns);
+
+        return 'alter table '.$this->wrapTable($dataprint)." add primary key ({$columns})";        
     }
     
     /**
@@ -157,7 +157,11 @@ class PostgresGrammar extends Grammar
      */
     public function compileUnique(Dataprint $dataprint, Flowing $command): string
     {
-        return $this->compileKey($dataprint, $command, 'unique');
+        return sprintf('alter table %s add constraint %s unique (%s)',
+            $this->wrapTable($dataprint),
+            $this->wrap($command->index),
+            $this->columnize($command->columns)
+        );
     }
     
     /**
@@ -170,7 +174,7 @@ class PostgresGrammar extends Grammar
      */
     public function compileIndex(Dataprint $dataprint, Flowing $command): string
     {
-        return $this->compileKey($dataprint, $command, 'index');
+        
     }
     
     /**
@@ -183,7 +187,7 @@ class PostgresGrammar extends Grammar
      */
     public function compileFullText(Dataprint $dataprint, Flowing $command): string
     {
-        return $this->compileKey($dataprint, $command, 'fulltext');
+        
     }
     
     /**
@@ -196,26 +200,7 @@ class PostgresGrammar extends Grammar
      */
     public function compileSpatialIndex(Dataprint $dataprint, Flowing $command): string
     {
-        return $this->compileKey($dataprint, $command, 'spatial index');
-    }
-    
-    /**
-     * Compile an index creation command.
-     * 
-     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * @param  string  $type
-     * 
-     * @return string
-     */
-    protected function compileKey(Dataprint $dataprint, Flowing $command, $type): string
-    {
-        return sprintf('alter table %s add %s %s(%s)',
-            $this->wrapTable($dataprint),
-            $type,
-            $this->wrap($command->index),
-            $this->columnize($command->columns)
-        );
+        
     }
     
     /**
