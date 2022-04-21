@@ -174,7 +174,11 @@ class PostgresGrammar extends Grammar
      */
     public function compileIndex(Dataprint $dataprint, Flowing $command): string
     {
-        
+        return sprintf('create index %s on %s (%s)',
+            $this->wrap($command->index),
+            $this->wrapTable($dataprint),
+            $this->columnize($command->columns)
+        );        
     }
     
     /**
@@ -187,7 +191,11 @@ class PostgresGrammar extends Grammar
      */
     public function compileFullText(Dataprint $dataprint, Flowing $command): string
     {
-        
+        return sprintf('create index %s on %s using gin ((%s))',
+            $this->wrap($command->index),
+            $this->wrapTable($dataprint),
+            implode(' || ', $command->columns)
+        );        
     }
     
     /**
