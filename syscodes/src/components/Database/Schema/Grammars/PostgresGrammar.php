@@ -208,7 +208,11 @@ class PostgresGrammar extends Grammar
      */
     public function compileSpatialIndex(Dataprint $dataprint, Flowing $command): string
     {
-        
+        return sprintf('create index %s on %s using gist (%s)',
+            $this->wrap($command->index),
+            $this->wrapTable($dataprint),
+            $this->columnize($command->columns)
+        );  
     }
     
     /**
@@ -262,7 +266,9 @@ class PostgresGrammar extends Grammar
      */
     public function compileDropPrimary(Dataprint $dataprint, Flowing $command): string
     {
-        return 'alter table '.$this->wrapTable($dataprint).' drop primary key';
+        $index = $this->wrap("{$dataprint->getTable()}_pkey");
+        
+        return 'alter table '.$this->wrapTable($dataprint)." drop constraint {$index}";
     }
     
     /**
