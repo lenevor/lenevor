@@ -251,7 +251,7 @@ class PostgresGrammar extends Grammar
      */
     public function compileDropColumn(Dataprint $dataprint, Flowing $command): string
     {
-        $columns = $this->prefixArray('drop', $this->wrapArray($command->columns));
+        $columns = $this->prefixArray('drop column', $this->wrapArray($command->columns));
         
         return 'alter table '.$this->wrapTable($dataprint).' '.implode(', ', $columns);
     }
@@ -283,7 +283,7 @@ class PostgresGrammar extends Grammar
     {
         $index = $this->wrap($command->index);
         
-        return "alter table {$this->wrapTable($dataprint)} drop index {$index}";
+        return "alter table {$this->wrapTable($dataprint)} drop constraint {$index}";
     }
     
     /**
@@ -296,9 +296,7 @@ class PostgresGrammar extends Grammar
      */
     public function compileDropIndex(Dataprint $dataprint, Flowing $command): string
     {
-        $index = $this->wrap($command->index);
-        
-        return "alter table {$this->wrapTable($dataprint)} drop index {$index}";
+        return "drop index {$this->wrap($command->index)}";
     }
     
     /**
@@ -337,9 +335,9 @@ class PostgresGrammar extends Grammar
      */
     public function compileDropForeign(Dataprint $dataprint, Flowing $command): string
     {
-        $index = $this->wrap($command->index);
+        $table = $this->wrap($dataprint);
         
-        return "alter table {$this->wrapTable($dataprint)} drop foreign key {$index}";
+        return "alter table {table} drop foreign key {$command->index}"; 
     }
     
     /**
@@ -354,7 +352,7 @@ class PostgresGrammar extends Grammar
     {
         $from = $this->wrapTable($dataprint);
         
-        return "rename table {$from} to ".$this->wrapTable($command->to);
+        return "alter table {$from} rename to ".$this->wrapTable($command->to);
     }
     
     /**
@@ -367,8 +365,7 @@ class PostgresGrammar extends Grammar
      */
     public function compileRenameIndex(Dataprint $dataprint, Flowing $command): string
     {
-        return sprintf('alter table %s rename index %s to %s',
-            $this->wrapTable($dataprint),
+        return sprintf('alter table %s rename to %s',
             $this->wrap($command->from),
             $this->wrap($command->to)
         );
@@ -425,7 +422,7 @@ class PostgresGrammar extends Grammar
      */
     public function compileEnableForeignKeyConstraints(): string
     {
-        return 'SET FOREIGN_KEY_CHECKS=1;';
+        return 'SET CONSTRAINTS ALL IMMEDIATE;';
     }
     
     /**
@@ -435,7 +432,24 @@ class PostgresGrammar extends Grammar
      */
     public function compileDisableForeignKeyConstraints(): string
     {
-        return 'SET FOREIGN_KEY_CHECKS=0;';
+        return 'SET CONSTRAINTS ALL DEFERRED;';
+    }
+    
+    /**
+     * Compile a comment command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileComment(Dataprint $dataprint, Flowing $command): string
+    {
+        return sprintf('comment on column %s.%s is %s',
+            $this->wrapTable($dataprint),
+            $this->wrap($command->column->name),
+            "'".str_replace("'", "''", $command->value)."'"
+        );
     }
     
     /**
@@ -447,7 +461,11 @@ class PostgresGrammar extends Grammar
      */
     protected function typeChar(Flowing $column): string
     {
-        return "char({$column->length})";
+        if ($column->length) {
+            return "char({$column->length})";
+        }
+
+        return 'char';
     }
     
     /**
@@ -459,7 +477,11 @@ class PostgresGrammar extends Grammar
      */
     protected function typeString(Flowing $column): string
     {
-        return "varchar({$column->length})";
+        if ($column->length) {
+            return "varchar({$column->length})";
+        }
+
+        return 'varchar';
     }
     
     /**
@@ -471,7 +493,7 @@ class PostgresGrammar extends Grammar
      */
     protected function typeTinyText(Flowing $column): string
     {
-        return 'tinytext';
+        return 'varchar(255)';
     }
     
     /**
@@ -495,7 +517,7 @@ class PostgresGrammar extends Grammar
      */
     protected function typeMediumText(Flowing $column): string
     {
-        return 'mediumtext';
+        return 'text';
     }
     
     /**
@@ -507,7 +529,7 @@ class PostgresGrammar extends Grammar
      */
     protected function typeLongText(Flowing $column): string
     {
-        return 'longtext';
+        return 'text';
     }
     
     /**
@@ -519,7 +541,7 @@ class PostgresGrammar extends Grammar
      */
     protected function typeBigInteger(Flowing $column): string
     {
-        return 'bigint';
+        return $column->autoIncrement ? 'bigserial' : 'bigint';
     }
     
     /**
@@ -531,7 +553,7 @@ class PostgresGrammar extends Grammar
      */
     protected function typeInteger(Flowing $column): string
     {
-        return 'int';
+        return $column->autoIncrement ? 'serial' : 'integer';
     }
     
     /**
@@ -543,7 +565,7 @@ class PostgresGrammar extends Grammar
      */
     protected function typeMediumInteger(Flowing $column): string
     {
-        return 'mediumint';
+        return 'integer';
     }
     
     /**
@@ -555,7 +577,7 @@ class PostgresGrammar extends Grammar
      */
     protected function typeTinyInteger(Flowing $column): string
     {
-        return 'tinyint';
+        return 'smallint';
     }
     
     /**
@@ -591,11 +613,19 @@ class PostgresGrammar extends Grammar
      */
     protected function typeDouble(Flowing $column): string
     {
-        if ($column->total && $column->places) {
-            return "double({$column->total}, {$column->places})";
-        }
-        
-        return 'double';
+        return 'double precision';
+    }
+    
+    /**
+     * Create the column definition for a real type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeReal(Flowing $column): string
+    {
+        return 'real';
     }
    
     /**
@@ -618,7 +648,7 @@ class PostgresGrammar extends Grammar
      */
     protected function typeBoolean(Flowing $column): string
     {
-        return 'tinyint(1)';
+        return 'boolean';
     }
     
     /**
@@ -630,7 +660,9 @@ class PostgresGrammar extends Grammar
      */
     protected function typeEnum(Flowing $column): string
     {
-        return "enum('".implode("', '", $column->allowed)."')";
+        $allowed = array_map(function($a) { return "'".$a."'"; }, $column->allowed);
+        
+        return "varchar(255) check (\"{$column->name}\" in (".implode(', ', $allowed)."))";
     }
     
     /**
@@ -654,8 +686,21 @@ class PostgresGrammar extends Grammar
      */
     protected function typeDateTime(Flowing $column): string
     {
-        return 'datetime';
+        return $this->typeTimestamp($column);
     }
+    
+    /**
+     * Create the column definition for a date-time (with time zone) type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeDateTimeTz(Flowing $column): string
+    {
+        return $this->typeTimestampTz($column);
+    }
+
     /**
      * Create the column definition for a time type.
      * 
@@ -665,7 +710,19 @@ class PostgresGrammar extends Grammar
      */
     protected function typeTime(Flowing $column): string
     {
-        return 'time';
+        return 'time'.(is_null($column->precision) ? '' : "($column->precision)").' without time zone';
+    }
+    
+    /**
+     * Create the column definition for a time (with time zone) type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeTimeTz(Flowing $column): string
+    {
+        return 'time'.(is_null($column->precision) ? '' : "($column->precision)").' with time zone';
     }
     
     /**
@@ -677,9 +734,35 @@ class PostgresGrammar extends Grammar
      */
     protected function typeTimestamp(Flowing $column): string
     {
-        if ( ! $column->nullable) return 'timestamp default CURRENT_TIMESTAMP';
+        $type = 'timestamp'.(is_null($column->precision) ? '' : "($column->precision)").' without time zone';
         
-        return 'timestamp';
+        return $column->useCurrent ? "$type default CURRENT_TIMESTAMP" : $type;
+    }
+    
+    /**
+     * Create the column definition for a timestamp (with time zone) type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing $column
+     * 
+     * @return string
+     */
+    protected function typeTimestampTz(Flowing $column): string
+    {
+        $type = 'timestamp'.(is_null($column->precision) ? '' : "($column->precision)").' with time zone';
+        
+        return $column->useCurrent ? "$type default CURRENT_TIMESTAMP" : $type;
+    }
+
+    /**
+     * Create the column definition for a year type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeYear(Flowing $column): string
+    {
+        return $this->typeInteger($column);
     }
     
     /**
@@ -691,7 +774,7 @@ class PostgresGrammar extends Grammar
      */
     protected function typeBinary(Flowing $column): string
     {
-        return 'blob';
+        return 'bytea';
     }
     
     /**
@@ -718,7 +801,7 @@ class PostgresGrammar extends Grammar
     protected function modifyCollate(Dataprint $dataprint, Flowing $column)
     {
         if ( ! is_null($column->collation)) {
-            return " collate '{$column->collation}'";
+            return ' collate '.$this->wrapValue($column->collation);
         }
     }
     
@@ -734,7 +817,7 @@ class PostgresGrammar extends Grammar
     protected function modifyDefault(Dataprint $dataprint, Flowing $column)
     {
         if ( ! is_null($column->default))  {
-            return " default ".$this->getDefaultValue($column->default);
+            return ' default '.$this->getDefaultValue($column->default);
         }
     }
     
@@ -749,7 +832,7 @@ class PostgresGrammar extends Grammar
     protected function modifyIncrement(Dataprint $dataprint, Flowing $column)
     {
         if (in_array($column->type, $this->serials) && $column->autoIncrement) {
-            return ' auto_increment primary key';
+            return ' primary key';
         }
     }
 }
