@@ -728,8 +728,27 @@ class MySqlGrammar extends Grammar
      */
     protected function typeDateTime(Flowing $column): string
     {
-        return 'datetime';
+        $columnType = $column->precision ? "datetime($column->precision)" : 'datetime';
+        
+        $current = $column->precision ? "CURRENT_TIMESTAMP($column->precision)" : 'CURRENT_TIMESTAMP';
+        
+        $columnType = $column->useCurrent ? "$columnType default $current" : $columnType;
+        
+        return $column->useCurrentOnUpdate ? "$columnType on update $current" : $columnType;
     }
+    
+    /**
+     * Create the column definition for a date-time (with time zone) type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeDateTimeTz(Flowing $column): string
+    {
+        return $this->typeDateTime($column);
+    }
+    
     /**
      * Create the column definition for a time type.
      * 
@@ -739,7 +758,19 @@ class MySqlGrammar extends Grammar
      */
     protected function typeTime(Flowing $column): string
     {
-        return 'time';
+        return $column->precision ? "time($column->precision)" : 'time';
+    }
+    
+    /**
+     * Create the column definition for a time (with time zone) type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeTimeTz(Flowing $column): string
+    {
+        return $this->typeTime($column);
     }
     
     /**
@@ -751,9 +782,37 @@ class MySqlGrammar extends Grammar
      */
     protected function typeTimestamp(Flowing $column): string
     {
-        if ( ! $column->nullable) return 'timestamp default CURRENT_TIMESTAMP';
+        $columnType = $column->precision ? "timestamp($column->precision)" : 'timestamp';
         
-        return 'timestamp';
+        $current = $column->precision ? "CURRENT_TIMESTAMP($column->precision)" : 'CURRENT_TIMESTAMP';
+        
+        $columnType = $column->useCurrent ? "$columnType default $current" : $columnType;
+        
+        return $column->useCurrentOnUpdate ? "$columnType on update $current" : $columnType;
+    }
+
+    /**
+     * Create the column definition for a timestamp (with time zone) type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing $column
+     * 
+     * @return string
+     */
+    protected function typeTimestampTz(Flowing $column): string
+    {
+        return $this->typeTimestamp($column);
+    }
+    
+    /**
+     * Create the column definition for a year type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeYear(Flowing $column): string
+    {
+        return 'year';
     }
     
     /**
