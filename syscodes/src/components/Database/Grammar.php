@@ -97,13 +97,13 @@ abstract class Grammar
      */
     protected function wrapAliasedValues($value, $prefix = false): string
     {
-        $segments = explode(' ', $value);
+        $segments = preg_split('/\s+as\s+/i', $value);
 
         if ($prefix) {
-            $segments[2] = $this->tablePrefix.$segments[2];
+            $segments[1] = $this->tablePrefix.$segments[1];
         }
 
-        return $this->wrap($segments[0].' AS '.$this->wrapValue($segments[2]));
+        return $this->wrap($segments[0].' as '.$this->wrapValue($segments[1]));
     }
 
     /**
@@ -115,15 +115,11 @@ abstract class Grammar
      */
     protected function wrapSegments($segments): string
     {
-        $wrapped = [];
-
-        foreach ($segments as $key => $segment) {
-            $wrapped[] = ($key == 0 && count($segments) > 1)
-                        ? $this->wrapTable($segment)
-                        : $this->wrapValue($segment);
-        }
-
-        return implode('.', $wrapped);
+        return collect($segments)->map(function ($segment, $key) use ($segments) {
+            return $key == 0 && count($segments) > 1
+                            ? $this->wrapTable($segment)
+                            : $this->wrapValue($segment);
+        })->implode('.');
     }
 
     /**
