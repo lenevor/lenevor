@@ -197,6 +197,22 @@ abstract class Grammar
     {
         return $value instanceof Expression;
     }
+    
+    /**
+     * Quote the given string literal.
+     * 
+     * @param  string|array  $value
+     * 
+     * @return string
+     */
+    public function quoteString($value): string
+    {
+        if (is_array($value)) {
+            return implode(', ', array_map([$this, __FUNCTION__], $value));
+        }
+        
+        return "'$value'";
+    }
 
     /**
      * Get the format for database stored dates.
