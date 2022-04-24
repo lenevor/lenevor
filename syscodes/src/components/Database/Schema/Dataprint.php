@@ -37,6 +37,13 @@ use Syscodes\Components\Database\Schema\Grammars\Grammar;
 class Dataprint
 {
     /**
+     * The column to add new columns after.
+     * 
+     * @var string $after
+     */
+    public $after;
+
+    /**
      * The default character set that should be used for the table.
      * 
      * @var string $charset
@@ -84,6 +91,13 @@ class Dataprint
      * @var string $table
      */
     protected $table;
+    
+    /**
+     * Whether to make the table temporary.
+     * 
+     * @var bool $temporary
+     */
+    public $temporary = false;
 
     /**
      * Constructor. Create a new schema Dataprint instance.
@@ -170,7 +184,7 @@ class Dataprint
     protected function addFlowingIndexes(): void
     {
         foreach ($this->columns as $column) {
-            foreach (['primary', 'unique', 'index'] as $index) {
+            foreach (['primary', 'unique', 'index', 'fulltext', 'fullText', 'spatialIndex'] as $index) {
                 if ($column->{$index} === true) {
                     $this->{$index}($column->name);
 
@@ -208,6 +222,16 @@ class Dataprint
     public function create()
     {
         return $this->addCommand('create');
+    }
+    
+    /**
+     * Indicate that the table needs to be temporary.
+     * 
+     * @return void
+     */
+    public function temporary(): void
+    {
+        $this->temporary = true;
     }
     
     /**
@@ -374,16 +398,30 @@ class Dataprint
     }
     
     /**
+     * Indicate that the given indexes should be renamed.
+     * 
+     * @param  string  $from
+     * @param  string  $to
+     * 
+     * @return \Syscodes\Components\Support\Flowing
+     */
+    public function renameIndex($from, $to)
+    {
+        return $this->addCommand('renameIndex', compact('from', 'to'));
+    }
+
+    /**
      * Specify the primary key(s) for the table.
      * 
      * @param  string|array  $columns
      * @param  string|null  $name
+     * @param  string|null  $option
      * 
      * @return \Syscodes\Components\Support\Flowing
      */
-    public function primary($columns, $name = null)
+    public function primary($columns, $name = null, $option = null)
     {
-        return $this->indexCommand('primary', $columns, $name);
+        return $this->indexCommand('primary', $columns, $name, $option);
     }
     
     /**
@@ -391,12 +429,13 @@ class Dataprint
      * 
      * @param  string|array  $columns
      * @param  string|null  $name
+     * @param  string|null  $option
      * 
      * @return \Syscodes\Components\Support\Flowing
      */
-    public function unique($columns, $name = null)
+    public function unique($columns, $name = null, $option = null)
     {
-        return $this->indexCommand('unique', $columns, $name);
+        return $this->indexCommand('unique', $columns, $name, $option);
     }
     
     /**
@@ -404,12 +443,13 @@ class Dataprint
      * 
      * @param  string|array  $columns
      * @param  string|null  $name
+     * @param  string|null  $option
      * 
      * @return \Syscodes\Components\Support\Flowing
      */
-    public function index($columns, $name = null)
+    public function index($columns, $name = null, $option = null)
     {
-        return $this->indexCommand('index', $columns, $name);
+        return $this->indexCommand('index', $columns, $name, $option);
     }
     
     /**
@@ -417,12 +457,13 @@ class Dataprint
      * 
      * @param  string|array  $columns
      * @param  string|null  $name
+     * @param  string|null  $option
      * 
      * @return \Syscodes\Components\Support\Flowing
      */
-    public function fullText($columns, $name = null)
+    public function fullText($columns, $name = null, $option = null)
     {
-        return $this->indexCommand('fulltext', $columns, $name);
+        return $this->indexCommand('fulltext', $columns, $name, $option);
     }
     
     /**
@@ -1132,17 +1173,18 @@ class Dataprint
      * @param  string  $type
      * @param  string|array  $columns
      * @param  string  $index
+     * @param  string|null  $option
      * 
      * @return \Syscodes\Components\Support\Flowing
      */
-    protected function indexCommand($type, $columns, $index)
+    protected function indexCommand($type, $columns, $index, $option = null)
     {
         $columns = (array) $columns;
         
         $index = $index ?: $this->createIndexName($type, $columns);
         
         return $this->addCommand(
-            $type, compact('index', 'columns')
+            $type, compact('index', 'columns', $option)
         );
     }
     
@@ -1174,9 +1216,27 @@ class Dataprint
     {
         $attributes = array_merge(compact('type', 'name'), $parameters);
         
-        $this->columns[] = $column = new ColumnDefinition($attributes);
+        return $this->addColumnDefinition(new ColumnDefinition($attributes));
+    }
+    
+    /**
+     * Add a new column definition to the dataprint.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\ColumnDefinition  $definition
+     * 
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    protected function addColumnDefinition($definition)
+    {
+        $this->columns[] = $definition;
         
-        return $column;
+        if ($this->after) {
+            $definition->after($this->after);
+            
+            $this->after = $definition->name;
+        }
+        
+        return $definition;
     }
     
     /**
