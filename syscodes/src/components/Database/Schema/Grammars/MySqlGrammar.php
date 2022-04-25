@@ -137,7 +137,8 @@ class MySqlGrammar extends Grammar
      */
     protected function compileCreateTable($dataprint, $command, $connection): string
     {
-        return trim(sprintf('create table %s (%s)',
+        return trim(sprintf('%s table %s (%s)',
+            $dataprint->temporary ? 'create temporary' : 'create',
             $this->wrapTable($dataprint),
             implode(', ', $this->getColumns($dataprint))
         ));
@@ -283,10 +284,11 @@ class MySqlGrammar extends Grammar
      */
     protected function compileKey(Dataprint $dataprint, Flowing $command, $type): string
     {
-        return sprintf('alter table %s add %s %s(%s)',
+        return sprintf('alter table %s add %s %s%s(%s)',
             $this->wrapTable($dataprint),
             $type,
             $this->wrap($command->index),
+            $command->option ? ' using '.$command->option : '',
             $this->columnize($command->columns)
         );
     }
@@ -487,7 +489,7 @@ class MySqlGrammar extends Grammar
      * 
      * @return string
      */
-    public function compileGetAllViews()
+    public function compileGetAllViews(): string
     {
         return 'SHOW FULL TABLES WHERE table_type = \'VIEW\'';
     }
@@ -704,7 +706,43 @@ class MySqlGrammar extends Grammar
      */
     protected function typeEnum(Flowing $column): string
     {
-        return "enum('".implode("', '", $column->allowed)."')";
+        return sprintf('enum(%s)', $this->quoteString($column->allowed));
+    }
+    
+    /**
+     * Create the column definition for a set enumeration type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeSet(Flowing $column): string
+    {
+        return sprintf('set(%s)', $this->quoteString($column->allowed));
+    }
+    
+    /**
+     * Create the column definition for a json type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeJson(Flowing $column): string
+    {
+        return 'json';
+    }
+    
+    /**
+     * Create the column definition for a jsonb type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeJsonb(Flowing $column): string
+    {
+        return 'json';
     }
     
     /**
@@ -825,6 +863,18 @@ class MySqlGrammar extends Grammar
     protected function typeBinary(Flowing $column): string
     {
         return 'blob';
+    }
+    
+    /**
+     * Create the column definition for a uuid type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeUuid(Flowing $column): string
+    {
+        return 'char(36)';
     }
     
     /**
