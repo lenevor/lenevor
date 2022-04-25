@@ -110,7 +110,8 @@ class PostgresGrammar extends Grammar
      */
     public function compileCreate(Dataprint $dataprint, Flowing $command): string
     {
-        return sprintf('create table %s (%s)',
+        return sprintf('%s table %s (%s)',
+            $dataprint->temporary ? 'create temporary' : 'create',
             $this->wrapTable($dataprint),
             implode(', ', $this->getColumns($dataprint))
         );
@@ -177,6 +178,7 @@ class PostgresGrammar extends Grammar
         return sprintf('create index %s on %s (%s)',
             $this->wrap($command->index),
             $this->wrapTable($dataprint),
+            $command->option ? ' using '.$command->option : '',
             $this->columnize($command->columns)
         );        
     }
@@ -208,12 +210,34 @@ class PostgresGrammar extends Grammar
      */
     public function compileSpatialIndex(Dataprint $dataprint, Flowing $command): string
     {
-        return sprintf('create index %s on %s using gist (%s)',
-            $this->wrap($command->index),
-            $this->wrapTable($dataprint),
-            $this->columnize($command->columns)
-        );  
+        $command->option = 'gist';
+        
+        return $this->compileIndex($dataprint, $command);
     }
+    
+    /**
+     * Compile a foreign key command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $blueprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileForeign(Dataprint $blueprint, Flowing $command): string
+    {
+        $sql = parent::compileForeign($blueprint, $command);
+        
+        if ( ! is_null($command->deferrable)) {
+            $sql .= $command->deferrable ? ' deferrable' : ' not deferrable';
+        }
+        
+        if ($command->deferrable && ! is_null($command->initiallyImmediate)) {
+            $sql .= $command->initiallyImmediate ? ' initially immediate' : ' initially deferred';
+        }
+        
+        return $sql;
+    }
+
     
     /**
      * Compile a drop table command.
@@ -380,7 +404,7 @@ class PostgresGrammar extends Grammar
      */
     public function compileDropAllTables($tables): string
     {
-        return 'drop table '.implode(',', $this->wrapArray($tables));
+        return 'drop table "'.implode('","', $tables).'" cascade';
     }
     
     /**
@@ -392,27 +416,31 @@ class PostgresGrammar extends Grammar
      */
     public function compileDropAllViews($views): string
     {
-        return 'drop view '.implode(',', $this->wrapArray($views));
+        return 'drop view "'.implode('","', $views).'" cascade';
     }
     
     /**
      * Compile the SQL needed to retrieve all table names.
      * 
+     * @param  array|string  $schema
+     * 
      * @return string
      */
-    public function compileGetAllTables(): string
+    public function compileGetAllTables($schema): string
     {
-        return 'SHOW FULL TABLES WHERE table_type = \'BASE TABLE\'';
+        return "select tablename from pg_catalog.pg_tables where schemaname in ('".implode("','", (array) $schema)."')";
     }
     
     /**
      * Compile the SQL needed to retrieve all view names.
      * 
+     * @param  array|string  $schema
+     * 
      * @return string
      */
-    public function compileGetAllViews()
+    public function compileGetAllViews($schema): string
     {
-        return 'SHOW FULL TABLES WHERE table_type = \'VIEW\'';
+        return "select viewname from pg_catalog.pg_views where schemaname in ('".implode("','", (array) $schema)."')";
     }
     
     /**
@@ -663,6 +691,30 @@ class PostgresGrammar extends Grammar
         $allowed = array_map(function($a) { return "'".$a."'"; }, $column->allowed);
         
         return "varchar(255) check (\"{$column->name}\" in (".implode(', ', $allowed)."))";
+    }
+
+    /**
+     * Create the column definition for a json type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeJson(Flowing $column): string
+    {
+        return 'json';
+    }
+    
+    /**
+     * Create the column definition for a jsonb type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeJsonb(Flowing $column): string
+    {
+        return 'json';
     }
     
     /**
