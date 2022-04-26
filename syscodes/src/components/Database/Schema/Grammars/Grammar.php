@@ -85,7 +85,7 @@ abstract class Grammar extends BaseGrammar
      * 
      * @return string
      */
-    public function compileForeign(Dataprint $dataprint, Flowing $command): string
+    public function compileForeign(Dataprint $dataprint, Flowing $command)
     {
         $sql = sprintf('alter table %s add constraint %s ',
             $this->wrapTable($dataprint),
