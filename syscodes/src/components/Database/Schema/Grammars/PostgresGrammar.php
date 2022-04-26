@@ -24,7 +24,6 @@ namespace Syscodes\Components\Database\Schema\Grammars;
 
 use Syscodes\Components\Support\Flowing;
 use Syscodes\Components\Database\Schema\Dataprint;
-use Syscodes\Components\Database\Connections\Connection;
 
 /**
  * Allows the compilation of sql sentences for the
@@ -223,7 +222,7 @@ class PostgresGrammar extends Grammar
      * 
      * @return string
      */
-    public function compileForeign(Dataprint $blueprint, Flowing $command): string
+    public function compileForeign(Dataprint $blueprint, Flowing $command)
     {
         $sql = parent::compileForeign($blueprint, $command);
         
