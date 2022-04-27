@@ -217,14 +217,14 @@ class PostgresGrammar extends Grammar
     /**
      * Compile a foreign key command.
      * 
-     * @param  \Syscodes\Components\Database\Schema\Dataprint  $blueprint
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
      * @param  \Syscodes\Components\Support\Flowing  $command
      * 
      * @return string
      */
-    public function compileForeign(Dataprint $blueprint, Flowing $command)
+    public function compileForeign(Dataprint $dataprint, Flowing $command)
     {
-        $sql = parent::compileForeign($blueprint, $command);
+        $sql = parent::compileForeign($dataprint, $command);
         
         if ( ! is_null($command->deferrable)) {
             $sql .= $command->deferrable ? ' deferrable' : ' not deferrable';
@@ -826,6 +826,18 @@ class PostgresGrammar extends Grammar
     protected function typeBinary(Flowing $column): string
     {
         return 'bytea';
+    }
+    
+    /**
+     * Create the column definition for a uuid type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeUuid(Flowing $column): string
+    {
+        return 'uuid';
     }
     
     /**
