@@ -412,20 +412,23 @@ class SQLiteGrammar extends Grammar
     }
     
     /**
-     * Compile a comment command.
-     * 
-     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
+     * Compile the SQL needed to enable a writable schema.
      * 
      * @return string
      */
-    public function compileComment(Dataprint $dataprint, Flowing $command): string
+    public function compileEnableWriteableSchema(): string
     {
-        return sprintf('comment on column %s.%s is %s',
-            $this->wrapTable($dataprint),
-            $this->wrap($command->column->name),
-            "'".str_replace("'", "''", $command->value)."'"
-        );
+        return 'PRAGMA writable_schema = 1;';
+    }
+    
+    /**
+     * Compile the SQL needed to disable a writable schema.
+     * 
+     * @return string
+     */
+    public function compileDisableWriteableSchema(): string
+    {
+        return 'PRAGMA writable_schema = 0;';
     }
     
     /**
@@ -437,11 +440,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeChar(Flowing $column): string
     {
-        if ($column->length) {
-            return "char({$column->length})";
-        }
-
-        return 'char';
+        return 'varchar';
     }
     
     /**
@@ -453,10 +452,6 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeString(Flowing $column): string
     {
-        if ($column->length) {
-            return "varchar({$column->length})";
-        }
-
         return 'varchar';
     }
     
@@ -469,7 +464,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeTinyText(Flowing $column): string
     {
-        return 'varchar(255)';
+        return 'text';
     }
     
     /**
@@ -517,7 +512,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeBigInteger(Flowing $column): string
     {
-        return $column->autoIncrement ? 'bigserial' : 'bigint';
+        return 'integer';
     }
     
     /**
@@ -529,7 +524,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeInteger(Flowing $column): string
     {
-        return $column->autoIncrement ? 'serial' : 'integer';
+        return 'integer';
     }
     
     /**
@@ -553,7 +548,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeTinyInteger(Flowing $column): string
     {
-        return 'smallint';
+        return 'integer';
     }
     
     /**
@@ -565,7 +560,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeSmallInteger(Flowing $column): string
     {
-        return 'smallint';
+        return 'integer';
     }
     
     /**
@@ -577,7 +572,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeFloat(Flowing $column): string
     {
-        return $this->typeDouble($column);
+        return 'float';
     }
     
     /**
@@ -589,19 +584,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeDouble(Flowing $column): string
     {
-        return 'double precision';
-    }
-    
-    /**
-     * Create the column definition for a real type.
-     * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
-     * @return string
-     */
-    protected function typeReal(Flowing $column): string
-    {
-        return 'real';
+        return 'float';
     }
    
     /**
@@ -612,7 +595,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeDecimal(Flowing $column): string
     {
-        return "decimal({$column->total}, {$column->places})";
+        return "numeric";
     }
     
     /**
@@ -624,7 +607,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeBoolean(Flowing $column): string
     {
-        return 'boolean';
+        return 'tinyint(1)';
     }
     
     /**
@@ -636,9 +619,10 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeEnum(Flowing $column): string
     {
-        $allowed = array_map(function($a) { return "'".$a."'"; }, $column->allowed);
-        
-        return "varchar(255) check (\"{$column->name}\" in (".implode(', ', $allowed)."))";
+        return sprintf('varchar check ("%s" in (%s))',
+            $column->name,
+            $this->quoteString($column->allowed)
+        );
     }
 
     /**
@@ -650,7 +634,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeJson(Flowing $column): string
     {
-        return 'json';
+        return 'text';
     }
     
     /**
@@ -662,7 +646,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeJsonb(Flowing $column): string
     {
-        return 'json';
+        return 'text';
     }
     
     /**
@@ -698,7 +682,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeDateTimeTz(Flowing $column): string
     {
-        return $this->typeTimestampTz($column);
+        return $this->typeDateTime($column);
     }
 
     /**
@@ -710,7 +694,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeTime(Flowing $column): string
     {
-        return 'time'.(is_null($column->precision) ? '' : "($column->precision)").' without time zone';
+        return 'time';
     }
     
     /**
@@ -722,7 +706,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeTimeTz(Flowing $column): string
     {
-        return 'time'.(is_null($column->precision) ? '' : "($column->precision)").' with time zone';
+        return $this->typeDateTime($column);
     }
     
     /**
@@ -734,9 +718,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeTimestamp(Flowing $column): string
     {
-        $type = 'timestamp'.(is_null($column->precision) ? '' : "($column->precision)").' without time zone';
-        
-        return $column->useCurrent ? "$type default CURRENT_TIMESTAMP" : $type;
+        return $column->useCurrent ? 'datetime default CURRENT_TIMESTAMP' : 'datetime';
     }
     
     /**
@@ -748,9 +730,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeTimestampTz(Flowing $column): string
     {
-        $type = 'timestamp'.(is_null($column->precision) ? '' : "($column->precision)").' with time zone';
-        
-        return $column->useCurrent ? "$type default CURRENT_TIMESTAMP" : $type;
+        return $this->typeTimestamp($column);
     }
 
     /**
@@ -774,7 +754,19 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeBinary(Flowing $column): string
     {
-        return 'bytea';
+        return 'blob';
+    }
+    
+    /**
+     * Create the column definition for a uuid type.
+     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeUuid(Flowing $column): string
+    {
+        return 'varchar';
     }
     
     /**
@@ -832,7 +824,7 @@ class SQLiteGrammar extends Grammar
     protected function modifyIncrement(Dataprint $dataprint, Flowing $column)
     {
         if (in_array($column->type, $this->serials) && $column->autoIncrement) {
-            return ' primary key';
+            return ' primary key autoincrement';
         }
     }
 }
