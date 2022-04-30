@@ -839,20 +839,7 @@ class PostgresGrammar extends Grammar
     {
         return 'uuid';
     }
-    
-    /**
-     * Get the SQL for a nullable column modifier.
-     * 
-     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
-     * @return string|null
-     */
-    protected function modifyNullable(Dataprint $dataprint, Flowing $column): string
-    {
-        return $column->nullable ? ' null' : ' not null';
-    }
-    
+
     /**
      * Get the SQL for a collation column modifier.
      * 
@@ -866,6 +853,19 @@ class PostgresGrammar extends Grammar
         if ( ! is_null($column->collation)) {
             return ' collate '.$this->wrapValue($column->collation);
         }
+    }
+    
+    /**
+     * Get the SQL for a nullable column modifier.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string|null
+     */
+    protected function modifyNullable(Dataprint $dataprint, Flowing $column): string
+    {
+        return $column->nullable ? ' null' : ' not null';
     }
     
     /**
