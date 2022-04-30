@@ -889,20 +889,7 @@ class MySqlGrammar extends Grammar
     {
         if ($column->unsigned) return ' unsigned';
     }
-    
-    /**
-     * Get the SQL for a nullable column modifier.
-     * 
-     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
-     * @return string|null
-     */
-    protected function modifyNullable(Dataprint $dataprint, Flowing $column): string
-    {
-        return $column->nullable ? ' null' : ' not null';
-    }
-    
+
     /**
      * Get the SQL for a character set column modifier.
      * 
@@ -917,7 +904,7 @@ class MySqlGrammar extends Grammar
             return ' character set '.$column->charset;
         }
     }
-    
+
     /**
      * Get the SQL for a collation column modifier.
      * 
@@ -930,6 +917,34 @@ class MySqlGrammar extends Grammar
     {
         if ( ! is_null($column->collation)) {
             return " collate '{$column->collation}'";
+        }
+    }
+    
+    /**
+     * Get the SQL for a nullable column modifier.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string|null
+     */
+    protected function modifyNullable(Dataprint $dataprint, Flowing $column): string
+    {
+        return $column->nullable ? ' null' : ' not null';
+    }
+
+    /**
+     * Get the SQL for an invisible column modifier.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string|null
+     */
+    protected function modifyInvisible(Dataprint $dataprint, Flowing $column)
+    {
+        if ( ! is_null($column->invisible)) {
+            return ' invisible';
         }
     }
     
@@ -950,21 +965,6 @@ class MySqlGrammar extends Grammar
     }
     
     /**
-     * Get the SQL for an invisible column modifier.
-     * 
-     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
-     * @return string|null
-     */
-    protected function modifyInvisible(Dataprint $dataprint, Flowing $column)
-    {
-        if ( ! is_null($column->invisible)) {
-            return ' invisible';
-        }
-    }
-    
-    /**
      * Get the SQL for an auto-increment column modifier.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
@@ -976,6 +976,21 @@ class MySqlGrammar extends Grammar
     {
         if (in_array($column->type, $this->serials) && $column->autoIncrement) {
             return ' auto_increment primary key';
+        }
+    }
+
+    /**
+     * Get the SQL for an "comment" column modifier.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string|null
+     */
+    protected function modifyComment(Dataprint $dataprint, Flowing $column)
+    {
+        if ( ! is_null($column->comment)) {
+            return ' comment "'.$column->comment.'"';
         }
     }
     
@@ -1006,21 +1021,6 @@ class MySqlGrammar extends Grammar
     {
         if ( ! is_null($column->first)) {
             return ' first';
-        }
-    }
-    
-    /**
-     * Get the SQL for an "comment" column modifier.
-     * 
-     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
-     * @return string|null
-     */
-    protected function modifyComment(Dataprint $dataprint, Flowing $column)
-    {
-        if ( ! is_null($column->comment)) {
-            return ' comment "'.$column->comment.'"';
         }
     }
     
