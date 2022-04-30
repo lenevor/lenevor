@@ -40,7 +40,7 @@ class MySqlBuilder extends Builder
     public function createDatabase($name): bool
     {
         return $this->connection->statement(
-           $this->grammar->compileCreateDatabase($name, $this->connection) 
+           $this->grammar->compileCreateDatabase($name, $this->connection)
         );
     }
     
@@ -86,7 +86,7 @@ class MySqlBuilder extends Builder
         $table = $this->connection->getTablePrefix().$table;
         
         $results = $this->connection->select(
-            $this->grammar->compileColumnListing(), [$this->connection->getDatabase(), $table]
+            $this->grammar->compileColumnListing(), [$this->connection->getDatabase(), $table] 
         );
         
         return $this->connection->getPostProcessor()->processColumnListing($results);
