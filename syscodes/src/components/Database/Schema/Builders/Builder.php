@@ -264,7 +264,7 @@ class Builder
      * 
      * @throws \LogicException
      */
-    public function dropAllTables(): void
+    public function dropAllTables()
     {
         throw new LogicException('This database driver does not support dropping all tables');
     }
@@ -276,7 +276,7 @@ class Builder
      * 
      * @throws \LogicException
      */
-    public function dropAllViews(): void
+    public function dropAllViews()
     {
         throw new LogicException('This database driver does not support dropping all views');
     }
