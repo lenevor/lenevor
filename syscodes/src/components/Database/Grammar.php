@@ -22,6 +22,7 @@
  
 namespace Syscodes\Components\Database;
 
+use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Database\Query\Expression;
 
 /**
@@ -31,6 +32,7 @@ use Syscodes\Components\Database\Query\Expression;
  */
 abstract class Grammar
 {
+    use Macroable;
     /**
      * The grammar table prefix.
      * 
