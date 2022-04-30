@@ -344,6 +344,16 @@ class SQLiteGrammar extends Grammar
     }
     
     /**
+     * Compile the SQL needed to rebuild the database.
+     * 
+     * @return string
+     */
+    public function compileRebuild(): string
+    {
+        return 'vacuum';
+    }
+    
+    /**
      * Compile the SQL needed to drop all tables.
      * 
      * @param  array  $tables
