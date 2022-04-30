@@ -221,7 +221,10 @@ class SqlServerGrammar extends Grammar
      */
     public function compileDropIfExists(Dataprint $dataprint, Flowing $command): string
     {
-        return 'drop table if exists '.$this->wrapTable($dataprint);
+        return sprintf('if exists (select * from sys.sysobjects where id = object_id(%s, \'U\')) drop table %s',
+            "'".str_replace("'", "''", $this->getTablePrefix().$dataprint->getTable())."'",
+            $this->wrapTable($dataprint)
+        );
     }
     
     /**
@@ -234,9 +237,24 @@ class SqlServerGrammar extends Grammar
      */
     public function compileDropColumn(Dataprint $dataprint, Flowing $command): string
     {
-        $columns = $this->prefixArray('drop column', $this->wrapArray($command->columns));
+        $columns = $this->wrapArray($command->columns);
         
-        return 'alter table '.$this->wrapTable($dataprint).' '.implode(', ', $columns);
+        return 'alter table '.$this->wrapTable($dataprint).' drop column '.implode(', ', $columns);
+    }
+    
+    /**
+     * Compile a drop primary key command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileDropPrimary(Dataprint $dataprint, Flowing $command): string
+    {
+        $index = $this->wrap($command->index);
+        
+        return "alter table {$this->wrapTable($dataprint)} drop constraint {$index}";
     }
     
     /**
@@ -251,7 +269,7 @@ class SqlServerGrammar extends Grammar
     {
         $index = $this->wrap($command->index);
         
-        return "drop index {$index}";
+        return "drop index {$index} on {$this->wrapTable($dataprint)}";
     }
     
     /**
@@ -264,9 +282,7 @@ class SqlServerGrammar extends Grammar
      */
     public function compileDropIndex(Dataprint $dataprint, Flowing $command): string
     {
-        $index = $this->wrap($command->index);
-        
-        return "drop index {$index}";
+        return $this->compileDropUnique($dataprint, $command);
     }
     
     /**
@@ -275,13 +291,26 @@ class SqlServerGrammar extends Grammar
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
      * @param  \Syscodes\Components\Support\Flowing  $command
      * 
-     * @return void
-     * 
-     * @throws \RuntimeException
+     * @return string
      */
-    public function compileDropSpatialIndex(Dataprint $dataprint, Flowing $command): void
+    public function compileDropSpatialIndex(Dataprint $dataprint, Flowing $command): string
     {
-        throw new RuntimeException('The database driver in use does not support spatial indexes');
+        return $this->compileDropIndex($dataprint, $command);
+    }
+
+    /**
+     * Compile a drop foreign key command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileDropForeign(Dataprint $dataprint, Flowing $command): string
+    {
+        $index = $this->wrap($command->index);
+        
+        return "alter table {$this->wrapTable($dataprint)} drop constraint {$index}";
     }
     
     /**
@@ -296,7 +325,7 @@ class SqlServerGrammar extends Grammar
     {
         $from = $this->wrapTable($dataprint);
         
-        return "alter table {$from} rename to ".$this->wrapTable($command->to);
+        return "sp_rename {$from}, ".$this->wrapTable($command->to);
     }
     
     /**
@@ -309,8 +338,8 @@ class SqlServerGrammar extends Grammar
      */
     public function compileRenameIndex(Dataprint $dataprint, Flowing $command): string
     {
-        return sprintf('alter table %s rename to %s',
-            $this->wrap($command->from),
+        return sprintf("sp_rename N'%s', %s, N'INDEX'",
+            $this->wrap($dataprint->getTable().'.'.$command->from),
             $this->wrap($command->to)
         );
     }
@@ -318,49 +347,59 @@ class SqlServerGrammar extends Grammar
     /**
      * Compile the SQL needed to drop all tables.
      * 
-     * @param  array  $tables
+     * @return string
+     */
+    public function compileDropAllTables(): string
+    {
+        return "EXEC sp_msforeachtable 'DROP TABLE ?'";
+    }
+    
+    /**
+     * Compile the command to drop all foreign keys.
      * 
      * @return string
      */
-    public function compileDropAllTables($tables): string
+    public function compileDropAllForeignKeys(): string
     {
-        return "delete from sqlite_master where type in ('table', 'index', 'trigger')";
+        return "DECLARE @sql NVARCHAR(MAX) = N'';
+            SELECT @sql += 'ALTER TABLE '
+                + QUOTENAME(OBJECT_SCHEMA_NAME(parent_object_id)) + '.' + + QUOTENAME(OBJECT_NAME(parent_object_id))
+                + ' DROP CONSTRAINT ' + QUOTENAME(name) + ';'
+            FROM sys.foreign_keys;
+            EXEC sp_executesql @sql;";
     }
     
     /**
      * Compile the SQL needed to drop all views.
      * 
-     * @param  array  $views
-     * 
      * @return string
      */
-    public function compileDropAllViews($views): string
+    public function compileDropAllViews(): string
     {
-        return "delete from sqlite_master where type in ('view')";
+        return "DECLARE @sql NVARCHAR(MAX) = N'';
+            SELECT @sql += 'DROP VIEW ' + QUOTENAME(OBJECT_SCHEMA_NAME(object_id)) + '.' + QUOTENAME(name) + ';'
+            FROM sys.views;
+            EXEC sp_executesql @sql;";
     }
     
     /**
      * Compile the SQL needed to retrieve all table names.
      * 
-     * @param  array|string  $schema
-     * 
      * @return string
      */
-    public function compileGetAllTables($schema): string
+    public function compileGetAllTables(): string
     {
-        return 'select type, name from sqlite_master where type = \'table\' and name not like \'sqlite_%\'';
+        return "select name, type from sys.tables where type = 'U'";
     }
     
     /**
      * Compile the SQL needed to retrieve all view names.
      * 
-     * @param  array|string  $schema
-     * 
      * @return string
      */
-    public function compileGetAllViews($schema): string
+    public function compileGetAllViews(): string
     {
-        return 'select type, name from sqlite_master where type = \'view\'';
+        return "select name, type from sys.objects where type = 'V'";
     }
     
     /**
@@ -370,7 +409,7 @@ class SqlServerGrammar extends Grammar
      */
     public function compileEnableForeignKeyConstraints(): string
     {
-        return 'PRAGMA foreign_keys = ON;';
+        return 'EXEC sp_msforeachtable @command1="print \'?\'", @command2="ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all";';
     }
     
     /**
@@ -380,27 +419,7 @@ class SqlServerGrammar extends Grammar
      */
     public function compileDisableForeignKeyConstraints(): string
     {
-        return 'PRAGMA foreign_keys = OFF;';
-    }
-    
-    /**
-     * Compile the SQL needed to enable a writable schema.
-     * 
-     * @return string
-     */
-    public function compileEnableWriteableSchema(): string
-    {
-        return 'PRAGMA writable_schema = 1;';
-    }
-    
-    /**
-     * Compile the SQL needed to disable a writable schema.
-     * 
-     * @return string
-     */
-    public function compileDisableWriteableSchema(): string
-    {
-        return 'PRAGMA writable_schema = 0;';
+        return 'EXEC sp_msforeachtable "ALTER TABLE ? NOCHECK CONSTRAINT all";';
     }
     
     /**
@@ -653,6 +672,36 @@ class SqlServerGrammar extends Grammar
     {
         return 'varbinary(max)';
     }
+
+    /**
+     * Get the SQL for an auto-increment column modifier.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string|null
+     */
+    protected function modifyIncrement(Dataprint $dataprint, Flowing $column)
+    {
+        if (in_array($column->type, $this->serials) && $column->autoIncrement) {
+            return ' identity primary key';
+        }
+    }
+
+    /**
+     * Get the SQL for a collation column modifier.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string|null
+     */
+    protected function modifyCollate(Dataprint $dataprint, Flowing $column)
+    {
+        if ( ! is_null($column->collation)) {
+            return ' collate '.$column->collation;
+        }
+    }
     
     /**
      * Get the SQL for a nullable column modifier.
@@ -684,17 +733,49 @@ class SqlServerGrammar extends Grammar
     }
     
     /**
-     * Get the SQL for an auto-increment column modifier.
+     * Get the SQL for a collation column modifier.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
      * @param  \Syscodes\Components\Support\Flowing  $column
      * 
      * @return string|null
      */
-    protected function modifyIncrement(Dataprint $dataprint, Flowing $column)
+    protected function modifyPersisted(Dataprint $dataprint, Flowing $column)
     {
-        if (in_array($column->type, $this->serials) && $column->autoIncrement) {
-            return ' identity primary key';
+        if ($column->persisted) {
+            return ' persisted';
         }
+    }
+    
+    /**
+     * Wrap a table in keyword identifiers.
+     * 
+     * @param  \Syscodes\Components\Database\Query\Expression|string  $table
+     * 
+     * @return string
+     */
+    public function wrapTable($table): string
+    {
+        if ($table instanceof DataPrint && $table->temporary) {
+            $this->setTablePrefix('#');
+        }
+        
+        return parent::wrapTable($table);
+    }
+    
+    /**
+     * Quote the given string literal.
+     * 
+     * @param  string|array  $value
+     * 
+     * @return string
+     */
+    public function quoteString($value): string
+    {
+        if (is_array($value)) {
+            return implode(', ', array_map([$this, __FUNCTION__], $value));
+        }
+        
+        return "N'$value'";
     }
 }
