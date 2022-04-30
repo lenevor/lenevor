@@ -23,11 +23,14 @@
 namespace Syscodes\Components\Database\Schema;
 
 use Closure;
+use BadMethodCallException;
 use Syscodes\Components\Support\Flowing;
+use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Database\Connections\Connection;
 use Syscodes\Components\Database\Schema\Builders\Builder;
 use Syscodes\Components\Database\Schema\Grammars\Grammar;
+use Syscodes\Components\Database\Connections\SQLiteConnection;
 
 /**
  * Extracts the column names to using in creating migrations.
@@ -36,6 +39,8 @@ use Syscodes\Components\Database\Schema\Grammars\Grammar;
  */
 class Dataprint
 {
+    use Macroable;
+    
     /**
      * The column to add new columns after.
      * 
@@ -117,7 +122,7 @@ class Dataprint
     }
 
     /**
-     * Execute the blueprint against the database.
+     * Execute the dataprint against the database.
      * 
      * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * @param  \Syscodes\Components\Database\Schema\Grammars\Grammar  $grammar
@@ -145,10 +150,12 @@ class Dataprint
 
         $statements = [];
 
+        $this->ensureCommandsAreValid($connection);
+
         foreach ($this->commands as $command) {
             $method = 'compile'.ucfirst($command->name);
 
-            if (method_exists($grammar, $method)) {
+            if (method_exists($grammar, $method) || $grammar::hasMacro($method)) {
                 if ( ! is_null($sql = $grammar->$method($this, $command, $connection))) {
                     $statements[] = array_merge($statements, (array) $sql);
                 }
@@ -156,6 +163,46 @@ class Dataprint
         }
 
         return $statements;
+    }
+    
+    /**
+     * Ensure the commands on the dataprint are valid for the connection type.
+     * 
+     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
+     * 
+     * @return void
+     * 
+     * @throws \BadMethodCallException
+     */
+    protected function ensureCommandsAreValid(Connection $connection): void
+    {
+        if ($connection instanceof SQLiteConnection) {
+            if ($this->commandsNamed(['dropColumn', 'renameColumn'])->count() > 1) {
+                throw new BadMethodCallException(
+                    "SQLite doesn't support multiple calls to dropColumn / renameColumn in a single modification"
+                );
+            }
+            
+            if ($this->commandsNamed(['dropForeign'])->count() > 0) {
+                throw new BadMethodCallException(
+                    "SQLite doesn't support dropping foreign keys (you would need to re-create the table)"
+                );
+            }
+        }
+    }
+    
+    /**
+     * Get all of the commands matching the given names.
+     * 
+     * @param  array  $names
+     * 
+     * @return \Syscodes\Components\Collections\Collection
+     */
+    protected function commandsNamed(array $names)
+    {
+        return collect($this->commands)->filter(function ($command) use ($names) {
+            return in_array($command->name, $names);
+        });
     }
 
     /**
