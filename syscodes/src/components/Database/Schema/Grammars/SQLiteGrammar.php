@@ -783,21 +783,6 @@ class SQLiteGrammar extends Grammar
     }
     
     /**
-     * Get the SQL for a collation column modifier.
-     * 
-     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
-     * @return string|null
-     */
-    protected function modifyCollate(Dataprint $dataprint, Flowing $column)
-    {
-        if ( ! is_null($column->collation)) {
-            return ' collate '.$this->wrapValue($column->collation);
-        }
-    }
-    
-    /**
      * Get the SQL for a default column modifier.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
