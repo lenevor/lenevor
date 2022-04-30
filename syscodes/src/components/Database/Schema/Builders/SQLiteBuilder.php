@@ -22,6 +22,8 @@
 
 namespace Syscodes\Components\Database\Schema\Builders;
 
+use Syscodes\Components\Support\Facades\File;
+
 /**
  * Allows you to manipulate of databases, tables and columns
  * for the SQLite database.
@@ -30,5 +32,99 @@ namespace Syscodes\Components\Database\Schema\Builders;
  */
 class SQLiteBuilder extends Builder
 {
+    /**
+     * Create a database in the schema.
+     * 
+     * @param  string  $name
+     * 
+     * @return bool
+     */
+    public function createDatabase($name): bool
+    {
+        return File::put($name, '') !== false;
+    }
+    
+    /**
+     * Drop a database from the schema if the database exists.
+     * 
+     * @param  string  $name
+     * 
+     * @return bool
+     */
+    public function dropDatabaseIfExists($name): bool
+    {
+        return File::exists($name)
+            ? File::delete($name)
+            : true;
+    }
+    
+    /**
+     * Drop all tables from the database.
+     * 
+     * @return void
+     */
+    public function dropAllTables()
+    {
+        if ($this->connection->getDatabase() !== ':memory:') {
+            return $this->refreshDatabaseFile();
+        }
+        
+        $this->connection->select($this->grammar->compileEnableWriteableSchema());
 
+        $this->connection->select($this->grammar->compileDropAllTables());
+
+        $this->connection->select($this->grammar->compileDisableWriteableSchema());
+
+        $this->connection->select($this->grammar->compileRebuild());
+    }
+    
+    /**
+     * Drop all views from the database.
+     * 
+     * @return void
+     */
+    public function dropAllViews()
+    {
+        $this->connection->select($this->grammar->compileEnableWriteableSchema());
+        
+        $this->connection->select($this->grammar->compileDropAllViews());
+        
+        $this->connection->select($this->grammar->compileDisableWriteableSchema());
+        
+        $this->connection->select($this->grammar->compileRebuild());
+    }
+
+    /**
+     * Get all of the table names for the database.
+     *
+     * @return array
+     */
+    public function getAllTables(): array
+    {
+        return $this->connection->select(
+            $this->grammar->compileGetAllTables()
+        );
+    }
+
+    /**
+     * Get all of the view names for the database.
+     *
+     * @return array
+     */
+    public function getAllViews(): array
+    {
+        return $this->connection->select(
+            $this->grammar->compileGetAllViews()
+        );
+    }
+
+    /**
+     * Empty the database file.
+     *
+     * @return void
+     */
+    public function refreshDatabaseFile(): void
+    {
+        file_put_contents($this->connection->getDatabase(), '');
+    }
 }
