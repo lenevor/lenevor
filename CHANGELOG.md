@@ -1,5 +1,69 @@
 # Release Notes
 
+## [Version 0.7.9-alpha.7] 
+
+Release Date: May 01, 2022
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added the Route facade import in `routes/web.php`
+- Added method for eager load the relationships in models
+- Added methods for the loaded relations
+- Added new methods for instantiate relationship of tables
+- Added exception for relation not found
+- Added relation hasMany for given the parent model
+- Added relation hasOne for given on the parent model
+- Added relation hasOneOrMany for given on the parent model
+- Added method gets the query builder
+- Added method setRelation() of query builder
+- Added new methods for returns items of a collection
+- Added new method for related instance for the given model
+- Added variable $with for relations to eager load in query
+- Added new method for create a new pivot model
+- Added methods for get the collection of items in array and callback
+- Added methods for array records to insert and update in the `concerns/InteractsWithPivotTable` trait
+- Added new methods with where clauses to the query
+- Added new methods for get a schema builder and grammar
+- Added method for determine if an item exists in the `Collection` class
+- Added new methods for indicate the columns that requires to a table
+- Added new methods for using dot notation in items
+- Added new method for get operators checker callback
+- Added new methods for compare two models have the same ID
+- Added variable for using to string length by default
+- Added new methods for create name column on the tables in the `Schema/Dataprint` class
+- Added the type output of method and new item for database schema builder in the `Application` class
+- Added new methods for modify | create tables on the schema builder
+- Added new method for wrap arrays of values
+- Added new methods for manipulates database, tables and columns
+- Added new methods for compile all commands on the columns
+- Added new methods for defined any column type for call in the tables
+- Added pattern for segments values of search in the `Database/Grammar` class
+- Added new method for quote the given string in the `Database/Grammar` class
+- Added new method for the SQL needed to rebuild the database
+
+### Fixed
+- Fix bug at call the word reserved 'return'
+- Fix bug in call bad the clause of the database
+- Fix bugs in use namespace and type output of parameter by define
+- Fix bug for declaration change of protected to public in the `BuildConsoleVersion` trait
+
+### Changed
+- Changed release 0.7.9-alpha.7
+- Changed method name for call model
+- Changed method name of access() to accessible() in the `Arr` class
+
+### Created
+- Created collection of models
+- Created new trait for support model relations
+- Created new facade for initialize the database schema builder
+
+### Removed
+- Removed namespaces without using
+- Removed the type output on compileForeign method in the `Grammars/Grammar` class
+- Removed the type of output method in the `Builders/Builder` class
+
+
 ## [Version 0.7.8-alpha.7] 
 
 Release Date: Feb 14, 2022
