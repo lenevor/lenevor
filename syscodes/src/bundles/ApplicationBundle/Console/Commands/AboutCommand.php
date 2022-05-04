@@ -88,8 +88,6 @@ class AboutCommand extends Command
         $logo         = '';
         $updateAt     = $application->getParam('updateAt', 'Unknown');
         $publishAt    = $application->getParam('publishAt', 'Unknown');
-        $currentAt    = date('d.m.Y');
-        $phpOS        = \PHP_OS;
         $phpVersion   = \PHP_VERSION;
         $phpVersion   = \PHP_VERSION;
         $architecture = \PHP_INT_SIZE * 8;
