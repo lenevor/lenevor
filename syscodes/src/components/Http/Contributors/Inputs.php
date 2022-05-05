@@ -32,70 +32,70 @@ use Syscodes\Components\Core\Http\Exceptions\BadRequestHttpException;
  */
 final class Inputs extends Parameters
 {
-    /**
+	/**
 	 * {@inheritdoc}
 	 */
 	public function all(string $key = null): array
 	{
 		return parent::all($key);
-    }
-    
-    /**
+	}
+	
+	/**
 	 * {@inheritdoc}
 	 */
 	public function replace(array $inputs = [])
 	{
 		$this->parameters = [];
-        $this->add($inputs);
+		$this->add($inputs);
 	}
-
+	
 	/**
 	 * {@inheritdoc}
 	 */
 	public function add(array $inputs = [])
 	{
-        foreach ($inputs as $key => $file) {
-            $this->set($key, $file);
-        }
-    }
-    
-    /**
+		foreach ($inputs as $key => $file) {
+			$this->set($key, $file);
+		}
+	}
+	
+	/**
 	 * Gets a string input value by name.
-	 *
+	 * 
 	 * @param  string  $key
-	 * @param  string|null  $default  
-	 *
+	 * @param  string|null  $default
+	 * 
 	 * @return string|null
 	 */
 	public function get($key, $default = null)
 	{
-        if (null !== $default && ! is_scalar($default) && ! (is_object($default)) && ! method_exist($default, '__toString')) {
-            throw new BadRequestHttpException(sprintf('Passing a non-string value as 2nd argument to "%s()" is deprecated, pass a string or null instead', __METHOD__));
-        }
-
-        $value = parent::get($key, $this);
-
-        if (null !== $value && $this !== $value && ! is_scalar($value) && ! (is_object($value)) && ! method_exist($value, '__toString')) {
-            throw new BadRequestHttpException(sprintf('Retrieving a non-string value from "%s()" is deprecated, and will throw a exception in Syscodes, use "%s::all($key)" instead', __METHOD__, __CLASS__));
-        }
-        
-        return $value === $this ? $default : $value;
-    }
-    
-    /**
+		if (null !== $default && ! is_scalar($default) && ! (is_object($default)) && ! method_exist($default, '__toString')) {
+			throw new BadRequestHttpException(sprintf('Passing a non-string value as 2nd argument to "%s()" is deprecated, pass a string or null instead', __METHOD__));
+		}
+		
+		$value = parent::get($key, $this);
+		
+		if (null !== $value && $this !== $value && ! is_scalar($value) && ! (is_object($value)) && ! method_exist($value, '__toString')) {
+			throw new BadRequestHttpException(sprintf('Retrieving a non-string value from "%s()" is deprecated, and will throw a exception in Syscodes, use "%s::all($key)" instead', __METHOD__, __CLASS__));
+		}
+		
+		return $value === $this ? $default : $value;
+	}
+	
+	/**
 	 * Sets an input by name.
-	 *
+	 * 
 	 * @param  string  $key
-	 * @param  string|array|null  $value 
-	 *
+	 * @param  string|array|null  $value
+	 * 
 	 * @return mixed
 	 */
 	public function set($key, $value)
 	{
-        if (null !== $value && ! is_scalar($value) && ! is_array($value) && ! method_exist($value, '__toString')) {
-            throw new BadRequestHttpException(sprintf('Passing "%s" as a 2nd Argument to "%s()" is deprecated, pass a string, array, or null instead', get_debug_type($value), __METHOD__));
-        }
-
+		if (null !== $value && ! is_scalar($value) && ! is_array($value) && ! method_exist($value, '__toString')) {
+			throw new BadRequestHttpException(sprintf('Passing "%s" as a 2nd Argument to "%s()" is deprecated, pass a string, array, or null instead', get_debug_type($value), __METHOD__));
+		}
+		
 		$this->parameters[$key] = $value;
 	}
 }
