@@ -23,7 +23,6 @@
 namespace Syscodes\Components\Collections;
 
 use ArrayAccess;
-use InvalidArgumentException;
 
 /**
  * Gets all a given array for return dot-notated key from an array.
