@@ -44,6 +44,13 @@ trait HasEvents
      * @var array $observables
      */
     protected $observables = [];
+    
+    /**
+	 * The event dispatcher instance.
+	 * 
+	 * @var \Syscodes\Components\Contracts\Events\Dispatcher $dispatcher
+	 */
+	protected static $dispatcher;
 
     /**
      * Get the observable event names.
@@ -72,7 +79,7 @@ trait HasEvents
     {
         $this->observables = $observables;
 
-        return self;
+        return $this;
     }
 
     /**
