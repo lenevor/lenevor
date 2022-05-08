@@ -22,6 +22,8 @@
 
 namespace Syscodes\Components\Database\Connectors;
 
+use PDO;
+
 /**
  * A PDO based PostgreSQL Database Connector.
  * 

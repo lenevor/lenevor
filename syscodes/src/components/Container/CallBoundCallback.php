@@ -39,7 +39,7 @@ final class CallBoundCallback
     /**
      * Call the given Closure / class@method and inject its dependencies.
      * 
-     * @param  \Syscodes\Container\Container  $container
+     * @param  \Syscodes\Components\Container\Container  $container
      * @param  \callable|string  $callback
      * @param  array  $parameters
      * @param  string|null  $defaultMethod
@@ -84,7 +84,7 @@ final class CallBoundCallback
     {
         [$class, $method] = Str::parseCallback($callback, $defaultMethod);
 
-        if (empty($method) || ! class_exist($class)) {
+        if (empty($method) || ! class_exists($class)) {
             throw new InvalidArgumentException('Invalid callback provided.');
         }
 

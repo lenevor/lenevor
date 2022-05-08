@@ -22,7 +22,6 @@
 
 namespace Syscodes\Components\Cache;
 
-use Closure;
 use DateTime;
 use ArrayAccess;
 use Syscodes\Components\Support\Chronos;

@@ -30,7 +30,6 @@ use Syscodes\Components\Contracts\Cache\Store;
 use Syscodes\Components\Cache\Store\ApcWrapper;
 use Syscodes\Components\Cache\Store\ArrayStore;
 use Syscodes\Components\Cache\Store\RedisStore;
-use Syscodes\Components\Cache\Store\DatabaseStore;
 use Syscodes\Components\Cache\Store\MemcachedStore;
 use Syscodes\Components\Cache\Exceptions\CacheException;
 use Syscodes\Components\Contracts\Cache\Manager as ManagerContract;

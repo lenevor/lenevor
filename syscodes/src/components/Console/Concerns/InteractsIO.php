@@ -22,8 +22,6 @@
 
 namespace Syscodes\Components\Console\Concerns;
 
-use Syscodes\Components\Conttracts\Console\Output as OutputInterface;
-
 /**
  * Trait InteractsIO.
  * 
@@ -47,7 +45,7 @@ trait InteractsIO
 	 */
 	public function newline(int $num = 1)
 	{
-		$this->output->newline($num);
+		$this->newLine($num);
 	}
 	
 	/**
