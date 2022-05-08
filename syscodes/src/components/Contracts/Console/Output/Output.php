@@ -140,4 +140,14 @@ interface Output
 	 * @return string
 	 */
 	public function writeln($messages, int $options = 0);
+
+	/**
+	 * Writes a string formatting for stantard output.
+	 * 
+	 * @param  string  $message
+	 * @param  string|null  $style
+	 * 
+	 * @return void
+	 */
+	public function commandline($message, string $style = null);
 }
