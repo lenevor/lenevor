@@ -37,7 +37,7 @@ interface ConsoleOutput extends Output
      * 
      * @return \Syscodes\Components\Contracts\Console\Output
      */
-    public function getErrorOutput(): OutputInterface;
+    public function getErrorOutput();
 
     /**
      * Sets the Output interface for errors.
