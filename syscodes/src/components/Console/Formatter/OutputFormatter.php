@@ -23,7 +23,6 @@
 namespace Syscodes\Components\Console\Formatter;
 
 use InvalidArgumentException;
-use Syscodes\Components\Contracts\Console\Output;
 use Syscodes\Components\Contracts\Console\OutputFormatter as OutputFormatterInterface;
 use Syscodes\Components\Contracts\Console\OutputFormatterStyle as OutputFormatterStyleInterface;
 
