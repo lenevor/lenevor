@@ -99,13 +99,6 @@ class Model implements Arrayable, ArrayAccess
 	 * @var array $booted
 	 */
 	protected static $booted = [];
-
-	/**
-	 * The event dispatcher instance.
-	 * 
-	 * @var \Syscodes\Components\Contracts\Events\Dispatcher $dispatcher
-	 */
-	protected static $dispatcher;
 	
 	/**
 	 * The connection resolver instance.
