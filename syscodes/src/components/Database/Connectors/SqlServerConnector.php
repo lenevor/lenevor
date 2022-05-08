@@ -29,7 +29,7 @@ use PDO;
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class SqlServerConnector
+class SqlServerConnector extends Connector implements ConnectorInterface
 {
     /**
      * The default PDO connection options.
