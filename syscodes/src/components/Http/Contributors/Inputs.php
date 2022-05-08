@@ -69,13 +69,13 @@ final class Inputs extends Parameters
 	 */
 	public function get($key, $default = null)
 	{
-        if (null !== $default && ! is_scalar($default) && ! (is_object($default)) && ! method_exist($default, '__toString')) {
+        if (null !== $default && ! is_scalar($default) && ! (is_object($default)) && ! method_exists($default, '__toString')) {
             throw new BadRequestHttpException(sprintf('Passing a non-string value as 2nd argument to "%s()" is deprecated, pass a string or null instead', __METHOD__));
         }
 
         $value = parent::get($key, $this);
 
-        if (null !== $value && $this !== $value && ! is_scalar($value) && ! (is_object($value)) && ! method_exist($value, '__toString')) {
+        if (null !== $value && $this !== $value && ! is_scalar($value) && ! (is_object($value)) && ! method_exists($value, '__toString')) {
             throw new BadRequestHttpException(sprintf('Retrieving a non-string value from "%s()" is deprecated, and will throw a exception in Syscodes, use "%s::all($key)" instead', __METHOD__, __CLASS__));
         }
         
@@ -92,7 +92,7 @@ final class Inputs extends Parameters
 	 */
 	public function set($key, $value)
 	{
-        if (null !== $value && ! is_scalar($value) && ! is_array($value) && ! method_exist($value, '__toString')) {
+        if (null !== $value && ! is_scalar($value) && ! is_array($value) && ! method_exists($value, '__toString')) {
             throw new BadRequestHttpException(sprintf('Passing "%s" as a 2nd Argument to "%s()" is deprecated, pass a string, array, or null instead', get_debug_type($value), __METHOD__));
         }
 
