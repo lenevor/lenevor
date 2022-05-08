@@ -22,7 +22,6 @@
 
 namespace Syscodes\Components\Console\Helper\Description;
 
-use InvalidArgumentException;
 use Syscodes\Components\Console\Application;
 use Syscodes\Components\Console\Command\Command;
 use Syscodes\Components\Console\Input\InputOption;
