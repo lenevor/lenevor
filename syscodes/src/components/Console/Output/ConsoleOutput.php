@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Console\Output;
 
+use Syscodes\Components\Contracts\Console\OutputFormatter;
 use Syscodes\Components\Contracts\Console\Output as OutputInterface;
 use Syscodes\Components\Contracts\Console\ConsoleOutput as ConsoleOutputInterface;
 use Syscodes\Components\Contracts\Console\OutputFormatter as OutputFormatterInterface;
@@ -36,7 +37,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     /**
      * Get the stderr for console output.
      * 
-     * @var resource $stderr
+     * @var resource|object $stderr
      */
     protected $stderr;
 
@@ -101,7 +102,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     /**
      * {@inheritdoc}
      */
-    public function getErrorOutput(): OutputInterface
+    public function getErrorOutput()
     {
         return $this->stderr;
     }
