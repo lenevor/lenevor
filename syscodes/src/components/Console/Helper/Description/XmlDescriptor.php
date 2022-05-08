@@ -27,8 +27,6 @@ use Syscodes\Components\Console\Command\Command;
 use Syscodes\Components\Console\Input\InputOption;
 use Syscodes\Components\Console\Input\InputArgument;
 use Syscodes\Components\Console\Input\InputDefinition;
-use Syscodes\Components\Contracts\Console\Output as OutputInterface;
-use Syscodes\Components\Console\Helper\Description\ApplicationDescription;
 
 /**
  * Xml descriptor.
