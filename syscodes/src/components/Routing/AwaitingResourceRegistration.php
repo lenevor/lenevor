@@ -22,8 +22,6 @@
 
 namespace Syscodes\Components\Routing;
 
-use Syscodes\Components\Collections\Arr;
-
 /**
  * This class uses an awaiting resource registration instance.
  * 
