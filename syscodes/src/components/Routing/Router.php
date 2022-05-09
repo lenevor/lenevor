@@ -23,10 +23,8 @@
 namespace Syscodes\Components\Routing;
 
 use Closure;
-use BadMethodCallException;
 use InvalidArgumentException;
 use Syscodes\Components\Http\Request;
-use Syscodes\Components\Http\Response;
 use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Http\RedirectResponse;
 use Syscodes\Components\Support\Traits\Macroable;
