@@ -621,9 +621,9 @@ class Route
 	 * @param  string  $name
 	 * @param  mixed  $default  
 	 * 
-	 * @return array
+	 * @return mixed
 	 */
-	public function parameter($name, $default = null): array
+	public function parameter($name, $default = null)
 	{
 		return Arr::get($this->parameters(), $name, $default);
 	}
