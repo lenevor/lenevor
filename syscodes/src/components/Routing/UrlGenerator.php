@@ -338,9 +338,9 @@ class UrlGenerator
      * 
      * @param  \Syscodes\Components\Routing\Route  $route
      * 
-     * @return string
+     * @return string|null
      */
-    protected function getRouteDomain($route): string
+    protected function getRouteDomain($route)
     {
         return $route->domain() ? $this->formatDomain($route) : null;
     }

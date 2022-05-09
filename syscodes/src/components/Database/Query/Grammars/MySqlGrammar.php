@@ -44,7 +44,7 @@ class MySqlGrammar extends Grammar
         $sql = parent::compileSelect($builder);
 
         if ($builder->unions) {
-            $sql = '('.$sql.') '.$thís->compileUnions($builder);
+            $sql = '('.$sql.') '.$this->compileUnions($builder);
         }
 
         return $sql;

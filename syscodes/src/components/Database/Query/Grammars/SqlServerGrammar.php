@@ -58,7 +58,7 @@ class SqlServerGrammar extends Grammar
      * 
      * @return string
      */
-    protected function compileAnsiOffset(Builder $buiilder, $components): string
+    protected function compileAnsiOffset(Builder $builder, $components): string
     {
         if ( ! isset($components['orders'])) {
             $components['orders'] = 'order by (select 0)';
@@ -109,7 +109,7 @@ class SqlServerGrammar extends Grammar
      */
     protected function compileRowConstraint(Builder $builder): string
     {
-        $begin = $builder->offset + 1;
+        $start = $builder->offset + 1;
 
         if ($builder->limit > 0) {
             $finish = $builder->offset + $builder->limit;
@@ -200,7 +200,7 @@ class SqlServerGrammar extends Grammar
      * 
      * @return string
      */
-    public function getDateFormat()
+    public function getDateFormat(): string
     {
         return 'Y-m-d H:i:s.000';
     }
@@ -212,7 +212,7 @@ class SqlServerGrammar extends Grammar
      * 
      * @return string
      */
-    protected function wrapValue($value)
+    protected function wrapValue($value): string
     {
         return ($value === '*') ? $value : '['.str_replace(']', ']]', $value).']';
     }
@@ -248,7 +248,7 @@ class SqlServerGrammar extends Grammar
      * 
      * @return string
      */
-    protected function compileFrom(Builder $builder, $table)
+    protected function compileFrom(Builder $builder, $table): string
     {
         $from = parent::compileFrom($builder, $table);
 
