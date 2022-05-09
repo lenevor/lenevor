@@ -22,6 +22,8 @@
  
 namespace Syscodes\Components\Database\Query\Processors;
 
+use Syscodes\Components\Database\Query\Builder;
+
 /**
  * Allows show the results of a column listing query for Postgres Database.
  * 
@@ -32,10 +34,10 @@ class PostgresProcessor extends Processor
     /**
      * Process an  "insert get ID" query.
      * 
-     * @param  \Syscodes\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  string  $sql
      * @param  array  $values
-     * @param  string  $sequence  (null by default)
+     * @param  string  $sequence 
      * 
      * @return int
      */
@@ -49,6 +51,7 @@ class PostgresProcessor extends Processor
 
         return is_numeric($id) ? (int) $id : $id;
     }
+    
     /**
      * Process the results of a column listing query.
      * 
