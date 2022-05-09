@@ -22,7 +22,6 @@
 
 namespace Syscodes\Components\Routing\Concerns;
 
-use Closure;
 use JsonSerializable;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Http\Response;
