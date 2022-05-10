@@ -72,7 +72,7 @@ class FatalErrorException extends ErrorException
             $this->setTrace($trace);
         } elseif (null !== $traceOffset) {
             if (function_exists('xdebug_get_function_stack')) {
-                $trace = xdebug_get_function_stack();
+                $trace = \xdebug_get_function_stack();
 
                 if ($traceOffset > 0) {
                     array_slice($trace, -$traceOffset);
