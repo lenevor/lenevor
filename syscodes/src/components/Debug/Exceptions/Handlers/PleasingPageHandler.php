@@ -23,7 +23,6 @@
 namespace Syscodes\Components\Debug\Handlers;
 
 use Exception;
-use Throwable;
 use Traversable;
 use ErrorException;
 use RuntimeException;
