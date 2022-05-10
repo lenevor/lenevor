@@ -24,7 +24,6 @@ namespace Syscodes\Components\Dotenv\Repository;
 
 use ReflectionClass;
 use InvalidArgumentException;
-use InvalidaArgumentException;
 use Syscodes\Components\Contracts\Dotenv\Adapter;
 use Syscodes\Components\Dotenv\Repository\Adapters\Readers;
 use Syscodes\Components\Dotenv\Repository\Adapters\Writers;
