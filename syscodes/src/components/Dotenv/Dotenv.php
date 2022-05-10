@@ -22,7 +22,6 @@
 
 namespace Syscodes\Components\Dotenv;
 
-use InvalidArgumentException;
 use Syscodes\Components\Dotenv\Loader\Loader;
 use Syscodes\Components\Dotenv\Store\StoreBuilder;
 
@@ -77,7 +76,7 @@ final class Dotenv
      * @param  \Syscodes\Components\Dotenv\Repository\RepositoryCreator  $repository
      * @param  string|string[]  $path
      * @param  string|string[]  $names
-     * @param  bool  $modeEnabled  (true by default)
+     * @param  bool  $modeEnabled
      * 
      * @return \Syscodes\Components\Dotenv\Dotenv
      */
