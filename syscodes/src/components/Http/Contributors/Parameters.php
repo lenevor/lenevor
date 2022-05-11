@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Http\Contributors;
 
 use Countable;
+use Traversable;
 use ArrayIterator;
 use IteratorAggregate;
 use Syscodes\Components\Collections\Arr;
@@ -66,7 +67,7 @@ class Parameters implements IteratorAggregate, Countable
 		$key = func_num_args() > 0 ? func_get_arg(0) : null;
 
 		if ( ! is_array($value = $this->parameters[$key] ?? [])) {
-			throw new BadRequestException(sprinf("Unexpected value for parameter %s, got %s", $key, get_debug_type($value)));
+			throw new BadRequestException(sprintf("Unexpected value for parameter %s, got %s", $key, get_debug_type($value)));
 		}
 
 		return (null === $key) ? $this->parameters : $value;
@@ -167,11 +168,9 @@ class Parameters implements IteratorAggregate, Countable
 	/**
 	 * Retrieve an external iterator.
 	 * 
-	 * @see    \IteratorAggregate::getIterator
-	 * 
-	 * @return new \ArrayIterator
+	 * @return \ArrayIterator
 	 */
-	public function getIterator()
+	public function getIterator(): Traversable
 	{
 		return new ArrayIterator($this->parameters);
 	}
@@ -187,7 +186,7 @@ class Parameters implements IteratorAggregate, Countable
 	 * 
 	 * @return int The number of parameters
 	 */
-	public function count()
+	public function count(): int
 	{
 		return count($this->parameters);
 	}
