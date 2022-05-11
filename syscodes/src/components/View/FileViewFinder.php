@@ -39,7 +39,7 @@ class FileViewFinder implements ViewFinder
     /**
      * The filesystem instance.
      * 
-     * @var string $files
+     * @var string|object $files
      */
     protected $files;
 
