@@ -22,9 +22,7 @@
 
 namespace Syscodes\Components\Http;
 
-use InvalidArgumentException;
 use Syscodes\Components\Collections\Arr;
-use Syscodes\Components\Http\Contributors\Parameters;
 use Syscodes\Components\Http\Exceptions\HttpURIException;
 
 /**
