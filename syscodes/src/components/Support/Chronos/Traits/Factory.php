@@ -75,9 +75,9 @@ trait Factory
      * @param  string|null  $timezone  
      * @param  string|null  $locale  
      * 
-     * @return \Syscodes\Components\Support\Chronos\Time
+     * @return \Syscodes\Components\Support\Chronos\Time|object|int
      */
-    public static function now($timezone = null, string $locale = null)
+    public static function now($timezone = null, ?string $locale = null)
     {
         return new static(null, $timezone, $locale);
     }
