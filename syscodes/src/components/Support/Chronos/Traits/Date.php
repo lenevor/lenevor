@@ -237,7 +237,7 @@ trait Date
      */
     public function toLocalizedFormatter(?string $format = null)
     {
-        $format = $format ?? $this->$toStringFormat;
+        $format = $format ?? $this->toStringFormat;
 
         return IntlDateFormatter::formatObject($this->toDateTime(), $format, $this->locale);
     }
