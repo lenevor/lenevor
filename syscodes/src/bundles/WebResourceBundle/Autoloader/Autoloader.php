@@ -43,9 +43,9 @@ class Autoloader
     /** 
      * Array of files.
      * 
-     * @var array $includeFiles
+     * @var array $files
      */
-    protected $includeFiles = [];
+    protected $files = [];
 
     /** 
      * This is all the namepaces paths.
@@ -59,10 +59,16 @@ class Autoloader
      * 
      * @param  \Syscodes\Bundles\ApplicationBundle\Autoload  $config
      *
-     * @return $this
+     * @return self
      */
-    public function initialize(Autoload $config)
+    public function initialize(Autoload $config): self
     {
+        if (empty($config->psr4) && empty($config->classmap) && empty($config->files)) {
+            throw new InvalidArgumentException(
+                'Config array must contain either the \'psr4\' key or the \'classmap\' key or the \'files\' key'
+            );
+        }
+
         if (isset($config->psr4)) {
             $this->addNamespace($config->psr4);
         }
@@ -71,15 +77,33 @@ class Autoloader
             $this->classmap = $config->classmap;
         }
 
-        if (isset($config->includeFiles)) {
-            $this->includeFiles = $config->includeFiles;
+        if (isset($config->files)) {
+            $this->files = $config->files;
         }
 
         if ($config->enabledInComposer) {
-            $this->enabledComposerNamespaces();
+           $this->enabledComposerNamespaces();
         }
 
         return $this;
+    }
+
+
+    /**
+     * Initiates the start of classes.
+     *
+     * @return bool
+     */
+    public function register()
+    {
+        // Prepend the PSR4  autoloader for maximum performance
+        spl_autoload_register([$this, 'loadClass'], true, true);
+        
+        // Now prepend another loader for the files in our class map
+        spl_autoload_register([$this, 'loadClassmap'], true, true);
+
+        // Autoloading for the files helpers, hooks or functions
+        spl_autoload_register([$this, 'loadFiles'], true, true);
     }
 
     /**
@@ -88,9 +112,9 @@ class Autoloader
      * @param  array|string  $namespace  The namespace
      * @param  string|null  $path  The path
      *
-     * @return $this
+     * @return self
      */
-    public function addNamespace($namespace, string $path = null)
+    public function addNamespace($namespace, string $path = null): self
     {
         if (is_array($namespace)) {
             foreach ($namespace as $prefix => $path) {
@@ -120,7 +144,7 @@ class Autoloader
      *
      * @return array
      */
-    public function getNamespace(string $prefix = null)
+    public function getNamespace(string $prefix = null): array
     {
         if (null === $prefix) {
             return $this->prefixes;
@@ -134,15 +158,51 @@ class Autoloader
      * 
      * @param  string  $namespace
      * 
-     * @return $this
+     * @return self
      */
-    public function removeNamespace(string $namespace)
+    public function removeNamespace(string $namespace): self
     {
-        unset($this->prefixes[trim($namespace, '\\')]);
-
+        if (isset($this->prefixes[trim($namespace, '\\')])) {
+            unset($this->prefixes[trim($namespace, '\\')]);
+        }
+        
         return $this;
     }
-    
+
+    /**
+     * Load a class using available class mapping.
+     * 
+     * @param  string  $class  The classname to load
+     * 
+     * @return mixed
+     */
+    public function loadClassmap(string $class)
+    {
+        $file = $this->classmap[$class] ?? '';
+        
+        if (is_string($file) && $file !== '') {
+            return $this->sendFilePath($file);
+        }
+        
+        return false;
+    }
+
+    /**
+     * Load files for call helpers, hooks or functions.
+     * 
+     * @return mixed
+     */
+    public function loadFiles()
+    {
+        $files = $this->files ?? [];
+        
+        foreach ($files as $fileIdentifier => $file) {
+            if (is_string($file)) {
+                $this->getAutoloaderFileRequire($fileIdentifier, $file);
+            }
+        }
+    }
+
     /**
      * Loader of files with ID global.
      * 
@@ -154,7 +214,7 @@ class Autoloader
     public function getAutoloaderFileRequire($fileIdentifier, string $file)
     {
         if (empty($GLOBALS['__lenevor_autoload_files'][$fileIdentifier])) {
-            require $file;
+            $this->sendFilePath($file);
             
             $GLOBALS['__lenevor_autoload_files'][$fileIdentifier] = true;
         }
@@ -165,7 +225,7 @@ class Autoloader
      *
      * @param  string  $class  The classname to load
      *
-     * @return string   
+     * @return mixed   
      */
     public function loadClass(string $class)
     {
@@ -185,24 +245,7 @@ class Autoloader
      */
     protected function loadInNamespace(string $class)
     {
-        if (strpos($class, '\\') === false) {
-            // Attempts to load the class from common locations in previous
-            // version of Lenevor, namely: 
-            // 'app/Console', 
-            // 'app/Models', 
-            // 'app/Exceptions',
-            // 'app/Http/Controllers',
-            // 'app/Http/Middleware', 
-            // 'app/Events,
-            // 'app/Listeners.
-            $class    = 'App\\'.$class;
-            $filePath = APP_PATH.str_replace('\\', DIRECTORY_SEPARATOR, $class).'.php';
-            $filename = $this->sendFilePath($filePath);
-
-            if ($filename) {
-                return $filename;
-            }
-            
+        if (false === strpos($class, '\\')) {
             return false;
         }
 
@@ -232,7 +275,7 @@ class Autoloader
      *
      * @return bool
      */
-    protected function sendFilePath(string $file)
+    protected function sendFilePath(string $file): bool
     {
         $file = $this->sanitizeFile($file);
 
@@ -258,7 +301,7 @@ class Autoloader
      *
      * @return string    
      */
-    public function sanitizeFile(string $filename)
+    public function sanitizeFile(string $filename): string
     {
         $filename = preg_replace('/[^a-zA-Z0-9\s\/\-\_\.\:\\\\]/', '', $filename);
 
@@ -269,47 +312,9 @@ class Autoloader
     }
 
     /**
-     * Initiates the start of classes.
-     *
-     * @return bool
-     */
-    public function register()
-    {
-        spl_autoload_register([$this, 'loadClass'], true, true);
-        
-        // Now prepend another loader for the files in our class map
-        $config = is_array($this->classmap) ? $this->classmap : [];
-        
-        spl_autoload_register(function ($class) use ($config) {
-
-            if (empty($config[$class])) {
-                return false;
-            }
-
-            include_once $config[$class];
-
-        }, true, // Throw exception
-           true // Prepend
-        );
-
-        // Autoloading for the files helpers, hooks or functions
-        $files = is_array($this->includeFiles) ? $this->includeFiles : [];
-
-        spl_autoload_register(function () use ($files) {
-
-            foreach ($files as $fileIdentifier => $file) {
-                $this->getAutoloaderFileRequire($fileIdentifier, $file);                
-            }
-            
-        }, true, 
-           true
-        );
-    }
-
-    /**
      * Locates all PSR4 compatible namespaces from Composer.
      * 
-     * @return void
+     * @return mixed
      */
     protected function enabledComposerNamespaces()
     {
@@ -317,14 +322,15 @@ class Autoloader
             return false;
         }
 
-        $composer = include COMPOSER_PATH;
-        
-        $paths = $composer->getPrefixesPsr4();
+        $composer = include COMPOSER_PATH;        
+        $paths    = $composer->getPrefixesPsr4();
+        $classes  = $composer->getClassMap();
+
         unset($composer);
         
         // Get rid of Lenevor so we don't have duplicates
-        if (isset($paths['Syscodes\\'])) {
-            unset($paths['Syscodes\\']);
+        if (isset($paths['Syscodes\\Components'])) {
+            unset($paths['Syscodes\\Components']);
         }
         
         // Composer stores namespaces with trailing slash. We don't
@@ -335,5 +341,6 @@ class Autoloader
         }
         
         $this->prefixes = array_merge($this->prefixes, $newPaths);
+        $this->classmap = array_merge($this->classmap, $classes);
     }
 }
