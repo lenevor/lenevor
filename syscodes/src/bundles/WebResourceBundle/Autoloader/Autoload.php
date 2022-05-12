@@ -47,9 +47,9 @@ final class Autoload extends AutoloadConfig
 	/**
 	 * Array of files for autoloading.
 	 * 
-	 * @var array $includeFiles
+	 * @var array $files
 	 */
-	public $includeFiles = [];
+	public $files = [];
 	
 	/**
 	 * Array of namespaces for autoloading.
@@ -65,8 +65,8 @@ final class Autoload extends AutoloadConfig
 	 */
 	public function __construct()
 	{
-		$this->classmap     = require $this->coreClassmap;
-		$this->includeFiles = require $this->coreFiles;
-		$this->psr4         = require $this->corePsr4;
+		$this->classmap = require $this->coreClassmap;
+		$this->files    = require $this->coreFiles;
+		$this->psr4     = require $this->corePsr4;
 	}
 }
