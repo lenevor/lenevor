@@ -156,6 +156,13 @@ class Application extends Container implements ApplicationContract
     protected $loadServiceProviders = [];
 
     /**
+     * The application namespace.
+     * 
+     * @var string $namespace
+     */
+    protected $namespace;
+
+    /**
      * All of the registered services providers.
      * 
      * @var \Syscodes\Components\Support\ServiceProvider[] $serviceProviders
