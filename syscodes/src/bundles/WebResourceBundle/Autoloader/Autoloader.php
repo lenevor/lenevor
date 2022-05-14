@@ -57,12 +57,16 @@ class Autoloader
     /**
      * Initialize variables of configuration.
      * 
-     * @param  \Syscodes\Bundles\ApplicationBundle\Autoload  $config
+     * @param  \Syscodes\Bundles\WebResourceBundle\Autoloader\Autoload  $config
      *
      * @return self
      */
     public function initialize(Autoload $config): self
     {
+        $this->prefixes = [];
+        $this->classmap = [];
+        $this->files    = [];
+
         if (empty($config->psr4) && empty($config->classmap) && empty($config->files)) {
             throw new InvalidArgumentException(
                 'Config array must contain either the \'psr4\' key or the \'classmap\' key or the \'files\' key'
@@ -114,7 +118,7 @@ class Autoloader
      *
      * @return self
      */
-    public function addNamespace($namespace, string $path = null): self
+    public function addNamespace($namespace, ?string $path = null): self
     {
         if (is_array($namespace)) {
             foreach ($namespace as $prefix => $path) {
@@ -144,7 +148,7 @@ class Autoloader
      *
      * @return array
      */
-    public function getNamespace(string $prefix = null): array
+    public function getNamespace(?string $prefix = null): array
     {
         if (null === $prefix) {
             return $this->prefixes;
