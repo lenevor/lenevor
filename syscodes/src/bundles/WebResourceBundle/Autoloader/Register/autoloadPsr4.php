@@ -13,8 +13,8 @@
 
 return [
 
-    'App\\' => APP_PATH,
-    'Syscodes\\Bundles' => SYS_PATH.'src/bundles',
     'Syscodes\\Components' => SYS_PATH.'src/components',
+    'Syscodes\\Bundles' => SYS_PATH.'src/bundles',    
+    'App\\' => APP_PATH,
 
 ];
