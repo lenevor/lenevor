@@ -56,17 +56,5 @@ final class Autoload extends AutoloadConfig
 	 * 
 	 * @var array $psr4
 	 */
-	public $prs4 = [];
-	
-	/**
-	 * Constructor. Create a new Autoload instance.
-	 * 
-	 * @return void
-	 */
-	public function __construct()
-	{
-		$this->classmap = require $this->coreClassmap;
-		$this->files    = require $this->coreFiles;
-		$this->psr4     = require $this->corePsr4;
-	}
+	public $psr4 = [];
 }
