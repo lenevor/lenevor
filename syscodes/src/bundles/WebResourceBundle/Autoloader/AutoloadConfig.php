@@ -30,8 +30,29 @@ namespace Syscodes\Bundles\WebResourceBundle\Autoloader;
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-abstract class AutoloadConfig 
+class AutoloadConfig 
 {
+	/**
+	 * Map of class names and locations.
+	 * 
+	 * @var array $classmap
+	 */
+	public $classmap = [];
+	
+	/**
+	 * Array of files for autoloading.
+	 * 
+	 * @var array $files
+	 */
+	public $files = [];
+	
+	/**
+	 * Array of namespaces for autoloading.
+	 * 
+	 * @var array $psr4
+	 */
+	public $psr4 = [];
+
 	/**
 	 * ---------------------------------------------------------------------
 	 * Class Map
@@ -68,4 +89,16 @@ abstract class AutoloadConfig
 	 * @var string[] $corePsr4
 	 */
 	protected $corePsr4 = __DIR__.DIRECTORY_SEPARATOR.'Register'.DIRECTORY_SEPARATOR.'autoloadPsr4.php';
+
+	/**
+	 * Constructor. Create a new Autoload instance.
+	 * 
+	 * @return void
+	 */
+	public function __construct()
+	{
+		$this->psr4     = array_merge(require $this->corePsr4, $this->psr4);
+		$this->classmap = array_merge(require $this->coreClassmap, $this->classmap);
+		$this->files    = array_merge(require $this->coreFiles, $this->files);
+	}
 }
