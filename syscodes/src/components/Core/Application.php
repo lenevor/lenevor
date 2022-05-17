@@ -1140,4 +1140,20 @@ class Application extends Container implements ApplicationContract
         $this->serviceProviders = [];
         $this->loadServiceProviders = [];
     }
+
+    /**
+     * Get the application namespace.
+     * 
+     * @return array
+     */
+    public function getNamespace()
+    {
+        if ( ! is_null($this->namespace)) {
+            return $this->namespace;
+        }
+
+        $namespaces = autoloader()->getNamespace();
+
+        return $this->namespace = $namespaces;
+    }
 }
