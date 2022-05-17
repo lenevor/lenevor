@@ -26,6 +26,7 @@ use Syscodes\Components\Routing\UrlGenerator;
 use Syscodes\Components\Support\Facades\Date;
 use Syscodes\Components\Contracts\View\Factory;
 use Syscodes\Components\Contracts\Routing\RouteResponse;
+use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoloader;
 
 if ( ! function_exists('abort')) {
     /**
@@ -62,6 +63,18 @@ if ( ! function_exists('app')) {
         }
 
         return Application::getInstance()->make($id, $parameters);
+    }
+}
+
+if ( ! function_exists('autoloader')) {
+    /**
+     * The Autoloader class.
+     * 
+     * @return \Syscodes\Bundles\WebResourceBundle\Autoloader\Autoloader
+     */
+    function autoloader()
+    {
+        return new Autoloader();
     }
 }
 
