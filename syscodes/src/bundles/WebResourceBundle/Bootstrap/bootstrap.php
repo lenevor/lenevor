@@ -1,5 +1,8 @@
 <?php 
 
+use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoload;
+use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoloader;
+
 /**
  * Lenevor Framework
  *
@@ -36,10 +39,7 @@ if ( ! class_exists(Syscodes\Bundles\WebResourceBundle\Autoloader\Autoload::clas
 // Activate the framework class autoloader
 require SYS_PATH.'src/bundles/WebResourceBundle/Autoloader/Autoloader.php';
 
-// Aliases of the class autoloader 
-class_alias('Syscodes\\Bundles\\WebResourceBundle\\Autoloader\\Autoloader', 'Autoloader');
-
 // Define the core classes to the autoloader
 (new Autoloader)
-    ->initialize(new Syscodes\Bundles\WebResourceBundle\Autoloader\Autoload())
+    ->initialize(new Autoload())
     ->register();
