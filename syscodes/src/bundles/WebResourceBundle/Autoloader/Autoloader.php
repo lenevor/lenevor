@@ -107,7 +107,9 @@ class Autoloader
         spl_autoload_register([$this, 'loadClassmap'], true, true);
 
         // Autoloading for the files helpers, hooks or functions
-        spl_autoload_register([$this, 'loadFiles'], true, true);
+        $this->loadFiles();
+
+        return $this;
     }
 
     /**
@@ -131,7 +133,7 @@ class Autoloader
 
                     continue;
                 }
-
+                
                 $this->prefixes[$prefix][] = rtrim($path, '\\/').DIRECTORY_SEPARATOR;
             }
         } else {
@@ -198,9 +200,7 @@ class Autoloader
      */
     public function loadFiles()
     {
-        $files = $this->files ?? [];
-        
-        foreach ($files as $fileIdentifier => $file) {
+        foreach ($this->files as $fileIdentifier => $file) {
             if (is_string($file)) {
                 $this->getAutoloaderFileRequire($fileIdentifier, $file);
             }
@@ -233,8 +233,7 @@ class Autoloader
      */
     public function loadClass(string $class)
     {
-        $class = trim($class, '\\');
-        
+        $class = trim($class, '\\');        
         $class = str_ireplace('.php', '', $class);
 
         return $this->loadInNamespace($class);
