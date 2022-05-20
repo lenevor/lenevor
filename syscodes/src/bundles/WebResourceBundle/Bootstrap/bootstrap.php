@@ -40,6 +40,6 @@ if ( ! class_exists(Syscodes\Bundles\WebResourceBundle\Autoloader\Autoload::clas
 require SYS_PATH.'src/bundles/WebResourceBundle/Autoloader/Autoloader.php';
 
 // Define the core classes to the autoloader
-(new Autoloader)
+Autoloader::instance()
     ->initialize(new Autoload())
     ->register();
