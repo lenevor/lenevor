@@ -55,6 +55,27 @@ class Autoloader
     protected $prefixes = [];
 
     /**
+     * The class instance.
+     * 
+     * @var string $instance
+     */
+    public static $instance;
+
+    /**
+     * The class instance.
+     * 
+     * @return static
+     */
+    public static function instance()
+    {
+        if (empty(static::$instance)) { 
+            static::$instance = new static;
+        }
+
+        return new static;
+    }
+
+    /**
      * Initialize variables of configuration.
      * 
      * @param  \Syscodes\Bundles\WebResourceBundle\Autoloader\Autoload  $config
@@ -107,9 +128,11 @@ class Autoloader
         spl_autoload_register([$this, 'loadClassmap'], true, true);
 
         // Autoloading for the files helpers, hooks or functions
-        $this->loadFiles();
-
-        return $this;
+        foreach ($this->files as $fileIdentifier => $file) {
+            if (is_string($file)) {
+                $this->getAutoloaderFileRequire($fileIdentifier, $file);
+            }
+        }
     }
 
     /**
@@ -123,18 +146,18 @@ class Autoloader
     public function addNamespace($namespace, ?string $path = null): self
     {
         if (is_array($namespace)) {
-            foreach ($namespace as $prefix => $path) {
+            foreach ($namespace as $prefix => $namespacePath) {
                 $prefix = trim($prefix, '\\');
 
-                if (is_array($path)) {
-                    foreach ($path as $dir) {
+                if (is_array($namespacePath)) {
+                    foreach ($namespacePath as $dir) {
                         $this->prefixes[$prefix][] = rtrim($dir, '\\/').DIRECTORY_SEPARATOR;
                     }
 
                     continue;
                 }
                 
-                $this->prefixes[$prefix][] = rtrim($path, '\\/').DIRECTORY_SEPARATOR;
+                $this->prefixes[$prefix][] = rtrim($namespacePath, '\\/').DIRECTORY_SEPARATOR;
             }
         } else {
             $this->prefixes[trim($namespace, '\\')][] = rtrim($path, '\\/').DIRECTORY_SEPARATOR;
@@ -191,20 +214,6 @@ class Autoloader
         }
         
         return false;
-    }
-
-    /**
-     * Load files for call helpers, hooks or functions.
-     * 
-     * @return mixed
-     */
-    public function loadFiles()
-    {
-        foreach ($this->files as $fileIdentifier => $file) {
-            if (is_string($file)) {
-                $this->getAutoloaderFileRequire($fileIdentifier, $file);
-            }
-        }
     }
 
     /**
