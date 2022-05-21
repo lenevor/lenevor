@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Core;
 
 use Closure;
+use RuntimeException;
 use Syscodes\Components\Version;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Collections\Arr;
@@ -1144,9 +1145,11 @@ class Application extends Container implements ApplicationContract
     /**
      * Get the application namespace.
      * 
-     * @return array
+     * @return string
+     * 
+     * @throws \RuntimeException
      */
-    public function getNamespace()
+    public function getNamespace(): string
     {
         if ( ! is_null($this->namespace)) {
             return $this->namespace;
@@ -1154,6 +1157,14 @@ class Application extends Container implements ApplicationContract
 
         $namespaces = autoloader()->getNamespace();
 
-        return $this->namespace = $namespaces;
+        foreach ((array) $namespaces as $namespace => $path) {
+            foreach ((array) $path as $directory) {
+                if (realpath($this->path()) === realpath($this->basePath($directory))) {
+                    return $this->namespace = $namespace;
+                }
+            }
+        }
+
+        throw new RuntimeException('Unable to detect application namespace');
     }
 }
