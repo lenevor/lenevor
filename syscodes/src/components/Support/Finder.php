@@ -68,10 +68,8 @@ class Finder
         if ( ! static::$instance) {
             static::$instance = static::render([
                 APP_PATH, 
-                BST_PATH, 
                 CON_PATH, 
-                RES_PATH, 
-                SYS_PATH
+                SYS_PATH,
             ]);
         }
 
@@ -94,12 +92,12 @@ class Finder
      * An alias for Finder::instance()->locate().
      *
      * @param  string  $file  The file  
-     * @param  string   $directory  The directory
-     * @param  string|null  $extension  The file extension  
+     * @param  string  $directory  The directory
+     * @param  string  $extension  The file extension  
      *
      * @return mixed  Path, or paths, or false
      */
-    public static function search(string $file = null, string $directory, $extension = null)
+    public static function search(string $file = null, string $directory, $extension = 'php')
     {
         return static::instance()->locate($file, $directory, $extension);
     }
@@ -153,31 +151,25 @@ class Finder
      *
      * @throws \InvalidArgumentException
      */
-    public function locate(?string $file, string $directory, $extension = null)
+    public function locate(?string $file, ?string $directory, $extension = 'php')
     {
         $found = false;
 
-        if (is_null($extension)) {
-            $extension = '.php';
-        } elseif (isset($extension)) {
-            $extension = ".{$extension}";
-        } else {
-            $extension = '';
-        }
+        $file = $this->getExtension($file, $extension);
 
-        if ( ! empty($file) || ! is_null($file)) {
-            $file = str_replace(['::', '.'], DIRECTORY_SEPARATOR, $file);
-        } else  {
-            $file = $file ?: 'empty';
+        // if ( ! empty($file) || ! is_null($file)) {
+        //     $file = str_replace(['::', '.'], DIRECTORY_SEPARATOR, $file);
+        // } else  {
+        //     $file = $file ?: 'empty';
 
-            throw new InvalidArgumentException("File not found: [{$file}]");
-        }
+        //     throw new InvalidArgumentException("File not found: [{$file}]");
+        // }
 
         $directory = str_replace(['::', '.'], DIRECTORY_SEPARATOR, $directory);
         
-        $path = $directory.DIRECTORY_SEPARATOR.$file.$extension;
+        $path = $directory.DIRECTORY_SEPARATOR.$file;
 
-        foreach ($this->paths as $dir) {
+        foreach ((array) $this->paths as $dir) {
             if (is_file($dir.$path)) {
                 $found = $dir.$path;
                 break;
@@ -185,6 +177,27 @@ class Finder
         }
 
         return $found;
+    }
+
+    /**
+     * Get a extension is at the end of a filename.
+     * 
+     * @param  string  $path
+     * @param  string  $extension
+     * 
+     * @return string
+     */
+    protected function getExtension(string $path, string $extension): string
+    {
+        if ($extension) {
+            $extension = '.'.$extension;
+
+            if (substr($path, -strlen($extension)) !== $extension) {
+                $path .= $extension;
+            }
+        }
+
+        return $path;
     }
 
     /**
