@@ -304,7 +304,7 @@ class Factory implements FactoryContract
 	 * 
 	 * @return void
 	 */
-	public function setContainer($container)
+	public function setContainer(Container $container)
 	{
 		$this->container = $container;
 	}
