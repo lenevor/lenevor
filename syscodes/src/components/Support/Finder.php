@@ -47,18 +47,6 @@ class Finder
     protected $paths = [];
 
     /**
-     * Takes in an array of paths, preps them and gets the party started.
-     *
-     * @param  array  $paths  The paths to initialize with
-     *
-     * @return void
-     */
-    public function __construct($paths = [])
-    {
-        return $this->addPath($paths);
-    }
-
-    /**
      * Gets a singleton instance of Finder.
      *
      * @return \Syscodes\Components\Support\Finder
@@ -66,11 +54,7 @@ class Finder
     public static function instance()
     {
         if ( ! static::$instance) {
-            static::$instance = static::render([
-                APP_PATH, 
-                CON_PATH, 
-                SYS_PATH,
-            ]);
+            static::$instance = static::render();
         }
 
         return static::$instance;
@@ -79,25 +63,23 @@ class Finder
     /**
      * Render new Finders.
      *
-     * @param  array  $paths  The paths to initialize with
-     *
      * @return Finder
      */
-    public static function render($paths = [])
+    public static function render()
     {
-        return new static($paths);
+        return new static();
     }
 
     /**
      * An alias for Finder::instance()->locate().
      *
      * @param  string  $file  The file  
-     * @param  string  $directory  The directory
+     * @param  string|null  $directory  The directory
      * @param  string  $extension  The file extension  
      *
      * @return mixed  Path, or paths, or false
      */
-    public static function search(string $file = null, string $directory, $extension = 'php')
+    public static function search(string $file = null, string $directory = null, $extension = 'php')
     {
         return static::instance()->locate($file, $directory, $extension);
     }
@@ -151,32 +133,11 @@ class Finder
      *
      * @throws \InvalidArgumentException
      */
-    public function locate(?string $file, ?string $directory, $extension = 'php')
+    public function locate(?string $file, ?string $directory = null, $extension = 'php')
     {
-        $found = false;
-
         $file = $this->getExtension($file, $extension);
 
-        // if ( ! empty($file) || ! is_null($file)) {
-        //     $file = str_replace(['::', '.'], DIRECTORY_SEPARATOR, $file);
-        // } else  {
-        //     $file = $file ?: 'empty';
-
-        //     throw new InvalidArgumentException("File not found: [{$file}]");
-        // }
-
-        $directory = str_replace(['::', '.'], DIRECTORY_SEPARATOR, $directory);
-        
-        $path = $directory.DIRECTORY_SEPARATOR.$file;
-
-        foreach ((array) $this->paths as $dir) {
-            if (is_file($dir.$path)) {
-                $found = $dir.$path;
-                break;
-            }
-        }
-
-        return $found;
+        return $file;
     }
 
     /**
@@ -213,5 +174,23 @@ class Finder
         $path = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
 
         return rtrim($path, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * Checks the app directory to see if the file can be found.
+     * Only for use with filenames that DO NOT include namespacing.
+     *
+     * @return false|string The path to the file, or false if not found.
+     */
+    protected function legacyLocate(string $file, ?string $directory = null)
+    {
+        $path = APP_PATH . (empty($directory) ? $file : $directory . '/' . $file);
+        $path = realpath($path) ?: $path;
+
+        if (is_file($path)) {
+            return $path;
+        }
+
+        return false;
     }
 }
