@@ -13,8 +13,8 @@
 
 return [
 
-    'Syscodes\\Components' => SYS_PATH.'src/components',
-    'Syscodes\\Bundles' => SYS_PATH.'src/bundles',    
+    'Syscodes\\Components' => SYS_PATH.'src'.DIRECTORY_SEPARATOR.'components',
+    'Syscodes\\Bundles' => SYS_PATH.'src'.DIRECTORY_SEPARATOR.'bundles',    
     'App\\' => APP_PATH,
 
 ];
