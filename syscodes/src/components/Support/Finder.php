@@ -22,9 +22,6 @@
 
 namespace Syscodes\Components\Support;
 
-use OutOfBoundsException;
-use InvalidArgumentException;
-
 /**
  * Finder allows to find files and directories in all the system.
  * 
@@ -79,47 +76,23 @@ class Finder
      *
      * @return mixed  Path, or paths, or false
      */
-    public static function search(string $file = null, string $directory = null, $extension = 'php')
+    public static function locate(string $file, string $directory = null, $extension = 'php')
     {
-        return static::instance()->locate($file, $directory, $extension);
+        return static::instance()->locateFile($file, $directory, $extension);
     }
-
-    /**
-     * Adds a path (or paths) to the search path at a given position.
+    
+     /**
+     * An alias for Finder::instance()->search().
      *
-     * Possible positions:
-     *   (null):  Append to the end of the search path
-     *   (-1):    Prepend to the start of the search path
-     *   (index): The path will get inserted AFTER the given index
+     * @param  string  $path  The namespace   
+     * @param  string  $extension  The file etension
+     * @param  string  $prioritizer  Activate the prioritary
      *
-     * @param  string|array  $paths  The path to add
-     * @param  int  $pos  The position to add the path  
-     *
-     * @return self
-     *
-     * @throws \OutOfBoundsException
+     * @return array  Path, or paths
      */
-    public function addPath($paths, $pos = null): self
+    public static function search(string $path, string $extension = 'php', bool $prioritizer = true) 
     {
-        if ( ! is_array($paths)) {
-            $paths = [$paths];
-        }
-
-        foreach ($paths as $path) {
-            if ($pos === null) {
-                $this->paths[] = $this->prepPath($path);
-            } elseif ($pos === -1) {
-                array_unshift($this->paths, $this->prepPath($path));
-            } else {
-                if ($pos > count($this->paths)) {
-                    throw new OutOfBoundsException(sprintf("Position %s is out of range", $pos));
-                }
-                
-                array_splice($this->paths, $pos, 0, $this->prepPath($path));
-            }
-        }
-
-        return $this;
+        return static::instance()->searchFile($path, $extension, $prioritizer);       
     }
 
     /**
@@ -130,14 +103,116 @@ class Finder
      * @param  string  $extension  The file extension  
      *
      * @return bool|string
-     *
-     * @throws \InvalidArgumentException
      */
-    public function locate(?string $file, ?string $directory = null, $extension = 'php')
+    public function locateFile(?string $file, ?string $directory = null, string $extension = 'php')
     {
         $file = $this->getExtension($file, $extension);
+        
+        // Clears the directory name if it is at the beginning of the filename
+        if ( ! empty($directory) && strpos($file, $directory) === 0) {
+            $file = substr($file, strlen($directory.'/'));
+        }
+        
+        //Is not namespaced? Try the application directory.
+        if (strpos($file, '\\') === false) {
+            return $this->legacyLocate($file, $directory);
+        }
+        
+        // Standardize slashes to handle nested directories
+        $file = strtr($file, '/', '\\');
+        $file = ltrim($file, '\\');
+        
+        $segments = explode('\\', $file);
+        
+        // The first segment will be empty if a slash started the filename
+        if (empty($segments[0])) {
+            unset($segments[0]);
+        }
 
-        return $file;
+        $paths    = [];
+        $filename = '';
+
+        $namespaces = autoloader()->getNamespace();
+
+        foreach (array_keys($namespaces) as $namespace) {            
+            // There may be sub-namespaces of the same vendor,
+            // so overwrite them with namespaces found later
+            $paths = $namespaces[$namespace];
+
+            $fileWithoutNamespace = substr($file, strlen($namespace));
+            $filename             = ltrim(str_replace('\\', '/', $fileWithoutNamespace), '/');
+        }
+
+        // if no namespaces matched then quit
+        if (empty($paths)) {
+            return false;
+        }
+    
+        // Check each path in the namespace
+        foreach ($paths as $path) {
+            // Ensure trailing slash
+            $path = rtrim($path, '/');
+            
+            // If we have a directory name, then the calling function
+            // expects this file to be within that directory, like 'Views',
+            // or 'libraries'
+            if ( ! empty($directory) && strpos($path.$filename, '/'. $directory.'/') === false) {
+                $path .= trim($directory, '/').'/';
+            }
+            
+            $path .= $filename;
+            
+            if (is_file($path)) {
+                return $path;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Searches through all of the defined namespaces looking for a file.
+     * Returns an array of all found locations for the defined file.
+     * 
+     * Example:
+     *  $locator->search('Config/Routes');
+     * 
+     *  // Assuming PSR4 namespaces include foo and bar, might return:
+     *  [
+     *      'app/foo/Config/Routes.php',
+     *      'app/bar/Config/Routes.php',
+     * ]
+     * 
+     * 
+     */
+    public function searchFile(string $path, string $extension = 'php', bool $prioritizer = true): array
+    {
+        $path = $this->getExtension($path, $extension);
+        
+        $foundPaths = [];
+        $appPaths   = [];
+        
+        foreach ($this->getNamespaces() as $namespace) {
+            if (isset($namespace['path']) && is_file($namespace['path'].$path)) {
+                $fullPath = $namespace['path'].$path;
+                $fullPath = realpath($fullPath) ?: $fullPath;
+                
+                if ($prioritizer) {
+                    $foundPaths[] = $fullPath;
+                } elseif (strpos($fullPath, APP_PATH) === 0) {
+                    $appPaths[] = $fullPath;
+                } else {
+                    $foundPaths[] = $fullPath;
+                }
+            }
+        }
+        
+        if ( ! $prioritizer && ! empty($appPaths)) {
+            $foundPaths = [...$foundPaths, ...$appPaths];
+        }
+        
+        // Remove any duplicates
+        return array_unique($foundPaths);
     }
 
     /**
@@ -160,33 +235,58 @@ class Finder
 
         return $path;
     }
-
+    
     /**
-     * Prepares a path for usage. It ensures that the path has a trailing.
-     * Directory Separator.
-     *
-     * @param  string  $path  The path to prepare
-     *
-     * @return string
+     * Return the namespace mappings we know about.
+     *  
+     * @return string[]
      */
-    public function prepPath($path): string
+    protected function getNamespaces(): array
     {
-        $path = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
+        $namespaces = [];
+        
+        // Save system for last
+        $system = [];
+        
+        foreach (autoloader()->getNamespace() as $prefix => $paths) {
+            foreach ($paths as $path) {
+                if ($prefix === 'Syscodes') {
+                    $system = [
+                        'prefix' => $prefix,
+                        'path'   => rtrim($path, '\\/'),
+                    ]; 
 
-        return rtrim($path, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+                    continue; 
+                }               
+            }
+
+            $namespaces[] = [
+                'prefix' => $prefix,
+                'path'   => rtrim($path, '\\/').DIRECTORY_SEPARATOR,
+            ]; 
+            
+        }
+        
+        $namespaces[] = $system;
+        
+        return $namespaces;
     }
-
+    
     /**
      * Checks the app directory to see if the file can be found.
      * Only for use with filenames that DO NOT include namespacing.
-     *
-     * @return false|string The path to the file, or false if not found.
+     * 
+     * @param  string  $file
+     * @param string|null  $directory
+     * 
+     * @return string|bool The path to the file, or false if not found.
      */
     protected function legacyLocate(string $file, ?string $directory = null)
     {
-        $path = APP_PATH . (empty($directory) ? $file : $directory . '/' . $file);
+        $path = APP_PATH.(empty($directory) ? $file : $directory.DIRECTORY_SEPARATOR.$file);
         $path = realpath($path) ?: $path;
-
+            
+        
         if (is_file($path)) {
             return $path;
         }
