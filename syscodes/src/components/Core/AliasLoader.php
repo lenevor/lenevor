@@ -157,7 +157,7 @@ class AliasLoader
             return $path;
         }
         
-        file_put_contents($path, $this->formatFacadeStub($alias, file_get_contents(__DIR__.'/stubs/facade.stub')));
+        file_put_contents($path, $this->formatFacadeStub($alias, file_get_contents(__DIR__.'/Templates/facade.tpl')));
         
         return $path;
     }
