@@ -911,9 +911,7 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Get the service providers.
-     * 
-     * @return array
+     * {@inheritdoc}
      */
     public function getLoadedProviders(): array
     {
@@ -921,11 +919,7 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Determine if the given service provider is loaded.
-     * 
-     * @param  string  $provider
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function providerIsLoaded(string $provider): bool
     {
@@ -933,9 +927,7 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Get the application's deferred services.
-     * 
-     * @return array
+     * {@inheritdoc}
      */
     public function getDeferredServices(): array
     {
@@ -943,11 +935,7 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Set the application's deferred services.
-     * 
-     * @param  array  $services
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function setDeferredServices(array $services): void
     {
@@ -955,11 +943,7 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Determine if the given service is a deferred service.
-     * 
-     * @param  string  $service
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function isDeferredService($service): bool
     {
@@ -967,13 +951,9 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Add an array of services to the application's deferred services.
-     * 
-     * @param  array  $services
-     * 
-     * @return void
+     * {@inheritdoc}
      */
-    public function addDeferredServices(array $services)
+    public function addDeferredServices(array $services): void
     {
         $this->deferredServices = array_merge($this->deferredServices, $services);
     }
@@ -1003,9 +983,7 @@ class Application extends Container implements ApplicationContract
     } 
 
     /**
-     * Get the current application locale.
-     * 
-     * @return string
+     * {@inheritdoc}
      */
     public function currentLocale(): string
     {
@@ -1031,9 +1009,7 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Get the current application fallback locale.
-     * 
-     * @return string
+     * {@inheritdoc}
      */
     public function getFallbackLocale(): string
     {
@@ -1041,11 +1017,7 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Set the current application fallback locale.
-     * 
-     * @param  string  $fallbackLocale
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function setFallbackLocale($fallbackLocale): void
     {
@@ -1055,11 +1027,7 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Determine if application locale is the given locale.
-     * 
-     * @param  string  $locale
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function isLocale($locale): bool
     {
