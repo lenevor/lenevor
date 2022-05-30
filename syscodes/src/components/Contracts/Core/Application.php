@@ -230,6 +230,56 @@ interface Application extends Container
     public function loadDeferredProviders(): void;
 
     /**
+     * Get the service providers.
+     * 
+     * @return array
+     */
+    public function getLoadedProviders(): array;
+
+    /**
+     * Determine if the given service provider is loaded.
+     * 
+     * @param  string  $provider
+     * 
+     * @return bool
+     */
+    public function providerIsLoaded(string $provider): bool;
+
+    /**
+     * Get the application's deferred services.
+     * 
+     * @return array
+     */
+    public function getDeferredServices(): array;
+
+    /**
+     * Set the application's deferred services.
+     * 
+     * @param  array  $services
+     * 
+     * @return void
+     */
+    public function setDeferredServices(array $services): void;
+
+    /**
+     * Determine if the given service is a deferred service.
+     * 
+     * @param  string  $service
+     * 
+     * @return bool
+     */
+    public function isDeferredService($service): bool;
+
+    /**
+     * Add an array of services to the application's deferred services.
+     * 
+     * @param  array  $services
+     * 
+     * @return void
+     */
+    public function addDeferredServices(array $services);
+
+    /**
      * Determine if the given id type has been bound.
      * 
      * @param  string  $id
@@ -275,6 +325,13 @@ interface Application extends Container
      * 
      * @return string
      */
+    public function currentLocale(): string;
+
+    /**
+     * Get the current application locale.
+     * 
+     * @return string
+     */
     public function getLocale(): string;
 
     /**
@@ -285,6 +342,31 @@ interface Application extends Container
      * @return void
      */
     public function setLocale($locale): void;
+
+    /**
+     * Get the current application fallback locale.
+     * 
+     * @return string
+     */
+    public function getFallbackLocale(): string;
+
+    /**
+     * Set the current application fallback locale.
+     * 
+     * @param  string  $fallbackLocale
+     * 
+     * @return void
+     */
+    public function setFallbackLocale($fallbackLocale): void;
+
+    /**
+     * Determine if application locale is the given locale.
+     * 
+     * @param  string  $locale
+     * 
+     * @return bool
+     */
+    public function isLocale($locale): bool;
 
     /**
 	 * Shutdown the application.
