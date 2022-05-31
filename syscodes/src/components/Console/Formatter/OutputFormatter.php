@@ -50,12 +50,12 @@ class OutputFormatter implements OutputFormatterInterface
     /**
      * Constructor. Create a new OutputFormatter instance.
      *
-     * @param  bool|null  $decorated  Whether this formatter should actually decorate strings
+     * @param  bool  $decorated  Whether this formatter should actually decorate strings
      * @param  array   $styles  Array of "name => FormatterStyle" instances
      *
      * @return void
      */
-    public function __construct(bool $decorated = null, array $styles = [])
+    public function __construct(bool $decorated = false, array $styles = [])
     {
         $this->decorated = (bool) $decorated;
 
