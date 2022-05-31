@@ -52,7 +52,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
      * 
      * @throws \InvalidArgumentException
      */
-    public function __construct(int $verbosity = self::VERBOSITY_NORMAL, bool $decorated = false, OutputFormatter $formatter = null)
+    public function __construct(int $verbosity = self::VERBOSITY_NORMAL, bool $decorated = null, OutputFormatter $formatter = null)
     {
         parent::__construct($this->OpenOutputStream(), $verbosity, $decorated, $formatter);
 
@@ -65,7 +65,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
         $this->stderr = new StreamOutput($this->openErrorStream(), $verbosity, $decorated, $this->getFormatter());
 
         if (null === $decorated) {
-            $this->setDecorated($this->stderr->getDecorated());
+            $this->setDecorated($this->getDecorated() && $this->stderr->getDecorated());
         }
     }
     
