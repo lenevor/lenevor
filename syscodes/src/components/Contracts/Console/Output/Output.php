@@ -48,7 +48,7 @@ interface Output
 	 * 
 	 * @return bool
 	 */
-	public function getDecorated(): string;
+	public function getDecorated(): bool;
 
 	/**
 	 * Sets the decorated flag.
