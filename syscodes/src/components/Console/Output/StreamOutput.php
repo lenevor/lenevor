@@ -51,7 +51,7 @@ class StreamOutput extends Output
      * 
      * @throws \InvalidArgumentException
      */
-    public function __construct($stream, int $verbosity = self::VERBOSITY_NORMAL, bool $decorated = false, OutputFormatter $formatter = null)
+    public function __construct($stream, int $verbosity = self::VERBOSITY_NORMAL, bool $decorated = null, OutputFormatter $formatter = null)
     {
         if ( ! \is_resource($stream) || 'stream' !== \get_resource_type($stream)) {
             throw new InvalidArgumentException('The StreamOutput class needs a stream as its first argument');
