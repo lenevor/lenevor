@@ -69,11 +69,8 @@ class Interactor
      */
     public function getConfigureIO()
     {
-        // Activate the color  tag if exist is a style applied
-        $this->output->setDecorated(true);
-
         if (true === $this->input->hasParameterOption(['--ansi'], true)) {
-            // Activate the color  tag if exist is a style applied 
+            // Activate the color tag if exist is a style applied 
             $this->output->setDecorated(true);
         } elseif (true === $this->input->hasParameterOption(['--no-ansi'], true)) {
             // Deactivates the color tag if exist is a style applied
