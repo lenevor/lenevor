@@ -71,7 +71,7 @@ abstract class Output implements OutputInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getDecorated(): string
+	public function getDecorated(): bool
 	{
 		return $this->formatter->getDecorated();
 	}
