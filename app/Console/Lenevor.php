@@ -30,5 +30,13 @@ use Syscodes\Components\Core\Console\Lenevor as ConsoleLenevor;
  */
 class Lenevor extends ConsoleLenevor
 {
-    //
+    /**
+     * Register the commands for the application.
+     * 
+     * @return void
+     */
+    protected function commands(): void
+    {
+        //
+    }
 }
