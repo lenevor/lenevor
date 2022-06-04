@@ -57,6 +57,13 @@ class Lenevor implements LenevorContract
         \Syscodes\Components\Core\Bootstrap\BootRegisterProviders::class,
         \Syscodes\Components\Core\Bootstrap\BootProviders::class,
     ];
+    
+    /**
+     * The Prime commands provided by the application.
+     * 
+     * @var array $commands
+     */
+    protected $commands = [];
 
     /**
 	 * The event dispatcher instance.
@@ -68,9 +75,9 @@ class Lenevor implements LenevorContract
     /**
      * The Prime application instance.
      * 
-     * @var \Syscodes\Components\Console\Application|null
+     * @var \Syscodes\Components\Console\Application|null $prime
      */
-    protected $lenevor;
+    protected $prime;
     
     /**
      * Constructor. Create new console Lenevor instance.
@@ -102,6 +109,16 @@ class Lenevor implements LenevorContract
             
             return 1;
         }
+    }
+
+    /**
+     * Register the commands for the application.
+     * 
+     * @return void
+     */
+    protected function commands(): void
+    {
+        //
     }
     
     /**
