@@ -52,6 +52,19 @@ class Str
      * @var array $studlyCache
      */
     protected static $studlyCache = [];
+    
+    /**
+     * Return the remainder of a string after the first occurrence of a given value.
+     * 
+     * @param  string  $subject
+     * @param  string  $search
+     * 
+     * @return string
+     */
+    public static function after($subject, $search): string
+    {
+        return $search === '' ? $subject : array_reverse(explode($search, $subject, 2))[0];
+    }
 
     /**
      * Transliterate a UTF-8 value to ASCII.
@@ -60,9 +73,28 @@ class Str
      * 
      * @return string
      */
-    public static function ascii($value)
+    public static function ascii($value): string
     {
         return str_replace('/[^\x20-\x7E]/u', '', $value);
+    }
+    
+    /**
+     * Get the portion of a string before the first occurrence of a given value.
+     * 
+     * @param  string  $subject
+     * @param  string  $search
+     * 
+     * @return string
+     */
+    public static function before($subject, $search): string
+    {
+        if ($search === '') {
+            return $subject;
+        }
+        
+        $result = strstr($subject, (string) $search, true);
+        
+        return $result === false ? $subject : $result;
     }
 
     /**
@@ -72,7 +104,7 @@ class Str
      *
      * @return string
      */
-    public static function camelcase($value)
+    public static function camelcase($value): string
     {
         if (isset(static::$camelCache[$value])) {
             return static::$camelCache[$value];
@@ -288,7 +320,7 @@ class Str
      * 
      * @return array
      */
-    public static function parseCallback($callback, $default = null)
+    public static function parseCallback($callback, $default = null): array
     {
         return static::contains($callback, '@') ? explode('@', ucfirst($callback), 2) : [$callback, $default];
     }
@@ -348,7 +380,7 @@ class Str
      * 
      * @return string
      */
-    public static function replaceArray($search, array $replace, $subject)
+    public static function replaceArray($search, array $replace, $subject): string
     {
         $segments = explode($search, $subject);
         
