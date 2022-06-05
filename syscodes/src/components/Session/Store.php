@@ -99,7 +99,15 @@ class Store implements Session
     /**
      * {@inheritdoc}
      */
-    public function start()
+    public function setName($name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function start(): bool
     {
         $this->loadSession();
 
@@ -223,6 +231,14 @@ class Store implements Session
     /**
      * {@inheritdoc}
      */
+    public function replace(array $attributes)
+    {
+        $this->put($attributes);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function put($key, $value = null)
     {
         if ( ! is_array($key)) {
@@ -271,6 +287,16 @@ class Store implements Session
     {
         $this->items = [];
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function invalidate(): bool
+    {
+        $this->flush();
+        
+        return $this->migrate(true);
+    }
 
     /**
      * {@inheritdoc}
@@ -305,7 +331,7 @@ class Store implements Session
      * 
      * @return bool
      */
-    public function migrate($destroy = false): bool
+    public function migrate(bool $destroy = false): bool
     {
         if ($destroy) {
             $this->handler->destroy($this->getId());
