@@ -26,6 +26,7 @@ Use Locale;
 use Closure;
 use Exception;
 use LogicException;
+use RuntimeException;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Http\Contributors\Files;
@@ -33,8 +34,11 @@ use Syscodes\Components\Http\Contributors\Inputs;
 use Syscodes\Components\Http\Contributors\Server;
 use Syscodes\Components\Http\Contributors\Headers;
 use Syscodes\Components\Http\Contributors\Parameters;
+use Syscodes\Components\Http\Session\SessionDecorator;
+use Syscodes\Components\Http\Session\SessionInterface;
 use Syscodes\Components\Http\Concerns\InteractsWithInput;
 use Syscodes\Components\Http\Concerns\InteractsWithContentTypes;
+use Syscodes\Components\Http\Exceptions\SessionNotFoundException;
 
 /**
  * Request represents an HTTP request.
@@ -150,6 +154,13 @@ class Request
 	 * @var \Closure $routeResolver
 	 */
 	protected $routeResolver;
+
+	/**
+	 * The Session implementation.
+	 * 
+	 * @var \Syscodes\Components\Contracts\Session\Session $session
+	 */
+	protected $session;
 
 	/**
 	 * The detected uri and server variables ($_FILES).
@@ -524,6 +535,66 @@ class Request
 		
 		return $default;
 	}
+
+	/**
+	 * Gets the Session.
+	 * 
+	 * @return \Syscodes\Components\Http\Session\SessionInterface
+	 * 
+	 * @throws \Syscodes\Components\Http\Exceptions\SessionNotFoundException
+	 */
+	public function getSession()
+	{
+		$session = $this->session;
+		
+		if ( ! $session instanceof SessionInterface && null !== $session) {
+			$this->setSession(new SessionDecorator($session));
+		}
+		
+		if (null === $session) {
+			throw new SessionNotFoundException('Session has not been set');
+		}
+		
+		return $session;
+	}
+
+	/**
+	 * Whether the request contains a Session object.
+	 * 
+	 * @return bool
+	 */
+	public function hasSession(): bool
+	{
+		return ! is_null($this->session);
+	}
+
+	/**
+	 * Get the session associated with the request.
+	 * 
+	 * @return \Syscodes\Components\Contracts\Session\Session
+	 * 
+	 * @throws RuntimeException
+	 */
+	public function session()
+	{
+		if ( ! $this->hasSession()) {
+			throw new RuntimeException('Session store not set on request');
+		}
+		
+		return $this->session;
+	}
+	
+	/**
+	 * Set the session instance on the request.
+	 * 
+	 * @param  \Syscodes\Components\Contracts\Session\Session  $session
+	 * 
+	 * @return void
+	 */
+    public function setSession($session)
+    {
+        $this->session = $session;
+    }
 
 	/**
 	 * Get the JSON payload for the request.
