@@ -35,13 +35,22 @@ interface Session
      * @return string
      */
     public function getName(): string;
+    
+    /**
+     * Set the name of the session.
+     * 
+     * @param  string  $name
+     * 
+     * @return void
+     */
+    public function setName($name): void;
 
     /**
      * Start the session.
      * 
      * @return bool
      */
-    public function start();
+    public function start(): bool;
 
     /**
      * Get all of the session data.
@@ -121,6 +130,15 @@ interface Session
     public function get($key, $default = null);
 
     /**
+     * Replace the given session attributes entirely.
+     * 
+     * @param  array  $attributes
+     * 
+     * @return void
+     */
+    public function replace(array $atributes);
+
+    /**
      * Put a key / value pair or array of key / value pairs in the session.
      * 
      * @param  string|array  $key
@@ -157,6 +175,13 @@ interface Session
     public function flush();
 
     /**
+     * Flush the session data and regenerate the ID.
+     * 
+     * @return bool
+     */
+    public function invalidate(): bool;
+
+    /**
      * Get the CSRF token value.
      * 
      * @return string
@@ -186,7 +211,7 @@ interface Session
      * 
      * @return bool
      */
-    public function migrate($destroy = false): bool;
+    public function migrate(bool $destroy = false): bool;
 
     /**
      * Determine if the session has been started.
