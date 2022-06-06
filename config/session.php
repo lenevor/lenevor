@@ -1,6 +1,6 @@
 <?php
 
-use Syscode\Support\Str;
+use Syscodes\Components\Support\Str;
 
 return [
     
