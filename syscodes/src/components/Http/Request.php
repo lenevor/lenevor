@@ -591,7 +591,7 @@ class Request
 	 * 
 	 * @return void
 	 */
-    public function setSession($session)
+    public function setSession($session): void
     {
         $this->session = $session;
     }
