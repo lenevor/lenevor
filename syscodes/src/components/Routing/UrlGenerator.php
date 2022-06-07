@@ -76,6 +76,16 @@ class UrlGenerator
 
         $this->setRequest($request);
     }
+    
+    /**
+     * Get the full URL for the current request.
+     * 
+     * @return string
+     */
+    public function full(): string
+    {
+        return $this->request->fullUrl();
+    }
 
     /**
      * Get the current URL for the request.
