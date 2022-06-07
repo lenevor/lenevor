@@ -93,7 +93,13 @@ class RoutingServiceProvider extends ServiceProvider
     protected function registerRedirector()
     {
         $this->app->singleton('redirect', function ($app) {
-            return new Redirector($app['url']);
+            $redirector = new Redirector($app['url']);
+            
+            if (isset($app['session.store'])) {
+                $redirector->setSession($app['session.store']);
+            }
+
+            return $redirector;
         });
     }
 }
