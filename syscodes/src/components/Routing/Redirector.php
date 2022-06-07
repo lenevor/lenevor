@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Routing;
 
 use Syscodes\Components\Http\RedirectResponse;
+use Syscodes\Components\Session\Store as SessionStore;
 
 /**
  * Returns redirect of the routes defined by the user.
@@ -37,6 +38,13 @@ class Redirector
      * @var object $generator
      */
     protected $generator;
+    
+    /**
+     * The session store instance.
+     * 
+     * @var \Syscodes\Components\Session\Store
+     */
+    protected $session;
 
     /**
      * Constructor. The Redirector class instance.
@@ -88,6 +96,70 @@ class Redirector
     {
         return $this->to($this->generator->getRequest()->path(), $status, $headers);
     }
+    
+    /**
+     * Create a new redirect response, while putting the current URL in the session.
+     * 
+     * @param  string  $path
+     * @param  int  $status
+     * @param  array  $headers
+     * @param  bool|null  $secure
+     * 
+     * @return \Syscodes\Components\Http\RedirectResponse
+     */
+    public function guest(
+        $path, 
+        $status = 302, 
+        $headers = [], 
+        $secure = null
+    ) {
+        $request = $this->generator->getRequest();
+        
+        $intended = $request->isMethod('GET') && $request->route()
+                        ? $this->generator->full()
+                        : $this->generator->previous();
+                        
+        if ($intended) {
+            $this->setIntendedUrl($intended);
+        }
+        
+        //return $this->to($path, $status, $headers, $secure);
+    }
+    
+    /**
+     * Create a new redirect response to the previously intended location.
+     * 
+     * @param  mixed  $default
+     * @param  int  $status
+     * @param  array  $headers
+     * @param  bool|null  $secure
+     * 
+     * @return \Syscodes\Components\Http\RedirectResponse
+     */
+    public function intended(
+        $default = '/', 
+        $status = 302, 
+        $headers = [], 
+        $secure = null
+    ) {
+        $path = $this->session->pull('url.intended', $default);
+        
+        return $this->to($path, $status, $headers, $secure);
+    }
+    
+    /**
+     * Set the intended url.
+     * 
+     * @param  string  $url
+     * 
+     * @return self
+     */
+    public function setIntendedUrl($url): self
+    {
+        $this->session->put('url.intended', $url);
+        
+        return $this;
+    }
 
     /**
      * Create a new redirect response to the given path.
@@ -99,8 +171,12 @@ class Redirector
      * 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
-    public function to($path, $status = 302, $headers = [], $secure = null)
-    {
+    public function to(
+        $path, 
+        $status = 302, 
+        $headers = [], 
+        $secure = null
+    ) {
         return $this->createRedirect($this->generator->to($path, [], $secure), $status, $headers);
     }
 
@@ -142,8 +218,12 @@ class Redirector
      * 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
-    public function route($route, $parameters = [], $status = 302, $headers = [])
-    {
+    public function route(
+        $route, 
+        $parameters = [], 
+        $status = 302, 
+        $headers = []
+    ) {
         $path = $this->generator->route($route, $parameters);
 
         return $this->to($path, $status, $headers);
@@ -159,8 +239,12 @@ class Redirector
      * 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
-    public function action($route, $parameters = [], $status = 302, $headers = [])
-    {
+    public function action(
+        $route, 
+        $parameters = [], 
+        $status = 302, 
+        $headers = []
+    ) {
         $path = $this->generator->action($route, $parameters);
 
         return $this->to($path, $status, $headers);
@@ -178,7 +262,23 @@ class Redirector
     protected function createRedirect($path, $status, $headers)
     {
         return take(new RedirectResponse($path, $status, $headers), function($redirect) {
+            if (isset($this->session)) {
+                $redirect->setSession($this->session);
+            }
+            
             $redirect->setRequest($this->generator->getRequest());
         });
+    }
+    
+    /**
+     * Set the active session store.
+     * 
+     * @param  \Syscodes\Components\Session\Store  $session
+     * 
+     * @return void
+     */
+    public function setSession(SessionStore $session)
+    {
+        $this->session = $session;
     }
 }
