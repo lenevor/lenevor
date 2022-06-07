@@ -119,18 +119,60 @@ trait InteractsWithInput
     {
         return Arr::get($this->allFiles(), $key, $default);
     }
+    
+    /**
+     * Get a subset of the items from the input data.
+     * 
+     * @param  array|mixed  $keys
+     * 
+     * @return array
+     */
+    public function only($keys): array
+    {
+        $keys = is_array($keys) ? $keys : func_get_args();
+        
+        $results = [];
+        
+        $input = $this->all();
+        
+        foreach ($keys as $key) {
+            Arr::set($results, $key, Arr::get($input, $key));
+        }
+        
+        return $results;
+    
+    }
+    
+    /**
+     * Get all of the input except for a specified array of items.
+     * 
+     * @param  array  $keys
+     * 
+     * @return array
+     */
+    public function except($keys): array
+    {
+        $keys = is_array($keys) ? $keys : func_get_args();
+        
+        $results = $this->all();
+        
+        Arr::erase($results, $keys);
+        
+        return $results;
+    }
+
 
     /**
-     * Retrieve a 'queryString' item from the request.
+     * Retrieve a 'query' item from the request.
      * 
      * @param  string|null  $key
      * @param  string|null  $default
      * 
      * @return string|array|null
      */
-    public function queryString($key = null, $default = null)
+    public function query($key = null, $default = null)
     {
-        return $this->retrieveItem('queryString', $key, $default);
+        return $this->retrieveItem('query', $key, $default);
     }
 
     /**
