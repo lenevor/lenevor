@@ -123,7 +123,7 @@ class Redirector
             $this->setIntendedUrl($intended);
         }
         
-        //return $this->to($path, $status, $headers, $secure);
+        return $this->to($path, $status, $headers, $secure);
     }
     
     /**
