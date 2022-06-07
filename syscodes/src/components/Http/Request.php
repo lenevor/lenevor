@@ -30,6 +30,7 @@ use RuntimeException;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Http\Contributors\Files;
+use Syscodes\Components\Http\Contributors\Utils;
 use Syscodes\Components\Http\Contributors\Inputs;
 use Syscodes\Components\Http\Contributors\Server;
 use Syscodes\Components\Http\Contributors\Headers;
@@ -49,13 +50,6 @@ class Request
 {
 	use InteractsWithInput,
 	    InteractsWithContentTypes;
-
-	/**
-	 * Holds the global active request instance.
-	 *
-	 * @var bool $requestURI
-	 */
-	protected static $requestURI;
 
 	/**
 	 * The base URL.
@@ -130,9 +124,9 @@ class Request
 	/**
 	 * Query string parameters ($_GET).
 	 * 
-	 * @var \Syscodes\Components\Http\Contributors\Parameters $queryString
+	 * @var \Syscodes\Components\Http\Contributors\Parameters $query
 	 */
-	public $queryString;
+	public $query;
 
 	/**
 	 * Request body parameters ($_POST).
@@ -184,9 +178,16 @@ class Request
 	protected $validLocales = [];
 
 	/**
+	 * Holds the global active request instance.
+	 *
+	 * @var bool $requestURI
+	 */
+	protected static $requestURI;
+
+	/**
 	 * Constructor: Create new the Request class.
 	 * 
-	 * @param  array  $queryString
+	 * @param  array  $query
 	 * @param  array  $request
 	 * @param  array  $cookies
 	 * @param  array  $files
@@ -195,11 +196,11 @@ class Request
 	 * 
 	 * @return void
 	 */
-	public function __construct(array $queryString = [], array $request = [], array $cookies = [], array $files = [], array $server = [], $content = null)
+	public function __construct(array $query = [], array $request = [], array $cookies = [], array $files = [], array $server = [], $content = null)
 	{
 		static::$requestURI = $this;
 		
-		$this->initialize($queryString, $request, $cookies, $files, $server, $content);
+		$this->initialize($query, $request, $cookies, $files, $server, $content);
 		
 		$this->detectURI(config('app.uriProtocol'), config('app.baseUrl'));
 
@@ -209,7 +210,7 @@ class Request
 	/**
 	 * Sets the parameters for this request.
 	 * 
-	 * @param  array  $queryString
+	 * @param  array  $query
 	 * @param  array  $request
 	 * @param  array  $cookies
 	 * @param  array  $files
@@ -218,14 +219,14 @@ class Request
 	 * @return void
 	 */
 	public function initialize(
-		array $queryString = [], 
+		array $query = [], 
 		array $request = [], 
 		array $cookies = [], 
 		array $files = [], 
 		array $server = [], 
 		$content = null
 	): void {
-		$this->queryString  = new Inputs($queryString);
+		$this->query        = new Inputs($query);
 		$this->request      = new Inputs($request);
 		$this->cookies      = new Inputs($cookies);
 		$this->files        = new Files($files);
@@ -262,7 +263,7 @@ class Request
 	public static function createFromRequest($request)
 	{
 		$newRequest = (new static)->duplicate(
-			$request->queryString->all(), $request->request->all(), $request->cookies->all(), 
+			$request->query->all(), $request->request->all(), $request->cookies->all(), 
 			$request->files->all(), $request->server->all()
 		);
 
@@ -290,7 +291,7 @@ class Request
 	/**
 	 * Creates a new request from a factory.
 	 * 
-	 * @param  array  $queryString
+	 * @param  array  $query
 	 * @param  array  $request
 	 * @param  array  $cookies
 	 * @param  array  $files
@@ -299,14 +300,14 @@ class Request
 	 * @return static
 	 */
 	protected static function createFromRequestFactory(
-		array $queryString = [], 
+		array $query = [], 
 		array $request = [], 
 		array $cookies = [], 
 		array $files = [], 
 		array $server = []
 	) {
 		if (self::$requestURI) {
-			$request = (self::$requestURI)($queryString, $request, $cookies, $files, $server);
+			$request = (self::$requestURI)($query, $request, $cookies, $files, $server);
 
 			if ( ! $request instanceof self) {
 				throw new LogicException('The Request active must return an instance of Syscodes\Components\Http\Request');
@@ -315,13 +316,13 @@ class Request
 			return $request;
 		}
 
-		return new static($queryString, $request, $cookies, $files, $server);
+		return new static($query, $request, $cookies, $files, $server);
 	}
 
 	/**
 	 * Clones a request and overrides some of its parameters.
 	 * 
-	 * @param  array  $queryString
+	 * @param  array  $query
 	 * @param  array  $request
 	 * @param  array  $cookies
 	 * @param  array  $files
@@ -330,7 +331,7 @@ class Request
 	 * @return static
 	 */
 	public function duplicate(
-		array $queryString = [], 
+		array $query = [], 
 		array $request = [], 
 		array $cookies = [],
 		array $files = [],
@@ -338,8 +339,8 @@ class Request
 	) {
 		$duplicate = clone $this;
 
-		if (null !== $queryString) {
-			$duplicate->queryString = new Inputs($queryString);
+		if (null !== $query) {
+			$duplicate->query = new Inputs($query);
 		}
 
 		if (null !== $request) {
@@ -525,8 +526,8 @@ class Request
 	 */
 	public function get(string $key, $default = null) 
 	{
-		if ($this->queryString->has($key)) {
-			return $this->queryString->all()[$key];
+		if ($this->query->has($key)) {
+			return $this->query->all()[$key];
 		}
 		
 		if ($this->request->has($key)) {
@@ -716,7 +717,7 @@ class Request
 			return $this->json();
 		}
 
-		return in_array($this->getMethod(), ['GET', 'HEAD']) ? $this->queryString : $this->request;
+		return in_array($this->getMethod(), ['GET', 'HEAD']) ? $this->query : $this->request;
 	}
 	
 	/**
@@ -792,6 +793,32 @@ class Request
 		}
 
 		return $path == '' ? $request->uri->getPath().'/' : $path;
+	}
+
+	/**
+	 * Get the full URL for the request.
+	 * 
+	 * @return string
+	 */
+	public function fullUrl(): string
+	{
+		$query = $this->getQueryString();
+		
+		$question = $this->getBaseUrl().$this->getPathInfo() === '/' ? '/?' : '?';
+		
+		return $query ? $this->url().$question.$query : $this->url();
+	}
+	
+	/**
+	 * Generates the normalized query string for the Request.
+	 * 
+	 * @return string
+	 */
+	public function getQueryString(): ?string
+	{
+		$queryString = Utils::normalizeQueryString($this->server->get('QUERY_STRING'));
+		
+		return '' === $queryString ? null : $queryString;
 	}
 
 	/**
@@ -1071,11 +1098,11 @@ class Request
 	 */
 	public function __clone()
 	{
-		$this->queryString = clone $this->queryString;
-		$this->request     = clone $this->request;
-		$this->cookies     = clone $this->cookies;
-		$this->files       = clone $this->files;
-		$this->server      = clone $this->server;
-		$this->headers     = clone $this->headers;
+		$this->query    = clone $this->query;
+		$this->request  = clone $this->request;
+		$this->cookies  = clone $this->cookies;
+		$this->files    = clone $this->files;
+		$this->server   = clone $this->server;
+		$this->headers  = clone $this->headers;
 	}
 }
