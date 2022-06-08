@@ -32,18 +32,18 @@ class RequestUtils
     /**
      * Normalizes a query string.
      * 
-     * @param  string|array|null  $query
+     * @param  string  $query
      * 
      * @return string
      */
-    public static function normalizedQueryString($query): string
+    public static function normalizedQueryString(?string $query): string
     {
         if ('' === ($query ?? '')) {
             return '';
         }
 
-        ksort($query);
+        ksort([$query]);
 
-        return http_build_query($query, '', '&', PHP_QUERY_RFC3986);
+        return http_build_query([$query], '', '&', \PHP_QUERY_RFC3986);
     }
 }
