@@ -23,11 +23,11 @@
 namespace Syscodes\Components\Contracts\Dotenv; 
 
 /**
- * Read, write and delete an environment variable.
+ * Adapter is supported and check an environment variable.
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-interface Adapter
+interface Adapter extends Reader, Writer
 {
     /**
      * Determines if the adapter is supported.
@@ -44,32 +44,4 @@ interface Adapter
      * @return bool
      */
     public function has(string $name): bool;
-    
-    /**
-     * Read an environment variable.
-     * 
-     * @param  string  $name
-     * 
-     * @return mixed
-     */
-    public function read(string $name);
-
-     /**
-     * Write to an environment variable.
-     * 
-     * @param  string  $name
-     * @param  string  $value
-     * 
-     * @return bool
-     */
-    public function write(string $name, string $value): bool;
-
-    /**
-     * Delete an environment variable.
-     * 
-     * @param  string  $name
-     * 
-     * @return bool
-     */
-    public function delete(string $name): bool;
 }
