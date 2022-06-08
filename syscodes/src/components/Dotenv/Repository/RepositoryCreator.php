@@ -24,6 +24,7 @@ namespace Syscodes\Components\Dotenv\Repository;
 
 use ReflectionClass;
 use InvalidArgumentException;
+use Syscodes\Components\Contracts\Dotenv\Writer;
 use Syscodes\Components\Contracts\Dotenv\Adapter;
 use Syscodes\Components\Dotenv\Repository\Adapters\Readers;
 use Syscodes\Components\Dotenv\Repository\Adapters\Writers;
@@ -52,22 +53,22 @@ final class RepositoryCreator
     /**
      * The set of readers to use.
      * 
-     * @var array|\Syscodes\Components\Dotenv\Repository\Adapters\Readers $readers
+     * @var array|\Syscodes\Components\Contracts\Dotenv\Reader $readers
      */
     protected $readers;
 
     /**
      * The set of writers to use.
      * 
-     * @var array|\Syscodes\Components\Dotenv\Repository\Adapters\Writers$writers
+     * @var array|\Syscodes\Components\Contracts\Dotenv\Writer $writers
      */
     protected $writers;
 
     /**
      * Constructor. Create a new Repository creator instance.
      * 
-     * @param  array|\Syscodes\Components\Dotenv\Repository\Adapters\Readers  $readers
-     * @param  array|\Syscodes\Components\Dotenv\Repository\Adapters\Writers  $writers
+     * @param  array|\Syscodes\Components\Contracts\Dotenv\Readers  $readers
+     * @param  array|\Syscodes\Components\Contracts\Dotenv\Writers  $writers
      * @param  string[]|null  $allowList
      * 
      * @return void
@@ -112,8 +113,7 @@ final class RepositoryCreator
      */
     protected static function inAdapterClass(string $name): bool
     {
-        if ( ! class_exists($name))
-        {
+        if ( ! class_exists($name)) {
             return false;
         }
 
@@ -131,8 +131,13 @@ final class RepositoryCreator
      */
     public function addAdapter(string $adapter)
     {
-        if ( ! is_string($adapter) && ! ($adapter instanceof Adapter)) {
-            throw new InvalidArgumentException("Expected either an instance of [{$this->allowList}]");
+        if ( ! is_string($adapter) && static::inAdapterClass($adapter) && ! $adapter instanceof Adapter) {
+            throw new InvalidArgumentException(
+                sprintf('Expected either an instance of %s or a class-string implementing %s',
+                    Writer::class,
+                    Adapter::class
+                )
+            );
         }
 
         $adapter = $this->getReflectionClass($adapter);
@@ -164,9 +169,9 @@ final class RepositoryCreator
      */
     public function make()
     {
-        $readers = new Readers($this->readers);
-        $writers = new Writers($this->writers);
+        $reader = new Readers($this->readers);
+        $writer = new Writers($this->writers);
 
-        return new AdapterRepository($readers, $writers);
+        return new AdapterRepository($reader, $writer);
     }
 }
