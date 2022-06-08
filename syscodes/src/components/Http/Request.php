@@ -30,7 +30,6 @@ use RuntimeException;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Http\Contributors\Files;
-use Syscodes\Components\Http\Contributors\Utils;
 use Syscodes\Components\Http\Contributors\Inputs;
 use Syscodes\Components\Http\Contributors\Server;
 use Syscodes\Components\Http\Contributors\Headers;
@@ -816,7 +815,7 @@ class Request
 	 */
 	public function getQueryString(): ?string
 	{
-		$queryString = Utils::normalizeQueryString($this->server->get('QUERY_STRING'));
+		$queryString = RequestUtils::normalizedQueryString($this->server->get('QUERY_STRING'));
 		
 		return '' === $queryString ? null : $queryString;
 	}
