@@ -22,9 +22,9 @@
 
 namespace Syscodes\Components\Dotenv\Repository;
 
+use Syscodes\Components\Contracts\Dotenv\Reader;
+use Syscodes\Components\Contracts\Dotenv\Writer;
 use Syscodes\Components\Contracts\Dotenv\Repository;
-use Syscodes\Components\Dotenv\Repository\Adapters\Readers;
-use Syscodes\Components\Dotenv\Repository\Adapters\Writers;
 
 /**
  * Gets to all the adapters.
@@ -36,29 +36,29 @@ final class AdapterRepository implements Repository
     /**
      * The set of readers to use.
      * 
-     * @var \Syscodes\Components\Dotenv\Repository\Adapters\Readers $readers
+     * @var \Syscodes\Components\Contracts\Dotenv\Reader $reader
      */
-    protected $readers;
+    protected $reader;
 
     /**
      * The set of writers to use.
      * 
-     * @var \Syscodes\Components\Dotenv\Repository\Adapters\Writers $writers
+     * @var \Syscodes\Components\Contracts\Dotenv\Writer $writer
      */
-    protected $writers;
+    protected $writer;
 
     /**
      * Constructor. Create a new AdapterRepository instance.
      * 
-     * @param  \Syscodes\Components\Dotenv\Repository\Adapters\Readers  $readers
-     * @param  \Syscodes\Components\Dotenv\Repository\Adapters\Writers  $writers
+     * @param  \Syscodes\Components\Contracts\Dotenv\Reader  $reader
+     * @param  \Syscodes\Components\Contracts\Dotenv\Writer  $writer
      * 
      * @return void
      */
-    public function __construct(Readers $readers, Writers $writers)
+    public function __construct(Reader $reader, Writer $writer)
     {
-        $this->readers = $readers;
-        $this->writers = $writers;
+        $this->reader = $reader;
+        $this->writer = $writer;
     }
 
     /**
@@ -66,7 +66,7 @@ final class AdapterRepository implements Repository
      */
     public function get(string $name)
     {
-        return $this->readers->read($name);
+        return $this->reader->read($name);
     }
 
      /**
@@ -74,7 +74,7 @@ final class AdapterRepository implements Repository
      */
     public function set(string $name, string $value): bool
     {
-        return $this->writers->write($name, $value);
+        return $this->writer->write($name, $value);
     }
 
     /**
@@ -82,6 +82,6 @@ final class AdapterRepository implements Repository
      */
     public function clear(string $name): bool
     {
-        return $this->writers->delete($name);
+        return $this->writer->delete($name);
     }
 }
