@@ -22,12 +22,14 @@
 
 namespace Syscodes\Components\Dotenv\Repository\Adapters;
 
+use Syscodes\Components\Contracts\Dotenv\Reader;
+
 /**
  * Reads an environment variable.
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-final class Readers
+final class Readers implements Reader
 {
     /**
      * The set of readers to use.
