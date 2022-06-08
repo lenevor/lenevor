@@ -22,12 +22,14 @@
 
 namespace Syscodes\Components\Dotenv\Repository\Adapters;
 
+use Syscodes\Components\Contracts\Dotenv\Writer;
+
 /**
  * Write and delete an environment variable.
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-final class Writers
+final class Writers implements Writer
 {
     /**
      * The set of writers to use.
