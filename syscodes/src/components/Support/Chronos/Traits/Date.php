@@ -183,7 +183,7 @@ trait Date
      */
     public function toDateTime()
     {
-        $datetime = (new DateTime(null, $this->getTimezone()))->setTimestamp(parent::getTimestamp());
+        $datetime = (new DateTime('', $this->getTimezone()))->setTimestamp(parent::getTimestamp());
         
         return $datetime;
     }
