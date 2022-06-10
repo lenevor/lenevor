@@ -34,18 +34,18 @@ use Syscodes\Components\Contracts\Container\Container;
 abstract class Manager
 {
     /**
-     * The application instance.
-     * 
-     * @var \Syscodes\Components\Contracts\Core\Application $app
-     */
-    protected $app;
-
-    /**
      * The configuration repository instance.
      * 
      * @var \Syscodes\Components\Contracts\Config\Configure $config
      */
     protected $config;
+
+    /**
+     * The container instance.
+     * 
+     * @var \Syscodes\Components\Contracts\Container\Container $container
+     */
+    protected $container;
 
     /**
      * The registered custom driver creators.
@@ -70,8 +70,8 @@ abstract class Manager
      */
     public function __construct(Container $container)
     {
-        $this->app    = $container;
-        $this->config = $container->make('config');
+        $this->container = $container;
+        $this->config    = $container->make('config');
     }
 
     /**
@@ -95,7 +95,9 @@ abstract class Manager
         $driver = $driver ?: $this->getDefaultDriver();
 
         if (is_null($driver)) {
-            throw new InvalidArgumentException(sprintf('Unable to resolve NULL driver for [%s].', static::class));
+            throw new InvalidArgumentException(
+                sprintf('Unable to resolve NULL driver for [%s]', static::class)
+            );
         }
 
         if ( ! isset($this->drivers[$driver])) {
@@ -126,7 +128,9 @@ abstract class Manager
             }
         }
 
-        throw new InvalidArgumentException("Driver [{$driver}] not supported.");
+        throw new InvalidArgumentException(
+            sprintf('Driver [%s] not supported', $driver)
+        );
     }
 
     /**
@@ -138,7 +142,7 @@ abstract class Manager
      */
     protected function callCustomCreator($driver)
     {
-        return $this->customCreators[$driver]($this->app);
+        return $this->customCreators[$driver]($this->container);
     }
 
     /**
@@ -147,9 +151,9 @@ abstract class Manager
      * @param  string  $driver
      * @param  \Closure  $callback
      * 
-     * @return $this
+     * @return self
      */
-    public function extend($driver, Closure $callback)
+    public function extend($driver, Closure $callback): self
     {
         $this->customCreators[$driver] = $callback;
 
@@ -161,12 +165,38 @@ abstract class Manager
      * 
      * @return array
      */
-    public function getDrivers()
+    public function getDrivers(): array
     {
         return $this->drivers;
     }
 
     /**
+     * Get the container instance used by the manager.
+     * 
+     * @return \Syscodes\Components\Contracts\Container\Container
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * Get the container instance used by the manager.
+     * 
+     * @param  \Syscodes\Components\Contracts\Container\Container  $container
+     * 
+     * @return self
+     */
+    public function setContainer(Container $container): self
+    {
+        $this->container = $container;
+
+        return $this;
+    }
+
+    /**
+     * Magic method.
+     * 
      * Dynamically call the default driver instance.
      * 
      * @param  string  $method
