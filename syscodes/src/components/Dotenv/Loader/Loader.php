@@ -203,7 +203,7 @@ final class Loader
             $value = trim($parts[0]);
             // Unquoted values cannot contain whitespace
             if (preg_match('/\s+/', $value) > 0) {
-                throw new InvalidArgumentException('.env values containing spaces must be surrounded by quotes.');
+                throw new InvalidArgumentException('.env values containing spaces must be surrounded by quotes');
             }
         }
         
