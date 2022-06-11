@@ -42,7 +42,7 @@ return [
     |
     */
     
-    'files' => storagePath('sessions'),
+    'files' => storagePath('framework/sessions'),
 
     /*
     |--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'connection' => env('SESSION_CONNECTION', null),
+    'connection' => env('SESSION_CONNECTION'),
 
     /*
     |--------------------------------------------------------------------------
@@ -78,9 +78,11 @@ return [
     | list a cache store that should be used for these sessions. This value
     | must match with one of the application's configured cache "stores".
     |
+    | Support: "apc", "memcached", "redis"
+    |
     */
 
-    'store' => env('SESSION_STORE', null),
+    'store' => env('SESSION_STORE'),
 
     /*
     |--------------------------------------------------------------------------
@@ -93,7 +95,10 @@ return [
     |
     */
 
-    'cookie' => env('SESSION_COOKIE', Str::slug(env('APP_NAME', 'lenevor'), '_').'_session'),
+    'cookie' => env(
+        'SESSION_COOKIE', 
+        Str::slug(env('APP_NAME', 'lenevor'), '_').'_session'
+    ),
 
     /*
     |--------------------------------------------------------------------------
@@ -119,7 +124,7 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN', null),
+    'domain' => env('SESSION_DOMAIN'),
 
     /*
     |---------------------------------------------------------------------------
@@ -132,6 +137,6 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE', false),
+    'secure' => env('SESSION_SECURE_COOKIE'),
 
 ];
