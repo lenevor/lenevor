@@ -54,7 +54,7 @@ class CacheSessionHandler implements SessionHandlerInterface
      * 
      * @return void
      */
-    public function __construct(store $cache, $minutes)
+    public function __construct(Store $cache, $minutes)
     {
         $this->cache   = $cache;
         $this->minutes = $minutes;
@@ -115,7 +115,7 @@ class CacheSessionHandler implements SessionHandlerInterface
      * 
      * @return int
      */
-    public function gc(int $lifetime): int
+    public function gc($lifetime): int
     {
         return 0;
     }
