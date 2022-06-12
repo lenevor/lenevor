@@ -140,7 +140,7 @@ class FileSessionHandler implements SessionHandlerInterface
      * 
      * @return int
      */
-    public function gc(int $lifetime): int
+    public function gc($lifetime): int
     {
         $files = Finder::render($this->path);
 
