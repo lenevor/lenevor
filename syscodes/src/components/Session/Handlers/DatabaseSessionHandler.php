@@ -146,7 +146,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface
      * 
      * @return int
      */
-    public function gc(int $lifetime): int
+    public function gc($lifetime): int
     {
         return $this->getQuery()->where('last_activity', '<=', $this->currentTime() - $lifetime)->delete();
     }
