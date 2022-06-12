@@ -136,7 +136,7 @@ class ArraySessionHandler implements SessionHandlerInterface
      * 
      * @return int
      */
-    public function gc(int $lifetime): int
+    public function gc($lifetime): int
     {
         $expiration = $this->calculateExpiration($lifetime);
         
