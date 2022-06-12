@@ -23,9 +23,11 @@
 namespace Syscodes\Components\Session;
 
 use Syscodes\Components\Support\Manager;
-use Syscodes\Components\Session\Handlers\FileSession;
-use Syscodes\Components\Session\Handlers\NullSession; 
-use Syscodes\Components\Session\Handlers\CacheBasedSession;
+use Syscodes\Components\Session\Handlers\FileSessionHandler;
+use Syscodes\Components\Session\Handlers\NullSessionHandler;
+use Syscodes\Components\Session\Handlers\ArraySessionHandler;
+use Syscodes\Components\Session\Handlers\CacheSessionHandler;
+use Syscodes\Components\Session\Handlers\DatabaseSessionHandler;
 
 /**
  * Lenevor session storage.
@@ -45,18 +47,31 @@ class SessionManager extends Manager
     {
         return $this->buildSession(parent::callCustomCreator($driver));
     }
+
     /**
-     * Create an instance of the array session driver.
+     * Create an instance of the "null" session driver.
+     * 
+     * @return \Syscodes\Components\Session\Store
+     */
+    protected function createNullDriver()
+    {
+        return $this->buildSession(new NullSessionHandler);
+    }
+
+    /**
+     * Create an instance of the "array" session driver.
      * 
      * @return \Syscodes\Components\Session\Store
      */
     protected function createArrayDriver()
     {
-        return $this->buildSession(new NullSession);
+        return $this->buildSession(new ArraySessionHandler(
+            $this->config->get('session.lifetime')
+        ));
     }
 
     /**
-     * Create an instance of the file session driver.
+     * Create an instance of the "file" session driver.
      * 
      * @return \Syscodes\Components\Session\Store
      */
@@ -65,9 +80,39 @@ class SessionManager extends Manager
         $lifetime = $this->config->get('session.lifetime');
         $path     = $this->config->get('session.files');
 
-        return $this->buildSession(new FileSession(
-                $this->app->make('files'), $path, $lifetime
+        return $this->buildSession(new FileSessionHandler(
+            $this->container->make('files'), $path, $lifetime
         ));
+    }
+
+    /**
+     * Create an instance of the "database" session driver.
+     * 
+     * @return \Syscodes\Components\Session\Store
+     */
+    protected function createDatabaseDriver()
+    {
+        $table    = $this->config->get('session.table');
+        $lifetime = $this->config->get('session.lifetime') ;
+
+        return $this->buildSession(new DatabaseSessionHandler(
+            $this->getDatabaseConnection(),
+            $table,
+            $lifetime,
+            $this->container
+        ));
+    }
+
+    /**
+     * Get the database connection for the database driver.
+     * 
+     * @return \Syscodes\Components\Database\Connections\Connection
+     */
+    protected function getDatabaseConnection()
+    {
+        $connection = $this->config->get('session.connection');
+
+        return $this->container->make('db')->connection($connection);
     }
 
     /**
@@ -97,10 +142,11 @@ class SessionManager extends Manager
      */
     protected function createRedisDriver()
     {
-        $store      = $this->createCacheBased('redis');
-        $connection = $this->config->get('session.connection');
+        $store = $this->createCacheHandler('redis');
 
-        $store->getRedis()->setConnection($connection);
+        $store->getCache()->getStore()->setConnection(
+            $this->config->get('session.connection')
+        );
 
         return $this->buildSession($store);
     }
@@ -114,22 +160,22 @@ class SessionManager extends Manager
      */
     protected function createCacheBased($driver)
     {
-        return $this->buildSession($this->createCacheBased($driver));
+        return $this->buildSession($this->createCacheHandler($driver));
     }
 
     /**
-     * Create the cache based session handler instance.
+     * Create the cache session handler instance.
      * 
      * @param  string  $driver
      * 
-     * @return \Syscodes\Components\Session\Handlers\CacheBasedSession
+     * @return \Syscodes\Components\Session\Handlers\CacheSessionHandler
      */
     protected function createCacheHandler($driver)
     {
         $store = $this->config->get('session.store') ?: $driver;
 
-        return new CacheBasedSession(
-            $this->app->make('cache')->driver($store),
+        return new CacheSessionHandler(
+            clone $this->container->make('cache')->store($store),
             $this->config->get('session.lifetime')
         );
     }
@@ -145,6 +191,16 @@ class SessionManager extends Manager
     {
         return new Store($this->config->get('session.cookie'), $handler);
     }
+    
+    /**
+     * Get the session configuration.
+     * 
+     * @return array
+     */
+    public function getSessionConfig()
+    {
+        return $this->config->get('session');
+    }
 
     /**
      * {@inheritdoc}
@@ -152,5 +208,17 @@ class SessionManager extends Manager
     public function getDefaultDriver()
     {
         return $this->config->get('session.driver');
+    }
+    
+    /**
+     * Set the default session driver name.
+     * 
+     * @param  string  $name
+     * 
+     * @return void
+     */
+    public function setDefaultDriver($name): void
+    {
+        $this->config->set('session.driver', $name);
     }
 }
