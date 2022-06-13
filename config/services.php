@@ -21,6 +21,7 @@ return [
          * Lenevor Framework Service Providers
          */
         Syscodes\Components\Cache\CacheServiceProvider::class,
+        Syscodes\Components\Cookie\CookieServiceProvider::class,
         Syscodes\Components\Database\DatabaseServiceProvider::class,
         Syscodes\Components\Encryption\EncryptionServiceProvider::class,
         Syscodes\Components\Events\EventServiceProvider::class,
