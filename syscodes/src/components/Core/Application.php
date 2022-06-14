@@ -1070,6 +1070,7 @@ class Application extends Container implements ApplicationContract
             'cache'            => [\Syscodes\Components\Cache\CacheManager::class, \Syscodes\Components\Contracts\Cache\Manager::class],
             'cache.store'      => [\Syscodes\Components\Cache\CacheRepository::class, \Syscodes\Components\Contracts\Cache\Repository::class],
             'config'           => [\Syscodes\Components\Config\Configure::class, \Syscodes\Components\Contracts\Config\Configure::class],
+            'cookie'           => [\Syscodes\Components\Cookie\CookieManager::class, \Syscodes\Components\Contracts\Cookie\Factory::class, \Syscodes\Components\Contracts\Cookie\QueueingFactory::class],
             'db'               => [\Syscodes\Components\Database\DatabaseManager::class, \Syscodes\Components\Database\ConnectionResolverInterface::class],
             'db.connection'    => [\Syscodes\Components\Database\Connections\Connection::class, \Syscodes\Components\Database\Connections\ConnectionInterface::class],
             'db.schema'        => [\Syscodes\Components\Database\Schema\Builders\Builder::class],
