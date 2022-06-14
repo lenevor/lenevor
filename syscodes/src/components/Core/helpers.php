@@ -28,6 +28,7 @@ use Syscodes\Components\Contracts\View\Factory;
 use Syscodes\Components\Contracts\Routing\RouteResponse;
 use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoload;
 use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoloader;
+use Syscodes\Components\Contracts\Cookie\Factory as CookieFactory;
 
 if ( ! function_exists('abort')) {
     /**
@@ -211,6 +212,43 @@ if ( ! function_exists('configPath')) {
     function configPath($path = '')
     {
         return app()->configPath($path);
+    }
+}
+
+if ( ! function_exists('cookie')) {
+    /**
+     * Create a new cookie instance.
+     *
+     * @param  string|null  $name
+     * @param  string|null  $value
+     * @param  int  $minutes
+     * @param  string|null  $path
+     * @param  string|null  $domain
+     * @param  bool|null  $secure
+     * @param  bool  $httpOnly
+     * @param  bool  $raw
+     * @param  string|null  $sameSite
+     * 
+     * @return \Syscodes\Components\Cookie\CookieManager|\Syscodes\Components\Http\Cookie
+     */
+    function cookie(
+        string $name = null, 
+        string $value = null, 
+        int $minutes = 0, 
+        string $path = null, 
+        string $domain = null, 
+        bool $secure = null, 
+        bool $httpOnly = true, 
+        bool $raw = false, 
+        string $sameSite = null
+    ) {
+        $cookie = app(CookieFactory::class);
+        
+        if (is_null($name)) {
+            return $cookie;
+        }
+        
+        return $cookie->make($name, $value, $minutes, $path, $domain, $secure, $httpOnly, $raw, $sameSite);
     }
 }
 
