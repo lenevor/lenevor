@@ -158,6 +158,7 @@ abstract class Facade
         return collect([
             'App' => App::class,
             'Cache' => Cache::class,
+            'Cookie' => Cookie::class,
             'Config' => Config::class,
             'Crypt' => Crypt::class,
             'DB' => DB::class,
