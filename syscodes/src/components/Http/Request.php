@@ -33,6 +33,7 @@ use Syscodes\Components\Http\Contributors\Files;
 use Syscodes\Components\Http\Contributors\Inputs;
 use Syscodes\Components\Http\Contributors\Server;
 use Syscodes\Components\Http\Contributors\Headers;
+use Syscodes\Components\Http\Request\RequestUtils;
 use Syscodes\Components\Http\Contributors\Parameters;
 use Syscodes\Components\Http\Session\SessionDecorator;
 use Syscodes\Components\Http\Session\SessionInterface;
