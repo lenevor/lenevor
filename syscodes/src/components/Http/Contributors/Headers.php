@@ -115,22 +115,6 @@ class Headers implements IteratorAggregate, Countable
 	}
 	
 	/**
-	 * Returns the headers, with original capitalizations.
-	 * 
-	 * @return array An array of headers
-	 */
-	public function allPreserveCase(): array
-	{
-		$headers = [];
-		
-		foreach ($this->all() as $name => $value) {
-			$headers[$name] = $value;
-		}
-		
-		return $headers;
-	}
-	
-	/**
 	 * Gets a header value by name.
 	 *
 	 * @param  string  $key  The header name, or null for all headers
