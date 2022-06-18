@@ -31,6 +31,16 @@ use Syscodes\Components\Http\Contributors\Headers;
  */
 class ResponseHeaders extends Headers
 {
+	const COOKIE_FLAT = 'flat';
+	const COOKIE_ARRAY = 'array';
+	
+	/**
+	 * The list of cookies.
+	 * 
+	 * @var array $cookie
+	 */
+	protected $cookie = [];
+
     /**
      * The header names.
 	 * 
@@ -68,5 +78,15 @@ class ResponseHeaders extends Headers
 		}
 		
 		return $headers;
+	}
+
+	/**
+	 * Initialize the date.
+	 * 
+	 * @return void
+	 */
+	private function initDate(): void
+	{
+		//
 	}
 }
