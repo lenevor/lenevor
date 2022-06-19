@@ -34,6 +34,9 @@ use IteratorAggregate;
  */
 class Headers implements IteratorAggregate, Countable
 {
+	protected const STRING_UPPER = '_ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	protected const STRING_LOWER = '-abcdefghijklmnopqrstuvwxyz';
+
 	/**
 	 * An array of HTTP headers.
 	 * 
@@ -88,14 +91,12 @@ class Headers implements IteratorAggregate, Countable
 	 * 
 	 * @param  array  $headers
 	 * 
-	 * @return self
+	 * @return void
 	 */
-	public function replace(array $headers = []): self
+	public function replace(array $headers = []): void
 	{
 		$this->headers = [];
 		$this->add($headers);
-
-		return $this;
 	}
 	
 	/**
@@ -110,8 +111,6 @@ class Headers implements IteratorAggregate, Countable
 		foreach ($headers as $key => $values) {
 			$this->set($key, $values);
 		}
-		
-		return $this;
 	}
 	
 	/**
@@ -123,9 +122,9 @@ class Headers implements IteratorAggregate, Countable
 	 *
 	 * @return mixed
 	 */
-	public function get($key, $default =  null, $option = true)
+	public function get(string $key, string $default =  null, bool $option = true): ?string
 	{
-		$key = str_replace('_', '-', strtolower($key));
+		$key = strtr($key, self::STRING_UPPER, self::STRING_LOWER);
 		
 		$headers = $this->all();
 		
@@ -148,15 +147,15 @@ class Headers implements IteratorAggregate, Countable
 	 * Sets a header by name.
 	 * 
 	 * @param  string  $key  The header name
-	 * @param  string  $values  The value or an array of values
+	 * @param  string|string[]|null  $values  The value or an array of values
 	 * @param  bool  $replace  If you want to replace the value exists by the header, 
 	 * 					       it is not overwritten / overwritten when it is false
 	 *
 	 * @return self
 	 */
-	public function set($key, $values, $replace = true): self
+	public function set(string $key, $values, bool $replace = true): self
 	{
-		$key = str_replace('_', '-', strtolower($key));
+		$key = strtr($key, self::STRING_UPPER, self::STRING_LOWER);
 
 		if (is_array($values)) {
 			$values = array_values($values);
@@ -184,9 +183,9 @@ class Headers implements IteratorAggregate, Countable
 	 * 
 	 * @return bool  true if the parameter exists, false otherwise
 	 */
-	public function has($key): bool
+	public function has(string $key): bool
 	{
-		return array_key_exists(str_replace('_', '-', strtolower($key)), $this->all());
+		return array_key_exists(strtr($key, self::STRING_UPPER, self::STRING_LOWER), $this->all());
 	}
 
 	/**
@@ -196,9 +195,9 @@ class Headers implements IteratorAggregate, Countable
 	 * 
 	 * @return mixed
 	 */
-	public function remove($key)
+	public function remove(string $key)
 	{
-		$key = str_replace('_', '-', strtolower($key));
+		$key = strtr($key, self::STRING_UPPER, self::STRING_LOWER);
 
 		unset($this->headers[$key]);
 
@@ -228,6 +227,8 @@ class Headers implements IteratorAggregate, Countable
 	}
 	
 	/**
+	 * Magic method.
+	 * 
 	 * Returns the headers as a string.
 	 * 
 	 * @return string The headers
