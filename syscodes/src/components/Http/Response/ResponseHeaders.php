@@ -22,6 +22,8 @@
 
 namespace Syscodes\Components\Http\Response;
 
+use InvalidArgumentException;
+use Syscodes\Components\Http\Cookie;
 use Syscodes\Components\Http\Contributors\Headers;
 
 /**
@@ -37,9 +39,9 @@ class ResponseHeaders extends Headers
 	/**
 	 * The list of cookies.
 	 * 
-	 * @var array $cookie
+	 * @var array $cookies
 	 */
-	protected $cookie = [];
+	protected $cookies = [];
 
     /**
      * The header names.
@@ -78,6 +80,92 @@ class ResponseHeaders extends Headers
 		}
 		
 		return $headers;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function replace(array $headers = []): void
+	{
+		$this->headerNames = [];
+
+		parent::replace($headers);
+
+		if ( ! isset($this->headers['cache-control'])) {
+			$this->set('Cache-Control', '');
+		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function set(string $key, $values, bool $replace = true): self
+	{
+		$unique = strtr($key, self::STRING_UPPER, self::STRING_LOWER); 
+		
+		if ('set-cookie' === $unique) {
+			if ($replace) {
+				$this->cookies = [];
+			}
+			
+			foreach ((array) $values as $cookie) {
+				$this->setCookie($cookie);
+			}
+			
+			$this->headerNames[$unique] = $key;
+			
+			return $this;
+		}
+		
+		$this->headerNames[$unique] = $key;
+		
+		return parent::set($key, $values, $replace);
+	}
+	
+	/**
+	 * Gets an array with all cookies.
+	 * 
+	 * @param  string  $format
+	 * 
+	 * @return Cookie[]
+	 * 
+	 * @throws \InvalidArgumentException
+	 */
+	public function getCookies(string $format = self::COOKIE_FLAT): array
+	{
+		if ( ! in_array($format, [self::COOKIE_FLAT, self::COOKIE_ARRAY])) {
+			throw new InvalidArgumentException(
+				sprintf('Format "%s" invalid (%s)', $format, implode(', ', [self::COOKIE_FLAT, self::COOKIE_ARRAY])
+			));
+		}
+		
+		if (self::COOKIE_ARRAY === $format) {
+			return $this->cookies;
+		}
+		
+		$stringCookies = [];
+
+		foreach ($this->cookies as $path) {
+			foreach ($path as $cookies) {
+				foreach ($cookies as $cookie) {
+					$stringCookies[] = $cookie;
+				}
+			}
+		}
+		
+		return $stringCookies;
+    }
+
+
+	/**
+	 * Sets the cookie.
+	 * 
+	 * @param  \Syscodes\Components\Cookie\CookieManager
+	 */
+	public function setCookie(Cookie $cookie): void
+	{
+		$this->cookies[$cookie->getDomain()][$cookie->getPath()][$cookie->getName()] = $cookie;
+		$this->headerNames['set-cookie'] = 'Set-Cookie';
 	}
 
 	/**
