@@ -28,6 +28,7 @@ use InvalidArgumentException;
 use UnexpectedValueException;
 use Syscodes\Components\Http\Contributors\Server;
 use Syscodes\Components\Http\Contributors\Status;
+use Syscodes\Components\Http\Contributors\Headers;
 use Syscodes\Components\Http\Concerns\ResponseLoads;
 use Syscodes\Components\Contracts\Support\Renderable;
 use Syscodes\Components\Http\Response\ResponseHeaders;
@@ -127,9 +128,9 @@ class Response extends Status
 		}
 		
 		// Cookies
-		// foreach ($this->headers->getCookies() as $cookie) {
-		// 	header('Set-Cookie: '.$cookie, false, $this->status);
-		// }
+		foreach ($this->headers->getCookies() as $cookie) {
+		 	header('Set-Cookie: '.$cookie, false, $this->status);
+		}
 
 		// Status
 		if ( ! empty($_SERVER['FCGI_SERVER_VERSION'])) {
