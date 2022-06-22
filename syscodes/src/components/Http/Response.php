@@ -28,7 +28,6 @@ use InvalidArgumentException;
 use UnexpectedValueException;
 use Syscodes\Components\Http\Contributors\Server;
 use Syscodes\Components\Http\Contributors\Status;
-use Syscodes\Components\Http\Contributors\Headers;
 use Syscodes\Components\Http\Concerns\ResponseLoads;
 use Syscodes\Components\Contracts\Support\Renderable;
 use Syscodes\Components\Http\Response\ResponseHeaders;
