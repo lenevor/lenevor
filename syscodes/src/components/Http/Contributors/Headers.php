@@ -69,10 +69,16 @@ class Headers implements IteratorAggregate, Countable
 	/**
 	 * Returns all the headers.
 	 * 
+	 * @param  string|null  $key  The name of the headers
+	 * 
 	 * @return array
 	 */
-	public function all(): array
+	public function all(string $key = null): array
 	{
+		if (null !== $key) {
+			return $this->headers[strtr($key, self::STRING_UPPER, self::STRING_LOWER)] ?? [];
+		}
+
 		return $this->headers;
 	}
 	
@@ -118,29 +124,22 @@ class Headers implements IteratorAggregate, Countable
 	 *
 	 * @param  string  $key  The header name, or null for all headers
 	 * @param  string|null  $default  The default value
-	 * @param  bool  $option  Whether to return the option value or all header values
 	 *
 	 * @return mixed
 	 */
-	public function get(string $key, string $default =  null, bool $option = true): ?string
+	public function get(string $key, string $default =  null): ?string
 	{
-		$key = strtr($key, self::STRING_UPPER, self::STRING_LOWER);
+		$headers = $this->all($key);
 		
-		$headers = $this->all();
-		
-		if ( ! array_key_exists($key, $headers)) {
-			if (null === $default) {
-				return $option ? null : [];
-			}
-			
-			return $option ? $default : [$default];
+		if ( ! $headers) {
+			return $default;
 		}
 		
-		if ($option) {
-			return count($headers[$key]) ? $headers[$key][0] : $default;
+		if (null === $headers[0]) {
+			return null;
 		}
 		
-		return $headers[$key];
+		return (string) $headers[0];
 	}
 
 	/**
@@ -151,9 +150,9 @@ class Headers implements IteratorAggregate, Countable
 	 * @param  bool  $replace  If you want to replace the value exists by the header, 
 	 * 					       it is not overwritten / overwritten when it is false
 	 *
-	 * @return self
+	 * @return void
 	 */
-	public function set(string $key, $values, bool $replace = true): self
+	public function set(string $key, $values, bool $replace = true): void
 	{
 		$key = strtr($key, self::STRING_UPPER, self::STRING_LOWER);
 
@@ -172,8 +171,6 @@ class Headers implements IteratorAggregate, Countable
 				$this->headers[$key][] = $values;
 			}
 		}
-
-		return $this;
 	}
 
 	/**
