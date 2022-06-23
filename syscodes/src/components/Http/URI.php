@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\Http;
 
-use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Http\Exceptions\HttpURIException;
 
 /**
