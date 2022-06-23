@@ -28,7 +28,7 @@ use DateTime;
 use Exception;
 use PDOStatement;
 use LogicException;
-use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Database\Grammar;
 use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Contracts\Events\Dispatcher;
