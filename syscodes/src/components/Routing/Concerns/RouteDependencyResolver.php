@@ -25,7 +25,7 @@ namespace Syscodes\Components\Routing\Concerns;
 use ReflectionMethod;
 use ReflectionParameter;
 use ReflectionFunctionAbstract;
-use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Support\Arr;
 
 /**
  * This trait resolver the methods given for the dependencies.
