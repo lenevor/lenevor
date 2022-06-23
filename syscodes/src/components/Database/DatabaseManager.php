@@ -24,8 +24,8 @@ namespace Syscodes\Components\Database;
 
 use PDO;
 use InvalidArgumentException;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
-use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Database\Connections\Connection;
 
 /**
