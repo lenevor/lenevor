@@ -24,7 +24,7 @@ namespace Syscodes\Components\Routing;
 
 use LogicException;
 use DomainException;
-use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Support\Arr;
 
 /**
  * Allows compile 
