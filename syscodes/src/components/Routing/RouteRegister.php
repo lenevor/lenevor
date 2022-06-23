@@ -25,7 +25,7 @@ namespace Syscodes\Components\Routing;
 use Closure;
 use BadMethodCallException;
 use InvalidArgumentException;
-use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Support\Arr;
 
 /**
  * @method \Syscodes\Components\Routing\Route get(string $uri, \Closure|array|string|null $action = null)
