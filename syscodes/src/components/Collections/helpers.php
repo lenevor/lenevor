@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-use Syscodes\Components\Collections\Arr;
-use Syscodes\Components\Collections\Collection;
-use Syscodes\Components\Collections\HigherOrderTakeProxy;
+use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Collection;
+use Syscodes\Components\Support\HigherOrderTakeProxy;
 
 if ( ! function_exists('collect')) {
     /**
@@ -30,7 +30,7 @@ if ( ! function_exists('collect')) {
      * 
      * @param  mixed  $value
      * 
-     * @return \Syscodes\Components\Collections\Collection
+     * @return \Syscodes\Components\Support\Collection
      */
     function collect($value = null)
     {
@@ -180,7 +180,7 @@ if ( ! function_exists('take')) {
      * 
      * @return mixed
      * 
-     * @uses   \Syscodes\Components\Collections\HigherOrderTakeProxy
+     * @uses   \Syscodes\Components\Support\HigherOrderTakeProxy
      */
     function take($value, $callback = null)
     {
