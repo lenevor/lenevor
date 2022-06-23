@@ -64,6 +64,26 @@ class ResponseHeaders extends Headers
 		if ( ! isset($this->headers['cache-control'])) {
 			$this->set('Cache-Control', '');
 		}
+
+		if ( ! isset($this->headers['date'])) {
+			$this->initDate();
+		}
+	}
+
+	/**
+	 * Returns the headers, without cookies.
+	 * 
+	 * @return mixed
+	 */
+	public function allPreserveCaseWithoutCookies()
+	{
+		$headers = $this->allPreserveCase();
+		
+		if (isset($this->headerNames['set-cookie'])) {
+			unset($headers[$this->headerNames['set-cookie']]);
+		}
+		
+		return $headers;
 	}
 
     /**
@@ -81,6 +101,26 @@ class ResponseHeaders extends Headers
 		
 		return $headers;
 	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	public function all(string $key = null): array
+	{
+		$headers = parent::all();
+		
+		if (null !== $key) {
+			$key = strtr($key, self::STRING_UPPER, self::STRING_LOWER);
+			
+			return 'set-cookie' !== $key ? $headers[$key] ?? [] : array_map('strval', $this->getCookies());
+		}
+		
+		foreach ($this->getCookies() as $cookie) {
+			$headers['set-cookie'][] = (string) $cookie;
+		}
+		
+		return $headers;
+	}
 
 	/**
 	 * {@inheritdoc}
@@ -94,12 +134,16 @@ class ResponseHeaders extends Headers
 		if ( ! isset($this->headers['cache-control'])) {
 			$this->set('Cache-Control', '');
 		}
+		
+		if ( ! isset($this->headers['date'])) {
+			$this->initDate();
+		}
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function set(string $key, $values, bool $replace = true): self
+	public function set(string $key, $values, bool $replace = true): void
 	{
 		$unique = strtr($key, self::STRING_UPPER, self::STRING_LOWER); 
 		
@@ -113,13 +157,13 @@ class ResponseHeaders extends Headers
 			}
 			
 			$this->headerNames[$unique] = $key;
-			
-			return $this;
+
+			return;
 		}
 		
 		$this->headerNames[$unique] = $key;
 		
-		return parent::set($key, $values, $replace);
+		parent::set($key, $values, $replace);
 	}
 	
 	/**
@@ -175,6 +219,6 @@ class ResponseHeaders extends Headers
 	 */
 	private function initDate(): void
 	{
-		//
+		$this->set('Date', gmdate('D, d M Y H:i:s').' GMT');
 	}
 }
