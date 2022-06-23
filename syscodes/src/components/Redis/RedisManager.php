@@ -23,7 +23,7 @@
 namespace Syscodes\Components\Redis;
 
 use Predis\Client;
-use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Support\Arr;
 
 /**
  * Redis cache handler.
@@ -81,7 +81,7 @@ class RedisManager
         $clients = [];
 
         foreach ($servers as $key => $server) {
-            $clients[$key] = new Client(Server);
+            $clients[$key] = new Client($server);
         }
 
         return $clients;
