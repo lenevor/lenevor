@@ -24,7 +24,7 @@ namespace Syscodes\Components\Database;
 
 use PDOException;
 use InvalidArgumentException;
-use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Container\Container;
 // Connector
 use Syscodes\Components\Database\Connectors\MySqlConnector;
