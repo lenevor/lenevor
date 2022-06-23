@@ -23,8 +23,8 @@
 namespace Syscodes\Components\Events;
 
 use Closure;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
-use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Contracts\Events\Dispatcher as DispatcherContract;
 
