@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Components\Collections;
+namespace Syscodes\Components\Support;
 
 use stdClass;
 use Countable;
@@ -31,7 +31,7 @@ use JsonSerializable;
 use IteratorAggregate;
 use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Contracts\Support\Arrayable;
-use Syscodes\Components\Collections\Traits\Enumerates;
+use Syscodes\Components\Support\Traits\Enumerates;
 
 /**
  * Allows provide a way for working with arrays of data.
