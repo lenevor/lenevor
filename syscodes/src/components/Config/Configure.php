@@ -23,7 +23,7 @@
 namespace Syscodes\Components\Config;
 
 use ArrayAccess;
-use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Contracts\Config\Configure as ConfigureContract;
 
 /**
