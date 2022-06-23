@@ -26,8 +26,8 @@ use Countable;
 use Traversable;
 use ArrayIterator;
 use IteratorAggregate;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Http\Request;
-use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Routing\Exceptions\RouteNotFoundException;
 
 /**
