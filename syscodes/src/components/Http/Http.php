@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\Http;
 
-use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Support\Arr;
 
 /**
  * Returns the HTTP requests is filtered and detected in the routes set by the user.
