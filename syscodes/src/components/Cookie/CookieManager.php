@@ -22,7 +22,7 @@
 namespace Syscodes\Components\Cookie;
 
 use Syscodes\Components\Http\Cookie;
-use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\InteractsWithTime;
 use Syscodes\Components\Contracts\Cookie\QueueingFactory as CookieFactory;
 
