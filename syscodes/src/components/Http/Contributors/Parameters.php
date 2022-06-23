@@ -26,7 +26,7 @@ use Countable;
 use Traversable;
 use ArrayIterator;
 use IteratorAggregate;
-use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Http\Exceptions\BadRequestException;
 
 /**
