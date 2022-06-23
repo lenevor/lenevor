@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\Http\Concerns;
 
-use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Support\Arr;
 
 /**
  * Trait InteractsWithInput.
