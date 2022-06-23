@@ -24,13 +24,12 @@ namespace Syscodes\Components\Routing;
 
 use Closure;
 use InvalidArgumentException;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Http\Request;
-use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Http\RedirectResponse;
 use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Contracts\Routing\Routable;
 use Syscodes\Components\Contracts\Container\Container;
-use Syscodes\Components\Controller\MiddlewareResolver;
 
 /**
  * The Router class allows the integration of an easy-to-use routing system.
