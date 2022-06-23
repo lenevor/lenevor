@@ -54,18 +54,11 @@ trait ResponseLoads
 	public $headers;
 
     /**
-     * Gets the protocol Http.
+     * The HTTP protocol version.
      * 
-     * @var string $protocol
+     * @var string $version
      */
-    protected $protocol;
-
-    /**
-     * The server array.
-     * 
-     * @var \Syscodes\Components\Http\Server|object $server
-     */
-    protected $server;
+    protected $version;
 
     /**
      * Gets the content of the response.
@@ -101,6 +94,26 @@ trait ResponseLoads
         $this->headers->set($key, $values, $replace);
 
         return $this;
+    }
+
+    /**
+     * Gets the Http protocol version.
+     * 
+     * @return string
+     */
+    public function getProtocolVersion(): string
+    {
+        return $this->version;
+    }
+
+    /**
+     * Sets the Http protocol version.
+     * 
+     * @return string
+     */
+    public function setProtocolVersion(string $version): void
+    {
+        $this->version = $version;
     }
 
     /**
