@@ -158,11 +158,23 @@ class Lenevor implements LenevorContract
      */
     protected function getPrime()
     {
-        if (is_null($this->lenevor)) {
-            $this->lenevor = new Prime($this->app, $this->events, $this->app->version());
+        if (is_null($this->prime)) {
+            $this->prime = new Prime($this->app, $this->events, $this->app->version());
         }
 
-        return $this->lenevor;
+        return $this->prime;
+    }
+
+    /**
+     * Set the Prime application instance.
+     * 
+     * @param  \Syscodes\Bundles\ApplicationBundle\Console\Application  $prime
+     * 
+     * @return void
+     */
+    public function setPrime($prime): void
+    {
+        $this->prime = $prime;
     }
     
     /**
