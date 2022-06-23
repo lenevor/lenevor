@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\Routing;
 
-use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Support\Arr;
 
 /**
  * Groups attributes according.
