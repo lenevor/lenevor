@@ -23,12 +23,9 @@
 namespace Syscodes\Components\Http;
 
 use JsonSerializable;
-use BadMethodCallException;
-use InvalidArgumentException;
 use UnexpectedValueException;
-use Syscodes\Components\Http\Contributors\Server;
-use Syscodes\Components\Http\Contributors\Status;
 use Syscodes\Components\Http\Concerns\ResponseLoads;
+use Syscodes\Components\Http\Concerns\HttpStatusCode;
 use Syscodes\Components\Contracts\Support\Renderable;
 use Syscodes\Components\Http\Response\ResponseHeaders;
 
@@ -37,9 +34,10 @@ use Syscodes\Components\Http\Response\ResponseHeaders;
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class Response extends Status 
+class Response
 {
-	use ResponseLoads;
+	use ResponseLoads,
+        HttpStatusCode;
 
 	/**
 	 * Sets up the response with a content and a status code.
@@ -52,11 +50,11 @@ class Response extends Status
 	 */
 	public function __construct($content = '', int $status = 200, array $headers = [])
 	{
+		$this->headers = new ResponseHeaders($headers);
+		
 		$this->setContent($content);
 		$this->setStatusCode($status);
-		
-		$this->server  = new Server($_SERVER);
-		$this->headers = new ResponseHeaders($headers);
+		$this->setProtocolVersion('1.0');
 	}
 
 	/**
@@ -85,32 +83,12 @@ class Response extends Status
 	}
 
 	/**
-	 * Gets the response status code.
-	 *
-	 * The status code is a 3-digit code to specify server response results to the browser.
-	 *
-	 * @return int
-	 *
-	 * @throws \BadMethodCallException
-	 */
-	public function getStatusCode(): int
-	{
-		if (empty($this->status)) {
-			throw new BadMethodCallException('HTTP Response is missing a status code.');
-		}
-
-		return $this->status;
-	}
-
-	/**
 	 * Sends the headers if they haven't already been sent. 
 	 * Returns whether they were sent or not.
 	 *
-	 * @return bool|self
-	 *
-	 * @uses   \Syscodes\Components\Http\Http
+	 * @return self
 	 */
-	public function sendHeaders()
+	public function sendHeaders(): self
 	{
 		// Have the headers already been sent?
 		if (headers_sent()) {
@@ -118,26 +96,25 @@ class Response extends Status
 		}
 
 		// Headers
-		foreach ($this->headers->allPreserveCase() as $name => $values) {
+		foreach ($this->headers->allPreserveCaseWithoutCookies() as $name => $values) {
 			$replace = 0 === strcasecmp($name, 'Content-Type');
 
 			foreach ($values as $value) {
-				header($name.': '. $value, $replace, $this->status);
+				header($name.': '. $value, $replace, $this->statusCode);
 			}
 		}
 		
 		// Cookies
 		foreach ($this->headers->getCookies() as $cookie) {
-		 	header('Set-Cookie: '.$cookie, false, $this->status);
+		 	header('Set-Cookie: '.$cookie, false, $this->statusCode);
 		}
-
+		
 		// Status
 		if ( ! empty($_SERVER['FCGI_SERVER_VERSION'])) {
 			// Send the protocol/status line first, FCGI servers need different status header
-			header(sprintf('Status: %s %s', $this->status, $this->statusText));
+			header(sprintf('Status: %s %s', $this->statusCode, $this->statusText));
 		} else {
-			$this->protocol = (string) $this->server->get('SERVER_PROTOCOL') ?: 'HTTP/1.1';
-			header(sprintf('%s %s %s', $this->protocol, $this->status, $this->statusText), true, $this->status);
+			header(sprintf('HTTP/%s %s %s', $this->version, $this->statusCode, $this->statusText), true, $this->statusCode);
 		}
 
 		return $this;
@@ -217,103 +194,13 @@ class Response extends Status
 			$headers->remove('Content-Type');
 			$headers->remove('Content-Length');
 		}
+		
+		// Fix protocol
+		if ('HTTP/1.0' != $request->server->get('SERVER_PROTOCOL')) {
+			$this->setProtocolVersion('1.1');
+		}
 
 		return $this;
-	}
-
-	/**
-	* Sets the response status code.
-	*
-	* @param  int  $code  The status code
-	* @param  string|null  $text  The status text
-	*
-	* @return self
-	*
-	* @throws \InvalidArgumentException
-	*/
-	public function setStatusCode(int $code, $text = null): self
-	{
-		$this->status = $code; 
-
-		// Valid range?
-		if ($this->isInvalid()) {
-			throw new InvalidArgumentException(__('response.statusCodeNotValid', ['code' => $code]));			
-		}
-
-		// Check if you have an accepted status code if not shows to a message of unknown status
-		if (null === $text) {
-			$this->statusText = isset($this->statusCodes[$code]) ? $this->statusCodes[$code] : __('response.UnknownStatus');
-
-			return $this;
-		}
-
-		if (false === $text) {
-			$this->statusText = '';
-
-			return $this;
-		}
-
-		$this->statusText = $text;
-
-		return $this;
-	}
-
-	/**
-	 * Is response invalid?
-	 * 
-	 * @final
-	 * 
-	 * @return bool
-	 */
-	public function isInvalid(): bool
-	{
-		return $this->status < 100 || $this->status >= 600;
-	}
-
-	/**
-	 * Is response informative?
-	 * 
-	 * @final
-	 * 
-	 * @return bool
-	 */
-	public function isInformational(): bool
-	{
-		return $this->status >= 100 && $this->status < 200;
-	}
-	
-	/**
-	 * Is the response a redirect?
-	 * 
-	 * @final
-	 * 
-	 * @return void
-	 */
-	public function isRedirection(): bool
-	{
-		return $this->status >= 300 && $this->status < 400;
-	}
-	
-	/**
-	 * Is the response empty?
-	 * 
-	 * @final
-	 * 
-	 * @return bool
-	 */
-	public function isEmpty(): bool
-	{
-		return in_array($this->status, [204, 304]);
-	}
-	
-	/**
-	 * Is the response a redirect of some form?
-	 * 
-	 * @return bool
-	 */
-	public function isRedirect(): bool
-	{
-		return in_array($this->status, [301, 302, 303, 307, 308]);
 	}
 	
 	/**
@@ -323,9 +210,9 @@ class Response extends Status
 	 * 
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString(): string
 	{
-		return sprintf('%s %s %s', $this->protocol, $this->status, $this->statusText)."\r\n".
+		return sprintf('HTTP/%s %s %s', $this->version, $this->statusCode, $this->statusText)."\r\n".
 			$this->headers."\r\n".
 			$this->getContent();
 	}
