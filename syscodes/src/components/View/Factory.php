@@ -23,8 +23,8 @@
 namespace Syscodes\Components\View;
 
 use InvalidArgumentException;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
-use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Contracts\View\ViewFinder;
 use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\View\Engines\EngineResolver;
