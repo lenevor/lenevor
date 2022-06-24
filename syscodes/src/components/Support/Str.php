@@ -22,8 +22,6 @@
 
 namespace Syscodes\Components\Support;
 
-use Syscodes\Components\Collections\Arr;
-
 /**
  * Allows convert a string in diferentes modes of text presentation, either, 
  * camel-cased, studlycaps and replace characters in a string.
