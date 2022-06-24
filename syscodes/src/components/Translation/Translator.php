@@ -24,8 +24,8 @@ namespace Syscodes\Components\Translation;
 
 use MessageFormatter;
 use InvalidArgumentException;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
-use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Contracts\Translation\Loader;
 use Syscodes\Components\Contracts\Translation\Translator as TranslatorContract;
 
