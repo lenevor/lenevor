@@ -23,8 +23,8 @@
 namespace Syscodes\Components\View\Transpilers;
 
 use InvalidArgumentException;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
-use Syscodes\Components\Collections\Arr;
 
 /**
  * System to transpile views according to your label or your template.
