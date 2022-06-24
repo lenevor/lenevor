@@ -42,7 +42,7 @@ trait TranspilesLayouts
     {
         $expression = $this->stripParentheses($expression);
 
-        $data = "<?php echo \$__env->make({$expression}, \Syscodes\Components\Collections\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
+        $data = "<?php echo \$__env->make({$expression}, \Syscodes\Components\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
 
         $this->footer[] = $data;
 
