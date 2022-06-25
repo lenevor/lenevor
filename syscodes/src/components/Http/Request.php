@@ -52,6 +52,13 @@ class Request
 	    InteractsWithContentTypes;
 
 	/**
+	 * Get the custom parameters.
+	 * 
+	 * \Syscodes\Components\Http\Contributors\Parameters $attributes
+	 */
+	public $attributes;
+
+	/**
 	 * The base URL.
 	 * 
 	 * @var string $baseUrl
@@ -189,6 +196,7 @@ class Request
 	 * 
 	 * @param  array  $query
 	 * @param  array  $request
+	 * @param  array  $attributes
 	 * @param  array  $cookies
 	 * @param  array  $files
 	 * @param  array  $server
@@ -196,11 +204,18 @@ class Request
 	 * 
 	 * @return void
 	 */
-	public function __construct(array $query = [], array $request = [], array $cookies = [], array $files = [], array $server = [], $content = null)
-	{
+	public function __construct(
+		array $query = [],
+		array $request = [],
+		array $attributes = [],
+		array $cookies = [],
+		array $files = [],
+		array $server = [],
+		$content = null
+	) {
 		static::$requestURI = $this;
 		
-		$this->initialize($query, $request, $cookies, $files, $server, $content);
+		$this->initialize($query, $request, $attributes, $cookies, $files, $server, $content);
 		
 		$this->detectURI(config('app.uriProtocol'), config('app.baseUrl'));
 
@@ -212,6 +227,7 @@ class Request
 	 * 
 	 * @param  array  $query
 	 * @param  array  $request
+	 * @param  array  $attributes
 	 * @param  array  $cookies
 	 * @param  array  $files
 	 * @param  array  $server
@@ -220,7 +236,8 @@ class Request
 	 */
 	public function initialize(
 		array $query = [], 
-		array $request = [], 
+		array $request = [],
+		array $attributes = [],
 		array $cookies = [], 
 		array $files = [], 
 		array $server = [], 
@@ -228,6 +245,7 @@ class Request
 	): void {
 		$this->query        = new Inputs($query);
 		$this->request      = new Inputs($request);
+		$this->attributes   = new Parameters($attributes);
 		$this->cookies      = new Inputs($cookies);
 		$this->files        = new Files($files);
 		$this->server       = new Server($server);
@@ -263,12 +281,17 @@ class Request
 	public static function createFromRequest($request)
 	{
 		$newRequest = (new static)->duplicate(
-			$request->query->all(), $request->request->all(), $request->cookies->all(), 
-			$request->files->all(), $request->server->all()
+			$request->query->all(), $request->request->all(), $request->attributes->all(),
+			$request->cookies->all(), $request->files->all(), $request->server->all()
 		);
 
-		$newRequest->content = $request->content;
-		$newRequest->request = $newRequest->getInputSource();
+		$newRequest->headers->replace($request->headers->all());
+
+        $newRequest->content = $request->content;
+
+        if ($newRequest->isJson()) {
+            $newRequest->request = $newRequest->json();
+        }
 
 		return $newRequest;
 	}
@@ -280,7 +303,7 @@ class Request
 	 */
 	public static function createFromRequestGlobals()
 	{
-		$request = static::createFromRequestFactory($_GET, $_POST, $_COOKIE, $_FILES, $_SERVER);
+		$request = static::createFromRequestFactory($_GET, $_POST, [], $_COOKIE, $_FILES, $_SERVER);
 
 		parse_str($request->getContent(), $data);
 		$request->request = new Parameters($data);
@@ -293,21 +316,23 @@ class Request
 	 * 
 	 * @param  array  $query
 	 * @param  array  $request
+	 * @param  array  $attributes
 	 * @param  array  $cookies
 	 * @param  array  $files
 	 * @param  array  $server
 	 * 
 	 * @return static
 	 */
-	protected static function createFromRequestFactory(
+	private static function createFromRequestFactory(
 		array $query = [], 
-		array $request = [], 
+		array $request = [],
+		array $attributes = [] ,
 		array $cookies = [], 
 		array $files = [], 
 		array $server = []
 	) {
 		if (self::$requestURI) {
-			$request = (self::$requestURI)($query, $request, $cookies, $files, $server);
+			$request = (self::$requestURI)($query, $request, [], $cookies, $files, $server);
 
 			if ( ! $request instanceof self) {
 				throw new LogicException('The Request active must return an instance of Syscodes\Components\Http\Request');
@@ -316,7 +341,7 @@ class Request
 			return $request;
 		}
 
-		return new static($query, $request, $cookies, $files, $server);
+		return new static($query, $request, $attributes, $cookies, $files, $server);
 	}
 
 	/**
@@ -324,6 +349,7 @@ class Request
 	 * 
 	 * @param  array  $query
 	 * @param  array  $request
+	 * @param  array  $attributes
 	 * @param  array  $cookies
 	 * @param  array  $files
 	 * @param  array  $server
@@ -332,7 +358,8 @@ class Request
 	 */
 	public function duplicate(
 		array $query = [], 
-		array $request = [], 
+		array $request = [],
+		array $attributes = [],
 		array $cookies = [],
 		array $files = [],
 		array $server = []
@@ -345,6 +372,10 @@ class Request
 
 		if (null !== $request) {
 			$duplicate->request = new Inputs($request);
+		}
+
+		if (null !== $attributes) {
+			$duplicate->attributes = new Parameters($attributes);
 		}
 
 		if (null !== $cookies) {
@@ -1098,11 +1129,12 @@ class Request
 	 */
 	public function __clone()
 	{
-		$this->query    = clone $this->query;
-		$this->request  = clone $this->request;
-		$this->cookies  = clone $this->cookies;
-		$this->files    = clone $this->files;
-		$this->server   = clone $this->server;
-		$this->headers  = clone $this->headers;
+		$this->query      = clone $this->query;
+		$this->request    = clone $this->request;
+		$this->attributes = clone $this->attributes;
+		$this->cookies    = clone $this->cookies;
+		$this->files      = clone $this->files;
+		$this->server     = clone $this->server;
+		$this->headers    = clone $this->headers;
 	}
 }
