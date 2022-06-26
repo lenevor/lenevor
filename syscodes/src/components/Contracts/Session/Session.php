@@ -120,7 +120,8 @@ interface Session
     public function has($key): bool;
 
     /**
-     * Get an key from the session.
+     * Get an key from the session, if it doesn´t exists can be use
+     * the default value as the second argument to the get method.
      * 
      * @param  string  $key
      * @param  mixed  $default
