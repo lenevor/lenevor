@@ -91,7 +91,7 @@ class ArraySessionHandler implements SessionHandlerInterface
             return '';
         }
 
-        $ssesion = $this->storage[$sessionId];
+        $session = $this->storage[$sessionId];
 
         $expiration = $this->currentTime($this->minutes * 60);
 
