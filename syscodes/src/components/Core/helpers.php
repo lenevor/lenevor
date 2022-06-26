@@ -220,7 +220,7 @@ if ( ! function_exists('cookie')) {
      * Create a new cookie instance.
      *
      * @param  string|null  $name
-     * @param  string|null  $value
+     * @param  string|string[]|null  $value
      * @param  int  $minutes
      * @param  string|null  $path
      * @param  string|null  $domain
@@ -233,7 +233,7 @@ if ( ! function_exists('cookie')) {
      */
     function cookie(
         string $name = null, 
-        string $value = null, 
+        $value = null, 
         int $minutes = 0, 
         string $path = null, 
         string $domain = null, 
