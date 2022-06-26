@@ -18,15 +18,14 @@
  * @link        https://lenevor.com
  * @copyright   Copyright (c) 2019 - 2022 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
- * @since       0.4.2
  */
 
 namespace Syscodes\Components\Session;
 
 use Closure;
 use SessionHandlerInterface;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
-use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Contracts\Session\Session;
 
 /**
