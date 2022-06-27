@@ -194,9 +194,9 @@ class Store implements Session
     /**
      * {@inheritdoc}
      */
-    public function pull($keys)
+    public function pull($key, $default = null)
     {
-        Arr::pull($this->items, $keys);
+        Arr::pull($this->items, $key, $default);
     }
 
     /**
