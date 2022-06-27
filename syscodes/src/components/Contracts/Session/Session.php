@@ -94,11 +94,12 @@ interface Session
     /**
      * Remove one or many items from the session.
      * 
-     * @param  string|array  $keys
+     * @param  string  $key
+     * @param  mixed  $default
      * 
      * @return void
      */
-    public function pull($keys);
+    public function pull($key, $default = null);
 
     /**
      * Push a value onto a session array.
