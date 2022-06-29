@@ -58,6 +58,15 @@ interface Session
      * @return array
      */
     public function all(): array;
+    
+    /**
+     * Get a subset of the session data.
+     * 
+     * @param  array  $keys
+     * 
+     * @return array
+     */
+    public function only(array $keys): array;
 
     /**
      * Get the current session ID.
@@ -90,6 +99,13 @@ interface Session
      * @return void
      */
     public function save();
+    
+    /**
+     * Age the flash data for the session.
+     * 
+     * @return void
+     */
+    public function ageFlashData(): void;
 
     /**
      * Remove one or many items from the session.
@@ -158,6 +174,15 @@ interface Session
      * @return mixed
      */
     public function remove($key);
+    
+    /**
+     * Remove one or many items from the session.
+     * 
+     * @param  string|array  $keys
+     * 
+     * @return void
+     */
+    public function erase($keys);
 
     /**
      * Flash a key / value pair to the session.
