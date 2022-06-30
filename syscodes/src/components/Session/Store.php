@@ -22,7 +22,6 @@
 
 namespace Syscodes\Components\Session;
 
-use Closure;
 use SessionHandlerInterface;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
@@ -64,6 +63,13 @@ class Store implements Session
     protected $name;
 
     /**
+     * The session store's serialization.
+     * 
+     * @var string  $serialization
+     */
+    protected $serialization = 'php';
+
+    /**
      * Session store started status.
      * 
      * @var bool $started
@@ -76,15 +82,21 @@ class Store implements Session
      * @param  string  $name
      * @param  \SessionHandlerInterface  $handler
      * @param  string|null  $id
+     * @param  string  $serialization
      * 
      * @return void
      */
-    public function __construct($name, SessionHandlerInterface $handler, $id = null)
-    {
+    public function __construct(
+        $name, 
+        SessionHandlerInterface $handler, 
+        $id = null, 
+        $serialization = 'php'
+    ) {
         $this->setId($id);
 
-        $this->name    = $name;
-        $this->handler = $handler;
+        $this->name          = $name;
+        $this->handler       = $handler;
+        $this->serialization = $serialization;
     }
 
     /**
@@ -134,9 +146,31 @@ class Store implements Session
      */
     protected function readToHandler()
     {
-        $data = $this->handler->read($this->getId());
-
-        return $data ? @unserialize($data) : [];
+        if ($data = $this->handler->read($this->getId())) {
+            if ($this->serialization === 'json') {
+                $data = json_decode($this->prepareForUnserialize($data), true);
+            } else {
+                $data = @unserialize($this->prepareForUnserialize($data));
+            }
+            
+            if ($data !== false && is_array($data)) {
+                return $data;
+            }
+        }
+        
+        return [];
+    }
+    
+    /**
+     * Prepare the raw string data from the session for unserialization.
+     * 
+     * @param  string  $data
+     * 
+     * @return string
+     */
+    protected function prepareForUnserialize($data): string
+    {
+        return $data;
     }
 
     /**
@@ -145,6 +179,14 @@ class Store implements Session
     public function all(): array
     {
         return $this->items;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function only(array $keys): array
+    {
+        return Arr::only($this->items, $keys);
     }
 
     /**
@@ -178,7 +220,7 @@ class Store implements Session
      */
     protected function generateSessionId(): string
     {
-        return sha1(uniqid('', true).Str::random(40).microtime(true));
+        return Str::random(40);
     }
 
     /**
@@ -186,9 +228,35 @@ class Store implements Session
      */
     public function save()
     {
-        $this->handler->write($this->getId(), serialize($this->items));
+        $this->ageFlashData();
+
+        $this->handler->write($this->getId(), $this->prepareForStorage(
+            $this->serialization === 'json' ? json_encode($this->items) : serialize($this->items)
+        ));
 
         $this->started = false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function ageFlashData(): void
+    {
+        $this->erase($this->get('_flash.old', []));
+        $this->put('_flash.old', $this->get('_flash.new', []));
+        $this->put('_flash.new', []);        
+    }
+    
+    /**
+     * Prepare the serialized session data for storage.
+     * 
+     * @param  string  $data
+     * 
+     * @return string
+     */
+    protected function prepareForStorage($data): string
+    {
+        return $data;
     }
 
     /**
@@ -260,11 +328,19 @@ class Store implements Session
     /**
      * {@inheritdoc}
      */
+    public function erase($keys)
+    {
+        Arr::erase($this->items, $keys);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function flash(string $key, $value = true)
     {
         $this->put($key, $value);
         $this->push('_flash.new', $value);
-        $this->removeFlashData([$key]);
+        $this->removeOldFlashData([$key]);
     }
 
     /**
@@ -274,7 +350,7 @@ class Store implements Session
      * 
      * @return void
      */
-    protected function removeFlashData(array $keys)
+    protected function removeOldFlashData(array $keys)
     {
         $this->put('_flash.old', array_diff($this->get('_flash.old', []), $keys));
     }
