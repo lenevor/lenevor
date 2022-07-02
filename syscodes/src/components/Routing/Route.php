@@ -598,7 +598,7 @@ class Route
 			return $this->parameterNames;
 		}
 
-		return $this->parameterNames = $this->compileParamNames();
+		return $this->parameterNames = $this->compileParameterNames();
 	}
 
 	/**
@@ -606,9 +606,9 @@ class Route
 	 * 
 	 * @return array
 	 */
-	protected function compileParamNames()
+	protected function compileParameterNames()
 	{
-		preg_match_all('/\{(.*?)\}/', $this->domain().$this->uri, $matches);
+		preg_match_all('/\{(.*?)\}?+$/', $this->domain().$this->uri, $matches);
 
 		return array_map(function ($match) {
 			return trim($match, '?');
