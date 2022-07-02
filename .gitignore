@@ -1,23 +1,27 @@
-#-------------------------
 # Environment Files
-#-------------------------
 .env
+.env.local
+.env.local.php
+.env.*.local
 
-#-------------------------
 # Composer
-#-------------------------
-vendor/
+/vendor
 composer.lock
 composer.pchar
 
-#-------------------------
 # Temporary Files
-#-------------------------
-storage/cache/*
+storage/app/public/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
 storage/logs/*
-storage/sessions/*
-storage/views/*
-public/test.php
 
 # Visual Studio Code
-.vscode/
+/.vscode
+
+# Idea
+/.idea
+
+# NodeJS
+/node_modules
+npm-debug.log
