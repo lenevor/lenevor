@@ -257,15 +257,17 @@ class RouteCollection implements Countable, IteratorAggregate
      * @param  string  $route
      * @param  string  $requestedUri
      * 
-     * @return array
+     * @return string|string[]|bool
      */
-    protected function compareUri(string $route, string $requestedUri): array
+    protected function compareUri(string $route, string $requestedUri)
     {
         $pattern = '~^'.$this->regexUri($route).'$~';
         
-        preg_match_all($pattern, $requestedUri, $match);
+        if (preg_match($pattern, $requestedUri, $match)) {
+            return $match[0];
+        }
 
-        return $match[0];
+        return false;
     }
     
     /**
@@ -277,7 +279,7 @@ class RouteCollection implements Countable, IteratorAggregate
      */
     protected function regexUri(string $route): string
     {
-        return preg_replace_callback('~/\{(.*?)(\?)?\}+~', function ($match) {
+        return preg_replace_callback('~/\{(.*?)(\?)?\}+$~', function ($match) {
             return $this->regexParameter($match[1]);
         }, $route);
     }
