@@ -137,7 +137,7 @@ trait HttpStatusCode
 	public function getStatusCode(): int
 	{
 		if (empty($this->statusCode)) {
-			throw new BadMethodCallException('HTTP Response is missing a status code.');
+			throw new BadMethodCallException('HTTP Response is missing a status code');
 		}
 
 		return $this->statusCode;
