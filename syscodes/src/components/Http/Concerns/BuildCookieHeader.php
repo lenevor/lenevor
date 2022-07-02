@@ -58,18 +58,18 @@ trait BuildCookieHeader
         string $sameSite = null
     ): bool {
         return static::addHttpHeader(
-                    (new static)->build(
-                        $name,
-                        $value,
-                        $expire,
-                        $path,
-                        $domain,
-                        $secure,
-                        $httpOnly,
-                        $raw,
-                        $sameSite
-                    )
-                );
+                (new static)->build(
+                    $name,
+                    $value,
+                    $expire,
+                    $path,
+                    $domain,
+                    $secure,
+                    $httpOnly,
+                    $raw,
+                    $sameSite
+                )
+            );
     }
 
     /**
