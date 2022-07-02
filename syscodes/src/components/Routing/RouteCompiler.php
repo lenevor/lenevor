@@ -70,11 +70,11 @@ class RouteCompiler
             [$name, $optional] = array_pad($matches, 3, $patterns);
             
             if (in_array($name, $variables)) {
-                throw new LogicException("Route pattern [{$uri}] cannot reference variable name [{$name}] more than once.");
+                throw new LogicException("Route pattern [{$uri}] cannot reference variable name [{$name}] more than once");
             } elseif (strlen($name) > 32) {
-                throw new DomainException("Variable name [{$name}] cannot be longer than 32 characters in route pattern [{$uri}].");
+                throw new DomainException("Variable name [{$name}] cannot be longer than 32 characters in route pattern [{$uri}]");
             } elseif (preg_match('/^\d/', $name) === 1) {
-                throw new DomainException("Variable name [{$name}] cannot start with a digit in route pattern [{$uri}].");
+                throw new DomainException("Variable name [{$name}] cannot start with a digit in route pattern [{$uri}]");
             }
             
             $variables[] = $name;
@@ -86,7 +86,7 @@ class RouteCompiler
                 
                 return sprintf('(?:/(?P<%s>%s)', $name, $pattern);
             } elseif ($optionals > 0) {
-                throw new LogicException("Route pattern [{$pattern}] cannot reference standard variable [{$name}] after optionals.");
+                throw new LogicException("Route pattern [{$pattern}] cannot reference standard variable [{$name}] after optionals");
             }
             
             return sprintf('/(?P<%s>%s)', $name, $pattern);
