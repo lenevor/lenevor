@@ -35,8 +35,8 @@ class Cookie
 {
     use BuildCookieHeader;
     
-    public const SAMESITE_RESTRICTION_NONE = 'none';
-    public const SAMESITE_RESTRICTION_LAX  = 'lax';
+    public const SAMESITE_RESTRICTION_NONE   = 'none';
+    public const SAMESITE_RESTRICTION_LAX    = 'lax';
     public const SAMESITE_RESTRICTION_STRICT = 'strict';
     
     protected const SYS_RESERVED_CHARS_LIST = "=,; \t\r\n\v\f";
