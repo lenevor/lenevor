@@ -606,9 +606,9 @@ class Route
 	 * 
 	 * @return array
 	 */
-	protected function compileParameterNames()
+	protected function compileParameterNames(): array
 	{
-		preg_match_all('/\{(.*?)\}?+$/', $this->domain().$this->uri, $matches);
+		preg_match_all('/\{(.*?)\}/', $this->domain().$this->uri, $matches);
 
 		return array_map(function ($match) {
 			return trim($match, '?');
@@ -666,7 +666,7 @@ class Route
 			return $this->parameters;
 		}
 
-		throw new LogicException('The route is not bound.');
+		throw new LogicException('The route is not bound');
 	}
 
 	/**
