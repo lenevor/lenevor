@@ -204,7 +204,7 @@ class RouteCollection implements Countable, IteratorAggregate
     {
         $routes = $this->get($request->getMethod()); 
 
-        if ( ! is_null($route = $this->findRoute($request, $routes))) {
+        if ( ! is_null($route = $this->findRoute($request, $routes))) {            
             return $route;
         }
         
@@ -243,10 +243,14 @@ class RouteCollection implements Countable, IteratorAggregate
             if ($port !== null && $port !== $request->getPort()) {
                 continue;
             }
+
+            $parameters = [];
             
             // If the requested route one of the defined routes
-            if ($this->compareUri($route->getRoute(), $request->url())) {
-                return $route->bind($request);
+            if ($this->compareUri($route->getRoute(), $request->url(), $parameters, $route->wheres)) {
+                $route->bind($request);
+                
+                return $route;
             }
         }
     }
@@ -255,32 +259,31 @@ class RouteCollection implements Countable, IteratorAggregate
      * Check if given request uri matches given uri method.
      * 
      * @param  string  $route
-     * @param  string  $requestedUri
+     * @param  string  $uri
+     * @param  string[]  $parameters
+     * @param  string[]  $patterns
      * 
-     * @return string|string[]|bool
+     * @return bool
      */
-    protected function compareUri(string $route, string $requestedUri)
+    protected function compareUri(string $route, string $uri, array &$parameters, array $patterns): bool
     {
-        $pattern = '~^'.$this->regexUri($route).'$~';
+        $regex = '~^'.$this->regexUri($route, $patterns).'$~';
         
-        if (preg_match($pattern, $requestedUri, $match)) {
-            return $match[0];
-        }
-
-        return false;
+        return @preg_match($regex, $uri, $parameters);
     }
     
     /**
      * Convert route to regex.
      * 
      * @param  string  $route
+     * @param  array  $patterns
      * 
      * @return string
      */
-    protected function regexUri(string $route): string
+    protected function regexUri(string $route, array $patterns): string
     {
-        return preg_replace_callback('~/\{(.*?)(\?)?\}+$~', function ($match) {
-            return $this->regexParameter($match[1]);
+        return preg_replace_callback('~/\{([^}]+)\}~', function (array $match) use ($patterns) {
+            return $this->regexParameter($match[1], $patterns);
         }, $route);
     }
     
@@ -288,14 +291,22 @@ class RouteCollection implements Countable, IteratorAggregate
      * Convert route parameter to regex.
      * 
      * @param  string  $name
+     * @param  array  $patterns
      * 
      * @return string
      */
-    protected function regexParameter(string $name): string
+    protected function regexParameter(string $name, array $patterns): string
     {
-        $pattern = $this->route->wheres[$name] ?? '[^/]+';
+        if ($name[-1] == '?') {
+            $name = substr($name, 0, -1);
+            $suffix = '?';
+        } else {
+            $suffix = '';
+        }
+
+        $pattern = $patterns[$name] ?? '[^/]+';
         
-        return '/(?P<'.$name.'>'.$pattern.')';
+        return '/(?P<'.$name.'>'.$pattern.')'.$suffix;
     }
     
     /**
