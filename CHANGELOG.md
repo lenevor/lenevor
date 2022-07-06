@@ -1,5 +1,58 @@
 # Release Notes
 
+## [Version 0.7.10-alpha.7] 
+
+Release Date: Jul 06, 2022
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added new method for string formatting of output
+- Added the type output of method in `SqlServerGrammar` class
+- Added new namespace and the type output for some methods
+- Added identify '?' for formated of null in variable of `Chronos/Factory` trait
+- Added new variable for application namespace
+- Added new variables for autoloading in `Autoloadconfig` class
+- Added new method for get alls an application namespace in `Core/Application` class
+- Added new function for get autoloader of classes and namespace in `Core/Helpers` file
+- Added the identify of parameter Container in `View/Factory` class
+- Added conditional if variable is boolean in `Http/Response` class
+- Added new method for call to the commands in `app/Console/Lenevor` class
+- Added new methods for return ocurrence of a given value in `Support/Str` class
+- Added new methods for session in the `request` class
+- Added methods only and except for specified list of items in `Http/Concerns/InteractsWithInput` class
+- Added conditional if exist 'session.store' in `RoutingServiceProvider` class
+- Added class for normalize the query string in the `request` class
+- Added new cookie function in `core/Helpers` file
+- Added new methods for management of cookies in `Http/Response/ResponseHeaders` class
+- Added new parameter for uses the attributes of a request in `Http/Request` class
+- Added new methods for get and remove the data of a session in `Contracts/session/Session` interface
+
+### Fixed
+- Fix bug in return variable of method
+- Fix bug in variables in `SqlServerGrammar` class 
+- Fix bug to named correct the function of helper
+
+### Changed
+- Changed release 0.7.10-alpha.7
+- Changed is `stub` extension to the new extension `tpl` for template files
+- Changed the regex in the methods that is uses in the `Routing/RouteCollection` class
+
+### Created
+- Created the `SessionNotFoundException` class
+- Created new session handlers
+- Created is `Cookie/CokkieManager` class
+- Create is `Http/Concerns/BuildCookieHeader` trait
+- Created is new `Http/Concerns/ResponseLoads` trait for loads the responses
+- Created the `Http/Request/RequestUtils` class
+- Created the `Http/Response/ResponseHeaders` class
+- Created new methods for the http protocol version in `Http/Concerns/ResponseLoads` trait
+- Created new methods for returns the headers in the `Http/Response/ResponseHeaders` class
+
+### Moved
+- Moved class of Collections to Routing folder
+
+
 ## [Version 0.7.9-alpha.7] 
 
 Release Date: May 01, 2022
