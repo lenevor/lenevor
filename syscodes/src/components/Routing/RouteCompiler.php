@@ -66,8 +66,8 @@ class RouteCompiler
         $optionals = 0;
         $variables = [];
 
-        $pattern = preg_replace_callback('~\{(.*?)(\?)?\}~', function ($matches) use ($uri, $patterns, &$optionals, &$variables) {
-            [$name, $optional] = array_pad($matches, 3, $patterns);
+        $pattern = preg_replace_callback('~/\{(.*?)(\?)?\}~', function ($matches) use ($uri, $patterns, &$optionals, &$variables) {
+            [, $name, $optional] = array_pad($matches, 3, $patterns);
             
             if (in_array($name, $variables)) {
                 throw new LogicException("Route pattern [{$uri}] cannot reference variable name [{$name}] more than once");
