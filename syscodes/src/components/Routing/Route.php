@@ -610,9 +610,11 @@ class Route
 	{
 		preg_match_all('/\{(.*?)\}/', $this->domain().$this->uri, $matches);
 
-		return array_map(function ($match) {
+		return array_filter(array_map(function ($match) {
 			return trim($match, '?');
-		}, $matches[1]);
+		}, $matches[1]), function ($parameterName) {
+			return ! array_key_exists($parameterName, []);
+		});
 	}
 
 	/**
