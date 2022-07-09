@@ -61,13 +61,13 @@ class RouteCompiler
      */
     public function compile(): string
     {
-        $uri       = with($route = $this->route)->getRoute();
+        $uri       = with($route = $this->getPath())->getRoute();
         $patterns  = $route->getPatterns();
         $optionals = 0;
         $variables = [];
 
         $pattern = preg_replace_callback('~/\{(.*?)(\?)?\}~', function ($matches) use ($uri, $patterns, &$optionals, &$variables) {
-            [, $name, $optional] = array_pad($matches, 3, $patterns);
+            list(, $name, $optional) = array_pad($matches, 3, false);
             
             if (in_array($name, $variables)) {
                 throw new LogicException("Route pattern [{$uri}] cannot reference variable name [{$name}] more than once");
@@ -93,5 +93,15 @@ class RouteCompiler
         }, $uri);
         
         return sprintf('#^%s%s$#s', $pattern, str_repeat(')?', $optionals));
+    }
+    
+    /**
+     * Get the inner route.
+     * 
+     * @return array|object
+     */
+    public function getPath()
+    {
+        return $this->route;
     }
 }
