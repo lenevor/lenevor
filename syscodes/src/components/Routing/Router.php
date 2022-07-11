@@ -30,6 +30,12 @@ use Syscodes\Components\Http\RedirectResponse;
 use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Contracts\Routing\Routable;
 use Syscodes\Components\Contracts\Container\Container;
+use Syscodes\Components\Routing\Resolver\RouteResolver;
+use Syscodes\Components\Routing\Resources\RouteRegister;
+use Syscodes\Components\Routing\Resources\ResourceRegister;
+use Syscodes\Components\Routing\Resolver\MiddlewareResolver;
+use Syscodes\Components\Routing\Resources\RouteFileRegister;
+use Syscodes\Components\Routing\Resources\AwaitingResourceRegistration;
 
 /**
  * The Router class allows the integration of an easy-to-use routing system.
@@ -39,7 +45,6 @@ use Syscodes\Components\Contracts\Container\Container;
 class Router implements Routable
 {
 	use Concerns\RouteMap,
-	    Concerns\RouteResolver,
 	    Macroable {
 		    __call as macroCall;
 	    }
@@ -93,12 +98,12 @@ class Router implements Routable
 	 */
 	protected $patterns = [];
 
-	/** 
-	 * The route collection instance. 
+	/**
+	 * Resolve the given route.
 	 * 
-	 * @var \Syscodes\Components\Routing\RouteCollection $routes
+	 * @var \Syscodes\Components\Routing\Resolver\RouteResolver $resolves
 	 */
-	protected $routes;
+	protected $resolves;
 
 	/**
 	 * The Resource instance.
@@ -106,6 +111,13 @@ class Router implements Routable
 	 * @var \Syscodes\Components\Routing\ResourceRegister $resources
 	 */
 	protected $resources;
+
+	/** 
+	 * The route collection instance. 
+	 * 
+	 * @var \Syscodes\Components\Routing\RouteCollection $routes
+	 */
+	protected $routes;
 
 	/**
 	 * Constructor. Create a new Router instance.
@@ -118,6 +130,7 @@ class Router implements Routable
 	{
 		$this->routes    = new RouteCollection();
 		$this->container = $container ?: new Container;
+		$this->resolves  = new RouteResolver($this, $this->routes, $this->container);
 	}
 
 	/**
@@ -465,7 +478,7 @@ class Router implements Routable
 	 */
 	public function dispatch(Request $request)
 	{
-		return $this->resolve($request);
+		return $this->resolves->resolve($request);
 	}
 
 	/**
@@ -542,16 +555,6 @@ class Router implements Routable
 		}
 
 		return true;
-	}
-
-	/**
-	 * Get the currently dispatched route instance.
-	 * 
-	 * @return \Syscodes\Components\Routing\Route|null
-	 */
-	public function current()
-	{
-		return $this->current;
 	}
 
 	/**
