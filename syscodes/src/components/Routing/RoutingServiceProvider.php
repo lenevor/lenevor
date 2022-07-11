@@ -23,6 +23,9 @@
 namespace Syscodes\Components\Routing;
 
 use Syscodes\Components\Support\ServiceProvider;
+use Syscodes\Components\Routing\Supported\Redirector;
+use Syscodes\Components\Routing\Supported\UrlGenerator;
+use Syscodes\Components\Routing\Supported\RouteResponse;
 use Syscodes\Components\Contracts\Routing\RouteResponse as ResponseContract;
 
 /**
