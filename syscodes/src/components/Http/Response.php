@@ -24,9 +24,9 @@ namespace Syscodes\Components\Http;
 
 use JsonSerializable;
 use UnexpectedValueException;
-use Syscodes\Components\Http\Concerns\ResponseLoads;
-use Syscodes\Components\Http\Concerns\HttpStatusCode;
+use Syscodes\Components\Http\Concerns\HttpResponse;
 use Syscodes\Components\Contracts\Support\Renderable;
+use Syscodes\Components\Http\Concerns\HttpStatusCode;
 use Syscodes\Components\Http\Response\ResponseHeaders;
 
 /**
@@ -36,7 +36,7 @@ use Syscodes\Components\Http\Response\ResponseHeaders;
  */
 class Response
 {
-	use ResponseLoads,
+	use HttpResponse,
         HttpStatusCode;
 
 	/**
