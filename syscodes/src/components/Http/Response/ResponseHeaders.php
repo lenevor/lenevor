@@ -24,7 +24,7 @@ namespace Syscodes\Components\Http\Response;
 
 use InvalidArgumentException;
 use Syscodes\Components\Http\Cookie;
-use Syscodes\Components\Http\Contributors\Headers;
+use Syscodes\Components\Http\Utilities\Headers;
 
 /**
  * ResponseHeaders is a container for Response HTTP headers.
@@ -199,7 +199,6 @@ class ResponseHeaders extends Headers
 		
 		return $stringCookies;
     }
-
 
 	/**
 	 * Sets the cookie.
