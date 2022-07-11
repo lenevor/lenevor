@@ -182,4 +182,3 @@ class SessionDecorator implements SessionInterface
         return $this->store->isStarted();
     }
 }
-
