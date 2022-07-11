@@ -158,6 +158,15 @@ interface Container extends ContainerInterface
     public function make($id, array $parameters = []);
 
     /**
+     * Determine if the given id type has been bound.
+     * 
+     * @param  string  $id
+     * 
+     * @return bool
+     */
+    public function bound($id): bool;
+
+    /**
      * Determine if a given string is an alias.
      * 
      * @param  string  $name
