@@ -25,9 +25,9 @@ namespace Syscodes\Components\Core\Http;
 use Closure;
 use Throwable; 
 use Syscodes\Components\Routing\Router;
-use Syscodes\Components\Routing\Pipeline;
 use Syscodes\Components\Support\Facades\Facade;
 use Syscodes\Components\Contracts\Core\Application;
+use Syscodes\Components\Routing\Supported\Pipeline;
 use Syscodes\Components\Contracts\Debug\ExceptionHandler;
 use Syscodes\Components\Contracts\Http\Lenevor as LenevorContract;
 
