@@ -22,9 +22,9 @@
 
 use Syscodes\Components\Core\Application;
 use Syscodes\Components\Support\WebString;
-use Syscodes\Components\Routing\UrlGenerator;
 use Syscodes\Components\Support\Facades\Date;
 use Syscodes\Components\Contracts\View\Factory;
+use Syscodes\Components\Routing\Supported\UrlGenerator;
 use Syscodes\Components\Contracts\Routing\RouteResponse;
 use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoload;
 use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoloader;
@@ -512,7 +512,7 @@ if ( ! function_exists('redirect')) {
      * @param  array  $headers  An array of headers
      * @param  bool|null  $secure  Type of protocol (http|https)  
      *
-     * @return \Syscodes\Components\Routing\Redirector
+     * @return \Syscodes\Components\Routing\Supported\Redirector
      */
     function redirect($url = null, $code = 302, $headers = [], $secure = null)
     {
@@ -553,7 +553,7 @@ if ( ! function_exists('response')) {
      * @param  int  $status  
      * @param  array  $headers
      * 
-     * @return \Syscodes\Components\Http\Response|\Syscodes\Components\Routing\RouteResponse
+     * @return \Syscodes\Components\Http\Response|\Syscodes\Components\Routing\Supported\RouteResponse
      */
     function response($body = '', $status = 200, array $headers = [])
     {
@@ -727,7 +727,7 @@ if ( ! function_exists('url')) {
      * @param  array  $parameters
      * @param  bool|null  $secure  
      *
-     * @return string
+     * @return \Syscodes\Components\Routing\Supported\UrlGenerator
      */
     function url($path = null, $parameters = [], $secure = null)
     {
