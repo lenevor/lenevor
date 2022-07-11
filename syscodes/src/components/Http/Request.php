@@ -29,12 +29,12 @@ use LogicException;
 use RuntimeException;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
-use Syscodes\Components\Http\Contributors\Files;
-use Syscodes\Components\Http\Contributors\Inputs;
-use Syscodes\Components\Http\Contributors\Server;
-use Syscodes\Components\Http\Contributors\Headers;
+use Syscodes\Components\Http\Utilities\Files;
+use Syscodes\Components\Http\Utilities\Inputs;
+use Syscodes\Components\Http\Utilities\Server;
+use Syscodes\Components\Http\Utilities\Headers;
 use Syscodes\Components\Http\Request\RequestUtils;
-use Syscodes\Components\Http\Contributors\Parameters;
+use Syscodes\Components\Http\Utilities\Parameters;
 use Syscodes\Components\Http\Resources\HttpResources;
 use Syscodes\Components\Http\Session\SessionDecorator;
 use Syscodes\Components\Http\Session\SessionInterface;
@@ -56,7 +56,7 @@ class Request
 	/**
 	 * Get the custom parameters.
 	 * 
-	 * \Syscodes\Components\Http\Contributors\Parameters $attributes
+	 * \Syscodes\Components\Http\Utilities\Parameters $attributes
 	 */
 	public $attributes;
 
@@ -98,7 +98,7 @@ class Request
 	/**
 	 * The decoded JSON content for the request.
 	 * 
-	 * @var \Syscodes\Components\Http\Contributors\Parameters|null $json
+	 * @var \Syscodes\Components\Http\Utilities\Parameters|null $json
 	 */
 	protected $json;
 
@@ -126,14 +126,14 @@ class Request
 	/**
 	 * Query string parameters ($_GET).
 	 * 
-	 * @var \Syscodes\Components\Http\Contributors\Parameters $query
+	 * @var \Syscodes\Components\Http\Utilities\Parameters $query
 	 */
 	public $query;
 
 	/**
 	 * Request body parameters ($_POST).
 	 * 
-	 * @var \Syscodes\Components\Http\Contributors\Parameters $request
+	 * @var \Syscodes\Components\Http\Utilities\Parameters $request
 	 */
 	public $request;
 
@@ -161,9 +161,9 @@ class Request
 	/**
 	 * The detected uri and server variables ($_SERVER).
 	 * 
-	 * @var \Syscodes\Components\Http\Contributors\Server $server
+	 * @var array|object $server
 	 */
-	public $server;
+	public $server = [];
 
 	/** 
 	 * List of routes uri.
@@ -274,7 +274,7 @@ class Request
 	 */
 	public static function createFromRequest($request)
 	{
-		$newRequest = (static::active())->duplicate(
+		$newRequest = static::active()->duplicate(
 			$request->query->all(), $request->request->all(), $request->attributes->all(),
 			$request->cookies->all(), $request->files->all(), $request->server->all()
 		);
@@ -627,7 +627,7 @@ class Request
 	 * @param  string|null  $key  
 	 * @param  mixed  $default  
 	 * 
-	 * @return \Syscodes\Components\Http\Contributors\Parameters|mixed
+	 * @return \Syscodes\Components\Http\Utilities\Parameters|mixed
 	 */
 	public function json($key = null, $default = null)
 	{
@@ -645,7 +645,7 @@ class Request
 	/**
 	 * Set the JSON payload for the request.
 	 * 
-	 * @param  \Syscodes\Components\Http\Contributors\Parameters  $json
+	 * @param  \Syscodes\Components\Http\Utilities\Parameters  $json
 	 * 
 	 * @return self
 	 */
@@ -733,7 +733,7 @@ class Request
 	/**
 	 * Get the input source for the request.
 	 * 
-	 * @return \Syscodes\Components\Http\Contributors\Parameters
+	 * @return \Syscodes\Components\Http\Utilities\Parameters
 	 */
 	public function getInputSource()
 	{
@@ -812,11 +812,11 @@ class Request
 	 */
 	public function path(): string
 	{
-		if ($request = static::active()) {
-			$pattern = trim($this->getPathInfo(), '/');
+		if (($request = static::active())) {
+			$path = trim($this->getPathInfo(), '/');
 		}
-		
-		return $pattern === '' ? $request->uri->getPath().'/' : $pattern;
+
+		return $path == '' ? $request->uri->getPath().'/' : $path;
 	}
 
 	/**
