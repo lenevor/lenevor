@@ -564,6 +564,14 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function bound($id): bool
+    {
+        return isset($this->bindings[$id]) || isset($this->instances[$id]);
+    }
+
+    /**
      * Determine if a given string is an alias.
      * 
      * @param  string  $name
@@ -713,18 +721,6 @@ class Container implements ArrayAccess, ContainerContract
     public function has(string $id): bool
     {
         return $this->bound($id);
-    }
-
-    /**
-     * Determine if the given id type has been bound.
-     * 
-     * @param  string  $id
-     * 
-     * @return bool
-     */
-    public function bound($id)
-    {
-        return isset($this->bindings[$id]) || isset($this->instances[$id]);
     }
 
     /*
