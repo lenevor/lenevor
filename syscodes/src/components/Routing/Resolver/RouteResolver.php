@@ -71,6 +71,8 @@ class RouteResolver
 	 * Constructor. Create a new RouteResolver instance.
 	 * 
 	 * @param  \Syscodes\Components\Routing\Router  $router
+	 * @param  \Syscodes\Components\Routing\RouteCollection $routes
+	 * @param  \Syscodes\Components\Contracts\Container\Container  $container
 	 * 
 	 * @return void
 	 */
