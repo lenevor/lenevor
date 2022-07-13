@@ -217,7 +217,7 @@ class RouteCollection implements Countable, IteratorAggregate
      * @param  \Syscodes\Components\Http\Request  $request
      * @param  array  $routes
      * 
-     * @return \Syscodes\Components\Routing\Route;
+     * @return \Syscodes\Components\Routing\Route[];
      */
     protected function findRoute($request, array $routes)
     {        
@@ -265,8 +265,12 @@ class RouteCollection implements Countable, IteratorAggregate
      * 
      * @return bool
      */
-    protected function compareUri(string $route, string $uri, array &$parameters, array $patterns): bool
-    {
+    protected function compareUri(
+        string $route, 
+        string $uri, 
+        array &$parameters, 
+        array $patterns
+    ): bool {
         $regex = '~^'.$this->regexUri($route, $patterns).'$~';
         
         return @preg_match($regex, $uri, $parameters);
