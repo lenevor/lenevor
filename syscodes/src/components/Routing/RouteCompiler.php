@@ -34,34 +34,15 @@ use Syscodes\Components\Support\Arr;
 class RouteCompiler
 {
     /**
-     * The Route implementation.
-     * 
-     * @var \Syscodes\Components\Routing\Route $route
-     */
-    protected $route;
-
-    /**
-     * Constructor. Create a new Route Compiler instance.
-     * 
-     * @param  \Syscodes\Components\Routing\Route  $route
-     * 
-     * @return void
-     */
-    public function __construct(Route $route)
-    {
-        $this->route = $route;
-    }
-
-    /**
      * Compile the inner Route pattern.
      * 
      * @return string
      * 
      * @throws \LogicException|\DomainException
      */
-    public function compile(): string
+    public function compile(Route $route)
     {
-        $uri       = with($route = $this->getPath())->getRoute();
+        $uri       = $route->getRoute();
         $patterns  = $route->getPatterns();
         $optionals = 0;
         $variables = [];
@@ -91,17 +72,7 @@ class RouteCompiler
             
             return sprintf('/(?P<%s>%s)', $name, $pattern);
         }, $uri);
-        
-        return sprintf('#^%s%s$#s', $pattern, str_repeat(')?', $optionals));
-    }
-    
-    /**
-     * Get the inner route.
-     * 
-     * @return array|object
-     */
-    public function getPath()
-    {
-        return $this->route;
+       
+        return sprintf('~^%s%s~sDu', $pattern, str_repeat(')?', $optionals));
     }
 }
