@@ -1079,14 +1079,14 @@ class Application extends Container implements ApplicationContract
             'files'            => [\Syscodes\Components\Filesystem\Filesystem::class],
             'log'              => [\Syscodes\Components\Log\LogManager::class, \Psr\Log\LoggerInterface::class],
             'plaze.transpiler' => [\Syscodes\Components\View\Transpilers\PlazeTranspiler::class],
-            'redirect'         => [\Syscodes\Components\Routing\Redirector::class],
+            'redirect'         => [\Syscodes\Components\Routing\Supported\Redirector::class],
             'redis'            => [\Syscodes\Components\Redis\RedisManager::class],
             'request'          => [\Syscodes\Components\Http\Request::class],
             'router'           => [\Syscodes\Components\Routing\Router::class],
             'session'          => [\Syscodes\Components\Session\SessionManager::class],
             'session.store'    => [\Syscodes\Components\Session\Store::class, \Syscodes\Components\Contracts\Session\Session::class],
             'translator'       => [\Syscodes\Components\Translation\Translator::class, \Syscodes\Components\Contracts\Translation\Translator::class],
-            'url'              => [\Syscodes\Components\Routing\UrlGenerator::class],
+            'url'              => [\Syscodes\Components\Routing\Supported\UrlGenerator::class],
             'view'             => [\Syscodes\Components\View\Factory::class, \Syscodes\Components\Contracts\View\Factory::class]
         ] as $key => $aliases) {
             foreach ((array) $aliases as $alias) {
