@@ -72,15 +72,15 @@ class RouteResolver
 	 * 
 	 * @param  \Syscodes\Components\Routing\Router  $router
 	 * @param  \Syscodes\Components\Routing\RouteCollection $routes
-	 * @param  \Syscodes\Components\Contracts\Container\Container  $container
+	 * @param  \Syscodes\Components\Contracts\Container\Container|null  $container
 	 * 
 	 * @return void
 	 */
-	public function __construct(Router $router, RouteCollection $routes, Container $container)
+	public function __construct(Router $router, RouteCollection $routes, Container $container = null)
 	{
 		$this->router    = $router;
 		$this->routes    = $routes;
-		$this->container = $container;
+		$this->container = $container ?: new Container;
 	}
 
 	/**
