@@ -86,6 +86,13 @@ class Route
 	public $defaults = [];
 
 	/**
+	 * Indicates whether the route is a fallback route.
+	 * 
+	 * @var bool $fallback
+	 */
+	protected $fallback = false;
+
+	/**
 	 * Variable of HTTP method.
 	 *  
 	 * @var array|string $method
@@ -160,18 +167,6 @@ class Route
 		}
 	}
 
-	// Getters
-
-	/**
-	 * Get the action of the current route.
-	 *
-	 * @return \Closure|string|array
-	 */
-	public function getAction()
-	{
-		return $this->action;
-	}
-
 	/**
 	 * Get the controller instance for the route.
 	 * 
@@ -196,46 +191,6 @@ class Route
 	public function getControllerMethod()
 	{
 		return $this->parseControllerCallback()[1];
-	}
-
-	/**
-	 * Get the request method of the current route.
-	 *
-	 * @return array|string
-	 */
-	public function getMethod()
-	{
-		return $this->method;
-	}
-
-	/**
-	 * Get the url of the current route.
-	 *
-	 * @return string|null
-	 */
-	public function getName()
-	{
-		return $this->action['as'] ?? null;
-	}
-
-	/**
-	 * Get the url of the current route.
-	 *
-	 * @return array
-	 */
-	public function getRoute()
-	{
-		return $this->uri;
-	}
-
-	/**
-	 * Get the patterns of the current route.
-	 *
-	 * @return array
-	 */
-	public function getPatterns()
-	{
-		return $this->wheres;
 	}
 
 	/**
@@ -297,8 +252,6 @@ class Route
 	{
 		return new ControllerDispatcher($this->container);
 	}
-
-	// Setters
 	
 	/**
 	 * Run the route action and return the response.
@@ -539,6 +492,32 @@ class Route
 	}
 
 	/**
+	 * Set the flag of fallback mode on the route.
+	 * 
+	 * @return self
+	 */
+	public function fallback(): self
+	{
+		$this->fallback = true;
+
+		return $this;
+	}
+
+	/**
+	 * Set the facllback value.
+	 * 
+	 * @param  bool  $fallback
+	 * 
+	 * @return self
+	 */
+	public function setFallback(bool $fallback): self
+	{
+		$this->fallback = $fallback;
+
+		return $this;
+	}
+
+	/**
 	 * Set the where.
 	 *
 	 * @param  array|string  $name
@@ -568,7 +547,7 @@ class Route
 	{
 		$this->compileRoute();
 		
-		$this->parameters = (new RouteParamBinding($this))->parameters($request);
+		$this->parameters = (new RouteParameterBinding($this))->parameters($request);
 
 		return $this;
 	}
@@ -608,7 +587,7 @@ class Route
 	 */
 	protected function compileParameterNames(): array
 	{
-		preg_match_all('/\{(.*?)\}/', $this->domain().$this->uri, $matches);
+		preg_match_all('~\{(.*?)\}~', $this->domain().$this->uri, $matches);
 
 		return array_filter(array_map(function ($match) {
 			return trim($match, '?');
@@ -770,6 +749,56 @@ class Route
 	public function secure(): bool
 	{
 		return in_array('https', $this->action, true);
+	}
+
+	/**
+	 * Get the action of the current route.
+	 *
+	 * @return \Closure|string|array
+	 */
+	public function getAction()
+	{
+		return $this->action;
+	}
+
+	/**
+	 * Get the url of the current route.
+	 *
+	 * @return array
+	 */
+	public function getRoute()
+	{
+		return $this->uri;
+	}
+
+	/**
+	 * Get the patterns of the current route.
+	 *
+	 * @return array
+	 */
+	public function getPatterns()
+	{
+		return $this->wheres;
+	}
+
+	/**
+	 * Get the request method of the current route.
+	 *
+	 * @return array|string
+	 */
+	public function getMethod()
+	{
+		return $this->method;
+	}
+
+	/**
+	 * Get the url of the current route.
+	 *
+	 * @return string|null
+	 */
+	public function getName()
+	{
+		return $this->action['as'] ?? null;
 	}
 
 	/**
