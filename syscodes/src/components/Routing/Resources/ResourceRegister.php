@@ -265,7 +265,7 @@ class ResourceRegister
      */
     protected function addResourceEdit($name, $base, $controller, $options)
     {
-        $uri = $this->getResourceUri($name).'/'.static::$verbs['edit'].'/{'.$base.'}';
+        $uri = $this->getResourceUri($name).'/{'.$base.'}/'.static::$verbs['edit'];
 
         $action = $this->getResourceAction($name, $controller, 'edit', $options);
 
