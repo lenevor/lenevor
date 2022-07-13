@@ -128,7 +128,7 @@ class Router implements Routable
 	 */
 	public function __construct(Container $container = null)
 	{
-		$this->routes    = new RouteCollection();
+		$this->routes    = new RouteCollection;
 		$this->container = $container ?: new Container;
 		$this->resolves  = new RouteResolver($this, $this->routes, $this->container);
 	}
