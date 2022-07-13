@@ -53,7 +53,7 @@ class Route
 	/**
 	 * The compiled version of the route.
 	 * 
-	 * @var \Syscodes\Components\Routing\RouteCompiler $compiled
+	 * @var \Syscodes\Components\Routing\RouteCompiler|string $compiled
 	 */
 	public $compiled;
 
@@ -560,7 +560,7 @@ class Route
 	protected function compileRoute()
 	{
 		if ( ! $this->compiled) {
-			$this->compiled = with(new RouteCompiler($this))->compile();
+			$this->compiled = with(new RouteCompiler)->compile($this);
 		}
 
 		return $this->compiled;
@@ -587,7 +587,7 @@ class Route
 	 */
 	protected function compileParameterNames(): array
 	{
-		preg_match_all('~\{(.*?)\}~', $this->domain().$this->uri, $matches);
+		@preg_match_all('~\{(.*?)\}~', $this->domain().$this->uri, $matches);
 
 		return array_filter(array_map(function ($match) {
 			return trim($match, '?');
