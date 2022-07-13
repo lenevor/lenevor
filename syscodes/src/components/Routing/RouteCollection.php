@@ -28,6 +28,7 @@ use ArrayIterator;
 use IteratorAggregate;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Http\Request;
+use Syscodes\Components\Routing\Matching\UriMatches;
 use Syscodes\Components\Routing\Exceptions\RouteNotFoundException;
 
 /**
@@ -247,70 +248,12 @@ class RouteCollection implements Countable, IteratorAggregate
             $parameters = [];
             
             // If the requested route one of the defined routes
-            if ($this->compareUri($route->getRoute(), $request->url(), $parameters, $route->wheres)) {
+            if (UriMatches::compareUri($route->getRoute(), $request->url(), $parameters, $route->wheres)) {
                 $route->bind($request);
-                
+
                 return $route;
             }
         }
-    }
-    
-    /**
-     * Check if given request uri matches given uri method.
-     * 
-     * @param  string  $route
-     * @param  string  $uri
-     * @param  string[]  $parameters
-     * @param  string[]  $patterns
-     * 
-     * @return bool
-     */
-    protected function compareUri(
-        string $route, 
-        string $uri, 
-        array &$parameters, 
-        array $patterns
-    ): bool {
-        $regex = '~^'.$this->regexUri($route, $patterns).'$~';
-        
-        return @preg_match($regex, $uri, $parameters);
-    }
-    
-    /**
-     * Convert route to regex.
-     * 
-     * @param  string  $route
-     * @param  array  $patterns
-     * 
-     * @return string
-     */
-    protected function regexUri(string $route, array $patterns): string
-    {
-        return preg_replace_callback('~/\{([^}]+)\}~', function (array $match) use ($patterns) {
-            return $this->regexParameter($match[1], $patterns);
-        }, $route);
-    }
-    
-    /**
-     * Convert route parameter to regex.
-     * 
-     * @param  string  $name
-     * @param  array  $patterns
-     * 
-     * @return string
-     */
-    protected function regexParameter(string $name, array $patterns): string
-    {
-        if ($name[-1] == '?') {
-            $name = substr($name, 0, -1);
-            $suffix = '?';
-        } else {
-            $suffix = '';
-        }
-
-        $pattern = $patterns[$name] ?? '[^/]+';
-        
-        return '/(?P<'.$name.'>'.$pattern.')'.$suffix;
     }
     
     /**
