@@ -410,7 +410,7 @@ tbody tr:nth-child(1n) td:nth-child(5) {
 	}
 
 	.md\:m-top {
-		margin-top: 10px;
+		margin-top: 20px;
 	}
 
 	.md\:m-left {
@@ -422,7 +422,7 @@ tbody tr:nth-child(1n) td:nth-child(5) {
 	}
 
 	.md\:m-bottom {
-		margin-bottom: 10px;
+		margin-bottom: -20px;
 	}
 
 	.md\:p-top {
