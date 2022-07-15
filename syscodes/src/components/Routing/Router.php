@@ -578,7 +578,7 @@ class Router implements Routable
 	 */
 	public function currentRouteNamed(...$patterns): bool
 	{
-		return $this->current() && $this->current()->named(...$patterns);
+		return $this->resolves->current() && $this->resolves->current()->named(...$patterns);
 	}
 
 	/**
