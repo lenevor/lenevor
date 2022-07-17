@@ -365,7 +365,7 @@ class Router implements Routable
 	public function newRoute($method, $uri, $action): route
 	{
 		return take(new Route($method, $uri, $action))
-		              ->setContainer($this->container);
+		                ->setContainer($this->container);
 	}
 	
 	/**
@@ -491,10 +491,10 @@ class Router implements Routable
 	public function gatherRouteMiddleware(Route $route): array
 	{
 		$middleware = array_map(function ($name) {
-            return MiddlewareResolver::resolve($name, $this->middleware, $this->middlewareGroups);
-        }, $route->gatherMiddleware());
-
-        return Arr::flatten($middleware);
+			return MiddlewareResolver::resolve($name, $this->middleware, $this->middlewareGroups);
+		}, $route->gatherMiddleware());
+		
+		return Arr::flatten($middleware);
 	}
 
 	/**
