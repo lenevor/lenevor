@@ -94,7 +94,7 @@ class Application implements ApplicationContract
      * 
      * @var bool $initialize
      */
-    protected $initialize;
+    protected $initialize = false;
 
     /**
      * Gets the name of the aplication.
@@ -371,7 +371,9 @@ class Application implements ApplicationContract
             return $this->get($name);
         }
         
-        $commands = array_keys($this->commands[$name]);
+        $allCommands = array_keys($this->commands[$name]);
+        $expression  = implode('[^:]*:', array_map('preg_quote', explode(':', $name))).'[^:]*';
+        $commands    = preg_grep('{^'.$expression.'}', $allCommands);
 
         if (empty($commands)) {
             $message = sprintf('Command "%s" is not defined', $name);
