@@ -35,5 +35,25 @@
 			
 		</div>
 
+		<script type="text/javascript">
+			const background = document.querySelector('.bg-gradient');
+			const title      = document.querySelector('.text-color-title');
+			const subtitle   = document.querySelector('.text-color-subtitle');
+			const button     = document.querySelector('a');
+
+			/* Get the mode in localStorage */
+			if (localStorage.getItem('dark-mode') === 'true') {
+				background.classList.add('dark');
+				title.classList.add('dark');
+				subtitle.classList.add('dark');
+				button.classList.add('dark');
+			} else {
+				background.classList.remove('dark');
+				title.classList.remove('dark');
+				subtitle.classList.remove('dark');
+				button.classList.remove('dark');
+			}
+		</script>
+
 	</body>
 </html>
