@@ -366,11 +366,11 @@ class Application implements ApplicationContract
                 }
             }
         }
-
+        
         if ($this->has($name)) {
             return $this->get($name);
         }
-        
+
         $allCommands = array_keys($this->commands[$name]);
         $expression  = implode('[^:]*:', array_map('preg_quote', explode(':', $name))).'[^:]*';
         $commands    = preg_grep('{^'.$expression.'}', $allCommands);
