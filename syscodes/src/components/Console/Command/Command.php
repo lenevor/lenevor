@@ -324,9 +324,9 @@ class Command
 
         return $this->fullDefinition ?? $this->definition;
     }
-
-     /**
-     * Sets the InputDefinition to be used to representate arguments 
+    
+    /**
+     * Sets the InputDefinition to be used to representate arguments
      * and options in a command.
      * 
      * @param  array|\Syscodes\Components\Console\Input\InputDefinition  $definition  An array of InputArgument and InputOption instance
@@ -394,7 +394,6 @@ class Command
 
         return $this;
     }
-
     
     /**
      * Gets the command name.
