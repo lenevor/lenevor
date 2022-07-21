@@ -11,9 +11,9 @@
 	--color-white-3: hsla(200, 23%, 95%, 1);
 	--color-blue-1: hsla(219, 15%, 39%, 1);
 	--color-blue-2: hsla(205, 87%, 65%, 1);
-	--color-blue-3: rgb(97, 121, 141);
+	--color-blue-3: hsla(207, 18%, 47%, 1);
 	--color-blue-4: hsla(215, 41%, 35%, 1);
-	--color-green-1: rgb(56, 154, 167);
+	--color-green-1: hsla(187, 50%, 44%, 1);
 	--color-green-2: hsla(165, 8%, 53%, 1);
 	--color-gray-1: hsla(202, 31%, 38%, 0.733);
 	--color-gray-2: hsla(240, 0%, 60%, 1);
