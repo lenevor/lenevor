@@ -292,8 +292,8 @@ tbody tr:nth-child(1n) td:nth-child(5) {
 
 .text-color-title {
 	--text-opacity: 1;
-	color: #e5e5e5;
-	color: hsla(206, 13%, 89%, var(--text-opacity));
+	color: #5a6672;
+	color: rgba(90, 102, 114, var(--text-opacity));
 }
 
 .dark .text-gradient {
