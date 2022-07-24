@@ -45,6 +45,7 @@ return [
     'Syscodes\\Components\\Console\\Concerns\\BuildConsoleVersion' => SYS_PATH.'src/components/Console/Concerns/BuildConsoleVersion.php',
     'Syscodes\\Components\\Console\\Concerns\\InteractsIO' => SYS_PATH.'src/components/Console/Concerns/InteractsIO.php',
     'Syscodes\\Components\\Console\\Exceptions\\CommandNotFoundException' => SYS_PATH.'src/components/Console/Exceptions/CommandNotFoundException.php',
+    'Syscodes\\Components\\Console\\Exceptions\\NamespaceNotFoundException' => SYS_PATH.'src/components/Console/Exceptions/NamespaceNotFoundException.php',
     'Syscodes\\Components\\Console\\Formatter\\OutputFormatter' => SYS_PATH.'src/components/Console/Formatter/OutputFormatter.php',
     'Syscodes\\Components\\Console\\Formatter\\OutputFormatterStack' => SYS_PATH.'src/components/Console/Formatter/OutputFormatterStack.php',
     'Syscodes\\Components\\Console\\Formatter\\OutputFormatterStyle' => SYS_PATH.'src/components/Console/Formatter/OutputFormatterStyle.php',
