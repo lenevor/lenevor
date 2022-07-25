@@ -48,6 +48,13 @@ abstract class Input implements InputInterface
     protected $definition;
 
     /**
+     * The input interactive.
+     * 
+     * @var bool $interactive
+     */
+    protected $interactive = true;
+
+    /**
      * An array InputOption object.
      * 
      * @var array $options
@@ -88,6 +95,22 @@ abstract class Input implements InputInterface
      * @return void
      */
     abstract protected function parse();
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isInteractive(): bool
+    {
+        return $this->interactive;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setInteractive(bool $interactive): void
+    {
+        $this->interactive = $interactive;
+    }
 
     /*
     |----------------------------------------------------------------
