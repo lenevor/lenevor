@@ -39,6 +39,7 @@ use Syscodes\Components\Console\Concerns\BuildConsoleVersion;
 use Syscodes\Components\Contracts\Console\Input as InputInterface;
 use Syscodes\Components\Console\Exceptions\CommandNotFoundException;
 use Syscodes\Components\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Console\Exceptions\NamespaceNotFoundException;
 use Syscodes\Components\Contracts\Console\Application as ApplicationContract;
 use Syscodes\Components\Contracts\Console\InputOption as InputOptionInterface;
 use Syscodes\Components\Contracts\Console\InputArgument as InputArgumentInterface;
@@ -103,7 +104,12 @@ class Application implements ApplicationContract
      */
     protected $name;
 
-    protected $runCommand;
+    /**
+     * The running command.
+     * 
+     * @var object|string|null
+     */
+    protected $runningCommand = null;
 
     /**
      * The single command.
@@ -246,10 +252,10 @@ class Application implements ApplicationContract
         }
                 
         try {
-            $this->runCommand = null;
+            $this->runningCommand = null;
             $command = $this->findCommand($name);
         } catch(Throwable $e) {
-            if ( ! ($e instanceof CommandNotFoundException) || 1 !== \count($alternatives = $e->getAlternatives())) {
+            if ( ! ($e instanceof CommandNotFoundException && ! $e instanceof NamespaceNotFoundException) || 1 !== \count($alternatives = $e->getAlternatives()) || ! $input->isInteractive()) {
                 throw $e;
             }
 
@@ -260,9 +266,9 @@ class Application implements ApplicationContract
             $command = $this->findCommand($alternative);
         }
         
-        $this->runCommand = $command;
+        $this->runningCommand = $command;
         $exitCode = $this->doCommand($command, $input, $output);
-        $this->runCommand = null;
+        $this->runningCommand = null;
 
         return $exitCode;
     }
@@ -347,7 +353,7 @@ class Application implements ApplicationContract
             new InputOption('--quiet', '-q', InputOptionInterface::VALUE_NONE, 'Do not output any message'),
             new InputOption('--verbose', '-v|vv|vvv', InputOptionInterface::VALUE_NONE, 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'),
             new InputOption('--version', '-V', InputOptionInterface::VALUE_NONE, 'Display this application version'),
-            new InputOption('--ansi', '', InputOptionInterface::VALUE_NEGATABLE, 'Force (or disable --no-color) ANSI output', false),
+            new InputOption('--ansi', '', InputOptionInterface::VALUE_NEGATABLE, 'Force (or disable --no-color) ANSI output', null),
             new InputOption('--no-interaction', '-n', InputOptionInterface::VALUE_NONE, 'Do not ask any interactive question'),
         ]);
     }
@@ -377,6 +383,32 @@ class Application implements ApplicationContract
 
         if (empty($commands)) {
             $commands = preg_grep('{^'.$expression.'}i', $allCommands);
+        }
+        
+        if (empty($commands) || \count(preg_grep('{^'.$expression.'$}i', $commands)) < 1) {
+            if (false !== $pos = strrpos($name, ':')) {
+                // check if a namespace exists and contains commands
+                $this->findNamespace(substr($name, 0, $pos));
+            }
+            
+            $message = sprintf('Command "%s" is not defined', $name);
+            
+            if ($alternatives = $this->findCommandAlternatives($name, $allCommands)) {
+                // remove hidden commands
+                $alternatives = array_filter($alternatives, function ($name) {
+                    return ! $this->get($name)->isHidden();
+                });
+                
+                if (1 == count($alternatives)) {
+                    $message .= "\n\nDid you mean this?\n    ";
+                } else {
+                    $message .= "\n\nDid you mean one of these?\n    ";
+                }
+                
+                $message .= implode("\n    ", $alternatives);
+            }
+            
+            throw new CommandNotFoundException($message, array_values($alternatives));
         }
 
         $command = $this->get(headItem($commands));
@@ -507,9 +539,52 @@ class Application implements ApplicationContract
      * 
      * @return string[]
      */
-    public function getCommandAlternatives(string $name, iterable $collection)
+    public function findCommandAlternatives(string $name, iterable $collection): array
     {
+        $threshold    = 1e3;
+        $alternatives = [];
+        $collections  = [];
 
+        foreach ($collection as $item) {
+            $collections[$item] = explode(':', $item);
+        }
+
+        foreach (explode(':', $name) as $key => $subname) {
+            foreach ($collections as $collectionName => $parts) {
+                $exists = isset($alternatives[$collectionName]);
+                
+                if ( ! isset($parts[$key]) && $exists) {
+                    $alternatives[$collectionName] += $threshold;
+                    continue;
+                } elseif ( ! isset($parts[$key])) {
+                    continue;
+                }
+                
+                $levenshtein = levenshtein($subname, $parts[$key]);
+                
+                if ($levenshtein <= strlen($subname) / 3 || '' !== $subname && str_contains($parts[$key], $subname)) {
+                    $alternatives[$collectionName] = $exists ? $alternatives[$collectionName] + $levenshtein : $levenshtein;
+                } elseif ($exists) {
+                    $alternatives[$collectionName] += $threshold;
+                }
+            }
+        }
+        
+        foreach ($collection as $item) {
+            $levenshetin = levenshtein($name, $item);
+            
+            if ($levenshetin <= strlen($name) / 3 || str_contains($item, $name)) {
+                $alternatives[$item] = isset($alternatives[$item]) ? $alternatives[$item] - $levenshetin : $levenshetin;
+            }
+        }
+        
+        $alternatives = array_filter($alternatives, function ($levenhtein) use ($threshold) { 
+            return $levenhtein < 2 * $threshold; 
+        });
+        
+        ksort($alternatives, SORT_NATURAL | SORT_FLAG_CASE);
+        
+        return array_keys($alternatives);
     }
     
     /**
@@ -559,5 +634,26 @@ class Application implements ApplicationContract
     protected function getDefaultCommands(): array
     {
         return [new HelpCommand(), new ListCommand()];
+    }
+
+    /**
+     * Sets the default commands.
+     * 
+     * @param  string  $commandName
+     * @param  bool  $isSingleCommand
+     * 
+     * @return self
+     */
+    public function setDefaultCommand(string $commandName, bool $isSingleCommand = false): self
+    {
+        $this->defaultCommand = explode('|', ltrim($commandName, '|'))[0];
+
+        if ($isSingleCommand) {
+            $this->findCommand($commandName);
+
+            $this->singleCommand = true;
+        }
+
+        return $this;
     }
 }
