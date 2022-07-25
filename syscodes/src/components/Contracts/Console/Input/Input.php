@@ -74,6 +74,22 @@ interface Input
     public function getParameterOption($values, $default = false, bool $params = false);
 
     /**
+     * Get the input interactive.
+     * 
+     * @return bool
+     */
+    public function isInteractive(): bool;
+
+    /**
+     * Sets the input interactive.
+     * 
+     * @param  bool  $interactive
+     * 
+     * @return void
+     */
+    public function setInteractive(bool $interactive): void;
+
+    /**
      * Gets the argument value for given by name.
      * 
      * @param  string  $name  The argument name
