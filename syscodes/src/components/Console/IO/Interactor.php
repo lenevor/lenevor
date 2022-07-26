@@ -76,6 +76,10 @@ class Interactor
             // Deactivates the color tag if exist is a style applied
             $this->output->setDecorated(false);
         }
+
+        if (true === $this->input->hasParameterOption(['--no-interaction', '-n'], true)) {
+            $this->input->setInteractive(false);
+        }
         
         switch ($shellVerbosity = (int) getenv('SHELL_VERBOSITY')) {
             case -1: $this->output->setVerbosity(OutputInterface::VERBOSITY_QUIET); break;
@@ -100,6 +104,10 @@ class Interactor
                 $this->output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
                 $shellVerbosity = 1;
             }
+        }
+        
+        if (-1 === $shellVerbosity) {
+            $this->input->setInteractive(false);
         }
         
         if (function_exists('putenv')) {
