@@ -385,7 +385,7 @@ class Application implements ApplicationContract
             $commands = preg_grep('{^'.$expression.'}i', $allCommands);
         }
         
-        if (empty($commands) || \count(preg_grep('{^'.$expression.'$}i', $commands)) < 1) {
+        if (empty($commands) || count(preg_grep('{^'.$expression.'$}i', $commands)) < 1) {
             if (false !== $pos = strrpos($name, ':')) {
                 // check if a namespace exists and contains commands
                 $this->findNamespace(substr($name, 0, $pos));
