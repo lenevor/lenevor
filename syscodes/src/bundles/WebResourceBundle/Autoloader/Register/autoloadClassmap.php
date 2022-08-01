@@ -308,6 +308,7 @@ return [
     'Syscodes\\Components\\Http\\Exceptions\\PostTooLargeHttpException' => SYS_PATH.'src/components/Http/Exceptions/PostTooLargeHttpException.php',
     'Syscodes\\Components\\Http\\Exceptions\\RequestErrorException' => SYS_PATH.'src/components/Http/Exceptions/RequestErrorException.php',
     'Syscodes\\Components\\Http\\Exceptions\\SessionNotFoundException' => SYS_PATH.'src/components/Http/Exceptions/SessionNotFoundException.php',
+    'Syscodes\\Components\\Http\\Request\\RequestClientIP' => SYS_PATH.'src/components/Http/Request/RequestClientIP.php',
     'Syscodes\\Components\\Http\\Request\\RequestUtils' => SYS_PATH.'src/components/Http/Request/RequestUtils.php',
     'Syscodes\\Components\\Http\\Resources\\HttpResources' => SYS_PATH.'src/components/Http/Resources/HttpResources.php',
     'Syscodes\\Components\\Http\\Response\\ResponseHeaders' => SYS_PATH.'src/components/Http/Response/ResponseHeaders.php',
