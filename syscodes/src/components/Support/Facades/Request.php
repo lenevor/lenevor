@@ -47,6 +47,7 @@ namespace Syscodes\Components\Support\Facades;
  * @method static void getHost()
  * @method static int getPort()
  * @method static string getHttpHost()
+ * @method static string ip()
  * @method static string getSchemeWithHttpHost()
  * @method static string root()
  * @method static string referer(string $default = '')
