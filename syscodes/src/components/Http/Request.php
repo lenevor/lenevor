@@ -35,6 +35,7 @@ use Syscodes\Components\Http\Utilities\Server;
 use Syscodes\Components\Http\Utilities\Headers;
 use Syscodes\Components\Http\Request\RequestUtils;
 use Syscodes\Components\Http\Utilities\Parameters;
+use Syscodes\Components\Http\Request\RequestClientIP;
 use Syscodes\Components\Http\Resources\HttpResources;
 use Syscodes\Components\Http\Session\SessionDecorator;
 use Syscodes\Components\Http\Session\SessionInterface;
@@ -1035,6 +1036,16 @@ class Request
 	public function userAgent(string $default = null): string
 	{
 		return $this->server->get('HTTP_USER_AGENT', $default);
+	}
+	
+	/**
+	 * Get the client IP address.
+	 * 
+	 * @return string|null
+	 */
+	public function ip()
+	{
+		return (new RequestClientIP)->getClientIp();
 	}
 
 	/**
