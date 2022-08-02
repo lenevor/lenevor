@@ -69,6 +69,13 @@ class Request
 	protected $baseUrl;
 
 	/**
+	 * Get the client ip.
+	 * 
+	 * @var mixed $clientIp
+	 */
+	protected $clientIp;
+
+	/**
 	 * Gets cookies ($_COOKIE).
 	 * 
 	 * @var string|object $cookies
@@ -248,6 +255,7 @@ class Request
 		$this->headers      = new Headers($this->server->all());
 
 		$this->uri          = new URI;
+		$this->clientIp     = new RequestClientIP($this->server->all());
 		$this->method       = null;
 		$this->baseUrl      = null;
 		$this->content      = $content;
@@ -387,6 +395,7 @@ class Request
 		}
 
 		$duplicate->uri          = new URI;
+		$duplicate->clientIp     = new RequestClientIP($duplicate->server->all());
 		$duplicate->locale       = null;
 		$duplicate->method       = null;
 		$duplicate->baseUrl      = null;
@@ -1045,7 +1054,7 @@ class Request
 	 */
 	public function ip()
 	{
-		return (new RequestClientIP)->getClientIp();
+		return $this->clientIp->getClientIp();
 	}
 
 	/**
