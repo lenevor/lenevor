@@ -67,7 +67,7 @@ final class Inputs extends Parameters
 	 * 
 	 * @return string|null
 	 */
-	public function get($key, $default = null)
+	public function get(string $key, $default = null)
 	{
 		if (null !== $default && ! is_scalar($default) && ! (is_object($default)) && ! method_exists($default, '__toString')) {
 			throw new BadRequestHttpException(sprintf('Passing a non-string value as 2nd argument to "%s()" is deprecated, pass a string or null instead', __METHOD__));
@@ -90,7 +90,7 @@ final class Inputs extends Parameters
 	 * 
 	 * @return mixed
 	 */
-	public function set($key, $value)
+	public function set(string $key, $value)
 	{
 		if (null !== $value && ! is_scalar($value) && ! is_array($value) && ! method_exists($value, '__toString')) {
 			throw new BadRequestHttpException(sprintf('Passing "%s" as a 2nd Argument to "%s()" is deprecated, pass a string, array, or null instead', get_debug_type($value), __METHOD__));
