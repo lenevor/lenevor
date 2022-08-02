@@ -67,7 +67,9 @@ class Parameters implements IteratorAggregate, Countable
 		$key = func_num_args() > 0 ? func_get_arg(0) : null;
 
 		if ( ! is_array($value = $this->parameters[$key] ?? [])) {
-			throw new BadRequestException(sprintf("Unexpected value for parameter %s, got %s", $key, get_debug_type($value)));
+			throw new BadRequestException(
+				sprintf("Unexpected value for parameter %s, got %s", $key, get_debug_type($value))
+			);
 		}
 
 		return (null === $key) ? $this->parameters : $value;
