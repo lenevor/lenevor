@@ -158,7 +158,29 @@ class DatabaseSessionHandler implements SessionHandlerInterface
             $this->read($sessionId);
         }
 
+
+
         return $this->exists = true;
+    }
+
+    /**
+     * Get the IP address from the request.
+     * 
+     * @return string
+     */
+    protected function ipAddress()
+    {
+        return $this->container->make('request')->ip();
+    }
+
+    /**
+     * Get the user agent from the request.
+     * 
+     * @return string
+     */
+    protected function userAgent()
+    {
+        return substr((string) $this->container->make('request')->header('User-Agent'), 0, 500);
     }
     
     /**
