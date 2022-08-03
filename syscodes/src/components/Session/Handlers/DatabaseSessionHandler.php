@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Session\Handlers;
 
 use SessionHandlerInterface;
+use Syscodes\Components\Support\Chronos;
 use Syscodes\Components\Support\InteractsWithTime;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Database\Connections\Connection;
@@ -116,7 +117,34 @@ class DatabaseSessionHandler implements SessionHandlerInterface
      */
     public function read($sessionId): string
     {
+        $session = (object) $this->getQuery()->find($sessionId);
+
+        if ($this->expired($session)) {
+            $this->exists = true;
+
+            return '';
+        }
+
+        if ($session->payload) {
+            $this->exists = true;
+
+            return base64_decode($session->payload);
+        }
+
         return '';
+    }
+
+    /**
+     * Determine if the session is expired.
+     * 
+     * @param  \stdClass  $session
+     * 
+     * @return bool
+     */
+    protected function expired($session): bool
+    {
+        return isset($session->last_activity) &&
+               $session->last_activity < Chronos::now()->subMinutes($this->minutes)->getTimestamp();
     }
     
     /**
@@ -126,7 +154,11 @@ class DatabaseSessionHandler implements SessionHandlerInterface
      */
     public function write($sessionId, $data): bool
     {
-        return true;
+        if ( ! $this->exists) {
+            $this->read($sessionId);
+        }
+
+        return $this->exists = true;
     }
     
     /**
@@ -159,5 +191,33 @@ class DatabaseSessionHandler implements SessionHandlerInterface
     protected function getQuery()
     {
         return $this->connection->table($this->table);
+    }
+
+    /**
+     * Set the application instance.
+     * 
+     * @param  \Syscodes\Components\Contracts\Core\Application  $container
+     * 
+     * @return self
+     */
+    public function setContainer($container): self
+    {
+        $this->container = $container;
+
+        return $this;
+    }
+
+    /**
+     * Set the existence state for the session.
+     * 
+     * @param  bool  $value
+     * 
+     * @return self
+     */
+    public function setExists(bool $value): self
+    {
+        $this->exists = $value;
+
+        return $this;
     }
 }
