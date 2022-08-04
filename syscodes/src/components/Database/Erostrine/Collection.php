@@ -22,9 +22,9 @@
 
 namespace Syscodes\Components\Database\Erostrine;
 
-use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Contracts\Support\Arrayable;
-use Syscodes\Components\Collections\Collection as BaseCollection;
+use Syscodes\Components\Support\Collection as BaseCollection;
 
 /**
  * Generate a collection for to exposes registers database.
@@ -312,5 +312,4 @@ class Collection extends BaseCollection
     {
         return new BaseCollection($this->items);
     }
-
 }
