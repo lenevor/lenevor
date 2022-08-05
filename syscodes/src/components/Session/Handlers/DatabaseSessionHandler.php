@@ -23,10 +23,12 @@
 namespace Syscodes\Components\Session\Handlers;
 
 use SessionHandlerInterface;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Chronos;
 use Syscodes\Components\Support\InteractsWithTime;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Database\Connections\Connection;
+use Syscodes\Components\Database\Exceptions\QueryException;
 
 /**
  * Session handler using database system for storage.
@@ -154,13 +156,79 @@ class DatabaseSessionHandler implements SessionHandlerInterface
      */
     public function write($sessionId, $data): bool
     {
+        $payload = $this->getPayload($data);
+
         if ( ! $this->exists) {
             $this->read($sessionId);
         }
 
-
+        if ($this->exists) {
+            $this->sessionUpdate($sessionId, $payload);
+        } else {
+            $this->sessionInsert($sessionId, $payload);
+        }
 
         return $this->exists = true;
+    }
+
+    /**
+     * Allows an insert operation on the session ID.
+     * 
+     * @param  string  $sessionId
+     * @param  array  $payload
+     * 
+     * @return bool|null
+     */
+    protected function sessionInsert($sessionId, $payload)
+    {
+        try {
+            return $this->getQuery()->insert(Arr::set($payload, 'id', $sessionId));
+        } catch (QueryException $e) {
+            $this->sessionUpdate($sessionId, $payload);
+        }
+    }
+
+    /**
+     * Allows an update operation on the session ID.
+     * 
+     * @param  string  $sessionId
+     * @param  array  $payload
+     * 
+     * @return bool|null
+     */
+    protected function sessionUpdate($sessionId, $payload)
+    {
+        return $this->getQuery()->where('id', $sessionId)->update($payload);
+    }
+
+    /**
+     * Get the default payload for the session.
+     * 
+     * @param  string  $data
+     * 
+     * @return array
+     */
+    protected function getPayload($data): array
+    {
+        $payload = [
+            'payload' => base64_encode($data),
+            'last-activity' => $this->currentTime()
+        ];
+        
+        if ( ! $this->container) {
+            return $payload;
+        }
+
+        return take($payload, function (&$payload) {
+            // Pending calling the user ID using the auth system
+
+            if ($this->container->bound('request')) {
+                $payload = array_merge($payload, [
+                    'ip_address' => $this->ipAddress(),
+                    'user_agent' => $this->userAgent(),
+                ]);
+            }
+        });
     }
 
     /**
@@ -168,7 +236,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface
      * 
      * @return string
      */
-    protected function ipAddress()
+    protected function ipAddress(): string
     {
         return $this->container->make('request')->ip();
     }
@@ -178,7 +246,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface
      * 
      * @return string
      */
-    protected function userAgent()
+    protected function userAgent(): string
     {
         return substr((string) $this->container->make('request')->header('User-Agent'), 0, 500);
     }
