@@ -161,10 +161,10 @@ class Response
 	 */
 	public function setContent($content): self
 	{
-		if (null !== $content && ! is_string($content) && ! is_numeric($content) && 
+		if (null !== $content && ! is_string($content) && ! is_numeric($content) &&
 			! is_bool($content) && ! is_object($content) && ! is_callable([$content, '__toString'])) {
 			throw new UnexpectedValueException(
-				sprintf('The Response content must be a string or object implementing __toString(), "%s" given.', gettype($content)
+				sprintf('The Response content must be a string or object implementing __toString(), "%s" given', gettype($content)
 			));
 		}
 
