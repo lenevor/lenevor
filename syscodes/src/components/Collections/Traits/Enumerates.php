@@ -22,7 +22,9 @@
 
 namespace Syscodes\Components\Support\Traits;
 
+use Traversable;
 use JsonSerializable;
+use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Contracts\Support\Arrayable;
 
 /**
@@ -156,5 +158,31 @@ trait Enumerates
             
             return $value;
         }, $this->all());
+    }
+
+    /**
+     * Results array of items from Collection.
+     * 
+     * @param  mixed  $items
+     * 
+     * @return array
+     */
+    private function getArrayItems($items)
+    {
+        if (is_array($items)) {
+            return $items;
+        } elseif ($items instanceof static) {
+            return $items->all();
+        } elseif ($items instanceof Arrayable) {
+            return $items->toArray();
+        } elseif ($items instanceof JsonSerializable) {
+            return (array) $items->jsonSerialize();
+        } elseif ($items instanceof Jsonable) {
+            return json_decode($items->toJson(), true);
+        } elseif ($items instanceof Traversable) {
+            return iterator_to_array($items);
+        }
+
+        return (array) $items;
     }
 }
