@@ -32,12 +32,12 @@ trait MakeQueries
     /**
      * Execute the query and get the first result.
      * 
-     * @param  array|string  $column
+     * @param  array|string  $columns
      * 
      * @return \Syscodes\Components\Database\Eloquent\Model|object|static|null
      */
-    public function first($column = ['*'])
+    public function first($columns = ['*'])
     {
-        return $this->limit(1)->get($column)->first();
+        return $this->limit(1)->get($columns)->first();
     }
 }
