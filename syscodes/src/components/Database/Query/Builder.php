@@ -25,9 +25,10 @@ namespace Syscodes\Components\Database\Query;
 use Closure;
 use DateTimeInterface;
 use InvalidArgumentException;
-use Syscodes\Components\Collections\Arr;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Support\Traits\ForwardsCalls;
+use Syscodes\Components\Database\Concerns\MakeQueries;
 use Syscodes\Components\Database\Query\Grammars\Grammar;
 use Syscodes\Components\Database\Query\Processors\Processor;
 use Syscodes\Components\Database\Erostrine\Relations\Relation;
@@ -43,7 +44,8 @@ use Syscodes\Components\Database\Erostrine\Builder as ErostrineBuilder;
  */
 class Builder
 {
-    use ForwardsCalls,
+    use MakeQueries,
+        ForwardsCalls,
         Macroable {
             __call as macroCall;
         }
@@ -1340,20 +1342,6 @@ class Builder
     }
 
     /**
-     * Execute the query and get the first result.
-     * 
-     * @param  array  $columns
-     * 
-     * @return mixed
-     */
-    public function first($columns = ['*'])
-    {
-        $results = $this->limit(1)->get($columns);
-
-        return count($results) > 0 ? headItem($results) : null;
-    }
-
-    /**
      * Execute a query for a single record by ID.
      * 
      * @param  int|string  $id
@@ -1371,7 +1359,7 @@ class Builder
      * 
      * @param  array  $columns
      * 
-     * @return \Syscodes\Components\Collections\Collection
+     * @return \Syscodes\Components\Support\Collection
      */
     public function get($columns = ['*'])
     {
