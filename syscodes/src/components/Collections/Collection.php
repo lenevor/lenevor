@@ -27,11 +27,10 @@ use Countable;
 use ArrayAccess;
 use Traversable;
 use ArrayIterator;
-use JsonSerializable;
 use IteratorAggregate;
+use Syscodes\Components\Support\Traits\Enumerates;
 use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Contracts\Support\Arrayable;
-use Syscodes\Components\Support\Traits\Enumerates;
 
 /**
  * Allows provide a way for working with arrays of data.
@@ -521,7 +520,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
         }
 
         if ($keys instanceof static) {
-            $keys = $keys->all() ;
+            $keys = $keys->all();
         }
 
         $keys = is_array($keys) ? $keys : func_get_args();
@@ -745,7 +744,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
     /**
      * Sort through each item.
      * 
-     * @param  Callable|int|null  $callback
+     * @param  \callable|int|null  $callback
      * 
      * @return static
      */
@@ -808,7 +807,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
     /**
      * Sort the collection keys using a callback.
      * 
-     * @param  callable  $callback
+     * @param  \callable  $callback
      * 
      * @return static
      */
@@ -911,32 +910,6 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
         return array_map(function ($value) {
             return $value instanceof Arrayable ? $value->toArray() : $value;
         }, $this->items);
-    }
-
-    /**
-     * Results array of items from Collection.
-     * 
-     * @param  \Syscodes\Collections\Collection|array  $items
-     * 
-     * @return array
-     */
-    private function getArrayItems($items)
-    {
-        if (is_array($items)) {
-            return $items;
-        } elseif ($items instanceof Collection) {
-            return $items->all();
-        } elseif($items instanceof Arrayable) {
-            return $items->toArray();
-        } elseif ($items instanceof JsonSerializable) {
-            return (array) $items->jsonSerialize();
-        } elseif ($items instanceof Jsonable) {
-            return json_decode($items->toJson(), true);
-        } elseif ($items instanceof Traversable) {
-            return iterator_to_array($items);
-        }
-
-        return (array) $items;
     }
 
     /*
