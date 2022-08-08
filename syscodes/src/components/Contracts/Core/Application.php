@@ -87,9 +87,11 @@ interface Application extends Container
     /**
      * Get the path to the lang directory.
      * 
+     * @param  string  $path  Optionally, a path to append to the lang path
+     * 
      * @return string
      */
-    public function langPath(): string;
+    public function langPath($path = ''): string;
 
     /**
      * Get the path to the public / web directory.
@@ -109,9 +111,11 @@ interface Application extends Container
     /**
      * Get the path to the storage directory.
      * 
+     * @param  string  $path  Optionally, a path to append to the storage path
+     * 
      * @return string
      */
-    public function storagePath(): string;
+    public function storagePath($path = ''): string;
 
     /**
      * Get the path to the views directory.
