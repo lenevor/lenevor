@@ -6,7 +6,7 @@
 	--color-black: hsla(0, 0%, 7%, 0.8);
 	--color-black-1: hsla(206, 63%, 15%, 0.719);
 	--color-white: hsla(0, 0%, 100%, 1);
-	--color-white-1: hsla(0, 0%, 100%, 1);
+	--color-white-1: hsla(0, 0%, 94%, 1);
 	--color-white-2: hsla(223, 15%, 91%, 1);
 	--color-white-3: hsla(200, 23%, 95%, 1);
 	--color-blue-1: hsla(219, 15%, 39%, 1);
@@ -220,17 +220,43 @@ tbody tr:nth-child(1n) td:nth-child(5) {
 header {
 	background: transparent;
 	display: flex;
-	min-height: 30px;
 	justify-content: center;
+	min-height: 30px;
 	margin-left: 0;
 	margin-right: 0;
 	padding: 0 20px;
+	width: 100%;
 }
 
-header .brand {
+header .container {
 	display: flex;
+	justify-content: space-between;
+}
+
+header .container .brand,
+header .container .menu {
 	padding: 20px 0 20px;
+}
+
+header .container .brand {
+	display: flex;
 	width: 250px;
+}
+
+header .container .menu {
+	color: var(--color-white-1);
+}
+
+header .container .menu a {
+	background: hsla(212, 52%, 26%, 1);
+	border-radius: 5px;
+	box-shadow: inset -1px 1px 0 1px hsla(224, 12%, 44%, 0.1),
+				inset 1px -1px 0 1px hsla(219, 13%, 35%, 0.1);
+	font-size: 0.9rem;
+	font-weight: 500;
+	letter-spacing: 0.9px; 
+	padding: 10px;
+	text-decoration: none;
 }
 
 header h1 {
@@ -366,7 +392,7 @@ header h1 {
 	background: linear-gradient(
 		150deg,
 		var(--color-white)10%,
-		var(--color-white-1) 70%
+		var(--color-white) 70%
 	);
 	backdrop-filter: blur(10px) brightness(130%);
 	-webkit-backdrop-filter: blur(10px) brightness(130%);
