@@ -258,13 +258,20 @@ class Application extends Container implements ApplicationContract
     {
         $this->instance('path', $this->path());
         $this->instance('path.base', $this->basePath());
-        $this->instance('path.lang', $this->langPath());
         $this->instance('path.config', $this->configPath());
         $this->instance('path.public', $this->publicPath());
         $this->instance('path.storage', $this->storagePath());
         $this->instance('path.database', $this->databasePath());
         $this->instance('path.resources', $this->resourcePath());
         $this->instance('path.bootstrap', $this->bootstrapPath());
+        
+        $this->setLangPath(value(function () {
+            if (is_dir($directory = $this->resourcePath('lang'))) {
+                return $directory;
+            }
+            
+            return $this->basePath('lang');
+        }));
     }
 
     /**
@@ -276,9 +283,9 @@ class Application extends Container implements ApplicationContract
      */
     public function path($path = ''): string
     {
-        $appPath = $this->basePath.DIRECTORY_SEPARATOR.'app';
+        $appPath = $this->appPath ?: $this->basePath.DIRECTORY_SEPARATOR.'app';
         
-        return $appPath.($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return $appPath.($path != '' ? DIRECTORY_SEPARATOR.$path : '');
     }
 
     /**
@@ -302,7 +309,7 @@ class Application extends Container implements ApplicationContract
      */
     public function basePath($path = ''): string
     {
-        return $this->basePath.($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return $this->basePath.($path != '' ? DIRECTORY_SEPARATOR.$path : '');
     }
     
     /**
@@ -310,7 +317,7 @@ class Application extends Container implements ApplicationContract
      */
     public function bootstrapPath($path = ''): string
     {
-        return $this->basePath.DIRECTORY_SEPARATOR.'bootstrap'.($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return $this->basePath.DIRECTORY_SEPARATOR.'bootstrap'.($path != '' ? DIRECTORY_SEPARATOR.$path : '');
     }
 
     /**
@@ -318,7 +325,7 @@ class Application extends Container implements ApplicationContract
      */
     public function configPath($path = ''): string
     {
-        return $this->basePath.DIRECTORY_SEPARATOR.'config'.($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return $this->basePath.DIRECTORY_SEPARATOR.'config'.($path != '' ? DIRECTORY_SEPARATOR.$path : '');
     }
 
     /**
@@ -326,7 +333,7 @@ class Application extends Container implements ApplicationContract
      */
     public function databasePath($path = ''): string
     {
-        return $this->basePath.DIRECTORY_SEPARATOR.'database'.($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return ($this->databasePath ?: $this->basePath.DIRECTORY_SEPARATOR.'database').($path != '' ? DIRECTORY_SEPARATOR.$path : '');
     }
 
     /**
@@ -348,17 +355,9 @@ class Application extends Container implements ApplicationContract
     /**
      * {@inheritdoc}
      */
-    public function langPath(): string
+    public function langPath($path = ''): string
     {
-        if ($this->langPath) {
-            return $this->langPath;
-        }
-
-        if (is_dir($path = $this->resourcePath().DIRECTORY_SEPARATOR.'lang')) {
-            return $path;
-        }
-
-        return $this->basePath().DIRECTORY_SEPARATOR.'lang';
+        return $this->langPath.($path != '' ? DIRECTORY_SEPARATOR.$path : '');
     }
 
     /**
@@ -390,15 +389,16 @@ class Application extends Container implements ApplicationContract
      */
     public function resourcePath($path = ''): string
     {
-        return $this->basePath.DIRECTORY_SEPARATOR.'resources'.($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return $this->basePath.DIRECTORY_SEPARATOR.'resources'.($path != '' ? DIRECTORY_SEPARATOR.$path : '');
     }
 
     /**
      * {@inheritdoc}
      */
-    public function storagePath(): string
+    public function storagePath($path = ''): string
     {
-        return $this->storagePath ?: $this->basePath.DIRECTORY_SEPARATOR.'storage';
+        return ($this->storagePath ?: $this->basePath.DIRECTORY_SEPARATOR.'storage').
+                                   ($path != '' ? DIRECTORY_SEPARATOR.$path : '');
     }
 
     /**
@@ -424,7 +424,7 @@ class Application extends Container implements ApplicationContract
     {
         $viewPath = $this['config']->get('view.paths')[0];
 
-        return rtrim($viewPath, DIRECTORY_SEPARATOR).($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return rtrim($viewPath, DIRECTORY_SEPARATOR).($path != '' ? DIRECTORY_SEPARATOR.$path : '');
     }
 
     /**
