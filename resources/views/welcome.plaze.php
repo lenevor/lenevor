@@ -34,6 +34,14 @@
 				</svg>
 				<h1>{{ config('app.name') }}</h1>
 			</div>
+			<div class="menu">
+			<@if (Route::has('login'))
+				<a href="{{ route('login') }}">Log in</a>
+				<@if (Route::has('register'))
+					<a href="{{ route('register') }}">Register</a>
+				<@endif
+			<@endif
+			</div>
 		</div>
 	</header>
 	<div class="content">
