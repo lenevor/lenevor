@@ -36,7 +36,7 @@ interface Factory
      * 
      * @return \Syscodes\Components\Contracts\Auth\Guard|\Syscodes\Components\Contracts\Auth\StatefulGuard
      */
-    public function guard($name = null);
+    public function guard(string $name = null);
     
     /**
      * Set the default guard the factory should serve.
@@ -45,5 +45,5 @@ interface Factory
      * 
      * @return void
      */
-    public function shouldUse($name): void;
+    public function shouldUse(string $name): void;
 }
