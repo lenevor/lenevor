@@ -33,7 +33,7 @@
 	--color-blue-theme-3: hsla(221, 48%, 38%, 0.2);
 	--color-blue-theme-4: hsl(209, 100%, 70%);
 	--color-blue-theme-5: hsla(208, 31%, 66%, 1);
-	--color-yellow-theme: hsla(54, 96%, 82%, 1);
+	--color-yellow-theme: rgb(255, 251, 0);
 	--color-green-theme: hsla(155, 85%, 57%, 0.87);
 	--color-violet-theme: hsla(173, 100%, 73%, 1);
 	--color-purple-theme-1: hsla(278, 40%, 16%, 1);
@@ -253,10 +253,17 @@ header .container .menu a {
 	box-shadow: inset -1px 1px 0 1px hsla(224, 12%, 44%, 0.1),
 				inset 1px -1px 0 1px hsla(219, 13%, 35%, 0.1);
 	font-size: 0.9rem;
-	font-weight: 500;
+	font-weight: 600;
 	letter-spacing: 0.9px; 
 	padding: 10px;
 	text-decoration: none;
+}
+
+header .container .menu a:hover {
+	background: var(--color-gray-theme-1);
+	color: var(--color-black-1);
+	clip-path: polygon(50% 50% at 50% 50%);
+	transition: 1s ease-out;
 }
 
 header h1 {
@@ -499,12 +506,12 @@ header h1 {
 }
 
 .container .footer .btnTheme {
-	background: var(--color-white);
+	background: var(--color-blue-2);
 	color: var(--color-black-1);
 	border-radius: 160px;
-	box-shadow: 0 0 0 1px rgba(194, 194, 194, 0.6),
-				inset 0 1px 2px rgba(230, 230, 230, 0.6),
-				inset 0 -1px 2px rgba(228, 228, 228, 0.6);
+	box-shadow: 0 0 0 1px rgba(194, 194, 194, 0.3),
+				inset 0 1px 2px rgba(230, 230, 230, 0.2),
+				inset 0 -1px 2px rgba(228, 228, 228, 0.2);
 	cursor: pointer;			
 	height: 20px;
 	margin: 0 auto;
@@ -514,18 +521,18 @@ header h1 {
 }
 
 .dark-theme .container .footer .btnTheme.active {
-	background: var(--color-blue-theme-3);
-	box-shadow: 0 0 0 1px rgba(43, 11, 85, 0.8),
-				inset 0 1px 2px rgba(51, 41, 141, 0.8),
-				inset 0 -1px 2px rgba(49, 39, 104, 0.8);
+	background: var(--color-blue-3);
+	box-shadow: 0 0 0 1px rgba(43, 11, 85, 0.3),
+				inset 0 1px 2px rgba(51, 41, 141, 0.2),
+				inset 0 -1px 2px rgba(49, 39, 104, 0.2);
 }
 
 .container .footer .btnTheme .indicator {
-	background: linear-gradient(to bottom, var(--color-purple-theme-1), var(--color-purple-theme-1));
+	background: var(--color-white);
 	border-radius: 50%;
-	box-shadow: 0 0 0 2px rgba(194, 194, 194, 0.6),
-				inset 0 1px 2px rgba(230, 230, 230, 0.2),
-				inset 0 -1px 2px rgba(228, 228, 228, 0.2);
+	box-shadow: 0 0 0 2px rgba(194, 194, 194, 0.2),
+				inset 0 1px 2px rgba(230, 230, 230, 0.1),
+				inset 0 -1px 2px rgba(228, 228, 228, 0.1);
 	height: 20px;
 	left: 0;
 	position: absolute;
@@ -536,14 +543,14 @@ header h1 {
 }
 
 .dark-theme .container .footer .btnTheme.active .indicator {
-	background: var(--color-blue-theme-3);
-	box-shadow: 0 0 1px 1px rgba(35, 22, 77, 0.6),
-				0 1px 1px 1px rgba(47, 22, 94, 0.6),
-				0 -1px 1px 1px rgba(55, 39, 105, 0.6);
+	background: var(--color-white);
+	box-shadow: 0 0 1px 1px rgba(35, 22, 77, 0.2),
+				0 1px 1px 1px rgba(47, 22, 94, 0.2),
+				0 -1px 1px 1px rgba(55, 39, 105, 0.2);
 }
 
-.container .footer .btnTheme.active .indicator {
-	left: 20px;
+.dark-theme .container .footer .btnTheme.active .indicator {
+	left: 1.48rem;
 }
 
 .container .footer .btnTheme .fas {
