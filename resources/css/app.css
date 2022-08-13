@@ -248,10 +248,11 @@ header .container .menu {
 }
 
 header .container .menu a {
-	background: hsla(212, 52%, 26%, 1);
+	background: var(--color-white-1);
 	border-radius: 5px;
-	box-shadow: inset -1px 1px 0 1px hsla(224, 12%, 44%, 0.1),
-				inset 1px -1px 0 1px hsla(219, 13%, 35%, 0.1);
+	box-shadow: inset -1px 1px 0 1px hsla(224, 11%, 81%, 0.04),
+				inset 1px -1px 0 1px hsla(220, 7%, 75%, 0.04);
+	color: var(--color-blue-1);
 	font-size: 0.9rem;
 	font-weight: 600;
 	letter-spacing: 0.9px; 
@@ -259,11 +260,23 @@ header .container .menu a {
 	text-decoration: none;
 }
 
+.dark-theme header .container .menu a {
+	background: hsla(212, 52%, 26%, 1);
+	box-shadow: inset -1px 1px 0 1px hsla(223, 14%, 36%, 0.09),
+				inset 1px -1px 0 1px hsla(218, 13%, 28%, 0.09);
+	color: var(--color-white-1);
+}
+
 header .container .menu a:hover {
-	background: var(--color-gray-theme-1);
-	color: var(--color-black-1);
+	background: var(--color-white);
+	color: var(--color-purple);
 	clip-path: polygon(50% 50% at 50% 50%);
 	transition: 1s ease-out;
+}
+
+.dark-theme header .container .menu a:hover {
+	background: var(--color-gray-theme-1);
+	color: var(--color-black-1);
 }
 
 header h1 {
