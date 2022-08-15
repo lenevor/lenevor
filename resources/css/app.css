@@ -519,7 +519,7 @@ header h1 {
 }
 
 .container .footer .btnTheme {
-	background: var(--color-blue-2);
+	background: var(--color-blue-3);
 	color: var(--color-black-1);
 	border-radius: 160px;
 	box-shadow: 0 0 0 1px rgba(194, 194, 194, 0.3),
@@ -563,7 +563,7 @@ header h1 {
 }
 
 .dark-theme .container .footer .btnTheme.active .indicator {
-	left: 1.48rem;
+	left: 1.5rem;
 }
 
 .container .footer .btnTheme .fas {
@@ -571,11 +571,16 @@ header h1 {
 	font-size: 0.72em;
 	left: 5px;
 	position: relative;
-	top: -3px;
+	top: -4px;
 }
 
 .container .footer .btnTheme .fa-sun {
 	opacity: 0;
+}
+
+.container .footer .btnTheme .fa-moon {
+	color: var(--color-black);
+	opacity: 1;
 }
 
 .dark-theme .container .footer .btnTheme.active .fa-sun {
