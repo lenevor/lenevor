@@ -488,7 +488,7 @@ class Request
 			$this->uri->setHost(parse_url($baseUrl, PHP_URL_HOST));
 			$this->uri->setPort(parse_url($baseUrl, PHP_URL_PORT));
 		} else {
-			if ( ! $this->http->isCli()) {
+			if ( ! isCli()) {
 				exit('You have an empty or invalid base URL. The baseURL value must be set in config/app.php, or through the .env file.');
 			}
 		}
@@ -924,7 +924,7 @@ class Request
 	/**
 	 * Returns the host name.
 	 * 
-	 * @return void
+	 * @return string
 	 */
 	public function getHost()
 	{
@@ -936,11 +936,9 @@ class Request
 			}
 		}
 
-		$host = $_SERVER['SERVER_NAME'];
-
 		$host = strtolower(preg_replace('/:\d+$/', '', trim(($host))));
 		
-		return $host;
+		return $this->uri->setHost($host);
 	}
 
 	/**
@@ -955,6 +953,44 @@ class Request
 		}
 		
 		return 'https' === $this->getScheme() ? $this->uri->setPort(443) : $this->uri->setPort(80);
+	}
+
+	/**
+	 * Get the user.
+	 * 
+	 * @return string|null
+	 */
+	public function getUser(): ?string
+	{
+		$user = $this->uri->setUser(
+			$this->headers->get('PHP_AUTH_USER')
+		);
+
+		return $user;
+	}
+
+	/**
+	 * Get the password.
+	 * 
+	 * @return string|null
+	 */
+	public function getPassword(): ?string
+	{
+		$password = $this->uri->setPassword(
+			$this->headers->get('PHP_AUTH_PW')
+		);
+
+		return $password;
+	}
+
+	/**
+	 * Gets the user info.
+	 * 
+	 * @return string|null
+	 */
+	public function getUserInfo(): ?string
+	{
+		return $this->uri->getUserInfo();
 	}
 
 	/**
