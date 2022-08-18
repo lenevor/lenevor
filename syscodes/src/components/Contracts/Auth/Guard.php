@@ -30,7 +30,7 @@ namespace Syscodes\Components\Contracts\Auth;
 interface Guard
 {
     /**
-     * Determine if the current user is autheticated.
+     * Determine if the current user is authenticated.
      * 
      * @return bool
      */
@@ -78,7 +78,7 @@ interface Guard
      * 
      * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user
      * 
-     * @return void
+     * @return self
      */
-    public function setUser(Authenticatable $user): void;
+    public function setUser(Authenticatable $user): self;
 }
