@@ -10,15 +10,16 @@
 	--color-white-2: hsla(223, 15%, 91%, 1);
 	--color-white-3: hsla(200, 23%, 95%, 1);
 	--color-blue-1: hsla(219, 15%, 39%, 1);
-	--color-blue-2: hsla(205, 87%, 65%, 1);
-	--color-blue-3: hsla(207, 18%, 47%, 1);
-	--color-blue-4: hsla(215, 41%, 35%, 1);
-	--color-green-1: hsla(187, 50%, 44%, 1);
-	--color-green-2: hsla(165, 8%, 53%, 1);
-	--color-gray-1: hsla(202, 31%, 38%, 0.733);
-	--color-gray-2: hsla(240, 0%, 60%, 1);
-	--color-gray-3: hsla(206, 13%, 89%, 1);
-	--color-gray-4: hsla(0, 0%, 77%, 0.918);
+	--color-blue-2: hsla(219, 27%, 38%, 1);
+	--color-blue-3: hsla(205, 75%, 51%, 1);
+	--color-blue-4: hsla(207, 86%, 67%, 1);
+	--color-blue-5: hsla(215, 28%, 68%, 1);
+	--color-green-1: hsla(151, 50%, 44%, 1);
+	--color-green-2: hsla(142, 35%, 49%, 1);
+	--color-gray-1: hsla(201, 14%, 29%, 1);
+	--color-gray-2: hsla(204, 3%, 32%, 1);
+	--color-gray-3: hsla(0, 0%, 60%, 1);
+	--color-gray-4: hsla(0, 0%, 77%, 1);
 	--color-purple: hsla(272, 32%, 25%, 1);
 }
 
@@ -31,9 +32,9 @@
 	--color-blue-theme-1: hsla(212, 52%, 26%, 1);
 	--color-blue-theme-2: hsla(219, 49%, 38%, 0.18);
 	--color-blue-theme-3: hsla(221, 48%, 38%, 0.2);
-	--color-blue-theme-4: hsl(209, 100%, 70%);
+	--color-blue-theme-4: hsla(209, 100%, 70%, 1);
 	--color-blue-theme-5: hsla(208, 31%, 66%, 1);
-	--color-yellow-theme: rgb(255, 251, 0);
+	--color-yellow-theme: hsla(55, 100%, 50%, 1);
 	--color-green-theme: hsla(155, 85%, 57%, 0.87);
 	--color-violet-theme: hsla(173, 100%, 73%, 1);
 	--color-purple-theme-1: hsla(278, 40%, 16%, 1);
@@ -82,7 +83,7 @@ body.dark-theme {
 a:active, 
 a:link, 
 a:visited { 
-	color: var(--color-blue-2); 
+	color: var(--color-blue-4); 
 	font-weight: 600; 
 }
 
@@ -245,6 +246,8 @@ header .container .brand {
 
 header .container .menu {
 	color: var(--color-white-1);
+	position: relative;
+	top: 10px;
 }
 
 header .container .menu a {
@@ -307,12 +310,12 @@ header h1 {
 }
 
 .status h2 {
-	color: var(--color-gray-3);
+	color: var(--color-blue-4);
 	font-size: 1.6em;
 	font-weight: 600;
 	letter-spacing: 0.8px;
 	margin: 0 auto;
-	margin-top: 60px;
+	margin-top: 70px;
 	padding-bottom: 10px;
 }
 
@@ -323,7 +326,7 @@ header h1 {
 }
 
 .status code { 
-	background: var(--color-black-1);
+	background: var(--color-gray-1);
 	border-radius: 30px;
 	box-shadow: inset -1px -1px 5px hsla(224, 12%, 44%, 0.1),
 				inset -1px -1px 6px hsla(219, 13%, 35%, 0.5);
@@ -343,7 +346,7 @@ header h1 {
 
 .status code .check { 
 	align-items: center;
-	background: var(--color-blue-3);
+	background: var(--color-blue-1);
 	border-radius: 15px;
 	box-shadow: inset -1px -1px 5px hsla(207, 13%, 34%, 0.1),
 				inset 1px -1px 2px hsla(209, 22%, 35%, 0.1);
@@ -383,7 +386,7 @@ header h1 {
 }
 
 .status .status-message { 
-	color: var(--color-blue-3);
+	color: var(--color-gray-3);
 	font-size: .8rem;
 	font-weight: 700;
 	letter-spacing: .8px;
@@ -401,7 +404,7 @@ header h1 {
     grid-auto-rows: auto;
     grid-gap: 2rem;
 	justify-content: center;
-	margin: 80px 5px 0 5px;
+	margin: 90px 5px 0 5px;
 	padding-top: 1px;
 	position: relative;
 }
@@ -411,12 +414,12 @@ header h1 {
 .resources .contribute {
 	background: linear-gradient(
 		150deg,
-		var(--color-white)10%,
-		var(--color-white) 70%
+		var(--color-white),
+		var(--color-white) 10%
 	);
-	backdrop-filter: blur(10px) brightness(130%);
-	-webkit-backdrop-filter: blur(10px) brightness(130%);
-	box-shadow: 0 0 1px 1px var(--color-white-2);
+	backdrop-filter: blur(10px) brightness(120%);
+	-webkit-backdrop-filter: blur(10px) brightness(120%);
+	box-shadow: 0 0 0 1px var(--color-white-1);
 	border-radius: 10px;
 	position: relative;
 }
@@ -429,20 +432,17 @@ header h1 {
 		var(--color-blue-theme-2),
 		var(--color-blue-theme-3)
 	);
-	backdrop-filter: blur(10px) brightness(130%);
-	-webkit-backdrop-filter: blur(10px) brightness(130%);
-	box-shadow: 0 0 1px var(--color-blue-theme-3);
-	border-radius: 10px;
+	box-shadow: 0 0 0 1px var(--color-blue-theme-3);
 }
 
 .resources .learn h3,
 .resources .discuss h3,
 .resources .contribute h3 {
-	background: var(--color-white-3);
+	background: var(--color-white-4);
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
-	border-bottom: 1px solid var(--color-white-2);
-	color: var(--color-blue-3);
+	border-bottom: 1px solid var(--color-white-3);
+	color: var(--color-blue-2);
 	font-size: 1em;
 	letter-spacing: .5px;
 	padding: 10px;
@@ -457,7 +457,6 @@ header h1 {
 	background: var(--color-blue-theme-2);
 	border-bottom: 1px solid var(--color-blue-theme-3);
 	color: var(--color-white-theme);
-	font-size: 1em;
 }
 
 .resources .learn h3 .icon-books:before,
@@ -496,15 +495,14 @@ header h1 {
 	color: var(--color-gray-1);
 	font-size: 0.9em;
 	font-weight: 500;
-	margin: 15px;
 	letter-spacing: .4px;
+    margin: 15px;
 }
 
 .dark-theme .resources .learn p,
 .dark-theme .resources .discuss p,
 .dark-theme .resources .contribute p {
 	color: var(--color-gray-theme-1);
-	margin: 15px;
 }
 
 .container .footer {
@@ -519,8 +517,8 @@ header h1 {
 }
 
 .container .footer .btnTheme {
-	background: var(--color-blue-3);
-	color: var(--color-black-1);
+	background: var(--color-blue-4);
+	color: var(--color-black);
 	border-radius: 160px;
 	box-shadow: 0 0 0 1px rgba(194, 194, 194, 0.3),
 				inset 0 1px 2px rgba(230, 230, 230, 0.2),
@@ -534,7 +532,7 @@ header h1 {
 }
 
 .dark-theme .container .footer .btnTheme.active {
-	background: var(--color-blue-3);
+	background: var(--color-blue-4);
 	box-shadow: 0 0 0 1px rgba(43, 11, 85, 0.3),
 				inset 0 1px 2px rgba(51, 41, 141, 0.2),
 				inset 0 -1px 2px rgba(49, 39, 104, 0.2);
@@ -549,7 +547,7 @@ header h1 {
 	height: 20px;
 	left: 0;
 	position: absolute;
-	transform: scale(0.8);
+	transform: scale(0.75);
 	top: 0;
 	transition: 0.5s;
 	width: 20px;
@@ -563,7 +561,7 @@ header h1 {
 }
 
 .dark-theme .container .footer .btnTheme.active .indicator {
-	left: 1.5rem;
+	left: 1.25rem;
 }
 
 .container .footer .btnTheme .fas {
@@ -593,7 +591,7 @@ header h1 {
 }
 
 .container .footer p {
-	color: var(--color-gray-1);
+	color: var(--color-gray-3);
 	font-size: 0.8em;
 	font-weight: 500;
 }
@@ -608,8 +606,8 @@ header h1 {
 .text-gradient {
 	background: linear-gradient( 
 		150deg,
-		var(--color-green-1),
-		var(--color-blue-4) 60%
+		var(--color-gray-3),
+		var(--color-blue-2) 60%
 	);
 	background-clip: text;
 	-webkit-background-clip: text;
@@ -640,6 +638,10 @@ header h1 {
 	.status {
 		justify-content: flex-start;
 		text-align: justify;
+	}
+
+	header .container .menu a {
+		font-size: 1.1em;
 	}
 
 	.status h2 {
@@ -717,6 +719,7 @@ header h1 {
 		justify-content: space-between;
 		grid-auto-flow: column;
 		margin-top: 5px;
+		margin-bottom: 25px;
 	}
 
 	.container .footer .btnTheme {
@@ -729,8 +732,8 @@ header h1 {
 		width: 25px;
 	}
 
-	.container .footer .btnTheme.active .indicator {
-		left: 26px;
+	.dark-theme .container .footer .btnTheme.active .indicator {
+		left: 1.59rem;
 	}
 
 	.container .footer .btnTheme .fas {
@@ -836,6 +839,10 @@ header h1 {
 		width: 1180px;
 	}
 
+	header .container .menu a {
+		font-size: 1.1em;
+	}
+
 	.status h2 {
 		font-size: 3.2em;
 		margin-top: 60px;
@@ -875,28 +882,119 @@ header h1 {
 }
 
 /* USE: NOTEBOOK 15.6"  */
-@media (min-width: 2820px)
+@media (min-width: 1920px)
 {
 	.container {
-		width: 2800px;
+		width: 1520px;
 	}
 
 	header .brand svg {
-		height: 70px;
-		width: 70px;	
+		height: 55px;
+		width: 55px;	
 	}
 
 	header h1 {
-		font-size: 3em;
+		font-size: 2.2em;
+	}
+
+	header .container .menu a {
+		font-size: 1.5em;
 	}
 
 	.status h2 {
-		font-size: 5rem;
-		margin-top: 360px;
+		font-size: 4rem;
+		margin-top: 190px;
 	}
 
 	.status h2 span {
-		font-size: 2.2em;
-		line-height: 120px;
+		font-size: 1.9em;
+		line-height: 100px;
+	}
+
+	.status code {
+		margin-top: 25px;
+		padding-top: 5px;
+	}
+
+	.status code .check {
+		height: 25px;
+		width: 40px;
+	}
+
+	.status code .check svg {
+		height: 25px;
+		width: 40px; 
+	}
+
+	.status code span {
+		font-size: 2em;
+		line-height: .7;
+	}
+
+	.status .status-message {
+		font-size: 1.28em;
+	}
+
+	.resources {
+		margin: 170px 5px 0 5px;
+		padding-top: 1px;
+	}
+	
+	.resources .learn h3,
+	.resources .discuss h3,
+	.resources .contribute h3, 
+	.dark-theme .resources .learn h3,
+	.dark-theme .resources .discuss h3,
+	.dark-theme .resources .contribute h3 {
+		font-size: 1.6em;
+		padding: 13px;
+		padding-left: 70px;
+	}
+
+	.resources .learn h3 .icon-books:before,
+	.resources .discuss h3 .icon-embed:before,
+	.resources .contribute h3 .icon-users:before {
+		font-size: 1.3em;
+	}
+	
+	.resources .learn p,
+	.resources .discuss p,
+	.resources .contribute p,
+	.dark-theme .resources .learn p,
+	.dark-theme .resources .discuss p,
+	.dark-theme .resources .contribute p {
+		font-size: 1.4em;
+		margin: 25px;
+		letter-spacing: .4px;
+	}
+	
+	.container .footer {
+		font-size: 1.3em;
+		margin-top: 10px;
+	}
+	
+	.container .footer .btnTheme {		
+		height: 31px;
+		width: 57px;
+	}
+	
+	.container .footer .btnTheme .indicator {
+		height: 30px;
+		transform: scale(0.8);
+		width: 30px;
+	}
+	
+	.dark-theme .container .footer .btnTheme.active .indicator {
+		left: 1.65rem;
+	}
+
+	.container .footer .btnTheme .fas {
+		font-size: 0.9em;
+		left: 7.5px;
+		top: 0;
+	}
+	
+	.container .footer p {
+		font-size: 0.8em;
 	}
 }
