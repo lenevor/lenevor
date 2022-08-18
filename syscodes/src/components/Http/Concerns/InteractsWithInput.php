@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Http\Concerns;
 
 use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Str;
 
 /**
  * Trait InteractsWithInput.
@@ -67,6 +68,24 @@ trait InteractsWithInput
     public function header($key = null, $default = null)
     {
         return $this->retrieveItem('headers', $key, $default);
+    }
+
+    /**
+     * Get the bearer token from the request headers.
+     * 
+     * @return string|null
+     */
+    public function bearerToken()
+    {
+        $header = $this->header('Authorization', '');
+
+        $position = strrpos($header, 'Bearer ');
+
+        if ($position !== false) {
+            $header = substr($header, $position + 7);
+
+            return Str::contains($header, ',') ? strstr($header, ',', true) : $header;
+        }
     }
 
     /**
