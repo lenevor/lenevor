@@ -303,28 +303,41 @@ class URI
 	public function getUserInfo()
 	{
 		$user = $this->user;
+		$pass = $this->password;
 
-		if ($this->showPassword === true && ! empty($this->password)) {
-			$user .= ":$this->password";
+		if ($this->showPassword === true && ! empty($pass)) {
+			$user .= ":$pass";
 		}
 
 		return $user;
 	}
 
 	/**
-	 * Sets the userInfo/Authority portion of the URI.
+	 * Sets the user portion of the URI.
 	 * 
 	 * @param  string  $user
-	 * @param  string  $pass
 	 * 
-	 * @return self
+	 * @return string|null
 	 */
-	public function setUserInfo(string $user, string $pass): self
+	public function setUser($user): string
 	{
-		$this->user     = trim($user);
-		$this->password = trim($pass);
+		$this->user = trim($user);
 
-		return $this;
+		return $this->user;
+	}
+
+	/**
+	 * Sets the password portion of the URI.
+	 * 
+	 * @param  string  $password
+	 * 
+	 * @return string|null
+	 */
+	public function setPassword($password): string
+	{
+		$this->password = trim($password);
+
+		return $this->password;
 	}
 
 	/**
@@ -332,13 +345,13 @@ class URI
 	 * 
 	 * @param  boolean  $option  
 	 * 
-	 * @return string
+	 * @return self
 	 */
-	public function showPassword(bool $option = true): string
+	public function showPassword(bool $option = true): self
 	{
-		$this->password = $option;
+		$this->showPassword = $option;
 
-		return $this->password;
+		return $this;
 	}
 
 	/**
