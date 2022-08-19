@@ -35,68 +35,62 @@ trait GuardAuthenticationUser
 {
     /**
      * The currently authenticated user.
-     *
+     * 
      * @var Authenticatable $user
      */
     protected $user;
-
+    
     /**
      * The user provider implementation.
-     *
+     * 
      * @var \Syscodes\Components\Contracts\Auth\UserProvider $provider
      */
     protected $provider;
-
+    
     /**
      * Determine if the current user is authenticated. If not, throw an exception.
-     *
+     * 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable
-     *
+     * 
      * @throws \Syscodes\Components\Auth\AuthenticationException
      */
     public function authenticate()
     {
-        if (! is_null($user = $this->user())) {
+        if ( ! is_null($user = $this->user())) {
             return $user;
         }
-
+        
         throw new AuthenticationException;
     }
-
+    
     /**
      * Determine if the guard has a user instance.
-     *
+     * 
      * @return bool
      */
-    public function hasUser()
+    public function hasUser(): bool
     {
         return ! is_null($this->user);
     }
-
+    
     /**
-     * Determine if the current user is authenticated.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
-    public function check()
+    public function check(): bool
     {
         return ! is_null($this->user());
     }
-
+    
     /**
-     * Determine if the current user is a guest.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
-    public function guest()
+    public function guest(): bool
     {
         return ! $this->check();
     }
-
+    
     /**
-     * Get the ID for the currently authenticated user.
-     *
-     * @return int|string|null
+     * {@inheritdoc}
      */
     public function id()
     {
@@ -104,37 +98,35 @@ trait GuardAuthenticationUser
             return $this->user()->getAuthIdentifier();
         }
     }
-
+    
     /**
-     * Set the current user.
-     *
-     * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user
-     * @return $this
+     * {@inheritdoc}
      */
-    public function setUser(AuthenticatableInterface $user)
+    public function setUser(AuthenticatableInterface $user): self
     {
         $this->user = $user;
-
+        
         return $this;
     }
-
+    
     /**
      * Get the user provider used by the guard.
-     *
+     * 
      * @return \Syscodes\Components\Contracts\Auth\UserProvider
      */
     public function getProvider()
     {
         return $this->provider;
     }
-
+    
     /**
      * Set the user provider used by the guard.
-     *
+     * 
      * @param  \Syscodes\Components\Contracts\Auth\UserProvider  $provider
+     * 
      * @return void
      */
-    public function setProvider(UserProvider $provider)
+    public function setProvider(UserProvider $provider): void
     {
         $this->provider = $provider;
     }
