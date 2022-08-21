@@ -23,6 +23,7 @@ return [
     // Bundles
     'Syscodes\\Bundles\\ApplicationBundle\\Console\\Application' => SYS_PATH.'src/bundles/ApplicationBundle/Console/Application.php',
     // Components
+    'Syscodes\\Components\Auth\\Concerns\\CreatesUserProviders' => SYS_PATH.'src/components/Auth/Concerns/CreatesUserProviders.php',
     'Syscodes\\Components\Auth\\Concerns\\GuardAuthenticationUser' => SYS_PATH.'src/components/Auth/Concerns/GuardAuthentionUser.php',
     'Syscodes\\Components\Auth\\Exceptions\\AuthenticationException' => SYS_PATH.'src/components/Auth/Exceptions/AuthenticationException.php',
     'Syscodes\\Components\Auth\\Guards\\RequestGuard' => SYS_PATH.'src/components/Auth/Guards/RequestGuard.php',
