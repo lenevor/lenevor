@@ -97,6 +97,42 @@ class TokenGuard implements Guard
         if ( ! is_null($this->user)) {
             return $this->user;
         }
+
+        $user = null;
+
+        $token = $this->getTokenForRequest();
+
+        if ( ! empty($token)) {
+            $user = $this->provider->retrieveByCredentials([
+                $this->storageKey => $this->hash ? hash('sha256', $token) : $token,
+            ]);
+        }
+
+        return $this->user = $user;
+    }
+
+    /**
+     * Get the token for the current request.
+     * 
+     * @return string
+     */
+    public function getTokenForRequest(): string
+    {
+        $token = $this->request->query($this->inputKey);
+
+        if (empty($token)) {
+            $token = $this->request->input($this->inputKey);
+        }
+
+        if (empty($token)) {
+            $token = $this->request->bearerToken();
+        }
+
+        if (empty($token)) {
+            $token = $this->request->getPassword();
+        }
+
+        return $token;
     }
     
     /**
@@ -104,6 +140,16 @@ class TokenGuard implements Guard
      */
     public function validate(array $credentials = []): bool
     {
+        if (empty($credentials[$this->inputKey])) {
+            return false;
+        }
+
+        $credentials = [$this->storageKey => $credentials[$this->inputKey]];
+
+        if ($this->provider->retrieveByCredentials($credentials)) {
+            return true;
+        }
+
         return false;
     }
     
