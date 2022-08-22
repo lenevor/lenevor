@@ -14,7 +14,8 @@ return [
     */
 
     'defaults' => [ 
-        'guard' => 'web'
+        'guard' => 'web',
+        'passwords' => 'users',
     ],
 
     /*
@@ -59,6 +60,29 @@ return [
         'users' => [
             'driver' => 'erostrine',
             'model' => App\Model\User::class,
+        ],
+    ],
+
+    /*
+    |------------------------------------------------------------------------
+    | Resetting Password
+    |------------------------------------------------------------------------
+    |
+    | You may specify multiple password reset configurations if you have more 
+    | than one user table or model in your application, and you can also have 
+    | separate password reset settings based on specific user types.
+    |
+    | The expire time is the number of minutes that each reset token will be 
+    | considered valid. This security feature keeps tokens short-lived, so they
+    | have less time to be guessed. You may change this as needed.
+    |
+    */
+
+    'passwords' => [
+        'users' => [
+            'provider' => 'users',
+            'table' => 'password_resets',
+            'expires' => 60,
         ],
     ],
 
