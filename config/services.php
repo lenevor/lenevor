@@ -26,6 +26,7 @@ return [
         Syscodes\Components\Encryption\EncryptionServiceProvider::class,
         Syscodes\Components\Events\EventServiceProvider::class,
         Syscodes\Components\Filesystem\FilesystemServiceProvider::class,
+        Syscodes\Components\Hashing\HashServiceProvider::class,
         Syscodes\Components\Pipeline\PipelineServiceProvider::class,
         Syscodes\Components\Session\SessionServiceProvider::class,
         Syscodes\Components\Translation\TranslationServiceProvider::class,
