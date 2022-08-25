@@ -503,7 +503,7 @@ class Request
 	{
 		$this->languages = $this->defaultLocale = config('app.locale');
 
-		$this->setLocale($this->validLocales);
+		$this->setLocale($this->validLocales[0]);
 	}
 
 	/**
@@ -531,22 +531,18 @@ class Request
 	 * 
 	 * @param  string  $locale
 	 * 
-	 * @return \Syscodes\Components\Http\Request
+	 * @return self
 	 */
-	public function setLocale($locale)
+	public function setLocale(string $locale): self
 	{
-		if ( ! in_array($locale, $this->validLocales)) {
+		if ( ! in_array($locale, $this->validLocales, true)) {
 			$locale = $this->defaultLocale;
 		}
 		
 		$this->languages = $locale;
 
-		try {
-		    if (class_exists('Locale', false)) {
-				Locale::setDefault($locale);
-			}
-		} catch (Exception $exception) {}
-
+		Locale::setDefault($locale);
+			
 		return $this;
 	}
 
