@@ -26,7 +26,9 @@ use MessageFormatter;
 use InvalidArgumentException;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Contracts\Translation\Loader;
+use Syscodes\Components\Support\NamespacedParseResolver;
 use Syscodes\Components\Contracts\Translation\Translator as TranslatorContract;
 
 /**
@@ -35,8 +37,10 @@ use Syscodes\Components\Contracts\Translation\Translator as TranslatorContract;
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class Translator implements TranslatorContract
+class Translator extends NamespacedParseResolver implements TranslatorContract
 {
+    use Macroable;
+
     /**
      * The fallback locale used by the translator.
      * 
@@ -45,11 +49,11 @@ class Translator implements TranslatorContract
     protected $fallback;
 
     /**
-     * Array of language translation groups.
+     * Array of loaded translation groups.
      * 
-     * @var array $language
+     * @var array $loaded
      */
-    protected $language = [];
+    protected $loaded = [];
 
     /**
      * The loader implementation.
@@ -61,7 +65,7 @@ class Translator implements TranslatorContract
     /**
      * The default locale being used by the translator.
      * 
-     * @var array $locale
+     * @var string $locale
      */
     protected $locale;
 
@@ -80,13 +84,13 @@ class Translator implements TranslatorContract
      * 
      * @return void
      */
-    public function __construct($locale, Loader $loader)
+    public function __construct(string $locale, Loader $loader)
     {   
         $this->setLocale($locale);
 
         $this->loader = $loader;
 
-        if (class_exists('\MessageFormatter')) {
+        if (class_exists(MessageFormatter::class)) {
             $this->intlSupport = true;
         }
     }
@@ -101,18 +105,22 @@ class Translator implements TranslatorContract
      * 
      * @return string|array
      */
-    public function get($key, array $replace = [], string $locale = null, bool $fallback = true)
-    {
+    public function get(
+        $key,
+        array $replace = [],
+        string $locale = null,
+        bool $fallback = true
+    ) {
         $locale = $locale ?: $this->locale;
 
         $this->load('*', $locale);
         
-        $line = $this->language['*'][$locale][$key] ?? null;
+        $line = $this->loaded['*'][$locale][$key] ?? null;
 
         if ( ! isset($line)) {
             // Parse out the file name and the actual alias.
             // Will load the language file and strings.
-            [$group, $item] = $this->parseLine($key);
+            [, $group, $item] = $this->parseLine($key);
 
             $locales = $fallback ? $this->localeArray($locale) : [$locale];
             
@@ -126,47 +134,6 @@ class Translator implements TranslatorContract
         }
 
         return $this->makeReplacements($line ?: $key, $replace);
-    }
-
-    /**
-     * Parses the language string which should include the
-     * filename as the first segment (separated by period).
-     * 
-     * @param  string  $key
-     * 
-     * @return array
-     */
-    protected function parseLine(string $key): array
-    {
-        if (isset($this->language[$key])) {
-            return $this->language[$key];
-        }
-        
-        if (strpos($key, '::') === false) {
-            $segments = explode('.', $key);
-            
-            $parsed = $this->parseSegments($segments);
-        }
-
-        return $this->language[$key] = $parsed;
-    }
-    
-    /**
-     * Parse an array of segments.
-     * 
-     * @param  array  $segments
-     * 
-     * @return array
-     */
-    protected function parseSegments(array $segments): array
-    {
-        $group = $segments[0];
-        
-        $item = count($segments) === 1
-                    ? null
-                    : implode('.', array_slice($segments, 1));
-                    
-        return [$group, $item];
     }
 
     /**
@@ -188,16 +155,16 @@ class Translator implements TranslatorContract
     ) {   
         $this->load($group, $locale);       
         
-        $output = Arr::get($this->language[$group][$locale], $item);
+        $line = Arr::get($this->loaded[$group][$locale], $item);
 
-        if (is_string($output)) {
-            return $this->makeReplacements($output, $replace);
-        } elseif (is_array($output) && count($output) > 0) {
-            foreach ($output as $key => $value) {
-                $output[$key] = $this->makeReplacements($value, $replace);
+        if (is_string($line)) {
+            return $this->makeReplacements($line, $replace);
+        } elseif (is_array($line) && count($line) > 0) {
+            foreach ($line as $key => $value) {
+                $line[$key] = $this->makeReplacements($value, $replace);
             }
 
-            return $output;
+            return $line;
         }
     }
 
@@ -212,26 +179,46 @@ class Translator implements TranslatorContract
      */
     protected function load($group, $locale): void
     {
-        if ($this->isLanguage($group, $locale)) {
+        if ($this->isLoaded($group, $locale)) {
             return;
         }
         
         $lang = $this->loader->load($locale, $group);
 
-        $this->language[$group][$locale] = $lang;
+        $this->loaded[$group][$locale] = $lang;
     }
     
     /**
-     * Determine if the given group has been language.
+     * Determine if the given group has been loaded.
      * 
      * @param  string  $group
      * @param  string  $locale
      * 
      * @return bool
      */
-    protected function isLanguage($group, $locale): bool
+    protected function isLoaded($group, $locale): bool
     {
-        return isset($this->language[$group][$locale]);
+        return isset($this->loaded[$group][$locale]);
+    }
+
+    /**
+     * Parse the key string which should include the
+     * filename as the first segment into namespace, groups
+     * and item.
+     * 
+     * @param  string  $key
+     * 
+     * @return array
+     */
+    public function parseLine($key): array
+    {
+        $segments = parent::parseLine($key);
+        
+        if (is_null($segments[0])) {
+            $segments[0] = '*';
+        }
+        
+        return $segments;
     }
 
     /**
@@ -291,62 +278,43 @@ class Translator implements TranslatorContract
     }
 
     /**
-     * Determine if a translation exists for a given locale.
-     * 
-     * @param  string  $key
-     * @param  string|null  $locale
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
-    public function hasForLocale($key, $locale = null)
+    public function hasForLocale($key, $locale = null): bool
     {
         return $this->has($key, $locale, false);
     }
 
     /**
-     * Determine if a translation exists.
-     * 
-     * @param  string  $key
-     * @param  string|null  $locale
-     * @param  bool  $fallback
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
-    public function has($key, $locale = null, $fallback = true)
+    public function has($key, $locale = null, $fallback = true): bool
     {
         return $this->get($key, [], $locale, $fallback) !== $key;
     }
 
     /**
-     * Get the default locale being used.
-     * 
-     * @return array
+     * {@inheritdoc}
      */
-    public function getLocale(): array
+    public function getLocale(): string
     {
         return $this->locale;
     }
 
     /**
-     * Set the default locale.
-     * 
-     * @param  string  $locale
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function setLocale($locale): void
     {
         if (Str::contains($locale, ['/', '\\'])) {
-            throw new InvalidArgumentException('Invalid characters present in locale.');
+            throw new InvalidArgumentException('Invalid characters present in locale');
         }
         
         $this->locale = $locale;
     }
 
     /**
-     * Get the fallback locale being used.
-     * 
-     * @return string
+     * {@inheritdoc}
      */
     public function getFallback(): string
     {
@@ -354,14 +322,18 @@ class Translator implements TranslatorContract
     }
 
     /**
-     * Set the default locale.
-     * 
-     * @param  string  $locale
-     * 
-     * @return void
+     * {@inheritdoc}
      */
     public function setFallback($fallback): void
     {        
         $this->fallback = $fallback;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setLoaded(array $parsed): void
+    {
+        $this->loaded = $parsed;
     }
 }
