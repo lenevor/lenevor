@@ -164,6 +164,7 @@ abstract class Facade
             'DB' => DB::class,
             'Event' => Event::class,
             'File' => File::class,
+            'Hash' => Hash::class,
             'Http' => Http::class,
             'Lang' => Lang::class,
             'Log' => Log::class,
