@@ -430,6 +430,7 @@ return [
     'Syscodes\\Components\\Support\\Inflector' => SYS_PATH.'src/components/Support/Inflector.php',
     'Syscodes\\Components\\Support\\InteractsWithTime' => SYS_PATH.'src/components/Support/InteractsWithTime.php',
     'Syscodes\\Components\\Support\\Manager' => SYS_PATH.'src/components/Support/Manager.php',
+    'Syscodes\\Components\\Support\\NamespacedParseResolver' => SYS_PATH.'src/components/Support/NamespacedParseResolver.php',
     'Syscodes\\Components\\Support\\ServiceProvider' => SYS_PATH.'src/components/Support/ServiceProvider.php',
     'Syscodes\\Components\\Support\\Str' => SYS_PATH.'src/components/Support/Str.php',
     'Syscodes\\Components\\Support\\WebString' => SYS_PATH.'src/components/Support/WebString.php',
