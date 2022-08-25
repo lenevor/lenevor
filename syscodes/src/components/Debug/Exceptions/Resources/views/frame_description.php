@@ -23,7 +23,7 @@
 		</div>      
 		<div class="icon-holder icon-pdf">
 			<div class="tooltip tooltip-pdf">
-				<?= e(__('exception.openReaderPDF'))?>
+				<?= e(__('exception.openPDFReader'))?>
 			</div>
 			<svg class="ico-file-pdf" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 533.333 533.333" style="enable-background:new 0 0 533.333 533.333;" xml:space="preserve">
 				<g>
