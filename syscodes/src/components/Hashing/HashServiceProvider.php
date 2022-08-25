@@ -22,7 +22,39 @@
 
 namespace Syscodes\Components\Hashing;
 
-class HashServiceProvider
-{
+use Syscodes\Components\Support\ServiceProvider;
+use Syscodes\Components\Contracts\Support\Deferrable;
 
+/**
+ * For loading the hash class from the container of services.
+ * 
+ * @author Alexander Campo <jalexcam@gmail.com>
+ */
+class HashServiceProvider extends ServiceProvider implements Deferrable
+{
+    /**
+     * Register the service provider.
+     * 
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->singleton('hash', function ($app) {
+            return new HashManager($app);
+        });
+        
+        $this->app->singleton('hash.driver', function ($app) {
+            return $app['hash']->driver();
+        });
+    }
+    
+    /**
+     * Get the services provided by the provider.
+     * 
+     * @return array
+     */
+    public function provides()
+    {
+        return ['hash', 'hash.driver'];
+    }
 }
