@@ -1077,6 +1077,8 @@ class Application extends Container implements ApplicationContract
             'encrypter'        => [\Syscodes\Components\Encryption\Encrypter::class, \Syscodes\Components\Contracts\Encryption\Encrypter::class],
             'events'           => [\Syscodes\Components\Events\Dispatcher::class, \Syscodes\Components\Contracts\Events\Dispatcher::class],
             'files'            => [\Syscodes\Components\Filesystem\Filesystem::class],
+            'hash'             => [\Syscodes\Components\Hashing\hashManager::class],
+            'hash.driver'      => [\Syscodes\Components\Contracts\Hashing\Hasher::class],
             'log'              => [\Syscodes\Components\Log\LogManager::class, \Psr\Log\LoggerInterface::class],
             'plaze.transpiler' => [\Syscodes\Components\View\Transpilers\PlazeTranspiler::class],
             'redirect'         => [\Syscodes\Components\Routing\Supported\Redirector::class],
