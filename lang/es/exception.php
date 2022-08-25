@@ -27,7 +27,7 @@ return [
     'noArguments' => 'No hay argumentos para este marco de pila.',
     'noMessage' => 'Sin mensaje',
     'openCodeEditor' => 'Abrir el editor de código {editor}',
-    'openReaderPDF' => 'Abrir el lector de PDF',
+    'openPDFReader' => 'Abrir el lector de PDF',
     'print' => 'Imprimir',
     'RegisteredHandlers' => 'Manejadores Registrados',
     'request' => 'Solicitud',
