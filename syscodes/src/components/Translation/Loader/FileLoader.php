@@ -89,7 +89,9 @@ class FileLoader implements LoaderContract
      */
     protected function loadFilePaths($locale, $group): array
     {
-        if ($this->files->exists($fullPath = "{$this->path}/{$locale}/{$group}.php")) {
+        $slash = DIRECTORY_SEPARATOR;
+
+        if ($this->files->exists($fullPath = "{$this->path}$slash{$locale}$slash{$group}.php")) {
             return $this->files->getRequire($fullPath);
         }
 
@@ -107,7 +109,9 @@ class FileLoader implements LoaderContract
     {
         return collect([$this->path])
             ->reduce(function ($output, $path) use ($locale) {
-                if ($this->files->exists($fullPath = "{$path}/{$locale}.json")) {
+                $slash = DIRECTORY_SEPARATOR;
+
+                if ($this->files->exists($fullPath = "{$path}$slash{$locale}.json")) {
                     $decoded = json_decode($this->files->get($fullPath), true);
                     
                     if (is_null($decoded) || json_last_error() !== JSON_ERROR_NONE) {
