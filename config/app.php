@@ -150,7 +150,7 @@ return [
 	| Application Supported Locales
 	|-----------------------------------------------------------------------
 	|
-	| If $negotiateLocale is true, this array lists the locales supported
+	| If 'supportedLocale' is true, this array lists the locales supported
 	| by the application in descending order of priority. If no match is
 	| found, the first locale will be used.
 	|
