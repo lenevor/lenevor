@@ -22,7 +22,61 @@
 
 namespace Syscodes\Components\Hashing;
 
-class hashManager
-{
+use Syscodes\Components\Support\Manager;
+use Syscodes\Components\Contracts\Hashing\Hasher;
+use Syscodes\Components\Hashing\Drivers\BcryptHasher;
 
+class HashManager extends Manager implements Hasher
+{
+    /**
+     * Create an instance of the Bcrypt hash Driver.
+     * 
+     * @return \Sysocdes\Components\Hashing\Drivers\BcryptHasher
+     */
+    public function createBcryptDriver()
+    {
+        return new BcryptHasher($this->config->get('hashing.bcrypt') ?? []);
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function info($hashedValue): array
+    {
+        return $this->driver()->info($hashedValue);
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function make($value, array $options = []): string
+    {
+        return $this->driver()->make($value, $options);
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function check($value, $hashedValue, array $options = []): bool
+    {
+        return $this->driver()->check($value, $hashedValue, $options);
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function needsRehash($hashedValue, array $options = []): bool
+    {
+        return $this->driver()->needsRehash($hashedValue, $options);
+    }
+    
+    /**
+     * Get the default driver name.
+     * 
+     * @return string
+     */
+    public function getDefaultDriver(): string
+    {
+        return $this->config->get('hashing.driver', 'bcrypt');
+    }
 }
