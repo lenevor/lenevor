@@ -42,11 +42,32 @@ interface Translator
     public function get($key, array $replace = [], string $locale = null, bool $fallback = true);
 
     /**
+     * Determine if a translation exists for a given locale.
+     * 
+     * @param  string  $key
+     * @param  string|null  $locale
+     * 
+     * @return bool
+     */
+    public function hasForLocale($key, $locale = null): bool;
+
+    /**
+     * Determine if a translation exists.
+     * 
+     * @param  string  $key
+     * @param  string|null  $locale
+     * @param  bool  $fallback
+     * 
+     * @return bool
+     */
+    public function has($key, $locale = null, $fallback = true): bool;
+
+    /**
      * Get the default locale being used.
      * 
      * @return string
      */
-    public function getLocale();
+    public function getLocale(): string;
 
     /**
      * Set the default locale.
@@ -55,14 +76,14 @@ interface Translator
      * 
      * @return void
      */
-    public function setLocale($locale);
+    public function setLocale(string $locale): void;
 
      /**
      * Get the fallback locale being used.
      * 
      * @return string
      */
-    public function getFallback();
+    public function getFallback(): string;
 
     /**
      * Set the default locale.
@@ -71,5 +92,14 @@ interface Translator
      * 
      * @return void
      */
-    public function setFallback($fallback);
+    public function setFallback($fallback): void;
+
+    /**
+     * Set the loaded translation groups.
+     * 
+     * @param  array  $loaded
+     * 
+     * @return void
+     */
+    public function setLoaded(array $loaded): void;
 }
