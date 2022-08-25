@@ -14,7 +14,7 @@ return [
     */
     
     'cannotMove' => 'Could not move file {0} to {1} ({2})',
-    'identifierEmpty' => 'The identifier file of autoloader this empty!!!',
+    'identifierEmpty' => 'Autoloader identifier file is empty!!!',
     'identifierNotAlpha' => 'Contains non-alphanumeric identifier [{identifier}]!!!',
     'identifierLenght' => 'The identifier [{identifier}] must be a length  20 digits.',
     'notExistPath' => 'The file [{0}] does not exist.',
