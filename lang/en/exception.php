@@ -26,7 +26,7 @@ return [
     'noArguments' => 'No arguments for this stack frame.',
     'noMessage' => 'No message',
     'openCodeEditor' => 'Open the code editor {editor}',
-    'openReaderPDF' => 'Open the reader PDF',
+    'openPDFReader' => 'Open the PDF reader',
     'print' => 'Print',
     'RegisteredHandlers' => 'Registered Handlers',
     'request' => 'Request',
