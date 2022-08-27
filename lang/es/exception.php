@@ -15,6 +15,7 @@ return [
     */
 
     'arguments' => 'Argumentos',
+    'benchmark' => 'Punto de referencia: Tiempo de carga',
     'empty' => 'vacío',
     'environment' => 'Entorno y detalles:',
     'environmentVars' => 'Variables de Entorno',
@@ -33,5 +34,7 @@ return [
     'request' => 'Solicitud',
     'search' => 'Buscar',
     'stackFrames' => 'Pila de marcos',
+    'statusCode' => 'Código de estado',
+    'version' => 'Versión de Lenevor',
 
 ];
