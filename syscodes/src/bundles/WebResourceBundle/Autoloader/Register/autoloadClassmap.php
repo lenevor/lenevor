@@ -30,6 +30,8 @@ return [
     'Syscodes\\Components\Auth\\Guards\\SessionGuard' => SYS_PATH.'src/components/Auth/Guards/SessionGuard.php',
     'Syscodes\\Components\Auth\\Guards\\TokenGuard' => SYS_PATH.'src/components/Auth/Guards/TokenGuard.php',
     'Syscodes\\Components\Auth\\Middleware\\Authenticate' => SYS_PATH.'src/components/Auth/Middleware/Authenticate.php',
+    'Syscodes\\Components\Auth\\Providers\\DatabaseUserProvider' => SYS_PATH.'src/components/Auth/Providers/DatabaseUserProvider.php',
+    'Syscodes\\Components\Auth\\Providers\\ErostrineUserProvider' => SYS_PATH.'src/components/Auth/Providers/ErostrineUserProvider.php',
     'Syscodes\\Components\Auth\\Authenticatable' => SYS_PATH.'src/components/Auth/Authenticatable.php',
     'Syscodes\\Components\Auth\\AuthManager' => SYS_PATH.'src/components/Auth/AuthManager.php',
     'Syscodes\\Components\Auth\\AuthServiceProvider' => SYS_PATH.'src/components/Auth/AuthServiceProvider.php',
