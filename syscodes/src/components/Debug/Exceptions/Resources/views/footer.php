@@ -3,8 +3,8 @@
 	<div class="info">
 
 		<div class="name">
-			<span class="status-code" title="Status Code"><?= $debug->sendHttpCode() ?></span>
-			<span class="benchmark-time" title="Benchmark: Loading time">
+			<span class="status-code" title="<?= e(__('exception.statusCode'))?>"><?= $debug->sendHttpCode() ?></span>
+			<span class="benchmark-time" title="<?= e(__('exception.benchmark'))?>">
 				<svg id="cronometro" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 512 512" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
 					<g>
 						<path d="M303 62l0 -37c0,-3 -2,-5 -5,-5l-96 0c-3,0 -5,2 -5,5l0 37c-27,7 -52,19 -73,35l-7 -7c-2,-2 -2,-5 0,-7l2 -2c2,-2 2,-5 0,-7l-16 -17c-2,-2 -6,-2 -8,0l-43 43c-2,2 -2,6 0,8l17 16c2,2 5,2 7,0l2 -2c2,-2 5,-2 7,0l6 6c-33,37 -53,86 -53,140 0,117 95,212 212,212 117,0 212,-95 212,-212 0,-99 -67,-182 -159,-206zm-218 195l47 0c4,0 7,3 7,7 0,5 -3,8 -7,8l-47 0c3,86 70,155 156,160l0 -49c0,-4 3,-8 7,-8 4,0 8,4 8,8l0 49c86,-3 155,-72 159,-158l-49 0c-4,0 -7,-3 -7,-8 0,-4 3,-7 7,-7l49 0c-4,-85 -73,-153 -157,-157l0 46c0,4 -4,8 -8,8 -4,0 -7,-4 -7,-8l0 -46c-85,4 -153,71 -158,155zm120 3c-3,0 -4,-3 -4,-6 1,-3 4,-4 7,-4l25 7c0,-1 1,-1 1,-2l-40 -70c-2,-3 -1,-8 3,-10 4,-2 8,-1 10,3l40 70c1,0 2,-1 3,-1 11,0 20,9 20,20l96 26c3,1 4,3 4,6 -1,3 -4,4 -7,4l-96 -26c0,1 -1,2 -1,2l8 15c2,3 1,8 -3,10 -3,2 -8,1 -10,-3l-8 -14c-1,0 -2,0 -3,0 -11,0 -20,-9 -20,-20l0 0 -25 -7z"/>
@@ -12,7 +12,7 @@
 				</svg>
 				<span>{elapsed_time}</span>
 			</span>
-			<span class="memory" title="Memory usage">
+			<span class="memory" title="<?= e(__('exception.memoryUsage'))?>">
 				<svg id="chipset" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 512 512" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
 					<defs>
 						<style type="text/css">
@@ -37,7 +37,7 @@
 				</svg>
 				<span>MU: <b><?= $template->displayMemory(memory_get_usage(true)) ?></b></span>
 			</span>		
-			<span class="memory" title="Peak memory usage">
+			<span class="memory" title="<?= e(__('exception.maxMemoryUsage'))?>">
 				<svg id="chipset" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 512 512" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
 					<defs>
 						<style type="text/css">
@@ -62,7 +62,7 @@
 				</svg>
 				<span>PMU: <b><?= $template->displayMemory(memory_get_peak_usage(true)) ?></b></span>
 			</span>	
-			<span class="memory" title="Memory limit">
+			<span class="memory" title="<?= e(__('exception.memoryLimit'))?>">
 				<svg id="chipset" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 512 512" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
 					<defs>
 						<style type="text/css">
@@ -86,7 +86,7 @@
 		
 		<div class="copy">
 			<?= e($handler->getBrand()) ?>
-			<span class="version" title="Lenevor version"><?= \Syscodes\Components\Version::RELEASE ?></span>
+			<span class="version" title="<?= e(__('exception.version'))?>"><?= \Syscodes\Components\Version::RELEASE ?></span>
 		</div>
 
 	</div>
