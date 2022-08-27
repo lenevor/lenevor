@@ -14,6 +14,7 @@ return [
     */
 
     'arguments' => 'Arguments',
+    'benchmark' => 'Benchmark: Loading time',
     'empty' => 'empty',
     'environment' => 'Environment & details:',
     'environmentVars' => 'Environment Variables',
@@ -32,5 +33,7 @@ return [
     'request' => 'Request',
     'search' => 'Search',
     'stackFrames' => 'Stack frames',
+    'statusCode' => 'Status Code',
+    'version' => 'Lenevor version',
 
 ];
