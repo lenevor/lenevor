@@ -14,6 +14,7 @@ return [
     */
 
     'arguments' => 'Argumentos',
+    'benchmark' => 'Ponto de referência: Tempo de carregamento',
     'empty' => 'vazio',
     'environment' => 'Ambiente e detalhes:',
     'environmentVars' => 'Variáveis de ambiente',
@@ -32,5 +33,7 @@ return [
     'request' => 'Pedido',
     'search' => 'Buscar',
     'stackFrames' => 'Empilhar quadros',
+    'statusCode' => 'Código de estado',
+    'version' => 'Versão de Lenevor',
 
 ];
