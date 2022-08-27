@@ -777,6 +777,7 @@ header:hover h2 {
     height: 100%;
     margin-bottom: 50px;
     margin-top: -1px;
+    overflow: hidden;
     padding: 0;
     position: relative;
 }
@@ -986,7 +987,7 @@ code {
 @media (min-width: 1100px)
 {
     .code-blocks {
-        height: 70.5vh;
+        height: 63.1vh;
     }
     .code-source {
         left: 0;
@@ -1182,6 +1183,7 @@ footer {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    overflow: hidden;
 }
 
 .info .name {
@@ -1197,14 +1199,17 @@ footer {
     color: var(--first-color);
     font-size: 12px; 
     font-weight: 600;
-    padding: 5px;;
+    padding: 5px;
 }
 
 .info .status-code {
-    background: rgb(255, 0, 0);  
+    background: rgb(255, 0, 0);
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 5px;
+    bottom: 0;
     font-size: 13px;
     position: relative;
-    top: -1px;
+    top: -1.5px;
 }
 
 .info .benchmark-time #cronometro,
@@ -1219,7 +1224,7 @@ footer {
 .info .benchmark-time span,
 .info .memory span {
     margin-left: 22px;
-    top: -1px;
+    top: -1.5px;
     position: relative;
 }
 
@@ -1262,13 +1267,13 @@ footer {
 @media (max-width: 1100px)
 {
     footer {
-        margin: 0 -20px;     
+        margin: 0 -20px;
+        position: static;  
     }
 
     .info {
         display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
+        justify-content: center;
         margin-top: 10px;
     }
 
@@ -1290,8 +1295,6 @@ footer {
     }
 
     .copy {
-        line-height: 1.2;
-        width: 53%;
         margin-right: -10px;
     }
 }
