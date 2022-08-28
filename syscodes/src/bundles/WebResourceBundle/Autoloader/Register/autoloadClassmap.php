@@ -35,6 +35,7 @@ return [
     'Syscodes\\Components\Auth\\Authenticatable' => SYS_PATH.'src/components/Auth/Authenticatable.php',
     'Syscodes\\Components\Auth\\AuthManager' => SYS_PATH.'src/components/Auth/AuthManager.php',
     'Syscodes\\Components\Auth\\AuthServiceProvider' => SYS_PATH.'src/components/Auth/AuthServiceProvider.php',
+    'Syscodes\\Components\Auth\\GenericUser' => SYS_PATH.'src/components/Auth/GenericUser.php',
     'Syscodes\\Components\\Cache\\Exceptions\\CacheException' => SYS_PATH.'src/components/Cache/Exceptions/CacheException.php',
     'Syscodes\\Components\\Cache\\Store\\ApcStore' => SYS_PATH.'src/components/Cache/Store/ApcStore',
     'Syscodes\\Components\\Cache\\Store\\ApcWrapper' => SYS_PATH.'src/components/Cache/Store/ApcWrapper',
