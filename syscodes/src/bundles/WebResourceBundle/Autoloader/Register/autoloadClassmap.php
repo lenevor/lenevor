@@ -93,6 +93,8 @@ return [
     'Syscodes\\Components\\Contracts\\Auth\\Authenticatable' => SYS_PATH.'src/components/Contracts/Auth/Authenticatable.php',
     'Syscodes\\Components\\Contracts\\Auth\\Factory' => SYS_PATH.'src/components/Contracts/Auth/Factory.php',
     'Syscodes\\Components\\Contracts\\Auth\\Guard' => SYS_PATH.'src/components/Contracts/Auth/Guard.php',
+    'Syscodes\\Components\\Contracts\\Auth\\StateGuard' => SYS_PATH.'src/components/Contracts/Auth/StateGuard.php',
+    'Syscodes\\Components\\Contracts\\Auth\\SupportedBasicAuth' => SYS_PATH.'src/components/Contracts/Auth/SupportedBasicAuth.php',
     'Syscodes\\Components\\Contracts\\Auth\\UserProvider' => SYS_PATH.'src/components/Contracts/Auth/UserProvider.php',
     'Syscodes\\Components\\Contracts\\Cache\\Key' => SYS_PATH.'src/components/Contracts/Cache/Key.php',
     'Syscodes\\Components\\Contracts\\Cache\\Manager' => SYS_PATH.'src/components/Contracts/Cache/Manager.php',
