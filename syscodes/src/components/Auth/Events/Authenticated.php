@@ -32,14 +32,14 @@ class Authenticated
      * 
      * @var string $guard
      */
-    protected $guard;
+    public $guard;
 
     /**
      * The authenticated user.
      * 
      * @var \Syscodes\Components\Contracts\Auth\Authenticatable $user
      */
-    protected $user;
+    public $user;
 
     /**
      * Constructor. Create a new Attempting class instance.
