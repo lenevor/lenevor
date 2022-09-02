@@ -129,9 +129,7 @@ class Autoloader
 
         // Autoloading for the files helpers, hooks or functions
         foreach ($this->files as $fileIdentifier => $file) {
-            if (is_string($file)) {
-                $this->getAutoloaderFileRequire($fileIdentifier, $file);
-            }
+            $this->getAutoloaderFileRequire($fileIdentifier, $file);
         }
     }
 
@@ -341,8 +339,8 @@ class Autoloader
         unset($composer);
         
         // Get rid of Lenevor so we don't have duplicates
-        if (isset($paths['Syscodes\\Components'])) {
-            unset($paths['Syscodes\\Components']);
+        if (isset($paths['Syscodes\\Components\\'])) {
+            unset($paths['Syscodes\\Components\\']);
         }
         
         // Composer stores namespaces with trailing slash. We don't
