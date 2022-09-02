@@ -32,21 +32,21 @@ class Attempting
      * 
      * @var array $credentials
      */
-    protected $credentials;
+    public $credentials;
 
     /**
      * The authentication guard name.
      * 
      * @var string $guard
      */
-    protected $guard;
+    public $guard;
 
     /**
      * Indicates if the user should be "remembered".
      * 
      * @var bool $remember
      */
-    protected $remember;
+    public $remember;
 
     /**
      * Constructor. Create a new Attempting class instance.
