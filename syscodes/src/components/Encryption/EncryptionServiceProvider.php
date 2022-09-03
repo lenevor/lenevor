@@ -43,14 +43,26 @@ class EncryptionServiceProvider extends ServiceProvider
         $this->app->singleton('encrypter', function ($app) {
             
             $config = $app->make('config')->get('security');
-
-            if (Str::startsWith($key = $this->key($config), 'base64:')) {
-                $key = base64_decode(substr($key, 7));
-            }
             
-            return new Encrypter($key, $config['cipher']);
+            return new Encrypter($this->parseKey($config), $config['cipher']);
 
         });
+    }
+
+    /**
+     * Get parse the encryption key.
+     * 
+     * @param  array  $config
+     * 
+     * @return string
+     */
+    protected function parseKey(array $config): string
+    {
+        if (Str::startsWith($key = $this->key($config), $prefix = 'base64:')) {
+            $key = base64_decode(Str::after($key, $prefix));
+        }
+
+        return $key;
     }
 
     /**
