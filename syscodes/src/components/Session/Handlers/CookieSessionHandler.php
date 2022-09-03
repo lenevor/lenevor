@@ -23,6 +23,9 @@
 namespace Syscodes\Components\Session\Handlers;
 
 use SessionHandlerInterface;
+use Syscodes\Components\Http\Request;
+use Syscodes\Components\Support\InteractsWithTime;
+use Syscodes\Components\Contracts\Cookie\QueueingFactory as Cookie;
 
 /**
  * Session handler using array system for storage.
@@ -31,6 +34,43 @@ use SessionHandlerInterface;
  */
 class CookieSessionHandler implements SessionHandlerInterface
 {
+    use InteractsWithTime;
+
+    /**
+     * The cookie manager instance.
+     * 
+     * @var \Syscodes\Components\Contracts\Auth\Factory $cookie
+     */
+    protected $cookie;
+
+    /**
+     * The number of minutes the session should be valid.
+     *
+     * @var int $minutes
+     */
+    protected $minutes;
+
+    /**
+     * The request instance.
+     * 
+     * @var \Syscodes\Components\Http\Request $request
+     */
+    protected $request;
+
+    /**
+     * Constructor. The DatabaseSessionHandler class instance.
+     * 
+     * @param  \Syscodes\Components\Contracts\Cookie\QueueingFactory  $cookie
+     * @param  int  $minutes
+     * 
+     * @return void
+     */
+    public function __construct(Cookie $cookie, int $minutes)
+    {
+        $this->cookie  = $cookie;
+        $this->minutes = $minutes;
+    } 
+
     /**
      * {@inheritdoc}
      * 
@@ -58,6 +98,13 @@ class CookieSessionHandler implements SessionHandlerInterface
      */
     public function read($sessionId): string
     {
+        $value = $this->request->cookies->get($sessionId);
+        
+        if ( ! is_null($decoded = json_decode($value, true)) && is_array($decoded) &&
+            isset($decoded['expires']) && $this->currentTime() <= $decoded['expires']) {
+                return $decoded['data'];
+        }
+
         return '';
     }
     
@@ -68,6 +115,11 @@ class CookieSessionHandler implements SessionHandlerInterface
      */
     public function write($sessionId, $data): bool
     {
+        $this->cookie->queue($sessionId, json_encode([
+            'data' => $data,
+            'expires' => $this->availableAt($this->minutes * 60),
+        ]), $this->minutes);
+
         return true;
     }
     
@@ -78,6 +130,8 @@ class CookieSessionHandler implements SessionHandlerInterface
      */
     public function destroy($sessionId): bool
     {
+        $this->cookie->queue($this->cookie->erase($sessionId));
+
         return true;
     }
     
@@ -89,5 +143,17 @@ class CookieSessionHandler implements SessionHandlerInterface
     public function gc(int $lifetime): int
     {
         return 0;
+    }
+
+    /**
+     * Set the Request instance.
+     * 
+     * @param  \Syscodes\Components\Http\Request  $request
+     * 
+     * @return void
+     */
+    public function setRequest(Request $request): void
+    {
+        $this->request =  $request;
     }
 }
