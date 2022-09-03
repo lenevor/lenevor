@@ -27,6 +27,7 @@ use Syscodes\Components\Session\Handlers\FileSessionHandler;
 use Syscodes\Components\Session\Handlers\NullSessionHandler;
 use Syscodes\Components\Session\Handlers\ArraySessionHandler;
 use Syscodes\Components\Session\Handlers\CacheSessionHandler;
+use Syscodes\Components\Session\Handlers\CookieSessionHandler;
 use Syscodes\Components\Session\Handlers\DatabaseSessionHandler;
 
 /**
@@ -67,6 +68,18 @@ class SessionManager extends Manager
     {
         return $this->buildSession(new ArraySessionHandler(
             $this->config->get('session.lifetime')
+        ));
+    }
+    
+    /**
+     * Create an instance of the "cookie" session driver.
+     * 
+     * @return \Syscodes\Components\Session\Store
+     */
+    protected function createCookieDriver()
+    {
+        return $this->buildSession(new CookieSessionHandler(
+            $this->container->make('cookie'), $this->config->get('session.lifetime')
         ));
     }
 
