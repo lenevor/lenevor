@@ -304,4 +304,4 @@ class Lenevor implements LenevorContract
 	{
 		return $this->app[ExceptionHandler::class]->render($request, $e);
 	}
- }
+}
