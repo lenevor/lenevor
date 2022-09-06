@@ -74,6 +74,13 @@ class Lenevor implements LenevorContract
 	protected $middlewareGroups = [];
 
 	/**
+	 * The priority list of middleware.
+	 * 
+	 * @var string[] $middlwarePriority
+	 */
+	protected $middlwarePriority = [];
+
+	/**
 	 * The router instance.
 	 * 
 	 * @var \Syscodes\Components\Routing\Router $router
@@ -177,6 +184,8 @@ class Lenevor implements LenevorContract
 	 */
 	protected function syncMiddlewareRoute(): void
 	{
+		$this->router->middlewarePriority = $this->middlwarePriority;
+		
 		foreach ($this->middlewareGroups as $key => $middleware) {
 			$this->router->middlewareGroup($key, $middleware);
 		}
@@ -247,7 +256,7 @@ class Lenevor implements LenevorContract
 	 */
 	protected function gatherRouteMiddleware($request): array
 	{
-		if ( ! is_null($route = $request->route())) {
+		if ($route = $request->route()) {
 			return $this->router->gatherRouteMiddleware($route);
 		}
 
