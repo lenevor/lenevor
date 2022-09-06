@@ -287,7 +287,7 @@ class Router implements Routable
 		}
 
 		$route = $this->newRoute(
-				array_map('strtoupper', (array) $method),
+				$method,
 				$this->prefix($route),
 				$action
 		);
