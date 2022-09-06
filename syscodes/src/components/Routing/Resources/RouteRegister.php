@@ -78,7 +78,14 @@ class RouteRegister
      * @var array $allowedAttributes
      */
     protected $allowedAttributes = [
-        'as', 'domain', 'middleware', 'name', 'namespace', 'prefix', 'where',
+        'as',
+        'controller',
+        'domain', 
+        'middleware', 
+        'name', 
+        'namespace', 
+        'prefix', 
+        'where',
     ];
     
     /**
@@ -117,8 +124,10 @@ class RouteRegister
         if ( ! in_array($key, $this->allowedAttributes)) {
             throw new InvalidArgumentException("Attribute [{$key}] does not exist.");
         }
+
+        $attributeKey = Arr::get($this->aliases, $key, $key);
         
-        $this->attributes[Arr::get($this->aliases, $key, $key)] = $value;
+        $this->attributes[$attributeKey] = $value;
         
         return $this;
     }
@@ -233,7 +242,7 @@ class RouteRegister
                 return $this->attribute($method, is_array($parameters[0] ? $parameters[0] : $parameters));
             }
 
-            $parameters = isset($parameters[0]) ? $parameters[0] : null;
+            $parameters = array_key_exists(0, $parameters) ? $parameters[0] : true;
 
             return $this->attribute($method, $parameters);
         }
