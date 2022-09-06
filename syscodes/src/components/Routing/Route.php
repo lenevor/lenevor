@@ -663,10 +663,10 @@ class Route
 
 		$this->computedMiddleware = [];
 
-		return $this->computedMiddleware = array_unique(array_merge(
+		return $this->computedMiddleware = Router::uniqueMiddleware(array_merge(
 			$this->middleware(),
 			$this->controllerMiddleware()
-		), SORT_REGULAR);
+		));
 	}
 
 	/**
@@ -674,7 +674,7 @@ class Route
 	 * 
 	 * @param  array|string|null  $middleware
 	 * 
-	 * @return array|$this
+	 * @return array|self
 	 */
 	public function middleware($middleware = null)
 	{
@@ -684,6 +684,10 @@ class Route
 
 		if (is_string($middleware)) {
 			$middleware = func_get_args();
+		}
+
+		foreach ($middleware as $index => $value) {
+			$middleware[$index] = (string) $value;
 		}
 
 		$this->action['middleware'] = array_merge(
