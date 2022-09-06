@@ -80,8 +80,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function loadApiRoute()
     {
-        Route::prefix('api')
-             ->middleware('api')
+        Route::middleware('api')
+             ->prefix('api')
              ->group(basePath('routes/api.php'));
     }
 
