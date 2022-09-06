@@ -639,6 +639,18 @@ class Router implements Routable
 	{
 		ResourceRegister::verbs($verbs);
 	}
+	
+	/**
+	 * Remove any duplicate middleware from the given array.
+	 * 
+	 * @param  array  $middleware
+	 * 
+	 * @return array
+	 */
+	public static function uniqueMiddleware(array $middleware): array
+	{
+		return array_unique($middleware, SORT_REGULAR);
+	}
 
 	/**
 	 * Magic method.
