@@ -162,9 +162,11 @@ class Route
 		// Set the action
 		$this->action = Arr::except($this->parseAction($action), ['prefix']);
 
-		if (is_null($prefix = Arr::get($this->action, 'prefix'))) {
-			$this->prefix($prefix);
-		}
+		if (in_array('GET', $this->method) && ! in_array('HEAD', $this->method)) {
+            $this->method[] = 'HEAD';
+        }
+
+		$this->prefix(is_array($action) ? Arr::get($action, 'prefix') : '');
 	}
 
 	/**
@@ -283,7 +285,7 @@ class Route
 		$callable = $this->action['uses'];
 
 		return $callable(...array_values($this->resolveMethodDependencies(
-			$this->parametersWithouNulls(), new ReflectionFunction($this->action['uses'])
+			$this->parametersWithouNulls(), new ReflectionFunction($callable)
 		)));
 	}
 
@@ -298,15 +300,15 @@ class Route
 	}
 
 	/**
-	 * Set the action.
+	 * Parse the route action.
 	 *
-	 * @param  \Closure|string  $action
+	 * @param  \callable|array|null  $action
 	 *
-	 * @return voi
+	 * @return array
 	 *
 	 * @throws \InvalidArgumentException
 	 */
-	public function parseAction($action)
+	protected function parseAction($action)
 	{
 		if ( ! (is_object($action) && ($action instanceof Closure)) && ($action === null || $action === '')) {
 			throw new InvalidArgumentException(__('route.actionClosureOrFunction'));
@@ -320,7 +322,7 @@ class Route
 	 *
 	 * @param  array  $method
 	 *
-	 * @return string
+	 * @return array
 	 * 
 	 * @throws \InvalidArgumentException
 	 */
@@ -336,7 +338,7 @@ class Route
 			}
 		}
 
-	    return $method;
+	    return array_map('strtoupper', (array) $method);
 	}
 
 	/**
