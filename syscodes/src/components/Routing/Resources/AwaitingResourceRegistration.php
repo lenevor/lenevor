@@ -22,6 +22,8 @@
 
 namespace Syscodes\Components\Routing\Resources;
 
+use Syscodes\Components\Support\Arr;
+
 /**
  * This class uses an awaiting resource registration instance.
  * 
@@ -169,6 +171,26 @@ class AwaitingResourceRegistration
     {
         $this->options['parameters'][$previous] = $parameter;
 
+        return $this;
+    }
+    
+    /**
+     * Add middleware to the resource routes.
+     * 
+     * @param  mixed  $middleware
+     * 
+     * @return \Syscodes\Components\Routing\AwaitingResourceRegistration
+     */
+    public function middleware($middleware)
+    {
+        $middleware = Arr::wrap($middleware);
+        
+        foreach ($middleware as $key => $value) {
+            $middleware[$key] = (string) $value;
+        }
+        
+        $this->options['middleware'] = $middleware;
+        
         return $this;
     }
 
