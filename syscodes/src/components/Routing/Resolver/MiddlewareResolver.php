@@ -54,7 +54,7 @@ class MiddlewareResolver
         
         [$name, $parameters] = array_pad(explode(':', $name, 2), 2, null);
         
-        return ($map[$name] ?? $name).(! is_null($parameters) ? ':'.$parameters : '');
+        return ($map[$name] ?? $name).( ! is_null($parameters) ? ':'.$parameters : '');
     }
     
     /**
