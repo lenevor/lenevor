@@ -38,6 +38,7 @@ use Syscodes\Components\Routing\Router;
  * @method \Syscodes\Components\Routing\Route options(string $uri, \Closure|array|string|null $action = null)
  * @method \Syscodes\Components\Routing\Route any(string $uri, \Closure|array|string|null $action = null)
  * @method \Syscodes\Components\Routing\RouteRegister as(string $value)
+ * @method \Syscodes\Components\Routing\RouteRegister controller(string $controller)
  * @method \Syscodes\Components\Routing\RouteRegister domain(string $value)
  * @method \Syscodes\Components\Routing\RouteRegister middleware(array|string|null $middleware)
  * @method \Syscodes\Components\Routing\RouteRegister name(string $value)
