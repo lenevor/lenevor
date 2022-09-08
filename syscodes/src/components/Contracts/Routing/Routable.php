@@ -136,9 +136,9 @@ interface Routable
 	 *      }); /admin/user
 	 * 
 	 * @param  array  $attributes
-	 * @param  \Closure|string  $callback
+	 * @param  \Closure|array|string  $callback
 	 *
-	 * @return self
+	 * @return void
 	 */
-	public function group(array $attributes, $callback): self;
+	public function group(array $attributes, $routes): void;
 }
