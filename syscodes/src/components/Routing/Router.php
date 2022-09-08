@@ -36,6 +36,7 @@ use Syscodes\Components\Routing\Resources\ResourceRegister;
 use Syscodes\Components\Routing\Resolver\MiddlewareResolver;
 use Syscodes\Components\Routing\Resources\RouteFileRegister;
 use Syscodes\Components\Routing\Resources\AwaitingResourceRegistration;
+use Syscodes\Components\Support\Str;
 
 /**
  * The Router class allows the integration of an easy-to-use routing system.
@@ -140,7 +141,7 @@ class Router implements Routable
 	 */
 	public function getGroupPrefix(): string
 	{
-		if ( ! empty($this->groupStack)) {
+		if ($this->hasGroupStack()) {
 			$last = end($this->groupStack);
 
 			return $last['prefix'] ?? '';
@@ -163,20 +164,17 @@ class Router implements Routable
 	 *
 	 *      }); /admin/user
 	 *
-	 * @param  array  $attributes
-	 * @param  \Closure|string  $callback
-	 *
-	 * @return self
+	 * {@inheritdoc}
 	 */
-	public function group(array $attributes, $callback): self
+	public function group(array $attributes, $routes): void
 	{
-		$this->updateGroupStack($attributes);
-
-		$this->loadRoutes($callback);
-
-		array_pop($this->groupStack);
-
-		return $this;
+		foreach (Arr::wrap($routes) as $groupRoutes) {
+			$this->updateGroupStack($attributes);
+	
+			$this->loadRoutes($groupRoutes);
+	
+			array_pop($this->groupStack);			
+		}
 	}
 
 	/**
@@ -188,8 +186,8 @@ class Router implements Routable
 	 */
 	protected function updateGroupStack(array $attributes): void
 	{
-		if ( ! empty($this->groupStack)) {
-			$attributes = $this->mergeGroup($attributes);
+		if ($this->hasGroupStack()) {
+			$attributes = $this->mergeLastGroup($attributes);
 		}
 
 		$this->groupStack[] = $attributes;
@@ -199,12 +197,13 @@ class Router implements Routable
 	 * Merge the given group attributes.
 	 * 
 	 * @param  array  $new
+	 * @param  bool  $existsPrefix
 	 * 
 	 * @return array
 	 */
-	protected function mergeGroup($new): array
+	public function mergeLastGroup($new, bool $existsPrefix = true): array
 	{
-		return RouteGroup::mergeGroup($new, end($this->groupStack));
+		return RouteGroup::mergeGroup($new, end($this->groupStack), $existsPrefix);
 	}
 	
 	/**
@@ -310,11 +309,11 @@ class Router implements Routable
 	 */
 	protected function actionReferencesController($action): bool
 	{
-		if ($action instanceof Closure) {
-			return false;
+		if ( ! $action instanceof Closure) {
+			return is_string($action) || (isset($action['uses']) && is_string($action['uses']));
 		}
 		
-		return is_string($action) || (isset($action['uses']) && is_string($action['uses']));
+		return false;
 	}
 	
 	/**
@@ -330,8 +329,9 @@ class Router implements Routable
 			$action = ['uses' => $action];
 		}
 		
-		if ( ! empty($this->groupStack)) {
-			$action['uses'] = $this->prependGroupUses($action['uses']);
+		if ($this->hasGroupStack()) {
+			$action['uses'] = $this->prependGroupController($action['uses']);
+			$action['uses'] = $this->prependGroupNamespace($action['uses']);
 		}
 		
 		$action['controller'] = $action['uses'];
@@ -340,17 +340,44 @@ class Router implements Routable
 	}
 	
 	/**
-	 * Prepend the last group uses onto the use clause.
+	 * Prepend the last group namespaces onto the use clause.
 	 * 
-	 * @param  string  $uses
+	 * @param  string  $class
 	 * 
 	 * @return string
 	 */
-	protected function prependGroupUses($uses): string
+	protected function prependGroupNamespace($class): string
 	{
 		$group = end($this->groupStack);
 		
-		return isset($group['namespace']) ? $group['namespace'].'\\'.$uses : $uses;
+		return isset($group['namespace']) && ! Str::startsWith($class, '\\') && ! Str::startsWith($class, $group['namespace']) 
+                ? $group['namespace'].'\\'.$class : $class;
+	}
+	
+	/**
+	 * Prepend the last group controller onto the use clause.
+	 * 
+	 * @param  string  $class
+	 * 
+	 * @return string
+	 */
+	protected function prependGroupController($class): string
+	{
+		$group = end($this->groupStack);
+		
+		if ( ! isset($group['controller'])) {
+			return $class;
+		}
+		
+		if (class_exists($class)) {
+			return $class;
+		}
+		
+		if (Str::contains($class, '@')) {
+			return $class;
+		}
+		
+		return $group['controller'].'@'.$class;
 	}
 
 	/**
@@ -387,7 +414,10 @@ class Router implements Routable
 	 */
 	protected function mergeGroupAttributesIntoRoute($route): void
 	{
-		$action = static::mergeGroup($route->getAction(), end($this->groupStack));
+		$action = $this->mergeLastGroup(
+			$route->getAction(),
+			$existsPrefix = false
+		);
 		
 		$route->setAction($action);
 	}
