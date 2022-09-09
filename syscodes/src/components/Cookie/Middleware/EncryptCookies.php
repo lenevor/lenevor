@@ -22,9 +22,14 @@
 
 namespace Syscodes\Components\Cookie\Middleware;
 
+use Closure;
+use Syscodes\Components\Http\Request;
 use Syscodes\Components\Contracts\Encryption\Encrypter as EncryptContract;
+use Syscodes\Components\Http\Response;
 
 /**
+ * Allows the encrypt of a cookie string according to your the request.
+ * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
 class EncryptCookies
@@ -72,5 +77,70 @@ class EncryptCookies
     public function disableFor($name): void
     {
         $this->except = array_merge($this->except, (array) $name);
+    }
+
+    /**
+     * Handle an incoming request.
+     * 
+     * @param  \Syscodes\Components\Http\Request  $request
+     * @param  \Closure  $next
+     * 
+     * @return \Syscodes\Components\Http\Response
+     */
+    public function handle($request, Closure $next)
+    {
+        $response = $next($this->decrypt($request));
+
+        return $this->encrypt($response);
+    }
+
+    /**
+     * Decrypt the cookies on the request.
+     * 
+     * @param  \Syscodes\Components\Http\Request  $request
+     * 
+     * @return \Syscodes\Components\Http\Request
+     */
+    protected function decrypt(Request $request): Request
+    {
+        foreach ($request->cookies as $key => $cookie) {
+            if ($this->isDisabled($key)) {
+                continue;
+            }
+
+            
+        }
+
+        return $request;
+    }
+
+    /**
+     * Encrypt the cookies on an outgoing response.
+     * 
+     * @param  \Syscodes\Components\Http\Response  $response
+     * 
+     * @return \Syscodes\Components\Http\Response
+     */
+    protected function encrypt(Response $response): Response
+    {
+        foreach ($response->headers->getCookies() as $cookie) {
+            if ($this->isDisabled($cookie->getName())) {
+                continue;
+            }
+        }
+
+        return $response;
+    }
+
+    /**
+     * Determine whether encryption has been disabled for the given cookie.
+     * 
+     * @param  string  $name
+     * 
+     * @return bool
+     */
+    protected function isDisabled($name): bool
+    {
+        return in_array($name, $this->except);
     }
 }
