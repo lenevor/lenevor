@@ -24,8 +24,10 @@ namespace Syscodes\Components\Cookie\Middleware;
 
 use Closure;
 use Syscodes\Components\Http\Request;
-use Syscodes\Components\Contracts\Encryption\Encrypter as EncryptContract;
 use Syscodes\Components\Http\Response;
+use Syscodes\Components\Cookie\Concerns\CookieValue;
+use Syscodes\Components\Encryption\Exceptions\DecryptException;
+use Syscodes\Components\Contracts\Encryption\Encrypter as EncryptContract;
 
 /**
  * Allows the encrypt of a cookie string according to your the request.
@@ -34,6 +36,8 @@ use Syscodes\Components\Http\Response;
  */
 class EncryptCookies
 {
+    use CookieValue;
+
     /**
      * The Encrypter instance.
      * 
@@ -51,9 +55,9 @@ class EncryptCookies
     /**
      * Indicates if cookies should be serialized.
      * 
-     * @var bool $serialized
+     * @var bool $serialize
      */
-    protected $serialized = false;
+    protected static $serialize = false;
 
     /**
      * Constructor. Create a new EncryptCookies class instance.
@@ -108,10 +112,83 @@ class EncryptCookies
                 continue;
             }
 
-            
+            try {
+                $value = $this->decryptCookie($key, $cookie);
+
+                $request->cookies->set($key, $this->validateValue($key, $cookie));
+            } catch (DecryptException $e) {
+                $request->cookies->set($key, null);
+            }           
         }
 
         return $request;
+    }
+
+    /**
+     * Decrypt the given cookie and return the value.
+     * 
+     * @param  string  $name
+     * @param  array|string  $cookie
+     * 
+     * @return array|string
+     */
+    protected function decryptCookie($name, $cookie)
+    {
+        return is_array($cookie)
+                        ? $this->decryptArray($cookie)
+                        : $this->encryter->decrypt($cookie, static::serialized($name));
+    }
+
+    /**
+     * Decrypt an array based cookie.
+     * 
+     * @param  array  $cookie
+     * 
+     * @return array
+     */
+    protected function decryptArray(array $cookie): array
+    {
+        $decrypted = [];
+
+        foreach ($cookie as $key => $value) {
+            $decrypted[$key] = $this->encrypter->decrypt($cookie, static::serialized($key));
+        }
+
+        return $decrypted;
+    }
+    
+    /**
+     * Validate and remove the cookie value prefix from the value.
+     * 
+     * @param  string  $key
+     * @param  string  $value
+     * 
+     * @return string|array|null
+     */
+    protected function validateValue(string $key, $value)
+    {
+        return is_array($value)
+                    ? $this->validateArray($key, $value)
+                    : static::validate($key, $value, $this->encrypter->getKey());
+    }
+    
+    /**
+     * Validate and remove the cookie value prefix from all values of an array.
+     * 
+     * @param  string  $key
+     * @param  array  $value
+     * 
+     * @return array
+     */
+    protected function validateArray(string $key, array $value): array
+    {
+        $validated = [];
+        
+        foreach ($value as $index => $subValue) {
+            $validated[$index] = $this->validateValue("{$key}[{$index}]", $subValue);
+        }
+        
+        return $validated;
     }
 
     /**
@@ -142,5 +219,17 @@ class EncryptCookies
     protected function isDisabled($name): bool
     {
         return in_array($name, $this->except);
+    }
+
+    /**
+     * Determine if the cookie contents should be serialized.
+     * 
+     * @param  string  $name
+     * 
+     * @return bool
+     */
+    protected static function serialized($name): bool
+    {
+        return static::$serialize;
     }
 }
