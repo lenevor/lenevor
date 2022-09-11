@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Cookie\Middleware;
 
 use Closure;
+use Syscodes\Components\Http\Cookie;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Http\Response;
 use Syscodes\Components\Cookie\Concerns\CookieValue;
@@ -151,7 +152,7 @@ class EncryptCookies
         $decrypted = [];
 
         foreach ($cookie as $key => $value) {
-            $decrypted[$key] = $this->encrypter->decrypt($cookie, static::serialized($key));
+            $decrypted[$key] = $this->encrypter->decrypt($value, static::serialized($key));
         }
 
         return $decrypted;
@@ -204,9 +205,34 @@ class EncryptCookies
             if ($this->isDisabled($cookie->getName())) {
                 continue;
             }
+            
+            $response->headers->setCookie($this->duplicate(
+                $cookie,
+                $this->encrypter->encrypt(
+                    static::create($cookie->getName(), $this->encrypter->getKey()).$cookie->getValue(),
+                    static::serialized($cookie->getName())
+                )
+            ));
         }
-
+        
         return $response;
+    }
+    
+    /**
+     * Duplicate a cookie with a new value.
+     * 
+     * @param  \Syscodes\Components\Http\Cookie  $cookie
+     * @param  mixed  $value
+     * 
+     * @return \Syscodes\Components\Http\Cookie
+     */
+    protected function duplicate(Cookie $cookie, $value): Cookie
+    {
+        return new Cookie(
+            $cookie->getName(), $value, $cookie->getExpiresTime(),
+            $cookie->getPath(), $cookie->getDomain(), $cookie->isSecure(),
+            $cookie->isHttpOnly(), $cookie->isRaw(), $cookie->getSameSite()
+        );
     }
 
     /**
