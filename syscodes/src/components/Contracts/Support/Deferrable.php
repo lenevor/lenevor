@@ -34,5 +34,5 @@ interface Deferrable
      * 
      * @return array
      */
-    public function provides();
+    public function provides(): array;
 }
