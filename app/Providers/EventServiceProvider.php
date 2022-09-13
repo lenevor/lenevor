@@ -42,7 +42,7 @@ class EventServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      * 
-     * Nota: Events - all standard Events are defined here, as 
+     * Note: Events - all standard Events are defined here, as 
      * determined for all the framework using closures. 
      * 
      * You add the 'Event' facade with the purpose call the Listen method 
