@@ -61,7 +61,7 @@ return [
 
 		'file' => [
 			'driver' => 'file',
-			'path' => storagePath('framework/cache/data')
+			'path' => storagePath('framework/cache/data'),
 		],
 
 		'memcached' => [
@@ -77,15 +77,15 @@ return [
 			'servers' => [				
 				'host' => env('MEMCACHED_HOST', '127.0.0.1'),
 				'port' => env('MEMCACHED_PORT', 11211),
-				'weight' => 100				
+				'weight' => 100,				
 			],
 
 		],
 
 		'redis' => [
 			'driver' => 'redis',
-			'connection' => 'cache'
-		]
+			'connection' => 'cache',
+		],
 
 	],
 
