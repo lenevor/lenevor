@@ -551,6 +551,7 @@ header h1 {
 	top: 0;
 	transition: 0.5s;
 	width: 20px;
+	z-index: 100;
 }
 
 .dark-theme .container .footer .btnTheme.active .indicator {
