@@ -25,26 +25,30 @@
 
 .dark-theme {
 	--color-white-theme: hsla(0, 0%, 100%, 1);
-	--color-black-theme-1: hsla(240, 9%, 18%, 1);
-	--color-black-theme-2: hsla(0, 0%, 7%, 0.2);
-	--color-black-theme-3: hsla(0, 0%, 21%, 0.7);
-	--color-black-theme-4: hsla(0, 3%, 28%, 1);
-	--color-blue-theme-1: hsla(212, 52%, 26%, 1);
-	--color-blue-theme-2: hsla(219, 49%, 38%, 0.18);
-	--color-blue-theme-3: hsla(221, 48%, 38%, 0.2);
-	--color-blue-theme-4: hsla(209, 100%, 70%, 1);
-	--color-blue-theme-5: hsla(208, 31%, 66%, 1);
+	--color-black-theme-1: hsl(216, 92%, 6%);
+	--color-black-theme-2: hsl(217, 94%, 6%);
+	--color-black-theme-3: hsla(218, 96%, 6%, 1);
+	--color-black-theme-4: hsla(219, 98%, 6%, 1);
+	--color-blue-theme-1: hsl(213, 48%, 20%);
+	--color-blue-theme-2: hsl(214, 45%, 24%);
+	--color-blue-theme-3: hsla(215, 46%, 24%, 1);
+	--color-blue-theme-4: hsla(216, 47%, 24%, 1);
+	--color-blue-theme-5: hsla(228, 38%, 28%, 1);
+	--color-blue-theme-6: hsla(216, 63%, 42%, 0.936);
 	--color-yellow-theme: hsla(55, 100%, 50%, 1);
-	--color-green-theme: hsla(155, 85%, 57%, 0.87);
+	--color-green-theme-1: hsl(165, 85%, 45%);
+	--color-green-theme-2: hsla(165, 85%, 57%, 0.87);
 	--color-violet-theme: hsla(173, 100%, 73%, 1);
 	--color-purple-theme-1: hsla(278, 40%, 16%, 1);
 	--color-purple-theme-2: hsla(283, 25%, 42%, 1);
 	--color-purple-theme-3: hsla(273, 29%, 61%, 1);
 	--color-gray-theme-1: hsla(217, 8%, 81%, 1);
 	--color-gray-theme-2: hsla(225, 4%, 78%, 1);
-	--color-orange-theme: hsla(27, 100%, 50%, 1);
+	--color-orange-theme-1: hsla(19, 98%, 46%, 1);
+	--color-orange-theme-2: hsla(27, 100%, 50%, 1);
 	--color-darkgray-theme-1: hsla(216, 7%, 59%, 0.4);
 	--color-darkgray-theme-2: hsla(211, 18%, 48%, 1);	
+	--color-darkgray-theme-3: hsl(212, 17%, 56%);
 }
 
 @font-face {
@@ -76,7 +80,7 @@ body {
 }
 
 body.dark-theme {
-	background: linear-gradient(-160deg, var(--color-blue-theme-1) 20%, var(--color-purple-theme-1) 80%); 
+	background: linear-gradient(20deg, var(--color-blue-theme-1) 20%, var(--color-blue-theme-4) 80%); 
 	background-attachment: fixed;
 }
 
@@ -90,7 +94,7 @@ a:visited {
 .dark-theme a:active, 
 .dark-theme a:link, 
 .dark-theme a:visited { 
-	color: var(--color-gray-theme-1); 
+	color: var(--color-blue-theme-6); 
 	font-weight: 600; 
 }
 
@@ -310,7 +314,6 @@ header h1 {
 }
 
 .status h2 {
-	color: var(--color-blue-4);
 	font-size: 1.6em;
 	font-weight: 600;
 	letter-spacing: 0.8px;
@@ -339,17 +342,17 @@ header h1 {
 }
 
 .dark-theme .status code { 
-	background: var(--color-purple-theme-2);
-	box-shadow: inset -1px -1px 5px hsla(261, 66%, 39%, 0.1),
-				inset -1px -1px 6px hsla(291, 51%, 33%, 0.5);
+	background: var(--color-green-theme-1);
+	box-shadow: inset -1px -1px 5px hsla(166, 66%, 39%, 0.7),
+				inset -1px -1px 6px hsla(166, 51%, 33%, 0.7);
 }
 
 .status code .check { 
 	align-items: center;
 	background: var(--color-blue-1);
 	border-radius: 15px;
-	box-shadow: inset -1px -1px 5px hsla(207, 13%, 34%, 0.1),
-				inset 1px -1px 2px hsla(209, 22%, 35%, 0.1);
+	box-shadow: inset -1px -1px 5px hsla(207, 13%, 34%, 0.7),
+				inset 1px -1px 2px hsla(209, 22%, 35%, 0.7);
 	display: flex;
 	height: 20px;
 	margin: 8px 10px;
@@ -357,9 +360,9 @@ header h1 {
 }
 
 .dark-theme code .check {
-	background: var(--color-purple-theme-3);
-	box-shadow: inset -1px -1px 5px hsla(281, 73%, 26%, 0.1),
-				inset 1px -1px 2px hsla(276, 79%, 34%, 0.1);	
+	background: var(--color-green-theme-2);
+	box-shadow: inset -1px -1px 5px hsla(166, 73%, 26%, 0.1),
+				inset 1px -1px 2px hsla(171, 79%, 34%, 0.1);	
 }
 
 .status code .check svg { 
@@ -394,7 +397,7 @@ header h1 {
 }
 
 .dark-theme .status .status-message {
-	color: var(--color-blue-theme-5);
+	color: var(--color-darkgray-theme-2);
 }
 
 .resources {
@@ -427,12 +430,8 @@ header h1 {
 .dark-theme .resources .learn,
 .dark-theme .resources .discuss,
 .dark-theme .resources .contribute {
-	background: linear-gradient(
-		90deg,
-		var(--color-blue-theme-2),
-		var(--color-blue-theme-3)
-	);
-	box-shadow: 0 0 0 1px var(--color-blue-theme-3);
+	background: var(--color-black-theme-2);
+	box-shadow: 0 0 0 1px var(--color-black-theme-4);
 }
 
 .resources .learn h3,
@@ -454,8 +453,8 @@ header h1 {
 .dark-theme .resources .learn h3,
 .dark-theme .resources .discuss h3,
 .dark-theme .resources .contribute h3 {
-	background: var(--color-blue-theme-2);
-	border-bottom: 1px solid var(--color-blue-theme-3);
+	background: var(--color-black-theme-1);
+	border-bottom: 0;
 	color: var(--color-white-theme);
 }
 
@@ -502,7 +501,7 @@ header h1 {
 .dark-theme .resources .learn p,
 .dark-theme .resources .discuss p,
 .dark-theme .resources .contribute p {
-	color: var(--color-gray-theme-1);
+	color: var(--color-darkgray-theme-3);
 }
 
 .container .footer {
@@ -621,8 +620,8 @@ header h1 {
 .dark-theme .text-gradient {
 	background: linear-gradient( 
 		150deg,
-		var(--color-green-theme),
-		var(--color-blue-theme-4) 60%
+		var(--color-darkgray-theme-1),
+		var(--color-white-theme) 60%
 	);
 	background-clip: text;
 	-webkit-background-clip: text;
