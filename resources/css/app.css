@@ -20,24 +20,27 @@
 	--color-gray-2: hsla(204, 3%, 32%, 1);
 	--color-gray-3: hsla(0, 0%, 60%, 1);
 	--color-gray-4: hsla(0, 0%, 77%, 1);
+	--color-orange: hsla(26, 78%, 51%, 0.9);
 	--color-purple: hsla(272, 32%, 25%, 1);
 }
 
 .dark-theme {
 	--color-white-theme: hsla(0, 0%, 100%, 1);
-	--color-black-theme-1: hsl(216, 92%, 6%);
-	--color-black-theme-2: hsl(217, 94%, 6%);
+	--color-black-theme-1: hsla(216, 92%, 6%, 1);
+	--color-black-theme-2: hsla(217, 94%, 6%, 1);
 	--color-black-theme-3: hsla(218, 96%, 6%, 1);
 	--color-black-theme-4: hsla(219, 98%, 6%, 1);
-	--color-blue-theme-1: hsl(213, 48%, 20%);
-	--color-blue-theme-2: hsl(214, 45%, 24%);
+	--color-blue-theme-1: hsla(213, 48%, 20%, 1);
+	--color-blue-theme-2: hsla(214, 45%, 24%, 1);
 	--color-blue-theme-3: hsla(215, 46%, 24%, 1);
 	--color-blue-theme-4: hsla(216, 47%, 24%, 1);
 	--color-blue-theme-5: hsla(228, 38%, 28%, 1);
-	--color-blue-theme-6: hsla(216, 63%, 42%, 0.936);
-	--color-yellow-theme: hsla(55, 100%, 50%, 1);
-	--color-green-theme-1: hsl(165, 85%, 45%);
-	--color-green-theme-2: hsla(165, 85%, 57%, 0.87);
+	--color-blue-theme-6: hsla(216, 63%, 42%, 1);
+	--color-blue-theme-7: hsla(205, 75%, 51%, 1);
+	--color-yellow-theme: hsla(55, 97%, 57%, 0.905);
+	--color-green-theme-1: hsla(165, 86%, 49%, 1);
+	--color-green-theme-2: hsla(165, 83%, 43%, 1);
+	--color-green-theme-3: hsla(165, 85%, 57%, 1);
 	--color-violet-theme: hsla(173, 100%, 73%, 1);
 	--color-purple-theme-1: hsla(278, 40%, 16%, 1);
 	--color-purple-theme-2: hsla(283, 25%, 42%, 1);
@@ -48,7 +51,7 @@
 	--color-orange-theme-2: hsla(27, 100%, 50%, 1);
 	--color-darkgray-theme-1: hsla(216, 7%, 59%, 0.4);
 	--color-darkgray-theme-2: hsla(211, 18%, 48%, 1);	
-	--color-darkgray-theme-3: hsl(212, 17%, 56%);
+	--color-darkgray-theme-3: hsla(212, 17%, 56%, 1);
 }
 
 @font-face {
@@ -87,7 +90,7 @@ body.dark-theme {
 a:active, 
 a:link, 
 a:visited { 
-	color: var(--color-blue-4); 
+	color: var(--color-blue-3); 
 	font-weight: 600; 
 }
 
@@ -120,7 +123,7 @@ h2 {
 	font-weight: normal;
 	font-variant: normal;
 	line-height: 1;
-	margin-right: 5px; 
+	margin-right: 3px;
 	text-transform: none; 
 	/* Better Font Rendering =========== */ 
 	-webkit-font-smoothing: antialiased; 
@@ -342,17 +345,17 @@ header h1 {
 }
 
 .dark-theme .status code { 
-	background: var(--color-green-theme-1);
-	box-shadow: inset -1px -1px 5px hsla(166, 66%, 39%, 0.7),
-				inset -1px -1px 6px hsla(166, 51%, 33%, 0.7);
+	background: var(--color-green-theme-2);
+	box-shadow: inset -1px -1px 5px hsla(153, 66%, 39%, 0.7),
+				inset -1px -1px 6px hsla(161, 51%, 33%, 0.7);
 }
 
 .status code .check { 
 	align-items: center;
 	background: var(--color-blue-1);
 	border-radius: 15px;
-	box-shadow: inset -1px -1px 5px hsla(207, 13%, 34%, 0.7),
-				inset 1px -1px 2px hsla(209, 22%, 35%, 0.7);
+	box-shadow: inset -1px -1px 1px hsla(207, 13%, 34%, 0.7),
+				inset 1px 1px 2px hsla(209, 22%, 35%, 0.7);
 	display: flex;
 	height: 20px;
 	margin: 8px 10px;
@@ -360,9 +363,9 @@ header h1 {
 }
 
 .dark-theme code .check {
-	background: var(--color-green-theme-2);
-	box-shadow: inset -1px -1px 5px hsla(166, 73%, 26%, 0.1),
-				inset 1px -1px 2px hsla(171, 79%, 34%, 0.1);	
+	background: var(--color-green-theme-3);
+	box-shadow: -1px 1px 2px hsla(166, 74%, 31%, 0.7),
+				1px 1px 2px hsla(171, 69%, 37%, 0.7);	
 }
 
 .status code .check svg { 
@@ -445,7 +448,7 @@ header h1 {
 	font-size: 1em;
 	letter-spacing: .5px;
 	padding: 10px;
-	padding-left: 45px;
+	padding-left: 50px;
 	width: 100%;
 	z-index: 100;
 }
@@ -461,7 +464,7 @@ header h1 {
 .resources .learn h3 .icon-books:before,
 .resources .discuss h3 .icon-embed:before,
 .resources .contribute h3 .icon-users:before {
-	background: var(--color-blue-3);
+	background: var(--color-orange);
 	background-clip: text;
 	-webkit-background-clip: text;
 	-moz-background-clip: text;
@@ -478,8 +481,8 @@ header h1 {
 .dark-theme .resources .contribute h3 .icon-users:before {
 	background: linear-gradient(
 					227deg, 
-					var(--color-violet-theme) 10%, 
-					var(--color-blue-theme-4) 90%
+					var(--color-orange-theme-2) 10%, 
+					var(--color-orange-theme-1) 90%
 	);
 	background-clip: text;
 	-webkit-background-clip: text;
@@ -516,7 +519,7 @@ header h1 {
 }
 
 .container .footer .btnTheme {
-	background: var(--color-blue-4);
+	background: var(--color-blue-3);
 	color: var(--color-black);
 	border-radius: 160px;
 	box-shadow: 0 0 0 1px rgba(194, 194, 194, 0.3),
@@ -531,16 +534,16 @@ header h1 {
 }
 
 .dark-theme .container .footer .btnTheme.active {
-	background: var(--color-blue-4);
-	box-shadow: 0 0 0 1px rgba(43, 11, 85, 0.3),
-				inset 0 1px 2px rgba(51, 41, 141, 0.2),
-				inset 0 -1px 2px rgba(49, 39, 104, 0.2);
+	background: var(--color-blue-theme-7);
+	box-shadow: inset 0 0 1px hsla(266, 77%, 19%, 0.3),
+				inset 0 1px 2px hsla(246, 55%, 36%, 0.2),
+				inset 0 -1px 2px hsla(249, 45%, 28%, 0.2);
 }
 
 .container .footer .btnTheme .indicator {
-	background: var(--color-white);
+	background: var(--color-white-3);
 	border-radius: 50%;
-	box-shadow: 0 0 0 2px rgba(194, 194, 194, 0.2),
+	box-shadow: inset 1px 0 0 2px rgba(194, 194, 194, 0.1),
 				inset 0 1px 2px rgba(230, 230, 230, 0.1),
 				inset 0 -1px 2px rgba(228, 228, 228, 0.1);
 	height: 20px;
@@ -554,7 +557,7 @@ header h1 {
 }
 
 .dark-theme .container .footer .btnTheme.active .indicator {
-	background: var(--color-white);
+	background: var(--color-gray-theme-1);
 	box-shadow: 0 0 1px 1px rgba(35, 22, 77, 0.2),
 				0 1px 1px 1px rgba(47, 22, 94, 0.2),
 				0 -1px 1px 1px rgba(55, 39, 105, 0.2);
@@ -620,7 +623,7 @@ header h1 {
 .dark-theme .text-gradient {
 	background: linear-gradient( 
 		150deg,
-		var(--color-darkgray-theme-1),
+		var(--color-gray-theme-1),
 		var(--color-white-theme) 60%
 	);
 	background-clip: text;
@@ -845,7 +848,7 @@ header h1 {
 
 	.status h2 {
 		font-size: 3.2em;
-		margin-top: 60px;
+		margin-top: 50px;
 	}
 
 	.status h2 span {
@@ -873,7 +876,7 @@ header h1 {
 
 	.resources {
 		font-size: 0.9em;
-		top: -0.5px;
+		top: 10px;
 	}
 
 	.container .footer {
