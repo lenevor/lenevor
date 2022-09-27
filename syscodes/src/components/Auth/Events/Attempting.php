@@ -59,8 +59,8 @@ class Attempting
      */
     public function __construct($guard, $credentials, $remember)
     {
-        $this->guard = $guard;
-        $this->remember = $remember;
+        $this->guard       = $guard;
+        $this->remember    = $remember;
         $this->credentials = $credentials;
     }
 }
