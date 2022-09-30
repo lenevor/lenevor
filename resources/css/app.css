@@ -39,7 +39,7 @@
 	--color-blue-theme-5: hsla(228, 38%, 28%, 1);
 	--color-blue-theme-6: hsla(216, 63%, 42%, 1);
 	--color-blue-theme-7: hsla(205, 75%, 51%, 1);
-	--color-yellow-theme: hsla(63, 81%, 33%, 0.963);
+	--color-yellow-theme: hsla(63, 88%, 68%, 0.963);
 	--color-green-theme-1: hsla(165, 86%, 49%, 1);
 	--color-green-theme-2: hsla(165, 83%, 43%, 1);
 	--color-green-theme-3: hsla(165, 85%, 57%, 1);
@@ -522,12 +522,12 @@ header h1 {
 }
 
 .container .footer .btnTheme {
-	background: var(--color-black-3);
+	background: var(--color-white-4);
 	color: var(--color-black);
 	border-radius: 160px;
-	box-shadow: 0 0 0 1px rgba(194, 194, 194, 0.3),
-				inset 0 1px 2px rgba(230, 230, 230, 0.2),
-				inset 0 -1px 2px rgba(228, 228, 228, 0.2);
+	box-shadow: 0 0 0 1px var(--color-white-4),
+				inset 0 1px 2px var(--color-gray-4),
+				inset 0 -1px 2px var(--color-gray-4);
 	cursor: pointer;			
 	height: 20px;
 	margin: 0 auto;
@@ -537,17 +537,18 @@ header h1 {
 }
 
 .dark-theme .container .footer .btnTheme.active {
-	background: var(--color-white-theme);
-	box-shadow: inset 0 0 1px hsla(266, 77%, 19%, 0.3),
-				inset 0 1px 2px hsla(246, 55%, 36%, 0.2),
-				inset 0 -1px 2px hsla(249, 45%, 28%, 0.2);
+	background: var(--color-black-theme-2);
+	box-shadow: inset 0 0 1px var(--color-black-theme-3),
+				inset 0 1px 2px var(--color-black-theme-3),
+				inset 0 -1px 2px var(--color-black-theme-3);
 }
 
 .container .footer .btnTheme .indicator {
-	background: var(--color-white-4);
+	background: var(--color-white-1);
 	border-radius: 50%;
-	box-shadow: inset 1px 0 1px var(--color-white-1),
-				inset 0 1px 1px var(--color-white-1);
+	box-shadow: inset 1px 0 1px var(--color-gray-4),
+	            inset -1px 0 1px var(--color-gray-4),
+				inset 0 -1px 1px var(--color-gray-4);
 	height: 20px;
 	left: 0;
 	position: absolute;
@@ -559,10 +560,11 @@ header h1 {
 }
 
 .dark-theme .container .footer .btnTheme.active .indicator {
-	background: var(--color-black-theme-4);
-	box-shadow: inset 1px 0 1px var(--color-black-theme-1),
-				inset 0 1px 1px var(--color-black-theme-1);
-	transform: scale(0.82);
+	background: var(--color-darkgray-theme-1);
+	box-shadow: inset 1px 0 1px var(--color-darkgray-theme-1),
+	            inset -1px 0 1px var(--color-darkgray-theme-1)
+				inset 0 1px 1px var(--color-darkgray-theme-1);
+	transform: scale(0.75);
 }
 
 .container .footer .btnTheme .fas {
@@ -578,7 +580,7 @@ header h1 {
 }
 
 .container .footer .btnTheme .fa-moon {
-	color: var(--color-gray-3);
+	color: var(--color-black-4);
 	opacity: 1;
 }
 
@@ -981,7 +983,6 @@ header h1 {
 	
 	.container .footer .btnTheme .indicator {
 		height: 30px;
-		transform: scale(0.8);
 		width: 30px;
 	}
 	
