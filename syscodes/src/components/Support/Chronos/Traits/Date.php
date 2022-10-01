@@ -51,23 +51,11 @@ trait Date
     use Difference;
 
     /**
-	 * Used to check time string to determine if it is relative time or not.
-	 *
-	 * @var string $relativePattern
-	 */
-    protected static $relativePattern = '/this|next|last|tomorrow|yesterday|midnight|today|[+-]|first|last|ago/i';
-
-    /**
      * Identifier used to get language.
      * 
      * @var string $locale
      */
     protected $locale;
-    
-    /**
-     * @var \Syscodes\Components\Support\Chronos\Date $testNow
-     */
-    protected static $testNow;
 
     /**
      * Get a timezone.
@@ -257,7 +245,7 @@ trait Date
      */
     public function humanize()
     {
-        $now     = IntlCalendar::fromDateTime(static::now($this->timezone)->toDateTimeString());
+        $now     = IntlCalendar::fromDateTime(static::now($this->timezone)->toDateTimeString(), $this->locale);
         $time    = $this->getCalendar()->getTime();
         $years   = $now->fieldDifference($time, IntlCalendar::FIELD_YEAR);
         $months  = $now->fieldDifference($time, IntlCalendar::FIELD_MONTH);
