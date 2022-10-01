@@ -89,23 +89,53 @@ class CacheRepository implements ArrayAccess, Repository
 
         return $value;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function add($key, $value, $ttl = null): bool
+    {
+        $seconds = null;
+
+        if ($ttl !== null) {
+            $seconds = $this->getSeconds($ttl);
+
+            if ($seconds <= 0) {
+                return false;
+            }
+        }
+
+        if (is_null($this->get($key))) {
+            return $this->put($key, $value, $seconds);
+        }
+
+        return false;
+    }
     
     /**
      * Store an item in the cache.
      * 
      * @param  string  $key
      * @param  mixed   $value
-     * @param  \DateTime|int  $minutes
+     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
      * 
      * @return bool
      */
-    public function put($key, $value, $minutes): bool
+    public function put($key, $value, $ttl = null): bool
     {
-        $minutes = $this->getMinutes($minutes);
-        
-        if ( ! is_null($minutes)) {
-            return $this->store->put($key, $value, $minutes);
+        if (null === $ttl) {
+            return $this->forever($key, $value);
         }
+
+        $seconds = $this->getSeconds($ttl);
+
+        if ($seconds <= 0) {
+            return $this->delete($key);
+        }
+
+        $result = $this->store->put($this->itemKey($key), $value, $seconds);
+
+        return $result;
     }
 
     /**
