@@ -36,6 +36,13 @@ use DateTimeZone;
 trait Factory
 {
     /**
+     * Get the test of date now.
+     * 
+     * @var object|string $testNow
+     */
+    protected static $testNow;
+
+    /**
      * Constructor. The Date class instance.
      * 
      * @param  string|null  $time  
