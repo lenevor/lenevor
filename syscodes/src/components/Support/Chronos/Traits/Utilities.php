@@ -34,6 +34,13 @@ use IntlCalendar;
 trait Utilities
 {
     /**
+	 * Used to check time string to determine if it is relative time or not.
+	 *
+	 * @var string $relativePattern
+	 */
+    protected static $relativePattern = '/this|next|last|tomorrow|yesterday|midnight|today|[+-]|first|last|ago/i';
+
+    /**
      * Check a time string to see if it includes a relative date.
      * 
      * @param  string  $time
@@ -83,6 +90,6 @@ trait Utilities
      */
     public function getCalendar()
     {
-        return IntlCalendar::fromDateTime($this->toDateTimeString());
+        return IntlCalendar::fromDateTime($this->toDateTimeString(), $this->locale);
     }
 }
