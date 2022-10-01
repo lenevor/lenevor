@@ -49,15 +49,26 @@ interface Repository
     public function get($key, $default = null);
 
     /**
+     * Store an item in the cache if the key does not exist.
+     * 
+     * @param  string  $key
+     * @param  mixed  $value
+     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
+     * 
+     * @return bool
+     */
+    public function add($key, $value, $ttl = null): bool;
+
+    /**
      * Store an item in the cache.
      * 
      * @param  string  $key
      * @param  mixed   $value
-     * @param  \DateTime|int  $minutes
+     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
      * 
      * @return bool
      */
-    public function put($key, $value, $minutes): bool;
+    public function put($key, $value, $ttl = null): bool;
 
     /**
      * Retrieve an item from the cache and delete it.
@@ -74,7 +85,7 @@ interface Repository
      * 
      * @param  string  $key  Cache item name
      * @param  mixed  $value  The data to save 
-     * @param  int|null  $ttl  Time To Live, in second
+     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl  Time To Live, in second
      */
     public function save($key, $value, $ttl = null);
 
