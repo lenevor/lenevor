@@ -133,7 +133,7 @@ interface Repository
      * 
      * @return void
      */
-    public function clear();
+    public function flush();
 
     /**
      * Get the cache store implementation.
