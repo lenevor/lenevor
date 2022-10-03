@@ -201,7 +201,7 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * {@inheritdoc}
      */
-    public function clear()
+    public function flush()
     {
         return $this->store->flush();
     }
