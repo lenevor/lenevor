@@ -44,9 +44,10 @@
 	--color-green-theme-2: hsla(165, 83%, 43%, 1);
 	--color-green-theme-3: hsla(165, 85%, 57%, 1);
 	--color-violet-theme: hsla(173, 100%, 73%, 1);
-	--color-purple-theme-1: hsla(278, 40%, 16%, 1);
-	--color-purple-theme-2: hsla(283, 25%, 42%, 1);
-	--color-purple-theme-3: hsla(273, 29%, 61%, 1);
+	--color-purple-theme-1: hsla(264, 40%, 16%, 1);
+	--color-purple-theme-2: hsla(278, 40%, 16%, 1);
+	--color-purple-theme-3: hsla(280, 42%, 16%, 1);
+	--color-purple-theme-4: hsla(282, 44%, 16%, 1);
 	--color-gray-theme-1: hsla(217, 8%, 81%, 1);
 	--color-gray-theme-2: hsla(225, 4%, 78%, 1);
 	--color-gray-theme-3: hsla(233, 2%, 75%, 1);
@@ -86,7 +87,7 @@ body {
 }
 
 body.dark-theme {
-	background: linear-gradient(20deg, var(--color-blue-theme-1) 20%, var(--color-blue-theme-4) 80%); 
+	background: linear-gradient(20deg, var(--color-blue-theme-1) 30%, var(--color-purple-theme-1) 70%); 
 	background-attachment: fixed;
 }
 
