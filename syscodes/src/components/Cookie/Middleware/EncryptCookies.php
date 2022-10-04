@@ -137,7 +137,7 @@ class EncryptCookies
     {
         return is_array($cookie)
                         ? $this->decryptArray($cookie)
-                        : $this->encryter->decrypt($cookie, static::serialized($name));
+                        : $this->encrypter->decrypt($cookie, static::serialized($name));
     }
 
     /**
