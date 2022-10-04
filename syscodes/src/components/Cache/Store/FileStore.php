@@ -92,12 +92,10 @@ class FileStore implements Store
     {
         $path = $this->path($key);
 
-        if ( ! $this->files->exists($path)) {
-            return $this->emptyPayLoad();
-        }
-
         try {
-            $expires = substr($contents = $this->files->get($path, true), 0, 10);
+            $expires = substr(
+                $contents = $this->files->get($path, true), 0, 10
+            );
         } catch (Exception $e) {
             return $this->emptyPayLoad();
         }
@@ -108,7 +106,7 @@ class FileStore implements Store
             return $this->emptyPayLoad();
         }
 
-        try {   
+        try {
             $data = (new FileCacheRegister)
                     ->unserialize(substr($contents, 10))
                     ->getData();
@@ -178,9 +176,9 @@ class FileStore implements Store
      * 
      * @param  int  $seconds
      * 
-     * @return bool
+     * @return int
      */
-    protected function expiration($seconds): bool
+    protected function expiration($seconds): int
     {
         $time = $this->availableAt($seconds);
 
