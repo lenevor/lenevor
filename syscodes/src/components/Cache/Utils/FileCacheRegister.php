@@ -69,7 +69,9 @@ class FileCacheRegister implements Serializable
      */
     public function serialize()
     {
-        return serialize($this->data);
+        $data = (string) $this->data;
+
+        return serialize($data);
     }
     
     /**
