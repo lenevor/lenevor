@@ -32,7 +32,7 @@ use Syscodes\Components\Cache\Store\ArrayStore;
 use Syscodes\Components\Cache\Store\RedisStore;
 use Syscodes\Components\Cache\Store\MemcachedStore;
 use Syscodes\Components\Cache\Exceptions\CacheException;
-use Syscodes\Components\Contracts\Cache\Manager as ManagerContract;
+use Syscodes\Components\Contracts\Cache\Factory as FactoryContract;
 
 /**
  * Class cache manager.
@@ -41,7 +41,7 @@ use Syscodes\Components\Contracts\Cache\Manager as ManagerContract;
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class CacheManager implements ManagerContract
+class CacheManager implements FactoryContract
 {
     /**
      * The application instance.
@@ -95,9 +95,13 @@ class CacheManager implements ManagerContract
     }
 
     /**
-     * @inheritdoc
+     * Get the store from the local cache.
+     * 
+     * @param  string  $name
+     * 
+     * @return \Syscodes\Components\Cache\CacheRepository
      */
-    public function get($name)
+    protected function get($name)
     {
         return $this->stores[$name] ?? $this->resolve($name);
     }
