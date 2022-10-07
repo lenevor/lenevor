@@ -23,9 +23,10 @@
 namespace Syscodes\Components\Cache\Store;
 
 use Exception;
-use Syscodes\Components\Cache\Types\CacheKey;
-use Syscodes\Components\Filesystem\Filesystem;
+use Syscodes\Components\Contracts\Cache\Key;
 use Syscodes\Components\Contracts\Cache\Store;
+use Syscodes\Components\Filesystem\Filesystem;
+use Syscodes\Components\Cache\Concerns\CacheKey;
 use Syscodes\Components\Support\InteractsWithTime;
 use Syscodes\Components\Cache\Utils\FileCacheRegister;
 
@@ -34,9 +35,10 @@ use Syscodes\Components\Cache\Utils\FileCacheRegister;
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class FileStore implements Store
+class FileStore implements Key, Store
 {
-    use InteractsWithTime;
+    use CacheKey,
+        InteractsWithTime;
 
     /**
      * The extension file called '.cache'.
@@ -128,9 +130,9 @@ class FileStore implements Store
      */
     protected function path($key): string
     {
-        $keyname = new CacheKey($key);
+        $this->getFixKeyChars($key);
 
-        return $this->directory.DIRECTORY_SEPARATOR.$keyname->getKeyName().$this->extension;
+        return $this->directory.DIRECTORY_SEPARATOR.$this->getKeyName().$this->extension;
     }
 
     /**
