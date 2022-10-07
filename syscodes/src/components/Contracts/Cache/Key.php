@@ -41,7 +41,7 @@ interface Key
      *
      * @param  string  $key
      * 
-     * @return string
+     * @return void
      */
-    public function getFixKeyChars(string $key): string;
+    public function getFixKeyChars(string $key): void;
 }
