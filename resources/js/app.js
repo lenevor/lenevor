@@ -12,3 +12,5 @@ if (localStorage.getItem('dark-mode') === 'true') {
     document.body.classList.remove('dark-theme');
     btnTheme.classList.remove('active');
 }
+
+btnTheme.classList.add('active');
