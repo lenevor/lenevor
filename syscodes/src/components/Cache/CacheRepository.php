@@ -113,13 +113,7 @@ class CacheRepository implements ArrayAccess, Repository
     }
     
     /**
-     * Store an item in the cache.
-     * 
-     * @param  string  $key
-     * @param  mixed   $value
-     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function put($key, $value, $ttl = null): bool
     {
