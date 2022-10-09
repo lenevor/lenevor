@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Cache\Store;
 
 use Memcached;
+use ReflectionMethod;
 use Syscodes\Components\Contracts\Cache\Store;
 use Syscodes\Components\Support\InteractsWithTime;
 
@@ -43,6 +44,13 @@ class MemcachedStore implements Store
     protected $memcached;
 
     /**
+     * Indicates whether we are using Memcached version >= 3.0.0.
+     * 
+     * @var bool $onVersion
+     */
+    protected $onVersion;
+
+    /**
      * A string that should be prepended to keys.
      * 
      * @var string $prefix
@@ -60,7 +68,10 @@ class MemcachedStore implements Store
     public function __construct($memcached, $prefix = '')
     {
         $this->setPrefix($prefix);
+
         $this->memcached = $memcached;
+        $this->onVersion = (new ReflectionMethod('Memcached', 'getMulti'))
+                           ->getNumberOfParameters() == 2;
     }
 
     /**
@@ -88,6 +99,28 @@ class MemcachedStore implements Store
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function many(array $keys): array
+    {
+        $prefixed = array_map(function ($key) {
+            return $this->prefix.$key;
+        }, $keys);
+        
+        if ($this->onVersion) {
+            $values = $this->memcached->getMulti($prefixed, Memcached::GET_PRESERVE_ORDER);
+        } else {
+            $values = $this->memcached->getMulti($prefixed, null, Memcached::GET_PRESERVE_ORDER);
+        }
+        
+        if ($this->memcached->getResultCode() != 0) {
+            return array_fill_keys($keys, null);
+        }
+        
+        return array_combine($keys, $values);
+    }
+
+    /**
      * Store an item in the cache if the key doesn't exist.
      * 
      * @param  string  $key
@@ -107,6 +140,22 @@ class MemcachedStore implements Store
     public function put($key, $value, $seconds): bool
     {
         return $this->memcached->set($this->prefix.$key, $value, $this->calcExpiration($seconds));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function putMany(array $values, $seconds): bool
+    {
+        $prefixed = [];
+        
+        foreach ($values as $key => $value) {
+            $prefixed[$this->prefix.$key] = $value;
+        }
+        
+        return $this->memcached->setMulti(
+            $prefixed, $this->calcExpiration($seconds)
+        );
     }
 
     /**
@@ -144,7 +193,7 @@ class MemcachedStore implements Store
     /**
      * {@inheritdoc}
      */
-    public function flush()
+    public function flush(): bool
     {
         return $this->memcached->flush();
     }
