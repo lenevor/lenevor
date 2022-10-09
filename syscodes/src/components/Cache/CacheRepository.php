@@ -81,12 +81,48 @@ class CacheRepository implements ArrayAccess, Repository
      */
     public function get($key, $default = null)
     {
+        if (is_array($key)) {
+            return $this->many($key);
+        }
+
         $value = $this->store->get($this->itemKey($key));
 
         if (is_null($value)) {
             $value = value($default);
         }
 
+        return $value;
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function many(array $keys): array
+    {
+        $values = $this->store->many(collect($keys)->map(function ($value, $key) {
+            return is_string($key) ? $key : $value;
+        })->values()->all());
+        
+        return collect($values)->map(function ($value, $key) use ($keys) {
+            return $this->handleMany($keys, $key, $value);
+        })->all();
+    }
+    
+    /**
+     * Handle a result for the "many" method.
+     * 
+     * @param  array  $keys
+     * @param  string  $key
+     * @param  mixed  $value
+     * 
+     * @return mixed
+     */
+    protected function handleMany($keys, $key, $value)
+    {
+        if (is_null($value)) {
+            return isset($keys[$key]) ? value($keys[$key]) : null;
+        }
+        
         return $value;
     }
 
@@ -130,6 +166,44 @@ class CacheRepository implements ArrayAccess, Repository
         $result = $this->store->put($this->itemKey($key), $value, $seconds);
 
         return $result;
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function putMany(array $values, $ttl = null): bool
+    {
+        if ($ttl === null) {
+            return $this->putManyForever($values);
+        }
+        
+        $seconds = $this->getSeconds($ttl);
+        
+        if ($seconds <= 0) {
+            return $this->deleteMultiple(array_keys($values));
+        }
+        
+        $result = $this->store->putMany($values, $seconds);
+        
+        return $result;
+    }
+    
+    /**
+     * Store multiple items in the cache indefinitely.
+     * 
+     * @param  array  $values
+     * 
+     * @return bool
+     */
+    protected function putManyForever(array $values): bool
+    {
+        foreach ($values as $key => $value) {
+            if ( ! $this->forever($key, $value)) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 
     /**
@@ -182,6 +256,20 @@ class CacheRepository implements ArrayAccess, Repository
     public function delete($key): bool
     {
         return $this->store->delete($this->itemKey($key));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteMultiple($keys): bool
+    {
+        foreach ($keys as $key) {
+            if ( ! $this->forget($key)) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 
     /**
