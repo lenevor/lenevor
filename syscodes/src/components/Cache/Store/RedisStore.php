@@ -65,6 +65,7 @@ class RedisStore implements Store
     public function __construct(RedisManager $redis, $prefix = '', $connection = 'default')
     {
         $this->redis = $redis;
+
         $this->setPrefix($prefix);
         $this->setConnection($connection);
     }
@@ -82,6 +83,24 @@ class RedisStore implements Store
     /**
      * {@inheritdoc}
      */
+    public function many(array $keys): array
+    {
+        $results = [];
+        
+        $values = $this->connection()->mget(array_map(function ($key) {
+            return $this->prefix.$key;
+        }, $keys));
+        
+        foreach ($values as $index => $value) {
+            $results[$keys[$index]] = ! is_null($value) ? $this->unserialize($value) : null;
+        }
+        
+        return $results;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function put($key, $value, $seconds): bool
     {
         return (bool) $this->connection()->setex(
@@ -89,6 +108,26 @@ class RedisStore implements Store
                 (int) max(1, $seconds),
                 $this->serialize($value)
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function putMany(array $values, $seconds): bool
+    {
+        $this->connection()->multi();
+        
+        $manyResult = null;
+        
+        foreach ($values as $key => $value) {
+            $result = $this->put($key, $value, $seconds);
+            
+            $manyResult = is_null($manyResult) ? $result : $result && $manyResult;
+        }
+        
+        $this->connection()->exec();
+        
+        return $manyResult ?: false;
     }
 
     /**
@@ -126,7 +165,7 @@ class RedisStore implements Store
     /**
      * {@inheritdoc}
      */
-    public function flush()
+    public function flush(): bool
     {
         $this->connection()->flushdb();
 
