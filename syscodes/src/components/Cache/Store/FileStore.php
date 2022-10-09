@@ -29,6 +29,7 @@ use Syscodes\Components\Filesystem\Filesystem;
 use Syscodes\Components\Cache\Concerns\CacheKey;
 use Syscodes\Components\Support\InteractsWithTime;
 use Syscodes\Components\Cache\Utils\FileCacheRegister;
+use Syscodes\Components\Cache\concerns\CacheMultipleKeys;
 
 /**
  * File system cache handler.
@@ -38,6 +39,7 @@ use Syscodes\Components\Cache\Utils\FileCacheRegister;
 class FileStore implements Key, Store
 {
     use CacheKey,
+        CacheMultipleKeys,
         InteractsWithTime;
 
     /**
@@ -231,7 +233,7 @@ class FileStore implements Key, Store
     /**
      * {@inheritdoc}
      */
-    public function flush()
+    public function flush(): bool
     {
         if ( ! $this->files->isDirectory($this->directory)) {
             return false;
