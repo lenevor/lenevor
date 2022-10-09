@@ -49,6 +49,15 @@ interface Repository
     public function get($key, $default = null);
 
     /**
+     * Gets multiple items from the cache by key.
+     * 
+     * @param  array  $keys
+     * 
+     * @return array
+     */
+    public function many(array $keys): array;
+
+    /**
      * Store an item in the cache if the key does not exist.
      * 
      * @param  string  $key
@@ -69,6 +78,16 @@ interface Repository
      * @return bool
      */
     public function put($key, $value, $ttl = null): bool;
+
+    /**
+     * Store multiple items in the cache for a given number of seconds.
+     * 
+     * @param  array  $values
+     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
+     * 
+     * @return bool
+     */
+    public function putMany(array $values, $ttl = null): bool;
 
     /**
      * Retrieve an item from the cache and delete it.
@@ -117,6 +136,15 @@ interface Repository
      * @return bool
      */
     public function delete($key): bool;
+
+    /**
+     * Removes multiple items from the cache store.
+     * 
+     * @param  array  $keys
+     * 
+     * @return bool
+     */
+    public function deleteMultiple($keys): bool;
 
     /**
      * Stores an item in the cache indefinitely.
