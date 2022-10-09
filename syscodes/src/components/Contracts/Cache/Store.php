@@ -37,6 +37,15 @@ interface Store
      * @return mixed
      */
     public function get($key);
+    
+    /**
+     * Gets multiple items from the cache by key.
+     * 
+     * @param  array  $keys
+     * 
+     * @return array
+     */
+    public function many(array $keys): array;
 
     /**
      * Store an item in the cache for a given number of seconds.
@@ -48,6 +57,16 @@ interface Store
      * @return bool
      */
     public function put($key, $value, $seconds): bool;
+    
+    /**
+     * Store multiple items in the cache for a given number of seconds.
+     * 
+     * @param  array  $values
+     * @param  int  $seconds
+     * 
+     * @return bool
+     */
+    public function putMany(array $values, $seconds): bool;
 
     /**
      * Increment the value of an item in the cache.
@@ -91,9 +110,9 @@ interface Store
     /**
      * Remove all items from the cache.
      * 
-     * @return void
+     * @return bool
      */
-    public function flush();
+    public function flush(): bool;
     
     /**
      * Gets the cache key prefix.
