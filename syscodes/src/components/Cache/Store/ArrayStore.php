@@ -24,6 +24,7 @@ namespace Syscodes\Components\Cache\Store;
 
 use Syscodes\Components\Contracts\Cache\Store;
 use Syscodes\Components\Support\InteractsWithTime;
+use Syscodes\Components\Cache\concerns\CacheMultipleKeys;
 
 /**
  * Array cache handler.
@@ -32,7 +33,8 @@ use Syscodes\Components\Support\InteractsWithTime;
  */
 class ArrayStore implements Store
 {
-    use InteractsWithTime;
+    use CacheMultipleKeys,
+        InteractsWithTime;
 
     /**
      * The array storaged value.
@@ -124,7 +126,7 @@ class ArrayStore implements Store
     /**
      * {@inheritdoc}
      */
-    public function flush()
+    public function flush(): bool
     {
         $this->storage = [];
 
