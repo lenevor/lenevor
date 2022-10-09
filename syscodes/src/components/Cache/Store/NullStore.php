@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Cache\Store;
 
 use Syscodes\Components\Contracts\Cache\Store;
+use Syscodes\Components\Cache\concerns\CacheMultipleKeys;
 
 /**
  * Null cache handler.
@@ -31,6 +32,8 @@ use Syscodes\Components\Contracts\Cache\Store;
  */
 class NullStore implements Store
 {
+    use CacheMultipleKeys;
+
     /**
      * The array storaged value.
      * 
