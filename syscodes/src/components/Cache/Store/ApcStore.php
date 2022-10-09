@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Cache\Store;
 
 use Syscodes\Components\Contracts\Cache\Store;
+use Syscodes\Components\Cache\concerns\CacheMultipleKeys;
 
 /**
  * Apc cache handler.
@@ -31,6 +32,8 @@ use Syscodes\Components\Contracts\Cache\Store;
  */
 class ApcStore implements Store
 {
+    use CacheMultipleKeys;
+    
     /**
      * The APC wrapper instance.
      * 
@@ -114,7 +117,7 @@ class ApcStore implements Store
     /**
      * {@inheritdoc}
      */
-    public function flush()
+    public function flush(): bool
     {
         return $this->apc->flush();
     }
