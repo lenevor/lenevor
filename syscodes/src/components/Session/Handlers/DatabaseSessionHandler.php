@@ -27,8 +27,8 @@ use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Chronos;
 use Syscodes\Components\Support\InteractsWithTime;
 use Syscodes\Components\Contracts\Container\Container;
-use Syscodes\Components\Database\Connections\Connection;
 use Syscodes\Components\Database\Exceptions\QueryException;
+use Syscodes\Components\Database\Connections\ConnectionInterface;
 
 /**
  * Session handler using database system for storage.
@@ -77,14 +77,14 @@ class DatabaseSessionHandler implements SessionHandlerInterface
     /**
      * Constructor. The DatabaseSessionHandler class instance.
      * 
-     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
+     * @param  \Syscodes\Components\Database\Connections\ConnectionInterface  $connection
      * @param  string  $table
      * @param  int  $minutes
      * @param  \Syscodes\Components\Contracts\Container\Container|null  $container
      * 
      * @return void
      */
-    public function __construct(Connection $connection, string $table, int $minutes, Container $container = null)
+    public function __construct(ConnectionInterface $connection, string $table, int $minutes, Container $container = null)
     {
         $this->table      = $table;
         $this->minutes    = $minutes;
