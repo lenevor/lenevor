@@ -37,12 +37,12 @@ final class Version
     /** 
      * Lenevor's version.
      */
-    public const RELEASE = '0.7.10';
+    public const RELEASE = '0.8.0';
 
     /**
      * Release status.
      */
-    public const STATUS = 'alpha.7-dev';
+    public const STATUS = 'alpha.8-dev';
 
     /**
      * The codename in key.
