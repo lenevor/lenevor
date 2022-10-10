@@ -30,6 +30,7 @@ use Syscodes\Components\Contracts\Cache\Store;
 use Syscodes\Components\Cache\Store\ApcWrapper;
 use Syscodes\Components\Cache\Store\ArrayStore;
 use Syscodes\Components\Cache\Store\RedisStore;
+use Syscodes\Components\Cache\Store\DatabaseStore;
 use Syscodes\Components\Cache\Store\MemcachedStore;
 use Syscodes\Components\Cache\Exceptions\CacheException;
 use Syscodes\Components\Contracts\Cache\Factory as FactoryContract;
@@ -77,7 +78,7 @@ class CacheManager implements FactoryContract
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function driver($driver = null)
     {
@@ -85,7 +86,7 @@ class CacheManager implements FactoryContract
     }
     
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function store(string $name = null)
     {
@@ -193,7 +194,11 @@ class CacheManager implements FactoryContract
      */
     protected function createDatabaseDriver(array $config)
     {
-        return;
+        $connection = $this->app['db']->connection($config['connection'] ?? null);
+        $table      = $config['table'];
+        $prefix     = $this->getPrefix($config);
+        
+        return $this->repository(new DatabaseStore($connection, $table, $prefix));
     }
 
     /**
@@ -280,7 +285,7 @@ class CacheManager implements FactoryContract
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getDefaultDriver(): string
     {
@@ -288,7 +293,7 @@ class CacheManager implements FactoryContract
     }
     
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setDefaultDriver(string $name): void
     {
@@ -296,7 +301,7 @@ class CacheManager implements FactoryContract
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function extend($driver, Closure $callback): self
     {
