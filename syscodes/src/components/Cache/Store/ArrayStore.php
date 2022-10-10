@@ -44,6 +44,25 @@ class ArrayStore implements Store
     protected $storage = [];
 
     /**
+     * Indicates if values are serialized within the store.
+     * 
+     * @var bool $serialized
+     */
+    protected $serialized;
+
+    /**
+     * Constructor. Create a new ArrayStore class instance.
+     * 
+     * @param  bool  $serialized
+     * 
+     * @return void
+     */
+    public function __construct($serialized = false)
+    {
+        $this->serialized = $serialized;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function get($key)
@@ -60,7 +79,7 @@ class ArrayStore implements Store
             return;
         }
 
-        return $item['value'];
+        return $this->serialized ? unserialize($item['value']) : $item['value'];
     }
 
     /**
@@ -69,7 +88,7 @@ class ArrayStore implements Store
     public function put($key, $value, $seconds): bool
     {
         $this->storage[$key] = [
-            'value'      => $value,
+            'value' => $this->serialized ? serialize($value) : $value,
             'expiration' => $this->calcExpiration($seconds)
         ];
 
@@ -81,15 +100,17 @@ class ArrayStore implements Store
      */
     public function increment($key, $value = 1)
     {
-        if ( ! isset($this->storage[$key])) {
-            $this->forever($key, $value);
-
-            return $this->storage[$key]['value'];
+        if ( ! is_null($existing = $this->get($key))) {
+            return take(((int) $existing) + $value, function ($incremented) use ($key) {
+                $value = $this->serialized ? serialize($incremented) : $incremented;
+                
+                $this->storage[$key]['value'] = $value;
+            });
         }
-
-        $this->storage[$key]['value'] = ((int) $this->storage[$key]['value']) + $value;
-
-        return $this->storage[$key]['value'];
+        
+        $this->forever($key, $value);
+        
+        return $value;
     }
 
     /**
@@ -105,8 +126,7 @@ class ArrayStore implements Store
      */
     public function delete($key)
     {
-        if (array_key_exists($key, $this->storage))
-        {
+        if (array_key_exists($key, $this->storage)) {
             unset($this->storage[$key]);
 
             return true;
