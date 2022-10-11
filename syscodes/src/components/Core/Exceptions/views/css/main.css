@@ -236,7 +236,7 @@ tbody tr:nth-child(1n) td:nth-child(5) {
 
 .dark.bg-gradient {
 	--bg-opacity: 1;
-	background: linear-gradient(-160deg, hsla(212, 52%, 26%, var(--bg-opacity)) 20%, hsla(278, 40%, 16%, var(--bg-opacity)) 80%); 
+	background: linear-gradient(-160deg, hsla(278, 40%, 16%, var(--bg-opacity)) 20%, hsla(212, 52%, 26%, var(--bg-opacity)) 80%); 
 	background-size: cover;
 	position: relative;
 }
@@ -299,8 +299,8 @@ tbody tr:nth-child(1n) td:nth-child(5) {
 .dark .text-gradient {
 	background: linear-gradient( 
 		150deg,
-		hsla(155, 85%, 57%, 0.87),
-		hsl(209, 100%, 70%) 60%
+		hsla(173, 49%, 52%, 0.87),
+		hsl(209, 51%, 53%) 60%
 	);
 	background-clip: text;
 	-webkit-background-clip: text;
