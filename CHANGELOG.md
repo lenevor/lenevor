@@ -1,5 +1,56 @@
 # Release Notes
 
+## [Version 0.8.0-alpha.8] 
+
+Release Date: Oct 10, 2022
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added new comments for identify the parameters of the __construct() method
+- Added $this as argument in the `compileRoute` method from the `Route` class
+- Added javascript code for get the dark mode in localStorage
+- Added new class for displays an incorrect namespace in console 
+- Added methods for input interactive in the `Console\Input\Input` class
+- Added conditionals for gets (no interaction) in the inputs
+- Added new method for returns the client Ip address
+- Added variable for gets a request of the client ip
+- Added the `MakeQueries` trait for use the first() function
+- Added conditional for using the links of login and register
+- Added 'HOME 'variable for are users authencticated and routes redirected
+- Added parameter of null in argument of the validateIP method
+- Added new interface for verify a hash given value
+- Added new service provider for hashing
+- Added conditional for checks if exist a group of routes of controller
+- Added the $testNow static property in the `Factory` trait
+
+## Changed
+- Changed is the MiddlewareResolver class to the Resolver folder
+- Changed position of variable in the `addResourceEdit()` method
+- Changed is the `RouteResolver` class to the Resolver folder
+- Changed is the `AwaitingResourceRegistration` class to the Resources folder
+- Changed is the `ResourceRegister` class to the Resources folder
+- Changed is the `RouteFileRegister` class to the Resources folder
+- Changed is the `RouteRegister` class to the Resources folder
+- Changed is the `Pipeline` class to the Supported folder
+- Changed the regex for found uri from the `RouteParameterBinding` class
+- Formatting and the connection with database store of the cache
+
+### Created
+- Created new trait for returns the HTTP requests
+- Created is the UriMatches class for check a request url matches given route
+- Created new class for allows to handle throwables running a command
+- Created the class for detecting client IP address
+- Created new `Attempting` class as authentication event
+- Created new Authenticated class as the authenticated user event
+- Created method for parse the encryption key
+- Created method for instance of the cookie session driver
+- Created method for remove any duplicate middleware
+
+### Removed
+- Removed array in `$this->commands` variable in the `Console\Application` class
+
+
 ## [Version 0.7.10-alpha.7] 
 
 Release Date: Jul 06, 2022
