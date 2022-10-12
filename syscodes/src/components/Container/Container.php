@@ -143,6 +143,26 @@ class Container implements ArrayAccess, ContainerContract
 
         $this->aliases[$alias] = $id;
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function rebinding($id, Closure $callback)
+    {
+        $this->hasCallbacks[$id = $this->getAlias($id)][] = $callback;
+        
+        if ($this->bound($id)) return $this->make($id);
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function refresh($id, $target, $method)
+    {
+        return $this->rebinding($id, function($app, $instance) use ($target, $method) {
+            $target->{$method}($instance);
+        });
+    }
 
     /**
      * {@inheritdoc}
@@ -633,7 +653,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return array
      */
-    protected function getBound($id)
+    protected function getBound($id): array
     {
         if (isset($this->hasCallbacks[$id])) {
             return $this->hasCallbacks[$id];
