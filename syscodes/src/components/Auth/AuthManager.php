@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Auth;
 
 use Closure;
+use Syscodes\Components\Auth\Guards\TokenGuard;
 use Syscodes\Components\Contracts\Auth\Factory;
 use Syscodes\Components\Auth\Concerns\CreatesUserProviders;
 
@@ -100,6 +101,46 @@ class AuthManager implements Factory
     }
     
     /**
+     * Call a custom driver creator.
+     * 
+     * @param  string  $name
+     * @param  array  $config
+     * 
+     * @return mixed
+     */
+    protected function callCustomCreator($name, array $config)
+    {
+        $driver = $config['driver'];
+        
+        $callback = $this->customCreators[$driver];
+        
+        return call_user_func($callback, $this->app, $name, $config);
+    }
+    
+    /**
+     * Create a token based authentication guard.
+     * 
+     * @param  string  $name
+     * @param  array  $config
+     * 
+     * @return \Syscodes\Components\Auth\Guards\TokenGuard
+     */
+    public function createTokenDriver($name, $config)
+    {
+        $guard = new TokenGuard(
+            $this->createUserProvider($config['provider'] ?? null),
+                $this->app['request'],
+                $config['input_key'] ?? 'api_token',
+                $config['storage_key'] ?? 'api_token',
+                $config['hash'] ?? false
+        );
+        
+        $this->app->refresh('request', $guard, 'setRequest');
+        
+        return $guard;
+    }
+    
+    /**
      * Get the guard configuration.
      * 
      * @param  string  $name
@@ -148,6 +189,20 @@ class AuthManager implements Factory
     }
     
     /**
+     * Set the callback to be used to resolve users.
+     * 
+     * @param  \Closure  $userResolver
+     * 
+     * @return self
+     */
+    public function resolveUsersUsing(Closure $userResolver): self
+    {
+        $this->userResolver = $userResolver;
+        
+        return $this;
+    }
+    
+    /**
      * Register a custom driver creator Closure.
      * 
      * @param  string  $driver
@@ -173,6 +228,28 @@ class AuthManager implements Factory
     public function provider($name, Closure $callback): self
     {
         $this->customProviderCreators[$name] = $callback;
+        
+        return $this;
+    }
+    
+    /**
+     * Determines if any guards have already been resolved.
+     * 
+     * @return bool
+     */
+    public function hasResolvedGuards(): bool
+    {
+        return count($this->guards) > 0;
+    }
+    
+    /**
+     * Flush all of the resolved guard instances.
+     * 
+     * @return self
+     */
+    public function flushGuards(): self
+    {
+        $this->guards = [];
         
         return $this;
     }
