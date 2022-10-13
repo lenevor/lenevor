@@ -112,6 +112,27 @@ interface Container extends ContainerInterface
      * @return string
      */
     public function getAlias($id): string;
+    
+    /**
+     * Bind a new callback to an id rebind event.
+     * 
+     * @param  string    $id     * 
+     * @param  \Closure  $callback
+     * 
+     * @return mixed
+     */
+    public function rebinding($id, Closure $callback);
+
+     /**
+     * Refresh an instance on the given target and method.
+     * 
+     * @param  string  $id
+     * @param  mixed   $target
+     * @param  string  $method
+     * 
+     * @return mixed
+     */
+    public function refresh($id, $target, $method);
 
     /**
      * Return and array containing all bindings.
