@@ -1067,6 +1067,8 @@ class Application extends Container implements ApplicationContract
     {
         foreach ([
             'app'              => [self::class, \Syscodes\Components\Contracts\Container\Container::class, \Syscodes\Components\Contracts\Core\Application::class, \Psr\Container\ContainerInterface::class],
+            'auth'             => [\Syscodes\Components\Auth\AuthManager::class, \Syscodes\Components\Contracts\Auth\Factory::class],
+            'auth.driver'      => [\Syscodes\Components\Contracts\Auth\Guard::class],
             'cache'            => [\Syscodes\Components\Cache\CacheManager::class, \Syscodes\Components\Contracts\Cache\Manager::class],
             'cache.store'      => [\Syscodes\Components\Cache\CacheRepository::class, \Syscodes\Components\Contracts\Cache\Repository::class],
             'config'           => [\Syscodes\Components\Config\Configure::class, \Syscodes\Components\Contracts\Config\Configure::class],
