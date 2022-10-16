@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Auth;
 
 use Closure;
+use InvalidArgumentException;
 use Syscodes\Components\Auth\Guards\TokenGuard;
 use Syscodes\Components\Contracts\Auth\Factory;
 use Syscodes\Components\Auth\Concerns\CreatesUserProviders;
@@ -101,6 +102,38 @@ class AuthManager implements Factory
     }
     
     /**
+     * Resolve the given guard.
+     * 
+     * @param  string  $name
+     * 
+     * @return \Syscodes\Components\Contracts\Auth\Guard|\Syscodes\Components\Contracts\Auth\StateGuard
+     * 
+     * @throws \InvalidArgumentException
+     */
+    protected function resolve($name)
+    {
+        $config = $this->getConfig($name);
+        
+        if (is_null($config)) {
+            throw new InvalidArgumentException("Auth guard [{$name}] is not defined.");
+        }
+        
+        if (isset($this->customCreators[$config['driver']])) {
+            return $this->callCustomCreator($name, $config);
+        }
+        
+        $method = 'create'.ucfirst($config['driver']).'Driver';
+        
+        if (method_exists($this, $method)) {
+            return $this->{$method}($name, $config);
+        }
+        
+        throw new InvalidArgumentException(
+            "Auth driver [{$config['driver']}] for guard [{$name}] is not defined."
+        );
+    }
+    
+    /**
      * Call a custom driver creator.
      * 
      * @param  string  $name
@@ -155,7 +188,7 @@ class AuthManager implements Factory
     /**
      * {@inheritdoc}
      */
-    public function shouldUse(string $name): void
+    public function shouldUse(string $name)
     {
         $name = $name ?: $this->getDefaultDriver();
         
