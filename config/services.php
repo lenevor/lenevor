@@ -20,6 +20,7 @@ return [
         /*
          * Lenevor Framework Service Providers
          */
+        Syscodes\Components\Auth\AuthServiceProvider::class,
         Syscodes\Components\Cache\CacheServiceProvider::class,
         Syscodes\Components\Cookie\CookieServiceProvider::class,
         Syscodes\Components\Database\DatabaseServiceProvider::class,
