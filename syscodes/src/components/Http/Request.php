@@ -55,6 +55,13 @@ class Request
 	    InteractsWithContentTypes;
 
 	/**
+	 * Get the acceptable of content types.
+	 * 
+	 * @var string[] $acceptableContenTypes
+	 */
+	protected $acceptableContentTypes;
+
+	/**
 	 * Get the custom parameters.
 	 * 
 	 * \Syscodes\Components\Http\Utilities\Parameters $attributes
@@ -246,22 +253,23 @@ class Request
 		array $server = [], 
 		$content = null
 	): void {
-		$this->query        = new Inputs($query);
-		$this->request      = new Inputs($request);
-		$this->attributes   = new Parameters($attributes);
-		$this->cookies      = new Inputs($cookies);
-		$this->files        = new Files($files);
-		$this->server       = new Server($server);
-		$this->headers      = new Headers($this->server->all());
+		$this->query      = new Inputs($query);
+		$this->request    = new Inputs($request);
+		$this->attributes = new Parameters($attributes);
+		$this->cookies    = new Inputs($cookies);
+		$this->files      = new Files($files);
+		$this->server     = new Server($server);
+		$this->headers    = new Headers($this->server->all());
 
-		$this->uri          = new URI;
-		$this->clientIp     = new RequestClientIP($this->server->all());
-		$this->method       = null;
-		$this->baseUrl      = null;
-		$this->content      = $content;
-		$this->pathInfo     = null;
-		$this->languages    = null;
-		$this->validLocales = config('app.supportedLocales');
+		$this->uri                    = new URI;
+		$this->clientIp               = new RequestClientIP($this->server->all());
+		$this->method                 = null;
+		$this->baseUrl                = null;
+		$this->content                = $content;
+		$this->pathInfo               = null;
+		$this->languages              = null;
+		$this->validLocales           = config('app.supportedLocales');
+		$this->acceptableContentTypes = null;
 	}
 
 	/**
@@ -661,6 +669,20 @@ class Request
 
 		return $this;
 	}
+	
+	/**
+	 * Gets a list of content types acceptable by the client browser in preferable order.
+	 * 
+	 * @return string[]
+	 */
+	public function getAcceptableContentTypes(): array
+	{
+		if (null !== $this->acceptableContentTypes) {
+			return $this->acceptableContentTypes;
+		}
+		
+		return $this->acceptableContentTypes = array_map('strval', [$this->headers->get('Accept')]);
+	}
 
 	/**
 	 * Returns whether this is an AJAX request or not.
@@ -682,6 +704,16 @@ class Request
 	{
 		return ! empty($this->server->get('HTTP_X_REQUESTED_WITH')) && 
 				strtolower($this->server->get('HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest';
+	}
+	
+	/**
+	 * Determine if the request is the result of a PJAX call.
+	 * 
+	 * @return bool
+	 */
+	public function pjax(): bool
+	{
+		return $this->headers->get('X-PJAX') == true;
 	}
 
 	/**
