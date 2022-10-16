@@ -61,6 +61,6 @@ class Lenevor extends HttpLenevor
      * @var array $routeMiddleware
      */
     protected $routeMiddleware = [
-        //
+        'auth' => \App\Http\Middleware\Authenticate::class,
     ];
 }
