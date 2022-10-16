@@ -40,4 +40,26 @@ trait InteractsWithContentTypes
     {
         return Str::contains($this->header('CONTENT_TYPE') ?? '', ['/json', '+json']);
     }
+
+    /**
+     * Determine if the current request probably expects a JSON response.
+     *
+     * @return bool
+     */
+    public function expectsJson(): bool
+    {
+        return ($this->ajax() && ! $this->pjax()) || $this->wantsJson();
+    }
+    
+    /**
+     * Determine if the current request is asking for JSON.
+     * 
+     * @return bool
+     */
+    public function wantsJson(): bool
+    {
+        $acceptable = $this->getAcceptableContentTypes();
+        
+        return isset($acceptable[0]) && Str::contains(strtolower($acceptable[0]), ['/json', '+json']);
+    }
 }
