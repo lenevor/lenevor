@@ -20,15 +20,105 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Components\Auth\Guards;
+namespace Syscodes\Components\Auth\Middleware;
+
+use Closure;
+use Syscodes\Components\contracts\Auth\Factory as Auth;
+use Syscodes\Components\Auth\Exceptions\AuthenticationException;
 
 /**
- * //
+ * Determine if the user is logged ussing a given guards.
  * 
  * @author Alexander Campo <jalexam@gmail.com> 
  */
 class Authenticate
 {
-    //
-}
+    /**
+     * The authentication factory instance.
+     * 
+     * @var \Syscodes\Components\Contracts\Auth\Factory $auth
+     */
+    protected $auth;
 
+    /**
+     * Constructor. Create a new Authenticate class instance.
+     * 
+     * @param  \Syscodes\components\Contracts\Auth\Factory  $auth
+     * 
+     * @return void
+     */
+    public function __construct(Auth $auth)
+    {
+        $this->auth = $auth;
+    }
+
+    /**
+     * Handle an incoming request.
+     * 
+     * @param  \Syscodes\Components\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  string[]  $guards
+     * 
+     * @return \Syscodes\Components\Http\Response
+     */
+    public function handle($request, Closure $next, ...$guards)
+    {
+        $this->authenticate($request, $guards);
+
+        return $next($request);
+    }
+
+    /**
+     * Determine if the user is logged in to any of the given guards.
+     * 
+     * @param  \Syscodes\Components\Http\Request  $request
+     * @param  array  guards
+     * 
+     * @return void
+     * 
+     * @throws \Syscodes\Components\Auth\Exceptions\AuthenticationException
+     */
+    protected function authenticate($request, array $guards)
+    {
+        if (empty($guards)) {
+            $guards = [null];
+        }
+
+        foreach ($guards as $guard) {
+            if ($this->auth->guard($guard)->check()) {
+                return $this->auth->shouldUse($guard);
+            }
+        }
+
+        $this->unauthenticated($request, $guards);
+    }
+    
+    /**
+     * Handle an unauthenticated user.
+     * 
+     * @param  \Syscodes\Components\Http\Request  $request
+     * @param  array  $guards
+     * 
+     * @return void
+     * 
+     * @throws \Syscodes\Components\Auth\AuthenticationException
+     */
+    protected function unauthenticated($request, array $guards): void
+    {
+        throw new AuthenticationException(
+            'Unauthenticated.', $guards, $this->redirectTo($request)
+        );
+    }
+    
+    /**
+     * Get the path the user should be redirected to when they are not authenticated.
+     * 
+     * @param  \Syscodes\Components\Http\Request  $request
+     * 
+     * @return string|null
+     */
+    protected function redirectTo($request)
+    {
+        //
+    }
+}
