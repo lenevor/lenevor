@@ -36,8 +36,7 @@ use Syscodes\Components\Auth\Concerns\GuardAuthenticationUser;
 class SessionGuard implements StateGuard, SupportedBasicAuth
 {
     use GuardAuthenticationUser,
-        Macroable;
-    
+        Macroable;    
     
     /**
      * The name of the guard. Typically "web".
