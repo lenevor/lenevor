@@ -157,6 +157,7 @@ abstract class Facade
     {
         return collect([
             'App' => App::class,
+            'Auth' => Auth::class,
             'Cache' => Cache::class,
             'Cookie' => Cookie::class,
             'Config' => Config::class,
