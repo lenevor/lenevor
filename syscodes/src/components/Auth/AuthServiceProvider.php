@@ -25,11 +25,35 @@ namespace Syscodes\Components\Auth;
 use Syscodes\Components\Support\ServiceProvider;
 
 /**
- * //
+ * For loading the classes from the container of services.
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
 class AuthServiceProvider extends ServiceProvider
 {
-    //
+     /**
+     * Register the service provider.
+     * 
+     * @return void
+     */
+    public function register()
+    {
+        $this->registerAuthenticator();
+    }
+
+    /**
+     * Register the authenticator services.
+     * 
+     * @return void
+     */
+    protected function registerAuthenticator(): void
+    {
+        $this->app->singleton('auth', function($app) {            
+            return new AuthManager($app);
+        });
+        
+        $this->app->singleton('auth.driver', function ($app) {
+            return $app['auth']->guard();
+        });
+    }
 }
