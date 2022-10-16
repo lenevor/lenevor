@@ -34,7 +34,7 @@ interface Factory
      * 
      * @param  string|null  $name
      * 
-     * @return \Syscodes\Components\Contracts\Auth\Guard|\Syscodes\Components\Contracts\Auth\StatefulGuard
+     * @return \Syscodes\Components\Contracts\Auth\Guard|\Syscodes\Components\Contracts\Auth\StateGuard
      */
     public function guard(string $name = null);
     
@@ -45,5 +45,5 @@ interface Factory
      * 
      * @return void
      */
-    public function shouldUse(string $name): void;
+    public function shouldUse(string $name);
 }
