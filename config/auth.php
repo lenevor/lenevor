@@ -59,7 +59,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'erostrine',
-            'model' => App\Model\User::class,
+            'model' => App\Models\User::class,
         ],
     ],
 
