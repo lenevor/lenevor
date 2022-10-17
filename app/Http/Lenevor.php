@@ -48,6 +48,7 @@ class Lenevor extends HttpLenevor
         'web' => [
             \App\Http\Middleware\EncryptCookies::class,
             \Syscodes\Components\Cookie\Middleware\AddQueuedCookiesResponse::class,
+            \Syscodes\Components\Session\Middleware\StartSession::class,
         ],
 
         'api' => [
