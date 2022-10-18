@@ -715,6 +715,17 @@ class Request
 	{
 		return $this->headers->get('X-PJAX') == true;
 	}
+	
+	/**
+	 * Determine if the request is the result of a prefetch call.
+	 * 
+	 * @return bool
+	 */
+	public function prefetch(): bool
+	{
+		return strcasecmp($this->server->get('HTTP_X_MOZ') ?? '', 'prefetch') === 0 ||
+		       strcasecmp($this->headers->get('Purpose') ?? '', 'prefetch') === 0;
+	}
 
 	/**
 	 * Checks if the method request is of specified type.
