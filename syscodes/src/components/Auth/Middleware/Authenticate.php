@@ -27,7 +27,7 @@ use Syscodes\Components\contracts\Auth\Factory as Auth;
 use Syscodes\Components\Auth\Exceptions\AuthenticationException;
 
 /**
- * Determine if the user is logged ussing a given guards.
+ * Determine if the user is logged using a given guards.
  * 
  * @author Alexander Campo <jalexam@gmail.com> 
  */
