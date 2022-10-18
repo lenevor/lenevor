@@ -26,10 +26,11 @@ use Closure;
 use InvalidArgumentException;
 use Syscodes\Components\Auth\Guards\TokenGuard;
 use Syscodes\Components\Contracts\Auth\Factory;
+use Syscodes\Components\Auth\Guards\SessionGuard;
 use Syscodes\Components\Auth\Concerns\CreatesUserProviders;
 
 /**
- * 
+ * The Lenevor authentication system for users.
  * 
  * @author Alexander Campo <jalexam@gmail.com> 
  */
@@ -148,6 +149,42 @@ class AuthManager implements Factory
         $callback = $this->customCreators[$driver];
         
         return call_user_func($callback, $this->app, $name, $config);
+    }
+    
+    /**
+     * Create a session based authentication guard.
+     *
+     * @param  string  $name
+     * @param  array  $config
+     * @return \Syscodes\Components\Auth\SessionGuard
+     */
+    public function createSessionDriver($name, $config)
+    {
+        $provider = $this->createUserProvider($config['provider'] ?? null);
+
+        $guard = new SessionGuard(
+            $name,
+            $provider,
+            $this->app['session.store'],
+        );
+
+        if (method_exists($guard, 'setCookie')) {
+            $guard->setCookie($this->app['cookie']);
+        }
+
+        if (method_exists($guard, 'setDispatcher')) {
+            $guard->setDispatcher($this->app['events']);
+        }
+
+        if (method_exists($guard, 'setRequest')) {
+            $guard->setRequest($this->app->refresh('request', $guard, 'setRequest'));
+        }
+
+        if (isset($config['remember'])) {
+            $guard->setRememberDuration($config['remember']);
+        }
+
+        return $guard;
     }
     
     /**
