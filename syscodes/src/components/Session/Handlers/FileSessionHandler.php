@@ -64,7 +64,7 @@ class FileSessionHandler implements SessionHandlerInterface
      * 
      * @return void
      */
-    public function __construct(Filesystem $file, $path, int $minutes)
+    public function __construct(Filesystem $file, $path, $minutes)
     {
         $this->files   = $file;
         $this->path    = $path;
@@ -98,10 +98,9 @@ class FileSessionHandler implements SessionHandlerInterface
      */
     public function read($sessionId): string
     {
-        if ($this->files->isFile($path = $this->path.DIRECTORY_SEPARATOR.$sessionId)) {
-            if (filemtime($path) >= Chronos::now()->subMinutes($this->minutes)->getTimestamp()) {
-                return $this->files->get($path);
-            }
+        if ($this->files->isFile($path = $this->path.DIRECTORY_SEPARATOR.$sessionId) &&
+            $this->files->lastModified($path) >= Chronos::now()->subMinutes($this->minutes)->getTimestamp()) {
+            return $this->files->read($path);
         }
         
         return '';
