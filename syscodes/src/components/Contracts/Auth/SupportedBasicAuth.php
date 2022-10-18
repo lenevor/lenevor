@@ -36,6 +36,8 @@ interface SupportedBasicAuth
      * @param  array  $extraConditions
      * 
      * @return \Syscodes\Components\Http\Response|null
+     * 
+     * @throws \Syscodes\Components\Core\Http\Exceptions\UnauthorizedHttpException
      */
     public function basic($field = 'email', $extraConditions = []);
     
@@ -46,6 +48,8 @@ interface SupportedBasicAuth
      * @param  array  $extraConditions
      * 
      * @return \Syscodes\Components\Http\Response|null
+     * 
+     * @throws \Syscodes\Components\Core\Http\Exceptions\UnauthorizedHttpException
      */
     public function onceBasic($field = 'email', $extraConditions = []);
 }
