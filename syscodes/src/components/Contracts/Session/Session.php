@@ -246,4 +246,27 @@ interface Session
      * @return bool
      */
     public function isStarted(): bool;
+
+    /**
+     * Get the previous URL from the session.
+     * 
+     * @return string|null
+     */
+    public function previousUrl();
+    
+    /**
+     * Set the "previous" URL in the session.
+     * 
+     * @param  string  $url
+     * 
+     * @return void
+     */
+    public function setPreviousUrl($url): void;
+    
+    /**
+     * Get the session handler instance.
+     * 
+     * @return \SessionHandlerInterface
+     */
+    public function getHandler();
 }
