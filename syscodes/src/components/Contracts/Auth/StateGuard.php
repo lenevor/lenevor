@@ -44,9 +44,9 @@ interface StateGuard extends Guard
      * 
      * @param  array  $credentials
      * 
-     * @return bool
+     * @return \Syscodes\Components\Http\Response|null
      */
-    public function once(array $credentials = []): bool;
+    public function once(array $credentials = [], $extraConditions = []);
     
     /**
      * Log a user into the application.
