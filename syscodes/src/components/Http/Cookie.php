@@ -134,7 +134,7 @@ class Cookie
     public function __construct(
         string $name,
         string $value = null,
-        int $expire = 0,
+        $expire = 0,
         ?string $path = '/',
         string $domain = null,
         bool $secure = null,
@@ -185,7 +185,7 @@ class Cookie
      * 
      * @return self
      */
-    public function withExpires(int $expire = 0): self
+    public function withExpires($expire = 0): self
     {
         $cookie = clone $this;
         $cookie->expire = self::expiresTimestamp($expire);
@@ -200,7 +200,7 @@ class Cookie
      * 
      * @return int
      */
-    private static function expiresTimestamp(int $expire = 0): int
+    private static function expiresTimestamp($expire = 0): int
     {
         // convert expiration time to a Unix timestamp
         if ($expire instanceof DateTimeInterface) {
