@@ -34,7 +34,25 @@ use Syscodes\Components\Routing\RouteCollection;
  * @author Alexander Campo <jalexcam@gmail.com>
  */
 class UrlGenerator
-{
+{   
+    /**
+     * Characters that should not be URL encoded.
+     * 
+     * @var array $dontEncode
+     */
+    protected $dontEncode = [
+        '%2F' => '/',
+        '%40' => '@',
+        '%3A' => ':',
+        '%3B' => ';',
+        '%2C' => ',',
+        '%3D' => '=',
+        '%2B' => '+',
+        '%21' => '!',
+        '%2A' => '*',
+        '%7C' => '|',
+    ];
+
     /**
      * The force URL root.
      * 
@@ -241,8 +259,7 @@ class UrlGenerator
      * 
      * @param  string  $name
      * @param  array  $parameters
-     * @param  bool  $forced  
-     * @param  \Syscodes\Components\Routing\Route|null  $route  
+     * @param  bool  $forced 
      * 
      * @return string
      * 
@@ -251,10 +268,9 @@ class UrlGenerator
     public function route(
         $name, 
         array $parameters = [], 
-        $forced = true, 
-        $route = null
+        $forced = true
     ): string {
-        if ( ! is_null($route = $route ?? $this->routes->getByName($name))) {
+        if ( ! is_null($route = $this->routes->getByName($name))) {
             return $this->toRoute($route, $parameters, $forced);
         }
 
@@ -275,7 +291,9 @@ class UrlGenerator
         $domain = $this->getRouteDomain($route);
         $root   = $this->replaceRoot($route, $domain, $parameters);
 
-        $uri = $this->trimUrl($root, $this->replaceRouteParameters($route->getRoute(), $parameters));
+        $uri =  $this->trimUrl($root, $this->replaceRouteParameters($route->getRoute(), $parameters));
+
+        $uri = strtr(rawurlencode($uri), $this->dontEncode);
 
         return $forced ? $uri : '/' .ltrim(str_replace($root, '', $uri), '/');
     }
