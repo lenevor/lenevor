@@ -26,6 +26,7 @@ use SessionHandlerInterface;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Contracts\Session\Session;
+use Syscodes\Components\Session\Handlers\CookieSessionHandler;
 
 /**
  * Implementation of Lenevor session container.
@@ -400,11 +401,7 @@ class Store implements Session
     }
 
     /**
-     * Generate a new session ID for the session.
-     * 
-     * @param  bool  $destroy
-     * 
-     * @return bool
+     * {@inheritdoc}
      */
     public function migrate(bool $destroy = false): bool
     {
@@ -418,12 +415,57 @@ class Store implements Session
     }
 
     /**
-     * Determine if the session has been started.
-     * 
-     * @return bool
+     * {@inheritdoc}
+     */
+    public function previousUrl()
+    {
+        return $this->get('_previous.url');
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function setPreviousUrl($url): void
+    {
+        $this->put('_previous.url', $url);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getHandler()
+    {
+        return $this->handler;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function isStarted(): bool
     {
         return $this->started;
+    }
+
+    /**
+     * Determine if the session handler needs a request.
+     *
+     * @return bool
+     */
+    public function handlerNeedsRequest()
+    {
+        return $this->handler instanceof CookieSessionHandler;
+    }
+
+    /**
+     * Set the request on the handler instance.
+     *
+     * @param  \Syscodes\Components\Http\Request  $request
+     * @return void
+     */
+    public function setRequestOnHandler($request)
+    {
+        if ($this->handlerNeedsRequest()) {
+            $this->handler->setRequest($request);
+        }
     }
 }
