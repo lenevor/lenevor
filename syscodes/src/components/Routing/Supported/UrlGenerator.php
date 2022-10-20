@@ -68,18 +68,25 @@ class UrlGenerator
     protected $forcedSchema;
 
     /**
-     * The route collection.
-     * 
-     * @var \Syscodes\Components\Routing\RouteCollection $routes
-     */
-    protected $routes;
-     
-    /**
      * The Request instance.
      * 
      * @var object $request
      */
     protected $request;
+    
+    /**
+     * The route URL generator instance.
+     * 
+     * @var \Syscodes\Components\Routing\RouteUrlGenerator|null
+     */
+    protected $routeGenerator;
+
+    /**
+     * The route collection.
+     * 
+     * @var \Syscodes\Components\Routing\RouteCollection $routes
+     */
+    protected $routes;
 
     /**
      * Constructor. The UrlGenerator class instance.
@@ -490,6 +497,20 @@ class UrlGenerator
         }
         
         return filter_var($path, FILTER_VALIDATE_URL) !== false;
+    }
+    
+    /**
+     * Get the Route URL generator instance.
+     * 
+     * @return \Syscodes\Components\Routing\RouteUrlGenerator
+     */
+    protected function routeUrl()
+    {
+        if ( ! $this->routeGenerator) {
+            $this->routeGenerator = new RouteUrlGenerator($this, $this->request);
+        }
+        
+        return $this->routeGenerator;
     }
 
     /**
