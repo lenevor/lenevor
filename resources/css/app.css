@@ -275,9 +275,9 @@ header .container .menu a {
 }
 
 .dark-theme header .container .menu a {
-	background: hsla(212, 52%, 26%, 1);
-	box-shadow: inset -1px 1px 0 1px hsla(223, 14%, 36%, 0.09),
-				inset 1px -1px 0 1px hsla(218, 13%, 28%, 0.09);
+	background: transparent;
+	box-shadow: inset -1px 1px 0 1px hsla(278, 17%, 23%, 0.09),
+				inset 1px -1px 0 1px hsla(280, 21%, 20%, 0.09);
 	color: var(--color-white-1);
 }
 
