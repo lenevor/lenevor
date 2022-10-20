@@ -387,6 +387,7 @@ return [
     'Syscodes\\Components\\Routing\\Supported\\Pipeline' => SYS_PATH.'src/components/Routing/Pipeline.php',
     'Syscodes\\Components\\Routing\\Supported\\Redirector' => SYS_PATH.'src/components/Routing/Supported/Redirector.php',
     'Syscodes\\Components\\Routing\\Supported\\RouteResponse' => SYS_PATH.'src/components/Routing/Supported/RouteResponse.php',
+    'Syscodes\\Components\\Routing\\Supported\\RouteUrlGenerator' => SYS_PATH.'src/components/Routing/Supported/RouteUrlGenerator.php',
     'Syscodes\\Components\\Routing\\Supported\\UrlGenerator' => SYS_PATH.'src/components/Routing/Supported/UrlGenerator.php',
     'Syscodes\\Components\\Routing\\Route' => SYS_PATH.'src/components/Routing/Route.php',
     'Syscodes\\Components\\Routing\\RouteAction' => SYS_PATH.'src/components/Routing/RouteAction.php',
