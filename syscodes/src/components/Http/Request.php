@@ -865,7 +865,9 @@ class Request
 			$path = trim($this->getPathInfo(), '/');
 		}
 
-		return $path == '' ? $request->uri->getPath().'/' : $path;
+		$uri = trim($request->uri->getPath(), '/ ');
+
+		return $path == '' ? $uri.'/' : $path;
 	}
 
 	/**
@@ -879,7 +881,7 @@ class Request
 		
 		$question = $this->getBaseUrl().$this->getPathInfo() === '/' ? '/?' : '?';
 		
-		return $query ? $this->url().$question.$query : $this->url();
+		return $query ? $this->getUri().$this->url().$question.$query : $this->getUri().$this->url();
 	}
 	
 	/**
@@ -948,6 +950,20 @@ class Request
 		}
 
 		return $this->requestToUri;
+	}
+	
+	/**
+	 * Generates a normalized URI (URL) for the Request.
+	 * 
+	 * @return string
+	 */
+	public function getUri(): string
+	{
+		if (null !== $query = $this->getQueryString()) {
+			$query = '?'.$query;
+		}
+		
+		return $this->getSchemeWithHttpHost().$this->getBaseUrl().$this->getPathInfo().$query;
 	}
 	
 	/**
