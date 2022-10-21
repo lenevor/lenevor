@@ -398,6 +398,7 @@ return [
     'Syscodes\\Components\\Routing\\RouteParameterBinding' => SYS_PATH.'src/components/Routing/RouteParameterBinding.php',
     'Syscodes\\Components\\Routing\\Router' => SYS_PATH.'src/components/Routing/Router.php',
     'Syscodes\\Components\\Routing\\RoutingServiceProvider' => SYS_PATH.'src/components/Routing/RoutingServiceProvider.php',
+    'Syscodes\\Components\\Session\\Exceptions\\TokenMismathException' => SYS_PATH.'src/components/Session/Exceptions/TokenMismathException.php',
     'Syscodes\\Components\\Session\\Handlers\\ArraySessionHandler' => SYS_PATH.'src/components/Session/Handlers/ArraySessionHandler.php',
     'Syscodes\\Components\\Session\\Handlers\\CookieSessionHandler' => SYS_PATH.'src/components/Session/Handlers/CookieSessionHandler.php',
     'Syscodes\\Components\\Session\\Handlers\\DatabaseSessionHandler' => SYS_PATH.'src/components/Session/Handlers/DatabaseSessionHandler.php',
