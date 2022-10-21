@@ -377,6 +377,7 @@ return [
     'Syscodes\\Components\\Routing\\Concerns\\RouteMap' => SYS_PATH.'src/components/Routing/Concerns/RouteMap.php',
     'Syscodes\\Components\\Routing\\Exceptions\\ActionNotFoundException' => SYS_PATH.'src/components/Routing/Exceptions/ActionNotFoundException.php',
     'Syscodes\\Components\\Routing\\Exceptions\\RouteNotFoundException' => SYS_PATH.'src/components/Routing/Exceptions/RouteNotFoundException.php',
+    'Syscodes\\Components\\Routing\\Exceptions\\UrlGeneratorException' => SYS_PATH.'src/components/Routing/Exceptions/UrlGeneratorException.php',
     'Syscodes\\Components\\Routing\\Matching\\UriMatches' => SYS_PATH.'src/components/Routing/Matching/UriMatches.php',
     'Syscodes\\Components\\Routing\\Resolver\\RouteResolver' => SYS_PATH.'src/components/Routing/Resolver/RouteResolver.php',
     'Syscodes\\Components\\Routing\\Resolver\\MiddlewareResolver' => SYS_PATH.'src/components/Routing/Resolver/MiddlewareResolver.php',
