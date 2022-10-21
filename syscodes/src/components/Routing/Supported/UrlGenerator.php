@@ -34,24 +34,20 @@ use Syscodes\Components\Routing\RouteCollection;
  * @author Alexander Campo <jalexcam@gmail.com>
  */
 class UrlGenerator
-{   
+{
     /**
-     * Characters that should not be URL encoded.
+     * A cached copy of the URL root for the current request.
      * 
-     * @var array $dontEncode
+     * @var string|null $cachedRoo
      */
-    protected $dontEncode = [
-        '%2F' => '/',
-        '%40' => '@',
-        '%3A' => ':',
-        '%3B' => ';',
-        '%2C' => ',',
-        '%3D' => '=',
-        '%2B' => '+',
-        '%21' => '!',
-        '%2A' => '*',
-        '%7C' => '|',
-    ];
+    protected $cachedRoot;
+    
+    /**
+     * A cached copy of the URL scheme for the current request.
+     * 
+     * @var string|null $cachedScheme
+     */
+    protected $cachedScheme;
 
     /**
      * The force URL root.
@@ -61,11 +57,11 @@ class UrlGenerator
     protected $forcedRoot;
 
     /**
-     * The force Schema for URLs.
+     * The force Scheme for URLs.
      * 
-     * @var string $forcedSchema
+     * @var string $forcedScheme
      */
-    protected $forcedSchema;
+    protected $forcedScheme;
 
     /**
      * The Request instance.
@@ -169,7 +165,7 @@ class UrlGenerator
 
         $root = $this->getRootUrl($scheme);
 
-        return $this->trimUrl($root, $path, $tail);
+        return $this->format($root, $path, $tail);
     }
 
     /**
@@ -242,23 +238,29 @@ class UrlGenerator
      */
     public function getScheme($secure): string
     {
-        if (is_null($secure)) {
-            return $this->forcedSchema ?: $this->request->getScheme().'://';
+        if ( ! is_null($secure)) {
+            return $secure ? 'https://' : 'http://';
         }
 
-        return $secure ? 'https://' : 'http://';
+        if (is_null($this->cachedScheme)) {
+            $this->cachedScheme = $this->forcedScheme ?: $this->request->getScheme().'://';
+        }
+
+        return $this->cachedScheme;
     }
 
     /**
-     * Force the schema for URLs.
+     * Force the scheme for URLs.
      * 
-     * @param  string  $schema
+     * @param  string  $scheme
      * 
      * @return void
      */
-    public function forcedSchema($schema): void
+    public function forcedScheme($scheme): void
     {
-        $this->forcedSchema = $schema.'://'; 
+        $this->cachedScheme = null;
+
+        $this->forcedScheme = $scheme ? $scheme.'://' : null; 
     }
 
     /**
@@ -272,11 +274,8 @@ class UrlGenerator
      * 
      * @throws \InvalidArgumentException
      */
-    public function route(
-        $name, 
-        array $parameters = [], 
-        $forced = true
-    ): string {
+    public function route($name, array $parameters = [], $forced = true): string
+    {
         if ( ! is_null($route = $this->routes->getByName($name))) {
             return $this->toRoute($route, $parameters, $forced);
         }
@@ -295,14 +294,9 @@ class UrlGenerator
      */
     protected function toRoute($route, $parameters, $forced): string
     {
-        $domain = $this->getRouteDomain($route);
-        $root   = $this->replaceRoot($route, $domain, $parameters);
-
-        $uri =  $this->trimUrl($root, $this->replaceRouteParameters($route->getRoute(), $parameters));
-
-        $uri = strtr(rawurlencode($uri), $this->dontEncode);
-
-        return $forced ? $uri : '/' .ltrim(str_replace($root, '', $uri), '/');
+        return $this->routeUrl()->to(
+            $route, $this->formatParameters($parameters), $forced
+        );
     }
     
     /**
@@ -322,153 +316,21 @@ class UrlGenerator
     }
     
     /**
-     * Replace the parameters on the root path.
+     * Format the array of URL parameters.
      * 
-     * @param  \Syscodes\Components\Routing\Route  $route
-     * @param  string  $domain
-     * @param  array  $parameters
+     * @param  mixed|array  $parameters
      * 
-     * @return string
+     * @return array
      */
-    protected function replaceRoot($route, $domain, &$parameters): string
+    public function formatParameters($parameters): array
     {
-        return $this->replaceRouteParameters($this->getRouteRoot($route, $domain), $parameters);
-    }
-    
-    /**
-     * Replace all of the wildcard parameters for a route path.
-     * 
-     * @param  string  $path
-     * @param  array  $parameters
-     * 
-     * @return string
-     */
-    protected function replaceRouteParameters($path, array &$parameters): string
-    {
-        if (count($parameters) > 0) {
-            $path = preg_replace_sub(
-                '/\{.*?\}/', $parameters, $this->replaceNamedParameters($path, $parameters)
-            );
+        $parameters = Arr::wrap($parameters);
+        
+        foreach ($parameters as $key => $parameter) {
+            $parameters[$key] = $parameter;
         }
         
-        return trim(preg_replace('/\{.*?\?\}/', '', $path), '/');
-    }
-    
-    /**
-     * Replace all of the named parameters in the path.
-     * 
-     * @param  string  $path
-     * @param  array  $parameters
-     * 
-     * @return string
-     */
-    protected function replaceNamedParameters($path, &$parameters)
-    {
-        return preg_replace_callback('/\{(.*?)\??\}/', function ($match) use (&$parameters) {
-            return isset($parameters[$match[1]]) ? Arr::pull($parameters, $match[1]) : $match[0];
-        }, $path);
-    }
-
-    /**
-     * Get the formatted domain for a given route.
-     * 
-     * @param  \Syscodes\Components\Routing\Route  $route
-     * 
-     * @return string|null
-     */
-    protected function getRouteDomain($route)
-    {
-        return $route->domain() ? $this->formatDomain($route) : null;
-    }
-
-    /**
-     * Format the domain and port for the route and request.
-     * 
-     * @param  \Syscodes\Components\Routing\Route  $route
-     * 
-     * @return string
-     */
-    protected function formatDomain($route): string
-    {
-        return $this->addPortToDomain($this->getDomainAndScheme($route));
-    }
-
-    /**
-     * Add the port to the domain if necessary.
-     * 
-     * @param  string  $domain
-     * 
-     * @return string
-     */
-    protected function addPortToDomain($domain): string
-    {
-        if (in_array($this->request->getPort(), [80, 443])) {
-            return $domain;
-        }
-
-        return $domain.':'.$this->request->getPort();
-    }
-
-    /**
-     * Get the domain and scheme for the route.
-     * 
-     * @param  \Syscodes\Components\Routing\Route  $route
-     * 
-     * @return string
-     */
-    protected function getDomainAndScheme($route): string
-    {
-        return $this->getRouteScheme($route).$route->domain();
-    }
-
-    /**
-     * Get the root of the route URL.
-     * 
-     * @param  \Syscodes\Components\Routing\Route  $route
-     * @param  string  $domain
-     * 
-     * @return string
-     */
-    protected function getRouteRoot($route, $domain): string
-    {
-        return $this->getRootUrl($this->getRouteScheme($route), $domain);
-    }
-
-    /**
-     * Get the scheme for the given route.
-     * 
-     * @param  \Syscodes\Components\Routing\Route  $route
-     * 
-     * @return string
-     */
-    protected function getRouteScheme($route): string
-    {
-        if ($route->httpOnly) {
-            return $this->getScheme(false);
-        } elseif ($route->httpsOnly) {
-            return $this->getScheme(true);
-        }
-
-        return $this->getScheme(null);
-    }
-
-    /**
-     * Get the base URL for the request.
-     * 
-     * @param  string  $scheme
-     * @param  string|null  $root
-     * 
-     * @return string
-     */
-    protected function getRootUrl($scheme, $root = null): string
-    {
-        if (is_null($root)) {
-            $root = $this->forcedRoot ?: $this->request->root();
-        }
-
-        $begin = Str::startsWith($root, 'http://') ? 'http://' : 'https://';
-
-        return preg_replace("~$begin~", $scheme, $root, 1);
+        return $parameters;
     }
 
     /**
@@ -481,6 +343,29 @@ class UrlGenerator
     public function forcedRoot($root): void
     {
         $this->forcedRoot = $root;
+    }
+    
+    /**
+     * Get the base URL for the request.
+     * 
+     * @param  string  $scheme
+     * @param  string|null  $root
+     * 
+     * @return string
+     */
+    public function getRootUrl($scheme, $root = null): string
+    {
+        if (is_null($root)) {
+            if (is_null($this->cachedRoot)) {
+                $this->cachedRoot = $this->forcedRoot ?: $this->request->root();
+            }
+
+            $root = $this->cachedRoot;
+        }
+
+        $start = Str::startsWith($root, 'http://') ? 'http://' : 'https://';
+
+        return preg_replace('~'.$start.'~', $scheme, $root, 1);
     }
     
     /**
@@ -522,9 +407,9 @@ class UrlGenerator
      * 
      * @return string
      */
-    protected function trimUrl($root, $path, $tail = ''): string
+    public function format($root, $path, $tail = ''): string
     {
-        return trim($root.'/'.trim($path.'/'.$tail, '/'), '/');
+        return trim($root .'/' .trim($path .'/' .$tail, '/'), '/');
     }
 
     /**
