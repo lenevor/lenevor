@@ -254,7 +254,7 @@ class EncryptCookies
      * 
      * @return bool
      */
-    protected static function serialized($name): bool
+    public static function serialized($name): bool
     {
         return static::$serialize;
     }
