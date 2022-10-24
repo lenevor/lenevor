@@ -36,7 +36,7 @@ class Lenevor extends HttpLenevor
      * @var array $middleware
      */
     protected $middleware = [
-        //
+        \Syscodes\Components\Core\Http\Middleware\VerifyPostSize::class,
     ];
 
     /**
