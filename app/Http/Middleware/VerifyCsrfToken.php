@@ -23,6 +23,11 @@ namespace App\Http\Middleware;
 
 use Syscodes\Components\Core\Http\Middleware\VerifyCsrfToken as Middleware;
 
+/**
+ * Checks if exists a the CSRF token in the cookie.
+ * 
+ * @author Alexander Campo <jalexcam@gmail.com>
+ */
 class VerifyCsrfToken extends Middleware
 {
     /**
