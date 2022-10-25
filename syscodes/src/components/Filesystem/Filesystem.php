@@ -134,7 +134,7 @@ class Filesystem
 			}
 		}
 
-		return trim($contents);
+		return $contents;
 	}
 
 	/**
@@ -278,7 +278,7 @@ class Filesystem
 	 */
 	public function getSize($path, $unit = 'b')
 	{
-		if ($this->exists($path)) {
+		if ( ! $this->exists($path)) {
 			if (is_null($this->size)) {
 				$this->size = filesize($path);
 			}
@@ -294,6 +294,8 @@ class Filesystem
 
 			return $this->size;
 		}
+
+		return null;
 	}
 	
 	/**
@@ -305,7 +307,7 @@ class Filesystem
 	 */
 	public function group($path)
 	{
-		if ($this->exists($path)) {
+		if ( ! $this->exists($path)) {
 			return filegroup($path);
 		}
 
@@ -381,7 +383,7 @@ class Filesystem
 	 */
 	public function lastAccess($path)
 	{
-		if ($this->exists($path)) {
+		if ( ! $this->exists($path)) {
 			return fileatime($path);
 		}
 
@@ -397,11 +399,11 @@ class Filesystem
 	 */
 	public function lastModified($path)
 	{
-		if ($this->exists($path)) {
+		if ( ! $this->exists($path)) {
 			return filemtime($path);
 		}
 
-		return false;
+		return false;		
 	}
 
 	/**
