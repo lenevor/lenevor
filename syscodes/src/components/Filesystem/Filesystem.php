@@ -134,7 +134,7 @@ class Filesystem
 			}
 		}
 
-		return $contents;
+		return trim($contents);
 	}
 
 	/**
