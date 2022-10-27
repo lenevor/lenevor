@@ -146,7 +146,7 @@ class FileSessionHandler implements SessionHandlerInterface
         $countSessions = 0;
 
         foreach ($files as $file) {
-            if ($this->files->lastModified($file) + $lifetime < time() && $this->files->exists($file)) {
+            if ($this->files->lastModified($file) + $lifetime < time() && ! $this->files->exists($file)) {
                 $this->files->delete($file);
 
                 $countSessions++;
