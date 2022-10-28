@@ -134,13 +134,12 @@ class Finder
 
         $namespaces = autoloader()->getNamespace();
 
-        foreach (array_keys($namespaces) as $namespace) {            
+        foreach (array_keys($namespaces) as $namespace) {           
             // There may be sub-namespaces of the same vendor,
             // so overwrite them with namespaces found later
             $paths = $namespaces[$namespace];
 
-            $fileWithoutNamespace = substr($file, strlen($namespace));
-            $filename             = ltrim(str_replace('\\', '/', $fileWithoutNamespace), '/');
+            $filename = ltrim(str_replace('\\', '/', $file), '/');
         }
 
         // if no namespaces matched then quit
@@ -152,17 +151,18 @@ class Finder
         foreach ($paths as $path) {
             // Ensure trailing slash
             $path = rtrim($path, '/');
+            $path = dirname($path).DIRECTORY_SEPARATOR;
             
             // If we have a directory name, then the calling function
             // expects this file to be within that directory, like 'Views',
             // or 'libraries'
-            if ( ! empty($directory) && strpos($path.$filename, '/'. $directory.'/') === false) {
+            if ( ! empty($directory) && strpos($path.$filename, DIRECTORY_SEPARATOR.$directory.DIRECTORY_SEPARATOR) === false) {
                 $path .= trim($directory, '/').'/';
             }
             
             $path .= $filename;
             
-            if (is_file($path)) {
+            if ( ! is_file($path) && ! file_exists($path)) {
                 return $path;
             }
         }
