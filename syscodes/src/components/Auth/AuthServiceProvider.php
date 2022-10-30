@@ -39,6 +39,7 @@ class AuthServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerAuthenticator();
+        $this->registerAuthenticationGuard();
     }
 
     /**
@@ -46,14 +47,23 @@ class AuthServiceProvider extends ServiceProvider
      * 
      * @return void
      */
-    protected function registerAuthenticator(): void
+    protected function registerAuthenticator()
     {
-        $this->app->singleton('auth', function($app) {            
+        $this->app->singleton('auth', function ($app) {            
             return new AuthManager($app);
         });
-        
+
+    }
+
+    /**
+     * Register the authentication guard services.
+     * 
+     * @return void
+     */
+    protected function registerAuthenticationGuard()
+    {
         $this->app->singleton('auth.driver', function ($app) {
-            return $app['auth']->guard();
+            return $app->make('auth')->guard();
         });
     }
 }
