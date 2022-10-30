@@ -51,20 +51,10 @@ class Finder
     public static function instance()
     {
         if ( ! static::$instance) {
-            static::$instance = static::render();
+            static::$instance = new static;
         }
 
         return static::$instance;
-    }
-
-    /**
-     * Render new Finders.
-     *
-     * @return Finder
-     */
-    public static function render()
-    {
-        return new static();
     }
 
     /**
