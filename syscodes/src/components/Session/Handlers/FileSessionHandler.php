@@ -141,7 +141,7 @@ class FileSessionHandler implements SessionHandlerInterface
      */
     public function gc($lifetime): int
     {
-        $files = Finder::render($this->path);
+        $files = Finder::locate($this->path);
 
         $countSessions = 0;
 
