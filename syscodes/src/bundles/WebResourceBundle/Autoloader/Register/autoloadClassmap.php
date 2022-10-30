@@ -23,6 +23,7 @@ return [
     // Bundles
     'Syscodes\\Bundles\\ApplicationBundle\\Console\\Application' => SYS_PATH.'src/bundles/ApplicationBundle/Console/Application.php',
     // Components
+    'Syscodes\\Components\\Auth\\Access\\Gate' => SYS_PATH.'src/components/Auth/Access/Gate.php',
     'Syscodes\\Components\\Auth\\Concerns\\CreatesUserProviders' => SYS_PATH.'src/components/Auth/Concerns/CreatesUserProviders.php',
     'Syscodes\\Components\\Auth\\Concerns\\GuardAuthenticationUser' => SYS_PATH.'src/components/Auth/Concerns/GuardAuthentionUser.php',
     'Syscodes\\Components\\Auth\\Events\\Attempting' => SYS_PATH.'src/components/Auth/Events/Attempting.php',
@@ -100,6 +101,7 @@ return [
     'Syscodes\\Components\\Container\\Exceptions\\UnknownIdentifierException' => SYS_PATH.'src/components/Container/Exceptions/UnknownIdentifierException.php',
     'Syscodes\\Components\\Container\\CallBoundCallback' => SYS_PATH.'src/components/Container/CallBoundCallback.php',
     'Syscodes\\Components\\Container\\Container' => SYS_PATH.'src/components/Container/Container.php',
+    'Syscodes\\Components\\Contracts\\Auth\\Access\\Gate' => SYS_PATH.'src/components/Contracts/Auth/Access/Gate.php',
     'Syscodes\\Components\\Contracts\\Auth\\Authenticatable' => SYS_PATH.'src/components/Contracts/Auth/Authenticatable.php',
     'Syscodes\\Components\\Contracts\\Auth\\Factory' => SYS_PATH.'src/components/Contracts/Auth/Factory.php',
     'Syscodes\\Components\\Contracts\\Auth\\Guard' => SYS_PATH.'src/components/Contracts/Auth/Guard.php',
