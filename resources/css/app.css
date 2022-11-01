@@ -270,6 +270,7 @@ header .container .menu a {
 	font-size: 0.9rem;
 	font-weight: 600;
 	letter-spacing: 0.9px; 
+	margin-right: 0;
 	padding: 10px;
 	text-decoration: none;
 }
@@ -565,6 +566,7 @@ header h1 {
 	box-shadow: inset 1px 0 1px var(--color-darkgray-theme-1),
 	            inset -1px 0 1px var(--color-darkgray-theme-1)
 				inset 0 1px 1px var(--color-darkgray-theme-1);
+	left: 20px;
 	transform: scale(0.75);
 }
 
