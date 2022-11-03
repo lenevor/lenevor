@@ -1,10 +1,8 @@
-(function(d)
-{
+(function(d) {
     /* IE8 Incompatibility crap */
-    var elements = ['section', 'header', 'footer'];
+    var elements = ['section', 'header', 'nav', 'footer'];
 
-    for (let i = 0; i < elements.length; i++)
-    {
+    for (let i = 0; i < elements.length; i++) {
         d.createElement(elements[i]);
     }
 
@@ -27,17 +25,14 @@
     {
         var el = allFramesCode[index];
 
-        if (el)
-        {
-            if (el.closest('[data-frame]'))
-            {
+        if (el) {
+            if (el.closest('[data-frame]')) {
                 return changeTo(el);
             }
         }
     }
 
-    for (let i = 0; i < allFrames.length; i++)
-    {
+    for (let i = 0; i < allFrames.length; i++) {
         (function(i, el)
         {
             var el = allFrames[i];
@@ -49,8 +44,7 @@
                 allFrames[0].classList.remove("active");
                 allFramesCode[0].classList.remove("active");
                 
-                if (previousFrame)
-                {
+                if (previousFrame) {
                     previousFrame.classList.remove("active");                    
                 }
                 
