@@ -214,7 +214,7 @@ class TemplateHandler
 						implode('', $tags[0])
 				);
 			} else {
-				$out .= sprintf('<span class="number">'.$format.'</span> %s <span class="line">', $n + $start +1, $row) ."\n";
+				$out .= sprintf('<span class="number">'.$format.'</span> %s <span class="line">', $n + $start + 1, $row) ."\n";
 			}
 		}
 
