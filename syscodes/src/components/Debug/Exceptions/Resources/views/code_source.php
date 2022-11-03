@@ -26,7 +26,7 @@
     </div>
     <div class="source">
         <code>
-            <?= $template->highlightFile($frame->getFile(), $frame->getLine(), 33); ?>
+            <?= $template->highlightFile($frame->getFile(), $frame->getLine(), 24); ?>
         </code>
     </div>
 </div>
