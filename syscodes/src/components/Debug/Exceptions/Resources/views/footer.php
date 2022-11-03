@@ -35,7 +35,7 @@
 						<path d="M407 111l74 0 0 11 -74 0 0 -11zm0 52l74 0 0 11 -74 0 0 -11zm0 53l74 0 0 10 -74 0 0 -10zm0 52l74 0 0 11 -74 0 0 -11zm0 53l74 0 0 10 -74 0 0 -10zm0 52l74 0 0 10 -74 0 0 -10zm-313 16l-73 0 0 -11 73 0 0 11zm0 -53l-73 0 0 -10 73 0 0 10zm0 -52l-73 0 0 -11 73 0 0 11zm0 -52l-73 0 0 -11 73 0 0 11zm0 -53l-73 0 0 -10 73 0 0 10zm0 -52l-73 0 0 -11 73 0 0 11zm18 -34l0 -73 10 0 0 73 -10 0zm52 0l0 -73 10 0 0 73 -10 0zm52 0l0 -73 10 0 0 73 -10 0zm52 0l0 -73 11 0 0 73 -11 0zm52 0l0 -73 11 0 0 73 -11 0zm53 0l0 -73 10 0 0 73 -10 0zm15 313l0 74 -10 0 0 -74 10 0zm-52 0l0 74 -10 0 0 -74 10 0zm-52 0l0 74 -11 0 0 -74 11 0zm-52 0l0 74 -11 0 0 -74 11 0zm-52 0l0 74 -11 0 0 -74 11 0zm-53 0l0 74 -10 0 0 -74 10 0z"/>
 					</g>
 				</svg>
-				<span>MU: <b><?= $template->displayMemory(memory_get_usage(true)) ?></b></span>
+				<span>MU: <?= $template->displayMemory(memory_get_usage(true)) ?></span>
 			</span>		
 			<span class="memory" title="<?= e(__('exception.maxMemoryUsage'))?>">
 				<svg id="chipset" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 512 512" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -60,7 +60,7 @@
 						<path d="M407 111l74 0 0 11 -74 0 0 -11zm0 52l74 0 0 11 -74 0 0 -11zm0 53l74 0 0 10 -74 0 0 -10zm0 52l74 0 0 11 -74 0 0 -11zm0 53l74 0 0 10 -74 0 0 -10zm0 52l74 0 0 10 -74 0 0 -10zm-313 16l-73 0 0 -11 73 0 0 11zm0 -53l-73 0 0 -10 73 0 0 10zm0 -52l-73 0 0 -11 73 0 0 11zm0 -52l-73 0 0 -11 73 0 0 11zm0 -53l-73 0 0 -10 73 0 0 10zm0 -52l-73 0 0 -11 73 0 0 11zm18 -34l0 -73 10 0 0 73 -10 0zm52 0l0 -73 10 0 0 73 -10 0zm52 0l0 -73 10 0 0 73 -10 0zm52 0l0 -73 11 0 0 73 -11 0zm52 0l0 -73 11 0 0 73 -11 0zm53 0l0 -73 10 0 0 73 -10 0zm15 313l0 74 -10 0 0 -74 10 0zm-52 0l0 74 -10 0 0 -74 10 0zm-52 0l0 74 -11 0 0 -74 11 0zm-52 0l0 74 -11 0 0 -74 11 0zm-52 0l0 74 -11 0 0 -74 11 0zm-53 0l0 74 -10 0 0 -74 10 0z"/>
 					</g>
 				</svg>
-				<span>PMU: <b><?= $template->displayMemory(memory_get_peak_usage(true)) ?></b></span>
+				<span>PMU: <?= $template->displayMemory(memory_get_peak_usage(true)) ?></span>
 			</span>	
 			<span class="memory" title="<?= e(__('exception.memoryLimit'))?>">
 				<svg id="chipset" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 512 512" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
