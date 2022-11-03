@@ -24,6 +24,7 @@
 		<div class="stack-container">
 
 		<?= $template->render($sidebar) ?>
+		<?= $template->render($frame_main) ?>
 		<?= $template->render($details_panel) ?>			
 
 		</div>	
