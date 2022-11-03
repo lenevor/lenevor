@@ -69,16 +69,16 @@
     --dark-purple-800: rgb(158, 140, 194);
     --dark-red-100: rgb(255, 235, 243);
     --font-size-small: .8em;
-    --font-size-small_x: .9em;
+    --font-size-small-x: .9em;
     --font-size-initial: 1em;
     --font-size-medium-x: 1.1em;
     --font-size-medium-xx: 1.2em;
     --font-size-medium: 1.3em;
     --font-size-large: 1.4em;
-    --font-size-large_x: 1.5em;
-    --font-size-large_xx: 1.6em;
-    --font-size-large_xxx: 1.8em;
-    --font-size-large_xxxx: 2em;
+    --font-size-large-x: 1.5em;
+    --font-size-large-xx: 1.6em;
+    --font-size-large-xxx: 1.8em;
+    --font-size-large-xxxx: 2em;
 }
 
 * {
@@ -162,12 +162,16 @@ ol {
         max-height: 100%;
     }
 
+    .sidebar {
+        display: none;
+    }
+
     .panel {
         position: static;
         width: 100%;
     }
 
-    .sidebar {
+    .frame-main {
         padding: 0;
         margin: 20px 0;
     }
@@ -189,20 +193,23 @@ ol {
     }
 
     .sidebar {
+        height: 100vh;
+        width: 119px;
+    }
+
+    .frame-main {
         bottom: 60px;
-        left: 30px;
-        top: 165px;
-        width: 40%;
+        left: 148px;
+        top: 170px;
+        width: 40.059%;
     }
     
     .details-panel {
-        border-color: var(--gray-200);
-        border-left-width: 1px;
         bottom: 60px;
         font-family: "Lato";
-        left: 40%;
-        top: 160px;
-        margin-left: 50px;
+        left: 43.8%;
+        top: 165px;
+        margin-left: 71px;
         padding-left: 20px;
         padding-right: 30px;
         padding-top: 5px;
@@ -210,7 +217,7 @@ ol {
     }
 
     /* Manipulate the scroll bar. Only for browsers that use the webkit engine. */
-    .details-panel::-webkit-scrollbar, 
+    /* .details-panel::-webkit-scrollbar, 
     .details-panel::-webkit-scrollbar-corner {
         height: 12px;
         width: 12px;
@@ -229,7 +236,7 @@ ol {
         background: var(--white);
         border: 1px solid var(--gray-300);
         border-radius: 0;
-    }
+    } */
 }
 
 /* HEADER */
@@ -274,7 +281,7 @@ header:hover h2 {
 }
 
 .exception-title h1 {
-    color: var(--gray-500); 
+    color: var(--red-400); 
     display: inline;
     font-weight: 500;
 }
@@ -285,7 +292,7 @@ header:hover h2 {
 }
 
 .exception-message h2 {
-    color: rgb(78, 75, 114);
+    color: var(--gray-700);
     font-weight: 500;
     margin-top: -2px;
     overflow: hidden;
@@ -338,7 +345,7 @@ header:hover h2 {
     header {     
         background-position: 99% 0;  
         position: fixed; 
-        left: 0;
+        left: 120px;
         right: 0;
         top: 0;
     }
@@ -352,17 +359,71 @@ header:hover h2 {
     }
 
     .exception-message h2 {
-        font-size: var(--font-size-large_xxx);
+        font-size: var(--font-size-large-xxx);
     }
+}
+
+/*SIDEBAR */
+.sidebar {
+    background-image: linear-gradient(236deg, var(--white), var(--white));
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.06);
+    position: fixed;
+}
+
+.sidebar .brand {
+    padding: 27px 21px;
+    position: relative;
+}
+
+.sidebar .brand svg {
+    height: 113px;
+    width: 108px;
+}
+
+nav {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    top: -36px;
+    width: 100%;
+}
+
+nav ul {
+    list-style-type: none;
+    text-align: center;
+}
+
+nav ul li {
+    border-top: 1px solid var(--tint-300);
+    cursor: pointer;
+    list-style: none;
+	transition: all ease-out 120ms;
+}
+
+nav ul li:nth-child(5) {
+    border-bottom: 1px solid var(--tint-300);
+}
+
+nav ul li a {
+    color: var(--gray-600);
+    display: block;
+    font-weight: 500;
+    padding: 64px 20px 20px;
+    text-decoration: none;
+    text-transform: uppercase;
 }
 
 /* FRAMES */
 
-.sidebar {
+.frame-main {
     background: var(--white);
     border-bottom: solid 3px var(--tint-500);
-    border-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 0;
+    border-right: solid 1px var(--tint-50);
     border-top: solid 3px var(--tint-500);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 0;
     box-shadow: 0 1px 1px var(--gray-300), 
                 1px 1px 0 var(--gray-300), 
                 -1px 1px 0 var(--gray-300), 
@@ -513,8 +574,12 @@ header:hover h2 {
 }
 
 .frame-file {
-    color: var(--gray-600);
     font-weight: 700;
+    position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 98%;
 }
 
 .frame-file,
@@ -526,13 +591,15 @@ header:hover h2 {
 }
 
 .frame-info-class {
-    display: grid;
-    grid-template-columns: auto 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .frame-class,
 .frame-function {
     opacity: 0.75;
+    position: relative;
 }
 
 .frame-class:before,
@@ -546,26 +613,24 @@ header:hover h2 {
     line-height: 0.3;
     padding: 5px 1px;
     position: absolute;
-    top: 10px;
     text-align: center;
+    top: 10px;
 }
 
 .frame-class {
-    left: 38px;
-    position: relative;
+    left: 40px;
 }
 
 .frame-class:before {    
     background: var(--tint-700);
     border: 1px solid var(--tint-700);
     content: 'Class';
-    left: -38px;
-    width: 30px; 
+    left: -40px;
+    width: 30px;
 }
 
 .frame-function {
     left: 58px;
-    position: relative;
 }
 
 .frame-function:before {
@@ -577,8 +642,10 @@ header:hover h2 {
 }
 
 .frame-line-number {
-    display: grid;
+    align-items: center;
+    display: flex;
     justify-content: flex-end;
+    position: relative;
 }
 
 .frame-line {
@@ -586,8 +653,7 @@ header:hover h2 {
     color: var(--gray-500);
     font-weight: 400;
     padding-left: 0.25rem;
-    padding-right: 0.25rem;
-    line-height: 1.25;
+    position: absolute;
 }
 
 .frame-line:before {
@@ -602,7 +668,7 @@ header:hover h2 {
 /* SMALL */
 @media (max-width: 1100px)
 {
-    .sidebar {
+    .frame-main {
         padding: 0;
     }
 
@@ -742,23 +808,29 @@ header:hover h2 {
     }
 
     .frame-file {
+        font-size: 1em;
         margin-bottom: 0;
-    }
-
-    .frame-info-class {
-        grid-gap: 3rem;
     }
 
     .frame-class,
     .frame-function {
+        font-size: 0.9em;
         font-weight: 500;
-        height: 2em;
+        height: 1.5em;
         line-height: 2.5;
     }
 
+    .frame-class {
+        margin-bottom: 10px;
+    }
+
+    .frame-function {
+        margin-bottom: 10px;
+    }
+
     .frame-line-number {
-        margin-bottom: 15px;
-        margin-right: 5px;
+        top: -25px;
+        right: 10px;
     }
 }
 
@@ -767,7 +839,11 @@ header:hover h2 {
 .code-source {
     background: var(--gray-50);
     border-bottom: solid 3px var(--tint-500);
-    border-radius: 3px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 3px;
+    border-left: solid 1px var(--tint-50);
+    border-top-left-radius: 0;
+    border-top-right-radius: 3px;
     border-top: solid 3px var(--tint-500);
     box-shadow: 0 1px 1px var(--gray-300), 
                 1px 1px 0 var(--gray-300), 
@@ -775,8 +851,7 @@ header:hover h2 {
                 0 0 0 1px var(--gray-300);
     display: none;
     height: 100%;
-    margin-bottom: 50px;
-    margin-top: -1px;
+    *margin-bottom: 50px;
     overflow: hidden;
     padding: 0;
     position: relative;
@@ -809,8 +884,8 @@ header:hover h2 {
 }
 
 .title-line-number h4 {
-    color: var(--gray-700);
-    font-size: var(--font-size-medium-xx);
+    color: var(--gray-500);
+    font-size: var(--font-size-small-xx);
     font-weight: 600;
     line-height: 12px;
     overflow: hidden; 
@@ -821,7 +896,7 @@ header:hover h2 {
 }
 
 .title-line-number span {
-    color: var(--dark-purple-200);
+    color: var(--gray-500);
     font-size: var(--font-size-small-x);
     font-weight: 400;
 }
@@ -836,7 +911,7 @@ header:hover h2 {
     border-bottom-right-radius: 4px;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-    color: rgb(138, 135, 135);
+    color: hsl(0, 1%, 54%);
     overflow: hidden;
     padding-bottom: 0;
     padding-top: 40px;
@@ -1170,12 +1245,12 @@ code {
 
 /* FOOTER */
 footer {
-    background: rgb(49, 53, 61);
-    box-shadow: 0 5px 5px 10px rgba(150, 109, 109, 0.05);
-    min-height: 22px; 
+    background-image: linear-gradient(236deg, var(--white), var(--white));
+    box-shadow: 1px -1px 0 rgba(0, 0, 0, 0.06);
+    min-height: 22px;
     padding: 0 30px;
-    text-shadow: none;  
-    width: 100vw; 
+    position: relative;
+    text-shadow: none; 
 }
 
 .info {
@@ -1192,31 +1267,30 @@ footer {
     position: relative;
 }
 
-.info .status-code,
+.info .status-code {
+    background: rgb(255, 0, 0);
+    bottom: 0;
+    color: var(--white);
+    font-size: 12px;
+    padding: 5px;
+    position: relative;
+    top: -1.5px;
+}
+
 .info .benchmark-time,
 .info .memory {
     cursor: help;
-    color: var(--first-color);
+    color: var(--gray-700);
     font-size: 12px; 
     font-weight: 600;
     padding: 5px;
 }
 
-.info .status-code {
-    background: rgb(255, 0, 0);
-    border-bottom-left-radius: 2px;
-    border-top-left-radius: 5px;
-    bottom: 0;
-    font-size: 13px;
-    position: relative;
-    top: -1.5px;
-}
-
 .info .benchmark-time #cronometro,
 .info .memory #chipset {
-    fill: var(--gray-300);
+    fill: var(--gray-600);
     height: 16.5px;
-    margin-top:1px;
+    margin-top: 1px;
     position: absolute;
     width: 16.5px;
 }
@@ -1230,15 +1304,17 @@ footer {
 
 .info .copy {
     background: var(--tint-100);
-    box-shadow: inset 0 1px 5px 2px rgba(26, 44, 66, 0.1),
-                inset 1px 0 5px 3px rgba(26, 44, 66, 0.1),
-                inset 0 0 5px 1px rgba(26, 44, 66, 0.1),
-                inset 1px 1px 5px 5px rgba(26, 44, 66, 0.1);
-    color: var(--gray-400);
+    box-shadow: inset 0 1px 5px 1px rgba(26, 44, 66, 0.01),
+                inset 1px 0 5px 1px rgba(26, 44, 66, 0.01),
+                inset 0 0 5px 1px rgba(26, 44, 66, 0.01),
+                inset 1px 1px 5px 1px rgba(26, 44, 66, 0.01);
+    color: var(--gray-500);
     font-size: 12px;
     font-weight: 600;    
-    padding: 4px 6px;
+    padding: 4px;
+    padding-left: 35px;
     position: relative;
+    width: 160px;
 }
 
 .info .copy:before {
@@ -1247,14 +1323,14 @@ footer {
     background-size: contain;
     content: '';
     height: 16px;
-    left: -20px;
+    left: 10px;
     position: absolute;
     top: 5px;
     width: 16px;
 }
 
 .info .copy .version {
-    color: var(--gray-400);
+    color: var(--gray-500);
     cursor: help;
     padding-left: 2px;
 }
@@ -1302,10 +1378,9 @@ footer {
 /* WIDE */
 @media (min-width: 1100px)
 {
-    footer {
-        border-top: 1px solid rgb(31, 33, 36);       
+    footer {      
         bottom: 0;
-        left: 0;
+        left: 119px;
         position: fixed;
         right: 0;
     }
