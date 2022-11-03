@@ -162,6 +162,7 @@ class PleasingPageHandler extends MainHandler
 			'javascript'        => preg_replace('#[\r\n\t ]+#', ' ', $jscript),
 			'header'            => $this->getResource('views/header.php'),
 			'sidebar'           => $this->getResource('views/sidebar.php'),
+			'frame_main'        => $this->getResource('views/frame_main.php'),
 			'frame_description' => $this->getResource('views/frame_description.php'),
 			'frame_list'        => $this->getResource('views/frame_list.php'),
 			'details_panel'     => $this->getResource('views/details_panel.php'),
