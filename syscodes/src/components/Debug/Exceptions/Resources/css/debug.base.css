@@ -6,7 +6,6 @@
     --four-color: rgb(0, 150, 177);
     --five-color: rgb(41, 196, 3);
     --body-color: rgb(27, 27, 27);
-    --border-color: rgb(175, 18, 18);
     --frame-color-background: rgb(251, 245, 255);
     --frame-color-border: rgb(121, 0, 245);
     --frame-color-border-second: rgb(217, 197, 238);
@@ -31,9 +30,11 @@
     --purple-500: rgb(121, 0, 245);
     --purple-600: rgb(113, 7, 220);
     --purple-800: rgb(79, 15, 143);
-    --red-100: rgb(255, 235, 243);
-    --red-300: rgb(250, 133, 162);
-    --red-400: rgb(250, 78, 121);
+    --red-100: hsla(336, 100%, 96%, 1);
+    --red-200: hsla(335, 42%, 79%, 1); 
+    --red-300: hsla(345, 92%, 75%, 1);
+    --red-400: hsla(345, 95%, 64%, 1); 
+    --red-500: hsla(0, 81%, 38%, 1); 
     --yellow-100: rgb(255, 253, 235);
     --yellow-200: rgb(255, 248, 196);
     --yellow-300: rgb(255, 243, 148);
