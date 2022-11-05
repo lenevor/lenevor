@@ -82,6 +82,35 @@
     --font-size-large-xxxx: 2em;
 }
 
+.dark-mode {
+    --dark-purple-100: hsla(275, 96%, 10%, 1);
+    --dark-purple-200: hsla(276, 93%, 16%, 1);
+    --dark-purple-300: hsla(275, 86%, 25%, 1);
+    --dark-purple-400: hsla(266, 71%, 34%, 1);
+    --dark-purple-500: hsla(270, 55%, 37%, 1);
+    --dark-purple-600: hsla(270, 51%, 49%, 1);
+    --dark-purple-700: hsla(270, 48%, 60%, 1);
+    --dark-red-100: hsla(355, 100%, 50%, 1);
+    --dark-red-200: hsla(0, 85%, 55%, 1); 
+    --dark-red-300: hsla(0, 89%, 61%, 1);
+    --dark-red-400: hsla(0, 84%, 71%, 1); 
+    --dark-red-500: hsla(0, 100%, 81%, 1);
+    --dark-red-600: hsla(0, 100%, 86%, 1);
+    --dark-red-600: hsla(0, 100%, 91%, 1);
+    --dark-red-700: hsla(0, 100%, 95%, 1);
+    --font-size-small: .8em;
+    --font-size-small-x: .9em;
+    --font-size-initial: 1em;
+    --font-size-medium-x: 1.1em;
+    --font-size-medium-xx: 1.2em;
+    --font-size-medium: 1.3em;
+    --font-size-large: 1.4em;
+    --font-size-large-x: 1.5em;
+    --font-size-large-xx: 1.6em;
+    --font-size-large-xxx: 1.8em;
+    --font-size-large-xxxx: 2em;
+}
+
 * {
     border-width: 0;
     border-style: solid;
