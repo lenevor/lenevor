@@ -58,16 +58,6 @@
     --gray-800: rgb(51, 47, 81);
     --dark-white: rgb(38, 38, 50);
     --dark-blue-400: rgb(85, 0, 255);
-    --dark-green-100: rgb(32, 97, 90);
-    --dark-green-300: rgb(55, 111, 123);
-    --dark-green-500: rgb(63, 152, 142);
-    --dark-purple-100: rgb(60, 46, 96);
-    --dark-purple-200: rgb(81, 50, 128);
-    --dark-purple-300: rgb(104, 85, 147);
-    --dark-purple-400: rgb(106, 87, 148);
-    --dark-purple-500: rgb(126, 107, 167);
-    --dark-purple-600: rgb(145, 127, 183);
-    --dark-purple-800: rgb(158, 140, 194);
     --dark-red-100: rgb(255, 235, 243);
     --font-size-small: .8em;
     --font-size-small-x: .9em;
@@ -83,6 +73,20 @@
 }
 
 .dark-mode {
+    --dark-gray-100: hsla(0, 0%, 25%, 1);
+    --dark-gray-200: hsla(0, 0%, 32%, 1);
+    --dark-gray-300: hsla(0, 0%, 41%, 1);
+    --dark-gray-400: hsla(0, 0%, 54%, 1);
+    --dark-gray-500: hsla(0, 0%, 62%, 1);
+    --dark-gray-600: hsla(0, 0%, 73%, 1);
+    --dark-gray-700: hsla(0, 0%, 81%, 1);
+    --dark-green-100: hsla(132, 100%, 43%, 1);
+    --dark-green-200: hsla(132, 88%, 44%, 1);
+    --dark-green-300: hsla(132, 90%, 59%, 1);
+    --dark-green-400: hsla(132, 100%, 64%, 1);
+    --dark-green-500: hsla(132, 100%, 71%, 1);
+    --dark-green-600: hsla(132, 100%, 80%, 1);
+    --dark-green-700: hsla(132, 100%, 88%, 1);
     --dark-purple-100: hsla(275, 96%, 10%, 1);
     --dark-purple-200: hsla(276, 93%, 16%, 1);
     --dark-purple-300: hsla(275, 86%, 25%, 1);
