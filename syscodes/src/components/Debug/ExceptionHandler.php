@@ -468,7 +468,7 @@ EOF;
                 }
             }
 
-            $data = strstr($frmt[0], ['%f' => $file, '%l' => $line]);
+            $data = strtr($frmt[0], ['%f' => $file, '%l' => $line]);
         } else {
             try {
                 $data = $frmt->format($file, $line);
