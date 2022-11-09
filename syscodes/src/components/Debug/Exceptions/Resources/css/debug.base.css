@@ -447,6 +447,11 @@ nav ul li a {
     text-transform: uppercase;
 }
 
+nav ul li a:hover {
+    background: var(--code-color-highlight);
+    color: var(--first-color);
+}
+
 /* FRAMES */
 
 .frame-main {
