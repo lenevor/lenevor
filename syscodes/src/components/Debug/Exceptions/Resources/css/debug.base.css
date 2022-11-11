@@ -419,7 +419,7 @@ header:hover h2 {
 }
 
 .sidebar .brand {
-    background: var(--gray-800);
+    background: var(--first-color);
     display: grid;
     padding: 22px 21px 1px;
     position: relative;
@@ -431,7 +431,7 @@ header:hover h2 {
 }
 
 nav {
-    background: var(--gray-700);
+    background: var(--white);
     display: inline-block;
     overflow: hidden;
     position: relative;
@@ -456,27 +456,41 @@ nav ul li:nth-child(5) {
 }
 
 nav ul li a {
-    color: var(--gray);
+    color: var(--gray-600);
     text-shadow: none;
     display: block;
     font-size: 1.1em;
     font-weight: 500;
-    letter-spacing: -1px;
-    padding: 61.5px 20px 20px;
+    letter-spacing: -0.5px;
+    overflow: hidden;
+    padding: 19px 20px 20px;
     text-decoration: none;
     text-transform: capitalize;
 }
 
 nav ul li a:hover {
-    background: var(--gray-600);
-    border-bottom: 1px solid var(--gray-600);
-    color: var(--first-color);
+    background: var(--gray-300);
+    color: var(--tint-700);
+}
+
+nav ul li a:hover svg {
+    stroke: var(--gray-700);
 }
 
 nav ul li a.active {
-    background: var(--gray-600);
-    border-bottom: 1px solid var(--gray-600);
+    background: var(--blue-200);
+    border-bottom: 1px solid var(--gray-200);
     color: var(--first-color);
+    font-weight: 600;
+}
+
+nav ul li svg {
+    stroke: var(--gray-500);
+}
+
+nav ul li:nth-child(3) svg {
+    font-weight: 400;
+    stroke: var(--gray-300);
 }
 
 /* FRAMES */
