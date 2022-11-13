@@ -485,12 +485,18 @@ nav ul li a.active {
 }
 
 nav ul li svg {
+    display: block;
+    margin: 0 auto;
     stroke: var(--gray-500);
 }
 
 nav ul li:nth-child(3) svg {
     font-weight: 400;
-    stroke: var(--gray-300);
+    stroke: var(--gray-100);
+}
+
+nav ul li:nth-child(4) svg {
+    fill: var(--gray-200);
 }
 
 /* FRAMES */
