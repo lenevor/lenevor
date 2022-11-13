@@ -56,7 +56,7 @@
             </li>
             <li>
                 <a href="#request">                    
-                    <svg width="33px" height="33px" viewBox="-4.3 -4 20 20" xmlns="http://www.w3.org/2000/svg" version="1.1" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                    <svg width="33px" height="33px" viewBox="-3.5 -4 20 20" xmlns="http://www.w3.org/2000/svg" version="1.1" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
                         <circle cx="12.5" cy="12.5" r="1.75"/>
                         <circle cx="3.5" cy="12.5" r="1.75"/>
                         <circle cx="3.5" cy="3.5" r="1.75"/>
@@ -67,7 +67,7 @@
             </li>
             <li>
                 <a href="#response">
-                    <svg height="33" width="33" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <svg height="33px" width="33px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
                         <g id="HTML-file">
                             <path d="M37.5115013,36.2032013c-0.2187004,0.5077972,0.014698,1.0956993,0.5214996,1.3143997l7.5644989,3.2626991
                                 l-7.5478897,3.1025009c-0.5107117,0.2099991-0.7549095,0.7939987-0.5449104,1.3046989
@@ -98,7 +98,17 @@
                     Response
                 </a>
             </li>
-            <li><a href="#logs">Logs</a></li>
+            <li>
+                <a href="#logs">
+                    <svg width="32px" height="32px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M26,2H8A2,2,0,0,0,6,4V8H4v2H6v5H4v2H6v5H4v2H6v4a2,2,0,0,0,2,2H26a2,2,0,0,0,2-2V4A2,2,0,0,0,26,2Zm0,26H8V24h2V22H8V17h2V15H8V10h2V8H8V4H26Z"/>
+                        <rect x="14" y="8" width="8" height="2"/>
+                        <rect x="14" y="15" width="8" height="2"/>
+                        <rect x="14" y="22" width="8" height="2"/>
+                    </svg>       
+                    Logs
+                </a>
+            </li>
             <li><a href="#events">Events</a></li>
         </ul>
     </nav>
