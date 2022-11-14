@@ -109,7 +109,14 @@
                     Logs
                 </a>
             </li>
-            <li><a href="#events">Events</a></li>
+            <li>
+                <a href="#events">
+                    <svg width="36px" height="36px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"stroke="#000000" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="#000000"> 
+                        <path d="M22 5L22 17C22 18.3333333 21.3333333 19 20 19 18.6666667 19 18 18.3333333 18 17L18 5 2 5 2 16C2 18 3 19 5 19 7 19 12 19 20 19M6 14L7 14M11 14L14 14M6 10L14 10"/> 
+                    </svg>
+                    Events
+                </a>
+            </li>
         </ul>
     </nav>
 </div>
