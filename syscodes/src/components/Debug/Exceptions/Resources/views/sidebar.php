@@ -30,7 +30,7 @@
     <nav>
         <ul>
             <li>
-                <a href="#exceptions">
+                <a href="#exceptions" class="active">
                     <svg width="33px" height="33px" viewBox="-7.3 0 53 53" xmlns="http://www.w3.org/2000/svg">
                         <g id="Group_132" data-name="Group 132" transform="translate(-380.703 -318.103)">
                             <path id="Path_478" data-name="Path 478" d="M415.106,361.119a1.989,1.989,0,0,0-1.99,1.99v6.7l8.689-8.688Z" fill="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.592"/>
