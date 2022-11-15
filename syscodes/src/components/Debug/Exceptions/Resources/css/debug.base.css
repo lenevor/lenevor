@@ -478,10 +478,16 @@ nav ul li a:hover svg {
 }
 
 nav ul li a.active {
-    background: var(--blue-200);
+    background: var(--gray-700);
     border-bottom: 1px solid var(--gray-200);
     color: var(--first-color);
+    cursor: default;
     font-weight: 600;
+    pointer-events: none;
+}
+
+nav ul li a.active svg {
+    stroke: var(--gray-700);
 }
 
 nav ul li svg {
@@ -1368,6 +1374,7 @@ footer {
 .info .memory #chipset {
     fill: var(--gray-600);
     height: 16.5px;
+    margin-left: 12px;
     margin-top: 1px;
     position: absolute;
     width: 16.5px;
@@ -1375,7 +1382,7 @@ footer {
 
 .info .benchmark-time span,
 .info .memory span {
-    margin-left: 22px;
+    margin-left: 35px;
     top: -1.5px;
     position: relative;
 }
