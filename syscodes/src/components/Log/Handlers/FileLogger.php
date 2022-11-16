@@ -97,13 +97,9 @@ class FileLogger implements Handler
      */
     public function __construct(array $config = [], $app)
     {
-        $this->app = $app;
-
-        $this->logFilePath = $config['path'].DIRECTORY_SEPARATOR ?? $this->app->storagePath().DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR;
-
-        $this->logFileExtension = empty($config['extension']) ? 'log' : $config['extension'];
-        $this->logFileExtension = ltrim($this->logFileExtension, '.');
-
+        $this->app                = $app;
+        $this->logFilePath        = $config['path'].DIRECTORY_SEPARATOR ?? $this->app->storagePath().DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR;
+        $this->logFileExtension   = ltrim(empty($config['extension']) ? 'log' : $config['extension'], '.');
         $this->logFilePermissions = $config['permission'] ?? 0644;
     }
 
