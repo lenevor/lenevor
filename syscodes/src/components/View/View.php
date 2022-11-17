@@ -271,8 +271,6 @@ class View implements ArrayAccess, Webable, ViewContract
 	 *
 	 * @return mixed
 	 *
-	 * @uses   \Syscodes\Components\Contracts\Core\Lenevor
-	 *
 	 * @throws \InvalidArgumentException
 	 */
 	public function &get($key, $default = null)
