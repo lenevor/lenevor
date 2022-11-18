@@ -76,7 +76,11 @@ class DatabaseUserProvider implements UserProvider
     }
 
     /**
-     * {@inheritdoc}
+     * Retrieve a user by their unique identifier.
+     * 
+     * @param  mixed  $identifier
+     * 
+     * @return \Syscodes\Components\Contracts\Auth\Authenticatable|null
      */
     public function retrieveById($identifier)
     {
@@ -86,7 +90,12 @@ class DatabaseUserProvider implements UserProvider
     }
     
     /**
-     * {@inheritdoc}
+     * Retrieve a user by their unique identifier and "remember me" token.
+     * 
+     * @param  mixed  $identifier
+     * @param  string  $token
+     * 
+     * @return \Syscodes\Components\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByToken($identifier, string $token)
     {
@@ -99,7 +108,12 @@ class DatabaseUserProvider implements UserProvider
     }
     
     /**
-     * {@inheritdoc}
+     * Update the "remember me" token for the given user in storage.
+     * 
+     * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user
+     * @param  string  $token
+     * 
+     * @return void
      */
     public function updateRememberToken(UserContract $user, string $token): void
     {
@@ -109,7 +123,11 @@ class DatabaseUserProvider implements UserProvider
     }
     
     /**
-     * {@inheritdoc}
+     * Retrieve a user by the given credentials.
+     * 
+     * @param  array  $credentials
+     * 
+     * @return \Syscodes\Components\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByCredentials(array $credentials)
     {
@@ -139,7 +157,12 @@ class DatabaseUserProvider implements UserProvider
     }
     
     /**
-     * {@inheritdoc}
+     * Validate a user against the given credentials.
+     * 
+     * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user
+     * @param  array  $credentials
+     * 
+     * @return bool
      */
     public function validateCredentials(UserContract $user, array $credentials): bool
     {
