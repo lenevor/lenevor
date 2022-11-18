@@ -51,7 +51,9 @@ class GenericUser implements UserContract
     }
 
     /**
-     * {@inheritdoc}
+     * Get the unique identifier for the user.
+     * 
+     * @return mixed
      */
     public function getAuthIdentifier()
     {
@@ -59,7 +61,9 @@ class GenericUser implements UserContract
     }
     
     /**
-     * {@inheritdoc}
+     * Get the name of the unique identifier for the user.
+     * 
+     * @return string
      */
     public function getAuthIdentifierName(): string
     {
@@ -67,7 +71,9 @@ class GenericUser implements UserContract
     }
     
     /**
-     * {@inheritdoc}
+     * Get the password for the user.
+     * 
+     * @return string
      */
     public function getAuthPassword(): string
     {
@@ -75,7 +81,9 @@ class GenericUser implements UserContract
     }
     
     /**
-     * {@inheritdoc}
+     * Get the token value for the "remember me" session.
+     * 
+     * @return string
      */
     public function getRememberToken(): string
     {
@@ -83,7 +91,11 @@ class GenericUser implements UserContract
     }
     
     /**
-     * {@inheritdoc}
+     * Set the token value for the "remember me" session.
+     * 
+     * @param  string  $value
+     * 
+     * @return void
      */
     public function setRememberToken(string $value): void
     {
@@ -91,7 +103,9 @@ class GenericUser implements UserContract
     }
     
     /**
-     * {@inheritdoc}
+     * Get the column name for the "remember me" token.
+     * 
+     * @return string
      */
     public function getRememberTokenName(): string
     {
