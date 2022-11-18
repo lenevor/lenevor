@@ -83,7 +83,11 @@ class AuthManager implements Factory
     }
 
     /**
-     * {@inheritdoc}
+     * Get a guard instance by name.
+     * 
+     * @param  string|null  $name
+     * 
+     * @return \Syscodes\Components\Contracts\Auth\Guard|\Syscodes\Components\Contracts\Auth\StateGuard
      */
     public function guard(string $name = null)
     {
@@ -223,7 +227,11 @@ class AuthManager implements Factory
     }
     
     /**
-     * {@inheritdoc}
+     * Set the default guard the factory should serve.
+     * 
+     * @param  string  $name
+     * 
+     * @return void
      */
     public function shouldUse(string $name)
     {
