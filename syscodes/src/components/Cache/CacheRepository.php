@@ -69,7 +69,11 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * {@inheritdoc}
+     * Determine if an item exists in the cache.
+     * 
+     * @param  string  $key
+     * 
+     * @return bool
      */
     public function has($key): bool
     {
@@ -77,7 +81,12 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * {@inheritdoc}
+     * Attempts to retrieve an item from the cache by key.
+     * 
+     * @param  string  $key  Cache item name
+     * @param  mixed  $default
+     * 
+     * @return mixed
      */
     public function get($key, $default = null)
     {
@@ -95,7 +104,11 @@ class CacheRepository implements ArrayAccess, Repository
     }
     
     /**
-     * {@inheritdoc}
+     * Gets multiple items from the cache by key.
+     * 
+     * @param  array  $keys
+     * 
+     * @return array
      */
     public function many(array $keys): array
     {
@@ -127,7 +140,13 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * {@inheritdoc}
+     * Store an item in the cache if the key does not exist.
+     * 
+     * @param  string  $key
+     * @param  mixed  $value
+     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
+     * 
+     * @return bool
      */
     public function add($key, $value, $ttl = null): bool
     {
@@ -149,7 +168,13 @@ class CacheRepository implements ArrayAccess, Repository
     }
     
     /**
-     * {@inheritdoc}
+     * Store an item in the cache.
+     * 
+     * @param  string  $key
+     * @param  mixed   $value
+     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
+     * 
+     * @return bool
      */
     public function put($key, $value, $ttl = null): bool
     {
@@ -169,7 +194,12 @@ class CacheRepository implements ArrayAccess, Repository
     }
     
     /**
-     * {@inheritdoc}
+     * Store multiple items in the cache for a given number of seconds.
+     * 
+     * @param  array  $values
+     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
+     * 
+     * @return bool
      */
     public function putMany(array $values, $ttl = null): bool
     {
@@ -207,7 +237,12 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * {@inheritdoc}
+     * Retrieve an item from the cache and delete it.
+     * 
+     * @param  string  $key
+     * @param  mixed  $default
+     * 
+     * @return mixed
      */
     public function pull($key, $default = null)
     {
@@ -217,7 +252,13 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * {@inheritdoc}
+     * Saves an item to the cache store.
+     * 
+     * @param  string  $key  Cache item name
+     * @param  mixed  $value  The data to save 
+     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl  Time To Live, in second
+     * 
+     * @return bool
      */
     public function save($key, $value, $ttl = null)
     {
@@ -235,7 +276,12 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * {@inheritdoc}
+     * Increment the value of an item in the cache.
+     * 
+     * @param  string  $key
+     * @param  mixed  $value
+     * 
+     * @return int|bool
      */
     public function increment($key, $value = 1)
     {
@@ -243,7 +289,12 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * {@inheritdoc}
+     * Decrement the value of an item in the cache.
+     * 
+     * @param  string  $key
+     * @param  mixed  $value
+     * 
+     * @return int|bool
      */
     public function decrement($key, $value = 1)
     {
@@ -251,7 +302,11 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * {@inheritdoc}
+     * Remove a specific item from the cache store.
+     * 
+     * @param  string  $key
+     * 
+     * @return bool
      */
     public function delete($key): bool
     {
@@ -259,7 +314,11 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * {@inheritdoc}
+     * Removes multiple items from the cache store.
+     * 
+     * @param  array  $keys
+     * 
+     * @return bool
      */
     public function deleteMultiple($keys): bool
     {
@@ -273,7 +332,12 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * {@inheritdoc}
+     * Stores an item in the cache indefinitely.
+     * 
+     * @param  string  $key
+     * @param  mixed  $value
+     * 
+     * @return bool
      */
     public function forever($key, $value): bool
     {
@@ -281,7 +345,9 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * {@inheritdoc}
+     * Remove all items from the cache.
+     * 
+     * @return void
      */
     public function flush()
     {
@@ -337,7 +403,9 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * {@inheritdoc}
+     * Get the cache store implementation.
+     * 
+     * @return \Syscodes\Contracts\Cache\Store
      */
     public function getStore()
     {
@@ -345,7 +413,9 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * {@inheritdoc}
+     * Get the default cache time.
+     * 
+     * @return int
      */
     public function getCacheTime(): int
     {
@@ -353,7 +423,11 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
-     * {@inheritdoc}
+     * Set the default cache time in seconds
+     * 
+     * @param  int|null  $seconds
+     * 
+     * @return self
      */
     public function setCacheTime($seconds): self
     {
@@ -441,7 +515,7 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * Clone cache repository instance.
      * 
-     * return void
+     * @return void
      */
     public function __clone()
     {
