@@ -90,7 +90,9 @@ class TokenGuard implements Guard
     }
     
     /**
-     * {@inheritdoc}
+     * Get the currently authenticated user.
+     * 
+     * @return \Syscodes\Components\Contracts\Auth\Authenticatable|null
      */
     public function user()
     {
@@ -136,7 +138,11 @@ class TokenGuard implements Guard
     }
     
     /**
-     * {@inheritdoc}
+     * Validate a user's credentials.
+     * 
+     * @param  array  $credentials
+     * 
+     * @return bool
      */
     public function validate(array $credentials = []): bool
     {
