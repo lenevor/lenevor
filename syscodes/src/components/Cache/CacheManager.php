@@ -78,7 +78,11 @@ class CacheManager implements FactoryContract
     }
 
     /**
-     * {@inheritdoc}
+     * Get a cache driver instance.
+     * 
+     * @param  string|null
+     * 
+     * @return \Syscodes\Components\Cache\CacheRepository
      */
     public function driver($driver = null)
     {
@@ -86,7 +90,11 @@ class CacheManager implements FactoryContract
     }
     
     /**
-     * {@inheritdoc}
+     * Get a cache store instance by name.
+     * 
+     * @param  string|null  $name
+     * 
+     * @return \Syscodes\Components\Cache\CacheRepository
      */
     public function store(string $name = null)
     {
@@ -285,7 +293,9 @@ class CacheManager implements FactoryContract
     }
 
     /**
-     * {@inheritdoc}
+     * Get the default cache driver name.
+     * 
+     * @return string
      */
     public function getDefaultDriver(): string
     {
@@ -293,7 +303,11 @@ class CacheManager implements FactoryContract
     }
     
     /**
-     * {@inheritdoc}
+     * Set the default cache driver name.
+     * 
+     * @param  string  $name
+     * 
+     * @return void
      */
     public function setDefaultDriver(string $name): void
     {
@@ -301,7 +315,12 @@ class CacheManager implements FactoryContract
     }
 
     /**
-     * {@inheritdoc}
+     * Register a custom driver creator Closure.
+     * 
+     * @param  string  $driver
+     * @param  \Closure  $callback
+     * 
+     * @return self
      */
     public function extend($driver, Closure $callback): self
     {
