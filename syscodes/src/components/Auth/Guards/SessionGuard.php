@@ -149,7 +149,9 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
     }
 
     /**
-     * {@inheritdoc}
+     * Get the currently authenticated user.
+     * 
+     * @return \Syscodes\Components\Contracts\Auth\Authenticatable|null
      */
     public function user()
     {
@@ -219,7 +221,9 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
     }
 
     /**
-     * {@inheritdoc}
+     * Get the ID for the currently authenticated user.
+     * 
+     * @return int|string|null
      */
     public function id()
     {
@@ -233,7 +237,11 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
     }
 
     /**
-     * {@inheritdoc}
+     * Validate a user's credentials.
+     * 
+     * @param  array  $credentials
+     * 
+     * @return bool
      */
     public function validate(array $credentials = []): bool
     {
@@ -243,7 +251,14 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
     }
 
     /**
-     * {@inheritdoc} 
+     * Attempt to authenticate using HTTP Basic Auth.
+     * 
+     * @param  string  $field
+     * @param  array  $extraConditions
+     * 
+     * @return \Syscodes\Components\Http\Response|null
+     * 
+     * @throws \Syscodes\Components\Core\Http\Exceptions\UnauthorizedHttpException 
      */
     public function basic($field = 'email', $extraConditions = [])
     {
@@ -259,7 +274,14 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
     }
 
     /**
-     * {@inheritdoc}
+     * Perform a stateless HTTP Basic login attempt.
+     * 
+     * @param  string  $field
+     * @param  array  $extraConditions
+     * 
+     * @return \Syscodes\Components\Http\Response|null
+     * 
+     * @throws \Syscodes\Components\Core\Http\Exceptions\UnauthorizedHttpException
      */
     public function onceBasic($field = 'email', $extraConditions = [])
     {
@@ -316,7 +338,12 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
     }
 
     /**
-     * {@inheritdoc}
+     * Attempt to authenticate a user using the given credentials.
+     * 
+     * @param  array  $credentials
+     * @param  bool  $remember
+     * 
+     * @return bool
      */
     public function attempt(array $credentials = [], $remember = false): bool
     {
@@ -336,7 +363,11 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
     }
 
     /**
-     * {@inheritdoc}
+     * Log a user into the application without sessions or cookies.
+     * 
+     * @param  array  $credentials
+     * 
+     * @return \Syscodes\Components\Http\Response|null
      */
     public function once($field = 'email', $extraConditions = [])
     {
@@ -348,7 +379,12 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
     }
 
     /**
-     * {@inheritdoc}
+     * Log a user into the application.
+     * 
+     * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user
+     * @param  bool  $remember
+     * 
+     * @return void
      */
     public function login(Authenticatable $user, $remember = false): void
     {
@@ -436,7 +472,12 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
     }
 
     /**
-     * {@inheritdoc}
+     * Log the given user ID into the application.
+     * 
+     * @param  mixed  $id
+     * @param  bool  $remember
+     * 
+     * @return \Syscodes\Components\Contracts\Auth\Authenticatable|bool
      */
     public function loginUsingId($id, $remember = false)
     {
@@ -450,7 +491,11 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
     }
 
     /**
-     * {@inheritdoc}
+     * Log the given user ID into the application without sessions or cookies.
+     * 
+     * @param  mixed  $id
+     * 
+     * @return \Syscodes\Components\Contracts\Auth\Authenticatable|bool
      */
     public function onceUsingId($id): bool
     {
@@ -462,7 +507,9 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
     }
 
     /**
-     * {@inheritdoc}
+     * Determine if the user was authenticated via "remember me" cookie.
+     * 
+     * @return bool
      */
     public function viaRemember(): bool
     {
@@ -470,7 +517,9 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
     }
 
     /**
-     * {@inheritdoc}
+     * Log the user out of the application.
+     * 
+     * @return void
      */
     public function logout(): void
     {
