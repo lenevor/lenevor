@@ -74,7 +74,9 @@ trait GuardAuthenticationUser
     }
     
     /**
-     * {@inheritdoc}
+     * Determine if the current user is authenticated.
+     * 
+     * @return bool
      */
     public function check(): bool
     {
@@ -82,7 +84,9 @@ trait GuardAuthenticationUser
     }
     
     /**
-     * {@inheritdoc}
+     * Determine if the current user is a guest.
+     * 
+     * @return bool
      */
     public function guest(): bool
     {
@@ -90,7 +94,9 @@ trait GuardAuthenticationUser
     }
     
     /**
-     * {@inheritdoc}
+     * Get the ID for the currently authenticated user.
+     * 
+     * @return int|string|null
      */
     public function id()
     {
@@ -100,7 +106,11 @@ trait GuardAuthenticationUser
     }
     
     /**
-     * {@inheritdoc}
+     * Set the current user.
+     * 
+     * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user
+     * 
+     * @return self
      */
     public function setUser(AuthenticatableInterface $user): self
     {
