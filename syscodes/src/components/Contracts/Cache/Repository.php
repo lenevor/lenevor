@@ -105,6 +105,8 @@ interface Repository
      * @param  string  $key  Cache item name
      * @param  mixed  $value  The data to save 
      * @param  \DateTimeInterface|\DateInterval|int|null  $ttl  Time To Live, in second
+     * 
+     * @return bool
      */
     public function save($key, $value, $ttl = null);
 
