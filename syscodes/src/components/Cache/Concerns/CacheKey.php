@@ -44,7 +44,9 @@ trait CacheKey
     protected $keyName;
 
     /**
-     * {@inheritdoc}
+     * Returns a key name that is suitable for the cache implementation being used.
+     * 
+     * @return  string
      */
     public function getKeyName(): string
     {
@@ -52,7 +54,11 @@ trait CacheKey
     }
 
     /**
-     * {@inheritdoc}
+     * Fixes the string to remove unallowed characters.
+     *
+     * @param  string  $key
+     * 
+     * @return void
      */
     public function getFixKeyChars(string $key): void
     {
