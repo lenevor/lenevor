@@ -23,8 +23,8 @@
 namespace Syscodes\Components\Console\IO;
 
 use Syscodes\Components\Console\GlobalOption;
-use Syscodes\Components\Contracts\Console\Input as InputInterface;
-use Syscodes\Components\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
+use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * CLI Interactor.
@@ -36,22 +36,22 @@ class Interactor
     /**
      * The Input instance.
      * 
-     * @var \Syscodes\Components\Contracts\Console\Input $input
+     * @var \Syscodes\Components\Contracts\Console\Input\Input $input
      */
     protected $input;
     
     /**
      * The Output instance.
      * 
-     * @var \Syscodes\Components\Contracts\Console\Output $output
+     * @var \Syscodes\Components\Contracts\Console\Output\Output $output
      */
     protected $output;
 
     /**
      * Constructor. Create a new Interactor instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Input|null  $input  The input interface implemented
-	 * @param  \Syscodes\Components\Contracts\Console\Output|null  $output  The output interface implemented  
+     * @param  \Syscodes\Components\Contracts\Console\Input\Input|null  $input  The input interface implemented
+	 * @param  \Syscodes\Components\Contracts\Console\Output\Output|null  $output  The output interface implemented  
      * 
      * @return void
      */
