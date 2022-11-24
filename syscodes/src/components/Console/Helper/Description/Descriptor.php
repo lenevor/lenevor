@@ -27,8 +27,8 @@ use Syscodes\Components\Console\Command\Command;
 use Syscodes\Components\Console\Input\InputOption;
 use Syscodes\Components\Console\Input\InputArgument;
 use Syscodes\Components\Console\Input\InputDefinition;
-use Syscodes\Components\Contracts\Console\Output as OutputInterface;
-use Syscodes\Components\Contracts\Console\Descriptor as DescriptorInterface;
+use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\Helper\Descriptor as DescriptorInterface;
 
 /**
  * This class allows all console description variables to be displayed.
@@ -38,7 +38,13 @@ use Syscodes\Components\Contracts\Console\Descriptor as DescriptorInterface;
 abstract class Descriptor implements DescriptorInterface
 {
     /**
-     * {@inheritdoc}
+     * Describes the type of input, output and command for console.
+     * 
+     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $output
+     * @param  object  $object
+     * @param  array  $options
+     * 
+     * @return void
      */
     public function describe(OutputInterface $output, object $object, array $options = [])
     {
