@@ -24,7 +24,7 @@ namespace Syscodes\Components\Console\Helper;
 
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Console\Util\FormatUtil;
-use Syscodes\Components\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * Format and render to a single list of items.
