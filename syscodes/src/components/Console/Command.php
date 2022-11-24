@@ -24,8 +24,8 @@ namespace Syscodes\Components\Console;
 
 use LogicException;
 use Syscodes\Components\Console\Command\Command as BaseCommand;
-use Syscodes\Components\Contracts\Console\Input as InputInterface;
-use Syscodes\Components\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
+use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * Is class allows functionality for running, listing, etc all commands of framework.
@@ -100,8 +100,8 @@ class Command extends BaseCommand
     /**
      * Runs a command given.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Input  $input
-     * @param  \Syscodes\Components\Contracts\Console\Output  $input
+     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
+     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $input
      * 
      * @return int|mixed
      */
@@ -113,8 +113,8 @@ class Command extends BaseCommand
     /**
      * Executes the current command.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Input  $input
-     * @param  \Syscodes\Components\Contracts\Console\Output  $input
+     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
+     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $input
      * 
      * @return int|mixed
      * 
