@@ -42,7 +42,11 @@ class NullStore implements Store
     protected $storage = [];
 
     /**
-     * {@inheritdoc}
+     * Gets an item from the cache by key.
+     * 
+     * @param  string  $key
+     * 
+     * @return mixed
      */
     public function get($key)
     {
@@ -50,7 +54,13 @@ class NullStore implements Store
     }
 
     /**
-     * {@inheritdoc}
+     * Store an item in the cache for a given number of seconds.
+     * 
+     * @param  string  $key
+     * @param  mixed   $value
+     * @param  int     $seconds
+     * 
+     * @return bool
      */
     public function put($key, $value, $seconds): bool
     {
@@ -58,7 +68,12 @@ class NullStore implements Store
     }
 
     /**
-     * {@inheritdoc}
+     * Increment the value of an item in the cache.
+     * 
+     * @param  string  $key
+     * @param  mixed   $value
+     * 
+     * @return int|bool
      */
     public function increment($key, $value = 1)
     {
@@ -66,7 +81,12 @@ class NullStore implements Store
     }
 
     /**
-     * {@inheritdoc}
+     * Decrement the value of an item in the cache.
+     * 
+     * @param  string  $key
+     * @param  mixed   $value
+     * 
+     * @return int|bool
      */
     public function decrement($key, $value = 1)
     {
@@ -74,7 +94,11 @@ class NullStore implements Store
     }
 
     /**
-     * {@inheritdoc}
+     * Deletes a specific item from the cache store.
+     * 
+     * @param  string  $key
+     * 
+     * @return mixed
      */
     public function delete($key)
     {
@@ -82,7 +106,12 @@ class NullStore implements Store
     }
 
     /**
-     * {@inheritdoc}
+     * Stores an item in the cache indefinitely.
+     * 
+     * @param  string  $key
+     * @param  mixed   $value
+     * 
+     * @return bool
      */
     public function forever($key, $value): bool
     {
@@ -90,15 +119,19 @@ class NullStore implements Store
     }
 
     /**
-     * {@inheritdoc}
+     * Remove all items from the cache.
+     * 
+     * @return bool
      */
-    public function flush()
+    public function flush(): bool
     {
         return true;
     }
 
     /**
-     * {@inheritdoc}
+     * Gets the cache key prefix.
+     *
+     * @return string
      */
     public function getPrefix(): string
     {
