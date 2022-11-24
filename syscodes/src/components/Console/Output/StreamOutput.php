@@ -23,7 +23,7 @@
 namespace Syscodes\Components\Console\Output;
 
 use InvalidArgumentException;
-use Syscodes\Components\Contracts\Console\OutputFormatter;
+use Syscodes\Components\Contracts\Console\Output\OutputFormatter;
 
 /**
  * Allows StreamOutput writes the output to a given stream.
@@ -45,7 +45,7 @@ class StreamOutput extends Output
      * @param  resource  $stream  The stream resource
      * @param  int  $verbosity  The verbosity level
      * @param  bool|null  $decorated  Whether to decorated messages
-     * @param  \Syscodes\Components\Contracts\Console\OutputFormatter|null  $formatter  The output formatter instance
+     * @param  \Syscodes\Components\Contracts\Console\Output\OutputFormatter|null  $formatter  The output formatter instance
      * 
      * @return void
      * 
