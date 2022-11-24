@@ -23,8 +23,8 @@
 namespace Syscodes\Components\Console\Formatter;
 
 use InvalidArgumentException;
-use Syscodes\Components\Contracts\Console\OutputFormatter as OutputFormatterInterface;
-use Syscodes\Components\Contracts\Console\OutputFormatterStyle as OutputFormatterStyleInterface;
+use Syscodes\Components\Contracts\Console\Output\OutputFormatter as OutputFormatterInterface;
+use Syscodes\Components\Contracts\Console\Output\OutputFormatterStyle as OutputFormatterStyleInterface;
 
 /**
  * Formatter class for console output.
@@ -73,7 +73,11 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Sets the decorated for styles in messages.
+     * 
+     * @param  bool  $decorated
+     * 
+     * @return void
      */
     public function setDecorated(bool $decorated): void
     {
@@ -81,7 +85,9 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Gets the decorated for styles in messages.
+     * 
+     * @return bool
      */
     public function getDecorated(): bool
     {
@@ -89,7 +95,12 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Sets a new style.
+     * 
+     * @param  string  $name
+     * @param  \Syscodes\Components\Contracts\Console\OutputFormatterStyle  $style
+     * 
+     * @return void
      */
     public function setStyle($name, OutputFormatterStyleInterface $style): void
     {
@@ -97,7 +108,11 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Checks if output formatter has style with specified name.
+     * 
+     * @param  string  $name
+     * 
+     * @return bool
      */
     public function hasStyle($name): bool
     {
@@ -105,7 +120,13 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Gets style options from style with specified name.
+     * 
+     * @param  string  $name
+     * 
+     * @return array
+     * 
+     * @throws \InvalidArgumentException
      */
     public function getStyle($name): string
     {
