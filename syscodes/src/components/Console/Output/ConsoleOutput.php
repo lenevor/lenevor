@@ -22,10 +22,10 @@
 
 namespace Syscodes\Components\Console\Output;
 
-use Syscodes\Components\Contracts\Console\OutputFormatter;
-use Syscodes\Components\Contracts\Console\Output as OutputInterface;
-use Syscodes\Components\Contracts\Console\ConsoleOutput as ConsoleOutputInterface;
-use Syscodes\Components\Contracts\Console\OutputFormatter as OutputFormatterInterface;
+use Syscodes\Components\Contracts\Console\Output\OutputFormatter;
+use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\Output\ConsoleOutput as ConsoleOutputInterface;
+use Syscodes\Components\Contracts\Console\Output\OutputFormatter as OutputFormatterInterface;
 
 /**
  * The ConsoleOutput is the default class for all CLI ouput using STDOUT and STDERR. 
@@ -46,7 +46,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
      * 
      * @param  int  $verbosity  The verbosity level
      * @param  bool|null  $decorated  Whether to decorated messages
-     * @param  \Syscodes\Components\Contracts\Console\OutputFormatter|null  $formatter  The output formatter instance
+     * @param  \Syscodes\Components\Contracts\Console\Output\OutputFormatter|null  $formatter  The output formatter instance
      * 
      * @return void
      * 
@@ -70,7 +70,11 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Sets the decorated flag.
+	 * 
+	 * @param  bool  $decorated  Whether to decorated messages
+	 * 
+	 * @return void
      */
     public function setDecorated(bool $decorated): void
     {
@@ -80,7 +84,11 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Sets a output formatter instance.
+	 * 
+	 * @param  \Syscodes\Components\Contracts\Console\Output\OutputFormatter  $formatter;
+	 * 
+	 * @return void
      */
     public function setFormatter(OutputFormatterInterface $formatter): void
     {
@@ -90,7 +98,11 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Sets the verbosity of the output.
+	 * 
+	 * @param  int  $level
+	 * 
+	 * @return void
      */
     public function setVerbosity(int $level): void
     {
@@ -100,7 +112,9 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Gets the Output interface for errors.
+     * 
+     * @return \Syscodes\Components\Contracts\Console\Output\Output
      */
     public function getErrorOutput()
     {
@@ -108,7 +122,11 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Sets the Output interface for errors.
+     * 
+     * @param  Syscodes\Components\Contracts\Console\Output\Output  $error
+     * 
+     * @return \Syscodes\Components\Contracts\Console\Output\Output
      */
     public function SetErrorOutput(OutputInterface $error): void
     {
