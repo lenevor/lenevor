@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\Console\Helper;
 
-use Syscodes\Components\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * Format and render to a multi list of items.
