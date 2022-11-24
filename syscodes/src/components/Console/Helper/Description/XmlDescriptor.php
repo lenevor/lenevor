@@ -43,15 +43,25 @@ class XmlDescriptor extends Descriptor
     protected $output;
 
     /**
-     * {@inheritdoc}
+     * Describes an InputArgument instance.
+     * 
+     * @param  \Syscodes\Components\Console\Input\InputArgument  $argument  The argument implemented
+     * @param  array  $options  The options of the console
+     * 
+     * @return void
      */
     protected function describeArgument(InputArgument $argument, array $options = [])
     {
         $this->writeText('hola mundo!!!');
     }
 
-     /**
-     * {@inheritdoc}
+    /**
+     * Describes an InputOption instance.
+     * 
+     * @param  \Syscodes\Components\Console\Input\InputOption  $option  The option implemented
+     * @param  array  $options  The options of the console
+     * 
+     * @return void
      */
     protected function describeOption(InputOption $option, array $options = [])
     {
@@ -59,7 +69,12 @@ class XmlDescriptor extends Descriptor
     }
 
     /**
-     * {@inheritdoc}
+     * Describes an InputDefinition instance.
+     * 
+     * @param  \Syscodes\Components\Console\Input\InputDefinition  $definition  The definition implemented
+     * @param  array  $options  The options of the console
+     * 
+     * @return void
      */
     protected function describeDefinition(InputDefinition $definition, array $options = [])
     {
@@ -67,7 +82,12 @@ class XmlDescriptor extends Descriptor
     }
     
     /**
-     * {@inheritdoc}
+     * Describes an Command instance.
+     * 
+     * @param  \Syscodes\Components\Console\Command\Command  $command  The command implemented
+     * @param  array  $options  The options of the console
+     * 
+     * @return void
      */
     protected function describeCommand(Command $command, array $options = [])
     {
@@ -75,7 +95,12 @@ class XmlDescriptor extends Descriptor
     }
 
     /**
-     * {@inheritdoc}
+     * Describes an Application instance.
+     * 
+     * @param  \Syscodes\Components\Console\Application  $application  The application implemented
+     * @param  array  $options  The options of the console
+     * 
+     * @return void
      */
     protected function describeApplication(Application $application, array $options = [])
     {
@@ -83,7 +108,11 @@ class XmlDescriptor extends Descriptor
     } 
 
     /**
-     * {@inheritdoc}
+     * Writes a message to the output.
+     * 
+     * @param  string  $content  The message to output
+     * 
+     * @return string
      */
     private function writeText(string $content)
     {
