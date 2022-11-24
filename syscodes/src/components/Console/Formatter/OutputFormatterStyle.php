@@ -24,7 +24,7 @@ namespace Syscodes\Components\Console\Formatter;
 
 use InvalidArgumentException;
 use Syscodes\Components\Console\Style\TagStyle;
-use Syscodes\Components\Contracts\Console\OutputFormatterStyle as OutputFormatterStyleInterface;
+use Syscodes\Components\Contracts\Console\Output\OutputFormatterStyle as OutputFormatterStyleInterface;
 
 /**
  * Allows that formatter style class for defining styles.
