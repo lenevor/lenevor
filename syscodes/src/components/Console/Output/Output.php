@@ -24,8 +24,8 @@ namespace Syscodes\Components\Console\Output;
 
 use Syscodes\Components\Console\Concerns\InteractsIO;
 use Syscodes\Components\Console\Formatter\OutputFormatter;
-use Syscodes\Components\Contracts\Console\Output as OutputInterface;
-use Syscodes\Components\Contracts\Console\OutputFormatter as OutputFormatterInterface;
+use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\Output\OutputFormatter as OutputFormatterInterface;
 
 /**
  * Allows the use of the formatter in the messages to be displayed 
@@ -40,7 +40,7 @@ abstract class Output implements OutputInterface
 	/**
 	 * Gets formatter for output console.
 	 * 
-	 * @var \Syscodes\Components\Contracts\Console\OutputFormatter $formatter
+	 * @var \Syscodes\Components\Contracts\Console\Output\OutputFormatter $formatter
 	 */
 	protected $formatter;
 	
@@ -56,7 +56,7 @@ abstract class Output implements OutputInterface
 	 * 
 	 * @param  int|null  $verbosity  The verbosity level
 	 * @param  bool  $decorated  Whether to decorated messages
-	 * @param  \Syscodes\Components\Contracts\Console\OutputFormatter|null  $formatter  The output formatter instance
+	 * @param  \Syscodes\Components\Contracts\Console\Output\OutputFormatter|null  $formatter  The output formatter instance
 	 * 
 	 * @return void
 	 */
@@ -69,7 +69,9 @@ abstract class Output implements OutputInterface
 	}
 	
 	/**
-	 * {@inheritdoc}
+	 * Gets the decorated flag.
+	 * 
+	 * @return bool
 	 */
 	public function getDecorated(): bool
 	{
@@ -77,7 +79,11 @@ abstract class Output implements OutputInterface
 	}
 	
 	/**
-	 * {@inheritdoc}
+	 * Sets the decorated flag.
+	 * 
+	 * @param  bool  $decorated  Whether to decorated messages
+	 * 
+	 * @return void
 	 */
 	public function setDecorated(bool $decorated): void
 	{
@@ -85,7 +91,9 @@ abstract class Output implements OutputInterface
 	}
 	
 	/**
-	 * {@inheritdoc}
+	 * Returns a output formatter instance.
+	 * 
+	 * @return \Syscodes\Components\Contracts\Console\Output\OutputFormatter
 	 */
 	public function getFormatter(): OutputFormatterInterface
 	{
@@ -93,7 +101,11 @@ abstract class Output implements OutputInterface
 	}
 	
 	/**
-	 * {@inheritdoc}
+	 * Sets a output formatter instance.
+	 * 
+	 * @param  \Syscodes\Components\Contracts\Console\Output\OutputFormatter  $formatter;
+	 * 
+	 * @return void
 	 */
 	public function setFormatter(OutputFormatterInterface $formatter): void
 	{
@@ -101,7 +113,9 @@ abstract class Output implements OutputInterface
 	}
 	
 	/**
-	 * {@inheritdoc}
+	 * Gets the current verbosity of the output.
+	 * 
+	 * @return int
 	 */
 	public function getVerbosity(): int
 	{
@@ -109,7 +123,11 @@ abstract class Output implements OutputInterface
 	}
 	
 	/**
-	 * {@inheritdoc}
+	 * Sets the verbosity of the output.
+	 * 
+	 * @param  int  $level
+	 * 
+	 * @return void
 	 */
 	public function setVerbosity(int $level): void
 	{
@@ -117,7 +135,9 @@ abstract class Output implements OutputInterface
 	}
 	
 	/**
-	 * {@inheritdoc}
+	 * Returns whether verbosity is quiet (-q).
+	 * 
+	 * @return bool
 	 */
 	public function isQuiet(): bool
 	{
@@ -125,7 +145,9 @@ abstract class Output implements OutputInterface
 	}
 	
 	/**
-	 * {@inheritdoc}
+	 * Returns whether verbosity is verbose (-v).
+	 * 
+	 * @return bool
 	 */
 	public function isVerbose(): bool
 	{
@@ -133,7 +155,9 @@ abstract class Output implements OutputInterface
 	}
 	
 	/**
-	 * {@inheritdoc}
+	 * Returns whether verbosity is very verbose (-vv).
+	 * 
+	 * @return bool
 	 */
 	public function isVeryVerbose(): bool
 	{
@@ -141,7 +165,9 @@ abstract class Output implements OutputInterface
 	}
 	
 	/**
-	 * {@inheritdoc}
+	 * Returns whether verbosity is debug (-vvv).
+	 * 
+	 * @return bool
 	 */
 	public function isDebug(): bool
 	{
@@ -161,7 +187,12 @@ abstract class Output implements OutputInterface
 	}
 	
 	/**
-	 * {@inheritdoc}
+	 * Writes a message to the output and adds a newline at the end.
+	 * 
+	 * @param  string|iterable  $messages  The message as an iterable of strings or a single string
+	 * @param  int  $options  A bitmask of options (0 is considered the same as self::OUTPUT_NORMAL)
+	 * 
+	 * @return string
 	 */
 	public function writeln($messages, int $options = OutputInterface::OUTPUT_NORMAL)
 	{
@@ -169,7 +200,14 @@ abstract class Output implements OutputInterface
 	}
 	
 	/**
-	 * {@inheritdoc}
+	 * Outputs a string to the cli.	If you send an array it will implode them
+	 * with a line break.
+	 * 
+	 * @param  string|iterable  $messages  The text to output, or array of lines
+	 * @param  bool  $newline  Add a newline command
+	 * @param  int  $options  A bitmask of options (0 is considered the same as self::OUTPUT_NORMAL)
+	 * 
+	 * @return string
 	 */
 	public function write($messages, bool $newline = false, int $options = OutputInterface::OUTPUT_NORMAL)
 	{
