@@ -44,7 +44,11 @@ class Configure implements ArrayAccess, ConfigureContract
 	protected $vars = [];
 
 	/**
-	 * @inheritdoc
+	 * Determine if the given configuration value exists.
+	 * 
+	 * @param  string  $key
+	 * 
+	 * @return bool
 	 */
 	public function has(string $key): bool
 	{
@@ -52,7 +56,12 @@ class Configure implements ArrayAccess, ConfigureContract
 	}
 
 	/**
-	 * @inheritdoc
+	 * Returns a (dot notated) config setting.
+	 *
+	 * @param  string  $key  The dot-notated key or array of keys
+	 * @param  mixed  $default  The default value
+	 *
+	 * @return mixed
 	 */
 	public function get(string $key, $default = null)
 	{
@@ -70,7 +79,12 @@ class Configure implements ArrayAccess, ConfigureContract
 	}
 
 	/**
-	 * @inheritdoc
+	 * Sets a value in the config array.
+	 *
+	 * @param  string  $key  The dot-notated key or array of keys
+	 * @param  mixed  $value  The default value
+	 *
+	 * @return mixed
 	 */
 	public function set($key, $value = null)
 	{
@@ -82,7 +96,11 @@ class Configure implements ArrayAccess, ConfigureContract
 	}
 
 	/**
-	 * @inheritdoc
+	 * Deletes a (dot notated) config item.
+	 * 
+	 * @param  string  $key  A (dot notated) config key
+	 * 
+	 * @return array|bool
 	 */
 	public function erase(string $key)
 	{
@@ -94,7 +112,9 @@ class Configure implements ArrayAccess, ConfigureContract
 	}
 
 	/**
-	 * @inheritdoc
+	 * Get all of the configuration items for the application.
+	 * 
+	 * @return array
 	 */
 	public function all(): array
 	{
