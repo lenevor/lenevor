@@ -225,9 +225,10 @@ class ArgvInput extends Input
         return in_array($token, $this->tokens);
     }
 
-
     /**
-     * {@inheritdoc}
+     * Gets the first argument from unprocessed parameters (not parsed).
+     * 
+     * @return string|null
      */
     public function getFirstArgument()
     {
@@ -243,7 +244,12 @@ class ArgvInput extends Input
     }
 
     /**
-     * {@inheritdoc}
+     * Gets true if the unprocessed parameters (not parsed) contain a value.
+     * 
+     * @param  string|array  $values  The values to look for in the unprocessed parameters
+     * @param  bool  $params  Just check the actual parameters, skip the ones with end of options signal (--) 
+     * 
+     * @return bool
      */
     public function hasParameterOption($values, bool $params = false): bool
     {
@@ -266,7 +272,13 @@ class ArgvInput extends Input
     }
 
     /**
-     * {@inheritdoc}
+     * Gets the value of a unprocessed option (not parsed).
+     * 
+     * @param  string|array  $values  The values to look for in the unprocessed parameters
+     * @param  mixed  $default  The default value
+     * @param  bool  $params  Just check the actual parameters, skip the ones with end of options signal (--)
+     * 
+     * @return mixed
      */
     public function getParameterOption($values, $default = false, bool $params = false)
     {
