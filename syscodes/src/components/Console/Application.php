@@ -36,13 +36,13 @@ use Syscodes\Components\Console\Input\InputArgument;
 use Syscodes\Components\Console\Output\ConsoleOutput;
 use Syscodes\Components\Console\Input\InputDefinition;
 use Syscodes\Components\Console\Concerns\BuildConsoleVersion;
-use Syscodes\Components\Contracts\Console\Input as InputInterface;
 use Syscodes\Components\Console\Exceptions\CommandNotFoundException;
-use Syscodes\Components\Contracts\Console\Output as OutputInterface;
 use Syscodes\Components\Console\Exceptions\NamespaceNotFoundException;
+use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
+use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 use Syscodes\Components\Contracts\Console\Application as ApplicationContract;
-use Syscodes\Components\Contracts\Console\InputOption as InputOptionInterface;
-use Syscodes\Components\Contracts\Console\InputArgument as InputArgumentInterface;
+use Syscodes\Components\Contracts\Console\Input\InputOption as InputOptionInterface;
+use Syscodes\Components\Contracts\Console\Input\InputArgument as InputArgumentInterface;
 
 /**
  * This is the main entry point of a Console application.
@@ -142,7 +142,9 @@ class Application implements ApplicationContract
     }
 
     /**
-     * @inheritdoc 
+     * Gets the name of the application.
+     * 
+     * @return string 
      */
     public function getName(): string
     {
@@ -150,7 +152,11 @@ class Application implements ApplicationContract
     }
 
     /**
-     * @inheritdoc
+     * Sets the name of the application.
+     * 
+     * @param  string  $name  The application name
+     * 
+     * @return void
      */
     public function setName(string $name): void
     {
@@ -158,7 +164,9 @@ class Application implements ApplicationContract
     }
 
     /**
-     * @inheritdoc
+     * Gets the version of the application.
+     * 
+     * @return string
      */
     public function getVersion(): string
     {
@@ -166,7 +174,11 @@ class Application implements ApplicationContract
     }
 
     /**
-     * @inheritdoc
+     * Sets the name of the application.
+     * 
+     * @param  string  $version  The application version
+     * 
+     * @return void
      */
     public function setVersion(string $version): void
     {
@@ -174,7 +186,12 @@ class Application implements ApplicationContract
     }
     
     /**
-     * @inheritdoc
+     * Runs the current command discovered on the CLI.
+     * 
+     * @param  \Syscodes\Components\Contracts\Console\Input\Input|null  $input  The input interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Output\Output|null  $output  The output interface implemented
+     * 
+     * @return int
      */
     public function run(InputInterface $input = null, OutputInterface $output = null)
     {
@@ -202,8 +219,8 @@ class Application implements ApplicationContract
     /**
      * Configures the input and output instances.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Input  $input  The input interface implemented
-     * @param  \Syscodes\Components\Contracts\Console\Output  $output  The output interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input  The input interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $output  The output interface implemented
      * 
      * @return \Syscodes\Components\Console\IO\Interactor
      */
@@ -213,7 +230,12 @@ class Application implements ApplicationContract
     }
     
     /**
-     * @inheritdoc
+     * Executes the current application of console.
+     * 
+     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input  The input interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $output  The output interface implemented
+     * 
+     * @return int
      */
     public function doExecute(InputInterface $input, OutputInterface $output): int
     {
@@ -274,7 +296,13 @@ class Application implements ApplicationContract
     }
 
     /**
-     * @inheritdoc
+     * Adds a command object.
+     * 
+     * @param  \Syscodes\Components\Console\Command\Command  $command
+     * 
+     * @return \Syscodes\Components\Console\Command\Command|null
+     * 
+     * @throws \LogicException
      */
     public function addCommand(Command $command)
     {
@@ -304,7 +332,7 @@ class Application implements ApplicationContract
     /**
      * Gets the name of the command based on input.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Input  $input
+     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
      * 
      * @return string|null
      */
@@ -314,7 +342,9 @@ class Application implements ApplicationContract
     }
 
     /**
-     * @inheritdoc
+     * Gets input definition.
+     * 
+     * @return \Syscodes\Components\Console\Input\InputDefinition
      */
     public function getDefinition() 
     {
@@ -359,7 +389,13 @@ class Application implements ApplicationContract
     }
 
     /**
-     * @inheritdoc
+     * Finds a command by name.
+     * 
+     * @param  string  $name  The command name
+     * 
+     * @return \Syscodes\Components\Console\Command\Command
+     * 
+     * @throws \Syscodes\Components\Console\Exceptions\CommandNotFoundException
      */
     public function findCommand(string $name)
     {
@@ -421,7 +457,13 @@ class Application implements ApplicationContract
     }
 
     /**
-     * @inheritdoc
+     * Gets a registered command.
+     * 
+     * @param  string  $name  The command name
+     * 
+     * @return \Syscodes\Components\Console\Command\Command
+     * 
+     * @throws \Syscodes\Components\Console\Exceptions\CommandNotFoundException
      */
     public function get(string $name)
     {
@@ -454,7 +496,11 @@ class Application implements ApplicationContract
     }
 
     /**
-     * @inheritdoc
+     * Returns true if the command exists, false otherwise.
+     * 
+     * @param  string  $name  The command name
+     * 
+     * @return bool
      */
     public function has(string $name): bool
     {
@@ -464,7 +510,13 @@ class Application implements ApplicationContract
     }
 
     /**
-     * @inheritdoc
+     * Runs the current command.
+     * 
+     * @param  \Syscodes\Components\Console\Command\Command  $command  The command name
+     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input  The input interface implemented
+	 * @param  \Syscodes\Components\Contracts\Console\Output\Output  $output  The output interface implemented
+     * 
+     * @return int  0 if everything went fine, or an error code
      */
     public function doCommand(Command $command, InputInterface $input, OutputInterface $output): int
     {
