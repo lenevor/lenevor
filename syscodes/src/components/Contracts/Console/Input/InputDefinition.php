@@ -20,10 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Components\Contracts\Console;
-
-use Syscodes\Components\Console\Input\InputOption;
-use Syscodes\Components\Console\Input\InputArgument;
+namespace Syscodes\Components\Contracts\Console\Input;
 
 /**
  * InputDefinition Interface.
