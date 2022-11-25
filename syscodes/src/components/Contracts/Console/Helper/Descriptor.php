@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Components\Contracts\Console;
+namespace Syscodes\Components\Contracts\Console\Helper;
 
-use Syscodes\Components\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * Descriptor interface.
@@ -34,7 +34,7 @@ interface Descriptor
     /**
      * Describes the type of input, output and command for console.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Output  $output
+     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $output
      * @param  object  $object
      * @param  array  $options
      * 
