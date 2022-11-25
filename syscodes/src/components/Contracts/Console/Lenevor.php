@@ -32,8 +32,8 @@ interface Lenevor
     /**
      * Handle an incoming console command.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Input  $input
-     * @param  \Syscodes\Components\Contracts\Console\Output|null  $output
+     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
+     * @param  \Syscodes\Components\Contracts\Console\Output\Output|null  $output
      * 
      * @return int
      */
@@ -49,7 +49,7 @@ interface Lenevor
     /**
      * Shutdown the application.
      * 
-     * @param  \Syscodes\Contracts\Console\Input  $input
+     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
 	 * @param  int  $status
      * 
      * @return void
