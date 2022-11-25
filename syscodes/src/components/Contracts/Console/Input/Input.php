@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Components\Contracts\Console;
+namespace Syscodes\Components\Contracts\Console\Input;
 
 use RuntimeException;
 use InvalidArgumentException;
@@ -48,7 +48,7 @@ interface Input
     /**
      * Gets the first argument from unprocessed parameters (not parsed).
      * 
-     * return string|null
+     * @return string|null
      */
     public function getFirstArgument();
 
