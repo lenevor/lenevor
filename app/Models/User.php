@@ -21,14 +21,14 @@
 
 namespace App\Models;
 
-use Syscodes\Components\Database\Erostrine\Model;
+use Syscodes\Components\Core\Auth\User as Authentication;
 
 /**
  * Called the User model when connection to database.
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class User extends Model
+class User extends Authentication
 {
     /**
      * The attributes that are mass assignable.
