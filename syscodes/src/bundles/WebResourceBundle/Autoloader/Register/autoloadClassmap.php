@@ -17,6 +17,7 @@ return [
     'App\\Exceptions\\Handler' => APP_PATH.'Exceptions/Handler.php',
     'App\\Http\\Controller' => APP_PATH.'Http/Controller.php',
     'App\\Http\\Lenevor' => APP_PATH.'Http/Lenevor.php',
+    'App\\Models\\User' => APP_PATH.'Models/User.php',
     'App\\Providers\\AppServiceProvider' => APP_PATH.'Providers/AppServiceProvider.php',
     'App\\Providers\\EventServiceProvider' => APP_PATH.'Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => APP_PATH.'Providers/RouteServiceProvider.php',
