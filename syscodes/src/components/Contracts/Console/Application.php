@@ -23,8 +23,8 @@
 namespace Syscodes\Components\Contracts\Console;
 
 use Syscodes\Components\Console\Command\Command;
-use Syscodes\Components\Contracts\Console\Input as InputInterface;
-use Syscodes\Components\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
+use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * It allows to show the line header and the start of the Lenevor command console.
@@ -68,8 +68,8 @@ interface Application
 	/**
 	 * Runs the current command discovered on the CLI.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Input|null  $input  The input interface implemented
-     * @param  \Syscodes\Components\Contracts\Console\Output|null  $output  The output interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Input\Input|null  $input  The input interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Output\Output|null  $output  The output interface implemented
      * 
      * @return int
 	 */	
@@ -78,8 +78,8 @@ interface Application
 	/**
      * Executes the current application of console.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Input  $input  The input interface implemented
-     * @param  \Syscodes\Components\Contracts\Console\Output  $output  The output interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input  The input interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $output  The output interface implemented
      * 
      * @return int
      */
@@ -138,8 +138,8 @@ interface Application
      * Runs the current command.
      * 
      * @param  \Syscodes\Components\Console\Command\Command  $command  The command name
-     * @param  \Syscodes\Components\Contracts\Console\Input  $input  The input interface implemented
-	 * @param  \Syscodes\Components\Contracts\Console\Output  $output  The output interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input  The input interface implemented
+	 * @param  \Syscodes\Components\Contracts\Console\Output\Output  $output  The output interface implemented
      * 
      * @return int  0 if everything went fine, or an error code
      */
