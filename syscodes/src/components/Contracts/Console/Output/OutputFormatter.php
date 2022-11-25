@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Components\Contracts\Console;
+namespace Syscodes\Components\Contracts\Console\Output;
 
-use Syscodes\Components\Contracts\Console\OutputFormatterStyle as OutputFormatterStyleInterface;
+use Syscodes\Components\Contracts\Console\Output\OutputFormatterStyle as OutputFormatterStyleInterface;
 
 /**
  * <OutputFormatter> is the interface for output console.
@@ -53,7 +53,7 @@ interface OutputFormatter
      * @param  string  $name
      * @param  \Syscodes\Components\Contracts\Console\OutputFormatterStyle  $style
      * 
-     * @return $this
+     * @return void
      */
     public function setStyle($name, OutputFormatterStyleInterface $style): void;
 
