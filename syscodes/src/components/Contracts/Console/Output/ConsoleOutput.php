@@ -20,9 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Components\Contracts\Console;
+namespace Syscodes\Components\Contracts\Console\Output;
 
-use Syscodes\Components\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * <ConsoleOutput> is the interface implemented by ConsoleOutput class.
@@ -35,16 +35,16 @@ interface ConsoleOutput extends Output
     /**
      * Gets the Output interface for errors.
      * 
-     * @return \Syscodes\Components\Contracts\Console\Output
+     * @return \Syscodes\Components\Contracts\Console\Output\Output
      */
     public function getErrorOutput();
 
     /**
      * Sets the Output interface for errors.
      * 
-     * @param  Syscodes\Components\Contracts\Console\Output  $error
+     * @param  Syscodes\Components\Contracts\Console\Output\Output  $error
      * 
-     * @return \Syscodes\Components\Contracts\Console\Output
+     * @return \Syscodes\Components\Contracts\Console\Output\Output
      */
     public function SetErrorOutput(OutputInterface $error): void;
 }
