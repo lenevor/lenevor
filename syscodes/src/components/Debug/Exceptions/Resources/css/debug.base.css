@@ -24,8 +24,8 @@
     --red-300: hsla(345, 92%, 75%, 1);
     --red-400: hsla(345, 95%, 64%, 1); 
     --red-500: hsla(0, 81%, 38%, 1); 
-    --yellow-100: hsla(54, 15%, 57%, 1);
-    --yellow-200: hsla(53, 100%, 88%, 1);
+    --yellow-100: hsla(53, 100%, 85%, 1);
+    --yellow-200: hsla(53, 100%, 82%, 1);
     --yellow-300: hsla(53, 100%, 79%, 1);
     --yellow-400: hsla(53, 100%, 65%, 1);
     --tint-50: hsla(240, 100%, 29%, 0.015);
@@ -605,7 +605,7 @@ nav ul li:nth-child(4) svg {
 }
 
 .frame:not(.active):hover {
-    background: rgb(244, 248, 251);
+    background: var(--gray-100);
 }
 
 .frame:not(.active):hover .frame-file {
@@ -684,7 +684,7 @@ nav ul li:nth-child(4) svg {
 .frame-class:before,
 .frame-function:before {
     border-radius: 2px;
-    color: var(--gray-100);
+    color: var(--tint-700);
     font-size: var(--font-size-small);
     font-weight: 600;
     display: inline-block;
@@ -701,8 +701,8 @@ nav ul li:nth-child(4) svg {
 }
 
 .frame-class:before {    
-    background: var(--blue-300);
-    border: 1px solid var(--blue-400);
+    background: var(--blue-100);
+    border: 1px solid var(--blue-200);
     content: 'Class';
     left: -40px;
     width: 30px;
@@ -713,8 +713,8 @@ nav ul li:nth-child(4) svg {
 }
 
 .frame-function:before {
-    background: var(--blue-400);
-    border: 1px solid var(--blue-500);
+    background: var(--purple-100);
+    border: 1px solid var(--purple-200);
     content: 'Function';
     left: -58px;
     width: 48px; 
@@ -774,10 +774,6 @@ nav ul li:nth-child(4) svg {
         border-radius: 0;
     }
 
-    .frame {
-        grid-template-columns: 2rem auto auto;
-    }
-
     .frame:nth-child(2) {
         margin-top: 1px;
     }
@@ -820,8 +816,10 @@ nav ul li:nth-child(4) svg {
 
     .frame.active .frame-line-number {
        align-items: flex-end;
-       display: grid;
+       display: flex;
+       justify-content: flex-end;
        margin-bottom: 10px;
+       margin-right: 10px;
     }
 
     .frame-method-info {
@@ -835,20 +833,19 @@ nav ul li:nth-child(4) svg {
     }
 
     .frame-info-class {
-        align-items: center;
+        align-items: flex-start;
         grid-gap: 0;
         grid-template-columns: none;
         margin: auto 0;
     }
 
-    .frame-class:before {
-        display: none;
+    .frame-class:before,
+    .frame-function:before {
+        margin-top: -8px;
     }
 
     .frame-class,
     .frame-function {
-        left: 0;
-        overflow: hidden;
         text-overflow: ellipsis; 
     }
 
@@ -857,8 +854,8 @@ nav ul li:nth-child(4) svg {
     }
 
     .frame-line-number {
-        margin: auto 5px;
         margin-bottom: 15px;
+        margin-right: 10px;
     }
 
     .frame-line {
