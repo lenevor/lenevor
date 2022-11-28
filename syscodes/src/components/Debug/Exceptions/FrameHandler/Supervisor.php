@@ -24,6 +24,7 @@ namespace Syscodes\Components\Debug\FrameHandler;
 
 use Throwable;
 use ErrorException;
+use Syscodes\Components\Debug\Util\Misc;
 
 /**
  * Loads the frames to identify a possible exception.
@@ -169,8 +170,12 @@ class Supervisor
 			return $traces;
 		}
 
-		if ( ! extension_loaded('xdebug') || ! xdebug_is_enabled()) {
-			return [];
+		if ( ! Misc::isFatalError($exception->getSeverity())) {
+			return $traces;
+		}
+
+		if ( ! extension_loaded('xdebug') || ! function_exists('xdebug_is_enabled') || ! xdebug_is_enabled()) {
+			return $traces;
 		}
 		
 		// Use xdebug to get the full stack trace and remove the shutdown handler stack trace
