@@ -307,27 +307,27 @@ header:hover h2 {
 }
 
 .exception-title {
-    color: rgb(199, 199, 199);
+    color: var(--gray-400);
     font-size: 24px;
     font-weight: 500;
     line-height: 1.7;
-    margin-top: -5px;
+    margin-top: 0px;
 }
 
 .exception-title h1 {
-    color: var(--red-400); 
+    color: var(--tint-600); 
     display: inline;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .exception-title span {
-    color: var(--blue-200);
+    color: var(--green-200);
     letter-spacing: -1px;
 }
 
 .exception-message h2 {
     color: var(--gray-700);
-    font-weight: 500;
+    font-weight: 600;
     margin-top: -2px;
     overflow: hidden;
     text-overflow: ellipsis;
