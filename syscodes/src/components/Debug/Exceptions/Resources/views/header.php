@@ -5,7 +5,7 @@
 			<?php if ($i == count($class) - 1): ?>
 		<h1><?= $template->escape($name) ?></h1> 
 			<?php else: ?>
-		<?= $template->escape($name).' \\' ?>
+		<?= $template->escape($name).'\\' ?>
 			<?php endif; ?>
 		<?php endforeach; ?>
 		<?php if ($code): ?>
