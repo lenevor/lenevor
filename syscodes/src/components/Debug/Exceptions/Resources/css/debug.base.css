@@ -123,13 +123,9 @@
     padding: 0;
 }
 
-html {
-    background: var(--gray-50);
-    z-index: 10000;
-}
-
 body {
-    color: var(--gray-50);
+    background: var(--gray-50);
+    color: var(--gray-100);
     font-family:  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, 
                   "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";;
     font-size: 10pt;
@@ -140,6 +136,10 @@ body {
     
     text-rendering: optimizeLegibility;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+body.dark-theme {
+    background: var(--black-200);
 }
 
 /* GENERAL */
@@ -235,13 +235,13 @@ ol {
         bottom: 60px;
         left: 148px;
         top: 170px;
-        width: 40.059%;
+        width: 38.5%;
     }
     
     .details-panel {
         bottom: 60px;
         font-family: "Lato";
-        left: 45%;
+        left: 43.2%;
         top: 165px;
         margin-left: 71px;
         padding-left: 20px;
@@ -293,6 +293,10 @@ header {
     -webkit-text-smoothing: antialiased;
 }
 
+.dark-theme header {
+    background: var(--black-300);
+}
+
 header:hover {
     height: auto;
     z-index: 2;
@@ -308,16 +312,20 @@ header:hover h2 {
 
 .exception-title {
     color: var(--gray-400);
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 500;
     line-height: 1.7;
-    margin-top: 0px;
+    margin-top: -2px;
 }
 
 .exception-title h1 {
-    color: var(--tint-600); 
+    color: var(--tint-500); 
     display: inline;
     font-weight: 600;
+}
+
+.dark-theme .exception-title h1 {
+    color: var(--red-100);
 }
 
 .exception-title span {
@@ -333,6 +341,10 @@ header:hover h2 {
     text-overflow: ellipsis;
     white-space: pre;
     width: 60%;
+}
+
+.dark-theme .exception-message h2 {
+    color: var(--white);
 }
 
 .plain-exception {
@@ -404,6 +416,10 @@ header:hover h2 {
     position: fixed;
 }
 
+.dark-theme .sidebar {
+    background: var(--black-300);
+}
+
 .sidebar .brand {
     background: linear-gradient(236deg, var(--white) 10%, var(--gray-100));
     box-shadow: 0 1px 0 hsla(0, 0%, 0%, 0.06);
@@ -451,13 +467,26 @@ nav ul li a {
     text-transform: capitalize;
 }
 
+.dark-theme nav ul li a {
+    color: var(--gray-300);
+}
+
 nav ul li a:hover {
     background: var(--gray-100);
     color: var(--tint-700);
 }
 
+.dark-theme nav ul li a:hover {
+    background: var(--black-200);
+    color: var(--gray-400);
+}
+
 nav ul li a:hover svg {
     stroke: var(--gray-700);
+}
+
+.dark-theme nav ul li a:hover svg {
+    stroke: var(--gray-400);
 }
 
 nav ul li a.active {
@@ -468,14 +497,26 @@ nav ul li a.active {
     pointer-events: none;
 }
 
+.dark-theme nav ul li a.active {
+    background: var(--blue-300);
+}
+
 nav ul li a.active svg {
     stroke: var(--gray-700);
+}
+
+.dark-theme nav ul li a.active svg {
+    stroke: var(--blue-300);
 }
 
 nav ul li svg {
     display: block;
     margin: 0 auto;
     stroke: var(--gray-500);
+}
+
+.dark-theme nav ul li svg {
+    stroke: var(--gray-300);
 }
 
 nav ul li:nth-child(1) a:hover {
@@ -487,8 +528,21 @@ nav ul li:nth-child(3) svg {
     stroke: var(--gray-50);
 }
 
+.dark-theme nav ul li:nth-child(3) svg {
+    fill: var(--gray-50);
+}
+
+.dark-theme nav ul li:nth-child(3) a:hover svg {
+    fill: var(--gray-400);
+}
+
 nav ul li:nth-child(4) svg {
+    font-weight: 400;
     fill: var(--gray-200);
+}
+
+.dark-theme nav ul li:nth-child(4) a:hover svg {
+    fill: var(--gray-400);
 }
 
 /* FRAMES */
@@ -1323,6 +1377,10 @@ footer {
     padding: 0 30px;
     position: relative;
     text-shadow: none; 
+}
+
+.dark-theme footer {
+    background: var(--black-300);
 }
 
 .info {
