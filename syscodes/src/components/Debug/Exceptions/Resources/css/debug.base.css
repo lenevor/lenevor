@@ -59,6 +59,12 @@
 }
 
 .dark-mode {
+    --dark-black-100: hsla(0, 0%, 0%, 1);
+    --dark-black-200: hsla(0, 0%, 10%, 1);
+    --dark-black-300: hsla(0, 0%, 14%, 1);
+    --dark-black-400: hsla(0, 0%, 18%, 1);
+    --dark-black-500: hsla(0, 0%, 22%, 1);
+    --dark-white: hsla(0, 0%, 100%, 1);
     --dark-blue-100: hsla(204, 100%, 21%, 1);
     --dark-blue-200: hsla(204, 83%, 28%, 1);
     --dark-blue-300: hsla(204, 65%, 29%, 1);
@@ -138,8 +144,8 @@ body {
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
-body.dark-theme {
-    background: var(--black-200);
+body.dark-mode {
+    background: var(--dark-black-200);
 }
 
 /* GENERAL */
@@ -293,8 +299,8 @@ header {
     -webkit-text-smoothing: antialiased;
 }
 
-.dark-theme header {
-    background: var(--black-300);
+.dark-mode header {
+    background: var(--dark-black-300);
 }
 
 header:hover {
@@ -324,8 +330,8 @@ header:hover h2 {
     font-weight: 600;
 }
 
-.dark-theme .exception-title h1 {
-    color: var(--red-100);
+.dark-mode .exception-title h1 {
+    color: var(--dark-red-600);
 }
 
 .exception-title span {
@@ -343,8 +349,8 @@ header:hover h2 {
     width: 60%;
 }
 
-.dark-theme .exception-message h2 {
-    color: var(--white);
+.dark-mode .exception-message h2 {
+    color: var(--dark-white);
 }
 
 .plain-exception {
@@ -416,8 +422,8 @@ header:hover h2 {
     position: fixed;
 }
 
-.dark-theme .sidebar {
-    background: var(--black-300);
+.dark-mode .sidebar {
+    background: var(--dark-black-300);
 }
 
 .sidebar .brand {
@@ -426,6 +432,11 @@ header:hover h2 {
     display: grid;
     padding: 22px 21px 0;
     position: relative;
+}
+
+.dark-mode .sidebar .brand {
+    background: linear-gradient(236deg, var(--dark-black-300) 20%, var(--dark-black-300));
+    box-shadow: 0 1px 0 hsla(0, 0%, 0%, 0.3);
 }
 
 .sidebar .brand svg {
@@ -467,8 +478,8 @@ nav ul li a {
     text-transform: capitalize;
 }
 
-.dark-theme nav ul li a {
-    color: var(--gray-300);
+.dark-mode nav ul li a {
+    color: var(--dark-gray-400);
 }
 
 nav ul li a:hover {
@@ -476,17 +487,17 @@ nav ul li a:hover {
     color: var(--tint-700);
 }
 
-.dark-theme nav ul li a:hover {
-    background: var(--black-200);
-    color: var(--gray-400);
+.dark-mode nav ul li a:hover {
+    background: var(--dark-black-200);
+    color: var(--dark-gray-400);
 }
 
 nav ul li a:hover svg {
     stroke: var(--gray-700);
 }
 
-.dark-theme nav ul li a:hover svg {
-    stroke: var(--gray-400);
+.dark-mode nav ul li a:hover svg {
+    stroke: var(--dark-gray-600);
 }
 
 nav ul li a.active {
@@ -497,16 +508,16 @@ nav ul li a.active {
     pointer-events: none;
 }
 
-.dark-theme nav ul li a.active {
-    background: var(--blue-300);
+.dark-mode nav ul li a.active {
+    background: var(--dark-blue-200);
 }
 
 nav ul li a.active svg {
     stroke: var(--gray-700);
 }
 
-.dark-theme nav ul li a.active svg {
-    stroke: var(--blue-300);
+.dark-mode nav ul li a.active svg {
+    stroke: var(--dark-blue-200);
 }
 
 nav ul li svg {
@@ -515,8 +526,8 @@ nav ul li svg {
     stroke: var(--gray-500);
 }
 
-.dark-theme nav ul li svg {
-    stroke: var(--gray-300);
+.dark-mode nav ul li svg {
+    stroke: var(--dark-gray-300);
 }
 
 nav ul li:nth-child(1) a:hover {
@@ -528,12 +539,12 @@ nav ul li:nth-child(3) svg {
     stroke: var(--gray-50);
 }
 
-.dark-theme nav ul li:nth-child(3) svg {
-    fill: var(--gray-50);
+.dark-mode nav ul li:nth-child(3) svg {
+    fill: var(--dark-gray-100);
 }
 
-.dark-theme nav ul li:nth-child(3) a:hover svg {
-    fill: var(--gray-400);
+.dark-mode nav ul li:nth-child(3) a:hover svg {
+    fill: var(--dark-gray-100);
 }
 
 nav ul li:nth-child(4) svg {
@@ -541,8 +552,8 @@ nav ul li:nth-child(4) svg {
     fill: var(--gray-200);
 }
 
-.dark-theme nav ul li:nth-child(4) a:hover svg {
-    fill: var(--gray-400);
+.dark-mode nav ul li:nth-child(4) a:hover svg {
+    fill: var(--dark-gray-200);
 }
 
 /* FRAMES */
@@ -560,6 +571,11 @@ nav ul li:nth-child(4) svg {
     padding: 10px 10px 50px;
 }
 
+.dark-mode .frame-main {
+    background: var(--dark-black-300);
+    box-shadow: none;
+}
+
 .frame-description {
     background: var(--gray-50);
     border-bottom: solid 1px var(--gray-300);
@@ -569,6 +585,11 @@ nav ul li:nth-child(4) svg {
     margin: -10px -10px 10px;
     min-width: 100%;
     text-align: justify;
+}
+
+.dark-mode .frame-description {
+    background: var(--dark-black-300);
+    border-bottom: solid 1px var(--dark-black-100);
 }
 
 .frame-description.frame-description-application {
@@ -587,7 +608,7 @@ nav ul li:nth-child(4) svg {
 
 /* Icon border */
 .frame-description-application .icon-holder:last-child {
-    *border-bottom-right-radius: 2px;
+    border-bottom-right-radius: 2px;
     border-top-right-radius: 2px;
 }
 
@@ -1379,7 +1400,7 @@ footer {
     text-shadow: none; 
 }
 
-.dark-theme footer {
+.dark-mode footer {
     background: var(--black-300);
 }
 
