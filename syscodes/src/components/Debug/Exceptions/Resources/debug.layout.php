@@ -17,7 +17,7 @@
 		</style>
 
 	</head>
-	<body>
+	<body class="dark-mode">
 
 		<?= $template->render($header) ?>
 
@@ -29,7 +29,6 @@
 
 		</div>	
 		
-		<?= $template->render($footer) ?>
 		<!-- Script -->
 		<script type="text/javascript">
 			<?= $javascript ?>
