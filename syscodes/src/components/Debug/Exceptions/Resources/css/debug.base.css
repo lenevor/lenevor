@@ -248,14 +248,14 @@ ol {
     }
 
     .frame-main {
-        bottom: 25px;
+        bottom: 28px;
         left: 148px;
         top: 165px;
         width: 38.5%;
     }
     
     .details-panel {
-        bottom: 25px;
+        bottom: 28px;
         font-family: "Lato";
         left: 43.2%;
         top: 160px;
@@ -1109,10 +1109,16 @@ nav ul li:nth-child(5) svg {
                 0 0 0 1px var(--gray-300);
     display: none;
     height: 100%;
-    *margin-bottom: 50px;
     overflow: hidden;
     padding: 0;
     position: relative;
+}
+
+.dark-mode .code-source {
+    background: var(--dark-magenta-100);
+    border-bottom: solid 3px var(--dark-blue-400);
+    border-top: solid 3px var(--dark-blue-400);
+    box-shadow: none;
 }
 
 .code-source.active {
@@ -1153,6 +1159,11 @@ nav ul li:nth-child(5) svg {
     white-space: pre-line;
 }
 
+.dark-mode .title-line-number h4 {
+    color: var(--dark-blue-700);
+    text-shadow: 0 1px 1px var(--dark-blue-300);
+}
+
 .title-line-number span {
     color: var(--gray-500);
     font-size: var(--font-size-small-x);
@@ -1169,7 +1180,7 @@ nav ul li:nth-child(5) svg {
     border-bottom-right-radius: 4px;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-    color: hsl(0, 1%, 54%);
+    color: var(--dark-gray-300);
     overflow: hidden;
     padding-bottom: 0;
     padding-top: 40px;
@@ -1194,11 +1205,15 @@ code,
 }
 
 .source .number {
-    color: rgb(182, 175, 202);
+    color: var(--gray-600);
     display: inline-block;
     margin-left: -60px;
     position: absolute;
     width: 60px;
+}
+
+.dark-mode .source .number {
+    color: var(--dark-magenta-700);
 }
 
 .source .line .highlight,
@@ -1207,10 +1222,15 @@ code,
 }
 
 .source .line .highlight {
-    background: rgb(248, 243, 251);
-    color: rgb(147, 142, 158);
+    background: var(--gray-200);
+    color: var(--gray-600);
     display: block; 
     padding-left: 15px; 
+}
+
+.dark-mode .source .line .highlight {
+    background: var(--dark-purple-100);
+    color: var(--dark-purple-700);
 }
 
 .source span.highlight {
@@ -1219,7 +1239,12 @@ code,
 
 .source span.highlight .number {
     background: var(--gray-400);
-    color: rgb(142, 121, 168);    
+    color: var(--purple-700);    
+}
+
+.dark-mode .source span.highlight .number {
+    background: var(--dark-purple-200);
+    color: var(--dark-purple-700);
 }
 
 .source .number,
@@ -1249,6 +1274,11 @@ pre {
     padding-top: 10px;
     overflow-x: auto;
     overflow-y: hidden;  
+}
+
+.dark-mode pre {
+    background: var(--dark-black-150);
+    box-shadow: inset 0 0 0 1px var(--dark-black-130);
 }
 
 /* Manipulate the scroll bar. Only for browsers that use the webkit engine. */
@@ -1327,7 +1357,7 @@ code {
     }
 
     .title-line-number span {
-        margin-top: 2px;
+        margin-top: 0;
     }
 
     .frame-noArgument {
