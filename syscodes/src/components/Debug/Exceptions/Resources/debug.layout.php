@@ -17,7 +17,7 @@
 		</style>
 
 	</head>
-	<body class="dark-mode">
+	<body>
 
 		<?= $template->render($header) ?>
 
