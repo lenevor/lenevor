@@ -119,4 +119,16 @@
             </li>
         </ul>
     </nav>
+    <footer>
+        <div class="info">
+            <div class="type-license">
+                <span>PRO</span>
+                <span><?= \Syscodes\Components\Version::STATUS ?></span>
+            </div>
+            <div class="copy">
+                <?= e($handler->getBrand()) ?>
+                <span class="version" title="<?= e(__('exception.version'))?>"><?= \Syscodes\Components\Version::RELEASE ?></span>
+            </div>
+        </div>
+    </footer>
 </div>
