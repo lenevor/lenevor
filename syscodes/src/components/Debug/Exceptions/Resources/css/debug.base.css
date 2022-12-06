@@ -341,7 +341,7 @@ header:hover h2 {
 }
 
 .dark-mode .exception-title h1 {
-    color: var(--dark-magenta-700);
+    color: var(--dark-gray-600);
 }
 
 .exception-title span {
@@ -477,7 +477,6 @@ nav ul li {
 
 nav ul li a {
     color: var(--gray-600);
-    text-shadow: none;
     display: block;
     font-size: 1.1em;
     font-weight: 500;
@@ -486,6 +485,7 @@ nav ul li a {
     margin-top: 1px;
     padding: 19px 20px 20px;
     text-decoration: none;
+    text-shadow: none;
     text-transform: capitalize;
 }
 
@@ -730,7 +730,7 @@ nav ul li:nth-child(5) svg {
 
 .dark-mode .frame {
     background: var(--dark-magenta-100);
-    border-color: var(--dark-black-150);
+    border-color: var(--dark-black-170);
 }
 
 .frame:last-child {
@@ -824,7 +824,7 @@ nav ul li:nth-child(5) svg {
 }
 
 .dark-mode .frame-method-info {
-    border-color: var(--dark-black-150);
+    border-color: var(--dark-black-170);
     border-left-width: 1px;
 }
 
@@ -1534,98 +1534,85 @@ code {
 /* FOOTER */
 footer {
     background: var(--white);
-    box-shadow: 1px -1px 0 rgba(0, 0, 0, 0.06);
-    min-height: 22px;
-    padding: 0 30px;
+    min-height: 25px;
+    padding: 5px;
     position: relative;
     text-shadow: none; 
 }
 
 .dark-mode footer {
-    background: var(--black-300);
+    background: transparent;
 }
 
 .info {
     align-items: center;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     overflow: hidden;
 }
 
-.info .name {
-    color: var(--gray-600);
+.info .type-license {
+    align-items: center;
+    background: linear-gradient(63deg, var(--gray-200) 46%, var(--tint-700) 10%);
+    border: 1px solid var(--tint-700);
+    box-shadow: inset 1px 0 1px var(--gray-200);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7em;
     font-weight: 600;
-    position: relative;
+    padding: 1px 5px;
+    margin-left: 6px;
+    text-transform: capitalize;
+    width: 70px;
 }
 
-.info .status-code {
-    background: rgb(255, 0, 0);
-    bottom: 0;
-    color: var(--white);
-    font-size: 12px;
-    padding: 5px;
-    position: relative;
-    top: -1.5px;
+.dark-mode .info .type-license {
+    background: linear-gradient(63deg, var(--dark-magenta-100) 46%, var(--dark-magenta-600) 10%);
+    border: 1px solid var(--dark-black-130);
+    box-shadow: inset 2px 0 1px var(--dark-magenta-100);
 }
 
-.info .benchmark-time,
-.info .memory {
-    cursor: help;
+.info span:nth-child(1) {
     color: var(--gray-700);
-    font-size: 12px; 
-    font-weight: 600;
-    padding: 5px;
 }
 
-.info .benchmark-time #cronometro,
-.info .memory #chipset {
-    fill: var(--gray-600);
-    height: 16.5px;
-    margin-left: 12px;
-    margin-top: 1px;
-    position: absolute;
-    width: 16.5px;
+.dark-mode .info span:nth-child(1) {
+    color: var(--dark-magenta-700);
 }
 
-.info .benchmark-time span,
-.info .memory span {
-    margin-left: 35px;
-    top: -1.5px;
-    position: relative;
+.info span:nth-child(2) {
+    color: var(--gray-500);
+}
+
+.dark-mode .info span:nth-child(2) {
+    color: var(--dark-black-170);
 }
 
 .info .copy {
-    background: var(--tint-100);
-    box-shadow: inset 0 1px 5px 1px rgba(26, 44, 66, 0.01),
-                inset 1px 0 5px 1px rgba(26, 44, 66, 0.01),
-                inset 0 0 5px 1px rgba(26, 44, 66, 0.01),
-                inset 1px 1px 5px 1px rgba(26, 44, 66, 0.01);
-    color: var(--gray-500);
-    font-size: 12px;
-    font-weight: 600;    
-    padding: 4px;
-    padding-left: 35px;
-    position: relative;
-    width: 160px;
+    background: var(--white);
+    color: var(--gray-700);
+    font-size: 0.7em;
+    font-weight: 600;
+    margin-top: 1px; 
+    padding-left: 8px;
+    text-transform: capitalize;
 }
 
-.info .copy:before {
-    background-image: url('svg/logo.svg');
-    background-repeat: no-repeat;
-    background-size: contain;
-    content: '';
-    height: 16px;
-    left: 10px;
-    position: absolute;
-    top: 5px;
-    width: 16px;
+.dark-mode .info .copy {
+    background: var(--dark-magenta-100);
+    color: var(--dark-magenta-500);
 }
 
 .info .copy .version {
-    color: var(--gray-500);
+    color: var(--gray-700);
     cursor: help;
+    line-height: 1.7;
     padding-left: 2px;
+}
+
+.dark-mode .info .copy .version {
+    color: var(--dark-magenta-500);
 }
 
 /* ------------------------------------------------------------ 
@@ -1672,10 +1659,8 @@ footer {
 @media (min-width: 1100px)
 {
     footer {      
-        bottom: 0;
-        left: 119px;
+        bottom: 20px;
         position: fixed;
-        right: 0;
     }
 }
 
