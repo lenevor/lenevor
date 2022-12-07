@@ -42,7 +42,7 @@ final class Version
     /**
      * Release status.
      */
-    public const STATUS = 'alpha.8-dev';
+    public const STATUS = 'alpha';
 
     /**
      * The codename in key.
