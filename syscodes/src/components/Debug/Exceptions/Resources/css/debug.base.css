@@ -745,7 +745,7 @@ nav ul li:nth-child(5) svg {
 }
 
 .dark-mode .frame.active {
-    background: var(--dark-purple-100);
+    background: var(--dark-purple-200);
     border-color: var(--dark-black-150);
     box-shadow: inset 0 0.5px 0 var(--dark-black-200);
 }
@@ -790,6 +790,10 @@ nav ul li:nth-child(5) svg {
 .frame.active .frame-file {
     color: var(--purple-800);
     text-shadow: none;
+}
+
+.dark-mode .frame.active .frame-file {
+    color: var(--dark-purple-700);
 }
 
 .frame-main-index {
@@ -843,6 +847,10 @@ nav ul li:nth-child(5) svg {
 .frame-function-optional {
     color: var(--gray-600);
     font-size: var(--font-size-small-x);
+}
+
+.dark-mode .frame-file {
+    color: var(--dark-gray-300);
 }
 
 .frame-info-class {
@@ -1187,16 +1195,19 @@ nav ul li:nth-child(5) svg {
     text-shadow: none;
     width: 100%;
 }
-
-pre, 
-code,
-.source span.line,
+ 
+pre,
 .source .line .highlight,
-.source span.line .number,
 .source span.highlight .number {
     font-family: Fira Code, Menlo, monospace;
     font-weight: 600;
     font-size: 13px;
+}
+
+code,
+.source span.line,
+.source span.line .number {
+    font-weight: 500;
 }
 
 .source span.line { 
@@ -1213,7 +1224,7 @@ code,
 }
 
 .dark-mode .source .number {
-    color: var(--dark-magenta-700);
+    color: var(--dark-gray-300);
 }
 
 .source .line .highlight,
@@ -1225,7 +1236,7 @@ code,
     background: var(--gray-200);
     color: var(--gray-600);
     display: block; 
-    padding-left: 15px; 
+    padding-left: 14px; 
 }
 
 .dark-mode .source .line .highlight {
