@@ -1233,15 +1233,16 @@ code,
 }
 
 .source .line .highlight {
-    background: var(--gray-200);
+    background: var(--tint-700);
     color: var(--gray-600);
     display: block; 
-    padding-left: 14px; 
+    padding-left: 15px; 
 }
 
 .dark-mode .source .line .highlight {
     background: var(--dark-purple-100);
     color: var(--dark-purple-700);
+    padding-left: 14px;
 }
 
 .source span.highlight {
@@ -1250,7 +1251,7 @@ code,
 
 .source span.highlight .number {
     background: var(--gray-400);
-    color: var(--purple-700);    
+    color: var(--purple-700);  
 }
 
 .dark-mode .source span.highlight .number {
@@ -1274,7 +1275,7 @@ code,
 }
 
 pre {
-    background: var(--white);
+    background: var(--gray-800);
     border-right: 1px solid transparent;
     box-shadow: inset 0 0 0 1px var(--gray-300);
     border-bottom-left-radius: 3px;
