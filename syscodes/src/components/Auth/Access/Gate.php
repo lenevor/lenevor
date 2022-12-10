@@ -114,6 +114,14 @@ class Gate implements GateContract
      */
     public function has($ability): bool
     {
+        $abilities = is_array($ability) ? $ability : func_get_args();
+        
+        foreach ($abilities as $ability) {
+            if (! isset($this->abilities[$ability])) {
+                return false;
+            }
+        }
+        
         return true;
     }
     
@@ -154,6 +162,8 @@ class Gate implements GateContract
      */
     public function policy($class, $policy): self
     {
+        $this->policies[$class] = $policy;
+        
         return $this;
     }
     
