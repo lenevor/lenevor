@@ -5,20 +5,23 @@
     --white: hsla(0, 0%, 100%, 1);
     --blue-100: hsla(212, 100%, 97%, 1);
     --blue-200: hsla(196, 100%, 89%, 1);
-    --blue-300: hsla(211, 100%, 50%, 1);
-    --blue-400: hsla(218, 84%, 54%, 1);
-    --blue-500: hsla(217, 70%, 47%, 1);
+    --blue-300: hsla(211, 100%, 55%, 1);
+    --blue-400: hsla(218, 84%, 47%, );
+    --blue-500: hsla(217, 70%, 38%, 1);
     --green-100: hsla(152, 100%, 95%, 1);
     --green-200: hsla(153, 78%, 76%, 1);
     --green-300: hsla(153, 64%, 66%, 1);
     --green-400: hsla(158, 72%, 48%, 1);
+    --green-500: hsla(158, 88%, 36%, 1);
+    --green-600: hsla(158, 95%, 29%, 1);
+    --green-700: hsla(158, 100%, 19%, 1);
     --purple-100: hsla(276, 100%, 98%, 1);
     --purple-200: hsla(276, 91%, 91%, 1);
     --purple-300: hsla(265, 86%, 86%, 1);
     --purple-400: hsla(262, 81%, 77%, 1);
     --purple-500: hsla(270, 100%, 48%, 1);
     --purple-600: hsla(270, 94%, 45%, 1);
-    --purple-800: hsla(270, 81%, 31%, 1);
+    --purple-700: hsla(270, 81%, 31%, 1);
     --red-100: hsla(336, 100%, 96%, 1);
     --red-200: hsla(335, 42%, 79%, 1); 
     --red-300: hsla(345, 92%, 75%, 1);
@@ -28,6 +31,9 @@
     --yellow-200: hsla(53, 100%, 82%, 1);
     --yellow-300: hsla(53, 100%, 79%, 1);
     --yellow-400: hsla(53, 100%, 65%, 1);
+    --yellow-500: hsla(53, 100%, 58%, 1);
+    --yellow-600: hsla(53, 100%, 46%, 1);
+    --yellow-700: hsla(53, 100%, 39%, 1);
     --tint-50: hsla(240, 100%, 29%, 0.015);
     --tint-100: hsla(240, 100%, 29%, 0.025);
     --tint-200: hsla(240, 100%, 20%, 0.07);
@@ -650,7 +656,7 @@ nav ul li:nth-child(5) svg {
 }
 
 .frame-description.frame-description-application {
-    color: var(--gray-500);
+    color: var(--gray-600);
     display: flex;    
     font-size: var(--font-size-small-xx);
     font-weight: 400;
@@ -788,7 +794,7 @@ nav ul li:nth-child(5) svg {
 }
 
 .frame.active .frame-file {
-    color: var(--purple-800);
+    color: var(--tint-700);
     text-shadow: none;
 }
 
@@ -1156,7 +1162,7 @@ nav ul li:nth-child(5) svg {
 }
 
 .title-line-number h4 {
-    color: var(--gray-500);
+    color: var(--gray-600);
     font-size: var(--font-size-small-xx);
     font-weight: 600;
     line-height: 12px;
@@ -1173,7 +1179,7 @@ nav ul li:nth-child(5) svg {
 }
 
 .title-line-number span {
-    color: var(--gray-500);
+    color: var(--gray-600);
     font-size: var(--font-size-small-x);
     font-weight: 400;
 }
@@ -1566,7 +1572,7 @@ footer {
 
 .info .type-license {
     align-items: center;
-    background: linear-gradient(63deg, var(--gray-200) 46%, var(--tint-700) 10%);
+    background: linear-gradient(63deg, var(--gray-200) 46%, var(--yellow-600) 10%);
     border: 1px solid var(--tint-700);
     box-shadow: inset 1px 0 1px var(--gray-200);
     display: flex;
@@ -1580,7 +1586,7 @@ footer {
 }
 
 .dark-mode .info .type-license {
-    background: linear-gradient(63deg, var(--dark-magenta-100) 46%, var(--dark-magenta-600) 10%);
+    background: linear-gradient(63deg, var(--dark-magenta-100) 46%, var(--dark-yellow-300) 10%);
     border: 1px solid var(--dark-black-130);
     box-shadow: inset 2px 0 1px var(--dark-magenta-100);
 }
@@ -1594,7 +1600,7 @@ footer {
 }
 
 .info span:nth-child(2) {
-    color: var(--gray-500);
+    color: var(--tint-600);
 }
 
 .dark-mode .info span:nth-child(2) {
