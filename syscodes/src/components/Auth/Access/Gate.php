@@ -22,6 +22,8 @@
 
 namespace Syscodes\Components\Auth\Access;
 
+use InvalidArgumentException;
+use Syscodes\Components\Support\Str;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Auth\Concerns\HandlesAuthorization;
 use Syscodes\Components\Contracts\Auth\Access\Gate as GateContract;
@@ -286,6 +288,36 @@ class Gate implements GateContract
     }
     
     /**
+     * Resolve the callback for a policy check.
+     * 
+     * @param  \Syscodes\Components\Contracts\Auth\Authenticatable|null  $user
+     * @param  string  $ability
+     * @param  array  $arguments
+     * 
+     * @return \callable
+     */
+    protected function resolvePolicyCallback($user, $ability, array $arguments): callable
+    {
+        return function () use ($user, $ability, $arguments) {
+            $class = headItem($arguments);
+            
+            if (method_exists($instance = $this->getPolicyFor($class), 'before')) {
+                $parameters = array_merge(array($user, $ability), $arguments);
+                
+                if ( ! is_null($result = call_user_func_array(array($instance, 'before'), $parameters))) {
+                    return $result;
+                }
+            }
+            
+            if ( ! method_exists($instance, $method = Str::camelcase($ability))) {
+                return false;
+            }
+            
+            return call_user_func_array(array($instance, $method), array_merge([$user], $arguments));
+        };
+    }
+    
+    /**
      * Get a policy instance for a given class.
      * 
      * @param  object|string  $class
@@ -296,7 +328,37 @@ class Gate implements GateContract
      */
     public function getPolicyFor($class)
     {
+        if (is_object($class)) {
+            $class = get_class($class);
+        }
 
+        if ( ! is_string($class)) {
+            return;
+        }
+        
+        if (isset($this->policies[$class])) {
+            return $this->resolvePolicy($this->policies[$class]);
+        }
+        
+        foreach ($this->policies as $expected => $policy) {
+            if (is_subclass_of($class, $expected)) {
+                return $this->resolvePolicy($policy);
+            }
+        }
+        
+        throw new InvalidArgumentException("Policy not defined for [{$class}].");
+    }
+    
+    /**
+     * Build a policy class instance of the given type.
+     * 
+     * @param  object|string  $class
+     * 
+     * @return mixed
+     */
+    public function resolvePolicy($class)
+    {
+        return $this->container->make($class);
     }
     
     /**
@@ -308,7 +370,25 @@ class Gate implements GateContract
      */
     public function forUser($user)
     {
+        $callback = function () use ($user) {
+            return $user;
+        };
+        
+        return new static(
+            $this->container, $callback, $this->abilities,
+            $this->policies, $this->beforeCallbacks, $this->afterCallbacks
+        );
 
+    }
+    
+    /**
+     * Resolve the user from the user resolver.
+     * 
+     * @return mixed
+     */
+    protected function resolveUser()
+    {
+        return call_user_func($this->userResolver);
     }
     
     /**
@@ -318,6 +398,30 @@ class Gate implements GateContract
      */
     public function abilities(): array
     {
+        return $this->abilities;
+    }
+    
+    /**
+     * Get all of the defined policies.
+     * 
+     * @return array
+     */
+    public function policies(): array
+    {
+        return $this->policies;
+    }
 
+    /**
+     * Set the container instance used by the gate.
+     * 
+     * @param  \Syscodes\Components\Contracts\Container\Container  $container
+     * 
+     * @return self
+     */
+    public function setContainer(Container $container): self
+    {
+        $this->container = $container;
+        
+        return $this;
     }
 }
