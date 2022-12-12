@@ -152,13 +152,13 @@ interface Gate
      * Get the raw result from the authorization callback.
      * 
      * @param  string  $ability
-     * @param  array|mixed  $arguments
+     * @param  array  $arguments
      * 
      * @return mixed
      * 
      * @throws \Syscodes\Components\Auth\Access\AuthorizationException
      */
-    public function raw($ability, $arguments = []);
+    public function raw($ability, array $arguments);
     
     /**
      * Get a policy instance for a given class.
