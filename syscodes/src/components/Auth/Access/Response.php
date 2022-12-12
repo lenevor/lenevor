@@ -22,6 +22,8 @@
 
 namespace Syscodes\Components\Auth\Access;
 
+use Exception;
+
 /**
  * Show the response message.
  * 
@@ -130,6 +132,22 @@ class Response
     public function code()
     {
         return $this->code;
+    }
+    
+    /**
+     * Throw authorization exception if response was denied.
+     * 
+     * @return \Syscodes\Components\Auth\Access\Response
+     * 
+     * @throws \Syscodes\Components\Auth\Access\AuthorizationException
+     */
+    public function authorize()
+    {
+        if ($this->denied()) {
+            throw new Exception($this->message);
+        }
+        
+        return $this;
     }
     
     /**
