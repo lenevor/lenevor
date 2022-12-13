@@ -25,6 +25,7 @@ return [
     'Syscodes\\Bundles\\ApplicationBundle\\Console\\Application' => SYS_PATH.'src/bundles/ApplicationBundle/Console/Application.php',
     // Components
     'Syscodes\\Components\\Auth\\Access\\Concerns\\HandlesAuthorization' => SYS_PATH.'src/components/Auth/Access/Concerns/HandlesAuthorization.php',
+    'Syscodes\\Components\\Auth\\Access\\Exceptions\\AuthorizationException' => SYS_PATH.'src/components/Auth/Access/Exceptions/AuthorizationException.php',
     'Syscodes\\Components\\Auth\\Access\\Gate' => SYS_PATH.'src/components/Auth/Access/Gate.php',
     'Syscodes\\Components\\Auth\\Access\\Response' => SYS_PATH.'src/components/Auth/Access/Response.php',
     'Syscodes\\Components\\Auth\\Concerns\\CreatesUserProviders' => SYS_PATH.'src/components/Auth/Concerns/CreatesUserProviders.php',
