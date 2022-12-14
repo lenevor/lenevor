@@ -22,7 +22,10 @@
 
 namespace Syscodes\Components\Auth;
 
+use Syscodes\Components\Auth\Access\Gate;
 use Syscodes\Components\Support\ServiceProvider;
+use Syscodes\Components\Contracts\Auth\Authenticatable;
+use Syscodes\Components\Contracts\Auth\Access\Gate as GateContract;
 
 /**
  * For loading the classes from the container of services.
@@ -40,6 +43,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerAuthenticator();
         $this->registerAuthenticationGuard();
+        $this->registerUserResolver();
+        $this->registerAccessGate();
     }
 
     /**
@@ -63,7 +68,37 @@ class AuthServiceProvider extends ServiceProvider
     protected function registerAuthenticationGuard()
     {
         $this->app->singleton('auth.driver', function ($app) {
-            return $app->make('auth')->guard();
+            return $app['auth']->guard();
+        });
+    }
+    
+    /**
+     * Register a resolver for the authenticated user.
+     * 
+     * @return void
+     */
+    protected function registerUserResolver()
+    {
+        $this->app->bind(Authenticatable::class, function ($app) {
+            $callback = $app['auth']->userResolver();
+            
+            return call_user_func($callback);
+        });
+    }
+    
+    /**
+     * Register the access gate service.
+     * 
+     * @return void
+     */
+    protected function registerAccessGate()
+    {
+        $this->app->singleton(GateContract::class, function ($app) {
+            return new Gate($app, function() use ($app) {
+                $callback = $app['auth']->userResolver();
+                
+                return call_user_func($callback);
+            });
         });
     }
 }
