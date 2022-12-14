@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\Auth\Access;
 
-use Exception;
+use Syscodes\Components\Auth\Access\Exceptions\AuthorizationException;
 
 /**
  * Show the response message.
@@ -139,12 +139,14 @@ class Response
      * 
      * @return \Syscodes\Components\Auth\Access\Response
      * 
-     * @throws \Syscodes\Components\Auth\Access\AuthorizationException
+     * @throws \Syscodes\Components\Auth\Access\Exceptions\AuthorizationException
      */
     public function authorize()
     {
         if ($this->denied()) {
-            throw new Exception($this->message);
+            throw (new AuthorizationException($this->message(), $this->code()))
+                ->setResponse($this)
+                ->withStatus($this->status);
         }
         
         return $this;
