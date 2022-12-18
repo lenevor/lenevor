@@ -21,6 +21,7 @@
 
 namespace App\Http;
 
+use Syscodes\Components\Core\Auth\Access\AuthorizesRequests;
 use Syscodes\Components\Controller\Controller as BaseController;
 
 /**
@@ -30,5 +31,5 @@ use Syscodes\Components\Controller\Controller as BaseController;
  */
 class Controller extends BaseController
 {
-	//
+	use AuthorizesRequests;
 }
