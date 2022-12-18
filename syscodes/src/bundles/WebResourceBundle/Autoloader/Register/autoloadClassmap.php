@@ -174,6 +174,7 @@ return [
     'Syscodes\\Components\\Cookie\\CookieManager' => SYS_PATH.'src/components/Cookie/CookieManager.php',
     'Syscodes\\Components\\Cookie\\CookieServiceProvider' => SYS_PATH.'src/components/Cookie/CookieServiceProvider.php',
     'Syscodes\\Components\\Core\\Auth\\Access\\Authorizable' => SYS_PATH.'src/components/Core/Auth/Access/Authorizable.php',
+    'Syscodes\\Components\\Core\\Auth\\Access\\AuthorizesRequests' => SYS_PATH.'src/components/Core/Auth/Access/AuthorizesRequests.php',
     'Syscodes\\Components\\Core\\Auth\\User' => SYS_PATH.'src/components/Core/Auth/User.php',
     'Syscodes\\Components\\Core\\Bootstrap\\BootConfiguration' => SYS_PATH.'src/components/Core/Bootstrap/BootConfiguration.php',
     'Syscodes\\Components\\Core\\Bootstrap\\BootDetectEnvironment' => SYS_PATH.'src/components/Core/Bootstrap/BootDetectEnvironment.php',
