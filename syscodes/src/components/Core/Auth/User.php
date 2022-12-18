@@ -23,14 +23,17 @@ namespace Syscodes\Components\Core\Auth;
 
 use Syscodes\Components\Database\Erostrine\Model;
 use Syscodes\Components\Auth\Concerns\Authenticatable;
+use Syscodes\Components\Core\Auth\Access\Authorizable;
 use Syscodes\Components\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Syscodes\Components\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
 /**
  * Called the User model when connection to database.
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
-class User extends Model implements AuthenticatableContract
+class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
-    use Authenticatable;
+    use Authenticatable,
+        Authorizable;
 }
