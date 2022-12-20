@@ -25,8 +25,6 @@ use Syscodes\Components\Core\Http\Lenevor as HttpLenevor;
 
 /**
  * Core Framework.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Lenevor extends HttpLenevor
 {
