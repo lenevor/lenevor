@@ -26,8 +26,6 @@ use Syscodes\Components\Support\ServiceProvider;
 /**
  * Allows to enable everything related to the boot and registration 
  * of services for a web application.
- *
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class AppServiceProvider extends ServiceProvider
 {
