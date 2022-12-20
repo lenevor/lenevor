@@ -23,6 +23,9 @@ namespace App\Http\Middleware;
 
 use Syscodes\Components\Cookie\Middleware\EncryptCookies as Middleware;
 
+/**
+ * Get the names of the cookies that should not be encrypted.
+ */
 class EncryptCookies extends Middleware
 {
     /**
