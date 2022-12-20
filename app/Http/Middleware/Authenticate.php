@@ -25,8 +25,6 @@ use Syscodes\Components\Auth\Middleware\Authenticate as Middleware;
 
 /**
  * Determine if the user is logged using redirected.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Authenticate extends Middleware
 {
