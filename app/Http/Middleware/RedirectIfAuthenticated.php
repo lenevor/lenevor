@@ -28,8 +28,6 @@ use Syscodes\Components\Support\Facades\Auth;
 
 /**
  * If have does not authentication, the user is redirected at the page home.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class RedirectIfAuthenticated
 {
