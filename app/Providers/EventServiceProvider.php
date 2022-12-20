@@ -25,8 +25,6 @@ use Syscodes\Components\Core\Support\Providers\EventServiceProvider as ServicePr
 
 /**
  * Manage all events occurred in the application.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class EventServiceProvider extends ServiceProvider
 {
