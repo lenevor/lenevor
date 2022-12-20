@@ -25,8 +25,6 @@ use Syscodes\Components\Core\Console\Lenevor as ConsoleLenevor;
 
 /**
  * Load the console to call arguments and commands.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Lenevor extends ConsoleLenevor
 {
