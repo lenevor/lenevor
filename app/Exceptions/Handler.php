@@ -27,8 +27,6 @@ use Syscodes\Components\Core\Exceptions\Handler as ExceptionHandler;
 /**
  * Class is where all exceptions triggered by your application are logged 
  * and then rendered back to the user.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Handler extends ExceptionHandler 
 {
