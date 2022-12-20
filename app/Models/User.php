@@ -25,8 +25,6 @@ use Syscodes\Components\Core\Auth\User as Authentication;
 
 /**
  * Called the User model when connection to database.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class User extends Authentication
 {
