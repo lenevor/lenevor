@@ -26,8 +26,6 @@ use Syscodes\Components\Controller\Controller as BaseController;
 
 /**
  * Base Controller for the applications.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Controller extends BaseController
 {
