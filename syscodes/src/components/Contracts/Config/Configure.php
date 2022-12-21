@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Config;
 
 /**
  * Sets functions for the config item.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Configure
 {
