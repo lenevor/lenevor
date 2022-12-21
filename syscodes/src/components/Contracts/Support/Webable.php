@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Support;
 
 /**
  * Gets a html string.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Webable
 {

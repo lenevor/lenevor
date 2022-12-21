@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Support;
 
 /**
  * Gets a string Renderable.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Renderable
 {

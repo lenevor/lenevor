@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Support;
 
 /**
  * Gets a Json representation.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Jsonable
 {
