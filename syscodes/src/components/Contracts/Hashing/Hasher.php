@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Hashing;
 
 /**
  * Verify if exists the hash given value.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Hasher
 {
