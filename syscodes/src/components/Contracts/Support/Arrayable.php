@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Support;
 
 /**
  * Gets a instance as an array.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Arrayable
 {

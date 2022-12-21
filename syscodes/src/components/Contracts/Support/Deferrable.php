@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Support;
 
 /**
  * Get the services provided.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Deferrable
 {
