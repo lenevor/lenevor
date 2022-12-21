@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\View;
 
 /**
  * Checks the contents of a view.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Engine
 {

@@ -26,8 +26,6 @@ use Syscodes\Components\View\View;
 
 /**
  * Gets the contents of a view.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Factory
 {

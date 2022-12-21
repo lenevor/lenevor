@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\View;
 
 /**
  * Returns the location of a view.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface ViewFinder
 {

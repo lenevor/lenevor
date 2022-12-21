@@ -26,8 +26,6 @@ use Syscodes\Components\Contracts\Support\Renderable;
 
 /**
  * Returns the data by reference to have values imposed by the user.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface View extends Renderable
 {
