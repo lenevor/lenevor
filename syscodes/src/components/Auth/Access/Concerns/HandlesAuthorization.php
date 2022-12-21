@@ -26,8 +26,6 @@ use Syscodes\Components\Auth\Access\Response;
 
 /**
  * Allows and denied the authorizations to show a message HTTP status code.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait HandlesAuthorization
 {
