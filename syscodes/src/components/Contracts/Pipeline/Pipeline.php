@@ -26,8 +26,6 @@ use Closure;
 
 /**
  * Allows sending objects in classes and return the resulting value.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Pipeline
 {
