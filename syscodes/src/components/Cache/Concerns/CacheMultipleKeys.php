@@ -24,8 +24,6 @@ namespace Syscodes\Components\Cache\concerns;
 
 /**
  * Stores multiple items in the cache using an array.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait CacheMultipleKeys
 {

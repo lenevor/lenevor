@@ -28,8 +28,6 @@ use Syscodes\Components\Cache\Store\MemcachedConnector;
 
 /**
  * For loading the classes from the container of services.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class CacheServiceProvider extends ServiceProvider implements Deferrable
 {

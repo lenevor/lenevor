@@ -27,8 +27,6 @@ use Syscodes\Components\Core\Http\Exceptions\LenevorException;
 
 /**
  * Allows to connect to the Memcached cache system.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class MemcachedConnector
 {

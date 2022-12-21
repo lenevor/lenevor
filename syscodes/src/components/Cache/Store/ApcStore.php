@@ -27,8 +27,6 @@ use Syscodes\Components\Cache\concerns\CacheMultipleKeys;
 
 /**
  * Apc cache handler.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ApcStore implements Store
 {

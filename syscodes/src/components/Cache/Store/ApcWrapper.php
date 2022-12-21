@@ -24,8 +24,6 @@ namespace Syscodes\Components\Cache\Store;
 
 /**
  * ApcWrapper cache handler.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ApcWrapper
 {

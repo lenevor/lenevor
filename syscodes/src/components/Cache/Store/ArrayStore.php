@@ -28,8 +28,6 @@ use Syscodes\Components\Cache\concerns\CacheMultipleKeys;
 
 /**
  * Array cache handler.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ArrayStore implements Store
 {

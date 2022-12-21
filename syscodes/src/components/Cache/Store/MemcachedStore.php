@@ -29,8 +29,6 @@ use Syscodes\Components\Support\InteractsWithTime;
 
 /**
  * Memcached cache handler.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class MemcachedStore implements Store
 {

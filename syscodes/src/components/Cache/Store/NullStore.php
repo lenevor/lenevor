@@ -27,8 +27,6 @@ use Syscodes\Components\Cache\concerns\CacheMultipleKeys;
 
 /**
  * Null cache handler.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class NullStore implements Store
 {

@@ -26,7 +26,5 @@ use InvalidArgumentException;
 
 /**
  * CacheException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class CacheException extends InvalidArgumentException {}

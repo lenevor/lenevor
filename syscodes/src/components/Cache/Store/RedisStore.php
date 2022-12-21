@@ -27,8 +27,6 @@ use Syscodes\Components\Contracts\Cache\Store;
 
 /**
  * Redis cache handler.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class RedisStore implements Store
 {

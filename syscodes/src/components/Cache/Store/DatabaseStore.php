@@ -34,8 +34,6 @@ use Syscodes\Components\Database\Connections\ConnectionInterface;
 
 /**
  * Database cache handler.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class DatabaseStore implements Store
 {

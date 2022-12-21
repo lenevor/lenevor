@@ -39,8 +39,6 @@ use Syscodes\Components\Contracts\Cache\Factory as FactoryContract;
  * Class cache manager.
  * 
  * This class is responsible for loading any available cache driver.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class CacheManager implements FactoryContract
 {

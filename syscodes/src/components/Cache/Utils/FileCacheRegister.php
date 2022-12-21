@@ -28,8 +28,6 @@ use Serializable;
  * Class cache.
  * 
  * Allows to record data and its expiration time.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class FileCacheRegister implements Serializable
 {

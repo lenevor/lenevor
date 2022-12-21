@@ -32,8 +32,6 @@ use Syscodes\Components\Contracts\Cache\Repository;
 
 /**
  * Begin executing operations of storage data if the store supports it.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class CacheRepository implements ArrayAccess, Repository
 {

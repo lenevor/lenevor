@@ -33,8 +33,6 @@ use Syscodes\Components\Cache\concerns\CacheMultipleKeys;
 
 /**
  * File system cache handler.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class FileStore implements Key, Store
 {

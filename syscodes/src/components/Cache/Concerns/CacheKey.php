@@ -24,8 +24,6 @@ namespace Syscodes\Components\Cache\Concerns;
 
 /**
  * This class generate a key random.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait CacheKey
 {
