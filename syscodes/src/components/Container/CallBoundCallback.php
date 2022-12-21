@@ -31,8 +31,6 @@ use Syscodes\Components\Support\Str;
 
 /**
  * Allows get a closure / class@method with dependencies.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 final class CallBoundCallback
 {

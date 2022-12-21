@@ -27,8 +27,6 @@ use Psr\Container\ContainerExceptionInterface;
 
 /**
  * ContainerException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ContainerException extends InvalidArgumentException implements ContainerExceptionInterface
 {

@@ -38,8 +38,6 @@ use Syscodes\Components\Contracts\Container\Container as ContainerContract;
  * Class responsible of registering the bindings, instances and 
  * dependencies of classes when are contained for to be executes 
  * in the services providers.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Container implements ArrayAccess, ContainerContract
 {

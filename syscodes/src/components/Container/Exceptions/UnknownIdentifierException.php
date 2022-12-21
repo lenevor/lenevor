@@ -27,8 +27,6 @@ use Psr\Container\ContainerExceptionInterface;
 
 /**
  * UnknownIdentifierException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class UnknownIdentifierException extends InvalidArgumentException implements ContainerExceptionInterface
 {
