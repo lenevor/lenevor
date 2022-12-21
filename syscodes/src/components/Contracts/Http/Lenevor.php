@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Http;
 
 /**
  * Handles a Request to convert it to a Response.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Lenevor
 {
