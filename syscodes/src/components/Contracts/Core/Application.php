@@ -27,8 +27,6 @@ use Syscodes\Components\Contracts\Container\Container;
 /**
  * Allows the loading of service providers and functions to activate 
  * routes, environments and calls of main classes.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Application extends Container
 {
