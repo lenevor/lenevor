@@ -27,7 +27,5 @@ use Psr\Container\ContainerExceptionInterface;
 
 /**
  * ExpectedInvokableException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ExpectedInvokableException extends InvalidArgumentException implements ContainerExceptionInterface {}

@@ -29,8 +29,6 @@ use Psr\Container\ContainerInterface;
  * Class responsible of registering the bindings, instances and 
  * dependencies of classes when are contained for to be executes 
  * in the services providers.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Container extends ContainerInterface
 {

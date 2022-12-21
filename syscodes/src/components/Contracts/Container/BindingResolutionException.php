@@ -27,7 +27,5 @@ use Psr\Container\ContainerExceptionInterface;
 
 /**
  * BindingResolutionException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class BindingResolutionException extends Exception implements ContainerExceptionInterface {}

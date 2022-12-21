@@ -27,7 +27,5 @@ use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * NotFoundException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class NotFoundException extends InvalidArgumentException implements NotFoundExceptionInterface {}
