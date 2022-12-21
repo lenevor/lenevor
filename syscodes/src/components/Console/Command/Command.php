@@ -32,8 +32,8 @@ use Syscodes\Components\Console\Application;
 use Syscodes\Components\Console\Input\InputOption;
 use Syscodes\Components\Console\Input\InputArgument;
 use Syscodes\Components\Console\Input\InputDefinition;
-use Syscodes\Components\Contracts\Console\Input as InputInterface;
-use Syscodes\Components\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
+use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * Base class for all commands.
@@ -234,8 +234,8 @@ class Command
     /**
      * Executes the current command.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Input  $input
-     * @param  \Syscodes\Components\Contracts\Console\Output  $input
+     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
+     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $output
      * 
      * @return int|mixed
      * 
@@ -246,8 +246,8 @@ class Command
     /**
      * Runs the command.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Input  $input
-     * @param  \Syscodes\Components\Contracts\Console\Output  $input
+     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
+     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $output
      * 
      * @return int|mixed
      * 
