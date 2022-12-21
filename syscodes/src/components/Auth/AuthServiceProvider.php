@@ -29,8 +29,6 @@ use Syscodes\Components\Contracts\Auth\Access\Gate as GateContract;
 
 /**
  * For loading the classes from the container of services.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class AuthServiceProvider extends ServiceProvider
 {

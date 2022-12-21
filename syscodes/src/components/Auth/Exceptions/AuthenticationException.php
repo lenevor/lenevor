@@ -26,8 +26,6 @@ use Exception;
 
 /**
  *  AutheticationException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class AuthenticationException extends Exception
 {

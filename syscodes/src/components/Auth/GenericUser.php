@@ -26,8 +26,6 @@ use Syscodes\Components\Contracts\Auth\Authenticatable as UserContract;
 
 /**
  * Gets the generic user's attributes for authentication.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class GenericUser implements UserContract
 {

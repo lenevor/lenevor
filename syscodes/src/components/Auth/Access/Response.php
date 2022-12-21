@@ -26,8 +26,6 @@ use Syscodes\Components\Auth\Access\Exceptions\AuthorizationException;
 
 /**
  * Show the response message.
- * 
- * @author Alexander Campo <jalexcam@gmai.com>
  */
 class Response
 {

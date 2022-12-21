@@ -24,8 +24,6 @@ namespace Syscodes\Components\Auth\Concerns;
 
 /**
  * Gets the token for identification in session of user.
- * 
- * @author Alexander Campo <jalexam@gmail.com> 
  */
 trait Authenticatable
 {

@@ -28,8 +28,6 @@ use Syscodes\Components\Contracts\Auth\Authenticatable as AuthenticatableInterfa
 
 /**
  * These methods are typically the same across all guards.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait GuardAuthenticationUser
 {

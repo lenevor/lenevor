@@ -24,8 +24,6 @@ namespace Syscodes\Components\Auth;
 
 /**
  * Allows has the recaller in a cookie string.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Recaller
 {

@@ -30,8 +30,6 @@ use Syscodes\Components\Auth\Concerns\GuardAuthenticationUser;
 
 /**
  * Capture the user data using a request.
- * 
- * @author Alexander Campo <jalexam@gmail.com> 
  */
 class RequestGuard implements Guard
 {

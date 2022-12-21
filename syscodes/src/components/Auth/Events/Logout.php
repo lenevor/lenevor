@@ -24,8 +24,6 @@ namespace Syscodes\Components\Auth\Events;
 
 /**
  * The authentication user.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Logout
 {

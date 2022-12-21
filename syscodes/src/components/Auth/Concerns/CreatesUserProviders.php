@@ -27,9 +27,7 @@ use Syscodes\Components\Auth\Providers\DatabaseUserProvider;
 use Syscodes\Components\Auth\Providers\ErostrineUserProvider;
 
 /**
- * Allows the creating of user provider configuration.
- * 
- * @author Alexander Campo <jalexcam@gmail.com> 
+ * Allows the creating of user provider configuration. 
  */
 trait CreatesUserProviders
 {

@@ -28,8 +28,6 @@ use Syscodes\Components\Auth\Exceptions\AuthenticationException;
 
 /**
  * Determine if the user is logged using a given guards.
- * 
- * @author Alexander Campo <jalexam@gmail.com> 
  */
 class Authenticate
 {

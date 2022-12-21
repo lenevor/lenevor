@@ -29,8 +29,6 @@ use Syscodes\Components\Auth\Concerns\GuardAuthenticationUser;
 
 /**
  * Capture the user data using a token header. 
- * 
- * @author Alexander Campo <jalexam@gmail.com> 
  */
 class TokenGuard implements Guard
 {

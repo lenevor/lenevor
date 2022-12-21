@@ -30,9 +30,7 @@ use Syscodes\Components\Auth\Guards\SessionGuard;
 use Syscodes\Components\Auth\Concerns\CreatesUserProviders;
 
 /**
- * The Lenevor authentication system for users.
- * 
- * @author Alexander Campo <jalexam@gmail.com> 
+ * The Lenevor authentication system for users. 
  */
 class AuthManager implements Factory
 {

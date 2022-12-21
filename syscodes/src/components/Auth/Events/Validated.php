@@ -24,8 +24,6 @@ namespace Syscodes\Components\Auth\Events;
 
 /**
  * The validated from the user provider.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Validated
 {

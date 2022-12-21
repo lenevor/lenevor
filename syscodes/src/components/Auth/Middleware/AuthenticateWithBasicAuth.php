@@ -27,8 +27,6 @@ use Syscodes\Components\Contracts\Auth\Factory;
 
 /**
  * Determine if the user is logged using a given guards basic.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class AuthenticateWithBasicAuth
 {

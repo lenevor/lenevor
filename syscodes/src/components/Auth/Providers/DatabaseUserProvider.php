@@ -33,8 +33,6 @@ use Syscodes\Components\Contracts\Auth\Authenticatable as UserContract;
 
 /**
  * Allows the validation of credentials using the connection with the database.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class DatabaseUserProvider implements UserProvider
 {

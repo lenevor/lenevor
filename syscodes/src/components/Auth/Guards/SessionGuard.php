@@ -45,9 +45,7 @@ use Syscodes\Components\Contracts\Cookie\QueueingFactory as Cookie;
 use Syscodes\Components\Core\Http\Exceptions\UnauthorizedHttpException;
 
 /**
- * Capture the user data using a session.
- * 
- * @author Alexander Campo <jalexam@gmail.com> 
+ * Capture the user data using a session. 
  */
 class SessionGuard implements StateGuard, SupportedBasicAuth
 {

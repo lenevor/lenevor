@@ -32,8 +32,6 @@ use Syscodes\Components\Contracts\Auth\Access\Gate as GateContract;
 
 /**
  * Allows the registered of authorizations into given abilities.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Gate implements GateContract
 {
