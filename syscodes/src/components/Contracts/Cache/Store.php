@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Cache;
 
 /**
  * Sets functions by the item from the cache store.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Store
 {

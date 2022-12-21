@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Cache;
 
 /**
  * Returns a key name for the cache.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Key
 {

@@ -27,8 +27,6 @@ use Syscodes\Components\Contracts\Cache\Store;
 
 /**
  * Get function for generate a cache store instance by name.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Factory
 {
