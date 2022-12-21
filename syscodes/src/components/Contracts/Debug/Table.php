@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Debug;
 
 /**
  * Returns data for an associative array.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Table
 {

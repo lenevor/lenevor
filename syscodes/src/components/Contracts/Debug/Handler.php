@@ -26,8 +26,6 @@ use Throwable;
 
 /**
  * Sets any uncaught errors and exceptions, including most Fatal errors and HTTP code submissions.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Handler
 {

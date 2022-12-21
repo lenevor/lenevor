@@ -26,8 +26,6 @@ use Throwable;
 
 /**
  * Handles an exception into an HTTP response for to render.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface ExceptionHandler
 {
