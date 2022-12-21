@@ -27,8 +27,6 @@ use Syscodes\Components\Http\Response;
 /**
  * This class allows you to control the use of the HTTP response 
  * along with routes redirection.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface RouteResponse
 {
