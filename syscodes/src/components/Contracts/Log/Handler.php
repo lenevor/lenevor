@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Log;
 
 /**
  * Expected behavior for a Log handler.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Handler
 {
