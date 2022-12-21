@@ -29,8 +29,6 @@ use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * Is class allows functionality for running, listing, etc all commands of framework.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Command extends BaseCommand
 {

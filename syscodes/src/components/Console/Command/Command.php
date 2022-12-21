@@ -37,8 +37,6 @@ use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * Base class for all commands.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Command 
 {
