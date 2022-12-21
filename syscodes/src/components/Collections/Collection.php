@@ -29,13 +29,10 @@ use Traversable;
 use ArrayIterator;
 use IteratorAggregate;
 use Syscodes\Components\Support\Traits\Enumerates;
-use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Contracts\Support\Arrayable;
 
 /**
  * Allows provide a way for working with arrays of data.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
 {

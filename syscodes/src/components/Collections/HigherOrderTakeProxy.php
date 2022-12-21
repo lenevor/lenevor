@@ -24,8 +24,6 @@ namespace Syscodes\Components\Support;
 
 /**
  * Allows a new take proxy instance.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class HigherOrderTakeProxy
 {

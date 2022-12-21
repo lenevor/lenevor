@@ -26,8 +26,6 @@ use ArrayAccess;
 
 /**
  * Gets all a given array for return dot-notated key from an array.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Arr
 {

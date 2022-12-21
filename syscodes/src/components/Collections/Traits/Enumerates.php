@@ -28,9 +28,7 @@ use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Contracts\Support\Arrayable;
 
 /**
- * Trait.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
+ * Trait Enumerates.
  */
 trait Enumerates
 {
