@@ -27,8 +27,6 @@ use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 /**
  * <ConsoleOutput> is the interface implemented by ConsoleOutput class.
  * This adds information about stderr and output stream.
- *
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface ConsoleOutput extends Output
 {

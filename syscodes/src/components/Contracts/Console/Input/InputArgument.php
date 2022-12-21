@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Console\Input;
 
 /**
  * InputArgument Interface.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface InputArgument
 {

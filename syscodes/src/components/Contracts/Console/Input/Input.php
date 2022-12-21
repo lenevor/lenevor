@@ -28,8 +28,6 @@ use Syscodes\Components\Console\Input\InputDefinition;
 
 /**
  * Input Interface used by all input classes.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Input
 {

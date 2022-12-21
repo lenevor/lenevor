@@ -26,8 +26,6 @@ use Syscodes\Components\Contracts\Console\Output\OutputFormatter as OutputFormat
 
 /**
  * <Output> is the interface implemented by all Output classes.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Output
 {

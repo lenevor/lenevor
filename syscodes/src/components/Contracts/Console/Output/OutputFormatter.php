@@ -26,8 +26,6 @@ use Syscodes\Components\Contracts\Console\Output\OutputFormatterStyle as OutputF
 
 /**
  * <OutputFormatter> is the interface for output console.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface OutputFormatter
 {

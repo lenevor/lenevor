@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Console;
 
 /**
  * Console core.
- * 
- * @author Alexander Campo M. <jalexcam@gmail.com>
  */
 interface Lenevor 
 {

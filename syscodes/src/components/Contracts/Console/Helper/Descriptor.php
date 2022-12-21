@@ -26,8 +26,6 @@ use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * Descriptor interface.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Descriptor
 {

@@ -28,8 +28,6 @@ use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * It allows to show the line header and the start of the Lenevor command console.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Application
 {

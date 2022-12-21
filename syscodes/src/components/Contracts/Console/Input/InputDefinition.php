@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Console\Input;
 
 /**
  * InputDefinition Interface.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface InputDefinition
 {

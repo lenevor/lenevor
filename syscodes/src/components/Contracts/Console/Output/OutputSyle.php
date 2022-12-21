@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Console;
 
 /**
  * The output styles.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface OutputStyle
 {

@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Console\Output;
 
 /**
  * <OutputFormatterStyle> is the interface for defining styles.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface OutputFormatterStyle
 {
