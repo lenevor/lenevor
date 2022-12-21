@@ -27,8 +27,6 @@ use Syscodes\Components\Contracts\Cookie\QueueingFactory as Cookie;
 
 /**
  * Added cookie after of the request.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class AddQueuedCookiesResponse
 {

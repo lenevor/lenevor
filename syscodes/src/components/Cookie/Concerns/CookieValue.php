@@ -26,8 +26,6 @@ use Syscodes\Components\Support\Str;
 
 /**
  * Trait Cookie value.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait CookieValue
 {

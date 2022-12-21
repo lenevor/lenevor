@@ -25,8 +25,6 @@ use Syscodes\Components\Support\ServiceProvider;
 
 /**
  * For loading the classes from the container of services.
- *
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class CookieServiceProvider extends ServiceProvider
 {

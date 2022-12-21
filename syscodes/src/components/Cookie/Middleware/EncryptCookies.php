@@ -32,8 +32,6 @@ use Syscodes\Components\Contracts\Encryption\Encrypter as EncryptContract;
 
 /**
  * Allows the encrypt of a cookie string according to your the request.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class EncryptCookies
 {

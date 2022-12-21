@@ -28,8 +28,6 @@ use Syscodes\Components\Contracts\Cookie\QueueingFactory as CookieFactory;
 
 /**
  * Get the cookies for have a response to a rquest of user.
- *
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class CookieManager implements CookieFactory
 {
