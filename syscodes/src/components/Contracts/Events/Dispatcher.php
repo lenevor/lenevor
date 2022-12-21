@@ -26,8 +26,6 @@ use Closure;
 
 /**
  * For register events and can calls all your listeners.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Dispatcher
 {
