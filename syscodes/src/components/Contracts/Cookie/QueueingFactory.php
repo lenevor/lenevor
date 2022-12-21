@@ -23,8 +23,6 @@ namespace Syscodes\Components\Contracts\Cookie;
 
 /**
  * Queue the cookies for send a response.
- *
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface QueueingFactory extends Factory
 {

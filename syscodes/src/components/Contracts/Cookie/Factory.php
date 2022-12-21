@@ -23,8 +23,6 @@ namespace Syscodes\Components\Contracts\Cookie;
 
 /**
  * Connects with a cookie instance.
- *
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Factory
 {
