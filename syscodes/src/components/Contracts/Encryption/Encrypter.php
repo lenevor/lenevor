@@ -26,8 +26,6 @@ namespace Syscodes\Components\Contracts\Encryption;
  * Allows to encrypt and decrypt the values that are required as security
  * mesuares in the recommended variables towards the use of the browser 
  * or server.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Encrypter
 {
