@@ -25,10 +25,10 @@ namespace Syscodes\Components\Console\Command;
 use Syscodes\Components\Console\Input\InputOption;
 use Syscodes\Components\Console\Input\InputArgument;
 use Syscodes\Components\Console\Helper\DescriptorHelper;
-use Syscodes\Components\Contracts\Console\Input as InputInterface;
-use Syscodes\Components\Contracts\Console\Output as OutputInterface;
-use Syscodes\Components\Contracts\Console\InputOption as InputOptionInterface;
-use Syscodes\Components\Contracts\Console\InputArgument as InputArgumentInterface;
+use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
+use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\Input\InputOption as InputOptionInterface;
+use Syscodes\Components\Contracts\Console\Input\InputArgument as InputArgumentInterface;
 
 /**
  * This class displays the list of all available commands 
@@ -39,7 +39,9 @@ use Syscodes\Components\Contracts\Console\InputArgument as InputArgumentInterfac
 class ListCommand extends Command
 {
     /**
-     * {@inheritdoc}
+     * Gets input definition for command.
+     * 
+     * @return void
      */
     protected function define()
     {
@@ -72,7 +74,14 @@ class ListCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * Executes the current command.
+     * 
+     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
+     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $input
+     * 
+     * @return int|mixed
+     * 
+     * @throws \LogicException
      */
     protected function execute(InputInterface $input, OutputInterface $output) 
     {
