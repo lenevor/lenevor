@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Translation;
 
 /**
  * Gets the translations for the given key with default locale.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Translator
 {

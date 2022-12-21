@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Translation;
 
 /**
  * Loads all messages for the given locale.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Loader
 {
