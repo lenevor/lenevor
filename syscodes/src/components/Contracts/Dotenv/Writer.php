@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Dotenv;
 
 /**
  * Write and delete an environment variable.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Writer
 {

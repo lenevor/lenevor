@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Dotenv;
 
 /**
  * Read an environment variable.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Reader
 {

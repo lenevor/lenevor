@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Dotenv;
 
 /**
  * Adapter is supported and check an environment variable.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Adapter extends Reader, Writer
 {

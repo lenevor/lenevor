@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Dotenv;
 
 /**
  * Gets a adapter.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Repository
 {
