@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Session;
 
 /**
  * Expected behavior of a session container used with Lenevor.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Session
 {
