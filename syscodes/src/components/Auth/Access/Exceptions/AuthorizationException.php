@@ -28,8 +28,6 @@ use Syscodes\Components\Auth\Access\Response;
 
 /**
  * AuthorizationException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class AuthorizationException extends Exception
 {
