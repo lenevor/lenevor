@@ -31,8 +31,6 @@ use Syscodes\Components\Contracts\Config\Configure as ConfigureContract;
  * 
  * Not intended to be used on its own, this class will attempt to
  * automatically populate the child class' properties with values.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Configure implements ArrayAccess, ConfigureContract
 {
