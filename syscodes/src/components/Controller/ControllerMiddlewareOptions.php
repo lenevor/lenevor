@@ -24,9 +24,7 @@ namespace Syscodes\Components\Controller;
 
 /**
  * This class allows to include or exclude methods of a given class 
- * to executed middlewares. 
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
+ * to executed middlewares.
  */
 class ControllerMiddlewareOptions
 {

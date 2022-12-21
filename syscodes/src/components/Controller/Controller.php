@@ -27,8 +27,6 @@ use BadMethodCallException;
 /**
  * This class allows you to manage the middlewares, actions and parameters 
  * in each controller created by the user.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 abstract class Controller
 {

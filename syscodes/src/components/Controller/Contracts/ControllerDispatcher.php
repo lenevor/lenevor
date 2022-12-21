@@ -26,8 +26,6 @@ use Syscodes\Components\Routing\Route;
 
 /**
  * Dispatch requests when called a given controller and method.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 
 interface ControllerDispatcher

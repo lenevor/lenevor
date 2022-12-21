@@ -29,8 +29,6 @@ use Syscodes\Components\Controller\Contracts\ControllerDispatcher as ControllerD
 
 /**
  * Dispatch requests when called a given controller and method.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ControllerDispatcher implements ControllerDispatcherContract
 {
