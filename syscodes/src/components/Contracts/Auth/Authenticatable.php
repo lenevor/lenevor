@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Auth;
 
 /**
  * Allows identifier the user data by authenticate.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Authenticatable
 {

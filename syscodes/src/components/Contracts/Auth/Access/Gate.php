@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Auth\Access;
 
 /**
  * Determine if a given ability this authorized on the users.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Gate
 {

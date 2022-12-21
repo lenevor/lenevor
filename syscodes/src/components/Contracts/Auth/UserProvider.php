@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Auth;
 
 /**
  * Gets the token and credentials for the given user.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface UserProvider
 {

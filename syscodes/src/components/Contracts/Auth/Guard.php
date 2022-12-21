@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Auth;
 
 /**
  * Determine if the current user is authenticated.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Guard
 {

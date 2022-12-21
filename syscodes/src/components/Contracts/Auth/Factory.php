@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Auth;
 
 /**
  * Determine a guard by name.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface Factory
 {

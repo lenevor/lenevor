@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Auth;
 
 /**
  * Allows the authentication usin HTTP basic Auth.
- * 
- * @author Alexander Campo<jalexcam@gmail.com>
  */
 interface SupportedBasicAuth
 {

@@ -24,8 +24,6 @@ namespace Syscodes\Components\Contracts\Auth;
 
 /**
  * Allows user authentication and log into given sessions or cookies.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface StateGuard extends Guard
 {
