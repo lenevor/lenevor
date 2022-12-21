@@ -27,8 +27,6 @@ use Syscodes\Components\Contracts\Console\Output\OutputFormatter;
 
 /**
  * Allows StreamOutput writes the output to a given stream.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class StreamOutput extends Output
 {

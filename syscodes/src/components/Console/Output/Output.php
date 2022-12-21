@@ -30,8 +30,6 @@ use Syscodes\Components\Contracts\Console\Output\OutputFormatter as OutputFormat
 /**
  * Allows the use of the formatter in the messages to be displayed 
  * in the output console.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 abstract class Output implements OutputInterface
 {

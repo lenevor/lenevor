@@ -27,8 +27,6 @@ use Syscodes\Components\Console\Input\InputDefinition;
 
 /**
  * This class represents an input  coming from the CLI arguments.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ArgvInput extends Input
 {

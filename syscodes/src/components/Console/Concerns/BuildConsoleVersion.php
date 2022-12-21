@@ -23,9 +23,7 @@
 namespace Syscodes\Components\Console\Concerns;
 
 /**
- * Trait VersionInfo.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
+ * Trait BuildConsoleVersion.
  */
 trait BuildConsoleVersion
 {

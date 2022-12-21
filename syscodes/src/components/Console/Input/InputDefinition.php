@@ -25,12 +25,11 @@ namespace Syscodes\Components\Console\Input;
 use LogicException;
 use InvalidArgumentException;
 use Syscodes\Components\Console\Input\InputOption;
-use \Syscodes\Components\Contracts\Console\InputDefinition as InputDefinitionInterface;
+use Syscodes\Components\Console\Input\InputArgument;
+use \Syscodes\Components\Contracts\Console\Input\InputDefinition as InputDefinitionInterface;
 
 /**
  * This class valides the arguments and options to set in command line.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class InputDefinition implements InputDefinitionInterface
 {

@@ -32,9 +32,7 @@ use Syscodes\Components\Contracts\Console\Input\InputArgument as InputArgumentIn
 
 /**
  * This class displays the list of all available commands 
- * enabled for the application. 
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
+ * enabled for the application.
  */
 class ListCommand extends Command
 {

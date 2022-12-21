@@ -26,8 +26,6 @@ use Syscodes\Components\Console\Input\InputDefinition;
 
 /**
  * This class represents an input provided as an array.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ArrayInput extends Input
 {

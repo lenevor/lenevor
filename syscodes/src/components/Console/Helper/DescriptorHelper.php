@@ -30,8 +30,6 @@ use Syscodes\Components\Contracts\Console\Helper\Descriptor as DescriptorInterfa
 
 /**
  * This class adds helper method to describe objects in various formats.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class DescriptorHelper
 {

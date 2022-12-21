@@ -22,14 +22,12 @@
 
 namespace Syscodes\Components\Console\Util;
 
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
-use Syscodes\Components\Collections\Arr;
 use Syscodes\Components\Console\Style\ColorTag;
 
 /**
  * This class allows to format data useful for console.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 final class FormatUtil
 {

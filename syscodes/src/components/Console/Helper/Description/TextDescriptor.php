@@ -30,8 +30,6 @@ use Syscodes\Components\Console\Input\InputDefinition;
 
 /**
  * Text descriptor.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class TextDescriptor extends Descriptor
 {

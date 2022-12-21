@@ -25,12 +25,10 @@ namespace Syscodes\Components\Console\Input;
 use LogicException;
 use InvalidArgumentException;
 use Syscodes\Components\Support\Str;
-use Syscodes\Components\Contracts\Console\InputOption as InputOptionInterface;
+use Syscodes\Components\Contracts\Console\Input\InputOption as InputOptionInterface;
 
 /**
  * This class represents a command line option.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class InputOption implements InputOptionInterface
 {

@@ -32,8 +32,6 @@ use Syscodes\Components\Contracts\Console\Helper\Descriptor as DescriptorInterfa
 
 /**
  * This class allows all console description variables to be displayed.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 abstract class Descriptor implements DescriptorInterface
 {

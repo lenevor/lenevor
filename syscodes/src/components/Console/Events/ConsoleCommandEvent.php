@@ -24,8 +24,6 @@ namespace Syscodes\Components\Console\Events;
 
 /**
  * Allows to do things before the command is executed.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ConsoleCommandEvent extends ConsoleEvent
 {
@@ -59,7 +57,7 @@ class ConsoleCommandEvent extends ConsoleEvent
     /**
      * Returns true if the command is runnable, false otherwise.
      * 
-     * @retyurn bool
+     * @return bool
      */
     public function commandShouldRunSkipped(): bool
     {

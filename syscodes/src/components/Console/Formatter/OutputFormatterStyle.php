@@ -28,8 +28,6 @@ use Syscodes\Components\Contracts\Console\Output\OutputFormatterStyle as OutputF
 
 /**
  * Allows that formatter style class for defining styles.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class OutputFormatterStyle implements OutputFormatterStyleInterface
 {

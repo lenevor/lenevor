@@ -24,12 +24,10 @@ namespace Syscodes\Components\Console\Input;
 
 use LogicException;
 use InvalidArgumentException;
-use Syscodes\Components\Contracts\Console\InputArgument as InputArgumentInterface;
+use Syscodes\Components\Contracts\Console\Input\InputArgument as InputArgumentInterface;
 
 /**
  * This class represents a command line argument.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class InputArgument implements InputArgumentInterface
 {

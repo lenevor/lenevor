@@ -28,8 +28,6 @@ use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * Format and render to a single list of items.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 final class SingleList
 {

@@ -24,7 +24,5 @@ namespace Syscodes\Components\Console\Exceptions;
 
 /**
  * Displays an incorrect namespace typed in the console.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class NamespaceNotFoundException extends CommandNotFoundException {}

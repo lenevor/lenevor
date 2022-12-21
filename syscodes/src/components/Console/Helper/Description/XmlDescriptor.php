@@ -30,8 +30,6 @@ use Syscodes\Components\Console\Input\InputDefinition;
 
 /**
  * Xml descriptor.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class XmlDescriptor extends Descriptor
 {

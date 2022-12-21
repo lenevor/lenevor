@@ -28,8 +28,6 @@ use Syscodes\Components\Contracts\Console\Output as OutputInterface;
 
 /**
  * Format and render to a list of items.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Show
 {

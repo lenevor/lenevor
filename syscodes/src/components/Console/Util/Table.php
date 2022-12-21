@@ -23,7 +23,7 @@
 namespace Syscodes\Components\Console\Util;
 
 /**
- * @author Alexander Campo <jalexcam@gmail.com>
+ * 
  */
 class Table
 {

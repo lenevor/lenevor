@@ -26,8 +26,6 @@ use Syscodes\Components\Contracts\Console\Output\OutputFormatterStyle as OutputF
 
 /**
  * Allows that formatter style class.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class OutputFormatterStack
 {

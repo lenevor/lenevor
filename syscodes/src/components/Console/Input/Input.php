@@ -24,12 +24,10 @@ namespace Syscodes\Components\Console\Input;
 
 use InvalidArgumentException;
 use Syscodes\Components\Console\Input\InputDefinition;
-use Syscodes\Components\Contracts\Console\Input as InputInterface;
+use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
 
 /**
  * The Input base class is the main for all concrete Input classes.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 abstract class Input implements InputInterface
 {

@@ -32,8 +32,6 @@ use Syscodes\Components\Contracts\Console\Input\InputArgument as InputArgumentIn
 
 /**
  * This class displays the help for a given command.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class HelpCommand extends Command
 {

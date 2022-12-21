@@ -24,8 +24,6 @@ namespace Syscodes\Components\Console;
 
 /**
  * Globals option for list an element of an array.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 final class GlobalOption
 {

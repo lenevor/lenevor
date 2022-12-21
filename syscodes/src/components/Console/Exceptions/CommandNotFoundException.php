@@ -28,8 +28,6 @@ use InvalidArgumentException;
 /**
  * Displays invalid an command name when you inputs incorrectly 
  * that name in the console.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class CommandNotFoundException extends InvalidArgumentException
 {

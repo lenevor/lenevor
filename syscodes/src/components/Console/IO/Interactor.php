@@ -28,8 +28,6 @@ use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * CLI Interactor.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Interactor
 {

@@ -24,9 +24,7 @@ namespace Syscodes\Components\Console\Style;
 
 /**
  * Configures the foreground, background and options 
- * for any text you should to highlight. 
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
+ * for any text you should to highlight.
  */
 final class TagStyle
 {

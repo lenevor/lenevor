@@ -24,8 +24,6 @@ namespace Syscodes\Components\Console\Concerns;
 
 /**
  * Trait InteractsIO.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait InteractsIO
 {

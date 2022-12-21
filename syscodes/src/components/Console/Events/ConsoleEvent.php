@@ -23,13 +23,11 @@
 namespace Syscodes\Components\Console\Events;
 
 use Syscodes\Components\Console\Command\Command;
-use Syscodes\Components\Contracts\Console\Input as InputInterface;
-use Syscodes\Components\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
+use Syscodes\Components\Contracts\Console\Output\OutputFormatter as OutputInterface;
 
 /**
  * This class allows to inpect input and output of a command.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ConsoleEvent
 {
@@ -85,7 +83,7 @@ class ConsoleEvent
      * 
      * @return \Syscodes\Components\Contracts\Console\Input
      */
-    public function getCommandInput(): InputInterface
+    public function getCommandInput()
     {
         return $this->input;
     }
@@ -95,7 +93,7 @@ class ConsoleEvent
      * 
      * @return \Syscodes\Components\Contracts\Console\Output
      */
-    public function getCommandOutput(): OutputInterface
+    public function getCommandOutput()
     {
         return $this->output;
     }

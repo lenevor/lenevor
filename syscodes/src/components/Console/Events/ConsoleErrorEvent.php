@@ -24,8 +24,8 @@ namespace Syscodes\Components\Console\Events;
 
 use Throwable;
 use Syscodes\Components\Console\Command\Command;
-use Syscodes\Components\Contracts\Console\Input as InputInterface;
-use Syscodes\Components\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
+use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * Allows to handle throwables running a command.
