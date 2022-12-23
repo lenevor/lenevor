@@ -26,8 +26,8 @@ use Syscodes\Components\Version;
 use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Console\Application as BaseApplication;
-use Syscodes\Components\Contracts\Console\Input as InputInterface;
-use Syscodes\Components\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
+use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * Console application.
