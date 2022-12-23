@@ -24,8 +24,8 @@ namespace Syscodes\Components\Console\Input;
 
 use LogicException;
 use InvalidArgumentException;
-use Syscodes\Components\Console\Input\InputOption;
-use Syscodes\Components\Console\Input\InputArgument;
+use Syscodes\Components\Contracts\Console\Input\InputOption;
+use Syscodes\Components\Contracts\Console\Input\InputArgument;
 use \Syscodes\Components\Contracts\Console\Input\InputDefinition as InputDefinitionInterface;
 
 /**

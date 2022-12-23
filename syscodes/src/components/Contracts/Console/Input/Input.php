@@ -35,7 +35,7 @@ interface Input
      * Allows you to link the arguments and options to define data 
      * on the command line.
      * 
-     * @param  \Syscodes\Console\Input\InputDefinition  $definition
+     * @param  \Syscodes\Components\Console\Input\InputDefinition  $definition
      * 
      * @return void
      * 

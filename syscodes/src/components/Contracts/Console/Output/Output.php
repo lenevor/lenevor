@@ -62,7 +62,7 @@ interface Output
 	 * 
 	 * @return \Syscodes\Components\Contracts\Console\Output\OutputFormatter
 	 */
-	public function getFormatter(): OutputFormatterInterface;
+	public function getFormatter();
 
 	/**
 	 * Sets a output formatter instance.

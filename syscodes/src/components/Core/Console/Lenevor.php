@@ -94,7 +94,12 @@ class Lenevor implements LenevorContract
     }
     
     /**
-     * {@inheritdoc}
+     * Handle an incoming console command.
+     * 
+     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
+     * @param  \Syscodes\Components\Contracts\Console\Output\Output|null  $output
+     * 
+     * @return int
      */
     public function handle($input, $output = null): int
     {
