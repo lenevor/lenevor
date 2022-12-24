@@ -136,7 +136,11 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Formats a message depending to the given styles.
+     * 
+     * @param  string  $message
+     * 
+     * @return string
      */
     public function format(?string $message): string
     {
