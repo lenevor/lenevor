@@ -116,7 +116,11 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Sets style foreground color.
+     * 
+     * @param  string|null  $color
+     * 
+     * @return void When the color name isn't defined
      */
     public function setForeground(string $color = null): void
     {
@@ -130,7 +134,11 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Sets style background color.
+     * 
+     * @param  string|null  $color
+     * 
+     * @return void When the color name isn't defined
      */
     public function setBackground(string $color = null): void
     {
@@ -144,7 +152,11 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Sets some specific style option.
+     * 
+     * @param  string  $option
+     * 
+     * @return void
      */
     public function setOption(string $option): void
     {
@@ -163,7 +175,11 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Unsets some specific style option.
+     * 
+     * @param  string  $option
+     * 
+     * @return void
      */
     public function unsetOption(string $option): void
     {
@@ -184,7 +200,11 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Sets multiple style options at once.
+     * 
+     * @param  array  $option
+     * 
+     * @return void
      */
     public function setOptions(array $options): void
     {
@@ -196,7 +216,11 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Applies the style to a given text.
+     * 
+     * @param  string  $text
+     * 
+     * @return string
      */
     public function apply(string $text): string
     {
