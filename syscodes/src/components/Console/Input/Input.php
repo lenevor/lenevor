@@ -76,7 +76,14 @@ abstract class Input implements InputInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Allows you to link the arguments and options to define data 
+     * on the command line.
+     * 
+     * @param  \Syscodes\Components\Console\Input\InputDefinition  $definition
+     * 
+     * @return void
+     * 
+     * @throws \RuntimeException
      */
     public function linked(InputDefinition $definition): void
     {
