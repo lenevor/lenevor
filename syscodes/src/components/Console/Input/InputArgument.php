@@ -94,7 +94,9 @@ class InputArgument implements InputArgumentInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Gets the argument name.
+     * 
+     * @return string  The argument name
      */
     public function getName(): string
     {
@@ -102,7 +104,11 @@ class InputArgument implements InputArgumentInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Sets the argument name.
+     * 
+     * @param  string  $name  The argument name
+     * 
+     * @return void
      */
     public function setName(string $name): void
     {
@@ -110,7 +116,9 @@ class InputArgument implements InputArgumentInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Gets the argument mode.
+     * 
+     * @return int
      */
     public function getMode(): int
     {
@@ -118,7 +126,11 @@ class InputArgument implements InputArgumentInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Sets the argument mode.
+     * 
+     * @param  int  $mode  The argument mode
+     * 
+     * @return void
      */
     public function setMode(int $mode): void
     {
@@ -126,7 +138,9 @@ class InputArgument implements InputArgumentInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Gets the description text.
+     * 
+     * @return string  The description text
      */
     public function getDescription(): string
     {
@@ -134,7 +148,11 @@ class InputArgument implements InputArgumentInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Sets the description text.
+     * 
+     * @param  string  $description  The description text
+     * 
+     * @return void
      */
     public function setDescription(string $description): void
     {
@@ -152,7 +170,13 @@ class InputArgument implements InputArgumentInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Sets the default value.
+     * 
+     * @param  mixed  $default
+     * 
+     * @return mixed
+     * 
+     * @throws \LogicException
      */
     public function setDefault($default = null): void
     {
@@ -172,7 +196,9 @@ class InputArgument implements InputArgumentInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Gets true if the argument is required.
+     * 
+     * @return bool  True if parameter mode is self::REQUIRED, false otherwise
      */
     public function isRequired(): bool
     {
@@ -180,7 +206,9 @@ class InputArgument implements InputArgumentInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Gets true if the argument can take multiple values.
+     * 
+     * @return bool  True if mode is self::IS_ARRAY, false otherwise
      */
     public function isArray(): bool
     {
