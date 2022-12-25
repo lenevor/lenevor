@@ -361,7 +361,7 @@ class Application implements ApplicationContract
     }
 
     /**
-     * @internal
+     * {@internal}
      */
     public function isSingleCommand(): bool
     {
