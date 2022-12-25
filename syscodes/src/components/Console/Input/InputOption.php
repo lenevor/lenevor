@@ -128,7 +128,9 @@ class InputOption implements InputOptionInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Gets the description text.
+     * 
+     * @return string  The description text
      */
     public function getDescription(): string
     {
@@ -136,7 +138,11 @@ class InputOption implements InputOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Sets the description text.
+     * 
+     * @param  string  $description  The description text
+     * 
+     * @return void
      */
     public function setDescription(string $description): void
     {
@@ -144,7 +150,9 @@ class InputOption implements InputOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Gets the default value.
+     * 
+     * @return mixed
      */
     public function getDefault()
     {
@@ -152,7 +160,13 @@ class InputOption implements InputOptionInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Sets the default value.
+     * 
+     * @param  mixed  $default
+     * 
+     * @return mixed
+     * 
+     * @throws \LogicException
      */
     public function setDefault($default = null): void
     {
@@ -172,7 +186,9 @@ class InputOption implements InputOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Gets the option name.
+     * 
+     * @return string The name
      */
     public function getName(): string
     {
@@ -180,7 +196,11 @@ class InputOption implements InputOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Sets the option name.
+     * 
+     * @param  string  $name
+     * 
+     * @return void
      */
     public function setName(string $name): void
     {
@@ -188,7 +208,9 @@ class InputOption implements InputOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Gets the option shortcut.
+     * 
+     * @return string|array|null  The shortcut
      */
     public function getShortcut()
     {
@@ -196,7 +218,11 @@ class InputOption implements InputOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Sets the option shortcut.
+     * 
+     * @param  string|array|null  $shortcut
+     * 
+     * @return void
      */
     public function setShortcut($shortcut): void
     {
@@ -212,7 +238,9 @@ class InputOption implements InputOptionInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Gets true if the option accepts a value.
+     * 
+     * @return bool  True if value mode is not self::VALUE_NONE, false otherwise
      */
     public function isAcceptValue(): bool
     {
@@ -220,7 +248,9 @@ class InputOption implements InputOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Gets true if the option requires a value.
+     *
+     * @return bool  True if value mode is self::VALUE_REQUIRED, false otherwise
      */
     public function isValueRequired(): bool
     {
@@ -228,7 +258,9 @@ class InputOption implements InputOptionInterface
     }
     
     /**
-     * G{@inheritdoc}
+     * Gets true if the option takes an optional value.
+     *
+     * @return bool  True if value mode is self::VALUE_OPTIONAL, false otherwise
      */
     public function isValueOptional(): bool
     {
@@ -236,7 +268,9 @@ class InputOption implements InputOptionInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Gets true if the option can take multiple values.
+     * 
+     * @return bool  True if mode is self::VALUE_IS_ARRAY, false otherwise
      */
     public function isArray(): bool
     {
@@ -244,7 +278,9 @@ class InputOption implements InputOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Gets an option have either positive or negative value.
+     * 
+     * @return bool  True if mode is self::VALUE_NEGATABLE, false otherwise
      */
     public function isNegatable(): bool
     {
