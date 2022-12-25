@@ -24,7 +24,7 @@ namespace Syscodes\Components\Console\Util;
 
 use Syscodes\Components\Console\Helper\MultiList;
 use Syscodes\Components\Console\Helper\SingleList;
-use Syscodes\Components\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * Format and render to a list of items.
@@ -37,7 +37,7 @@ class Show
      * @param  mixed  $data  The list of data
      * @param  string  $title  The title of list
      * @param  array  $options  The options for list of data
-     * @param  \Syscodes\Components\Contracts\Console\Output  $output  The output interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $output  The output interface implemented
      * 
      * @return void
      */
@@ -51,7 +51,7 @@ class Show
      * 
      * @param  array  $data  The list of data
      * @param  array  $options  The options for list of data
-     * @param  \Syscodes\Components\Contracts\Console\Output  $output  The output interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $output  The output interface implemented
      * 
      * @return void
      */
