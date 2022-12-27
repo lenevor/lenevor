@@ -26,8 +26,8 @@ use Locale;
 use Syscodes\Components\Console\Util\Show;
 use Syscodes\Components\Console\Command\Command;
 use Syscodes\Bundles\ApplicationBundle\Console\Application;
-use Syscodes\Components\Contracts\Console\Input as InputInterface;
-use Syscodes\Components\Contracts\Console\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
+use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * A console command to display information about of system.
@@ -40,7 +40,9 @@ class AboutCommand extends Command
     protected static $defaultDescription = 'Display information about the current project';
 
     /**
-     * {@inheritdoc}
+     * Gets input definition for command.
+     * 
+     * @return void
      */
     protected function define()
     {
@@ -57,7 +59,14 @@ class AboutCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * Executes the current command.
+     * 
+     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
+     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $input
+     * 
+     * @return int|mixed
+     * 
+     * @throws \LogicException
      */
     protected function execute(InputInterface $input, OutputInterface $output) 
     {
@@ -79,7 +88,7 @@ class AboutCommand extends Command
      * Returns the info of the console with logo.
      * 
      * @param  \Syscodes\Bundles\ApplicationBundle\Console\Application  $application
-     * @param  \Syscodes\Components\Contracts\Console\Output  $output
+     * @param  \Syscodes\Components\Contracts\Console\\Output\Output  $output
      *
      * @return array
      */
