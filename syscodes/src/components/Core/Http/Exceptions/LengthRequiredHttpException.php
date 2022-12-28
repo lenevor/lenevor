@@ -27,8 +27,6 @@ use Throwable;
 /**
  * It is activated when the server rejects the request because the Content-Length 
  * header field is not defined and the server requires it.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class LengthRequiredHttpException extends HttpException
 {
@@ -42,9 +40,9 @@ class LengthRequiredHttpException extends HttpException
 	/**
 	 * Initialize constructor. 
 	 * 
-	 * @param  string|null  $message  (null by default) 
-	 * @param  \Throwable|null  $previous  (null by default)
-	 * @param  int  $code  (0 by default)
+	 * @param  string|null  $message 
+	 * @param  \Throwable|null  $previous
+	 * @param  int  $code
 	 * @param  array  $headers
 	 * 
 	 * @return void

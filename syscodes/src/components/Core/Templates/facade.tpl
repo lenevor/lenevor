@@ -26,8 +26,6 @@ use Syscodes\Support\Facades\Facade;
 
 /**
  * Initialize the facade class.
- *
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class DummyClass extends Facade
 {

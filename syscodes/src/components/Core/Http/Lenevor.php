@@ -33,8 +33,6 @@ use Syscodes\Components\Contracts\Http\Lenevor as LenevorContract;
 
 /**
  * The Lenevor class is the heart of the system framework.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Lenevor implements LenevorContract
 {
@@ -118,7 +116,12 @@ class Lenevor implements LenevorContract
 	}
 	 
 	/**
-	 * {@inheritdoc}
+	 * Initializes the framework, this can only be called once.
+	 * Launch the application.
+	 * 
+	 * @param  \Syscodes\Components\http\Request  $request
+	 *
+	 * @return void
 	 */
 	public function handle($request)
 	{
@@ -210,7 +213,12 @@ class Lenevor implements LenevorContract
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Call the shutdown method on any terminable middleware.
+	 * 
+	 * @param  \Syscodes\Components\Http\Request  $request
+	 * @param  \Syscodes\Components\Http\Response  $response
+	 * 
+	 * @return void
 	 */
 	public function shutdown($request, $response): void
 	{
@@ -282,7 +290,9 @@ class Lenevor implements LenevorContract
     }
 
 	/**
-	 * {@inheritdoc}
+	 * Gets the Lenevor application instance.
+	 * 
+	 * @return void
 	 */
 	public function getApplication()
 	{

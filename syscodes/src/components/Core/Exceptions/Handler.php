@@ -40,8 +40,6 @@ use Syscodes\Components\Contracts\Debug\ExceptionHandler as ExceptionHandlerCont
 
 /**
  * The system's main exception class is loaded for activate the render method of debugging.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Handler implements ExceptionHandlerContract
 {
@@ -134,7 +132,13 @@ class Handler implements ExceptionHandlerContract
     }
     
     /**
-     * {@inheritdoc}
+     * Report or log an exception.
+     * 
+     * @param  \Throwable  $e
+     * 
+     * @return mixed
+     * 
+     * @throws \Exception
      */
     public function report(Throwable $e)
     {
@@ -162,7 +166,11 @@ class Handler implements ExceptionHandlerContract
     }
 
     /**
-     * {@inheritdoc}
+     * Determine if the exception should be reported.
+     * 
+     * @param  \Throwable  $e
+     * 
+     * @return bool
      */
     public function shouldReport(Throwable $e): bool
     {
@@ -170,7 +178,11 @@ class Handler implements ExceptionHandlerContract
     }
 
     /**
-     * {@inheritdoc}
+     * Determine if the exception is in the "do not report" list.
+     * 
+     * @param  \Throwable  $e
+     * 
+     * @return bool
      */
     public function shouldntReport(Throwable $e): bool
     {
@@ -186,7 +198,12 @@ class Handler implements ExceptionHandlerContract
     }
 
     /**
-     * {@inheritdoc}
+     * Render an exception into an HTTP response.
+     * 
+     * @param  \Syscodes\Components\Http\Request  $request
+     * @param  \Throwable  $e
+     * 
+     * @return \Syscodes\Components\Http\Response
      */
     public function render($request, Throwable $e)
     {
@@ -307,7 +324,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Create a response for the given exception.
      * 
-     * @param  \Exception  $e
+     * @param  \Throwable  $e
      * 
      * @return \Syscodes\Components\Http\Response
      */
@@ -409,12 +426,17 @@ class Handler implements ExceptionHandlerContract
     }
 
     /**
-     * {@inheritdoc}
+     * Render an exception to the console.
+     * 
+     * @param  \Syscodes\Components\Contracts\Console\Output\ConsoleOutput  $output
+     * @param  \Throwable  $e
+     * 
+     * @return void
      */
     public function renderForConsole($output, Throwable $e)
     {
         $message = sprintf(
-            $output->write($output->error(getClass($e, true)))." %s in file %s on line %d\n\n%s\n",
+            $output->write("<error>".getClass($e, true)."</>")." %s in file %s on line %d\n\n%s\n",
             //getClass($e, true),
             $e->getMessage(),            
             $e->getFile(),

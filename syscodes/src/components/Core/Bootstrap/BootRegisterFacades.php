@@ -28,8 +28,6 @@ use Syscodes\Components\Contracts\Core\Application;
 
 /**
  * Initialize boot the register facades from setting file called services.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class BootRegisterFacades
 {

@@ -26,8 +26,6 @@ use Syscodes\Components\Contracts\Core\Application;
 
 /**
  * Initialize boot of register providers.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class BootProviders
 {

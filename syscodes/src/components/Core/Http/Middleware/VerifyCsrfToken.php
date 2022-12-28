@@ -34,8 +34,6 @@ use Syscodes\Components\Session\Exceptions\TokenMismatchException;
 
 /**
  * Checks if exists a the CSRF token in the cookie.
- *  
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class VerifyCsrfToken
 {

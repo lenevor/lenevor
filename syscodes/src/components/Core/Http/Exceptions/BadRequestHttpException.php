@@ -26,8 +26,6 @@ use Throwable;
 
 /**
  * It is activated when the server could not interpret the request given an invalid syntax.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class BadRequestHttpException extends HttpException
 {
@@ -41,9 +39,9 @@ class BadRequestHttpException extends HttpException
 	/**
 	 * Initialize constructor. 
 	 * 
-	 * @param  string|null  $message  (null by default) 
-	 * @param  \Throwable|null  $previous  (null by default)
-	 * @param  int  $code  (0 by default)
+	 * @param  string|null  $message 
+	 * @param  \Throwable|null  $previous
+	 * @param  int  $code
 	 * @param  array  $headers
 	 * 
 	 * @return void

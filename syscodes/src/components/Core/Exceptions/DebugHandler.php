@@ -26,8 +26,6 @@ use Syscodes\Components\Debug\Handlers\PleasingPageHandler;
 
 /**
  * Creates a new Debug handler instance.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class DebugHandler
 {

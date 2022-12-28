@@ -26,8 +26,6 @@ use Throwable;
 
 /**
  * HttpException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class HttpException extends LenevorException
 {

@@ -27,8 +27,6 @@ use Syscodes\Components\Contracts\Core\Application;
 
 /**
  * Initialize boot of setting file.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class BootConfiguration
 {	

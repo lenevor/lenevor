@@ -27,8 +27,6 @@ use Throwable;
 /**
  * It is activated when the multimedia format of the requested data is not supported 
  * by the server, for which reason the server rejects the request.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class UnsupportedMediaTypeHttpException extends HttpException
 {
@@ -42,9 +40,9 @@ class UnsupportedMediaTypeHttpException extends HttpException
 	/**
 	 * Initialize constructor. 
 	 * 
-	 * @param  string|null  $message  (null by default)
-	 * @param  \Throwable|null  $previous  (null by default)
-	 * @param  int  $code  (0 by default)
+	 * @param  string|null  $message
+	 * @param  \Throwable|null  $previous
+	 * @param  int  $code
 	 * @param  array  $headers
 	 * 
 	 * @return void

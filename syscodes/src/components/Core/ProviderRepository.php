@@ -27,7 +27,7 @@ use Syscodes\Components\Filesystem\Filesystem;
 use Syscodes\Components\Contracts\Core\Application;
 
 /**
- * @author Alexander Campo <jalexcam@gmail.com>
+ * Allows the register of a application service manifest file.
  */
 class ProviderRepository
 {

@@ -26,8 +26,6 @@ use Throwable;
 
 /**
  * It is activated when a request has conflict with the current state of the server.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ConflictHttpException extends HttpException
 {
@@ -41,9 +39,9 @@ class ConflictHttpException extends HttpException
 	/**
 	 * Initialize constructor. 
 	 * 
-	 * @param  string|null  $message  (null by default) 
-	 * @param  \Throwable|null  $previous  (null by default)
-	 * @param  int  $code  (0 by default)
+	 * @param  string|null  $message 
+	 * @param  \Throwable|null  $previous
+	 * @param  int  $code
 	 * @param  array  $headers
 	 * 
 	 * @return void
