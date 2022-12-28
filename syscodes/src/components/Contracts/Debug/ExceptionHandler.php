@@ -71,7 +71,7 @@ interface ExceptionHandler
     /**
      * Render an exception to the console.
      * 
-     * @param  \Syscodes\Contracts\Console\Output  $output
+     * @param  \Syscodes\Components\Contracts\Console\Output\ConsoleOutput  $output
      * @param  \Throwable  $e
      * 
      * @return void

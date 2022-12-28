@@ -93,7 +93,7 @@ interface Container extends ContainerInterface
      */
     public function build($class);
 
-     /**
+    /**
      * Marks a callable as being a factory service.
      * 
      * @param  string  $id
@@ -114,7 +114,7 @@ interface Container extends ContainerInterface
     /**
      * Bind a new callback to an id rebind event.
      * 
-     * @param  string    $id     * 
+     * @param  string  $id
      * @param  \Closure  $callback
      * 
      * @return mixed
@@ -125,7 +125,7 @@ interface Container extends ContainerInterface
      * Refresh an instance on the given target and method.
      * 
      * @param  string  $id
-     * @param  mixed   $target
+     * @param  mixed  $target
      * @param  string  $method
      * 
      * @return mixed

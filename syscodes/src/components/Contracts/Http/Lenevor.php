@@ -34,12 +34,10 @@ interface Lenevor
 	 * @param  \Syscodes\Components\http\Request  $request
 	 *
 	 * @return void
-	 * 
-	 * @uses   new \Syscodes\Components\Http\Response
 	 */
  	public function handle($request);
 
-	 /**
+	/**
 	 * Call the shutdown method on any terminable middleware.
 	 * 
 	 * @param  \Syscodes\Components\Http\Request  $request
