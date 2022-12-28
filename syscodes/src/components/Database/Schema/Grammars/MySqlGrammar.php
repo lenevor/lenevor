@@ -29,8 +29,6 @@ use Syscodes\Components\Database\Connections\Connection;
 /**
  * Allows the compilation of sql sentences for the
  * Mysql database.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class MySqlGrammar extends Grammar
 {

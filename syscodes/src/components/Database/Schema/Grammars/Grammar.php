@@ -30,7 +30,7 @@ use Syscodes\Components\Database\Connections\Connection;
 use Syscodes\Components\Database\Grammar as BaseGrammar;
 
 /**
- * @author Alexander Campo <jalexcam@gmail.com>
+ * Allows the compilation of sql sentences for the connection to database.
  */
 abstract class Grammar extends BaseGrammar
 {

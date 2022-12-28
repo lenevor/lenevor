@@ -27,8 +27,6 @@ use PDOException;
 
 /**
  * ConnectionException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ConnectionException extends PDOException
 {

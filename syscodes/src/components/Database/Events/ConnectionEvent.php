@@ -24,8 +24,6 @@ namespace Syscodes\Components\Database\Events;
 
 /**
  * Get the database connection event.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 abstract class ConnectionEvent
 {

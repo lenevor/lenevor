@@ -28,8 +28,6 @@ use Syscodes\Components\Support\ServiceProvider;
 /**
  * The route service provider facilitates the register of a namespace your 
  * loaded in file route and executed in a group route.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class RouteServiceProvider extends ServiceProvider
 {

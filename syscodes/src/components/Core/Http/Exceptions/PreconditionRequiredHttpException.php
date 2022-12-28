@@ -29,8 +29,6 @@ use Throwable;
  * It intends to prevent 'lost update' problems, where a client GETS a state of the 
  * resource, modifies it, and PUTS it back to the server, while a third party has 
  * modified the status of the server, leading to a conflict.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class PreconditionRequiredHttpException extends HttpException
 {
@@ -44,9 +42,9 @@ class PreconditionRequiredHttpException extends HttpException
 	/**
 	 * Initialize constructor. 
 	 * 
-	 * @param  string|null  $message  (null by default) 
-	 * @param  \Throwable|null  $previous  (null by default)
-	 * @param  int  $code  (0 by default)
+	 * @param  string|null  $message 
+	 * @param  \Throwable|null  $previous
+	 * @param  int  $code
 	 * @param  array  $headers
 	 * 
 	 * @return void

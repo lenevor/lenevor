@@ -26,8 +26,6 @@ use Throwable;
 
 /**
  * It is activated when the user has sent too many requests in a given period of time.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class TooManyRequestsHttpException extends HttpException
 {
@@ -42,9 +40,9 @@ class TooManyRequestsHttpException extends HttpException
 	 * Initialize constructor. 
 	 * 
 	 * @param  int|string|null  $retryAfter  The number of seconds or HTTP-date after 
-	 * 										 which the request may be retried  (null by default)
-	 * @param  string|null  $message  (null by default)
-	 * @param  \Throwable|null  $previous  (null by default)
+	 * 										 which the request may be retried
+	 * @param  string|null  $message
+	 * @param  \Throwable|null  $previous
 	 * @param  array  $headers
 	 * 
 	 * @return void

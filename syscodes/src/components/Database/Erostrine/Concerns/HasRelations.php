@@ -31,8 +31,6 @@ use Syscodes\Components\Database\Erostrine\Relations\BelongsTo;
 
 /**
  * HasRelations.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait HasRelations
 {

@@ -26,8 +26,6 @@ use Syscodes\Components\Database\Query\Builder;
 
 /**
  * Allows show the results of a column listing query for Postgres Database.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class PostgresProcessor extends Processor
 {

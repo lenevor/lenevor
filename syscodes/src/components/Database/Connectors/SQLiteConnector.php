@@ -26,8 +26,6 @@ use InvalidArgumentException;
 
 /**
  * A PDO based SQLite Database Connector.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class SQLiteConnector extends Connector implements ConnectorInterface
 {

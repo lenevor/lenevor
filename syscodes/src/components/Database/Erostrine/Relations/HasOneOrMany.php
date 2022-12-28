@@ -28,8 +28,6 @@ use Syscodes\Components\Database\Erostrine\Collection;
 
 /**
  * Relation HasOneOrMany given on the parent model.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 abstract class HasOneOrMany extends Relation
 {
@@ -70,7 +68,9 @@ abstract class HasOneOrMany extends Relation
     }
 
     /**
-     * {@inheritdoc}
+     * Set the base constraints on the relation query.
+     * 
+     * @return void
      */
     public function addConstraints(): void
     {
@@ -84,7 +84,11 @@ abstract class HasOneOrMany extends Relation
     }
 
     /**
-     * {@inheritdoc}
+     * Set the constraints for an eager load of the relation.
+     * 
+     * @param  array  $models
+     * 
+     * @return void
      */
     public function addEagerConstraints(array $models): void
     {

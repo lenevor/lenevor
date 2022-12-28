@@ -27,8 +27,6 @@ use Syscodes\Components\Database\Query\Builder;
 /**
  * Allows make the grammar's for get results of the database
  * using the SqlServer database manager.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class SqlServerGrammar extends Grammar
 {

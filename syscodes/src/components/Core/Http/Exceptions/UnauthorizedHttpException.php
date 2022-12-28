@@ -27,8 +27,6 @@ use Throwable;
 /**
  * It is activated when it is necessary to authenticate to obtain the requested response. 
  * This is similar to 403, but in this case, authentication is possible.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class UnauthorizedHttpException extends HttpException
 {
@@ -42,9 +40,9 @@ class UnauthorizedHttpException extends HttpException
 	/**
 	 * Initialize constructor. 
 	 * 
-	 * @param  string|null  $message  (null by default) 
-	 * @param  \Throwable|null  $previous  (null by default)
-	 * @param  int  $code  (0 by default)
+	 * @param  string|null  $message 
+	 * @param  \Throwable|null  $previous
+	 * @param  int  $code
 	 * @param  array  $headers
 	 * 
 	 * @return void

@@ -27,12 +27,11 @@ use Syscodes\Components\Database\Query\Expression;
 
 /**
  * Allows make the grammar's for get results of the database.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 abstract class Grammar
 {
     use Macroable;
+
     /**
      * The grammar table prefix.
      * 

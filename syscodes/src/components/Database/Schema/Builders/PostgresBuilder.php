@@ -25,8 +25,6 @@ namespace Syscodes\Components\Database\Schema\Builders;
 /**
  * Allows you to manipulate of databases, tables and columns
  * for the PostgreSQl database.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class PostgresBuilder extends Builder
 {

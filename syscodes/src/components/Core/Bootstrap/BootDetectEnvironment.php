@@ -29,8 +29,6 @@ use Syscodes\Components\Contracts\Core\Application;
 
 /**
  * Initialize boot of a ParseEnv instance.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class BootDetectEnvironment
 {

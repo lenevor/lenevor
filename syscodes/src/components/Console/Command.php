@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Console;
 
 use LogicException;
+use Syscodes\Components\Console\Concerns\InteractsIO;
 use Syscodes\Components\Console\Command\Command as BaseCommand;
 use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
 use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
@@ -32,6 +33,8 @@ use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
  */
 class Command extends BaseCommand
 {
+    use InteractsIO;
+
     /**
      * Gets the code.
      * 

@@ -28,8 +28,6 @@ use Syscodes\Components\Database\Exceptions\ConnectionException;
 
 /**
  * The default PDO connection.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 abstract class Connector
 {

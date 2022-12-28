@@ -40,8 +40,6 @@ use Syscodes\Components\Database\Connections\SqlServerConnection;
 
 /**
  * Create a new instance based on the configuration of the database.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ConnectionFactory
 {

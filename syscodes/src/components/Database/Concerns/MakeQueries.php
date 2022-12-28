@@ -24,8 +24,6 @@ namespace Syscodes\Components\Database\Concerns;
 
 /**
  * Trait MakeQueries.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait MakeQueries
 {

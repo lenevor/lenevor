@@ -131,7 +131,12 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * {@inheritdoc}
+     * Alias a type to a diferent name.
+     * 
+     * @param  string  $id
+     * @param  string  $alias
+     * 
+     * @return void
      */
     public function alias($id, $alias): void
     {
@@ -143,7 +148,12 @@ class Container implements ArrayAccess, ContainerContract
     }
     
     /**
-     * {@inheritdoc}
+     * Bind a new callback to an id rebind event.
+     * 
+     * @param  string  $id
+     * @param  \Closure  $callback
+     * 
+     * @return mixed
      */
     public function rebinding($id, Closure $callback)
     {
@@ -153,7 +163,13 @@ class Container implements ArrayAccess, ContainerContract
     }
     
     /**
-     * {@inheritdoc}
+     * Refresh an instance on the given target and method.
+     * 
+     * @param  string  $id
+     * @param  mixed  $target
+     * @param  string  $method
+     * 
+     * @return mixed
      */
     public function refresh($id, $target, $method)
     {
@@ -163,7 +179,13 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * {@inheritdoc}
+     * Register a binding with container.
+     * 
+     * @param  string  $id
+     * @param  \Closure|string|null  $value
+     * @param  bool  $singleton
+     * 
+     * @return void
      */
     public function bind($id, $value = null, bool $singleton = false): void
     {   
@@ -209,7 +231,11 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * {@inheritdoc}
+     * Determine if the given id type has been resolved.
+     *
+     * @param  string  $id
+     * 
+     * @return bool
      */
     public function resolved($id): bool
     {
@@ -237,7 +263,12 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * {@inheritdoc}
+     * Extender an id type in the container.
+     *
+     * @param  string  $id
+     * @param  \Closure  $closure
+     * 
+     * @return mixed
      */
     public function extend($id, Closure $closure)
     {
@@ -259,7 +290,12 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * {@inheritdoc}
+     * Register a singleton binding in the container.
+     * 
+     * @param  string  $id
+     * @param  \Closure|string|null  $value
+     * 
+     * @return void
      */
     public function singleton($id, $value = null): void
     {
@@ -267,7 +303,13 @@ class Container implements ArrayAccess, ContainerContract
     }    
 
     /**
-     * {@inheritdoc}
+     * Instantiate a class instance of the given type.
+     * 
+     * @param  string  $class
+     * 
+     * @return mixed
+     * 
+     * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
      */
     public function build($class)
     {
@@ -455,7 +497,11 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * {@inheritdoc}
+     * Marks a callable as being a factory service.
+     * 
+     * @param  string  $id
+     * 
+     * @return \Closure
      */
     public function factory($id): Closure
     {
@@ -465,7 +511,11 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * {@inheritdoc}
+     * Get the alias for an id if available.
+     * 
+     * @param  string  $id
+     * 
+     * @return string
      */
     public function getAlias($id): string
     {
@@ -475,7 +525,9 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * {@inheritdoc}
+     * Return and array containing all bindings.
+     * 
+     * @return array
      */
     public function getBindings(): array
     {
@@ -495,7 +547,12 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * {@inheritdoc}
+     * Register an existing instance as singleton in the container.
+     *
+     * @param  string  $id
+     * @param  mixed  $instance
+     * 
+     * @return mixed
      */
     public function instance($id, $instance) 
     {
@@ -517,7 +574,9 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * {@inheritdoc}
+     * Return all defined value binding.
+     * 
+     * @return array
      */
     public function keys(): array
     {
@@ -525,7 +584,12 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * {@inheritdoc}
+     * An alias function name for make().
+     * 
+     * @param  string  $id
+     * @param  array  $parameters
+     * 
+     * @return mixed
      */
     public function makeAssign($id, array $parameters = [])
     {
@@ -533,7 +597,12 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * {@inheritdoc}
+     * Resolve the given type from the container.
+     * 
+     * @param  string  $id
+     * @param  array  $parameters
+     * 
+     * @return object
      */
     public function make($id, array $parameters = []) 
     {
@@ -582,7 +651,11 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * {@inheritdoc}
+     * Determine if the given id type has been bound.
+     * 
+     * @param  string  $id
+     * 
+     * @return bool
      */
     public function bound($id): bool
     {
@@ -661,7 +734,13 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * {@inheritdoc}
+     * Call the given callable / class@method and inject its dependencies.
+     * 
+     * @param  \callable|string  $callback
+     * @param  array  $parameters
+     * @param  string|null  $defaultMethod
+     * 
+     * @return mixed
      */
     public function call($callback, array $parameters = [], string $defaultMethod = null)
     {
@@ -669,7 +748,11 @@ class Container implements ArrayAccess, ContainerContract
     }
     
     /**
-     * {@inheritdoc}
+     * Remove all id traces of the specified binding.
+     * 
+     * @param  string  $id
+     * 
+     * @return void
      */
     public function remove($id): void
     {
@@ -677,7 +760,12 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * {@inheritdoc}
+     * Set the binding with given key / value.
+     * 
+     * @param  string  $id
+     * @param  string  $value
+     * 
+     * @return self
      */
     public function set($id, string $value): self
     {
@@ -691,7 +779,9 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * {@inheritdoc}
+     * Flush the container of all bindings and resolved instances.
+     * 
+     * @return void
      */
     public function flush(): void
     {

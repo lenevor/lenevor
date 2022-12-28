@@ -26,7 +26,5 @@ use RuntimeException;
 
 /**
  * LenevorException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class LenevorException extends RuntimeException {}

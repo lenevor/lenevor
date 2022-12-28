@@ -24,17 +24,15 @@ namespace Syscodes\Components\Database;
 
 /**
  * Implements the functions that allow generate a connection to database.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface ConnectionResolverInterface
 {
     /**
      * Get a Database Connection instance.
      * 
-     * @param  string  $name
+     * @param  string|null  $name
      * 
-     * @return \Syscodes\Database\Connection
+     * @return \Syscodes\Components\Database\Connections\Connection
      */
     public function connection($name = null);
 

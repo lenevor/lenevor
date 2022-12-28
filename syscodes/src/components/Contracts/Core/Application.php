@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Contracts\Core;
 
+use Closure;
 use Syscodes\Components\Contracts\Container\Container;
 
 /**
@@ -37,7 +38,7 @@ interface Application extends Container
      */
     public function version(): string;
 
-     /**
+    /**
      * Set the base path for the application.
      *
      * @param  string  $path
@@ -102,6 +103,7 @@ interface Application extends Container
      * Get the path to the resources directory.
      *
      * @param  string  $path $path  Optionally, a path to append to the resources path
+     * 
      * @return string
      */
     public function resourcePath($path = ''): string;
@@ -170,7 +172,16 @@ interface Application extends Container
      */
     public function setEnvironmentFile($file): self;
 
-     /**
+    /**
+     * Detect the application's current environment.
+     * 
+     * @param  \Closure  $callback
+     *
+     * @return string
+     */
+    public function detectEnvironment(Closure $callback);
+
+    /**
      * Determine if application is in local environment.
      * 
      * @return bool
@@ -190,6 +201,13 @@ interface Application extends Container
      * @return bool
      */
     public function isUnitTests(): bool;
+
+    /**
+     * Determine if the application is running in the console.
+     * 
+     * @return bool|null
+     */
+    public function runningInConsole();
 
     /**
      * Determine if the application has been bootstrapped before.

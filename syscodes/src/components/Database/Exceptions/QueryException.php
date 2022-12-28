@@ -28,8 +28,6 @@ use Syscodes\Components\Support\Str;
 
 /**
  * Get a query exception.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class QueryException extends PDOException
 {

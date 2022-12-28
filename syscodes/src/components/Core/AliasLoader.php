@@ -24,8 +24,6 @@ namespace Syscodes\Components\Core;
 
 /**
  * Receives all the facade classes available for be load use a services provider.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class AliasLoader
 {

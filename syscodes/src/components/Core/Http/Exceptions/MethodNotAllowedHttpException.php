@@ -27,8 +27,6 @@ use Throwable;
 /**
  * It is activated when the requested method is known by the server 
  * but it has been disabled and can not be used.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class MethodNotAllowedHttpException extends HttpException
 {	
@@ -43,9 +41,9 @@ class MethodNotAllowedHttpException extends HttpException
 	 * Initialize constructor. 
 	 * 
 	 * @param  array  $allow
-	 * @param  string|null  $message  (null by default) 
-	 * @param  \Throwable|null  $previous  (null by default)
-	 * @param  int  $code  (0 by default)
+	 * @param  string|null  $message 
+	 * @param  \Throwable|null  $previous
+	 * @param  int  $code
 	 * @param  array  $headers
 	 * 
 	 * @return void

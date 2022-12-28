@@ -32,8 +32,6 @@ use Syscodes\Components\Contracts\Console\Lenevor as LenevorContract;
 /**
  * The Lenevor class is the heart of the system when use 
  * the console of commands in framework.
- *
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Lenevor implements LenevorContract
 {
@@ -127,7 +125,9 @@ class Lenevor implements LenevorContract
     }
     
     /**
-     * {@inheritdoc}
+     * Bootstrap the application for artisan commands.
+     * 
+     * @return void
      */
     public function bootstrap(): void
     {
@@ -149,7 +149,12 @@ class Lenevor implements LenevorContract
     }
     
     /**
-     * {@inheritdoc}
+     * Shutdown the application.
+     * 
+     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
+	 * @param  int  $status
+     * 
+     * @return void
      */
     public function shutdown($input, $status): void
     {

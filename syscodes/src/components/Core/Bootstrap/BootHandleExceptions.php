@@ -26,6 +26,7 @@ use Exception;
 use Throwable;
 use ErrorException;
 use Syscodes\Components\Contracts\Core\Application;
+use Syscodes\Components\Console\Output\ConsoleOutput;
 use Syscodes\Components\Contracts\Debug\ExceptionHandler;
 use Syscodes\Components\Debug\FatalExceptions\FatalErrorException;
 use Syscodes\Components\Debug\FatalExceptions\FatalThrowableError;
@@ -33,8 +34,6 @@ use Syscodes\Components\Debug\FatalExceptions\FatalThrowableError;
 /**
  * It is an integrated exception handler that allows you to report and 
  * generate exceptions in a simple and friendly way.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class BootHandleExceptions
 {
@@ -124,7 +123,7 @@ class BootHandleExceptions
      */
     protected function renderForConsole(Throwable $e)
     {
-        $this->getExceptionHandler()->renderForConsole($e);
+        $this->getExceptionHandler()->renderForConsole(new ConsoleOutput, $e);
     }
 
     /**
@@ -181,7 +180,7 @@ class BootHandleExceptions
     /**
      * Get an instance of the exception handler.
      *
-     * @return \Syscodes\Components\Contracts\Debug\Handler
+     * @return \Syscodes\Components\Contracts\Debug\ExceptionHandler
      */
     protected function getExceptionHandler()
     {    

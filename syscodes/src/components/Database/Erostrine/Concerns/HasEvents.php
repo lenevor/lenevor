@@ -26,8 +26,6 @@ use Syscodes\Components\Contracts\Events\Dispatcher;
 
 /**
  * HasEvents.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait HasEvents
 {

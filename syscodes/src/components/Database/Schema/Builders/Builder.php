@@ -30,8 +30,6 @@ use Syscodes\Components\Database\Connections\Connection;
 
 /**
  * Creates a Erostrine schema builder.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Builder
 {

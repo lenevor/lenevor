@@ -29,8 +29,6 @@ use Syscodes\Components\Database\Erostrine\Relations\Concerns\SupportModelRelati
 
 /**
  * Relation belongTo given on the parent model.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class BelongsTo extends Relation
 {
@@ -91,7 +89,9 @@ class BelongsTo extends Relation
     }
 
     /**
-     * {@inheritdoc}
+     * Get the results of the relationship.
+     * 
+     * @return mixed
      */
     public function getResults()
     {
@@ -103,7 +103,9 @@ class BelongsTo extends Relation
     }
 
     /**
-     * {@inheritdoc}
+     * Set the base constraints on the relation query.
+     * 
+     * @return void
      */
     public function addConstraints(): void
     {
@@ -115,7 +117,11 @@ class BelongsTo extends Relation
     }
 
     /**
-     * {@inheritdoc}
+     * Set the constraints for an eager load of the relation.
+     * 
+     * @param  array  $models
+     * 
+     * @return void
      */
     public function addEagerConstraints(array $models): void
     {
@@ -147,7 +153,12 @@ class BelongsTo extends Relation
     }
 
     /**
-     * {@inheritdoc}
+     * Initialize the relation on a set of models.
+     * 
+     * @param  array  $models
+     * @param  string  $relation
+     * 
+     * @return array
      */
     public function initRelation(array $models, $relation): array
     {
@@ -159,7 +170,13 @@ class BelongsTo extends Relation
     }
     
     /**
-     * {@inheritdoc}
+     * Match the eagerly loaded results to their parents.
+     * 
+     * @param  array  $models
+     * @param  \Syscodes\Components\Database\Erostrine\Collection  $results
+     * @param  string  $relation
+     * 
+     * @return array
      */
     public function match(array $models, Collection $results, $relation): array
     {

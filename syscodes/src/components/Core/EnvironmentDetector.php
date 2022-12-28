@@ -26,8 +26,6 @@ use Closure;
 
 /**
  * Detect function anonymous for application's current environment.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 final class EnvironmentDetector
 {

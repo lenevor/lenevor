@@ -24,8 +24,6 @@ namespace Syscodes\Components\Database\Erostrine\Concerns;
 
 /**
  * Trait HidesAttributes.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait HidesAttributes
 {

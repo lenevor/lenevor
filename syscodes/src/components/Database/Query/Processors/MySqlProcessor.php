@@ -24,8 +24,6 @@ namespace Syscodes\Components\Database\Query\Processors;
 
 /**
  * Allows show the results of a column listing query for Mysql Database.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class MySqlProcessor extends Processor
 {

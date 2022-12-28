@@ -27,8 +27,6 @@ use Syscodes\Components\Database\Erostrine\Relations\Concerns\AsPivotTable;
 
 /**
  * Allows intracts with pivot table.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Pivot extends Model
 {

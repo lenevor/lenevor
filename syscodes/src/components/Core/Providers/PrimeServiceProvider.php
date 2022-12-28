@@ -25,7 +25,7 @@ namespace Syscodes\Components\Core\Providers;
 use Syscodes\Components\Support\ServiceProvider;
 
 /**
- * @author Alexander Campo <jalexcam@gmail.com>
+ * 
  */
 class PrimeServiceProvider extends ServiceProvider
 {

@@ -39,8 +39,6 @@ use Syscodes\Components\Database\Erostrine\Builder as ErostrineBuilder;
  * Lenevor database query builder provides a convenient, fluent interface 
  * to creating and running database queries. and works on all supported 
  * database systems.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Builder
 {

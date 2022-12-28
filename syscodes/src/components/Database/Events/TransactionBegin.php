@@ -24,8 +24,6 @@ namespace Syscodes\Components\Database\Events;
 
 /**
  * Transaction begin event.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class TransactionBegin extends ConnectionEvent
 {

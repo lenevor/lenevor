@@ -26,8 +26,6 @@ use PDO;
 
 /**
  * A PDO based SqlServer Database Connector.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class SqlServerConnector extends Connector implements ConnectorInterface
 {
@@ -90,5 +88,4 @@ class SqlServerConnector extends Connector implements ConnectorInterface
     {
         return PDO::getAvailableDrivers();
     }
-
 }

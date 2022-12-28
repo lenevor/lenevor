@@ -27,8 +27,6 @@ use Syscodes\Components\Http\Exceptions\PostTooLargeHttpException;
 
 /**
  * Verify the server 'post_max_size'.
- *  
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class VerifyPostSize
 {

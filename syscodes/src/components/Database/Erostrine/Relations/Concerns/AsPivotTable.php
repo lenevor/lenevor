@@ -28,8 +28,6 @@ use Syscodes\Components\Database\Erostrine\Builder;
 
 /**
  * Trait AsPivotTable.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait AsPivotTable
 {

@@ -26,8 +26,6 @@ use Syscodes\Components\Support\Facades\View;
 
 /**
  * Allows register the errors in view paths.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class RegisterErrorViewPaths
 {

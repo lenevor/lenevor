@@ -30,8 +30,6 @@ use Throwable;
  * is overloaded. These responses should be used for temporary conditions 
  * and the HTTP Retry-After header: should, if possible, contain the estimated 
  * time before the recovery of the service.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ServiceUnavailableHttpException extends HttpException
 {
@@ -46,10 +44,10 @@ class ServiceUnavailableHttpException extends HttpException
 	 * Initialize constructor. 
 	 * 
 	 * @param  int|string|null  $retryAfter  The number of seconds or HTTP-date after 
-	 * 										 which the request may be retried  (null by default)
-	 * @param  string|null $message  (null by default)
-	 * @param  \Throwable|null  $previous  (null by default)
-	 * @param  int  $code  (0 by default)
+	 * 										 which the request may be retried
+	 * @param  string|null $message
+	 * @param  \Throwable|null  $previous
+	 * @param  int  $code
 	 * @param  array  $headers
 	 * 
 	 * @return void

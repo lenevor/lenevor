@@ -25,7 +25,7 @@ namespace Syscodes\Components\Database\Schema;
 use Syscodes\Components\Support\Flowing;
 
 /**
- * @author Alexander Campo <jalexcam@gmail.com>
+ * 
  */
 class ColumnDefinition extends Flowing
 {

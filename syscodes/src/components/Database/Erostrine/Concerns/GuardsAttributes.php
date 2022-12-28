@@ -26,8 +26,6 @@ use Syscodes\Components\Support\Str;
 
 /**
  * Trait GuardsAttributes.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait GuardsAttributes
 {

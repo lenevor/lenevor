@@ -28,15 +28,15 @@ use Syscodes\Components\Database\Erostrine\Relations\Concerns\SupportModelRelati
 
 /**
  * Relation HasOne given on the parent model.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class HasOne extends HasOneOrMany
 {
     use SupportModelRelations;
     
     /**
-     * {@inheritdoc}
+     * Get the results of the relationship.
+     * 
+     * @return mixed
      */
     public function getResults()
     {
@@ -44,7 +44,12 @@ class HasOne extends HasOneOrMany
     }
     
     /**
-     * {@inheritdoc}
+     * Initialize the relation on a set of models.
+     * 
+     * @param  array  $models
+     * @param  string  $relation
+     * 
+     * @return array
      */
     public function initRelation(array $models, $relation): array
     {

@@ -69,7 +69,19 @@ class CookieManager implements CookieFactory
     protected $secure;
 
     /**
-     * {@inheritdoc}
+     * Create a new cookie instance.
+     * 
+     * @param  string  $name
+     * @param  string  $value
+     * @param  int  $minutes
+     * @param  string|null  $path
+     * @param  string|null  $domain
+     * @param  bool|null  $secure
+     * @param  bool  $httpOnly
+     * @param  bool $raw
+     * @param  string|null  $sameSite
+     * 
+     * @return \Syscodes\Components\Http\Cookie
      */
     public function make(
         string $name,
@@ -90,7 +102,18 @@ class CookieManager implements CookieFactory
     }
 
     /**
-     * {@inheritdoc}
+     * Create a cookie that lasts "forever" (five years).
+     * 
+     * @param  string  $name
+     * @param  string  $value
+     * @param  string|null  $path
+     * @param  string|null  $domain
+     * @param  bool|null  $secure
+     * @param  bool  $httpOnly
+     * @param  bool $raw
+     * @param  string|null  $sameSite
+     * 
+     * @return \Syscodes\Components\Http\Cookie
      */
     public function forever(
         string $name,
@@ -106,7 +129,13 @@ class CookieManager implements CookieFactory
     }
     
     /**
-     * {@inheritdoc}
+     * Expire the given cookie.
+     * 
+     * @param  string  $name
+     * @param  string|null  $path
+     * @param  string|null  $domain
+     * 
+     * @return \Syscodes\Components\Http\Cookie
      */
     public function erase($name, $path = null, $domain = null) 
     {
@@ -114,7 +143,12 @@ class CookieManager implements CookieFactory
     }
 
      /**
-     * {@inheritdoc}
+     * Determine if a cookie has been queued.
+     * 
+     * @param  string  $key
+     * @param  string|null  $path
+     * 
+     * @return bool
      */
     public function hasQueued(string $key, string $path = null): bool
     {
@@ -122,7 +156,13 @@ class CookieManager implements CookieFactory
     }
     
     /**
-     * {@inheritdoc}
+     * Get a queued cookie instance.
+     * 
+     * @param  string  $key
+     * @param  mixed  $default
+     * @param  string|null  $path
+     * 
+     * @return \Syscodes\Components\Http\Cookie|null
      */
     public function queued(string $key, $default = null, string $path = null)
     {
@@ -136,7 +176,11 @@ class CookieManager implements CookieFactory
     }
 
     /**
-     * {@inheritdoc}
+     * Queue a cookie to send with the next response.
+     * 
+     * @param  array  $parameters
+     * 
+     * @return void
      */
     public function queue(...$parameters): void
     {
@@ -154,7 +198,13 @@ class CookieManager implements CookieFactory
     }
     
     /**
-     * {@inheritdoc}
+     * Queue a cookie to expire with the next response.
+     * 
+     * @param  string  $name
+     * @param  string|null  $path
+     * @param  string|null  $domain
+     * 
+     * @return void
      */
     public function expire(string $name, string $path = null, string $domain = null): void
     {
@@ -162,7 +212,12 @@ class CookieManager implements CookieFactory
     }
     
     /**
-     * {@inheritdoc}
+     * Remove a cookie from the queue.
+     * 
+     * @param  string  $name
+     * @param  string|null  $path
+     * 
+     * @return void
      */
     public function unqueue(string $name, string $path = null): void
     {
@@ -195,7 +250,14 @@ class CookieManager implements CookieFactory
     }
     
     /**
-     * {@inheritdoc}
+     * Set the default path and domain for the cookie.
+     * 
+     * @param  string  $path
+     * @param  string  $domain
+     * @param  bool  $secure
+     * @param  string|null  $sameSite
+     * 
+     * @return self
      */
     public function setDefaultPathAndDomain(string $path, string $domain, bool $secure = false, string $sameSite = null): self
     {
@@ -205,7 +267,9 @@ class CookieManager implements CookieFactory
     }
     
     /**
-     * {@inheritdoc}
+     * Get the cookies which have been queued for the next request.
+     * 
+     * @return array
      */
     public function getQueuedCookies(): array
     {
@@ -213,7 +277,9 @@ class CookieManager implements CookieFactory
     }
     
     /**
-     * {@inheritdoc}
+     * Flush the cookies which have been queued for the next request.
+     * 
+     * @return self
      */
     public function flushQueuedCookies(): self
     {

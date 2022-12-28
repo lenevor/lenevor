@@ -30,8 +30,6 @@ use Syscodes\Components\Database\Concerns\CapsuleManager;
 
 /**
  * Capsules the manager database.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Manager
 {

@@ -34,8 +34,6 @@ use Syscodes\Components\Database\Connections\SQLiteConnection;
 
 /**
  * Extracts the column names to using in creating migrations.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Dataprint
 {
