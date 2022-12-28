@@ -29,8 +29,6 @@ use Syscodes\Components\Database\Schema\Dataprint;
 /**
  * Allows the compilation of sql sentences for the
  * SqlServer database.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class SqlServerGrammar extends Grammar
 {

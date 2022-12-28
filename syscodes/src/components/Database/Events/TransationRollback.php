@@ -24,8 +24,6 @@ namespace Syscodes\Components\Database\Events;
 
 /**
  * Transaction rollback event.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class TransactionRollback extends ConnectionEvent
 {

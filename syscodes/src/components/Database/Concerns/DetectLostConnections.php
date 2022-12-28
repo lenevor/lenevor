@@ -27,8 +27,6 @@ use Syscodes\Components\Support\Str;
 
 /**
  * Gets exceptions was caused by a lost connection.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait DetectLostConnections
 {

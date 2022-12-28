@@ -26,8 +26,6 @@ use PDO;
 
 /**
  * A PDO based PostgreSQL Database Connector.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class PostgresConnector extends Connector implements ConnectorInterface
 {

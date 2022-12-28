@@ -29,8 +29,6 @@ use Syscodes\Components\Database\Query\Processors\SQLiteProcessor as QueryProces
 
 /**
  * SQLite connection.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class SQLiteConnection extends Connection
 {

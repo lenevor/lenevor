@@ -27,13 +27,18 @@ use Throwable;
 
 /**
  * Gets transactions.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait ManagesTransactions
 {
     /**
-     * {@inheritdoc}
+     * /**
+     * Execute a Closure within a transaction.
+     * 
+     * @param  \Closure  $callback
+     * 
+     * @return mixed
+     * 
+     * @throws \Throwable
      */
     public function transaction(Closure $callback)
     {
@@ -53,7 +58,9 @@ trait ManagesTransactions
     }
 
     /**
-     * {@inheritdoc}
+     * Start a new database transaction.
+     * 
+     * @return void
      */
     public function beginTransaction(): void
     {
@@ -65,7 +72,9 @@ trait ManagesTransactions
     }
 
     /**
-     * {@inheritdoc}
+     * Commit the active database transaction.
+     * 
+     * @return void
      */
     public function commit(): void
     {
@@ -75,7 +84,9 @@ trait ManagesTransactions
     }
 
     /**
-     * {@inheritdoc}
+     * Rollback the active database transaction.
+     * 
+     * @return void
      */
     public function rollback()
     {
@@ -89,7 +100,9 @@ trait ManagesTransactions
     }
 
     /**
-     * {@inheritdoc}
+     * Get the number of active transactions.
+     * 
+     * @return int
      */
     public function transactionLevel(): int
     {

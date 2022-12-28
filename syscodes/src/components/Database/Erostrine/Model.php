@@ -39,8 +39,6 @@ use Syscodes\Components\Database\Erostrine\Exceptions\MassAssignmentException;
 
 /**
  * Creates a ORM model instance.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Model implements Arrayable, ArrayAccess
 {

@@ -29,8 +29,6 @@ use Syscodes\Components\Database\Query\Processors\MySqlProcessor as QueryProcess
 
 /**
  * Mysql connection.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class MySqlConnection extends Connection
 {

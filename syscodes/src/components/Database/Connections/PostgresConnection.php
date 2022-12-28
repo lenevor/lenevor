@@ -29,8 +29,6 @@ use Syscodes\Components\Database\Query\Processors\PostgresProcessor as QueryProc
 
 /**
  * Postgres connection.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class PostgresConnection extends Connection
 {

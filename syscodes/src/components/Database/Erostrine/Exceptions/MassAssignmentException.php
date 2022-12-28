@@ -26,7 +26,5 @@ use RuntimeException;
 
 /**
  * MassAssignmentException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class MassAssignmentException extends RuntimeException {}

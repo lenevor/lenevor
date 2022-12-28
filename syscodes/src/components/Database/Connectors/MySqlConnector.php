@@ -26,8 +26,6 @@ use PDO;
 
 /**
  * A PDO based MySQL Database Connector.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class MySqlConnector extends Connector implements ConnectorInterface
 {

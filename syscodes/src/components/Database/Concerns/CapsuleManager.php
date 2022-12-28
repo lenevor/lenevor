@@ -27,8 +27,6 @@ use Syscodes\Components\Contracts\Container\Container;
 
 /**
  * Trait CapsuleManager.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait CapsuleManager
 {

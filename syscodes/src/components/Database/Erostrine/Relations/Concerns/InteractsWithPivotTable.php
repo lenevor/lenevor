@@ -24,12 +24,10 @@ namespace Syscodes\Components\Database\Erostrine\Relations\Concerns;
 
 use Syscodes\Components\Database\Erostrine\Model;
 use Syscodes\Components\Database\Erostrine\Collection;
-use Syscodes\Components\Collections\Collection as BaseCollection;
+use Syscodes\Components\Support\Collection as BaseCollection;
 
 /**
  * Trait InteractsWithPivotTable.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait InteractsWithPivotTable
 {

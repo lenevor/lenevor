@@ -48,8 +48,6 @@ use Syscodes\Components\Database\Schema\Grammars\Grammar as SchemaGrammar;
 
 /**
  * Creates a database connection using PDO.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Connection implements ConnectionInterface
 {

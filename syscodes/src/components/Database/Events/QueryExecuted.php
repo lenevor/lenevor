@@ -24,8 +24,6 @@ namespace Syscodes\Components\Database\Events;
 
 /**
  * Query executed event.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class QueryExecuted
 {

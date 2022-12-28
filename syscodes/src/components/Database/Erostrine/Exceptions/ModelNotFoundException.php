@@ -26,8 +26,6 @@ use Syscodes\Components\Core\Http\Exceptions\LenevorException;
 
 /**
  * ModelNotFoundException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ModelNotFoundException extends LenevorException
 {

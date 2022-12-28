@@ -28,8 +28,6 @@ use Syscodes\Components\Database\Grammar as BaseGrammar;
 
 /**
  * Allows make the grammar's for get results of the database.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Grammar extends BaseGrammar
 {

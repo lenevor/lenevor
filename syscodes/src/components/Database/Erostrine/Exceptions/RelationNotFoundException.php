@@ -26,8 +26,6 @@ use RuntimeException;
 
 /**
  * RelationNotFoundException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class RelationNotFoundException extends RuntimeException
 {

@@ -26,13 +26,13 @@ use Syscodes\Components\Database\Erostrine\Collection;
 
 /**
  * Relation HasMany given on the parent model.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class HasMany extends HasOneOrMany
 {
     /**
-     * {@inheritdoc}
+     * Get the results of the relationship.
+     * 
+     * @return mixed
      */
     public function getResults()
     {
@@ -42,7 +42,12 @@ class HasMany extends HasOneOrMany
     }
     
     /**
-     * {@inheritdoc}
+     * Initialize the relation on a set of models.
+     * 
+     * @param  array  $models
+     * @param  string  $relation
+     * 
+     * @return array
      */
     public function initRelation(array $models, $relation): array
     {

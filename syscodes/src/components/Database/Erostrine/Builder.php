@@ -36,8 +36,6 @@ use Syscodes\Components\Database\Erostrine\Exceptions\RelationNotFoundException;
 
 /**
  * Creates a Erostrine query builder.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Builder
 {

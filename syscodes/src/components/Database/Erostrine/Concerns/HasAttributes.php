@@ -28,8 +28,6 @@ use Syscodes\Components\Database\Erostrine\Relations\Relation;
 
 /**
  * Trait HasAttributes.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait HasAttributes
 {

@@ -29,8 +29,6 @@ use Syscodes\Components\Database\Schema\Dataprint;
 /**
  * Allows the compilation of sql sentences for the
  * SQLite database.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class SQLiteGrammar extends Grammar
 {

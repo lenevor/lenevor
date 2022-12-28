@@ -28,8 +28,6 @@ use Syscodes\Components\Support\Collection as BaseCollection;
 
 /**
  * Generate a collection for to exposes registers database.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Collection extends BaseCollection
 {

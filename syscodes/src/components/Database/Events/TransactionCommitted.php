@@ -24,8 +24,6 @@ namespace Syscodes\Components\Database\Events;
 
 /**
  * Transaction commit event.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class TransactionCommitted extends ConnectionEvent
 {

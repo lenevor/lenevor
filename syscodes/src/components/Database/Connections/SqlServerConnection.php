@@ -29,8 +29,6 @@ use Syscodes\Components\Database\Query\Processors\SqlServerProcessor as QueryPro
 
 /**
  * SqlServer connection.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class SqlServerConnection extends Connection
 {

@@ -24,8 +24,6 @@ namespace Syscodes\Components\Database\Query;
 
 /**
  * Get values for query sql.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Expression
 {

@@ -24,8 +24,6 @@ namespace Syscodes\Components\Database\Connectors;
 
 /**
  * Allows establish a database connection.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface ConnectorInterface
 {

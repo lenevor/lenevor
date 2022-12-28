@@ -27,8 +27,6 @@ use Syscodes\Components\Database\Query\Builder;
 /**
  * Allows make the grammar's for get results of the database
  * using the SQLite database manager.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class SQLiteGrammar extends Grammar
 {

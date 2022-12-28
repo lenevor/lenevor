@@ -31,8 +31,6 @@ use Syscodes\Components\Database\Erostrine\Collection;
 
 /**
  * This class allows the relations between tables.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 abstract class Relation
 {

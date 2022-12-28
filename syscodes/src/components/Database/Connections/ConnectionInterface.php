@@ -26,8 +26,6 @@ use Closure;
 
 /**
  * Allows establish a query for return results in connection with database.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface ConnectionInterface
 {

@@ -27,8 +27,6 @@ use Syscodes\Components\Support\Facades\File;
 /**
  * Allows you to manipulate of databases, tables and columns
  * for the SQLite database.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class SQLiteBuilder extends Builder
 {

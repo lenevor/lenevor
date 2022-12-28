@@ -26,8 +26,6 @@ use Syscodes\Components\Database\Erostrine\Model;
 
 /**
  * Trait SupportModelRelations.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait SupportModelRelations
 {

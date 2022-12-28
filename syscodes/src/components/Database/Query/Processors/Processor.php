@@ -26,8 +26,6 @@ use Syscodes\Components\Database\Query\Builder;
 
 /**
  * Allows identify the ID field and results of SELECT query in a table.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Processor
 {

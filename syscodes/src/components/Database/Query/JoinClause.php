@@ -24,8 +24,6 @@ namespace Syscodes\Components\Database\Query;
 
 /**
  * Allows get the clause for add a join of atrributes in query sql.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class JoinClause
 {
