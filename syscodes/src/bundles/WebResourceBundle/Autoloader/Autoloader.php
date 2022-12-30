@@ -25,11 +25,9 @@ namespace Syscodes\Bundles\WebResourceBundle\Autoloader;
 use InvalidArgumentException;
 
 /**
- * Lenevor Autoloader
+ * Lenevor Autoloader.
  *
  * An autoloader that uses both PSR4 autoloading, array of files, and traditional classmaps.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Autoloader 
 {

@@ -23,12 +23,10 @@
 namespace Syscodes\Bundles\WebResourceBundle\Autoloader;
 
 /**
- * Auto-loader Config
+ * Auto-loader Config.
  *
  * This file defines the namespaces and class maps so the Autoloader
  * can find the files as needed.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class AutoloadConfig 
 {

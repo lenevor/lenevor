@@ -31,8 +31,6 @@ use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * A console command to display information about of system.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class AboutCommand extends Command
 {
@@ -62,7 +60,7 @@ class AboutCommand extends Command
      * Executes the current command.
      * 
      * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
-     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $input
+     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $output
      * 
      * @return int|mixed
      * 
