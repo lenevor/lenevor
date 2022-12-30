@@ -26,8 +26,6 @@ use Serializable;
 
 /**
  * Returns the content of an exception through a trace.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Frame implements Serializable
 {

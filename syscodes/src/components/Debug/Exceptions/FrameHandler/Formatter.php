@@ -27,8 +27,6 @@ use Syscodes\Components\Debug\Util\TemplateHandler;
 /**
  * Returns all basic information about the exception in a simple array and
  * in a plain text.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Formatter
 {

@@ -28,8 +28,6 @@ use Syscodes\Components\Debug\Util\Misc;
 
 /**
  * Loads the frames to identify a possible exception.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Supervisor
 {

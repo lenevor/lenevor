@@ -23,14 +23,11 @@
 namespace Syscodes\Components\Debug;
 
 use Exception;
-use Throwable;
 use Syscodes\Components\Debug\FatalExceptions\FlattenException;
 use Syscodes\Components\Debug\FatalExceptions\OutOfMemoryException;
 
 /**
  * A generic ErrorHandler for the PHP engine.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ExceptionHandler
 {
@@ -65,7 +62,7 @@ class ExceptionHandler
     /**
      * Gets the file link format.
      * 
-     * @var string $fileLinkFormat
+     * @var string|object $fileLinkFormat
      */
     protected $fileLinkFormat;
 
@@ -99,7 +96,7 @@ class ExceptionHandler
      * 
      * @param  bool  $debug
      * @param  string|null  $charset
-     * @param  string|null  $fileLinkformat
+     * @param  string|object|null  $fileLinkformat
      * 
      * @return void
      */

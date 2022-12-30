@@ -27,8 +27,6 @@ use Syscodes\Components\Debug\Benchmark;
 
 /**
  * Exposes useful tools for working with/in templates.
- * 
- * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class TemplateHandler
 {

@@ -27,8 +27,6 @@ use Syscodes\Components\Debug\FrameHandler\Supervisor;
 
 /**
  * Abstract implementation of a Handler.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class MainHandler
 { 

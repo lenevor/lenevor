@@ -29,8 +29,6 @@ use ErrorException;
 
 /**
  * Fatal Throwable Error.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class FatalThrowableError extends FatalErrorException
 {

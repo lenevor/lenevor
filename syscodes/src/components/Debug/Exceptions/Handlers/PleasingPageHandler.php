@@ -36,8 +36,6 @@ use Syscodes\Components\Debug\FrameHandler\Formatter;
 
 /**
  * Generates exceptions in mode of graphic interface.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class PleasingPageHandler extends MainHandler
 {

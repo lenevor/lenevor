@@ -26,8 +26,6 @@ use Syscodes\Components\Contracts\Debug\Table;
 
 /**
  * Gets an associated label with its respective data array.
- * 
- * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class ArrayTable implements Table
 {
@@ -55,7 +53,9 @@ class ArrayTable implements Table
     }
 
     /**
-     * {@inheritdoc}
+     * Returns data as associative array.
+     * 
+     * @return array
      */
     public function getData(): array
     {
