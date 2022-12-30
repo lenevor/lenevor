@@ -30,8 +30,6 @@ use Syscodes\Components\Contracts\Events\Dispatcher as DispatcherContract;
 
 /**
  * Dispatches events to registered listeners.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Dispatcher implements DispatcherContract
 {
