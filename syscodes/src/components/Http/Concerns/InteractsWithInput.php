@@ -27,8 +27,6 @@ use Syscodes\Components\Support\Str;
 
 /**
  * Trait InteractsWithInput.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait InteractsWithInput
 {

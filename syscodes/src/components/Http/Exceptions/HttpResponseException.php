@@ -26,25 +26,23 @@ use RuntimeException;
 use Syscodes\Components\Http\Response;
 
 /**
- *This class is responsible for calling the Response class to be loaded 
+ * This class is responsible for calling the Response class to be loaded 
  * in an exception depending on the error message provided by the user 
- * or the system. 
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
+ * or the system.
  */
 class HttpResponseException extends RuntimeException
 {
     /**
      * Gets the response instance.
      * 
-     * @var \Syscodes\Http\Response $response
+     * @var \Syscodes\Components\Http\Response $response
      */
     protected $response;
 
     /**
      * Constructor. The HttpResponseException class instance.
      * 
-     * @param  \Syscodes\Http\Response  $response
+     * @param  \Syscodes\Components\Http\Response  $response
      * 
      * @return void
      */
@@ -56,7 +54,7 @@ class HttpResponseException extends RuntimeException
     /**
      * Get the response instance.
      * 
-     * @return \Syscodes\Http\Response;
+     * @return \Syscodes\Components\Http\Response;
      */
     public function getResponse()
     {

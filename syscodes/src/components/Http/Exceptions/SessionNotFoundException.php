@@ -27,8 +27,6 @@ use LogicException;
 
 /**
  * SessionNotFoundException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class SessionNotFoundException extends LogicException
 {

@@ -24,8 +24,6 @@ namespace Syscodes\Components\Http\Request;
 
 /**
  * Allows to use static methods referring normalized HTTP requests.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class RequestUtils
 {

@@ -26,9 +26,7 @@ use BadMethodCallException;
 use InvalidArgumentException;
 
 /**
- * This trait is responsible for loading the different HTTP status codes existing. 
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
+ * This trait is responsible for loading the different HTTP status codes existing.
  */
 trait HttpStatusCode
 {

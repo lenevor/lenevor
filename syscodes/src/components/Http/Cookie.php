@@ -28,8 +28,6 @@ use Syscodes\Components\Http\Concerns\BuildCookieHeader;
 
 /**
  * Represents and execute a cookie.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Cookie
 {

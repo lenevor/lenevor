@@ -27,13 +27,15 @@ use Syscodes\Components\Core\Http\Exceptions\BadRequestHttpException;
 /**
  * Inputs is a container for user input values such as 
  * $_GET, $_POST, $_REQUEST, and $_COOKIE.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 final class Inputs extends Parameters
 {
 	/**
-	 * {@inheritdoc}
+	 * Returns the parameters.
+	 * 
+	 * @param  string|null  $key
+	 * 
+	 * @return array
 	 */
 	public function all(string $key = null): array
 	{
@@ -41,7 +43,11 @@ final class Inputs extends Parameters
 	}
 	
 	/**
-	 * {@inheritdoc}
+	 * Replaces the current parameters.
+	 * 
+	 * @param  array  $parameters
+	 * 
+	 * @return array
 	 */
 	public function replace(array $inputs = [])
 	{
@@ -50,7 +56,11 @@ final class Inputs extends Parameters
 	}
 	
 	/**
-	 * {@inheritdoc}
+	 * Adds parameters.
+	 * 
+	 * @param  array  $parameters
+	 * 
+	 * @return array
 	 */
 	public function add(array $inputs = [])
 	{

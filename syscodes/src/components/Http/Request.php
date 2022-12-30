@@ -45,8 +45,6 @@ use Syscodes\Components\Http\Exceptions\SessionNotFoundException;
 
 /**
  * Request represents an HTTP request.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Request
 {

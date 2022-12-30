@@ -28,8 +28,6 @@ use Syscodes\Components\Http\Utilities\Headers;
 
 /**
  * ResponseHeaders is a container for Response HTTP headers.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ResponseHeaders extends Headers
 {
@@ -103,7 +101,11 @@ class ResponseHeaders extends Headers
 	}
 	
 	/**
-	 * {@inheritdoc}
+	 * Returns all the headers.
+	 * 
+	 * @param  string|null  $key  The name of the headers
+	 * 
+	 * @return array
 	 */
 	public function all(string $key = null): array
 	{
@@ -123,7 +125,11 @@ class ResponseHeaders extends Headers
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Replaces the current HTTP headers by a new set.
+	 * 
+	 * @param  array  $headers
+	 * 
+	 * @return void
 	 */
 	public function replace(array $headers = []): void
 	{
@@ -141,7 +147,14 @@ class ResponseHeaders extends Headers
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Sets a header by name.
+	 * 
+	 * @param  string  $key  The header name
+	 * @param  string|string[]|null  $values  The value or an array of values
+	 * @param  bool  $replace  If you want to replace the value exists by the header, 
+	 * 					       it is not overwritten / overwritten when it is false
+	 *
+	 * @return void
 	 */
 	public function set(string $key, $values, bool $replace = true): void
 	{
