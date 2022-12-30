@@ -24,8 +24,6 @@ namespace Syscodes\Bundles\WebResourceBundle\Autoloader;
 
 /**
  * Autoload.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 final class Autoload extends AutoloadConfig
 {
