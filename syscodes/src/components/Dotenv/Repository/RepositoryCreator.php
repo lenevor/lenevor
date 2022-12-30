@@ -33,8 +33,6 @@ use Syscodes\Components\Dotenv\Repository\Adapters\ServerAdapter;
 
 /**
  * Allows you to bring all the adapters.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 final class RepositoryCreator
 {

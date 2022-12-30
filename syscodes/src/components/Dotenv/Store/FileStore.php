@@ -27,8 +27,6 @@ use Syscodes\Components\Dotenv\Store\Contributors\Reader;
 
 /**
  * Reads the content of the environments files.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 final class FileStore
 {

@@ -26,8 +26,6 @@ use Syscodes\Components\Contracts\Dotenv\Reader;
 
 /**
  * Reads an environment variable.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 final class Readers implements Reader
 {

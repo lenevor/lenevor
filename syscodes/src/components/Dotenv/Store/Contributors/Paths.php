@@ -24,8 +24,6 @@ namespace Syscodes\Components\Dotenv\Store\Contributors;
 
 /**
  * Gets the file path .env
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 final class Paths
 {

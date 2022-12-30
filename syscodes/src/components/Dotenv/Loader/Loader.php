@@ -26,8 +26,6 @@ use InvalidArgumentException;
 
 /**
  * Allows will load the .env file and process it.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 final class Loader
 {
@@ -132,7 +130,7 @@ final class Loader
     }
 
     /**
-     * Strips quotes and the optional leading "export " from the environment variable name.
+     * Strips quotes and the optional leading "export" from the environment variable name.
      * 
      * @param  string  $name
      * 

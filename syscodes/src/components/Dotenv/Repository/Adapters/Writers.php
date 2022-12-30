@@ -26,8 +26,6 @@ use Syscodes\Components\Contracts\Dotenv\Writer;
 
 /**
  * Write and delete an environment variable.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 final class Writers implements Writer
 {

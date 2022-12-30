@@ -27,8 +27,6 @@ use Syscodes\Components\Dotenv\Store\StoreBuilder;
 
 /**
  * Manages .env files.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 final class Dotenv
 {

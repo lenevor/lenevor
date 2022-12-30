@@ -28,8 +28,6 @@ use Syscodes\Components\Contracts\Dotenv\Repository;
 
 /**
  * Gets to all the adapters.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 final class AdapterRepository implements Repository
 {
@@ -62,15 +60,24 @@ final class AdapterRepository implements Repository
     }
 
     /**
-     * {@inheritdoc}
+     * Get an environment variable.
+     * 
+     * @param  string  $name
+     * 
+     * @return mixed
      */
     public function get(string $name)
     {
         return $this->reader->read($name);
     }
 
-     /**
-     * {@inheritdoc}
+    /**
+     * Set an environment variable.
+     * 
+     * @param  string  $name
+     * @param  string  $value
+     * 
+     * @return bool
      */
     public function set(string $name, string $value): bool
     {
@@ -78,7 +85,11 @@ final class AdapterRepository implements Repository
     }
 
     /**
-     * {@inheritdoc}
+     * Clear an environment variable.
+     * 
+     * @param  string  $name
+     * 
+     * @return bool
      */
     public function clear(string $name): bool
     {

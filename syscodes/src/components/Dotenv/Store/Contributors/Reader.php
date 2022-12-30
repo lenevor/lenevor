@@ -26,8 +26,6 @@ use InvalidArgumentException;
 
 /**
  * Allows the read files and converting string in array.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 final class Reader
 {
