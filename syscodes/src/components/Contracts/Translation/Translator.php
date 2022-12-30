@@ -76,7 +76,7 @@ interface Translator
      */
     public function setLocale(string $locale): void;
 
-     /**
+    /**
      * Get the fallback locale being used.
      * 
      * @return string
