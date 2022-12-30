@@ -31,8 +31,6 @@ use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * Console application.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Application extends BaseApplication
 {
@@ -81,7 +79,12 @@ class Application extends BaseApplication
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Runs the current command discovered on the CLI.
+     * 
+     * @param  \Syscodes\Components\Contracts\Console\Input\Input|null  $input  The input interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Output\Output|null  $output  The output interface implemented
+     * 
+     * @return int
 	 */
 	public function run(InputInterface $input = null, OutputInterface $output = null)
 	{
@@ -104,7 +107,9 @@ class Application extends BaseApplication
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Returns the version of the console.
+     *
+     * @return string
 	 */
 	public function getConsoleVersion(): string
 	{
