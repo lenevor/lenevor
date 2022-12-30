@@ -24,8 +24,6 @@ namespace Syscodes\Components\Filesystem\Exceptions;
 
 /**
  * FileNotFoundException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class FileNotFoundException extends FileException
 {

@@ -24,8 +24,6 @@ namespace Syscodes\Components\Filesystem\Exceptions;
 
 /**
  * UnexpectedTypeException.
- * 
- * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class UnexpectedTypeException extends FileException
 {
