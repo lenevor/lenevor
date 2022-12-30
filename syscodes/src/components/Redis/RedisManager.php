@@ -27,8 +27,6 @@ use Syscodes\Components\Support\Arr;
 
 /**
  * Redis cache handler.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class RedisManager
 {
