@@ -31,8 +31,6 @@ use Syscodes\Components\Contracts\Pipeline\Pipeline as PipelineContract;
 /**
  * Allows sending an object through several classes to perform any type 
  * of task and finally return the resulting value.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Pipeline implements PipelineContract
 {
@@ -77,7 +75,11 @@ class Pipeline implements PipelineContract
     }
 
     /**
-     * {@inheritdoc}
+     * Set the given object being sent on the pipeline.
+     * 
+     * @param  mixed  $sender
+     * 
+     * @return self
      */
     public function send($sender): self
     {
@@ -87,7 +89,11 @@ class Pipeline implements PipelineContract
     }
 
     /**
-     * {@inheritdoc}
+     * Set the array of pipes.
+     * 
+     * @param  array|mixed  $pipes
+     * 
+     * @return self
      */
     public function through($pipes): self
     {
@@ -97,7 +103,11 @@ class Pipeline implements PipelineContract
     }
 
     /**
-     * {@inheritdoc}
+     * Set the method to call on the stops.
+     * 
+     * @param  string  $method
+     * 
+     * @return self
      */
     public function method($method): self
     {
@@ -107,7 +117,11 @@ class Pipeline implements PipelineContract
     }
 
     /**
-     * {@inheritdoc}
+     * Run the pipeline with a final destination callback.
+     * 
+     * @param  \Closure  $destination
+     * 
+     * @return mixed
      */
     public function then(Closure $destination)
     {
