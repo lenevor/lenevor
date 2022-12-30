@@ -26,7 +26,5 @@ use RuntimeException;
 
 /**
  * DecryptException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class DecryptException extends RuntimeException {}

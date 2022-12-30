@@ -28,8 +28,6 @@ use Syscodes\Components\Support\ServiceProvider;
 
 /**
  * For loading the encrypter class from the container of services.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class EncryptionServiceProvider extends ServiceProvider
 {
