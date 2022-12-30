@@ -26,8 +26,6 @@ use Syscodes\Components\Core\Http\Exceptions\LenevorException;
 
 /**
  * HttpURIException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class HttpURIException extends LenevorException 
 {

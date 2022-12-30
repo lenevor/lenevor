@@ -26,8 +26,6 @@ use Throwable;
 
 /**
  * Handler outputing plaintext error messages.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class PlainTextHandler extends MainHandler
 {

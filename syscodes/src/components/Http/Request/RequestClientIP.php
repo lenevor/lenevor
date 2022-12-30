@@ -26,8 +26,6 @@ namespace Syscodes\Components\Http\Request;
  * This is a lightweight class for detecting client IP address:
  * - It uses specific HTTP headers to detect the real/original.
  * - Also, client IP address not final proxy IP.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class RequestClientIP
 {

@@ -29,8 +29,6 @@ use BadMethodCallException;
 
 /**
  * Trait Macroable.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait Macroable
 {

@@ -31,8 +31,6 @@ use Syscodes\Components\Http\Response\ResponseHeaders;
 
 /**
  * Response represents an HTTP response.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Response
 {

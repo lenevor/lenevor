@@ -30,8 +30,6 @@ use Syscodes\Components\Contracts\Support\Arrayable;
 
 /**
  * Response represents an HTTP response in JSON format.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class JsonResponse extends Response
 {

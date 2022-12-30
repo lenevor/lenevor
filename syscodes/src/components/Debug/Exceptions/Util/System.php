@@ -24,8 +24,6 @@ namespace Syscodes\Components\Debug\Util;
 
 /**
  * Activates the loading of PHP functions to capture user-generated exceptions.
- * 
- * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class System 
 {

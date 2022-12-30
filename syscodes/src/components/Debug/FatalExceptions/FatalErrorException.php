@@ -28,8 +28,6 @@ use ReflectionProperty;
 
 /**
  * Fatal Error Exception.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class FatalErrorException extends ErrorException
 {
@@ -58,8 +56,7 @@ class FatalErrorException extends ErrorException
         bool      $traceArgs = true,
         array     $trace = [],
         Throwable $previous = null
-    )
-    {
+    ) {
         parent::__construct($message, $code, $severity, $filename, $lineno, $previous);
 
         if (null !== $trace) {

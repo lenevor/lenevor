@@ -24,8 +24,6 @@ namespace Syscodes\Components\Http\Utilities;
 
 /**
  * Loads the server request.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Server extends Parameters
 {

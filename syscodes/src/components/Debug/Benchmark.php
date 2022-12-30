@@ -27,8 +27,6 @@ use Syscodes\Components\Core\Http\Exceptions\LenevorException;
 /**
  * Provides a simple way to measure the amount of time
  * that elapses between two points.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Benchmark 
 {

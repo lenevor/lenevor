@@ -29,8 +29,6 @@ use IteratorAggregate;
 
 /**
  * Headers class is a container for HTTP headers.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Headers implements IteratorAggregate, Countable
 {

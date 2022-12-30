@@ -24,8 +24,6 @@ namespace Syscodes\Components\Http\Resources;
 
 /**
  * Returns the HTTP requests is filtered and detected in the routes set by the user.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait HttpResources
 {

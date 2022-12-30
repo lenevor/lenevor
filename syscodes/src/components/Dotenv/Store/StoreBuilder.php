@@ -26,8 +26,6 @@ use Syscodes\Components\Dotenv\Store\Contributors\Paths;
 
 /**
  * Create a store builder for environment files.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 final class StoreBuilder
 {

@@ -27,13 +27,13 @@ use Syscodes\Components\Contracts\Dotenv\Adapter;
 /**
  * Read, write and delete an environment variable for 
  * process of global.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class GlobalAdapter implements Adapter
 {
     /**
-     * {@inheritdoc}
+     * Determines if the adapter is supported.
+     * 
+     * @return bool
      */
     public function isSupported(): bool
     {
@@ -41,7 +41,11 @@ class GlobalAdapter implements Adapter
     }
 
     /**
-     * {@inheritdoc}
+     * Check if a variable exists.
+     * 
+     * @param  string  $name
+     * 
+     * @return bool
      */
     public function has(string $name): bool
     {
@@ -51,7 +55,11 @@ class GlobalAdapter implements Adapter
     }
 
     /**
-     * {@inheritdoc}
+     * Read an environment variable.
+     * 
+     * @param  string  $name
+     * 
+     * @return mixed
      */
     public function read(string $name)
     {
@@ -64,8 +72,13 @@ class GlobalAdapter implements Adapter
         return null;
     }
 
-     /**
-     * {@inheritdoc}
+    /**
+     * Write to an environment variable.
+     * 
+     * @param  string  $name
+     * @param  string  $value
+     * 
+     * @return bool
      */
     public function write(string $name, string $value): bool
     {

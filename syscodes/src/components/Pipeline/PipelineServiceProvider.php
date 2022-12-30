@@ -27,8 +27,6 @@ use Syscodes\Components\Contracts\Pipeline\Pipeline as PipelineContract;
 
 /**
  * For loading the classes from the container of services.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class PipelineServiceProvider extends ServiceProvider
 {

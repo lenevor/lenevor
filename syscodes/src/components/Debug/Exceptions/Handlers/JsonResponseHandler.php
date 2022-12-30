@@ -26,8 +26,6 @@ use Syscodes\Components\Debug\FrameHandler\Formatter;
 
 /**
  * Catches an exception and converts it to a JSON response.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class JsonResponseHandler extends MainHandler
 {

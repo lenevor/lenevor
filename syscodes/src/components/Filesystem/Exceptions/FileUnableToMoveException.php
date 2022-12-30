@@ -24,8 +24,6 @@ namespace Syscodes\Components\Filesystem\Exceptions;
 
 /**
  * FileUnableToMoveException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class FileUnableToMoveException extends FileException
 {

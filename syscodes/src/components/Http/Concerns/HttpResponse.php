@@ -27,8 +27,6 @@ use Syscodes\Components\Http\Exceptions\HttpResponseException;
 
 /**
  * Loads the response trait of headers, status code and content message.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait HttpResponse
 {

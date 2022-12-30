@@ -28,8 +28,6 @@ use InvalidArgumentException;
  * Wrapper for Closures passed as handlers. Can be used directly, 
  * or will be instantiated automagically by Debug\GDebug if passed 
  * to GDebug::pushHandler.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class CallbackHandler extends MainHandler
 {

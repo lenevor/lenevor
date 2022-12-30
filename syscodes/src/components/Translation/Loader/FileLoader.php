@@ -28,9 +28,7 @@ use Syscodes\Components\Contracts\Translation\Loader as LoaderContract;
 
 /**
  * Automatically loads the messages according to the type of 
- * file in php format. 
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
+ * file in php format.
  */
 class FileLoader implements LoaderContract
 {

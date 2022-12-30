@@ -24,13 +24,15 @@ namespace Syscodes\Components\Hashing\Drivers;
 
 /**
  * Allows get the information and verifiy of the given hashed value.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 abstract class AbstractHasher
 {
     /**
-     * {@inheritdoc}
+     * Get information about the given hashed value.
+     * 
+     * @param  string  $hashedValue
+     * 
+     * @return array
      */
     public function info($hashedValue): array
     {
@@ -38,7 +40,13 @@ abstract class AbstractHasher
     }
 
     /**
-     * {@inheritdoc}
+     * Check the given plain value against a hash.
+     * 
+     * @param  string  $value
+     * @param  string  $hashedValue
+     * @param  array   $options
+     * 
+     * @return bool
      */
     public function check($value, $hashedValue, array $options = []): bool
     {

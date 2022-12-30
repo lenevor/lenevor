@@ -24,8 +24,6 @@ namespace Syscodes\Components\Debug\Util;
 
 /**
  * Determines the error level in an exception.
- * 
- * @author Javier Alexander Campo M. <jalexcam@gmail.com> 
  */
 class Misc
 {

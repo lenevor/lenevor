@@ -28,8 +28,6 @@ use Syscodes\Components\Translation\Loader\FileLoader;
 
 /**
  * For loading the classes from the container of services.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class TranslationServiceProvider extends ServiceProvider implements Deferrable
 {

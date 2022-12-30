@@ -29,8 +29,6 @@ use Syscodes\Components\Core\Http\Exceptions\HttpException;
 /**
  * FlattenException wraps a PHP Error or Exception to be able to serialize it.
  * Basically, this class removes all objects from the trace.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class FlattenException
 {

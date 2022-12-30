@@ -26,7 +26,5 @@ use Syscodes\Components\Core\Http\Exceptions\LenevorException;
 
 /**
  * RequestErrorException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class RequestErrorException extends LenevorException {}

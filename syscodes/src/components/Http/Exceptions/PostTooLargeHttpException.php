@@ -28,8 +28,6 @@ use Syscodes\Components\Core\Http\Exceptions\HttpException;
 /**
  * The request entity returns when it is longer than the limits 
  * defined by the server.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class PostTooLargeHttpException extends HttpException
 {

@@ -24,8 +24,6 @@ namespace Syscodes\Components\Http\Session;
 
 /**
  * Interface for the session.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface SessionInterface
 {
@@ -80,7 +78,6 @@ interface SessionInterface
      * session attributes.
      * 
      * @param  bool  $destroy  Whether to delete the old session or leave it to garbage collection
-     * @param  int  $lifetime  Sets the cookie lifetime for the session cookie
      * 
      * @return bool
      */

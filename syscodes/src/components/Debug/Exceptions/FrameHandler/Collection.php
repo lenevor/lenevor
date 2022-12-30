@@ -32,8 +32,6 @@ use IteratorAggregate;
 /**
  * Exposes a fluent interface for dealing with an ordered list
  * of stack-trace frames.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Collection implements ArrayAccess, IteratorAggregate, Countable
 {

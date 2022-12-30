@@ -24,7 +24,5 @@ namespace Syscodes\Components\Debug\FatalExceptions;
 
 /**
  * OutOfMemoryException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class OutOfMemoryException extends FatalErrorException {}

@@ -31,8 +31,6 @@ use Syscodes\Components\Http\Exceptions\BadRequestException;
 
 /**
  * Parameters is a container for key/value pairs.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Parameters implements IteratorAggregate, Countable
 {

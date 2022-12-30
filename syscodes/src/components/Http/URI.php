@@ -27,8 +27,6 @@ use Syscodes\Components\Http\Exceptions\HttpURIException;
 
 /**
  * Abstraction for a uniform resource identifier (URI).
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class URI
 {

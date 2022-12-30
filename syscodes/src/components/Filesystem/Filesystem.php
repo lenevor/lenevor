@@ -30,8 +30,6 @@ use Syscodes\Components\Filesystem\Exceptions\FileUnableToMoveException;
 
 /**
  * Provides basic utility to manipulate the file system.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Filesystem 
 {

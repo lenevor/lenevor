@@ -26,8 +26,6 @@ use Syscodes\Components\Contracts\Translation\Loader;
 
 /**
  * Loads the translation messages in an array for the given locale.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ArrayLoader implements Loader
 {

@@ -24,8 +24,6 @@ namespace Syscodes\Components\Http\Utilities;
 
 /**
  * Loads the files request.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Files extends Parameters
 {
@@ -42,7 +40,11 @@ class Files extends Parameters
     }
 
     /**
-	 * {@inheritdoc}
+	 * Replaces the current parameters.
+	 * 
+	 * @param  array  $parameters
+	 * 
+	 * @return array
 	 */
 	public function replace(array $files = [])
 	{
@@ -51,7 +53,11 @@ class Files extends Parameters
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Adds parameters.
+	 * 
+	 * @param  array  $parameters
+	 * 
+	 * @return array
 	 */
 	public function add(array $files = [])
 	{

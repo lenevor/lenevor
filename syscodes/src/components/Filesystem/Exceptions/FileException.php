@@ -26,7 +26,5 @@ use RuntimeException;
 
 /**
  * FileException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class FileException extends RuntimeException {}

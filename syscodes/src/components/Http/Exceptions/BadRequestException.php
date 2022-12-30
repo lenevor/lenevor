@@ -26,7 +26,5 @@ use UnexpectedValueException;
 
 /**
  * This exception is generated when a user sends a malformed request.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class BadRequestException extends UnexpectedValueException {}

@@ -27,8 +27,6 @@ use Syscodes\Components\Contracts\Support\Deferrable;
 
 /**
  * For loading the hash class from the container of services.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class HashServiceProvider extends ServiceProvider implements Deferrable
 {

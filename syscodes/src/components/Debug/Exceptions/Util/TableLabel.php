@@ -24,8 +24,6 @@ namespace Syscodes\Components\Debug\Util;
 
 /**
  * Returns the label of data tables.
- * 
- * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 trait TableLabel
 {
@@ -37,7 +35,9 @@ trait TableLabel
     protected $label;
 
     /**
-     * {@inheritdoc}
+     * Returns the label.
+     * 
+     * @return string
      */
     public function getLabel(): string
     {

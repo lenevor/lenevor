@@ -27,8 +27,6 @@ use InvalidArgumentException;
 /**
  * Redirects to another URL. Sets the redirect header, sends the headers and exits.
  * Can redirect via a Location header or using a Refresh header.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class RedirectResponse extends Response
 {

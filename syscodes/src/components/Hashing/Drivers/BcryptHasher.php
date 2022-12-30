@@ -103,7 +103,12 @@ class BcryptHasher extends AbstractHasher implements Hasher
     }
     
     /**
-     * {@inheritdoc}
+     * Check if the given hash has been hashed using the given options.
+     * 
+     * @param  string  $hashedValue
+     * @param  array   $options
+     * 
+     * @return bool
      */
     public function needsRehash($hashedValue, array $options = []): bool
     {

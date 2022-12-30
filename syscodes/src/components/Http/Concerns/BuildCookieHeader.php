@@ -26,8 +26,6 @@ use Syscodes\Components\Http\Cookie;
 
 /**
  * Trait BuildCookieHeader.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait BuildCookieHeader
 {

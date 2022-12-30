@@ -24,8 +24,6 @@ namespace Syscodes\Components;
 
 /**
  * Loads the version of system.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 final class Version 
 {
