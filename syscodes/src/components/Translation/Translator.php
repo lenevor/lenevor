@@ -34,8 +34,6 @@ use Syscodes\Components\Contracts\Translation\Translator as TranslatorContract;
 /**
  * Handle system messages and localization. Locale-based, 
  * built on top of PHP internationalization.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Translator extends NamespacedParseResolver implements TranslatorContract
 {
@@ -278,7 +276,12 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
     }
 
     /**
-     * {@inheritdoc}
+     * Determine if a translation exists for a given locale.
+     * 
+     * @param  string  $key
+     * @param  string|null  $locale
+     * 
+     * @return bool
      */
     public function hasForLocale($key, $locale = null): bool
     {
@@ -286,7 +289,13 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
     }
 
     /**
-     * {@inheritdoc}
+     * Determine if a translation exists.
+     * 
+     * @param  string  $key
+     * @param  string|null  $locale
+     * @param  bool  $fallback
+     * 
+     * @return bool
      */
     public function has($key, $locale = null, $fallback = true): bool
     {
@@ -294,7 +303,9 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
     }
 
     /**
-     * {@inheritdoc}
+     * Get the default locale being used.
+     * 
+     * @return string
      */
     public function getLocale(): string
     {
@@ -302,7 +313,11 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
     }
 
     /**
-     * {@inheritdoc}
+     * Set the default locale.
+     * 
+     * @param  string  $locale
+     * 
+     * @return void
      */
     public function setLocale($locale): void
     {
@@ -314,7 +329,9 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
     }
 
     /**
-     * {@inheritdoc}
+     * Get the fallback locale being used.
+     * 
+     * @return string
      */
     public function getFallback(): string
     {
@@ -322,7 +339,11 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
     }
 
     /**
-     * {@inheritdoc}
+     * Set the default locale.
+     * 
+     * @param  string  $locale
+     * 
+     * @return void
      */
     public function setFallback($fallback): void
     {        
@@ -330,7 +351,11 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
     }
 
     /**
-     * {@inheritdoc}
+     * Set the loaded translation groups.
+     * 
+     * @param  array  $loaded
+     * 
+     * @return void
      */
     public function setLoaded(array $parsed): void
     {
