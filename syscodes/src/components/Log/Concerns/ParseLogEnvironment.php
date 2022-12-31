@@ -24,8 +24,6 @@ namespace Syscodes\Components\Log\Concerns;
 
 /**
  * Gets log the current application environment.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait ParseLogEnvironment
 {

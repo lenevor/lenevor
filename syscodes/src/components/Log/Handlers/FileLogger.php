@@ -31,8 +31,6 @@ use Syscodes\Components\Log\Concerns\ParseLogEnvironment;
 
 /**
  * The Lenevor Logger of errors.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class FileLogger implements Handler
 {
@@ -118,7 +116,13 @@ class FileLogger implements Handler
     }
     
     /**
-     * {@inheritdoc}
+     * Logs with an arbitrary level.
+     * 
+     * @param  mixed  $level
+     * @param  string  $message
+     * @param  array  $context
+     * 
+     * @return bool
      */
     public function log($level, $message, array $context = []): bool
     {
@@ -169,6 +173,7 @@ class FileLogger implements Handler
         
         return strtr($message, $replace);
     }
+
     /**
      * Cleans the paths of filenames by replacing APPPATH, SYSPATH
      * with the actual var. i.e.
@@ -192,7 +197,12 @@ class FileLogger implements Handler
     }
 
     /**
-     * {@inheritdoc}
+     * Handles logging the message.
+     * 
+     * @param  string  $level
+     * @param  string  $message
+     * 
+     * @return bool
      */
     public function handle($level, $message): bool
     {        
