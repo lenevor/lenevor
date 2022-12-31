@@ -26,7 +26,5 @@ use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
 
 /**
  * RouteNotFoundException.
- * 
- * @author Javier Alexander Campo M. <jalexcam@gmail.com>
  */
 class RouteNotFoundException extends NotFoundHttpException {}

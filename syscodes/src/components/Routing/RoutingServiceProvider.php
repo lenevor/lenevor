@@ -30,8 +30,6 @@ use Syscodes\Components\Contracts\Routing\RouteResponse as ResponseContract;
 
 /**
  * For loading the classes from the container of services.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class RoutingServiceProvider extends ServiceProvider
 {

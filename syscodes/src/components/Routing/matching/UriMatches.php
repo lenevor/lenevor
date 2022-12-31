@@ -24,8 +24,6 @@ namespace Syscodes\Components\Routing\Matching;
 
 /**
  * Checkes the request uri matches given route.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class UriMatches
 {

@@ -29,8 +29,6 @@ use Syscodes\Components\Pipeline\Pipeline as BasePipeline;
 
 /**
  * This extended pipeline catches any exceptions.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Pipeline extends BasePipeline
 {

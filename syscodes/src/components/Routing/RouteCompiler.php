@@ -27,9 +27,7 @@ use DomainException;
 use Syscodes\Components\Support\Arr;
 
 /**
- * Allows compile 
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
+ * Allows compile the route patterns.
  */
 class RouteCompiler
 {

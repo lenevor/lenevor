@@ -29,8 +29,6 @@ use Syscodes\Components\Support\Arr;
 
 /**
  * This trait resolver the methods given for the dependencies.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait RouteDependencyResolver
 {

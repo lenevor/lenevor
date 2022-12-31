@@ -35,8 +35,6 @@ use Syscodes\Components\Http\Exceptions\HttpResponseException;
 
 /**
  * A Route describes a route and its parameters.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Route 
 {

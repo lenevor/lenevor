@@ -26,8 +26,6 @@ namespace Syscodes\Components\Routing\Concerns;
  * Describe the parameters of the routes according to the user condition 
  * the action that corresponds to each route as: the host, the scheme 
  * and the port.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait RouteCondition
 {

@@ -34,8 +34,6 @@ use Syscodes\Components\Contracts\Container\Container;
 
 /**
  * This trait resolve the given route and called the method that belongs to the route.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class RouteResolver
 {

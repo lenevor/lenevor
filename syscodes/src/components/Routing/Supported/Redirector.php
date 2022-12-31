@@ -27,8 +27,6 @@ use Syscodes\Components\Session\Store as SessionStore;
 
 /**
  * Returns redirect of the routes defined by the user.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Redirector
 {

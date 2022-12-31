@@ -26,7 +26,5 @@ use Syscodes\Components\Core\Http\Exceptions\LenevorException;
 
 /**
  * ActionNotFoundException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ActionNotFoundException extends LenevorException {}

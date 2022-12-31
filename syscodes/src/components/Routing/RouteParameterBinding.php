@@ -26,8 +26,6 @@ use Syscodes\Components\Support\Arr;
 
 /**
  * Allows the parameter matches for the path portion of the URI.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class RouteParameterBinding
 {

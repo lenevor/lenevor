@@ -31,8 +31,6 @@ use Syscodes\Components\Contracts\Routing\RouteResponse as ResponseContract;
 /**
  * This class allows you to control the use of the HTTP response 
  * along with routes redirection.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class RouteResponse implements ResponseContract
 {

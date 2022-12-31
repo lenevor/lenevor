@@ -27,8 +27,6 @@ use Syscodes\Components\Routing\Exceptions\UrlGeneratorException;
 
 /**
  * Allows generate a URL for the given route.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class RouteUrlGenerator
 {
