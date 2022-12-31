@@ -27,8 +27,6 @@ use Syscodes\Components\Contracts\Auth\Access\Gate as GateContract;
 /**
  * Initialize the File class facade.
  * 
- * @author Alexander Campo <jalexcam@gmail.com>
- * 
  * @method static \Syscodes\Components\Auth\Access\Response authorize(string $ability, array|mixed $arguments = [])
  * @method static \Syscodes\Components\Auth\Access\Response inspect(string $ability, array|mixed $arguments = [])
  * @method static \Syscodes\Components\Contracts\Auth\Access\Gate after(callable $callback)

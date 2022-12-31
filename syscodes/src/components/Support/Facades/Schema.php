@@ -24,8 +24,6 @@ namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the schema builder class facade.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  *
  * @method static \Syscodes\Components\Database\Schema\Builders\Builder create(string $table, \Closure $callback)
  * @method static \Syscodes\Components\Database\Schema\Builders\Builder createDatabase(string $name)

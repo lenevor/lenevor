@@ -28,8 +28,6 @@ use Syscodes\Components\Routing\RouteCollection;
 
 /**
  * Allows generate resources for routes register.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ResourceRegister
 {

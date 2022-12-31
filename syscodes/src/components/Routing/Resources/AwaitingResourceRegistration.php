@@ -26,8 +26,6 @@ use Syscodes\Components\Support\Arr;
 
 /**
  * This class uses an awaiting resource registration instance.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class AwaitingResourceRegistration
 {

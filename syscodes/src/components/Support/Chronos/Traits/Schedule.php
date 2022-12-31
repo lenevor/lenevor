@@ -29,8 +29,6 @@ use Syscodes\Components\Support\Chronos\Exceptions\InvalidDateTimeException;
  * Trait Schedule.
  * 
  * List of methods to interact with the date and time elements.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait Schedule
 {

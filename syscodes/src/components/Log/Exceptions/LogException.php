@@ -26,7 +26,5 @@ use InvalidArgumentException;
 
 /**
  * LogException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class LogException extends InvalidArgumentException {}

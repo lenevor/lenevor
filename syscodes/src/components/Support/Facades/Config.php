@@ -24,8 +24,6 @@ namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Config class facade.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  *
  * @method static bool has(string $key)
  * @method static mixed get(string $key, mixed $default = null)

@@ -24,8 +24,6 @@ namespace Syscodes\Components\Routing\Concerns;
 
 /**
  * The RouteMap trait.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait RouteMap
 {
@@ -48,7 +46,12 @@ trait RouteMap
 	abstract public function addRoute($method, $route, $action);
 
 	/**
-	 * {@inheritdoc}
+	 * Add a route for all posible methods.
+	 *
+	 * @param  string  $route
+	 * @param  \Closure|array|string  $action
+	 *
+	 * @return void
 	 */
 	public function any($route, $action = null) 
 	{		
@@ -56,7 +59,12 @@ trait RouteMap
 	}
 	
 	/**
-	 * {@inheritdoc}
+	 * Add a route with delete method.
+	 *
+	 * @param  string  $route
+	 * @param  \Closure|array|string  $action
+	 *
+	 * @return void
 	 */
 	public function delete($route, $action = null) 
 	{
@@ -64,7 +72,12 @@ trait RouteMap
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Add a route with get method.
+	 * 
+	 * @param  string  $route
+	 * @param  \Closure|array|string  $action
+	 *
+	 * @return void
 	 */
 	public function get($route, $action = null) 
 	{
@@ -72,7 +85,12 @@ trait RouteMap
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Add a route with head method.
+	 *
+	 * @param  string  $route
+	 * @param  \Closure|array|string  $action
+	 *
+	 * @return void
 	 */
 	public function head($route, $action = null)
 	{
@@ -80,7 +98,13 @@ trait RouteMap
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Register a new route with the given methods.
+	 * 
+	 * @param  array|string  $methods
+	 * @param  string  $route
+	 * @param  string|callable|null  $action
+	 * 
+	 * @return void
 	 */
 	public function match($methods, $route, $action = null)
 	{
@@ -88,7 +112,12 @@ trait RouteMap
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Add a route with options method
+	 *
+	 * @param  string  $route
+	 * @param  \Closure|array|string  $action
+	 *
+	 * @return void
 	 */
 	public function options($route, $action = null) 
 	{
@@ -96,7 +125,12 @@ trait RouteMap
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Add a route with patch method.
+	 *
+	 * @param  string  $route
+	 * @param  \Closure|array|string  $action
+	 *
+	 * @return void
 	 */
 	public function patch($route, $action = null)
 	{
@@ -104,7 +138,12 @@ trait RouteMap
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Add a route with post method.
+	 *
+	 * @param  string  $route
+	 * @param  \Closure|array|string  $action
+	 *
+	 * @return void
 	 */
 	public function post($route, $action = null) 
 	{
@@ -112,7 +151,12 @@ trait RouteMap
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Add a route with put method.
+	 *
+	 * @param  string  $route
+	 * @param  \Closure|array|string  $action
+	 *
+	 * @return void
 	 */
 	public function put($route, $action = null) 
 	{

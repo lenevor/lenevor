@@ -29,8 +29,6 @@ use Syscodes\Components\View\Exceptions\ViewException;
 
 /**
  * Allows location of a view.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class FileViewFinder implements ViewFinder
 {
@@ -84,7 +82,11 @@ class FileViewFinder implements ViewFinder
     }
 
     /**
-     * {@inheritdoc}
+     * Get the complete location of the view.
+     * 
+     * @param  string  $name
+     *
+     * @return string
      */
     public function find($name): string
     {

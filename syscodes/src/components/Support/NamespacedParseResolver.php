@@ -25,8 +25,6 @@ namespace Syscodes\Components\Support;
 /**
  * This class represents the parse key using for generates 
  * into namespace, groups and items.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class NamespacedParseResolver
 {

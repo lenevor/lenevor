@@ -26,8 +26,6 @@ use Syscodes\Components\View\Factory as ViewFactory;
 
 /**
  * Trait TranspilesLayouts.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait TranspilesLayouts
 {

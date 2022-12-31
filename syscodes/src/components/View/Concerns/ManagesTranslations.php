@@ -24,8 +24,6 @@ namespace Syscodes\Components\View\Concerns;
 
 /**
  * Trait ManagesTranslations.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait ManagesTranslations
 {

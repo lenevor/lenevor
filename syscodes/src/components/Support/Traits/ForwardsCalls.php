@@ -27,8 +27,6 @@ use BadMethodCallException;
 
 /**
  * Trait ForwardsCalls.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait ForwardsCalls
 {

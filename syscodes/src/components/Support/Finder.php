@@ -24,8 +24,6 @@ namespace Syscodes\Components\Support;
 
 /**
  * Finder allows to find files and directories in all the system.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Finder
 {   

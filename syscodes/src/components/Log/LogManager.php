@@ -29,8 +29,6 @@ use Syscodes\Components\Log\Exceptions\LogException;
 
 /**
  * The Lenevor Logger of errors.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class LogManager implements LoggerInterface
 {

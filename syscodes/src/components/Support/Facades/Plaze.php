@@ -24,8 +24,6 @@ namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Plaze engine class facade.
- *
- * @author Alexander Campo <jalexcam@gmail.com>
  * 
  * @method static void transpile($path = null)
  * @method static string displayString(string $value)

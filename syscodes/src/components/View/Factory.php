@@ -33,8 +33,6 @@ use Syscodes\Components\Contracts\View\Factory as FactoryContract;
 
 /**
  * This class allows parser of a view.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Factory implements FactoryContract
 {
@@ -105,7 +103,11 @@ class Factory implements FactoryContract
 	}
 	
 	/**
-	 * {@inheritdoc}
+	 * Check existance view file.
+	 * 
+	 * @param  string  $view
+	 *
+	 * @return bool
 	 */
 	public function viewExists($view): bool
 	{
@@ -119,7 +121,15 @@ class Factory implements FactoryContract
 	}
 	
 	/**
-	 * {@inheritdoc}
+	 * Global and local data are merged and extracted to create local variables within the view file.
+	 * Renders the view object to a string.
+	 *
+	 * @example $output = $view->make();
+	 *
+	 * @param  string  $view  View filename
+	 * @param  array  $data  Array of values
+	 *
+	 * @return \Syscodes\Components\Contracts\View\View
 	 */
 	public function make($view, $data = [])
 	{
@@ -196,7 +206,11 @@ class Factory implements FactoryContract
 	}
 	
 	/**
-	 * {@inheritdoc}
+	 * Call the creator for a given view.
+	 * 
+	 * @param  \Syscodes\View\View  $view
+	 * 
+	 * @return void
 	 */
 	public function callCreator(View $view): void
 	{
@@ -204,7 +218,9 @@ class Factory implements FactoryContract
 	}
 	
 	/**
-	 * {@inheritdoc}
+	 * Get the extension to engine bindings.
+	 * 
+	 * @return array
 	 */
 	public function getExtensions(): array
 	{
@@ -212,7 +228,12 @@ class Factory implements FactoryContract
 	}
 	
 	/**
-	 * {@inheritdoc}
+	 * Add a piece of shared data to the environment.
+	 * 
+	 * @param  array|string  $key
+	 * @param  mixed|null  $value  
+	 * 
+	 * @return mixed
 	 */
 	public function share($key, $value = null)
 	{
@@ -226,7 +247,12 @@ class Factory implements FactoryContract
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Replace the namespace hints for the given namespace.
+	 * 
+	 * @param  string  $namespace
+	 * @param  string|array  $hints
+	 * 
+	 * @return self
 	 */
 	public function replaceNamespace($namespace, $hints): self
 	{
@@ -236,7 +262,9 @@ class Factory implements FactoryContract
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Increment the rendering counter.
+	 * 
+	 * @return int
 	 */
 	public function increment(): int
 	{
@@ -244,7 +272,9 @@ class Factory implements FactoryContract
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Decrement the rendering counter.
+	 * 
+	 * @return int
 	 */
 	public function decrement(): int
 	{
@@ -252,7 +282,9 @@ class Factory implements FactoryContract
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Check if there are no active render operations.
+	 * 
+	 * @return bool
 	 */
 	public function doneRendering(): bool
 	{
@@ -260,7 +292,9 @@ class Factory implements FactoryContract
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Flush all of the parser state like sections.
+	 * 
+	 * @return void
 	 */
 	public function flushState(): void
 	{
@@ -270,7 +304,9 @@ class Factory implements FactoryContract
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Flush all of the section contents if done rendering.
+	 * 
+	 * @return void
 	 */
 	public function flushStateIfDoneRendering(): void
 	{
@@ -280,7 +316,9 @@ class Factory implements FactoryContract
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Get all of the shared data for the environment.
+	 * 
+	 * @return array
 	 */
 	public function getShared(): array
 	{

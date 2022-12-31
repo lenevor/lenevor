@@ -27,8 +27,6 @@ use DateInterval;
 
 /**
  * Interacts with time.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait InteractsWithTime
 {

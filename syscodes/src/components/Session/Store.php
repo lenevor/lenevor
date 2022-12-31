@@ -30,8 +30,6 @@ use Syscodes\Components\Session\Handlers\CookieSessionHandler;
 
 /**
  * Implementation of Lenevor session container.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Store implements Session
 {
@@ -101,7 +99,9 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Get the name of the session.
+     * 
+     * @return string
      */
     public function getName(): string
     {
@@ -109,7 +109,11 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Set the name of the session.
+     * 
+     * @param  string  $name
+     * 
+     * @return void
      */
     public function setName($name): void
     {
@@ -117,7 +121,9 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Start the session.
+     * 
+     * @return bool
      */
     public function start(): bool
     {
@@ -175,7 +181,9 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Get all of the session data.
+     * 
+     * @return array
      */
     public function all(): array
     {
@@ -183,7 +191,11 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Get a subset of the session data.
+     * 
+     * @param  array  $keys
+     * 
+     * @return array
      */
     public function only(array $keys): array
     {
@@ -191,7 +203,9 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Get the current session ID.
+     * 
+     * @return string
      */
     public function getId(): string
     {
@@ -199,7 +213,11 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Set the session ID.
+     * 
+     * @param  string  $id
+     * 
+     * @return void
      */
     public function setId($id): void
     {
@@ -207,7 +225,11 @@ class Store implements Session
     }
     
     /**
-     * {@inheritdoc}
+     * Determine if this is a valid session ID.
+     * 
+     * @param  string  $id
+     * 
+     * @return bool
      */
     public function isValidId($id): bool
     {
@@ -225,7 +247,9 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Save the session data to storage.
+     * 
+     * @return void
      */
     public function save()
     {
@@ -239,7 +263,9 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Age the flash data for the session.
+     * 
+     * @return void
      */
     public function ageFlashData(): void
     {
@@ -261,7 +287,12 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Remove one or many items from the session.
+     * 
+     * @param  string  $key
+     * @param  mixed  $default
+     * 
+     * @return void
      */
     public function pull($key, $default = null)
     {
@@ -269,7 +300,12 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Push a value onto a session array.
+     * 
+     * @param  string  $key
+     * @param  mixed  $value
+     * 
+     * @return void
      */
     public function push($key, $value)
     {
@@ -281,7 +317,11 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Checks if an a key is present and not null.
+     * 
+     * @param  string|array  $key
+     * 
+     * @return bool
      */
     public function has($key): bool
     {
@@ -289,7 +329,13 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Get an key from the session, if it doesn´t exists can be use
+     * the default value as the second argument to the get method.
+     * 
+     * @param  string  $key
+     * @param  mixed  $default
+     * 
+     * @return mixed
      */
     public function get($key, $default = null)
     {
@@ -297,7 +343,11 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Replace the given session attributes entirely.
+     * 
+     * @param  array  $attributes
+     * 
+     * @return void
      */
     public function replace(array $attributes)
     {
@@ -305,7 +355,12 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Put a key / value pair or array of key / value pairs in the session.
+     * 
+     * @param  string|array  $key
+     * @param  mixed  $value
+     * 
+     * @return mixed
      */
     public function put($key, $value = null)
     {
@@ -319,7 +374,11 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Remove an key from the session.
+     * 
+     * @param  string  $key
+     * 
+     * @return mixed
      */
     public function remove($key)
     {
@@ -327,7 +386,11 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Remove one or many items from the session.
+     * 
+     * @param  string|array  $keys
+     * 
+     * @return void
      */
     public function erase($keys)
     {
@@ -335,7 +398,12 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Flash a key / value pair to the session.
+     * 
+     * @param  string  $key
+     * @param  mixed  $value
+     * 
+     * @return void
      */
     public function flash(string $key, $value = true)
     {
@@ -357,7 +425,9 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Remove all of the keys from the session.
+     * 
+     * @return void
      */
     public function flush()
     {
@@ -365,7 +435,9 @@ class Store implements Session
     }
     
     /**
-     * {@inheritdoc}
+     * Flush the session data and regenerate the ID.
+     * 
+     * @return bool
      */
     public function invalidate(): bool
     {
@@ -375,7 +447,9 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Get the CSRF token value.
+     * 
+     * @return string
      */
     public function token()
     {
@@ -383,7 +457,9 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Regenerate the CSRF token value.
+     * 
+     * @return void
      */
     public function regenerateToken()
     {
@@ -391,7 +467,11 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Generate a new session identifier.
+     * 
+     * @param  bool  $destroy
+     * 
+     * @return void
      */
     public function regenerate($destroy = false)
     {
@@ -401,7 +481,11 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Generate a new session ID for the session.
+     * 
+     * @param  bool  $destroy
+     * 
+     * @return bool
      */
     public function migrate(bool $destroy = false): bool
     {
@@ -415,7 +499,9 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Get the previous URL from the session.
+     * 
+     * @return string|null
      */
     public function previousUrl()
     {
@@ -423,7 +509,11 @@ class Store implements Session
     }
     
     /**
-     * {@inheritdoc}
+     * Set the "previous" URL in the session.
+     * 
+     * @param  string  $url
+     * 
+     * @return void
      */
     public function setPreviousUrl($url): void
     {
@@ -431,7 +521,9 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Get the session handler instance.
+     * 
+     * @return \SessionHandlerInterface
      */
     public function getHandler()
     {
@@ -439,7 +531,9 @@ class Store implements Session
     }
 
     /**
-     * {@inheritdoc}
+     * Determine if the session has been started.
+     * 
+     * @return bool
      */
     public function isStarted(): bool
     {

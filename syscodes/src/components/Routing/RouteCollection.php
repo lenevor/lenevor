@@ -33,8 +33,6 @@ use Syscodes\Components\Routing\Exceptions\RouteNotFoundException;
 
 /**
  * Adds a collection to the arrays of routes.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class RouteCollection implements Countable, IteratorAggregate
 {

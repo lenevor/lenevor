@@ -25,8 +25,6 @@ namespace Syscodes\Components\Support\Facades;
 /**
  * Initialize the Http class facade.
  * 
- * @author Alexander Campo <jalexcam@gmail.com>
- * 
  * @method static bool isCli()
  * @method static bool isSecure()
  * @method static string protocol()

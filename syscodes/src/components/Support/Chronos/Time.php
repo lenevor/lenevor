@@ -86,8 +86,6 @@ use Syscodes\Components\Support\Chronos\Traits\Date;
  * @method int|object subMonths(int $months)
  * @method int|object subDays(int $days)
  * @method \IntlCalendar getCalendar()
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Time extends Datetime
 {

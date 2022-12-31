@@ -27,8 +27,6 @@ use InvalidArgumentException;
 
 /**
  * Invalid datetime exception.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class InvalidDateTimeException extends InvalidArgumentException
 {

@@ -27,8 +27,6 @@ use DateTimeZone;
 
 /**
  * Trait Comparison.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait Comparison
 {

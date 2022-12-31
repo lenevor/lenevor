@@ -25,8 +25,6 @@ namespace Syscodes\Components\Support;
 /**
  * Allows convert a string in diferentes modes of text presentation, either, 
  * camel-cased, studlycaps and replace characters in a string.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Str
 {

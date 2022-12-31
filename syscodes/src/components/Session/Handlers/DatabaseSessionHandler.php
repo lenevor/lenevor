@@ -32,8 +32,6 @@ use Syscodes\Components\Database\Connections\ConnectionInterface;
 
 /**
  * Session handler using database system for storage.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class DatabaseSessionHandler implements SessionHandlerInterface
 {
@@ -93,7 +91,10 @@ class DatabaseSessionHandler implements SessionHandlerInterface
     }    
     
     /**
-     * {@inheritdoc}
+     * Initialize session.
+     * 
+     * @param  string  $savePath
+     * @param  string  $sessionName
      * 
      * @return bool
      */
@@ -103,7 +104,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Close the session.
      * 
      * @return bool
      */
@@ -113,7 +114,9 @@ class DatabaseSessionHandler implements SessionHandlerInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Reads the session data from the session storage, and returns the results.
+     * 
+     * @param  string  $sessionId
      * 
      * @return string
      */
@@ -150,7 +153,10 @@ class DatabaseSessionHandler implements SessionHandlerInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Writes the session data to the session storage.
+     * 
+     * @param  string  $sessionId
+     * @param  string  $data
      * 
      * @return bool
      */
@@ -252,7 +258,9 @@ class DatabaseSessionHandler implements SessionHandlerInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Destroys the current session.
+     * 
+     * @param  string  $sessionId
      * 
      * @return bool
      */
@@ -264,7 +272,9 @@ class DatabaseSessionHandler implements SessionHandlerInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Deletes expired sessions.
+     * 
+     * @param  int  $lifetime
      * 
      * @return int
      */

@@ -29,8 +29,6 @@ use Syscodes\Components\Support\Str;
 
 /**
  * Solve the actions obtained from a route.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class RouteAction
 {

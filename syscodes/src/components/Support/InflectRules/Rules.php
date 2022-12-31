@@ -26,8 +26,6 @@ use Closure;
 
 /**
  * Allows use rules for identify the words in plural or singular.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Rules
 {

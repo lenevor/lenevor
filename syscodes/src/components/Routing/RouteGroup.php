@@ -26,8 +26,6 @@ use Syscodes\Components\Support\Arr;
 
 /**
  * Groups attributes according.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class RouteGroup
 {

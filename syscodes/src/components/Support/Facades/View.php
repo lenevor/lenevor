@@ -24,8 +24,6 @@ namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the View class facade.
- *
- * @author Alexander Campo <jalexcam@gmail.com>
  * 
  * @method static bool viewExists(string $view)
  * @method static \Syscodes\Components\Contracts\View\View make(string $view, array $data = [])

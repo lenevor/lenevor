@@ -26,8 +26,6 @@ use RuntimeException;
 
 /**
  * Initialize the Facade class.
- *
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 abstract class Facade
 {

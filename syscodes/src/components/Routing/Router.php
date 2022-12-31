@@ -40,8 +40,6 @@ use Syscodes\Components\Support\Str;
 
 /**
  * The Router class allows the integration of an easy-to-use routing system.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Router implements Routable
 {
@@ -164,7 +162,10 @@ class Router implements Routable
 	 *
 	 *      }); /admin/user
 	 *
-	 * {@inheritdoc}
+	 * @param  array  $attributes
+	 * @param  \Closure|array|string  $callback
+	 *
+	 * @return void
 	 */
 	public function group(array $attributes, $routes): void
 	{

@@ -30,6 +30,8 @@ use Syscodes\Components\Routing\Route;
 use Syscodes\Components\Routing\Router;
 
 /**
+ * Allows the calls to route register.
+ * 
  * @method \Syscodes\Components\Routing\Route get(string $uri, \Closure|array|string|null $action = null)
  * @method \Syscodes\Components\Routing\Route post(string $uri, \Closure|array|string|null $action = null)
  * @method \Syscodes\Components\Routing\Route put(string $uri, \Closure|array|string|null $action = null)
@@ -45,8 +47,6 @@ use Syscodes\Components\Routing\Router;
  * @method \Syscodes\Components\Routing\RouteRegister namespace(string $value)
  * @method \Syscodes\Components\Routing\RouteRegister prefix(string  $prefix)
  * @method \Syscodes\Components\Routing\RouteRegister where(array  $where)
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class RouteRegister
 {
@@ -223,6 +223,8 @@ class RouteRegister
     }
     
     /**
+     * Magic method.
+     * 
      * Dynamically handle calls into the route register.
      * 
      * @param  string  $method

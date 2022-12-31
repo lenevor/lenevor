@@ -28,8 +28,6 @@ use Syscodes\Components\Routing\Route;
 
 /**
  * UrlGeneratorException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class UrlGeneratorException extends Exception
 {

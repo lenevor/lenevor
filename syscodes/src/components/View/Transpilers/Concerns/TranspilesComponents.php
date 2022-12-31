@@ -24,8 +24,6 @@ namespace Syscodes\Components\View\Transpilers\Concerns;
 
 /**
  * Trait TranspilesComponents.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait TranspilesComponents
 {

@@ -25,8 +25,6 @@ namespace Syscodes\Components\Support\Facades;
 /**
  * Initialize the File class facade.
  * 
- * @author Alexander Campo <jalexcam@gmail.com>
- * 
  * @method static bool append(string $path, string $data, bool $force = false)
  * @method static bool copy(string $path, string $target)
  * @method static string get(string $path, bool $lock = false, bool $force = false)

@@ -25,8 +25,6 @@ namespace Syscodes\Components\Support\Facades;
 /**
  * Initialize the Config class facade.
  * 
- * @author Alexander Campo <jalexcam@gmail.com>
- * 
  * @method static array getQueuedCookies()
  * @method static unqueue($name)
  * @method static void queue(...$parameters)

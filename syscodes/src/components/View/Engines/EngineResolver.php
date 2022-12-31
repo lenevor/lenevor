@@ -27,8 +27,6 @@ use InvalidArgumentException;
 
 /**
  * Loader an engine resolver.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class EngineResolver
 {

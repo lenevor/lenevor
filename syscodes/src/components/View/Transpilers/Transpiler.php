@@ -27,8 +27,6 @@ use Syscodes\Components\Filesystem\Filesystem;
 
 /**
  * Allows transpilation of view file path.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 abstract class Transpiler
 {

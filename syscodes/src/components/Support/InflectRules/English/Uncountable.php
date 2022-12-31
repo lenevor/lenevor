@@ -24,8 +24,6 @@ namespace Syscodes\Components\Support\InflectRules\English;
 
 /**
  * This class allows identify words in singular.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 final class Uncountable
 {

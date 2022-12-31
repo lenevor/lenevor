@@ -32,8 +32,6 @@ use Syscodes\Components\View\Transpilers\PlazeTranspiler;
 
 /**
  * For loading the classes from the container of services.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ViewServiceProvider extends ServiceProvider
 {

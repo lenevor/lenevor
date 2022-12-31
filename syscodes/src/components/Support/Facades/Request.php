@@ -24,8 +24,6 @@ namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Request class facade.
- *
- * @author Alexander Campo <jalexcam@gmail.com>
  * 
  * @method static \Syscodes\Components\Http\Request active(\Syscodes\Components\Http\Request|bool $request = false)
  * @method static string segment(int $index, mixed $default = null)

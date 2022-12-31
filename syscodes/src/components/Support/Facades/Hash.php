@@ -25,8 +25,6 @@ namespace Syscodes\Components\Support\Facades;
 /**
  * Initialize the Hash class facade.
  * 
- * @author Alexander Campo <jalexcam@gmail.com>
- * 
  * @method static array info(string $hashedValue)
  * @method static bool check(string $value, string $hashedValue, array $options = [])
  * @method static bool needsRehash(string $hashedValue, array $options = [])

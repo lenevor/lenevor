@@ -25,7 +25,7 @@ namespace Syscodes\Components\Routing\Resolver;
 use Closure;
 
 /**
- * @author Alexander Campo <jalexcam@gmail.com>
+ * Parses the middleware name and group.
  */
 class MiddlewareResolver
 {

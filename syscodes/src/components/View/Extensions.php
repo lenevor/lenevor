@@ -24,8 +24,6 @@ namespace Syscodes\Components\View;
 
 /**
  * The Extension trait.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait Extensions
 {

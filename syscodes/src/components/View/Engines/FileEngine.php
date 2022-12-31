@@ -26,8 +26,6 @@ use Syscodes\Components\Contracts\View\Engine;
 
 /**
  * The file engine.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class FileEngine implements Engine
 {

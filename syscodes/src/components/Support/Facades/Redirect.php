@@ -24,8 +24,6 @@ namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Redirect class facade.
- *
- * @author Alexander Campo <jalexcam@gmail.com>
  * 
  * @method static \Syscodes\Components\Http\RedirectResponse back(int $status = 302, array $headers = [], bool $fallback = false)
  * @method static \Syscodes\Components\Http\RedirectResponse refresh(int $status = 302, array $headers = [])

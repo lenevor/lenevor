@@ -24,8 +24,6 @@ namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Route class facade.
- *
- * @author Alexander Campo <jalexcam@gmail.com>
  * 
  * @method static \Syscodes\Components\Routing\Router any(string $route, string|Callable $action = null) 
  * @method static \Syscodes\Components\Routing\Router delete(string $route, string|Callable $action = null)

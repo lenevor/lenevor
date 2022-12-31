@@ -26,8 +26,6 @@ use Syscodes\Components\Contracts\Routing\RouteResponse as ResponseContract;
 
 /**
  * Initialize the Response class facade.
- *
- * @author Alexander Campo <jalexcam@gmail.com>
  * 
  * @method static \Syscodes\Components\Http\Response make(string $body = '', int $status = 200, array $headers = [])
  * @method static \Syscodes\Components\Http\Response noContent(string $status = 204, array $headers = [])

@@ -24,8 +24,6 @@ namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Cache class facade.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  *
  * @method static \Syscodes\Components\Cache\CacheRepository store(string $name = null)
  * @method static bool has(string $key)

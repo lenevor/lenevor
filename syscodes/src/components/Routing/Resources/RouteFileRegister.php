@@ -26,8 +26,6 @@ use Syscodes\Components\Routing\Router;
 
 /**
  * Create a new route file for register instance.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class RouteFileRegister
 {
