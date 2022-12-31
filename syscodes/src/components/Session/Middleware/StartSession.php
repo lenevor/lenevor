@@ -35,8 +35,6 @@ use Syscodes\Components\Session\Handlers\CookieSessionHandler;
 
 /**
  * The start session allows authenticate logged on users.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class StartSession
 {

@@ -26,7 +26,5 @@ use Exception;
 
 /**
  * TokenMismatchException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class TokenMismatchException extends Exception {}

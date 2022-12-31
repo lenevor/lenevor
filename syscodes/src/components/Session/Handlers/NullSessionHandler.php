@@ -27,13 +27,14 @@ use SessionHandlerInterface;
 /**
  * Session handler using static array for storage.
  * Intended only for use during testing.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class NullSessionHandler implements SessionHandlerInterface
 {
     /**
-     * {@inheritdoc}
+     * Initialize session.
+     * 
+     * @param  string  $savePath
+     * @param  string  $sessionName
      * 
      * @return bool
      */
@@ -43,7 +44,7 @@ class NullSessionHandler implements SessionHandlerInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Close the session.
      * 
      * @return bool
      */
@@ -53,7 +54,9 @@ class NullSessionHandler implements SessionHandlerInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Reads the session data from the session storage, and returns the results.
+     * 
+     * @param  string  $sessionId
      * 
      * @return string
      */
@@ -63,7 +66,10 @@ class NullSessionHandler implements SessionHandlerInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Writes the session data to the session storage.
+     * 
+     * @param  string  $sessionId
+     * @param  string  $data
      * 
      * @return bool
      */
@@ -73,7 +79,9 @@ class NullSessionHandler implements SessionHandlerInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Destroys the current session.
+     * 
+     * @param  string  $sessionId
      * 
      * @return bool
      */
@@ -83,7 +91,9 @@ class NullSessionHandler implements SessionHandlerInterface
     }
     
     /**
-     * {@inheritdoc}
+     * Deletes expired sessions.
+     * 
+     * @param  int  $lifetime
      * 
      * @return int
      */

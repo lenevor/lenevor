@@ -28,8 +28,6 @@ use Syscodes\Components\Contracts\Cache\Factory as CacheFactory;
 
 /**
  * For loading the classes from the container of services.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class SessionServiceProvider extends ServiceProvider
 {

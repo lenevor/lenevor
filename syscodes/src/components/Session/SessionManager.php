@@ -32,8 +32,6 @@ use Syscodes\Components\Session\Handlers\DatabaseSessionHandler;
 
 /**
  * Lenevor session storage.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class SessionManager extends Manager
 {
