@@ -90,7 +90,7 @@ class Finder
      * @param  string  $directory  The directory
      * @param  string  $extension  The file extension  
      *
-     * @return bool|string
+     * @return bool|string[]
      */
     public function locateFile(?string $file, ?string $directory = null, string $extension = 'php')
     {
@@ -119,6 +119,7 @@ class Finder
 
         $paths    = [];
         $filename = '';
+        $result   = [];
 
         $namespaces = autoloader()->getNamespace();
 
@@ -151,7 +152,7 @@ class Finder
             $path .= $filename;
             
             if ( ! is_file($path) && ! file_exists($path)) {
-                return $path;
+                return $result[] = $path;
             }
         }
         
