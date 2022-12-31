@@ -38,9 +38,6 @@ use IntlDateFormatter;
  * @method today($timezone = null, string $locale = null)          Return a new time with the time set to midnight.
  * @method yesterday($timezone = null, string $locale = null)      Returns an instance set to midnight yesterday morning. 
  * @method tomorrow($timezone = null, string $locale = null)       Returns an instance set to midnight tomorrow morning.
- * 
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait Date
 {

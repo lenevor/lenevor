@@ -28,8 +28,6 @@ use IntlCalendar;
 
 /**
  * Trait Comparison.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait Utilities
 {

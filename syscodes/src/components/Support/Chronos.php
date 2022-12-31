@@ -26,8 +26,6 @@ use Syscodes\Components\Support\Chronos\Time as BaseTime;
 
 /**
  * Class that inherits all methods the Time class.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Chronos extends BaseTime
 {

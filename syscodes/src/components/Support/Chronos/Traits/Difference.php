@@ -27,8 +27,6 @@ use IntlCalendar;
 
 /**
  * Trait Difference.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait Difference
 {

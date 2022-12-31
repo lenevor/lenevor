@@ -30,8 +30,6 @@ use DateTimeZone;
  * Trait Factory.
  * 
  * Static factories.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait Factory
 {
