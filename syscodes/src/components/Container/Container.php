@@ -382,7 +382,7 @@ class Container implements ArrayAccess, ContainerContract
                 continue;
             }
 
-            $param[] = is_null($dependency->getClass()) 
+            $param[] = is_null($dependency->getType()->getName()) 
                        ? $this->getResolveNonClass($dependency) 
                        : $this->getResolveClass($dependency);
         }
@@ -436,7 +436,7 @@ class Container implements ArrayAccess, ContainerContract
     protected function getResolveClass(ReflectionParameter $parameter)
     {
         try {
-            return $this->make($parameter->getClass()->name);
+            return $this->make($parameter->getType()->getName());
         } catch (BindingResolutionException $e) {
             if ($parameter->isOptional()) {
                 return $parameter->getDefaultValue();
@@ -457,7 +457,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     protected function getResolveNonClass(ReflectionParameter $parameter)
     {
-        if ( ! is_null($class = $parameter->name)) {
+        if ( ! is_null($class = $parameter->getName())) {
             return $class instanceof Closure ? $class($this) : $class;
         }
 
