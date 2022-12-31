@@ -112,8 +112,6 @@ interface View extends Renderable
 	 * @param  mixed         $value  Value
 	 *
 	 * @return self
-	 *
-	 * @uses   instanceof \Traversable
 	 */
 	public function set($key, $value = null): self;
 
