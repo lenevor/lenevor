@@ -26,8 +26,6 @@ use Syscodes\Components\Contracts\Support\Deferrable;
 
 /**
  * Loads all the services provider of system.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 abstract class ServiceProvider 
 {

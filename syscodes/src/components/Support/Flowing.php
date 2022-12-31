@@ -29,8 +29,6 @@ use Syscodes\Components\Contracts\Support\Arrayable;
 
 /**
  * Checks if exist an attribute in flowing instance for collections of data.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
 {

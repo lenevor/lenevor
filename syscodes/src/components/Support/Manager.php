@@ -28,8 +28,6 @@ use Syscodes\Components\Contracts\Container\Container;
 
 /**
  * This class manage the creation of driver based components.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 abstract class Manager
 {

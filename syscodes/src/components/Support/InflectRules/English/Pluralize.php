@@ -24,8 +24,6 @@ namespace Syscodes\Components\Support\InflectRules\English;
 
 /**
  * This class allows identify words in plural.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 final class Pluralize
 {

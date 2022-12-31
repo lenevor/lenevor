@@ -30,8 +30,6 @@ use Syscodes\Components\Support\InflectRules\English\Irregularize;
 
 /**
  * Allows identify the plural or singular of a word.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Inflector
 {

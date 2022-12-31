@@ -26,8 +26,6 @@ use Syscodes\Components\Contracts\Support\Webable;
 
 /**
  * Uses a html string for show data.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class WebString implements Webable
 {
