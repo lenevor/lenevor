@@ -27,8 +27,6 @@ use Syscodes\Components\Dotenv\Repository\Adapters\PutenvAdapter;
 
 /**
  * Gets the adapter environment and value of an environment variable.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Environment
 {
