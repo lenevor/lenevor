@@ -28,8 +28,6 @@ use Syscodes\Components\Support\Str;
 
 /**
  * System to transpile views according to your label or your template.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class PlazeTranspiler extends Transpiler implements TranspilerInterface
 {

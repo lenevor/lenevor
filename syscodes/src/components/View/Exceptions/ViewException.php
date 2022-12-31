@@ -26,7 +26,5 @@ use InvalidArgumentException;
 
 /**
  * ViewException.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ViewException extends InvalidArgumentException {}

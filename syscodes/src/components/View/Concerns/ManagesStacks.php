@@ -26,8 +26,6 @@ use InvalidArgumentException;
 
 /**
  * Trait ManagesStacks.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait ManagesStacks
 {

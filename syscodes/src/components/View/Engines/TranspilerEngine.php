@@ -29,8 +29,6 @@ use Syscodes\Components\View\Transpilers\TranspilerInterface;
 
 /**
  * The file PHP engine.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class TranspilerEngine extends PhpEngine
 {

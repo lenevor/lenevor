@@ -24,8 +24,6 @@ namespace Syscodes\Components\View\Transpilers;
 
 /**
  * Returns the transpilation of views.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 interface TranspilerInterface
 {

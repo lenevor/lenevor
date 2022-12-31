@@ -24,8 +24,6 @@ namespace Syscodes\Components\View\Transpilers\Concerns;
 
 /**
  * Trait TranspilesConditionals.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait TranspilesConditionals
 {

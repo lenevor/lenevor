@@ -27,8 +27,6 @@ use Syscodes\Components\View\Exceptions\ViewException;
 
 /**
  * Trait ManagesComponents.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait ManagesComponents
 {

@@ -38,8 +38,6 @@ use Syscodes\Components\Contracts\View\View as ViewContract;
 
 /**
  * This class control the views.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class View implements ArrayAccess, Webable, ViewContract
 {
@@ -159,7 +157,9 @@ class View implements ArrayAccess, Webable, ViewContract
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * The view data will be extracted.
+	 * 
+	 * @return array
 	 */
 	public function getArrayData(): array
 	{
@@ -171,7 +171,11 @@ class View implements ArrayAccess, Webable, ViewContract
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Get the sections of the rendered view.
+	 * 
+	 * @return array
+	 * 
+	 * @throws \Throwable
 	 */
 	public function renderSections()
 	{
@@ -181,7 +185,14 @@ class View implements ArrayAccess, Webable, ViewContract
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Add a piece of data to the view.
+	 * 
+	 * @example  $view->assign($content, $data);
+	 * 
+	 * @param  string|array  $key
+	 * @param  mixed  $value
+	 * 
+	 * @return self
 	 */
 	public function assign($key, $value = null): self
 	{
@@ -195,7 +206,16 @@ class View implements ArrayAccess, Webable, ViewContract
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Assigns a value by reference. The benefit of binding is that values can be altered
+	 * without re-setting them. It is also possible to bind variables before they have values.
+	 * Assigned values will be available as a variable within the view file:
+	 * 
+	 * @example  $view->bind('ref', $bar);
+	 * 
+	 * @param  string  $key  Variable name
+	 * @param  mixed  $value  Referenced variable
+	 * 
+	 * @return self
 	 */
 	public function bind($key, & $value): self
 	{
@@ -205,7 +225,9 @@ class View implements ArrayAccess, Webable, ViewContract
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Get the array of view data.
+	 * 
+	 * @return array
 	 */
 	public function getData(): array
 	{
@@ -223,7 +245,9 @@ class View implements ArrayAccess, Webable, ViewContract
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Get the path to the view file.
+	 * 
+	 * @return string
 	 */
 	public function getPath(): string
 	{
@@ -231,7 +255,11 @@ class View implements ArrayAccess, Webable, ViewContract
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Set the path to the view file.
+	 * 
+	 * @param  string  $path
+	 * 
+	 * @return void
 	 */
 	public function setPath($path): void
 	{
@@ -287,7 +315,16 @@ class View implements ArrayAccess, Webable, ViewContract
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Assigns a variable by name. Assigned values will be available as a
+	 * variable within the view file:
+	 *
+	 * This value can be accessed as $var within the view
+	 * @example $view->set(array('food' => 'bread', 'beverage' => 'water'));
+	 *
+	 * @param  string|array  $key    Variable name
+	 * @param  mixed         $value  Value
+	 *
+	 * @return self
 	 */
 	public function set($key, $value = null): self
 	{
@@ -459,7 +496,9 @@ class View implements ArrayAccess, Webable, ViewContract
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Get content as a string of HTML.
+	 * 
+	 * @return string
 	 */
 	public function toHtml()
 	{

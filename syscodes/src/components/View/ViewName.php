@@ -26,8 +26,6 @@ use Syscodes\Components\Contracts\View\ViewFinder;
 
 /**
  * Normalizes the view name.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class ViewName
 {

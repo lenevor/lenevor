@@ -27,8 +27,6 @@ use Syscodes\Components\Contracts\View\View;
 
 /**
  * Trait ManagesLayouts.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 trait ManagesLayouts
 {	
