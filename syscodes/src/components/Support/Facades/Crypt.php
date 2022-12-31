@@ -24,8 +24,6 @@ namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Encrypter class facade.
- *
- * @author Alexander Campo <jalexcam@gmail.com>
  * 
  * @method static bool supported(string $key, string $cipher)
  * @method static string generateRandomKey(string $cipher)

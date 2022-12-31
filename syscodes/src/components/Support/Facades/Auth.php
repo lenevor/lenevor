@@ -24,8 +24,6 @@ namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the App class facade.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  *
  * @method static \Syscodes\Components\Auth\AuthManager extend(string $driver, \Closure $callback)
  * @method static \Syscodes\Components\Auth\AuthManager provider(string $name, \Closure $callback)

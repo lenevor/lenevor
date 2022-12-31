@@ -24,8 +24,6 @@ namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Lang class facade.
- *
- * @author Alexander Campo <jalexcam@gmail.com>
  * 
  * @method static string|array getLine($line, array $args = [])
  * 

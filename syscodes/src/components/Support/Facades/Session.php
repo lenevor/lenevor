@@ -24,8 +24,6 @@ namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Session class facade.
- *
- * @author Alexander Campo <jalexcam@gmail.com>
  * 
  * @method static string getName()
  * @method static bool start()

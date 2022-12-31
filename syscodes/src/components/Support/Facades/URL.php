@@ -24,8 +24,6 @@ namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the URL class facade.
- *
- * @author Alexander Campo <jalexcam@gmail.com>
  * 
  * @method static string current()
  * @method static string previous(mixed $fallback = false)

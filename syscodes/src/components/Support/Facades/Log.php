@@ -24,8 +24,6 @@ namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Logger class facade.
- *
- * @author Alexander Campo <jalexcam@gmail.com>
  * 
  * @method static void emergency(string $message, array $context = [])
  * @method static void alert(string $message, array $context = [])

@@ -26,8 +26,6 @@ use Syscodes\Components\Support\Chronos;
 
 /**
  * Initialize the Date class facade.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  *
  * @method static \Syscodes\Components\Support\Chronos\Time now(string $timezone = null, string $locale = null)
  * @method static \Syscodes\Components\Support\Chronos\Time parse(string $time, string $timezone = null, string $locale = null)

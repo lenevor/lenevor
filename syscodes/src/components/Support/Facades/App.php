@@ -24,8 +24,6 @@ namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the App class facade.
- * 
- * @author Alexander Campo <jalexcam@gmail.com>
  *
  * @method static string basePath(string $path = '')
  * @method static string bootstrapPath(string $path = '')

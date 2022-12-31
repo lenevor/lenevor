@@ -24,8 +24,6 @@ namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the Redis class facade.
- *
- * @author Alexander Campo <jalexcam@gmail.com>
  * 
  * @method static \Predis\Connection\SingleConnectionInterface connection(string $name = null)
  * 

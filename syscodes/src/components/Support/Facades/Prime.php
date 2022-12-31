@@ -26,8 +26,6 @@ use Syscodes\Components\Contracts\Console\Lenevor as LenevorConsole;
 
 /**
  * Initialize the Prime class facade.
- *
- * @author Alexander Campo <jalexcam@gmail.com>
  */
 class Prime extends Facade
 {

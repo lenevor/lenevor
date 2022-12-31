@@ -25,8 +25,6 @@ namespace Syscodes\Components\Support\Facades;
 /**
  * Initialize the Event class facade.
  * 
- * @author Alexander Campo <jalexcam@gmail.com>
- * 
  * @method static void listen(string|array $events, \Closure|string $listener, int $priority = 0)
  * @method static \Closure makeListener(\Closure|string $listener, bool $wilcard = false)
  * @method static \Closure createClassListener(string $listener, bool $wilcard = false)
