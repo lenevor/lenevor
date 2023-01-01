@@ -19,7 +19,7 @@ use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoloader;
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2021 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2023 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -31,6 +31,22 @@ if ( ! defined('SYS_PATH')) define('SYS_PATH', realpath($paths['path.sys']).DIRE
 // Call the file constants
 require CON_PATH.'constants.php';
 
+/*
+|------------------------------------------------------------------------
+| Register The Composer Autoloader
+|------------------------------------------------------------------------
+|
+| Composer provides a convenient, automatically generated class loader 
+| for our application. We will need it so that we do not have to worry 
+| about loading any class of third party "manually".
+|
+*/
+
+if (file_exists(COMPOSER_PATH)) {
+    require COMPOSER_PATH;
+}
+
+// Register the autoloader
 if ( ! class_exists(Syscodes\Bundles\WebResourceBundle\Autoloader\Autoload::class, false)) {
 	require_once SYS_PATH.'src/bundles/WebResourceBundle/Autoloader/AutoloadConfig.php';
 	require_once SYS_PATH.'src/bundles/WebResourceBundle/Autoloader/Autoload.php';
