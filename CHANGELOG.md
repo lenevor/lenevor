@@ -1,5 +1,61 @@
 # Release Notes
 
+## [Version 0.8.1-alpha.8] 
+
+Release Date: Dec 31, 2022
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added new methods for refresh instance on the given target and method in the `Container` class
+- Added the key / value of the auth in routeMiddleware
+- Added method for resolve the given guard
+- Added the key / value for call the service of auth
+- Added new methods for determine the current request of JSON response
+- Added new items for start session of user
+- Added new key / value for the authentication basic of user
+- Added new method for create session driver
+- Added new method for determine if the request of a prefetch all completed
+- Added StartSesion middleware in the register of the `SessionServiceProvider` class
+- Added method for generates a normalized URI for the request
+- Added method for the route URL generator instance
+- Added new methods for redirected response in `RouteResponse` class
+- Added new colors for dark mode as theme for debug system
+- Added the comments at started of class and assign a trait in `Access/Gate` class
+- Added new method for the authorization of exceptions if response was denied in `Access/Response` class
+- Added methods for register the service of authentication
+- Added the `InteractsIO` trait in the `Console/Command` class 
+- Added the comments in heading in all the methods of the classes
+- Added variable as array for loaded of path in `Finder` class
+
+### Fixed
+- Fix bug the error of namespace in `config\Auth.php`
+
+### Changed
+- Changed release 0.8.1-alpha.8
+- Changed the value at the constant of STATUS in `Version` class
+- Changed the HTML Code for show text in the web editor
+- Changed method getClass() by getType()->getName() in the `Container` class
+
+### Created
+- Created Authenticate middleware allow the user is logged using redirected
+- Created Authentication class to using with the facade
+- Created new event class for get the failed user
+- Created new event class for get the authenticated device logout user
+- Created new middleware for determine if the user is logged
+- Created the Recaller class for allows has the recaller in a cookie
+- Created new class for the start session allows authenticate logged on users
+- Created Gate class for authorized to the users logged
+- Created class for called the user model connection to database
+- Created a new interface for get a entity has a given ability 
+
+### Removed
+- Removed the type output of method in shouldUse
+- Removed the type output of method and added new argument in `StateGuard` interface
+- Removed the variable that generated count of the string in `Finder` class
+- Removed the properties phpdoc of author in the heading in all the classes
+
+
 ## [Version 0.8.0-alpha.8] 
 
 Release Date: Oct 10, 2022
