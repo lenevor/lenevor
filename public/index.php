@@ -26,22 +26,6 @@ define('LENEVOR_START', microtime(true));
 
 /*
 |------------------------------------------------------------------------
-| Register The Composer Autoloader
-|------------------------------------------------------------------------
-|
-| Composer provides a convenient, automatically generated class loader 
-| for our application. We will need it so that we do not have to worry 
-| about loading any class of third party "manually".
-|
-*/
-
-if (file_exists(__DIR__.'/../vendor/autoload.php'))
-{
-    require __DIR__.'/../vendor/autoload.php';
-}
-
-/*
-|------------------------------------------------------------------------
 | Call Configured Paths
 |------------------------------------------------------------------------
 |
