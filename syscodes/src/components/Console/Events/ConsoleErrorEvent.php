@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2022 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2023 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -49,8 +49,8 @@ class ConsoleErrorEvent extends ConsoleEvent
     /**
      * Constructor. The create a new ConsoleErrorEvent instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Input  $input
-     * @param  \Syscodes\Components\Contracts\Console\Output  $output
+     * @param  \Syscodes\Components\Contracts\Console\Input\input  $input
+     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $output
      * @param  \Throwable  $error
      * @param  \Syscodes\Components\Console\Command\Command  $command
      * 
