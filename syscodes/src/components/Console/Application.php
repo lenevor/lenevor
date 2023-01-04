@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2022 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2023 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -638,25 +638,14 @@ class Application implements ApplicationContract
     }
     
     /**
-     * @inheritdoc
+     * Gets the help message.
+     * 
+     * @return string
      */
     public function getHelp(): string
     {
         return $this->getConsoleVersion();
     }
-
-    /**
-     * Get config param value.
-     * 
-     * @param  string  $name
-     * @param  string|null  $default
-     * 
-     * @return array|string
-     */
-    public function getParam(string $name, $default = null)
-    {
-        return $this->config[$name] ?? $default;
-	}
 
     /**
      * Initializes the ListCommand and HelpCommand classes.
