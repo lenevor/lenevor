@@ -82,9 +82,7 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function registerViewFinder()
     {
-        $this->app->bind('view.finder', function ($app) {
-            return new FileViewFinder($app['files'], $app['config']['view.paths']);
-        });
+        $this->app->bind('view.finder', fn ($app) => new FileViewFinder($app['files'], $app['config']['view.paths']));
     }
 
     /**
@@ -94,12 +92,7 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function registerPlazeTranspiler()
     {
-        $this->app->singleton('plaze.transpiler', function ($app) {
-            return new PlazeTranspiler(
-                $app['files'], $app['config']['view.transpiled']
-            );
-
-        });
+        $this->app->singleton('plaze.transpiler', fn ($app) => new PlazeTranspiler($app['files'], $app['config']['view.transpiled']));
     }
     
     /**
@@ -131,9 +124,7 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function registerFileEngine($resolver)
     {
-        $resolver->register('file', function () {
-            return new FileEngine;
-        });
+        $resolver->register('file', fn () => new FileEngine);
     }
     
     /**
@@ -145,9 +136,7 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function registerPhpEngine($resolver)
     {
-        $resolver->register('php', function () {
-            return new PhpEngine($this->app['files']);
-        });
+        $resolver->register('php', fn () => new PhpEngine($this->app['files']));
     }
     
     /**
@@ -159,8 +148,6 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function registerPlazeEngine($resolver)
     {
-        $resolver->register('plaze', function () {
-            return new TranspilerEngine($this->app['plaze.transpiler'], $this->app['files']);
-        });
+        $resolver->register('plaze', fn () => new TranspilerEngine($this->app['plaze.transpiler'], $this->app['files']));
     }
 }
