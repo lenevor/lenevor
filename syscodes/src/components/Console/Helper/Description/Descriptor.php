@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Console\Helper\Description;
 
+use InvalidArgumentException;
 use Syscodes\Components\Console\Application;
 use Syscodes\Components\Console\Command\Command;
 use Syscodes\Components\Console\Input\InputOption;
@@ -40,7 +41,7 @@ abstract class Descriptor implements DescriptorInterface
      * 
      * @var \Syscodes\Components\Contracts\Console\Output\Output $output
      */
-    protected  $output;
+    protected $output;
     
     /**
      * Describes the type of input, output and command for console.
@@ -55,25 +56,14 @@ abstract class Descriptor implements DescriptorInterface
     {
         $this->output = $output;
 
-        switch (true) {
-            case $object instanceof InputArgument:
-                $this->describeOption($object, $options);
-                break;
-            case $object instanceof InputOption:
-                $this->describeOption($object, $options);
-                break;
-            case $object instanceof InputDefinition:
-                $this->describeDefinition($object, $options);
-                break;
-            case $object instanceof Command:
-                $this->describeCommand($object, $options);
-                break;
-            case $object instanceof Application:
-                $this->describeApplication($object, $options);
-                break;
-            default:
-                echo 'Error';
-        }
+        match (true) {
+            $object instanceof InputArgument => $this->describeArgument($object, $options),
+            $object instanceof InputOption => $this->describeOption($object, $options),
+            $object instanceof InputDefinition => $this->describeDefinition($object, $options),
+            $object instanceof Command => $this->describeCommand($object, $options),
+            $object instanceof Application => $this->describeApplication($object, $options),
+            default => throw new InvalidArgumentException(sprintf('Object of type "%s" is not describable.', get_debug_type($object))),
+        };
     }
 
     /**
