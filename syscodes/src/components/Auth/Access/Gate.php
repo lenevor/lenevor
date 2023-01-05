@@ -302,9 +302,7 @@ class Gate implements GateContract
      */
     public function any($abilities, $arguments = []): bool
     {
-        return collect($abilities)->contains(function ($ability) use ($arguments) {
-            return $this->check($ability, $arguments);
-        });
+        return collect($abilities)->contains(fn ($ability) => $this->check($ability, $arguments));
     }
     
     /**
@@ -559,9 +557,7 @@ class Gate implements GateContract
      */
     public function forUser($user)
     {
-        $callback = function () use ($user) {
-            return $user;
-        };
+        $callback = fn () => $user;
         
         return new static(
             $this->container, $callback, $this->abilities,
