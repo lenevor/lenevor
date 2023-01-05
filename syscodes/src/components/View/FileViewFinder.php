@@ -171,9 +171,7 @@ class FileViewFinder implements ViewFinder
      */
     protected function getFindViewFiles($name): array
     {
-        return array_map(function ($extension) use ($name) {
-            return str_replace('.', DIRECTORY_SEPARATOR, $name).'.'.$extension;   
-        }, $this->getExtensions());
+        return array_map(fn ($extension) => str_replace('.', DIRECTORY_SEPARATOR, $name).'.'.$extension, $this->getExtensions());
     }
 
     /**
