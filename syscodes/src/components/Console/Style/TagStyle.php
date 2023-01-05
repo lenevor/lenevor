@@ -22,13 +22,15 @@
 
 namespace Syscodes\Components\Console\Style;
 
+use InvalidArgumentException;
+
 /**
  * Configures the foreground, background and options 
  * for any text you should to highlight.
  */
 final class TagStyle
 {
-    public const COLORS = [
+    private const COLORS = [
         'black'   => 0,
         'red'     => 1,
         'green'   => 2,
@@ -40,7 +42,7 @@ final class TagStyle
         'default' => 9,
     ];
 
-    public const BRIGHT_COLORS = [
+    private const BRIGHT_COLORS = [
         'gray'           => 0,
         'bright-red'     => 1,
         'bright-green'   => 2,
@@ -51,11 +53,127 @@ final class TagStyle
         'bright-white'   => 7,
     ];
 
-    public const AVAILABLE_OPTIONS = [
+    private const AVAILABLE_OPTIONS = [
         'bold'       => 1,
         'underscore' => 4,
         'blink'      => 5,
         'reverse'    => 7,
         'conceal'    => 8,
 	];
+
+    /**
+     * Gets the background of CLI command.
+     * 
+     * @var string $background
+     */
+    private $background;
+
+    /**
+     * Gets the foreground of CLI command.
+     * 
+     * @var string $foreground
+     */
+    private $foreground;
+
+    /**
+     * Gets a specific style option.
+     * 
+     * @var array $options
+     */
+    private $options = [];
+
+    /**
+     * Constructor. The new a OutputFormatterStyles instance.
+     * 
+     * @param  string  $foreground  The style foreground color name
+     * @param  string  $background  The style background color name
+     * @param  array  $options  The specify style option
+     * 
+     * @return void
+     */
+    public function __construct(string $foreground = '', string $background = '', array $options = [])
+    {
+        if ('' !== $foreground || null !== $foreground) {
+            $this->foreground = $this->parseColor($foreground);
+        }
+        
+        if ('' !== $background || null !== $background) {
+            $this->background = $this->parseColor($background, true);
+        }
+        
+        foreach ($options as $option) {
+            if ( ! isset(self::AVAILABLE_OPTIONS[$option])) {
+                throw new InvalidArgumentException(
+                    sprintf('Invalid option specified: "%s". Expected one of (%s).', 
+                        $option, 
+                        implode(', ', array_keys(self::AVAILABLE_OPTIONS))
+                    )
+                );
+            }
+
+            $this->options[$option] = self::AVAILABLE_OPTIONS[$option];
+        }
+    }
+    
+    /**
+     * Gets the parse color for capture to the color type that is needed
+     * on foreground and background of CLI Commands.
+     * 
+     * @param  string  $color
+     * @param  bool  $background
+     * 
+     * @return string
+     * 
+     * @throws \InvalidArgumentException
+     */
+    private function parseColor(string $color, bool $background = false): string
+    {
+        if ('' === $color) {
+            return '';
+        }
+        
+        if (isset(self::COLORS[$color])) {
+            return ($background ? '4' : '3').self::COLORS[$color];
+        }
+        
+        if (isset(self::BRIGHT_COLORS[$color])) {
+            return ($background ? '10' : '9').self::BRIGHT_COLORS[$color];
+        }
+        
+        throw new InvalidArgumentException(
+            sprintf('Invalid "%s" color; expected one of (%s).', 
+                $color, implode(', ', array_merge(array_keys(self::COLORS), array_keys(self::BRIGHT_COLORS)))
+            )
+        );
+    }
+    
+    /**
+     * Applies the style to a given text.
+     * 
+     * @param  string  $text
+     * 
+     * @return string
+     */
+    public function apply(string $text): string
+    {
+        $codes = [];
+        
+        if ('' !== $this->foreground) {
+            $codes[] = $this->foreground;
+        }
+        
+        if ('' !== $this->background) {
+            $codes[] = $this->background;
+        }
+        
+        if (count($this->options)) {
+            $codes = array_merge($codes, $this->options);
+        }
+        
+        if (0 === count($codes)) {
+            return '';
+        }
+        
+        return sprintf("\033[%sm%s\033[0m", implode(';', $codes), $text);
+    }
 }
