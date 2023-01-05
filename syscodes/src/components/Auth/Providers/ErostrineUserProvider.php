@@ -134,9 +134,10 @@ class ErostrineUserProvider implements UserProvider
      */
     public function retrieveByCredentials(array $credentials)
     {
-        $credentials = array_filter($credentials, function ($key) {
-            return ! Str::contains($key, 'password');
-        }, ARRAY_FILTER_USE_KEY);
+        $credentials = array_filter($credentials, 
+            fn ($key) => ! Str::contains($key, 'password'),
+            ARRAY_FILTER_USE_KEY
+        );
 
         if (empty($credentials)) {
             return;
