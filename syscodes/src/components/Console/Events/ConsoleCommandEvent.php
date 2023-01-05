@@ -25,7 +25,7 @@ namespace Syscodes\Components\Console\Events;
 /**
  * Allows to do things before the command is executed.
  */
-class ConsoleCommandEvent extends ConsoleEvent
+final class ConsoleCommandEvent extends ConsoleEvent
 {
     /**
      * Indicates if the command should be run or skipped.
