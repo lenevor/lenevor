@@ -79,13 +79,13 @@ class Interactor
             $this->input->setInteractive(false);
         }
         
-        switch ($shellVerbosity = (int) getenv('SHELL_VERBOSITY')) {
-            case -1: $this->output->setVerbosity(OutputInterface::VERBOSITY_QUIET); break;
-            case  1: $this->output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE); break;
-            case  2: $this->output->setVerbosity(OutputInterface::VERBOSITY_VERY_VERBOSE); break;
-            case  3: $this->output->setVerbosity(OutputInterface::VERBOSITY_DEBUG); break;
-            default: $shellVerbosity = 0; break;
-        }
+        match ($shellVerbosity = (int) getenv('SHELL_VERBOSITY')) {
+            -1 => $this->output->setVerbosity(OutputInterface::VERBOSITY_QUIET),
+            1 => $this->output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE),
+            2 => $this->output->setVerbosity(OutputInterface::VERBOSITY_VERY_VERBOSE),
+            3 => $this->output->setVerbosity(OutputInterface::VERBOSITY_DEBUG),
+            default => $shellVerbosity = 0,
+        };
         
         if (true === $this->input->hasParameterOption(GlobalOption::QUIET_OPTION, true)) {
             $this->output->write('<comment> Ok. ByeBye! </comment>', true);
