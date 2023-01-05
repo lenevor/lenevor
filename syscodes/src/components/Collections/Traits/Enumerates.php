@@ -99,11 +99,11 @@ trait Enumerates
     {
         $useAsCallable = $this->useAsCallable($callback);
 
-        return $this->filter(function($value, $key) use ($callback, $useAsCallable) {
-            return $useAsCallable
+        return $this->filter(
+            fn($value, $key) => $useAsCallable
                 ? ! $callback($value, $key)
-                : $value != $callback;
-        });
+                : $value != $callback
+        );
     }
 
     /**
