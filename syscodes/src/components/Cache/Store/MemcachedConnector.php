@@ -56,8 +56,7 @@ class MemcachedConnector
             }
         }
 
-        if (false === $memcached->getVersion())
-        {
+        if (false === $memcached->getVersion()) {
             throw new LenevorException('Could not establish Memcached connection');
         }
 
