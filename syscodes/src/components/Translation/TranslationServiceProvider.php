@@ -59,9 +59,7 @@ class TranslationServiceProvider extends ServiceProvider implements Deferrable
      */
     protected function registerLoader()
     {
-        $this->app->singleton('translator.loader', function ($app) {
-            return new FileLoader($app['files'], $app['path.lang']);
-        });
+        $this->app->singleton('translator.loader', fn ($app) => new FileLoader($app['files'], $app['path.lang']));
     }
 
     /**
