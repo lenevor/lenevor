@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Console\Events;
 
 use Throwable;
+use ReflectionProperty;
 use Syscodes\Components\Console\Command\Command;
 use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
 use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
@@ -30,7 +31,7 @@ use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 /**
  * Allows to handle throwables running a command.
  */
-class ConsoleErrorEvent extends ConsoleEvent
+final class ConsoleErrorEvent extends ConsoleEvent
 {
     /**
      * Gets the error of handler.
@@ -83,5 +84,30 @@ class ConsoleErrorEvent extends ConsoleEvent
     public function setError(Throwable $error): void
     {
         $this->error = $error;
+    }
+    
+    /**
+     * Get the exit code as integer.
+     * 
+     * @return int
+     */
+    public function getExitCode(): int
+    {
+        return $this->exitCode ?? (is_int($this->error->getCode()) && 0 !== $this->error->getCode() ? $this->error->getCode() : 1);
+    }
+
+    /**
+     * Set the exit code as integer.
+     * 
+     * @param  int  $exitCode
+     * 
+     * @return void
+     */
+    public function setExitCode(int $exitCode): void
+    {
+        $this->exitCode = $exitCode;
+        
+        $reflection = new ReflectionProperty($this->error, 'code');
+        $reflection->setValue($this->error, $this->exitCode);
     }
 }
