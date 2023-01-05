@@ -100,7 +100,7 @@ class TextDescriptor extends Descriptor
 
         $spacingWidth = (20 - strlen($synopsis));
 
-        $this->writeText(sprintf('  <info>%s</>  %s%s%s%s',
+        $this->writeText(sprintf('  <fg=green>%s</>  %s%s%s%s',
             $synopsis,
             str_repeat(' ', $spacingWidth),
             preg_replace('/\s*[\r\n]\s*/', "\n".str_repeat(' ', 4), $option->getDescription()),
