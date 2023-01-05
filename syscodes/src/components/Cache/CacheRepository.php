@@ -110,13 +110,13 @@ class CacheRepository implements ArrayAccess, Repository
      */
     public function many(array $keys): array
     {
-        $values = $this->store->many(collect($keys)->map(function ($value, $key) {
-            return is_string($key) ? $key : $value;
-        })->values()->all());
+        $values = $this->store->many(collect($keys)->map(
+            fn ($value, $key)  => is_string($key) ? $key : $value)->values()->all()
+        );
         
-        return collect($values)->map(function ($value, $key) use ($keys) {
-            return $this->handleMany($keys, $key, $value);
-        })->all();
+        return collect($values)->map(
+            fn ($value, $key) => $this->handleMany($keys, $key, $value)
+        )->all();
     }
     
     /**
@@ -244,9 +244,7 @@ class CacheRepository implements ArrayAccess, Repository
      */
     public function pull($key, $default = null)
     {
-        return take($this->get($key, $default), function () use ($key) {
-            $this->delete($key);
-        });
+        return take($this->get($key, $default), fn () => $this->delete($key));
     }
 
     /**
