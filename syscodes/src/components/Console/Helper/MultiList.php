@@ -34,7 +34,7 @@ final class MultiList
      * 
      * @param  array  $data  The list of data
      * @param  array  $options  The options for list of data
-     * @param  \Syscodes\Components\Contracts\Console\Output  $output  The output interface implemented
+     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $output  The output interface implemented
      * 
      * @return int|string
      */
