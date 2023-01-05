@@ -23,13 +23,14 @@
 namespace Syscodes\Components\Console\Events;
 
 use Syscodes\Components\Console\Command\Command;
+use Syscodes\Components\Events\Dispatcher as Event;
 use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
-use Syscodes\Components\Contracts\Console\Output\OutputFormatter as OutputInterface;
+use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * This class allows to inpect input and output of a command.
  */
-class ConsoleEvent
+class ConsoleEvent extends Event
 {
     /**
      * Gets the command name.
@@ -56,8 +57,8 @@ class ConsoleEvent
      * Constructor. The create new ConsoleEvent instance.
      * 
      * @param  \Syscodes\Components\Console\Command\Command  $command
-     * @param  \Syscodes\Components\Contracts\Console\Input  $input
-     * @param  \Syscodes\Components\Contracts\Console\Output  $output
+     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
+     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $output
      * 
      * @return void
      */
@@ -81,7 +82,7 @@ class ConsoleEvent
     /**
      * Gets the command input instance.
      * 
-     * @return \Syscodes\Components\Contracts\Console\Input
+     * @return \Syscodes\Components\Contracts\Console\Input\Input
      */
     public function getCommandInput()
     {
@@ -91,7 +92,7 @@ class ConsoleEvent
     /**
      * Gets the command output instance.
      * 
-     * @return \Syscodes\Components\Contracts\Console\Output
+     * @return \Syscodes\Components\Contracts\Console\Output\Output
      */
     public function getCommandOutput()
     {
