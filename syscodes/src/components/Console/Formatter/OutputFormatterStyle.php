@@ -22,7 +22,6 @@
 
 namespace Syscodes\Components\Console\Formatter;
 
-use InvalidArgumentException;
 use Syscodes\Components\Console\Style\TagStyle;
 use Syscodes\Components\Contracts\Console\Output\OutputFormatterStyle as OutputFormatterStyleInterface;
 
@@ -36,28 +35,28 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      * 
      * @var string $background
      */
-    protected $background;
+    private string $background;
 
     /**
      * Gets the color of CLI command.
      * 
-     * @var string $color
+     * @var \Syscodes\Components\Console\Style\TagStyle $color
      */
-    protected $color;
+    private TagStyle $color;
 
     /**
      * Gets the foreground of CLI command.
      * 
      * @var string $foreground
      */
-    protected $foreground;
+    private string $foreground;
 
     /**
      * Gets a specific style option.
      * 
      * @var array $options
      */
-    protected $options = [];
+    private array $options = [];
 
     /**
      * Constructor. The new a OutputFormatterStyles instance.
@@ -68,51 +67,9 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      * 
      * @return void
      */
-    public function __construct($foreground = null, $background = null, array $options = [])
+    public function __construct(string $foreground = null, string $background = null, array $options = [])
     {
-        if (null !== $foreground) {
-            $this->setForeground($this->parseColor($foreground));
-        }
-        
-        if (null !== $background) {
-            $this->setBackground($this->parseColor($background, true));
-        }
-        
-        if (count($options)) {
-            $this->setOptions($options);
-        }
-    }
-    
-    /**
-     * Gets the parse color for capture to the color type that is needed
-     * on foreground and background of CLI Commands.
-     * 
-     * @param  string  $color
-     * @param  bool  $background
-     * 
-     * @return string
-     * 
-     * @throws \InvalidArgumentException
-     */
-    private function parseColor(string $color, bool $background = false): string
-    {
-        if ('' === $color) {
-            return '';
-        }
-        
-        if (isset(TagStyle::COLORS[$color])) {
-            return ($background ? '4' : '3').TagStyle::COLORS[$color];
-        }
-        
-        if (isset(TagStyle::BRIGHT_COLORS[$color])) {
-            return ($background ? '10' : '9').TagStyle::BRIGHT_COLORS[$color];
-        }
-        
-        throw new InvalidArgumentException(
-            sprintf('Invalid "%s" color; expected one of (%s).', 
-                $color, implode(', ', array_merge(array_keys(TagStyle::COLORS), array_keys(TagStyle::BRIGHT_COLORS)))
-            )
-        );
+        $this->color = new TagStyle($this->foreground = $foreground ?: '', $this->background = $background ?: '', $this->options = $options);
     }
     
     /**
@@ -124,13 +81,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      */
     public function setForeground(string $color = null): void
     {
-        if (null === $color) {
-            $this->foreground = null;
-            
-            return;
-        }
-        
-        $this->foreground = $color;
+        $this->color = new TagStyle($this->foreground = $color ?: '', $this->background, $this->options);
     }
     
     /**
@@ -142,13 +93,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      */
     public function setBackground(string $color = null): void
     {
-        if (null === $color) {
-            $this->background = null;
-
-            return;
-        }
-        
-        $this->background = $color;
+        $this->color = new TagStyle($this->foreground, $this->background = $color ?: '', $this->options);
     }
     
     /**
@@ -160,18 +105,9 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      */
     public function setOption(string $option): void
     {
-        if ( ! isset(TagStyle::AVAILABLE_OPTIONS[$option])) {
-            throw new InvalidArgumentException(
-                sprintf('Invalid option specified: "%s". Expected one of (%s)',
-                    $option,
-                    implode(', ', array_keys(TagStyle::AVAILABLE_OPTIONS))
-                )
-            );
-        }
-        
-        if (false === array_search(TagStyle::AVAILABLE_OPTIONS[$option], $this->options)) {
-            $this->options[] = TagStyle::AVAILABLE_OPTIONS[$option];
-        }
+        $this->options[] = $option;
+
+        $this->color = new TagStyle($this->foreground, $this->background, $this->options);
     }
     
     /**
@@ -183,20 +119,13 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      */
     public function unsetOption(string $option): void
     {
-        if ( ! isset(TagStyle::AVAILABLE_OPTIONS[$option])) {
-            throw new InvalidArgumentException(
-                sprintf('Invalid option specified: "%s". Expected one of (%s)',
-                    $option,
-                    implode(', ', array_keys(TagStyle::AVAILABLE_OPTIONS))
-                )
-            );
+        $pos = array_search($option, $this->options);
+
+        if (false !== $pos) {
+            unset($this->options[$pos]);
         }
-        
-        $position = array_search(TagStyle::AVAILABLE_OPTIONS[$option], $this->options);
-        
-        if (false !== $position) {
-            unset($this->options[$position]);
-        }
+
+        $this->color = new TagStyle($this->foreground, $this->background, $this->options);
     }
     
     /**
@@ -208,11 +137,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      */
     public function setOptions(array $options): void
     {
-        $this->options = [];
-        
-        foreach ($options as $option) {
-            $this->setOption($option);
-        }
+        $this->color = new TagStyle($this->foreground, $this->background, $this->options = $options);
     }
     
     /**
@@ -224,20 +149,6 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      */
     public function apply(string $text): string
     {
-        $codes = [];
-        
-        if (null !== $this->foreground) {
-            $codes[] = $this->foreground;
-        }
-        
-        if (null !== $this->background) {
-            $codes[] = $this->background;
-        }
-        
-        if (count($this->options)) {
-            $codes = array_merge($codes, $this->options);
-        }
-        
-        return sprintf("\033[%sm%s\033[0m", implode(';', $codes), $text);
+        return $this->color->apply($text);
     }
 }
