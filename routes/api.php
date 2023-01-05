@@ -11,4 +11,4 @@
 |
 */
 
-use Syscodes\Http\Request;
+use Syscodes\Components\Http\Request;
