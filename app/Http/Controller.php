@@ -22,7 +22,7 @@
 namespace App\Http;
 
 use Syscodes\Components\Core\Auth\Access\AuthorizesRequests;
-use Syscodes\Components\Controller\Controller as BaseController;
+use Syscodes\Components\Routing\Controller as BaseController;
 
 /**
  * Base Controller for the applications.
