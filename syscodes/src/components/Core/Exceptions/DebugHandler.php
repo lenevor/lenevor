@@ -36,9 +36,7 @@ class DebugHandler
      */
     public function initDebug()
     {
-        return take(new PleasingPageHandler, function ($handler) {
-            $this->registerEditor($handler);
-        });
+        return take(new PleasingPageHandler, fn ($handler) => $this->registerEditor($handler));
     }
 
     /**

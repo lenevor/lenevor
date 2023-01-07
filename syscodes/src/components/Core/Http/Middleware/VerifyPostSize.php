@@ -65,18 +65,11 @@ class VerifyPostSize
         $metric      = strtoupper(substr($postMaxSize, -1));
         $postMaxSize = (int) $postMaxSize;
         
-        switch ($metric) {
-            case 'K':
-            case 'k':
-                return $postMaxSize * 1024;
-            case 'M':
-            case 'm':
-                return $postMaxSize * 1048576;
-            case 'G':
-            case 'g':
-                return $postMaxSize;
-            default:
-                return $postMaxSize;
-        }
+        return match ($metric) {
+            'K', 'k' => $postMaxSize * 1024,
+            'M', 'm' => $postMaxSize * 1048576,
+            'G', 'g' => $postMaxSize * 1073741824,
+            default => $postMaxSize,
+        };
     }
 }

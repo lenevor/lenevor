@@ -43,9 +43,7 @@ class BootConfiguration
 
 		// Finally, we will set the application's environment based on the configuration
         // values that were loaded. 
-		$app->detectEnvironment(function () use ($config) {
-		    return $config->get('app.env', 'production');
-		});
+		$app->detectEnvironment(fn () => $config->get('app.env', 'production'));
 
 		// Set a default timezone if one is defined
 		date_default_timezone_set($config->get('app.timezone', 'UTC'));
