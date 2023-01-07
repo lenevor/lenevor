@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Components\Controller\Contracts;
+namespace Syscodes\Components\Routing\Contracts;
 
 use Syscodes\Components\Routing\Route;
 
@@ -44,7 +44,7 @@ interface ControllerDispatcher
     /**
      * Get the middleware for the controller instance.
      * 
-     * @param  \Syscodes\Components\Controller\Controller  $controller
+     * @param  \Syscodes\Components\Routing\Controller  $controller
      * @param  string  $method
      * 
      * @return array
