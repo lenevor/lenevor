@@ -173,9 +173,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function refresh($id, $target, $method)
     {
-        return $this->rebinding($id, function($app, $instance) use ($target, $method) {
-            $target->{$method}($instance);
-        });
+        return $this->rebinding($id, fn($instance) => $target->{$method}($instance));
     }
 
     /**
@@ -284,9 +282,7 @@ class Container implements ArrayAccess, ContainerContract
         
         $resolver = $this->bindings[$id]['value'];
         
-        $this->bind($id, function ($container) use ($resolver, $closure) {
-            return $closure($resolver($container), $container);
-        }, $this->isSingleton($id));
+        $this->bind($id, fn ($container) => $closure($resolver($container), $container), $this->isSingleton($id));
     }
 
     /**
@@ -505,9 +501,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function factory($id): Closure
     {
-        return function () use ($id) {
-            return $this->make($id);
-        };
+        return fn () => $this->make($id);
     }
 
     /**
