@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
  
-namespace Syscodes\Components\Controller;
+namespace Syscodes\Components\Routing;
 
 /**
  * This class allows to include or exclude methods of a given class 
