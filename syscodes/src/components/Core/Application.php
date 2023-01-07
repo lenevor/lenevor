@@ -846,7 +846,7 @@ class Application extends Container implements ApplicationContract
 
         $provider = $this->deferredServices[$service];
 
-        if (! isset($this->loadServiceProviders[$provider])) {
+        if ( ! isset($this->loadServiceProviders[$provider])) {
             $this->registerDeferredProvider($provider, $service);
         }
     }
@@ -860,7 +860,7 @@ class Application extends Container implements ApplicationContract
      */
     public function registerDeferredProvider($provider, $service = null)
     {
-        if (! is_null($service)) {
+        if ( ! is_null($service)) {
             unset($this->deferredServices[$service]);
         }
 
@@ -870,9 +870,7 @@ class Application extends Container implements ApplicationContract
             return;
         }
 
-        $this->booting(function() use ($instance) {
-            $this->bootProviderClass($instance);
-        });
+        $this->booting(fn () => $this->bootProviderClass($instance));
     }
     
     /**
@@ -910,9 +908,7 @@ class Application extends Container implements ApplicationContract
 
         $this->bootAppCallbacks($this->bootingCallbacks);
 
-        array_walk($this->serviceProviders, function ($provider) {
-            $this->bootProviderClass($provider);
-        });
+        array_walk($this->serviceProviders, fn ($provider) => $this->bootProviderClass($provider));
 
         $this->booted = true;
 
