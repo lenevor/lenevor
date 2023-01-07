@@ -20,12 +20,12 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
  
-namespace Syscodes\Components\Controller;
+namespace Syscodes\Components\Routing;
 
 use Syscodes\Components\Routing\Route;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Routing\Concerns\RouteDependencyResolver;
-use Syscodes\Components\Controller\Contracts\ControllerDispatcher as ControllerDispatcherContract;
+use Syscodes\Components\Routing\Contracts\ControllerDispatcher as ControllerDispatcherContract;
 
 /**
  * Dispatch requests when called a given controller and method.
@@ -44,7 +44,7 @@ class ControllerDispatcher implements ControllerDispatcherContract
     /**
      * Constructor. The ControllerDispatcher class instance.
      * 
-     * @param  \Syscodes\Contracts\Container\Container  $container
+     * @param  \Syscodes\Components\Contracts\Container\Container  $container
      * 
      * @return void
      */
@@ -56,7 +56,7 @@ class ControllerDispatcher implements ControllerDispatcherContract
     /**
      * Dispatch a request to a given controller and method.
      * 
-     * @param  \Syscodes\Routing\Route  $route
+     * @param  \Syscodes\Components\Routing\Route  $route
      * @param  mixed  $controller
      * @param  string  $method
      * 
@@ -78,7 +78,7 @@ class ControllerDispatcher implements ControllerDispatcherContract
     /**
      * Get the middleware for the controller instance.
      * 
-     * @param  \Syscodes\Controller\Controller  $controller
+     * @param  \Syscodes\Components\Routing\Controller  $controller
      * @param  string  $method
      * 
      * @return array
@@ -92,9 +92,10 @@ class ControllerDispatcher implements ControllerDispatcherContract
 
         $middleware = $controller->getMiddleware();
 
-        return collect($middleware)->reject(function ($data) use ($method) {
-            return $this->methodExcludedByOptions($method, $data['options']);
-        })->pluck('middleware')->all();
+        return collect($middleware)
+                    ->reject(fn ($data) => $this->methodExcludedByOptions($method, $data['options']))
+                    ->pluck('middleware')
+                    ->all();
     }
 
     /**
