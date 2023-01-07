@@ -49,9 +49,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      */
     public function __construct(array $frames)
     {
-        $this->frames = array_map(function ($frame) {
-            return new Frame($frame);
-        }, $frames);
+        $this->frames = array_map(fn ($frame) => new Frame($frame), $frames);
     }
 
     /**
