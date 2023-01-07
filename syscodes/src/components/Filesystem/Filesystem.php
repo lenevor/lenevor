@@ -270,7 +270,7 @@ class Filesystem
 	 * based on the actual size transmitted.
 	 *
 	 * @param  string  $path
-	 * @param  string  $unit  ('b' by default)
+	 * @param  string  $unit
 	 * 
 	 * @return int|null  The file size in bytes or null if unknown
 	 */
@@ -281,16 +281,11 @@ class Filesystem
 				$this->size = filesize($path);
 			}
 
-			switch (strtolower($unit)) {
-				case 'kb':
-					return number_format($this->size / 1024, 3);
-					break;
-				case 'mb':
-					return number_format(($this->size / 1024) / 1024, 3);     
-					break;
-			}
-
-			return $this->size;
+			return match (strtolower($unit)) {
+				'kb' => number_format($this->size / 1024, 3),
+				'mb' => number_format(($this->size / 1024) / 1024, 3),
+				default => $this->size,
+			};
 		}
 
 		return null;
