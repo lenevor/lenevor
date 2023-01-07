@@ -151,9 +151,9 @@ final class RepositoryCreator
      * 
      * @param  string  $class
      * 
-     * @return object
+     * @return string|object
      */
-    protected function getReflectionClass($class): object
+    protected function getReflectionClass($class): string|object
     {
         $object = new ReflectionClass($class);
 
