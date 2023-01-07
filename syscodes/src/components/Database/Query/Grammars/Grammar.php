@@ -682,9 +682,7 @@ class Grammar extends BaseGrammar
      */
     protected function compileOrderToArray(Builder $builder, $orders): array
     {
-        return array_map(function ($order) {
-            return $order['sql'] ?? $this->wrap($order['column']).' '.$order['direction'];
-        }, $orders);
+        return array_map(fn ($order) => $order['sql'] ?? $this->wrap($order['column']).' '.$order['direction'], $orders);
     }
 
     /**
@@ -817,9 +815,8 @@ class Grammar extends BaseGrammar
 
         $columns = $this->columnize(array_keys(headItem($values)));
 
-        $parameters = collect($values)->map(function ($record) {
-            return '('.$this->parameterize($record).')';
-        })->implode(', ');
+        $parameters = collect($values)->map(fn ($record) => '('.$this->parameterize($record).')')
+                                      ->implode(', ');
 
         return "insert into $table ($columns) values $parameters";
     }
@@ -1012,9 +1009,7 @@ class Grammar extends BaseGrammar
      */
     protected function concatenate($segments): string
     {
-        return implode(' ', array_filter($segments, function ($value) {
-            return (string) $value !== '';
-        }));
+        return implode(' ', array_filter($segments, fn ($value) => (string) $value !== ''));
     }
 
     /**

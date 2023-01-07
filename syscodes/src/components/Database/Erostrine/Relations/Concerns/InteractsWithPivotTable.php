@@ -54,9 +54,7 @@ trait InteractsWithPivotTable
         if ($detaching && count($detach) > 0) {
             $this->detach($detach);
 
-            $changes['detached'] = (array) array_map(function($value) { 
-                return (int) $value; 
-            }, $detach);
+            $changes['detached'] = (array) array_map(fn ($value) => (int) $value, $detach);
         }
         
         $changes = array_merge(

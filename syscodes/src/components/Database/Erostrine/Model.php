@@ -491,9 +491,7 @@ class Model implements Arrayable, ArrayAccess
 			return;
 		}
 
-		return $this->getConnection()->transaction(function () {
-			return $this->delete();
-		});
+		return $this->getConnection()->transaction(fn () => $this->delete());
 	}
 
 	/**

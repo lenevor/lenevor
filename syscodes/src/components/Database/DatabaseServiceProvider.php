@@ -58,16 +58,10 @@ class DatabaseServiceProvider extends ServiceProvider
      */
     protected function registerConfigurationServices()
     {
-        $this->app->singleton('db.factory', function ($app) {
-            return new ConnectionFactory($app);
-        });
+        $this->app->singleton('db.factory', fn ($app) => new ConnectionFactory($app));
 
-        $this->app->singleton('db', function ($app) {
-            return new DatabaseManager($app, $app['db.factory']);
-        });
+        $this->app->singleton('db', fn ($app) => new DatabaseManager($app, $app['db.factory']));
         
-        $this->app->bind('db.connection', function ($app) {
-            return $app['db']->connection();
-        });
+        $this->app->bind('db.connection', fn ($app) => $app['db']->connection());
     }
 }

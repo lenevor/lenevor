@@ -191,9 +191,7 @@ abstract class Grammar extends BaseGrammar
      */
     protected function getCommandsByName(Dataprint $dataprint, $name): array
     {
-        return array_filter($dataprint->getCommands(), function ($value) use ($name) {
-            return $value->name == $name;
-        });
+        return array_filter($dataprint->getCommands(), fn ($value) => $value->name == $name);
     }
     
     /**
@@ -206,9 +204,7 @@ abstract class Grammar extends BaseGrammar
      */
     public function prefixArray($prefix, array $values): array
     {
-        return array_map(function ($value) use ($prefix) {
-            return $prefix.' '.$value;
-        }, $values);
+        return array_map(fn ($value) => $prefix.' '.$value, $values);
     }
     
     /**

@@ -331,9 +331,7 @@ class Builder
      */
     public function updateOrCreate(array $attributes, array $values = [])
     {
-        return take($this->firstOrNew($attributes), function ($instance) use ($values) {
-            $instance->fill($values)->save();
-        });
+        return take($this->firstOrNew($attributes), fn ($instance) => $instance->fill($values)->save());
     }
 
     /**
@@ -399,9 +397,7 @@ class Builder
     {
         $instance = $this->newModelInstance();
         
-        return $instance->newCollection(array_map(function ($item) use ($instance) {
-            return $instance->newFromBuilder($item);
-        }, $items));
+        return $instance->newCollection(array_map(fn ($item) => $instance->newFromBuilder($item), $items));
     }
     
     /**
@@ -413,9 +409,7 @@ class Builder
      */
     public function create(array $attributes = [])
     {
-        return take($this->newModelInstance($attributes), function ($instance) {
-            $instance->save();
-        });
+        return take($this->newModelInstance($attributes), fn ($instance) => $instance->save());
     }
 
     /**

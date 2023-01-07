@@ -178,9 +178,11 @@ abstract class Relation
      */
     protected function getKeys(array $models, $key = null)
     {
-        return collect($models)->map(function ($value) use ($key) {
-            return $key ? $value->getAttribute($key) : $value->getKey();
-        })->values()->unique(null, true)->sort()->all();
+        return collect($models)->map(fn ($value) => $key ? $value->getAttribute($key) : $value->getKey())
+                               ->values()
+                               ->unique(null, true)
+                               ->sort()
+                               ->all();
     }
 
     /**

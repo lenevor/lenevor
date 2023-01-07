@@ -213,7 +213,6 @@ trait HasAttributes
      * Get a relationship value from a method.
      * 
      * @param  string  $method
-     * @param  string  $snake
      * 
      * @return mixed
      */
@@ -231,9 +230,7 @@ trait HasAttributes
             ));
         }
         
-        return take($relation->getResults(), function ($results) use ($method) {
-            return $this->setRelation($method, $results);
-        });
+        return take($relation->getResults(), fn ($results) => $this->setRelation($method, $results));
     }
     
     /**

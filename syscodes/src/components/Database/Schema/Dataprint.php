@@ -198,9 +198,7 @@ class Dataprint
      */
     protected function commandsNamed(array $names)
     {
-        return collect($this->commands)->filter(function ($command) use ($names) {
-            return in_array($command->name, $names);
-        });
+        return collect($this->commands)->filter(fn ($command) => in_array($command->name, $names));
     }
 
     /**
@@ -254,9 +252,7 @@ class Dataprint
      */
     public function creating(): bool
     {
-        return collect($this->commands)->contains(function ($command) {
-            return $command->name === 'create';
-        });
+        return collect($this->commands)->contains(fn ($command) => $command->name === 'create');
     }
     
     /**
@@ -1293,9 +1289,7 @@ class Dataprint
      */
     public function removeColumn($name): self
     {
-        $this->columns = array_values(array_filter($this->columns, function ($column) use ($name) {
-            return $column['name'] != $name;
-        }));
+        $this->columns = array_values(array_filter($this->columns, fn ($column) => $column['name'] != $name));
         
         return $this;
     }
@@ -1365,9 +1359,7 @@ class Dataprint
      */
     public function getAddedColumns()
     {
-        return array_filter($this->columns, function ($column) {
-            return ! $column->change;
-        });
+        return array_filter($this->columns, fn ($column) => ! $column->change);
     }
     
     /**
@@ -1377,8 +1369,6 @@ class Dataprint
      */
     public function getChangedColumns()
     {
-        return array_filter($this->columns, function ($column) {
-            return (bool) $column->change;
-        });
+        return array_filter($this->columns, fn ($column) => (bool) $column->change);
     }
 }

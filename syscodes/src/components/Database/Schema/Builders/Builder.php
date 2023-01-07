@@ -221,9 +221,7 @@ class Builder
      */
     public function drop($table): void
     {
-        $this->build(take($this->createDataprint($table), function ($dataprint) {
-            $dataprint->drop();
-        }));
+        $this->build(take($this->createDataprint($table), fn ($dataprint) => $dataprint->drop()));
     }
     
     /**
@@ -235,9 +233,7 @@ class Builder
      */
     public function dropIfExists($table): void
     {
-        $this->build(take($this->createDataprint($table), function ($dataprint) {
-            $dataprint->dropIfExists();
-        }));
+        $this->build(take($this->createDataprint($table), fn ($dataprint) => $dataprint->dropIfExists()));
     }
     
     /**
@@ -250,9 +246,7 @@ class Builder
      */
     public function dropColumns($table, $columns): void
     {
-        $this->table($table, function (Dataprint $dataprint) use ($columns) {
-            $dataprint->dropColumn($columns);
-        });
+        $this->table($table, fn (Dataprint $dataprint) => $dataprint->dropColumn($columns));
     }
     
     /**
@@ -301,9 +295,7 @@ class Builder
      */
     public function rename($from, $to): void
     {
-        $this->build(take($this->createDataprint($from), function ($dataprint) use ($to) {
-            $dataprint->rename($to);
-        }));
+        $this->build(take($this->createDataprint($from), fn ($dataprint) => $dataprint->rename($to)));
     }
     
     /**

@@ -49,9 +49,7 @@ class Collection extends BaseCollection
             $key = $key->toArray();
         }
         
-        return Arr::first($this->items, function($model) use ($key) {
-            return $model->getKey() == $key;
-        }, $default);
+        return Arr::first($this->items, fn ($model) => $model->getKey() == $key, $default);
     }
     
     /**
@@ -104,14 +102,10 @@ class Collection extends BaseCollection
         }
 
         if ($key instanceof Model) {
-            return parent::contains(function ($model) use ($key) {
-                return $model->is($key);
-            });
+            return parent::contains(fn ($model) => $model->is($key));
         }
         
-        return parent::contains(function ($model) use ($key) {
-            return $model->getKey() == $key;
-        });
+        return parent::contains(fn ($model) => $model->getKey() == $key);
     }
 
     /**
@@ -135,9 +129,7 @@ class Collection extends BaseCollection
      */
     public function max($key)
     {
-        return $this->reduce(function($result, $item) use ($key) {
-            return (is_null($result) || $item->{$key} > $result) ? $item->{$key} : $result;
-        });
+        return $this->reduce(fn($result, $item) => (is_null($result) || $item->{$key} > $result) ? $item->{$key} : $result);
     }
     
     /**
@@ -149,9 +141,7 @@ class Collection extends BaseCollection
      */
     public function min($key)
     {
-        return $this->reduce(function($result, $item) use ($key) {
-            return (is_null($result) || $item->{$key} < $result) ? $item->{$key} : $result;
-        });
+        return $this->reduce(fn ($result, $item) => (is_null($result) || $item->{$key} < $result) ? $item->{$key} : $result);
     }
     
     /**
@@ -161,9 +151,7 @@ class Collection extends BaseCollection
      */
     public function modelKeys(): array
     {
-        return array_map(function($m) { 
-            return $m->getKey(); 
-        }, $this->items);
+        return array_map(fn ($m) => $m->getKey(), $this->items);
     }
     
     /**
