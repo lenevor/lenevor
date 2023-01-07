@@ -42,8 +42,6 @@ class RedisServiceProvider extends ServiceProvider
             return new RedisManager($config);
         });
 
-        $this->app->bind('redis.connection', function ($app) {
-            return $app['redis']->connection();
-        });
+        $this->app->bind('redis.connection', fn ($app) => $app['redis']->connection());
     }
 }
