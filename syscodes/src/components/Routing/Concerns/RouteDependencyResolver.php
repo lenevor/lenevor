@@ -91,9 +91,9 @@ trait RouteDependencyResolver
      */
     protected function transformGivenDependency(ReflectionParameter $parameter, array $parameters)
     {
-        $class = $parameter->getClass();
+        $class = $parameter->getType();
 
-        if ( ! is_null($class) && ! $this->getInParameters($className = $class->name, $parameters)) {
+        if ( ! is_null($class) && ! $this->getInParameters($className = $class->getName(), $parameters)) {
             return $parameter->isDefaultValueAvailable() ? null : $this->container->make($className);
         }
     }
