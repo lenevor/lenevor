@@ -45,28 +45,28 @@ class Factory implements FactoryContract
 	/**
 	 * The IoC container instance.
 	 * 
-	 * @var \Syscodes\Contracts\Container\Container $container
+	 * @var \Syscodes\Components\Contracts\Container\Container $container
 	 */
 	protected $container;
 
 	/**
 	 * The engine implementation.
 	 * 
-	 * @var \Syscodes\View\Engines\EngineResolver $engines
+	 * @var \Syscodes\Components\View\Engines\EngineResolver $engines
 	 */
 	protected $engines;
 
 	/**
 	 * The event dispatcher instance.
 	 * 
-	 * @var \Syscodes\Contracts\Events\Dispatcher $events
+	 * @var \Syscodes\Components\Contracts\Events\Dispatcher $events
 	 */
 	protected $events;
 
 	/**
 	 * The view finder implementation.
 	 * 
-	 * @var \Syscodes\View\FileViewFinder $finder
+	 * @var \Syscodes\Components\View\FileViewFinder $finder
 	 */
 	protected $finder;
 
@@ -85,11 +85,11 @@ class Factory implements FactoryContract
 	protected $shared = [];
 
 	/**
-	 * Constructor: Create a new Parser class instance.
+	 * Constructor. Create a new Parser class instance.
 	 * 
-	 * @param  \Syscodes\View\Engines\EngineResolver  $engine
-	 * @param  \Syscodes\Contracts\View\ViewFinder  $finder
-	 * @param  \Syscodes\Contracts\Events\Dispatcher  $events
+	 * @param  \Syscodes\Components\View\Engines\EngineResolver  $engine
+	 * @param  \Syscodes\Components\Contracts\View\ViewFinder  $finder
+	 * @param  \Syscodes\Components\Contracts\Events\Dispatcher  $events
 	 *
 	 * @return void
 	 */
@@ -138,9 +138,7 @@ class Factory implements FactoryContract
 		);
 		
 		// Loader class instance.
-		return take($this->viewInstance($view, $path, $data), function ($view) {
-			$this->callCreator($view);
-		});
+		return take($this->viewInstance($view, $path, $data), fn ($view) => $this->callCreator($view));
 	}
 
 	/**
@@ -162,7 +160,7 @@ class Factory implements FactoryContract
 	 * @param  string  $path  Path filename
 	 * @param  array  $data  Array of values
 	 * 
-	 * @return \Syscodes\Contracts\View\View
+	 * @return \Syscodes\Components\Contracts\View\View
 	 */
 	protected function viewInstance($view, $path, $data)
 	{
@@ -200,15 +198,13 @@ class Factory implements FactoryContract
 	{
 		$extensions = array_keys($this->extensions);
 		
-		return Arr::first($extensions, function($value) use ($path) {
-			return Str::endsWith($path, '.'.$value);
-		});
+		return Arr::first($extensions, fn ($value) => Str::endsWith($path, '.'.$value));
 	}
 	
 	/**
 	 * Call the creator for a given view.
 	 * 
-	 * @param  \Syscodes\View\View  $view
+	 * @param  \Syscodes\Components\View\View  $view
 	 * 
 	 * @return void
 	 */
@@ -328,7 +324,7 @@ class Factory implements FactoryContract
 	/**
 	 * Get the IoC container instance.
 	 * 
-	 * @return \Syscodes\Contracts\Container\Container
+	 * @return \Syscodes\Components\Contracts\Container\Container
 	 */
 	public function getContainer()
 	{
@@ -338,7 +334,7 @@ class Factory implements FactoryContract
 	/**
 	 * Set the IoC container instance.
 	 * 
-	 * @param  \Syscodes\Contracts\Container\Container  $container
+	 * @param  \Syscodes\Components\Contracts\Container\Container  $container
 	 * 
 	 * @return void
 	 */
