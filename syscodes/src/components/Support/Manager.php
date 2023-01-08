@@ -77,7 +77,7 @@ abstract class Manager
      * 
      * @return string
      */
-    abstract public function getDefaultDriver();
+    abstract public function getDefaultDriver(): string;
 
     /**
      * Get a driver instance.
