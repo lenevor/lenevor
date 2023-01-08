@@ -65,7 +65,11 @@ abstract class Transpiler
     }
 
     /**
-     * {@inheritdoc}
+     * Get the path to the transpiled version of a view.
+     * 
+     * @param  string  $path
+     * 
+     * @return string
      */
     public function getTranspilePath($path): string
     {
@@ -73,7 +77,11 @@ abstract class Transpiler
     }
 
     /**
-     * {@inheritdoc}
+     * Determine if the view at the given view is expired.
+     * 
+     * @param  string  $path
+     * 
+     * @return bool
      */
     public function isExpired($path): bool
     {
