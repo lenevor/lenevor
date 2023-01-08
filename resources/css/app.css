@@ -7,6 +7,7 @@
 	--color-black-2: hsla(0, 2%, 9%, 1);
 	--color-black-3: hsla(0, 5%, 14%, 1);
 	--color-black-4: hsla(0, 8%, 19%, 1);
+	--color-black-5: hsla(0, 10%, 22%, 1);
 	--color-white-1: hsla(0, 0%, 100%, 1);
 	--color-white-2: hsla(0, 0%, 94%, 1);
 	--color-white-3: hsla(223, 15%, 91%, 1);
@@ -18,6 +19,7 @@
 	--color-blue-5: hsla(215, 28%, 68%, 1);
 	--color-green-1: hsla(151, 50%, 44%, 1);
 	--color-green-2: hsla(142, 35%, 49%, 1);
+	--color-green-3: hsla(137, 35%, 49%, 1);
 	--color-gray-1: hsla(201, 14%, 29%, 1);
 	--color-gray-2: hsla(204, 3%, 32%, 1);
 	--color-gray-3: hsla(0, 0%, 60%, 1);
@@ -297,7 +299,7 @@ header .container .menu a:hover {
 header h1 {
 	color: var(--color-blue-1);
 	font-size: 1.5em;
-	letter-spacing: 0.8px;
+	letter-spacing: 0.5px;
 	margin-left: 10px;
 	margin-top: 10px;
 	text-align: justify;
@@ -324,7 +326,7 @@ header h1 {
 .status h2 {
 	font-size: 1.6em;
 	font-weight: 600;
-	letter-spacing: 0.8px;
+	letter-spacing: 0.5px;
 	margin: 0 auto;
 	margin-top: 70px;
 	padding-bottom: 10px;
@@ -339,8 +341,8 @@ header h1 {
 .status code { 
 	background: var(--color-gray-1);
 	border-radius: 30px;
-	box-shadow: inset -1px -1px 5px hsla(224, 12%, 44%, 0.1),
-				inset -1px -1px 6px hsla(219, 13%, 35%, 0.5);
+	box-shadow: inset -1px -1px 5px hsla(199, 20%, 28%, 0.1),
+				inset -1px -1px 6px hsla(199, 21%, 33%, 0.5);
 	display: flex;
 	font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 	margin: 0 auto;
@@ -357,10 +359,10 @@ header h1 {
 
 .status code .check { 
 	align-items: center;
-	background: var(--color-blue-1);
+	background: var(--color-blue-3);
 	border-radius: 15px;
-	box-shadow: inset -1px -1px 1px hsla(207, 13%, 34%, 0.7),
-				inset 1px 1px 2px hsla(209, 22%, 35%, 0.7);
+	box-shadow: inset -1px -1px 1px hsla(216, 47%, 40%, 0.7),
+				inset 1px 1px 2px hsla(201, 58%, 38%, 0.7);
 	display: flex;
 	height: 20px;
 	margin: 8px 10px;
@@ -400,7 +402,7 @@ header h1 {
 	color: var(--color-gray-3);
 	font-size: .8rem;
 	font-weight: 700;
-	letter-spacing: .8px;
+	letter-spacing: .5px;
 	margin: 10px auto;
 }
 
@@ -502,7 +504,7 @@ header h1 {
 	color: var(--color-gray-1);
 	font-size: 0.9em;
 	font-weight: 500;
-	letter-spacing: .4px;
+	letter-spacing: .2px;
     margin: 15px;
 }
 
@@ -612,8 +614,8 @@ header h1 {
 .text-gradient {
 	background: linear-gradient( 
 		150deg,
-		var(--color-gray-3),
-		var(--color-blue-2) 60%
+		var(--color-blue-2),
+		var(--color-gray-1) 60%
 	);
 	background-clip: text;
 	-webkit-background-clip: text;
@@ -626,7 +628,7 @@ header h1 {
 .dark-theme .text-gradient {
 	background: linear-gradient( 
 		150deg,
-		var(--color-darkgray-theme-3) 20%,
+		var(--color-gray-theme-1) 20%,
 		var(--color-white-theme) 60%
 	);
 	background-clip: text;
