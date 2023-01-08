@@ -214,9 +214,11 @@ class SessionManager extends Manager
     }
 
     /**
-     * {@inheritdoc}
+     * Get the default driver name.
+     * 
+     * @return string
      */
-    public function getDefaultDriver()
+    public function getDefaultDriver(): string
     {
         return $this->config->get('session.driver');
     }
