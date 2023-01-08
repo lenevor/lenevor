@@ -89,9 +89,7 @@ if ( ! function_exists('dd')) {
      */
     function dd()
     {
-        array_map(function ($x) {
-            var_dump($x);
-        },  func_get_args());
+        array_map(fn ($x) => var_dump($x),  func_get_args());
             
         die(1);
     }
@@ -124,9 +122,7 @@ if ( ! function_exists('preg_replace_sub')) {
      */
     function preg_replace_sub($pattern, &$replacements, $subject)
     {
-        return preg_replace_callback($pattern, function($match) use (&$replacements) {
-            return array_shift($replacements);
-        }, $subject);
+        return preg_replace_callback($pattern, fn ($match) => array_shift($replacements), $subject);
     }
 }
 
