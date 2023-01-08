@@ -1,5 +1,21 @@
 # Release Notes
 
+## [Version 0.8.2-alpha.8] 
+
+Release Date: Jan 08, 2022
+
+**Next alpha release of Lenevor**
+
+### Changed
+- Changed release to 0.8.2-alpha.8
+- Changed the year of copyright in comments heading of class
+- Changed to shorthand function for PHP 8.0 version in some of the classes to framework
+- Changed is other form to color style in console command in the `TextDescirptor` class
+
+### Updated
+- Updated the variable type for names in the `RouteDependencyResolver` class
+
+
 ## [Version 0.8.1-alpha.8] 
 
 Release Date: Dec 31, 2022
