@@ -48,9 +48,9 @@ interface TranspilerInterface
     /**
      * Transpile the view at the given path.
      * 
-     * @param  string  $path
+     * @param  string|null  $path
      * 
      * @return void
      */
-    public function transpile($path): void;
+    public function transpile($path = null): void;
 }
