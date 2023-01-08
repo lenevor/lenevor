@@ -82,8 +82,12 @@ class DatabaseSessionHandler implements SessionHandlerInterface
      * 
      * @return void
      */
-    public function __construct(ConnectionInterface $connection, string $table, int $minutes, Container $container = null)
-    {
+    public function __construct(
+        ConnectionInterface $connection,
+        string $table,
+        int $minutes,
+        Container $container = null
+    ) {
         $this->table      = $table;
         $this->minutes    = $minutes;
         $this->container  = $container;
