@@ -626,7 +626,7 @@ header h1 {
 .dark-theme .text-gradient {
 	background: linear-gradient( 
 		150deg,
-		var(--color-gray-theme-1),
+		var(--color-darkgray-theme-3) 20%,
 		var(--color-white-theme) 60%
 	);
 	background-clip: text;
