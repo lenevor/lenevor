@@ -60,20 +60,12 @@ trait HttpResources
 			$protocol = 'REQUEST_URI';
 		}
 
-		switch($protocol) {
-			case 'REQUEST_URI':
-				$path = $this->parseRequestUri();
-				break;
-			case 'QUERY_STRING':
-				$path = $this->parseQueryString();
-				break;
-			case 'PATH_INFO':
-			default:
-				$path = $this->server($protocol) ?? $this->parseRequestUri();
-				break;
-		}
-
-		return $path;
+		return match ($protocol) {
+			'REQUEST_URI' => $this->parseRequestUri(),
+			'QUERY_STRING' => $this->parseQueryString(),
+			'PATH_INFO' => $this->server($protocol) ?? $this->parseRequestUri(),
+			default => $this->parseRequestUri(),
+		};
 	}
 
 	/**
