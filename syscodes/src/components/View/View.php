@@ -93,8 +93,13 @@ class View implements ArrayAccess, Webable, ViewContract
 	 *
 	 * @throws \InvalidArgumentException
 	 */
-	public function __construct(Factory $factory, Engine $engine, $view, $path, $data = [])
-	{
+	public function __construct(
+		Factory $factory,
+		Engine $engine,
+		$view,
+		$path,
+		$data = []
+	) {
 		$this->factory = $factory;
 		$this->engine  = $engine;
 		$this->view    = $view;
@@ -165,9 +170,7 @@ class View implements ArrayAccess, Webable, ViewContract
 	{
 		$data = array_merge($this->factory->getShared(), $this->data);
 		
-		return array_map(function ($value) {
-			return ($value instanceof Renderable) ? $value->render() : $value;
-		}, $data);
+		return array_map(fn ($value) => ($value instanceof Renderable) ? $value->render() : $value, $data);
 	}
 
 	/**
@@ -179,9 +182,7 @@ class View implements ArrayAccess, Webable, ViewContract
 	 */
 	public function renderSections()
 	{
-		return $this->render(function () {
-			return $this->factory->getSections();
-		});
+		return $this->render(fn () => $this->factory->getSections());
 	}
 
 	/**

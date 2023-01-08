@@ -120,7 +120,11 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     ];
 
     /**
-     * {@inheritdoc}
+     * Transpile the view at the given path.
+     * 
+     * @param  string|null  $path
+     * 
+     * @return void
      */
     public function transpile($path = null): void
     {
@@ -197,9 +201,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      */
     protected function registerLiteralBlocks($value): string
     {
-        return preg_replace_callback('/(?<!<@)<@literal(.*?)<@endliteral/s', function ($matches) {
-            return "{$matches[1]}";
-        }, $value);
+        return preg_replace_callback('/(?<!<@)<@literal(.*?)<@endliteral/s', fn ($matches) => "{$matches[1]}", $value);
     }
     
     /**
@@ -212,9 +214,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      */
     protected function registerPhpBlocks($value): string
     {
-        return preg_replace_callback('/(?<!<@)<@php(.*?)<@endphp/s', function ($matches) {
-            return "<?php{$matches[1]}?>";
-        }, $value);
+        return preg_replace_callback('/(?<!<@)<@php(.*?)<@endphp/s', fn ($matches) => "<?php{$matches[1]}?>", $value);
     }
     
     /**
@@ -266,10 +266,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     {
         return collect(token_get_all($contents))
                     ->pluck(0)
-                    ->filter(function ($token) {
-                        return in_array($token, [T_OPEN_TAG, T_OPEN_TAG_WITH_ECHO, T_CLOSE_TAG]);
-                    }
-                );
+                    ->filter(fn ($token) => in_array($token, [T_OPEN_TAG, T_OPEN_TAG_WITH_ECHO, T_CLOSE_TAG]));
     }
     
     /**
@@ -283,9 +280,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     {
         $pattern = '/\B<@(\w+)([ \t]*)(\( ( (?>[^()]+) | (?3) )* \))?/x';
 
-        $callback = function ($match) {
-            return $this->transpileStatement($match);
-        };
+        $callback = fn ($match) => $this->transpileStatement($match);
 
         return preg_replace_callback($pattern, $callback, $value);
     }
