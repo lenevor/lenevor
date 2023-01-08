@@ -73,9 +73,7 @@ class RouteAction
      */
     protected static function usesAction($uri)
     {
-        return ['uses' => function () use ($uri) {
-            throw new LogicException(__('route.hasNoAction', ['uri' => $uri]));
-        }];
+        return ['uses' => fn () => throw new LogicException(__('route.hasNoAction', ['uri' => $uri]))];
     }
     
     /**
@@ -87,9 +85,7 @@ class RouteAction
      */
     protected static function findClosureAction(array $action)
     {
-        return Arr::first($action, function ($value, $key) {
-            return is_callable($value) && is_numeric($key);
-        });
+        return Arr::first($action, fn ($value, $key) => is_callable($value) && is_numeric($key));
     }
     
     /**

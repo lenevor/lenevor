@@ -170,9 +170,11 @@ class RouteUrlGenerator
      */
     protected function replaceNamedParameters($path, &$parameters)
     {
-        return preg_replace_callback('/\{(.*?)\??\}/', function ($match) use (&$parameters) {
-            return isset($parameters[$match[1]]) ? Arr::pull($parameters, $match[1]) : $match[0];
-        }, $path);
+        return preg_replace_callback(
+                    '/\{(.*?)\??\}/', 
+                    fn ($match) => isset($parameters[$match[1]]) ? Arr::pull($parameters, $match[1]) : $match[0], 
+                    $path
+                );
     }
 
     /**

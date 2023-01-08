@@ -248,9 +248,7 @@ class Router implements Routable
 	 */
 	public function redirect($uri, $destination, $status = 302)
 	{
-		return $this->any($uri, function () use ($destination, $status) {
-			return new RedirectResponse($destination, $status);
-		});
+		return $this->any($uri, fn () => new RedirectResponse($destination, $status));
 	}
 
 	/**
@@ -264,9 +262,11 @@ class Router implements Routable
 	 */
 	public function view($uri, $view, $data = [])
 	{
-		return $this->match(['GET', 'HEAD'], $uri, function () use ($view, $data) {
-			return $this->container->make('view')->make($view, $data);
-		});
+		return $this->match(
+			        ['GET', 'HEAD'], 
+					$uri, 
+					fn () => $this->container->make('view')->make($view, $data)
+				);
 	}
 
 	/**
@@ -448,7 +448,7 @@ class Router implements Routable
 	{
 		$uri = is_null($uri) ? '' : trim($uri, '/').'/';
 
-		$uri = filter_var($uri, FILTER_SANITIZE_STRING);
+		$uri = filter_var($uri, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 		// While we want to add a route within a group of '/',
 		// it doens't work with matching, so remove them...
@@ -521,9 +521,10 @@ class Router implements Routable
 	 */
 	public function gatherRouteMiddleware(Route $route): array
 	{
-		$middleware = array_map(function ($name) {
-			return MiddlewareResolver::resolve($name, $this->middleware, $this->middlewareGroups);
-		}, $route->gatherMiddleware());
+		$middleware = array_map(
+			                fn ($name) => MiddlewareResolver::resolve($name, $this->middleware, $this->middlewareGroups), 
+						    $route->gatherMiddleware()
+					  );
 		
 		return Arr::flatten($middleware);
 	}

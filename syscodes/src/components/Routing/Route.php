@@ -30,7 +30,7 @@ use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Container\Container;
-use Syscodes\Components\Controller\ControllerDispatcher;
+use Syscodes\Components\Routing\ControllerDispatcher;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
 
 /**
@@ -246,9 +246,9 @@ class Route
 	/**
 	 * Get the dispatcher for the route's controller.
 	 * 
-	 * @return \Syscodes\Components\Controller\ControllerDispatcher
+	 * @return \Syscodes\Components\Routing\ControllerDispatcher
 	 */
-	private function controllerDispatcher()
+	private function controllerDispatcher(): ControllerDispatcher
 	{
 		return new ControllerDispatcher($this->container);
 	}
@@ -589,11 +589,10 @@ class Route
 	{
 		@preg_match_all('~\{(.*?)\}~', $this->domain().$this->uri, $matches);
 
-		return array_filter(array_map(function ($match) {
-			return trim($match, '?');
-		}, $matches[1]), function ($parameterName) {
-			return ! array_key_exists($parameterName, []);
-		});
+		return array_filter(
+			        array_map(fn ($match) => trim($match, '?'), $matches[1]), 
+					fn ($parameterName) => ! array_key_exists($parameterName, [])
+				);
 	}
 
 	/**
@@ -631,9 +630,7 @@ class Route
 	 */
 	public function parametersWithouNulls(): array
 	{
-		return array_filter($this->parameters(), function ($parameter) {
-			return ! is_null($parameter);
-		});
+		return array_filter($this->parameters(), fn ($parameter) => ! is_null($parameter));
 	}
 
 	/**

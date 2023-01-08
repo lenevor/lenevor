@@ -58,9 +58,11 @@ class UriMatches
      */
     private static function regexUri(string $route, array $patterns): string
     {
-        return preg_replace_callback('~/\{([^}]+)\}~', function (array $match) use ($patterns) {
-            return static::regexParameter($match[1], $patterns);
-        }, $route);
+        return preg_replace_callback(
+                    '~/\{([^}]+)\}~', 
+                    fn (array $match) => static::regexParameter($match[1], $patterns), 
+                    $route
+                );
     }
     
     /**

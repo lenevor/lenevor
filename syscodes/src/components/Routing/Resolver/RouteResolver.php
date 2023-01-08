@@ -160,11 +160,7 @@ class RouteResolver
 		return (new Pipeline($this->container))
 				->send($request)
 				->through($middleware)
-				->then(function ($request) use ($route) {
-					return $this->callResponse(
-						$request, $route->runResolver()
-					); 
-				});
+				->then(fn ($request) => $this->callResponse($request, $route->runResolver()));
 	}
 
 	/**

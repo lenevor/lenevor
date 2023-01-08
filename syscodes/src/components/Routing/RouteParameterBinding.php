@@ -93,9 +93,11 @@ class RouteParameterBinding
         
         $parameters = array_intersect_key($matches, array_values($parameterNames));
         
-        return array_filter($parameters, function ($value) {
-            return is_string($value) && strlen($value) > 0;
-        }, ARRAY_FILTER_USE_BOTH);
+        return array_filter(
+                    $parameters, 
+                    fn ($value) => is_string($value) && strlen($value) > 0, 
+                    ARRAY_FILTER_USE_BOTH
+                );
     }
     
     /**

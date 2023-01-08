@@ -53,9 +53,7 @@ class RoutingServiceProvider extends ServiceProvider
      */
     protected function registerRouter()
     {
-        $this->app->singleton('router', function ($app) {
-            return new Router($app);
-        });
+        $this->app->singleton('router', fn ($app) => new Router($app));
     }
 
     /**
@@ -65,9 +63,7 @@ class RoutingServiceProvider extends ServiceProvider
      */
     protected function registerRouteResponse()
     {
-        $this->app->singleton(ResponseContract::class, function($app) {
-            return new RouteResponse($app['view'], $app['redirect']);
-        });
+        $this->app->singleton(ResponseContract::class, fn($app) => new RouteResponse($app['view'], $app['redirect']));
     }
 
     /**
