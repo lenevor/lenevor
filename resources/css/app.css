@@ -9,9 +9,9 @@
 	--color-black-4: hsla(0, 8%, 19%, 1);
 	--color-black-5: hsla(0, 10%, 22%, 1);
 	--color-white-1: hsla(0, 0%, 100%, 1);
-	--color-white-2: hsla(0, 0%, 94%, 1);
-	--color-white-3: hsla(223, 15%, 91%, 1);
-	--color-white-4: hsla(200, 23%, 95%, 1);
+	--color-white-2: hsla(0, 9%, 94%, 1);
+	--color-white-3: hsla(0, 15%, 91%, 1);
+	--color-white-4: hsla(0, 23%, 85%, 1);
 	--color-blue-1: hsla(219, 15%, 39%, 1);
 	--color-blue-2: hsla(219, 27%, 38%, 1);
 	--color-blue-3: hsla(205, 75%, 51%, 1);
@@ -232,7 +232,9 @@ tbody tr:nth-child(1n) td:nth-child(5) {
 }
 
 header {
+	align-items: center;
 	background: transparent;
+	box-shadow: 1px 0 1px var(--color-white-2);
 	display: flex;
 	justify-content: center;
 	min-height: 30px;
@@ -242,6 +244,10 @@ header {
 	width: 100%;
 }
 
+.dark-theme header {
+	box-shadow: 1px 0 1px var(--color-blue-theme-1);
+}
+
 header .container {
 	display: flex;
 	justify-content: space-between;
@@ -249,11 +255,14 @@ header .container {
 
 header .container .brand,
 header .container .menu {
-	padding: 20px 0 20px;
+	padding: 10px 0 4px 0;
 }
 
 header .container .brand {
+	align-items: center;
 	display: flex;
+	position: relative;
+	top: -3px;
 	width: 250px;
 }
 
@@ -264,10 +273,7 @@ header .container .menu {
 }
 
 header .container .menu a {
-	background: var(--color-white-1);
-	border-radius: 5px;
-	box-shadow: inset -1px 1px 0 1px hsla(224, 11%, 81%, 0.04),
-				inset 1px -1px 0 1px hsla(220, 7%, 75%, 0.04);
+	background: transparent;
 	color: var(--color-blue-1);
 	font-size: 0.9rem;
 	font-weight: 600;
@@ -279,29 +285,27 @@ header .container .menu a {
 
 .dark-theme header .container .menu a {
 	background: transparent;
-	box-shadow: inset -1px 1px 0 1px hsla(278, 17%, 23%, 0.09),
-				inset 1px -1px 0 1px hsla(280, 21%, 20%, 0.09);
-	color: var(--color-white-1);
+	color: var(--color-white-theme);
 }
 
 header .container .menu a:hover {
 	background: var(--color-white);
 	color: var(--color-purple);
 	clip-path: polygon(50% 50% at 50% 50%);
-	transition: 1s ease-out;
 }
 
 .dark-theme header .container .menu a:hover {
-	background: var(--color-gray-theme-1);
-	color: var(--color-black-1);
+	background: transparent;
+	color: var(--color-darkgray-theme-3);
 }
 
-header h1 {
+header .container h1 {
 	color: var(--color-blue-1);
-	font-size: 1.5em;
+	font-size: 1.4em;
+	font-weight: 600;
 	letter-spacing: 0.5px;
 	margin-left: 10px;
-	margin-top: 10px;
+	margin-top: 14px;
 	text-align: justify;
 }
 
@@ -316,14 +320,14 @@ header h1 {
 	padding: 0 20px;
 }
 
-.status {
+.content .status {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	text-align: center;
 }
 
-.status h2 {
+.content .status h2 {
 	font-size: 1.6em;
 	font-weight: 600;
 	letter-spacing: 0.5px;
@@ -332,13 +336,13 @@ header h1 {
 	padding-bottom: 10px;
 }
 
-.status h2 span {
+.content .status h2 span {
 	display: block;
 	font-size: 1.8em;
 	line-height: .8;
 }
 
-.status code { 
+.content .status code { 
 	background: var(--color-gray-1);
 	border-radius: 30px;
 	box-shadow: inset -1px -1px 5px hsla(199, 20%, 28%, 0.1),
@@ -351,13 +355,13 @@ header h1 {
 	word-wrap: break-all;
 }
 
-.dark-theme .status code { 
+.dark-theme .content .status code { 
 	background: var(--color-green-theme-2);
 	box-shadow: inset -1px -1px 5px hsla(153, 66%, 39%, 0.7),
 				inset -1px -1px 6px hsla(161, 51%, 33%, 0.7);
 }
 
-.status code .check { 
+.content .status code .check { 
 	align-items: center;
 	background: var(--color-blue-3);
 	border-radius: 15px;
@@ -369,23 +373,23 @@ header h1 {
 	width: 30px; 
 }
 
-.dark-theme code .check {
+.dark-theme .content code .check {
 	background: var(--color-green-theme-3);
 	box-shadow: -1px 1px 2px hsla(166, 74%, 31%, 0.7),
 				1px 1px 2px hsla(171, 69%, 37%, 0.7);	
 }
 
-.status code .check svg { 
+.content .status code .check svg { 
 	fill: var(--color-white-1);
 	height: 20px;
 	width: 30px; 
 }
 
-.dark-theme .status code .check svg {
+.dark-theme .content .status code .check svg {
 	fill: var(--color-white-theme);
 }
 
-.status code span {
+.content .status code span {
 	color: var(--color-white-1);
 	font-weight: 600;
 	line-height: -1.5px;
@@ -394,11 +398,11 @@ header h1 {
 	word-break: break-all;
 }
 
-.dark-theme .status code span {
+.dark-theme .content .status code span {
 	color: var(--color-white-theme);
 }
 
-.status .status-message { 
+.content .status .status-message { 
 	color: var(--color-gray-3);
 	font-size: .8rem;
 	font-weight: 700;
@@ -406,7 +410,7 @@ header h1 {
 	margin: 10px auto;
 }
 
-.dark-theme .status .status-message {
+.dark-theme .content .status .status-message {
 	color: var(--color-darkgray-theme-2);
 }
 
@@ -526,10 +530,10 @@ header h1 {
 }
 
 .container .footer .btnTheme {
-	background: var(--color-white-4);
+	background: var(--color-white-1);
 	color: var(--color-black);
 	border-radius: 160px;
-	box-shadow: 0 0 0 1px var(--color-white-4),
+	box-shadow: 0 0 0 1px var(--color-white-1),
 				inset 0 1px 2px var(--color-gray-4),
 				inset 0 -1px 2px var(--color-gray-4);
 	cursor: pointer;			
@@ -643,7 +647,7 @@ header h1 {
  */
 @media (min-width: 768px)
 {
-	.status {
+	.content .status {
 		justify-content: flex-start;
 		text-align: justify;
 	}
@@ -652,36 +656,36 @@ header h1 {
 		font-size: 1.1em;
 	}
 
-	.status h2 {
+	.content .status h2 {
 		font-size: 2.4em;
 		margin-left: 0;
 		margin-top: 100px;
 	}
 
-	.status h2 span {
+	.content .status h2 span {
 		font-size: 1.9em;
 		line-height: 60px;
 		margin-left: -5px;
 	}
 
-	.status code {
+	.content .status code {
 		font-size: 0.7em;
 		margin-left: 0;
 		padding-right: 15px;
 	}
 
-	.status code .check,
-	.status code .check svg { 
+	.content .status code .check,
+	.content .status code .check svg { 
 		height: 20px;
 		width: 34px; 
 	}
 
-	.status code span {
+	.content .status code span {
 		font-size: 1.3em;
 		line-height: 1.6;
 	}
 
-	.status .status-message {
+	.content .status .status-message {
 		margin: 10px 0;
 		font-size: .8em;
 	}
@@ -760,31 +764,31 @@ header h1 {
 		width: 1020px;
 	}
 
-	.status h2 {
+	.content .status h2 {
 		font-size: 3.2em;
-		margin-top: 30px;
+		margin-top: 90px;
 	}
 
-	.status h2 span {
+	.content .status h2 span {
 		font-size: 1.9em;
 		line-height: 70px;
 	}
 
-	.status code {
+	.content .status code {
 		margin-top: 25px;
 		padding-top: 5px;
 	}
 
-	.status code .check {
+	.content .status code .check {
 		margin-top: 2px;
 	}
 
-	.status code span {
+	.content .status code span {
 		font-size: 1.55em;
 		line-height: .7;
 	}
 
-	.status .status-message {
+	.content .status .status-message {
 		font-size: 1em;
 	}
 
@@ -793,7 +797,7 @@ header h1 {
 		grid-template-columns: 1fr 1fr 1fr;
 		grid-template-rows: auto;
 		grid-gap: 0;
-		margin-top: 40px;
+		margin-top: 60px;
 	}
 
 	.resources .learn,
