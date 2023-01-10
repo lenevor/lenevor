@@ -6,7 +6,7 @@
     --blue-100: hsla(212, 100%, 97%, 1);
     --blue-200: hsla(196, 100%, 89%, 1);
     --blue-300: hsla(211, 100%, 55%, 1);
-    --blue-400: hsla(218, 84%, 47%, );
+    --blue-400: hsla(218, 84%, 47%, 1);
     --blue-500: hsla(217, 70%, 38%, 1);
     --green-100: hsla(152, 100%, 95%, 1);
     --green-200: hsla(153, 78%, 76%, 1);
@@ -271,37 +271,14 @@ ol {
         padding-top: 5px;
         right: 0;
     }
-
-    /* Manipulate the scroll bar. Only for browsers that use the webkit engine. */
-    /* .details-panel::-webkit-scrollbar, 
-    .details-panel::-webkit-scrollbar-corner {
-        height: 12px;
-        width: 12px;
-    }
-
-    .details-panel::-webkit-scrollbar-thumb {
-        background: linear-gradient(to bottom, var(--blue-200), var(--blue-300));
-        border-radius: 0;
-    }
-
-    .details-panel::-webkit-scrollbar-thumb:active {
-        background-color: var(--tint-600);      
-    }
-
-    .details-panel::-webkit-scrollbar-track {
-        background: var(--white);
-        border: 1px solid var(--gray-300);
-        border-radius: 0;
-    } */
 }
 
 /* HEADER */
 
 header {
-    background: var(--white);
+    background: var(--gray-100);
     box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.06);
     box-sizing: border-box;
-    color: hsla(0, 0%, 53%, 1);
     margin-bottom: 20px;
     height: 135px;
     min-height: 135px;
@@ -341,7 +318,7 @@ header:hover h2 {
 }
 
 .exception-title h1 {
-    color: var(--tint-500); 
+    color: var(--tint-700); 
     display: inline;
     font-weight: 600;
 }
@@ -351,7 +328,7 @@ header:hover h2 {
 }
 
 .exception-title span {
-    color: var(--green-200);
+    color: var(--red-400);
     letter-spacing: -1px;
 }
 
@@ -366,7 +343,7 @@ header:hover h2 {
 }
 
 .dark-mode .exception-message h2 {
-    color: var(--dark-white);
+    color: var(--dark-gray-700);
 }
 
 .plain-exception {
@@ -433,8 +410,8 @@ header:hover h2 {
 
 /*SIDEBAR */
 .sidebar {
-    background: var(--white);
-    box-shadow: 1px 1px 0 hsla(0, 0%, 0%, 0.06);
+    background: var(--gray-100);
+    box-shadow: 1px 0 0px hsla(0, 0%, 0%, 0.07);
     position: fixed;
 }
 
@@ -444,8 +421,8 @@ header:hover h2 {
 }
 
 .sidebar .brand {
-    background: linear-gradient(236deg, var(--white) 10%, var(--gray-100));
-    box-shadow: 0 1px 0 hsla(0, 0%, 0%, 0.06);
+    background: var(--gray-100);
+    box-shadow: 0 1px 0 hsla(0, 0%, 0%, 0.07);
     display: grid;
     padding: 22px 21px 0;
     position: relative;
@@ -501,7 +478,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    background: var(--gray-100);
+    background: transparent;
     color: var(--tint-700);
 }
 
@@ -519,7 +496,7 @@ nav ul li a:hover svg {
 }
 
 nav ul li a.active {
-    background: var(--blue-500);
+    background: var(--blue-300);
     color: var(--white);
     cursor: default;
     font-weight: 600;
@@ -535,13 +512,13 @@ nav ul li a.active svg {
 }
 
 nav ul li:nth-child(1) a.active svg {
-    fill: var(--blue-500);
+    fill: var(--blue-300);
     stroke: var(--white);
 }
 
 nav ul li:nth-child(2) a.active svg {
-    fill: var(--blue-500);
-    stroke: var(--blue-500);
+    fill: var(--blue-300);
+    stroke: var(--blue-300);
 }
 
 nav ul li:nth-child(3) a.active svg {
@@ -550,7 +527,7 @@ nav ul li:nth-child(3) a.active svg {
 }
 
 nav ul li:nth-child(5) a.active svg {
-    fill: var(--blue-500);
+    fill: var(--blue-300);
     stroke: var(--white);
 }
 
@@ -1191,9 +1168,7 @@ nav ul li:nth-child(5) svg {
 
 .source {
     border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
     border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
     color: var(--dark-gray-300);
     overflow: hidden;
     padding-bottom: 0;
@@ -1551,7 +1526,7 @@ code {
 
 /* FOOTER */
 footer {
-    background: var(--white);
+    background: transparent;
     min-height: 25px;
     padding: 5px;
     position: relative;
@@ -1567,14 +1542,15 @@ footer {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    opacity: 0.5;
     overflow: hidden;
 }
 
 .info .type-license {
     align-items: center;
-    background: linear-gradient(63deg, var(--gray-200) 46%, var(--yellow-600) 10%);
+    background: linear-gradient(63deg, var(--gray-100) 46%, var(--blue-500) 10%);
     border: 1px solid var(--tint-700);
-    box-shadow: inset 1px 0 1px var(--gray-200);
+    box-shadow: inset 1px 0 1px var(--gray-100);
     display: flex;
     justify-content: space-between;
     font-size: 0.7em;
@@ -1586,8 +1562,8 @@ footer {
 }
 
 .dark-mode .info .type-license {
-    background: linear-gradient(63deg, var(--dark-magenta-100) 46%, var(--dark-yellow-300) 10%);
-    border: 1px solid var(--dark-black-130);
+    background: linear-gradient(63deg, var(--dark-magenta-100) 46%, var(--dark-blue-300) 10%);
+    border: 1px solid var(--dark-black-150);
     box-shadow: inset 2px 0 1px var(--dark-magenta-100);
 }
 
@@ -1596,19 +1572,19 @@ footer {
 }
 
 .dark-mode .info span:nth-child(1) {
-    color: var(--dark-magenta-700);
+    color: var(--dark-gray-700);
 }
 
 .info span:nth-child(2) {
-    color: var(--tint-600);
+    color: var(--white);
 }
 
 .dark-mode .info span:nth-child(2) {
-    color: var(--dark-black-170);
+    color: var(--dark-white);
 }
 
 .info .copy {
-    background: var(--white);
+    background: transparent;
     color: var(--gray-700);
     font-size: 0.7em;
     font-weight: 600;
@@ -1618,8 +1594,8 @@ footer {
 }
 
 .dark-mode .info .copy {
-    background: var(--dark-magenta-100);
-    color: var(--dark-magenta-500);
+    background: transparent;
+    color: var(--dark-gray-500);
 }
 
 .info .copy .version {
@@ -1630,7 +1606,7 @@ footer {
 }
 
 .dark-mode .info .copy .version {
-    color: var(--dark-magenta-500);
+    color: var(--dark-gray-500);
 }
 
 /* ------------------------------------------------------------ 
@@ -1711,7 +1687,7 @@ footer {
 }
 
 .icon-holder:hover {
-    background: var(--blue-500);    
+    background: var(--blue-300);    
 }
 
 .dark-mode .icon-holder:hover {
@@ -1742,7 +1718,7 @@ footer {
     }
 
     100% {
-        top: 48px;	
+        top: 46px;	
     }
 }
 
@@ -1788,7 +1764,7 @@ footer {
 }
 
 .icon-holder .tooltip {
-    background: rgb(82, 75, 114);
+    background: var(--blue-300);
     border-radius: 4px;
     visibility: hidden;
     font-size: var(--font-size-small-x);
@@ -1805,7 +1781,7 @@ footer {
 }
 
 .icon-holder .tooltip:after {
-    background: rgb(82, 75, 114);
+    background: var(--blue-300);
     content: "";
     display: block;
     height: 10px;
@@ -1819,7 +1795,7 @@ footer {
 }
 
 .icon-holder .tooltip:before {
-    background: rgb(82, 75, 114);
+    background: var(--blue-300);
     content: "";
     display: block;
     height: 10px;
@@ -1835,13 +1811,13 @@ footer {
 .dark-mode .icon-holder .tooltip,
 .dark-mode .icon-holder .tooltip:after,
 .dark-mode .icon-holder .tooltip:before {
-    background: var(--dark-blue-700);
+    background: var(--dark-blue-500);
 }
 
 .icon-holder .tooltip-print,
 .icon-holder .tooltip-pdf,
 .icon-holder .tooltip-edit {
-    border: 1px solid rgb(66, 40, 62);
+    border: 1px solid var(--blue-400);
     color: rgb(255, 255, 255);
     font-weight: 600;
 }
@@ -1849,7 +1825,7 @@ footer {
 .dark-mode .icon-holder .tooltip-print,
 .dark-mode .icon-holder .tooltip-pdf,
 .dark-mode .icon-holder .tooltip-edit {
-    color: var(--dark-blue-200);
+    color: var(--dark-white);
 }
 
 /* PRINT */
