@@ -732,9 +732,11 @@ class Model implements Arrayable, ArrayAccess
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Get the instance as an array.
+     * 
+     * @return array
 	 */
-	public function toArray()
+	public function toArray(): array
 	{
 		$attributes = array_diff_key($this->attributes, array_flip($this->hidden));
 		

@@ -85,7 +85,7 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      * 
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->attributes;
     }
