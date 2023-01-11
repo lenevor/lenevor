@@ -22,7 +22,6 @@
 
 namespace Syscodes\Components\Database;
 
-use PDOException;
 use InvalidArgumentException;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Container\Container;
