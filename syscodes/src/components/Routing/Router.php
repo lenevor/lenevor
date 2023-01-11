@@ -25,6 +25,7 @@ namespace Syscodes\Components\Routing;
 use Closure;
 use InvalidArgumentException;
 use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Str;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Http\RedirectResponse;
 use Syscodes\Components\Support\Traits\Macroable;
@@ -36,7 +37,6 @@ use Syscodes\Components\Routing\Resources\ResourceRegister;
 use Syscodes\Components\Routing\Resolver\MiddlewareResolver;
 use Syscodes\Components\Routing\Resources\RouteFileRegister;
 use Syscodes\Components\Routing\Resources\AwaitingResourceRegistration;
-use Syscodes\Components\Support\Str;
 
 /**
  * The Router class allows the integration of an easy-to-use routing system.
