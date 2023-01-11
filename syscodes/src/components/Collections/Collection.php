@@ -902,11 +902,9 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
      * 
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
-        return array_map(function ($value) {
-            return $value instanceof Arrayable ? $value->toArray() : $value;
-        }, $this->items);
+        return array_map(fn ($value) => $value instanceof Arrayable ? $value->toArray() : $value, $this->items);
     }
 
     /*
