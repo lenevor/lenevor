@@ -97,7 +97,7 @@ class StartSession
      * 
      * @return mixed
      */
-    protected function handleStatefulRequest(Request $request, $session, Closure $next)
+    protected function handleStatefulRequest(Request $request, Session $session, Closure $next)
     {
         $request->setSession(
             $this->startSession($request, $session)
@@ -172,16 +172,16 @@ class StartSession
         if ($request->isMethod('GET') &&
             $request->route() instanceof Route &&
             ! $request->ajax() &&
-            ! $request->prefetch()) {
-                $session->setPreviousUrl($request->fullUrl());
+            ! $request->prefetch()
+        ) {
+            $session->setPreviousUrl($request->fullUrl());
         }
     }
     
     /**
      * Add the session cookie to the application response.
      * 
-     * @param  \Syscodes\Components\Http\Response  $response
-     * 
+     * @param  \Syscodes\Components\Http\Response  $response 
      * @param  \Syscodes\Components\Contracts\Session\Session  $session
      * 
      * @return void
