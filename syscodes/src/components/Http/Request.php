@@ -596,7 +596,7 @@ class Request
 	 */
 	public function getSession()
 	{
-		$session = $this->session;
+		$session = $this->session();
 		
 		if ( ! $session instanceof SessionInterface && null !== $session) {
 			$this->setSession(new SessionDecorator($session));
