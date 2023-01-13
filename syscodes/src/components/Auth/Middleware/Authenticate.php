@@ -23,7 +23,7 @@
 namespace Syscodes\Components\Auth\Middleware;
 
 use Closure;
-use Syscodes\Components\contracts\Auth\Factory as Auth;
+use Syscodes\Components\Contracts\Auth\Factory as Auth;
 use Syscodes\Components\Auth\Exceptions\AuthenticationException;
 
 /**
