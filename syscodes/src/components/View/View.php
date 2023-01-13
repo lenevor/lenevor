@@ -33,7 +33,9 @@ use Syscodes\Components\Contracts\View\Engine;
 use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Contracts\Support\Webable;
 use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Contracts\Support\MessageBag;
 use Syscodes\Components\Contracts\Support\Renderable;
+use Syscodes\Components\Contracts\Support\MessageProvider;
 use Syscodes\Components\Contracts\View\View as ViewContract;
 
 /**
@@ -223,6 +225,34 @@ class View implements ArrayAccess, Webable, ViewContract
 		$this->data[$key] =& $value;
 
 		return $this;
+	}
+	
+	/**
+	 * Add validation errors to the view.
+	 * 
+	 * @param  \Syscodes\Components\Contracts\Support\MessageProvider|array  $provider
+	 * 
+	 * @return self
+     */
+	public function withErrors($provider): self
+	{
+		$this->with('errors', $this->formatErrors($provider));
+		
+		return $this;
+	}
+	
+	/**
+	 * Format the given message provider into a MessageBag.
+	 * 
+	 * @param  \Syscodes\Components\Contracts\Support\MessageProvider|array  $provider
+	 * 
+	 * @return \Syscodes\Components\Support\MessageBag
+	 */
+	protected function formatErrors($provider)
+	{
+		return $provider instanceof MessageProvider
+		            ? $provider->getMessageBag() : new MessageBag((array) $provider);
+				
 	}
 
 	/**
