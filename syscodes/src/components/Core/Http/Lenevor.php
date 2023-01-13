@@ -76,7 +76,11 @@ class Lenevor implements LenevorContract
 	 * 
 	 * @var string[] $middlwarePriority
 	 */
-	protected $middlwarePriority = [];
+	protected $middlwarePriority = [
+		\Syscodes\Components\Cookie\Middleware\EncryptCookies::class,
+		\Syscodes\Components\Session\Middleware\StartSession::class,
+		\Syscodes\Components\Auth\Middleware\Authenticate::class,
+	];
 
 	/**
 	 * The router instance.
