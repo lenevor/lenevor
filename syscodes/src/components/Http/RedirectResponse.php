@@ -24,10 +24,13 @@ namespace Syscodes\Components\Http;
 
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Http\Request;
+use Syscodes\Components\Support\MessageBag;
+use Syscodes\Components\Support\ViewErrorBag;
 use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Http\Concerns\HttpResponse;
 use Syscodes\Components\Support\Traits\ForwardsCalls;
 use Syscodes\Components\Session\Store as SessionStore;
+use Syscodes\Components\Contracts\Support\MessageProvider;
 use Syscodes\Components\Http\Response\RedirectResponseHeader as BaseRedirectResponse;
 
 /**
@@ -89,6 +92,44 @@ class RedirectResponse extends BaseRedirectResponse
         }
         
         return $this;
+    }
+    
+    /**
+     * Flash a container of errors to the session.
+     * 
+     * @param  \Syscodes\Components\Contracts\Support\MessageProvider|array|string  $provider
+     * @param  string  $key
+     * 
+     * @return self
+     */
+    public function withErrors($provider, $key = 'default'): self
+    {
+        $value  = $this->parseErrors($provider);
+        $errors = $this->session->get('errors', new ViewErrorBag);
+        
+        if ( ! $errors instanceof ViewErrorBag) {
+            $errors = new ViewErrorBag;
+        }
+        
+        $this->session->flash(
+            'errors', $errors->put($key, $value)
+        );
+        
+        return $this;
+    }
+    
+    /**
+     * Parse the given errors into an appropriate value.
+     * 
+     * @param  \Syscodes\Components\Contracts\Support\MessageProvider|array|string  $provider
+     * 
+     * @return \Syscodes\Components\Support\MessageBag
+     */
+    protected function parseErrors($provider)
+    {
+        return $provider instanceof MessageProvider 
+                   ? $provider->getMessageBag() 
+                   : new MessageBag((array) $provider);
     }
     
     /**
