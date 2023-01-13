@@ -296,7 +296,7 @@ class Store implements Session
      */
     public function pull($key, $default = null)
     {
-        Arr::pull($this->items, $key, $default);
+        return Arr::pull($this->items, $key, $default);
     }
 
     /**
