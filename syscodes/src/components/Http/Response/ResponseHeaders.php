@@ -217,6 +217,8 @@ class ResponseHeaders extends Headers
 	 * Sets the cookie.
 	 * 
 	 * @param  \Syscodes\Components\Cookie\CookieManager
+	 * 
+	 * @return void
 	 */
 	public function setCookie(Cookie $cookie): void
 	{
