@@ -21,9 +21,10 @@
 	--color-green-2: hsla(142, 35%, 49%, 1);
 	--color-green-3: hsla(137, 35%, 49%, 1);
 	--color-gray-1: hsla(201, 14%, 29%, 1);
-	--color-gray-2: hsla(204, 3%, 32%, 1);
-	--color-gray-3: hsla(0, 0%, 60%, 1);
-	--color-gray-4: hsla(0, 0%, 77%, 1);
+	--color-gray-2: hsla(204, 16%, 32%, 1);
+	--color-gray-3: hsla(209, 18%, 38%, 1);
+	--color-gray-4: hsla(216, 18%, 54%, 1);
+	--color-gray-5: hsla(217, 22%, 67%, 1);
 	--color-orange: hsla(26, 78%, 51%, 0.9);
 	--color-purple: hsla(272, 32%, 25%, 0.5);
 }
@@ -44,7 +45,7 @@
 	--color-blue-theme-5: hsla(228, 38%, 28%, 1);
 	--color-blue-theme-6: hsla(216, 63%, 42%, 1);
 	--color-blue-theme-7: hsla(217, 75%, 51%, 1);
-	--color-yellow-theme: hsla(63, 88%, 68%, 0.963);
+	--color-yellow-theme: hsla(63, 88%, 68%, 0.763);
 	--color-green-theme-1: hsla(165, 86%, 49%, 1);
 	--color-green-theme-2: hsla(165, 83%, 43%, 1);
 	--color-green-theme-3: hsla(165, 85%, 57%, 1);
@@ -56,6 +57,7 @@
 	--color-gray-theme-1: hsla(217, 8%, 81%, 1);
 	--color-gray-theme-2: hsla(225, 4%, 78%, 1);
 	--color-gray-theme-3: hsla(233, 2%, 75%, 1);
+	--color-gray-theme-4: hsla(240, 0%, 72%, 1);
 	--color-orange-theme-1: hsla(19, 98%, 46%, 1);
 	--color-orange-theme-2: hsla(27, 100%, 50%, 1);
 	--color-darkgray-theme-1: hsla(216, 7%, 59%, 0.4);
@@ -277,7 +279,7 @@ header .container .menu {
 
 header .container .menu a {
 	background: transparent;
-	color: var(--color-blue-1);
+	color: var(--color-gray-3);
 	font-size: 0.9rem;
 	font-weight: 600;
 	letter-spacing: 0.9px; 
@@ -293,7 +295,7 @@ header .container .menu a {
 
 header .container .menu a:hover {
 	background: var(--color-white);
-	color: var(--color-purple);
+	color: var(--color-gray-4);
 	clip-path: polygon(50% 50% at 50% 50%);
 }
 
@@ -406,7 +408,7 @@ header .container h1 {
 }
 
 .content .status .status-message { 
-	color: var(--color-gray-3);
+	color: var(--color-gray-5);
 	font-size: .8rem;
 	font-weight: 700;
 	letter-spacing: .5px;
@@ -476,7 +478,7 @@ header .container h1 {
 .resources .learn h3 .icon-books:before,
 .resources .discuss h3 .icon-embed:before,
 .resources .contribute h3 .icon-users:before {
-	background: var(--color-orange);
+	background: var(--color-gray-4);
 	background-clip: text;
 	-webkit-background-clip: text;
 	-moz-background-clip: text;
@@ -491,11 +493,7 @@ header .container h1 {
 .dark-theme .resources .learn h3 .icon-books:before,
 .dark-theme .resources .discuss h3 .icon-embed:before,
 .dark-theme .resources .contribute h3 .icon-users:before {
-	background: linear-gradient(
-					227deg, 
-					var(--color-orange-theme-2) 10%, 
-					var(--color-orange-theme-1) 90%
-	);
+	background: var(--color-gray-theme-4);
 	background-clip: text;
 	-webkit-background-clip: text;
 	-moz-background-clip: text;
@@ -604,7 +602,7 @@ header .container h1 {
 }
 
 .container .footer p {
-	color: var(--color-gray-3);
+	color: var(--color-gray-5);
 	font-size: 0.8em;
 	font-weight: 500;
 }
