@@ -28,6 +28,7 @@ use Syscodes\Components\Routing\Supported\UrlGenerator;
 use Syscodes\Components\Contracts\Routing\RouteResponse;
 use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoload;
 use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoloader;
+use Syscodes\Components\Contracts\Auth\Factory as AuthFactory;
 use Syscodes\Components\Contracts\Cookie\Factory as CookieFactory;
 
 if ( ! function_exists('abort')) {
@@ -109,8 +110,25 @@ if ( ! function_exists('asset')) {
     }
 }
 
-if ( ! function_exists('back')) 
-{
+if ( ! function_exists('auth')) {
+    /**
+     * Get the available auth instance.
+     * 
+     * @param  string|null  $guard
+     * 
+     * @return \Syscodes\Components\Contracts\Auth\Factory|\Syscodes\Components\Contracts\Auth\Guard|\Syscodes\Components\Contracts\Auth\StateGuard
+     */
+    function auth($guard = null)
+    {
+        if (is_null($guard)) {
+            return app(AuthFactory::class);
+        }
+
+        return app(AuthFactory::class)->guard($guard);
+    }
+}
+
+if ( ! function_exists('back')) {
     /**
      * Create a new redirect response to the previous location.
      * 
