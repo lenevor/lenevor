@@ -23,7 +23,7 @@ Options All -Indexes
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^([\s\S]*)$ index.php [L,NC,QSA]    
+    RewriteRule ^ index.php [L]    
 </IfModule>
 
 <IfModule !mod_rewrite.c>
