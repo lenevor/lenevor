@@ -530,7 +530,7 @@ if ( ! function_exists('redirect')) {
      * @param  array  $headers  An array of headers
      * @param  bool|null  $secure  Type of protocol (http|https)  
      *
-     * @return \Syscodes\Components\Routing\Supported\Redirector
+     * @return \Syscodes\Components\Routing\Supported\Redirector|\Syscodes\Components\Http\RedirectResponse
      */
     function redirect($url = null, $code = 302, $headers = [], $secure = null)
     {
