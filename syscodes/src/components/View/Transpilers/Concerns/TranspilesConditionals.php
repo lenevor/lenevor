@@ -79,6 +79,82 @@ trait TranspilesConditionals
     }
 
     /**
+     * Transpile the if-auth statements into valid PHP.
+     * 
+     * @param  string|null  $guard
+     * 
+     * @return string
+     */
+    protected function transpileAuth($guard = null): string
+    {
+        $guard = is_null($guard) ? '()' : $guard;
+
+        return "<?php if(auth()->guard{$guard}->check()): ?>";
+    }
+    
+    /**
+     * Transpile the else-auth statements into valid PHP.
+     * 
+     * @param  string|null  $guard
+     * 
+     * @return string
+     */
+    protected function transpileElseAuth($guard = null): string
+    {
+        $guard = is_null($guard) ? '()' : $guard;
+        
+        return "<?php elseif(auth()->guard{$guard}->check()): ?>";
+    }
+    
+    /**
+     * Transpile the end-auth statements into valid PHP.
+     * 
+     * @return string
+     */
+    protected function transpileEndAuth(): string
+    {
+        return '<?php endif; ?>';
+    }
+    
+    /**
+     * Transpile the if-guest statements into valid PHP.
+     * 
+     * @param  string|null  $guard
+     * 
+     * @return string
+     */
+    protected function compileGuest($guard = null): string
+    {
+        $guard = is_null($guard) ? '()' : $guard;
+        
+        return "<?php if(auth()->guard{$guard}->guest()): ?>";
+    }
+    
+    /**
+     * Transpile the else-guest statements into valid PHP.
+     * 
+     * @param  string|null  $guard
+     * 
+     * @return string
+     */
+    protected function compileElseGuest($guard = null): string
+    {
+        $guard = is_null($guard) ? '()' : $guard;
+        
+        return "<?php elseif(auth()->guard{$guard}->guest()): ?>";
+    }
+    
+    /**
+     * Transpile the end-guest statements into valid PHP.
+     * 
+     * @return string
+     */
+    protected function compileEndGuest(): string
+    {
+        return '<?php endif; ?>';
+    }
+
+    /**
      * Transpile the if-isset statements into valid PHP.
      * 
      * @param  string  $expression
