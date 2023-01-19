@@ -73,7 +73,7 @@ class RouteParameterBinding
     {
         $path = '/'.ltrim($request->decodedPath(), '/');
 
-        @preg_match('~[^/'.$this->route->getRoute().']+~sDu', $path, $matches);
+        @preg_match('~[^\/'.$request->uri.']+~sDu', $path, $matches);
         
         return $this->matchToKeys(array_slice($matches, 0));
     }
