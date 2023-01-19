@@ -199,9 +199,10 @@ trait HttpResources
 		// Remove all characters except letters,
 		// digits and $-_.+!*'(),{}|\\^~[]`<>#%";/?:@&=.
 		$uri = filter_var(rawurldecode($uri), FILTER_SANITIZE_URL);
+		$uri = mb_strtolower(trim($uri), 'UTF-8');
 		
 		// Return argument if not empty or return a single slash
-		return rtrim($uri, '/'.DIRECTORY_SEPARATOR);
+		return trim(strtolower($uri).'/');
 	}
 
 	/**
@@ -211,27 +212,23 @@ trait HttpResources
 	 */
 	public function parsePathInfo(): string
 	{
+		$baseUrl = $this->getBaseUrl();
+
 		if (null === ($requestUri = $this->parseRequestUri())) {
 			return '/';
 		}
+
+		$pathInfo = '/';
 
 		// Remove the query string from REQUEST_URI
 		if (false !== $pos = strpos($requestUri, '?')) {
 			$requestUri = substr($requestUri, 0, $pos);
 		}
-
-		if ('' !== $requestUri && '/' !== $requestUri[0]) {
-			$requestUri = '/'.$requestUri;
-		}
-
-		if (null === ($baseUrl = $this->parseBaseUrl())) {
-			return $requestUri;
-		}
-
-		$pathInfo = substr($requestUri, strlen($baseUrl));
-
-		if (false === $pathInfo || '' === $pathInfo) {
+		
+		if ((null !== $baseUrl) && (false === ($pathInfo = substr(urldecode($requestUri), strlen(urldecode($baseUrl)))))) {
 			return '/';
+		} elseif (null === $baseUrl) {
+			return $requestUri;
 		}
 		
 		return (string) $pathInfo;
