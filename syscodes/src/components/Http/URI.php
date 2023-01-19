@@ -252,9 +252,7 @@ class URI
 	 */
 	public function getSegments()
 	{
-		return array_values(array_filter($this->segments, function ($value) {
-			return $value != '';
-		}));
+		return array_values(array_filter($this->segments, fn ($value) => $value != ''));
 	}
 
 	/**
