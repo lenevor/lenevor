@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Finder;
 
+use Countable;
 use Traversable;
 use ArrayIterator;
 use IteratorAggregate;
@@ -29,8 +30,19 @@ use IteratorAggregate;
 /**
  * Gets the results of search in files and directories.
  */
-class Finder implements IteratorAggregate
+class Finder implements IteratorAggregate, Countable
 {
+    
+    /**
+     * Counts all the results collected by the iterators.
+     * 
+     * @return int
+     */
+    public function count(): int
+    {
+        return iterator_count($this->getIterator());
+    }
+
     /**
      * Retrieve an external iterator for the current Finder configuration.
      * 
