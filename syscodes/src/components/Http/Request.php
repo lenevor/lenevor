@@ -53,6 +53,13 @@ class Request
 	    InteractsWithContentTypes;
 
 	/**
+	 * Holds the global active request instance.
+	 *
+	 * @var bool $requestURI
+	 */
+	protected static $requestURI;
+
+	/**
 	 * Get the acceptable of content types.
 	 * 
 	 * @var string[] $acceptableContenTypes
@@ -205,13 +212,6 @@ class Request
 	 * @var array $validLocales
 	 */
 	protected $validLocales = [];
-
-	/**
-	 * Holds the global active request instance.
-	 *
-	 * @var bool $requestURI
-	 */
-	protected static $requestURI;
 
 	/**
 	 * Constructor: Create new the Request class.
