@@ -340,6 +340,7 @@ return [
     'Syscodes\\Components\\Filesystem\\FileMimeType' => SYS_PATH.'src/components/Filesystem/FileMimeType.php',
     'Syscodes\\Components\\Filesystem\\Filesystem' => SYS_PATH.'src/components/Filesystem/Filesystem.php',  
     'Syscodes\\Components\\Filesystem\\FilesystemServiceProvider' => SYS_PATH.'src/components/Filesystem/FilesystemServiceProvider.php',
+    'Syscodes\\Components\\Finder\\Comparators\\Comparator' => SYS_PATH.'src/components/Finder/Comparators/Comparator.php',
     'Syscodes\\Components\\Finder\\Finder' => SYS_PATH.'src/components/Finder/Finder.php',
     'Syscodes\\Components\\Finder\\SplFileInfo' => SYS_PATH.'src/components/Finder/SplFileInfo.php',
     'Syscodes\\Components\\Hashing\\Drivers\\AbstractHasher' => SYS_PATH.'src/components/Hashing/Drivers/AbstractHasher.php',
