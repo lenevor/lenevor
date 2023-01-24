@@ -23,7 +23,7 @@
 namespace Syscodes\Components\Session\Handlers;
 
 use SessionHandlerInterface;
-use Syscodes\Components\Support\Finder;
+use Syscodes\Components\Finder\Finder;
 use Syscodes\Components\Support\Chronos;
 use Syscodes\Components\Filesystem\Filesystem;
 
@@ -147,7 +147,7 @@ class FileSessionHandler implements SessionHandlerInterface
      */
     public function gc($lifetime): int
     {
-        $files = Finder::locate($this->path);
+        $files = Finder::create();
 
         $countSessions = 0;
 
