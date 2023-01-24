@@ -59,7 +59,7 @@ class Comparator
     }
 
     /**
-     * Gets the type of comparison target.
+     * Gets the type of comparison operator.
      * 
      * @return string
      */
