@@ -32,6 +32,24 @@ use IteratorAggregate;
  */
 class Finder implements IteratorAggregate, Countable
 {
+    /**
+     * Constructor. Create a new Finder class instance.
+     * 
+     * @return void
+     */
+    public function __construct()
+    {
+        
+    }
+    
+    /* Creates a new Finder instance.
+     * 
+     * @return static
+     */
+    public static function create(): static
+    {
+        return new static();
+    }
     
     /**
      * Counts all the results collected by the iterators.
