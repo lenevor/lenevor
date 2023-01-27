@@ -25,13 +25,51 @@ namespace Syscodes\Components\Finder;
 use Countable;
 use Traversable;
 use ArrayIterator;
+use LogicException;
 use IteratorAggregate;
+use Syscodes\Components\Finder\Concerns\FinderHelper;
+use Syscodes\Components\Finder\Comparators\DateComparator;
+use Syscodes\Components\Finder\Filters\FileFilterIterator;
+use Syscodes\Components\Finder\Exceptions\DirectoryNotFoundException;
 
 /**
  * Gets the results of search in files and directories.
  */
 class Finder implements IteratorAggregate, Countable
 {
+    use FinderHelper;
+
+    public const IGNORE_VCS_FILES = 1;
+    public const IGNORE_DOT_FILES = 2;
+
+    /**
+     * Get the file date.
+     * 
+     * @var array $dates
+     */
+    private array $dates = [];
+
+    /**
+     * Get the directories.
+     * 
+     * @var array $dirs
+     */
+    private array $dirs = [];
+
+    /**
+     * Get ignore for given type file. 
+     * 
+     * @var int $ignore
+     */
+    private int $ignore = 0;
+
+    /**
+     * Get the mode for file.
+     * 
+     * @var int $mode
+     */
+    private int $mode = 0;
+
     /**
      * Constructor. Create a new Finder class instance.
      * 
@@ -39,7 +77,7 @@ class Finder implements IteratorAggregate, Countable
      */
     public function __construct()
     {
-        
+        $this->ignore = static::IGNORE_VCS_FILES | static::IGNORE_DOT_FILES;
     }
     
     /* Creates a new Finder instance.
@@ -49,6 +87,82 @@ class Finder implements IteratorAggregate, Countable
     public static function create(): static
     {
         return new static();
+    }
+
+    /**
+     * Restricts the matching to files only.
+     * 
+     * @return $this
+     */
+    public function files(): static
+    {
+        $this->mode = FileFilterIterator::ONLY_FILES;
+
+        return $this;
+    }
+
+    /**
+     * Adds filters for file dates (last modified).
+     * 
+     * @param  string|string[]  $dates
+     * 
+     * @return $this
+     */
+    public function date(string|array $dates): static
+    {
+        foreach ((array) $dates as $date) {
+            $this->dates[] = new DateComparator($date);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Excludes "hidden" directories and files (starting with a dot).
+     * 
+     * @param  bool  $ignore
+     * 
+     * @return $this
+     */
+    public function ignoreDotFiles(bool $ignore): static
+    {
+        if ($ignore) {
+            $this->ignore |= static::IGNORE_DOT_FILES;
+        } else {
+            $this->ignore &= ~static::IGNORE_VCS_FILES;
+        }
+
+        return $this;
+    }
+    
+    /**
+     * Searches files and directories which match defined rules.
+     * 
+     * @param  string|string[]  $dirs  A directory path or an array of directories
+     * 
+     * @return $this
+     * 
+     * @throws DirectoryNotFoundException  if one of the directories does not exist
+     */
+    public function in(string|array $dirs): static
+    {
+        $resolvedDirs = [];
+        
+        foreach ((array) $dirs as $dir) {
+            if (is_dir($dir)) {
+                $resolvedDirs[] = [$this->normalizeDir($dir)];
+            } elseif ($glob = glob($dir, (defined('GLOB_BRACE') ? GLOB_BRACE : 0) | GLOB_ONLYDIR | GLOB_NOSORT)) {
+                sort($glob);
+                
+                $resolvedDirs[] = array_map($this->normalizeDir('...'), $glob);
+            } else {
+                throw new DirectoryNotFoundException(sprintf('The "%s" directory does not exist', $dir));
+            }
+        }
+        
+        $this->dirs = array_merge($this->dirs, ...$resolvedDirs);
+        
+        return $this;
     }
     
     /**
@@ -70,6 +184,14 @@ class Finder implements IteratorAggregate, Countable
      */
     public function getIterator(): Traversable
     {
-        return new ArrayIterator($this);
+        if (0 === count($this->dirs)) {
+            throw new LogicException('You must call one of in() or append() methods before iterating over a Finder');
+        }
+
+        if (1 === count($this->dirs)) {
+            $iterator = $this->searchInDirectory($this->dirs[0]);
+
+            return $iterator;
+        }
     }
 }
