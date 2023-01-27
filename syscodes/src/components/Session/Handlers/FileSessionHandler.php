@@ -147,16 +147,18 @@ class FileSessionHandler implements SessionHandlerInterface
      */
     public function gc($lifetime): int
     {
-        $files = Finder::create();
+        $files = Finder::create()
+                       ->in($this->path)
+                       ->files()
+                       ->ignoreDotFiles(true)
+                       ->date('<= now - '.$lifetime.' seconds');
 
         $countSessions = 0;
 
         foreach ($files as $file) {
-            if ($this->files->lastModified($file) + $lifetime < time() && ! $this->files->exists($file)) {
-                $this->files->delete($file);
-
-                $countSessions++;
-            }
+            $this->files->delete($file->getRealPath());
+            
+            $countSessions++;
         }
 
         return $countSessions;
