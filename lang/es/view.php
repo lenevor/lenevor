@@ -25,12 +25,12 @@ return [
      */
 
     'contribute-title' => 'Contribuir',
-    'contribute' => 'Lenevor es un proyecto impulsado por mí y accede a contribuciones de código y documentación excelentes para toda la comunidad. <br /> Consulta en <a href="https://github.com/lenevor" target="_blank">github</a> !',
+    'contribute' => 'Lenevor es un proyecto impulsado por mí y accede a contribuciones de código y documentación excelentes para toda la comunidad desde <a href="https://github.com/lenevor" target="_self">github</a> !',
     'discuss-title' => 'Discutir',
-    'discuss' => 'Lenevor es un proyecto de código abierto de desarrollo comunitario, con varios lugares para que los miembros de la comunidad se reúnan e intercambien ideas. <br />[Esta opción se encuentra en construcción] ',
+    'discuss' => 'Lenevor es un proyecto de código abierto de desarrollo comunitario, con varios lugares para que los miembros de la comunidad se reúnan e intercambien ideas.',
     'learn-title' => 'Aprender',
     'successfullyInstalled' => 'Has instalado correctamente esta aplicación.',
-    'userGuide' => 'La guía del usuario contiene la introducción, el tutorial y la referencia a la documentación de todos los componentes de Lenevor. <br />Consulta la <a href="https://github.com/lenevor/docs" target="\_blank\">documentación</a> !',
+    'userGuide' => 'La guía del usuario contiene la introducción, el tutorial y la referencia a la documentación de todos los componentes de Lenevor.',
     'welcomeTo' => 'Bienvenido a ',
 
 ];
