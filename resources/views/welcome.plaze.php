@@ -22,7 +22,7 @@
 			</div>
 			<div class="resources">
 				<div class="learn">
-					<h3><i class="icon-books"></i>{{ __('view.learn-title') }}</h3>
+					<h3><i class="icon-books"></i><a href="https://github.com/lenevor/docs" target="_self">{{ __('view.learn-title') }}</a></h3>
 					<p>{!! __('view.userGuide') !!}</p>
 				</div>
 				<div class="discuss">
