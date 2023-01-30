@@ -155,10 +155,24 @@ h2 {
 	content: "\e972"; 
 }
 
+.icon-email:before {
+	content: "\e945";
+}
+
+.icon-password:before {
+	content: "\e98f";
+}
+
+.icon-user:before {
+	content: "\e971";
+}
+
 .icon-books:before, 
 .icon-embed:before, 
-.icon-users:before { 
-	color: var(--color-black-3); 
+.icon-users:before,
+.icon-email:before,
+.icon-password:before,
+.icon-user:before { 
 	font-size: 3em; 
 	font-weight: 500; 
 	padding: 3px; 
@@ -488,8 +502,7 @@ header .container h1 {
 	-webkit-text-fill-color: transparent;
 	-moz-text-fill-color: transparent;
 	font-size: 1.5em;
-	left: 15px; 
-	position: absolute;
+	left: 15px;
 	top: 7px;
 }
 
@@ -771,6 +784,30 @@ label {
 	width: 120px;
 }
 
+.input-wrapper {
+	position: relative;
+	width: 100%;
+}
+
+.input-wrapper i {
+	border-bottom-left-radius: 5px;
+	border-top-left-radius: 5px;
+	color: var(--color-gray-4);
+	font-size: 0.375rem;
+	height: 2.454rem;
+	left: 1.191px;
+	padding-left: 7.575px;
+	padding-top: 6px;
+	position: absolute;	
+	transform: translateY(-50%);
+	top: 1.3rem;
+	width: 2.5rem;
+}
+
+.input-wrapper .icon-password {
+	padding-left: 12px;	
+}
+
 input {
 	display: block;
 }
@@ -792,7 +829,7 @@ input[type=submit]:focus {
 	font-weight: 300;
 	line-height: 1.6;
 	letter-spacing: 0.475px;
-	padding: 0.467rem 0.945rem;
+	padding: 0.467rem 2.5rem;
 	width: 100%;
 }
 
