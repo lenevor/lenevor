@@ -33,6 +33,11 @@ class FileFilterIterator extends FilterIterator
     public const ONLY_FILES = 1;
     public const ONLY_DIRECTORIES = 2;
     
+    /**
+     * Get the mode for a given file.
+     * 
+     * @var int $mode
+     */
     private int $mode;
     
     /**
