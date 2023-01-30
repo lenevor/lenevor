@@ -40,7 +40,7 @@ class DateComparator extends Comparator
      */
     public function __construct(string $comparison)
     {
-        if ( ! preg_match('~^\s*(==|!=|[<>]=?|after|since|before|until)?\s*(.+?)\s*$i~', $comparison, $matches)) {
+        if ( ! preg_match('~^\s*(==|!=|[<>]=?|after|since|before|until)?\s*(.+?)\s*$~i', $comparison, $matches)) {
             throw new InvalidArgumentException(sprintf('The date comparison "%s" isn\'t correct', $comparison));
         }
         
