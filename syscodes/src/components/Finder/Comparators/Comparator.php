@@ -77,4 +77,23 @@ class Comparator
     {
         return $this->target;
     }
+    
+    /**
+     * Tests against the target.
+     *
+     * @param  mixed  $test
+     * 
+     * @return bool 
+     */
+    public function test(mixed $test): bool
+    {
+        return match ($this->operator) {
+            '>' => $test > $this->target,
+            '>=' => $test >= $this->target,
+            '<' => $test < $this->target,
+            '<=' => $test <= $this->target,
+            '!=' => $test != $this->target,
+            default => $test == $this->target,
+        };
+    }
 }
