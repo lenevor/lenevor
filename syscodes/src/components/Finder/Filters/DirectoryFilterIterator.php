@@ -19,6 +19,11 @@ class DirectoryFilterIterator extends RecursiveFilterIterator
         parent::__construct($path, $flags);
     }
 
+    /**
+     * Filters the iterator values.
+     * 
+     * @return bool
+     */
     public function accept(): bool 
     {
         return true;
