@@ -64,6 +64,13 @@ class Finder implements IteratorAggregate, Countable
     private int $ignore = 0;
 
     /**
+     * Get ignore dirs for given type file.
+     * 
+     * @var bool $ignoreDirs
+     */
+    private bool $ignoreDirs = false;
+
+    /**
      * Get the mode for file.
      * 
      * @var int $mode
