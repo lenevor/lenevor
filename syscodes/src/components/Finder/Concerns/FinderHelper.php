@@ -26,6 +26,7 @@ use Iterator;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 use Syscodes\Components\Finder\Finder;
+use Syscodes\Components\Finder\Filters\FileFilterIterator;
 use Syscodes\Components\Finder\Filters\DirectoryFilterIterator;
 
 /**
@@ -49,6 +50,10 @@ trait FinderHelper
         $flags    = RecursiveDirectoryIterator::SKIP_DOTS;
         $iterator = new DirectoryFilterIterator($dir, $flags, $this->ignoreDirs);
         $iterator = new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::SELF_FIRST);
+
+        if ($this->mode) {
+            $iterator = new FileFilterIterator($iterator, $this->mode);
+        }
 
         return $iterator;
     }
