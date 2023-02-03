@@ -2,31 +2,21 @@
 
 namespace Syscodes\Components\Finder\Filters;
 
-use RecursiveFilterIterator;
+use RecursiveDirectoryIterator;
 use Syscodes\Components\Finder\SplFileInfo;
 
-class DirectoryFilterIterator extends RecursiveFilterIterator
+class DirectoryFilterIterator extends RecursiveDirectoryIterator
 {
     /**
      * Constructor. Create a new DirectoryFilterIterator class instance.
      * 
-     * @param  string|\RecursiveIterator  $path
+     * @param  string|mixed  $path
      * @param  int  $flags
      * @param  bool  $ignoreDirs
      */
     public function __construct(string $path, int $flags, bool $ignoreDirs = false)
     {
         parent::__construct($path, $flags);
-    }
-
-    /**
-     * Filters the iterator values.
-     * 
-     * @return bool
-     */
-    public function accept(): bool 
-    {
-        return true;
     }
 
     /**
