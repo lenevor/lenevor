@@ -439,8 +439,10 @@ class Filesystem
 
 		foreach ($paths as $path) {
 			try {
-				if ( ! @unlink($path)) {
-					return $success = false;
+				if (@unlink($path)) {
+					$this->clearstatcache($path);
+				} else {
+					$success = false;
 				}
 			} catch (ErrorException $e) {
 				return $success = false;
