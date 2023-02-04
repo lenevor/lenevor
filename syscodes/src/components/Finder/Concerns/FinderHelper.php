@@ -26,6 +26,7 @@ use Iterator;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 use Syscodes\Components\Finder\Finder;
+use Syscodes\Components\Finder\Filters\DateFilterIterator;
 use Syscodes\Components\Finder\Filters\FileFilterIterator;
 use Syscodes\Components\Finder\Filters\DirectoryFilterIterator;
 
@@ -53,6 +54,10 @@ trait FinderHelper
 
         if ($this->mode) {
             $iterator = new FileFilterIterator($iterator, $this->mode);
+        }
+
+        if ($this->dates) {
+            $iterator = new DateFilterIterator($iterator, $this->dates);
         }
 
         return $iterator;
