@@ -1,12 +1,63 @@
 <?php
 
+/**
+ * Lenevor Framework
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file license.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://lenevor.com/license
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@Lenevor.com so we can send you a copy immediately.
+ *
+ * @package     Lenevor
+ * @subpackage  Base
+ * @link        https://lenevor.com
+ * @copyright   Copyright (c) 2019 - 2023 Alexander Campo <jalexcam@gmail.com>
+ * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
+ */
+
 namespace Syscodes\Components\Finder\Filters;
 
 use RecursiveDirectoryIterator;
 use Syscodes\Components\Finder\SplFileInfo;
 
+/**
+ * Gets the directory filter for iterator.
+ */
 class DirectoryFilterIterator extends RecursiveDirectoryIterator
 {
+    /**
+     * Get the directory separator for folders or files.
+     * 
+     * @var string $ds
+     */
+    private string $ds = '/';
+
+    /**
+     * The ignore directories or files.
+     * 
+     * @var bool $ignoreDirs
+     */
+    private bool $ignoreDirs;
+
+    /**
+     * Get the root path.
+     * 
+     * @var string $rootPath
+     */
+    private string $rootPath;
+
+    /**
+     * Get the sub path.
+     * 
+     * @var string $subPath
+     */
+    private string $subPath;
+
     /**
      * Constructor. Create a new DirectoryFilterIterator class instance.
      * 
@@ -17,13 +68,38 @@ class DirectoryFilterIterator extends RecursiveDirectoryIterator
     public function __construct(string $path, int $flags, bool $ignoreDirs = false)
     {
         parent::__construct($path, $flags);
+        
+        $this->ignoreDirs = $ignoreDirs;
+        $this->rootPath   = $path;
+        
+        if ('/' !== DIRECTORY_SEPARATOR && ! ($flags & self::UNIX_PATHS)) {
+            $this->ds = DIRECTORY_SEPARATOR;
+        }
     }
-
+    
     /**
      * Return an instance of SplFileInfo with support for relative paths.
+     * 
+     * @return \Syscodes\Components\Finder\SplFileInfo
      */
     public function current(): SplFileInfo
     {
-        return new SplFileInfo('', '', '');
+        if ( ! isset($this->subPath)) {
+            $this->subPath = $this->getSubPath();
+        }
+        
+        $subPathname = $this->subPath;
+        
+        if ('' !== $subPathname) {
+            $subPathname .= $this->ds;
+        }
+        
+        $subPathname .= $this->getFilename();
+        
+        if ('/' !== $basePath = $this->rootPath) {
+            $basePath .= $this->ds;
+        }
+        
+        return new SplFileInfo($basePath.$subPathname, $this->subPath, $subPathname);
     }
 }
