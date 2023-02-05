@@ -24,7 +24,6 @@ namespace Syscodes\Components\Finder;
 
 use Countable;
 use Traversable;
-use ArrayIterator;
 use LogicException;
 use IteratorAggregate;
 use Syscodes\Components\Finder\Concerns\FinderHelper;
