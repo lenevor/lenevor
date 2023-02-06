@@ -495,7 +495,7 @@ header .container h1 {
 .resources .learn h3 .icon-books:before,
 .resources .discuss h3 .icon-embed:before,
 .resources .contribute h3 .icon-users:before {
-	background: var(--color-blue-3);
+	background: var(--color-blue-4);
 	background-clip: text;
 	-webkit-background-clip: text;
 	-moz-background-clip: text;
@@ -707,7 +707,7 @@ header .container h1 {
 	--card-cap-color: var(--color-purple);
 	--card-cap-padding-y: 1rem;
 	--card-cap-padding-x: 1.7rem;
-	--card-cap-bg: hsla(0, 0%, 0%, 0.03);
+	--card-cap-bg: hsla(222, 16%, 29%, 0.07);
 	--card-title-size: 1.2rem;
 	background: var(--card-bg);
 	background-clip: border-box;
