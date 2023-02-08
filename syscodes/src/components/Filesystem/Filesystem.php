@@ -204,7 +204,7 @@ class Filesystem
 	public function clearStatCache($path, $all = false): void
 	{
 		if ($all === false) {
-			clearstatcache(true, $path);
+			clearstatcache(false, $path);
 		}
 
 		clearstatcache();
@@ -428,11 +428,6 @@ class Filesystem
 	 */
 	public function delete($paths): bool
 	{
-		if (is_resource($this->handler)) {
-			fclose($this->handler);
-			$this->handler = null;
-		}
-
 		$paths = is_array($paths) ? $paths : func_get_args();
 
 		$success = true;
@@ -440,12 +435,12 @@ class Filesystem
 		foreach ($paths as $path) {
 			try {
 				if (@unlink($path)) {
-					$this->clearstatcache($path);
+					$this->clearstatcache($path, false);
 				} else {
 					$success = false;
 				}
 			} catch (ErrorException $e) {
-				return $success = false;
+				$success = false;
 			}
 		}
 
