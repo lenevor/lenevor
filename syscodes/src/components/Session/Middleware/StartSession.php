@@ -153,7 +153,7 @@ class StartSession
     protected function collectGarbage(Session $session): void
     {
         $config = $this->manager->getSessionConfig();
-        
+
         if ($this->configHitsLottery($config)) {
             $session->getHandler()->gc($this->getSessionLifetimeInSeconds());
         }
@@ -226,7 +226,7 @@ class StartSession
      */
     protected function configHitsLottery(array $config): bool
     {
-        return random_int(1, $config['lottery'][1]) <= $config['lottery'][0];
+        return random_int(1, $config['lottery'][1]) >= $config['lottery'][0];
     }
 
     /**
