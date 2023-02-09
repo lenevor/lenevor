@@ -47,11 +47,11 @@ class DateComparator extends Comparator
         try {
             $date   = new DateTimeImmutable($matches[2]);
             $target = $date->format('U');
-        } catch (Exception $e) {
+        } catch (Exception) {
             throw new InvalidArgumentException(sprintf('"%s" is not a valid date', $matches[2]));
         }
 
-        $operator = $matches[2] ?? '==';
+        $operator = $matches[1] ?? '==';
 
         if ('since' === $operator || 'after' === $operator) {
             $operator = '>';
