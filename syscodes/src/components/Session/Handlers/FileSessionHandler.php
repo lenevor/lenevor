@@ -151,7 +151,7 @@ class FileSessionHandler implements SessionHandlerInterface
                        ->in($this->path)
                        ->files()
                        ->ignoreDotFiles(true)
-                       ->date('<= now - '.$lifetime.' seconds');
+                       ->date('>= now - '.$lifetime.' seconds');
 
         $countSessions = 0;
 
