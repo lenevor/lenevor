@@ -441,15 +441,15 @@ header:hover h2 {
 nav {
     background: transparent;
     display: block;
+    left: 8px;
     overflow: hidden;    
     position: relative;
     top: -1px;
-    width: 100%;
 }
 
 nav ul {
     list-style-type: none;
-    text-align: center;
+    text-align: left;
 }
 
 nav ul li {
@@ -459,14 +459,18 @@ nav ul li {
 }
 
 nav ul li a {
+    border-radius: 5px;
     color: var(--gray-600);
-    display: block;
-    font-size: 1.1em;
+    display: inline-flex;
+    flex-direction: row;
+    font-size: 1em;
     font-weight: 500;
     letter-spacing: -0.5px;
+    line-height: 0.9;
     overflow: hidden;
-    margin-top: 1px;
-    padding: 19px 20px 20px;
+    margin-left: -2px;
+    margin-top: 10px;
+    padding: 9px 10px;
     text-decoration: none;
     text-shadow: none;
     text-transform: capitalize;
@@ -496,11 +500,17 @@ nav ul li a:hover svg {
 }
 
 nav ul li a.active {
-    background: var(--blue-300);
-    color: var(--white);
+    background: var(--gray-200);
+    color: var(--gray-700);
     cursor: default;
     font-weight: 600;
     pointer-events: none;
+}
+
+nav ul li:nth-child(2) a.active {
+    line-height: 1.5;
+    padding: 4px 10px;
+    padding-right: 30px;
 }
 
 .dark-mode nav ul li a.active {
@@ -512,13 +522,17 @@ nav ul li a.active svg {
 }
 
 nav ul li:nth-child(1) a.active svg {
-    fill: var(--blue-300);
-    stroke: var(--white);
+    fill: var(--gray-100);
+    margin-right: 5px;
+    stroke: var(--gray-700);
 }
 
 nav ul li:nth-child(2) a.active svg {
-    fill: var(--blue-300);
-    stroke: var(--blue-300);
+    fill: var(--gray-300);
+    stroke: var(--gray-700);
+    margin-left: -5px;
+    margin-right: 0;
+    margin-top: 2px;
 }
 
 nav ul li:nth-child(3) a.active svg {
@@ -543,8 +557,7 @@ nav ul li:nth-child(5) a.active svg {
 }
 
 nav ul li svg {
-    display: block;
-    margin: 0 auto;
+    display: inline;
     stroke: var(--gray-600);
 }
 
