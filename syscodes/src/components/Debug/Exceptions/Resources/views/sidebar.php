@@ -31,7 +31,7 @@
         <ul>
             <li>
                 <a href="#exceptions" class="active">
-                    <svg width="33px" height="33px" viewBox="-7.3 0 53 53" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="15px" height="15px" viewBox="-2.3 0 53 53" xmlns="http://www.w3.org/2000/svg">
                         <g id="Group_132" data-name="Group 132" transform="translate(-380.703 -318.103)">
                             <path id="Path_478" data-name="Path 478" d="M415.106,361.119a1.989,1.989,0,0,0-1.99,1.99v6.7l8.689-8.688Z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.592"/>
                             <path id="Path_479" data-name="Path 479" d="M415.106,361.119h6.7v-39.73a1.99,1.99,0,0,0-1.99-1.99H383.99a1.99,1.99,0,0,0-1.991,1.99v46.428a1.99,1.99,0,0,0,1.991,1.99h29.126v-6.7A1.989,1.989,0,0,1,415.106,361.119Z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.592"/>
@@ -56,7 +56,7 @@
             </li>
             <li>
                 <a href="#request">                    
-                    <svg width="33px" height="33px" viewBox="-3.5 -4 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="22px" height="22px" viewBox="-1 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="12.5" cy="12.5" r="1.75"/>
                         <circle cx="3.5" cy="12.5" r="1.75"/>
                         <circle cx="3.5" cy="3.5" r="1.75"/>
