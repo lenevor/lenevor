@@ -441,7 +441,7 @@ header:hover h2 {
 nav {
     background: transparent;
     display: block;
-    left: 8px;
+    left: 7px;
     overflow: hidden;    
     position: relative;
     top: -1px;
@@ -468,9 +468,10 @@ nav ul li a {
     letter-spacing: -0.5px;
     line-height: 0.9;
     overflow: hidden;
-    margin-left: -2px;
+    margin-bottom: 5px;
+    margin-left: -1px;
     margin-top: 10px;
-    padding: 9px 10px;
+    padding: 9px 8px;
     text-decoration: none;
     text-shadow: none;
     text-transform: capitalize;
@@ -509,8 +510,14 @@ nav ul li a.active {
 
 nav ul li:nth-child(2) a.active {
     line-height: 1.5;
-    padding: 4px 10px;
-    padding-right: 30px;
+    padding: 5px 12px;
+    padding-right: 26px;
+}
+
+nav ul li:nth-child(3) a.active {
+    line-height: 1.5;
+    padding: 5px 10px;
+    padding-right: 17px;
 }
 
 .dark-mode nav ul li a.active {
@@ -531,13 +538,15 @@ nav ul li:nth-child(2) a.active svg {
     fill: var(--gray-300);
     stroke: var(--gray-700);
     margin-left: -5px;
-    margin-right: 0;
+    margin-right: 2px;
     margin-top: 2px;
 }
 
 nav ul li:nth-child(3) a.active svg {
-    fill: var(--gray-100);
-    stroke: var(--gray-400);
+    fill: var(--gray-700);
+    stroke: var(--gray-600);
+    margin-left: -1px;
+    margin-right: -1px;
 }
 
 nav ul li:nth-child(5) a.active svg {
