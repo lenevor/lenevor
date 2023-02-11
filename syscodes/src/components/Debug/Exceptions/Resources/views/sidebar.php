@@ -56,7 +56,7 @@
             </li>
             <li>
                 <a href="#request">                    
-                    <svg width="22px" height="22px" viewBox="-1 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="21px" height="21px" viewBox="-1.8 -1.1 20 20" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="12.5" cy="12.5" r="1.75"/>
                         <circle cx="3.5" cy="12.5" r="1.75"/>
                         <circle cx="3.5" cy="3.5" r="1.75"/>
@@ -67,7 +67,7 @@
             </li>
             <li>
                 <a href="#response">
-                    <svg height="33px" width="33px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <svg height="22px" width="22px" viewBox="7 -8 84 84" xmlns="http://www.w3.org/2000/svg">
                         <g id="HTML-file">
                             <path d="M37.5115013,36.2032013c-0.2187004,0.5077972,0.014698,1.0956993,0.5214996,1.3143997l7.5644989,3.2626991
                                 l-7.5478897,3.1025009c-0.5107117,0.2099991-0.7549095,0.7939987-0.5449104,1.3046989
