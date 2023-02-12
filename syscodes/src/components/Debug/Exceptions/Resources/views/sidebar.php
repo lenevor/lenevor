@@ -31,7 +31,7 @@
         <ul>
             <li>
                 <a href="#exceptions" class="active">
-                    <svg width="15px" height="15px" viewBox="-2.3 0 53 53" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="16px" height="16px" viewBox="-8 0 53 53" xmlns="http://www.w3.org/2000/svg">
                         <g id="Group_132" data-name="Group 132" transform="translate(-380.703 -318.103)">
                             <path id="Path_478" data-name="Path 478" d="M415.106,361.119a1.989,1.989,0,0,0-1.99,1.99v6.7l8.689-8.688Z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.592"/>
                             <path id="Path_479" data-name="Path 479" d="M415.106,361.119h6.7v-39.73a1.99,1.99,0,0,0-1.99-1.99H383.99a1.99,1.99,0,0,0-1.991,1.99v46.428a1.99,1.99,0,0,0,1.991,1.99h29.126v-6.7A1.989,1.989,0,0,1,415.106,361.119Z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.592"/>
@@ -56,7 +56,7 @@
             </li>
             <li>
                 <a href="#request">                    
-                    <svg width="21px" height="21px" viewBox="-1.8 -1.1 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="20px" height="20px" viewBox="0 1.1 20 20" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="12.5" cy="12.5" r="1.75"/>
                         <circle cx="3.5" cy="12.5" r="1.75"/>
                         <circle cx="3.5" cy="3.5" r="1.75"/>
@@ -67,7 +67,7 @@
             </li>
             <li>
                 <a href="#response">
-                    <svg height="22px" width="22px" viewBox="7 -8 84 84" xmlns="http://www.w3.org/2000/svg">
+                    <svg height="22px" width="22px" viewBox="2.7 0.5 88 88" xmlns="http://www.w3.org/2000/svg">
                         <g id="HTML-file">
                             <path d="M37.5115013,36.2032013c-0.2187004,0.5077972,0.014698,1.0956993,0.5214996,1.3143997l7.5644989,3.2626991
                                 l-7.5478897,3.1025009c-0.5107117,0.2099991-0.7549095,0.7939987-0.5449104,1.3046989
@@ -100,7 +100,7 @@
             </li>
             <li>
                 <a href="#logs">
-                    <svg width="32px" height="32px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="22px" height="22px" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
                         <path d="M26,2H8A2,2,0,0,0,6,4V8H4v2H6v5H4v2H6v5H4v2H6v4a2,2,0,0,0,2,2H26a2,2,0,0,0,2-2V4A2,2,0,0,0,26,2Zm0,26H8V24h2V22H8V17h2V15H8V10h2V8H8V4H26Z"/>
                         <rect x="14.5" y="9.5" width="7" height="1"/>
                         <rect x="14.5" y="15.5" width="7" height="1"/>
@@ -111,7 +111,7 @@
             </li>
             <li>
                 <a href="#events">
-                    <svg width="36px" height="36px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" stroke-width="1" stroke-linecap="square"> 
+                    <svg width="17px" height="17px" viewBox="0 2 20 20" xmlns="http://www.w3.org/2000/svg" stroke-width="1" stroke-linecap="square"> 
                         <path d="M22 5L22 17C22 18.3333333 21.3333333 19 20 19 18.6666667 19 18 18.3333333 18 17L18 5 2 5 2 16C2 18 3 19 5 19 7 19 12 19 20 19M6 14L7 14M11 14L14 14M6 10L14 10"/> 
                     </svg>
                     Events
