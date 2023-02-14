@@ -430,7 +430,7 @@ header:hover h2 {
 
 .dark-mode .sidebar .brand {
     background: linear-gradient(236deg, var(--dark-magenta-100) 20%, var(--dark-magenta-200));
-    box-shadow: 0 1px 0 hsla(0, 0%, 0%, 0.3);
+    box-shadow: 0 1px 0 hsla(0, 0%, 0%, 0.6);
 }
 
 .sidebar .brand svg {
@@ -507,7 +507,8 @@ nav ul li a:hover svg {
 }
 
 .dark-mode nav ul li a:hover svg {
-    stroke: var(--dark-gray-700);
+    fill: var(--dark-magenta-100);
+    stroke: var(--dark-white);
 }
 
 nav ul li:nth-child(1) svg {
@@ -519,6 +520,11 @@ nav ul li:nth-child(1) svg,
 nav ul li:nth-child(2) svg {
     fill: var(--white);
     stroke: var(--gray-600);
+}
+
+.dark-mode nav ul li:nth-child(2) svg {
+    fill: var(--dark-magenta-100);
+    stroke: var(--dark-gray-300);
 }
 
 nav ul li:nth-child(3) svg {
@@ -546,7 +552,7 @@ nav ul li:nth-child(5) svg {
 }
 
 .dark-mode nav ul li:nth-child(5) svg {
-    fill: transparent;
+    fill: var(--dark-magenta-100);
     stroke: var(--dark-gray-200);
 }
 
@@ -581,7 +587,8 @@ nav ul li:nth-child(5) a.active {
 }
 
 .dark-mode nav ul li a.active {
-    background: var(--dark-blue-300);
+    background: var(--dark-blue-400);
+    color: var(--dark-white)
 }
 
 nav ul li a.active svg {
@@ -621,7 +628,7 @@ nav ul li:nth-child(5) a.active svg {
 }
 
 .dark-mode nav ul li a.active svg {
-    fill: var(--dark-blue-300);
+    fill: var(--dark-blue-400);
     stroke: var(--dark-white);
 }
 
@@ -646,9 +653,7 @@ nav ul li:nth-child(5) a.active svg {
 
 .dark-mode .frame-main {
     background: var(--dark-magenta-100);
-    border-bottom: solid 3px var(--dark-blue-400);
-    border-top: solid 3px var(--dark-blue-400);
-    box-shadow: none;
+    box-shadow: 0 0 1px 1px var(--dark-black-130);
 }
 
 .frame-description {
@@ -676,9 +681,9 @@ nav ul li:nth-child(5) a.active svg {
 }
 
 .dark-mode .frame-description.frame-description-application {
-    color: var(--dark-blue-700);
+    color: var(--dark-gray-600);
     font-weight: 600;
-    text-shadow: 0 1px 1px var(--dark-blue-300);
+    text-shadow: 0 1px 1px var(--dark-gray-200);
 }
 
 .frame-description-application span {
@@ -1139,8 +1144,6 @@ nav ul li:nth-child(5) a.active svg {
 
 .dark-mode .code-source {
     background: var(--dark-magenta-100);
-    border-bottom: solid 3px var(--dark-blue-400);
-    border-top: solid 3px var(--dark-blue-400);
     box-shadow: none;
 }
 
@@ -1183,8 +1186,8 @@ nav ul li:nth-child(5) a.active svg {
 }
 
 .dark-mode .title-line-number h4 {
-    color: var(--dark-blue-700);
-    text-shadow: 0 1px 1px var(--dark-blue-300);
+    color: var(--dark-gray-600);
+    text-shadow: 0 1px 1px var(--dark-gray-200);
 }
 
 .title-line-number span {
@@ -1718,8 +1721,8 @@ footer {
 }
 
 .dark-mode .icon-holder {
-    background: var(--dark-blue-300);
-    border-color: var(--dark-blue-100);
+    background: var(--dark-magenta-100);
+    border-color: var(--dark-black-130);
 }
 
 .icon-holder:hover {
@@ -1777,7 +1780,7 @@ footer {
 .dark-mode .icon-holder .ico-print,
 .dark-mode .icon-holder .ico-file-pdf,
 .dark-mode .icon-holder .ico-file-edit {
-    fill: var(--dark-blue-500);
+    fill: var(--dark-gray-200);
 }
 
 .icon-holder .ico-print {
