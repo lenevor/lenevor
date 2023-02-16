@@ -1,8 +1,41 @@
 # Release Notes
 
+## [Version 0.8.3-alpha.8] 
+
+Release Date: Feb 15, 2023
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added middlewares for authentication of users
+- Added new methods for the validation errors as messages to the view
+- Added methods for show errors to the session
+- Added the conditionals of authentication by mean of plaze template engine
+- Added new function of the available auth instance
+- Added the count() method for results by the iterators
+- Added static method for calls the Finder class
+- Added new methods and namespaces for gets the results of search
+- Added the dark theme to the missing HTML tags
+- Added the file filter iterator for search onto path of files
+
+### Changed
+- Changed to shorthand function for PHP 8.0 version
+
+### Fixed
+- Fix bug in the namespace of the Auth/Factory interface
+- Fix bug of filter for friendly URLs
+- Fix bug in the pattern to given comparator of operators in Finder system
+- Fix bug in the numeration value of $matches variable
+
+### Created
+- Created the RedirectResponseHeader class
+- Created new methods for the authentication users into valid PHP
+- Create the Finder system
+
+
 ## [Version 0.8.2-alpha.8] 
 
-Release Date: Jan 08, 2022
+Release Date: Jan 08, 2023
 
 **Next alpha release of Lenevor**
 
