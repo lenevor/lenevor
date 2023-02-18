@@ -132,9 +132,7 @@ class RouteResolver
 	 */
 	protected function runRoute(Request $request, Route $route): Response
 	{
-		$request->setRouteResolver(function () use ($route) {
-			return $route;
-		});
+		$request->setRouteResolver(fn () => $route);
 
 		return $this->callResponse($request, 
 			$this->runRouteStack($route, $request)
