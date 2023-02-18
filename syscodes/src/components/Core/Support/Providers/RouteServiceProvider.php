@@ -36,8 +36,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->booted(function ()
-        {
+        $this->app->booted(function () {
             $this->app['router']->getRoutes()->refreshNameLookups();
             $this->app['router']->getRoutes()->refreshActionLookups();
         });
