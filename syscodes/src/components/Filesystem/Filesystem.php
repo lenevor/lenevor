@@ -745,9 +745,9 @@ class Filesystem
 	 * @param  string  $contents
 	 * @param  bool  $lock  
 	 *
-	 * @return int
+	 * @return int|bool
 	 */
-	public function put($path, $contents, $lock = false): int
+	public function put($path, $contents, $lock = false): int|bool
 	{
 		return file_put_contents($path, $contents, $lock ? LOCK_EX : 0);
 	}
