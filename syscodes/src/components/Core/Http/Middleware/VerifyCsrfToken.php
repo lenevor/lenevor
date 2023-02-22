@@ -91,12 +91,10 @@ class VerifyCsrfToken
      */
     public function handle($request, Closure $next)
     {
-        if (
-            $this->isReading($request) ||
+        if ($this->isReading($request) ||
             $this->runningUnitTests() ||
             $this->inExceptArray($request) ||
-            $this->tokensMatch($request)
-        ) {
+            $this->tokensMatch($request)) {
             return take($next($request), function ($response) use ($request) {
                 if ($this->addXsrfTokenCookie()) {
                     $this->addCookieToResponse($request, $response);
