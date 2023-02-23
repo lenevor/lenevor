@@ -39,6 +39,7 @@ use Syscodes\Components\Http\Request\RequestClientIP;
 use Syscodes\Components\Http\Resources\HttpResources;
 use Syscodes\Components\Http\Session\SessionDecorator;
 use Syscodes\Components\Http\Session\SessionInterface;
+use Syscodes\Components\Http\Concerns\CanBePrecognitive;
 use Syscodes\Components\Http\Concerns\InteractsWithInput;
 use Syscodes\Components\Http\Concerns\InteractsWithContentTypes;
 use Syscodes\Components\Http\Exceptions\SessionNotFoundException;
@@ -48,7 +49,8 @@ use Syscodes\Components\Http\Exceptions\SessionNotFoundException;
  */
 class Request
 {
-	use HttpResources,
+	use CanBePrecognitive,
+	    HttpResources,
 	    InteractsWithInput,
 	    InteractsWithContentTypes;
 
