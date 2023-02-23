@@ -216,14 +216,16 @@ class ResponseHeaders extends Headers
 	/**
 	 * Sets the cookie.
 	 * 
-	 * @param  \Syscodes\Components\Cookie\CookieManager
+	 * @param  \Syscodes\Components\Http\Cookie  $cookie
 	 * 
-	 * @return void
+	 * @return self
 	 */
-	public function setCookie(Cookie $cookie): void
+	public function setCookie(Cookie $cookie): static
 	{
 		$this->cookies[$cookie->getDomain()][$cookie->getPath()][$cookie->getName()] = $cookie;
 		$this->headerNames['set-cookie'] = 'Set-Cookie';
+
+		return $this;
 	}
 
 	/**
