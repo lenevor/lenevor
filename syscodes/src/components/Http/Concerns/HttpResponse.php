@@ -47,7 +47,7 @@ trait HttpResponse
     /**
      * The Headers class instance.
      * 
-     * @var \Syscodes\Components\Http\Headers|object $headers
+     * @var \Syscodes\Components\Http\Headers $headers
      */
 	public $headers;
 
