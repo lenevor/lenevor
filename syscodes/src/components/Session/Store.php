@@ -22,9 +22,12 @@
 
 namespace Syscodes\Components\Session;
 
+use stdClass;
 use SessionHandlerInterface;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\MessageBag;
+use Syscodes\Components\Support\ViewErrorBag;
 use Syscodes\Components\Contracts\Session\Session;
 use Syscodes\Components\Session\Handlers\CookieSessionHandler;
 
@@ -144,6 +147,8 @@ class Store implements Session
     protected function loadSession(): void
     {
         $this->items = array_merge($this->items, $this->readToHandler());
+
+        $this->getErrorBag();
     }
 
     /**
@@ -178,6 +183,28 @@ class Store implements Session
     protected function prepareForUnserialize($data): string
     {
         return $data;
+    }
+    
+    /**
+     * Get the ViewErrorBag when using JSON serialization for sessions.
+     * 
+     * @return void
+     */
+    protected function getErrorBag()
+    {
+        if ($this->serialization !== 'json' || ! $this->exists('errors')) {
+            return;
+        }
+        
+        $errorBag = new ViewErrorBag;
+        
+        foreach ($this->get('errors') as $key => $value) {
+            $messageBag = new MessageBag($value['messages']);
+            
+            $errorBag->put($key, $messageBag->setFormat($value['format']));
+        }
+        
+        $this->put('errors', $errorBag);
     }
 
     /**
@@ -255,11 +282,36 @@ class Store implements Session
     {
         $this->ageFlashData();
 
+        $this->getErrorBagToSerialization();
+
         $this->handler->write($this->getId(), $this->prepareForStorage(
             $this->serialization === 'json' ? json_encode($this->items) : serialize($this->items)
         ));
 
         $this->started = false;
+    }
+    
+    /**
+     * Get the ViewErrorBag instance for JSON serialization.
+     * 
+     * @return void
+     */
+    protected function getErrorBagToSerialization(): void
+    {
+        if ($this->serialization !== 'json' || ! $this->exists('errors')) {
+            return;
+        }
+        
+        $errors = [];
+        
+        foreach ($this->items['errors']->getBags() as $key => $value) {
+            $errors[$key] = [
+                'format' => $value->getFormat(),
+                'messages' => $value->getMessages(),
+            ];
+        }
+        
+        $this->items['errors'] = $errors;
     }
 
     /**
@@ -314,6 +366,22 @@ class Store implements Session
         $array[] = $value;
 
         $this->put($key, $array);
+    }
+    
+    /**
+     * Checks if a key exists.
+     * 
+     * @param  string|array  $key
+     * 
+     * @return bool
+     */
+    public function exists($key): bool
+    {
+        $placeholder = new stdClass;
+        
+        return ! collect(is_array($key) ? $key : func_get_args())->contains(function ($key) use ($placeholder) {
+            return $this->get($key, $placeholder) === $placeholder;
+        });
     }
 
     /**
