@@ -172,8 +172,8 @@ class StartSession
         if ($request->isMethod('GET') &&
             $request->route() instanceof Route &&
             ! $request->ajax() &&
-            ! $request->prefetch()
-        ) {
+            ! $request->prefetch() &&
+            ! $request->isPrecognitive()) {
             $session->setPreviousUrl($request->fullUrl());
         }
     }
@@ -208,11 +208,13 @@ class StartSession
     /**
      * Save the session data to storage.
      * 
+     * @param  \Syscodes\Components\Http\Request  $request
+     * 
      * @return void
      */
-    protected function saveSession(): void
+    protected function saveSession($request): void
     {
-        if ( ! $this->usingCookieSessions()) {
+        if ( ! $request->isPrecognitive()) {
             $this->manager->driver()->save();
         }
     }
@@ -226,7 +228,7 @@ class StartSession
      */
     protected function configHitsLottery(array $config): bool
     {
-        return random_int(1, $config['lottery'][1]) >= $config['lottery'][0];
+        return random_int(1, $config['lottery'][1]) <= $config['lottery'][0];
     }
 
     /**
@@ -265,19 +267,5 @@ class StartSession
         $config = $config ?: $this->manager->getSessionConfig();
         
         return ! is_null($config['driver'] ?? null);
-    }
-
-    /**
-     * Determine if the session is using cookie sessions.
-     * 
-     * @return bool
-     */
-    protected function usingCookieSessions(): bool
-    {
-        $session = $this->manager->driver();
-        
-        $handler = $session->getHandler();
-        
-        return ($handler instanceof CookieSessionHandler);
     }
 }
