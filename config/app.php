@@ -183,22 +183,5 @@ return [
     */
 
     'encoding' => 'UTF-8',
-
-    /*
-    |------------------------------------------------------------------------
-    | Uri Protocol
-    |------------------------------------------------------------------------
-    |
-    | This item determines which variable global should be used to retrieve 
-    | the URI string. The default setting of 'REQUEST_URI' works for most 
-    | servers. If your links do not seem to work, try one of next:
-    |
-    | 'REQUEST_URI'    Uses $_SERVER['REQUEST_URI']
-    | 'QUERY_STRING'   Uses $_SERVER['QUERY_STRING']
-    | 'PATH_INFO'      Uses $_SERVER['PATH_INFO']
-    |
-    */
-
-    'uriProtocol' => 'REQUEST_URI',
             
 ];
