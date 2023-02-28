@@ -24,7 +24,6 @@ namespace Syscodes\Components\Http;
 
 Use Locale;
 use Closure;
-use Exception;
 use LogicException;
 use RuntimeException;
 use Syscodes\Components\Support\Arr;
@@ -241,8 +240,6 @@ class Request
 		
 		$this->initialize($query, $request, $attributes, $cookies, $files, $server, $content);
 		
-		$this->detectURI(config('app.uriProtocol'), config('app.baseUrl'));
-
 		$this->detectLocale();
 	}
 
@@ -305,7 +302,7 @@ class Request
 	 */
 	public static function createFromRequest($request)
 	{
-		$newRequest = static::active()->duplicate(
+		$newRequest = (new static)->duplicate(
 			$request->query->all(), $request->request->all(), $request->attributes->all(),
 			$request->cookies->all(), $request->files->all(), $request->server->all()
 		);
@@ -326,12 +323,15 @@ class Request
 	 * 
 	 * @return static
 	 */
-	public static function createFromRequestGlobals()
+	public static function createFromRequestGlobals(): static
 	{
 		$request = static::createFromRequestFactory($_GET, $_POST, [], $_COOKIE, $_FILES, $_SERVER);
 
-		parse_str($request->getContent(), $data);
-		$request->request = new Parameters($data);
+		if (Str::startsWith($request->headers->get('CONTENT_TYPE', ''), 'application/x-www-form-urlencoded')
+		    && in_array(strtoupper($request->server->get('REQUEST_METHOD', 'GET')), ['PUT', 'DELETE', 'PATCH'])) {
+			parse_str($request->getContent(), $data);
+			$request->request = new Inputs($data);
+		}
 
 		return $request;
 	}
@@ -372,23 +372,23 @@ class Request
 	/**
 	 * Clones a request and overrides some of its parameters.
 	 * 
-	 * @param  array  $query
-	 * @param  array  $request
-	 * @param  array  $attributes
-	 * @param  array  $cookies
-	 * @param  array  $files
-	 * @param  array  $server
+	 * @param  array|null  $query
+	 * @param  array|null  $request
+	 * @param  array|null  $attributes
+	 * @param  array|null  $cookies
+	 * @param  array|null  $files
+	 * @param  array|null  $server
 	 * 
 	 * @return static
 	 */
 	public function duplicate(
-		array $query = [], 
-		array $request = [],
-		array $attributes = [],
-		array $cookies = [],
-		array $files = [],
-		array $server = []
-	) {
+		array $query = null, 
+		array $request = null,
+		array $attributes = null,
+		array $cookies = null,
+		array $files = null,
+		array $server = null
+	): static {
 		$duplicate = clone $this;
 
 		if (null !== $query) {
@@ -428,21 +428,15 @@ class Request
 	}
 
 	/**
-	 * Returns the active request currently being used.
+	 * Returns the factory request currently being used.
 	 *
-	 * @param  \Syscodes\Components\Http\Request|bool|null  $request  Overwrite current request 
-	 *                                                      before returning, false prevents 
-	 *                                                      overwrite
+	 * @param  \Syscodes\Components\Http\Request|callable  $request  
 	 *
-	 * @return \Syscodes\Components\Http\Request
+	 * @return void
 	 */
-	public static function active($request = false)
+	public static function setFactory(callable $request): void
 	{
-		if ($request !== false) {
-			static::$requestURI = $request;
-		}
-
-		return static::$requestURI;
+		self::$requestURI = $request;
 	}
 
 	/**
@@ -455,11 +449,7 @@ class Request
 	 */
 	public function segment($index, $default = null)
 	{
-		if ($request = static::active()) {
-			return $request->uri->getSegment($index, $default);
-		}
-
-		return null;
+		return $this->uri->getSegment($index, $default);
 	}
 
 	/**
@@ -470,11 +460,7 @@ class Request
 	 */
 	public function segments()
 	{
-		if ($request = static::active()) {
-			return $request->uri->getSegments();
-		}
-
-		return null;
+		return $this->uri->getSegments();
 	}
 
 	/**
@@ -484,36 +470,7 @@ class Request
 	 */
 	public function totalSegments()
 	{
-		if ($request = static::active()) {
-			return $request->uri->getTotalSegments();
-		}
-
-		return null;
-	}
-
-	/**
-	 * Detects and returns the current URI based on a number of different server variables.
-	 * 
-	 * @param  string  $protocol
-	 * @param  string  $baseUrl
-	 * 
-	 * @return string
-	 */
-	protected function detectURI(string $protocol, string $baseUrl)
-	{
-		$this->uri->setPath($this->detectPath($protocol));
-
-		$baseUrl = ! empty($baseUrl) ? rtrim($baseUrl, '/ ').'/' : $baseUrl;
-
-		if ( ! empty($baseUrl)) {
-			$this->uri->setScheme(parse_url($baseUrl, PHP_URL_SCHEME));
-			$this->uri->setHost(parse_url($baseUrl, PHP_URL_HOST));
-			$this->uri->setPort(parse_url($baseUrl, PHP_URL_PORT));
-		} else {
-			if ( ! isCli()) {
-				exit('You have an empty or invalid base URL. The baseURL value must be set in config/app.php, or through the .env file.');
-			}
-		}
+		return $this->uri->getTotalSegments();
 	}
 
 	/**
@@ -578,6 +535,10 @@ class Request
 	 */
 	public function get(string $key, $default = null) 
 	{
+		if ($this !== $result = $this->attributes->get($key, $this)) {
+			return $result;
+		}
+
 		if ($this->query->has($key)) {
 			return $this->query->all()[$key];
 		}
@@ -875,13 +836,9 @@ class Request
 	 */
 	public function path(): string
 	{
-		if (($request = static::active())) {
-			$path = trim($this->getPathInfo(), '/');
-		}
+		$path = trim($this->getPathInfo(), '/');
 
-		$uri = trim($request->uri->getPath(), '/ ');
-
-		return $path == '' ? $uri.'/' : $path;
+		return $path == '' ? '/' : $path;
 	}
 
 	/**
@@ -895,7 +852,7 @@ class Request
 		
 		$question = $this->getBaseUrl().$this->getPathInfo() === '/' ? '/?' : '?';
 		
-		return $query ? $this->getUri().$this->url().$question.$query : $this->getUri().$this->url();
+		return $query ? $this->url().$question.$query : $this->url();
 	}
 	
 	/**
@@ -976,7 +933,7 @@ class Request
 		if (null !== $query = $this->getQueryString()) {
 			$query = '?'.$query;
 		}
-		
+	
 		return $this->getSchemeWithHttpHost().$this->getBaseUrl().$this->getPathInfo().$query;
 	}
 	
@@ -1106,7 +1063,8 @@ class Request
 	 */
 	public function url(): string
 	{
-		return trim(preg_replace('/\?.*/', '', $this->path()), '/');
+		// Changed $this->path() for $this->getUri()
+		return rtrim(preg_replace('/\?.*/', '', $this->path()), '/');
 	}
 
 	/**
