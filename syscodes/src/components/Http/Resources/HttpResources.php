@@ -22,6 +22,8 @@
 
 namespace Syscodes\Components\Http\Resources;
 
+use Syscodes\Components\Support\Str;
+
 /**
  * Returns the HTTP requests is filtered and detected in the routes set by the user.
  */
@@ -45,28 +47,6 @@ trait HttpResources
 
 		return 'http';
 	}
-	
-	/**
-	 * Gets the URI Protocol based setting, will attempt to detect the path 
-	 * portion of the current URI.
-	 * 
-	 * @param  string  $protocol
-	 * 
-	 * @return string
-	 */
-	public function detectPath(string $protocol = ''): string
-	{
-		if (empty($protocol)) {
-			$protocol = 'REQUEST_URI';
-		}
-
-		return match ($protocol) {
-			'REQUEST_URI' => $this->parseRequestUri(),
-			'QUERY_STRING' => $this->parseQueryString(),
-			'PATH_INFO' => $this->server($protocol) ?? $this->parseRequestUri(),
-			default => $this->parseRequestUri(),
-		};
-	}
 
 	/**
 	 * Filters a value from the start of a string in this case the passed URI string.
@@ -75,44 +55,48 @@ trait HttpResources
 	 */
 	protected function parseRequestUri(): string
 	{
-		if ( ! isset($_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME'])) {
-			return '';
-		}
-
-		$requestUri = $this->server('REQUEST_URI') ?? '/';
-		$components = parse_url($requestUri);
-		$query      = $components['query'] ?? '';
-		$uri        = $components['path'] ?? '';
-
-		// If the search value is at the start
-		if (isset($this->server('SCRIPT_NAME')[0])) {
-			if (0 === strpos($uri, $this->server('SCRIPT_NAME'))) {
-				$uri = (string) substr($uri, strlen($this->server('SCRIPT_NAME')));
-			} elseif (0 < strpos($uri, $this->server('SCRIPT_NAME'))) {
-				$uri = (string) substr($uri, strpos($uri, $this->server('SCRIPT_NAME')) + strlen($this->server('SCRIPT_NAME')));
-			} elseif (0 === strpos($uri, dirname($this->server('SCRIPT_NAME')))) {
-				$uri = (string) substr($uri, strlen(dirname($this->server('SCRIPT_NAME'))));
+		$requestUri = '';
+		if ('1' == $this->server->get('IIS_WasUrlRewritten') && '' != $this->server->get('UNENCODED_URL')) {
+			// IIS7 with URL Rewrite: make sure we get the unencoded URL (double slash problem)
+			$requestUri = $this->server->get('UNENCODED_URL');
+			$this->server->remove('UNENCODED_URL');
+			$this->server->remove('IIS_WasUrlRewritten');
+		} elseif ($this->server->has('REQUEST_URI')) {
+			$requestUri = $this->server->get('REQUEST_URI');
+			
+			if ('' !== $requestUri && '/' === $requestUri[0]) {
+				// To only use path and query remove the fragment.
+				if (false !== $pos = strpos($requestUri, '#')) {
+					$requestUri = substr($requestUri, 0, $pos);
+				}
+			} else {
+				// HTTP proxy reqs setup request URI with scheme and host [and port] + the URL path,
+				// only use URL path.
+				$uriComponents = parse_url($requestUri);
+				
+				if (isset($uriComponents['path'])) {
+					$requestUri = $uriComponents['path'];
+				}
+				
+				if (isset($uriComponents['query'])) {
+					$requestUri .= '?'.$uriComponents['query'];
+				}
 			}
+		} elseif ($this->server->has('ORIG_PATH_INFO')) {
+			// IIS 5.0, PHP as CGI
+			$requestUri = $this->server->get('ORIG_PATH_INFO');
+			
+			if ('' != $this->server->get('QUERY_STRING')) {
+				$requestUri .= '?'.$this->server->get('QUERY_STRING');
+			}
+			
+			$this->server->remove('ORIG_PATH_INFO');
 		}
-
-		// This section ensures that even on servers that require the URI to contain 
-		// the query string (Nginx) is the correctly
-		if ('' === trim($uri, '/') && 0 === strncmp($query, '/', 1)) {
-			$query					 = explode('?', $query, 2);
-			$uri  					 = $query[0];
-			$_SERVER['QUERY_STRING'] = $query[1] ?? '';
-		} else {
-			$_SERVER['QUERY_STRING'] = $query;
-		}
-
-		// Parses the string into variables
-		parse_str($_SERVER['QUERY_STRING'], $_GET);
-
-		if ('/' === $uri || '' === $uri) {
-			return '';
-		}
-
-		return $this->filterDecode($uri);
+		
+		// normalize the request URI to ease creating sub-requests from this request
+		$this->server->set('REQUEST_URI', $requestUri);
+		
+		return $this->filterDecode($requestUri);
 	}
 
 	/**
@@ -167,13 +151,23 @@ trait HttpResources
 				++$index;
 			} while ($last > $index && (false !== $pos = strpos($path, $baseUrl)) && 0 != $pos);
 		}
-
+		
 		// Does the baseUrl have anything in common with the request_uri?
-		$requestUri = $this->parseRequestUri();
-
+		$requestUri = $this->getRequestUri();
+		
 		if ('' !== $requestUri && '/' !== $requestUri[0]) {
-            $requestUri = '/'.$requestUri;
-        }
+			$requestUri = '/'.$requestUri;
+		}
+		
+		if ($baseUrl && null !== $prefix = $this->getUrlencoded($requestUri, $baseUrl)) {
+			// full $baseUrl matches
+			return $prefix;
+		}
+		
+		if ($baseUrl && null !== $prefix = $this->getUrlencoded($requestUri, rtrim(dirname($baseUrl), '/'.DIRECTORY_SEPARATOR))) {
+			// directory portion of $baseUrl matches
+			return $this->filterDecode($prefix);
+		}
 
 		$baseUrl = dirname($baseUrl ?? '');
 		
@@ -185,6 +179,60 @@ trait HttpResources
 		}
 		
 		return $this->filterDecode($baseUrl);
+	}
+
+	/**
+     * Returns the prefix as encoded in the string when the string starts with
+     * the given prefix, null otherwise.
+     */
+    private function getUrlencoded(string $string, string $prefix): ?string
+    {
+        if ( ! Str::startsWith(rawurldecode($string), $prefix)) {
+            return null;
+        }
+
+        $len = strlen($prefix);
+
+        if (preg_match(sprintf('#^(%%[[:xdigit:]]{2}|.){%d}#', $len), $string, $match)) {
+            return $match[0];
+        }
+
+        return null;
+    }
+
+
+	/**
+	 * Parse the path info.
+	 * 
+	 * @return string
+	 */
+	public function parsePathInfo(): string
+	{
+		if (null === ($requestUri = $this->getRequestUri())) {
+			return '/';
+		}
+		
+		// Remove the query string from REQUEST_URI
+		if (false !== $pos = strpos($requestUri, '?')) {
+			$requestUri = substr($requestUri, 0, $pos);
+		}
+		
+		if ('' !== $requestUri && '/' !== $requestUri[0]) {
+			$requestUri = '/'.$requestUri;
+		}
+		
+		if (null === ($baseUrl = $this->getBaseUrl())) {
+			return $requestUri;
+		}
+		
+		$pathInfo = substr($requestUri, \strlen($baseUrl));
+		
+		if (false === $pathInfo || '' === $pathInfo) {
+			// If substr() returns false then PATH_INFO is set to an empty string
+			return '/';
+		}
+		
+		return $this->filterDecode($pathInfo);
 	}
 
 	/**
@@ -202,35 +250,6 @@ trait HttpResources
 		$uri = mb_strtolower(trim($uri), 'UTF-8');
 		
 		// Return argument if not empty or return a single slash
-		return trim(strtolower($uri).'/');
-	}
-
-	/**
-	 * Parse the path info.
-	 * 
-	 * @return string
-	 */
-	public function parsePathInfo(): string
-	{
-		$baseUrl = $this->getBaseUrl();
-
-		if (null === ($requestUri = $this->parseRequestUri())) {
-			return '/';
-		}
-
-		$pathInfo = '/';
-
-		// Remove the query string from REQUEST_URI
-		if (false !== $pos = strpos($requestUri, '?')) {
-			$requestUri = substr($requestUri, 0, $pos);
-		}
-		
-		if ((null !== $baseUrl) && (false === ($pathInfo = substr(urldecode($requestUri), strlen(urldecode($baseUrl)))))) {
-			return '/';
-		} elseif (null === $baseUrl) {
-			return $requestUri;
-		}
-		
-		return (string) $pathInfo;
+		return trim($uri);
 	}
 }
