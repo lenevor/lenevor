@@ -31,25 +31,13 @@ use Syscodes\Components\Core\Http\Exceptions\BadRequestHttpException;
 final class Inputs extends Parameters
 {
 	/**
-	 * Returns the parameters.
-	 * 
-	 * @param  string|null  $key
-	 * 
-	 * @return array
-	 */
-	public function all(string $key = null): array
-	{
-		return parent::all($key);
-	}
-	
-	/**
 	 * Replaces the current parameters.
 	 * 
 	 * @param  array  $parameters
 	 * 
-	 * @return array
+	 * @return void
 	 */
-	public function replace(array $inputs = [])
+	public function replace(array $inputs = []): void
 	{
 		$this->parameters = [];
 		$this->add($inputs);
@@ -60,12 +48,12 @@ final class Inputs extends Parameters
 	 * 
 	 * @param  array  $parameters
 	 * 
-	 * @return array
+	 * @return void
 	 */
-	public function add(array $inputs = [])
+	public function add(array $inputs = []): void
 	{
-		foreach ($inputs as $key => $file) {
-			$this->set($key, $file);
+		foreach ($inputs as $input => $file) {
+			$this->set($input, $file);
 		}
 	}
 	
@@ -73,34 +61,34 @@ final class Inputs extends Parameters
 	 * Gets a string input value by name.
 	 * 
 	 * @param  string  $key
-	 * @param  string|null  $default  
+	 * @param  mixed  $default  
 	 * 
-	 * @return string|null
+	 * @return mixed
 	 */
-	public function get(string $key, $default = null)
+	public function get(string $key, mixed $default = null): mixed
 	{
-		if (null !== $default && ! is_scalar($default) && ! (is_object($default)) && ! method_exists($default, '__toString')) {
+		if (null !== $default && ! is_scalar($default) && ! method_exists($default, '__toString')) {
 			throw new BadRequestHttpException(sprintf('Passing a non-string value as 2nd argument to "%s()" is deprecated, pass a string or null instead', __METHOD__));
 		}
 		
 		$value = parent::get($key, $this);
 		
-		if (null !== $value && $this !== $value && ! is_scalar($value) && ! (is_object($value)) && ! method_exists($value, '__toString')) {
+		if (null !== $value && $this !== $value && ! is_scalar($value) && ! method_exists($value, '__toString')) {
 			throw new BadRequestHttpException(sprintf('Retrieving a non-string value from "%s()" is deprecated, and will throw a exception in Syscodes, use "%s::all($key)" instead', __METHOD__, __CLASS__));
 		}
 		
-		return $value === $this ? $default : $value;
+		return $this === $value ? $default : $value;
 	}
 	
 	/**
 	 * Sets an input by name.
 	 * 
 	 * @param  string  $key
-	 * @param  string|array|null  $value
+	 * @param  mixed  $value
 	 * 
-	 * @return mixed
+	 * @return void
 	 */
-	public function set(string $key, $value)
+	public function set(string $key, mixed $value): void
 	{
 		if (null !== $value && ! is_scalar($value) && ! is_array($value) && ! method_exists($value, '__toString')) {
 			throw new BadRequestHttpException(sprintf('Passing "%s" as a 2nd Argument to "%s()" is deprecated, pass a string, array, or null instead', get_debug_type($value), __METHOD__));
