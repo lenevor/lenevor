@@ -31,19 +31,15 @@ use Syscodes\Components\Support\Chronos;
 use Syscodes\Components\Support\Facades\Date;
 use Syscodes\Components\Session\SessionManager;
 use Syscodes\Components\Contracts\Session\Session;
-use Syscodes\Components\Session\Handlers\CookieSessionHandler;
 
 /**
  * The start session allows authenticate logged on users.
  */
 class StartSession
 {
-    /**
-     * The session manager.
-     * 
-     * @var \Syscodes\Components\Session\SessionManager $manager
-     */
-    protected $manager;
+    protected \Syscodes\Components\Session\SessionManager $manager;
+
+    protected bool $sessionEnabled = false;
 
     /**
      * Constrcutor. Create a new StartSession class instance.
@@ -85,7 +81,9 @@ class StartSession
      */
     public function getSession(Request $request)
     {
-        return take($this->manager->driver(), fn ($session) => $session->setId($request->cookies->get($session->getName())));
+        return take($this->manager->driver(), function ($session) use ($request) {
+            $session->setId($request->cookies->get($session->getName()));
+        });
     }
     
     /**
@@ -99,10 +97,12 @@ class StartSession
      */
     protected function handleStatefulRequest(Request $request, Session $session, Closure $next)
     {
+        $this->sessionEnabled = true;
+
         $request->setSession(
             $this->startSession($request, $session)
         );
-        
+
         $this->collectGarbage($session);
         
         $response = $next($request);
@@ -157,6 +157,18 @@ class StartSession
         if ($this->configHitsLottery($config)) {
             $session->getHandler()->gc($this->getSessionLifetimeInSeconds());
         }
+    }
+
+    /**
+     * Determine if the configuration odds hit the lottery.
+     * 
+     * @param  array  $config
+     * 
+     * @return bool
+     */
+    protected function configHitsLottery(array $config): bool
+    {
+        return random_int(1, $config['lottery'][1]) <= $config['lottery'][0];
     }
     
     /**
@@ -214,21 +226,9 @@ class StartSession
      */
     protected function saveSession($request): void
     {
-        if ( ! $request->isPrecognitive()) {
+        if ($this->sessionEnabled && ! $request->isPrecognitive()) {
             $this->manager->driver()->save();
         }
-    }
-
-    /**
-     * Determine if the configuration odds hit the lottery.
-     * 
-     * @param  array  $config
-     * 
-     * @return bool
-     */
-    protected function configHitsLottery(array $config): bool
-    {
-        return random_int(1, $config['lottery'][1]) <= $config['lottery'][0];
     }
 
     /**
