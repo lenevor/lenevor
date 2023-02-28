@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Http;
 
 use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Facades\Request;
 use Syscodes\Components\Http\Exceptions\HttpURIException;
 
 /**
@@ -92,13 +93,6 @@ class URI
 	protected $scheme = 'http';
 
 	/**
-	 * The URI segments.
-	 *
-	 * @var array $segments
-	 */
-	protected $segments = [];
-
-	/**
 	 * Whether passwords should be shown in userInfo/authority calls.
 	 * 
 	 * @var boolean $showPassword
@@ -133,11 +127,11 @@ class URI
 	 * 
 	 * @param  string|null  $uri  
 	 * 
-	 * @return mixed
+	 * @return static
 	 * 
 	 * @throws \Syscodes\Components\Http\Exceptions\HttpURIException
 	 */
-	public function setUri(string $uri = null)
+	public function setUri(string $uri = null): static
 	{
 		if ( ! is_null($uri)) {
 			$parts = parse_url($uri);
@@ -169,7 +163,7 @@ class URI
 	 * 
 	 * @return self
 	 */
-	public function set($uri): self
+	public function set(string $uri): self
 	{
 		$this->path = $uri;
 
@@ -190,33 +184,29 @@ class URI
 	/**
 	 * Sets the path portion of the URI.
 	 * 
-	 * @param  string  $path
+	 * @param  string  $uri
 	 *
-	 * @return self
+	 * @return array
 	 */
-	public function setPath(string $path): self
+	public function setPath(string $uri): array
 	{
-		$this->path = $this->filterPath($path);
+		$this->path = $this->filterPath($uri);
 
 		$tempPath = trim($this->path, '/');
 
-		$this->filterSegments($tempPath);
-
-		return $this;
+		return $this->filterSegments($tempPath);
 	} 
 
 	/**
 	 * Encodes any dangerous characters.
 	 * 
-	 * @param  string|null  $path
+	 * @param  string  $uri
 	 * 
 	 * @return string
 	 */
-	protected function filterPath(string $path = null): string
+	protected function filterPath(string $uri): string
 	{
-		$path = urldecode($path);
-
-		return $path;
+		return urldecode($uri);
 	}
 
 	/**
@@ -226,9 +216,9 @@ class URI
 	 * 
 	 * @return string[]
 	 */
-	protected function filterSegments($uri)
+	protected function filterSegments(string $uri): array
 	{
-		$this->segments = ($uri === '') ? [] : explode('/', $uri);
+		return ($uri == '') ? [] : explode('/', $uri);
 	}
 
 	/**
@@ -240,7 +230,7 @@ class URI
 	 *
 	 * @return mixed
 	 */
-	public function getSegment(int $index, $default = null)
+	public function getSegment(int $index, $default = null): mixed
 	{
 		return Arr::get($this->getSegments(), $index - 1, $default);
 	}
@@ -250,9 +240,11 @@ class URI
 	 *
 	 * @return array  The URI segments
 	 */
-	public function getSegments()
+	public function getSegments(): array
 	{
-		return array_values(array_filter($this->segments, fn ($value) => $value != ''));
+		$segments = $this->setPath(Request::decodedPath());
+
+		return array_values(array_filter($segments, fn ($value) => $value != ''));
 	}
 
 	/**
@@ -520,10 +512,6 @@ class URI
 
 		if ( ! empty($parts['fragment'])) {
 			$this->fragment = $parts['fragment'];
-		}
-
-		if ( ! empty($parts['path'])) {
-			$this->segments = explode('/', $parts['path'], '/');
 		}
 	}
 
