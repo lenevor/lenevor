@@ -39,7 +39,7 @@ class Parameters implements IteratorAggregate, Countable
 	 *
 	 * @var array $parameters
 	 */
-	protected $parameters = [];
+	protected $parameters;
 
 	/**
 	 * Parameter Object Constructor.
@@ -60,17 +60,19 @@ class Parameters implements IteratorAggregate, Countable
 	 * 
 	 * @return array
 	 */
-	public function all(): array
+	public function all(string $key = null): array
 	{
-		$key = func_num_args() > 0 ? func_get_arg(0) : null;
+		if (null === $key) {
+			return $this->parameters;
+		}
 
 		if ( ! is_array($value = $this->parameters[$key] ?? [])) {
 			throw new BadRequestException(
-				sprintf("Unexpected value for parameter %s, got %s", $key, get_debug_type($value))
+				sprintf('Unexpected value for parameter "%s", got "%s"', $key, get_debug_type($value))
 			);
 		}
 
-		return (null === $key) ? $this->parameters : $value;
+		return $value;
 	}
 
 	/**
@@ -111,11 +113,11 @@ class Parameters implements IteratorAggregate, Countable
 	 * Get a parameter array item.
 	 *
 	 * @param  string  $key
-	 * @param  string|null  $default  
+	 * @param  mixed  $default  
 	 *
 	 * @return mixed
 	 */
-	public function get(string $key, $default = null)
+	public function get(string $key, mixed $default = null): mixed
 	{
 		return $this->has($key) ? $this->parameters[$key] : $default;
 	}
@@ -125,9 +127,9 @@ class Parameters implements IteratorAggregate, Countable
 	 *
 	 * @param  string  $key
 	 *
-	 * @return mixed
+	 * @return bool
 	 */
-	public function has(string $key)
+	public function has(string $key): bool
 	{
 		return Arr::exists($this->parameters, $key);
 	}
