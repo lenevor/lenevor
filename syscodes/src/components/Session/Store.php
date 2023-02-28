@@ -321,7 +321,10 @@ class Store implements Session
      */
     public function ageFlashData(): void
     {
-        $this->erase($this->get('_flash.old', []));
+        foreach($this->get('_flash.old', []) as $old) {
+            $this->erase($old);
+        }
+
         $this->put('_flash.old', $this->get('_flash.new', []));
         $this->put('_flash.new', []);        
     }
