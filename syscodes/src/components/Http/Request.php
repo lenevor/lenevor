@@ -274,14 +274,14 @@ class Request
 
 		// Variables initialized
 		$this->uri = new URI;
-		$this->clientIp = new RequestClientIP($this->server->all());
 		$this->method = null;
 		$this->baseUrl = null;
 		$this->content = $content;
 		$this->pathInfo = null;
 		$this->languages = null;
-		$this->validLocales = config('app.supportedLocales');
 		$this->acceptableContentTypes = null;
+		$this->validLocales = config('app.supportedLocales');
+		$this->clientIp = new RequestClientIP($this->server->all());
 	}
 
 	/**
@@ -417,13 +417,13 @@ class Request
 			$duplicate->headers = new Headers($duplicate->server->all());
 		}
 
-		$duplicate->uri          = new URI;
-		$duplicate->clientIp     = new RequestClientIP($duplicate->server->all());
-		$duplicate->locale       = null;
-		$duplicate->method       = null;
-		$duplicate->baseUrl      = null;
-		$duplicate->pathInfo     = null;
+		$duplicate->uri = new URI;
+		$duplicate->locale = null;
+		$duplicate->method = null;
+		$duplicate->baseUrl = null;
+		$duplicate->pathInfo = null;
 		$duplicate->validLocales = config('app.supportedLocales');
+		$duplicate->clientIp = new RequestClientIP($duplicate->server->all());
 
 		return $duplicate;		
 	}
