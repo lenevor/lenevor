@@ -264,22 +264,23 @@ class Request
 		array $server = [], 
 		$content = null
 	): void {
-		$this->query      = new Inputs($query);
-		$this->request    = new Inputs($request);
+		$this->query = new Inputs($query);
+		$this->request = new Inputs($request);
 		$this->attributes = new Parameters($attributes);
-		$this->cookies    = new Inputs($cookies);
-		$this->files      = new Files($files);
-		$this->server     = new Server($server);
-		$this->headers    = new Headers($this->server->all());
+		$this->cookies = new Inputs($cookies);
+		$this->files = new Files($files);
+		$this->server = new Server($server);
+		$this->headers = new Headers($this->server->all());
 
-		$this->uri                    = new URI;
-		$this->clientIp               = new RequestClientIP($this->server->all());
-		$this->method                 = null;
-		$this->baseUrl                = null;
-		$this->content                = $content;
-		$this->pathInfo               = null;
-		$this->languages              = null;
-		$this->validLocales           = config('app.supportedLocales');
+		// Variables initialized
+		$this->uri = new URI;
+		$this->clientIp = new RequestClientIP($this->server->all());
+		$this->method = null;
+		$this->baseUrl = null;
+		$this->content = $content;
+		$this->pathInfo = null;
+		$this->languages = null;
+		$this->validLocales = config('app.supportedLocales');
 		$this->acceptableContentTypes = null;
 	}
 
@@ -306,15 +307,15 @@ class Request
 			$request->query->all(), $request->request->all(), $request->attributes->all(),
 			$request->cookies->all(), $request->files->all(), $request->server->all()
 		);
-
+		
 		$newRequest->headers->replace($request->headers->all());
-
-        $newRequest->content = $request->content;
-
-        if ($newRequest->isJson()) {
-            $newRequest->request = $newRequest->json();
-        }
-
+		
+		$newRequest->content = $request->content;
+		
+		if ($newRequest->isJson()) {
+			$newRequest->request = $newRequest->json();
+		}
+		
 		return $newRequest;
 	}
 
@@ -605,10 +606,10 @@ class Request
 	 * 
 	 * @return void
 	 */
-    public function setSession($session): void
-    {
-        $this->session = $session;
-    }
+	public function setSession($session): void
+	{
+		$this->session = $session;
+	}
 
 	/**
 	 * Get the JSON payload for the request.
