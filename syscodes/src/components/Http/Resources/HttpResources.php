@@ -159,14 +159,14 @@ trait HttpResources
 			$requestUri = '/'.$requestUri;
 		}
 		
-		if ($baseUrl && null !== $prefix = $this->getUrlencoded($requestUri, $baseUrl)) {
-			// full $baseUrl matches
-			return $prefix;
+		if ($baseUrl && null !== $uri = $this->getUrlencoded($requestUri, $baseUrl)) {
+			// Full $baseUrl matches
+			return $this->filterDecode($uri);
 		}
 		
-		if ($baseUrl && null !== $prefix = $this->getUrlencoded($requestUri, rtrim(dirname($baseUrl), '/'.DIRECTORY_SEPARATOR))) {
-			// directory portion of $baseUrl matches
-			return $this->filterDecode($prefix);
+		if ($baseUrl && null !== $uri = $this->getUrlencoded($requestUri, rtrim(dirname($baseUrl), '/'.DIRECTORY_SEPARATOR))) {
+			// Directory portion of $baseUrl matches
+			return $this->filterDecode($uri);
 		}
 
 		$baseUrl = dirname($baseUrl ?? '');
@@ -180,25 +180,27 @@ trait HttpResources
 		
 		return $this->filterDecode($baseUrl);
 	}
-
+	
 	/**
-     * Returns the prefix as encoded in the string when the string starts with
-     * the given prefix, null otherwise.
-     */
-    private function getUrlencoded(string $string, string $prefix): ?string
-    {
-        if ( ! Str::startsWith(rawurldecode($string), $prefix)) {
-            return null;
-        }
-
-        $len = strlen($prefix);
-
-        if (preg_match(sprintf('#^(%%[[:xdigit:]]{2}|.){%d}#', $len), $string, $match)) {
-            return $match[0];
-        }
-
-        return null;
-    }
+	 * Returns the prefix as encoded in the string when the string starts with
+	 * the given prefix, null otherwise.
+	 *
+	 * return string|null
+	 */
+	private function getUrlencoded(string $string, string $prefix): ?string
+	{
+		if ( ! Str::startsWith(rawurldecode($string), $prefix)) {
+			return null;
+		}
+		
+		$length = strlen($prefix);
+		
+		if (preg_match(sprintf('#^(%%[[:xdigit:]]{2}|.){%d}#', $length), $string, $match)) {
+			return $match[0];
+		}
+		
+		return null;
+	}
 
 
 	/**
