@@ -765,9 +765,9 @@ class Route
 	/**
 	 * Get the url of the current route.
 	 *
-	 * @return array
+	 * @return string
 	 */
-	public function getRoute()
+	public function getRoute(): string
 	{
 		return $this->uri;
 	}
