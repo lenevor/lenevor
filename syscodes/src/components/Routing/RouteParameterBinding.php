@@ -73,9 +73,9 @@ class RouteParameterBinding
     {
         $path = '/'.ltrim($request->decodedPath(), '/');
 
-        @preg_match('~[^\/'.$request->uri.']+~sDu', $path, $matches);
+        @preg_match('~^\/'.$this->route->uri.'$~sDu', $path, $matches);
         
-        return $this->matchToKeys(array_slice($matches, 0));
+        return $this->matchToKeys(array_slice($matches, 1));
     }
     
     /**
@@ -91,7 +91,7 @@ class RouteParameterBinding
             return [];
         }
         
-        $parameters = array_intersect_key($matches, array_values($parameterNames));
+        $parameters = array_intersect_key($matches, array_flip($parameterNames));
         
         return array_filter(
                     $parameters, 
