@@ -106,6 +106,6 @@ $status = $console->handle(
     new ConsoleOutput
 );
 
-$console->shutdown($input, $status); // Shutdown application
+$console->finalize($input, $status); // Finalize application
 
 exit($status);
