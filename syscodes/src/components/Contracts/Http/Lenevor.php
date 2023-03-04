@@ -38,14 +38,14 @@ interface Lenevor
  	public function handle($request);
 
 	/**
-	 * Call the shutdown method on any terminable middleware.
+	 * Call the finalize method on any terminable middleware.
 	 * 
 	 * @param  \Syscodes\Components\Http\Request  $request
 	 * @param  \Syscodes\Components\Http\Response  $response
 	 * 
 	 * @return void
 	 */
-	public function shutdown($request, $response): void;
+	public function finalize($request, $response): void;
 
 	/**
 	 * Gets the Lenevor application instance.
