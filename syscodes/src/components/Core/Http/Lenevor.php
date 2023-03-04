@@ -217,27 +217,27 @@ class Lenevor implements LenevorContract
 	}
 
 	/**
-	 * Call the shutdown method on any terminable middleware.
+	 * Call the finalize method on any terminable middleware.
 	 * 
 	 * @param  \Syscodes\Components\Http\Request  $request
 	 * @param  \Syscodes\Components\Http\Response  $response
 	 * 
 	 * @return void
 	 */
-	public function shutdown($request, $response): void
+	public function finalize($request, $response): void
 	{
-		$this->shutdownMiddleware($request, $response);
+		$this->finalizeMiddleware($request, $response);
 	}
 
 	/**
-	 * Call the terminate method on any terminable middleware.
+	 * Call the finalize method on any terminable middleware.
 	 * 
 	 * @param  \Syscodes\Components\Http\Request  $request
 	 * @param  \Syscodes\Components\Http\Response  $response
 	 * 
 	 * @return void
 	 */
-	protected function shutdownMiddleware($request, $response): void
+	protected function finalizeMiddleware($request, $response): void
 	{
 		$middlewares = $this->app->skipGoingMiddleware() ? [] : array_merge(
 			$this->gatherRouteMiddleware($request),
@@ -253,8 +253,8 @@ class Lenevor implements LenevorContract
 			
 			$instance = $this->app->make($name);
 			
-			if (method_exists($instance, 'shutdown')) {
-				$instance->shutdown($request, $response);
+			if (method_exists($instance, 'finalize')) {
+				$instance->finalize($request, $response);
 			}
 		}
 	}
