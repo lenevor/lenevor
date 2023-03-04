@@ -244,12 +244,12 @@ class RouteCollection implements Countable, IteratorAggregate
             }
 
             $parameters = [];
+
+            $path = rtrim($request->path(), '/');
             
             // If the requested route one of the defined routes
-            if (UriMatches::compareUri($route->getRoute(), $request->url(), $parameters, $route->wheres)) {
-                $route->bind($request);
-
-                return $route;
+            if (UriMatches::compareUri($route->uri, $path, $parameters, $route->wheres)) {
+                return $route->bind($request);
             }
         }
     }
