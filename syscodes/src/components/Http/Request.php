@@ -236,8 +236,6 @@ class Request
 		array $server = [],
 		$content = null
 	) {
-		static::$requestURI = $this;
-		
 		$this->initialize($query, $request, $attributes, $cookies, $files, $server, $content);
 		
 		$this->detectLocale();
@@ -301,7 +299,7 @@ class Request
 	 * 
 	 * @return static
 	 */
-	public static function createFromRequest($request)
+	public static function createFromRequest($request): static
 	{
 		$newRequest = (new static)->duplicate(
 			$request->query->all(), $request->request->all(), $request->attributes->all(),
@@ -1065,7 +1063,7 @@ class Request
 	public function url(): string
 	{
 		// Changed $this->path() for $this->getUri()
-		return rtrim(preg_replace('/\?.*/', '', $this->path()), '/');
+		return rtrim(preg_replace('/\?.*/', '', $this->getUri()), '/');
 	}
 
 	/**
@@ -1168,24 +1166,16 @@ class Request
 	 */
 	public function __toString()
 	{
-		try {
-			$content = $this->getContent();
-		} catch (LogicException $e) {
-			if (PHP_VERSION_ID > 70400)	{
-				throw $e;
-			}
-
-			return trigger_error($e, E_USER_ERROR);
-		}
+		$content = $this->getContent();
 
 		$cookieHeader = '';
 		$cookies      = [];
 
 		foreach ($this->cookies as $key => $value) {
-			$cookies[]= "{$key} = {$value}";
+			$cookies[]= is_array($value) ? http_build_query([$key => $value], '', '; ', PHP_QUERY_RFC3986) : "$key=$value";
 		}
 
-		if ( ! empty($cookies)) {
+		if ($cookies) {
 			$cookieHeader = 'Cookie: '.implode('; ', $cookies)."\r\n";
 		}
 		
