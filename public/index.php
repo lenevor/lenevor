@@ -80,4 +80,4 @@ $response = take($lenevor->handle(
     $request = Request::capture()
 ))->send(true); // Sends HTTP headers and contents
 
-$lenevor->shutdown($request, $response);
+$lenevor->finalize($request, $response);
