@@ -42,7 +42,7 @@ class BootConfiguration
 		$app->instance('config', $config = new Configure);
 
 		// Finally, we will set the application's environment based on the configuration
-        // values that were loaded. 
+		// values that were loaded. 
 		$app->detectEnvironment(fn () => $config->get('app.env', 'production'));
 
 		// Set a default timezone if one is defined
