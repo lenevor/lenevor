@@ -54,6 +54,13 @@ class Request
 	    InteractsWithContentTypes;
 
 	/**
+	 * Get the http method parameter.
+	 * 
+	 * @var bool $httpMethodParameterOverride
+	 */
+	protected static $httpMethodParameterOverride = false;
+
+	/**
 	 * Holds the global active request instance.
 	 *
 	 * @var bool $requestURI
@@ -287,8 +294,10 @@ class Request
 	 * 
 	 * @return static
 	 */
-	public static function capture()
+	public static function capture(): static
 	{
+		static::enabledHttpMethodParameterOverride();
+		
 		return static::createFromRequest(static::createFromRequestGlobals());
 	}
 
@@ -354,7 +363,7 @@ class Request
 		array $cookies = [], 
 		array $files = [], 
 		array $server = []
-	) {
+	): static {
 		if (self::$requestURI) {
 			$request = (self::$requestURI)($query, $request, [], $cookies, $files, $server);
 
@@ -429,11 +438,11 @@ class Request
 	/**
 	 * Returns the factory request currently being used.
 	 *
-	 * @param  \Syscodes\Components\Http\Request|callable  $request  
+	 * @param  \Syscodes\Components\Http\Request|callable|null  $request  
 	 *
 	 * @return void
 	 */
-	public static function setFactory(callable $request): void
+	public static function setFactory(?callable $request): void
 	{
 		self::$requestURI = $request;
 	}
@@ -547,6 +556,26 @@ class Request
 		}
 		
 		return $default;
+	}
+
+	/**
+     * Enables support for the _method request parameter to determine the intended HTTP method.
+     * 
+     * @return void
+     */
+    public static function enabledHttpMethodParameterOverride(): void
+    {
+        self::$httpMethodParameterOverride = true;
+    }
+	
+	/**
+	 * Checks whether support for the _method request parameter is enabled.
+	 * 
+	 * @return bool
+	 */
+	public static function getHttpMethodParameterOverride(): bool
+	{
+		return self::$httpMethodParameterOverride;
 	}
 
 	/**
@@ -720,22 +749,38 @@ class Request
 	 * 
 	 * @throws \LogicException  
 	 */
-	public function getmethod()
+	public function getmethod(): string
 	{
 		if (null !== $this->method) {
 			return $this->method;
 		}
 		
-		$method = strtoupper($this->server->get('REQUEST_METHOD', 'GET'));
+		$this->method = strtoupper($this->server->get('REQUEST_METHOD', 'GET'));
+		
+		if ('POST' !== $this->method) {
+			return $this->method;
+		}
+		
+		$method = $this->headers->get('X-HTTP-METHOD-OVERRIDE');
+		
+		if ( ! $method && self::$httpMethodParameterOverride) {
+			$method = $this->request->get('_method', $this->query->get('_method', 'POST'));
+		}
+		
+		if ( ! is_string($method)) {
+			return $this->method;
+		}
+		
+		$method = strtoupper($method);
 		
 		if (in_array($method, ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'PATCH', 'PURGE', 'TRACE'], true)) {
 			return $this->method = $method;
 		}
 		
-		if ( ! preg_match('~^[A-Z]++$#~D', $method)) {
-			throw new logicException(sprintf('Invalid method override "%s"', $method));
+		if ( ! preg_match('/^[A-Z]++$/D', $method)) {
+			throw new LogicException(sprintf('Invalid method override "%s".', $method));
 		}
-
+		
 		return $this->method = $method;
 	}
 
