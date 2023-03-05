@@ -98,7 +98,7 @@ class Request
 	/**
 	 * Gets cookies ($_COOKIE).
 	 * 
-	 * @var string|object $cookies
+	 * @var \Syscodes\Components\Http\Utilities\Inputs $cookies
 	 */
 	public $cookies;
 
@@ -119,7 +119,7 @@ class Request
 	/**
 	 * Gets files request ($_FILES).
 	 * 
-	 * @var string|object $files
+	 * @var \Syscodes\Components\Http\Utilities\Files $files
 	 */
 	public $files;
 	
@@ -203,9 +203,9 @@ class Request
 	/**
 	 * The detected uri and server variables ($_SERVER).
 	 * 
-	 * @var array|object $server
+	 * @var \Syscodes\Components\Http\Utilities\Server $server
 	 */
-	public $server = [];
+	public $server;
 
 	/** 
 	 * List of routes uri.
@@ -308,7 +308,7 @@ class Request
 	 * 
 	 * @return static
 	 */
-	public static function createFromRequest($request): static
+	public static function createFromRequest(Request $request): static
 	{
 		$newRequest = (new static)->duplicate(
 			$request->query->all(), $request->request->all(), $request->attributes->all(),
@@ -587,17 +587,9 @@ class Request
 	 */
 	public function getSession()
 	{
-		$session = $this->session();
-		
-		if ( ! $session instanceof SessionInterface && null !== $session) {
-			$this->setSession(new SessionDecorator($session));
-		}
-		
-		if (null === $session) {
-			throw new SessionNotFoundException('Session has not been set');
-		}
-		
-		return $session;
+		$this->hasSession()
+		            ? new SessionDecorator($this->session())
+					: throw new SessionNotFoundException;
 	}
 
 	/**
