@@ -75,9 +75,11 @@ class SessionDecorator implements SessionInterface
      * 
      * @return void
      */
-    public function setId(string $id)
+    public function setId(string $id): void
     {
-        return $this->store->setId($id);
+        if ($this->getId() !== $id) {
+            $this->store->setId($id);
+        }
     }
     
     /**
@@ -97,9 +99,9 @@ class SessionDecorator implements SessionInterface
      * 
      * @return void
      */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
-        return $this->store->setName($name);
+        $this->store->setName($name);
     }
     
     /**
