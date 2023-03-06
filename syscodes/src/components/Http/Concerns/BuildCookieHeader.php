@@ -104,7 +104,7 @@ trait BuildCookieHeader
         
         $headerStr .= '=';
         
-        if (is_null($value) || false === $value || '' === (string) $value) {
+        if ('' === (string) $value) {
             $headerStr .= 'deleted; expires='.gmdate('D, d M Y H:i:s T', time() - 31536001).'; Max-Age=0';
         } else {
             $headerStr .= $raw ? $value : rawurlencode($value);
