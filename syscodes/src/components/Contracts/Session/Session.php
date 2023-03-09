@@ -96,7 +96,7 @@ interface Session
      * 
      * @return void
      */
-    public function save();
+    public function save(): void;
     
     /**
      * Age the flash data for the session.
@@ -111,9 +111,9 @@ interface Session
      * @param  string  $key
      * @param  mixed  $default
      * 
-     * @return void
+     * @return mixed
      */
-    public function pull($key, $default = null);
+    public function pull($key, $default = null): mixed;
 
     /**
      * Push a value onto a session array.
@@ -123,7 +123,7 @@ interface Session
      * 
      * @return void
      */
-    public function push($key, $value);
+    public function push($key, $value): void;
 
     /**
      * Checks if an a key is present and not null.
@@ -143,7 +143,7 @@ interface Session
      * 
      * @return mixed
      */
-    public function get($key, $default = null);
+    public function get($key, $default = null): mixed;
 
     /**
      * Replace the given session attributes entirely.
@@ -152,7 +152,7 @@ interface Session
      * 
      * @return void
      */
-    public function replace(array $atributes);
+    public function replace(array $atributes): void;
 
     /**
      * Put a key / value pair or array of key / value pairs in the session.
@@ -160,9 +160,9 @@ interface Session
      * @param  string|array  $key
      * @param  mixed  $value
      * 
-     * @return mixed
+     * @return void
      */
-    public function put($key, $value = null);
+    public function put($key, $value = null): void;
 
     /**
      * Remove an key from the session.
@@ -171,7 +171,7 @@ interface Session
      * 
      * @return mixed
      */
-    public function remove($key);
+    public function remove($key): mixed;
     
     /**
      * Remove one or many items from the session.
@@ -180,7 +180,7 @@ interface Session
      * 
      * @return void
      */
-    public function erase($keys);
+    public function erase($keys): void;
 
     /**
      * Flash a key / value pair to the session.
@@ -190,14 +190,14 @@ interface Session
      * 
      * @return void
      */
-    public function flash(string $key, $value = true);
+    public function flash(string $key, $value = true): void;
 
     /**
      * Remove all of the keys from the session.
      * 
      * @return void
      */
-    public function flush();
+    public function flush(): void;
 
     /**
      * Flush the session data and regenerate the ID.
@@ -211,14 +211,14 @@ interface Session
      * 
      * @return string
      */
-    public function token();
+    public function token(): string;
 
     /**
      * Regenerate the CSRF token value.
      * 
      * @return void
      */
-    public function regenerateToken();
+    public function regenerateToken(): void;
 
     /**
      * Generate a new session identifier.
@@ -227,7 +227,7 @@ interface Session
      * 
      * @return void
      */
-    public function regenerate($destroy = false);
+    public function regenerate($destroy = false): callable;
 
     /**
      * Generate a new session ID for the session.
@@ -250,7 +250,7 @@ interface Session
      * 
      * @return string|null
      */
-    public function previousUrl();
+    public function previousUrl(): ?string;
     
     /**
      * Set the "previous" URL in the session.
