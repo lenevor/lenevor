@@ -44,9 +44,9 @@ class Files extends Parameters
 	 * 
 	 * @param  array  $parameters
 	 * 
-	 * @return array
+	 * @return void
 	 */
-	public function replace(array $files = [])
+	public function replace(array $files = []): void
 	{
 		$this->parameters = [];
         $this->add($files);
@@ -57,9 +57,9 @@ class Files extends Parameters
 	 * 
 	 * @param  array  $parameters
 	 * 
-	 * @return array
+	 * @return void
 	 */
-	public function add(array $files = [])
+	public function add(array $files = []): void
 	{
         foreach ($files as $key => $file) {
             $this->set($key, $file);
