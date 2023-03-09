@@ -22,9 +22,12 @@
 
 namespace Syscodes\Components\Http\Utilities;
 
+use DateTime;
 use Countable;
 use Traversable;
 use ArrayIterator;
+use RuntimeException;
+use DateTimeInterface;
 use IteratorAggregate;
 
 /**
@@ -125,7 +128,7 @@ class Headers implements IteratorAggregate, Countable
 	 *
 	 * @return mixed
 	 */
-	public function get(string $key, string $default =  null): ?string
+	public function get(string $key, string $default = null): ?string
 	{
 		$headers = $this->all($key);
 		
@@ -169,6 +172,10 @@ class Headers implements IteratorAggregate, Countable
 				$this->headers[$key][] = $values;
 			}
 		}
+		
+		if ('cache-control' === $key) {
+			$this->cacheControl = $this->parseCacheControl(implode(', ', $this->headers[$key]));
+		}
 	}
 
 	/**
@@ -202,6 +209,27 @@ class Headers implements IteratorAggregate, Countable
 	}
 	
 	/**
+	 * Returns the HTTP header value converted to a date.
+	 * 
+	 * @param  string  $key
+	 * @param  DateTime|null  $default
+	 * 
+	 * @throws \RuntimeException When the HTTP header is not parseable
+	 */
+	public function getDate(string $key, DateTime $default = null): ?DateTimeInterface
+	{
+		if (null === $value = $this->get($key)) {
+			return $default;
+		}
+		
+		if (false === $date = DateTime::createFromFormat(DATE_RFC2822, $value)) {
+			throw new RuntimeException(sprintf('The "%s" HTTP header is not parseable (%s).', $key, $value));
+		}
+		
+		return $date;
+	}
+	
+	/**
 	 * Returns an iterator for headers.
 	 * 
 	 * @return \ArrayIterator An \ArrayIterator instance
@@ -222,6 +250,26 @@ class Headers implements IteratorAggregate, Countable
 	}
 	
 	/**
+	 * Parses a Cache-Control HTTP header.
+	 * 
+	 * @param string $header The value of the Cache-Control HTTP header
+	 * 
+	 * @return array An array representing the attribute values
+	 */
+	protected function parseCacheControl($header): array
+	{
+		$cacheControl = [];
+		
+		preg_match_all('~([a-zA-Z][a-zA-Z_-]*)\s*(?:=(?:"([^"]*)"|([^ \t",;]*)))?~', $header, $matches, PREG_SET_ORDER);
+		
+		foreach ($matches as $match) {
+			$cacheControl[strtolower($match[1])] = isset($match[3]) ? $match[3] : (isset($match[2]) ? $match[2] : true);
+		}
+		
+		return $cacheControl;
+	}
+	
+	/**
 	 * Magic method.
 	 * 
 	 * Returns the headers as a string.
@@ -235,6 +283,7 @@ class Headers implements IteratorAggregate, Countable
 		}
 		
 		ksort($headers);
+		
 		$max     = max(array_map('strlen', array_keys($headers))) + 1;
 		$content = '';
 		
