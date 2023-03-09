@@ -90,9 +90,9 @@ class Parameters implements IteratorAggregate, Countable
 	 * 
 	 * @param  array  $parameters
 	 * 
-	 * @return array
+	 * @return void
 	 */
-	public function replace(array $parameters = [])
+	public function replace(array $parameters = []): void
 	{
 		$this->parameters = $parameters;
 	}
@@ -102,9 +102,9 @@ class Parameters implements IteratorAggregate, Countable
 	 * 
 	 * @param  array  $parameters
 	 * 
-	 * @return array
+	 * @return void
 	 */
-	public function add(array $parameters = [])
+	public function add(array $parameters = []): void
 	{
 		$this->parameters = array_replace($this->parameters, $parameters);
 	}
@@ -140,9 +140,9 @@ class Parameters implements IteratorAggregate, Countable
 	 * @param  string  $key
 	 * @param  string  $value 
 	 *
-	 * @return mixed
+	 * @return void
 	 */
-	public function set(string $key, $value)
+	public function set(string $key, $value): void
 	{
 		$this->parameters[$key] = $value;
 	}
@@ -156,9 +156,7 @@ class Parameters implements IteratorAggregate, Countable
 	 */
 	public function remove(string $key): void
 	{
-		if ($this->has($key)) {
-			unset($this->parameters[$key]);
-		}
+		unset($this->parameters[$key]);
 	}
 
 	/*
