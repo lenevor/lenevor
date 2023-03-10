@@ -59,6 +59,13 @@ class Application implements ApplicationContract
      * @var array $commands
      */
     protected $commands = [];
+
+    /**
+     * Get the command name loader.
+     * 
+     * @var mixed $commandLoader
+     */
+    protected $commandLoader = null;
     
     /**
      * The default command.
@@ -538,9 +545,67 @@ class Application implements ApplicationContract
      * 
      * @return string[]
      */
-    public function getNamespaces()
+    public function getNamespaces(): array
     {
+        $namespaces = [];
         
+        foreach ($this->all() as $command) {
+            if ($command->isHidden()) {
+                continue;
+            }
+            
+            $namespaces[] = $this->extractAllNamespaces($command->getName());
+            
+            foreach ($command->getAliases() as $alias) {
+                $namespaces[] = $this->extractAllNamespaces($alias);
+            }
+        }
+        
+        return array_values(array_unique(array_filter(array_merge([], ...$namespaces))));        
+    }
+
+    /**
+     * Gets the commands (registered in the given namespace if provided).
+     *
+     * The array keys are the full names and the values the command instances.
+     *
+     * @return Command[]
+     */
+    public function all(string $namespace = null)
+    {
+        $this->initialize();
+
+        if (null === $namespace) {
+            if (!$this->commandLoader) {
+                return $this->commands;
+            }
+
+            $commands = $this->commands;
+            foreach ($this->commandLoader->getNames() as $name) {
+                if (!isset($commands[$name]) && $this->has($name)) {
+                    $commands[$name] = $this->get($name);
+                }
+            }
+
+            return $commands;
+        }
+
+        $commands = [];
+        foreach ($this->commands as $name => $command) {
+            if ($namespace === $this->extractNamespace($name, substr_count($namespace, ':') + 1)) {
+                $commands[$name] = $command;
+            }
+        }
+
+        if ($this->commandLoader) {
+            foreach ($this->commandLoader->getNames() as $name) {
+                if (!isset($commands[$name]) && $namespace === $this->extractNamespace($name, substr_count($namespace, ':') + 1) && $this->has($name)) {
+                    $commands[$name] = $this->get($name);
+                }
+            }
+        }
+
+        return $commands;
     }
 
     /**
@@ -635,6 +700,43 @@ class Application implements ApplicationContract
         ksort($alternatives, SORT_NATURAL | SORT_FLAG_CASE);
         
         return array_keys($alternatives);
+    }
+    
+    /**
+     * Returns the namespace part of the command name.
+     * 
+     * @param  string  $name
+     * @param  int|null  $limit
+     * 
+     * @return string
+     */
+    public function extractNamespace(string $name, int $limit = null): string
+    {
+        $parts = explode(':', $name, -1);
+        
+        return implode(':', null === $limit ? $parts : array_slice($parts, 0, $limit));
+    }
+    
+    /**
+     * Returns all namespaces of the command name.
+     * 
+     * @return string[]
+     */
+    private function extractAllNamespaces(string $name): array
+    {
+        // -1 as third argument is needed to skip the command short name when exploding
+        $parts = explode(':', $name, -1);
+        $namespaces = [];
+        
+        foreach ($parts as $part) {
+            if (count($namespaces)) {
+                $namespaces[] = end($namespaces).':'.$part;
+            } else {
+                $namespaces[] = $part;
+            }
+        }
+        
+        return $namespaces;
     }
     
     /**
