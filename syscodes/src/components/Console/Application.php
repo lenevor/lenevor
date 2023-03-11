@@ -576,7 +576,7 @@ class Application implements ApplicationContract
         $this->initialize();
 
         if (null === $namespace) {
-            if (!$this->commandLoader) {
+            if ( ! $this->commandLoader) {
                 return $this->commands;
             }
 
@@ -599,7 +599,9 @@ class Application implements ApplicationContract
 
         if ($this->commandLoader) {
             foreach ($this->commandLoader->getNames() as $name) {
-                if (!isset($commands[$name]) && $namespace === $this->extractNamespace($name, substr_count($namespace, ':') + 1) && $this->has($name)) {
+                if ( ! isset($commands[$name]) && 
+                    $namespace === $this->extractNamespace($name, substr_count($namespace, ':') + 1) && 
+                    $this->has($name)) {
                     $commands[$name] = $this->get($name);
                 }
             }
@@ -617,7 +619,66 @@ class Application implements ApplicationContract
      */
     public function findNamespace(string $namespace)
     {
-
+        $allNamespaces = $this->getNamespaces();
+        
+        $expr = implode('[^:]*:', array_map('preg_quote', explode(':', $namespace))).'[^:]*';
+        
+        $namespaces = preg_grep('{^'.$expr.'}', $allNamespaces);
+        
+        if (empty($namespaces)) {
+            $message = sprintf('There are no commands defined in the "%s" namespace', $namespace);
+            
+            if ($alternatives = $this->findCommandAlternatives($namespace, $allNamespaces)) {
+                if (1 == count($alternatives)) {
+                    $message .= "\n\nDid you mean this?\n    ";
+                } else {
+                    $message .= "\n\nDid you mean one of these?\n    ";
+                }
+                
+                $message .= implode("\n    ", $alternatives);
+            }
+            
+            throw new NamespaceNotFoundException($message, $alternatives);
+        }
+        
+        $exact = in_array($namespace, $namespaces, true);
+        
+        if (count($namespaces) > 1 && ! $exact) {
+            throw new NamespaceNotFoundException(sprintf("The namespace \"%s\" is ambiguous.\nDid you mean one of these?\n%s", $namespace, $this->getAbbreviationSuggestions(array_values($namespaces))), array_values($namespaces));
+        }
+        
+        return $exact ? $namespace : reset($namespaces);
+    }
+    
+    /**
+     * Returns an array of possible abbreviations given a set of names.
+     * 
+     * @return string[][]
+     */
+    public static function getAbbreviations(array $names): array
+    {
+        $abbrevs = [];
+        
+        foreach ($names as $name) {
+            for ($len = strlen($name); $len > 0; --$len) {
+                $abbrev = substr($name, 0, $len);
+                $abbrevs[$abbrev][] = $name;
+            }
+        }
+        
+        return $abbrevs;
+    }
+    
+    /**
+     * Returns abbreviated suggestions in string format.
+     * 
+     * @param  array  $abbrevs
+     * 
+     * @return string
+     */
+    private function getAbbreviationSuggestions(array $abbrevs): string
+    {
+        return '    '.implode("\n    ", $abbrevs);
     }
 
     /**
