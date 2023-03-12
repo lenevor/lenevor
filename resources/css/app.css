@@ -18,7 +18,7 @@
 	--color-blue-2: hsla(219, 27%, 38%, 1);
 	--color-blue-3: hsla(205, 75%, 51%, 1);
 	--color-blue-4: hsla(207, 86%, 67%, 1);
-	--color-blue-5: hsla(215, 28%, 68%, 1);
+	--color-blue-5: hsla(215, 93%, 68%, 1);
 	--color-green-1: hsla(151, 50%, 44%, 1);
 	--color-green-2: hsla(142, 35%, 49%, 1);
 	--color-green-3: hsla(137, 35%, 49%, 1);
@@ -495,7 +495,7 @@ header .container h1 {
 .resources .learn h3 .icon-books:before,
 .resources .discuss h3 .icon-embed:before,
 .resources .contribute h3 .icon-users:before {
-	background: var(--color-blue-4);
+	background: var(--color-blue-3);
 	background-clip: text;
 	-webkit-background-clip: text;
 	-moz-background-clip: text;
@@ -509,7 +509,7 @@ header .container h1 {
 .dark-theme .resources .learn h3 .icon-books:before,
 .dark-theme .resources .discuss h3 .icon-embed:before,
 .dark-theme .resources .contribute h3 .icon-users:before {
-	background: var(--color-gray-theme-4);
+	background: var(--color-violet-theme);
 	background-clip: text;
 	-webkit-background-clip: text;
 	-moz-background-clip: text;
