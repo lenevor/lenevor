@@ -17,8 +17,8 @@
 	--color-blue-1: hsla(219, 15%, 39%, 1);
 	--color-blue-2: hsla(219, 27%, 38%, 1);
 	--color-blue-3: hsla(205, 75%, 51%, 1);
-	--color-blue-4: hsla(207, 86%, 67%, 1);
-	--color-blue-5: hsla(215, 28%, 68%, 1);
+	--color-blue-4: hsla(206, 80%, 59%, 1);
+	--color-blue-5: hsla(207, 88%, 64%, 1);
 	--color-green-1: hsla(151, 50%, 44%, 1);
 	--color-green-2: hsla(142, 35%, 49%, 1);
 	--color-green-3: hsla(137, 35%, 49%, 1);
@@ -365,10 +365,10 @@ header .container h1 {
 }
 
 .content .status code { 
-	background: var(--color-gray-1);
+	background: var(--color-blue-3);
 	border-radius: 30px;
-	box-shadow: inset -1px -1px 5px hsla(199, 20%, 28%, 0.1),
-				inset -1px -1px 6px hsla(199, 21%, 33%, 0.5);
+	box-shadow: inset -1px -1px 5px hsla(199, 70%, 54%, 0.1),
+				inset -1px -1px 6px hsla(198, 85%, 55%, 0.5);
 	display: flex;
 	font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 	margin: 0 auto;
@@ -385,10 +385,10 @@ header .container h1 {
 
 .content .status code .check { 
 	align-items: center;
-	background: var(--color-blue-3);
+	background: var(--color-blue-4);
 	border-radius: 15px;
-	box-shadow: inset -1px -1px 1px hsla(216, 47%, 40%, 0.7),
-				inset 1px 1px 2px hsla(201, 58%, 38%, 0.7);
+	box-shadow: inset -1px -1px 1px hsla(216, 88%, 68%, 0.7),
+				inset 1px 1px 2px hsla(215, 89%, 69%, 0.7);
 	display: flex;
 	height: 20px;
 	margin: 8px 10px;
@@ -495,7 +495,7 @@ header .container h1 {
 .resources .learn h3 .icon-books:before,
 .resources .discuss h3 .icon-embed:before,
 .resources .contribute h3 .icon-users:before {
-	background: var(--color-blue-4);
+	background: var(--color-blue-3);
 	background-clip: text;
 	-webkit-background-clip: text;
 	-moz-background-clip: text;
@@ -509,7 +509,7 @@ header .container h1 {
 .dark-theme .resources .learn h3 .icon-books:before,
 .dark-theme .resources .discuss h3 .icon-embed:before,
 .dark-theme .resources .contribute h3 .icon-users:before {
-	background: var(--color-gray-theme-4);
+	background: var(--color-violet-theme);
 	background-clip: text;
 	-webkit-background-clip: text;
 	-moz-background-clip: text;
