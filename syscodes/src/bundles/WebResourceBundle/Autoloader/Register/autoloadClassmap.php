@@ -71,6 +71,7 @@ return [
     'Syscodes\\Components\\Console\\Command\\Command' => SYS_PATH.'src/components/Console/Command/Command.php',
     'Syscodes\\Components\\Console\\Command\\HelpCommand' => SYS_PATH.'src/components/Console/Command/HelpCommand.php',
     'Syscodes\\Components\\Console\\Command\\ListCommand' => SYS_PATH.'src/components/Console/Command/ListCommand.php',
+    'Syscodes\\Components\\Console\\CommandLoader\\CommandLoader' => SYS_PATH.'src/components/Console/CommandLoader/CommandLoader.php',
     'Syscodes\\Components\\Console\\Concerns\\BuildConsoleVersion' => SYS_PATH.'src/components/Console/Concerns/BuildConsoleVersion.php',
     'Syscodes\\Components\\Console\\Concerns\\InteractsIO' => SYS_PATH.'src/components/Console/Concerns/InteractsIO.php',
     'Syscodes\\Components\\Console\\Exceptions\\CommandNotFoundException' => SYS_PATH.'src/components/Console/Exceptions/CommandNotFoundException.php',
