@@ -108,7 +108,7 @@ final class CallBoundCallback
                 
                 unset($parameters[$name]);
             // The dependency does not exists in parameters.
-            } else if (! is_null($class = $parameter->getClass())) {
+            } else if (! is_null($class = $parameter->getType())) {
                 $className = $class->getName();
                 
                 $dependencies[] = $container->make($className);
