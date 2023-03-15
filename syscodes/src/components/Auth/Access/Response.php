@@ -124,7 +124,7 @@ class Response
      * 
      * @return string|null
      */
-    public function message()
+    public function message(): ?string
     {
         return $this->message;
     }
@@ -134,7 +134,7 @@ class Response
      * 
      * @return mixed
      */
-    public function code()
+    public function code(): mixed
     {
         return $this->code;
     }
@@ -162,9 +162,9 @@ class Response
      * 
      * @param  null|int  $status
      * 
-     * @return self
+     * @return static
      */
-    public function withStatus($status): self
+    public function withStatus($status): static
     {
         $this->status = $status;
         
@@ -174,9 +174,9 @@ class Response
     /**
      * Set the HTTP response status code to 404.
      * 
-     * @return self
+     * @return static
      */
-    public function asNotFound(): self
+    public function asNotFound(): static
     {
         return $this->withStatus(404);
     }
@@ -186,7 +186,7 @@ class Response
      * 
      * @return int|null
      */
-    public function status()
+    public function status(): ?int
     {
         return $this->status;
     }
@@ -212,7 +212,7 @@ class Response
      * 
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->message();
     }
