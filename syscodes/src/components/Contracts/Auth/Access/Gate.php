@@ -42,9 +42,9 @@ interface Gate
      * @param  string  $ability
      * @param  callable|string  $callback
      * 
-     * @return self
+     * @return static
      */
-    public function define($ability, $callback): self;
+    public function define($ability, $callback): static;
     
     /**
      * Define abilities for a resource.
@@ -53,9 +53,9 @@ interface Gate
      * @param  string  $class
      * @param  array|null  $abilities
      * 
-     * @return self
+     * @return static
      */
-    public function resource($name, $class, array $abilities = null): self;
+    public function resource($name, $class, array $abilities = null): static;
     
     /**
      * Define a policy class for a given class type.
@@ -63,27 +63,27 @@ interface Gate
      * @param  string  $class
      * @param  string  $policy
      * 
-     * @return self
+     * @return static
      */
-    public function policy($class, $policy): self;
+    public function policy($class, $policy): static;
     
     /**
      * Register a callback to run before all Gate checks.
      * 
      * @param  \callable  $callback
      * 
-     * @return self
+     * @return static
      */
-    public function before(callable $callback): self;
+    public function before(callable $callback): static;
     
     /**
      * Register a callback to run after all Gate checks.
      * 
      * @param  \callable  $callback
      * 
-     * @return self
+     * @return static
      */
-    public function after(callable $callback): self;
+    public function after(callable $callback): static;
     
     /**
      * Determine if the given ability should be granted for the current user.
@@ -130,6 +130,7 @@ interface Gate
      * 
      * @param  string  $ability
      * @param  array|mixed  $arguments
+     * 
      * @return \Syscodes\Components\Auth\Access\Response
      * 
      * @throws \Syscodes\Components\Auth\Access\AuthorizationException
@@ -156,7 +157,7 @@ interface Gate
      * 
      * @throws \Syscodes\Components\Auth\Access\AuthorizationException
      */
-    public function raw($ability, array $arguments);
+    public function raw($ability, array $arguments): mixed;
     
     /**
      * Get a policy instance for a given class.
@@ -176,7 +177,7 @@ interface Gate
      * 
      * @return static
      */
-    public function forUser($user);
+    public function forUser($user): static;
     
     /**
      * Get all of the defined abilities.
