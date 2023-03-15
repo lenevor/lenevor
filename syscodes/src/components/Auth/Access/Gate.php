@@ -133,9 +133,9 @@ class Gate implements GateContract
      * @param  string  $ability
      * @param  callable|string  $callback
      * 
-     * @return self
+     * @return static
      */
-    public function define($ability, $callback): self
+    public function define($ability, $callback): static
     {
         if (is_array($callback) && isset($callback[0]) && is_string($callback[0])) {
             $callback = $callback[0].'@'.$callback[1];
@@ -159,9 +159,9 @@ class Gate implements GateContract
      * @param  string  $class
      * @param  array|null  $abilities
      * 
-     * @return self
+     * @return static
      */
-    public function resource($name, $class, array $abilities = null): self
+    public function resource($name, $class, array $abilities = null): static
     {
         $abilities = $abilities ?: [
             'view' => 'view',
@@ -210,9 +210,9 @@ class Gate implements GateContract
      * @param  string  $class
      * @param  string  $policy
      * 
-     * @return self
+     * @return static
      */
-    public function policy($class, $policy): self
+    public function policy($class, $policy): static
     {
         $this->policies[$class] = $policy;
         
@@ -224,9 +224,9 @@ class Gate implements GateContract
      * 
      * @param  \callable  $callback
      * 
-     * @return self
+     * @return static
      */
-    public function before(callable $callback): self
+    public function before(callable $callback): static
     {
         $this->beforeCallbacks[] = $callback;
         
@@ -238,9 +238,9 @@ class Gate implements GateContract
      * 
      * @param  \callable  $callback
      * 
-     * @return self
+     * @return static
      */
-    public function after(callable $callback): self
+    public function after(callable $callback): static
     {
         $this->afterCallbacks[] = $callback;
         
@@ -352,7 +352,7 @@ class Gate implements GateContract
      * 
      * @throws \Syscodes\Components\Auth\Access\AuthorizationException
      */
-    public function raw($ability, array $arguments)
+    public function raw($ability, array $arguments): mixed
     {
         $arguments = Arr::wrap($arguments);
         
@@ -396,7 +396,7 @@ class Gate implements GateContract
      * 
      * @return bool|null
      */
-    protected function callBeforeCallbacks($user, $ability, array $arguments)
+    protected function callBeforeCallbacks($user, $ability, array $arguments): ?bool
     {
         $arguments = array_merge([$user, $ability], $arguments);
         
@@ -435,7 +435,7 @@ class Gate implements GateContract
      * 
      * @return \callable
      */
-    protected function resolveAuthCallback($user, $ability, array $arguments)
+    protected function resolveAuthCallback($user, $ability, array $arguments): callable
     {
         if ($this->firstArgumentToPolicy($arguments)) {
             return $this->resolvePolicyCallback($user, $ability, $arguments);
@@ -444,10 +444,7 @@ class Gate implements GateContract
             return $this->abilities[$ability];
         }
 
-        return function ()
-        {
-            return false;
-        };
+        return fn () => false;
     }
     
     /**
@@ -543,7 +540,7 @@ class Gate implements GateContract
      * 
      * @return mixed
      */
-    public function resolvePolicy($class)
+    public function resolvePolicy($class): mixed
     {
         return $this->container->make($class);
     }
@@ -555,7 +552,7 @@ class Gate implements GateContract
      * 
      * @return static
      */
-    public function forUser($user)
+    public function forUser($user): static
     {
         $callback = fn () => $user;
         
@@ -571,7 +568,7 @@ class Gate implements GateContract
      * 
      * @return mixed
      */
-    protected function resolveUser()
+    protected function resolveUser(): mixed
     {
         return call_user_func($this->userResolver);
     }
@@ -601,9 +598,9 @@ class Gate implements GateContract
      * 
      * @param  \Syscodes\Components\Contracts\Container\Container  $container
      * 
-     * @return self
+     * @return static
      */
-    public function setContainer(Container $container): self
+    public function setContainer(Container $container): static
     {
         $this->container = $container;
         
