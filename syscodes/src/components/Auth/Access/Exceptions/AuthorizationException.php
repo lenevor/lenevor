@@ -83,9 +83,9 @@ class AuthorizationException extends Exception
      * 
      * @param  \Syscodes\Components\Auth\Access\Response  $response
      * 
-     * @return self
+     * @return static
      */
-    public function setResponse($response): self
+    public function setResponse($response): static
     {
         $this->response = $response;
         
@@ -97,9 +97,9 @@ class AuthorizationException extends Exception
      * 
      * @param  int|null  $status
      * 
-     * @return self
+     * @return static
      */
-    public function withStatus($status): self
+    public function withStatus($status): static
     {
         $this->status = $status;
         
@@ -109,9 +109,9 @@ class AuthorizationException extends Exception
     /**
      * Set the HTTP response status code to 404.
      * 
-     * @return self
+     * @return static
      */
-    public function asNotFound(): self
+    public function asNotFound(): static
     {
         return $this->withStatus(404);
     }
@@ -131,7 +131,7 @@ class AuthorizationException extends Exception
      * 
      * @return int|null
      */
-    public function status()
+    public function status(): ?int
     {
         return $this->status;
     }
