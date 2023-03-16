@@ -542,12 +542,10 @@ class View implements ArrayAccess, Webable, ViewContract
 	 * Returns the output of [static::render].
 	 *
 	 * @return string
-	 *
-	 * @uses   View->render()
 	 * 
 	 * @throws \Throwable
 	 */
-	public function __toString() 
+	public function __toString(): string
 	{
 		return $this->render();
 	}
