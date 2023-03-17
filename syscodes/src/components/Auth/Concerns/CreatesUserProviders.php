@@ -78,7 +78,7 @@ trait CreatesUserProviders
      * 
      * @return array|null
      */
-    protected function getProviderConfiguration($provider)
+    protected function getProviderConfiguration($provider): ?array
     {
         if ($provider = $provider ?: $this->getDefaultUserProvider()) {
             return $this->app['config']['auth.providers.'.$provider];
