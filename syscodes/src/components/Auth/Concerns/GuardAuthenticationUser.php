@@ -108,9 +108,9 @@ trait GuardAuthenticationUser
      * 
      * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user
      * 
-     * @return self
+     * @return static
      */
-    public function setUser(AuthenticatableInterface $user): self
+    public function setUser(AuthenticatableInterface $user): static
     {
         $this->user = $user;
         
