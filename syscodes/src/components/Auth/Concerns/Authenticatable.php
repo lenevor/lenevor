@@ -49,7 +49,7 @@ trait Authenticatable
      * 
      * @return mixed
      */
-    public function getAuthIdentifier()
+    public function getAuthIdentifier(): mixed
     {
         return $this->{$this->getAuthIdentifierName()};
     }
