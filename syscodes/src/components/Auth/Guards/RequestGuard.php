@@ -101,9 +101,9 @@ class RequestGuard implements Guard
      * 
      * @param  \Syscodes\Components\Http\Request  $request
      * 
-     * @return self
+     * @return static
      */
-    public function setRequest(Request $request): self
+    public function setRequest(Request $request): static
     {
         $this->request = $request;
         
