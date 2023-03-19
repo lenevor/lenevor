@@ -214,9 +214,9 @@ class ErostrineUserProvider implements UserProvider
      * 
      * @param  \Syscodes\Components\Contracts\Hashing\Hasher  $hasher
      * 
-     * @return self
+     * @return static
      */
-    public function setHasher(HasherContract $hasher): self
+    public function setHasher(HasherContract $hasher): static
     {
         $this->hasher = $hasher;
         
@@ -238,9 +238,9 @@ class ErostrineUserProvider implements UserProvider
      * 
      * @param  string  $model
      * 
-     * @return self
+     * @return static
      */
-    public function setModel($model): self
+    public function setModel($model): static
     {
         $this->model = $model;
         
