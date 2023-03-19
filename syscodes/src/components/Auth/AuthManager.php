@@ -142,7 +142,7 @@ class AuthManager implements Factory
      * 
      * @return mixed
      */
-    protected function callCustomCreator($name, array $config)
+    protected function callCustomCreator($name, array $config): mixed
     {
         $driver = $config['driver'];
         
@@ -156,6 +156,7 @@ class AuthManager implements Factory
      *
      * @param  string  $name
      * @param  array  $config
+     * 
      * @return \Syscodes\Components\Auth\SessionGuard
      */
     public function createSessionDriver($name, $config)
@@ -229,7 +230,7 @@ class AuthManager implements Factory
      * 
      * @return void
      */
-    public function shouldUse(string $name)
+    public function shouldUse(string $name): void
     {
         $name = $name ?: $this->getDefaultDriver();
         
@@ -255,7 +256,7 @@ class AuthManager implements Factory
      * 
      * @return \Closure
      */
-    public function userResolver()
+    public function userResolver(): Closure
     {
         return $this->userResolver;
     }
@@ -265,9 +266,9 @@ class AuthManager implements Factory
      * 
      * @param  \Closure  $userResolver
      * 
-     * @return self
+     * @return static
      */
-    public function resolveUsersUsing(Closure $userResolver): self
+    public function resolveUsersUsing(Closure $userResolver): static
     {
         $this->userResolver = $userResolver;
         
@@ -280,9 +281,9 @@ class AuthManager implements Factory
      * @param  string  $driver
      * @param  \Closure  $callback
      * 
-     * @return self
+     * @return static
      */
-    public function extend($driver, Closure $callback): self
+    public function extend($driver, Closure $callback): static
     {
         $this->customCreators[$driver] = $callback;
         
@@ -295,9 +296,9 @@ class AuthManager implements Factory
      * @param  string  $name
      * @param  \Closure  $callback
      * 
-     * @return self
+     * @return static
      */
-    public function provider($name, Closure $callback): self
+    public function provider($name, Closure $callback): static
     {
         $this->customProviderCreators[$name] = $callback;
         
@@ -317,9 +318,9 @@ class AuthManager implements Factory
     /**
      * Flush all of the resolved guard instances.
      * 
-     * @return self
+     * @return static
      */
-    public function flushGuards(): self
+    public function flushGuards(): static
     {
         $this->guards = [];
         
@@ -331,9 +332,9 @@ class AuthManager implements Factory
      * 
      * @param  \Syscodes\Components\Contracts\Core\Application  $app
      * 
-     * @return self
+     * @return static
      */
-    public function setApplication($app): self
+    public function setApplication($app): static
     {
         $this->app = $app;
         
