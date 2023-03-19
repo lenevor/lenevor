@@ -330,7 +330,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @throws \Syscodes\Components\Core\Http\Exceptions\UnauthorizedHttpException
      */
-    protected function failedBasicResponse()
+    protected function failedBasicResponse(): void
     {
         throw new UnauthorizedHttpException('Basic', 'Invalid credentials.');
     }
@@ -699,9 +699,9 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @param  int  $minutes
      * 
-     * @return self
+     * @return static
      */
-    public function setRememberDuration($minutes): self
+    public function setRememberDuration($minutes): static
     {
         $this->rememberDuration = $minutes;
         
@@ -741,7 +741,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return \Syscodes\Components\Contracts\Events\Dispatcher
      */
-    public function getDispatcher()
+    public function getDispatcher(): Dispatcher
     {
         return $this->events;
     }
@@ -763,7 +763,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return \Syscodes\Components\Contracts\Session\Session
      */
-    public function getSession()
+    public function getSession(): session
     {
         return $this->session;
     }
@@ -783,9 +783,9 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user
      * 
-     * @return self
+     * @return static
      */
-    public function setUser(Authenticatable $user): self
+    public function setUser(Authenticatable $user): static
     {
         $this->user      = $user;        
         $this->loggedOut = false;
@@ -800,7 +800,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return \Syscodes\Components\Http\Request
      */
-    public function getRequest()
+    public function getRequest(): request
     {
         return $this->request ?: Request::createFromRequestGlobals();
     }
@@ -810,9 +810,9 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @param  \Syscodes\Components\Http\Request  $request
      * 
-     * @return self
+     * @return static
      */
-    public function setRequest(Request $request): self
+    public function setRequest(Request $request): static
     {
         $this->request = $request;
         
