@@ -53,7 +53,7 @@ class GenericUser implements UserContract
      * 
      * @return mixed
      */
-    public function getAuthIdentifier()
+    public function getAuthIdentifier(): mixed
     {
         return $this->attributes[$this->getAuthIdentifierName()];
     }
