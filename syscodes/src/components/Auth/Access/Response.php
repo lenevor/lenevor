@@ -81,7 +81,7 @@ class Response
      * 
      * @return \Syscodes\Components\Auth\Access\Response
      */
-    public static function allow($message = null, $code = null)
+    public static function allow(string $message = null, mixed $code = null)
     {
         return new static(true, $message, $code);
     }
@@ -94,7 +94,7 @@ class Response
      * 
      * @return \Syscodes\Components\Auth\Access\Response
      */
-    public static function deny($message = null, $code = null)
+    public static function deny(string $message = null, mixed $code = null)
     {
         return new static(false, $message, $code);
     }
@@ -164,7 +164,7 @@ class Response
      * 
      * @return static
      */
-    public function withStatus($status): static
+    public function withStatus(?int $status): static
     {
         $this->status = $status;
         
