@@ -30,19 +30,19 @@ interface Authorizable
      * Determine if the entity has a given ability.
      * 
      * @param  string  $ability
-     * @param  array|mixed  $arguments
+     * @param  array  $arguments
      * 
      * @return bool
      */
-    public function can($ability, $arguments = []): bool;
+    public function can(string $ability, array $arguments = []): bool;
 
     /**
      * Determine if the entity does not have a given ability.
      * 
      * @param  string  $ability
-     * @param  array|mixed  $arguments
+     * @param  array  $arguments
      * 
      * @return bool
      */
-    public function cannot($ability, $arguments = []): bool;
+    public function cannot(string $ability, array $arguments = []): bool;
 }
