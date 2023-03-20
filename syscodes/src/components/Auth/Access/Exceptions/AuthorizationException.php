@@ -61,7 +61,7 @@ class AuthorizationException extends Exception
      * 
      * @return void
      */
-    public function __construct($message = null, $code = null, Throwable $previous = null)
+    public function __construct(string $message = null, mixed $code = null, Throwable $previous = null)
     {
         parent::__construct($message ?? 'This action is unauthorized.', 0, $previous);
         
@@ -99,7 +99,7 @@ class AuthorizationException extends Exception
      * 
      * @return static
      */
-    public function withStatus($status): static
+    public function withStatus(?int $status): static
     {
         $this->status = $status;
         
