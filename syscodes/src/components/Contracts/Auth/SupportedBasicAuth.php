@@ -37,7 +37,7 @@ interface SupportedBasicAuth
      * 
      * @throws \Syscodes\Components\Core\Http\Exceptions\UnauthorizedHttpException
      */
-    public function basic($field = 'email', $extraConditions = []);
+    public function basic(string $field = 'email', array $extraConditions = []);
     
     /**
      * Perform a stateless HTTP Basic login attempt.
@@ -49,5 +49,5 @@ interface SupportedBasicAuth
      * 
      * @throws \Syscodes\Components\Core\Http\Exceptions\UnauthorizedHttpException
      */
-    public function onceBasic($field = 'email', $extraConditions = []);
+    public function onceBasic(string $field = 'email', array $extraConditions = []);
 }
