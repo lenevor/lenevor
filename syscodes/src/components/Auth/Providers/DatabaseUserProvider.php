@@ -80,7 +80,7 @@ class DatabaseUserProvider implements UserProvider
      * 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable|null
      */
-    public function retrieveById($identifier)
+    public function retrieveById(mixed $identifier)
     {
         $user = $this->connection->table($this->table)->find($identifier);
         
@@ -95,7 +95,7 @@ class DatabaseUserProvider implements UserProvider
      * 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable|null
      */
-    public function retrieveByToken($identifier, string $token)
+    public function retrieveByToken(mixed $identifier, string $token)
     {
         $user = $this->getGenericUser(
             $this->connection->table($this->table)->find($identifier)
@@ -176,7 +176,7 @@ class DatabaseUserProvider implements UserProvider
      * 
      * @return \Syscodes\Components\Auth\GenericUser|null
      */
-    private function getGenericUser($user)
+    private function getGenericUser(mixed $user)
     {
         if ( ! is_null($user)) {
             return new GenericUser((array) $user);
