@@ -34,7 +34,7 @@ interface UserProvider
      * 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable|null
      */
-    public function retrieveById($identifier);
+    public function retrieveById(mixed $identifier);
     
     /**
      * Retrieve a user by their unique identifier and "remember me" token.
@@ -44,7 +44,7 @@ interface UserProvider
      * 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable|null
      */
-    public function retrieveByToken($identifier, string $token);
+    public function retrieveByToken(mixed $identifier, string $token);
     
     /**
      * Update the "remember me" token for the given user in storage.
