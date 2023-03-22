@@ -258,7 +258,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @throws \Syscodes\Components\Core\Http\Exceptions\UnauthorizedHttpException 
      */
-    public function basic($field = 'email', $extraConditions = [])
+    public function basic(string $field = 'email', array $extraConditions = [])
     {
         if ($this->check()) {
             return;
@@ -281,7 +281,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @throws \Syscodes\Components\Core\Http\Exceptions\UnauthorizedHttpException
      */
-    public function onceBasic($field = 'email', $extraConditions = [])
+    public function onceBasic(string $field = 'email', array $extraConditions = [])
     {
         $credentials = $this->basicCredentials($this->getRequest(), $field);
         
@@ -343,7 +343,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return bool
      */
-    public function attempt(array $credentials = [], $remember = false): bool
+    public function attempt(array $credentials = [], bool $remember = false): bool
     {
         $this->fireAttemptEvent($credentials, $remember);
 
@@ -365,15 +365,19 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @param  array  $credentials
      * 
-     * @return \Syscodes\Components\Http\Response|null
+     * @return bool
      */
-    public function once($field = 'email', $extraConditions = [])
+    public function once(array $credentials = []): bool
     {
-        $credentials = $this->basicCredentials($this->getRequest(), $field);
+        $this->fireAttemptEvent($credentials);
         
-        if ( ! $this->once(array_merge($credentials, $extraConditions))) {
-            return $this->failedBasicResponse();
+        if ($this->validate($credentials)) {
+            $this->setUser($this->lastAttempted);
+            
+            return true;
         }
+        
+        return false;
     }
 
     /**
@@ -384,7 +388,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return void
      */
-    public function login(Authenticatable $user, $remember = false): void
+    public function login(Authenticatable $user, bool $remember = false): void
     {
         $this->updateSession($user->getAuthIdentifier());
         
@@ -406,7 +410,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return void
      */
-    protected function updateSession($id): void
+    protected function updateSession(string $id): void
     {
         $this->session->put($this->getName(), $id);
         
@@ -464,7 +468,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return \Syscodes\Components\Http\Cookie
      */
-    protected function createRecaller($value)
+    protected function createRecaller(string $value)
     {
         return $this->getCookie()->make($this->getRecallerName(), $value, $this->getRememberDuration());
     }
@@ -477,7 +481,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable|bool
      */
-    public function loginUsingId($id, $remember = false)
+    public function loginUsingId(mixed $id, bool $remember = false)
     {
         if ( ! is_null($user = $this->provider->retrieveById($id))) {
             $this->login($user, $remember);
@@ -495,7 +499,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable|bool
      */
-    public function onceUsingId($id): bool
+    public function onceUsingId(mixed $id): bool
     {
         $user = $this->provider->retrieveById($id);
         
@@ -562,7 +566,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return bool
      */
-    protected function hasValidCredentials($user, $credentials): bool
+    protected function hasValidCredentials(mixed $user, array $credentials): bool
     {
         return ! is_null($user) && $this->provider->validateCredentials($user, $credentials);
     }
@@ -574,7 +578,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return void
      */
-    public function attempting($callback): void
+    public function attempting(mixed $callback): void
     {
         $this->events->listen(Events\Attempting::class, $callback) ?? null;
     }
@@ -587,7 +591,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return void
      */
-    protected function fireAttemptEvent(array $credentials, $remember = false): void
+    protected function fireAttemptEvent(array $credentials, bool $remember = false): void
     {
         $this->events->dispatch(new Attempting($this->name, $credentials, $remember)) ?? null;
     }
@@ -599,7 +603,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return void
      */
-    protected function fireValidatedEvent($user): void
+    protected function fireValidatedEvent(Authenticatable $user): void
     {
         $this->events->dispatch(new Validated($this->name, $user)) ?? null;
     }
@@ -612,7 +616,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return void
      */
-    protected function fireLoginEvent($user, $remember = false): void
+    protected function fireLoginEvent(Authenticatable $user, bool $remember = false): void
     {
         $this->events->dispatch(new Login($this->name, $user, $remember)) ?? null;
     }
@@ -624,7 +628,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return void
      */
-    protected function fireAuthenticatedEvent($user): void
+    protected function fireAuthenticatedEvent(Authenticatable $user): void
     {
         $this->events->dispatch(new Authenticated($this->name, $user)) ?? null;
     }
@@ -636,7 +640,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return void
      */
-    protected function fireOtherDeviceLogoutEvent($user): void
+    protected function fireOtherDeviceLogoutEvent(Authenticatable $user): void
     {
         $this->events->dispatch(new OtherDeviceLogout($this->name, $user)) ?? null;
     }
@@ -644,12 +648,12 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
     /**
      * Fire the failed authentication attempt event with the given arguments.
      * 
-     * @param  \Syscodes\Components\Contracts\Auth\Authenticatable|null  $user
+     * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user
      * @param  array  $credentials
      * 
      * @return void
      */
-    protected function fireFailedEvent($user, array $credentials): void
+    protected function fireFailedEvent(Authenticatable $user, array $credentials): void
     {
         $this->events->dispatch(new Failed($this->name, $user, $credentials)) ?? null;
     }
@@ -701,7 +705,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return static
      */
-    public function setRememberDuration($minutes): static
+    public function setRememberDuration(int $minutes): static
     {
         $this->rememberDuration = $minutes;
         
