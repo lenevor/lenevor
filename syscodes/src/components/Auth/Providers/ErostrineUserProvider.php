@@ -69,7 +69,7 @@ class ErostrineUserProvider implements UserProvider
      * 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable|null
      */
-    public function retrieveById($identifier)
+    public function retrieveById(mixed $identifier)
     {
         $model = $this->createModel();
         
@@ -86,7 +86,7 @@ class ErostrineUserProvider implements UserProvider
      * 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable|null
      */
-    public function retrieveByToken($identifier, string $token)
+    public function retrieveByToken(mixed $identifier, string $token)
     {
         $model = $this->createModel();
         
