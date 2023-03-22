@@ -76,7 +76,7 @@ interface Guard
      * 
      * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user
      * 
-     * @return self
+     * @return static
      */
-    public function setUser(Authenticatable $user): self;
+    public function setUser(Authenticatable $user): static;
 }
