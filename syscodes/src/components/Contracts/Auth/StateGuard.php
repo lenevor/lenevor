@@ -35,16 +35,16 @@ interface StateGuard extends Guard
      * 
      * @return bool
      */
-    public function attempt(array $credentials = [], $remember = false): bool;
+    public function attempt(array $credentials = [], bool $remember = false): bool;
     
     /**
      * Log a user into the application without sessions or cookies.
      * 
      * @param  array  $credentials
      * 
-     * @return \Syscodes\Components\Http\Response|null
+     * @return bool
      */
-    public function once(array $credentials = [], $extraConditions = []);
+    public function once(array $credentials = []): bool;
     
     /**
      * Log a user into the application.
@@ -54,7 +54,7 @@ interface StateGuard extends Guard
      * 
      * @return void
      */
-    public function login(Authenticatable $user, $remember = false): void;
+    public function login(Authenticatable $user, bool $remember = false): void;
     
     /**
      * Log the given user ID into the application.
@@ -64,7 +64,7 @@ interface StateGuard extends Guard
      * 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable|bool
      */
-    public function loginUsingId($id, $remember = false);
+    public function loginUsingId(mixed $id, bool $remember = false);
     
     /**
      * Log the given user ID into the application without sessions or cookies.
@@ -73,7 +73,7 @@ interface StateGuard extends Guard
      * 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable|bool
      */
-    public function onceUsingId($id);
+    public function onceUsingId(mixed $id);
     
     /**
      * Determine if the user was authenticated via "remember me" cookie.
