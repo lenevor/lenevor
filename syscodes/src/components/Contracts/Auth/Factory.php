@@ -43,5 +43,5 @@ interface Factory
      * 
      * @return void
      */
-    public function shouldUse(string $name);
+    public function shouldUse(string $name): void;
 }
