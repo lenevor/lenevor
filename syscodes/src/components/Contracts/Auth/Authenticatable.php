@@ -32,7 +32,7 @@ interface Authenticatable
      * 
      * @return mixed
      */
-    public function getAuthIdentifier();
+    public function getAuthIdentifier(): mixed;
     
     /**
      * Get the name of the unique identifier for the user.
