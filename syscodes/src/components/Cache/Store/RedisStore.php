@@ -113,7 +113,7 @@ class RedisStore implements Store
      * 
      * @return bool
      */
-    public function put($key, $value, $seconds): bool
+    public function put(string $key, mixed $value, int $seconds): bool
     {
         return (bool) $this->connection()->setex(
                 $this->prefix.$key,
@@ -130,7 +130,7 @@ class RedisStore implements Store
      * 
      * @return bool
      */
-    public function putMany(array $values, $seconds): bool
+    public function putMany(array $values, int $seconds): bool
     {
         $this->connection()->multi();
         
@@ -155,7 +155,7 @@ class RedisStore implements Store
      * 
      * @return int|bool
      */
-    public function increment($key, $value = 1)
+    public function increment(string $key, mixed $value = 1): int|bool
     {
         return $this->connection()->incrby($this->prefix.$key, $value);
     }
@@ -168,7 +168,7 @@ class RedisStore implements Store
      * 
      * @return int|bool
      */
-    public function decrement($key, $value = 1)
+    public function decrement(string $key, mixed $value = 1): int|bool
     {
         return $this->connection()->decrby($this->prefix.$key, $value);
     }
@@ -180,7 +180,7 @@ class RedisStore implements Store
      * 
      * @return mixed
      */
-    public function delete($key)
+    public function delete(string $key): mixed
     {
         return (bool) $this->connection()->del($this->prefix.$key);
     }
@@ -193,7 +193,7 @@ class RedisStore implements Store
      * 
      * @return bool
      */
-    public function forever($key, $value): bool
+    public function forever(string $key, mixed $value): bool
     {
         return (bool) $this->connection()->set($this->prefix.$key, $this->serialize($value));
     }
@@ -259,9 +259,9 @@ class RedisStore implements Store
      * 
      * @return void
      */
-    public function setPrefix($prefix)
+    public function setPrefix(string $prefix): void
     {
-        return $this->prefix = (strlen($prefix) > 0) ? $prefix.':' : '';
+        $this->prefix = (strlen($prefix) > 0) ? $prefix.':' : '';
     }
 
     /**
@@ -271,7 +271,7 @@ class RedisStore implements Store
      * 
      * @return mixed
      */
-    public function serialize($value)
+    public function serialize(mixed $value): mixed
     {
         return is_numeric($value) ? $value : serialize($value);
     }
@@ -283,7 +283,7 @@ class RedisStore implements Store
      * 
      * @return mixed
      */
-    public function unserialize($value)
+    public function unserialize(mixed $value): mixed
     {
         return is_numeric($value) ? $value : unserialize($value);
     }
