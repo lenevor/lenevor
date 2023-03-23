@@ -112,7 +112,7 @@ class DatabaseStore implements Store
      * 
      * @return bool
      */
-    public function put($key, $value, $seconds): bool
+    public function put(string $key, mixed $value, int $seconds): bool
     {
         $key        = $this->prefix.$key;
         $value      = $this->serialize($value);
@@ -136,7 +136,7 @@ class DatabaseStore implements Store
      * 
      * @return bool
      */
-    public function add($key, $value, $seconds): bool
+    public function add(string $key, mixed $value, int $seconds): bool
     {
         $key        = $this->prefix.$key;
         $value      = $this->serialize($value);
@@ -163,7 +163,7 @@ class DatabaseStore implements Store
      * 
      * @return int|bool
      */
-    public function increment($key, $value = 1)
+    public function increment(string $key, mixed $value = 1): int|bool
     {
         return $this->incrementOrDecrement($key, $value, function ($current, $value) {
             return $current + $value;
@@ -178,7 +178,7 @@ class DatabaseStore implements Store
      * 
      * @return int|bool
      */
-    public function decrement($key, $value = 1)
+    public function decrement(string $key, mixed $value = 1): int|bool
     {
         return $this->incrementOrDecrement($key, $value, function ($current, $value) {
             return $current - $value;
@@ -194,7 +194,7 @@ class DatabaseStore implements Store
      * 
      * @return int|bool
      */
-    protected function incrementOrDecrement($key, $value, Closure $callback)
+    protected function incrementOrDecrement(string $key, mixed $value, Closure $callback): int|bool
     {
         return $this->connection->transaction(function () use ($key, $value, $callback) {
             $prefixed = $this->prefix.$key;
@@ -225,7 +225,7 @@ class DatabaseStore implements Store
      * 
      * @return mixed
      */
-    public function delete($key)
+    public function delete(string $key): mixed
     {
         $this->table()->where('key', '=', $this->prefix.$key)->delete();
 
@@ -240,7 +240,7 @@ class DatabaseStore implements Store
      * 
      * @return bool
      */
-    public function forever($key, $value): bool
+    public function forever(string $key, mixed $value): bool
     {
         return $this->put($key, $value, 315360000);
     }
@@ -322,7 +322,7 @@ class DatabaseStore implements Store
      * 
      * @return mixed
      */
-    protected function unserialize($value)
+    protected function unserialize($value): mixed
     {
         if ($this->connection instanceof PostgresConnection && ! Str::contains($value, [':', ';'])) {
             $value = base64_decode($value);
