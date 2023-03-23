@@ -65,7 +65,7 @@ class FileCacheRegister implements Serializable
      * 
      * @return mixed
      */
-    public function serialize()
+    public function serialize(): mixed
     {
         $data = (string) $this->data;
 
@@ -77,9 +77,9 @@ class FileCacheRegister implements Serializable
      * 
      * @param  string  $unserialize
      * 
-     * @return self
+     * @return static
      */
-    public function unserialize($unserialize): self
+    public function unserialize($unserialize): static
     {
         $this->data = unserialize($unserialize);
         
