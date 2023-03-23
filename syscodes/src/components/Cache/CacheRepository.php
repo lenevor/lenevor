@@ -73,7 +73,7 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @return bool
      */
-    public function has($key): bool
+    public function has(string $key): bool
     {
         return ! is_null($this->get($key));
     }
@@ -86,7 +86,7 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @return mixed
      */
-    public function get($key, $default = null)
+    public function get(string $key, mixed $default = null): mixed
     {
         if (is_array($key)) {
             return $this->many($key);
@@ -128,7 +128,7 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @return mixed
      */
-    protected function handleMany($keys, $key, $value)
+    protected function handleMany(array $keys, string $key, mixed $value): mixed
     {
         if (is_null($value)) {
             return isset($keys[$key]) ? value($keys[$key]) : null;
@@ -146,7 +146,7 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @return bool
      */
-    public function add($key, $value, $ttl = null): bool
+    public function add(string $key, mixed $value, $ttl = null): bool
     {
         $seconds = null;
 
@@ -174,7 +174,7 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @return bool
      */
-    public function put($key, $value, $ttl = null): bool
+    public function put(string $key, mixed $value, $ttl = null): bool
     {
         if (null === $ttl) {
             return $this->forever($key, $value);
@@ -242,7 +242,7 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @return mixed
      */
-    public function pull($key, $default = null)
+    public function pull(string $key, mixed $default = null): mixed
     {
         return take($this->get($key, $default), fn () => $this->delete($key));
     }
@@ -256,7 +256,7 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @return bool
      */
-    public function save($key, $value, $ttl = null)
+    public function save(string $key, mixed $value, $ttl = null): bool
     {
         if (null === $ttl) {
             return $this->forever($key, $value);
@@ -279,7 +279,7 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @return int|bool
      */
-    public function increment($key, $value = 1)
+    public function increment(string $key, mixed $value = 1): int|bool
     {
         return $this->store->increment($key, $value);
     }
@@ -292,7 +292,7 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @return int|bool
      */
-    public function decrement($key, $value = 1)
+    public function decrement(string $key, mixed $value = 1): int|bool
     {
         return $this->store->decrement($key, $value);
     }
@@ -302,9 +302,9 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @param  string  $key
      * 
-     * @return bool
+     * @return mixed
      */
-    public function delete($key): bool
+    public function delete(string $key): mixed
     {
         return $this->store->delete($this->itemKey($key));
     }
@@ -316,7 +316,7 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @return bool
      */
-    public function deleteMultiple($keys): bool
+    public function deleteMultiple(array $keys): bool
     {
         foreach ($keys as $key) {
             if ( ! $this->forget($key)) {
@@ -335,7 +335,7 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @return bool
      */
-    public function forever($key, $value): bool
+    public function forever(string $key, mixed $value): bool
     {
         return $this->store->forever($this->itemKey($key), $value);
     }
@@ -343,9 +343,9 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Remove all items from the cache.
      * 
-     * @return void
+     * @return bool
      */
-    public function flush()
+    public function flush(): bool
     {
         return $this->store->flush();
     }
@@ -357,7 +357,7 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @return int|null
      */
-    protected function getMinutes($duration)
+    protected function getMinutes($duration): ?int
     {
         if ($duration instanceof DateTime) {
             $fromNow = Chronos::instance($duration)->getMinutes();
@@ -393,7 +393,7 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @return string
      */
-    protected function itemKey($key): string
+    protected function itemKey(string $key): string
     {
         return $key;
     }
@@ -423,9 +423,9 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @param  int|null  $seconds
      * 
-     * @return self
+     * @return static
      */
-    public function setCacheTime($seconds): self
+    public function setCacheTime(?int $seconds): static
     {
         $this->cacheTime = $seconds;
 
