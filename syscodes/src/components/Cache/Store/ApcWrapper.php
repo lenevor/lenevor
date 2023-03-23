@@ -32,7 +32,7 @@ class ApcWrapper
      * 
      * @var bool $apcu
      */
-    protected $acpu = false;
+    protected $apcu = false;
 
     /**
      * Constructor. The ApcWrapper class instance.
@@ -41,7 +41,7 @@ class ApcWrapper
      */
     public function __construct()
     {
-        $this->acpu = function_exists('apcu_fetch');
+        $this->apcu = function_exists('apcu_fetch');
     }
 
     /**
@@ -51,9 +51,9 @@ class ApcWrapper
      * 
      * @return mixed
      */
-    public function get($key)
+    public function get(string $key)
     {
-        return $this->acpu ? apcu_fetch($key) : apc_fetch($key);
+        return $this->apcu ? apcu_fetch($key) : apc_fetch($key);
     }
 
     /**
@@ -63,9 +63,9 @@ class ApcWrapper
      * @param  mixed  $value
      * @param  int  $seconds
      * 
-     * @return array|bool
+     * @return bool
      */
-    public function put($key, $value, $seconds)
+    public function put(string $key, mixed $value, int $seconds): bool
     {
         return $this->apcu ? apcu_fetch($key, $value, $seconds) : apc_fetch($key, $value, $seconds);
     }
@@ -78,7 +78,7 @@ class ApcWrapper
      * 
      * @return int|bool
      */
-    public function increment($key, $value)
+    public function increment(string $key, mixed $value): int|bool
     {
         return $this->apcu ? apcu_inc($key, $value) : apc_inc($key, $value);
     }
@@ -91,7 +91,7 @@ class ApcWrapper
      * 
      * @return int|bool
      */
-    public function decrement($key, $value)
+    public function decrement(string $key, mixed $value): int|bool
     {
         return $this->apcu ? apcu_dec($key, $value) : apc_dec($key, $value);
     }
@@ -103,9 +103,9 @@ class ApcWrapper
      * 
      * @return bool
      */
-    public function delete($key)
+    public function delete(string $key): bool
     {
-        return $this->acpu ? apcu_delete($key) : apc_delete($key);
+        return $this->apcu ? apcu_delete($key) : apc_delete($key);
     }
 
     /**
@@ -113,8 +113,8 @@ class ApcWrapper
      * 
      * @return bool
      */
-    public function flush()
+    public function flush(): bool
     {
-        return $this->acpu ? apcu_clear_cache() : apc_clear_cache('user');
+        return $this->apcu ? apcu_clear_cache() : apc_clear_cache('user');
     }
 }
