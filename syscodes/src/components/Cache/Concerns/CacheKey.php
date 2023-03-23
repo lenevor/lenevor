@@ -73,7 +73,7 @@ trait CacheKey
      * 
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->keyName;
     }
