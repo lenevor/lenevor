@@ -82,7 +82,7 @@ class CacheManager implements FactoryContract
      * 
      * @return \Syscodes\Components\Cache\CacheRepository
      */
-    public function driver($driver = null)
+    public function driver(string $driver = null)
     {
         return $this->store($driver);
     }
@@ -108,7 +108,7 @@ class CacheManager implements FactoryContract
      * 
      * @return \Syscodes\Components\Cache\CacheRepository
      */
-    protected function get($name)
+    protected function get(string $name)
     {
         return $this->stores[$name] ?? $this->resolve($name);
     }
@@ -122,7 +122,7 @@ class CacheManager implements FactoryContract
      * 
      * @throws \CacheException
      */
-    protected function resolve($name)
+    protected function resolve(string $name)
     {
         $config = $this->getConfig($name);
 
@@ -150,7 +150,7 @@ class CacheManager implements FactoryContract
      * 
      * @return mixed
      */
-    protected function callCustomDriver(array $config)
+    protected function callCustomDriver(array $config): mixed
     {
         return $this->customDriver[$config['default']]($this->app, $config);
     }
@@ -162,7 +162,7 @@ class CacheManager implements FactoryContract
      * 
      * @return array
      */
-    protected function getConfig(string $name)
+    protected function getConfig(string $name): array
     {
         return $this->app['config']["cache.stores.{$name}"];
     }
@@ -318,9 +318,9 @@ class CacheManager implements FactoryContract
      * @param  string  $driver
      * @param  \Closure  $callback
      * 
-     * @return self
+     * @return static
      */
-    public function extend($driver, Closure $callback): self
+    public function extend(string $driver, Closure $callback): static
     {
         $this->customDriver[$driver] = $callback->bindTo($this, $this);
 
