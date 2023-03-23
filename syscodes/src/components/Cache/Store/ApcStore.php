@@ -67,7 +67,7 @@ class ApcStore implements Store
      * 
      * @return mixed
      */
-    public function get($key)
+    public function get(string $key)
     {
         $value = $this->apc->get($this->prefix.$key);
 
@@ -85,7 +85,7 @@ class ApcStore implements Store
      * 
      * @return bool
      */
-    public function put($key, $value, $seconds): bool
+    public function put(string $key, mixed $value, int $seconds): bool
     {
         return $this->apc->put($this->prefix.$key, $value, $seconds);
     }
@@ -98,7 +98,7 @@ class ApcStore implements Store
      * 
      * @return int|bool
      */
-    public function increment($key, $value = 1)
+    public function increment(string $key, mixed $value = 1): int|bool
     {
         return $this->apc->increment($this->prefix.$key, $value);
     }
@@ -111,7 +111,7 @@ class ApcStore implements Store
      * 
      * @return int|bool
      */
-    public function decrement($key, $value = 1)
+    public function decrement(string $key, mixed $value = 1): int|bool
     {
         return $this->apc->decrement($this->prefix.$key, $value);
     }
@@ -123,7 +123,7 @@ class ApcStore implements Store
      * 
      * @return mixed
      */
-    public function delete($key)
+    public function delete($key): mixed
     {
         return $this->apc->delete($this->prefix.$key);
     }
@@ -136,7 +136,7 @@ class ApcStore implements Store
      * 
      * @return bool
      */
-    public function forever($key, $value): bool
+    public function forever(string $key, mixed $value): bool
     {
         return $this->put($key, $value, 0);
     }
