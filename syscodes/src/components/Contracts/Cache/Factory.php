@@ -37,7 +37,7 @@ interface Factory
      * 
      * @return \Syscodes\Components\Cache\CacheRepository
      */
-    public function driver($driver = null);
+    public function driver(string $driver = null);
 
     /**
      * Get a cache store instance by name.
@@ -79,7 +79,7 @@ interface Factory
      * @param  string  $driver
      * @param  \Closure  $callback
      * 
-     * @return self
+     * @return static
      */
-    public function extend($driver, Closure $callback): self;
+    public function extend(string $driver, Closure $callback): static;
 }
