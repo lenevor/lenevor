@@ -34,7 +34,7 @@ interface Repository
      * 
      * @return bool
      */
-    public function has($key): bool;
+    public function has(string $key): bool;
 
     /**
      * Attempts to retrieve an item from the cache by key.
@@ -44,7 +44,7 @@ interface Repository
      * 
      * @return mixed
      */
-    public function get($key, $default = null);
+    public function get(string $key, mixed $default = null): mixed;
 
     /**
      * Gets multiple items from the cache by key.
@@ -64,7 +64,7 @@ interface Repository
      * 
      * @return bool
      */
-    public function add($key, $value, $ttl = null): bool;
+    public function add(string $key, mixed $value, $ttl = null): bool;
 
     /**
      * Store an item in the cache.
@@ -75,7 +75,7 @@ interface Repository
      * 
      * @return bool
      */
-    public function put($key, $value, $ttl = null): bool;
+    public function put(string $key, mixed $value, $ttl = null): bool;
 
     /**
      * Store multiple items in the cache for a given number of seconds.
@@ -95,7 +95,7 @@ interface Repository
      * 
      * @return mixed
      */
-    public function pull($key, $default = null);
+    public function pull(string $key, mixed $default = null): mixed;
 
     /**
      * Saves an item to the cache store.
@@ -106,7 +106,7 @@ interface Repository
      * 
      * @return bool
      */
-    public function save($key, $value, $ttl = null);
+    public function save(string $key, mixed $value, $ttl = null): bool;
 
     /**
      * Increment the value of an item in the cache.
@@ -116,7 +116,7 @@ interface Repository
      * 
      * @return int|bool
      */
-    public function increment($key, $value = 1);
+    public function increment(string $key, mixed $value = 1): int|bool;
 
     /**
      * Decrement the value of an item in the cache.
@@ -126,16 +126,16 @@ interface Repository
      * 
      * @return int|bool
      */
-    public function decrement($key, $value = 1);
+    public function decrement(string $key, mixed $value = 1): int|bool;
 
     /**
      * Remove a specific item from the cache store.
      * 
      * @param  string  $key
      * 
-     * @return bool
+     * @return mixed
      */
-    public function delete($key): bool;
+    public function delete(string $key): mixed;
 
     /**
      * Removes multiple items from the cache store.
@@ -144,7 +144,7 @@ interface Repository
      * 
      * @return bool
      */
-    public function deleteMultiple($keys): bool;
+    public function deleteMultiple(array $keys): bool;
 
     /**
      * Stores an item in the cache indefinitely.
@@ -154,14 +154,14 @@ interface Repository
      * 
      * @return bool
      */
-    public function forever($key, $value): bool;
+    public function forever(string $key, mixed $value): bool;
 
     /**
      * Remove all items from the cache.
      * 
-     * @return void
+     * @return bool
      */
-    public function flush();
+    public function flush(): bool;
 
     /**
      * Get the cache store implementation.
@@ -182,7 +182,7 @@ interface Repository
      * 
      * @param  int|null  $seconds
      * 
-     * @return self
+     * @return static
      */
-    public function setCacheTime($seconds): self;
+    public function setCacheTime(?int $seconds): static;
 }
