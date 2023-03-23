@@ -67,7 +67,7 @@ class ArrayStore implements Store
      * 
      * @return mixed
      */
-    public function get($key)
+    public function get(string $key)
     {
         if ( ! isset($this->storage[$key])) return;
 
@@ -93,7 +93,7 @@ class ArrayStore implements Store
      * 
      * @return bool
      */
-    public function put($key, $value, $seconds): bool
+    public function put(string $key, mixed $value, int $seconds): bool
     {
         $this->storage[$key] = [
             'value' => $this->serialized ? serialize($value) : $value,
@@ -111,7 +111,7 @@ class ArrayStore implements Store
      * 
      * @return int|bool
      */
-    public function increment($key, $value = 1)
+    public function increment(string $key, mixed $value = 1): int|bool
     {
         if ( ! is_null($existing = $this->get($key))) {
             return take(((int) $existing) + $value, function ($incremented) use ($key) {
@@ -134,7 +134,7 @@ class ArrayStore implements Store
      * 
      * @return int|bool
      */
-    public function decrement($key, $value = 1)
+    public function decrement(string $key, mixed $value = 1): int|bool
     {
         return $this->increment($key, $value * -1);
     }
@@ -146,7 +146,7 @@ class ArrayStore implements Store
      * 
      * @return mixed
      */
-    public function delete($key)
+    public function delete(string $key): mixed
     {
         if (array_key_exists($key, $this->storage)) {
             unset($this->storage[$key]);
@@ -165,7 +165,7 @@ class ArrayStore implements Store
      * 
      * @return bool
      */
-    public function forever($key, $value): bool
+    public function forever(string $key, mixed $value): bool
     {
         return $this->put($key, $value, 0);
     }
@@ -199,7 +199,7 @@ class ArrayStore implements Store
      * 
      * @return int
      */
-    protected function calcExpiration($seconds): int
+    protected function calcExpiration(int $seconds): int
     {
         return $this->toTimestamp($seconds);
     }
@@ -211,7 +211,7 @@ class ArrayStore implements Store
      * 
      * @return int
      */
-    protected function toTimestamp($seconds): int
+    protected function toTimestamp(int $seconds): int
     {
         return $seconds > 0 ? $this->availableAt($seconds) : 0;
     }
