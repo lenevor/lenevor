@@ -34,7 +34,7 @@ interface Store
      * 
      * @return mixed
      */
-    public function get($key);
+    public function get(string $key);
     
     /**
      * Gets multiple items from the cache by key.
@@ -54,7 +54,7 @@ interface Store
      * 
      * @return bool
      */
-    public function put($key, $value, $seconds): bool;
+    public function put(string $key, mixed $value, int $seconds): bool;
     
     /**
      * Store multiple items in the cache for a given number of seconds.
@@ -64,7 +64,7 @@ interface Store
      * 
      * @return bool
      */
-    public function putMany(array $values, $seconds): bool;
+    public function putMany(array $values, int $seconds): bool;
 
     /**
      * Increment the value of an item in the cache.
@@ -74,7 +74,7 @@ interface Store
      * 
      * @return int|bool
      */
-    public function increment($key, $value = 1);
+    public function increment(string $key, mixed $value = 1): int|bool;
 
     /**
      * Decrement the value of an item in the cache.
@@ -84,7 +84,7 @@ interface Store
      * 
      * @return int|bool
      */
-    public function decrement($key, $value = 1);
+    public function decrement(string $key, mixed $value = 1): int|bool;
 
     /**
      * Deletes a specific item from the cache store.
@@ -93,7 +93,7 @@ interface Store
      * 
      * @return mixed
      */
-    public function delete($key);
+    public function delete(string $key): mixed;
 
     /**
      * Stores an item in the cache indefinitely.
@@ -103,7 +103,7 @@ interface Store
      * 
      * @return bool
      */
-    public function forever($key, $value): bool;
+    public function forever(string $key, mixed $value): bool;
 
     /**
      * Remove all items from the cache.
