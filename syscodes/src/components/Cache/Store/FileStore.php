@@ -82,7 +82,7 @@ class FileStore implements Key, Store
      * 
      * @return mixed
      */
-    public function get($key)
+    public function get(string $key)
     {
         return $this->getPayLoad($key)['data'] ?? null;
     }
@@ -94,7 +94,7 @@ class FileStore implements Key, Store
      * 
      * @return array
      */
-    protected function getPayLoad($key): array
+    protected function getPayLoad(string $key): array
     {
         $path = $this->path($key);
 
@@ -132,7 +132,7 @@ class FileStore implements Key, Store
      * 
      * @return string
      */
-    protected function path($key): string
+    protected function path(string $key): string
     {
         $this->getFixKeyChars($key);
 
@@ -158,7 +158,7 @@ class FileStore implements Key, Store
      * 
      * @return bool
      */
-    public function put($key, $value, $seconds): bool
+    public function put(string $key, mixed $value, int $seconds): bool
     {
         $value = $this->expiration($seconds).(new FileCacheRegister($value))->serialize();
 
@@ -176,7 +176,7 @@ class FileStore implements Key, Store
      * 
      * @return void
      */
-    protected function createCacheDirectory($path): void
+    protected function createCacheDirectory(string $path): void
     {
         if ( ! $this->files->exists(dirname($path))) {
             $this->files->makeDirectory(dirname($path), DIR_READ_WRITE_MODE, true, true);
@@ -190,7 +190,7 @@ class FileStore implements Key, Store
      * 
      * @return int
      */
-    protected function expiration($seconds): int
+    protected function expiration(int $seconds): int
     {
         $time = $this->availableAt($seconds);
 
@@ -205,7 +205,7 @@ class FileStore implements Key, Store
      * 
      * @return int|bool
      */
-    public function increment($key, $value = 1)
+    public function increment(string $key, mixed $value = 1): int|bool
     {
         $raw = $this->getPayLoad($key);
         $int = ((int) $raw['data']) + $value;
@@ -223,7 +223,7 @@ class FileStore implements Key, Store
      * 
      * @return int|bool
      */
-    public function decrement($key, $value = 1)
+    public function decrement(string $key, mixed $value = 1): int|bool
     {
         return $this->increment($key, $value * -1);
     }
@@ -235,7 +235,7 @@ class FileStore implements Key, Store
      * 
      * @return mixed
      */
-    public function delete($key)
+    public function delete(string $key): mixed
     {
         if ($this->files->exists($file = $this->path($key))) {
             return $this->files->delete($file);
@@ -252,7 +252,7 @@ class FileStore implements Key, Store
      * 
      * @return bool
      */
-    public function forever($key, $value): bool
+    public function forever(string $key, mixed $value): bool
     {
         return $this->put($key, $value, 0);
     }
