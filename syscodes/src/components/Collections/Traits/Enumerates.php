@@ -39,7 +39,7 @@ trait Enumerates
      * 
      * @return static
      */
-    public static function make($items = [])
+    public static function make(mixed $items = []): static
     {
         return new static($items);
     }
@@ -95,7 +95,7 @@ trait Enumerates
      * 
      * @return static
      */
-    public function reject($callback = true)
+    public function reject($callback = true): static
     {
         $useAsCallable = $this->useAsCallable($callback);
 
@@ -113,7 +113,7 @@ trait Enumerates
      * 
      * @return bool
      */
-    protected function useAsCallable($value): bool
+    protected function useAsCallable(mixed $value): bool
     {
         return ! is_string($value) && is_callable($value);
     }
@@ -135,7 +135,7 @@ trait Enumerates
      * 
      * @return string
      */
-    public function toJson($options = 0): string
+    public function toJson(int $options = 0): string
     {
         return json_encode($this->jsonSerialize(), $options);
     }
@@ -165,7 +165,7 @@ trait Enumerates
      * 
      * @return array
      */
-    private function getArrayItems($items)
+    private function getArrayItems(mixed $items): array
     {
         if (is_array($items)) {
             return $items;
