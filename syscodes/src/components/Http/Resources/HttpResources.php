@@ -56,6 +56,7 @@ trait HttpResources
 	protected function parseRequestUri(): string
 	{
 		$requestUri = '';
+		
 		if ('1' == $this->server->get('IIS_WasUrlRewritten') && '' != $this->server->get('UNENCODED_URL')) {
 			// IIS7 with URL Rewrite: make sure we get the unencoded URL (double slash problem)
 			$requestUri = $this->server->get('UNENCODED_URL');
