@@ -20,6 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
+use Closure;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\HigherOrderTakeProxy;
@@ -32,7 +33,7 @@ if ( ! function_exists('collect')) {
      * 
      * @return \Syscodes\Components\Support\Collection
      */
-    function collect($value = null)
+    function collect(mixed $value = null)
     {
         return new Collection($value);
     }
@@ -48,7 +49,7 @@ if ( ! function_exists('data_get')) {
      * 
      * @return mixed
      */
-    function data_get($target, $key, $default = null)
+    function data_get(mixed $target, string|array $key, mixed $default = null)
     {
         if (is_null($key)) return $target;
         
@@ -91,7 +92,7 @@ if( ! function_exists('data_set')) {
      * 
      * @return mixed
      */
-    function data_set(&$target, $key, $value, $overwrite = true)
+    function data_set(mixed &$target, string|array $key, mixed $value, bool $overwrite = true)
     {
         $segments = is_array($key) ? $key : explode('.', $key);
         
@@ -148,10 +149,11 @@ if ( ! function_exists('headItem')) {
      * Get the actual element of an array. Useful for method chaining.
      *
      * @param  array  $array
+     * @param  bool  $bool
      *
      * @return mixed
      */
-    function headItem($array, $bool = false)
+    function headItem(array $array, bool $bool = false)
     {
         return $bool ? reset($array) : current($array);
     }
@@ -165,7 +167,7 @@ if ( ! function_exists('lastItem')) {
      *
      * @return mixed
      */
-    function lastItem($array)
+    function lastItem(array $array)
     {
         return end($array);
     }
@@ -182,7 +184,7 @@ if ( ! function_exists('take')) {
      * 
      * @uses   \Syscodes\Components\Support\HigherOrderTakeProxy
      */
-    function take($value, $callback = null)
+    function take(string $value, Closure $callback = null)
     {
         if (is_null($callback)) {
             return new HigherOrderTakeProxy($value);
@@ -202,8 +204,8 @@ if ( ! function_exists('value')) {
      * 
      * @return mixed
      */
-    function value($value)
+    function value(mixed $value)
     {
-        return $value instanceof \Closure ? $value() : $value;
+        return $value instanceof Closure ? $value() : $value;
     }
 }
