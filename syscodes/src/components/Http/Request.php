@@ -781,9 +781,9 @@ class Request
 	 *
 	 * @param  string  $method  
 	 *
-	 * @return string
+	 * @return void
 	 */
-	public function setMethod(string $method) 
+	public function setMethod(string $method): void
 	{
 		$this->method = null;
 
@@ -988,7 +988,7 @@ class Request
 	 * 
 	 * @return string
 	 */
-	public function getHost()
+	public function getHost(): string
 	{
 		if ($forwardedHost = $this->server->get('HTTP_X_FORWARDED_HOST')) {
 			$host = $forwardedHost[0];
@@ -1151,7 +1151,7 @@ class Request
 	 * 
 	 * @return string|null
 	 */
-	public function ip()
+	public function ip(): ?string
 	{
 		return $this->clientIp->getClientIp();
 	}
@@ -1173,9 +1173,9 @@ class Request
 	 * 
 	 * @param  \Closure  $callback
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function setRouteResolver(Closure $callback): self
+	public function setRouteResolver(Closure $callback): static
 	{
 		$this->routeResolver = $callback;
 
@@ -1201,7 +1201,7 @@ class Request
 	 * 
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString(): string
 	{
 		$content = $this->getContent();
 
