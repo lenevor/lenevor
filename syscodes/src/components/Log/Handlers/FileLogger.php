@@ -93,7 +93,7 @@ class FileLogger implements Handler
      * 
      * @return void
      */
-    public function __construct(array $config = [], $app)
+    public function __construct(array $config, $app)
     {
         $this->app                = $app;
         $this->logFilePath        = $config['path'].DIRECTORY_SEPARATOR ?? $this->app->storagePath().DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR;
