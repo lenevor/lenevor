@@ -52,5 +52,5 @@ interface Lenevor
      * 
      * @return void
      */
-    public function shutdown($input, $status): void;
+    public function finalize($input, $status): void;
 }
