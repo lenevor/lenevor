@@ -38,7 +38,7 @@ class Arr
 	 *
 	 * @uses   instanceof ArrayAccess
 	 */
-	public static function accessible($value)
+	public static function accessible(mixed $value): mixed
 	{
 		return is_array($value) || $value instanceof ArrayAccess;
 	}
@@ -52,7 +52,7 @@ class Arr
 	 *
 	 * @return array 
 	 */
-	public static function add($array, $key, $value)
+	public static function add(array $array, string $key, mixed $value): array
 	{
 		if (is_null(static::get($array, $key))) {
 			static::set($array, $key, $value);
@@ -63,10 +63,12 @@ class Arr
 
 	/**
      * Collapse the collection items into a single array.
+	 * 
+	 * @param  array  $array
      * 
      * @return array
      */
-    public static function collapse($array): array
+    public static function collapse(array $array): array
     {
         $results = [];
 
@@ -90,7 +92,7 @@ class Arr
 	 *
 	 * @return array
 	 */
-	public static function divide($array): array
+	public static function divide(array $array): array
 	{
 		return [array_keys($array), array_values($array)];
 	}
@@ -103,7 +105,7 @@ class Arr
 	 *
 	 * @return array
 	 */
-	public static function except($array, $keys): array
+	public static function except(array $array, string|array $keys): array
 	{
 		static::erase($array, $keys);
 
@@ -135,7 +137,7 @@ class Arr
 	 *
 	 * @return mixed
 	 */
-	public static function erase(&$array, $keys)
+	public static function erase(array &$array, mixed $keys)
 	{
 		$original = &$array;
 
@@ -179,7 +181,7 @@ class Arr
 	 * 
 	 * @return array
 	 */
-	public static function flatten($array): array
+	public static function flatten(array $array): array
 	{
 		$result = [];
 
@@ -198,7 +200,7 @@ class Arr
 	 * 
 	 * @return array
 	 */
-	public static function fetch($array, $key): array
+	public static function fetch(array $array, string $key): array
 	{
 		$segments = explode('.', $key);
 		
@@ -226,7 +228,7 @@ class Arr
 	 *
 	 * @return mixed
 	 */
-	public static function first($array, callable $callback = null, $default = null)
+	public static function first(array $array, callable $callback = null, mixed $default = null): mixed
 	{
 		if (is_null($callback)) {
 			if (empty($array)) {
@@ -254,7 +256,7 @@ class Arr
 	 *
 	 * @return mixed
 	 */
-	public static function get($array, $key, $default = null)
+	public static function get($array, $key, $default = null): mixed
 	{
 		if ( ! static::accessible($array)) {
 			return value($default);
@@ -294,7 +296,7 @@ class Arr
 	 *
 	 * @return mixed
 	 */
-	public static function last($array, callable $callback = null, $default = null)
+	public static function last(array $array, callable $callback = null, mixed $default = null): mixed
 	{
 		if (is_null($callback)) {
 			return empty($array) ? value($default) : lastItem($array);
@@ -311,7 +313,7 @@ class Arr
 	 * 
 	 * @return bool
 	 */
-	public static function has($array, $key): bool
+	public static function has(array $array, string $key): bool
 	{
 		if (empty($array) || is_null($key)) return false;
 		
@@ -361,7 +363,7 @@ class Arr
 	 * 
 	 * @return array
 	 */
-	public static function only($array, $keys): array
+	public static function only(array $array, array|string $keys): array
 	{
 		return array_intersect_key($array, array_flip($array), $keys);
 	}
@@ -375,7 +377,7 @@ class Arr
 	 *
 	 * @return mixed
 	 */
-	public static function set(&$array, $key, $value = null)
+	public static function set(array &$array, string $key, mixed $value = null): mixed
 	{
 		if (is_null($key)) {
 			return $array = $value;
@@ -407,7 +409,7 @@ class Arr
 	 * 
 	 * @return array
 	 */
-	public static function prepend($array, $value, $key = null): array
+	public static function prepend(mixed $array, mixed $value, mixed $key = null): array
 	{
 		if (func_num_args() == 2) {
 			array_unshift($array, $value);
@@ -427,7 +429,7 @@ class Arr
 	 * 
 	 * @return mixed
 	 */
-	public static function pull(&$array, $key, $default = null)
+	public static function pull(array &$array, string $key, mixed $default = null): mixed
 	{
 		$value = static::get($array, $key, $default);
 
@@ -439,7 +441,7 @@ class Arr
 	/**
 	 * Pluck an array of values from an array.
 	 * 
-	 * @param  iterable  $array
+	 * @param  \iterable  $array
 	 * @param  string|array|int|null  $value
 	 * @param  string|array|null  $key
 	 * 
@@ -472,9 +474,9 @@ class Arr
 	 * 
 	 * @param  array  $array
 	 * 
-	 * @return array
+	 * @return bool
 	 */
-	public static function query($array)
+	public static function query(array $array): bool
 	{
 		return http_build_query($array, '', '&', PHP_QUERY_RFC3986);
 	}
@@ -487,7 +489,7 @@ class Arr
 	 * 
 	 * @return array
 	 */
-	public static function where($array, Callable $callback): array
+	public static function where(array $array, Callable $callback): array
 	{
 		return array_filter($array, $callback, ARRAY_FILTER_USE_BOTH);
 	}
@@ -499,7 +501,7 @@ class Arr
 	 * 
 	 * @return array
 	 */
-	public static function wrap($value)
+	public static function wrap(mixed $value): array
 	{
 		if (is_null($value)) {
 			return [];
