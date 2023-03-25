@@ -68,7 +68,7 @@ class DescriptorHelper
      * 
      * @throws \InvalidArgumentException  when the given format is not supported
      */
-    public function describe(OutputInterface $output, object $object, array $options = [])
+    public function describe(OutputInterface $output, object $object, array $options = []): void
     {
         $options = array_merge([
             'raw_text' => false,
@@ -89,9 +89,9 @@ class DescriptorHelper
      * @param  string  $format
      * @param  \Syscodes\Components\Contracts\Console\Helper\Descriptor  $descriptor
      * 
-     * @return self
+     * @return static
      */
-    public function register(string $format, DescriptorInterface $descriptor): self
+    public function register(string $format, DescriptorInterface $descriptor): static
     {
         $this->descriptor[$format] = $descriptor;
         
