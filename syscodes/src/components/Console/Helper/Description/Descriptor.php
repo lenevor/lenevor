@@ -52,7 +52,7 @@ abstract class Descriptor implements DescriptorInterface
      * 
      * @return void
      */
-    public function describe(OutputInterface $output, object $object, array $options = [])
+    public function describe(OutputInterface $output, object $object, array $options = []): void
     {
         $this->output = $output;
 
