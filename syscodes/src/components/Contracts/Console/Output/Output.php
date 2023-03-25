@@ -147,5 +147,5 @@ interface Output
 	 * 
 	 * @return void
 	 */
-	public function commandline($message, string $style = null);
+	public function commandline(string $message, string $style = null);
 }
