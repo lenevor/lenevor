@@ -653,7 +653,7 @@ class Application implements ApplicationContract
     /**
      * Returns an array of possible abbreviations given a set of names.
      * 
-     * @return string[][]
+     * @return string[]
      */
     public static function getAbbreviations(array $names): array
     {
@@ -815,7 +815,7 @@ class Application implements ApplicationContract
      * 
      * @return void
      */
-    protected function initialize()
+    protected function initialize(): void
     {
         if ($this->initialize) {
             return;
@@ -844,9 +844,9 @@ class Application implements ApplicationContract
      * @param  string  $commandName
      * @param  bool  $isSingleCommand
      * 
-     * @return self
+     * @return static
      */
-    public function setDefaultCommand(string $commandName, bool $isSingleCommand = false): self
+    public function setDefaultCommand(string $commandName, bool $isSingleCommand = false): static
     {
         $this->defaultCommand = explode('|', ltrim($commandName, '|'))[0];
 
