@@ -85,7 +85,7 @@ class InputOption implements InputOptionInterface
         $shortcut = null,
         int $mode = null,
         string $description = null,
-        $default = null
+        mixed $default = null
     ) {
         if (Str::startsWith($name, '--')) {
             $name = substr($name, 2);
