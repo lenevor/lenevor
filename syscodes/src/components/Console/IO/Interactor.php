@@ -63,9 +63,9 @@ class Interactor
      * Configures the input and output instances based on 
      * the user arguments and options.
      * 
-     * @return mixed
+     * @return void
      */
-    public function getConfigureIO()
+    public function getConfigureIO(): void
     {
         if (true === $this->input->hasParameterOption(['--ansi'], true)) {
             // Activate the color tag if exist is a style applied 
