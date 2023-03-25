@@ -112,7 +112,7 @@ class OutputFormatter implements OutputFormatterInterface
      * 
      * @return bool
      */
-    public function hasStyle($name): bool
+    public function hasStyle(string $name): bool
     {
         return isset($this->styles[strtolower($name)]);
     }
@@ -126,7 +126,7 @@ class OutputFormatter implements OutputFormatterInterface
      * 
      * @throws \InvalidArgumentException
      */
-    public function getStyle($name): string
+    public function getStyle(string $name): string
     {
         if (!$this->hasStyle($name)) {
             throw new InvalidArgumentException('Undefined style: '.$name);
