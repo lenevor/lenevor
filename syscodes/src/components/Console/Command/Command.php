@@ -164,7 +164,7 @@ class Command
      * 
      * @return string|null
      */
-    public static function getDefaultName()
+    public static function getDefaultName(): ?string
     {
         $class = static::class;
 
@@ -178,7 +178,7 @@ class Command
      * 
      * @return string|null
      */
-    public static function getDefaultDescription()
+    public static function getDefaultDescription(): ?string
     {
         $class = static::class;
 
@@ -329,9 +329,9 @@ class Command
      * 
      * @param  array|\Syscodes\Components\Console\Input\InputDefinition  $definition  An array of InputArgument and InputOption instance
      * 
-     * @return self
+     * @return static
      */
-    public function setDefinition($definition): self 
+    public function setDefinition($definition): static 
     {
         if ($definition instanceof InputDefinition) {
             $this->definition = $definition;
@@ -350,9 +350,9 @@ class Command
      * @param  string  $name  The argument name
      * @param  int|null  $mode  The argument mode
      * @param  string  $description  The description text
-     * @param  mixed  $default  The default value
+     * @param  mixed|null  $default  The default value
      * 
-     * @return $this
+     * @return static
      * 
      * @throws \InvalidArgumentException  When argument mode is not valid
      * @throws \LogicException
@@ -361,8 +361,8 @@ class Command
         string $name,
         int $mode = null,
         string $description = '',
-        $default = null
-    ) {
+        mixed $default = null
+    ): static {
         $this->definition->addArgument(new InputArgument($name, $mode, $description, $default));
 
         return $this;
@@ -377,7 +377,7 @@ class Command
      * @param  string  $description  The description text
      * @param  mixed  $default  The default value
      * 
-     * @return $this
+     * @return static
      * 
      * @throws \InvalidArgumentException  If option mode is invalid
      */
@@ -387,7 +387,7 @@ class Command
         int $mode = null,
         string $description = '',
         $default = null
-    ) {
+    ): static {
         $this->definition->addOption(new InputOption($name, $shortcut, $mode, $description, $default));
 
         return $this;
@@ -398,7 +398,7 @@ class Command
      * 
      * @return string|null
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -408,9 +408,9 @@ class Command
      * 
      * @param  string  $name  The command name
      * 
-     * @return self
+     * @return static
      */
-    public function setName(string $name): self
+    public function setName(string $name): static
     {
         $this->validateName($name);
 
@@ -432,9 +432,9 @@ class Command
     /**
      * sets the application instance for this command.
      * 
-     * @return self
+     * @return static
      */
-    public function setApplication(Application $application = null): self
+    public function setApplication(Application $application = null): static
     {
        $this->application = $application;
 
@@ -456,9 +456,9 @@ class Command
      * 
      * @param  int  $code  The code to execute in the command
      * 
-     * @return self
+     * @return static
      */
-    public function setcode(int $code): self
+    public function setcode(int $code): static
     {
         $this->code = $code;
 
@@ -480,9 +480,9 @@ class Command
      * 
      * @param  bool  $hidden
      * 
-     * @return self
+     * @return static
      */
-    public function setHidden(bool $hidden): self
+    public function setHidden(bool $hidden): static
     {
         $this->hidden = $hidden;
         
@@ -494,7 +494,7 @@ class Command
      * 
      * @return string|null
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -504,9 +504,9 @@ class Command
      * 
      * @param  string  $description The command description
      * 
-     * @return self
+     * @return static
      */
-    public function setDescription(string $description): self
+    public function setDescription(string $description): static
     {
         $this->description = $description;
         
@@ -518,7 +518,7 @@ class Command
      *
      * @return string
      */
-    public function getHelp()
+    public function getHelp(): string
     {
         return $this->help;
     }
@@ -550,9 +550,9 @@ class Command
     /**
      * Sets the help for the command.
      *
-     * @return $this
+     * @return static
      */
-    public function setHelp(string $help): self
+    public function setHelp(string $help): static
     {
         $this->help = $help;
 
@@ -574,9 +574,9 @@ class Command
      * 
      * @param  string  $usage  The command name usage
      * 
-     * @return self
+     * @return static
      */
-    public function addUsage(string $usage): self
+    public function addUsage(string $usage): static
     {
         if ( ! Str::startsWith($usage, $this->name)) {
             $usage = sprintf('%s %s', $this->name, $usage);
@@ -594,7 +594,7 @@ class Command
      * 
      * @return string
      */
-    public function getSynopsis(bool $short = false)
+    public function getSynopsis(bool $short = false): string
     {
         $value = $short ? 'short' : 'long';
 
@@ -610,7 +610,7 @@ class Command
      * 
      * @return string[]
      */
-    public function getAliases()
+    public function getAliases(): array
     {
         return $this->aliases;
     }
@@ -620,11 +620,11 @@ class Command
      * 
      * @param string[] $aliases An array of aliases for the command
      * 
-     * @return self
+     * @return static
      * 
      * @throws InvalidArgumentException When an alias is invalid
      */
-    public function setAliases(iterable $aliases): self
+    public function setAliases(iterable $aliases): static
     {
         $list = [];
         
@@ -643,7 +643,7 @@ class Command
      * 
      * @return bool
      */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return true;
     }
@@ -653,11 +653,11 @@ class Command
      * 
      * @param  string  $name
      * 
-     * @return bool
+     * @return void
      * 
      * @throws \InvalidArgumentException
      */
-    private function validateName(string $name)
+    private function validateName(string $name): void
     {
         if ( ! preg_match('/^[^\:]++(\:[^\:]++)*$/', $name)) {
             throw new InvalidArgumentException(sprintf('Command name "%s" is invalid', $name));
