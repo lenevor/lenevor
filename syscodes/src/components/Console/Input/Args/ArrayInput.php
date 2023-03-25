@@ -56,10 +56,7 @@ class ArrayInput extends Input
      * 
      * @return void
      */
-    protected function parse()
-    {
-        
-    }
+    protected function parse(): void {}
 
     /**
      * Gets the first argument from unprocessed parameters (not parsed).
@@ -85,7 +82,7 @@ class ArrayInput extends Input
      * 
      * @return bool
      */
-    public function hasParameterOption($values, bool $params = false): bool
+    public function hasParameterOption(string|array $values, bool $params = false): bool
     {
         foreach ($this->parameters as $key => $value) {
             if ( ! is_int($key)) {
@@ -113,7 +110,7 @@ class ArrayInput extends Input
      * 
      * @return mixed
      */
-    public function getParameterOption($values, $default = false, bool $params = false)
+    public function getParameterOption(string|array $values, mixed $default = false, bool $params = false): mixed
     {
         foreach ($this->parameters as $key => $value) {
             if ($params && ('--' === $key || (is_int($key) && '--' === $value))) {
@@ -121,10 +118,10 @@ class ArrayInput extends Input
             }
             
             if (is_int($key)) {
-                if (in_array($value, (array) $value)) {
+                if (in_array($value, (array) $values)) {
                     return true;
                 }
-            } elseif (in_array($key, (array) $value)) {
+            } elseif (in_array($key, (array) $values)) {
                 return $value;
             }
         }
