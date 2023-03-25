@@ -227,12 +227,12 @@ abstract class Output implements OutputInterface
 		foreach ($messages as $message) {
 			match ($type) {
 				OutputInterface::OUTPUT_NORMAL => $message = $this->formatter->format($message),
-				OutputInterface::OUTPUT_RAW |
+				OutputInterface::OUTPUT_RAW,
 				OutputInterface::OUTPUT_PLAIN => $message = strip_tags($this->formatter->format($message)),
 			};
 		}
 		
-		return $this->toWrite($message ?? '', $newline);
+		$this->toWrite($message ?? '', $newline);
 	}
 	
 	/**
@@ -241,7 +241,7 @@ abstract class Output implements OutputInterface
 	 * @param  string  $message  The text to output
 	 * @param  bool  $newline  Add a newline command
 	 * 
-	 * @return mixed
+	 * @return void
 	 */
-	abstract protected function toWrite(string $message, bool $newline);
+	abstract protected function toWrite(string $message, bool $newline): void;
 }
