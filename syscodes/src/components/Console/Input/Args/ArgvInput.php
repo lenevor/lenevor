@@ -64,7 +64,7 @@ class ArgvInput extends Input
      * 
      * @return void
      */
-    protected function parse()
+    protected function parse(): void
     {
         $parseOptions = true;
         $this->parsed = $this->getTokens();
@@ -194,7 +194,7 @@ class ArgvInput extends Input
      * 
      * @return string[]
      */
-    public function getTokens()
+    public function getTokens(): array
     {
         return $this->tokens;
     }
@@ -249,7 +249,7 @@ class ArgvInput extends Input
      * 
      * @return bool
      */
-    public function hasParameterOption($values, bool $params = false): bool
+    public function hasParameterOption(string|array $values, bool $params = false): bool
     {
         $tokens = $this->getTokens();
         
@@ -278,7 +278,7 @@ class ArgvInput extends Input
      * 
      * @return mixed
      */
-    public function getParameterOption($values, $default = false, bool $params = false)
+    public function getParameterOption(string|array $values, $default = false, bool $params = false): mixed
     {
         $tokens = $this->getTokens();
         
@@ -320,7 +320,7 @@ class ArgvInput extends Input
      * 
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         $self = $this;
         
