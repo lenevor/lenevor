@@ -60,7 +60,7 @@ class CommandNotFoundException extends InvalidArgumentException
      * 
      * @return string[]
      */
-    public function getAlternatives()
+    public function getAlternatives(): array
     {
         return $this->alternatives;
     }
