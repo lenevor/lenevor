@@ -58,7 +58,7 @@ interface Input
      * 
      * @return bool
      */
-    public function hasParameterOption($values, bool $params = false): bool;
+    public function hasParameterOption(string|array $values, bool $params = false): bool;
 
     /**
      * Gets the value of a unprocessed option (not parsed).
@@ -69,7 +69,7 @@ interface Input
      * 
      * @return mixed
      */
-    public function getParameterOption($values, $default = false, bool $params = false);
+    public function getParameterOption(string|array $values, $default = false, bool $params = false): mixed;
 
     /**
      * Get the input interactive.
@@ -96,7 +96,7 @@ interface Input
      * 
      * @throws \InvalidArgumentException
      */
-    public function getArgument(string $name);
+    public function getArgument(string $name): mixed;
 
     /**
      * Sets the arguments by name.
@@ -106,7 +106,7 @@ interface Input
      * 
      * @return void 
      */
-    public function setArgument(string $name, $value): void;
+    public function setArgument(string $name, mixed $value): void;
 
     /**
      * Checks an InputArgument objects if exists by name.
@@ -133,7 +133,7 @@ interface Input
      * 
      * @throws \InvalidArgumentException
      */
-    public function getOption(string $name);
+    public function getOption(string $name): mixed;
 
     /**
      * Sets the options by name.
@@ -143,7 +143,7 @@ interface Input
      * 
      * @return void 
      */
-    public function setOption(string $name, $value): void;
+    public function setOption(string $name, mixed $value): void;
 
     /**
      * Checks an InputOption objects if exists by name.
