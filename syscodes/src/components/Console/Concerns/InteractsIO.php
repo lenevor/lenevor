@@ -53,7 +53,7 @@ trait InteractsIO
 	 * 
 	 * @return void
 	 */
-	public function comment($message)
+	public function comment(string $message)
 	{
 		$this->commandline($message, 'comment');
 	}
@@ -65,7 +65,7 @@ trait InteractsIO
 	 * 
 	 * @return void
 	 */
-	public function note($message)
+	public function note(string $message)
 	{
 		$this->commandline($message, 'note');
 	}
@@ -77,7 +77,7 @@ trait InteractsIO
 	 * 
 	 * @return void
 	 */
-	public function success($message)
+	public function success(string $message)
 	{
 		$this->commandline($message, 'success');
 	}
@@ -89,7 +89,7 @@ trait InteractsIO
 	 * 
 	 * @return void
 	 */
-	public function info($message)
+	public function info(string $message)
 	{
 		$this->commandline($message, 'info');
 	}
@@ -101,7 +101,7 @@ trait InteractsIO
 	 * 
 	 * @return void
 	 */
-	public function question($message)
+	public function question(string $message)
 	{
 		$this->commandline($message, 'question');
 	}
@@ -113,7 +113,7 @@ trait InteractsIO
 	 * 
 	 * @return void
 	 */
-	public function warning($message)
+	public function warning(string $message)
 	{
 		$this->commandline($message, 'warning');
 	}
@@ -125,7 +125,7 @@ trait InteractsIO
 	 * 
 	 * @return void
 	 */
-	public function error($message)
+	public function error(string $message)
 	{
 		$this->commandline($message, 'error');
 	}
@@ -138,7 +138,7 @@ trait InteractsIO
 	 * 
 	 * @return void
 	 */
-	public function commandline($message, string $style = null)
+	public function commandline(string $message, string $style = null)
 	{
 		$styled = $style ? "<$style>$message</>" : $message;
 		
