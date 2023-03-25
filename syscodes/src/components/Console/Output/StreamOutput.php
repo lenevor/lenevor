@@ -70,15 +70,17 @@ class StreamOutput extends Output
      * @param  string  $message  The text to output
      * @param  bool  $newline  Add a newline command
      * 
-     * @return int
+     * @return void
      */
-    protected function toWrite(string $message, bool $newline): int
+    protected function toWrite(string $message, bool $newline): void
     {
         if ($newline) {
             $message .= \PHP_EOL;
         }
         
-        return (int) @fwrite($this->stream, $message);
+        @fwrite($this->stream, $message);
+
+        fflush($this->stream);
     }
 
     /**
