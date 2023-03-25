@@ -84,7 +84,7 @@ interface InputArgument
      * 
      * @return mixed
      */
-    public function getDefault();
+    public function getDefault(): mixed;
     
     /**
      * Sets the default value.
@@ -95,7 +95,7 @@ interface InputArgument
      * 
      * @throws \LogicException
      */
-    public function setDefault($default = null): void;
+    public function setDefault(mixed $default = null): void;
     
     /**
      * Gets true if the argument is required.
