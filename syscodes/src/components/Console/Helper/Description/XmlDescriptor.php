@@ -102,7 +102,7 @@ class XmlDescriptor extends Descriptor
      */
     protected function describeApplication(Application $application, array $options = [])
     {
-        $this->writeText(' Hola application!!! ');
+        $this->writeText('<fg=bright-green;bg=green> Hola application!!! </>');
     } 
 
     /**
