@@ -76,7 +76,7 @@ class InputArgument implements InputArgumentInterface
         string $name, 
         int $mode = null,
         string $description = null,
-        $default = null
+        mixed $default = null
     ) {
         if (null === $mode) {
             $mode = InputArgumentInterface::OPTIONAL;
@@ -164,7 +164,7 @@ class InputArgument implements InputArgumentInterface
      * 
      * @return mixed
      */
-    public function getDefault()
+    public function getDefault(): mixed
     {
         return $this->default;
     }
@@ -178,7 +178,7 @@ class InputArgument implements InputArgumentInterface
      * 
      * @throws \LogicException
      */
-    public function setDefault($default = null): void
+    public function setDefault(mixed $default = null): void
     {
         if (InputArgumentInterface::REQUIRED === $this->mode && null !== $default) {
             throw new LogicException('Cannot set a default value except for InputArgumentInterface::OPTIONAL mode');
