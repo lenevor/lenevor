@@ -99,7 +99,7 @@ abstract class Input implements InputInterface
      * 
      * @return void
      */
-    abstract protected function parse();
+    abstract protected function parse(): void;
 
     /**
      * Get the input interactive.
@@ -138,7 +138,7 @@ abstract class Input implements InputInterface
      * 
      * @throws \InvalidArgumentException
      */
-    public function getArgument(string $name)
+    public function getArgument(string $name): mixed
     {
         if ( ! $this->definition->hasArgument($name)) {
             throw new InvalidArgumentException(sprintf('The "%s" argument does not exist', $name));
@@ -155,7 +155,7 @@ abstract class Input implements InputInterface
      * 
      * @return void 
      */
-    public function setArgument(string $name, $value): void
+    public function setArgument(string $name, mixed $value): void
     {
         if ( ! $this->definition->hasArgument($name)) {
             throw new InvalidArgumentException(sprintf('The "%s" argument does not exist', $name));
@@ -201,7 +201,7 @@ abstract class Input implements InputInterface
      * 
      * @throws \InvalidArgumentException
      */
-    public function getOption(string $name)
+    public function getOption(string $name): mixed
     {
         if ($this->definition->hasNegation($name)) {
             if (null === $value = $this->getOption($this->definition->negationToName($name))) {
@@ -226,7 +226,7 @@ abstract class Input implements InputInterface
      * 
      * @return void
      */
-    public function setOption(string $name, $value): void
+    public function setOption(string $name, mixed $value): void
     {
         if ($this->definition->hasNegation($name)) {
             $this->options[$this->definition->negationToName($name)] = ! $value;
