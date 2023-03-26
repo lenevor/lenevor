@@ -40,7 +40,7 @@ interface Container extends ContainerInterface
      * 
      * @return void
      */
-    public function alias($id, $alias): void;
+    public function alias($id, string $alias): void;
 
     /**
      * Register a binding with container.
@@ -51,7 +51,7 @@ interface Container extends ContainerInterface
      * 
      * @return void
      */
-    public function bind($id, $value = null, bool $singleton = false): void;
+    public function bind($id, Closure|string $value = null, bool $singleton = false): void;
 
     /**
      * Determine if the given id type has been resolved.
@@ -70,7 +70,7 @@ interface Container extends ContainerInterface
      * 
      * @return mixed
      */
-    public function extend($id, Closure $closure);
+    public function extend($id, Closure $closure): mixed;
     
     /**
      * Register a singleton binding in the container.
@@ -80,7 +80,7 @@ interface Container extends ContainerInterface
      * 
      * @return void
      */
-    public function singleton($id, $value = null): void;
+    public function singleton($id, Closure|string $value = null): void;
 
     /**
      * Instantiate a class instance of the given type.
@@ -91,7 +91,7 @@ interface Container extends ContainerInterface
      * 
      * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
      */
-    public function build($class);
+    public function build($class): mixed;
 
     /**
      * Marks a callable as being a factory service.
@@ -119,7 +119,7 @@ interface Container extends ContainerInterface
      * 
      * @return mixed
      */
-    public function rebinding($id, Closure $callback);
+    public function rebinding($id, Closure $callback): mixed;
 
      /**
      * Refresh an instance on the given target and method.
@@ -130,7 +130,7 @@ interface Container extends ContainerInterface
      * 
      * @return mixed
      */
-    public function refresh($id, $target, $method);
+    public function refresh($id, mixed $target, string $method): mixed;
 
     /**
      * Return and array containing all bindings.
@@ -147,7 +147,7 @@ interface Container extends ContainerInterface
      * 
      * @return mixed
      */
-    public function instance($id, $instance);
+    public function instance($id, mixed $instance): mixed;
 
     /**
      * Return all defined value binding.
@@ -164,7 +164,7 @@ interface Container extends ContainerInterface
      * 
      * @return mixed
      */
-    public function makeAssign($id, array $parameters = []);
+    public function makeAssign($id, array $parameters = []): mixed;
 
     /**
      * Resolve the given type from the container.
@@ -172,7 +172,7 @@ interface Container extends ContainerInterface
      * @param  string  $id
      * @param  array  $parameters
      * 
-     * @return object
+     * @return mixed
      */
     public function make($id, array $parameters = []);
 
@@ -203,7 +203,7 @@ interface Container extends ContainerInterface
      * 
      * @return mixed
      */
-    public function call($callback, array $parameters = [], string $defaultMethod = null);
+    public function call($callback, array $parameters = [], string $defaultMethod = null): mixed;
 
     /**
      * Remove all id traces of the specified binding.
@@ -220,9 +220,9 @@ interface Container extends ContainerInterface
      * @param  string  $id
      * @param  string  $value
      * 
-     * @return self
+     * @return static
      */
-    public function set($id, string $value): self;
+    public function set($id, string $value): static;
 
     /**
      * Flush the container of all bindings and resolved instances.
