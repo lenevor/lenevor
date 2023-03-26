@@ -51,7 +51,7 @@ final class CallBoundCallback
         $callback, 
         array $parameters = [], 
         string $defaultMethod = null
-    ) {
+    ): mixed {
         if (is_string($callback)) {
             $callback = static::resolveStringCallback($container, $callback, $defaultMethod);
         }
@@ -78,7 +78,7 @@ final class CallBoundCallback
      * 
      * @return array
      */
-    protected static function resolveStringCallback($container, $callback, string $defaultMethod = null)
+    protected static function resolveStringCallback($container, $callback, string $defaultMethod = null): array
     {
         [$class, $method] = Str::parseCallback($callback, $defaultMethod);
 
@@ -98,9 +98,9 @@ final class CallBoundCallback
      * 
      * @return array
      */
-    protected static function getMethodDependencies(Container $container, array $parameters, ReflectionFunctionAbstract $reflector)
+    protected static function getMethodDependencies(Container $container, array $parameters, ReflectionFunctionAbstract $reflector): array
     {
-        $dependencies = array();
+        $dependencies = [];
         
         foreach ($reflector->getParameters() as $parameter) {
             if (array_key_exists($name = $parameter->getName(), $parameters)) {
@@ -108,7 +108,7 @@ final class CallBoundCallback
                 
                 unset($parameters[$name]);
             // The dependency does not exists in parameters.
-            } else if (! is_null($class = $parameter->getType())) {
+            } else if ( ! is_null($class = $parameter->getType())) {
                 $className = $class->getName();
                 
                 $dependencies[] = $container->make($className);
