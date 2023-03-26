@@ -109,7 +109,7 @@ class Container implements ArrayAccess, ContainerContract
      *
      * @return static
      */
-    public static function getInstance()
+    public static function getInstance(): static
     {
         if (is_null(static::$instance)) {
             static::$instance = new static;
@@ -138,7 +138,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return void
      */
-    public function alias($id, $alias): void
+    public function alias($id, string $alias): void
     {
         if ($alias === $id) {
             throw new ContainerException("[{$id}] is aliased to itself");
@@ -155,7 +155,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    public function rebinding($id, Closure $callback)
+    public function rebinding($id, Closure $callback): mixed
     {
         $this->hasCallbacks[$id = $this->getAlias($id)][] = $callback;
         
@@ -171,7 +171,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    public function refresh($id, $target, $method)
+    public function refresh($id, $target, $method): mixed
     {
         return $this->rebinding($id, fn($instance) => $target->{$method}($instance));
     }
@@ -185,7 +185,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return void
      */
-    public function bind($id, $value = null, bool $singleton = false): void
+    public function bind($id, Closure|string $value = null, bool $singleton = false): void
     {   
         $this->dropInstances($id);
 
@@ -214,9 +214,9 @@ class Container implements ArrayAccess, ContainerContract
      * @param  string  $id
      * @param  string  $value
      * 
-     * @return \Closure
+     * @return mixed
      */
-    protected function getClosure($id, string $value)
+    protected function getClosure($id, string $value): mixed
     {
         return function ($container, $parameters = []) use ($id, $value) {
             if ($id == $value) {
@@ -268,7 +268,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    public function extend($id, Closure $closure)
+    public function extend($id, Closure $closure): mixed
     {
         if ( ! isset($this->bindings[$id])) {
             throw new InvalidArgumentException("Type {$id} is not bound.");
@@ -307,7 +307,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
      */
-    public function build($class)
+    public function build($class): mixed
     {
         if ($class instanceof Closure) {
             return $class($this, $this->getLastParameterOverride());
@@ -347,7 +347,7 @@ class Container implements ArrayAccess, ContainerContract
      *
      * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
      */
-    protected function buildNotInstantiable(string $class)
+    protected function buildNotInstantiable(string $class): mixed
     {
         if ( ! empty($this->buildStack)) {
            $reset   = implode(', ', $this->buildStack);
@@ -415,7 +415,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    protected function getParameterOverride($dependency)
+    protected function getParameterOverride($dependency): mixed
     {
         return $this->getLastParameterOverride()[$dependency->name];
     }
@@ -429,7 +429,7 @@ class Container implements ArrayAccess, ContainerContract
      *
      * @throws \Syscodes\Components\Container\Exceptions\BindingResolutionException
      */
-    protected function getResolveClass(ReflectionParameter $parameter)
+    protected function getResolveClass(ReflectionParameter $parameter): mixed
     {
         try {
             return $this->make($parameter->getType()->getName());
@@ -453,7 +453,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     protected function getResolveNonClass(ReflectionParameter $parameter)
     {
-        if ( ! is_null($class = $parameter->getName())) {
+        if ( ! is_null($class = $parameter->getType()->getName())) {
             return $class instanceof Closure ? $class($this) : $class;
         }
 
@@ -611,7 +611,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    protected function resolve($id, array $parameters = []) 
+    protected function resolve($id, array $parameters = []): mixed
     {
         $id = $this->getAlias($id);
 
@@ -688,7 +688,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return bool
      */
-    protected function isSingleton($id)
+    protected function isSingleton($id): mixed
     {
         return isset($this->instances[$id]) ||
                (isset($this->bindings[$id]['singleton']) &&
@@ -702,7 +702,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    protected function getValue($id)
+    protected function getValue($id): mixed
     {
         if (isset($this->bindings[$id])) {
             return $this->bindings[$id]['value'];
@@ -759,9 +759,9 @@ class Container implements ArrayAccess, ContainerContract
      * @param  string  $id
      * @param  string  $value
      * 
-     * @return self
+     * @return static
      */
-    public function set($id, string $value): self
+    public function set($id, string $value): static
     {
         if ( ! $this->bound($id)) {
             throw new ContainerException($id);
@@ -800,7 +800,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @throws \Syscodes\Components\Container\Exceptions\UnknownIdentifierException
      */
-    public function get($id)
+    public function get($id): mixed
     {
         try {
             return $this->resolve($id);
