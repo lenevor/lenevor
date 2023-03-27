@@ -39,7 +39,7 @@ interface ControllerDispatcher
      * 
      * @return mixed
      */
-    public function dispatch(Route $route, $controller, $method);
+    public function dispatch(Route $route, mixed $controller, string $method);
 
     /**
      * Get the middleware for the controller instance.
@@ -49,5 +49,5 @@ interface ControllerDispatcher
      * 
      * @return array
      */
-    public function getMiddleware($controller, $method): array;
+    public function getMiddleware($controller, string $method): array;
 }
