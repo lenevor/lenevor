@@ -52,9 +52,9 @@ class ControllerMiddlewareOptions
      * 
      * @param  array|string|dynamic  $methods
      * 
-     * @return self
+     * @return static
      */
-    public function only($methods): self
+    public function only($methods): static
     {
         $this->options['only'] = is_array($methods) ? $methods : func_get_args();
         
@@ -66,9 +66,9 @@ class ControllerMiddlewareOptions
      * 
      * @param  array|string|dynamic  $methods
      * 
-     * @return self
+     * @return static
      */
-    public function except($methods): self
+    public function except($methods): static
     {
         $this->options['except'] = is_array($methods) ? $methods : func_get_args();
         
