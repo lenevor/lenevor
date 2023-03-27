@@ -73,9 +73,9 @@ abstract class Controller
      * @param  string  $method
      * @param  array  $parameters
      * 
-     * @return void
+     * @return mixed
      */
-    public function callAction($method, $parameters)
+    public function callAction($method, $parameters): mixed
     {
         return $this->{$method}(...array_values($parameters));
     }
