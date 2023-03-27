@@ -137,7 +137,7 @@ class CookieManager implements CookieFactory
      * 
      * @return \Syscodes\Components\Http\Cookie
      */
-    public function erase($name, $path = null, $domain = null) 
+    public function erase(string $name, string $path = null, string $domain = null) 
     {
         return $this->make($name, '', -2628000, $path, $domain);
     }
@@ -164,7 +164,7 @@ class CookieManager implements CookieFactory
      * 
      * @return \Syscodes\Components\Http\Cookie|null
      */
-    public function queued(string $key, $default = null, string $path = null)
+    public function queued(string $key, mixed $default = null, string $path = null)
     {
         $queued = Arr::get($this->queued, $key, $default);
         
@@ -244,7 +244,7 @@ class CookieManager implements CookieFactory
      * 
      * @return array
      */
-    protected function getPathAndDomain($path, $domain, $secure = null, $sameSite = null): array
+    protected function getPathAndDomain(string $path, string $domain, bool $secure = null, string $sameSite = null): array
     {
         return [$path ?: $this->path, $domain ?: $this->domain, is_bool($secure) ? $secure : $this->secure, $sameSite ?: $this->sameSite];
     }
@@ -257,9 +257,9 @@ class CookieManager implements CookieFactory
      * @param  bool  $secure
      * @param  string|null  $sameSite
      * 
-     * @return self
+     * @return static
      */
-    public function setDefaultPathAndDomain(string $path, string $domain, bool $secure = false, string $sameSite = null): self
+    public function setDefaultPathAndDomain(string $path, string $domain, bool $secure = false, string $sameSite = null): static
     {
         [$this->path, $this->domain, $this->secure, $this->sameSite] = [$path, $domain, $secure, $sameSite];
 
@@ -279,9 +279,9 @@ class CookieManager implements CookieFactory
     /**
      * Flush the cookies which have been queued for the next request.
      * 
-     * @return self
+     * @return static
      */
-    public function flushQueuedCookies(): self
+    public function flushQueuedCookies(): static
     {
         $this->queued = [];
         
