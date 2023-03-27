@@ -45,7 +45,7 @@ interface QueueingFactory extends Factory
      * 
      * @return \Syscodes\Components\Http\Cookie|null
      */
-    public function queued(string $key, $default = null, string $path = null);
+    public function queued(string $key, mixed $default = null, string $path = null);
 
     /**
      * Queue a cookie to send with the next response.
@@ -85,9 +85,9 @@ interface QueueingFactory extends Factory
      * @param  bool  $secure
      * @param  string|null  $sameSite
      * 
-     * @return self
+     * @return static
      */
-    public function setDefaultPathAndDomain(string $path, string $domain, bool$secure = false, string $sameSite = null): self;
+    public function setDefaultPathAndDomain(string $path, string $domain, bool $secure = false, string $sameSite = null): static;
     
     /**
      * Get the cookies which have been queued for the next request.
@@ -99,7 +99,7 @@ interface QueueingFactory extends Factory
     /**
      * Flush the cookies which have been queued for the next request.
      * 
-     * @return self
+     * @return static
      */
-    public function flushQueuedCookies(): self;
+    public function flushQueuedCookies(): static;
 }
