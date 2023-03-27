@@ -87,5 +87,5 @@ interface Factory
      * 
      * @return \Syscodes\Components\Http\Cookie
      */
-    public function erase($name, $path = null, $domain = null);
+    public function erase(string $name, string $path = null, string $domain = null);
 }
