@@ -62,7 +62,7 @@ class ControllerDispatcher implements ControllerDispatcherContract
      * 
      * @return mixed
      */
-    public function dispatch(Route $route, $controller, $method)
+    public function dispatch(Route $route, mixed $controller, string $method): mixed
     {
         $parameters = $this->resolveObjectMethodDependencies(
             $route->parametersWithouNulls(), $controller, $method
@@ -83,7 +83,7 @@ class ControllerDispatcher implements ControllerDispatcherContract
      * 
      * @return array
      */
-    public function getMiddleware($controller, $method): array
+    public function getMiddleware($controller, string $method): array
     {
         if ( ! method_exists($controller, 'getMiddleware'))
         {
