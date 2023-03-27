@@ -38,7 +38,7 @@ trait CookieValue
      * 
      * @return string|null
      */
-    public static function validate($cookieName, $cookieValue, $key)
+    public static function validate(string $cookieName, string $cookieValue, string $key): ?string
     {
         $hasValid = Str::startsWith($cookieValue, static::create($cookieName, $key));
 
@@ -53,7 +53,7 @@ trait CookieValue
      * 
      * @return string
      */
-    public static function create($cookieName, $key): string
+    public static function create(string $cookieName, string $key): string
     {
         return hash_hmac('sha1', $cookieName.'v2', $key).'|';
     }
@@ -65,7 +65,7 @@ trait CookieValue
      * 
      * @return string
      */
-    public static function remove($cookieValue): string
+    public static function remove(string $cookieValue): string
     {
         return substr($cookieValue, 41);
     }
