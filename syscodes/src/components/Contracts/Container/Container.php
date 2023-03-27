@@ -147,7 +147,7 @@ interface Container extends ContainerInterface
      * 
      * @return mixed
      */
-    public function instance($id, mixed $instance): mixed;
+    public function instance($id, mixed $instance);
 
     /**
      * Return all defined value binding.
@@ -174,7 +174,7 @@ interface Container extends ContainerInterface
      * 
      * @return mixed
      */
-    public function make($id, array $parameters = []);
+    public function make($id, array $parameters = []): mixed;
 
     /**
      * Determine if the given id type has been bound.
