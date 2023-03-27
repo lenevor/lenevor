@@ -548,7 +548,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    public function instance($id, $instance) 
+    public function instance($id, mixed $instance)
     {
         if (is_array($id)) {
             [$id, $alias] = $id;
@@ -585,7 +585,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    public function makeAssign($id, array $parameters = [])
+    public function makeAssign($id, array $parameters = []): mixed
     {
         return $this->make($id, $parameters);
     }
@@ -598,7 +598,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return object
      */
-    public function make($id, array $parameters = []) 
+    public function make($id, array $parameters = []): mixed 
     {
         return $this->resolve($id, $parameters);
     }
@@ -736,7 +736,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    public function call($callback, array $parameters = [], string $defaultMethod = null)
+    public function call($callback, array $parameters = [], string $defaultMethod = null): mixed
     {
         return CallBoundCallback::call($this, $callback, $parameters, $defaultMethod);
     }
