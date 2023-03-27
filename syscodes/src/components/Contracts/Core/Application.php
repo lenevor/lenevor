@@ -43,9 +43,9 @@ interface Application extends Container
      *
      * @param  string  $path
      * 
-     * @return self
+     * @return static
      */
-    public function setBasePath(string $path): self;
+    public function setBasePath(string $path): static;
 
     /**
      * Get the base path of the Lenevor installation.
@@ -168,9 +168,9 @@ interface Application extends Container
      * 
      * @param  string  $file
      * 
-     * @return self
+     * @return static
      */
-    public function setEnvironmentFile($file): self;
+    public function setEnvironmentFile($file): static;
 
     /**
      * Detect the application's current environment.
