@@ -143,7 +143,7 @@ class Lenevor implements LenevorContract
      * 
      * @return array
      */
-    protected function bootstrappers()
+    protected function bootstrappers(): array
     {
         return $this->bootstrappers;
     }
@@ -156,7 +156,7 @@ class Lenevor implements LenevorContract
      * 
      * @return void
      */
-    public function finalize($input, $status): void
+    public function finalize($input, int $status): void
     {
         $this->app->shutdown();
     }
