@@ -170,7 +170,7 @@ class BootHandleExceptions
      * 
      * @return \Syscodes\Components\Debug\FatalExceptions\FatalErrorException
      */
-    protected function fatalExceptionFromError(array $error, $traceOffset = null)
+    protected function fatalExceptionFromError(array $error, int $traceOffset = null)
     {
         return new FatalErrorException(
             $error['message'], $error['type'], 0, $error['file'], $error['line'], $traceOffset
