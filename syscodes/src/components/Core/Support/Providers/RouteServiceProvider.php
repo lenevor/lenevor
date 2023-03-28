@@ -57,9 +57,9 @@ class RouteServiceProvider extends ServiceProvider
      * 
      * @param  \Closure  $routeCallback
      * 
-     * @return self
+     * @return static
      */
-    protected function routes(Closure $routeCallback): self
+    protected function routes(Closure $routeCallback): static
     {
         $routeCallback();
 
