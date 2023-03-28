@@ -82,7 +82,7 @@ class AliasLoader
      * 
      * @return void
      */
-    public static function setInstance($loader)
+    public static function setInstance($loader): void
     {
         static::$instance = $loader;
     }
@@ -94,7 +94,7 @@ class AliasLoader
      * 
      * @return void
      */
-    public static function setFacadeNamespace($namespace)
+    public static function setFacadeNamespace($namespace): void
     {
         static::$facadeNamespace = rtrim($namespace, '\\').'\\';
     }
