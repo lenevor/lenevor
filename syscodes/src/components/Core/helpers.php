@@ -44,7 +44,7 @@ if ( ! function_exists('abort')) {
      * @throws \Syscodes\Components\Core\Http\Exceptions\HttpException
      * @throws \Syscodes\Components\Core\Http\Exceptions\LenevorException
      */
-    function abort($code, $message = '', array $headers = [])
+    function abort(int $code, string $message = '', array $headers = [])
     {
         return app()->abort($code, $message, $headers);
     }
@@ -138,7 +138,7 @@ if ( ! function_exists('back')) {
      * 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
-    function back($status = 302, $headers = [], $fallback = false)
+    function back(int $status = 302, array $headers = [], mixed $fallback = false)
     {
         return app('redirect')->back($status, $headers, $fallback);
     }
@@ -205,7 +205,7 @@ if ( ! function_exists('config')) {
      *
      * @return  mixed|\Syscodes\Components\Config\Configure
      */
-    function config($key = null, $value = null)
+    function config($key = null, mixed $value = null)
     {
         if ($key === null) {
             return app('config');
@@ -325,7 +325,7 @@ if ( ! function_exists('decrypt')) {
      * 
      * @return string
      */
-    function decrypt($value, $unserialize = true)
+    function decrypt($value, bool $unserialize = true)
     {
         return app('encrypter')->decrypt($value, $unserialize);
     }
@@ -354,7 +354,7 @@ if ( ! function_exists('encrypt')) {
      * 
      * @return string
      */
-    function encrypt($value, $serialize = true)
+    function encrypt($value, bool $serialize = true)
     {
         return app('encrypter')->encrypt($value, $serialize);
     }
@@ -384,7 +384,7 @@ if ( ! function_exists('getClass')) {
      * 
      * @return array|string
      */
-    function getClass($classname, $bool = false)
+    function getClass($classname, bool $bool = false)
     {
         $position = explode('\\', get_class($classname));
         
@@ -401,7 +401,7 @@ if ( ! function_exists('info')) {
      * 
      * @return void
      */
-    function info($message, $context = [])
+    function info($message, array $context = [])
     {
         app('log')->info($message, $context);
     }
@@ -532,7 +532,7 @@ if ( ! function_exists('redirect')) {
      *
      * @return \Syscodes\Components\Routing\Supported\Redirector|\Syscodes\Components\Http\RedirectResponse
      */
-    function redirect($url = null, $code = 302, $headers = [], $secure = null)
+    function redirect($url = null, int $code = 302, array $headers = [], bool $secure = null)
     {
         if (null === $url) {
             return app('redirect');
@@ -551,7 +551,7 @@ if ( ! function_exists('request')) {
      * 
      * @return \Syscodes\Components\Http\Request|string|array 
      */
-    function request($key = null, $default = null)
+    function request($key = null, mixed $default = null)
     {
         if (null === $key) {
             return app('request');
@@ -573,7 +573,7 @@ if ( ! function_exists('response')) {
      * 
      * @return \Syscodes\Components\Http\Response|\Syscodes\Components\Routing\Supported\RouteResponse
      */
-    function response($body = '', $status = 200, array $headers = [])
+    function response($body = '', int $status = 200, array $headers = [])
     {
         $response = app(RouteResponse::class);
 
@@ -610,7 +610,7 @@ if ( ! function_exists('route')) {
      * 
      * @return string
      */
-    function route($name, $parameters = [], $forced = true, $route = null)
+    function route($name, array $parameters = [], bool $forced = true, $route = null)
     {
         return app('url')->route($name, $parameters, $forced, $route);
     }
@@ -639,7 +639,7 @@ if ( ! function_exists('secureUrl')) {
      * 
      * @return string
      */
-    function secureUrl($path, $parameters = [])
+    function secureUrl($path, array $parameters = [])
     {
         return url($path, $parameters, true);
     }
@@ -654,7 +654,7 @@ if ( ! function_exists('session')) {
      * 
      * @return mixed|\Syscodes\Components\Session\Store|\Syscodes\Components\Session\SessionManager
      */
-    function session($key = null, $default = null)
+    function session($key = null, mixed $default = null)
     {
         if (is_null($key)) {
             return app('session');
@@ -747,7 +747,7 @@ if ( ! function_exists('url')) {
      *
      * @return \Syscodes\Components\Routing\Supported\UrlGenerator
      */
-    function url($path = null, $parameters = [], $secure = null)
+    function url($path = null, array $parameters = [], bool $secure = null)
     {
         if (is_null($path)) {
             return app(UrlGenerator::class);
