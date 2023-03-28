@@ -108,9 +108,9 @@ class Handler implements ExceptionHandlerContract
      * 
      * @param  \callable  $callback
      * 
-     * @return self
+     * @return static
      */
-    public function reportable(callable $callback): self
+    public function reportable(callable $callback): static
     {
         $this->reportCallbacks[] = $callback;
 
@@ -122,9 +122,9 @@ class Handler implements ExceptionHandlerContract
      * 
      * @param  \callable  $callback
      * 
-     * @return self
+     * @return static
      */
-    public function renderable(callable $callback): self
+    public function renderable(callable $callback): static
     {
         $this->renderCallbacks[] = $callback;
 
@@ -454,7 +454,7 @@ class Handler implements ExceptionHandlerContract
      * 
      * @return bool
      */
-    protected function isHttpException(Throwable $e)
+    protected function isHttpException(Throwable $e): bool
     {
         return $e instanceof HttpException;
     }

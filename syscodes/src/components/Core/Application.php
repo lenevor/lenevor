@@ -232,9 +232,9 @@ class Application extends Container implements ApplicationContract
      *
      * @param  string  $path
      * 
-     * @return self
+     * @return static
      */
-    public function setBasePath(string $path): self
+    public function setBasePath(string $path): static
     {
         $this->basePath = rtrim($path, '\/');
 
@@ -299,9 +299,9 @@ class Application extends Container implements ApplicationContract
      * 
      * @param  string  $path
      * 
-     * @return self
+     * @return static
      */
-    public function setAppPath($path): self
+    public function setAppPath($path): static
     {
         $this->appPath = $path;
 
@@ -363,9 +363,9 @@ class Application extends Container implements ApplicationContract
      * 
      * @param  string  $path
      * 
-     * @return self
+     * @return static
      */
-    public function setDatabasePath($path): self
+    public function setDatabasePath($path): static
     {
         $this->databasePath = $path;
 
@@ -391,9 +391,9 @@ class Application extends Container implements ApplicationContract
      * 
      * @param  string  $path
      * 
-     * @return self
+     * @return static
      */
-    public function setlangPath($path): self
+    public function setlangPath($path): static
     {
         $this->langPath = $path;
 
@@ -442,9 +442,9 @@ class Application extends Container implements ApplicationContract
      * 
      * @param  string  $path
      * 
-     * @return self
+     * @return static
      */
-    public function setStoragePath($path): self
+    public function setStoragePath($path): static
     {
         $this->storagePath = $path;
 
@@ -499,9 +499,9 @@ class Application extends Container implements ApplicationContract
      * 
      * @param  string  $path
      * 
-     * @return self
+     * @return static
      */
-    public function setEnvironmentPath($path): self
+    public function setEnvironmentPath($path): static
     {
         $this->environmentPath = $path;
 
@@ -523,9 +523,9 @@ class Application extends Container implements ApplicationContract
      * 
      * @param  string  $file
      * 
-     * @return self
+     * @return static
      */
-    public function setEnvironmentFile($file): self
+    public function setEnvironmentFile($file): static
     {
         $this->environmentFile = $file;
 
@@ -685,7 +685,7 @@ class Application extends Container implements ApplicationContract
      * 
      * @return mixed
      */
-    public function make($id, $parameters = [])
+    public function make($id, array $parameters = []): mixed
     {
         $this->loadDeferredProviderInstance($id = $this->getAlias($id));
 
@@ -702,7 +702,7 @@ class Application extends Container implements ApplicationContract
      * 
      * @return mixed
      */
-    protected function resolve($id, $parameters = [])
+    protected function resolve($id, array $parameters = []): mixed
     {
         $this->loadDeferredProviderInstance($id = $this->getAlias($id));
        
@@ -1167,9 +1167,9 @@ class Application extends Container implements ApplicationContract
      * 
      * @param  callable|string  $callback
      * 
-     * @return self
+     * @return static
      */
-    public function shutdowning($callback): self
+    public function shutdowning($callback): static
     {
         $this->shutdownCallbacks[] = $callback;
 
