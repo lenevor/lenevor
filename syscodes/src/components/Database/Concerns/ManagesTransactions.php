@@ -40,7 +40,7 @@ trait ManagesTransactions
      * 
      * @throws \Throwable
      */
-    public function transaction(Closure $callback)
+    public function transaction(Closure $callback): mixed
     {
         $this->beginTransaction();
 
@@ -88,7 +88,7 @@ trait ManagesTransactions
      * 
      * @return void
      */
-    public function rollback()
+    public function rollback(): void
     {
         if ($this->transactions == 1) {
             $this->transactions = 0;

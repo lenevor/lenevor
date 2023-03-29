@@ -65,7 +65,7 @@ trait CapsuleManager
      * 
      * @return void
      */
-    public function setCapsuleGlobal()
+    public function setCapsuleGlobal(): void
     {
         static::$instance = $this;
     }
