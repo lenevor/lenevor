@@ -89,7 +89,7 @@ class Manager
      * 
      * @return \Syscodes\Components\Database\Query\Builder
      */
-    public static function table($table, $as = null, $connection = null)
+    public static function table($table, string $as = null, string $connection = null)
     {
         return static::$instance->connection($connection)->table($table, $as);
     }
@@ -101,7 +101,7 @@ class Manager
      * 
      * @return \Syscodes\Components\Database\Connections\Connection
      */
-    public static function connection($connection = null)
+    public static function connection(string $connection = null)
     {
         return static::$instance->getConnection($connection);
     }
@@ -113,7 +113,7 @@ class Manager
      * 
      * @return \Syscodes\Components\Database\Connections\Connection
      */
-    public function getConnection($name = null)
+    public function getConnection(string $name = null)
     {
         return $this->manager->connection($name);
     }
@@ -126,7 +126,7 @@ class Manager
      * 
      * @return void
      */
-    public function addConnection(array $config, $name = 'default'): void
+    public function addConnection(array $config, string $name = 'default'): void
     {
         $connections = $this->container['config']['database.connections'];
         
