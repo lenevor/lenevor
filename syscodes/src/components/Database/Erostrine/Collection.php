@@ -77,9 +77,9 @@ class Collection extends BaseCollection
      * 
      * @param  mixed  $item
      * 
-     * @return self
+     * @return static
      */
-    public function add($item): self
+    public function add($item): static
     {
         $this->items[] = $item;
         
@@ -161,7 +161,7 @@ class Collection extends BaseCollection
      * 
      * @return static
      */
-    public function merge($items)
+    public function merge($items): static
     {
         $dictionary = $this->getDictionary();
         
@@ -179,7 +179,7 @@ class Collection extends BaseCollection
      * 
      * @return static
      */
-    public function diff($items)
+    public function diff($items): static
     {
         $diff = new static;
         
@@ -201,7 +201,7 @@ class Collection extends BaseCollection
      * 
      * @return static
      */
-    public function intersect($items)
+    public function intersect($items): static
     {
         $intersect = new static;
         
@@ -221,7 +221,7 @@ class Collection extends BaseCollection
      * 
      * @return static
      */
-    public function unique()
+    public function unique(): static
     {
         $dictionary = $this->getDictionary();
         
@@ -235,7 +235,7 @@ class Collection extends BaseCollection
      * 
      * @return static
      */
-    public function only($keys)
+    public function only($keys): static
     {
         $dictionary = Arr::only($this->getDictionary(), $keys);
         
@@ -249,7 +249,7 @@ class Collection extends BaseCollection
      * 
      * @return static
      */
-    public function except($keys)
+    public function except($keys): static
     {
         $dictionary = Arr::except($this->getDictionary(), $keys);
         
@@ -279,12 +279,12 @@ class Collection extends BaseCollection
     /**
      * Get an array with the values of a given key.
      * 
-     * @param  string  $value
+     * @param string|array|int|null  $value
      * @param  string|null  $key
      * 
      * @return \Syscodes\Components\Collections\Collection
      */
-    public function pluck($value, $key = null)
+    public function pluck($value, string $key = null): static
     {
         return $this->toBase()->pluck($value, $key);
     }

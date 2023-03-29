@@ -149,9 +149,9 @@ class Builder
      * 
      * @param  mixed  $id
      * 
-     * @return self
+     * @return static
      */
-    public function whereClauseKey($id)
+    public function whereClauseKey($id): static
     {
         if ($id instanceof Model) {
             $id = $id->getKey();
@@ -176,9 +176,9 @@ class Builder
      * @param  mixed  $value
      * @param  string  $boolean
      * 
-     * @return self
+     * @return static
      */
-    public function where($column, $operator = null, $value = null, $boolean = 'and'): self
+    public function where($column, $operator = null, $value = null, $boolean = 'and'): static
     {
         if ($column instanceof Closure && is_null($operator)) {
             $column($query = $this->model->newQuery());
@@ -201,7 +201,7 @@ class Builder
      * 
      * @return \Syscodes\Components\Database\Erostrine\Model|static|null
      */
-    public function firstWhere($column, $operator = null, $value = null, $boolean = 'and'): self
+    public function firstWhere($column, $operator = null, $value = null, $boolean = 'and')
     {
         return $this->where(...func_get_args())->first();
     }
@@ -214,9 +214,9 @@ class Builder
      * @param  mixed  $value
      * @param  string  $boolean
      * 
-     * @return self
+     * @return static
      */
-    public function whereNot($column, $operator = null, $value = null, $boolean = 'and'): self
+    public function whereNot($column, $operator = null, $value = null, $boolean = 'and'): static
     {
         return $this->where($column, $operator, $value, $boolean.' not');
     }
@@ -228,9 +228,9 @@ class Builder
      * @param  mixed  $operator
      * @param  mixed  $value
      * 
-     * @return self
+     * @return static
      */
-    public function orWhereNot($column, $operator = null, $value = null): self
+    public function orWhereNot($column, $operator = null, $value = null): static
     {
         return $this->whereNot($column, $operator, $value, 'or');
     }
