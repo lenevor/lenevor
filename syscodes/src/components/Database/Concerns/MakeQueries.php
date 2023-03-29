@@ -30,7 +30,7 @@ trait MakeQueries
     /**
      * Execute the query and get the first result.
      * 
-     * @param  array|string  $columns
+     * @param  array|string|int  $columns
      * 
      * @return \Syscodes\Components\Database\Eloquent\Model|object|static|null
      */
