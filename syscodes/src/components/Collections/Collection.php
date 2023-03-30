@@ -113,7 +113,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
      * 
      * @return bool
      */
-    public function contains(mixed $key, mixed $operator = null, mixed $value = null): bool
+    public function contains($key, mixed $operator = null, mixed $value = null): bool
     {
         if (func_num_args() === 1) {
             if ($this->useAsCallable($key)) {
@@ -303,7 +303,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
      * 
      * @return mixed
      */
-    public function first(callable $callback = null, mixed $default = null): mixed
+    public function first(callable $callback = null, mixed $default = null)
     {
         return Arr::first($this->items, $callback, $default);
     }
@@ -336,7 +336,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
      * 
      * @return mixed
      */
-    public function get(mixed $key, mixed $default = null): mixed
+    public function get($key, mixed $default = null)
     {
         if (array_key_exists($key, $this->items)) {
             return $this->items[$key];
@@ -436,7 +436,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
      * 
      * @return mixed
      */
-    public function last(callable $callback = null, mixed $default = null): mixed
+    public function last(callable $callback = null, mixed $default = null)
     {
         return Arr::last($this->items, $callback, $default);
     }
