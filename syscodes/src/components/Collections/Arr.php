@@ -228,7 +228,7 @@ class Arr
 	 *
 	 * @return mixed
 	 */
-	public static function first(array $array, callable $callback = null, mixed $default = null): mixed
+	public static function first(array $array, callable $callback = null, mixed $default = null)
 	{
 		if (is_null($callback)) {
 			if (empty($array)) {
@@ -256,7 +256,7 @@ class Arr
 	 *
 	 * @return mixed
 	 */
-	public static function get($array, $key, $default = null): mixed
+	public static function get($array, string $key, mixed $default = null)
 	{
 		if ( ! static::accessible($array)) {
 			return value($default);
@@ -296,7 +296,7 @@ class Arr
 	 *
 	 * @return mixed
 	 */
-	public static function last(array $array, callable $callback = null, mixed $default = null): mixed
+	public static function last(array $array, callable $callback = null, mixed $default = null)
 	{
 		if (is_null($callback)) {
 			return empty($array) ? value($default) : lastItem($array);
