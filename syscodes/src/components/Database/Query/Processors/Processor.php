@@ -37,7 +37,7 @@ class Processor
      * 
      * @return array
      */
-    public function processSelect(Builder $builder, $results): array
+    public function processSelect(Builder $builder, $results)
     {
         return $results;
     }
