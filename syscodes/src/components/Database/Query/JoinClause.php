@@ -76,11 +76,11 @@ class JoinClause
      * @param  string|null  $operator  
      * @param  string|null  $second  
      * @param  string  $boolean  
-     * @param  array  $where  
+     * @param  bool  $where  
      * 
-     * @return self
+     * @return static
      */
-    public function on($first, $operator = null, $second = null, $boolean = 'and', $where = false): self
+    public function on(string $first, string $operator = null, string $second = null, string $boolean = 'and', bool $where = false): static
     {
         $this->clauses[] = compact('first', 'operator', 'second', 'boolean', 'where');
 
@@ -100,7 +100,7 @@ class JoinClause
      * 
      * @return \Syscodes\Components\Database\Query\JoinClause
      */
-    public function orOn($first, $operator = null, $second = null)
+    public function orOn(string $first, string $operator = null, string $second = null)
     {
         return $this->on($first, $operator, $second, 'or');
     }
@@ -115,7 +115,7 @@ class JoinClause
      * 
      * @return \Syscodes\Components\Database\Query\JoinClause
      */
-    public function where($first, $operator = null, $second = null, $boolean = 'and')
+    public function where(string $first, string $operator = null, string $second = null, string $boolean = 'and')
     {
         return $this->on($first, $operator, $second, $boolean, true);
     }
@@ -129,7 +129,7 @@ class JoinClause
      * 
      * @return \Syscodes\Components\Database\Query\JoinClause
      */
-    public function orWhere($first, $operator = null, $second = null)
+    public function orWhere(string $first, string $operator = null, string $second = null)
     {
         return $this->on($first, $operator, $second, 'or', true);
     }
@@ -142,7 +142,7 @@ class JoinClause
      * 
      * @return \Syscodes\Components\Database\Query\JoinClause
      */
-    public function whereNull($column, $boolean = 'and')
+    public function whereNull(string $column, string $boolean = 'and')
     {
         return $this->on($column, 'is', new Expression('null'), $boolean, false);
     }
