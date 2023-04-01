@@ -41,7 +41,7 @@ class Expression
      * 
      * @return void
      */
-    public function __construct($value)
+    public function __construct(mixed $value)
     {
         $this->value = $value;
     }
@@ -51,7 +51,7 @@ class Expression
      * 
      * @return mixed
      */
-    public function getValue()
+    public function getValue(): mixed
     {
         return $this->value;
     }
@@ -63,7 +63,7 @@ class Expression
      * 
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->getValue();
     }
