@@ -32,11 +32,12 @@ interface ConnectionInterface
     /**
      * Begin a fluent query against a database table.
      * 
-     * @param  string  $table
+     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|string  $table
+     * @param  string|null  $as 
      * 
      * @return \Syscodes\Components\Database\Query\Builder
      */
-    public function table($table);
+    public function table($table, string $as = null);
 
     /**
      * Get a new raw query expression.
@@ -45,7 +46,7 @@ interface ConnectionInterface
      * 
      * @return \Syscodes\Components\Database\Query\Expression
      */
-    public function raw($value);
+    public function raw(mixed $value);
 
     /**
      * Run a select statement and return a single result.
@@ -55,17 +56,18 @@ interface ConnectionInterface
      * 
      * @return mixed
      */
-    public function selectOne($query, $bindings = []);
+    public function selectOne(string $query, array $bindings = []): mixed;
 
     /**
      * Run a select statement against the database.
      * 
      * @param  string  $query
      * @param  array  $bindings
+     * @param  bool  $useReadPdo 
      * 
      * @return array
      */
-    public function select($query, $bindings = []);
+    public function select(string $query, array $bindings = [], bool $useReadPdo = true): array;
 
     /**
      * Execute an SQL statement and return the boolean result.
@@ -82,7 +84,7 @@ interface ConnectionInterface
      * 
      * @return bool
      */
-    public function insert($query, $bindings = []);
+    public function insert(string $query, array $bindings = []): bool;
 
     /**
      * Run an update statement against the database.
@@ -92,7 +94,7 @@ interface ConnectionInterface
      * 
      * @return int
      */
-    public function update($query, $bindings = []);
+    public function update(string $query, array $bindings = []): int;
 
     /**
      * Run an delete statement against the database.
@@ -102,7 +104,7 @@ interface ConnectionInterface
      * 
      * @return int
      */
-    public function delete($query, $bindings = []);
+    public function delete(string $query, array $bindings = []): int;
 
     /**
      * Prepare the query bindings for execution.
@@ -111,7 +113,7 @@ interface ConnectionInterface
      * 
      * @return array
      */
-    public function prepareBindings(array $bindings);
+    public function prepareBindings(array $bindings): array;
 
     /**
      * Execute a Closure within a transaction.
@@ -159,5 +161,5 @@ interface ConnectionInterface
      * 
      * @return array
      */
-    public function prepend(Closure $callback);
+    public function prepend(Closure $callback): array;
 }
