@@ -251,12 +251,12 @@ class Arr
 	 * Get an item from an array using "dot" notation.
 	 *
 	 * @param  \ArrayAccess|array  $array  The search array
-	 * @param  string  $key  The dot-notated key or array of keys
+	 * @param  string|array|null  $key  The dot-notated key or array of keys or null
 	 * @param  mixed  $default  The default value
 	 *
 	 * @return mixed
 	 */
-	public static function get($array, string $key, mixed $default = null)
+	public static function get($array, string|array $key = null, mixed $default = null)
 	{
 		if ( ! static::accessible($array)) {
 			return value($default);
