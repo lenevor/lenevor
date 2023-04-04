@@ -272,7 +272,7 @@ class Connection implements ConnectionInterface
             if ($this->pretending()) {
                 return [];
             }
-
+            
             $statement = $this->prepared(
                 $this->getPdoForSelect($useReadPdo)->prepare($query)
             );
