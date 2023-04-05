@@ -240,9 +240,9 @@ abstract class Grammar
      * 
      * @param  string  $tablePrefix
      * 
-     * @return self
+     * @return static
      */
-    public function setTablePrefix($tablePrefix): self
+    public function setTablePrefix($tablePrefix): static
     {
         $this->tablePrefix = $tablePrefix;
 
