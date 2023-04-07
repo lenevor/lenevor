@@ -294,12 +294,11 @@ class Model implements Arrayable, ArrayAccess
 	 * 
 	 * @return static
 	 */
-	public static function create(array $attributes)
+	public static function create(array $attributes = [])
 	{
 		$model = new static($attributes);
-		$model->save();
-
-		return $model;
+		
+		return $model->save();
 	}
 
 	/**
@@ -602,11 +601,11 @@ class Model implements Arrayable, ArrayAccess
 	 * 
 	 * @param  array  $attributes
 	 * 
-	 * @return self
+	 * @return static
 	 * 
 	 * @throws \Syscodes\Components\Database\Erostrine\Exceptions\MassAssignmentException
 	 */
-	public function fill(array $attributes): self
+	public function fill(array $attributes): static
 	{
 		$totallyGuarded = $this->totallyGuarded();
 		
@@ -632,7 +631,7 @@ class Model implements Arrayable, ArrayAccess
 	 * 
 	 * @return static
 	 */
-	public function newInstance($attributes = [], $exists = false)
+	public function newInstance($attributes = [], $exists = false): static
 	{
 		$model = new static;		
 		
