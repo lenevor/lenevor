@@ -376,14 +376,14 @@ class Str
      * 
      * @return string
      */
-    public static function replaceArray($search, array $replace, $subject): string
+    public static function replaceArray($search, $replace, $subject): string
     {
         $segments = explode($search, $subject);
         
         $result = array_shift($segments);
         
         foreach ($segments as $segment) {
-            $result .= (array_shift($replace) ?? $search).$segment;
+            $result .= (array_shift($replace) ?: $search).$segment;
         }
         
         return $result;
