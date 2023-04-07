@@ -266,8 +266,9 @@ class Grammar extends BaseGrammar
     protected function whereBasic(Builder $builder, $where): string
     {
         $operator = str_replace('?', '??', $where['operator']);
+        $value    = $this->parameter($where['value']);
        
-        return $this->wrap($where['column']).' '.$operator.' '.$where['value'];
+        return $this->wrap($where['column']).' '.$operator.' '.$value;
     }
 
     /**
