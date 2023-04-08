@@ -223,7 +223,7 @@ class Model implements Arrayable, ArrayAccess
 			return $column;
 		}
 		
-		return $column;
+		return $this->getTable().'.'.$column;
 	}
 
 	/**
@@ -285,20 +285,6 @@ class Model implements Arrayable, ArrayAccess
 	public function setKeyName($key): void
 	{
 		$this->primaryKey = $key;
-	}
-	
-	/**
-	 * Save a new model and return the instance.
-	 * 
-	 * @param  array  $attributes
-	 * 
-	 * @return static
-	 */
-	public static function create(array $attributes = [])
-	{
-		$model = new static($attributes);
-		
-		return $model->save();
 	}
 
 	/**
@@ -610,6 +596,8 @@ class Model implements Arrayable, ArrayAccess
 		$totallyGuarded = $this->totallyGuarded();
 		
 		foreach ($this->fillableFromArray($attributes) as $key => $value) {
+			$key = $this->removeTableFromKey($key);
+			
 			if ($this->isFillable($key)) {
 				$this->setAttribute($key, $value);
 			} else if ($totallyGuarded) {
@@ -762,6 +750,22 @@ class Model implements Arrayable, ArrayAccess
 		}
 		
 		return $attributes;
+	}
+	
+	/**
+	 * Remove the table name from a given key.
+	 * 
+	 * @param  string  $key
+	 * 
+	 * @return string
+	 */
+	protected function removeTableFromKey($key): string
+	{
+		if ( ! Str::contains($key, '.')) {
+			return $key;
+		}
+		
+		return lastItem(explode('.', $key));
 	}
 
 	/**
