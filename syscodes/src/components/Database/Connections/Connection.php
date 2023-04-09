@@ -368,7 +368,7 @@ class Connection implements ConnectionInterface
 
             $statement->execute();
 
-            $count = $statement->rowCount() > 0;
+            ($count = $statement->rowCount()) > 0;
 
             return $count;
         });
@@ -450,7 +450,7 @@ class Connection implements ConnectionInterface
      * 
      * @throws \Syscodes\Components\Database\Exceptions\QueryException
      */
-    protected function run(string $query, array $bindings, Closure $callback): mixed
+    protected function run(string $query, array $bindings, Closure $callback)
     {
         $result = '';
         
@@ -484,7 +484,7 @@ class Connection implements ConnectionInterface
      * 
      * @throws \Syscodes\Components\Database\Exceptions\QueryException
      */
-    protected function runQueryCallback(string $query, array $bindings, Closure $callback): mixed
+    protected function runQueryCallback(string $query, array $bindings, Closure $callback)
     {
         try {
             return $callback($query, $bindings);
