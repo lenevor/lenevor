@@ -1633,7 +1633,7 @@ class Builder
     public function delete($id = null)
     {
         if ( ! is_null($id)) {
-            $this->where('id', '=', $id);
+            $this->where($this->from.'id', '=', $id);
         }
 
         $sql      = $this->grammar->compileDelete($this);
