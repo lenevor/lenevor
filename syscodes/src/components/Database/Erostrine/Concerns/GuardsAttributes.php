@@ -65,9 +65,9 @@ trait GuardsAttributes
      * 
      * @param  array  $fillable
      * 
-     * @return self
+     * @return static
      */
-    public function setFillable(array $fillable): self
+    public function setFillable(array $fillable): static
     {
         $this->fillable = $fillable;
 
@@ -79,9 +79,9 @@ trait GuardsAttributes
      * 
      * @param  array  $fillable
      * 
-     * @return self
+     * @return static
      */
-    public function mergeFillable(array $fillable): self
+    public function mergeFillable(array $fillable): static
     {
         $this->fillable = array_merge($this->fillable, $fillable);
 
@@ -105,9 +105,9 @@ trait GuardsAttributes
      * 
      * @param  array  $guarded
      * 
-     * @return self
+     * @return static
      */
-    public function setGuarded(array $guarded): self
+    public function setGuarded(array $guarded): static
     {
         $this->guarded = $guarded;
 
@@ -119,9 +119,9 @@ trait GuardsAttributes
      * 
      * @param  array  $guarded
      * 
-     * @return self
+     * @return static
      */
-    public function mergeGuarded(array $guarded): self
+    public function mergeGuarded(array $guarded): static
     {
         $this->guarded = array_merge($this->guarded, $guarded);
 

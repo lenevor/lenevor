@@ -71,9 +71,9 @@ trait HasEvents
      * 
      * @param  array  $observables
      * 
-     * @return self
+     * @return static
      */
-    public function setObservableEvents(array $observables): self
+    public function setObservableEvents(array $observables): static
     {
         $this->observables = $observables;
 

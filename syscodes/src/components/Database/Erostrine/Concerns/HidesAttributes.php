@@ -56,9 +56,9 @@ trait HidesAttributes
      * 
      * @param  array  $hidden
      * 
-     * @return self
+     * @return static
      */
-    public function setHidden(array $hidden): self
+    public function setHidden(array $hidden): static
     {
         $this->hidden = $hidden;
 
@@ -80,9 +80,9 @@ trait HidesAttributes
      * 
      * @param  array  $visible
      * 
-     * @return self
+     * @return static
      */
-    public function setVisible(array $visible): self
+    public function setVisible(array $visible): static
     {
         $this->visible = $visible;
 

@@ -238,9 +238,9 @@ trait HasRelations
      * 
      * @param  array  $relations
      * 
-     * @return self
+     * @return static
      */
-    public function setRelations(array $relations): self
+    public function setRelations(array $relations): static
     {
         $this->relations = $relations;
 
@@ -252,9 +252,9 @@ trait HasRelations
      * 
      * @param  string  $relation
      * 
-     * @return self
+     * @return static
      */
-    public function unsetRelation(string $relation): self
+    public function unsetRelation(string $relation): static
     {
         unset($this->relations[$relation]);
 

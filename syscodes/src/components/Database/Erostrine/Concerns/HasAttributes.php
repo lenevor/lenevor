@@ -100,9 +100,9 @@ trait HasAttributes
      * @param  string  $key
      * @param  mixed  $value
      * 
-     * @return self
+     * @return static
      */
-    public function setAttribute($key, $value): self
+    public function setAttribute($key, $value): static
     {
         if ($this->hasSetMutator($key)) {
             $method = 'set'.Str::studlycaps($key).'Attribute';
@@ -239,9 +239,9 @@ trait HasAttributes
      * @param  array  $attributes
      * @param  bool   $sync
      * 
-     * @return self
+     * @return static
      */
-    public function setRawAttributes(array $attributes, $sync = false): self
+    public function setRawAttributes(array $attributes, $sync = false): static
     {
         $this->attributes = $attributes;
         
@@ -316,9 +316,9 @@ trait HasAttributes
     /**
      * Sync the original attributes with the current.
      * 
-     * @return self
+     * @return static
      */
-    public function syncOriginal(): self
+    public function syncOriginal(): static
     {
         $this->original = $this->getAttributes();
         
