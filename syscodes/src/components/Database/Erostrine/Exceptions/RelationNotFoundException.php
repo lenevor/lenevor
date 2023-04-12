@@ -52,7 +52,7 @@ class RelationNotFoundException extends RuntimeException
      * 
      * @return static
      */
-    public static function make($model, $relation, $type = null)
+    public static function make($model, $relation, $type = null): static
     {
         $class = get_class($model);
 
