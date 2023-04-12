@@ -41,9 +41,9 @@ class ModelNotFoundException extends LenevorException
      * 
      * @param  string  $model
      * 
-     * @return self
+     * @return static
      */
-    public function setModel($model): self
+    public function setModel($model): static
     {
         $this->model = $model;
 
@@ -57,7 +57,7 @@ class ModelNotFoundException extends LenevorException
      * 
      * @return string
      */
-    public function getModel()
+    public function getModel(): string
     {
         return $this->model;
     }
