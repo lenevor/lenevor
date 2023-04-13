@@ -306,9 +306,9 @@ trait InteractsWithPivotTable
      * 
      * @param  array|mixed  $columns
      * 
-     * @return self
+     * @return static
      */
-    public function withPivot($columns): self
+    public function withPivot($columns): static
     {
         $columns = is_array($columns) ? $columns : func_get_args();
 

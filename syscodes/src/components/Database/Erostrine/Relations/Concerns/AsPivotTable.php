@@ -67,7 +67,7 @@ trait AsPivotTable
         $attributes, 
         $table,
         bool $exists = false
-    ) {
+    ): static {
         $instance = new static;
 
         $instance->setConnection($parent->getConnectionName())
@@ -202,9 +202,9 @@ trait AsPivotTable
      * @param  string  $foreignKey
      * @param  string  $relatedKey
      * 
-     * @return self
+     * @return static
      */
-    public function setPivotKeys($foreignKey, $relatedKey): self
+    public function setPivotKeys($foreignKey, $relatedKey): static
     {
         $this->foreignKey = $foreignKey;
         $this->relatedkey = $relatedKey;
