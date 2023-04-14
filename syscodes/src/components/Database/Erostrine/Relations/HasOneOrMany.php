@@ -171,7 +171,7 @@ abstract class HasOneOrMany extends Relation
     {
         $value = $dictionary[$key];
         
-        return $type == 'one' ? reset($value) : $this->related->newCollection($value);
+        return $type == 'one' ? headItem($value, true) : $this->related->newCollection($value);
     }
     
     /**
@@ -229,7 +229,7 @@ abstract class HasOneOrMany extends Relation
     /**
      * Get the plain foreign key.
      * 
-     * @return string
+     * @return string[]
      */
     public function getPlainForeignKey()
     {
@@ -253,7 +253,7 @@ abstract class HasOneOrMany extends Relation
      * 
      * @return string
      */
-    public function getForeignKeyName()
+    public function getForeignKeyName(): string
     {
         return $this->foreignKey;
     }
@@ -263,7 +263,7 @@ abstract class HasOneOrMany extends Relation
      * 
      * @return string
      */
-    public function getLocalKeyName()
+    public function getLocalKeyName(): string
     {
         return $this->localKey;
     }
