@@ -176,7 +176,7 @@ abstract class Relation
      * 
      * @return array
      */
-    protected function getKeys(array $models, $key = null)
+    protected function getKeys(array $models, $key = null): array
     {
         return collect($models)->map(fn ($value) => $key ? $value->getAttribute($key) : $value->getKey())
                                ->values()

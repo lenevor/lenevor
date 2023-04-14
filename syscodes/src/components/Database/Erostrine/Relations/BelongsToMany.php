@@ -240,7 +240,7 @@ class BelongsToMany extends Relation
      * 
      * @return array
      */
-    protected function getAliasedPivotColumns()
+    protected function getAliasedPivotColumns(): array
     {
         $defaults = [$this->foreignPivotKey, $this->relatedKey];
         

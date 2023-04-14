@@ -97,7 +97,7 @@ trait AsPivotTable
         $attributes, 
         $table,
         bool $exists = false
-    ) {
+    ): static {
         $instance = static::fromAttributes($parent, [], $table, $exists);
 
         $instance->setRawAttributes($attributes, true);
