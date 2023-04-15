@@ -306,9 +306,9 @@ class BelongsToMany extends Relation
      * 
      * @param  \Syscodes\Components\Database\Erostrine\Builder|null $query
      * 
-     * @return self
+     * @return static
      */
-    protected function setJoin($query = null): self
+    protected function setJoin($query = null): static
     {
         $query = $query ?: $this->getRelationQuery();
         
@@ -320,9 +320,9 @@ class BelongsToMany extends Relation
     /**
      * Set the where clause for the relation query.
      * 
-     * @return self
+     * @return static
      */
-    protected function setWhereConstraints(): self
+    protected function setWhereConstraints(): static
     {
         $this->getRelationQuery()->where(
             $this->getQualifiedForeignPivotKeyName(), '=', $this->parent->{$this->parentKey}
@@ -413,9 +413,9 @@ class BelongsToMany extends Relation
      * @param  mixed  $value
      * @param  mixed  $boolean
      * 
-     * @return self
+     * @return static
      */
-    public function wherePivot($column, $operator = null, $value = null, $boolean = 'and'): self
+    public function wherePivot($column, $operator = null, $value = null, $boolean = 'and'): static
     {
         $this->pivotWheres[] = func_get_args();
 
@@ -429,9 +429,9 @@ class BelongsToMany extends Relation
      * @param  mixed  $operator
      * @param  mixed  $value
      * 
-     * @return self
+     * @return static
      */
-    public function orWherePivot($column, $operator = null, $value = null): self
+    public function orWherePivot($column, $operator = null, $value = null): static
     {
         return $this->wherePivot($column, $operator, $value, 'or');
     }
@@ -444,9 +444,9 @@ class BelongsToMany extends Relation
      * @param  string  $boolean
      * @param  bool  $negative
      * 
-     * @return self
+     * @return static
      */
-    public function wherePivotBetween($column, array $values, $boolean = 'and', $negative = false): self
+    public function wherePivotBetween($column, array $values, $boolean = 'and', $negative = false): static
     {
         return $this->whereBetween($this->qualifyPivotColumn($column), $values, $boolean, $negative);
     }
@@ -457,9 +457,9 @@ class BelongsToMany extends Relation
      * @param  string  $column
      * @param  array  $values
      * 
-     * @return self
+     * @return static
      */
-    public function orWherePivotBetween($column, array $values): self
+    public function orWherePivotBetween($column, array $values): static
     {
         return $this->wherePivotBetween($column, $values, 'or');
     }
@@ -471,9 +471,9 @@ class BelongsToMany extends Relation
      * @param  array  $values
      * @param  string  $boolean
      * 
-     * @return self
+     * @return static
      */
-    public function wherePivotNotBetween($column, array $values, $boolean = 'and'): self
+    public function wherePivotNotBetween($column, array $values, $boolean = 'and'): static
     {
         return $this->wherePivotBetween($column, $values, $boolean, true);
     }
@@ -484,9 +484,9 @@ class BelongsToMany extends Relation
      * @param  string  $column
      * @param  array  $values
      * 
-     * @return self
+     * @return static
      */
-    public function orWherePivotNotBetween($column, array $values): self
+    public function orWherePivotNotBetween($column, array $values): static
     {
         return $this->wherePivotBetween($column, $values, 'or', true);
     }
@@ -499,9 +499,9 @@ class BelongsToMany extends Relation
      * @param  string boolean
      * @param  bool  $negative
      * 
-     * @return self
+     * @return static
      */
-    public function wherePivotIn($column, array $values, $boolean = 'and', $negative = false): self
+    public function wherePivotIn($column, array $values, $boolean = 'and', $negative = false): static
     {
         $this->pivotWhereIns[] = func_get_args();
 
@@ -514,9 +514,9 @@ class BelongsToMany extends Relation
      * @param  string  $column
      * @param  mixed  $values
      * 
-     * @return self
+     * @return static
      */
-    public function orWherePivotIn($column, array $values): self
+    public function orWherePivotIn($column, array $values): static
     {
         return $this->wherePivotIn($column, $values, 'or');
     }
@@ -528,9 +528,9 @@ class BelongsToMany extends Relation
      * @param  mixed  $values
      * @param  string  $boolean
      * 
-     * @return self
+     * @return static
      */
-    public function wherePivotNotIn($column, $values, $boolean = 'and'): self
+    public function wherePivotNotIn($column, $values, $boolean = 'and'): static
     {
         return $this->wherePivotIn($column, $values, $boolean, true);
     }
@@ -541,9 +541,9 @@ class BelongsToMany extends Relation
      * @param  string  $column
      * @param  mixed  $values
      * 
-     * @return self
+     * @return static
      */
-    public function orWherePivotNotIn($column, $values): self
+    public function orWherePivotNotIn($column, $values): static
     {
         return $this->wherePivotNotIn($column, $values, 'or');
     }
@@ -555,9 +555,9 @@ class BelongsToMany extends Relation
      * @param  string  $boolean
      * @param  bool  $negative
      * 
-     * @return self
+     * @return static
      */
-    public function wherePivotNull($column, $boolean = 'and', $negative =  false): self
+    public function wherePivotNull($column, $boolean = 'and', $negative =  false): static
     {
         $this->pivotWhereNulls[] = func_get_args();
 
@@ -570,9 +570,9 @@ class BelongsToMany extends Relation
      * @param  string  $column
      * @param  string  $boolean
      * 
-     * @return self
+     * @return static
      */
-    public function wherePivotNotNull($column, $boolean = 'and'): self
+    public function wherePivotNotNull($column, $boolean = 'and'): static
     {
         return $this->wherePivotNull($column, $boolean, true);
     }
@@ -583,9 +583,9 @@ class BelongsToMany extends Relation
      * @param  string  $column
      * @param  bool  $negative
      * 
-     * @return self
+     * @return static
      */
-    public function orWherePivotNull($column, $negative = false): self
+    public function orWherePivotNull($column, $negative = false): static
     {
         return $this->wherePivotNull($column, 'or', $negative);
     }
@@ -595,9 +595,9 @@ class BelongsToMany extends Relation
      * 
      * @param  string  $column
      * 
-     * @return self
+     * @return static
      */
-    public function orWherePivotNotNull($column): self
+    public function orWherePivotNotNull($column): static
     {
         return $this->orWherePivotNull($column, true);
     }
@@ -608,9 +608,9 @@ class BelongsToMany extends Relation
      * @param  string  $column
      * @param  string  $direction
      * 
-     * @return self
+     * @return static
      */
-    public function orderByPivot($column, $direction = 'asc'): self
+    public function orderByPivot($column, $direction = 'asc'): static
     {
         return $this->orderBy($column, $direction);
     }
@@ -829,11 +829,11 @@ class BelongsToMany extends Relation
      * @param  string|array  $column
      * @param  mixed  $value
      * 
-     * @return self
+     * @return static
      * 
      * @throws \InvalidArgumentException
      */
-    public function withPivotValue($column, $value = null): self
+    public function withPivotValue($column, $value = null): static
     {
         if (is_array($column)) {
             foreach ($column as $name => $value) {
@@ -857,9 +857,9 @@ class BelongsToMany extends Relation
      * 
      * @param  string  $classname
      * 
-     * @return self
+     * @return static
      */
-    public function using($classname): self
+    public function using($classname): static
     {
         $this->using = $classname;
 
