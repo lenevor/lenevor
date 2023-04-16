@@ -452,9 +452,9 @@ class Model implements Arrayable, ArrayAccess
 	/**
 	 * Perform the actual delete query on this model instance.
 	 * 
-	 * @return void
+	 * @return static
 	 */
-	protected function performDeleteOnModel(): self
+	protected function performDeleteOnModel(): static
 	{
 		$this->setKeysForSaveQuery($this->newQuery())->delete();
 		
@@ -522,9 +522,9 @@ class Model implements Arrayable, ArrayAccess
 	 * 
 	 * @param  bool  $value
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function setIncrementing($value): self
+	public function setIncrementing($value): static
 	{
 		$this->incrementing = $value;
 		
@@ -644,7 +644,7 @@ class Model implements Arrayable, ArrayAccess
 	 * 
 	 * @return static
 	 */
-	public function newFromBuilder($attributes = [], $connection = null)
+	public function newFromBuilder($attributes = [], $connection = null): static
 	{
 		$instance = $this->newInstance([], true);		
 		$instance->setRawAttributes((array) $attributes, true);
@@ -820,9 +820,9 @@ class Model implements Arrayable, ArrayAccess
 	 * 
 	 * @param  string  $name
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function setConnection($name)
+	public function setConnection($name): static
 	{
 		$this->connection = $name;
 		

@@ -1285,9 +1285,9 @@ class Dataprint
      * 
      * @param  string  $name
      * 
-     * @return self
+     * @return static
      */
-    public function removeColumn($name): self
+    public function removeColumn($name): static
     {
         $this->columns = array_values(array_filter($this->columns, fn ($column) => $column['name'] != $name));
         

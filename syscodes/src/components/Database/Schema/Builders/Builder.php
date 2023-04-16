@@ -276,7 +276,7 @@ class Builder
     /**
      * Get all of the table names for the database.
      * 
-     * @return void
+     * @return array
      * 
      * @throws \LogicException
      */
@@ -370,9 +370,9 @@ class Builder
      * 
      * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * 
-     * @return self
+     * @return static
      */
-    public function setConnection(Connection $connection): self
+    public function setConnection(Connection $connection): static
     {
         $this->connection = $connection;
         

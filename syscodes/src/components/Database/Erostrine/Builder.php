@@ -462,7 +462,7 @@ class Builder
      * @return \Syscodes\Components\Database\Erostrine\Relations\Relation
      * 
      * @throws \BadMethodCallException
-     * @throws \
+     * @throws \Syscodes\Components\Database\Erostrine\Exceptions\RelationNotFoundException
      */
     protected function getRelation($name)
     {
@@ -524,9 +524,9 @@ class Builder
      * @param  string|array  $relations
      * @param  string|\Closure|null  $callback
      * 
-     * @return self
+     * @return static
      */
-    public function with($relations, $callback = null): self
+    public function with($relations, $callback = null): static
     {
         if ($callback instanceof Closure) {
             $eagers = $this->parseWithRelations([$relations => $callback]);
@@ -588,9 +588,9 @@ class Builder
      * 
      * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * 
-     * @return self
+     * @return static
      */
-    public function setQuery($builder): self
+    public function setQuery($builder): static
     {
         $this->query = $builder;
 
@@ -612,9 +612,9 @@ class Builder
      * 
      * @param  \Syscodes\Components\Database\Erostrine\Model  $model
      * 
-     * @return self
+     * @return static
      */
-    public function setModel(Model $model): self
+    public function setModel(Model $model): static
     {
         $this->model = $model;
 
@@ -628,9 +628,9 @@ class Builder
      * 
      * @param  \Syscodes\Components\Database\Erostrine\Relations\Relation  $relation
      * 
-     * @return self
+     * @return static
      */
-    public function setRelation(Relation $relation): self
+    public function setRelation(Relation $relation): static
     {
         $this->relation = $relation;
 

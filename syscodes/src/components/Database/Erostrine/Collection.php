@@ -57,9 +57,9 @@ class Collection extends BaseCollection
      * 
      * @param  mixed  $relations
      * 
-     * @return self
+     * @return static
      */
-    public function load($relations): self
+    public function load($relations): static
     {
         if (count($this->items) > 0) {
             if (is_string($relations)) $relations = func_get_args();
@@ -115,7 +115,7 @@ class Collection extends BaseCollection
      * 
      * @return static
      */
-    public function fetch($key)
+    public function fetch($key): static
     {
         return new static(Arr::fetch($this->toArray(), $key));
     }
