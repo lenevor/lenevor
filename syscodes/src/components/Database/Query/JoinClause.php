@@ -80,8 +80,13 @@ class JoinClause
      * 
      * @return static
      */
-    public function on(string $first, string $operator = null, string $second = null, string $boolean = 'and', bool $where = false): static
-    {
+    public function on(
+        string $first,
+        string $operator = null,
+        string $second = null,
+        string $boolean = 'and',
+        bool $where = false
+    ): static {
         $this->clauses[] = compact('first', 'operator', 'second', 'boolean', 'where');
 
         if ($where) {
