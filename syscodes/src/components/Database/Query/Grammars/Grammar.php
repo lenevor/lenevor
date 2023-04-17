@@ -113,7 +113,7 @@ class Grammar extends BaseGrammar
      * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $columns
      * 
-     * @return string
+     * @return string|null
      */
     protected function compileColumns(Builder $builder, $columns)
     {
@@ -196,7 +196,7 @@ class Grammar extends BaseGrammar
      * 
      * @return string
      */
-    protected function compileWheres(Builder $builder)
+    protected function compileWheres(Builder $builder): string
     {
        if (is_null($builder->wheres)) {
            return '';

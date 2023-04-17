@@ -77,7 +77,7 @@ class QueryException extends PDOException
      * 
      * @return string
      */
-    protected function formatMessage($sql, array $bindings, Throwable $previous)
+    protected function formatMessage($sql, array $bindings, Throwable $previous): string
     {
         return $previous->getMessage().' (SQL: '.Str::replaceArray('?', $bindings, $sql).')';
     }
@@ -87,7 +87,7 @@ class QueryException extends PDOException
      * 
      * @return string
      */
-    public function getSql()
+    public function getSql(): string
     {
         return $this->sql;
     }
@@ -97,7 +97,7 @@ class QueryException extends PDOException
      * 
      * @return array
      */
-    public function getBindings()
+    public function getBindings(): array
     {
         return $this->bindings;
     }

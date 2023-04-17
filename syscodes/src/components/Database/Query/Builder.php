@@ -427,7 +427,7 @@ class Builder
      * 
      * @return static
      */
-    protected function addArrayWheres($column, $boolean, $method = 'where')
+    protected function addArrayWheres($column, $boolean, $method = 'where'): static
     {
         return $this->whereNested(function ($query) use ($column, $method, $boolean) {
             foreach ((array) $column as $key => $value) {
@@ -1556,7 +1556,7 @@ class Builder
      * 
      * @return int
      */
-    public function insertGetId(array $values, $sequence = null)
+    public function insertGetId(array $values, $sequence = null): int
     {
         $sql    = $this->grammar->compileInsertGetId($this, $values, $sequence);
         $values = $this->cleanBindings($values);
@@ -1571,7 +1571,7 @@ class Builder
      * 
      * @return int
      */
-    public function update(array $values)
+    public function update(array $values): int
     {
         $sql      = $this->grammar->compileUpdate($this, $values);
         $bindings = array_values(array_merge($values, $this->bindings));
@@ -1630,7 +1630,7 @@ class Builder
      * 
      * @return int
      */
-    public function delete($id = null)
+    public function delete($id = null): int
     {
         if ( ! is_null($id)) {
             $this->where($this->from.'id', '=', $id);
