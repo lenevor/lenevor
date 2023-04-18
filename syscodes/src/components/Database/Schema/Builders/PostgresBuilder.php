@@ -95,7 +95,7 @@ class PostgresBuilder extends Builder
      * 
      * @return void
      */
-    public function dropAllTables(): void
+    public function dropAllTables()
     {
         $tables = [];
         
@@ -125,7 +125,7 @@ class PostgresBuilder extends Builder
      * 
      * @return void
      */
-    public function dropAllViews(): void
+    public function dropAllViews()
     {
         $views = [];
         

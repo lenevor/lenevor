@@ -97,7 +97,7 @@ class SQLiteBuilder extends Builder
      *
      * @return array
      */
-    public function getAllTables(): array
+    public function getAllTables()
     {
         return $this->connection->select(
             $this->grammar->compileGetAllTables()
@@ -109,7 +109,7 @@ class SQLiteBuilder extends Builder
      *
      * @return array
      */
-    public function getAllViews(): array
+    public function getAllViews()
     {
         return $this->connection->select(
             $this->grammar->compileGetAllViews()
