@@ -40,11 +40,11 @@ abstract class Grammar extends BaseGrammar
      * @param  string  $name
      * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * 
-     * @return void
+     * @return string
      * 
      * @throws \LogicException
      */
-    public function compileCreateDatabase($name, $connection)
+    public function compileCreateDatabase($name, $connection): string
     {
         throw new LogicException('This database driver does not support creating databases');
     }
@@ -54,11 +54,11 @@ abstract class Grammar extends BaseGrammar
      * 
      * @param  string  $name
      * 
-     * @return void
+     * @return string
      * 
      * @throws \LogicException
      */
-    public function compileDropDatabaseIfExists($name)
+    public function compileDropDatabaseIfExists($name): string
     {
         throw new LogicException('This database driver does not support dropping databases');
     }
