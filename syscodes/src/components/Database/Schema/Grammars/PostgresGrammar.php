@@ -53,7 +53,7 @@ class PostgresGrammar extends Grammar
      * 
      * @return string
      */
-    public function compileCreateDatabase($name, $connection)
+    public function compileCreateDatabase($name, $connection): string
     {
         return sprintf(
             'create database %s enconding %s',
@@ -69,7 +69,7 @@ class PostgresGrammar extends Grammar
      * 
      * @return string
      */
-    public function compileDropDatabaseIfExists($name)
+    public function compileDropDatabaseIfExists($name): string
     {
         return sprintf(
             'drop database if exists %s',

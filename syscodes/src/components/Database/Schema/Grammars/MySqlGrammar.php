@@ -57,7 +57,7 @@ class MySqlGrammar extends Grammar
      * 
      * @return string
      */
-    public function compileCreateDatabase($name, $connection)
+    public function compileCreateDatabase($name, $connection): string
     {
         return sprintf('create database %s default character set %s default collate %s',
             $this->wrapValue($name),
@@ -73,7 +73,7 @@ class MySqlGrammar extends Grammar
      * 
      * @return string
      */
-    public function compileDropDatabaseIfExists($name)
+    public function compileDropDatabaseIfExists($name): string
     {
         return sprintf('drop database if exists %s',
             $this->wrapValue($name)
