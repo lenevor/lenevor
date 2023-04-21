@@ -179,7 +179,7 @@ class GDebug implements DebugContract
 	 * 
 	 * @return bool
 	 */
-	public function allowQuit($exit = null)
+	public function allowQuit($exit = null): bool
 	{
 		if (func_num_args() == 0) {
 			return $this->allowQuit;
@@ -197,7 +197,7 @@ class GDebug implements DebugContract
 	 *
 	 * @return bool
 	 */
-	public function writeToOutput($send = null)
+	public function writeToOutput($send = null): bool
 	{
 		if (func_num_args() == 0) {
 			return $this->sendOutput;
@@ -211,9 +211,9 @@ class GDebug implements DebugContract
 	 * 
 	 * @param  string  $output
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	protected function writeToOutputBuffer($output): self
+	protected function writeToOutputBuffer($output): static
 	{
 		if ($this->sendHttpCode() && Misc::sendHeaders()) {
 			$this->system->setHttpResponseCode($this->sendHttpCode());
@@ -244,7 +244,7 @@ class GDebug implements DebugContract
 		string $message, 
 		string $file = null, 
 		int $line = null
-	) {
+	): bool {
 		if ($level & $this->system->getErrorReportingLevel()) {
 			$exception = new ErrorException($message, $level, $level, $file, $line);
 
@@ -277,9 +277,9 @@ class GDebug implements DebugContract
 	 * 
 	 * @param  \Callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function appendHandler($handler): self
+	public function appendHandler($handler): static
 	{
 		array_unshift($this->handlerStack, $this->resolveHandler($handler));
 
@@ -291,9 +291,9 @@ class GDebug implements DebugContract
 	 * 
 	 * @param  \Callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function prependHandler($handler): self
+	public function prependHandler($handler): static
 	{
 		array_unshift($this->handlerStack, $this->resolveHandler($handler));
 
@@ -338,9 +338,9 @@ class GDebug implements DebugContract
 	/**
 	 * Clears all handlers in the handlerStack, including the default PleasingPage handler.
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function clearHandlers(): self
+	public function clearHandlers(): static
 	{
 		$this->handlerStack = [];
 

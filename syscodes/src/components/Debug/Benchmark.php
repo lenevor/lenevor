@@ -43,9 +43,9 @@ class Benchmark
      * @param  string  $name
      * @param  float|null  $time
      * 
-     * @return self
+     * @return static
      */
-    public function start(string $name, float $time = null): self
+    public function start(string $name, float $time = null): static
     {
         $this->timers[strtolower($name)] = [
             'start' => ! empty($time) ? $time : microtime(true),
@@ -60,9 +60,9 @@ class Benchmark
      * 
      * @param  string  $name
      * 
-     * @return self
+     * @return static
      */
-    public function stop(string $name): self
+    public function stop(string $name): static
     {
         $name = strtolower($name);
 

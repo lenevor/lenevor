@@ -170,9 +170,9 @@ class FlattenException
      * 
      * @param  string  $class
      * 
-     * @return self
+     * @return static
      */
-    public function setClass($class): self
+    public function setClass($class): static
     {
         $this->class = 'c' === $class[0] && strpos($class, "class@anonymous\0") === 0 ? get_parent_class($class).'@anonymous' : $class;
 
@@ -194,9 +194,9 @@ class FlattenException
      * 
      * @param  int  $code
      * 
-     * @return self
+     * @return static
      */
-    public function setCode($code): self
+    public function setCode($code): static
     {
         $this->code = $code;
 
@@ -218,9 +218,9 @@ class FlattenException
      * 
      * @param  string  $file
      * 
-     * @return self
+     * @return static
      */
-    public function setFile($file): self
+    public function setFile($file): static
     {
         $this->file = $file;
 
@@ -242,9 +242,9 @@ class FlattenException
      * 
      * @param  array  $headers
      * 
-     * @return self
+     * @return static
      */
-    public function setHeaders(array $headers): self
+    public function setHeaders(array $headers): static
     {
         $this->headers = $headers;
 
@@ -266,9 +266,9 @@ class FlattenException
      * 
      * @param  int  $line
      * 
-     * @return self
+     * @return static
      */
-    public function setLine($line): self
+    public function setLine($line): static
     {
         $this->line = $line;
 
@@ -290,9 +290,9 @@ class FlattenException
      * 
      * @param  string  $message
      * 
-     * @return self
+     * @return static
      */
-    public function setMessage($message): self
+    public function setMessage($message): static
     {
         $this->message = $message;
 
@@ -312,11 +312,11 @@ class FlattenException
     /**
      * Sets the previous exception.
      * 
-     * @param  self  $previous
+     * @param  mixed  $previous
      * 
-     * @return self
+     * @return static
      */
-    public function setPrevious($previous): self
+    public function setPrevious($previous): static
     {
         $this->previous = $previous;
 
@@ -355,9 +355,9 @@ class FlattenException
      * 
      * @param  int  $code
      * 
-     * @return self
+     * @return static
      */
-    public function setStatusCode($code): self
+    public function setStatusCode($code): static
     {
         $this->statusCode = $code;
 
@@ -413,9 +413,9 @@ class FlattenException
      * @param  string  $file
      * @param  int     $line
      * 
-     * @return self
+     * @return static
      */
-    public function setTrace($trace, $file, $line): self
+    public function setTrace($trace, $file, $line): static
     {
         $this->trace   = [];
         $this->trace[] = [
