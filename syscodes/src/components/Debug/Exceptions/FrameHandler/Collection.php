@@ -45,7 +45,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @param  array  $frames
      * 
-     * @return array
+     * @return void
      */
     public function __construct(array $frames)
     {
