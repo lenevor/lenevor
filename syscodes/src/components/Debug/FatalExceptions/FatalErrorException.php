@@ -111,7 +111,7 @@ class FatalErrorException extends ErrorException
      * 
      * @return void
      */
-    protected function setTrace($trace)
+    protected function setTrace($trace): void
     {
         $reflection = new ReflectionProperty('Exception', 'trace');
         $reflection->setAccessible(true);

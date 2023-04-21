@@ -148,9 +148,9 @@ final class Loader
      * @param  string  $name
      * @param  string|null  $value  (null by default)
      * 
-     * @return void
+     * @return bool
      */
-    protected function setVariable(string $name, $value = null)
+    protected function setVariable(string $name, $value = null): bool
     {        
         return $this->repository->set($name, $value);
     }
@@ -167,7 +167,7 @@ final class Loader
      * 
      * @throws \InvalidArgumentException
      */
-    protected function sanitizeValue($value)
+    protected function sanitizeValue($value): string
     {
         if ( ! $value) {
             return $value;

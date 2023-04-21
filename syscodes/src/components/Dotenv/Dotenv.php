@@ -78,7 +78,7 @@ final class Dotenv
      * 
      * @return \Syscodes\Components\Dotenv\Dotenv
      */
-    public static function create($repository, $paths, $names = null, bool $modeEnabled = true)
+    public static function create($repository, $paths, $names = null, bool $modeEnabled = true): static
     {
         $store = $names === null ? StoreBuilder::createWithDefaultName() : StoreBuilder::createWithNoNames();
 
@@ -94,7 +94,7 @@ final class Dotenv
             $store = $store->modeEnabled();
         }
 
-        return new self($store->make(), new Loader($repository), $repository);
+        return new static($store->make(), new Loader($repository), $repository);
     }
 
     /**

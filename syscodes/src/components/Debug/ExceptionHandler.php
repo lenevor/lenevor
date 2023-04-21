@@ -129,7 +129,7 @@ class ExceptionHandler
      * 
      * @return string
      */
-    public function setFileLinkFormat($fileLinkFormat)
+    public function setFileLinkFormat($fileLinkFormat): string
     {
         $oldHandler    = $this->handler;
         $this->handler = $fileLinkFormat;
@@ -441,7 +441,7 @@ EOF;
      * 
      * @return string
      */
-    private function formatPath($path, $line)
+    private function formatPath($path, $line): string
     {
         $file = $this->escapeHtml(preg_match('#[^/\\\\]*+$#', $path, $file) ? $file[0] : $path);
         $frmt = $this->fileLinkFormat ?: ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');

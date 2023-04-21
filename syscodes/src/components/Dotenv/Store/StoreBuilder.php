@@ -80,7 +80,7 @@ final class StoreBuilder
      */
     public static function createWithNoNames()
     {
-        return new self();
+        return new static();
     }
     
     /**
@@ -88,9 +88,9 @@ final class StoreBuilder
      * 
      * @return \Syscodes\Components\Dotenv\Store\StoreBuilder
      */
-    public static function createWithDefaultName()
+    public static function createWithDefaultName(): static
     {
-        return new self([], [self::DEFAULT_NAME]);
+        return new static([], [self::DEFAULT_NAME]);
     }
     
     /**
@@ -100,9 +100,9 @@ final class StoreBuilder
      * 
      * @return \Syscodes\Components\Dotenv\Store\StoreBuilder
      */
-    public function addPath(string $path)
+    public function addPath(string $path): static
     {
-        return new self(array_merge($this->paths, [$path]), $this->names);
+        return new static(array_merge($this->paths, [$path]), $this->names);
     }
     
     /**
@@ -112,9 +112,9 @@ final class StoreBuilder
      * 
      * @return \Syscodes\Components\Dotenv\Store\StoreBuilder
      */
-    public function addName(string $name)
+    public function addName(string $name): static
     {
-        return new self($this->paths, array_merge($this->names, [$name]));
+        return new static($this->paths, array_merge($this->names, [$name]));
     }
 
     /**
@@ -122,9 +122,9 @@ final class StoreBuilder
      * 
      * @return \Syscodes\Components\Dotenv\Store\StoreBuilder
      */
-    public function modeEnabled()
+    public function modeEnabled(): static
     {
-        return new self($this->paths, $this->names, true);
+        return new static($this->paths, $this->names, true);
     }
     
     /**

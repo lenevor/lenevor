@@ -127,7 +127,7 @@ final class RepositoryCreator
      * 
      * @return \InvalidArgumentException
      */
-    public function addAdapter(string $adapter)
+    public function addAdapter(string $adapter): static
     {
         if ( ! is_string($adapter) && static::inAdapterClass($adapter) && ! $adapter instanceof Adapter) {
             throw new InvalidArgumentException(
