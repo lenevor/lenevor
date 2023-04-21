@@ -92,7 +92,11 @@ class GlobalAdapter implements Adapter
     }
 
     /**
-     * {@inheritdoc}
+     * Delete an environment variable.
+     * 
+     * @param  string  $name
+     * 
+     * @return bool
      */
     public function delete(string $name): bool
     {
