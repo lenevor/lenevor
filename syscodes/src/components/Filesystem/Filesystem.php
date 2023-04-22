@@ -788,7 +788,7 @@ class Filesystem
 	 *
 	 * @return bool
 	 */
-	public function replaceText($path, $search, $replace)
+	public function replaceText($path, $search, $replace): bool
 	{
 		if ( ! $this->open($path, 'r+')) {
 			return false;
