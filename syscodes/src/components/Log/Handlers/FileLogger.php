@@ -264,9 +264,9 @@ class FileLogger implements Handler
      * @param  mixed  $level
      * @param  string  $messsage
      * 
-     * @return self
+     * @return static
      */
-    private function logMessage($level, $message): self
+    private function logMessage($level, $message): static
     {
         $level = $this->getLogEnvironment().'.'.strtolower($level);
 
