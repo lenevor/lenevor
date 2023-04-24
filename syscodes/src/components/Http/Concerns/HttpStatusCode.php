@@ -147,11 +147,11 @@ trait HttpStatusCode
 	* @param  int  $code  The status code
 	* @param  string|null  $text  The status text
 	*
-	* @return self
+	* @return static
 	*
 	* @throws \InvalidArgumentException
 	*/
-	public function setStatusCode(int $code, $text = null): self
+	public function setStatusCode(int $code, $text = null): static
 	{
 		$this->statusCode = $code; 
 

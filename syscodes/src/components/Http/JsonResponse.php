@@ -125,11 +125,11 @@ class JsonResponse extends Response
      * 
      * @param  array  $data 
      * 
-     * @return self
+     * @return static
      * 
      * @throws \InvalidArgumentException
      */
-    public function setData($data = []): self
+    public function setData($data = []): static
     {
         $options = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
 
@@ -190,9 +190,9 @@ class JsonResponse extends Response
      * 
      * @param  string  $json
      * 
-     * @return self
+     * @return static
      */
-    public function setJson($json): self
+    public function setJson($json): static
     {
         $this->data = $json;
 
@@ -216,9 +216,9 @@ class JsonResponse extends Response
     /**
      * Updates the content and headers according to the JSON data.
      *
-     * @return self
+     * @return static
      */
-    protected function update(): self
+    protected function update(): static
     {
         if ( ! $this->headers->has('Content-Type') || 'text/javascript' === $this->headers->get('Content-Type')) {
             $this->headers->set('Content-Type', 'application/json');

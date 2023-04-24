@@ -161,9 +161,9 @@ class URI
 	 * 
 	 * @param  string  $uri
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function set(string $uri): self
+	public function set(string $uri): static
 	{
 		$this->path = $uri;
 
@@ -333,9 +333,9 @@ class URI
 	 * 
 	 * @param  boolean  $option  
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function showPassword(bool $option = true): self
+	public function showPassword(bool $option = true): static
 	{
 		$this->showPassword = $option;
 
@@ -377,9 +377,9 @@ class URI
 	 * 
 	 * @param  string  $str
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function setAuthority(string $str): self
+	public function setAuthority(string $str): static
 	{
 		$parts = parse_url($str);
 

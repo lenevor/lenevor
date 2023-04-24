@@ -65,9 +65,9 @@ class RedirectResponse extends BaseRedirectResponse
      * @param  string|array  $key
      * @param  mixed  $value
      * 
-     * @return self
+     * @return static
      */
-    public function with($key, $value = null): self
+    public function with($key, $value = null): static
     {
         $key = is_array($key) ? $key : [$key => $value];
         
@@ -83,9 +83,9 @@ class RedirectResponse extends BaseRedirectResponse
      * 
      * @param  array  $cookies
      * 
-     * @return self
+     * @return static
      */
-    public function withCookies(array $cookies): self
+    public function withCookies(array $cookies): static
     {
         foreach ($cookies as $cookie) {
             $this->headers->setCookie($cookie);
@@ -100,9 +100,9 @@ class RedirectResponse extends BaseRedirectResponse
      * @param  \Syscodes\Components\Contracts\Support\MessageProvider|array|string  $provider
      * @param  string  $key
      * 
-     * @return self
+     * @return static
      */
-    public function withErrors($provider, $key = 'default'): self
+    public function withErrors($provider, $key = 'default'): static
     {
         $value  = $this->parseErrors($provider);
         $errors = $this->session->get('errors', new ViewErrorBag);

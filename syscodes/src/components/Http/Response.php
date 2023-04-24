@@ -84,9 +84,9 @@ class Response
 	 * Sends the headers if they haven't already been sent. 
 	 * Returns whether they were sent or not.
 	 *
-	 * @return self
+	 * @return static
 	 */
-	public function sendHeaders(): self
+	public function sendHeaders(): static
 	{
 		// Have the headers already been sent?
 		if (headers_sent()) {
@@ -121,9 +121,9 @@ class Response
 	/**
 	 * Sends content for the current web response.
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function sendContent(): self
+	public function sendContent(): static
 	{
 		echo $this->content;
 
@@ -135,9 +135,9 @@ class Response
 	 *
 	 * @param  bool  $sendHeader  Whether or not to send the defined HTTP headers
 	 *
-	 * @return  self
+	 * @return  static
 	 */
-	public function send($sendHeader = false): self
+	public function send($sendHeader = false): static
 	{
 		if ($sendHeader) {
 			$this->sendHeaders();
@@ -155,9 +155,9 @@ class Response
 	 *
 	 * @param  mixed  $content  The response content
 	 *
-	 * @return self
+	 * @return static
 	 */
-	public function setContent($content): self
+	public function setContent($content): static
 	{
 		if (null !== $content && ! is_string($content) && ! is_numeric($content) &&
 			! is_bool($content) && ! is_object($content) && ! is_callable([$content, '__toString'])) {
@@ -184,9 +184,9 @@ class Response
 	 * 
 	 * @param  \Syscodes\Components\Http\Request  $request
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function prepare($request): self
+	public function prepare($request): static
 	{
 		$headers = $this->headers;
 

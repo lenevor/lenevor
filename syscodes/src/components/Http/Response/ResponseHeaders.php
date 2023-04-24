@@ -218,7 +218,7 @@ class ResponseHeaders extends Headers
 	 * 
 	 * @param  \Syscodes\Components\Http\Cookie  $cookie
 	 * 
-	 * @return self
+	 * @return static
 	 */
 	public function setCookie(Cookie $cookie): static
 	{

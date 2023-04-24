@@ -85,9 +85,9 @@ trait HttpResponse
      * @param  string  $values  The value or an array of values
      * @param  bool  $replace  If you want to replace the value exists by the header
      * 
-     * @return self
+     * @return static
      */
-    public function header($key, $values, $replace = true): self
+    public function header($key, $values, $replace = true): static
     {
         $this->headers->set($key, $values, $replace);
 
@@ -119,9 +119,9 @@ trait HttpResponse
      * 
      * @param  \Throwable  $e
      * 
-     * @return self
+     * @return static
      */
-    public function withException(Throwable $e): self
+    public function withException(Throwable $e): static
     {
         $this->exception = $e;
 
