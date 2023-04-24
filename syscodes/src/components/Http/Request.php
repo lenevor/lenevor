@@ -453,7 +453,7 @@ class Request
 	 * @param  int  $index  The segment number (1-based index)
 	 * @param  mixed  $default  Default value to return
 	 *
-	 * @return  string
+	 * @return string
 	 */
 	public function segment($index, $default = null)
 	{
