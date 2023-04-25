@@ -415,7 +415,7 @@ class UrlGenerator
      * 
      * @return \Syscodes\Components\Http\Request
      */
-    public function getRequest()
+    public function getRequest(): Request
     {
         return $this->request;
     }

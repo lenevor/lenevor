@@ -71,7 +71,7 @@ class RouteAction
      * 
      * @throws \LogicException
      */
-    protected static function usesAction($uri)
+    protected static function usesAction($uri): array
     {
         return ['uses' => fn () => throw new LogicException(__('route.hasNoAction', ['uri' => $uri]))];
     }
@@ -96,7 +96,7 @@ class RouteAction
      * 
      * @throws \UnexpectedValueException
      */
-    protected static function callInvokable($action)
+    protected static function callInvokable($action): string
     {
         if ( ! method_exists($action, '__invoke')) {
             throw new UnexpectedValueException("Invalid route action: [{$action}].");

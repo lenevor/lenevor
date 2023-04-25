@@ -38,7 +38,7 @@ class RouteCompiler
      * 
      * @throws \LogicException|\DomainException
      */
-    public function compile(Route $route)
+    public function compile(Route $route): string
     {
         $uri       = $route->getRoute();
         $patterns  = $route->getPatterns();

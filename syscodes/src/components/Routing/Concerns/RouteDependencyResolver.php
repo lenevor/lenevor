@@ -41,7 +41,7 @@ trait RouteDependencyResolver
      * 
      * @return array
      */
-    protected function resolveObjectMethodDependencies(array $parameters, $instance, $method)
+    protected function resolveObjectMethodDependencies(array $parameters, $instance, $method): array
     {
         if ( ! method_exists($instance, $method)) {
             return $parameters;
@@ -60,7 +60,7 @@ trait RouteDependencyResolver
      * 
      * @return array
      */
-    public function resolveMethodDependencies(array $parameters, ReflectionFunctionAbstract $reflection)
+    public function resolveMethodDependencies(array $parameters, ReflectionFunctionAbstract $reflection): array
     {
         $count = 0;
 

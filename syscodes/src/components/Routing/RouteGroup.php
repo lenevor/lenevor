@@ -67,7 +67,7 @@ class RouteGroup
 	 * 
 	 * @return string|null
 	 */
-	protected static function formatUseNamespace($new, $old)
+	protected static function formatUseNamespace($new, $old): ?string
 	{
 		if (isset($new['namespace'])) {
 			return isset($old['namespace'])
@@ -87,7 +87,7 @@ class RouteGroup
 	 * 
 	 * @return string|null
 	 */
-	protected static function formatUsePrefix($new, $old, bool $existsPrefix = true)
+	protected static function formatUsePrefix($new, $old, bool $existsPrefix = true): ?string
 	{
 		$old = $old['prefix'] ?? null;
 		

@@ -39,7 +39,7 @@ class UrlGeneratorException extends Exception
      * 
      * @return static
      */
-    public static function missingParameters(Route $route, array $parameters = [])
+    public static function missingParameters(Route $route, array $parameters = []): static
     {
         $parameter = Str::plural('parameter', count($parameters));
         
