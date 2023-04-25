@@ -73,7 +73,7 @@ class Redirector
      * 
      * @param  int  $status  
      * @param  array  $headers
-     * @param  mixed  $fallback  (false by default)
+     * @param  mixed  $fallback
      * 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
@@ -261,7 +261,7 @@ class Redirector
      * 
      * @return void
      */
-    public function setSession(SessionStore $session)
+    public function setSession(SessionStore $session): void
     {
         $this->session = $session;
     }
@@ -281,9 +281,9 @@ class Redirector
      * 
      * @param  string  $url
      * 
-     * @return self
+     * @return static
      */
-    public function setIntendedUrl($url): self
+    public function setIntendedUrl($url): static
     {
         $this->session->put('url.intended', $url);
         
