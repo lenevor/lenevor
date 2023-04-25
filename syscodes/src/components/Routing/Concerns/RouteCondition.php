@@ -65,9 +65,9 @@ trait RouteCondition
      * 
      * @param  string  $host
      * 
-     * @return self
+     * @return static
      */
-    public function setHost(string $host): self
+    public function setHost(string $host): static
     {
         $this->host = $host;
 
@@ -79,9 +79,9 @@ trait RouteCondition
      * 
      * @param  string  $host
      * 
-     * @return self
+     * @return static
      */
-    public function host(string $host): self
+    public function host(string $host): static
     {
         return $this->setHost($host);
     }
@@ -101,9 +101,9 @@ trait RouteCondition
      * 
      * @param  int  $port
      * 
-     * @return self
+     * @return static
      */
-    public function setPort(int $port): self
+    public function setPort(int $port): static
     {
         $this->port = $port;
 
@@ -115,9 +115,9 @@ trait RouteCondition
      * 
      * @param  int  $port
      * 
-     * @return self
+     * @return static
      */
-    public function port(int $port): self
+    public function port(int $port): static
     {
         return $this->setPort($port);
     }
@@ -137,9 +137,9 @@ trait RouteCondition
      * 
      * @param  string  $scheme
      * 
-     * @return self
+     * @return static
      */
-    public function setScheme(string $scheme): self
+    public function setScheme(string $scheme): static
     {
         $this->scheme = $scheme;
 
@@ -151,9 +151,9 @@ trait RouteCondition
      * 
      * @param  string  $scheme
      * 
-     * @return self
+     * @return static
      */
-    public function scheme(string $scheme): self
+    public function scheme(string $scheme): static
     {
         return $this->setScheme($scheme);
     }

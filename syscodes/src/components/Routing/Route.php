@@ -188,7 +188,7 @@ class Route
 	 * 
 	 * @return string
 	 */
-	public function getControllerMethod()
+	public function getControllerMethod(): string
 	{
 		return $this->parseControllerCallback()[1];
 	}
@@ -198,7 +198,7 @@ class Route
 	 * 
 	 * @param  string|null  $domain  
 	 * 
-	 * @return mixed|$this
+	 * @return mixed
 	 */
 	public function domain($domain = null)
 	{
@@ -228,7 +228,7 @@ class Route
 	 * 
 	 * @return array
 	 */
-	public function parseControllerCallback()
+	public function parseControllerCallback(): array
 	{
 		return Str::parseCallback($this->action['uses']);
 	}
@@ -306,7 +306,7 @@ class Route
 	 *
 	 * @throws \InvalidArgumentException
 	 */
-	protected function parseAction($action)
+	protected function parseAction($action): array
 	{
 		if ( ! (is_object($action) && ($action instanceof Closure)) && ($action === null || $action === '')) {
 			throw new InvalidArgumentException(__('route.actionClosureOrFunction'));
@@ -324,7 +324,7 @@ class Route
 	 * 
 	 * @throws \InvalidArgumentException
 	 */
-	public function parseMethod($method)
+	public function parseMethod($method): array
 	{
 		if ($method === null || empty($method)) {
 			throw new InvalidArgumentException(__('route.methodNotProvided'));			
@@ -344,11 +344,11 @@ class Route
 	 *
 	 * @param  string|array|null  $uri
 	 *
-	 * @return self
+	 * @return static
 	 *
 	 * @throws  \InvalidArgumentException
 	 */
-	public function parseRoute($uri): self
+	public function parseRoute($uri): static
 	{
 		if ($uri === null) {
 			throw new InvalidArgumentException(__('route.uriNotProvided'));
@@ -366,7 +366,7 @@ class Route
 	 * 
 	 * @return string
 	 */
-	protected function parseRoutePath($uri)
+	protected function parseRoutePath($uri): string
 	{
 		$uri = trim($uri, '\/?');
 		$uri = trim($uri, '\/');
@@ -395,9 +395,9 @@ class Route
 	 * 
 	 * @param  string  $prefix
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function prefix($prefix)
+	public function prefix($prefix): static
 	{
 		if ( ! empty($newPrefix = trim(rtrim($prefix, '/').'/'.ltrim($this->action['prefix'] ?? '', '/'), '/'))) {
 			$this->action['prefix'] = $newPrefix;
@@ -413,7 +413,7 @@ class Route
 	 * 
 	 * @param  array  $action
 	 * 
-	 * @return mixed|$this
+	 * @return mixed
 	 */
 	public function setAction(array $action)
 	{
@@ -431,9 +431,9 @@ class Route
 	 *
 	 * @param  string  $name
 	 *
-	 * @return self
+	 * @return static
 	 */
-	public function name($name): self
+	public function name($name): static
 	{
 		$this->action['as'] = isset($this->action['as']) ? $this->action['as'].$name : $name;
 
@@ -468,9 +468,9 @@ class Route
 	 * @param  string  $key
 	 * @param  mixed   $value
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function defaults($key, $value): self
+	public function defaults($key, $value): static
 	{
 		$this->defaults[$key] = $value;
 
@@ -482,9 +482,9 @@ class Route
 	 * 
 	 * @param  string  $defaults
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function setDefaults(array $defaults): self
+	public function setDefaults(array $defaults): static
 	{
 		$this->defaults = $defaults;
 
@@ -494,9 +494,9 @@ class Route
 	/**
 	 * Set the flag of fallback mode on the route.
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function fallback(): self
+	public function fallback(): static
 	{
 		$this->fallback = true;
 
@@ -508,9 +508,9 @@ class Route
 	 * 
 	 * @param  bool  $fallback
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function setFallback(bool $fallback): self
+	public function setFallback(bool $fallback): static
 	{
 		$this->fallback = $fallback;
 
@@ -523,9 +523,9 @@ class Route
 	 * @param  array|string  $name
 	 * @param  string|null  $expression  
 	 *
-	 * @return self
+	 * @return static
 	 */
-	public function where($name, string $expression = null): self
+	public function where($name, string $expression = null): static
 	{
 		$wheres = is_array($name) ? $name : [$name => $expression];
 		
@@ -541,9 +541,9 @@ class Route
 	 * 
 	 * @param  \Syscodes\Components\Http\Request  $request
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function bind(Request $request): self
+	public function bind(Request $request): static
 	{
 		$this->compileRoute();
 		
@@ -671,7 +671,7 @@ class Route
 	 * 
 	 * @param  array|string|null  $middleware
 	 * 
-	 * @return array|self
+	 * @return array|static
 	 */
 	public function middleware($middleware = null)
 	{
@@ -777,7 +777,7 @@ class Route
 	 *
 	 * @return array
 	 */
-	public function getPatterns()
+	public function getPatterns(): array
 	{
 		return $this->wheres;
 	}
@@ -787,7 +787,7 @@ class Route
 	 *
 	 * @return array|string
 	 */
-	public function getMethod()
+	public function getMethod(): array|string
 	{
 		return $this->method;
 	}
@@ -797,7 +797,7 @@ class Route
 	 *
 	 * @return string|null
 	 */
-	public function getName()
+	public function getName(): ?string
 	{
 		return $this->action['as'] ?? null;
 	}
@@ -807,9 +807,9 @@ class Route
 	 * 
 	 * @param  \Syscodes\Components\Container\Container  $container
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function setContainer(Container $container): self
+	public function setContainer(Container $container): static
 	{
 		$this->container = $container;
 

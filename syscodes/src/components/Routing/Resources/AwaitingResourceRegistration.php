@@ -91,9 +91,9 @@ class AwaitingResourceRegistration
      * 
      * @param  array|string  $methods
      * 
-     * @return self
+     * @return static
      */
-    public function only($methods): self
+    public function only($methods): static
     {
         $this->options['only'] = is_array($methods) ? $methods : func_get_args();
 
@@ -105,9 +105,9 @@ class AwaitingResourceRegistration
      * 
      * @param  array|string  $methods
      * 
-     * @return self
+     * @return static
      */
-    public function except($methods): self
+    public function except($methods): static
     {
         $this->options['except'] = is_array($methods) ? $methods : func_get_args();
 
@@ -119,9 +119,9 @@ class AwaitingResourceRegistration
      * 
      * @param  array|string  $names
      * 
-     * @return self
+     * @return static
      */
-    public function names($names): self
+    public function names($names): static
     {
         $this->options['names'] = $names;
 
@@ -134,9 +134,9 @@ class AwaitingResourceRegistration
      * @param  string  $method
      * @param  string  $name
      * 
-     * @return self
+     * @return static
      */
-    public function name($method, $name): self
+    public function name($method, $name): static
     {
         $this->options['names'][$method] = $name;
 
@@ -148,9 +148,9 @@ class AwaitingResourceRegistration
      * 
      * @param  array|string  $parameters
      * 
-     * @return self
+     * @return static
      */
-    public function parameters($parameters): self
+    public function parameters($parameters): static
     {
         $this->options['parameters'] = $parameters;
 
@@ -163,9 +163,9 @@ class AwaitingResourceRegistration
      * @param  string  $previous
      * @param  string  $parameter
      * 
-     * @return self
+     * @return static
      */
-    public function parameter($previous, $parameter): self
+    public function parameter($previous, $parameter): static
     {
         $this->options['parameters'][$previous] = $parameter;
 

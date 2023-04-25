@@ -545,9 +545,9 @@ class Router implements Routable
 	 * @param  string  $name
 	 * @param  string  $class
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function aliasMiddleware($name, $class): self
+	public function aliasMiddleware($name, $class): static
 	{
 		$this->middleware[$name] = $class;
 
@@ -560,9 +560,9 @@ class Router implements Routable
 	 * @param  string  $name
 	 * @param  array  $middleware
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function middlewareGroup($name, array $middleware): self
+	public function middlewareGroup($name, array $middleware): static
 	{
 		$this->middlewareGroups[$name] = $middleware;
 

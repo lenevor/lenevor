@@ -116,11 +116,11 @@ class RouteRegister
      * @param  string  $key
      * @param  mixed  $value
      * 
-     * @return self
+     * @return static
      * 
      * @throws \InvalidArgumentException
      */
-    public function attribute($key, $value): self
+    public function attribute($key, $value): static
     {
         if ( ! in_array($key, $this->allowedAttributes)) {
             throw new InvalidArgumentException("Attribute [{$key}] does not exist.");
