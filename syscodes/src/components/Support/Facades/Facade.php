@@ -196,6 +196,8 @@ abstract class Facade
     }
 
     /**
+     * Magic method.
+     * 
      * Call method in application object.
      * 
      * @param  string  $method
