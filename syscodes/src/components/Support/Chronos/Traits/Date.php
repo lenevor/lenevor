@@ -314,7 +314,7 @@ trait Date
      * 
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return IntlDateFormatter::formatObject($this->toDateTime(), $this->toStringFormat, $this->locale);
     }
