@@ -193,7 +193,7 @@ class Rules
      * 
      * @return string
      */
-    private function sanitizeWord($token, $word, $rules)
+    private function sanitizeWord($token, $word, $rules): string
     {
         if (empty($token) || array_key_exists($token, $this->uncountables)) {
             return $word;

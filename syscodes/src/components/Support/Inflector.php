@@ -181,7 +181,7 @@ class Inflector
      * 
      * @return void
      */
-    public function addPluralRule($rule, $replacement)
+    public function addPluralRule($rule, $replacement): void
     {
         $this->pluralRules[] = [$rule, $replacement];
     }
@@ -194,7 +194,7 @@ class Inflector
      * 
      * @return void
      */
-    public function addSingularRule($rule, $replacement)
+    public function addSingularRule($rule, $replacement): void
     {
         $this->singularRules[] = [$rule, $replacement];
     }
@@ -207,7 +207,7 @@ class Inflector
      * 
      * @return void
      */
-    public function addIrregularRule($single, $plural)
+    public function addIrregularRule($single, $plural): void
     {
         $this->irregularSingles[$single] = strtolower($plural);
         $this->irregularPlurals[$plural] = strtolower($single);
