@@ -65,7 +65,7 @@ class WebString implements Webable
      * 
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toHtml();
     }

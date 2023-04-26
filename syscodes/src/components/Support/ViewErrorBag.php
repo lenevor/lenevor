@@ -76,9 +76,9 @@ class ViewErrorBag implements Countable
      * @param  string  $key
      * @param  \Syscodes\Components\Contracts\Support\MessageBag  $bag
      * 
-     * @return self
+     * @return static
      */
-    public function put($key, $bag): self
+    public function put($key, $bag): static
     {
         $this->bags[$key] = $bag;
         
@@ -90,7 +90,7 @@ class ViewErrorBag implements Countable
      *
      * @return bool
      */
-    public function any()
+    public function any(): bool
     {
         return $this->count() > 0;
     }
@@ -156,7 +156,7 @@ class ViewErrorBag implements Countable
      * 
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->getBag('default');
     }

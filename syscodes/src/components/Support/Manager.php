@@ -149,9 +149,9 @@ abstract class Manager
      * @param  string  $driver
      * @param  \Closure  $callback
      * 
-     * @return self
+     * @return static
      */
-    public function extend($driver, Closure $callback): self
+    public function extend($driver, Closure $callback): static
     {
         $this->customCreators[$driver] = $callback;
 
@@ -183,9 +183,9 @@ abstract class Manager
      * 
      * @param  \Syscodes\Components\Contracts\Container\Container  $container
      * 
-     * @return self
+     * @return static
      */
-    public function setContainer(Container $container): self
+    public function setContainer(Container $container): static
     {
         $this->container = $container;
 

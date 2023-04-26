@@ -78,9 +78,9 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
      * @param  string  $key
      * @param  string  $message
      * 
-     * @return self
+     * @return static
      */
-    public function add($key, $message): self
+    public function add($key, $message): static
     {
         if ($this->isUnique($key, $message)) {
             $this->messages[$key][] = $message;
@@ -109,9 +109,9 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
      * 
      * @param  \Syscodes\Components\Contracts\Support\MessageProvider|array  $messages
      * 
-     * @return self
+     * @return static
      */
-    public function merge($messages): self
+    public function merge($messages): static
     {
         $this->messages = array_merge_recursive($this->messages, $messages);
         
@@ -215,7 +215,7 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
      * 
      * @return array
      */
-    public function messages()
+    public function messages(): array
     {
         return $this->messages;
     }
@@ -233,9 +233,9 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
     /**
      * Get the messages for the instance.
      * 
-     * @return self
+     * @return static
      */
-    public function getMessageBag(): self
+    public function getMessageBag(): static
     {
         return $this;
     }
@@ -255,9 +255,9 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
      * 
      * @param  string  $format
      * 
-     * @return self
+     * @return static
      */
-    public function setFormat($format = ':message'): self
+    public function setFormat($format = ':message'): static
     {
         $this->format = $format;
         
