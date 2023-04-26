@@ -302,9 +302,9 @@ class DatabaseSessionHandler implements SessionHandlerInterface
      * 
      * @param  \Syscodes\Components\Contracts\Core\Application  $container
      * 
-     * @return self
+     * @return static
      */
-    public function setContainer($container): self
+    public function setContainer($container): static
     {
         $this->container = $container;
 
@@ -316,9 +316,9 @@ class DatabaseSessionHandler implements SessionHandlerInterface
      * 
      * @param  bool  $value
      * 
-     * @return self
+     * @return static
      */
-    public function setExists(bool $value): self
+    public function setExists(bool $value): static
     {
         $this->exists = $value;
 
