@@ -195,9 +195,9 @@ class View implements ArrayAccess, Webable, ViewContract
 	 * @param  string|array  $key
 	 * @param  mixed  $value
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function assign($key, $value = null): self
+	public function assign($key, $value = null): static
 	{
 		if (is_array($key)) {
 			$this->data = array_merge($this->data, $key);
@@ -218,9 +218,9 @@ class View implements ArrayAccess, Webable, ViewContract
 	 * @param  string  $key  Variable name
 	 * @param  mixed  $value  Referenced variable
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function bind($key, & $value): self
+	public function bind($key, & $value): static
 	{
 		$this->data[$key] =& $value;
 
@@ -232,9 +232,9 @@ class View implements ArrayAccess, Webable, ViewContract
 	 * 
 	 * @param  \Syscodes\Components\Contracts\Support\MessageProvider|array  $provider
 	 * 
-	 * @return self
+	 * @return static
      */
-	public function withErrors($provider): self
+	public function withErrors($provider): static
 	{
 		$this->with('errors', $this->formatErrors($provider));
 		
@@ -355,9 +355,9 @@ class View implements ArrayAccess, Webable, ViewContract
 	 * @param  string|array  $key    Variable name
 	 * @param  mixed         $value  Value
 	 *
-	 * @return self
+	 * @return static
 	 */
-	public function set($key, $value = null): self
+	public function set($key, $value = null): static
 	{
 		if (is_array($key) || $key instanceof Traversable) {
 			foreach ($key as $name => $value) {
@@ -531,7 +531,7 @@ class View implements ArrayAccess, Webable, ViewContract
 	 * 
 	 * @return string
 	 */
-	public function toHtml()
+	public function toHtml(): string
 	{
 		return $this->render();
 	}
