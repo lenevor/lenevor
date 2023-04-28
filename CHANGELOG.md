@@ -2,6 +2,34 @@
 
 ## [Version 0.8.3-alpha.8] 
 
+Release Date: Abr 29, 2023
+
+**Next alpha release of Lenevor**
+
+## [Version 0.8.4-alpha.8]
+
+### Added
+- Added new trait for lets know if it is precognitive in the `Request` class
+- Added the static type output of method
+- Added new methods for get the ViewErrorBag usin JSON
+- Added loop for can delete memory in the `Session\Store` class
+- Added the type output of method in the interfaces
+- Added new method for parses a Cache-Control HTTP header in the `Utilities\Headers` class
+- Added the type of parameter that have for the arguments
+- Added test for activate the foreground and background of colors in console
+- Added method to call the string expression recognized in the database in the `Grammar` class
+
+### Changed
+- Changed to shorthand function for PHP 8.0 version
+- Changed the method name shutdown() by finalize()
+- Changed method deprecated getClass() by getType()
+- Changed the type output of method self to static
+- Changed reset() PHP method to headItem() helper method
+
+### Fixed
+- Fix bug in use the comparison operators in the `Output` class
+
+
 Release Date: Feb 15, 2023
 
 **Next alpha release of Lenevor**
