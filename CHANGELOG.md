@@ -1,12 +1,10 @@
 # Release Notes
 
-## [Version 0.8.3-alpha.8] 
+## [Version 0.8.4-alpha.8]
 
 Release Date: Abr 29, 2023
 
 **Next alpha release of Lenevor**
-
-## [Version 0.8.4-alpha.8]
 
 ### Added
 - Added new trait for lets know if it is precognitive in the `Request` class
@@ -29,6 +27,8 @@ Release Date: Abr 29, 2023
 ### Fixed
 - Fix bug in use the comparison operators in the `Output` class
 
+
+## [Version 0.8.3-alpha.8] 
 
 Release Date: Feb 15, 2023
 
