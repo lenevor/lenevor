@@ -63,9 +63,9 @@ final class Inputs extends Parameters
 	 * @param  string  $key
 	 * @param  mixed  $default  
 	 * 
-	 * @return mixed
+	 * @return string|int|float|bool|null
 	 */
-	public function get(string $key, mixed $default = null): mixed
+	public function get(string $key, mixed $default = null): string|int|float|bool|null
 	{
 		if (null !== $default && ! is_scalar($default) && ! method_exists($default, '__toString')) {
 			throw new BadRequestHttpException(sprintf('Passing a non-string value as 2nd argument to "%s()" is deprecated, pass a string or null instead', __METHOD__));
