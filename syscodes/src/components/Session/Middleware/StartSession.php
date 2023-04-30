@@ -39,8 +39,6 @@ class StartSession
 {
     protected \Syscodes\Components\Session\SessionManager $manager;
 
-    protected bool $sessionEnabled = false;
-
     /**
      * Constrcutor. Create a new StartSession class instance.
      * 
@@ -97,8 +95,6 @@ class StartSession
      */
     protected function handleStatefulRequest(Request $request, Session $session, Closure $next)
     {
-        $this->sessionEnabled = true;
-
         $request->setSession(
             $this->startSession($request, $session)
         );
@@ -226,7 +222,7 @@ class StartSession
      */
     protected function saveSession($request): void
     {
-        if ($this->sessionEnabled && ! $request->isPrecognitive()) {
+        if ( ! $request->isPrecognitive()) {
             $this->manager->driver()->save();
         }
     }
