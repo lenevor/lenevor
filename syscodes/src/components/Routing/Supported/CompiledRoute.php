@@ -28,6 +28,34 @@ use BadMethodCallException;
 final class CompiledRoute implements Serializable
 {
     /**
+     * Get the host in a regex expression.
+     * 
+     * @var string $hostRegex
+     */
+    protected ?string $hostRegex;
+
+    /**
+     * Get the host in the tokens.
+     * 
+     * @var array $hostTokens
+     */
+    protected array $hostTokens;
+
+    /**
+     * Get the host in the variables.
+     * 
+     * @var array $hostVariables
+     */
+    protected array $hostVariables;
+
+    /**
+     * Get the path of the variables.
+     * 
+     * @var array $pathVariables
+     */
+    protected array $pathVariables;
+
+    /**
      * Get the prefix of the path.
      * 
      * @var string $prefix
@@ -35,11 +63,59 @@ final class CompiledRoute implements Serializable
     protected string $prefix;
 
     /**
+     * Get the regex of a route.
+     * 
+     * @var string $regex
+     */
+    protected string $regex;
+
+    /**
+     * Get the tokens for a route.
+     * 
+     * @var array $tokens
+     */
+    protected array $tokens;
+
+    /**
      * Get the variables.
      * 
      * @var array $variables
      */
     protected array $variables;
+
+    /**
+     * Constructor. Create a new CompiledRoute class instance.
+     * 
+     * @param string  $prefix  The prefix of the compiled route
+     * @param string  $regex  The regular expression to use to match this route
+     * @param array  $tokens  An array of tokens to use to generate URL for this route
+     * @param array  $pathVariables  An array of path variables
+     * @param string|null  $hostRegex  Host regex
+     * @param array  $hostTokens  Host tokens
+     * @param array  $hostVariables  An array of host variables
+     * @param array  $variables An array of variables (variables defined in the path and in the host patterns)
+     * 
+     * @return void
+     */
+    public function __construct(
+        string $prefix,
+        string $regex,
+        array $tokens,
+        array $pathVariables,
+        string $hostRegex = null,
+        array $hostTokens = [],
+        array $hostVariables = [],
+        array $variables = []
+    ) {
+        $this->prefix = $prefix;
+        $this->regex = $regex;
+        $this->tokens = $tokens;
+        $this->pathVariables = $pathVariables;
+        $this->hostRegex = $hostRegex;
+        $this->hostTokens = $hostTokens;
+        $this->hostVariables = $hostVariables;
+        $this->variables = $variables;
+    }
 
     /**
      * String representation of object.
