@@ -118,6 +118,86 @@ final class CompiledRoute implements Serializable
     }
 
     /**
+     * Returns the prefix.
+     * 
+     * @return string
+     */
+    public function getPrefix(): string
+    {
+        return $this->prefix;
+    }
+
+    /**
+     * Returns the regex.
+     * 
+     * @return string
+     */
+    public function getRegex(): string
+    {
+        return $this->regex;
+    }
+
+    /**
+     * Returns the tokens.
+     * 
+     * @return array
+     */
+    public function getTokens(): array
+    {
+        return $this->tokens;
+    }
+
+    /**
+     * Returns the path variables.
+     * 
+     * @return array
+     */
+    public function getPathVariables(): array
+    {
+        return $this->pathVariables;
+    }
+
+    /**
+     * Returns the host regex.
+     * 
+     * @return string|null
+     */
+    public function getHostRegex(): ?string
+    {
+        return $this->hostRegex;
+    }
+
+    /**
+     * Returns the host tokens.
+     * 
+     * @return array
+     */
+    public function getHostTokens(): array
+    {
+        return $this->hostTokens;
+    }
+
+    /**
+     * Returns the host variables.
+     * 
+     * @return array
+     */
+    public function getHostVariables(): array
+    {
+        return $this->hostVariables;
+    }
+
+    /**
+     * Returns the variables.
+     * 
+     * @return array
+     */
+    public function getVariables(): array
+    {
+        return $this->variables;
+    }
+
+    /**
      * String representation of object.
      * 
      * @return string
