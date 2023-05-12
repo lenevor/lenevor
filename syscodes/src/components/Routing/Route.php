@@ -31,6 +31,10 @@ use Syscodes\Components\Support\Str;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Container\Container;
 use Syscodes\Components\Routing\ControllerDispatcher;
+use Syscodes\Components\Routing\Matching\UriValidator;
+use Syscodes\Components\Routing\Matching\HostValidator;
+use Syscodes\Components\Routing\Matching\MethodValidator;
+use Syscodes\Components\Routing\Matching\SchemeValidator;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
 
 /**
@@ -40,6 +44,13 @@ class Route
 {
 	use Concerns\RouteCondition,
 	    Concerns\RouteDependencyResolver;
+
+	/**
+	 * The validators used by the routes.
+	 * 
+	 * @var array $validators
+	 */
+	public static $validators;
 	
 	/**
 	 * Action that the route will use when called.
@@ -295,6 +306,48 @@ class Route
 	protected function runResolverController()
 	{
 		return $this->controllerDispatcher()->dispatch($this, $this->getController(), $this->getControllerMethod());
+	}
+
+	/**
+	 * Determine if the route matches a given request.
+	 * 
+	 * @param  \Syscodes\Components\Http\Request  $request
+	 * @param  bool  $method
+	 * 
+	 * @return bool
+	 */
+	public function matches(Request $request, bool $method = true): bool
+	{
+		$this->compileRoute();
+
+		foreach (self::getValidators() as $validator) {
+			if ($method && $validator instanceof MethodValidator) {
+				continue;
+			}
+
+			if ( ! $validator->matches($this, $request)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Get the route validators for the instance.
+	 * 
+	 * @return array
+	 */
+	public function getValidators(): array
+	{
+		if (isset(static::$validators)) {
+			return static::$validators;
+		}
+
+		return static::$validators = [
+			new HostValidator, new MethodValidator,
+			new SchemeValidator, new UriValidator
+		];
 	}
 
 	/**
