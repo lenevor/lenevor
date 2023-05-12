@@ -30,7 +30,7 @@ use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Container\Container;
-use Syscodes\Components\Routing\ControllerDispatcher;
+use Syscodes\Components\Controller\ControllerDispatcher;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
 
 /**
@@ -246,7 +246,7 @@ class Route
 	/**
 	 * Get the dispatcher for the route's controller.
 	 * 
-	 * @return \Syscodes\Components\Routing\ControllerDispatcher
+	 * @return \Syscodes\Components\Controller\ControllerDispatcher
 	 */
 	private function controllerDispatcher(): ControllerDispatcher
 	{

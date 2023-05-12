@@ -22,7 +22,7 @@
 
 namespace Syscodes\Bundles\ApplicationBundle\Console;
 
-use Syscodes\Components\Version;
+use Syscodes\Components\Version\Version;
 use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Console\Application as BaseApplication;

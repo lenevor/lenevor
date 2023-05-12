@@ -35,6 +35,20 @@ use Syscodes\Components\Database\Grammar as BaseGrammar;
 abstract class Grammar extends BaseGrammar
 {
     /**
+     * The possible column modifiers.
+     * 
+     * @var string[] $modifiers
+     */
+    protected $modifiers;
+    
+    /**
+     * The possible column serials.
+     * 
+     * @var string[] $serials
+     */
+    protected $serials;
+
+    /**
      * Compile a create database command.
      * 
      * @param  string  $name

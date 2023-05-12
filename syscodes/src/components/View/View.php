@@ -30,7 +30,7 @@ use InvalidArgumentException;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Contracts\View\Engine;
-use Syscodes\Components\Support\Traits\Macroable;
+use Syscodes\Components\Macroable\Traits\Macroable;
 use Syscodes\Components\Contracts\Support\Webable;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Support\MessageBag;

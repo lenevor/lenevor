@@ -20,9 +20,10 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Components\Console\Input;
+namespace Syscodes\Components\Console\Input\Args;
 
 use RuntimeException;
+use Syscodes\Components\Console\Input\Input;
 use Syscodes\Components\Console\Input\InputDefinition;
 
 /**

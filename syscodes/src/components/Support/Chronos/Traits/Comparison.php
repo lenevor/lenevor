@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Components\Support\Chronos\traits;
+namespace Syscodes\Components\Support\Chronos\Traits;
 
 use DateTime;
 use DateTimeZone;
