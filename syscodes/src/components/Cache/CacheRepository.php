@@ -26,7 +26,7 @@ use DateTime;
 use ArrayAccess;
 use Syscodes\Components\Support\Chronos;
 use Syscodes\Components\Contracts\Cache\Store;
-use Syscodes\Components\Support\Traits\Macroable;
+use Syscodes\Components\Macroable\Traits\Macroable;
 use Syscodes\Components\Support\InteractsWithTime;
 use Syscodes\Components\Contracts\Cache\Repository;
 

@@ -26,7 +26,7 @@ use Closure;
 use DateTimeInterface;
 use InvalidArgumentException;
 use Syscodes\Components\Support\Arr;
-use Syscodes\Components\Support\Traits\Macroable;
+use Syscodes\Components\Macroable\Traits\Macroable;
 use Syscodes\Components\Support\Traits\ForwardsCalls;
 use Syscodes\Components\Database\Concerns\MakeQueries;
 use Syscodes\Components\Database\Query\Grammars\Grammar;

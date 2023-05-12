@@ -18,11 +18,18 @@
 	"require": {
 		"php": "^8.0.2"
 	},
+	"require-dev": {
+		"vimeo/psalm": "^5.11",
+		"phpstan/phpstan": "^1.10"
+	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"scripts": {
 		"post-create-project-cmd": [
 			"@php -r \"file_exists('.env') || copy('.env.dist', '.env');\""
-		]
+		],
+		"psalm": "./vendor/bin/psalm --no-cache --show-info=true",
+        "phpstan": "./vendor/bin/phpstan",
+        "check": "composer run psalm && composer run phpstan"
 	}
 }
