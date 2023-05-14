@@ -393,7 +393,7 @@ return [
     'Syscodes\\Components\\Pipeline\\Pipeline' => SYS_PATH.'src/components/Pipeline/Pipeline.php',
     'Syscodes\\Components\\Pipeline\\PipelineServiceProvider' => SYS_PATH.'src/components/Pipeline/PipelineServiceProvider.php',
     'Syscodes\\Components\\Redis\\RedisManager' => SYS_PATH.'src/components/Redis/RedisManager.php',
-    'Syscodes\\Components\\Routing\\Collections\\AbstractRouteCollection' => SYS_PATH.'src/components/Routing/Collections/AbstractRouteCollection.php',
+    'Syscodes\\Components\\Routing\\Collections\\BaseRouteCollection' => SYS_PATH.'src/components/Routing/Collections/BaseRouteCollection.php',
     'Syscodes\\Components\\Routing\\Collections\\CompiledRouteCollection' => SYS_PATH.'src/components/Routing/Collections/CompiledRouteCollection.php',
     'Syscodes\\Components\\Routing\\Concerns\\RouteCondition' => SYS_PATH.'src/components/Routing/Concerns/RouteCondition.php',
     'Syscodes\\Components\\Routing\\Concerns\\RouteDependencyResolver' => SYS_PATH.'src/components/Routing/Concerns/RouteDependencyResolver.php',
