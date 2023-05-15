@@ -26,13 +26,36 @@ use Countable;
 use Traversable;
 use ArrayIterator;
 use IteratorAggregate;
+use Syscodes\Components\Http\Request;
 use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
 
 /**
  * Allows the route collection of base. 
  */
 final class BaseRouteCollection implements Countable, IteratorAggregate
 {
+    /**
+     * Handle the matched route.
+     * 
+     * @param  \Syscodes\Components\Http\Request  $request
+     * @param  \Syscodes\Components\Routing\Route|null  $route
+     * 
+     * @return \Syscodes\Components\Routing\Route
+     * 
+     * @throws \Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException
+     */
+    public function handleMatchedRoute(Request $request, $route)
+    {
+        if ( ! is_null($route)) {
+            return $route->bind($request);
+        }
+
+        throw new NotFoundHttpException(sprintf(
+            'The route "%s" could not be found', $request->path()
+            ));
+    }
+
     /**
      * Get an iterator for the items.
      * 
