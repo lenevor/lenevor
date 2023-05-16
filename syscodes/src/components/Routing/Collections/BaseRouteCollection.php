@@ -33,7 +33,7 @@ use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
 /**
  * Allows the route collection of base. 
  */
-final class BaseRouteCollection implements Countable, IteratorAggregate
+abstract class BaseRouteCollection implements Countable, IteratorAggregate
 {
     /**
      * Handle the matched route.
@@ -56,6 +56,12 @@ final class BaseRouteCollection implements Countable, IteratorAggregate
             ));
     }
 
+    /*
+    |-----------------------------------------------------------------
+    | ArrayIterator Methods
+    |-----------------------------------------------------------------
+    */
+
     /**
      * Get an iterator for the items.
      * 
@@ -63,9 +69,15 @@ final class BaseRouteCollection implements Countable, IteratorAggregate
      */
     public function getIterator(): Traversable
     {
-        return new ArrayIterator([]);
+        return new ArrayIterator($this->getRoutes());
     }
-    
+
+    /*
+    |-----------------------------------------------------------------
+    | Countable Methods
+    |-----------------------------------------------------------------
+    */
+
     /**
      * Count the number of items in the collection.
      * 
@@ -73,6 +85,6 @@ final class BaseRouteCollection implements Countable, IteratorAggregate
      */
     public function count(): int
     {
-        return count([]);
+        return count($this->getRoutes());
     }
 }
