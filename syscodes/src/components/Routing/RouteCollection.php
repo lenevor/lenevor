@@ -22,19 +22,16 @@
 
 namespace Syscodes\Components\Routing;
 
-use Countable;
-use Traversable;
-use ArrayIterator;
-use IteratorAggregate;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Routing\Matching\UriMatches;
+use Syscodes\Components\Routing\Collections\BaseRouteCollection;
 use Syscodes\Components\Routing\Exceptions\RouteNotFoundException;
 
 /**
  * Adds a collection to the arrays of routes.
  */
-class RouteCollection implements Countable, IteratorAggregate
+class RouteCollection extends BaseRouteCollection
 {
     /**
      * Gets a table of routes by controller action.
@@ -312,37 +309,5 @@ class RouteCollection implements Countable, IteratorAggregate
     public function getRoutes(): array
     {
         return array_values($this->allRoutes);
-    }
-
-    /*
-    |-----------------------------------------------------------------
-    | ArrayIterator Methods
-    |-----------------------------------------------------------------
-    */
-
-    /**
-     * Get an iterator for the items.
-     * 
-     * @return \ArrayIterator
-     */
-    public function getIterator(): Traversable
-    {
-        return new ArrayIterator($this->getRoutes());
-    }
-
-    /*
-    |-----------------------------------------------------------------
-    | Countable Methods
-    |-----------------------------------------------------------------
-    */
-
-    /**
-     * Count the number of items in the collection.
-     * 
-     * @return int
-     */
-    public function count(): int
-    {
-        return count($this->getRoutes());
     }
 }
