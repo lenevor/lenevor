@@ -429,6 +429,7 @@ return [
     'Syscodes\\Components\\Routing\\RouteGroup' => SYS_PATH.'src/components/Routing/RouteGroup.php',
     'Syscodes\\Components\\Routing\\RouteParameterBinding' => SYS_PATH.'src/components/Routing/RouteParameterBinding.php',
     'Syscodes\\Components\\Routing\\Router' => SYS_PATH.'src/components/Routing/Router.php',
+    'Syscodes\\Components\\Routing\\RouteUri' => SYS_PATH.'src/components/Routing/RouteUri.php',
     'Syscodes\\Components\\Routing\\RoutingServiceProvider' => SYS_PATH.'src/components/Routing/RoutingServiceProvider.php',
     'Syscodes\\Components\\Session\\Exceptions\\TokenMismatchException' => SYS_PATH.'src/components/Session/Exceptions/TokenMismatchException.php',
     'Syscodes\\Components\\Session\\Handlers\\ArraySessionHandler' => SYS_PATH.'src/components/Session/Handlers/ArraySessionHandler.php',
