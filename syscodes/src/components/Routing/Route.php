@@ -123,22 +123,6 @@ class Route
 	public $parameterNames;
 
 	/**
-	* Patterns that should be replaced.
-	*
-	* @var array $patterns 
-	*/
-	public $patterns = [
-		'~/~'                    =>  '\/',               // Slash
-		'~{an:[^\/{}]+}~'        => '([0-9a-zA-Z]++)',   // Placeholder accepts alphabetic and numeric chars
-		'~{n:[^\/{}]+}~'         => '([0-9]++)',         // Placeholder accepts only numeric
-		'~{a:[^\/{}]+}~'         => '([a-zA-Z]++)',      // Placeholder accepts only alphabetic chars
-		'~{w:[^\/{}]+}~'         => '([0-9a-zA-Z-_]++)', // Placeholder accepts alphanumeric and underscore
-		'~{\*:[^\/{}]+}~'        => '(.++)',             // Placeholder match rest of url
-		'~(\\\/)?{\?:[^\/{}]+}~' => '\/?([^\/]*)',		 // Optional placeholder
-		'~{[^\/{}]+}~'           => '([^\/]++)'			 // Normal placeholder
-	];
-
-	/**
 	 * The URI pattern the route responds to.
 	 *
 	 * @var string $uri
@@ -407,40 +391,23 @@ class Route
 			throw new InvalidArgumentException(__('route.uriNotProvided'));
 		}	
 
-		$this->uri = $this->parseRoutePath($uri);
+		$this->uri = $this->parseUri($uri);
 
 		return $this;
 	}
-
+	
 	/**
-	 * Replace word patterns with regex in route uri.
+	 * Parse the route URI and normalize.
 	 * 
 	 * @param  string  $uri
 	 * 
 	 * @return string
 	 */
-	protected function parseRoutePath($uri): string
+	protected function parseUri($uri): string
 	{
-		$uri = trim($uri, '\/?');
-		$uri = trim($uri, '\/');
-		
-		preg_match_all('/\{([\w\:]+?)\??\}/', $uri, $matches);
-		
-		foreach ($matches[1] as $match) {
-			if (strpos($match, ':') === false) {
-				continue;
-			}
-			
-			$pattern  = array_keys($this->patterns);
-			$replace  = array_values($this->patterns);
-			$segments = explode(':', trim($match, '{}?'));
-			
-			$uri = strpos($match, ':') !== false
-					? preg_replace($pattern, $replace, $uri)
-					: str_replace($match, '{'.$segments[0].'}', $uri);
-		}
-		
-		return $uri;
+		return take(RouteUri::parse($uri), function ($uri) {
+			return $uri;
+		})->uri;
 	}
 
 	/**
