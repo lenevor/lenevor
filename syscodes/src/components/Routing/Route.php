@@ -405,9 +405,7 @@ class Route
 	 */
 	protected function parseUri($uri): string
 	{
-		return take(RouteUri::parse($uri), function ($uri) {
-			return $uri;
-		})->uri;
+		return take(RouteUri::parse($uri), fn ($uri) => $uri)->uri;
 	}
 
 	/**
