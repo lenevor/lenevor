@@ -42,6 +42,6 @@ class UriValidator implements ValidatorInterface
     {
         $path = rtrim($request->getPathInfo(), '/') ?: '/';
 
-        return preg_match('~[^\]+~', rawurldecode($path));
+        return preg_match('~[^/]+~', rawurldecode($path));
     }
 }
