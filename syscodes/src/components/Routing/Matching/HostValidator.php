@@ -40,7 +40,7 @@ class HostValidator implements ValidatorInterface
      */
     public function matches(Route $route, Request $request): bool
     {
-        $hostRegex = '~[^\]+~';
+        $hostRegex = '~[^/]+~';
         
         if (is_null($hostRegex)) {
             return true;
