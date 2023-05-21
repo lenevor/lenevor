@@ -46,10 +46,10 @@ abstract class BaseRouteCollection implements Countable, IteratorAggregate
      * 
      * @throws \Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException
      */
-    public function handleMatchedRoute(Request $request, $routes)
+    protected function handleMatchedRoute(Request $request, $routes)
     {
         if ( ! is_null($routes)) {
-             // Loop trough the possible routes
+            // Loop trough the possible routes
             foreach ($routes as $route) {   
                 $host = $route->getHost();
 
@@ -81,8 +81,23 @@ abstract class BaseRouteCollection implements Countable, IteratorAggregate
         }
 
         throw new NotFoundHttpException(sprintf(
-            'The route "%s" could not be found', $request->path()
+            'The route "%s" could not be found', 
+            $request->path()
         ));
+    }
+
+    /**
+     * Determine if a route in the array matches the request.
+     * 
+     * @param  array  $routes
+     * @param  \Syscodes\Components\Http\Request  $request
+     * @param  bool  $method
+     * 
+     * @return \Syscodes\Components\Routing\Route|null
+     */
+    protected function getCheckedRoutes(array $routes, $request, bool $method = true)
+    {
+        return collect($routes)->first(fn ($route) => $route->matches($request, $method));
     }
 
     /*
