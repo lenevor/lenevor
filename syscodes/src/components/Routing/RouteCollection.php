@@ -22,19 +22,14 @@
 
 namespace Syscodes\Components\Routing;
 
-use Countable;
-use Traversable;
-use ArrayIterator;
-use IteratorAggregate;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Http\Request;
-use Syscodes\Components\Routing\Matching\UriMatches;
-use Syscodes\Components\Routing\Exceptions\RouteNotFoundException;
+use Syscodes\Components\Routing\Collections\BaseRouteCollection;
 
 /**
  * Adds a collection to the arrays of routes.
  */
-class RouteCollection implements Countable, IteratorAggregate
+class RouteCollection extends BaseRouteCollection
 {
     /**
      * Gets a table of routes by controller action.
@@ -56,13 +51,6 @@ class RouteCollection implements Countable, IteratorAggregate
      * @var \Syscodes\Components\Routing\Route[] $nameList
      */
     protected $nameList = [];
-
-    /**
-	 * The Route instance.
-	 * 
-	 * @var \Syscodes\Components\Routing\Route|null
-	 */
-	protected $route;
 
     /**
      * An array of the routes keyed by method.
@@ -203,55 +191,7 @@ class RouteCollection implements Countable, IteratorAggregate
     {
         $routes = $this->get($request->getMethod()); 
 
-        if ( ! is_null($route = $this->findRoute($request, $routes))) {            
-            return $route;
-        }
-        
-        throw new RouteNotFoundException;
-    }
-
-    /**
-     * Find the first route matching a given request.
-     * 
-     * @param  \Syscodes\Components\Http\Request  $request
-     * @param  array  $routes
-     * 
-     * @return \Syscodes\Components\Routing\Route[];
-     */
-    protected function findRoute($request, array $routes)
-    {        
-        // Loop trough the possible routes
-        foreach ($routes as $route) {
-            // Variable assignment by route
-            $this->route = $route;
-            
-            $host = $route->getHost();
-
-            if ($host !== null && $host != $request->getHost()) {
-                continue;
-            }
-            
-            $scheme = $route->getScheme();
-            
-            if ($scheme !== null && $scheme !== $request->getScheme()) {
-                continue;
-            }
-            
-            $port = $route->getPort();
-            
-            if ($port !== null && $port !== $request->getPort()) {
-                continue;
-            }
-
-            $parameters = [];
-
-            $path = rtrim($request->path(), '/');
-            
-            // If the requested route one of the defined routes
-            if (UriMatches::compareUri($route->uri, $path, $parameters, $route->wheres)) {
-                return $route->bind($request);
-            }
-        }
+        return $this->handleMatchedRoute($request, $routes);
     }
     
     /**
@@ -312,37 +252,5 @@ class RouteCollection implements Countable, IteratorAggregate
     public function getRoutes(): array
     {
         return array_values($this->allRoutes);
-    }
-
-    /*
-    |-----------------------------------------------------------------
-    | ArrayIterator Methods
-    |-----------------------------------------------------------------
-    */
-
-    /**
-     * Get an iterator for the items.
-     * 
-     * @return \ArrayIterator
-     */
-    public function getIterator(): Traversable
-    {
-        return new ArrayIterator($this->getRoutes());
-    }
-
-    /*
-    |-----------------------------------------------------------------
-    | Countable Methods
-    |-----------------------------------------------------------------
-    */
-
-    /**
-     * Count the number of items in the collection.
-     * 
-     * @return int
-     */
-    public function count(): int
-    {
-        return count($this->getRoutes());
     }
 }

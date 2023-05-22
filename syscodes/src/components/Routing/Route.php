@@ -30,7 +30,11 @@ use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Container\Container;
-use Syscodes\Components\Controller\ControllerDispatcher;
+use Syscodes\Components\Routing\ControllerDispatcher;
+use Syscodes\Components\Routing\Matching\UriValidator;
+use Syscodes\Components\Routing\Matching\HostValidator;
+use Syscodes\Components\Routing\Matching\MethodValidator;
+use Syscodes\Components\Routing\Matching\SchemeValidator;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
 
 /**
@@ -40,6 +44,13 @@ class Route
 {
 	use Concerns\RouteCondition,
 	    Concerns\RouteDependencyResolver;
+
+	/**
+	 * The validators used by the routes.
+	 * 
+	 * @var array $validators
+	 */
+	public static $validators;
 	
 	/**
 	 * Action that the route will use when called.
@@ -110,22 +121,6 @@ class Route
 	 * @var string|null $parameterNames
 	 */
 	public $parameterNames;
-
-	/**
-	* Patterns that should be replaced.
-	*
-	* @var array $patterns 
-	*/
-	public $patterns = [
-		'~/~'                    =>  '\/',               // Slash
-		'~{an:[^\/{}]+}~'        => '([0-9a-zA-Z]++)',   // Placeholder accepts alphabetic and numeric chars
-		'~{n:[^\/{}]+}~'         => '([0-9]++)',         // Placeholder accepts only numeric
-		'~{a:[^\/{}]+}~'         => '([a-zA-Z]++)',      // Placeholder accepts only alphabetic chars
-		'~{w:[^\/{}]+}~'         => '([0-9a-zA-Z-_]++)', // Placeholder accepts alphanumeric and underscore
-		'~{\*:[^\/{}]+}~'        => '(.++)',             // Placeholder match rest of url
-		'~(\\\/)?{\?:[^\/{}]+}~' => '\/?([^\/]*)',		 // Optional placeholder
-		'~{[^\/{}]+}~'           => '([^\/]++)'			 // Normal placeholder
-	];
 
 	/**
 	 * The URI pattern the route responds to.
@@ -246,7 +241,7 @@ class Route
 	/**
 	 * Get the dispatcher for the route's controller.
 	 * 
-	 * @return \Syscodes\Components\Controller\ControllerDispatcher
+	 * @return \Syscodes\Components\Routing\ControllerDispatcher
 	 */
 	private function controllerDispatcher(): ControllerDispatcher
 	{
@@ -295,6 +290,48 @@ class Route
 	protected function runResolverController()
 	{
 		return $this->controllerDispatcher()->dispatch($this, $this->getController(), $this->getControllerMethod());
+	}
+
+	/**
+	 * Determine if the route matches a given request.
+	 * 
+	 * @param  \Syscodes\Components\Http\Request  $request
+	 * @param  bool  $method
+	 * 
+	 * @return bool
+	 */
+	public function matches(Request $request, bool $method = true): bool
+	{
+		$this->compileRoute();
+
+		foreach (self::getValidators() as $validator) {
+			if ($method && $validator instanceof MethodValidator) {
+				continue;
+			}
+
+			if ( ! $validator->matches($this, $request)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Get the route validators for the instance.
+	 * 
+	 * @return array
+	 */
+	public function getValidators(): array
+	{
+		if (isset(static::$validators)) {
+			return static::$validators;
+		}
+
+		return static::$validators = [
+			new HostValidator, new MethodValidator,
+			new SchemeValidator, new UriValidator
+		];
 	}
 
 	/**
@@ -354,40 +391,21 @@ class Route
 			throw new InvalidArgumentException(__('route.uriNotProvided'));
 		}	
 
-		$this->uri = $this->parseRoutePath($uri);
+		$this->uri = $this->parseUri($uri);
 
 		return $this;
 	}
-
+	
 	/**
-	 * Replace word patterns with regex in route uri.
+	 * Parse the route URI and normalize.
 	 * 
 	 * @param  string  $uri
 	 * 
 	 * @return string
 	 */
-	protected function parseRoutePath($uri): string
+	protected function parseUri($uri): string
 	{
-		$uri = trim($uri, '\/?');
-		$uri = trim($uri, '\/');
-		
-		preg_match_all('/\{([\w\:]+?)\??\}/', $uri, $matches);
-		
-		foreach ($matches[1] as $match) {
-			if (strpos($match, ':') === false) {
-				continue;
-			}
-			
-			$pattern  = array_keys($this->patterns);
-			$replace  = array_values($this->patterns);
-			$segments = explode(':', trim($match, '{}?'));
-			
-			$uri = strpos($match, ':') !== false
-					? preg_replace($pattern, $replace, $uri)
-					: str_replace($match, '{'.$segments[0].'}', $uri);
-		}
-		
-		return $uri;
+		return take(RouteUri::parse($uri), fn ($uri) => $uri)->uri;
 	}
 
 	/**

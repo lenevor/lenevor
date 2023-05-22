@@ -20,12 +20,15 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Components\Routing\Supported;
+namespace Syscodes\Components\Routing\Collections;
 
 use Serializable;
 use BadMethodCallException;
 
-final class CompiledRoute implements Serializable
+/**
+ * Allows the compiled route for gets the pattern variables.
+ */
+final class CompiledRouteCollection implements Serializable
 {
     /**
      * Get the host in a regex expression.
@@ -115,6 +118,86 @@ final class CompiledRoute implements Serializable
         $this->hostTokens = $hostTokens;
         $this->hostVariables = $hostVariables;
         $this->variables = $variables;
+    }
+
+    /**
+     * Returns the prefix.
+     * 
+     * @return string
+     */
+    public function getPrefix(): string
+    {
+        return $this->prefix;
+    }
+
+    /**
+     * Returns the regex.
+     * 
+     * @return string
+     */
+    public function getRegex(): string
+    {
+        return $this->regex;
+    }
+
+    /**
+     * Returns the tokens.
+     * 
+     * @return array
+     */
+    public function getTokens(): array
+    {
+        return $this->tokens;
+    }
+
+    /**
+     * Returns the path variables.
+     * 
+     * @return array
+     */
+    public function getPathVariables(): array
+    {
+        return $this->pathVariables;
+    }
+
+    /**
+     * Returns the host regex.
+     * 
+     * @return string|null
+     */
+    public function getHostRegex(): ?string
+    {
+        return $this->hostRegex;
+    }
+
+    /**
+     * Returns the host tokens.
+     * 
+     * @return array
+     */
+    public function getHostTokens(): array
+    {
+        return $this->hostTokens;
+    }
+
+    /**
+     * Returns the host variables.
+     * 
+     * @return array
+     */
+    public function getHostVariables(): array
+    {
+        return $this->hostVariables;
+    }
+
+    /**
+     * Returns the variables.
+     * 
+     * @return array
+     */
+    public function getVariables(): array
+    {
+        return $this->variables;
     }
 
     /**
