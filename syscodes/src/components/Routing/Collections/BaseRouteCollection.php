@@ -27,6 +27,7 @@ use Traversable;
 use ArrayIterator;
 use IteratorAggregate;
 use Syscodes\Components\Http\Request;
+use Syscodes\Components\Routing\Route;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Routing\Matching\UriMatches;
 use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
@@ -48,42 +49,60 @@ abstract class BaseRouteCollection implements Countable, IteratorAggregate
      */
     protected function handleMatchedRoute(Request $request, $routes)
     {
-        if ( ! is_null($routes)) {
-            // Loop trough the possible routes
-            foreach ($routes as $route) {   
-                $host = $route->getHost();
-
-                if ($host !== null && $host != $request->getHost()) {
-                    continue;
-                }
-                
-                $scheme = $route->getScheme();
-                
-                if ($scheme !== null && $scheme !== $request->getScheme()) {
-                    continue;
-                }
-                
-                $port = $route->getPort();
-                
-                if ($port !== null && $port !== $request->getPort()) {
-                    continue;
-                }
-
-                $parameters = [];
-
-                $path = rtrim($request->path(), '/');
-                
-                // If the requested route one of the defined routes
-                if (UriMatches::compareUri($route->uri, $path, $parameters, $route->wheres)) {
-                    return $route->bind($request);
-                }
-            }
+        if ( ! is_null($route = $this->findRoute($routes, $request))) {
+            return $route;
         }
 
         throw new NotFoundHttpException(sprintf(
             'The route "%s" could not be found', 
             $request->path()
         ));
+    }
+
+    /**
+     * Find the first route matching a given request.
+     *
+     * @param  array  $routes
+     * @param  \Syscodes\Components\Http\Request  $request
+     * 
+     * @return \Syscodes\Components\Routing\Route|null
+     */
+    protected function findRoute($routes, $request)
+    {
+        foreach ($routes as $route) {
+            if ( ! $route->fallback()) {
+                continue;
+            }
+
+            $host = $route->getHost();
+
+            if ($host !== null && $host != $request->getHost()) {
+                continue;
+            }
+            
+            $scheme = $route->getScheme();
+            
+            if ($scheme !== null && $scheme !== $request->getScheme()) {
+                continue;
+            }
+            
+            $port = $route->getPort();
+            
+            if ($port !== null && $port !== $request->getPort()) {
+                continue;
+            }
+
+            $parameters = [];
+
+            $path = rtrim($request->path(), '/');
+            
+            // If the requested route one of the defined routes
+            if (UriMatches::compareUri($route->uri, $path, $parameters, $route->wheres)) {
+                return ! is_null($this->getCheckedRoutes($routes, $request)) 
+                                  ? $route->bind($request)
+                                  : $route;
+            }
+        }
     }
 
     /**
@@ -95,7 +114,7 @@ abstract class BaseRouteCollection implements Countable, IteratorAggregate
      * 
      * @return \Syscodes\Components\Routing\Route|null
      */
-    protected function getCheckedRoutes(array $routes, $request, bool $method = true)
+    protected function getCheckedRoutes(array $routes, $request, bool $method = true): Route|null
     {
         return collect($routes)->first(fn ($route) => $route->matches($request, $method));
     }
