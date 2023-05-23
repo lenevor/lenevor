@@ -24,7 +24,7 @@ namespace Syscodes\Components\Core;
 
 use Closure;
 use RuntimeException;
-use Syscodes\Components\Version;
+use Syscodes\Components\Version\Version;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Container\Container;

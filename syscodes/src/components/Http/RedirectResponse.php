@@ -26,7 +26,7 @@ use Syscodes\Components\Support\Str;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Support\MessageBag;
 use Syscodes\Components\Support\ViewErrorBag;
-use Syscodes\Components\Support\Traits\Macroable;
+use Syscodes\Components\Macroable\Traits\Macroable;
 use Syscodes\Components\Http\Concerns\HttpResponse;
 use Syscodes\Components\Support\Traits\ForwardsCalls;
 use Syscodes\Components\Session\Store as SessionStore;

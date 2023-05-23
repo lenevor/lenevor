@@ -25,7 +25,7 @@ namespace Syscodes\Components\Database\Schema;
 use Closure;
 use BadMethodCallException;
 use Syscodes\Components\Support\Flowing;
-use Syscodes\Components\Support\Traits\Macroable;
+use Syscodes\Components\Macroable\Traits\Macroable;
 use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Database\Connections\Connection;
 use Syscodes\Components\Database\Schema\Builders\Builder;

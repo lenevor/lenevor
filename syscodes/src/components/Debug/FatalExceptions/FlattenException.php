@@ -102,7 +102,7 @@ class FlattenException
      * @param  int|null    $statusCode
      * @param  array       $headers
      * 
-     * @return void
+     * @return new static
      */
     public static function make(Throwable $exception, $statusCode = null, array $headers = [])
     {

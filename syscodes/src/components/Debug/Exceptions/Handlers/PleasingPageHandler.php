@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Components\Debug\Handlers;
+namespace Syscodes\Components\Debug\Exceptions\Handlers;
 
 use Exception;
 use Traversable;
@@ -32,7 +32,7 @@ use Syscodes\Components\Debug\Util\Misc;
 use Syscodes\Components\Contracts\Debug\Table;
 use Syscodes\Components\Debug\Util\ArrayTable;
 use Syscodes\Components\Debug\Util\TemplateHandler;
-use Syscodes\Components\Debug\FrameHandler\Formatter;  
+use Syscodes\Components\Debug\Exceptions\FrameHandler\Formatter;  
 
 /**
  * Generates exceptions in mode of graphic interface.

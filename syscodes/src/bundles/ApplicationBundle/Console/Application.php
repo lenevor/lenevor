@@ -22,7 +22,7 @@
 
 namespace Syscodes\Bundles\ApplicationBundle\Console;
 
-use Syscodes\Components\Version;
+use Syscodes\Components\Version\Version;
 use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Console\Application as BaseApplication;
@@ -37,7 +37,7 @@ class Application extends BaseApplication
 	/**
 	 * Application config data.
 	 * 
-	 * @var array $config
+	 * @var string[] $config
 	 */
 	protected $config = [
 		'homepage'   => '',
@@ -57,14 +57,16 @@ class Application extends BaseApplication
 	/**
 	 * The Lenevor application instance.
 	 * 
-	 * @var \Syscodes\Components\Contracts\Container|Container $lenevor
+	 * @var \Syscodes\Components\Contracts\Container\Container $lenevor
 	 */
 	protected $lenevor;
 
 	/**
 	 * Console constructor. Initialize the console of Lenevor.
 	 *
-	 * @param  \Syscodes\Components\Contracts\Core\Container  $lenevor
+	 * @param  \Syscodes\Components\Contracts\Container\Container  $lenevor
+	 * 
+	 * @param  \Syscodes\Components\Contracts\Events\Dispatcher $events
 	 * 
 	 * @param  string  $version
 	 * 
@@ -115,7 +117,7 @@ class Application extends BaseApplication
 	{
 		return parent::getConsoleVersion().
 			sprintf(' (env: <comment>%s</>, debug: <comment>%s</>) [<note>%s</>]',
-				env('APP_ENV'), env('APP_DEBUG') ? 'true' : 'false', PHP_OS
+			strval(env('APP_ENV')), boolval(env('APP_DEBUG')) ? 'true' : 'false', PHP_OS
 			);
 	}
 
@@ -124,7 +126,7 @@ class Application extends BaseApplication
      * 
      * @return string|null
      */
-    public function getLogoText(): string
+    public function getLogoText(): string|null
     {
         return $this->config['logoText'] ?? null;
     }
@@ -133,7 +135,7 @@ class Application extends BaseApplication
      * Sets the logo text for console app.
      * 
      * @param  string  $logoText
-     * @param  striong|null  $style
+     * @param  string|null  $style
      * 
      * @return void
      */
@@ -171,7 +173,7 @@ class Application extends BaseApplication
 	/**
 	 * Gets the Lenevor application instance.
 	 * 
-	 * @return void
+	 * @return \Syscodes\Components\Contracts\Container\Container
 	 */
 	public function getLenevor()
 	{

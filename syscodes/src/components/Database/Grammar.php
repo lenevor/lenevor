@@ -22,7 +22,7 @@
  
 namespace Syscodes\Components\Database;
 
-use Syscodes\Components\Support\Traits\Macroable;
+use Syscodes\Components\Macroable\Traits\Macroable;
 use Syscodes\Components\Database\Query\Expression;
 
 /**

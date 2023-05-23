@@ -20,10 +20,9 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Components\Debug\Handlers;
+namespace Syscodes\Components\Debug\Exceptions\Handlers;
 
-use Syscodes\Components\Contracts\Debug\Handler;
-use Syscodes\Components\Debug\FrameHandler\Supervisor;
+use Syscodes\Components\Debug\Exceptions\FrameHandler\Supervisor;
 
 /**
  * Abstract implementation of a Handler.
@@ -109,7 +108,7 @@ class MainHandler
     /**
      * Gets supervisor already specified.
      * 
-     * @return \Syscodes\Components\Debug\FrameHandler\Supervisor
+     * @return \Syscodes\Components\Debug\Exceptions\FrameHandler\Supervisor
      */
     public function getSupervisor()
     {
@@ -119,7 +118,7 @@ class MainHandler
     /**
      * Sets supervisor.
      * 
-     * @param  \Syscodes\Components\Debug\FrameHandler\Supervisor  $supervisor
+     * @param  \Syscodes\Components\Debug\Exceptions\FrameHandler\Supervisor  $supervisor
      * 
      * @return void
      */
