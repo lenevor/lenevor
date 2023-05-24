@@ -183,9 +183,7 @@ class RouteCollection extends BaseRouteCollection
      * 
      * @param  \Syscodes\Components\Http\Request  $request
      * 
-     * @return \Syscodes\Components\Routing\Route
-     * 
-     * @throws \Syscodes\Components\Routing\Exceptions\RouteNotFoundException
+     * @return \Syscodes\Components\Routing\Route|null
      */
     public function match(Request $request)
     {
