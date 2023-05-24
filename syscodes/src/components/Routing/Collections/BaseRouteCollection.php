@@ -28,7 +28,6 @@ use ArrayIterator;
 use IteratorAggregate;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Routing\Route;
-use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Routing\Matching\UriMatches;
 use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
 
@@ -99,8 +98,8 @@ abstract class BaseRouteCollection implements Countable, IteratorAggregate
             // If the requested route one of the defined routes
             if (UriMatches::compareUri($route->uri, $path, $parameters, $route->wheres)) {
                 return ! is_null($this->getCheckedRoutes($routes, $request)) 
-                                  ? $route->bind($request)
-                                  : $route;
+                                ? $route->bind($request)
+                                : $route;
             }
         }
     }
