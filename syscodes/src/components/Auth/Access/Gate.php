@@ -27,7 +27,7 @@ use InvalidArgumentException;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Contracts\Container\Container;
-use Syscodes\Components\Auth\Concerns\HandlesAuthorization;
+use Syscodes\Components\Auth\Access\Concerns\HandlesAuthorization;
 use Syscodes\Components\Contracts\Auth\Access\Gate as GateContract;
 
 /**
