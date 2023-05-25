@@ -22,11 +22,52 @@
 
 namespace Syscodes\Components\Routing\Matching;
 
+use Syscodes\Components\Http\Request;
+
 /**
  * Checkes the request uri matches given route.
  */
 class UriMatches
 {
+    /**
+     * Check if exist options of route for add conditionals.
+     * 
+     * @param  array  $routes
+     * @param  \Syscodes\Components\Http\Request  $request
+     * 
+     * @return array|object
+     */
+    public static function conditionLoopForRoutes(array $routes, Request $request): array|object
+    {
+        foreach ($routes as $route) {
+            if ( ! $route->fallback()) {
+                continue;
+            }
+
+            $host = $route->getHost();
+
+            if ($host !== null && $host != $request->getHost()) {
+                continue;
+            }
+            
+            $scheme = $route->getScheme();
+            
+            if ($scheme !== null && $scheme !== $request->getScheme()) {
+                continue;
+            }
+            
+            $port = $route->getPort();
+            
+            if ($port !== null && $port !== $request->getPort()) {
+                continue;
+            }
+
+            return $route;
+        }
+
+        return [];
+    }
+    
     /**
      * Check if given request uri matches given uri method.
      * 
