@@ -68,39 +68,17 @@ abstract class BaseRouteCollection implements Countable, IteratorAggregate
      */
     protected function findRoute($routes, $request)
     {
-        foreach ($routes as $route) {
-            if ( ! $route->fallback()) {
-                continue;
-            }
+        $route = UriMatches::conditionLoopForRoutes($routes, $request);
 
-            $host = $route->getHost();
+        $parameters = [];
 
-            if ($host !== null && $host != $request->getHost()) {
-                continue;
-            }
-            
-            $scheme = $route->getScheme();
-            
-            if ($scheme !== null && $scheme !== $request->getScheme()) {
-                continue;
-            }
-            
-            $port = $route->getPort();
-            
-            if ($port !== null && $port !== $request->getPort()) {
-                continue;
-            }
-
-            $parameters = [];
-
-            $path = rtrim($request->path(), '/');
-            
-            // If the requested route one of the defined routes
-            if (UriMatches::compareUri($route->uri, $path, $parameters, $route->wheres)) {
-                return ! is_null($this->getCheckedRoutes($routes, $request)) 
-                                ? $route->bind($request)
-                                : $route;
-            }
+        $path = rtrim($request->path(), '/');
+        
+        // If the requested route one of the defined routes
+        if (UriMatches::compareUri($route->uri, $path, $parameters, $route->wheres)) {
+            return ! is_null($this->getCheckedRoutes($routes, $request)) 
+                            ? $route->bind($request)
+                            : $route;
         }
     }
 
