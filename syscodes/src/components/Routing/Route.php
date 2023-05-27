@@ -33,6 +33,7 @@ use Syscodes\Components\Container\Container;
 use Syscodes\Components\Routing\ControllerDispatcher;
 use Syscodes\Components\Routing\Matching\UriValidator;
 use Syscodes\Components\Routing\Matching\HostValidator;
+use Syscodes\Components\Routing\Generator\RouteCompiler;
 use Syscodes\Components\Routing\Matching\MethodValidator;
 use Syscodes\Components\Routing\Matching\SchemeValidator;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
