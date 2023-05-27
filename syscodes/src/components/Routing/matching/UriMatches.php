@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Routing\Matching;
 
 use Syscodes\Components\Http\Request;
+use Syscodes\Components\Routing\Route;
 
 /**
  * Checkes the request uri matches given route.
@@ -30,14 +31,14 @@ use Syscodes\Components\Http\Request;
 class UriMatches
 {
     /**
-     * Check if exist options of route for add conditionals.
+     * Check the regex if exist options of route for add conditionals.
      * 
      * @param  array  $routes
      * @param  \Syscodes\Components\Http\Request  $request
      * 
      * @return array|object
      */
-    public static function conditionLoopForRoutes(array $routes, Request $request): array|object
+    public static function patternLoopForRoutes(array $routes, Request $request): array|object
     {
         foreach ($routes as $route) {
             if ( ! $route->fallback()) {
@@ -62,7 +63,16 @@ class UriMatches
                 continue;
             }
 
-            return $route;
+            $parameters = [];
+
+            $path = rtrim($request->path(), '/');
+            
+            // If the requested route one of the defined routes
+            if (UriMatches::compareUri($route->uri, $path, $parameters, $route->wheres)) {
+                return ! is_null(static::getCheckedRoutes($routes, $request)) 
+                                ? $route->bind($request)
+                                : $route;
+            }
         }
 
         return [];
@@ -126,5 +136,19 @@ class UriMatches
         $pattern = $patterns[$name] ?? '[^/]+';
         
         return '/(?P<'.$name.'>'.$pattern.')'.$suffix;
+    }
+
+    /**
+     * Determine if a route in the array matches the request.
+     * 
+     * @param  array  $routes
+     * @param  \Syscodes\Components\Http\Request  $request
+     * @param  bool  $method
+     * 
+     * @return \Syscodes\Components\Routing\Route|null
+     */
+    private static function getCheckedRoutes(array $routes, Request $request, bool $method = true): Route|null
+    {
+        return collect($routes)->first(fn ($route) => $route->matches($request, $method));
     }
 }
