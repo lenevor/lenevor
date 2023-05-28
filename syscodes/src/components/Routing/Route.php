@@ -579,7 +579,7 @@ class Route
 	protected function compileRoute()
 	{
 		if ( ! $this->compiled) {
-			$this->compiled = with(new RouteCompiler)->compile($this);
+			$this->compiled = RouteCompiler::compile($this);
 		}
 
 		return $this->compiled;
