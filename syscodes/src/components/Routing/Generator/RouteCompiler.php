@@ -33,16 +33,25 @@ use Syscodes\Components\Routing\Route;
 class RouteCompiler
 {
     /**
+     * This string defines which separators will be in optional placeholders 
+     * for matching and generating URLs.
+     */
+    public const SEPARATOR = '/,;.:-_~+*=@';
+    
+    /**
      * Compile the inner Route pattern.
+     * 
+     * @param  \Syscodes\Components\Routing\Route  $route
      * 
      * @return string
      * 
      * @throws \LogicException|\DomainException
      */
-    public function compile(Route $route): string
+    public static function compile(Route $route): string
     {
         $uri       = $route->getRoute();
         $patterns  = $route->getPatterns();
+        $pattern   = $route->getRoute();
         $optionals = 0;
         $variables = [];
 
@@ -84,4 +93,31 @@ class RouteCompiler
      * 
      * @return array
      */
+    private static function compilePattern(Route $route, string $pattern, bool $ishost)
+    {
+        $tokens           = [];
+        $variables        = [];
+        $pos              = 0;
+        $dafaultSeparator = $ishost ? '.' : '/';
+        $useUtf8          = preg_match('//u', $pattern);
+
+        if ($useUtf8 && preg_match('~[\x80-\xFF]~', $pattern)) {
+            throw new LogicException(
+                sprintf('Cannot use UTF-8 route patterns without setting the "utf8" option for route "%s".', $route->getRoute())
+            );
+        }
+
+        if ( ! $useUtf8) {
+            throw new LogicException(
+                sprintf('Cannot mix UTF-8 requirements with non-UTF-8 pattern "%s"', $pattern)
+            );
+        }
+
+        preg_match_all('~\{(!)?([\w\x80-\xFF]+)\}~', $pattern, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
+
+        foreach ($matches as $match) {
+            $main = $match[1][1] >= 0;
+            $varName = $match[2][0];
+        }
+    }
 }
