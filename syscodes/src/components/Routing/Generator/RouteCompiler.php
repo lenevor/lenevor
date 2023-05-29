@@ -25,6 +25,7 @@ namespace Syscodes\Components\Routing\Generator;
 use LogicException;
 use DomainException;
 use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Str;
 use Syscodes\Components\Routing\Route;
 
 /**
@@ -37,6 +38,11 @@ class RouteCompiler
      * for matching and generating URLs.
      */
     public const SEPARATOR = '/,;.:-_~+*=@';
+
+    /**
+     * The maximum supported length.
+     */
+    public const VARIABLE_MAXMUM_LENGTH = 32;
     
     /**
      * Compile the inner Route pattern.
@@ -54,7 +60,7 @@ class RouteCompiler
         $pattern   = $route->getRoute();
         $optionals = 0;
         $variables = [];
-
+        echo static::compilePattern($route, $pattern, true);
         $pattern = preg_replace_callback('~/\{(.*?)(\?)?\}~', function ($matches) use ($uri, $patterns, &$optionals, &$variables) {
             list(, $name, $optional) = array_pad($matches, 3, false);
             
@@ -118,6 +124,41 @@ class RouteCompiler
         foreach ($matches as $match) {
             $main = $match[1][1] >= 0;
             $varName = $match[2][0];
+            $precedingText = substr($pattern, $pos, $match[0][1] - $pos);
+            $pos = $match[0][1] + strlen($match[0][0]);
+
+            if ( ! strlen($precedingText)) {
+                $precedingChar = '';
+            } elseif ($useUtf8) {
+                preg_match('/.$/u', $precedingText, $precedingChar);
+
+                $preceddingChar = $precedingChar[0];
+            } else {
+                $preceddingChar = substr($precedingText, -1);
+            }
+
+            $separator = '' != $preceddingChar && Str::contains(static::SEPARATOR, $preceddingChar);
+
+            if (preg_match('~^\d~', $varName) === 1) {
+                throw new DomainException(
+                    sprintf('Variable name "%s" cannot start with a digit in route pattern "%s"', $varName, $pattern)
+                );
+            }
+
+            if (in_array($varName, $variables)) {
+                throw new LogicException(
+                    sprintf('Route pattern "%s" cannot reference variable name "%s" more than once', $pattern, $varName)
+                );
+            }
+            
+            if (strlen($varName) > self::VARIABLE_MAXMUM_LENGTH) {
+                throw new DomainException(
+                    sprintf('Variable name "%s" cannot be longer than %d characters in route pattern "%s"', $varName, self::VARIABLE_MAXMUM_LENGTH, $pattern)
+                );
+            }
+            
+            $regex = $route->setPattern($varName);
+            
         }
     }
 }
