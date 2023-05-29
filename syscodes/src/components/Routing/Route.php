@@ -556,6 +556,18 @@ class Route
 	}
 
 	/**
+	 * Set the where when have a variable assign.
+	 * 
+	 * @param  string  $key
+	 * 
+	 * @return string|null
+	 */
+	public function setPattern(string $key): ? string
+	{
+		return $this->wheres[$key] ?? null;
+	}
+
+	/**
 	 * Bind the route to a given request for execution.
 	 * 
 	 * @param  \Syscodes\Components\Http\Request  $request
