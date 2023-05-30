@@ -57,10 +57,9 @@ class RouteCompiler
     {
         $uri       = $route->getRoute();
         $patterns  = $route->getPatterns();
-        $pattern   = $route->getRoute();
         $optionals = 0;
         $variables = [];
-        echo static::compilePattern($route, $pattern, true);
+        echo static::compilePattern($route, $uri, true);
         $pattern = preg_replace_callback('~/\{(.*?)(\?)?\}~', function ($matches) use ($uri, $patterns, &$optionals, &$variables) {
             list(, $name, $optional) = array_pad($matches, 3, false);
             
@@ -157,8 +156,13 @@ class RouteCompiler
                 );
             }
             
-            $regex = $route->setPattern($varName);
+            if ($separator && $precedingText !== $precedingChar) {
+                $tokens[] = ['text', substr($precedingText, 0, -strlen($precedingChar))];
+            } elseif ( ! $separator && '' !== $precedingText) {
+                $tokens[] = ['text', $precedingText];
+            }
             
+            $regex = $route->setPattern($varName);         
         }
     }
 }
