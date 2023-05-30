@@ -562,7 +562,7 @@ class Route
 	 * 
 	 * @return string|null
 	 */
-	public function setPattern(string $key): ? string
+	public function setPattern(string $key): ?string
 	{
 		return $this->wheres[$key] ?? null;
 	}
