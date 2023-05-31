@@ -58,6 +58,12 @@ class RouteParameterBinding
     public function parameters($request): array
     {
         $parameters = $this->bindParameters($request);
+        
+        if ( ! is_null($this->route->compiled->getHostRegex())) {
+            $parameters = $this->bindHostParameters(
+                $request, $parameters
+            );
+        }
 
         return $this->replaceDefaults($parameters);
     }
@@ -73,9 +79,24 @@ class RouteParameterBinding
     {
         $path = '/'.ltrim($request->decodedPath(), '/');
 
-        @preg_match('~[^/'.$this->route->uri.']+~sDu', $path, $matches);
+        @preg_match($this->route->compiled->getRegex(), $path, $matches);
         
-        return $this->matchToKeys(array_slice($matches, 0));
+        return $this->matchToKeys(array_slice($matches, 1));
+    }
+    
+    /**
+     * Get the parameter list from the host part of the request.
+     * 
+     * @param  \Syscodes\Components\Http\Request  $request
+     * @param  array  $parameters
+     * 
+     * @return array
+     */
+    protected function bindHostParameters($request, $parameters): array
+    {
+        @preg_match($this->route->compiled->getHostRegex(), $request->getHost(), $matches);
+        
+        return array_merge($this->matchToKeys(array_slice($matches, 1)), $parameters);
     }
     
     /**
@@ -91,7 +112,7 @@ class RouteParameterBinding
             return [];
         }
         
-        $parameters = array_intersect_key($matches, array_values($parameterNames));
+        $parameters = array_intersect_key($matches, array_flip($parameterNames));
         
         return array_filter(
                     $parameters, 
