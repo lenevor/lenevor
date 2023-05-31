@@ -46,7 +46,7 @@ abstract class BaseRouteCollection implements Countable, IteratorAggregate
      * 
      * @throws \Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException
      */
-    protected function handleMatchedRoute(Request $request, $routes)
+    protected function handleMatchedRoute(Request $request, $routes): Route
     {
         if ( ! is_null($route = $this->findRoute($routes, $request))) {
             return $route;
@@ -64,9 +64,9 @@ abstract class BaseRouteCollection implements Countable, IteratorAggregate
      * @param  array  $routes
      * @param  \Syscodes\Components\Http\Request  $request
      * 
-     * @return \Syscodes\Components\Routing\Route|null
+     * @return \Syscodes\Components\Routing\Route
      */
-    protected function findRoute($routes, Request $request): Route|null
+    protected function findRoute($routes, Request $request)
     {
         return UriMatches::patternLoopForRoutes($routes, $request);
     }
