@@ -36,9 +36,9 @@ class UriMatches
      * @param  array  $routes
      * @param  \Syscodes\Components\Http\Request  $request
      * 
-     * @return array|object
+     * @return \Syscodes\Components\Routing\Route
      */
-    public static function patternLoopForRoutes(array $routes, Request $request): array|object
+    public static function patternLoopForRoutes(array $routes, Request $request)
     {
         foreach ($routes as $route) {
             if ( ! $route->fallback()) {
@@ -68,14 +68,12 @@ class UriMatches
             $path = rtrim($request->path(), '/');
             
             // If the requested route one of the defined routes
-            if (UriMatches::compareUri($route->uri, $path, $parameters, $route->wheres)) {
+            if (UriMatches::compareUri($route->getRoute(), $path, $parameters, $route->getPatterns())) {
                 return ! is_null(static::getCheckedRoutes($routes, $request)) 
                                 ? $route->bind($request)
                                 : $route;
             }
         }
-
-        return [];
     }
     
     /**
