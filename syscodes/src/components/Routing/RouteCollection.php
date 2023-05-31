@@ -183,9 +183,9 @@ class RouteCollection extends BaseRouteCollection
      * 
      * @param  \Syscodes\Components\Http\Request  $request
      * 
-     * @return \Syscodes\Components\Routing\Route|null
+     * @return \Syscodes\Components\Routing\Route
      */
-    public function match(Request $request)
+    public function match(Request $request): Route
     {
         $routes = $this->get($request->getMethod()); 
 
