@@ -89,9 +89,9 @@ final class CompiledRouteCollection implements Serializable
     /**
      * Constructor. Create a new CompiledRoute class instance.
      * 
-     * @param string  $prefix  The prefix of the compiled route
      * @param string  $regex  The regular expression to use to match this route
      * @param array  $tokens  An array of tokens to use to generate URL for this route
+     * @param string  $prefix  The prefix of the compiled route
      * @param array  $pathVariables  An array of path variables
      * @param string|null  $hostRegex  Host regex
      * @param array  $hostTokens  Host tokens
@@ -101,9 +101,9 @@ final class CompiledRouteCollection implements Serializable
      * @return void
      */
     public function __construct(
-        string $prefix,
         string $regex,
         array $tokens,
+        string $prefix,
         array $pathVariables,
         string $hostRegex = null,
         array $hostTokens = [],
