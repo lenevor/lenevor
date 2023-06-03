@@ -25,7 +25,6 @@ namespace Syscodes\Components\Routing\Generator;
 use LogicException;
 use DomainException;
 use InvalidArgumentException;
-use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Routing\Route;
 use Syscodes\Components\Routing\Collections\CompiledRouteCollection;
@@ -63,7 +62,7 @@ class RouteCompiler
         $hostTokens = [];
 
         if ('' !== $host = $route->getHost()) {
-            $result = self::compilePattern($route, $host, true);
+            $result = static::compilePattern($route, $host, true);
 
             $hostVariables = $result['variables'];
             $variables = $hostVariables;
@@ -94,9 +93,9 @@ class RouteCompiler
         $regex = $result['regex'];
 
         return new CompiledRouteCollection(
-            $staticPrefix,
             $regex,
             $tokens,
+            $staticPrefix,
             $pathVariables,
             $hostRegex,
             $hostTokens,
@@ -219,7 +218,7 @@ class RouteCompiler
         // find the first optional token
         $firstOptional = PHP_INT_MAX;
         
-        // compute the matching regexp
+        // compute the matching regex
         $regex = '';
 
         for ($i = 0, $nbToken = count($tokens); $i < $nbToken; ++$i) {
@@ -228,12 +227,41 @@ class RouteCompiler
 
         $regex = '{^/'.$regex.'$}sD'.($isHost ? 'i' : '');
 
+         // enable Utf8 matching if really required
+        if ($useUtf8) {
+            $regex .= 'u';
+            
+            for ($i = 0, $nbToken = count($tokens); $i < $nbToken; ++$i) {
+                if ('variable' === $tokens[$i][0]) {
+                    $tokens[$i][4] = true;
+                }
+            }
+        }
+
         return [
-            'staticPrefix' => $regex,
             'regex' => $regex,
             'tokens' => array_reverse($tokens),
+            'staticPrefix' => static::determineStaticPrefix([$regex]),
             'variables' => $variables,
         ];
+    }
+
+     /**
+     * Determines the longest static prefix possible for a route.
+     */
+    private static function determineStaticPrefix(array $tokens): string
+    {
+        if ('text' !== $tokens[0][0]) {
+            return ('/' === $tokens[0][1]) ? '' : $tokens[0][1];
+        }
+
+        $prefix = $tokens[0][1];
+
+        if (isset($tokens[1][1]) && '/' !== $tokens[1][1]) {
+            $prefix .= $tokens[1][1];
+        }
+
+        return $prefix;
     }
 
     /**
@@ -283,19 +311,19 @@ class RouteCompiler
                 // When the only token is an optional variable token, the separator is required
                 return sprintf('%s(?P<%s>%s)?', preg_quote($token[1]), $token[3], $token[2]);
             } else {
-                $regexp = sprintf('%s(?P<%s>%s)', preg_quote($token[1]), $token[3], $token[2]);
+                $regex = sprintf('%s(?P<%s>%s)', preg_quote($token[1]), $token[3], $token[2]);
                 
                 if ($index >= $firstOptional) {
-                    $regexp = "(?:$regexp";
+                    $regex = "(?:$regex";
                     $nbTokens = count($tokens);
                     
                     if ($nbTokens - 1 == $index) {
                         // Close the optional subpatterns
-                        $regexp .= str_repeat(')?', $nbTokens - $firstOptional - (0 === $firstOptional ? 1 : 0));
+                        $regex .= str_repeat(')?', $nbTokens - $firstOptional - (0 === $firstOptional ? 1 : 0));
                     }
                 }
                 
-                return $regexp;
+                return $regex;
             }
         }
     }
