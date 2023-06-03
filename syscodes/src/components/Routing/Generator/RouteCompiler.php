@@ -75,7 +75,7 @@ class RouteCompiler
 
         $result = static::compilePattern($route, $path, false);
 
-        $staticPrefix = $result['staticPrefix'];
+        $prefix = $result['prefix'];
 
         $pathVariables = $result['variables'];
 
@@ -95,7 +95,7 @@ class RouteCompiler
         return new CompiledRouteCollection(
             $regex,
             $tokens,
-            $staticPrefix,
+            $prefix,
             $pathVariables,
             $hostRegex,
             $hostTokens,
@@ -182,7 +182,7 @@ class RouteCompiler
             if (null === $regex) {
                 $following = (string) substr($pattern, $pos);
 
-                $nextSeparator = static::findNextStaticSeparator($following, $useUtf8);
+                $nextSeparator = static::findNextSeparator($following, $useUtf8);
 
                 $regex = sprintf(
                     '[^%s%s]+',
@@ -241,15 +241,15 @@ class RouteCompiler
         return [
             'regex' => $regex,
             'tokens' => array_reverse($tokens),
-            'staticPrefix' => static::determineStaticPrefix([$regex]),
+            'prefix' => static::determinePrefix([$regex]),
             'variables' => $variables,
         ];
     }
 
      /**
-     * Determines the longest static prefix possible for a route.
+     * Determines the longest prefix possible for a route.
      */
-    private static function determineStaticPrefix(array $tokens): string
+    private static function determinePrefix(array $tokens): string
     {
         if ('text' !== $tokens[0][0]) {
             return ('/' === $tokens[0][1]) ? '' : $tokens[0][1];
@@ -265,14 +265,14 @@ class RouteCompiler
     }
 
     /**
-     * Returns the next static character in the Route pattern that will serve as a separator.
+     * Returns the next character in the Route pattern that will serve as a separator.
      * 
      * @param  string  $pattern
      * @param  bool  $useUtf8
      * 
      * @return string
      */
-    private static function findNextStaticSeparator(string $pattern, bool $useUtf8): string
+    private static function findNextSeparator(string $pattern, bool $useUtf8): string
     {
         if ('' === $pattern) {
             return '';
