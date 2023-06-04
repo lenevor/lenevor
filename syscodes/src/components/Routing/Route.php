@@ -201,8 +201,10 @@ class Route
 		if (is_null($domain)) {
 			return $this->getDomain();
 		}
+		
+		$parsed = RouteUri::parse($domain);
 
-		$this->action['domain'] = $this->parseRoute($domain);
+		$this->action['domain'] = $parsed->uri;
 
 		return $this;
 	}
@@ -378,15 +380,15 @@ class Route
 	}
 
 	/**
-	 * Set the route.
+	 * Set the URI that the route responds to.
 	 *
-	 * @param  string|array|null  $uri
+	 * @param  string|null  $uri
 	 *
 	 * @return static
 	 *
 	 * @throws  \InvalidArgumentException
 	 */
-	public function parseRoute($uri): static
+	public function setUri($uri): static
 	{
 		if ($uri === null) {
 			throw new InvalidArgumentException(__('route.uriNotProvided'));
@@ -424,7 +426,7 @@ class Route
 		
 		$uri = rtrim($prefix, '/').'/'.ltrim($this->uri, '/');
 		
-		return $this->parseRoute($uri !== '/' ? trim($uri, '/') : $uri);
+		return $this->setUri($uri !== '/' ? trim($uri, '/') : $uri);
 	}
 
 	/**
@@ -794,11 +796,11 @@ class Route
 	}
 
 	/**
-	 * Get the url of the current route.
+	 * Get the URI associated with the route.
 	 *
 	 * @return string
 	 */
-	public function getRoute(): string
+	public function getUri(): string
 	{
 		return $this->uri;
 	}
