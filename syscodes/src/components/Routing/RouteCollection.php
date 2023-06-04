@@ -84,7 +84,7 @@ class RouteCollection extends BaseRouteCollection
      */
     protected function addRouteCollections($route): void
     {
-        $domainAndRoute = $route->domain().$route->getRoute();
+        $domainAndRoute = $route->domain().$route->getUri();
 
         foreach ($route->getMethod() as $method) {
             $this->routes[$method][$domainAndRoute] = $route;
