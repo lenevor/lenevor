@@ -68,7 +68,7 @@ class UriMatches
             $path = rtrim($request->path(), '/');
             
             // If the requested route one of the defined routes
-            if (UriMatches::compareUri($route->getRoute(), $path, $parameters, $route->getPatterns())) {
+            if (UriMatches::compareUri($route->getUri(), $path, $parameters, $route->getPatterns())) {
                 return ! is_null(static::getCheckedRoutes($routes, $request)) 
                                 ? $route->bind($request)
                                 : $route;

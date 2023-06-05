@@ -71,7 +71,7 @@ class RouteCompiler
             $hostRegex = $result['regex'];
         }
 
-        $path = $route->getRoute();
+        $path = $route->getUri();
 
         $result = static::compilePattern($route, $path, false);
 
@@ -82,7 +82,7 @@ class RouteCompiler
         foreach ($pathVariables as $pathParam) {
             if ('_fragment' === $pathParam) {
                 throw new InvalidArgumentException(
-                    sprintf('Route pattern "%s" cannot contain "_fragment" as a path parameter.', $route->getRoute())
+                    sprintf('Route pattern "%s" cannot contain "_fragment" as a path parameter.', $route->getUri())
                 );
             }
         }
@@ -123,7 +123,7 @@ class RouteCompiler
 
         if ($useUtf8 && preg_match('~[\x80-\xFF]~', $pattern)) {
             throw new LogicException(
-                sprintf('Cannot use UTF-8 route patterns without setting the "utf8" option for route "%s".', $route->getRoute())
+                sprintf('Cannot use UTF-8 route patterns without setting the "utf8" option for route "%s".', $route->getUri())
             );
         }
 
@@ -215,19 +215,19 @@ class RouteCompiler
             $tokens[] = ['text', substr($pattern, $pos)];
         }
         
-        // find the first optional token
+        // Find the first optional token
         $firstOptional = PHP_INT_MAX;
         
-        // compute the matching regex
-        $regex = '';
+        // Compute the matching regex with slash
+        $regex = '/';
 
         for ($i = 0, $nbToken = count($tokens); $i < $nbToken; ++$i) {
             $regex .= static::CheckTokenRegex($tokens, $i, $firstOptional);
         }
 
-        $regex = '{^/'.$regex.'$}sD'.($isHost ? 'i' : '');
+        $regex = '{^'.$regex.'$}sD'.($isHost ? 'i' : '');
 
-         // enable Utf8 matching if really required
+         // Enable Utf8 matching if really required
         if ($useUtf8) {
             $regex .= 'u';
             
