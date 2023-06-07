@@ -26,9 +26,10 @@ use Countable;
 use Traversable;
 use ArrayIterator;
 use IteratorAggregate;
+use InvalidArgumentException;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Routing\Route;
-use Syscodes\Components\Routing\Matching\UriMatches;
+use Syscodes\Components\Routing\Concerns\RouteRequestMatchesGiven;
 use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
 
 /**
@@ -36,6 +37,8 @@ use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
  */
 abstract class BaseRouteCollection implements Countable, IteratorAggregate
 {
+    use RouteRequestMatchesGiven;
+
     /**
      * Handle the matched route.
      * 
@@ -46,10 +49,10 @@ abstract class BaseRouteCollection implements Countable, IteratorAggregate
      * 
      * @throws \Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException
      */
-    protected function handleMatchedRoute(Request $request, $routes): Route
+    protected function handleMatchedRoute(Request $request, $route): Route
     {
-        if ( ! is_null($route = $this->findRoute($routes, $request))) {
-            return $route;
+        if ( ! is_null($route)) {
+            return $route->bind($request);
         }
 
         throw new NotFoundHttpException(sprintf(
@@ -59,16 +62,65 @@ abstract class BaseRouteCollection implements Countable, IteratorAggregate
     }
 
     /**
-     * Find the first route matching a given request.
-     *
+     * Determine if a route in the array matches the request.
+     * 
+     * @param  array  $routes
+     * @param  \Syscodes\Components\Http\Request  $request
+     * @param  bool  $method
+     * 
+     * @return \Syscodes\Components\Routing\Route
+     */
+    protected function getMatchedRoutes(array $routes, Request $request, bool $method = true)
+    {
+        foreach ($routes as $route) {
+            if ( ! $route->fallback()) {
+                continue;
+            }
+
+            $host = $route->getHost();
+
+            if ($host !== null && $host != $request->getHost()) {
+                continue;
+            }
+            
+            $scheme = $route->getScheme();
+            
+            if ($scheme !== null && $scheme !== $request->getScheme()) {
+                continue;
+            }
+            
+            $port = $route->getPort();
+            
+            if ($port !== null && $port !== $request->getPort()) {
+                continue;
+            }
+
+            $parameters = [];
+
+            $path = rtrim($request->path(), '/');
+            
+            // If the requested route one of the defined routes
+            if ($this->compareUri($route->getUri(), $path, $parameters, $route->getPatterns())) {
+                return $this->getMatchedToRegex($routes, $request, $method) 
+                                                ? $route 
+                                                : $route->fallback() ?? throw new InvalidArgumentException('Problems with matches of uri given');
+            }
+        }
+    }
+
+    /**
+     * Check the regex if exist options of route for add conditionals.
+     * 
      * @param  array  $routes
      * @param  \Syscodes\Components\Http\Request  $request
      * 
      * @return \Syscodes\Components\Routing\Route
      */
-    protected function findRoute($routes, Request $request)
+    private function getMatchedToRegex(array $routes, Request $request, bool $method = true)
     {
-        return UriMatches::patternLoopForRoutes($routes, $request);
+        return collect($routes)->first(
+            fn ($route) => $route->matches($request, $method)
+        );
     }
 
     /*
