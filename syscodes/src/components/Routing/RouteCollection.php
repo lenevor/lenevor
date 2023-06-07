@@ -187,9 +187,14 @@ class RouteCollection extends BaseRouteCollection
      */
     public function match(Request $request): Route
     {
-        $routes = $this->get($request->getMethod()); 
+        $routes = $this->get($request->getMethod());
+        
+        // First, we'll see if a matching path can be found for this current
+        // request method. Great, if it works, it so can be called by the 
+        // consumer. Otherwise we will check for routes with another verb.
+        $route = $this->getMatchedRoutes($routes, $request);
 
-        return $this->handleMatchedRoute($request, $routes);
+        return $this->handleMatchedRoute($request, $route);
     }
     
     /**
