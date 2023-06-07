@@ -59,6 +59,8 @@ class RouteParameterBinding
     {
         $parameters = $this->bindParameters($request);
         
+        // If the route has a regular expression for the host part of the URI, 
+        // we will compile that and get the parameter matches for this domain
         if ( ! is_null($this->route->compiled->getHostRegex())) {
             $parameters = $this->bindHostParameters(
                 $request, $parameters
