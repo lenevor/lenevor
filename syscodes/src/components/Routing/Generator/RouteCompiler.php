@@ -62,7 +62,7 @@ class RouteCompiler
         $hostTokens = [];
 
         if ('' !== $host = $route->getHost()) {
-            $result = static::compilePattern($route, $host, true);
+            $result = static::compileIteractionPattern($route, $host, true);
 
             $hostVariables = $result['variables'];
             $variables = $hostVariables;
@@ -73,7 +73,7 @@ class RouteCompiler
 
         $path = $route->getUri();
 
-        $result = static::compilePattern($route, $path, false);
+        $result = static::compileIteractionPattern($route, $path, false);
 
         $prefix = $result['prefix'];
 
@@ -113,12 +113,13 @@ class RouteCompiler
      * 
      * @return array
      */
-    private static function compilePattern(Route $route, ?string $pattern, bool $isHost): array
+    private static function compileIteractionPattern(Route $route, ?string $pattern, bool $isHost): array
     {
         $tokens           = [];
         $variables        = [];
         $pos              = 0;
         $defaultSeparator = $isHost ? '.' : '/';
+        $pattern          = '/'.$pattern ?? $pattern;
         $useUtf8          = preg_match('//u', $pattern);
 
         if ($useUtf8 && preg_match('~[\x80-\xFF]~', $pattern)) {
@@ -219,7 +220,7 @@ class RouteCompiler
         $firstOptional = PHP_INT_MAX;
         
         // Compute the matching regex with slash
-        $regex = '/';
+        $regex = '';
 
         for ($i = 0, $nbToken = count($tokens); $i < $nbToken; ++$i) {
             $regex .= static::CheckTokenRegex($tokens, $i, $firstOptional);
@@ -227,7 +228,7 @@ class RouteCompiler
 
         $regex = '{^'.$regex.'$}sD'.($isHost ? 'i' : '');
 
-         // Enable Utf8 matching if really required
+        // Enable Utf8 matching if really required
         if ($useUtf8) {
             $regex .= 'u';
             
@@ -241,13 +242,17 @@ class RouteCompiler
         return [
             'regex' => $regex,
             'tokens' => array_reverse($tokens),
-            'prefix' => static::determinePrefix([$regex]),
+            'prefix' => static::determinePrefix($tokens),
             'variables' => $variables,
         ];
     }
 
-     /**
+    /**
      * Determines the longest prefix possible for a route.
+     * 
+     * @param  array  $tokens
+     * 
+     * @return string
      */
     private static function determinePrefix(array $tokens): string
     {
