@@ -102,7 +102,7 @@ class RouteUrlGenerator
 
         $uri = $this->url->format(
                     $root,
-                    $this->replaceRouteParameters($route->getRoute(), $parameters)
+                    $this->replaceRouteParameters($route->getUri(), $parameters)
                );
 
         if (preg_match_all('/{(.*?)}/', $uri, $missingParameters)) {
