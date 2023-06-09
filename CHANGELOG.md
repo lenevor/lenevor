@@ -1,5 +1,43 @@
 # Release Notes
 
+## [Version 0.8.5-alpha.8]
+
+Release Date: Jun 09, 2023
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added the getter methods for the CompiledRoute class
+- Added method for handle the matched route
+- Changed the property of class final by abstract
+- Created class for gets the route for parse
+- Added the getCheckedRoutes() method for verify if has matches in route
+- Added the type output of method and method for pattern loop routes
+- Added method for compile patterns of routes
+- Added new methods for returns the compilation of pattern in the routes
+- Added new method for the parameter list form the host in the request
+- Added new method for get the compiled version of the route
+
+### Changed
+- Changed the regular expression to load route parameters
+- Changed to shorthand function for PHP 8.0 version
+- Changed the path of the RouteCompiler class at `Generator` folder
+- Changed the name method getRoute() by getUri() in the `RouteResponse` class
+
+### Fixed
+- [0.8.x] Fix bug of given parse URI in the `Route` class
+
+### Created
+- Created a new interface for validate rules
+- Created new controller for redirect the routes easily
+
+### Updated
+- Updated release to 0.8.5
+
+### Removed
+- Removed the static word in method and variables with static name
+
+
 ## [Version 0.8.4-alpha.8]
 
 Release Date: Abr 29, 2023
