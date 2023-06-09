@@ -112,6 +112,8 @@ class RouteCompiler
      * @param  bool  $isHost
      * 
      * @return array
+     * 
+     * @throws \LogicException|\DomainException
      */
     private static function compileIteractionPattern(Route $route, ?string $pattern, bool $isHost): array
     {
