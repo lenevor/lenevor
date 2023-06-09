@@ -49,9 +49,9 @@ trait RouteMap
 	 * Add a route for all posible methods.
 	 *
 	 * @param  string  $route
-	 * @param  \Closure|array|string  $action
+	 * @param  \Closure|array|string|null  $action
 	 *
-	 * @return void
+	 * @return \Syscodes\Components\Routing\Route
 	 */
 	public function any($route, $action = null) 
 	{		
@@ -62,9 +62,9 @@ trait RouteMap
 	 * Add a route with delete method.
 	 *
 	 * @param  string  $route
-	 * @param  \Closure|array|string  $action
+	 * @param  \Closure|array|string|null  $action
 	 *
-	 * @return void
+	 * @return \Syscodes\Components\Routing\Route
 	 */
 	public function delete($route, $action = null) 
 	{
@@ -75,9 +75,9 @@ trait RouteMap
 	 * Add a route with get method.
 	 * 
 	 * @param  string  $route
-	 * @param  \Closure|array|string  $action
+	 * @param  \Closure|array|string|null  $action
 	 *
-	 * @return void
+	 * @return \Syscodes\Components\Routing\Route
 	 */
 	public function get($route, $action = null) 
 	{
@@ -88,9 +88,9 @@ trait RouteMap
 	 * Add a route with head method.
 	 *
 	 * @param  string  $route
-	 * @param  \Closure|array|string  $action
+	 * @param  \Closure|array|string|null  $action
 	 *
-	 * @return void
+	 * @return \Syscodes\Components\Routing\Route
 	 */
 	public function head($route, $action = null)
 	{
@@ -102,9 +102,9 @@ trait RouteMap
 	 * 
 	 * @param  array|string  $methods
 	 * @param  string  $route
-	 * @param  string|callable|null  $action
+	 * @param  \Closure|array|string|null  $action
 	 * 
-	 * @return void
+	 * @return \Syscodes\Components\Routing\Route
 	 */
 	public function match($methods, $route, $action = null)
 	{
@@ -115,9 +115,9 @@ trait RouteMap
 	 * Add a route with options method
 	 *
 	 * @param  string  $route
-	 * @param  \Closure|array|string  $action
+	 * @param  \Closure|array|string|null  $action
 	 *
-	 * @return void
+	 * @return \Syscodes\Components\Routing\Route
 	 */
 	public function options($route, $action = null) 
 	{
@@ -128,9 +128,9 @@ trait RouteMap
 	 * Add a route with patch method.
 	 *
 	 * @param  string  $route
-	 * @param  \Closure|array|string  $action
+	 * @param  \Closure|array|string|null  $action
 	 *
-	 * @return void
+	 * @return \Syscodes\Components\Routing\Route
 	 */
 	public function patch($route, $action = null)
 	{
@@ -141,9 +141,9 @@ trait RouteMap
 	 * Add a route with post method.
 	 *
 	 * @param  string  $route
-	 * @param  \Closure|array|string  $action
+	 * @param  \Closure|array|string|null  $action
 	 *
-	 * @return void
+	 * @return \Syscodes\Components\Routing\Route
 	 */
 	public function post($route, $action = null) 
 	{
@@ -154,9 +154,9 @@ trait RouteMap
 	 * Add a route with put method.
 	 *
 	 * @param  string  $route
-	 * @param  \Closure|array|string  $action
+	 * @param  \Closure|array|string|null  $action
 	 *
-	 * @return void
+	 * @return \Syscodes\Components\Routing\Route
 	 */
 	public function put($route, $action = null) 
 	{
