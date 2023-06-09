@@ -236,6 +236,22 @@ class Router implements Routable
 	{
 		return $this->routes->add($this->map($method, $route, $action));
 	}
+	
+	/**
+	 * Register a new fallback route with the router.
+	 * 
+	 * @param  array|string|callable|null  $action
+	 * 
+	 * @return \Syscodes\Components\Routing\Route
+	 */
+	public function fallback($action)
+	{
+		$placeholder = 'fallbackPlaceholder';
+		
+		return $this->addRoute(
+			'GET', "{{$placeholder}}", $action
+		)->where($placeholder, '.*')->fallback();
+	}
 
 	/**
 	 * Create a redirect from one URI to another.
@@ -248,7 +264,22 @@ class Router implements Routable
 	 */
 	public function redirect($uri, $destination, $status = 302)
 	{
-		return $this->any($uri, fn () => new RedirectResponse($destination, $status));
+		return $this->any($uri, '\Syscodes\Components\Routing\Controllers\RedirectController')
+		            ->defaults('destination', $destination)
+					->defaults('status', $status);
+	}
+	
+	/**
+	 * Create a permanent redirect from one URI to another.
+	 * 
+	 * @param  string  $uri
+	 * @param  string  $destination
+	 * 
+	 * @return \Syscodes\Components\Routing\Route
+	 */
+	public function permanentRedirect($uri, $destination)
+	{
+		return $this->redirect($uri, $destination, 301);
 	}
 
 	/**
@@ -257,16 +288,20 @@ class Router implements Routable
 	 * @param  string  $uri
 	 * @param  string  $view
 	 * @param  array  $data
+	 * @param  int|array  $status
+	 * @param  array  $headers
 	 * 
 	 * @return \Syscodes\Components\Routing\Route
 	 */
-	public function view($uri, $view, $data = [])
+	public function view($uri, $view, $data = [], $status = 200, array $headers = [])
 	{
-		return $this->match(
-			        ['GET', 'HEAD'], 
-					$uri, 
-					fn () => $this->container->make('view')->make($view, $data)
-				);
+		return $this->match(['GET', 'HEAD'], $uri, '\Syscodes\Components\Routing\Controllers\ViewController')
+							->setDefaults([
+								'view' => $view,
+								'data' => $data,
+								'status' => is_array($status) ? 200 : $status,
+								'headers' => is_array($status) ? $status : $headers,
+							]);
 	}
 
 	/**
