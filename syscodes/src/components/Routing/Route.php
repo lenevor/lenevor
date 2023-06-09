@@ -501,7 +501,7 @@ class Route
 	/**
 	 * Set a default values for the route.
 	 * 
-	 * @param  string  $defaults
+	 * @param  array  $defaults
 	 * 
 	 * @return static
 	 */
@@ -793,6 +793,16 @@ class Route
 	public function getAction()
 	{
 		return $this->action;
+	}
+	
+	/**
+	 * Get the compiled version of the route.
+	 * 
+	 * @return \Syscodes\Components\Routing\Collections\CompiledRouteCollection
+	 */
+	public function getCompiled()
+	{
+		return $this->compiled;
 	}
 
 	/**
