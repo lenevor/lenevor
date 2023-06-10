@@ -252,9 +252,9 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
      * @param  string  $line
      * @param  array  $replace
      * 
-     * @return string|array
+     * @return string|bool
      */
-    protected function formatMessage($line, array $replace = [])
+    protected function formatMessage($line, array $replace = []): string|bool
     {
         if ( ! $this->intlSupport || ! count($replace)) {
             return $line;
