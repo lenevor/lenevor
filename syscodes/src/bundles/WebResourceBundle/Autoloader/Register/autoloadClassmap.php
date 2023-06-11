@@ -105,7 +105,7 @@ return [
     'Syscodes\\Components\\Console\\GlobalOption' => SYS_PATH.'src/components/Console/GlobalOption.php',
     'Syscodes\\Components\\Container\\Exceptions\\ContainerException' => SYS_PATH.'src/components/Container/Exceptions/ContainerException.php',
     'Syscodes\\Components\\Container\\Exceptions\\UnknownIdentifierException' => SYS_PATH.'src/components/Container/Exceptions/UnknownIdentifierException.php',
-    'Syscodes\\Components\\Container\\CallBoundCallback' => SYS_PATH.'src/components/Container/CallBoundCallback.php',
+    'Syscodes\\Components\\Container\\CallBoundMethod' => SYS_PATH.'src/components/Container/CallBoundMethod.php',
     'Syscodes\\Components\\Container\\Container' => SYS_PATH.'src/components/Container/Container.php',
     'Syscodes\\Components\\Container\\Util' => SYS_PATH.'src/components/Container/Util.php',
     'Syscodes\\Components\\Contracts\\Auth\\Access\\Authorizable' => SYS_PATH.'src/components/Contracts/Auth/Access/Authorizable.php',
