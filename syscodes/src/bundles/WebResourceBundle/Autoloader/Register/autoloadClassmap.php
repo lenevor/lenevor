@@ -107,6 +107,7 @@ return [
     'Syscodes\\Components\\Container\\Exceptions\\UnknownIdentifierException' => SYS_PATH.'src/components/Container/Exceptions/UnknownIdentifierException.php',
     'Syscodes\\Components\\Container\\CallBoundCallback' => SYS_PATH.'src/components/Container/CallBoundCallback.php',
     'Syscodes\\Components\\Container\\Container' => SYS_PATH.'src/components/Container/Container.php',
+    'Syscodes\\Components\\Container\\Util' => SYS_PATH.'src/components/Container/Util.php',
     'Syscodes\\Components\\Contracts\\Auth\\Access\\Authorizable' => SYS_PATH.'src/components/Contracts/Auth/Access/Authorizable.php',
     'Syscodes\\Components\\Contracts\\Auth\\Access\\Gate' => SYS_PATH.'src/components/Contracts/Auth/Access/Gate.php',
     'Syscodes\\Components\\Contracts\\Auth\\Authenticatable' => SYS_PATH.'src/components/Contracts/Auth/Authenticatable.php',
