@@ -149,6 +149,20 @@ class Container implements ArrayAccess, ContainerContract
     }
     
     /**
+     * Refresh an instance on the given target and method.
+     * 
+     * @param  string  $id
+     * @param  mixed  $target
+     * @param  string  $method
+     * 
+     * @return mixed
+     */
+    public function refresh($id, $target, $method): mixed
+    {
+        return $this->rebinding($id, fn($instance) => $target->{$method}($instance));
+    }
+
+    /**
      * Bind a new callback to an id rebind event.
      * 
      * @param  string  $id
@@ -162,19 +176,30 @@ class Container implements ArrayAccess, ContainerContract
         
         if ($this->bound($id)) return $this->make($id);
     }
-    
+
     /**
-     * Refresh an instance on the given target and method.
-     * 
+     * Extender an id type in the container.
+     *
      * @param  string  $id
-     * @param  mixed  $target
-     * @param  string  $method
+     * @param  \Closure  $closure
      * 
      * @return mixed
      */
-    public function refresh($id, $target, $method): mixed
+    public function extend($id, Closure $closure): mixed
     {
-        return $this->rebinding($id, fn($instance) => $target->{$method}($instance));
+        if ( ! isset($this->bindings[$id])) {
+            throw new InvalidArgumentException("Type {$id} is not bound.");
+        }
+        
+        if (isset($this->instances[$id])) {
+            $this->instances[$id] = $closure($this->instances[$id], $this);
+            
+            return $this->reBound($id);
+        }
+        
+        $resolver = $this->bindings[$id]['value'];
+        
+        $this->bind($id, fn ($container) => $closure($resolver($container), $container), $this->isSingleton($id));
     }
 
     /**
@@ -207,6 +232,18 @@ class Container implements ArrayAccess, ContainerContract
         if ($this->resolved($id)) {
             $this->reBound($id);
         }
+    }
+
+    /**
+     * Drop all of the stale instances and aliases.
+     *
+     * @param  string  $id
+     * 
+     * @return void
+     */
+    protected function dropInstances($id): void
+    {
+        unset($this->instances[$id], $this->aliases[$id]);
     }
 
     /**
@@ -262,31 +299,6 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * Extender an id type in the container.
-     *
-     * @param  string  $id
-     * @param  \Closure  $closure
-     * 
-     * @return mixed
-     */
-    public function extend($id, Closure $closure): mixed
-    {
-        if ( ! isset($this->bindings[$id])) {
-            throw new InvalidArgumentException("Type {$id} is not bound.");
-        }
-        
-        if (isset($this->instances[$id])) {
-            $this->instances[$id] = $closure($this->instances[$id], $this);
-            
-            return $this->reBound($id);
-        }
-        
-        $resolver = $this->bindings[$id]['value'];
-        
-        $this->bind($id, fn ($container) => $closure($resolver($container), $container), $this->isSingleton($id));
-    }
-
-    /**
      * Register a singleton binding in the container.
      * 
      * @param  string  $id
@@ -298,190 +310,6 @@ class Container implements ArrayAccess, ContainerContract
     {
         $this->bind($id, $value, true);
     }    
-
-    /**
-     * Instantiate a class instance of the given type.
-     * 
-     * @param  string  $class
-     * 
-     * @return mixed
-     * 
-     * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
-     */
-    public function build($class): mixed
-    {
-        if ($class instanceof Closure) {
-            return $class($this, $this->getLastParameterOverride());
-        }
-        
-        try {
-            $reflection = new ReflectionClass($class);
-        } catch (ReflectionException $e) {
-            throw new BindingResolutionException("Target class [$class] does not exist", 0, $e);
-        }
-
-        if ( ! $reflection->isInstantiable()) {
-            return $this->buildNotInstantiable($class);
-        }
-
-        $this->buildStack[] = $class;
-
-        $constructor = $reflection->getConstructor();
-
-        if (is_null($constructor)) {
-            array_pop($this->buildStack);
-
-            return new $class();
-        }
-
-        $dependencies = $constructor->getParameters();
-        
-        try {
-            $instances = $this->getDependencies($dependencies);
-        } catch (BindingResolutionException $e) {
-            array_pop($this->buildStack);
-            
-            throw $e;
-        }
-
-        array_pop($this->buildStack);
-        
-        return $reflection->newInstanceArgs($instances);
-    }
-
-    /**
-     * Throw an exception that the class is not instantiable.
-     *
-     * @param  string  $class
-     * 
-     * @return mixed
-     *
-     * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
-     */
-    protected function buildNotInstantiable(string $class): mixed
-    {
-        if ( ! empty($this->buildStack)) {
-           $reset   = implode(', ', $this->buildStack);
-
-           $message = "Target [{$class}] is not instantiable while building [{$reset}]."; 
-        } else {
-            $message = "Target [{$class}] is not instantiable.";
-        }
-
-        throw new BindingResolutionException($message);
-    }
-
-    /**
-     * Resolve all of the dependencies from the ReflectionParameters.
-     * 
-     * @param  array  $dependencies
-     * 
-     * @return array
-     */
-    protected function getDependencies(array $dependencies): array
-    {
-        $params = [];
-
-        foreach ($dependencies as $dependency) {
-            if ($this->getHasParameters($dependency)) {
-                $params[] = $this->getParameterOverride($dependency);
-
-                continue;
-            }
-
-            $param = is_null(Util::getParameterClassName($dependency)) 
-                       ? $this->getResolveNonClass($dependency) 
-                       : $this->getResolveClass($dependency);
-                       
-            if ($dependency->isVariadic()) {
-                $params = array_merge($params, $param);
-            } else {
-                $params[] = $param;
-            }
-        }
-
-        return $params;
-    }
-
-    /**
-     * Determine if the given dependency has a parameter override.
-     *
-     * @param  \ReflectionParameter  $dependency
-     * 
-     * @return bool
-     */
-    protected function getHasParameters($dependency): bool
-    {
-        return array_key_exists($dependency->name, $this->getLastParameterOverride());
-    }
-
-    /**
-     * Get the last parameter override.
-     *
-     * @return array
-     */
-    protected function getLastParameterOverride(): array
-    {
-        return count($this->across) ? end($this->across) : [];
-    }
-
-    /**
-     * Get a parameter override for a dependency.
-     *
-     * @param  \ReflectionParameter  $dependency
-     * 
-     * @return mixed
-     */
-    protected function getParameterOverride($dependency): mixed
-    {
-        return $this->getLastParameterOverride()[$dependency->name];
-    }
-
-    /**
-     * Resolve a class based dependency from the container.
-     *
-     * @param  \ReflectionParameter  $parameter
-     * 
-     * @return mixed
-     *
-     * @throws \Syscodes\Components\Container\Exceptions\BindingResolutionException
-     */
-    protected function getResolveClass(ReflectionParameter $parameter): mixed
-    {
-        try {
-            return $this->make(Util::getParameterClassName($parameter));
-        } catch (BindingResolutionException $e) {
-            if ($parameter->isOptional()) {
-                return $parameter->getDefaultValue();
-            }
-
-            throw $e;
-        }
-    }
-
-    /**
-     * Resolve a non-class hinted dependency.
-     *
-     * @param  \ReflectionParameter  $parameter
-     * 
-     * @return mixed
-     *
-     * @throws \Syscodes\Components\Container\Exceptions\BindingResolutionException
-     */
-    protected function getResolveNonClass(ReflectionParameter $parameter)
-    {
-        if ( ! is_null($class = Util::getParameterClassName($parameter))) {
-            return $class instanceof Closure ? $class($this) : $class;
-        }
-
-        if ($parameter->isDefaultValueAvailable()) {
-            return $parameter->getDefaultValue();
-        }
-
-        $message = "Unresolvable dependency resolving [{$parameter}] in class [{$parameter->getDeclaringClass()->getName()}]";
-
-        throw new BindingResolutionException($message);
-    }
 
     /**
      * Remove all id traces of the specified binding.
@@ -498,18 +326,6 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * Drop all of the stale instances and aliases.
-     *
-     * @param  string  $id
-     * 
-     * @return void
-     */
-    protected function dropInstances($id): void
-    {
-        unset($this->instances[$id], $this->aliases[$id]);
-    }
-
-    /**
      * Marks a callable as being a factory service.
      * 
      * @param  string  $id
@@ -519,20 +335,6 @@ class Container implements ArrayAccess, ContainerContract
     public function factory($id): Closure
     {
         return fn () => $this->make($id);
-    }
-
-    /**
-     * Get the alias for an id if available.
-     * 
-     * @param  string  $id
-     * 
-     * @return string
-     */
-    public function getAlias($id): string
-    {
-        return isset($this->aliases[$id]) 
-                ? $this->getAlias($this->aliases[$id])
-                : $id;
     }
 
     /**
@@ -662,6 +464,267 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
+     * Get the alias for an id if available.
+     * 
+     * @param  string  $id
+     * 
+     * @return string
+     */
+    public function getAlias($id): string
+    {
+        return isset($this->aliases[$id]) 
+                ? $this->getAlias($this->aliases[$id])
+                : $id;
+    }
+
+    /**
+     * Get the class type for a given id.
+     * 
+     * @param  string  $id
+     * 
+     * @return mixed
+     */
+    protected function getValue($id): mixed
+    {
+        if (isset($this->bindings[$id])) {
+            return $this->bindings[$id]['value'];
+        }
+
+        return $id;
+    }
+
+    /**
+     * Instantiate a class instance of the given type.
+     * 
+     * @param  string  $class
+     * 
+     * @return mixed
+     * 
+     * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
+     */
+    public function build($class): mixed
+    {
+        if ($class instanceof Closure) {
+            return $class($this, $this->getLastParameterOverride());
+        }
+        
+        try {
+            $reflection = new ReflectionClass($class);
+        } catch (ReflectionException $e) {
+            throw new BindingResolutionException("Target class [$class] does not exist", 0, $e);
+        }
+
+        if ( ! $reflection->isInstantiable()) {
+            return $this->buildNotInstantiable($class);
+        }
+
+        $this->buildStack[] = $class;
+
+        $constructor = $reflection->getConstructor();
+
+        if (is_null($constructor)) {
+            array_pop($this->buildStack);
+
+            return new $class();
+        }
+
+        $dependencies = $constructor->getParameters();
+        
+        try {
+            $instances = $this->getDependencies($dependencies);
+        } catch (BindingResolutionException $e) {
+            array_pop($this->buildStack);
+            
+            throw $e;
+        }
+
+        array_pop($this->buildStack);
+        
+        return $reflection->newInstanceArgs($instances);
+    }
+
+    /**
+     * Throw an exception that the class is not instantiable.
+     *
+     * @param  string  $class
+     * 
+     * @return mixed
+     *
+     * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
+     */
+    protected function buildNotInstantiable(string $class): mixed
+    {
+        if ( ! empty($this->buildStack)) {
+           $reset   = implode(', ', $this->buildStack);
+           $message = "Target [{$class}] is not instantiable while building [{$reset}]"; 
+        } else {
+            $message = "Target [{$class}] is not instantiable";
+        }
+
+        throw new BindingResolutionException($message);
+    }
+
+    /**
+     * Resolve all of the dependencies from the ReflectionParameters.
+     * 
+     * @param  array  $dependencies
+     * 
+     * @return array
+     */
+    protected function getDependencies(array $dependencies): array
+    {
+        $params = [];
+
+        foreach ($dependencies as $dependency) {
+            if ($this->getHasParameters($dependency)) {
+                $params[] = $this->getParameterOverride($dependency);
+
+                continue;
+            }
+
+            $param = is_null(Util::getParameterClassName($dependency)) 
+                       ? $this->getResolveNonClass($dependency) 
+                       : $this->getResolveClass($dependency);
+                       
+            if ($dependency->isVariadic()) {
+                $params = array_merge($params, $param);
+            } else {
+                $params[] = $param;
+            }
+        }
+
+        return $params;
+    }
+
+    /**
+     * Determine if the given dependency has a parameter override.
+     *
+     * @param  \ReflectionParameter  $dependency
+     * 
+     * @return bool
+     */
+    protected function getHasParameters($dependency): bool
+    {
+        return array_key_exists($dependency->name, $this->getLastParameterOverride());
+    }
+
+    /**
+     * Get the last parameter override.
+     *
+     * @return array
+     */
+    protected function getLastParameterOverride(): array
+    {
+        return count($this->across) ? end($this->across) : [];
+    }
+
+    /**
+     * Get a parameter override for a dependency.
+     *
+     * @param  \ReflectionParameter  $dependency
+     * 
+     * @return mixed
+     */
+    protected function getParameterOverride($dependency): mixed
+    {
+        return $this->getLastParameterOverride()[$dependency->name];
+    }
+
+    /**
+     * Resolve a non-class hinted dependency.
+     *
+     * @param  \ReflectionParameter  $parameter
+     * 
+     * @return mixed
+     *
+     * @throws \Syscodes\Components\Container\Exceptions\BindingResolutionException
+     */
+    protected function getResolveNonClass(ReflectionParameter $parameter): mixed
+    {
+        if ( ! is_null($class = Util::getParameterClassName($parameter))) {
+            return Util::unwrapExistOfClosure($class, $this);
+        }
+
+        if ($parameter->isDefaultValueAvailable()) {
+            return $parameter->getDefaultValue();
+        }
+
+        if ($parameter->isVariadic()) {
+            return [];
+        }
+
+        return $this->unresolvableNonClass($parameter);
+    }
+    
+    /**
+     * Throw an exception for an unresolvable class.
+     * 
+     * @param  \ReflectionParameter  $parameter
+     * 
+     * @return void
+     * 
+     * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
+     */
+    protected function unresolvableNonClass(ReflectionParameter $parameter): void
+    {
+        $message = "Unresolvable dependency resolving [{$parameter}] in class [{$parameter->getDeclaringClass()->getName()}]";
+        
+        throw new BindingResolutionException($message);
+    }
+
+    /**
+     * Resolve a class based dependency from the container.
+     *
+     * @param  \ReflectionParameter  $parameter
+     * 
+     * @return mixed
+     *
+     * @throws \Syscodes\Components\Container\Exceptions\BindingResolutionException
+     */
+    protected function getResolveClass(ReflectionParameter $parameter): mixed
+    {
+        try {
+            return $parameter->isVariadic() 
+                              ? $this->resolveVariadicClass($parameter)
+                              : $this->make(Util::getParameterClassName($parameter));
+        } catch (BindingResolutionException $e) {
+            if ($parameter->isDefaultValueAvailable()) {
+                array_pop($this->across);
+                
+                return $parameter->getDefaultValue();
+            }
+            
+            if ($parameter->isVariadic()) {
+                array_pop($this->across);
+                
+                return [];
+            }
+
+            throw $e;
+        }
+    }
+    
+    /**
+     * Resolve a class based variadic dependency from the container.
+     * 
+     * @param  \ReflectionParameter  $parameter
+     * 
+     * @return mixed
+     */
+    protected function resolveVariadicClass(ReflectionParameter $parameter): mixed
+    {
+        $className = Util::getParameterClassName($parameter);
+        
+        $id = $this->getAlias($className);
+        
+        if ( ! is_array($id)) {
+            return $this->make($className);
+        }
+        
+        return array_map(fn ($abstract) => $this->resolve($id), $id);
+    }
+
+    /**
      * Determine if the given id type has been bound.
      * 
      * @param  string  $id
@@ -713,22 +776,6 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * Get the class type for a given id.
-     * 
-     * @param  string  $id
-     * 
-     * @return mixed
-     */
-    protected function getValue($id): mixed
-    {
-        if (isset($this->bindings[$id])) {
-            return $this->bindings[$id]['value'];
-        }
-
-        return $id;
-    }
-
-     /**
      * Get the has callbacks for a given type.
      * 
      * @param  string  $id
@@ -755,7 +802,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function call($callback, array $parameters = [], string $defaultMethod = null): mixed
     {
-        return CallBoundCallback::call($this, $callback, $parameters, $defaultMethod);
+        return CallBoundMethod::call($this, $callback, $parameters, $defaultMethod);
     }
     
     /**
