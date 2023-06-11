@@ -27,6 +27,7 @@ use Exception;
 use TypeError;
 use ArrayAccess;
 use ReflectionClass;
+use ReflectionException;
 use ReflectionParameter;
 use InvalidArgumentException;
 use Syscodes\Components\Container\Exceptions\ContainerException;
@@ -312,8 +313,12 @@ class Container implements ArrayAccess, ContainerContract
         if ($class instanceof Closure) {
             return $class($this, $this->getLastParameterOverride());
         }
-
-        $reflection = new ReflectionClass($class);
+        
+        try {
+            $reflection = new ReflectionClass($class);
+        } catch (ReflectionException $e) {
+            throw new BindingResolutionException("Target class [$class] does not exist", 0, $e);
+        }
 
         if ( ! $reflection->isInstantiable()) {
             return $this->buildNotInstantiable($class);
@@ -330,8 +335,14 @@ class Container implements ArrayAccess, ContainerContract
         }
 
         $dependencies = $constructor->getParameters();
-
-        $instances = $this->getDependencies($dependencies);
+        
+        try {
+            $instances = $this->getDependencies($dependencies);
+        } catch (BindingResolutionException $e) {
+            array_pop($this->buildStack);
+            
+            throw $e;
+        }
 
         array_pop($this->buildStack);
         
@@ -369,21 +380,27 @@ class Container implements ArrayAccess, ContainerContract
      */
     protected function getDependencies(array $dependencies): array
     {
-        $param = [];
+        $params = [];
 
         foreach ($dependencies as $dependency) {
             if ($this->getHasParameters($dependency)) {
-                $param[] = $this->getParameterOverride($dependency);
+                $params[] = $this->getParameterOverride($dependency);
 
                 continue;
             }
 
-            $param[] = is_null($dependency->getType()->getName()) 
+            $param = is_null(Util::getParameterClassName($dependency)) 
                        ? $this->getResolveNonClass($dependency) 
                        : $this->getResolveClass($dependency);
+                       
+            if ($dependency->isVariadic()) {
+                $params = array_merge($params, $param);
+            } else {
+                $params[] = $param;
+            }
         }
 
-        return (array) $param;
+        return $params;
     }
 
     /**
@@ -432,7 +449,7 @@ class Container implements ArrayAccess, ContainerContract
     protected function getResolveClass(ReflectionParameter $parameter): mixed
     {
         try {
-            return $this->make($parameter->getType()->getName());
+            return $this->make(Util::getParameterClassName($parameter));
         } catch (BindingResolutionException $e) {
             if ($parameter->isOptional()) {
                 return $parameter->getDefaultValue();
@@ -453,7 +470,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     protected function getResolveNonClass(ReflectionParameter $parameter)
     {
-        if ( ! is_null($class = $parameter->getType()->getName())) {
+        if ( ! is_null($class = Util::getParameterClassName($parameter))) {
             return $class instanceof Closure ? $class($this) : $class;
         }
 
