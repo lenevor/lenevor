@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Container;
 
+use Closure;
 use ReflectionNamedType;
 
 /**
@@ -29,6 +30,19 @@ use ReflectionNamedType;
  */
 class Util
 {
+    /**
+     * Return the default value of the given value.
+     * 
+     * @param  mixed  $value
+     * @param  mixed  ...$args
+     * 
+     * @return mixed
+     */
+    public static function unwrapExistOfClosure($value, ...$args)
+    {
+        return $value instanceof Closure ? $value(...$args) : $value;
+    }
+
     /**
      * Get the class name of the given parameter's type.
      * 
@@ -46,7 +60,7 @@ class Util
         
         $name = $type->getName();
         
-        if (! is_null($class = $parameter->getDeclaringClass())) {
+        if ( ! is_null($class = $parameter->getDeclaringClass())) {
             if ($name === 'self') {
                 return $class->getName();
             }
