@@ -37,7 +37,6 @@ use Syscodes\Components\Http\Utilities\Parameters;
 use Syscodes\Components\Http\Request\RequestClientIP;
 use Syscodes\Components\Http\Resources\HttpResources;
 use Syscodes\Components\Http\Session\SessionDecorator;
-use Syscodes\Components\Http\Session\SessionInterface;
 use Syscodes\Components\Http\Concerns\CanBePrecognitive;
 use Syscodes\Components\Http\Concerns\InteractsWithInput;
 use Syscodes\Components\Http\Concerns\InteractsWithContentTypes;
