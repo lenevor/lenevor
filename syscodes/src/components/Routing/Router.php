@@ -322,10 +322,10 @@ class Router implements Routable
 		}
 
 		$route = $this->newRoute(
-				$method,
-				$this->prefix($route),
-				$action
-		);
+		              $method,
+		              $this->prefix($route),
+		              $action
+		         );
 
 		if ($this->hasGroupStack()) {
 			$this->mergeGroupAttributesIntoRoute($route);			
@@ -559,7 +559,7 @@ class Router implements Routable
 	{
 		$middleware = array_map(
 			                fn ($name) => MiddlewareResolver::resolve($name, $this->middleware, $this->middlewareGroups),
-	                        $route->gatherMiddleware()
+		                    $route->gatherMiddleware()
 		              );
 		
 		return Arr::flatten($middleware);
