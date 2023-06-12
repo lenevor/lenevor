@@ -49,14 +49,13 @@ class PlainTextHandler extends MainHandler
      */
     protected function getResponse(Throwable $exception): string
     {
-        return sprintf(
-            "%s: %s in file %s on line %d%s\n",
-            get_class($exception),
-            $exception->getMessage(),
-            $exception->getFile(),
-            $exception->getLine(),
-            $this->getTraceOutput()
-        );
+        return sprintf("%s: %s in file %s on line %d%s\n",
+                    get_class($exception),
+                    $exception->getMessage(),
+                    $exception->getFile(),
+                    $exception->getLine(),
+                    $this->getTraceOutput()
+               );
     }
 
     /**
@@ -82,14 +81,13 @@ class PlainTextHandler extends MainHandler
                 $template = "\n%3d. %s%s() %s:%d";
             }
 
-            $response .= sprintf(
-                $template,
-                $line,
-                $class,
-                $frame->getFunction(),
-                $frame->getFile(),
-                $frame->getLine()
-            );
+            $response .= sprintf($template,
+                            $line,
+                            $class,
+                            $frame->getFunction(),
+                            $frame->getFile(),
+                            $frame->getLine()
+                       );
 
             $line--;
         }

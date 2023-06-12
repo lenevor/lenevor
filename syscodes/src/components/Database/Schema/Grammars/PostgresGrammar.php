@@ -55,11 +55,10 @@ class PostgresGrammar extends Grammar
      */
     public function compileCreateDatabase($name, $connection): string
     {
-        return sprintf(
-            'create database %s enconding %s',
-            $this->wrapValue($name),
-            $this->wrapValue($connection->getConfig('charset')),
-        );
+        return sprintf('create database %s enconding %s',
+                    $this->wrapValue($name),
+                    $this->wrapValue($connection->getConfig('charset')),
+               );
     }
 
     /**
@@ -71,10 +70,7 @@ class PostgresGrammar extends Grammar
      */
     public function compileDropDatabaseIfExists($name): string
     {
-        return sprintf(
-            'drop database if exists %s',
-            $this->wrapValue($name)
-        );
+        return sprintf('drop database if exists %s', $this->wrapValue($name));
     }
 
     /**
@@ -108,10 +104,10 @@ class PostgresGrammar extends Grammar
     public function compileCreate(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('%s table %s (%s)',
-            $dataprint->temporary ? 'create temporary' : 'create',
-            $this->wrapTable($dataprint),
-            implode(', ', $this->getColumns($dataprint))
-        );
+                    $dataprint->temporary ? 'create temporary' : 'create',
+                    $this->wrapTable($dataprint),
+                    implode(', ', $this->getColumns($dataprint))
+               );
     }
     
     /**
@@ -125,9 +121,9 @@ class PostgresGrammar extends Grammar
     public function compileAdd(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('alter table %s %s',
-            $this->wrapTable($dataprint),
-            implode(', ', $this->prefixArray('add column', $this->getColumns($dataprint)))
-        );
+                    $this->wrapTable($dataprint),
+                    implode(', ', $this->prefixArray('add column', $this->getColumns($dataprint)))
+               );
     }
     
     /**
@@ -156,10 +152,10 @@ class PostgresGrammar extends Grammar
     public function compileUnique(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('alter table %s add constraint %s unique (%s)',
-            $this->wrapTable($dataprint),
-            $this->wrap($command->index),
-            $this->columnize($command->columns)
-        );
+                    $this->wrapTable($dataprint),
+                    $this->wrap($command->index),
+                    $this->columnize($command->columns)
+               );
     }
     
     /**
@@ -173,11 +169,11 @@ class PostgresGrammar extends Grammar
     public function compileIndex(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('create index %s on %s (%s)',
-            $this->wrap($command->index),
-            $this->wrapTable($dataprint),
-            $command->option ? ' using '.$command->option : '',
-            $this->columnize($command->columns)
-        );        
+                    $this->wrap($command->index),
+                    $this->wrapTable($dataprint),
+                    $command->option ? ' using '.$command->option : '',
+                    $this->columnize($command->columns)
+               );        
     }
     
     /**
@@ -191,10 +187,10 @@ class PostgresGrammar extends Grammar
     public function compileFullText(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('create index %s on %s using gin ((%s))',
-            $this->wrap($command->index),
-            $this->wrapTable($dataprint),
-            implode(' || ', $command->columns)
-        );        
+                    $this->wrap($command->index),
+                    $this->wrapTable($dataprint),
+                    implode(' || ', $command->columns)
+               );        
     }
     
     /**
@@ -387,9 +383,9 @@ class PostgresGrammar extends Grammar
     public function compileRenameIndex(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('alter table %s rename to %s',
-            $this->wrap($command->from),
-            $this->wrap($command->to)
-        );
+                    $this->wrap($command->from),
+                    $this->wrap($command->to)
+               );
     }
     
     /**
@@ -471,10 +467,10 @@ class PostgresGrammar extends Grammar
     public function compileComment(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('comment on column %s.%s is %s',
-            $this->wrapTable($dataprint),
-            $this->wrap($command->column->name),
-            "'".str_replace("'", "''", $command->value)."'"
-        );
+                    $this->wrapTable($dataprint),
+                    $this->wrap($command->column->name),
+                    "'".str_replace("'", "''", $command->value)."'"
+               );
     }
     
     /**

@@ -172,9 +172,7 @@ class Encrypter implements EncrypterContract
     {
         $payload   = $this->getJsonPayload($value);
         $iv        = base64_decode($payload['iv']);
-        $decrypted = openssl_decrypt(
-                $payload['value'], $this->cipher, $this->key, 0, $iv
-        );
+        $decrypted = openssl_decrypt($payload['value'], $this->cipher, $this->key, 0, $iv);
 
         if (false === $decrypted) {
             throw new DecryptException('Could not decrypt the data');
@@ -232,9 +230,9 @@ class Encrypter implements EncrypterContract
         $calc = $this->calcHmac($payload, $bytes = random_bytes(16));
 
         return hash_equals(
-                hash_hmac('sha256', $payload['hmac'], $bytes, true),
-                $calc
-        );
+                    hash_hmac('sha256', $payload['hmac'], $bytes, true),
+                    $calc
+               );
     }
 
     /**

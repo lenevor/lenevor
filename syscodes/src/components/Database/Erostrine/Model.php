@@ -45,7 +45,7 @@ class Model implements Arrayable, ArrayAccess
 	use HasAttributes,
 	    HasEvents,
 	    HasRelations,
-		HidesAttributes,
+	    HidesAttributes,
 	    GuardsAttributes,
 	    ForwardsCalls;
 
@@ -314,10 +314,10 @@ class Model implements Arrayable, ArrayAccess
 	public function save(array $options = []): bool
 	{
 		$query = $this->newQuery();
-
+		
 		if ($this->fireModelEvent('saving') === false) {
-            return false;
-        }
+			return false;
+		}
 
 		if ($this->exists) {
 			$saved = $this->isDirty() ? $this->performUpdate($query) : true;
@@ -417,7 +417,7 @@ class Model implements Arrayable, ArrayAccess
 	 * @return void
 	 */
 	protected function insertAndSetId(Builder $builder, $attributes)
-    {
+	{
 		$id = $builder->insertGetId($attributes, $keyName = $this->getKeyName());
 		
 		$this->setAttribute($keyName, $id);
@@ -548,9 +548,9 @@ class Model implements Arrayable, ArrayAccess
 	 */
 	public function newQuery()
 	{
-		return $this->newQueryBuilder(
-					$this->newBaseQueryBuilder()
-				)->setModel($this)->with($this->with);
+		return $this->newQueryBuilder($this->newBaseQueryBuilder())
+		            ->setModel($this)
+		            ->with($this->with);
 	}
 
 	/**
@@ -621,15 +621,14 @@ class Model implements Arrayable, ArrayAccess
 	 */
 	public function newInstance($attributes = [], $exists = false): static
 	{
-		$model = new static;		
+		
+		$model = new static;
 		
 		$model->exists = $exists;
 		
-		$model->setConnection(
-            $this->getConnectionName()
-        );
-
-        $model->setTable($this->getTable());
+		$model->setConnection($this->getConnectionName());
+		
+		$model->setTable($this->getTable());
 		
 		$model->fill((array) $attributes);
 		
@@ -679,7 +678,7 @@ class Model implements Arrayable, ArrayAccess
 	public function newPivot(self $parent, array $attributes, $table, $exists, $using = null)
 	{
 		return $using ? $using::fromRawAttributes($parent, $attributes, $table, $exists)
-			          : Pivot::fromAttributes($parent, $attributes, $table, $exists);
+		              : Pivot::fromAttributes($parent, $attributes, $table, $exists);
     }
 
 	/**
@@ -779,8 +778,8 @@ class Model implements Arrayable, ArrayAccess
 	{
 		return ! is_null($model) &&
 		       $this->getKey() === $model->getKey() &&
-			   $this->getTable() === $model->getTable() &&
-			   $this->getConnectionName() === $model->getConnectionName();
+		       $this->getTable() === $model->getTable() &&
+		       $this->getConnectionName() === $model->getConnectionName();
 	}
 
 	/**
@@ -908,8 +907,8 @@ class Model implements Arrayable, ArrayAccess
 	public function offsetExists($offset): bool
 	{ 
 		return isset($this->attributes[$offset]) || 
-		       isset($this->relations[$offset])  ||
-		       $this->hasGetMutator($offset)     && 
+		       isset($this->relations[$offset]) ||
+		       $this->hasGetMutator($offset) && 
 		       ! is_null($this->getAttributeValue($offset));
 	}
 
@@ -961,46 +960,46 @@ class Model implements Arrayable, ArrayAccess
 	{
 		return $this->offsetExists($key);
 	}
-
-	 /**
-     * Unset an attribute on the model.
-     *
-     * @param  string  $key
+	
+	/**
+	 * Unset an attribute on the model.
 	 * 
-     * @return void
-     */
-    public function __unset($key)
-    {
-        $this->offsetUnset($key);
-    }
-
+	 * @param  string  $key
+	 * 
+	 * @return void
+	 */
+	public function __unset($key)
+	{
+		$this->offsetUnset($key);
+	}
+	
 	/**
 	 * Magic method.
-     * 
-     * Dynamically handle method calls into the model instance.
-     * 
-     * @param  string  $method
-     * @param  array  $parameters
-     * 
-     * @return mixed
+	 * 
+	 * Dynamically handle method calls into the model instance.
+	 * 
+	 * @param  string  $method
+	 * @param  array  $parameters
+	 * 
+	 * @return mixed
 	 */
 	public function __call($method, $parameters)
-    {
+	{
 		return $this->forwardCallTo($this->newQuery(), $method, $parameters);
-    }
-
+	}
+	
 	/**
 	 * Magic method.
-     * 
-     * Dynamically handle static method calls into the model instance.
-     * 
-     * @param  string  $method
-     * @param  array  $parameters
-     * 
-     * @return mixed
+	 * 
+	 * Dynamically handle static method calls into the model instance.
+	 * 
+	 * @param  string  $method
+	 * @param  array  $parameters
+	 * 
+	 * @return mixed
 	 */
 	public static function __callStatic($method, $parameters)
-    {
+	{
 		return (new static)->{$method}(...$parameters);
-    }
+	}
 }

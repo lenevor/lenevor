@@ -52,8 +52,8 @@ class SQLiteBuilder extends Builder
     public function dropDatabaseIfExists($name): bool
     {
         return File::exists($name)
-            ? File::delete($name)
-            : true;
+                   ? File::delete($name)
+                   : true;
     }
     
     /**

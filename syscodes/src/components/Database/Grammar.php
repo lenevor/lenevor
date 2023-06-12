@@ -117,10 +117,11 @@ abstract class Grammar
     protected function wrapSegments($segments): string
     {
         return collect($segments)->map(function ($segment, $key) use ($segments) {
-            return $key == 0 && count($segments) > 1
-                            ? $this->wrapTable($segment)
-                            : $this->wrapValue($segment);
-        })->implode('.');
+                    return $key == 0 && count($segments) > 1
+                        ? $this->wrapTable($segment)
+                        : $this->wrapValue($segment);
+                    }
+               )->implode('.');
     }
 
     /**

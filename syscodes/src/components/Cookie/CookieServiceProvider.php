@@ -37,6 +37,7 @@ class CookieServiceProvider extends ServiceProvider
     {
         $this->app->singleton('cookie', function ($app) {
             $config = $app->make('config')->get('session');
+            
             return (new CookieManager)->setDefaultPathAndDomain(
                 $config['path'], $config['domain'], $config['secure'], $config['sameSite'] ?? null
             );

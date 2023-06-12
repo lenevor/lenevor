@@ -488,8 +488,8 @@ class Filesystem
 			$target = $destination.DIRECTORY_SEPARATOR.$iterator->getBasename();
 			
 			// As we spin through items, we will check to see if the current file is actually
-            // a directory or a file. When it is actually a directory we will need to call
-            // back into this function recursively to keep copying these nested folders.
+			// a directory or a file. When it is actually a directory we will need to call
+			// back into this function recursively to keep copying these nested folders.
 			if ($iterator->isDir()) {
 				if ( ! $this->copyDirectory($iterator->getPathname(), $target, $options)) return false;
 			}

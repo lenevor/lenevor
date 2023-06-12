@@ -123,9 +123,9 @@ class SqlServerGrammar extends Grammar
     public function compileAdd(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('alter table %s add %s',
-            $this->wrapTable($dataprint),
-            implode(', ', $this->getColumns($dataprint))
-        );        
+                    $this->wrapTable($dataprint),
+                    implode(', ', $this->getColumns($dataprint))
+               );        
     }
 
     /**
@@ -139,10 +139,10 @@ class SqlServerGrammar extends Grammar
     public function compilePrimary(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('alter table %s add constraint %s primary key (%s)',
-            $this->wrapTable($dataprint),
-            $this->wrap($command->index),
-            $this->columnize($command->columns)
-        );
+                    $this->wrapTable($dataprint),
+                    $this->wrap($command->index),
+                    $this->columnize($command->columns)
+               );
     }
     
     /**
@@ -156,10 +156,10 @@ class SqlServerGrammar extends Grammar
     public function compileUnique(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('create unique index %s on %s (%s)',
-            $this->wrap($command->index),
-            $this->wrapTable($dataprint),
-            $this->columnize($command->columns)
-        );
+                    $this->wrap($command->index),
+                    $this->wrapTable($dataprint),
+                    $this->columnize($command->columns)
+               );
     }
     
     /**
@@ -173,10 +173,10 @@ class SqlServerGrammar extends Grammar
     public function compileIndex(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('create index %s on %s (%s)',
-            $this->wrap($command->index),
-            $this->wrapTable($dataprint),
-            $this->columnize($command->columns)
-        );        
+                    $this->wrap($command->index),
+                    $this->wrapTable($dataprint),
+                    $this->columnize($command->columns)
+               );        
     }
     
     /**
@@ -190,10 +190,10 @@ class SqlServerGrammar extends Grammar
     public function compileSpatialIndex(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('create spatial index %s on %s (%s)',
-            $this->wrap($command->index),
-            $this->wrapTable($dataprint),
-            $this->columnize($command->columns)
-        );
+                    $this->wrap($command->index),
+                    $this->wrapTable($dataprint),
+                    $this->columnize($command->columns)
+               );
     }
     
     /**
@@ -220,9 +220,9 @@ class SqlServerGrammar extends Grammar
     public function compileDropIfExists(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('if exists (select * from sys.sysobjects where id = object_id(%s, \'U\')) drop table %s',
-            "'".str_replace("'", "''", $this->getTablePrefix().$dataprint->getTable())."'",
-            $this->wrapTable($dataprint)
-        );
+                    "'".str_replace("'", "''", $this->getTablePrefix().$dataprint->getTable())."'",
+                    $this->wrapTable($dataprint)
+               );
     }
     
     /**
@@ -337,9 +337,9 @@ class SqlServerGrammar extends Grammar
     public function compileRenameIndex(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf("sp_rename N'%s', %s, N'INDEX'",
-            $this->wrap($dataprint->getTable().'.'.$command->from),
-            $this->wrap($command->to)
-        );
+                    $this->wrap($dataprint->getTable().'.'.$command->from),
+                    $this->wrap($command->to)
+               );
     }
     
     /**
