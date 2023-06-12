@@ -101,7 +101,8 @@ class ErostrineUserProvider implements UserProvider
         $rememberToken = $queryModel->getRememberToken();
         
         return $rememberToken && hash_equals($rememberToken, $token)
-                        ? $queryModel : null;
+                        ? $queryModel
+                        : null;
     }
     
     /**

@@ -119,7 +119,7 @@ class Gate implements GateContract
         $abilities = is_array($ability) ? $ability : func_get_args();
         
         foreach ($abilities as $ability) {
-            if (! isset($this->abilities[$ability])) {
+            if ( ! isset($this->abilities[$ability])) {
                 return false;
             }
         }
