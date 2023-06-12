@@ -266,7 +266,7 @@ class Router implements Routable
 	{
 		return $this->any($uri, '\Syscodes\Components\Routing\Controllers\RedirectController')
 		            ->defaults('destination', $destination)
-					->defaults('status', $status);
+		            ->defaults('status', $status);
 	}
 	
 	/**
@@ -559,8 +559,8 @@ class Router implements Routable
 	{
 		$middleware = array_map(
 			                fn ($name) => MiddlewareResolver::resolve($name, $this->middleware, $this->middlewareGroups),
-							$route->gatherMiddleware()
-					  );
+	                        $route->gatherMiddleware()
+		              );
 		
 		return Arr::flatten($middleware);
 	}
