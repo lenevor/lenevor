@@ -40,26 +40,26 @@ trait CapsuleManager
     /**
      * The container instance.
      * 
-     * @var \Syscodes\Components\Container\Container $container
+     * @var \Syscodes\Components\Contracts\Container\Container $container
      */
     protected $container;
 
     /**
      * Get the container instance.
      * 
-     * @param  \Syscodes\Components\Container\Container  $container
+     * @param  \Syscodes\Components\Contracts\Container\Container  $container
      * 
      * @return void
      */
     protected function getContainerManager(Container $container)
     {
         $this->container = $container;
-
+        
         if ( ! $this->container->bound('config')) {
             $this->container->instance('config', new Flowing);
         }
     }
-
+    
     /**
      * Set this capsule instance available global.
      * 
@@ -69,26 +69,26 @@ trait CapsuleManager
     {
         static::$instance = $this;
     }
-
+    
     /**
-	 * Get the container instance.
-	 * 
-	 * @return  \Syscodes\Components\Container\Container
-	 */
-	public function getContainer()
+     * Get the container instance.
+     * 
+     * @return  \Syscodes\Components\Contracts\Container\Container
+     */
+    public function getContainer()
     {
         return $this->container;
     }
-
+    
     /**
-	 * Set the container instance.
-	 * 
-	 * @param  \Syscodes\Components\Container\Container  $container
-	 * 
-	 * @return void
-	 */
-	public function setContainer(Container $container): void
-	{
-		$this->container = $container;
-	}    
+     * Set the container instance.
+     * 
+     * @param  \Syscodes\Components\Contracts\Container\Container  $container
+     * 
+     * @return void
+     */
+    public function setContainer(Container $container): void
+    {
+        $this->container = $container;
+    }    
 }

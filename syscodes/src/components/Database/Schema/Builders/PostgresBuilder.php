@@ -152,10 +152,10 @@ class PostgresBuilder extends Builder
     public function getAllTables()
     {
         return $this->connection->select(
-            $this->grammar->compileGetAllTables(
-                $this->connection->getConfig('schema')
-            )
-        );
+                      $this->grammar->compileGetAllTables(
+                             $this->connection->getConfig('schema')
+                      )
+               );
     }
     
     /**
@@ -166,9 +166,9 @@ class PostgresBuilder extends Builder
     public function getAllViews()
     {
         return $this->connection->select(
-            $this->grammar->compileGetAllViews(
-                $this->connection->getConfig('schema')
-            )
-        );
+                      $this->grammar->compileGetAllViews(
+                             $this->connection->getConfig('schema')
+                      )
+               );
     }
 }

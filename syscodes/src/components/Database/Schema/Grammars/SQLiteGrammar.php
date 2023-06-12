@@ -79,12 +79,12 @@ class SQLiteGrammar extends Grammar
     public function compileCreate(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('%s table %s (%s%s%s)',
-            $dataprint->temporary ? 'create temporary' : 'create',
-            $this->wrapTable($dataprint),
-            implode(', ', $this->getColumns($dataprint)),
-            (string) $this->addForeignKeys($dataprint),
-            (string) $this->addPrimaryKeys($dataprint)
-        );
+                    $dataprint->temporary ? 'create temporary' : 'create',
+                    $this->wrapTable($dataprint),
+                    implode(', ', $this->getColumns($dataprint)),
+                    (string) $this->addForeignKeys($dataprint),
+                    (string) $this->addPrimaryKeys($dataprint)
+               );
     }
     
     /**
@@ -123,10 +123,10 @@ class SQLiteGrammar extends Grammar
     protected function getForeignKey($foreign): string
     {
         return sprintf(', foreign key(%s) references %s(%s)',
-            $this->columnize($foreign->columns),
-            $this->wrapTable($foreign->on),
-            $this->columnize((array) $foreign->references)
-        );
+                    $this->columnize($foreign->columns),
+                    $this->wrapTable($foreign->on),
+                    $this->columnize((array) $foreign->references)
+               );
     }
     
     /**
@@ -172,10 +172,10 @@ class SQLiteGrammar extends Grammar
     public function compileUnique(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('create unique index %s on %s (%s)',
-            $this->wrap($command->index),
-            $this->wrapTable($dataprint),
-            $this->columnize($command->columns)
-        );
+                    $this->wrap($command->index),
+                    $this->wrapTable($dataprint),
+                    $this->columnize($command->columns)
+               );
     }
     
     /**
@@ -189,10 +189,10 @@ class SQLiteGrammar extends Grammar
     public function compileIndex(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('create index %s on %s (%s)',
-            $this->wrap($command->index),
-            $this->wrapTable($dataprint),
-            $this->columnize($command->columns)
-        );        
+                    $this->wrap($command->index),
+                    $this->wrapTable($dataprint),
+                    $this->columnize($command->columns)
+               );        
     }
     
     /**
@@ -336,9 +336,9 @@ class SQLiteGrammar extends Grammar
     public function compileRenameIndex(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('alter table %s rename to %s',
-            $this->wrap($command->from),
-            $this->wrap($command->to)
-        );
+                    $this->wrap($command->from),
+                    $this->wrap($command->to)
+               );
     }
     
     /**
@@ -628,9 +628,9 @@ class SQLiteGrammar extends Grammar
     protected function typeEnum(Flowing $column): string
     {
         return sprintf('varchar check ("%s" in (%s))',
-            $column->name,
-            $this->quoteString($column->allowed)
-        );
+                    $column->name,
+                    $this->quoteString($column->allowed)
+               );
     }
 
     /**

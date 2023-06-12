@@ -27,19 +27,19 @@ namespace Syscodes\Components\Http\Utilities;
  */
 class Files extends Parameters
 {
-    /**
-     * Constructor. The Files class instance.
-     * 
-     * @param  array  $parameters
-     * 
-     * @return void
-     */
-    public function __construct(array $parameters = [])
-    {
-        $this->replace($parameters);
-    }
-
-    /**
+	/**
+	 * Constructor. The Files class instance.
+	 * 
+	 * @param  array  $parameters
+	 * 
+	 * @return void
+	 */
+	public function __construct(array $parameters = [])
+	{
+		$this->replace($parameters);
+	}
+	
+	/**
 	 * Replaces the current parameters.
 	 * 
 	 * @param  array  $parameters
@@ -49,9 +49,9 @@ class Files extends Parameters
 	public function replace(array $files = []): void
 	{
 		$this->parameters = [];
-        $this->add($files);
+		$this->add($files);
 	}
-
+	
 	/**
 	 * Adds parameters.
 	 * 
@@ -61,8 +61,8 @@ class Files extends Parameters
 	 */
 	public function add(array $files = []): void
 	{
-        foreach ($files as $key => $file) {
-            $this->set($key, $file);
-        }
+		foreach ($files as $key => $file) {
+			$this->set($key, $file);
+		}
 	}
 }

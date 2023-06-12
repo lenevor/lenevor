@@ -106,9 +106,9 @@ class BootDetectEnvironment
     protected function createEnv($app)
     {
         return Dotenv::create(
-               Environment::getRepositoryCreator(),
-               $app->environmentPath(),
-               $app->environmentFile()
-        );
+                    Environment::getRepositoryCreator(),
+                    $app->environmentPath(),
+                    $app->environmentFile()
+               );
     }
 }
