@@ -558,7 +558,7 @@ class Router implements Routable
 	public function gatherRouteMiddleware(Route $route): array
 	{
 		$middleware = array_map(
-			                fn ($name) => MiddlewareResolver::resolve($name, $this->middleware, $this->middlewareGroups),
+		                    fn ($name) => MiddlewareResolver::resolve($name, $this->middleware, $this->middlewareGroups),
 		                    $route->gatherMiddleware()
 		              );
 		
