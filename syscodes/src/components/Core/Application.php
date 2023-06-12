@@ -1220,7 +1220,7 @@ class Application extends Container implements ApplicationContract
             'session' => [\Syscodes\Components\Session\SessionManager::class],
             'session.store' => [\Syscodes\Components\Session\Store::class, \Syscodes\Components\Contracts\Session\Session::class],
             'translator' => [\Syscodes\Components\Translation\Translator::class, \Syscodes\Components\Contracts\Translation\Translator::class],
-            'url' => [\Syscodes\Components\Routing\Supported\UrlGenerator::class],
+            'url' => [\Syscodes\Components\Routing\Supported\UrlGenerator::class, \Syscodes\Components\Contracts\Routing\UrlGenerator::class],
             'view' => [\Syscodes\Components\View\Factory::class, \Syscodes\Components\Contracts\View\Factory::class]
         ] as $key => $aliases) {
             foreach ((array) $aliases as $alias) {
