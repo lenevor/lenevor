@@ -298,9 +298,9 @@ class Router implements Routable
 		return $this->match(['GET', 'HEAD'], $uri, '\Syscodes\Components\Routing\Controllers\ViewController')
 		            ->setDefaults([
 		                'view' => $view,
-						'data' => $data,
-						'status' => is_array($status) ? 200 : $status,
-						'headers' => is_array($status) ? $status : $headers,
+		                'data' => $data,
+		                'status' => is_array($status) ? 200 : $status,
+		                'headers' => is_array($status) ? $status : $headers,
 		            ]);
 	}
 
