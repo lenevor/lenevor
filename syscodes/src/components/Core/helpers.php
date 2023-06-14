@@ -26,6 +26,7 @@ use Syscodes\Components\Support\Facades\Date;
 use Syscodes\Components\Contracts\View\Factory;
 use Syscodes\Components\Routing\Supported\UrlGenerator;
 use Syscodes\Components\Contracts\Routing\RouteResponse;
+use Syscodes\Components\Contracts\Debug\ExceptionHandler;
 use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoload;
 use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoloader;
 use Syscodes\Components\Contracts\Auth\Factory as AuthFactory;
@@ -542,6 +543,24 @@ if ( ! function_exists('redirect')) {
     }
 }
 
+if ( ! function_exists('report')) {
+    /**
+     * The report an exception.
+     * 
+     * @param  \Throwable|string  $xception
+     * 
+     * @return void
+     */
+    function report($exception)
+    {
+        if (is_string($exception)) {
+            $exception = new Exception($exception);
+        }
+
+        app(ExceptionHandler::class)->report($exception);
+    }
+}
+
 if ( ! function_exists('request')) {
     /**
      * Get an instance of the current request or an input item from the request.
@@ -560,6 +579,21 @@ if ( ! function_exists('request')) {
         $value = app('request')->__get($key);
 
         return null === $value ? value($default) : $value;
+    }
+}
+
+if ( ! function_exists('resolve')) {
+    /**
+     * Resolve a service from the container.
+     * 
+     * @param  string  $id
+     * @param  array  $parameters
+     * 
+     * @return mixed
+     */
+    function resolve($id, array $parameters = []) 
+    {
+        return app($id, $parameters);
     }
 }
 
@@ -721,19 +755,45 @@ if ( ! function_exists('totalSegments')) {
     }
 }
 
+if ( ! function_exists('trans')) {
+    /**
+     * A convenience method to translate a string and format it
+     * with the intl extension's MessageFormatter object.
+     * 
+     * @param  strin|null  $line
+     * @param  array  $replace
+     * @param  string|null  $locale
+     * 
+     * @return \Syscode\Components\Contracts\Translation\Translator|string|array|null
+     */
+    function trans($key = null, array $replace = [], $locale = null)
+    {
+        if (is_null($key)) {
+            return app('translator');
+        }
+
+        return app('translator')->get($key, $replace, $locale);
+    }
+}
+
 if ( ! function_exists('__')) {
     /**
      * A convenience method to translate a string and format it
      * with the intl extension's MessageFormatter object.
      * 
-     * @param  string  $line
+     * @param  string|null  $key
      * @param  array  $replace
+     * @param  string|null  $locale
      * 
-     * @return string
+     * @return string|array|null
      */
-    function __($line, array $replace = [])
+    function __($key = null, array $replace = [], $locale = null)
     {
-        return app('translator')->get($line, $replace);
+        if (is_null($key)) {
+            return $key;
+        }
+
+        return trans($key, $replace, $locale);        
     }
 }
 
