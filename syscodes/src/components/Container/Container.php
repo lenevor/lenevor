@@ -721,7 +721,7 @@ class Container implements ArrayAccess, ContainerContract
             return $this->make($className);
         }
         
-        return array_map(fn ($abstract) => $this->resolve($id), $id);
+        return array_map(fn ($id) => $this->resolve($id), $id);
     }
 
     /**
