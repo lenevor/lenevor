@@ -22,6 +22,8 @@
 
 namespace Syscodes\Components\Routing;
 
+use Syscodes\Components\Support\Str;
+
 /**
  * Gets the route uri for parse.
  */
@@ -55,23 +57,20 @@ class RouteUri
 	 */
 	public static function parse(string $uri): static
 	{
-		$uri = trim($uri, '\/?');
-		$uri = trim($uri, '\/');
-		
 		preg_match_all('~\{([\w\:]+?)\??\}~', $uri, $matches);
 		
 		foreach ($matches[0] as $match) {
-			if (strpos($match, '?') !== false) {
+			if ( ! Str::contains($match, ':')) {
 				continue;
-			}
+			} 
 
 			$segments = explode(':', trim($match, '{}?'));
 			
-			$uri = strpos($match, '?') !== false
+			$uri = Str::contains($match, '?')
                 ? str_replace($match, '{'.$segments[0].'?}', $uri)
                 : str_replace($match, '{'.$segments[0].'}', $uri);
 		}
-		
+
 		return new static($uri);
 	}
 }
