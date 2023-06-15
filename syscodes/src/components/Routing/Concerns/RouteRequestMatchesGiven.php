@@ -32,20 +32,20 @@ trait RouteRequestMatchesGiven
      * 
      * @param  string  $route
      * @param  string  $uri
-     * @param  string[]  $parameters
      * @param  string[]  $patterns
+     * @param  string[]  $parameters
      * 
      * @return bool
      */
     public function compareUri(
         string $route, 
         string $uri, 
-        array &$parameters, 
-        array $patterns
+        array $patterns,
+        array &$parameters = []
     ): bool {
         $regex = '~^'.$this->regexUri($route, $patterns).'$~';
-        
-        return @preg_match($regex, $uri, $parameters);
+
+        return @preg_match($regex, $uri, $parameters, PREG_OFFSET_CAPTURE);
     }
     
     /**
