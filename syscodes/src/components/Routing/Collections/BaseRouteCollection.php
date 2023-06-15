@@ -95,12 +95,10 @@ abstract class BaseRouteCollection implements Countable, IteratorAggregate
                 continue;
             }
 
-            $parameters = [];
-
-            $path = rtrim($request->path(), '/');
+            $path = rtrim($request->path());
             
             // If the requested route one of the defined routes
-            if ($this->compareUri($route->getUri(), $path, $parameters, $route->getPatterns())) {
+            if ($this->compareUri($route->getUri(), $path, $route->getPatterns())) {
                 return $this->getMatchedToRegex($routes, $request, $method) 
                                                 ? $route 
                                                 : $route->fallback() ?? throw new InvalidArgumentException('Problems with matches of uri given');
