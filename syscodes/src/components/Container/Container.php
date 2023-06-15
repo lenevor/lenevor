@@ -159,7 +159,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function refresh($id, $target, $method): mixed
     {
-        return $this->rebinding($id, fn($instance) => $target->{$method}($instance));
+        return $this->rebinding($id, fn($app, $instance) => $target->{$method}($instance));
     }
 
     /**
@@ -293,8 +293,36 @@ class Container implements ArrayAccess, ContainerContract
     {
         $instance = $this->make($id);
 
-        foreach ($this->getBound($id) as $callback) {
+        foreach ($this->getReBound($id) as $callback) {
             call_user_func($callback, $this, $instance);
+        }
+    }
+
+    /**
+     * Get the has callbacks for a given type.
+     * 
+     * @param  string  $id
+     * 
+     * @return array
+     */
+    protected function getReBound($id): array
+    {
+        return $this->hasCallbacks[$id] ?? [];
+    }
+
+    /**
+     * Register a binding if it hasn't already been registered.
+     * 
+     * @param  string  $id
+     * @param  \Closure|string|null  $value
+     * @param  bool  $singleton
+     * 
+     * @return void
+     */
+    public function bindIf($id, $value = null, $singleton = false): void
+    {
+        if ( ! $this->bound($id)) {
+            $this->bind($id, $value, $singleton);
         }
     }
 
@@ -309,7 +337,22 @@ class Container implements ArrayAccess, ContainerContract
     public function singleton($id, $value = null): void
     {
         $this->bind($id, $value, true);
-    }    
+    }
+    
+    /**
+     * Register a singleton if it hasn't already been registered.
+     * 
+     * @param  string  $id
+     * @param  \Closure|string|null  $value
+     * 
+     * @return void
+     */
+    public function singletonIf($id, $value = null): void
+    {
+        if ( ! $this->bound($id)) {
+            $this->singleton($id, $value);
+        }
+    }
 
     /**
      * Remove all id traces of the specified binding.
@@ -775,22 +818,6 @@ class Container implements ArrayAccess, ContainerContract
         return isset($this->instances[$id]) ||
                (isset($this->bindings[$id]['singleton']) &&
                $this->bindings[$id]['singleton'] === true);
-    }
-
-    /**
-     * Get the has callbacks for a given type.
-     * 
-     * @param  string  $id
-     * 
-     * @return array
-     */
-    protected function getBound($id): array
-    {
-        if (isset($this->hasCallbacks[$id])) {
-            return $this->hasCallbacks[$id];
-        }
-
-        return [];
     }
 
     /**
