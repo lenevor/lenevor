@@ -353,6 +353,8 @@ return [
     'Syscodes\\Components\\Finder\\Finder' => SYS_PATH.'src/components/Finder/Finder.php',
     'Syscodes\\Components\\Finder\\SplFileInfo' => SYS_PATH.'src/components/Finder/SplFileInfo.php',
     'Syscodes\\Components\\Hashing\\Drivers\\AbstractHasher' => SYS_PATH.'src/components/Hashing/Drivers/AbstractHasher.php',
+    'Syscodes\\Components\\Hashing\\Drivers\\Argon2IdHasher' => SYS_PATH.'src/components/Hashing/Drivers/Argon2IdHasher.php',
+    'Syscodes\\Components\\Hashing\\Drivers\\ArgonHasher' => SYS_PATH.'src/components/Hashing/Drivers/ArgonHasher.php',
     'Syscodes\\Components\\Hashing\\Drivers\\BcryptHasher' => SYS_PATH.'src/components/Hashing/Drivers/BcryptHasher.php',
     'Syscodes\\Components\\Hashing\\HashManager' => SYS_PATH.'src/components/Hashing/HashManager.php',
     'Syscodes\\Components\\Hashing\\HashServiceProvider' => SYS_PATH.'src/components/Hashing/HashServiceProvider.php',
