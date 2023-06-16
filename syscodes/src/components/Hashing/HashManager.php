@@ -24,7 +24,9 @@ namespace Syscodes\Components\Hashing;
 
 use Syscodes\Components\Support\Manager;
 use Syscodes\Components\Contracts\Hashing\Hasher;
+use Syscodes\Components\Hashing\Drivers\ArgonHasher;
 use Syscodes\Components\Hashing\Drivers\BcryptHasher;
+use Syscodes\Components\Hashing\Drivers\Argon2IdHasher;
 
 /**
  * The Lenevor hash system for encrypted.
@@ -39,6 +41,26 @@ class HashManager extends Manager implements Hasher
     public function createBcryptDriver()
     {
         return new BcryptHasher($this->config->get('hashing.bcrypt') ?? []);
+    }
+    
+    /**
+     * Create an instance of the Argon2i hash Driver.
+     * 
+     * @return \Syscodes\Components\Hashing\ArgonHasher
+     */
+    public function createArgonDriver()
+    {
+        return new ArgonHasher($this->config->get('hashing.argon') ?? []);
+    }
+    
+    /**
+     * Create an instance of the Argon2id hash Driver.
+     * 
+     * @return \Syscodes\Components\Hashing\Argon2IdHasher
+     */
+    public function createArgon2idDriver()
+    {
+        return new Argon2IdHasher($this->config->get('hashing.argon') ?? []);
     }
     
     /**
@@ -91,6 +113,18 @@ class HashManager extends Manager implements Hasher
     public function needsRehash($hashedValue, array $options = []): bool
     {
         return $this->driver()->needsRehash($hashedValue, $options);
+    }
+    
+    /**
+     * Determine if a given string is already hashed.
+     * 
+     * @param  string  $value
+     * 
+     * @return bool
+     */
+    public function isHashed($value): bool
+    {
+        return password_get_info($value)['algo'] !== null;
     }
     
     /**
