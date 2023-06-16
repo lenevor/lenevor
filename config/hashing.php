@@ -12,7 +12,7 @@ return [
     | by default; however, you remain free to modify this option if you wish, 
     | as long as it is supported in the framework.
     |
-    | Suported: "bcrypt"
+    | Suported: "bcrypt", "argon", "argon2id"
     |
     */
 
@@ -31,6 +31,23 @@ return [
 
     'bcrypt' => [
         'rounds' => env('BCRYPT_ROUNDS', 10),
+    ],
+    
+    /*
+    |------------------------------------------------------------------------
+    | Argon Options
+    |------------------------------------------------------------------------
+    |
+    | Here you may specify the configuration options that should be used when
+    | passwords are hashed using the Argon algorithm. These will allow you
+    | to control the amount of time it takes to hash the given password.
+    |
+    */
+    
+    'argon' => [
+        'memory' => 65536,
+        'threads' => 1,
+        'time' => 4,
     ],
 
 ];
