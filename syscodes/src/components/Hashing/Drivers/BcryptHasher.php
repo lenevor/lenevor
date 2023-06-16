@@ -26,7 +26,8 @@ use RuntimeException;
 use Syscodes\Components\Contracts\Hashing\Hasher;
 
 /**
- * This class allows the check and verification of the hash given value.
+ * This class allows the check and verification of the hash 
+ * given value with Bcrypt.
  * 
  * @author Alexander Campo <jalexcam@gmail.com>
  */
