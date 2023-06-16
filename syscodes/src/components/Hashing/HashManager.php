@@ -36,7 +36,7 @@ class HashManager extends Manager implements Hasher
     /**
      * Create an instance of the Bcrypt hash Driver.
      * 
-     * @return \Sysocdes\Components\Hashing\Drivers\BcryptHasher
+     * @return \Syscodes\Components\Hashing\Drivers\BcryptHasher
      */
     public function createBcryptDriver()
     {
