@@ -49,6 +49,17 @@ abstract class ServiceProvider
     }
 
     /**
+     * Get the default services providers for a 
+     * Lenevor application.
+     * 
+     * @return \Syscodes\Components\Support\DefaultCoreProviders
+     */
+    public static function defaultCoreProviders(): DefaultCoreProviders
+    {
+        return new DefaultCoreProviders;
+    }
+
+    /**
      * Register any application services.
      * 
      * @return void
