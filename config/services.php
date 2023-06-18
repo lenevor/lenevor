@@ -1,6 +1,7 @@
 <?php
 
 use Syscodes\Components\Support\Facades\Facade;
+use Syscodes\Components\Support\ServiceProvider;
 
 return [
     
@@ -15,33 +16,14 @@ return [
     |
     */
 
-    'providers' => [
+    'providers' => ServiceProvider::defaultCoreProviders()->merge([
+        // Package Services Providers...
 
-        /*
-         * Lenevor Framework Service Providers
-         */
-        Syscodes\Components\Auth\AuthServiceProvider::class,
-        Syscodes\Components\Cache\CacheServiceProvider::class,
-        Syscodes\Components\Cookie\CookieServiceProvider::class,
-        Syscodes\Components\Database\DatabaseServiceProvider::class,
-        Syscodes\Components\Encryption\EncryptionServiceProvider::class,
-        Syscodes\Components\Events\EventServiceProvider::class,
-        Syscodes\Components\Filesystem\FilesystemServiceProvider::class,
-        Syscodes\Components\Hashing\HashServiceProvider::class,
-        Syscodes\Components\Pipeline\PipelineServiceProvider::class,
-        Syscodes\Components\Session\SessionServiceProvider::class,
-        Syscodes\Components\Translation\TranslationServiceProvider::class,
-        Syscodes\Components\View\ViewServiceProvider::class,
-
-
-        /**
-         * Application Service Providers
-         */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-
-    ],
+        // Application Service Providers...
+        \App\Providers\AppServiceProvider::class,
+        \App\Providers\EventServiceProvider::class,
+        \App\Providers\RouteServiceProvider::class,
+    ])->toArray(),
 
     /*
     |------------------------------------------------------------------------
