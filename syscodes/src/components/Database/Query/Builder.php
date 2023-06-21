@@ -1573,10 +1573,11 @@ class Builder
      */
     public function update(array $values): int
     {
-        $sql      = $this->grammar->compileUpdate($this, $values);
-        $bindings = array_values(array_merge($values, $this->bindings));
-
-        return $this->connection->update($sql, $this->cleanBindings($bindings));
+        $sql = $this->grammar->compileUpdate($this, $values);
+        
+        return $this->connection->update($sql, $this->cleanBindings(
+            $this->grammar->prepareBindingsForUpdate($this->bindings, $values)
+        ));
     }
 
     /**
