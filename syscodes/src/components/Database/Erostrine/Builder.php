@@ -183,7 +183,7 @@ class Builder
         if ($column instanceof Closure && is_null($operator)) {
             $column($query = $this->model->newQuery());
             
-            $this->query->addNestedWhereQuery($query->getQuery(), $boolean);
+            $this->query->addNestedWhere($query->getQuery(), $boolean);
         } else {
             $this->query->where(...func_get_args());
         }
