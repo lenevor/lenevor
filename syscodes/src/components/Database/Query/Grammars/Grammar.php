@@ -22,6 +22,7 @@
  
 namespace Syscodes\Components\Database\Query\Grammars;
 
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Database\Query\Builder;
 use Syscodes\Components\Database\Query\JoinClause;
 use Syscodes\Components\Database\Grammar as BaseGrammar;
@@ -198,15 +199,15 @@ class Grammar extends BaseGrammar
      */
     protected function compileWheres(Builder $builder): string
     {
-       if (is_null($builder->wheres)) {
-           return '';
-       }
-
-       if (count($sql = $this->compileWheresToArray($builder)) > 0) { 
-            return $this->concatenateWheresClauses($builder, $sql); 
-       } 
-
-       return '';
+        if (is_null($builder->wheres)) {
+            return '';
+        }
+        
+        if (count($sql = $this->compileWheresToArray($builder)) > 0) {
+            return $this->concatenateWheresClauses($builder, $sql);
+        }
+        
+        return '';
     }
 
     /**
@@ -218,13 +219,9 @@ class Grammar extends BaseGrammar
      */
     protected function compileWheresToArray($query): array
     {
-        $sql = [];
-        
-        foreach ($query->wheres as $where) {
-            $sql[] = $where['boolean'].' '.$this->{"where{$where['type']}"}($query, $where);
-        }
-        
-        return $sql;
+        return collect($query->wheres)->map(function ($where) use ($query) {
+            return $where['boolean'].' '.$this->{"where{$where['type']}"}($query, $where);
+        })->all();
     }
 
     /**
@@ -986,6 +983,23 @@ class Grammar extends BaseGrammar
     public function compileTruncate(Builder $builder): array
     {
         return ['truncate table '.$this->wrapTable($builder->from) => []];
+    }
+    
+    /**
+     * Prepare the bindings for an update statement.
+     * 
+     * @param  array  $bindings
+     * @param  array  $values
+     * 
+     * @return array
+     */
+    public function prepareBindingsForUpdate(array $bindings, array $values): array
+    {
+        $cleanBindings = Arr::except($bindings, ['select', 'join']);
+        
+        return array_values(
+            array_merge($bindings['join'], $values, Arr::flatten($cleanBindings))
+        );
     }
 
     /**
