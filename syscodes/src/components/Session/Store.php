@@ -574,7 +574,7 @@ class Store implements Session
      * 
      * @return string|null
      */
-    public function previousUrl(): ?string
+    public function previousUrl(): string|null
     {
         return $this->get('_previous.url');
     }
