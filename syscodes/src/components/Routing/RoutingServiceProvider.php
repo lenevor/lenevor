@@ -27,6 +27,7 @@ use Syscodes\Components\Routing\Supported\Redirector;
 use Syscodes\Components\Routing\Supported\UrlGenerator;
 use Syscodes\Components\Routing\Supported\RouteResponse;
 use Syscodes\Components\Contracts\Routing\RouteResponse as ResponseContract;
+use Syscodes\Components\Contracts\Routing\UrlGenerator as UrlGeneratorContract;
 
 /**
  * For loading the classes from the container of services.
@@ -73,12 +74,18 @@ class RoutingServiceProvider extends ServiceProvider
      */
     protected function registerUrlGenerator()
     {
-        $this->app->singleton('url', function ($app) {
-            
+        $this->app->singleton('url', function ($app) {            
             $routes = $app['router']->getRoutes();
 
-            return new UrlGenerator($routes, $app['request']);
-            
+            return new UrlGenerator($routes, $app['request']);            
+        });
+
+        $this->app->extend('url', function (UrlGeneratorContract $url, $app) {
+            $url->setSessionResolver(function () use ($app) {
+                return $app['session'] ?? null;
+            });
+
+            return $url;
         });
     }
 
