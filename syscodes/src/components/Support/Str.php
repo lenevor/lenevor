@@ -371,7 +371,7 @@ class Str
      * Replace a given value in the string sequentially with an array.
      * 
      * @param  string  $search
-     * @param  array  $replace
+     * @param  string[]  $replace
      * @param  string  $subject
      * 
      * @return string
@@ -383,7 +383,7 @@ class Str
         $result = array_shift($segments);
         
         foreach ($segments as $segment) {
-            $result .= (array_shift($replace) ?: $search).$segment;
+            $result .= (array_shift($replace) ?? $search).$segment;
         }
         
         return $result;
