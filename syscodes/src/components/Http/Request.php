@@ -509,7 +509,7 @@ class Request
 	 */
 	public function getLocale(): string
 	{
-		return $this->languages ?: $this->defaultLocale;
+		return $this->languages ?? $this->defaultLocale;
 	}
 
 	/**
@@ -517,9 +517,9 @@ class Request
 	 * 
 	 * @param  string  $locale
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function setLocale(string $locale): self
+	public function setLocale(string $locale): static
 	{
 		if ( ! in_array($locale, $this->validLocales, true)) {
 			$locale = $this->defaultLocale;
@@ -655,9 +655,9 @@ class Request
 	 * 
 	 * @param  \Syscodes\Components\Http\Utilities\Parameters  $json
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function setJson($json): self
+	public function setJson($json): static
 	{
 		$this->json = $json;
 
@@ -1105,13 +1105,13 @@ class Request
 	/**
 	 * Returns the referer.
 	 * 
-	 * @param  string  $default
+	 * @param  string|null  $default
 	 * 
-	 * @return string
+	 * @return string|null
 	 */
-	public function referer(string $default = ''): string
+	public function referer(string $default = null): string|null
 	{
-		return $this->server->get('HTTP_REFERER', $default);
+		return $this->headers->get('HTTP_REFERER', $default);
 	}
 	
 	/**
@@ -1138,11 +1138,11 @@ class Request
 	 *
 	 * @param  string|null  $default
 	 *
-	 * @return string
+	 * @return string|null
 	 */
-	public function userAgent(string $default = null): string
+	public function userAgent(string $default = null): string|null
 	{
-		return $this->server->get('HTTP_USER_AGENT', $default);
+		return $this->headers->get('HTTP_USER_AGENT', $default);
 	}
 	
 	/**
