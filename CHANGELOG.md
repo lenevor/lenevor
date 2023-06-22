@@ -1,5 +1,45 @@
 # Release Notes
 
+## [Version 0.8.6-alpha.8]
+
+Release Date: Jun 22, 2023
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added new method for returns a default value of the given value
+- Added the `isAlias($id)` method in `bound($id)` and Formatting
+- Added conditional for verify if is null the $name variable in the `CacheManager` class
+- Added new methods for know it exist been registered of bindings in the `Container` class
+- Added the type of value that content the APP_DEBUG constant in the `config/app` file
+- Added new method to get the default services providers in the `servicerProvider` class
+- Added the new methods to extender closure for services in the `Container` class
+- Added new methods for current Request and session resolver
+- Added new methods for current Request and session resolver in the `UrlGenerator` class
+- Added method for prepare bindings for update in the `Query/Builder` class
+- Added new methods for convert the route a bundle route
+
+### Changed
+- Changed the name of the class `CallboundCallback` by `CallBoundMethod`
+- Changed the position some arguments of `compareUri()` method in the `RouteRequestMatchesGiven` class
+- Changed the name of the class `RouteParameterBinding` by `RouteParameter`
+
+### Fixed
+- [0.8.x] Fix bug to remove some arguments of the methods `rtrim()` and `compareUri()` in the `BaseRouteCollection` class
+- Fixed the namespace to commented heading on createBcryptDriver() method in the `HashManager` class
+
+### Created
+- Created new classes for allows the check and verification of the hash given value with `Argon2i` and `Argon2id`
+- Created new classes for route describes from `application bundle`
+
+### Updated
+- Updated release to 0.8.6
+- Updated provider key to merge the provider collection in the `config/services` file
+
+### Removed
+- Removed PHP method array_filter in the `Route` class
+
+
 ## [Version 0.8.5-alpha.8]
 
 Release Date: Jun 09, 2023
