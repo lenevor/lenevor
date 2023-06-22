@@ -82,6 +82,13 @@ class UrlGenerator implements UrlGeneratorContract
      * @var \Syscodes\Components\Routing\RouteCollection $routes
      */
     protected $routes;
+    
+    /**
+     * The session resolver callable.
+     * 
+     * @var callable $sessionResolver
+     */
+    protected $sessionResolver;
 
     /**
      * Constructor. The UrlGenerator class instance.
@@ -129,7 +136,7 @@ class UrlGenerator implements UrlGeneratorContract
     {
         $referer = $this->request->referer();
 
-        $url = $referer ? $this->to($referer) : [];
+        $url = $referer ? $this->to($referer) : $this->getPreviousUrlSession();
 
         if ($url) {
             return $url;
@@ -138,6 +145,18 @@ class UrlGenerator implements UrlGeneratorContract
         }
 
         return $this->to('/');
+    }
+    
+    /**
+     * Get the previous URL from the session if possible.
+     * 
+     * @return string|null
+     */
+    protected function getPreviousUrlSession(): string|null
+    {
+        $session = $this->getSession();
+        
+        return $session ? $session->previousUrl() : null;
     }
 
     /**
@@ -409,6 +428,32 @@ class UrlGenerator implements UrlGeneratorContract
     public function format($root, $path, $tail = ''): string
     {
         return trim($root .'/' .trim($path .'/' .$tail, '/'), '/');
+    }
+
+    /**
+     * Get the session implementation from the resolver.
+     * 
+     * @return \Syscodes\Components\Session\Store|null
+     */
+    protected function getSession()
+    {
+        if ($this->sessionResolver) {
+            return call_user_func($this->sessionResolver);
+        }
+    }
+    
+    /**
+     * Set the session resolver for the generator.
+     * 
+     * @param  callable  $sessionResolver
+     * 
+     * @return static
+     */
+    public function setSessionResolver(callable $sessionResolver): static
+    {
+        $this->sessionResolver = $sessionResolver;
+        
+        return $this;
     }
 
     /**
