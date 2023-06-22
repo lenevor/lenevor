@@ -33,10 +33,10 @@ use Syscodes\Components\Container\Container;
 use Syscodes\Components\Routing\ControllerDispatcher;
 use Syscodes\Components\Routing\Matching\UriValidator;
 use Syscodes\Components\Routing\Matching\HostValidator;
-use Syscodes\Components\Routing\Generator\RouteCompiler;
 use Syscodes\Components\Routing\Matching\MethodValidator;
 use Syscodes\Components\Routing\Matching\SchemeValidator;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
+use Syscodes\Bundles\ApplicationBundle\Routing\Route as BundleRoute;
 
 /**
  * A Route describes a route and its parameters.
@@ -140,13 +140,13 @@ class Route
 	/**
 	 * Constructor. Initialize route.
 	 *
-	 * @param  array|string|null  $method  
-	 * @param  string|null  $uri  
-	 * @param  \Closure|string|null  $action  
+	 * @param  array|string  $method  
+	 * @param  string  $uri  
+	 * @param  \Closure|array  $action  
 	 *
 	 * @return void
 	 */
-	public function __construct($method = null, $uri = null, $action = null)
+	public function __construct($method, $uri, $action)
 	{
 		$this->uri = $uri;
 
@@ -580,7 +580,7 @@ class Route
 	{
 		$this->compileRoute();
 		
-		$this->parameters = (new RouteParameterBinding($this))->parameters($request);
+		$this->parameters = (new RouteParameter($this))->parameters($request);
 
 		return $this;
 	}
@@ -588,12 +588,12 @@ class Route
 	/**
 	 * Compile into a Route Compile instance.
 	 * 
-	 * @return \Syscodes\Components\Routing\RouteCompiler
+	 * @return \Syscodes\Bundles\ApplicationBundle\Routing\RouteCompiler
 	 */
 	protected function compileRoute()
 	{
 		if ( ! $this->compiled) {
-			$this->compiled = RouteCompiler::compile($this);
+			$this->compiled = $this->toBundleRoute()->compile();
 		}
 
 		return $this->compiled;
@@ -620,7 +620,7 @@ class Route
 	 */
 	protected function compileParameterNames(): array
 	{
-		preg_match_all('/\{(.*?)\}/', $this->getDomain().$this->uri, $matches);
+		preg_match_all('~\{(.*?)\}~', $this->getDomain().$this->getUri(), $matches);
 
 		return array_map(fn ($match) => trim($match, '?'), $matches[1]);
 	}
@@ -781,6 +781,33 @@ class Route
 	{
 		return in_array('https', $this->action, true);
 	}
+	
+	/**
+	 * Convert the route to a bundle route.
+	 * 
+	 * @return \Syscodes\Bundles\ApplicationBundle\Routing\Route
+	 */
+	public function toBundleRoute()
+	{
+		return new BundleRoute(
+		            preg_replace('~\{(\w+?)\?\}~', '{$1}', $this->getUri()),
+		            $this->getOptionalParameterNames(),
+		            $this->getPatterns(),
+		            $this->getDomain() ?: ''
+		       );
+	}
+	
+	/**
+	 * Get the optional parameter names for the route.
+	 * 
+	 * @return array
+	 */
+	protected function getOptionalParameterNames(): array
+	{
+		preg_match_all('~\{(\w+?)\?\}~', $this->getUri(), $matches);
+		
+		return isset($matches[1]) ? array_fill_keys($matches[1], null) : [];
+	}
 
 	/**
 	 * Get the action of the current route.
@@ -795,7 +822,7 @@ class Route
 	/**
 	 * Get the compiled version of the route.
 	 * 
-	 * @return \Syscodes\Components\Routing\Collections\CompiledRouteCollection
+	 * @return \Syscodes\Bundles\ApplicationBundle\Routing\CompiledRoute
 	 */
 	public function getCompiled()
 	{
