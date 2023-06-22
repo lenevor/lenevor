@@ -28,9 +28,9 @@ use Syscodes\Components\Http\Response;
 use Syscodes\Components\Routing\Route;
 use Syscodes\Components\Routing\Router;
 use Syscodes\Components\Http\JsonResponse;
-use Syscodes\Components\Routing\RouteCollection;
 use Syscodes\Components\Routing\Supported\Pipeline;
 use Syscodes\Components\Contracts\Container\Container;
+use Syscodes\Components\Routing\Collections\RouteCollection;
 
 /**
  * This trait resolve the given route and called the method that belongs to the route.
@@ -61,7 +61,7 @@ class RouteResolver
 	/** 
 	 * The route collection instance. 
 	 * 
-	 * @var \Syscodes\Components\Routing\RouteCollection $routes
+	 * @var \Syscodes\Components\Routing\Collections\RouteCollection $routes
 	 */
 	protected $routes;
 
@@ -69,7 +69,7 @@ class RouteResolver
 	 * Constructor. Create a new RouteResolver instance.
 	 * 
 	 * @param  \Syscodes\Components\Routing\Router  $router
-	 * @param  \Syscodes\Components\Routing\RouteCollection $routes
+	 * @param  \Syscodes\Components\Routing\Collections\RouteCollection $routes
 	 * @param  \Syscodes\Components\Contracts\Container\Container|null  $container
 	 * 
 	 * @return void

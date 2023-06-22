@@ -39,14 +39,14 @@ use Syscodes\Components\Routing\Router;
  * @method \Syscodes\Components\Routing\Route patch(string $uri, \Closure|array|string|null $action = null)
  * @method \Syscodes\Components\Routing\Route options(string $uri, \Closure|array|string|null $action = null)
  * @method \Syscodes\Components\Routing\Route any(string $uri, \Closure|array|string|null $action = null)
- * @method \Syscodes\Components\Routing\RouteRegister as(string $value)
- * @method \Syscodes\Components\Routing\RouteRegister controller(string $controller)
- * @method \Syscodes\Components\Routing\RouteRegister domain(string $value)
- * @method \Syscodes\Components\Routing\RouteRegister middleware(array|string|null $middleware)
- * @method \Syscodes\Components\Routing\RouteRegister name(string $value)
- * @method \Syscodes\Components\Routing\RouteRegister namespace(string $value)
- * @method \Syscodes\Components\Routing\RouteRegister prefix(string  $prefix)
- * @method \Syscodes\Components\Routing\RouteRegister where(array  $where)
+ * @method \Syscodes\Components\Routing\Resources\RouteRegister as(string $value)
+ * @method \Syscodes\Components\Routing\Resources\RouteRegister controller(string $controller)
+ * @method \Syscodes\Components\Routing\Resources\RouteRegister domain(string $value)
+ * @method \Syscodes\Components\Routing\Resources\RouteRegister middleware(array|string|null $middleware)
+ * @method \Syscodes\Components\Routing\Resources\RouteRegister name(string $value)
+ * @method \Syscodes\Components\Routing\Resources\RouteRegister namespace(string $value)
+ * @method \Syscodes\Components\Routing\Resources\RouteRegister prefix(string  $prefix)
+ * @method \Syscodes\Components\Routing\Resources\RouteRegister where(array  $where)
  */
 class RouteRegister
 {
@@ -140,7 +140,7 @@ class RouteRegister
      * @param  string  $controller
      * @param  array  $options
      * 
-     * @return \Syscodes\Components\Routing\ResourceRegister
+     * @return \Syscodes\Components\Routing\Resources\ResourceRegister
      */
     public function resource($name, $controller, array $options = [])
     {

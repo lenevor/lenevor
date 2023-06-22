@@ -27,15 +27,15 @@ use InvalidArgumentException;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Http\Request;
-use Syscodes\Components\Http\RedirectResponse;
 use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Contracts\Routing\Routable;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Routing\Resolver\RouteResolver;
 use Syscodes\Components\Routing\Resources\RouteRegister;
 use Syscodes\Components\Routing\Resources\ResourceRegister;
+use Syscodes\Components\Routing\Collections\RouteCollection;
 use Syscodes\Components\Routing\Resolver\MiddlewareResolver;
-use Syscodes\Components\Routing\Resources\RouteFileRegister;
+use Syscodes\Components\Routing\Supported\RouteFileRegister;
 use Syscodes\Components\Routing\Resources\AwaitingResourceRegistration;
 
 /**
@@ -114,7 +114,7 @@ class Router implements Routable
 	/** 
 	 * The route collection instance. 
 	 * 
-	 * @var \Syscodes\Components\Routing\RouteCollection $routes
+	 * @var \Syscodes\Components\Routing\Collections\RouteCollection $routes
 	 */
 	protected $routes;
 
@@ -468,9 +468,11 @@ class Router implements Routable
 	 */
 	protected function addWhereClausesToRoute($route): Route
 	{
-		return $route->where(array_merge(
+		$route->where(array_merge(
 			$this->patterns, Arr::get($route->getAction(), 'where', [])
 		));
+
+		return $route;
 	}
 
 	/**
@@ -482,16 +484,6 @@ class Router implements Routable
 	 */
 	protected function prefix($uri): string
 	{
-		$uri = is_null($uri) ? '' : trim($uri, '/').'/';
-
-		$uri = filter_var($uri, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-		// While we want to add a route within a group of '/',
-		// it doens't work with matching, so remove them...
-		if ($uri != '/') {
-			$uri = ltrim($uri, '/');
-		}
-
 		return trim(trim($this->getGroupPrefix(), '/').'/'.trim($uri, '/'), '/') ?: '/';
 	}
 

@@ -24,7 +24,7 @@ namespace Syscodes\Components\Routing\Resources;
 
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Routing\Router;
-use Syscodes\Components\Routing\RouteCollection;
+use Syscodes\Components\Routing\Collections\RouteCollection;
 
 /**
  * Allows generate resources for routes register.
@@ -83,7 +83,7 @@ class ResourceRegister
      * @param  string  $controller
      * @param  array  $options
      * 
-     * @return \Syscodes\Components\Routing\RouteCollection
+     * @return \Syscodes\Components\Routing\Collections\RouteCollection
      */
     public function register($name, $controller, array $options = [])
     {

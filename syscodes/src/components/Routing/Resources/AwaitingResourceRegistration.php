@@ -53,7 +53,7 @@ class AwaitingResourceRegistration
     /**
      * The resource register.
      * 
-     * @var \Syscodes\Components\Routing\ResourceRegister $register
+     * @var \Syscodes\Components\Routing\Resources\ResourceRegister $register
      */
     protected $register;
 
@@ -67,7 +67,7 @@ class AwaitingResourceRegistration
     /**
      * Constructor. Create a new route resource registration instance.
      * 
-     * @param  \Syscodes\Components\Routing\ResourceRegister  $register
+     * @param  \Syscodes\Components\Routing\Resources\ResourceRegister  $register
      * @param  string  $name
      * @param  string  $controller
      * @param  array  $options
@@ -177,7 +177,7 @@ class AwaitingResourceRegistration
      * 
      * @param  mixed  $middleware
      * 
-     * @return \Syscodes\Components\Routing\AwaitingResourceRegistration
+     * @return \Syscodes\Components\Routing\Resources\AwaitingResourceRegistration
      */
     public function middleware($middleware)
     {
@@ -195,7 +195,7 @@ class AwaitingResourceRegistration
     /**
      * Register the resource route.
      * 
-     * @return \Syscodes\Components\Routing\RouteCollection
+     * @return \Syscodes\Components\Routing\Collections\RouteCollection
      */
     public function register()
     {
