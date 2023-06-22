@@ -70,7 +70,7 @@ interface Container extends ContainerInterface
      * 
      * @return mixed
      */
-    public function extend($id, Closure $closure): mixed;
+    public function extend($id, Closure $closure);
     
     /**
      * Register a singleton binding in the container.
