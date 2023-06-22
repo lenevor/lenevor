@@ -80,8 +80,8 @@ class RouteParameterBinding
     protected function bindParameters($request): array
     {
         $path = '/'.ltrim($request->decodedPath(), '/');
-
-        @preg_match($this->route->compiled->getRegex(), $path, $matches);
+        
+        preg_match($this->route->compiled->getRegex(), $path, $matches);
         
         return $this->matchToKeys(array_slice($matches, 1));
     }
@@ -96,7 +96,7 @@ class RouteParameterBinding
      */
     protected function bindHostParameters($request, $parameters): array
     {
-        @preg_match($this->route->compiled->getHostRegex(), $request->getHost(), $matches);
+        preg_match($this->route->compiled->getHostRegex(), $request->getHost(), $matches);
         
         return array_merge($this->matchToKeys(array_slice($matches, 1)), $parameters);
     }
@@ -118,8 +118,7 @@ class RouteParameterBinding
         
         return array_filter(
                     $parameters, 
-                    fn ($value) => is_string($value) && strlen($value) > 0, 
-                    ARRAY_FILTER_USE_BOTH
+                    fn ($value) => is_string($value) && strlen($value) > 0
                 );
     }
     
