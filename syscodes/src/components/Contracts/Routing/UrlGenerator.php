@@ -22,6 +22,8 @@
 
 namespace Syscodes\Components\Contracts\Routing;
 
+use Syscodes\Components\Http\Request;
+
 /**
  * Returns the URL generated.
  */
@@ -99,4 +101,22 @@ interface UrlGenerator
      * @throws \InvalidArgumentException
      */
     public function action($action, $parameters = [], $forced = true): string;
+
+    /**
+     * Sets the current Request instance.
+     * 
+     * @param  \Syscodes\Components\Http\Request  $request
+     * 
+     * @return void
+     */
+    public function setRequest(Request $request): void;
+
+    /**
+     * Set the session resolver for the generator.
+     * 
+     * @param  callable  $sessionResolver
+     * 
+     * @return static
+     */
+    public function setSessionResolver(callable $sessionResolver): static;
 }
