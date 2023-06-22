@@ -620,12 +620,9 @@ class Route
 	 */
 	protected function compileParameterNames(): array
 	{
-		@preg_match_all('~\{(.*?)\}~', $this->domain().$this->uri, $matches);
+		preg_match_all('/\{(.*?)\}/', $this->getDomain().$this->uri, $matches);
 
-		return array_filter(
-			        array_map(fn ($match) => trim($match, '?'), $matches[1]), 
-					fn ($parameterName) => ! array_key_exists($parameterName, [])
-				);
+		return array_map(fn ($match) => trim($match, '?'), $matches[1]);
 	}
 
 	/**
