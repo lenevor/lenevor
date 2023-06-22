@@ -119,9 +119,10 @@ class RouteCompiler
     {
         $tokens           = [];
         $variables        = [];
+        $matches          = [];
         $pos              = 0;
         $defaultSeparator = $isHost ? '.' : '/';
-        $pattern          = '/'.$pattern ?? $pattern;
+        $pattern          = $pattern ?? '/'.$pattern;
         $useUtf8          = preg_match('//u', $pattern);
 
         if ($useUtf8 && preg_match('~[\x80-\xFF]~', $pattern)) {
@@ -220,11 +221,23 @@ class RouteCompiler
         
         // Find the first optional token
         $firstOptional = PHP_INT_MAX;
+
+        if ( ! $isHost) {
+            for ($i = count($tokens) - 1; $i >= 0; --$i) {
+                $token = $tokens[$i];
+                // variable is optional when it is not important and has a default value
+                if ('variable' === $token[0] && ! ($token[5] ?? false)) {
+                    $firstOptional = $i;
+                } else {
+                    break;
+                }
+            }
+        }
         
         // Compute the matching regex with slash
         $regex = '';
 
-        for ($i = 0, $nbToken = count($tokens); $i < $nbToken; ++$i) {
+        for ($i = 0, $nToken = count($tokens); $i < $nToken; ++$i) {
             $regex .= static::CheckTokenRegex($tokens, $i, $firstOptional);
         }
 
@@ -234,7 +247,7 @@ class RouteCompiler
         if ($useUtf8) {
             $regex .= 'u';
             
-            for ($i = 0, $nbToken = count($tokens); $i < $nbToken; ++$i) {
+            for ($i = 0, $nToken = count($tokens); $i < $nToken; ++$i) {
                 if ('variable' === $tokens[$i][0]) {
                     $tokens[$i][4] = true;
                 }
@@ -322,11 +335,11 @@ class RouteCompiler
                 
                 if ($index >= $firstOptional) {
                     $regex = "(?:$regex";
-                    $nbTokens = count($tokens);
+                    $nTokens = count($tokens);
                     
-                    if ($nbTokens - 1 == $index) {
+                    if ($nTokens - 1 == $index) {
                         // Close the optional subpatterns
-                        $regex .= str_repeat(')?', $nbTokens - $firstOptional - (0 === $firstOptional ? 1 : 0));
+                        $regex .= str_repeat(')?', $nTokens - $firstOptional - (0 === $firstOptional ? 1 : 0));
                     }
                 }
                 
