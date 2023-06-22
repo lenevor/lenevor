@@ -35,7 +35,7 @@ final class Version
     /** 
      * Lenevor's version.
      */
-    public const RELEASE = '0.8.5';
+    public const RELEASE = '0.8.6';
 
     /**
      * Release status.
@@ -65,10 +65,10 @@ final class Version
     /**
      * Year actual.
      */
-    public const YEAR = '2022';
+    public const YEAR = '2023';
 
     /**
-     * Gets a string version of " PHP normalized" for the Lenevor Framework.
+     * Gets a string version of "PHP normalized" for the Lenevor Framework.
      *
      * @return string  Short version
      */
