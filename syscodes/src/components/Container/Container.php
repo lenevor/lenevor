@@ -29,7 +29,6 @@ use ArrayAccess;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionParameter;
-use InvalidArgumentException;
 use Syscodes\Components\Container\Exceptions\ContainerException;
 use Syscodes\Components\Contracts\Container\BindingResolutionException;
 use Syscodes\Components\Container\Exceptions\UnknownIdentifierException;
@@ -78,6 +77,13 @@ class Container implements ArrayAccess, ContainerContract
     protected $buildStack = [];
 
     /**
+     * The extension closures for services.
+     * 
+     * @var array $extenders
+     */
+    protected $extenders = [];
+
+    /**
      * All of the registered callbacks.
      * 
      * @var array $hasCallbacks
@@ -97,13 +103,6 @@ class Container implements ArrayAccess, ContainerContract
      * @var array $resolved
      */
     protected $resolved = [];
-
-    /**
-     * The extender closures for services.
-     * 
-     * @var array $services
-     */
-    protected $services = [];
 
     /**
      * Set the globally available instance of the container.
@@ -185,21 +184,21 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    public function extend($id, Closure $closure): mixed
+    public function extend($id, Closure $closure)
     {
-        if ( ! isset($this->bindings[$id])) {
-            throw new InvalidArgumentException("Type {$id} is not bound.");
-        }
+        $id = $this->getAlias($id);
         
         if (isset($this->instances[$id])) {
             $this->instances[$id] = $closure($this->instances[$id], $this);
             
             return $this->reBound($id);
+        } else {
+            $this->extenders[$id][] = $closure;
+
+            if ($this->resolved($id)) {
+                $this->rebound($id);
+            }
         }
-        
-        $resolver = $this->bindings[$id]['value'];
-        
-        $this->bind($id, fn ($container) => $closure($resolver($container), $container), $this->isSingleton($id));
     }
 
     /**
@@ -391,18 +390,6 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * Get the services callbacks for a given type.
-     * 
-     * @param  string  $id
-     * 
-     * @return array
-     */
-    protected function getServices($id)
-    {
-        return $this->services[$this->getAlias($id)] ?? [];
-    }
-
-    /**
      * Register an existing instance as singleton in the container.
      *
      * @param  string  $id
@@ -491,8 +478,8 @@ class Container implements ArrayAccess, ContainerContract
             $object = $this->make($value);
         }
 
-        foreach ($this->getServices($id) as $services) {
-            $object = $services($object, $this);
+        foreach ($this->getExtenders($id) as $extenders) {
+            $object = $extenders($object, $this);
         }
 
         if ($this->isSingleton($id)) {
@@ -863,6 +850,30 @@ class Container implements ArrayAccess, ContainerContract
         $this->bindings[$id] = $value;
 
         return $this;
+    }
+
+    /**
+     * Get the extender callbacks for a given type.
+     * 
+     * @param  string  $id
+     * 
+     * @return array
+     */
+    protected function getExtenders(string $id): array
+    {
+        return $this->extenders[$this->getAlias($id)] ?? [];
+    }
+
+    /**
+     * Remove all of the extender callbacks.
+     * 
+     * @param  string  $id
+     * 
+     * @return void
+     */
+    public function eraseExtenders(string $id): void
+    {
+        unset($this->extenders[$this->getAlias($id)]);
     }
 
     /**
