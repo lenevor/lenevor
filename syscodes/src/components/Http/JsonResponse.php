@@ -87,7 +87,7 @@ class JsonResponse extends Response
      * 
      * @return static
      */
-    public static function render($data = null, $status = 200, $headers = [])
+    public static function render($data = null, $status = 200, $headers = []): static
     {
         return new static($data, $status, $headers);
     }
@@ -102,7 +102,7 @@ class JsonResponse extends Response
      * 
      * @return static
      */
-    public static function toJsonString($data = null, $status = 200, $headers = [])
+    public static function toJsonString($data = null, $status = 200, $headers = []): static
     {
         return new static($data, $status, $headers, true);
     }
@@ -123,27 +123,24 @@ class JsonResponse extends Response
     /**
      * Sets the data to be sent as JSON.
      * 
-     * @param  array  $data 
+     * @param  mixed  $data 
      * 
      * @return static
      * 
      * @throws \InvalidArgumentException
      */
-    public function setData($data = []): static
+    public function setData(mixed $data = []): static
     {
         $options = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
 
         $this->jsonEncodingOptions = app()->environment() === 'production' ? $options : $options | JSON_PRETTY_PRINT;
         
-        if ($data instanceof Jsonable) {
-            $this->data = $data->toJson($this->jsonEncodingOptions);
-        } elseif ($data instanceof JsonSerializable) {
-            $this->data = json_encode($data->jsonSerialize(), $this->jsonEncodingOptions);
-        } elseif ($data instanceof Arrayable) {
-            $this->data = json_encode($data->toArray(), $this->jsonEncodingOptions);
-        } else {
-            $this->data = json_encode($data, $this->jsonEncodingOptions);
-        }
+        $this->data = match(true) {
+            $data instanceof Jsonable => $data->toJson($this->jsonEncodingOptions),
+            $data instanceof JsonSerializable => json_encode($data->jsonSerialize(), $this->jsonEncodingOptions),
+            $data instanceof Arrayable => json_encode($data->toArray(), $this->jsonEncodingOptions),
+            default => json_encode($data, $this->jsonEncodingOptions),
+        };
 
         if ( ! $this->hasJsonValidOptions(json_last_error())) {
             throw new InvalidArgumentException(__('Http.invalidJson', [json_last_error_msg()]));
