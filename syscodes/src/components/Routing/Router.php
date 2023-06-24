@@ -107,7 +107,7 @@ class Router implements Routable
 	/**
 	 * The Resource instance.
 	 * 
-	 * @var \Syscodes\Components\Routing\ResourceRegister $resources
+	 * @var \Syscodes\Components\Routing\Resources\ResourceRegister $resources
 	 */
 	protected $resources;
 
@@ -663,7 +663,7 @@ class Router implements Routable
 	 * @param  string  $controller
 	 * @param  array  $options
 	 * 
-	 * @return \Syscodes\Components\Routing\AwaitingResourceRegistration
+	 * @return \Syscodes\Components\Routing\Resources\AwaitingResourceRegistration
 	 */
 	public function resource($name, $controller, array $options = []) 
 	{
