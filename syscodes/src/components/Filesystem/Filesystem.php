@@ -22,7 +22,6 @@
 
 namespace Syscodes\Components\Filesystem;
 
-use ErrorException;
 use FilesystemIterator;
 use Syscodes\Components\Filesystem\Exceptions\FileException;
 use Syscodes\Components\Filesystem\Exceptions\FileNotFoundException;

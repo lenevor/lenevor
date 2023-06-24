@@ -22,8 +22,6 @@
 
 namespace Syscodes\Bundles\ApplicationBundle\Routing;
 
-use Syscodes\Components\Routing\RouteAction;
-
 /**
  * A Route describes a route and its parameters.
  */
