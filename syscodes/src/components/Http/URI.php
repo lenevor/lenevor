@@ -242,9 +242,7 @@ class URI
 	 */
 	public function getSegments(): array
 	{
-		$path = Request::getPathInfo();
-		
-		$segments = $this->setPath($path);
+		$segments = $this->setPath(Request::decodedPath());
 
 		return array_values(array_filter($segments, fn ($value) => $value != ''));
 	}
