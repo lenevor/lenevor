@@ -605,7 +605,7 @@ if ( ! function_exists('response')) {
      * @param  int  $status  
      * @param  array  $headers
      * 
-     * @return \Syscodes\Components\Http\Response|\Syscodes\Components\Routing\Supported\RouteResponse
+     * @return \Syscodes\Components\Http\Response|\Syscodes\Components\Routing\Generators\RouteResponse
      */
     function response($body = '', int $status = 200, array $headers = [])
     {
