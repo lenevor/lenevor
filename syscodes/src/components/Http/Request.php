@@ -22,24 +22,19 @@
 
 namespace Syscodes\Components\Http;
 
-Use Locale;
 use Closure;
 use LogicException;
 use RuntimeException;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
-use Syscodes\Components\Http\Loaders\Files;
-use Syscodes\Components\Http\Loaders\Inputs;
-use Syscodes\Components\Http\Loaders\Server;
-use Syscodes\Components\Http\Loaders\Headers;
 use Syscodes\Components\Http\Loaders\Parameters;
 use Syscodes\Components\Http\Helpers\RequestUtils;
 use Syscodes\Components\Http\Resources\HttpRequest;
-use Syscodes\Components\Http\Helpers\RequestClientIP;
 use Syscodes\Components\Http\Resources\HttpResources;
 use Syscodes\Components\Http\Session\SessionDecorator;
 use Syscodes\Components\Http\Concerns\CanBePrecognitive;
 use Syscodes\Components\Http\Concerns\InteractsWithInput;
+use Syscodes\Components\Http\Concerns\InteractsWithFlashData;
 use Syscodes\Components\Http\Concerns\InteractsWithContentTypes;
 use Syscodes\Components\Http\Exceptions\SessionNotFoundException;
 
@@ -52,6 +47,7 @@ class Request
 	    HttpResources,
 	    CanBePrecognitive,	    
 	    InteractsWithInput,
+	    InteractsWithFlashData,
 	    InteractsWithContentTypes;
 
 	/**
@@ -62,62 +58,6 @@ class Request
 	protected $acceptableContentTypes;
 
 	/**
-	 * Get the custom parameters.
-	 * 
-	 * @var \Syscodes\Components\Http\Loaders\Parameters $attributes
-	 */
-	public $attributes;
-
-	/**
-	 * The base URL.
-	 * 
-	 * @var string $baseUrl
-	 */
-	protected $baseUrl;
-
-	/**
-	 * Get the client ip.
-	 * 
-	 * @var mixed $clientIp
-	 */
-	protected $clientIp;
-
-	/**
-	 * Gets cookies ($_COOKIE).
-	 * 
-	 * @var \Syscodes\Components\Http\Loaders\Inputs $cookies
-	 */
-	public $cookies;
-
-	/**
-	 * Gets the string with format JSON.
-	 * 
-	 * @var string|resource|object|null $content
-	 */
-	protected $content;
-
-	/**
-	 * The default Locale this request.
-	 * 
-	 * @var string $defaultLocale
-	 */
-	protected $defaultLocale = 'en';
-	
-	/**
-	 * Gets files request ($_FILES).
-	 * 
-	 * @var \Syscodes\Components\Http\Loaders\Files $files
-	 */
-	public $files;
-	
-	/**
-	 * Get the headers request ($_SERVER).
-	 * 
-	 * @var \Syscodes\Components\Http\Loaders\Headers $headers
-	 */
-	public $headers;
-
-	/**
 	 * The decoded JSON content for the request.
 	 * 
 	 * @var \Syscodes\Components\Http\Loaders\Parameters|null $json
@@ -125,46 +65,11 @@ class Request
 	protected $json;
 
 	/**
-	 * The current language of the application.
-	 * 
-	 * @var string $languages
-	 */
-	protected $languages;
-	
-	/**
-	 * Get the locale.
-	 * 
-	 * @var string $locale
-	 */
-	protected $locale;
-	
-	/** 
-	 * The method name.
-	 * 
-	 * @var string $method
-	 */
-	protected $method;
-
-	/**
 	 * The path info of URL.
 	 * 
 	 * @var string $pathInfo
 	 */
 	protected $pathInfo;
-
-	/**
-	 * Query string parameters ($_GET).
-	 * 
-	 * @var \Syscodes\Components\Http\Loaders\Parameters $query
-	 */
-	public $query;
-
-	/**
-	 * Request body parameters ($_POST).
-	 * 
-	 * @var \Syscodes\Components\Http\Loaders\Parameters $request
-	 */
-	public $request;
 
 	/**
 	 * Get request URI.
@@ -188,150 +93,15 @@ class Request
 	protected $session;
 
 	/**
-	 * The detected uri and server variables ($_SERVER).
-	 * 
-	 * @var \Syscodes\Components\Http\Loaders\Server $server
-	 */
-	public $server;
-
-	/** 
-	 * List of routes uri.
-	 *
-	 * @var \Syscodes\Components\Http\URI $uri 
-	 */
-	public $uri;
-
-	/**
-	 * Stores the valid locale codes.
-	 * 
-	 * @var array $validLocales
-	 */
-	protected $validLocales = [];
-
-	/**
-	 * Constructor: Create new the Request class.
-	 * 
-	 * @param  array  $query
-	 * @param  array  $request
-	 * @param  array  $attributes
-	 * @param  array  $cookies
-	 * @param  array  $files
-	 * @param  array  $server
-	 * @param  string|resource|null $content  
-	 * 
-	 * @return void
-	 */
-	public function __construct(
-		array $query = [],
-		array $request = [],
-		array $attributes = [],
-		array $cookies = [],
-		array $files = [],
-		array $server = [],
-		$content = null
-	) {
-		$this->initialize($query, $request, $attributes, $cookies, $files, $server, $content);
-		
-		$this->detectLocale();
-	}
-
-	/**
-	 * Sets the parameters for this request.
-	 * 
-	 * @param  array  $query
-	 * @param  array  $request
-	 * @param  array  $attributes
-	 * @param  array  $cookies
-	 * @param  array  $files
-	 * @param  array  $server
-	 * 
-	 * @return void
-	 */
-	public function initialize(
-		array $query = [], 
-		array $request = [],
-		array $attributes = [],
-		array $cookies = [], 
-		array $files = [], 
-		array $server = [], 
-		$content = null
-	): void {
-		$this->query = new Inputs($query);
-		$this->request = new Inputs($request);
-		$this->attributes = new Parameters($attributes);
-		$this->cookies = new Inputs($cookies);
-		$this->files = new Files($files);
-		$this->server = new Server($server);
-		$this->headers = new Headers($this->server->all());
-
-		// Variables initialized
-		$this->uri = new URI;
-		$this->method = null;
-		$this->baseUrl = null;
-		$this->content = $content;
-		$this->pathInfo = null;
-		$this->languages = null;
-		$this->acceptableContentTypes = null;
-		$this->validLocales = config('app.supportedLocales');
-		$this->clientIp = new RequestClientIP($this->server->all());
-	}
-
-	/**
-	 * Clones a request and overrides some of its parameters.
-	 * 
-	 * @param  array|null  $query
-	 * @param  array|null  $request
-	 * @param  array|null  $attributes
-	 * @param  array|null  $cookies
-	 * @param  array|null  $files
-	 * @param  array|null  $server
+	 * Create a new Syscodes HTTP request from server variables.
 	 * 
 	 * @return static
 	 */
-	public function duplicate(
-		array $query = null, 
-		array $request = null,
-		array $attributes = null,
-		array $cookies = null,
-		array $files = null,
-		array $server = null
-	): static {
-		$duplicate = clone $this;
-
-		if (null !== $query) {
-			$duplicate->query = new Inputs($query);
-		}
-
-		if (null !== $request) {
-			$duplicate->request = new Inputs($request);
-		}
-
-		if (null !== $attributes) {
-			$duplicate->attributes = new Parameters($attributes);
-		}
-
-		if (null !== $cookies) {
-			$duplicate->cookies = new Inputs($cookies);
-		}
-
-		if (null !== $files) {
-			$duplicate->files = new Files($files);
-		}
-
-		if (null !== $server) {
-			$duplicate->server  = new Server($server);
-			$duplicate->headers = new Headers($duplicate->server->all());
-		}
-
-		$duplicate->uri = new URI;
-		$duplicate->locale = null;
-		$duplicate->method = null;
-		$duplicate->baseUrl = null;
-		$duplicate->pathInfo = null;
-		$duplicate->validLocales = config('app.supportedLocales');
-		$duplicate->clientIp = new RequestClientIP($duplicate->server->all());
-
-		return $duplicate;		
+	public static function capture(): static
+	{
+		static::enabledHttpMethodParameterOverride();
+		
+		return static::createFromRequest(static::createFromRequestGlobals());
 	}
 
 	/**
@@ -366,58 +136,6 @@ class Request
 	public function totalSegments()
 	{
 		return $this->uri->getTotalSegments();
-	}
-
-	/**
-	 * Handles setting up the locale, auto-detecting of language.
-	 * 
-	 * @return void
-	 */
-	public function detectLocale(): void
-	{
-		$this->languages = $this->defaultLocale = config('app.locale');
-
-		$this->setLocale($this->validLocales[0]);
-	}
-
-	/**
-	 * Returns the default locale as set.
-	 * 
-	 * @return string
-	 */
-	public function getDefaultLocale(): string
-	{
-		return $this->defaultLocale;
-	}
-
-	/**
-	 * Gets the current locale, with a fallback to the default.
-	 * 
-	 * @return string 
-	 */
-	public function getLocale(): string
-	{
-		return $this->languages ?: $this->defaultLocale;
-	}
-
-	/**
-	 * Sets the locale string for this request.
-	 * 
-	 * @param  string  $locale
-	 * 
-	 * @return self
-	 */
-	public function setLocale(string $locale): self
-	{
-		if ( ! in_array($locale, $this->validLocales, true)) {
-			$locale = $this->defaultLocale;
-		}
-		
-		$this->languages = $locale;
-
-		Locale::setDefault($locale);
-			
-		return $this;
 	}
 
 	/**
@@ -503,7 +221,7 @@ class Request
 	 * @param  string|null  $key  
 	 * @param  mixed  $default  
 	 * 
-	 * @return \Syscodes\Components\Http\Utilities\Parameters|mixed
+	 * @return \Syscodes\Components\Http\Loaders\Parameters|mixed
 	 */
 	public function json($key = null, $default = null)
 	{
@@ -521,7 +239,7 @@ class Request
 	/**
 	 * Set the JSON payload for the request.
 	 * 
-	 * @param  \Syscodes\Components\Http\Utilities\Parameters  $json
+	 * @param  \Syscodes\Components\Http\Loaders\Parameters  $json
 	 * 
 	 * @return static
 	 */
@@ -670,7 +388,7 @@ class Request
 	/**
 	 * Get the input source for the request.
 	 * 
-	 * @return \Syscodes\Components\Http\Utilities\Parameters
+	 * @return \Syscodes\Components\Http\Loaders\Parameters
 	 */
 	public function getInputSource()
 	{
@@ -849,115 +567,6 @@ class Request
 	
 		return $this->getSchemeWithHttpHost().$this->getBaseUrl().$this->getPathInfo().$query;
 	}
-	
-	/**
-	 * Gets the request's scheme.
-	 * 
-	 * @return string
-	 */
-	public function getScheme(): string
-	{
-		return $this->secure() ? $this->uri->setScheme('https') : $this->uri->setScheme('http');
-	}
-
-	/**
-	 * Returns the host name.
-	 * 
-	 * @return string
-	 */
-	public function getHost(): string
-	{
-		if ($forwardedHost = $this->server->get('HTTP_X_FORWARDED_HOST')) {
-			$host = $forwardedHost[0];
-		} elseif ( ! $host = $this->headers->get('HOST')) {
-			if ( ! $host = $this->server->get('SERVER_NAME')) {
-				$host = $this->server->get('REMOTE_ADDR', '');
-			}
-		}
-
-		$host = strtolower(preg_replace('/:\d+$/', '', trim(($host))));
-		
-		return $this->uri->setHost($host);
-	}
-
-	/**
-	 * Returns the port on which the request is made.
-	 * 
-	 * @return int
-	 */
-	public function getPort(): int
-	{
-		if ( ! $this->server->get('HTTP_HOST')) {
-			return $this->server->get('SERVER_PORT');
-		}
-		
-		return 'https' === $this->getScheme() ? $this->uri->setPort(443) : $this->uri->setPort(80);
-	}
-
-	/**
-	 * Get the user.
-	 * 
-	 * @return string|null
-	 */
-	public function getUser(): ?string
-	{
-		$user = $this->uri->setUser(
-			$this->headers->get('PHP_AUTH_USER')
-		);
-
-		return $user;
-	}
-
-	/**
-	 * Get the password.
-	 * 
-	 * @return string|null
-	 */
-	public function getPassword(): ?string
-	{
-		$password = $this->uri->setPassword(
-			$this->headers->get('PHP_AUTH_PW')
-		);
-
-		return $password;
-	}
-
-	/**
-	 * Gets the user info.
-	 * 
-	 * @return string|null
-	 */
-	public function getUserInfo(): ?string
-	{
-		return $this->uri->getUserInfo();
-	}
-
-	/**
-	 * Returns the HTTP host being requested.
-	 * 
-	 * @return string
-	 */
-	public function getHttpHost(): string
-	{
-		$scheme = $this->getScheme();
-		$port   = $this->getPort();
-
-		if (('http' === $scheme && 80 === $port) || ('https' === $scheme && 443 === $port))	{
-			return $this->getHost();
-		}
-
-		return $this->getHost().':'.$port;
-	}
-
-	/**
-	 * Gets the scheme and HTTP host.
-	 * 
-	 * @return string
-	 */
-	public function getSchemeWithHttpHost(): string
-	{
-		return $this->getScheme().'://'.$this->getHttpHost();
-	}
 
 	/**
 	 * Get the root URL for the application.
@@ -1057,6 +666,20 @@ class Request
 		$this->routeResolver = $callback;
 
 		return $this;
+	}
+	
+	/**
+	 * Magic method.
+	 * 
+	 * Check if an input element is set on the request.
+	 * 
+	 * @param  string  $key
+	 * 
+	 * @return bool
+	 */
+	public function __isset($key)
+	{
+		return ! is_null($this->__get($key));
 	}
 
 	/**
