@@ -386,6 +386,33 @@ class Store implements Session
             return $this->get($key, $placeholder) === $placeholder;
         });
     }
+    
+    /**
+     * Determine if the session contains old input.
+     * 
+     * @param  string|null  $key
+     * 
+     * @return bool
+     */
+    public function hasOldInput($key = null): bool
+    {
+        $old = $this->getOldInput($key);
+        
+        return is_null($key) ? count($old) > 0 : ! is_null($old);
+    }
+    
+    /**
+     * Get the requested item from the flashed input array.
+     * 
+     * @param  string|null  $key
+     * @param  mixed  $default
+     * 
+     * @return mixed
+     */
+    public function getOldInput($key = null, $default = null)
+    {
+        return Arr::get($this->get('_old_input', []), $key, $default);
+    }
 
     /**
      * Checks if an a key is present and not null.
@@ -493,6 +520,18 @@ class Store implements Session
     protected function removeOldFlashData(array $keys): void
     {
         $this->put('_flash.old', array_diff($this->get('_flash.old', []), $keys));
+    }
+    
+    /**
+     * Flash an input array to the session.
+     * 
+     * @param  array  $value
+     * 
+     * @return void
+     */
+    public function flashInput(array $value): void
+    {
+        $this->flash('_old_input', $value);
     }
 
     /**
