@@ -5,11 +5,11 @@
 			<?php if ($i == count($class) - 1): ?>
 		<h1><?= $template->escape($name) ?></h1> 
 			<?php else: ?>
-		<?= $template->escape($name).'\\' ?>
+		<h1><?= $template->escape($name).'&nbsp;\\' ?></h1>
 			<?php endif; ?>
 		<?php endforeach; ?>
 		<?php if ($code): ?>
-		<span class="subtitle" title="Exception Code">(<?= $template->escape($code) ?>)</span>
+		<span class="subtitle" title="Exception Code"><?= $template->escape($code) ?></span>
 		<?php endif ?>
 	</div>
 	<div class="exception-message">
