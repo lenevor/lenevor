@@ -20,6 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
+use Syscodes\Components\Http\Response;
 use Syscodes\Components\Core\Application;
 use Syscodes\Components\Support\WebString;
 use Syscodes\Components\Support\Facades\Date;
@@ -29,6 +30,7 @@ use Syscodes\Components\Contracts\Routing\RouteResponse;
 use Syscodes\Components\Contracts\Debug\ExceptionHandler;
 use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoload;
 use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoloader;
+use Syscodes\Components\Http\Exceptions\HttpResponseException;
 use Syscodes\Components\Contracts\Auth\Factory as AuthFactory;
 use Syscodes\Components\Contracts\Cookie\Factory as CookieFactory;
 
@@ -36,7 +38,7 @@ if ( ! function_exists('abort')) {
     /**
      * Throw an HttpException with the given data.
      *
-     * @param  int  $code
+     * @param  \Syscodes\Components\Http\Response|int  $code
      * @param  string  $message
      * @param  array  $headers
      * 
@@ -47,7 +49,68 @@ if ( ! function_exists('abort')) {
      */
     function abort(int $code, string $message = '', array $headers = [])
     {
+        if ($code instanceof Response) {
+            throw new HttpResponseException($code);
+        }
         return app()->abort($code, $message, $headers);
+    }
+}
+
+if ( ! function_exists('about_if')) {
+    /**
+     * Throw an HttpException with the given data if the given condition is true.
+     * 
+     * @param  bool  $boolean
+     * @param  \Syscodes\Components\Http\Response|int  $code
+     * @param  string  $message
+     * @param  array  $headers
+     * 
+     * @return void
+     * @throws \Syscodes\Components\Core\Http\Exceptions\HttpException
+     * @throws \Syscodes\Components\Core\Http\Exceptions\LenevorException
+     */
+    function about_if($boolean, int $code, string $message = '', array $headers = [])
+    {
+        if ($boolean) {
+            abort($code, $message, $headers);
+        }
+    }
+}
+
+if ( ! function_exists('abort_unless')) {
+    /**
+     * Throw an HttpException with the given data unless the given condition is true.
+     * 
+     * @param  bool  $boolean
+     * @param  \Syscodes\Components\Http\Response|int  $code
+     * @param  string  $message
+     * @param  array  $headers
+     * 
+     * @return void
+     * @throws \Syscodes\Components\Core\Http\Exceptions\HttpException
+     * @throws \Syscodes\Components\Core\Http\Exceptions\LenevorException
+     */
+    function abort_unless($boolean, int $code, string $message = '', array $headers = [])
+    {
+        if ( ! $boolean) {
+            abort($code, $message, $headers);
+        }
+    }
+}
+
+if ( ! function_exists('action')) {
+    /**
+     * Generate the URL to a controller action.
+     * 
+     * @param  string|array  $name
+     * @param  mixed  $parameters
+     * @param  bool  $absolute
+     * 
+     * @return string
+     */
+    function action($name, $parameters = [], $absolute = true)
+    {
+        return app('url')->action($name, $parameters, $absolute);
     }
 }
 
@@ -156,6 +219,21 @@ if ( ! function_exists('basePath')) {
     function basePath($path = '')
     {
         return app()->basePath($path);
+    }
+}
+
+if ( ! function_exists('bcrypt')) {
+    /**
+     * Hash the given value against the bcrypt algorithm.
+     * 
+     * @param  string  $value
+     * @param  array  $options
+     * 
+     * @return string
+     */
+    function bcrypt($value, $options = [])
+    {
+        return app('hash')->driver('bcrypt')->make($value, $options);
     }
 }
 
@@ -271,19 +349,19 @@ if ( ! function_exists('cookie')) {
     }
 }
 
-if ( ! function_exists('csrfField')) {
+if ( ! function_exists('csrf_field')) {
     /**
      * Generate a CSRF token form field.
      * 
      * @return string
      */
-    function csrfField()
+    function csrf_field()
     {
-        return new WebString('<input type="hidden" name="_token" value="'.csrfToken().'">');
+        return new WebString('<input type="hidden" name="_token" value="'.csrf_token().'">');
     }
 }
 
-if ( ! function_exists('csrfToken')) {
+if ( ! function_exists('csrf_token')) {
     /**
      * Get the CSRF token value.
      * 
@@ -291,7 +369,7 @@ if ( ! function_exists('csrfToken')) {
      * 
      * @throws \RuntimeException
      */
-    function csrfToken()
+    function csrf_token()
     {
         $session = app('session');
         
@@ -299,7 +377,7 @@ if ( ! function_exists('csrfToken')) {
             return $session->token();
         }
 
-        throw new RuntimeException('Application session store not set.');
+        throw new RuntimeException('Application session store not set');
     }
 }
 
@@ -365,13 +443,15 @@ if ( ! function_exists('event')) {
     /**
      * Dispatch an event and call the listeners.
      * 
-     * @param  string|array  $args
+     * @param  string|object  $event
+     * @param  mixed  $payload
+     * @param  bool  $halt
      * 
      * @return array|null
      */
-    function event($args) 
+    function event(...$args) 
     {
-        return app('events')->dispatch($args);
+        return app('events')->dispatch(...$args);
     }
 }
 
@@ -419,7 +499,6 @@ if ( ! function_exists('isCli')) {
         return (\PHP_SAPI === 'cli' || defined('STDIN') || \PHP_SAPI === 'phpdbg');
     }
 }
-
 
 if ( ! function_exists('isGetCommonPath')) {
     /**
@@ -493,6 +572,42 @@ if ( ! function_exists('langPath')) {
     }
 }
 
+if ( ! function_exists('logger')) {
+    /**
+     * Log a debug message to the logs.
+     * 
+     * @param  string|null  $message
+     * @param  array  $context
+     * 
+     * @return \Syscodes\Components\Log\LogManager|null
+     */
+    function logger($message = null, array $context = [])
+    {
+        if (is_null($message)) {
+            return app('log');
+        }
+        
+        return app('log')->debug($message, $context);
+    }
+}
+
+if ( ! function_exists('logs')) {
+    
+    /**
+     * Get a log level instance.
+     * 
+     * @param  string  $message
+     * @param  array  $context
+     * @param  string  $level
+     * 
+     * @return \Syscodes\Components\Log\LogManager|\Psr\Log\LoggerInterface
+     */
+    function logs($message, array $context = [], $level = 'notice')
+    {
+        return app('log')->log($level, $message, $context);
+    }
+}
+
 if ( ! function_exists('methodField'))
 {
     /**
@@ -519,6 +634,21 @@ if ( ! function_exists('now')) {
     function now($timezone = null)
     {
         return Date::now($timezone);
+    }
+}
+
+if ( ! function_exists('old')) {
+    /**
+     * Retrieve an old input item.
+     * 
+     * @param  string|null  $key
+     * @param  mixed  $default
+     * 
+     * @return mixed
+     */
+    function old($key = null, $default = null)
+    {
+        return app('request')->old($key, $default);
     }
 }
 
@@ -574,6 +704,10 @@ if ( ! function_exists('request')) {
     {
         if (null === $key) {
             return app('request');
+        }
+        
+        if (is_array($key)) {
+            return app('request')->only($key);
         }
 
         $value = app('request')->__get($key);
@@ -740,6 +874,38 @@ if ( ! function_exists('storagePath')) {
     function storagePath($path = '')
     {
         return app('path.storage').($path ? DIRECTORY_SEPARATOR.$path : $path);
+    }
+}
+
+if ( ! function_exists('to_route')) {
+    /**
+     * Create a new redirect response to a named route.
+     * 
+     * @param  string  $route
+     * @param  mixed  $parameters
+     * @param  int  $status
+     * @param  array  $headers
+     * 
+     * @return \Syscodes\Components\Http\RedirectResponse
+     */
+    function to_route($route, $parameters = [], $status = 302, $headers = [])
+    {
+        return redirect()->route($route, $parameters, $status, $headers);
+    }
+}
+
+if ( ! function_exists('today')) {
+    
+    /**
+     * Create a new Carbon instance for the current date.
+     * 
+     * @param  \DateTimeZone|string|null  $tz
+     * 
+     * @return \Syscodes\Components\Support\Chronos
+     */
+    function today($tz = null)
+    {
+        return Date::today($tz);
     }
 }
 
