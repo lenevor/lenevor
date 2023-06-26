@@ -240,9 +240,9 @@ trait InteractsWithInput
      */
     public function input($key = null, $default = null)
     {
-        $input = $this->getInputSource()->all();
+        $input = $this->getInputSource()->all() + $this->query->all();
 
-        return Arr::get($input, $key, $default);
+        return data_get($input, $key, $default);
     }
 
     /**
