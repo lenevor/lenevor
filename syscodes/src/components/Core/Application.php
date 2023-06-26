@@ -1086,7 +1086,7 @@ class Application extends Container implements ApplicationContract
         $message = ucfirst($message);
 
         if ($code == 404) {
-            throw new NotFoundHttpException($message);
+            throw new NotFoundHttpException($message, null, 0, $headers);
         }
 
         throw new HttpException($code, $message, null, $headers);
