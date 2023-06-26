@@ -311,31 +311,48 @@ header:hover h2 {
 
 .exception-title {
     color: var(--gray-400);
-    font-size: 22px;
+    display: flex;
+    font-size: 18px;
     font-weight: 500;
     line-height: 1.7;
     margin-top: -2px;
 }
 
 .exception-title h1 {
+    background: var(--gray-200);
+    border-color: 1px solid var(--gray-600);
+    border-radius: 5px;
     color: var(--tint-700); 
     display: inline;
     font-weight: 600;
+    padding: 3px 10px;
 }
 
 .dark-mode .exception-title h1 {
-    color: var(--dark-gray-600);
+    background: var(--dark-magenta-200);
+    color: var(--dark-gray-700);
 }
 
-.exception-title span {
-    color: var(--red-400);
-    letter-spacing: -1px;
+.exception-title .subtitle {
+    background: var(--red-400);
+    border-radius: 5px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    color: var(--gray-200);
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    margin-left: -1px;
+    padding: 6px 10px;
+}
+
+.dark-mode .exception-title .subtitle {
+    color: var(--white);
 }
 
 .exception-message h2 {
     color: var(--gray-700);
     font-weight: 600;
-    margin-top: -2px;
+    margin-top: 5px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: pre;
@@ -343,7 +360,7 @@ header:hover h2 {
 }
 
 .dark-mode .exception-message h2 {
-    color: var(--dark-gray-700);
+    color: var(--dark-white);
 }
 
 .plain-exception {
@@ -404,7 +421,7 @@ header:hover h2 {
     }
 
     .exception-message h2 {
-        font-size: var(--font-size-large-xxx);
+        font-size: var(--font-size-large-xx);
     }
 }
 
