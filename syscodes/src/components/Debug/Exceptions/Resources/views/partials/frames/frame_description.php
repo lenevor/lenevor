@@ -1,6 +1,6 @@
 <div class="frame-description frame-description-application">
 
-	<span href="#"><?= e(__('exception.stackFrames')) ?> (<?=count($frames)?>)</span>
+	<span href="#"><?= e(__('exception.stack')) ?> (<?=count($frames)?>)</span>
 
 	<div class="iconlist">
 		<div class="icon-holder icon-print" onclick="javascript:window.print()">

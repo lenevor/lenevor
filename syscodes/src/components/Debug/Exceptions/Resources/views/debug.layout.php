@@ -12,8 +12,9 @@
 		</style>
 	</head>
 	<body>
+		<?= $template->render($header) ?>
 		<div class="container">		
-			<?= $template->render($header) ?>
+			<?= $template->render($info_exception) ?>
 			<?= $template->render($section_stack_exception) ?>
 		</div>		
 		<!-- Script -->

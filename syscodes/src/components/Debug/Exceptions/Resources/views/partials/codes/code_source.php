@@ -1,12 +1,10 @@
 <?php foreach ($frames as $index => $frame) : ?>	
 <div class="code-source clearfix <?= ($index == 0) ? 'active' : '' ?>" data-frame=<?= $index ?>>
-    <div class="title">
-        
+    <div class="title">        
         <div class="title-line-number">
             <h4><?= $frame->getFile() ?></h4>
-            <span> : <?= $frame->getLine() ?></span>
-        </div>
-        
+            <span><?= $frame->getLine() ?></span>
+        </div>        
     <?php if ($frame->getFile() && $editorHref = $handler->getEditorAtHref($frame->getFile(), (int) $frame->getLine())): ?>
         <a href="<?= $editorHref ?>">
             <div class="iconlist">                
