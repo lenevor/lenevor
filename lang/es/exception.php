@@ -33,7 +33,7 @@ return [
     'RegisteredHandlers' => 'Manejadores Registrados',
     'request' => 'Solicitud',
     'search' => 'Buscar',
-    'stackFrames' => 'Pila de marcos',
+    'stack' => 'Pila de excepciones',
     'statusCode' => 'Código de estado',
     'version' => 'Versión de Lenevor',
 

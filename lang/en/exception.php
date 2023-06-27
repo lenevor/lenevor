@@ -32,7 +32,7 @@ return [
     'RegisteredHandlers' => 'Registered Handlers',
     'request' => 'Request',
     'search' => 'Search',
-    'stackFrames' => 'Stack frames',
+    'stack' => 'Exceptions stack',
     'statusCode' => 'Status Code',
     'version' => 'Lenevor version',
 
