@@ -160,6 +160,7 @@ class PleasingPageHandler extends MainHandler
 			'javascript' => preg_replace('#[\r\n\t ]+#', ' ', $jscript),
 			'header' => $this->getResource('views/partials/header.php'),
 			'footer' => $this->getResource('views/partials/footer.php'),
+			'info_exception' => $this->getResource('views/partials/info/info_exception.php'),
 			'section_stack_exception' => $this->getResource('views/partials/section_stack_exception.php'),
 			'section_frame' => $this->getResource('views/partials/frames/section_frame.php'),
 			'frame_description' => $this->getResource('views/partials/frames/frame_description.php'),
