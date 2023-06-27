@@ -155,26 +155,25 @@ class PleasingPageHandler extends MainHandler
 		$tables     = array_merge($this->getDefaultTables(), $this->tables);
 		
 		return [ 
-			'class'             => explode('\\', $supervisor->getExceptionName()),
-			'stylesheet'        => preg_replace('#[\r\n\t ]+#', ' ', $style),
-			'javascript'        => preg_replace('#[\r\n\t ]+#', ' ', $jscript),
-			'header'            => $this->getResource('views/header.php'),
-			'sidebar'           => $this->getResource('views/sidebar.php'),
-			'frame_main'        => $this->getResource('views/frame_main.php'),
-			'frame_description' => $this->getResource('views/frame_description.php'),
-			'frame_list'        => $this->getResource('views/frame_list.php'),
-			'details_panel'     => $this->getResource('views/details_panel.php'),
-			'code_source'       => $this->getResource('views/code_source.php'),
-			'details_content'   => $this->getResource('views/details_content.php'),
-			'footer'            => $this->getResource('views/footer.php'),
-			'plain_exception'   => Formatter::formatExceptionAsPlainText($this->getSupervisor()),
-			'handler'           => $this,
-			'handlers'          => $this->getDebug()->getHandlers(),
-			'debug'             => $this->getDebug(),
-			'code'              => $this->getExceptionCode(),
-			'message'           => $supervisor->getExceptionMessage(),
-			'frames'            => $this->getExceptionFrames(),
-			'tables'            => $this->getProcessTables($tables),
+			'class' => explode('\\', $supervisor->getExceptionName()),
+			'stylesheet' => preg_replace('#[\r\n\t ]+#', ' ', $style),
+			'javascript' => preg_replace('#[\r\n\t ]+#', ' ', $jscript),
+			'header' => $this->getResource('views/partials/header.php'),
+			'footer' => $this->getResource('views/partials/footer.php'),
+			'section_stack_exception' => $this->getResource('views/partials/section_stack_exception.php'),
+			'section_frame' => $this->getResource('views/partials/frames/section_frame.php'),
+			'frame_description' => $this->getResource('views/partials/frames/frame_description.php'),
+			'frame_list' => $this->getResource('views/partials/frames//frame_list.php'),
+			'section_code' => $this->getResource('views/partials/codes/section_code.php'),
+			'code_source' => $this->getResource('views/partials/codes/code_source.php'),
+			'plain_exception' => Formatter::formatExceptionAsPlainText($this->getSupervisor()),
+			'handler' => $this,
+			'handlers' => $this->getDebug()->getHandlers(),
+			'debug' => $this->getDebug(),
+			'code' => $this->getExceptionCode(),
+			'message' => $supervisor->getExceptionMessage(),
+			'frames' => $this->getExceptionFrames(),
+			'tables' => $this->getProcessTables($tables),
 		];
 	}
 	
@@ -328,7 +327,7 @@ class PleasingPageHandler extends MainHandler
 	 */
 	public function handle()
 	{	
-		$templatePath = $this->getResource('debug.layout.php');
+		$templatePath = $this->getResource('views/debug.layout.php');
 
 		$vars = $this->collectionVars();
 		
