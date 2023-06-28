@@ -1293,14 +1293,6 @@ nav ul li:nth-child(5) a.active svg {
     text-shadow: none;
     width: 100vw;
 }
- 
-pre,
-.source .line .highlight,
-.source span.highlight .number {
-    font-family: Fira Code, Menlo, monospace;
-    font-weight: 500;
-    font-size: var(--font-size-medium-x);
-}
 
 code,
 .source span.line,
@@ -1334,6 +1326,7 @@ code,
     background: var(--red-200);
     color: var(--gray-800);
     display: block; 
+    font-size: var(--font-size-initial);
     padding-left: 15px; 
 }
 
@@ -1345,12 +1338,13 @@ code,
 
 .source span.highlight {
     margin-right: 1px;
+    padding-bottom: 3.2px;
 }
 
 .source span.highlight .number {
     background: var(--red-300);
     color: var(--tint-700); 
-    font-size: var(--font-size-small-x); 
+    font-size: var(--font-size-small-x);
 }
 
 .dark-mode .source span.highlight .number {
@@ -1371,6 +1365,7 @@ code,
 }
 
 .code-source span.highlight .number {
+    font-size: var(--font-size-initial);
     padding-right: 7px;
     width: 5.4%;
 }
@@ -1379,6 +1374,9 @@ pre {
     background: var(--gray-800);
     border-right: 1px solid transparent;
     box-shadow: inset 0 0 0 1px var(--gray-300);
+    font-family: Fira Code, Menlo, monospace;
+    font-weight: 500;
+    font-size: var(--font-size-medium-x);
     margin-left: 3%;
     padding-top: 10px;
     overflow-x: auto;
