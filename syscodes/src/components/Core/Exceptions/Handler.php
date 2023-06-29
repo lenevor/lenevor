@@ -25,12 +25,12 @@ namespace Syscodes\Components\Core\Exceptions;
 use Exception;
 use Throwable;
 use Psr\Log\LoggerInterface;
-use Syscodes\Components\Debug\GDebug;
 use Syscodes\Components\Http\Response;
 use Syscodes\Components\Routing\Router;
 use Syscodes\Components\Http\RedirectResponse;
 use Syscodes\Components\Debug\ExceptionHandler;
 use Syscodes\Components\Contracts\Container\Container;
+use Syscodes\Components\Contracts\Core\ExceptionRender;
 use Syscodes\Components\Core\Http\Exceptions\HttpException;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
 use Syscodes\Components\Debug\FatalExceptions\FlattenException;
@@ -347,7 +347,7 @@ class Handler implements ExceptionHandlerContract
     protected function renderExceptionContent(Throwable $e): string
     {
         try {
-            return config('app.debug') && class_exists(GDebug::class)
+            return config('app.debug') && app()->has(ExceptionRender::class)
                         ? $this->renderExceptionWithGDebug($e) 
                         : $this->renderExceptionWithFlatDesignDebug($e, config('app.debug'));
         } catch (Exception $e) {
@@ -366,25 +366,7 @@ class Handler implements ExceptionHandlerContract
      */
     protected function renderExceptionWithGDebug(Throwable $e)
     {
-        return take(new GDebug, function ($debug) {
-            
-            $debug->pushHandler($this->DebugHandler());
-
-            $debug->writeToOutput(false);
-
-            $debug->allowQuit(false);
-
-        })->handleException($e);
-    }
-
-    /**
-     * Get the Debug handler for the application.
-     *
-     * @return \Syscodes\Components\Debug\Handlers\MainHandler
-     */
-    protected function DebugHandler()
-    {
-        return (new DebugHandler)->initDebug();
+        return app(ExceptionRender::class)->render($e);
     }
 
     /**
