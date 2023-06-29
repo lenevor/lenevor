@@ -48,6 +48,7 @@ class DefaultCoreProviders
             \Syscodes\Components\Cache\CacheServiceProvider::class,
             \Syscodes\Components\Cookie\CookieServiceProvider::class,
             \Syscodes\Components\Database\DatabaseServiceProvider::class,
+            \Syscodes\Components\Debug\DebugServiceProvider::class,
             \Syscodes\Components\Encryption\EncryptionServiceProvider::class,
             \Syscodes\Components\Events\EventServiceProvider::class,
             \Syscodes\Components\Filesystem\FilesystemServiceProvider::class,
