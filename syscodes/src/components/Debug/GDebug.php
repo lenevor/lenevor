@@ -138,7 +138,7 @@ class GDebug implements DebugContract
 				}
 			}
 	
-			$Quit = $handlerResponse == MainHandler::QUIT && $this->allowQuit();
+			$quit = $handlerResponse == MainHandler::QUIT && $this->allowQuit();
 		}
 		finally {
 			// Returns the contents of the output buffer
@@ -150,7 +150,7 @@ class GDebug implements DebugContract
 		$output    = str_replace('{elapsed_time}', $totalTime, $output);
 
 		if ($this->writeToOutput()) {
-			if ($Quit) {
+			if ($quit) {
 				while ($this->system->getOutputBufferLevel() > 0) {
 					// Cleanes the output buffer
 					$this->system->endOutputBuffering();
@@ -164,9 +164,9 @@ class GDebug implements DebugContract
 			$this->writeToOutputBuffer($output);
 		}
 
-		if ($Quit) {
+		if ($quit) {
 			$this->system->flushOutputBuffer();
-			$this->system->stopException(1);
+			$this->system->stopException($this->sendHttpCode());
 		}
 
 		return $output;
@@ -261,18 +261,6 @@ class GDebug implements DebugContract
 	}
 
 	/**
-	 * Pushes a handler to the end of the stack.
-	 * 
-	 * @param  string|callable  $handler
-	 * 
-	 * @return \Syscodes\Components\Contracts\Debug\Handler
-	 */
-	public function pushHandler($handler)
-	{
-		return $this->prependHandler($handler);
-	}
-
-	/**
 	 * Appends a handler to the end of the stack.
 	 * 
 	 * @param  \Callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
@@ -295,7 +283,19 @@ class GDebug implements DebugContract
 	 */
 	public function prependHandler($handler): static
 	{
-		array_unshift($this->handlerStack, $this->resolveHandler($handler));
+		return $this->pushHandler($handler);
+	}
+
+	/**
+	 * Pushes a handler to the end of the stack.
+	 * 
+	 * @param  string|callable  $handler
+	 * 
+	 * @return static
+	 */
+	public function pushHandler($handler): static
+	{
+		$this->handlerStack[] = $this->resolveHandler($handler);
 
 		return $this;
 	}
