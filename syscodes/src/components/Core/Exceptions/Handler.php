@@ -348,7 +348,7 @@ class Handler implements ExceptionHandlerContract
     {
         try {
             return config('app.debug') && app()->has(ExceptionRender::class)
-                        ? $this->renderExceptionWithGDebug($e) 
+                        ? $this->renderExceptionWithDebug($e) 
                         : $this->renderExceptionWithFlatDesignDebug($e, config('app.debug'));
         } catch (Exception $e) {
             $this->renderExceptionWithFlatDesignDebug($e, config('app.debug'));
@@ -356,15 +356,15 @@ class Handler implements ExceptionHandlerContract
     }
 
     /**
-     * Render an exception to a string using "GDebug".
+     * Render an exception to a string of debug.
      * 
      * @param  \Throwable  $e
      * 
      * @return void
      * 
-     * @uses   \Syscodes\Components\Debug\GDebug
+     * @uses   \Syscodes\Components\Contracts\Core\ExceptionRender
      */
-    protected function renderExceptionWithGDebug(Throwable $e)
+    protected function renderExceptionWithDebug(Throwable $e)
     {
         return app(ExceptionRender::class)->render($e);
     }
