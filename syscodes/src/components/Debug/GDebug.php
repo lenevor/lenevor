@@ -123,7 +123,7 @@ class GDebug implements DebugContract
 		$handlerContentType = null;
 		
 		try {
-			foreach ($this->handlerStack as $handler) {			
+			foreach (array_reverse($this->handlerStack) as $handler) {			
 				$handler->setDebug($this);
 				$handler->setException($exception);
 				$handler->setSupervisor($supervisor);
@@ -443,6 +443,8 @@ class GDebug implements DebugContract
 		// it to an Exception and use the Exception handler to display it
 		// to the user
 		if ($error && Misc::isFatalError($error['type'])) {
+			$this->allowQuit = false;
+			
 			$this->handleError($error['type'], $error['message'], $error['file'], $error['line']);
 		}
 	}
