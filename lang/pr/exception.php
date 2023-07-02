@@ -4,12 +4,12 @@ return [
 
     /*
     |------------------------------------------------------------------------
-    | Exception Language Lines                                                       
+    | Linhas De Linguagem De Exceção                                                      
     |------------------------------------------------------------------------
     |
-    | The following language lines contain the error messages pre-determined 
-    | by the errorException view. You are free to change any value you want to 
-    | customize in these lines that best match your application.
+    | As seguintes linhas de linguagem contêm as mensagens de erro pré-determinadas
+    | pela exibição errorException. Você é livre para alterar qualquer valor que 
+    | desejar personalize nestas linhas que melhor correspondam à sua aplicação.
     |
     */
 
@@ -32,7 +32,8 @@ return [
     'RegisteredHandlers' => 'Manipuladores cadastrados',
     'request' => 'Pedido',
     'search' => 'Buscar',
-    'stack' => 'Pilha de exceções',
+    'stack' => 'Pilhas de exceção',
+    'details' => 'Detalhes',
     'statusCode' => 'Código de estado',
     'version' => 'Versão de Lenevor',
 
