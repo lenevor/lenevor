@@ -52,8 +52,9 @@
     --gray-600: hsla(252, 12%, 59%, 1);
     --gray-700: hsla(246, 21%, 35%, 1);
     --gray-800: hsla(247, 27%, 25%, 1);
-    --font-size-small: .8em;
-    --font-size-small-x: .9em;
+    --font-size-small-x: .7em;
+    --font-size-small-xx: .8em;
+    --font-size-small: .9em;
     --font-size-initial: 1em;
     --font-size-medium-x: 1.1em;
     --font-size-medium-xx: 1.2em;
@@ -146,8 +147,27 @@
     padding: 0;
 }
 
+@font-face {
+    font-family: 'icomoon';
+    src:  url('fonts/icommon2/icomoon.eot?fnm6vf');
+    src:  url('fonts/icommon2/icomoon.eot?fnm6vf#iefix') format('embedded-opentype'),
+          url('fonts/icommon2/icomoon.ttf?fnm6vf') format('truetype'),
+          url('fonts/icommon2/icomoon.woff?fnm6vf') format('woff'),
+          url('fonts/icommon2/icomoon.svg?fnm6vf#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+  }
+
+html {
+    background: var(--gray-200);
+}
+
+html.dark-mode {
+    background: var(--dark-black-200);
+}
+
 body {
-    background: var(--gray-300);
     color: var(--gray-100);
     font-family:  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, 
                   "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";;
@@ -159,10 +179,6 @@ body {
     
     text-rendering: optimizeLegibility;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
-}
-
-body.dark-mode {
-    background: var(--dark-black-200);
 }
 
 /* GENERAL */
@@ -202,6 +218,49 @@ ol {
     font-size: var(--font-size-medium-x);
 }
 
+a {
+    color: var(--gray-700);
+}
+
+a.active {
+    color: var(--red-400);
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    line-height: 1;
+    text-transform: none;
+  
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+.icon-stack:before {
+    content: "\e92e";
+}
+
+.icon-detail:before {
+    content: "\e903";
+}
+
+.icon-stack:before, 
+.icon-detail:before  { 
+	font-weight: 500;
+    margin-left: -17px;
+    top: 5px;
+    position: absolute;
+}
+
+.icon-detail:before {
+    margin-left: -15px;
+    top: 4px;
+}
+
 /* ------------------------------------------------------------ 
  * LAYOUT
  * -----------------------------------------------------------*/
@@ -221,7 +280,7 @@ ol {
     .section-stack-exception {
         margin: 0 20px;
         margin-top: 40px;
-        position: relative;
+        position: static;
         z-index: 10;
     }
 
@@ -299,7 +358,7 @@ ol {
 
 header {
     align-items: center;
-    background: var(--gray-300);
+    background: var(--gray-200);
     display: flex;
     margin-bottom: 40px;
     min-height: 40px;
@@ -309,16 +368,43 @@ header {
     z-index: 500;
 }
 
-header a {
-    color: var(--red-400);
-    font-size: var(--font-size-medium-x);
-    font-weight: 500;
-    text-decoration: none; 
-    text-shadow: 0 1px 0.5px var(--gray-200);
+.dark-mode header {
+    background: var(--dark-black-100);
+    border-bottom: 1px solid var(--gray-800);
 }
 
-header ul {
+nav {
+    width: 100%;
+}
+
+nav ul {
     list-style: none;
+    display: flex;
+}
+
+nav ul li {
+    color: var(--gray-700);
+    position: relative;
+    margin-left: 17px;
+    margin-right: 30px;
+}
+
+nav ul li a {
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-decoration: none; 
+    text-transform: uppercase;
+}
+
+.dark-mode nav ul li a {
+    color: var(--dark-white);
+}
+
+.scroll_exception:target {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -6rem;
 }
 
 /* ------------------------------------------------------------ 
@@ -332,8 +418,16 @@ header ul {
         padding: 0 20px;
     }
 
-    header a {
-        font-size: var(--font-size-initial);
+    nav ul li a {
+        font-size: var(--font-size-small);
+    }
+}
+
+/* WIDE */
+@media (min-width: 1100px) 
+{
+    nav ul li a {
+        font-size: var(--font-size-small);
     }
 }
 
@@ -375,7 +469,7 @@ header ul {
 
 .exception-title {
     color: var(--gray-400);
-    display: flex;
+    /* display: flex; */
     font-size: 18px;
     font-weight: 500;
     line-height: 1.7;
@@ -751,7 +845,7 @@ nav ul li:nth-child(5) a.active svg {
 .frame-description.frame-description-application {
     color: var(--gray-700);
     display: flex;    
-    font-size: var(--font-size-small-xx);
+    font-size: var(--font-size-initial);
     font-weight: 400;
     justify-content: space-between;
     text-decoration: none;
@@ -765,7 +859,8 @@ nav ul li:nth-child(5) a.active svg {
 }
 
 .frame-description-application span {
-    padding: 8px 10px;
+    padding-left: 40px;
+    padding-top: 8px;
 }
 
 /* Icon border */
@@ -863,8 +958,8 @@ nav ul li:nth-child(5) a.active svg {
     background: var(--dark-gray-100);
 }
 
-.frame:not(.active):hover .frame-file {
-    color: var(--gray-600);
+.frame:not(.active):hover .frame-class {
+    color: var(--black-300);
 }
 
 .frame.active .frame-index {
@@ -892,7 +987,7 @@ nav ul li:nth-child(5) a.active svg {
 .frame.active .frame-function {
     color: var(--white);
     text-shadow: none;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .dark-mode .frame.active .frame-file {
@@ -937,6 +1032,9 @@ nav ul li:nth-child(5) a.active svg {
 }
 
 .frame-file {
+    color: var(--gray-800);
+    font-size: var(--font-size-small-x);
+    font-weight: 500;
     position: relative;
     overflow: hidden; 
     text-overflow: clip;
@@ -944,12 +1042,12 @@ nav ul li:nth-child(5) a.active svg {
     width: 98%;
 }
 
-.frame-file,
 .frame-class,
 .frame-function,
 .frame-function-optional {
-    color: var(--gray-600);
-    font-size: var(--font-size-small-x);
+    color: var(--black-200);
+    font-size: var(--font-size-small-xx);
+    font-weight: 500;
 }
 
 .dark-mode .frame-file,
@@ -967,7 +1065,7 @@ nav ul li:nth-child(5) a.active svg {
 
 .frame-class,
 .frame-function {
-    opacity: 0.75;
+    font-weight: 600;
     position: relative;
 }
 
@@ -976,7 +1074,7 @@ nav ul li:nth-child(5) a.active svg {
     border-radius: 2px;
     color: var(--tint-700);
     font-size: var(--font-size-small);
-    font-weight: 600;
+    font-weight: 500;
     display: inline-block;
     height: 5px;
     line-height: 0.3;
@@ -1195,7 +1293,7 @@ nav ul li:nth-child(5) a.active svg {
 
     .frame-class,
     .frame-function {
-        font-size: 0.9em;
+        font-size: var(--font-size-initial);
         font-weight: 500;
         height: 1.5em;
         line-height: 2.9;
@@ -1249,9 +1347,10 @@ nav ul li:nth-child(5) a.active svg {
 
 .title-line-number h4 {
     color: var(--gray-600);
-    font-size: var(--font-size-small-xx);
+    font-size: var(--font-size-initial);
     font-weight: 600;
     line-height: 12px;
+    letter-spacing: 0.2px;
     overflow: hidden; 
     padding: 3px;
     text-overflow: ellipsis;
@@ -1272,7 +1371,7 @@ nav ul li:nth-child(5) a.active svg {
 
 .title-line-number span {
     color: var(--gray-600);
-    font-size: var(--font-size-small-x);
+    font-size: var(--font-size-small-xx);
     font-weight: 400;
     left: 6px;
     position: relative;
@@ -1301,7 +1400,7 @@ code,
 }
 
 .source span.line { 
-    line-height: 1.5;
+    line-height: 1.2;
     padding-left: 15px; 
 }
 
@@ -1356,7 +1455,6 @@ code,
 .source span.highlight .number {
     padding: 1.5px;
     padding-right: 7px;
-    padding-top: 2px;
     text-align: right;
 }
 
@@ -1812,7 +1910,7 @@ footer {
 
 .icon-holder {
     border-left-width: 1px;
-    border-color: var(--gray-200);
+    border-color: var(--gray-100);
     cursor: pointer;
     height: 39px;
     padding: 11px; 
@@ -1866,6 +1964,8 @@ footer {
 
 .icon-holder:hover .tooltip-edit,
 .icon-holder:hover .tooltip-pdf {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, 
+                 Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     transform: translate(-85%);
 }
 
@@ -1877,7 +1977,7 @@ footer {
 .icon-holder .ico-print,
 .icon-holder .ico-file-pdf,
 .icon-holder .ico-file-edit {
-    fill: var(--gray-500);
+    fill: var(--gray-600);
 }
 
 .dark-mode .icon-holder .ico-print,
@@ -1931,8 +2031,8 @@ footer {
     position: absolute;
     transform-origin: 50% 50%;
     transform: rotate(45deg) translateX(-50%);
-    top: -1px;
-    width: 10.1px;
+    top: 0;
+    width: 10px;
     z-index: 400;
 }
 
@@ -1944,8 +2044,8 @@ footer {
     left: 50%;
     position: absolute;        
     transform-origin: 50% 50%;
-    transform: rotate(43deg) translate(-44%);    
-    top: -3px;
+    transform: rotate(45deg) translate(-50%);    
+    top: -2px;
     width: 10px;
     z-index: -50;
 }
