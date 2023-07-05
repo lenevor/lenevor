@@ -63,7 +63,7 @@ class Route
 	/**
 	 * The compiled version of the route.
 	 * 
-	 * @var \Syscodes\Bundles\ApplicationBundle\Routing\RouteCompiler|string $compiled
+	 * @var \Syscodes\Bundles\ApplicationBundle\Routing\CompiledRoute|string $compiled
 	 */
 	public $compiled;
 
