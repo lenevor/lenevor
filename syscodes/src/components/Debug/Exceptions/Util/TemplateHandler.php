@@ -23,7 +23,7 @@
 namespace Syscodes\Components\Debug\Util;
 
 use Exception;
-use Syscodes\Components\Debug\Benchmark;
+use Syscodes\Components\Stopwatch\Benchmark;
 
 /**
  * Exposes useful tools for working with/in templates.
