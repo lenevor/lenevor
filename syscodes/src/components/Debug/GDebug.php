@@ -25,9 +25,9 @@ namespace Syscodes\Components\Debug;
 use Throwable;
 use ErrorException;
 use InvalidArgumentException;
-use Syscodes\Components\Debug\Benchmark;
 use Syscodes\Components\Debug\Util\Misc;
 use Syscodes\Components\Debug\Util\System;
+use Syscodes\Components\Stopwatch\Benchmark;
 use Syscodes\Components\Debug\Handlers\MainHandler;
 use Syscodes\Components\Debug\FrameHandler\Supervisor;
 use Syscodes\Components\Debug\Handlers\CallbackHandler;
@@ -147,7 +147,7 @@ class GDebug implements DebugContract
 
 		// Returns the contents of the output buffer for loading time of page
 		$totalTime = $this->benchmark->getElapsedTime('total_execution');
-		$output    = str_replace('{elapsed_time}', $totalTime, $output);
+		$output    = str_replace('{{ elapsed_time }}', $totalTime, $output);
 
 		if ($this->writeToOutput()) {
 			if ($quit) {
