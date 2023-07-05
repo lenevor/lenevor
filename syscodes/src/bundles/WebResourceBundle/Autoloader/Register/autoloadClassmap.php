@@ -337,6 +337,7 @@ return [
     'Syscodes\\Components\\Encryption\\Concerns\\CookieValue' => SYS_PATH.'src/components/Encryption/Concerns/CookieValue.php', 
     'Syscodes\\Components\\Encryption\\Exceptions\\DecryptException' => SYS_PATH.'src/components/Encryption/Exceptions/DecryptException.php',
     'Syscodes\\Components\\Encryption\\Exceptions\\EncryptException' => SYS_PATH.'src/components/Encryption/Exceptions/EncryptException.php',
+    'Syscodes\\Components\\Encryption\\Exceptions\\MissingAppKeyException' => SYS_PATH.'src/components/Encryption/Exceptions/MissingAppKeyException.php',
     'Syscodes\\Components\\Encryption\\Encrypter' => SYS_PATH.'src/components/Encryption/Encrypter.php', 
     'Syscodes\\Components\\Encryption\\EncryptionServiceProvider' => SYS_PATH.'src/components/Encryption/EncryptionServiceProvider.php',
     'Syscodes\\Components\\Events\\Dispatcher' => SYS_PATH.'src/components/Events/Dispatcher.php', 
