@@ -115,7 +115,7 @@ class Supervisor
 		return [
 			'file'  => $exception->getFile(),
 			'line'  => $exception->getLine(),
-			'class' => get_class($exception),
+			'class' => getClass($exception),
 			'code'  => $exception->getCode(),
 			'args'  => [
 				$exception->getMessage(),
