@@ -337,7 +337,7 @@ a.active {
     }
 
     .section-frame {
-        height: 70.4vh;
+        height: 71.6vh;
         left: 0;
         padding-bottom: 40px;
         top: 0;
@@ -441,7 +441,7 @@ nav ul li a {
     margin-top: 80px;
     min-height: 155px;
     overflow: hidden;
-    padding: 2.4rem;
+    padding: 2.5rem;
     padding-top: 2rem;
     position: static;
     text-shadow: none;
@@ -469,7 +469,6 @@ nav ul li a {
 
 .exception-title {
     color: var(--gray-400);
-    /* display: flex; */
     font-size: 18px;
     font-weight: 500;
     line-height: 1.7;
@@ -480,10 +479,10 @@ nav ul li a {
     background: var(--gray-100);
     border-color: 1px solid var(--gray-700);
     border-radius: 5px;
-    color: var(--tint-700); 
+    color: var(--gray-800); 
     display: inline;
     font-weight: 500;
-    padding: 3px 12px;
+    padding: 5px 14px;
 }
 
 .dark-mode .exception-title h2 {
@@ -508,11 +507,11 @@ nav ul li a {
 }
 
 .exception-message h3 {
-    color: var(--gray-700);
+    color: var(--gray-800);
     font-size: 0.5rem;
     font-size: var(--font-size-large-x);
     font-weight: 600;
-    margin-top: 12px;
+    margin-top: 18px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: pre;
@@ -569,7 +568,7 @@ nav ul li a {
     }
 
     .exception-title h2 {
-        font-size: var(--font-size-initial);
+        font-size: var(--font-size-small);
     }
 
     .exception-title span {
@@ -831,8 +830,7 @@ nav ul li:nth-child(5) a.active svg {
 .frame-description {
     background: var(--white);
     box-shadow: inset 0 0 0 var(--gray-300); 
-    height: 40px;
-    line-height: 1.6;
+    height: 50px;
     min-width: 100%;
     text-align: justify;
 }
@@ -845,11 +843,11 @@ nav ul li:nth-child(5) a.active svg {
 .frame-description.frame-description-application {
     color: var(--gray-700);
     display: flex;    
-    font-size: var(--font-size-initial);
-    font-weight: 400;
+    font-size: var(--font-size-medium-xx);
+    font-weight: 500;
     justify-content: space-between;
     text-decoration: none;
-    text-shadow: none; /*text-shadow: 0 1px 0 rgba(236, 236, 236, 0.6);*/
+    text-shadow: none; 
 }
 
 .dark-mode .frame-description.frame-description-application {
@@ -859,8 +857,8 @@ nav ul li:nth-child(5) a.active svg {
 }
 
 .frame-description-application span {
-    padding-left: 40px;
-    padding-top: 8px;
+    padding-left: 42px;
+    padding-top: 12px;
 }
 
 .frame-container-scroll {
@@ -907,7 +905,7 @@ nav ul li:nth-child(5) a.active svg {
     align-items: flex-end;
     background: var(--white);  
     border-bottom-width: 0.5px;
-    border-color: var(--gray-200);
+    border-color: var(--gray-300);
     cursor: pointer;
     display: grid;
     font-weight: 600;
@@ -1020,7 +1018,7 @@ nav ul li:nth-child(5) a.active svg {
 .frame-method-info {
     display: grid;
     align-items: center;
-    border-color: var(--gray-200);
+    border-color: var(--gray-300);
     border-left-width: 1px;
     grid-gap: 0.5rem;
     padding-left: 0.75rem;
@@ -1311,7 +1309,7 @@ nav ul li:nth-child(5) a.active svg {
 
     .frame-line-number {
         top: -20px;
-        right: 10px;
+        right: 16px;
     }
 
     .frame-line {
@@ -1345,17 +1343,16 @@ nav ul li:nth-child(5) a.active svg {
     border: none;
     display: flex;
     font-weight: 200;
-    height: 40px;
+    height: 49px;
     justify-content: flex-end;
     position: absolute;
     width: 100%;
 }
 
 .title-line-number h4 {
-    color: var(--gray-600);
+    color: var(--gray-700);
     font-size: var(--font-size-initial);
     font-weight: 600;
-    line-height: 12px;
     letter-spacing: 0.2px;
     overflow: hidden; 
     padding: 3px;
@@ -1369,14 +1366,19 @@ nav ul li:nth-child(5) a.active svg {
     text-shadow: 0 1px 1px var(--dark-gray-200);
 }
 
+.title-line-number h4,
+.title-line-number {
+    padding-top: 3px;
+}
+
 .title-line-number {
     align-items: center;
     display: flex;
-    margin-right: 40px;
+    margin-right: 20px;
 }
 
 .title-line-number span {
-    color: var(--gray-600);
+    color: var(--gray-700);
     font-size: var(--font-size-small-xx);
     font-weight: 400;
     left: 6px;
@@ -1390,11 +1392,16 @@ nav ul li:nth-child(5) a.active svg {
    
 }
 
+.title .icon-holder .tooltip-edit {
+    color: var(--gray-800);
+    font-size: var(--font-size-small-xx);
+}
+
 .source {
     color: var(--dark-gray-300);
     overflow: hidden;
     padding-bottom: 0;
-    padding-top: 40px;
+    padding-top: 49px;
     text-shadow: none;
     width: 100vw;
 }
@@ -1916,15 +1923,15 @@ footer {
 
 .icon-holder {
     border-left-width: 1px;
-    border-color: var(--gray-100);
+    border-color: var(--gray-200);
     cursor: pointer;
-    height: 39px;
-    padding: 11px; 
+    height: 50px;
+    padding: 12px; 
     position: relative;
     text-align: center;
     text-shadow: none;
     transition: all 0.2s linear 0s;
-    width: 44px;
+    width: 50px;
 }
 
 .dark-mode .icon-holder {
@@ -1963,11 +1970,11 @@ footer {
 /* Animation */
 @keyframes updown {
     0% {
-        top: 56px;	
+        top: 66px;	
     }
 
     100% {
-        top: 46px;	
+        top: 56px;	
     }
 }
 
@@ -1995,20 +2002,20 @@ footer {
 
 .icon-holder .ico-print {
     height: 22px;
-    margin-top: -2px;
-    width: 21px;
+    margin-top: 2px;
+    width: 20px;
 }
 
 .icon-holder .ico-file-pdf {
     height: 21px;
-    margin-top: -2px;
-    width: 21px;
+    margin-top: 2px;
+    width: 20px;
 }
 
 .icon-holder .ico-file-edit {
     height: 30px;
-    margin-left: -8px;
-    margin-top: -7px;
+    margin-left: -6px;
+    margin-top: -2px;
     width: 40px;
 }
 
