@@ -83,13 +83,13 @@
     --dark-blue-500: hsla(204, 66%, 57%, 1);
     --dark-blue-600: hsla(204, 50%, 56%, 1);
     --dark-blue-700: hsla(204, 94%, 80%, 1);
-    --dark-magenta-100: hsl(235, 23%, 11%);
-    --dark-magenta-200: hsl(235, 23%, 16%);
-    --dark-magenta-300: hsl(235, 23%, 21%);
-    --dark-magenta-400: hsl(235, 23%, 26%);
-    --dark-magenta-500: hsl(235, 24%, 31%);
-    --dark-magenta-600: hsl(235, 25%, 36%);
-    --dark-magenta-700: hsl(235, 26%, 41%);
+    --dark-magenta-100: hsla(213, 25%, 13%, 1);
+    --dark-magenta-200: hsla(215, 28%, 17%, 1);
+    --dark-magenta-300: hsla(217, 30%, 19%, 1);
+    --dark-magenta-400: hsla(219, 33%, 21%, 1);
+    --dark-magenta-500: hsla(221, 35%, 23%, 1);
+    --dark-magenta-600: hsla(223, 38%, 25%, 1);
+    --dark-magenta-700: hsla(225, 40%, 27%, 1);
     --dark-gray-100: hsla(0, 0%, 25%, 1);
     --dark-gray-200: hsla(0, 0%, 32%, 1);
     --dark-gray-300: hsla(0, 0%, 41%, 1);
@@ -111,14 +111,14 @@
     --dark-purple-500: hsla(270, 55%, 37%, 1);
     --dark-purple-600: hsla(270, 51%, 49%, 1);
     --dark-purple-700: hsla(270, 48%, 60%, 1);
-    --dark-red-100: hsla(355, 100%, 50%, 1);
-    --dark-red-200: hsla(0, 85%, 55%, 1); 
-    --dark-red-300: hsla(0, 89%, 61%, 1);
-    --dark-red-400: hsla(0, 84%, 71%, 1); 
-    --dark-red-500: hsla(0, 100%, 81%, 1);
-    --dark-red-600: hsla(0, 100%, 86%, 1);
-    --dark-red-700: hsla(0, 100%, 91%, 1);
-    --dark-red-800: hsla(0, 100%, 95%, 1);
+    --dark-red-100: hsla(336, 23%, 24%, 1);
+    --dark-red-200: hsla(0, 31%, 27%, 1); 
+    --dark-red-300: hsla(0, 33%, 30%, 1);
+    --dark-red-400: hsla(0, 35%, 33%, 1); 
+    --dark-red-500: hsla(0, 38%, 35%, 1);
+    --dark-red-600: hsla(0, 41%, 37%, 1);
+    --dark-red-700: hsla(0, 44%, 39%, 1);
+    --dark-red-800: hsla(0, 84%, 60%, 1);
     --dark-yellow-100: hsla(55, 100%, 50%, 1);
     --dark-yellow-200: hsla(55, 98%, 54%, 1);
     --dark-yellow-300: hsla(55, 100%, 63%, 1);
@@ -164,7 +164,7 @@ html {
 }
 
 html.dark-mode {
-    background: var(--dark-black-200);
+    background: var(--dark-magenta-100);
 }
 
 body {
@@ -250,8 +250,7 @@ a.active {
 
 .icon-stack:before, 
 .icon-detail:before  { 
-	font-weight: 500;
-    margin-left: -17px;
+	margin-left: -17px;
     top: 5px;
     position: absolute;
 }
@@ -259,6 +258,11 @@ a.active {
 .icon-detail:before {
     margin-left: -15px;
     top: 4px;
+}
+
+.dark-mode .icon-stack:before,
+.dark-mode .icon-detail:before {
+    color: var(--dark-white);
 }
 
 /* ------------------------------------------------------------ 
@@ -326,7 +330,8 @@ a.active {
     }
 
     .dark-mode .section-stack-exception {
-        box-shadow: 0 0 12px 1px var(--dark-black-150);
+        background: var(--dark-magenta-200);
+        box-shadow: 0 0 12px 1px var(--dark-black-200);
     }
 
     .panel {
@@ -337,7 +342,7 @@ a.active {
     }
 
     .section-frame {
-        height: 71.6vh;
+        height: 112.7vh;
         left: 0;
         padding-bottom: 40px;
         top: 0;
@@ -369,8 +374,8 @@ header {
 }
 
 .dark-mode header {
-    background: var(--dark-black-100);
-    border-bottom: 1px solid var(--gray-800);
+    background: var(--dark-magenta-100);
+    border-bottom: 1px solid var(--dark-magenta-300);
 }
 
 nav {
@@ -451,8 +456,8 @@ nav ul li a {
 }
 
 .dark-mode .exception {
-    background: var(--dark-magenta-100);
-    box-shadow: 0 1px 3px 1px var(--dark-black-130);
+    background: var(--dark-magenta-200);
+    box-shadow: 0 1px 3px 1px var(--dark-black-200);
 }
 
 .exception:hover {
@@ -486,7 +491,7 @@ nav ul li a {
 }
 
 .dark-mode .exception-title h2 {
-    background: var(--dark-magenta-200);
+    background: var(--dark-magenta-100);
     color: var(--dark-gray-700);
 }
 
@@ -816,13 +821,15 @@ nav ul li:nth-child(5) a.active svg {
 .section-frame {
     background: var(--white);
     border-radius: 0;
-    box-shadow: 0 0 1px 1px var(--gray-300);  
+    border-right-color: var(--gray-300);
+    border-right-width: 1px;
     overflow-y: hidden;
 }
 
 .dark-mode .section-frame {
     background: var(--dark-magenta-100);
-    box-shadow: 0 0 1px 1px var(--dark-black-130);
+    border-right-color: var(--dark-magenta-400);
+    border-right-width: 1px;
 }
 
 /* FRAMES */
@@ -836,8 +843,8 @@ nav ul li:nth-child(5) a.active svg {
 }
 
 .dark-mode .frame-description {
-    background: var(--dark-magenta-100);
-    border-bottom: solid 1px var(--dark-magenta-200);
+    background: var(--dark-magenta-200);
+    border-bottom: solid 1px var(--dark-magenta-400);
 }
 
 .frame-description.frame-description-application {
@@ -853,7 +860,7 @@ nav ul li:nth-child(5) a.active svg {
 .dark-mode .frame-description.frame-description-application {
     color: var(--dark-gray-800);
     font-weight: 600;
-    text-shadow: 0 1px 1px var(--dark-gray-200);
+    text-shadow: 0 1px 1px var(--dark-magenta-300);
 }
 
 .frame-description-application span {
@@ -873,10 +880,11 @@ nav ul li:nth-child(5) a.active svg {
 }
 
 .dark-mode .frame-container-scroll {
-    box-shadow: 0 -1px 0 var(--dark-black-100), 
-                -1px 1px 0 var(--dark-black-100), 
-                0 -1px 0 var(--dark-black-100), 
-                1px 1px 0 var(--dark-black-100);
+    background: var(--dark-magenta-100);
+    box-shadow: 0 -1px 0 var(--dark-magenta-400), 
+                -1px 1px 0 var(--dark-magenta-400), 
+                0 -1px 0 var(--dark-magenta-400), 
+                1px 1px 0 var(--dark-magenta-400);
 }
 
 /* Manipulate the scroll bar. Only for browsers that use the webkit engine. */
@@ -909,15 +917,15 @@ nav ul li:nth-child(5) a.active svg {
     cursor: pointer;
     display: grid;
     font-weight: 600;
-    grid-template-columns: 2.5rem auto auto;
+    grid-template-columns: 2.7rem auto auto;
     overflow: hidden;    
     transition: all 0.1s ease;
     text-shadow: none;
 }
 
 .dark-mode .frame {
-    background: var(--dark-magenta-100);
-    border-color: var(--dark-black-170);
+    background: var(--dark-magenta-200);
+    border-color: var(--dark-magenta-400);
 }
 
 .frame:last-child {
@@ -933,9 +941,9 @@ nav ul li:nth-child(5) a.active svg {
 }
 
 .dark-mode .frame.active {
-    background: var(--dark-red-200);
-    border-color: var(--dark-black-150);
-    box-shadow: inset 0 0.5px 0 var(--dark-black-200);
+    background: var(--dark-red-800);
+    border-color: var(--dark-magenta-300);
+    box-shadow: inset 0 0.5px 0 var(--dark-magenta-300);
 }
 
 .frame:not(.active):nth-child(1) {
@@ -948,11 +956,15 @@ nav ul li:nth-child(5) a.active svg {
 }
 
 .dark-mode .frame:not(.active):hover {
-    background: var(--dark-gray-100);
+    background: var(--dark-red-100);
 }
 
 .frame:not(.active):hover .frame-class {
     color: var(--black-300);
+}
+
+.dark-mode .frame:not(.active):hover .frame-class {
+    color: var(--dark-white);
 }
 
 .frame.active .frame-index {
@@ -972,10 +984,9 @@ nav ul li:nth-child(5) a.active svg {
 }
 
 .dark-mode .frame.active .frame-method-info {
-    border-color: var(--dark-black-150);
+    border-color: var(--dark-red-700);
 }
 
-.frame.active .frame-file,
 .frame.active .frame-class,
 .frame.active .frame-function {
     color: var(--white);
@@ -986,16 +997,12 @@ nav ul li:nth-child(5) a.active svg {
     font-weight: 700;
 }
 
-.dark-mode .frame.active .frame-file {
-    color: var(--dark-white);
-}
-
 .frame-main-index {
     align-items: center;
     display: flex;
     height: 100%;
     justify-content: center;
-    width: 40px;
+    width: 45px;
 }
 
 .frame-index { 
@@ -1011,7 +1018,7 @@ nav ul li:nth-child(5) a.active svg {
 
 .dark-mode .frame-index {
     background: var(--dark-magenta-400);
-    border-color: var(--dark-magenta-500);
+    border-color: var(--dark-magenta-300);
     color: var(--dark-white);
 }
 
@@ -1025,19 +1032,7 @@ nav ul li:nth-child(5) a.active svg {
 }
 
 .dark-mode .frame-method-info {
-    border-color: var(--dark-black-170);
-    border-left-width: 1px;
-}
-
-.frame-file {
-    color: var(--gray-800);
-    font-size: var(--font-size-small-x);
-    font-weight: 500;
-    position: relative;
-    overflow: hidden; 
-    text-overflow: clip;
-    white-space: pre-wrap;
-    width: 98%;
+    border-color: var(--dark-magenta-400);
 }
 
 .frame-class,
@@ -1048,11 +1043,10 @@ nav ul li:nth-child(5) a.active svg {
     text-overflow: ellipsis;
 }
 
-.dark-mode .frame-file,
 .dark-mode .frame-class,
 .dark-mode .frame-function,
 .dark-mode .frame-function-optiona {
-    color: var(--dark-gray-600);
+    color: var(--dark-white);
 }
 
 .frame-info-class {
@@ -1200,11 +1194,6 @@ nav ul li:nth-child(5) a.active svg {
         margin-left: 2px;
     }
 
-    .frame.active .frame-file {
-        display: inline-block;
-    }
-
-    .frame.active .frame-file,
     .frame.active .frame-class {
         word-break: break-all;
     }
@@ -1226,10 +1215,6 @@ nav ul li:nth-child(5) a.active svg {
         grid-gap: 0.1rem;
         padding-bottom: .8rem;
         padding-top: .8rem;
-    }
-
-    .frame-file {
-        display: none;
     }
 
     .frame-info-class {
@@ -1285,11 +1270,6 @@ nav ul li:nth-child(5) a.active svg {
         padding-top: 1rem;
     }
 
-    .frame-file {
-        font-size: 1em;
-        margin-bottom: 0;
-    }
-
     .frame-class,
     .frame-function {
         font-size: var(--font-size-initial);
@@ -1330,7 +1310,7 @@ nav ul li:nth-child(5) a.active svg {
 }
 
 .dark-mode .code-source {
-    background: var(--dark-magenta-100);
+    background: var(--dark-magenta-200);
     box-shadow: none;
 }
 
@@ -1394,14 +1374,13 @@ nav ul li:nth-child(5) a.active svg {
 
 .title .icon-holder .tooltip-edit {
     color: var(--gray-800);
-    font-size: var(--font-size-small-xx);
+    font-size: var(--font-size-initial);
 }
 
 .source {
     color: var(--dark-gray-300);
     overflow: hidden;
-    padding-bottom: 0;
-    padding-top: 49px;
+    padding-top: 50px;
     text-shadow: none;
     width: 100vw;
 }
@@ -1413,16 +1392,16 @@ code,
 }
 
 .source span.line { 
-    line-height: 1.2;
-    padding-left: 15px; 
+    line-height: 1.8;
+    padding-left: 15px;
 }
 
 .source .number {
     color: var(--gray-600);
     display: inline-block;
-    margin-left: -5%;
+    margin-left: -6%;
     position: absolute;
-    width: 5%;
+    width: 5.4%;
 }
 
 .dark-mode .source .number {
@@ -1431,7 +1410,7 @@ code,
 
 .source .line .highlight,
 .source span.highlight {
-    max-width: 100vw;
+    width: 100vw;
 }
 
 .source .line .highlight {
@@ -1439,18 +1418,17 @@ code,
     color: var(--gray-800);
     display: block; 
     font-size: var(--font-size-initial);
-    padding-left: 15px; 
+    padding-left: 18px; 
 }
 
 .dark-mode .source .line .highlight {
-    background: var(--dark-red-200);
+    background: var(--dark-red-400);
     color: var(--dark-white);
-    padding-left: 14px;
 }
 
 .source span.highlight {
     margin-right: 1px;
-    padding-bottom: 3.2px;
+    padding-bottom: 3px;
 }
 
 .source span.highlight .number {
@@ -1460,7 +1438,7 @@ code,
 }
 
 .dark-mode .source span.highlight .number {
-    background: var(--dark-red-300);
+    background: var(--dark-red-600);
     color: var(--dark-white);
 }
 
@@ -1489,14 +1467,15 @@ pre {
     font-weight: 500;
     font-size: var(--font-size-medium-x);
     margin-left: 3%;
-    padding-top: 10px;
+    padding: 5px;
     overflow-x: auto;
-    overflow-y: hidden;  
+    overflow-y: hidden;
+    width: 100%; 
 }
 
 .dark-mode pre {
-    background: var(--dark-black-150);
-    box-shadow: inset 0 0 0 1px var(--dark-black-130);
+    background: var(--dark-magenta-200);
+    box-shadow: none;
 }
 
 /* Manipulate the scroll bar. Only for browsers that use the webkit engine. */
@@ -1521,7 +1500,7 @@ pre::-webkit-scrollbar-track {
 }
 
 code {
-    margin-top: 10px;
+    margin-top: 12px;
     overflow-wrap: break-word;
 }
 
@@ -1591,7 +1570,7 @@ code {
 @media (min-width: 1100px)
 {
     .code-blocks {
-        height: 65vh;
+        height: 106vh;
     }
     
     .code-source {
@@ -1925,7 +1904,8 @@ footer {
     border-left-width: 1px;
     border-color: var(--gray-200);
     cursor: pointer;
-    height: 50px;
+    font-size: var(--font-size-small-x);
+    height: 49px;
     padding: 12px; 
     position: relative;
     text-align: center;
@@ -1935,8 +1915,8 @@ footer {
 }
 
 .dark-mode .icon-holder {
-    background: var(--dark-magenta-100);
-    border-color: var(--dark-magenta-100);
+    background: var(--dark-magenta-200);
+    border-color: var(--dark-magenta-300);
 }
 
 .icon-holder:hover {
