@@ -48,9 +48,9 @@
     --gray-200: hsla(240, 26%, 95%, 1);
     --gray-300: hsla(250, 23%, 93%, 1);
     --gray-400: hsla(255, 24%, 84%, 1);
-    --gray-500: hsla(248, 17%, 73%, 1);
-    --gray-600: hsla(252, 12%, 59%, 1);
-    --gray-700: hsla(246, 21%, 35%, 1);
+    --gray-500: hsla(250, 16%, 71%, 1);
+    --gray-600: hsla(249, 17%, 53%, 1);
+    --gray-700: hsla(242, 19%, 39%, 1);
     --gray-800: hsla(247, 27%, 25%, 1);
     --font-size-small-x: .7em;
     --font-size-small-xx: .8em;
@@ -83,13 +83,15 @@
     --dark-blue-500: hsla(204, 66%, 57%, 1);
     --dark-blue-600: hsla(204, 50%, 56%, 1);
     --dark-blue-700: hsla(204, 94%, 80%, 1);
-    --dark-magenta-100: hsla(215, 25%, 13%, 1);
-    --dark-magenta-200: hsla(215, 28%, 17%, 1);
-    --dark-magenta-300: hsla(217, 30%, 19%, 1);
-    --dark-magenta-400: hsla(219, 33%, 21%, 1);
-    --dark-magenta-500: hsla(221, 35%, 23%, 1);
-    --dark-magenta-600: hsla(223, 38%, 25%, 1);
-    --dark-magenta-700: hsla(225, 40%, 27%, 1);
+    --dark-magenta-100: hsla(222, 40%, 10%, 1);
+    --dark-magenta-200: hsla(221, 39%, 11%, 1);
+    --dark-magenta-250: hsla(214, 27%, 15%, 1);
+    --dark-magenta-300: hsla(215, 28%, 17%, 1);
+    --dark-magenta-400: hsla(217, 30%, 19%, 1);
+    --dark-magenta-500: hsla(219, 33%, 21%, 1);
+    --dark-magenta-600: hsla(221, 35%, 23%, 1);
+    --dark-magenta-700: hsla(223, 38%, 25%, 1);
+    --dark-magenta-800: hsla(225, 40%, 27%, 1);
     --dark-gray-100: hsla(0, 0%, 25%, 1);
     --dark-gray-200: hsla(0, 0%, 32%, 1);
     --dark-gray-300: hsla(0, 0%, 41%, 1);
@@ -164,7 +166,7 @@ html {
 }
 
 html.dark-mode {
-    background: var(--dark-magenta-100);
+    background: var(--dark-magenta-200);
 }
 
 body {
@@ -330,8 +332,8 @@ a.active {
     }
 
     .dark-mode .section-stack-exception {
-        background: var(--dark-magenta-200);
-        box-shadow: 0 0 12px 1px var(--dark-black-200);
+        background: var(--dark-magenta-300);
+        box-shadow: 0 0 12px 1px var(--dark-magenta-100);
     }
 
     .panel {
@@ -456,8 +458,8 @@ nav ul li a {
 }
 
 .dark-mode .exception {
-    background: var(--dark-magenta-200);
-    box-shadow: 0 1px 3px 1px var(--dark-black-200);
+    background: var(--dark-magenta-300);
+    box-shadow: 0 1px 3px 1px var(--dark-magenta-100);
 }
 
 .exception:hover {
@@ -491,8 +493,8 @@ nav ul li a {
 }
 
 .dark-mode .exception-title h2 {
-    background: var(--dark-magenta-100);
-    color: var(--dark-gray-700);
+    background: var(--dark-magenta-250);
+    color: var(--dark-white);
 }
 
 .exception-title .subtitle {
@@ -827,8 +829,8 @@ nav ul li:nth-child(5) a.active svg {
 }
 
 .dark-mode .section-frame {
-    background: var(--dark-magenta-100);
-    border-right-color: var(--dark-magenta-400);
+    background: var(--dark-magenta-300);
+    border-right-color: var(--dark-magenta-500);
     border-right-width: 1px;
 }
 
@@ -843,8 +845,8 @@ nav ul li:nth-child(5) a.active svg {
 }
 
 .dark-mode .frame-description {
-    background: var(--dark-magenta-200);
-    border-bottom: solid 1px var(--dark-magenta-400);
+    background: var(--dark-magenta-300);
+    border-bottom: 1px solid var(--dark-magenta-500);
 }
 
 .frame-description.frame-description-application {
@@ -863,7 +865,7 @@ nav ul li:nth-child(5) a.active svg {
 .dark-mode .frame-description.frame-description-application {
     color: var(--dark-gray-800);
     font-weight: 600;
-    text-shadow: 0 1px 1px var(--dark-magenta-300);
+    text-shadow: 0 1px 1px var(--dark-magenta-500);
 }
 
 .frame-container-scroll {
@@ -878,7 +880,7 @@ nav ul li:nth-child(5) a.active svg {
 }
 
 .dark-mode .frame-container-scroll {
-    background: var(--dark-magenta-100);
+    background: var(--dark-magenta-300);
     box-shadow: 0 -1px 0 var(--dark-magenta-400), 
                 -1px 1px 0 var(--dark-magenta-400), 
                 0 -1px 0 var(--dark-magenta-400), 
@@ -915,15 +917,15 @@ nav ul li:nth-child(5) a.active svg {
     cursor: pointer;
     display: grid;
     font-weight: 600;
-    grid-template-columns: 2.7rem auto auto;
+    grid-template-columns: 2.65rem auto auto;
     overflow: hidden;    
     transition: all 0.1s ease;
     text-shadow: none;
 }
 
 .dark-mode .frame {
-    background: var(--dark-magenta-200);
-    border-color: var(--dark-magenta-400);
+    background: var(--dark-magenta-300);
+    border-color: var(--dark-magenta-500);
 }
 
 .frame:last-child {
@@ -938,8 +940,8 @@ nav ul li:nth-child(5) a.active svg {
 
 .dark-mode .frame.active {
     background: var(--dark-red-800);
-    border-color: var(--dark-magenta-300);
-    box-shadow: inset 0 0.5px 0 var(--dark-magenta-300);
+    border-color: var(--dark-red-700);
+    box-shadow: inset 0 0.5px 0 var(--dark-magenta-500);
 }
 
 .frame:not(.active):nth-child(1) {
@@ -970,9 +972,9 @@ nav ul li:nth-child(5) a.active svg {
 }
 
 .dark-mode .frame.active .frame-index {
-    background: var(--dark-red-300);
+    background: var(--dark-gray-700);
     border-color: var(--dark-red-500);
-    color: var(--dark-white);
+    color: var(--dark-black-100);
 }
 
 .frame.active .frame-method-info {
@@ -1013,9 +1015,9 @@ nav ul li:nth-child(5) a.active svg {
 }
 
 .dark-mode .frame-index {
-    background: var(--dark-magenta-400);
-    border-color: var(--dark-magenta-300);
-    color: var(--dark-white);
+    background: var(--dark-gray-700);
+    border-color: var(--dark-magenta-500);
+    color: var(--dark-black-100);
 }
 
 .frame-method-info {
@@ -1066,7 +1068,7 @@ nav ul li:nth-child(5) a.active svg {
     display: inline-block;
     height: 5px;
     line-height: 0.3;
-    padding: 5px 3px;
+    padding: 5px 1px;
     position: absolute;
     text-align: center;
     top: 8px;
@@ -1088,31 +1090,28 @@ nav ul li:nth-child(5) a.active svg {
     background: var(--blue-100);
     border: 1px solid var(--blue-200);
     content: 'Class';
-    left: -45px;
-    width: 30px;
+    left: -40px;
+    width: 32px;
 }
-z
-.dark-mode .frame-class:before {
-    background: var(--dark-white);
-    border: 1px solid var(--dark-gray-300);
+
+.dark-mode .frame-class:before,
+.dark-mode .frame-function:before {
+    background: var(--dark-magenta-250);
+    border: 1px solid var(--dark-magenta-600);
+    color: var(--dark-white);
 }
 
 .frame-function {
     font-weight: 600;
-    left: 58px;
+    left: 54px;
 }
 
 .frame-function:before {
     background: var(--purple-100);
     border: 1px solid var(--purple-200);
     content: 'Function';
-    left: -63px;
+    left: -55px;
     width: 48px; 
-}
-
-.dark-mode .frame-function:before {
-    background: var(--dark-gray-500);
-    border: 1px solid var(--dark-gray-400);
 }
 
 .frame-line-number {
@@ -1307,7 +1306,7 @@ z
 }
 
 .dark-mode .code-source {
-    background: var(--dark-magenta-200);
+    background: var(--dark-magenta-300);
     box-shadow: none;
 }
 
@@ -1324,18 +1323,18 @@ z
     height: 50px;
     justify-content: flex-end;
     padding-left: 10px;
-    padding-right: 15px;
+    padding-right: 2.5rem;
     position: absolute;
     width: 100%;
 }
 
 .dark-mode .title {
-    border-bottom-color: var(--dark-magenta-400);
+    border-bottom-color: var(--dark-magenta-500);
     border-bottom-width: 1px;
 }
 
 .title-line-number h4 {
-    color: var(--gray-700);
+    color: var(--gray-600);
     font-size: var(--font-size-initial);
     font-weight: 600;
     letter-spacing: 0.2px;
@@ -1469,14 +1468,14 @@ pre {
     font-weight: 500;
     font-size: var(--font-size-medium-x);
     padding-left: 36px; 
-    padding-top: 10px;
+    padding-top: 8px;
     overflow-x: hidden;
     overflow-y: hidden;
     width: 100%;
 }
 
 .dark-mode pre {
-    background: var(--dark-magenta-200);
+    background: var(--dark-magenta-300);
     box-shadow: none;
 }
 
@@ -1912,52 +1911,30 @@ footer {
     position: relative;
     text-align: center;
     text-shadow: none;
-    transition: all 0.2s linear 0s;
     width: 40px;
 }
 
 .dark-mode .icon-holder {
-    background: var(--dark-magenta-200);
-    border-color: var(--dark-magenta-300);
+    background: var(--dark-magenta-300);
+    border-color: var(--dark-magenta-500);
 }
 
 .icon-holder:hover {
-    background: transparent;    
+    background: var(--gray-200);
+    border: 1px solid var(--gray-400);   
 }
 
 .dark-mode .icon-holder:hover {
-    background: transparent;
-}
-
-.icon-holder:hover .ico-print,
-.icon-holder:hover .ico-file-pdf,
-.icon-holder:hover .ico-file-edit {
-    fill: var(--gray-800);
-}
-
-.dark-mode .icon-holder:hover .ico-print,
-.dark-mode .icon-holder:hover .ico-file-pdf,
-.dark-mode .icon-holder:hover .ico-file-edit {
-    fill: var(--dark-white);
+    background: var(--dark-magenta-500);
+    border: 1px solid var(--dark-gray-200); 
 }
 
 .icon-holder:hover .tooltip {
-    animation: updown .8s ease-in-out infinite alternate;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, 
                  Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     letter-spacing: 0.2px;
+    top: 44px;
     visibility: visible;
-}
-
-/* Animation */
-@keyframes updown {
-    0% {
-        top: 44px;	
-    }
-
-    100% {
-        top: 56px;	
-    }
 }
 
 .icon-holder:hover .tooltip-edit,
@@ -1973,13 +1950,13 @@ footer {
 .icon-holder .ico-print,
 .icon-holder .ico-file-pdf,
 .icon-holder .ico-file-edit {
-    fill: var(--gray-600);
+    fill: var(--gray-700);
 }
 
 .dark-mode .icon-holder .ico-print,
 .dark-mode .icon-holder .ico-file-pdf,
 .dark-mode .icon-holder .ico-file-edit {
-    fill: var(--dark-gray-500);
+    fill: var(--dark-gray-600);
 }
 
 .icon-holder .ico-print {
@@ -1996,8 +1973,8 @@ footer {
 
 .icon-holder .ico-file-edit {
     height: 30px;
-    margin-left: -6px;
-    margin-top: -2px;
+    margin-left: -5px;
+    margin-top: -3px;
     width: 40px;
 }
 
@@ -2050,10 +2027,13 @@ footer {
     font-size: var(--font-size-small-x);
 }
 
-.dark-mode .icon-holder .tooltip,
-.dark-mode .icon-holder .tooltip:after,
 .dark-mode .icon-holder .tooltip:before {
-    background: var(--dark-black-170);
+    background: var(--dark-gray-200);
+}
+
+.dark-mode .icon-holder .tooltip,
+.dark-mode .icon-holder .tooltip:after {
+    background: var(--dark-magenta-600);
 }
 
 .icon-holder .tooltip-print,
@@ -2067,7 +2047,7 @@ footer {
 .dark-mode .icon-holder .tooltip-print,
 .dark-mode .icon-holder .tooltip-pdf,
 .dark-mode .icon-holder .tooltip-edit {
-    border: 1px solid var(--dark-magenta-100);
+    border: 1px solid var(--dark-gray-200);
     color: var(--dark-white);
 }
 
