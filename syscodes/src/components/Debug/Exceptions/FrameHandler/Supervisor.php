@@ -150,7 +150,7 @@ class Supervisor
 	 */
 	public function getExceptionName()
 	{
-		return getClass($this->exception);
+		return getClass($this->exception, true);
 	}
 	
 	/**
