@@ -166,7 +166,7 @@ class TemplateHandler
 		if (function_exists('ini_set')) {
 			ini_set('highlight.bg', '#000');
 			ini_set('highlight.comment', '#959595');
-			ini_set('highlight.default', '#818CF8');
+			ini_set('highlight.default', '#717DE8');
 			ini_set('highlight.html', '#06B');
 			ini_set('highlight.keyword', '#F47E3A');
 			ini_set('highlight.string', '#57C60D');
