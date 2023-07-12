@@ -347,7 +347,7 @@ a.active {
         left: 0;
         padding-bottom: 40px;
         top: 0;
-        width: 70%;
+        width: 60%;
         z-index: 100;
     }
     
@@ -476,12 +476,13 @@ nav ul li a {
     font-weight: 500;
     line-height: 1.7;
     margin-top: -2px;
+    position: relative;
 }
 
 .exception-title .exception-background-title {
     background: var(--gray-100);
     border-color: 1px solid var(--gray-700);
-    border-radius: 5px;
+    border-radius: 3px;
     display: inline-flex;
     padding: 5px 14px;
 }
@@ -501,19 +502,21 @@ nav ul li a {
 }
 
 .exception-title .subtitle {
-    background: var(--red-400);
-    border-radius: 5px;
+    background: var(--blue-200);
+    border-radius: 3px;
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
-    color: var(--gray-200);
+    color: var(--gray-600);
     font-weight: 600;
     letter-spacing: 0.2px;
     margin-left: -1px;
-    padding: 6px 10px;
+    padding: 9px 8px;
+    position: absolute;
 }
 
 .dark-mode .exception-title .subtitle {
-    color: var(--white);
+    background: var(--dark-blue-100);
+    color: var(--dark-gray-800);
 }
 
 .exception-message h3 {
@@ -602,7 +605,7 @@ nav ul li a {
 
 .dark-mode .section-frame {
     background: var(--dark-magenta-300);
-    border-right-color: var(--dark-magenta-500);
+    border-right-color: var(--dark-magenta-700);
     border-right-width: 1px;
 }
 
@@ -611,14 +614,14 @@ nav ul li a {
 .frame-description {
     background: var(--white);
     box-shadow: inset 0 0 0 var(--gray-300); 
-    height: 50px;
+    height: 64px;
     min-width: 100%;
     text-align: justify;
 }
 
 .dark-mode .frame-description {
     background: var(--dark-magenta-300);
-    border-bottom: 1px solid var(--dark-magenta-500);
+    border-bottom: 1px solid var(--dark-magenta-700);
 }
 
 .frame-description.frame-description-application {
@@ -697,7 +700,7 @@ nav ul li a {
 
 .dark-mode .frame {
     background: var(--dark-magenta-300);
-    border-color: var(--dark-magenta-500);
+    border-color: var(--dark-magenta-600);
 }
 
 .frame:last-child {
@@ -768,6 +771,7 @@ nav ul li a {
     display: flex;
     height: 100%;
     justify-content: center;
+    margin-left: 2.05rem;
     width: 45px;
 }
 
@@ -775,7 +779,7 @@ nav ul li a {
     background: var(--gray-200);
     border: 1px solid var(--gray-300); 
     border-radius: 100%; 
-    color: var(--gray-600);
+    color: var(--gray-800);
     font-feature-settings: "tnum";
     font-size: var(--font-size-small);
     font-variant-numeric: tabular-nums;
@@ -791,22 +795,21 @@ nav ul li a {
 .frame-method-info {
     display: grid;
     align-items: center;
-    border-color: var(--gray-300);
-    border-left-width: 1px;
+    /* border-color: var(--gray-300);
+    border-left-width: 1px; */
     grid-gap: 0.5rem;
     padding-left: 0.75rem;
 }
 
 .dark-mode .frame-method-info {
-    border-color: var(--dark-magenta-400);
+    border-color: var(--dark-magenta-600);
 }
 
 .frame-class,
 .frame-function,
 .frame-function-optional {
     color: var(--black-200);
-    font-size: var(--font-size-small-xx); 
-    text-overflow: ellipsis;
+    font-size: var(--font-size-small-xx);
 }
 
 .dark-mode .frame-class,
@@ -819,67 +822,22 @@ nav ul li a {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    overflow: hidden;
 }
 
 .frame-class,
 .frame-function {
     position: relative;
-    margin-left: 5px;
-}
-
-.frame-class:before,
-.frame-function:before {
-    border-radius: 2px;
-    color: var(--tint-700);
-    font-size: var(--font-size-small);
-    font-weight: 500;
-    display: inline-block;
-    height: 5px;
-    line-height: 0.3;
-    padding: 5px 1px;
-    position: absolute;
-    text-align: center;
-    top: 8px;
-}
-
-.frame.active .frame-class:before,
-.frame.active .frame-function:before {
-    background: var(--red-100);
-    border: 1px solid var(--red-100);
-    color: var(--black-300);
+    left: 25px;
+    margin-left: 0;
 }
 
 .frame-class {
     font-weight: 500;
-    left: 40px;
-}
-
-.frame-class:before {    
-    background: var(--blue-100);
-    border: 1px solid var(--blue-200);
-    content: 'Class';
-    left: -40px;
-    width: 32px;
-}
-
-.dark-mode .frame-class:before,
-.dark-mode .frame-function:before {
-    background: var(--dark-magenta-250);
-    border: 1px solid var(--dark-magenta-600);
-    color: var(--dark-white);
 }
 
 .frame-function {
     font-weight: 600;
-    left: 53px;
-}
-
-.frame-function:before {
-    background: var(--purple-100);
-    border: 1px solid var(--purple-200);
-    content: 'Function';
-    left: -55px;
-    width: 48px; 
 }
 
 .frame-line-number {
@@ -1038,17 +996,17 @@ nav ul li a {
     .frame-function {
         font-size: var(--font-size-initial);
         height: 1.5em;
-        line-height: 2.4;
+        line-height: 1.8;
     }
 
     .frame-class {
         font-weight: 500;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
     }
 
     .frame-function {
         font-weight: 600;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
     }
 
     .frame-line-number {
@@ -1084,21 +1042,14 @@ nav ul li a {
 
 .title {
     align-items: center;
-    border-bottom-color: var(--gray-300);
-    border-bottom-width: 1px;
     display: flex;
     font-weight: 200;
-    height: 50px;
+    height: 64px;
     justify-content: flex-end;
     padding-left: 10px;
     padding-right: 2.5rem;
     position: absolute;
     width: 100%;
-}
-
-.dark-mode .title {
-    border-bottom-color: var(--dark-magenta-500);
-    border-bottom-width: 1px;
 }
 
 .title-line-number h4 {
@@ -1160,9 +1111,9 @@ nav ul li a {
 .source {
     color: var(--dark-gray-300);
     overflow: hidden;
-    padding-top: 50px;
+    padding-top: 64px;
     text-shadow: none;
-    width: 100vw;
+    width: 100%;
 }
 
 code,
@@ -1183,12 +1134,15 @@ code,
 }
 
 .dark-mode .source .number {
-    color: var(--dark-gray-300);
+    color: var(--dark-gray-500);
 }
 
 .source .line .highlight,
 .source span.highlight {
-    width: 100vw;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    white-space: pre;
+    width: 100%;
 }
 
 .source .line .highlight {
@@ -1236,10 +1190,12 @@ pre {
     font-weight: 500;
     font-size: var(--font-size-medium-x);
     padding-left: 36px; 
+    padding-right: 2.7rem;
     padding-top: 8px;
     overflow-x: hidden;
     overflow-y: hidden;
-    width: 100%;
+    text-overflow: ellipsis; 
+    white-space: pre;
 }
 
 .dark-mode pre {
