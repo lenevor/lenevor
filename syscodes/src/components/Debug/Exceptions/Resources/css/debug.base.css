@@ -343,9 +343,9 @@ a.active {
     }
 
     .section-frame {
-        height: 112.7vh;
+        height: 114.5vh;
         left: 0;
-        padding-bottom: 40px;
+        padding-bottom: 64px;
         top: 0;
         width: 60%;
         z-index: 100;
@@ -386,6 +386,7 @@ nav {
 nav ul {
     list-style: none;
     display: flex;
+    margin-left: 20px;
 }
 
 nav ul li {
@@ -396,6 +397,7 @@ nav ul li {
 nav ul li a {
     font-weight: 500;
     letter-spacing: 0.5px;
+    margin-right: 50px;
     text-decoration: none; 
     text-transform: uppercase;
 }
@@ -475,7 +477,7 @@ nav ul li a {
     color: var(--gray-400);
     font-weight: 500;
     line-height: 1.7;
-    margin-top: -2px;
+    margin-top: -1px;
     position: relative;
 }
 
@@ -484,7 +486,7 @@ nav ul li a {
     border-color: 1px solid var(--gray-700);
     border-radius: 3px;
     display: inline-flex;
-    padding: 5px 14px;
+    padding: 3px 14px;
 }
 
 .dark-mode .exception-title .exception-background-title {
@@ -510,7 +512,7 @@ nav ul li a {
     font-weight: 600;
     letter-spacing: 0.2px;
     margin-left: -1px;
-    padding: 9px 8px;
+    padding: 6.2px;
     position: absolute;
 }
 
@@ -524,7 +526,7 @@ nav ul li a {
     font-size: 0.5rem;
     font-size: var(--font-size-large-x);
     font-weight: 600;
-    margin-top: 18px;
+    margin-top: 15px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: pre;
@@ -621,7 +623,7 @@ nav ul li a {
 
 .dark-mode .frame-description {
     background: var(--dark-magenta-300);
-    border-bottom: 1px solid var(--dark-magenta-700);
+    box-shadow: inset 0 0 0 var(--dark-magenta-700); 
 }
 
 .frame-description.frame-description-application {
@@ -656,10 +658,10 @@ nav ul li a {
 
 .dark-mode .frame-container-scroll {
     background: var(--dark-magenta-300);
-    box-shadow: 0 -1px 0 var(--dark-magenta-400), 
-                -1px 1px 0 var(--dark-magenta-400), 
-                0 -1px 0 var(--dark-magenta-400), 
-                1px 1px 0 var(--dark-magenta-400);
+    box-shadow: 0 -1px 0 var(--dark-magenta-700), 
+                -1px 1px 0 var(--dark-magenta-700), 
+                0 -1px 0 var(--dark-magenta-700), 
+                1px 1px 0 var(--dark-magenta-700);
 }
 
 /* Manipulate the scroll bar. Only for browsers that use the webkit engine. */
@@ -700,16 +702,16 @@ nav ul li a {
 
 .dark-mode .frame {
     background: var(--dark-magenta-300);
-    border-color: var(--dark-magenta-600);
+    border-color: var(--dark-magenta-700);
 }
 
 .frame:last-child {
-    margin-bottom: 62.5px;
+    margin-bottom: 63px;
 }
 
 .frame.active {
     background: var(--red-500);
-    border-bottom-width: 0.5px;
+    border-bottom-width: 1px;
     border-color: var(--red-100);
 }
 
@@ -802,7 +804,7 @@ nav ul li a {
 }
 
 .dark-mode .frame-method-info {
-    border-color: var(--dark-magenta-600);
+    border-color: var(--dark-magenta-700);
 }
 
 .frame-class,
@@ -988,8 +990,8 @@ nav ul li a {
     }
 
     .frame-method-info {
-        padding-bottom: 1rem;
-        padding-top: 1rem;
+        padding-bottom: 0.7rem;
+        padding-top: 0.7rem;
     }
 
     .frame-class,
@@ -1010,7 +1012,7 @@ nav ul li a {
     }
 
     .frame-line-number {
-        top: -20px;
+        top: -15px;
         right: 16px;
     }
 
@@ -1105,7 +1107,7 @@ nav ul li a {
 }
 
 .dark-mode .title .icon-holder .tooltip-edit {
-    font-size: var(--font-size-initial);
+    font-size: var(--font-size-small-x);
 }
 
 .source {
@@ -1846,7 +1848,7 @@ footer {
 
 .icon-holder {
     border-width: 1px;
-    border-color: var(--gray-200);
+    border-color: var(--gray-300);
     cursor: pointer;
     font-size: var(--font-size-small-x);
     height: 37px;
@@ -1859,7 +1861,7 @@ footer {
 
 .dark-mode .icon-holder {
     background: var(--dark-magenta-300);
-    border-color: var(--dark-magenta-500);
+    border-color: var(--dark-magenta-700);
 }
 
 .icon-holder:hover {
@@ -1967,7 +1969,7 @@ footer {
 }
 
 .dark-mode .icon-holder .tooltip {
-    font-size: var(--font-size-small-x);
+    font-size: var(--font-size-small);
 }
 
 .dark-mode .icon-holder .tooltip:before {
@@ -1976,7 +1978,7 @@ footer {
 
 .dark-mode .icon-holder .tooltip,
 .dark-mode .icon-holder .tooltip:after {
-    background: var(--dark-magenta-600);
+    background: var(--dark-magenta-700);
 }
 
 .icon-holder .tooltip-print,
