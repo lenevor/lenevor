@@ -32,7 +32,7 @@ return [
     'RegisteredHandlers' => 'Manipuladores cadastrados',
     'request' => 'Pedido',
     'search' => 'Buscar',
-    'stack' => 'Pilhas de exceção',
+    'stack' => 'Pilhas',
     'details' => 'Detalhes',
     'statusCode' => 'Código de estado',
     'version' => 'Versão de Lenevor',
