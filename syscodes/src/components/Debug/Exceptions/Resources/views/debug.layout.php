@@ -16,6 +16,7 @@
 		<div class="container">		
 			<?= $template->render($info_exception) ?>
 			<?= $template->render($section_stack_exception) ?>
+			<?= $template->render($request_info) ?>
 		</div>		
 		<!-- Script -->
 		<script type="text/javascript">
