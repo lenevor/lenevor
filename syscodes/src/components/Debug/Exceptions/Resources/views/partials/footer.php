@@ -1,7 +1,5 @@
 <footer>
-
 	<div class="info">
-
 		<div class="name">
 			<span class="status-code" title="<?= e(__('exception.statusCode'))?>"><?= $debug->sendHttpCode() ?></span>
 			<span class="benchmark-time" title="<?= e(__('exception.benchmark'))?>">
@@ -82,13 +80,10 @@
 				</svg>
 				<span><?= ini_get('memory_limit') ?></span>
 			</span>							
-		</div>
-		
+		</div>		
 		<div class="copy">
 			<?= e($handler->getBrand()) ?>
 			<span class="version" title="<?= e(__('exception.version'))?>"><?= \Syscodes\Components\Version::RELEASE ?></span>
 		</div>
-
 	</div>
-
 </footer>
