@@ -1,9 +1,13 @@
 <div class="sidebar">
     <nav>
         <ul>
-            <li><h2>REQUEST</h2></li>
             <li>
-                <a href="#exceptions" class="active">
+                <h2>
+                    <a href="#detail-request"><?= e(__('exception.request')) ?></a>
+                </h2>
+            </li>
+            <li>
+                <a href="#detail-request-header" class="active">
                     <svg width="16px" height="16px" viewBox="-8 0 53 53" xmlns="http://www.w3.org/2000/svg">
                         <g id="Group_132" data-name="Group 132" transform="translate(-380.703 -318.103)">
                             <path id="Path_478" data-name="Path 478" d="M415.106,361.119a1.989,1.989,0,0,0-1.99,1.99v6.7l8.689-8.688Z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.592"/>
@@ -24,22 +28,27 @@
                             <path id="Path_485" data-name="Path 485" d="M414.62,349.4l-3.348,3.349-1.7-1.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.555"/>
                         </g>
                     </svg>
-                    Exceptions
+                    <?= e(__('exception.headers')) ?>
                 </a>
             </li>
             <li>
-                <a href="#request">                    
+                <a href="#detail-request-body">                    
                     <svg width="20px" height="20px" viewBox="0 1.1 20 20" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="12.5" cy="12.5" r="1.75"/>
                         <circle cx="3.5" cy="12.5" r="1.75"/>
                         <circle cx="3.5" cy="3.5" r="1.75"/>
                         <path d="m9.25 1.75-1.5 2 1.5 2m3 4.5v-5c0-1-.5-1.5-1.5-1.5h-2m-5 2v4.5"/>
                     </svg>                    
-                    Request
+                    <?= e(__('exception.body')) ?>
                 </a>
             </li>
             <li>
-                <a href="#response">
+                <h2>
+                    <a href="detail-app"><?= e(__('exception.app')) ?></a>
+                </h2>
+            </li>
+            <li>
+                <a href="#detail-app-routing">
                     <svg height="22px" width="22px" viewBox="2.7 0.5 88 88" xmlns="http://www.w3.org/2000/svg">
                         <g id="HTML-file">
                             <path d="M37.5115013,36.2032013c-0.2187004,0.5077972,0.014698,1.0956993,0.5214996,1.3143997l7.5644989,3.2626991
@@ -68,26 +77,31 @@
                                 c-0.002903,0.2670994,0.112999,0.5244007,0.3009987,0.7138996C38.5014,17.8931007,38.7691994,18,39.0363007,18H55V61.0243988z"/>
                         </g>                        
                     </svg>
-                    Response
+                    <?= e(__('exception.routing')) ?>
                 </a>
             </li>
             <li>
-                <a href="#logs">
+                <a href="#detail-app-database">
                     <svg width="22px" height="22px" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
                         <path d="M26,2H8A2,2,0,0,0,6,4V8H4v2H6v5H4v2H6v5H4v2H6v4a2,2,0,0,0,2,2H26a2,2,0,0,0,2-2V4A2,2,0,0,0,26,2Zm0,26H8V24h2V22H8V17h2V15H8V10h2V8H8V4H26Z"/>
                         <rect x="14.5" y="9.5" width="7" height="1"/>
                         <rect x="14.5" y="15.5" width="7" height="1"/>
                         <rect x="14.5" y="21.5" width="7" height="1"/>
                     </svg>       
-                    Logs
+                    <?= e(__('exception.database')) ?>
                 </a>
             </li>
             <li>
-                <a href="#events">
+                <h2>
+                    <a href="#detail-context-data"><?= e(__('exception.contextData')) ?></a>
+                </h2>
+            </li>
+            <li>
+                <a href="#detail-context-data-version">
                     <svg width="17px" height="17px" viewBox="0 2 20 20" xmlns="http://www.w3.org/2000/svg" stroke-width="1" stroke-linecap="square"> 
                         <path d="M22 5L22 17C22 18.3333333 21.3333333 19 20 19 18.6666667 19 18 18.3333333 18 17L18 5 2 5 2 16C2 18 3 19 5 19 7 19 12 19 20 19M6 14L7 14M11 14L14 14M6 10L14 10"/> 
                     </svg>
-                    Events
+                    <?= e(__('exception.versions')) ?>
                 </a>
             </li>
         </ul>
