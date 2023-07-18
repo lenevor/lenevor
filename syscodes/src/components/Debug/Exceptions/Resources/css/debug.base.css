@@ -1,13 +1,15 @@
 :root {
+    --white: hsla(0, 0%, 100%, 1);
     --black-100: hsla(0, 0%, 0%, 1);
     --black-200: hsla(0, 0%, 10%, 1);
     --black-300: hsla(0, 0%, 14%, 1);
-    --white: hsla(0, 0%, 100%, 1);
-    --blue-100: hsla(212, 100%, 97%, 1);
-    --blue-200: hsla(196, 100%, 89%, 1);
-    --blue-300: hsla(211, 100%, 55%, 1);
+    --blue-100: hsla(218, 100%, 77%, 1);
+    --blue-200: hsla(218, 92%, 69%, 1);
+    --blue-300: hsla(218, 90%, 55%, 1);
     --blue-400: hsla(218, 84%, 47%, 1);
-    --blue-500: hsla(217, 70%, 38%, 1);
+    --blue-500: hsla(218, 70%, 38%, 1);
+    --blue-600: hsla(218, 77%, 32%, 1);
+    --blue-700: hsla(218, 64%, 28%, 1);
     --green-100: hsla(152, 100%, 95%, 1);
     --green-200: hsla(153, 78%, 76%, 1);
     --green-300: hsla(153, 64%, 66%, 1);
@@ -22,12 +24,13 @@
     --purple-500: hsla(270, 100%, 48%, 1);
     --purple-600: hsla(270, 94%, 45%, 1);
     --purple-700: hsla(270, 81%, 31%, 1);
-    --red-100: hsl(0, 96%, 89%);
+    --red-100: hsla(0, 96%, 89%, 1);
     --red-200: hsla(0, 42%, 79%, 1); 
     --red-300: hsla(0, 92%, 75%, 1);
     --red-400: hsla(0, 95%, 64%, 1); 
     --red-500: hsla(0, 94%, 55%, 1); 
     --red-600: hsla(0, 69%, 45%, 1);
+    --red-700: hsla(0, 63%, 41%, 1);
     --yellow-100: hsla(53, 100%, 85%, 1);
     --yellow-200: hsla(53, 100%, 82%, 1);
     --yellow-300: hsla(53, 100%, 79%, 1);
@@ -69,6 +72,7 @@
 }
 
 .dark-mode {
+    --dark-white: hsla(0, 0%, 100%, 1);
     --dark-black-100: hsla(0, 0%, 0%, 1);
     --dark-black-130: hsla(0, 0%, 3%, 1);
     --dark-black-150: hsla(0, 0%, 5%, 1);
@@ -77,14 +81,13 @@
     --dark-black-300: hsla(0, 0%, 14%, 1);
     --dark-black-400: hsla(0, 0%, 18%, 1);
     --dark-black-500: hsla(0, 0%, 22%, 1);
-    --dark-white: hsla(0, 0%, 100%, 1);
-    --dark-blue-100: hsla(204, 100%, 21%, 1);
-    --dark-blue-200: hsla(204, 83%, 28%, 1);
-    --dark-blue-300: hsla(204, 65%, 29%, 1);
-    --dark-blue-400: hsla(204, 66%, 52%, 1);
-    --dark-blue-500: hsla(204, 66%, 57%, 1);
-    --dark-blue-600: hsla(204, 50%, 56%, 1);
-    --dark-blue-700: hsla(204, 94%, 80%, 1);
+    --dark-blue-100: hsla(239, 53%, 39%, 1);
+    --dark-blue-200: hsla(239, 46%, 45%, 1);
+    --dark-blue-300: hsla(239, 40%, 47%, 1);
+    --dark-blue-400: hsla(239, 35%, 52%, 1);
+    --dark-blue-500: hsla(239, 84%, 67%, 1);
+    --dark-blue-600: hsla(239, 88%, 76%, 1);
+    --dark-blue-700: hsla(239, 94%, 87%, 1);
     --dark-magenta-100: hsla(222, 40%, 10%, 1);
     --dark-magenta-200: hsla(221, 39%, 11%, 1);
     --dark-magenta-250: hsla(214, 27%, 15%, 1);
@@ -253,24 +256,22 @@ a.active {
 }
 
 .icon-stack:before, 
-.icon-detail:before { 
+.icon-detail:before {
+    margin-left: -15px; 
     position: absolute;
 }
 
-.icon-stack:before  { 
-	margin-left: -17px;
-    top: 5px;
-}
-
+.icon-stack:before,
 .icon-detail:before {
-    margin-left: -15px;
-    top: 4px;
+    margin-top: -7px;
 }
 
-.dark-mode .icon-stack:before,
-.dark-mode .icon-detail:before {
+.dark-mode i.icon-stack:before,
+.dark-mode i.icon-detail:before {
     color: var(--dark-gray-500);
 }
+
+/* CONTAINER */
 
 .container {
     margin: 0 auto;
@@ -319,7 +320,7 @@ header {
 }
 
 header nav {
-    width: 100%;
+    margin-left: -30px;
 }
 
 header nav ul {
@@ -329,25 +330,29 @@ header nav ul {
 }
 
 header nav ul li {
-    align-items: center;
     color: var(--gray-700);
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    position: relative;
 }
 
-header nav ul li span {
-    left: 0;
-    position: absolute;
-    top: -3px;
+header nav ul li .container-title {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+header nav ul li i {
+    margin-left: 25px;
+    z-index: -1;
 }
 
 header nav ul li a {
     font-size: var(--font-size-small-xx);
     font-weight: 500;
     letter-spacing: 0.5px;
-    margin-right: 50px;
+    margin-left: -25px;
+    padding-bottom: 9px;
+    padding-left: 25px;
+    padding-right: 15px;
+    padding-top: 9px;
     text-decoration: none; 
     text-shadow: none;
     text-transform: uppercase;
@@ -361,19 +366,26 @@ header nav ul li a {
 
 @media (max-width: 320px)
 {
-    header nav ul li {
+    header nav ul li .container-title {
         flex-direction: column;
-        margin-left: -20px;
-    }
-    
-    header nav ul li span {
-        left: 30px;
-        top: -2px;
     }
 
-    header nav ul li a {
-        margin-top: 13px;
-        padding: 0;
+    header nav ul li .container-title .icon-stack:before,
+    header nav ul li .container-title .icon-detail:before {
+        top: 10px;      
+    }
+
+    header nav ul li i {
+        margin-left: 15px;
+    }
+
+    header nav ul li:nth-child(1) a,
+    header nav ul li:nth-child(2) a {
+        margin-left: 0;
+        padding-bottom: 2px;
+        padding-left: 10px;
+        padding-right: 15px;
+        padding-top: 15px;
     }
 }
 
@@ -381,10 +393,15 @@ header nav ul li a {
 
 @media (max-width: 1100px) and (min-width: 720px)
 {
-    header nav ul li {
-        flex-direction: column;
-        margin-left: 20px;
+    header nav ul li i {
+        margin-left: 2.80rem;
+    }
+
+    header nav ul li:nth-child(1) a,
+    header nav ul li:nth-child(2) a {
+        margin-left: -25px;
         margin-right: -20px;
+        padding-right: 25px;
     }
 }
 
@@ -401,7 +418,13 @@ header nav ul li a {
 
     header nav ul li a {
         font-size: var(--font-size-small-x);
-        margin-left: 3px;
+    }
+
+    header nav ul li:nth-child(1) a,
+    header nav ul li:nth-child(2) a {
+        margin-left: -25px;
+        padding-left: 28px;
+        padding-right: 25px;
     }
 }
 
@@ -1275,9 +1298,10 @@ header nav ul li a {
 /* SECTION: DETAILS */
 
 .section-details {
+    background: transparent;
     box-sizing: border-box;
-    margin-bottom: 80px;
-    margin-top: 40px;
+    margin-bottom: 40px;
+    margin-top: 33px;
     min-height: 855px;
     overflow: hidden;
     position: static;
@@ -1289,207 +1313,206 @@ header nav ul li a {
 
 /*SIDEBAR */
 
-.sidebar {
+.section-details .sidebar {
     display: inline-flex;
     position: sticky;
 }
 
-.sidebar nav {
+.section-details .sidebar nav {
     background: transparent;   
+    left: 0;
     position: relative;
 }
 
-.sidebar ul {
+.section-details .sidebar ul {
     display: block;
     list-style-type: none;
     text-align: left;
 }
 
-.sidebar nav ul li {
+.section-details .sidebar nav ul li {
     cursor: pointer;
     list-style: none;
 	transition: all ease-out 120ms;
 }
 
-.sidebar nav ul li h2 {
-    font-size: var(--font-size-initial);
+.section-details .sidebar nav ul li h2 a {
+    color: var(--gray-700);
+    font-size: var(--font-size-small-xxx);
+    font-weight: 600;
+    letter-spacing: 0.1px;
+    margin-top: 15px;
 }
 
-.sidebar nav ul li a {
+.section-details .sidebar nav ul li a {
     color: var(--gray-600);
     display: inline-flex;
     flex-direction: row;
-    font-size: 1em;
+    font-size: var(--font-size-small-x);
     font-weight: 500;
     letter-spacing: -0.5px;
     line-height: 0.95;
     overflow: hidden;
-    padding: 10px 8px;
+    padding: 10px 0;
     text-decoration: none;
     text-shadow: none;
     text-transform: capitalize;
     width: 100%;
 }
 
-.dark-mode .sidebar nav ul li a {
-    color: var(--dark-gray-100);
-    font-weight: 600;
+.dark-mode .section-details .sidebar nav ul li a {
+    color: var(--dark-gray-800);
+    font-weight: 500;
 }
 
-.sidebar nav ul li a:hover {
+.section-details .sidebar nav ul li a:hover {
     background: transparent !important;
     color: var(--tint-700);
 }
 
-.dark-mode .sidebar nav ul li a:hover {
+.dark-mode .section-details .sidebar nav ul li a:hover {
     background: var(--dark-black-130);
     color: var(--dark-gray-700);
 }
 
-.sidebar nav ul li svg {
+.section-details .sidebar nav ul li svg {
     display: inline;
+    fill: var(--gray-100);
     margin-right: 5px;
-    stroke: var(--gray-600);
+    stroke: var(--tint-700);
 }
 
-.dark-mode .sidebar nav ul li svg {
-    fill: var(--dark-black-200);
+.dark-mode .section-details .sidebar nav ul li svg {
+    fill: var(--dark-magenta-200);
     stroke: var(--dark-gray-200);
 }
 
-.sidebar nav ul li a:hover svg {
+.section-details .sidebar nav ul li a.active svg {
+    stroke: var(--blue-400);
+}
+
+.dark-mode .section-details .sidebar nav ul li a.active svg {
+    fill: var(--dark-magenta-200);
+    stroke: var(--dark-blue-300);
+}
+
+.section-details .sidebar nav ul li a.active {
+    color: var(--blue-400);
+}
+
+.dark-mode .section-details .sidebar nav ul li a.active {
+    color: var(--dark-blue-500);
+}
+
+/* .section-details .sidebar nav ul li a:hover svg {
     stroke: var(--gray-700);
 }
 
-.dark-mode .sidebar nav ul li a:hover svg {
+.dark-mode .section-details .sidebar nav ul li a:hover svg {
     fill: var(--dark-magenta-100);
     stroke: var(--dark-white);
 }
 
-.sidebar nav ul li:nth-child(1) svg {
+.section-details .sidebar nav ul li:nth-child(1) svg {
     margin-left: -2px;
     margin-right: 11px;
 }
 
-.sidebar nav ul li:nth-child(1) svg,
-.sidebar nav ul li:nth-child(2) svg {
+.section-details .sidebar nav ul li:nth-child(1) svg,
+.section-details .sidebar nav ul li:nth-child(2) svg {
     fill: var(--white);
     stroke: var(--gray-600);
 }
 
-.dark-mode .sidebar nav ul li:nth-child(2) svg {
+.dark-mode .section-details .sidebar nav ul li:nth-child(2) svg {
     fill: var(--dark-magenta-100);
     stroke: var(--dark-gray-300);
 }
 
-.sidebar nav ul li:nth-child(3) svg {
+.section-details .sidebar nav ul li:nth-child(3) svg {
     font-weight: 400;
     margin-right: 4px;
     stroke: var(--gray-50);
 }
 
-.dark-mode .sidebar nav ul li:nth-child(3) svg,
-.dark-mode .sidebar nav ul li:nth-child(4) svg {
+.dark-mode .section-details .sidebar nav ul li:nth-child(3) svg,
+.dark-mode .section-details .sidebar nav ul li:nth-child(4) svg {
     fill: var(--dark-gray-200);
     stroke: var(--dark-gray-200);
 }
 
-.sidebar nav ul li:nth-child(4) svg {
+.section-details .sidebar nav ul li:nth-child(4) svg {
     font-weight: 400;
     margin-left: -1px;
     fill: var(--gray-200);
 }
 
-.sidebar nav ul li:nth-child(5) svg {
+.section-details .sidebar nav ul li:nth-child(5) svg {
     fill: var(--white);
     margin-right: 10px;
     stroke: var(--gray-600);
 }
 
-.dark-mode .sidebar nav ul li:nth-child(5) svg {
+.dark-mode .section-details .sidebar nav ul li:nth-child(5) svg {
     fill: var(--dark-magenta-100);
     stroke: var(--dark-gray-200);
 }
 
-.dark-mode .sidebar nav ul li:nth-child(3) a:hover svg,
-.dark-mode .sidebar nav ul li:nth-child(4) a:hover svg {
+.dark-mode .section-details .sidebar nav ul li:nth-child(3) a:hover svg,
+.dark-mode .section-details .sidebar nav ul li:nth-child(4) a:hover svg {
     fill: var(--dark-gray-700);
     stroke: var(--dark-gray-700);
 }
 
-.sidebar nav ul li a.active {
-    background: var(--gray-200);
-    color: var(--gray-700);
-    cursor: default;
-    font-weight: 600;
-    pointer-events: none;
+.section-details .sidebar nav ul li:nth-child(2) a.active {
+    padding: 8px 2px;
 }
 
-.sidebar nav ul li:nth-child(1) a.active {
+.section-details .sidebar nav ul li:nth-child(3) a.active,
+.section-details .sidebar nav ul li:nth-child(4) a.active, 
+.section-details .sidebar nav ul li:nth-child(5) a.active {
     line-height: 1;
 }
 
-.sidebar nav ul li:nth-child(2) a.active {
-    padding: 10px 12px;
-}
-
-.sidebar nav ul li:nth-child(3) a.active,
-.sidebar nav ul li:nth-child(4) a.active, 
-.sidebar nav ul li:nth-child(5) a.active {
-    line-height: 1;
-}
-
-.dark-mode .sidebar nav ul li a.active {
-    background: var(--dark-blue-400);
+.dark-mode .section-details .sidebar nav ul li a.active {
     color: var(--dark-white)
 }
 
-.sidebar nav ul li a.active svg {
+.section-details .sidebar nav ul li a.active svg {
     stroke: var(--white);
 }
 
-.sidebar nav ul li:nth-child(1) a.active svg {
+.section-details .sidebar nav ul li:nth-child(1) a.active svg {
     fill: var(--gray-100);
     margin-right: 10px;
     stroke: var(--gray-700);
 }
 
-.sidebar nav ul li:nth-child(2) a.active svg {
+.section-details .sidebar nav ul li:nth-child(2) a.active svg {
     fill: var(--gray-300);
     margin-left: -4px;
     stroke: var(--gray-700);
 }
 
-.sidebar nav ul li:nth-child(3) a.active svg {
+.section-details .sidebar nav ul li:nth-child(3) a.active svg {
     fill: var(--gray-700);
     stroke: var(--gray-600);
     margin-left: -2px;
     margin-right: 3px;
 }
 
-.sidebar nav ul li:nth-child(4) a.active svg {
+.section-details .sidebar nav ul li:nth-child(4) a.active svg {
     fill: var(--gray-700);
     stroke: var(--gray-600);
     margin-left: -3px;
 }
 
-.sidebar nav ul li:nth-child(5) a.active svg {
+.section-details .sidebar nav ul li:nth-child(5) a.active svg {
     fill: var(--white);
     stroke: var(--gray-700);
     margin-left: -2px;
     margin-right: 10px;
-}
-
-.dark-mode .sidebar nav ul li a.active svg {
-    fill: var(--dark-blue-400);
-    stroke: var(--dark-white);
-}
-
-.dark-mode .sidebar nav ul li:nth-child(3) a.active svg,
-.dark-mode .sidebar nav ul li:nth-child(4) a.active svg {
-    fill: var(--dark-white);
-    stroke: var(--dark-white);
-}
+} */
 
 /* INFO PANEL DETAILS*/
 
