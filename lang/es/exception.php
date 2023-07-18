@@ -1,5 +1,7 @@
 <?php
 
+use Syscodes\Components\Support\Str;
+
 return [
 
     /*
@@ -31,11 +33,17 @@ return [
     'openPDFReader' => 'Abrir el lector de PDF',
     'print' => 'Imprimir',
     'RegisteredHandlers' => 'Manejadores Registrados',
-    'request' => 'Solicitud',
+    'request' => Str::upper('Solicitud'),
     'search' => 'Buscar',
     'stack' => 'Pilas',
     'details' => 'Detalles',
     'statusCode' => 'Código de estado',
+    'headers' => 'Encabezados',
+    'body' => 'Cuerpo',
+    'app' => Str::upper('Aplicación'),
+    'routing' => 'Roteamento',
+    'database' => 'Base de datos',
+    'versions' => Str::upper('Versiones'),
     'version' => 'Versión de Lenevor',
 
 ];

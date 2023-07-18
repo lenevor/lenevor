@@ -1,5 +1,7 @@
 <?php
 
+use Syscodes\Components\Support\Str;
+
 return [
 
     /*
@@ -30,11 +32,18 @@ return [
     'openPDFReader' => 'Open the PDF reader',
     'print' => 'Print',
     'RegisteredHandlers' => 'Registered Handlers',
-    'request' => 'Request',
+    'request' => Str::upper('Request'),
     'search' => 'Search',
     'stack' => 'Stacks',
     'details' => 'details',
     'statusCode' => 'Status Code',
+    'headers' => 'Headers',
+    'body' => 'Body',
+    'app' => Str::upper('App'),
+    'routing' => 'Routing',
+    'database' => 'Database',
+    'contextData' => Str::upper('Context Data'),
+    'versions' => 'Versions',
     'version' => 'Lenevor version',
 
 ];

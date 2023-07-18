@@ -35,6 +35,10 @@ return [
     'stack' => 'Pilhas',
     'details' => 'Detalhes',
     'statusCode' => 'Código de estado',
+    'headers' => 'Cabeçalhos',
+    'body' => 'Corpo',
+    'database' => 'Base de dados',
+    'versions' => 'Versões',
     'version' => 'Versão de Lenevor',
 
 ];
