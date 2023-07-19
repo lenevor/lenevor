@@ -61,8 +61,8 @@
     --font-size-small-x: .8em;
     --font-size-small: .9em;
     --font-size-initial: 1em;
-    --font-size-medium-x: 1.1em;
-    --font-size-medium-xx: 1.2em;
+    --font-size-medium-x: 1.15em;
+    --font-size-medium-xx: 1.25em;
     --font-size-medium: 1.3em;
     --font-size-large: 1.4em;
     --font-size-large-x: 1.5em;
@@ -214,7 +214,7 @@ h4 {
 
 ul, 
 ol {
-    font-size: var(--font-size-medium-x);
+    font-weight: 500;
 }
 
 a {
@@ -255,19 +255,15 @@ a.active {
     content: "\e903";
 }
 
-.icon-stack:before, 
+.icon-stack:before,
 .icon-detail:before {
     margin-left: -15px; 
+    margin-top: -7px;
     position: absolute;
 }
 
-.icon-stack:before,
-.icon-detail:before {
-    margin-top: -7px;
-}
-
-.dark-mode i.icon-stack:before,
-.dark-mode i.icon-detail:before {
+.dark-mode .icon-stack:before,
+.dark-mode .icon-detail:before {
     color: var(--dark-gray-500);
 }
 
@@ -1242,7 +1238,7 @@ header nav ul li a {
 @media (min-width: 1100px)
 {
     .section-code {
-        font-family: "Lato";
+        font-family: "Lato", Arial, Helvetica, sans-serif;
         left: 0;
         position: relative;
         top: 0;
@@ -1298,11 +1294,11 @@ header nav ul li a {
 /* SECTION: DETAILS */
 
 .section-details {
-    background: transparent;
+    align-items: stretch;
     box-sizing: border-box;
+    display: flex;
     margin-bottom: 40px;
     margin-top: 33px;
-    min-height: 855px;
     overflow: hidden;
     position: static;
     text-shadow: none;
@@ -1311,15 +1307,15 @@ header nav ul li a {
     -webkit-text-smoothing: antialiased;
 }
 
-/*SIDEBAR */
+/* SIDEBAR */
 
 .section-details .sidebar {
-    display: inline-flex;
     position: sticky;
 }
 
 .section-details .sidebar nav {
-    background: transparent;   
+    background: transparent;
+    display: none; 
     left: 0;
     position: relative;
 }
@@ -1331,29 +1327,32 @@ header nav ul li a {
 }
 
 .section-details .sidebar nav ul li {
-    cursor: pointer;
     list-style: none;
 	transition: all ease-out 120ms;
 }
 
-.section-details .sidebar nav ul li h2 a {
-    color: var(--gray-700);
-    font-size: var(--font-size-small-xxx);
-    font-weight: 600;
-    letter-spacing: 0.1px;
-    margin-top: 15px;
+.section-details .sidebar nav ul li h2 a,
+.section-details .sidebar nav ul li h2 a:hover {
+    color: var(--gray-600);
+    font-size: var(--font-size-small-xxxx);
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    margin-top: 10px;
+}
+
+.section-details .sidebar nav ul li:nth-child(4) h2 a,
+.section-details .sidebar nav ul li:nth-child(7) h2 a {
+    margin-top: 30px;
 }
 
 .section-details .sidebar nav ul li a {
-    color: var(--gray-600);
+    align-items: center;
+    color: var(--gray-700);
     display: inline-flex;
-    flex-direction: row;
-    font-size: var(--font-size-small-x);
+    font-size: var(--font-size-small);
     font-weight: 500;
-    letter-spacing: -0.5px;
-    line-height: 0.95;
-    overflow: hidden;
-    padding: 10px 0;
+    letter-spacing: 0.3px;
+    padding: 8px 0;
     text-decoration: none;
     text-shadow: none;
     text-transform: capitalize;
@@ -1365,30 +1364,11 @@ header nav ul li a {
     font-weight: 500;
 }
 
-.section-details .sidebar nav ul li a:hover {
-    background: transparent !important;
-    color: var(--tint-700);
-}
-
-.dark-mode .section-details .sidebar nav ul li a:hover {
-    background: var(--dark-black-130);
-    color: var(--dark-gray-700);
-}
-
-.section-details .sidebar nav ul li svg {
-    display: inline;
-    fill: var(--gray-100);
-    margin-right: 5px;
-    stroke: var(--tint-700);
-}
-
-.dark-mode .section-details .sidebar nav ul li svg {
-    fill: var(--dark-magenta-200);
-    stroke: var(--dark-gray-200);
-}
-
 .section-details .sidebar nav ul li a.active svg {
-    stroke: var(--blue-400);
+    height: 27px;
+    margin-top: 10px;
+    stroke: var(--gray-600);
+    width: 26px;
 }
 
 .dark-mode .section-details .sidebar nav ul li a.active svg {
@@ -1397,122 +1377,158 @@ header nav ul li a {
 }
 
 .section-details .sidebar nav ul li a.active {
-    color: var(--blue-400);
+    color: var(--gray-700);
+    padding: 0;
 }
 
 .dark-mode .section-details .sidebar nav ul li a.active {
     color: var(--dark-blue-500);
 }
 
-/* .section-details .sidebar nav ul li a:hover svg {
-    stroke: var(--gray-700);
+.section-details .sidebar nav ul li a:hover {
+    background: transparent !important;
+    color: var(--blue-400);
 }
 
-.dark-mode .section-details .sidebar nav ul li a:hover svg {
-    fill: var(--dark-magenta-100);
-    stroke: var(--dark-white);
+.dark-mode .section-details .sidebar nav ul li a:hover {
+    background: var(--dark-black-130);
+    color: var(--dark-gray-700);
 }
 
-.section-details .sidebar nav ul li:nth-child(1) svg {
-    margin-left: -2px;
-    margin-right: 11px;
-}
-
-.section-details .sidebar nav ul li:nth-child(1) svg,
-.section-details .sidebar nav ul li:nth-child(2) svg {
-    fill: var(--white);
+.section-details .sidebar nav ul li svg {
+    fill: var(--gray-200);
+    padding: 0;
     stroke: var(--gray-600);
 }
 
-.dark-mode .section-details .sidebar nav ul li:nth-child(2) svg {
-    fill: var(--dark-magenta-100);
-    stroke: var(--dark-gray-300);
+.dark-mode .section-details .sidebar nav ul li svg {
+    fill: var(--dark-magenta-200);
+    stroke: var(--dark-gray-200);
+}
+
+.section-details .sidebar nav ul li:hover:nth-child(2) svg,
+.section-details .sidebar nav ul li:hover:nth-child(5) svg,
+.section-details .sidebar nav ul li:hover:nth-child(6) svg,
+.section-details .sidebar nav ul li:hover:nth-child(8) svg {
+    stroke: var(--blue-500);
+}
+
+.section-details .sidebar nav ul li:hover:nth-child(3) svg {
+    fill: var(--blue-500);
 }
 
 .section-details .sidebar nav ul li:nth-child(3) svg {
-    font-weight: 400;
+    fill: var(--gray-600);
+    height: 30px;
+    margin-right: 10px;
+    width: 16px;
+}
+
+.section-details .sidebar nav ul li:nth-child(5) svg,
+.section-details .sidebar nav ul li:nth-child(6) svg {
+    height: 22px;
     margin-right: 4px;
-    stroke: var(--gray-50);
+    width: 22px;
 }
 
-.dark-mode .section-details .sidebar nav ul li:nth-child(3) svg,
-.dark-mode .section-details .sidebar nav ul li:nth-child(4) svg {
-    fill: var(--dark-gray-200);
-    stroke: var(--dark-gray-200);
-}
-
-.section-details .sidebar nav ul li:nth-child(4) svg {
-    font-weight: 400;
-    margin-left: -1px;
-    fill: var(--gray-200);
-}
-
-.section-details .sidebar nav ul li:nth-child(5) svg {
-    fill: var(--white);
-    margin-right: 10px;
-    stroke: var(--gray-600);
-}
-
-.dark-mode .section-details .sidebar nav ul li:nth-child(5) svg {
-    fill: var(--dark-magenta-100);
-    stroke: var(--dark-gray-200);
-}
-
-.dark-mode .section-details .sidebar nav ul li:nth-child(3) a:hover svg,
-.dark-mode .section-details .sidebar nav ul li:nth-child(4) a:hover svg {
-    fill: var(--dark-gray-700);
-    stroke: var(--dark-gray-700);
-}
-
-.section-details .sidebar nav ul li:nth-child(2) a.active {
-    padding: 8px 2px;
-}
-
-.section-details .sidebar nav ul li:nth-child(3) a.active,
-.section-details .sidebar nav ul li:nth-child(4) a.active, 
-.section-details .sidebar nav ul li:nth-child(5) a.active {
-    line-height: 1;
-}
-
-.dark-mode .section-details .sidebar nav ul li a.active {
-    color: var(--dark-white)
-}
-
-.section-details .sidebar nav ul li a.active svg {
-    stroke: var(--white);
-}
-
-.section-details .sidebar nav ul li:nth-child(1) a.active svg {
+.section-details .sidebar nav ul li:nth-child(6) svg {
     fill: var(--gray-100);
-    margin-right: 10px;
+    margin-top: 2px;
     stroke: var(--gray-700);
 }
 
-.section-details .sidebar nav ul li:nth-child(2) a.active svg {
-    fill: var(--gray-300);
-    margin-left: -4px;
-    stroke: var(--gray-700);
-}
-
-.section-details .sidebar nav ul li:nth-child(3) a.active svg {
-    fill: var(--gray-700);
+.section-details .sidebar nav ul li:nth-child(8) svg {
+    fill: var(--tint-100);
+    height: 18px;
     stroke: var(--gray-600);
-    margin-left: -2px;
-    margin-right: 3px;
+    width: 26px;
 }
 
-.section-details .sidebar nav ul li:nth-child(4) a.active svg {
-    fill: var(--gray-700);
-    stroke: var(--gray-600);
-    margin-left: -3px;
+/* TABLE */
+
+@media (max-width: 1100px) and (min-width: 720px)
+{
+    .section-details .sidebar nav {
+        display: block;
+    }
 }
 
-.section-details .sidebar nav ul li:nth-child(5) a.active svg {
-    fill: var(--white);
-    stroke: var(--gray-700);
-    margin-left: -2px;
-    margin-right: 10px;
-} */
+/* WIDE */
+
+@media (min-width: 1100px)
+{
+    .section-details .sidebar nav {
+        display: block;
+    }
+
+    .section-details .sidebar nav ul li h2 a,
+    .section-details .sidebar nav ul li h2 a:hover {
+        font-size: var(--font-size-small-xx);
+    }
+
+    .section-details .sidebar nav ul li a {
+        font-size: var(--font-size-medium-x);
+    }
+
+    .section-details .sidebar nav ul li a.active svg {
+        height: 30px;
+        margin-right: 5px;
+        width: 30px;
+    }
+
+    .section-details .sidebar nav ul li:nth-child(3) svg {
+        height: 25px;
+        width: 25px;
+    }
+
+    .section-details .sidebar nav ul li:nth-child(5) svg,
+    .section-details .sidebar nav ul li:nth-child(6) svg {
+        height: 26px;
+        margin-right: 8px;
+        width: 26px;
+    }
+
+    .section-details .sidebar nav ul li:nth-child(8) svg {
+        height: 22px;
+        width: 30px;
+    }
+}
+
+/* INFORMATION DETAILS */
+
+.section-details .section-detail-context {
+    background: var(--white);
+    display: grid;
+    flex-grow: 1;
+    grid-template-columns: repeat(1,minmax(0,1fr));
+    overflow: hidden;
+    left: 70px;
+    position: relative;
+    width: 100%;
+}
+
+.section-details .section-detail-context .section-info-request {
+    min-width: 0;
+    padding: 2.5rem;
+}
+
+.section-details .section-detail-context .section-info-request h2 {
+    color: var(--gray-600);
+    font-size: var(--font-size-initial);
+}
+
+.section-details .section-detail-context .grid-info-cols {
+    display: grid;
+    grid-template-columns: repeat(1,minmax(0,1fr));
+    margin-top: 0.75rem; 
+}
+
+.section-details .section-detail-context .grid-info-cols span {
+    color: var(--purple-500);
+    width: 100%;
+}
+
+
 
 /* INFO PANEL DETAILS*/
 
