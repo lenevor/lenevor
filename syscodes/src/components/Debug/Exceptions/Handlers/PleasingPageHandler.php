@@ -73,7 +73,7 @@ class PleasingPageHandler extends MainHandler
 	 * 
 	 * @var string $pageTitle
 	 */
-	protected $pageTitle = 'Lenevor Debug! There was an error.';
+	protected $pageTitle = 'Lenevor Debug! There was an error';
 	
 	/**
 	 * Fast lookup cache for known resource locations.
@@ -209,15 +209,7 @@ class PleasingPageHandler extends MainHandler
 	 */
 	protected function getDefaultTables()
 	{
-		return [
-			new ArrayTable('GET Data', $_GET),
-			new ArrayTable('POST Data', $_POST),
-			new ArrayTable('Files', $_FILES),
-			new ArrayTable('Cookie', $_COOKIE),
-			new ArrayTable('Session', isset($_SESSION) ? $_SESSION : []),
-			new ArrayTable('Server/Request Data', $_SERVER),
-			new ArrayTable(__('exception.environmentVars'), $_ENV),
-		];
+		return [new ArrayTable('', $_SERVER)];
 	}
 
 	/**
