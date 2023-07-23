@@ -1245,7 +1245,7 @@ header nav ul li a {
     }
 
     .code-blocks {
-        height: 105.5vh;
+        height: 105vh;
     }
     
     .section-code .code-source {
@@ -1297,12 +1297,21 @@ header nav ul li a {
     box-sizing: border-box;
     display: flex;
     margin-bottom: 40px;
-    margin-top: 43px;
+    margin-top: 33px;
     position: static;
     text-shadow: none;
     transition: .5s;
     
     -webkit-text-smoothing: antialiased;
+}
+
+/* WIDE */
+
+@media (min-width: 1100px)
+{
+    .section-details {
+        margin-top: 43px;
+    }
 }
 
 /* SIDEBAR */
@@ -1446,7 +1455,8 @@ header nav ul li a {
 @media (max-width: 1100px) and (min-width: 720px)
 {
     .section-details .sidebar nav {
-        display: block;
+        display: inline-block;
+        margin-right: 58px;
     }
 }
 
@@ -1455,7 +1465,8 @@ header nav ul li a {
 @media (min-width: 1100px)
 {
     .section-details .sidebar nav {
-        display: block;
+        display: inline-block;
+        margin-right: 105px;
     }
 
     .section-details .sidebar nav ul li h2 a,
@@ -1499,11 +1510,10 @@ header nav ul li a {
                 0 0 16px -14px var(--gray-600);
     left: 0;
     position: relative;
-    width: 100%;
 }
 
 .section-details .section-detail-context .section-info-request {
-    padding: 1.5rem;
+    padding: 1.1rem;
     padding-top: 2.5rem;
 }
 
@@ -1515,28 +1525,92 @@ header nav ul li a {
 }
 
 .section-details .section-detail-context .info-url-method {
-    display: flex;
     margin-top: 0.75rem;
+}
+
+.section-details .section-detail-context .info-url-method .url,
+.section-details .section-detail-context .section-info-request .info-header-title h2 {
+    font-size: var(--font-size-initial);
+    font-weight: 600;
 }
 
 .section-details .section-detail-context .info-url-method .url,
 .section-details .section-detail-context .info-url-method .method,
 .section-details .section-detail-context .section-info-request .info-header-title h2 {
-    color: var(--purple-500);
-    font-size: var(--font-size-initial);
-    font-weight: 600;
+    color: var(--blue-400);
 }
 
 .section-details .section-detail-context .info-url-method .method {
+    border: 1px solid var(--blue-400);
     border-radius: 2px;
     font-size: var(--font-size-small);
-    margin-left: 8px;
-    border: 1px solid var(--purple-400);
-    padding: 0 0.3rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    margin-left: 5px;
+    padding: 0.1rem 0.375rem;
+}
+
+.section-details .section-detail-context .section-info-request .info-header-title {
+    width: 100%;
 }
 
 .section-details .section-detail-context .section-info-request .info-header-title h2 {
     margin-top: 2rem;
+}
+
+/* DATA TABLE */
+
+.section-details .section-detail-context .section-info-request .info-header-title .data-table {
+    margin-top: 10px;
+}
+
+.section-details .section-detail-context .section-info-request .info-header-title .data-table thead {
+    display: none;
+}
+
+.section-details .section-detail-context .section-info-request .info-header-title .data-table tbody {
+    font-family: "Inconsolata", "Fira Mono", "Source Code Pro", Monaco, Consolas, "Lucida Console", monospace;
+}
+
+.section-details .section-detail-context .section-info-request .info-header-title .data-table tr {
+    padding: 5px 0;
+    width: 100%;
+}
+
+.section-details .section-detail-context .section-info-request .info-header-title .data-table tr > td {
+    display: inline-block; 
+}
+
+.section-details .section-detail-context .section-info-request .info-header-title .data-table tbody td {
+    padding: 2px 0;
+    width: 100%;
+}
+
+.section-details .section-detail-context .section-info-request .info-header-title .data-table td:first-child {
+    align-items: stretch;
+    display: flex;
+    font-size: var(--font-size-initial);   
+    margin-left: -1px;
+    margin-right: 35px;
+    margin-top: 10px;
+    padding-right: 5px;
+    width: 100%;
+    word-break: break-all;
+}
+
+.section-details .section-detail-context .section-info-request .info-header-title .data-table td:last-child {
+    background: var(--gray-100);
+    font-size: var(--font-size-small);  
+    margin-left: -1px;
+    min-height: 40px;
+    padding: 10px 0;
+    width: 100%;
+    word-break: break-all;
+}
+
+.section-details .section-detail-context .section-info-request .info-header-title .data-table td:first-child,
+.section-details .section-detail-context .section-info-request .info-header-title .data-table td:last-child {   
+    color: var(--gray-800);
 }
 
 /* TABLE */
@@ -1544,8 +1618,7 @@ header nav ul li a {
 @media (max-width: 1100px) and (min-width: 720px)
 {
     .section-details .section-detail-context {
-        left: 4rem;
-        width: 89.5%;
+        width: 100%;
     }
 
     .section-details .section-detail-context .section-info-request {
@@ -1556,17 +1629,44 @@ header nav ul li a {
     .section-details .section-detail-context .section-info-request .info-request-title {
         font-size: var(--font-size-small);
     }
+
+    .section-details .section-detail-context .section-info-request .info-header-title .data-table tbody tr {
+        display: inline-flex;
+    }
+
+    .section-details .section-detail-context .section-info-request .info-header-title .data-table tr > td {
+        display: inline-block; 
+    }
+
+    .section-details .section-detail-context .section-info-request .info-header-title .data-table td:first-child {
+        margin-right: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: 0.2s linear;
+        white-space: pre;
+        width: 40%;
+    }
+
+    .section-details .section-detail-context .section-info-request .info-header-title .data-table tr:hover:nth-child(7) td:first-child {
+        width: 25rem;
+    }
+
+    .section-details .section-detail-context .section-info-request .info-header-title .data-table tr:hover:nth-child(7) td:last-child {
+        margin-left: 0.4rem;
+    }
+
+    .section-details .section-detail-context .section-info-request .info-header-title .data-table td:last-child {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        margin-left: 2rem;
+        transition: 0.2s linear;
+    }
 }
 
 /* WIDE */
 
 @media (min-width: 1100px)
 {
-    .section-details .section-detail-context {
-        left: 8rem;
-        max-width: 90%;
-    }
-
     .section-details .section-detail-context .section-info-request {
         padding: 2.5rem;
     }
@@ -1577,81 +1677,32 @@ header nav ul li a {
     }
 
     .section-details .section-detail-context .info-url-method .method {
-        font-size: var(--font-size-medium-x);
+        font-size: var(--font-size-initial);
     }
-}
 
-/* DATA TABLE */
+    .section-details .section-detail-context .section-info-request .info-header-title .data-table {
+        width: 100%;
+    }
 
-.data-table {
-    display: flex;
-    margin-bottom: 10px;
-    margin-top: 20px;
-}
+    .section-details .section-detail-context .section-info-request .info-header-title .data-table tbody tr {
+        display: flex;
+    }
 
-.data-table thead {
-    display: none;
-}
-
-.data-table tbody {
-    font: 13px "Inconsolata", "Fira Mono", "Source Code Pro", Monaco, Consolas, "Lucida Console", monospace;
-}
-
-.data-table tr {
-    padding: 5px 0;
-}
-
-.data-table tr > td {
-    display: block;
-}
-
-.data-table td:first-child {    
-    color: rgb(96, 88, 107);
-    font-weight: 600;    
-    min-width: 245px;
-    overflow: hidden;
-    padding-right: 5px;
-    width: 23%;
-}
-
-.data-table td:last-child {
-    hyphens: auto;
-    margin-top: 10px;
-    word-break: break-all;
-    word-break: break-word;
-}
-
-.data-table tbody td {
-    padding: 2px 0;
-}
-
-.data-table tbody td:nth-child(2) {
-    background: var(--gray-100);
-    color: var(--tint-700);
-    margin-bottom: 10px;
-    padding: 10px 5px;
-    width: 100%;
-    word-break: break-all;
-}
-
-.data-table .debug-list {
-    color: rgb(96, 88, 107);
-    margin-left: 8px;
-    margin-top: 10px;
-    text-shadow: none;
-    word-break: break-all;
-}
-
-/* WIDE */
-
-@media (min-width: 1100px)
-{
-    .data-table tr > td {
+    .section-details .section-detail-context .section-info-request .info-header-title .data-table tr > td {
         display: inline-block;
     }
 
-    .data-table tbody td:nth-child(2) {
-        width: 50%;
+    .section-details .section-detail-context .section-info-request .info-header-title .data-table tbody td:first-child {
+        font-size: var(--font-size-medium-x);
+        margin-right: 2rem;
+        width: 20rem;
+    }
+
+    .section-details .section-detail-context .section-info-request .info-header-title .data-table tbody td:last-child {
+        font-size: var(--font-size-medium-x);
+        padding-left: 1rem;
+        padding-right: 1rem;
+        margin-left: 0;
     }
 }
 
