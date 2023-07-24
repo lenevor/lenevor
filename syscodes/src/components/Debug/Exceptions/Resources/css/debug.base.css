@@ -1314,6 +1314,7 @@ header nav ul li a {
 .section-details .sidebar nav {
     display: none; 
     left: 0;
+    margin-right: 30px;
     position: relative;
 }
 
@@ -1413,11 +1414,11 @@ header nav ul li a {
 .section-details .sidebar nav ul li:hover:nth-child(5) svg,
 .section-details .sidebar nav ul li:hover:nth-child(6) svg,
 .section-details .sidebar nav ul li:hover:nth-child(8) svg {
-    stroke: var(--purple-400);
+    stroke: var(--purple-500);
 }
 
 .section-details .sidebar nav ul li:hover:nth-child(3) svg {
-    fill: var(--purple-500);
+    fill: var(--purple-400);
 }
 
 .section-details .sidebar nav ul li:nth-child(3) svg {
@@ -1458,6 +1459,12 @@ header nav ul li a {
     .section-details .sidebar nav ul li h2 a,
     .section-details .sidebar nav ul li h2 a:hover {
         font-size: var(--font-size-small-xxxx);
+    }
+
+    .section-details .sidebar nav ul li:nth-child(3) svg {
+        height: 20px;
+        margin-right: 6px;
+        width: 20px;
     }
 }
 
