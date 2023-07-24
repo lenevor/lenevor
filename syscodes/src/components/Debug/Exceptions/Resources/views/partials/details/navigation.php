@@ -7,7 +7,7 @@
                 </h2>
             </li>
             <li>
-                <a href="#detail-request-header" class="active">
+                <a href="#detail-request-header">
                     <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
                         <g id="Group_132" data-name="Group 132" transform="translate(-380.703 -318.103)">
                             <path id="Path_478" data-name="Path 478" d="M415.106,361.119a1.989,1.989,0,0,0-1.99,1.99v6.7l8.689-8.688Z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.592"/>
@@ -33,7 +33,7 @@
             </li>
             <li>
                 <a href="#detail-request-body">                    
-                    <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="0 0 330 220" xmlns="http://www.w3.org/2000/svg">
                         <path d="M69.12158,94.14551,28.49658,128l40.625,33.85449a7.99987,7.99987,0,1,1-10.24316,12.291l-48-40a7.99963,7.99963,0,0,1,0-12.291l48-40a7.99987,7.99987,0,1,1,10.24316,12.291Zm176,27.709-48-40a7.99987,7.99987,0,1,0-10.24316,12.291L227.50342,128l-40.625,33.85449a7.99987,7.99987,0,1,0,10.24316,12.291l48-40a7.99963,7.99963,0,0,0,0-12.291Zm-82.38769-89.373a8.005,8.005,0,0,0-10.25244,4.78418l-64,176a8.00034,8.00034,0,1,0,15.0371,5.46875l64-176A8.0008,8.0008,0,0,0,162.73389,32.48145Z"/>
                     </svg>                 
                     <?= e(__('exception.body')) ?>
@@ -74,7 +74,7 @@
             </li>
             <li>
                 <a href="#detail-context-data-version">
-                    <svg viewBox="8 0 24 24" xmlns="http://www.w3.org/2000/svg"> 
+                    <svg viewBox="4 0 24 24" xmlns="http://www.w3.org/2000/svg"> 
                         <path d="M12 14C10.8954 14 10 13.1046 10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14Z" stroke-width="1.5"/>
                         <path d="M14 6C12.8954 6 12 5.10457 12 4C12 2.89543 12.8954 2 14 2C15.1046 2 16 2.89543 16 4C16 5.10457 15.1046 6 14 6Z" stroke-width="1.5"/>
                         <path d="M10 22C11.1046 22 12 21.1046 12 20C12 18.8954 11.1046 18 10 18C8.89543 18 8 18.8954 8 20C8 21.1046 8.89543 22 10 22Z" stroke-width="1.5"/>
