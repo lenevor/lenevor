@@ -9,30 +9,28 @@
                 <span class="url"><?= url('/') ?></span>
                 <span class="method"><?= request()->method() ?></span>
             </div>
-            <div class="info-header-title">
+            <div class="info-header-title"> 
+            <?php foreach ($tables as $data) : ?>
                 <h2><?= e(__('exception.headers')) ?></h2>
-                <div class="data-table-container">
-                <?php foreach ($tables as $label => $data) : ?>
-                    <div class="data-table">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <td>Key</td>
-                                    <td>Value</td>
-                                </tr>
-                            </thead>
-                            <tbody>
+                <div class="data-table">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <td>Key</td>
+                                <td>Value</td>
+                            </tr>
+                        </thead>
+                        <tbody>
                             <?php foreach ($data as $key => $value) : ?>
-                                <tr>
-                                    <td><?= e($key) ?></td>
-                                    <td><?= e(print_r($value, true)) ?></td>
-                                </tr>
+                            <tr>
+                                <td><?= e($key) ?></td>
+                                <td><?= e(print_r($value, true)) ?></td>
+                            </tr>
                             <?php endforeach; ?>	
-                            </tbody>
-                        </table>
-                    </div>
-                <?php endforeach; ?>
-	            </div>      
+                        </tbody>
+                    </table>
+                </div>
+            <?php endforeach; ?>   
             </div>
         </div>
     </section>
