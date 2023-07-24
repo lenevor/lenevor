@@ -19,8 +19,8 @@
     --green-700: hsla(158, 100%, 19%, 1);
     --purple-100: hsla(276, 100%, 98%, 1);
     --purple-200: hsla(276, 91%, 91%, 1);
-    --purple-300: hsla(276, 66%, 76%, 1);
-    --purple-400: hsla(266, 92%, 67%, 1);
+    --purple-300: hsla(265, 86%, 86%, 1);
+    --purple-400: hsla(262, 81%, 77%, 1);
     --purple-500: hsla(270, 100%, 48%, 1);
     --purple-600: hsla(270, 94%, 45%, 1);
     --purple-700: hsla(270, 81%, 31%, 1);
@@ -1245,7 +1245,7 @@ header nav ul li a {
     }
 
     .code-blocks {
-        height: 105.5vh;
+        height: 105vh;
     }
     
     .section-code .code-source {
@@ -1297,12 +1297,21 @@ header nav ul li a {
     box-sizing: border-box;
     display: flex;
     margin-bottom: 40px;
-    margin-top: 43px;
+    margin-top: 33px;
     position: static;
     text-shadow: none;
     transition: .5s;
     
     -webkit-text-smoothing: antialiased;
+}
+
+/* WIDE */
+
+@media (min-width: 1100px)
+{
+    .section-details {
+        margin-top: 43px;
+    }
 }
 
 /* SIDEBAR */
@@ -1314,7 +1323,6 @@ header nav ul li a {
 .section-details .sidebar nav {
     display: none; 
     left: 0;
-    margin-right: 30px;
     position: relative;
 }
 
@@ -1332,13 +1340,13 @@ header nav ul li a {
 .section-details .sidebar nav ul li h2 a,
 .section-details .sidebar nav ul li h2 a:hover {
     color: var(--gray-600);
-    margin-top: 10px;
+    font-size: var(--font-size-small-xxx);
     font-weight: 700;
 }
 
 .dark-mode .section-details .sidebar nav ul li h2 a,
 .dark-mode .section-details .sidebar nav ul li h2 a:hover {
-    color: var(--dark-gray-400);
+    color: var(--dark-gray-600);
 }
 
 .section-details .sidebar nav ul li:nth-child(4) h2 a,
@@ -1348,12 +1356,12 @@ header nav ul li a {
 
 .section-details .sidebar nav ul li a {
     align-items: center;
-    color: var(--gray-800);
+    color: var(--gray-700);
     display: inline-flex;
     font-size: var(--font-size-small);
     font-weight: 500;
     letter-spacing: 0.3px;
-    padding: 6px 0;
+    padding: 8px 0;
     text-decoration: none;
     text-shadow: none;
     text-transform: capitalize;
@@ -1364,16 +1372,15 @@ header nav ul li a {
     color: var(--dark-gray-800);
 }
 
-.section-details .sidebar nav ul li a.active svg {
-    height: 27px;
-    margin-top: 10px;
-    stroke: var(--purple-600);
-    width: 26px;
+.section-details .sidebar nav ul li a.active svg  {
+    height: 25px;
+    stroke: var(--purple-500);
+    width: 25px;
 }
 
 .dark-mode .section-details .sidebar nav ul li a.active svg {
     fill: var(--dark-magenta-200);
-    stroke: var(--dark-blue-500);
+    stroke: var(--dark-blue-600);
 }
 
 .section-details .sidebar nav ul li a.active {
@@ -1391,11 +1398,6 @@ header nav ul li a {
 }
 
 .dark-mode .section-details .sidebar nav ul li a:hover {
-    background: var(--dark-black-130);
-    color: var(--dark-blue-600);
-}
-
-.dark-mode .section-details .sidebar nav ul li a.active:hover {
     color: var(--dark-blue-500);
 }
 
@@ -1406,8 +1408,12 @@ header nav ul li a {
 }
 
 .dark-mode .section-details .sidebar nav ul li svg {
-    fill: var(--dark-magenta-200);
-    stroke: var(--dark-gray-200);
+    fill: var(--dark-magenta-100);
+    stroke: var(--dark-gray-500);
+}
+
+.section-details .sidebar nav ul li:nth-child(2) svg {
+    margin-top: 10px;
 }
 
 .section-details .sidebar nav ul li:hover:nth-child(2) svg,
@@ -1417,8 +1423,19 @@ header nav ul li a {
     stroke: var(--purple-500);
 }
 
+.dark-mode .section-details .sidebar nav ul li:hover:nth-child(2) svg,
+.dark-mode .section-details .sidebar nav ul li:hover:nth-child(5) svg,
+.dark-mode .section-details .sidebar nav ul li:hover:nth-child(6) svg,
+.dark-mode .section-details .sidebar nav ul li:hover:nth-child(8) svg {
+    stroke: var(--dark-blue-500);
+}
+
 .section-details .sidebar nav ul li:hover:nth-child(3) svg {
-    fill: var(--purple-400);
+    fill: var(--purple-500);
+}
+
+.dark-mode .section-details .sidebar nav ul li:hover:nth-child(3) svg {
+    fill: var(--dark-blue-500);
 }
 
 .section-details .sidebar nav ul li:nth-child(3) svg {
@@ -1437,8 +1454,13 @@ header nav ul li a {
 
 .section-details .sidebar nav ul li:nth-child(6) svg {
     fill: var(--gray-100);
-    margin-top: 2px;
+    margin-right: 2px;
     stroke: var(--gray-700);
+}
+
+.dark-mode .section-details .sidebar nav ul li:nth-child(6) svg {
+    fill: var(--dark-magenta-200);
+    stroke: var(--dark-gray-500);
 }
 
 .section-details .sidebar nav ul li:nth-child(8) svg {
@@ -1448,23 +1470,31 @@ header nav ul li a {
     width: 26px;
 }
 
+.dark-mode .section-details .sidebar nav ul li:nth-child(8) svg {
+    fill: var(--dark-gray-700);
+    stroke: var(--dark-white);
+}
+
 /* TABLE */
 
 @media (max-width: 1100px) and (min-width: 720px)
 {
     .section-details .sidebar nav {
-        display: block;
+        display: inline-block;
+        margin-right: 58px;
+        width: 100%;
     }
 
-    .section-details .sidebar nav ul li h2 a,
-    .section-details .sidebar nav ul li h2 a:hover {
-        font-size: var(--font-size-small-xxxx);
+    .section-details .sidebar nav ul li:nth-child(2) svg {
+        height: 28px;
+        margin-right: -2px;
+        width: 28px;
     }
 
     .section-details .sidebar nav ul li:nth-child(3) svg {
-        height: 20px;
+        height: 23px;
         margin-right: 6px;
-        width: 20px;
+        width: 21px;
     }
 }
 
@@ -1473,7 +1503,8 @@ header nav ul li a {
 @media (min-width: 1100px)
 {
     .section-details .sidebar nav {
-        display: block;
+        display: inline-block;
+        margin-right: 105px;
     }
 
     .section-details .sidebar nav ul li h2 a,
@@ -1487,6 +1518,12 @@ header nav ul li a {
 
     .section-details .sidebar nav ul li a.active svg {
         height: 30px;
+        margin-right: 5px;
+        width: 30px;
+    }
+
+    .section-details .sidebar nav ul li:nth-child(2) svg {
+        height: 28px;
         margin-right: 2px;
         width: 30px;
     }
@@ -1499,15 +1536,14 @@ header nav ul li a {
 
     .section-details .sidebar nav ul li:nth-child(5) svg,
     .section-details .sidebar nav ul li:nth-child(6) svg {
-        height: 25px;
-        margin-right: 6px;
-        width: 25px;
+        height: 26px;
+        margin-right: 8px;
+        width: 26px;
     }
 
     .section-details .sidebar nav ul li:nth-child(8) svg {
-        height: 20px;
-        margin-right: -2px;
-        width: 35px;
+        height: 22px;
+        width: 30px;
     }
 }
 
@@ -1515,23 +1551,20 @@ header nav ul li a {
 
 .section-details .section-detail-context {
     background: var(--white);
-    border-color: var(--gray-300);
-    border-top-width: 1px;
     box-shadow: 0 10px 18px -15px var(--gray-600),
                 0 0 16px -14px var(--gray-600);
     left: 0;
     position: relative;
-    width: 100%;
 }
 
 .dark-mode .section-details .section-detail-context {
     background: var(--dark-magenta-300);
-    border-color: var(--dark-magenta-100);
-    box-shadow: 0 1px 3px 1px var(--dark-magenta-100);
+    box-shadow: 0 10px 18px -15px var(--dark-magenta-100),
+                0 0 16px -14px var(--dark-magenta-100);
 }
 
 .section-details .section-detail-context .section-info-request {
-    padding: 1.5rem;
+    padding: 1.1rem;
     padding-top: 2.5rem;
 }
 
@@ -1543,57 +1576,53 @@ header nav ul li a {
 }
 
 .dark-mode .section-details .section-detail-context .section-info-request .info-request-title h2 {
-    color: var(--dark-gray-600);
+    color: var(--dark-gray-500);
 }
 
 .section-details .section-detail-context .info-url-method {
-    display: flex;
     margin-top: 0.75rem;
+}
+
+.section-details .section-detail-context .info-url-method .url,
+.section-details .section-detail-context .section-info-request .info-header-title h2 {
+    font-size: var(--font-size-initial);
+    font-weight: 600;
 }
 
 .section-details .section-detail-context .info-url-method .url,
 .section-details .section-detail-context .info-url-method .method,
 .section-details .section-detail-context .section-info-request .info-header-title h2 {
-    color: var(--purple-500);
-    font-size: var(--font-size-initial);
-    font-weight: 600;
+    color: var(--blue-400);
 }
 
 .dark-mode .section-details .section-detail-context .info-url-method .url,
 .dark-mode .section-details .section-detail-context .info-url-method .method,
 .dark-mode .section-details .section-detail-context .section-info-request .info-header-title h2 {
-    color: var(--dark-blue-600);
+    color: var(--dark-blue-500);
 }
 
 .section-details .section-detail-context .info-url-method .method {
+    border: 1px solid var(--blue-400);
     border-radius: 2px;
     font-size: var(--font-size-small);
-<<<<<<< Updated upstream
-    margin-left: 8px;
-    border: 1px solid var(--purple-400);
-    padding: 0 0.3rem;
-=======
     font-weight: 500;
     letter-spacing: 0.5px;
     margin-left: 5px;
     padding: 0.1rem 0.375rem;
 }
 
-.section-details .section-detail-context .info-url-method .method {
-    border: 1px solid var(--dark-blue-300);
+.dark-mode .section-details .section-detail-context .info-url-method .method {
+    border: 1px solid var(--dark-blue-400);
 }
 
 .section-details .section-detail-context .section-info-request .info-header-title {
     width: 100%;
->>>>>>> Stashed changes
 }
 
 .section-details .section-detail-context .section-info-request .info-header-title h2 {
     margin-top: 2rem;
 }
 
-<<<<<<< Updated upstream
-=======
 /* DATA TABLE */
 
 .section-details .section-detail-context .section-info-request .info-header-title .data-table {
@@ -1623,8 +1652,6 @@ header nav ul li a {
 }
 
 .section-details .section-detail-context .section-info-request .info-header-title .data-table td:first-child {
-    align-items: stretch;
-    display: flex;
     font-size: var(--font-size-initial);   
     margin-left: -1px;
     margin-right: 35px;
@@ -1635,13 +1662,11 @@ header nav ul li a {
 }
 
 .section-details .section-detail-context .section-info-request .info-header-title .data-table td:last-child {
-    align-items: center;
     background: var(--gray-100);
-    display: flex;
     font-size: var(--font-size-small);  
     margin-left: -1px;
-    min-height: 30px;
-    padding: 0;
+    min-height: 40px;
+    padding: 10px 0;
     width: 100%;
     word-break: break-all;
 }
@@ -1660,14 +1685,12 @@ header nav ul li a {
     color: var(--dark-gray-700);
 }
 
->>>>>>> Stashed changes
 /* TABLE */
 
 @media (max-width: 1100px) and (min-width: 720px)
 {
     .section-details .section-detail-context {
-        left: 4rem;
-        width: 89.5%;
+        width: 100%;
     }
 
     .section-details .section-detail-context .section-info-request {
@@ -1678,17 +1701,44 @@ header nav ul li a {
     .section-details .section-detail-context .section-info-request .info-request-title {
         font-size: var(--font-size-small);
     }
+
+    .section-details .section-detail-context .section-info-request .info-header-title .data-table tbody tr {
+        display: inline-flex;
+    }
+
+    .section-details .section-detail-context .section-info-request .info-header-title .data-table tr > td {
+        display: inline-block; 
+    }
+
+    .section-details .section-detail-context .section-info-request .info-header-title .data-table td:first-child {
+        margin-right: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: 0.2s linear;
+        white-space: pre;
+        width: 35%;
+    }
+
+    .section-details .section-detail-context .section-info-request .info-header-title .data-table tr:hover:nth-child(7) td:first-child {
+        width: 25rem;
+    }
+
+    .section-details .section-detail-context .section-info-request .info-header-title .data-table tr:hover:nth-child(7) td:last-child {
+        margin-left: 0.4rem;
+    }
+
+    .section-details .section-detail-context .section-info-request .info-header-title .data-table td:last-child {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        margin-left: 2rem;
+        transition: 0.2s linear;
+    }
 }
 
 /* WIDE */
 
 @media (min-width: 1100px)
 {
-    .section-details .section-detail-context {
-        left: 8rem;
-        max-width: 90%;
-    }
-
     .section-details .section-detail-context .section-info-request {
         padding: 2.5rem;
     }
@@ -1699,83 +1749,21 @@ header nav ul li a {
     }
 
     .section-details .section-detail-context .info-url-method .method {
-        font-size: var(--font-size-medium-x);
+        font-size: var(--font-size-initial);
     }
-}
 
-/* DATA TABLE */
+    .section-details .section-detail-context .section-info-request .info-header-title .data-table {
+        width: 100%;
+    }
 
-.data-table {
-    display: flex;
-    margin-bottom: 10px;
-    margin-top: 20px;
-}
+    .section-details .section-detail-context .section-info-request .info-header-title .data-table tbody tr {
+        display: flex;
+    }
 
-.data-table thead {
-    display: none;
-}
-
-.data-table tbody {
-    font: 13px "Inconsolata", "Fira Mono", "Source Code Pro", Monaco, Consolas, "Lucida Console", monospace;
-}
-
-.data-table tr {
-    padding: 5px 0;
-}
-
-.data-table tr > td {
-    display: block;
-}
-
-.data-table td:first-child {    
-    color: rgb(96, 88, 107);
-    font-weight: 600;    
-    min-width: 245px;
-    overflow: hidden;
-    padding-right: 5px;
-    width: 23%;
-}
-
-.data-table td:last-child {
-    hyphens: auto;
-    margin-top: 10px;
-    word-break: break-all;
-    word-break: break-word;
-}
-
-.data-table tbody td {
-    padding: 2px 0;
-}
-
-.data-table tbody td:nth-child(2) {
-    background: var(--gray-100);
-    color: var(--tint-700);
-    margin-bottom: 10px;
-    padding: 10px 5px;
-    width: 100%;
-    word-break: break-all;
-}
-
-.data-table .debug-list {
-    color: rgb(96, 88, 107);
-    margin-left: 8px;
-    margin-top: 10px;
-    text-shadow: none;
-    word-break: break-all;
-}
-
-/* WIDE */
-
-@media (min-width: 1100px)
-{
-    .data-table tr > td {
+    .section-details .section-detail-context .section-info-request .info-header-title .data-table tr > td {
         display: inline-block;
     }
 
-<<<<<<< Updated upstream
-    .data-table tbody td:nth-child(2) {
-        width: 50%;
-=======
     .section-details .section-detail-context .section-info-request .info-header-title .data-table tbody td:first-child {
         font-size: var(--font-size-medium-x);
         margin-right: 2rem;
@@ -1784,8 +1772,9 @@ header nav ul li a {
 
     .section-details .section-detail-context .section-info-request .info-header-title .data-table tbody td:last-child {
         font-size: var(--font-size-medium-x);
-        padding: 0.5rem 1rem;
->>>>>>> Stashed changes
+        padding-left: 1rem;
+        padding-right: 1rem;
+        margin-left: 0;
     }
 }
 
