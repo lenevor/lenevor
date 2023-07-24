@@ -19,8 +19,8 @@
     --green-700: hsla(158, 100%, 19%, 1);
     --purple-100: hsla(276, 100%, 98%, 1);
     --purple-200: hsla(276, 91%, 91%, 1);
-    --purple-300: hsla(265, 86%, 86%, 1);
-    --purple-400: hsla(262, 81%, 77%, 1);
+    --purple-300: hsla(276, 66%, 76%, 1);
+    --purple-400: hsla(266, 92%, 67%, 1);
     --purple-500: hsla(270, 100%, 48%, 1);
     --purple-600: hsla(270, 94%, 45%, 1);
     --purple-700: hsla(270, 81%, 31%, 1);
@@ -1331,10 +1331,13 @@ header nav ul li a {
 .section-details .sidebar nav ul li h2 a,
 .section-details .sidebar nav ul li h2 a:hover {
     color: var(--gray-600);
-    font-size: var(--font-size-small-xxxx);
-    font-weight: 700;
-    letter-spacing: 0.4px;
     margin-top: 10px;
+    font-weight: 700;
+}
+
+.dark-mode .section-details .sidebar nav ul li h2 a,
+.dark-mode .section-details .sidebar nav ul li h2 a:hover {
+    color: var(--dark-gray-400);
 }
 
 .section-details .sidebar nav ul li:nth-child(4) h2 a,
@@ -1344,12 +1347,12 @@ header nav ul li a {
 
 .section-details .sidebar nav ul li a {
     align-items: center;
-    color: var(--gray-700);
+    color: var(--gray-800);
     display: inline-flex;
     font-size: var(--font-size-small);
     font-weight: 500;
     letter-spacing: 0.3px;
-    padding: 8px 0;
+    padding: 6px 0;
     text-decoration: none;
     text-shadow: none;
     text-transform: capitalize;
@@ -1358,38 +1361,41 @@ header nav ul li a {
 
 .dark-mode .section-details .sidebar nav ul li a {
     color: var(--dark-gray-800);
-    font-weight: 500;
 }
 
 .section-details .sidebar nav ul li a.active svg {
     height: 27px;
     margin-top: 10px;
-    stroke: var(--gray-600);
+    stroke: var(--purple-600);
     width: 26px;
 }
 
 .dark-mode .section-details .sidebar nav ul li a.active svg {
     fill: var(--dark-magenta-200);
-    stroke: var(--dark-blue-300);
+    stroke: var(--dark-blue-500);
 }
 
 .section-details .sidebar nav ul li a.active {
-    color: var(--gray-700);
+    color: var(--purple-500);
     padding: 0;
 }
 
 .dark-mode .section-details .sidebar nav ul li a.active {
-    color: var(--dark-blue-500);
+    color: var(--dark-blue-600);
 }
 
 .section-details .sidebar nav ul li a:hover {
     background: transparent !important;
-    color: var(--blue-400);
+    color: var(--purple-500);
 }
 
 .dark-mode .section-details .sidebar nav ul li a:hover {
     background: var(--dark-black-130);
-    color: var(--dark-gray-700);
+    color: var(--dark-blue-600);
+}
+
+.dark-mode .section-details .sidebar nav ul li a.active:hover {
+    color: var(--dark-blue-500);
 }
 
 .section-details .sidebar nav ul li svg {
@@ -1407,11 +1413,11 @@ header nav ul li a {
 .section-details .sidebar nav ul li:hover:nth-child(5) svg,
 .section-details .sidebar nav ul li:hover:nth-child(6) svg,
 .section-details .sidebar nav ul li:hover:nth-child(8) svg {
-    stroke: var(--blue-500);
+    stroke: var(--purple-400);
 }
 
 .section-details .sidebar nav ul li:hover:nth-child(3) svg {
-    fill: var(--blue-500);
+    fill: var(--purple-500);
 }
 
 .section-details .sidebar nav ul li:nth-child(3) svg {
@@ -1448,6 +1454,11 @@ header nav ul li a {
     .section-details .sidebar nav {
         display: block;
     }
+
+    .section-details .sidebar nav ul li h2 a,
+    .section-details .sidebar nav ul li h2 a:hover {
+        font-size: var(--font-size-small-xxxx);
+    }
 }
 
 /* WIDE */
@@ -1469,25 +1480,27 @@ header nav ul li a {
 
     .section-details .sidebar nav ul li a.active svg {
         height: 30px;
-        margin-right: 5px;
+        margin-right: 2px;
         width: 30px;
     }
 
     .section-details .sidebar nav ul li:nth-child(3) svg {
         height: 25px;
+        margin-right: 7px;
         width: 25px;
     }
 
     .section-details .sidebar nav ul li:nth-child(5) svg,
     .section-details .sidebar nav ul li:nth-child(6) svg {
-        height: 26px;
-        margin-right: 8px;
-        width: 26px;
+        height: 25px;
+        margin-right: 6px;
+        width: 25px;
     }
 
     .section-details .sidebar nav ul li:nth-child(8) svg {
-        height: 22px;
-        width: 30px;
+        height: 20px;
+        margin-right: -2px;
+        width: 35px;
     }
 }
 
@@ -1495,11 +1508,19 @@ header nav ul li a {
 
 .section-details .section-detail-context {
     background: var(--white);
+    border-color: var(--gray-300);
+    border-top-width: 1px;
     box-shadow: 0 10px 18px -15px var(--gray-600),
                 0 0 16px -14px var(--gray-600);
     left: 0;
     position: relative;
     width: 100%;
+}
+
+.dark-mode .section-details .section-detail-context {
+    background: var(--dark-magenta-300);
+    border-color: var(--dark-magenta-100);
+    box-shadow: 0 1px 3px 1px var(--dark-magenta-100);
 }
 
 .section-details .section-detail-context .section-info-request {
@@ -1509,9 +1530,13 @@ header nav ul li a {
 
 .section-details .section-detail-context .section-info-request .info-request-title h2 {
     color: var(--gray-600);
-    font-size: var(--font-size-small-x);
+    font-size: var(--font-size-small);
     font-weight: 700;
     letter-spacing: 0.5px;
+}
+
+.dark-mode .section-details .section-detail-context .section-info-request .info-request-title h2 {
+    color: var(--dark-gray-600);
 }
 
 .section-details .section-detail-context .info-url-method {
@@ -1527,18 +1552,108 @@ header nav ul li a {
     font-weight: 600;
 }
 
+.dark-mode .section-details .section-detail-context .info-url-method .url,
+.dark-mode .section-details .section-detail-context .info-url-method .method,
+.dark-mode .section-details .section-detail-context .section-info-request .info-header-title h2 {
+    color: var(--dark-blue-600);
+}
+
 .section-details .section-detail-context .info-url-method .method {
     border-radius: 2px;
     font-size: var(--font-size-small);
+<<<<<<< Updated upstream
     margin-left: 8px;
     border: 1px solid var(--purple-400);
     padding: 0 0.3rem;
+=======
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    margin-left: 5px;
+    padding: 0.1rem 0.375rem;
+}
+
+.section-details .section-detail-context .info-url-method .method {
+    border: 1px solid var(--dark-blue-300);
+}
+
+.section-details .section-detail-context .section-info-request .info-header-title {
+    width: 100%;
+>>>>>>> Stashed changes
 }
 
 .section-details .section-detail-context .section-info-request .info-header-title h2 {
     margin-top: 2rem;
 }
 
+<<<<<<< Updated upstream
+=======
+/* DATA TABLE */
+
+.section-details .section-detail-context .section-info-request .info-header-title .data-table {
+    margin-top: 10px;
+}
+
+.section-details .section-detail-context .section-info-request .info-header-title .data-table thead {
+    display: none;
+}
+
+.section-details .section-detail-context .section-info-request .info-header-title .data-table tbody {
+    font-family: "Inconsolata", "Fira Mono", "Source Code Pro", Monaco, Consolas, "Lucida Console", monospace;
+}
+
+.section-details .section-detail-context .section-info-request .info-header-title .data-table tr {
+    padding: 5px 0;
+    width: 100%;
+}
+
+.section-details .section-detail-context .section-info-request .info-header-title .data-table tr > td {
+    display: inline-block; 
+}
+
+.section-details .section-detail-context .section-info-request .info-header-title .data-table tbody td {
+    padding: 2px 0;
+    width: 100%;
+}
+
+.section-details .section-detail-context .section-info-request .info-header-title .data-table td:first-child {
+    align-items: stretch;
+    display: flex;
+    font-size: var(--font-size-initial);   
+    margin-left: -1px;
+    margin-right: 35px;
+    margin-top: 10px;
+    padding-right: 5px;
+    width: 100%;
+    word-break: break-all;
+}
+
+.section-details .section-detail-context .section-info-request .info-header-title .data-table td:last-child {
+    align-items: center;
+    background: var(--gray-100);
+    display: flex;
+    font-size: var(--font-size-small);  
+    margin-left: -1px;
+    min-height: 30px;
+    padding: 0;
+    width: 100%;
+    word-break: break-all;
+}
+
+.dark-mode .section-details .section-detail-context .section-info-request .info-header-title .data-table td:last-child {
+    background: var(--dark-magenta-250);
+}
+
+.section-details .section-detail-context .section-info-request .info-header-title .data-table td:first-child,
+.section-details .section-detail-context .section-info-request .info-header-title .data-table td:last-child {   
+    color: var(--gray-800);
+}
+
+.dark-mode .section-details .section-detail-context .section-info-request .info-header-title .data-table td:first-child,
+.dark-mode .section-details .section-detail-context .section-info-request .info-header-title .data-table td:last-child {   
+    color: var(--dark-gray-700);
+}
+
+>>>>>>> Stashed changes
 /* TABLE */
 
 @media (max-width: 1100px) and (min-width: 720px)
@@ -1650,8 +1765,20 @@ header nav ul li a {
         display: inline-block;
     }
 
+<<<<<<< Updated upstream
     .data-table tbody td:nth-child(2) {
         width: 50%;
+=======
+    .section-details .section-detail-context .section-info-request .info-header-title .data-table tbody td:first-child {
+        font-size: var(--font-size-medium-x);
+        margin-right: 2rem;
+        width: 20rem;
+    }
+
+    .section-details .section-detail-context .section-info-request .info-header-title .data-table tbody td:last-child {
+        font-size: var(--font-size-medium-x);
+        padding: 0.5rem 1rem;
+>>>>>>> Stashed changes
     }
 }
 
