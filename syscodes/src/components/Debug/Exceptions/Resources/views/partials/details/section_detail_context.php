@@ -46,7 +46,8 @@
     <section class="section-detail-app">
         <div class="section-info-app">
             <div class="info-app-title">
-                
+                <a id="detail-app" class="scroll-target"></a>
+                <h2><?= e(__('exception.app')) ?></h2>
             </div>
         </div>
     </section>
