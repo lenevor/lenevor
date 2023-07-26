@@ -152,7 +152,8 @@ class PleasingPageHandler extends MainHandler
 		$supervisor = $this->getSupervisor();
 		$style      = file_get_contents($this->getResource('css/debug.base.css'));
 		$jscript    = file_get_contents($this->getResource('js/debug.base.js'));
-		$tables     = array_merge($this->getDefaultTables(), $this->tables);
+		$servers    = array_merge($this->getDefaultServers(), $this->tables);
+		$routing    = array_merge($this->getDefaultRouting(), $this->tables);
 		
 		return [ 
 			'class' => explode('\\', $supervisor->getExceptionName()),
@@ -177,7 +178,8 @@ class PleasingPageHandler extends MainHandler
 			'code' => $this->getExceptionCode(),
 			'message' => $supervisor->getExceptionMessage(),
 			'frames' => $this->getExceptionFrames(),
-			'tables' => $this->getProcessTables($tables),
+			'servers' => $this->getProcessTables($servers),
+			'routes' => $this->getProcessTables($routing),
 		];
 	}
 	
@@ -203,11 +205,11 @@ class PleasingPageHandler extends MainHandler
 	}
 
 	/**
-	 * Returns the default tables.
+	 * Returns the default servers.
 	 * 
 	 * @return \Syscodes\Components\Contracts\Debug\Table[]
 	 */
-	protected function getDefaultTables()
+	protected function getDefaultServers()
 	{
 		$server = [
 			'host' => $_SERVER['HTTP_HOST'], 
@@ -224,6 +226,20 @@ class PleasingPageHandler extends MainHandler
 		];
 
 		return [new ArrayTable($server)];
+	}
+
+	/**
+	 * Returns the default routing.
+	 * 
+	 * @return \Syscodes\Components\Contracts\Debug\Table[]
+	 */
+	protected function getDefaultRouting()
+	{
+		$routing = [
+			'middleware' => config('routes.routes'),
+		];
+
+		return [new ArrayTable($routing)];
 	}
 
 	/**
@@ -266,7 +282,7 @@ class PleasingPageHandler extends MainHandler
 	}
 
 	/**
-	 * Processes an array of tables making sure everything is allright.
+	 * Processes an array of tables making sure everything is all right.
 	 * 
 	 * @param  \Syscodes\Components\Contracts\Debug\Table[]  $tables
 	 * 
