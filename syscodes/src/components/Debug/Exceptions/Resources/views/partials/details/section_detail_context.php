@@ -11,7 +11,7 @@
                 <span class="method"><?= request()->method() ?></span>
             </div>
             <div class="info-header-title"> 
-            <?php foreach ($tables as $data) : ?>
+            <?php foreach ($servers as $data) : ?>
                 <a id="detail-request-header" class="scroll-target"></a>
                 <h2><?= e(__('exception.headers')) ?></h2>
                 <div class="data-table">
@@ -48,6 +48,30 @@
             <div class="info-app-title">
                 <a id="detail-app" class="scroll-target"></a>
                 <h2><?= e(__('exception.app')) ?></h2>
+            </div>
+            <div class="info-routing-title">
+            <?php foreach ($routes as $data) : ?>
+                <a id="detail-app-routing" class="scroll-target"></a>
+                <h2><?= e(__('exception.routing')) ?></h2>
+                <div class="data-table">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <td>Key</td>
+                                <td>Value</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($data as $key => $value) : ?>
+                            <tr>
+                                <td><?= e($key) ?></td>
+                                <td><?= e(print_r($value, true)) ?></td>
+                            </tr>
+                            <?php endforeach; ?>	
+                        </tbody>
+                    </table>
+                </div>
+            <?php endforeach; ?>  
             </div>
         </div>
     </section>
