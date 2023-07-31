@@ -265,7 +265,7 @@ class PleasingPageHandler extends MainHandler
 			'Php Version' => PHP_VERSION,
 			'Lenevor Version' => app()->version(),
 			'Lenevor Locale' => config('app.locale'),
-			'App Debug' => (1 == env('APP_DEBUG') ? 'True' : 'False'),
+			'App Debug' => (1 == env('APP_DEBUG') ? 'true' : 'false'),
 			'App Env' => env('APP_ENV'),
 		];
 
