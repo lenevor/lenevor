@@ -1463,7 +1463,7 @@ header nav ul li a {
 }
 
 .section-details .sidebar nav ul li:nth-child(6) svg {
-    fill: var(--gray-100);
+    fill: var(--gray-200);
     margin-right: 2px;
     stroke: var(--gray-700);
 }
@@ -1503,8 +1503,15 @@ header nav ul li a {
 
     .section-details .sidebar nav ul li:nth-child(3) svg {
         height: 23px;
-        margin-right: 6px;
+        margin-right: 5px;
         width: 21px;
+    }
+
+    .section-details .sidebar nav ul li:nth-child(5) svg,
+    .section-details .sidebar nav ul li:nth-child(6) svg {
+        height: 22px;
+        margin-right: 3px;
+        width: 22px;
     }
 }
 
@@ -1546,9 +1553,9 @@ header nav ul li a {
 
     .section-details .sidebar nav ul li:nth-child(5) svg,
     .section-details .sidebar nav ul li:nth-child(6) svg {
-        height: 26px;
-        margin-right: 7px;
-        width: 26px;
+        height: 24px;
+        margin-right: 8px;
+        width: 24px;
     }
 
     .section-details .sidebar nav ul li:nth-child(8) svg {
@@ -1563,7 +1570,8 @@ header nav ul li a {
 /* SECTIONS: REQUEST | APP */
 
 .section-details .section-detail-request,
-.section-details .section-detail-app {
+.section-details .section-detail-app,
+.section-details .section-detail-context {
     background: var(--white);
     box-shadow: 0 10px 18px -15px var(--gray-600),
                 0 0 16px -14px var(--gray-600);
@@ -1578,13 +1586,15 @@ header nav ul li a {
 }
 
 .section-details .section-detail-request .section-info-request,
-.section-details .section-detail-app .section-info-app {
+.section-details .section-detail-app .section-info-app,
+.section-details .section-detail-context .section-info-context {
     padding: 1.1rem;
     padding-top: 2.5rem;
 }
 
 .section-details .section-detail-request .section-info-request .info-request-title h2,
-.section-details .section-detail-app .section-info-app .info-app-title h2 {
+.section-details .section-detail-app .section-info-app .info-app-title h2,
+.section-details .section-detail-context .section-info-context .info-context-title h2 {
     color: var(--gray-600);
     font-size: var(--font-size-small-xx);
     font-weight: 700;
@@ -1592,14 +1602,16 @@ header nav ul li a {
 }
 
 .dark-mode .section-details .section-detail-request .section-info-request .info-request-title h2,
-.dark-mode .section-details .section-detail-app .section-info-app .info-app-title h2 {
+.dark-mode .section-details .section-detail-app .section-info-app .info-app-title h2,
+.dark-mode .section-details .section-detail-context .section-info-context .info-context-title h2 {
     color: var(--dark-gray-500);
 }
 
 .section-details .section-detail-request .info-url-method,
 .section-details .section-detail-request .info-body-title,
 .section-details .section-detail-app .info-app-title,
-.section-details .section-detail-app .info-routing-title {
+.section-details .section-detail-app .info-routing-title,
+.section-details .section-detail-context .info-version-title {
     margin-top: 0.75rem;
 }
 
@@ -1607,7 +1619,8 @@ header nav ul li a {
 .section-details .section-detail-request .section-info-request .info-header-title h2,
 .section-details .section-detail-request .info-body-title h2,
 .section-details .section-detail-app .info-app-title h2,
-.section-details .section-detail-app .info-routing-title h2 {
+.section-details .section-detail-app .info-routing-title h2,
+.section-details .section-detail-context .info-version-title h2 {
     font-size: var(--font-size-initial);
     font-weight: 600;
 }
@@ -1617,7 +1630,8 @@ header nav ul li a {
 .section-details .section-detail-request .section-info-request .info-header-title h2,
 .section-details .section-detail-request .info-body-title h2,
 .section-details .section-detail-app .info-app-title h2,
-.section-details .section-detail-app .info-routing-title h2 {
+.section-details .section-detail-app .info-routing-title h2,
+.section-details .section-detail-context .info-version-title h2 {
     color: var(--blue-400);
 }
 
@@ -1625,7 +1639,8 @@ header nav ul li a {
 .dark-mode .section-details .section-detail-request .info-url-method .method,
 .dark-mode .section-details .section-detail-request .section-info-request .info-header-title h2,
 .dark-mode .section-details .section-detail-request .info-body-title h2,
-.dark-mode .section-details .section-detail-app .info-routing-title h2 {
+.dark-mode .section-details .section-detail-app .info-routing-title h2,
+.dark-mode .section-details .section-detail-app .info-version-title h2 {
     color: var(--dark-blue-600);
 }
 
@@ -1654,34 +1669,49 @@ header nav ul li a {
 
 /* DATA TABLE */
 
-.section-details .section-detail-request .section-info-request .info-header-title .data-table {
+.section-details .section-detail-request .section-info-request .info-header-title .data-table,
+.section-details .section-detail-app .section-info-app .info-routing-title .data-table,
+.section-details .section-detail-context .section-info-context .info-version-title .data-table {
     margin-top: 10px;
+    width: 100%;
 }
 
-.section-details .section-detail-request .section-info-request .info-header-title .data-table thead {
+.section-details .section-detail-request .section-info-request .info-header-title .data-table thead,
+.section-details .section-detail-app .section-info-app .info-routing-title .data-table thead,
+.section-details .section-detail-context .section-info-context .info-version-title .data-table thead {
     display: none;
 }
 
-.section-details .section-detail-request .section-info-request .info-header-title .data-table tbody {
+.section-details .section-detail-request .section-info-request .info-header-title .data-table tbody,
+.section-details .section-detail-app .section-info-app .info-routing-title .data-table tbody,
+.section-details .section-detail-context .section-info-context .info-version-title .data-table tbody {
     font-family: "Inconsolata", "Fira Mono", "Source Code Pro", Monaco, Consolas, "Lucida Console", monospace;
 }
 
-.section-details .section-detail-request .section-info-request .info-header-title .data-table tr {
+.section-details .section-detail-request .section-info-request .info-header-title .data-table tr,
+.section-details .section-detail-app .section-info-app .info-routing-title .data-table tr,
+.section-details .section-detail-context .section-info-context .info-version-title .data-table tr {
     display: inline-block;
     padding: 5px 0;
     width: 100%;
 }
 
-.section-details .section-detail-request .section-info-request .info-header-title .data-table tr > td {
+.section-details .section-detail-request .section-info-request .info-header-title .data-table tr > td,
+.section-details .section-detail-app .section-info-app .info-routing-title .data-table tr > td,
+.section-details .section-detail-context .section-info-context .info-version-title .data-table tr > td  {
     display: inline-flex; 
 }
 
-.section-details .section-detail-request .section-info-request .info-header-title .data-table tbody td {
-    padding: 5px 0;
+.section-details .section-detail-request .section-info-request .info-header-title .data-table tbody td,
+.section-details .section-detail-app .section-info-app .info-routing-title .data-table tbody td,
+.section-details .section-detail-context .section-info-context .info-version-title .data-table tbody td {
+    padding: 5px 0; 
     width: 100%;
 }
 
-.section-details .section-detail-request .section-info-request .info-header-title .data-table td:first-child {
+.section-details .section-detail-request .section-info-request .info-header-title .data-table td:first-child,
+.section-details .section-detail-app .section-info-app .info-routing-title .data-table td:first-child,
+.section-details .section-detail-context .section-info-context .info-version-title .data-table td:first-child {
     align-items: center;
     display: flex;
     font-size: var(--font-size-initial);
@@ -1691,7 +1721,9 @@ header nav ul li a {
     word-break: break-all;
 }
 
-.section-details .section-detail-request .section-info-request .info-header-title .data-table td:last-child {
+.section-details .section-detail-request .section-info-request .info-header-title .data-table td:last-child,
+.section-details .section-detail-app .section-info-app .info-routing-title .data-table td:last-child,
+.section-details .section-detail-context .section-info-context .info-version-title .data-table td:last-child {
     background: var(--gray-100);
     font-size: var(--font-size-small);
     min-height: 30px;
@@ -1700,17 +1732,33 @@ header nav ul li a {
     word-break: break-all;
 }
 
-.dark-mode .section-details .section-detail-request .section-info-request .info-header-title .data-table td:last-child {
+.section-details .section-detail-context .section-info-context .info-version-title .data-table tr:nth-child(4) td:last-child{
+    background: var(--green-100);
+    margin-left: 0;
+    max-width: 70px;
+}
+
+.dark-mode .section-details .section-detail-request .section-info-request .info-header-title .data-table td:last-child,
+.dark-mode .section-details .section-detail-app .section-info-app .info-routing-title .data-table td:last-child,
+.dark-mode .section-details .section-detail-context .section-info-context .info-version-title .data-table td:last-child {
     background: var(--dark-magenta-250);
 }
 
 .section-details .section-detail-request .section-info-request .info-header-title .data-table td:first-child,
-.section-details .section-detail-request .section-info-request .info-header-title .data-table td:last-child {   
+.section-details .section-detail-request .section-info-request .info-header-title .data-table td:last-child,
+.section-details .section-detail-app .section-info-app .info-routing-title .data-table td:first-child,
+.section-details .section-detail-app .section-info-app .info-routing-title .data-table td:last-child,
+.section-details .section-detail-context .section-info-context .info-version-title .data-table td:first-child,
+.section-details .section-detail-context .section-info-context .info-version-title .data-table td:last-child {   
     color: var(--gray-800);
 }
 
 .dark-mode .section-details .section-detail-request .section-info-request .info-header-title .data-table td:first-child,
-.dark-mode .section-details .section-detail-request .section-info-request .info-header-title .data-table td:last-child {   
+.dark-mode .section-details .section-detail-request .section-info-request .info-header-title .data-table td:last-child,
+.dark-mode .section-details .section-detail-app .section-info-app .info-routing-title .data-table td:first-child,
+.dark-mode .section-details .section-detail-app .section-info-app .info-routing-title .data-table td:last-child,
+.dark-mode .section-details .section-detail-context .section-info-context .info-version-title .data-table td:first-child,
+.dark-mode .section-details .section-detail-context .section-info-context .info-version-title .data-table td:last-child {   
     color: var(--dark-gray-700);
 }
 
@@ -1720,6 +1768,7 @@ header nav ul li a {
     align-items: center;
     background: var(--gray-100);
     display: flex;
+    margin-bottom: 10px;
     margin-top: 10px;
     min-height: 30px;
     padding: 0.5rem;
@@ -1739,14 +1788,16 @@ header nav ul li a {
     color: var(--dark-gray-700);
 }
 
-/* SECTION APP */
+/* SECTION APP | CONTEXT */
 
-.section-details .section-detail-app {
+.section-details .section-detail-app,
+.section-details .section-detail-context {
     border-top-color: var(--gray-200);
     border-top-width: 1px;
 }
 
-.dark-mode .section-details .section-detail-app {
+.dark-mode .section-details .section-detail-app,
+.dark-mode .section-details .section-detail-context {
     background: var(--dark-magenta-300);
     border-top-color: var(--dark-magenta-200);
     border-top-width: 1px;
@@ -1754,7 +1805,13 @@ header nav ul li a {
 }
 
 .section-details .section-detail-app .section-info-app {
-    padding-top: 0.5rem;
+    padding-top: 1rem;
+}
+
+/* SECTION CONTEXT */
+
+.section-details .section-detail-context .section-info-context {
+    padding-top: 1.5rem;
 }
 
 /* TABLE */
@@ -1766,24 +1823,35 @@ header nav ul li a {
     }
 
     .section-details .section-detail-request .section-info-request,
-    .section-details .section-detail-app .section-info-app {
+    .section-details .section-detail-app .section-info-app,
+    .section-details .section-detail-context .section-info-context {
         padding: 1.8rem;
         padding-top: 2.5rem;
     }
 
     .section-details .section-detail-app .section-info-app {
-        padding-top: 1rem;
+        padding-top: 1.5rem;
     }
 
-    .section-details .section-detail-request .section-info-request .info-header-title .data-table tbody tr {
+    .section-details .section-detail-context .section-info-context {
+        padding-top: 2rem;
+    }
+
+    .section-details .section-detail-request .section-info-request .info-header-title .data-table tbody tr,
+    .section-details .section-detail-app .section-info-app .info-routing-title .data-table tbody tr,
+    .section-details .section-detail-context .section-info-context .info-version-title .data-table tbody tr {
         display: inline-flex;
     }
 
-    .section-details .section-detail-request .section-info-request .info-header-title .data-table tr > td {
+    .section-details .section-detail-request .section-info-request .info-header-title .data-table tr > td,
+    .section-details .section-detail-app .section-info-app .info-routing-title .data-table tr > td,
+    .section-details .section-detail-context .section-info-context .info-version-title .data-table tr > td {
         display: inline-block; 
     }
 
-    .section-details .section-detail-request .section-info-request .info-header-title .data-table td:first-child {
+    .section-details .section-detail-request .section-info-request .info-header-title .data-table td:first-child,
+    .section-details .section-detail-app .section-info-app .info-routing-title .data-table td:first-child,
+    .section-details .section-detail-context .section-info-context .info-version-title .data-table td:first-child {
         margin-right: 0;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -1800,7 +1868,9 @@ header nav ul li a {
         margin-left: 0.4rem;
     }
 
-    .section-details .section-detail-request .section-info-request .info-header-title .data-table td:last-child {
+    .section-details .section-detail-request .section-info-request .info-header-title .data-table td:last-child,
+    .section-details .section-detail-app .section-info-app .info-routing-title .data-table td:last-child,
+    .section-details .section-detail-context .section-info-context .info-version-title .data-table td:last-child {
         margin-left: 2rem;
         padding: 0.5rem 1rem;
         transition: 0.2s linear;
@@ -1809,6 +1879,11 @@ header nav ul li a {
     .section-details .section-detail-request .section-info-request .info-body-title pre {
         padding: 0.5rem 1rem;
     }
+
+    .section-details .section-detail-context .section-info-context .info-version-title .data-table tr:nth-child(4) td:last-child{
+        margin-left: -23px;
+        word-break: normal;
+    }
 }
 
 /* WIDE */
@@ -1816,12 +1891,14 @@ header nav ul li a {
 @media (min-width: 1100px)
 {
     .section-details .section-detail-request .section-info-request,
-    .section-details .section-detail-app .section-info-app {
+    .section-details .section-detail-app .section-info-app,
+    .section-details .section-detail-context .section-info-context {
         padding: 2.5rem;
     }
 
     .section-details .section-detail-request .section-info-request .info-request-title h2,
-    .section-details .section-detail-app .section-info-app .info-app-title h2 {
+    .section-details .section-detail-app .section-info-app .info-app-title h2,
+    .section-details .section-detail-context .section-info-context .info-context-title h2 {
         font-size: var(--font-size-small);
     }
 
@@ -1833,7 +1910,8 @@ header nav ul li a {
     .section-details .section-detail-request .section-info-request .info-header-title h2,
     .section-details .section-detail-request .info-body-title h2,
     .section-details .section-detail-app .info-app-title h2,
-    .section-details .section-detail-app .info-routing-title h2 {  
+    .section-details .section-detail-app .info-routing-title h2,
+    .section-details .section-detail-context .info-version-title h2 {  
         font-size: var(--font-size-large);
     }
 
@@ -1841,28 +1919,40 @@ header nav ul li a {
         font-size: var(--font-size-initial);
     }
 
-    .section-details .section-detail-request .section-info-request .info-header-title .data-table {
-        width: 100%;
-    }
-
-    .section-details .section-detail-request .section-info-request .info-header-title .data-table tbody tr {
+    .section-details .section-detail-request .section-info-request .info-header-title .data-table tbody tr,
+    .section-details .section-detail-app .section-info-app .info-routing-title .data-table tbody tr,
+    .section-details .section-detail-context .section-info-context .info-version-title .data-table tr {
         display: flex;
     }
 
-    .section-details .section-detail-request .section-info-request .info-header-title .data-table tr > td {
+    .section-details .section-detail-request .section-info-request .info-header-title .data-table tr > td,
+    .section-details .section-detail-app .section-info-app .info-routing-title .data-table tr > td,
+    .section-details .section-detail-context .section-info-context .info-version-title .data-table tr > td {
         display: inline-block;
     }
 
-    .section-details .section-detail-request .section-info-request .info-header-title .data-table tbody td:first-child {
+    .section-details .section-detail-request .section-info-request .info-header-title .data-table tbody td:first-child,
+    .section-details .section-detail-app .section-info-app .info-routing-title .data-table td:first-child,
+    .section-details .section-detail-context .section-info-context .info-version-title .data-table td:first-child {
         font-size: var(--font-size-medium-x);
         margin-right: 2rem;
         width: 20rem;
     }
 
+    .section-details .section-detail-context .section-info-context .info-version-title .data-table tr:nth-child(4) td:first-child {
+        width: 20%;
+    }
+
     .section-details .section-detail-request .section-info-request .info-header-title .data-table tbody td:last-child,
+    .section-details .section-detail-app .section-info-app .info-routing-title .data-table tbody td:last-child,
+    .section-details .section-detail-context .section-info-context .info-version-title .data-table td:last-child
     .section-details .section-detail-request .section-info-request .info-body-title pre {
         font-size: var(--font-size-medium-x);
         padding: 0.5rem 1rem;
+    }
+
+    .section-details .section-detail-context .section-info-context .info-version-title .data-table tr:nth-child(4) tr:last-child {
+        width: 20%;
     }
 }
 
