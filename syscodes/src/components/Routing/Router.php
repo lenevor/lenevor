@@ -581,6 +581,16 @@ class Router implements Routable
 
 		return $this;
 	}
+	
+	/**
+	 * Get all of the defined middleware groups.
+	 * 
+	 * @return array
+	 */
+	public function getMiddlewareGroups(): array
+	{
+		return $this->middlewareGroups;
+	}
 
 	/**
 	 * Register a group of middleware.
@@ -596,7 +606,19 @@ class Router implements Routable
 
 		return $this;
 	}
-
+	
+	/**
+	 * Flush the router's middleware groups.
+	 * 
+	 * @return static
+	 */
+	public function flushMiddlewareGroups(): static
+	{
+		$this->middlewareGroups = [];
+		
+		return $this;
+	}
+	
 	/**
 	 * Check if a route with the given name exists.
 	 * 
