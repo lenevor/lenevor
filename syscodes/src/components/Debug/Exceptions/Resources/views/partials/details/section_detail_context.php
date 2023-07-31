@@ -74,7 +74,7 @@
     <section class="section-detail-context">
         <div class="section-info-context">
             <div class="info-context-title">
-                <a id="detail-context-data" class="scroll-target"></a>
+                <a id="detail-context-data-version" class="scroll-target"></a>
                 <h2><?= e(__('exception.contextData')) ?></h2>
             </div>
             <div class="info-version-title">
@@ -92,7 +92,7 @@
                         <?php foreach ($data as $key => $value) : ?>
                         <tr>
                             <td><?= e($key) ?></td>
-                            <td><?= e(print_r($value, true)) ?></td>
+                            <td><span><?= e(print_r($value, true)) ?></span></td>
                         </tr>
                         <?php endforeach; ?>	
                     </tbody>

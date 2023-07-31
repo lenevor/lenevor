@@ -41,7 +41,7 @@
             </li>
             <li>
                 <h2>
-                    <a href="detail-app"><?= e(__('exception.app')) ?></a>
+                    <a href="#detail-app"><?= e(__('exception.app')) ?></a>
                 </h2>
             </li>
             <li>
