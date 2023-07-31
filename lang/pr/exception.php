@@ -1,5 +1,7 @@
 <?php
 
+use Syscodes\Components\Support\Str;
+
 return [
 
     /*
@@ -30,14 +32,17 @@ return [
     'openPDFReader' => 'Abra o leitor de PDF',
     'print' => 'Impressão',
     'RegisteredHandlers' => 'Manipuladores cadastrados',
-    'request' => 'Pedido',
+    'request' => Str::upper('Pedido'),
     'search' => 'Buscar',
     'stack' => 'Pilhas',
     'details' => 'Detalhes',
     'statusCode' => 'Código de estado',
     'headers' => 'Cabeçalhos',
     'body' => 'Corpo',
+    'app' => Str::upper('Aplicação'),
+    'routing' => 'Roteamento',
     'database' => 'Base de dados',
+    'contextData' => Str::upper('Dados de Contexto'),
     'versions' => 'Versões',
     'version' => 'Versão de Lenevor',
 

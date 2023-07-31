@@ -41,9 +41,10 @@ return [
     'headers' => 'Encabezados',
     'body' => 'Cuerpo',
     'app' => Str::upper('Aplicación'),
-    'routing' => 'Roteamento',
+    'routing' => 'Enrutamiento',
     'database' => 'Base de datos',
-    'versions' => Str::upper('Versiones'),
+    'contextData' => Str::upper('Datos de contexto'),
+    'versions' => 'Versiones',
     'version' => 'Versión de Lenevor',
 
 ];
