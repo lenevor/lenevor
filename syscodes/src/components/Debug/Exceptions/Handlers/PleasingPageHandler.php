@@ -154,6 +154,7 @@ class PleasingPageHandler extends MainHandler
 		$jscript    = file_get_contents($this->getResource('js/debug.base.js'));
 		$servers    = array_merge($this->getDefaultServers(), $this->tables);
 		$routing    = array_merge($this->getDefaultRouting(), $this->tables);
+		$context    = array_merge($this->getDefaultContext(), $this->tables);
 		
 		return [ 
 			'class' => explode('\\', $supervisor->getExceptionName()),
@@ -180,6 +181,7 @@ class PleasingPageHandler extends MainHandler
 			'frames' => $this->getExceptionFrames(),
 			'servers' => $this->getProcessTables($servers),
 			'routes' => $this->getProcessTables($routing),
+			'contexts' => $this->getProcessTables($context),
 		];
 	}
 	
@@ -217,7 +219,7 @@ class PleasingPageHandler extends MainHandler
 			'accept' => $_SERVER['HTTP_ACCEPT'], 
 			'accept-language' => $_SERVER['HTTP_ACCEPT_LANGUAGE'], 
 			'accept-encoding' => $_SERVER['HTTP_ACCEPT_ENCODING'],
-		    'connection' => $_SERVER['HTTP_CONNECTION'],
+			'connection' => $_SERVER['HTTP_CONNECTION'],
 			'upgrade-insecure-requests' => $_SERVER['HTTP_UPGRADE_INSECURE_REQUESTS'], 
 			'sec-fetch-dest' => $_SERVER['HTTP_SEC_FETCH_DEST'],
 			'sec-fetch-mode' => $_SERVER['HTTP_SEC_FETCH_MODE'],
@@ -235,11 +237,39 @@ class PleasingPageHandler extends MainHandler
 	 */
 	protected function getDefaultRouting()
 	{
+		$action = app('request')->route()->isControllerAction() 
+		          ? app('request')->route()->parseControllerCallback()[0] 
+		          : 'Closure';
+
+		$index = match (true) {
+			array_key_exists('web', app('router')->getMiddlewareGroups()) => 0,
+			array_key_exists('api', app('router')->getMiddlewareGroups()) => 1,
+		};
+
 		$routing = [
-			'middleware' => config('routes.routes'),
+			'Controller' => $action,
+			'Middleware' => array_keys(app('router')->getMiddlewareGroups())[$index],
 		];
 
 		return [new ArrayTable($routing)];
+	}
+
+	/**
+	 * Returns the default context data.
+	 * 
+	 * @return \Syscodes\Components\Contracts\Debug\Table[]
+	 */
+	protected function getDefaultContext()
+	{
+		$context = [
+			'Php Version' => PHP_VERSION,
+			'Lenevor Version' => app()->version(),
+			'Lenevor Locale' => config('app.locale'),
+			'App Debug' => (1 == env('APP_DEBUG') ? 'True' : 'False'),
+			'App Env' => env('APP_ENV'),
+		];
+
+		return [new ArrayTable($context)];
 	}
 
 	/**
