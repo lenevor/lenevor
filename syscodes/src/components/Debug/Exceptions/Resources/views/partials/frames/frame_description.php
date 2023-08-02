@@ -20,7 +20,8 @@
 					M133.875,401.625H420.75v19.125H133.875V401.625z M133.875,459H420.75v19.125H133.875V459z"/>
 				</g>
 			</svg>			
-		</div>      
+		</div>
+		<div class="separator"></div>      
 		<div class="icon-holder icon-pdf">
 			<div class="tooltip tooltip-pdf">
 				<?= e(__('exception.openPDFReader'))?>
