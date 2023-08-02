@@ -28,7 +28,8 @@ use InvalidArgumentException;
 use Syscodes\Components\Debug\Util\Misc;
 use Syscodes\Components\Debug\Util\System;
 use Syscodes\Components\Stopwatch\Benchmark;
-use Syscodes\Components\Debug\Handlers\MainHandler;
+use Syscodes\Components\Debug\Handlers\Handler;
+use Syscodes\Components\Contracts\Debug\MainHandler;
 use Syscodes\Components\Debug\FrameHandler\Supervisor;
 use Syscodes\Components\Debug\Handlers\CallbackHandler;
 use Syscodes\Components\Contracts\Debug\Handler as DebugContract;
@@ -133,14 +134,13 @@ class GDebug implements DebugContract
 				// Collect the content type for possible sending in the headers
 				$handlerContentType = method_exists($handler, 'contentType') ? $handler->contentType() : null;
 	
-				if (in_array($handlerResponse, [MainHandler::LAST_HANDLER, MainHandler::QUIT])) {
+				if (in_array($handlerResponse, [Handler::LAST_HANDLER, Handler::QUIT])) {
 					break;
 				}
 			}
 	
-			$quit = $handlerResponse == MainHandler::QUIT && $this->allowQuit();
-		}
-		finally {
+			$quit = $handlerResponse == Handler::QUIT && $this->allowQuit();
+		} finally {
 			// Returns the contents of the output buffer
 			$output = $this->system->CleanOutputBuffer();	
 		}
@@ -318,7 +318,7 @@ class GDebug implements DebugContract
 		if ( ! $handler instanceof MainHandler) {
 			throw new InvalidArgumentException(
 				"Argument to " . __METHOD__ . " must be a callable, or instance of ".
-				"Syscodes\Components\\Contracts\\Debug\\Handler"
+				"Syscodes\Components\\Contracts\\Debug\\MainHandler"
 			);
 		}
 
