@@ -45,9 +45,9 @@ class DebugExceptionRender implements ExceptionRender
             
             $debug->appendHandler($this->DebugHandler());
 
-            $debug->writeToOutput(false);
+            $debug->writeToOutput(true);
 
-            $debug->allowQuit(false);
+            $debug->allowQuit(true);
 
         })->handleException($exception);
     }
