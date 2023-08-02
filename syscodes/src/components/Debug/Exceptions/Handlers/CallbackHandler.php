@@ -29,7 +29,7 @@ use InvalidArgumentException;
  * or will be instantiated automagically by Debug\GDebug if passed 
  * to GDebug::pushHandler.
  */
-class CallbackHandler extends MainHandler
+class CallbackHandler extends Handler
 {
     /**
      * The contents of a variable can be called as a function.

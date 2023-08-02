@@ -27,7 +27,7 @@ use Syscodes\Components\Debug\FrameHandler\Formatter;
 /**
  * Catches an exception and converts it to a JSON response.
  */
-class JsonResponseHandler extends MainHandler
+class JsonResponseHandler extends Handler
 {
     /**
      * The way in which the data sender (usually the server) can tell the recipient 
@@ -55,6 +55,6 @@ class JsonResponseHandler extends MainHandler
 
         echo json_encode($response, defined('JSON_PARTIAL_OUTPUT_ON_ERROR') ? JSON_PARTIAL_OUTPUT_ON_ERROR : 0)."\n";
 
-        return MainHandler::QUIT;
+        return Handler::QUIT;
     }
 }

@@ -27,7 +27,7 @@ use Throwable;
 /**
  * Handler outputing plaintext error messages.
  */
-class PlainTextHandler extends MainHandler
+class PlainTextHandler extends Handler
 {
     /**
      * The way in which the data sender (usually the server) can tell the recipient 
@@ -100,12 +100,12 @@ class PlainTextHandler extends MainHandler
      * 
      * @return int
      */
-    public function handle(): int
+    public function handle()
     {        
         $response = $this->getResponse($this->getException());
 
         echo $response;
 
-        return MainHandler::QUIT;
+        return Handler::QUIT;
     }
 }

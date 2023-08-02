@@ -37,7 +37,7 @@ use Syscodes\Components\Debug\FrameHandler\Formatter;
 /**
  * Generates exceptions in mode of graphic interface.
  */
-class PleasingPageHandler extends MainHandler
+class PleasingPageHandler extends Handler
 {
 	/**
 	 * The brand main of handler.
@@ -392,7 +392,7 @@ class PleasingPageHandler extends MainHandler
 		$this->template->setVariables($vars);
 		$this->template->render($templatePath);
 		
-		return MainHandler::QUIT;
+		return Handler::QUIT;
 	}
 
 	/**
