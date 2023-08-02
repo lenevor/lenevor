@@ -24,6 +24,8 @@ namespace Syscodes\Components\Core\Exceptions\Debugging;
 
 use Syscodes\Components\Debug\Handlers\PleasingPageHandler;
 
+use function take;
+
 /**
  * Creates a new Debug PleasingPagehandler instance.
  */
