@@ -25,6 +25,7 @@ namespace Syscodes\Components\Core\Exceptions;
 use Exception;
 use Throwable;
 use Psr\Log\LoggerInterface;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Http\Response;
 use Syscodes\Components\Routing\Router;
 use Syscodes\Components\Http\RedirectResponse;
@@ -34,6 +35,8 @@ use Syscodes\Components\Contracts\Core\ExceptionRender;
 use Syscodes\Components\Core\Http\Exceptions\HttpException;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
 use Syscodes\Components\Debug\FatalExceptions\FlattenException;
+use Syscodes\Components\Auth\Exceptions\AuthenticationException;
+use Syscodes\Components\Session\Exceptions\TokenMismatchException;
 use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
 use Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException;
 use Syscodes\Components\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
@@ -63,9 +66,11 @@ class Handler implements ExceptionHandlerContract
      * @var array $coreDontReport
      */
     protected $coreDontReport = [
+        AuthenticationException::class,
         HttpException::class,
         HttpResponseException::class,
         ModelNotFoundException::class,
+        TokenMismatchException::class,
     ];
 
     /**
@@ -187,14 +192,8 @@ class Handler implements ExceptionHandlerContract
     public function shouldntReport(Throwable $e): bool
     {
         $dontReport = array_merge($this->dontReport, $this->coreDontReport);
-
-        foreach ($dontReport as $type) {
-            if ($e instanceof $type) {
-                return true;
-            }
-        }
-
-        return false;
+        
+        return ! is_null(Arr::first($dontReport, fn ($type) => $e instanceof $type));
     }
 
     /**
@@ -245,11 +244,11 @@ class Handler implements ExceptionHandlerContract
      */
     protected function prepareException(Throwable $e): Throwable
     {
-        if ($e instanceof ModelNotFoundException) {
-            $e = new NotFoundHttpException($e->getMessage(), $e);
-        }
-
-        return $e;
+        return match (true) {            
+            $e instanceof ModelNotFoundException => new NotFoundHttpException($e->getMessage(), $e),
+            $e instanceof TokenMismatchException => new HttpException(419, $e->getMessage(), $e),
+            default => $e,
+        };
     }
      
     /**
@@ -273,7 +272,9 @@ class Handler implements ExceptionHandlerContract
             $e = new HttpException(500, $e->getMessage());
         }
 
-        return $this->toSyscodesResponse($this->renderHttpException($e), $e);
+        return $this->toSyscodesResponse(
+                    $this->renderHttpException($e), $e
+                )->prepare($request);
     }
 
     /**
