@@ -22,9 +22,9 @@
 
 namespace Syscodes\Components\Stopwatch\Exceptions;
 
-use Syscodes\Components\Core\Http\Exceptions\LenevorException;
+use RuntimeException;
 
 /**
  * The benchmark to exception class instance.
  */
-class BenchmarckException extends LenevorException {}
+class BenchmarckException extends RuntimeException {}
