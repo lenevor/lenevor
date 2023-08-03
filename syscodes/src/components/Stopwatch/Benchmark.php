@@ -47,6 +47,10 @@ class Benchmark
      */
     public function start(string $name, float $time = null): static
     {
+        if (empty($name)) {
+            throw new BenchmarckException('Cannot stop timer: invalid name given');
+        }
+
         $this->timers[strtolower($name)] = [
             'start' => ! empty($time) ? $time : microtime(true),
             'end'   => null
