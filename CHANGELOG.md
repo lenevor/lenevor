@@ -1,5 +1,50 @@
 # Release Notes
 
+## [Version 0.8.7-alpha.8]
+
+Release Date: Aug 02, 2023
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added the `decodePath()` method for use the uri given in the `URI` class
+- Added the others missing arguments of the `NotFoundHttpException` class
+- Added new functions to expand features of the framework
+- Added new methods to get the requested from the flashed
+- Added new key with value of a path of view for translation
+- Added key for call the debug service provider
+- Added method PHP `array_reverse()` in `GDebug` class
+- Added new key for translate titles and paragraphs in the debugging
+- Added the editor key for assigned the value of handler register
+- Added the tags HTML for show content `$_SERVER` in a list
+- Added the types of argument for identify to parameter
+- Added the keys for translation string in template of exceptions
+- Added new methods for defined middleware groups
+- Added new interface of debugging
+
+### Changed
+- Changed the method `Arr::get()` by the helper `data_get()`
+- Changed the file names of view to be organize in folders
+- Changed the key for a new translation value
+- Changed path the `DebugHandler` class to the Debugging folder
+- Changed the namespace Debug by Stopwatch
+- Changed the folder previous by the Stopwatch folder
+- Changed the class of exception previous by MissingAppKeyException
+- Changed the PHP get_class() function by getClass() of helper
+- Changed the value of quantity of code lines
+- Changed the value of argument for generate a quantity of code lines to show
+- Changed the values hexadecimals for generate color
+
+### Created
+- Created trait to using flash in input of a session
+- Created the interface for render the exception found
+- Created a new Debug exception render instance
+- Created debug service provider
+
+### Removed
+- Removed the keys of `ArrayTable` class
+
+
 ## [Version 0.8.6-alpha.8]
 
 Release Date: Jun 22, 2023
