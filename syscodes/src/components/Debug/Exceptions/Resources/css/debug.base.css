@@ -579,13 +579,6 @@ header nav ul li a {
 
 /* PANEL: STACKS */
 
-.scroll_exception:target {
-    content: "";
-    display: block;
-    position: absolute;
-    top: -6rem;
-}
-
 .section-stack-exception {
     background: var(--white);
     box-shadow: 0 10px 18px -15px var(--gray-600),
@@ -1325,13 +1318,20 @@ header nav ul li a {
 
 /* SECTION: DETAILS */
 
+.scroll-target:target {
+    content: "";
+    display: block;
+    position: relative;
+    top: -5rem;
+}
+
 .section-details {
     align-items: stretch;
     box-sizing: border-box;
     display: flex;
     margin-bottom: 40px;
-    margin-top: 33px;
-    position: static;
+    margin-top: 30px;
+    position: relative;
     text-shadow: none;
     transition: .5s;
     
@@ -1350,13 +1350,14 @@ header nav ul li a {
 /* SIDEBAR */
 
 .section-details .sidebar {
-    position: sticky;
+    background: transparent;
 }
 
 .section-details .sidebar nav {
     display: none; 
     left: 0;
-    position: relative;
+    position: sticky;
+    top: 90px;
 }
 
 .section-details .sidebar ul {
@@ -1405,10 +1406,10 @@ header nav ul li a {
     color: var(--dark-gray-800);
 }
 
-.section-details .sidebar nav ul li a.active svg  {
-    height: 25px;
+.section-details .sidebar nav ul li:nth-child(2) a.active svg  {
+    height: 27px;
     stroke: var(--purple-500);
-    width: 25px;
+    width: 27px;
 }
 
 .dark-mode .section-details .sidebar nav ul li a.active svg {
@@ -1992,7 +1993,7 @@ header nav ul li a {
 
     .section-details .section-detail-request .info-url-method .url,
     .section-details .section-detail-request .section-info-request .info-header-title h2,
-    .section-details .section-detail-request .info-body-title h2,
+    .section-details .section-detail-request .section-info-request .info-body-title h2,
     .section-details .section-detail-app .info-app-title h2,
     .section-details .section-detail-app .info-routing-title h2,
     .section-details .section-detail-context .info-version-title h2 {  
