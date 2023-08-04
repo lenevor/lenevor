@@ -13,7 +13,7 @@
 				<li>
 					<div class="container-title">
 						<i class="icon-detail"></i>
-						<a href="#details" target="_self" class="">
+						<a href="#detail-request" target="_self" class="">
 							<?= e(__('exception.details')) ?>
 						</a>
 					</div>
