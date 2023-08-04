@@ -1,5 +1,5 @@
 <section class="">
-    <a id="details" class="scroll_detail"></a>
+    <a id="detail-request" class="scroll_detail"></a>
     <section class="section-detail-request">
         <div class="section-info-request">
             <div class="info-request-title">
