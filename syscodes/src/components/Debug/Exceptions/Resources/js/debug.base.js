@@ -15,6 +15,7 @@
      */
 
     let header = d.querySelector('header');
+    let message = d.querySelector('.time');
 
     window.addEventListener('scroll', (e) => {
         if (d.documentElement.scrollTop > 10) {
@@ -38,6 +39,13 @@
                 header.style.boxShadow = 'none';
             }
         }
+
+        if (d.documentElement.scrollTop > 150) {
+            message.style.display = 'inline-flex';
+        } else {
+            message.style.display = 'none';
+        }
+
     });
 
     /**
