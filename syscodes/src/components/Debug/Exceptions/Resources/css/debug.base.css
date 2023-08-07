@@ -298,14 +298,13 @@ a.active {
 /* HEADER */
 
 header {
-    align-items: center;
+    align-self: baseline;
     background: var(--gray-200);
-    display: flex;
+    display: grid;
     margin-bottom: 40px;
     min-height: 33px;
     padding: 0 20px;
     position: fixed;
-    transition: 0.2s ease-out;
     top: 0;
     width: 100%;
     z-index: 500;
@@ -316,14 +315,19 @@ header {
     border-bottom: 1px solid var(--dark-magenta-300);
 }
 
+header .margins {
+    display: grid;
+    width: 100%;
+}
+
 header nav {
     margin-left: -30px;
 }
 
 header nav ul {
     align-items: center;
-    list-style: none;
     display: flex;
+    list-style: none;
 }
 
 header nav ul li {
@@ -357,6 +361,34 @@ header nav ul li a {
 
 .dark header nav ul li a {
     color: var(--dark-gray-700);
+}
+
+header .time {
+    display: none;
+    overflow: hidden;
+    transition: all 2s ease-in;
+    width: 100%;
+}
+
+header .message {
+    align-items: center;
+    border-top-color: var(--gray-200);
+    border-top-width: 1px;
+    display: flex;
+    min-height: 10px;
+    padding: 10px 0;
+    width: 100%;
+}
+
+header .message a {
+    font-size: var(--font-size-initial);
+    font-weight: 600;
+    margin-left: -19px;
+    overflow: hidden;
+    padding-right: -19px;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: pre;
 }
 
 /* SMARTPHONE SMALL */
@@ -400,6 +432,10 @@ header nav ul li a {
         margin-right: -20px;
         padding-right: 25px;
     }
+
+    header .message a {
+        margin-left: 0;
+    }
 }
 
 /* WIDE */
@@ -422,6 +458,10 @@ header nav ul li a {
         margin-left: -25px;
         padding-left: 28px;
         padding-right: 25px;
+    }
+
+    header .message a {
+        margin-left: -20px;
     }
 }
 
