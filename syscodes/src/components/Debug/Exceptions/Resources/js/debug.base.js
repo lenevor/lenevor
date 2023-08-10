@@ -41,9 +41,9 @@
         }
 
         if (d.documentElement.scrollTop > 150) {
-            message.style.display = 'inline-flex';
+            message.style = "display: block";
         } else {
-            message.style.display = 'none';
+            message.style = "display: none";
         }
 
     });
