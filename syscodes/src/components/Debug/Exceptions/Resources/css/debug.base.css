@@ -300,7 +300,7 @@ a.active {
 header {
     align-self: baseline;
     background: var(--gray-200);
-    display: grid;
+    display: flex;
     margin-bottom: 40px;
     min-height: 33px;
     padding: 0 20px;
@@ -366,7 +366,7 @@ header nav ul li a {
 header .time {
     display: none;
     overflow: hidden;
-    transition: all 2s ease-in;
+    transition: all .15s linear;
     width: 100%;
 }
 
@@ -374,10 +374,13 @@ header .message {
     align-items: center;
     border-top-color: var(--gray-200);
     border-top-width: 1px;
-    display: flex;
     min-height: 10px;
     padding: 10px 0;
     width: 100%;
+}
+
+.dark header .message {
+    border-top-color: var(--dark-magenta-500);
 }
 
 header .message a {
@@ -389,6 +392,11 @@ header .message a {
     text-decoration: none;
     text-overflow: ellipsis;
     white-space: pre;
+}
+
+.dark header .message a {
+    color: var(--dark-white);
+    text-shadow: none;
 }
 
 /* SMARTPHONE SMALL */
@@ -461,6 +469,7 @@ header .message a {
     }
 
     header .message a {
+        font-size: var(--font-size-medium-x);
         margin-left: -20px;
     }
 }
@@ -1087,7 +1096,7 @@ header .message a {
     border-top-width: 1px;
     border-radius: 0;
     display: none;
-    margin-bottom: 20px;
+    padding-bottom: 12px;
     min-height: 52px;
     overflow: hidden;
     position: relative;
