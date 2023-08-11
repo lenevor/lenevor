@@ -25,7 +25,7 @@
 		<div class="time">
 			<div class="message">
 				<div class="container">
-					<a href="#"><?= ucfirst($template->escape($message)) ?></a>
+					<a href="#top"><?= ucfirst($template->escape($message)) ?></a>
 				</div>
 			</div>
 		</div>

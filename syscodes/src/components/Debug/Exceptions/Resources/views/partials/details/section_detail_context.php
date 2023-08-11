@@ -1,5 +1,4 @@
 <section class="">
-    <a id="detail-request" class="scroll_detail"></a>
     <section class="section-detail-request">
         <div class="section-info-request">
             <div class="info-request-title">
