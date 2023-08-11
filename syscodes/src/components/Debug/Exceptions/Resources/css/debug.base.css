@@ -364,9 +364,7 @@ header nav ul li a {
 }
 
 header .time {
-    display: none;
     overflow: hidden;
-    transition: all .15s linear;
     width: 100%;
 }
 
@@ -397,6 +395,14 @@ header .message a {
 .dark header .message a {
     color: var(--dark-white);
     text-shadow: none;
+}
+
+header .message a:hover {
+    color: var(--red-500);
+}
+
+.dark header .message a:hover {
+    color: var(--dark-red-800);
 }
 
 /* SMARTPHONE SMALL */
@@ -1075,6 +1081,10 @@ header .message a {
     .section-frame .frame-line {
         font-size: var(--font-size-small);
     }
+
+    .section-frame .frame:last-child {
+        margin-bottom: 60px;
+    }
 }
 
 /* SOURCE */
@@ -1372,7 +1382,7 @@ header .message a {
     content: "";
     display: block;
     position: relative;
-    top: -5rem;
+    top: -6rem;
 }
 
 .section-details {
