@@ -16,6 +16,8 @@
 
     let header = d.querySelector('header');
     let message = d.querySelector('.time');
+    
+    message.style = "display: none";
 
     window.addEventListener('scroll', (e) => {
         if (d.documentElement.scrollTop > 10) {
