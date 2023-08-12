@@ -1708,6 +1708,7 @@ header .message a:hover {
 .section-details .section-detail-request .info-body-title h2,
 .section-details .section-detail-app .info-app-title h2,
 .section-details .section-detail-app .info-routing-title h2,
+.section-details .section-detail-app .info-database-title h2,
 .section-details .section-detail-context .info-version-title h2 {
     font-size: var(--font-size-initial);
     font-weight: 600;
@@ -1719,6 +1720,7 @@ header .message a:hover {
 .section-details .section-detail-request .info-body-title h2,
 .section-details .section-detail-app .info-app-title h2,
 .section-details .section-detail-app .info-routing-title h2,
+.section-details .section-detail-app .info-database-title h2,
 .section-details .section-detail-context .info-version-title h2 {
     color: var(--blue-400);
 }
@@ -1728,6 +1730,7 @@ header .message a:hover {
 .dark .section-details .section-detail-request .section-info-request .info-header-title h2,
 .dark .section-details .section-detail-request .info-body-title h2,
 .dark .section-details .section-detail-app .info-routing-title h2,
+.dark .section-details .section-detail-app .info-database-title h2,
 .dark .section-details .section-detail-context .info-version-title h2 {
     color: var(--dark-blue-600);
 }
@@ -1751,7 +1754,8 @@ header .message a:hover {
 }
 
 .section-details .section-detail-request .section-info-request .info-header-title h2,
-.section-details .section-detail-request .info-body-title h2 {
+.section-details .section-detail-request .info-body-title h2,
+.section-details .section-detail-app .info-database-title h2 {
     margin-top: 2rem;
 }
 
@@ -1759,6 +1763,7 @@ header .message a:hover {
 
 .section-details .section-detail-request .section-info-request .info-header-title .data-table,
 .section-details .section-detail-app .section-info-app .info-routing-title .data-table,
+.section-details .section-detail-app .section-info-app .info-database-title .data-table,
 .section-details .section-detail-context .section-info-context .info-version-title .data-table {
     margin-top: 10px;
     width: 100%;
@@ -1766,18 +1771,21 @@ header .message a:hover {
 
 .section-details .section-detail-request .section-info-request .info-header-title .data-table thead,
 .section-details .section-detail-app .section-info-app .info-routing-title .data-table thead,
+.section-details .section-detail-app .section-info-app .info-database-title .data-table thead,
 .section-details .section-detail-context .section-info-context .info-version-title .data-table thead {
     display: none;
 }
 
 .section-details .section-detail-request .section-info-request .info-header-title .data-table tbody,
 .section-details .section-detail-app .section-info-app .info-routing-title .data-table tbody,
+.section-details .section-detail-app .section-info-app .info-database-title .data-table tbody,
 .section-details .section-detail-context .section-info-context .info-version-title .data-table tbody {
     font-family: "Inconsolata", "Fira Mono", "Source Code Pro", Monaco, Consolas, "Lucida Console", monospace;
 }
 
 .section-details .section-detail-request .section-info-request .info-header-title .data-table tr,
 .section-details .section-detail-app .section-info-app .info-routing-title .data-table tr,
+.section-details .section-detail-app .section-info-app .info-database-title .data-table tr,
 .section-details .section-detail-context .section-info-context .info-version-title .data-table tr {
     display: inline-block;
     padding: 5px 0;
@@ -1786,18 +1794,21 @@ header .message a:hover {
 
 .section-details .section-detail-request .section-info-request .info-header-title .data-table tr > td,
 .section-details .section-detail-app .section-info-app .info-routing-title .data-table tr > td,
+.section-details .section-detail-app .section-info-app .info-database-title .data-table tr > td,
 .section-details .section-detail-context .section-info-context .info-version-title .data-table tr > td  {
     display: inline-flex; 
 }
 
 .section-details .section-detail-request .section-info-request .info-header-title .data-table tbody td,
 .section-details .section-detail-app .section-info-app .info-routing-title .data-table tbody td,
+.section-details .section-detail-app .section-info-app .info-database-title .data-table tbody td,
 .section-details .section-detail-context .section-info-context .info-version-title .data-table tbody td {
     padding: 5px 0; 
 }
 
 .section-details .section-detail-request .section-info-request .info-header-title .data-table td:first-child,
 .section-details .section-detail-app .section-info-app .info-routing-title .data-table td:first-child,
+.section-details .section-detail-app .section-info-app .info-database-title .data-table td:first-child,
 .section-details .section-detail-context .section-info-context .info-version-title .data-table td:first-child {
     align-items: center;
     display: flex;
@@ -1810,6 +1821,7 @@ header .message a:hover {
 
 .section-details .section-detail-request .section-info-request .info-header-title .data-table td:last-child,
 .section-details .section-detail-app .section-info-app .info-routing-title .data-table td:last-child,
+.section-details .section-detail-app .section-info-app .info-database-title .data-table td:last-child,
 .section-details .section-detail-context .section-info-context .info-version-title .data-table td:last-child {
     background: var(--gray-100);
     font-size: var(--font-size-small);
@@ -1860,6 +1872,7 @@ header .message a:hover {
 
 .dark .section-details .section-detail-request .section-info-request .info-header-title .data-table td:last-child,
 .dark .section-details .section-detail-app .section-info-app .info-routing-title .data-table td:last-child,
+.dark .section-details .section-detail-app .section-info-app .info-database-title .data-table td:last-child,
 .dark .section-details .section-detail-context .section-info-context .info-version-title .data-table td:last-child {
     background: var(--dark-magenta-250);
 }
@@ -1868,6 +1881,8 @@ header .message a:hover {
 .section-details .section-detail-request .section-info-request .info-header-title .data-table td:last-child,
 .section-details .section-detail-app .section-info-app .info-routing-title .data-table td:first-child,
 .section-details .section-detail-app .section-info-app .info-routing-title .data-table td:last-child,
+.section-details .section-detail-app .section-info-app .info-database-title .data-table td:first-child,
+.section-details .section-detail-app .section-info-app .info-database-title .data-table td:last-child,
 .section-details .section-detail-context .section-info-context .info-version-title .data-table td:first-child,
 .section-details .section-detail-context .section-info-context .info-version-title .data-table td:last-child {   
     color: var(--gray-800);
@@ -1877,6 +1892,8 @@ header .message a:hover {
 .dark .section-details .section-detail-request .section-info-request .info-header-title .data-table td:last-child,
 .dark .section-details .section-detail-app .section-info-app .info-routing-title .data-table td:first-child,
 .dark .section-details .section-detail-app .section-info-app .info-routing-title .data-table td:last-child,
+.dark .section-details .section-detail-app .section-info-app .info-database-title .data-table td:first-child,
+.dark .section-details .section-detail-app .section-info-app .info-database-title .data-table td:last-child,
 .dark .section-details .section-detail-context .section-info-context .info-version-title .data-table td:first-child,
 .dark .section-details .section-detail-context .section-info-context .info-version-title .data-table td:last-child {   
     color: var(--dark-gray-700);
@@ -1969,18 +1986,21 @@ header .message a:hover {
 
     .section-details .section-detail-request .section-info-request .info-header-title .data-table tbody tr,
     .section-details .section-detail-app .section-info-app .info-routing-title .data-table tbody tr,
+    .section-details .section-detail-app .section-info-app .info-database-title .data-table tbody tr,
     .section-details .section-detail-context .section-info-context .info-version-title .data-table tbody tr {
         display: inline-flex;
     }
 
     .section-details .section-detail-request .section-info-request .info-header-title .data-table tr > td,
     .section-details .section-detail-app .section-info-app .info-routing-title .data-table tr > td,
+    .section-details .section-detail-app .section-info-app .info-database-title .data-table tr > td,
     .section-details .section-detail-context .section-info-context .info-version-title .data-table tr > td {
         display: inline-block; 
     }
 
     .section-details .section-detail-request .section-info-request .info-header-title .data-table td:first-child,
     .section-details .section-detail-app .section-info-app .info-routing-title .data-table td:first-child,
+    .section-details .section-detail-app .section-info-app .info-database-title .data-table td:first-child,
     .section-details .section-detail-context .section-info-context .info-version-title .data-table td:first-child {
         margin-right: 0;
         overflow: hidden;
@@ -2000,6 +2020,7 @@ header .message a:hover {
 
     .section-details .section-detail-request .section-info-request .info-header-title .data-table td:last-child,
     .section-details .section-detail-app .section-info-app .info-routing-title .data-table td:last-child,
+    .section-details .section-detail-app .section-info-app .info-database-title .data-table td:last-child,
     .section-details .section-detail-context .section-info-context .info-version-title .data-table td:last-child {
         padding: 0.5rem 1rem;
         transition: 0.2s linear;
@@ -2056,6 +2077,7 @@ header .message a:hover {
     .section-details .section-detail-request .section-info-request .info-body-title h2,
     .section-details .section-detail-app .info-app-title h2,
     .section-details .section-detail-app .info-routing-title h2,
+    .section-details .section-detail-app .info-database-title h2,
     .section-details .section-detail-context .info-version-title h2 {  
         font-size: var(--font-size-large);
     }
@@ -2066,18 +2088,21 @@ header .message a:hover {
 
     .section-details .section-detail-request .section-info-request .info-header-title .data-table tbody tr,
     .section-details .section-detail-app .section-info-app .info-routing-title .data-table tbody tr,
+    .section-details .section-detail-app .section-info-app .info-database-title .data-table tbody tr,
     .section-details .section-detail-context .section-info-context .info-version-title .data-table tr {
         display: flex;
     }
 
     .section-details .section-detail-request .section-info-request .info-header-title .data-table tr > td,
     .section-details .section-detail-app .section-info-app .info-routing-title .data-table tr > td,
+    .section-details .section-detail-app .section-info-app .info-database-title .data-table tr > td,
     .section-details .section-detail-context .section-info-context .info-version-title .data-table tr > td {
         display: inline-flex;
     }
 
     .section-details .section-detail-request .section-info-request .info-header-title .data-table tbody td:first-child,
     .section-details .section-detail-app .section-info-app .info-routing-title .data-table td:first-child,
+    .section-details .section-detail-app .section-info-app .info-database-title .data-table td:first-child,
     .section-details .section-detail-context .section-info-context .info-version-title .data-table td:first-child {
         font-size: var(--font-size-medium-x);
         margin-right: 2rem;
@@ -2086,6 +2111,7 @@ header .message a:hover {
 
     .section-details .section-detail-request .section-info-request .info-header-title .data-table tbody td:last-child,
     .section-details .section-detail-app .section-info-app .info-routing-title .data-table tbody td:last-child,
+    .section-details .section-detail-app .section-info-app .info-database-title .data-table tbody td:last-child,
     .section-details .section-detail-request .section-info-request .info-body-title pre,
     .section-details .section-detail-context .section-info-context .info-version-title .data-table td:last-child {
         font-size: var(--font-size-medium-x);
