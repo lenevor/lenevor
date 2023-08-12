@@ -154,6 +154,7 @@ class PleasingPageHandler extends Handler
 		$jscript    = file_get_contents($this->getResource('js/debug.base.js'));
 		$servers    = array_merge($this->getDefaultServers(), $this->tables);
 		$routing    = array_merge($this->getDefaultRouting(), $this->tables);
+		$databases  = array_merge($this->getDefaultDatabase(), $this->tables);
 		$context    = array_merge($this->getDefaultContext(), $this->tables);
 		
 		return [ 
@@ -181,6 +182,7 @@ class PleasingPageHandler extends Handler
 			'frames' => $this->getExceptionFrames(),
 			'servers' => $this->getProcessTables($servers),
 			'routes' => $this->getProcessTables($routing),
+			'databases' => $this->getProcessTables($databases),
 			'contexts' => $this->getProcessTables($context),
 		];
 	}
@@ -252,6 +254,22 @@ class PleasingPageHandler extends Handler
 		];
 
 		return [new ArrayTable($routing)];
+	}
+
+	/**
+	 * Returns the default database.
+	 * 
+	 * @return \Syscodes\Components\Contracts\Debug\Table[]
+	 */
+	protected function getDefaultDatabase()
+	{
+		$query = [
+			'Sql' => null,
+			'Time' => null,
+			'Connection name' => null,
+		];
+
+		return [new ArrayTable($query)];
 	}
 
 	/**
