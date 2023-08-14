@@ -143,18 +143,6 @@
     padding: 0;
 }
 
-@font-face {
-    font-family: 'icomoon';
-    src:  url('fonts/icommon2/icomoon.eot?fnm6vf');
-    src:  url('fonts/icommon2/icomoon.eot?fnm6vf#iefix') format('embedded-opentype'),
-          url('fonts/icommon2/icomoon.ttf?fnm6vf') format('truetype'),
-          url('fonts/icommon2/icomoon.woff?fnm6vf') format('woff'),
-          url('fonts/icommon2/icomoon.svg?fnm6vf#icomoon') format('svg');
-    font-weight: normal;
-    font-style: normal;
-    font-display: block;
-  }
-
 html {
     background: var(--gray-200);
     overflow: hidden;
@@ -225,48 +213,6 @@ a.active {
     color: var(--red-400);
 }
 
-[class^="icon-"], [class*=" icon-"] {
-    /* use !important to prevent issues with browser extensions that change fonts */
-    font-family: 'icomoon' !important;
-    font-size: var(--font-size-small-x);
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    line-height: 1;
-    text-transform: none;
-  
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-@media (min-width: 1100px)
-{
-    [class^="icon-"], [class*=" icon-"] {
-        font-size: var(--font-size-initial);
-    }
-}
-
-.icon-stack:before {
-    content: "\e92e";
-}
-
-.icon-detail:before {
-    content: "\e903";
-}
-
-.icon-stack:before,
-.icon-detail:before {
-    margin-left: -15px; 
-    margin-top: -7px;
-    position: absolute;
-}
-
-.dark .icon-stack:before,
-.dark .icon-detail:before {
-    color: var(--dark-gray-500);
-}
-
 /* CONTAINER */
 
 .container {
@@ -300,7 +246,7 @@ a.active {
 header {
     align-self: baseline;
     background: var(--gray-200);
-    display: flex;
+    display: grid;
     margin-bottom: 40px;
     min-height: 33px;
     padding: 0 20px;
@@ -316,36 +262,51 @@ header {
 }
 
 header .margins {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.15s ease-out;
     width: 100%;
 }
 
-header nav {
+header .margins .space {
+    display: flex;
+    justify-content: space-between;
+}
+
+header .margins .space nav {
     margin-left: -30px;
 }
 
-header nav ul {
+header .margins .space nav ul {
     align-items: center;
     display: flex;
     list-style: none;
 }
 
-header nav ul li {
+header .margins .space nav ul li {
     color: var(--gray-700);
 }
 
-header nav ul li .container-title {
+header .margins .space nav ul li .container-title {
     align-items: center;
     display: flex;
     flex-direction: row;
 }
 
-header nav ul li i {
-    margin-left: 25px;
+header .margins .space nav ul li svg {
+    fill: var(--gray-600);
+    height: 15px;
+    margin-left: 10px;
+    margin-right: 5px;
+    width: 15px;
     z-index: -1;
 }
 
-header nav ul li a {
+.dark header .margins .space nav ul li svg {
+    fill: var(--dark-gray-600);
+}
+
+header .margins .space nav ul li a {
     font-size: var(--font-size-small-xx);
     font-weight: 500;
     letter-spacing: 0.5px;
@@ -359,7 +320,23 @@ header nav ul li a {
     text-transform: uppercase;
 }
 
-.dark header nav ul li a {
+header .margins .space nav:nth-child(2) ul li a {
+    margin-right: -50px;
+}
+
+header .margins .space nav:nth-child(2) ul li a svg {
+    margin-left: 0; 
+}
+
+header .margins .space nav:nth-child(2) ul li a:hover svg {
+    fill: var(--red-700);
+}
+
+.dark header .margins .space nav:nth-child(2) ul li a:hover svg {
+    fill: var(--dark-red-700);
+}
+
+.dark header .margins .space nav ul li a {
     color: var(--dark-gray-700);
 }
 
@@ -409,21 +386,20 @@ header .message a:hover {
 
 @media (max-width: 320px)
 {
-    header nav ul li .container-title {
+    header .margins .space nav ul li .container-title {
         flex-direction: column;
     }
 
-    header nav ul li .container-title .icon-stack:before,
-    header nav ul li .container-title .icon-detail:before {
-        top: 10px;      
+    header .margins .space nav ul li svg {
+        height: 13px;
+        margin-bottom: -16px;
+        margin-left: -1px;
+        margin-top: 5px; 
+        width: 13px;    
     }
 
-    header nav ul li i {
-        margin-left: 15px;
-    }
-
-    header nav ul li:nth-child(1) a,
-    header nav ul li:nth-child(2) a {
+    header .margins .space nav ul li:nth-child(1) a,
+    header .margins .space nav ul li:nth-child(2) a {
         margin-left: 0;
         padding-bottom: 2px;
         padding-left: 10px;
@@ -436,12 +412,17 @@ header .message a:hover {
 
 @media (max-width: 1100px) and (min-width: 720px)
 {
-    header nav ul li i {
+    header .margins .space nav ul li i {
         margin-left: 2.80rem;
     }
 
-    header nav ul li:nth-child(1) a,
-    header nav ul li:nth-child(2) a {
+    header .margins .space nav ul li svg {
+        margin-left: 30px;
+        margin-right: 5px;
+    }
+
+    header .margins .space nav ul li:nth-child(1) a,
+    header .margins .space nav ul li:nth-child(2) a {
         margin-left: -25px;
         margin-right: -20px;
         padding-right: 25px;
@@ -459,16 +440,20 @@ header .message a:hover {
         min-height: 40px;
     }
 
-    header nav ul li span {
+    header .margins .space nav ul li span {
         top: -3px;
     }
 
-    header nav ul li a {
+    header .margins .space nav ul li svg {
+        margin-right: 0;
+    }
+
+    header .margins .space nav ul li a {
         font-size: var(--font-size-small);
     }
 
-    header nav ul li:nth-child(1) a,
-    header nav ul li:nth-child(2) a {
+    header .margins .space nav ul li:nth-child(1) a,
+    header .margins .space nav ul li:nth-child(2) a {
         margin-left: -25px;
         padding-left: 28px;
         padding-right: 25px;
