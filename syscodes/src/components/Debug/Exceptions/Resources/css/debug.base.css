@@ -252,6 +252,7 @@ header {
     padding: 0 20px;
     position: fixed;
     top: 0;
+    transition: 0.15s ease-out;
     width: 100%;
     z-index: 500;
 }
@@ -264,13 +265,14 @@ header {
 header .margins {
     display: flex;
     flex-direction: column;
-    transition: all 0.15s ease-out;
     width: 100%;
 }
 
 header .margins .space {
+    align-items: center;
     display: flex;
     justify-content: space-between;
+    transition: all 0.15s ease-out;
 }
 
 header .margins .space nav {
@@ -302,13 +304,20 @@ header .margins .space nav ul li svg {
     z-index: -1;
 }
 
+header .margins .space nav:nth-child(2) ul li svg {
+    fill: var(--gray-700);
+    height: 16px;
+    margin-top: 2px;
+    width: 16px;
+}
+
 .dark header .margins .space nav ul li svg {
     fill: var(--dark-gray-600);
 }
 
 header .margins .space nav ul li a {
     font-size: var(--font-size-small-xx);
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: 0.5px;
     margin-left: -25px;
     padding-bottom: 9px;
@@ -328,8 +337,9 @@ header .margins .space nav:nth-child(2) ul li a svg {
     margin-left: 0; 
 }
 
+header .margins .space nav ul li a:hover svg,
 header .margins .space nav:nth-child(2) ul li a:hover svg {
-    fill: var(--red-700);
+    fill: var(--red-400);
 }
 
 .dark header .margins .space nav:nth-child(2) ul li a:hover svg {
@@ -526,7 +536,7 @@ header .message a:hover {
 .exception-title .exception-background-title h2 {
     color: var(--gray-800);
     font-size: var(--font-size-small);
-    font-weight: 500;
+    font-weight: 400;
     overflow: hidden;
 }
 
@@ -693,7 +703,7 @@ header .message a:hover {
     color: var(--gray-700);
     display: flex;    
     font-size: var(--font-size-initial);
-    font-weight: 500;
+    font-weight: 400;
     justify-content: space-between;
     padding-left: 1.25rem;
     padding-right: 0.9rem;
@@ -857,7 +867,6 @@ header .message a:hover {
 .section-frame .frame.active .frame-method-info {
     border-color: var(--red-300);
     color: var(--white);
-    overflow: hidden;
 }
 
 .dark .section-frame .frame.active .frame-method-info {
@@ -871,8 +880,8 @@ header .message a:hover {
 }
 
 .section-frame .frame-method-info {
-    display: grid;
     align-items: center;
+    display: flex;
     grid-gap: 0.5rem;
     padding: 0.7rem 0.45rem;
 }
@@ -909,8 +918,10 @@ header .message a:hover {
 .section-frame .frame-function {
     left: 0;
     min-height: 1.5em;
+    overflow: hidden;
     position: relative;
-    white-space: pre-line;    
+    white-space: break-spaces;
+    word-wrap: break-word;  
 }
 
 .section-frame .frame-class {
@@ -1438,7 +1449,7 @@ header .message a:hover {
     color: var(--gray-700);
     display: inline-flex;
     font-size: var(--font-size-small);
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: 0.3px;
     padding: 8px 0;
     text-decoration: none;
