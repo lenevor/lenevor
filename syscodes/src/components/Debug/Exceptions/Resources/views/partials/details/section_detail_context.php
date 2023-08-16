@@ -95,7 +95,7 @@
     <section class="section-detail-context">
         <div class="section-info-context">
             <div class="info-context-title">
-                <a id="detail-context-data-version" class="scroll-target"></a>
+                <a id="detail-context-data" class="scroll-target"></a>
                 <h2><?= e(__('exception.contextData')) ?></h2>
             </div>
             <div class="info-version-title">
