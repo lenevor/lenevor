@@ -329,6 +329,14 @@ header .margins .space nav ul li a {
     text-transform: uppercase;
 }
 
+header .margins .space nav ul li a:hover {
+    color: var(--red-400);
+}
+
+header .margins .space nav ul li:hover svg {
+    fill: var(--red-400);
+}
+
 header .margins .space nav:nth-child(2) ul li a {
     margin-right: -50px;
 }
@@ -337,7 +345,6 @@ header .margins .space nav:nth-child(2) ul li a svg {
     margin-left: 0; 
 }
 
-header .margins .space nav ul li a:hover svg,
 header .margins .space nav:nth-child(2) ul li a:hover svg {
     fill: var(--red-400);
 }
@@ -348,6 +355,10 @@ header .margins .space nav:nth-child(2) ul li a:hover svg {
 
 .dark header .margins .space nav ul li a {
     color: var(--dark-gray-700);
+}
+
+.dark header .margins .space nav ul li a:hover {
+    color: var(--dark-red-700);
 }
 
 header .time {
