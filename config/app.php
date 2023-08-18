@@ -183,18 +183,5 @@ return [
     */
 
     'encoding' => 'UTF-8',
-
-    /*
-    |------------------------------------------------------------------------
-    | Default Register Editor                                                   
-    |------------------------------------------------------------------------
-    |
-    | This determines the editor register with the handler assigned by the user, 
-    | those are as follows:
-    |
-    | vscode, sublime, phpstorm, textmate
-    */
-
-    'editor' => 'vscode',
             
 ];
