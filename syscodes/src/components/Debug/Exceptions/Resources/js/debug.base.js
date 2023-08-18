@@ -26,7 +26,7 @@
                 header.style.borderBottom = '1px solid rgba(36, 68, 86, 0.5)';
                 header.style.boxShadow = '0 0 15px 4px rgba(0, 0, 0, 0.2)';
             } else {
-                header.style.background = '#FFFFFF';
+                header.style.background = '#F3F4F6';
                 header.style.borderBottom = 'none';
                 header.style.boxShadow = '0 0 15px 4px rgba(0, 0, 0, 0.2)';
             }
