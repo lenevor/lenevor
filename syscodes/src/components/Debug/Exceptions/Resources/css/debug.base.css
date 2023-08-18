@@ -48,7 +48,7 @@
     --tint-700: hsla(246, 71%, 14%, 0.75);
     --gray-50: hsla(0, 0%, 99%, 1);
     --gray-100: hsla(240, 45%, 98%, 1);
-    --gray-200: hsla(240, 26%, 95%, 1);
+    --gray-200: hsla(240, 28%, 95%, 1);
     --gray-300: hsla(250, 23%, 93%, 1);
     --gray-400: hsla(255, 24%, 84%, 1);
     --gray-500: hsla(250, 16%, 71%, 1);
@@ -244,7 +244,7 @@ a.active {
 /* HEADER */
 
 header {
-    align-self: baseline;
+    align-self: center;
     background: var(--gray-200);
     display: grid;
     margin-bottom: 40px;
@@ -262,40 +262,57 @@ header {
     border-bottom: 1px solid var(--dark-magenta-300);
 }
 
-header .margins {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-header .margins .space {
+header .space {
     align-items: center;
     display: flex;
     justify-content: space-between;
     transition: all 0.15s ease-out;
 }
 
-header .margins .space nav {
+header .space nav {
     margin-left: -30px;
 }
 
-header .margins .space nav ul {
-    align-items: center;
+header .space nav ul {
     display: flex;
     list-style: none;
 }
 
-header .margins .space nav ul li {
+header .space nav ul li {
     color: var(--gray-700);
 }
 
-header .margins .space nav ul li .container-title {
-    align-items: center;
+header .space nav ul li a {
     display: flex;
-    flex-direction: row;
+    margin-left: -25px;
+    padding-bottom: 11.5px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 11.5px;
+    text-decoration: none; 
+    text-shadow: none;
+    text-transform: uppercase;
 }
 
-header .margins .space nav ul li svg {
+.dark header .space nav ul li a {
+    color: var(--dark-gray-700);
+}
+
+header .space nav ul li a:hover {
+    color: var(--red-400);
+}
+
+.dark header .space nav ul li a:hover {
+    color: var(--dark-red-700);
+}
+
+header .space nav ul li a .container-title {
+    align-items: center;
+    display: flex;
+    width: 100%;
+}
+
+header .space nav ul li a .container-title svg {
     fill: var(--gray-600);
     height: 15px;
     margin-left: 10px;
@@ -304,61 +321,38 @@ header .margins .space nav ul li svg {
     z-index: -1;
 }
 
-header .margins .space nav:nth-child(2) ul li svg {
-    fill: var(--gray-700);
-    height: 16px;
-    margin-top: 2px;
-    width: 16px;
-}
-
-.dark header .margins .space nav ul li svg {
+.dark header .space nav ul li a .container-title svg {
     fill: var(--dark-gray-600);
 }
 
-header .margins .space nav ul li a {
+header .space nav ul li a:hover .container-title svg {
+    fill: var(--red-400);
+}
+
+header .space nav ul li a .container-title span {
     font-size: var(--font-size-small-xx);
     font-weight: 400;
     letter-spacing: 0.5px;
-    margin-left: -25px;
-    padding-bottom: 9px;
-    padding-left: 25px;
-    padding-right: 15px;
-    padding-top: 9px;
-    text-decoration: none; 
-    text-shadow: none;
-    text-transform: uppercase;
 }
 
-header .margins .space nav ul li a:hover {
-    color: var(--red-400);
+header .space nav:nth-child(2) ul li a {
+    margin-right: -45px;
 }
 
-header .margins .space nav ul li:hover svg {
+header .space nav:nth-child(2) ul li a .container-title svg {
+    fill: var(--gray-700);
+    height: 12px;
+    margin-left: 2px;
+    margin-top: 2px;
+    width: 12px;
+}
+
+header .space nav:nth-child(2) ul li a:hover .container-title svg {
     fill: var(--red-400);
 }
 
-header .margins .space nav:nth-child(2) ul li a {
-    margin-right: -50px;
-}
-
-header .margins .space nav:nth-child(2) ul li a svg {
-    margin-left: 0; 
-}
-
-header .margins .space nav:nth-child(2) ul li a:hover svg {
-    fill: var(--red-400);
-}
-
-.dark header .margins .space nav:nth-child(2) ul li a:hover svg {
+.dark header .space nav:nth-child(2) ul li a:hover .container-title svg {
     fill: var(--dark-red-700);
-}
-
-.dark header .margins .space nav ul li a {
-    color: var(--dark-gray-700);
-}
-
-.dark header .margins .space nav ul li a:hover {
-    color: var(--dark-red-700);
 }
 
 header .time {
@@ -407,25 +401,27 @@ header .message a:hover {
 
 @media (max-width: 320px)
 {
-    header .margins .space nav ul li .container-title {
+    header .space nav ul li a {
+        margin-bottom: -11px;
+        margin-left: -15px;
+        margin-top: -7px;
+    }
+
+    header .space nav ul li a .container-title {
         flex-direction: column;
     }
 
-    header .margins .space nav ul li svg {
+    header .space nav ul li a .container-title svg {
         height: 13px;
-        margin-bottom: -16px;
-        margin-left: -1px;
-        margin-top: 5px; 
         width: 13px;    
     }
 
-    header .margins .space nav ul li:nth-child(1) a,
-    header .margins .space nav ul li:nth-child(2) a {
-        margin-left: 0;
-        padding-bottom: 2px;
-        padding-left: 10px;
-        padding-right: 15px;
-        padding-top: 15px;
+    header .space nav ul li a .container-title span {
+        margin-top: -0.5px; 
+    }
+
+    header .space nav:nth-child(2) ul li a .container-title svg {
+        margin-top: -4px;    
     }
 }
 
@@ -433,51 +429,30 @@ header .message a:hover {
 
 @media (max-width: 1100px) and (min-width: 720px)
 {
-    header .margins .space nav ul li i {
-        margin-left: 2.80rem;
+    header .space nav ul li a {
+        margin-left: -2px;
     }
 
-    header .margins .space nav ul li svg {
-        margin-left: 30px;
-        margin-right: 5px;
+    header .space nav:nth-child(2) ul li a {
+        margin-right: -30px;
     }
 
-    header .margins .space nav ul li:nth-child(1) a,
-    header .margins .space nav ul li:nth-child(2) a {
-        margin-left: -25px;
-        margin-right: -20px;
-        padding-right: 25px;
-    }
-
-    header .message a {
-        margin-left: 0;
+    header .space nav:nth-child(2) ul li a .container-title svg {
+        height: 15px;
+        width: 15px;
     }
 }
 
 /* WIDE */
 @media (min-width: 1100px) 
 {
-    header {
-        min-height: 40px;
-    }
-
-    header .margins .space nav ul li span {
-        top: -3px;
-    }
-
-    header .margins .space nav ul li svg {
-        margin-right: 0;
-    }
-
-    header .margins .space nav ul li a {
+    header .space nav ul li a .container-title span{
         font-size: var(--font-size-small);
     }
 
-    header .margins .space nav ul li:nth-child(1) a,
-    header .margins .space nav ul li:nth-child(2) a {
-        margin-left: -25px;
-        padding-left: 28px;
-        padding-right: 25px;
+    header .space nav:nth-child(2) ul li a .container-title svg {
+        height: 16px;
+        width: 16px;
     }
 
     header .message a {
