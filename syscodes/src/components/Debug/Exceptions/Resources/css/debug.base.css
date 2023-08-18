@@ -303,7 +303,7 @@ header .space nav ul li a:hover {
 }
 
 .dark header .space nav ul li a:hover {
-    color: var(--dark-red-700);
+    color: var(--dark-red-800);
 }
 
 header .space nav ul li a .container-title {
@@ -322,7 +322,7 @@ header .space nav ul li a .container-title svg {
 }
 
 .dark header .space nav ul li a .container-title svg {
-    fill: var(--dark-gray-600);
+    fill: var(--dark-gray-400);
 }
 
 header .space nav ul li a:hover .container-title svg {
@@ -343,8 +343,12 @@ header .space nav:nth-child(2) ul li a .container-title svg {
     fill: var(--gray-700);
     height: 12px;
     margin-left: 2px;
-    margin-top: 2px;
+    margin-top: -2px;
     width: 12px;
+}
+
+.dark header .space nav:nth-child(2) ul li a .container-title svg {
+    fill: var(--dark-gray-500);
 }
 
 header .space nav:nth-child(2) ul li a:hover .container-title svg {
@@ -352,7 +356,7 @@ header .space nav:nth-child(2) ul li a:hover .container-title svg {
 }
 
 .dark header .space nav:nth-child(2) ul li a:hover .container-title svg {
-    fill: var(--dark-red-700);
+    fill: var(--dark-red-800);
 }
 
 header .time {
