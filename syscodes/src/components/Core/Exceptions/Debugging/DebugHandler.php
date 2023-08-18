@@ -50,8 +50,8 @@ class DebugHandler
      */
     protected function registerEditor($handler): static
     {
-        if (config('app.editor', false)) {
-            $handler->setEditor(config('app.editor'));
+        if (config('gdebug.editor', false)) {
+            $handler->setEditor(config('gdebug.editor'));
         }
 
         return $this;
