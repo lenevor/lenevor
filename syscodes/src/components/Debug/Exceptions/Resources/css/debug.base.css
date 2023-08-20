@@ -337,6 +337,7 @@ header .space nav ul li a .container-title span {
 
 header .space nav:nth-child(2) ul li a {
     margin-right: -45px;
+    position: relative;
 }
 
 header .space nav:nth-child(2) ul li a .container-title svg {
