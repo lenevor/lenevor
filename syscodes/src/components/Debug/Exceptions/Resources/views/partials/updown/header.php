@@ -43,7 +43,7 @@
 			<nav>
 				<ul>
 					<li>
-						<a href='#' target="_self">
+						<a href='#settings' target="_self">
 							<div class="container-title">
 								<svg viewBox="0 0 30 30">
 									<path d="M27.526,18.036L27,17.732c-0.626-0.361-1-1.009-1-1.732s0.374-1.371,1-1.732l0.526-0.304  c1.436-0.83,
@@ -59,6 +59,7 @@
 								</svg>
 							</div>
 						</a>
+						<?= $template->render($settings) ?>
 					</li>
 				</ul>
 			</nav>
