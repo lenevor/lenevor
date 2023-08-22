@@ -271,6 +271,7 @@ header .space {
 
 header .space nav {
     margin-left: -30px;
+    position: relative;
 }
 
 header .space nav ul {
@@ -362,22 +363,55 @@ header .space nav:nth-child(2) ul li a:hover .container-title svg {
 
 header .space nav:nth-child(2) ul li .dropdown {
     display: none;
-    background: var(--white);
-    border: 1px solid var(--gray-200);
-    box-shadow: 0 10px 18px -15px var(--gray-600),
-                0 0 16px -14px var(--gray-600);
     margin-right: 0.375rem;
     min-height: 40px;
     position: absolute;
-    right: 1.5rem;
+    right: -1.5rem;
     top: 3.5rem;
+    transition: all 15s ease-out;
     transform: translate(1.5rem);
     width: 258px;
 }
 
+header .space nav:nth-child(2) ul li .dropdown.active {
+    display: block;
+}
+
 header .space nav:nth-child(2) ul li .dropdown .box {
-    display: flex;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    box-shadow: 0 10px 18px -15px var(--gray-600),
+                0 0 16px -14px var(--gray-600);
     padding: 1rem 2.5rem;
+    position: relative;
+}
+
+header .space nav:nth-child(2) ul li .dropdown .box:after {
+    background: var(--white);
+    content: "";
+    display: block;
+    height: 20px;
+    position: absolute;
+    right: 7%;
+    transform-origin: 50% 50%;
+    transform: rotate(45deg) translateX(-50%);
+    top: -3px;
+    width: 20px;
+    z-index: 400;
+}
+
+header .space nav:nth-child(2) ul li .dropdown .box:before {
+    background: var(--gray-300);
+    content: "";
+    display: block;
+    height: 21px;
+    position: absolute;        
+    right: 7%;
+    transform-origin: 50% 50%;
+    transform: rotate(45deg) translate(-50%);    
+    top: -4px;
+    width: 21px;
+    z-index: -50;
 }
 
 header .space nav:nth-child(2) ul li .dropdown .box .title {
@@ -502,6 +536,11 @@ header .message a:hover {
     header .space nav:nth-child(2) ul li a .container-title svg {
         height: 15px;
         width: 15px;
+    }
+
+    header .space nav:nth-child(2) ul li .dropdown {
+        right: -0.6rem;
+        transform: translate(1.5rem);
     }
 
     header .message a {
