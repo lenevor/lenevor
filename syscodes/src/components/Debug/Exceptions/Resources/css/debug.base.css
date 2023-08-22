@@ -503,6 +503,10 @@ header .message a:hover {
         height: 15px;
         width: 15px;
     }
+
+    header .message a {
+        margin-left: 0;
+    }
 }
 
 /* WIDE */
@@ -1458,10 +1462,19 @@ header .message a:hover {
 }
 
 .section-details .sidebar nav {
+    background: var(--gray-300);
     display: none; 
     left: 0;
+    padding-bottom: 1.5rem;
+    padding-left: 2.5rem;
+    padding-top: 1.5rem;
     position: sticky;
     top: 90px;
+    width: 100%;
+}
+
+.dark .section-details .sidebar nav {
+    background-color: var(--dark-magenta-100);
 }
 
 .section-details .sidebar ul {
@@ -1494,7 +1507,7 @@ header .message a:hover {
 
 .section-details .sidebar nav ul li a {
     align-items: center;
-    color: var(--gray-700);
+    color: var(--gray-800);
     display: inline-flex;
     font-size: var(--font-size-small);
     font-weight: 400;
@@ -1601,7 +1614,7 @@ header .message a:hover {
 }
 
 .dark .section-details .sidebar nav ul li:nth-child(6) svg {
-    fill: var(--dark-magenta-200);
+    fill: var(--dark-magenta-100);
     stroke: var(--dark-gray-500);
 }
 
@@ -1623,8 +1636,16 @@ header .message a:hover {
 {
     .section-details .sidebar nav {
         display: inline-block;
-        margin-right: 58px;
+        margin-right: 64px;
+        padding-bottom: 1.5rem;
+        padding-left: 2rem;
+        padding-top: 1rem;
         width: 100%;
+    }
+
+    .section-details .sidebar nav ul li h2 a,
+    .section-details .sidebar nav ul li h2 a:hover {
+        font-size: var(--font-size-small-xxxx);
     }
 
     .section-details .sidebar nav ul li:nth-child(2) svg {
@@ -1653,7 +1674,7 @@ header .message a:hover {
 {
     .section-details .sidebar nav {
         display: inline-block;
-        margin-right: 105px;
+        margin-right: 65px;
     }
 
     .section-details .sidebar nav ul li h2 a,
@@ -2051,7 +2072,7 @@ header .message a:hover {
         text-overflow: ellipsis;
         transition: 0.2s linear;
         white-space: pre;
-        width: 35%;
+        width: 36%;
     }
 
     .section-details .section-detail-request .section-info-request .info-header-title .data-table tr:hover:nth-child(7) td:first-child {
