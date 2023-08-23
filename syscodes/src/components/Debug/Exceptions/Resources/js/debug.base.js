@@ -50,6 +50,14 @@
 
     });
 
+    var dropdown = d.querySelector('.dropdown');
+    var config = d.querySelector('nav:nth-child(2) a');
+    let evento = ((document.ontouchstart !== null) ? 'mouseup' : 'touchstart');
+
+    config.addEventListener(evento, function (e) {
+        dropdown.classList.toggle("active");
+    });
+
     /**
      * CODE FOR SELECTED THE FRAMES
      */
@@ -58,7 +66,6 @@
     var previousInfo  = null;
     var allFrames     = d.querySelectorAll('.frame');
     var allFramesCode = d.querySelectorAll('.code-source');
-    let evento        = ((document.ontouchstart !== null) ? 'mouseup' : 'touchstart');
 
     function changeTo(el) 
     {
