@@ -252,7 +252,7 @@ header {
     padding: 0 20px;
     position: fixed;
     top: 0;
-    transition: 0.15s ease-out;
+    transition: all 0.15s ease-out;
     width: 100%;
     z-index: 500;
 }
@@ -266,7 +266,7 @@ header .space {
     align-items: center;
     display: flex;
     justify-content: space-between;
-    transition: all 0.15s ease-out;
+    transition: all 1s ease-out;
 }
 
 header .space nav {
@@ -336,9 +336,15 @@ header .space nav ul li a .container-title span {
     letter-spacing: 0.5px;
 }
 
-header .space nav:nth-child(2) ul li a {
-    margin-right: -45px;
+header .space nav:nth-child(2) {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 10px;
     position: relative;
+}
+
+header .space nav:nth-child(2) ul li a {
+    margin-right: -55px;
 }
 
 header .space nav:nth-child(2) ul li a .container-title svg {
@@ -346,6 +352,7 @@ header .space nav:nth-child(2) ul li a .container-title svg {
     height: 12px;
     margin-left: 2px;
     margin-top: -2px;
+    transform: translate(-0.1rem);
     width: 12px;
 }
 
@@ -362,27 +369,33 @@ header .space nav:nth-child(2) ul li a:hover .container-title svg {
 }
 
 header .space nav:nth-child(2) ul li .dropdown {
-    display: none;
-    margin-right: 0.375rem;
-    min-height: 40px;
-    position: absolute;
-    right: -1.5rem;
-    top: 3.5rem;
-    transition: all 15s ease-out;
-    transform: translate(1.5rem);
-    width: 258px;
-}
-
-header .space nav:nth-child(2) ul li .dropdown.active {
-    display: block;
-}
-
-header .space nav:nth-child(2) ul li .dropdown .box {
     background: var(--white);
     border: 1px solid var(--gray-200);
     box-shadow: 0 10px 18px -15px var(--gray-600),
                 0 0 16px -14px var(--gray-600);
-    padding: 1rem 2.5rem;
+    margin-right: 0.375rem;
+    min-height: 40px;
+    opacity: 0;
+    position: absolute;
+    right: -1.8rem;
+    transform: translate(0.5rem) 
+               scaleX(0.5) scaleY(0.5);
+    transform-origin: top right;
+    transition: all 0.2s cubic-bezier(.4, 0, .2, 1);
+    top: 3.5rem;
+    width: 208px; 
+    z-index: 100;
+}
+
+header .space nav:nth-child(2) ul li .dropdown.active {
+    opacity: 1;
+    transform: translate(0.5rem) 
+               scaleX(0.9) scaleY(0.9);
+}
+
+header .space nav:nth-child(2) ul li .dropdown .box {
+    background: var(--white);
+    padding: 2rem 2.5rem;
     position: relative;
 }
 
@@ -392,10 +405,10 @@ header .space nav:nth-child(2) ul li .dropdown .box:after {
     display: block;
     height: 20px;
     position: absolute;
-    right: 7%;
+    right: 5%;
     transform-origin: 50% 50%;
     transform: rotate(45deg) translateX(-50%);
-    top: -3px;
+    top: -1px;
     width: 20px;
     z-index: 400;
 }
@@ -406,16 +419,16 @@ header .space nav:nth-child(2) ul li .dropdown .box:before {
     display: block;
     height: 21px;
     position: absolute;        
-    right: 7%;
+    right: 5%;
     transform-origin: 50% 50%;
     transform: rotate(45deg) translate(-50%);    
-    top: -4px;
+    top: -2px;
     width: 21px;
-    z-index: -50;
+    z-index: -1;
 }
 
 header .space nav:nth-child(2) ul li .dropdown .box .title {
-    align-items: center;
+    align-items: baseline;
     display: flex;
     height: 25px;
     justify-content: space-between;
@@ -428,22 +441,39 @@ header .space nav:nth-child(2) ul li .dropdown .box .title a {
 }
 
 header .space nav:nth-child(2) ul li .dropdown .box .title h4 {
+    font-size: var(--font-size-small);
     font-weight: 600;
     text-shadow: none;
 }
 
+
 header .space nav:nth-child(2) ul li .dropdown .box .title a {
-    text-transform: none;
+    font-size: var(--font-size-small-x);
+    text-decoration: underline;
+    text-transform: capitalize;
     margin-right: -25px;
 }
 
+header .space nav:nth-child(2) ul li .dropdown .box label {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    width: 100%;
+}
+
+header .space nav:nth-child(2) ul li .dropdown .box label span {
+    font-size: var(--font-size-small);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
 header .time {
-    overflow: hidden;
+    display: none;
+    display: absolute;
     width: 100%;
 }
 
 header .message {
-    align-items: center;
     border-top-color: var(--gray-200);
     border-top-width: 1px;
     min-height: 10px;
@@ -463,7 +493,7 @@ header .message a {
     padding-right: -19px;
     text-decoration: none;
     text-overflow: ellipsis;
-    white-space: pre;
+    word-break: break-all;
 }
 
 .dark header .message a {
@@ -502,22 +532,17 @@ header .message a:hover {
         margin-top: -0.5px; 
     }
 
-    header .space nav:nth-child(2) ul li a .container-title svg {
-        margin-top: -4px;    
+    header .space nav:nth-child(2) ul li a {
+        margin-right: -45px;
     }
 
-    header .space nav:nth-child(2) ul li .dropdown {
-        width: 208px;
+    header .space nav:nth-child(2) ul li a .container-title svg {
+        margin-top: -4px;    
     }
 
     header .space nav:nth-child(2) ul li .dropdown .box {
         padding-left: 1.8rem;
         padding-right: 1.8rem;
-    }
-
-    header .space nav:nth-child(2) ul li .dropdown .box .title h4,
-    header .space nav:nth-child(2) ul li .dropdown .box .title a {
-        font-size: var(--font-size-small);
     }
 }
 
@@ -539,8 +564,13 @@ header .message a:hover {
     }
 
     header .space nav:nth-child(2) ul li .dropdown {
-        right: -0.6rem;
-        transform: translate(1.5rem);
+        right: -0.8rem;
+        width: 250px;
+    }
+
+    header .space nav:nth-child(2) ul li .dropdown .box:after,
+    header .space nav:nth-child(2) ul li .dropdown .box:before {
+        right: 4%;
     }
 
     header .message a {
@@ -558,6 +588,24 @@ header .message a:hover {
     header .space nav:nth-child(2) ul li a .container-title svg {
         height: 16px;
         width: 16px;
+    }
+
+    header .space nav:nth-child(2) ul li .dropdown {
+        right: -2rem;
+        width: 280px;
+    }
+
+    header .space nav:nth-child(2) ul li .dropdown .box:after,
+    header .space nav:nth-child(2) ul li .dropdown .box:before {
+        right: 4%;
+    }
+
+    header .space nav:nth-child(2) ul li .dropdown .box .title h4 {
+        font-size: var(--font-size-medium-x);
+    }
+
+    header .space nav:nth-child(2) ul li .dropdown .box .title a {
+        font-size: var(--font-size-small);
     }
 
     header .message a {
