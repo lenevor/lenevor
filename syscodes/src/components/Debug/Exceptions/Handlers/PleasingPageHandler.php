@@ -62,9 +62,13 @@ class PleasingPageHandler extends Handler
 	 */
 	protected $editors = [
 		"vscode"   => "vscode://file/%file:%line",
+		"netbeans" => "netbeans://open/?f=%file:%line",
+		"idea"     => "idea://open?file=%file&line=%line",
 		"sublime"  => "subl://open?url=file://%file&line=%line",
 		"phpstorm" => "phpstorm://open?file://%file&line=%line",
 		"textmate" => "txmt://open?url=file://%file&line=%line",
+		"emacs"    => "emacs://open?url=file://%file&line=%line",
+        "macvim"   => "mvim://open/?url=file://%file&line=%line",
 		"atom"     => "atom://core/open/file?filename=%file&line=%line",
 	];
 	
