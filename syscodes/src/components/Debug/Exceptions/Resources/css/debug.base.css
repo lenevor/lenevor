@@ -351,7 +351,7 @@ header .space nav:nth-child(2) ul li a .container-title svg {
     fill: var(--gray-700);
     height: 12px;
     margin-left: 2px;
-    margin-top: -2px;
+    margin-top: -1px;
     transform: translate(-0.1rem);
     width: 12px;
 }
@@ -446,7 +446,6 @@ header .space nav:nth-child(2) ul li .dropdown .box .title h4 {
     text-shadow: none;
 }
 
-
 header .space nav:nth-child(2) ul li .dropdown .box .title a {
     font-size: var(--font-size-small-x);
     text-decoration: underline;
@@ -461,10 +460,21 @@ header .space nav:nth-child(2) ul li .dropdown .box label {
     width: 100%;
 }
 
-header .space nav:nth-child(2) ul li .dropdown .box label span {
+header .space nav:nth-child(2) ul li .dropdown .box label .editor-title {
     font-size: var(--font-size-small);
     font-weight: 600;
+    letter-spacing: 0.7px;
+    margin-bottom: 5px;
     text-transform: uppercase;
+}
+
+header .space nav:nth-child(2) ul li .dropdown .box label select {
+    background: var(--gray-100);
+    color: var(--gray-700);
+    font-size: var(--font-size-medium-x);
+    max-width: 100%;
+    padding: 15px;
+    text-transform: none;
 }
 
 header .time {
@@ -514,9 +524,9 @@ header .message a:hover {
 @media (max-width: 320px)
 {
     header .space nav ul li a {
-        margin-bottom: -11px;
+        margin-bottom: -5px;
         margin-left: -15px;
-        margin-top: -7px;
+        margin-top: -6px;
     }
 
     header .space nav ul li a .container-title {
@@ -537,8 +547,13 @@ header .message a:hover {
     }
 
     header .space nav:nth-child(2) ul li a .container-title svg {
-        margin-top: -4px;    
+        margin-top: 0;    
     }
+
+    header .space nav:nth-child(2) ul li .dropdown {
+        top: 3.2rem;
+    }
+    
 
     header .space nav:nth-child(2) ul li .dropdown .box {
         padding-left: 1.8rem;
@@ -592,7 +607,7 @@ header .message a:hover {
 
     header .space nav:nth-child(2) ul li .dropdown {
         right: -2rem;
-        width: 280px;
+        width: 310px;
     }
 
     header .space nav:nth-child(2) ul li .dropdown .box:after,
