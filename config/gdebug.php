@@ -10,11 +10,12 @@ return [
     | This determines the editor register with the handler assigned by the user, 
     | those are as follows:
     |
-    | Supported: "vscode", "sublime", "phpstorm", "textmate"
+    | Supported: "sublime", "emacs", "textmate", "macvim", "phpstorm", "idea",
+    |            "netbeans", "vscode", "atom"
     |
     */
 
-    'editor' => env('GDEBUG_EDITOR', 'vscode'),
+    'editor' => env('GDEBUG_EDITOR', 'phpstorm'),
 
     /*
     |------------------------------------------------------------------------
