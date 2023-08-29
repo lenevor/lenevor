@@ -18,5 +18,8 @@
                 <option class="option-editor" value="atom">Atom</option>
             </select>
         </label>
+        <label for="editor-theme">
+            <span class="editor-title">Theme</span>
+        </label>
     </div>
 </div>
