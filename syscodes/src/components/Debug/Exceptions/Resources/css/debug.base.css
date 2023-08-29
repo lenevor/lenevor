@@ -461,8 +461,8 @@ header .space nav:nth-child(2) ul li .dropdown .box label {
 }
 
 header .space nav:nth-child(2) ul li .dropdown .box label .editor-title {
-    font-size: var(--font-size-small);
-    font-weight: 600;
+    font-size: var(--font-size-small-x);
+    font-weight: 700;
     letter-spacing: 0.7px;
     margin-bottom: 5px;
     text-transform: uppercase;
@@ -470,11 +470,24 @@ header .space nav:nth-child(2) ul li .dropdown .box label .editor-title {
 
 header .space nav:nth-child(2) ul li .dropdown .box label select {
     background: var(--gray-100);
+    border-collapse: collapse;
     color: var(--gray-700);
-    font-size: var(--font-size-medium-x);
+    font-size: var(--font-size-initial);
     max-width: 100%;
-    padding: 15px;
+    padding: 16px;
     text-transform: none;
+}
+
+header .space nav:nth-child(2) ul li .dropdown .box label select .option-editor,
+header .space nav:nth-child(2) ul li .dropdown .box label select .option-theme {
+    font-size: var(--font-size-small);
+    letter-spacing: 1.3px;
+}
+
+header .space nav:nth-child(2) ul li .dropdown .box label select svg {
+    fill: var(--black-100);
+    height: 20px;
+    width: 20px;
 }
 
 header .time {
@@ -621,6 +634,14 @@ header .message a:hover {
 
     header .space nav:nth-child(2) ul li .dropdown .box .title a {
         font-size: var(--font-size-small);
+    }
+
+    header .space nav:nth-child(2) ul li .dropdown .box label .editor-title {
+        font-size: var(--font-size-initial);
+    }
+
+    header .space nav:nth-child(2) ul li .dropdown .box label select {
+        font-size: var(--font-size-medium-xx);
     }
 
     header .message a {
