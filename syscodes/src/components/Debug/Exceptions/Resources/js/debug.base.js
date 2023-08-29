@@ -55,7 +55,9 @@
     let evento = ((document.ontouchstart !== null) ? 'mouseup' : 'touchstart');
 
     config.addEventListener(evento, function (e) {
-        dropdown.classList.toggle("active");
+        if (e.target) {
+            dropdown.classList.toggle("active");
+        }
     });
 
     /**
