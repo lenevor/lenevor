@@ -395,7 +395,7 @@ header .space nav:nth-child(2) ul li .dropdown.active {
 
 header .space nav:nth-child(2) ul li .dropdown .box {
     background: var(--white);
-    padding: 2rem 2.5rem;
+    padding: 2rem 1.8rem;
     position: relative;
 }
 
@@ -473,21 +473,43 @@ header .space nav:nth-child(2) ul li .dropdown .box label select {
     border-collapse: collapse;
     color: var(--gray-700);
     font-size: var(--font-size-initial);
-    max-width: 100%;
+    min-height: 30px;
     padding: 16px;
     text-transform: none;
+    width: 100%;
+}
+
+header .space nav:nth-child(2) ul li .dropdown .box label select:focus { 
+    outline: none;
 }
 
 header .space nav:nth-child(2) ul li .dropdown .box label select .option-editor,
 header .space nav:nth-child(2) ul li .dropdown .box label select .option-theme {
     font-size: var(--font-size-small);
     letter-spacing: 1.3px;
+    position: relative;
 }
 
-header .space nav:nth-child(2) ul li .dropdown .box label select svg {
-    fill: var(--black-100);
-    height: 20px;
-    width: 20px;
+header .space nav:nth-child(2) ul li .dropdown .box label .select-box { 
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+header .space nav:nth-child(2) ul li .dropdown .box label .select-box:after {
+    align-items: center;
+    background-color: var(--gray-200);
+    color: var(--gray-600);
+    content: "\1F80B";
+    display: flex; 
+    height: 52px;
+    justify-content: center;
+    pointer-events: none;
+    position: absolute;
+    right: 0px;
+    text-align: center;
+    top: 0;
+    width: 45px;
 }
 
 header .time {
@@ -566,12 +588,6 @@ header .message a:hover {
     header .space nav:nth-child(2) ul li .dropdown {
         top: 3.2rem;
     }
-    
-
-    header .space nav:nth-child(2) ul li .dropdown .box {
-        padding-left: 1.8rem;
-        padding-right: 1.8rem;
-    }
 }
 
 /* TABLE */
@@ -621,6 +637,11 @@ header .message a:hover {
     header .space nav:nth-child(2) ul li .dropdown {
         right: -2rem;
         width: 310px;
+    }
+
+    header .space nav:nth-child(2) ul li .dropdown .box {
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
     }
 
     header .space nav:nth-child(2) ul li .dropdown .box:after,
