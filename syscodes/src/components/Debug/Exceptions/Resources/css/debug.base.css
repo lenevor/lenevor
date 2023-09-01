@@ -387,6 +387,13 @@ header .space nav:nth-child(2) ul li .dropdown {
     z-index: 100;
 }
 
+.dark header .space nav:nth-child(2) ul li .dropdown {
+    background: var(--dark-magenta-100);
+    border: none;
+    box-shadow: 0 10px 18px -15px var(--dark-magenta-100),
+                0 0 16px -14px var(--dark-magenta-100);
+}
+
 header .space nav:nth-child(2) ul li .dropdown.active {
     opacity: 1;
     transform: translate(0.5rem) 
@@ -397,6 +404,10 @@ header .space nav:nth-child(2) ul li .dropdown .box {
     background: var(--white);
     padding: 2rem 1.8rem;
     position: relative;
+}
+
+.dark header .space nav:nth-child(2) ul li .dropdown .box {
+    background: var(--dark-magenta-400);
 }
 
 header .space nav:nth-child(2) ul li .dropdown .box:after {
@@ -413,6 +424,10 @@ header .space nav:nth-child(2) ul li .dropdown .box:after {
     z-index: 400;
 }
 
+.dark header .space nav:nth-child(2) ul li .dropdown .box:after {
+    background: var(--dark-magenta-400);
+}
+
 header .space nav:nth-child(2) ul li .dropdown .box:before {
     background: var(--gray-300);
     content: "";
@@ -425,6 +440,10 @@ header .space nav:nth-child(2) ul li .dropdown .box:before {
     top: -2px;
     width: 21px;
     z-index: -1;
+}
+
+.dark header .space nav:nth-child(2) ul li .dropdown .box:before {
+    background: var(--dark-magenta-100);
 }
 
 header .space nav:nth-child(2) ul li .dropdown .box .title {
@@ -646,7 +665,7 @@ header .message a:hover {
 
     header .space nav:nth-child(2) ul li .dropdown .box:after,
     header .space nav:nth-child(2) ul li .dropdown .box:before {
-        right: 4%;
+        right: 3%;
     }
 
     header .space nav:nth-child(2) ul li .dropdown .box .title h4 {
