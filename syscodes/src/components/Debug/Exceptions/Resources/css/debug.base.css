@@ -465,6 +465,10 @@ header .space nav:nth-child(2) ul li .dropdown .box .title h4 {
     text-shadow: none;
 }
 
+.dark header .space nav:nth-child(2) ul li .dropdown .box .title h4 {
+    color: var(--dark-gray-700);
+}
+
 header .space nav:nth-child(2) ul li .dropdown .box .title a {
     font-size: var(--font-size-small-x);
     text-decoration: underline;
@@ -487,6 +491,11 @@ header .space nav:nth-child(2) ul li .dropdown .box label .editor-title {
     text-transform: uppercase;
 }
 
+.dark header .space nav:nth-child(2) ul li .dropdown .box label .editor-title {
+    color: var(--dark-gray-300);
+    text-shadow: none;
+}
+
 header .space nav:nth-child(2) ul li .dropdown .box label select {
     background: var(--gray-100);
     border-collapse: collapse;
@@ -496,6 +505,11 @@ header .space nav:nth-child(2) ul li .dropdown .box label select {
     padding: 16px;
     text-transform: none;
     width: 100%;
+}
+
+.dark header .space nav:nth-child(2) ul li .dropdown .box label select {
+    background: var(--dark-magenta-300);
+    color: var(--dark-gray-600);
 }
 
 header .space nav:nth-child(2) ul li .dropdown .box label select:focus { 
@@ -517,7 +531,7 @@ header .space nav:nth-child(2) ul li .dropdown .box label .select-box {
 
 header .space nav:nth-child(2) ul li .dropdown .box label .select-box:after {
     align-items: center;
-    background-color: var(--gray-200);
+    background: (--gray-200);
     color: var(--gray-600);
     content: "\1F80B";
     display: flex; 
@@ -529,6 +543,11 @@ header .space nav:nth-child(2) ul li .dropdown .box label .select-box:after {
     text-align: center;
     top: 0;
     width: 45px;
+}
+
+.dark header .space nav:nth-child(2) ul li .dropdown .box label .select-box:after {
+    background: var(--dark-magenta-250);
+    color: var(--dark-gray-600)
 }
 
 header .time {
