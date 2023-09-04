@@ -115,7 +115,7 @@ class PleasingPageHandler extends Handler
 	public function __construct()
 	{
 		$this->template      = new TemplateHandler;
-		$this->searchPaths[] = dirname(__DIR__).DIRECTORY_SEPARATOR.'Resources';
+		$this->searchPaths[] = dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR.'Resources';
 	}
 
 	/**
@@ -154,8 +154,8 @@ class PleasingPageHandler extends Handler
 	protected function collectionVars(): array
 	{
 		$supervisor = $this->getSupervisor();
-		$style      = file_get_contents($this->getResource('css/debug.base.css'));
-		$jscript    = file_get_contents($this->getResource('js/debug.base.js'));
+		$style      = file_get_contents($this->getResource('compiled/css/debug.base.css'));
+		$jscript    = file_get_contents($this->getResource('compiled/js/debug.base.js'));
 		$servers    = array_merge($this->getDefaultServers(), $this->tables);
 		$routing    = array_merge($this->getDefaultRouting(), $this->tables);
 		$databases  = array_merge($this->getDefaultDatabase(), $this->tables);
