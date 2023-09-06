@@ -123,9 +123,9 @@ class BcryptHasher extends AbstractHasher implements Hasher
      * 
      * @param  int  $rounds
      * 
-     * @return self
+     * @return static
      */
-    public function setRounds($rounds): self
+    public function setRounds($rounds): static
     {
         $this->rounds = (int) $rounds;
         
