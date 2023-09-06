@@ -23,11 +23,72 @@
 namespace Syscodes\Components\Core\Providers;
 
 use Syscodes\Components\Support\ServiceProvider;
+use Syscodes\Components\Contracts\Support\Deferrable;
+use Syscodes\Bundles\ApplicationBundle\Console\Commands\AboutCommand;
 
 /**
- * 
+ * The Prime service provider allows the register of a namespace of 
+ * all the commands necessary for operate the framewore from the CLI.
  */
-class PrimeServiceProvider extends ServiceProvider
+class PrimeServiceProvider extends ServiceProvider implements Deferrable
 {
+    /**
+     * The commands to be registered.
+     * 
+     * @var array $commands
+     */
+    protected $commands = [
+        'About' => AboutCommand::class,
+    ];
+
+    /**
+     * Register any application services.
+     */
+    public function register()
+    {
+        $this->registerCommands(array_merge(
+            $this->commands,
+            [],
+        ));
+    }
     
+    /**
+     * Register the given commands.
+     * 
+     * @param  array  $commands
+     * 
+     * @return void
+     */
+    protected function registerCommands(array $commands)
+    {
+        foreach ($commands as $commandName => $command) {
+            $method = "register{$commandName}Command";
+            
+            if (method_exists($this, $method)) {
+                $this->{$method}();
+            } else {
+                $this->app->singleton($command);
+            }
+        }
+    }
+    
+    /**
+     * Register the command.
+     * 
+     * @return void
+     */
+    protected function registerAboutCommand()
+    {
+        $this->app->singleton(AboutCommand::class, fn () => new AboutCommand);
+    }
+    
+    /**
+     * Get the services provided by the provider.
+     * 
+     * @return array
+     */
+    public function provides(): array
+    {
+        return array_merge(array_values($this->commands), []);
+    }
 }
