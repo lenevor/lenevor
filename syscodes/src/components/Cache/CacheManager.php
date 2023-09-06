@@ -98,19 +98,7 @@ class CacheManager implements FactoryContract
     {
         $name = $name ?: $this->getDefaultDriver();
 
-        return $this->stores[$name] = $this->get($name);
-    }
-
-    /**
-     * Get the store from the local cache.
-     * 
-     * @param  string  $name
-     * 
-     * @return \Syscodes\Components\Cache\CacheRepository
-     */
-    protected function get(string $name)
-    {
-        return $this->stores[$name] ?? $this->resolve($name);
+        return $this->stores[$name] = $this->resolve($name);
     }
 
     /**
