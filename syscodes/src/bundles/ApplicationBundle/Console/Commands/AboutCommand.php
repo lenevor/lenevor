@@ -23,7 +23,6 @@
 namespace Syscodes\Bundles\ApplicationBundle\Console\Commands;
 
 use Locale;
-use Syscodes\Components\Console\Util\Show;
 use Syscodes\Components\Console\Command\Command;
 use Syscodes\Bundles\ApplicationBundle\Console\Application;
 use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
@@ -68,16 +67,7 @@ class AboutCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output) 
     {
-        Show::sList(
-            $this->buildInfo($this->getApplication(), $output), 
-            '', 
-            [
-                'leftChar'  => '',
-                'sepChar'   => ' : ',
-                'keyPadPos' => 'left',
-            ],
-            $output
-        );
+        echo $this->buildInfo($this->getApplication(), $output);
 
         return 0;
     }
@@ -88,40 +78,29 @@ class AboutCommand extends Command
      * @param  \Syscodes\Bundles\ApplicationBundle\Console\Application  $application
      * @param  \Syscodes\Components\Contracts\Console\\Output\Output  $output
      *
-     * @return array
+     * @return string
      */
-    public function buildInfo(Application $application, OutputInterface $output): array
+    public function buildInfo(Application $application, OutputInterface $output): string
     {
         $logo         = '';
-        $updateAt     = $application->getParam('updateAt', 'Unknown');
-        $publishAt    = $application->getParam('publishAt', 'Unknown');
         $phpVersion   = \PHP_VERSION;
         $phpVersion   = \PHP_VERSION;
-        $architecture = \PHP_INT_SIZE * 8;
+        $architecture = \PHP_INT_SIZE * 16;
         $locale       = class_exists(Locale::class, false) && Locale::getDefault() ? Locale::getDefault() : 'n/a';
 
         if ($logoTxt = $application->getLogoText()) {
             $logo = $output->commandline($logoTxt, $application->getLogoStyle());
         }
 
-        $info = [
-            "$logo\n",
-            "  {$application->getName()}", 
-            "  Version"      => "{$application->getVersion()}",
-            "  Publish at"   => "{$publishAt}",
-            "  Update at"    => "{$updateAt}\n",
-            "  <info>Core</>\n",
-            '  Environment'  => env('APP_ENV'),
-            '  Debug'        => (env('APP_DEBUG') ? "True" : "False")."\n",
-            "  <info>PHP Info</>\n",
-            "  Version "     => "{$phpVersion}",
-            "  Architecture" => "{$architecture} bits",
-            "  Intl Locale"  => "{$locale}",
-        ];
-
-        if ($hUrl = $application->getParam('homepage')) {
-            $info['Homepage URL'] = "<info>$hUrl</>";
-        } 
+        $info = "$logo\n";
+        $info .= "  {$application->getName()} Version ".$application->getVersion()."\n";
+        $info .= "  Core\n";
+        $info .= "  Environment: ". env('APP_ENV')."\n";
+        $info .= "  Debug: ". (env('APP_DEBUG') ? "True\n" : "False\n");
+        $info .= "  PHP Info\n";
+        $info .= "  Version: "."{$phpVersion}\n";
+        $info .= "  Architecture: "."{$architecture} bits\n";
+        $info .= "  Intl Locale: "."{$locale}\n";
 
         return $info;
     }
