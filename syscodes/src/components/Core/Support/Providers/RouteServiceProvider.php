@@ -26,7 +26,7 @@ use Closure;
 use Syscodes\Components\Support\ServiceProvider;
 
 /**
- * The route service provider facilitates the register of a namespace your 
+ * The Route service provider facilitates the register of a namespace your 
  * loaded in file route and executed in a group route.
  */
 class RouteServiceProvider extends ServiceProvider
