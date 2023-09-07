@@ -99,6 +99,13 @@ class PleasingPageHandler extends Handler
 	 * @var array $tables
 	 */
 	protected $tables = [];
+
+	/**
+	 * Gets the theme default.
+	 * 
+	 * @var string $theme
+	 */
+	protected $theme;
 	
 	/**
 	 * The template handler system.
@@ -519,6 +526,16 @@ class PleasingPageHandler extends Handler
 	{
 		return $this->editor;
 	}
+
+	/**
+	 * Get the theme default.
+	 * 
+	 * @return string
+	 */
+	public function getTheme(): string
+	{
+		return $this->theme = config('gdebug.theme');
+	}
 	
 	/**
 	 * Sets the brand of project.
@@ -527,7 +544,7 @@ class PleasingPageHandler extends Handler
 	 * 
 	 * @return void
 	 */
-	public function setBrand($brand): void
+	public function setBrand(string $brand): void
 	{
 		$this->brand = (string) $brand;
 	}
@@ -539,8 +556,20 @@ class PleasingPageHandler extends Handler
 	 * 
 	 * @return void
 	 */
-	public function setPageTitle($title): void
+	public function setPageTitle(string $title): void
 	{
 		$this->pageTitle = (string) $title;
+	}
+
+	/**
+	 * Set the theme manually.
+	 * 
+	 * @param  string  $theme
+	 * 
+	 * @return void
+	 */
+	public function setTheme(string $theme): void
+	{
+		$this->theme = (string) $theme;
 	}
 }
