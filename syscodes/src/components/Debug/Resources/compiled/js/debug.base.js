@@ -21,7 +21,7 @@
     
     window.addEventListener('scroll', (e) => {
         if (d.documentElement.scrollTop > 10) {
-            if (localStorage.getItem('dark-mode') === 'true') {
+            if (d.documentElement.classList == 'dark') {
                 header.style.background = '#1F2937';
                 header.style.borderBottom = '1px solid rgba(36, 68, 86, 0.5)';
                 header.style.boxShadow = '0 0 15px 4px rgba(0, 0, 0, 0.2)';
@@ -31,7 +31,7 @@
                 header.style.boxShadow = '0 0 15px 4px rgba(0, 0, 0, 0.2)';
             }
         } else {
-            if (localStorage.getItem('dark-mode') === 'true') {
+            if (d.documentElement.classList == 'dark') {
                 header.style.background = 'none';
                 header.style.borderBottom = '1px solid rgba(31, 41, 51, 1)';
                 header.style.boxShadow = 'none';
