@@ -213,16 +213,28 @@ class TextDescriptor extends Descriptor
      */
     protected function describeApplication(Application $application, array $options = [])
     {
-        if ('' != $help = $application->getHelp()) {
-            $this->writeText("$help\n\n", $options);
-        }
+        $describedNamespace = $options['namespace'] ?? null;
+        $description = new ApplicationDescription($application, $describedNamespace);
         
-        $this->writeText("<comment>Usage:</>\n", $options);
-        $this->writeText("  command [options] [arguments]\n\n", $options);
+        if (isset($options['raw_text']) && $options['raw_text']) {
+            $width = ($description->getCommands());
+            
+            foreach ($description->getCommands() as $command) {
+                $this->writeText(sprintf("%-{$width}s %s", $command->getName(), $command->getDescription()), $options);
+                $this->writeText("\n");
+            }
+        } else {
+            if ('' != $help = $application->getHelp()) {
+                $this->writeText("$help\n\n", $options);
+            }
+            
+            $this->writeText("<comment>Usage:</>\n", $options);
+            $this->writeText("  command [options] [arguments]\n\n", $options);
 
-        $this->describeDefinition(new InputDefinition($application->getDefinition()->getOptions()), $options);
+            $this->describeDefinition(new InputDefinition($application->getDefinition()->getOptions()), $options);
 
-        $this->writeText("\n");
+            $this->writeText("\n");
+        }
     }
 
     /**
