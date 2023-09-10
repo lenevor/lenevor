@@ -99,7 +99,7 @@ class ApplicationDescription
     public function getCommands(): array
     {
         if ( ! isset($this->commands)) {
-            return $this->initAplication();
+            $this->initAplication();
         }
 
         return $this->commands;
