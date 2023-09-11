@@ -234,6 +234,51 @@ class TextDescriptor extends Descriptor
             $this->describeDefinition(new InputDefinition($application->getDefinition()->getOptions()), $options);
 
             $this->writeText("\n");
+            $this->writeText("\n");
+            
+            $commands = $description->getCommands();
+            $namespaces = $description->getNamespaces();
+            
+            if ($describedNamespace && $namespaces) {
+                // make sure all alias commands are included when describing a specific namespace
+                $describedNamespaceInfo = reset($namespaces);
+                
+                foreach ($describedNamespaceInfo['commands'] as $name) {
+                    $commands[$name] = $description->getCommand($name);
+                }
+            }
+            
+            // calculate max. width based on available commands per namespace
+            $width = (array_merge(...array_values(array_map(fn ($namespace) => array_intersect($namespace['commands'], array_keys($commands)), array_values($namespaces)))));
+            
+            if ($describedNamespace) {
+                $this->writeText(sprintf('<comment>Available commands for the "%s" namespace:</comment>', $describedNamespace), $options);
+            } else {
+                $this->writeText('<comment>Available commands:</comment>', $options);
+            }
+            
+            foreach ($namespaces as $namespace) {
+                $namespace['commands'] = array_filter($namespace['commands'], fn ($name) => isset($commands[$name]));
+                
+                if ( ! $namespace['commands']) {
+                    continue;
+                }
+                
+                if ( ! $describedNamespace && ApplicationDescription::G_NAMESPACE !== $namespace['id']) {
+                    $this->writeText("\n");
+                    $this->writeText(' <comment>'.$namespace['id'].'</comment>', $options);
+                }
+                
+                foreach ($namespace['commands'] as $name) {
+                    $this->writeText("\n");
+                    $spacingWidth = 18;
+                    $command = $commands[$name];
+                    $commandAliases = $name === $command->getName() ? $this->getCommandAliases($command) : '';
+                    $this->writeText(sprintf('  <info>%s</info>%s%s', $name, str_repeat(' ', $spacingWidth), $commandAliases.$command->getDescription()), $options);
+                }
+            }
+            
+            $this->writeText("\n");
         }
     }
 
@@ -251,5 +296,24 @@ class TextDescriptor extends Descriptor
             isset($options['raw_text']) && $options['raw_text'] ? strip_tags($content) : $content,
             isset($options['raw_output']) ? ! $options['raw_output'] : true
         );
+    }
+    
+    /**
+     * Formats command aliases to show them in the command description.
+     * 
+     * @param  \Syscodes\Components\Console\Command\Command  $command
+     * 
+     * @return string
+     */
+    private function getCommandAliases(Command $command): string
+    {
+        $text = '';
+        $aliases = $command->getAliases();
+        
+        if ($aliases) {
+            $text = '['.implode('|', $aliases).'] ';
+        }
+        
+        return $text;
     }
 }
