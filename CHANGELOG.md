@@ -1,5 +1,30 @@
 # Release Notes
 
+## [Version 0.8.8-alpha.8]
+
+Release Date: Sep 12, 2023
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added conditional for verify variable if have data in the `Benchmark` class
+- Added conditionals for have control of elements to header from `Resources/compiled/js/debug.base.js` in debug system
+- Added new keys for call to path of views in `PleasingPageHandler` class
+- Added new more elements for list of editors in `PleasingPageHandler` class
+- Added new tags for config of the debugging
+- Added new commands for use the console 
+
+### Changed
+- Changed the conditional for identify element HTML in your class from `Resources/compiled/js/debug.base.js` in debug system
+
+### Updated
+- Updated release to 0.8.8
+
+### Removed
+- Removed the get() method in `CacheManager` class
+- Removed 'return' PHP function from `ApplicationDescription` class in console system
+
+
 ## [Version 0.8.7-alpha.8]
 
 Release Date: Aug 02, 2023
