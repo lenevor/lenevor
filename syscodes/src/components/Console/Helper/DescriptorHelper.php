@@ -23,10 +23,10 @@
 namespace Syscodes\Components\Console\Helper;
 
 use InvalidArgumentException;
-use Syscodes\Components\Console\Helper\Description\XmlDescriptor;
-use Syscodes\Components\Console\Helper\Description\TextDescriptor;
+use Syscodes\Components\Console\Description\XmlDescriptor;
+use Syscodes\Components\Console\Description\TextDescriptor;
 use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
-use Syscodes\Components\Contracts\Console\Helper\Descriptor as DescriptorInterface;
+use Syscodes\Components\Contracts\Console\Description\Descriptor as DescriptorInterface;
 
 /**
  * This class adds helper method to describe objects in various formats.
@@ -36,7 +36,7 @@ class DescriptorHelper
     /**
      * The descriptor instance.
      * 
-     * @var \Syscodes\Components\Contracts\Console\Helper\Descriptor[] $descriptor
+     * @var \Syscodes\Components\Contracts\Console\Description\Descriptor[] $descriptor
      */
     protected $descriptor = [];
 
@@ -87,7 +87,7 @@ class DescriptorHelper
      * Registers a descriptor.
      * 
      * @param  string  $format
-     * @param  \Syscodes\Components\Contracts\Console\Helper\Descriptor  $descriptor
+     * @param  \Syscodes\Components\Contracts\Console\Description\Descriptor  $descriptor
      * 
      * @return static
      */
