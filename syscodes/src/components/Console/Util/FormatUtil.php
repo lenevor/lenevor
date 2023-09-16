@@ -24,7 +24,6 @@ namespace Syscodes\Components\Console\Util;
 
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
-use Syscodes\Components\Console\Style\ColorTag;
 
 /**
  * This class allows to format data useful for console.
@@ -43,7 +42,7 @@ final class FormatUtil
     {
         $text = '';
 
-        $options = \array_merge([
+        $options = array_merge([
             'leftChar'    => '',   // e.g '  ', ' * '
             'sepChar'     => ' ',  // e.g ' | ' OUT: key | value
             'keyStyle'    => '',   // e.g 'info','comment'
@@ -54,7 +53,7 @@ final class FormatUtil
             'ucFirst'     => true,  // upper first char for value
         ], $options);
 
-        $keyStyle  = \trim($options['keyStyle']);
+        $keyStyle  = trim($options['keyStyle']);
         $keyPadPos = (string) $options['keyPadPos'];
         
         if ($options['keyMaxWidth'] < 1) {
@@ -67,39 +66,56 @@ final class FormatUtil
         }
 
         foreach ($data as $key => $value) {
-            $hasKey = ! \is_int($key);
+            $hasKey = ! is_int($key);
             $text  .= $options['leftChar'];
 
             if ($hasKey) {
-                $key   = Str::pad((string) $key, $options['keyMaxWidth'], ' ', $keyPadPos);
-                $text .= ColorTag::wrap($key, $keyStyle).$options['sepChar'];
+                $key   = Str::padBoth((string) $key, $options['keyMaxWidth'], ' ', $keyPadPos);
+                $text .= static::wrap($key, $keyStyle).$options['sepChar'];
             }
 
             // if value is array, translate array to string
-            if (\is_array($value)) {
+            if (is_array($value)) {
                 $temp = '[';
 
                 foreach ($value as $k => $val) {
-                    if (\is_bool($val)) {
+                    if (is_bool($val)) {
                         $val = $val ? '(True)' : '(False)';
                     } else {
-                        $val = \is_scalar($val) ? (string) $val : $val;
+                        $val = is_scalar($val) ? (string) $val : $val;
                     }
 
-                    $temp .= ( ! \is_numeric($k) ? "$k: " : '') . "$val, ";
+                    $temp .= ( ! is_numeric($k) ? "$k: " : '') . "$val, ";
                 }
 
-                $value = \rtrim($temp, ' ,') . ']';
-            } elseif (\is_bool($value)) {
+                $value = rtrim($temp, ' ,') . ']';
+            } elseif (is_bool($value)) {
                 $value = $value ? '(True)' : '(False)';
             } else {
                 $value = (string) $value;
             }
 
-            $value  = $hasKey && $options['ucFirst'] ? \ucfirst($value) : $value;
-            $text  .= ColorTag::wrap($value, $options['valStyle'])."\n";
+            $value  = $hasKey && $options['ucFirst'] ? ucfirst($value) : $value;
+            $text  .= static::wrap($value, $options['valStyle'])."\n";
         }
 
         return $text;
+    }
+
+    /**
+     * Wrap a color style tag.
+     * 
+     * @param string $text
+     * @param string $tag
+     * 
+     * @return string
+     */
+    public static function wrap(string $text, string $tag): string
+    {
+        if ( ! $text || ! $tag) {
+            return $text;
+        }
+        
+        return "<$tag>$text</$tag>";
     }
 }
