@@ -59,7 +59,7 @@ final class SingleList
         // title
         if ($title) {
             $title   = $options['ucTitleWords'] ? Str::title(trim($title)) : $title;
-            $string .= ColorTag::wrap($title, $options['titleStyle']).\PHP_EOL;
+            $string .= FormatUtil::wrap($title, $options['titleStyle']).\PHP_EOL;
         }
         
         // Handle item list
