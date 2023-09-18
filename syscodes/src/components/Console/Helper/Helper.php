@@ -90,7 +90,7 @@ class Helper
      * 
      * @return string
      */
-    public static function formatTime(int|float $secs)
+    public static function formatTime(int|float $seconds)
     {
         static $timeFormats = [
             [0, '< 1 sec'],
@@ -103,18 +103,18 @@ class Helper
             [86400, '1 day'],
             [172800, 'days', 86400],
         ];
-
+        
         foreach ($timeFormats as $index => $format) {
-            if ($secs >= $format[0]) {
-                if ((isset($timeFormats[$index + 1]) && 
-                           $secs < $timeFormats[$index + 1][0]) ||
-                           $index == \count($timeFormats) - 1
+            if ($seconds >= $format[0]) {
+                if ((isset($timeFormats[$index + 1]) &&
+                           $seconds < $timeFormats[$index + 1][0]) ||
+                           $index == count($timeFormats) - 1
                 ) {
-                    if (2 == \count($format)) {
+                    if (2 == count($format)) {
                         return $format[1];
                     }
-
-                    return floor($secs / $format[2]).' '.$format[1];
+                    
+                    return floor($seconds / $format[2]).' '.$format[1];
                 }
             }
         }
