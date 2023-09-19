@@ -30,37 +30,6 @@ use InvalidArgumentException;
  */
 final class TagStyle
 {
-    private const COLORS = [
-        'black'   => 0,
-        'red'     => 1,
-        'green'   => 2,
-        'yellow'  => 3,
-        'blue'    => 4,
-        'magenta' => 5,
-        'cyan'    => 6,
-        'white'   => 7,
-        'default' => 9,
-    ];
-
-    private const BRIGHT_COLORS = [
-        'gray'           => 0,
-        'bright-red'     => 1,
-        'bright-green'   => 2,
-        'bright-yellow'  => 3,
-        'bright-blue'    => 4,
-        'bright-magenta' => 5,
-        'bright-cyan'    => 6,
-        'bright-white'   => 7,
-    ];
-
-    private const AVAILABLE_OPTIONS = [
-        'bold'       => 1,
-        'underscore' => 4,
-        'blink'      => 5,
-        'reverse'    => 7,
-        'conceal'    => 8,
-	];
-
     /**
      * Gets the background of CLI command.
      * 
@@ -102,16 +71,16 @@ final class TagStyle
         }
         
         foreach ($options as $option) {
-            if ( ! isset(self::AVAILABLE_OPTIONS[$option])) {
+            if ( ! isset(FormatColor::AVAILABLE_OPTIONS[$option])) {
                 throw new InvalidArgumentException(
                     sprintf('Invalid option specified: "%s". Expected one of (%s).', 
                         $option, 
-                        implode(', ', array_keys(self::AVAILABLE_OPTIONS))
+                        implode(', ', array_keys(FormatColor::AVAILABLE_OPTIONS))
                     )
                 );
             }
 
-            $this->options[$option] = self::AVAILABLE_OPTIONS[$option];
+            $this->options[$option] = FormatColor::AVAILABLE_OPTIONS[$option];
         }
     }
     
@@ -132,17 +101,17 @@ final class TagStyle
             return '';
         }
         
-        if (isset(self::COLORS[$color])) {
-            return ($background ? '4' : '3').self::COLORS[$color];
+        if (isset(FormatColor::COLORS[$color])) {
+            return ($background ? '4' : '3').FormatColor::COLORS[$color];
         }
         
-        if (isset(self::BRIGHT_COLORS[$color])) {
-            return ($background ? '10' : '9').self::BRIGHT_COLORS[$color];
+        if (isset(FormatColor::BRIGHT_COLORS[$color])) {
+            return ($background ? '10' : '9').FormatColor::BRIGHT_COLORS[$color];
         }
         
         throw new InvalidArgumentException(
             sprintf('Invalid "%s" color; expected one of (%s).', 
-                $color, implode(', ', array_merge(array_keys(self::COLORS), array_keys(self::BRIGHT_COLORS)))
+                $color, implode(', ', array_merge(array_keys(FormatColor::COLORS), array_keys(FormatColor::BRIGHT_COLORS)))
             )
         );
     }
