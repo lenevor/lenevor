@@ -100,6 +100,7 @@ return [
     'Syscodes\\Components\\Console\\Output\\ConsoleOutput' => SYS_PATH.'src/components/Console/Output/ConsoleOutput.php',
     'Syscodes\\Components\\Console\\Output\\Output' => SYS_PATH.'src/components/Console/Output/Output.php',
     'Syscodes\\Components\\Console\\Output\\StreamOutput' => SYS_PATH.'src/components/Console/Output/StreamOutput.php',
+    'Syscodes\\Components\\Console\\Style\\FormatColor' => SYS_PATH.'src/components/Console/Style/FormatColor.php',
     'Syscodes\\Components\\Console\\Style\\TagStyle' => SYS_PATH.'src/components/Console/Style/TagStyle.php',
     'Syscodes\\Components\\Console\\Util\\Cursor' => SYS_PATH.'src/components/Console/Util/Cursor.php',
     'Syscodes\\Components\\Console\\Util\\FormatUtil' => SYS_PATH.'src/components/Console/Util/FormatUtil.php',
