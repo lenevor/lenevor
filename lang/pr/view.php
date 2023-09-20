@@ -12,15 +12,6 @@ return [
     | in these lines that best match your application.
     |
     */
-   
-    'dataObjectArray' => 'O parâmetro data só aceita objetos e arrays.',    
-    'notFound' => 'Ver [{file}] não encontrado.',    
-    'rendering' => 'Você deve definir o arquivo a ser usado em sua visualização antes de renderizar.',
-    'variableNotSet' => 'A variável de visualização não está definida: [{key}].',   
-
-    /*
-     * View 
-     */
 
     'contribute-title' => 'Contribuir',
     'contribute' => 'Lenevor é um projeto orientado a mim e acessa contribuições de código e documentação ótimas para toda a comunidade do <a href="https://github.com/lenevor" target="_self">github</a> !',

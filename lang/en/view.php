@@ -12,15 +12,6 @@ return [
     | in these lines that best match your application.
     |
     */
-   
-    'dataObjectArray' => 'The data parameter only accepts objects and arrays.',    
-    'notFound' => 'View [{file}] not found.',    
-    'rendering' => 'You must set the file to use within your view before rendering.',
-    'variableNotSet' => 'View variable is not set: [{key}].',   
-
-    /*
-     * View 
-     */
 
     'contribute-title' => 'Contribute',
     'contribute' => 'Lenevor is a me driven project and access contributions of code and documentation great for all  the community from <a href="https://github.com/lenevor" target="_self">github</a> !',
