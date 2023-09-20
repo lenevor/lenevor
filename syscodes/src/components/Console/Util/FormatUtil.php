@@ -70,7 +70,7 @@ final class FormatUtil
             $text  .= $options['leftChar'];
 
             if ($hasKey) {
-                $key   = Str::padBoth((string) $key, $options['keyMaxWidth'], ' ', $keyPadPos);
+                $key   = Str::padBoth((string) $key, $options['keyMaxWidth'], $keyPadPos);
                 $text .= static::wrap($key, $keyStyle).$options['sepChar'];
             }
 
