@@ -50,14 +50,14 @@ class FileLoader implements LoaderContract
      * Constructor. Create a new File Loader instance.
      * 
      * @param  \Syscodes\Components\Filesystem\Filesystem  $files
-     * @param  string  $path
+     * @param  array|string  $path
      * 
      * @return void
      */
-    public function __construct(Filesystem $files, $path)
+    public function __construct(Filesystem $files, array|string $path)
     {
         $this->files = $files;
-        $this->path  = $path;
+        $this->path  = is_string($path) ? [$path] : $path;
     }
 
     /**
@@ -87,13 +87,16 @@ class FileLoader implements LoaderContract
      */
     protected function loadFilePaths($locale, $group): array
     {
-        $slash = DIRECTORY_SEPARATOR;
-
-        if ($this->files->exists($fullPath = "{$this->path}$slash{$locale}$slash{$group}.php")) {
-            return $this->files->getRequire($fullPath);
-        }
-
-        return [];
+        return collect($this->path)
+            ->reduce(function ($output, $path) use ($locale, $group) {
+                $slash = DIRECTORY_SEPARATOR;
+        
+                if ($this->files->exists($fullPath = "{$path}$slash{$locale}$slash{$group}.php")) {
+                    $output = array_replace_recursive($output, $this->files->getRequire($fullPath));
+                }
+        
+                return $output;
+            }, []);
     }
 
     /**
@@ -105,7 +108,7 @@ class FileLoader implements LoaderContract
      */
     protected function loadJsonPaths($locale): array
     {
-        return collect([$this->path])
+        return collect($this->path)
             ->reduce(function ($output, $path) use ($locale) {
                 $slash = DIRECTORY_SEPARATOR;
 
