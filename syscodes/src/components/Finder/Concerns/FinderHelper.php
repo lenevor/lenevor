@@ -29,6 +29,7 @@ use Syscodes\Components\Finder\Finder;
 use Syscodes\Components\Finder\Filters\DateFilterIterator;
 use Syscodes\Components\Finder\Filters\FileFilterIterator;
 use Syscodes\Components\Finder\Filters\DirectoryFilterIterator;
+use Syscodes\Components\Finder\Filters\PathFilterIterator;
 
 /**
  * Allows helper trait methods in Finder class.
@@ -60,6 +61,10 @@ trait FinderHelper
 
         if ($this->dates) {
             $iterator = new DateFilterIterator($iterator, $this->dates);
+        }
+
+        if ($this->paths || $notPaths) {
+            $iterator = new PathFilterIterator($iterator, $this->paths, $notPaths);
         }
 
         return $iterator;
