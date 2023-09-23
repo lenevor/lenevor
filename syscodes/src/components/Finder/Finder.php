@@ -22,14 +22,17 @@
 
 namespace Syscodes\Components\Finder;
 
+use AppendIterator;
 use Countable;
 use Traversable;
 use LogicException;
+use IteratorIterator;
 use IteratorAggregate;
 use Syscodes\Components\Finder\Concerns\FinderHelper;
 use Syscodes\Components\Finder\Comparators\DateComparator;
 use Syscodes\Components\Finder\Filters\FileFilterIterator;
 use Syscodes\Components\Finder\Exceptions\DirectoryNotFoundException;
+use Syscodes\Components\Finder\Filters\LazyFilterIterator;
 
 /**
  * Gets the results of search in files and directories.
@@ -77,6 +80,13 @@ class Finder implements IteratorAggregate, Countable
     private int $mode = 0;
 
     /**
+     * Get the path of file.
+     * 
+     * @var array $paths
+     */
+    private array $paths = [];
+
+    /**
      * Constructor. Create a new Finder class instance.
      * 
      * @return void
@@ -98,7 +108,7 @@ class Finder implements IteratorAggregate, Countable
     /**
      * Restricts the matching to files only.
      * 
-     * @return $this
+     * @return static
      */
     public function files(): static
     {
@@ -112,7 +122,7 @@ class Finder implements IteratorAggregate, Countable
      * 
      * @param  string|string[]  $dates
      * 
-     * @return $this
+     * @return static
      */
     public function date(string|array $dates): static
     {
@@ -122,13 +132,27 @@ class Finder implements IteratorAggregate, Countable
 
         return $this;
     }
+    
+    /**
+     * Adds rules that filenames must match.
+     * 
+     * @param  string|string[]  $patterns
+     * 
+     * @return static
+     */
+    public function path(string|array $patterns): static
+    {
+        $this->paths = array_merge($this->paths, (array) $patterns);
+        
+        return $this;
+    }
 
     /**
      * Excludes "hidden" directories and files (starting with a dot).
      * 
      * @param  bool  $ignore
      * 
-     * @return $this
+     * @return static
      */
     public function ignoreDotFiles(bool $ignore): static
     {
@@ -146,7 +170,7 @@ class Finder implements IteratorAggregate, Countable
      * 
      * @param  string|string[]  $dirs  A directory path or an array of directories
      * 
-     * @return $this
+     * @return static
      * 
      * @throws DirectoryNotFoundException  if one of the directories does not exist
      */
@@ -199,5 +223,15 @@ class Finder implements IteratorAggregate, Countable
 
             return $iterator;
         }
+
+        $iterator = new AppendIterator();
+
+        foreach ($this->dirs as $dir) {
+            $iterator->append(new IteratorIterator(
+                new LazyFilterIterator(fn () => $this->searchInDirectory($dir)))
+            );
+        }
+
+        return $iterator;
     }
 }
