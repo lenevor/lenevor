@@ -242,7 +242,7 @@ class Store implements Session
     /**
      * Set the session ID.
      * 
-     * @param  string  $id
+     * @param  string|null  $id
      * 
      * @return void
      */
