@@ -200,7 +200,11 @@ class SessionManager extends Manager
      */
     protected function buildSession($handler)
     {
-        return new Store($this->config->get('session.cookie'), $handler);
+        return new Store(
+            $this->config->get('session.cookie'),
+            $handler,
+            $id = null
+        );
     }
     
     /**
