@@ -22,8 +22,10 @@
 
 namespace Syscodes\Components\Finder\Filters;
 
+use UnexpectedValueException;
 use RecursiveDirectoryIterator;
 use Syscodes\Components\Finder\SplFileInfo;
+use Syscodes\Components\Finder\Exceptions\AccessDeniedException;
 
 /**
  * Gets the directory filter for iterator.
@@ -43,6 +45,13 @@ class DirectoryFilterIterator extends RecursiveDirectoryIterator
      * @var bool $ignoreDirs
      */
     private bool $ignoreDirs;
+
+    /**
+     * Is ignored to rewind dir back to the start.
+     * 
+     * @var bool $ignoreRewind
+     */
+    private bool $ignoreRewind = true;
 
     /**
      * Get the root path.
@@ -101,5 +110,81 @@ class DirectoryFilterIterator extends RecursiveDirectoryIterator
         }
         
         return new SplFileInfo($basePath.$subPathname, $this->subPath, $subPathname);
+    }
+    
+    /**
+     * Returns whether current entry is a directory and not '.' or '..'.
+     * 
+     * @param  bool  $value
+     * 
+     * @return bool
+     */
+    public function hasChildren(bool $value = false): bool
+    {
+        $hasChildren = parent::hasChildren($value);
+        
+        if ( ! $hasChildren || ! $this->ignoreDirs) {
+            return $hasChildren;
+        }
+        
+        try {
+            parent::getChildren();
+            
+            return true;
+        } catch (UnexpectedValueException) {
+            return false;
+        }
+    }
+    
+    /**
+     * Returns an iterator for the current entry if it is a directory.
+     * 
+     * @return \RecursiveDirectoryIterator
+     * 
+     * @throws \Syscodes\Components\Finder\Exceptions\AccessDeniedException
+     */
+    public function getChildren(): RecursiveDirectoryIterator
+    {
+        try {
+            $children = parent::getChildren();
+            
+            if ($children instanceof self) {
+                $children->ignoreDirs = $this->ignoreDirs;
+
+                $children->rootPath = $this->rootPath;
+            }
+            
+            return $children;
+        } catch (UnexpectedValueException $e) {
+            throw new AccessDeniedException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+    
+    /**
+     * Move to next entry of directory.
+     * 
+     * @return void
+     */
+    public function next(): void
+    {
+        $this->ignoreRewind = false;
+        
+        parent::next();
+    }
+    
+    /**
+     * Rewind dir back to the start.
+     * 
+     * @return void
+     */
+    public function rewind(): void
+    {
+        if ($this->ignoreRewind) {
+            $this->ignoreRewind = false;
+            
+            return;
+        }
+        
+        parent::rewind();
     }
 }
