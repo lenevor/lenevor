@@ -45,7 +45,7 @@ trait FinderHelper
      */
     private function searchInDirectory(string $dir): Iterator
     {
-        $notPaths = [];
+        $notPaths = $this->notPaths;
         
         if (Finder::IGNORE_DOT_FILES === (Finder::IGNORE_DOT_FILES & $this->ignore)) {
             $notPaths[] = '#(^|/)\..+(/|$)#';
