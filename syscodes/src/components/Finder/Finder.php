@@ -80,6 +80,13 @@ class Finder implements IteratorAggregate, Countable
     private int $mode = 0;
 
     /**
+     * Get the path not of files.
+     * 
+     * @var array $notPaths
+     */
+    private array $notPaths = [];
+
+    /**
      * Get the path of file.
      * 
      * @var array $paths
@@ -143,6 +150,20 @@ class Finder implements IteratorAggregate, Countable
     public function path(string|array $patterns): static
     {
         $this->paths = array_merge($this->paths, (array) $patterns);
+        
+        return $this;
+    }
+    
+    /**
+     * Adds rules that filenames must not match.
+     * 
+     * @param  string|string[]
+     * 
+     * @return static
+     */
+    public function notPath(string|array $patterns): static
+    {
+        $this->notPaths = array_merge($this->notPaths, (array) $patterns);
         
         return $this;
     }
