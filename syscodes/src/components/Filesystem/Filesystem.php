@@ -78,6 +78,22 @@ class Filesystem
 	{
 		return copy($path, $target);
 	}
+	
+	/**
+	 * Get the contents of a file as decoded JSON.
+	 * 
+	 * @param  string  $path
+	 * @param  int  $flags
+	 * @param  bool  $lock
+	 * 
+	 * @return array
+	 * 
+	 * @throws \Syscodes\Components\Contracts\Filesystem\FileNotFoundException
+	 */
+	public function json($path, $flags = 0, $lock = false)
+	{
+		return json_decode($this->get($path, $lock), true, 512, $flags);
+	}
 
 	/**
 	 * Get the contents of a file.
@@ -436,6 +452,19 @@ class Filesystem
 		}
 
 		return $success;
+	}
+	
+	/**
+	 * Get the hash of the file at the given path.
+	 * 
+	 * @param  string  $path
+	 * @param  string  $algorithm
+	 * 
+	 * @return string
+	 */
+	public function hash($path, $algorithm = 'md5'): string
+	{
+		return hash_file($algorithm, $path);
 	}
 
 	/**
