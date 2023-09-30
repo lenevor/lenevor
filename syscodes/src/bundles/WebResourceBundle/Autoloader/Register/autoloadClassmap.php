@@ -356,6 +356,7 @@ return [
     'Syscodes\\Components\\Filesystem\\FilesystemServiceProvider' => SYS_PATH.'src/components/Filesystem/FilesystemServiceProvider.php',
     'Syscodes\\Components\\Finder\\Comparators\\Comparator' => SYS_PATH.'src/components/Finder/Comparators/Comparator.php',
     'Syscodes\\Components\\Finder\\Comparators\\DateComparator' => SYS_PATH.'src/components/Finder/Comparators/DateComparator.php',
+    'Syscodes\\Components\\Finder\\Comparators\\NumberComparator' => SYS_PATH.'src/components/Finder/Comparators/NumberComparator.php',
     'Syscodes\\Components\\Finder\\Concerns\\FinderHelper' => SYS_PATH.'src/components/Finder/Concerns/FinderHelper.php',
     'Syscodes\\Components\\Finder\\Exceptions\\AccessDeniedException' => SYS_PATH.'src/components/Finder/Exceptions/AccessDeniedException.php',
     'Syscodes\\Components\\Finder\\Exceptions\\DirectoryNotFoundException' => SYS_PATH.'src/components/Finder/Exceptions/DirectoryNotFoundException.php',
