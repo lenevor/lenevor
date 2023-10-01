@@ -30,7 +30,7 @@ use Syscodes\Components\Filesystem\Exceptions\FileUnableToMoveException;
 /**
  * Provides basic utility to manipulate the file system.
  */
-class Filesystem 
+class Filesystem
 {
 	/**
 	 * Enable locking for file reading and writing.
@@ -134,7 +134,7 @@ class Filesystem
 				if (flock($this->handler, LOCK_SH)) {
 					$this->clearStatCache($path);
 
-					$contents = fread($this->handler, $this->getSize($path) ?: 1);
+					$contents = fread($this->handler, $this->size($path) ?: 1);
 					
 					while ( ! feof($this->handler)) {
 						$contents .= fgets($this->handler, 4096);
@@ -289,7 +289,7 @@ class Filesystem
 	 * 
 	 * @return int|null  The file size in bytes or null if unknown
 	 */
-	public function getSize($path, $unit = 'b')
+	public function size($path, $unit = 'b'): int|null
 	{
 		if ( ! $this->exists($path)) {
 			if (is_null($this->size)) {
