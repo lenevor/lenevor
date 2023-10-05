@@ -39,19 +39,19 @@ class FilesystemAdapter implements Filesystem
     /**
      * Get the driver of file system.
      * 
-     * @var string $driver
+     * @var string|object $driver
      */
     protected $driver;
 
     /**
      * Constructor. Create a new FilesystemAdapter instance.
      * 
-     * @param  object  $driver
+     * @param  string|object  $driver
      * @param  array  $config
      * 
      * @return void
      */
-    public function __construct(object $driver, array $config = [])
+    public function __construct($driver, array $config = [])
     {
         $this->driver = $driver;
         $this->config = $config;
@@ -67,7 +67,7 @@ class FilesystemAdapter implements Filesystem
 	 */
 	public function append($path, $data)
     {
-        
+        return $this->driver->append($path, $data);
     }
 
     /**
@@ -80,7 +80,7 @@ class FilesystemAdapter implements Filesystem
 	 */
 	public function copy($path, $target): bool
     {
-
+		return $this->driver->copy($path, $target);
     }
 
     /**
@@ -96,7 +96,7 @@ class FilesystemAdapter implements Filesystem
 	 */
 	public function get($path, $lock = false, $force = false): string
     {
-
+		return $this->driver->get($path, $lock, $force);
     }
 
     /**
@@ -109,7 +109,7 @@ class FilesystemAdapter implements Filesystem
 	 */
 	public function read($path, $force = false): string
     {
-
+		return $this->driver->read($path, $force);
     }
 
     /**
@@ -121,7 +121,7 @@ class FilesystemAdapter implements Filesystem
 	 */
 	public function create($path): bool
     {
-
+		return $this->driver->create($path);
     }
 
     /**
@@ -133,7 +133,7 @@ class FilesystemAdapter implements Filesystem
 	 */
 	public function exists($path): bool
     {
-
+		return $this->driver->exists($path);
     }
 
     /**
@@ -150,7 +150,7 @@ class FilesystemAdapter implements Filesystem
 	 */
 	public function size($path, $unit = 'b'): int|null
     {
-
+		return $this->driver->size($path, $unit);
     }
 
     /**
@@ -162,7 +162,7 @@ class FilesystemAdapter implements Filesystem
 	 */
 	public function directories($directory): array
     {
-
+		return $this->driver->directories($directory);
     }
 
     /**
@@ -174,7 +174,7 @@ class FilesystemAdapter implements Filesystem
 	 */
 	public function delete($paths): bool
     {
-
+		return $this->driver->delete($paths);
     }
 
     /**
@@ -191,7 +191,7 @@ class FilesystemAdapter implements Filesystem
 	 */
 	public function makeDirectory($path, $mode = 0755, $recursive = false, $force = false): bool
     {
-
+		return $this->driver->makeDirectory($path, $mode, $recursive, $force);
     }
 
     /**
@@ -205,7 +205,7 @@ class FilesystemAdapter implements Filesystem
 	 */
 	public function deleteDirectory($directory, $keep = false): bool
     {
-
+		return $this->driver->deleteDirectory($directory, $keep);
     }
 
     /**
@@ -218,7 +218,7 @@ class FilesystemAdapter implements Filesystem
 	 */
 	public function move($path, $target): bool
     {
-
+		return $this->driver->move($path, $target);
     }
 
     /**
@@ -231,7 +231,7 @@ class FilesystemAdapter implements Filesystem
 	 */
 	public function prepend($path, $data): int
     {
-
+		return $this->driver->prepend($path, $data);
     }
 
     /**
@@ -245,7 +245,7 @@ class FilesystemAdapter implements Filesystem
 	 */
 	public function put($path, $contents, $lock = false): int|bool
     {
-
+		return $this->driver->put($path, $contents, $lock);
     }
 
     /**
@@ -259,6 +259,6 @@ class FilesystemAdapter implements Filesystem
 	 */
 	public function write($path, $data, $force = false): bool
     {
-
+		return $this->driver->write($path, $data, $force);
     }
 }
