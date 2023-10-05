@@ -22,6 +22,8 @@
 
 namespace Syscodes\Components\Filesystem;
 
+use InvalidArgumentException;
+
 /**
  * Allows manage the distint adapters of file system.
  */
@@ -76,6 +78,62 @@ class FilesystemManager
     protected function get($name)
     {
         return $this->disks[$name] ?? $this->resolve($name);
+    }
+    
+    /**
+     * Resolve the given disk.
+     * 
+     * @param  string  $name
+     * @param  array|null  $config
+     * 
+     * @return \Syscodes\Components\Contracts\Filesystem\Filesystem
+     * 
+     * @throws \InvalidArgumentException
+     */
+    protected function resolve($name, $config = null)
+    {
+        $config ??= $this->getConfig($name);
+        
+        if (empty($config['driver'])) {
+            throw new InvalidArgumentException("Disk [{$name}] does not have a configured driver");
+        }
+        
+        $name = $config['driver'];
+        
+        $driverMethod = 'create'.ucfirst($name).'Driver';
+        
+        if ( ! method_exists($this, $driverMethod)) {
+            throw new InvalidArgumentException("Driver [{$name}] is not supported");
+        }
+        
+        return $this->{$driverMethod}($config);
+    }
+        
+    /**
+     * Set the given disk instance.
+     * 
+     * @param  string  $name
+     * @param  mixed  $disk
+     * 
+     * @return static
+     */
+    public function set($name, $disk): static
+    {
+        $this->disks[$name] = $disk;
+        
+        return $this;
+    }
+    
+    /**
+     * Get the filesystem connection configuration.
+     * 
+     * @param  string  $name
+     * 
+     * @return array
+     */
+    protected function getConfig($name): string
+    {
+        return $this->app['config']["filesystems.disks.{$name}"] ?: [];
     }
     
     /**
