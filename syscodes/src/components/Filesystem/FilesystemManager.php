@@ -33,6 +33,13 @@ class FilesystemManager
      * @var \Syscodes\Components\Contracts\Core\Application $app
      */
     protected $app;
+    
+    /**
+     * The array of resolved filesystem drivers.
+     * 
+     * @var array $disks
+     */
+    protected $disks = [];
 
     /**
      * Constructor. Create a new FilesystemManager instance.
@@ -44,5 +51,40 @@ class FilesystemManager
     public function __construct($app)
     {
         $this->app = $app;
+    }
+
+    /**
+     * Get a filesystem instance.
+     *
+     * @param  string|null  $name
+     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     */
+    public function disk($name = null)
+    {
+        $name = $name ?: $this->getDefaultDriver();
+
+        return $this->disks[$name] = $this->get($name);
+    }
+    
+    /**
+     * Attempt to get the disk from the local cache.
+     * 
+     * @param  string  $name
+     * 
+     * @return \Syscodes\Components\Contracts\Filesystem\Filesystem
+     */
+    protected function get($name)
+    {
+        return $this->disks[$name] ?? $this->resolve($name);
+    }
+    
+    /**
+     * Get the default driver name.
+     * 
+     * @return string
+     */
+    public function getDefaultDriver(): string
+    {
+        return $this->app['config']['filesystems.default'];
     }
 }
