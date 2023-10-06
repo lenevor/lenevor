@@ -37,6 +37,13 @@ class FilesystemManager
     protected $app;
     
     /**
+     * The registered custom driver creators.
+     * 
+     * @var array $cumtomCreators
+     */
+    protected $customCreators = [];
+    
+    /**
      * The array of resolved filesystem drivers.
      * 
      * @var array $disks
@@ -54,17 +61,18 @@ class FilesystemManager
     {
         $this->app = $app;
     }
-
+    
     /**
      * Get a filesystem instance.
-     *
+     * 
      * @param  string|null  $name
-     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     * 
+     * @return \Syscodes\Components\Contracts\Filesystem\Filesystem 
      */
     public function disk($name = null)
     {
         $name = $name ?: $this->getDefaultDriver();
-
+        
         return $this->disks[$name] = $this->get($name);
     }
     
@@ -99,6 +107,10 @@ class FilesystemManager
         }
         
         $name = $config['driver'];
+
+        if (isset($this->customCreators[$name])) {
+            return $this->callCustomCreator($config);
+        }
         
         $driverMethod = 'create'.ucfirst($name).'Driver';
         
@@ -107,6 +119,18 @@ class FilesystemManager
         }
         
         return $this->{$driverMethod}($config);
+    }
+    
+    /**
+     * Call a custom driver creator.
+     * 
+     * @param  array  $config
+     * 
+     * @return \Syscodes\Components\Contracts\Filesystem\Filesystem
+     */
+    protected function callCustomCreator(array $config)
+    {
+        return $this->customCreators[$config['driver']]($this->app, $config);
     }
         
     /**
