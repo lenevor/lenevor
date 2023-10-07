@@ -23,11 +23,12 @@
 namespace Syscodes\Components\Filesystem;
 
 use InvalidArgumentException;
+use Syscodes\Components\Contracts\Filesystem\Factory;
 
 /**
  * Allows manage the distint adapters of file system.
  */
-class FilesystemManager
+class FilesystemManager implements Factory
 {
     /**
      * The application instance.
@@ -100,7 +101,7 @@ class FilesystemManager
      */
     protected function resolve($name, $config = null)
     {
-        $config ??= $this->getConfig($name);
+        $config = $config ?? $this->getConfig($name);
         
         if (empty($config['driver'])) {
             throw new InvalidArgumentException("Disk [{$name}] does not have a configured driver");
@@ -131,6 +132,20 @@ class FilesystemManager
     protected function callCustomCreator(array $config)
     {
         return $this->customCreators[$config['driver']]($this->app, $config);
+    }
+    
+    /**
+     * Create an instance of the local driver.
+     * 
+     * @param  array  $config
+     * 
+     * @return \Syscodes\Components\Contracts\Filesystem\Filesystem
+     */
+    public function createLocalDriver(array $config)
+    {
+        $adapter = new Filesystem;
+
+        return new FilesystemAdapter($adapter, $config);
     }
         
     /**
