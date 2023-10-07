@@ -1209,6 +1209,8 @@ class Application extends Container implements ApplicationContract
             'encrypter' => [\Syscodes\Components\Encryption\Encrypter::class, \Syscodes\Components\Contracts\Encryption\Encrypter::class],
             'events' => [\Syscodes\Components\Events\Dispatcher::class, \Syscodes\Components\Contracts\Events\Dispatcher::class],
             'files' => [\Syscodes\Components\Filesystem\Filesystem::class],
+            'filesystem' => [\Syscodes\Components\Filesystem\FilesystemManager::class, \Syscodes\Components\Contracts\Filesystem\Factory::class],
+            'filesystem.disk' => [\Syscodes\Components\Contracts\Filesystem\Filesystem::class],
             'hash' => [\Syscodes\Components\Hashing\hashManager::class],
             'hash.driver' => [\Syscodes\Components\Contracts\Hashing\Hasher::class],
             'log' => [\Syscodes\Components\Log\LogManager::class, \Psr\Log\LoggerInterface::class],
