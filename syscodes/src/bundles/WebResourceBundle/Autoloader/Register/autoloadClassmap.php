@@ -157,6 +157,7 @@ return [
     'Syscodes\\Components\\Contracts\\Dotenv\\Writer' => SYS_PATH.'src/components/Contracts/Dotenv/Writer.php',
     'Syscodes\\Components\\Contracts\\Encryption\\Encrypter' => SYS_PATH.'src/components/Contracts/Encryption/Encrypter.php',
     'Syscodes\\Components\\Contracts\\Events\\Dispatcher' => SYS_PATH.'src/components/Contracts/Events/Dispatcher.php',
+    'Syscodes\\Components\\Contracts\\Filesystem\\Factory' => SYS_PATH.'src/components/Contracts/Filesystem/Factory.php',
     'Syscodes\\Components\\Contracts\\Filesystem\\Filesystem' => SYS_PATH.'src/components/Contracts/Filesystem/Filesystem.php',
     'Syscodes\\Components\\Contracts\\Hashing\\Hasher' => SYS_PATH.'src/components/Contracts/Hashing/Hasher.php',
     'Syscodes\\Components\\Contracts\\Http\\Lenevor' => SYS_PATH.'src/components/Contracts/Http/Lenevor.php',
