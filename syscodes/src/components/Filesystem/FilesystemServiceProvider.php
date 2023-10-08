@@ -36,6 +36,51 @@ class FilesystemServiceProvider extends ServiceProvider
      */
     public function register()            
     {
+        $this->registerLocalFilesystem();
+        
+        $this->registerFilesystemManager();
+    }
+
+    /**
+     * Register the local filesystem implementation.
+     * 
+     * @return void
+     */
+    protected function registerLocalFilesystem()
+    {
         $this->app->singleton('files', fn () => new Filesystem);
+    }
+    
+    /**
+     * Register the driver based filesystem.
+     * 
+     * @return void
+     */
+    protected function registerFilesystemManager()
+    {
+        $this->registerManager();
+        
+        $this->app->singleton('filesystem.disk', fn ($app) => $app['filesystem']->disk($this->getDefaultDriver()));
+    }
+
+    
+    /**
+     * Register the filesystem manager.
+     * 
+     * @return void
+     */
+    protected function registerManager()
+    {
+        $this->app->singleton('filesystem', fn ($app) => new FilesystemManager($app));
+    }
+    
+    /**
+     * Get the default file driver.
+     * 
+     * @return string
+     */
+    protected function getDefaultDriver()
+    {
+        return $this->app['config']['filesystems.default'];
     }
 }
