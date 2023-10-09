@@ -251,9 +251,7 @@ class PleasingPageHandler extends Handler
 	 */
 	protected function getDefaultRouting()
 	{
-		$action = app('request')->route()->isControllerAction() 
-		          ? app('request')->route()->parseControllerCallback()[0] 
-		          : 'Closure';
+		$action = 'Closure' ?? app('request')->route()->parseControllerCallback()[0];
 
 		$index = match (true) {
 			array_key_exists('web', app('router')->getMiddlewareGroups()) => 0,
