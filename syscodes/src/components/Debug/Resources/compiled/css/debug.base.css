@@ -1756,14 +1756,14 @@ header .message a:hover {
 .section-details .sidebar nav ul li:hover:nth-child(2) svg,
 .section-details .sidebar nav ul li:hover:nth-child(5) svg,
 .section-details .sidebar nav ul li:hover:nth-child(6) svg,
-.section-details .sidebar nav ul li:hover:nth-child(8) svg {
+.section-details .sidebar nav ul li:hover:nth-child(7) svg {
     stroke: var(--purple-500);
 }
 
 .dark .section-details .sidebar nav ul li:hover:nth-child(2) svg,
 .dark .section-details .sidebar nav ul li:hover:nth-child(5) svg,
 .dark .section-details .sidebar nav ul li:hover:nth-child(6) svg,
-.dark .section-details .sidebar nav ul li:hover:nth-child(8) svg {
+.dark .section-details .sidebar nav ul li:hover:nth-child(7) svg {
     stroke: var(--dark-blue-500);
 }
 
@@ -1800,14 +1800,14 @@ header .message a:hover {
     stroke: var(--dark-gray-500);
 }
 
-.section-details .sidebar nav ul li:nth-child(8) svg {
+.section-details .sidebar nav ul li:nth-child(7) svg {
     fill: var(--tint-100);
-    height: 18px;
+    height: 23px;
     stroke: var(--gray-600);
-    width: 26px;
+    width: 34px;
 }
 
-.dark .section-details .sidebar nav ul li:nth-child(8) svg {
+.dark .section-details .sidebar nav ul li:nth-child(7) svg {
     fill: var(--dark-gray-500);
     stroke: var(--dark-gray-500);
 }
