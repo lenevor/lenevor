@@ -55,7 +55,7 @@
                     <?= e(__('exception.routing')) ?>
                 </a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="#detail-app-database">
                     <svg viewBox="1 -1 28 28" xmlns="http://www.w3.org/2000/svg">
                         <g id="b454ce3c-30f4-4856-be86-7f37e0bf5d4b" data-name="database">
@@ -64,9 +64,9 @@
                             <path d="M12,18c-5,0-9-1.34-9-3v5c0,1.66,4,3,9,3s9-1.34,9-3V15C21,16.66,17,18,12,18Z"/>
                         </g>
                     </svg>      
-                    <?= e(__('exception.database')) ?>
+                    <?php // e(__('exception.database')) ?>
                 </a>
-            </li>
+            </li> -->
             <li>
                 <h2>
                     <a href="#detail-context-data"><?= e(__('exception.contextData')) ?></a>
