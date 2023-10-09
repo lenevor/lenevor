@@ -68,10 +68,10 @@
                 </table>
             <?php endforeach; ?>  
             </div>
-            <div class="info-database-title">
-            <?php foreach ($databases as $data) : ?>
+            <!-- <div class="info-database-title">
+            <?php // foreach ($databases as $data) : ?>
                 <a id="detail-app-database" class="scroll-target"></a>
-                <h2><?= e(__('exception.database')) ?></h2>
+                <h2><?php e(__('exception.database')) ?></h2>
                 <table class="data-table">
                     <thead>
                         <tr>
@@ -80,16 +80,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($data as $key => $value) : ?>
+                        <?php // foreach ($data as $key => $value) : ?>
                         <tr>
-                            <td><?= e($key) ?></td>
-                            <td><?= e(print_r($value, true)) ?></td>
+                            <td><?php // e($key) ?></td>
+                            <td><?php // e(print_r($value, true)) ?></td>
                         </tr>
-                        <?php endforeach; ?>	
+                        <?php // endforeach; ?>	
                     </tbody>
                 </table>
-            <?php endforeach; ?>  
-            </div>
+            <?php // endforeach; ?>  
+            </div> -->
         </div>
     </section>
     <section class="section-detail-context">
