@@ -1,5 +1,47 @@
 # Release Notes
 
+## [Version 0.8.9-alpha.8]
+
+Release Date: Oct 10, 2023
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added new methods for manages the format of strings in console
+- Added new method for wrap a color style tag
+- Added conditional for paths iterate in `FinderHelper` class
+- Added iterator to go through the iterators one by one in `Finder` class
+- Added new methods for returns an iterator of directory in `DirectoryFilterIterator` class
+- Added new method for allows rules that filenames in `Finder` class
+- Added new methods for gets the hash and the content as decoded JSON in files
+- Added the connection with the methods of `Filesystem` class
+- Added new methods for resolve the given disk in `FilesystemManager` class
+- Added new methods for get the disk local in `FilesystemManager` class
+- Added methods for call a custom driver creator in `FilesystemManager` class
+- Added new array related with the filesystem in `Application` class
+- Added new methods for register the filesystem manager
+
+### Changed
+- Changed new the path for the classes of description
+- Changed new the path for the class of Descriptor interface
+- Changed at a new folder to system of translation
+- Changed the name of method getSize() by size() in `Filesystem` class
+
+### Fixed
+- [0.8.x] Fix bug to removed argument not existing in `FormatUtil` class
+- [0.8.x] Fix bug of variable misspelled in `FinderHelper` class
+
+### Created
+- Created Helper class for the base class for all helper classes
+- Created the config for manage the files system
+
+### Updated
+- Updated release to 0.8.9
+
+### Removed
+- Removed the keys for translation items of system main
+
+
 ## [Version 0.8.8-alpha.8]
 
 Release Date: Sep 12, 2023
