@@ -27,5 +27,5 @@ namespace Syscodes\Components\Pagination;
  */
 class AbstractPaginator
 {
-
+    
 }
