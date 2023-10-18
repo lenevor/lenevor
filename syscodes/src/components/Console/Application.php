@@ -474,11 +474,11 @@ class Application implements ApplicationContract
     {
         $this->initialize();
 
-        if ( ! $this->has($name)) {
-            throw new CommandNotFoundException(
-                sprintf('The "%s" command cannot be found because it is registered under multiple names. Make sure you don\'t set a different name via constructor or "setName()"', $name)
-            );
-        }
+        // if ( ! $this->has($name)) {
+        //     throw new CommandNotFoundException(
+        //         sprintf('The "%s" command cannot be found because it is registered under multiple names. Make sure you don\'t set a different name via constructor or "setName()"', $name)
+        //     );
+        // }
         
         if ( ! isset($this->commands[$name])) {
             throw new CommandNotFoundException(
@@ -815,7 +815,7 @@ class Application implements ApplicationContract
      * 
      * @return void
      */
-    protected function initialize(): void
+    protected function initialize()
     {
         if ($this->initialize) {
             return;
