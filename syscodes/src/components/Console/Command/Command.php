@@ -230,6 +230,15 @@ class Command
     protected function define() {}
 
     /**
+     * Sets the command.
+     * 
+     * @param  \Syscodes\Components\Console\Command\Command  $command
+     * 
+     * @return void
+     */
+    public function setCommand(Command $command) {}
+
+    /**
      * Executes the current command.
      * 
      * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
