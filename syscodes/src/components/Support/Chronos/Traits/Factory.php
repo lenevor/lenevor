@@ -59,7 +59,8 @@ trait Factory
             $time = static::$testNow->toDateTimeString();
         }
         
-        $timezone       = ! empty($timezone) ? $timezone : date_default_timezone_get();
+        $timezone = ! empty($timezone) ? $timezone : date_default_timezone_get();
+
         $this->timezone = $timezone instanceof DateTimeZone ? $timezone : new DateTimeZone($timezone);
         
         if ( ! empty($time)) {
@@ -71,7 +72,7 @@ trait Factory
 			}
         }
         
-        return parent::__construct($time, $this->timezone);
+        return parent::__construct($time ?: 'now', $this->timezone ?: null);
     }
 
     /**
@@ -229,7 +230,7 @@ trait Factory
      * 
      * @return \Syscodes\Components\Support\Chronos\Time
      */
-    public static function createFromFormat($format, $datetime, $timezone = null)
+    public static function createFromFormat($format, $datetime, $timezone = null): DateTime
     {
         $date = parent::createFromFormat($format, $datetime);
 
