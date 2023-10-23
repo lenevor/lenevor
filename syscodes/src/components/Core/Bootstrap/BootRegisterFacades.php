@@ -44,6 +44,8 @@ class BootRegisterFacades
 
         Facade::setFacadeApplication($app);
 
-        AliasLoader::getInstance($app->make('config')->get('services.aliases', []))->register();
+        AliasLoader::getInstance(
+            $app->make('config')->get('services.aliases', [])
+        )->register();
     }
 }
