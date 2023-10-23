@@ -460,7 +460,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    protected function resolve($id, array $parameters = []): mixed
+    protected function resolve($id, array $parameters = [])
     {
         $id = $this->getAlias($id);
 
@@ -611,7 +611,7 @@ class Container implements ArrayAccess, ContainerContract
 
                 continue;
             }
-
+            
             $param = is_null(Util::getParameterClassName($dependency)) 
                        ? $this->getResolveNonClass($dependency) 
                        : $this->getResolveClass($dependency);
@@ -669,7 +669,7 @@ class Container implements ArrayAccess, ContainerContract
      *
      * @throws \Syscodes\Components\Container\Exceptions\BindingResolutionException
      */
-    protected function getResolveNonClass(ReflectionParameter $parameter): mixed
+    protected function getResolveNonClass(ReflectionParameter $parameter)
     {
         if ( ! is_null($class = Util::getParameterClassName($parameter))) {
             return Util::unwrapExistOfClosure($class, $this);
@@ -938,11 +938,11 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Determine if a given offset exists.
      * 
-     * @param  string  $offset
+     * @param  mixed  $offset
      * 
      * @return bool
      */
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return $this->bound($offset);
     }
@@ -950,11 +950,11 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Get the value at a given offset.
      * 
-     * @param  string  $offset
+     * @param  mixed  $offset
      * 
      * @return mixed
      */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->make($offset);
     }
@@ -962,12 +962,12 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Set the value at a given offset.
      * 
-     * @param  string  $offset
+     * @param  mixed  $offset
      * @param  mixed  $value
      * 
      * @return void
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->set($offset, $value);
     }
@@ -975,11 +975,11 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Unset the value at a given offset.
      * 
-     * @param  string  $offset
+     * @param  mixed  $offset
      * 
      * @return void
      */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         $this->remove($offset);
     }
