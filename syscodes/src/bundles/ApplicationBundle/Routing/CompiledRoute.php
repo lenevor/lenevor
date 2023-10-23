@@ -28,7 +28,7 @@ use BadMethodCallException;
 /**
  * Allows the compiled route for gets the pattern variables.
  */
-final class CompiledRoute implements Serializable
+final class CompiledRoute
 {
     /**
      * Get the host in a regex expression.
