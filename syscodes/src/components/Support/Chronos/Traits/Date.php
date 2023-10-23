@@ -122,7 +122,7 @@ trait Date
      * 
      * @return \Syscodes\Components\Support\Chronos\Time
      */
-    public function setTimezone($timezone)
+    public function setTimezone($timezone): DateTime
     {
         return static::parse($this->toDateTimeString(), $timezone, $this->locale);
     }
@@ -134,7 +134,7 @@ trait Date
      * 
      * @return \Syscodes\Components\Support\Chronos\Time
      */
-    public function setTimestamp($timestamp)
+    public function setTimestamp($timestamp): DateTime
     {
         $time = date('Y-m-d H:i:s', $timestamp);
 
