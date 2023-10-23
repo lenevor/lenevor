@@ -89,7 +89,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @return bool
      */
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->frames[$offset]);
     }
@@ -102,7 +102,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @return mixed
      */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->frames[$offset];
     }
@@ -117,7 +117,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @throws \Exception
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         throw new Exception(__CLASS__.' is read only');
     }
@@ -130,7 +130,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * 
      * @throws \Exception
      */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         throw new Exception(__CLASS__.' is read only');
     }

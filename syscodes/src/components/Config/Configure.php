@@ -128,11 +128,11 @@ class Configure implements ArrayAccess, ConfigureContract
 	/**
 	 * Determine if the given configuration option exists.
 	 * 
-	 * @param  string  $key
+	 * @param  mixed  $key
 	 * 
 	 * @return bool
 	 */
-	public function offsetExists($key): bool
+	public function offsetExists(mixed $key): bool
 	{
 		return $this->has($key);
 	}
@@ -140,11 +140,11 @@ class Configure implements ArrayAccess, ConfigureContract
 	/**
 	 * Get a configuration option.
 	 * 
-	 * @param  string  $key
+	 * @param  mixed  $key
 	 * 
 	 * @return mixed
 	 */
-	public function offsetGet($key)
+	public function offsetGet(mixed $key): mixed
 	{
 		return $this->get($key);
 	}
@@ -152,12 +152,12 @@ class Configure implements ArrayAccess, ConfigureContract
 	/**
 	 * Set a configuration option.
 	 * 
-	 * @param  string  $key
+	 * @param  mixed  $key
 	 * @param  mixed  $value
 	 * 
 	 * @return void
 	 */
-	public function offsetSet($key, $value): void
+	public function offsetSet(mixed $key, mixed $value): void
 	{
 		$this->set($key, $value);
 	}
@@ -165,11 +165,11 @@ class Configure implements ArrayAccess, ConfigureContract
 	/**
 	 * Unset a configuration option.
 	 * 
-	 * @param  string  $key
+	 * @param  mixed  $key
 	 * 
 	 * @return void
 	 */
-	public function offsetUnset($key): void
+	public function offsetUnset(mixed $key): void
 	{
 		$this->set($key, null);
 	}

@@ -900,11 +900,11 @@ class Model implements Arrayable, ArrayAccess
 	/**
 	 * Whether or not an offset exists.
 	 * 
-	 * @param  string  $offset
+	 * @param  mixed  $offset
 	 * 
 	 * @return bool
 	 */
-	public function offsetExists($offset): bool
+	public function offsetExists(mixed $offset): bool
 	{ 
 		return isset($this->attributes[$offset]) || 
 		       isset($this->relations[$offset]) ||
@@ -915,11 +915,11 @@ class Model implements Arrayable, ArrayAccess
 	/**
 	 * Returns the value at specified offset.
 	 * 
-	 * @param  string  $offset
+	 * @param  mixed  $offset
 	 * 
 	 * @return mixed
 	 */
-	public function offsetGet($offset)
+	public function offsetGet(mixed $offset): mixed
 	{
 		return $this->getAttribute($offset);
 	}
@@ -927,12 +927,12 @@ class Model implements Arrayable, ArrayAccess
 	/**
 	 * Set a value to the specified offset
 	 * 
-	 * @param  string  $offset
+	 * @param  mixed  $offset
 	 * @param  mixed  $value
 	 * 
 	 * @return void
 	 */
-	public function offsetSet($offset, $value): void
+	public function offsetSet(mixed $offset, mixed $value): void
 	{
 		$this->setAttribute($offset, $value);
 	}
@@ -940,11 +940,11 @@ class Model implements Arrayable, ArrayAccess
 	/**
 	 * Unset the value for a given offset.
 	 * 
-	 * @param  string  $offset
+	 * @param  mixed  $offset
 	 * 
 	 * @return void
 	 */
-	public function offsetUnset($offset): void
+	public function offsetUnset(mixed $offset): void
 	{
 		unset($this->attributes[$offset], $this->relations[$offset]);
 	}

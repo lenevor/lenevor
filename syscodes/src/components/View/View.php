@@ -383,11 +383,11 @@ class View implements ArrayAccess, Webable, ViewContract
 	/**
 	 * Whether or not an offset exists.
 	 * 
-	 * @param  string  $offset
+	 * @param  mixed  $offset
 	 * 
 	 * @return bool
 	 */
-	public function offsetExists($offset): bool
+	public function offsetExists(mixed $offset): bool
 	{
 		return array_key_exists($offset, $this->data);
 	}
@@ -395,11 +395,11 @@ class View implements ArrayAccess, Webable, ViewContract
 	/**
 	 * Returns the value at specified offset.
 	 * 
-	 * @param  string  $offset
+	 * @param  mixed  $offset
 	 * 
 	 * @return mixed
 	 */
-	public function offsetGet($offset)
+	public function offsetGet(mixed $offset): mixed
 	{
 		return $this->data[$offset];
 	}
@@ -407,12 +407,12 @@ class View implements ArrayAccess, Webable, ViewContract
 	/**
 	 * Assigns a value to the specified offset
 	 * 
-	 * @param  string  $offset
+	 * @param  mixed  $offset
 	 * @param  mixed  $value
 	 * 
 	 * @return void
 	 */
-	public function offsetSet($offset, $value): void
+	public function offsetSet(mixed $offset, mixed $value): void
 	{
 		$this->assign($offset, $value);
 	}
@@ -420,11 +420,11 @@ class View implements ArrayAccess, Webable, ViewContract
 	/**
 	 * Unsets an offset.
 	 * 
-	 * @param  string  $offset
+	 * @param  mixed  $offset
 	 * 
 	 * @return void
 	 */
-	public function offsetUnset($offset): void
+	public function offsetUnset(mixed $offset): void
 	{
 		unset($this->data[$offset]);
 	}

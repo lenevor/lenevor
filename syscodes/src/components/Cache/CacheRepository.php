@@ -441,11 +441,11 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Determine if a cached value exists.
      * 
-     * @param  string  $offset
+     * @param  mixed  $offset
      * 
      * @return bool
      */
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return $this->has($offset);
     }
@@ -453,11 +453,11 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Retrieve an item from the cache by key.
      * 
-     * @param  string  $offset
+     * @param  mixed  $offset
      * 
      * @return mixed
      */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset)
     {
         return $this->get($offset);
     }
@@ -465,12 +465,12 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Store an item in the cache for the default time.
      * 
-     * @param  string  $offset
+     * @param  mixed  $offset
      * @param  mixed  $value
      * 
      * @return void
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
        $this->put($offset, $value, $this->cacheTime);
     }
@@ -478,11 +478,11 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Remove an item from the cache.
      * 
-     * @param  string  $offset
+     * @param  mixed  $offset
      * 
      * @return void
      */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         $this->delete($offset);
     }
