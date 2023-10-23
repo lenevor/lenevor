@@ -290,7 +290,7 @@ class FileLogger implements Handler
         $logDateFormat = $this->app['config']['logger.dateFormat'] ?? $this->logDateFormat;
         $originalTime  = microtime(true);
         $micro         = sprintf("%06d", ($originalTime - floor($originalTime)) * 1000000);
-        $date          = new Chronos(date('Y-m-d H:i:s.'.$micro, $originalTime));
+        $date          = new Chronos(date('Y-m-d H:i:s.'.$micro, (int) $originalTime));
         
         return $date->format($logDateFormat);
     }   
