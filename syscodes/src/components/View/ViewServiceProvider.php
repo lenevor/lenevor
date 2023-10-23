@@ -26,7 +26,6 @@ use Syscodes\Components\View\Engines\PhpEngine;
 use Syscodes\Components\Support\ServiceProvider;
 use Syscodes\Components\View\Engines\FileEngine;
 use Syscodes\Components\View\Engines\EngineResolver;
-use Syscodes\Components\View\Transpilers\Transpiler;
 use Syscodes\Components\View\Engines\TranspilerEngine;
 use Syscodes\Components\View\Transpilers\PlazeTranspiler;
 
