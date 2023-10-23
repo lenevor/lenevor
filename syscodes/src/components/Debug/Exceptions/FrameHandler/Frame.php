@@ -22,12 +22,10 @@
 
 namespace Syscodes\Components\Debug\FrameHandler;
 
-use Serializable;
-
 /**
  * Returns the content of an exception through a trace.
  */
-class Frame implements Serializable
+class Frame
 {
     /**
      * @var array $comments
@@ -167,7 +165,7 @@ class Frame implements Serializable
      * 
      * @return string
      */
-    public function serialize()
+    public function serialize(): string
     {
         $frame = $this->frame;
 
@@ -182,7 +180,7 @@ class Frame implements Serializable
      *  
      * @return void
      */
-    public function unserialize($frame)
+    public function unserialize(string $frame): void
     {
         $frame = unserialize($frame);
 
