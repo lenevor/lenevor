@@ -31,6 +31,7 @@ namespace Syscodes\Components\Support\Facades;
  * @method static array getExtensions()
  * @method static mixed share(array|string $key, mixed $value = null)
  * @method static void getShared()
+ * @method static \Syscodes\Components\View\Factory replaceNamespace(string $namespace, string|array $hints)
  * @method static \Syscodes\Components\Contracts\Container\Container getContainer()
  * @method static \Syscodes\Components\Contracts\Container\Container setContainer(\Syscodes\Components\Contracts\Container\Container $container)
  * 
