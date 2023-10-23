@@ -248,9 +248,9 @@ class Factory implements FactoryContract
 	 * @param  string  $namespace
 	 * @param  string|array  $hints
 	 * 
-	 * @return self
+	 * @return static
 	 */
-	public function replaceNamespace($namespace, $hints): self
+	public function replaceNamespace($namespace, $hints): static
 	{
 		$this->finder->replaceNamespace($namespace, $hints);
 
