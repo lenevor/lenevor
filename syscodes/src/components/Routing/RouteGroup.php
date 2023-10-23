@@ -87,15 +87,15 @@ class RouteGroup
 	 * 
 	 * @return string|null
 	 */
-	protected static function formatUsePrefix($new, $old, bool $existsPrefix = true): ?string
+	protected static function formatUsePrefix($new, $old, bool $existsPrefix = true): string|null
 	{
 		$old = $old['prefix'] ?? null;
 		
 		if ($existsPrefix) {
-			return trim(isset($new['prefix']) ? trim($old, '/').'/'.trim($new['prefix'], '/') : $old, '/');
-		} else {
-			return trim(isset($new['prefix']) ? trim($new['prefix'], '/').'/'.trim($old, '/') : $old, '/');
+			return isset($new['prefix']) ? trim($old, '/').'/'.trim($new['prefix'], '/') : $old;
 		}
+		
+		return isset($new['prefix']) ? trim($new['prefix'], '/').'/'.trim($old, '/') : $old;
 	}
 
 	/**
