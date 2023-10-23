@@ -46,7 +46,7 @@ class TranslationServiceProvider extends ServiceProvider implements Deferrable
             
             $translator = new Translator($locale, $loader);
 
-            $translator->setFallback($app['config']['app.fallbackLocale']);
+            $translator->setFallback($app->getFallbackLocale());
 
             return $translator;
         });
