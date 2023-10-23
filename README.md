@@ -13,12 +13,12 @@ Lenevor is a web application framework with light and simple syntax. Our foundat
 
 Lenevor it strives to stay simple, by focusing on the basics, such as:
 
-- A simple, fast routing engine.
-- Powerful dependency injection container.
-- Connection with the database using Query Builder.
-- Multiple back-ends for session and cache storage.
+- [A simple, fast routing engine](https://github.com/lenevor/docs/blob/master/routing.md).
+- [Powerful dependency injection container](https://github.com/lenevor/docs/blob/master/container.md).
+- Connection with the database using [Query Builder](https://github.com/lenevor/docs/blob/master/database.md).
+- Multiple back-ends for [session](https://github.com/lenevor/docs/blob/master/session.md) and [cache storage](https://github.com/lenevor/docs/blob/master/cache.md).
 - Real-time event broadcasting.
-- Separation between the bussines logic and presentation through the Plaze template engine.
+- Separation between the bussines logic and presentation through the [Plaze template engine](https://github.com/lenevor/docs/blob/master/plaze.md).
 
 Lenevor is accessible, powerful, and provides tools required for large, robust applications.
 
