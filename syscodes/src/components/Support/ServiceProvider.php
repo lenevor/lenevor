@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Support;
 
+use Closure;
 use Syscodes\Components\Contracts\Support\Deferrable;
 
 /**
@@ -76,6 +77,48 @@ abstract class ServiceProvider
     public function booting($callback)
     {
         $callback();
+    }
+    
+    /**
+     * Register a view file namespace.
+     * 
+     * @param  string|array  $path
+     * @param  string  $namespace
+     * 
+     * @return void
+     */
+    protected function loadViewsTo($path, $namespace): void
+    {
+        $this->callResolving('view', function ($view) use ($path, $namespace) {
+            if (isset($this->app->config['view']['paths']) &&
+                is_array($this->app->config['view']['paths'])) {
+                foreach ($this->app->config['view']['paths'] as $viewPath) {
+                    if (is_dir($appPath = $viewPath.'/vendor/'.$namespace)) {
+                        $view->addNamespace($namespace, $appPath);
+                    }
+                }
+            }
+            
+            $view->addNamespace($namespace, $path);
+        });
+    }
+    
+    /**
+     * Setup an after resolving listener, or fire immediately 
+     * if already resolved.
+     * 
+     * @param  string  $name
+     * @param  \Closure  $callback
+     * 
+     * @return void
+     */
+    protected function callResolving($name, Closure $callback): void
+    {
+        $this->app->rebinding($name, $callback);
+        
+        if ($this->app->resolved($name)) {
+            $callback($this->app->make($name), $this->app);
+        }
     }
 
     /**
