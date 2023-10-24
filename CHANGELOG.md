@@ -1,5 +1,32 @@
 # Release Notes
 
+## [Version 0.8.10-alpha.8]
+
+Release Date: Oct 24, 2023
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added arguments in required methods by the ArrayAccess interface
+- Added identify of integer in argument of the `Log\Handlers\FileLogger` class
+- Added the type output of method of the DateTime class
+- Added argument type to match with the DateTime class in `Support\Chronos\Traits\Factory` trait
+- Added methods for register a view file namespace in the `ServiceProvider` class
+
+### Changed
+- Changed the container notation by method of the `Application` class
+
+### Created
+- Created new class for pagination of database register 
+
+### Updated
+- Updated PHP release to 8.1
+- Updated components release to 0.8.10
+
+### Removed
+- Removed Serializable Interface and deprecated in PHP 8.1
+
+
 ## [Version 0.8.9-alpha.8]
 
 Release Date: Oct 10, 2023
