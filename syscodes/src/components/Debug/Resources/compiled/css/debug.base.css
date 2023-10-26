@@ -1445,6 +1445,7 @@ header .message a:hover {
     display: block; 
     font-size: var(--font-size-initial);
     margin-bottom: 1px;
+    padding-left: 0.5rem;
 }
 
 .dark .section-code .source .line .highlight {
@@ -1472,7 +1473,7 @@ header .message a:hover {
 .section-code .code-source span.highlight .number {
     font-size: var(--font-size-initial);
     margin-left: -40px;
-    padding-left: 24px;
+    padding-left: 16px;
     padding-right: 10px;
 }
 
@@ -1535,9 +1536,9 @@ header .message a:hover {
     }
 
     .section-code .code-source span.highlight .number {
-        margin-left: -50px;
-        padding-left: 33px;
-        padding-right: 10px;
+        margin-left: -53px;
+        padding-left: 28px;
+        padding-right: 15px;
     }
 
     .section-code pre {
@@ -1683,8 +1684,8 @@ header .message a:hover {
 }
 
 .section-details .sidebar nav ul li:nth-child(4) h2 a,
-.section-details .sidebar nav ul li:nth-child(7) h2 a {
-    margin-top: 30px;
+.section-details .sidebar nav ul li:nth-child(6) h2 a {
+    margin-top: 20px;
 }
 
 .section-details .sidebar nav ul li a {
