@@ -173,6 +173,7 @@ return [
     'Syscodes\\Components\\Contracts\\Support\\MessageBag' => SYS_PATH.'src/components/Contracts/Support/MessageBag.php',
     'Syscodes\\Components\\Contracts\\Support\\MessageProvider' => SYS_PATH.'src/components/Contracts/Support/MessageProvider.php',
     'Syscodes\\Components\\Contracts\\Support\\Renderable' => SYS_PATH.'src/components/Contracts/Support/Renderable.php',
+    'Syscodes\\Components\\Contracts\\Support\\Serializable' => SYS_PATH.'src/components/Contracts/Support/Serializable.php',
     'Syscodes\\Components\\Contracts\\Support\\Webable' => SYS_PATH.'src/components/Contracts/Support/Webable.php',
     'Syscodes\\Components\\Contracts\\Translation\\Loader' => SYS_PATH.'src/components/Contracts/Translation/Loader.php',
     'Syscodes\\Components\\Contracts\\Translation\\Translator' => SYS_PATH.'src/components/Contracts/Translation/Translator.php',
