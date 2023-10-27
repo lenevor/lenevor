@@ -22,10 +22,12 @@
 
 namespace Syscodes\Components\Debug\FrameHandler;
 
+use Syscodes\Components\Contracts\Support\Serializable;
+
 /**
  * Returns the content of an exception through a trace.
  */
-class Frame
+class Frame implements Serializable
 {
     /**
      * @var array $comments
@@ -159,13 +161,11 @@ class Frame
     */
 
     /**
-     * Implements the Serializable interface.
-     * 
-     * @see    Serializable::serialize
+     * String representation of object.
      * 
      * @return string
      */
-    public function serialize(): string
+    final public function serialize(): string
     {
         $frame = $this->frame;
 
@@ -173,16 +173,15 @@ class Frame
     }
 
     /**
-     * Unserializes the frame data.
+     * Constructs the object.
      * 
-     * @see    Serializable::unserialize 
-     * @param  string  $frame
-     *  
+     * @param  string  $serialized
+     * 
      * @return void
      */
-    public function unserialize(string $frame): void
+    final public function unserialize(string $serialized): void
     {
-        $frame = unserialize($frame);
+        $frame = unserialize($serialized);
 
         $this->frame = $frame;
     }
