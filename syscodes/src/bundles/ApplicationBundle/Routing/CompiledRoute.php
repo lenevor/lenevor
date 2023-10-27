@@ -22,13 +22,13 @@
 
 namespace Syscodes\Bundles\ApplicationBundle\Routing;
 
-use Serializable;
 use BadMethodCallException;
+use Syscodes\Components\Contracts\Support\Serializable;
 
 /**
  * Allows the compiled route for gets the pattern variables.
  */
-final class CompiledRoute
+final class CompiledRoute implements Serializable
 {
     /**
      * Get the host in a regex expression.
