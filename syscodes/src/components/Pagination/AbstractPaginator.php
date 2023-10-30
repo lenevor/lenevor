@@ -87,7 +87,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
     /**
      * All of the items being paginated.
      * 
-     * @var array $items
+     * @var array|object $items
      */
     protected $items = [];
     
