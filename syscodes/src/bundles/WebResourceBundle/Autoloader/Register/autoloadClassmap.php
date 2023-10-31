@@ -418,6 +418,7 @@ return [
     'Syscodes\\Components\\Pagination\\AbstractPaginator' => SYS_PATH.'src/components/Pagination/AbstractPaginator.php',
     'Syscodes\\Components\\Pagination\\PaginationState' => SYS_PATH.'src/components/Pagination/PaginationState.php',
     'Syscodes\\Components\\Pagination\\Paginator' => SYS_PATH.'src/components/Pagination/Paginator.php',
+    'Syscodes\\Components\\Pagination\\SimplePaginator' => SYS_PATH.'src/components/Pagination/SimplePaginator.php',
     'Syscodes\\Components\\Pipeline\\Pipeline' => SYS_PATH.'src/components/Pipeline/Pipeline.php',
     'Syscodes\\Components\\Pipeline\\PipelineServiceProvider' => SYS_PATH.'src/components/Pipeline/PipelineServiceProvider.php',
     'Syscodes\\Components\\Redis\\RedisManager' => SYS_PATH.'src/components/Redis/RedisManager.php',
