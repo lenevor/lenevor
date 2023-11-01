@@ -416,6 +416,7 @@ return [
     'Syscodes\\Components\\Log\\LogManager' => SYS_PATH.'src/components/Log/LogManager.php',
     'Syscodes\\Components\\Log\\LogServiceProvider' => SYS_PATH.'src/components/Log/LogServiceProvider.php',
     'Syscodes\\Components\\Pagination\\AbstractPaginator' => SYS_PATH.'src/components/Pagination/AbstractPaginator.php',
+    'Syscodes\\Components\\Pagination\\PaginationServiceProvider' => SYS_PATH.'src/components/Pagination/PaginationServiceProvider.php',
     'Syscodes\\Components\\Pagination\\PaginationState' => SYS_PATH.'src/components/Pagination/PaginationState.php',
     'Syscodes\\Components\\Pagination\\Paginator' => SYS_PATH.'src/components/Pagination/Paginator.php',
     'Syscodes\\Components\\Pagination\\SimplePaginator' => SYS_PATH.'src/components/Pagination/SimplePaginator.php',
