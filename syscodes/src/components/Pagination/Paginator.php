@@ -97,12 +97,12 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
     /**
      * Render the paginator using the given view.
      * 
-     * @param  string  $view
+     * @param  string|null  $view
      * @param  array  $data
      * 
      * @return string
      */
-    public function links($view = null, $data = array()): string
+    public function links($view = null, $data = []): string
     {
         return $this->render($view, $data);
     }
@@ -110,23 +110,17 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
     /**
      * Render the paginator using the given view.
      * 
-     * @param  string  $view
+     * @param  string|null  $view
      * @param  array  $data
      * 
      * @return string
      */
-    public function render($view = null, $data = array()): string
+    public function render($view = null, $data = [])
     {
-        if (is_null($view)) {
-            $view = static::$defaultView;
-        }
-        
-        $data = array_merge($data, [
+        return static::viewFactory()->make($view ?: static::$defaultSimpleView, array_merge($data, [
             'paginator' => $this,
             'elements'  => $this->elements(),
-        ]);
-        
-        return static::viewFactory()->make($view, $data)->render();
+        ]));
     }
     
     /**
