@@ -29,25 +29,29 @@ use ArrayIterator;
 use IteratorAggregate;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\Collection;
+use Syscodes\Components\Support\Traits\ForwardsCalls;
 
 /**
  * Allows get the links of pagination of database data register.
  */
 abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
 {
+    use ForwardsCalls;
+
     /**
      * The default pagination view.
      * 
      * @var string $defaultView
      */
-    public static $defaultView = 'Resources/Views/Default';
+    public static $defaultView = 'pagination::default';
     
     /**
      * The default "simple" pagination view.
      * 
      * @var string $defaultSimpleView
      */
-    public static $defaultSimpleView = 'Resources/Views/Simple';
+    public static $defaultSimpleView = 'pagination::simple';
     
     /**
      * The view factory resolver callback.
@@ -259,7 +263,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
      */
     public function items(): array
     {
-        return $this->items;
+        return $this->items->all();
     }
     
     /**
@@ -494,7 +498,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
      */
     public function isEmpty(): bool
     {
-        return empty($this->items);
+        return $this->items->isEmpty();
     }
     
     /**
@@ -504,15 +508,15 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
      */
     public function count(): int
     {
-        return count($this->items);
+        return $this->items->count();
     }
     
     /**
      * Get the paginator's underlying collection.
      * 
-     * @return array
+     * @return \Syscodes\Components\Support\Collection
      */
-    public function getItems(): array
+    public function getCollection()
     {
         return $this->items;
     }
@@ -520,13 +524,13 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
     /**
      * Set the paginator's underlying collection.
      * 
-     * @param  array  $items
+     * @param  \Syscodes\Components\Support\Collection  $collection
      * 
      * @return static
      */
-    public function setItems(array $items): static
+    public function setCollection(Collection $collection): static
     {
-        $this->items = $items;
+        $this->items = $collection;
         
         return $this;
     }
@@ -546,7 +550,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
 	 */
 	public function offsetExists(mixed $offset): bool
 	{
-		return Arr::has($this->items, $offset);
+		return $this->items->has($offset);
 	}
 
 	/**
@@ -558,7 +562,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
 	 */
 	public function offsetGet(mixed $offset): mixed
 	{
-		return Arr::get($this->items, $offset);
+		return $this->items->get($offset);
 	}
 
 	/**
@@ -571,7 +575,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
 	 */
 	public function offsetSet(mixed $offset, mixed $value): void
 	{
-	    Arr::set($this->items, $offset, $value);
+	    $this->items->put($offset, $value);
 	}
 
 	/**
@@ -583,8 +587,23 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
 	 */
 	public function offsetUnset(mixed $offset): void
 	{
-		Arr::erase($this->items, $offset);
+		$this->items->erase($offset);
 	}
+    
+    /**
+     * Magic method.
+     * 
+     * Make dynamic calls into the collection.
+     * 
+     * @param  string  $method
+     * @param  array  $parameters
+     * 
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        return $this->forwardCallTo($this->getCollection(), $method, $parameters);
+    }
     
     /**
      * Magic method.
