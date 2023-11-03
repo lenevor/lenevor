@@ -28,11 +28,12 @@ use JsonSerializable;
 use IteratorAggregate;
 use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Contracts\Pagination\SimplePaginator as SimplePaginatorContract;
 
 /**
  * Allows get the links of a simple pagination of database data register.
  */
-class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSerializable, ArrayAccess, Countable, IteratorAggregate
+class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSerializable, ArrayAccess, Countable, IteratorAggregate, SimplePaginatorContract
 {
     /**
      * Determine if there are more items in the data source.
@@ -117,17 +118,11 @@ class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, 
      * 
      * @return string
      */
-    public function render($view = null, $data = []): string
+    public function render($view = null, $data = [])
     {
-        if (is_null($view)) {
-            $view = static::$defaultSimpleView;
-        }
-        
-        $data = array_merge($data, [
+        return static::viewFactory()->make($view ?: static::$defaultSimpleView, array_merge($data, [
             'paginator' => $this,
-        ]);
-        
-        return static::viewFactory()->make($view, $data)->render();
+        ]));
     }
     
     /**
