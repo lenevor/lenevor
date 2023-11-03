@@ -157,13 +157,9 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
      */
     public function getUrlRange(int $start, int $end): array
     {
-        $results = [];
-        
-        foreach (range($start, $end) as $page) {
-            $results[$page] = $this->url($page);
-        }
-        
-        return $results;
+        return collect(range($start, $end))->mapKeys(function ($page) {
+            return [$page => $this->url($page)];
+        })->all();
     }
     
     /**
@@ -179,15 +175,19 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
             $page = 1;
         }
         
-        $path = $this->path;
-        
-        $parameters = array_merge($this->query, [$this->pageName => $page]);
-        
-        if (count($parameters) > 0) {
-            $path .= (Str::contains($path, '?') ? '&' : '?').http_build_query($parameters, '', '&');
+         // If we have any extra query string key / value pairs that need to be added
+        // onto the URL, we will put them in query string form and then attach it
+        // to the URL. This allows for extra information like sortings storage.
+        $parameters = [$this->pageName => $page];
+
+        if (count($this->query) > 0) {
+            $parameters = array_merge($this->query, $parameters);
         }
-        
-        return $path .$this->buildFragment();
+
+        return $this->getPath()
+                        .(Str::contains($this->path(), '?') ? '&' : '?')
+                        .Arr::query($parameters)
+                        .$this->buildFragment();
     }
     
     /**
@@ -244,6 +244,16 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
         }
         
         return $this;
+    }
+    
+    /**
+     * Get the set of query string values to the paginator.
+     * 
+     * @return array
+     */
+    public function getQuery(): array
+    {
+        return $this->query;
     }
     
     /**
@@ -499,6 +509,16 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
     public function isEmpty(): bool
     {
         return $this->items->isEmpty();
+    }
+    
+    /**
+     * Determine if the list of items is not empty.
+     * 
+     * @return bool
+     */
+    public function isNotEmpty(): bool
+    {
+        return $this->items->isNotEmpty();
     }
     
     /**
