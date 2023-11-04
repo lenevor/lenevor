@@ -28,11 +28,13 @@ use JsonSerializable;
 use IteratorAggregate;
 use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Pagination\Links\UrlWindowGenerator;
+use Syscodes\Components\Contracts\Pagination\Paginator as PaginatorContract;
 
 /**
  * Allows get the links of pagination of database data register.
  */
-class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSerializable, ArrayAccess, Countable, IteratorAggregate
+class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSerializable, ArrayAccess, Countable, IteratorAggregate, PaginatorContract
 {
     /**
      * The last available page.
@@ -130,7 +132,7 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
      */
     protected function elements(): array
     {
-        $win = $this->getUrlWindow();
+        $win = UrlWindowGenerator::make($this);
         
         return array_filter([
             $win['first'],
@@ -139,106 +141,6 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
             is_array($win['last']) ? '...' : null,
             $win['last'],
         ]);
-    }
-    
-    /**
-     * Get the window of URLs to be shown.
-     * 
-     * @param  int  $onEachSide
-     * 
-     * @return array
-     */
-    public function getUrlWindow(int $onEachSide = 3): array 
-    {
-        if ( ! $this->hasPages()) {
-            return ['first' => null, 'slider' => null, 'last' => null];
-        }
-        
-        $win = $onEachSide * 2;
-        
-        if ($this->lastPage() < ($win + 6)) {
-            return $this->getSmallSlider();
-        }
-        
-        if ($this->currentPage() <= $win) {
-            return $this->getSliderTooCloseToBeginning($win);
-        } else if ($this->currentPage() > ($this->lastPage() - $win)) {
-            return $this->getSliderTooCloseToEnding($win);
-        }
-        
-        return $this->getFullSlider($onEachSide);
-    }
-    
-    /**
-     * Get the slider of URLs there are not enough pages to slide.
-     * 
-     * @return array
-     */
-    protected function getSmallSlider(): array
-    {
-        return [
-            'first'  => $this->getUrlRange(1, $this->lastPage()),
-            'slider' => null,
-            'last'   => null,
-        ];
-    }
-    
-    /**
-     * Get the slider of URLs when too close to beginning of window.
-     * 
-     * @param  int  $win
-     * 
-     * @return array
-     */
-    protected function getSliderTooCloseToBeginning($win): array
-    {
-        return [
-            'first'  => $this->getUrlRange(1, $win + 2),
-            'slider' => null,
-            'last'   => $this->getUrlRange($this->lastPage() - 1, $this->lastPage()),
-        ];
-    }
-    
-    /**
-     * Get the slider of URLs when too close to ending of window.
-     * 
-     * @param  int  $win
-     * 
-     * @return array
-     */
-    protected function getSliderTooCloseToEnding($win): array
-    {
-        $last = $this->getUrlRange(
-            $this->lastPage() - ($win + 2),
-            $this->lastPage()
-        );
-        
-        return [
-            'first'  => $this->getUrlRange(1, 2),
-            'slider' => null,
-            'last'   => $last,
-        ];
-    }
-    
-    /**
-     * Get the slider of URLs when a full slider can be made.
-     * 
-     * @param  int  $onEachSide
-     * 
-     * @return array
-     */
-    protected function getFullSlider($onEachSide): array
-    {
-        $slider = $this->getUrlRange(
-            $this->currentPage() - $onEachSide,
-            $this->currentPage() + $onEachSide
-        );
-        
-        return [
-            'first'  => $this->getUrlRange(1, 2),
-            'slider' => $slider,
-            'last'   => $this->getUrlRange($this->lastPage() - 1, $this->lastPage()),
-        ];
     }
     
     /**
