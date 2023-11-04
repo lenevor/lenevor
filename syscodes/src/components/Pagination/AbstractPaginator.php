@@ -96,6 +96,13 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
     protected $items = [];
     
     /**
+     * The number of links to display on each side of current page link.
+     * 
+     * @var int $onEachSide
+     */
+    public $onEachSide = 3;
+    
+    /**
      * The query string variable used to store the page.
      * 
      * @var string $pageName
@@ -360,6 +367,20 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
     public function setPageName(string $name): static
     {
         $this->pageName = $name;
+        
+        return $this;
+    }
+    
+    /**
+     * Set the number of links to display on each side of current page link.
+     * 
+     * @param  int  $count
+     * 
+     * @return static
+     */
+    public function onEachSide(int $count): static
+    {
+        $this->onEachSide = $count;
         
         return $this;
     }
