@@ -147,7 +147,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
      * 
      * @return string|null
      */
-    public function previousPageUrl(): string|null
+    public function previousPageUrl()
     {
         if ($this->currentPage() > 1) {
             return $this->url($this->currentPage() - 1);
@@ -192,7 +192,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
         }
 
         return $this->getPath()
-                        .(Str::contains($this->path(), '?') ? '&' : '?')
+                        .(Str::contains($this->getPath(), '?') ? '&' : '?')
                         .Arr::query($parameters)
                         .$this->buildFragment();
     }
