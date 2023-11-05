@@ -53,7 +53,7 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
     /**
      * Constructor. Create a new Paginator instance.
      * 
-     * @param  array  $items
+     * @param  mixed  $items
      * @param  int  $total
      * @param  int  $perPage
      * @param  int|null  $currentPage
@@ -61,7 +61,7 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
      * 
      * @return void
      */
-    public function __construct(array $items, int $total, int $perPage, int $currentPage = null, array $options = [])
+    public function __construct($items, $total, $perPage, $currentPage = null, array $options = [])
     {
         foreach ($options as $key => $value) {
             $this->{$key} = $value;
@@ -104,7 +104,7 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
      * 
      * @return string
      */
-    public function links($view = null, $data = []): string
+    public function links($view = null, $data = [])
     {
         return $this->render($view, $data);
     }
@@ -119,7 +119,7 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
      */
     public function render($view = null, $data = [])
     {
-        return static::viewFactory()->make($view ?: static::$defaultSimpleView, array_merge($data, [
+        return static::viewFactory()->make($view ?: static::$defaultView, array_merge($data, [
             'paginator' => $this,
             'elements'  => $this->elements(),
         ]));
@@ -130,7 +130,7 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
      * 
      * @return array
      */
-    protected function elements(): array
+    protected function elements()
     {
         $win = UrlWindowGenerator::make($this);
         
@@ -218,9 +218,9 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
     /**
      * Convert the object into something JSON serializable.
      * 
-     * @return array
+     * @return mixed
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->toArray();
     }

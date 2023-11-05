@@ -26,6 +26,7 @@ use Countable;
 use ArrayAccess;
 use JsonSerializable;
 use IteratorAggregate;
+use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Pagination\SimplePaginator as SimplePaginatorContract;
@@ -45,14 +46,14 @@ class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, 
     /**
      * Constructor. Create a new Paginator instance.
      * 
-     * @param  array  $items
+     * @param  mixed  $items
      * @param  int  $perPage
      * @param  int|null  $currentPage
      * @param  array  $options (path, query, fragment, pageName)
      * 
      * @return void
      */
-    public function __construct(array $items, int $perPage, int $currentPage = null, array $options = [])
+    public function __construct($items, $perPage, $currentPage = null, array $options = [])
     {
         foreach ($options as $key => $value) {
             $this->{$key} = $value;
@@ -62,13 +63,24 @@ class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, 
         
         $this->currentPage = $this->setCurrentPage($currentPage);
         
-        $this->hasMore = count($items) > ($this->perPage);
-        
-        $this->items = array_slice($items, 0, $this->perPage);
-        
-        if ($this->path !== '/') {
-            $this->path = rtrim($this->path, '/');
-        }
+        $this->path = $this->path !== '/' ? rtrim($this->path, '/') : $this->path;
+
+        $this->setItems($items);
+    }
+
+    /**
+     * Set the items for the paginator.
+     *
+     * @param  mixed  $items
+     * @return void
+     */
+    protected function setItems($items)
+    {
+        $this->items = $items instanceof Collection ? $items : Collection::make($items);
+
+        $this->hasMore = $this->items->count() > $this->perPage;
+
+        $this->items = $this->items->slice(0, $this->perPage);
     }
     
     /**
@@ -105,7 +117,7 @@ class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, 
      * 
      * @return string
      */
-    public function links($view = null, $data = []): string
+    public function links($view = null, $data = [])
     {
         return $this->render($view, $data);
     }
@@ -170,9 +182,9 @@ class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, 
     /**
      * Convert the object into something JSON serializable.
      * 
-     * @return array
+     * @return mixed
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->toArray();
     }
