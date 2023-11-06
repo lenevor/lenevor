@@ -25,6 +25,7 @@ namespace Syscodes\Components\Database\Erostrine;
 use Closure;
 use BadMethodCallException;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Pagination\Paginator;
 use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Support\Traits\ForwardsCalls;
@@ -562,6 +563,58 @@ class Builder
     }
 
     /**
+     * Paginate the given query into a simple paginator.
+     * 
+     * @param  int|null|\Closure  $perPage
+     * @param  array|string  $columns
+     * @param  string  $pageName
+     * @param  int|null  $page
+     * @param  \Closure|int|null  $total
+     * 
+     * @return \Syscodes\Components\Contracts\Pagination\Paginator
+     */
+    public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
+    {
+        $page = $page ?: Paginator::resolveCurrentPage($pageName);
+        
+        $total = func_num_args() === 5 ? value(func_get_arg(4)) : $this->toBase()->count();
+        
+        $perPage = ($perPage instanceof Closure 
+                        ? $perPage($total)
+                        : $perPage
+                   ) ?: $this->model->getPerPage();
+        
+        $results = $total ? $this->toBase()->forPage($page, $perPage)->get($columns) : $this->model->newCollection();
+        
+        return $this->paginator($results, $total, $perPage, $page, [
+            'path' => Paginator::resolveCurrentPath(),
+            'pageName' => $pageName,
+        ]);
+    }
+    
+    /**
+     * Get a paginator only supporting simple next and previous links.
+     * 
+     * @param  int|null  $perPage
+     * @param  array|string  $columns
+     * @param  string  $pageName
+     * @param  int|null  $page
+     * 
+     * @return \Syscodes\Components\Contracts\Pagination\SimplePaginator
+     */
+    public function simplePaginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
+    {
+        $page = $page ?: Paginator::resolveCurrentPage($pageName);
+        
+        $this->offset(($page - 1) * $perPage)->limit($perPage + 1);
+        
+        return $this->simplePaginator($this->get($columns), $perPage, $page, [
+            'path' => Paginator::resolveCurrentPath(),
+            'pageName' => $pageName,
+        ]);
+    }
+
+    /**
      * Apply the scopes to the Eloquent builder instance and return it.
      * 
      * @return static
@@ -595,6 +648,16 @@ class Builder
         $this->query = $builder;
 
         return $this;
+    }
+    
+    /**
+     * Get a base query builder instance.
+     * 
+     * @return \Syscodes\Components\Database\Query\Builder
+     */
+    public function toBase()
+    {
+        return $this->applyScopes()->getQuery();
     }
 
     /**
@@ -674,7 +737,7 @@ class Builder
         }
 
         if (in_array($method, $this->passthru)) {
-            return $this->getQuery()->{$method}(...$parameters);
+            return $this->toBase()->{$method}(...$parameters);
         }
         
         $this->forwardCallTo($this->getQuery(), $method, $parameters);

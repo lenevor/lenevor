@@ -26,6 +26,7 @@ use Closure;
 use DateTimeInterface;
 use InvalidArgumentException;
 use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Pagination\Paginator;
 use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Support\Traits\ForwardsCalls;
 use Syscodes\Components\Database\Concerns\MakeQueries;
@@ -1222,6 +1223,19 @@ class Builder
     }
 
     /**
+     * Set the limit and offset for a given page.
+     * 
+     * @param  int  $page
+     * @param  int  $perPage
+     * 
+     * @return static
+     */
+    public function forPage($page, $perPage = 15): static
+    {
+        return $this->offset(($page - 1) * $perPage)->limit($perPage);
+    }
+
+    /**
      * Set the "offset" value of the query.
      * 
      * @param  int  $value
@@ -1254,7 +1268,7 @@ class Builder
         
         return $this;
     }
-
+    
     /**
      * Add a union statement to the query.
      * 
@@ -1408,6 +1422,55 @@ class Builder
     {
         return $this->connection->select($this->getSql(), $this->getBindings());
     }
+    
+    /**
+     * Paginate the given query into a simple paginator.
+     * 
+     * @param  int|\Closure  $perPage
+     * @param  array|string  $columns
+     * @param  string  $pageName
+     * @param  int|null  $page
+     * @param  \Closure|int|null  $total
+     * 
+     * @return \Syscodes\Components\Contracts\Pagination\Paginator
+     */
+    public function paginate($perPage = 15, $columns = ['*'], $pageName = 'page', $page = null)
+    {
+        $page = $page ?: Paginator::resolveCurrentPage($pageName);
+        
+        $total = func_num_args() === 5 ? value(func_get_arg(4)) : $this->count();
+        
+        $perPage = $perPage instanceof Closure ? $perPage($total) : $perPage;
+        
+        $results = $total ? $this->forPage($page, $perPage)->get($columns) : collect();
+        
+        return $this->paginator($results, $total, $perPage, $page, [
+            'path' => Paginator::resolveCurrentPath(),
+            'pageName' => $pageName,
+        ]);
+    }
+    
+    /**
+     * Get a paginator only supporting simple next and previous links.
+     * 
+     * @param  int  $perPage
+     * @param  array|string  $columns
+     * @param  string  $pageName
+     * @param  int|null  $page
+     * 
+     * @return \Syscodes\Components\Contracts\Pagination\SimplePaginator
+     */
+    public function simplePaginate($perPage = 15, $columns = ['*'], $pageName = 'page', $page = null)
+    {
+        $page = $page ?: Paginator::resolveCurrentPage($pageName);
+        
+        $this->offset(($page - 1) * $perPage)->limit($perPage + 1);
+        
+        return $this->simplePaginator($this->get($columns), $perPage, $page, [
+            'path' => Paginator::resolveCurrentPath(),
+            'pageName' => $pageName,
+        ]);
+    }
 
     /**
      * Retrieve the "count" result of the query.
@@ -1485,17 +1548,21 @@ class Builder
 
         $previous = $this->columns;
 
+        $previousSelectBindings = $this->bindings['select'];
+
+        $this->bindings['select'] = [];
+
         $results = $this->get($columns);
 
         $this->aggregate = null;
 
         $this->columns = $previous;
 
-        if (isset($results[0]))  {
-            $result = array_change_key_case((array) $results[0]);
-        }
+        $this->bindings['select'] = $previousSelectBindings;
 
-        return $result['aggregate'];
+        if ( ! $results->isEmpty())  {
+            return array_change_key_case((array) $results[0])['aggregate'];
+        }
     }
 
     /**
