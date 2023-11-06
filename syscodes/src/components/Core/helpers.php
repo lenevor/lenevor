@@ -415,12 +415,13 @@ if ( ! function_exists('e')) {
      * Escape HTML entities in a string.
      *
      * @param  string  $value
+     * @param  bool  $doubleEncode
      *
      * @return string
      */
-    function e($value)
+    function e($value, $doubleEncode = true)
     {
-        return htmlentities($value, ENT_QUOTES, 'UTF-8', false);
+        return htmlentities($value ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', $doubleEncode);
     }
 }
 
