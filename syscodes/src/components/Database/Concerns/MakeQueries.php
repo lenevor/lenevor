@@ -22,6 +22,10 @@
 
 namespace Syscodes\Components\Database\Concerns;
 
+use Syscodes\Components\Container\Container;
+use Syscodes\Components\Pagination\Paginator;
+use Syscodes\Components\Pagination\SimplePaginator;
+
 /**
  * Trait MakeQueries.
  */
@@ -37,5 +41,40 @@ trait MakeQueries
     public function first($columns = ['*'])
     {
         return $this->limit(1)->get($columns)->first();
+    }
+
+    /**
+     * Create a new Paginator instance.
+     * 
+     * @param  \Syscodes\Components\Support\Collection  $items
+     * @param  int  $total
+     * @param  int  $perPage
+     * @param  int|null  $currentPage
+     * @param  array  $options
+     * 
+     * @return \Syscodes\Components\Pagination\Paginator
+     */
+    protected function paginator($items, $total, $perPage, $currentPage, $options)
+    {
+        return Container::getInstance()->makeAssign(Paginator::class, compact(
+            'items', 'total', 'perPage', 'currentPage', 'options'
+        ));
+    }
+
+    /**
+     * Create a new SimplePaginator instance.
+     * 
+     * @param  \Syscodes\Components\Support\Collection  $items
+     * @param  int  $perPage
+     * @param  int|null  $currentPage
+     * @param  array  $options
+     * 
+     * @return \Syscodes\Components\Pagination\SimplePaginator
+     */
+    protected function simplePaginator($items, $perPage, $currentPage, $options)
+    {
+        return Container::getInstance()->makeAssign(SimplePaginator::class, compact(
+            'items', 'perPage', 'currentPage', 'options'
+        ));
     }
 }
