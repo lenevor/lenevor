@@ -27,6 +27,7 @@ use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Contracts\View\ViewFinder;
 use Syscodes\Components\Contracts\Events\Dispatcher;
+use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\View\Engines\EngineResolver;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Contracts\View\Factory as FactoryContract;
@@ -128,14 +129,17 @@ class Factory implements FactoryContract
 	 *
 	 * @param  string  $view  View filename
 	 * @param  array  $data  Array of values
+	 * @param  array  $mergeData  Array of merge data
 	 *
 	 * @return \Syscodes\Components\Contracts\View\View
 	 */
-	public function make($view, $data = [])
+	public function make($view, $data = [], $mergeData = [])
 	{
 		$path = $this->finder->find(
 			$view = $this->normalizeName($view)
 		);
+
+		$data = array_merge($mergeData, $this->parseData($data));
 		
 		// Loader class instance.
 		return take($this->viewInstance($view, $path, $data), fn ($view) => $this->callCreator($view));
@@ -151,6 +155,18 @@ class Factory implements FactoryContract
 	protected function normalizeName($name): string
 	{
 		return ViewName::normalize($name);
+	}
+	
+	/**
+	 * Parse the given data into a raw array.
+	 * 
+	 * @param  mixed  $data
+	 * 
+	 * @return array
+	 */
+	protected function parseData($data): array
+	{
+		return $data instanceof Arrayable ? $data->toArray() : $data;
 	}
 
 	/**
@@ -240,6 +256,21 @@ class Factory implements FactoryContract
 		}
 		
 		return $value;
+	}
+	
+	/**
+	 * Add a new namespace to the loader.
+	 * 
+	 * @param  string  $namespace
+	 * @param  string|array  $hints
+	 * 
+	 * @return static
+	 */
+	public function addNamespace($namespace, $hints): static
+	{
+		$this->finder->addNamespace($namespace, $hints);
+		
+		return $this;
 	}
 
 	/**

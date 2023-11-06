@@ -185,6 +185,25 @@ class FileViewFinder implements ViewFinder
     {
         return realpath($path) ?: $path;
     }
+    
+    /**
+     * Add a namespace hint to the finder.
+     * 
+     * @param  string  $namespace
+     * @param  string|array  $hints
+     * 
+     * @return void
+     */
+    public function addNamespace($namespace, $hints): void
+    {
+        $hints = (array) $hints;
+        
+        if (isset($this->hints[$namespace])) {
+            $hints = array_merge($this->hints[$namespace], $hints);
+        }
+        
+        $this->hints[$namespace] = $hints;
+    }
 
     /**
      * Replace the namespace hints for the given namespace.
