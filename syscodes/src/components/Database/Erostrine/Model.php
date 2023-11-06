@@ -69,6 +69,13 @@ class Model implements Arrayable, ArrayAccess
 	 * @var bool $incrementing
 	 */
 	protected $incrementing = true;
+	
+	/**
+	 * The number of models to return for pagination.
+	 * 
+	 * @var int $perPage
+	 */
+	protected $perPage = 15;
 
 	/**
 	 * The primary key for the model.
@@ -715,6 +722,30 @@ class Model implements Arrayable, ArrayAccess
 		$name = class_basename($this);
 
 		return sprintf("%s_{$this->getKeyName()}", Str::snake($name));
+	}
+	
+	/**
+	 * Get the number of models to return per page.
+	 * 
+	 * @return int
+	 */
+	public function getPerPage(): int
+	{
+		return $this->perPage;
+	}
+	
+	/**
+	 * Set the number of models to return per page.
+	 * 
+	 * @param  int  $perPage
+	 * 
+	 * @return static
+	 */
+	public function setPerPage(int $perPage): static
+	{
+		$this->perPage = $perPage;
+		
+		return $this;
 	}
 
 	/**
