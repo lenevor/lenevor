@@ -42,7 +42,7 @@ trait TranspilesTranslations
             return "<?php \$__env->beginTranslation{$expression}; ?>";
         }
 
-        return "<?php echo app('translator')->getLine{$expression}; ?>";
+        return "<?php echo app('translator')->get{$expression}; ?>";
     }
 
     /**
