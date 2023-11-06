@@ -270,7 +270,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
      */
     protected function buildFragment(): string
     {
-        return $this->fragment ? '#' .$this->fragment : '';
+        return $this->fragment ? '#'.$this->fragment : '';
     }
     
     /**
