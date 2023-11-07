@@ -779,7 +779,7 @@ header .message a:hover {
 }
 
 .exception-title .subtitle {
-    background: var(--blue-200);
+    background: var(--gray-300);
     border-radius: 3px;
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
@@ -788,6 +788,7 @@ header .message a:hover {
     letter-spacing: 0.2px;
     margin-left: -1px;
     padding: 6.2px;
+    padding-bottom: 5px;
     position: absolute;
 }
 
