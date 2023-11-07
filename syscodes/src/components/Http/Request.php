@@ -491,7 +491,7 @@ class Request
 	 * 
 	 * @return string
 	 */
-	public function getQueryString(): ?string
+	public function getQueryString(): string|null
 	{
 		$queryString = RequestUtils::normalizedQueryString($this->server->get('QUERY_STRING'));
 		
@@ -564,7 +564,7 @@ class Request
 		if (null !== $query = $this->getQueryString()) {
 			$query = '?'.$query;
 		}
-	
+		
 		return $this->getSchemeWithHttpHost().$this->getBaseUrl().$this->getPathInfo().$query;
 	}
 
