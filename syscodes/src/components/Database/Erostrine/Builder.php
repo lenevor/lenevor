@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Database\Erostrine;
 
 use Closure;
+use Exception;
 use BadMethodCallException;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Pagination\Paginator;
@@ -81,6 +82,15 @@ class Builder
         'raw',
         'sum',
         'toSql',
+    ];
+    
+    /**
+     * The properties that should be returned from query builder.
+     * 
+     * @var string[] $propertyPassthru
+     */
+    protected $propertyPassthru = [
+        'from',
     ];
 
     /**
@@ -584,7 +594,9 @@ class Builder
                         : $perPage
                    ) ?: $this->model->getPerPage();
         
-        $results = $total ? $this->toBase()->forPage($page, $perPage)->get($columns) : $this->model->newCollection();
+        $results = $total 
+                   ? $this->forPage($page, $perPage)->get($columns) 
+                   : $this->model->newCollection();
         
         return $this->paginator($results, $total, $perPage, $page, [
             'path' => Paginator::resolveCurrentPath(),
@@ -713,6 +725,30 @@ class Builder
             $this->query->getConnection()->getName()
         );
     }
+    
+    /**
+     * Magic method.
+     * 
+     * Dynamically access builder proxies.
+     * 
+     * @param  string  $key
+     * 
+     * @return mixed
+     * 
+     * @throws \Exception
+     */
+    public function __get($key)
+    {
+        if (in_array($key, ['orWhere', 'whereNot', 'orWhereNot'])) {
+            // return new HigherOrderBuilderProxy($this, $key);
+        }
+        
+        if (in_array($key, $this->propertyPassthru)) {
+            return $this->toBase()->{$key};
+        }
+        
+        throw new Exception("Property [{$key}] does not exist on the Eloquent builder instance");
+    }
 
     /**
      * Magic method.
@@ -757,6 +793,16 @@ class Builder
      */
     public static function __callStatic($method, $parameters)
     {
+        if ($method === 'macro') {
+            static::$macros[$parameters[0]] = $parameters[1];
+            
+            return;
+        }
+        
+        if ($method === 'mixin') {
+            return static::mixin($parameters[0], $parameters[1] ?? true);
+        }
+
         if ( ! static::hasMacro($method)) {
             static::badMethodCallEcxeption($method);
         }
@@ -767,7 +813,7 @@ class Builder
             $macro = $macro->bindTo(null, static::class);
         }
         
-        return call_user_func_array($macro, $parameters);        
+        return $macro(...$parameters);       
     }
     
     /**
