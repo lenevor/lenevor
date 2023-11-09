@@ -113,7 +113,7 @@ trait Macroable
             $macro = $macro->bindTo(null, static::class);
         }
 
-        return call_user_func_array($macro, $parameters);
+        return $macro(...$parameters);
     }
 
     /**
@@ -142,6 +142,6 @@ trait Macroable
             $macro = $macro->bindTo($this, static::class);
         }
 
-        return call_user_func_array($macro, $parameters);
+        return $macro(...$parameters);
     }
 }
