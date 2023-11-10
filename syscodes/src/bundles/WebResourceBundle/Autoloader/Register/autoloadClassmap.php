@@ -267,6 +267,7 @@ return [
     'Syscodes\\Components\\Database\\Erostrine\\Relations\\Relation' => SYS_PATH.'src/components/Database/Erostrine/Relations/Relation.php',
     'Syscodes\\Components\\Database\\Erostrine\\Builder' => SYS_PATH.'src/components/Database/Erostrine/Builder.php',
     'Syscodes\\Components\\Database\\Erostrine\\Collection' => SYS_PATH.'src/components/Database/Erostrine/Collection.php',
+    'Syscodes\\Components\\Database\\Erostrine\\HigherOrderBuilderProxy' => SYS_PATH.'src/components/Database/Erostrine/HigherOrderBuilderProxy.php',
     'Syscodes\\Components\\Database\\Erostrine\\Model' => SYS_PATH.'src/components/Database/Erostrine/Model.php',
     'Syscodes\\Components\\Database\\Events\\ConnectionEvent' => SYS_PATH.'src/components/Database/Events/ConnectionEvent.php',
     'Syscodes\\Components\\Database\\Events\\QueryExecuted' => SYS_PATH.'src/components/Database/Events/QueryExecuted.php',
