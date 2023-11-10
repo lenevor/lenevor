@@ -129,6 +129,21 @@ trait Enumerates
     }
     
     /**
+     * "Paginate" the collection by slicing it into a smaller collection.
+     * 
+     * @param  int  $page
+     * @param  int  $perPage
+     * 
+     * @return static
+     */
+    public function forPage($page, $perPage): static
+    {
+        $offset = max(0, ($page - 1) * $perPage);
+        
+        return $this->slice($offset, $perPage);
+    }
+    
+    /**
      * Get the collection of items as JSON.
      * 
      * @param  int  $options
