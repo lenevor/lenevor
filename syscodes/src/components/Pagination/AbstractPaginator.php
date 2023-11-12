@@ -82,6 +82,13 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
     protected static $currentPathResolver;
     
     /**
+     * The query string resolver callback.
+     * 
+     * @var \Closure $queryStringResolver
+     */
+    protected static $queryStringResolver;
+    
+    /**
      * The URL fragment to add to all URLs.
      * 
      * @var string|null $fragment
@@ -162,7 +169,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
      * 
      * @return array
      */
-    public function getUrlRange(int $start, int $end): array
+    public function getUrlRange($start, $end): array
     {
         return collect(range($start, $end))->mapKeys(function ($page) {
             return [$page => $this->url($page)];
@@ -176,13 +183,13 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
      * 
      * @return string
      */
-    public function url(int $page): string
+    public function url($page): string
     {
         if ($page <= 0) {
             $page = 1;
         }
         
-         // If we have any extra query string key / value pairs that need to be added
+        // If we have any extra query string key / value pairs that need to be added
         // onto the URL, we will put them in query string form and then attach it
         // to the URL. This allows for extra information like sortings storage.
         $parameters = [$this->pageName => $page];
@@ -190,7 +197,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
         if (count($this->query) > 0) {
             $parameters = array_merge($this->query, $parameters);
         }
-
+        
         return $this->getPath()
                         .(Str::contains($this->getPath(), '?') ? '&' : '?')
                         .Arr::query($parameters)
@@ -486,6 +493,32 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
     public static function viewFactoryResolver(Closure $resolver): void
     {
         static::$viewFactoryResolver = $resolver;
+    }
+
+     /**
+     * Resolve the query string or return the default value.
+     *
+     * @param  string|array|null  $default
+     * @return string
+     */
+    public static function resolveQueryString($default = null)
+    {
+        if (isset(static::$queryStringResolver)) {
+            return (static::$queryStringResolver)();
+        }
+
+        return $default;
+    }
+
+    /**
+     * Set with query string resolver callback.
+     *
+     * @param  \Closure  $resolver
+     * @return void
+     */
+    public static function queryStringResolver(Closure $resolver)
+    {
+        static::$queryStringResolver = $resolver;
     }
     
     /**
