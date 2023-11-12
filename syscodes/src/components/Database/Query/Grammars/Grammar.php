@@ -24,6 +24,7 @@ namespace Syscodes\Components\Database\Query\Grammars;
 
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Database\Query\Builder;
+use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Database\Query\JoinClause;
 use Syscodes\Components\Database\Grammar as BaseGrammar;
 
@@ -60,11 +61,23 @@ class Grammar extends BaseGrammar
      */
     public function compileSelect(Builder $builder): string
     {
+        if (($builder->unions || $builder->havings) && $builder->aggregate) {
+            return $this->compileUnionAggregate($builder);
+        }
+
+        $original = $builder->columns;
+
         if (is_null($builder->columns)) {
             $builder->columns = ['*'];
         }
 
-        return trim($this->concatenate($this->compileComponents($builder)));
+        $sql = trim($this->concatenate(
+            $this->compileComponents($builder))
+        );
+
+        $builder->columns = $original;
+
+        return $sql;
     }
 
     /**
@@ -79,7 +92,7 @@ class Grammar extends BaseGrammar
         $sql = [];
 
         foreach ($this->components as $component) {
-            if ( ! is_null($builder->$component)) {
+            if (isset($builder->$component)) {
                 $method = 'compile'.ucfirst($component);
 
                 $sql[$component] = $this->$method($builder, $builder->$component);
@@ -100,8 +113,10 @@ class Grammar extends BaseGrammar
     protected function compileAggregate(Builder $builder, $aggregate): string
     {
         $column = $this->columnize($aggregate['columns']);
-
-        if ($builder->distinct && $column !== '*') {
+        
+        if (is_array($builder->distinct)) {
+            $column = 'distinct '.$this->columnize($builder->distinct);
+        } elseif ($builder->distinct && $column !== '*') {
             $column = 'distinct '.$column;
         }
 
@@ -118,7 +133,7 @@ class Grammar extends BaseGrammar
      */
     protected function compileColumns(Builder $builder, $columns)
     {
-        if (is_null($builder->columns)) {
+        if ( ! is_null($builder->aggregate)) {
             return;
         }
 
@@ -150,44 +165,15 @@ class Grammar extends BaseGrammar
      */
     protected function compileJoins(Builder $builder, $joins): string
     {
-        $sql = [];
-
-        foreach ((array) $joins as $join) {
+        return collect($joins)->map(function ($join) use ($builder) {
             $table = $this->wrapTable($join->table);
-
-            $clauses = [];
-
-            foreach ($join->clauses as $clause)  {
-                $clauses[] = $this->compileJoinContraint($clause);
-            }
-
-            foreach ($join->bindings as $binding) {
-                $builder->addBinding($binding, 'join');
-            }
-
-            $clauses[0] = $this->removeStatementBoolean($clauses[0]);
-
-            $clauses = implode(' ', $clauses);
-
-            $sql[] = "{$join->type} join {$table} on {$clauses}";
-        }
-
-        return implode(' ', $sql);
-    }
-
-    /**
-     * Create a join clause constraint segment.
-     * 
-     * @param  array  $clause
-     * 
-     * @return string
-     */
-    protected function compileJoinContraint(array $clause): string
-    {
-        $first  = $this->wrap($clause['first']);
-        $second = $clause['where'] ? '?' : $this->wrap($clause['second']);
-
-        return "{$clause['boolean']} $first {$clause['operator']} $second";
+            
+            $nestedJoins = is_null($join->joins) ? '' : ' '.$this->compileJoins($builder, $join->joins);
+            
+            $tableAndNestedJoins = is_null($join->joins) ? $table : '('.$table.$nestedJoins.')';
+            
+            return trim("{$join->type} join {$tableAndNestedJoins} {$this->compileWheres($join)}");
+        })->implode(' ');
     }
 
     /**
@@ -249,7 +235,7 @@ class Grammar extends BaseGrammar
      */
     protected function whereRaw(Builder $builder, $where): string
     {
-        return $where['sql'];
+        return $where['sql'] instanceof Expression ? $where['sql']->getValue($this) : $where['sql'];
     }
 
     /**
@@ -280,8 +266,8 @@ class Grammar extends BaseGrammar
     {
         $between = $where['negative'] ? 'not between' : 'between';
 
-        $min = $this->parameter(headItem($where['values']));
-        $max = $this->parameter(lastItem($where['values']));
+        $min = $this->parameter(is_array($where['values']) ? headItem($where['values']) : $where['values'][0]);
+        $max = $this->parameter(is_array($where['values']) ? lastItem($where['values']) : $where['values'][1]);
 
         return $this->wrap($where['column']).' '.$between.' '.$min.' and '.$max;
     }
@@ -298,8 +284,8 @@ class Grammar extends BaseGrammar
     {
         $between = $where['negative'] ? 'not between' : 'between';
 
-        $min = $this->wrap(headItem($where['values']));
-        $max = $this->wrap(lastItem($where['values']));
+        $min = $this->wrap(is_array($where['values']) ? headItem($where['values']) : $where['values'][0]);
+        $max = $this->wrap(is_array($where['values']) ? lastItem($where['values']) : $where['values'][1]);
 
         return $this->wrap($where['column']).' '.$between.' '.$min.' and '.$max;
     }
@@ -589,15 +575,14 @@ class Grammar extends BaseGrammar
      * Compile the "having" portions of the query.
      * 
      * @param  \Syscodes\Components\Database\Query\Builder  $builder
-     * @param  array  $havings
      * 
      * @return string
      */
-    protected function compileHavings(Builder $builder, $havings): string
+    protected function compileHavings(Builder $builder): string
     {
-        $sql = implode(' ', array_map([$this, 'compileHaving'], $havings));
-
-        return 'having '.$this->removeStatementBoolean($sql);
+        return 'having '.$this->removeLeadingBoolean(collect($builder->havings)->map(function ($having) {
+            return $having['boolean'].' '.$this->compileHaving($having);
+        })->implode(' '));
     }
 
     /**
@@ -609,13 +594,16 @@ class Grammar extends BaseGrammar
      */
     protected function compileHaving(array $having): string
     {
-        if ($having['type'] === 'raw') {
-            return $having['boolean'].' '.$having['sql'];
-        } elseif ($having['type'] === 'between') {
-            return $this->compileHavingBetween($having);
-        }
-
-        return $this->compileBasicHaving($having);
+        return match ($having['tytpe']) {
+            'Raw' => $having['boolean'].' '.$having['sql'],
+            'between' => $this->compileHavingBetween($having),
+            'Null' => $this->compileHavingNull($having),
+            'NotNull' => $this->compileHavingNotNull($having),
+            'bit' => $this->compileHavingBit($having),
+            'Expression' => $this->compileHavingExpression($having),
+            'Nested' => $this->compileNestedHavings($having),
+            default => $this->compileBasicHaving($having),
+        };
     }
 
     /**
@@ -635,6 +623,73 @@ class Grammar extends BaseGrammar
         $max = $this->parameter(lastItem($having['values']));
 
         return $having['boolean'].' '.$column.' '.$between.' '.$min.' and '.$max;
+    }
+    
+    /**
+     * Compile a having null clause.
+     * @param  array  $having
+     * 
+     * @return string
+     */
+    protected function compileHavingNull($having): string
+    {
+        $column = $this->wrap($having['column']);
+        
+        return $column.' is null';
+    }
+    
+    /**
+     * Compile a having not null clause.
+     * 
+     * @param  array  $having
+     * 
+     * @return string
+     */
+    protected function compileHavingNotNull($having): string
+    {
+        $column = $this->wrap($having['column']);
+        
+        return $column.' is not null';
+    }
+    
+    /**
+     * Compile a having clause involving a bit operator.
+     * 
+     * @param  array  $having
+     * 
+     * @return string
+     */
+    protected function compileHavingBit($having): string
+    {
+        $column = $this->wrap($having['column']);
+        
+        $parameter = $this->parameter($having['value']);
+        
+        return '('.$column.' '.$having['operator'].' '.$parameter.') != 0';
+    }
+    
+    /**
+     * Compile a having clause involving an expression.
+     * 
+     * @param  array  $having
+     * 
+     * @return string
+     */
+    protected function compileHavingExpression($having): string
+    {
+        return $having['column']->getValue($this);
+    }
+    
+    /**
+     * Compile a nested having clause.
+     * 
+     * @param  array  $having
+     * 
+     * @return string
+     */
+    protected function compileNestedHavings($having): string
+    {
+        return '('.substr($this->compileHavings($having['query']), 7).')';
     }
 
     /**
@@ -776,6 +831,22 @@ class Grammar extends BaseGrammar
     {
         return 'RANDOM()';
     }
+    
+    /**
+     * Compile a union aggregate query into SQL.
+     * 
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * 
+     * @return string
+     */
+    protected function compileUnionAggregate(Builder $builder): string
+    {
+        $sql = $this->compileAggregate($builder, $builder->aggregate);
+        
+        $builder->aggregate = null;
+        
+        return $sql.' from ('.$this->compileSelect($builder).') as '.$this->wrapTable('temp_table');
+    }
 
     /**
      * Compile an exists statement into SQL.
@@ -813,8 +884,9 @@ class Grammar extends BaseGrammar
 
         $columns = $this->columnize(array_keys(headItem($values)));
 
-        $parameters = collect($values)->map(fn ($record) => '('.$this->parameterize($record).')')
-                                      ->implode(', ');
+        $parameters = collect($values)
+                        ->map(fn ($record) => '('.$this->parameterize($record).')')
+                        ->implode(', ');
 
         return "insert into $table ($columns) values $parameters";
     }
@@ -844,7 +916,13 @@ class Grammar extends BaseGrammar
      */
     public function compileInsertUsing(Builder $builder, $columns, $sql): string
     {
-        return "insert into {$this->wrapTable($builder->from)} ({$this->columnize($columns)}) $sql";
+        $table = $this->wrapTable($builder->from);
+        
+        if (empty($columns) || $columns === ['*']) {
+            return "insert into {$table} $sql";
+        }
+
+        return "insert into {$this->wrapTable($table)} ({$this->columnize($columns)}) $sql";
     }
 
     /**
@@ -859,7 +937,7 @@ class Grammar extends BaseGrammar
     {
         $table = $this->wrapTable($builder->from);
 
-        $columns = $this->getUpdateColumns($values);
+        $columns = $this->compileUpdateColumns($values);
 
         $where = $this->compileWheres($builder);
 
@@ -877,15 +955,11 @@ class Grammar extends BaseGrammar
      * 
      * @return string
      */
-    public function getUpdateColumns(array $values): string
+    public function compileExistsUpdateColumns(array $values): string
     {
-        $columns = [];
-
-        foreach ($values as $key => $value) {
-            $columns[] = $this->wrap($key).' = '.$this->parameter($value);
-        }
-
-        return implode(', ', $columns);
+        return collect($values)->map(function ($value, $key) {
+            return $this->wrap($key).' = '.$this->parameter($value);
+        })->implode(', ');
     }
 
     /**
