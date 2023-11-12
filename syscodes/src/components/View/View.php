@@ -172,7 +172,13 @@ class View implements ArrayAccess, Webable, ViewContract
 	{
 		$data = array_merge($this->factory->getShared(), $this->data);
 		
-		return array_map(fn ($value) => ($value instanceof Renderable) ? $value->render() : $value, $data);
+		foreach ($data as $key => $value) {
+			if ($value instanceof Renderable) {
+				$data[$key] = $value->render();
+			}
+		}
+		
+		return $data;
 	}
 
 	/**
