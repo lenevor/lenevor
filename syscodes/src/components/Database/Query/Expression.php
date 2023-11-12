@@ -22,10 +22,12 @@
 
 namespace Syscodes\Components\Database\Query;
 
+use Syscodes\Components\Contracts\Database\Query\Expression as ExpressionContract;
+
 /**
  * Get values for query sql.
  */
-class Expression
+class Expression implements ExpressionContract
 {
     /**
      * Get the value of the expression.
