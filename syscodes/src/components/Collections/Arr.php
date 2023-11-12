@@ -474,9 +474,9 @@ class Arr
 	 * 
 	 * @param  array  $array
 	 * 
-	 * @return bool
+	 * @return string
 	 */
-	public static function query(array $array): bool
+	public static function query(array $array): string
 	{
 		return http_build_query($array, '', '&', PHP_QUERY_RFC3986);
 	}
