@@ -26,22 +26,68 @@ namespace Syscodes\Components\Http\Helpers;
  * Allows to use static methods referring normalized HTTP requests.
  */
 class RequestUtils
-{    
+{
     /**
-     * Normalizes a query string.
+     * Parse a string, but preserves dots in variable names.
      * 
      * @param  string  $query
+     * @param  bool  $ignoreBrackets
+     * @param  string  $separator
      * 
-     * @return string
+     * @return array
      */
-    public static function normalizedQueryString(?string $query): string
+    public static function parseQuery(string $query, bool $ignoreBrackets = false, string $separator = '&'): array
     {
-        if ('' === ($query ?? '')) {
-            return '';
+        $q = [];
+        
+        foreach (explode($separator, $query) as $value) {
+            if (false !== $i = strpos($value, "\0")) {
+                $value = substr($value, 0, $i);
+            }
+            
+            if (false === $i = strpos($value, '=')) {
+                $k     = urldecode($value);                
+                $value = '';
+            } else {
+                $k     = urldecode(substr($value, 0, $i));
+                $value = substr($value, $i);
+            }
+            
+            if (false !== $i = strpos($k, "\0")) {
+                $k = substr($k, 0, $i);
+            }
+            
+            $k = ltrim($k, ' ');
+            
+            if ($ignoreBrackets) {
+                $q[$k][] = urldecode(substr($value, 1));
+                
+                continue;
+            }
+            
+            if (false === $i = strpos($k, '[')) {
+                $q[] = bin2hex($k).$value;
+            } else {
+                $q[] = bin2hex(substr($k, 0, $i)).rawurlencode(substr($k, $i)).$value;
+            }
         }
-
-        ksort([$query]);
-
-        return http_build_query([$query], '', '&', \PHP_QUERY_RFC3986);
+        
+        if ($ignoreBrackets) {
+            return $q;
+        }
+        
+        parse_str(implode('&', $q), $q);
+        
+        $query = [];
+        
+        foreach ($q as $k => $value) {
+            if (false !== $i = strpos($k, '_')) {
+                $query[substr_replace($k, hex2bin(substr($k, 0, $i)).'[', 0, 1 + $i)] = $value;
+            } else {
+                $query[hex2bin($k)] = $value;
+            }
+        }
+        
+        return $query;
     }
 }
