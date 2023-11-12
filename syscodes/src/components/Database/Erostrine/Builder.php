@@ -587,15 +587,15 @@ class Builder
     {
         $page = $page ?: Paginator::resolveCurrentPage($pageName);
         
-        $total = func_num_args() === 5 ? value(func_get_arg(4)) : $this->toBase()->count();
+        $total = func_num_args() === 5 ? value(func_get_arg(4)) : $this->toBase()->getCountForPagination();
         
         $perPage = ($perPage instanceof Closure 
                         ? $perPage($total)
                         : $perPage
                    ) ?: $this->model->getPerPage();
         
-        $results = $total 
-                   ? $this->forPage($page, $perPage)->get($columns) 
+        $results = $total
+                   ? $this->forPage($page, $perPage)->get($columns)
                    : $this->model->newCollection();
         
         return $this->paginator($results, $total, $perPage, $page, [
@@ -740,7 +740,7 @@ class Builder
     public function __get($key)
     {
         if (in_array($key, ['orWhere', 'whereNot', 'orWhereNot'])) {
-            // return new HigherOrderBuilderProxy($this, $key);
+            return new HigherOrderBuilderProxy($this, $key);
         }
         
         if (in_array($key, $this->propertyPassthru)) {
