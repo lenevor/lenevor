@@ -25,6 +25,7 @@ namespace Syscodes\Components\View\Engines;
 use Throwable;
 use ErrorException;
 use Syscodes\Components\Filesystem\Filesystem;
+use Syscodes\Components\View\Exceptions\ViewException;
 use Syscodes\Components\View\Transpilers\TranspilerInterface;
 
 /**
@@ -33,18 +34,25 @@ use Syscodes\Components\View\Transpilers\TranspilerInterface;
 class TranspilerEngine extends PhpEngine
 {
     /**
-     * The Plaze transpiler instance.
-     * 
-     * @var \Syscodes\Components\View\Transpilers\TranspilerInterface $transpiler
-     */
-    protected $transpiler;
-
-    /**
      * A stack of the last transpiled templates.
      * 
      * @var array $lastCompiled
      */
     protected $lastTranspiled = [];
+
+    /**
+     * The Plaze transpiler instance.
+     * 
+     * @var \Syscodes\Components\View\Transpilers\TranspilerInterface $transpiler
+     */
+    protected $transpiler;
+    
+    /**
+     * The view paths that were compiled or are not expired, keyed by the path.
+     * 
+     * @var array<string, true> $transpilerOrNotExpired
+     */
+    protected $transpilerOrNotExpired = [];
 
     /**
      * Constructor. Create a new Plaze view engine instance.
@@ -73,13 +81,23 @@ class TranspilerEngine extends PhpEngine
     {
         $this->lastTranspiled[] = $path;
 
-        if ($this->transpiler->isExpired($path)) {
+        if ( ! isset($this->transpilerOrNotExpired[$path]) && $this->transpiler->isExpired($path)) {
             $this->transpiler->transpile($path);
         }
 
-        $transpiled = $this->transpiler->getTranspilePath($path);
-        
-        $output = parent::get($transpiled, $data);
+        try {
+            $output = $this->evaluatePath($this->transpiler->getTranspilePath($path), $data);
+        } catch(ViewException $e) {
+            if ( ! isset($this->transpilerOrNotExpired[$path])) {
+                throw $e;
+            }
+            
+            $this->transpiler->transpile($path);
+
+            $output = $this->evaluatePath($this->transpiler->getTranspilePath($path), $data);
+        }
+
+        $this->transpilerOrNotExpired[$path] = true;
         
         array_pop($this->lastTranspiled);
         
