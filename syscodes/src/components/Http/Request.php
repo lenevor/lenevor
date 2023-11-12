@@ -105,6 +105,26 @@ class Request
 	}
 
 	/**
+     * Normalizes a query string.
+     * 
+     * @param  string  $query
+     * 
+     * @return string
+     */
+    public static function normalizedQueryString(?string $query): string
+    {
+        if ('' === ($query ?? '')) {
+            return '';
+        }
+
+        $query = RequestUtils::parseQuery($query);
+
+        ksort($query);
+
+        return http_build_query($query, '', '&', \PHP_QUERY_RFC3986);
+    }
+
+	/**
 	 * Returns the desired segment, or $default if it does not exist.
 	 *
 	 * @param  int  $index  The segment number (1-based index)
@@ -493,7 +513,7 @@ class Request
 	 */
 	public function getQueryString(): string|null
 	{
-		$queryString = RequestUtils::normalizedQueryString($this->server->get('QUERY_STRING'));
+		$queryString = static::normalizedQueryString($this->server->get('QUERY_STRING'));
 		
 		return '' === $queryString ? null : $queryString;
 	}
@@ -585,7 +605,6 @@ class Request
 	 */
 	public function url(): string
 	{
-		// Changed $this->path() for $this->getUri()
 		return rtrim(preg_replace('/\?.*/', '', $this->getUri()), '/');
 	}
 
