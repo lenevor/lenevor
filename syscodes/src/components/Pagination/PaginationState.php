@@ -49,5 +49,7 @@ class PaginationState
             
             return 1;
         });
+
+        Paginator::queryStringResolver(fn () => $app['request']->query());
     }
 }
