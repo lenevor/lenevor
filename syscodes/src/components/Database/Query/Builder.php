@@ -26,11 +26,14 @@ use Closure;
 use DateTimeInterface;
 use InvalidArgumentException;
 use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Chronos;
 use Syscodes\Components\Pagination\Paginator;
 use Syscodes\Components\Support\Traits\Macroable;
+use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Support\Traits\ForwardsCalls;
 use Syscodes\Components\Database\Concerns\MakeQueries;
 use Syscodes\Components\Database\Query\Grammars\Grammar;
+use Syscodes\Components\Contracts\Database\Query\Expression;
 use Syscodes\Components\Database\Query\Processors\Processor;
 use Syscodes\Components\Database\Erostrine\Relations\Relation;
 use Syscodes\Components\Database\Connections\ConnectionInterface;
@@ -201,6 +204,13 @@ class Builder
      * @var array $unionOrders
      */
     public $unionOrders;
+    
+    /**
+     * Whether to use write pdo for the select.
+     * 
+     * @var bool $useWritePdo
+     */
+    public $useWritePdo = false;
 
     /**
      * Get the where constraints for the query.
@@ -236,10 +246,11 @@ class Builder
     {
         $this->columns = [];
         $this->bindings['select'] = [];
+
         $columns = is_array($columns) ? $columns : func_get_args();
 
         foreach ($columns as $as => $column) {
-            if (is_string($as)) {
+            if (is_string($as) && $this->isQueryable($column)) {
                 $this->selectSub($column, $as);
             } else {
                 $this->columns[] = $column;
@@ -267,7 +278,7 @@ class Builder
             '('.$builder.') as '.$this->grammar->wrap($as), $bindings
         );
     }
-
+    
     /**
      * Makes a subquery and parse it.
      * 
@@ -334,10 +345,24 @@ class Builder
      */
     public function addSelect($column): static
     {
-        $column = is_array($column) ? $column : func_get_args();
-
-        $this->columns = array_merge((array) $this->columns, $column);
-
+        $columns = is_array($column) ? $column : func_get_args();
+        
+        foreach ($columns as $as => $column) {
+            if (is_string($as) && $this->isQueryable($column)) {
+                if (is_null($this->columns)) {
+                    $this->select($this->from.'.*');
+                }
+                
+                $this->selectSub($column, $as);
+            } else {
+                if (is_array($this->columns) && in_array($column, $this->columns, true)) {
+                    continue;
+                }
+                
+                $this->columns[] = $column;
+            }
+        }
+        
         return $this;
     }
 
@@ -363,8 +388,46 @@ class Builder
      */
     public function from($table, $as = null): static
     {
+        if ($this->isQueryable($table)) {
+            return $this->fromSub($table, $as);
+        }
+
         $this->from = $as ? "{$table} as {$as}" : $table;
 
+        return $this;
+    }
+
+    /**
+     * Makes "from" fetch from a subquery.
+     * 
+     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Database\Eloquent\Builder|string  $query
+     * @param  string  $as
+     * 
+     * @return static
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public function fromSub($query, $as): static
+    {
+        [$query, $bindings] = $this->makeSub($query);
+        
+        return $this->fromRaw('('.$query.') as '.$this->grammar->wrapTable($as), $bindings);
+    }
+    
+    /**
+     * Add a raw from clause to the query.
+     * 
+     * @param  string  $expression
+     * @param  mixed  $bindings
+     * 
+     * @return static
+     */
+    public function fromRaw($expression, $bindings = []): static
+    {
+        $this->from = new Expression($expression);
+        
+        $this->addBinding($bindings, 'from');
+        
         return $this;
     }
 
@@ -393,12 +456,19 @@ class Builder
         if ($column instanceof Closure && is_null($operator)) {
             return $this->whereNested($column, $boolean);
         }
+        
+        if ($this->isQueryable($column) && ! is_null($operator)) {
+            [$sub, $bindings] = $this->makeSub($column);
+            
+            return $this->addBinding($bindings, 'where')
+                        ->where(new Expression('('.$sub.')'), $operator, $value, $boolean);
+        }
 
         if ($this->invalidOperator($operator)) {
             [$value, $operator] = [$operator, '='];
         }
 
-        if ($value instanceof Closure) {
+        if ($this->isQueryable($value)) {
             return $this->whereSub($column, $operator, $value, $boolean);
         }
 
@@ -598,10 +668,20 @@ class Builder
     public function whereIn($column, $values, $boolean = 'and', $negative = false): static
     {
         $type = $negative ? 'NotIn' : 'In';
+        
+        if ($this->isQueryable($values)) {
+            [$query, $bindings] = $this->makeSub($values);
+            
+            $values = [new Expression($query)];
+            
+            $this->addBinding($bindings, 'where');
+        }
+        
+        if ($values instanceof Arrayable) {
+            $values = $values->toArray();
+        }
 
-        $this->wheres[] = compact(
-            'type', 'column', 'values', 'boolean'
-        );
+        $this->wheres[] = compact('type', 'column', 'values', 'boolean');
 
         $this->addBinding($this->cleanBindings($values), 'where');
 
@@ -1280,7 +1360,7 @@ class Builder
     public function union($builder, $all = false): static
     {
         if ($builder instanceof Closure) {
-            call_user_func($builder, $builder = $this->newBuilder());
+            $builder($builder = $this->newBuilder());
         }
 
         $this->unions[] = compact('builder', 'all');
@@ -1383,12 +1463,12 @@ class Builder
     /**
      * Execute the given callback while selecting the given columns.
      * 
-     * @param  string  $columns
+     * @param  array  $columns
      * @param  \callable  $callback
      * 
      * @return mixed 
      */
-    protected function getFresh($columns, $callback)
+    protected function getFresh($columns, Closure $callback)
     {
         $original = $this->columns;
 
@@ -1420,7 +1500,7 @@ class Builder
      */
     public function runOnSelectStatement()
     {
-        return $this->connection->select($this->getSql(), $this->getBindings());
+        return $this->connection->select($this->getSql(), $this->getBindings(), ! $this->useWritePdo);
     }
     
     /**
@@ -1438,7 +1518,7 @@ class Builder
     {
         $page = $page ?: Paginator::resolveCurrentPage($pageName);
         
-        $total = func_num_args() === 5 ? value(func_get_arg(4)) : $this->count();
+        $total = func_num_args() === 5 ? value(func_get_arg(4)) : $this->getCountForPagination();
         
         $perPage = $perPage instanceof Closure ? $perPage($total) : $perPage;
         
@@ -1470,6 +1550,83 @@ class Builder
             'path' => Paginator::resolveCurrentPath(),
             'pageName' => $pageName,
         ]);
+    }
+    
+    /**
+     * Get the count of the total records for the paginator.
+     * 
+     * @param  array  $columns
+     * 
+     * @return int
+     */
+    public function getCountForPagination($columns = ['*']): int
+    {
+        $results = $this->runPaginationCountQuery($columns);
+        
+        if ( ! isset($results[0])) {
+            return 0;
+        } elseif (is_object($results[0])) {
+            return (int) $results[0]->aggregate;
+        }
+        
+        return (int) array_change_key_case((array) $results[0])['aggregate'];
+    }
+
+    /**
+     * Run a pagination count query.
+     *
+     * @param  array  $columns
+     * @return array
+     */
+    protected function runPaginationCountQuery($columns = ['*'])
+    {
+        if ($this->groups || $this->havings) {
+            $clone = $this->cloneForPaginationCount();
+
+            if (is_null($clone->columns) && ! empty($this->joins)) {
+                $clone->select($this->from.'.*');
+            }
+
+            return $this->newQuery()
+                ->from(new Expression('('.$clone->toSql().') as '.$this->grammar->wrap('aggregate_table')))
+                ->mergeBindings($clone)
+                ->setAggregate('count', $this->withoutSelectAliases($columns))
+                ->get()->all();
+        }
+
+        $without = $this->unions ? ['orders', 'limit', 'offset'] : ['columns', 'orders', 'limit', 'offset'];
+
+        return $this->cloneWithoutProperties($without)
+                    ->cloneWithoutBindings($this->unions ? ['order'] : ['select', 'order'])
+                    ->setAggregate('count', $this->withoutSelectAliases($columns))
+                    ->get()->all();
+    }
+    
+    /**
+     * Clone the existing query instance for usage in a pagination subquery.
+     * 
+     * @return static
+     */
+    protected function cloneForPaginationCount(): static
+    {
+        return $this->cloneWithout(['orders', 'limit', 'offset'])
+                    ->cloneWithoutBindings(['order']);
+    }
+    
+    /**
+     * Remove the column aliases since they will break count queries.
+     * 
+     * @param  array  $columns
+     * 
+     * @return array
+     */
+    protected function withoutSelectAliases(array $columns): array
+    {
+        return array_map(function ($column) {
+            return is_string($column) && ($aliasPosition = stripos($column, ' as ')) !== false
+                        ? substr($column, 0, $aliasPosition) : $column;
+            }, $columns
+        );
     }
 
     /**
@@ -1563,6 +1720,27 @@ class Builder
         if ( ! $results->isEmpty())  {
             return array_change_key_case((array) $results[0])['aggregate'];
         }
+    }
+    
+    /**
+     * Set the aggregate property without running the query.
+     * 
+     * @param  string  $function
+     * @param  array  $columns
+     * 
+     * @return static
+     */
+    protected function setAggregate($function, $columns): static
+    {
+        $this->aggregate = compact('function', 'columns');
+        
+        if (empty($this->groups)) {
+            $this->orders = null;
+            
+            $this->bindings['order'] = [];
+        }
+        
+        return $this;
     }
 
     /**
@@ -1740,6 +1918,23 @@ class Builder
 
         return $this;
     }
+    
+    /**
+     * Add a raw groupBy clause to the query.
+     * 
+     * @param  string  $sql
+     * @param  array  $bindings
+     * 
+     * @return static
+     */
+    public function groupByRaw($sql, array $bindings = []): static
+    {
+        $this->groups[] = new Expression($sql);
+        
+        $this->addBinding($bindings, 'groupBy');
+        
+        return $this;
+    }
 
     /**
      * Add a "having" clause to the query.
@@ -1754,14 +1949,195 @@ class Builder
     public function having($column, $operator = null, $value = null, $boolean = 'and'): static
     {
         $type = 'basic';
+        
+        [$value, $operator] = $this->prepareValueAndOperator(
+            $value, $operator, func_num_args() === 2
+        );
+        
+        if ($column instanceof Closure && is_null($operator)) {
+            return $this->havingNested($column, $boolean);
+        }
+        
+        if ($this->invalidOperator($operator)) {
+            [$value, $operator] = [$operator, '='];
+        }
 
         $this->havings[] = compact('type', 'column', 'operator', 'value', 'boolean');
 
-        if ($value instanceof Expression) {
-            $this->addBinding($value, 'having');
+        if ( ! $value instanceof Expression) {
+            $this->addBinding($this->flattenValue($value), 'having');
         }
 
         return $this;
+    }
+    
+    /**
+     * Add an "or having" clause to the query.
+     * 
+     * @param  \Syscodes\Components\Contracts\Database\Query\Expression|\Closure|string  $column
+     * @param  string|int|float|null  $operator
+     * @param  string|int|float|null  $value
+     * 
+     * @return static
+     */
+    public function orHaving($column, $operator = null, $value = null): static
+    {
+        [$value, $operator] = $this->prepareValueAndOperator(
+            $value, $operator, func_num_args() === 2
+        );
+        
+        return $this->having($column, $operator, $value, 'or');
+    }
+    
+    /**
+     * Add a nested having statement to the query.
+     * 
+     * @param  \Closure  $callback
+     * @param  string  $boolean
+     * 
+     * @return static
+     */
+    public function havingNested(Closure $callback, $boolean = 'and'): static
+    {
+        $callback($query = $this->forNestedWhere());
+        
+        return $this->addNestedHavingQuery($query, $boolean);
+    }
+    
+    /**
+     * Add another query builder as a nested having to the query builder.
+     * 
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
+     * @param  string  $boolean
+     * 
+     * @return static
+     */
+    public function addNestedHavingQuery($query, $boolean = 'and'): static
+    {
+        if (count($query->havings)) {
+            $type = 'Nested';
+            
+            $this->havings[] = compact('type', 'query', 'boolean');
+            
+            $this->addBinding($query->getRawBindings()['having'], 'having');
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * Add a "having null" clause to the query.
+     * 
+     * @param  string|array  $columns
+     * @param  string  $boolean
+     * @param  bool  $not
+     * 
+     * @return static
+     */
+    public function havingNull($columns, $boolean = 'and', $not = false):static
+    {
+        $type = $not ? 'NotNull' : 'Null';
+        
+        foreach (Arr::wrap($columns) as $column) {
+            $this->havings[] = compact('type', 'column', 'boolean');
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * Add an "or having null" clause to the query.
+     * 
+     * @param  string  $column
+     * 
+     * @return static
+     */
+    public function orHavingNull($column): static
+    {
+        return $this->havingNull($column, 'or');
+    }
+    
+    /**
+     * Add a "having not null" clause to the query.
+     * 
+     * @param  string|array  $columns
+     * @param  string  $boolean
+     * 
+     * @return static
+     */
+    public function havingNotNull($columns, $boolean = 'and'): static
+    {
+        return $this->havingNull($columns, $boolean, true);
+    }
+    
+    /**
+     * Add an "or having not null" clause to the query.
+     * 
+     * @param  string  $column
+     * 
+     * @return static
+     */
+    public function orHavingNotNull($column): static
+    {
+        return $this->havingNotNull($column, 'or');
+    }
+    
+    /**
+     * Add a "having between " clause to the query.
+     * 
+     * @param  string  $column
+     * @param  iterable  $values
+     * @param  string  $boolean
+     * @param  bool  $not
+     * 
+     * @return static
+     */
+    public function havingBetween($column, iterable $values, $boolean = 'and', $not = false): static
+    {
+        $type = 'between';
+        
+        if ($values instanceof Chronos) {
+            $values = [$values->start, $values->end];
+        }
+        
+        $this->havings[] = compact('type', 'column', 'values', 'boolean', 'not');
+        
+        $this->addBinding(array_slice($this->cleanBindings(Arr::flatten((array) $values)), 0, 2), 'having');
+        
+        return $this;
+    }
+    
+    /**
+     * Add a raw having clause to the query.
+     * 
+     * @param  string  $sql
+     * @param  array  $bindings
+     * @param  string  $boolean
+     * 
+     * @return static
+     */
+    public function havingRaw($sql, array $bindings = [], $boolean = 'and'): static
+    {
+        $type = 'Raw';
+        
+        $this->havings[] = compact('type', 'sql', 'boolean');
+        
+        $this->addBinding($bindings, 'having');
+        
+        return $this;
+    }
+    
+    /**
+     * Add a raw or having clause to the query.
+     * 
+     * @param  string  $sql
+     * @param  array  $bindings
+     * 
+     * @return static
+     */
+    public function orHavingRaw($sql, array $bindings = []): static
+    {
+        return $this->havingRaw($sql, $bindings, 'or');
     }
     
     /**
@@ -1775,6 +2151,14 @@ class Builder
     public function orderBy($column, $direction = 'asc'): static
     {
         $property = $this->unions ? 'unionOrders' : 'orders';
+        
+        if ($this->isQueryable($column)) {
+            [$query, $bindings] = $this->makeSub($column);
+            
+            $column = new Expression('('.$query.')');
+            
+            $this->addBinding($bindings, $this->unions ? 'unionOrder' : 'order');
+        }
         
         $direction = strtolower($direction);
         
@@ -1963,7 +2347,7 @@ class Builder
      * 
      * @return static
      */
-    public function mergeBindings(Builder $builder): static
+    public function mergeBindings(self $builder): static
     {
         $this->bindings = array_merge_recursive($this->bindings, $builder->bindings);
 
@@ -2010,6 +2394,75 @@ class Builder
     public function getQueryGrammar()
     {
         return $this->grammar;
+    }
+    
+    /**
+     * Clone the query.
+     * 
+     * @return static
+     */
+    public function clone(): static
+    {
+        return clone $this;
+    }
+    
+    /**
+     * Use the "write" PDO connection when executing the query.
+     * 
+     * @return static
+     */
+    public function useWritePdo(): static
+    {
+        $this->useWritePdo = true;
+        
+        return $this;
+    }
+    
+    /**
+     * Determine if the value is a query builder instance or a Closure.
+     * 
+     * @param  mixed  $value
+     * 
+     * @return bool
+     */
+    protected function isQueryable($value)
+    {
+        return $value instanceof self ||
+               $value instanceof ErostrineBuilder ||
+               $value instanceof Relation ||
+               $value instanceof Closure;
+    }
+    
+    /**
+     * Clone the query without the given properties.
+     * 
+     * @param  array  $properties
+     * 
+     * @return static
+     */
+    public function cloneWithoutProperties(array $properties): static
+    {
+        return take($this->clone(), function ($clone) use ($properties) {
+            foreach ($properties as $property) {
+                $clone->{$property} = null;
+            }
+        });
+    }
+    
+    /**
+     * Clone the query without the given bindings.
+     * 
+     * @param  array  $except
+     * 
+     * @return static
+     */
+    public function cloneWithoutBindings(array $except): static
+    {
+        return take($this->clone(), function ($clone) use ($except) {
+            foreach ($except as $type) {
+                $clone->bindings[$type] = [];
+            }
+        });
     }
 
     /**
