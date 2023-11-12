@@ -26,6 +26,7 @@ use Countable;
 use ArrayAccess;
 use JsonSerializable;
 use IteratorAggregate;
+use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Pagination\Links\UrlWindowGenerator;
@@ -67,18 +68,12 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
             $this->{$key} = $value;
         }
         
-        $this->total   = $total;
-        $this->perPage = $perPage;
-        
-        $this->lastPage = (int) ceil($total / $perPage);
-        
+        $this->total       = $total;
+        $this->perPage     = (int) $perPage;        
+        $this->lastPage    = max((int) ceil($total / $perPage), 1);        
         $this->currentPage = $this->setCurrentPage($currentPage, $this->pageName);
-        
-        $this->items = $items;
-        
-        if ($this->path !== '/') {
-            $this->path = rtrim($this->path, '/');
-        }
+        $this->path        = $this->path !== '/' ? rtrim($this->path, '/') : $this->path;
+        $this->items       = $items instanceof Collection ? $items : Collection::make($items);
     }
     
     /**
@@ -203,15 +198,19 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
     public function toArray(): array
     {
         return [
-            'total'         => $this->total(),
-            'per_page'      => $this->perPage(),
-            'current_page'  => $this->currentPage(),
-            'last_page'     => $this->lastPage(),
+            'current_page' => $this->currentPage(),
+            'data' => $this->items->toArray(),
+            'first_page_url' => $this->url(1),
+            'from' => $this->firstItem(),
+            'last_page' => $this->lastPage(),
+            'last_page_url' => $this->url($this->lastPage()),
+            'links' => $this->linkCollection()->toArray(),
             'next_page_url' => $this->nextPageUrl(),
+            'path' => $this->path(),
+            'per_page' => $this->perPage(),
             'prev_page_url' => $this->previousPageUrl(),
-            'from'          => $this->firstItem(),
-            'to'            => $this->lastItem(),
-            'data'          => $this->items->toArray(),
+            'to' => $this->lastItem(),
+            'total' => $this->total(),
         ];
     }
     

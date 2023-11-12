@@ -59,11 +59,9 @@ class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, 
             $this->{$key} = $value;
         }
         
-        $this->perPage = $perPage;
-        
-        $this->currentPage = $this->setCurrentPage($currentPage);
-        
-        $this->path = $this->path !== '/' ? rtrim($this->path, '/') : $this->path;
+        $this->perPage     = $perPage;        
+        $this->currentPage = $this->setCurrentPage($currentPage);       
+        $this->path        = $this->path !== '/' ? rtrim($this->path, '/') : $this->path;
 
         $this->setItems($items);
     }
