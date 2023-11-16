@@ -1310,9 +1310,21 @@ class Builder
      * 
      * @return static
      */
-    public function forPage($page, $perPage = 15): static
+    public function forPage(int $page, int $perPage = 15): static
     {
         return $this->offset(($page - 1) * $perPage)->limit($perPage);
+    }
+    
+    /**
+     * Alias to set the "offset" value of the query.
+     * 
+     * @param  int  $value
+     * 
+     * @return static
+     */
+    public function skip($value): static
+    {
+        return $this->offset($value);
     }
 
     /**
@@ -1329,6 +1341,18 @@ class Builder
         $this->$property = max(0, $value);
         
         return $this;
+    }
+    
+    /**
+     * Alias to set the "limit" value of the query.
+     * 
+     * @param  int  $value
+     * 
+     * @return static
+     */
+    public function take($value): static
+    {
+        return $this->limit($value);
     }
 
     /**
