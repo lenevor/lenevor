@@ -604,7 +604,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * 
      * @param  bool  $escape
      * 
-     * @return stati
+     * @return static
      */
     public function escapeWhenLoadingToString($escape = true): static;
 
