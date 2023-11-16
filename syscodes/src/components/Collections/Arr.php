@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Support;
 
 use ArrayAccess;
+use InvalidArgumentException;
 
 /**
  * Gets all a given array for return dot-notated key from an array.
@@ -353,6 +354,27 @@ class Arr
 		}
 		
 		return $maxWidth;
+	}
+	
+	/**
+	 * Run a map over each of the items in the array.
+	 * 
+	 * @param  array  $array
+	 * @param  callable  $callback
+	 * 
+	 * @return array
+	 */
+	public static function map(array $array, callable $callback): array
+	{
+		$keys = array_keys($array);
+		
+		try {
+			$items = array_map($callback, $array, $keys);
+		} catch (InvalidArgumentException) {
+			$items = array_map($callback, $array);
+		}
+		
+		return array_combine($keys, $items);
 	}
 
 	/**
