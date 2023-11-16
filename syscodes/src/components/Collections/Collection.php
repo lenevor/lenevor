@@ -28,13 +28,15 @@ use ArrayAccess;
 use Traversable;
 use ArrayIterator;
 use IteratorAggregate;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Traits\Enumerates;
 use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Contracts\Support\Collectable;
 
 /**
  * Allows provide a way for working with arrays of data.
  */
-class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
+class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable, Collectable
 {
     use Enumerates;
 
@@ -450,11 +452,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
      */
     public function map(callable $callback): static
     {
-        $keys = array_keys($this->items);
-
-        $items = array_map($callback, $this->items, $keys);
-
-        return new static(array_combine($keys, $items));
+        return new static(Arr::map($this->items, $callback));
     }
 
     /**
@@ -724,6 +722,18 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
     {
         return array_shift($this->items);
     }
+    
+    /**
+     * Skip the first {$count} items.
+     * 
+     * @param  int  $count
+     * 
+     * @return static
+     */
+    public function skip(int $count): static
+    {
+        return $this->slice($count);
+    }
 
     /**
      * Slice the underlying collection array.
@@ -845,7 +855,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
     public function take(int $limit): static
     {
         if ($limit < 0) {
-            $this->slice($limit, abs($limit));
+            return $this->slice($limit, abs($limit));
         }
 
         return $this->slice(0, $limit);
@@ -895,16 +905,6 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
     public function values(): static
     {
         return new static(array_values($this->items));
-    }
-    
-    /**
-     * Get the collection of items as a plain array.
-     * 
-     * @return array
-     */
-    public function toArray(): array
-    {
-        return array_map(fn ($value) => $value instanceof Arrayable ? $value->toArray() : $value, $this->items);
     }
 
     /*
@@ -996,17 +996,5 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
     public function offsetUnset(mixed $offset): void
     {
         unset($this->items[$offset]);
-    }
-    
-    /**
-     * Magic method.
-     * 
-     * Convert the collection to its string representation.
-     * 
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return $this->toJson();
     }
 }
