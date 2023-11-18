@@ -181,9 +181,14 @@ h2 {
 
 /* Modify table of errors in PHP */
 table {
+	border-collapse: collapse;
+	border-radius: 5px 5px 0 0;
+	box-shadow: 0 0 2px 1px var(--color-gray-6);
 	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
 	font-weight: 500;
-	width: 100%;
+	margin: 20px auto;
+	overflow: hidden;
+	width: 70vw;
 }
 
 table,
@@ -195,55 +200,46 @@ td {
 	border: none;
 }
 
-table span {
-	padding-bottom: 3px;
+thead tr th {
+	background: var(--color-blue-5);
+	color: var(--color-white-1);
+	padding-top: 12px;
 }
 
-tbody th{
-	padding-top: 3px;
+table th, 
+table td {
+	padding: 12px 15px;
 }
 
-tbody tr:nth-child(1) th {
-	line-height: 1.4em;
-	padding-bottom: 2px;
+table tbody tr {
+	border-bottom: 1px solid var(--color-gray-6)
 }
 
-tbody tr:nth-child(2) th {
-	padding: 3px;
+table tbody tr:nth-of-type(even) {
+	background: #EFEFEF;
 }
 
-tbody tr:nth-child(3) th {
-	text-align: left;
-	padding: 3px;
-}
-
-tbody tr:nth-child(3) th:nth-child(1) {
-	text-align: center;
-	width: 30px;
-}
-
-tbody tr:nth-child(1n) td:nth-child(1) {
-	text-align: center;
-}
-
-tbody tr:nth-child(3) th:nth-child(2) {
-	text-align: right;
-	width: 100px;
-}
-
-tbody tr:nth-child(3) th:nth-child(3) {
-	text-align: right;
-	width: 200px;
-}
-
-tbody tr:nth-child(1n) td {
-	text-align: right;
-	padding: 2px;
-}
-
+tbody tr:nth-child(1n) td:nth-child(1),
+tbody tr:nth-child(1n) td:nth-child(2),
+tbody tr:nth-child(1n) td:nth-child(3),
 tbody tr:nth-child(1n) td:nth-child(4),
 tbody tr:nth-child(1n) td:nth-child(5) {
-	text-align: left;
+	text-align: center;
+}
+
+table tfoot {
+	text-shadow: 1px 1px 1px var(--color-gray-5);
+}
+  
+table tfoot tr {
+	background: var(--color-black);
+	width: 100vw;
+}
+
+.pagination {
+	display: flex;
+	justify-content: flex-end;
+	list-style: none;
 }
 
 /*
