@@ -73,7 +73,22 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
         $this->lastPage    = max((int) ceil($total / $perPage), 1);        
         $this->currentPage = $this->setCurrentPage($currentPage, $this->pageName);
         $this->path        = $this->path !== '/' ? rtrim($this->path, '/') : $this->path;
-        $this->items       = $items instanceof Collection ? $items : Collection::make($items);
+        
+        $this->setItems($items);
+    }
+
+     /**
+     * Set the items for the paginator.
+     *
+     * @param  mixed  $items
+     * 
+     * @return void
+     */
+    protected function setItems($items): void
+    {
+        $this->items = $items instanceof Collection ? $items : Collection::make($items);
+
+        $this->items = $this->items->all();
     }
     
     /**
