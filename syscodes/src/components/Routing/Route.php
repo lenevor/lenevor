@@ -420,6 +420,8 @@ class Route
 	 */
 	public function prefix($prefix): static
 	{
+		$prefix = $prefix ?? '';
+
 		if ( ! empty($newPrefix = trim(rtrim($prefix, '/').'/'.ltrim($this->action['prefix'] ?? '', '/'), '/'))) {
 			$this->action['prefix'] = $newPrefix;
 		}
