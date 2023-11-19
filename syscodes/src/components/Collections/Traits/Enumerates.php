@@ -264,7 +264,7 @@ trait Enumerates
      * 
      * @return array
      */
-    protected function getArrayItems($items)
+    protected function getArrayableItems($items)
     {
         if (is_array($items)) {
             return $items;
