@@ -25,6 +25,7 @@ namespace Syscodes\Components\Database\Erostrine;
 use Closure;
 use Exception;
 use BadMethodCallException;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Pagination\Paginator;
 use Syscodes\Components\Support\Traits\Macroable;
@@ -343,6 +344,56 @@ class Builder
     public function updateOrCreate(array $attributes, array $values = [])
     {
         return take($this->firstOrNew($attributes), fn ($instance) => $instance->fill($values)->save());
+    }
+    
+    /**
+     * Update records in the database.
+     * 
+     * @param  array  $values
+     * 
+     * @return int
+     */
+    public function update(array $values): int
+    {
+        return $this->toBase()->update($this->addUpdatedAtColumn($values));
+    }
+    
+    /**
+     * Add the "updated at" column to an array of values.
+     * 
+     * @param  array  $values
+     * 
+     * @return array
+     */
+    protected function addUpdatedAtColumn(array $values): array
+    {
+        if ( ! $this->model->usesTimestamps() || is_null($this->model->getUpdatedAtColumn())) {
+            return $values;
+        }
+        
+        $column = $this->model->getUpdatedAtColumn();
+        
+        if ( ! array_key_exists($column, $values)) {
+            $timestamp = $this->model->freshTimestampString();
+            
+            if ($this->model->hasSetMutator($column)) {
+                $timestamp = $this->model->newInstance()
+                                  ->forceFill([$column => $timestamp])
+                                  ->getAttributes()[$column] ?? $timestamp;
+            }
+            
+            $values = array_merge([$column => $timestamp], $values);
+        }
+        
+        $segments = preg_split('/\s+as\s+/i', $this->query->from);
+        
+        $qualifiedColumn = end($segments).'.'.$column;
+        
+        $values[$qualifiedColumn] = Arr::get($values, $qualifiedColumn, $values[$column]);
+        
+        unset($values[$column]);
+        
+        return $values;
     }
 
     /**
