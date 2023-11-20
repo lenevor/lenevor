@@ -33,6 +33,7 @@ use Syscodes\Components\Database\Erostrine\Concerns\HasEvents;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
 use Syscodes\Components\Database\Erostrine\Concerns\HasRelations;
 use Syscodes\Components\Database\Erostrine\Concerns\HasAttributes;
+use Syscodes\Components\Database\Erostrine\Concerns\HasTimestamps;
 use Syscodes\Components\Database\Erostrine\Concerns\HidesAttributes;
 use Syscodes\Components\Database\Erostrine\Concerns\GuardsAttributes;
 use Syscodes\Components\Database\Erostrine\Exceptions\MassAssignmentException;
@@ -45,6 +46,7 @@ class Model implements Arrayable, ArrayAccess
 	use HasAttributes,
 	    HasEvents,
 	    HasRelations,
+	    HasTimestamps,
 	    HidesAttributes,
 	    GuardsAttributes,
 	    ForwardsCalls;
@@ -90,13 +92,6 @@ class Model implements Arrayable, ArrayAccess
 	 * @var string $table
 	 */
 	protected $table;
-
-	/**
-	 * Indicates if the model should be timestamped.
-	 * 
-	 * @var bool $timestamps
-	 */
-	protected $timestamps = true;
 
 	/**
 	 * The array of booted models.
@@ -354,6 +349,10 @@ class Model implements Arrayable, ArrayAccess
 			return false;
 		}
 
+		if ($this->usesTimestamps()) {
+			$this->updateTimestamps();
+		}
+
 		$dirty = $this->getDirty();
 		
 		if (count($dirty) > 0) {
@@ -398,6 +397,14 @@ class Model implements Arrayable, ArrayAccess
 	 */
 	public function performInsert(Builder $builder): bool
 	{
+		if ($this->fireModelEvent('creating') === false) {
+			return false;
+		}
+
+		if ($this->usesTimestamps()) {
+			$this->updateTimestamps();
+		}
+
 		$attributes = $this->getAttributes();
 
 		if ($this->getIncrementing()) {
@@ -411,6 +418,8 @@ class Model implements Arrayable, ArrayAccess
 		}
 
 		$this->exists = true;
+
+		$this->fireModelEvent('created', false);
 
 		return true;
 	}
@@ -616,6 +625,18 @@ class Model implements Arrayable, ArrayAccess
 		}
 		
 		return $this;
+	}
+	
+	/**
+	 * Fill the model with an array of attributes. Force mass assignment.
+	 * 
+	 * @param  array  $attributes
+	 * 
+	 * @return static
+	 */
+	public function forceFill(array $attributes): static
+	{
+		return static::unguarded(fn () => $this->fill($attributes));
 	}
 	
 	/**
