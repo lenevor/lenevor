@@ -955,7 +955,7 @@ class Grammar extends BaseGrammar
      * 
      * @return string
      */
-    public function compileExistsUpdateColumns(array $values): string
+    public function compileUpdateColumns(array $values): string
     {
         return collect($values)->map(function ($value, $key) {
             return $this->wrap($key).' = '.$this->parameter($value);
