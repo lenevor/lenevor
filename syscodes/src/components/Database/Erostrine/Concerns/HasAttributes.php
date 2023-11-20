@@ -222,7 +222,11 @@ trait HasAttributes
         
         if ( ! $relation instanceof Relation) {
             if (is_null($relation)) {
-                throw new LogicException(sprintf('%s::%s must return a relationship instance, but "null" was returned. Was the "return" keyword used?', static::class, $method));
+                throw new LogicException(sprintf(
+                    '%s::%s must return a relationship instance, but "null" was returned. Was the "return" keyword used?', 
+                    static::class,
+                    $method
+                ));
             }
             
             throw new LogicException(sprintf(
@@ -250,6 +254,36 @@ trait HasAttributes
         }
 
         return $this;
+    }
+    
+    /**
+     * Get an attribute array of all arrayable relations.
+     * 
+     * @return array
+     */
+    protected function getArrayRelations(): array
+    {
+        return $this->getArrayableItems($this->relations);
+    }
+    
+    /**
+     * Get an attribute array of all arrayable values.
+     * 
+     * @param  array  $values
+     * 
+     * @return array
+     */
+    protected function getArrayableItems(array $values): array
+    {
+        if (count($this->getVisible()) > 0) {
+            $values = array_intersect_key($values, array_flip($this->getVisible()));
+        }
+        
+        if (count($this->getHidden()) > 0) {
+            $values = array_diff_key($values, array_flip($this->getHidden()));
+        }
+        
+        return $values;
     }
     
     /**
