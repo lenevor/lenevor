@@ -30,12 +30,13 @@ use IteratorAggregate;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Support\Collection;
+use Syscodes\Components\Contracts\Support\Webable;
 use Syscodes\Components\Support\Traits\ForwardsCalls;
 
 /**
  * Allows get the links of pagination of database data register.
  */
-abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
+abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, Webable
 {
     use ForwardsCalls;
 
@@ -663,6 +664,16 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate
 	{
 		$this->items->erase($offset);
 	}
+    
+    /**
+     * Render the contents of the paginator to HTML.
+     * 
+     * @return string
+     */
+    public function toHtml(): string
+    {
+        return (string) $this->render();
+    }
     
     /**
      * Magic method.
