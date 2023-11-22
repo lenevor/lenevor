@@ -1,5 +1,54 @@
 # Release Notes
 
+## [Version 0.8.11-alpha.8]
+
+Release Date: Nov 21, 2023
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added new variables and methods for get an item of the pages
+- Added new methods for get the pagination with URLs in `AbstractPaginator` class
+- Added methods for get the number of items in paginated
+- Added new methods for generate the render of paginator using a given view
+- Added method for the pagination state using the application container in `PaginationState` class
+- Added item in array to the pagination service provider
+- Added methods for collections of data in `AbstractPaginator` class
+- Added interface SimplePaginator and render method is formatted
+- Added methods for generate the complete pagination and simple pagination
+- Added methods for generate a complete and simple pagination in `Erostrine\Builder` class
+- Added methods for get the number to return per page in `Model` class
+- Added magic method __get() for access builder proxies
+- Added new method for parse a string, buts preserving dots in variable names
+- Added new method for parse a string, buts preserving dots in variable names in `Helpers\RequestUtils` class
+- Added static method for loaded the query string of a url in `PaginationState` class
+- Added the calling of methods for indicate the pages number to display in `Erostrine\Builder` class
+- Added the all() method for load the items that to use in `Paginator` and `SimplePaginator` class
+- Added method for render the contents of the paginator to HTML
+
+### Changed
+- Changed the method count() by getCountForPagination() in `Erostrine\Builder` class
+
+### Created
+- Created the `Serializable` interface for string serializable or string unserializable
+- Created new view for generate pagination of registers of database
+- Created new method for run a map over of the items in the array in `Arr` class
+- Created the messages of pagination for translation
+
+### Updated
+- Updated components release to 0.8.11
+
+### Fixed
+- [0.8.x] Fix bug removing the some arguments type in __construct() method in `Paginator` class
+- [0.8.x] Fix bug at call a method not exist in `AbstractPaginator` class
+- [0.8.x] Fix bug removing the type and output of argument in `Connection` class
+- [0.8.x] Fix bug for changed by getLine() to get() method
+- [0.8.x] Fix bug the type of output bool to string in Arr::query
+
+### Removed
+- Removed is methods reference the window of URLs in the pages
+
+
 ## [Version 0.8.10-alpha.8]
 
 Release Date: Oct 24, 2023
