@@ -27,5 +27,5 @@ namespace Syscodes\Components\Mail;
  */
 class Mailer
 {
-
+    
 }
