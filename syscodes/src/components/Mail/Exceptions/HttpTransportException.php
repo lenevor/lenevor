@@ -22,7 +22,48 @@
 
 namespace Syscodes\Components\Mail\Exceptions;
 
+use Throwable;
+
 /**
  * HttpTransportException.
  */
-class HttpTransportException extends TransportException {}
+class HttpTransportException extends TransportException
+{
+    /**
+     * The response instance.
+     * 
+     * @var \Syscodes\Components\Http\Response|string $response
+     */
+    protected $response;
+
+    /**
+     * Initialize constructor.
+     * 
+     * @param  string  $message
+     * @param  \Syscodes\Components\Http\Response|string  $response
+     * @param  int  $code
+     * @param  \Throwable  $previous
+     * 
+     * @return void
+     */
+    public function __construct(
+        string $message,
+        $response,
+        int $code = 0,
+        Throwable $previous = null
+    ) {
+        parent::__construct($message, $code, $previous);
+
+        $this->response = $response;
+    }
+
+    /**
+     * Gets the response for load a resource.
+     * 
+     * @return \Syscodes\Components\Http\Response
+     */
+    public function getResponse()
+    {
+        return $this->response;
+    }
+}
