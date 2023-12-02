@@ -23,9 +23,55 @@
 namespace Syscodes\Components\Mail\Mime;
 
 /**
- * 
+ * Get the recipient email address.
  */
 class Address
 {
+    /**
+     * The recipient's email address.
+     * 
+     * @var string $address
+     */
+    protected $address;
 
+    /**
+     * The recipient's name.
+     * 
+     * @var string|null $name
+     */
+    protected $name;
+
+    /**
+     * Constructor. Create a new Address class instance.
+     * 
+     * @param  string  $address
+     * @param  string|null  $name
+     * 
+     * @return void
+     */
+    public function __construct(string $address, string $name = null)
+    {
+        $this->address = $address;
+        $this->name    = $name;        
+    }
+
+    /**
+     * Get the recipient's email address.
+     * 
+     * @return string
+     */
+    public function getAddress(): string
+    {
+        return $this->address;
+    }
+
+    /**
+     * Get the recipient's name.
+     * 
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
 }
