@@ -22,9 +22,33 @@
 namespace Syscodes\Components\Mail\Encoder;
 
 /**
- * 
+ * Get the Base64 encoded for text strings.
  */
 class Base64Encoder
 {
-
+    /**
+     * Takes an unencoded string and produces a Base64 encoded string from it.
+     * 
+     * @param  string  $string
+     * @param  int  $firstLineOffset
+     * @param  int  $maxLineLength
+     * 
+     * @return string
+     */
+    public function encodeString(string $string, int $firstLineOffset = 0, int $maxLineLength = 0): string
+    {
+        if (0 >= $maxLineLength || 76 < $maxLineLength) {
+            $maxLineLength = 76;
+        }
+        
+        $encodedString = base64_encode($string);
+        $firstLine     = '';
+        
+        if (0 !== $firstLineOffset) {
+            $firstLine = substr($encodedString, 0, $maxLineLength - $firstLineOffset)."\r\n";
+            $encodedString = substr($encodedString, $maxLineLength - $firstLineOffset);
+        }
+        
+        return $firstLine.trim(chunk_split($encodedString, $maxLineLength, "\r\n"));
+    }
 }

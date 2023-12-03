@@ -23,9 +23,46 @@
  namespace Syscodes\Components\Mail\Encoder;
 
 /**
- * 
+ * Get the content eight bit encoded for text strings.
  */
 final class EightBitContentEncoder
 {
-
+    /**
+     * Gets the encoded byte stream.
+     * 
+     * @param  mixed  $stream
+     * @param  int  $maxLineLength
+     * 
+     * @return \iterable 
+     */
+    public function encodeByteStream($stream, int $maxLineLength = 0): iterable
+    {
+        while ( ! feof($stream)) {
+            yield fread($stream, 16372);
+        }
+    }
+    
+    /**
+     * Get the encoded name.
+     * 
+     * @return string
+     */
+    public function getName(): string
+    {
+        return '8bit';
+    }
+    
+    /**
+     * Takes an unencoded string and produces a Base64 encoded string from it.
+     * 
+     * @param  string  $string
+     * @param  int  $firstLineOffset
+     * @param  int  $maxLineLength
+     * 
+     * @return string
+     */
+    public function encodeString(string $string, int $firstLineOffset = 0, int $maxLineLength = 0): string
+    {
+        return $string;
+    }
 }
