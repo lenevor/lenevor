@@ -22,10 +22,116 @@
 
 namespace Syscodes\Components\Mail\Mime;
 
+use Generator;
+use LogicException;
+
 /**
- * 
+ * Sending of raw message.
  */
 class RawMessage
 {
+    /**
+     * A query, is generator closed?.
+     * 
+     * @var bool $isGeneratorclosed
+     */
+    protected bool $isGeneratorClosed;
 
+    /**
+     * Get the message.
+     * 
+     * @var iterable|string|null $message
+     */
+    protected iterable|string|null $message = null;
+
+    /**
+     * Constructor. Create a new RawMessage class instance.
+     * 
+     * @param  iterable|string  $message
+     * 
+     * @return void
+     */
+    public function __construct(iterable|string $message)
+    {
+        $this->message = $message;
+    }
+
+    /**
+     * Get a message of a string .
+     * 
+     * @return string
+     */
+    public function toString(): string
+    {
+        if (is_string($this->message)) {
+            return $this->message;
+        }
+        
+        $message = '';
+        
+        foreach ($this->message as $chunk) {
+            $message .= $chunk;
+        }
+        
+        return $this->message = $message;
+    }
+
+    /**
+     * Get a message to iterate.
+     * 
+     * @return iterable
+     */
+    public function toIterable(): iterable
+    {
+        if ($this->isGeneratorClosed ?? false) {
+            throw new LogicException('Unable to send the email as its generator is already closed');
+        }
+        
+        if (is_string($this->message)) {
+            yield $this->message;
+            
+            return;
+        }
+        
+        if ($this->message instanceof Generator) {
+            $message = '';
+            
+            foreach ($this->message as $chunk) {
+                $message .= $chunk;
+                
+                yield $chunk;
+            }
+            
+            $this->isGeneratorClosed = ! $this->message->valid();
+            $this->message           = $message;
+            
+            return;
+        }
+        
+        foreach ($this->message as $chunk) {
+            yield $chunk;
+        }
+    }
+
+    /**
+     * Array representation of object.
+     * 
+     * @return array
+     */
+    public function __serialize(): array
+    {
+        return [$this->toString()];
+    }
+
+    /**
+     * Constructs the object.
+     * 
+     * @param  string  $serialized
+     * 
+     * @return void
+     */
+    public function __unserialize(array $serialized): void
+    {
+        [$this->message] = $serialized;
+    }
 }
