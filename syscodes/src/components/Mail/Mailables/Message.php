@@ -20,12 +20,21 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Components\Mail\Mime;
+namespace Syscodes\Components\Mail\Mailables;
+
+use Syscodes\Components\Mail\Headers\Headers;
 
 /**
  * 
  */
 class Message
 {
+    private Headers $headers;
+    private $body;
 
+    public function __construct(Headers $headers = null, $body = null)
+    {
+        $this->headers = $headers ? clone $headers : new Headers();
+        $this->body = $body;
+    }
 }

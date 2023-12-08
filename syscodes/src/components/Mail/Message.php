@@ -22,10 +22,29 @@
 
 namespace Syscodes\Components\Mail;
 
+use Syscodes\Components\Mail\Mailables\Email;
+
 /**
  * Allows the configuration to type of message for send at mail user.
  */
 class Message
 {
+    /**
+     * The Email instance.
+     * 
+     * @var \Syscodes\Component\Email\Mailables\Mail $message
+     */
+    protected $message;
 
+    /**
+     * Constructor. Create a new Message class instance.
+     * 
+     * @param  \Syscodes\Components\Mail\Mailables\Email  $message
+     * 
+     * @return void
+     */
+    public function __construct(Email $message)
+    {
+        $this->message = $message;
+    }
 }
