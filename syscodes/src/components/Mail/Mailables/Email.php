@@ -20,12 +20,12 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Components\Mail\Mime;
+namespace Syscodes\Components\Mail\Mailables;
 
 /**
  * 
  */
-class Email
+class Email extends Message
 {
 
 }
