@@ -22,10 +22,24 @@
 
 namespace Syscodes\Components\Mail\Helpers;
 
+use LogicException;
+use Syscodes\Components\Mail\Message;
+use Syscodes\Components\Http\Loaders\Headers;
+use Syscodes\Components\Mail\Mailables\Address;
+
 /**
  * 
  */
-class DelayedEnvelope
+class DelayedEnvelope extends Envelope
 {
+    private bool $senderSet = false;
+    private bool $recipientsSet = false;
+    private Message $message;
+
+    public function __construct(Message $message)
+    {
+        $this->message = $message;
+    }
+
     
 }
