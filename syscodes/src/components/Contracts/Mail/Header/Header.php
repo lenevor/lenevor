@@ -28,59 +28,56 @@ namespace Syscodes\Components\Contracts\Mail;
 interface Header
 {
     /**
-     * Sets the body.
-     * 
-     * @param  mixed  $body
-     * 
-     * @return void
-     */
-    public function setBody(mixed $body): void;
+	 * Adds multiple header.
+	 * 
+	 * @param  string  $headers  The header name
+	 * 
+	 * @return static
+	 */
+    public function add(string $headers): static;
     
     /**
-     * Gets the body.
+     * If exist the name of header.
+     * 
+     * @param  string  $name
+     * 
+     * @return bool
+     */
+    public function has(string $name): bool;
+
+    /**
+     * Gets a header value by name.
+     * 
+     * @param  string  $name
      * 
      * @return mixed
-     */    
-    public function getBody(): mixed;
-    
-    /**
-     * Sets the charset.
-     * 
-     * @param  string  $chaset
-     * 
-     * @return void
      */
-    public function setCharset(string $charset): void;
-    
+    public function get(string $name): mixed;
+
     /**
-     * Gets the charset.
+     * Returns all the headers.
      * 
-     * @return string|null
+     * @param  string|null  $name
+     * 
+     * @return \iterable
      */
-    public function getCharset(): ?string;
-    
+    public function all(string $name = null): iterable;
+
     /**
-     * Sets the language.
-     * 
-     * @param  string  $lang
-     * 
-     * @return void
-     */
-    public function setLanguage(string $lang): void;
-    
-    /**
-     * Gets the language.
-     * 
-     * @return string|null
-     */
-    public function getLanguage(): ?string;
-    
+	 * Removes a header.
+	 * 
+	 * @param  string  $name  The header name
+	 * 
+	 * @return void
+	 */
+    public function remove(string $name): void;
+
     /**
      * Gets the name.
      * 
-     * @return string
+     * @return array
      */
-    public function getName(): string;
+    public function getNames(): array;
     
     /**
      * Sets the max line length.
@@ -104,4 +101,11 @@ interface Header
      * @return string
      */
     public function toString(): string;
+
+    /**
+     * Get the instance as an array.
+     * 
+     * @return array
+     */
+    public function toArray(): array;
 }
