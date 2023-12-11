@@ -45,14 +45,14 @@ class Address
      * Constructor. Create a new Address class instance.
      * 
      * @param  string  $address
-     * @param  string|null  $name
+     * @param  string  $name
      * 
      * @return void
      */
-    public function __construct(string $address, string $name = null)
+    public function __construct(string $address, string $name = '')
     {
-        $this->address = $address;
-        $this->name    = $name;        
+        $this->address = trim($address);
+        $this->name    = trim(str_replace(["\n", "\r"], '', $name));      
     }
 
     /**
