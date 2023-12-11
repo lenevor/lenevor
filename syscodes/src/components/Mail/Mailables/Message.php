@@ -22,19 +22,106 @@
 
 namespace Syscodes\Components\Mail\Mailables;
 
-use Syscodes\Components\Mail\Headers\Headers;
+use Syscodes\Components\Mail\Headers;
 
 /**
- * 
+ * Sending of message
  */
-class Message
+class Message extends RawMessage
 {
-    private Headers $headers;
-    private $body;
+    /**
+     * The body of a message.
+     * 
+     * @var string|null $body
+     */
+    protected string|null $body;
 
-    public function __construct(Headers $headers = null, $body = null)
+    /**
+     * The headers for use in a message.
+     * 
+     * @var \Syscodes\Components\Mail\Headers $headers
+     */
+    protected Headers $headers;
+
+    /**
+     * Constructor. Create a new Message class instance.
+     * 
+     * @param  \Syscodes\Components\Mail\Headers  $headers
+     * @param  string|null  $body
+     * 
+     * @return void
+     */
+    public function __construct(Headers $headers = null, string $body = null)
     {
-        $this->headers = $headers ? clone $headers : new Headers();
+        $this->headers = $headers ? clone $headers : new Headers;
+        $this->body    = $body;
+    }
+    
+    /**
+     * Sets the body.
+     * 
+     * @param  mixed  $body
+     * 
+     * @return void
+     */
+    public function setBody(mixed $body): void
+    {
         $this->body = $body;
+    }
+    
+    /**
+     * Gets the body.
+     * 
+     * @return mixed
+     */    
+    public function getBody(): mixed
+    {
+        return $this->body;
+    }
+    
+    /**
+     * Sets the headers.
+     * 
+     * @param  \Syscodes\Components\Mail\Headers  $headers
+     * 
+     * @return static
+     */
+    public function setHeaders(Headers $headers): static
+    {
+        $this->headers = $headers;
+        
+        return $this;
+    }
+
+    /**
+     * Gets the headers.
+     * 
+     * @return \Syscodes\Components\Mail\Headers
+     */
+    public function getHeaders(): Headers
+    {
+        return $this->headers;
+    }
+
+    /**
+     * Array representation of object.
+     * 
+     * @return array
+     */
+    public function __serialize(): array
+    {
+        return [$this->headers, $this->body];
+    }
+
+    /**
+     * Constructs the object.
+     * 
+     * @param  string  $serialized
+     * 
+     * @return void
+     */
+    public function __unserialize(array $serialized): void
+    {
+        [$this->headers, $this->body] = $serialized;
     }
 }
