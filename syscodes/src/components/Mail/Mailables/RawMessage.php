@@ -57,7 +57,7 @@ class RawMessage
     }
 
     /**
-     * Get a message of a string .
+     * Get a message of a string.
      * 
      * @return string
      */
