@@ -23,23 +23,147 @@
 namespace Syscodes\Components\Mail\Helpers;
 
 use LogicException;
-use Syscodes\Components\Mail\Message;
-use Syscodes\Components\Http\Loaders\Headers;
+use Syscodes\Components\Mail\Headers;
 use Syscodes\Components\Mail\Mailables\Address;
+use Syscodes\Components\Mail\Mailables\Message;
 
 /**
- * 
+ * Allows the send of a mailbox in delayed envelope.
  */
-class DelayedEnvelope extends Envelope
+final class DelayedEnvelope extends Envelope
 {
-    private bool $senderSet = false;
-    private bool $recipientsSet = false;
-    private Message $message;
+    /**
+     * The send message.
+     * 
+     * @var Message $message
+     */
+    protected Message $message;
 
+    /**
+     * If have active the recipients to send message.
+     * 
+     * @var bool $recipients
+     */
+    protected bool $recipients = false;
+
+    /**
+     * If have active the sender to send message.
+     * 
+     * @var bool $sender
+     */
+    protected bool $sender = false;
+    
+    /**
+     * Constructor. Create a new DelayedEnvelope class instance.
+     * 
+     * @param  Message  $message
+     * 
+     * @return void
+     */
     public function __construct(Message $message)
     {
         $this->message = $message;
     }
-
     
+    /**
+     * Sets the sender.
+     * 
+     * @param  Address  $sender
+     * 
+     * @return void
+     */
+    public function setSender(Address $sender): void
+    {
+        parent::setSender($sender);
+        
+        $this->sender = true;
+    }
+    
+    /**
+     * Gets the sender.
+     * 
+     * @return address
+     */
+    public function getSender(): Address
+    {
+        if ( ! $this->sender) {
+            parent::setSender(static::getSenderFromHeaders($this->message->getHeaders()));
+        }
+        
+        return parent::getSender();
+    }
+    
+    /**
+     * Sets the recipients.
+     * 
+     * @param  array  $recipients
+     * 
+     * @return void
+     */
+    public function setRecipients(array $recipients): void
+    {
+        parent::setRecipients($recipients);
+        
+        $this->recipients = (bool) parent::getRecipients();
+    }
+    
+    /**
+     * Gets the recipients.
+     * 
+     * @return Address[]
+     */
+    public function getRecipients(): array
+    {
+        if ($this->recipients) {
+            return parent::getRecipients();
+        }
+        
+        return static::getRecipientsFromHeaders($this->message->getHeaders());
+    }
+    
+    /**
+     * Gets the recipients from headers.
+     * 
+     * @param  Headers  $headers
+     * 
+     * @return array
+     */
+    private static function getRecipientsFromHeaders(Headers $headers): array
+    {
+        $recipients = [];
+        
+        foreach (['to', 'cc', 'bcc'] as $name) {
+            foreach ($headers->all($name) as $header) {
+                foreach ($header->getAddress() as $address) {
+                    $recipients[] = $address;
+                }
+            }
+        }
+        
+        return $recipients;
+    }
+    
+    /**
+     * Gets the sender from headers.
+     * 
+     * @param  Headers  $headers
+     * 
+     * @return Address
+     */
+    private static function getSenderFromHeaders(Headers $headers): Address
+    {
+        if ($sender = $headers->get('Sender')) {
+            return $sender->getAddress();
+        }
+        
+        if ($return = $headers->get('Return-Path')) {
+            return $return->getAddress();
+        }
+        
+        if ($from = $headers->get('From')) {
+            return $from->getAddress()[0];
+        }
+        
+        throw new LogicException('Unable to determine the sender of the message');
+    }   
 }
