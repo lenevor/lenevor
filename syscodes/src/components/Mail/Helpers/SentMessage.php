@@ -20,12 +20,106 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Components\Mail;
+namespace Syscodes\Components\Mail\Helpers;
+
+use Syscodes\Components\Mail\Mailables\Message;
+use Syscodes\Components\Mail\Mailables\RawMessage;
 
 /**
  * Allows the sent of message at recipient's email.
  */
 class SentMessage
 {
+    /**
+     * The envelope for send at mailbox.
+     * 
+     * @var Envelope $envelope
+     */
+    protected Envelope $envelope;
+
+    /**
+     * The original for send at mailbox.
+     * 
+     * @var RawMessage $original 
+     */
+    protected RawMessage $original;
     
+    /**
+     * The raw for send at mailbox.
+     * 
+     * @var RawMessage $raw 
+     */
+    protected RawMessage $raw;
+
+    /**
+     * Constructor. Create a new SentMessage class instance.
+     * 
+     * @param  RawMessage  $message
+     * @param  Envelope  $envelope
+     * 
+     * @return void
+     */
+    public function __construct(RawMessage $message, Envelope $envelope)
+    {
+        $this->original = $message;
+        $this->envelope = $envelope;
+        
+        if ($message instanceof Message) {
+            $message = clone $message;
+
+            $this->raw = $message;
+        } else {
+            $this->raw = $message;
+        }
+    }
+    
+    /**
+     * Gets the message for send at mailbox.
+     * 
+     * @return RawMessage
+     */
+    public function getMessage(): RawMessage
+    {
+        return $this->raw;
+    }
+    
+    /**
+     * Gets the original message for send at mailbox.
+     * 
+     * @return RawMessage
+     */
+    public function getOriginalMessage(): RawMessage
+    {
+        return $this->original;
+    }
+    
+    /**
+     * Gets the envelope for send at mailbox.
+     * 
+     * @return Envelope
+     */
+    public function getEnvelope(): Envelope
+    {
+        return $this->envelope;
+    }
+
+    /**
+     * Get a message of a string.
+     * 
+     * @return string
+     */
+    public function toString(): string
+    {
+        return $this->raw->toString();
+    }
+
+    /**
+     * Get a message to iterate.
+     * 
+     * @return iterable
+     */
+    public function toIterable(): iterable
+    {
+        return $this->raw->toIterable();
+    }
 }
