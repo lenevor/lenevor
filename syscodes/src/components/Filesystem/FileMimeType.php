@@ -23,8 +23,7 @@
 namespace Syscodes\Components\Filesystem;
 
 /**
- * This class loads an array of mime types.
- * to help identify allowed file types.
+ * This class loads an array of mimetypes to help identify allowed file types.
  */
 class FileMimeType
 {
