@@ -22,17 +22,33 @@
 
 namespace Syscodes\Components\Mail\Mime;
 
+use Syscodes\Components\Contracts\Mail\Mime\MimeType;
+
 /**
  * This class loads an array of mimetypes.
  */
 class MimeTypes
 {
     /**
+     * Gets the MIME types by default.
+     * 
+     * @var MimeTypes $default
+     */
+    protected static MimeTypes $default;
+
+    /**
      * The extension of mimetypes.
      * 
      * @var array $extensions
      */
     protected array $extensions;
+
+    /**
+     * The guessers instance in array.
+     * 
+     * @var array $guessers
+     */
+    protected array $guessers = [];
 
     /**
      * Get the mimetypes.
@@ -57,5 +73,5 @@ class MimeTypes
                 $this->mimeTypes[$extension][] = $mimeType;
             }
         }
-    }
+    }    
 }
