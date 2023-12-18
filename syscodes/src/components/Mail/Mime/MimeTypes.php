@@ -108,6 +108,38 @@ class MimeTypes
     {
         array_unshift($this->guessers, $guesser);
     }
+    
+    /**
+     * Gets the extensions of MIME type.
+     * 
+     * @param  string  $mimeType
+     * 
+     * @return array
+     */
+    public function getExtensions(string $mimeType): array
+    {
+        if ($this->extensions) {
+            $extensions = $this->extensions[$mimeType] ?? $this->extensions[$lcMimeType = strtolower($mimeType)] ?? null;
+        }
+        
+        return $extensions ?? self::MAP[$mimeType] ?? self::MAP[$lcMimeType ?? strtolower($mimeType)] ?? [];
+    }
+    
+    /**
+     * Gets the MIME types with yours extensions.
+     * 
+     * @param  string  $extension
+     * 
+     * @return array
+     */
+    public function getMimeTypes(string $extension): array
+    {
+        if ($this->mimeTypes) {
+            $mimeTypes = $this->mimeTypes[$extension] ?? $this->mimeTypes[$lcExtension = strtolower($extension)] ?? null;
+        }
+        
+        return $mimeTypes ?? self::REVERSE_MAP[$extension] ?? self::REVERSE_MAP[$lcExtension ?? strtolower($extension)] ?? [];
+    }
 
     /**
      * If is guesser supported for activate a register of MIME type.
