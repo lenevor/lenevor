@@ -76,6 +76,25 @@ abstract class AbstractTransport implements Transport
         $this->dispatcher = $dispatcher;
         $this->logger = $logger ?? new NullLogger;
     }
+    
+    /**
+     * Sets the maximum number of messages to send per second (0 to disable).
+     * 
+     * @param  float  $rate
+     * 
+     * @return static
+     */
+    public function setMaxToSeconds(float $rate): static
+    {
+        if (0 >= $rate) {
+            $rate = 0;
+        }
+        
+        $this->rate = $rate;
+        $this->lastSent = 0;
+        
+        return $this;
+    }
 
     /**
      * Send the message of mail.
