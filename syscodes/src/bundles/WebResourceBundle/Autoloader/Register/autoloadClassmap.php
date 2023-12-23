@@ -429,6 +429,8 @@ return [
     'Syscodes\\Components\\Mail\\Encoder\\EightBitContentEncoder' => SYS_PATH.'src/components/Mail/Encoder/EightBitContentEncoder.php',
     'Syscodes\\Components\\Mail\\Encoder\\QpContentEncoder' => SYS_PATH.'src/components/Mail/Encoder/QpContentEncoder.php',
     'Syscodes\\Components\\Mail\\Events\\FailedMessage' => SYS_PATH.'src/components/Mail/Events/FailedMessage.php',
+    'Syscodes\\Components\\Mail\\Events\\Message' => SYS_PATH.'src/components/Mail/Events/Message.php',
+    'Syscodes\\Components\\Mail\\Events\\SentMessageToMail' => SYS_PATH.'src/components/Mail/Events/SentMessageToMail.php',
     'Syscodes\\Components\\Mail\\Exceptions\\HttpTransportException' => SYS_PATH.'src/components/Mail/Exceptions/HttpTransportException.php',
     'Syscodes\\Components\\Mail\\Exceptions\\MailException' => SYS_PATH.'src/components/Mail/Exceptions/MailException.php',
     'Syscodes\\Components\\Mail\\Exceptions\\TransportException' => SYS_PATH.'src/components/Mail/Exceptions/TransportException.php',
