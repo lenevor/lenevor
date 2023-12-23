@@ -22,16 +22,20 @@
 
 namespace Syscodes\Components\Mail\Transport;
 
+use Throwable;
 use Psr\Log\NullLogger;
 use Psr\Log\LoggerInterface;
+use Syscodes\Components\Mail\Events\Message;
 use Syscodes\Components\Mail\Helpers\Envelope;
 use Syscodes\Components\Contracts\Mail\Transport;
 use Syscodes\Components\Mail\Helpers\SentMessage;
+use Syscodes\Components\Mail\Events\FailedMessage;
 use Syscodes\Components\Mail\Mailables\RawMessage;
 use Syscodes\Components\Contracts\Events\Dispatcher;
+use Syscodes\Components\Mail\Events\SentMessageToMail;
 
 /**
- * 
+ * Get the transport for send of messages.
  */
 abstract class AbstractTransport implements Transport
 {
@@ -106,6 +110,80 @@ abstract class AbstractTransport implements Transport
      */
     public function send(RawMessage $message, Envelope $envelope = null): ?SentMessage
     {
-
+        $message  = clone $message;
+        $envelope = null !== $envelope ? clone $envelope : Envelope::create($message);
+        
+        try {
+            if ( ! $this->dispatcher) {
+                $sentMessage = new SentMessage($message, $envelope);
+                $this->doSend($sentMessage);
+                
+                return $sentMessage;
+            }
+            
+            $event = new Message($message, $envelope, (string) $this);
+            $this->dispatcher->dispatch($event);
+            
+            $envelope = $event->getEnvelope();
+            $message  = $event->getMessage();
+            
+            $sentMessage = new SentMessage($message, $envelope);
+            
+            try {
+                $this->doSend($sentMessage);
+            } catch (Throwable $error) {
+                $this->dispatcher->dispatch(new FailedMessage($message, $error));
+                $this->verifyThrottling();
+                
+                throw $error;
+            }
+            
+            $this->dispatcher->dispatch(new SentMessageToMail($sentMessage));
+            
+            return $sentMessage;
+        } finally {
+            $this->verifyThrottling();
+        }
+    }
+    
+    /**
+     * Do send to mail.
+     * 
+     * @param  SentMessage  $message
+     * 
+     * @return void
+     */
+    abstract protected function doSend(SentMessage $message): void;
+    
+    /**
+     * Get the logger for errors.
+     * 
+     * @return LoggerInterface
+     */
+    protected function getLogger(): LoggerInterface
+    {
+        return $this->logger;
+    }
+    
+    /**
+     * Verify the throttling of time to send of a message.
+     * 
+     * @return void
+     */
+    private function verifyThrottling(): void
+    {
+        if (0 == $this->rate) {
+            return;
+        }
+        
+        $sleep = (1 / $this->rate) - (microtime(true) - $this->lastSent);
+        
+        if (0 < $sleep) {
+            $this->logger->debug(sprintf('Email transport "%s" sleeps for %.2f seconds', __CLASS__, $sleep));
+            
+            usleep((int) ($sleep * 1000000));
+        }
+        
+        $this->lastSent = microtime(true);
     }
 }
