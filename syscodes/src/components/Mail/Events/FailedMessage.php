@@ -39,8 +39,8 @@ class FailedMessage
      * @return void
      */
     public function __construct(
-        private RawMessage $message,
-        private Throwable $error,
+        protected RawMessage $message,
+        protected Throwable $error
     ) {}
     
     /**
