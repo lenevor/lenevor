@@ -23,9 +23,28 @@
 namespace Syscodes\Components\Mail\Transport\Smtp;
 
 /**
- * 
+ * A stream supporting remote sockets.
  */
-class SocketStream extends AbstractStream
+final class SocketStream extends AbstractStream
 {
+    /**
+     * Performs any initialization needed.
+     * 
+     * @return void
+     */
+    public function initialize(): void
+    {
 
+    }
+
+    /**
+     * Get the connection of remote stream for have a description
+     * of type of resource.
+     * 
+     * @return string
+     */
+    protected function getConnectionDescription(): string
+    {
+        return '';
+    }
 }
