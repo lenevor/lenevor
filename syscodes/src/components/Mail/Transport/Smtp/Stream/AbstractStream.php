@@ -22,10 +22,147 @@
 
 namespace Syscodes\Components\Mail\Transport\Smtp;
 
-/**
- * 
- */
-class AbstractStream
-{
+use Syscodes\Components\Mail\Exceptions\TransportException;
 
+/**
+ * Allows the stream supporting remote sockets and local processes.
+ */
+abstract class AbstractStream
+{
+    /**
+     * Get the debug.
+     * 
+     * @var string $debug
+     */
+    protected string $debug;
+
+    /**
+     * In the remote socket.
+     * 
+     * @var resource|null $in
+     */
+    protected $in;
+
+    /**
+     * Out the remote socket.
+     * 
+     * @var resource|null $out
+     */
+    protected $out;
+
+    /**
+     * Get the stream remote sockets.
+     * 
+     * @var resource|null $stream
+     */
+    protected $stream;
+
+    /**
+     * Performs any initialization needed.
+     * 
+     * @return void
+     */
+    abstract public function initialize(): void;
+    
+    /**
+     * Get the connection of remote stream for have a description
+     * of type of resource.
+     * 
+     * @return string
+     */
+    abstract protected function getConnectionDescription(): string;
+
+    /**
+     * Get the write of content for send to socket.
+     * 
+     * @param  string  $bytes
+     * @param  bool  $debug
+     * 
+     * @return void
+     */
+    public function write(string $bytes, bool $debug = true): void
+    {
+        if ($debug) {
+            foreach (explode("\n", trim($bytes)) as $line) {
+                $this->debug .= sprintf("> %s\n", $line);
+            }
+        }
+        
+        $bytesToWrite = strlen($bytes);
+        $totalBytesWritten = 0;
+        
+        while ($totalBytesWritten < $bytesToWrite) {
+            $bytesWritten = @fwrite($this->in, substr($bytes, $totalBytesWritten));
+            
+            if (false === $bytesWritten || 0 === $bytesWritten) {
+                throw new TransportException('Unable to write bytes on the wire');
+            }
+            
+            $totalBytesWritten += $bytesWritten;
+        }
+    }
+    
+    /**
+     * Flushes the contents of the stream.
+     * 
+     * @return void
+     */
+    public function flush(): void
+    {
+        fflush($this->in);
+    }
+
+    /**
+     * Get the read line for the console.
+     * 
+     * @return string
+     */
+    public function readLine(): string
+    {
+        if (feof($this->out)) {
+            return '';
+        }
+        
+        $line = fgets($this->out);
+        
+        if ('' === $line || false === $line) {
+            $meta = stream_get_meta_data($this->out);
+            
+            if ($meta['timed_out']) {
+                throw new TransportException(sprintf('Connection to "%s" timed out', $this->getConnectionDescription()));
+            }
+            
+            if ($meta['eof']) {
+                throw new TransportException(sprintf('Connection to "%s" has been closed unexpectedly', $this->getConnectionDescription()));
+            }
+        }
+        
+        $this->debug .= sprintf('< %s', $line);
+        
+        return $line;
+    }
+    
+    /**
+     * Get the debug.
+     * 
+     * @return void
+     */
+    public function getDebug(): string
+    {
+        $debug = $this->debug;
+        
+        $this->debug = '';
+        
+        return $debug;
+    }
+    
+    /**
+     * Get the streams in null.
+     * 
+     * @return void
+     */
+    public function terminate(): void
+    {
+        $this->stream = $this->out = $this->in = null;
+    }
 }
