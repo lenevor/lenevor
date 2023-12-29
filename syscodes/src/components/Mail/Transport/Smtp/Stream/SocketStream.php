@@ -28,6 +28,195 @@ namespace Syscodes\Components\Mail\Transport\Smtp;
 final class SocketStream extends AbstractStream
 {
     /**
+     * Get the host in the url.
+     * 
+     * @var string $host
+     */
+    protected string $host = 'localhost';
+
+    /**
+     * The port to connection of protocol.
+     * 
+     * @var int $port
+     */
+    protected int $port = 465;
+
+    /**
+     * The time out for the send of messages.
+     * 
+     * @var float $timeout
+     */
+    protected float $timeout;
+
+    /**
+     * If indicate value boolean in true or false.
+     * 
+     * @var bool $tls
+     */
+    protected bool $tls = true;
+
+    /**
+     * Get the source ip.
+     * 
+     * @var string|null $sourceIp
+     */
+    protected ?string $sourceIp = null;
+
+    /**
+     * Get the stream context options.
+     * 
+     * @var array $contextOptions
+     */
+    protected array $contextOptions = [];
+
+    /**
+     * Get the url.
+     * 
+     * @var string $url
+     */
+    protected string $url;
+    
+    /**
+     * Set the host.
+     * 
+     * @param  string  $host
+     * 
+     * @return static
+     */
+    public function setHost(string $host): static
+    {
+        $this->host = $host;
+        
+        return $this;
+    }
+
+    /**
+     * Get the host.
+     * 
+     * @return string
+     */
+    public function getHost(): string
+    {
+        return $this->host;
+    }
+    
+    /**
+     * Set the port.
+     * 
+     * @param  int  $port
+     * 
+     * @return static
+     */
+    public function setPort(int $port): static
+    {
+        $this->port = $port;
+        
+        return $this;
+    }
+
+    /**
+     * Get the port.
+     * 
+     * @return int
+     */
+    public function getPort(): int
+    {
+        return $this->port;
+    }
+    
+    /**
+     * Sets the TLS/SSL on the socket (disables STARTTLS).
+     * 
+     * @return static
+     */
+    public function disableTls(): static
+    {
+        $this->tls = false;
+        
+        return $this;
+    }
+    
+    /**
+     * If indicate that the variable is true.
+     * 
+     * @return bool
+     */
+    public function isTLS(): bool
+    {
+        return $this->tls;
+    }
+    
+    /**
+     * Sets the stream options.
+     * 
+     * @param  array  $options
+     * 
+     * @return static
+     */
+    public function setStreamOptions(array $options): static
+    {
+        $this->contextOptions = $options;
+        
+        return $this;
+    }
+    
+    /**
+     * Gets the stream options.
+     * 
+     * @return array
+     */
+    public function getStreamOptions(): array
+    {
+        return $this->contextOptions;
+    }
+    
+    /**
+     * Sets the source IP.
+     * 
+     * @param  string  $ip
+     * 
+     * @return static
+     */
+    public function setSourceIp(string $ip): static
+    {
+        $this->sourceIp = $ip;
+        
+        return $this;
+    }
+    
+    /**
+     * Returns the IP used to connect to the destination.
+     *
+     * @return string|null
+     */
+    public function getSourceIp(): ?string
+    {
+        return $this->sourceIp;
+    }
+    
+    /**
+     * Sets the timeout for send of messages.
+     * 
+     * @return static
+     */
+    public function setTimeout(float $timeout): static
+    {
+        $this->timeout = $timeout;
+        
+        return $this;
+    }
+    
+    /**
+     * Gets the timeout for send of messages.
+     * 
+     * @return float
+     */
+    public function getTimeout(): float
+    {
+        return $this->timeout ?? (float) ini_get('default_socket_timeout');
+    }
+
+    /**
      * Performs any initialization needed.
      * 
      * @return void
@@ -35,6 +224,20 @@ final class SocketStream extends AbstractStream
     public function initialize(): void
     {
 
+    }
+    
+    /**
+     * Get the streams in null.
+     * 
+     * @return void
+     */
+    public function terminate(): void
+    {
+        if (null !== $this->stream) {
+            fclose($this->stream);
+        }
+        
+        parent::terminate();
     }
 
     /**
@@ -45,6 +248,6 @@ final class SocketStream extends AbstractStream
      */
     protected function getConnectionDescription(): string
     {
-        return '';
+        return $this->url;
     }
 }
