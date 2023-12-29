@@ -22,6 +22,8 @@
 
 namespace Syscodes\Components\Mail\Transport\Smtp;
 
+use Syscodes\Components\Mail\Exceptions\TransportException;
+
 /**
  * A stream supporting remote sockets.
  */
@@ -223,7 +225,45 @@ final class SocketStream extends AbstractStream
      */
     public function initialize(): void
     {
-
+        $this->url = $this->host.':'.$this->port;
+        
+        if ($this->tls) {
+            $this->url = 'ssl://'.$this->url;
+        }
+        
+        $options = [];
+        
+        if ($this->sourceIp) {
+            $options['socket']['bindto'] = $this->sourceIp.':0';
+        }
+        
+        if ($this->contextOptions) {
+            $options = array_merge($options, $this->contextOptions);
+        }
+        
+        $options['ssl']['crypto_method'] ??= STREAM_CRYPTO_METHOD_TLS_CLIENT | 
+                                             STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT | 
+                                             STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT;
+                                             
+        $streamContext = stream_context_create($options);
+        
+        $timeout = $this->getTimeout();
+        
+        set_error_handler(function ($type, $msg) {
+            throw new TransportException(sprintf('Connection could not be established with host "%s": ', $this->url).$msg);
+        });
+        
+        try {
+            $this->stream = stream_socket_client($this->url, $errno, $errstr, $timeout, STREAM_CLIENT_CONNECT, $streamContext);
+        } finally {
+            restore_error_handler();
+        }
+        
+        stream_set_blocking($this->stream, true);
+        stream_set_timeout($this->stream, $timeout);
+        
+        $this->in  = &$this->stream;
+        $this->out = &$this->stream;
     }
     
     /**
