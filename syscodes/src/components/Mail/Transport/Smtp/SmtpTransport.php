@@ -22,16 +22,33 @@
 
 namespace Syscodes\components\Mail\Transport\Smtp;
 
+use LogicException;
+use BadMethodCallException;
 use Psr\Log\LoggerInterface;
 use Syscodes\Components\Mail\Helpers\SentMessage;
 use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\Mail\Transport\AbstractTransport;
+use Syscodes\Components\Mail\Exceptions\TransportException;
 
 /**
  * Sends emails over SMTP.
  */
 class SmtpTransport extends AbstractTransport
 {
+    /**
+     * Get the domain.
+     * 
+     * @var string $domain
+     */
+    protected string $domain = '[127.0.0.1]';
+    
+    /**
+     * Indicates the initialize of variable as boolean.
+     * 
+     * @var bool $started
+     */
+    protected bool $started = false;
+
     /**
      * The abstract stream instance.
      * 
@@ -64,6 +81,38 @@ class SmtpTransport extends AbstractTransport
     {
         return $this->stream;
     }
+    
+    /**
+     * Sets the name of the local domain that will be used in HELO.
+     * 
+     * @param  string  $domain
+     * 
+     * @return static
+     */
+    public function setLocalDomain(string $domain): static
+    {
+        if ('' !== $domain && '[' !== $domain[0]) {
+            if (filter_var($domain, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4)) {
+                $domain = '['.$domain.']';
+            } elseif (filter_var($domain, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV6)) {
+                $domain = '[IPv6:'.$domain.']';
+            }
+        }
+        
+        $this->domain = $domain;
+        
+        return $this;
+    }
+    
+    /**
+     * Gets the name of the domain that will be used in HELO.
+     * 
+     * @return string
+     */
+    public function getLocalDomain(): string
+    {
+        return $this->domain;
+    }
 
     /**
      * Do send to mail.
@@ -75,6 +124,91 @@ class SmtpTransport extends AbstractTransport
     protected function doSend(SentMessage $message): void
     {
         
+    }
+    
+    /**
+     * Runs a command against the stream, expecting the given response codes.
+     * 
+     * @param int[] $codes
+     * 
+     * @throws TransportException
+     */
+    public function executeCommand(string $command, array $codes): string
+    {
+        $this->stream->write($command);        
+        $response = $this->getFullResponse();        
+        $this->assertResponseCode($response, $codes);
+        
+        return $response;
+    }
+    
+    /**
+     * Manually disconnect from the SMTP server. In most cases this is not 
+     * necessary since the disconnect happens automatically on termination.
+     * 
+     * @return void
+     */
+    public function stop(): void
+    {
+        if ( ! $this->started) {
+            return;
+        }
+        
+        $this->getLogger()->debug(sprintf('Email transport "%s" stopping', __CLASS__));
+        
+        try {
+            $this->executeCommand("QUIT\r\n", [221]);
+        } catch (TransportException) {
+            //
+        } finally {
+            $this->stream->terminate();
+            $this->started = false;
+            $this->getLogger()->debug(sprintf('Email transport "%s" stopped', __CLASS__));
+        }
+    }
+    
+    /**
+     * Get assert of response code.
+     * 
+     * @param  string  $response
+     * @param  array  $codes
+     * 
+     * @return void
+     * 
+     * @throws TransportException
+     */
+    private function assertResponseCode(string $response, array $codes): void
+    {
+        if ( ! $codes) {
+            throw new LogicException('You must set the expected response code');
+        }
+        
+        [$code] = sscanf($response, '%3d');
+        $valid  = in_array($code, $codes);
+        
+        if ( ! $valid || !$response) {
+            $codeStr     = $code ? sprintf('code "%s"', $code) : 'empty code';
+            $responseStr = $response ? sprintf(', with message "%s"', trim($response)) : '';
+            
+            throw new TransportException(sprintf('Expected response code "%s" but got ', implode('/', $codes)).$codeStr.$responseStr.'.', $code ?: 0);
+        }
+    }
+    
+    /**
+     * Get the full response.
+     * 
+     * @return string
+     */
+    private function getFullResponse(): string
+    {
+        $response = '';
+        
+        do {
+            $line      = $this->stream->readLine();
+            $response .= $line;
+        } while ($line && isset($line[3]) && ' ' !== $line[3]);
+        
+        return $response;
     }
 
     /**
@@ -98,5 +232,44 @@ class SmtpTransport extends AbstractTransport
         }
 
         return 'smtp://sendmail';
+    }
+    
+    /**
+     * Magic method.
+     * 
+     * Returns an array with the names of all the variables 
+     * of the object to be serialized.
+     * 
+     * @return array
+     */
+    public function __sleep(): array
+    {
+        throw new BadMethodCallException('Cannot serialize '.__CLASS__);
+    }
+    
+    /**
+     * Magic method.
+     * 
+     * Reestablish connections that may have been lost 
+     * during serialization.
+     * 
+     * @return void
+     */
+    public function __wakeup(): void
+    {
+        throw new BadMethodCallException('Cannot unserialize '.__CLASS__);
+    }
+    
+    /**
+     * Magic method.
+     * 
+     * Called as soon as are not other references to a given object,
+     * or in any other finalization circumstance.
+     * 
+     * @return void
+     */
+    public function __destruct()
+    {
+        $this->stop();
     }
 }
