@@ -25,7 +25,9 @@ namespace Syscodes\components\Mail\Transport\Smtp;
 use LogicException;
 use BadMethodCallException;
 use Psr\Log\LoggerInterface;
+use Syscodes\Components\Mail\Helpers\Envelope;
 use Syscodes\Components\Mail\Helpers\SentMessage;
+use Syscodes\Components\Mail\Mailables\RawMessage;
 use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\Mail\Transport\AbstractTransport;
 use Syscodes\Components\Mail\Exceptions\TransportException;
@@ -41,6 +43,13 @@ class SmtpTransport extends AbstractTransport
      * @var string $domain
      */
     protected string $domain = '[127.0.0.1]';
+    
+    /**
+     * Get the last message time.
+     * 
+     * @var float $lastMessageTime
+     */
+    protected float $lastMessageTime = 0;
     
     /**
      * Indicates the initialize of variable as boolean.
@@ -113,6 +122,33 @@ class SmtpTransport extends AbstractTransport
     {
         return $this->domain;
     }
+    
+    /**
+     * Send the message of mail.
+     * 
+     * @param  RawMessage  $message
+     * @param  Envelope|null  $envelope
+     * 
+     * @return SentMessage|null
+     */
+    public function send(RawMessage $message, Envelope $envelope = null): ?SentMessage
+    {
+        try {
+            $message = parent::send($message, $envelope);
+        } catch (TransportException $e) {
+            if ($this->started) {
+                try {
+                    $this->executeCommand("RSET\r\n", [250]);
+                } catch (TransportException) {
+                    //
+                }
+            }
+            
+            throw $e;
+        }
+        
+        return $message;
+    }
 
     /**
      * Do send to mail.
@@ -140,6 +176,27 @@ class SmtpTransport extends AbstractTransport
         $this->assertResponseCode($response, $codes);
         
         return $response;
+    }
+    
+    /**
+     * Initialize the connection from the SMTP server.
+     * 
+     * @return void
+     */
+    public function start(): void
+    {
+        if ($this->started) {
+            return;
+        }
+        
+        $this->getLogger()->debug(sprintf('Email transport "%s" starting', __CLASS__));
+        $this->stream->initialize();
+        $this->assertResponseCode($this->getFullResponse(), [220]);
+        
+        $this->started         = true;
+        $this->lastMessageTime = 0;
+        
+        $this->getLogger()->debug(sprintf('Email transport "%s" started', __CLASS__));
     }
     
     /**
