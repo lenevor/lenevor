@@ -179,6 +179,24 @@ class SmtpTransport extends AbstractTransport
     }
     
     /**
+     * Get the ping.
+     * 
+     * @return void
+     */
+    private function ping(): void
+    {
+        if ( ! $this->started) {
+            return;
+        }
+        
+        try {
+            $this->executeCommand("NOOP\r\n", [250]);
+        } catch (TransportException) {
+            $this->stop();
+        }
+    }
+    
+    /**
      * Initialize the connection from the SMTP server.
      * 
      * @return void
