@@ -27,4 +27,34 @@ use RuntimeException;
 /**
  * TransportException.
  */
-class TransportException extends RuntimeException {}
+class TransportException extends RuntimeException
+{
+    /**
+     * Gets the debug when be send at mailbox.
+     * 
+     * @var string $debug
+     */
+    protected  string $debug = '';
+    
+    /**
+     * Gets the debug.
+     * 
+     * @return string
+     */
+    public function getDebug(): string
+    {
+        return $this->debug;
+    }
+    
+     /**
+     * Appends to debug.
+     * 
+     * @param  string  $debug
+     * 
+     * @return void
+     */
+    public function appendDebug(string $debug): void
+    {
+        $this->debug .= $debug;
+    }
+}
