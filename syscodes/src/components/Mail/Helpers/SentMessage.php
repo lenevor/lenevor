@@ -31,6 +31,13 @@ use Syscodes\Components\Mail\Mailables\RawMessage;
 class SentMessage
 {
     /**
+     * Gets the debug when be send at mailbox.
+     * 
+     * @var string $debug
+     */
+    protected string $debug = '';
+    
+    /**
      * The envelope for send at mailbox.
      * 
      * @var Envelope $envelope
@@ -111,6 +118,28 @@ class SentMessage
     public function toString(): string
     {
         return $this->raw->toString();
+    }
+
+    /**
+     * Gets the debug.
+     * 
+     * @return string
+     */
+    public function getDebug(): string
+    {
+        return $this->debug;
+    }
+
+    /**
+     * Appends to debug.
+     * 
+     * @param  string  $debug
+     * 
+     * @return void
+     */
+    public function appendDebug(string $debug): void
+    {
+        $this->debug .= $debug;
     }
 
     /**
