@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Mail\Transport\Smtp;
 
+use Generator;
 use Syscodes\Components\Mail\Exceptions\TransportException;
 
 /**
@@ -34,7 +35,7 @@ abstract class AbstractStream
      * 
      * @var string $debug
      */
-    protected string $debug;
+    protected string $debug = '';
 
     /**
      * In the remote socket.
@@ -145,7 +146,7 @@ abstract class AbstractStream
     /**
      * Get the debug.
      * 
-     * @return void
+     * @return string
      */
     public function getDebug(): string
     {
@@ -154,6 +155,52 @@ abstract class AbstractStream
         $this->debug = '';
         
         return $debug;
+    }
+
+    /**
+     * Replaces a string in chunks.
+     * 
+     * @param  string  $from
+     * @param  string  $to
+     * @param  iterable  $chunks
+     * 
+     * @return Generator
+     */
+    public static function replace(string $from, string $to, iterable $chunks): Generator
+    {
+        if ('' === $from) {
+            yield from $chunks;
+            
+            return;
+        }
+        
+        $carry   = '';
+        $fromLen = strlen($from);
+        
+        foreach ($chunks as $chunk) {
+            if ('' === $chunk = $carry.$chunk) {
+                continue;
+            }
+            
+            if (str_contains($chunk, $from)) {
+                $chunk = explode($from, $chunk);
+                $carry = array_pop($chunk);
+                
+                yield implode($to, $chunk).$to;
+            } else {
+                $carry = $chunk;
+            }
+            
+            if (strlen($carry) > $fromLen) {
+                yield substr($carry, 0, -$fromLen);
+                
+                $carry = substr($carry, -$fromLen);
+            }
+        }
+        
+        if ('' !== $carry) {
+            yield $carry;
+        }
     }
     
     /**
