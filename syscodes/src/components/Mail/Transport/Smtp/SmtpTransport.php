@@ -22,6 +22,7 @@
 
 namespace Syscodes\components\Mail\Transport\Smtp;
 
+use Exception;
 use LogicException;
 use BadMethodCallException;
 use Psr\Log\LoggerInterface;
@@ -50,6 +51,20 @@ class SmtpTransport extends AbstractTransport
      * @var float $lastMessageTime
      */
     protected float $lastMessageTime = 0;
+
+    /**
+     * Get the result.
+     * 
+     * @var string $metaResult
+     */
+    protected string $mtaResult = '';
+    
+    /**
+     * Get the pin in seconds.
+     * 
+     * @var int $pingThreshold
+     */
+    protected int $pingThreshold = 100;
     
     /**
      * Indicates the initialize of variable as boolean.
@@ -159,7 +174,43 @@ class SmtpTransport extends AbstractTransport
      */
     protected function doSend(SentMessage $message): void
     {
-        
+        if (microtime(true) - $this->lastMessageTime > $this->pingThreshold) {
+            $this->ping();
+        }
+
+        if ( ! $this->started) {
+            $this->start();
+        }
+
+        try {
+            $envelope = $message->getEnvelope();
+           
+            foreach ($envelope->getRecipients() as $recipient) {
+                $recipient->getAddress();
+            }
+
+            $this->executeCommand("DATA\r\n", [354]);
+            try {
+                foreach (AbstractStream::replace("\r\n.", "\r\n..", $message->toIterable()) as $chunk) {
+                    $this->stream->write($chunk, false);
+                }
+                $this->stream->flush();
+            } catch (TransportException $e) {
+                throw $e;
+            } catch (Exception $e) {
+                $this->stream->terminate();
+                $this->started = false;
+                $this->getLogger()->debug(sprintf('Email transport "%s" stopped', __CLASS__));
+                throw $e;
+            }
+            $this->mtaResult = $this->executeCommand("\r\n.\r\n", [250]);
+            $message->appendDebug($this->stream->getDebug());
+            $this->lastMessageTime = microtime(true);
+        } catch (TransportException $e) {
+            $e->appendDebug($this->stream->getDebug());
+            $this->lastMessageTime = 0;
+            throw $e;
+        }
     }
     
     /**
