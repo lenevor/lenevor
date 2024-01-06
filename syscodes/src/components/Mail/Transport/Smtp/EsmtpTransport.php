@@ -23,9 +23,28 @@
 namespace Syscodes\components\Mail\Transport\Smtp;
 
 /**
- * 
+ * Sends Emails over SMTP with ESMTP support.
  */
 class EsmtpTransport
 {
+    /**
+     * Get the authenticators.
+     * 
+     * @var array $authenticators
+     */
+    protected array $authenticators = [];
 
+    /**
+     * Get the password.
+     * 
+     * @var string $password
+     */
+    protected string $password = '';
+
+    /**
+     * Get the username.
+     * 
+     * @var string $username
+     */
+    protected string $username = '';
 }
