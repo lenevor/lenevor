@@ -20,14 +20,14 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\components\Mail\Transport\Smtp;
+namespace Syscodes\Components\Mail\Transport\Smtp;
 
 use Syscodes\components\Constracts\Mail\Auth\Authenticator;
 
 /**
  * Handles PLAIN authentication of a user.
  */
-class LoginAuthenticator implements Authenticator
+class PlainAuthenticator implements Authenticator
 {
     /**
      * The authenticate of the user.
