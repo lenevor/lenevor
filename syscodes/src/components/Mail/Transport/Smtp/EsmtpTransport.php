@@ -22,6 +22,8 @@
 
 namespace Syscodes\components\Mail\Transport\Smtp;
 
+use Syscodes\components\Constracts\Mail\Auth\Authenticator;
+
 /**
  * Sends Emails over SMTP with ESMTP support.
  */
@@ -47,4 +49,32 @@ class EsmtpTransport
      * @var string $username
      */
     protected string $username = '';
+
+    /**
+     * Sets the autenticators.
+     * 
+     * @param  array  $authenticators
+     * 
+     * @return void
+     */    
+    public function setAuthenticators(array $authenticators): void
+    {
+        $this->authenticators = [];
+        
+        foreach ($authenticators as $authenticator) {
+            $this->addAuthenticator($authenticator);
+        }
+    }
+    
+    /**
+     * Adds a authenticator in an array.
+     * 
+     * @param  Authenticator  $authenticator
+     * 
+     * @return void
+     */
+    public function addAuthenticator(Authenticator $authenticator): void
+    {
+        $this->authenticators[] = $authenticator;
+    }
 }
