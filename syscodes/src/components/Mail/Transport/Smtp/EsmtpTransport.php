@@ -108,6 +108,54 @@ class EsmtpTransport extends SmtpTransport
         $stream->setHost($host);
         $stream->setPort($port);
     }
+    
+    /**
+     * Sets the username.
+     * 
+     * @param  string  $username
+     * 
+     * @return static
+     */
+    public function setUsername(string $username): static
+    {
+        $this->username = $username;
+        
+        return $this;
+    }
+    
+    /**
+     * Get the username.
+     * 
+     * @return string
+     */
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
+    
+    /**
+     * Sets the password.
+     * 
+     * @param  string  $password
+     * 
+     * @return static
+     */
+    public function setPassword(string $password): static
+    {
+        $this->password = $password;
+        
+        return $this;
+    }
+    
+    /**
+     * Get the password.
+     * 
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
 
     /**
      * Sets the autenticators.
