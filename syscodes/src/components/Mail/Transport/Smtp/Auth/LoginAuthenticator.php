@@ -38,7 +38,9 @@ class LoginAuthenticator implements Authenticator
      */
     public function authenticate(EsmtpTransport $client): void
     {
-        return;
+        $client->executeCommand("AUTH LOGIN\r\n", [334]);
+        $client->executeCommand(sprintf("%s\r\n", base64_encode($client->getUsername())), [334]);
+        $client->executeCommand(sprintf("%s\r\n", base64_encode($client->getPassword())), [235]);
     }
 
     /**
