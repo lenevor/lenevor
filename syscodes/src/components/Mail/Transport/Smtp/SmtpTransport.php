@@ -216,7 +216,10 @@ class SmtpTransport extends AbstractTransport
     /**
      * Runs a command against the stream, expecting the given response codes.
      * 
-     * @param int[] $codes
+     * @param  string  $command 
+     * @param  int[]  $codes 
+     * 
+     * @return string
      * 
      * @throws TransportException
      */
