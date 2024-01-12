@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Mail\Transport\Smtp;
 
 use Psr\Log\LoggerInterface;
+use Syscodes\Components\Support\Str;
 use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\Mail\Transport\Smtp\SocketStream;
 use Syscodes\components\Constracts\Mail\Auth\Authenticator;
@@ -183,5 +184,22 @@ class EsmtpTransport extends SmtpTransport
     public function addAuthenticator(Authenticator $authenticator): void
     {
         $this->authenticators[] = $authenticator;
+    }
+
+    /**
+     * Runs a command against the stream, expecting the given response codes.
+     * 
+     * @param  string  $command 
+     * @param  int[]  $codes 
+     * 
+     * @return string
+     * 
+     * @throws TransportException
+     */
+    public function executeCommand(string $command, array $codes): string
+    {
+        return [250] === $codes && Str::startsWith($command, 'HELO ') 
+                                            ? parent::executeCommand(sprintf("HELO %s\r\n", $this->getLocalDomain()), [250]) 
+                                            : parent::executeCommand($command, $codes);
     }
 }
