@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2023 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -1199,7 +1199,7 @@ class Application extends Container implements ApplicationContract
             'app' => [self::class, \Syscodes\Components\Contracts\Container\Container::class, \Syscodes\Components\Contracts\Core\Application::class, \Psr\Container\ContainerInterface::class],
             'auth' => [\Syscodes\Components\Auth\AuthManager::class, \Syscodes\Components\Contracts\Auth\Factory::class],
             'auth.driver' => [\Syscodes\Components\Contracts\Auth\Guard::class],
-            'cache' => [\Syscodes\Components\Cache\CacheManager::class, \Syscodes\Components\Contracts\Cache\Manager::class],
+            'cache' => [\Syscodes\Components\Cache\CacheManager::class, \Syscodes\Components\Contracts\Cache\Factory::class],
             'cache.store' => [\Syscodes\Components\Cache\CacheRepository::class, \Syscodes\Components\Contracts\Cache\Repository::class],
             'config' => [\Syscodes\Components\Config\Configure::class, \Syscodes\Components\Contracts\Config\Configure::class],
             'cookie' => [\Syscodes\Components\Cookie\CookieManager::class, \Syscodes\Components\Contracts\Cookie\Factory::class, \Syscodes\Components\Contracts\Cookie\QueueingFactory::class],
@@ -1215,14 +1215,14 @@ class Application extends Container implements ApplicationContract
             'hash.driver' => [\Syscodes\Components\Contracts\Hashing\Hasher::class],
             'log' => [\Syscodes\Components\Log\LogManager::class, \Psr\Log\LoggerInterface::class],
             'plaze.transpiler' => [\Syscodes\Components\View\Transpilers\PlazeTranspiler::class],
-            'redirect' => [\Syscodes\Components\Routing\Supported\Redirector::class],
+            'redirect' => [\Syscodes\Components\Routing\Generators\Redirector::class],
             'redis' => [\Syscodes\Components\Redis\RedisManager::class],
             'request' => [\Syscodes\Components\Http\Request::class],
             'router' => [\Syscodes\Components\Routing\Router::class],
             'session' => [\Syscodes\Components\Session\SessionManager::class],
             'session.store' => [\Syscodes\Components\Session\Store::class, \Syscodes\Components\Contracts\Session\Session::class],
             'translator' => [\Syscodes\Components\Translation\Translator::class, \Syscodes\Components\Contracts\Translation\Translator::class],
-            'url' => [\Syscodes\Components\Routing\Supported\UrlGenerator::class, \Syscodes\Components\Contracts\Routing\UrlGenerator::class],
+            'url' => [\Syscodes\Components\Routing\Generators\UrlGenerator::class, \Syscodes\Components\Contracts\Routing\UrlGenerator::class],
             'view' => [\Syscodes\Components\View\Factory::class, \Syscodes\Components\Contracts\View\Factory::class]
         ] as $key => $aliases) {
             foreach ((array) $aliases as $alias) {

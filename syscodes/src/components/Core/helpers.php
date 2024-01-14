@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2023 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -25,7 +25,7 @@ use Syscodes\Components\Core\Application;
 use Syscodes\Components\Support\WebString;
 use Syscodes\Components\Support\Facades\Date;
 use Syscodes\Components\Contracts\View\Factory;
-use Syscodes\Components\Routing\Supported\UrlGenerator;
+use Syscodes\Components\Routing\Generators\UrlGenerator;
 use Syscodes\Components\Contracts\Routing\RouteResponse;
 use Syscodes\Components\Contracts\Debug\ExceptionHandler;
 use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoload;
@@ -972,7 +972,7 @@ if ( ! function_exists('url')) {
      * @param  array  $parameters
      * @param  bool|null  $secure  
      *
-     * @return \Syscodes\Components\Routing\Supported\UrlGenerator
+     * @return \Syscodes\Components\Routing\Generators\UrlGenerator
      */
     function url($path = null, array $parameters = [], bool $secure = null)
     {
