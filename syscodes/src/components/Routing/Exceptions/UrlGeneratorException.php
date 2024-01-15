@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2023 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -46,7 +46,7 @@ class UrlGeneratorException extends Exception
         $message = sprintf('Missing required %s for [Route: %s] [URI: %s]',
             $parameter,
             $route->getName(),
-            $route->getRoute()
+            $route->getUri()
         );
         
         if (count($parameters) > 0) {
