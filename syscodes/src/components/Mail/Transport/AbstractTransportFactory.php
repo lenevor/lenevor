@@ -22,10 +22,46 @@
 
 namespace Syscodes\Components\Mail\Transport;
 
-/**
- * 
- */
-class AbstractTransportFactory
-{
+use Psr\Log\LoggerInterface;
+use Syscodes\Components\Contracts\Events\Dispatcher;
 
+/**
+ * Get the transport factory for send of messages.
+ */
+abstract class AbstractTransportFactory
+{
+    /**
+     * Get the dispatcher event instance.
+     * 
+     * @var Dispatcher $dispatcher
+     */
+    protected ?Dispatcher $dispatcher;
+    
+    /**
+     * Get the logger instance.
+     * 
+     * @var LoggerInterface $logger
+     */
+    protected ?LoggerInterface $logger;
+    
+    /**
+     * Constructor. Create a new AbstractTransportFactory class instance.
+     * 
+     * @param  Dispatcher|null  $dispatcher
+     * @param  LoggerInterface|null  $logger
+     * 
+     * @return void
+     */
+    public function __construct(Dispatcher $dispatcher = null, LoggerInterface $logger = null)
+    {
+        $this->dispatcher = $dispatcher;
+        $this->logger     = $logger;
+    }
+    
+    /**
+     * Get the supported schemes.
+     * 
+     * @return array
+     */
+    abstract protected function getSupportedSchemes(): array;
 }
