@@ -22,9 +22,137 @@
 namespace Syscodes\Components\Mail\Transport;
 
 /**
- * 
+ * Get the domain transport of a email.
  */
-class DomainTransport
+final class DomainTransport
 {
+    /**
+     * Get the host.
+     * 
+     * @var string $host
+     */
+    protected string $host;
+    
+    /**
+     * Get the options.
+     * 
+     * @var array $options
+     */
+    protected array $options;
+    
+    /**
+     * Get the password.
+     * 
+     * @var string|null $password
+     */
+    protected ?string $password;
+    
+    /**
+     * Get the port.
+     * 
+     * @var int|null $port
+     */
+    protected ?int $port;
 
+    /**
+     * Get the scheme.
+     * 
+     * @var string $scheme
+     */
+    protected string $scheme;
+    
+    /**
+     * Get the user.
+     * 
+     * @var string|null $user
+     */
+    protected ?string $user;
+
+    /**
+     * Constructor. Create a new DomainTransport class instance.
+     * 
+     * @param  string  $scheme
+     * @param  string  $host
+     * @param  string|null  $user
+     * @param  string|null  $password
+     * @param  int|null  $port
+     * @param  array  $options
+     * 
+     * @return void
+     */
+    public function __construct(
+        string $scheme,
+        string $host,
+        string $user = null,
+        string $password = null,
+        int $port = null,
+        array $options = []
+    ) {
+        $this->scheme   = $scheme;
+        $this->host     = $host;
+        $this->user     = $user;
+        $this->password = $password;
+        $this->port     = $port;
+        $this->options  = $options;
+    }
+
+    /**
+     * Gets thhe scheme. 
+     * 
+     * @return string
+     */
+    public function getScheme(): string
+    {
+        return $this->scheme;
+    }
+
+    /**
+     * Gets the host.
+     * 
+     * @return string
+     */
+    public function getHost(): string
+    {
+        return $this->host;
+    }
+    
+    /**
+     * Gets the user.
+     * 
+     * @return string|null
+     */
+    public function getUser(): ?string
+    {
+        return $this->user;
+    }
+    
+    /**
+     * Gets the password.
+     * 
+     * @return string|null
+     */
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+    
+    /**
+     * Gets the port.
+     * 
+     * @return string|null
+     */
+    public function getPort(int $default = null): ?int
+    {
+        return $this->port ?? $default;
+    }
+
+    /**
+     * Gets the options.
+     * 
+     * @return mixed
+     */
+    public function getOption(string $key, mixed $default = null): mixed
+    {
+        return $this->options[$key] ?? $default;
+    }
 }
