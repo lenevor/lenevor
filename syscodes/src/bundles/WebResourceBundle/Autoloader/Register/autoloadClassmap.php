@@ -432,6 +432,7 @@ return [
     'Syscodes\\Components\\Mail\\Events\\Message' => SYS_PATH.'src/components/Mail/Events/Message.php',
     'Syscodes\\Components\\Mail\\Events\\SentMessageToMail' => SYS_PATH.'src/components/Mail/Events/SentMessageToMail.php',
     'Syscodes\\Components\\Mail\\Exceptions\\HttpTransportException' => SYS_PATH.'src/components/Mail/Exceptions/HttpTransportException.php',
+    'Syscodes\\Components\\Mail\\Exceptions\\IncompleteDomainException' => SYS_PATH.'src/components/Mail/Exceptions/IncompleteDomainException.php',
     'Syscodes\\Components\\Mail\\Exceptions\\MailException' => SYS_PATH.'src/components/Mail/Exceptions/MailException.php',
     'Syscodes\\Components\\Mail\\Exceptions\\TransportException' => SYS_PATH.'src/components/Mail/Exceptions/TransportException.php',
     'Syscodes\\Components\\Mail\\Helpers\\DelayedEnvelope' => SYS_PATH.'src/components/Mail/Helpers/DelayedEnvelope.php',
