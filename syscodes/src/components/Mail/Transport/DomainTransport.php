@@ -21,6 +21,8 @@
  */
 namespace Syscodes\Components\Mail\Transport;
 
+use InvalidArgumentException;
+
 /**
  * Get the domain transport of a email.
  */
@@ -94,6 +96,36 @@ final class DomainTransport
         $this->password = $password;
         $this->port     = $port;
         $this->options  = $options;
+    }
+
+    /**
+     * Gets the string of URL from domain.
+     * 
+     * @param  string  $domain
+     * 
+     * @return self
+     */
+    public static function fromString(string $domain): self
+    {
+        if (false === $params = parse_url($domain)) {
+            throw new InvalidArgumentException('The mailer DSN is invalid');
+        }
+        
+        if ( ! isset($params['scheme'])) {
+            throw new InvalidArgumentException('The mailer DSN must contain a scheme');
+        }
+        
+        if ( ! isset($params['host'])) {
+            throw new InvalidArgumentException('The mailer DSN must contain a host');
+        }
+        
+        $user = '' !== ($params['user'] ?? '') ? rawurldecode($params['user']) : null;
+        $password = '' !== ($params['pass'] ?? '') ? rawurldecode($params['pass']) : null;
+        $port = $params['port'] ?? null;
+        
+        parse_str($params['query'] ?? '', $query);
+        
+        return new self($params['scheme'], $params['host'], $user, $password, $port, $query);
     }
 
     /**
