@@ -24,6 +24,7 @@ namespace Syscodes\Components\Mail\Transport;
 
 use Psr\Log\LoggerInterface;
 use Syscodes\Components\Contracts\Events\Dispatcher;
+use Syscodes\Components\Mail\Exceptions\IncompleteDomainException;
 
 /**
  * Get the transport factory for send of messages.
@@ -59,9 +60,45 @@ abstract class AbstractTransportFactory
     }
     
     /**
+     * Gets the supports of schemes.
+     * 
+     * @param  DomainTransport  $domain
+     * 
+     * @return bool
+     */
+    public function supports(DomainTransport $domain): bool
+    {
+        return in_array($domain->getScheme(), $this->getSupportedSchemes(), true);
+    }
+
+    /**
      * Get the supported schemes.
      * 
      * @return array
      */
     abstract protected function getSupportedSchemes(): array;
+    
+    /**
+     * Gets the user.
+     * 
+     * @param  DomainTransport  $domain
+     * 
+     * @return string
+     */
+    protected function getUser(DomainTransport $domain): string
+    {
+        return $domain->getUser() ?? throw new IncompleteDomainException('User is not set');
+    }
+    
+    /**
+     * Gets the password.
+     * 
+     * @param  DomainTransport  $domain
+     * 
+     * @return string
+     */
+    protected function getPassword(DomainTransport $domain): string
+    {
+        return $domain->getPassword() ?? throw new IncompleteDomainException('Password is not set');
+    }
 }
