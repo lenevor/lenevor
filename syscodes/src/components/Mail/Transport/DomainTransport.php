@@ -119,9 +119,9 @@ final class DomainTransport
             throw new InvalidArgumentException('The mailer DSN must contain a host');
         }
         
-        $user = '' !== ($params['user'] ?? '') ? rawurldecode($params['user']) : null;
+        $user     = '' !== ($params['user'] ?? '') ? rawurldecode($params['user']) : null;
         $password = '' !== ($params['pass'] ?? '') ? rawurldecode($params['pass']) : null;
-        $port = $params['port'] ?? null;
+        $port     = $params['port'] ?? null;
         
         parse_str($params['query'] ?? '', $query);
         
