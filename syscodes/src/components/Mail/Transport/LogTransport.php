@@ -22,10 +22,66 @@
 
 namespace Syscodes\Components\Mail\Transport;
 
+use Psr\Log\LoggerInterface;
+use Syscodes\Components\Mail\Helpers\Envelope;
+use Syscodes\Components\Mail\Helpers\SentMessage;
+use Syscodes\Components\Mail\Mailables\RawMessage;
+
 /**
- * 
+ * LogTransport for sending mail using a logger of data notification.
  */
 class LogTransport
 {
+    /**
+     * The Logger instance.
+     * 
+     * @var \Psr\Log\LoggerInterface $logger
+     */
+    protected $logger;
+    
+    /**
+     * Construrctor. Create a new log transport class instance.
+     * 
+     * @param  \Psr\Log\LoggerInterface  $logger
+     * 
+     * @return void
+     */
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function send(RawMessage $message, Envelope $envelope = null): ?SentMessage
+    {
+        $string = $message->toString();
 
+        $this->logger->debug((string) $string);
+
+        return new SentMessage($message, $envelope ?? Envelope::create($message));
+    }
+    
+    /**
+     * Get the logger for the LogTransport instance.
+     * 
+     * @return \Psr\Log\LoggerInterface
+     */
+    public function logger()
+    {
+        return $this->logger;
+    }
+    
+    /**
+     * Magic method.
+     * 
+     * Get the string representation of the transport.
+     * 
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return 'log';
+    }
 }
