@@ -166,6 +166,7 @@ return [
     'Syscodes\\Components\\Contracts\\Mail\\Header' => SYS_PATH.'src/components/Contracts/Mail/Header/Header.php',
     'Syscodes\\Components\\Contracts\\Mail\\Mime\\MimeType' => SYS_PATH.'src/components/Contracts/Mail/Mime/MimeType.php',
     'Syscodes\\Components\\Contracts\\Mail\\Mime\\MimeTypeGuesser' => SYS_PATH.'src/components/Contracts/Mail/Mime/MimeTypeGuesser.php',
+    'Syscodes\\Components\\Contracts\\Mail\\Mailable' => SYS_PATH.'src/components/Contracts/Mail/Mailable.php',
     'Syscodes\\Components\\Contracts\\Mail\\Transport' => SYS_PATH.'src/components/Contracts/Mail/Transport.php',
     'Syscodes\\Components\\Contracts\\Pagination\\Paginator' => SYS_PATH.'src/components/Contracts/Pagination/Paginator.php',
     'Syscodes\\Components\\Contracts\\Pagination\\SimplePaginator' => SYS_PATH.'src/components/Contracts/Pagination/SimplePaginator.php',
