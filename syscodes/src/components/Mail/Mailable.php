@@ -22,12 +22,13 @@
 
 namespace Syscodes\Components\Mail;
 
+use Syscodes\Components\Contracts\Support\Renderable;
 use Syscodes\Components\Contracts\Mail\Mailable as MailableContract;
 
 /**
  * Allows the send the message using the given mailer.
  */
-class Mailable implements MailableContract
+class Mailable implements MailableContract, Renderable
 {
     /**
      * Send the message using the given mailer.
@@ -39,6 +40,16 @@ class Mailable implements MailableContract
     public function send($mailer)
     {
 
+    }
+
+    /**
+     * Get the evaluated contents of the object.
+     * 
+     * @return string
+     */
+    public function render()
+    {
+        
     }
     
     /**
