@@ -22,10 +22,85 @@
 
 namespace Syscodes\Components\Mail;
 
-/**
- * 
- */
-class Mailable
-{
+use Syscodes\Components\Contracts\Mail\Mailable as MailableContract;
 
+/**
+ * Allows the send the message using the given mailer.
+ */
+class Mailable implements MailableContract
+{
+    /**
+     * Send the message using the given mailer.
+     * 
+     * @param  \Syscodes\Components\Contracts\Mail\Factory|\Syscodes\Components\Contracts\Mail\Mailer  $mailer
+     * 
+     * @return \Syscodes\Components\Mail\Helpers\SentMessage|null
+     */
+    public function send($mailer)
+    {
+
+    }
+    
+    /**
+     * Set the recipients of the message.
+     * 
+     * @param  object|array|string  $address
+     * @param  string|null  $name
+     * 
+     * @return static
+     */
+    public function cc($address, $name = null): static
+    {
+        return $this;
+    }
+    
+    /**
+     * Set the recipients of the message.
+     * 
+     * @param  object|array|string  $address
+     * @param  string|null  $name
+     * 
+     * @return static
+     */
+    public function bcc($address, $name = null): static
+    {
+        return $this;
+    }
+    
+    /**
+     * Set the recipients of the message.
+     * 
+     * @param  object|array|string  $address
+     * @param  string|null  $name
+     * 
+     * @return static
+     */
+    public function to($address, $name = null): static
+    {
+        return $this;
+    }
+    
+    /**
+     * Set the locale of the message.
+     * 
+     * @param  string  $locale
+     * 
+     * @return static
+     */
+    public function locale($locale): static
+    {
+        return $this;
+    }
+    
+    /**
+     * Set the name of the mailer that should be used to send the message.
+     * 
+     * @param  string  $mailer
+     * 
+     * @return static
+     */
+    public function mailer($mailer): static
+    {
+        return $this;
+    }
 }
