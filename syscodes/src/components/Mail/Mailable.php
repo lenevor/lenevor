@@ -31,6 +31,139 @@ use Syscodes\Components\Contracts\Mail\Mailable as MailableContract;
 class Mailable implements MailableContract, Renderable
 {
     /**
+     * The attachments for the message.
+     * 
+     * @var array $attachments
+     */
+    public $attachments = [];
+    
+    /**
+     * The "bcc" recipients of the message.
+     * 
+     * @var array $bcc
+     */
+    public $bcc = [];
+    
+    /**
+     * The callbacks for the message.
+     * 
+     * @var array $callbacks
+     */
+    public $callbacks = [];
+    
+    /**
+     * The "cc" recipients of the message.
+     * 
+     * @var array $cc
+     */
+    public $cc = [];
+    
+    /**
+     * The attachments from a storage disk.
+     * 
+     * @var array $diskAttachments
+     */
+    public $diskAttachments = [];
+    
+    /**
+     * The person the message is from.
+     * 
+     * @var array $from
+     */
+    public $from = [];
+    
+    /**
+     * The HTML to use for the message.
+     * 
+     * @var string $html
+     */
+    protected $html;
+    
+    /**
+     * The locale of the message.
+     * 
+     * @var string $locale
+     */
+    public $locale;
+    
+    /**
+     * The name of the mailer that should send the message.
+     * 
+     * @var string $mailer
+     */
+    public $mailer;
+    
+    /**
+     * The metadata for the message.
+     * 
+     * @var array $metadata
+     */
+    protected $metadata = [];
+    
+    /**
+     * The raw attachments for the message.
+     * 
+     * @var array $rawAttachments
+     */
+    public $rawAttachments = [];
+    
+    /**
+     * The "reply to" recipients of the message.
+     * 
+     * @var array $replyTo
+     */
+    public $replyTo = [];
+    
+    /**
+     * The subject of the message.
+     * 
+     * @var string $subject
+     */
+    public $subject;
+    
+    /**
+     * The tags for the message.
+     * 
+     * @var array $tags
+     */
+    protected $tags = [];
+    
+    /**
+     * The plain text view to use for the message.
+     * 
+     * @var string $textView
+     */
+    public $textView;
+    
+    /**
+     * The name of the theme that should be used when formatting the message.
+     * 
+     * @var string|null $theme
+     */
+    public $theme;
+    
+    /**
+     * The "to" recipients of the message.
+     * 
+     * @var array $to
+     */
+    public $to = [];
+    
+    /**
+     * The view to use for the message.
+     * 
+     * @var string $view
+     */
+    public $view;
+    
+    /**
+     * The view data for the message.
+     * 
+     * @var array $viewData
+     */
+    public $viewData = [];   
+
+    /**
      * Send the message using the given mailer.
      * 
      * @param  \Syscodes\Components\Contracts\Mail\Factory|\Syscodes\Components\Contracts\Mail\Mailer  $mailer
