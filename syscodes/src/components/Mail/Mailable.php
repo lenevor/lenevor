@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Mail;
 
+use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Contracts\Support\Renderable;
 use Syscodes\Components\Contracts\Mail\Mailable as MailableContract;
 
@@ -30,6 +31,8 @@ use Syscodes\Components\Contracts\Mail\Mailable as MailableContract;
  */
 class Mailable implements MailableContract, Renderable
 {
+    use Macroable;
+
     /**
      * The attachments for the message.
      * 
@@ -245,6 +248,27 @@ class Mailable implements MailableContract, Renderable
      */
     public function mailer($mailer): static
     {
+        $this->mailer = $mailer;
+        
+        return $this;
+    }
+    
+    /**
+     * Set the view data for the message.
+     * 
+     * @param  string|array  $key
+     * @param  mixed  $value
+     * 
+     * @return static
+     */
+    public function with($key, $value = null): static
+    {
+        if (is_array($key)) {
+            $this->viewData = array_merge($this->viewData, $key);
+        } else {
+            $this->viewData[$key] = $value;
+        }
+        
         return $this;
     }
 }
