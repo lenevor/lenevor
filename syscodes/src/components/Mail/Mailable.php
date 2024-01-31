@@ -22,7 +22,10 @@
 
 namespace Syscodes\Components\Mail;
 
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Contracts\Support\Renderable;
+use Syscodes\Components\Support\Traits\ForwardsCalls;
 use Syscodes\Components\Contracts\Mail\Mailable as MailableContract;
 
 /**
@@ -30,6 +33,9 @@ use Syscodes\Components\Contracts\Mail\Mailable as MailableContract;
  */
 class Mailable implements MailableContract, Renderable
 {
+    use Macroable,
+        ForwardsCalls;
+
     /**
      * The attachments for the message.
      * 
@@ -245,6 +251,52 @@ class Mailable implements MailableContract, Renderable
      */
     public function mailer($mailer): static
     {
+        $this->mailer = $mailer;
+
         return $this;
+    }
+    
+    /**
+     * Set the view data for the message.
+     * 
+     * @param  string|array  $key
+     * @param  mixed  $value
+     * 
+     * @return static
+     */
+    public function with($key, $value = null): static
+    {
+        if (is_array($key)) {
+            $this->viewData = array_merge($this->viewData, $key);
+        } else {
+            $this->viewData[$key] = $value;
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * Magic Method.
+     * 
+     * Dynamically bind parameters to the message.
+     * 
+     * @param  string  $method
+     * @param  array  $parameters
+     * 
+     * @return static
+     * 
+     * @throws \BadMethodCallException
+     */
+    public function __call($method, $parameters)
+    {
+        if (static::hasMacro($method)) {
+            return $this->macroCall($method, $parameters);
+        }
+        
+        if (Str::startsWith($method, 'with')) {
+            return $this->with(Str::camelcase(substr($method, 4)), $parameters[0]);
+        }
+        
+        static::throwBadMethodCallException($method);
     }
 }
