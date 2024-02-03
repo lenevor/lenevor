@@ -231,6 +231,52 @@ class Mailbox implements MailboxContract, Renderable
     }
     
     /**
+     * Set the view and view data for the message.
+     * 
+     * @param  string  $view
+     * @param  array  $data
+     * 
+     * @return static
+     */
+    public function view($view, array $data = []): static
+    {
+        $this->view     = $view;
+        $this->viewData = array_merge($this->viewData, $data);
+        
+        return $this;
+    }
+    
+    /**
+     * Set the rendered HTML content for the message.
+     * 
+     * @param  string  $html
+     * 
+     * @return static
+     */
+    public function html($html): static
+    {
+        $this->html = $html;
+        
+        return $this;
+    }
+    
+    /**
+     * Set the plain text view for the message.
+     * 
+     * @param  string  $textView
+     * @param  array  $data
+     * 
+     * @return static
+     */
+    public function text($textView, array $data = []): static
+    {
+        $this->textView = $textView;
+        $this->viewData = array_merge($this->viewData, $data);
+        
+        return $this;
+    }
+    
+    /**
      * Set the locale of the message.
      * 
      * @param  string  $locale
