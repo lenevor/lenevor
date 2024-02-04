@@ -22,7 +22,10 @@
 
 namespace Syscodes\Components\Mail;
 
+use ReflectionClass;
+use ReflectionProperty;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\WebString;
 use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Contracts\Support\Renderable;
 use Syscodes\Components\Support\Traits\ForwardsCalls;
@@ -35,6 +38,13 @@ class Mailbox implements MailboxContract, Renderable
 {
     use Macroable,
         ForwardsCalls;
+        
+    /**
+     * The callback that should be invoked while building the view data.
+     * 
+     * @var callable $viewDataCallback
+     */
+    public static $viewDataCallback;
 
     /**
      * The attachments for the message.
@@ -167,7 +177,7 @@ class Mailbox implements MailboxContract, Renderable
      * 
      * @var array $viewData
      */
-    public $viewData = [];   
+    public $viewData = [];
 
     /**
      * Send the message using the given mailer.
@@ -228,6 +238,55 @@ class Mailbox implements MailboxContract, Renderable
     public function to($address, $name = null): static
     {
         return $this;
+    }
+    
+    /**
+     * Build the view for the message.
+     * 
+     * @return array|string
+     * 
+     * @throws \ReflectionException
+     */
+    protected function buildView(): array|string
+    {
+        if (isset($this->html)) {
+            return array_filter([
+                'html' => new WebString($this->html),
+                'text' => $this->textView ?? null,
+            ]);
+        }
+        
+        if (isset($this->view, $this->textView)) {
+            return [$this->view, $this->textView];
+        } elseif (isset($this->textView)) {
+            return ['text' => $this->textView];
+        }
+        
+        return $this->view;
+    }
+    
+    /**
+     * Build the view data for the message.
+     * 
+     * @return array
+     * 
+     * @throws \ReflectionException
+     */
+    public function buildViewData(): array
+    {
+        $data = $this->viewData;
+        
+        if (static::$viewDataCallback) {
+            $data = array_merge($data, call_user_func(static::$viewDataCallback, $this));
+        }
+        
+        foreach ((new ReflectionClass($this))->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
+            if ($property->isInitialized($this) && $property->getDeclaringClass()->getName() !== self::class) {
+                $data[$property->getName()] = $property->getValue($this);
+            }
+        }
+        
+        return $data;
     }
     
     /**
