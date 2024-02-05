@@ -23,12 +23,15 @@
 namespace Syscodes\Components\Mail;
 
 use Syscodes\Components\Mail\Mailables\Email;
+use Syscodes\Components\Support\Traits\ForwardsCalls;
 
 /**
  * Allows the configuration to type of message for send at mail user.
  */
 class Message
 {
+    use ForwardsCalls;
+
     /**
      * The Email instance.
      * 
@@ -46,5 +49,34 @@ class Message
     public function __construct(Email $message)
     {
         $this->message = $message;
+    }
+    
+    /**
+     * Set the subject of the message.
+     * 
+     * @param  string  $subject
+     * 
+     * @return static
+     */
+    public function subject($subject): static
+    {
+        $this->message->subject($subject);
+        
+        return $this;
+    }
+    
+    /**
+     * Magic method.
+     * 
+     * Dynamically pass missing methods to the class instance.
+     * 
+     * @param  string  $method
+     * @param  array  $parameters
+     * 
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        return $this->forwardObjectCallTo($this->message, $method, $parameters);
     }
 }
