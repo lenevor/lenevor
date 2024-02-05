@@ -290,6 +290,24 @@ class Mailbox implements MailboxContract, Renderable
     }
     
     /**
+     * Set the subject for the message.
+     * 
+    * @param  \Syscodes\Components\Mail\Message  $message
+     * 
+     * @return static
+     */
+    protected function buildSubject($message): static
+    {
+        if ($this->subject) {
+            $message->subject($this->subject);
+        } else {
+            $message->subject(Str::title(Str::snake(class_basename($this), ' ')));
+        }
+        
+        return $this;
+    }
+
+    /**
      * Set the view and view data for the message.
      * 
      * @param  string  $view
