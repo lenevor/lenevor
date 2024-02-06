@@ -23,9 +23,23 @@
 namespace Syscodes\Components\Mail\Mailables;
 
 /**
- * 
+ * Allows the send of mail.
  */
 class Email extends Message
 {
+    /**
+     * Get the html.
+     * 
+     * @var resource|string|null $html
+     */
+    protected $html;
+    
+    /**
+     * Get the text.
+     * 
+     * @var resource|string|null $text
+     */
+    protected $text;
 
+    
 }
