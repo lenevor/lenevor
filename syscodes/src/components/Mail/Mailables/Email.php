@@ -41,5 +41,15 @@ class Email extends Message
      */
     protected $text;
 
-    
+    /**
+     * Set the subject of the message.
+     * 
+     * @param  string  $subject
+     * 
+     * @return static
+     */
+    public function subject(string $subject): static
+    {        
+        return $this;
+    }
 }
