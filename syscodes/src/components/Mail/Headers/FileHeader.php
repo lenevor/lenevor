@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\Mail\Headers;
 
-class FileHeader extends AbstractHeader
+class FileHeader
 {
 
 }

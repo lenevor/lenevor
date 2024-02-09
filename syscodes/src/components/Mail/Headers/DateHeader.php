@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\Mail\Headers;
 
-class DateHeader extends AbstractHeader
+class DateHeader
 {
 
 }
