@@ -436,6 +436,7 @@ return [
     'Syscodes\\Components\\Mail\\Exceptions\\IncompleteDomainException' => SYS_PATH.'src/components/Mail/Exceptions/IncompleteDomainException.php',
     'Syscodes\\Components\\Mail\\Exceptions\\MailException' => SYS_PATH.'src/components/Mail/Exceptions/MailException.php',
     'Syscodes\\Components\\Mail\\Exceptions\\TransportException' => SYS_PATH.'src/components/Mail/Exceptions/TransportException.php',
+    'Syscodes\\Components\\Mail\\Headers\\BaseHeader' => SYS_PATH.'src/components/Mail/Headers/BaseHeader.php',
     'Syscodes\\Components\\Mail\\Headers\\DateHeader' => SYS_PATH.'src/components/Mail/Headers/DateHeader.php',
     'Syscodes\\Components\\Mail\\Headers\\FileHeader' => SYS_PATH.'src/components/Mail/Headers/FileHeader.php',
     'Syscodes\\Components\\Mail\\Headers\\PathHeader' => SYS_PATH.'src/components/Mail/Headers/PathHeader.php',
