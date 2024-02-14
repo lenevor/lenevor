@@ -22,7 +22,87 @@
 
 namespace Syscodes\Components\Mail\Headers;
 
-class DateHeader
-{
+use DateTimeImmutable;
+use DateTimeInterface;
 
+/**
+ * A Date MIME Header.
+ */
+class DateHeader extends BaseHeader
+{
+    /**
+     * Get the datetime for send a message.
+     * 
+     * @var \DateTimeImmutable $dateTime
+     */
+    protected DateTimeImmutable $dateTime;
+    
+    /**
+     * Constructor. Create a new DateHeader class instance
+     * 
+     * @param  string  $name
+     * @param  \DateTimeInterface  $date
+     * 
+     * @return void
+     */
+    public function __construct(string $name, DateTimeInterface $date)
+    {
+        parent::__construct($name);
+
+        $this->setDateTime($date);
+    }
+    
+    /**
+     * Set the body content.
+     * 
+     * @param  DateTimeInterface  $body
+     * 
+     * @return void
+     */
+    public function setBody(mixed $body): void
+    {
+        $this->setDateTime($body);
+    }
+    
+    /**
+     * Get the body content.
+     * 
+     * @return \DateTimeImmutable
+     */
+    public function getBody(): DateTimeImmutable
+    {
+        return $this->getDateTime();
+    }
+    
+    /**
+     * Get the date-time of the Date in this Header.
+     * 
+     * @return \DateTimeImmutable
+     */
+    public function getDateTime(): DateTimeImmutable
+    {
+        return $this->dateTime;
+    }
+    
+    /**
+     * Set the date-time of the Date in this Header.
+     * 
+     * @param  \DateTimeInterface  $dateTime
+     * 
+     * @return void
+     */
+    public function setDateTime(DateTimeInterface $dateTime): void
+    {
+        $this->dateTime = DateTimeImmutable::createFromInterface($dateTime);
+    }
+    
+    /**
+     * Get the body as string.
+     * 
+     * @return string
+     */
+    public function getBodyAsString(): string
+    {
+        return $this->dateTime->format(DateTimeInterface::RFC2822);
+    }
 }
