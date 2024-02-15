@@ -28,7 +28,7 @@ use DateTimeInterface;
 /**
  * A Date MIME Header.
  */
-class DateHeader extends BaseHeader
+final class DateHeader extends BaseHeader
 {
     /**
      * Get the datetime for send a message.
