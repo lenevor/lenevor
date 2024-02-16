@@ -22,7 +22,86 @@
 
 namespace Syscodes\Components\Mail\Headers;
 
-class PathHeader
-{
+use Syscodes\Components\Mail\Mailables\Address;
 
+/**
+ * A path header.
+ */
+final class PathHeader extends BaseHeader
+{
+    /**
+     * Get the address.
+     * 
+     * @var Address $address
+     */
+    protected Address $address;
+    
+    /**
+     * Constructor. Create a new PathHeader class instance.
+     * 
+     * @param  string  $name
+     * @param  Address  $address
+     * 
+     * @return void
+     */
+    public function __construct(string $name, Address $address)
+    {
+        parent::__construct($name);
+        
+        $this->setAddress($address);
+    }
+    
+    /**
+     * Set the body.
+     * 
+     * @param  Address  $body
+     * 
+     * @return void
+     */
+    public function setBody(mixed $body): void
+    {
+        $this->setAddress($body);
+    }
+    
+    /**
+     * Get the body.
+     * 
+     * @return Address
+     */
+    public function getBody(): Address
+    {
+        return $this->getAddress();
+    }
+    
+    /**
+     * Set the address.
+     * 
+     * @param  Address  $address
+     * 
+     * @return void
+     */
+    public function setAddress(Address $address): void
+    {
+        $this->address = $address;
+    }
+    
+    /**
+     * Get the address.
+     * 
+     * @return Address
+     */
+    public function getAddress(): Address
+    {
+        return $this->address;
+    }
+    
+    /**
+     * Get the body as string.
+     * 
+     * @return string
+     */
+    public function getBodyAsString(): string
+    {
+        return '<'.$this->address->toString().'>';
+    }
 }
