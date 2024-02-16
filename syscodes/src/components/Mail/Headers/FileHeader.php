@@ -41,6 +41,7 @@ final class FileHeader extends BaseHeader
      * @param  string  $value
      * 
      * @return void
+     */
     public function __construct(string $name, string $value)
     {
         parent::__construct($name);
