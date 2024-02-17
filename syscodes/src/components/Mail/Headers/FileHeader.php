@@ -22,7 +22,83 @@
 
 namespace Syscodes\Components\Mail\Headers;
 
-class FileHeader
+/**
+ * A Simple MIME Header.
+ */
+final class FileHeader extends BaseHeader
 {
+    /**
+     * Get the value.
+     * 
+     * @var string $value
+     */
+    protected string $value;
+    
+    /**
+     * Constructor. Create a new FileHeader class instance.
+     * 
+     * @param  string  $name
+     * @param  string  $value
+     * 
+     * @return void
+    public function __construct(string $name, string $value)
+    {
+        parent::__construct($name);
+        
+        $this->setValue($value);
+    }
+    
+    /**
+     * Get the body.
+     * 
+     * @return string
+     */
+    public function getBody(): string
+    {
+        return $this->getValue();
+    }
 
+    /**
+     * Set the body.
+     * 
+     * @param mixed $body
+     * 
+     * @return void
+     */
+    public function setBody(mixed $body): void
+    {
+        $this->setValue($body);
+    }
+    
+    /**
+     * Get the (unencoded) value of this header.
+     *
+     * @return string 
+     */
+    public function getValue(): string
+    {
+        return $this->value;
+    }
+    
+    /**
+     * Set the (unencoded) value of this header.
+     * 
+     * @param  string  $value
+     * 
+     * @return void
+     */
+    public function setValue(string $value): void
+    {
+        $this->value = $value;
+    }
+    
+    /**
+     * Get the value of this header prepared for rendering.
+     * 
+     * @return string 
+     */
+    public function getBodyAsString(): string
+    {
+        return $this->getValue();
+    }
 }
