@@ -439,6 +439,8 @@ return [
     'Syscodes\\Components\\Mail\\Headers\\BaseHeader' => SYS_PATH.'src/components/Mail/Headers/BaseHeader.php',
     'Syscodes\\Components\\Mail\\Headers\\DateHeader' => SYS_PATH.'src/components/Mail/Headers/DateHeader.php',
     'Syscodes\\Components\\Mail\\Headers\\FileHeader' => SYS_PATH.'src/components/Mail/Headers/FileHeader.php',
+    'Syscodes\\Components\\Mail\\Headers\\MailboxHeader' => SYS_PATH.'src/components/Mail/Headers/MailboxHeader.php',
+    'Syscodes\\Components\\Mail\\Headers\\MailboxListHeader' => SYS_PATH.'src/components/Mail/Headers/MailboxListHeader.php',
     'Syscodes\\Components\\Mail\\Headers\\PathHeader' => SYS_PATH.'src/components/Mail/Headers/PathHeader.php',
     'Syscodes\\Components\\Mail\\Helpers\\DelayedEnvelope' => SYS_PATH.'src/components/Mail/Helpers/DelayedEnvelope.php',
     'Syscodes\\Components\\Mail\\Helpers\\Envelope' => SYS_PATH.'src/components/Mail/Helpers/Envelope.php',
