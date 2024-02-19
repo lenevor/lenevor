@@ -100,6 +100,6 @@ final class FileHeader extends BaseHeader
      */
     public function getBodyAsString(): string
     {
-        return $this->getValue();
+        return ' <'.$this->getValue().'>';
     }
 }
