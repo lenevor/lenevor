@@ -22,11 +22,20 @@
 
 namespace Syscodes\Components\Mail\Mailables;
 
+use Syscodes\Components\Mail\Encoder\IdnAddressEncoder;
+
 /**
  * Get the recipient email address.
  */
 class Address
 {
+    /**
+     * Get the idn address encoder.
+     * 
+     * @var IdnAddressEncoder $encoder
+     */
+    protected static IdnAddressEncoder $encoder;
+
     /**
      * The recipient's email address.
      * 
@@ -66,6 +75,18 @@ class Address
     }
 
     /**
+     * Get the encoded address.
+     * 
+     * @return string
+     */
+    public function getEncodedAddress(): string
+    {
+        self::$encoder ?? new IdnAddressEncoder();
+
+        return self::$encoder->encodeString($this->address);
+    }
+
+    /**
      * Get the recipient's name.
      * 
      * @return string
@@ -73,5 +94,29 @@ class Address
     public function getName(): string
     {
         return $this->name;
+    }
+    
+    /**
+     * Gets this Header rendered as a compliant string.
+     * 
+     * @return string
+     */
+    public function toString(): string
+    {
+        return ($n = $this->getEncodedName()) ? $n.' <'.$this->getEncodedAddress().'>' : $this->getEncodedAddress();
+    }
+    
+    /**
+     * Get the encoded name.
+     * 
+     * @return string
+     */
+    public function getEncodedName(): string
+    {
+        if ('' === $this->getName()) {
+            return '';
+        }
+        
+        return sprintf('"%s"', preg_replace('/"/u', '\"', $this->getName()));
     }
 }
