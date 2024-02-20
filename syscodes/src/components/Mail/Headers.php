@@ -295,6 +295,36 @@ class Headers implements Header
     }
     
     /**
+     * Get the header body.
+     * 
+     * @param  string  $name
+     * 
+     * @return mixed
+     */
+    public function getHeaderBody(string $name): mixed
+    {
+        return $this->has($name) ? $this->get($name)->getBody() : null;
+    }
+    
+    /**
+     * Set the header body. 
+     * 
+     * @param  string  $type
+     * @param  string  $name
+     * @param  mixed  $body
+     * 
+     * @return void
+     */
+    public function setHeaderBody(string $type, string $name, mixed $body): void
+    {
+        if ($this->has($name)) {
+            $this->get($name)->setBody($body);
+        } else {
+            $this->{'add'.$type.'Header'}($name, $body);
+        }
+    }
+    
+    /**
      * Gets this Header rendered as a compliant string.
      * 
      * @return string
