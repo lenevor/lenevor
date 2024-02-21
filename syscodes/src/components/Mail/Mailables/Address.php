@@ -22,13 +22,17 @@
 
 namespace Syscodes\Components\Mail\Mailables;
 
+use InvalidArgumentException;
+use Syscodes\Components\Support\Str;
 use Syscodes\Components\Mail\Encoder\IdnAddressEncoder;
 
 /**
  * Get the recipient email address.
  */
-class Address
+final class Address
 {
+    protected const STRING_PATTERN = '~(?<displayName>[^<]*)<(?<address>.*)>[^>]*~';
+
     /**
      * Get the idn address encoder.
      * 
@@ -118,5 +122,47 @@ class Address
         }
         
         return sprintf('"%s"', preg_replace('/"/u', '\"', $this->getName()));
+    }
+
+    /**
+     * Creates a parse for display name and address of a mailbox.
+     * 
+     * @param  self|string  $address
+     * 
+     * @return self
+     */
+    public static function create(self|string $address): self
+    {
+        if ($address instanceof self) {
+            return $address;
+        }
+        
+        if ( ! Str::contains($address, '<')) {
+            return new self($address);
+        }
+        
+        if ( ! preg_match(self::STRING_PATTERN, $address, $matches)) {
+            throw new InvalidArgumentException(sprintf('Could not parse "%s" to a "%s" instance', $address, self::class));
+        }
+        
+        return new self($matches['address'], trim($matches['displayName'], ' \'"'));
+    }
+    
+    /**
+     * Creates a parse for display name and address of a mailbox using an array.
+     * 
+     * @param  array<Address|string>  $addresses
+     * 
+     * @return Address[]
+     */
+    public static function createArray(array $addresses): array
+    {
+        $addrs = [];
+        
+        foreach ($addresses as $address) {
+            $addrs[] = self::create($address);
+        }
+        
+        return $addrs;
     }
 }
