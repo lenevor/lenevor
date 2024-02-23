@@ -440,6 +440,7 @@ return [
     'Syscodes\\Components\\Mail\\Headers\\DateHeader' => SYS_PATH.'src/components/Mail/Headers/DateHeader.php',
     'Syscodes\\Components\\Mail\\Headers\\FileHeader' => SYS_PATH.'src/components/Mail/Headers/FileHeader.php',
     'Syscodes\\Components\\Mail\\Headers\\Headers' => SYS_PATH.'src/components/Mail/Headers/Headers.php',
+    'Syscodes\\Components\\Mail\\Headers\\IdentificationMessageHeader' => SYS_PATH.'src/components/Mail/Headers/IdentificationMessageHeader.php',
     'Syscodes\\Components\\Mail\\Headers\\MailboxHeader' => SYS_PATH.'src/components/Mail/Headers/MailboxHeader.php',
     'Syscodes\\Components\\Mail\\Headers\\MailboxListHeader' => SYS_PATH.'src/components/Mail/Headers/MailboxListHeader.php',
     'Syscodes\\Components\\Mail\\Headers\\PathHeader' => SYS_PATH.'src/components/Mail/Headers/PathHeader.php',
