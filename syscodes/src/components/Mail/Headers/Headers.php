@@ -42,9 +42,9 @@ class Headers implements Header
         'to' => MailboxListHeader::class,
         'cc' => MailboxListHeader::class,
         'bcc' => MailboxListHeader::class,
-        'message-id' => IdenticationMessageHeader::class,
-        'in-reply-to' => [FileHeader::class, IdenticationMessageHeader::class], // `In-Reply-To` and `References` are less strict than RFC 2822 (3.6.4) to allow users entering the original email's ...
-        'references' => [FileHeader::class, IdenticationMessageHeader::class], // ... `Message-ID`, even if that is no valid `msg-id`
+        'message-id' => IdentificationMessageHeader::class,
+        'in-reply-to' => [FileHeader::class, IdentificationMessageHeader::class], // `In-Reply-To` and `References` are less strict than RFC 2822 (3.6.4) to allow users entering the original email's ...
+        'references' => [FileHeader::class, IdentificationMessageHeader::class], // ... `Message-ID`, even if that is no valid `msg-id`
         'return-path' => PathHeader::class,
     ];
 
