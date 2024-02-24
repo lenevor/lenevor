@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Mail\Headers;
 
 use LogicException;
+use DateTimeInterface;
 use Syscodes\Components\Contracts\Mail\Header;
 use Syscodes\Components\Mail\Mailables\Address;
 
@@ -43,8 +44,8 @@ class Headers implements Header
         'cc' => MailboxListHeader::class,
         'bcc' => MailboxListHeader::class,
         'message-id' => IdentificationMessageHeader::class,
-        'in-reply-to' => [FileHeader::class, IdentificationMessageHeader::class], // `In-Reply-To` and `References` are less strict than RFC 2822 (3.6.4) to allow users entering the original email's ...
-        'references' => [FileHeader::class, IdentificationMessageHeader::class], // ... `Message-ID`, even if that is no valid `msg-id`
+        'in-reply-to' => [FileHeader::class, IdentificationMessageHeader::class],
+        'references' => [FileHeader::class, IdentificationMessageHeader::class],
         'return-path' => PathHeader::class,
     ];
 
@@ -113,11 +114,11 @@ class Headers implements Header
     /**
      * Adds multiple header.
      * 
-     * @param  string  $headers  The header name
+     * @param  mixed  $headers  The header name
      * 
      * @return static
      */
-    public function add(string $headers): static
+    public function add(mixed $headers): static
     {
         $this->setMaxLineLength($this->lineLength);
 
@@ -201,6 +202,115 @@ class Headers implements Header
     public function getAddress(): array
     {
         return $this->address;
+    }
+    
+    /**
+     * Adds the mailbox list header.
+     * 
+     * @param  string  $name
+     * @param  array<Address|string>  $addresses
+     * 
+     * @return static
+     */
+    public function addMailboxListHeader(string $name, array $addresses): static
+    {
+        return $this->add(new MailboxListHeader($name, Address::createArray($addresses)));
+    }
+    
+    /**
+     * Adds the mailbox header.
+     * 
+     * @param  string  $name
+     * @param  Address|string  $address
+     * 
+     * @return static
+     */
+    public function addMailboxHeader(string $name, Address|string $address): static
+    {
+        return $this->add(new MailboxHeader($name, Address::create($address)));
+    }
+    
+    /**
+     * Adds the identification message header.
+     * 
+     * @param  string  $name
+     * @param  string|string[]  $ids
+     * 
+     * @return static
+     */
+    public function addIdnHeader(string $name, string|array $ids): static
+    {
+        return $this->add(new IdentificationMessageHeader($name, $ids));
+    }
+    
+    /**
+     * Adds the identification message header.
+     * 
+     * @param  string  $name
+     * @param  string|string[]  $path
+     * 
+     * @return static
+     */
+    public function addPathHeader(string $name, Address|string $path): static
+    {
+        return $this->add(new PathHeader($name, $path instanceof Address ? $path : new Address($path)));
+    }
+    
+    /**
+     * Adds the date header.
+     * 
+     * @param  string  $name
+     * @param  \DateTimeInterface  $dataTime
+     * 
+     * @return static
+     */
+    public function addDateHeader(string $name, DateTimeInterface $dateTime): static
+    {
+        return $this->add(new DateHeader($name, $dateTime));
+    }
+    
+    /**
+     * Adds the text header.
+     * 
+     * @param  string  $name
+     * @param  string  $value
+     * 
+     * @return static
+     */
+    public function addTextHeader(string $name, string $value): static
+    {
+        return $this->add(new FileHeader($name, $value));
+    }
+    
+    /**
+     * Adds the header from an array.
+     * 
+     * @param  string  $name
+     * @param  mixed  $argument
+     * @param  array  $array
+     * 
+     * @return static
+     */
+    public function addHeader(string $name, mixed $argument, array $array = []): static
+    {
+        $headerClass = self::HEADER_CLASS_MAP[strtolower($name)] ?? FileHeader::class;
+        
+        if (is_array($headerClass)) {
+            $headerClass = $headerClass[0];
+        }
+        
+        $parts  = explode('\\', $headerClass);
+        $method = 'add'.ucfirst(array_pop($parts));
+        
+        if ('addFileHeader' === $method) {
+            $method = 'addTextHeader';
+        } elseif ('addIdentificationMessageHeader' === $method) {
+            $method = 'addIdnHeader';
+        } elseif ('addMailboxListHeader' === $method && ! is_array($argument)) {
+            $argument = [$argument];
+        }
+        
+        return $this->$method($name, $argument, $array);
     }
     
     /**
@@ -371,5 +481,21 @@ class Headers implements Header
         }
         
         return $arr;
+    }
+    
+    /**
+     * Magic method.
+     * 
+     * Force a clone of the underlying headers when cloning.
+     * 
+     * @return void
+     */
+    public function __clone()
+    {
+        foreach ($this->headers as $name => $collection) {
+            foreach ($collection as $i => $header) {
+                $this->headers[$name][$i] = clone $header;
+            }
+        }
     }
 }
