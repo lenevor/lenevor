@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\Mail\Mailables;
 
-use Syscodes\Components\Mail\Headers;
+use Syscodes\Components\Mail\Headers\Headers;
 
 /**
  * Sending of message
@@ -39,7 +39,7 @@ class Message extends RawMessage
     /**
      * The headers for use in a message.
      * 
-     * @var \Syscodes\Components\Mail\Headers $headers
+     * @var \Syscodes\Components\Mail\Headers\Headers $headers
      */
     protected Headers $headers;
 
@@ -82,7 +82,7 @@ class Message extends RawMessage
     /**
      * Sets the headers.
      * 
-     * @param  \Syscodes\Components\Mail\Headers  $headers
+     * @param  \Syscodes\Components\Mail\Headers\Headers  $headers
      * 
      * @return static
      */
@@ -96,7 +96,7 @@ class Message extends RawMessage
     /**
      * Gets the headers.
      * 
-     * @return \Syscodes\Components\Mail\Headers
+     * @return \Syscodes\Components\Mail\Headers\Headers
      */
     public function getHeaders(): Headers
     {
