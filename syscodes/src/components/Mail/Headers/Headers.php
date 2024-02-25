@@ -120,6 +120,8 @@ class Headers implements Header
      */
     public function add(mixed $headers): static
     {
+        static::checkHeaderClass($headers);
+        
         $this->setMaxLineLength($this->lineLength);
 
         $name = strtolower($this->getName());
@@ -448,6 +450,34 @@ class Headers implements Header
             $this->get($name)->setBody($body);
         } else {
             $this->{'add'.$type.'Header'}($name, $body);
+        }
+    }
+    
+    /**
+     * Checks the header class.
+     * 
+     * @param  mixed  $header
+     * 
+     * @return void
+     */
+    public static function checkHeaderClass(mixed $header): void
+    {
+        $name = strtolower($header->getName());
+        
+        $headerClasses = self::HEADER_CLASS_MAP[$name] ?? [];
+        
+        if ( ! is_array($headerClasses)) {
+            $headerClasses = [$headerClasses];
+        }
+        
+        if ( ! $headerClasses) {
+            return;
+        }
+        
+        foreach ($headerClasses as $class) {
+            if ($header instanceof $class) {
+                return;
+            }
         }
     }
     
