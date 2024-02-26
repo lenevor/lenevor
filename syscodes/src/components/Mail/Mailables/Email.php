@@ -22,6 +22,9 @@
 
 namespace Syscodes\Components\Mail\Mailables;
 
+use DateTimeInterface;
+use Syscodes\Components\Mail\Mailables\Address;
+
 /**
  * Allows the send of mail.
  */
@@ -50,6 +53,98 @@ class Email extends Message
      */
     public function subject(string $subject): static
     {        
+        return $this->setHeaderBody('Text', 'Subject', $subject);
+    }
+
+    /**
+     * Get the subject in the header body.
+     * 
+     * @return string|null
+     */
+    public function getSubject(): ?string
+    {
+        return $this->getHeaders()->getHeaderBody('Subject');
+    }
+
+    /**
+     * Set the date of the message.
+     * 
+     * @param  string  $dateTime
+     * 
+     * @return static
+     */
+    public function date(DateTimeInterface $dateTime): static
+    {        
+        return $this->setHeaderBody('Date', 'Date', $dateTime);
+    }
+
+    /**
+     * Get the date in the header body.
+     * 
+     * @return string|null
+     */
+    public function getDate(): ?string
+    {
+        return $this->getHeaders()->getHeaderBody('Subject');
+    }
+
+    /**
+     * Set the return-path of the message.
+     * 
+     * @param  Address|string  $address
+     * 
+     * @return static
+     */
+    public function returnPath(Address|string $address): static
+    {        
+        return $this->setHeaderBody('Path', 'Return-Path', $address);
+    }
+
+    /**
+     * Get the return-path in the header body.
+     * 
+     * @return string|null
+     */
+    public function getReturnPath(): ?string
+    {
+        return $this->getHeaders()->getHeaderBody('Return-Path');
+    }
+
+    /**
+     * Set the sender of the message.
+     * 
+     * @param  Address|string  $address
+     * 
+     * @return static
+     */
+    public function sender(Address|string $address): static
+    {        
+        return $this->setHeaderBody('Mailbox', 'Sender', $address);
+    }
+
+    /**
+     * Get the sender in the header body.
+     * 
+     * @return string|null
+     */
+    public function getSender(): ?string
+    {
+        return $this->getHeaders()->getHeaderBody('Sender');
+    }
+    
+    /**
+     * Set the header body.
+     * 
+     * @param  string  $type
+     * @param  string  $name
+     * @param  mixed  $body
+     * 
+     * @return static
+     */
+    private function setHeaderBody(string $type, string $name, mixed $body): static
+    {
+        $this->getHeaders()->setHeaderBody($type, $name, $body);
+        
         return $this;
     }
 }
