@@ -31,6 +31,13 @@ use Syscodes\Components\Mail\Mailables\Address;
 class Email extends Message
 {
     /**
+     * Get the attachements.
+     * 
+     * @var array $attachments
+     */
+    protected array $attachments = [];
+
+    /**
      * Get the html.
      * 
      * @var resource|string|null $html
@@ -38,11 +45,25 @@ class Email extends Message
     protected $html;
     
     /**
+     * Get the html charset.
+     * 
+     * @var string|null $htmlCharset
+     */
+    protected ?string $htmlCharset = null;
+    
+    /**
      * Get the text.
      * 
      * @var resource|string|null $text
      */
     protected $text;
+    
+    /**
+     * Get the text charset.
+     * 
+     * @var string|null $textCharset
+     */
+    protected ?string $textCharset = null;
 
     /**
      * Set the subject of the message.
@@ -144,6 +165,47 @@ class Email extends Message
     private function setHeaderBody(string $type, string $name, mixed $body): static
     {
         $this->getHeaders()->setHeaderBody($type, $name, $body);
+        
+        return $this;
+    }
+    
+    /**
+     * Adds the list address a header body.
+     * 
+     * @param  string  $name
+     * @param  string[]  $addresses
+     * 
+     * @return static
+     */
+    private function addListAddressHeaderBody(string $name, array $addresses): static
+    {
+        if ( ! $header = $this->getHeaders()->get($name)) {
+            return $this->setListAddressHeaderBody($name, $addresses);
+        }
+        
+        $header->addAddresses(Address::createArray($addresses));
+        
+        return $this;
+    }
+    
+    /**
+     * Sets the list address a header body.
+     * 
+     * @param  string  $name
+     * @param  string[]  $addresses
+     * 
+     * @return static
+     */
+    private function setListAddressHeaderBody(string $name, array $addresses): static
+    {
+        $addresses = Address::createArray($addresses);
+        $headers   = $this->getHeaders();
+        
+        if ($header = $headers->get($name)) {
+            $header->setAddresses($addresses);
+        } else {
+            $headers->addMailboxListHeader($name, $addresses);
+        }
         
         return $this;
     }
