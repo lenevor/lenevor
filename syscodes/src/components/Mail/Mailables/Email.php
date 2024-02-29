@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Mail\Mailables;
 
+use LogicException;
 use DateTimeInterface;
 use Syscodes\Components\Mail\Mailables\Address;
 
@@ -151,6 +152,180 @@ class Email extends Message
     public function getSender(): ?string
     {
         return $this->getHeaders()->getHeaderBody('Sender');
+    }
+    
+    /**
+     * Adds the list from of header body.
+     * 
+     * @param  Address|string[]  $addresses
+     * 
+     * @return static
+     */
+    public function addFrom(Address|string ...$addresses): static
+    {
+        return $this->addListAddressHeaderBody('From', $addresses);
+    }
+    
+    /**
+     * Sets the list from address on header body.
+     * 
+     * @param  Address|string[]  $addresses
+     * 
+     * @return static
+     */
+    public function from(Address|string ...$addresses): static
+    {
+        if ( ! $addresses) {
+            throw new LogicException('"from()" must be called with at least one address');
+        }
+        
+        return $this->setListAddressHeaderBody('From', $addresses);
+    }
+    
+    /**
+     * Gets the from address of header body.
+     * 
+     * @return Address[]
+     */
+    public function getFrom(): array
+    {
+        return $this->getHeaders()->getHeaderBody('From') ?: [];
+    }
+    
+    /**
+     * Adds the 'ReplyTo' address list to header body.
+     * 
+     * @param  Address|string[]  $addresses
+     * 
+     * @return static
+     */
+    public function addReplyTo(Address|string ...$addresses): static
+    {
+        return $this->addListAddressHeaderBody('Reply-To', $addresses);
+    }
+    
+    /**
+     * Sets the list 'ReplyTo' address on header body.
+     * 
+     * @param  Address|string[]  $addresses
+     * 
+     * @return static
+     */
+    public function replyTo(Address|string ...$addresses): static
+    {
+        return $this->setListAddressHeaderBody('Reply-To', $addresses);
+    }
+    
+    /**
+     * Gets the 'ReplyTo' address to header body.
+     * 
+     * @return Address[]
+     */
+    public function getReplyTo(): array
+    {
+        return $this->getHeaders()->getHeaderBody('Reply-To') ?: [];
+    }
+    
+    /**
+     * Adds the address list to header body.
+     * 
+     * @param  Address|string[]  $addresses
+     * 
+     * @return static
+     */
+    public function addTo(Address|string ...$addresses): static
+    {
+        return $this->addListAddressHeaderBody('To', $addresses);
+    }
+    
+    /**
+     * Sets the address list to header body.
+     * 
+     * @param  Address|string[]  $addresses
+     * 
+     * @return static
+     */
+    public function to(Address|string ...$addresses): static
+    {
+        return $this->setListAddressHeaderBody('To', $addresses);
+    }
+    
+    /**
+     * Gets the address to header body.
+     * 
+     * @return Address[]
+     */
+    public function getTo(): array
+    {
+        return $this->getHeaders()->getHeaderBody('To') ?: [];
+    }
+    
+    /**
+     * Adds the 'Cc' address list to header body.
+     * 
+     * @param  Address|string[]  $addresses
+     * 
+     * @return static
+     */
+    public function addCc(Address|string ...$addresses): static
+    {
+        return $this->addListAddressHeaderBody('Cc', $addresses);
+    }
+    
+    /**
+     * Sets the 'Cc' address list to header body.
+     * 
+     * @param  Address|string[]  $addresses
+     * 
+     * @return static
+     */
+    public function cc(Address|string ...$addresses): static
+    {
+        return $this->setListAddressHeaderBody('Cc', $addresses);
+    }
+    
+    /**
+     * Gets the 'Cc' address to header body.
+     * 
+     * @return Address[]
+     */
+    public function getCc(): array
+    {
+        return $this->getHeaders()->getHeaderBody('Cc') ?: [];
+    }
+    
+    /**
+     * Adds the 'Bcc' address list to header body.
+     * 
+     * @param  Address|string[]  $addresses
+     * 
+     * @return static
+     */
+    public function addBcc(Address|string ...$addresses): static
+    {
+        return $this->addListAddressHeaderBody('Bcc', $addresses);
+    }
+    
+    /**
+     * Sets the 'Bcc' address list to header body.
+     * 
+     * @param  Address|string[]  $addresses
+     * 
+     * @return static
+     */
+    public function bcc(Address|string ...$addresses): static
+    {
+        return $this->setListAddressHeaderBody('Bcc', $addresses);
+    }
+    
+    /**
+     * Gets the 'Bcc' address to header body.
+     * 
+     * @return Address[]
+     */
+    public function getBcc(): array
+    {
+        return $this->getHeaders()->getHeaderBody('Bcc') ?: [];
     }
     
     /**
