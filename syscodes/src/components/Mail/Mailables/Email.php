@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Mail\Mailables;
 
+use TypeError;
 use LogicException;
 use DateTimeInterface;
 use Syscodes\Components\Mail\Mailables\Address;
@@ -326,6 +327,84 @@ class Email extends Message
     public function getBcc(): array
     {
         return $this->getHeaders()->getHeaderBody('Bcc') ?: [];
+    }
+    
+    /**
+     * The text content in the email.
+     * 
+     * @param  resource|string|null  $body
+     * 
+     * @return static
+     */
+    public function text($body, string $charset = 'utf-8'): static
+    {
+        if (null !== $body && ! is_string($body) && ! is_resource($body)) {
+            throw new TypeError(sprintf('The body must be a string, a resource or null (got "%s")', get_debug_type($body)));
+        }
+        
+        $this->text        = $body;
+        $this->textCharset = $charset;
+        
+        return $this;
+    }
+    
+    /**
+     * Get the text content body.
+     * 
+     * @return resource|string|null
+     */
+    public function getTextBody()
+    {
+        return $this->text;
+    }
+    
+    /**
+     * Get the text charset.
+     * 
+     * @return string|null
+     */
+    public function getTextCharset(): ?string
+    {
+        return $this->textCharset;
+    }
+    
+    /**
+     * The html content in the email.
+     * 
+     * @param  resource|string|null  $body
+     * 
+     * @return static
+     */
+    public function html($body, string $charset = 'utf-8'): static
+    {
+        if (null !== $body && ! is_string($body) && ! is_resource($body)) {
+            throw new TypeError(sprintf('The body must be a string, a resource or null (got "%s")', get_debug_type($body)));
+        }
+        
+        $this->html        = $body;
+        $this->htmlCharset = $charset;
+        
+        return $this;
+    }
+    
+    /**
+     * Get the html content body.
+     * 
+     * @return resource|string|null
+     */
+    public function getHtmlBody()
+    {
+        return $this->html;
+    }
+    
+    /**
+     * Get the html charset.
+     * 
+     * @return string|null
+     */
+    public function getHtmlCharset(): ?string
+    {
+        return $this->htmlCharset;
     }
     
     /**
