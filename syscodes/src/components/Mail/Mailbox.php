@@ -241,6 +241,40 @@ class Mailbox implements MailboxContract, Renderable
     }
     
     /**
+     * Add the sender to the message.
+     * 
+     * @param  \Syscodes\Components\Mail\Message  $message
+     * 
+     * @return static
+     */
+    protected function buildFrom($message): static
+    {
+        if ( ! empty($this->from)) {
+            $message->from($this->from[0]['address'], $this->from[0]['name']);
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * Add all of the recipients to the message.
+     * 
+     * @param  \Syscodes\Components\Mail\Message  $message
+     * 
+     * @return static
+     */
+    protected function buildRecipients($message): static
+    {
+        foreach (['to', 'cc', 'bcc', 'replyTo'] as $type) {
+            foreach ($this->{$type} as $recipient) {
+                $message->{$type}($recipient['address'], $recipient['name']);
+            }
+        }
+        
+        return $this;
+    }
+    
+    /**
      * Build the view for the message.
      * 
      * @return array|string
