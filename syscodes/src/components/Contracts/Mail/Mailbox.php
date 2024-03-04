@@ -35,6 +35,16 @@ interface Mailbox
      * @return \Syscodes\Components\Mail\Helpers\SentMessage|null
      */
     public function send($mailer);
+
+    /**
+     * Set the sender of the message.
+     * 
+     * @param  object|array|string  $address
+     * @param  string|null  $name
+     * 
+     * @return static
+     */
+    public function from($address, $name = null): static;
     
     /**
      * Set the recipients of the message.
