@@ -26,6 +26,8 @@ use ReflectionClass;
 use ReflectionProperty;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Support\WebString;
+use Syscodes\Components\Support\Collection;
+use Syscodes\Components\Mail\Mailables\Address;
 use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Contracts\Support\Renderable;
 use Syscodes\Components\Support\Traits\ForwardsCalls;
@@ -200,46 +202,7 @@ class Mailbox implements MailboxContract, Renderable
     {
         
     }
-    
-    /**
-     * Set the recipients of the message.
-     * 
-     * @param  object|array|string  $address
-     * @param  string|null  $name
-     * 
-     * @return static
-     */
-    public function cc($address, $name = null): static
-    {
-        return $this;
-    }
-    
-    /**
-     * Set the recipients of the message.
-     * 
-     * @param  object|array|string  $address
-     * @param  string|null  $name
-     * 
-     * @return static
-     */
-    public function bcc($address, $name = null): static
-    {
-        return $this;
-    }
-    
-    /**
-     * Set the recipients of the message.
-     * 
-     * @param  object|array|string  $address
-     * @param  string|null  $name
-     * 
-     * @return static
-     */
-    public function to($address, $name = null): static
-    {
-        return $this;
-    }
-    
+
     /**
      * Add the sender to the message.
      * 
@@ -385,6 +348,245 @@ class Mailbox implements MailboxContract, Renderable
         $this->viewData = array_merge($this->viewData, $data);
         
         return $this;
+    }
+    
+    /**
+     * Set the sender of the message.
+     * 
+     * @param  object|array|string  $address
+     * @param  string|null  $name
+     * 
+     * @return static
+     */
+    public function from($address, $name = null): static
+    {
+        return $this->setAddress($address, $name, 'from');
+    }
+    
+    /**
+     * Determine if the given recipient is set on the mailabox.
+     * 
+     * @param  object|array|string  $address
+     * @param  string|null  $name
+     * 
+     * @return bool
+     */
+    public function hasFrom($address, $name = null): bool
+    {
+        return $this->hasRecipient($address, $name, 'from');
+    }
+    
+    /**
+     * Set the recipients of the message.
+     * 
+     * @param  object|array|string  $address
+     * @param  string|null  $name
+     * 
+     * @return static
+     */
+    public function to($address, $name = null): static
+    {
+        return $this->setAddress($address, $name, 'to');
+    }
+
+    /**
+     * Determine if the given recipient is set on the mailable.
+     *
+     * @param  object|array|string  $address
+     * @param  string|null  $name
+     * @return bool
+     */
+    public function hasTo($address, $name = null)
+    {
+        return $this->hasRecipient($address, $name, 'to');
+    }
+
+    /**
+     * Set the recipients of the message.
+     * 
+     * @param  object|array|string  $address
+     * @param  string|null  $name
+     * 
+     * @return static
+     */
+    public function cc($address, $name = null): static
+    {
+        return $this->setAddress($address, $name, 'cc');
+    }
+    
+    /**
+     * Determine if the given recipient is set on the mailable.
+     * 
+     * @param  object|array|string  $address
+     * @param  string|null  $name
+     * 
+     * @return bool
+     */
+    public function hasCc($address, $name = null): bool
+    {
+        return $this->hasRecipient($address, $name, 'cc');
+    }
+    
+    /**
+     * Set the recipients of the message.
+     * 
+     * @param  object|array|string  $address
+     * @param  string|null  $name
+     * 
+     * @return static
+     */
+    public function bcc($address, $name = null): static
+    {
+        return $this->setAddress($address, $name, 'bcc');
+    }
+    
+    /**
+     * Determine if the given recipient is set on the mailable.
+     * 
+     * @param  object|array|string  $address
+     * @param  string|null  $name
+     * 
+     * @return bool
+     */
+    public function hasBcc($address, $name = null): bool
+    {
+        return $this->hasRecipient($address, $name, 'bcc');
+    }
+    
+    /**
+     * Set the "reply to" address of the message.
+     * 
+     * @param  object|array|string  $address
+     * @param  string|null  $name
+     * 
+     * @return static
+     */
+    public function replyTo($address, $name = null): static
+    {
+        return $this->setAddress($address, $name, 'replyTo');
+    }
+    
+    /**
+     * Determine if the given replyTo is set on the mailable.
+     * 
+     * @param  object|array|string  $address
+     * @param  string|null  $name
+     * 
+     * @return bool
+     */
+    public function hasReplyTo($address, $name = null): bool
+    {
+        return $this->hasRecipient($address, $name, 'replyTo');
+    }
+    
+    /**
+     * Set the recipients of the message.
+     * 
+     * @param  object|array|string  $address
+     * @param  string|null  $name
+     * @param  string  $property
+     * 
+     * @return static
+     */
+    protected function setAddress($address, $name = null, $property = 'to'): static
+    {
+        if (empty($address)) {
+            return $this;
+        }
+        
+        foreach ($this->addressesToArray($address, $name) as $recipient) {
+            $recipient = $this->normalizeRecipient($recipient);
+            
+            $this->{$property}[] = [
+                'name'    => $recipient->name ?? null,
+                'address' => $recipient->email,
+            ];
+        }
+        
+        $this->{$property} = collect($this->{$property})
+             ->reverse()
+             ->unique('address')
+             ->reverse()
+             ->values()
+             ->all();
+        
+        return $this;
+    }
+    
+    /**
+     * Convert the given recipient arguments to an array.
+     * 
+     * @param  object|array|string  $address
+     * @param  string|null  $name
+     * 
+     * @return array
+     */
+    protected function addressesToArray($address, $name): array
+    {
+        if ( ! is_array($address) && ! $address instanceof Collection) {
+            $address = is_string($name) ? [['name' => $name, 'email' => $address]] : [$address];
+        }
+        
+        return $address;
+    }
+    
+    /**
+     * Convert the given recipient into an object.
+     * 
+     * @param  mixed  $recipient
+     * 
+     * @return object
+     */
+    protected function normalizeRecipient($recipient)
+    {
+        if (is_array($recipient)) {
+            if (array_values($recipient) === $recipient) {
+                return (object) array_map(function ($email) {
+                    return compact('email');
+                }, $recipient);
+            }
+            
+            return (object) $recipient;
+        } elseif (is_string($recipient)) {
+            return (object) ['email' => $recipient];
+        } elseif ($recipient instanceof Address) {
+            return (object) ['email' => $recipient->getAddress(), 'name' => $recipient->getName()];
+        }
+        
+        return $recipient;
+    }
+    
+    /**
+     * Determine if the given recipient is set on the mailable.
+     * 
+     * @param  object|array|string  $address
+     * @param  string|null  $name
+     * @param  string  $property
+     * 
+     * @return bool
+     */
+    protected function hasRecipient($address, $name = null, $property = 'to'): bool
+    {
+        if (empty($address)) {
+            return false;
+        }
+        
+        $expected = $this->normalizeRecipient(
+            $this->addressesToArray($address, $name)[0]
+        );
+        
+        $expected = [
+            'name' => $expected->name ?? null,
+            'address' => $expected->email,
+        ];
+        
+        return collect($this->{$property})->contains(function ($actual) use ($expected) {
+            if ( ! isset($expected['name'])) {
+                return $actual['address'] == $expected['address'];
+            }
+            
+            return $actual == $expected;
+        });
     }
     
     /**
