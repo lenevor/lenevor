@@ -562,6 +562,7 @@ return [
     'Syscodes\\Components\\Support\\InflectRules\\English\\Singularize' => SYS_PATH.'src/components/Support/InflectRules/English/Singularize.php',
     'Syscodes\\Components\\Support\\InflectRules\\English\\Uncountable' => SYS_PATH.'src/components/Support/InflectRules/English/Uncountable.php',
     'Syscodes\\Components\\Support\\InflectRules\\Rules' => SYS_PATH.'src/components/Support/InflectRules/Rules.php',
+    'Syscodes\\Components\\Support\\Traits\\Localizable' => SYS_PATH.'src/components/Support/Traits/Localizable.php',
     'Syscodes\\Components\\Support\\Traits\\Enumerates' => SYS_PATH.'src/components/Collections/Traits/Enumerates.php',
     'Syscodes\\Components\\Support\\Traits\\Macroable' => SYS_PATH.'src/components/Macroable/Traits/Macroable.php',
     'Syscodes\\Components\\Support\\Traits\\ForwardsCalls' => SYS_PATH.'src/components/Support/Traits/ForwardsCalls.php',
