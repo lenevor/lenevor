@@ -29,8 +29,10 @@ use Syscodes\Components\Support\WebString;
 use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Mail\Mailables\Address;
 use Syscodes\Components\Support\Traits\Macroable;
+use Syscodes\Components\Support\Traits\Localizable;
 use Syscodes\Components\Contracts\Support\Renderable;
 use Syscodes\Components\Support\Traits\ForwardsCalls;
+use Syscodes\Components\Contracts\Mail\Factory as MailFactory;
 use Syscodes\Components\Contracts\Mail\Mailbox as MailboxContract;
 
 /**
@@ -39,6 +41,7 @@ use Syscodes\Components\Contracts\Mail\Mailbox as MailboxContract;
 class Mailbox implements MailboxContract, Renderable
 {
     use Macroable,
+        Localizable,
         ForwardsCalls;
         
     /**
@@ -190,7 +193,17 @@ class Mailbox implements MailboxContract, Renderable
      */
     public function send($mailer)
     {
-
+        return $this->assignLocale($this->locale, function () use ($mailer) {
+                    $mailer = $mailer instanceof MailFactory
+                            ? $mailer->mailer($this->mailer)
+                            : $mailer;
+                
+                return $mailer->send($this->buildView(), $this->buildViewData(), function ($message) {
+                            $this->buildFrom($message)
+                                 ->buildRecipients($message)
+                                 ->buildSubject($message);
+                });
+        });
     }
 
     /**
