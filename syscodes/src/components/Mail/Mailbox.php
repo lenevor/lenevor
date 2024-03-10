@@ -25,6 +25,7 @@ namespace Syscodes\Components\Mail;
 use ReflectionClass;
 use ReflectionProperty;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Core\Application;
 use Syscodes\Components\Support\WebString;
 use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Mail\Mailables\Address;
@@ -213,7 +214,11 @@ class Mailbox implements MailboxContract, Renderable
      */
     public function render()
     {
-        
+        return $this->assignLocale($this->locale, function () {
+            return Application::getInstance()->make('mailer')->render(
+                $this->buildView(), $this->buildViewData()
+            );
+        });
     }
 
     /**
