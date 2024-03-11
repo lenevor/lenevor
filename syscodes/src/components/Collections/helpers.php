@@ -22,7 +22,6 @@
 
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Collection;
-use Syscodes\Components\Support\HigherOrderTakeProxy;
 
 if ( ! function_exists('collect')) {
     /**
@@ -169,29 +168,6 @@ if ( ! function_exists('lastItem')) {
     function lastItem(array $array)
     {
         return end($array);
-    }
-}
-
-if ( ! function_exists('take')) {
-    /**
-     * Call the given Closure if this activated then return the value.
-     * 
-     * @param  mixed  $value
-     * @param  \Closure|null  $callback
-     * 
-     * @return mixed
-     * 
-     * @uses   \Syscodes\Components\Support\HigherOrderTakeProxy
-     */
-    function take(mixed $value, \Closure $callback = null)
-    {
-        if (is_null($callback)) {
-            return new HigherOrderTakeProxy($value);
-        }
-
-        $callback($value);
-
-        return $value;
     }
 }
 
