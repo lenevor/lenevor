@@ -23,6 +23,7 @@
 use Syscodes\Components\Version;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Support\Environment;
+use Syscodes\Components\Support\HigherOrderTakeProxy;
 
 if ( ! function_exists('camel_case')) {
     /**
@@ -203,6 +204,29 @@ if ( ! function_exists('studly_caps')) {
     function studly_caps($string)
     {
         return Str::studlycaps($string);
+    }
+}
+
+if ( ! function_exists('take')) {
+    /**
+     * Call the given Closure if this activated then return the value.
+     * 
+     * @param  mixed  $value
+     * @param  \Closure|null  $callback
+     * 
+     * @return mixed
+     * 
+     * @uses   \Syscodes\Components\Support\HigherOrderTakeProxy
+     */
+    function take(mixed $value, \Closure $callback = null)
+    {
+        if (is_null($callback)) {
+            return new HigherOrderTakeProxy($value);
+        }
+
+        $callback($value);
+
+        return $value;
     }
 }
 
