@@ -65,4 +65,15 @@ interface Mailer
      * @return \Syscodes\Components\Mail\Helpers\SentMessage|null
      */
     public function send($view, array $data = [], $callback = null);
+    
+    /**
+     * Send a new message synchronously using a view.
+     * 
+     * @param  \Syscodes\Components\Contracts\Mail\Mailbox|string|array  $view
+     * @param  array  $data
+     * @param  \Closure|string|null  $callback
+     * 
+     * @return \Syscodes\Components\Mail\Helpers\SentMessage|null
+     */
+    public function sendNow($mailable, array $data = [], $callback = null);
 }
