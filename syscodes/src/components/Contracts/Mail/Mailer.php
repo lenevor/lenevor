@@ -69,7 +69,7 @@ interface Mailer
     /**
      * Send a new message synchronously using a view.
      * 
-     * @param  \Syscodes\Components\Contracts\Mail\Mailbox|string|array  $view
+     * @param  \Syscodes\Components\Contracts\Mail\Mailbox|string|array  $mailable
      * @param  array  $data
      * @param  \Closure|string|null  $callback
      * 

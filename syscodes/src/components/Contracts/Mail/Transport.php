@@ -24,8 +24,8 @@ namespace Syscodes\Components\Contracts\Mail;
 
 use Stringable;
 use Syscodes\Components\Mail\Helpers\Envelope;
-use Syscodes\Components\Mail\Helpers\SentMessage;
 use Syscodes\Components\Mail\Mailables\RawMessage;
+use Syscodes\Components\Mail\Helpers\BaseSentMessage;
 
 /**
  * Interface for all mail transports.
@@ -38,7 +38,7 @@ interface Transport extends Stringable
      * @param  RawMessage  $message
      * @param  Envelope|null  $envelope
      * 
-     * @return SentMessage|null
+     * @return BaseSentMessage|null
      */
-    public function send(RawMessage $message, Envelope $envelope = null): ?SentMessage;
+    public function send(RawMessage $message, Envelope $envelope = null): ?BaseSentMessage;
 }
