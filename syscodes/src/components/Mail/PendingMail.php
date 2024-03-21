@@ -143,7 +143,7 @@ class PendingMail
      * 
      * @param  \Syscodes\Components\Contracts\Mail\Mailbox  $mailable
      * 
-     * @return \Syscodes\Components\Mail\Helpers\SentMessage|null
+     * @return \Syscodes\Components\Mail\SentMessage|null
      */
     public function send(MailboxContract $mailable)
     {
@@ -155,7 +155,7 @@ class PendingMail
      * 
      * @param  \Syscodes\Components\Contracts\Mail\Mailbox  $mailable
      * 
-     * @return \Syscodes\Components\Mail\Helpers\SentMessage|null
+     * @return \Syscodes\Components\Mail\SentMessage|null
      */
     public function sendNow(MailboxContract $mailable)
     {
