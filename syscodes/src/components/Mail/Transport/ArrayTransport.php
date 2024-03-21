@@ -25,8 +25,8 @@ namespace Syscodes\Components\Mail\Transport;
 use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Mail\Helpers\Envelope;
 use Syscodes\Components\Contracts\Mail\Transport;
-use Syscodes\Components\Mail\Helpers\SentMessage;
 use Syscodes\Components\Mail\Mailables\RawMessage;
+use Syscodes\Components\Mail\Helpers\BaseSentMessage;
 
 /**
  * ArrayTransport for sending mail through a array data.
@@ -53,9 +53,9 @@ class ArrayTransport implements Transport
     /**
      * {@inheritdoc}
      */
-    public function send(RawMessage $message, Envelope $envelope = null): ?SentMessage
+    public function send(RawMessage $message, Envelope $envelope = null): ?BaseSentMessage
     {
-        return $this->messages[] = new SentMessage($message, $envelope ?? Envelope::create($message));
+        return $this->messages[] = new BaseSentMessage($message, $envelope ?? Envelope::create($message));
     }
     
     /**

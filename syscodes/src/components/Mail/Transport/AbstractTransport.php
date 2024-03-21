@@ -32,6 +32,7 @@ use Syscodes\Components\Mail\Helpers\SentMessage;
 use Syscodes\Components\Mail\Events\FailedMessage;
 use Syscodes\Components\Mail\Mailables\RawMessage;
 use Syscodes\Components\Contracts\Events\Dispatcher;
+use Syscodes\Components\Mail\Helpers\BaseSentMessage;
 use Syscodes\Components\Mail\Events\SentMessageToMail;
 
 /**
@@ -108,14 +109,14 @@ abstract class AbstractTransport implements Transport
      * 
      * @return SentMessage|null
      */
-    public function send(RawMessage $message, Envelope $envelope = null): ?SentMessage
+    public function send(RawMessage $message, Envelope $envelope = null): ?BaseSentMessage
     {
         $message  = clone $message;
         $envelope = null !== $envelope ? clone $envelope : Envelope::create($message);
         
         try {
             if ( ! $this->dispatcher) {
-                $sentMessage = new SentMessage($message, $envelope);
+                $sentMessage = new BaseSentMessage($message, $envelope);
                 $this->doSend($sentMessage);
                 
                 return $sentMessage;
@@ -127,7 +128,7 @@ abstract class AbstractTransport implements Transport
             $envelope = $event->getEnvelope();
             $message  = $event->getMessage();
             
-            $sentMessage = new SentMessage($message, $envelope);
+            $sentMessage = new BaseSentMessage($message, $envelope);
             
             try {
                 $this->doSend($sentMessage);
@@ -149,11 +150,11 @@ abstract class AbstractTransport implements Transport
     /**
      * Do send to mail.
      * 
-     * @param  SentMessage  $message
+     * @param  BaseSentMessage  $message
      * 
      * @return void
      */
-    abstract protected function doSend(SentMessage $message): void;
+    abstract protected function doSend(BaseSentMessage $message): void;
     
     /**
      * Get the logger for errors.

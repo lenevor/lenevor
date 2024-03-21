@@ -26,8 +26,8 @@ use Psr\Log\LoggerInterface;
 use InvalidArgumentException;
 use Syscodes\Components\Events\Dispatcher;
 use Syscodes\Components\Mail\Helpers\Envelope;
-use Syscodes\Components\Mail\Helpers\SentMessage;
 use Syscodes\Components\Mail\Mailables\RawMessage;
+use Syscodes\Components\Mail\Helpers\BaseSentMessage;
 use Syscodes\Components\Mail\Transport\Smtp\ProcessStream;
 use Syscodes\Components\Mail\Transport\Smtp\SmtpTransport;
 use Syscodes\Components\Mail\Transport\Smtp\AbstractStream;
@@ -90,7 +90,7 @@ class SendmailTransport extends AbstractTransport
     /**
      * {@inheritdoc}
      */
-    public function send(RawMessage $message, ?Envelope $envelope = null): ?SentMessage
+    public function send(RawMessage $message, ?Envelope $envelope = null): ?BaseSentMessage
     {
         if ($this->transport) {
             return $this->transport->send($message, $envelope);
@@ -102,11 +102,11 @@ class SendmailTransport extends AbstractTransport
     /**
      * Do send to mail.
      * 
-     * @param  SentMessage  $message
+     * @param  BaseSentMessage  $message
      * 
      * @return void
      */
-    protected function doSend(SentMessage $message): void
+    protected function doSend(BaseSentMessage $message): void
     {
         $this->getLogger()->debug(sprintf('Email transport "%s" starting', __CLASS__));
         

@@ -24,8 +24,8 @@ namespace Syscodes\Components\Mail\Transport;
 
 use Psr\Log\LoggerInterface;
 use Syscodes\Components\Mail\Helpers\Envelope;
-use Syscodes\Components\Mail\Helpers\SentMessage;
 use Syscodes\Components\Mail\Mailables\RawMessage;
+use Syscodes\Components\Mail\Helpers\BaseSentMessage;
 
 /**
  * LogTransport for sending mail using a logger of data notification.
@@ -54,13 +54,13 @@ class LogTransport
     /**
      * {@inheritdoc}
      */
-    public function send(RawMessage $message, Envelope $envelope = null): ?SentMessage
+    public function send(RawMessage $message, Envelope $envelope = null): ?BaseSentMessage
     {
         $string = $message->toString();
 
         $this->logger->debug((string) $string);
 
-        return new SentMessage($message, $envelope ?? Envelope::create($message));
+        return new BaseSentMessage($message, $envelope ?? Envelope::create($message));
     }
     
     /**
