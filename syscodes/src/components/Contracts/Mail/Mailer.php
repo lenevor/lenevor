@@ -51,7 +51,7 @@ interface Mailer
      * @param  string  $text
      * @param  mixed  $callback
      * 
-     * @return \Syscodes\Components\Mail\Helpers\SentMessage|null
+     * @return \Syscodes\Components\Mail\Helpers\BaseSentMessage|null
      */
     public function raw($text, $callback);
     
@@ -62,7 +62,7 @@ interface Mailer
      * @param  array  $data
      * @param  \Closure|string|null  $callback
      * 
-     * @return \Syscodes\Components\Mail\Helpers\SentMessage|null
+     * @return \Syscodes\Components\Mail\Helpers\BaseSentMessage|null
      */
     public function send($view, array $data = [], $callback = null);
     
@@ -73,7 +73,7 @@ interface Mailer
      * @param  array  $data
      * @param  \Closure|string|null  $callback
      * 
-     * @return \Syscodes\Components\Mail\Helpers\SentMessage|null
+     * @return \Syscodes\Components\Mail\Helpers\BaseSentMessage|null
      */
     public function sendNow($mailable, array $data = [], $callback = null);
 }
