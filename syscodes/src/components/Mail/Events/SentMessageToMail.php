@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\Mail\Events;
 
-use Syscodes\Components\Mail\Helpers\SentMessage;
+use Syscodes\Components\Mail\Helpers\BaseSentMessage;
 
 /**
  * Get the sent message.
@@ -36,14 +36,14 @@ class SentMessageToMail
      * 
      * @return void
      */
-    public function __construct(protected SentMessage $message) {}
+    public function __construct(protected BaseSentMessage $message) {}
 
     /**
      * Get the sent message.
      * 
-     * @return SentMessage
+     * @return BaseSentMessage
      */
-    public function getMessage(): SentMessage
+    public function getMessage()
     {
         return $this->message;
     }
