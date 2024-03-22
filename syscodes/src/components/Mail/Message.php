@@ -123,6 +123,19 @@ class Message
     }
     
     /**
+     * Add a "reply to" address to the message.
+     * 
+     * @param  string|array  $address
+     * @param  string|null  $name
+     * 
+     * @return static
+     */
+    public function replyTo($address, $name = null): static
+    {
+        return $this->addAddresses($address, $name, 'ReplyTo');
+    }
+    
+    /**
      * Add a recipient to the message.
      * 
      * @param  string|array  $address
