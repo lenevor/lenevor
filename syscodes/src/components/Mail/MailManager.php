@@ -23,7 +23,11 @@
 namespace Syscodes\Components\Mail;
 
 use Closure;
+use Psr\Log\LoggerInterface;
 use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Log\LogManager;
+use Syscodes\Components\Mail\Transport\LogTransport;
+use Syscodes\Components\Mail\Transport\ArrayTransport;
 use Syscodes\Components\Contracts\Mail\Factory as FactoryContract;
 
 /**
@@ -74,6 +78,36 @@ class MailManager implements FactoryContract
     public function mailer($name = null)
     {
 
+    }
+    
+    /**
+     * Create an instance of the Log Transport driver.
+     * 
+     * @param  array  $config
+     * 
+     * @return \Syscodes\Components\Mail\Transport\LogTransport
+     */
+    protected function createLogTransport(array $config)
+    {
+        $logger = $this->app->make(LoggerInterface::class);
+        
+        if ($logger instanceof LogManager) {
+            $logger = $logger->channel(
+                $config['channel'] ?? $this->app['config']->get('mail.log_channel')
+            );
+        }
+        
+        return new LogTransport($logger);
+    }
+    
+    /**
+     * Create an instance of the Array Transport Driver.
+     * 
+     * @return \Syscodes\Components\Mail\Transport\ArrayTransport
+     */
+    protected function createArrayTransport()
+    {
+        return new ArrayTransport;
     }
     
     /**
