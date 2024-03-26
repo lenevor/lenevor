@@ -28,7 +28,11 @@ use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Log\LogManager;
 use Syscodes\Components\Mail\Transport\LogTransport;
 use Syscodes\Components\Mail\Transport\ArrayTransport;
+use Syscodes\Components\Mail\Transport\SendmailTransport;
+use Syscodes\Components\Mail\Transport\Smtp\SocketStream;
+use Syscodes\Components\Mail\Transport\Smtp\EsmtpTransport;
 use Syscodes\Components\Contracts\Mail\Factory as FactoryContract;
+use Syscodes\Components\Mail\Transport\DomainTransport;
 
 /**
  * Allows the connection to servers of mail.
@@ -78,6 +82,85 @@ class MailManager implements FactoryContract
     public function mailer($name = null)
     {
 
+    }
+    
+    /**
+     * Create an instance of the SMTP Transport driver.
+     * 
+     * @param  array  $config
+     * 
+     * @return \Syscodes\Components\Mail\Transport\Smtp\EsmtpTransport
+     */
+    protected function createSmtpTransport(array $config)
+    {
+        $factory = new EsmtpTransportFactory;
+        $scheme  = $config['scheme'] ?? null;
+        
+        if ( ! $scheme) {
+            $scheme = ! empty($config['encryption']) && $config['encryption'] === 'tls'
+                    ? (($config['port'] == 465) ? 'smtps' : 'smtp')
+                    : '';
+        }
+        
+        $transport = $factory->create(new DomainTransport(
+            $scheme,
+            $config['host'],
+            $config['username'] ?? null,
+            $config['password'] ?? null,
+            $config['port'] ?? null,
+            $config
+        ));
+        
+        return $this->configureSmtpTransport($transport, $config);
+    }
+    
+    /**
+     * Configure the additional SMTP driver options.
+     * 
+     * @param  \Syscodes\Components\Mail\Transport\Smtp\EsmtpTransport  $transport
+     * @param  array  $config
+     * 
+     * @return \Syscodes\Components\Mail\Transport\Smtp\EsmtpTransport
+     */
+    protected function configureSmtpTransport(EsmtpTransport $transport, array $config)
+    {
+        $stream = $transport->getStream();
+        
+        if ($stream instanceof SocketStream) {
+            if (isset($config['source_ip'])) {
+                $stream->setSourceIp($config['source_ip']);
+            }
+            
+            if (isset($config['timeout'])) {
+                $stream->setTimeout($config['timeout']);
+            }
+        }
+        
+        return $transport;
+    }
+    
+    /**
+     * Create an instance of the Sendmail Transport driver.
+     * 
+     * @param  array  $config
+     * 
+     * @return \Syscodes\Components\Mail\Transport\SendmailTransport
+     */
+    protected function createSendmailTransport(array $config)
+    {
+        return new SendmailTransport(
+            $config['path'] ?? $this->app['config']->get('mail.sendmail')
+        );
+    }
+    
+    /**
+     * Create an instance of the Mail Transport driver.
+     * 
+     * @return \Syscodes\Components\Mail\Transport\SendmailTransport
+     */
+    protected function createMailTransport()
+    {
+        return new SendmailTransport;
     }
     
     /**
