@@ -30,6 +30,7 @@ use Syscodes\Components\Mail\Helpers\Envelope;
 use Syscodes\Components\Mail\Helpers\SentMessage;
 use Syscodes\Components\Mail\Mailables\RawMessage;
 use Syscodes\Components\Contracts\Events\Dispatcher;
+use Syscodes\Components\Mail\Helpers\BaseSentMessage;
 use Syscodes\Components\Mail\Transport\AbstractTransport;
 use Syscodes\Components\Mail\Exceptions\TransportException;
 
@@ -146,7 +147,7 @@ class SmtpTransport extends AbstractTransport
      * 
      * @return SentMessage|null
      */
-    public function send(RawMessage $message, Envelope $envelope = null): ?SentMessage
+    public function send(RawMessage $message, Envelope $envelope = null): ?BaseSentMessage
     {
         try {
             $message = parent::send($message, $envelope);
@@ -172,7 +173,7 @@ class SmtpTransport extends AbstractTransport
      * 
      * @return void
      */
-    protected function doSend(SentMessage $message): void
+    protected function doSend(BaseSentMessage $message): void
     {
         if (microtime(true) - $this->lastMessageTime > $this->pingThreshold) {
             $this->ping();
