@@ -1,0 +1,88 @@
+<?php
+
+/**
+ * Lenevor Framework
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file license.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://lenevor.com/license
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@Lenevor.com so we can send you a copy immediately.
+ *
+ * @package     Lenevor
+ * @subpackage  Base
+ * @link        https://lenevor.com
+ * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
+ */
+
+namespace Syscodes\Components\Mail\Transport\Smtp;
+
+use Syscodes\Components\Mail\Transport\DomainTransport;
+use Syscodes\Components\Mail\Transport\AbstractTransportFactory;
+
+/**
+ * Sends Emails over SMTP with ESMTP factory support.
+ */
+class EsmtpTransportFactory extends AbstractTransportFactory
+{
+    /**
+     * Create 
+     */
+    public function create(DomainTransport $dsn)
+    {
+        $autoTls = '' === $dsn->getOption('auto_tls') || filter_var($dsn->getOption('auto_tls', true), \FILTER_VALIDATE_BOOL);
+        $tls     = 'smtps' === $dsn->getScheme() ? true : ($autoTls ? null : false);
+        $port    = $dsn->getPort(0);
+        $host    = $dsn->getHost();
+
+        $transport = new EsmtpTransport($host, $port, $tls, $this->dispatcher, $this->logger);
+
+        /** @var SocketStream $stream */
+        $stream        = $transport->getStream();
+        $streamOptions = $stream->getStreamOptions();
+
+        if ('' !== $dsn->getOption('verify_peer') && !filter_var($dsn->getOption('verify_peer', true), \FILTER_VALIDATE_BOOL)) {
+            $streamOptions['ssl']['verify_peer'] = false;
+            $streamOptions['ssl']['verify_peer_name'] = false;
+        }
+
+        if (null !== $peerFingerprint = $dsn->getOption('peer_fingerprint')) {
+            $streamOptions['ssl']['peer_fingerprint'] = $peerFingerprint;
+        }
+
+        $stream->setStreamOptions($streamOptions);
+
+        if ($user = $dsn->getUser()) {
+            $transport->setUsername($user);
+        }
+
+        if ($password = $dsn->getPassword()) {
+            $transport->setPassword($password);
+        }
+
+        if (null !== ($localDomain = $dsn->getOption('local_domain'))) {
+            $transport->setLocalDomain($localDomain);
+        }
+
+        if (null !== ($maxPerSecond = $dsn->getOption('max_per_second'))) {
+            $transport->setMaxToSeconds((float) $maxPerSecond);
+        }
+
+        return $transport;
+    }
+
+    /**
+     * Get the supported schemes.
+     * 
+     * @return array
+     */
+    protected function getSupportedSchemes(): array
+    {
+        return ['smtp', 'smtps'];
+    }
+}
