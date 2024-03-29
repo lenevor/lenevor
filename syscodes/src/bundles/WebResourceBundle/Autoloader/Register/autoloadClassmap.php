@@ -459,6 +459,7 @@ return [
     'Syscodes\\Components\\Mail\\Mime\\MimeTypes' => SYS_PATH.'src/components/Mail/Mime/MimeTypes.php',
     'Syscodes\\Components\\Mail\\Transport\\Smtp\\AbstractStream' => SYS_PATH.'src/components/Mail/Transport/Smtp/Stream/AbstractStream.php',
     'Syscodes\\Components\\Mail\\Transport\\Smtp\\EsmtpTransport' => SYS_PATH.'src/components/Mail/Transport/Smtp/Stream/EsmtpTransport.php',
+    'Syscodes\\Components\\Mail\\Transport\\Smtp\\EsmtpTransportFactory' => SYS_PATH.'src/components/Mail/Transport/Smtp/Stream/EsmtpTransportFactory.php',
     'Syscodes\\Components\\Mail\\Transport\\Smtp\\LoginAuthenticator' => SYS_PATH.'src/components/Mail/Transport/Smtp/Stream/Auth/LoginAuthenticator.php',
     'Syscodes\\Components\\Mail\\Transport\\Smtp\\PlainAuthenticator' => SYS_PATH.'src/components/Mail/Transport/Smtp/Stream/Auth/PlainAuthenticator.php',
     'Syscodes\\Components\\Mail\\Transport\\Smtp\\ProcessStream' => SYS_PATH.'src/components/Mail/Transport/Smtp/Stream/ProcessStream.php',
