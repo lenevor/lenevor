@@ -31,51 +31,54 @@ use Syscodes\Components\Mail\Transport\AbstractTransportFactory;
 class EsmtpTransportFactory extends AbstractTransportFactory
 {
     /**
-     * Create 
+     * Create the filters for allows the connection with the server.
+     * 
+     * @param  DomainTransport  $domain
+     * 
+     * @return \Syscodes\Components\Mail\Transport\Smtp\EsmtpTransport
      */
-    public function create(DomainTransport $dsn)
+    public function create(DomainTransport $domain)
     {
-        $autoTls = '' === $dsn->getOption('auto_tls') || filter_var($dsn->getOption('auto_tls', true), \FILTER_VALIDATE_BOOL);
-        $tls     = 'smtps' === $dsn->getScheme() ? true : ($autoTls ? null : false);
-        $port    = $dsn->getPort(0);
-        $host    = $dsn->getHost();
-
+        $autoTls = '' === $domain->getOption('auto_tls') || filter_var($domain->getOption('auto_tls', true), \FILTER_VALIDATE_BOOL);
+        $tls     = 'smtps' === $domain->getScheme() ? true : ($autoTls ? null : false);
+        $port    = $domain->getPort(0);
+        $host    = $domain->getHost();
+        
         $transport = new EsmtpTransport($host, $port, $tls, $this->dispatcher, $this->logger);
-
         /** @var SocketStream $stream */
         $stream        = $transport->getStream();
         $streamOptions = $stream->getStreamOptions();
-
-        if ('' !== $dsn->getOption('verify_peer') && !filter_var($dsn->getOption('verify_peer', true), \FILTER_VALIDATE_BOOL)) {
+        
+        if ('' !== $domain->getOption('verify_peer') && ! filter_var($domain->getOption('verify_peer', true), FILTER_VALIDATE_BOOL)) {
             $streamOptions['ssl']['verify_peer'] = false;
             $streamOptions['ssl']['verify_peer_name'] = false;
         }
-
-        if (null !== $peerFingerprint = $dsn->getOption('peer_fingerprint')) {
+        
+        if (null !== $peerFingerprint = $domain->getOption('peer_fingerprint')) {
             $streamOptions['ssl']['peer_fingerprint'] = $peerFingerprint;
         }
-
+        
         $stream->setStreamOptions($streamOptions);
-
-        if ($user = $dsn->getUser()) {
+        
+        if ($user = $domain->getUser()) {
             $transport->setUsername($user);
         }
-
-        if ($password = $dsn->getPassword()) {
+        
+        if ($password = $domain->getPassword()) {
             $transport->setPassword($password);
         }
-
-        if (null !== ($localDomain = $dsn->getOption('local_domain'))) {
+        
+        if (null !== ($localDomain = $domain->getOption('local_domain'))) {
             $transport->setLocalDomain($localDomain);
         }
-
-        if (null !== ($maxPerSecond = $dsn->getOption('max_per_second'))) {
+        
+        if (null !== ($maxPerSecond = $domain->getOption('max_per_second'))) {
             $transport->setMaxToSeconds((float) $maxPerSecond);
         }
-
+        
         return $transport;
     }
-
+    
     /**
      * Get the supported schemes.
      * 
