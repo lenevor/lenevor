@@ -24,15 +24,18 @@ namespace Syscodes\Components\Mail;
 
 use Closure;
 use Psr\Log\LoggerInterface;
+use InvalidArgumentException;
 use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Str;
 use Syscodes\Components\Log\LogManager;
 use Syscodes\Components\Mail\Transport\LogTransport;
 use Syscodes\Components\Mail\Transport\ArrayTransport;
+use Syscodes\Components\Mail\Transport\DomainTransport;
 use Syscodes\Components\Mail\Transport\SendmailTransport;
 use Syscodes\Components\Mail\Transport\Smtp\SocketStream;
 use Syscodes\Components\Mail\Transport\Smtp\EsmtpTransport;
 use Syscodes\Components\Contracts\Mail\Factory as FactoryContract;
-use Syscodes\Components\Mail\Transport\DomainTransport;
+use Syscodes\Components\Mail\Transport\Smtp\EsmtpTransportFactory;
 
 /**
  * Allows the connection to servers of mail.
@@ -81,7 +84,85 @@ class MailManager implements FactoryContract
      */
     public function mailer($name = null)
     {
-
+        $name = $name ?: $this->getDefaultDriver();
+        
+        return $this->mailers[$name] = $this->get($name);
+    }
+    
+    /**
+     * Get a mailer driver instance.
+     * 
+     * @param  string|null  $driver
+     * 
+     * @return \Syscodes\Components\Mail\Mailer
+     */
+    public function driver($driver = null)
+    {
+        return $this->mailer($driver);
+    }
+    
+    /**
+     * Attempt to get the mailer from the local cache.
+     * 
+     * @param  string  $name
+     * 
+     * @return \Syscodes\Components\Mail\Mailer
+     */
+    protected function get($name)
+    {
+        return $this->mailers[$name] ?? $this->resolve($name);
+    }
+    
+    /**
+     * Resolve the given mailer.
+     * 
+     * @param  string  $name
+     * 
+     * @return \Syscodes\Components\Mail\Mailer
+     * 
+     * @throws \InvalidArgumentException
+     */
+    protected function resolve($name)
+    {
+        $config = $this->getConfig($name);
+        
+        if (is_null($config)) {
+            throw new InvalidArgumentException("Mailer [{$name}] is not defined");
+        }
+        
+        $mailer = new Mailer(
+            $name,
+            $this->app['view'],
+            $this->createsTransport($config),
+            $this->app['events']
+        );
+        
+        return $mailer;
+    }
+    
+    /**
+     * Create a new transport instance.
+     * 
+     * @param  array  $config
+     * 
+     * @return \Syscodes\Components\Contracts\Mail\Transport
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public function createsTransport(array $config)
+    {
+        $transport = $config['transport'] ?? $this->app['config']['mail.driver'];
+        
+        if (isset($this->customCreators[$transport])) {
+            return call_user_func($this->customCreators[$transport], $config);
+        }
+        
+        if (trim($transport ?? '') === '' ||
+           ! method_exists($this, $method = 'create'.ucfirst(Str::camelcase($transport)).'Transport')) {
+            throw new InvalidArgumentException("Unsupported mail transport [{$transport}]");
+        }
+        
+        return $this->{$method}($config);
     }
     
     /**
