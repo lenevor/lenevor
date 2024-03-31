@@ -169,6 +169,7 @@ abstract class Facade
             'Http' => Http::class,
             'Lang' => Lang::class,
             'Log' => Log::class,
+            'Mail' => Mail::class,
             'Plaze' => Plaze::class,
             'Prime' => Prime::class,
             'Redirect' => Redirect::class,
