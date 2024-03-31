@@ -557,6 +557,7 @@ return [
     'Syscodes\\Components\\Support\\Facades\\Http' => SYS_PATH.'src/components/Support/Facades/Http.php',
     'Syscodes\\Components\\Support\\Facades\\Lang' => SYS_PATH.'src/components/Support/Facades/Lang.php',
     'Syscodes\\Components\\Support\\Facades\\Log' => SYS_PATH.'src/components/Support/Facades/Log.php',
+    'Syscodes\\Components\\Support\\Facades\\Mail' => SYS_PATH.'src/components/Support/Facades/Mail.php',
     'Syscodes\\Components\\Support\\Facades\\Plaze' => SYS_PATH.'src/components/Support/Facades/Plaze.php',
     'Syscodes\\Components\\Support\\Facades\\Prime' => SYS_PATH.'src/components/Support/Facades/Prime.php',
     'Syscodes\\Components\\Support\\Facades\\Request' => SYS_PATH.'src/components/Support/Facades/Request.php',
