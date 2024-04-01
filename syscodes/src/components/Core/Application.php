@@ -1214,6 +1214,8 @@ class Application extends Container implements ApplicationContract
             'hash' => [\Syscodes\Components\Hashing\hashManager::class],
             'hash.driver' => [\Syscodes\Components\Contracts\Hashing\Hasher::class],
             'log' => [\Syscodes\Components\Log\LogManager::class, \Psr\Log\LoggerInterface::class],
+            'mail.manager' => [\Syscodes\Components\Mail\MailManager::class, \Syscodes\Components\Contracts\Mail\Factory::class],
+            'mailer' => [\Syscodes\Components\Mail\Mailer::class, \Syscodes\Components\Contracts\Mail\Mailer::class],
             'plaze.transpiler' => [\Syscodes\Components\View\Transpilers\PlazeTranspiler::class],
             'redirect' => [\Syscodes\Components\Routing\Generators\Redirector::class],
             'redis' => [\Syscodes\Components\Redis\RedisManager::class],
