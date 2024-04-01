@@ -37,7 +37,23 @@ class MailServiceProvider extends ServiceProvider implements Deferrable
      */
     public function register()
     {
+        $this->registerSyscodesMailer();
+    }
+    
+    /**
+     * Register the Syscodes mailer instance.
+     * 
+     * @return void
+     */
+    protected function registerSyscodesMailer()
+    {
+        $this->app->singleton('mail.manager', function ($app) {
+            return new MailManager($app);
+        });
         
+        $this->app->bind('mailer', function ($app) {
+            return $app->make('mail.manager')->mailer();
+        });
     }
     
     /**
@@ -47,6 +63,6 @@ class MailServiceProvider extends ServiceProvider implements Deferrable
      */
     public function provides(): array
     {
-        return [];
+        return [ 'mail.manager', 'mailer'];
     }
 }
