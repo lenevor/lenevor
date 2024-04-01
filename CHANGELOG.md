@@ -1,5 +1,50 @@
 # Release Notes
 
+## [Version 0.8.12-alpha.8]
+
+Release Date: Abr 01, 2024
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added new methods for get the recipient's email address and name
+- Added methods for gets the encoded text stream
+- Added methods for iterate messages of email in `RawMessage` class
+- Added new methods for settings the senders and recipients
+- Added new methods for the sent messages at recipients email
+- Added new variables for gets the MIME types and $guessers
+- Added as abstract class and implements Transport interface
+- Added the extends the `Envelope` class
+- Added method for sets the maximum number of messages to send per second in `AbstractTransport` class
+- Added the call to variables for generate the URL and the connection with the socket
+- Added methods for use the debug when be send to mailbox
+- Added variables for allows the authentication of user
+- Added the SmtpTransport class as an extends and the __construct() method
+- Added method for gets the string of URL from domain
+- Added the implementation of the `Mailbox` interface
+- Added the interface using Renderable for call render() method
+- Added methods for get this header rendering with encoded name in `Address` class
+- Added methods for create a parse of data mailing
+- Added new methods for make a list of address a header body
+- Added new methods for gets the text and html in content body
+- Added new method for send a new message synchronously in `Mailer` interface
+- Added new methods of Log and Array transport
+- Added new item for relationated to the `Mail` class
+- Added new item for relationated to the `MailManager` and `Mailer` class
+
+### Changed
+- Changed filename .env.dist by .env.example
+
+### Created
+- Created class for initialized the callback with the given locale in `Localizable` trait
+
+### Updated
+- Updated components release to 0.8.12
+
+### Fixed
+- [0.8.x] Fix bug the name of the `IdentificationMessageHeader` class
+
+
 ## [Version 0.8.11-alpha.8]
 
 Release Date: Nov 21, 2023
