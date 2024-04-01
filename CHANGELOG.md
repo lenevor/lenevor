@@ -2,7 +2,7 @@
 
 ## [Version 0.8.12-alpha.8]
 
-Release Date: Abr 01, 2024
+Release Date: Apr 01, 2024
 
 **Next alpha release of Lenevor**
 
