@@ -27,16 +27,21 @@ use RuntimeException;
 use Syscodes\Components\Version;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Http\Request;
 use Syscodes\Components\Container\Container;
 use Syscodes\Components\Support\Environment;
 use Syscodes\Components\Filesystem\Filesystem;
 use Syscodes\Components\Log\LogServiceProvider;
 use Syscodes\Components\Support\ServiceProvider;
 use Syscodes\Components\Events\EventServiceProvider;
+use Syscodes\Components\Console\Output\ConsoleOutput;
 use Syscodes\Components\Routing\RoutingServiceProvider;
 use Syscodes\Components\Core\Http\Exceptions\HttpException;
+use Syscodes\Components\Contracts\Http\Lenevor as LenevorContract;
 use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
+use Syscodes\Components\Contracts\Console\Input\Input as InputContract;
 use Syscodes\Components\Contracts\Core\Application as ApplicationContract;
+use Syscodes\Components\Contracts\Console\Lenevor as LenevorCommandContract;
 
 /**
  * Allows the loading of service providers and functions to activate 
@@ -1066,6 +1071,45 @@ class Application extends Container implements ApplicationContract
     public function addDeferredServices(array $services): void
     {
         $this->deferredServices = array_merge($this->deferredServices, $services);
+    }
+
+    /**
+     * Handle the incoming HTTP request and send the response to the browser.
+     * 
+     * @param  \Syscodes\Components\Http\Request  $request
+     * 
+     * @return void
+     */
+    public function handleRequest(Request $request)
+    {
+        $lenevor = $this->make(LenevorContract::class);
+        
+        //Initialize services...
+        $response = $lenevor->handle($request)->send(true); // Sends HTTP headers and contents
+        
+        $lenevor->finalize($request, $response);
+    }
+    
+    /**
+     * Handle the incoming Prime command.
+     * 
+     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
+     * 
+     * @return int
+     */
+    public function handleCommand(InputContract $input)
+    {
+        $lenevor = $this->make(LenevorCommandContract::class);
+        
+        //Initialize services...
+        $status = $lenevor->handle(
+            $input,
+            new ConsoleOutput
+        );
+        
+        $lenevor->finalize($input, $status); // Finalize application
+        
+        return $status;
     }
 
     /**
