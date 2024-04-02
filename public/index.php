@@ -20,64 +20,16 @@
  */
 
 use Syscodes\Components\Http\Request;
-use Syscodes\Components\Contracts\Http\Lenevor;
 
 define('LENEVOR_START', microtime(true));
 
-/*
-|------------------------------------------------------------------------
-| Call Configured Paths
-|------------------------------------------------------------------------
-|
-| Calls all the pathname of settings for manages an application web.
-|
-*/
-
+// Calls all the pathname of settings for manages an application web...
 $paths = require __DIR__.'/../config/paths.php';
 
-/*
-|------------------------------------------------------------------------
-| Register Bootstrap From Web Resource Bundle
-|------------------------------------------------------------------------
-|
-| Load bootstrap from the web resource bundle of system. 
-| (OPTIONAL - If uses composer with repository lenevor/syscodes).
-|
-*/
-
+//Register bootstrap from web resource bundle...
 if (file_exists($paths['path.sys'].'/src/bundles/WebResourceBundle/Bootstrap/bootstrap.php'))
-{
     require $paths['path.sys'].'/src/bundles/WebResourceBundle/Bootstrap/bootstrap.php';
-}
 
-/*
-|------------------------------------------------------------------------
-| LOAD UP APPLICATION
-|------------------------------------------------------------------------
-|
-| This bootstraps the framework and gets it ready for use, then it will 
-| load up this application so that we can run. the responses back to the 
-| browser and viewed for ours users.
-|
-*/
-
-$app = require_once $paths['path.bootstrap'].'/app.php';
-
-/*
-|------------------------------------------------------------------------
-| Run The Application                                               
-|------------------------------------------------------------------------
-|
-| Now that everything is setup, it's time to actually fire up the engines 
-| and make this app do its thing. It is activated from the core.
-|
-*/
-
-$lenevor = $app->make(Lenevor::class);
-
-// Initialize services
-$response = take($lenevor->handle(
-    $request = Request::capture()
-))->send(true); // Sends HTTP headers and contents
-
-$lenevor->finalize($request, $response);
+// Bootstrap the application Lenevor and handle the request...  
+(require_once $paths['path.bootstrap'].'/app.php')
+    ->handleRequest(Request::capture());

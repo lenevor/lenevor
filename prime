@@ -23,8 +23,6 @@
  */
 
 use Syscodes\Components\Console\Input\ArgvInput;
-use Syscodes\Components\Contracts\Console\Lenevor;
-use Syscodes\Components\Console\Output\ConsoleOutput;
 
 /**
  * Refuse to run prime when called from php-cgi !
@@ -34,78 +32,19 @@ if (substr(php_sapi_name(), 0, 3) === 'cgi')
     die("The use of prime is not supported when running php-cgi. Prime needs php-cli to function!\n\n");
 }
 
-/*
-|------------------------------------------------------------------------
-| Register The Composer Autoloader
-|------------------------------------------------------------------------
-|
-| Composer provides a convenient, automatically generated class loader 
-| for our application. We will need it so that we do not have to worry 
-| about loading any class of third party "manually".
-|
-*/
-
+// Register the Composer autoloader...
 if (file_exists(__DIR__.'/../vendor/autoload.php'))
-{
     require __DIR__.'/../vendor/autoload.php';
-}
 
-/*
-|------------------------------------------------------------------------
-| Call Configured Paths
-|------------------------------------------------------------------------
-|
-| Calls all the pathname of settings for manages an application web.
-|
-*/
-
+// Calls all the pathname of settings for manages an application web...
 $paths = require __DIR__.'/config/paths.php';
 
-/*
-|------------------------------------------------------------------------
-| Register Bootstrap From Web Resource Bundle
-|------------------------------------------------------------------------
-|
-| Load bootstrap from the web resource bundle of system. 
-| (OPTIONAL - If uses composer with repository lenevor/syscodes).
-|
-*/
-
+// Register bootstrap from web resource bundle...
 if (file_exists($paths['path.sys'].'/src/bundles/WebResourceBundle/Bootstrap/bootstrap.php'))
-{
     require $paths['path.sys'].'/src/bundles/WebResourceBundle/Bootstrap/bootstrap.php';
-}
 
-/*
-|------------------------------------------------------------------------
-| Launch The Application                                               
-|------------------------------------------------------------------------
-|
-| Now that everything is setup, it's time to actually fire up the engines 
-| and make this app do its thing.
-|
-*/
-
-$app = require_once $paths['path.bootstrap'].'/app.php';
-
-/*
-|------------------------------------------------------------------------
-| Run The Prime Application
-|------------------------------------------------------------------------
-|
-| When we run the console application, the current CLI command will be
-| executed in this console and the response sent back to a terminal or 
-| another output device for the developers.
-|
-*/
-
-$console = $app->make(Lenevor::class);
-
-$status = $console->handle(
-    $input = new ArgvInput, 
-    new ConsoleOutput
-);
-
-$console->finalize($input, $status); // Finalize application
+// Bootstrap the application Lenevor and handle the command...                                              
+$status = (require_once $paths['path.bootstrap'].'/app.php')
+    ->handleCommand(new ArgvInput());
 
 exit($status);
