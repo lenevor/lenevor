@@ -208,6 +208,34 @@ class Application extends Container implements ApplicationContract
         $this->requerimentPhpVersion(static::$phpVersion);
         $this->getExtensionLoaded(['mbstring']);
     }
+    
+    /**
+     * Begin configuring a new Lenevor application instance.
+     * 
+     * @param  string|null  $basePath
+     * 
+     * @return \Syscodes\Components\Core\Configuration\ApplicationBootstrap
+     */
+    public static function configure(?string $basePath = null)
+    {
+        $basePath = match (true) {
+            is_string($basePath) => $basePath,
+            default => static::inferBasePath(),
+        };
+        
+        return (new Configuration\ApplicationBootstrap(new static($basePath)))
+            ->assignCores();
+    }
+    
+    /**
+     * Infer the application's base directory from the environment.
+     * 
+     * @return string|null
+     */
+    public static function inferBasePath(): string|null
+    {
+        return isset($_ENV['APP_ROOT_PATH']) ? $_ENV['APP_ROOT_PATH'] : null;
+    }
 
     /**
      * Register the basic bindings into the container.
