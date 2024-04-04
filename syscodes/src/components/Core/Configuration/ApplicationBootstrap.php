@@ -67,7 +67,7 @@ class ApplicationBootstrap
      * 
      * @return static
      */
-    public function withExceptions(?callable $using = null): static
+    public function assignExceptions(?callable $using = null): static
     {
         $this->app->singleton(
             \Syscodes\Components\Contracts\Debug\ExceptionHandler::class, 
