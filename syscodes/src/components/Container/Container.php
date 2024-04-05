@@ -54,6 +54,13 @@ class Container implements ArrayAccess, ContainerContract
      * @var array $across
      */
     protected $across = [];
+    
+    /**
+     * All of the after resolving callbacks by class type.
+     * 
+     * @var array[] $afterResolvingCallbacks
+     */
+    protected $afterResolvingCallbacks = [];
 
     /**
      * Array of aliased.
@@ -61,6 +68,13 @@ class Container implements ArrayAccess, ContainerContract
      * @var array $aliases
      */
     protected $aliases = [];
+    
+    /**
+     * All of the before resolving callbacks by class type.
+     * 
+     * @var array[] $beforeResolvingCallbacks
+     */
+    protected $beforeResolvingCallbacks = [];
 
     /**
      * Array registry of container bindings.
@@ -82,6 +96,27 @@ class Container implements ArrayAccess, ContainerContract
      * @var array $extenders
      */
     protected $extenders = [];
+    
+    /**
+     * All of the global after resolving callbacks.
+     * 
+     * @var \Closure[] $globalAfterResolvingCallbacks
+     */
+    protected $globalAfterResolvingCallbacks = [];
+    
+    /**
+     * All of the global before resolving callbacks.
+     * 
+     * @var \Closure[] $globalBeforeResolvingCallbacks
+     */
+    protected $globalBeforeResolvingCallbacks = [];
+    
+    /**
+     * All of the global resolving callbacks.
+     * 
+     * @var \Closure[] $globalResolvingCallbacks
+     */
+    protected $globalResolvingCallbacks = [];    
 
     /**
      * All of the registered callbacks.
@@ -103,6 +138,13 @@ class Container implements ArrayAccess, ContainerContract
      * @var array $resolved
      */
     protected $resolved = [];
+    
+    /**
+     * All of the resolving callbacks by class type.
+     * 
+     * @var array[] $resolvingCallbacks
+     */
+    protected $resolvingCallbacks = [];
 
     /**
      * Set the globally available instance of the container.
@@ -457,12 +499,17 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @param  string  $id
      * @param  array  $parameters
+     * @param  bool $raiseEvents
      * 
      * @return mixed
      */
-    protected function resolve($id, array $parameters = [])
+    protected function resolve($id, array $parameters = [], bool $raiseEvents = true)
     {
         $id = $this->getAlias($id);
+        
+        if ($raiseEvents) {
+            $this->fireBeforeResolvingCallbacks($id, $parameters);
+        }
 
         if (isset($this->instances[$id])) {
             return $this->instances[$id];
@@ -484,6 +531,10 @@ class Container implements ArrayAccess, ContainerContract
 
         if ($this->isSingleton($id)) {
             $this->instances[$id] = $object;
+        }
+        
+        if ($raiseEvents) {
+            $this->fireResolvingCallbacks($id, $object);
         }
 
         $this->resolved[$id] = true;
@@ -752,6 +803,177 @@ class Container implements ArrayAccess, ContainerContract
         }
         
         return array_map(fn ($id) => $this->resolve($id), $id);
+    }
+    
+    /**
+     * Register a new before resolving callback for all types.
+     * 
+     * @param  \Closure|string  $id 
+     * @param  \Closure|null  $callback
+     * 
+     * @return void
+     */
+    public function beforeResolving($id, ?Closure $callback = null)
+    {
+        if (is_string($id)) {
+            $id = $this->getAlias($id);
+        }
+        
+        if ($id instanceof Closure && is_null($callback)) {
+            $this->globalBeforeResolvingCallbacks[] = $id;
+        } else {
+            $this->beforeResolvingCallbacks[$id][] = $callback;
+        }
+    }
+    
+    /**
+     * Register a new resolving callback.
+     * 
+     * @param  \Closure|string  $id
+     * @param  \Closure|null  $callback
+     * 
+     * @return void
+     */
+    public function resolving($id, ?Closure $callback = null)
+    {
+        if (is_string($id)) {
+            $id = $this->getAlias($id);
+        }
+        
+        if (is_null($callback) && $id instanceof Closure) {
+            $this->globalResolvingCallbacks[] = $id;
+        } else {
+            $this->resolvingCallbacks[$id][] = $callback;
+        }
+    }
+    
+    /**
+     * Register a new after resolving callback for all types.
+     * 
+     * @param  \Closure|string  $id
+     * @param  \Closure|null  $callback
+     * 
+     * @return void
+     */
+    public function afterResolving($id, ?Closure $callback = null)
+    {
+        if (is_string($id)) {
+            $id = $this->getAlias($id);
+        }
+        
+        if ($id instanceof Closure && is_null($callback)) {
+            $this->globalAfterResolvingCallbacks[] = $id;
+        } else {
+            $this->afterResolvingCallbacks[$id][] = $callback;
+        }
+    }
+    
+    /**
+     * Fire all of the before resolving callbacks.
+     * 
+     * @param  string  $id
+     * @param  array  $parameters
+     * 
+     * @return void
+     */
+    protected function fireBeforeResolvingCallbacks($id, $parameters = [])
+    {
+        $this->fireBeforeCallbackArray($id, $parameters, $this->globalBeforeResolvingCallbacks);
+        
+        foreach ($this->beforeResolvingCallbacks as $type => $callbacks) {
+            if ($type === $id || is_subclass_of($id, $type)) {
+                $this->fireBeforeCallbackArray($id, $parameters, $callbacks);
+            }
+        }
+    }
+    
+    /**
+     * Fire an array of callbacks with an object.
+     * 
+     * @param  string  $id
+     * @param  array  $parameters
+     * @param  array  $callbacks
+     * 
+     * @return void
+     */
+    protected function fireBeforeCallbackArray($id, $parameters, array $callbacks)
+    {
+        foreach ($callbacks as $callback) {
+            $callback($id, $parameters, $this);
+        }
+    }
+    
+    /**
+     * Fire all of the resolving callbacks.
+     * 
+     * @param  string  $id
+     * @param  mixed  $object
+     * 
+     * @return void
+     */
+    protected function fireResolvingCallbacks($id, $object)
+    {
+        $this->fireCallbackArray($object, $this->globalResolvingCallbacks);
+        
+        $this->fireCallbackArray(
+            $object, $this->getCallbacksForType($id, $object, $this->resolvingCallbacks)
+        );
+        
+        $this->fireAfterResolvingCallbacks($id, $object);
+    }
+    
+    /**
+     * Fire all of the after resolving callbacks.
+     * 
+     * @param  string  $id
+     * @param  mixed  $object
+     * 
+     * @return void
+     */
+    protected function fireAfterResolvingCallbacks($id, $object)
+    {
+        $this->fireCallbackArray($object, $this->globalAfterResolvingCallbacks);
+        
+        $this->fireCallbackArray(
+            $object, $this->getCallbacksForType($id, $object, $this->afterResolvingCallbacks)
+        );
+    }
+    
+    /**
+     * Get all callbacks for a given type.
+     * 
+     * @param  string  $id
+     * @param  object  $object
+     * @param  array  $callbacksPerType
+     * 
+     * @return array
+     */
+    protected function getCallbacksForType($id, $object, array $callbacksPerType)
+    {
+        $results = [];
+        
+        foreach ($callbacksPerType as $type => $callbacks) {
+            if ($type === $id || $object instanceof $type) {
+                $results = array_merge($results, $callbacks);
+            }
+        }
+        
+        return $results;
+    }
+    
+    /**
+     * Fire an array of callbacks with an object.
+     * 
+     * @param  mixed  $object
+     * @param  array  $callbacks
+     * 
+     * @return void
+     */
+    protected function fireCallbackArray($object, array $callbacks)
+    {
+        foreach ($callbacks as $callback) {
+            $callback($object, $this);
+        }
     }
 
     /**
