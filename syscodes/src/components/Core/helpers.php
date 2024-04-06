@@ -744,6 +744,7 @@ if ( ! function_exists('response')) {
      */
     function response($body = '', int $status = 200, array $headers = [])
     {
+        /** @var \Syscodes\Components\Routing\Generators\RouteResponse */
         $response = app(RouteResponse::class);
 
         if (func_num_args() === 0) {
