@@ -732,14 +732,15 @@ class Application extends Container implements ApplicationContract
      * 
      * @param  string  $id
      * @param  array   $parameters
+     * @param  bool  $raiseEvents
      * 
      * @return mixed
      */
-    protected function resolve($id, array $parameters = []): mixed
+    protected function resolve($id, array $parameters = [], bool $raiseEvents = true): mixed
     {
         $this->loadDeferredProviderInstance($id = $this->getAlias($id));
        
-        return parent::resolve($id, $parameters);
+        return parent::resolve($id, $parameters, $raiseEvents);
     }
     
     /**
