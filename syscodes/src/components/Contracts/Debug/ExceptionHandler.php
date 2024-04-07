@@ -41,6 +41,15 @@ interface ExceptionHandler
     public function report(Throwable $e);
 
     /**
+     * Register a reportable callback.
+     * 
+     * @param  \callable  $callback
+     * 
+     * @return static
+     */
+    public function reportable(callable $callback): static;
+
+    /**
      * Determine if the exception should be reported.
      * 
      * @param  \Throwable  $e
@@ -67,6 +76,15 @@ interface ExceptionHandler
      * @return \Syscodes\Components\Http\Response
      */
     public function render($request, Throwable $e);
+
+    /**
+     * Register a renderable callback.
+     * 
+     * @param  \callable  $callback
+     * 
+     * @return static
+     */
+    public function renderable(callable $callback): static;
 
     /**
      * Render an exception to the console.
