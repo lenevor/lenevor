@@ -230,4 +230,34 @@ interface Container extends ContainerInterface
      * @return void
      */
     public function flush(): void;
+
+    /**
+     * Register a new before resolving callback for all types.
+     * 
+     * @param  \Closure|string  $id 
+     * @param  \Closure|null  $callback
+     * 
+     * @return void
+     */
+    public function beforeResolving($id, ?Closure $callback = null);
+
+    /**
+     * Register a new resolving callback.
+     * 
+     * @param  \Closure|string  $id
+     * @param  \Closure|null  $callback
+     * 
+     * @return void
+     */
+    public function resolving($id, ?Closure $callback = null);
+
+    /**
+     * Register a new after resolving callback for all types.
+     * 
+     * @param  \Closure|string  $id
+     * @param  \Closure|null  $callback
+     * 
+     * @return void
+     */
+    public function afterResolving($id, ?Closure $callback = null);
 }
