@@ -13,6 +13,10 @@ return Application::configure(basePath: dirname(__DIR__))
     | from both the web and CLI.
     |
     */
+
+    ->assignMiddlewares(function () {
+        //
+    })
     ->assignExceptions(function () {
         //
     })->create(); // Return the application
