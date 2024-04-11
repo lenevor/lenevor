@@ -65,6 +65,13 @@ class Lenevor implements LenevorContract
 	protected $middleware = [];
 
 	/**
+	 * 
+	 * 
+	 * @var array $middlewareAliases
+	 */
+	protected $middlewareAliases = [];
+
+	/**
 	 * Get the application's middleware groups.
 	 * 
 	 * @var array $middlewareGroups
@@ -74,9 +81,9 @@ class Lenevor implements LenevorContract
 	/**
 	 * The priority list of middleware.
 	 * 
-	 * @var string[] $middlwarePriority
+	 * @var string[] $middlewarePriority
 	 */
-	protected $middlwarePriority = [
+	protected $middlewarePriority = [
 		\Syscodes\Components\Cookie\Middleware\EncryptCookies::class,
 		\Syscodes\Components\Session\Middleware\StartSession::class,
 		\Syscodes\Components\Auth\Middleware\Authenticate::class,
@@ -191,7 +198,7 @@ class Lenevor implements LenevorContract
 	 */
 	protected function syncMiddlewareRoute(): void
 	{
-		$this->router->middlewarePriority = $this->middlwarePriority;
+		$this->router->middlewarePriority = $this->middlewarePriority;
 		
 		foreach ($this->middlewareGroups as $key => $middleware) {
 			$this->router->middlewareGroup($key, $middleware);
@@ -292,15 +299,145 @@ class Lenevor implements LenevorContract
 		
 		return [$name, $parameters];
     }
+	
+	/**
+	 * Get the application's global middleware.
+	 * 
+	 * @return array
+	 */
+	public function getGlobalMiddleware(): array
+	{
+		return $this->middleware;
+	}
+	
+	/**
+	 * Set the application's global middleware.
+	 * 
+	 * @param  array  $middleware
+	 * 
+	 * @return static
+	 */
+	public function setGlobalMiddleware(array $middleware): static
+	{
+		$this->middleware = $middleware;
+		
+		$this->syncMiddlewareRoute();
+		
+		return $this;
+	}
+	
+	/**
+	 * Get the application's route middleware groups.
+	 * 
+	 * @return array
+	 */
+	public function getMiddlewareGroups(): array
+	{
+		return $this->middlewareGroups;
+	}
+	
+	/**
+	 * Set the application's middleware groups.
+	 * 
+	 * @param  array  $groups
+	 * 
+	 * @return static
+	 */
+	public function setMiddlewareGroups(array $groups): static
+	{
+		$this->middlewareGroups = $groups;
+		
+		$this->syncMiddlewareRoute();
+		
+		return $this;
+	}
+	
+	/**
+	 * Get the application's route middleware aliases.
+	 * 
+	 * @return array
+	 * 
+	 * @deprecated
+	 */
+	public function getRouteMiddleware(): array
+	{
+		return $this->getMiddlewareAliases();
+	}
+	
+	/**
+	 * Get the application's route middleware aliases.
+	 * 
+	 * @return array
+	 */
+	public function getMiddlewareAliases(): array
+	{
+		return array_merge($this->routeMiddleware, $this->middlewareAliases);
+	}
+	
+	/**
+	 * Set the application's route middleware aliases.
+	 * 
+	 * @param  array  $aliases
+	 * 
+	 * @return static
+	 */
+	public function setMiddlewareAliases(array $aliases): static
+	{
+		$this->middlewareAliases = $aliases;
+		
+		$this->syncMiddlewareRoute();
+		
+		return $this;
+	}
+	
+	/**
+	 * Get the priority-sorted list of middleware.
+	 * 
+	 * @return array
+	 */
+	public function getMiddlewarePriority(): array
+	{
+		return $this->middlewarePriority;
+	}
+	
+	/**
+	 * Set the application's middleware priority.
+	 * 
+	 * @param  array  $priority
+	 * 
+	 * @return static
+	 */
+	public function setMiddlewarePriority(array $priority)
+	{
+		$this->middlewarePriority = $priority;
+		
+		$this->syncMiddlewareRoute();
+		
+		return $this;
+	}
 
 	/**
 	 * Gets the Lenevor application instance.
 	 * 
-	 * @return void
+	 * @return \Syscodes\Components\Contracts\Core\Application
 	 */
 	public function getApplication()
 	{
 		return $this->app;
+	}
+
+	/**
+	 * Sets the Lenevor application instance.
+	 * 
+	 * @param  \Syscodes\Components\Contracts\Core\Application  $app
+	 * 
+	 * @return static
+	 */
+	public function setApplication(Application $app): static
+	{
+		$this->app = $app;
+
+		return $this;
 	}
 
 	/**
