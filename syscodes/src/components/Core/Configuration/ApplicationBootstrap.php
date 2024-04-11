@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Core\Configuration;
 
 use Syscodes\Components\Contracts\Core\Application;
+use Syscodes\Components\Contracts\Http\Lenevor as LenevorCore;
 
 /**
  * Allows the bootstrap of the application.
@@ -49,12 +50,12 @@ class ApplicationBootstrap
     {
         $this->app->singleton(
             \Syscodes\Components\Contracts\Http\Lenevor::class, 
-            \App\Http\Lenevor::class
+            \Syscodes\Components\Core\Http\Lenevor::class
         );
         
         $this->app->singleton(
             \Syscodes\Components\Contracts\Console\Lenevor::class, 
-            \App\Console\Lenevor::class
+            \Syscodes\Components\Core\Console\Lenevor::class
         );
 
         return $this;
@@ -71,8 +72,43 @@ class ApplicationBootstrap
     {
         $this->app->singleton(
             \Syscodes\Components\Contracts\Debug\ExceptionHandler::class, 
-            \App\Exceptions\Handler::class
+            \Syscodes\Components\Core\Exceptions\Handler::class
         );
+        
+        $using ??= fn () => true;
+        
+        $this->app->afterResolving(
+            \Syscodes\Components\Core\Exceptions\Handler::class,
+            fn ($handler) => $using(new ExceptionBootstrap($handler)),
+        );
+        
+        return $this;
+    }
+    
+    /**
+     * Register the global middleware, middleware groups, and middleware aliases for the application.
+     * 
+     * @param  callable|null  $callback
+     * 
+     * @return static
+     */
+    public function assignMiddlewares(?callable $callback = null): static
+    {
+        $this->app->afterResolving(LenevorCore::class, function ($lenevor) use ($callback) {
+            $middleware = (new MiddlewareBootstrap);
+            
+            if ( ! is_null($callback)) {
+                $callback($middleware);
+            }
+            
+            $lenevor->setGlobalMiddleware($middleware->getGlobalMiddleware());
+            $lenevor->setMiddlewareGroups($middleware->getMiddlewareGroups());
+            $lenevor->setMiddlewareAliases($middleware->getMiddlewareAliases());
+            
+            if ($priorities = $middleware->getMiddlewareAliases()) {
+                $lenevor->setMiddlewarePriority($priorities);
+            }
+        });
         
         return $this;
     }
