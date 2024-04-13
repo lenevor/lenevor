@@ -37,6 +37,13 @@ class Authenticate
      * @var \Syscodes\Components\Contracts\Auth\Factory $auth
      */
     protected $auth;
+    
+    /**
+     * The callback that should be used to generate the authentication redirect path.
+     * 
+     * @var callable $redirectToCallback
+     */
+    protected static $redirectToCallback;
 
     /**
      * Constructor. Create a new Authenticate class instance.
@@ -117,6 +124,20 @@ class Authenticate
      */
     protected function redirectTo($request)
     {
-        //
+        if (static::$redirectToCallback) {
+            return call_user_func(static::$redirectToCallback, $request);
+        }
+    }
+    
+    /**
+     * Specify the callback that should be used to generate the redirect path.
+     * 
+     * @param  callable  $redirectToCallback
+     * 
+     * @return void
+     */
+    public static function redirectUsing(callable $redirectToCallback): void
+    {
+        static::$redirectToCallback = $redirectToCallback;
     }
 }

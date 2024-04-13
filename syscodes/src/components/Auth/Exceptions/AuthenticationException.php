@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Auth\Exceptions;
 
 use Exception;
+use Syscodes\Components\Http\Request;
 
 /**
  *  AutheticationException.
@@ -42,6 +43,13 @@ class AuthenticationException extends Exception
      * @var string|null
      */
     protected $redirectTo;
+    
+    /**
+     * The callback that should be used to generate the authentication redirect path.
+     * 
+     * @var callable $redirectToCallback
+     */
+    protected static $redirectToCallback;
     
     /**
      * Constructor. Create a new authentication exception.
@@ -73,10 +81,30 @@ class AuthenticationException extends Exception
     /**
      * Get the path the user should be redirected to.
      * 
+     * @param  \Syscodes\Components\Http\Request  $request
+     * 
      * @return string|null
      */
-    public function redirectTo(): ?string
+    public function redirectTo(Request $request): ?string
     {
-        return $this->redirectTo;
+        if ($this->redirectTo) {
+            return $this->redirectTo;
+        }
+
+        if (static::$redirectToCallback) {
+            return call_user_func(static::$redirectToCallback, $request);
+        }
+    }
+    
+    /**
+     * Specify the callback that should be used to generate the redirect path.
+     * 
+     * @param  callable  $redirectToCallback
+     * 
+     * @return void
+     */
+    public static function redirectUsing(callable $redirectToCallback): void
+    {
+        static::$redirectToCallback = $redirectToCallback;
     }
 }
