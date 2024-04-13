@@ -24,6 +24,7 @@ namespace Syscodes\Components\Cookie\Middleware;
 
 use Closure;
 use Syscodes\Components\Http\Cookie;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Http\Response;
 use Syscodes\Components\Cookie\Concerns\CookieValue;
@@ -50,6 +51,13 @@ class EncryptCookies
      * @var array $except
      */
     protected $except = [];
+    
+    /**
+     * The globally ignored cookies that should not be encrypted.
+     * 
+     * @var array $neverEncrypt
+     */
+    protected static $neverEncrypt = [];
 
     /**
      * Indicates if cookies should be serialized.
@@ -226,11 +234,7 @@ class EncryptCookies
      */
     protected function duplicate(Cookie $cookie, $value): Cookie
     {
-        return new Cookie(
-            $cookie->getName(), $value, $cookie->getExpiresTime(),
-            $cookie->getPath(), $cookie->getDomain(), $cookie->isSecure(),
-            $cookie->isHttpOnly(), $cookie->isRaw(), $cookie->getSameSite()
-        );
+        return $cookie->withValue($value);
     }
 
     /**
@@ -242,7 +246,21 @@ class EncryptCookies
      */
     protected function isDisabled($name): bool
     {
-        return in_array($name, $this->except);
+        return in_array($name, array_merge($this->except, static::$neverEncrypt));
+    }
+    
+    /**
+     * Indicate that the given cookies should never be encrypted.
+     * 
+     * @param  array|string  $cookies
+     * 
+     * @return void
+     */
+    public static function except($cookies): void
+    {
+        static::$neverEncrypt = array_values(array_unique(
+            array_merge(static::$neverEncrypt, Arr::wrap($cookies))
+        ));
     }
 
     /**
@@ -255,5 +273,17 @@ class EncryptCookies
     public static function serialized($name): bool
     {
         return static::$serialize;
+    }
+    
+    /**
+     * Flush the middleware's global state.
+     * 
+     * @return void
+     */
+    public static function flushState(): void
+    {
+        static::$neverEncrypt = [];
+        
+        static::$serialize = false;
     }
 }
