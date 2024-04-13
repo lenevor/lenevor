@@ -22,6 +22,11 @@
 
 namespace Syscodes\Components\Core\Configuration;
 
+use Syscodes\Components\Auth\Middleware\Authenticate;
+use Syscodes\Components\Cookie\Middleware\EncryptCookies;
+use Syscodes\Components\Auth\Exceptions\AuthenticationException;
+use Syscodes\Components\Auth\Middleware\RedirectIfAuthenticated;
+
 /**
  * Allows the bootstrap of the middlewares.
  */
@@ -70,6 +75,69 @@ class MiddlewareBootstrap
     public function getMiddlewareAliases(): array
     {
         return array_merge($this->defaultAliases(), []);
+    }
+    
+    /**
+     * Configure where guests are redirected by the "auth" middleware.
+     * 
+     * @param  callable|string  $redirect
+     * 
+     * @return static
+     */
+    public function redirectGuestsTo(callable|string $redirect): static
+    {
+        return $this->redirectTo(guests: $redirect);
+    }
+    
+    /**
+     * Configure where users are redirected by the "guest" middleware.
+     * 
+     * @param  callable|string  $redirect
+     * 
+     * @return static
+     */
+    public function redirectUsersTo(callable|string $redirect): static
+    {
+        return $this->redirectTo(users: $redirect);
+    }
+    
+    /**
+     * Configure where users are redirected by the authentication and guest middleware.
+     * 
+     * @param  callable|string  $guests
+     * @param  callable|string  $users
+     * 
+     * @return static
+     */
+    public function redirectTo(callable|string|null $guests = null, callable|string|null $users = null): static
+    {
+        $guests = is_string($guests) ? fn () => $guests : $guests;
+        $users  = is_string($users) ? fn () => $users : $users;
+        
+        if ($guests) {
+            Authenticate::redirectUsing($guests);
+            AuthenticationException::redirectUsing($guests);
+        }
+        
+        if ($users) {
+            RedirectIfAuthenticated::redirectUsing($users);
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * Configure the cookie encryption middleware.
+     * 
+     * @param  array<int, string>  $except
+     * 
+     * @return static
+     */
+    public function encryptCookies(array $except = []): static
+    {
+        EncryptCookies::except($except);
+        
+        return $this;
     }
     
     /**
