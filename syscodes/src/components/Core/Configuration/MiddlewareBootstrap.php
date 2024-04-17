@@ -33,6 +33,34 @@ use Syscodes\Components\Auth\Middleware\RedirectIfAuthenticated;
 class MiddlewareBootstrap
 {
     /**
+     * The middleware that should be appended to the global middleware stack.
+     * 
+     * @var array $appends
+     */
+    protected $appends = [];
+    
+    /**
+     * The user defined global middleware stack.
+     * 
+     * @var array $global
+     */
+    protected $global = [];
+    
+    /**
+     * The middleware that should be prepended to the global middleware stack.
+     * 
+     * @var array $prepends
+     */
+    protected $prepends = [];
+    
+    /**
+     * The middleware that should be removed from the global middleware stack.
+     * 
+     * @var array $removals
+     */
+    protected $removals = [];
+
+    /**
      * Get the global middleware.
      *
      * @return array
@@ -51,17 +79,19 @@ class MiddlewareBootstrap
      *
      * @return array
      */
-    public function getMiddlewareGroups()
+    public function getMiddlewareGroups(): array
     {
         $middleware = [
-            'web' => [
+            'web' => array_values(array_filter([
                 \Syscodes\Components\Cookie\Middleware\EncryptCookies::class,
                 \Syscodes\Components\Cookie\Middleware\AddQueuedCookiesResponse::class,
                 \Syscodes\Components\Session\Middleware\StartSession::class,
                 \Syscodes\Components\Core\Http\Middleware\VerifyCsrfToken::class,
-            ],
+            ])),
 
-            'api' => array_values(array_filter([])),
+            'api' => array_values(array_filter([
+                //
+            ])),
         ];
 
         return $middleware;
@@ -150,7 +180,8 @@ class MiddlewareBootstrap
         $aliases = [
             'auth' => \Syscodes\Components\Auth\Middleware\Authenticate::class,
             'auth.basic' => \Syscodes\Components\Auth\Middleware\AuthenticateWithBasicAuth::class,
-            'guest' => \Syscodes\Components\Auth\Middleware\RedirectIfAuthenticated::class,
+            'can' => \Syscodes\Components\Auth\Middleware\Authorize::class,
+            'guest' => \Syscodes\Components\Auth\Middleware\RedirectIfAuthenticated::class, 
         ];
         
         return $aliases;
