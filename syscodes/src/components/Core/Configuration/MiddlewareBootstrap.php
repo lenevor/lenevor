@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Core\Configuration;
 
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Auth\Middleware\Authenticate;
 use Syscodes\Components\Cookie\Middleware\EncryptCookies;
 use Syscodes\Components\Auth\Exceptions\AuthenticationException;
@@ -59,6 +60,70 @@ class MiddlewareBootstrap
      * @var array $removals
      */
     protected $removals = [];
+    
+    /**
+     * Prepend middleware to the application's global middleware stack.
+     * 
+     * @param  array|string  $middleware
+     * 
+     * @return static
+     */
+    public function prepend(array|string $middleware): static
+    {
+        $this->prepends = array_merge(
+            Arr::wrap($middleware),
+            $this->prepends
+        );
+        
+        return $this;
+    }
+    
+    /**
+     * Append middleware to the application's global middleware stack.
+     * 
+     * @param  array|string  $middleware
+     * 
+     * @return static
+     */
+    public function append(array|string $middleware): static
+    {
+        $this->appends = array_merge(
+            $this->appends,
+            Arr::wrap($middleware)
+        );
+        
+        return $this;
+    }
+    
+    /**
+     * Remove middleware from the application's global middleware stack.
+     * 
+     * @param  array|string  $middleware
+     * 
+     * @return static
+     */
+    public function remove(array|string $middleware): static
+    {
+        $this->removals = array_merge(
+            $this->removals,
+            Arr::wrap($middleware)
+        );
+        
+        return $this;
+    }
+
+    /**
+     * Define the global middleware for the application.
+     *
+     * @param  array  $middleware
+     * @return $this
+     */
+    public function use(array $middleware)
+    {
+        $this->global = $middleware;
+
+        return $this;
+    }
 
     /**
      * Get the global middleware.
@@ -67,9 +132,9 @@ class MiddlewareBootstrap
      */
     public function getGlobalMiddleware()
     {
-        $middleware = [
+        $middleware =  $this->global ?: array_values(array_filter([
             \Syscodes\Components\Core\Http\Middleware\VerifyPostSize::class,
-        ];
+        ]));
 
         return $middleware;
     }
