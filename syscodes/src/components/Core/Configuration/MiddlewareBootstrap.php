@@ -41,6 +41,13 @@ class MiddlewareBootstrap
     protected $appends = [];
     
     /**
+     * The custom middleware aliases.
+     * 
+     * @var array $customAliases
+     */
+    protected $customAliases = [];
+    
+    /**
      * The user defined global middleware stack.
      * 
      * @var array $global
@@ -55,11 +62,25 @@ class MiddlewareBootstrap
     protected $prepends = [];
     
     /**
+     * The custom middleware priority definition.
+     * 
+     * @var array $priority
+     */
+    protected $priority = [];
+    
+    /**
      * The middleware that should be removed from the global middleware stack.
      * 
      * @var array $removals
      */
     protected $removals = [];
+    
+    /**
+     * The middleware that should be replaced in the global middleware stack.
+     * 
+     * @var array $replacements
+     */
+    protected $replacements = [];
     
     /**
      * Prepend middleware to the application's global middleware stack.
@@ -111,17 +132,61 @@ class MiddlewareBootstrap
         
         return $this;
     }
-
+    
     /**
      * Define the global middleware for the application.
-     *
+     * 
      * @param  array  $middleware
-     * @return $this
+     * 
+     * @return static
      */
-    public function use(array $middleware)
+    public function use(array $middleware): static
     {
         $this->global = $middleware;
-
+        
+        return $this;
+    }
+    
+    /**
+     * Specify a middleware that should be replaced with another middleware.
+     * 
+     * @param  string  $search
+     * @param  string  $replace
+     * 
+     * @return static
+     */
+    public function replace(string $search, string $replace): static
+    {
+        $this->replacements[$search] = $replace;
+        
+        return $this;
+    }
+    
+    /**
+     * Register additional middleware aliases.
+     * 
+     * @param  array  $aliases
+     * 
+     * @return static
+     */
+    public function alias(array $aliases): static
+    {
+        $this->customAliases = $aliases;
+        
+        return $this;
+    }
+    
+    /**
+     * Define the middleware priority for the application.
+     * 
+     * @param  array  $priority
+     * 
+     * @return static
+     */
+    public function priority(array $priority): static
+    {
+        $this->priority = $priority;
+        
         return $this;
     }
 
@@ -130,13 +195,24 @@ class MiddlewareBootstrap
      *
      * @return array
      */
-    public function getGlobalMiddleware()
+    public function getGlobalMiddleware(): array
     {
         $middleware =  $this->global ?: array_values(array_filter([
             \Syscodes\Components\Core\Http\Middleware\VerifyPostSize::class,
         ]));
-
-        return $middleware;
+        
+        $middleware = array_map(function ($middleware) {
+            return isset($this->replacements[$middleware])
+                ? $this->replacements[$middleware]
+                : $middleware;
+        }, $middleware);
+        
+        return array_values(array_filter(
+            array_diff(
+                array_unique(array_merge($this->prepends, $middleware, $this->appends)),
+                $this->removals
+            )
+        ));
     }
 
     /**
@@ -169,7 +245,17 @@ class MiddlewareBootstrap
      */
     public function getMiddlewareAliases(): array
     {
-        return array_merge($this->defaultAliases(), []);
+        return array_merge($this->defaultAliases(), $this->customAliases);
+    }
+    
+    /**
+     * Get the middleware priority for the application.
+     * 
+     * @return array
+     */
+    public function getPriority(): array
+    {
+        return $this->priority;
     }
     
     /**
