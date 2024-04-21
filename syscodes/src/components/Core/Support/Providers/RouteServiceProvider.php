@@ -32,6 +32,20 @@ use Syscodes\Components\Support\ServiceProvider;
 class RouteServiceProvider extends ServiceProvider
 {
     /**
+     * The global callback that should be used to load the application's routes.
+     * 
+     * @var \Closure|null $AlwaysLoadRoutesUsing
+     */
+    protected static $alwaysLoadRoutesUsing;
+    
+    /**
+     * The callback that should be used to load the application's routes.
+     * 
+     * @var \Closure|null $loadRoutesUsing
+     */
+    protected $loadRoutesUsing;
+    
+    /**
      * Register any application services.
      */
     public function register()
@@ -64,5 +78,31 @@ class RouteServiceProvider extends ServiceProvider
         $routeCallback();
 
         return $this;
-    }
+    }   
+    
+    /**
+     * Register the callback that will be used to load the application's routes.
+     * 
+     * @param  \Closure  $routesCallback
+     * 
+     * @return static
+     */
+    // protected function routes(Closure $routesCallback): static
+    // {
+    //     $this->loadRoutesUsing = $routesCallback;
+    //
+    //     return $this;
+    // }
+    
+    /**
+     * Register the callback that will be used to load the application's routes.
+     * 
+     * @param  \Closure|null  $routesCallback
+     * 
+     * @return void
+     */
+    public static function loadRoutesUsing(?Closure $routesCallback)
+    {
+        self::$alwaysLoadRoutesUsing = $routesCallback;
+    } 
 }
