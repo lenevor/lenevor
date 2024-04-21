@@ -800,9 +800,9 @@ class Application extends Container implements ApplicationContract
     /**
      * Get the registered service provider instance if it exists.
      * 
-     * @param  \Illuminate\Support\ServiceProvider|string  $provider
+     * @param  \Syscodes\Components\Support\ServiceProvider|string  $provider
      * 
-     * @return \Illuminate\Support\ServiceProvider|null
+     * @return \Syscodes\Components\Support\ServiceProvider|null
      */
     public function getProvider($provider)
     {
@@ -812,7 +812,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Get the registered service provider instances if any exist.
      * 
-     * @param  \Illuminate\Support\ServiceProvider|string  $provider
+     * @param  \Syscodes\Components\Support\ServiceProvider|string  $provider
      * 
      * @return array
      */
