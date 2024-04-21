@@ -1,6 +1,8 @@
 <?php 
 
 use Syscodes\Components\Core\Application;
+use Syscodes\Components\Core\Configuration\ExceptionBootstrap;
+use Syscodes\Components\Core\Configuration\MiddlewareBootstrap;
 
 return Application::configure(basePath: dirname(__DIR__))
     /*
@@ -14,9 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
     |
     */
 
-    ->assignMiddlewares(function () {
+    ->assignMiddlewares(function (MiddlewareBootstrap $middleware) {
         //
     })
-    ->assignExceptions(function () {
+    ->assignExceptions(function (ExceptionBootstrap $exceptions) {
         //
     })->create(); // Return the application
