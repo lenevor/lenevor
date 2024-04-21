@@ -114,6 +114,34 @@ class ApplicationBootstrap
     }
     
     /**
+     * Register a callback to be invoked when the application is "booting".
+     * 
+     * @param  callable  $callback
+     * 
+     * @return static
+     */
+    public function booting(callable $callback): static
+    {
+        $this->app->booting($callback);
+        
+        return $this;
+    }
+    
+    /**
+     * Register a callback to be invoked when the application is "booted".
+     * 
+     * @param  callable  $callback
+     * 
+     * @return static
+     */
+    public function booted(callable $callback): static
+    {
+        $this->app->booted($callback);
+        
+        return $this;
+    }
+    
+    /**
      * Get the application instance.
      * 
      * @return \Syscodes\Components\Contracts\Core\Application
