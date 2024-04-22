@@ -22,8 +22,11 @@
 
 namespace Syscodes\Components\Core\Configuration;
 
+use Closure;
+use Syscodes\Components\Support\Facades\Route;
 use Syscodes\Components\Contracts\Core\Application;
 use Syscodes\Components\Contracts\Http\Lenevor as LenevorCore;
+use Syscodes\Components\Core\Support\Providers\RouteServiceProvider;
 
 /**
  * Allows the bootstrap of the application.
@@ -83,6 +86,67 @@ class ApplicationBootstrap
         );
         
         return $this;
+    }
+    
+    /**
+     * Register the routing services for the application.
+     * @param  \Closure|null  $using
+     * @param  string|null  $web
+     * @param  string|null  $api
+     * @param  string  $apiPrefix
+     * @param  callable|null  $then
+     * 
+     * @return static
+     */
+    public function assignRouting(
+        ?Closure $using = null,
+        ?string $web = null,
+        ?string $api = null,
+        string $apiPrefix = 'api',
+        ?callable $then = null
+    ): static {
+        if (is_null($using) && (is_string($web) || is_string($api) || is_callable($then))) {
+            $using = $this->makeRoutingCallback($web, $api, $apiPrefix, $then);
+        }
+        
+        RouteServiceProvider::loadRoutesUsing($using);
+        
+        $this->app->booting(function () {
+            $this->app->register(RouteServiceProvider::class, force: true);
+        });
+        
+        return $this;
+    }
+    
+    /**
+     * Create the routing callback for the application.
+     * 
+     * @param  string|null  $web
+     * @param  string|null  $api
+     * @param  string  $apiPrefix
+     * @param  callable|null  $then
+     * 
+     * @return \Closure
+     */
+    protected function makeRoutingCallback(
+        ?string $web,
+        ?string $api,
+        string $apiPrefix,
+        ?callable $then
+    ) {
+        return function () use ($web, $api, $apiPrefix, $then) {
+            if (is_string($api) && realpath($api) !== false) {
+                Route::middleware('api')->prefix($apiPrefix)->group($api);
+            }
+            
+            if (is_string($web) && realpath($web) !== false) {
+                Route::middleware('web')->group($web);
+            }
+            
+            if (is_callable($then)) {
+                $then($this->app);
+            }
+        };
     }
     
     /**
