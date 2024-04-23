@@ -20,7 +20,6 @@ return [
     'App\\Models\\User' => APP_PATH.'Models/User.php',
     'App\\Providers\\AppServiceProvider' => APP_PATH.'Providers/AppServiceProvider.php',
     'App\\Providers\\EventServiceProvider' => APP_PATH.'Providers/EventServiceProvider.php',
-    'App\\Providers\\RouteServiceProvider' => APP_PATH.'Providers/RouteServiceProvider.php',
     // Bundles
     'Syscodes\\Bundles\\ApplicationBundle\\Console\\Application' => SYS_PATH.'src/bundles/ApplicationBundle/Console/Application.php',
     'Syscodes\\Bundles\\ApplicationBundle\\Routing\\CompiledRoute' => SYS_PATH.'src/bundles/ApplicationBundle/Routing/CompiledRoute.php',
