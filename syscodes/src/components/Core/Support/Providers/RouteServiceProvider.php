@@ -23,7 +23,10 @@
 namespace Syscodes\Components\Core\Support\Providers;
 
 use Closure;
+use Syscodes\Components\Routing\Router;
 use Syscodes\Components\Support\ServiceProvider;
+use Syscodes\Components\Support\Traits\ForwardsCalls;
+use Syscodes\Components\Contracts\Routing\UrlGenerator;
 
 /**
  * The Route service provider facilitates the register of a namespace your 
@@ -31,6 +34,8 @@ use Syscodes\Components\Support\ServiceProvider;
  */
 class RouteServiceProvider extends ServiceProvider
 {
+    use ForwardsCalls;
+
     /**
      * The global callback that should be used to load the application's routes.
      * 
@@ -44,17 +49,20 @@ class RouteServiceProvider extends ServiceProvider
      * @var \Closure|null $loadRoutesUsing
      */
     protected $loadRoutesUsing;
-    
+
     /**
-     * Register any application services.
+     * This namespace is applied to your controller routes.
+     * 
+     * Nota: If desired, uncomment this variable and assign it in 
+     *       the 'namespace' method where your parameter is null 
+     *       by default. 
+     *
+     *       Example: Route::middleware('web')
+     *                     ->namespace($this->namespace)
+     * 
+     * @var string|null $namespace
      */
-    public function register()
-    {
-        $this->app->booted(function () {
-            $this->app['router']->getRoutes()->refreshNameLookups();
-            $this->app['router']->getRoutes()->refreshActionLookups();
-        });
-    }
+    protected $namespace;
 
     /**
      * Bootstrap any application services.
@@ -65,20 +73,29 @@ class RouteServiceProvider extends ServiceProvider
     {
         //
     }
-
+    
     /**
-     * Register the callback that will be used to load the application's routes.
+     * Register any application services.
      * 
-     * @param  \Closure  $routeCallback
-     * 
-     * @return static
+     * @return void
      */
-    protected function routes(Closure $routeCallback): static
+    public function register()
     {
-        $routeCallback();
-
-        return $this;
-    }   
+        $this->booting(function () {
+            $this->setRootControllerNamespace();
+            
+            if ($this->routesAreCached()) {
+                $this->loadCachedRoutes();
+            } else {
+                $this->loadRoutes();
+                
+                $this->app->booted(function () {
+                    $this->app['router']->getRoutes()->refreshNameLookups();
+                    $this->app['router']->getRoutes()->refreshActionLookups();
+                });
+            }
+        });
+    }
     
     /**
      * Register the callback that will be used to load the application's routes.
@@ -87,12 +104,12 @@ class RouteServiceProvider extends ServiceProvider
      * 
      * @return static
      */
-    // protected function routes(Closure $routesCallback): static
-    // {
-    //     $this->loadRoutesUsing = $routesCallback;
-    //
-    //     return $this;
-    // }
+    protected function routes(Closure $routesCallback): static
+    {
+        $this->loadRoutesUsing = $routesCallback;
+    
+        return $this;
+    }
     
     /**
      * Register the callback that will be used to load the application's routes.
@@ -104,5 +121,74 @@ class RouteServiceProvider extends ServiceProvider
     public static function loadRoutesUsing(?Closure $routesCallback)
     {
         self::$alwaysLoadRoutesUsing = $routesCallback;
-    } 
+    }
+    
+    /**
+     * Set the root controller namespace for the application.
+     * 
+     * @return void
+     */
+    protected function setRootControllerNamespace()
+    {
+        if ( ! is_null($this->namespace)) {
+            $this->app[UrlGenerator::class]->setRootControllerNamespace($this->namespace);
+        }
+    }
+    
+    /**
+     * Determine if the application routes are cached.
+     * 
+     * @return bool
+     */
+    protected function routesAreCached(): bool
+    {
+        return $this->app->routesAreCached();
+    }
+    
+    /**
+     * Load the cached routes for the application.
+     * 
+     * @return void
+     */
+    protected function loadCachedRoutes()
+    {
+        $this->app->booted(function () {
+            require $this->app->getCachedRoutesPath();
+        });
+    }
+    
+    /**
+     * Load the application routes.
+     * 
+     * @return void
+     */
+    protected function loadRoutes()
+    {
+        if ( ! is_null(self::$alwaysLoadRoutesUsing)) {
+            $this->app->call(self::$alwaysLoadRoutesUsing);
+        }
+        
+        if ( ! is_null($this->loadRoutesUsing)) {
+            $this->app->call($this->loadRoutesUsing);
+        } elseif (method_exists($this, 'map')) {
+            $this->app->call([$this, 'map']);
+        }
+    }
+    
+    /**
+     * Magic method.
+     * 
+     * Pass dynamic methods onto the router instance.
+     * 
+     * @param  string  $method
+     * @param  array  $parameters
+     * 
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        return $this->forwardCallTo(
+            $this->app->make(Router::class), $method, $parameters
+        );
+    }
 }
