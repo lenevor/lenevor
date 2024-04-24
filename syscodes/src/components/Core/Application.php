@@ -1004,6 +1004,26 @@ class Application extends Container implements ApplicationContract
             $this->bootAppCallbacks([$callback]);
         }
     }
+    
+    /**
+     * Determine if the application routes are cached.
+     * 
+     * @return bool
+     */
+    public function routesAreCached(): bool
+    {
+        return $this['files']->exists($this->getCachedRoutesPath());
+    }
+    
+    /**
+     * Get the path to the routes cache file.
+     * 
+     * @return string
+     */
+    public function getCachedRoutesPath()
+    {
+        return $this->normalizeCachePath('APP_ROUTES_CACHE', 'cache/routes.php');
+    }
 
     /**
      * Get the path to the cached services.php file.
