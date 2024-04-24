@@ -341,6 +341,20 @@ interface Application extends Container
     public function booted($callback): void;
 
     /**
+     * Determine if the application routes are cached.
+     * 
+     * @return bool
+     */
+    public function routesAreCached(): bool;
+
+    /**
+     * Get the path to the routes cache file.
+     * 
+     * @return string
+     */
+    public function getCachedRoutesPath();
+
+    /**
      * Get the current application locale.
      * 
      * @return string
