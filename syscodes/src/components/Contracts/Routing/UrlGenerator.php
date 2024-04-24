@@ -119,4 +119,20 @@ interface UrlGenerator
      * @return static
      */
     public function setSessionResolver(callable $sessionResolver): static;
+
+    /**
+     * Get the root controller namespace.
+     * 
+     * @return string
+     */
+    public function getRootControllerNamespace(): string;
+
+    /**
+     * Set the root controller namespace.
+     * 
+     * @param  string  $rootNamespace
+     * 
+     * @return static
+     */
+    public function setRootControllerNamespace($rootNamespace): static;
 }

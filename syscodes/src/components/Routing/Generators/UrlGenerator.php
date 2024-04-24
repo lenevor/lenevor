@@ -70,6 +70,13 @@ class UrlGenerator implements UrlGeneratorContract
     protected $request;
     
     /**
+     * The root namespace being applied to controller actions.
+     * 
+     * @var string $rootNamespace
+     */
+    protected $rootNamespace;
+    
+    /**
      * The route URL generator instance.
      * 
      * @var \Syscodes\Components\Routing\RouteUrlGenerator|null
@@ -322,7 +329,7 @@ class UrlGenerator implements UrlGeneratorContract
      * 
      * @param  string  $action
      * @param  mixed  $parameters
-     * @param  bool  $forced  
+     * @param  bool  $forced
      * 
      * @return string
      * 
@@ -330,7 +337,31 @@ class UrlGenerator implements UrlGeneratorContract
      */
     public function action($action, $parameters = [], $forced = true): string
     {
-        return $this->route($action, $parameters, $forced, $this->routes->getByAction($action));
+        if (is_null($route = $this->routes->getByAction($action = $this->formatAction($action)))) {
+            throw new InvalidArgumentException("Action {$action} not defined");
+        }
+        
+        return $this->toRoute($route, $parameters, $forced);
+    }
+    
+    /**
+     * Format the given controller action.
+     * 
+     * @param  string|array  $action
+     * 
+     * @return string
+     */
+    protected function formatAction($action): string
+    {
+        if (is_array($action)) {
+            $action = '\\'.implode('@', $action);
+        }
+        
+        if ($this->rootNamespace && ! str_starts_with($action, '\\')) {
+            return $this->rootNamespace.'\\'.$action;
+        }
+        
+        return trim($action, '\\');
     }
     
     /**
@@ -452,6 +483,30 @@ class UrlGenerator implements UrlGeneratorContract
     public function setSessionResolver(callable $sessionResolver): static
     {
         $this->sessionResolver = $sessionResolver;
+        
+        return $this;
+    }
+    
+    /**
+     * Get the root controller namespace.
+     * 
+     * @return string
+     */
+    public function getRootControllerNamespace(): string
+    {
+        return $this->rootNamespace;
+    }
+    
+    /**
+     * Set the root controller namespace.
+     * 
+     * @param  string  $rootNamespace
+     * 
+     * @return static
+     */
+    public function setRootControllerNamespace($rootNamespace): static
+    {
+        $this->rootNamespace = $rootNamespace;
         
         return $this;
     }
