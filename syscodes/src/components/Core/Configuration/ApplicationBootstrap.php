@@ -26,7 +26,7 @@ use Closure;
 use Syscodes\Components\Support\Facades\Route;
 use Syscodes\Components\Contracts\Core\Application;
 use Syscodes\Components\Contracts\Http\Lenevor as LenevorCore;
-use Syscodes\Components\Core\Support\Providers\RouteServiceProvider;
+use Syscodes\Components\Core\Support\Providers\RouteServiceProvider as AppRouteServiceProvider;
 
 /**
  * Allows the bootstrap of the application.
@@ -109,10 +109,10 @@ class ApplicationBootstrap
             $using = $this->makeRoutingCallback($web, $api, $apiPrefix, $then);
         }
         
-        RouteServiceProvider::loadRoutesUsing($using);
+        AppRouteServiceProvider::loadRoutesUsing($using);
         
         $this->app->booting(function () {
-            $this->app->register(RouteServiceProvider::class, force: true);
+            $this->app->register(AppRouteServiceProvider::class, force: true);
         });
         
         return $this;
