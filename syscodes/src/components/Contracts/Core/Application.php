@@ -64,7 +64,14 @@ interface Application extends Container
      * @return string
      */
     public function bootstrapPath($path = ''): string;
-
+    
+    /* 
+     * Get the path to the service provider list in the bootstrap directory.
+     * 
+     * @return string
+     */
+    public function getBootstrapProvidersPath(): string;
+    
     /**
      * Get the path to the application configuration files.
      *
