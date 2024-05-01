@@ -43,6 +43,8 @@ use Syscodes\Components\Contracts\Console\Input\Input as InputContract;
 use Syscodes\Components\Contracts\Core\Application as ApplicationContract;
 use Syscodes\Components\Contracts\Console\Lenevor as LenevorCommandContract;
 
+use function Syscodes\Components\Filesystem\join_paths;
+
 /**
  * Allows the loading of service providers and functions to activate 
  * routes, environments and calls of main classes.
@@ -97,6 +99,13 @@ class Application extends Container implements ApplicationContract
      * @var callable[] $bootingCallbacks
      */
     protected $bootingCallbacks = [];
+    
+    /**
+     * The custom bootstrap path defined by the developer.
+     * 
+     * @var string $bootstrapPath
+     */
+    protected $bootstrapPath;
 
     /**
      * The custom database path defined by the developer.
@@ -224,7 +233,8 @@ class Application extends Container implements ApplicationContract
         };
         
         return (new Configuration\ApplicationBootstrap(new static($basePath)))
-            ->assignCores();
+            ->assignCores()
+            ->assignProviders();
     }
     
     /**
@@ -364,7 +374,33 @@ class Application extends Container implements ApplicationContract
      */
     public function bootstrapPath($path = ''): string
     {
-        return $this->basePath.DIRECTORY_SEPARATOR.'bootstrap'.($path != '' ? DIRECTORY_SEPARATOR.$path : '');
+        return $this->joinPaths($this->bootstrapPath ?: $this->basePath.DIRECTORY_SEPARATOR.'bootstrap', $path);
+    }
+    
+    /**
+     * Set the bootstrap file directory.
+     * 
+     * @param  string  $path
+     * 
+     * @return static
+     */
+    public function setBootstrapPath($path): static
+    {
+        $this->bootstrapPath = $path;
+        
+        $this->instance('path.bootstrap', $path);
+        
+        return $this;
+    }
+    
+    /* 
+     * Get the path to the service provider list in the bootstrap directory.
+     * 
+     * @return string
+     */
+    public function getBootstrapProvidersPath(): string
+    {
+        return $this->bootstrapPath('providers.php');
     }
 
     /**
@@ -498,6 +534,19 @@ class Application extends Container implements ApplicationContract
         $viewPath = $this['config']->get('view.paths')[0];
 
         return rtrim($viewPath, DIRECTORY_SEPARATOR).($path != '' ? DIRECTORY_SEPARATOR.$path : '');
+    }
+    
+    /**
+     * Join the given paths together.
+     * 
+     * @param  string  $basePath
+     * @param  string  $path
+     * 
+     * @return string
+     */
+    public function joinPaths($basePath, $path = '')
+    {
+        return join_paths($basePath, $path);
     }
 
     /**
