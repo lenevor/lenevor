@@ -25,6 +25,7 @@ namespace Syscodes\Components\Core\Configuration;
 use Closure;
 use Syscodes\Components\Support\Facades\Route;
 use Syscodes\Components\Contracts\Core\Application;
+use Syscodes\Components\Core\Bootstrap\BootRegisterProviders;
 use Syscodes\Components\Contracts\Http\Lenevor as LenevorCore;
 use Syscodes\Components\Core\Support\Providers\EventServiceProvider as AppEventServiceProvider;
 use Syscodes\Components\Core\Support\Providers\RouteServiceProvider as AppRouteServiceProvider;
@@ -92,33 +93,12 @@ class ApplicationBootstrap
             \Syscodes\Components\Core\Exceptions\Handler::class,
             fn ($handler) => $using(new ExceptionBootstrap($handler)),
         );
-
+        
         return $this;
     }
     
     /**
-     * Register the core event service provider for the application.
-     * 
-     * @param  array|bool  $discover
-     * 
-     * @return static
-     */
-    public function withEvents(array|bool $discover = []): static
-    {
-        if ( ! isset($this->registerProviders[AppEventServiceProvider::class])) {
-            $this->app->booting(function () {
-                $this->app->register(AppEventServiceProvider::class);
-            });
-        }
-        
-        $this->registerProviders[AppEventServiceProvider::class] = true;
-        
-        return $this;
-    }
-
-    /**
      * Register the routing services for the application.
-     * 
      * @param  \Closure|null  $using
      * @param  string|null  $web
      * @param  string|null  $api
@@ -176,6 +156,46 @@ class ApplicationBootstrap
                 $then($this->app);
             }
         };
+    }
+
+     /**
+     * Register the core event service provider for the application.
+     * 
+     * @param  array|bool  $discover
+     * 
+     * @return static
+     */
+    public function withEvents(array|bool $discover = []): static
+    {
+        if ( ! isset($this->registerProviders[AppEventServiceProvider::class])) {
+            $this->app->booting(function () {
+                $this->app->register(AppEventServiceProvider::class);
+            });
+        }
+        
+        $this->registerProviders[AppEventServiceProvider::class] = true;
+        
+        return $this;
+    }
+    
+    /**
+     * Register additional service providers.
+     * 
+     * @param  array  $providers
+     * @param  bool  $assignBootstrapProviders
+     * 
+     * @return static
+     */
+    public function assignProviders(array $providers = [], bool $assignBootstrapProviders = true): static
+    {
+        BootRegisterProviders::merge(
+            $providers,
+            $assignBootstrapProviders
+                ? $this->app->getBootstrapProvidersPath() 
+                : null
+        );
+
+        return $this;
     }
     
     /**
