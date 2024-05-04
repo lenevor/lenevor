@@ -53,7 +53,7 @@ interface Configure
 	 *
 	 * @return mixed
 	 */
-	public function get(string $key, mixed $default = null): mixed;
+	public function get($key, $default = null): mixed;
 	
 	/**
 	 * Sets a value in the config array.
@@ -61,9 +61,9 @@ interface Configure
 	 * @param  string  $key  The dot-notated key or array of keys
 	 * @param  mixed  $value  The default value
 	 *
-	 * @return mixed
+	 * @return void
 	 */
-	public function set(string $key, mixed $value): mixed;
+	public function set($key, $value = null): void;
 
 	/**
 	 * Get all of the configuration items for the application.

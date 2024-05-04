@@ -61,7 +61,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	 *
 	 * @return mixed
 	 */
-	public function get(string $key, mixed $default = null): mixed
+	public function get($key, $default = null): mixed
 	{
 		$keys = explode('.', $key);
 
@@ -79,12 +79,12 @@ class Configure implements ArrayAccess, ConfigureContract
 	/**
 	 * Sets a value in the config array.
 	 *
-	 * @param  string  $key  The dot-notated key or array of keys
+	 * @param  array|string  $key  The dot-notated key or array of keys
 	 * @param  mixed  $value  The default value
 	 *
-	 * @return mixed
+	 * @return void
 	 */
-	public function set(string $key, mixed $value = null): mixed
+	public function set($key, $value = null): void
 	{
 		$keys = is_array($key) ? $key : [$key => $value];
 		
