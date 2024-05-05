@@ -165,7 +165,7 @@ class ApplicationBootstrap
      * 
      * @return static
      */
-    public function withEvents(array|bool $discover = []): static
+    public function assignEvents(array|bool $discover = []): static
     {
         if ( ! isset($this->registerProviders[AppEventServiceProvider::class])) {
             $this->app->booting(function () {
