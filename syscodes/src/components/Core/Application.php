@@ -106,6 +106,13 @@ class Application extends Container implements ApplicationContract
      * @var string $bootstrapPath
      */
     protected $bootstrapPath;
+    
+    /**
+     * The custom configuration path defined by the developer.
+     * 
+     * @var string $configPath
+     */
+    protected $configPath;
 
     /**
      * The custom database path defined by the developer.
@@ -176,6 +183,13 @@ class Application extends Container implements ApplicationContract
      * @var string $namespace
      */
     protected $namespace;
+    
+    /**
+     * The custom public / web path defined by the developer.
+     * 
+     * @var string $publicPath
+     */
+    protected $publicPath;
 
     /**
      * All of the registered services providers.
@@ -234,6 +248,7 @@ class Application extends Container implements ApplicationContract
         
         return (new Configuration\ApplicationBootstrap(new static($basePath)))
             ->assignCores()
+            ->assignEvents()
             ->assignProviders();
     }
     
@@ -332,9 +347,7 @@ class Application extends Container implements ApplicationContract
      */
     public function path($path = ''): string
     {
-        $appPath = $this->appPath ?: $this->basePath.DIRECTORY_SEPARATOR.'app';
-        
-        return $appPath.($path != '' ? DIRECTORY_SEPARATOR.$path : '');
+        return $this->joinPaths($this->appPath ?: $this->basePath('app'), $path);
     }
 
     /**
@@ -362,7 +375,7 @@ class Application extends Container implements ApplicationContract
      */
     public function basePath($path = ''): string
     {
-        return $this->basePath.($path != '' ? DIRECTORY_SEPARATOR.$path : '');
+        return $this->joinPaths($this->basePath, $path);
     }
     
     /**
@@ -370,11 +383,12 @@ class Application extends Container implements ApplicationContract
      *
      * @param  string  $path  Optionally, a path to append to the bootstrap path
      * 
+     * 
      * @return string
      */
     public function bootstrapPath($path = ''): string
     {
-        return $this->joinPaths($this->bootstrapPath ?: $this->basePath.DIRECTORY_SEPARATOR.'bootstrap', $path);
+        return $this->joinPaths($this->bootstrapPath ?: $this->basePath('bootstrap'), $path);
     }
     
     /**
@@ -412,7 +426,23 @@ class Application extends Container implements ApplicationContract
      */
     public function configPath($path = ''): string
     {
-        return $this->basePath.DIRECTORY_SEPARATOR.'config'.($path != '' ? DIRECTORY_SEPARATOR.$path : '');
+        return $this->joinPaths($this->configPath ?: $this->basePath('config'), $path);
+    }
+
+    /**
+     * Set the database directory.
+     * 
+     * @param  string  $path
+     * 
+     * @return static
+     */
+    public function setConfigPath($path): static
+    {
+        $this->configPath = $path;
+
+        $this->instance('path.config', $path);
+
+        return $this;
     }
 
     /**
@@ -424,7 +454,7 @@ class Application extends Container implements ApplicationContract
      */
     public function databasePath($path = ''): string
     {
-        return ($this->databasePath ?: $this->basePath.DIRECTORY_SEPARATOR.'database').($path != '' ? DIRECTORY_SEPARATOR.$path : '');
+        return $this->joinPaths($this->databasePath ?: $this->basePath('database'), $path);
     }
 
     /**
@@ -452,7 +482,7 @@ class Application extends Container implements ApplicationContract
      */
     public function langPath($path = ''): string
     {
-        return $this->langPath.($path != '' ? DIRECTORY_SEPARATOR.$path : '');
+        return $this->joinPaths($this->langPath, $path);
     }
 
     /**
@@ -474,11 +504,29 @@ class Application extends Container implements ApplicationContract
     /**
      * Get the path to the public / web directory.
      * 
+     *  @param  string  $path  Optionally, a path to append to the public path
+     * 
      * @return string
      */
-    public function publicPath(): string
+    public function publicPath($path = ''): string
     {
-        return $this->basePath.DIRECTORY_SEPARATOR.'public';
+        return $this->joinPaths($this->publicPath ?: $this->basePath('public'), $path);
+    }
+    
+    /**
+     * Set the public / web directory.
+     * 
+     * @param  string  $path
+     * 
+     * @return static
+     */
+    public function setPublicPath($path): static
+    {
+        $this->publicPath = $path;
+        
+        $this->instance('path.public', $path);
+        
+        return $this;
     }
 
     /**
@@ -490,7 +538,7 @@ class Application extends Container implements ApplicationContract
      */
     public function resourcePath($path = ''): string
     {
-        return $this->basePath.DIRECTORY_SEPARATOR.'resources'.($path != '' ? DIRECTORY_SEPARATOR.$path : '');
+        return $this->joinPaths($this->basePath('resources'), $path);
     }
 
     /**
@@ -502,8 +550,15 @@ class Application extends Container implements ApplicationContract
      */
     public function storagePath($path = ''): string
     {
-        return ($this->storagePath ?: $this->basePath.DIRECTORY_SEPARATOR.'storage').
-                                   ($path != '' ? DIRECTORY_SEPARATOR.$path : '');
+        if (isset($_ENV['LENEVOR_STORAGE_PATH'])) {
+            return $this->joinPaths($this->storagePath ?: $_ENV['LENEVOR_STORAGE_PATH'], $path);
+        }
+        
+        if (isset($_SERVER['LENEVOR_STORAGE_PATH'])) {
+            return $this->joinPaths($this->storagePath ?: $_SERVER['LENEVOR_STORAGE_PATH'], $path);
+        }
+        
+        return $this->joinPaths($this->storagePath ?: $this->basePath('storage'), $path);
     }
 
     /**
@@ -531,9 +586,9 @@ class Application extends Container implements ApplicationContract
      */
     public function viewPath($path = ''): string
     {
-        $viewPath = $this['config']->get('view.paths')[0];
+        $viewPath = rtrim($this['config']->get('view.paths')[0], DIRECTORY_SEPARATOR);
 
-        return rtrim($viewPath, DIRECTORY_SEPARATOR).($path != '' ? DIRECTORY_SEPARATOR.$path : '');
+        return $this->joinPaths($viewPath, $path);
     }
     
     /**
