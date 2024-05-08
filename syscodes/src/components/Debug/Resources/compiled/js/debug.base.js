@@ -54,12 +54,16 @@
     var config = d.querySelector('nav:nth-child(2) a');
     let evento = ((document.ontouchstart !== null) ? 'mouseup' : 'touchstart');
 
-    config.addEventListener(evento, function (e) {
-        if (e.target) {
-            dropdown.classList.toggle("active");
-        }
+    config.addEventListener(evento, function () {
+        dropdown.classList.toggle("active"); 
     });
 
+    window.addEventListener(evento, function (e) {
+        if (e.target == dropdown) {
+            dropdown.classList.remove("active");
+        }
+    });
+    
     /**
      * CODE FOR SELECTED THE FRAMES
      */
