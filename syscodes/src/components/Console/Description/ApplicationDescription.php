@@ -152,7 +152,7 @@ class ApplicationDescription
             
             /** @var \Syscodes\Components\Console\Command\Command $command */
             foreach ($commands as $name => $command) {
-                if ( ! $command->getName() || (!$this->hidden && $command->isHidden())) {
+                if ( ! $command->getName() || ( ! $this->hidden && $command->isHidden())) {
                     continue;
                 }
                 
