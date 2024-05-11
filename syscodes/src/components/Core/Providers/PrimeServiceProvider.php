@@ -42,13 +42,20 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
     ];
 
     /**
+     * The commands to be registered.
+     * 
+     * @var array $devCommands
+     */
+    protected $devCommands = [];
+
+    /**
      * Register any application services.
      */
     public function register()
     {
         $this->registerCommands(array_merge(
             $this->commands,
-            [],
+            $this->devCommands,
         ));
     }
     
@@ -89,6 +96,6 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
      */
     public function provides(): array
     {
-        return array_merge(array_values($this->commands), []);
+        return array_merge(array_values($this->commands), array_values($this->devCommands));
     }
 }
