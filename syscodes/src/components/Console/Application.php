@@ -815,7 +815,7 @@ class Application implements ApplicationContract
      * 
      * @return void
      */
-    protected function initialize()
+    protected function initialize(): void
     {
         if ($this->initialize) {
             return;
