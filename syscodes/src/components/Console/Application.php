@@ -309,7 +309,7 @@ class Application implements ApplicationContract
      * 
      * @throws \LogicException
      */
-    public function addCommand(Command $command)
+    public function addCommand(Command $command): ?Command
     {
         $this->initialize();
 
@@ -402,7 +402,7 @@ class Application implements ApplicationContract
      * 
      * @throws \Syscodes\Components\Console\Exceptions\CommandNotFoundException
      */
-    public function findCommand(string $name)
+    public function findCommand(string $name): Command
     {
         $this->initialize();
 
@@ -470,7 +470,7 @@ class Application implements ApplicationContract
      * 
      * @throws \Syscodes\Components\Console\Exceptions\CommandNotFoundException
      */
-    public function get(string $name)
+    public function get(string $name): Command 
     {
         $this->initialize();
 
@@ -567,11 +567,11 @@ class Application implements ApplicationContract
     /**
      * Gets the commands (registered in the given namespace if provided).
      *
-     * The array keys are the full names and the values the command instances.
+     * @param  string|null  $namespace
      *
      * @return Command[]
      */
-    public function all(string $namespace = null)
+    public function all(?string $namespace = null): array
     {
         $this->initialize();
 
