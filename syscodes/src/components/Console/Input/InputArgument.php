@@ -39,25 +39,11 @@ class InputArgument implements InputArgumentInterface
     protected $default;
 
     /**
-     * The argument description.
-     * 
-     * @var string $description
-     */
-    protected $description;
-
-    /**
      * The argument mode.
      * 
      * @var int $mode
      */
-    protected $mode;
-
-    /**
-     * The argument name.
-     * 
-     * @var string $name
-     */
-    protected $name;
+    protected int $mode;
 
     /**
      * Constructor. Create a new InputArgument instance.
@@ -73,9 +59,9 @@ class InputArgument implements InputArgumentInterface
      * @throws \LogicException
      */
     public function __construct(
-        string $name, 
-        int $mode = null,
-        string $description = null,
+        protected string $name, 
+        ?int $mode = null,
+        protected string $description = '',
         mixed $default = null
     ) {
         if (null === $mode) {
@@ -86,9 +72,7 @@ class InputArgument implements InputArgumentInterface
             );
         }
 
-        $this->name        = $name;
-        $this->mode        = $mode;
-        $this->description = $description;
+        $this->mode = $mode;
 
         $this->setDefault($default);
     }
