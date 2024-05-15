@@ -203,7 +203,7 @@ interface Container extends ContainerInterface
      * 
      * @return mixed
      */
-    public function call($callback, array $parameters = [], string $defaultMethod = null): mixed;
+    public function call($callback, array $parameters = [], string $defaultMethod = null);
 
     /**
      * Remove all id traces of the specified binding.

@@ -1038,7 +1038,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    public function call($callback, array $parameters = [], string $defaultMethod = null): mixed
+    public function call($callback, array $parameters = [], string $defaultMethod = null)
     {
         return CallBoundMethod::call($this, $callback, $parameters, $defaultMethod);
     }
