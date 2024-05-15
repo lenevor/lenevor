@@ -148,14 +148,16 @@ class InputDefinition implements InputDefinitionInterface
     /**
      * Adds a array of InputArgument objects.
      * 
-     * @param  \Syscodes\Components\Console\Input\InputArgument|array  $arguments  The arguments array InputArgument objects
+     * @param  \Syscodes\Components\Console\Input\InputArgument[]  $arguments  The arguments array InputArgument objects
      * 
-     * @return \Syscodes\Components\Console\Input\inputArgument
+     * @return void
      */
-    public function addArguments(array $arguments = [])
+    public function addArguments(?array $arguments = []): void
     {
-        foreach ($arguments as $argument) {
-            $this->addArgument($argument);
+        if (null !== $arguments) {
+            foreach ($arguments as $argument) {
+                $this->addArgument($argument);
+            }            
         }
     }
 
@@ -164,9 +166,9 @@ class InputDefinition implements InputDefinitionInterface
      * 
      * @param  \Syscodes\Components\Console\Input\InputArgument  $argument  The arguments array InputArgument objects
      * 
-     * @return \Syscodes\Components\Console\Input\InputArgument
+     * @return void
      */
-    public function addArgument(InputArgument $argument)
+    public function addArgument(InputArgument $argument): void
     {
         if (isset($this->arguments[$argument->getName()])) {
             throw new LogicException(sprintf('Whoops! This argument with name "%s" already exists', $argument->getName()));
