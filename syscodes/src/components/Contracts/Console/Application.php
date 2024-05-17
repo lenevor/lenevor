@@ -110,7 +110,7 @@ interface Application
      * 
      * @throws \Syscodes\Components\Console\Exceptions\CommandNotFoundException
      */
-    public function findCommand(string $name);
+    public function findCommand(string $name): Command;
 
 	/**
      * Gets a registered command.
@@ -121,7 +121,7 @@ interface Application
      * 
      * @throws \Syscodes\Components\Console\Exceptions\CommandNotFoundException
      */
-    public function get(string $name);
+    public function get(string $name): Command;
 
 	/**
      * Returns true if the command exists, false otherwise.

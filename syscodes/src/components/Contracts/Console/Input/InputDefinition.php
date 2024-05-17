@@ -39,20 +39,20 @@ interface InputDefinition
     /**
      * Adds a array of InputArgument objects.
      * 
-     * @param  \Syscodes\Components\Console\Input\InputArgument|array  $arguments  The arguments array InputArgument objects
+     * @param  \Syscodes\Components\Console\Input\InputArgument[]  $arguments  The arguments array InputArgument objects
      * 
      * @return \Syscodes\Components\Console\Input\inputArgument
      */
-    public function addArguments(array $arguments = []);
+    public function addArguments(?array $arguments = []);
 
     /**
      * Adds an argument.
      * 
      * @param  \Syscodes\Components\Console\Input\InputArgument  $argument  The arguments array InputArgument objects
      * 
-     * @return \Syscodes\Components\Console\Input\InputArgument
+     * @return void
      */
-    public function addArgument(InputArgument $argument);
+    public function addArgument(InputArgument $argument): void;
 
     /**
      * Gets an InputArgument by name or by position of an array.
