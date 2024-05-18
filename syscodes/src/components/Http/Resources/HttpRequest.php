@@ -33,6 +33,12 @@ use Syscodes\Components\Http\Loaders\Headers;
 use Syscodes\Components\Http\Loaders\Parameters;
 use Syscodes\Components\Http\Helpers\RequestClientIP;
 
+class_exists(Files::class);
+class_exists(Inputs::class);
+class_exists(Server::class);
+class_exists(Headers::class);
+class_exists(Parameters::class);
+
 /**
  * Allows that HTTP request  loading to initialize the system.
  */
@@ -353,12 +359,12 @@ trait HttpRequest
 	 * @return static
 	 */
 	public function duplicate(
-		array $query = null, 
-		array $request = null,
-		array $attributes = null,
-		array $cookies = null,
-		array $files = null,
-		array $server = null
+		?array $query = null, 
+		?array $request = null,
+		?array $attributes = null,
+		?array $cookies = null,
+		?array $files = null,
+		?array $server = null
 	): static {
 		$duplicate = clone $this;
 
