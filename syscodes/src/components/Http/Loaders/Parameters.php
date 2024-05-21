@@ -60,7 +60,7 @@ class Parameters implements IteratorAggregate, Countable
 	 * 
 	 * @return array
 	 */
-	public function all(string $key = null): array
+	public function all(?string $key = null): array
 	{
 		if (null === $key) {
 			return $this->parameters;
