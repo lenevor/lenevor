@@ -227,8 +227,12 @@ trait HttpRequest
 	public static function createFromRequest($request): static
 	{
 		$newRequest = (new static)->duplicate(
-			$request->query->all(), $request->request->all(), $request->attributes->all(),
-			$request->cookies->all(), $request->files->all(), $request->server->all()
+			$request->query->all(),
+			$request->request->all(),
+			$request->attributes->all(),
+			$request->cookies->all(),
+			$request->files->all(),
+			$request->server->all()
 		);
 		
 		$newRequest->headers->replace($request->headers->all());
