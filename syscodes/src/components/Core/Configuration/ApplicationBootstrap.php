@@ -26,6 +26,7 @@ use Closure;
 use Syscodes\Components\Support\Facades\Route;
 use Syscodes\Components\Contracts\Core\Application;
 use Syscodes\Components\Contracts\Http\Lenevor as LenevorCore;
+use Syscodes\Components\Core\Support\Providers\EventServiceProvider as AppEventServiceProvider;
 use Syscodes\Components\Core\Support\Providers\RouteServiceProvider as AppRouteServiceProvider;
 
 /**
@@ -33,6 +34,13 @@ use Syscodes\Components\Core\Support\Providers\RouteServiceProvider as AppRouteS
  */
 class ApplicationBootstrap
 {
+    /**
+     * The service provider that are marked for registration.
+     * 
+     * @var array $registerProviders
+     */
+    protected array $registerProviders = [];
+
     /**
      * Constructor. Create a new aplication bootstrap instance.
      * 
@@ -84,12 +92,33 @@ class ApplicationBootstrap
             \Syscodes\Components\Core\Exceptions\Handler::class,
             fn ($handler) => $using(new ExceptionBootstrap($handler)),
         );
-        
+
         return $this;
     }
     
     /**
+     * Register the core event service provider for the application.
+     * 
+     * @param  array|bool  $discover
+     * 
+     * @return static
+     */
+    public function withEvents(array|bool $discover = []): static
+    {
+        if ( ! isset($this->registerProviders[AppEventServiceProvider::class])) {
+            $this->app->booting(function () {
+                $this->app->register(AppEventServiceProvider::class);
+            });
+        }
+        
+        $this->registerProviders[AppEventServiceProvider::class] = true;
+        
+        return $this;
+    }
+
+    /**
      * Register the routing services for the application.
+     * 
      * @param  \Closure|null  $using
      * @param  string|null  $web
      * @param  string|null  $api
