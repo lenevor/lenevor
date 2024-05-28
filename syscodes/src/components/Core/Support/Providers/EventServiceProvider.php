@@ -45,6 +45,23 @@ class EventServiceProvider extends ServiceProvider
     protected $subscribe = [];
 
     /**
+     * Bootstrap any application services.
+     * 
+     * Note: Events - all standard Events are defined here, as 
+     * determined for all the framework using closures. 
+     * 
+     * You add the 'Event' facade with the purpose call the Listen method 
+     * and generate actions in custom events for all the application's 
+     * which it is developing, if desired.
+     * 
+     * @return void
+     */
+    public function boot()
+    {
+        //
+    }
+
+    /**
      * Register any application services.
      * 
      * @return void
