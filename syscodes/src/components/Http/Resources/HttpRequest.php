@@ -171,33 +171,6 @@ trait HttpRequest
 	protected $validLocales = [];
 
 	/**
-	 * Constructor. Create new the Request class.
-	 * 
-	 * @param  array  $query
-	 * @param  array  $request
-	 * @param  array  $attributes
-	 * @param  array  $cookies
-	 * @param  array  $files
-	 * @param  array  $server
-	 * @param  string|resource|null $content  
-	 * 
-	 * @return void
-	 */
-	public function __construct(
-		array $query = [],
-		array $request = [],
-		array $attributes = [],
-		array $cookies = [],
-		array $files = [],
-		array $server = [],
-		$content = null
-	) {
-		$this->initialize($query, $request, $attributes, $cookies, $files, $server, $content);
-		
-		$this->detectLocale();
-	}
-
-	/**
      * Enables support for the _method request parameter to determine the intended HTTP method.
      * 
      * @return void
