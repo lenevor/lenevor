@@ -125,6 +125,33 @@ class Request
     }
 
 	/**
+	 * Constructor. Create new the Request class.
+	 * 
+	 * @param  array  $query
+	 * @param  array  $request
+	 * @param  array  $attributes
+	 * @param  array  $cookies
+	 * @param  array  $files
+	 * @param  array  $server
+	 * @param  string|resource|null $content  
+	 * 
+	 * @return void
+	 */
+	public function __construct(
+		array $query = [],
+		array $request = [],
+		array $attributes = [],
+		array $cookies = [],
+		array $files = [],
+		array $server = [],
+		$content = null
+	) {
+		$this->initialize($query, $request, $attributes, $cookies, $files, $server, $content);
+		
+		$this->detectLocale();
+	}
+
+	/**
 	 * Returns the desired segment, or $default if it does not exist.
 	 *
 	 * @param  int  $index  The segment number (1-based index)
