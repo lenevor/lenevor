@@ -42,12 +42,12 @@ if ( ! function_exists('data_get')) {
      * Get an item from an array or object using "dot" notation.
      * 
      * @param  mixed   $target
-     * @param  string|array  $key
+     * @param  string|array|int|null  $key
      * @param  mixed   $default
      * 
      * @return mixed
      */
-    function data_get($target, string|array $key, mixed $default = null)
+    function data_get($target, $key, mixed $default = null)
     {
         if (is_null($key)) return $target;
         
