@@ -280,7 +280,7 @@ class Request
 			return $this->json;
 		}
 
-		return Arr::get($this->json->all(), $key, $default);
+		return data_get($this->json->all(), $key, $default);
 	}
 
 	/**
