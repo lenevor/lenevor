@@ -64,7 +64,7 @@ class StartSession
         if ( ! $this->sessionConfigured()) {
             return $next($request);
         }
-
+        
         $session = $this->getSession($request);
 
         return $this->handleStatefulRequest($request, $session, $next);
