@@ -22,9 +22,10 @@
 
 namespace Syscodes\Components\Validation;
 
+use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Str;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Contracts\Translation\Translator;
-use Syscodes\Components\Support\Str;
 
 /**
  * Entry point for the Validation component.
@@ -168,5 +169,60 @@ class Validator
         }
         
         return $newData;
+    }
+    
+    /**
+     * Get the data under validation.
+     * 
+     * @return array
+     */
+    public function attributes(): array
+    {
+        return $this->getData();
+    }
+    
+    /**
+     * Get the data under validation.
+     * 
+     * @return array
+     */
+    public function getData(): array
+    {
+        return $this->data;
+    }
+    
+    /**
+     * Get the value of a given attribute.
+     * 
+     * @param  string  $attribute
+     * 
+     * @return mixed
+     */
+    public function getValue($attribute)
+    {
+        return Arr::get($this->data, $attribute);
+    }
+    
+    /**
+     * Set the value of a given attribute.
+     * 
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * 
+     * @return void
+     */
+    public function setValue($attribute, $value)
+    {
+        Arr::set($this->data, $attribute, $value);
+    }
+    
+    /**
+     * Get the validation rules.
+     * 
+     * @return array
+     */
+    public function getRules(): array
+    {
+        return $this->rules;
     }
 }
