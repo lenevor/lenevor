@@ -32,7 +32,14 @@ class ValidatorRuleParser
      * 
      * @var array $data
      */
-    protected array $data;
+    public array $data;  
+    
+    /**
+     * The implicit attributes.
+     * 
+     * @var array $implicitAttributes
+     */
+    public $implicitAttributes = [];
 
     /**
      * Constructor. Create a new ValidatorRuleParser class instance.
