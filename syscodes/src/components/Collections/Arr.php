@@ -97,6 +97,29 @@ class Arr
 	{
 		return [array_keys($array), array_values($array)];
 	}
+	
+	/**
+	 * Flatten a multi-dimensional associative array with dots.
+	 * 
+	 * @param  iterable  $array
+	 * @param  string  $prepend
+	 * 
+	 * @return array
+	 */
+	public static function dot($array, $prepend = ''): array
+	{
+		$results = [];
+		
+		foreach ($array as $key => $value) {
+			if (is_array($value) && ! empty($value)) {
+				$results = array_merge($results, static::dot($value, $prepend.$key.'.'));
+			} else {
+				$results[$prepend.$key] = $value;
+			}
+		}
+		
+		return $results;
+	}
 
 	/**
 	 * Get all of the given array except for a specified array of items.
@@ -501,6 +524,24 @@ class Arr
 	public static function query(array $array): string
 	{
 		return http_build_query($array, '', '&', PHP_QUERY_RFC3986);
+	}
+	
+	/**
+	 * Convert a flatten "dot" notation array into an expanded array.
+	 * 
+	 * @param  iterable  $array
+	 * 
+	 * @return mixed
+	 */
+	public static function undot($array): mixed
+	{
+		$results = [];
+		
+		foreach ($array as $key => $value) {
+			static::set($results, $key, $value);
+		}
+		
+		return $results;
 	}
 
 	/**
