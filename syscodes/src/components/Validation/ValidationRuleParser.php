@@ -114,4 +114,19 @@ class ValidationRuleParser
             }
         }
     }
+    
+    /**
+     * Explode the explicit rule into an array if necessary.
+     * 
+     * @param  mixed  $rule
+     * @param  string  $attribute
+     * 
+     * @return array
+     */
+    protected function explodeExplicitRule($rule, $attribute): array
+    {
+        if (is_string($rule)) {
+            return explode('|', $rule);
+        }
+    }
 }
