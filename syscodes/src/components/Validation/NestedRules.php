@@ -78,6 +78,6 @@ class NestedRules
             $rules = [$attribute => $rules];
         }
         
-        return $rules;
+        return $parser->explode($rules);
     }
 }
