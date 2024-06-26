@@ -597,6 +597,7 @@ return [
     'Syscodes\\Components\\Translation\\Loader\\FileLoader' => SYS_PATH.'src/components/Translation/Loader/FileLoader.php',
     'Syscodes\\Components\\Translation\\TranslationServiceProvider' => SYS_PATH.'src/components/Translation/TranslationServiceProvider.php',
     'Syscodes\\Components\\Translation\\Translator' => SYS_PATH.'src/components/Translation/Translator.php',
+    'Syscodes\\Components\\Validation\\ConditionalRules' => SYS_PATH.'src/components/Validation/ConditionalRules.php',
     'Syscodes\\Components\\Validation\\NestedRules' => SYS_PATH.'src/components/Validation/NestedRules.php',
     'Syscodes\\Components\\Validation\\ValidationRuleParser' => SYS_PATH.'src/components/Validation/ValidationRuleParser.php',
     'Syscodes\\Components\\Validation\\Validator' => SYS_PATH.'src/components/Validation/Validator.php',
