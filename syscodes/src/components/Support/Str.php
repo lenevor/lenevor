@@ -155,6 +155,25 @@ class Str
         // Notacion lowerCamelCase
         return static::$camelCache[$value] = lcfirst(self::studlycaps($value));
     }
+    
+    /**
+     * Get the character at the specified index.
+     * 
+     * @param  string  $subject
+     * @param  int  $index
+     * 
+     * @return string|false
+     */
+    public static function charAt($subject, $index): string|false
+    {
+        $length = mb_strlen($subject);
+        
+        if ($index < 0 ? $index < -$length : $index > $length - 1) {
+            return false;
+        }
+        
+        return mb_substr($subject, $index, 1);
+    }
 
     /**
      * Determine if a given string contains a given substring.
