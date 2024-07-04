@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Validation;
 
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 
 /**
@@ -99,34 +100,99 @@ class ValidationRuleParser
      * Define a set of rules that apply to each element in an array attribute.
      * 
      * @param  array  $results
-     * @param  string  $attributes
+     * @param  string  $attribute
      * @param  string[]  $rules
      * 
      * @return array
      */
-    protected function explodeWildcardRules($results, $attributes, $rules): array
+    protected function explodeWildcardRules($results, $attribute, $rules): array
     {
-        $pattern = str_replace('\*', '[^\.]*', preg_quote($attributes, '/'));
+        $pattern = str_replace('\*', '[^\.]*', preg_quote($attribute, '/'));
 
         foreach ($this->data as $key => $value) {
-            if (Str::startsWith($key, $attributes) || (bool) preg_match('/^'.$pattern.'\z/', $key)) {
-
+            if (Str::startsWith($key, $attribute) || (bool) preg_match('/^'.$pattern.'\z/', $key)) {
+                foreach ((array) $rules as $rule) {
+                    if ($rule instanceof NestedRules) {
+                        $context  = Arr::get($this->data, Str::beforeLast($key, '.'));
+                        $compiled = $rule->compile($key, $value, $this->data, $context);
+                        
+                        $this->implicitAttributes = array_merge_recursive(
+                            $compiled->implicitAttributes,
+                            $this->implicitAttributes,
+                            [$attribute => [$key]]
+                        );
+                        
+                        $results = $this->mergeRules($results, $compiled->rules);
+                    } else {
+                        $this->implicitAttributes[$attribute][] = $key;
+                        
+                        $results = $this->mergeRules($results, $key, $rule);
+                    }
+                }
             }
         }
+        
+        return $results;
+    }
+
+    /**
+     * Merge additional rules into a given attribute(s).
+     *
+     * @param  array  $results
+     * @param  string|array  $attribute
+     * @param  string|array  $rules
+     * 
+     * @return array
+     */
+    public function mergeRules($results, $attribute, $rules = []): array
+    {
+        if (is_array($attribute)) {
+            foreach ((array) $attribute as $innerAttribute => $innerRules) {
+                $results = $this->mergeRulesForAttribute($results, $innerAttribute, $innerRules);
+            }
+
+            return $results;
+        }
+
+        return $this->mergeRulesForAttribute(
+            $results, $attribute, $rules
+        );
+    }
+
+    /**
+     * Merge additional rules into a given attribute.
+     *
+     * @param  array  $results
+     * @param  string  $attribute
+     * @param  string|array  $rules
+     * 
+     * @return array
+     */
+    protected function mergeRulesForAttribute($results, $attribute, $rules): array
+    {
+        $merge = headItem($this->explodeRules([$rules]));
+
+        $results[$attribute] = array_merge(
+            isset($results[$attribute]) ? $this->explodeExplicitRule($results[$attribute], $attribute) : [], $merge
+        );
+
+        return $results;
     }
     
     /**
      * Explode the explicit rule into an array if necessary.
      * 
-     * @param  mixed  $rule
+     * @param  mixed  $rules
      * @param  string  $attribute
      * 
      * @return array
      */
-    protected function explodeExplicitRule($rule, $attribute): array
+    protected function explodeExplicitRule($rules, $attribute): array
     {
-        if (is_string($rule)) {
-            return explode('|', $rule);
+        foreach ($rules as $key => &$rule) {
+            $rule = is_string($rule) ? explode('|', $rule) : $rule;
         }
+        
+        return $rules;
     }
 }
