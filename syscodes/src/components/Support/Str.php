@@ -594,9 +594,11 @@ class Str
             return static::$studlyCache[$key];
         }
 
-        $value = ucwords(str_replace(['-', '_'], ' ', $value));
+        $words = explode(' ', static::replace(['-', '_'], ' ', $value));
 
-        return static::$studlyCache[$key] = str_replace(' ', '', $value);
+        $studlyWords = array_map(fn ($word) => static::ucfirst($word), $words);
+
+        return static::$studlyCache[$key] = implode($studlyWords);
     }
     
     /**
