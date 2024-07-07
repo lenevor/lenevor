@@ -87,6 +87,7 @@ class ValidationRuleParser
         foreach ($rules as $key => $rule) {
             if (Str::contains($key, '*')) {
                 $rules = $this->explodeWildcardRules($rules, $key, [$rule]);
+                
                 unset($rules[$key]);
             } else {
                 $rules[$key] = $this->explodeExplicitRule($rule, $key);
@@ -182,17 +183,114 @@ class ValidationRuleParser
     /**
      * Explode the explicit rule into an array if necessary.
      * 
-     * @param  mixed  $rules
+     * @param  mixed  $rule
      * @param  string  $attribute
      * 
      * @return array
      */
-    protected function explodeExplicitRule($rules, $attribute): array
+    protected function explodeExplicitRule($rule, $attribute): array
     {
-        foreach ($rules as $key => &$rule) {
-            $rule = is_string($rule) ? explode('|', $rule) : $rule;
+        if (is_string($rule)) {
+            return explode('|', $rule);
         }
         
-        return $rules;
+        return array_map(
+            [$this],
+            $rule,
+            array_fill((int) array_key_first($rule), count($rule), $attribute)
+        );
+    }
+    
+    /**
+     * Extract the rule name and parameters from a rule.
+     * 
+     * @param  array|string  $rule
+     * 
+     * @return array
+     */
+    public static function parse($rule): array
+    {
+        if (is_array($rule)) {
+            $rule = static::parseArrayRule($rule);
+        } else {
+            $rule = static::parseStringRule($rule);
+        }
+        
+        $rule[0] = static::normalizeRule($rule[0]);
+        
+        return $rule;
+    }
+    
+    /**
+     * Parse an array based rule.
+     * 
+     * @param  array  $rule
+     * 
+     * @return array
+     */
+    protected static function parseArrayRule(array $rule): array
+    {
+        return [Str::studlycaps(trim(Arr::get($rule, 0, ''))), array_slice($rule, 1)];
+    }
+    
+    /**
+     * Parse a string based rule.
+     * 
+     * @param  string  $rule
+     * 
+     * @return array
+     */
+    protected static function parseStringRule($rule): array
+    {
+        $parameters = [];
+        
+        if (Str::contains($rule, ':')) {
+            [$rule, $parameter] = explode(':', $rule, 2);
+            
+            $parameters = static::parseParameters($rule, $parameter);
+        }
+        
+        return [Str::studlycaps(trim($rule)), $parameters];
+    }
+    
+    /**
+     * Parse a parameter list.
+     * 
+     * @param  string  $rule
+     * @param  string  $parameter
+     * 
+     * @return array
+     */
+    protected static function parseParameters($rule, $parameter): array
+    {
+        return static::ruleIsRegex($rule) ? [$parameter] : str_getcsv($parameter);
+    }
+    
+    /**
+     * Determine if the rule is a regular expression.
+     * 
+     * @param  string  $rule
+     * 
+     * @return bool
+     */
+    protected static function ruleIsRegex($rule)
+    {
+        return in_array(strtolower($rule), ['regex', 'not_regex', 'notregex'], true);
+    }
+    
+    /**
+     * Normalizes a rule so that we can accept short types.
+     * 
+     * @param  string  $rule
+     * 
+     * @return string
+     */
+    protected static function normalizeRule($rule): string
+    {
+        return match ($rule) {
+            'Int' => 'Integer',
+            'Bool' => 'Boolean',
+            default => $rule,
+        };
     }
 }
