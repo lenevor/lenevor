@@ -162,6 +162,6 @@ class CookieSessionHandler implements SessionHandlerInterface
      */
     public function setRequest(Request $request): void
     {
-        $this->request =  $request;
+        $this->request = $request;
     }
 }

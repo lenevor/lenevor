@@ -660,6 +660,7 @@ class Store implements Session
         return $this->handler instanceof CookieSessionHandler;
     }
 
+
     /**
      * Set the request on the handler instance.
      *
