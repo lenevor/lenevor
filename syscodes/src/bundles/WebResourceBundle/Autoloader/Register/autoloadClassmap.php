@@ -13,13 +13,9 @@
 
 return [
 
-    'App\\Console\\Lenevor' => APP_PATH.'Console/Lenevor.php',
-    'App\\Exceptions\\Handler' => APP_PATH.'Exceptions/Handler.php',
     'App\\Http\\Controller' => APP_PATH.'Http/Controller.php',
-    'App\\Http\\Lenevor' => APP_PATH.'Http/Lenevor.php',
     'App\\Models\\User' => APP_PATH.'Models/User.php',
     'App\\Providers\\AppServiceProvider' => APP_PATH.'Providers/AppServiceProvider.php',
-    'App\\Providers\\EventServiceProvider' => APP_PATH.'Providers/EventServiceProvider.php',
     // Bundles
     'Syscodes\\Bundles\\ApplicationBundle\\Console\\Application' => SYS_PATH.'src/bundles/ApplicationBundle/Console/Application.php',
     'Syscodes\\Bundles\\ApplicationBundle\\Routing\\CompiledRoute' => SYS_PATH.'src/bundles/ApplicationBundle/Routing/CompiledRoute.php',
@@ -597,9 +593,10 @@ return [
     'Syscodes\\Components\\Translation\\Loader\\FileLoader' => SYS_PATH.'src/components/Translation/Loader/FileLoader.php',
     'Syscodes\\Components\\Translation\\TranslationServiceProvider' => SYS_PATH.'src/components/Translation/TranslationServiceProvider.php',
     'Syscodes\\Components\\Translation\\Translator' => SYS_PATH.'src/components/Translation/Translator.php',
-    'Syscodes\\Components\\Validation\\ConditionalRules' => SYS_PATH.'src/components/Validation/ConditionalRules.php',
-    'Syscodes\\Components\\Validation\\NestedRules' => SYS_PATH.'src/components/Validation/NestedRules.php',
-    'Syscodes\\Components\\Validation\\ValidationRuleParser' => SYS_PATH.'src/components/Validation/ValidationRuleParser.php',
+    'Syscodes\\Components\\Validation\\Exceptions\MissingRequiredParameterException' => SYS_PATH.'src/components/Validation/Exceptions/MissingRequiredParameterException.php',
+    'Syscodes\\Components\\Validation\\Exceptions\\RuleNotFoundException' => SYS_PATH.'src/components/Validation/Exceptions/RuleNotFoundException.php',
+    'Syscodes\\Components\\Validation\\Traits\\Messages' => SYS_PATH.'src/components/Validation/Traits/Messages.php',
+    'Syscodes\\Components\\Validation\\Rules' => SYS_PATH.'src/components/Validation/Rules.php',
     'Syscodes\\Components\\Validation\\Validator' => SYS_PATH.'src/components/Validation/Validator.php',
     'Syscodes\\Components\\Version' => SYS_PATH.'src/components/Version/Version.php',
     'Syscodes\\Components\\View\\Transpilers\\Concerns\\TranspilesComments' => SYS_PATH.'src/components/View/Transpilers/Concerns/TranspilesComments.php',
