@@ -61,6 +61,29 @@ class Str
     {
         return $search === '' ? $subject : array_reverse(explode($search, $subject, 2))[0];
     }
+    
+    /**
+     * Return the remainder of a string after the last occurrence of a given value.
+     * 
+     * @param  string  $subject
+     * @param  string  $search
+     * 
+     * @return string
+     */
+    public static function afterLast($subject, $search): string
+    {
+        if ($search === '') {
+            return $subject;
+        }
+        
+        $position = strrpos($subject, (string) $search);
+        
+        if ($position === false) {
+            return $subject;
+        }
+        
+        return substr($subject, $position + strlen($search));
+    }
 
     /**
      * Transliterate a UTF-8 value to ASCII.
@@ -91,6 +114,29 @@ class Str
         $result = strstr($subject, (string) $search, true);
         
         return $result === false ? $subject : $result;
+    }
+    
+    /**
+     * Get the portion of a string before the last occurrence of a given value.
+     * 
+     * @param  string  $subject
+     * @param  string  $search
+     * 
+     * @return string
+     */
+    public static function beforeLast($subject, $search): string
+    {
+        if ($search === '') {
+            return $subject;
+        }
+        
+        $pos = mb_strrpos($subject, $search);
+        
+        if ($pos === false) {
+            return $subject;
+        }
+        
+        return static::substr($subject, 0, $pos);
     }
 
     /**
