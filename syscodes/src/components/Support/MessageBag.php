@@ -24,6 +24,7 @@ namespace Syscodes\Components\Support;
 
 use Countable;
 use JsonSerializable;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Support\MessageBag as MessageBagContract;
 
@@ -127,7 +128,23 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
      */
     public function has($key): bool
     {
-        return $this->first($key) !== '';
+        if ($this->isEmpty()) {
+            return false;
+        }
+        
+        if (is_null($key)) {
+            return $this->any();
+        }
+        
+        $keys = is_array($key) ? $key : func_get_args();
+        
+        foreach ($keys as $key) {
+            if ($this->first($key) === '') {
+                return false;
+            }
+        }
+        
+        return true;
     }
     
     /**
@@ -142,7 +159,9 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
     {
         $messages = is_null($key) ? $this->all($format) : $this->get($key, $format);
         
-        return (count($messages) > 0) ? $messages[0] : '';
+        $firstMessage = Arr::first($messages, null, '');
+        
+        return is_array($firstMessage) ? Arr::first($firstMessage) : $firstMessage;
     }
     
     /**
@@ -195,7 +214,14 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
      */
     protected function transform($messages, $format, $key): array
     {
-        return array_map(fn ($message) => str_replace(array(':message', ':key'), array($message, $key), $format), (array) $messages);
+        if ($format == ':message') {
+            return (array) $messages;
+        }
+
+        return collect((array) $messages)
+               ->map(function ($message) use ($format, $key) {
+                    return str_replace([':message', ':key'], [$message, $key], $format);
+               })->all();
     }
     
     /**
