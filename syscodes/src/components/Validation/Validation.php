@@ -22,10 +22,23 @@
 
 namespace Syscodes\Components\Validation;
 
+use Syscodes\Components\Support\Arr;
+
 /**
  * Get validation based on message.
  */
-class Validation
+final class Validation
 {
+    /**
+     * Get value given the key.
+     * 
+     * @param  string  $key
+     * 
+     * @return mixed
+     */
+    public function getValue($key): mixed
+    {
+        return Arr::get([], $key);
+    }
 
 }
