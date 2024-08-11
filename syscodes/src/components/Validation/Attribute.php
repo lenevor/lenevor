@@ -79,7 +79,7 @@ final class Attribute
     protected $rules = [];
     
     /**
-     * Ge the validation implementation.
+     * Get the validation implementation.
      * 
      * @var Validation $validation
      */
@@ -109,10 +109,10 @@ final class Attribute
             $this->addRule($rule);
         }
     }
-
+    
     /**
      * Set the primary attribute.
-     *
+     * 
      * @param Attribute $primaryAttribute
      * 
      * @return void
@@ -121,10 +121,10 @@ final class Attribute
     {
         $this->primaryAttribute = $primaryAttribute;
     }
-
+    
     /**
      * Set key indexes.
-     *
+     * 
      * @param array $keyIndexes
      * 
      * @return void
@@ -133,20 +133,20 @@ final class Attribute
     {
         $this->keyIndexes = $keyIndexes;
     }
-
+    
     /**
      * Get primary attributes.
-     *
+     * 
      * @return Attribute|null
      */
     public function getPrimaryAttribute()
     {
         return $this->primaryAttribute;
     }
-
+    
     /**
      * Set other attributes.
-     *
+     * 
      * @param array $otherAttributes
      * 
      * @return void
@@ -154,14 +154,15 @@ final class Attribute
     public function setOtherAttributes(array $otherAttributes): void
     {
         $this->otherAttributes = [];
+        
         foreach ($otherAttributes as $otherAttribute) {
             $this->addOtherAttribute($otherAttribute);
         }
     }
-
+    
     /**
      * Add other attributes.
-     *
+     * 
      * @param Attribute $otherAttribute
      * 
      * @return void
@@ -170,20 +171,20 @@ final class Attribute
     {
         $this->otherAttributes[] = $otherAttribute;
     }
-
+    
     /**
      * Get other attributes.
-     *
+     * 
      * @return array
      */
     public function getOtherAttributes(): array
     {
         return $this->otherAttributes;
     }
-
+    
     /**
      * Add rule.
-     *
+     * 
      * @param Rules $rule
      * 
      * @return void
@@ -194,10 +195,10 @@ final class Attribute
         $rule->setValidation($this->validation);
         $this->rules[$rule->getKey()] = $rule;
     }
-
+    
     /**
      * Get rule.
-     *
+     * 
      * @param string $ruleKey
      * 
      * @return bool
@@ -206,20 +207,20 @@ final class Attribute
     {
         return $this->hasRule($ruleKey) ? $this->rules[$ruleKey] : null;
     }
-
+    
     /**
      * Get rules.
-     *
+     * 
      * @return array
      */
     public function getRules(): array
     {
         return $this->rules;
     }
-
+    
     /**
      * Check the $ruleKey has in the rule.
-     *
+     * 
      * @param string $ruleKey
      * 
      * @return bool
@@ -228,10 +229,10 @@ final class Attribute
     {
         return isset($this->rules[$ruleKey]);
     }
-
+    
     /**
      * Set required.
-     *
+     * 
      * @param boolean $required
      * 
      * @return void
@@ -240,40 +241,40 @@ final class Attribute
     {
         $this->required = $required;
     }
-
+    
     /**
      * Set rule is required.
-     *
+     * 
      * @return boolean
      */
     public function isRequired(): bool
     {
         return $this->required;
     }
-
+    
     /**
      * Get key.
-     *
+     * 
      * @return string
      */
     public function getKey(): string
     {
         return $this->key;
     }
-
+    
     /**
      * Get key indexes.
-     *
+     * 
      * @return array
      */
     public function getKeyIndexes(): array
     {
         return $this->keyIndexes;
     }
-
+    
     /**
      * Get value.
-     *
+     * 
      * @param string|null $key
      * 
      * @return mixed
@@ -283,80 +284,85 @@ final class Attribute
         if ($key && $this->isArrayAttribute()) {
             $key = $this->resolveSiblingKey($key);
         }
-
+        
         if ( ! $key) {
             $key = $this->getKey();
         }
-
+        
         return $this->validation->getValue($key);
     }
-
+    
     /**
      * Get that is array attribute.
-     *
+     * 
      * @return boolean
      */
     public function isArrayAttribute(): bool
     {
         return count($this->getKeyIndexes()) > 0;
     }
-
+    
     /**
      * Check this attribute is using dot notation.
-     *
+     * 
      * @return boolean
      */
     public function isUsingDotNotation(): bool
     {
         return strpos($this->getKey(), '.') !== false;
     }
-
+    
     /**
      * Resolve sibling key.
-     *
+     * 
      * @param string $key
      * 
      * @return string
      */
     public function resolveSiblingKey(string $key): string
     {
-        $indexes = $this->getKeyIndexes();
-        $keys = explode("*", $key);
+        $indexes        = $this->getKeyIndexes();
+        $keys           = explode("*", $key);
         $countAsterisks = count($keys) - 1;
+        
         if (count($indexes) < $countAsterisks) {
             $indexes = array_merge($indexes, array_fill(0, $countAsterisks - count($indexes), "*"));
         }
+        
         $args = array_merge([str_replace("*", "%s", $key)], $indexes);
+        
         return call_user_func_array('sprintf', $args);
     }
-
+    
     /**
      * Get humanize key.
-     *
+     * 
      * @return string
      */
     public function getHumanizedKey(): string
     {
         $primaryAttribute = $this->getPrimaryAttribute();
+        
         $key = str_replace('_', ' ', $this->key);
-
+        
         // Resolve key from array validation
         if ($primaryAttribute) {
             $split = explode('.', $key);
-            $key = implode(' ', array_map(function ($word) {
+            $key   = implode(' ', array_map(function ($word) {
                 if (is_numeric($word)) {
                     $word = $word + 1;
                 }
+                
                 return Str::snake($word, ' ');
             }, $split));
         }
-
+        
         return ucfirst($key);
     }
-
+    
     /**
      * Set alias.
-     *
+     * 
      * @param string $alias
      * 
      * @return void
@@ -365,13 +371,13 @@ final class Attribute
     {
         $this->alias = $alias;
     }
-
+    
     /**
      * Get alias.
-     *
+     * 
      * @return string|null
      */
-    public function getAlias()
+    public function getAlias(): string|null
     {
         return $this->alias;
     }
