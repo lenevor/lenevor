@@ -30,6 +30,27 @@ use Syscodes\Components\Support\Arr;
 final class Validation
 {
     /**
+     * Gets array of the aliases.
+     * 
+     * @var array $aliases
+     */
+    protected $aliases = [];
+
+    /**
+     * Gets the atributtes.
+     * 
+     * @var array $atributtes
+     */
+    protected $atributtes = [];
+
+    /**
+     * Get the errors.
+     * 
+     * @var ErroBag $errors
+     */
+    public $errors;
+
+    /**
      * Get value given the key.
      * 
      * @param  string  $key
