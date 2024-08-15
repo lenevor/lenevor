@@ -51,6 +51,41 @@ final class Validation
     public $errors;
 
     /**
+     * Gets the input.
+     * 
+     * @var array $inputs
+     */
+    protected $inputs = [];
+
+    /**
+     * Gets the invalid data.
+     * 
+     * @var array invalidData
+     */
+    protected $invalidData = [];
+
+    /**
+     * Get the message separator.
+     * 
+     * @var string msgSeparator
+     */
+    protected $msgSeparator = ':';
+
+    /**
+     * The validator implementation.
+     * 
+     * @var mixed $validator
+     */
+    protected $validator;
+
+    /**
+     * Gets the valid data.
+     * 
+     * @var array $validData
+     */
+    protected $validData = [];
+
+    /**
      * Get value given the key.
      * 
      * @param  string  $key
