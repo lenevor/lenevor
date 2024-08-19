@@ -52,7 +52,7 @@ final class Validation
     /**
      * Get the errors.
      * 
-     * @var ErroBag $errors
+     * @var MessageBag $errors
      */
     public $errors;
 
@@ -134,18 +134,6 @@ final class Validation
     }
     
     /**
-     * Get value given the key.
-     * 
-     * @param  string  $key
-     * 
-     * @return mixed
-     */
-    public function getValue($key): mixed
-    {
-        return Arr::get([], $key);
-    }
-    
-    /**
      * Resolve rules.
      * 
      * @param  mixed  $rules
@@ -209,6 +197,92 @@ final class Validation
         
         return [$rulename, $params];
     }
+
+    /**
+     * Resolve message.
+     *
+     * @param  Attribute  $attribute
+     * @param  mixed  $value
+     * @param  Rules  $validator
+     * 
+     * @return mixed
+     */
+    protected function resolveMessage(Attribute $attribute, $value, Rules $validator): string
+    {
+        $primaryAttribute = $attribute->getPrimaryAttribute();
+        $params           = array_merge($validator->getParameters(), $validator->getParametersTexts());
+        $attributeKey     = $attribute->getKey();
+        $ruleKey          = $validator->getKey();
+        $alias            = $attribute->getAlias() ?: $this->resolveAttributeName($attribute);
+        $message          = $validator->getMessage(); // default rule message
+        $messageKeys      = [
+            $attributeKey.$this->msgSeparator.$ruleKey,
+            $attributeKey,
+            $ruleKey
+        ];
+
+        if ($primaryAttribute) {
+            $primaryAttributeKey = $primaryAttribute->getKey();
+            array_splice($messageKeys, 1, 0, $primaryAttributeKey.$this->msgSeparator.$ruleKey);
+            array_splice($messageKeys, 3, 0, $primaryAttributeKey);
+        }
+
+        foreach ($messageKeys as $key) {
+            if (isset($this->messages[$key])) {
+                $message = $this->messages[$key];
+                break;
+            }
+        }
+
+        // Replace message params
+        $vars = array_merge($params, [
+            'attribute' => $alias,
+            'value' => $value,
+        ]);
+
+        foreach ($vars as $key => $value) {
+            $value   = $this->stringify($value);
+            $message = str_replace(':'.$key, $value, $message);
+        }
+
+        // Replace key indexes
+        $keyIndexes = $attribute->getKeyIndexes();
+
+        foreach ($keyIndexes as $pathIndex => $index) {
+            $replacers = [
+                "[{$pathIndex}]" => $index,
+            ];
+
+            if (is_numeric($index)) {
+                $replacers["{{$pathIndex}}"] = $index + 1;
+            }
+
+            $message = str_replace(array_keys($replacers), array_values($replacers), $message);
+        }
+
+        return $message;
+    }
+
+    /**
+     * Resolve attribute name.
+     *
+     * @param  Attribute  $attribute
+     * 
+     * @return string
+     */
+    protected function resolveAttributeName(Attribute $attribute): string
+    {
+        $primaryAttribute = $attribute->getPrimaryAttribute();
+        if (isset($this->aliases[$attribute->getKey()])) {
+            return $this->aliases[$attribute->getKey()];
+        } elseif ($primaryAttribute and isset($this->aliases[$primaryAttribute->getKey()])) {
+            return $this->aliases[$primaryAttribute->getKey()];
+        } elseif ($this->validator->isUsingHumanizedKey()) {
+            return $attribute->getHumanizedKey();
+        } else {
+            return $attribute->getKey();
+        }
+    }
     
     /**
      * Get Validator class instance.
@@ -242,6 +316,63 @@ final class Validation
         }
         
         return $resolvedInputs;
+    }
+    
+    /**
+     * Check validations are passed.
+     * 
+     * @return bool
+     */
+    public function passes(): bool
+    {
+        return $this->errors->count() == 0;
+    }
+    
+    /**
+     * Check validations are failed.
+     * 
+     * @return bool
+     */
+    public function fails(): bool
+    {
+        return ! $this->passes();
+    }
+
+    /**
+     * Get value given the key.
+     * 
+     * @param  string  $key
+     * 
+     * @return mixed
+     */
+    public function getValue($key): mixed
+    {
+        return Arr::get($this->inputs, $key);
+    }
+
+    /**
+     * Set value given the key and check value is existed.
+     * 
+     * @param  string  $key
+     * @param  mixed  $value
+     * 
+     * @return void
+     */
+    public function setValue(string $key, mixed $value): void
+    {
+        Arr::set($this->inputs, $key, $value);
+    }
+
+    /**
+     * Given key and check value is existed.
+     * 
+     * @param  string  $key
+     * 
+     * @return bool
+     */
+    public function hasValue(string $key): bool
+    {
+        return Arr::has($this->inputs, $key);
     }
     
     /**
@@ -279,5 +410,93 @@ final class Validation
     public function setAliases(array $aliases): void
     {
         $this->aliases = array_merge($this->aliases, $aliases);
+    }
+    
+    /**
+     * Stringify value.
+     * 
+     * @param  mixed  $value
+     * 
+     * @return string
+     */
+    protected function stringify($value): string
+    {
+        if (is_string($value) || is_numeric($value)) {
+            return $value;
+        } elseif (is_array($value) || is_object($value)) {
+            return json_encode($value);
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * Get validated data.
+     *
+     * @return array
+     */
+    public function getValidatedData(): array
+    {
+        return array_merge($this->validData, $this->invalidData);
+    }
+
+    /**
+     * Get valid data.
+     * 
+     * @return array
+     */
+    public function getValidData(): array
+    {
+        return $this->validData;
+    }
+    
+    /**
+     * Set valid data.
+     * 
+     * @param  Attribute  $attribute
+     * @param  mixed  $value
+     * 
+     * @return void
+     */
+    protected function setValidData(Attribute $attribute, $value): void
+    {
+        $key = $attribute->getKey();
+        
+        if ($attribute->isArrayAttribute() || $attribute->isUsingDotNotation()) {
+            Arr::set($this->validData, $key, $value);
+            Arr::erase($this->invalidData, $key);
+        } else {
+            $this->validData[$key] = $value;
+        }
+    }
+
+    /**
+     * Get invalid data.
+     * 
+     * @return void
+     */
+    public function getInvalidData(): array
+    {
+        return $this->invalidData;
+    }
+    
+    /**
+     * Set invalid data.
+     * 
+     * @param  Attribute  $attribute
+     * @param  mixed  $value
+     * 
+     * @return void
+     */
+    protected function setInvalidData(Attribute $attribute, $value): void
+    {
+        $key = $attribute->getKey();
+        
+        if ($attribute->isArrayAttribute() || $attribute->isUsingDotNotation()) {
+            Arr::set($this->invalidData, $key, $value);
+            Arr::erase($this->validData, $key);
+        } else {
+            $this->invalidData[$key] = $value;
+        }
     }
 }
