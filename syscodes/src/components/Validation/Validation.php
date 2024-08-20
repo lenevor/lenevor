@@ -197,15 +197,15 @@ final class Validation
         
         return [$rulename, $params];
     }
-
+    
     /**
      * Resolve message.
-     *
+     * 
      * @param  Attribute  $attribute
      * @param  mixed  $value
      * @param  Rules  $validator
      * 
-     * @return mixed
+     * @return string
      */
     protected function resolveMessage(Attribute $attribute, $value, Rules $validator): string
     {
@@ -218,54 +218,54 @@ final class Validation
         $messageKeys      = [
             $attributeKey.$this->msgSeparator.$ruleKey,
             $attributeKey,
-            $ruleKey
+            $ruleKey,
         ];
-
+        
         if ($primaryAttribute) {
             $primaryAttributeKey = $primaryAttribute->getKey();
             array_splice($messageKeys, 1, 0, $primaryAttributeKey.$this->msgSeparator.$ruleKey);
             array_splice($messageKeys, 3, 0, $primaryAttributeKey);
         }
-
+        
         foreach ($messageKeys as $key) {
             if (isset($this->messages[$key])) {
                 $message = $this->messages[$key];
                 break;
             }
         }
-
+        
         // Replace message params
         $vars = array_merge($params, [
             'attribute' => $alias,
             'value' => $value,
         ]);
-
+        
         foreach ($vars as $key => $value) {
             $value   = $this->stringify($value);
             $message = str_replace(':'.$key, $value, $message);
         }
-
+        
         // Replace key indexes
         $keyIndexes = $attribute->getKeyIndexes();
-
+        
         foreach ($keyIndexes as $pathIndex => $index) {
             $replacers = [
                 "[{$pathIndex}]" => $index,
             ];
-
+            
             if (is_numeric($index)) {
                 $replacers["{{$pathIndex}}"] = $index + 1;
             }
-
+            
             $message = str_replace(array_keys($replacers), array_values($replacers), $message);
         }
-
+        
         return $message;
     }
-
+    
     /**
      * Resolve attribute name.
-     *
+     * 
      * @param  Attribute  $attribute
      * 
      * @return string
@@ -273,6 +273,7 @@ final class Validation
     protected function resolveAttributeName(Attribute $attribute): string
     {
         $primaryAttribute = $attribute->getPrimaryAttribute();
+        
         if (isset($this->aliases[$attribute->getKey()])) {
             return $this->aliases[$attribute->getKey()];
         } elseif ($primaryAttribute and isset($this->aliases[$primaryAttribute->getKey()])) {
