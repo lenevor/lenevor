@@ -134,6 +134,35 @@ final class Validation
     }
     
     /**
+     * Get attribute by key.
+     * 
+     * @param  string  $attributeKey
+     * 
+     * @return string|null
+     */
+    public function getAttribute(string $attributeKey): string|null
+    {
+        return isset($this->attributes[$attributeKey])? $this->attributes[$attributeKey] : null;
+    }
+    
+    /**
+     * Add error to the errors.
+     * 
+     * @param  Attribute  $attribute
+     * @param  mixed  $value
+     * @param  Rules  $ruleValidator
+     * 
+     * @return void
+     */
+    protected function addError(Attribute $attribute, $value, Rules $ruleValidator): void
+    {
+        $ruleName = $ruleValidator->getKey();
+        $message  = $this->resolveMessage($attribute, $value, $ruleValidator);
+        
+        $this->errors->add($attribute->getKey(), $ruleName, $message);
+    }
+    
+    /**
      * Resolve rules.
      * 
      * @param  mixed  $rules
@@ -499,5 +528,15 @@ final class Validation
         } else {
             $this->invalidData[$key] = $value;
         }
+    }
+    
+    /**
+     * The MessageBag instance.
+     * 
+     * @return MessageBag
+     */
+    public function errors(): MessageBag
+    {
+        return $this->errors;
     }
 }
