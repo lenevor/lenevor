@@ -228,6 +228,92 @@ final class Validation
     }
     
     /**
+     * Gather a copy of the attribute data filled with any missing attributes.
+     * 
+     * @param  string  $attribute
+     * 
+     * @return array
+     */
+    protected function initializeAttributeOnData(string $attributeKey): array
+    {
+        $explicitPath = $this->getLeadingExplicitAttributePath($attributeKey);
+        $data         = $this->extractDataFromPath($explicitPath);
+        $asteriskPos  = strpos($attributeKey, '*');
+        
+        if (false === $asteriskPos || $asteriskPos === (mb_strlen($attributeKey, 'UTF-8') - 1)) {
+            return $data;
+        }
+        
+        return Arr::Set($data, $attributeKey, null, true);
+    }
+    
+    /**
+     * Get all of the exact attribute values for a given wildcard attribute.
+     * 
+     * @param  array  $data
+     * @param  string  $attributeKey
+     * 
+     * @return array
+     */
+    public function extractValuesForWildcards(array $data, string $attributeKey): array
+    {
+        $keys = [];
+        
+        $pattern = str_replace('\*', '[^\.]+', preg_quote($attributeKey));
+        
+        foreach ($data as $key => $value) {
+            if ((bool) preg_match('/^'.$pattern.'/', $key, $matches)) {
+                $keys[] = $matches[0];
+            }
+        }
+        
+        $keys = array_unique($keys);
+        
+        $data = [];
+        
+        foreach ($keys as $key) {
+            $data[$key] = Arr::get($this->inputs, $key);
+        }
+        
+        return $data;
+    }
+    
+    /**
+     * Get the explicit part of the attribute name.
+     * Allows us to not spin through all of the flattened data 
+     * for some operations.
+     * 
+     * @param  string  $attributeKey
+     * 
+     * @return string|null  Null when root wildcard
+     */
+    protected function getLeadingExplicitAttributePath(string $attributeKey): string|null
+    {
+        return rtrim(explode('*', $attributeKey)[0], '.') ?: null;
+    }
+    
+    /**
+     * Extract data based on the given dot-notated path.
+     * Used to extract a sub-section of the data for faster iteration.
+     * 
+     * @param  string|null  $attributeKey
+     * 
+     * @return array
+     */
+    protected function extractDataFromPath($attributeKey): array
+    {
+        $results = [];
+        
+        $value = Arr::get($this->inputs, $attributeKey, '__missing__');
+        
+        if ($value != '__missing__') {
+            Arr::set($results, $attributeKey, $value);
+        }
+        
+        return $results;
+    }
+    
+    /**
      * Resolve message.
      * 
      * @param  Attribute  $attribute
