@@ -595,6 +595,8 @@ return [
     'Syscodes\\Components\\Translation\\Translator' => SYS_PATH.'src/components/Translation/Translator.php',
     'Syscodes\\Components\\Validation\\Exceptions\MissingRequiredParameterException' => SYS_PATH.'src/components/Validation/Exceptions/MissingRequiredParameterException.php',
     'Syscodes\\Components\\Validation\\Exceptions\\RuleNotFoundException' => SYS_PATH.'src/components/Validation/Exceptions/RuleNotFoundException.php',
+    'Syscodes\\Components\\Validation\\Rules\\Traits\\File' => SYS_PATH.'src/components/Validation/Rules/Traits/File.php',
+    'Syscodes\\Components\\Validation\\Rules\\Required' => SYS_PATH.'src/components/Validation/Rules/Required.php',
     'Syscodes\\Components\\Validation\\Traits\\Messages' => SYS_PATH.'src/components/Validation/Traits/Messages.php',
     'Syscodes\\Components\\Validation\\Attribute' => SYS_PATH.'src/components/Validation/Attribute.php',
     'Syscodes\\Components\\Validation\\Rules' => SYS_PATH.'src/components/Validation/Rules.php',
