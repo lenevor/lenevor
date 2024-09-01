@@ -598,6 +598,7 @@ return [
     'Syscodes\\Components\\Validation\\Rules\\Traits\\DateUtils' => SYS_PATH.'src/components/Validation/Rules/Traits/DateUtils.php',
     'Syscodes\\Components\\Validation\\Rules\\Traits\\File' => SYS_PATH.'src/components/Validation/Rules/Traits/File.php',
     'Syscodes\\Components\\Validation\\Rules\\Traits\\Size' => SYS_PATH.'src/components/Validation/Rules/Traits/Size.php',
+    'Syscodes\\Components\\Validation\\Rules\\Accepted' => SYS_PATH.'src/components/Validation/Rules/Accepted.php',
     'Syscodes\\Components\\Validation\\Rules\\Required' => SYS_PATH.'src/components/Validation/Rules/Required.php',
     'Syscodes\\Components\\Validation\\Traits\\Messages' => SYS_PATH.'src/components/Validation/Traits/Messages.php',
     'Syscodes\\Components\\Validation\\Attribute' => SYS_PATH.'src/components/Validation/Attribute.php',
