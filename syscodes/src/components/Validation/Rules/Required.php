@@ -7,10 +7,18 @@ Final class Required extends Rules
 {
     use File;
 
-    /** @var bool */
+    /**
+     * The attribute if is implicit.
+     * 
+     * @var bool $implicit
+     */
     protected $implicit = true;
 
-    /** @var string */
+    /** 
+     * Gets the message of the attribute.
+     * 
+     * @var string $message
+     */
     protected $message = "The :attribute is required";
 
     /**
@@ -30,10 +38,11 @@ Final class Required extends Rules
         if (is_string($value)) {
             return mb_strlen(trim($value), 'UTF-8') > 0;
         }
+
         if (is_array($value)) {
             return count($value) > 0;
         }
-        return !is_null($value);
+        return ! is_null($value);
     }
 
     /**
