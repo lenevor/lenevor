@@ -163,6 +163,20 @@ final class Validation
     }
     
     /**
+     * Check whether given $attribute is array attribute.
+     * 
+     * @param  Attribute  $attribute
+     * 
+     * @return bool
+     */
+    protected function isArrayAttribute(Attribute $attribute): bool
+    {
+        $key = $attribute->getKey();
+        
+        return strpos($key, '*') !== false;
+    }
+    
+    /**
      * Resolve rules.
      * 
      * @param  mixed  $rules
