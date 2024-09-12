@@ -272,6 +272,47 @@ final class Validation
     }
     
     /**
+     * Parse array attribute into it's child attributes.
+     * 
+     * @param  Attribute  $attribute
+     * 
+     * @return array
+     */
+    protected function parseArrayAttribute(Attribute $attribute): array
+    {
+        $attributeKey = $attribute->getKey();
+        
+        $data = Arr::dot($this->initializeAttributeOnData($attributeKey));
+        
+        $pattern = str_replace('\*', '([^\.]+)', preg_quote($attributeKey));
+        
+        $data = array_merge($data, $this->extractValuesForWildcards(
+            $data,
+            $attributeKey
+        ));
+        
+        $attributes = [];
+        
+        foreach ($data as $key => $value) {
+            if ((bool) preg_match('/^'.$pattern.'\z/', $key, $match)) {
+                $attr = new Attribute($this, $key, null, $attribute->getRules());
+                $attr->setPrimaryAttribute($attribute);
+                $attr->setKeyIndexes(array_slice($match, 1));
+                $attributes[] = $attr;
+            }
+        }
+        
+        // set other attributes to each attributes
+        foreach ($attributes as $i => $attr) {
+            $otherAttributes = $attributes;
+            unset($otherAttributes[$i]);
+            $attr->setOtherAttributes($otherAttributes);
+        }
+        
+        return $attributes;
+    }
+    
+    /**
      * Gather a copy of the attribute data filled with any missing attributes.
      * 
      * @param  string  $attribute
