@@ -164,6 +164,63 @@ final class Validation
     }
     
     /**
+     * Validate attribute
+     * 
+     * @param  Attribute  $attribute
+     * 
+     * @return void
+     */
+    protected function validateAttribute(Attribute $attribute): void
+    {
+        if ($this->isArrayAttribute($attribute)) {
+            $attributes = $this->parseArrayAttribute($attribute);
+            
+            foreach ($attributes as $i => $attr) {
+                $this->validateAttribute($attr);
+            }
+            
+            return;
+        }
+        
+        $attributeKey = $attribute->getKey();
+        $rules        = $attribute->getRules();
+        $value        = $this->getValue($attributeKey);
+        $isEmptyValue = $this->isEmptyValue($value);
+        
+        if ($attribute->hasRule('nullable') && $isEmptyValue) {
+            $rules = [];
+        }
+        
+        $isValid = true;
+        
+        foreach ($rules as $ruleValidator) {
+            $ruleValidator->setAttribute($attribute);
+            
+            $valid = $ruleValidator->check($value);
+            
+            if ($isEmptyValue and $this->ruleIsOptional($attribute, $ruleValidator)) {
+                continue;
+            }
+            
+            if ( ! $valid) {
+                $isValid = false;
+                
+                $this->addError($attribute, $value, $ruleValidator);
+                
+                if ($ruleValidator->isImplicit()) {
+                    break;
+                }
+            }
+        }
+        
+        if ($isValid) {
+            $this->setValidData($attribute, $value);
+        } else {
+            $this->setInvalidData($attribute, $value);
+        }
+    }
+    
+    /**
      * Check whether given $attribute is array attribute.
      * 
      * @param  Attribute  $attribute
