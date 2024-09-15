@@ -147,6 +147,30 @@ final class Validation
     }
     
     /**
+     * Run validation.
+     * 
+     * @param  array  $inputs
+     * 
+     * @return void
+     */
+    public function validate(array $inputs = []): void
+    {
+        $this->errors = new MessageBag; // reset message bag
+        $this->inputs = array_merge($this->inputs, $this->resolveInputAttributes($inputs));
+        
+        // Before validation hooks
+        foreach ($this->attributes as $attributeKey => $attribute) {
+            foreach ($attribute->getRules() as $rule) {
+                $rule->beforeValidate();
+            }
+        }
+        
+        foreach ($this->attributes as $attributeKey => $attribute) {
+            $this->validateAttribute($attribute);
+        }
+    }
+    
+    /**
      * Add error to the errors.
      * 
      * @param  Attribute  $attribute
@@ -164,7 +188,7 @@ final class Validation
     }
     
     /**
-     * Validate attribute
+     * Validate an attribute.
      * 
      * @param  Attribute  $attribute
      * 
