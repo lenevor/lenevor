@@ -214,9 +214,9 @@ abstract class Rules
      * 
      * @param  string  $key
      * 
-     * @return mixed
+     * @return string|null
      */
-    public function parameter(string $key)
+    public function parameter(string $key): string|null
     {
         return isset($this->params[$key])? $this->params[$key] : null;
     }
@@ -291,7 +291,7 @@ abstract class Rules
     }
     
     /**
-     * Check given $params must be exists
+     * Check given $params must be exists.
      * 
      * @param  array  $params
      * 
