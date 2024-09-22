@@ -599,6 +599,7 @@ return [
     'Syscodes\\Components\\Validation\\Rules\\Traits\\File' => SYS_PATH.'src/components/Validation/Rules/Traits/File.php',
     'Syscodes\\Components\\Validation\\Rules\\Traits\\Size' => SYS_PATH.'src/components/Validation/Rules/Traits/Size.php',
     'Syscodes\\Components\\Validation\\Rules\\Accepted' => SYS_PATH.'src/components/Validation/Rules/Accepted.php',
+    'Syscodes\\Components\\Validation\\Rules\\After' => SYS_PATH.'src/components/Validation/Rules/After.php',
     'Syscodes\\Components\\Validation\\Rules\\Before' => SYS_PATH.'src/components/Validation/Rules/Before.php',
     'Syscodes\\Components\\Validation\\Rules\\Required' => SYS_PATH.'src/components/Validation/Rules/Required.php',
     'Syscodes\\Components\\Validation\\Traits\\Messages' => SYS_PATH.'src/components/Validation/Traits/Messages.php',
