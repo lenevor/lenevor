@@ -47,7 +47,7 @@ class After extends Rules
     protected $fillableParams = ['time'];
 
     /**
-     * Check the $value is valid.
+     * Check the value is valid.
      * 
      * @param  mixed  $value
      * 
