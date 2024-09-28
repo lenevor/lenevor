@@ -27,7 +27,14 @@ namespace Syscodes\Components\Validation\Rules;
  */
 class Alpha
 {
-     /**
+    /** 
+     * Get the message.
+     * 
+     * @var string $message
+     */
+    protected $message = "The :attribute only allows alphabet characters";
+
+    /**
      * Check the value is valid.
      * 
      * @param  mixed  $value
