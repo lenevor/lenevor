@@ -38,7 +38,7 @@ class Before extends Rules
      * 
      * @var string $message
      */
-    protected $message = "The :attribute must be a date before :time.";
+    protected $message = "The :attribute must be a date before :time";
     
     /**
      * The fillable params.

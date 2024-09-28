@@ -37,7 +37,7 @@ class After extends Rules
      * 
      * @var string $message
      */
-    protected $message = "The :attribute must be a date after :time.";
+    protected $message = "The :attribute must be a date after :time";
     
     /**
      * The fillable params.
