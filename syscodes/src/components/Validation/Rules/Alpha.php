@@ -22,10 +22,12 @@
 
 namespace Syscodes\Components\Validation\Rules;
 
+use Syscodes\Components\Validation\Rules;
+
 /**
  * Gets the attribute must be alpha.
  */
-class Alpha
+class Alpha extends Rules
 {
     /** 
      * Get the message.
