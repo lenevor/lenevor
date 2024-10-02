@@ -27,7 +27,7 @@ use Syscodes\Components\Validation\Rules;
 /**
  * Gets the attribute must be alpha-dash.
  */
-class Alpha extends Rules
+class AlphaDash extends Rules
 {
     /** 
      * Get the message.
