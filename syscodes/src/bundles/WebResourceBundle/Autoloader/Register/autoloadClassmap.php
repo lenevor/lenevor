@@ -602,6 +602,7 @@ return [
     'Syscodes\\Components\\Validation\\Rules\\After' => SYS_PATH.'src/components/Validation/Rules/After.php',
     'Syscodes\\Components\\Validation\\Rules\\Alpha' => SYS_PATH.'src/components/Validation/Rules/Alpha.php',
     'Syscodes\\Components\\Validation\\Rules\\AlphaDash' => SYS_PATH.'src/components/Validation/Rules/AlphaDash.php',
+    'Syscodes\\Components\\Validation\\Rules\\AlphaNum' => SYS_PATH.'src/components/Validation/Rules/AlphaNum.php',
     'Syscodes\\Components\\Validation\\Rules\\Before' => SYS_PATH.'src/components/Validation/Rules/Before.php',
     'Syscodes\\Components\\Validation\\Rules\\Required' => SYS_PATH.'src/components/Validation/Rules/Required.php',
     'Syscodes\\Components\\Validation\\Traits\\Messages' => SYS_PATH.'src/components/Validation/Traits/Messages.php',
