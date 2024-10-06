@@ -605,6 +605,7 @@ return [
     'Syscodes\\Components\\Validation\\Rules\\AlphaNum' => SYS_PATH.'src/components/Validation/Rules/AlphaNum.php',
     'Syscodes\\Components\\Validation\\Rules\\AlphaSpaces' => SYS_PATH.'src/components/Validation/Rules/AlphaSpaces.php',
     'Syscodes\\Components\\Validation\\Rules\\Before' => SYS_PATH.'src/components/Validation/Rules/Before.php',
+    'Syscodes\\Components\\Validation\\Rules\\Between' => SYS_PATH.'src/components/Validation/Rules/Between.php',
     'Syscodes\\Components\\Validation\\Rules\\Required' => SYS_PATH.'src/components/Validation/Rules/Required.php',
     'Syscodes\\Components\\Validation\\Traits\\Messages' => SYS_PATH.'src/components/Validation/Traits/Messages.php',
     'Syscodes\\Components\\Validation\\Attribute' => SYS_PATH.'src/components/Validation/Attribute.php',
