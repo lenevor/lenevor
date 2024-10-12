@@ -37,7 +37,7 @@ final class Accepted extends Rules
     protected $implicit = true;
     
     /**
-     * Gets the message of the attribute.
+     * The message depends of attribute.
      * 
      * @var string $message
      */

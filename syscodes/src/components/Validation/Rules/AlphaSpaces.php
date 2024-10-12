@@ -30,7 +30,7 @@ use Syscodes\Components\Validation\Rules;
 class AlphaSpaces extends Rules
 {
     /** 
-     * Get the message.
+     * The message depends of attribute.
      * 
      * @var string $message
      */

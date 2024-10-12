@@ -34,7 +34,7 @@ class Between extends Rules
     use Size;
     
     /** 
-     * Get the message.
+     * The message depends of attribute.
      * 
      * @var string $message
      */

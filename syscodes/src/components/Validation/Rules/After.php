@@ -33,7 +33,7 @@ class After extends Rules
     use DateUtils;
 
     /** 
-     * Get the message.
+     * The message depends of attribute.
      * 
      * @var string $message
      */

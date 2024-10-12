@@ -32,7 +32,7 @@ use Syscodes\Components\Validation\Rules;
 final class Callback extends Rules
 {
     /** 
-     * Get the message.
+     * The message depends of attribute.
      * 
      * @var string $message
      */
