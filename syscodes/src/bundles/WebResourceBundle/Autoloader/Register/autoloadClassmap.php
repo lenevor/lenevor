@@ -609,6 +609,7 @@ return [
     'Syscodes\\Components\\Validation\\Rules\\Boolean' => SYS_PATH.'src/components/Validation/Rules/Boolean.php',
     'Syscodes\\Components\\Validation\\Rules\\Callback' => SYS_PATH.'src/components/Validation/Rules/Callback.php',
     'Syscodes\\Components\\Validation\\Rules\\Date' => SYS_PATH.'src/components/Validation/Rules/Date.php',
+    'Syscodes\\Components\\Validation\\Rules\\defaults' => SYS_PATH.'src/components/Validation/Rules/defaults.php',
     'Syscodes\\Components\\Validation\\Rules\\Required' => SYS_PATH.'src/components/Validation/Rules/Required.php',
     'Syscodes\\Components\\Validation\\Traits\\Messages' => SYS_PATH.'src/components/Validation/Traits/Messages.php',
     'Syscodes\\Components\\Validation\\Attribute' => SYS_PATH.'src/components/Validation/Attribute.php',
