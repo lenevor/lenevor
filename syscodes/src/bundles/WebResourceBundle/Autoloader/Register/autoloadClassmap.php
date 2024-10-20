@@ -612,6 +612,7 @@ return [
     'Syscodes\\Components\\Validation\\Rules\\Defaults' => SYS_PATH.'src/components/Validation/Rules/Defaults.php',
     'Syscodes\\Components\\Validation\\Rules\\Different' => SYS_PATH.'src/components/Validation/Rules/Different.php',
     'Syscodes\\Components\\Validation\\Rules\\Digits' => SYS_PATH.'src/components/Validation/Rules/Digits.php',
+    'Syscodes\\Components\\Validation\\Rules\\DigitsBetween' => SYS_PATH.'src/components/Validation/Rules/DigitsBetween.php',
     'Syscodes\\Components\\Validation\\Rules\\Required' => SYS_PATH.'src/components/Validation/Rules/Required.php',
     'Syscodes\\Components\\Validation\\Traits\\Messages' => SYS_PATH.'src/components/Validation/Traits/Messages.php',
     'Syscodes\\Components\\Validation\\Attribute' => SYS_PATH.'src/components/Validation/Attribute.php',
