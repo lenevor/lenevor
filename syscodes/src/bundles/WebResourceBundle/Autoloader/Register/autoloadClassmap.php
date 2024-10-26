@@ -615,6 +615,7 @@ return [
     'Syscodes\\Components\\Validation\\Rules\\DigitsBetween' => SYS_PATH.'src/components/Validation/Rules/DigitsBetween.php',
     'Syscodes\\Components\\Validation\\Rules\\Email' => SYS_PATH.'src/components/Validation/Rules/Email.php',
     'Syscodes\\Components\\Validation\\Rules\\Integer' => SYS_PATH.'src/components/Validation/Rules/Integer.php',
+    'Syscodes\\Components\\Validation\\Rules\\Ip' => SYS_PATH.'src/components/Validation/Rules/Ip.php',
     'Syscodes\\Components\\Validation\\Rules\\Required' => SYS_PATH.'src/components/Validation/Rules/Required.php',
     'Syscodes\\Components\\Validation\\Traits\\Messages' => SYS_PATH.'src/components/Validation/Traits/Messages.php',
     'Syscodes\\Components\\Validation\\Attribute' => SYS_PATH.'src/components/Validation/Attribute.php',
