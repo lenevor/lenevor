@@ -23,7 +23,7 @@ namespace Syscodes\Components\Validation\Rules;
 use Syscodes\Components\Validation\Rules;
  
 /**
- * Gets the attribute must be digits integer.
+ * Gets the attribute must be integer.
  */
 class Integer extends Rules
 {

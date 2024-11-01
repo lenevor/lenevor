@@ -23,7 +23,7 @@ namespace Syscodes\Components\Validation\Rules;
 use Syscodes\Components\Validation\Rules;
   
 /**
- * Gets the attribute must be digits IPv4 address.
+ * Gets the attribute must be IPv4 address.
  */
 class Ipv4 extends Rules
 {

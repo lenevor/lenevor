@@ -23,7 +23,7 @@ namespace Syscodes\Components\Validation\Rules;
 use Syscodes\Components\Validation\Rules;
   
 /**
- * Gets the attribute must be digits IPv6 address.
+ * Gets the attribute must be IPv6 address.
  */
 class Ipv6 extends Rules
 {

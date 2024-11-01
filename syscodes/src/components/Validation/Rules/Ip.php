@@ -23,7 +23,7 @@ namespace Syscodes\Components\Validation\Rules;
 use Syscodes\Components\Validation\Rules;
   
 /**
- * Gets the attribute must be digits IP address.
+ * Gets the attribute must be IP address.
  */
 class Ip extends Rules
 {
