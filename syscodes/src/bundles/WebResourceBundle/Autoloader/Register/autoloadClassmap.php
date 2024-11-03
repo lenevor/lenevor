@@ -619,6 +619,7 @@ return [
     'Syscodes\\Components\\Validation\\Rules\\Ipv4' => SYS_PATH.'src/components/Validation/Rules/Ipv4.php',
     'Syscodes\\Components\\Validation\\Rules\\Ipv6' => SYS_PATH.'src/components/Validation/Rules/Ipv6.php',
     'Syscodes\\Components\\Validation\\Rules\\Json' => SYS_PATH.'src/components/Validation/Rules/Json.php',
+    'Syscodes\\Components\\Validation\\Rules\\Lowercase' => SYS_PATH.'src/components/Validation/Rules/Lowercase.php',
     'Syscodes\\Components\\Validation\\Rules\\Required' => SYS_PATH.'src/components/Validation/Rules/Required.php',
     'Syscodes\\Components\\Validation\\Traits\\Messages' => SYS_PATH.'src/components/Validation/Traits/Messages.php',
     'Syscodes\\Components\\Validation\\Attribute' => SYS_PATH.'src/components/Validation/Attribute.php',
