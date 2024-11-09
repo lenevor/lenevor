@@ -622,6 +622,7 @@ return [
     'Syscodes\\Components\\Validation\\Rules\\Lowercase' => SYS_PATH.'src/components/Validation/Rules/Lowercase.php',
     'Syscodes\\Components\\Validation\\Rules\\Max' => SYS_PATH.'src/components/Validation/Rules/Max.php',
     'Syscodes\\Components\\Validation\\Rules\\Min' => SYS_PATH.'src/components/Validation/Rules/Min.php',
+    'Syscodes\\Components\\Validation\\Rules\\Nullable' => SYS_PATH.'src/components/Validation/Rules/Nullable.php',
     'Syscodes\\Components\\Validation\\Rules\\Required' => SYS_PATH.'src/components/Validation/Rules/Required.php',
     'Syscodes\\Components\\Validation\\Traits\\Messages' => SYS_PATH.'src/components/Validation/Traits/Messages.php',
     'Syscodes\\Components\\Validation\\Attribute' => SYS_PATH.'src/components/Validation/Attribute.php',
