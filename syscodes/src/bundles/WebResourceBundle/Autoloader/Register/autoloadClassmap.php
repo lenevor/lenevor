@@ -625,6 +625,7 @@ return [
     'Syscodes\\Components\\Validation\\Rules\\Nullable' => SYS_PATH.'src/components/Validation/Rules/Nullable.php',
     'Syscodes\\Components\\Validation\\Rules\\Numeric' => SYS_PATH.'src/components/Validation/Rules/Numeric.php',
     'Syscodes\\Components\\Validation\\Rules\\Present' => SYS_PATH.'src/components/Validation/Rules/Present.php',
+    'Syscodes\\Components\\Validation\\Rules\\Regex' => SYS_PATH.'src/components/Validation/Rules/Regex.php',
     'Syscodes\\Components\\Validation\\Rules\\Required' => SYS_PATH.'src/components/Validation/Rules/Required.php',
     'Syscodes\\Components\\Validation\\Traits\\Messages' => SYS_PATH.'src/components/Validation/Traits/Messages.php',
     'Syscodes\\Components\\Validation\\Attribute' => SYS_PATH.'src/components/Validation/Attribute.php',
