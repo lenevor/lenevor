@@ -29,7 +29,7 @@ use Syscodes\Components\Validation\Rules;
 /**
  * Gets the attribute must be callbak.
  */
-final class Callback extends Rules
+class Callback extends Rules
 {
     /** 
      * The message depends of attribute.

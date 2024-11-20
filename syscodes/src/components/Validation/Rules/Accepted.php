@@ -27,7 +27,7 @@ use Syscodes\Components\Validation\Rules;
 /**
  * Gets the attribute must be accepted.
  */
-final class Accepted extends Rules
+class Accepted extends Rules
 {
     /**
      * The attribute if is implicit.
