@@ -23,7 +23,7 @@ namespace Syscodes\Components\Validation\Rules;
 use Syscodes\Components\Validation\Rules;
   
 /**
- * Gets the attribute must be uppercase.
+ * Gets the attribute must be same.
  */
 class Same extends Rules
 {
