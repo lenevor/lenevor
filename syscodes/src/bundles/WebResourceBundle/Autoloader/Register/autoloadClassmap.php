@@ -628,6 +628,7 @@ return [
     'Syscodes\\Components\\Validation\\Rules\\Regex' => SYS_PATH.'src/components/Validation/Rules/Regex.php',
     'Syscodes\\Components\\Validation\\Rules\\Required' => SYS_PATH.'src/components/Validation/Rules/Required.php',
     'Syscodes\\Components\\Validation\\Rules\\Same' => SYS_PATH.'src/components/Validation/Rules/Same.php',
+    'Syscodes\\Components\\Validation\\Rules\\TypeArray' => SYS_PATH.'src/components/Validation/Rules/TypeArray.php',
     'Syscodes\\Components\\Validation\\Rules\\Uppercase' => SYS_PATH.'src/components/Validation/Rules/Uppercase.php',
     'Syscodes\\Components\\Validation\\Traits\\Messages' => SYS_PATH.'src/components/Validation/Traits/Messages.php',
     'Syscodes\\Components\\Validation\\Attribute' => SYS_PATH.'src/components/Validation/Attribute.php',
