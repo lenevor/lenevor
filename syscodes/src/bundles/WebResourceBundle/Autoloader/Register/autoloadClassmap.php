@@ -630,6 +630,7 @@ return [
     'Syscodes\\Components\\Validation\\Rules\\Same' => SYS_PATH.'src/components/Validation/Rules/Same.php',
     'Syscodes\\Components\\Validation\\Rules\\TypeArray' => SYS_PATH.'src/components/Validation/Rules/TypeArray.php',
     'Syscodes\\Components\\Validation\\Rules\\Uppercase' => SYS_PATH.'src/components/Validation/Rules/Uppercase.php',
+    'Syscodes\\Components\\Validation\\Rules\\Url' => SYS_PATH.'src/components/Validation/Rules/Url.php',
     'Syscodes\\Components\\Validation\\Traits\\Messages' => SYS_PATH.'src/components/Validation/Traits/Messages.php',
     'Syscodes\\Components\\Validation\\Attribute' => SYS_PATH.'src/components/Validation/Attribute.php',
     'Syscodes\\Components\\Validation\\Rules' => SYS_PATH.'src/components/Validation/Rules.php',
