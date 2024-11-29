@@ -23,7 +23,7 @@ namespace Syscodes\Components\Validation\Rules;
 use Syscodes\Components\Validation\Rules;
   
 /**
- * Gets the attribute must be maximun max.
+ * Gets the attribute must be maximun.
  */
 class Max extends Rules
 {
