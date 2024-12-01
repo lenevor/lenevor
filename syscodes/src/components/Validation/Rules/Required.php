@@ -28,7 +28,7 @@ use Syscodes\Components\Validation\Rules\Traits\File;
 /**
  * Gets the attribute must be required.
  */
-Final class Required extends Rules
+class Required extends Rules
 {
     use File;
 
