@@ -632,6 +632,7 @@ return [
     'Syscodes\\Components\\Validation\\Rules\\Uppercase' => SYS_PATH.'src/components/Validation/Rules/Uppercase.php',
     'Syscodes\\Components\\Validation\\Rules\\Url' => SYS_PATH.'src/components/Validation/Rules/Url.php',
     'Syscodes\\Components\\Validation\\Traits\\Messages' => SYS_PATH.'src/components/Validation/Traits/Messages.php',
+    'Syscodes\\Components\\Validation\\Traits\\RegisterValidators' => SYS_PATH.'src/components/Validation/Traits/RegisterValidators.php',
     'Syscodes\\Components\\Validation\\Attribute' => SYS_PATH.'src/components/Validation/Attribute.php',
     'Syscodes\\Components\\Validation\\Rules' => SYS_PATH.'src/components/Validation/Rules.php',
     'Syscodes\\Components\\Validation\\Validation' => SYS_PATH.'src/components/Validation/Validation.php',
