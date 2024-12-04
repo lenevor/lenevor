@@ -22,12 +22,46 @@
 
 namespace Syscodes\Components\Validation;
 
-
-
 /**
  * Entry point for the Validation component.
  */
 class Validator
 {
+    use Traits\Messages,
+        Traits\RegisterValidators;
     
+    /**
+     * Allows the rules override.
+     * 
+     * @var bool $allowRuleOverride
+     */
+    protected $allowRuleOverride = false;
+    
+    /**
+     * Allows use humanize keys.
+     * 
+     * @var bool $useHumanizeKeys
+     */
+    protected $useHumanizedKeys = true;
+    
+    /**
+     * Gets the validators.
+     * 
+     * @var array $validators
+     */
+    protected $validators = [];
+        
+    /**
+     * Constructor. Create new Validator class instance.
+     * 
+     * @param  array  $messages
+     * 
+     * @return void
+     */
+    public function __construct(array $messages = [])
+    {
+        $this->messages = $messages;
+        
+        $this->registerBaseValidators();
+    }
 }
