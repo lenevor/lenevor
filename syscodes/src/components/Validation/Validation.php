@@ -26,7 +26,7 @@ use Closure;
 use Exception;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\MessageBag;
-use Syscodes\Components\Validation\Messages;
+use Syscodes\Components\Validation\Traits\Messages;
 use Syscodes\Components\Validation\Rules\Required;
 
 /**
