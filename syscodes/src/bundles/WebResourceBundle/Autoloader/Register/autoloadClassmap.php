@@ -637,6 +637,7 @@ return [
     'Syscodes\\Components\\Validation\\Attribute' => SYS_PATH.'src/components/Validation/Attribute.php',
     'Syscodes\\Components\\Validation\\Rules' => SYS_PATH.'src/components/Validation/Rules.php',
     'Syscodes\\Components\\Validation\\Validation' => SYS_PATH.'src/components/Validation/Validation.php',
+    'Syscodes\\Components\\Validation\\ValidationServiceProvider' => SYS_PATH.'src/components/Validation/ValidationServiceProvider.php',
     'Syscodes\\Components\\Validation\\Validator' => SYS_PATH.'src/components/Validation/Validator.php',
     'Syscodes\\Components\\Version' => SYS_PATH.'src/components/Version/Version.php',
     'Syscodes\\Components\\View\\Transpilers\\Concerns\\TranspilesComments' => SYS_PATH.'src/components/View/Transpilers/Concerns/TranspilesComments.php',
