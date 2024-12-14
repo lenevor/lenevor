@@ -1,4 +1,4 @@
-<div class="dropdown"> 
+<div id="menuDropdown" class="dropdown"> 
     <div class="box">
         <div class="title">
             <h4>Gdebug Settings</h4>
