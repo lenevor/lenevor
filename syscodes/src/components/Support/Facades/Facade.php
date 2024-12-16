@@ -151,7 +151,7 @@ abstract class Facade
      * 
      * @return \Syscodes\Components\Collections\Collection
      */
-    public static function defaultAliases()
+    public static function defaultAliases() 
     {
         return collect([
             'App' => App::class,
@@ -180,6 +180,7 @@ abstract class Facade
             'Schema' => Schema::class,
             'Session' => Session::class,
             'URL' => URL::class,
+            'Validator' => Validator::class,
             'View' => View::class,
         ]);
     }
