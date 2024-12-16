@@ -24,11 +24,12 @@ namespace Syscodes\Components\Validation;
 
 use Syscodes\Components\Validation\Exceptions\RuleQuashException;
 use Syscodes\Components\Validation\Exceptions\RuleNotFoundException;
+use Syscodes\Components\Contracts\Validation\Validator as ValidationContract;
 
 /**
  * Entry point for the Validation component.
  */
-class Validator
+class Validator implements ValidationContract
 {
     use Traits\Messages,
         Traits\RegisterValidators;
