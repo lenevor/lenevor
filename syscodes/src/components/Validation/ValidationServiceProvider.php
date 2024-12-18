@@ -23,11 +23,12 @@
 namespace Syscodes\Components\Validation;
 
 use Syscodes\Components\Support\ServiceProvider;
+use Syscodes\Components\Contracts\Support\Deferrable;
 
 /**
  * For loading the classes from the container of services.
  */
-class ValidationServiceProvider extends ServiceProvider
+class ValidationServiceProvider extends ServiceProvider implements Deferrable
 {
     /**
      * Register the service provider.
@@ -36,6 +37,18 @@ class ValidationServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        
+        $this->app->singleton('validator', function () {
+            return new Validator;
+        });
+    }
+
+    /**
+     * Get the services provided by the provider.
+     * 
+     * @return array
+     */
+    public function provides(): array
+    {
+        return ['validator'];
     }
 }
