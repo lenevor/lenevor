@@ -183,6 +183,7 @@ return [
     'Syscodes\\Components\\Contracts\\Translation\\HasLocalePreferred' => SYS_PATH.'src/components/Contracts/Translation/HasLocalePreferred.php',
     'Syscodes\\Components\\Contracts\\Translation\\Loader' => SYS_PATH.'src/components/Contracts/Translation/Loader.php',
     'Syscodes\\Components\\Contracts\\Translation\\Translator' => SYS_PATH.'src/components/Contracts/Translation/Translator.php',
+    'Syscodes\\Components\\Contracts\\Validation\\Validator' => SYS_PATH.'src/components/Contracts/Validation/Validator.php',
     'Syscodes\\Components\\Contracts\\View\\Engine' => SYS_PATH.'src/components/Contracts/View/Engine.php',
     'Syscodes\\Components\\Contracts\\View\\Factory' => SYS_PATH.'src/components/Contracts/View/Factory.php',
     'Syscodes\\Components\\Contracts\\View\\View' => SYS_PATH.'src/components/Contracts/View/View.php',
