@@ -58,6 +58,7 @@ class DefaultCoreProviders
             \Syscodes\Components\Pipeline\PipelineServiceProvider::class,
             \Syscodes\Components\Session\SessionServiceProvider::class,
             \Syscodes\Components\Translation\TranslationServiceProvider::class,
+            \Syscodes\Components\Validation\ValidationServiceProvider::class,
             \Syscodes\Components\View\ViewServiceProvider::class,
         ];
     }
