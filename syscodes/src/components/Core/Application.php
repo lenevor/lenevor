@@ -1422,6 +1422,7 @@ class Application extends Container implements ApplicationContract
             'session.store' => [\Syscodes\Components\Session\Store::class, \Syscodes\Components\Contracts\Session\Session::class],
             'translator' => [\Syscodes\Components\Translation\Translator::class, \Syscodes\Components\Contracts\Translation\Translator::class],
             'url' => [\Syscodes\Components\Routing\Generators\UrlGenerator::class, \Syscodes\Components\Contracts\Routing\UrlGenerator::class],
+            'validator' => [\Syscodes\Components\Validation\Validator::class, \Syscodes\Components\Contracts\Validation\Validator::class],
             'view' => [\Syscodes\Components\View\Factory::class, \Syscodes\Components\Contracts\View\Factory::class]
         ] as $key => $aliases) {
             foreach ((array) $aliases as $alias) {
