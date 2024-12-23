@@ -47,15 +47,15 @@ interface Validator
     public function setValidator(string $key, Rules $rule): void;
 
     /**
-     * Validate inputs.
+     * Validate the given data against the provided rules.
      * 
      * @param  array  $inputs
      * @param  array  $rules
      * @param  array  $messages
      * 
-     * @return Validation
+     * @return void
      */
-    public function validate(array $inputs, array $rules, array $messages = []): Validation;
+    public function validate(array $inputs, array $rules, array $messages = []);
 
     /**
      * Given ruleName and rule to add new validator.
