@@ -148,7 +148,11 @@ class Validator implements ValidationContract
     /**
      * Resolve a new Validation instance.
      * 
-     *  
+     * @param  array  $inputs
+     * @param  array  $rules
+     * @param  array  $messages
+     * 
+     * @return Validation 
      */
     protected function resolve(array $inputs, array $rules, array $messages = []): Validation
     {
