@@ -93,6 +93,13 @@ final class Validation
     protected $validData = [];
 
     /**
+     * The Presence Verifier implementation.
+     * 
+     * @var \Syscodes\Components\Contracts\Validation\PresenceVerifier $verifier
+     */
+    protected $verifier;
+
+    /**
      * Constructor. Create new a Validation class instance.
      * 
      * @param  Validator $validator
@@ -711,6 +718,28 @@ final class Validation
             return '';
         }
     }
+
+    /**
+     * Get the Presence Verifier implementation.
+     * 
+     * @return \Syscodes\Components\Contracts\Validation\PresenceVerifier
+     */
+    public function getPresenceVerifier()
+    {
+        return $this->verifier;
+    }
+    
+    /**
+     * Set the Presence Verifier implementation.
+     * 
+     * @param  \Syscodes\Components\Contracts\Validation\PresenceVerifier  $presenceVerifier
+     * 
+     * @return void
+     */
+    public function setPresenceVerifier($presenceVerifier): void
+    {
+        $this->verifier = $presenceVerifier;
+    }    
 
     /**
      * Get validated data.
