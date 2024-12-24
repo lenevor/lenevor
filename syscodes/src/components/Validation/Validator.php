@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Validation;
 
+use Closure;
 use Syscodes\Components\Validation\Exceptions\RuleQuashException;
 use Syscodes\Components\Validation\Exceptions\RuleNotFoundException;
 use Syscodes\Components\Contracts\Validation\Validator as ValidationContract;
@@ -42,6 +43,13 @@ class Validator implements ValidationContract
     protected $allowRuleOverride = false;
     
     /**
+     * The Validator resolver instance.
+     * 
+     * @var \Closure $resolver
+     */
+    protected $resolver;
+    
+    /**
      * Allows use humanize keys.
      * 
      * @var bool $useHumanizeKeys
@@ -54,6 +62,13 @@ class Validator implements ValidationContract
      * @var array $validators
      */
     protected $validators = [];
+
+    /**
+     * The Presence Verifier implementation.
+     * 
+     * @var \Syscodes\Components\Contracts\Validation\PresenceVerifier $verifier
+     */
+    protected $verifier;
         
     /**
      * Constructor. Create new Validator class instance.
@@ -95,22 +110,19 @@ class Validator implements ValidationContract
         
         $rule->setKey($key);
     }
-    
+
     /**
-     * Validate inputs.
+     * Validate the given data against the provided rules.
      * 
      * @param  array  $inputs
      * @param  array  $rules
      * @param  array  $messages
      * 
-     * @return Validation
+     * @return void
      */
-    public function validate(array $inputs, array $rules, array $messages = []): Validation
+    public function validate(array $inputs, array $rules, array $messages = [])
     {
-        $validation = $this->make($inputs, $rules, $messages);
-        $validation->validate();
-        
-        return $validation;
+        return $this->make($inputs, $rules, $messages)->validate();
     }
     
     /**
@@ -124,9 +136,27 @@ class Validator implements ValidationContract
      */
     public function make(array $inputs, array $rules, array $messages = []): Validation
     {
-        $messages = array_merge($this->messages, $messages);
+        $validator = $this->resolve($inputs, $rules, $messages);
         
-        return new Validation($this, $inputs, $rules, $messages);
+        if ( ! is_null($this->verifier)) {
+            $validator->setPresenceVerifier($this->verifier);
+        }
+        
+        return $validator;        
+    }
+
+    /**
+     * Resolve a new Validation instance.
+     * 
+     *  
+     */
+    protected function resolve(array $inputs, array $rules, array $messages = []): Validation
+    {
+        if (is_null($this->resolver)) {
+            return new Validation($this, $inputs, $rules, array_merge($this->messages, $messages));
+        }
+        
+        return call_user_func($this->resolver, $inputs, $rules, $messages);
     }
     
     /**
@@ -170,6 +200,40 @@ class Validator implements ValidationContract
     public function setUseHumanizedKeys(bool $useHumanizedKeys = true): void
     {
         $this->useHumanizedKeys = $useHumanizedKeys;
+    }
+    
+    /**
+     * Set the Validator instance resolver.
+     * 
+     * @param  \Closure  $resolver
+     * 
+     * @return void
+     */
+    public function resolver(Closure $resolver): void
+    {
+        $this->resolver = $resolver;
+    }
+
+    /**
+     * Get the Presence Verifier implementation.
+     * 
+     * @return \Syscodes\Components\Contracts\Validation\PresenceVerifier
+     */
+    public function getPresenceVerifier()
+    {
+        return $this->verifier;
+    }
+    
+    /**
+     * Set the Presence Verifier implementation.
+     * 
+     * @param  \Syscodes\Components\Contracts\Validation\PresenceVerifier  $presenceVerifier
+     * 
+     * @return void
+     */
+    public function setPresenceVerifier($presenceVerifier): void
+    {
+        $this->verifier = $presenceVerifier;
     }
     
     /**
