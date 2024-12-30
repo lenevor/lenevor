@@ -37,8 +37,40 @@ class ValidationServiceProvider extends ServiceProvider implements Deferrable
      */
     public function register()
     {
+        $this->registerPresence();
+        $this->registerValidation();
+    }
+    
+    /**
+     * Register the validation.
+     * 
+     * @return void
+     */
+    protected function registerValidation()
+    {
         $this->app->singleton('validator', function () {
-            return new Validator;
+            $validator = new Validator;
+            
+            // The validation presence verifier is responsible for determining
+            // the existence of values in a given data collection which is typically 
+            // a relational database or other persistent data stores.
+            if (isset($app['db'], $app['validation.presence'])) {
+                $validator->setPresenceVerifier($app['validation.presence']);
+            }
+            
+            return $validator;
+        });
+    }
+
+    /**
+     * Register the database presence verifier.
+     *
+     * @return void
+     */
+    protected function registerPresence()
+    {
+        $this->app->singleton('validation.presence', function ($app) {
+            return new DatabasePresence($app['db']);
         });
     }
 
@@ -49,6 +81,6 @@ class ValidationServiceProvider extends ServiceProvider implements Deferrable
      */
     public function provides(): array
     {
-        return ['validator'];
+        return ['validator', 'validation.presence'];
     }
 }
