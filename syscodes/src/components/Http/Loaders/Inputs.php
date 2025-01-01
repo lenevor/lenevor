@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -28,7 +28,7 @@ use Syscodes\Components\Core\Http\Exceptions\BadRequestHttpException;
  * Inputs is a container for user input values such as 
  * $_GET, $_POST, $_REQUEST, and $_COOKIE.
  */
-final class Inputs extends Parameters
+class Inputs extends Parameters
 {
 	/**
 	 * Replaces the current parameters.

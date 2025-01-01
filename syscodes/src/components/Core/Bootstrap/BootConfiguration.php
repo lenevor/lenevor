@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -38,8 +38,16 @@ class BootConfiguration
 	 * @return void
 	 */
 	public function bootstrap(Application $app)
-	{
-		$app->instance('config', $config = new Configure);
+	{	
+		$items  = [];		
+
+		if (file_exists($cached = $app->getCachedConfigPath())) {
+            $items = require $cached;
+
+            $app->instance('config_loaded_from_cache', $loadedFromCache = true);
+        }
+
+		$app->bindIf('config', $config = new Configure($items));
 
 		// Finally, we will set the application's environment based on the configuration
 		// values that were loaded. 

@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -38,7 +38,7 @@ trait Comparison
      * 
      * @return bool
      */
-    public function equals($time, string $timezone = null): bool
+    public function equals($time, ?string $timezone = null): bool
     {
         $testTime = $this->getConvertedUTC($time, $timezone);
         $ourTime  = $this->toDateTime()
@@ -57,7 +57,7 @@ trait Comparison
      * 
      * @return bool
      */
-    public function isBefore($time, string $timezone = null): bool
+    public function isBefore($time, ?string $timezone = null): bool
     {
         $testTime = $this->getConvertedUTC($time, $timezone)->getTimestamp();
         $ourTime  = $this->getTimestamp();
@@ -74,7 +74,7 @@ trait Comparison
      * 
      * @return bool
      */
-    public function isAfter($time, string $timezone = null): bool
+    public function isAfter($time, ?string $timezone = null): bool
     {
         $testTime = $this->getConvertedUTC($time, $timezone)->getTimestamp();
         $ourTime  = $this->getTimestamp();
@@ -90,7 +90,7 @@ trait Comparison
      * 
      * @return bool
      */
-    public function sameAs($time, string $timezone = null): bool
+    public function sameAs($time, ?string $timezone = null): bool
     {
         $testTime = '';
 

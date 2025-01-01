@@ -16,10 +16,11 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
+use Closure;
 use Syscodes\Components\Version;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Support\Environment;
@@ -218,7 +219,7 @@ if ( ! function_exists('take')) {
      * 
      * @uses   \Syscodes\Components\Support\HigherOrderTakeProxy
      */
-    function take(mixed $value, \Closure $callback = null)
+    function take(mixed $value, ?Closure $callback = null)
     {
         if (is_null($callback)) {
             return new HigherOrderTakeProxy($value);
@@ -316,7 +317,7 @@ if ( ! function_exists('with')) {
      * 
      * @return mixed
      */
-    function with($value, callable $callback = null)
+    function with($value, ?callable $callback = null)
     {
         return is_null($callback) ? $value : $callback($value);
     }

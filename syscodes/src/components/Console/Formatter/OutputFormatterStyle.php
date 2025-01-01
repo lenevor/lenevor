@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -67,7 +67,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      * 
      * @return void
      */
-    public function __construct(string $foreground = null, string $background = null, array $options = [])
+    public function __construct(?string $foreground = null, ?string $background = null, array $options = [])
     {
         $this->color = new TagStyle($this->foreground = $foreground ?: '', $this->background = $background ?: '', $this->options = $options);
     }
@@ -79,7 +79,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      * 
      * @return void When the color name isn't defined
      */
-    public function setForeground(string $color = null): void
+    public function setForeground(?string $color = null): void
     {
         $this->color = new TagStyle($this->foreground = $color ?: '', $this->background, $this->options);
     }
@@ -91,7 +91,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      * 
      * @return void When the color name isn't defined
      */
-    public function setBackground(string $color = null): void
+    public function setBackground(?string $color = null): void
     {
         $this->color = new TagStyle($this->foreground, $this->background = $color ?: '', $this->options);
     }

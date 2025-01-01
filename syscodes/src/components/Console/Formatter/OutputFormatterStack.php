@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -50,7 +50,7 @@ class OutputFormatterStack
      * 
      * @return void
      */
-    public function __construct(OutputFormatterStyleInterface $emptyStack = null)
+    public function __construct(?OutputFormatterStyleInterface $emptyStack = null)
     {
         $this->emptyStack = $emptyStack ?? new OutputFormatterStyle();
 
@@ -74,7 +74,7 @@ class OutputFormatterStack
      * 
      * @return \Syscodes\Components\Console\Formatter\OutputFormatterStyle
      */
-    public function push(OutputFormatterStyleInterface $style =  null)
+    public function push(?OutputFormatterStyleInterface $style =  null)
     {
         $this->styles[] = $style;
     }

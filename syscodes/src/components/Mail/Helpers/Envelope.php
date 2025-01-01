@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -42,21 +42,21 @@ class Envelope
     /**
      * Gets the sender of email.
      * 
-     * @var Address $sender
+     * @var Address $senderEnvelope
      */
-    protected Address $sender;
+    protected Address $senderEnvelope;
     
     /**
      * Constructor. Create new a Envelope class instance.
      * 
-     * @param Address  $sender
+     * @param Address  $senderEnvelope
      * @param Address[] $recipients
      * 
      * @return void
      */
-    public function __construct(Address $sender, array $recipients)
+    public function __construct(Address $senderEnvelope, array $recipients)
     {
-        $this->setSender($sender);
+        $this->setSender($senderEnvelope);
         $this->setRecipients($recipients);
     }
     
@@ -79,13 +79,13 @@ class Envelope
     /**
      * Sets the sender custom.
      * 
-     * @param  Address  $sender
+     * @param  Address  $senderEnvelope
      * 
      * @return void
      */
-    public function setSender(Address $sender): void
+    public function setSender(Address $senderEnvelope): void
     {
-        $this->sender = $sender;
+        $this->senderEnvelope = $senderEnvelope;
     }
     
     /**
@@ -95,7 +95,7 @@ class Envelope
      */
     public function getSender(): Address
     {
-        return $this->sender;
+        return $this->senderEnvelope;
     }
     
     /**

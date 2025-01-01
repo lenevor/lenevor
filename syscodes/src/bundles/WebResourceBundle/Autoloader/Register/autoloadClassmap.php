@@ -379,6 +379,7 @@ return [
     'Syscodes\\Components\\Finder\\Filters\\DateFilterIterator' => SYS_PATH.'src/components/Finder/Filters/DateFilterIterator.php',
     'Syscodes\\Components\\Finder\\Filters\\DirectoryFilterIterator' => SYS_PATH.'src/components/Finder/Filters/DirectoryFilterIterator.php',
     'Syscodes\\Components\\Finder\\Filters\\FileFilterIterator' => SYS_PATH.'src/components/Finder/Filters/FileFilterIterator.php',
+    'Syscodes\\Components\\Finder\\Filters\\FilenameFilterIterator' => SYS_PATH.'src/components/Finder/Filters/FilenameFilterIterator.php',
     'Syscodes\\Components\\Finder\\Filters\\LazyFilterIterator' => SYS_PATH.'src/components/Finder/Filters/LazyFilterIterator.php',
     'Syscodes\\Components\\Finder\\Filters\\MultiFilterIterator' => SYS_PATH.'src/components/Finder/Filters/MultiFilterIterator.php',
     'Syscodes\\Components\\Finder\\Filters\\PathFilterIterator' => SYS_PATH.'src/components/Finder/Filters/PathFilterIterator.php',

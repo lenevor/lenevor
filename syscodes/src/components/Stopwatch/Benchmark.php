@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -45,7 +45,7 @@ class Benchmark
      * 
      * @return static
      */
-    public function start(string $name, float $time = null): static
+    public function start(string $name, ?float $time = null): static
     {
         if (empty($name)) {
             throw new BenchmarckException('Cannot stop timer: invalid name given');

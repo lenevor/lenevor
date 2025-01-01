@@ -16,18 +16,21 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Core;
 
 use Closure;
+use SplFileInfo;
 use RuntimeException;
 use Syscodes\Components\Version;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Http\Request;
+use Syscodes\Components\Finder\Finder;
+use Syscodes\Components\Config\Configure;
 use Syscodes\Components\Container\Container;
 use Syscodes\Components\Support\Environment;
 use Syscodes\Components\Filesystem\Filesystem;
@@ -64,6 +67,13 @@ class Application extends Container implements ApplicationContract
      * Php version.
      */
     protected static $phpVersion = \PHP_VERSION;
+    
+    /**
+     * The prefixes of absolute cache paths for use during normalization.
+     * 
+     * @var string[] $absoluteCachePathPrefixes
+     */
+    protected $absoluteCachePathPrefixes = ['/', '\\'];
     
     /**
      * The custom application path defined by the developer.
@@ -272,7 +282,8 @@ class Application extends Container implements ApplicationContract
         static::setInstance($this);
         
         $this->instance('app', $this);
-        $this->instance('config', $this[\Syscodes\Components\Config\Configure::class]);
+
+        $this->instance('config', $this[Configure::class]);
     }
 
     /**
@@ -1120,6 +1131,16 @@ class Application extends Container implements ApplicationContract
     }
     
     /**
+     * Get the path to the configuration cache file.
+     * 
+     * @return string
+     */
+    public function getCachedConfigPath()
+    {
+        return $this->normalizeCachePath('APP_CONFIG_CACHE', 'cache/config.php');
+    }
+    
+    /**
      * Get the path to the routes cache file.
      * 
      * @return string
@@ -1153,9 +1174,23 @@ class Application extends Container implements ApplicationContract
             return $this->bootstrapPath($default);
         }
 
-        return isset($env) 
+        return Str::startsWith($env, $this->absoluteCachePathPrefixes)
                 ? $env
                 : $this->basePath($env);
+    }
+    
+    /**
+     * Add new prefix to list of absolute path prefixes.
+     * 
+     * @param  string  $prefix
+     * 
+     * @return static
+     */
+    public function addAbsoluteCachePathPrefix($prefix): static
+    {
+        $this->absoluteCachePathPrefixes[] = $prefix;
+        
+        return $this;
     }
 
     /**

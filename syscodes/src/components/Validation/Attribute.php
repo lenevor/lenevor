@@ -279,7 +279,7 @@ final class Attribute
      * 
      * @return mixed
      */
-    public function getValue(string $key = null): mixed
+    public function getValue(?string $key = null): mixed
     {
         if ($key && $this->isArrayAttribute()) {
             $key = $this->resolveSiblingKey($key);

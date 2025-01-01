@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -112,7 +112,7 @@ class Mailer implements MailerContract
         string $name,
         Factory $views,
         Transport $transport,
-        Dispatcher $events = null
+        ?Dispatcher $events = null
     ) {
         $this->name = $name;
         $this->views = $views;
@@ -419,7 +419,7 @@ class Mailer implements MailerContract
     /**
      * Dispatch the message sent event.
      * 
-     * @param  \Syscodes\Components\Mail\Helpers\SentMessage  $message
+     * @param  \Syscodes\Components\Mail\SentMessage  $message
      * @param  array  $data
      * 
      * @return void

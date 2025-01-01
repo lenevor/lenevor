@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
  
@@ -82,8 +82,8 @@ class JoinClause
      */
     public function on(
         string $first,
-        string $operator = null,
-        string $second = null,
+        ?string $operator = null,
+        ?string $second = null,
         string $boolean = 'and',
         bool $where = false
     ): static {
@@ -105,7 +105,7 @@ class JoinClause
      * 
      * @return \Syscodes\Components\Database\Query\JoinClause
      */
-    public function orOn(string $first, string $operator = null, string $second = null)
+    public function orOn(string $first, ?string $operator = null, ?string $second = null)
     {
         return $this->on($first, $operator, $second, 'or');
     }
@@ -120,7 +120,7 @@ class JoinClause
      * 
      * @return \Syscodes\Components\Database\Query\JoinClause
      */
-    public function where(string $first, string $operator = null, string $second = null, string $boolean = 'and')
+    public function where(string $first, ?string $operator = null, ?string $second = null, string $boolean = 'and')
     {
         return $this->on($first, $operator, $second, $boolean, true);
     }
@@ -134,7 +134,7 @@ class JoinClause
      * 
      * @return \Syscodes\Components\Database\Query\JoinClause
      */
-    public function orWhere(string $first, string $operator = null, string $second = null)
+    public function orWhere(string $first, ?string $operator = null, ?string $second = null)
     {
         return $this->on($first, $operator, $second, 'or', true);
     }

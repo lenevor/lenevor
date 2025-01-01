@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -47,7 +47,7 @@ trait Factory
      * @param  string|null  $timezone  
      * @param  string|null  $locale  
      */
-    public function __construct(string $time = null, $timezone = null, string $locale = null)
+    public function __construct(?string $time = null, $timezone = null, ?string $locale = null)
     {
         $this->locale = ! empty($locale) ? $locale : Locale::getDefault();
 
@@ -97,7 +97,7 @@ trait Factory
      * 
      * @return \Syscodes\Components\Support\Chronos\Time
      */
-    public static function parse(string $time, $timezone = null, string $locale = null)
+    public static function parse(string $time, $timezone = null, ?string $locale = null)
     {
         return new static($time, $timezone, $locale);
     }
@@ -110,7 +110,7 @@ trait Factory
      * 
      * @return \Syscodes\Components\Support\Chronos\Time
      */
-    public static function today($timezone = null, string $locale = null)
+    public static function today($timezone = null, ?string $locale = null)
     {
         return static::parse(date('Y-m-d 00:00:00'), $timezone, $locale);
     }
@@ -123,7 +123,7 @@ trait Factory
      * 
      * @return \Syscodes\Components\Support\Chronos\Time
      */
-    public static function yesterday($timezone = null, string $locale = null)
+    public static function yesterday($timezone = null, ?string $locale = null)
 	{
 		return static::parse(date('Y-m-d 00:00:00', strtotime('-1 day')), $timezone, $locale);
     }
@@ -136,7 +136,7 @@ trait Factory
      * 
      * @return \Syscodes\Components\Support\Chronos\Time
      */
-    public static function tomorrow($timezone = null, string $locale = null)
+    public static function tomorrow($timezone = null, ?string $locale = null)
 	{
 		return static::parse(date('Y-m-d 00:00:00', strtotime('+1 day')), $timezone, $locale);
     }
@@ -154,11 +154,11 @@ trait Factory
      * @return \Syscodes\Components\Support\Chronos\Time
      */
     public static function createFromDate(
-        int $year      = null, 
-        int $month     = null, 
-        int $day       = null, 
+        ?int $year      = null, 
+        ?int $month     = null, 
+        ?int $day       = null, 
         $timezone      = null, 
-        string $locale = null
+        ?string $locale = null
     ) {
         return static::create($year, $month, $day, null, null, null, $timezone, $locale);
     }
@@ -176,11 +176,11 @@ trait Factory
      * @return \Syscodes\Components\Support\Chronos\Time
      */
     public static function createFromTime(
-        int $hour      = null, 
-        int $minutes   = null,
-        int $seconds   = null,
+        ?int $hour      = null, 
+        ?int $minutes   = null,
+        ?int $seconds   = null,
         $timezone      = null,
-        string $locale = null
+        ?string $locale = null
     ) {
         return static::create(null, null, null, $hour, $minutes, $seconds, $timezone, $locale);
     }
@@ -200,14 +200,14 @@ trait Factory
      * @return \Syscodes\Components\Support\Chronos\Time
      */
     public static function create(
-        int $year      = null, 
-        int $month     = null, 
-        int $day       = null, 
-        int $hour      = null, 
-        int $minutes   = null,
-        int $seconds   = null,
+        ?int $year      = null, 
+        ?int $month     = null, 
+        ?int $day       = null, 
+        ?int $hour      = null, 
+        ?int $minutes   = null,
+        ?int $seconds   = null,
         $timezone      = null,
-        string $locale = null
+        ?string $locale = null
     ) {
         $year    = is_null($year) ? date('Y') : $year;
         $month   = is_null($month) ? date('m') : $month;
@@ -246,7 +246,7 @@ trait Factory
      * 
      * @return \Syscodes\Components\Support\Chronos\Time
      */
-    public static function createFromTimestamp(int $timestamp, $timezone = null, string $locale = null)
+    public static function createFromTimestamp(int $timestamp, $timezone = null, ?string $locale = null)
     {
         return static::parse(date('Y-m-d H:i:s', $timestamp), $timezone, $locale);
     }
@@ -260,7 +260,7 @@ trait Factory
      * 
      * @return \Syscodes\Components\Support\Chronos\Time
      */
-    public static function instance($datetime, string $locale = null)
+    public static function instance($datetime, ?string $locale = null)
     {
         $date     = $datetime->format('Y-m-d H:i:s');
         $timezone = $datetime->getTimezone();
@@ -278,7 +278,7 @@ trait Factory
      * 
      * @return static
      */
-    public static function setTestNow($datetime = null, $timezone = null, string $locale = null)
+    public static function setTestNow($datetime = null, $timezone = null, ?string $locale = null)
     {
         if (null === $datetime) {
             static::$testNow = null;
@@ -315,7 +315,7 @@ trait Factory
      * 
      * @return void
      */
-    public function difference($time, string $timezone = null)
+    public function difference($time, ?string $timezone = null)
     {
         $testTime = $this->getConvertedUTC($time, $timezone);
         $ourTime  = $this->getConvertedUTC($this);

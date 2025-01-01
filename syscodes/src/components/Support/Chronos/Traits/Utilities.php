@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -64,7 +64,7 @@ trait Utilities
      * 
      * @return \DateTime|\Syscodes\Components\Support\Chronos\Time
      */
-    protected function getConvertedUTC($time, string $timezone = null)
+    protected function getConvertedUTC($time, ?string $timezone = null)
     {
         if ($time instanceof static) {
             $time = $time->toDateTime()->setTimezone(new DateTimeZone('UTC'));

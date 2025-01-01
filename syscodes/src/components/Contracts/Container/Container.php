@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -51,7 +51,18 @@ interface Container extends ContainerInterface
      * 
      * @return void
      */
-    public function bind($id, Closure|string $value = null, bool $singleton = false): void;
+    public function bind($id, $value = null, bool $singleton = false): void;
+
+    /**
+     * Register a binding if it hasn't already been registered.
+     * 
+     * @param  string  $id
+     * @param  \Closure|string|null  $value
+     * @param  bool  $singleton
+     * 
+     * @return void
+     */
+    public function bindIf($id, $value = null, $singleton = false): void;
 
     /**
      * Determine if the given id type has been resolved.
@@ -80,7 +91,7 @@ interface Container extends ContainerInterface
      * 
      * @return void
      */
-    public function singleton($id, Closure|string $value = null): void;
+    public function singleton($id, $value = null): void;
 
     /**
      * Instantiate a class instance of the given type.
@@ -119,7 +130,7 @@ interface Container extends ContainerInterface
      * 
      * @return mixed
      */
-    public function rebinding($id, Closure $callback): mixed;
+    public function rebinding($id, Closure $callback);
 
      /**
      * Refresh an instance on the given target and method.
@@ -203,7 +214,7 @@ interface Container extends ContainerInterface
      * 
      * @return mixed
      */
-    public function call($callback, array $parameters = [], string $defaultMethod = null);
+    public function call($callback, array $parameters = [], $defaultMethod = null);
 
     /**
      * Remove all id traces of the specified binding.

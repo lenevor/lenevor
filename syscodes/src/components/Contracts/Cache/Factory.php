@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -37,7 +37,7 @@ interface Factory
      * 
      * @return \Syscodes\Components\Cache\CacheRepository
      */
-    public function driver(string $driver = null);
+    public function driver(?string $driver = null);
 
     /**
      * Get a cache store instance by name.
@@ -46,7 +46,7 @@ interface Factory
      * 
      * @return \Syscodes\Components\Cache\CacheRepository
      */
-    public function store(string $store = null);
+    public function store(?string $store = null);
 
     /**
      * Create a new cache repository with the given implementation.

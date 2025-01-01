@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 namespace Syscodes\Components\Contracts\Cookie;
@@ -45,12 +45,12 @@ interface Factory
         string $name,
         string $value,
         int $minutes = 0,
-        string $path = null,
-        string $domain = null,
-        bool $secure = null,
+        ?string $path = null,
+        ?string $domain = null,
+        ?bool $secure = null,
         bool $httpOnly = true,
         bool $raw = false,
-        string $sameSite = null
+        ?string $sameSite = null
     );
 
     /**
@@ -70,12 +70,12 @@ interface Factory
     public function forever(
         string $name,
         string $value,
-        string $path = null,
-        string $domain = null,
-        bool $secure = null,
+        ?string $path = null,
+        ?string $domain = null,
+        ?bool $secure = null,
         bool $httpOnly = true,
         bool $raw = false,
-        string $sameSite = null
+        ?string $sameSite = null
     );
     
     /**
@@ -87,5 +87,5 @@ interface Factory
      * 
      * @return \Syscodes\Components\Http\Cookie
      */
-    public function erase(string $name, string $path = null, string $domain = null);
+    public function erase(string $name, ?string $path = null, ?string $domain = null);
 }

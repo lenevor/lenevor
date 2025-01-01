@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -288,7 +288,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
      * 
      * @return static
      */
-    public function filter(callable $callback = null): static
+    public function filter(?callable $callback = null): static
     {
         if ($callback) {
             return new static(Arr::where($this->items, $callback));
@@ -305,7 +305,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
      * 
      * @return mixed
      */
-    public function first(callable $callback = null, mixed $default = null)
+    public function first(?callable $callback = null, mixed $default = null)
     {
         return Arr::first($this->items, $callback, $default);
     }
@@ -375,7 +375,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
      * 
      * @return string
      */
-    public function implode(string $value, string $string = null): string
+    public function implode(string $value, ?string $string = null): string
     {
         $first = $this->first();
         
@@ -438,7 +438,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
      * 
      * @return mixed
      */
-    public function last(callable $callback = null, mixed $default = null)
+    public function last(?callable $callback = null, mixed $default = null)
     {
         return Arr::last($this->items, $callback, $default);
     }
@@ -544,7 +544,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
      * 
      * @return static
      */
-    public function pluck($value, string $key = null): static
+    public function pluck($value, ?string $key = null): static
     {
         return new static(Arr::pluck($this->items, $value, $key));
     }
@@ -743,7 +743,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
      * 
      * @return static
      */
-    public function slice(int $offset, int $length = null): static
+    public function slice(int $offset, ?int $length = null): static
     {
         return new static(array_slice($this->items, $offset, $length, true));
     }
@@ -755,7 +755,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
      * 
      * @return static
      */
-    public function sort(callable|int $callback = null): static
+    public function sort($callback = null): static
     {
         $items =  $this->items;
 
@@ -836,7 +836,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
      * 
      * @return static
      */
-    public function splice(int $offset, int $length = null, mixed $replacement = []): static
+    public function splice(int $offset, ?int $length = null, mixed $replacement = []): static
     {
         if (func_num_args() == 1) {
             return new static(array_splice($this->items, $offset));

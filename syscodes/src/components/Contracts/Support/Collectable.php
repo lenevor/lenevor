@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -196,7 +196,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * 
      * @return static
      */
-    public function filter(callable $callback = null): static;
+    public function filter(?callable $callback = null): static;
     
     /**
      * Get the first item from the collection.
@@ -206,7 +206,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * 
      * @return mixed
      */
-    public function first(callable $callback = null, mixed $default = null);
+    public function first(?callable $callback = null, mixed $default = null);
 
     /**
      * Flip the items in the collection.
@@ -249,7 +249,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * 
      * @return string
      */
-    public function implode(string $value, string $string = null): string;
+    public function implode(string $value, ?string $string = null): string;
 
     /**
      * Intersect the collection with the given items.
@@ -291,7 +291,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * 
      * @return mixed
      */
-    public function last(callable $callback = null, mixed $default = null);
+    public function last(?callable $callback = null, mixed $default = null);
 
     /**
      * Run a map over each of the items.
@@ -356,7 +356,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * 
      * @return static
      */
-    public function pluck($value, string $key = null): static;
+    public function pluck($value, ?string $key = null): static;
 
     /**
      * Get and remove the last item from the collection.
@@ -492,7 +492,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * 
      * @return static
      */
-    public function slice(int $offset, int $length = null): static;
+    public function slice(int $offset, ?int $length = null): static;
 
     /**
      * Sort through each item.
@@ -501,7 +501,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * 
      * @return static
      */
-    public function sort(callable|int $callback = null): static;
+    public function sort($callback = null): static;
 
     /**
      * Sort items in descending order.
@@ -549,7 +549,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * 
      * @return static
      */
-    public function splice(int $offset, int $length = null, mixed $replacement = []): static;
+    public function splice(int $offset, ?int $length = null, mixed $replacement = []): static;
 
     /**
      * Take the first or last {$limit} items.

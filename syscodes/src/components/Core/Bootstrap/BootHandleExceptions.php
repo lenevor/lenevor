@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -170,7 +170,7 @@ class BootHandleExceptions
      * 
      * @return \Syscodes\Components\Debug\FatalExceptions\FatalErrorException
      */
-    protected function fatalExceptionFromError(array $error, int $traceOffset = null)
+    protected function fatalExceptionFromError(array $error, ?int $traceOffset = null)
     {
         return new FatalErrorException(
             $error['message'], $error['type'], 0, $error['file'], $error['line'], $traceOffset

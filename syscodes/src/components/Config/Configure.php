@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -40,6 +40,18 @@ class Configure implements ArrayAccess, ConfigureContract
 	 * @var array $vars
 	 */
 	protected $vars = [];
+
+	/**
+	 * Constructor. Create a new Configure class instance.
+	 * 
+	 * @param  array  $vars
+	 * 
+	 * @return void
+	 */
+	public function __construct(array $vars = [])
+	{
+		$this->vars = $vars;
+	}
 
 	/**
 	 * Determine if the given configuration value exists.
@@ -71,9 +83,35 @@ class Configure implements ArrayAccess, ConfigureContract
 					$this->vars[$file] = require $path;
 				}				
 			}
-		} 
+		}
+
+		if (is_array($key)) {
+			return $this->getMany($key);
+		}
 		
 		return Arr::get($this->vars, $key, $default);
+	}
+	
+	/**
+	 * Get many configuration values.
+	 * 
+	 * @param  array|string  $keys
+	 * 
+	 * @return array
+	 */
+	public function getMany($keys): array
+	{
+		$config = [];
+		
+		foreach ($keys as $key => $default) {
+			if (is_numeric($key)) {
+				[$key, $default] = [$default, null];
+			}
+			
+			$config[$key] = Arr::get($this->vars, $key, $default);
+		}
+		
+		return $config;
 	}
 
 	/**

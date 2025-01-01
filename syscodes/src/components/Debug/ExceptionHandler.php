@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -100,7 +100,7 @@ class ExceptionHandler
      * 
      * @return void
      */
-    public function __construct(bool $debug = true, string $charset = null, $fileLinkFormat = null)
+    public function __construct(bool $debug = true, ?string $charset = null, $fileLinkFormat = null)
     {
         $this->debug          = $debug;
         $this->charset        = $charset ?: ini_get('default_charset') ?: 'UTF-8'; 

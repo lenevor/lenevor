@@ -16,14 +16,14 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Mail\Events;
 
 use Exception;
-use Syscodes\Components\Mail\Helpers\SentMessage;
+use Syscodes\Components\Mail\SentMessage;
 
 /**
  * Get the message sent to mail.
@@ -40,14 +40,14 @@ class MessageSent
     /**
      * The message that was sent.
      * 
-     * @var \Syscodes\Components\Mail\Helpers\SentMessage $sent
+     * @var \Syscodes\Components\Mail\SentMessage $sent
      */
     public $sent;
     
     /**
      * Constructor. Create a new event class instance.
      * 
-     * @param  \Syscodes\Components\Mail\Helpers\SentMessage  $message
+     * @param  \Syscodes\Components\Mail\SentMessage  $message
      * @param  array  $data
      * 
      * @return void

@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -153,11 +153,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     public static function getInstance()
     {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-
-        return static::$instance;
+        return static::$instance ??= new static;
     }
 
     /**
@@ -167,7 +163,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return \Syscodes\Components\Contracts\Container\Container|static
      */
-    public static function setInstance(ContainerContract $container = null)
+    public static function setInstance(?ContainerContract $container = null)
     {
         return static::$instance = $container;
     }
@@ -211,7 +207,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    public function rebinding($id, Closure $callback): mixed
+    public function rebinding($id, Closure $callback)
     {
         $this->hasCallbacks[$id = $this->getAlias($id)][] = $callback;
         
@@ -252,7 +248,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return void
      */
-    public function bind($id, Closure|string $value = null, bool $singleton = false): void
+    public function bind($id, $value = null, bool $singleton = false): void
     {   
         $this->dropInstances($id);
 
@@ -446,16 +442,18 @@ class Container implements ArrayAccess, ContainerContract
             
             $this->alias($id, $alias);
         }
+
+        $isBound = $this->bound($id);
         
         unset($this->aliases[$id]);
         
-        $bound = $this->bound($id);
-        
         $this->instances[$id] = $instance;
         
-        if ($bound) {
+        if ($isBound) {
             $this->reBound($id);
         }
+
+        return $instance;
     }
 
     /**
@@ -1038,7 +1036,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    public function call($callback, array $parameters = [], string $defaultMethod = null)
+    public function call($callback, array $parameters = [], $defaultMethod = null)
     {
         return CallBoundMethod::call($this, $callback, $parameters, $defaultMethod);
     }

@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -115,7 +115,7 @@ class URI
 	 * 
 	 * @throws \Syscodes\Components\Http\Exceptions\HttpURIException
 	 */
-	public function __construct(string $uri = null)
+	public function __construct(?string $uri = null)
 	{
 		if ( ! is_null($uri)) {
 			$this->setUri($uri);
@@ -131,7 +131,7 @@ class URI
 	 * 
 	 * @throws \Syscodes\Components\Http\Exceptions\HttpURIException
 	 */
-	public function setUri(string $uri = null): static
+	public function setUri(?string $uri = null): static
 	{
 		if ( ! is_null($uri)) {
 			$parts = parse_url($uri);
@@ -434,7 +434,7 @@ class URI
 	 * 
 	 * @return string
 	 */
-	public function setPort(int $port = null): string
+	public function setPort(?int $port = null): string
 	{
 		if (is_null($port)) {
 			return $this;

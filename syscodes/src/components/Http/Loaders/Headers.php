@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -74,7 +74,7 @@ class Headers implements IteratorAggregate, Countable
 	 * 
 	 * @return array
 	 */
-	public function all(string $key = null): array
+	public function all(?string $key = null): array
 	{
 		if (null !== $key) {
 			return $this->headers[strtr($key, self::STRING_UPPER, self::STRING_LOWER)] ?? [];
@@ -128,7 +128,7 @@ class Headers implements IteratorAggregate, Countable
 	 *
 	 * @return mixed
 	 */
-	public function get(string $key, string $default = null): ?string
+	public function get(string $key, ?string $default = null): ?string
 	{
 		$headers = $this->all($key);
 		
@@ -216,7 +216,7 @@ class Headers implements IteratorAggregate, Countable
 	 * 
 	 * @throws \RuntimeException When the HTTP header is not parseable
 	 */
-	public function getDate(string $key, DateTime $default = null): ?DateTimeInterface
+	public function getDate(string $key, ?DateTime $default = null): ?DateTimeInterface
 	{
 		if (null === $value = $this->get($key)) {
 			return $default;

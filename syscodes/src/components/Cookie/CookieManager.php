@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 namespace Syscodes\Components\Cookie;
@@ -87,12 +87,12 @@ class CookieManager implements CookieFactory
         string $name,
         string $value,
         int $minutes = 0,
-        string $path = null,
-        string $domain = null,
-        bool $secure = null,
+        ?string $path = null,
+        ?string $domain = null,
+        ?bool $secure = null,
         bool $httpOnly = true,
         bool $raw = false,
-        string $sameSite = null
+        ?string $sameSite = null
     ) {
         [$path, $domain, $secure, $sameSite] = $this->getPathAndDomain($path, $domain, $secure, $sameSite);
         
@@ -118,12 +118,12 @@ class CookieManager implements CookieFactory
     public function forever(
         string $name,
         string $value,
-        string $path = null,
-        string $domain = null,
-        bool $secure = null,
+        ?string $path = null,
+        ?string $domain = null,
+        ?bool $secure = null,
         bool $httpOnly = true,
         bool $raw = false,
-        string $sameSite = null
+        ?string $sameSite = null
     ) {
         return $this->make($name, $value, 2628000, $path, $domain, $secure, $httpOnly, $raw, $sameSite);
     }
@@ -137,7 +137,7 @@ class CookieManager implements CookieFactory
      * 
      * @return \Syscodes\Components\Http\Cookie
      */
-    public function erase(string $name, string $path = null, string $domain = null) 
+    public function erase(string $name, ?string $path = null, ?string $domain = null) 
     {
         return $this->make($name, '', -2628000, $path, $domain);
     }
@@ -150,7 +150,7 @@ class CookieManager implements CookieFactory
      * 
      * @return bool
      */
-    public function hasQueued(string $key, string $path = null): bool
+    public function hasQueued(string $key, ?string $path = null): bool
     {
         return ! is_null($this->queued($key, null, $path));
     }
@@ -164,7 +164,7 @@ class CookieManager implements CookieFactory
      * 
      * @return \Syscodes\Components\Http\Cookie|null
      */
-    public function queued(string $key, mixed $default = null, string $path = null)
+    public function queued(string $key, mixed $default = null, ?string $path = null)
     {
         $queued = Arr::get($this->queued, $key, $default);
         
@@ -206,7 +206,7 @@ class CookieManager implements CookieFactory
      * 
      * @return void
      */
-    public function expire(string $name, string $path = null, string $domain = null): void
+    public function expire(string $name, ?string $path = null, ?string $domain = null): void
     {
         $this->queue($this->erase($name, $path, $domain));
     }
@@ -219,7 +219,7 @@ class CookieManager implements CookieFactory
      * 
      * @return void
      */
-    public function unqueue(string $name, string $path = null): void
+    public function unqueue(string $name, ?string $path = null): void
     {
         if (null === $path) {
             unset($this->queued[$name]);
@@ -244,7 +244,7 @@ class CookieManager implements CookieFactory
      * 
      * @return array
      */
-    protected function getPathAndDomain(string $path, string $domain, bool $secure = null, string $sameSite = null): array
+    protected function getPathAndDomain(string $path, string $domain, ?bool $secure = null, ?string $sameSite = null): array
     {
         return [$path ?: $this->path, $domain ?: $this->domain, is_bool($secure) ? $secure : $this->secure, $sameSite ?: $this->sameSite];
     }
@@ -259,7 +259,7 @@ class CookieManager implements CookieFactory
      * 
      * @return static
      */
-    public function setDefaultPathAndDomain(string $path, string $domain, bool $secure = false, string $sameSite = null): static
+    public function setDefaultPathAndDomain(string $path, string $domain, bool $secure = false, ?string $sameSite = null): static
     {
         [$this->path, $this->domain, $this->secure, $this->sameSite] = [$path, $domain, $secure, $sameSite];
 

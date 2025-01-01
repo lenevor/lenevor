@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -121,7 +121,7 @@ if ( ! function_exists('app')) {
      * @param  string  $id  
      * @param  array  $parameters
      * 
-     * @return mixed|\Syscodes\Components\Contracts\Core\Application
+     * @return mixed|\Syscodes\Components\Core\Application
      */
     function app($id = null, array $parameters = [])
     {
@@ -284,7 +284,7 @@ if ( ! function_exists('config')) {
      *
      * @return  mixed|\Syscodes\Components\Config\Configure
      */
-    function config($key = null, mixed $value = null)
+    function config($key = null, $value = null)
     {
         if ($key === null) {
             return app('config');
@@ -329,15 +329,15 @@ if ( ! function_exists('cookie')) {
      * @return \Syscodes\Components\Cookie\CookieManager|\Syscodes\Components\Http\Cookie
      */
     function cookie(
-        string $name = null, 
+        ?string $name = null, 
         $value = null, 
         int $minutes = 0, 
-        string $path = null, 
-        string $domain = null, 
-        bool $secure = null, 
+        ?string $path = null, 
+        ?string $domain = null, 
+        ?bool $secure = null, 
         bool $httpOnly = true, 
         bool $raw = false, 
-        string $sameSite = null
+        ?string $sameSite = null
     ) {
         $cookie = app(CookieFactory::class);
         
@@ -664,7 +664,7 @@ if ( ! function_exists('redirect')) {
      *
      * @return \Syscodes\Components\Routing\Supported\Redirector|\Syscodes\Components\Http\RedirectResponse
      */
-    function redirect($url = null, int $code = 302, array $headers = [], bool $secure = null)
+    function redirect($url = null, int $code = 302, array $headers = [], ?bool $secure = null)
     {
         if (null === $url) {
             return app('redirect');
@@ -975,7 +975,7 @@ if ( ! function_exists('url')) {
      *
      * @return \Syscodes\Components\Routing\Generators\UrlGenerator
      */
-    function url($path = null, array $parameters = [], bool $secure = null)
+    function url($path = null, array $parameters = [], ?bool $secure = null)
     {
         if (is_null($path)) {
             return app(UrlGenerator::class);

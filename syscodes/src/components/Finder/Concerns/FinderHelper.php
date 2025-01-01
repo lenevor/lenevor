@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -28,8 +28,9 @@ use RecursiveDirectoryIterator;
 use Syscodes\Components\Finder\Finder;
 use Syscodes\Components\Finder\Filters\DateFilterIterator;
 use Syscodes\Components\Finder\Filters\FileFilterIterator;
-use Syscodes\Components\Finder\Filters\DirectoryFilterIterator;
 use Syscodes\Components\Finder\Filters\PathFilterIterator;
+use Syscodes\Components\Finder\Filters\FilenameFilterIterator;
+use Syscodes\Components\Finder\Filters\DirectoryFilterIterator;
 
 /**
  * Allows helper trait methods in Finder class.
@@ -57,6 +58,10 @@ trait FinderHelper
 
         if ($this->mode) {
             $iterator = new FileFilterIterator($iterator, $this->mode);
+        }
+        
+        if ($this->names || $this->notNames) {
+            $iterator = new FilenameFilterIterator($iterator, $this->names, $this->notNames);
         }
 
         if ($this->dates) {

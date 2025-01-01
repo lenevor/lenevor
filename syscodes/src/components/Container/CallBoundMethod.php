@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -50,7 +50,7 @@ final class CallBoundMethod
         Container $container, 
         $callback, 
         array $parameters = [], 
-        string $defaultMethod = null
+        ?string $defaultMethod = null
     ): mixed {
         if (is_string($callback)) {
             $callback = static::resolveStringCallback($container, $callback, $defaultMethod);
@@ -78,7 +78,7 @@ final class CallBoundMethod
      * 
      * @return array
      */
-    protected static function resolveStringCallback($container, $callback, string $defaultMethod = null): array
+    protected static function resolveStringCallback($container, $callback, ?string $defaultMethod = null): array
     {
         [$class, $method] = Str::parseCallback($callback, $defaultMethod);
 

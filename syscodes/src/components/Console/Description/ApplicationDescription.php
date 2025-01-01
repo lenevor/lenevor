@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -84,7 +84,7 @@ class ApplicationDescription
      * 
      * @return void
      */
-    public function __construct(Application $application, string $namespace = null, bool $hidden = false)
+    public function __construct(Application $application, ?string $namespace = null, bool $hidden = false)
     {
         $this->application = $application;
         $this->namespace = $namespace;
@@ -124,9 +124,9 @@ class ApplicationDescription
     /**
      * Get all the namespaces of commands.
      * 
-     * @return array
+     * @return array|void
      */
-    public function getNamespaces(): array
+    public function getNamespaces()
     {
         if ( ! isset($this->namespaces)) {
             return $this->initAplication();

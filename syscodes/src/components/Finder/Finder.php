@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -80,6 +80,20 @@ class Finder implements IteratorAggregate, Countable
     private int $mode = 0;
 
     /**
+     * Get the names to type of the files.
+     * 
+     * @var array $names
+     */
+    private array $names = [];
+
+    /**
+     * Get the names not type of the files.
+     * 
+     * @var array $names
+     */
+    private array $notNames = [];
+
+    /**
      * Get the path not of files.
      * 
      * @var array $notPaths
@@ -137,6 +151,34 @@ class Finder implements IteratorAggregate, Countable
             $this->dates[] = new DateComparator($date);
         }
 
+        return $this;
+    }
+    
+    /**
+     * Adds rules that files must match.
+     * 
+     * @param  string|string[]  $patterns  A pattern (a regexp, a glob, or a string) or an array of patterns
+     * 
+     * @return static
+     */
+    public function name(string|array $patterns): static
+    {
+        $this->names = array_merge($this->names, (array) $patterns);
+        
+        return $this;
+    }
+    
+    /**
+     * Adds rules that files must not match.
+     * 
+     * @param  string|string[]  $patterns  A pattern (a regexp, a glob, or a string) or an array of patterns
+     * 
+     * @return static
+     */
+    public function notName(string|array $patterns): static
+    {
+        $this->notNames = array_merge($this->notNames, (array) $patterns);
+        
         return $this;
     }
     

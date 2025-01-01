@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -296,7 +296,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, Weba
      * 
      * @return int
      */
-    public function firstItem(): int
+    public function firstItem()
     {
         if (count($this->items) > 0) {
             return (($this->currentPage - 1) * $this->perPage) + 1;
@@ -308,7 +308,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, Weba
      * 
      * @return int
      */
-    public function lastItem(): int
+    public function lastItem()
     {
         if (count($this->items) > 0) {
             return $this->firstItem() + $this->count() - 1;

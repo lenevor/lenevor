@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -252,7 +252,7 @@ class Arr
 	 *
 	 * @return mixed
 	 */
-	public static function first(array $array, callable $callback = null, mixed $default = null)
+	public static function first(array $array, ?callable $callback = null, mixed $default = null)
 	{
 		if (is_null($callback)) {
 			if (empty($array)) {
@@ -280,7 +280,7 @@ class Arr
 	 *
 	 * @return mixed
 	 */
-	public static function get($array, string|array $key = null, mixed $default = null)
+	public static function get($array, $key = null, mixed $default = null)
 	{
 		if ( ! static::accessible($array)) {
 			return value($default);
@@ -294,7 +294,7 @@ class Arr
 			return $array[$key];
 		}
 		
-		if (strpos($key, '.') === false) {
+		if ( ! str_contains($key, '.')) {
 			return $array[$key] ?? value($default);
 		}
 
@@ -320,7 +320,7 @@ class Arr
 	 *
 	 * @return mixed
 	 */
-	public static function last(array $array, callable $callback = null, mixed $default = null)
+	public static function last(array $array, ?callable $callback = null, mixed $default = null)
 	{
 		if (is_null($callback)) {
 			return empty($array) ? value($default) : lastItem($array);
