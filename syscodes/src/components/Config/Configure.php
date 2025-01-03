@@ -42,18 +42,6 @@ class Configure implements ArrayAccess, ConfigureContract
 	protected $vars = [];
 
 	/**
-	 * Constructor. Create a new Configure class instance.
-	 * 
-	 * @param  array  $vars
-	 * 
-	 * @return void
-	 */
-	public function __construct(array $vars = [])
-	{
-		$this->vars = $vars;
-	}
-
-	/**
 	 * Determine if the given configuration value exists.
 	 * 
 	 * @param  string  $key
