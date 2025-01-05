@@ -23,14 +23,12 @@
 namespace Syscodes\Components\Core;
 
 use Closure;
-use SplFileInfo;
 use RuntimeException;
+use Syscodes\Components\Config\Configure;
 use Syscodes\Components\Version;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Http\Request;
-use Syscodes\Components\Finder\Finder;
-use Syscodes\Components\Config\Configure;
 use Syscodes\Components\Container\Container;
 use Syscodes\Components\Support\Environment;
 use Syscodes\Components\Filesystem\Filesystem;
@@ -282,7 +280,6 @@ class Application extends Container implements ApplicationContract
         static::setInstance($this);
         
         $this->instance('app', $this);
-
         $this->instance('config', $this[Configure::class]);
     }
 
@@ -340,6 +337,12 @@ class Application extends Container implements ApplicationContract
         $this->instance('path.resources', $this->resourcePath());
         $this->instance('path.bootstrap', $this->bootstrapPath());
         
+        $this->setBootstrapPath(value(function () {
+            return is_dir($directory = $this->basePath('.lenevor'))
+                        ? $directory
+                        : $this->basePath('bootstrap');
+        }));
+
         $this->setLangPath(value(function () {
             if (is_dir($directory = $this->resourcePath('lang'))) {
                 return $directory;
@@ -1128,16 +1131,6 @@ class Application extends Container implements ApplicationContract
     public function routesAreCached(): bool
     {
         return $this['files']->exists($this->getCachedRoutesPath());
-    }
-    
-    /**
-     * Get the path to the configuration cache file.
-     * 
-     * @return string
-     */
-    public function getCachedConfigPath()
-    {
-        return $this->normalizeCachePath('APP_CONFIG_CACHE', 'cache/config.php');
     }
     
     /**
