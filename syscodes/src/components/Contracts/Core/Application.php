@@ -348,13 +348,6 @@ interface Application extends Container
     public function booted($callback): void;
 
     /**
-     * Get the path to the configuration cache file.
-     * 
-     * @return string
-     */
-    public function getCachedConfigPath();
-
-    /**
      * Determine if the application routes are cached.
      * 
      * @return bool
