@@ -65,14 +65,14 @@ interface SimplePaginator
      * 
      * @return int
      */
-    public function firstItem(): int;
+    public function firstItem();
 
     /**
      * Get the number of the last item in the slice.
      * 
      * @return int
      */
-    public function lastItem(): int;
+    public function lastItem();
 
     /**
      * Determine if there are enough items to split into multiple pages.
