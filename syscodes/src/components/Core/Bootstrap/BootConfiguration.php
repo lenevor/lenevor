@@ -22,11 +22,7 @@
 
 namespace Syscodes\Components\Core\Bootstrap;
 
-use SplFileInfo;
-use Syscodes\Components\Finder\Finder;
-use Syscodes\Components\Config\Configure;
 use Syscodes\Components\Contracts\Core\Application;
-use Syscodes\Components\Contracts\Config\Configure as ConfigContract;
 
 /**
  * Initialize boot of setting file.
