@@ -35,11 +35,30 @@ use Syscodes\Components\Contracts\Config\Configure as ConfigureContract;
 class Configure implements ArrayAccess, ConfigureContract
 {
 	/**
+	 * Get the files.
+	 * 
+	 * @var array $files
+	 */
+	protected array $files = [];
+
+	/**
 	 * Currently registered routes.
 	 * 
 	 * @var array $vars
 	 */
-	protected $vars = [];
+	protected array $vars = [];
+
+	/**
+	 * Constructor. Create a new Configure class instance.
+	 * 
+	 * @param  array  $files
+	 * 
+	 * @return void
+	 */
+	public function __construct(array $files = [])
+	{
+		$this->files = $files;
+	}
 
 	/**
 	 * Determine if the given configuration value exists.
@@ -66,40 +85,14 @@ class Configure implements ArrayAccess, ConfigureContract
 		$keys = explode('.', $key);
 
 		if ( ! array_key_exists($file = headItem($keys), $this->vars)) {
-			foreach ([configPath().DIRECTORY_SEPARATOR] as $paths) {
-				if (is_readable($path = $paths.$file.'.php')) {
+			foreach ($this->files as $paths) {
+				if (is_readable($path = dirname($paths).DIRECTORY_SEPARATOR.$file.'.php')) {
 					$this->vars[$file] = require $path;
 				}				
 			}
 		}
-
-		if (is_array($key)) {
-			return $this->getMany($key);
-		}
 		
 		return Arr::get($this->vars, $key, $default);
-	}
-	
-	/**
-	 * Get many configuration values.
-	 * 
-	 * @param  array|string  $keys
-	 * 
-	 * @return array
-	 */
-	public function getMany($keys): array
-	{
-		$config = [];
-		
-		foreach ($keys as $key => $default) {
-			if (is_numeric($key)) {
-				[$key, $default] = [$default, null];
-			}
-			
-			$config[$key] = Arr::get($this->vars, $key, $default);
-		}
-		
-		return $config;
 	}
 
 	/**
