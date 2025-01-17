@@ -24,11 +24,11 @@ namespace Syscodes\Components\Core;
 
 use Closure;
 use RuntimeException;
-use Syscodes\Components\Config\Configure;
 use Syscodes\Components\Version;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Http\Request;
+use Syscodes\Components\Config\Configure;
 use Syscodes\Components\Container\Container;
 use Syscodes\Components\Support\Environment;
 use Syscodes\Components\Filesystem\Filesystem;
@@ -37,6 +37,7 @@ use Syscodes\Components\Support\ServiceProvider;
 use Syscodes\Components\Events\EventServiceProvider;
 use Syscodes\Components\Console\Output\ConsoleOutput;
 use Syscodes\Components\Routing\RoutingServiceProvider;
+use Syscodes\Components\Core\Concerns\ConfigurationFiles;
 use Syscodes\Components\Core\Http\Exceptions\HttpException;
 use Syscodes\Components\Contracts\Http\Lenevor as LenevorContract;
 use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
@@ -54,6 +55,8 @@ use function Syscodes\Components\Filesystem\join_paths;
  */
 class Application extends Container implements ApplicationContract
 {
+    use ConfigurationFiles;
+
     /**
      * The current globally available application.
      * 
@@ -280,7 +283,7 @@ class Application extends Container implements ApplicationContract
         static::setInstance($this);
         
         $this->instance('app', $this);
-        $this->instance('config', $this[Configure::class]);
+        $this->instance('config', new Configure($this->getConfigurationFiles($this)));
     }
 
     /**
