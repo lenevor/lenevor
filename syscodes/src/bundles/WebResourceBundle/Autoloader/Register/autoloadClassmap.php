@@ -202,6 +202,7 @@ return [
     'Syscodes\\Components\\Core\\Bootstrap\\BootProviders' => SYS_PATH.'src/components/Core/Bootstrap/BootProviders.php', 
     'Syscodes\\Components\\Core\\Bootstrap\\BootRegisterFacades' => SYS_PATH.'src/components/Core/Bootstrap/BootRegisterFacades.php', 
     'Syscodes\\Components\\Core\\Bootstrap\\BootRegisterProviders' => SYS_PATH.'src/components/Core/Bootstrap/BootRegisterProviders.php',
+    'Syscodes\\Components\\Core\\Concerns\\ConfigurationFiles' => SYS_PATH.'src/components/Core/Concerns/ConfigurationFiles.php',
     'Syscodes\\Components\\Core\\Configuration\\ApplicationBootstrap' => SYS_PATH.'src/components/Core/Configuration/ApplicationBootstrap.php',
     'Syscodes\\Components\\Core\\Configuration\\ExceptionBootstrap' => SYS_PATH.'src/components/Core/Configuration/ExceptionBootstrap.php',
     'Syscodes\\Components\\Core\\Console\\Commands\\ListCommand' => SYS_PATH.'src/components/Core/Console/Commands/ListCommand.php',
