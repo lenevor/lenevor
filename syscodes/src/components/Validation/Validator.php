@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Validation;
 
 use Closure;
+use Syscodes\Components\Support\MessageBag;
 use Syscodes\Components\Validation\Exceptions\RuleQuashException;
 use Syscodes\Components\Validation\Exceptions\RuleNotFoundException;
 use Syscodes\Components\Contracts\Validation\Validator as ValidationContract;
@@ -43,11 +44,25 @@ class Validator implements ValidationContract
     protected $allowRuleOverride = false;
     
     /**
+     * The message bag instance.
+     * 
+     * @var \Syscodes\Components\Support\MessageBag
+     */
+    protected $messages;
+    
+    /**
      * The Validator resolver instance.
      * 
      * @var \Closure $resolver
      */
     protected $resolver;
+    
+    /**
+     * The rules to be applied to the data.
+     * 
+     * @var array $rules
+     */
+    protected $rules;
     
     /**
      * Allows use humanize keys.
@@ -109,6 +124,69 @@ class Validator implements ValidationContract
         $this->validators[$key] = $rule;
         
         $rule->setKey($key);
+    }
+    
+    /**
+     * Determine if the data passes the validation rules.
+     * 
+     * @return bool
+     */
+    public function passes()
+    {
+        $this->messages = new MessageBag;
+        
+        foreach ($this->rules as $attribute => $rules) {
+            foreach ($rules as $rule) {
+                $this->validate((array) $attribute, $rule);
+            }
+        }
+        
+        return $this->messages->isEmpty();
+    }
+    
+    /**
+     * Determine if the data fails the validation rules.
+     * 
+     * @return bool
+     */
+    public function fails()
+    {
+        return ! $this->passes();
+
+    }
+    
+    /**
+     * Get the message container for the validator.
+     * 
+     * @return \Syscodes\Compoenents\Support\MessageBag
+     */
+    public function messages()
+    {
+        if ( ! $this->messages) {
+            $this->passes();
+        }
+        
+        return $this->messages;
+    }
+    
+    /**
+     * An alternative more semantic shortcut to the message container.
+     * 
+     * @return \Syscodes\Compoenents\Support\MessageBag
+     */
+    public function errors()
+    {
+        return $this->messages();
+    }
+    
+    /**
+     * Get the messages for the instance.
+     *
+     * @return \Syscodes\Compoenents\Support\MessageBag
+     */
+    public function getMessageBag()
+    {
+        return $this->messages();
     }
 
     /**
