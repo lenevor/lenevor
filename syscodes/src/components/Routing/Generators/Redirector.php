@@ -255,6 +255,16 @@ class Redirector
     }
     
     /**
+     * Get the URL generator instance.
+     * 
+     * @return \Syscodes\Components\Routing\Generators\UrlGenerator
+     */
+    public function getUrlGenerator()
+    {
+        return $this->generator;
+    }
+    
+    /**
      * Set the active session store.
      * 
      * @param  \Syscodes\Components\Session\Store  $session
