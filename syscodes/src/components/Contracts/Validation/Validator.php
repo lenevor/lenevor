@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Contracts\Validation;
 
 use Syscodes\Components\Validation\Rules;
+use Syscodes\Components\Validation\Validation;
 
 /**
  * Get validator.
@@ -74,6 +75,17 @@ interface Validator
     public function validate(array $inputs, array $rules, array $messages = []);
 
     /**
+     * Given inputs, rules and messages to make the Validation class instance.
+     * 
+     * @param  array  $inputs
+     * @param  array  $rules
+     * @param  array  $messages
+     * 
+     * @return Validation
+     */
+    public function make(array $inputs, array $rules, array $messages = []): Validation;
+
+    /**
      * Given ruleName and rule to add new validator.
      * 
      * @param  string  $ruleName
@@ -107,4 +119,11 @@ interface Validator
      * @return void
      */
     public function isUsingHumanizedKey(): bool;
+
+    /**
+     * Get the messages for the instance.
+     *
+     * @return \Syscodes\Compoenents\Support\MessageBag
+     */
+    public function getMessageBag();
 }
