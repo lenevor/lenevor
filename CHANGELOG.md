@@ -1,5 +1,40 @@
 # Release Notes
 
+## [Version 0.8.13-alpha.8]
+
+Release Date: Jan 31, 2025
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added methods for handle Request and Prime command
+- Added new methods for initialize the configuration of a new application
+- Added methods for register the resolving callback in the `Container` class
+- Added argument for raise events in the resolve method in the `Application` class
+- Added new methods for register the reportable and renderable in the `ExceptionHandler` interface
+- Added new methods for register the before and after of resolving callback in the `Container` interface
+- Added new variable for the commands to be registered of development in the `PrimeServiceProvider` class
+- Added new method for get the character at the specified index in the `Str` class
+- Added method for check an array attribute in the `Validator` class
+- Added new methods for validate inputs, rules and messages in the `Validator` class
+- Added new method for register the database presence verifier in the `ValidationServiceProvider` class
+- Added new trait for get configuration files in the `Configure` class 
+- Added new method for gets the URL generator instance in the `Redirector` class
+
+### Changed
+- Changed the name of method withExceptions by assignExceptions in the `ApplicationBootstrap` class
+
+### Updated
+- Updated PHP release to 8.2
+- Updated components release to 0.8.13
+
+### Fixed
+- Added character '\' for identify at closure function in the `Support\Helpers` file
+
+### Removed
+- Removed the identify final in the class in the `Rules\Accepted` class
+
+
 ## [Version 0.8.12-alpha.8]
 
 Release Date: Apr 01, 2024
