@@ -86,7 +86,7 @@ class Application extends BaseApplication
      * 
      * @return int
 	 */
-	public function run(InputInterface $input = null, OutputInterface $output = null)
+	public function run(?InputInterface $input = null, ?OutputInterface $output = null)
 	{
 		$this->setLogo("                     __                                                    
                     / /   ___  ____  ___ _   ______  _____                 
@@ -137,7 +137,7 @@ class Application extends BaseApplication
      * 
      * @return void
      */
-    public function setLogo(string $logoText, string $style = null): void
+    public function setLogo(string $logoText, ?string $style = null): void
     {
         $this->config['logoText'] = $logoText;
 

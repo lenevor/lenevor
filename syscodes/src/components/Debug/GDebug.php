@@ -95,7 +95,7 @@ class GDebug implements DebugContract
 	 * 
 	 * @return void
 	 */
-	public function __construct(System $system = null)
+	public function __construct(?System $system = null)
 	{
 		$this->system    = $system ?: new System;
 		$this->benchmark = new Benchmark;
@@ -242,8 +242,8 @@ class GDebug implements DebugContract
 	public function handleError(
 		int $level, 
 		string $message, 
-		string $file = null, 
-		int $line = null
+		?string $file = null, 
+		?int $line = null
 	): bool {
 		if ($level & $this->system->getErrorReportingLevel()) {
 			$exception = new ErrorException($message, $level, $level, $file, $line);
