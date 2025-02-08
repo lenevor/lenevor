@@ -127,6 +127,41 @@ class Configure implements ArrayAccess, ConfigureContract
 		
 		Arr::erase($this->vars, $key);
 	}
+	
+	/**
+	 * 
+	 * Prepend a value onto an array configuration value.
+	 * 
+	 * @param  string  $key
+	 * @param  mixed  $value
+	 * 
+	 * @return void
+	 */
+	public function prepend($key, $value): void
+	{
+		$array = $this->get($key, []);
+		
+		array_unshift($array, $value);
+		
+		$this->set($key, $array);
+	}
+	
+	/**
+	 * Push a value onto an array configuration value.
+	 * 
+	 * @param  string  $key
+	 * @param  mixed  $value
+	 * 
+	 * @return void
+	 */
+	public function push($key, $value): void
+	{
+		$array = $this->get($key, []);
+		
+		$array[] = $value;
+		
+		$this->set($key, $array);
+	}
 
 	/**
 	 * Get all of the configuration items for the application.
