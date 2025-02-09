@@ -104,7 +104,7 @@ class FlattenException
      * 
      * @return void
      */
-    public static function make(Throwable $exception, $statusCode = null, array $headers = [])
+    public static function make(Throwable $exception, ?int $statusCode = null, array $headers = [])
     {
         return static::makeFromThrowable($exception, $statusCode, $headers);
     }
