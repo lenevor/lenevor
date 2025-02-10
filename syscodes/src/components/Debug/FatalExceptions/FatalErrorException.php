@@ -52,10 +52,10 @@ class FatalErrorException extends ErrorException
         int       $severity,
         string    $filename,
         int       $lineno,
-        int       $traceOffset = null,
+        ?int       $traceOffset = null,
         bool      $traceArgs = true,
         array     $trace = [],
-        Throwable $previous = null
+        ?Throwable $previous = null
     ) {
         parent::__construct($message, $code, $severity, $filename, $lineno, $previous);
 
