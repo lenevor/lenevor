@@ -283,7 +283,7 @@ class Application extends Container implements ApplicationContract
         static::setInstance($this);
         
         $this->instance('app', $this);
-        $this->instance('config', new Configure($this->getConfigurationFiles($this)));
+        $this->bind('config', fn() => new Configure($this->getConfigurationFiles($this)));
     }
 
     /**
