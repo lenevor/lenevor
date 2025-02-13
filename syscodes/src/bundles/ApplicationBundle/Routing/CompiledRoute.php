@@ -105,7 +105,7 @@ final class CompiledRoute implements Serializable
         array $tokens,
         string $prefix,
         array $pathVariables,
-        string $hostRegex = null,
+        ?string $hostRegex = null,
         array $hostTokens = [],
         array $hostVariables = [],
         array $variables = []
