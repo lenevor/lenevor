@@ -36,7 +36,7 @@ interface Factory
 	 *
 	 * @return bool
 	 */
-    public function viewExists($view): bool;
+    public function exists($view): bool;
 
     /**
      * Global and local data are merged and extracted to create local variables within the view file.
