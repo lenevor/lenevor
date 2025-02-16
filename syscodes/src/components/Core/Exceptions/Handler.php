@@ -28,6 +28,7 @@ use Psr\Log\LoggerInterface;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Http\Response;
 use Syscodes\Components\Routing\Router;
+use Syscodes\Components\Support\ViewErrorBag;
 use Syscodes\Components\Http\RedirectResponse;
 use Syscodes\Components\Debug\ExceptionHandler;
 use Syscodes\Components\Contracts\Container\Container;
@@ -238,9 +239,9 @@ class Handler implements ExceptionHandlerContract
     /**
      * Prepare exception for rendering.
      * 
-     * @param  \Throwable  $e
+     * @param  Throwable  $e
      * 
-     * @return \Throwable
+     * @return Throwable
      */
     protected function prepareException(Throwable $e): Throwable
     {
@@ -255,7 +256,7 @@ class Handler implements ExceptionHandlerContract
      * Prepare a response for the given exception.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Throwable  $e
+     * @param  Throwable  $e
      * 
      * @return \Syscodes\Components\Http\Response
      * 
@@ -288,13 +289,17 @@ class Handler implements ExceptionHandlerContract
     {
         $this->registerViewErrorPaths();
 
-        if (view()->viewExists($view = $this->getHttpExceptionView($e))) {
-            return response()->view(
-                $view, 
-                ['exception' => $e],
-                $e->getStatusCode(),
-                $e->getHeaders()
-            );
+        if ($view = $this->getHttpExceptionView($e)) {
+            try {
+                return response()->view($view, [
+                        'errors' => new ViewErrorBag,
+                        'exception' => $e,
+                ], $e->getStatusCode(), $e->getHeaders());
+            } catch (Throwable $th) {
+                config('app.debug') && throw $th;
+
+                $this->report($th);
+            }
         }
 
         return $this->convertExceptionToResponse($e);
@@ -315,17 +320,23 @@ class Handler implements ExceptionHandlerContract
      * 
      * @param  \Syscodes\Components\Core\Http\Exceptions\HttpException  $e
      * 
-     * @return string
+     * @return string|null
      */
-    protected function getHttpExceptionView(HttpException $e): string
+    protected function getHttpExceptionView(HttpException $e): string|null
     {
-        return "errors::{$e->getStatusCode()}";
+        $view = 'errors::'.$e->getStatusCode();
+
+        if (view()->exists($view)) {
+            return $view;
+        }
+
+        return null;
     }
 
     /**
      * Create a response for the given exception.
      * 
-     * @param  \Throwable  $e
+     * @param  Throwable  $e
      * 
      * @return \Syscodes\Components\Http\Response
      */
@@ -341,25 +352,29 @@ class Handler implements ExceptionHandlerContract
     /**
      * Gets the response content for the given exception.
      * 
-     * @param  \Throwable  $e
+     * @param  Throwable  $e
      * 
      * @return string
      */
     protected function renderExceptionContent(Throwable $e)
     {
         try {
-            return config('app.debug') && app()->has(ExceptionRender::class)
-                        ? $this->renderExceptionWithDebug($e) 
-                        : $this->renderExceptionWithFlatDesignDebug($e, config('app.debug'));
+            if (config('app.debug')) {
+                if (app()->has(ExceptionRender::class)) {
+                    return $this->renderExceptionWithDebug($e);
+                }
+            }
+            
+            return $this->renderExceptionWithFlatDesignDebug($e, config('app.debug'));
         } catch (Exception $e) {
-            $this->renderExceptionWithFlatDesignDebug($e, config('app.debug'));
+            return $this->renderExceptionWithFlatDesignDebug($e, config('app.debug'));
         }
     }
 
     /**
      * Render an exception to a string of debug.
      * 
-     * @param  \Throwable  $e
+     * @param  Throwable  $e
      * 
      * @return void
      * 
@@ -373,7 +388,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Render an exception to a string using Flat Design Debug.
      * 
-     * @param  \Throwable  $e
+     * @param  Throwable  $e
      * @param  bool  $debug
      * 
      * @return string
@@ -389,7 +404,7 @@ class Handler implements ExceptionHandlerContract
      * Map the given exception into an Syscodes response.
      * 
      * @param  \Syscodes\Components\Http\Response  $response
-     * @param  \Exception  $e 
+     * @param  Throwable  $e 
      * 
      * @return \Syscodes\Components\Http\Response
      */
@@ -412,7 +427,7 @@ class Handler implements ExceptionHandlerContract
      * Render an exception to the console.
      * 
      * @param  \Syscodes\Components\Contracts\Console\Output\ConsoleOutput  $output
-     * @param  \Throwable  $e
+     * @param  Throwable  $e
      * 
      * @return void
      */
@@ -433,7 +448,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Determine if the given exception is an HTTP exception.
      * 
-     * @param  \Throwable  $e
+     * @param  Throwable  $e
      * 
      * @return bool
      */
