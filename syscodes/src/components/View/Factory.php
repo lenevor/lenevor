@@ -110,7 +110,7 @@ class Factory implements FactoryContract
 	 *
 	 * @return bool
 	 */
-	public function viewExists($view): bool
+	public function exists($view): bool
 	{
 		try {
 			$this->finder->find($view);
