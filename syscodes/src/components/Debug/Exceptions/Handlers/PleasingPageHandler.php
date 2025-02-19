@@ -172,8 +172,8 @@ class PleasingPageHandler extends Handler
 			'class' => explode('\\', $supervisor->getExceptionName()),
 			'stylesheet' => preg_replace('#[\r\n\t ]+#', ' ', $style),
 			'javascript' => preg_replace('#[\r\n\t ]+#', ' ', $jscript),
-			'header' => $this->getResource('views/partials/updown/header.php'),
-			'footer' => $this->getResource('views/partials/updown/footer.php'),
+			'header' => $this->getResource('views/partials/header.php'),
+			'footer' => $this->getResource('views/partials/footer.php'),
 			'info_exception' => $this->getResource('views/partials/info/info_exception.php'),
 			'section_stack_exception' => $this->getResource('views/partials/section_stack_exception.php'),
 			'section_frame' => $this->getResource('views/partials/section_frame.php'),
@@ -411,7 +411,7 @@ class PleasingPageHandler extends Handler
 	 */
 	public function handle()
 	{	
-		$templatePath = $this->getResource('views/debug.layout.php');
+		$templatePath = $this->getResource('views/layout.php');
 
 		$vars = $this->collectionVars();
 		
