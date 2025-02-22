@@ -51,7 +51,7 @@ class System
     public function setErrorHandler(callable $handler, $types = 'use-php-defaults') 
     {
         if ($types === 'use-php-defaults') {
-            $types = E_ALL | E_STRICT;
+            $types = E_ALL | 2048;
         }
 
         return set_error_handler($handler, $types);
