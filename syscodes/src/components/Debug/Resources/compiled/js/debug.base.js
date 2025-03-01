@@ -50,18 +50,25 @@
 
     });
 
+    /**
+     * DROPDOWN COMPONENT
+     */
+
     let dropdown = d.getElementById('menuDropdown');
-    let config   = d.querySelector('nav:nth-child(2) a');
+    let menu     = d.querySelector('nav:nth-child(2) a');
     let evento   = ((d.ontouchstart !== null) ? 'mouseup' : 'touchstart');
 
-    config.addEventListener(evento, function (e) {
-        e.stopPropagation();
+    /* Show/hide dropdown */
+    menu.addEventListener(evento, function (e) {
+        /* Prevents the click from propagating to the modal */
+        e.stopPropagation(0);
 
         dropdown.classList.toggle("active"); 
     });
 
+    /* Hide dropdown on click outside */
     w.addEventListener(evento, function (e) {
-        if (dropdown.classList.contains("active")) {            
+        if ( ! dropdown.contains(e.target)) {            
             dropdown.classList.remove("active");
         }
     });
