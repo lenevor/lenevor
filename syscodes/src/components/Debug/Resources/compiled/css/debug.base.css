@@ -61,8 +61,9 @@
     --font-size-small-x: .8em;
     --font-size-small: .9em;
     --font-size-initial: 1em;
-    --font-size-medium-x: 1.15em;
-    --font-size-medium-xx: 1.25em;
+    --font-size-medium-x: 1.05em;
+    --font-size-medium-xx: 1.15em;
+    --font-size-medium-xxx: 1.25em;
     --font-size-medium: 1.3em;
     --font-size-large: 1.4em;
     --font-size-large-x: 1.5em;
@@ -216,7 +217,6 @@ a.active {
 /* CONTAINER */
 
 .container {
-    margin: 0 auto;
     margin-left: 19px;
     margin-right: 19px;
 }
@@ -236,8 +236,8 @@ a.active {
 @media (min-width: 1100px)
 {
     .container {
-        margin-left: 88px;
-        margin-right: 88px;
+        margin-left: 168px;
+        margin-right: 168px;
     }
 }
 
@@ -503,6 +503,8 @@ header .space nav:nth-child(2) ul li .dropdown .box label select {
     appearance: none;
     background: var(--gray-100);
     border-collapse: collapse;
+    border-radius: 0;
+    box-sizing: border-box;
     color: var(--gray-700);
     font-size: var(--font-size-initial);
     min-height: 16px;
@@ -520,8 +522,10 @@ header .space nav:nth-child(2) ul li .dropdown .box label select:focus {
     outline: none;
 }
 
-header .space nav:nth-child(2) ul li .dropdown .box label select .option-editor,
-header .space nav:nth-child(2) ul li .dropdown .box label select .option-theme {
+header .space nav:nth-child(2) ul li .dropdown .box label select:hover .option-editor,
+header .space nav:nth-child(2) ul li .dropdown .box label select:hover .option-theme {
+    appearance: none;
+    background: var(--white);
     font-size: var(--font-size-small);
     letter-spacing: 1.3px;
     position: relative;
@@ -720,8 +724,9 @@ header .message a:hover {
 .exception {
     background: var(--white);
     background-position: 96% 0;
-    box-shadow: 0 10px 18px -15px var(--gray-600),
-                0 0 16px -14px var(--gray-600);
+    border-radius: 8px;
+    box-shadow: 0 20px 30px -15px var(--gray-400),
+                0 10px 30px -15px var(--gray-400);
     box-sizing: border-box;
     margin-top: 65px;
     height: auto;
@@ -873,8 +878,9 @@ header .message a:hover {
 
 .section-stack-exception {
     background: var(--white);
-    box-shadow: 0 10px 18px -15px var(--gray-600),
-                0 0 16px -14px var(--gray-600);
+    border-radius: 8px;
+    box-shadow: 0 20px 30px -15px var(--gray-400),
+                0 10px 30px -15px var(--gray-400);
     margin-top: 33px;
     min-height: 40vh;
     position: static;
@@ -911,7 +917,8 @@ header .message a:hover {
 
 .section-frame {
     background: var(--white);
-    border-radius: 0;  
+    border-top-left-radius: 8px;  
+    border-top-right-radius: 8px;  
     height: 40vh;
     overflow-y: hidden;
     padding: 0;
@@ -1240,6 +1247,8 @@ header .message a:hover {
 {
     .section-frame {
         border-right-width: 1px;
+        border-bottom-left-radius: 8px;
+        border-top-right-radius: 0; 
         height: 114.5vh;
         left: 0;
         padding-bottom: 63px;
@@ -1341,9 +1350,8 @@ header .message a:hover {
     background: var(--white);
     border-color: var(--gray-300);
     border-top-width: 1px;
-    border-radius: 0;
     display: none;
-    padding-bottom: 12px;
+    padding-bottom: 10px;
     min-height: 52px;
     overflow: hidden;
     position: relative;
@@ -1572,6 +1580,7 @@ header .message a:hover {
     }
     
     .section-code .code-source {
+        border-top-right-radius: 8px;
         border-top-width: 0;
         left: 0;
     }
@@ -1603,7 +1612,7 @@ header .message a:hover {
     }
 
     .section-code pre {
-        font-size: var(--font-size-medium-x);
+        font-size: var(--font-size-medium-xx);
         margin-bottom: 0.9rem;
         padding-left: 1.8rem; 
         padding-right: 2.5rem;
@@ -1652,12 +1661,9 @@ header .message a:hover {
 }
 
 .section-details .sidebar nav {
-    background: var(--gray-300);
+    background: transparent;
     display: none; 
     left: 0;
-    padding-bottom: 1.5rem;
-    padding-left: 2.5rem;
-    padding-top: 1.5rem;
     position: sticky;
     top: 90px;
     width: 100%;
@@ -1692,7 +1698,7 @@ header .message a:hover {
 
 .section-details .sidebar nav ul li:nth-child(4) h2 a,
 .section-details .sidebar nav ul li:nth-child(6) h2 a {
-    margin-top: 20px;
+    margin-top: 40px;
 }
 
 .section-details .sidebar nav ul li a {
@@ -1701,8 +1707,8 @@ header .message a:hover {
     display: inline-flex;
     font-size: var(--font-size-small);
     font-weight: 400;
-    letter-spacing: 0.3px;
-    padding: 8px 0;
+    letter-spacing: 0.1px;
+    padding-left: 1px;
     text-decoration: none;
     text-shadow: none;
     text-transform: capitalize;
@@ -1711,6 +1717,12 @@ header .message a:hover {
 
 .dark .section-details .sidebar nav ul li a {
     color: var(--dark-gray-800);
+}
+
+.section-details .sidebar nav ul li:nth-child(2) a,
+.section-details .sidebar nav ul li:nth-child(5) a,
+.section-details .sidebar nav ul li:nth-child(7) a {
+    margin-top: 10px;
 }
 
 .section-details .sidebar nav ul li:nth-child(2) a.active svg  {
@@ -1864,7 +1876,7 @@ header .message a:hover {
 {
     .section-details .sidebar nav {
         display: inline-block;
-        margin-right: 65px;
+        margin-right: 120px;
     }
 
     .section-details .sidebar nav ul li h2 a,
@@ -1873,7 +1885,7 @@ header .message a:hover {
     }
 
     .section-details .sidebar nav ul li a {
-        font-size: var(--font-size-medium-x);
+        font-size: var(--font-size-medium-xx);
     }
 
     .section-details .sidebar nav ul li a.active svg {
@@ -1912,12 +1924,22 @@ header .message a:hover {
 
 /* SECTIONS: REQUEST | APP */
 
+.section-details .section-detail-request {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.section-details .section-detail-context {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
 .section-details .section-detail-request,
 .section-details .section-detail-app,
 .section-details .section-detail-context {
     background: var(--white);
-    box-shadow: 0 10px 18px -15px var(--gray-600),
-                0 0 16px -14px var(--gray-600);
+    box-shadow: 0 20px 30px -15px var(--gray-400),
+                0 10px 30px -15px var(--gray-400);
     left: 0;
     position: relative;
 }
@@ -2069,7 +2091,7 @@ header .message a:hover {
     display: flex;
     font-size: var(--font-size-initial);
     margin-left: -1px;
-    margin-right: 5px;
+    margin-right: 20px;
     width: 100%;
     word-break: break-all;
 }
@@ -2304,7 +2326,7 @@ header .message a:hover {
     .section-details .section-detail-request .section-info-request,
     .section-details .section-detail-app .section-info-app,
     .section-details .section-detail-context .section-info-context {
-        padding: 2.5rem;
+        padding: 2.5rem 3rem 2.5rem;
     }
 
     .section-details .section-detail-app .section-info-app,
@@ -2318,7 +2340,7 @@ header .message a:hover {
 
     .section-details .section-detail-request .section-info-request .info-body-title pre {
         margin-bottom: 0;
-        padding: 0.5rem 1rem;
+        padding: 0.5rem 0.6rem;
     }
 
     .section-details .section-detail-request .section-info-request .info-request-title h2,
@@ -2353,6 +2375,7 @@ header .message a:hover {
     .section-details .section-detail-app .section-info-app .info-database-title .data-table tr > td,
     .section-details .section-detail-context .section-info-context .info-version-title .data-table tr > td {
         display: inline-flex;
+        
     }
 
     .section-details .section-detail-request .section-info-request .info-header-title .data-table tbody td:first-child,
@@ -2360,8 +2383,7 @@ header .message a:hover {
     .section-details .section-detail-app .section-info-app .info-database-title .data-table td:first-child,
     .section-details .section-detail-context .section-info-context .info-version-title .data-table td:first-child {
         font-size: var(--font-size-medium-x);
-        margin-right: 2rem;
-        width: 20rem;
+        width: 25rem;
     }
 
     .section-details .section-detail-request .section-info-request .info-header-title .data-table tbody td:last-child,
@@ -2370,6 +2392,7 @@ header .message a:hover {
     .section-details .section-detail-request .section-info-request .info-body-title pre,
     .section-details .section-detail-context .section-info-context .info-version-title .data-table td:last-child {
         font-size: var(--font-size-medium-x);
+        width: 100%;
     }
 
     .section-details .section-detail-context .section-info-context .info-version-title .data-table tr:nth-child(4) td:last-child span {
