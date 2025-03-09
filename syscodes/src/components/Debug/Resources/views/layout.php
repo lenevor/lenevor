@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="<?= $handler->getTheme() ?>">
+<html lang="en" data-theme="<?= $handler->getTheme() ?>">
 	<head>
 		<meta charset="UTF-8">
 		<meta name="robots" content="noindex">		
@@ -18,7 +18,8 @@
 			<?= $template->render($info_exception) ?>
 			<?= $template->render($section_stack_exception) ?>
 			<?= $template->render($request_info) ?>
-		</div>		
+			<?= $template->render($footer) ?>	
+		</div>	
 		<!-- Script -->
 		<script type="text/javascript">
 			<?= $javascript ?>
