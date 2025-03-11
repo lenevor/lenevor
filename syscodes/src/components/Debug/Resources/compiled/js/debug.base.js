@@ -21,7 +21,8 @@
     
     w.addEventListener('scroll', (e) => {
         if (d.documentElement.scrollTop > 10) {
-            if (d.documentElement.classList == 'dark') {
+            /* Access to the attribute data-theme */
+            if (d.documentElement.dataset.theme == 'dark') {
                 header.style.background = '#1F2937';
                 header.style.borderBottom = '1px solid rgba(36, 68, 86, 0.5)';
                 header.style.boxShadow = '0 0 15px 4px rgba(0, 0, 0, 0.2)';
@@ -31,12 +32,12 @@
                 header.style.boxShadow = '0 0 15px 4px rgba(0, 0, 0, 0.2)';
             }
         } else {
-            if (d.documentElement.classList == 'dark') {
-                header.style.background = 'none';
+            if (d.documentElement.dataset.theme == 'dark') {
+                header.style.background = '#111827';
                 header.style.borderBottom = '1px solid rgba(31, 41, 51, 1)';
                 header.style.boxShadow = 'none';
             } else {
-                header.style.background = 'none';
+                header.style.background = '#EAE9F1';
                 header.style.borderBottom = 'none';
                 header.style.boxShadow = 'none';
             }
@@ -47,7 +48,6 @@
         } else {
             message.style = "display: none";
         }
-
     });
 
     /**
@@ -58,7 +58,7 @@
     let menu     = d.querySelector('nav:nth-child(2) a');
     let evento   = ((d.ontouchstart !== null) ? 'mouseup' : 'touchstart');
 
-    /* Show/hide dropdown */
+    /* Show|hide dropdown */
     menu.addEventListener(evento, function (e) {
         /* Prevents the click from propagating to the modal */
         e.stopPropagation(0);
