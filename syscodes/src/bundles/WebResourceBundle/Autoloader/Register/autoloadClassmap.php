@@ -384,6 +384,7 @@ return [
     'Syscodes\\Components\\Finder\\Filters\\MultiFilterIterator' => SYS_PATH.'src/components/Finder/Filters/MultiFilterIterator.php',
     'Syscodes\\Components\\Finder\\Filters\\PathFilterIterator' => SYS_PATH.'src/components/Finder/Filters/PathFilterIterator.php',
     'Syscodes\\Components\\Finder\\Finder' => SYS_PATH.'src/components/Finder/Finder.php',
+    'Syscodes\\Components\\Finder\\Glob' => SYS_PATH.'src/components/Finder/Glob.php',
     'Syscodes\\Components\\Finder\\SplFileInfo' => SYS_PATH.'src/components/Finder/SplFileInfo.php',
     'Syscodes\\Components\\Hashing\\Drivers\\AbstractHasher' => SYS_PATH.'src/components/Hashing/Drivers/AbstractHasher.php',
     'Syscodes\\Components\\Hashing\\Drivers\\Argon2IdHasher' => SYS_PATH.'src/components/Hashing/Drivers/Argon2IdHasher.php',
