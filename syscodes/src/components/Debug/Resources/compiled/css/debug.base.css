@@ -93,8 +93,8 @@
     --dark-magenta-200: oklab(21.009% -0.00295 -0.03165);
     --dark-magenta-250: hsla(214, 27%, 15%, 1);
     --dark-magenta-300: hsla(215, 28%, 17%, 1);
-    --dark-magenta-400: hsla(217, 30%, 19%, 1);
-    --dark-magenta-500: hsla(219, 33%, 21%, 1);
+    --dark-magenta-400: hsla(216, 21%, 24%, 1);
+    --dark-magenta-500: hsla(217, 19%, 27%, 1);
     --dark-magenta-600: hsla(221, 35%, 23%, 1);
     --dark-magenta-700: hsla(223, 38%, 25%, 1);
     --dark-magenta-800: hsla(225, 40%, 27%, 1);
@@ -104,7 +104,7 @@
     --dark-gray-400: hsla(0, 0%, 54%, 1);
     --dark-gray-500: hsla(0, 0%, 62%, 1);
     --dark-gray-600: hsla(0, 0%, 73%, 1);
-    --dark-gray-700: hsla(223, 11%, 88%, 1);
+    --dark-gray-700: hsla(220, 11%, 89%, 1);
     --dark-green-100: hsl(162, 92%, 35%);
     --dark-green-200: hsla(132, 88%, 44%, 1);
     --dark-green-300: hsla(132, 90%, 59%, 1);
@@ -167,7 +167,7 @@ body {
     color: var(--gray-100);
     font-family:  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, 
                   "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    font-size: 13px;
+    font-size: 10pt;
     font-weight: 300;
     line-height: 1.5;
     margin: 0;
@@ -313,10 +313,6 @@ header .space nav ul li a:hover {
     color: var(--red-400);
 }
 
-[data-theme="dark"] header .space nav ul li a:hover {
-    color: var(--dark-red-800);
-}
-
 header .space nav ul li a .container-title {
     align-items: center;
     display: flex;
@@ -453,7 +449,7 @@ header .space nav:nth-child(2) ul li .dropdown .box:before {
 }
 
 [data-theme="dark"] header .space nav:nth-child(2) ul li .dropdown .box:before {
-    background: var(--dark-magenta-300);
+    background: var(--dark-magenta-200);
 }
 
 header .space nav:nth-child(2) ul li .dropdown .box .title {
@@ -477,7 +473,7 @@ header .space nav:nth-child(2) ul li .dropdown .box .title h4 {
 }
 
 [data-theme="dark"] header .space nav:nth-child(2) ul li .dropdown .box .title h4 {
-    color: var(--dark-gray-600);
+    color: var(--dark-gray-700);
 }
 
 header .space nav:nth-child(2) ul li .dropdown .box .title a {
@@ -485,6 +481,10 @@ header .space nav:nth-child(2) ul li .dropdown .box .title a {
     text-decoration: underline;
     text-transform: capitalize;
     margin-right: -25px;
+}
+
+[data-theme="dark"] header .space nav:nth-child(2) ul li .dropdown .box .title a {
+    color: var(--dark-gray-500);
 }
 
 header .space nav:nth-child(2) ul li .dropdown .box span {
@@ -504,7 +504,7 @@ header .space nav:nth-child(2) ul li .dropdown .box .editor-title {
 }
 
 [data-theme="dark"] header .space nav:nth-child(2) ul li .dropdown .box .editor-title {
-    color: var(--dark-gray-400);
+    color: var(--dark-gray-500);
     text-shadow: none;
 }
 
@@ -514,8 +514,10 @@ header .space nav:nth-child(2) ul li .dropdown .box label select {
     border-collapse: collapse;
     border-radius: 0;
     box-sizing: border-box;
-    color: var(--gray-700);
+    color: var(--tint-700);
     font-size: var(--font-size-initial);
+    font-weight: 500;
+    letter-spacing: 0.8px;
     min-height: 16px;
     padding: 16px;
     text-transform: none;
@@ -524,7 +526,7 @@ header .space nav:nth-child(2) ul li .dropdown .box label select {
 
 [data-theme="dark"] header .space nav:nth-child(2) ul li .dropdown .box label select {
     background: var(--dark-magenta-400);
-    color: var(--dark-gray-600);
+    color: var(--dark-gray-700);
 }
 
 header .space nav:nth-child(2) ul li .dropdown .box label select:focus {
@@ -534,10 +536,15 @@ header .space nav:nth-child(2) ul li .dropdown .box label select:focus {
 header .space nav:nth-child(2) ul li .dropdown .box label select:hover .option-editor,
 header .space nav:nth-child(2) ul li .dropdown .box label select:hover .option-theme {
     appearance: none;
-    background: var(--white);
+    background: var(--gray-100);
     font-size: var(--font-size-small);
     letter-spacing: 1.3px;
     position: relative;
+}
+
+[data-theme="dark"] header .space nav:nth-child(2) ul li .dropdown .box label select:hover .option-editor,
+[data-theme="dark"] header .space nav:nth-child(2) ul li .dropdown .box label select:hover .option-theme {
+    background: var(--dark-magenta-400);
 }
 
 header .space nav:nth-child(2) ul li .dropdown .box label .select-box { 
@@ -546,25 +553,33 @@ header .space nav:nth-child(2) ul li .dropdown .box label .select-box {
     width: 100%;
 }
 
-header .space nav:nth-child(2) ul li .dropdown .box label .select-box:after {
-    align-items: center;
-    color: var(--gray-600);
-    content: "▼";
-    display: flex; 
-    height: 52px;
-    justify-content: center;
-    padding-top: 6px;
-    pointer-events: none;
-    position: absolute;
-    right: 0px;
-    text-align: center;
-    top: 0;
-    width: 45px;
+header .space nav:nth-child(2) ul li .dropdown .box label .group-option {
+    display: flex;
+    flex-direction: column;
+    min-height: 16px;
+    padding: 0;
+    position: relative;
+    width: 100%;
 }
 
-header .space nav:nth-child(2) ul li .dropdown .box label .select-box:hover:after,
-[data-theme="dark"] header .space nav:nth-child(2) ul li .dropdown .box label .select-box:hover:after {
-    color: var(--blue-200)
+header .space nav:nth-child(2) ul li .dropdown .box label .group-option .identify {
+    align-items: center;
+    bottom: 0;
+    display: flex;
+    height: 12px;
+    pointer-events: none;
+    position: absolute;
+    right: 16px;
+    top: 25px;
+    width: 12px;
+}
+
+[data-theme="dark"] header .space nav:nth-child(2) ul li .dropdown .box label .group-option .identify {
+    color: var(--dark-gray-700);
+}
+
+header .space nav:nth-child(2) ul li .dropdown .box label .group-option:hover .identify {
+    color: var(--blue-300);
 }
 
 header .time {
@@ -718,7 +733,7 @@ header .message a:hover {
     }
 
     header .space nav:nth-child(2) ul li .dropdown .box label select {
-        font-size: var(--font-size-medium-xx);
+        font-size: var(--font-size-medium);
         margin-top: 5px;
     }
 
@@ -2417,8 +2432,10 @@ header .message a:hover {
 .container footer {
     background: transparent;
     bottom: 0;
-    min-height: 25px;
-    padding: 5px;
+    display: flex;
+    justify-content: space-around;
+    min-height: 30px;
+    padding-bottom: 30px;
     position: relative;
     text-shadow: none; 
 }
