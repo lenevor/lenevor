@@ -999,6 +999,7 @@ header .message a:hover {
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
+    scrollbar-width: none;
 }
 
 [data-theme="dark"] .section-frame .frame-container-scroll {
