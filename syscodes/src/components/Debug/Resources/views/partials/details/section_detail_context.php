@@ -1,5 +1,5 @@
 <section class="">
-    <section class="section-detail-request">
+    <section class="section-detail-info">
         <div class="section-info-request">
             <div class="info-request-title">
                 <a id="detail-request" class="scroll-target"></a>
@@ -39,8 +39,6 @@
                 </pre>
             </div>
         </div>
-    </section>
-    <section class="section-detail-app">
         <div class="section-info-app">
             <div class="info-app-title">
                 <a id="detail-app" class="scroll-target"></a>
@@ -68,31 +66,7 @@
                 </table>
             <?php endforeach; ?>  
             </div>
-            <!-- <div class="info-database-title">
-            <?php // foreach ($databases as $data) : ?>
-                <a id="detail-app-database" class="scroll-target"></a>
-                <h2><?php e(__('exception.database')) ?></h2>
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <td>Key</td>
-                            <td>Value</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php // foreach ($data as $key => $value) : ?>
-                        <tr>
-                            <td><?php // e($key) ?></td>
-                            <td><?php // e(print_r($value, true)) ?></td>
-                        </tr>
-                        <?php // endforeach; ?>	
-                    </tbody>
-                </table>
-            <?php // endforeach; ?>  
-            </div> -->
         </div>
-    </section>
-    <section class="section-detail-context">
         <div class="section-info-context">
             <div class="info-context-title">
                 <a id="detail-context-data" class="scroll-target"></a>
