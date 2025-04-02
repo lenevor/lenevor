@@ -1,16 +1,14 @@
 <footer>
-	<nav>
+	<ul>
 		<li>
-			<a href="">Docs</a>
+			<a href="https://github.com/lenevor/docs/blob/master/gdebug.md">Docs</a>
 		</li>
+		<li>·</li>
 		<li>
-			<a href="">Lenevor</a>
+			<a href="https://lenevor.com">Lenevor</a>
 		</li>
-	</nav>
+	</ul>
 	<div class="copy">
-		<?= e($handler->getBrand()) ?>
-		<p class="version">
-			<span><?= \Syscodes\Components\Version::RELEASE ?></span>
-		</p>&nbsp;-&nbsp;<p>The Lenevor error reporting service.</p>
+		<p><?= e($handler->getBrand()) ?> <?= \Syscodes\Components\Version::RELEASE ?>, the Lenevor error reporting service.</p>
 	</div>
 </footer>
