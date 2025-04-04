@@ -213,6 +213,9 @@ h4 {
 ul, 
 ol {
     font-weight: 500;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 a {
@@ -2443,27 +2446,56 @@ header .message a:hover {
 /* FOOTER */
 .container footer {
     background: transparent;
-    bottom: 0;
     display: flex;
+    flex-direction: row;
+    gap: 1rem;
     justify-content: space-between;
-    min-height: 30px;
-    padding-bottom: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
     position: relative;
     text-shadow: none; 
 }
 
-[data-theme="dark"] .container footer {
-    background: transparent;
+.container footer ul {
+    align-items: center;
+    display: grid;
+    font-size: 0.875rem;
+    font-weight: 500;
+    gap: 1.25rem;
+    grid-auto-flow: column;
+    justify-content: center;
+    line-height: 1rem;
+}
+
+.container footer ul li:nth-child(2) {
+    color: var(--gray-600);
+    font-size: var(--font-size-medium-xx);
+    font-weight: 600;
+}
+
+.container footer ul li a {
+    text-decoration: none;
+}
+
+[data-theme="dark"] .container footer ul li a {
+    color: var(--dark-gray-600);
+}
+
+.container footer ul li a:hover {
+    color: var(--red-500);
 }
 
 .container footer .copy {
+    align-items: center;
     background: transparent;
     color: var(--gray-700);
     display: flex;
     font-size: .875rem;
     font-weight: 400; 
     padding-left: 8px;
-    text-transform: capitalize;
 }
 
 [data-theme="dark"] .container footer .copy {
@@ -2482,25 +2514,12 @@ header .message a:hover {
     color: var(--dark-gray-500);
 }
 
-/* ------------------------------------------------------------ 
- * LAYOUT
- * -----------------------------------------------------------*/
+/** WIDE */
 
-/* SMALL */
-@media (max-width: 1100px)
-{
+@media (min-width: 1100px) {
     .container footer {
-        margin: 0 -20px;  
-    }
-}
-
-/* WIDE */
-@media (min-width: 1100px)
-{
-    .container footer {      
-        bottom: 20px;
-        padding-bottom: 50px;
-        padding-top: 30px;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
     }
 }
 
