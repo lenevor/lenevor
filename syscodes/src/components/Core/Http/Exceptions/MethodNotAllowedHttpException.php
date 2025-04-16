@@ -50,8 +50,8 @@ class MethodNotAllowedHttpException extends HttpException
 	 */
 	public function __construct(
 		array $allow = [], 
-		string $message = null, 
-		Throwable $previous = null, 
+		?string $message = null, 
+		?Throwable $previous = null, 
 		?int $code = 0, 
 		array $headers = []
 	) {
