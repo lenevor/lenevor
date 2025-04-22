@@ -47,8 +47,8 @@ class ServerErrorHttpException extends HttpException
 	 * @return void
 	 */
 	public function __construct(
-		string $message = null, 
-		Throwable $previous = null, 
+		?string $message = null, 
+		?Throwable $previous = null, 
 		int $code = 0, 
 		array $headers = []
 	) {
