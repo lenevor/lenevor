@@ -49,8 +49,8 @@ class TooManyRequestsHttpException extends HttpException
 	 */
 	public function __construct(
 		$retryAfter = null, 
-		string $message = null, 
-		Throwable $previous = null, 
+		?string $message = null, 
+		?Throwable $previous = null, 
 		?int $code = 0,
 		array $headers = []
 	) {		
