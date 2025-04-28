@@ -49,8 +49,8 @@ class UnauthorizedHttpException extends HttpException
 	 */
 	public function __construct(
 		string $challenge,
-		string $message = null, 
-		Throwable $previous = null, 
+		?string $message = null, 
+		?Throwable $previous = null, 
 		?int $code = 0, 
 		array $headers = []
 	) {
