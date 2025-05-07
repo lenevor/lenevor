@@ -457,7 +457,7 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @return mixed
      */
-    public function offsetGet(mixed $offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->get($offset);
     }
