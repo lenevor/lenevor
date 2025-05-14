@@ -39,11 +39,11 @@ use Syscodes\Components\Console\Output\ConsoleOutput;
 use Syscodes\Components\Routing\RoutingServiceProvider;
 use Syscodes\Components\Core\Concerns\ConfigurationFiles;
 use Syscodes\Components\Core\Http\Exceptions\HttpException;
-use Syscodes\Components\Contracts\Http\Lenevor as LenevorContract;
+use Syscodes\Components\Contracts\Http\Kernel as KernelContract;
 use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
 use Syscodes\Components\Contracts\Console\Input\Input as InputContract;
 use Syscodes\Components\Contracts\Core\Application as ApplicationContract;
-use Syscodes\Components\Contracts\Console\Lenevor as LenevorCommandContract;
+use Syscodes\Components\Contracts\Console\Kernel as KernelCommandContract;
 
 use function Syscodes\Components\Filesystem\join_paths;
 
@@ -1266,7 +1266,7 @@ class Application extends Container implements ApplicationContract
      */
     public function handleRequest(Request $request)
     {
-        $lenevor = $this->make(LenevorContract::class);
+        $lenevor = $this->make(KernelContract::class);
         
         //Initialize services...
         $response = $lenevor->handle($request)->send(true); // Sends HTTP headers and contents
@@ -1283,15 +1283,15 @@ class Application extends Container implements ApplicationContract
      */
     public function handleCommand(InputContract $input)
     {
-        $lenevor = $this->make(LenevorCommandContract::class);
+        $Kernel = $this->make(KernelCommandContract::class);
         
         //Initialize services...
-        $status = $lenevor->handle(
+        $status = $Kernel->handle(
             $input,
             new ConsoleOutput
         );
         
-        $lenevor->finalize($input, $status); // Finalize application
+        $Kernel->finalize($input, $status); // Finalize application
         
         return $status;
     }
