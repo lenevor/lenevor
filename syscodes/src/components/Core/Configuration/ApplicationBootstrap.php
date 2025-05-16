@@ -23,10 +23,10 @@
 namespace Syscodes\Components\Core\Configuration;
 
 use Closure;
+use Syscodes\Components\Contracts\Http\Kernel;
 use Syscodes\Components\Support\Facades\Route;
 use Syscodes\Components\Contracts\Core\Application;
 use Syscodes\Components\Core\Bootstrap\BootRegisterProviders;
-use Syscodes\Components\Contracts\Http\Lenevor as LenevorCore;
 use Syscodes\Components\Core\Support\Providers\EventServiceProvider as AppEventServiceProvider;
 use Syscodes\Components\Core\Support\Providers\RouteServiceProvider as AppRouteServiceProvider;
 
@@ -61,13 +61,13 @@ class ApplicationBootstrap
     public function assignCores(): static
     {
         $this->app->singleton(
-            \Syscodes\Components\Contracts\Http\Lenevor::class, 
-            \Syscodes\Components\Core\Http\Lenevor::class
+            \Syscodes\Components\Contracts\Http\Kernel::class, 
+            \Syscodes\Components\Core\Http\Kernel::class
         );
         
         $this->app->singleton(
-            \Syscodes\Components\Contracts\Console\Lenevor::class, 
-            \Syscodes\Components\Core\Console\Lenevor::class
+            \Syscodes\Components\Contracts\Console\Kernel::class, 
+            \Syscodes\Components\Core\Console\Kernel::class
         );
 
         return $this;
@@ -130,26 +130,42 @@ class ApplicationBootstrap
     /**
      * Create the routing callback for the application.
      * 
-     * @param  string|null  $web
-     * @param  string|null  $api
+     * @param  array|string|null  $web
+     * @param  array|string|null  $api
      * @param  string  $apiPrefix
      * @param  callable|null  $then
      * 
      * @return \Closure
      */
     protected function makeRoutingCallback(
-        ?string $web,
-        ?string $api,
+        array|string|null $web,
+        array|string|null $api,
         string $apiPrefix,
         ?callable $then
     ) {
         return function () use ($web, $api, $apiPrefix, $then) {
-            if (is_string($api) && realpath($api) !== false) {
-                Route::middleware('api')->prefix($apiPrefix)->group($api);
+            if (is_string($api) || is_array($api)) {
+                if (is_array($api)) {
+                    foreach ($api as $apiRoute) {
+                        if (realpath($apiRoute) !== false) {
+                            Route::middleware('api')->prefix($apiPrefix)->group($apiRoute);
+                        }
+                    }
+                } else {
+                    Route::middleware('api')->prefix($apiPrefix)->group($api);
+                }
             }
             
-            if (is_string($web) && realpath($web) !== false) {
-                Route::middleware('web')->group($web);
+            if (is_string($web) || is_array($web)) {
+                if (is_array($web)) {
+                    foreach ($web as $webRoute) {
+                        if (realpath($webRoute) !== false) {
+                            Route::middleware('web')->group($webRoute);
+                        }
+                    }
+                } else {
+                    Route::middleware('web')->group($web);
+                }
             }
             
             if (is_callable($then)) {
@@ -207,7 +223,7 @@ class ApplicationBootstrap
      */
     public function assignMiddlewares(?callable $callback = null): static
     {
-        $this->app->afterResolving(LenevorCore::class, function ($lenevor) use ($callback) {
+        $this->app->afterResolving(Kernel::class, function ($lenevor) use ($callback) {
             $middleware = (new MiddlewareBootstrap);
             
             if ( ! is_null($callback)) {
