@@ -689,7 +689,7 @@ class Router implements Routable
 	 */
 	public function resource($name, $controller, array $options = []) 
 	{
-		if ($this->container) {
+		if ($this->container && $this->container->bound(ResourceRegister::class)) {
 			$register = $this->container->make(ResourceRegister::class);
 		} else {
 			$register = new ResourceRegister($this);
@@ -698,6 +698,43 @@ class Router implements Routable
 		return new AwaitingResourceRegistration(
 			$register, $name, $controller, $options
 		);
+	}
+	
+	/**
+	 * Register an array of API resource controllers.
+	 * 
+	 * @param  array  $resources
+	 * @param  array  $options
+	 * 
+	 * @return void
+	 */
+	public function apiResources(array $resources, array $options = [])
+	{
+		foreach ($resources as $name => $controller) {
+			$this->apiResource($name, $controller, $options);
+		}
+	}
+	
+	/**
+	 * Route an API resource to a controller.
+	 * 
+	 * @param  string  $name
+	 * @param  string  $controller
+	 * @param  array  $options
+	 * 
+	 * @return \Syscodes\Components\Routing\AwaitingResourceRegistration
+	 */
+	public function apiResource($name, $controller, array $options = [])
+	{
+		$only = ['index', 'show', 'store', 'update', 'erase'];
+		
+		if (isset($options['except'])) {
+			$only = array_diff($only, (array) $options['except']);
+		}
+		
+		return $this->resource($name, $controller, array_merge([
+			'only' => $only,
+		], $options));
 	}
 
 	/**
@@ -750,6 +787,10 @@ class Router implements Routable
 			return $this->macroCall($method, $parameters);
 		}
 		
-		return (new RouteRegister($this))->attribute($method, $parameters[0]);
+		if ($method === 'middleware') {
+			return (new RouteRegister($this))->attribute($method, is_array($parameters[0]) ? $parameters[0] : $parameters);
+		}
+		
+		return (new RouteRegister($this))->attribute($method, array_key_exists(0, $parameters) ? $parameters[0] : true);
 	}
 }
