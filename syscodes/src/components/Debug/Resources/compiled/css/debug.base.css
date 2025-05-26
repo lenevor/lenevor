@@ -248,8 +248,8 @@ a.active {
 @media (min-width: 1100px)
 {
     .container {
-        margin-left: 168px;
-        margin-right: 168px;
+        margin-left: 88px;
+        margin-right: 88px;
     }
 }
 
@@ -2127,9 +2127,22 @@ header .message a:hover {
     align-items: center;
     display: flex;
     font-size: var(--font-size-initial);
+    font-weight: 500;
     margin-left: -1px;
     width: 100%;
     word-break: break-all;
+}
+
+.section-details .section-detail-info .section-info-request .info-header-title .data-table tr:nth-child(7) td:first-child p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 8.5rem;
+    word-break: break-all;
+}
+
+.section-details .section-detail-info .section-info-request .info-header-title .data-table tr:nth-child(7) td:first-child p:hover {
+   width: 18rem;
 }
 
 .section-details .section-detail-info .section-info-request .info-header-title .data-table td:last-child,
@@ -2139,7 +2152,7 @@ header .message a:hover {
     background: var(--gray-100);
     font-size: var(--font-size-small);
     min-height: 30px;
-    padding: 0.5rem;
+    padding: 0.6rem 1rem;
     width: 100%;
     word-break: break-all;
 }
@@ -2416,8 +2429,8 @@ header .message a:hover {
     .section-details .section-detail-info .section-info-app .info-routing-title .data-table td:first-child,
     .section-details .section-detail-info .section-info-app .info-database-title .data-table td:first-child,
     .section-details .section-detail-info .section-info-context .info-version-title .data-table td:first-child {
-        font-size: var(--font-size-medium-xxx);
-        width: 17rem;
+        font-size: var(--font-size-medium-xx);
+        width: 14rem;
     }
 
     .section-details .section-detail-info .section-info-request .info-header-title .data-table tbody td:last-child,
