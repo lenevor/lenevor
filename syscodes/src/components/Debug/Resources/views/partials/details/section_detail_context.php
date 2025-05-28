@@ -23,7 +23,7 @@
                     <tbody>
                         <?php foreach ($data as $key => $value) : ?>
                         <tr>
-                            <td><?= e($key) ?></td>
+                            <td><p><?= e($key) ?></p></td>
                             <td><?= e(print_r($value, true)) ?></td>
                         </tr>
                         <?php endforeach; ?>	
