@@ -1,5 +1,8 @@
 <?php
 
+use Syscodes\Components\Http\Request;
+use Syscodes\Components\Support\Facades\Route;
+
 /*
 |------------------------------------------------------------------------- 
 | Api Routes
@@ -11,4 +14,3 @@
 |
 */
 
-use Syscodes\Components\Http\Request;
