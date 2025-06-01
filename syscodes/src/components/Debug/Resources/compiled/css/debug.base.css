@@ -2142,7 +2142,8 @@ header .message a:hover {
 }
 
 .section-details .section-detail-info .section-info-request .info-header-title .data-table tr:nth-child(7) td:first-child p:hover {
-   width: 18rem;
+    transition: 0.4s cubic-bezier(0.075, 0.82, 0.165, 1); 
+    width: 18rem;
 }
 
 .section-details .section-detail-info .section-info-request .info-header-title .data-table td:last-child,
