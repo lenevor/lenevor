@@ -1995,24 +1995,70 @@ header .message a:hover {
 }
 
 .section-details .section-detail-info .section-info-request .group-title {
-    align-items: baseline;
+    align-items: center;
     display: flex;
     position: relative;
 }
 
-.section-details .section-detail-info .section-info-request .group-title svg {
-    fill: var(--gray-100);
-    height: 18px;
-    top: 37px;
-    left: 60px;
+.section-details .section-detail-info .section-info-request .info-header-title .group-title svg,
+.section-details .section-detail-info .section-info-request .info-body-title .group-title svg,
+.section-details .section-detail-info .section-info-app .info-routing-title .group-title svg,
+.section-details .section-detail-info .section-info-context .info-version-title .group-title svg {
     position: absolute;
+}
+
+.section-details .section-detail-info .section-info-request .info-header-title .group-title svg {
+    fill: var(--gray-100);
+    height: 22px;
+    top: 35px;
+    left: 60px;
     stroke: var(--blue-400);
-    width: 18px;
+    width: 20px;
 }
 
 [data-theme="dark"] .section-details .section-detail-info .section-info-request .group-title svg {
+    fill: var(--dark-magenta-300);
+    stroke: var(--dark-blue-600);
+}
+
+.section-details .section-detail-info .section-info-request .info-body-title .group-title svg {
+    fill: var(--blue-400);
+    height: 20px;
+    top: 34px;
+    left: 40px;
+    width: 20px;
+}
+
+[data-theme="dark"] .section-details .section-detail-info .section-info-request .info-body-title .group-title svg {
+    fill: var(--dark-blue-600);
+}
+
+.section-details .section-detail-info .section-info-app .info-routing-title .group-title svg {
+    fill: var(--white);
+    height: 20px;
+    top: 54px;
+    left: 75px;
+    stroke: var(--blue-400);
+    width: 20px;
+}
+
+[data-theme="dark"] .section-details .section-detail-info .section-info-app .info-routing-title .group-title svg {
     fill: var(--dark-magenta-100);
     stroke: var(--dark-blue-600);
+}
+
+.section-details .section-detail-info .section-info-context .info-version-title .group-title svg {
+    fill: var(--white);
+    height: 15px;
+    top: 54px;
+    left: 80px;
+    stroke: var(--blue-400);
+    width: 20px;
+}
+
+[data-theme="dark"] .section-details .section-detail-info .section-info-context .info-version-title .group-title svg {
+    fill: var(--dark-magenta-100);
+    stroke: var(--dark-blue-700);
 }
 
 .section-details .section-detail-info .section-info-request .info-request-title h2,
@@ -2330,6 +2376,16 @@ header .message a:hover {
 
     .section-details .section-detail-info .section-info-context {
         padding-top: 2rem;
+    }
+
+    .section-details .section-detail-info .section-info-app .info-routing-title .group-title svg {
+        left: 85px;
+        top: 64px;
+    }
+
+    .section-details .section-detail-info .section-info-context .info-version-title .group-title svg {
+        left: 90px;
+        top: 63px;
     }
 
     .section-details .section-detail-info .section-info-request .info-header-title .data-table tbody tr,
