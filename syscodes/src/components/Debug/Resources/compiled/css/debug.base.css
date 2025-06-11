@@ -384,7 +384,7 @@ header .space nav:nth-child(2) ul li .dropdown {
                 0 0 16px -14px var(--gray-600);
     margin-right: 0.375rem;
     min-height: 40px;
-    opacity: 0;
+    display: none;
     position: absolute;
     right: -1.8rem;
     transform: translate(0.5rem) 
@@ -404,7 +404,7 @@ header .space nav:nth-child(2) ul li .dropdown {
 }
 
 header .space nav:nth-child(2) ul li .dropdown.active {
-    opacity: 1;
+    display: block;
     transform: translate(0.5rem) 
                scaleX(0.9) scaleY(0.9);
 }
@@ -2202,10 +2202,6 @@ header .message a:hover {
 
 .section-details .section-detail-info .section-info-request .info-header-title .data-table tr:nth-child(7) td:first-child p {
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 8.5rem;
-    word-break: break-all;
 }
 
 .section-details .section-detail-info .section-info-request .info-header-title .data-table tr:nth-child(7) td:first-child p:hover {
@@ -2409,13 +2405,21 @@ header .message a:hover {
         margin-right: 0;
         overflow: hidden;
         text-overflow: ellipsis;
-        transition: 0.2s linear;
+        transition: 0.3s linear;
         white-space: pre;
         width: 36%;
     }
 
     .section-details .section-detail-info .section-info-request .info-header-title .data-table tr:hover:nth-child(7) td:first-child {
         width: 25rem;
+    }
+
+    .section-details .section-detail-info .section-info-request .info-header-title .data-table tr:nth-child(7) td:first-child p {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 7rem;
+        word-break: break-all;
     }
 
     .section-details .section-detail-info .section-info-request .info-header-title .data-table tr:hover:nth-child(7) td:last-child {
@@ -2538,6 +2542,14 @@ header .message a:hover {
     .section-details .section-detail-info .section-info-context .info-version-title .data-table td:first-child {
         font-size: var(--font-size-medium-xx);
         width: 14rem;
+    }
+
+    .section-details .section-detail-info .section-info-request .info-header-title .data-table tr:nth-child(7) td:first-child p {
+        text-overflow: ellipsis;
+        transition: 0.4s linear;
+        white-space: nowrap;
+        width: 8.5rem;
+        word-break: break-all;
     }
 
     .section-details .section-detail-info .section-info-request .info-header-title .data-table tbody td:last-child,
