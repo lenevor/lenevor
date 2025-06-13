@@ -167,9 +167,9 @@ class TemplateHandler
 			ini_set('highlight.bg', '#000');
 			ini_set('highlight.comment', '#757575');
 			ini_set('highlight.default', '#717DE8');
-			ini_set('highlight.html', '#06B');
-			ini_set('highlight.keyword', '#F47E3A');
-			ini_set('highlight.string', '#57C60D');
+			ini_set('highlight.html', '#2d70a6ff');
+			ini_set('highlight.keyword', '#fc9356ff');
+			ini_set('highlight.string', '#90ec52ff');
 		}
 
 		try {
