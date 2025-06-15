@@ -3,9 +3,9 @@
 		<div class="exception-background-title">
 		<?php foreach ($class as $i => $name) : ?>
 			<?php if ($i == count($class) - 1): ?>		
-			<h2><?= $template->escape($name) ?></h2> 
+			<span><?= $template->escape($name) ?></span> 
 			<?php else: ?>
-			<h2><?= $template->escape($name).'&nbsp;\\&nbsp;' ?></h2>
+			<span><?= $template->escape($name).'&nbsp;\\&nbsp;' ?></span>
 			<?php endif; ?>
 		<?php endforeach; ?>
 		</div>
@@ -14,7 +14,7 @@
 		<?php endif ?>
 	</div>
 	<div class="exception-message">
-		<h3><?= ucfirst($template->escape($message)) ?></h3>
+		<h2><?= ucfirst($template->escape($message)) ?></h2>
 	</div>
 	<span class="plain-exception"><pre><?= $template->escape($plain_exception) ?></pre></span>
 </section>
