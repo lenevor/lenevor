@@ -235,7 +235,7 @@ a.active {
 
 /* TABLE */
 
-@media (max-width: 1100px) and (min-width: 720px)
+@media (width > 1100px) and (width < 720px)
 {
     .container {
         margin: 0 auto;
@@ -245,7 +245,7 @@ a.active {
 
 /* WIDE */
 
-@media (min-width: 1100px)
+@media (width > 1100px)
 {
     .container {
         margin-left: 88px;
@@ -554,12 +554,6 @@ header .space nav:nth-child(2) ul li .dropdown .box label select:hover .option-t
     background: var(--dark-magenta-400);
 }
 
-header .space nav:nth-child(2) ul li .dropdown .box label .select-box { 
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-}
-
 header .space nav:nth-child(2) ul li .dropdown .box label .group-option {
     display: flex;
     flex-direction: column;
@@ -633,7 +627,7 @@ header .message a:hover {
 
 /* SMARTPHONE SMALL */
 
-@media (max-width: 320px)
+@media (width < 320px)
 {
     header .space nav ul li a {
         margin-bottom: -5px;
@@ -669,7 +663,7 @@ header .message a:hover {
 
 /* TABLE */
 
-@media (max-width: 1100px) and (min-width: 720px)
+@media (width < 1100px) and (width > 720px)
 {
     header .space nav ul li a {
         margin-left: -2px;
@@ -700,7 +694,7 @@ header .message a:hover {
 }
 
 /* WIDE */
-@media (min-width: 1100px) 
+@media (width > 1100px) 
 {
     header .space nav ul li a .container-title span{
         font-size: var(--font-size-small);
@@ -861,7 +855,7 @@ header .message a:hover {
 
 /* TABLE */
 
-@media (max-width: 1100px) and (min-width: 720px)
+@media (width < 1100px) and (width > 720px)
 {
     .exception {     
         padding: 2.05rem;
@@ -875,7 +869,7 @@ header .message a:hover {
 
 /* WIDE */
 
-@media (min-width: 1100px)
+@media (width > 1100px)
 {
     .exception {     
         background-position: 99% 0;
@@ -932,7 +926,7 @@ header .message a:hover {
     width: 100%;
 }
 
-@media (min-width: 1100px)
+@media (width > 1100px)
 { 
     .section-stack-exception {
         display: flex;
@@ -1206,7 +1200,7 @@ header .message a:hover {
 
 /* TABLE */
 
-@media (max-width: 1100px) and (min-width: 720px)
+@media (width < 1100px) and (width > 720px)
 {
     .section-frame .frame-description.frame-description-application {
         padding-left: 2.05rem;
@@ -1230,7 +1224,7 @@ header .message a:hover {
 
 /* WIDE */
 
-@media (min-width: 1100px)
+@media (width > 1100px)
 {
     .section-frame {
         border-right-width: 1px;
@@ -1502,7 +1496,7 @@ header .message a:hover {
 
 /* TABLE */
 
-@media (max-width: 1100px) and (min-width: 720px)
+@media (width < 1100px) and (width > 720px)
 {
     .section-code .title {
         padding-right: 2rem;
@@ -1524,7 +1518,7 @@ header .message a:hover {
 
 /* WIDE */
 
-@media (min-width: 1100px)
+@media (width > 1100px)
 {
     .section-code {
         border-left-width: 0.5px;
@@ -1604,7 +1598,7 @@ header .message a:hover {
 
 /* WIDE */
 
-@media (min-width: 1100px)
+@media (width > 1100px)
 {
     .section-details {
         margin-top: 43px;
@@ -1786,7 +1780,7 @@ header .message a:hover {
 
 /* TABLE */
 
-@media (max-width: 1100px) and (min-width: 720px)
+@media (width < 1100px) and (width > 720px)
 {
     .section-details .sidebar nav {
         display: inline-block;
@@ -1824,7 +1818,7 @@ header .message a:hover {
 
 /* WIDE */
 
-@media (min-width: 1100px)
+@media (width > 1100px)
 {
     .section-details .sidebar nav {
         display: inline-block;
@@ -2269,7 +2263,7 @@ header .message a:hover {
 
 /* TABLE */
 
-@media (max-width: 1100px) and (min-width: 720px)
+@media (width < 1100px) and (width > 720px)
 {
     .section-details .section-detail-info {
         width: 100%;
@@ -2378,7 +2372,7 @@ header .message a:hover {
 
 /* WIDE */
 
-@media (min-width: 1100px)
+@media (width > 1100px)
 {
     .section-details .section-detail-info .section-info-request,
     .section-details .section-detail-info .section-info-app,
@@ -2574,7 +2568,7 @@ header .message a:hover {
 
 /** WIDE */
 
-@media (min-width: 1100px) {
+@media (width > 1100px) {
     .container footer {
         padding-left: 2.5rem;
         padding-right: 2.5rem;
