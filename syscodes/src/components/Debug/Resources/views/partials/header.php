@@ -4,7 +4,7 @@
 			<nav>
 				<ul>
 					<li>
-						<a href="#stack" target="_self" class="active">
+						<a href="#stacks" target="_self" class="active">
 							<div class="container-title">
 								<svg viewBox="0 0 100 100">
 									<path fill="currentColor" d="M50.049 9.51a4.725 2.593 0 0 0-3.39.76L1.382 35.115a4.725 2.593 0 0 0 0 3.668L46.658 63.63a4.725 2.593 0 0 0 6.684 
@@ -20,7 +20,7 @@
 						</a>
 					</li>
 					<li>
-						<a href="#detail-request" target="_self" class="">
+						<a href="#details" target="_self" class="">
 							<div class="container-title">
 								<svg viewBox="0 0 35 30">
 									<path fill="currentColor" d="m27.468 2c0-.553-.447-1-1-1h-20.936c-.553 0-1 .447-1 1v28c0 .553.447 1 1 1h13.608c.265 0 
