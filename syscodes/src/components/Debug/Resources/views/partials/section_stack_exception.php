@@ -1,5 +1,5 @@
 <section class="">
-    <a id="stack" class="scroll-target"></a>
+    <a id="stacks" class="scroll-target section"></a>
     <section class="section-stack-exception">
         <?= $template->render($section_frame) ?>
         <?= $template->render($section_code) ?>
