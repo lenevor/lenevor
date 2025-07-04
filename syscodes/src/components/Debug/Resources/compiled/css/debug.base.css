@@ -311,9 +311,14 @@ header .space nav ul li a {
     color: var(--dark-gray-700);
 }
 
-header .space nav ul li a:active,
+header .space nav ul li a.active,
 header .space nav ul li a:hover {
     color: var(--red-400);
+}
+
+[data-theme="dark"] header .space nav ul li a.active,
+[data-theme="dark"] header .space nav ul li a:hover {
+    color: var(--dark-red-800);
 }
 
 header .space nav ul li a .container-title {
