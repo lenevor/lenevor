@@ -51,15 +51,37 @@
     });
 
     /**
+     * MENU SLIDER
+     */
+
+    let menu_1 = d.querySelector('.space');
+    let sections = d.querySelectorAll('.section');
+    let evento   = ((d.ontouchstart !== null) ? 'mouseup' : 'touchstart');
+    let indexSectionActive;
+
+    const observer = new IntersectionObserver((tickets, observer) => {
+        tickets.forEach(ticket => {
+            if (ticket.isIntersecting) {
+                indexSectionActive = [...sections].indexOf(ticket.target);
+                
+            }
+        });
+    }, {
+        rootMargin : '-80px 80px 0px 0px',
+        threshold : 0.3
+    });
+
+    sections.forEach(section => observer.observe(section));
+
+    /**
      * DROPDOWN COMPONENT
      */
 
     let dropdown = d.getElementById('menuDropdown');
-    let menu     = d.querySelector('nav:nth-child(2) a');
-    let evento   = ((d.ontouchstart !== null) ? 'mouseup' : 'touchstart');
+    let menu_2   = d.querySelector('nav:nth-child(2) a');
 
     /* Show|hide dropdown */
-    menu.addEventListener(evento, function (e) {
+    menu_2.addEventListener(evento, function (e) {
         /* Prevents the click from propagating to the modal */
         e.stopPropagation(0);
 
