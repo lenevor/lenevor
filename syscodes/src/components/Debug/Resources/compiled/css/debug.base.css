@@ -150,6 +150,7 @@ html {
     background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='30' height='25' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.227 0c.687 0 1.227.54 1.227 1.227s-.54 1.227-1.227 1.227S0 1.914 0 1.227.54 0 1.227 0z' fill='rgba(0,0,0,0.075)'/%3E%3C/svg%3E");
     overflow: hidden;
     overflow-y: scroll;
+    /* scroll-behavior: smooth; */
 }
 
 html[data-theme="dark"] {
@@ -264,7 +265,6 @@ header {
     padding: 0 20px;
     position: fixed;
     top: 0;
-    transition: all 0.15s ease-out;
     width: 100%;
     z-index: 500;
 }
@@ -278,7 +278,6 @@ header .space {
     align-items: center;
     display: flex;
     justify-content: space-between;
-    transition: all 1s ease-out;
 }
 
 header .space nav {
