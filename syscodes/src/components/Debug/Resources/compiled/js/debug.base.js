@@ -10,6 +10,9 @@
         d.createElement(elements[i]);
     }
 
+    /* If mouse click or screen touch is applied */
+    let evento = ((d.ontouchstart !== null) ? 'mouseup' : 'touchstart');
+
     /**
      * CODE FOR CONTROL OF ELEMENTS HTML IN THE HEADER
      */
@@ -51,26 +54,39 @@
     });
 
     /**
-     * MENU SLIDER
+     * ANCHOR NAVEGATION MENU
      */
 
-    let menu_1 = d.querySelector('.space');
+    let links = d.querySelectorAll('.space nav ul li a');
     let sections = d.querySelectorAll('.section');
-    let evento   = ((d.ontouchstart !== null) ? 'mouseup' : 'touchstart');
-    let indexSectionActive;
 
-    const observer = new IntersectionObserver((tickets, observer) => {
-        tickets.forEach(ticket => {
-            if (ticket.isIntersecting) {
-                indexSectionActive = [...sections].indexOf(ticket.target);
-                
+    /* Options for the Intersection Observer */
+    const optionObserver = {
+        /* The viewport is the container */
+        root: null,
+        rootMargin: '0px',
+        /* When 10% of the section is visible */
+        threshold: 0.1
+    };
+
+    /* Create a Insersection Observer */
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                /* If the section is visible, look for its corresponding link */
+                links.forEach(link => {
+                    /* Remove the 'active' class from all links first */
+                    link.classList.remove('active');
+                    /* Add the 'active' class to the visible section link */
+                    if (link.getAttribute('href') === '#' + entry.target.id) {
+                        link.classList.add('active');
+                    }
+                });
             }
         });
-    }, {
-        rootMargin : '-80px 80px 0px 0px',
-        threshold : 0.3
-    });
+    }, optionObserver);
 
+    /* Look at each section */
     sections.forEach(section => observer.observe(section));
 
     /**
@@ -78,10 +94,10 @@
      */
 
     let dropdown = d.getElementById('menuDropdown');
-    let menu_2   = d.querySelector('nav:nth-child(2) a');
+    let menus = d.querySelector('nav:nth-child(2) a');
 
     /* Show|hide dropdown */
-    menu_2.addEventListener(evento, function (e) {
+    menus.addEventListener(evento, function (e) {
         /* Prevents the click from propagating to the modal */
         e.stopPropagation(0);
 
@@ -101,7 +117,7 @@
 
     var previousFrame = null;
     var previousInfo  = null;
-    var allFrames     = d.querySelectorAll('.frame');
+    var allFrames = d.querySelectorAll('.frame');
     var allFramesCode = d.querySelectorAll('.code-source');
 
     function changeTo(el) 
