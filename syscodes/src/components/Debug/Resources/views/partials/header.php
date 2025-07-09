@@ -57,11 +57,11 @@
 				</ul>
 			</nav>
 		</div>
-	</div>
-	<div class="time">
 		<div class="message">
-			<div class="container">
-				<a href="#top"><?= ucfirst($template->escape($message)) ?></a>
+			<div class="message-exception">
+				<div class="container">
+					<a href="#top"><?= ucfirst($template->escape($message)) ?></a>
+				</div>
 			</div>
 		</div>
 	</div>
