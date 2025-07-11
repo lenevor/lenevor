@@ -18,15 +18,17 @@
      */
 
     let header = d.querySelector('header');
-    let message = d.querySelector('.time');
+    let message = d.querySelector('.message');
 
-    message.style = "display: none";
-    
+    message.style = "opacity: 0";
+    message.style = "transform: translateY(0)";
+        
     w.addEventListener('scroll', (e) => {
         if (d.documentElement.scrollTop > 10) {
             /* Access to the attribute data-theme */
             if (d.documentElement.dataset.theme == 'dark') {
                 header.style.background = '#1F2937';
+                message.style.background = '#1F2937';
                 header.style.borderBottom = '1px solid rgba(36, 68, 86, 0.5)';
                 header.style.boxShadow = '0 0 15px 4px rgba(0, 0, 0, 0.2)';
             } else {
@@ -47,9 +49,11 @@
         }
 
         if (d.documentElement.scrollTop > 150) {
-            message.style = "display: block";
+            message.style = "opacity: 1";
+            message.style = "transform: translateY(2.5rem)";
         } else {
-            message.style = "display: none";
+            message.style = "opacity: 0";
+            message.style = "transform: translateY(0)";
         }
     });
 
