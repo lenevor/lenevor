@@ -257,16 +257,12 @@ a.active {
 /* HEADER */
 
 header {
-    align-self: center;
     background: var(--gray-300);
-    display: grid;
-    margin-bottom: 60px;
-    min-height: 33px;
-    padding: 0 20px;
     position: fixed;
     top: 0;
+    transition-duration: 0.1s;
     width: 100%;
-    z-index: 500;
+    z-index: 200;
 }
 
 [data-theme="dark"] header {
@@ -277,11 +273,10 @@ header {
 header .space {
     align-items: center;
     display: flex;
+    height: 2.5rem;
     justify-content: space-between;
-}
-
-header .space nav {
-    margin-left: -30px;
+    padding-left: 1rem;
+    padding-right: 1rem;
     position: relative;
 }
 
@@ -298,12 +293,19 @@ header .space nav ul li a {
     display: flex;
     margin-left: -25px;
     padding-bottom: 11.5px;
-    padding-left: 25px;
-    padding-right: 25px;
     padding-top: 11.5px;
     text-decoration: none; 
     text-shadow: none;
     text-transform: uppercase;
+}
+
+header .space nav:first-child ul li:nth-child(1) a {
+    padding-right: 40px;
+}
+
+header .space nav:first-child ul li:nth-child(2) a {
+    padding-left: 10px;
+    padding-right: 20px;
 }
 
 [data-theme="dark"] header .space nav ul li a {
@@ -323,6 +325,7 @@ header .space nav ul li a:hover {
 header .space nav ul li a .container-title {
     align-items: center;
     display: flex;
+    justify-content: flex-end;
     width: 100%;
 }
 
@@ -349,15 +352,8 @@ header .space nav ul li a .container-title span {
     letter-spacing: 0.5px;
 }
 
-header .space nav:nth-child(2) {
-    display: flex;
-    justify-content: flex-end;
-    margin-left: 10px;
-    position: relative;
-}
-
 header .space nav:nth-child(2) ul li a {
-    margin-right: -55px;
+    margin-right: -0.9rem;
 }
 
 header .space nav:nth-child(2) ul li a .container-title svg {
@@ -386,20 +382,19 @@ header .space nav:nth-child(2) ul li .dropdown {
     border: 1px solid var(--gray-200);
     box-shadow: 0 10px 18px -15px var(--gray-600),
                 0 0 16px -14px var(--gray-600);
-    margin-right: 0.375rem;
     min-height: 40px;
     opacity: 0;
     pointer-events: none;
     position: absolute;
-    right: -1.8rem;
-    transform: translate(0.5rem) 
-               scaleX(0.5) scaleY(0.5);
+    right: 1rem;
+    transform: translate(0.5rem) scaleX(0.5) scaleY(0.5);
     transform-origin: top right;
     transition-property: all;
     transition-timing-function: cubic-bezier(.4, 0, .2, 1);
     transition-duration: .15s;
     top: 3.5rem;
-    width: 208px;
+    width: 250px;
+    z-index: 1;
 }
 
 [data-theme="dark"] header .space nav:nth-child(2) ul li .dropdown {
@@ -467,7 +462,6 @@ header .space nav:nth-child(2) ul li .dropdown .box .title {
     display: flex;
     height: 25px;
     justify-content: space-between;
-    width: 100%;
 }
 
 header .space nav:nth-child(2) ul li .dropdown .box .title h4,
@@ -490,7 +484,7 @@ header .space nav:nth-child(2) ul li .dropdown .box .title a {
     font-size: var(--font-size-small-x);
     text-decoration: underline;
     text-transform: capitalize;
-    margin-right: -25px;
+    margin-right: 0;
 }
 
 [data-theme="dark"] header .space nav:nth-child(2) ul li .dropdown .box .title a {
@@ -575,7 +569,7 @@ header .space nav:nth-child(2) ul li .dropdown .box label .group-option .identif
     pointer-events: none;
     position: absolute;
     right: 16px;
-    top: 25px;
+    top: 19px;
     width: 12px;
 }
 
@@ -587,36 +581,46 @@ header .space nav:nth-child(2) ul li .dropdown .box label .group-option:hover .i
     color: var(--blue-300);
 }
 
-header .time {
-    display: none;
-    display: absolute;
+header .message {
+    display: flex;
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;
+    top: 0;
+    transition-duration: 0.3s;
+    transition-property: transform, box-shadow, opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     width: 100%;
 }
 
-header .message {
+header .message:not(iframe) {
+    position: relative;
+}
+
+header .message-exception {
     border-top-color: var(--gray-200);
     border-top-width: 1px;
     min-height: 10px;
-    padding: 10px 0;
+    padding-bottom: 9px;
+    padding-top: 9px;
     width: 100%;
 }
 
-[data-theme="dark"] header .message {
+[data-theme="dark"] header .message-exception {
     border-top-color: var(--dark-magenta-500);
 }
 
-header .message a {
+header .message-exception a {
     font-size: var(--font-size-initial);
     font-weight: 600;
-    margin-left: -19px;
     overflow: hidden;
-    padding-right: -19px;
     text-decoration: none;
     text-overflow: ellipsis;
     word-break: break-all;
 }
 
-[data-theme="dark"] header .message a {
+[data-theme="dark"] header .message-exception a {
     color: var(--dark-white);
     text-shadow: none;
 }
@@ -625,7 +629,7 @@ header .message a:hover {
     color: var(--red-500);
 }
 
-[data-theme="dark"] header .message a:hover {
+[data-theme="dark"] header .message-exception a:hover {
     color: var(--dark-red-800);
 }
 
@@ -653,15 +657,11 @@ header .message a:hover {
     }
 
     header .space nav:nth-child(2) ul li a {
-        margin-right: -45px;
+        margin-right: -1.3rem;
     }
 
     header .space nav:nth-child(2) ul li a .container-title svg {
         margin-top: 0;    
-    }
-
-    header .space nav:nth-child(2) ul li .dropdown {
-        top: 3.2rem;
     }
 }
 
@@ -669,31 +669,13 @@ header .message a:hover {
 
 @media (width < 1100px) and (width > 720px)
 {
-    header .space nav ul li a {
-        margin-left: -2px;
-    }
-
     header .space nav:nth-child(2) ul li a {
-        margin-right: -30px;
+        margin-right: -0.9rem;
     }
 
     header .space nav:nth-child(2) ul li a .container-title svg {
         height: 15px;
         width: 15px;
-    }
-
-    header .space nav:nth-child(2) ul li .dropdown {
-        right: -0.8rem;
-        width: 250px;
-    }
-
-    header .space nav:nth-child(2) ul li .dropdown .box:after,
-    header .space nav:nth-child(2) ul li .dropdown .box:before {
-        right: 4%;
-    }
-
-    header .message a {
-        margin-left: 0;
     }
 }
 
@@ -710,18 +692,13 @@ header .message a:hover {
     }
 
     header .space nav:nth-child(2) ul li .dropdown {
-        right: -2rem;
+        right: 5.15rem;
         width: 310px;
     }
 
     header .space nav:nth-child(2) ul li .dropdown .box {
         padding-left: 2.5rem;
         padding-right: 2.5rem;
-    }
-
-    header .space nav:nth-child(2) ul li .dropdown .box:after,
-    header .space nav:nth-child(2) ul li .dropdown .box:before {
-        right: 3%;
     }
 
     header .space nav:nth-child(2) ul li .dropdown .box .title h4 {
@@ -742,9 +719,13 @@ header .message a:hover {
         margin-top: 5px;
     }
 
-    header .message a {
+    header .space nav:nth-child(2) ul li .dropdown .box label .group-option .identify {
+        margin-top: 8px;
+        width: 14px;
+    }
+
+    header .message-exception a {
         font-size: var(--font-size-medium-x);
-        margin-left: -20px;
     }
 }
 
