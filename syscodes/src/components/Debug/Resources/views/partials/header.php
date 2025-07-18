@@ -24,7 +24,7 @@
 							<div class="container-title">
 								<svg viewBox="0 0 35 30">
 									<path fill="currentColor" d="m27.468 2c0-.553-.447-1-1-1h-20.936c-.553 0-1 .447-1 1v28c0 .553.447 1 1 1h13.608c.265 0 
-									        .523-.108.708-.294l7.325-7.325c.186-.185.294-.444.294-.708v-20.673zm-20.936 1h18.936v18.673h-6.327c-.553 0-1 
+											.523-.108.708-.294l7.325-7.325c.186-.185.294-.444.294-.708v-20.673zm-20.936 1h18.936v18.673h-6.327c-.553 0-1 
 											.447-1 1v6.327h-11.609zm17.522 20.673-3.913 3.913v-3.913z"/>								
 								</svg>
 								<span><?= e(__('exception.details')) ?></span>
@@ -59,9 +59,7 @@
 		</div>
 		<div class="message">
 			<div class="message-exception">
-				<div class="container">
-					<a href="#top"><?= ucfirst($template->escape($message)) ?></a>
-				</div>
+				<a href="#top"><?= ucfirst($template->escape($message)) ?></a>
 			</div>
 		</div>
 	</div>
