@@ -20,8 +20,7 @@
     let header = d.querySelector('header');
     let message = d.querySelector('.message');
 
-    message.style = "opacity: 0";
-    message.style = "transform: translateY(0)";
+    message.style = "display: none";
         
     w.addEventListener('scroll', (e) => {
         if (d.documentElement.scrollTop > 10) {
@@ -49,11 +48,9 @@
         }
 
         if (d.documentElement.scrollTop > 150) {
-            message.style = "opacity: 1";
-            message.style = "transform: translateY(2.5rem)";
+            message.style = "display: block";
         } else {
-            message.style = "opacity: 0";
-            message.style = "transform: translateY(0)";
+            message.style = "display: none";
         }
     });
 
