@@ -1,5 +1,36 @@
 # Release Notes
 
+## [Version 0.8.14-alpha.8]
+
+Release Date: Jul 23, 2025
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added new methods for prepend and push onto an array configuration value
+- Added the route an API resource to a controller
+- Added register an API resources controllers
+
+### Changed
+- Changed of function name viewExists to exists in the `Contracts\Views\Factory` interface
+- Changed E_STRICT by 2048 in the `Exceptions\Util\System` class
+- Changed color of the comments of source code in the `Exceptions\Util\TemplateHandler` class
+- Changed the interface name de Lenevor by Kernel
+- Changed the namespace of Lenevor by Kernel
+- Changed the class name of Lenevor by Kernel
+- Changed the types of colors for the tags html in show source code
+
+### Updated
+- Updated release 0.8.13 to 0.8.14
+
+### Fixed
+- [0.8.x] Fix bug '?' character for identify the variable that is null
+- [0.8.x] Fix bug in changed method for register a config binding with an anonymous function
+
+### Removed
+- Removed the tags html of index in the Resources of exception views
+
+
 ## [Version 0.8.13-alpha.8]
 
 Release Date: Jan 31, 2025
