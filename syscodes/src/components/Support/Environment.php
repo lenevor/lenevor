@@ -74,7 +74,7 @@ class Environment
      */
     public static function get($key, $default = null)
     {
-        $value = Environment::getRepositoryCreator()->get($key);
+        $value = self::getRepositoryCreator()->get($key);
 
         if ($value === null) {
             $value = $_ENV[$key] ?? $_SERVER[$key] ?? false;
