@@ -138,7 +138,7 @@ trait InteractsIO
 	 * 
 	 * @return void
 	 */
-	public function commandline(string $message, string $style = null)
+	public function commandline(string $message, ?string $style = null)
 	{
 		$styled = $style ? "<$style>$message</>" : $message;
 		
