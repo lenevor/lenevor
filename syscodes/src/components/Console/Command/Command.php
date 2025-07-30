@@ -248,7 +248,10 @@ class Command
      * 
      * @throws \LogicException
      */
-    protected function execute(InputInterface $input, OutputInterface $output) {}
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        throw new LogicException('You must override the execute() method in the concrete command class.');
+    }
 
     /**
      * Runs the command.
