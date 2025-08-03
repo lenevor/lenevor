@@ -113,6 +113,18 @@ class Kernel implements KernelContract
             return 1;
         }
     }
+    
+    /**
+     * Register the given command with the console application.
+     * 
+     * @param  \Syscodes\Components\Console\Command\Command  $command
+     * 
+     * @return void
+     */
+    public function registerCommand($command): void
+    {
+        $this->getPrime()->add($command);
+    }
 
     /**
      * Register the commands for the application.
@@ -169,7 +181,8 @@ class Kernel implements KernelContract
     protected function getPrime()
     {
         if (is_null($this->prime)) {
-            $this->prime = new Prime($this->app, $this->events, $this->app->version());
+            $this->prime = (new Prime($this->app, $this->events, $this->app->version()))
+                 ->resolveCommands($this->commands);
         }
 
         return $this->prime;
@@ -185,6 +198,20 @@ class Kernel implements KernelContract
     public function setPrime($prime): void
     {
         $this->prime = $prime;
+    }
+    
+    /**
+     * Set the Artisan commands provided by the application.
+     * 
+     * @param  array  $commands
+     * 
+     * @return $this
+     */
+    public function addCommands(array $commands): static
+    {
+        $this->commands = array_values(array_unique(array_merge($this->commands, $commands)));
+        
+        return $this;
     }
     
     /**
