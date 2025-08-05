@@ -53,6 +53,12 @@ class Application implements ApplicationContract
 {
     use BuildConsoleVersion;
 
+    /** Gets the auto exit.
+     * 
+     * @var bool $autoExit
+     */
+    protected bool $autoExit = true;
+
     /**
      * Gets the command name.
      * 
@@ -191,6 +197,28 @@ class Application implements ApplicationContract
     }
     
     /**
+     * Gets whether to automatically exit after a command execution or not.
+     * 
+     * @return bool
+     */
+    public function isAutoExitEnabled(): bool
+    {
+        return $this->autoExit;
+    }
+    
+    /**
+     * Sets whether to automatically exit after a command execution or not.
+     * 
+     * @param  bool  $value
+     * 
+     * @return void
+     */
+    public function setAutoExit(bool $value): void
+    {
+        $this->autoExit = $value;
+    }
+    
+    /**
      * Runs the current command discovered on the CLI.
      * 
      * @param  \Syscodes\Components\Contracts\Console\Input\Input|null  $input  The input interface implemented
@@ -198,15 +226,10 @@ class Application implements ApplicationContract
      * 
      * @return int
      */
-    public function run(?InputInterface $input = null, ?OutputInterface $output = null)
+    public function run(?InputInterface $input = null, ?OutputInterface $output = null): int
     {
-        if (null === $input) {
-            $input = new ArgvInput();
-        }
-        
-        if (null === $output) {
-            $output = new ConsoleOutput();
-        }
+        $input ??= new ArgvInput();
+        $output ??= new ConsoleOutput();
         
         $this->configureIO($input, $output);
         
@@ -216,6 +239,24 @@ class Application implements ApplicationContract
             throw $e;
             
             $exitCode = $e->getCode();
+            
+            if (is_numeric($exitCode)) {
+                $exitCode = (int) $exitCode;
+                
+                if ($exitCode <= 0) {
+                    $exitCode = 1;
+                }
+            } else {
+                $exitCode = 1;
+            }
+        }
+        
+        if ($this->autoExit) {
+            if ($exitCode > 255) {
+                $exitCode = 255;
+            }
+            
+            exit($exitCode);
         }
         
         return $exitCode;
@@ -298,6 +339,18 @@ class Application implements ApplicationContract
         $this->runningCommand = null;
 
         return $exitCode;
+    }
+    
+    /**
+     * Registers a new command.
+     * 
+     * @param  string  $name
+     * 
+     * @return \Syscodes\Components\Console\Command\Command
+     */
+    public function register(string $name): Command
+    {
+        return $this->addCommand(new Command($name));
     }
 
     /**
@@ -394,74 +447,6 @@ class Application implements ApplicationContract
     }
 
     /**
-     * Finds a command by name.
-     * 
-     * @param  string  $name  The command name
-     * 
-     * @return \Syscodes\Components\Console\Command\Command
-     * 
-     * @throws \Syscodes\Components\Console\Exceptions\CommandNotFoundException
-     */
-    public function findCommand(string $name): Command
-    {
-        $this->initialize();
-
-        foreach ($this->commands as $command) {
-            foreach ($command->getAliases() as $alias) {
-                if ( ! $this->has($alias)) {
-                    $this->commands[$alias] = $command;
-                }
-            }
-        }
-        
-        if ($this->has($name)) {
-            return $this->get($name);
-        }
-
-        $allCommands = array_keys($this->commands);
-        $expression  = implode('[^:]*:', array_map('preg_quote', explode(':', $name))).'[^:]*';
-        $commands    = preg_grep('{^'.$expression.'}', $allCommands);
-
-        if (empty($commands)) {
-            $commands = preg_grep('{^'.$expression.'}i', $allCommands);
-        }
-        
-        if (empty($commands) || count(preg_grep('{^'.$expression.'$}i', $commands)) < 1) {
-            if (false !== $pos = strrpos($name, ':')) {
-                // check if a namespace exists and contains commands
-                $this->findNamespace(substr($name, 0, $pos));
-            }
-            
-            $message = sprintf('Command "%s" is not defined', $name);
-            
-            if ($alternatives = $this->findCommandAlternatives($name, $allCommands)) {
-                // remove hidden commands
-                $alternatives = array_filter($alternatives, function ($name) {
-                    return ! $this->get($name)->isHidden();
-                });
-                
-                if (1 == count($alternatives)) {
-                    $message .= "\n\nDid you mean this?\n    ";
-                } else {
-                    $message .= "\n\nDid you mean one of these?\n    ";
-                }
-                
-                $message .= implode("\n    ", $alternatives);
-            }
-            
-            throw new CommandNotFoundException($message, array_values($alternatives));
-        }
-
-        $command = $this->get(headItem($commands));
-        
-        if ($command->isHidden()) {
-            throw new CommandNotFoundException(sprintf('The command "%s" does not exist', $name));
-        }
-
-        return $command;
-    }
-
-    /**
      * Gets a registered command.
      * 
      * @param  string  $name  The command name
@@ -511,7 +496,7 @@ class Application implements ApplicationContract
     {
         $this->initialize();
 
-        return isset($this->commands[$name]) || $this->addCommand($this->get($name));
+        return isset($this->commands[$name]) || ($this->commandLoader?->has($name) && $this->addCommand($this->commandLoader->get($name)));
     }
 
     /**
@@ -541,6 +526,46 @@ class Application implements ApplicationContract
     }
 
     /**
+     * Finds a registered namespace.
+     * 
+     * @param  string  $namespace
+     * 
+     * @return string
+     */
+    public function findNamespace(string $namespace)
+    {
+        $allNamespaces = $this->getNamespaces();
+        
+        $expr = implode('[^:]*:', array_map('preg_quote', explode(':', $namespace))).'[^:]*';
+        
+        $namespaces = preg_grep('{^'.$expr.'}', $allNamespaces);
+        
+        if ( ! $namespaces) {
+            $message = sprintf('There are no commands defined in the "%s" namespace.', $namespace);
+            
+            if ($alternatives = $this->findCommandAlternatives($namespace, $allNamespaces)) {
+                if (1 == count($alternatives)) {
+                    $message .= "\n\nDid you mean this?\n    ";
+                } else {
+                    $message .= "\n\nDid you mean one of these?\n    ";
+                }
+                
+                $message .= implode("\n    ", $alternatives);
+            }
+            
+            throw new NamespaceNotFoundException($message, $alternatives);
+        }
+        
+        $exact = in_array($namespace, $namespaces, true);
+        
+        if (count($namespaces) > 1 && ! $exact) {
+            throw new NamespaceNotFoundException(sprintf("The namespace \"%s\" is ambiguous.\nDid you mean one of these?\n%s", $namespace, $this->getAbbreviationSuggestions(array_values($namespaces))), array_values($namespaces));
+        }
+        
+        return $exact ? $namespace : reset($namespaces);
+    }
+
+    /**
      * Gets all the namespaces used by currently registered commands.
      * 
      * @return string[]
@@ -562,6 +587,89 @@ class Application implements ApplicationContract
         }
         
         return array_values(array_unique(array_filter(array_merge([], ...$namespaces))));        
+    }
+
+    /**
+     * Finds a command by name.
+     * 
+     * @param  string  $name  The command name
+     * 
+     * @return \Syscodes\Components\Console\Command\Command
+     * 
+     * @throws \Syscodes\Components\Console\Exceptions\CommandNotFoundException
+     */
+    public function findCommand(string $name): Command
+    {
+        $this->initialize();
+
+        foreach ($this->commands as $command) {
+            foreach ($command->getAliases() as $alias) {
+                if ( ! $this->has($alias)) {
+                    $this->commands[$alias] = $command;
+                }
+            }
+        }
+        
+        if ($this->has($name)) {
+            return $this->get($name);
+        }
+
+        $allCommands = array_keys($this->commands);
+        $expression  = implode('[^:]*:', array_map('preg_quote', explode(':', $name))).'[^:]*';
+        $commands    = preg_grep('{^'.$expression.'}', $allCommands);
+
+        if ( ! $commands) {
+            $commands = preg_grep('{^'.$expression.'}i', $allCommands);
+        }
+        
+        if ( ! $commands || count(preg_grep('{^'.$expression.'$}i', $commands)) < 1) {
+            if (false !== $pos = strrpos($name, ':')) {
+                // check if a namespace exists and contains commands
+                $this->findNamespace(substr($name, 0, $pos));
+            }
+            
+            $message = sprintf('Command "%s" is not defined.', $name);
+            
+            if ($alternatives = $this->findCommandAlternatives($name, $allCommands)) {
+                // remove hidden commands
+                $alternatives = array_filter($alternatives, function ($name) {
+                    return ! $this->get($name)->isHidden();
+                });
+                
+                if (1 == count($alternatives)) {
+                    $message .= "\n\nDid you mean this?\n    ";
+                } else {
+                    $message .= "\n\nDid you mean one of these?\n    ";
+                }
+                
+                $message .= implode("\n    ", $alternatives);
+            }
+            
+            throw new CommandNotFoundException($message, array_values($alternatives));
+        }
+        
+        // filter out aliases for commands which are already on the list
+        if (\count($commands) > 1) {
+            $commandList = $this->commandLoader ? array_merge(array_flip($this->commandLoader->getNames()), $this->commands) : $this->commands;
+            $commands = array_unique(array_filter($commands, function ($nameOrAlias) use (&$commandList, $commands, &$aliases) {
+                if ( ! $commandList[$nameOrAlias] instanceof Command) {
+                    $commandList[$nameOrAlias] = $this->commandLoader->get($nameOrAlias);
+                }
+                
+                $commandName = $commandList[$nameOrAlias]->getName();
+                $aliases[$nameOrAlias] = $commandName;
+                
+                return $commandName === $nameOrAlias || ! \in_array($commandName, $commands, true);
+            }));
+        }
+
+        $command = $this->get(headItem($commands));
+        
+        if ($command->isHidden()) {
+            throw new CommandNotFoundException(sprintf('The command "%s" does not exist', $name));
+        }
+
+        return $command;
     }
 
     /**
@@ -591,6 +699,7 @@ class Application implements ApplicationContract
         }
 
         $commands = [];
+
         foreach ($this->commands as $name => $command) {
             if ($namespace === $this->extractNamespace($name, substr_count($namespace, ':') + 1)) {
                 $commands[$name] = $command;
@@ -599,55 +708,13 @@ class Application implements ApplicationContract
 
         if ($this->commandLoader) {
             foreach ($this->commandLoader->getNames() as $name) {
-                if ( ! isset($commands[$name]) && 
-                    $namespace === $this->extractNamespace($name, substr_count($namespace, ':') + 1) && 
-                    $this->has($name)) {
+                if ( ! isset($commands[$name]) && $namespace === $this->extractNamespace($name, substr_count($namespace, ':') + 1) && $this->has($name)) {
                     $commands[$name] = $this->get($name);
                 }
             }
         }
 
         return $commands;
-    }
-
-    /**
-     * Finds a registered namespace.
-     * 
-     * @param  string  $namespace
-     * 
-     * @return string
-     */
-    public function findNamespace(string $namespace)
-    {
-        $allNamespaces = $this->getNamespaces();
-        
-        $expr = implode('[^:]*:', array_map('preg_quote', explode(':', $namespace))).'[^:]*';
-        
-        $namespaces = preg_grep('{^'.$expr.'}', $allNamespaces);
-        
-        if (empty($namespaces)) {
-            $message = sprintf('There are no commands defined in the "%s" namespace', $namespace);
-            
-            if ($alternatives = $this->findCommandAlternatives($namespace, $allNamespaces)) {
-                if (1 == count($alternatives)) {
-                    $message .= "\n\nDid you mean this?\n    ";
-                } else {
-                    $message .= "\n\nDid you mean one of these?\n    ";
-                }
-                
-                $message .= implode("\n    ", $alternatives);
-            }
-            
-            throw new NamespaceNotFoundException($message, $alternatives);
-        }
-        
-        $exact = in_array($namespace, $namespaces, true);
-        
-        if (count($namespaces) > 1 && ! $exact) {
-            throw new NamespaceNotFoundException(sprintf("The namespace \"%s\" is ambiguous.\nDid you mean one of these?\n%s", $namespace, $this->getAbbreviationSuggestions(array_values($namespaces))), array_values($namespaces));
-        }
-        
-        return $exact ? $namespace : reset($namespaces);
     }
     
     /**
