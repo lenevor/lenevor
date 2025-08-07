@@ -23,6 +23,7 @@
 namespace Syscodes\Bundles\ApplicationBundle\Console;
 
 use Syscodes\Components\Version;
+use Syscodes\Components\Console\Command;
 use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Console\Application as BaseApplication;
@@ -86,7 +87,7 @@ class Application extends BaseApplication
      * 
      * @return int
 	 */
-	public function run(?InputInterface $input = null, ?OutputInterface $output = null)
+	public function run(?InputInterface $input = null, ?OutputInterface $output = null): int
 	{
 		$this->setLogo("                     __                                                    
                     / /   ___  ____  ___ _   ______  _____                 
@@ -104,6 +105,69 @@ class Application extends BaseApplication
 		$exit = parent::run($input, $output);
 		
 		return $exit;
+	}
+	
+	/**
+	 * Add a command, resolving through the application.
+	 * 
+	 * @param  \Syscodes\Components\Console\Command|string  $command
+	 * 
+	 * @return \Syscodes\Components\Console\Command\Command|null
+	 */
+	public function resolve($command)
+	{
+		if ($command instanceof Command) {
+			return $this->addCommand($command);
+		}
+		
+		return $this->add($this->lenevor->make($command));
+	}
+	
+	/**
+	 * Resolve an array of commands through the application.
+	 * 
+	 * @param  mixed  $commands
+	 * 
+	 * @return static
+	 */
+	public function resolveCommands($commands): static
+	{
+		$commands = is_array($commands) ? $commands : func_get_args();
+		
+		foreach ($commands as $command) {
+			$this->resolve($command);
+		}
+		
+		return $this;
+	}
+	
+	/**
+	 * Add a command to the console.
+	 * 
+	 * @param  \Syscodes\Components\Console\Command\Command  $command
+	 * 
+	 * @return \Syscodes\Components\Console\Command\Command|null
+	 */
+	#[\Override]
+	public function add(Command $command): ?Command
+	{
+		if ($command instanceof Command) {
+			$command->setLenevor($this->lenevor);
+		}
+		
+		return $this->addToParent($command);
+	}
+	
+	/**
+	 * Add the command to the parent instance.
+	 * 
+	 * @param  \Syscodes\Components\Console\Command\Command  $command
+	 * 
+	 * @return \Syscodes\Components\Console\Command\Command
+	 */
+	protected function addToParent(Command $command)
+	{
+		return parent::addCommand($command);
 	}
 
 	/**
