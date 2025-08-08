@@ -65,7 +65,7 @@ class Application extends BaseApplication
 	/**
 	 * Console constructor. Initialize the console of Lenevor.
 	 *
-	 * @param  \Syscodes\Components\Contracts\Core\Container  $lenevor
+	 * @param  \Syscodes\Components\Contracts\Container\Container  $lenevor
 	 * 
 	 * @param  string  $version
 	 * 
@@ -235,7 +235,7 @@ class Application extends BaseApplication
 	/**
 	 * Gets the Lenevor application instance.
 	 * 
-	 * @return void
+	 * @return \Syscodes\Components\Contracts\Core\Application
 	 */
 	public function getLenevor()
 	{
