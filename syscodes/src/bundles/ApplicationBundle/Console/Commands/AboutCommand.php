@@ -23,10 +23,8 @@
 namespace Syscodes\Bundles\ApplicationBundle\Console\Commands;
 
 use Locale;
-use Syscodes\Components\Console\Command\Command;
+use Syscodes\Components\Console\Command;
 use Syscodes\Bundles\ApplicationBundle\Console\Application;
-use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
-use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * A console command to display information about of system.
@@ -43,31 +41,27 @@ class AboutCommand extends Command
      */
     protected function define()
     {
-        $this
-            ->setName(static::$defaultName)
-            ->setDescription(static::$defaultDescription)
-            ->setHelp(<<<'EOT'
-            The <comment>%command-name%</> command displays information about the current Lenevor project.
+        $this->setName(static::$defaultName)
+             ->setDescription(static::$defaultDescription)
+             ->setHelp(<<<'EOT'
+             The <comment>%command-name%</> command displays information about the current Lenevor project.
             
-            The <comment>PHP</> section displays important configuration that could affect your application. The values might
-            be different between web and CLI.
-            EOT
-            );
+             The <comment>PHP</> section displays important configuration that could affect your application. The values might
+             be different between web and CLI.
+             EOT
+        );
     }
 
     /**
      * Executes the current command.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
-     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $output
-     * 
-     * @return int|mixed
+     * @return int
      * 
      * @throws \LogicException
      */
-    protected function execute(InputInterface $input, OutputInterface $output) 
+    protected function handle()
     {
-        echo $this->buildInfo($this->getApplication(), $output);
+        echo $this->buildInfo($this->getApplication());
 
         return 0;
     }
@@ -76,21 +70,16 @@ class AboutCommand extends Command
      * Returns the info of the console with logo.
      * 
      * @param  \Syscodes\Bundles\ApplicationBundle\Console\Application  $application
-     * @param  \Syscodes\Components\Contracts\Console\\Output\Output  $output
      *
      * @return string
      */
-    public function buildInfo(Application $application, OutputInterface $output): string
+    public function buildInfo(Application $application): string
     {
         $logo         = '';
         $phpVersion   = \PHP_VERSION;
         $phpVersion   = \PHP_VERSION;
         $architecture = \PHP_INT_SIZE * 16;
         $locale       = class_exists(Locale::class, false) && Locale::getDefault() ? Locale::getDefault() : 'n/a';
-
-        if ($logoTxt = $application->getLogoText()) {
-            $logo = $output->commandline($logoTxt, $application->getLogoStyle());
-        }
 
         $info = "$logo\n";
         $info .= "  {$application->getName()} Version ".$application->getVersion()."\n";
