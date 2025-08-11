@@ -2470,12 +2470,32 @@ header .message a:hover {
         padding: 0.5rem 0.6rem;
     }
 
-    .section-details .section-detail-info .section-info-request .group-title svg {
-        height: 22px;
-        top: 40px;
+    .section-details .section-detail-info .section-info-request .info-header-title .group-title svg {
+        height: 25px;
+        top: 39px;
         left: 80px;
-        stroke: var(--blue-400);
-        width: 22px;
+        width: 25px;
+    }
+
+    .section-details .section-detail-info .section-info-request .info-body-title .group-title svg {
+        height: 25px;
+        top: 36px;
+        left: 50px;
+        width: 25px;
+    }
+
+    .section-details .section-detail-info .section-info-app .info-routing-title .group-title svg {
+        height: 25px;
+        top: 70px;
+        left: 125px;
+        width: 25px;
+    }
+
+    .section-details .section-detail-info .section-info-context .info-version-title .group-title svg {
+        height: 20px;
+        top: 75px;
+        left: 130px;
+        width: 26px;
     }
 
     .section-details .section-detail-info .section-info-request .info-request-title h2,
