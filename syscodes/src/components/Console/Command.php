@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Console;
 
+use Exception;
 use LogicException;
 use Syscodes\Components\Console\Concerns\InteractsIO;
 use Syscodes\Components\Console\Command\Command as BaseCommand;
@@ -73,7 +74,7 @@ class Command extends BaseCommand
     /**
      * The Lenevor appplication instance.
      * 
-     * @var \Syscodes\Components\Core\Contracts\Application $lenevor
+     * @var \Syscodes\Components\Contracts\Core\Application $lenevor
      */
     protected $lenevor;
 
@@ -121,11 +122,15 @@ class Command extends BaseCommand
      * 
      * @throws \LogicException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $method = method_exists($this, 'handle') ? 'handle' : '__invoke';
 
-        return (int) $this->lenevor->call([$this, $method]);
+        try {
+            return (int) $this->lenevor->call([$this, $method]);
+        } catch (Exception $e) {
+            throw $e->getMessage();
+        }
     }
 
     /**
