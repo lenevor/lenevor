@@ -244,11 +244,11 @@ class Command
      * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
      * @param  \Syscodes\Components\Contracts\Console\Output\Output  $output
      * 
-     * @return int|mixed
+     * @return int
      * 
      * @throws \LogicException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int 
     {
         throw new LogicException('You must override the execute() method in the concrete command class.');
     }
