@@ -89,15 +89,13 @@ class HelpCommand extends Command
      * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
      * @param  \Syscodes\Components\Contracts\Console\Output\Output  $input
      * 
-     * @return int|mixed
+     * @return int
      * 
      * @throws \LogicException
      */
-    protected function execute(InputInterface $input, OutputInterface $output) 
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (null === $this->command) {
-            $this->command = $this->getApplication()->findCommand($input->getArgument('command_name'));
-        }
+        $this->command ??= $this->getApplication()->findCommand($input->getArgument('command_name'));
         
         $helper = new DescriptorHelper();
         $helper->describe($output, $this->command, [
@@ -105,7 +103,7 @@ class HelpCommand extends Command
             'raw_text' => $input->getOption('raw'),
         ]);
         
-        $this->command = null;
+        unset($this->command);
 
         return 0;
     }
