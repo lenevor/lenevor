@@ -77,11 +77,11 @@ class ListCommand extends Command
      * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
      * @param  \Syscodes\Components\Contracts\Console\Output\Output  $input
      * 
-     * @return int|mixed
+     * @return int
      * 
      * @throws \LogicException
      */
-    protected function execute(InputInterface $input, OutputInterface $output) 
+    protected function execute(InputInterface $input, OutputInterface $output): int 
     {
         $helper = new DescriptorHelper();
         $helper->describe($output, $this->getApplication(), [
