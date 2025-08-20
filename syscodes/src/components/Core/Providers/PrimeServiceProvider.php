@@ -86,7 +86,9 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
      */
     protected function registerAboutCommand()
     {
-        $this->app->singleton(AboutCommand::class, fn () => new AboutCommand);
+        $this->app->singleton(AboutCommand::class, function () {
+            return new AboutCommand();
+        });
     }
     
     /**
