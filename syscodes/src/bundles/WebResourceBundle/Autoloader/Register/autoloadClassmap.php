@@ -17,7 +17,6 @@ return [
     'App\\Models\\User' => APP_PATH.'Models/User.php',
     'App\\Providers\\AppServiceProvider' => APP_PATH.'Providers/AppServiceProvider.php',
     // Bundles
-    'Syscodes\\Bundles\\ApplicationBundle\\Console\\Application' => SYS_PATH.'src/bundles/ApplicationBundle/Console/Application.php',
     'Syscodes\\Bundles\\ApplicationBundle\\Routing\\CompiledRoute' => SYS_PATH.'src/bundles/ApplicationBundle/Routing/CompiledRoute.php',
     'Syscodes\\Bundles\\ApplicationBundle\\Routing\\Route' => SYS_PATH.'src/bundles/ApplicationBundle/Routing/Route.php',
     'Syscodes\\Bundles\\ApplicationBundle\\Routing\\RouteCompiler' => SYS_PATH.'src/bundles/ApplicationBundle/Routing/RouteCompiler.php',
@@ -66,6 +65,7 @@ return [
     'Syscodes\\Components\\Cache\\CacheRepository' => SYS_PATH.'src/components/Cache/CacheRepository.php',
     'Syscodes\\Components\\Cache\\CacheServiceProvider' => SYS_PATH.'src/components/Cache/CacheServiceProvider.php',
     'Syscodes\\Components\\Config\\Configure' => SYS_PATH.'src/components/Config/Configure.php',
+    'Syscodes\\Components\\Console\\Command\\Application' => SYS_PATH.'src/components/Console/Command/Application.php',
     'Syscodes\\Components\\Console\\Command\\Command' => SYS_PATH.'src/components/Console/Command/Command.php',
     'Syscodes\\Components\\Console\\Command\\HelpCommand' => SYS_PATH.'src/components/Console/Command/HelpCommand.php',
     'Syscodes\\Components\\Console\\Command\\ListCommand' => SYS_PATH.'src/components/Console/Command/ListCommand.php',
