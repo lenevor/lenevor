@@ -28,8 +28,8 @@ use LogicException;
 use ReflectionProperty;
 use InvalidArgumentException;
 use Syscodes\Components\Support\Str;
-use Syscodes\Components\Console\Application;
 use Syscodes\Components\Console\Input\InputOption;
+use Syscodes\Components\Console\Command\Application;
 use Syscodes\Components\Console\Input\InputArgument;
 use Syscodes\Components\Console\Input\InputDefinition;
 use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
@@ -530,7 +530,7 @@ class Command
      *
      * @return string
      */
-    public function getHelp(): string
+    public function getHelp()
     {
         return $this->help;
     }
