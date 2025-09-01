@@ -32,7 +32,7 @@ use Syscodes\Components\Support\Str;
 /**
  * Allows get a closure / class@method with dependencies.
  */
-final class CallBoundMethod
+class CallBoundMethod
 {
     /**
      * Call the given Closure / class@method and inject its dependencies.
