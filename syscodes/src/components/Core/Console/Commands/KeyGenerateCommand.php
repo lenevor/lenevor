@@ -24,8 +24,6 @@ namespace Syscodes\Components\Core\Console\Commands;
 
 use Syscodes\Components\Console\Command\Command;
 use Syscodes\Components\Console\Input\InputOption;
-use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
-use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 use Syscodes\Components\Contracts\Console\Input\InputOption as InputOptionInterface;
 
 /**
@@ -40,26 +38,24 @@ class KeyGenerateCommand extends Command
      */
     protected function define()
     {
-        $this
-            ->setName('key:generate')
-            ->setDefinition([
-                new InputOption('show', null, InputOptionInterface::VALUE_REQUIRED, 'Display the key instead of modifying files'),
-            ])
-            ->setDescription('Set the application key');
+        $this->setName('key:generate')
+             ->setDefinition([
+                    new InputOption('show', null, InputOptionInterface::VALUE_REQUIRED, 'Display the key instead of modifying files'),
+               ])
+             ->setDescription('Set the application key');
     }
 
     /**
      * Executes the current command.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
-     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $input
-     * 
-     * @return int|mixed
+     * @return int
      * 
      * @throws \LogicException
      */
-    protected function execute(InputInterface $input, OutputInterface $output) 
+    protected function handle()
     {
+        echo 'hola mundo';
 
+        return 0;
     }
 }
