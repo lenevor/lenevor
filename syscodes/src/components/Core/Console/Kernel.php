@@ -26,7 +26,7 @@ use Throwable;
 use Syscodes\Components\Contracts\Core\Application;
 use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\Contracts\Debug\ExceptionHandler;
-use Syscodes\Bundles\ApplicationBundle\Console\Application as Prime;
+use Syscodes\Components\Console\Application as Prime;
 use Syscodes\Components\Contracts\Console\Kernel as KernelContract;
 
 /**
@@ -176,7 +176,7 @@ class Kernel implements KernelContract
     /**
      * Get the Prime application instance.
      * 
-     * @return \Syscodes\Bundles\ApplicationBundle\Console\Application
+     * @return \Syscodes\Components\Console\Application
      */
     protected function getPrime()
     {
@@ -191,7 +191,7 @@ class Kernel implements KernelContract
     /**
      * Set the Prime application instance.
      * 
-     * @param  \Syscodes\Bundles\ApplicationBundle\Console\Application  $prime
+     * @param  \Syscodes\Components\Console\Application  $prime
      * 
      * @return void
      */
