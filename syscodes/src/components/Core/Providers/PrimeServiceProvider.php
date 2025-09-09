@@ -24,7 +24,8 @@ namespace Syscodes\Components\Core\Providers;
 
 use Syscodes\Components\Support\ServiceProvider;
 use Syscodes\Components\Contracts\Support\Deferrable;
-use Syscodes\Bundles\ApplicationBundle\Console\Commands\AboutCommand;
+use Syscodes\Components\Core\Console\Commands\AboutCommand;
+use Syscodes\Components\Core\Console\Commands\KeyGenerateCommand;
 
 /**
  * The Prime service provider allows the register of a namespace of 
@@ -39,6 +40,7 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
      */
     protected $commands = [
         'About' => AboutCommand::class,
+        'KeyGenerate' => KeyGenerateCommand::class,
     ];
 
     /**
@@ -77,6 +79,8 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
                 $this->app->singleton($command);
             }
         }
+
+        $this->commands(array_values($commands));
     }
     
     /**
