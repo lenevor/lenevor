@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Support;
 
 use Closure;
+use Syscodes\Components\Console\Application as Prime;
 use Syscodes\Components\Contracts\Support\Deferrable;
 
 /**
@@ -120,6 +121,22 @@ abstract class ServiceProvider
         if ($this->app->resolved($name)) {
             $callback($this->app->make($name), $this->app);
         }
+    }
+    
+    /**
+     * Register the package's custom Prime commands.
+     * 
+     * @param  mixed  $commands
+     * 
+     * @return void
+     */
+    public function commands($commands): void
+    {
+        $commands = is_array($commands) ? $commands : func_get_args();
+        
+        Prime::starting(function ($prime) use ($commands) {
+            $prime->resolveCommands($commands);
+        });
     }
 
     /**
