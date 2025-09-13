@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\Support\Facades;
 
-use Syscodes\Components\Contracts\Console\Lenevor as LenevorConsole;
+use Syscodes\Components\Contracts\Console\Kernel as ConsoleKernelContract;
 
 /**
  * Initialize the Prime class facade.
@@ -38,6 +38,6 @@ class Prime extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return LenevorConsole::class;
+        return ConsoleKernelContract::class;
     }
 }
