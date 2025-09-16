@@ -19,8 +19,18 @@
 		"php": "^8.2"
 	},
 	"scripts": {
+		"setup": [
+            "composer install",
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php prime key:generate"
+        ],
 		"post-create-project-cmd": [
-			"@php -r \"file_exists('.env') || copy('.env.dist', '.env');\""
+			"@php -r \"file_exists('.env') || copy('.env.exmple', '.env');\"",
+			"@php prime key:generate"
+		],		
+		"post-update-cmd": [
+			"@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+			"@php prime key:generate"
 		]
 	},
 	"minimum-stability": "dev",
