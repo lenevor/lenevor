@@ -34,7 +34,8 @@ use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
  */
 class Command extends BaseCommand
 {
-    use InteractsIO;
+    use Concerns\ConfirmProcess,
+        Concerns\InteractsIO;
 
     /**
      * Gets the code.
@@ -51,39 +52,11 @@ class Command extends BaseCommand
     protected $commands = [];
     
     /**
-     * The console command description.
-     * 
-     * @var string $description
-     */
-    protected $description;
-    
-    /**
-     * The console command help text.
-     * 
-     * @var string $help
-     */
-    protected $help;
-
-    /**
-     * Indicates whether the command should be shown in the Prime command list.
-     * 
-     * @var bool $hidden
-     */
-    protected $hidden = false;
-    
-    /**
      * The Lenevor appplication instance.
      * 
      * @var \Syscodes\Components\Contracts\Core\Application $lenevor
      */
     protected $lenevor;
-
-    /**
-     * The console command name.
-     * 
-     * @var string $name
-     */
-    protected $name;
 
     /**
      * Constructor. Create a new Command instance.
@@ -109,7 +82,7 @@ class Command extends BaseCommand
      */
     public function run(InputInterface $input, OutputInterface $output)
     {
-        return parent::run($input, $output);
+        return parent::run($this->input = $input, $this->output = $output);
     }
 
     /**
@@ -118,7 +91,7 @@ class Command extends BaseCommand
      * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
      * @param  \Syscodes\Components\Contracts\Console\Output\Output  $input
      * 
-     * @return int|mixed
+     * @return int
      * 
      * @throws \LogicException
      */
@@ -130,6 +103,8 @@ class Command extends BaseCommand
             return (int) $this->lenevor->call([$this, $method]);
         } catch (Exception $e) {
             throw $e->getMessage();
+
+            return 0;
         }
     }
 
