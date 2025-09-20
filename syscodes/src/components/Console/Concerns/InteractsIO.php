@@ -22,17 +22,123 @@
 
 namespace Syscodes\Components\Console\Concerns;
 
+use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
+use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
+
 /**
  * Trait InteractsIO.
  */
 trait InteractsIO
 {
 	/**
+     * The input interface implementation.
+     *
+     * @var \Syscodes\Components\Contracts\Console\Input\Input $input
+     */
+    protected $input;
+
+	/**
 	 * The output interface implementation.
 	 * 
 	 * @var \Syscodes\Components\Contracts\Console\Output $output
 	 */
 	protected $output;
+	
+	/**
+	 * The default verbosity of output commands.
+	 * 
+	 * @var int $verbosity
+	 */
+	protected $verbosity = OutputInterface::VERBOSITY_NORMAL;
+	
+	/**
+	 * The mapping between human readable verbosity levels and OutputInterface.
+	 * 
+	 * @var array $verbosityMap
+	 */
+	protected $verbosityMap = [
+		'v' => OutputInterface::VERBOSITY_VERBOSE,
+		'vv' => OutputInterface::VERBOSITY_VERY_VERBOSE,
+		'vvv' => OutputInterface::VERBOSITY_DEBUG,
+		'quiet' => OutputInterface::VERBOSITY_QUIET,
+		'normal' => OutputInterface::VERBOSITY_NORMAL,
+	];
+	
+	/**
+	 * Determine if the given argument is present.
+	 * 
+	 * @param  string|int  $name
+	 * 
+	 * @return bool
+	 */
+	public function hasArgument($name): bool
+	{
+		return $this->input->hasArgument($name);
+    }
+	
+	/**
+	 * Get the value of a command argument.
+	 * 
+	 * @param  string|null  $key
+	 * 
+	 * @return array|string|bool|null
+	 */
+	public function argument($key = null): array|string|bool|null
+	{
+		if (is_null($key)) {
+			return $this->input->getArguments();
+		}
+		
+		return $this->input->getArgument($key);
+	}
+	
+	/**
+	 * Get all of the arguments passed to the command.
+	 * 
+	 * @return array
+	 */
+	public function arguments(): array
+	{
+		return $this->argument();
+	}
+	
+	/**
+	 * Determine whether the option is defined in the command signature.
+	 * 
+	 * @param  string  $name
+	 * 
+	 * @return bool
+	 */
+	public function hasOption($name): bool
+	{
+		return $this->input->hasOption($name);
+	}
+	
+	/**
+	 * Get the value of a command option.
+	 * 
+	 * @param  string|null  $key
+	 * 
+	 * @return string|array|bool|null
+	 */
+	public function option($key = null): array|string|bool|null
+	{
+		if (is_null($key)) {
+			return $this->input->getOptions();
+		}
+		
+		return $this->input->getOption($key);
+	}
+	
+	/**
+	 * Get all of the options passed to the command.
+	 * 
+	 * @return array
+	 */
+	public function options(): array
+	{
+		return $this->option();
+	}
 	
 	/**
 	 * Enter a number of empty lines.
@@ -50,84 +156,91 @@ trait InteractsIO
 	 * Writes a string formatting for comment output.
 	 * 
 	 * @param  string  $message
+	 * @param  int|string|null  $verbosity
 	 * 
 	 * @return void
 	 */
-	public function comment(string $message)
+	public function comment(string $message, $verbosity = null)
 	{
-		$this->commandline($message, 'comment');
+		$this->commandline($message, 'comment', $verbosity);
 	}
 
 	/**
 	 * Writes a string formatting for note output.
 	 * 
 	 * @param  string  $message
+	 * @param  int|string|null  $verbosity
 	 * 
 	 * @return void
 	 */
-	public function note(string $message)
+	public function note(string $message, $verbosity = null)
 	{
-		$this->commandline($message, 'note');
+		$this->commandline($message, 'note', $verbosity);
 	}
 	
 	/**
 	 * Writes a string formatting for success output.
 	 * 
 	 * @param  string  $message
+	 * @param  int|string|null  $verbosity
 	 * 
 	 * @return void
 	 */
-	public function success(string $message)
+	public function success(string $message, $verbosity = null)
 	{
-		$this->commandline($message, 'success');
+		$this->commandline($message, 'success', $verbosity);
 	}
 	
 	/**
 	 * Writes a string formatting for info output.
 	 * 
 	 * @param  string  $message
+	 * @param  int|string|null  $verbosity
 	 * 
 	 * @return void
 	 */
-	public function info(string $message)
+	public function info(string $message, $verbosity = null)
 	{
-		$this->commandline($message, 'info');
+		$this->commandline($message, 'info', $verbosity);
 	}
 
 	/**
 	 * Writes a string formatting for question output.
 	 * 
 	 * @param  string  $message
+	 * @param  int|string|null  $verbosity
 	 * 
 	 * @return void
 	 */
-	public function question(string $message)
+	public function question(string $message, $verbosity = null)
 	{
-		$this->commandline($message, 'question');
+		$this->commandline($message, 'question', $verbosity);
 	}
 	
 	/**
 	 * Writes a string formatting for warning output.
 	 * 
 	 * @param  string  $message
+	 * @param  int|string|null  $verbosity
 	 * 
 	 * @return void
 	 */
-	public function warning(string $message)
+	public function warning(string $message, $verbosity = null)
 	{
-		$this->commandline($message, 'warning');
+		$this->commandline($message, 'warning', $verbosity);
 	}
 	
 	/**
 	 * Writes a string formatting for error output.
 	 * 
 	 * @param  string  $message
+	 * @param  int|string|null  $verbosity
 	 * 
 	 * @return void
 	 */
-	public function error(string $message)
+	public function error(string $message, $verbosity = null)
 	{
-		$this->commandline($message, 'error');
+		$this->commandline($message, 'error', $verbosity);
 	}
 	
 	/**
@@ -135,14 +248,15 @@ trait InteractsIO
 	 * 
 	 * @param  string  $message
 	 * @param  string|null  $style
+	 * @param  int|string|null  $verbosity
 	 * 
 	 * @return void
 	 */
-	public function commandline(string $message, ?string $style = null)
+	public function commandline(string $message, ?string $style = null, $verbosity = null)
 	{
 		$styled = $style ? "<$style>$message</>" : $message;
 		
-		return $this->writeln($styled);
+		return $this->output->writeln($styled, $this->parseVerbosity($verbosity));
 	}
 	
 	/**
@@ -155,8 +269,74 @@ trait InteractsIO
 	 */
 	public function hr(int $newlines = 0, $width = 79) 
 	{
-		$this->writeln('', $newlines);
-		$this->writeln(str_repeat('-', $width));
-		$this->write('', $newlines);
+		$this->output->writeln('', $newlines);
+		$this->output->writeln(str_repeat('-', $width));
+		$this->output->writeln('', $newlines);
 	}
+	
+	/**
+	 * Set the input interface implementation.
+	 * 
+	 * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
+	 * 
+	 * @return void
+	 */
+	public function setInput(InputInterface $input): void
+	{
+		$this->input = $input;
+	}
+	
+	/**
+	 * Set the output interface implementation.
+	 * 
+	 * @param  \Syscodes\Components\Contracts\Console\Output\Output  $output
+	 * 
+	 * @return void
+	 */
+	public function setOutput(OutputInterface $output): void
+	{
+		$this->output = $output;
+	}
+	
+	/**
+	 * Set the verbosity level.
+	 * 
+	 * @param  string|int  $level
+	 * 
+	 * @return void
+	 */
+	protected function setVerbosity($level): void
+	{
+		$this->verbosity = $this->parseVerbosity($level);
+	}
+	
+	/**
+	 * Get the verbosity level in terms of OutputInterface level.
+	 * 
+	 * @param  string|int|null  $level
+	 * 
+	 * @return int
+	 */
+	protected function parseVerbosity($level = null): int
+	{
+		$level ??= '';
+		
+		if (isset($this->verbosityMap[$level])) {
+			$level = $this->verbosityMap[$level];
+		} elseif ( ! is_int($level)) {
+			$level = $this->verbosity;
+		}
+		
+		return $level;
+	}
+
+    /**
+     * Get the output implementation.
+     *
+     * @return \Syscodes\Components\Console\Output\Output
+     */
+    public function getOutput()
+    {
+        return $this->output;
+    }
 }
