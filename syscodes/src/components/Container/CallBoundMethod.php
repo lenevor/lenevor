@@ -65,7 +65,7 @@ class CallBoundMethod
         }
 
         return call_user_func_array(
-            $callback, static::getMethodDependencies($container, $parameters, $reflector)
+            $callback, array_values(static::getMethodDependencies($container, $parameters, $reflector))
         );
     }
 
