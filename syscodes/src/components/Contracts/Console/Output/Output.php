@@ -125,9 +125,9 @@ interface Output
 	 * @param  bool  $newline  Add a newline command
 	 * @param  int  $options  A bitmask of options (0 is considered the same as self::OUTPUT_NORMAL)
 	 * 
-	 * @return string
+	 * @return void
 	 */
-	public function write($messages, bool $newline = false, int $options = 0);
+	public function write(string|iterable $messages, bool $newline = false, int $options = 0): void;
 
     /**
 	 * Writes a message to the output and adds a newline at the end.
@@ -135,17 +135,7 @@ interface Output
 	 * @param  string|iterable  $messages  The message as an iterable of strings or a single string
 	 * @param  int  $options  A bitmask of options (0 is considered the same as self::OUTPUT_NORMAL)
 	 * 
-	 * @return string
-	 */
-	public function writeln($messages, int $options = 0);
-
-	/**
-	 * Writes a string formatting for stantard output.
-	 * 
-	 * @param  string  $message
-	 * @param  string|null  $style
-	 * 
 	 * @return void
 	 */
-	public function commandline(string $message, ?string $style = null);
+	public function writeln(string|iterable $messages, int $options = 0): void;
 }
