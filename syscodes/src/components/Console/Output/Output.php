@@ -22,7 +22,6 @@
 
 namespace Syscodes\Components\Console\Output;
 
-use Syscodes\Components\Console\Concerns\InteractsIO;
 use Syscodes\Components\Console\Formatter\OutputFormatter;
 use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 use Syscodes\Components\Contracts\Console\Output\OutputFormatter as OutputFormatterInterface;
@@ -32,9 +31,7 @@ use Syscodes\Components\Contracts\Console\Output\OutputFormatter as OutputFormat
  * in the output console.
  */
 abstract class Output implements OutputInterface
-{
-	use InteractsIO;
-	
+{	
 	/**
 	 * Gets formatter for output console.
 	 * 
@@ -190,11 +187,11 @@ abstract class Output implements OutputInterface
 	 * @param  string|iterable  $messages  The message as an iterable of strings or a single string
 	 * @param  int  $options  A bitmask of options (0 is considered the same as self::OUTPUT_NORMAL)
 	 * 
-	 * @return string
+	 * @return void
 	 */
-	public function writeln($messages, int $options = OutputInterface::OUTPUT_NORMAL)
+	public function writeln(string|iterable $messages, int $options = OutputInterface::OUTPUT_NORMAL): void
 	{
-		return $this->write($messages, true, $options);
+		$this->write($messages, true, $options);
 	}
 	
 	/**
@@ -205,9 +202,9 @@ abstract class Output implements OutputInterface
 	 * @param  bool  $newline  Add a newline command
 	 * @param  int  $options  A bitmask of options (0 is considered the same as self::OUTPUT_NORMAL)
 	 * 
-	 * @return string
+	 * @return void
 	 */
-	public function write($messages, bool $newline = false, int $options = OutputInterface::OUTPUT_NORMAL)
+	public function write(string|iterable $messages, bool $newline = false, int $options = OutputInterface::OUTPUT_NORMAL): void
 	{
 		if ( ! is_iterable($messages)) {
 			$messages = [$messages];
