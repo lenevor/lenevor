@@ -22,16 +22,20 @@
 
 namespace Syscodes\Components\Console\Command;
 
+use Closure;
 use Throwable;
 use TypeError;
 use LogicException;
-use ReflectionProperty;
+use ReflectionClass;
+use ReflectionMethod;
+use ReflectionObject;
 use InvalidArgumentException;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Console\Input\InputOption;
 use Syscodes\Components\Console\Command\Application;
 use Syscodes\Components\Console\Input\InputArgument;
 use Syscodes\Components\Console\Input\InputDefinition;
+use Syscodes\Components\Console\Attribute\AsCommandAttribute;
 use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
 use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
@@ -46,20 +50,6 @@ class Command
      * @var \Syscodes\Components\Console\Application $application
      */
     protected $application;
-
-    /**
-     * The default command name.
-     * 
-     * @var string|null $defaultName
-     */
-    protected static $defaultName;
-
-     /**
-     * The default command description.
-     * 
-     * @var string|null $defaultDescription
-     */
-    protected static $defaultDescription;
 
     /**
      * Gets the aliases of command name.
@@ -92,9 +82,9 @@ class Command
     /**
      * The console command description.
      * 
-     * @var string|null $description
+     * @var string $description
      */
-    protected $description;
+    protected string $description = '';
 
     /**
      * The InputDefinition full implemented.
@@ -108,35 +98,35 @@ class Command
      * 
      * @var string $group
      */
-    protected $group;
+    protected string $group = '';
 
     /**
      * The console command help text.
      * 
      * @var string $help
      */
-    protected $help;
+    protected string $help = '';
 
     /**
      * Indicates whether the command should be shown in the Prime command list.
      * 
      * @var bool $hidden
      */
-    protected $hidden = false;
+    protected bool $hidden = false;
 
     /**
      * The validation of ignored errors 
      * 
      * @var bool $ignoreValidationErrors
      */
-    protected $ignoreValidationErrors = false;
+    protected bool $ignoreValidationErrors = false;
 
     /**
      * The console command name.
      * 
      * @var string $name
      */
-    protected $name;
+    protected ?string $name = null;
 
     /**
      * The Command's options description.
@@ -166,11 +156,11 @@ class Command
      */
     public static function getDefaultName(): ?string
     {
-        $class = static::class;
-
-        $property = new ReflectionProperty($class, 'defaultName');
-
-        return ($class === $property->class) ? static::$defaultName : null;
+        if ($attribute = (new ReflectionClass(static::class))->getAttributes(AsCommandAttribute::class)) {
+            return $attribute[0]->newInstance()->name;
+        }
+        
+        return null;
     }
 
     /**
@@ -180,43 +170,77 @@ class Command
      */
     public static function getDefaultDescription(): ?string
     {
-        $class = static::class;
-
-        $property = new ReflectionProperty($class, 'default description');
-
-        return ($class === $property->class) ? static::$defaultDescription : null;
+        if ($attribute = (new ReflectionClass(static::class))->getAttributes(AsCommandAttribute::class)) {
+            return $attribute[0]->newInstance()->name;
+        }
+        
+        return null;
     }
 
     /**
      * Constructor. Create a new base command instance.
      * 
      * @param  string|null  $name  The name command
-     * @param  \Syscodes\Components\Console\Input\InputDefinition  $definition
+     * @param  int  $code  The code command
      * 
      * @return void
      */
-    public function __construct(?string $name = null)
+    public function __construct(?string $name = null, ?callable $code = null)
     {
+        if (null !== $code) {
+            if ( ! is_object($code) || $code instanceof Closure) {
+                throw new InvalidArgumentException(sprintf('The command must be an instance of "%s" or an invokable object.', self::class));
+            }
+            /** @var AsCommandAttribute $attribute */
+            $attribute = ((new ReflectionObject($code))->getAttributes(AsCommandAttribute::class)[0] ?? null)?->newInstance()
+                ?? throw new LogicException(sprintf('The command must use the "%s" attribute.', AsCommandAttribute::class));
+
+            $this->setCode($code);
+        } else {
+            $attribute = ((new ReflectionClass(static::class))->getAttributes(AsCommandAttribute::class)[0] ?? null)?->newInstance();
+        }
+
         $this->definition = new InputDefinition();
         
-        if ($name && null !== $name = static::getDefaultName()) {
+        if (null === $name) {
+            if (self::class !== (new ReflectionMethod($this, 'getDefaultName'))->class) {
+               $name = static::getDefaultName();
+            } else {
+                $name = $attribute?->name;
+            }
+        }
+
+        if (null !== $name) {
             $aliases = explode('|', $name);
-            
+
             if ('' === $name = array_shift($aliases)) {
                 $this->setHidden(true);
-                
                 $name = array_shift($aliases);
             }
-            
+
             $this->setAliases($aliases);
         }
-        
+
         if (null !== $name) {
             $this->setName($name);
         }
         
         if ('' === $this->description) {
-            $this->setDescription(static::getDefaultDescription() ?? '');
+            if (self::class !== (new ReflectionMethod($this, 'getDefaultDescription'))->class) {
+                $defaultDescription = static::getDefaultDescription();
+            } else {
+                $defaultDescription = $attribute?->description;
+            }
+
+            $this->setDescription($defaultDescription ?? '');
+        }
+
+        if ('' === $this->help) {
+            $this->setHelp($attribute?->help ?? '');
+        }
+
+        foreach ($attribute?->usages ?? [] as $usage) {
+            $this->addUsage($usage);
         }
         
         $this->define();
@@ -530,9 +554,9 @@ class Command
      *
      * @return string
      */
-    public function getHelp()
+    public function getHelp(): string
     {
-        return $this->help;
+        return (string) $this->help;
     }
 
     /**
