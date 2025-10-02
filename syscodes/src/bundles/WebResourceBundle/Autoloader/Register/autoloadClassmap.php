@@ -65,6 +65,7 @@ return [
     'Syscodes\\Components\\Cache\\CacheRepository' => SYS_PATH.'src/components/Cache/CacheRepository.php',
     'Syscodes\\Components\\Cache\\CacheServiceProvider' => SYS_PATH.'src/components/Cache/CacheServiceProvider.php',
     'Syscodes\\Components\\Config\\Configure' => SYS_PATH.'src/components/Config/Configure.php',
+    'Syscodes\\Components\\Console\\Attribute\\AsCommandAttribute' => SYS_PATH.'src/components/Console/Attribute/AsCommandAttribute.php',
     'Syscodes\\Components\\Console\\Command\\Application' => SYS_PATH.'src/components/Console/Command/Application.php',
     'Syscodes\\Components\\Console\\Command\\Command' => SYS_PATH.'src/components/Console/Command/Command.php',
     'Syscodes\\Components\\Console\\Command\\HelpCommand' => SYS_PATH.'src/components/Console/Command/HelpCommand.php',
