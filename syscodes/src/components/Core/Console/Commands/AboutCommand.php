@@ -25,15 +25,14 @@ namespace Syscodes\Components\Core\Console\Commands;
 use Locale;
 use Syscodes\Components\Console\Command;
 use Syscodes\Components\Console\Application;
+use Syscodes\Components\Console\Attribute\AsCommandAttribute;
 
 /**
  * A console command to display information about of system.
  */
+#[AsCommandAttribute(name: 'about', description: 'Display information about the current project')]
 class AboutCommand extends Command
 {
-    protected static $defaultName = 'about';
-    protected static $defaultDescription = 'Display information about the current project';
-
     /**
      * Gets input definition for command.
      * 
@@ -41,9 +40,7 @@ class AboutCommand extends Command
      */
     protected function define()
     {
-        $this->setName(static::$defaultName)
-             ->setDescription(static::$defaultDescription)
-             ->setHelp(<<<'EOT'
+        $this->setHelp(<<<'EOT'
              The <comment>%command-name%</> command displays information about the current Lenevor project.
             
              The <comment>PHP</> section displays important configuration that could affect your application. The values might
@@ -59,11 +56,9 @@ class AboutCommand extends Command
      * 
      * @throws \LogicException
      */
-    protected function handle()
+    public function handle()
     {
         echo $this->buildInfo($this->getApplication());
-
-        return 0;
     }
 
     /**
