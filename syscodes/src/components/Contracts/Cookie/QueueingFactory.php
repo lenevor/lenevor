@@ -34,7 +34,7 @@ interface QueueingFactory extends Factory
      * 
      * @return bool
      */
-    public function hasQueued(string $key, string $path = null): bool;
+    public function hasQueued(string $key, ?string $path = null): bool;
     
     /**
      * Get a queued cookie instance.
@@ -45,7 +45,7 @@ interface QueueingFactory extends Factory
      * 
      * @return \Syscodes\Components\Http\Cookie|null
      */
-    public function queued(string $key, mixed $default = null, string $path = null);
+    public function queued(string $key, mixed $default = null, ?string $path = null);
 
     /**
      * Queue a cookie to send with the next response.
@@ -65,7 +65,7 @@ interface QueueingFactory extends Factory
      * 
      * @return void
      */
-    public function expire(string $name, string $path = null, string $domain = null): void;
+    public function expire(string $name, ?string $path = null, ?string $domain = null): void;
     
     /**
      * Remove a cookie from the queue.
@@ -75,7 +75,7 @@ interface QueueingFactory extends Factory
      * 
      * @return void
      */
-    public function unqueue(string $name, string $path = null): void;
+    public function unqueue(string $name, ?string $path = null): void;
     
     /**
      * Set the default path and domain for the cookie.
@@ -87,7 +87,7 @@ interface QueueingFactory extends Factory
      * 
      * @return static
      */
-    public function setDefaultPathAndDomain(string $path, string $domain, bool $secure = false, string $sameSite = null): static;
+    public function setDefaultPathAndDomain(string $path, string $domain, bool $secure = false, ?string $sameSite = null): static;
     
     /**
      * Get the cookies which have been queued for the next request.
