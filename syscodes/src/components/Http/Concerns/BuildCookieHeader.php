@@ -48,12 +48,12 @@ trait BuildCookieHeader
         string $name,
         string $value,
         int $expire = 0,
-        string $path = null,
-        string $domain = null,
+        ?string $path = null,
+        ?string $domain = null,
         bool $secure = false,
         bool $httpOnly = false,
         bool $raw = false,
-        string $sameSite = null
+        ?string $sameSite = null
     ): string {
         if ($raw) {
             $headerStr = $name;
