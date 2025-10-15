@@ -30,22 +30,22 @@ use Syscodes\Components\Contracts\Session\Session;
 class SessionDecorator implements SessionInterface
 {
     /**
-     * The session store.
+     * The Lenevor session store.
      * 
-     * @var \Syscodes\Components\Session\Store $store
+     * @var \Syscodes\Components\Contracts\Session\Session $store
      */
-    protected $store;
+    public readonly Session $store;
 
     /**
      * Constructor. The new Session class instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Session  $session
+     * @param  \Syscodes\Components\Contracts\Session\Session  $store
      * 
      * @return void
      */
-    public function __construct(Session $session)
+    public function __construct(Session $store)
     {
-        $this->store = $session;
+        $this->store = $store;
     }
 
     /**
@@ -77,9 +77,7 @@ class SessionDecorator implements SessionInterface
      */
     public function setId(string $id): void
     {
-        if ($this->getId() !== $id) {
-            $this->store->setId($id);
-        }
+        $this->store->setId($id);
     }
     
     /**
