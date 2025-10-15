@@ -23,15 +23,13 @@
 namespace Syscodes\Components\Http;
 
 use Closure;
-use LogicException;
 use RuntimeException;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Http\Loaders\Parameters;
-use Syscodes\Components\Http\Helpers\RequestUtils;
-use Syscodes\Components\Http\Resources\HttpRequest;
-use Syscodes\Components\Http\Resources\HttpResources;
 use Syscodes\Components\Http\Session\SessionDecorator;
+use Syscodes\Components\Http\Session\SessionInterface;
+use Syscodes\Bundles\ApplicationBundle\Http\BaseRequest;
 use Syscodes\Components\Http\Concerns\CanBePrecognitive;
 use Syscodes\Components\Http\Concerns\InteractsWithInput;
 use Syscodes\Components\Http\Concerns\InteractsWithFlashData;
@@ -41,42 +39,19 @@ use Syscodes\Components\Http\Exceptions\SessionNotFoundException;
 /**
  * Request represents an HTTP request.
  */
-class Request
+class Request extends BaseRequest
 {
-	use HttpRequest,
-	    HttpResources,
-	    CanBePrecognitive,	    
+	use CanBePrecognitive,	    
 	    InteractsWithInput,
 	    InteractsWithFlashData,
 	    InteractsWithContentTypes;
 
 	/**
-	 * Get the acceptable of content types.
-	 * 
-	 * @var string[] $acceptableContenTypes
-	 */
-	protected $acceptableContentTypes;
-
-	/**
 	 * The decoded JSON content for the request.
 	 * 
-	 * @var \Syscodes\Components\Http\Loaders\Parameters|null $json
+	 * @var \Syscodes\Bundles\ApplicationBundle\Http\Loaders\Parameters|null $json
 	 */
 	protected $json;
-
-	/**
-	 * The path info of URL.
-	 * 
-	 * @var string $pathInfo
-	 */
-	protected $pathInfo;
-
-	/**
-	 * Get request URI.
-	 * 
-	 * @var string $requestToUri
-	 */
-	protected $requestToUri;
 
 	/**
 	 * Get the route resolver callback.
@@ -84,13 +59,6 @@ class Request
 	 * @var \Closure $routeResolver
 	 */
 	protected $routeResolver;
-
-	/**
-	 * The Session implementation.
-	 * 
-	 * @var \Syscodes\Components\Contracts\Session\Session $session
-	 */
-	protected $session;
 
 	/**
 	 * Create a new Syscodes HTTP request from server variables.
@@ -105,50 +73,32 @@ class Request
 	}
 
 	/**
-     * Normalizes a query string.
-     * 
-     * @param  string  $query
-     * 
-     * @return string
-     */
-    public static function normalizedQueryString(?string $query): string
-    {
-        if ('' === ($query ?? '')) {
-            return '';
-        }
-
-        $query = RequestUtils::parseQuery($query);
-
-        ksort($query);
-
-        return http_build_query($query, '', '&', \PHP_QUERY_RFC3986);
-    }
-
-	/**
-	 * Constructor. Create new the Request class.
+	 * Creates an Syscodes request from of the Request class instance.
 	 * 
-	 * @param  array  $query
-	 * @param  array  $request
-	 * @param  array  $attributes
-	 * @param  array  $cookies
-	 * @param  array  $files
-	 * @param  array  $server
-	 * @param  string|resource|null $content  
+	 * @param  \Syscodes\Components\Http\Request  $request
 	 * 
-	 * @return void
+	 * @return static
 	 */
-	public function __construct(
-		array $query = [],
-		array $request = [],
-		array $attributes = [],
-		array $cookies = [],
-		array $files = [],
-		array $server = [],
-		$content = null
-	) {
-		$this->initialize($query, $request, $attributes, $cookies, $files, $server, $content);
+	public static function createFromRequest($request): static
+	{
+		$newRequest = (new static)->duplicate(
+			$request->query->all(),
+			$request->request->all(),
+			$request->attributes->all(),
+			$request->cookies->all(),
+			$request->files->all(),
+			$request->server->all()
+		);
 		
-		$this->detectLocale();
+		$newRequest->headers->replace($request->headers->all());
+		
+		$newRequest->content = $request->content;
+		
+		if ($newRequest->isJson()) {
+			$newRequest->request = $newRequest->json();
+		}
+		
+		return $newRequest;
 	}
 
 	/**
@@ -217,10 +167,10 @@ class Request
 	 * 
 	 * @throws \Syscodes\Components\Http\Exceptions\SessionNotFoundException
 	 */
-	public function getSession()
+	public function getSession(): SessionInterface
 	{
-		$this->hasSession()
-		            ? new SessionDecorator($this->session())
+		return $this->hasSession()
+		            ? $this->session
 					: throw new SessionNotFoundException;
 	}
 
@@ -231,7 +181,7 @@ class Request
 	 */
 	public function hasSession(): bool
 	{
-		return ! is_null($this->session);
+		return $this->session instanceof SessionDecorator;
 	}
 
 	/**
@@ -247,7 +197,7 @@ class Request
 			throw new RuntimeException('Session store not set on request');
 		}
 		
-		return $this->session;
+		return $this->session->store;
 	}
 	
 	/**
@@ -257,9 +207,9 @@ class Request
 	 * 
 	 * @return void
 	 */
-	public function setSession($session): void
+	public function setLenevorSession($session): void
 	{
-		$this->session = $session;
+		$this->session = new SessionDecorator($session);
 	}
 
 	/**
@@ -352,84 +302,6 @@ class Request
 	{
 		return strcasecmp($this->server->get('HTTP_X_MOZ') ?? '', 'prefetch') === 0 ||
 		       strcasecmp($this->headers->get('Purpose') ?? '', 'prefetch') === 0;
-	}
-
-	/**
-	 * Checks if the method request is of specified type.
-	 * 
-	 * @param  string  $method
-	 * 
-	 * @return bool
-	 */
-	public function isMethod(string $method): bool
-	{
-		return $this->getMethod() === strtoupper($method);
-	}
-
-	/**
-     * Alias of the request method.
-     * 
-     * @return string
-     */
-    public function method(): string
-    {
-        return $this->getMethod();
-    }
-
-	/**
-	 * Returns the input method used (GET, POST, DELETE, etc.).
-	 *
-	 * @return string
-	 * 
-	 * @throws \LogicException  
-	 */
-	public function getmethod(): string
-	{
-		if (null !== $this->method) {
-			return $this->method;
-		}
-		
-		$this->method = strtoupper($this->server->get('REQUEST_METHOD', 'GET'));
-		
-		if ('POST' !== $this->method) {
-			return $this->method;
-		}
-		
-		$method = $this->headers->get('X-HTTP-METHOD-OVERRIDE');
-		
-		if ( ! $method && self::$httpMethodParameterOverride) {
-			$method = $this->request->get('_method', $this->query->get('_method', 'POST'));
-		}
-		
-		if ( ! is_string($method)) {
-			return $this->method;
-		}
-		
-		$method = strtoupper($method);
-		
-		if (in_array($method, ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'PATCH', 'PURGE', 'TRACE'], true)) {
-			return $this->method = $method;
-		}
-		
-		if ( ! preg_match('/^[A-Z]++$/D', $method)) {
-			throw new LogicException(sprintf('Invalid method override "%s".', $method));
-		}
-		
-		return $this->method = $method;
-	}
-
-	/**
-	 * Sets the request method.
-	 *
-	 * @param  string  $method  
-	 *
-	 * @return void
-	 */
-	public function setMethod(string $method): void
-	{
-		$this->method = null;
-
-		$this->server->set('REQUEST_METHOD', $method);
 	}
 
 	/**
@@ -534,74 +406,6 @@ class Request
 	}
 	
 	/**
-	 * Generates the normalized query string for the Request.
-	 * 
-	 * @return string
-	 */
-	public function getQueryString(): string|null
-	{
-		$queryString = static::normalizedQueryString($this->server->get('QUERY_STRING'));
-		
-		return '' === $queryString ? null : $queryString;
-	}
-
-	/**
-	 * Retunrs the request body content.
-	 * 
-	 * @return string
-	 */
-	public function getContent(): string
-	{
-		if (null === $this->content || false === $this->content) {
-			$this->content = file_get_contents('php://input');
-		}
-
-		return $this->content;
-	}
-
-	/**
-	 * Returns the path being requested relative to the executed script. 
-	 * 
-	 * @return string
-	 */
-	public function getPathInfo(): string
-	{
-		if (null === $this->pathInfo) {
-			$this->pathInfo = $this->parsePathInfo();
-		}
-
-		return $this->pathInfo;
-	}
-
-	/**
-	 * Returns the root URL from which this request is executed.
-	 * 
-	 * @return string
-	 */
-	public function getBaseUrl(): string
-	{
-		if (null === $this->baseUrl) {
-			$this->baseUrl = $this->parseBaseUrl();
-		}
-
-		return $this->baseUrl;
-	}
-
-	/**
-	 * Returns the requested URI.
-	 * 
-	 * @return string
-	 */
-	public function getRequestUri(): string
-	{
-		if (null === $this->requestToUri) {
-			$this->requestToUri = $this->parseRequestUri();
-		}
-
-		return $this->requestToUri;
-	}
-	
-	/**
 	 * Generates a normalized URI (URL) for the Request.
 	 * 
 	 * @return string
@@ -646,25 +450,6 @@ class Request
 	{
 		return $this->server->get('HTTP_REFERER', $default);
 	}
-	
-	/**
-	 * Attempts to detect if the current connection is secure through 
-	 * over HTTPS protocol.
-	 * 
-	 * @return bool
-	 */
-	public function secure(): bool
-	{
-		if ( ! empty($this->server->get('HTTPS')) && strtolower($this->server->get('HTTPS')) !== 'off') {
-			return true;
-		} elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $this->server->get('HTTP_X_FORWARDED_PROTO') === 'https') {
-			return true;
-		} elseif ( ! empty($this->server->get('HTTP_FRONT_END_HTTPS')) && strtolower($this->server->get('HTTP_FRONT_END_HTTPS')) !== 'off') {
-			return true;
-		}
-
-		return false;
-	}
 
 	/**
 	 * Returns the user agent.
@@ -673,7 +458,7 @@ class Request
 	 *
 	 * @return string
 	 */
-	public function userAgent(string $default = null): string
+	public function userAgent(?string $default = null): string
 	{
 		return $this->server->get('HTTP_USER_AGENT', $default);
 	}
@@ -738,51 +523,5 @@ class Request
 	public function __get($key)
 	{
 		return Arr::get($this->all(), $key, fn () => $this->route($key));
-	}
-
-	/**
-	 * Magic method.
-	 * 
-	 * Returns the Request as an HTTP string.
-	 * 
-	 * @return string
-	 */
-	public function __toString(): string
-	{
-		$content = $this->getContent();
-
-		$cookieHeader = '';
-		$cookies      = [];
-
-		foreach ($this->cookies as $key => $value) {
-			$cookies[]= is_array($value) ? http_build_query([$key => $value], '', '; ', PHP_QUERY_RFC3986) : "$key=$value";
-		}
-
-		if ($cookies) {
-			$cookieHeader = 'Cookie: '.implode('; ', $cookies)."\r\n";
-		}
-		
-		return sprintf('%s %s %s', $this->getMethod(), $this->getRequestUri(), $this->server->get('SERVER_PROTOCOL'))."\r\n".
-			$this->headers.
-			$cookieHeader."\r\n".
-			$content;
-	}
-
-	/**
-	 * Magic method.
-	 * 
-	 * Clones the current request.
-	 * 
-	 * @return void
-	 */
-	public function __clone()
-	{
-		$this->query      = clone $this->query;
-		$this->request    = clone $this->request;
-		$this->attributes = clone $this->attributes;
-		$this->cookies    = clone $this->cookies;
-		$this->files      = clone $this->files;
-		$this->server     = clone $this->server;
-		$this->headers    = clone $this->headers;
 	}
 }
