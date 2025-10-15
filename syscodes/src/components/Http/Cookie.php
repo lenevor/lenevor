@@ -131,23 +131,23 @@ class Cookie
      */
     public function __construct(
         string $name,
-        string $value = null,
+        ?string $value = null,
         $expire = 0,
         ?string $path = '/',
-        string $domain = null,
-        bool $secure = null,
+        ?string $domain = null,
+        ?bool $secure = null,
         bool $httpOnly = true,
         bool $raw = false,
         ?string $sameSite = self::SAMESITE_RESTRICTION_LAX
     ) {
         if ($raw && false !== strpbrk($name, self::SYS_RESERVED_CHARS_LIST)) {
             throw new InvalidArgumentException(
-                sprintf('The cookie name "%s" contains invalid characters', $name)
+                sprintf('The cookie name "%s" contains invalid characters.', $name)
             );
         }
 
         if (empty($name)) {
-            throw new InvalidArgumentException('The cookie name cannot be empty');
+            throw new InvalidArgumentException('The cookie name cannot be empty.');
         }
 
         $this->name     = $name;
@@ -323,7 +323,7 @@ class Cookie
     {
         if ($raw && false !== strpbrk($this->name, static::SYS_RESERVED_CHARS_LIST)) {
             throw new InvalidArgumentException(
-                sprintf('The cookie name "%s" contains invalid characters', $this->name)
+                sprintf('The cookie name "%s" contains invalid characters.', $this->name)
             );
         }
         
@@ -355,7 +355,7 @@ class Cookie
                 null
             ], true)
         ) {
-            throw new InvalidArgumentException('The "sameSite" parameter value is not valid');
+            throw new InvalidArgumentException('The "sameSite" parameter value is not valid.');
         }
         
         $cookie = clone $this;
