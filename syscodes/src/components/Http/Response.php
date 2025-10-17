@@ -25,17 +25,17 @@ namespace Syscodes\Components\Http;
 use JsonSerializable;
 use UnexpectedValueException;
 use Syscodes\Components\Http\ResponseHeaders;
-use Syscodes\Components\Http\Resources\HttpResponse;
+use Syscodes\Components\Http\Concerns\StatusCode;
 use Syscodes\Components\Contracts\Support\Renderable;
-use Syscodes\Components\Http\Resources\HttpStatusCode;
+use Syscodes\Components\Http\Concerns\StatusResponse;
 
 /**
  * Response represents an HTTP response.
  */
 class Response
 {
-	use HttpResponse,
-        HttpStatusCode;
+	use StatusCode,
+	    StatusResponse;
 
 	/**
 	 * Sets up the response with a content and a status code.
