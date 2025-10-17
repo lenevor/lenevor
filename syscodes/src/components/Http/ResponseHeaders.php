@@ -23,7 +23,7 @@
 namespace Syscodes\Components\Http;
 
 use InvalidArgumentException;
-use Syscodes\Components\Http\Loaders\Headers;
+use Syscodes\Bundles\ApplicationBundle\Http\Loaders\Headers;
 
 /**
  * ResponseHeaders is a container for Response HTTP headers.
@@ -106,7 +106,7 @@ class ResponseHeaders extends Headers
 	 * 
 	 * @return array
 	 */
-	public function all(string $key = null): array
+	public function all(?string $key = null): array
 	{
 		$headers = parent::all();
 		
