@@ -95,7 +95,7 @@ class StartSession
      */
     protected function handleStatefulRequest(Request $request, Session $session, Closure $next)
     {
-        $request->setSession(
+        $request->setLenevorSession(
             $this->startSession($request, $session)
         );
 
