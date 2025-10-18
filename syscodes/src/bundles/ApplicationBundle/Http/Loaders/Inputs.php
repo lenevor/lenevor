@@ -22,13 +22,14 @@
 
 namespace Syscodes\Bundles\ApplicationBundle\Http\Loaders;
 
+use Stringable;
 use Syscodes\Components\Core\Http\Exceptions\BadRequestHttpException;
 
 /**
  * Inputs is a container for user input values such as 
  * $_GET, $_POST, $_REQUEST, and $_COOKIE.
  */
-class Inputs extends Parameters
+final class Inputs extends Parameters
 {
 	/**
 	 * Replaces the current parameters.
@@ -67,13 +68,13 @@ class Inputs extends Parameters
 	 */
 	public function get(string $key, mixed $default = null): string|int|float|bool|null
 	{
-		if (null !== $default && ! is_scalar($default) && ! method_exists($default, '__toString')) {
+		if (null !== $default && ! is_scalar($default) && ! $default instanceof Stringable) {
 			throw new BadRequestHttpException(sprintf('Passing a non-string value as 2nd argument to "%s()" is deprecated, pass a string or null instead.', __METHOD__));
 		}
 		
 		$value = parent::get($key, $this);
 		
-		if (null !== $value && $this !== $value && ! is_scalar($value) && ! method_exists($value, '__toString')) {
+		if (null !== $value && $this !== $value && ! is_scalar($value) && ! $value instanceof Stringable) {
 			throw new BadRequestHttpException(sprintf('Retrieving a non-string value from "%s()" is deprecated, and will throw a exception in Syscodes, use "%s::all($key)" instead.', __METHOD__, __CLASS__));
 		}
 		
