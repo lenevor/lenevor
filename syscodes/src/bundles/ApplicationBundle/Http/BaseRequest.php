@@ -59,9 +59,9 @@ class BaseRequest
 	/**
 	 * Holds the global active request instance.
 	 *
-	 * @var bool $requestURI
+	 * @var \Closure $requestToUri
 	 */
-	protected static $requestURI;
+	protected static ?Closure $requestToUri = null;
 
 	/**
 	 * Get the acceptable of content types.
@@ -75,7 +75,7 @@ class BaseRequest
 	 * 
 	 * @var \Syscodes\Bundles\ApplicationBundle\Http\Loaders\Parameters $attributes
 	 */
-	public $attributes;
+	public Parameters $attributes;
 
 	/**
 	 * The base URL.
@@ -96,7 +96,7 @@ class BaseRequest
 	 * 
 	 * @var \Syscodes\Bundles\ApplicationBundle\Http\Loaders\Inputs $cookies
 	 */
-	public $cookies;
+	public Inputs $cookies;
 
 	/**
 	 * Gets the string with format JSON.
@@ -117,14 +117,14 @@ class BaseRequest
 	 * 
 	 * @var \Syscodes\Bundles\ApplicationBundle\Http\Loaders\Files $files
 	 */
-	public $files;
+	public Files $files;
 	
 	/**
 	 * Get the headers request ($_SERVER).
 	 * 
 	 * @var \Syscodes\Bundles\ApplicationBundle\Http\Loaders\Headers $headers
 	 */
-	public $headers;
+	public Headers $headers;
 
 	/**
 	 * The current language of the application.
@@ -157,23 +157,16 @@ class BaseRequest
 	/**
 	 * Query string parameters ($_GET).
 	 * 
-	 * @var \Syscodes\Bundles\ApplicationBundle\Http\Loaders\Parameters $query
+	 * @var \Syscodes\Bundles\ApplicationBundle\Http\Loaders\Inputs $query
 	 */
-	public $query;
+	public Inputs $query;
 
 	/**
 	 * Request body parameters ($_POST).
 	 * 
-	 * @var \Syscodes\Bundles\ApplicationBundle\Http\Loaders\Parameters $request
+	 * @var \Syscodes\Bundles\ApplicationBundle\Http\Loaders\Inputs $request
 	 */
-	public $request;
-
-	/**
-	 * Get request URI.
-	 * 
-	 * @var string $requestToUri
-	 */
-	protected $requestToUri;
+	public Inputs $request;
 
 	/**
 	 * The Session implementation.
@@ -187,7 +180,14 @@ class BaseRequest
 	 * 
 	 * @var \Syscodes\Bundles\ApplicationBundle\Http\Loaders\Server $server
 	 */
-	public $server;
+	public Server $server;
+
+	/**
+	 * Get the request uri.
+	 * 
+	 * @var string|null $requestUri
+	 */
+	protected ?string $requestUri = null;
 
 	/** 
 	 * List of routes uri.
@@ -289,11 +289,11 @@ class BaseRequest
 		array $server = [],
 		?string $content = null 
 	): static {
-		if (self::$requestURI) {
-			$request = (self::$requestURI)($query, $request, [], $cookies, $files, $server, $content = null);
+		if (self::$requestToUri) {
+			$request = (self::$requestToUri)($query, $request, [], $cookies, $files, $server, $content = null);
 
 			if ( ! $request instanceof self) {
-				throw new LogicException('The Request active must return an instance of Syscodes\Bundles\ApplicationBundle\Http');
+				throw new LogicException('The Request active must return an instance of Syscodes\Bundles\ApplicationBundle\Http.');
 			}
 
 			return $request;
@@ -311,7 +311,7 @@ class BaseRequest
 	 */
 	public static function setFactory(?callable $request): void
 	{
-		self::$requestURI = $request;
+		self::$requestToUri = $request;
 	}
 
 	/**
@@ -612,11 +612,7 @@ class BaseRequest
 	 */
 	public function getPathInfo(): string
 	{
-		if (null === $this->pathInfo) {
-			$this->pathInfo = $this->parsePathInfo();
-		}
-
-		return $this->pathInfo;
+		return $this->pathInfo ??= $this->parsePathInfo();
 	}
 
 	/**
@@ -626,11 +622,7 @@ class BaseRequest
 	 */
 	public function getBaseUrl(): string
 	{
-		if (null === $this->baseUrl) {
-			$this->baseUrl = $this->parseBaseUrl();
-		}
-
-		return $this->baseUrl;
+		return $this->baseUrl ??= $this->parseBaseUrl();
 	}
 
 	/**
@@ -640,11 +632,7 @@ class BaseRequest
 	 */
 	public function getRequestUri(): string
 	{
-		if (null === $this->requestToUri) {
-			$this->requestToUri = $this->parseRequestUri();
-		}
-
-		return $this->requestToUri;
+		return $this->requestUri ??= $this->parseRequestUri();
 	}
 
 	/**
