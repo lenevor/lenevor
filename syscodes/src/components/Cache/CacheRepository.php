@@ -401,11 +401,25 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Get the cache store implementation.
      * 
-     * @return \Syscodes\Contracts\Cache\Store
+     * @return \Syscodes\Components\Contracts\Cache\Store
      */
     public function getStore()
     {
         return $this->store;
+    }
+
+    /**
+     * Set the cache store implementation.
+     *
+     * @param  \Syscodes\Components\Contracts\Cache\Store  $store
+     * 
+     * @return static
+     */
+    public function setStore($store): static
+    {
+        $this->store = $store;
+
+        return $this;
     }
 
     /**
