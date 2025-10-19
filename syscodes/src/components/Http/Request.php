@@ -26,13 +26,13 @@ use Closure;
 use RuntimeException;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
-use Syscodes\Components\Http\Loaders\Parameters;
 use Syscodes\Components\Http\Session\SessionDecorator;
 use Syscodes\Components\Http\Session\SessionInterface;
 use Syscodes\Bundles\ApplicationBundle\Http\BaseRequest;
 use Syscodes\Components\Http\Concerns\CanBePrecognitive;
 use Syscodes\Components\Http\Concerns\InteractsWithInput;
 use Syscodes\Components\Http\Concerns\InteractsWithFlashData;
+use Syscodes\Bundles\ApplicationBundle\Http\Loaders\Parameters;
 use Syscodes\Components\Http\Concerns\InteractsWithContentTypes;
 use Syscodes\Components\Http\Exceptions\SessionNotFoundException;
 
@@ -218,7 +218,7 @@ class Request extends BaseRequest
 	 * @param  string|null  $key  
 	 * @param  mixed  $default  
 	 * 
-	 * @return \Syscodes\Components\Http\Loaders\Parameters|mixed
+	 * @return \Syscodes\Bundles\ApplicationBundle\Http\Loaders\Parameters|mixed
 	 */
 	public function json($key = null, $default = null)
 	{
@@ -236,7 +236,7 @@ class Request extends BaseRequest
 	/**
 	 * Set the JSON payload for the request.
 	 * 
-	 * @param  \Syscodes\Components\Http\Loaders\Parameters  $json
+	 * @param  \Syscodes\Bundles\ApplicationBundle\Http\Loaders\Parameters  $json
 	 * 
 	 * @return static
 	 */
