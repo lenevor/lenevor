@@ -258,7 +258,7 @@ class StartSession
      * 
      * @return bool
      */
-    protected function sessionIsPersistent(array $config = null): bool
+    protected function sessionIsPersistent(?array $config = null): bool
     {
         $config = $config ?: $this->manager->getSessionConfig();
         
