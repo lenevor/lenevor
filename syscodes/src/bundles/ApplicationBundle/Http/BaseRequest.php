@@ -259,6 +259,10 @@ class BaseRequest
 	{
 		$request = static::createFromRequestFactory($_GET, $_POST, [], $_COOKIE, $_FILES, $_SERVER);
 
+		if ( ! in_array($request->server->get('REQUEST_METHOD', 'GET'), ['PUT', 'DELETE', 'PATCH', 'QUERY'], true)) {
+            return $request;
+        }
+
 		if (Str::startsWith($request->headers->get('CONTENT_TYPE', ''), 'application/x-www-form-urlencoded')
 		    && in_array(strtoupper($request->server->get('REQUEST_METHOD', 'GET')), ['PUT', 'DELETE', 'PATCH'])) {
 			parse_str($request->getContent(), $data);
@@ -463,6 +467,31 @@ class BaseRequest
 		Locale::setDefault($locale);
 			
 		return $this;
+	}
+
+	/**
+	 * Returns the full request string.
+	 * 
+	 * @param  string  $key
+	 * @param  mixed  $default
+	 *
+	 * @return mixed 
+	 */
+	public function get(string $key, $default = null): mixed
+	{
+		if ($this !== $result = $this->attributes->get($key, $this)) {
+			return $result;
+		}
+
+		if ($this->query->has($key)) {
+			return $this->query->all()[$key];
+		}
+		
+		if ($this->request->has($key)) {
+			return $this->request->all()[$key];
+		}
+		
+		return $default;
 	}
 
 	/**
@@ -742,7 +771,7 @@ class BaseRequest
 	 */
 	public function getContent(bool $asResource = false): string
 	{
-		$currentContentIsResource = \is_resource($this->content);
+		$currentContentIsResource = is_resource($this->content);
 
         if (true === $asResource) {
             if ($currentContentIsResource) {
