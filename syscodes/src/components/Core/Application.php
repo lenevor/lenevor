@@ -341,7 +341,7 @@ class Application extends Container implements ApplicationContract
         $this->instance('path.bootstrap', $this->bootstrapPath());
         
         $this->setBootstrapPath(value(function () {
-            return is_dir($directory = $this->basePath('.lenevor'))
+            return is_dir($directory = $this->basePath('lenevor'))
                         ? $directory
                         : $this->basePath('bootstrap');
         }));
