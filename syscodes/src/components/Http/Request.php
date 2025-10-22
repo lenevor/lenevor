@@ -69,17 +69,17 @@ class Request extends BaseRequest
 	{
 		static::enabledHttpMethodParameterOverride();
 		
-		return static::createFromRequest(static::createFromRequestGlobals());
+		return static::createFromRequest(BaseRequest::createFromRequestGlobals());
 	}
 
 	/**
 	 * Creates an Syscodes request from of the Request class instance.
 	 * 
-	 * @param  \Syscodes\Components\Http\Request  $request
+	 * @param  \Syscodes\Bundles\ApplicationBundle\Http\BaseRequest  $request
 	 * 
 	 * @return static
 	 */
-	public static function createFromRequest($request): static
+	public static function createFromRequest(BaseRequest $request): static
 	{
 		$newRequest = (new static)->duplicate(
 			$request->query->all(),
@@ -140,24 +140,14 @@ class Request extends BaseRequest
 	 * 
 	 * @param  string  $key
 	 * @param  mixed  $default
+	 * 
 	 *
 	 * @return mixed 
 	 */
-	public function get(string $key, $default = null) 
+	#[\Override]
+	public function get(string $key, $default = null): mixed
 	{
-		if ($this !== $result = $this->attributes->get($key, $this)) {
-			return $result;
-		}
-
-		if ($this->query->has($key)) {
-			return $this->query->all()[$key];
-		}
-		
-		if ($this->request->has($key)) {
-			return $this->request->all()[$key];
-		}
-		
-		return $default;
+		return parent::get($key, $default);
 	}
 
 	/**
