@@ -25,6 +25,7 @@ namespace Syscodes\Components\Core\Providers;
 use Syscodes\Components\Support\ServiceProvider;
 use Syscodes\Components\Contracts\Support\Deferrable;
 use Syscodes\Components\Core\Console\Commands\AboutCommand;
+use Syscodes\Components\Core\Console\Commands\ServeCommand;
 use Syscodes\Components\Core\Console\Commands\KeyGenerateCommand;
 
 /**
@@ -48,7 +49,9 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
      * 
      * @var array $devCommands
      */
-    protected $devCommands = [];
+    protected $devCommands = [
+        'Serve' => ServeCommand::class,
+    ];
 
     /**
      * Register any application services.
@@ -92,6 +95,18 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
     {
         $this->app->singleton(AboutCommand::class, function () {
             return new AboutCommand();
+        });
+    }
+
+    /**
+     * Register the command.
+     * 
+     * @return void
+     */
+    protected function registerServeCommand()
+    {
+        $this->app->singleton(ServeCommand::class, function () {
+            return new ServeCommand();
         });
     }
     
