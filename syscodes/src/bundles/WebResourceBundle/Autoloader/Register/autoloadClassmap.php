@@ -79,6 +79,8 @@ return [
     'Syscodes\\Components\\Console\\Command\\ListCommand' => SYS_PATH.'src/components/Console/Command/ListCommand.php',
     'Syscodes\\Components\\Console\\CommandLoader\\CommandLoader' => SYS_PATH.'src/components/Console/CommandLoader/CommandLoader.php',
     'Syscodes\\Components\\Console\\Concerns\\BuildConsoleVersion' => SYS_PATH.'src/components/Console/Concerns/BuildConsoleVersion.php',
+    'Syscodes\\Components\\Console\\Concerns\\ConfirmProcess' => SYS_PATH.'src/components/Console/Concerns/ConfirmProcess.php',
+    'Syscodes\\Components\\Console\\Concerns\\HasParameters' => SYS_PATH.'src/components/Console/Concerns/HasParameters.php',
     'Syscodes\\Components\\Console\\Concerns\\InteractsIO' => SYS_PATH.'src/components/Console/Concerns/InteractsIO.php',
     'Syscodes\\Components\\Console\\Description\\ApplicationDescription' => SYS_PATH.'src/components/Console/Description/ApplicationDescription.php',
     'Syscodes\\Components\\Console\\Description\\Descriptor' => SYS_PATH.'src/components/Console/Description/Descriptor.php',
