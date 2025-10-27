@@ -106,7 +106,7 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
     public function get(
         $key,
         array $replace = [],
-        string $locale = null,
+        ?string $locale = null,
         bool $fallback = true
     ) {
         $locale = $locale ?: $this->locale;

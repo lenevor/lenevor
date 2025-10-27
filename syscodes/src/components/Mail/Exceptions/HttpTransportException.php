@@ -50,7 +50,7 @@ class HttpTransportException extends TransportException
         string $message,
         $response,
         int $code = 0,
-        Throwable $previous = null
+        ?Throwable $previous = null
     ) {
         parent::__construct($message, $code, $previous);
 

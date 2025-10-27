@@ -39,7 +39,7 @@ class SessionNotFoundException extends LogicException
      * 
      * @return void 
      */    
-    public function __construct(string $message = '', int $code = 0, Throwable $previous = null)
+    public function __construct(string $message = '', int $code = 0, ?Throwable $previous = null)
     {
         if ($message === '') {
             $message = 'There is currently no session available';
