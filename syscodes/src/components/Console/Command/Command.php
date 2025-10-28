@@ -124,7 +124,7 @@ class Command
     /**
      * The console command name.
      * 
-     * @var string $name
+     * @var string|null $name
      */
     protected ?string $name = null;
 
