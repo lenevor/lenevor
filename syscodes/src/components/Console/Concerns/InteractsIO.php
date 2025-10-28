@@ -149,7 +149,7 @@ trait InteractsIO
 	 */
 	public function newline(int $num = 1)
 	{
-		$this->newLine($num);
+		$this->output->newLine($num);
 	}
 	
 	/**
