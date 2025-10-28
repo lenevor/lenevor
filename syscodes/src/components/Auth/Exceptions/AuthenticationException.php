@@ -22,7 +22,6 @@
 
 namespace Syscodes\Components\Auth\Exceptions;
 
-use Closure;
 use Exception;
 use Syscodes\Components\Http\Request;
 
