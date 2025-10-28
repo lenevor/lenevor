@@ -23,6 +23,8 @@
 namespace Syscodes\Components\Core\Console\Commands;
 
 use Syscodes\Components\Console\Command;
+use Syscodes\Components\Support\Environment;
+use  Syscodes\Components\Console\Input\InputOption;
 use Syscodes\Components\Console\Attribute\AsCommandAttribute;
 
 /**
@@ -31,10 +33,17 @@ use Syscodes\Components\Console\Attribute\AsCommandAttribute;
 #[AsCommandAttribute(name: 'serve')]
 class ServeCommand extends Command
 {
+    /**
+     * The console command name.
+     * 
+     * @var string|null $name
+     */
+    protected ?string $name = 'serve';
+
      /**
      * The console command description.
      * 
-     * @var string $description
+     * @var string|null $description
      */
     protected string $description = 'Serve the application on the PHP development server';
 
@@ -49,12 +58,30 @@ class ServeCommand extends Command
     {
         chdir($this->lenevor['path.base']);
 
-        // $host = $this->input->getOption('host');
+        $host = $this->input->getOption('host');
 
-        // $port = $this->input->getOption('port');
+        $port = $this->input->getOption('port');
 
         $public = $this->lenevor['path.public'];
 
-        $this->commandline('<bg=blue;fg=white> INFO </> Lenevor Framework development Server started on http://{$host}:{$port}');
+        $this->commandline("<bg=blue;fg=white> INFO </> Server running on [http://{$host}:{$port}].");
+        $this->commandLine('       <fg=yellow;options=bold>Press Ctrl+C to stop the server</>');
+
+        $this->newline();
+
+        passthru('"'.PHP_BINARY.'"'." -S {$host}:{$port} -t \"{$public}\"");
+    }
+
+    /**
+     * Get the console command options.
+     * 
+     * @return array
+     */
+    protected function getOptions(): array
+    {
+        return [
+            ['host', null, InputOption::VALUE_OPTIONAL, 'The host address to serve the application on', Environment::get('SERVER_HOST', '127.0.0.1')],
+            ['port', null, InputOption::VALUE_OPTIONAL, 'The port to serve the application on', Environment::get('SERVER_PORT')],
+        ];
     }
 }
