@@ -178,8 +178,12 @@ class OutputFormatter implements OutputFormatterInterface
      */
     private function createStyleFromString($string)
     {
-        if ( ! preg_match_all('/([^=]+)=([^;]+)(;|$)/', strtolower($string), $matches, PREG_SET_ORDER)) {
-            return false;
+        if (isset($this->styles[$string])) {
+            return $this->styles[$string];
+        }
+
+        if ( ! preg_match_all('~([^=]+)=([^;]+)(;|$)~', $string, $matches, PREG_SET_ORDER)) {
+            return null;
         }
 
         $style = new OutputFormatterStyle();
@@ -187,12 +191,22 @@ class OutputFormatter implements OutputFormatterInterface
         foreach ($matches as $match) {
             array_shift($match);
 
+            $match[0] = strtolower($match[0]);
+
             if ('fg' == $match[0]) {
                 $style->setForeground($match[1]);
             } elseif ('bg' == $match[0]) {
                 $style->setBackground($match[1]);
+            } elseif ('options' === $match[0]) {
+                preg_match_all('([^,;]+)', strtolower($match[1]), $options);
+                
+                $options = array_shift($options);
+                
+                foreach ($options as $option) {
+                    $style->setOption($option);
+                }
             } else {
-                $style->setOption($match[1]);
+                return null;
             }
         }
 
