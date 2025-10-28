@@ -57,7 +57,7 @@ trait HasParameters
     /**
      * Get the console command arguments.
      * 
-     * @return arra
+     * @return array
      */
     protected function getArguments(): array
     {
