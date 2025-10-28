@@ -24,7 +24,6 @@ namespace Syscodes\Components\Console;
 
 use Exception;
 use LogicException;
-use Syscodes\Components\Console\Concerns\InteractsIO;
 use Syscodes\Components\Console\Command\Command as BaseCommand;
 use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
 use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
@@ -35,6 +34,7 @@ use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 class Command extends BaseCommand
 {
     use Concerns\ConfirmProcess,
+        Concerns\HasParameters,
         Concerns\InteractsIO;
 
     /**
@@ -59,6 +59,13 @@ class Command extends BaseCommand
     protected $lenevor;
 
     /**
+     * The name and signature of the console command.
+     * 
+     * @var string|null $signature
+     */
+    protected ?string $signature = null;
+
+    /**
      * Constructor. Create a new Command instance.
      * 
      * @return void
@@ -67,9 +74,23 @@ class Command extends BaseCommand
     {
         parent::__construct($this->name);
 
-        $this->setDescription((string) $this->description);
-        $this->setHelp((string) $this->help);
+        if ( ! empty($this->help)) {
+            $this->setDescription($this->description);
+        }
+
+        if ( ! empty($this->help)) {
+            $this->setHelp($this->help);
+        }
+
         $this->setHidden($this->isHidden());
+        
+        if (isset($this->aliases)) {
+            $this->setAliases((array) $this->aliases);
+        }
+
+        if ( ! isset($this->signature)) {
+            $this->specifyParameters();
+        }
     }
 
     /**
