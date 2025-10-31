@@ -61,9 +61,6 @@ class OutputFormatter implements OutputFormatterInterface
         $this->setStyle('info', new OutputFormatterStyle('green'));
         $this->setStyle('comment', new OutputFormatterStyle('yellow'));
         $this->setStyle('question', new OutputFormatterStyle('black', 'cyan'));
-        $this->setStyle('success', new OutputFormatterStyle('black', 'green'));
-        $this->setStyle('note', new OutputFormatterStyle('blue'));
-        $this->setStyle('warning', new OutputFormatterStyle('black', 'yellow'));
 
         foreach ($styles as $name => $style) {
             $this->setStyle($name, $style);
