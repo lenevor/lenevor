@@ -161,7 +161,7 @@ class Gate implements GateContract
      * 
      * @return static
      */
-    public function resource(string $name, string $class, array $abilities = null): static
+    public function resource(string $name, string $class, ?array $abilities = null): static
     {
         $abilities = $abilities ?: [
             'view' => 'view',
@@ -464,7 +464,7 @@ class Gate implements GateContract
         $argument = $arguments[0];
         
         if (is_object($argument)) {
-            $class = getClass($argument, true);
+            $class = get_classname($argument, true);
             
             return isset($this->policies[$class]);
         }
