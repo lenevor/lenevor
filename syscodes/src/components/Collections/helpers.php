@@ -142,22 +142,21 @@ if( ! function_exists('data_set')) {
     }
 }
 
-if ( ! function_exists('headItem')) {
+if ( ! function_exists('head')) {
     /**
      * Get the actual element of an array. Useful for method chaining.
      *
      * @param  array  $array
-     * @param  bool  $bool
      *
      * @return mixed
      */
-    function headItem(array $array, bool $bool = false)
+    function head(array $array)
     {
-        return $bool ? reset($array) : current($array);
+        return empty($array) ? false : reset($array);
     }
 }
 
-if ( ! function_exists('lastItem')) {
+if ( ! function_exists('last')) {
     /**
      * Get the last element from an array.
      *
@@ -165,9 +164,9 @@ if ( ! function_exists('lastItem')) {
      *
      * @return mixed
      */
-    function lastItem(array $array)
+    function last(array $array)
     {
-        return end($array);
+        return empty($array) ? false : end($array);
     }
 }
 
