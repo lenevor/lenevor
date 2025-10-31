@@ -37,7 +37,7 @@ return [
     |
     */
 
-    'filePath' => databasePath().'/',
+    'filePath' => database_path().'/',
 
     /*
     |------------------------------------------------------------------------
@@ -83,7 +83,7 @@ return [
         ],
         'sqlite' => [
             'driver' => 'sqlite',
-            'database' => env('DB_DATABASE', databasePath('data/database.sqlite')),
+            'database' => env('DB_DATABASE', database_path('data/database.sqlite')),
             'prefix' => ''
         ],
         'sqlsrv' => [

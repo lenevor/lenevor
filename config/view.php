@@ -14,7 +14,7 @@ return [
     */
 
     'paths' => [
-        resourcePath('views')
+        resource_path('views')
     ],
 
     /*
@@ -29,7 +29,7 @@ return [
 
     'transpiled' => env(
         'TRANSPILED_VIEW_PATH', 
-        realpath(storagePath('framework/views'))
+        realpath(storage_path('framework/views'))
     ),
 
 ];

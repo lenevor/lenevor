@@ -46,7 +46,7 @@ return [
 
 		'file' => [
 			'driver' => 'file',
-			'path' => storagePath('logs'),
+			'path' => storage_path('logs'),
 			'extension' => 'log',
 			'permission' => FILE_READ_MODE,
 		],
