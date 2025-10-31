@@ -14,7 +14,7 @@
 		<!-- Styles -->
 		<style type="text/css">
 			<@php 
-				echo preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(resourcePath('css/app.css')));
+				echo preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(resource_path('css/app.css')));
 			<@endphp
 		</style>
 	</head>
@@ -72,7 +72,7 @@
 		<script src="https://kit.fontawesome.com/ebd73c60e9.js" crossorigin="anonymous"></script>
 		<script type="text/javascript">
 			<@php 
-				echo preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(resourcePath('js/app.js')));
+				echo preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(resource_path('js/app.js')));
 			<@endphp
 		</script>
 
