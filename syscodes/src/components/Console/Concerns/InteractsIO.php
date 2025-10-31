@@ -147,7 +147,7 @@ trait InteractsIO
 	 * 
 	 * @return string
 	 */
-	public function newline(int $num = 1)
+	public function newLine(int $num = 1)
 	{
 		$this->output->newLine($num);
 	}
@@ -162,7 +162,7 @@ trait InteractsIO
 	 */
 	public function comment(string $message, $verbosity = null)
 	{
-		$this->commandline($message, 'comment', $verbosity);
+		$this->line($message, 'fg=default;bg=default', $verbosity);
 	}
 
 	/**
@@ -175,7 +175,7 @@ trait InteractsIO
 	 */
 	public function note(string $message, $verbosity = null)
 	{
-		$this->commandline($message, 'note', $verbosity);
+		$this->line($message, 'fg=yellow', $verbosity);
 	}
 	
 	/**
@@ -188,7 +188,7 @@ trait InteractsIO
 	 */
 	public function success(string $message, $verbosity = null)
 	{
-		$this->commandline($message, 'success', $verbosity);
+		$this->line($message, 'fg=black;bg=green', $verbosity);
 	}
 	
 	/**
@@ -201,7 +201,20 @@ trait InteractsIO
 	 */
 	public function info(string $message, $verbosity = null)
 	{
-		$this->commandline($message, 'info', $verbosity);
+		$this->line($message, 'fg=green;options=bold', $verbosity);
+	}
+
+	/**
+	 * Writes a string formatting for caution output.
+	 * 
+	 * @param  string  $message
+	 * @param  int|string|null  $verbosity
+	 * 
+	 * @return void
+	 */
+	public function caution(string $message, $verbosity = null)
+	{
+		$this->line($message, 'fg=red;bg=white', $verbosity);
 	}
 
 	/**
@@ -214,7 +227,7 @@ trait InteractsIO
 	 */
 	public function question(string $message, $verbosity = null)
 	{
-		$this->commandline($message, 'question', $verbosity);
+		$this->line($message, 'question', $verbosity);
 	}
 	
 	/**
@@ -227,7 +240,7 @@ trait InteractsIO
 	 */
 	public function warning(string $message, $verbosity = null)
 	{
-		$this->commandline($message, 'warning', $verbosity);
+		$this->line($message, 'fg=black;bg=yellow', $verbosity);
 	}
 	
 	/**
@@ -240,7 +253,7 @@ trait InteractsIO
 	 */
 	public function error(string $message, $verbosity = null)
 	{
-		$this->commandline($message, 'error', $verbosity);
+		$this->line($message, 'fg=white;bg=red;options=bold', $verbosity);
 	}
 	
 	/**
@@ -252,7 +265,7 @@ trait InteractsIO
 	 * 
 	 * @return void
 	 */
-	public function commandline(string $message, ?string $style = null, $verbosity = null)
+	public function line(string $message, ?string $style = null, $verbosity = null)
 	{
 		$styled = $style ? "<$style>$message</>" : $message;
 		
