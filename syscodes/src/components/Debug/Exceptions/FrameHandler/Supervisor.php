@@ -115,7 +115,7 @@ class Supervisor
 		return [
 			'file'  => $exception->getFile(),
 			'line'  => $exception->getLine(),
-			'class' => getClass($exception),
+			'class' => get_classname($exception),
 			'code'  => $exception->getCode(),
 			'args'  => [
 				$exception->getMessage(),
@@ -150,7 +150,7 @@ class Supervisor
 	 */
 	public function getExceptionName()
 	{
-		return getClass($this->exception, true);
+		return get_classname($this->exception, true);
 	}
 	
 	/**
