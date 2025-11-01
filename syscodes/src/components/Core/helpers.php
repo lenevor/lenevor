@@ -25,14 +25,16 @@ use Syscodes\Components\Core\Application;
 use Syscodes\Components\Support\WebString;
 use Syscodes\Components\Support\Facades\Date;
 use Syscodes\Components\Contracts\View\Factory;
-use Syscodes\Components\Routing\Generators\UrlGenerator;
+use Syscodes\Components\Contracts\Auth\Access\Gate;
 use Syscodes\Components\Contracts\Routing\RouteResponse;
+use Syscodes\Components\Routing\Generators\UrlGenerator;
 use Syscodes\Components\Contracts\Debug\ExceptionHandler;
 use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoload;
 use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoloader;
-use Syscodes\Components\Http\Exceptions\HttpResponseException;
 use Syscodes\Components\Contracts\Auth\Factory as AuthFactory;
+use Syscodes\Components\Http\Exceptions\HttpResponseException;
 use Syscodes\Components\Contracts\Cookie\Factory as CookieFactory;
+use Syscodes\Components\Debug\FatalExceptions\FatalThrowableError;
 
 if ( ! function_exists('abort')) {
     /**
@@ -145,7 +147,7 @@ if ( ! function_exists('autoloader')) {
     }
 }
 
-if ( ! function_exists('appPath')) {
+if ( ! function_exists('app_path')) {
     /**
      * Get the path to the application folder.
      * 
@@ -153,7 +155,7 @@ if ( ! function_exists('appPath')) {
      * 
      * @return string
      */
-    function appPath($path = '')
+    function app_path($path = '')
     {
         return app()->path($path);
     }
@@ -208,7 +210,7 @@ if ( ! function_exists('back')) {
     }
 }
 
-if ( ! function_exists('basePath')) {
+if ( ! function_exists('base_path')) {
     /**
      * Get the path to the base of the install.
      *
@@ -216,7 +218,7 @@ if ( ! function_exists('basePath')) {
      * 
      * @return string
      */
-    function basePath($path = '')
+    function base_path($path = '')
     {
         return app()->basePath($path);
     }
@@ -298,7 +300,7 @@ if ( ! function_exists('config')) {
     }
 }
 
-if ( ! function_exists('configPath')) {
+if ( ! function_exists('config_path')) {
     /**
      * Get the path to the configuration folder.
      *
@@ -306,7 +308,7 @@ if ( ! function_exists('configPath')) {
      * 
      * @return string
      */
-    function configPath($path = '')
+    function config_path($path = '')
     {
         return app()->configPath($path);
     }
@@ -381,7 +383,7 @@ if ( ! function_exists('csrf_token')) {
     }
 }
 
-if ( ! function_exists('databasePath')) {
+if ( ! function_exists('database_path')) {
     /**
      * Get the path to the database directory.
      * 
@@ -389,7 +391,7 @@ if ( ! function_exists('databasePath')) {
      * 
      * @return string
      */
-    function databasePath($path = '')
+    function database_path($path = '')
     {
         return app()->databasePath($path);
     }
@@ -456,7 +458,7 @@ if ( ! function_exists('event')) {
     }
 }
 
-if ( ! function_exists('getClass')) {
+if ( ! function_exists('get_classname')) {
     /**
      * Function to crop the full name of the namespace and leave 
      * only the name of the class.
@@ -466,7 +468,7 @@ if ( ! function_exists('getClass')) {
      * 
      * @return array|string
      */
-    function getClass($classname, bool $bool = false)
+    function get_classname($classname, bool $bool = false)
     {
         $position = explode('\\', get_class($classname));
         
@@ -489,13 +491,13 @@ if ( ! function_exists('info')) {
     }
 }
 
-if ( ! function_exists('isCli')) {
+if ( ! function_exists('is_cli')) {
     /**
      * Determines if this request was made from the command line (CLI).
      * 
      * @return bool
      */
-    function isCli()
+    function is_cli()
     {
         return (\PHP_SAPI === 'cli' || defined('STDIN') || \PHP_SAPI === 'phpdbg');
     }
@@ -559,7 +561,7 @@ if ( ! function_exists('isImport')) {
     }
 }
 
-if ( ! function_exists('langPath')) {
+if ( ! function_exists('lang_path')) {
     /**
      * Get the path to the language folder.
      *
@@ -567,7 +569,7 @@ if ( ! function_exists('langPath')) {
      * 
      * @return string
      */
-    function langPath($path = '')
+    function lang_path($path = '')
     {
         return app('path.lang').($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
@@ -592,7 +594,7 @@ if ( ! function_exists('logger')) {
     }
 }
 
-if ( ! function_exists('logs')) {
+if ( ! function_exists('log')) {
     
     /**
      * Get a log level instance.
@@ -603,13 +605,13 @@ if ( ! function_exists('logs')) {
      * 
      * @return \Syscodes\Components\Log\LogManager|\Psr\Log\LoggerInterface
      */
-    function logs($message, array $context = [], $level = 'notice')
+    function log($message, array $context = [], $level = 'notice')
     {
         return app('log')->log($level, $message, $context);
     }
 }
 
-if ( ! function_exists('methodField'))
+if ( ! function_exists('method_field'))
 {
     /**
      * Generate a form field to spoof the HTTP verb used by forms.
@@ -618,7 +620,7 @@ if ( ! function_exists('methodField'))
      * 
      * @return \Syscodes\Components\Support\WebString
      */
-    function methodField($method)
+    function method_field($method)
     {
         return new WebString('<input type="hidden" name="_method" value="'.$method.'">');
     }
@@ -653,6 +655,36 @@ if ( ! function_exists('old')) {
     }
 }
 
+if ( ! function_exists('policy')) {
+    /**
+     * Get a policy instance for a given class.
+     * 
+     * @param  object|string  $class
+     * 
+     * @return mixed
+     * 
+     * @throws \InvalidArgumentException
+     */
+    function policy($class)
+    {
+        return app(Gate::class)->getPolicyFor($class);
+    }
+}
+
+if ( ! function_exists('public_path')) {
+    /**
+     * Get the path to the public folder.
+     *
+     * @param  string  $path
+     * 
+     * @return string
+     */
+    function public_path($path = '')
+    {
+        return app('path.public').($path ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : $path);
+    }
+}
+
 if ( ! function_exists('redirect')) {
     /**
      * Get an instance of the redirect.
@@ -684,8 +716,9 @@ if ( ! function_exists('report')) {
      */
     function report($exception)
     {
-        if (is_string($exception)) {
-            $exception = new Exception($exception);
+        if ($exception instanceof Throwable &&
+          ! $exception instanceof Exception) {
+            $exception = new FatalThrowableError($exception);
         }
 
         app(ExceptionHandler::class)->report($exception);
@@ -755,7 +788,7 @@ if ( ! function_exists('response')) {
     }
 }
 
-if ( ! function_exists('resourcePath')) {
+if ( ! function_exists('resource_path')) {
     /**
      * Get the path to the resources folder.
      *
@@ -763,7 +796,7 @@ if ( ! function_exists('resourcePath')) {
      * 
      * @return string
      */
-    function resourcePath($path = '')
+    function resource_path($path = '')
     {
         return app()->resourcePath($path);
     }
@@ -786,7 +819,7 @@ if ( ! function_exists('route')) {
     }
 }
 
-if ( ! function_exists('secureAsset')) {
+if ( ! function_exists('secure_asset')) {
     /**
      * Generate an asset path for the application.
      * 
@@ -794,13 +827,13 @@ if ( ! function_exists('secureAsset')) {
      * 
      * @return string
      */
-    function secureAsset($path)
+    function secure_asset($path)
     {
         return asset($path, true);
     }
 }
 
-if ( ! function_exists('secureUrl')) {
+if ( ! function_exists('secure_url')) {
     /**
      * Generate a HTTPS URL for the application.
      * 
@@ -809,7 +842,7 @@ if ( ! function_exists('secureUrl')) {
      * 
      * @return string
      */
-    function secureUrl($path, array $parameters = [])
+    function secure_url($path, array $parameters = [])
     {
         return url($path, $parameters, true);
     }
@@ -865,7 +898,7 @@ if ( ! function_exists('segments')) {
     }
 }
 
-if ( ! function_exists('storagePath')) {
+if ( ! function_exists('storage_path')) {
     /**
      * Get the path to the storage folder.
      *
@@ -873,7 +906,7 @@ if ( ! function_exists('storagePath')) {
      * 
      * @return string
      */
-    function storagePath($path = '')
+    function storage_path($path = '')
     {
         return app('path.storage').($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
@@ -911,13 +944,13 @@ if ( ! function_exists('today')) {
     }
 }
 
-if ( ! function_exists('totalSegments')) {
+if ( ! function_exists('total_segments')) {
   /**
      * Returns the total number of segment.
      *
      * @return int
      */
-    function totalSegments()
+    function total_segments()
     {
         return request()->totalSegments();
     }
