@@ -774,7 +774,7 @@ class Application extends Container implements ApplicationContract
     public function runningInConsole()
     {
         if (null === $this->isRunningInConsole) {
-            $this->isRunningInConsole = Environment::get('APP_RUNNING_CONSOLE') ?? isCli();
+            $this->isRunningInConsole = Environment::get('APP_RUNNING_CONSOLE') ?? is_cli();
         }
 
         return $this->isRunningInConsole;
@@ -939,7 +939,7 @@ class Application extends Container implements ApplicationContract
      */
     public function getProviders($provider)
     {
-        $name = is_string($provider) ? $provider : getClass($provider, true);
+        $name = is_string($provider) ? $provider : get_classname($provider, true);
         
         return Arr::where($this->serviceProviders, function ($value) use ($name) {
             return $value instanceof $name;
@@ -969,7 +969,7 @@ class Application extends Container implements ApplicationContract
     {
         $this->serviceProviders[] = $provider;
         
-        $this->loadServiceProviders[getClass($provider, true)] = true;
+        $this->loadServiceProviders[get_classname($provider, true)] = true;
     }
 
     /**
