@@ -56,7 +56,7 @@ class ServeCommand extends Command
      */
     public function handle()
     {
-        chdir($this->lenevor['path.base']);
+        chdir(public_path());
 
         $host = $this->input->getOption('host');
 
@@ -64,13 +64,41 @@ class ServeCommand extends Command
 
         $public = $this->lenevor['path.public'];
 
-        $this->commandline("<bg=blue;fg=white> INFO </> Server running on [http://{$host}:{$port}].");
-        $this->commandLine('       <fg=yellow;options=bold>Press Ctrl+C to stop the server</>');
+        $this->line("<bg=blue;fg=white> INFO </> Server running on [http://{$this->host()}:{$this->port()}].");
+        
+        $this->newLine();
 
-        $this->newline();
+        $this->line('<fg=yellow;options=bold>Press Ctrl+C to stop the server</>');
 
-        passthru('"'.PHP_BINARY.'"'." -S {$host}:{$port} -t \"{$public}\"");
+        $this->newLine();
+
+        passthru('"'.PHP_BINARY.'"'." -S {$host}:{$port} -t \"{$public}\"", $status);
+
+        return $status;
     }
+    
+    /**
+     * Get the host for the command.
+     * 
+     * @return string
+     */
+    protected function host(): string
+    {
+        return $this->input->getOption('host');
+    }
+    
+    /**
+     * Get the port for the command.
+     * 
+     * @return int
+     */
+    protected function port(): int
+    {
+        $port = $this->input->getOption('port') ?: 8000;
+
+        return $port;
+    }
+
 
     /**
      * Get the console command options.
@@ -81,7 +109,7 @@ class ServeCommand extends Command
     {
         return [
             ['host', null, InputOption::VALUE_OPTIONAL, 'The host address to serve the application on', Environment::get('SERVER_HOST', '127.0.0.1')],
-            ['port', null, InputOption::VALUE_OPTIONAL, 'The port to serve the application on', Environment::get('SERVER_PORT')],
+            ['port', null, InputOption::VALUE_OPTIONAL, 'The port to serve the application on', Environment::get('SERVER_PORT', '8000')],
         ];
     }
 }
