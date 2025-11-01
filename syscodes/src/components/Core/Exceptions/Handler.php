@@ -434,7 +434,7 @@ class Handler implements ExceptionHandlerContract
     public function renderForConsole($output, Throwable $e)
     {
         $message = sprintf(
-            $output->write("<error>".getClass($e, true)."</>")." %s in file %s on line %d\n\n%s\n",
+            $output->write("<error>".get_classname($e, true)."</>")." %s in file %s on line %d\n\n%s\n",
             //getClass($e, true),
             $e->getMessage(),            
             $e->getFile(),
