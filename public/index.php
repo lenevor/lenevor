@@ -20,6 +20,7 @@
  */
 
 use Syscodes\Components\Http\Request;
+use Syscodes\Components\Core\Application;
 
 define('LENEVOR_START', microtime(true));
 
@@ -30,6 +31,8 @@ $paths = require __DIR__.'/../config/paths.php';
 if (file_exists($paths['path.sys'].'/src/bundles/WebResourceBundle/Bootstrap/bootstrap.php'))
     require $paths['path.sys'].'/src/bundles/WebResourceBundle/Bootstrap/bootstrap.php';
 
-// Bootstrap the application Lenevor and handle the request...  
-(require_once $paths['path.bootstrap'].'/app.php')
-    ->handleRequest(Request::capture());
+// Bootstrap the application Lenevor and handle the request...
+/** @var Application $app */ 
+$app = require_once $paths['path.bootstrap'].'/app.php';
+
+$app->handleRequest(Request::capture());
