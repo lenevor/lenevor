@@ -17,7 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
     */
 
     ->assignRouting(
-        web: __DIR__.'/../routes/web.php'
+        web: __DIR__.'/../routes/web.php',
     )
     ->assignMiddlewares(function (MiddlewareBootstrap $middleware) {
         //
