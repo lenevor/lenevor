@@ -110,13 +110,13 @@ trait HttpResources
 	 */
 	public function parseBaseUrl(): string
 	{
-		$filename = basename($this->server('SCRIPT_FILENAME'));
+		$filename = basename($this->server('SCRIPT_FILENAME', ''));
 		
-		if ($filename === basename($this->server('SCRIPT_NAME'))) {
+		if ($filename === basename($this->server('SCRIPT_NAME', ''))) {
 			$baseUrl = $this->server('SCRIPT_NAME');
-		} elseif ($filename === basename($this->server('PHP_SELF'))) {
+		} elseif ($filename === basename($this->server('PHP_SELF', ''))) {
 			$baseUrl = $this->server('PHP_SELF');
-		} elseif ($filename === basename($this->server('ORIG_SCRIPT_NAME'))) {
+		} elseif ($filename === basename($this->server('ORIG_SCRIPT_NAME', ''))) {
 			$baseUrl = $this->server('ORIG_SCRIPT_NAME');
 		} else {
 			$path    = $this->server('PHP_SELF', '');
@@ -143,15 +143,26 @@ trait HttpResources
 		
 		if ($baseUrl && null !== $uri = $this->getUrlencoded($requestUri, $baseUrl)) {
 			// Full $baseUrl matches
-			return $this->filterDecode($uri);
+			return $uri;
 		}
 		
-		if ($baseUrl && null !== $uri = $this->getUrlencoded($requestUri, rtrim(dirname($baseUrl), '/'.DIRECTORY_SEPARATOR))) {
+		if ($baseUrl && null !== $prefix = $this->getUrlencoded($requestUri, rtrim(dirname($baseUrl), '/'.DIRECTORY_SEPARATOR))) {
 			// Directory portion of $baseUrl matches
-			return $this->filterDecode($uri);
+			return $this->filterDecode($prefix);
 		}
 
-		$baseUrl = dirname($baseUrl ?? '');
+		$truncatedRequestUri = $requestUri;
+
+        if (false !== $pos = strpos($requestUri, '?')) {
+            $truncatedRequestUri = substr($requestUri, 0, $pos);
+        }
+		
+		$basename = basename($baseUrl ?? '');
+
+        if ( ! $basename || ! strpos(rawurldecode($truncatedRequestUri), $basename)) {
+            // no match whatsoever; set it blank
+            return '';
+        }
 		
 		// If using mod_rewrite or ISAPI_Rewrite strip the script filename
 		// out of baseUrl. $pos !== 0 makes sure it is not matching a value
@@ -212,7 +223,6 @@ trait HttpResources
 		$pathInfo = substr($requestUri, \strlen($baseUrl));
 		
 		if (false === $pathInfo || '' === $pathInfo) {
-			// If substr() returns false then PATH_INFO is set to an empty string
 			return '/';
 		}
 		
@@ -234,6 +244,6 @@ trait HttpResources
 		$uri = mb_strtolower(trim($uri), 'UTF-8');
 		
 		// Return argument if not empty or return a single slash
-		return trim($uri);
+		return rtrim($uri, '/'.\DIRECTORY_SEPARATOR);
 	}
 }
