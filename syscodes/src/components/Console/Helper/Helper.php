@@ -36,7 +36,7 @@ class Helper
      */
     public static function width(?string $value): int
     {
-        $value ?? '';
+        $value ??= '';
         
         if (false === $encoding = mb_detect_encoding($value, null, true)) {
             return strlen($value);
@@ -54,7 +54,7 @@ class Helper
      */
     public static function length(?string $value): int
     {
-        $value ?? '';
+        $value ??= '';
         
         if (false === $encoding = mb_detect_encoding($value, null, true)) {
             return strlen($value);
@@ -72,9 +72,9 @@ class Helper
      * 
      * @return string
      */
-    public static function substr(?string $value, int $from, int $length = null): string
+    public static function substr(?string $value, int $from, ?int $length = null): string
     {
-        $value ?? '';
+        $value ??= '';
         
         if (false === $encoding = mb_detect_encoding($value, null, true)) {
             return substr($value, $from, $length);
