@@ -410,9 +410,18 @@ interface Application extends Container
     public function isLocale($locale): bool;
 
     /**
-	 * Shutdown the application.
-	 * 
-	 * @return void
-	 */
-	public function shutdown(): void;
+     * Register a terminating callback with the application.
+     * 
+     * @param  callable|string  $callback
+     * 
+     * @return static
+     */
+    public function terminating($callback): static;
+
+    /**
+     * Terminate the application.
+     * 
+     * @return void
+     */
+    public function finalize(): void;
 }
