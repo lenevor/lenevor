@@ -29,6 +29,8 @@ namespace Syscodes\Components\Console\Attribute;
 class AsCommandAttribute
 {
     /**
+     * Constructor. Create a new AsCommandAttribute class instance.
+     * 
      * @param  string  $name  The name of the command
      * @param  string|null  $description  The description of the command
      * @param  string[]  $aliases  The list of aliases of the command
