@@ -1318,7 +1318,37 @@ class Application extends Container implements ApplicationContract
         }
 
         throw new HttpException($code, $message, null, $headers);
-    } 
+    }
+    
+    /**
+     * Register a terminating callback with the application.
+     * 
+     * @param  callable|string  $callback
+     * 
+     * @return static
+     */
+    public function terminating($callback): static
+    {
+        $this->shutdownCallbacks[] = $callback;
+        
+        return $this;
+    }
+    
+    /**
+     * Terminate the application.
+     * 
+     * @return void
+     */
+    public function finalize(): void
+    {
+        $index = 0;
+        
+        while ($index < count($this->shutdownCallbacks)) {
+            $this->call($this->shutdownCallbacks[$index]);
+            
+            $index++;
+        }
+    }
 
     /**
      * Get the current application locale.
@@ -1391,32 +1421,6 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Register the shutdown callback.
-     * 
-     * @param  callable|string  $callback
-     * 
-     * @return static
-     */
-    public function shutdowning($callback): static
-    {
-        $this->shutdownCallbacks[] = $callback;
-
-        return $this;
-    }
-
-    /**
-	 * Shutdown the application.
-	 * 
-	 * @return void
-	 */
-	public function shutdown(): void
-	{
-		foreach ($this->shutdownCallbacks as $shutdown) {
-            $this->call($shutdown);
-        }
-	}
-
-    /**
      * Register the core class aliases in the container.
      * 
      * @return void
@@ -1476,6 +1480,7 @@ class Application extends Container implements ApplicationContract
         $this->deferredServices = [];
         $this->serviceProviders = [];
         $this->loadServiceProviders = [];
+        $this->terminatingCallbacks = [];
     }
 
     /**
