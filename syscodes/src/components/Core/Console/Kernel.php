@@ -170,7 +170,7 @@ class Kernel implements KernelContract
      */
     public function finalize($input, int $status): void
     {
-        $this->app->shutdown();
+        $this->app->finalize();
     }
     
     /**
