@@ -38,7 +38,7 @@ interface InputOption
      * 
      * @return mixed
      */
-    public function getDefault();
+    public function getDefault(): mixed;
     
     /**
      * Sets the default value.
@@ -88,7 +88,7 @@ interface InputOption
      * 
      * @return string|array|null  The shortcut
      */
-    public function getShortcut();
+    public function getShortcut(): ?string;
 
     /**
      * Sets the option shortcut.
