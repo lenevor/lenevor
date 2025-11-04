@@ -479,7 +479,7 @@ class Filesystem
 	 * 
 	 * @throws FileException
 	 */
-	public function makeDirectory($path, $mode = 0755, $recursive = false, $force = false): bool
+	public function makeDirectory($path, $mode = 0755, $recursive = false, $force = false)
 	{
 		if ($force) {
 			return @mkdir($path, $mode, $recursive);
@@ -589,7 +589,7 @@ class Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function moveDirectory($from, $to, $overwrite = false): bool
+	public function moveDirectory($from, $to, $overwrite = false)
 	{
 		if ($overwrite && $this->isDirectory($to) && ! $this->deleteDirectory($to)) return false;
 
@@ -645,6 +645,8 @@ class Filesystem
 		if ($this->exists($path)) {
 			return rename($path, $target);
 		}
+
+		return false;
 	}
 
 	/**
@@ -703,7 +705,7 @@ class Filesystem
 	 * 
 	 * @return array
 	 */
-	public function glob($pattern, $flags = 0): bool
+	public function glob($pattern, $flags = 0): array
 	{
 		return glob($pattern, $flags);
 	}
@@ -732,7 +734,7 @@ class Filesystem
 	 * 
 	 * @return mixed  Permissions for the file, or false in case of an error
 	 */
-	public function perms($path, $mode = null)
+	public function perms($path, $mode = null): string|bool
 	{
 		if ($mode) {
 			chmod($path, $mode);
@@ -806,6 +808,20 @@ class Filesystem
 		
 		$this->move($tempPath, $path);
     }
+	
+	/**
+	 * Replace a given string within a given file.
+	 * 
+	 * @param  array|string  $search
+	 * @param  array|string  $replace
+	 * @param  string  $path
+	 * 
+	 * @return void
+	 */
+	public function replaceInFile($search, $replace, $path): void
+	{
+		file_put_contents($path, str_replace($search, $replace, file_get_contents($path)));
+	}
 
 	/**
 	 * Searches for a given text and replaces the text if found.
