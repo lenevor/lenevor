@@ -59,6 +59,13 @@ class Request extends BaseRequest
 	 * @var \Closure $routeResolver
 	 */
 	protected $routeResolver;
+	
+	/**
+	 * The user resolver callback.
+	 * 
+	 * @var \Closure $userResolver
+	 */
+	protected $userResolver;
 
 	/**
 	 * Create a new Syscodes HTTP request from server variables.
@@ -358,6 +365,18 @@ class Request extends BaseRequest
 
 		return $route->parameter($param, $default);
 	}
+	
+	/**
+	 * Get the user making the request.
+	 * 
+	 * @param  string|null  $guard
+	 * 
+	 * @return mixed
+	 */
+	public function user($guard = null)
+	{
+		return call_user_func($this->getUserResolver(), $guard);
+	}
 
 	/**
 	 * Get the current decoded path info for the request.
@@ -461,6 +480,32 @@ class Request extends BaseRequest
 	public function ip(): ?string
 	{
 		return $this->clientIp->getClientIp();
+	}
+	
+	/**
+	 * Get the user resolver callback.
+	 * 
+	 * @return \Closure
+	 */
+	public function getUserResolver(): Closure
+	{
+		return $this->userResolver ?: function () {
+			//
+		};
+	}
+	
+	/**
+	 * Set the user resolver callback.
+	 * 
+	 * @param  \Closure  $callback
+	 * 
+	 * @return static
+	 */
+	public function setUserResolver(Closure $callback): static
+	{
+		$this->userResolver = $callback;
+		
+		return $this;
 	}
 
 	/**
