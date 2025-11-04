@@ -53,8 +53,6 @@ class AboutCommand extends Command
      * Executes the current command.
      * 
      * @return int
-     * 
-     * @throws \LogicException
      */
     public function handle()
     {
