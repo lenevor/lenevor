@@ -167,7 +167,7 @@ interface Filesystem
 	 *
 	 * @return bool
 	 */
-	public function move($path, $target): bool;
+	public function move($path, $target);
 
     /**
 	 * Prepend to a file.
