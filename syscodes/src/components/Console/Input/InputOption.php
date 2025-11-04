@@ -44,28 +44,28 @@ class InputOption implements InputOptionInterface
      * 
      * @var string $description
      */
-    protected $description;
+    protected string $description = '';
 
     /**
      * The option mode.
      * 
      * @var int $mode
      */
-    protected $mode;
+    protected int $mode;
 
     /**
      * The option name.
      * 
      * @var string $name
      */
-    protected $name;
+    protected string $name;
 
     /**
      * The Shortcut of the option.
      * 
      * @var string $shortcut
      */
-    protected $shortcut;
+    protected ?string $shortcut;
 
     /**
      * Constructor. Create a new InputOption instance.
@@ -154,7 +154,7 @@ class InputOption implements InputOptionInterface
      * 
      * @return mixed
      */
-    public function getDefault()
+    public function getDefault(): mixed
     {
         return $this->default;
     }
@@ -212,7 +212,7 @@ class InputOption implements InputOptionInterface
      * 
      * @return string|array|null  The shortcut
      */
-    public function getShortcut()
+    public function getShortcut(): ?string
     {
         return $this->shortcut;
     }
