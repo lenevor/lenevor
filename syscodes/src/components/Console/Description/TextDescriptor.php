@@ -79,7 +79,7 @@ class TextDescriptor extends Descriptor
     protected function describeOption(InputOption $option, array $options = [])
     {
         if ($option->isAcceptValue() && null !== $option->getDefault() && ( ! is_array($option->getDefault()) || count($option->getDefault()))) {
-            $default = sprintf(' [<note>default: %s</>] ', $option->getDefault());
+            $default = sprintf(' [<comment> [default: %s] </comment>] ', $option->getDefault());
         } else {
             $default = '';
         }
@@ -94,7 +94,7 @@ class TextDescriptor extends Descriptor
             }
         }
         
-        $totalWidth = $options['total_width'] ?? 20;
+        $totalWidth = $options['total_width'] ?? $this->calculateTotalWidthForOptions((array) $option);
 
         $synopsis = sprintf('%s%s',
             $option->getShortcut() ? sprintf('-%s, ', $option->getShortcut()) : '    ',
@@ -103,7 +103,7 @@ class TextDescriptor extends Descriptor
 
         $spacingWidth = $totalWidth - Helper::width($synopsis);
 
-        $this->writeText(sprintf('  <fg=green>%s</>  %s%s%s%s',
+        $this->writeText(sprintf('  <info>%s</info>  %s%s%s%s',
             $synopsis,
             str_repeat(' ', $spacingWidth),
             preg_replace('/\s*[\r\n]\s*/', "\n".str_repeat(' ', $spacingWidth + 4), $option->getDescription()),
@@ -122,7 +122,7 @@ class TextDescriptor extends Descriptor
      */
     protected function describeDefinition(InputDefinition $definition, array $options = [])
     {
-        $totalWidth = 20;
+        $totalWidth = $this->calculateTotalWidthForOptions($definition->getOptions());
         
         foreach ($definition->getArguments() as $argument) {
             $totalWidth = max($totalWidth, Helper::width($argument->getName()));
@@ -351,5 +351,32 @@ class TextDescriptor extends Descriptor
         }
         
         return $widths ? max($widths) + 2 : 0;
+    }
+
+    /**
+     * Get the calculate total width for options.
+     * 
+     * @param  array  $options
+     * 
+     * @return int
+     */
+    private function calculateTotalWidthForOptions(array $options): int
+    {
+        $totalWidth = 0;
+
+        foreach ($options as $option) {
+            $nameLength = 1 + max(Helper::width($option->getShortcut()), 1) + 4 + Helper::width($option->getName());
+            if ($option->isNegatable()) {
+                $nameLength += 6 + Helper::width($option->getName()); 
+            } elseif ($option->isAcceptValue()) {
+                $valueLength = 1 + Helper::width($option->getName()); 
+                $valueLength += $option->isValueOptional() ? 2 : 0; 
+
+                $nameLength += $valueLength;
+            }
+            $totalWidth = max($totalWidth, $nameLength);
+        }
+
+        return $totalWidth;
     }
 }
