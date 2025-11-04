@@ -25,6 +25,7 @@ namespace Syscodes\Components\Core\Http;
 use Closure;
 use Throwable; 
 use Syscodes\Components\Routing\Router;
+use Syscodes\Components\Support\Chronos;
 use Syscodes\Components\Support\Facades\Facade;
 use Syscodes\Components\Contracts\Core\Application;
 use Syscodes\Components\Routing\Supported\Pipeline;
@@ -88,6 +89,13 @@ class Kernel implements KernelContract
 		\Syscodes\Components\Session\Middleware\StartSession::class,
 		\Syscodes\Components\Auth\Middleware\Authenticate::class,
 	];
+	
+	/**
+	 * When the kernel starting handling the current request.
+	 * 
+	 * @var \Syscodes\Components\Support\Chronos|null $requestStarted
+	 */
+	protected $requestStarted;
 
 	/**
 	 * The router instance.
@@ -102,13 +110,6 @@ class Kernel implements KernelContract
 	 * @var array $routeMiddleware
 	 */
 	protected $routeMiddleware = [];
-
-	/**
-	 * Total app execution time.
-	 * 
-	 * @var float $totalTime
-	 */
-	protected $totalTime;
 
 	/**
 	 * Constructor. Lenevor class instance.
@@ -136,6 +137,8 @@ class Kernel implements KernelContract
 	 */
 	public function handle($request)
 	{
+		$this->requestStarted = Chronos::now();
+
 		try {
 			$response = $this->sendRequestThroughRouter($request);
 		} catch (Throwable $e) {
@@ -234,6 +237,16 @@ class Kernel implements KernelContract
 	public function finalize($request, $response): void
 	{
 		$this->finalizeMiddleware($request, $response);
+
+		$this->app->finalize();
+		
+		if ($this->requestStarted === null) {
+			return;
+		}
+		
+		$this->requestStarted->setTimezone($this->app['config']->get('app.timezone') ?? 'UTC');
+		
+		$this->requestStarted = null;
 	}
 
 	/**
