@@ -26,6 +26,9 @@ use Syscodes\Components\Support\ServiceProvider;
 use Syscodes\Components\Contracts\Support\Deferrable;
 use Syscodes\Components\Core\Console\Commands\AboutCommand;
 use Syscodes\Components\Core\Console\Commands\ServeCommand;
+use Syscodes\Components\Core\Console\Commands\ViewClearCommand;
+use Syscodes\Components\Core\Console\Commands\ApiInstallCommand;
+use Syscodes\Components\Core\Console\Commands\EnvironmentCommand;
 use Syscodes\Components\Core\Console\Commands\KeyGenerateCommand;
 
 /**
@@ -41,7 +44,9 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
      */
     protected $commands = [
         'About' => AboutCommand::class,
+        'Environment' => EnvironmentCommand::class,
         'KeyGenerate' => KeyGenerateCommand::class,
+        'ViewClear' => ViewClearCommand::class,
     ];
 
     /**
@@ -50,6 +55,7 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
      * @var array $devCommands
      */
     protected $devCommands = [
+        'ApiInstall' => ApiInstallCommand::class,
         'Serve' => ServeCommand::class,
     ];
 
@@ -93,9 +99,7 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
      */
     protected function registerAboutCommand()
     {
-        $this->app->singleton(AboutCommand::class, function () {
-            return new AboutCommand();
-        });
+        $this->app->singleton(AboutCommand::class, fn () => new AboutCommand());
     }
 
     /**
@@ -105,8 +109,18 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
      */
     protected function registerServeCommand()
     {
-        $this->app->singleton(ServeCommand::class, function () {
-            return new ServeCommand();
+        $this->app->singleton(ServeCommand::class, fn () => new ServeCommand());
+    }
+    
+    /**
+     * Register the command.
+     * 
+     * @return void
+     */
+    protected function registerViewClearCommand()
+    {
+        $this->app->singleton(ViewClearCommand::class, function ($app) {
+            return new ViewClearCommand($app['files']);
         });
     }
     
