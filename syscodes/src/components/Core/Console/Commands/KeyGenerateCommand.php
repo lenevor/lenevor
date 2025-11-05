@@ -60,9 +60,7 @@ class KeyGenerateCommand extends Command
     /**
      * Executes the current command.
      * 
-     * @return int
-     * 
-     * @throws \LogicException
+     * @return void
      */
     public function handle()
     {
@@ -78,7 +76,7 @@ class KeyGenerateCommand extends Command
         
         $this->lenevor['config']['security.key'] = $key;
 
-        $this->commandline('<bg=blue;fg=white> INFO </> Application key set successfully.');
+        $this->line('<bg=blue;fg=white> INFO </> Application key set successfully.');
     }
     
     /**
