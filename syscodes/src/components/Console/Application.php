@@ -24,7 +24,9 @@ namespace Syscodes\Components\Console;
 
 use Closure;
 use Syscodes\Components\Version;
+use Syscodes\Components\Console\Input\InputOption;
 use Syscodes\Components\Contracts\Events\Dispatcher;
+use Syscodes\Components\Console\Input\InputDefinition;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Console\Command\Command as BaseCommand;
 use Syscodes\Components\Console\Command\Application as BaseApplication;
@@ -264,6 +266,33 @@ class Application extends BaseApplication
     public function setLogoStyle(string $style): void
     {
         $this->config['logoStyle'] = $style;
+    }
+
+	/**
+     * Get the default input definition for the application.
+     *
+     * This is used to add the --env option to every available command.
+     *
+     * @return \Syscodes\Components\Console\Input\InputDefinition
+     */
+    #[\Override]
+    protected function getDefaultInputDefinition(): InputDefinition
+    {
+        return take(parent::getDefaultInputDefinition(), function ($definition) {
+            $definition->addOption($this->getEnvironmentOption());
+        });
+    }
+
+    /**
+     * Get the global environment option for the definition.
+     *
+     * @return \Syscodes\Components\Console\Input\InputOption
+     */
+    protected function getEnvironmentOption(): InputOption
+    {
+        $message = 'The environment the command should run under';
+
+        return new InputOption('--env', null, InputOption::VALUE_OPTIONAL, $message);
     }
 
 	/**
