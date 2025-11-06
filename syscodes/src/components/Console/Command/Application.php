@@ -439,7 +439,8 @@ class Application implements ApplicationContract
         return new InputDefinition([
             new InputArgument('command', InputArgumentInterface::REQUIRED, 'The command to execute'),
             new InputOption('--help', '-h', InputOptionInterface::VALUE_NONE, 'Display help for the given command. When no command is given display help for the <comment>'.$this->defaultCommand.'</comment> command'),
-            new InputOption('--quiet', '-q', InputOptionInterface::VALUE_NONE, 'Do not output any message'),
+            new InputOption('--silent', null, InputOptionInterface::VALUE_NONE, 'Do not output any message'),
+            new InputOption('--quiet', '-q', InputOptionInterface::VALUE_NONE, 'Only errors are displayed. All other output is suppressed'),
             new InputOption('--verbose', '-v|vv|vvv', InputOptionInterface::VALUE_NONE, 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'),
             new InputOption('--version', '-V', InputOptionInterface::VALUE_NONE, 'Display this application version'),
             new InputOption('--ansi', '', InputOptionInterface::VALUE_NEGATABLE, 'Force (or disable --no-color) ANSI output', null),
@@ -664,7 +665,7 @@ class Application implements ApplicationContract
             }));
         }
 
-        $command = $this->get(headItem($commands));
+        $command = $this->get(head($commands));
         
         if ($command->isHidden()) {
             throw new CommandNotFoundException(sprintf('The command "%s" does not exist', $name));
