@@ -32,9 +32,10 @@ interface Output
 	// Output formatter
 	public const OUTPUT_NORMAL = 1;
 	public const OUTPUT_RAW = 2;
-	public const OUTPUT_PLAIN = 3;
+	public const OUTPUT_PLAIN = 4;
 
 	// Output verbose
+	public const VERBOSITY_SILENT = 8;
 	public const VERBOSITY_QUIET = 16;
 	public const VERBOSITY_NORMAL = 32;
 	public const VERBOSITY_VERBOSE = 64;
