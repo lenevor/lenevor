@@ -227,6 +227,7 @@ class MiddlewareBootstrap
                 \Syscodes\Components\Cookie\Middleware\EncryptCookies::class,
                 \Syscodes\Components\Cookie\Middleware\AddQueuedCookiesResponse::class,
                 \Syscodes\Components\Session\Middleware\StartSession::class,
+                \Syscodes\Components\View\Middleware\ShareErrorsSession::class,
                 \Syscodes\Components\Core\Http\Middleware\VerifyCsrfToken::class,
             ])),
 
