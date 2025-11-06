@@ -23,10 +23,11 @@
 namespace Syscodes\Components\View\Engines;
 
 use Throwable;
-use ErrorException;
 use Syscodes\Components\Filesystem\Filesystem;
 use Syscodes\Components\View\Exceptions\ViewException;
+use Syscodes\Components\Core\Http\Exceptions\HttpException;
 use Syscodes\Components\View\Transpilers\TranspilerInterface;
+use Syscodes\Components\Http\Exceptions\HttpResponseException;
 
 /**
  * The file PHP engine.
@@ -116,7 +117,11 @@ class TranspilerEngine extends PhpEngine
      */
     protected function handleViewException(Throwable $e, $obLevel): void
     {
-        $e = new ErrorException($this->getMessage($e), 0, 1, $e->getFile(), $e->getLine(), $e);
+        if ($e instanceof HttpException || $e instanceof HttpResponseException) {
+            parent::handleViewException($e, $obLevel);
+        }
+        
+        $e = new ViewException($this->getMessage($e), 0, 1, $e->getFile(), $e->getLine(), $e);
 
         parent::handleViewException($e, $obLevel);
     }
@@ -130,7 +135,7 @@ class TranspilerEngine extends PhpEngine
      */
     protected function getMessage(Throwable $e): string
     {
-        return $e->getMessage().' (View: '.realpath(lastItem($this->lastTranspiled)).')';
+        return $e->getMessage().' (View: '.realpath(last($this->lastTranspiled)).')';
     }
 
     /**
@@ -141,5 +146,15 @@ class TranspilerEngine extends PhpEngine
     public function getTranspiler()
     {
         return $this->transpiler;
+    }
+    
+    /**
+     * Clear the cache of views that were transpiled or not expired.
+     * 
+     * @return void
+     */
+    public function eraseTranspiledOrNotExpired(): void
+    {
+        $this->transpilerOrNotExpired = [];
     }
 }
