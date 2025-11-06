@@ -67,25 +67,35 @@ class Interactor
      */
     public function getConfigureIO(): void
     {
-        if (true === $this->input->hasParameterOption(['--ansi'], true)) {
+        if ($this->input->hasParameterOption(['--ansi'], true)) {
             // Activate the color tag if exist is a style applied 
             $this->output->setDecorated(true);
-        } elseif (true === $this->input->hasParameterOption(['--no-ansi'], true)) {
+        } elseif ($this->input->hasParameterOption(['--no-ansi'], true)) {
             // Deactivates the color tag if exist is a style applied
             $this->output->setDecorated(false);
         }
 
-        if (true === $this->input->hasParameterOption(['--no-interaction', '-n'], true)) {
-            $this->input->setInteractive(false);
-        }
+        $shellVerbosity = match (true) {
+            $this->input->hasParameterOption(['--silent'], true) => -2,
+            $this->input->hasParameterOption(['--quiet', '-q'], true) => -1,
+            $this->input->hasParameterOption('-vvv', true) || $this->input->hasParameterOption('--verbose=3', true) || 3 === $this->input->getParameterOption('--verbose', false, true) => 3,
+            $this->input->hasParameterOption('-vv', true) || $this->input->hasParameterOption('--verbose=2', true) || 2 === $this->input->getParameterOption('--verbose', false, true) => 2,
+            $this->input->hasParameterOption('-v', true) || $this->input->hasParameterOption('--verbose=1', true) || $this->input->hasParameterOption('--verbose', true) || $this->input->getParameterOption('--verbose', false, true) => 1,
+            default => (int) ($_ENV['SHELL_VERBOSITY'] ?? $_SERVER['SHELL_VERBOSITY'] ?? getenv('SHELL_VERBOSITY')),
+        };
         
-        match ($shellVerbosity = (int) getenv('SHELL_VERBOSITY')) {
-            -1 => $this->output->setVerbosity(OutputInterface::VERBOSITY_QUIET),
+        $this->output->setVerbosity(match ($shellVerbosity) {
+           -2 => OutputInterface::VERBOSITY_SILENT,
+           -1 => $this->output->setVerbosity(OutputInterface::VERBOSITY_QUIET),
             1 => $this->output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE),
             2 => $this->output->setVerbosity(OutputInterface::VERBOSITY_VERY_VERBOSE),
             3 => $this->output->setVerbosity(OutputInterface::VERBOSITY_DEBUG),
-            default => $shellVerbosity = 0,
-        };
+            default => ($shellVerbosity = 0) ?: $this->output->getVerbosity(),
+        });
+
+        if (0 > $shellVerbosity || $this->input->hasParameterOption(['--no-interaction', '-n'], true)) {
+            $this->input->setInteractive(false);
+        }
         
         if (true === $this->input->hasParameterOption(GlobalOption::QUIET_OPTION, true)) {
             $this->output->write('<comment> Ok. ByeBye! </comment>', true);
