@@ -79,7 +79,7 @@ class TextDescriptor extends Descriptor
     protected function describeOption(InputOption $option, array $options = [])
     {
         if ($option->isAcceptValue() && null !== $option->getDefault() && ( ! is_array($option->getDefault()) || count($option->getDefault()))) {
-            $default = sprintf(' [<comment> [default: %s] </comment>] ', $option->getDefault());
+            $default = sprintf('<comment> [default: %s]</comment>', $option->getDefault());
         } else {
             $default = '';
         }
