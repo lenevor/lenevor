@@ -130,6 +130,16 @@ abstract class Output implements OutputInterface
 	}
 	
 	/**
+	 * Returns whether verbosity is silent.
+	 * 
+	 * @return bool
+	 */
+	public function isSilent(): bool
+	{
+		return self::VERBOSITY_SILENT === $this->verbosity;
+	}
+	
+	/**
 	 * Returns whether verbosity is quiet (-q).
 	 * 
 	 * @return bool
