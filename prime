@@ -22,6 +22,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
+use Syscodes\Components\Core\Application;
 use Syscodes\Components\Console\Input\ArgvInput;
 
 /**
@@ -43,8 +44,10 @@ $paths = require __DIR__.'/config/paths.php';
 if (file_exists($paths['path.sys'].'/src/bundles/WebResourceBundle/Bootstrap/bootstrap.php'))
     require $paths['path.sys'].'/src/bundles/WebResourceBundle/Bootstrap/bootstrap.php';
 
-// Bootstrap the application Lenevor and handle the command...                                              
-$status = (require_once $paths['path.bootstrap'].'/app.php')
-    ->handleCommand(new ArgvInput());
+// Bootstrap the application Lenevor and handle the command...  
+/** @var Application $app */                                            
+$app = (require_once $paths['path.bootstrap'].'/app.php');
+
+$status = $app->handleCommand(new ArgvInput());
 
 exit($status);
