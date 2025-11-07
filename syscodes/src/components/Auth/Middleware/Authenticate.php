@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Auth\Middleware;
 
 use Closure;
+use Syscodes\Components\Http\Response;
 use Syscodes\Components\Contracts\Auth\Factory as Auth;
 use Syscodes\Components\Auth\Exceptions\AuthenticationException;
 
@@ -61,12 +62,12 @@ class Authenticate
      * Handle an incoming request.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Closure(\Syscodes\Components\Http\Request)  $next
      * @param  string[]  $guards
      * 
      * @return \Syscodes\Components\Http\Response
      */
-    public function handle($request, Closure $next, ...$guards)
+    public function handle($request, Closure $next, ...$guards): Response
     {
         $this->authenticate($request, $guards);
 

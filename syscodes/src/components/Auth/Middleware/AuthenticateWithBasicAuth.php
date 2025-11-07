@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Auth\Middleware;
 
 use Closure;
+use Syscodes\Components\Http\Response;
 use Syscodes\Components\Contracts\Auth\Factory;
 
 /**
@@ -53,7 +54,7 @@ class AuthenticateWithBasicAuth
      * Handle an incoming request.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Closure(\Syscodes\Components\Http\Response)  $next
      * @param  string|null  $guard
      * @param  string|null  $field
      * 
@@ -61,7 +62,7 @@ class AuthenticateWithBasicAuth
      * 
      * @throws \Syscodes\Components\Core\Http\Exceptions\UnauthorizedHttpException
      */
-    public function handle($request, Closure $next, $guard = null, $field = null)
+    public function handle($request, Closure $next, $guard = null, $field = null): Response
     {
         $this->auth->guard($guard)->basic($field ?: 'email');
         

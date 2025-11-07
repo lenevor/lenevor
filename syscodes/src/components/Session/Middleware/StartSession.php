@@ -55,11 +55,11 @@ class StartSession
      * Handle an incoming request.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Closure(\Syscodes\Components\Http\Response)  $next
      * 
      * @return \Syscodes\Components\Http\Response
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next): Response
     {
         if ( ! $this->sessionConfigured()) {
             return $next($request);

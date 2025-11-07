@@ -24,6 +24,7 @@ namespace Syscodes\Components\Auth\Middleware;
 
 use Closure;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Http\Response;
 use Syscodes\Components\Database\Erostrine\Model;
 use Syscodes\Components\Contracts\Auth\Access\Gate;
 
@@ -68,16 +69,16 @@ class Authorize
      * Handle an incoming request.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Closure(\Syscodes\Components\Http\Response)  $next
      * @param  string  $ability
      * @param  array|null  ...$models
      * 
-     * @return mixed
+     * @return \Syscodes\Components\Http\Response
      * 
      * @throws \Syscodes\Components\Auth\AuthenticationException
      * @throws \Syscodes\Components\Auth\Access\AuthorizationException
      */
-    public function handle($request, Closure $next, $ability, ...$models)
+    public function handle($request, Closure $next, $ability, ...$models): Response
     {
         $this->gate->authorize($ability, $this->getGateArguments($request, $models));
         

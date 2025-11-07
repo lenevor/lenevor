@@ -23,6 +23,7 @@
 namespace Syscodes\Components\View\Middleware;
 
 use Closure;
+use Syscodes\Components\Http\Response;
 use Syscodes\Components\Support\ViewErrorBag;
 use Syscodes\Components\Contracts\View\Factory as ViewFactory;
 
@@ -54,11 +55,11 @@ class ShareErrorsSession
      * Handle an incoming request.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Closure(\Syscodes\Components\Http\Response)  $next
      * 
-     * @return mixed
+     * @return \Syscodes\Components\Http\Response
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next): Response
     {
         // If the current session has an "errors" variable bound to it, its value 
         // is shared with all the view instances so that error messages can be 

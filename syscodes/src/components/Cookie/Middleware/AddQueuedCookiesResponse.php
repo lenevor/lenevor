@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Cookie\Middleware;
 
 use Closure;
+use Syscodes\Components\Http\Response;
 use Syscodes\Components\Contracts\Cookie\QueueingFactory as Cookie;
 
 /**
@@ -53,11 +54,11 @@ class AddQueuedCookiesResponse
      * Handle an incoming request.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Closure(\Syscodes\Components\Http\Response)  $next
      * 
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next): Response
     {
         $response = $next($request);
         

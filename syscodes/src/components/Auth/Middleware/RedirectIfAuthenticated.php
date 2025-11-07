@@ -23,6 +23,7 @@ namespace Syscodes\Components\Auth\Middleware;
 
 use Closure;
 use Syscodes\Components\Http\Request;
+use Syscodes\Components\Http\Response;
 use Syscodes\Components\Support\Facades\Auth;
 use Syscodes\Components\Support\Facades\Route;
 
@@ -42,12 +43,12 @@ class RedirectIfAuthenticated
      * Handle an incoming request.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Closure(\Syscodes\Components\Http\Request): \Syscodes\Components\Http\Response|\Syscodes\Components\Http\RedirectResponse)  $next
+     * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next
      * @param  string|null  ...$guards
      * 
      * @return \Syscodes\Components\Http\Response|\Syscodes\Components\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, string ...$guards)
+    public function handle(Request $request, Closure $next, string ...$guards): Response
     {
         $guards = empty($guards) ? [null] : $guards;
         
