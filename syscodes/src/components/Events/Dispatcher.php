@@ -280,6 +280,20 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
+     * Fire an event and call the listeners.
+     *
+     * @param  string|object  $event
+     * @param  mixed  $payload
+     * @param  bool  $halt
+     * 
+     * @return array|null
+     */
+    public function fire($event, $payload = [], $halt = false)
+    {
+        return $this->dispatch($event, $payload, $halt);
+    }
+
+    /**
      * Dispatch an event and call the listeners.
      * 
      * @param  string|object  $event
@@ -337,7 +351,7 @@ class Dispatcher implements DispatcherContract
     protected function parseEventPayload($event, $payload): array
     {
         if (is_object($event)) {
-            [$payload, $event] = [[$event], getClass($event, true)];
+            [$payload, $event] = [[$event], get_Classname($event, true)];
         } elseif ( ! is_array($payload)) {
             $payload = [$payload];
         }
