@@ -13,6 +13,7 @@
 
 return [
 
+    // Apps
     'App\\Http\\Controller' => APP_PATH.'Http/Controller.php',
     'App\\Models\\User' => APP_PATH.'Models/User.php',
     'App\\Providers\\AppServiceProvider' => APP_PATH.'Providers/AppServiceProvider.php',
@@ -24,9 +25,6 @@ return [
     'Syscodes\\Bundles\\ApplicationBundle\\Http\\Loaders\\Inputs' => SYS_PATH.'src/bundles/ApplicationBundle/Http/Loaders/Inputs.php',
     'Syscodes\\Bundles\\ApplicationBundle\\Http\\Loaders\\Parameters' => SYS_PATH.'src/bundles/ApplicationBundle/Http/Loaders/Parameters.php',
     'Syscodes\\Bundles\\ApplicationBundle\\Http\\Loaders\\Server' => SYS_PATH.'src/bundles/ApplicationBundle/Http/Loaders/Server.php',
-    'Syscodes\\Bundles\\ApplicationBundle\\Routing\\CompiledRoute' => SYS_PATH.'src/bundles/ApplicationBundle/Routing/CompiledRoute.php', 
-    'Syscodes\\Bundles\\ApplicationBundle\\Routing\\Route' => SYS_PATH.'src/bundles/ApplicationBundle/Routing/Route.php',
-    'Syscodes\\Bundles\\ApplicationBundle\\Routing\\RouteCompiler' => SYS_PATH.'src/bundles/ApplicationBundle/Routing/RouteCompiler.php',
     // Components
     'Syscodes\\Components\\Auth\\Access\\Concerns\\HandlesAuthorization' => SYS_PATH.'src/components/Auth/Access/Concerns/HandlesAuthorization.php',
     'Syscodes\\Components\\Auth\\Access\\Exceptions\\AuthorizationException' => SYS_PATH.'src/components/Auth/Access/Exceptions/AuthorizationException.php',
@@ -113,6 +111,7 @@ return [
     'Syscodes\\Components\\Console\\Util\\Table' => SYS_PATH.'src/components/Console/Util/Table.php',
     'Syscodes\\Components\\Console\\Application' => SYS_PATH.'src/components/Console/Application.php',
     'Syscodes\\Components\\Console\\Command' => SYS_PATH.'src/components/Console/Command.php',
+    'Syscodes\\Components\\Console\\GeneratorCommand' => SYS_PATH.'src/components/Console/GeneratorCommand.php',
     'Syscodes\\Components\\Console\\GlobalOption' => SYS_PATH.'src/components/Console/GlobalOption.php',
     'Syscodes\\Components\\Container\\Exceptions\\ContainerException' => SYS_PATH.'src/components/Container/Exceptions/ContainerException.php',
     'Syscodes\\Components\\Container\\Exceptions\\UnknownIdentifierException' => SYS_PATH.'src/components/Container/Exceptions/UnknownIdentifierException.php',
@@ -215,12 +214,12 @@ return [
     'Syscodes\\Components\\Core\\Concerns\\ConfigurationFiles' => SYS_PATH.'src/components/Core/Concerns/ConfigurationFiles.php',
     'Syscodes\\Components\\Core\\Configuration\\ApplicationBootstrap' => SYS_PATH.'src/components/Core/Configuration/ApplicationBootstrap.php',
     'Syscodes\\Components\\Core\\Configuration\\ExceptionBootstrap' => SYS_PATH.'src/components/Core/Configuration/ExceptionBootstrap.php',
-    'Syscodes\\Components\\Console\\Commands\\AboutCommand' => SYS_PATH.'src/components/Core/Console/Commands/AboutCommand.php',
-    'Syscodes\\Components\\Console\\Commands\\ApiInstallCommand' => SYS_PATH.'src/components/Core/Console/Commands/ApiInstallCommand.php',
-    'Syscodes\\Components\\Console\\Commands\\EnvironmentCommand' => SYS_PATH.'src/components/Core/Console/Commands/EnvironmentCommand.php',
-    'Syscodes\\Components\\Console\\Commands\\KeyGenerateCommand' => SYS_PATH.'src/components/Core/Console/Commands/KeyGenerateCommand.php',
-    'Syscodes\\Components\\Console\\Commands\\ServeCommand' => SYS_PATH.'src/components/Core/Console/Commands/ServeCommand.php',
-    'Syscodes\\Components\\Console\\Commands\\ViewClearCommand' => SYS_PATH.'src/components/Core/Console/Commands/ViewClearCommand.php',
+    'Syscodes\\Components\\Core\\Console\\Commands\\AboutCommand' => SYS_PATH.'src/components/Core/Console/Commands/AboutCommand.php',
+    'Syscodes\\Components\\Core\\Console\\Commands\\ApiInstallCommand' => SYS_PATH.'src/components/Core/Console/Commands/ApiInstallCommand.php',
+    'Syscodes\\Components\\Core\\Console\\Commands\\EnvironmentCommand' => SYS_PATH.'src/components/Core/Console/Commands/EnvironmentCommand.php',
+    'Syscodes\\Components\\Core\\Console\\Commands\\KeyGenerateCommand' => SYS_PATH.'src/components/Core/Console/Commands/KeyGenerateCommand.php',
+    'Syscodes\\Components\\Core\\Console\\Commands\\ServeCommand' => SYS_PATH.'src/components/Core/Console/Commands/ServeCommand.php',
+    'Syscodes\\Components\\Core\\Console\\Commands\\ViewClearCommand' => SYS_PATH.'src/components/Core/Console/Commands/ViewClearCommand.php',
     'Syscodes\\Components\\Core\\Console\\Kernel' => SYS_PATH.'src/components/Core/Console/Kernel.php',
     'Syscodes\\Components\\Core\\Exceptions\\Debugging\\DebugExceptionRender' => SYS_PATH.'src/components/Core/Exceptions/Debugging/DebugExceptionRender.php',
     'Syscodes\\Components\\Core\\Exceptions\\Debugging\\DebugHandler' => SYS_PATH.'src/components/Core/Exceptions/Debugging/DebugHandler.php',
