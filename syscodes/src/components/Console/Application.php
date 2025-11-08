@@ -214,7 +214,7 @@ class Application extends BaseApplication
 	public function getConsoleVersion(): string
 	{
 		return parent::getConsoleVersion().
-			sprintf(' (env: <comment>%s</>, debug: <comment>%s</>) [<note>%s</>]',
+			sprintf(' (env: <info>%s</>, debug: <info>%s</>) [<note>%s</>]',
 				env('APP_ENV'), env('APP_DEBUG') ? 'true' : 'false', PHP_OS
 			);
 	}

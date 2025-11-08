@@ -35,16 +35,9 @@ class InputOption implements InputOptionInterface
     /**
      * The default value.
      * 
-     * @var mixed $default
+     * @var string|int|bool|array|float|null $default
      */
-    protected $default;
-
-    /**
-     * The option description.
-     * 
-     * @var string $description
-     */
-    protected string $description = '';
+    protected string|int|bool|array|float|null $default;
 
     /**
      * The option mode.
@@ -84,18 +77,18 @@ class InputOption implements InputOptionInterface
         string $name, 
         $shortcut = null,
         ?int $mode = null,
-        ?string $description = null,
-        mixed $default = null
+        private string $description = '',
+        string|bool|int|float|array|null $default = null
     ) {
         if (Str::startsWith($name, '--')) {
             $name = substr($name, 2);
         }
 
-        if (empty($name)) {
+        if ( ! $name) {
             throw new InvalidArgumentException('An option name cannot be empty');
         }
 
-        if (empty($shortcut)) {
+        if ('' === $shortcut || [] === $shortcut || false === $shortcut) {
             $shortcut = null;
         }
 
@@ -108,8 +101,8 @@ class InputOption implements InputOptionInterface
             $shortcuts = array_filter($shortcuts);
             $shortcut  = implode('|', $shortcuts);
             
-            if (empty($shortcut)) {
-                throw new InvalidArgumentException('An option shortcut cannot be empty');
+            if ('' === $shortcut) {
+                throw new InvalidArgumentException('An option shortcut cannot be empty.');
             }
         }
         
@@ -119,10 +112,9 @@ class InputOption implements InputOptionInterface
             throw new InvalidArgumentException(sprintf('Option mode "%s" is not valid.', $mode));
         }
 
-        $this->name        = $name;
-        $this->shortcut    = $shortcut;
-        $this->mode        = $mode;
-        $this->description = $description;
+        $this->name     = $name;
+        $this->shortcut = $shortcut;
+        $this->mode     = $mode;
 
         $this->setDefault($default);        
     }
@@ -152,9 +144,9 @@ class InputOption implements InputOptionInterface
     /**
      * Gets the default value.
      * 
-     * @return mixed
+     * @return string|int|bool|array|float|null
      */
-    public function getDefault(): mixed
+    public function getDefault(): string|int|bool|array|float|null
     {
         return $this->default;
     }

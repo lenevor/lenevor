@@ -52,7 +52,7 @@ class TextDescriptor extends Descriptor
     protected function describeArgument(InputArgument $argument, array $options = [])
     {
         if (null !== $argument->getDefault() && ( ! is_array($argument->getDefault()) || count($argument->getDefault()))) {
-            $default = sprintf(' [<note>default: %s</>] ', $argument->getDefault());
+            $default = sprintf('<comment> [default: %s]</comment>', $argument->getDefault());
         } else {
             $default = '';
         }
@@ -94,7 +94,7 @@ class TextDescriptor extends Descriptor
             }
         }
         
-        $totalWidth = $options['total_width'] ?? $this->calculateTotalWidthForOptions((array) $option);
+        $totalWidth = $options['total_width'] ?? $this->calculateTotalWidthForOptions([$option]);;
 
         $synopsis = sprintf('%s%s',
             $option->getShortcut() ? sprintf('-%s, ', $option->getShortcut()) : '    ',
@@ -103,12 +103,12 @@ class TextDescriptor extends Descriptor
 
         $spacingWidth = $totalWidth - Helper::width($synopsis);
 
-        $this->writeText(sprintf('  <info>%s</info>  %s%s%s%s',
+        $this->writeText(sprintf('  <fg=green>%s</>  %s%s%s%s',
             $synopsis,
             str_repeat(' ', $spacingWidth),
             preg_replace('/\s*[\r\n]\s*/', "\n".str_repeat(' ', $spacingWidth + 4), $option->getDescription()),
             $default,
-            $option->isArray() ? '<info> (multiple values allowed)</>' : ''
+            $option->isArray() ? '<comment> (multiple values allowed)</comment>' : ''
         ), $options);
     }
 
@@ -354,29 +354,31 @@ class TextDescriptor extends Descriptor
     }
 
     /**
-     * Get the calculate total width for options.
+     * Calculate total width when to used options.
      * 
-     * @param  array  $options
+     * @param InputOption[] $options
      * 
      * @return int
      */
     private function calculateTotalWidthForOptions(array $options): int
     {
-        $totalWidth = 0;
+        $totalWidthOption = 0;
 
         foreach ($options as $option) {
+            // "-" + shortcut + ", --" + name
             $nameLength = 1 + max(Helper::width($option->getShortcut()), 1) + 4 + Helper::width($option->getName());
+
             if ($option->isNegatable()) {
-                $nameLength += 6 + Helper::width($option->getName()); 
+                $nameLength += 6 + Helper::width($option->getName()); // |--no- + name
             } elseif ($option->isAcceptValue()) {
-                $valueLength = 1 + Helper::width($option->getName()); 
-                $valueLength += $option->isValueOptional() ? 2 : 0; 
+                $valueLength = 1 + Helper::width($option->getName()); // = + value
+                $valueLength += $option->isValueOptional() ? 2 : 0; // [ + ]
 
                 $nameLength += $valueLength;
             }
-            $totalWidth = max($totalWidth, $nameLength);
+            $totalWidthOption = max($totalWidthOption, $nameLength);
         }
 
-        return $totalWidth;
+        return $totalWidthOption;
     }
 }

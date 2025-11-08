@@ -24,8 +24,6 @@ namespace Syscodes\Components\Console\Input;
 
 use LogicException;
 use InvalidArgumentException;
-use Syscodes\Components\Contracts\Console\Input\InputOption;
-use Syscodes\Components\Contracts\Console\Input\InputArgument;
 use \Syscodes\Components\Contracts\Console\Input\InputDefinition as InputDefinitionInterface;
 
 /**
@@ -43,16 +41,16 @@ class InputDefinition implements InputDefinitionInterface
     /**
      * An array argument.
      * 
-     * @var bool $hasArrayArgument
+     * @var InputArgument|null $hasArrayArgument
      */
-    protected $hasArrayArgument = false;
+    protected ?InputArgument $hasArrayArgument = null;
 
     /**
      * An array optional argument.
      * 
-     * @var bool $hasOptionalArgument
+     * @var InputArgument|null $hasOptionalArgument
      */
-    protected $hasOptionalArgument = false;
+    protected ?InputArgument $hasOptionalArgument = null;
 
     /**
      * An array negations.
@@ -141,6 +139,9 @@ class InputDefinition implements InputDefinitionInterface
     public function setArguments(array $arguments = [])
     {
         $this->arguments = [];
+        $this->requiredCount = 0;
+        $this->hasOptionalArgument = null;
+        $this->hasArrayArgument = null;
 
         $this->addArguments($arguments);
     }
@@ -183,13 +184,13 @@ class InputDefinition implements InputDefinitionInterface
         }
 
         if ($argument->isArray()) {
-            $this->hasArrayArgument = true;
+            $this->hasArrayArgument = $argument;
         }
 
         if ($argument->isRequired()) {
             ++$this->requiredCount;
         } else {
-            $this->hasOptionalArgument = true;
+            $this->hasOptionalArgument = $argument;
         }
 
         $this->arguments[$argument->getName()] = $argument;
@@ -200,11 +201,11 @@ class InputDefinition implements InputDefinitionInterface
      * 
      * @param  string|int  $name  The InputArgument name or position
      * 
-     * @return \Syscodes\Components\Console\Input\InputArgument
+     * @return InputArgument
      * 
      * @throws \InvalidArgumentException
      */
-    public function getArgument($name)
+    public function getArgument(string|int $name): InputArgument
     {
         if ( ! $this->hasArgument($name)) {
             throw new InvalidArgumentException(sprintf('The "%s" argument does not exist', $name));
@@ -222,7 +223,7 @@ class InputDefinition implements InputDefinitionInterface
      * 
      * @return bool  True if the InputArgument object exists, false otherwise
      */
-    public function hasArgument($name): bool
+    public function hasArgument(string|int $name): bool
     {
         $arguments = \is_int($name) ? array_values($this->arguments) : $this->arguments;
 
@@ -232,9 +233,9 @@ class InputDefinition implements InputDefinitionInterface
     /**
      * Gets the array of InputArgument objects.
      * 
-     * @return \Syscodes\Components\Console\Input\InputArgument|array  An array the InputArgument objects
+     * @return InputArgument[]  An array the InputArgument objects
      */
-    public function getArguments()
+    public function getArguments(): array
     {
         return $this->arguments;
     }
@@ -246,7 +247,7 @@ class InputDefinition implements InputDefinitionInterface
      */
     public function getArgumentCount(): int
     {
-        return $this->hasArrayArgument ? \PHP_INT_MAX : \count($this->arguments);
+        return null !== $this->hasArrayArgument ? \PHP_INT_MAX : \count($this->arguments);
     }
 
     /**
@@ -257,6 +258,22 @@ class InputDefinition implements InputDefinitionInterface
     public function getArgumentRequiredCount(): int
     {
         return $this->requiredCount;
+    }
+    
+    /**
+     * Gets the array of InputArgument defaults.
+     * 
+     * @return array<string|bool|int|float|array|null>
+     */
+    public function getArgumentDefaults(): array
+    {
+        $values = [];
+        
+        foreach ($this->arguments as $argument) {
+            $values[$argument->getName()] = $argument->getDefault();
+        }
+        
+        return $values;
     }
 
     /*
@@ -276,6 +293,7 @@ class InputDefinition implements InputDefinitionInterface
     {
         $this->options   = [];
         $this->shortcuts = [];
+        $this->negations = [];
 
         $this->addOptions($options);
     }
@@ -285,9 +303,9 @@ class InputDefinition implements InputDefinitionInterface
      * 
      * @param  \Syscodes\Components\Console\Input\InputOption|array  $options  The options array InputOption objects
      * 
-     * @return \Syscodes\Components\Console\Input\InputOption
+     * @return InputOption[]
      */
-    public function addOptions(array $options = [])
+    public function addOptions(array $options = []): void
     {
         foreach ($options as $option) {
             $this->addOption($option);
@@ -299,11 +317,11 @@ class InputDefinition implements InputDefinitionInterface
      * 
      * @param  \Syscodes\Components\Console\Input\InputOption  $Option  The Options array InputOption objects
      * 
-     * @return \Syscodes\Components\Console\Input\InputOption
+     * @return void
      * 
      * @throws \LogicException
      */
-    public function addOption(InputOption $option)
+    public function addOption(InputOption $option): void
     {
         if (isset($this->options[$option->getName()])) {
             throw new LogicException(sprintf('Whoops! This option with name "%s" already exists', $option->getName()));
@@ -341,14 +359,14 @@ class InputDefinition implements InputDefinitionInterface
      * 
      * @param  string  $name  The InputOption name
      * 
-     * @return \Syscodes\Components\Console\Input\InputOption|array
+     * @return InputOption
      * 
      * @throws \InvalidArgumentException
      */
-    public function getOption(string $name)
+    public function getOption(string $name): InputOption
     {
         if ( ! $this->hasOption($name)) {
-            throw new InvalidArgumentException(sprintf('The "--%s" option does not exist', $name));
+            throw new InvalidArgumentException(sprintf('The "--%s" option does not exist.', $name));
         }
 
         return $this->options[$name];
@@ -393,11 +411,27 @@ class InputDefinition implements InputDefinitionInterface
      * 
      * @param  string  $name  The Shortcut name
      * 
-     * @return \Syscodes\Components\Console\Input\InputOption|array  An InputOption object
+     * @return InputOption  An InputOption object
      */
-    public function getOptionByShortcut(string $name)
+    public function getOptionForShortcut(string $name): InputOption
     {
         return $this->getOption($this->shortcutToName($name));
+    }
+    
+    /**
+     * Gets the array of InputOption defaults.
+     * 
+     * @return array<string|bool|int|float|array|null>
+     */
+    public function getOptionDefaults(): array
+    {
+        $values = [];
+        
+        foreach ($this->options as $option) {
+            $values[$option->getName()] = $option->getDefault();
+        }
+        
+        return $values;
     }
 
     /**
@@ -405,11 +439,11 @@ class InputDefinition implements InputDefinitionInterface
      * 
      * @param  string  $name  The InputOption name
      * 
-     * @return mixed  True if the InputOption shortcut exists, false otherwise
+     * @return string  True if the InputOption shortcut exists, false otherwise
      * 
      * @throws \InvalidArgumentException
      */
-    public function shortcutToName(string $name)
+    public function shortcutToName(string $name): string
     {
         if ( ! isset($this->shortcuts[$name])) {
             throw new InvalidArgumentException(sprintf('The "-%s" option does not exist', $name));

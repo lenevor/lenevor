@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Console\Input;
 
+use RuntimeException;
 use InvalidArgumentException;
 use Syscodes\Components\Console\Input\InputDefinition;
 use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
@@ -72,6 +73,7 @@ abstract class Input implements InputInterface
             $this->definition = new InputDefinition();
         } else {
             $this->linked($definition);
+            $this->validate();
         }
     }
 
@@ -100,6 +102,24 @@ abstract class Input implements InputInterface
      * @return void
      */
     abstract protected function parse(): void;
+
+    /**
+     * Validate arguments.
+     *
+     * @return void
+     */
+    public function validate(): void
+    {
+        $definition = $this->definition;
+
+        $missingArguments = array_filter(array_keys($definition->getArguments()), fn ($argument) => 
+                ! array_key_exists($argument, $this->arguments) && $definition->getArgument($argument)->isRequired()
+        );
+
+        if (count($missingArguments) > 0) {
+            throw new RuntimeException(\sprintf('Not enough arguments (missing: "%s").', implode(', ', $missingArguments)));
+        }
+    }
 
     /**
      * Get the input interactive.
@@ -141,7 +161,7 @@ abstract class Input implements InputInterface
     public function getArgument(string $name): mixed
     {
         if ( ! $this->definition->hasArgument($name)) {
-            throw new InvalidArgumentException(sprintf('The "%s" argument does not exist', $name));
+            throw new InvalidArgumentException(sprintf('The "%s" argument does not exist.', $name));
         }
 
         return $this->arguments[$name] ?? $this->definition->getArgument($name)->getDefault();
@@ -158,7 +178,7 @@ abstract class Input implements InputInterface
     public function setArgument(string $name, mixed $value): void
     {
         if ( ! $this->definition->hasArgument($name)) {
-            throw new InvalidArgumentException(sprintf('The "%s" argument does not exist', $name));
+            throw new InvalidArgumentException(sprintf('The "%s" argument does not exist.', $name));
         }
 
         $this->arguments[$name] = $value;
@@ -183,7 +203,7 @@ abstract class Input implements InputInterface
      */
     public function getArguments(): array
     {
-        return $this->arguments;
+        return array_merge($this->definition->getArgumentDefaults(), $this->arguments);
     }
 
     /*
@@ -212,7 +232,7 @@ abstract class Input implements InputInterface
         }
 
         if ( ! $this->definition->hasOption($name)) {
-            throw new InvalidArgumentException(sprintf('The "%s" argument does not exist', $name));
+            throw new InvalidArgumentException(sprintf('The "%s" argument does not exist.', $name));
         }
 
         return array_key_exists($name, $this->options) ? $this->options[$name] : $this->definition->getOption($name)->getDefault();

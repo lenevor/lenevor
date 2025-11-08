@@ -61,7 +61,9 @@ class OutputFormatter implements OutputFormatterInterface
         $this->setStyle('info', new OutputFormatterStyle('green'));
         $this->setStyle('comment', new OutputFormatterStyle('yellow'));
         $this->setStyle('question', new OutputFormatterStyle('black', 'cyan'));
+        $this->setStyle('success', new OutputFormatterStyle('black', 'green'));
         $this->setStyle('note', new OutputFormatterStyle('blue'));
+        $this->setStyle('warning', new OutputFormatterStyle('black', 'yellow'));
 
         foreach ($styles as $name => $style) {
             $this->setStyle($name, $style);
@@ -126,7 +128,7 @@ class OutputFormatter implements OutputFormatterInterface
      */
     public function getStyle(string $name): string
     {
-        if ( ! $this->hasStyle($name)) {
+        if (!$this->hasStyle($name)) {
             throw new InvalidArgumentException('Undefined style: '.$name);
         }
 
@@ -176,12 +178,8 @@ class OutputFormatter implements OutputFormatterInterface
      */
     private function createStyleFromString($string)
     {
-        if (isset($this->styles[$string])) {
-            return $this->styles[$string];
-        }
-
-        if ( ! preg_match_all('~([^=]+)=([^;]+)(;|$)~', $string, $matches, PREG_SET_ORDER)) {
-            return null;
+        if ( ! preg_match_all('/([^=]+)=([^;]+)(;|$)/', strtolower($string), $matches, PREG_SET_ORDER)) {
+            return false;
         }
 
         $style = new OutputFormatterStyle();
@@ -189,17 +187,13 @@ class OutputFormatter implements OutputFormatterInterface
         foreach ($matches as $match) {
             array_shift($match);
 
-            $match[0] = strtolower($match[0]);
-
             if ('fg' == $match[0]) {
                 $style->setForeground($match[1]);
             } elseif ('bg' == $match[0]) {
                 $style->setBackground($match[1]);
             } elseif ('options' === $match[0]) {
                 preg_match_all('([^,;]+)', strtolower($match[1]), $options);
-                
                 $options = array_shift($options);
-                
                 foreach ($options as $option) {
                     $style->setOption($option);
                 }

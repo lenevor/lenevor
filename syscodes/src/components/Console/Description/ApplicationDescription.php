@@ -43,14 +43,14 @@ class ApplicationDescription
     /**
      * The application console.
      * 
-     * @var \Syscodes\Components\Console\Application $application
+     * @var \Syscodes\Components\Console\Application
      */
     protected $application;
 
     /**
      * Get the commands.
      * 
-     * @var array $commands
+     * @var array 
      */
     protected array $commands;
 

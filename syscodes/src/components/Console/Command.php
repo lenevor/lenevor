@@ -61,9 +61,9 @@ class Command extends BaseCommand
     /**
      * The name and signature of the console command.
      * 
-     * @var string|null $signature
+     * @var string|null
      */
-    protected ?string $signature = null;
+    protected $signature;
 
     /**
      * Constructor. Create a new Command instance.
@@ -123,7 +123,7 @@ class Command extends BaseCommand
         try {
             return (int) $this->lenevor->call([$this, $method]);
         } catch (Exception $e) {
-            throw $e->getMessage();
+            throw $e;
 
             return 0;
         }

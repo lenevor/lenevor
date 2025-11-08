@@ -66,10 +66,8 @@ class InputArgument implements InputArgumentInterface
     ) {
         if (null === $mode) {
             $mode = InputArgumentInterface::OPTIONAL;
-        } elseif ($mode > 7 || $mode < 1) {
-            throw new InvalidArgumentException(
-                sprintf('Argument mode "%s" is not valid', $mode)
-            );
+        } elseif ($mode >= (self::IS_ARRAY << 1) || $mode < 1) {
+            throw new InvalidArgumentException(sprintf('Argument mode "%s" is not valid.', $mode));
         }
 
         $this->mode = $mode;
@@ -146,9 +144,9 @@ class InputArgument implements InputArgumentInterface
     /**
      * Gets the default value.
      * 
-     * @return mixed
+     * @return string|bool|int|float|array|null
      */
-    public function getDefault(): mixed
+    public function getDefault(): string|bool|int|float|array|null
     {
         return $this->default;
     }
@@ -164,7 +162,7 @@ class InputArgument implements InputArgumentInterface
      */
     public function setDefault(mixed $default = null): void
     {
-        if (InputArgumentInterface::REQUIRED === $this->mode && null !== $default) {
+        if ($this->isRequired() && null !== $default) {
             throw new LogicException('Cannot set a default value except for InputArgumentInterface::OPTIONAL mode');
         }
 

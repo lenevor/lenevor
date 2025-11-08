@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Console\Input;
 
+use InvalidArgumentException;
 use Syscodes\Components\Console\Input\InputDefinition;
 
 /**
@@ -56,22 +57,38 @@ class ArrayInput extends Input
      * 
      * @return void
      */
-    protected function parse(): void {}
+    protected function parse(): void
+    {
+        foreach ($this->parameters as $key => $value) {
+            if ('--' === $key) {
+                return;
+            }
+            if (str_starts_with($key, '--')) {
+                $this->addLongOption(substr($key, 2), $value);
+            } elseif (str_starts_with($key, '-')) {
+                $this->addShortOption(substr($key, 1), $value);
+            } else {
+                $this->addArgument($key, $value);
+            }
+        }
+    }
 
     /**
      * Gets the first argument from unprocessed parameters (not parsed).
      * 
      * @return string|null
      */
-    public function getFirstArgument()
+    public function getFirstArgument(): ?string
     {
-        foreach ($this->parameters as $key => $value) {
-            if ($key && '-' === $key[0]) {
+        foreach ($this->parameters as $param => $value) {
+            if ($param && \is_string($param) && '-' === $param[0]) {
                 continue;
             }
-            
+
             return $value;
         }
+
+        return null;
     }
 
     /**
@@ -84,16 +101,18 @@ class ArrayInput extends Input
      */
     public function hasParameterOption(string|array $values, bool $params = false): bool
     {
-        foreach ($this->parameters as $key => $value) {
-            if ( ! is_int($key)) {
-                $value = $key;
+        $values = (array) $values;
+
+        foreach ($this->parameters as $k => $v) {
+            if (!\is_int($k)) {
+                $v = $k;
             }
 
-            if ($params && '--' === $value) {
+            if ($params && '--' === $v) {
                 return false;
             }
 
-            if (in_array($value, (array) $values)) {
+            if (\in_array($v, $values)) {
                 return true;
             }
         }
@@ -112,20 +131,118 @@ class ArrayInput extends Input
      */
     public function getParameterOption(string|array $values, mixed $default = false, bool $params = false): mixed
     {
-        foreach ($this->parameters as $key => $value) {
-            if ($params && ('--' === $key || (is_int($key) && '--' === $value))) {
+        $values = (array) $values;
+
+        foreach ($this->parameters as $k => $v) {
+            if ($params && ('--' === $k || (\is_int($k) && '--' === $v))) {
                 return $default;
             }
-            
-            if (is_int($key)) {
-                if (in_array($value, (array) $values)) {
+
+            if (\is_int($k)) {
+                if (\in_array($v, $values)) {
                     return true;
                 }
-            } elseif (in_array($key, (array) $values)) {
-                return $value;
+            } elseif (\in_array($k, $values)) {
+                return $v;
             }
         }
-        
+
         return $default;
+    }
+
+    /**
+     * Adds a short option value.
+     *
+     * @throws InvalidOptionException When option given doesn't exist
+     */
+    private function addShortOption(string $shortcut, mixed $value): void
+    {
+        if ( ! $this->definition->hasShortcut($shortcut)) {
+            throw new InvalidArgumentException(\sprintf('The "-%s" option does not exist.', $shortcut));
+        }
+
+        $this->addLongOption($this->definition->getOptionByShortcut($shortcut)->getName(), $value);
+    }
+
+    /**
+     * Adds a long option value.
+     *
+     * @param  string  $name
+     * @param  mixed  $value
+     * 
+     * @throws InvalidOptionException 
+     */
+    private function addLongOption(string $name, mixed $value): void
+    {
+        if (!$this->definition->hasOption($name)) {
+            if (!$this->definition->hasNegation($name)) {
+                throw new InvalidArgumentException(\sprintf('The "--%s" option does not exist.', $name));
+            }
+
+            $optionName = $this->definition->negationToName($name);
+            $this->options[$optionName] = false;
+
+            return;
+        }
+
+        $option = $this->definition->getOption($name);
+
+        if (null === $value) {
+            if ($option->isValueRequired()) {
+                throw new InvalidArgumentException(\sprintf('The "--%s" option requires a value.', $name));
+            }
+
+            if (!$option->isValueOptional()) {
+                $value = true;
+            }
+        }
+
+        $this->options[$name] = $value;
+    }
+
+    /**
+     * Adds an argument value.
+     * 
+     * @param  string|int  $name
+     * @param  mixed  $value
+     *
+     * @throws InvalidArgumentException When argument given doesn't exist
+     */
+    protected function addArgument(string|int $name, mixed $value): void
+    {
+        if ( ! $this->definition->hasArgument($name)) {
+            throw new InvalidArgumentException(\sprintf('The "%s" argument does not exist.', $name));
+        }
+
+        $this->arguments[$name] = $value;
+    }
+
+    /**
+     * Magic method.
+     * 
+     * Returns a stringified representation of the args passed to the command.
+     * 
+     * @return string
+     */
+    public function __toString(): string
+    {
+        $params = [];
+
+        foreach ($this->parameters as $param => $val) {
+            if ($param && \is_string($param) && '-' === $param[0]) {
+                $glue = ('-' === $param[1]) ? '=' : ' ';
+                if (\is_array($val)) {
+                    foreach ($val as $v) {
+                        $params[] = $param.('' != $v ? $glue.$this->escapeToken($v) : '');
+                    }
+                } else {
+                    $params[] = $param.('' != $val ? $glue.$this->escapeToken($val) : '');
+                }
+            } else {
+                $params[] = \is_array($val) ? implode(' ', array_map($this->escapeToken(...), $val)) : $this->escapeToken($val);
+            }
+        }
+
+        return implode(' ', $params);
     }
 }

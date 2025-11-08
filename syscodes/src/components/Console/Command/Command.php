@@ -24,7 +24,6 @@ namespace Syscodes\Components\Console\Command;
 
 use Closure;
 use Throwable;
-use TypeError;
 use LogicException;
 use ReflectionClass;
 use ReflectionMethod;
@@ -82,70 +81,70 @@ class Command
     /**
      * The console command description.
      * 
-     * @var string $description
+     * @var string
      */
-    protected string $description = '';
+    protected $description = '';
 
     /**
      * The InputDefinition full implemented.
      * 
-     * @var \Syscodes\Components\Console\Input\InputDefinition $fullDefinition
+     * @var \Syscodes\Components\Console\Input\InputDefinition
      */
     protected $fullDefinition;
 
     /**
      * The group of commands is lumped under, when listing commands.
      * 
-     * @var string $group
+     * @var string
      */
-    protected string $group = '';
+    protected $group = '';
 
     /**
      * The console command help text.
      * 
-     * @var string $help
+     * @var string
      */
-    protected string $help = '';
+    protected $help = '';
 
     /**
      * Indicates whether the command should be shown in the Prime command list.
      * 
-     * @var bool $hidden
+     * @var bool
      */
     protected bool $hidden = false;
 
     /**
      * The validation of ignored errors 
      * 
-     * @var bool $ignoreValidationErrors
+     * @var bool
      */
     protected bool $ignoreValidationErrors = false;
 
     /**
      * The console command name.
      * 
-     * @var string|null $name
+     * @var string|null
      */
-    protected ?string $name = null;
+    protected $name;
 
     /**
      * The Command's options description.
      * 
-     * @var array $options
+     * @var array
      */
     protected $options = [];
 
     /**
      * The console command synopsis.
      * 
-     * @var array $synopsis
+     * @var array
      */
     protected $synopsis = [];
 
     /**
      * The console command usages.
      * 
-     * @var array $usages
+     * @var array
      */
     protected $usages = [];
 
@@ -304,17 +303,13 @@ class Command
             $input->setArgument('command', $this->getName());
         }
 
-        $statusCode = '';
+        $input->validate();
 
-        if (0 === (int) $this->code) {
-            $statusCode = $this->execute($input, $output);
-        } else {
-            throw new TypeError(
-                sprintf('Returned value in "%s::execute()" must be of the type int, "%s" returned', static::class, get_debug_type($statusCode))
-            );
+        if ($this->code) {
+            return ($this->code)($input, $output);
         }
 
-        return is_numeric($statusCode) ? (int) $statusCode : 0;
+        return $this->execute($input, $output);
     }
     
     /**
@@ -350,13 +345,26 @@ class Command
      */
     public function getDefinition()
     {
-        if (null === $this->definition) {
-            throw new LogicException(
-                sprintf('Probably Command class "%s" is not correctly initialized  because forget to call the parent constructor', static::class)
-            );
+        return $this->fullDefinition ?? $this->getNativeDefinition();
+    }
+
+    /**
+     * Gets the InputDefinition to be used to create representations of this Command.
+     *
+     * Can be overridden to provide the original command representation when it would otherwise
+     * be changed by merging with the application InputDefinition.
+     *
+     * This method is not part of public API and should not be used directly.
+     */
+    public function getNativeDefinition(): InputDefinition
+    {
+        $definition = $this->definition ?? throw new LogicException(\sprintf('Command class "%s" is not correctly initialized. You probably forgot to call the parent constructor.', static::class));
+
+        if ($this->code && ! $definition->getArguments() && ! $definition->getOptions()) {
+            return $definition;
         }
 
-        return $this->fullDefinition ?? $this->definition;
+        return $definition;
     }
     
     /**

@@ -35,7 +35,6 @@ use Syscodes\Components\Console\Command\ListCommand;
 use Syscodes\Components\Console\Input\InputArgument;
 use Syscodes\Components\Console\Output\ConsoleOutput;
 use Syscodes\Components\Console\Input\InputDefinition;
-use Syscodes\Components\Core\Console\Commands\AboutCommand;
 use Syscodes\Components\Console\Concerns\BuildConsoleVersion;
 use Syscodes\Components\Console\Exceptions\CommandNotFoundException;
 use Syscodes\Components\Console\Exceptions\NamespaceNotFoundException;
@@ -232,9 +231,9 @@ class Application implements ApplicationContract
         $input ??= new ArgvInput();
         $output ??= new ConsoleOutput();
         
-        $this->configureIO($input, $output);
-        
         try {
+            $this->configureIO($input, $output);
+            
             $exitCode = $this->doExecute($input, $output);
         } catch (Exception $e) {
             throw $e;
@@ -291,6 +290,7 @@ class Application implements ApplicationContract
 
             return 0;
         }
+
 
         try {
             $input->linked($this->getDefinition());
@@ -405,11 +405,9 @@ class Application implements ApplicationContract
      * 
      * @return \Syscodes\Components\Console\Input\InputDefinition
      */
-    public function getDefinition() 
+    public function getDefinition(): InputDefinition 
     {
-        if ( ! $this->definition) {
-            $this->definition = $this->getDefaultInputDefinition();
-        }
+        $this->definition ??= $this->getDefaultInputDefinition();
 
         if ($this->singleCommand) {
             $inputDefinition = $this->definition;
