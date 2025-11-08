@@ -83,7 +83,7 @@ trait InteractsIO
 	 * 
 	 * @return array|string|bool|null
 	 */
-	public function argument($key = null): array|string|bool|null
+	public function argument($key): array|string|bool|null
 	{
 		if (is_null($key)) {
 			return $this->input->getArguments();
@@ -99,7 +99,7 @@ trait InteractsIO
 	 */
 	public function arguments(): array
 	{
-		return $this->argument();
+		return $this->arguments();
 	}
 	
 	/**
