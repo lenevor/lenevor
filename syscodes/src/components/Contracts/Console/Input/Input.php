@@ -44,6 +44,13 @@ interface Input
     public function linked(InputDefinition $definition): void;
 
     /**
+     * Validate arguments.
+     *
+     * @return void
+     */
+    public function validate(): void;
+
+    /**
      * Gets the first argument from unprocessed parameters (not parsed).
      * 
      * @return string|null
@@ -69,7 +76,7 @@ interface Input
      * 
      * @return mixed
      */
-    public function getParameterOption(string|array $values, $default = false, bool $params = false): mixed;
+    public function getParameterOption(string|array $values, string|bool|int|float|array|null $default = false, bool $params = false): mixed;
 
     /**
      * Get the input interactive.
