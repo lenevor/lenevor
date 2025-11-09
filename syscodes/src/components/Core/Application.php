@@ -29,6 +29,7 @@ use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Config\Configure;
+use Syscodes\Components\Console\Input\Input;
 use Syscodes\Components\Container\Container;
 use Syscodes\Components\Support\Environment;
 use Syscodes\Components\Filesystem\Filesystem;
@@ -41,7 +42,6 @@ use Syscodes\Components\Core\Concerns\ConfigurationFiles;
 use Syscodes\Components\Core\Http\Exceptions\HttpException;
 use Syscodes\Components\Contracts\Http\Kernel as KernelContract;
 use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
-use Syscodes\Components\Contracts\Console\Input\Input as InputContract;
 use Syscodes\Components\Contracts\Core\Application as ApplicationContract;
 use Syscodes\Components\Contracts\Console\Kernel as KernelCommandContract;
 
@@ -1277,11 +1277,11 @@ class Application extends Container implements ApplicationContract
     /**
      * Handle the incoming Prime command.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
+     * @param  \Syscodes\Components\Console\Input\Input  $input
      * 
      * @return int
      */
-    public function handleCommand(InputContract $input)
+    public function handleCommand(Input $input)
     {
         $Kernel = $this->make(KernelCommandContract::class);
         
