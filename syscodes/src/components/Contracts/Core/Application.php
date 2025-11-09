@@ -424,4 +424,13 @@ interface Application extends Container
      * @return void
      */
     public function finalize(): void;
+
+    /**
+     * Get the application namespace.
+     * 
+     * @return string
+     * 
+     * @throws \RuntimeException
+     */
+    public function getNamespace(): string;
 }
