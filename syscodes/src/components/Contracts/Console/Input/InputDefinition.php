@@ -22,6 +22,9 @@
 
 namespace Syscodes\Components\Contracts\Console\Input;
 
+use Syscodes\Components\Console\Input\InputOption;
+use Syscodes\Components\Console\Input\InputArgument;
+
 /**
  * InputDefinition Interface.
  */
@@ -59,11 +62,11 @@ interface InputDefinition
      * 
      * @param  string|int  $name  The InputArgument name or position
      * 
-     * @return \Syscodes\Components\Console\Input\InputArgument
+     * @return InputArgument
      * 
      * @throws \InvalidArgumentException
      */
-    public function getArgument($name);
+    public function getArgument(string|int $name): InputArgument;
 
     /**
      * Checks an InputArgument objects if exists by name or by position.
@@ -72,7 +75,7 @@ interface InputDefinition
      * 
      * @return bool  True if the InputArgument object exists, false otherwise
      */
-    public function hasArgument($name): bool;
+    public function hasArgument(string|int $name): bool;
 
     /**
      * Gets the array of InputArgument objects.
@@ -118,11 +121,11 @@ interface InputDefinition
      * 
      * @param  \Syscodes\Components\Console\Input\InputOption  $Option  The Options array InputOption objects
      * 
-     * @return \Syscodes\Components\Console\Input\InputOption
+     * @return void
      * 
      * @throws \LogicException
      */
-    public function addOption(InputOption $Option);
+    public function addOption(InputOption $Option): void;
 
     /**
      * Gets an InputOption by name of an array.
@@ -167,7 +170,7 @@ interface InputDefinition
      * 
      * @return \Syscodes\Components\Console\Input\InputOption|array  An InputOption object
      */
-    public function getOptionByShortcut(string $name);
+    public function getOptionForShortcut(string $name);
 
     /**
      * Gets the InputOption name given a shortcut.
