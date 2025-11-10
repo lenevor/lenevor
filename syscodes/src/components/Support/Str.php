@@ -204,8 +204,16 @@ class Str
      */
     public static function endsWith($haystack, $needles): bool
     {
-        foreach ((array) $needles as $needle) {
-            if (substr($haystack, -strlen($needle)) === (string) $needle) {
+        if (is_null($haystack)) {
+            return false;
+        }
+
+        if (! is_iterable($needles)) {
+            $needles = (array) $needles;
+        }
+
+        foreach ($needles as $needle) {
+            if ((string) $needle !== '' && str_ends_with($haystack, $needle)) {
                 return true;
             }
         }
@@ -433,6 +441,20 @@ class Str
     }
 
     /**
+     * Replace the given value in the given string.
+     * 
+     * @param  string|string[]  $search
+     * @param  string|string[]  $replace
+     * @param  string|string[]  $subject
+     * 
+     * @return string
+     */
+    public static function replace($search, $replace, $subject): string
+    {
+        return str_replace($search, $replace, $subject);
+    }
+
+    /**
      * Replace a given value in the string sequentially with an array.
      * 
      * @param  string  $search
@@ -453,19 +475,53 @@ class Str
         
         return $result;
     }
-
+    
     /**
-     * Replace the given value in the given string.
+     * Replace the first occurrence of a given value in the string.
      * 
-     * @param  string|string[]  $search
-     * @param  string|string[]  $replace
-     * @param  string|string[]  $subject
+     * @param  string  $search
+     * @param  string  $replace
+     * @param  string  $subject
      * 
      * @return string
      */
-    public static function replace($search, $replace, $subject): string
+    public static function replaceFirst($search, $replace, $subject): string
     {
-        return str_replace($search, $replace, $subject);
+        if ($search == '') {
+            return $subject;
+        }
+        
+        $position = strpos($subject, $search);
+        
+        if ($position !== false) {
+            return substr_replace($subject, $replace, $position, strlen($search));
+        }
+        
+        return $subject;
+    }
+    
+    /**
+     * Replace the last occurrence of a given value in the string.
+     * 
+     * @param  string  $search
+     * @param  string  $replace
+     * @param  string  $subject
+     * 
+     * @return string
+     */
+    public static function replaceLast($search, $replace, $subject): string
+    {
+        if ($search === '') {
+            return $subject;
+        }
+        
+        $position = strrpos($subject, $search);
+        
+        if ($position !== false) {
+            return substr_replace($subject, $replace, $position, strlen($search));
+        }
+        
+        return $subject;
     }
 
     /**
@@ -570,12 +626,20 @@ class Str
      */
     public static function startsWith($haystack, $needles): bool
     {
-        foreach ((array) $needles as $needle) {
-            if (($needle != '') && substr($haystack, 0, strlen($needle)) === (string) $needle) {
+        if (is_null($haystack)) {
+            return false;
+        }
+        
+        if ( ! is_iterable($needles)) {
+            $needles = [$needles];
+        }
+        
+        foreach ($needles as $needle) {
+            if ((string) $needle !== '' && str_starts_with($haystack, $needle)) {
                 return true;
             }
         }
-
+        
         return false;
     }
 
