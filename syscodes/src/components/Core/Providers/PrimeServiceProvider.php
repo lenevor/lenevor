@@ -28,6 +28,7 @@ use Syscodes\Components\Core\Console\Commands\AboutCommand;
 use Syscodes\Components\Core\Console\Commands\ServeCommand;
 use Syscodes\Components\Core\Console\Commands\ViewClearCommand;
 use Syscodes\Components\Core\Console\Commands\ApiInstallCommand;
+use Syscodes\Components\controller\console\ControllerMakeCommand;
 use Syscodes\Components\Core\Console\Commands\EnvironmentCommand;
 use Syscodes\Components\Core\Console\Commands\KeyGenerateCommand;
 
@@ -56,6 +57,7 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
      */
     protected $devCommands = [
         'ApiInstall' => ApiInstallCommand::class,
+        'ControllerMake' => ControllerMakeCommand::class,
         'Serve' => ServeCommand::class,
     ];
 
@@ -81,7 +83,7 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
     {
         foreach ($commands as $commandName => $command) {
             $method = "register{$commandName}Command";
-            
+
             if (method_exists($this, $method)) {
                 $this->{$method}();
             } else {
@@ -100,6 +102,18 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
     protected function registerAboutCommand()
     {
         $this->app->singleton(AboutCommand::class, fn () => new AboutCommand());
+    }
+    
+    /**
+     * Register the command.
+     * 
+     * @return void
+     */
+    protected function registerControllerMakeCommand()
+    {
+        $this->app->singleton(ControllerMakeCommand::class, function ($app) {
+            return new ControllerMakeCommand($app['files']);
+        });
     }
 
     /**
