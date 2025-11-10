@@ -30,9 +30,24 @@ use Syscodes\Components\Console\Attribute\AsCommandAttribute;
 /**
  * A console command to display information about of system.
  */
-#[AsCommandAttribute(name: 'about', description: 'Display information about the current project')]
+#[AsCommandAttribute(name: 'about')]
 class AboutCommand extends Command
 {
+    /**
+     * The console command signature.
+     *
+     * @var string
+     */
+    protected $name = 'about';
+    
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Display basic information about your application';
+
     /**
      * Gets input definition for command.
      * 
@@ -57,6 +72,8 @@ class AboutCommand extends Command
     public function handle()
     {
         echo $this->buildInfo($this->getApplication());
+
+        return 0;
     }
 
     /**
