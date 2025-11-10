@@ -22,11 +22,13 @@
 
 namespace Syscodes\Components\Core\Console;
 
+use Closure;
 use Throwable;
 use Syscodes\Components\Contracts\Core\Application;
 use Syscodes\Components\Contracts\Events\Dispatcher;
-use Syscodes\Components\Contracts\Debug\ExceptionHandler;
 use Syscodes\Components\Console\Application as Prime;
+use Syscodes\Components\Contracts\Debug\ExceptionHandler;
+use Syscodes\Components\Core\Console\Commands\ClosureCommand;
 use Syscodes\Components\Contracts\Console\Kernel as KernelContract;
 
 /**
@@ -95,7 +97,7 @@ class Kernel implements KernelContract
      * Handle an incoming console command.
      * 
      * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
-     * @param  \Syscodes\Components\Contracts\Console\Output\Output|null  $output
+     * @param  \Syscodes\Components\Contracts\Console\\Output\Output|null|null  $output
      * 
      * @return int
      */
@@ -117,7 +119,7 @@ class Kernel implements KernelContract
     /**
      * Register the given command with the console application.
      * 
-     * @param  \Syscodes\Components\Console\Command\Command  $command
+     * @param  \Syscodes\Components\Console\Command  $command
      * 
      * @return void
      */
@@ -134,6 +136,25 @@ class Kernel implements KernelContract
     protected function commands(): void
     {
         //
+    }
+
+    /**
+     * Register a Closure based command with the application.
+     *
+     * @param  string  $signature
+     * @param  \Closure  $callback
+     * 
+     * @return \Syscodes\Components\Core\Console\ClosureCommand
+     */
+    public function command($signature, Closure $callback)
+    {
+        $command = new ClosureCommand($signature, $callback);
+
+        Prime::starting(function ($prime) use ($command) {
+            $prime->add($command);
+        });
+
+        return $command;
     }
     
     /**
