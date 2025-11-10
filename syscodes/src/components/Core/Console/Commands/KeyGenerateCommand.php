@@ -25,9 +25,7 @@ namespace Syscodes\Components\Core\Console\Commands;
 use Syscodes\Components\Console\Command;
 use Syscodes\Components\Encryption\Encrypter;
 use Syscodes\Components\Console\Input\InputOption;
-use Syscodes\Components\Console\Concerns\ConfirmProcess;
 use Syscodes\Components\Console\Attribute\AsCommandAttribute;
-use Syscodes\Components\Contracts\Console\Input\InputOption as InputOptionInterface;
 
 /**
  * This class displays the key generate for a given command.
@@ -35,14 +33,19 @@ use Syscodes\Components\Contracts\Console\Input\InputOption as InputOptionInterf
 #[AsCommandAttribute(name: 'key:generate')]
 class KeyGenerateCommand extends Command
 {
-    use ConfirmProcess;
+    /**
+     * The console command name.
+     * 
+     * @var string
+     */
+    protected $name = 'key:generate';
 
     /**
      * The console command description.
      * 
-     * @var string $description
+     * @var string
      */
-    protected string $description = 'Set the application key';
+    protected $description = 'Set the application key';
 
     /**
      * Gets input definition for command.
@@ -52,8 +55,8 @@ class KeyGenerateCommand extends Command
     protected function define()
     {
         $this->setDefinition([
-                    new InputOption('show', null, InputOptionInterface::VALUE_REQUIRED, 'Display the key instead of modifying files'),
-                    new InputOption('force', null, InputOptionInterface::VALUE_OPTIONAL, 'Force the operation to run when in production'),
+                    new InputOption('show', null, InputOption::VALUE_REQUIRED, 'Display the key instead of modifying files.'),
+                    new InputOption('force', null, InputOption::VALUE_OPTIONAL, 'Force the operation to run when in production.'),
         ]);
     }
 
@@ -67,7 +70,7 @@ class KeyGenerateCommand extends Command
         $key = $this->generateRandomKey();
 
         if ($this->option('show')) {
-            return $this->note($key);
+            return $this->line('<comment>'.$key.'</comment>');
         }
 
         if ( ! $this->setKeyInEnvironmentFile($key)) {

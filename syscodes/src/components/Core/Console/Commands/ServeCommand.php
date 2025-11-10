@@ -24,11 +24,12 @@ namespace Syscodes\Components\Core\Console\Commands;
 
 use Syscodes\Components\Console\Command;
 use Syscodes\Components\Support\Environment;
+use Syscodes\Components\Console\Input\InputOption;
 use Syscodes\Components\Support\InteractsWithTime;
-use  Syscodes\Components\Console\Input\InputOption;
-use Syscodes\Components\Console\Attribute\AsCommandAttribute;
 
 use function Syscodes\Components\Support\php_binary;
+
+use Syscodes\Components\Console\Attribute\AsCommandAttribute;
 
 /**
  * Executable PHP server for execute the framework system.
@@ -41,16 +42,16 @@ class ServeCommand extends Command
     /**
      * The console command name.
      * 
-     * @var string|null $name
+     * @var string
      */
-    protected ?string $name = 'serve';
+    protected $name = 'serve';
 
     /**
      * The console command description.
      * 
-     * @var string|null $description
+     * @var string
      */
-    protected string $description = 'Serve the application on the PHP development server';
+    protected $description = 'Serve the application on the PHP development server';
 
     /**
      * The current port offset.
@@ -70,7 +71,7 @@ class ServeCommand extends Command
     {
         chdir(public_path());
 
-        $this->line("   <bg=blue;fg=white;options=bold> INFO </> Server running on [http://{$this->host()}:{$this->port()}].\n");
+        $this->line("   <bg=blue;fg=white;options=bold> INFO </> Built-in server is running on [http://{$this->host()}:{$this->port()}].\n");
 
         $this->line('   <fg=yellow;options=bold>Press Ctrl+C to stop the server</>');
 

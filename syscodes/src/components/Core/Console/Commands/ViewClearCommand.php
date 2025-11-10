@@ -37,16 +37,16 @@ class ViewClearCommand extends Command
     /**
      * The console command name.
      *
-     * @var string|null $name
+     * @var string
      */
-    protected ?string $name = 'view:clear';
+    protected $name = 'view:clear';
 
     /**
      * The console command description.
      *
-     * @var string $description
+     * @var string
      */
-    protected string $description = 'Clear all transpiled view files';
+    protected $description = 'Clear all transpiled view files';
 
     /**
      * The filesystem instance.

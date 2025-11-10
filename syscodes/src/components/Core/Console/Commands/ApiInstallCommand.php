@@ -34,11 +34,18 @@ use Syscodes\Components\Console\Attribute\AsCommandAttribute;
 class ApiInstallCommand extends Command
 {
     /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'install:api';
+    
+    /**
      * The console command description.
      * 
-     * @var string|null $description
+     * @var string
      */
-    protected string $description = 'Create an API routes file and install';
+    protected $description = 'Create an API routes file and install';
 
     /**
      * Executes the current command.
@@ -97,8 +104,7 @@ class ApiInstallCommand extends Command
     {
         return [
             ['--composer=global', null, InputOption::VALUE_OPTIONAL, 'Absolute path to the Composer binary which should be used to install packages.'],
-            ['--force', null, InputOption::VALUE_NONE, 'Overwrite any existing API routes file.'],
-            
+            ['--force', null, InputOption::VALUE_NONE, 'Overwrite any existing API routes file.'],            
         ];
     }
 }

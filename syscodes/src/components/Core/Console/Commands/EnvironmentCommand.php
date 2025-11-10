@@ -34,23 +34,21 @@ class EnvironmentCommand extends Command
     /**
      * The console command name.
      * 
-     * @var string|null $name
+     * @var string
      */
-    protected ?string $name = 'env';
+    protected $name = 'env';
 
     /**
      * The console command description.
      * 
-     * @var string|null $description
+     * @var string
      */
-    protected string $description = 'Display the current framework environment';
+    protected $description = 'Display the current framework environment';
 
     /**
      * Execute the console command.
      *
      * @return void
-     * 
-     * @throws \LogicException
      */
     public function handle()
     {
