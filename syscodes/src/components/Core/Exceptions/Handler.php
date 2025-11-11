@@ -30,14 +30,13 @@ use Syscodes\Components\Http\Response;
 use Syscodes\Components\Routing\Router;
 use Syscodes\Components\Support\ViewErrorBag;
 use Syscodes\Components\Http\RedirectResponse;
-use Syscodes\Components\Debug\ExceptionHandler;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Contracts\Core\ExceptionRender;
 use Syscodes\Components\Core\Http\Exceptions\HttpException;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
-use Syscodes\Components\Debug\FatalExceptions\FlattenException;
 use Syscodes\Components\Auth\Exceptions\AuthenticationException;
 use Syscodes\Components\Session\Exceptions\TokenMismatchException;
+use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
 use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
 use Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException;
 use Syscodes\Components\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
@@ -50,7 +49,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * The container implementation.
      * 
-     * @var \Syscodes\Contracts\Container\Container $container
+     * @var \Syscodes\Components\Contracts\Container\Container $container
      */
     protected $container;
 
@@ -361,13 +360,13 @@ class Handler implements ExceptionHandlerContract
         try {
             if (config('app.debug')) {
                 if (app()->has(ExceptionRender::class)) {
-                    return $this->renderExceptionWithDebug($e);
-                }
+                    return $this->renderExceptionWithCustomDebug($e);
+                } 
             }
             
-            return $this->renderExceptionWithFlatDesignDebug($e, config('app.debug'));
-        } catch (Exception $e) {
-            return $this->renderExceptionWithFlatDesignDebug($e, config('app.debug'));
+            return $this->renderExceptionWithSymfony($e, config('app.debug'));
+        } catch (Throwable $e) {
+            return $this->renderExceptionWithSymfony($e, config('app.debug'));
         }
     }
 
@@ -378,26 +377,26 @@ class Handler implements ExceptionHandlerContract
      * 
      * @return void
      * 
-     * @uses   \Syscodes\Components\Contracts\Core\ExceptionRender
+     * @uses   \Syscodes\Components\Contracts\Core\ExceptionRender  
      */
-    protected function renderExceptionWithDebug(Throwable $e)
+    protected function renderExceptionWithCustomDebug(Throwable $e)
     {
         return app(ExceptionRender::class)->render($e);
     }
 
     /**
-     * Render an exception to a string using Flat Design Debug.
+     * Render an exception to a string using Symfony.
      * 
      * @param  Throwable  $e
      * @param  bool  $debug
      * 
      * @return string
      */
-    protected function renderExceptionWithFlatDesignDebug(Throwable $e, $debug)
+    protected function renderExceptionWithSymfony(Throwable $e, $debug)
     {
-        return (new ExceptionHandler($debug))->getHtmlResponse(
-            FlattenException::make($e)
-        );
+         $renderer = new HtmlErrorRenderer($debug);
+
+        return $renderer->render($e)->getAsString();
     }
 
     /**
