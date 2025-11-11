@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Debug\Handlers;
 
+use Closure;
 use Exception;
 use Traversable;
 use ErrorException;
@@ -193,6 +194,7 @@ class PleasingPageHandler extends Handler
 			'message' => $supervisor->getExceptionMessage(),
 			'frames' => $this->getExceptionFrames(),
 			'servers' => $this->getProcessTables($servers),
+			'body' => $this->getRequestBody(),
 			'routes' => $this->getProcessTables($routing),
 			'databases' => $this->getProcessTables($databases),
 			'contexts' => $this->getProcessTables($context),
@@ -244,6 +246,24 @@ class PleasingPageHandler extends Handler
 		return [new ArrayTable($server)];
 	}
 
+	 /**
+     * Get the request's body parameters.
+     *
+     * @return \Syscodes\Components\Contracts\Debug\Table[]
+     */
+    public function getRequestBody()
+    {
+        if (empty($payload = request()->all())) {
+            return null;
+        }
+
+        $json = (string) json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+
+        $result = str_replace('\\', '', $json);
+
+		return ($result);
+    }
+
 	/**
 	 * Returns the default routing.
 	 * 
@@ -251,17 +271,15 @@ class PleasingPageHandler extends Handler
 	 */
 	protected function getDefaultRouting()
 	{
-		$action = 'Closure' ?? app('request')->route()->parseControllerCallback()[0];
+		$route = request()->route();
 
-		$index = match (true) {
-			array_key_exists('web', app('router')->getMiddlewareGroups()) => 0,
-			array_key_exists('api', app('router')->getMiddlewareGroups()) => 1,
-		};
-
-		$routing = [
-			'Controller' => $action,
-			'Middleware' => array_keys(app('router')->getMiddlewareGroups())[$index],
-		];
+        $routing = $route ? array_filter([
+            'controller' => $route->getActionName(),
+            'route name' => $route->getName() ?: null,
+            'middleware' => implode(', ', array_map(function ($middleware) {
+                return $middleware instanceof Closure ? 'Closure' : $middleware;
+            }, $route->gatherMiddleware())),
+        ]) : [];
 
 		return [new ArrayTable($routing)];
 	}
