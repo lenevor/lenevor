@@ -36,7 +36,6 @@ use Syscodes\Components\Routing\Matching\HostValidator;
 use Syscodes\Components\Routing\Matching\MethodValidator;
 use Syscodes\Components\Routing\Matching\SchemeValidator;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
-use Syscodes\Bundles\ApplicationBundle\Routing\Route as BundleRoute;
 
 /**
  * A Route describes a route and its parameters.
@@ -214,10 +213,10 @@ class Route
 	 * 
 	 * @return string|null
 	 */
-	public function getDomain()
+	public function getDomain(): ?string
 	{
 		return isset($this->action['domain'])
-				? str_replace(['http://', 'https://'], '', $this->action['domain'])
+                ? str_replace(['http://', 'https://'], '', $this->action['domain'])
 				: null;
 	}
 
@@ -590,12 +589,12 @@ class Route
 	/**
 	 * Compile into a Route Compile instance.
 	 * 
-	 * @return \Syscodes\Bundles\ApplicationBundle\Routing\RouteCompiler
+	 * @return \Symfony\Component\Routing\CompiledRoute
 	 */
 	protected function compileRoute()
 	{
 		if ( ! $this->compiled) {
-			$this->compiled = $this->toBundleRoute()->compile();
+			$this->compiled = (new RouteCompiler($this))->compile();
 		}
 
 		return $this->compiled;
@@ -782,33 +781,6 @@ class Route
 	public function secure(): bool
 	{
 		return in_array('https', $this->action, true);
-	}
-	
-	/**
-	 * Convert the route to a bundle route.
-	 * 
-	 * @return \Syscodes\Bundles\ApplicationBundle\Routing\Route
-	 */
-	public function toBundleRoute()
-	{
-		return new BundleRoute(
-		            preg_replace('~\{(\w+?)\?\}~', '{$1}', $this->getUri()),
-		            $this->getOptionalParameterNames(),
-		            $this->getPatterns(),
-		            $this->getDomain() ?: ''
-		       );
-	}
-	
-	/**
-	 * Get the optional parameter names for the route.
-	 * 
-	 * @return array
-	 */
-	protected function getOptionalParameterNames(): array
-	{
-		preg_match_all('~\{(\w+?)\?\}~', $this->getUri(), $matches);
-		
-		return isset($matches[1]) ? array_fill_keys($matches[1], null) : [];
 	}
 
 	/**
