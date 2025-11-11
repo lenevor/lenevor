@@ -2230,6 +2230,11 @@ header .message a:hover {
     word-break: break-all;
 }
 
+.section-details .section-detail-info .section-info-request .info-body-title pre .text-no-body {
+    color: var(--gray-400);
+    text-transform: uppercase;
+}
+
 [data-theme="dark"] .section-details .section-detail-info .info-body-title pre {
     background: var(--dark-magenta-250);
 }
@@ -2240,6 +2245,10 @@ header .message a:hover {
 
 [data-theme="dark"] .section-details .section-detail-info .info-body-title pre span {
     color: var(--dark-gray-700);
+}
+
+[data-theme="dark"] .section-details .section-detail-info .section-info-request .info-body-title pre .text-no-body {
+    color: var(--dark-magenta-500);
 }
 
 /* SECTION APP | CONTEXT */
