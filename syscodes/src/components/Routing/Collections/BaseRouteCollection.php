@@ -100,8 +100,8 @@ abstract class BaseRouteCollection implements Countable, IteratorAggregate
             // If the requested route one of the defined routes
             if ($this->compareUri($route->getUri(), $path, $route->getPatterns())) {
                 return $this->getMatchedToRegex($routes, $request, $method) 
-                                                ? $route 
-                                                : $route->fallback() ?? throw new InvalidArgumentException('Problems with matches of uri given');
+                            ? $route 
+                            : $route->fallback() ?? throw new InvalidArgumentException('Problems with matches of uri given');
             }
         }
     }
@@ -134,7 +134,7 @@ abstract class BaseRouteCollection implements Countable, IteratorAggregate
      */
     public function getIterator(): Traversable
     {
-        return new ArrayIterator($this->getRoutes());
+        return new ArrayIterator((new RouteCollection)->getRoutes());
     }
 
     /*
@@ -150,6 +150,6 @@ abstract class BaseRouteCollection implements Countable, IteratorAggregate
      */
     public function count(): int
     {
-        return count($this->getRoutes());
+        return count((new RouteCollection)->getRoutes());
     }
 }
