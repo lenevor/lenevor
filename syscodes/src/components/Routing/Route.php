@@ -784,6 +784,16 @@ class Route
 	}
 
 	/**
+     * Get the action name for the route.
+     *
+     * @return string
+     */
+    public function getActionName()
+    {
+        return $this->action['controller'] ?? 'Closure';
+    }
+
+	/**
 	 * Get the action of the current route.
 	 *
 	 * @return \Closure|string|array
