@@ -278,7 +278,7 @@ abstract class Input implements InputInterface
      */
     public function getOptions(): array
     {
-        return $this->options;
+        return array_merge($this->definition->getOptionDefaults(), $this->options);
     }
     
     /**
