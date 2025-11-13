@@ -694,16 +694,5 @@ return [
     'Syscodes\\Components\\View\\View' => SYS_PATH.'src/components/View/View.php',
     'Syscodes\\Components\\View\\ViewName' => SYS_PATH.'src/components/View/ViewName.php',
     'Syscodes\\Components\\View\\ViewServiceProvider' => SYS_PATH.'src/components/View/ViewServiceProvider.php',
-    'Psr\\Container\\ContainerExceptionInterface' => SYS_PATH.'src/components/ThirdParty/psr/Container/src/ContainerExceptionInterface.php',
-    'Psr\\Container\\ContainerInterface' => SYS_PATH.'src/components/ThirdParty/psr/Container/src/ContainerInterface.php',
-    'Psr\\Container\\NotFoundExceptionInterface' => SYS_PATH.'src/components/ThirdParty/psr/Container/src/NotFoundExceptionInterface.php',
-    'Psr\\Log\\AbstractLogger' => SYS_PATH.'src/components/ThirdParty/psr/Log/src/AbstractLogger.php',
-    'Psr\\Log\\InvalidArgumentException' => SYS_PATH.'src/components/ThirdParty/psr/Log/src/InvalidArgumentException.php',
-    'Psr\\Log\\LoggerAwareInterface' => SYS_PATH.'src/components/ThirdParty/psr/Log/src/LoggerAwareInterface.php',
-    'Psr\\Log\\LoggerAwareTrait' => SYS_PATH.'src/components/ThirdParty/psr/Log/src/LoggerAwareTrait.php',
-    'Psr\\Log\\LoggerInterface' => SYS_PATH.'src/components/ThirdParty/psr/Log/src/LoggerInterface.php',
-    'Psr\\Log\\LoggerTrait' => SYS_PATH.'src/components/ThirdParty/psr/Log/src/LoggerTrait.php',
-    'Psr\\Log\\LogLevel' => SYS_PATH.'src/components/ThirdParty/psr/Log/src/LogLevel.php',
-    'Psr\\Log\\NullLogger' => SYS_PATH.'src/components/ThirdParty/psr/Log/src/NullLogger.php',
 
 ];
