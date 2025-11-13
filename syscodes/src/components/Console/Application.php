@@ -23,12 +23,16 @@
 namespace Syscodes\Components\Console;
 
 use Closure;
+use ReflectionClass;
 use Syscodes\Components\Version;
-use Syscodes\Components\Console\Command;
+use Syscodes\Components\Events\Dispatcher;
+use Syscodes\Components\Console\Input\ArrayInput;
 use Syscodes\Components\Console\Input\InputOption;
-use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\Console\Input\InputDefinition;
 use Syscodes\Components\Contracts\Container\Container;
+use Syscodes\Components\Console\Attribute\AsCommandAttribute;
+use Syscodes\Components\Console\Command\Command as BaseCommand;
+use Syscodes\Components\Console\Exceptions\CommandNotFoundException;
 use Syscodes\Components\Console\Command\Application as BaseApplication;
 use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
 use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
@@ -38,18 +42,14 @@ use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
  */
 class Application extends BaseApplication
 {
+	use Concerns\BuildConsoleVersion;
+	
 	/**
-	 * Application config data.
+	 * A map of command names to classes.
 	 * 
-	 * @var array $config
+	 * @var array
 	 */
-	protected $config = [
-		'homepage'   => '',
-		'publishAt'  => '02.05.2019',
-		'updateAt'   => '13.09.2021',
-		'logoText'   => '',
-		'logoStyle'  => 'info',
-	];
+	protected $commandMap = [];
 
 	/**
 	 * The event dispatcher instance.
@@ -64,6 +64,13 @@ class Application extends BaseApplication
 	 * @var \Syscodes\Components\Contracts\Container|Container $lenevor
 	 */
 	protected $lenevor;
+
+	/**
+     * The output from the previous command.
+     *
+     * @var \Symfony\Component\Console\Output\BufferedOutput
+     */
+    protected $lastOutput;
 	
 	/**
 	 * The console application bootstrappers.
@@ -105,41 +112,7 @@ class Application extends BaseApplication
 		
 		return $exit;
 	}
-	
-	/**
-	 * Add a command, resolving through the application.
-	 * 
-	 * @param  \Syscodes\Components\Console\Command|string  $command
-	 * 
-	 * @return \Syscodes\Components\Console\Command|null
-	 */
-	public function resolve($command)
-	{
-		if ($command instanceof Command) {
-			return $this->addCommand($command);
-		}
-		
-		return $this->add($this->lenevor->make($command));
-	}
-	
-	/**
-	 * Resolve an array of commands through the application.
-	 * 
-	 * @param  mixed  $commands
-	 * 
-	 * @return static
-	 */
-	public function resolveCommands($commands): static
-	{
-		$commands = is_array($commands) ? $commands : func_get_args();
-		
-		foreach ($commands as $command) {
-			$this->resolve($command);
-		}
-		
-		return $this;
-	}
-	
+
 	/**
 	 * Register a console "starting" bootstrapper.
 	 * 
@@ -165,33 +138,134 @@ class Application extends BaseApplication
 	}
 	
 	/**
-	 * Add a command to the console.
+	 * Add a command, resolving through the application.
 	 * 
-	 * @param  \Syscodes\Components\Console\Command  $command
+	 * @param  \Syscodes\Components\Console\Command|string  $command
 	 * 
-	 * @return \Syscodes\Components\Console\Command|null
+	 * @return \Syscodes\Components\Console\Command\Command|null
 	 */
-	#[\Override]
-	public function add(Command $command): ?Command
+	public function resolve($command)
+    {
+        if (is_subclass_of($command, BaseCommand::class)) {
+            $attribute = (new ReflectionClass($command))->getAttributes(AsCommandAttribute::class);
+
+            $commandName = ! empty($attribute) ? $attribute[0]->newInstance()->name : null;
+
+            if ( ! is_null($commandName)) {
+                foreach (explode('|', $commandName) as $name) {
+                    $this->commandMap[$name] = $command;
+                }
+            }
+        }
+
+        if ($command instanceof Command) {
+            return $this->add($command);
+        }
+
+        return $this->add($this->lenevor->make($command));
+    }
+	
+	/**
+	 * Resolve an array of commands through the application.
+	 * 
+	 * @param  mixed  $commands
+	 * 
+	 * @return static
+	 */
+	public function resolveCommands($commands): static
+    {
+        $commands = is_array($commands) ? $commands : func_get_args();
+
+        foreach ($commands as $command) {
+            $this->resolve($command);
+        }
+
+        return $this;
+    }
+
+	/**
+     * Run an Artisan console command by name.
+     *
+     * @param  \Syscodes\Components\Console\Command\Command|string  $command
+     * @param  array  $parameters
+     * @param  \Syscodes\Components\Console\Output\OutputInterface|null  $outputBuffer
+	 * 
+     * @return int
+     *
+     * @throws \Syscodes\Components\Console\Exception\CommandNotFoundException
+     */
+    public function call($command, array $parameters = [], $outputBuffer = null)
+    {
+        [$command, $input] = $this->parseCommand($command, $parameters);
+
+        if ( ! $this->has($command)) {
+            throw new CommandNotFoundException(sprintf('The command "%s" does not exist.', $command));
+        }
+
+        return $this->run(
+            $input,  $outputBuffer
+        );
+    }
+
+	/**
+     * Parse the incoming Prime command and its input.
+     *
+     * @param  \Syscodes\Components\Console\Command\Command|string  $command
+     * @param  array  $parameters
+     * 
+     * @return array
+     */
+    protected function parseCommand($command, $parameters)
+    {
+        if (is_subclass_of($command, BaseCommand::class)) {
+            $callingClass = true;
+
+            if (is_object($command)) {
+                $command = get_class($command);
+            }
+
+            $command = $this->lenevor->make($command)->getName();
+        }
+
+        if (! isset($callingClass) && empty($parameters)) {
+            $command = $this->getCommandName(($command));
+        } else {
+            array_unshift($parameters, $command);
+
+            $input = new ArrayInput($parameters);
+        }
+
+        return [$command, $input];
+    }
+	
+	/**
+     * Add a command to the console.
+     *
+     * @param  \Syscodes\Components\Console\Command  $command
+	 * 
+     * @return \Syscodes\Components\Console\Command|null
+     */
+    #[\Override]
+    public function add(Command $command): ?Command
 	{
 		if ($command instanceof Command) {
-			$command->setLenevor($this->lenevor);
-		}
-		
-		return $this->addToParent($command);
+            $command->setLenevor($this->lenevor);
+        }
+
+        return $this->addToParent($command);
 	}
 	
 	/**
-	 * Add the command to the parent instance.
+     * Add the command to the parent instance.
+     *
+     * @param  \Syscodes\Components\Console\Command  $command
 	 * 
-	 * @param  \Syscodes\Components\Console\Command  $command
-	 * 
-	 * @return \Syscodes\Components\Console\Command
-	 */
-	protected function addToParent(Command $command)
-	{
-		return parent::addCommand($command);
-	}
+     * @return \Syscodes\Components\Console\Command
+     */
+    protected function addToParent(Command $command)
+    {
+        return parent::addCommand($command);
+    }
 
 	/**
 	 * Returns the version of the console.
