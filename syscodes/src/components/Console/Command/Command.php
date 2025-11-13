@@ -43,6 +43,10 @@ use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
  */
 class Command 
 {
+    public const SUCCESS = 0;
+    public const FAILURE = 1;
+    public const INVALID = 2;
+    
     /**
      * The default application.
      * 
