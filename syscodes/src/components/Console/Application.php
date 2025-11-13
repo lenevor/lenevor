@@ -24,11 +24,11 @@ namespace Syscodes\Components\Console;
 
 use Closure;
 use Syscodes\Components\Version;
+use Syscodes\Components\Console\Command;
 use Syscodes\Components\Console\Input\InputOption;
 use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\Console\Input\InputDefinition;
 use Syscodes\Components\Contracts\Container\Container;
-use Syscodes\Components\Console\Command\Command as BaseCommand;
 use Syscodes\Components\Console\Command\Application as BaseApplication;
 use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
 use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
@@ -101,19 +101,6 @@ class Application extends BaseApplication
 	 */
 	public function run(?InputInterface $input = null, ?OutputInterface $output = null): int
 	{
-		$this->setLogo("                     __                                                    
-                    / /   ___  ____  ___ _   ______  _____                 
-                   / /   / _ \/ __ \/ _ \ | / / __ \/ ___/                 
-                  / /___/  __/ / / /  __/ |/ / /_/ / /                     
-                 /_____/\___/_/ /_/\___/|___/\____/_/                      
-     ________    ____   ___                ___            __  _                
-    / ____/ /   /  _/  /   |  ____  ____  / (_)________ _/ /_(_)___  ____      
-   / /   / /    / /   / /| | / __ \/ __ \/ / / ___/ __ `/ __/ / __ \/ __ \     
-  / /___/ /____/ /   / ___ |/ /_/ / /_/ / / / /__/ /_/ / /_/ / /_/ / / / /     
-  \____/_____/___/  /_/  |_/ .___/ .___/_/_/\___/\__,_/\__/_/\____/_/ /_/
-                          /_/   /_/
-		", 'info');
-		
 		$exit = parent::run($input, $output);
 		
 		return $exit;
@@ -122,9 +109,9 @@ class Application extends BaseApplication
 	/**
 	 * Add a command, resolving through the application.
 	 * 
-	 * @param  \Syscodes\Components\Console\Command\Command|string  $command
+	 * @param  \Syscodes\Components\Console\Command|string  $command
 	 * 
-	 * @return \Syscodes\Components\Console\Command\Command|null
+	 * @return \Syscodes\Components\Console\Command|null
 	 */
 	public function resolve($command)
 	{
@@ -180,12 +167,12 @@ class Application extends BaseApplication
 	/**
 	 * Add a command to the console.
 	 * 
-	 * @param  \Syscodes\Components\Console\Command\Command  $command
+	 * @param  \Syscodes\Components\Console\Command  $command
 	 * 
-	 * @return \Syscodes\Components\Console\Command\Command|null
+	 * @return \Syscodes\Components\Console\Command|null
 	 */
 	#[\Override]
-	public function add(BaseCommand $command): ?BaseCommand
+	public function add(Command $command): ?Command
 	{
 		if ($command instanceof Command) {
 			$command->setLenevor($this->lenevor);
@@ -197,11 +184,11 @@ class Application extends BaseApplication
 	/**
 	 * Add the command to the parent instance.
 	 * 
-	 * @param  \Syscodes\Components\Console\Command\Command  $command
+	 * @param  \Syscodes\Components\Console\Command  $command
 	 * 
-	 * @return \Syscodes\Components\Console\Command\Command
+	 * @return \Syscodes\Components\Console\Command
 	 */
-	protected function addToParent(BaseCommand $command)
+	protected function addToParent(Command $command)
 	{
 		return parent::addCommand($command);
 	}
@@ -218,55 +205,6 @@ class Application extends BaseApplication
 				env('APP_ENV'), env('APP_DEBUG') ? 'true' : 'false', PHP_OS
 			);
 	}
-
-	/**
-     * Gets the logo text for console app.
-     * 
-     * @return string|null
-     */
-    public function getLogoText(): string
-    {
-        return $this->config['logoText'] ?? null;
-    }
-
-    /**
-     * Sets the logo text for console app.
-     * 
-     * @param  string  $logoText
-     * @param  striong|null  $style
-     * 
-     * @return void
-     */
-    public function setLogo(string $logoText, ?string $style = null): void
-    {
-        $this->config['logoText'] = $logoText;
-
-        if ($style) {
-            $this->config['logoStyle'] = $style;
-        }
-    }
-
-    /**
-     * Gets the logo style for console app.
-     * 
-     * @return string|null 
-     */
-    public function getLogoStyle(): ?string
-    {
-        return $this->config['logoStyle'] ?? 'info';
-    }
-
-    /**
-     * Sets the logo style for console app.
-     * 
-     * @param  string  $style
-     * 
-     * @return void
-     */
-    public function setLogoStyle(string $style): void
-    {
-        $this->config['logoStyle'] = $style;
-    }
 
 	/**
      * Get the default input definition for the application.
