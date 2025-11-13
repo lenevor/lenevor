@@ -43,6 +43,7 @@ use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 use Syscodes\Components\Contracts\Console\Application as ApplicationContract;
 use Syscodes\Components\Contracts\Console\Input\InputOption as InputOptionInterface;
 use Syscodes\Components\Contracts\Console\Input\InputArgument as InputArgumentInterface;
+use Syscodes\Components\Contracts\Console\CommandLoader\CommandLoder as CommandloaderInterface;
 
 /**
  * This is the main entry point of a Console application.
@@ -55,63 +56,63 @@ class Application implements ApplicationContract
 
     /** Gets the auto exit.
      * 
-     * @var bool $autoExit
+     * @var bool 
      */
     protected bool $autoExit = true;
 
     /**
      * Gets the command name.
      * 
-     * @var array $commands
+     * @var array
      */
     protected $commands = [];
 
     /**
      * Get the command name loader.
      * 
-     * @var mixed $commandLoader
+     * @var mixed 
      */
     protected $commandLoader = null;
     
     /**
      * The default command.
      * 
-     * @var string $defaultCommand
+     * @var string
      */
     protected $defaultCommand;
 
     /**
      * The InputDefinition implement.
      * 
-     * @var \Syscodes\Components\Console\Input\InputDefinition $definition
+     * @var \Syscodes\Components\Console\Input\InputDefinition
      */
     protected $definition;
 
     /**
      * Command delimiter.
      * 
-     * @var string $delimiter
+     * @var string 
      */
     protected $delimiter = ':';
 
     /**
      * Indicates if this activate the command help.
      * 
-     * @var bool $helps
+     * @var bool 
      */
     protected $helps = false;
 
     /**
      * Gets the initialize of commands.
      * 
-     * @var bool $initialize
+     * @var bool 
      */
     protected $initialize = false;
 
     /**
      * Gets the name of the aplication.
      * 
-     * @var string $name
+     * @var string 
      */
     protected $name;
 
@@ -125,14 +126,14 @@ class Application implements ApplicationContract
     /**
      * The single command.
      * 
-     * @var bool $singleCommand
+     * @var bool 
      */
     protected $singleCommand = false;
 
     /**
      * Gets the version of the application.
      * 
-     * @var string $version
+     * @var string 
      */
     protected $version;
 
@@ -216,6 +217,18 @@ class Application implements ApplicationContract
     public function setAutoExit(bool $value): void
     {
         $this->autoExit = $value;
+    }
+    
+    /**
+     * Sets the container command loader.
+     * 
+     * @param  CommandLoaderInterface  $commandLoader
+     * 
+     * @return void
+     */
+    public function setCommandLoader(CommandLoaderInterface $commandLoader): void
+    {
+        $this->commandLoader = $commandLoader;
     }
     
     /**
@@ -614,7 +627,7 @@ class Application implements ApplicationContract
             return $this->get($name);
         }
 
-        $allCommands = array_keys($this->commands);
+        $allCommands = $this->commandLoader ? array_merge($this->commandLoader->getNames(), array_keys($this->commands)) : array_keys($this->commands);
         $expression  = implode('[^:]*:', array_map('preg_quote', explode(':', $name))).'[^:]*';
         $commands    = preg_grep('{^'.$expression.'}', $allCommands);
 
@@ -689,8 +702,9 @@ class Application implements ApplicationContract
             }
 
             $commands = $this->commands;
+
             foreach ($this->commandLoader->getNames() as $name) {
-                if (!isset($commands[$name]) && $this->has($name)) {
+                if ( ! isset($commands[$name]) && $this->has($name)) {
                     $commands[$name] = $this->get($name);
                 }
             }
