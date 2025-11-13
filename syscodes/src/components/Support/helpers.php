@@ -80,22 +80,6 @@ if ( ! function_exists('class_recursive'))
     }
 }
 
-if ( ! function_exists('dd')) {
-    /**
-     * Generate test of variables.
-     * 
-     * @param  mixed
-     * 
-     * @return void
-     */
-    function dd()
-    {
-        array_map(fn ($x) => var_dump($x),  func_get_args());
-            
-        die(1);
-    }
-}
-
 if ( ! function_exists('env')) {
     /**
      * Gets the value of an environment variable.
@@ -301,9 +285,9 @@ if ( ! function_exists('winOS')) {
      *
      * @return bool
      */
-    function winOS()
+    function winOS(): bool
     {
-        return strtolower(substr(PHP_OS, 0, 3)) === 'win';
+        return PHP_OS_FAMILY === 'Windows';
     }
 }
 
