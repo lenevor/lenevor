@@ -25,15 +25,16 @@ namespace Syscodes\Components\Console\CommandLoader;
 use Syscodes\Components\Console\Command\Command;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Console\Exceptions\CommandNotFoundException;
+use Syscodes\Components\Contracts\Console\CommandLoader\CommandLoder as ContainerCommandLoader;
 
-class CommandLoader
+class CommandLoader implements ContainerCommandLoader
 {
     /**
      * The container instance.
      * 
-     * @var \Syscodes\Components\Contracts\Container\Container $container
+     * @var \Syscodes\Components\Contracts\Container\Container
      */
-    protected Container $container;
+    protected $container;
 
     /**
      * Get the command map of the console.
