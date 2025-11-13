@@ -24,9 +24,10 @@ namespace Syscodes\Components\Console;
 
 use Exception;
 use LogicException;
+
+use Syscodes\Components\Contracts\Console\Input\Input;
+use Syscodes\Components\Contracts\Console\Output\Output;
 use Syscodes\Components\Console\Command\Command as BaseCommand;
-use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
-use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
 
 /**
  * Is class allows functionality for running, listing, etc all commands of framework.
@@ -35,14 +36,7 @@ class Command extends BaseCommand
 {
     use Concerns\ConfirmProcess,
         Concerns\HasParameters,
-        Concerns\InteractsIO;
-
-    /**
-     * Gets the code.
-     * 
-     * @var int $code
-     */
-    protected $code;
+        Concerns\InteractsWithIO;
 
     /**
      * Gets the commands.
@@ -101,9 +95,15 @@ class Command extends BaseCommand
      * 
      * @return int|mixed
      */
-    public function run(InputInterface $input, OutputInterface $output)
+    public function run(Input $input, Output $output): int
     {
-        return parent::run($this->input = $input, $this->output = $output);
+        $this->output = $output instanceof Output ? $output : $this->lenevor->make(
+            Output::class, ['input' => $input, 'output' => $output]
+        );
+
+        return parent::run(
+            $this->input = $input, $this->output
+        );
     }
 
     /**
@@ -116,7 +116,7 @@ class Command extends BaseCommand
      * 
      * @throws \LogicException
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function execute(Input $input, Output $output): int
     {
         $method = method_exists($this, 'handle') ? 'handle' : '__invoke';
 
@@ -125,7 +125,7 @@ class Command extends BaseCommand
         } catch (Exception $e) {
             throw $e;
 
-            return 0;
+            return static::FAILURE;
         }
     }
 
