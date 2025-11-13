@@ -24,6 +24,12 @@ namespace Syscodes\Components\Core\Console;
 
 use Closure;
 use Throwable;
+use SplFileInfo;
+use ReflectionClass;
+use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Finder\Finder;
+use Syscodes\Components\Console\Command;
 use Syscodes\Components\Contracts\Core\Application;
 use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\Console\Application as Prime;
@@ -65,12 +71,40 @@ class Kernel implements KernelContract
      */
     protected $commands = [];
 
+     /**
+     * The paths where Artisan commands should be automatically discovered.
+     *
+     * @var array
+     */
+    protected $commandPaths = [];
+
+    /**
+     * The paths where Artisan "routes" should be automatically discovered.
+     *
+     * @var array
+     */
+    protected $commandRoutePaths = [];
+
+    /**
+     * Indicates if the Closure commands have been loaded.
+     *
+     * @var bool
+     */
+    protected $commandsLoaded = false;
+
     /**
 	 * The event dispatcher instance.
 	 * 
 	 * @var \Syscodes\Components\Contracts\Events\Dispatcher $events
 	 */
 	protected $events;
+
+    /**
+     * The commands paths that have been "loaded".
+     *
+     * @var array
+     */
+    protected $loadedPaths = [];
     
     /**
      * The Prime application instance.
@@ -96,8 +130,8 @@ class Kernel implements KernelContract
     /**
      * Handle an incoming console command.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
-     * @param  \Syscodes\Components\Contracts\Console\\Output\Output|null|null  $output
+     * @param  \Syscodes\Components\Console\Input\Input  $input
+     * @param  \Syscodes\Components\Console\Output\Output|null|null  $output
      * 
      * @return int
      */
@@ -156,6 +190,59 @@ class Kernel implements KernelContract
 
         return $command;
     }
+
+    /**
+     * Register all of the commands in the given directory.
+     *
+     * @param  array|string  $paths
+     * @return void
+     */
+    protected function load($paths)
+    {
+        $paths = array_unique(Arr::wrap($paths));
+
+        $paths = array_filter($paths, function ($path) {
+            return is_dir($path);
+        });
+
+        if (empty($paths)) {
+            return;
+        }
+
+        $this->loadedPaths = array_values(
+            array_unique(array_merge($this->loadedPaths, $paths))
+        );
+
+        $namespace = $this->app->getNamespace();
+
+        foreach (Finder::create()->in($paths)->files() as $file) {
+            $command = $this->commandClassFromFile($file, $namespace);
+
+            if (is_subclass_of($command, Command::class) &&
+                ! (new ReflectionClass($command))->isAbstract()) {
+                Prime::starting(function ($artisan) use ($command) {
+                    $artisan->resolve($command);
+                });
+            }
+        }
+    }
+
+    /**
+     * Extract the command class name from the given file path.
+     *
+     * @param  \SplFileInfo  $file
+     * @param  string  $namespace
+     * 
+     * @return string
+     */
+    protected function commandClassFromFile(SplFileInfo $file, string $namespace): string
+    {
+        return $namespace.str_replace(
+            ['/', '.php'],
+            ['\\', ''],
+            Str::after($file->getRealPath(), realpath(app_path()).DIRECTORY_SEPARATOR)
+        );
+    }
     
     /**
      * Bootstrap the application for artisan commands.
@@ -169,6 +256,44 @@ class Kernel implements KernelContract
         }
         
         $this->app->loadDeferredProviders();
+
+        if ( ! $this->commandsLoaded) {
+            $this->commands();
+
+            if ($this->shouldDiscoverCommands()) {
+                $this->discoverCommands();
+            }
+
+            $this->commandsLoaded = true;
+        }
+    }
+
+    /**
+     * Discover the commands that should be automatically loaded.
+     *
+     * @return void
+     */
+    protected function discoverCommands()
+    {
+        foreach ($this->commandPaths as $path) {
+            $this->load($path);
+        }
+
+        foreach ($this->commandRoutePaths as $path) {
+            if (file_exists($path)) {
+                require $path;
+            }
+        }
+    }
+
+    /**
+     * Determine if the kernel should discover commands.
+     *
+     * @return bool
+     */
+    protected function shouldDiscoverCommands()
+    {
+        return get_class($this) === __CLASS__;
     }
     
     /**
