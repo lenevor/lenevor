@@ -180,18 +180,6 @@ abstract class Output implements OutputInterface
 	}
 	
 	/**
-	 * Enter a number of empty lines.
-	 * 
-	 * @param  int  $num  Number of lines to output
-	 * 
-	 * @return string
-	 */
-	public function newLine(int $num = 1)
-	{
-		return $this->write(str_repeat(\PHP_EOL, max($num, 1)));
-	}
-	
-	/**
 	 * Writes a message to the output and adds a newline at the end.
 	 * 
 	 * @param  string|iterable  $messages  The message as an iterable of strings or a single string
