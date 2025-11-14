@@ -23,12 +23,12 @@
 namespace Syscodes\Components\Http;
 
 use InvalidArgumentException;
-use Syscodes\Bundles\ApplicationBundle\Http\Loaders\Headers;
+use Symfony\Component\HttpFoundation\HeaderBag;
 
 /**
  * ResponseHeaders is a container for Response HTTP headers.
  */
-class ResponseHeaders extends Headers
+class ResponseHeaders extends HeaderBag
 {
 	const COOKIE_FLAT = 'flat';
 	const COOKIE_ARRAY = 'array';
@@ -111,7 +111,7 @@ class ResponseHeaders extends Headers
 		$headers = parent::all();
 		
 		if (null !== $key) {
-			$key = strtr($key, self::STRING_UPPER, self::STRING_LOWER);
+			$key = strtr($key, self::UPPER, self::LOWER);
 			
 			return 'set-cookie' !== $key ? $headers[$key] ?? [] : array_map('strval', $this->getCookies());
 		}
@@ -157,7 +157,7 @@ class ResponseHeaders extends Headers
 	 */
 	public function set(string $key, $values, bool $replace = true): void
 	{
-		$unique = strtr($key, self::STRING_UPPER, self::STRING_LOWER); 
+		$unique = strtr($key, self::UPPER, self::LOWER); 
 		
 		if ('set-cookie' === $unique) {
 			if ($replace) {
