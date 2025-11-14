@@ -22,20 +22,22 @@
  
 namespace Syscodes\Components\Http;
 
+use ArrayObject;
 use JsonSerializable;
-use UnexpectedValueException;
-use Syscodes\Components\Http\ResponseHeaders;
-use Syscodes\Components\Http\Concerns\StatusCode;
+use InvalidArgumentException;
+use Syscodes\Components\Contracts\Support\Jsonable;
+use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Support\Renderable;
-use Syscodes\Components\Http\Concerns\StatusResponse;
+
+class_exists(ResponseHeaders::class);
 
 /**
  * Response represents an HTTP response.
  */
 class Response
 {
-	use StatusCode,
-	    StatusResponse;
+	use Concerns\ResponseContent,
+	    Concerns\ResponseStatusCode;
 
 	/**
 	 * Sets up the response with a content and a status code.
@@ -77,7 +79,7 @@ class Response
 	 */
 	public function getContent(): string
 	{
-		return $this->content;
+		return transform($this->content, fn ($content) => $content, '');
 	}
 
 	/**
@@ -159,24 +161,55 @@ class Response
 	 */
 	public function setContent($content): static
 	{
-		if (null !== $content && ! is_string($content) && ! is_numeric($content) &&
-			! is_bool($content) && ! is_object($content) && ! is_callable([$content, '__toString'])) {
-			throw new UnexpectedValueException(
-				sprintf('The Response content must be a string or object implementing __toString(), "%s" given', gettype($content)
-			));
-		}
+		if ($this->shouldBeJson($content)) {
+            $this->header('Content-Type', 'application/json');
 
-		if ($content instanceof JsonSerializable || is_array($content)) {
-			$this->header('Content-Type', 'application/json');
+            $content = $this->convertToJson($content);
 
-			$content = json_encode($content);
-		} elseif ($content instanceof Renderable) {
+            if ($content === false) {
+                throw new InvalidArgumentException(json_last_error_msg());
+            }
+        } elseif ($content instanceof Renderable) {
 			$content = $content->render();
 		}
 		
 		$this->content = $content ?? '';
 
 		return $this;
+	}
+	
+	/**
+	 * Determine if the given content should be turned into JSON.
+	 * 
+	 * @param  mixed  $content
+	 * 
+	 * @return bool
+	 */
+	protected function shouldBeJson($content): bool
+	{
+		return $content instanceof Arrayable ||
+		       $content instanceof Jsonable ||
+			   $content instanceof ArrayObject ||
+			   $content instanceof JsonSerializable ||
+			   is_array($content);
+	}
+	
+	/**
+	 * Convert the given content into JSON.
+	 * 
+	 * @param  mixed  $content
+	 * 
+	 * @return string|false
+     */
+	protected function convertToJson($content): string|false
+	{
+		if ($content instanceof Jsonable) {
+			return $content->toJson();
+		} elseif ($content instanceof Arrayable) {
+			return json_encode($content->toArray());
+		}
+		
+		return json_encode($content);
 	}
 
 	/**
