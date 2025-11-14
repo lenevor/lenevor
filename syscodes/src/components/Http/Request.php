@@ -26,20 +26,21 @@ use Closure;
 use RuntimeException;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
-use Syscodes\Components\Http\Session\SessionDecorator;
-use Syscodes\Components\Http\Session\SessionInterface;
-use Syscodes\Bundles\ApplicationBundle\Http\BaseRequest;
+use Syscodes\Components\Support\Collection;
+use Syscodes\Components\Session\SessionDecorator;
 use Syscodes\Components\Http\Concerns\CanBePrecognitive;
 use Syscodes\Components\Http\Concerns\InteractsWithInput;
 use Syscodes\Components\Http\Concerns\InteractsWithFlashData;
-use Syscodes\Bundles\ApplicationBundle\Http\Loaders\Parameters;
 use Syscodes\Components\Http\Concerns\InteractsWithContentTypes;
 use Syscodes\Components\Http\Exceptions\SessionNotFoundException;
+use Symfony\Component\HttpFoundation\InputBag;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 /**
  * Request represents an HTTP request.
  */
-class Request extends BaseRequest
+class Request extends SymfonyRequest
 {
 	use CanBePrecognitive,	    
 	    InteractsWithInput,
@@ -74,21 +75,21 @@ class Request extends BaseRequest
 	 */
 	public static function capture(): static
 	{
-		static::enabledHttpMethodParameterOverride();
+		static::enableHttpMethodParameterOverride();
 		
-		return static::createFromRequest(BaseRequest::createFromRequestGlobals());
+		return static::createFromRequest(SymfonyRequest::createFromGlobals());
 	}
 
 	/**
 	 * Creates an Syscodes request from of the Request class instance.
 	 * 
-	 * @param  \Syscodes\Bundles\ApplicationBundle\Http\BaseRequest  $request
+	 * @param  \Symfony\Component\HttpFoundation\Request  $request
 	 * 
 	 * @return static
 	 */
-	public static function createFromRequest(BaseRequest $request): static
+	public static function createFromRequest(SymfonyRequest $request): static
 	{
-		$newRequest = (new static)->duplicate(
+		$newRequest = new static(
 			$request->query->all(),
 			$request->request->all(),
 			$request->attributes->all(),
@@ -109,37 +110,41 @@ class Request extends BaseRequest
 	}
 
 	/**
-	 * Returns the desired segment, or $default if it does not exist.
+	 * Get the specified URI segment, return default if it doesn't exist.
+	 * Segment index is 1 based, not 0 based.
 	 *
-	 * @param  int  $index  The segment number (1-based index)
-	 * @param  mixed  $default  Default value to return
+	 * @param  int  $index  The 1-based segment index
+	 * @param  mixed  $default  The default value
 	 *
-	 * @return string
+	 * @return mixed
 	 */
-	public function segment($index, $default = null)
+	public function segment(int $index, $default = null): mixed
 	{
-		return $this->uri->getSegment($index, $default);
+		return Arr::get($this->segments(), $index - 1, $default);
 	}
 
 	/**
-	 * Returns all segments in an array. For total of segments
-	 * used the function PHP count().
+	 * Returns the segments of the path as an array.
 	 *
-	 * @return array|null
+	 * @return array  The URI segments
 	 */
-	public function segments()
+	public function segments(): array
 	{
-		return $this->uri->getSegments();
+		$segments = explode('/', $this->decodedPath());
+
+        return array_values(array_filter($segments, function ($value) {
+            return $value !== '';
+        }));
 	}
 
 	/**
 	 * Returns the total number of segment.
 	 *
-	 * @return int|null  
+	 * @return int  
 	 */
-	public function totalSegments()
+	public function totalSegment(): int
 	{
-		return $this->uri->getTotalSegments();
+		return count($this->segments());
 	}
 
 	/**
@@ -152,9 +157,19 @@ class Request extends BaseRequest
 	 * @return mixed 
 	 */
 	#[\Override]
-	public function get(string $key, $default = null): mixed
+	public function get(string $key, mixed $default = null): mixed
 	{
 		return parent::get($key, $default);
+	}
+	
+	/**
+	 * Get the request method.
+	 * 
+	 * @return string
+	 */
+	public function method(): string
+	{
+		return $this->getMethod();
 	}
 
 	/**
@@ -176,7 +191,7 @@ class Request extends BaseRequest
 	 * 
 	 * @return bool
 	 */
-	public function hasSession(): bool
+	public function hasSession(bool $skipIfUninitialized = false): bool
 	{
 		return $this->session instanceof SessionDecorator;
 	}
@@ -215,12 +230,12 @@ class Request extends BaseRequest
 	 * @param  string|null  $key  
 	 * @param  mixed  $default  
 	 * 
-	 * @return \Syscodes\Bundles\ApplicationBundle\Http\Loaders\Parameters|mixed
+	 * @return ($key is null ? \Symfony\Component\HttpFoundation\InputBag : mixed)
 	 */
 	public function json($key = null, $default = null)
 	{
 		if ( ! isset($this->json)) {
-			$this->json = new Parameters((array) json_decode($this->getContent(), true));
+			$this->json = new InputBag((array) json_decode($this->getContent(), true));
 		}
 
 		if (is_null($key)) {
@@ -233,7 +248,7 @@ class Request extends BaseRequest
 	/**
 	 * Set the JSON payload for the request.
 	 * 
-	 * @param  \Syscodes\Bundles\ApplicationBundle\Http\Loaders\Parameters  $json
+	 * @param  \Symfony\Component\HttpFoundation\InputBag  $json
 	 * 
 	 * @return static
 	 */
@@ -268,17 +283,6 @@ class Request extends BaseRequest
 	{
 		return $this->isXmlHttpRequest();
 	}
-
-	/**
-	 * Returns whether this is an AJAX request or not.
-	 *
-	 * @return bool
-	 */
-	public function isXmlHttpRequest(): bool
-	{
-		return ! empty($this->server->get('HTTP_X_REQUESTED_WITH')) && 
-				strtolower($this->server->get('HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest';
-	}
 	
 	/**
 	 * Determine if the request is the result of a PJAX call.
@@ -298,13 +302,38 @@ class Request extends BaseRequest
 	public function prefetch(): bool
 	{
 		return strcasecmp($this->server->get('HTTP_X_MOZ') ?? '', 'prefetch') === 0 ||
-		       strcasecmp($this->headers->get('Purpose') ?? '', 'prefetch') === 0;
+		       strcasecmp($this->headers->get('Purpose') ?? '', 'prefetch') === 0 ||
+               strcasecmp($this->headers->get('Sec-Purpose') ?? '', 'prefetch') === 0;
 	}
+	
+	/**
+	 * Determine if the request is over HTTPS.
+	 * 
+	 * @return bool
+	 */
+	public function secure(): bool
+	{
+		return $this->isSecure();
+	}
+
+	/**
+     * Replace the input for the current request.
+     * 
+     * @param  array  $key
+     * 
+     * @return static
+     */
+    public function replace(array $key): static
+    {
+        $this->getInputSource()->replace($key);
+
+		return $this;
+    }
 
 	/**
 	 * Get the input source for the request.
 	 * 
-	 * @return \Syscodes\Components\Http\Loaders\Parameters
+	 * @return \Symfony\Component\HttpFoundation\InputBag
 	 */
 	public function getInputSource()
 	{
@@ -312,7 +341,7 @@ class Request extends BaseRequest
 			return $this->json();
 		}
 
-		return in_array($this->getMethod(), ['GET', 'HEAD']) ? $this->query : $this->request;
+		return in_array($this->getRealMethod(), ['GET', 'HEAD']) ? $this->query : $this->request;
 	}
 	
 	/**
@@ -324,15 +353,8 @@ class Request extends BaseRequest
 	 */
 	public function is(...$patterns): bool
 	{
-		$path = $this->decodedPath();
-		
-		foreach ($patterns as $pattern) {
-			if (Str::is($pattern, $path)) {
-				return true;
-			}
-		}
-
-		return false;
+	    return (new Collection($patterns))
+		       ->contains(fn ($pattern) => Str::is($pattern, $this->decodedPath()));
 	}
 
 	/**
@@ -344,7 +366,7 @@ class Request extends BaseRequest
 	 */
 	public function routeIs(...$patterns): bool
 	{
-		return $this->route() && $this->route()->is(...$patterns);
+		return $this->route() && $this->route()->named(...$patterns);
 	}
 
 	/**
@@ -365,6 +387,36 @@ class Request extends BaseRequest
 
 		return $route->parameter($param, $default);
 	}
+
+	/**
+     * Get the host name.
+     *
+     * @return string
+     */
+    public function host()
+    {
+        return $this->getHost();
+    }
+
+    /**
+     * Get the HTTP host being requested.
+     *
+     * @return string
+     */
+    public function httpHost()
+    {
+        return $this->getHttpHost();
+    }
+
+    /**
+     * Get the scheme and HTTP host.
+     *
+     * @return string
+     */
+    public function schemeAndHttpHost()
+    {
+        return $this->getSchemeAndHttpHost();
+    }
 	
 	/**
 	 * Get the user making the request.
@@ -397,7 +449,7 @@ class Request extends BaseRequest
 	{
 		$path = trim($this->getPathInfo(), '/');
 
-		return $path == '' ? '/' : $path;
+		return $path === '' ? '/' : $path;
 	}
 
 	/**
@@ -413,20 +465,6 @@ class Request extends BaseRequest
 		
 		return $query ? $this->url().$question.$query : $this->url();
 	}
-	
-	/**
-	 * Generates a normalized URI (URL) for the Request.
-	 * 
-	 * @return string
-	 */
-	public function getUri(): string
-	{
-		if (null !== $query = $this->getQueryString()) {
-			$query = '?'.$query;
-		}
-		
-		return $this->getSchemeWithHttpHost().$this->getBaseUrl().$this->getPathInfo().$query;
-	}
 
 	/**
 	 * Get the root URL for the application.
@@ -435,7 +473,7 @@ class Request extends BaseRequest
 	 */
 	public function root(): string
 	{
-		return rtrim($this->getSchemeWithHttpHost().$this->getBaseUrl(), '/');
+		return rtrim($this->getSchemeAndHttpHost().$this->getBaseUrl(), '/');
 	}
 
 	/**
@@ -459,18 +497,6 @@ class Request extends BaseRequest
 	{
 		return $this->server->get('HTTP_REFERER', $default);
 	}
-
-	/**
-	 * Returns the user agent.
-	 *
-	 * @param  string|null  $default
-	 *
-	 * @return string
-	 */
-	public function userAgent(?string $default = null): string
-	{
-		return $this->server->get('HTTP_USER_AGENT', $default);
-	}
 	
 	/**
 	 * Get the client IP address.
@@ -479,7 +505,27 @@ class Request extends BaseRequest
 	 */
 	public function ip(): ?string
 	{
-		return $this->clientIp->getClientIp();
+		return $this->getClientIp();
+	}
+	
+	/**
+	 * Get the client IP addresses.
+	 * 
+	 * @return array
+	 */
+	public function ips(): array
+	{
+		return $this->getClientIps();
+	}
+	
+	/**
+	 * Get the client user agent.
+	 * 
+	 * @return string|null
+	 */
+	public function userAgent(): string|null
+	{
+		return $this->headers->get('User-Agent');
 	}
 	
 	/**
