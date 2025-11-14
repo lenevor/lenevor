@@ -337,6 +337,19 @@ class Str
     {
         return mb_strtolower($value, 'UTF-8');
     }
+
+    /**
+     * Get a new stringable object from the given string.
+     *
+     * @param  string  $string
+     * 
+     * @return \Stringable
+     */
+    public static function of($string): string
+    {
+        return new \Stringable($string);
+    }
+
     
     /**
      * Pad both sides with the length of another.
