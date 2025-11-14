@@ -830,9 +830,9 @@ header .message a:hover {
     color: var(--gray-600);
     font-weight: 600;
     letter-spacing: 0.2px;
+    line-height: 1.4;
     margin-left: -1px;
-    padding: 6.2px;
-    padding-bottom: 5px;
+    padding: 6px;
     position: absolute;
 }
 
