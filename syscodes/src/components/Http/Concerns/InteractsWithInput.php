@@ -256,20 +256,6 @@ trait InteractsWithInput
     }
 
     /**
-     * Replace the input for the current request.
-     * 
-     * @param  string|array  $key
-     * 
-     * @return void
-     */
-    public function replace($key)
-    {
-        $key = is_array($key) ? $key : [$key];
-
-        return $this->getInputSource()->replace($key);
-    }
-
-    /**
      * Get the keys for all of the input and files.
      * 
      * @return array
