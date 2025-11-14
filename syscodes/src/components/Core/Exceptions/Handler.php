@@ -36,10 +36,10 @@ use Syscodes\Components\Core\Http\Exceptions\HttpException;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
 use Syscodes\Components\Auth\Exceptions\AuthenticationException;
 use Syscodes\Components\Session\Exceptions\TokenMismatchException;
-use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
 use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
 use Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException;
 use Syscodes\Components\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
+use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
 
 /**
  * The system's main exception class is loaded for activate the render method of debugging.
@@ -394,8 +394,8 @@ class Handler implements ExceptionHandlerContract
      */
     protected function renderExceptionWithSymfony(Throwable $e, $debug)
     {
-         $renderer = new HtmlErrorRenderer($debug);
-
+        $renderer = new HtmlErrorRenderer($debug);
+        
         return $renderer->render($e)->getAsString();
     }
 
