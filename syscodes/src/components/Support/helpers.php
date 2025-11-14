@@ -25,6 +25,43 @@ use Syscodes\Components\Support\Str;
 use Syscodes\Components\Support\Environment;
 use Syscodes\Components\Support\HigherOrderTakeProxy;
 
+
+if ( ! function_exists('blank')) {
+    /**
+     * Determine if the given value is "blank".
+     *
+     * @phpstan-assert-if-false !=null|'' $value
+     *
+     * @phpstan-assert-if-true !=numeric|bool $value
+     *
+     * @param  mixed  $value
+     */
+    function blank($value): bool
+    {
+        if (is_null($value)) {
+            return true;
+        }
+
+        if (is_string($value)) {
+            return trim($value) === '';
+        }
+
+        if (is_numeric($value) || is_bool($value)) {
+            return false;
+        }
+
+        if ($value instanceof Countable) {
+            return count($value) === 0;
+        }
+
+        if ($value instanceof Stringable) {
+            return trim((string) $value) === '';
+        }
+
+        return empty($value);
+    }
+}
+
 if ( ! function_exists('camel_case')) {
     /**
      * Convert the string with spaces or underscore in camelcase notation.
@@ -92,6 +129,22 @@ if ( ! function_exists('env')) {
     function env($key, $default = null)
     {
         return Environment::get($key, $default);
+    }
+}
+
+if ( ! function_exists('filled')) {
+    /**
+     * Determine if a value is "filled".
+     *
+     * @phpstan-assert-if-true !=null|'' $value
+     *
+     * @phpstan-assert-if-false !=numeric|bool $value
+     *
+     * @param  mixed  $value
+     */
+    function filled($value): bool
+    {
+        return ! blank($value);
     }
 }
 
@@ -248,6 +301,33 @@ if ( ! function_exists('trait_recursive'))
         }
         
         return $traits;
+    }
+}
+
+if ( ! function_exists('transform')) {
+    /**
+     * Transform the given value if it is present.
+     *
+     * @template TValue
+     * @template TReturn
+     * @template TDefault
+     *
+     * @param  TValue  $value
+     * @param  callable(TValue): TReturn  $callback
+     * @param  TDefault|callable(TValue): TDefault  $default
+     * @return ($value is empty ? TDefault : TReturn)
+     */
+    function transform($value, callable $callback, $default = null)
+    {
+        if (filled($value)) {
+            return $callback($value);
+        }
+
+        if (is_callable($default)) {
+            return $default($value);
+        }
+
+        return $default;
     }
 }
 
