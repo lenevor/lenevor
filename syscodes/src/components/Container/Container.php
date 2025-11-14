@@ -26,12 +26,12 @@ use Closure;
 use Exception;
 use TypeError;
 use ArrayAccess;
+use LogicException;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionParameter;
-use Syscodes\Components\Container\Exceptions\ContainerException;
+use Syscodes\Components\Container\Exceptions\EntryIdentifierException;
 use Syscodes\Components\Contracts\Container\BindingResolutionException;
-use Syscodes\Components\Container\Exceptions\UnknownIdentifierException;
 use Syscodes\Components\Contracts\Container\Container as ContainerContract;
 
 /**
@@ -179,7 +179,7 @@ class Container implements ArrayAccess, ContainerContract
     public function alias($id, string $alias): void
     {
         if ($alias === $id) {
-            throw new ContainerException("[{$id}] is aliased to itself");
+            throw new LogicException("[{$id}] is aliased to itself");
         }
 
         $this->aliases[$alias] = $id;
@@ -1064,7 +1064,7 @@ class Container implements ArrayAccess, ContainerContract
     public function set($id, string $value): static
     {
         if ( ! $this->bound($id)) {
-            throw new ContainerException($id);
+            throw new LogicException($id);
         }
 
         $this->bindings[$id] = $value;
@@ -1116,15 +1116,15 @@ class Container implements ArrayAccess, ContainerContract
     */
 
     /**
-     * Gets a parameter or an object.
+     * Finds an entry of the container by its identifier and returns it.
+     *
+     * @param  string  $id  Identifier of the entry to look for.
      * 
-     * @param  string  $id
-     * 
-     * @return mixed
-     * 
-     * @throws \Syscodes\Components\Container\Exceptions\UnknownIdentifierException
+     * @return mixed Entry.
+     *
+     * @throws EntryIdentifierException
      */
-    public function get($id): mixed
+    public function get(string $id)
     {
         try {
             return $this->resolve($id);
@@ -1133,14 +1133,15 @@ class Container implements ArrayAccess, ContainerContract
                 throw new $e;
             }   
 
-            throw new UnknownIdentifierException($id);
+            throw new EntryIdentifierException($id, is_int($e->getCode()) ? $e->getCode() : 0, $e);
         }
     }
 
     /**
-     * Check if binding with $id exists.
+     * Returns true if the container can return an entry for the given identifier.
+     * Returns false otherwise.
      * 
-     * @param  string  $id
+     * @param  string  $id  Identifier of the entry to look for.
      * 
      * @return bool
      */
