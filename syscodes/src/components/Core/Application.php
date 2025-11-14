@@ -1266,12 +1266,12 @@ class Application extends Container implements ApplicationContract
      */
     public function handleRequest(Request $request)
     {
-        $lenevor = $this->make(KernelContract::class);
+        $kernel = $this->make(KernelContract::class);
         
         //Initialize services...
-        $response = $lenevor->handle($request)->send(true); // Sends HTTP headers and contents
+        $response = $kernel->handle($request)->send(true); // Sends HTTP headers and contents
         
-        $lenevor->finalize($request, $response);
+        $kernel->finalize($request, $response);
     }
     
     /**
@@ -1451,7 +1451,7 @@ class Application extends Container implements ApplicationContract
             'plaze.transpiler' => [\Syscodes\Components\View\Transpilers\PlazeTranspiler::class],
             'redirect' => [\Syscodes\Components\Routing\Generators\Redirector::class],
             'redis' => [\Syscodes\Components\Redis\RedisManager::class],
-            'request' => [\Syscodes\Components\Http\Request::class],
+            'request' => [\Syscodes\Components\Http\Request::class, \Symfony\Component\HttpFoundation\Request::class],
             'router' => [\Syscodes\Components\Routing\Router::class],
             'session' => [\Syscodes\Components\Session\SessionManager::class],
             'session.store' => [\Syscodes\Components\Session\Store::class, \Syscodes\Components\Contracts\Session\Session::class],
