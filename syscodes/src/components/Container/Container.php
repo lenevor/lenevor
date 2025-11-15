@@ -1214,7 +1214,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    public function __get($key)
+    public function __get(string $key): mixed
     {
         return $this[$key];
     }
@@ -1227,9 +1227,9 @@ class Container implements ArrayAccess, ContainerContract
      * @param  string  $key
      * @param  mixed  $value
      * 
-     * @return mixed
+     * @return void
      */
-    public function __set($key, $value)
+    public function __set(string $key, mixed $value)
     {
         return $this[$key] = $value;
     }

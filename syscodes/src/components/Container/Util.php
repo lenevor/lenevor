@@ -24,6 +24,7 @@ namespace Syscodes\Components\Container;
 
 use Closure;
 use ReflectionNamedType;
+use ReflectionParameter;
 
 /**
  * @internal
@@ -38,7 +39,7 @@ class Util
      * 
      * @return mixed
      */
-    public static function unwrapExistOfClosure($value, ...$args)
+    public static function unwrapExistOfClosure(mixed $value, mixed ...$args): mixed
     {
         return $value instanceof Closure ? $value(...$args) : $value;
     }
@@ -50,7 +51,7 @@ class Util
      * 
      * @return string|null
      */
-    public static function getParameterClassName($parameter): string|null
+    public static function getParameterClassName(ReflectionParameter $parameter): string|null
     {
         $type = $parameter->getType();
         
