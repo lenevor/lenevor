@@ -49,7 +49,7 @@ class Manager
      * 
      * @return void
      */
-    public function __construct(Container $container = null)
+    public function __construct(?Container $container = null)
     {   
         $this->getContainerManager($container ?: new Container);
 
@@ -89,7 +89,7 @@ class Manager
      * 
      * @return \Syscodes\Components\Database\Query\Builder
      */
-    public static function table($table, string $as = null, string $connection = null)
+    public static function table($table, ?string $as = null, ?string $connection = null)
     {
         return static::$instance->connection($connection)->table($table, $as);
     }
@@ -101,7 +101,7 @@ class Manager
      * 
      * @return \Syscodes\Components\Database\Connections\Connection
      */
-    public static function connection(string $connection = null)
+    public static function connection(?string $connection = null)
     {
         return static::$instance->getConnection($connection);
     }
@@ -113,7 +113,7 @@ class Manager
      * 
      * @return \Syscodes\Components\Database\Connections\Connection
      */
-    public function getConnection(string $name = null)
+    public function getConnection(?string $name = null)
     {
         return $this->manager->connection($name);
     }

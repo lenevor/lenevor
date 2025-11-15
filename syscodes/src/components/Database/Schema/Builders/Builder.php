@@ -318,7 +318,7 @@ class Builder
      * 
      * @return \Syscodes\Components\Database\Schema\Dataprint
      */
-    protected function createDataprint($table, Closure $callback = null)
+    protected function createDataprint($table, ?Closure $callback = null)
     {
         $prefix = $this->connection->getConfig('prefix_indexes')
                     ? $this->connection->getConfig('prefix')

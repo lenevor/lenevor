@@ -82,7 +82,7 @@ class CacheManager implements FactoryContract
      * 
      * @return \Syscodes\Components\Cache\CacheRepository
      */
-    public function driver(string $driver = null)
+    public function driver(?string $driver = null)
     {
         return $this->store($driver);
     }
@@ -94,7 +94,7 @@ class CacheManager implements FactoryContract
      * 
      * @return \Syscodes\Components\Cache\CacheRepository
      */
-    public function store(string $name = null)
+    public function store(?string $name = null)
     {
         $name = $name ?: $this->getDefaultDriver();
 
@@ -329,7 +329,7 @@ class CacheManager implements FactoryContract
      * 
      * @return mixed
      */
-    public function __call(string $method, array $params)
+    public function __call(string $method, array $params): mixed
     {
         return $this->store()->$method(...$params);
     }

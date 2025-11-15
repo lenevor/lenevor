@@ -37,7 +37,7 @@ interface ConnectionInterface
      * 
      * @return \Syscodes\Components\Database\Query\Builder
      */
-    public function table($table, string $as = null);
+    public function table($table, ?string $as = null);
 
     /**
      * Get a new raw query expression.

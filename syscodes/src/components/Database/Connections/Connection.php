@@ -199,7 +199,7 @@ class Connection implements ConnectionInterface
      * 
      * @return \Syscodes\Components\Database\Query\Builder
      */
-    public function table($table, string $as = null)
+    public function table($table, ?string $as = null)
     {
         return $this->query()->from($table, $as);
     }
@@ -570,7 +570,7 @@ class Connection implements ConnectionInterface
      * 
      * @return void
      */
-    public function logQuery(string $query, array $bindings, float $time = null): void
+    public function logQuery(string $query, array $bindings, ?float $time = null): void
     {
         $this->event(new QueryExecuted($query, $bindings, $time, $this));
 
