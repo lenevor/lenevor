@@ -22,14 +22,13 @@
 
 namespace Syscodes\Components\Http;
 
-use InvalidArgumentException;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Support\MessageBag;
 use Syscodes\Components\Support\ViewErrorBag;
 use Syscodes\Components\Support\Traits\Macroable;
-use Syscodes\Components\Http\Resources\HttpResponse;
 use Syscodes\Components\Support\Traits\ForwardsCalls;
+use Syscodes\Components\Http\Concerns\ResponseContent;
 use Syscodes\Components\Session\Store as SessionStore;
 use Syscodes\Components\Contracts\Support\MessageProvider;
 
@@ -40,9 +39,9 @@ use Syscodes\Components\Contracts\Support\MessageProvider;
 class RedirectResponse extends Response
 {
     use ForwardsCalls,
-        HttpResponse,
+        ResponseContent,
         Macroable {
-            __call as macroCall;
+            Macroable::__call as macroCall;
         }
 
     /**
@@ -60,48 +59,6 @@ class RedirectResponse extends Response
     protected $session;
 
     /**
-     * The target URL.
-     * 
-     * @var string $targetUrl
-     */
-    protected $targetUrl;
-
-    /**
-     * Constructor. Creates a redirect response so that it conforms to the rules 
-     * defined for a redirect status code.
-     * 
-     * @param  string  $url  The URL to redirect to
-     * @param  int  $status  The redirect status code  
-     * @param  array  $headers  The header array
-     * 
-     * @return void
-     * 
-     * @throws \InvalidArgumentException
-     */
-    public function __construct(?string $url, int $status = 302, array $headers = [])
-    {
-        if (null === $url) {
-            @trigger_error(sprintf('Passing a null url when instantiating a "%s"', __CLASS__), E_USER_DEPRECATED);
-            
-            $url = '';
-        }
-
-        parent::__construct('', $status, $headers);
-
-        $this->setTargetUrl($url);
-
-        if ( ! $this->isRedirect()) {
-            throw new InvalidArgumentException(sprintf('The HTTP status code is not a redirect ("%s" given).', $status));
-        }
-
-        // Loaded the headers and status code
-        $this->send(true);
-
-        // Terminate the current script 
-        exit;
-    }
-
-    /**
      * Creates an instance of the same redirect class for rendering URL's to the url, method rules defined
      * status code and headers.
      * 
@@ -114,49 +71,6 @@ class RedirectResponse extends Response
     public static function render($url = '', $status = 302, $headers = []): static
     {
         return new static($url, $status, $headers);
-    }
-
-    /**
-     * Returns the target URL.
-     * 
-     * @return string
-     */
-    public function getTargetUrl(): string
-    {
-        return $this->targetUrl;
-    }
-
-    /**
-    * Redirects to another url. Sets the redirect header, sends the headers and exits.
-    * Can redirect via a Location header.
-    *
-    * @param  string  $url  The url
-    *
-    * @return static
-    */
-    public function setTargetUrl($url): static
-    {
-        if ('' === ($url ?? '')) {
-            throw new InvalidArgumentException('Cannot redirect to an empty URL');
-        }
-        
-        $this->targetUrl = $url;
-        
-        $this->setContent(sprintf('<!DOCTYPE html>
-    <html>
-        <head>
-            <meta charset="UTF-8" />
-            <meta http-equiv="refresh" content="0;url=%1$s" />
-            <title>Redirecting to %1$s</title>
-        </head>
-        <body>
-            Redirecting to <a href="%1$s">%1$s</a>.
-        </body>
-    </html>', htmlspecialchars($url, ENT_QUOTES, 'UTF-8')));
-    
-        $this->headers->set("Location", $url);
-        
-        return $this;
     }
     
     /**
@@ -271,7 +185,7 @@ class RedirectResponse extends Response
      * 
      * @return void
      */
-    public function setSession(SessionStore $session)
+    public function setSession(SessionStore $session): void
     {
         $this->session = $session;
     }
@@ -288,16 +202,16 @@ class RedirectResponse extends Response
      * 
      * @throws \BadMethodCallException
      */
-    public function __call($method, $parameters)
+    public function __call(string $method, array $parameters): mixed
     {
-        if (static::hasMacro($method)) {
-            return $this->macroCall($method, $parameters);
+        if ( ! static::hasMacro($method)) {
+            static::BadMethodCallException($method);
         }
         
         if (Str::startsWith($method, 'with')) {
             return $this->with(Str::snake(substr($method, 4)), $parameters[0]);
         }
         
-        static::throwBadMethodCallException($method);
+        return $this->macroCall($method, $parameters);
     }
 }
