@@ -22,31 +22,17 @@
 
 namespace Syscodes\Components\Http;
 
-use ArrayObject;
 use JsonSerializable;
 use InvalidArgumentException;
 use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Contracts\Support\Arrayable;
+use Symfony\Component\HttpFoundation\JsonResponse as BaseJsonResponse;
 
 /**
  * Response represents an HTTP response in JSON format.
  */
-class JsonResponse extends Response
+class JsonResponse extends BaseJsonResponse
 {
-    /**
-     * The JSON response data.
-     * 
-     * @var string $data
-     */
-    protected $data;
-
-    /**
-     * The JSON encoding options.
-     * 
-     * @var int $jsonEncodingOptions
-     */
-    protected $jsonEncodingOptions = 15;
-
     /**
      * Constructor. The JsonReponse classs instance.
      * 
@@ -60,21 +46,9 @@ class JsonResponse extends Response
      */
     public function __construct($data = null, int $status = 200, array $headers = [], int $options = 0, bool $json = false)
     {
-        $this->jsonEncodingOptions = $options;
+       $this->encodingOptions = $options;
 
-        parent::__construct('', $status, $headers);
-
-        if (null === $data) {
-            $data = new ArrayObject;
-        }
-        
-        $json ? $this->setJson($data) : $this->setData($data);
-
-        // Loaded the headers and status code
-        $this->send(true);
-        
-        // Terminate the current script 
-        exit;
+        parent::__construct($data, $status, $headers, $json);
     }
 
     /**
@@ -90,6 +64,18 @@ class JsonResponse extends Response
     public static function render($data = null, $status = 200, $headers = []): static
     {
         return new static($data, $status, $headers);
+    }
+    
+    /**
+     * Sets the JSONP callback.
+     * 
+     * @param  string|null  $callback
+     * 
+     * @return static
+     */
+    public function withCallback($callback = null): static
+    {
+        return $this->setCallback($callback);
     }
 
     /**
@@ -133,13 +119,13 @@ class JsonResponse extends Response
     {
         $options = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
 
-        $this->jsonEncodingOptions = app()->environment() === 'production' ? $options : $options | JSON_PRETTY_PRINT;
+        $this->encodingOptions = app()->environment() === 'production' ? $options : $options | JSON_PRETTY_PRINT;
         
         $this->data = match(true) {
-            $data instanceof Jsonable => $data->toJson($this->jsonEncodingOptions),
-            $data instanceof JsonSerializable => json_encode($data->jsonSerialize(), $this->jsonEncodingOptions),
-            $data instanceof Arrayable => json_encode($data->toArray(), $this->jsonEncodingOptions),
-            default => json_encode($data, $this->jsonEncodingOptions),
+            $data instanceof Jsonable => $data->toJson($this->encodingOptions),
+            $data instanceof JsonSerializable => json_encode($data->jsonSerialize(), $this->encodingOptions),
+            $data instanceof Arrayable => json_encode($data->toArray(), $this->encodingOptions),
+            default => json_encode($data, $this->encodingOptions),
         };
 
         if ( ! $this->hasJsonValidOptions(json_last_error())) {
@@ -179,7 +165,7 @@ class JsonResponse extends Response
      */
     public function hasJsonEncondingOptions($option): bool
     {
-        return (bool) ($this->jsonEncodingOptions & $option);
+        return (bool) ($this->encodingOptions & $option);
     }
 
     /**
@@ -205,22 +191,8 @@ class JsonResponse extends Response
      */
     public function setJsonEncodingOptions($options)
     {
-        $this->jsonEncodingOptions = $options;
+        $this->encodingOptions = $options;
 
         return $this->setData($this->getData());
-    }
-
-    /**
-     * Updates the content and headers according to the JSON data.
-     *
-     * @return static
-     */
-    protected function update(): static
-    {
-        if ( ! $this->headers->has('Content-Type') || 'text/javascript' === $this->headers->get('Content-Type')) {
-            $this->headers->set('Content-Type', 'application/json');
-        }
-
-        return $this->setContent($this->data);
     }
 }
