@@ -484,7 +484,7 @@ class Gate implements GateContract
     protected function resolvePolicyCallback($user, string $ability, array $arguments): callable
     {
         return function () use ($user, $ability, $arguments) {
-            $class = headItem($arguments);
+            $class = head($arguments);
             
             if (method_exists($instance = $this->getPolicyFor($class), 'before')) {
                 $parameters = array_merge(array($user, $ability), $arguments);

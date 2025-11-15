@@ -1780,7 +1780,7 @@ class Builder
             return true;
         }
 
-        if ( ! is_array(headItem($values))) {
+        if ( ! is_array(head($values))) {
             $values = [$values];
         } else {
             foreach ($values as $key => $value) {
@@ -2387,7 +2387,7 @@ class Builder
      */
     protected function flattenValue($value)
     {
-        return is_array($value) ? headItem(Arr::Flatten($value)) : $value;
+        return is_array($value) ? head(Arr::Flatten($value)) : $value;
     }
 
     /**
@@ -2511,12 +2511,12 @@ class Builder
      * 
      * @throws \BadMethodCallException
      */
-    public function __call($method, $parameters)
+    public function __call(string $method, array $parameters): mixed
     {
-        if (static::hasMacro($method)) {
-            return $this->macroCall($method, $parameters);
+        if ( ! static::hasMacro($method)) {
+            static::badMethodCallException($method);
         }
-
-        static::badMethodCallException($method);
+        
+        return $this->macroCall($method, $parameters);
     }
 }
