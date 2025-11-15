@@ -589,7 +589,7 @@ class Request extends SymfonyRequest
 	 * 
 	 * @return bool
 	 */
-	public function __isset($key)
+	public function __isset(string $key): bool
 	{
 		return ! is_null($this->__get($key));
 	}
@@ -601,7 +601,7 @@ class Request extends SymfonyRequest
 	 * 
 	 * @return string[]
 	 */
-	public function __get($key)
+	public function __get(string $key): mixed
 	{
 		return Arr::get($this->all(), $key, fn () => $this->route($key));
 	}

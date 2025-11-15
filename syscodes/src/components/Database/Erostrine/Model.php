@@ -114,19 +114,7 @@ class Model implements Arrayable, ArrayAccess
 	 */
 	protected $with = [];
 
-	/**
-	 * The name of the "created at" column.
-	 * 
-	 * @var string|null
-	 */
-	const CREATED_AT = 'created_at';
-
-	/**
-	 * The name of the "updated at" column.
-	 * 
-	 * @var string|null
-	 */
-	const UPDATED_AT = 'updated_at';
+	
 
 	/**
 	 * Constructor. The create new Model instance.
@@ -816,7 +804,7 @@ class Model implements Arrayable, ArrayAccess
 			return $key;
 		}
 		
-		return lastItem(explode('.', $key));
+		return last(explode('.', $key));
 	}
 
 	/**
@@ -1035,7 +1023,7 @@ class Model implements Arrayable, ArrayAccess
 	 * 
 	 * @return mixed
 	 */
-	public function __call($method, $parameters)
+	public function __call(string $method, array $parameters): mixed
 	{
 		return $this->forwardCallTo($this->newQuery(), $method, $parameters);
 	}
@@ -1050,7 +1038,7 @@ class Model implements Arrayable, ArrayAccess
 	 * 
 	 * @return mixed
 	 */
-	public static function __callStatic($method, $parameters)
+	public static function __callStatic(string $method, array $parameters): mixed
 	{
 		return (new static)->{$method}(...$parameters);
 	}

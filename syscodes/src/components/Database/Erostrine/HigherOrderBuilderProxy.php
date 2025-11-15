@@ -63,9 +63,9 @@ class HigherOrderBuilderProxy
      * 
      * @return mixed
      */
-    public function __call($method, $parameters)
+    public function __call(string $method, array $parameters): mixed
     {
-        $this->builder->{$this->method}(function ($value) use ($method, $parameters) {
+        return $this->builder->{$this->method}(function ($value) use ($method, $parameters) {
             return $value->{$method}(...$parameters);
         });
     }

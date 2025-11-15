@@ -501,7 +501,7 @@ class Builder
      * 
      * @return array
      */
-    protected function eagerLoadRelation(array $models, string $name, Closure $constraints = null): array
+    protected function eagerLoadRelation(array $models, string $name, ?Closure $constraints = null): array
     {
         $relation = $this->getRelation($name);
 
@@ -813,7 +813,7 @@ class Builder
      * 
      * @return mixed
      */
-    public function __call($method, $parameters)
+    public function __call(string $method, array $parameters): mixed
     {
         if (static::hasMacro($method)) {
             $macro = static::$macros[$method];
@@ -843,8 +843,10 @@ class Builder
      * @param  array  $parameters
      * 
      * @return mixed
+     * 
+     * @throws BadMethodCallException
      */
-    public static function __callStatic($method, $parameters)
+    public static function __callStatic(string $method, array $parameters)
     {
         if ($method === 'macro') {
             static::$macros[$parameters[0]] = $parameters[1];
@@ -857,7 +859,7 @@ class Builder
         }
 
         if ( ! static::hasMacro($method)) {
-            static::badMethodCallEcxeption($method);
+            static::badMethodCallException($method);
         }
 
         $macro = static::$macros[$method];
