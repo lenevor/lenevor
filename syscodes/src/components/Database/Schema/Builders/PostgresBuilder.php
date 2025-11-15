@@ -132,7 +132,7 @@ class PostgresBuilder extends Builder
         foreach ($this->getAllViews() as $row) {
             $row = (array) $row;
             
-            $views[] = $row['qualifiedname'] ?? headItem($row);
+            $views[] = $row['qualifiedname'] ?? head($row);
         }
         
         if (empty($views)) {

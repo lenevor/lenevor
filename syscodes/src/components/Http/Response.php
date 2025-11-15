@@ -28,16 +28,15 @@ use InvalidArgumentException;
 use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Support\Renderable;
-
-class_exists(ResponseHeaders::class);
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 /**
  * Response represents an HTTP response.
  */
-class Response
+class Response extends SymfonyResponse
 {
-	use Concerns\ResponseContent,
-	    Concerns\ResponseStatusCode;
+	use Concerns\ResponseContent;
 
 	/**
 	 * Sets up the response with a content and a status code.
@@ -50,7 +49,7 @@ class Response
 	 */
 	public function __construct($content = '', int $status = 200, array $headers = [])
 	{
-		$this->headers = new ResponseHeaders($headers);
+		$this->headers = new ResponseHeaderBag($headers);
 		
 		$this->setContent($content);
 		$this->setStatusCode($status);
@@ -83,44 +82,6 @@ class Response
 	}
 
 	/**
-	 * Sends the headers if they haven't already been sent. 
-	 * Returns whether they were sent or not.
-	 *
-	 * @return static
-	 */
-	public function sendHeaders(): static
-	{
-		// Have the headers already been sent?
-		if (headers_sent()) {
-			return $this;
-		}
-
-		// Headers
-		foreach ($this->headers->allPreserveCaseWithoutCookies() as $name => $values) {
-			$replace = 0 === strcasecmp($name, 'Content-Type');
-
-			foreach ($values as $value) {
-				header($name.': '. $value, $replace, $this->statusCode);
-			}
-		}
-		
-		// Cookies
-		foreach ($this->headers->getCookies() as $cookie) {
-		 	header('Set-Cookie: '.$cookie, false, $this->statusCode);
-		}
-		
-		// Status
-		if ( ! empty($_SERVER['FCGI_SERVER_VERSION'])) {
-			// Send the protocol/status line first, FCGI servers need different status header
-			header(sprintf('Status: %s %s', $this->statusCode, $this->statusText));
-		} else {
-			header(sprintf('HTTP/%s %s %s', $this->version, $this->statusCode, $this->statusText), true, $this->statusCode);
-		}
-
-		return $this;
-	}
-
-	/**
 	 * Sends content for the current web response.
 	 * 
 	 * @return static
@@ -128,26 +89,6 @@ class Response
 	public function sendContent(): static
 	{
 		echo $this->content;
-
-		return $this;
-	}
-
-	/**
-	 * Sends the response to the output buffer. Optionally, headers will be sent. 
-	 *
-	 * @param  bool  $sendHeader  Whether or not to send the defined HTTP headers
-	 *
-	 * @return  static
-	 */
-	public function send($sendHeader = false): static
-	{
-		if ($sendHeader) {
-			$this->sendHeaders();
-		}
-
-		if (null !== $this->content) {
-			$this->sendContent();
-		}
 
 		return $this;
 	}
@@ -210,56 +151,5 @@ class Response
 		}
 		
 		return json_encode($content);
-	}
-
-	/**
-	 * Prepares the Response before it is sent to the client.
-	 * 
-	 * @param  \Syscodes\Components\Http\Request  $request
-	 * 
-	 * @return static
-	 */
-	public function prepare($request): static
-	{
-		$headers = $this->headers;
-
-		if ($this->isInformational() || $this->isEmpty()) {
-			$this->setContent(null);
-			$headers->remove('Content-Type');
-			$headers->remove('Content-Length');
-		}
-		
-		// Fix protocol
-		if ('HTTP/1.0' != $request->server->get('SERVER_PROTOCOL')) {
-			$this->setProtocolVersion('1.1');
-		}
-
-		return $this;
-	}
-	
-	/**
-	 * Magic method.
-	 * 
-	 * Returns the Response as an HTTP string.
-	 * 
-	 * @return string
-	 */
-	public function __toString(): string
-	{
-		return sprintf('HTTP/%s %s %s', $this->version, $this->statusCode, $this->statusText)."\r\n".
-			$this->headers."\r\n".
-			$this->getContent();
-	}
-	
-	/**
-	 * Magic method.
-	 * 
-	 * Clone the current Response instance.
-	 * 
-	 * @return void
-	 */
-	public function __clone()
-	{
-		$this->headers = clone $this->headers;
 	}
 }

@@ -138,7 +138,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
         string $name,
         UserProvider $provider,
         Session $session,
-        Request $request = null
+        ?Request $request = null
     ) {
         $this->name     = $name;
         $this->provider = $provider;
@@ -806,7 +806,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      */
     public function getRequest(): request
     {
-        return $this->request ?: Request::createFromRequestGlobals();
+        return $this->request ?: Request::createFromGlobals();
     }
     
     /**

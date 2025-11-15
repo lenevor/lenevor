@@ -102,7 +102,7 @@ class MySqlBuilder extends Builder
         foreach ($this->getAllTables() as $row) {
             $row = (array) $row;
             
-            $tables[] = headItem($row);
+            $tables[] = head($row);
         }
         
         if (empty($tables)) {
