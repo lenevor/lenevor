@@ -21,10 +21,10 @@
  */
 namespace Syscodes\Components\Cookie;
 
-use Syscodes\Components\Http\Cookie;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\InteractsWithTime;
 use Syscodes\Components\Contracts\Cookie\QueueingFactory as CookieFactory;
+use Symfony\Component\HttpFoundation\Cookie;
 
 /**
  * Get the cookies for have a response to a rquest of user.

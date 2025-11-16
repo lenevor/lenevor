@@ -23,7 +23,6 @@
 namespace Syscodes\Components\Session\Middleware;
 
 use Closure;
-use Syscodes\Components\Http\Cookie;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Http\Response;
 use Syscodes\Components\Routing\Route;
@@ -31,6 +30,7 @@ use Syscodes\Components\Support\Chronos;
 use Syscodes\Components\Support\Facades\Date;
 use Syscodes\Components\Session\SessionManager;
 use Syscodes\Components\Contracts\Session\Session;
+use Symfony\Component\HttpFoundation\Cookie;
 
 /**
  * The start session allows authenticate logged on users.
@@ -55,7 +55,7 @@ class StartSession
      * Handle an incoming request.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Closure(\Syscodes\Components\Http\Response)  $next
+     * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next
      * 
      * @return \Syscodes\Components\Http\Response
      */

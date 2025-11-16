@@ -23,14 +23,14 @@
 namespace Syscodes\Components\Core\Http\Middleware;
 
 use Closure;
-use Syscodes\Components\Http\Cookie;
+use Syscodes\Components\Cookie\CookieValue;
 use Syscodes\Components\Support\InteractsWithTime;
 use Syscodes\Components\Contracts\Core\Application;
-use Syscodes\Components\Cookie\Concerns\CookieValue;
 use Syscodes\Components\Contracts\Encryption\Encrypter;
 use Syscodes\Components\Cookie\Middleware\EncryptCookies;
 use Syscodes\Components\Encryption\Exceptions\DecryptException;
 use Syscodes\Components\Session\Exceptions\TokenMismatchException;
+use Symfony\Component\HttpFoundation\Cookie;
 
 /**
  * Checks if exists a the CSRF token in the cookie.
@@ -85,7 +85,7 @@ class VerifyCsrfToken
      * Handle an incoming request.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next
      * 
      * @return \Syscodes\Components\Http\Response
      */
@@ -201,9 +201,9 @@ class VerifyCsrfToken
      * Add the CSRF token to the response cookies.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Syscodes\Components\Http\Response  $response
+     * @param  \Symfony\Component\HttpFoundation\Response  $response
      * 
-     * @return \Syscodes\Components\Http\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function addCookieToResponse($request, $response)
     {
@@ -220,7 +220,7 @@ class VerifyCsrfToken
      * @param  \Syscodes\Components\Http\Request  $request
      * @param  array  $config
      * 
-     * @return \Syscodes\Components\Http\Cookie
+     * @return \Symfony\Component\HttpFoundation\Cookie
      */
     protected function newCookie($request, $config)
     {
@@ -233,7 +233,8 @@ class VerifyCsrfToken
             $config['secure'],
             false,
             false,
-            $config['sameSite'] ?? null        
+            $config['same_site'] ?? null,
+            $config['partitioned'] ?? false      
         );
     }
 

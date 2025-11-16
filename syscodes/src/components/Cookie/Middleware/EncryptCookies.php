@@ -23,21 +23,19 @@
 namespace Syscodes\Components\Cookie\Middleware;
 
 use Closure;
-use Syscodes\Components\Http\Cookie;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Http\Response;
-use Syscodes\Components\Cookie\Concerns\CookieValue;
+use Syscodes\Components\Cookie\CookieValue;
 use Syscodes\Components\Encryption\Exceptions\DecryptException;
 use Syscodes\Components\Contracts\Encryption\Encrypter as EncryptContract;
+use Symfony\Component\HttpFoundation\Cookie;
 
 /**
  * Allows the encrypt of a cookie string according to your the request.
  */
 class EncryptCookies
 {
-    use CookieValue;
-
     /**
      * The Encrypter instance.
      * 
@@ -94,7 +92,7 @@ class EncryptCookies
      * Handle an incoming request.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Closure(\Syscodes\Components\Http\Response)  $next
+     * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next
      * 
      * @return \Syscodes\Components\Http\Response
      */
@@ -176,7 +174,7 @@ class EncryptCookies
     {
         return is_array($value)
                     ? $this->validateArray($key, $value)
-                    : static::validate($key, $value, $this->encrypter->getKey());
+                    : CookieValue::validate($key, $value, $this->encrypter->getKey());
     }
     
     /**
@@ -215,7 +213,7 @@ class EncryptCookies
             $response->headers->setCookie($this->duplicate(
                 $cookie,
                 $this->encrypter->encrypt(
-                    static::create($cookie->getName(), $this->encrypter->getKey()).$cookie->getValue(),
+                    CookieValue::create($cookie->getName(), $this->encrypter->getKey()).$cookie->getValue(),
                     static::serialized($cookie->getName())
                 )
             ));
@@ -227,12 +225,12 @@ class EncryptCookies
     /**
      * Duplicate a cookie with a new value.
      * 
-     * @param  \Syscodes\Components\Http\Cookie  $cookie
+     * @param  \Symfony\Component\HttpFoundation\Cookie  $cookie
      * @param  mixed  $value
      * 
-     * @return \Syscodes\Components\Http\Cookie
+     * @return \Symfony\Component\HttpFoundation\Cookie
      */
-    protected function duplicate(Cookie $cookie, $value): Cookie
+    protected function duplicate(Cookie $cookie, $value)
     {
         return $cookie->withValue($value);
     }

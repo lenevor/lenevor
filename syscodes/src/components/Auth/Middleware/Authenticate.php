@@ -62,7 +62,7 @@ class Authenticate
      * Handle an incoming request.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Closure(\Syscodes\Components\Http\Request)  $next
+     * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next
      * @param  string[]  $guards
      * 
      * @return \Syscodes\Components\Http\Response

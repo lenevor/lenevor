@@ -69,7 +69,7 @@ class Authorize
      * Handle an incoming request.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Closure(\Syscodes\Components\Http\Response)  $next
+     * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next
      * @param  string  $ability
      * @param  array|null  ...$models
      * 
