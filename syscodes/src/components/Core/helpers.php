@@ -20,21 +20,29 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
+use Psr\Log\LoggerInterface;
+use Syscodes\Components\Http\Cookie;
 use Syscodes\Components\Http\Response;
+use Syscodes\Components\Log\LogManager;
 use Syscodes\Components\Core\Application;
 use Syscodes\Components\Support\WebString;
+use Syscodes\Components\Contracts\View\View;
+use Syscodes\Components\Contracts\Auth\Guard;
+use Syscodes\Components\Cookie\CookieManager;
 use Syscodes\Components\Support\Facades\Date;
+use Syscodes\Components\Http\RedirectResponse;
 use Syscodes\Components\Contracts\View\Factory;
 use Syscodes\Components\Contracts\Auth\Access\Gate;
+use Syscodes\Components\Routing\Generators\Redirector;
+use Syscodes\Components\Contracts\Routing\UrlGenerator;
 use Syscodes\Components\Contracts\Routing\RouteResponse;
-use Syscodes\Components\Routing\Generators\UrlGenerator;
 use Syscodes\Components\Contracts\Debug\ExceptionHandler;
+use Syscodes\Components\Contracts\Translation\Translator;
 use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoload;
 use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoloader;
 use Syscodes\Components\Contracts\Auth\Factory as AuthFactory;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
 use Syscodes\Components\Contracts\Cookie\Factory as CookieFactory;
-use Syscodes\Components\Debug\FatalExceptions\FatalThrowableError;
 
 if ( ! function_exists('abort')) {
     /**
@@ -68,10 +76,11 @@ if ( ! function_exists('about_if')) {
      * @param  array  $headers
      * 
      * @return void
+     * 
      * @throws \Syscodes\Components\Core\Http\Exceptions\HttpException
      * @throws \Syscodes\Components\Core\Http\Exceptions\LenevorException
      */
-    function about_if($boolean, int $code, string $message = '', array $headers = [])
+    function about_if($boolean, int $code, string $message = '', array $headers = []): void
     {
         if ($boolean) {
             abort($code, $message, $headers);
@@ -89,10 +98,11 @@ if ( ! function_exists('abort_unless')) {
      * @param  array  $headers
      * 
      * @return void
+     * 
      * @throws \Syscodes\Components\Core\Http\Exceptions\HttpException
      * @throws \Syscodes\Components\Core\Http\Exceptions\LenevorException
      */
-    function abort_unless($boolean, int $code, string $message = '', array $headers = [])
+    function abort_unless($boolean, int $code, string $message = '', array $headers = []): void
     {
         if ( ! $boolean) {
             abort($code, $message, $headers);
@@ -110,7 +120,7 @@ if ( ! function_exists('action')) {
      * 
      * @return string
      */
-    function action($name, $parameters = [], $absolute = true)
+    function action($name, $parameters = [], $absolute = true): string
     {
         return app('url')->action($name, $parameters, $absolute);
     }
@@ -155,7 +165,7 @@ if ( ! function_exists('app_path')) {
      * 
      * @return string
      */
-    function app_path($path = '')
+    function app_path($path = ''): string
     {
         return app()->path($path);
     }
@@ -170,7 +180,7 @@ if ( ! function_exists('asset')) {
      * 
      * @return string
      */
-    function asset($path, $secure = null)
+    function asset($path, $secure = null): string
     {
         return app('url')->asset($path, $secure);
     }
@@ -184,7 +194,7 @@ if ( ! function_exists('auth')) {
      * 
      * @return \Syscodes\Components\Contracts\Auth\Factory|\Syscodes\Components\Contracts\Auth\Guard|\Syscodes\Components\Contracts\Auth\StateGuard
      */
-    function auth($guard = null)
+    function auth($guard = null): AuthFactory|Guard
     {
         if (is_null($guard)) {
             return app(AuthFactory::class);
@@ -204,7 +214,7 @@ if ( ! function_exists('back')) {
      * 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
-    function back(int $status = 302, array $headers = [], mixed $fallback = false)
+    function back(int $status = 302, array $headers = [], mixed $fallback = false): RedirectResponse 
     {
         return app('redirect')->back($status, $headers, $fallback);
     }
@@ -218,7 +228,7 @@ if ( ! function_exists('base_path')) {
      * 
      * @return string
      */
-    function base_path($path = '')
+    function base_path($path = ''): string
     {
         return app()->basePath($path);
     }
@@ -233,7 +243,7 @@ if ( ! function_exists('bcrypt')) {
      * 
      * @return string
      */
-    function bcrypt($value, $options = [])
+    function bcrypt($value, $options = []): string
     {
         return app('hash')->driver('bcrypt')->make($value, $options);
     }
@@ -308,7 +318,7 @@ if ( ! function_exists('config_path')) {
      * 
      * @return string
      */
-    function config_path($path = '')
+    function config_path($path = ''): string
     {
         return app()->configPath($path);
     }
@@ -340,7 +350,7 @@ if ( ! function_exists('cookie')) {
         bool $httpOnly = true, 
         bool $raw = false, 
         ?string $sameSite = null
-    ) {
+    ): CookieManager|Cookie {
         $cookie = app(CookieFactory::class);
         
         if (is_null($name)) {
@@ -357,7 +367,7 @@ if ( ! function_exists('csrf_field')) {
      * 
      * @return string
      */
-    function csrf_field()
+    function csrf_field(): string
     {
         return new WebString('<input type="hidden" name="_token" value="'.csrf_token().'">');
     }
@@ -371,7 +381,7 @@ if ( ! function_exists('csrf_token')) {
      * 
      * @throws \RuntimeException
      */
-    function csrf_token()
+    function csrf_token(): string
     {
         $session = app('session');
         
@@ -391,7 +401,7 @@ if ( ! function_exists('database_path')) {
      * 
      * @return string
      */
-    function database_path($path = '')
+    function database_path($path = ''): string
     {
         return app()->databasePath($path);
     }
@@ -421,7 +431,7 @@ if ( ! function_exists('e')) {
      *
      * @return string
      */
-    function e($value, $doubleEncode = true)
+    function e($value, $doubleEncode = true): string
     {
         return htmlentities($value ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', $doubleEncode);
     }
@@ -468,7 +478,7 @@ if ( ! function_exists('get_classname')) {
      * 
      * @return array|string
      */
-    function get_classname($classname, bool $bool = false)
+    function get_classname($classname, bool $bool = false): array|string
     {
         $position = explode('\\', get_class($classname));
         
@@ -485,7 +495,7 @@ if ( ! function_exists('info')) {
      * 
      * @return void
      */
-    function info($message, array $context = [])
+    function info($message, array $context = []): void
     {
         app('log')->info($message, $context);
     }
@@ -497,7 +507,7 @@ if ( ! function_exists('is_cli')) {
      * 
      * @return bool
      */
-    function is_cli()
+    function is_cli(): bool
     {
         return (\PHP_SAPI === 'cli' || defined('STDIN') || \PHP_SAPI === 'phpdbg');
     }
@@ -511,7 +521,7 @@ if ( ! function_exists('isGetCommonPath')) {
      * 
      * @return string  The determined common path section
      */
-    function isGetCommonPath($paths)
+    function isGetCommonPath($paths): string
     {
         $lastOffset = 1;
         $common     = '/';
@@ -543,7 +553,7 @@ if ( ! function_exists('isImport')) {
      * 
      * @return void
      */
-    function isImport($path, $folder = 'classes')
+    function isImport($path, $folder = 'classes'): void
     {
         $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
         
@@ -569,9 +579,9 @@ if ( ! function_exists('lang_path')) {
      * 
      * @return string
      */
-    function lang_path($path = '')
+    function lang_path($path = ''): string
     {
-        return app('path.lang').($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return app()->langPath($path);
     }
 }
 
@@ -582,9 +592,9 @@ if ( ! function_exists('logger')) {
      * @param  string|null  $message
      * @param  array  $context
      * 
-     * @return \Syscodes\Components\Log\LogManager|null
+     * @return ($message is null ? \Psr\Log\LoggerInterface : null)
      */
-    function logger($message = null, array $context = [])
+    function logger($message = null, array $context = []): ?LoggerInterface
     {
         if (is_null($message)) {
             return app('log');
@@ -597,17 +607,15 @@ if ( ! function_exists('logger')) {
 if ( ! function_exists('log')) {
     
     /**
-     * Get a log level instance.
+     * Get a log driver instance.
      * 
-     * @param  string  $message
-     * @param  array  $context
-     * @param  string  $level
+     * @param  string|null drivere 
      * 
-     * @return \Syscodes\Components\Log\LogManager|\Psr\Log\LoggerInterface
+     * @return ($driver is null ? \Illuminate\Log\LogManager : \Psr\Log\LoggerInterface)
      */
-    function log($message, array $context = [], $level = 'notice')
+    function logs($driver = null): LogManager|LoggerInterface
     {
-        return app('log')->log($level, $message, $context);
+        return $driver ? app('log')->driver($driver) : app('log');
     }
 }
 
@@ -620,7 +628,7 @@ if ( ! function_exists('method_field'))
      * 
      * @return \Syscodes\Components\Support\WebString
      */
-    function method_field($method)
+    function method_field($method): WebString
     {
         return new WebString('<input type="hidden" name="_method" value="'.$method.'">');
     }
@@ -679,9 +687,9 @@ if ( ! function_exists('public_path')) {
      * 
      * @return string
      */
-    function public_path($path = '')
+    function public_path($path = ''): string
     {
-        return app('path.public').($path ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : $path);
+        return app()->publicPath($path);
     }
 }
 
@@ -696,7 +704,7 @@ if ( ! function_exists('redirect')) {
      *
      * @return \Syscodes\Components\Routing\Supported\Redirector|\Syscodes\Components\Http\RedirectResponse
      */
-    function redirect($url = null, int $code = 302, array $headers = [], ?bool $secure = null)
+    function redirect($url = null, int $code = 302, array $headers = [], ?bool $secure = null): Redirector|RedirectResponse
     {
         if (null === $url) {
             return app('redirect');
@@ -714,11 +722,10 @@ if ( ! function_exists('report')) {
      * 
      * @return void
      */
-    function report($exception)
+    function report($exception): void
     {
-        if ($exception instanceof Throwable &&
-          ! $exception instanceof Exception) {
-            $exception = new FatalThrowableError($exception);
+        if (is_string($exception)) {
+            $exception = new Exception($exception);
         }
 
         app(ExceptionHandler::class)->report($exception);
@@ -769,13 +776,13 @@ if ( ! function_exists('response')) {
     /**
      * Return a new Response from the application.
      *
-     * @param  string  $body
+     * @param  string  $content
      * @param  int  $status  
      * @param  array  $headers
      * 
      * @return \Syscodes\Components\Http\Response|\Syscodes\Components\Routing\Generators\RouteResponse
      */
-    function response($body = '', int $status = 200, array $headers = [])
+    function response($content = '', int $status = 200, array $headers = []): RouteResponse|Response
     {
         /** @var \Syscodes\Components\Routing\Generators\RouteResponse */
         $response = app(RouteResponse::class);
@@ -784,7 +791,7 @@ if ( ! function_exists('response')) {
             return $response;
         }
 
-        return $response->make($body, $status, $headers);
+        return $response->make($content ?? '', $status, $headers);
     }
 }
 
@@ -796,7 +803,7 @@ if ( ! function_exists('resource_path')) {
      * 
      * @return string
      */
-    function resource_path($path = '')
+    function resource_path($path = ''): string
     {
         return app()->resourcePath($path);
     }
@@ -855,7 +862,7 @@ if ( ! function_exists('session')) {
      * @param  string  $key  
      * @param  mixed  $default  
      * 
-     * @return mixed|\Syscodes\Components\Session\Store|\Syscodes\Components\Session\SessionManager
+     * @return ($key is null ? \Syscodes\Components\Session\SessionManager : ($key is string ? mixed : null))
      */
     function session($key = null, mixed $default = null)
     {
@@ -878,9 +885,9 @@ if ( ! function_exists('segment')) {
      * @param  int  $segment  
      * @param  mixed  $default  
      *
-     * @return string
+     * @return mixed
      */
-    function segment($index, $default = null)
+    function segment($index, $default = null): mixed
     {
         return request()->segment($index, $default);
     }
@@ -892,7 +899,7 @@ if ( ! function_exists('segments')) {
      *
      * @return array
      */
-    function segments()
+    function segments(): array
     {
         return request()->segments();
     }
@@ -906,7 +913,7 @@ if ( ! function_exists('storage_path')) {
      * 
      * @return string
      */
-    function storage_path($path = '')
+    function storage_path($path = ''): string
     {
         return app('path.storage').($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
@@ -938,9 +945,9 @@ if ( ! function_exists('today')) {
      * 
      * @return \Syscodes\Components\Support\Chronos
      */
-    function today($tz = null)
+    function today($timezone = null)
     {
-        return Date::today($tz);
+        return Date::today($timezone);
     }
 }
 
@@ -950,9 +957,9 @@ if ( ! function_exists('total_segments')) {
      *
      * @return int
      */
-    function total_segments()
+    function total_segments(): int
     {
-        return request()->totalSegments();
+        return request()->totalSegment();
     }
 }
 
@@ -965,9 +972,9 @@ if ( ! function_exists('trans')) {
      * @param  array  $replace
      * @param  string|null  $locale
      * 
-     * @return \Syscode\Components\Contracts\Translation\Translator|string|array|null
+     * @return ($key is null ? \Syscodes\Components\Contracts\Translation\Translator : array|string)
      */
-    function trans($key = null, array $replace = [], $locale = null)
+    function trans($key = null, array $replace = [], $locale = null): Translator|array|string
     {
         if (is_null($key)) {
             return app('translator');
@@ -988,7 +995,7 @@ if ( ! function_exists('__')) {
      * 
      * @return string|array|null
      */
-    function __($key = null, array $replace = [], $locale = null)
+    function __($key = null, array $replace = [], $locale = null): string|array|null
     {
         if (is_null($key)) {
             return $key;
@@ -1006,9 +1013,9 @@ if ( ! function_exists('url')) {
      * @param  array  $parameters
      * @param  bool|null  $secure  
      *
-     * @return \Syscodes\Components\Routing\Generators\UrlGenerator
+     * @return ($path is null ? \Syscodes\Components\Contracts\Routing\UrlGenerator : string)
      */
-    function url($path = null, array $parameters = [], ?bool $secure = null)
+    function url($path = null, array $parameters = [], ?bool $secure = null): UrlGenerator|string
     {
         if (is_null($path)) {
             return app(UrlGenerator::class);
@@ -1028,9 +1035,9 @@ if ( ! function_exists('view')) {
      * @param  string|null  $file  View filename
      * @param  array  $data  Array of values
      * 
-     * @return \Syscodes\Components\View\View|\Syscodes\Components\Contracts\View\Factory
+     * @return ($view is null ? \Syscodes\Components\Contracs\View\View : \Syscodes\Components\Contracts\View\Factory)
      */
-    function view($file = null, $data = [])
+    function view($file = null, $data = []): Factory|View
     {
         $view = app(Factory::class);
 
