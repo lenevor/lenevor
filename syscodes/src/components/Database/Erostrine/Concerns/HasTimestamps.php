@@ -32,6 +32,16 @@ use Syscodes\Components\Support\Facades\Date;
 trait HasTimestamps
 {
     /**
+	 * The name of the "created at" column.
+	 */
+	const CREATED_AT = 'created_at';
+
+	/**
+	 * The name of the "updated at" column.
+	 */
+	const UPDATED_AT = 'updated_at';
+
+    /**
      * Indicates if the model should be timestamped.
      * 
      * @var bool $timestamps
