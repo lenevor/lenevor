@@ -30,34 +30,13 @@ use Syscodes\Components\Http\Exceptions\HttpResponseException;
  * Loads the response trait of headers, status code and content message.
  */
 trait ResponseContent
-{
-    /**
-     * The content of the response.
-     * 
-     * @var string $content
-     */
-    protected $content = null;
-    
+{    
     /**
      * The exception that triggered the error response (if applicable).
      * 
      * @var \Exception|null $exception
      */
     protected $exception;
-
-    /**
-     * The Headers class instance.
-     * 
-     * @var \Syscodes\Components\Http\ResponseHeaders $headers
-     */
-	public $headers;
-
-    /**
-     * The HTTP protocol version.
-     * 
-     * @var string $version
-     */
-    protected $version;
 
     /**
      * Gets the content of the response.
@@ -153,26 +132,6 @@ trait ResponseContent
         $this->headers->setCookie($cookie);
 
         return $this;
-    }
-
-    /**
-     * Gets the Http protocol version.
-     * 
-     * @return string
-     */
-    public function getProtocolVersion(): string
-    {
-        return $this->version;
-    }
-
-    /**
-     * Sets the Http protocol version.
-     * 
-     * @return string
-     */
-    public function setProtocolVersion(string $version): void
-    {
-        $this->version = $version;
     }
 
     /**
