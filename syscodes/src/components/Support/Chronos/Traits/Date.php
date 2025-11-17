@@ -22,9 +22,12 @@
 
 namespace Syscodes\Components\Support\Chronos\Traits;
 
+use Closure;
 use DateTime;
 use IntlCalendar;
 use IntlDateFormatter;
+use Syscodes\Components\Support\Traits\Macroable;
+use Syscodes\Components\Support\Traits\ForwardsCalls;
 
 /**
  * A localized date/time package inspired
@@ -41,11 +44,15 @@ use IntlDateFormatter;
  */
 trait Date
 {
-    use Factory;
-    use Schedule;
-    use Utilities;
-    use Comparison;
-    use Difference;
+    use Factory,
+        Schedule,
+        Utilities,
+        Comparison,
+        Difference,
+        ForwardsCalls,
+        Macroable {
+		    __call as macroCall;
+	    }
 
     /**
      * Identifier used to get language.
@@ -287,9 +294,9 @@ trait Date
             : __('time.inFuture', [$phrase]);
     }
 
-    // Magic Methods
-
     /**
+     * Magic method.
+     * 
      * Allow for property-type access to any getX method.
      * 
      * @param  string  $name
@@ -305,6 +312,29 @@ trait Date
         }
 
         return null;
+    }
+
+    /**
+     * Magic method.
+     * 
+     * Dynamically handle calls to the class.
+     *
+     * @param  string  $method  Magic method name called
+     * @param  array  $parameters  Parameters list
+     * 
+     * @return mixed
+     *
+     * @throws BadMethodCallException
+     */
+    public static function ___callStatic(string $method, array $parameters): mixed
+    {
+        $date = new static();
+
+        if ( ! static::hasMacro($method)) {
+            static::badMethodCallException($method);
+        }
+
+        return $date->{$method}(...$parameters);
     }
     
     /**
