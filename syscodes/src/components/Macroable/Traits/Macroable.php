@@ -51,6 +51,16 @@ trait Macroable
     {
         static::$macros[$name] = $macro;
     }
+    
+    /**
+     * Removes the existing macros.
+     * 
+     * @return void
+     */
+    public static function removeMacros(): void
+    {
+        static::$macros = [];
+    }
 
     /**
      * Checks if macro is registered.
