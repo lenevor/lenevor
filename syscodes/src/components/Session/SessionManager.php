@@ -40,7 +40,7 @@ class SessionManager extends Manager
      * 
      * @param  string  $driver
      * 
-     * @return mixed
+     * @return \Syscodes\Components\Session\Store
      */
     protected function callCustomCreator($driver)
     {
@@ -77,7 +77,9 @@ class SessionManager extends Manager
     protected function createCookieDriver()
     {
         return $this->buildSession(new CookieSessionHandler(
-            $this->container->make('cookie'), $this->config->get('session.lifetime')
+            $this->container->make('cookie'), 
+            $this->config->get('session.lifetime'),
+            $this->config->get('session.expireOnClose')
         ));
     }
 
@@ -203,7 +205,8 @@ class SessionManager extends Manager
         return new Store(
             $this->config->get('session.cookie'),
             $handler,
-            $id = null
+            $id = null,
+            $this->config->get('session.serialization', 'php')
         );
     }
     

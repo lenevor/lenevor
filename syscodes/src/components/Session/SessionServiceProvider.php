@@ -24,7 +24,6 @@ namespace Syscodes\Components\Session;
 
 use Syscodes\Components\Support\ServiceProvider;
 use Syscodes\Components\Session\Middleware\StartSession;
-use Syscodes\Components\Contracts\Cache\Factory as CacheFactory;
 
 /**
  * For loading the classes from the container of services.
@@ -42,7 +41,7 @@ class SessionServiceProvider extends ServiceProvider
         $this->registerSessionDriver();
 
         $this->app->singleton(StartSession::class, function ($app) {
-            return new StartSession($app->make(SessionManager::class), fn () => $app->make(CacheFactory::class));
+            return new StartSession($app->make(SessionManager::class)); 
         });
     }
     
@@ -53,7 +52,9 @@ class SessionServiceProvider extends ServiceProvider
      */
     protected function registerSessionManager()
     {
-        $this->app->singleton('session', fn ($app) => new SessionManager($app));
+        $this->app->singleton('session', function ($app) {
+            return new SessionManager($app);
+        });
     }
     
     /**
@@ -63,6 +64,8 @@ class SessionServiceProvider extends ServiceProvider
      */
     protected function registerSessionDriver()
     {
-        $this->app->singleton('session.store', fn ($app) => $app->make('session')->driver());
+        $this->app->singleton('session.store', function ($app) {
+            return $app->make('session')->driver();
+        });
     }
 }

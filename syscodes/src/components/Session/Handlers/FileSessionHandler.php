@@ -97,13 +97,12 @@ class FileSessionHandler implements SessionHandlerInterface
      * 
      * @param  string  $sessionId
      * 
-     * @return string
+     * @return string|false
      */
-    public function read($sessionId): string
+    public function read($sessionId): string|false
     {
         if ($this->files->isFile($path = $this->path.DIRECTORY_SEPARATOR.$sessionId) &&
-            $this->files->lastModified($path) >= Chronos::now()->subMinutes($this->minutes)->getTimestamp()) {
-            
+            $this->files->lastModified($path) >= Chronos::now()->subMinutes($this->minutes)->getTimestamp()) {            
             return $this->files->read($path);
         }
         

@@ -24,20 +24,25 @@ namespace Syscodes\Components\Session\Middleware;
 
 use Closure;
 use Syscodes\Components\Http\Request;
-use Syscodes\Components\Http\Response;
 use Syscodes\Components\Routing\Route;
 use Syscodes\Components\Support\Chronos;
 use Syscodes\Components\Support\Facades\Date;
 use Syscodes\Components\Session\SessionManager;
 use Syscodes\Components\Contracts\Session\Session;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * The start session allows authenticate logged on users.
  */
 class StartSession
 {
-    protected \Syscodes\Components\Session\SessionManager $manager;
+    /**
+     * The session manager.
+     * 
+     * @var \Syscodes\Components\Session\SessionManager
+     */
+    protected $manager;
 
     /**
      * Constrcutor. Create a new StartSession class instance.
@@ -189,7 +194,7 @@ class StartSession
     /**
      * Add the session cookie to the application response.
      * 
-     * @param  \Syscodes\Components\Http\Response  $response 
+     * @param  \Symfony\Component\HttpFoundation\Response  $response 
      * @param  \Syscodes\Components\Contracts\Session\Session  $session
      * 
      * @return void
