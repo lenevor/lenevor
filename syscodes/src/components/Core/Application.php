@@ -25,10 +25,12 @@ namespace Syscodes\Components\Core;
 use Closure;
 use RuntimeException;
 use Syscodes\Components\Version;
+use Composer\Autoload\ClassLoader;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Config\Configure;
+use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Console\Input\Input;
 use Syscodes\Components\Container\Container;
 use Syscodes\Components\Support\Environment;
@@ -37,15 +39,15 @@ use Syscodes\Components\Log\LogServiceProvider;
 use Syscodes\Components\Support\ServiceProvider;
 use Syscodes\Components\Events\EventServiceProvider;
 use Syscodes\Components\Console\Output\ConsoleOutput;
+use function Syscodes\Components\Filesystem\join_paths;
 use Syscodes\Components\Routing\RoutingServiceProvider;
 use Syscodes\Components\Core\Concerns\ConfigurationFiles;
 use Syscodes\Components\Core\Http\Exceptions\HttpException;
 use Syscodes\Components\Contracts\Http\Kernel as KernelContract;
 use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
-use Syscodes\Components\Contracts\Core\Application as ApplicationContract;
-use Syscodes\Components\Contracts\Console\Kernel as KernelCommandContract;
 
-use function Syscodes\Components\Filesystem\join_paths;
+use Syscodes\Components\Contracts\Console\Kernel as KernelCommandContract;
+use Syscodes\Components\Contracts\Core\Application as ApplicationContract;
 
 /**
  * Allows the loading of service providers and functions to activate 
@@ -201,6 +203,13 @@ class Application extends Container implements ApplicationContract
      * @var string $publicPath
      */
     protected $publicPath;
+    
+    /**
+     * The array of registered callbacks.
+     * 
+     * @var callable[]
+     */
+    protected $registeredCallbacks = [];
 
     /**
      * All of the registered services providers.
@@ -210,18 +219,18 @@ class Application extends Container implements ApplicationContract
     protected $serviceProviders = [];
 
     /**
-     * The array of shutdown callbacks.
-     * 
-     * @var callable[] $shutdownCallbacks
-     */
-    protected $shutdownCallbacks = [];
-
-    /**
      * The custom storage path defined by the developer.
      * 
      * @var string $storagePath
      */
     protected $storagePath;
+
+    /**
+     * The array of terminating callbacks.
+     * 
+     * @var callable[] 
+     */
+    protected $terminatingCallbacks = [];
 
     /**
      * Constructor. Create a new Application instance.
@@ -260,17 +269,25 @@ class Application extends Container implements ApplicationContract
         return (new Configuration\ApplicationBootstrap(new static($basePath)))
             ->assignCores()
             ->assignEvents()
+            ->assignCommands()
             ->assignProviders();
     }
     
     /**
      * Infer the application's base directory from the environment.
      * 
-     * @return string|null
+     * @return string
      */
-    public static function inferBasePath(): string|null
+    public static function inferBasePath(): string
     {
-        return isset($_ENV['APP_ROOT_PATH']) ? $_ENV['APP_ROOT_PATH'] : null;
+        return match (true) {
+            isset($_ENV['APP_ROOT_PATH']) => $_ENV['APP_ROOT_PATH'],
+            isset($_SERVER['APP_ROOT_PATH']) => $_SERVER['APP_ROOT_PATH'],
+            default => dirname(array_values(array_filter(
+                array_keys(ClassLoader::getRegisteredLoaders()),
+                fn ($path) => ! str_starts_with($path, 'phar://'),
+            ))[0]),
+        };
     }
 
     /**
@@ -283,6 +300,7 @@ class Application extends Container implements ApplicationContract
         static::setInstance($this);
         
         $this->instance('app', $this);
+        $this->instance(Container::class, $this);
         $this->bind('config', fn() => new Configure($this->getConfigurationFiles($this)));
     }
 
@@ -779,6 +797,18 @@ class Application extends Container implements ApplicationContract
 
         return $this->isRunningInConsole;
     }
+    
+    /**
+     * Register a new registered listener.
+     * 
+     * @param  callable  $callback
+     * 
+     * @return void
+     */
+    public function registered($callback): void
+    {
+        $this->registeredCallbacks[] = $callback;
+    }
 
     /**
      * Determine if the application has been bootstrapped before.
@@ -887,6 +917,8 @@ class Application extends Container implements ApplicationContract
     {
         (new ProviderRepository($this, new Filesystem, $this->getCachedServicesPath()))
                 ->load($this['config']['services.providers']);
+
+        $this->bootAppCallbacks($this->registeredCallbacks);
     }
     
     /**
@@ -1079,8 +1111,12 @@ class Application extends Container implements ApplicationContract
      */
     protected function bootAppCallbacks(array $callbacks)
     {
-        foreach ($callbacks as $callback) {
-            $callback($this);
+        $index = 0;
+        
+        while ($index < count($callbacks)) {
+            $callbacks[$index]($this);
+            
+            $index++;
         }
     }
 
@@ -1269,7 +1305,7 @@ class Application extends Container implements ApplicationContract
         $kernel = $this->make(KernelContract::class);
         
         //Initialize services...
-        $response = $kernel->handle($request)->send(true); // Sends HTTP headers and contents
+        $response = $kernel->handle($request)->send(); // Sends HTTP headers and contents
         
         $kernel->finalize($request, $response);
     }
@@ -1291,7 +1327,7 @@ class Application extends Container implements ApplicationContract
             new ConsoleOutput
         );
         
-        $Kernel->finalize($input, $status); // Finalize application
+        $Kernel->terminate($input, $status); // Finalize application
         
         return $status;
     }
@@ -1329,13 +1365,13 @@ class Application extends Container implements ApplicationContract
      */
     public function terminating($callback): static
     {
-        $this->shutdownCallbacks[] = $callback;
+        $this->terminatingCallbacks[] = $callback;
         
         return $this;
     }
     
     /**
-     * Terminate the application.
+     * Finalize the application.
      * 
      * @return void
      */
@@ -1343,8 +1379,8 @@ class Application extends Container implements ApplicationContract
     {
         $index = 0;
         
-        while ($index < count($this->shutdownCallbacks)) {
-            $this->call($this->shutdownCallbacks[$index]);
+        while ($index < count($this->terminatingCallbacks)) {
+            $this->call($this->terminatingCallbacks[$index]);
             
             $index++;
         }
