@@ -23,11 +23,13 @@
 namespace Syscodes\Components\Http;
 
 use Closure;
+use ArrayAccess;
 use RuntimeException;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Session\SessionDecorator;
+use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Http\Concerns\CanBePrecognitive;
 use Syscodes\Components\Http\Concerns\InteractsWithInput;
 use Syscodes\Components\Http\Concerns\InteractsWithFlashData;
@@ -40,7 +42,7 @@ use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 /**
  * Request represents an HTTP request.
  */
-class Request extends SymfonyRequest
+class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 {
 	use CanBePrecognitive,	    
 	    InteractsWithInput,
@@ -50,7 +52,7 @@ class Request extends SymfonyRequest
 	/**
 	 * The decoded JSON content for the request.
 	 * 
-	 * @var \Syscodes\Bundles\ApplicationBundle\Http\Loaders\Parameters|null $json
+	 * @var \Symfony\Component\HttpFoundation\InputBag|null
 	 */
 	protected $json;
 
@@ -235,7 +237,7 @@ class Request extends SymfonyRequest
 	public function json($key = null, $default = null)
 	{
 		if ( ! isset($this->json)) {
-			$this->json = new InputBag((array) json_decode($this->getContent(), true));
+			$this->json = new InputBag((array) json_decode($this->getContent() ?: '[]', true));
 		}
 
 		if (is_null($key)) {
@@ -579,6 +581,70 @@ class Request extends SymfonyRequest
 
 		return $this;
 	}
+	
+	/**
+	 * Get all of the input and files for the request.
+	 * 
+	 * @return array
+	 */
+	public function toArray(): array
+	{
+		return $this->all();
+	}
+
+	/**
+     * Determine if the given offset exists.
+     *
+     * @param  string  $offset
+	 * 
+     * @return bool
+     */
+    public function offsetExists($offset): bool
+    {
+        $route = $this->route();
+
+        return Arr::has(
+            $this->all() + ($route ? $route->parameters() : []),
+            $offset
+        );
+    }
+
+    /**
+     * Get the value at the given offset.
+     *
+     * @param  string  $offset
+	 * 
+     * @return mixed
+     */
+    public function offsetGet($offset): mixed
+    {
+        return $this->__get($offset);
+    }
+
+    /**
+     * Set the value at the given offset.
+     *
+     * @param  string  $offset
+     * @param  mixed  $value
+	 * 
+     * @return void
+     */
+    public function offsetSet($offset, $value): void
+    {
+        $this->getInputSource()->set($offset, $value);
+    }
+
+    /**
+     * Remove the value at the given offset.
+     *
+     * @param  string  $offset
+	 * 
+     * @return void
+     */
+    public function offsetUnset($offset): void
+    {
+        $this->getInputSource()->remove($offset);
+    }
 	
 	/**
 	 * Magic method.
