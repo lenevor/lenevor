@@ -790,7 +790,7 @@ class Builder
      * 
      * @throws \Exception
      */
-    public function __get($key)
+    public function __get($key): mixed
     {
         if (in_array($key, ['orWhere', 'whereNot', 'orWhereNot'])) {
             return new HigherOrderBuilderProxy($this, $key);
