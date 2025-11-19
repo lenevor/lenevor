@@ -78,19 +78,7 @@ class Response extends SymfonyResponse
 	 */
 	public function getContent(): string
 	{
-		return transform($this->content, fn ($content) => $content, '');
-	}
-
-	/**
-	 * Sends content for the current web response.
-	 * 
-	 * @return static
-	 */
-	public function sendContent(): static
-	{
-		echo $this->content;
-
-		return $this;
+		return transform(parent::getContent(), fn ($content) => $content, '');
 	}
 
 	/**
@@ -100,7 +88,8 @@ class Response extends SymfonyResponse
 	 *
 	 * @return static
 	 */
-	public function setContent($content): static
+	#[\Override]
+	public function setContent(mixed $content): static
 	{
 		if ($this->shouldBeJson($content)) {
             $this->header('Content-Type', 'application/json');
@@ -114,7 +103,7 @@ class Response extends SymfonyResponse
 			$content = $content->render();
 		}
 		
-		$this->content = $content ?? '';
+		parent::setContent($content);
 
 		return $this;
 	}
