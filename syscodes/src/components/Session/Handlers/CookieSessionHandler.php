@@ -23,9 +23,9 @@
 namespace Syscodes\Components\Session\Handlers;
 
 use SessionHandlerInterface;
-use Syscodes\Components\Http\Request;
 use Syscodes\Components\Support\InteractsWithTime;
 use Syscodes\Components\Contracts\Cookie\QueueingFactory as Cookie;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Session handler using array system for storage.
@@ -37,21 +37,28 @@ class CookieSessionHandler implements SessionHandlerInterface
     /**
      * The cookie manager instance.
      * 
-     * @var \Syscodes\Components\Contracts\Auth\QueueingFactory $cookie
+     * @var \Syscodes\Components\Contracts\Auth\QueueingFactory
      */
     protected $cookie;
+    
+    /**
+     * Indicates whether the session should be expired when the browser closes.
+     * 
+     * @var bool
+     */
+    protected $expireOnClose;
 
     /**
      * The number of minutes the session should be valid.
      *
-     * @var int $minutes
+     * @var int
      */
     protected $minutes;
 
     /**
      * The request instance.
      * 
-     * @var \Syscodes\Components\Http\Request $request
+     * @var \Symfony\Component\HttpFoundation\Request;
      */
     protected $request;
 
@@ -60,13 +67,15 @@ class CookieSessionHandler implements SessionHandlerInterface
      * 
      * @param  \Syscodes\Components\Contracts\Cookie\QueueingFactory  $cookie
      * @param  int  $minutes
+     * @param  bool  $expireOnClose
      * 
      * @return void
      */
-    public function __construct(Cookie $cookie, int $minutes)
+    public function __construct(Cookie $cookie, int $minutes, bool $expireOnClose = false)
     {
-        $this->cookie  = $cookie;
+        $this->cookie = $cookie;
         $this->minutes = $minutes;
+        $this->expireOnClose = $expireOnClose;
     } 
 
     /**
@@ -101,7 +110,7 @@ class CookieSessionHandler implements SessionHandlerInterface
      */
     public function read($sessionId): string
     {
-        $value = $this->request->cookies->get($sessionId);
+        $value = $this->request->cookies->get($sessionId) ?: '';
         
         if ( ! is_null($decoded = json_decode($value, true)) && is_array($decoded) &&
             isset($decoded['expires']) && $this->currentTime() <= $decoded['expires']) {
@@ -124,7 +133,7 @@ class CookieSessionHandler implements SessionHandlerInterface
         $this->cookie->queue($sessionId, json_encode([
             'data' => $data,
             'expires' => $this->availableAt($this->minutes * 60),
-        ]), $this->minutes);
+        ]), $this->expireOnClose ? 0 : $this->minutes);
 
         return true;
     }
@@ -156,7 +165,7 @@ class CookieSessionHandler implements SessionHandlerInterface
     /**
      * Set the Request instance.
      * 
-     * @param  \Syscodes\Components\Http\Request  $request
+     * @param  \Symfony\Component\HttpFoundation\Request  $request
      * 
      * @return void
      */
