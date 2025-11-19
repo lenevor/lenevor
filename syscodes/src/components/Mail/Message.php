@@ -215,7 +215,7 @@ class Message
      * 
      * @return mixed
      */
-    public function __call($method, $parameters)
+    public function __call($method, $parameters): mixed
     {
         return $this->forwardObjectCallTo($this->message, $method, $parameters);
     }
