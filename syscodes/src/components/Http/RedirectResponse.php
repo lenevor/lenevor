@@ -31,12 +31,13 @@ use Syscodes\Components\Support\Traits\ForwardsCalls;
 use Syscodes\Components\Http\Concerns\ResponseContent;
 use Syscodes\Components\Session\Store as SessionStore;
 use Syscodes\Components\Contracts\Support\MessageProvider;
+use Symfony\Component\HttpFoundation\RedirectResponse as BaseRedirectResponse;
 
 /**
  * Redirects to another URL. Sets the redirect header, sends the headers and exits.
  * Can redirect via a Location header or using a Refresh header.
  */
-class RedirectResponse extends Response
+class RedirectResponse extends BaseRedirectResponse
 {
     use ForwardsCalls,
         ResponseContent,
