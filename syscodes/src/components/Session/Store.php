@@ -26,8 +26,10 @@ use stdClass;
 use SessionHandlerInterface;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\MessageBag;
 use Syscodes\Components\Support\ViewErrorBag;
+use Syscodes\Components\Support\Facades\Cache;
 use Syscodes\Components\Contracts\Session\Session;
 use Syscodes\Components\Session\Handlers\CookieSessionHandler;
 
@@ -39,42 +41,42 @@ class Store implements Session
     /**
      * The session ID.
      * 
-     * @var string $id
+     * @var string
      */
     protected $id;
 
     /**
      * The session items.
      * 
-     * @var array $items
+     * @var array
      */
     protected $items = [];
 
     /**
      * The handler session.
      * 
-     * @var \SessionHandlerInterface $handler
+     * @var \SessionHandlerInterface
      */
     protected $handler;
 
     /**
      * The session name.
      * 
-     * @var string $name.
+     * @var string
      */
     protected $name;
 
     /**
      * The session store's serialization.
      * 
-     * @var string  $serialization
+     * @var string
      */
     protected $serialization = 'php';
 
     /**
      * Session store started status.
      * 
-     * @var bool $started
+     * @var bool
      */
     protected $started = false;
 
@@ -95,32 +97,9 @@ class Store implements Session
         $serialization = 'php'
     ) {
         $this->setId($id);
-
-        $this->name          = $name;
-        $this->handler       = $handler;
-        $this->serialization = $serialization;
-    }
-
-    /**
-     * Get the name of the session.
-     * 
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set the name of the session.
-     * 
-     * @param  string  $name
-     * 
-     * @return void
-     */
-    public function setName($name): void
-    {
         $this->name = $name;
+        $this->handler = $handler;
+        $this->serialization = $serialization;
     }
 
     /**
@@ -228,6 +207,18 @@ class Store implements Session
     {
         return Arr::only($this->items, $keys);
     }
+    
+    /**
+     * Get all the session data except for a specified array of items.
+     * 
+     * @param  array  $keys
+     * 
+     * @return array
+     */
+    public function except(array $keys)
+    {
+        return Arr::except($this->items, $keys);
+    }
 
     /**
      * Get the current session ID.
@@ -298,7 +289,7 @@ class Store implements Session
      */
     protected function getErrorBagToSerialization(): void
     {
-        if ($this->serialization !== 'json' || ! $this->exists('errors')) {
+        if ($this->serialization !== 'json' || $this->missing('errors')) {
             return;
         }
         
@@ -382,9 +373,21 @@ class Store implements Session
     {
         $placeholder = new stdClass;
         
-        return ! collect(is_array($key) ? $key : func_get_args())->contains(function ($key) use ($placeholder) {
+        return ! (new Collection(is_array($key) ? $key : func_get_args()))->contains(function ($key) use ($placeholder) {
             return $this->get($key, $placeholder) === $placeholder;
         });
+    }
+    
+    /**
+     * Determine if the given key is missing from the session data.
+     * 
+     * @param  string|array  $key
+     * 
+     * @return bool
+     */
+    public function missing($key): bool
+    {
+        return ! $this->exists($key);
     }
     
     /**
@@ -415,6 +418,38 @@ class Store implements Session
     }
 
     /**
+     * Get the name of the session.
+     * 
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set the name of the session.
+     * 
+     * @param  string  $name
+     * 
+     * @return void
+     */
+    public function setName($name): void
+    {
+        $this->name = $name;
+    }
+    
+    /**
+     * Get the session cache instance.
+     * 
+     * @return \Syscodes\Components\Contracts\Cache\Repository
+     */
+    public function cache()
+    {
+        return Cache::store('session');
+    }
+
+    /**
      * Checks if an a key is present and not null.
      * 
      * @param  string|array  $key
@@ -423,7 +458,9 @@ class Store implements Session
      */
     public function has($key): bool
     {
-        return ! is_null($this->get($key));
+        return ! (new Collection(is_array($key) ? $key : func_get_args()))->contains(function ($key) {
+            return is_null($this->get($key));
+        });
     }
 
     /**
@@ -605,7 +642,7 @@ class Store implements Session
 
         $this->setId($this->generateSessionId());
 
-        return $this->started = true;
+        return true;
     }
 
     /**
