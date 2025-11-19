@@ -14,6 +14,7 @@
 return [
 
     '09454abasdsdcd864721' => SYS_PATH.'src/components/Collections/helpers.php',
+    '2909746638bca537a229' => SYS_PATH.'src/components/Collections/functions.php',
     '256f4ee8a901bd923c73' => SYS_PATH.'src/components/Core/helpers.php',
     '9589493dde21a4597628' => SYS_PATH.'src/components/Filesystem/functions.php',
     '102ba5d118e42f3abd85' => SYS_PATH.'src/components/Support/helpers.php',
