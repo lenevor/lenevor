@@ -320,7 +320,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * 
      * @return mixed
      */
-    public function __call($method, $parameters)
+    public function __call($method, $parameters): mixed
     {
         return $this->connection()->$method(...$parameters);
     }
