@@ -266,8 +266,8 @@ class Grammar extends BaseGrammar
     {
         $between = $where['negative'] ? 'not between' : 'between';
 
-        $min = $this->parameter(is_array($where['values']) ? headItem($where['values']) : $where['values'][0]);
-        $max = $this->parameter(is_array($where['values']) ? lastItem($where['values']) : $where['values'][1]);
+        $min = $this->parameter(is_array($where['values']) ? head($where['values']) : $where['values'][0]);
+        $max = $this->parameter(is_array($where['values']) ? last($where['values']) : $where['values'][1]);
 
         return $this->wrap($where['column']).' '.$between.' '.$min.' and '.$max;
     }
@@ -284,8 +284,8 @@ class Grammar extends BaseGrammar
     {
         $between = $where['negative'] ? 'not between' : 'between';
 
-        $min = $this->wrap(is_array($where['values']) ? headItem($where['values']) : $where['values'][0]);
-        $max = $this->wrap(is_array($where['values']) ? lastItem($where['values']) : $where['values'][1]);
+        $min = $this->wrap(is_array($where['values']) ? head($where['values']) : $where['values'][0]);
+        $max = $this->wrap(is_array($where['values']) ? last($where['values']) : $where['values'][1]);
 
         return $this->wrap($where['column']).' '.$between.' '.$min.' and '.$max;
     }
@@ -619,8 +619,8 @@ class Grammar extends BaseGrammar
 
         $column = $this->wrap($having['column']);
 
-        $min = $this->parameter(headItem($having['values']));
-        $max = $this->parameter(lastItem($having['values']));
+        $min = $this->parameter(head($having['values']));
+        $max = $this->parameter(last($having['values']));
 
         return $having['boolean'].' '.$column.' '.$between.' '.$min.' and '.$max;
     }
@@ -878,11 +878,11 @@ class Grammar extends BaseGrammar
             return "insert into {$table} default values";
         }
 
-        if ( ! is_array(headItem($values))) {
+        if ( ! is_array(head($values))) {
             $values = [$values];
         }
 
-        $columns = $this->columnize(array_keys(headItem($values)));
+        $columns = $this->columnize(array_keys(head($values)));
 
         $parameters = collect($values)
                         ->map(fn ($record) => '('.$this->parameterize($record).')')
@@ -1026,7 +1026,7 @@ class Grammar extends BaseGrammar
      */
     public function compileDeleteWithJoins(Builder $builder, $table, $where): string
     {
-        $alias = lastItem(explode(' as ', $table));
+        $alias = last(explode(' as ', $table));
 
         $joins = $this->compileJoins($builder, $builder->joins);
 
