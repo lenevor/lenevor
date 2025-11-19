@@ -24,8 +24,10 @@ namespace Syscodes\Components\Http;
 
 use JsonSerializable;
 use InvalidArgumentException;
+use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Http\Concerns\ResponseContent;
 use Symfony\Component\HttpFoundation\JsonResponse as BaseJsonResponse;
 
 /**
@@ -33,6 +35,11 @@ use Symfony\Component\HttpFoundation\JsonResponse as BaseJsonResponse;
  */
 class JsonResponse extends BaseJsonResponse
 {
+    use ResponseContent,
+        Macroable {
+            Macroable::__call as macroCall;
+        }
+
     /**
      * Constructor. The JsonReponse classs instance.
      * 
@@ -49,6 +56,10 @@ class JsonResponse extends BaseJsonResponse
        $this->encodingOptions = $options;
 
         parent::__construct($data, $status, $headers, $json);
+        
+        $this->send();
+
+        exit;
     }
 
     /**
@@ -58,14 +69,31 @@ class JsonResponse extends BaseJsonResponse
      * @param  mixed  $data  The JSON response data
      * @param  int  $status  The response status code
      * @param  array  $headers  An array of response headers
+     * @param  int  $options  
+     * @param  bool  $json 
      * 
      * @return static
      */
-    public static function render($data = null, $status = 200, $headers = []): static
+    public static function render($data = null, int $status = 200, array $headers = [], int $options = 0, bool $json = false): static
     {
-        return new static($data, $status, $headers);
+        return new static($data, $status, $headers, $options, $json);
     }
     
+    /**
+     * Allows have a string with Key : value de manera so you must write
+     * the entire process in a manul way and without errors
+     * 
+     * @param  string|null  $data  
+     * @param  int  $status  
+     * @param  array  $headers  
+     * 
+     * @return static
+     */
+    public static function toJsonString(?string $data = null, int $status = 200, array $headers = []): static
+    {
+        return new static($data, $status, $headers, 0, true);
+    }
+
     /**
      * Sets the JSONP callback.
      * 
@@ -78,20 +106,6 @@ class JsonResponse extends BaseJsonResponse
         return $this->setCallback($callback);
     }
 
-    /**
-     * Allows have a string with Key : value de manera so you must write
-     * the entire process in a manul way and without errors
-     * 
-     * @param  mixed|null  $data  
-     * @param  int  $status  
-     * @param  array  $headers  
-     * 
-     * @return static
-     */
-    public static function toJsonString($data = null, $status = 200, $headers = []): static
-    {
-        return new static($data, $status, $headers, true);
-    }
 
     /**
      * Get the json_decoded() data from the response.
@@ -107,19 +121,14 @@ class JsonResponse extends BaseJsonResponse
     }
 
     /**
-     * Sets the data to be sent as JSON.
-     * 
-     * @param  mixed  $data 
-     * 
+     * {@inheritdoc}
+     *
      * @return static
-     * 
-     * @throws \InvalidArgumentException
      */
-    public function setData(mixed $data = []): static
+    #[\Override]
+    public function setData($data = []): static
     {
-        $options = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
-
-        $this->encodingOptions = app()->environment() === 'production' ? $options : $options | JSON_PRETTY_PRINT;
+        json_decode('[]');
         
         $this->data = match(true) {
             $data instanceof Jsonable => $data->toJson($this->encodingOptions),
@@ -128,11 +137,11 @@ class JsonResponse extends BaseJsonResponse
             default => json_encode($data, $this->encodingOptions),
         };
 
-        if ( ! $this->hasJsonValidOptions(json_last_error())) {
+        if ( ! $this->hasValidJson(json_last_error())) {
             throw new InvalidArgumentException(__('Http.invalidJson', [json_last_error_msg()]));
         }
 
-        return $this->setJson($this->data);
+        return $this->update();
     }
 
     /**
@@ -142,13 +151,13 @@ class JsonResponse extends BaseJsonResponse
      * 
      * @return bool
      */
-    protected function hasJsonValidOptions($jsonError): bool
+    protected function hasValidJson($jsonError): bool
     {
         if ($jsonError === JSON_ERROR_NONE) {
             return true;
         }
 
-        return $this->hasJsonEncondingOptions(JSON_PARTIAL_OUTPUT_ON_ERROR) &&
+        return $this->hasEncondingOption(JSON_PARTIAL_OUTPUT_ON_ERROR) &&
             in_array($jsonError, [
                 JSON_ERROR_RECURSION,
                 JSON_ERROR_INF_OR_NAN,
@@ -163,35 +172,20 @@ class JsonResponse extends BaseJsonResponse
      * 
      * @return bool
      */
-    public function hasJsonEncondingOptions($option): bool
+    public function hasEncondingOption($option): bool
     {
         return (bool) ($this->encodingOptions & $option);
     }
-
+    
     /**
-     * Sets a raw string containing a JSON document to be sent.
-     * 
-     * @param  string  $json
+     * {@inheritdoc}
      * 
      * @return static
      */
-    public function setJson($json): static
+    #[\Override]
+    public function setEncodingOptions($options): static
     {
-        $this->data = $json;
-
-        return $this->update();
-    }
-
-    /**
-     * Set the JSON encoding options.
-     * 
-     * @param  int  $options
-     * 
-     * @return mixed  
-     */
-    public function setJsonEncodingOptions($options)
-    {
-        $this->encodingOptions = $options;
+        $this->encodingOptions = (int) $options;
 
         return $this->setData($this->getData());
     }
