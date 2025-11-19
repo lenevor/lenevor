@@ -122,6 +122,7 @@ return [
     'Syscodes\\Components\\Contracts\\Cache\\Key' => SYS_PATH.'src/components/Contracts/Cache/Key.php',
     'Syscodes\\Components\\Contracts\\Cache\\Repository' => SYS_PATH.'src/components/Contracts/Cache/Repository.php',
     'Syscodes\\Components\\Contracts\\Cache\\Store' => SYS_PATH.'src/components/Contracts/Cache/Store.php',
+    'Syscodes\\Components\\Contracts\\Collections\\Enumerable' => SYS_PATH.'src/components/Contracts/Collections/Enumerable.php',
     'Syscodes\\Components\\Contracts\\Config\\Configure' => SYS_PATH.'src/components/Contracts/Config/Configure.php',
     'Syscodes\\Components\\Contracts\\Console\\Descriptor' => SYS_PATH.'src/components/Contracts/Console/Helper/Descriptor.php',
     'Syscodes\\Components\\Contracts\\Console\\Input' => SYS_PATH.'src/components/Contracts/Console/Input/Input.php',
