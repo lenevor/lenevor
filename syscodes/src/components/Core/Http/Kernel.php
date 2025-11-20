@@ -86,8 +86,11 @@ class Kernel implements KernelContract
 	 */
 	protected $middlewarePriority = [
 		\Syscodes\Components\Cookie\Middleware\EncryptCookies::class,
+		\Syscodes\Components\Cookie\Middleware\AddQueuedCookiesResponse::class,
 		\Syscodes\Components\Session\Middleware\StartSession::class,
+		\Syscodes\Components\View\Middleware\ShareErrorsSession::class,
 		\Syscodes\Components\Auth\Middleware\Authenticate::class,
+		\Syscodes\Components\Auth\Middleware\Authorize::class,
 	];
 	
 	/**
@@ -234,7 +237,7 @@ class Kernel implements KernelContract
 	 * 
 	 * @return void
 	 */
-	public function finalize($request, $response): void
+	public function finalize($request, $response)
 	{
 		$this->finalizeMiddleware($request, $response);
 
@@ -257,7 +260,7 @@ class Kernel implements KernelContract
 	 * 
 	 * @return void
 	 */
-	protected function finalizeMiddleware($request, $response): void
+	protected function finalizeMiddleware($request, $response)
 	{
 		$middlewares = $this->app->skipGoingMiddleware() ? [] : array_merge(
 			$this->gatherRouteMiddleware($request),

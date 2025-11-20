@@ -45,7 +45,7 @@ interface Kernel
 	 * 
 	 * @return void
 	 */
-	public function finalize($request, $response): void;
+	public function finalize($request, $response);
 
 	/**
 	 * Gets the Lenevor application instance.
