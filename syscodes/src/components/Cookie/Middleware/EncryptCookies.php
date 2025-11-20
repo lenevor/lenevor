@@ -24,12 +24,12 @@ namespace Syscodes\Components\Cookie\Middleware;
 
 use Closure;
 use Syscodes\Components\Support\Arr;
-use Syscodes\Components\Http\Request;
-use Syscodes\Components\Http\Response;
 use Syscodes\Components\Cookie\CookieValue;
 use Syscodes\Components\Encryption\Exceptions\DecryptException;
 use Syscodes\Components\Contracts\Encryption\Encrypter as EncryptContract;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Allows the encrypt of a cookie string according to your the request.
@@ -94,7 +94,7 @@ class EncryptCookies
      * @param  \Syscodes\Components\Http\Request  $request
      * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next
      * 
-     * @return \Syscodes\Components\Http\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle($request, Closure $next): Response
     {
