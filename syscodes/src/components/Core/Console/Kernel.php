@@ -91,6 +91,13 @@ class Kernel implements KernelContract
      * @var bool
      */
     protected $commandsLoaded = false;
+    
+    /**
+     * When the currently handled command started.
+     * 
+     * @var \Syscodes\Components\Support\Chronos|null
+     */
+    protected $commandStartedAt;
 
     /**
 	 * The event dispatcher instance.
@@ -178,7 +185,7 @@ class Kernel implements KernelContract
      * @param  string  $signature
      * @param  \Closure  $callback
      * 
-     * @return \Syscodes\Components\Core\Console\ClosureCommand
+     * @return \Syscodes\Components\Core\Console\Commands\ClosureCommand
      */
     public function command($signature, Closure $callback)
     {
@@ -189,6 +196,34 @@ class Kernel implements KernelContract
         });
 
         return $command;
+    }
+
+    /**
+     * Discover the commands that should be automatically loaded.
+     *
+     * @return void
+     */
+    protected function discoverCommands()
+    {
+        foreach ($this->commandPaths as $path) {
+            $this->load($path);
+        }
+
+        foreach ($this->commandRoutePaths as $path) {
+            if (file_exists($path)) {
+                require $path;
+            }
+        }
+    }
+
+    /**
+     * Determine if the kernel should discover commands.
+     *
+     * @return bool
+     */
+    protected function shouldDiscoverCommands()
+    {
+        return get_class($this) === __CLASS__;
     }
 
     /**
@@ -245,6 +280,19 @@ class Kernel implements KernelContract
     }
     
     /**
+     * Get all of the commands registered with the console.
+     * 
+     * @return array
+     */
+    public function all(): array
+    {
+        $this->bootstrap();
+        
+        return $this->getPrime()->all();
+    }
+
+    
+    /**
      * Bootstrap the application for artisan commands.
      * 
      * @return void
@@ -266,34 +314,6 @@ class Kernel implements KernelContract
 
             $this->commandsLoaded = true;
         }
-    }
-
-    /**
-     * Discover the commands that should be automatically loaded.
-     *
-     * @return void
-     */
-    protected function discoverCommands()
-    {
-        foreach ($this->commandPaths as $path) {
-            $this->load($path);
-        }
-
-        foreach ($this->commandRoutePaths as $path) {
-            if (file_exists($path)) {
-                require $path;
-            }
-        }
-    }
-
-    /**
-     * Determine if the kernel should discover commands.
-     *
-     * @return bool
-     */
-    protected function shouldDiscoverCommands()
-    {
-        return get_class($this) === __CLASS__;
     }
     
     /**
@@ -317,6 +337,14 @@ class Kernel implements KernelContract
     public function finalize($input, int $status): void
     {
         $this->app->finalize();
+
+        if ($this->commandStartedAt === null) {
+            return;
+        }
+
+        $this->commandStartedAt->setTimezone($this->app['config']->get('app.timezone') ?? 'UTC');
+
+        $this->commandStartedAt = null;
     }
     
     /**
@@ -347,7 +375,7 @@ class Kernel implements KernelContract
     }
     
     /**
-     * Set the Artisan commands provided by the application.
+     * Set the Prime commands provided by the application.
      * 
      * @param  array  $commands
      * 
@@ -356,6 +384,34 @@ class Kernel implements KernelContract
     public function addCommands(array $commands): static
     {
         $this->commands = array_values(array_unique(array_merge($this->commands, $commands)));
+        
+        return $this;
+    }
+    
+    /**
+     * Set the paths that should have their Prime commands automatically discovered.
+     * 
+     * @param  array  $paths
+     * 
+     * @return static
+     */
+    public function addCommandPaths(array $paths): static
+    {
+        $this->commandPaths = array_values(array_unique(array_merge($this->commandPaths, $paths)));
+        
+        return $this;
+    }
+    
+    /**
+     * Set the paths that should have their Prime "routes" automatically discovered.
+     * 
+     * @param  array  $paths
+     * 
+     * @return static
+     */
+    public function addCommandRoutePaths(array $paths): static
+    {
+        $this->commandRoutePaths = array_values(array_unique(array_merge($this->commandRoutePaths, $paths)));
         
         return $this;
     }
