@@ -37,7 +37,6 @@ interface Application extends Container
      * @return string
      */
     public function version(): string;
-
     /**
      * Set the base path for the application.
      *
@@ -241,6 +240,15 @@ interface Application extends Container
     public function register($provider, $force = false);
 
     /**
+     * Register a new registered listener.
+     * 
+     * @param  callable  $callback
+     * 
+     * @return void
+     */
+    public function registered($callback): void;
+
+    /**
      * Resolve a service provider instance from the class name.
      * 
      * @param  string  $provider
@@ -419,7 +427,7 @@ interface Application extends Container
     public function terminating($callback): static;
 
     /**
-     * Terminate the application.
+     * Finalize the application.
      * 
      * @return void
      */
