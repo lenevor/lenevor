@@ -23,10 +23,12 @@
 namespace Syscodes\Components\Core\Configuration;
 
 use Closure;
+use Syscodes\Components\Core\Application;
+use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Contracts\Http\Kernel;
 use Syscodes\Components\Support\Facades\Route;
-use Syscodes\Components\Contracts\Core\Application;
 use Syscodes\Components\Core\Bootstrap\BootRegisterProviders;
+use Syscodes\Components\Contracts\Console\Kernel as ConsoleKernel;
 use Syscodes\Components\Core\Support\Providers\EventServiceProvider as AppEventServiceProvider;
 use Syscodes\Components\Core\Support\Providers\RouteServiceProvider as AppRouteServiceProvider;
 
@@ -45,7 +47,7 @@ class ApplicationBootstrap
     /**
      * Constructor. Create a new aplication bootstrap instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Core\Application  $app
+     * @param  \Syscodes\Components\Core\Application  $app
      * 
      * @return void
      */
@@ -111,6 +113,7 @@ class ApplicationBootstrap
         ?Closure $using = null,
         ?string $web = null,
         ?string $api = null,
+        ?string $commands = null,
         string $apiPrefix = 'api',
         ?callable $then = null
     ): static {
@@ -119,6 +122,10 @@ class ApplicationBootstrap
         }
         
         AppRouteServiceProvider::loadRoutesUsing($using);
+        
+        if (is_string($commands) && realpath($commands) !== false) {
+            $this->assignCommands([$commands]);
+        }
         
         $this->app->booting(function () {
             $this->app->register(AppRouteServiceProvider::class, force: true);
@@ -239,6 +246,99 @@ class ApplicationBootstrap
             }
         });
         
+        return $this;
+    }
+    
+    /**
+     * Register additional Prime commands with the application.
+     * 
+     * @param  array  $commands
+     * 
+     * @return static
+     */
+    public function assignCommands(array $commands = []): static 
+    {
+        if (empty($commands)) {
+            $commands = [$this->app->path('Console/Commands')];
+        }
+        
+        $this->app->afterResolving(ConsoleKernel::class, function ($kernel) use ($commands) {
+            [$commands, $paths] = (new Collection($commands))->partition(fn ($command) => class_exists($command));
+            [$routes, $paths] = $paths->partition(fn ($path) => is_file($path));
+            
+            $this->app->booted(static function () use ($kernel, $commands, $paths, $routes) {
+                $kernel->addCommands($commands->all());
+                $kernel->addCommandPaths($paths->all());
+                $kernel->addCommandRoutePaths($routes->all());
+            });
+        });
+        
+        return $this;
+    }
+    
+    /**
+     * Register additional Prime route paths.
+     * 
+     * @param  array  $paths
+     * 
+     * @return static
+     */
+    protected function assingCommandRouting(array $paths): static
+    {
+        $this->app->afterResolving(ConsoleKernel::class, function ($kernel) use ($paths) {
+            $this->app->booted(fn () => $kernel->addCommandRoutePaths($paths));
+        });
+        
+        return $this;
+    }
+
+    /**
+     * Register an array of container bindings to be bound when the application is booting.
+     *
+     * @param  array  $bindings
+     * 
+     * @return static
+     */
+    public function withBindings(array $bindings): static
+    {
+        return $this->registered(function ($app) use ($bindings) {
+            foreach ($bindings as $abstract => $concrete) {
+                $app->bind($abstract, $concrete);
+            }
+        });
+    }
+
+    /**
+     * Register an array of singleton container bindings to be bound when the application is booting.
+     *
+     * @param  array  $singletons
+     * 
+     * @return static
+     */
+    public function withSingletons(array $singletons): static
+    {
+        return $this->registered(function ($app) use ($singletons) {
+            foreach ($singletons as $abstract => $concrete) {
+                if (is_string($abstract)) {
+                    $app->singleton($abstract, $concrete);
+                } else {
+                    $app->singleton($concrete);
+                }
+            }
+        });
+    }
+
+    /**
+     * Register a callback to be invoked when the application's service providers are registered.
+     *
+     * @param  callable  $callback
+     * 
+     * @return static
+     */
+    public function registered(callable $callback): static
+    {
+        $this->app->registered($callback);
+
         return $this;
     }
     
