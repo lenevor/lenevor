@@ -444,6 +444,33 @@ class Arr
 
 		return $array;
 	}
+	
+	/**
+	 * Partition the array into two arrays using the given callback.
+	 * 
+	 * @template TKey of array-key
+	 * @template TValue of mixed
+	 * 
+	 * @param  array  $array
+	 * @param  callable  $callback
+	 * 
+	 * @return mixed
+	 */
+	public static function partition($array, callable $callback)
+	{
+		$passed = [];
+		$failed = [];
+		
+		foreach ($array as $key => $item) {
+			if ($callback($item, $key)) {
+				$passed[$key] = $item;
+			} else {
+				$failed[$key] = $item;
+			}
+		}
+		
+		return [$passed, $failed];
+	}
 
 	/**
 	 * Push an item onto the beginning of an array.
