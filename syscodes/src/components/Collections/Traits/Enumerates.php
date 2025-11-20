@@ -25,11 +25,14 @@ namespace Syscodes\Components\Support\Traits;
 use Exception;
 use Traversable;
 use JsonSerializable;
-use Syscodes\Components\Support\Collection;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Support\Collectable;
+use Syscodes\Components\Contracts\Collection\Enumerable;
 use Syscodes\Components\Support\HigherOrderCollectionProxy;
+
+use function Syscodes\Components\Support\enum_value;
 
 /**
  * Trait Enumerates.
@@ -89,6 +92,91 @@ trait Enumerates
     {
         return new Collection($this->all());
     }
+    
+    /**
+     * Create a new instance with no items.
+     * 
+     * @return static
+     */
+    public static function empty(): static
+    {
+        return new static([]);
+    }
+
+    /**
+     * Wrap the given value in a collection if applicable.
+     *
+     * @template TWrapValue
+     *
+     * @param  iterable  $value
+     * 
+     * @return array
+     */
+    public static function wrap($value)
+    {
+        return $value instanceof Enumerable
+            ? new static($value)
+            : new static(Arr::wrap($value));
+    }
+
+    /**
+     * Get the underlying items from the given collection if applicable.
+     *
+     * @template TUnwrapKey of array-key
+     * @template TUnwrapValue
+     *
+     * @param  array  $value
+     * 
+     * @return array
+     */
+    public static function unwrap($value)
+    {
+        return $value instanceof Enumerable ? $value->all() : $value;
+    }
+    
+    /**
+     * Dump the given arguments and terminate execution.
+     * 
+     * @param  mixed  ...$args
+     * 
+     * @return never
+     */
+    public function dd(...$args)
+    {
+        dd($this->all(), ...$args);
+    }
+    
+    /**
+     * Dump the items.
+     * 
+     * @param  mixed  ...$args
+     * 
+     * @return static
+     */
+    public function dump(...$args): static
+    {
+        dump($this->all(), ...$args);
+        
+        return $this;
+    }
+    
+    /**
+     * Execute a callback over each item.
+     * 
+     * @param  callable  $callback
+     * 
+     * @return static
+     */
+    public function each(callable $callback): static
+    {
+        foreach ($this as $key => $item) {
+            if ($callback($item, $key) === false) {
+                break;
+            }
+        }
+        
+        return $this;
+    }
 
     /**
      * Get an operator checker callback.
@@ -116,7 +204,20 @@ trait Enumerates
         }
         
         return function ($item) use ($key, $operator, $value) {
-            $retrieved = data_get($item, $key);
+            $retrieved = enum_value(data_get($item, $key));
+            $value = enum_value($value);
+
+            $strings = array_filter([$retrieved, $value], function ($value) {
+                return match (true) {
+                    is_string($value) => true,
+                    $value instanceof \Stringable => true,
+                    default => false,
+                };
+            });
+
+            if (count($strings) < 2 && count(array_filter([$retrieved, $value], 'is_object')) == 1) {
+                return in_array($operator, ['!=', '<>', '!==']);
+            }
 
             switch ($operator) {
                 default:
@@ -198,6 +299,42 @@ trait Enumerates
         
         return $this->slice($offset, $perPage);
     }
+
+    /**
+     * Partition the collection into two arrays using the given callback or key.
+     *
+     * @param  callable|string  $key
+     * @param  mixed  $operator
+     * @param  mixed  $value
+     * 
+     * @return static[]
+     */
+    public function partition($key, $operator = null, $value = null): static
+    {
+        $callback = func_num_args() === 1
+            ? $this->valueRetriever($key)
+            : $this->operatorForWhere(...func_get_args());
+
+        [$passed, $failed] = Arr::partition($this->getIterator(), $callback);
+
+        return new static([new static($passed), new static($failed)]);
+    }
+    
+    /**
+     * Get a value retrieving callback.
+     * 
+     * @param  callable|string|null  $value
+     * 
+     * @return callable
+     */
+    protected function valueRetriever($value)
+    {
+        if ($this->useAsCallable($value)) {
+            return $value;
+        }
+        
+        return fn ($item) => data_get($item, $value);
+    }
     
     /**
      * Get the collection of items as JSON.
@@ -209,6 +346,18 @@ trait Enumerates
     public function toJson($options = 0): string
     {
         return json_encode($this->jsonSerialize(), $options);
+    }
+    
+    /**
+     * Get the collection of items as pretty print formatted JSON.
+     * 
+     * @param  int  $options
+     * 
+     * @return string
+     */
+    public function toPrettyJson(int $options = 0): string
+    {
+        return $this->toJson(JSON_PRETTY_PRINT | $options);
     }
     
     /**
@@ -291,10 +440,10 @@ trait Enumerates
      * 
      * @throws \Exception
      */
-    public function __get($key)
+    public function __get($key): mixed
     {
         if ( ! in_array($key, static::$proxies)) {
-            throw new Exception("Property [{$key}] does not exist on this collection instance");
+            throw new Exception("Property [{$key}] does not exist on this collection instance.");
         }
         
         return new HigherOrderCollectionProxy($this, $key);
