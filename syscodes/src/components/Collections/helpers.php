@@ -27,11 +27,11 @@ if ( ! function_exists('collect')) {
     /**
      * Create a collection from the given value.
      * 
-     * @param  mixed  $value
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable  $value
      * 
      * @return \Syscodes\Components\Support\Collection
      */
-    function collect($value = null)
+    function collect($value = []): Collection
     {
         return new Collection($value);
     }
