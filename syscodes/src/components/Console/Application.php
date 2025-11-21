@@ -26,24 +26,21 @@ use Closure;
 use ReflectionClass;
 use Syscodes\Components\Version;
 use Syscodes\Components\Events\Dispatcher;
-use Syscodes\Components\Console\Input\ArrayInput;
-use Syscodes\Components\Console\Input\InputOption;
-use Syscodes\Components\Console\Input\InputDefinition;
 use Syscodes\Components\Contracts\Container\Container;
-use Syscodes\Components\Console\Attribute\AsCommandAttribute;
-use Syscodes\Components\Console\Command\Command as BaseCommand;
-use Syscodes\Components\Console\Exceptions\CommandNotFoundException;
-use Syscodes\Components\Console\Command\Application as BaseApplication;
-use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
-use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
+use Syscodes\Components\Contracts\Console\Application as ApplicationContract;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Application as SymfonyApplication;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Symfony\Component\Console\Exception\CommandNotFoundException;
 
 /**
  * Console application.
  */
-class Application extends BaseApplication
-{
-	use Concerns\BuildConsoleVersion;
-	
+class Application extends SymfonyApplication implements ApplicationContract
+{	
 	/**
 	 * A map of command names to classes.
 	 * 
@@ -94,23 +91,10 @@ class Application extends BaseApplication
 
 		$this->events  = $events;
 		$this->lenevor = $lenevor;
+        $this->setAutoExit(false);
+        $this->setCatchExceptions(false);
 
 		$this->bootstrap();
-	}
-
-	/**
-	 * Runs the current command discovered on the CLI.
-     * 
-     * @param  \Syscodes\Components\Contracts\Console\Input\Input|null  $input  The input interface implemented
-     * @param  \Syscodes\Components\Contracts\Console\Output\Output|null  $output  The output interface implemented
-     * 
-     * @return int
-	 */
-	public function run(?InputInterface $input = null, ?OutputInterface $output = null): int
-	{
-		$exit = parent::run($input, $output);
-		
-		return $exit;
 	}
 
 	/**
@@ -142,12 +126,12 @@ class Application extends BaseApplication
 	 * 
 	 * @param  \Syscodes\Components\Console\Command|string  $command
 	 * 
-	 * @return \Syscodes\Components\Console\Command\Command|null
+	 * @return \Symfony\Component\Console\Command\Command|null
 	 */
 	public function resolve($command)
     {
-        if (is_subclass_of($command, BaseCommand::class)) {
-            $attribute = (new ReflectionClass($command))->getAttributes(AsCommandAttribute::class);
+        if (is_subclass_of($command, SymfonyCommand::class)) {
+            $attribute = (new ReflectionClass($command))->getAttributes(AsCommand::class);
 
             $commandName = ! empty($attribute) ? $attribute[0]->newInstance()->name : null;
 
@@ -210,14 +194,14 @@ class Application extends BaseApplication
 	/**
      * Parse the incoming Prime command and its input.
      *
-     * @param  \Syscodes\Components\Console\Command\Command|string  $command
+     * @param  \Symfony\Component\Console\Command\Command|string  $command
      * @param  array  $parameters
      * 
      * @return array
      */
     protected function parseCommand($command, $parameters)
     {
-        if (is_subclass_of($command, BaseCommand::class)) {
+        if (is_subclass_of($command, SymfonyCommand::class)) {
             $callingClass = true;
 
             if (is_object($command)) {
@@ -246,25 +230,42 @@ class Application extends BaseApplication
      * @return \Syscodes\Components\Console\Command|null
      */
     #[\Override]
-    public function add(Command $command): ?Command
+    public function add(SymfonyCommand $command): ?SymfonyCommand
 	{
-		if ($command instanceof Command) {
+		return $this->addCommand($command);
+	}
+
+     /**
+     * Add a command to the console.
+     *
+     * @param  \Symfony\Component\Console\Command\Command|callable  $command
+     * 
+     * @return \Symfony\Component\Console\Command\Command|null
+     */
+    public function addCommand(SymfonyCommand|callable $command): ?SymfonyCommand
+    {
+        if ($command instanceof Command) {
             $command->setLenevor($this->lenevor);
         }
 
         return $this->addToParent($command);
-	}
+    }
 	
 	/**
      * Add the command to the parent instance.
      *
-     * @param  \Syscodes\Components\Console\Command  $command
+     * @param  \Symfony\Component\Console\Command\Command  $command
 	 * 
-     * @return \Syscodes\Components\Console\Command
+     * @return \Symfony\Component\Console\Command\Command
      */
-    protected function addToParent(Command $command)
-    {
-        return parent::addCommand($command);
+    protected function addToParent(SymfonyCommand $command)
+    { 
+        if (method_exists(SymfonyApplication::class, 'addCommand')) {
+            /** @phpstan-ignore staticMethod.notFound */
+            return parent::addCommand($command);
+        }
+
+        return parent::add($command);
     }
 
 	/**
@@ -272,13 +273,25 @@ class Application extends BaseApplication
      *
      * @return string
 	 */
-	public function getConsoleVersion(): string
+	public function getLongVersion(): string
 	{
-		return parent::getConsoleVersion().
-			sprintf(' (env: <info>%s</>, debug: <info>%s</>) [<note>%s</>]',
+		return parent::getLongVersion().
+			sprintf(' (env: <info>%s</>, debug: <info>%s</>) [<comment>%s</>]',
 				env('APP_ENV'), env('APP_DEBUG') ? 'true' : 'false', PHP_OS
 			);
 	}
+
+    /**
+     * Set the container command loader for lazy resolution.
+     *
+     * @return static
+     */
+    public function setResolveCommandLoader(): static
+    {
+        $this->setCommandLoader(new ResolveCommandLoader($this->lenevor, $this->commandMap));
+
+        return $this;
+    }
 
 	/**
      * Get the default input definition for the application.
@@ -298,7 +311,7 @@ class Application extends BaseApplication
     /**
      * Get the global environment option for the definition.
      *
-     * @return \Syscodes\Components\Console\Input\InputOption
+     * @return \Symfony\Component\Console\Input\InputOption
      */
     protected function getEnvironmentOption(): InputOption
     {
