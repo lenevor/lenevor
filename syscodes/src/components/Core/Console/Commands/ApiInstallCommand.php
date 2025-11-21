@@ -24,13 +24,13 @@ namespace Syscodes\Components\Core\Console\Commands;
 
 use Syscodes\Components\Console\Command;
 use Syscodes\Components\Filesystem\Filesystem;
-use Syscodes\Components\Console\Input\InputOption;
-use Syscodes\Components\Console\Attribute\AsCommandAttribute;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Executable PHP install for execute of the api file.
  */
-#[AsCommandAttribute(name: 'install:api')]
+#[AsCommand(name: 'install:api')]
 class ApiInstallCommand extends Command
 {
     /**

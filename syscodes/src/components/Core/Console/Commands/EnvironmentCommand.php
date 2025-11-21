@@ -23,12 +23,12 @@
 namespace Syscodes\Components\Core\Console\Commands;
 
 use Syscodes\Components\Console\Command;
-use Syscodes\Components\Console\Attribute\AsCommandAttribute;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Show the environment type of the framework.
  */
-#[AsCommandAttribute(name: 'env')]
+#[AsCommand(name: 'env')]
 class EnvironmentCommand extends Command
 {
     /**

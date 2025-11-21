@@ -26,8 +26,8 @@ use Closure;
 use Exception;
 use ReflectionFunction;
 use Syscodes\Components\Console\Command;
-use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
-use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Executes the command with closure.
@@ -40,6 +40,13 @@ class ClosureCommand extends Command
      * @var \Closure $callback
      */
     protected $callback;
+    
+    /**
+     * The console command description.
+     * 
+     * @var string
+     */
+    protected $description = '';
 
     /**
      * Constructor. Create a new command instance.
@@ -59,8 +66,8 @@ class ClosureCommand extends Command
 
     /** Executes the current command.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
-     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $output
+     * @param  \Symfony\Component\Console\Input\InputInterface  $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface|null  $output
      * 
      * @return int
      * 
@@ -79,9 +86,11 @@ class ClosureCommand extends Command
         }
 
         try {
-            return $this->lenevor->call(
+            return (int) $this->lenevor->call(
                 $this->callback->bindTo($this, $this), $parameters
             );
+
+            
         } catch (Exception $e) {
             $this->error($e->getMessage());
 

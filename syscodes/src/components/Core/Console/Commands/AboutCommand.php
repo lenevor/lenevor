@@ -25,12 +25,11 @@ namespace Syscodes\Components\Core\Console\Commands;
 use Locale;
 use Syscodes\Components\Console\Command;
 use Syscodes\Components\Console\Application;
-use Syscodes\Components\Console\Attribute\AsCommandAttribute;
-
+use Symfony\Component\Console\Attribute\AsCommand;
 /**
  * A console command to display information about of system.
  */
-#[AsCommandAttribute(name: 'about')]
+#[AsCommand(name: 'about')]
 class AboutCommand extends Command
 {
     /**
@@ -38,8 +37,7 @@ class AboutCommand extends Command
      *
      * @var string
      */
-    protected $name = 'about';
-    
+    protected $name = 'about';    
 
     /**
      * The console command description.

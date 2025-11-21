@@ -24,17 +24,16 @@ namespace Syscodes\Components\Core\Console\Commands;
 
 use Syscodes\Components\Console\Command;
 use Syscodes\Components\Support\Environment;
-use Syscodes\Components\Console\Input\InputOption;
 use Syscodes\Components\Support\InteractsWithTime;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 use function Syscodes\Components\Support\php_binary;
-
-use Syscodes\Components\Console\Attribute\AsCommandAttribute;
 
 /**
  * Executable PHP server for execute the framework system.
  */
-#[AsCommandAttribute(name: 'serve')]
+#[AsCommand(name: 'serve')]
 class ServeCommand extends Command
 {
     use InteractsWithTime;

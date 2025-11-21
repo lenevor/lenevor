@@ -25,13 +25,13 @@ namespace Syscodes\Components\Core\Console\Commands;
 use RuntimeException;
 use Syscodes\Components\Console\Command;
 use Syscodes\Components\Filesystem\Filesystem;
-use Syscodes\Components\Console\Attribute\AsCommandAttribute;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Allows you to delete all previously created views in the 
  * views folder of the storage.
  */
-#[AsCommandAttribute(name: 'view:clear')]
+#[AsCommand(name: 'view:clear')]
 class ViewClearCommand extends Command
 {
     /**

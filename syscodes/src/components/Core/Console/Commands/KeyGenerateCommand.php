@@ -24,13 +24,13 @@ namespace Syscodes\Components\Core\Console\Commands;
 
 use Syscodes\Components\Console\Command;
 use Syscodes\Components\Encryption\Encrypter;
-use Syscodes\Components\Console\Input\InputOption;
-use Syscodes\Components\Console\Attribute\AsCommandAttribute;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * This class displays the key generate for a given command.
  */
-#[AsCommandAttribute(name: 'key:generate')]
+#[AsCommand(name: 'key:generate')]
 class KeyGenerateCommand extends Command
 {
     /**
@@ -52,10 +52,10 @@ class KeyGenerateCommand extends Command
      * 
      * @return void
      */
-    protected function define()
+    protected function configure()
     {
         $this->setDefinition([
-                    new InputOption('show', null, InputOption::VALUE_REQUIRED, 'Display the key instead of modifying files.'),
+                    new InputOption('show', null, InputOption::VALUE_NONE, 'Display the key instead of modifying files.'),
                     new InputOption('force', null, InputOption::VALUE_OPTIONAL, 'Force the operation to run when in production.'),
         ]);
     }
