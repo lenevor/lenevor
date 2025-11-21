@@ -137,8 +137,8 @@ class Kernel implements KernelContract
     /**
      * Handle an incoming console command.
      * 
-     * @param  \Syscodes\Components\Console\Input\Input  $input
-     * @param  \Syscodes\Components\Console\Output\Output|null|null  $output
+     * @param  \Symfony\Component\Console\Input\InputInterface  $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface|null  $output
      * 
      * @return int
      */
@@ -356,7 +356,8 @@ class Kernel implements KernelContract
     {
         if (is_null($this->prime)) {
             $this->prime = (new Prime($this->app, $this->events, $this->app->version()))
-                 ->resolveCommands($this->commands);
+                 ->resolveCommands($this->commands)
+                 ->setResolveCommandLoader();
         }
 
         return $this->prime;
