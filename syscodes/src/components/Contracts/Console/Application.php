@@ -22,131 +22,21 @@
 
 namespace Syscodes\Components\Contracts\Console;
 
-use Syscodes\Components\Console\Command\Command;
-use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
-use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
-
 /**
- * It allows to show the line header and the start of the Lenevor command console.
+ * Console applicaction core.
  */
 interface Application
 {
-	/**
-     * Gets the name of the application.
-     * 
-     * @return string 
-     */
-    public function getName(): string;
-
-	/**
-     * Sets the name of the application.
-     * 
-     * @param  string  $name  The application name
-     * 
-     * @return void
-     */
-    public function setName(string $name): void;
-
-	/**
-     * Gets the version of the application.
-     * 
-     * @return string
-     */
-    public function getVersion(): string;
-
-	/**
-     * Sets the name of the application.
-     * 
-     * @param  string  $version  The application version
-     * 
-     * @return void
-     */
-    public function setVersion(string $version): void;
-
-	/**
-	 * Runs the current command discovered on the CLI.
-     * 
-     * @param  \Syscodes\Components\Contracts\Console\Input\Input|null  $input  The input interface implemented
-     * @param  \Syscodes\Components\Contracts\Console\Output\Output|null  $output  The output interface implemented
-     * 
+    /**
+     * Run an Prime console command by name.
+     *
+     * @param  \Symfony\Component\Console\Command\Command|string  $command
+     * @param  array  $parameters
+     * @param  \Symfony\Component\Console\Output\OutputInterface|null  $outputBuffer
+	 * 
      * @return int
-	 */	
-	public function run(?InputInterface $input = null, ?OutputInterface $output = null): int;
-
-	/**
-     * Executes the current application of console.
-     * 
-     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input  The input interface implemented
-     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $output  The output interface implemented
-     * 
-     * @return int
+     *
+     * @throws \Syscodes\Components\Console\Exception\CommandNotFoundException
      */
-    public function doExecute(InputInterface $input, OutputInterface $output): int;
-
-	/**
-     * Adds a command object.
-     * 
-     * @param  \Syscodes\Components\Console\Command\Command  $command
-     * 
-     * @return \Syscodes\Components\Console\Command\Command|null
-     * 
-     * @throws \LogicException
-     */
-    public function addCommand(Command $command);
-
-	/**
-     * Gets input definition.
-     * 
-     * @return \Syscodes\Components\Console\Input\InputDefinition
-     */
-    public function getDefinition();
-
-	/**
-     * Finds a command by name.
-     * 
-     * @param  string  $name  The command name
-     * 
-     * @return \Syscodes\Components\Console\Command\Command
-     * 
-     * @throws \Syscodes\Components\Console\Exceptions\CommandNotFoundException
-     */
-    public function findCommand(string $name): Command;
-
-	/**
-     * Gets a registered command.
-     * 
-     * @param  string  $name  The command name
-     * 
-     * @return \Syscodes\Components\Console\Command\Command
-     * 
-     * @throws \Syscodes\Components\Console\Exceptions\CommandNotFoundException
-     */
-    public function get(string $name): Command;
-
-	/**
-     * Returns true if the command exists, false otherwise.
-     * 
-     * @param  string  $name  The command name
-     * 
-     * @return bool
-     */
-    public function has(string $name): bool;
-
-	/**
-     * Runs the current command.
-     * 
-     * @param  \Syscodes\Components\Console\Command\Command  $command  The command name
-     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input  The input interface implemented
-	 * @param  \Syscodes\Components\Contracts\Console\Output\Output  $output  The output interface implemented
-     * 
-     * @return int  0 if everything went fine, or an error code
-     */
-    public function doCommand(Command $command, InputInterface $input, OutputInterface $output): int;
-
-	/**
-     * Gets the help message.
-     * 
-     * @return string
-     */
-    public function getHelp(): string;
+    public function call($command, array $parameters = [], $outputBuffer = null);
 }
