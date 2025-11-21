@@ -30,8 +30,8 @@ interface Kernel
     /**
      * Handle an incoming console command.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
-     * @param  \Syscodes\Components\Contracts\Console\Output\Output|null  $output
+     * @param  \Symfony\Component\Console\Input\InputInterface  $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface|null  $output
      * 
      * @return int
      */
@@ -47,7 +47,7 @@ interface Kernel
     /**
      * Shutdown the application.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
+     * @param  \Symfony\Component\Console\Input\InputInterface  $input
 	 * @param  int  $status
      * 
      * @return void
