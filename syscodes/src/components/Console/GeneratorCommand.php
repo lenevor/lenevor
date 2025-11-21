@@ -25,7 +25,7 @@ namespace Syscodes\Components\Console;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Console\Command;
 use Syscodes\Components\Filesystem\Filesystem;
-use Syscodes\Components\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Allows generate commands. 
