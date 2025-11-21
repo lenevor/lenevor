@@ -22,8 +22,8 @@
 
 namespace Syscodes\Components\Console\Concerns;
 
-use Syscodes\Components\Contracts\Console\Input\Input as InputInterface;
-use Syscodes\Components\Contracts\Console\Output\Output as OutputInterface;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Trait InteractsWithIO.
@@ -290,7 +290,7 @@ trait InteractsWithIO
 	/**
 	 * Set the input interface implementation.
 	 * 
-	 * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
+	 * @param  \Symfony\Component\Console\Output\OutputInterface  $input
 	 * 
 	 * @return void
 	 */
@@ -302,7 +302,7 @@ trait InteractsWithIO
 	/**
 	 * Set the output interface implementation.
 	 * 
-	 * @param  \Syscodes\Components\Contracts\Console\Output\Output  $output
+	 * @param  \Symfony\Component\Console\Output\OutputInterface  $output
 	 * 
 	 * @return void
 	 */
@@ -346,7 +346,7 @@ trait InteractsWithIO
     /**
      * Get the output implementation.
      *
-     * @return \Syscodes\Components\Console\Output\Output
+     * @return \Symfony\Component\Console\Output\OutputInterface
      */
     public function getOutput()
     {

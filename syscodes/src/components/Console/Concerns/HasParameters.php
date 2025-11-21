@@ -22,8 +22,8 @@
 
 namespace Syscodes\Components\Console\Concerns;
 
-use Syscodes\Components\Console\Input\InputOption;
-use Syscodes\Components\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * For specify arguments and options on the command.
