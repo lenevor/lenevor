@@ -24,26 +24,46 @@ namespace Syscodes\Components\Console;
 
 use Exception;
 use LogicException;
-
-use Syscodes\Components\Contracts\Console\Input\Input;
-use Syscodes\Components\Contracts\Console\Output\Output;
-use Syscodes\Components\Console\Command\Command as BaseCommand;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 /**
  * Is class allows functionality for running, listing, etc all commands of framework.
  */
-class Command extends BaseCommand
+class Command extends SymfonyCommand
 {
     use Concerns\ConfirmProcess,
         Concerns\HasParameters,
         Concerns\InteractsWithIO;
 
     /**
+     * The console command name aliases.
+     *
+     * @var array
+     */
+    protected $aliases;
+
+    /**
      * Gets the commands.
      * 
-     * @var array $commands
+     * @var array
      */
     protected $commands = [];
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = '';
+
+    /**
+     * The console command help text.
+     *
+     * @var string
+     */
+    protected $help = '';
     
     /**
      * The Lenevor appplication instance.
@@ -51,6 +71,13 @@ class Command extends BaseCommand
      * @var \Syscodes\Components\Contracts\Core\Application $lenevor
      */
     protected $lenevor;
+
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name;
 
     /**
      * The name and signature of the console command.
@@ -66,9 +93,13 @@ class Command extends BaseCommand
      */
     public function __construct()
     {
-        parent::__construct($this->name);
+        if (isset($this->signature)) {
+            parent::__construct($this->name = $this->signature);
+        } else {
+            parent::__construct($this->name);
+        }
 
-        if ( ! empty($this->help)) {
+        if ( ! empty($this->description)) {
             $this->setDescription($this->description);
         }
 
@@ -90,33 +121,29 @@ class Command extends BaseCommand
     /**
      * Runs a command given.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
-     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $input
+     * @param  \Symfony\Component\Console\Input\InputInterface  $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
      * 
      * @return int|mixed
      */
-    public function run(Input $input, Output $output): int
+    public function run(InputInterface $input, OutputInterface $output): int
     {
-        $this->output = $output instanceof Output ? $output : $this->lenevor->make(
-            Output::class, ['input' => $input, 'output' => $output]
-        );
-
         return parent::run(
-            $this->input = $input, $this->output
+            $this->input = $input, $this->output = $output
         );
     }
 
     /**
      * Executes the current command.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
-     * @param  \Syscodes\Components\Contracts\Console\Output\Output  $input
+     * @param  \Symfony\Component\Console\Input\InputInterface  $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
      * 
      * @return int
      * 
      * @throws \LogicException
      */
-    protected function execute(Input $input, Output $output): int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $method = method_exists($this, 'handle') ? 'handle' : '__invoke';
 
