@@ -23,13 +23,13 @@
 namespace Syscodes\Components\controller\console;
 
 use Syscodes\Components\Console\GeneratorCommand;
-use Syscodes\Components\Console\Input\InputOption;
-use Syscodes\Components\Console\Attribute\AsCommandAttribute;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Create different type of controllers depend according to the need.
  */
-#[AsCommandAttribute(name: 'make:controller')]
+#[AsCommand(name: 'make:controller')]
 class ControllerMakeCommand extends GeneratorCommand
 {
     /**
@@ -84,7 +84,7 @@ class ControllerMakeCommand extends GeneratorCommand
         
         $template ??= '/templates/controller.plain.tpl';
         
-        return $this->resolveStubPath($template);
+        return $this->resolveTemplatePath($template);
     }
 
     /**
@@ -94,7 +94,7 @@ class ControllerMakeCommand extends GeneratorCommand
      * 
      * @return string
      */
-    protected function resolveStubPath($template)
+    protected function resolveTemplatePath($template)
     {
         return file_exists($customPath = $this->lenevor->basePath(trim($template, '/')))
             ? $customPath
