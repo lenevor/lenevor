@@ -26,7 +26,6 @@ use Countable;
 use CachingIterator;
 use JsonSerializable;
 use IteratorAggregate;
-use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Contracts\Support\Arrayable;
 
