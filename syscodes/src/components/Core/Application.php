@@ -37,15 +37,16 @@ use Syscodes\Components\Support\Environment;
 use Syscodes\Components\Filesystem\Filesystem;
 use Syscodes\Components\Log\LogServiceProvider;
 use Syscodes\Components\Support\ServiceProvider;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Syscodes\Components\Events\EventServiceProvider;
-use Syscodes\Components\Console\Output\ConsoleOutput;
 use function Syscodes\Components\Filesystem\join_paths;
 use Syscodes\Components\Routing\RoutingServiceProvider;
 use Syscodes\Components\Core\Concerns\ConfigurationFiles;
 use Syscodes\Components\Core\Http\Exceptions\HttpException;
 use Syscodes\Components\Contracts\Http\Kernel as KernelContract;
-use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
 
+use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
 use Syscodes\Components\Contracts\Console\Kernel as KernelCommandContract;
 use Syscodes\Components\Contracts\Core\Application as ApplicationContract;
 
@@ -1313,11 +1314,11 @@ class Application extends Container implements ApplicationContract
     /**
      * Handle the incoming Prime command.
      * 
-     * @param  \Syscodes\Components\Console\Input\Input  $input
+     * @param  \Symfony\Component\Console\Input\InputInterface  $input
      * 
      * @return int
      */
-    public function handleCommand(Input $input)
+    public function handleCommand(InputInterface $input)
     {
         $Kernel = $this->make(KernelCommandContract::class);
         
