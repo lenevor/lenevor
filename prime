@@ -23,7 +23,7 @@
  */
 
 use Syscodes\Components\Core\Application;
-use Syscodes\Components\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\ArgvInput;
 
 /**
  * Refuse to run prime when called from php-cgi !
