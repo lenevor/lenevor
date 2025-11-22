@@ -33,13 +33,11 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php prime key:generate"
         ],
+		"post-root-package-install": [
+			"@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+		],	
 		"post-create-project-cmd": [
-			"@php -r \"file_exists('.env') || copy('.env.exmple', '.env');\"",
-			"@php prime key:generate"
-		],		
-		"post-update-cmd": [
-			"@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
-			"@php prime key:generate"
+			"@php prime key:generate --ansi"
 		]
 	},
 	"minimum-stability": "dev",
