@@ -35,7 +35,7 @@ final class Version
     /** 
      * Lenevor's version.
      */
-    public const RELEASE = '0.8.14';
+    public const RELEASE = '0.8.15';
 
     /**
      * Release status.
