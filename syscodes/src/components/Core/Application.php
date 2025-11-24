@@ -1326,7 +1326,7 @@ class Application extends Container implements ApplicationContract
             new ConsoleOutput
         );
         
-        $Kernel->terminate($input, $status); // Finalize application
+        $Kernel->finalize($input, $status); // Finalize application
         
         return $status;
     }
