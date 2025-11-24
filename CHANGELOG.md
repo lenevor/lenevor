@@ -1,5 +1,69 @@
 # Release Notes
 
+## [Version 0.8.15-alpha.8]
+
+Release Date: Nov 24, 2025
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added new method for generate views clear command in `PrimeServiceProvider` class
+- Added new method for about command in `PrimeServiceProvider` class
+- Added new method for generate views clear command in `PrimeServiceProvider` class
+- Added new method for controller make command in `PrimeServiceProvider` class
+- Added new method for serve command in `PrimeServiceProvider` class
+- Added new method for replace a given string in a file in `Filesystem` class
+- Added the request start for get the time and timezone of bootstrap in `Http\Kernel` class
+- Added the erase method for remove a resolved engine in `View\Engines\EngineResolver` class
+- Added new methods for get the global environment option in `Console\Application` class
+- Added method for returns whether verbosity is silent
+- Added new 'key' for show errors in messages of sessions
+- Added the type output of method handle [Response] in alls the middlewares
+- Added new method for fire an event in the interface in `Contracts\Event\Dispatcher` interface
+- Added the RouteCompiler class for compile a route
+- Added new method for get the request's body parameters in `PleasingPageHandler` class
+- Added conditional for identify if the method is static or not in `Collections/HigherOrderCollectionProxy` class
+- Added new methods for register all of the commands in the given directory in `Console\Kernel` class
+- Added methods for call the interface of debugging Symfony in `Exceptions\Handler` class
+- Added new method for get a new stringable object a given string in `Str` class
+- Added the variable type character in the magic method __call() in `RedirectResponse` class
+- Added methods that allows register additional Prime commands with the application
+- Added in the list package "symfony/console" in `composer.json`
+- Added new trait with callcommands and new method for resolve the console command
+- Added new variable $components for show messages custom in `Concerns\InteractsWithIO` trait
+- Added new methods for determinate the PHP executable and array of commands in `Console\Application` class
+
+### Changed
+- Changed the name environment class by the reserved word self in `Environment` class
+- Changed for notation camel-case in many config files
+- Changed the method name shutdown() by finalize() in `Console\Kernel` class
+- Changed the renderer of page debug in Symfony in `Exceptions\Handler` class
+
+### Created
+- Created the file server in `Core\Resources` folder
+- Created the file template in `Core\Console\Commands\templates`
+- Created the environment command in `Core\Console\Commands`
+- Created the api install command in `Core\Console\Commands`
+- Created the closure command in `Core\Console\Commands`
+- Created the key generate command in `Core\Console\Commands`
+- Created the serve command in `Core\Console\Commands`
+- Created the view clear command in `Core\Console\Commands`
+- Created the controller make command in `Controller\Console`
+- Created the share error session in `View\Middleware` folder
+- Created the files `controler.api.tpl` and `controller.api.tpl` in `Controller\Console\Templates` folder
+- Created class for Allows escapes a string in `Support\PromptUtility` class
+
+### Updated
+- Updated release 0.8.14 to 0.8.15
+
+### Fixed
+- [0.8.x] Fix bug the function names ()isCli() by 'is_cli() and getClass() by get_classname() in many classes
+- [0.8.x] Fix bug at adding character '?' for identify that variable is 'string' and null in many classes
+- [0.8.x] Fix bug the function names headItem() by head() and ()lastItem() by last() in many classes
+- [0.8.x] Fix debug at call the `RouteColletion` class
+- [0.8.x] Fix debug it uses the variable name wrong in `JsonResponse` class
+
+
 ## [Version 0.8.14-alpha.8]
 
 Release Date: Jul 23, 2025
