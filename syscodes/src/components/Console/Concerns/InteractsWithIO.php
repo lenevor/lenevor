@@ -31,6 +31,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 trait InteractsWithIO
 {
 	/**
+     * The console components factory.
+     *
+     * @var \Syscodes\Components\Console\View\Components\Factory
+     *
+     * @internal
+     */
+    protected $components;
+
+	/**
      * The input interface implementation.
      *
      * @var \Syscodes\Components\Contracts\Console\Input\Input
