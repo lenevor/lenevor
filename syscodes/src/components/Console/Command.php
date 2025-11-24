@@ -33,7 +33,8 @@ use Symfony\Component\Console\Command\Command as SymfonyCommand;
  */
 class Command extends SymfonyCommand
 {
-    use Concerns\ConfirmProcess,
+    use Concerns\CallCommands,
+        Concerns\ConfirmProcess,
         Concerns\HasParameters,
         Concerns\InteractsWithIO;
 
@@ -128,6 +129,10 @@ class Command extends SymfonyCommand
      */
     public function run(InputInterface $input, OutputInterface $output): int
     {
+        $this->output = $this->lenevor->make(
+            OutputStyle::class, ['input' => $input, 'output' => $output]
+        );
+        
         return parent::run(
             $this->input = $input, $this->output = $output
         );
@@ -154,6 +159,32 @@ class Command extends SymfonyCommand
 
             return static::FAILURE;
         }
+    }
+    
+    /**
+     * Resolve the console command instance for the given command.
+     * 
+     * @param  \Symfony\Component\Console\Command\Command|string  $command
+     * 
+     * @return \Symfony\Component\Console\Command\Command
+     */
+    protected function resolveCommand($command)
+    {
+        if ( ! class_exists($command)) {
+            return $this->getApplication()->find($command);
+        }
+        
+        $command = $this->lenevor->make($command);
+        
+        if ($command instanceof SymfonyCommand) {
+            $command->setApplication($this->getApplication());
+        }
+        
+        if ($command instanceof self) {
+            $command->setLenevor($this->getLenevor());
+        }
+        
+        return $command;
     }
 
     /**
