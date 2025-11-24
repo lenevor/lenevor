@@ -26,15 +26,21 @@ use Closure;
 use ReflectionClass;
 use Syscodes\Components\Version;
 use Syscodes\Components\Events\Dispatcher;
+use Syscodes\Components\Console\Events\PrimeStarting;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Contracts\Console\Application as ApplicationContract;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
+use Syscodes\Components\Support\PromptUtility;
+
+use function Syscodes\Components\Support\php_binary;
+use function Syscodes\Components\Support\prime_binary;
 
 /**
  * Console application.
@@ -94,6 +100,8 @@ class Application extends SymfonyApplication implements ApplicationContract
         $this->setAutoExit(false);
         $this->setCatchExceptions(false);
 
+        $this->events->dispatch(new PrimeStarting($this));
+
 		$this->bootstrap();
 	}
 
@@ -120,7 +128,49 @@ class Application extends SymfonyApplication implements ApplicationContract
 			$bootstrapper($this);
 		}
 	}
-	
+
+    /**
+	 * Clear the console application bootstrappers.
+	 * 
+	 * @return void
+	 */
+	public static function eraseBootstrappers(): void
+	{
+		static::$bootstrappers = [];
+	}
+    
+    /**
+     * Determine the proper PHP executable.
+     * 
+     * @return string
+     */
+    public static function phpBinary(): string
+    {
+        return PromptUtility::escapeArgument(php_binary());
+    }
+    
+    /**
+     * Determine the proper Prime executable.
+     * 
+     * @return string
+     */
+    public static function primeBinary(): string
+    {
+        return PromptUtility::escapeArgument(prime_binary());
+    }
+    
+    /**
+     * Format the given command as a fully-qualified executable command.
+     * 
+     * @param  string  $string
+     * 
+     * @return string
+     */
+    public static function formatCommandString($string): string
+    {
+        return sprintf('%s %s %s', static::phpBinary(), static::primeBinary(), $string);
+    }
+    
 	/**
 	 * Add a command, resolving through the application.
 	 * 
@@ -211,8 +261,8 @@ class Application extends SymfonyApplication implements ApplicationContract
             $command = $this->lenevor->make($command)->getName();
         }
 
-        if (! isset($callingClass) && empty($parameters)) {
-            $command = $this->getCommandName(($command));
+        if ( ! isset($callingClass) && empty($parameters)) {
+            $command = $this->getCommandName($input = new StringInput($command));
         } else {
             array_unshift($parameters, $command);
 
@@ -220,6 +270,21 @@ class Application extends SymfonyApplication implements ApplicationContract
         }
 
         return [$command, $input];
+    }
+    
+    /**
+     * Add an array of commands to the console.
+     * 
+     * @param  array<int, \Symfony\Component\Console\Command\Command>  $commands
+     * 
+     * @return void
+     */
+    #[\Override]
+    public function addCommands(array $commands): void
+    {
+        foreach ($commands as $command) {
+            $this->addCommand($command);
+        }
     }
 	
 	/**
@@ -273,6 +338,7 @@ class Application extends SymfonyApplication implements ApplicationContract
      *
      * @return string
 	 */
+    #[\Override]
 	public function getLongVersion(): string
 	{
 		return parent::getLongVersion().
@@ -298,7 +364,7 @@ class Application extends SymfonyApplication implements ApplicationContract
      *
      * This is used to add the --env option to every available command.
      *
-     * @return \Syscodes\Components\Console\Input\InputDefinition
+     * @return \Symfony\Component\Console\Input\InputDefinition
      */
     #[\Override]
     protected function getDefaultInputDefinition(): InputDefinition
