@@ -26,6 +26,7 @@ use Exception;
 use Traversable;
 use JsonSerializable;
 use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Support\Collectable;
