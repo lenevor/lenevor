@@ -24,9 +24,9 @@ namespace Syscodes\Components\Auth\Middleware;
 
 use Closure;
 use Syscodes\Components\Support\Str;
-use Syscodes\Components\Http\Response;
 use Syscodes\Components\Database\Erostrine\Model;
 use Syscodes\Components\Contracts\Auth\Access\Gate;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Allows the authorize for specify models and handle incomming request.
@@ -73,7 +73,7 @@ class Authorize
      * @param  string  $ability
      * @param  array|null  ...$models
      * 
-     * @return \Syscodes\Components\Http\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      * 
      * @throws \Syscodes\Components\Auth\AuthenticationException
      * @throws \Syscodes\Components\Auth\Access\AuthorizationException

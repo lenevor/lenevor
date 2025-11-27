@@ -1535,12 +1535,12 @@ class Application extends Container implements ApplicationContract
 
         foreach ((array) $namespaces as $namespace => $path) {
             foreach ((array) $path as $directory) {
-                if (realpath($this->path()) === realpath($this->basePath($directory))) {
-                    return $this->namespace = $namespace;
+                if (realpath($this->path()) === realpath($directory)) {
+                   return $this->namespace = $namespace.trim('\\');
                 }
             }
         }
 
-        throw new RuntimeException('Unable to detect application namespace');
+        throw new RuntimeException('Unable to detect application namespace.');
     }
 }

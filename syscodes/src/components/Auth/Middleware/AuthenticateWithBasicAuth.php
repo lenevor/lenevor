@@ -23,8 +23,8 @@
 namespace Syscodes\Components\Auth\Middleware;
 
 use Closure;
-use Syscodes\Components\Http\Response;
 use Syscodes\Components\Contracts\Auth\Factory;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Determine if the user is logged using a given guards basic.
@@ -58,7 +58,7 @@ class AuthenticateWithBasicAuth
      * @param  string|null  $guard
      * @param  string|null  $field
      * 
-     * @return mixed
+     * @return \Symfony\Component\HttpFoundation\Response
      * 
      * @throws \Syscodes\Components\Core\Http\Exceptions\UnauthorizedHttpException
      */

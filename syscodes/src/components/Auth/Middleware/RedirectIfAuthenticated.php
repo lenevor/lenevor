@@ -23,9 +23,9 @@ namespace Syscodes\Components\Auth\Middleware;
 
 use Closure;
 use Syscodes\Components\Http\Request;
-use Syscodes\Components\Http\Response;
 use Syscodes\Components\Support\Facades\Auth;
 use Syscodes\Components\Support\Facades\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * If have does not authentication, the user is redirected at the page home.
@@ -46,7 +46,7 @@ class RedirectIfAuthenticated
      * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next
      * @param  string|null  ...$guards
      * 
-     * @return \Syscodes\Components\Http\Response|\Syscodes\Components\Http\RedirectResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {

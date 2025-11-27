@@ -23,9 +23,9 @@
 namespace Syscodes\Components\Auth\Middleware;
 
 use Closure;
-use Syscodes\Components\Http\Response;
 use Syscodes\Components\Contracts\Auth\Factory as Auth;
 use Syscodes\Components\Auth\Exceptions\AuthenticationException;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Determine if the user is logged using a given guards.
@@ -65,7 +65,7 @@ class Authenticate
      * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next
      * @param  string[]  $guards
      * 
-     * @return \Syscodes\Components\Http\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle($request, Closure $next, ...$guards): Response
     {

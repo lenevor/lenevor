@@ -62,7 +62,7 @@ class StartSession
      * @param  \Syscodes\Components\Http\Request  $request
      * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next
      * 
-     * @return \Syscodes\Components\Http\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle($request, Closure $next): Response
     {

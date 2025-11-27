@@ -23,7 +23,7 @@
 namespace Syscodes\Components\Cookie\Middleware;
 
 use Closure;
-use Syscodes\Components\Http\Response;
+use \Symfony\Component\HttpFoundation\Response;
 use Syscodes\Components\Contracts\Cookie\QueueingFactory as Cookie;
 
 /**
@@ -56,7 +56,7 @@ class AddQueuedCookiesResponse
      * @param  \Syscodes\Components\Http\Request  $request
      * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next
      * 
-     * @return mixed
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle($request, Closure $next): Response
     {
