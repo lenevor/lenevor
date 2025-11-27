@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Components\controller\console;
+namespace Syscodes\Components\Routing\console;
 
 use Syscodes\Components\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputOption;
@@ -137,7 +137,7 @@ class ControllerMakeCommand extends GeneratorCommand
             $replace["use {$controllerNamespace}\Controller;\n"] = '';
         } else {
             $replace[' extends Controller'] = '';
-            $replace["use {$rootNamespace}Http\Controllers\Controller;\n"] = '';
+            $replace["use {$rootNamespace}Http\Controller;\n"] = '';
         }
 
         return str_replace(
@@ -154,9 +154,10 @@ class ControllerMakeCommand extends GeneratorCommand
     {
         return [
             ['api', null, InputOption::VALUE_NONE, 'Exclude the create and edit methods from the controller'],
-            ['type', null, InputOption::VALUE_REQUIRED, 'Manually specify the controller stub file to use'],
+            ['type', null, InputOption::VALUE_REQUIRED, 'Manually specify the controller template file to use'],
             ['force', null, InputOption::VALUE_NONE, 'Create the class even if the controller already exists'],
             ['invokable', 'i', InputOption::VALUE_NONE, 'Generate a single method, invokable controller class'],
+            ['parent', 'p', InputOption::VALUE_OPTIONAL, 'Generate a nested resource controller class'],
             ['resource', 'r', InputOption::VALUE_NONE, 'Generate a resource controller class'],
             ['requests', 'R', InputOption::VALUE_NONE, 'Generate FormRequest classes for store and update'],
             ['singleton', 's', InputOption::VALUE_NONE, 'Generate a singleton resource controller class'],
