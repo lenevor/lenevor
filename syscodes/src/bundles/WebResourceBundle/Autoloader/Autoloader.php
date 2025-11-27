@@ -345,7 +345,7 @@ class Autoloader
         $newPaths = [];
         
         foreach ($paths as $key => $value) {
-            $newPaths[rtrim($key, '\\ ')] = $value;
+            $newPaths[rtrim($key, '\\')] = $value;
         }
         
         $this->prefixes = array_merge($this->prefixes, $newPaths);
