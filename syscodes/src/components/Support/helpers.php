@@ -331,6 +331,56 @@ if ( ! function_exists('transform')) {
     }
 }
 
+if ( ! function_exists('throw_if')) {
+    /**
+     * Throw the given exception if the given condition is true.
+     *
+     * @param  TValue  $condition
+     * @param  Closure(<Array>): TExceptionValue|TExceptionValue  $exception
+     * @param  Array ...$parameters
+     * 
+     * @return mixed
+     *
+     * @throws \RuntimeException
+     */
+    function throw_if($condition, $exception = 'RuntimeException', ...$parameters)
+    {
+        if ($condition) {
+            if ($exception instanceof Closure) {
+                $exception = $exception(...$parameters);
+            }
+
+            if (is_string($exception) && class_exists($exception)) {
+                $exception = new $exception(...$parameters);
+            }
+
+            throw is_string($exception) ? new RuntimeException($exception) : $exception;
+        }
+
+        return $condition;
+    }
+}
+
+if ( ! function_exists('throw_unless')) {
+    /**
+     * Throw the given exception unless the given condition is true.
+     *
+     * @param  TValue  $condition
+     * @param  Closure(<array>): TExceptionValue|TExceptionValue  $exception
+     * @param  array  ...$parameters
+     * 
+     * @return mixed
+     *
+     * @throws \RuntimeException
+     */
+    function throw_unless($condition, $exception = 'RuntimeException', ...$parameters)
+    {
+        throw_if( ! $condition, $exception, ...$parameters);
+
+        return $condition;
+    }
+}
+
 if ( ! function_exists('uTitle')) {
     /**
      * Convert the given string to title case in UTF-8 format.
