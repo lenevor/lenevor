@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Components\Routing\console;
+namespace Syscodes\Components\Routing\Console;
 
 use Syscodes\Components\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputOption;
