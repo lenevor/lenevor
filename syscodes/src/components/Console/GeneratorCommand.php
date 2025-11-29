@@ -81,7 +81,7 @@ abstract class GeneratorCommand extends Command
         if (( ! $this->hasOption('force') ||
               ! $this->option('force')) &&
               $this->alreadyExists($this->getNameInput())) {
-            $this->error($this->type.' already exists!');
+            $this->components->error($this->type.' already exists!');
             
             return false;
         }
@@ -92,7 +92,7 @@ abstract class GeneratorCommand extends Command
 
         $info = $this->type;
         
-        $this->info(sprintf('%s [%s] created successfully.', $info, $path));
+        $this->components->info(sprintf('%s [%s] created successfully.', $info, $path));
     }
     
     /**
