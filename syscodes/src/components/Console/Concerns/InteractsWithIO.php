@@ -42,14 +42,14 @@ trait InteractsWithIO
 	/**
      * The input interface implementation.
      *
-     * @var \Syscodes\Components\Contracts\Console\Input\Input
+     * @var \ymfony\Component\Console\Input\InputInterface
      */
     protected $input;
 
 	/**
 	 * The output interface implementation.
 	 * 
-	 * @var \Syscodes\Components\Contracts\Console\Output\Output
+	 * @var \Syscodes\Components\Console\OutputStyle
 	 */
 	protected $output;
 	
@@ -147,6 +147,32 @@ trait InteractsWithIO
 	public function options(): array
 	{
 		return $this->option();
+	}
+	
+	/**
+	 * Confirm a question with the user.
+	 * 
+	 * @param  string  $question
+	 * @param  bool  $default
+	 * 
+	 * @return bool
+	 */
+	public function confirm($question, $default = false)
+	{
+		return $this->output->confirm($question, $default);
+	}
+	
+	/**
+	 * Prompt the user for input.
+	 * 
+	 * @param  string  $question
+	 * @param  string|null  $default
+	 * 
+	 * @return mixed
+	 */
+	public function ask($question, $default = null)
+	{
+		return $this->output->ask($question, $default);
 	}
 	
 	/**
