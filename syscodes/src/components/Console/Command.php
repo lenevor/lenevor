@@ -137,7 +137,7 @@ class Command extends SymfonyCommand
         $this->components = $this->lenevor->make(Factory::class, ['output' => $this->output]);
         
         return parent::run(
-            $this->input = $input, $this->output = $output
+            $this->input = $input, $this->output
         );
     }
 
