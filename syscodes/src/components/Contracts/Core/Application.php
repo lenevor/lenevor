@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2024 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -29,7 +29,7 @@ use Syscodes\Components\Contracts\Container\Container;
  * Allows the loading of service providers and functions to activate 
  * routes, environments and calls of main classes.
  */
-interface Application extends Container
+interface Application extends Container, CacheServices, CacheRoutes
 {
     /**
      * Get the version number of the application.
@@ -37,6 +37,7 @@ interface Application extends Container
      * @return string
      */
     public function version(): string;
+
     /**
      * Set the base path for the application.
      *
@@ -354,20 +355,6 @@ interface Application extends Container
      * @return void
      */
     public function booted($callback): void;
-
-    /**
-     * Determine if the application routes are cached.
-     * 
-     * @return bool
-     */
-    public function routesAreCached(): bool;
-
-    /**
-     * Get the path to the routes cache file.
-     * 
-     * @return string
-     */
-    public function getCachedRoutesPath();
 
     /**
      * Get the current application locale.
