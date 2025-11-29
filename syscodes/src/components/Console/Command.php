@@ -26,6 +26,7 @@ use Exception;
 use LogicException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Syscodes\Components\Console\View\Components\Factory;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 /**
@@ -132,6 +133,8 @@ class Command extends SymfonyCommand
         $this->output = $this->lenevor->make(
             OutputStyle::class, ['input' => $input, 'output' => $output]
         );
+
+        $this->components = $this->lenevor->make(Factory::class, ['output' => $this->output]);
         
         return parent::run(
             $this->input = $input, $this->output = $output
