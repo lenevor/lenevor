@@ -26,11 +26,13 @@ use Syscodes\Components\Support\ServiceProvider;
 use Syscodes\Components\Contracts\Support\Deferrable;
 use Syscodes\Components\Core\Console\Commands\AboutCommand;
 use Syscodes\Components\Core\Console\Commands\ServeCommand;
+use Syscodes\Components\Routing\Console\ControllerMakeCommand;
+use Syscodes\Components\Routing\Console\MiddlewareMakeCommand;
 use Syscodes\Components\Core\Console\Commands\ViewClearCommand;
 use Syscodes\Components\Core\Console\Commands\ApiInstallCommand;
-use Syscodes\Components\controller\console\ControllerMakeCommand;
 use Syscodes\Components\Core\Console\Commands\EnvironmentCommand;
 use Syscodes\Components\Core\Console\Commands\KeyGenerateCommand;
+use Syscodes\Components\Core\Console\Commands\ClearCompiledCommand;
 
 /**
  * The Prime service provider allows the register of a namespace of 
@@ -45,6 +47,7 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
      */
     protected $commands = [
         'About' => AboutCommand::class,
+        'ClearCompiled' => ClearCompiledCommand::class,
         'Environment' => EnvironmentCommand::class,
         'KeyGenerate' => KeyGenerateCommand::class,
         'ViewClear' => ViewClearCommand::class,
@@ -58,6 +61,7 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
     protected $devCommands = [
         'ApiInstall' => ApiInstallCommand::class,
         'ControllerMake' => ControllerMakeCommand::class,
+        'MiddlewareMake' => MiddlewareMakeCommand::class,
         'Serve' => ServeCommand::class,
     ];
 
@@ -113,6 +117,18 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
     {
         $this->app->singleton(ControllerMakeCommand::class, function ($app) {
             return new ControllerMakeCommand($app['files']);
+        });
+    }
+    
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerMiddlewareMakeCommand()
+    {
+        $this->app->singleton(MiddlewareMakeCommand::class, function ($app) {
+            return new MiddlewareMakeCommand($app['files']);
         });
     }
 
