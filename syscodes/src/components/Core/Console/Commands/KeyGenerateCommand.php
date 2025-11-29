@@ -79,7 +79,7 @@ class KeyGenerateCommand extends Command
         
         $this->lenevor['config']['security.key'] = $key;
 
-        $this->line('<bg=blue;fg=white> INFO </> Application key set successfully.');
+        $this->components->info('Application key set successfully.');
     }
     
     /**

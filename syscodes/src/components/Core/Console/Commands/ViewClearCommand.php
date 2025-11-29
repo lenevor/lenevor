@@ -92,6 +92,6 @@ class ViewClearCommand extends Command
             $this->files->delete($view);
         }
 
-        $this->line('    <bg=blue;fg=white> INFO </> Transpiled views cleared successfully.');
+        $this->components->info('Transpiled views cleared successfully.');
     }
 }

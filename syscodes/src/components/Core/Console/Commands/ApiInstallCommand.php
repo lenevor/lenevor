@@ -55,9 +55,9 @@ class ApiInstallCommand extends Command
     public function handle()
     {
         if (file_exists($apiRoutesPath = $this->lenevor->basePath('routes/api.php')) && ! $this->option('force')) {
-            $this->line('   <bg=blue;fg=white;options=bold> INFO </> API routes file already exists.');
+            $this->components->error('API routes file already exists.');
         } else {
-            $this->line('   <bg=blue;fg=white;options=bold> INFO </> Published API routes file.');
+            $this->components->info('Published API routes file.');
 
             copy(__DIR__.'/templates/api-routes.tpl', $apiRoutesPath);
 
@@ -89,7 +89,7 @@ class ApiInstallCommand extends Command
                 $appBootstrapPath,
             );
         } else {
-            $this->warning("Unable to automatically add API route definition to [{$appBootstrapPath}]. API route file should be registered manually.");
+            $this->components->warning("Unable to automatically add API route definition to [{$appBootstrapPath}]. API route file should be registered manually.");
 
             return;
         }

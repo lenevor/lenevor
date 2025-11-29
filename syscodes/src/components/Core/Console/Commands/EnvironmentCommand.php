@@ -52,8 +52,8 @@ class EnvironmentCommand extends Command
      */
     public function handle()
     {
-        $this->line(sprintf(
-            '    <bg=blue;fg=white> INFO </> The application environment is [%s].',
+        $this->components->info(sprintf(
+            'The application environment is [%s].',
             $this->lenevor['config']['app.env'],
         ));
     }

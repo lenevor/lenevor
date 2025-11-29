@@ -70,9 +70,9 @@ class ServeCommand extends Command
     {
         chdir(public_path());
 
-        $this->line("   <bg=blue;fg=white;options=bold> INFO </> Built-in server is running on [http://{$this->host()}:{$this->port()}].\n");
-
-        $this->line('   <fg=yellow;options=bold>Press Ctrl+C to stop the server</>');
+        $this->components->info("Built-in server is running on [http://{$this->host()}:{$this->port()}].\n");
+        
+        $this->comment('  <fg=yellow;options=bold>Press Ctrl+C to stop the server</>');
 
         $this->newLine();
 
