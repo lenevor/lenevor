@@ -25,12 +25,13 @@ namespace Syscodes\Components\Console;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Console\Command;
 use Syscodes\Components\Filesystem\Filesystem;
+use Syscodes\Components\Contracts\Console\PromptsForMissingInput;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Allows generate commands. 
  */
-abstract class GeneratorCommand extends Command
+abstract class GeneratorCommand extends Command implements PromptsForMissingInput
 {
     /**
      * The filesystem instance.
