@@ -105,6 +105,7 @@ return [
     'Syscodes\\Components\\Contracts\\Console\\Application' => SYS_PATH.'src/components/Contracts/Console/Application.php',
     'Syscodes\\Components\\Contracts\\Console\\Kernel' => SYS_PATH.'src/components/Contracts/Console/Kernel.php',
     'Syscodes\\Components\\Contracts\\Console\\NewLineInterface' => SYS_PATH.'src/components/Contracts/Console/NewLineInterface.php',
+    'Syscodes\\Components\\Contracts\\Console\\PromptsForMissingInput' => SYS_PATH.'src/components/Contracts/Console/PromptsForMissingInput.php',
     'Syscodes\\Components\\Contracts\\Container\\BindingResolutionException' => SYS_PATH.'src/components/Contracts/Container/BindingResolutionException.php',
     'Syscodes\\Components\\Contracts\\Container\\Container' => SYS_PATH.'src/components/Contracts/Container/Container.php',
     'Syscodes\\Components\\Contracts\\Container\\ExpectedInvokableException' => SYS_PATH.'src/components/Contracts/Container/ExpectedInvokableException.php',
