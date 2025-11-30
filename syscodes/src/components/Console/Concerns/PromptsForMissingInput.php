@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Console\Concerns;
 
 use Syscodes\Components\Support\Collection;
+use Syscodes\Components\Contracts\Console\PromptsForMissingInput as PromptsForMissinginputContract;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -44,7 +45,9 @@ trait PromptsForMissingInput
     {
         parent::interact($input, $output);
         
-        $this->promptForMissingArguments($input, $output);
+        if ($this instanceof PromptsForMissinginputContract) {
+            $this->promptForMissingArguments($input, $output);
+        }
     }
 
      /**
@@ -55,7 +58,7 @@ trait PromptsForMissingInput
      * 
      * @return void
      */
-    protected function promptForMissingArguments(InputInterface $input, OutputInterface $output)
+    protected function promptForMissingArguments(InputInterface $input, OutputInterface $output):void
     {
         $prompted = (new Collection($this->getDefinition()->getArguments()))
             ->reject(fn (InputArgument $argument) => $argument->getName() === 'command')
