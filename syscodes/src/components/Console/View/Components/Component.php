@@ -24,7 +24,7 @@ namespace Syscodes\Components\Console\View\Components;
 
 use ReflectionClass;
 use Syscodes\Components\Console\OutputStyle;
-use Symfony\Component\Console\Helper\QuestionHelper;
+use Syscodes\Components\Console\QuestionHelper;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 
 use function Termwind\render;
