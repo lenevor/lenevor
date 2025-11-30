@@ -37,7 +37,8 @@ class Command extends SymfonyCommand
     use Concerns\CallCommands,
         Concerns\ConfirmProcess,
         Concerns\HasParameters,
-        Concerns\InteractsWithIO;
+        Concerns\InteractsWithIO,
+        Concerns\PromptsForMissingInput;
 
     /**
      * The console command name aliases.
