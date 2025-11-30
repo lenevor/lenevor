@@ -24,9 +24,9 @@ namespace Syscodes\Components\Console;
 
 use Exception;
 use LogicException;
+use Syscodes\Components\Console\View\Components\Factory;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Syscodes\Components\Console\View\Components\Factory;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 /**

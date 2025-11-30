@@ -26,6 +26,7 @@ use Closure;
 use ReflectionClass;
 use Syscodes\Components\Version;
 use Syscodes\Components\Events\Dispatcher;
+use Syscodes\Components\Support\PromptUtility;
 use Syscodes\Components\Console\Events\PrimeStarting;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Contracts\Console\Application as ApplicationContract;
@@ -37,7 +38,6 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
-use Syscodes\Components\Support\PromptUtility;
 
 use function Syscodes\Components\Support\php_binary;
 use function Syscodes\Components\Support\prime_binary;
