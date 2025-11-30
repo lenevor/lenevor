@@ -293,4 +293,14 @@ abstract class GeneratorCommand extends Command
             ['name', InputArgument::REQUIRED, 'The name of the '.strtolower($this->type)],
         ];
     }
+
+    /**
+     * Prompt for missing input arguments using the returned questions.
+     *
+     * @return array
+     */
+    protected function promptForMissingArgumentsUsing(): array
+    {
+        return ['name' => 'What should the '.strtolower($this->type).' be named?'];
+    }
 }
