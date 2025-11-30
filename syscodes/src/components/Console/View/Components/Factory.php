@@ -68,6 +68,6 @@ class Factory
             'Console component [%s] not found.', $method
         )));
 
-        return (new $component($this->output))->render(...$parameters);
+        return with(new $component($this->output))->render(...$parameters);
     }
 }
