@@ -51,6 +51,16 @@ trait ConfirmProcess
             }
             
             $this->lenevor->alert($warning);
+            
+            $confirmed = $this->components->confirm('Do you really wish to run this command?');
+            
+            if ( ! $confirmed) {
+                $this->newLine();
+                
+                $this->components->warn('Command canceled.');
+                
+                return false;
+            }
         }
         
         return true;
