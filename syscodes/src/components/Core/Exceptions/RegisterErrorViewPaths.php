@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Core\Exceptions;
 
+use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\Facades\View;
 
 /**
@@ -36,12 +37,10 @@ class RegisterErrorViewPaths
      */
     public function __invoke()
     {
-        View::replaceNamespace(
-            'errors', 
-            collect(config('view.paths'))
-                ->map(fn ($path) => "{$path}/errors")
-                ->push(__DIR__.'/views')
-                ->all()
+        View::replaceNamespace('errors', (new Collection(config('view.paths')))
+            ->map(fn ($path) => "{$path}/errors")
+            ->push(__DIR__.'/views')
+            ->all()
         );
     }
 }
