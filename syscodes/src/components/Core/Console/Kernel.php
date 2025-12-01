@@ -130,6 +130,10 @@ class Kernel implements KernelContract
      */
     public function __construct(Application $app, Dispatcher $events)
     {
+        if ( ! defined('PRIME_BINARY')) {
+            define('PRIME_BINARY', 'prime');
+        }
+
         $this->app    = $app;
         $this->events = $events;
     }
