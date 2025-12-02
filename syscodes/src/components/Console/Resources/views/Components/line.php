@@ -3,6 +3,6 @@
     <span class="<?php if ($title) {
         echo 'ml-1';
     } ?>">
-        <?php echo htmlspecialchars($content) ?>
+        <?php echo htmlspecialchars($content) ?> 
     </span>
 </div>
