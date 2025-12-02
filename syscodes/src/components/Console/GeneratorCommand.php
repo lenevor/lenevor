@@ -302,6 +302,14 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
      */
     protected function promptForMissingArgumentsUsing(): array
     {
-        return ['name' => 'What should the '.strtolower($this->type).' be named?'];
+        return [
+            'name' => [
+                'What should the '.strtolower($this->type).' be named?',
+                match ($this->type) {
+                    'Controller' => 'E.g. UserController',
+                    'Middleware' => 'E.g. AllowTokenIsValid',
+                },
+            ],
+        ];
     }
 }
