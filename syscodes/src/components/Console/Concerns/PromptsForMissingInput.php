@@ -22,11 +22,13 @@
 
 namespace Syscodes\Components\Console\Concerns;
 
+use Closure;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Collection;
-use Syscodes\Components\Contracts\Console\PromptsForMissingInput as PromptsForMissinginputContract;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Syscodes\Components\Contracts\Console\PromptsForMissingInput as PromptsForMissinginputContract;
 
 /**
  * Trait PromptsForMissingInput.
@@ -66,14 +68,22 @@ trait PromptsForMissingInput
                 $argument->isArray() => empty($input->getArgument($argument->getName())),
                 default => is_null($input->getArgument($argument->getName())),
             })
-            ->each(fn (InputArgument $argument) => $input->setArgument(
-                $argument->getName(),
-                $this->askPrompt(
-                    $this->promptForMissingArgumentsUsing()[$argument->getName()] ??
-                         'What is '.lcfirst($argument->getDescription() ?: ('the '.$argument->getName())).'?',
-                    $argument
-                )
-            ))
+            ->each(function (InputArgument $argument) use ($input) {
+                $label = $this->promptForMissingArgumentsUsing()[$argument->getName()] ??
+                          'What is '.lcfirst($argument->getDescription() ?: ('the '.$argument->getName())).'?';
+
+                if ($label instanceof Closure) {
+                    return $input->setArgument($argument->getName(), $argument->isArray() ? Arr::wrap($label()) : $label());
+                }
+
+                if (is_array($label)) {
+                    [$label] = $label;
+                }
+
+                $answer = $this->askPrompt($label, $argument);
+                
+                $input->setArgument($argument->getName(), $argument->isArray() ? [$answer] : $answer);
+            })
             ->isNotEmpty();
 
         if ($prompted) {
@@ -108,10 +118,11 @@ trait PromptsForMissingInput
      * Continue asking a question until an answer is provided.
      *
      * @param  string  $question
+     * @param  \Symfony\Component\Console\Input\InputArgument  $argument
      * 
      * @return string
      */
-    protected function askPrompt($question, $argument): string
+    protected function askPrompt(string $question, InputArgument $argument): string
     {
         $answer = null;
 
