@@ -47,6 +47,7 @@ return [
 		'file' => [
 			'driver' => 'file',
 			'path' => storage_path('logs'),
+			'level' => env('LOG_LEVEL', 'debug'),
 			'extension' => 'log',
 			'permission' => FILE_READ_MODE,
 		],
