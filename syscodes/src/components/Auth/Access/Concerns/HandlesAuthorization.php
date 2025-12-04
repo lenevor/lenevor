@@ -37,7 +37,7 @@ trait HandlesAuthorization
      * 
      * @return \Syscodes\Components\Auth\Access\Response
      */
-    protected function allow(string $message = null, mixed $code = null)
+    protected function allow(?string $message = null, mixed $code = null)
     {
         return Response::allow($message, $code);
     }
@@ -50,7 +50,7 @@ trait HandlesAuthorization
      * 
      * @return \Syscodes\Components\Auth\Access\Response
      */
-    protected function deny(string $message = null, mixed $code = null)
+    protected function deny(?string $message = null, mixed $code = null)
     {
         return Response::deny($message, $code);
     }
