@@ -22,14 +22,15 @@
 
 namespace Syscodes\Components\Core\Bootstrap;
 
+use Closure;
 use Exception;
 use Throwable;
 use ErrorException;
+use Syscodes\Components\Log\LogManager;
 use Syscodes\Components\Contracts\Core\Application;
-use Syscodes\Components\Console\Output\ConsoleOutput;
 use Syscodes\Components\Contracts\Debug\ExceptionHandler;
-use Syscodes\Components\Debug\FatalExceptions\FatalErrorException;
-use Syscodes\Components\Debug\FatalExceptions\FatalThrowableError;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\ErrorHandler\Error\FatalError;
 
 /**
  * It is an integrated exception handler that allows you to report and 
@@ -40,9 +41,9 @@ class BootHandleExceptions
     /**
      * The application implementation.
      *
-     * @var \Syscodes\Components\Contracts\Core\Application $app
+     * @var \Syscodes\Components\Contracts\Core\Application
      */
-    protected $app;
+    protected static $app;
     
     /**
      * Bootstrap the given application.
@@ -53,15 +54,15 @@ class BootHandleExceptions
      */
     public function bootstrap(Application $app)
     {
-        $this->app = $app;
+        static::$app = $app;
 
         error_reporting(-1);
         
-        set_error_handler([$this, 'handleError']);
+        set_error_handler($this->forwardsTo('handleError'));
 
-        set_exception_handler([$this, 'handleException']);
+        set_exception_handler($this->forwardsTo('handleException'));
 
-        register_shutdown_function([$this, 'handleShutdown']);
+        register_shutdown_function($this->forwardsTo('handleShutdown'));
 
         if ( ! $app->isUnitTests()) {
             ini_set('display_errors', 'off');
@@ -83,9 +84,38 @@ class BootHandleExceptions
      */
     public function handleError($level, $message, $file = '', $line = 0, $context = [])
     {
-        if (error_reporting() & $level) {
+        if ($this->isDeprecation($level)) {
+            $this->handleDeprecationError($message, $file, $line, $level);
+        } elseif (error_reporting() & $level) {
             throw new ErrorException($message, 0, $level, $file, $line);
         }
+    }
+
+    /**
+     * Reports a deprecation to the "deprecations" logger.
+     *
+     * @param  string  $message
+     * @param  string  $file
+     * @param  int  $line
+     * @param  int  $level
+     * 
+     * @return void
+     */
+    public function handleDeprecationError($message, $file, $line, $level = E_DEPRECATED)
+    {
+        try {
+            $logger = static::$app->make(LogManager::class);
+        } catch (Exception) {
+            return;
+        }
+
+        with($logger->store(), function ($log) use ($message, $file, $line, $level) {
+            if ($level ?? false) {
+                $log->warning((string) new ErrorException($message, 0, $level, $file, $line));
+            } else {
+                $log->warning(sprintf('%s in %s on line %s', $message, $file, $line));
+            }
+        });   
     }
 
     /**
@@ -97,18 +127,18 @@ class BootHandleExceptions
      */
     public function handleException(Throwable $e)
     {
-        if ( ! $e instanceof Exception) {
-            $e = new FatalThrowableError($e);
-        }
-
         try {
             $this->getExceptionHandler()->report($e);
         } catch (Exception $e) {
-            //
+            $exceptionHandlerFailed = true;
         }
 
         if ($this->app->runningInConsole()) { 
             $this->renderForConsole($e);
+            
+            if ($exceptionHandlerFailed ?? false) {
+                exit(1);
+            }
         } else {
             $this->renderHttpResponse($e);
         }
@@ -135,7 +165,7 @@ class BootHandleExceptions
      */
     protected function renderHttpResponse(Throwable $e)
     {
-        $this->getExceptionHandler()->render($this->app['request'], $e)->send(true);
+        $this->getExceptionHandler()->render(static::$app['request'], $e)->send();
     }
     
     /**
@@ -151,13 +181,37 @@ class BootHandleExceptions
     }
     
     /**
+     * Forward a method call to the given method if an application instance exists.
+     * 
+     * @return callable
+     */
+    protected function forwardsTo($method): Closure
+    {
+        return fn (...$arguments) => static::$app
+            ? $this->{$method}(...$arguments)
+            : false;
+    }
+    
+    /**
+     * Determine if the error level is a deprecation.
+     * 
+     * @param  int  $level
+     * 
+     * @return bool
+     */
+    protected function isDeprecation($level): bool
+    {
+        return in_array($level, [E_DEPRECATED, E_USER_DEPRECATED]);
+    }
+    
+    /**
      * Determine if the error type is fatal.
      * 
      * @param  int  $type
      * 
      * @return bool
      */
-    protected function isFatal($type)
+    protected function isFatal($type): bool
     {
         return in_array($type, array(E_COMPILE_ERROR, E_CORE_ERROR, E_ERROR, E_PARSE));
     }
@@ -168,13 +222,11 @@ class BootHandleExceptions
      * @param  array  $error
      * @param  int|null  $traceOffset
      * 
-     * @return \Syscodes\Components\Debug\FatalExceptions\FatalErrorException
+     * @return \Symfony\Component\ErrorHandler\Error\FatalError
      */
     protected function fatalExceptionFromError(array $error, ?int $traceOffset = null)
     {
-        return new FatalErrorException(
-            $error['message'], $error['type'], 0, $error['file'], $error['line'], $traceOffset
-        );
+        return new FatalError($error['message'], 0, $error, $traceOffset);
     }
     
     /**
@@ -184,6 +236,6 @@ class BootHandleExceptions
      */
     protected function getExceptionHandler()
     {    
-        return $this->app->make(ExceptionHandler::class);
+        return static::$app->make(ExceptionHandler::class);
     }
 }

@@ -24,46 +24,56 @@ namespace Syscodes\Components\Core\Exceptions;
 
 use Exception;
 use Throwable;
-use Psr\Log\LoggerInterface;
 use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Str;
 use Syscodes\Components\Http\Response;
 use Syscodes\Components\Routing\Router;
 use Syscodes\Components\Support\ViewErrorBag;
 use Syscodes\Components\Http\RedirectResponse;
+use Syscodes\Components\Console\View\Components\Error;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Contracts\Core\ExceptionRender;
+use Syscodes\Components\Console\View\Components\BulletList;
 use Syscodes\Components\Core\Http\Exceptions\HttpException;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
 use Syscodes\Components\Auth\Exceptions\AuthenticationException;
 use Syscodes\Components\Session\Exceptions\TokenMismatchException;
+use Syscodes\Components\Validation\Exceptions\ValidationException;
 use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
+use Syscodes\Components\Core\Http\Exceptions\BadRequestHttpException;
+use Syscodes\Components\Auth\Access\Exceptions\AuthorizationException;
+use Syscodes\Components\Core\Http\Exceptions\AccessDeniedHttpException;
 use Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException;
 use Syscodes\Components\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Application as ConsoleApplication;
+use Symfony\Component\Console\Exception\CommandNotFoundException;
 use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
+use Symfony\Component\HttpFoundation\Exception\RequestExceptionInterface;
 
 /**
  * The system's main exception class is loaded for activate the render method of debugging.
- */
+*/
 class Handler implements ExceptionHandlerContract
 {
     /**
      * The container implementation.
      * 
-     * @var \Syscodes\Components\Contracts\Container\Container $container
+     * @var \Syscodes\Components\Contracts\Container\Container 
      */
     protected $container;
 
     /**
      * A list of the exception types that should not be reported.
      * 
-     * @var array $dontReport
+     * @var array 
      */
     protected $dontReport = [];
 
     /**
      * A list of the Core exception types that should not be reported.
      * 
-     * @var array $coreDontReport
+     * @var array 
      */
     protected $coreDontReport = [
         AuthenticationException::class,
@@ -71,19 +81,20 @@ class Handler implements ExceptionHandlerContract
         HttpResponseException::class,
         ModelNotFoundException::class,
         TokenMismatchException::class,
+        ValidationException::class,
     ];
 
     /**
      * The callbacks that should be used during reporting.
      * 
-     * @var array $reportCallbacks
+     * @var array 
      */
     protected $reportCallbacks = [];
 
     /**
      * The callbacks that should be used during rendering.
      * 
-     * @var array $renderCallbacks
+     * @var array 
      */
     protected $renderCallbacks = [];
 
@@ -162,7 +173,7 @@ class Handler implements ExceptionHandlerContract
         }
 
         try {
-            $logger = $this->container->make(LoggerInterface::class);
+            $logger = $this->newLogger();
         } catch (Exception $e) {
             throw $e;
         }
@@ -244,9 +255,14 @@ class Handler implements ExceptionHandlerContract
      */
     protected function prepareException(Throwable $e): Throwable
     {
-        return match (true) {            
+        return match (true) {
             $e instanceof ModelNotFoundException => new NotFoundHttpException($e->getMessage(), $e),
+            $e instanceof AuthorizationException && $e->hasStatus() => new HttpException(
+                $e->status(), $e->response()?->message() ?: (Response::$statusTexts[$e->status()] ?? 'Whoops, looks like something went wrong.'), $e
+            ),
+            $e instanceof AuthorizationException && ! $e->hasStatus() => new AccessDeniedHttpException($e->getMessage(), $e),
             $e instanceof TokenMismatchException => new HttpException(419, $e->getMessage(), $e),
+            $e instanceof RequestExceptionInterface => new BadRequestHttpException('Bad request.', $e),
             default => $e,
         };
     }
@@ -264,7 +280,7 @@ class Handler implements ExceptionHandlerContract
     protected function prepareResponse($request, Throwable $e)
     {
         if ( ! $this->isHttpException($e) && config('app.debug')) {
-            return $this->toSyscodesResponse($this->convertExceptionToResponse($e), $e);
+            return $this->toSyscodesResponse($this->convertExceptionToResponse($e), $e)->prepare($request);
         }
 
         // When the debug is not active, the HTTP 500 code view is throw
@@ -273,8 +289,8 @@ class Handler implements ExceptionHandlerContract
         }
 
         return $this->toSyscodesResponse(
-                    $this->renderHttpException($e), $e
-                )->prepare($request);
+            $this->renderHttpException($e), $e
+        )->prepare($request);
     }
 
     /**
@@ -425,23 +441,31 @@ class Handler implements ExceptionHandlerContract
     /**
      * Render an exception to the console.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Output\ConsoleOutput  $output
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
      * @param  Throwable  $e
      * 
      * @return void
      */
     public function renderForConsole($output, Throwable $e)
     {
-        $message = sprintf(
-            $output->write("<error>".get_classname($e, true)."</>")." %s in file %s on line %d\n\n%s\n",
-            //getClass($e, true),
-            $e->getMessage(),            
-            $e->getFile(),
-            $e->getLine(),
-            $e->getTraceAsString()
-        );
+        if ($e instanceof CommandNotFoundException) {
+            $message = Str::of($e->getMessage());
 
-        echo $message;
+            if ( ! empty($alternatives = $e->getAlternatives())) {
+                $message .= '. Did you mean one of these?';
+
+                (new Error($output))->render($message);
+                (new BulletList($output))->render($alternatives);
+
+                $output->writeln('');
+            } else {
+                (new Error($output))->render($message);
+            }
+
+            return;
+        }
+
+        (new ConsoleApplication)->renderThrowable($e, $output);
     }
 
     /**
@@ -454,5 +478,15 @@ class Handler implements ExceptionHandlerContract
     protected function isHttpException(Throwable $e): bool
     {
         return $e instanceof HttpException;
+    }
+    
+    /**
+     * Create a new logger instance.
+     * 
+     * @return \Psr\Log\LoggerInterface
+     */
+    protected function newLogger()
+    {
+        return $this->container->make(LoggerInterface::class);
     }
 }
