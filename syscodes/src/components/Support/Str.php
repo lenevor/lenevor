@@ -232,6 +232,21 @@ class Str
     {
         return strtr($value, ' ', '-');
     }
+    
+    /**
+     * Cap a string with a single instance of a given value.
+     * 
+     * @param  string  $value
+     * @param  string  $cap
+     * 
+     * @return string
+     */
+    public static function finish($value, $cap): string
+    {
+        $quoted = preg_quote($cap, '/');
+        
+        return preg_replace('/(?:'.$quoted.')+$/u', '', $value).$cap;
+    }
 
     /**
      * Replace in an string the underscore or dashed by spaces.
