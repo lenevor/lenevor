@@ -49,7 +49,7 @@ class ControllerMakeCommand extends GeneratorCommand
     /**
      * The type of class being generated.
      * 
-     * @var string $type
+     * @var string
      */
     protected $type = 'Controller';
 

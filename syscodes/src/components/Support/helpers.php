@@ -409,13 +409,13 @@ if ( ! function_exists('version')) {
     }
 }
 
-if ( ! function_exists('winOS')) {
+if ( ! function_exists('win_os')) {
     /**
      * Determine whether the current envrionment is Windows based.
      *
      * @return bool
      */
-    function winOS(): bool
+    function win_os(): bool
     {
         return PHP_OS_FAMILY === 'Windows';
     }
