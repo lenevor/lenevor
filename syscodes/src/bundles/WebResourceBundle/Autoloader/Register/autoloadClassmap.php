@@ -69,6 +69,8 @@ return [
     'Syscodes\\Components\\Console\\Events\\CommandFinished' => SYS_PATH.'src/components/Console/Events/CommandFinished.php',
     'Syscodes\\Components\\Console\\Events\\CommandStarting' => SYS_PATH.'src/components/Console/Events/CommandStarting.php',
     'Syscodes\\Components\\Console\\Events\\PrimeStarting' => SYS_PATH.'src/components/Console/Events/PrimeStarting.php',
+    'Syscodes\\Components\\Console\\Views\\Components\\Mutators\\EnsureDynamicContentHighlighted' => SYS_PATH.'src/components/Console/Views/Components/Mutators/EnsureDynamicContentHighlighted.php',
+    'Syscodes\\Components\\Console\\Views\\Components\\Mutators\\EnsureRelativePaths' => SYS_PATH.'src/components/Console/Views/Components/Mutators/EnsureRelativePaths.php',
     'Syscodes\\Components\\Console\\Views\\Components\\Alert' => SYS_PATH.'src/components/Console/Views/Components/Alert.php',
     'Syscodes\\Components\\Console\\Views\\Components\\Ask' => SYS_PATH.'src/components/Console/Views/Components/Ask.php',
     'Syscodes\\Components\\Console\\Views\\Components\\AskWithcompletion' => SYS_PATH.'src/components/Console/Views/Components/AskWithcompletion.php',
