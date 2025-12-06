@@ -36,6 +36,13 @@ use function Termwind\renderUsing;
 abstract class Component
 {
     /**
+     * The list of mutators to apply on the view data.
+     * 
+     * @var array
+     */
+    protected $mutators;
+
+    /**
      * The output interface implementation.
      * 
      * @var \Syscodes\Components\Console\OutputStyle
@@ -89,6 +96,31 @@ abstract class Component
         return take(ob_get_contents(), function () {
             ob_end_clean();
         });
+    }
+    
+    /**
+     * Mutates the given data with the given set of mutators.
+     * 
+     * @param  array|string  $data
+     * @param  array  $mutators
+     * 
+     * @return array|string
+     */
+    protected function mutate($data, $mutators): array|string
+    {
+        foreach ($mutators as $mutator) {
+            $mutator = new $mutator;
+            
+            if (is_iterable($data)) {
+                foreach ($data as $key => $value) {
+                    $data[$key] = $mutator($value);
+                }
+            } else {
+                $data = $mutator($data);
+            }
+        }
+        
+        return $data;
     }
 
     /**
