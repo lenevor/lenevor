@@ -69,6 +69,11 @@ class Line extends Component
      */
     public function render($style, $string, $verbosity = OutputInterface::VERBOSITY_NORMAL)
     {
+        $string = $this->mutate($string, [
+            Mutators\EnsureDynamicContentHighlighted::class,
+            Mutators\EnsureRelativePaths::class,
+        ]);
+        
         $this->renderView('line', array_merge(static::$styles[$style], [
             'marginTop' => $this->output instanceof NewLineInterface ? min(0, 2 - $this->output->newLinesWritten()) : 1,
             'content' => $string,

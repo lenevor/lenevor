@@ -39,6 +39,11 @@ class Alert extends Component
      */
     public function render($string, $verbosity = OutputInterface::VERBOSITY_NORMAL)
     {
+        $string = $this->mutate($string, [
+            Mutators\EnsureDynamicContentHighlighted::class,
+            Mutators\EnsureRelativePaths::class,
+        ]);
+
         $this->renderView('alert', [
             'content' => $string,
         ], $verbosity);

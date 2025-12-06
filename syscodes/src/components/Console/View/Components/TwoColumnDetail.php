@@ -39,6 +39,16 @@ class TwoColumnDetail extends Component
      */
     public function render($first, $second = null, $verbosity = OutputInterface::VERBOSITY_NORMAL)
     {
+        $first = $this->mutate($first, [
+            Mutators\EnsureDynamicContentHighlighted::class,
+            Mutators\EnsureRelativePaths::class,
+        ]);
+
+        $second = $this->mutate($second, [
+            Mutators\EnsureDynamicContentHighlighted::class,
+            Mutators\EnsureRelativePaths::class,
+        ]);
+
         $this->renderView('two-column-detail', [
             'first' => $first,
             'second' => $second,

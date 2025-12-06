@@ -39,6 +39,11 @@ class BulletList extends Component
      */
     public function render($elements, $verbosity = OutputInterface::VERBOSITY_NORMAL)
     {
+        $elements = $this->mutate($elements, [
+            Mutators\EnsureDynamicContentHighlighted::class,
+            Mutators\EnsureRelativePaths::class,
+        ]);
+
         $this->renderView('bullet-list', [
             'elements' => $elements,
         ], $verbosity);
