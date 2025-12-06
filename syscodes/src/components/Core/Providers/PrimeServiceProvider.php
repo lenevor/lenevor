@@ -26,13 +26,20 @@ use Syscodes\Components\Support\ServiceProvider;
 use Syscodes\Components\Contracts\Support\Deferrable;
 use Syscodes\Components\Core\Console\Commands\AboutCommand;
 use Syscodes\Components\Core\Console\Commands\ServeCommand;
+use Syscodes\Components\Core\Console\Commands\ViewMakeCommand;
 use Syscodes\Components\Routing\Console\ControllerMakeCommand;
 use Syscodes\Components\Routing\Console\MiddlewareMakeCommand;
+use Syscodes\Components\Core\Console\Commands\ClassMakeCommand;
+use Syscodes\Components\Core\Console\Commands\TraitMakeCommand;
 use Syscodes\Components\Core\Console\Commands\ViewClearCommand;
 use Syscodes\Components\Core\Console\Commands\ApiInstallCommand;
+use Syscodes\Components\Core\Console\Commands\ConfigMakeCommand;
 use Syscodes\Components\Core\Console\Commands\EnvironmentCommand;
 use Syscodes\Components\Core\Console\Commands\KeyGenerateCommand;
+use Syscodes\Components\Core\Console\Commands\RequestMakeCommand;
+use Syscodes\Components\Core\Console\Commands\ResourceMakeCommand;
 use Syscodes\Components\Core\Console\Commands\ClearCompiledCommand;
+use Syscodes\Components\Core\Console\Commands\InterfaceMakeCommand;
 
 /**
  * The Prime service provider allows the register of a namespace of 
@@ -60,9 +67,16 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
      */
     protected $devCommands = [
         'ApiInstall' => ApiInstallCommand::class,
+        'ClassMake' => ClassMakeCommand::class,
+        'ConfigMake' => ConfigMakeCommand::class,
         'ControllerMake' => ControllerMakeCommand::class,
+        'InterfaceMake' => InterfaceMakeCommand::class,
         'MiddlewareMake' => MiddlewareMakeCommand::class,
+        'RequestMake' => RequestMakeCommand::class,
+        'ResourceMake' => ResourceMakeCommand::class,
         'Serve' => ServeCommand::class,
+        'TraitMake' => TraitMakeCommand::class,
+        'ViewMake' => ViewMakeCommand::class,
     ];
 
     /**
@@ -113,10 +127,46 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
      * 
      * @return void
      */
+    protected function registerClassMakeCommand()
+    {
+        $this->app->singleton(ClassMakeCommand::class, function ($app) {
+            return new ClassMakeCommand($app['files']);
+        });
+    }
+    
+    /**
+     * Register the command.
+     * 
+     * @return void
+     */
+    protected function registerConfigMakeCommand()
+    {
+        $this->app->singleton(ConfigMakeCommand::class, function ($app) {
+            return new ConfigMakeCommand($app['files']);
+        });
+    }
+    
+    /**
+     * Register the command.
+     * 
+     * @return void
+     */
     protected function registerControllerMakeCommand()
     {
         $this->app->singleton(ControllerMakeCommand::class, function ($app) {
             return new ControllerMakeCommand($app['files']);
+        });
+    }
+    
+    /**
+     * Register the command.
+     * 
+     * @return void
+     */
+    protected function registerInterfaceMakeCommand()
+    {
+        $this->app->singleton(InterfaceMakeCommand::class, function ($app) {
+            return new InterfaceMakeCommand($app['files']);
         });
     }
     
@@ -131,6 +181,30 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
             return new MiddlewareMakeCommand($app['files']);
         });
     }
+    
+    /**
+     * Register the command.
+     * 
+     * @return void
+     */
+    protected function registerRequestMakeCommand()
+    {
+        $this->app->singleton(RequestMakeCommand::class, function ($app) {
+            return new RequestMakeCommand($app['files']);
+        });
+    }
+    
+    /**
+     * Register the command.
+     * 
+     * @return void
+     */
+    protected function registerResourceMakeCommand()
+    {
+        $this->app->singleton(ResourceMakeCommand::class, function ($app) {
+            return new ResourceMakeCommand($app['files']);
+        });
+    }
 
     /**
      * Register the command.
@@ -140,6 +214,18 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
     protected function registerServeCommand()
     {
         $this->app->singleton(ServeCommand::class, fn () => new ServeCommand());
+    }
+    
+    /**
+     * Register the command.
+     * 
+     * @return void
+     */
+    protected function registerTraitMakeCommand()
+    {
+        $this->app->singleton(TraitMakeCommand::class, function ($app) {
+            return new TraitMakeCommand($app['files']);
+        });
     }
     
     /**
