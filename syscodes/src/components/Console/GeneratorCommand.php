@@ -93,6 +93,10 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
 
         $info = $this->type;
         
+        if (win_os()) {
+            $path = str_replace('/', '\\', $path);
+        }
+        
         $this->components->info(sprintf('%s [%s] created successfully.', $info, $path));
     }
     
@@ -284,6 +288,20 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
     }
     
     /**
+     * Get the first view directory path from the application configuration.
+     * 
+     * @param  string  $path
+     * 
+     * @return string
+     */
+    protected function viewPath($path = ''): string
+    {
+        $views = $this->lenevor['config']['view.paths'][0] ?? resource_path('views');
+        
+        return $views.($path ? DIRECTORY_SEPARATOR.$path : $path);
+    }
+    
+    /**
      * Get the console command arguments.
      * 
      * @return array
@@ -307,7 +325,11 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
                 'What should the '.strtolower($this->type).' be named?',
                 match ($this->type) {
                     'Controller' => 'E.g. UserController',
+                    'Interface' => 'E.g. UserContract',
                     'Middleware' => 'E.g. AllowTokenIsValid',
+                    'Request' => 'E.g. StoreRequest',
+                    'Resource' => 'E.g. UserResource',
+                    default => '',
                 },
             ],
         ];
