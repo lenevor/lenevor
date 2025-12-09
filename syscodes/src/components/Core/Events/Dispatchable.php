@@ -1,0 +1,69 @@
+<?php
+
+/**
+ * Lenevor Framework
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file license.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://lenevor.com/license
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@Lenevor.com so we can send you a copy immediately.
+ *
+ * @package     Lenevor
+ * @subpackage  Base
+ * @link        https://lenevor.com
+ * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
+ */
+
+namespace Syscodes\Components\Core\Events;
+
+/**
+ * Allows the dispatch of a event with the given arguments.
+ */
+trait Dispatchable
+{
+    /**
+     * Dispatch the event with the given arguments.
+     *
+     * @return mixed
+     */
+    public static function dispatch()
+    {
+        return event(new static(...func_get_args()));
+    }
+
+    /**
+     * Dispatch the event with the given arguments if the given truth test passes.
+     *
+     * @param  bool  $boolean
+     * @param  mixed  ...$arguments
+     * 
+     * @return mixed
+     */
+    public static function dispatchIf($boolean, ...$arguments)
+    {
+        if ($boolean) {
+            return event(new static(...$arguments));
+        }
+    }
+
+    /**
+     * Dispatch the event with the given arguments unless the given truth test passes.
+     *
+     * @param  bool  $boolean
+     * @param  mixed  ...$arguments
+     * 
+     * @return mixed
+     */
+    public static function dispatchUnless($boolean, ...$arguments)
+    {
+        if (! $boolean) {
+            return event(new static(...$arguments));
+        }
+    }
+}
