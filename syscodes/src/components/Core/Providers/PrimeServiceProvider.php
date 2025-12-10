@@ -30,10 +30,13 @@ use Syscodes\Components\Core\Console\Commands\ViewMakeCommand;
 use Syscodes\Components\Routing\Console\ControllerMakeCommand;
 use Syscodes\Components\Routing\Console\MiddlewareMakeCommand;
 use Syscodes\Components\Core\Console\Commands\ClassMakeCommand;
+use Syscodes\Components\Core\Console\Commands\EventMakeCommand;
 use Syscodes\Components\Core\Console\Commands\TraitMakeCommand;
 use Syscodes\Components\Core\Console\Commands\ViewClearCommand;
 use Syscodes\Components\Core\Console\Commands\ApiInstallCommand;
 use Syscodes\Components\Core\Console\Commands\ConfigMakeCommand;
+use Syscodes\Components\Core\Console\Commands\ConfigCacheCommand;
+use Syscodes\Components\Core\Console\Commands\ConfigClearCommand;
 use Syscodes\Components\Core\Console\Commands\EnvironmentCommand;
 use Syscodes\Components\Core\Console\Commands\KeyGenerateCommand;
 use Syscodes\Components\Core\Console\Commands\RequestMakeCommand;
@@ -55,6 +58,8 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
     protected $commands = [
         'About' => AboutCommand::class,
         'ClearCompiled' => ClearCompiledCommand::class,
+        'ConfigCache' => ConfigCacheCommand::class,
+        'ConfigClear' => ConfigClearCommand::class,
         'Environment' => EnvironmentCommand::class,
         'KeyGenerate' => KeyGenerateCommand::class,
         'ViewClear' => ViewClearCommand::class,
@@ -70,6 +75,7 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
         'ClassMake' => ClassMakeCommand::class,
         'ConfigMake' => ConfigMakeCommand::class,
         'ControllerMake' => ControllerMakeCommand::class,
+        'EventMake' => EventMakeCommand::class,
         'InterfaceMake' => InterfaceMakeCommand::class,
         'MiddlewareMake' => MiddlewareMakeCommand::class,
         'RequestMake' => RequestMakeCommand::class,
@@ -139,6 +145,30 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
      * 
      * @return void
      */
+    protected function registerConfigCacheCommand()
+    {
+        $this->app->singleton(ConfigCacheCommand::class, function ($app) {
+            return new ConfigCacheCommand($app['files']);
+        });
+    }
+    
+    /**
+     * Register the command.
+     * 
+     * @return void
+     */
+    protected function registerConfigClearCommand()
+    {
+        $this->app->singleton(ConfigClearCommand::class, function ($app) {
+            return new ConfigClearCommand($app['files']);
+        });
+    }
+    
+    /**
+     * Register the command.
+     * 
+     * @return void
+     */
     protected function registerConfigMakeCommand()
     {
         $this->app->singleton(ConfigMakeCommand::class, function ($app) {
@@ -155,6 +185,18 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
     {
         $this->app->singleton(ControllerMakeCommand::class, function ($app) {
             return new ControllerMakeCommand($app['files']);
+        });
+    }
+    
+    /**
+     * Register the command.
+     * 
+     * @return void
+     */
+    protected function registerEventMakeCommand()
+    {
+        $this->app->singleton(EventMakeCommand::class, function ($app) {
+            return new EventMakeCommand($app['files']);
         });
     }
     
