@@ -28,6 +28,7 @@ use Syscodes\Components\Console\View\Components\Factory;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Syscodes\Components\Http\Exceptions\ConsoleFailedException;
 
 /**
  * Is class allows functionality for running, listing, etc all commands of framework.
@@ -158,8 +159,8 @@ class Command extends SymfonyCommand
 
         try {
             return (int) $this->lenevor->call([$this, $method]);
-        } catch (Exception $e) {
-            throw $e;
+        } catch (ConsoleFailedException $e) {
+           $this->components->error($e->getMessage());
 
             return static::FAILURE;
         }
@@ -174,11 +175,13 @@ class Command extends SymfonyCommand
      */
     protected function resolveCommand($command)
     {
-        if ( ! class_exists($command)) {
-            return $this->getApplication()->find($command);
+        if (is_string($command)) {
+            if ( ! class_exists($command)) {
+                return $this->getApplication()->find($command);
+            }
+            
+            $command = $this->lenevor->make($command);
         }
-        
-        $command = $this->lenevor->make($command);
         
         if ($command instanceof SymfonyCommand) {
             $command->setApplication($this->getApplication());
