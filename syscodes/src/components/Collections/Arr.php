@@ -410,7 +410,7 @@ class Arr
 	 */
 	public static function only(array $array, array|string $keys): array
 	{
-		return array_intersect_key($array, array_flip($array), $keys);
+		return array_intersect_key($array, array_flip((array) $keys));
 	}
 
 	/**
