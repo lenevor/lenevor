@@ -72,7 +72,7 @@ if ( ! function_exists('camel_case')) {
      * 
      * @uses   Str::camelcase
      */
-    function camel_case($string)
+    function camel_case($string): string
     {
         return Str::camelcase($string);
     }
@@ -86,13 +86,11 @@ if ( ! function_exists('class_basename')) {
      * 
      * @return string
      */
-    function class_basename($class)
+    function class_basename($class): string
     {
         $className = is_object($class) ? get_class($class) : $class;
 
-        return basename(
-            str_replace('\\', '/', $className)
-        );
+        return basename(str_replace('\\', '/', $className));
     }
 }
 
@@ -105,7 +103,7 @@ if ( ! function_exists('class_recursive'))
      * 
      * @return array
      */
-    function class_recursive($class)
+    function class_recursive($class): array
     {
         $results = [];
         
@@ -174,7 +172,7 @@ if ( ! function_exists('str_dash')) {
      *
      * @uses   Str::dash
      */
-    function str_dash($string)
+    function str_dash($string): string
     {
         return Str::dash($string);
     }
@@ -190,7 +188,7 @@ if ( ! function_exists('str_humanize')) {
      *
      * @uses   Str::humanize
      */
-    function str_humanize($string)
+    function str_humanize($string): string
     {
         return Str::humanize($string);
     }
@@ -206,7 +204,7 @@ if ( ! function_exists('str_smallcase')) {
      *
      * @uses   Str::smallcase
      */
-    function str_smallcase($string)
+    function str_smallcase($string): string
     {
         return Str::smallcase($string);
     }
@@ -222,7 +220,7 @@ if ( ! function_exists('str_underscore')) {
      *
      * @uses   Str::underscore
      */
-    function str_underscore($string)
+    function str_underscore($string): string
     {
         return Str::underscore($string);
     }
@@ -238,7 +236,7 @@ if ( ! function_exists('studly_caps')) {
      *
      * @uses   Str::studlycaps
      */
-    function studly_caps($string)
+    function studly_caps($string): string
     {
         return Str::studlycaps($string);
     }
@@ -277,7 +275,7 @@ if ( ! function_exists('title')) {
      * 
      * @uses   Str::title
      */
-    function title($string)
+    function title($string): string
     {
         return Str::title($string);
     }
@@ -315,6 +313,7 @@ if ( ! function_exists('transform')) {
      * @param  TValue  $value
      * @param  callable(TValue): TReturn  $callback
      * @param  TDefault|callable(TValue): TDefault  $default
+     * 
      * @return ($value is empty ? TDefault : TReturn)
      */
     function transform($value, callable $callback, $default = null)
@@ -391,7 +390,7 @@ if ( ! function_exists('uTitle')) {
      * 
      * @uses   Str::uTitle
      */
-    function uTitle($string)
+    function uTitle($string): string
     {
         return Str::uTitle($string);
     }
@@ -403,7 +402,7 @@ if ( ! function_exists('version')) {
      * 
      * @return string
      */
-    function version()
+    function version(): string
     {
         return Version::RELEASE.'-'.Version::STATUS;
     }
