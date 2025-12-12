@@ -120,7 +120,7 @@ class EncryptCookies
             try {
                 $value = $this->decryptCookie($key, $cookie);
 
-                $request->cookies->set($key, $this->validateValue($key, $cookie));
+                $request->cookies->set($key, $this->validateValue($key, $value));
             } catch (DecryptException $e) {
                 $request->cookies->set($key, null);
             }           
@@ -135,13 +135,13 @@ class EncryptCookies
      * @param  string  $name
      * @param  array|string  $cookie
      * 
-     * @return array|string
+     * @return string|array
      */
     protected function decryptCookie($name, $cookie)
     {
         return is_array($cookie)
-                        ? $this->decryptArray($cookie)
-                        : $this->encrypter->decrypt($cookie, static::serialized($name));
+            ? $this->decryptArray($cookie)
+            : $this->encrypter->decrypt($cookie, static::serialized($name));
     }
 
     /**
@@ -156,7 +156,13 @@ class EncryptCookies
         $decrypted = [];
 
         foreach ($cookie as $key => $value) {
-            $decrypted[$key] = $this->encrypter->decrypt($value, static::serialized($key));
+            if (is_string($value)) {
+                $decrypted[$key] = $this->encrypter->decrypt($value, static::serialized($key));
+            }
+
+            if (is_array($value)) {
+                $decrypted[$key] = $this->decryptArray($value);
+            }
         }
 
         return $decrypted;
@@ -199,9 +205,9 @@ class EncryptCookies
     /**
      * Encrypt the cookies on an outgoing response.
      * 
-     * @param  \Syscodes\Components\Http\Response  $response
+     * @param  \Symfony\Component\HttpFoundation\Response  $response
      * 
-     * @return \Syscodes\Components\Http\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function encrypt(Response $response): Response
     {
