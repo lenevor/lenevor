@@ -69,6 +69,13 @@ interface Enumerable extends Arrayable, Countable, IteratorAggregate, Jsonable, 
     public function jsonSerialize(): mixed;
 
     /**
+     * Get all items in the enumerable.
+     *
+     * @return array
+     */
+    public function all();
+
+    /**
      * Get the collection of items as JSON.
      *
      * @param  int  $options
