@@ -24,6 +24,7 @@ namespace Syscodes\Components\Http\Concerns;
 
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
+use Symfony\Component\HttpFoundation\InputBag;
 
 /**
  * Trait InteractsWithInput.
@@ -134,7 +135,7 @@ trait InteractsWithInput
      */
     public function file($key = null, $default = null)
     {
-        return Arr::get($this->allFiles(), $key, $default);
+        return data_get($this->allFiles(), $key, $default);
     }
     
     /**
@@ -312,6 +313,10 @@ trait InteractsWithInput
     {
         if (null === $key) {
             return $this->$source->all();
+        }
+        
+        if ($this->$source instanceof InputBag) {
+            return $this->$source->all()[$key] ?? $default;
         }
 
         return $this->$source->get($key, $default);
