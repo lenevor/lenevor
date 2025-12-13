@@ -701,7 +701,7 @@ class Store implements Session
     /**
      * Set the request on the handler instance.
      *
-     * @param  \Syscodes\Components\Http\Request  $request
+     * @param  \Symfony\Component\HttpFoundation\Request $request
      * 
      * @return void
      */
