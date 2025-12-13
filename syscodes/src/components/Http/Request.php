@@ -96,7 +96,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 			$request->request->all(),
 			$request->attributes->all(),
 			$request->cookies->all(),
-			$request->files->all(),
+			(new static)->filterFiles($request->files->all()) ?? [],
 			$request->server->all()
 		);
 		
@@ -109,6 +109,86 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 		}
 		
 		return $newRequest;
+	}
+	
+	/**
+	 * {@inheritdoc}
+	 * 
+	 * @return static
+	 */
+	#[\Override]
+	public function duplicate(?array $query = null, ?array $request = null, ?array $attributes = null, ?array $cookies = null, ?array $files = null, ?array $server = null): static
+	{
+		return parent::duplicate($query, $request, $attributes, $cookies, $this->filterFiles($files), $server);
+	}
+	
+	/**
+	 * Filter the given array of files, removing any empty values.
+	 * 
+	 * @param  mixed  $files
+	 * 
+	 * @return mixed
+	 */
+	protected function filterFiles($files)
+	{
+		if ( ! $files) {
+			return;
+		}
+		
+		foreach ($files as $key => $file) {
+			if (is_array($file)) {
+				$files[$key] = $this->filterFiles($files[$key]);
+			}
+			
+			if (empty($files[$key])) {
+				unset($files[$key]);
+			}
+		}
+		
+		return $files;
+	}
+	
+	/**
+	 * Create a new request instance from the given Lenevor request.
+	 * 
+	 * @param  \Syscodes\Components\Http\Request  $from
+	 * @param  \Syscodes\Components\Http\Request|null  $to
+	 * 
+	 * @return static
+	 */
+	public static function createFrom(self $from, $to = null): static
+	{
+		$request = $to ?: new static;
+		
+		$files = array_filter($from->files->all());
+		
+		$request->initialize(
+			$from->query->all(),
+			$from->request->all(),
+			$from->attributes->all(),
+			$from->cookies->all(),
+			$files,
+			$from->server->all(),
+			$from->getContent()
+		);
+		
+		$request->headers->replace($from->headers->all());
+		
+		$request->setRequestLocale($from->getLocale());
+		
+		$request->setDefaultRequestLocale($from->getDefaultLocale());
+		
+		$request->setJson($from->json());
+		
+		if ($from->hasSession() && $session = $from->session()) {
+			$request->setLenevorSession($session);
+		}
+		
+		$request->setUserResolver($from->getUserResolver());
+		
+		$request->setRouteResolver($from->getRouteResolver());
+		
+		return $request;
 	}
 
 	/**
@@ -344,6 +424,30 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 		}
 
 		return in_array($this->getRealMethod(), ['GET', 'HEAD']) ? $this->query : $this->request;
+	}
+	
+	/**
+	 * Set the locale for the request instance.
+	 * 
+	 * @param  string  $locale
+	 * 
+	 * @return void
+	 */
+	public function setRequestLocale(string $locale): void
+	{
+		$this->locale = $locale;
+	}
+	
+	/**
+	 * Set the default locale for the request instance.
+	 * 
+	 * @param  string  $locale
+	 * 
+	 * @return void
+	 */
+	public function setDefaultRequestLocale(string $locale): void
+	{
+		$this->defaultLocale = $locale;
 	}
 	
 	/**
