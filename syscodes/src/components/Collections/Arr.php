@@ -23,7 +23,12 @@
 namespace Syscodes\Components\Support;
 
 use ArrayAccess;
+use Traversable;
+use JsonSerializable;
 use InvalidArgumentException;
+use Syscodes\Components\Contracts\Support\Jsonable;
+use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Contracts\Collection\Enumerable;
 
 /**
  * Gets all a given array for return dot-notated key from an array.
@@ -269,7 +274,30 @@ class Arr
 		}
 
 		return value($default);
-	}	
+	}
+	
+	/**
+	 * Get the underlying array of items from the given argument.
+	 * 
+	 * @param  array|iterable  $items
+	 * 
+	 * @return mixed
+	 * 
+	 * @throws \InvalidArgumentException
+	 */
+	public static function from($items)
+	{
+		return match (true) {
+			is_array($items) => $items,
+			$items instanceof Enumerable => $items->all(),
+			$items instanceof Arrayable => $items->toArray(),
+			$items instanceof Traversable => iterator_to_array($items),
+			$items instanceof Jsonable => json_decode($items->toJson(), true),
+			$items instanceof JsonSerializable => (array) $items->jsonSerialize(),
+			is_object($items) => (array) $items,
+			default => throw new InvalidArgumentException('Items cannot be represented by a scalar value.'),
+		};
+	}
 
 	/**
 	 * Get an item from an array using "dot" notation.
