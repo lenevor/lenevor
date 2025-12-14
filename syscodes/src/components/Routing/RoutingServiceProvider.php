@@ -28,6 +28,7 @@ use Syscodes\Components\Routing\Generators\UrlGenerator;
 use Syscodes\Components\Routing\Generators\RouteResponse;
 use Syscodes\Components\Contracts\Routing\RouteResponse as ResponseContract;
 use Syscodes\Components\Contracts\Routing\UrlGenerator as UrlGeneratorContract;
+use Syscodes\Components\Routing\Contracts\ControllerDispatcher as ControllerDispatcherContract;
 
 /**
  * For loading the classes from the container of services.
@@ -45,6 +46,7 @@ class RoutingServiceProvider extends ServiceProvider
         $this->registerRouteResponse();
         $this->registerUrlGenerator();
         $this->registerRedirector();
+        $this->registerControllerDispatcher();
     }
 
     /**
@@ -77,16 +79,32 @@ class RoutingServiceProvider extends ServiceProvider
         $this->app->singleton('url', function ($app) {            
             $routes = $app['router']->getRoutes();
 
-            return new UrlGenerator($routes, $app['request']);            
+            $app->instance('routes', $routes);
+
+            return new UrlGenerator($routes, $app->rebinding(
+                    'request', $this->requestRebinder()
+                ), $app['config']['app.asset_url']);            
         });
 
         $this->app->extend('url', function (UrlGeneratorContract $url, $app) {
             $url->setSessionResolver(function () use ($app) {
-                return $app['session'] ?? null;
+                return $this->app['session'] ?? null;
             });
 
             return $url;
         });
+    }
+
+    /**
+     * Get the URL generator request rebinder.
+     *
+     * @return \Closure
+     */
+    protected function requestRebinder()
+    {
+        return function ($app, $request) {
+            $app['url']->setRequest($request);
+        };
     }
 
     /**
@@ -104,6 +122,18 @@ class RoutingServiceProvider extends ServiceProvider
             }
 
             return $redirector;
+        });
+    }
+
+    /**
+     * Register the controller dispatcher.
+     *
+     * @return void
+     */
+    protected function registerControllerDispatcher()
+    {
+        $this->app->singleton(ControllerDispatcherContract::class, function ($app) {
+            return new ControllerDispatcher($app);
         });
     }
 }
