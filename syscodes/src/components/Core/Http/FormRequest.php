@@ -29,12 +29,13 @@ use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Routing\Generators\Redirector;
 use Syscodes\Components\Contracts\Validation\Validator;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
+use Syscodes\Components\Contracts\Validation\ValidatesResolved;
 use Syscodes\Components\Validation\Traits\ValidationWhenResolved;
 
 /**
  * Gets the form request.
  */
-class FormRequest extends Request
+class FormRequest extends Request implements ValidatesResolved
 {
     use ValidationWhenResolved;
     
