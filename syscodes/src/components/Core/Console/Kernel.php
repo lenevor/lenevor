@@ -30,6 +30,7 @@ use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Finder\Finder;
 use Syscodes\Components\Console\Command;
+use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Contracts\Core\Application;
 use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\Console\Application as Prime;
@@ -149,6 +150,10 @@ class Kernel implements KernelContract
     public function handle($input, $output = null): int
     {
         try {
+            if (in_array($input->getFirstArgument(), ['env:encrypt', 'env:decrypt'], true)) {
+                $this->bootstrapWithoutBootingProviders();
+            }
+
             $this->bootstrap();
             
             return $this->getPrime()->run($input, $output);
@@ -218,6 +223,20 @@ class Kernel implements KernelContract
                 require $path;
             }
         }
+    }
+    
+    /**
+     * Bootstrap the application without booting service providers.
+     * 
+     * @return void
+     */
+    public function bootstrapWithoutBootingProviders(): void
+    {
+        $this->app->bootstrapWith(
+            (new Collection($this->bootstrappers()))
+                ->reject(fn ($bootstrapper) => $bootstrapper === \Syscodes\Components\Core\Bootstrap\BootProviders::class)
+                ->all()
+        );
     }
 
     /**
