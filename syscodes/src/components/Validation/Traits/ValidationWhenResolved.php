@@ -36,7 +36,7 @@ trait ValidationWhenResolved
      *
      * @return void
      */
-    public function validate()
+    public function validateResolved()
     {
         $instance = $this->getValidatorInstance();
 
