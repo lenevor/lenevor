@@ -22,15 +22,21 @@
 
 namespace Syscodes\Components\Routing\Resolver;
 
+use stdClass;
+use ArrayObject;
 use JsonSerializable;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Http\Response;
 use Syscodes\Components\Routing\Route;
 use Syscodes\Components\Routing\Router;
 use Syscodes\Components\Http\JsonResponse;
+use Syscodes\Components\Support\Stringable;
+use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Routing\Supported\Pipeline;
+use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Routing\Collections\RouteCollection;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 /**
  * This trait resolve the given route and called the method that belongs to the route.
@@ -177,19 +183,29 @@ class RouteResolver
 	/**
 	 * Static version of callResponse.
 	 * 
-	 * @param  \Syscodes\Components\Http\Request  $request
+	 * @param  \Symfony\Component\HttpFoundation\Request  $request
 	 * @param  mixed  $response
 	 * 
-	 * @return \Syscodes\Components\Http\Response
+	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public static function toResponse($request, $response): Response
 	{
-		if ( ! $response instanceof Response && 
-		      ($response instanceof Jsonserializable || 
-			   is_array($response))) {
-			$response = new JsonResponse($response);
-		} elseif ( ! $response instanceof Response) {
-			$response = new Response($response, 200, ['Content-Type' => 'text/html']);
+		if ($response instanceof Stringable) {
+            $response = new Response($response->__toString(), 200, ['Content-Type' => 'text/html']);
+        } elseif ( ! $response instanceof SymfonyResponse &&
+                   ($response instanceof Arrayable ||
+                    $response instanceof Jsonable ||
+                    $response instanceof ArrayObject ||
+                    $response instanceof JsonSerializable ||
+                    $response instanceof stdClass ||
+                    is_array($response))) {
+            $response = new JsonResponse($response);
+        } elseif ( ! $response instanceof SymfonyResponse) {
+            $response = new Response($response, 200, ['Content-Type' => 'text/html']);
+        }
+		
+		if ($response->getStatusCode() === Response::HTTP_NOT_MODIFIED) {
+			$response->setNotModified();
 		}
 
 		return $response->prepare($request);
