@@ -453,7 +453,7 @@ class Router implements Routable
 	{
 		$action = $this->mergeLastGroup(
 			$route->getAction(),
-			$existsPrefix = false
+			existsPrefix: false
 		);
 		
 		$route->setAction($action);
@@ -789,6 +789,14 @@ class Router implements Routable
 		
 		if ($method === 'middleware') {
 			return (new RouteRegister($this))->attribute($method, is_array($parameters[0]) ? $parameters[0] : $parameters);
+		}
+		
+		if ($method === 'can') {
+			return (new RouteRegister($this))->attribute($method, [$parameters]);
+		}
+		
+		if ($method !== 'where' && Str::startsWith($method, 'where')) {
+			return (new RouteRegister($this))->{$method}(...$parameters);
 		}
 		
 		return (new RouteRegister($this))->attribute($method, array_key_exists(0, $parameters) ? $parameters[0] : true);
