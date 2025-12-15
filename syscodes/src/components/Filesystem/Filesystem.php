@@ -35,21 +35,21 @@ class Filesystem
 	/**
 	 * Enable locking for file reading and writing.
 	 *
-	 * @var null|bool $lock
+	 * @var null|bool
 	 */
 	public $lock = null;
 
 	/**
 	 * Holds the file handler resource if the file is opened.
 	 *
-	 * @var resource $handler
+	 * @var resource
 	 */
 	protected $handler;
 
 	/**
 	 * The files size in bytes.
 	 *
-	 * @var float $size
+	 * @var float
 	 */
 	protected $size;
 
@@ -626,8 +626,6 @@ class Filesystem
 	{
 		$finfo    = finfo_open(FILEINFO_MIME_TYPE);
 		$mimeType = finfo_file($finfo, $path);
-
-		finfo_close($finfo);
 
 		return $mimeType;
 	}
