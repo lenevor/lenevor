@@ -36,6 +36,7 @@ use Syscodes\Components\Routing\Matching\HostValidator;
 use Syscodes\Components\Routing\Matching\MethodValidator;
 use Syscodes\Components\Routing\Matching\SchemeValidator;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
+use Symfony\Component\Routing\Route as SymfonyRoute;
 
 /**
  * A Route describes a route and its parameters.
@@ -58,6 +59,13 @@ class Route
 	 * @var \Closure|string|array $action
 	 */
 	public $action;
+	
+	/**
+	 * The fields that implicit binding should use for a given parameter.
+	 * 
+	 * @var array
+	 */
+	protected $bindingFields = [];
 
 	/**
 	 * The compiled version of the route.
@@ -204,6 +212,10 @@ class Route
 		$parsed = RouteUri::parse($domain);
 
 		$this->action['domain'] = $parsed->uri;
+		
+		$this->bindingFields = array_merge(
+			$this->bindingFields, $parsed->bindingFields
+		);
 
 		return $this;
 	}
@@ -407,7 +419,11 @@ class Route
 	 */
 	protected function parseUri($uri): string
 	{
-		return take(RouteUri::parse($uri), fn ($uri) => $uri)->uri;
+		$this->bindingFields = [];
+
+		return take(RouteUri::parse($uri), function ($uri) {
+			$this->bindingFields = $uri->bindingFields;
+		})->uri;
 	}
 
 	/**
@@ -581,20 +597,21 @@ class Route
 	{
 		$this->compileRoute();
 		
-		$this->parameters = (new RouteParameter($this))->parameters($request);
+		$this->parameters = (new RouteParameter($this))
+			->parameters($request);
 
 		return $this;
 	}
 
 	/**
-	 * Compile into a Route Compile instance.
+	 * Compile the route into a Symfony CompiledRoute instance.
 	 * 
 	 * @return \Symfony\Component\Routing\CompiledRoute
 	 */
 	protected function compileRoute()
 	{
 		if ( ! $this->compiled) {
-			$this->compiled = (new RouteCompiler($this))->compile();
+			$this->compiled = $this->toSymfonyRoute()->compile();
 		}
 
 		return $this->compiled;
@@ -621,7 +638,7 @@ class Route
 	 */
 	protected function compileParameterNames(): array
 	{
-		preg_match_all('~\{(.*?)\}~', $this->getDomain().$this->getUri(), $matches);
+		preg_match_all('~\{(.*?)\}~', $this->getDomain().$this->uri, $matches);
 
 		return array_map(fn ($match) => trim($match, '?'), $matches[1]);
 	}
@@ -751,6 +768,36 @@ class Route
 			$this->getController(),
 			$this->getControllerMethod()
 		);
+	}
+	
+	/**
+	 * Convert the route to a Symfony route.
+	 * 
+	 * @return \Symfony\Component\Routing\Route
+	 */
+	public function toSymfonyRoute()
+	{
+		return new SymfonyRoute(
+			preg_replace('/\{(\w+?)\?\}/', '{$1}', $this->uri),
+			$this->getOptionalParameters(),
+			$this->wheres,
+			['utf8' => true],
+			$this->getDomain() ?: '',
+			[],
+			$this->method
+		);
+	}
+	
+	/**
+	 * Get the optional parameters for the route.
+	 * 
+	 * @return array
+	 */
+	protected function getOptionalParameters(): array
+	{
+		preg_match_all('/\{(\w+?)\?\}/', $this->uri, $matches);
+		
+		return isset($matches[1]) ? array_fill_keys($matches[1], null) : [];
 	}
 
 	/**
