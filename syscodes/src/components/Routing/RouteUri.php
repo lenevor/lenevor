@@ -30,6 +30,13 @@ use Syscodes\Components\Support\Str;
 class RouteUri
 {
     /**
+     * The fields that should be used when resolving bindings.
+     * 
+     * @var array
+     */
+    public $bindingFields = [];
+    
+    /**
      * The route uri.
      * 
      * @var string $uri
@@ -37,15 +44,17 @@ class RouteUri
     public $uri;
 
     /**
-     * Constructor. Create a new RouteUri class instance.
+     * Constructor. Create a new route URI class instance.
      * 
      * @param  string  $uri
+     * @param  array  $bindingFields
      * 
      * @return void
      */
-    public function __construct(string $uri)
+    public function __construct(string $uri, array $bindingFields = [])
     {
         $this->uri = $uri;
+        $this->bindingFields = $bindingFields;
     }
 
     /**
@@ -57,7 +66,9 @@ class RouteUri
 	 */
 	public static function parse(string $uri): static
 	{
-		preg_match_all('~\{([\w\:]+?)\??\}~', $uri, $matches);
+		preg_match_all('/\{([\w\:]+?)\??\}/', $uri, $matches);
+        
+        $bindingFields = [];
 		
 		foreach ($matches[0] as $match) {
 			if ( ! Str::contains($match, ':')) {
@@ -65,12 +76,14 @@ class RouteUri
 			} 
 
 			$segments = explode(':', trim($match, '{}?'));
+            
+            $bindingFields[$segments[0]] = $segments[1];
 			
 			$uri = Str::contains($match, '?')
                 ? str_replace($match, '{'.$segments[0].'?}', $uri)
                 : str_replace($match, '{'.$segments[0].'}', $uri);
 		}
 
-		return new static($uri);
+		return new static($uri, $bindingFields);
 	}
 }
