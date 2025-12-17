@@ -826,6 +826,116 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
 
         return new static($items);
     }
+    
+    /**
+     * Sort the collection using the given callback.
+     * 
+     * @param  \Closure|string  $callback
+     * @param  int  $options
+     * @param  bool  $descending
+     * 
+     * @return static
+     */
+    public function sortBy($callback, $options = SORT_REGULAR, $descending = false): static
+    {
+        if (is_array($callback) && ! is_callable($callback)) {
+            return $this->sortByMany($callback, $options);
+        }
+        
+        $results = [];
+        
+        $callback = $this->valueRetriever($callback);
+        
+        foreach ($this->items as $key => $value) {
+            $results[$key] = $callback($value, $key);
+        }
+        
+        $descending ? arsort($results, $options) : asort($results, $options);
+        
+        foreach (array_keys($results) as $key) {
+            $results[$key] = $this->items[$key];
+        }
+        
+        return new static($results);
+    }
+    
+    /**
+     * Sort the collection using multiple comparisons.
+     * 
+     * @param  array  $comparisons
+     * @param  int  $options
+     * 
+     * @return static
+     */
+    protected function sortByMany(array $comparisons = [], int $options = SORT_REGULAR): static
+    {
+        $items = $this->items;
+        
+        uasort($items, function ($a, $b) use ($comparisons, $options) {
+            foreach ($comparisons as $comparison) {
+                $comparison = Arr::wrap($comparison);
+                
+                $prop = $comparison[0];
+                
+                $ascending = Arr::get($comparison, 1, true) === true || Arr::get($comparison, 1, true) === 'asc';
+                
+                if ( ! is_string($prop) && is_callable($prop)) {
+                    $result = $prop($a, $b);
+                } else {
+                    $values = [data_get($a, $prop), data_get($b, $prop)];
+                    
+                    if ( ! $ascending) {
+                        $values = array_reverse($values);
+                    }
+                    
+                    if (($options & SORT_FLAG_CASE) === SORT_FLAG_CASE) {
+                        if (($options & SORT_NATURAL) === SORT_NATURAL) {
+                            $result = strnatcasecmp($values[0], $values[1]);
+                        } else {
+                            $result = strcasecmp($values[0], $values[1]);
+                        }
+                    } else {
+                        $result = match ($options) {
+                            SORT_NUMERIC => (int) $values[0] <=> (int) $values[1],
+                            SORT_STRING => strcmp($values[0], $values[1]),
+                            SORT_NATURAL => strnatcmp((string) $values[0], (string) $values[1]),
+                            SORT_LOCALE_STRING => strcoll($values[0], $values[1]),
+                            default => $values[0] <=> $values[1],
+                        };
+                    }
+                }
+                
+                if ($result === 0) {
+                    continue;
+                }
+                
+                return $result;
+            }
+        });
+        
+        return new static($items);
+    }
+    
+    /**
+     * Sort the collection in descending order using the given callback.
+     * 
+     * @param  \Closure|string  $callback
+     * @param  int  $options
+     * 
+     * @return static
+     */
+    public function sortByDesc($callback, $options = SORT_REGULAR): static
+    {
+        if (is_array($callback) && ! is_callable($callback)) {
+            foreach ($callback as $index => $key) {
+                $comparison = Arr::wrap($key);
+                $comparison[1] = 'desc';
+                $callback[$index] = $comparison;
+            }
+        }
+        
+        return $this->sortBy($callback, $options, true);
+    }
 
     /**
      * Splice portion of the underlying collection array.
