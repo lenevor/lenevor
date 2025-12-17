@@ -33,35 +33,14 @@ use Syscodes\Components\Filesystem\Exceptions\FileUnableToMoveException;
 class Filesystem
 {
 	/**
-	 * Enable locking for file reading and writing.
-	 *
-	 * @var null|bool
-	 */
-	public $lock = null;
-
-	/**
-	 * Holds the file handler resource if the file is opened.
-	 *
-	 * @var resource
-	 */
-	protected $handler;
-
-	/**
-	 * The files size in bytes.
-	 *
-	 * @var float
-	 */
-	protected $size;
-
-	/**
 	 * Append given data string to this file.
 	 *
 	 * @param  string  $path
-	 * @param  string  $data
+	 * @param  mixed  $data
 	 *
-	 * @return bool
+	 * @return int|false
 	 */
-	public function append($path, $data)
+	public function append(string $path, mixed $data): int|false
 	{
 		return file_put_contents($path, $data, FILE_APPEND);
 	}
@@ -74,7 +53,7 @@ class Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function copy($path, $target): bool
+	public function copy(string $path, string $target): bool
 	{
 		return copy($path, $target);
 	}
@@ -90,7 +69,7 @@ class Filesystem
 	 * 
 	 * @throws \Syscodes\Components\Contracts\Filesystem\FileNotFoundException
 	 */
-	public function json($path, $flags = 0, $lock = false)
+	public function json(string $path, int $flags = 0, bool $lock = false)
 	{
 		return json_decode($this->get($path, $lock), true, 512, $flags);
 	}
@@ -99,17 +78,16 @@ class Filesystem
 	 * Get the contents of a file.
 	 *
 	 * @param  string  $path
-	 * @param  bool  $lock  
-	 * @param  bool  $force  
+	 * @param  bool  $lock 
 	 *
 	 * @return string
 	 *
 	 * @throws FileNotFoundException
 	 */
-	public function get($path, $lock = false, $force = false): string
+	public function get(string $path, bool $lock = false): string
 	{
 		if ($this->isFile($path)) {
-			return $lock ? $this->read($path, $force) : file_get_contents($path);
+			return $lock ? $this->read($path) : file_get_contents($path);
 		}
 
 		throw new FileNotFoundException($path);
@@ -118,62 +96,35 @@ class Filesystem
 	/**
 	 * Get contents of a file with shared access.
 	 *
-	 * @param  string  $path
-	 * @param  bool  $force  
+	 * @param  string  $path  
 	 *
 	 * @return string
 	 */
-	public function read($path, $force = false): string
+	public function read(string $path): string
 	{
 		$contents = '';
 
-		$this->open($path, 'rb', $force);
+		$handle = fopen($path, 'rb');
 		
-		if ($this->handler) {
+		if ($handle) {
 			try {
-				if (flock($this->handler, LOCK_SH)) {
+				if (flock($handle, LOCK_SH)) {
 					$this->clearStatCache($path);
 
-					$contents = fread($this->handler, $this->size($path) ?: 1);
+					$contents = fread($handle, $this->size($path) ?: 1);
 					
-					while ( ! feof($this->handler)) {
-						$contents .= fgets($this->handler, 4096);
+					while ( ! feof($handle)) {
+						$contents .= fgets($handle, 4096);
 					}
 
-					flock($this->handler, LOCK_UN);
+					flock($handle, LOCK_UN);
 				}
 			} finally {
-				$this->close();
+				fclose($handle);
 			}
 		}
 
 		return trim($contents);
-	}
-
-	/**
-	 * Opens the current file with a given $mode.
-	 *
-	 * @param  string  $path
-	 * @param  string  $mode  A valid 'fopen' mode string (r|w|a ...)
-	 * @param  bool  $force  
-	 *
-	 * @return bool
-	 */
-	public function open($path, $mode, $force = false): bool
-	{
-		if ( ! $force && is_resource($this->handler)) {
-			return true;
-		}
-
-		if ($this->exists($path) === false) {
-			if ($this->create($path) === false) {
-				return false;
-			}
-		}
-
-		$this->handler = fopen($path, $mode);
-
-		return is_resource($this->handler);
 	}
 
 	/**
@@ -183,7 +134,7 @@ class Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function create($path): bool
+	public function create(string $path): bool
 	{
 		if (($this->isDirectory($path)) && ($this->isWritable($path)) || ( ! $this->exists($path))) {
 			if (touch($path)) {
@@ -201,7 +152,7 @@ class Filesystem
 	 *
 	 * @return bool
 	 */
-	public function exists($path): bool
+	public function exists(string $path): bool
 	{
 		$this->clearStatCache($path);
 
@@ -216,7 +167,7 @@ class Filesystem
 	 *
 	 * @return void
 	 */
-	public function clearStatCache($path, $all = false): void
+	public function clearStatCache(string $path, bool $all = false): void
 	{
 		if ($all === false) {
 			clearstatcache(false, $path);
@@ -235,7 +186,7 @@ class Filesystem
 	 * 
 	 * @throws \Syscodes\Filesystem\Exceptions\FileNotFoundException
 	 */
-	public function getRequire($path, array $data = [])
+	public function getRequire(string $path, array $data = [])
 	{
 		if ($this->isFile($path)) {
 			$__path = $path;
@@ -261,7 +212,7 @@ class Filesystem
 	 * 
 	 * @throws \Syscodes\Filesystem\Exceptions\FileNotFoundException
 	 */
-	public function getRequireOnce($path, array $data = [])
+	public function getRequireOnce(string $path, array $data = [])
 	{
 		if ($this->isFile($path)) {
 			$__path = $path;
@@ -289,17 +240,15 @@ class Filesystem
 	 * 
 	 * @return int|null  The file size in bytes or null if unknown
 	 */
-	public function size($path, $unit = 'b'): int|null
+	public function size(string $path, string $unit = 'b'): int|null
 	{
 		if ( ! $this->exists($path)) {
-			if (is_null($this->size)) {
-				$this->size = filesize($path);
-			}
+			$size = filesize($path);
 
 			return match (strtolower($unit)) {
-				'kb' => number_format($this->size / 1024, 3),
-				'mb' => number_format(($this->size / 1024) / 1024, 3),
-				default => $this->size,
+				'kb' => number_format($size / 1024, 3),
+				'mb' => number_format(($size / 1024) / 1024, 3),
+				default => $size,
 			};
 		}
 
@@ -313,7 +262,7 @@ class Filesystem
 	 * 
 	 * @return int|bool  The file group, or false in case of an error
 	 */
-	public function group($path)
+	public function group(string $path)
 	{
 		if ( ! $this->exists($path)) {
 			return filegroup($path);
@@ -329,7 +278,7 @@ class Filesystem
 	 * 
 	 * @return bool  True if file is executable, false otherwise
 	 */
-	public function exec($path): bool
+	public function exec(string $path): bool
 	{
 		return is_executable($path);
 	}
@@ -341,7 +290,7 @@ class Filesystem
 	 *
 	 * @return bool
 	 */
-	public function isDirectory($directory): bool
+	public function isDirectory(string $directory): bool
 	{
 		return is_dir($directory);
 	}
@@ -353,7 +302,7 @@ class Filesystem
 	 *
 	 * @return bool
 	 */
-	public function isFile($file): bool
+	public function isFile(string $file): bool
 	{
 		return is_file($file);
 	}
@@ -365,7 +314,7 @@ class Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function isWritable($path): bool
+	public function isWritable(string $path): bool
 	{
 		return is_writable($path);
 	}
@@ -377,7 +326,7 @@ class Filesystem
 	 * 
 	 * @return bool  True if file is readable, false otherwise
 	 */
-	public function isReadable($path): bool
+	public function isReadable(string $path): bool
 	{
 		return is_readable($path);
 	}
@@ -389,7 +338,7 @@ class Filesystem
 	 * 
 	 * @return int|bool  Timestamp of last access time, or false in case of an error
 	 */
-	public function lastAccess($path)
+	public function lastAccess(string $path)
 	{
 		if ( ! $this->exists($path)) {
 			return fileatime($path);
@@ -405,7 +354,7 @@ class Filesystem
 	 * 
 	 * @return int|bool  Timestamp of last modified time, or false in case of an error
 	 */
-	public function lastModified($path)
+	public function lastModified(string $path)
 	{
 		if ( ! $this->exists($path)) {
 			return filemtime($path);
@@ -421,7 +370,7 @@ class Filesystem
 	 * 
 	 * @return array
 	 */
-	public function directories($directory): array
+	public function directories(string $directory): array
 	{
 		$directories = [];
 
@@ -441,7 +390,7 @@ class Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function delete($paths): bool
+	public function delete(string $paths): bool
 	{
 		$paths = is_array($paths) ? $paths : func_get_args();
 
@@ -462,7 +411,7 @@ class Filesystem
 	 * 
 	 * @return string
 	 */
-	public function hash($path, $algorithm = 'md5'): string
+	public function hash(string $path, string $algorithm = 'md5'): string
 	{
 		return hash_file($algorithm, $path);
 	}
@@ -479,7 +428,7 @@ class Filesystem
 	 * 
 	 * @throws FileException
 	 */
-	public function makeDirectory($path, $mode = 0755, $recursive = false, $force = false)
+	public function makeDirectory(string $path, int $mode = 0755, bool $recursive = false, bool $force = false)
 	{
 		if ($force) {
 			return @mkdir($path, $mode, $recursive);
@@ -493,11 +442,11 @@ class Filesystem
 	 * 
 	 * @param  string  $directory
 	 * @param  string  $destination
-	 * @param  int  $options  
+	 * @param  int|null  $options  
 	 * 
 	 * @return bool
 	 */
-	public function copyDirectory($directory, $destination, $options = null): bool
+	public function copyDirectory(string $directory, string $destination, ?int $options = null): bool
 	{
 		if ( ! $this->isDirectory($directory)) return false;
 
@@ -541,7 +490,7 @@ class Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function deleteDirectory($directory, $keep = false): bool
+	public function deleteDirectory(string $directory, bool $keep = false): bool
 	{
 		if ( ! $this->isDirectory($directory)) return false;
 
@@ -575,7 +524,7 @@ class Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function cleanDirectory($directory): bool
+	public function cleanDirectory(string $directory): bool
 	{
 		return $this->deleteDirectory($directory, true);
 	}
@@ -589,7 +538,7 @@ class Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function moveDirectory($from, $to, $overwrite = false)
+	public function moveDirectory(string $from, string $to, bool $overwrite = false)
 	{
 		if ($overwrite && $this->isDirectory($to) && ! $this->deleteDirectory($to)) return false;
 
@@ -610,7 +559,7 @@ class Filesystem
 	 * 
 	 * @return string|null
 	 */
-	public function guessExtension($path)
+	public function guessExtension(string $path)
 	{
 		return FileMimeType::guessExtensionFromType($this->getMimeType($path));
 	}
@@ -622,12 +571,9 @@ class Filesystem
 	 * 
 	 * @return string|null
 	 */
-	public function getMimeType($path)
+	public function getMimeType(string $path)
 	{
-		$finfo    = finfo_open(FILEINFO_MIME_TYPE);
-		$mimeType = finfo_file($finfo, $path);
-
-		return $mimeType;
+		return finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
 	}
 
 	/**
@@ -638,7 +584,7 @@ class Filesystem
 	 *
 	 * @return bool
 	 */
-	public function move($path, $target): bool
+	public function move(string $path, string $target): bool
 	{
 		if ($this->exists($path)) {
 			return rename($path, $target);
@@ -654,7 +600,7 @@ class Filesystem
 	 * 
 	 * @return string
 	 */
-	public function name($path)
+	public function name(string $path)
 	{
 		return pathinfo($path, PATHINFO_FILENAME);
 	}
@@ -666,7 +612,7 @@ class Filesystem
 	 * 
 	 * @return string
 	 */
-	public function basename($path)
+	public function basename(string $path)
 	{
 		return pathinfo($path, PATHINFO_BASENAME);
 	}
@@ -678,7 +624,7 @@ class Filesystem
 	 * 
 	 * @return string
 	 */
-	public function dirname($path)
+	public function dirname(string $path)
 	{
 		return pathinfo($path, PATHINFO_DIRNAME);
 	}
@@ -690,7 +636,7 @@ class Filesystem
 	 * 
 	 * @return string
 	 */
-	public function extension($path)
+	public function extension(string $path)
 	{
 		return pathinfo($path, PATHINFO_EXTENSION);
 	}
@@ -701,9 +647,9 @@ class Filesystem
 	 * @param  string  $pattern
 	 * @param  int  $flags  (0 by default)
 	 * 
-	 * @return array
+	 * @return array|bool
 	 */
-	public function glob($pattern, $flags = 0): array
+	public function glob(string $pattern, int $flags = 0): array|bool
 	{
 		return glob($pattern, $flags);
 	}
@@ -715,7 +661,7 @@ class Filesystem
 	 * 
 	 * @return int|bool  The file owner, or false in case of an error
 	 */
-	public function owner($path)
+	public function owner(string $path)
 	{
 		if ($this->exists($path)) {
 			return fileowner($path);
@@ -732,7 +678,7 @@ class Filesystem
 	 * 
 	 * @return mixed  Permissions for the file, or false in case of an error
 	 */
-	public function perms($path, $mode = null): string|bool
+	public function perms($path, $mode = null): mixed
 	{
 		if ($mode) {
 			chmod($path, $mode);
@@ -745,17 +691,17 @@ class Filesystem
 	 * Prepend to a file.
 	 * 
 	 * @param  string  $path
-	 * @param  string  $data
+	 * @param  string  $contents
 	 * 
-	 * @return int
+	 * @return int|bool
 	 */
-	public function prepend($path, $data): int
+	public function prepend(string $path, string $contents): int|bool
 	{
 		if ($this->exists($path)) {
-			$this->put($path, $data.$this->get($path));
+			$this->put($path, $contents.$this->get($path));
 		}
 
-		return $this->put($path, $data);
+		return $this->put($path, $contents);
 	}
 
 	/**
@@ -767,7 +713,7 @@ class Filesystem
 	 *
 	 * @return int|bool
 	 */
-	public function put($path, $contents, $lock = false): int|bool
+	public function put(string $path, string $contents, bool $lock = false): int|bool
 	{
 		return file_put_contents($path, $contents, $lock ? LOCK_EX : 0);
 	}
@@ -779,7 +725,7 @@ class Filesystem
 	 * 
 	 * @return string
 	 */
-	public function type($path): string
+	public function type(string $path): string
 	{
 		return filetype($path);
 	}
@@ -788,11 +734,12 @@ class Filesystem
 	 * Write the contents of a file, replacing it atomically if it already exists.
 	 * 
 	 * @param  string  $path
-	 * @param  string  $content
+	 * @param  string  $contents
+	 * @param  int|null  $mode
 	 * 
 	 * @return void
 	 */
-	public function replace($path, $content): void
+	public function replace(string $path, string $contents, ?int $mode = null): void
 	{
 		$this->clearstatcache($path);
 		
@@ -800,9 +747,14 @@ class Filesystem
 		
 		$tempPath = tempnam(dirname($path), basename($path));
 		
-		$this->perms($tempPath, 0777 - umask());
+		// Permission files
+		if ( ! is_null($mode)) {
+			$this->perms($tempPath, $mode);
+		} else {
+			$this->perms($tempPath, 0777 - umask());
+		}
 		
-		$this->put($tempPath, $content);
+		$this->put($tempPath, $contents);
 		
 		$this->move($tempPath, $path);
     }
@@ -816,7 +768,7 @@ class Filesystem
 	 * 
 	 * @return void
 	 */
-	public function replaceInFile($search, $replace, $path): void
+	public function replaceInFile(array|string $search, array|string $replace, string $path): void
 	{
 		file_put_contents($path, str_replace($search, $replace, file_get_contents($path)));
 	}
@@ -827,75 +779,65 @@ class Filesystem
 	 * @param  string  $path
 	 * @param  string  $search
 	 * @param  string  $replace
+	 * @param  bool|null  $lock
 	 *
 	 * @return bool
 	 */
-	public function replaceText($path, $search, $replace): bool
+	public function replaceText(string $path, string $search, string $replace, ?bool $lock = null): bool
 	{
-		if ( ! $this->open($path, 'r+')) {
+		if ( ! $handle = fopen($path, 'r+')) {
 			return false;
 		}
 
-		if ($this->lock !== null) {
-			if (flock($this->handler, LOCK_EX) === false)
-			{
+		if ($lock !== null) {
+			if (flock($handle, LOCK_EX) === false) {
 				return false;
 			}
 		}
 
-		$replaced = $this->write($path, str_replace($search, $replace, $this->get($path)), true);
+		$replaced = $this->write($path, str_replace($search, $replace, $this->get($path)), $lock);
 
-		if ($this->lock !== null) {
-			flock($this->handler, LOCK_UN);
+		if ($lock !== null) {
+			flock($handle, LOCK_UN);
 		}
 
-		$this->close();
+		fclose($handle);
 
 		return $replaced;
 	}	
 
 	/**
-	 * Closes the current file if it is opened.
-	 *
-	 * @return bool
-	 */
-	public function close(): bool
-	{
-		if ( ! is_resource($this->handler)) {
-			return true;
-		}
-
-		return fclose($this->handler);
-	}
-
-	/**
-	 * Write given data to this file.
+	 * Write given content to this file.
 	 *
 	 * @param  string  $path
-	 * @param  string  $data  Data to write to this File
-	 * @param  bool  $force  The file to open
+	 * @param  string  $contents  Content to write to this File
+	 * @param  bool|null  $lock
 	 *
 	 * @return bool
 	 */
-	public function write($path, $data, $force = false): bool
+	public function write(string $path, string $contents, ?bool $lock = null): bool
 	{
 		$success = false;
 
-		if ($this->open($path, 'w', $force) === true) {
-			if ($this->lock !== null) {
-				if (flock($this->handler, LOCK_EX) === false) {
-					return false;
-				}
-			}
+		if ( ! $handle = fopen($path, 'w')) {
+			return false;
+		}
 
-			if (fwrite($this->handler, $data) !== false) {
-				$success = true;
-			}
-
-			if ($this->lock !== null) {
-				flock($this->handler, LOCK_UN);
+		if ($lock !== null) {
+			if (flock($handle, LOCK_EX) === false) {
+				return false;
 			}
 		}
+
+		if (fwrite($handle, $contents) !== false) {
+			$success = true;
+		}
+
+		if ($lock !== null) {
+			flock($handle, LOCK_UN);
+		}
+
+		fclose($handle);
 
 		return $success;
 	}
