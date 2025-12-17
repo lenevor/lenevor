@@ -582,6 +582,19 @@ class Arr
 	}
 	
 	/**
+	 * Sort the array using the given callback or "dot" notation.
+	 * 
+	 * @param  array  $array
+	 * @param  callable|array|string|null  $callback
+	 * 
+	 * @return array
+	 */
+	public static function sort($array, $callback = null): array
+	{
+		return Collection::make($array)->sortBy($callback)->all();
+	}
+	
+	/**
 	 * Convert a flatten "dot" notation array into an expanded array.
 	 * 
 	 * @param  iterable  $array
