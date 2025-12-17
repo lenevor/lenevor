@@ -380,22 +380,6 @@ if ( ! function_exists('throw_unless')) {
     }
 }
 
-if ( ! function_exists('uTitle')) {
-    /**
-     * Convert the given string to title case in UTF-8 format.
-     * 
-     * @param  string  $string
-     * 
-     * @return string
-     * 
-     * @uses   Str::uTitle
-     */
-    function uTitle($string): string
-    {
-        return Str::uTitle($string);
-    }
-}
-
 if ( ! function_exists('version')) {
     /**
      * Return number version of the Lenevor.
