@@ -61,11 +61,11 @@ class FilesystemAdapter implements Filesystem
 	 * Append given data string to this file.
 	 *
 	 * @param  string  $path
-	 * @param  string  $data
+	 * @param  mixed  $data
 	 *
-	 * @return bool
+	 * @return int|false
 	 */
-	public function append($path, $data)
+	public function append(string $path, mixed $data): int|false
     {
         return $this->driver->append($path, $data);
     }
@@ -78,7 +78,7 @@ class FilesystemAdapter implements Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function copy($path, $target): bool
+	public function copy(string $path, string $target): bool
     {
 		return $this->driver->copy($path, $target);
     }
@@ -87,29 +87,27 @@ class FilesystemAdapter implements Filesystem
 	 * Get the contents of a file.
 	 *
 	 * @param  string  $path
-	 * @param  bool  $lock  
-	 * @param  bool  $force  
+	 * @param  bool  $lock 
 	 *
 	 * @return string
 	 *
 	 * @throws FileNotFoundException
 	 */
-	public function get($path, $lock = false, $force = false): string
+	public function get(string $path, bool $lock = false): string
     {
-		return $this->driver->get($path, $lock, $force);
+		return $this->driver->get($path, $lock);
     }
 
     /**
 	 * Get contents of a file with shared access.
 	 *
-	 * @param  string  $path
-	 * @param  bool  $force  
+	 * @param  string  $path  
 	 *
 	 * @return string
 	 */
-	public function read($path, $force = false): string
+	public function read(string $path): string
     {
-		return $this->driver->read($path, $force);
+		return $this->driver->read($path);
     }
 
     /**
@@ -119,7 +117,7 @@ class FilesystemAdapter implements Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function create($path): bool
+	public function create(string $path): bool
     {
 		return $this->driver->create($path);
     }
@@ -131,7 +129,7 @@ class FilesystemAdapter implements Filesystem
 	 *
 	 * @return bool
 	 */
-	public function exists($path): bool
+	public function exists(string $path): bool
     {
 		return $this->driver->exists($path);
     }
@@ -148,7 +146,7 @@ class FilesystemAdapter implements Filesystem
 	 * 
 	 * @return int|null  The file size in bytes or null if unknown
 	 */
-	public function size($path, $unit = 'b'): int|null
+	public function size(string $path, string $unit = 'b'): int|null
     {
 		return $this->driver->size($path, $unit);
     }
@@ -160,7 +158,7 @@ class FilesystemAdapter implements Filesystem
 	 * 
 	 * @return array
 	 */
-	public function directories($directory): array
+	public function directories(string $directory): array
     {
 		return $this->driver->directories($directory);
     }
@@ -172,7 +170,7 @@ class FilesystemAdapter implements Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function delete($paths): bool
+	public function delete(string $paths): bool
     {
 		return $this->driver->delete($paths);
     }
@@ -189,7 +187,7 @@ class FilesystemAdapter implements Filesystem
 	 * 
 	 * @throws FileException
 	 */
-	public function makeDirectory($path, $mode = 0755, $recursive = false, $force = false): bool
+	public function makeDirectory(string $path, int $mode = 0755, bool $recursive = false, bool $force = false)
     {
 		return $this->driver->makeDirectory($path, $mode, $recursive, $force);
     }
@@ -203,7 +201,7 @@ class FilesystemAdapter implements Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function deleteDirectory($directory, $keep = false): bool
+	public function deleteDirectory(string $directory, bool $keep = false): bool
     {
 		return $this->driver->deleteDirectory($directory, $keep);
     }
@@ -216,7 +214,7 @@ class FilesystemAdapter implements Filesystem
 	 *
 	 * @return bool
 	 */
-	public function move($path, $target): bool
+	public function move(string $path, string $target): bool
     {
 		return $this->driver->move($path, $target);
     }
@@ -225,13 +223,13 @@ class FilesystemAdapter implements Filesystem
 	 * Prepend to a file.
 	 * 
 	 * @param  string  $path
-	 * @param  string  $data
+	 * @param  string  $contents
 	 * 
-	 * @return int
+	 * @return int|bool
 	 */
-	public function prepend($path, $data): int
+	public function prepend(string $path, string $contents): int|bool
     {
-		return $this->driver->prepend($path, $data);
+		return $this->driver->prepend($path, $contents);
     }
 
     /**
@@ -243,22 +241,22 @@ class FilesystemAdapter implements Filesystem
 	 *
 	 * @return int|bool
 	 */
-	public function put($path, $contents, $lock = false): int|bool
+	public function put(string $path, string $contents, bool $lock = false): int|bool
     {
 		return $this->driver->put($path, $contents, $lock);
     }
 
     /**
-	 * Write given data to this file.
+	 * Write given content to this file.
 	 *
 	 * @param  string  $path
-	 * @param  string  $data  Data to write to this File
-	 * @param  bool  $force  The file to open
+	 * @param  string  $contents  Content to write to this File
+	 * @param  bool|null  $lock
 	 *
 	 * @return bool
 	 */
-	public function write($path, $data, $force = false): bool
+	public function write(string $path, string $contents, ?bool $lock = null): bool
     {
-		return $this->driver->write($path, $data, $force);
+		return $this->driver->write($path, $contents, $lock);
     }
 }
