@@ -34,5 +34,5 @@ interface Factory
      * 
      * @return \Syscodes\Components\Contracts\Filesystem\Filesystem 
      */
-    public function disk($name = null);
+    public function disk(?string $name = null);
 }
