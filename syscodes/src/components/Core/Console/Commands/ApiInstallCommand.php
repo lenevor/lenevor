@@ -103,8 +103,8 @@ class ApiInstallCommand extends Command
     protected function getOptions(): array
     {
         return [
-            ['--composer=global', null, InputOption::VALUE_OPTIONAL, 'Absolute path to the Composer binary which should be used to install packages.'],
-            ['--force', null, InputOption::VALUE_NONE, 'Overwrite any existing API routes file.'],            
+            ['composer=global', null, InputOption::VALUE_OPTIONAL, 'Absolute path to the Composer binary which should be used to install packages'],
+            ['force', null, InputOption::VALUE_NONE, 'Overwrite any existing API routes file'],            
         ];
     }
 }
