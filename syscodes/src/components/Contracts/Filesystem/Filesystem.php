@@ -45,11 +45,11 @@ interface Filesystem
 	 * Append given data string to this file.
 	 *
 	 * @param  string  $path
-	 * @param  string  $data
+	 * @param  mixed  $data
 	 *
-	 * @return bool
+	 * @return int|false
 	 */
-	public function append($path, $data);
+	public function append(string $path, mixed $data): int|false;
 
     /**
 	 * Copy a file to a new location.
@@ -59,30 +59,28 @@ interface Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function copy($path, $target): bool;
+	public function copy(string $path, string $target): bool;
 
     /**
 	 * Get the contents of a file.
 	 *
 	 * @param  string  $path
-	 * @param  bool  $lock  
-	 * @param  bool  $force  
+	 * @param  bool  $lock 
 	 *
 	 * @return string
 	 *
 	 * @throws FileNotFoundException
 	 */
-	public function get($path, $lock = false, $force = false): string;
+	public function get(string $path, bool $lock = false): string;
 
     /**
 	 * Get contents of a file with shared access.
 	 *
-	 * @param  string  $path
-	 * @param  bool  $force  
+	 * @param  string  $path  
 	 *
 	 * @return string
 	 */
-	public function read($path, $force = false): string;
+	public function read(string $path): string;
 
     /**
 	 * Creates the file.
@@ -91,7 +89,7 @@ interface Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function create($path): bool;
+	public function create(string $path): bool;
 
     /**
 	 * Determine if a file exists.
@@ -100,7 +98,7 @@ interface Filesystem
 	 *
 	 * @return bool
 	 */
-	public function exists($path): bool;
+	public function exists(string $path): bool;
 
     /**
 	 * Retrieve the file size.
@@ -114,7 +112,7 @@ interface Filesystem
 	 * 
 	 * @return int|null  The file size in bytes or null if unknown
 	 */
-	public function size($path, $unit = 'b'): int|null;
+	public function size(string $path, string $unit = 'b'): int|null;
 
     /**
 	 * Get all of the directories within a given directory.
@@ -123,7 +121,7 @@ interface Filesystem
 	 * 
 	 * @return array
 	 */
-	public function directories($directory): array;
+	public function directories(string $directory): array;
 
     /**
 	 * Delete the file at a given path.
@@ -132,7 +130,7 @@ interface Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function delete($paths): bool;
+	public function delete(string $paths): bool;
 
     /**
 	 * Create a directory.
@@ -146,7 +144,7 @@ interface Filesystem
 	 * 
 	 * @throws FileException
 	 */
-	public function makeDirectory($path, $mode = 0755, $recursive = false, $force = false): bool;
+	public function makeDirectory(string $path, int $mode = 0755, bool $recursive = false, bool $force = false);
 
     /**
 	 * Recursively delete a directory and optionally you can keep 
@@ -157,7 +155,7 @@ interface Filesystem
 	 * 
 	 * @return bool
 	 */
-	public function deleteDirectory($directory, $keep = false): bool;
+	public function deleteDirectory(string $directory, bool $keep = false): bool;
 
     /**
 	 * Move a file to a new location.
@@ -167,17 +165,17 @@ interface Filesystem
 	 *
 	 * @return bool
 	 */
-	public function move($path, $target);
+	public function move(string $path, string $target): bool;
 
     /**
 	 * Prepend to a file.
 	 * 
 	 * @param  string  $path
-	 * @param  string  $data
+	 * @param  string  $contents
 	 * 
-	 * @return int
+	 * @return int|bool
 	 */
-	public function prepend($path, $data): int;
+	public function prepend(string $path, string $contents): int|bool;
 
     /**
 	 * Write the content of a file.
@@ -188,16 +186,16 @@ interface Filesystem
 	 *
 	 * @return int|bool
 	 */
-	public function put($path, $contents, $lock = false): int|bool;
+	public function put(string $path, string $contents, bool $lock = false): int|bool;
 
     /**
-	 * Write given data to this file.
+	 * Write given content to this file.
 	 *
 	 * @param  string  $path
-	 * @param  string  $data  Data to write to this File
-	 * @param  bool  $force  The file to open
+	 * @param  string  $contents  Content to write to this File
+	 * @param  bool|null  $lock
 	 *
 	 * @return bool
 	 */
-	public function write($path, $data, $force = false): bool;
+	public function write(string $path, string $contents, ?bool $lock = null): bool;
 }
