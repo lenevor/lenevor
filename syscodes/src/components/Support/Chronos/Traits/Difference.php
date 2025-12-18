@@ -211,6 +211,7 @@ trait Difference
         $days    = $current->fieldDifference($this->testTime, IntlCalendar::FIELD_DAY_OF_YEAR);
         $hours   = $current->fieldDifference($this->testTime, IntlCalendar::FIELD_HOUR_OF_DAY);
         $minutes = $current->fieldDifference($this->testTime, IntlCalendar::FIELD_MINUTE);
+        $seconds = $current->fieldDifference($this->testTime, IntlCalendar::FIELD_SECOND);
 
         $phrase = null;
 
@@ -233,6 +234,9 @@ trait Difference
         } else if ($minutes !== 0) {
             $phrase = __('time.minutes', [abs($minutes)], $locale);
             $before = $minutes < 0;
+        } elseif ($seconds !== 0) {
+            $phrase = __('time.seconds', [abs($seconds)], $locale);
+            $before = $seconds < 0;
         } else {
             return __('time.now', [], $locale);
         }

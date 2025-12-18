@@ -256,6 +256,7 @@ trait Date
         $days    = $now->fieldDifference($time, IntlCalendar::FIELD_DAY_OF_YEAR);
         $hours   = $now->fieldDifference($time, IntlCalendar::FIELD_HOUR_OF_DAY);
         $minutes = $now->fieldDifference($time, IntlCalendar::FIELD_MINUTE);
+        $seconds = $now->fieldDifference($time, IntlCalendar::FIELD_SECOND);
 
         $phrase = null;
         
@@ -285,6 +286,9 @@ trait Date
         } elseif ($minutes !== 0) {
             $phrase = __('time.minutes', [abs($minutes)]);
             $before = $minutes < 0;
+        } elseif ($seconds !== 0) {
+            $phrase = __('time.seconds', [abs($seconds)]);
+            $before = $seconds < 0;
         } else {
             return __('time.now');
         }
