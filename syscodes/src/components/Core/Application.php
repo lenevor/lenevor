@@ -1052,11 +1052,9 @@ class Application extends Container implements ApplicationContract
 
         $this->register($instance = new $provider($this));
 
-        if ($this->isBooted()) {
-            return;
+        if ( ! $this->isBooted()) {
+            $this->booting(fn () => $this->bootProviderClass($instance));           
         }
-
-        $this->booting(fn () => $this->bootProviderClass($instance));
     }
     
     /**
@@ -1094,7 +1092,9 @@ class Application extends Container implements ApplicationContract
 
         $this->bootAppCallbacks($this->bootingCallbacks);
 
-        array_walk($this->serviceProviders, fn ($provider) => $this->bootProviderClass($provider));
+        array_walk($this->serviceProviders, function ($provider) {
+            $this->bootProviderClass($provider); 
+        });
 
         $this->booted = true;
 
@@ -1128,9 +1128,13 @@ class Application extends Container implements ApplicationContract
      */
     protected function bootProviderClass(ServiceProvider $provider)
     {
+        $provider->callBootingCallbacks();
+
         if (method_exists($provider, 'boot')) {
             $this->call([$provider, 'boot']);
         }
+
+        $provider->callBootedCallbacks();
     }
 
     /**
