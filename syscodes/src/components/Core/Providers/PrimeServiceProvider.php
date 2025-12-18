@@ -44,6 +44,7 @@ use Syscodes\Components\Core\Console\Commands\RequestMakeCommand;
 use Syscodes\Components\Core\Console\Commands\ResourceMakeCommand;
 use Syscodes\Components\Core\Console\Commands\ClearCompiledCommand;
 use Syscodes\Components\Core\Console\Commands\InterfaceMakeCommand;
+use Syscodes\Components\Core\Console\Commands\VendorPublishCommand;
 
 /**
  * The Prime service provider allows the register of a namespace of 
@@ -84,6 +85,7 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
         'ResourceMake' => ResourceMakeCommand::class,
         'Serve' => ServeCommand::class,
         'TraitMake' => TraitMakeCommand::class,
+        'VendorPublish' => VendorPublishCommand::class,
         'ViewMake' => ViewMakeCommand::class,
     ];
 
@@ -281,6 +283,18 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
     {
         $this->app->singleton(TraitMakeCommand::class, function ($app) {
             return new TraitMakeCommand($app['files']);
+        });
+    }
+    
+    /**
+     * Register the command.
+     * 
+     * @return void
+     */
+    protected function registerVendorPublishCommand()
+    {
+        $this->app->singleton(VendorPublishCommand::class, function ($app) {
+            return new VendorPublishCommand($app['files']);
         });
     }
     
