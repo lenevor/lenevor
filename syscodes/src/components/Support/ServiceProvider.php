@@ -37,6 +37,34 @@ abstract class ServiceProvider
      * @var \Syscodes\Components\Contracts\Core\Application $app
      */
     protected $app;
+    
+    /**
+     * All of the registered booted callbacks.
+     * 
+     * @var array
+     */
+    protected $bootedCallbacks = [];
+    
+    /**
+     * All of the registered booting callbacks.
+     * 
+     * @var array
+     */
+    protected $bootingCallbacks = [];
+    
+    /**
+     * The paths that should be published.
+     * 
+     * @var array
+     */
+    public static $publishes = [];
+    
+    /**
+     * The paths that should be published by group.
+     * 
+     * @var array
+     */
+    public static $publishGroups = [];
 
     /**
      * Constructor. Create a new service provider instance.
@@ -66,18 +94,65 @@ abstract class ServiceProvider
      * 
      * @return void
      */
-    public function register() {}
-
+    public function register()
+    {
+        //
+    }
+    
     /**
-     * Register a new boot listener.
+     * Register a booting callback to be run before the "boot" method is called.
      * 
-     * @param  \callable  $callback
+     * @param  \Closure  $callback
      * 
      * @return void
      */
-    public function booting($callback)
+    public function booting(Closure $callback): void
     {
-        $callback();
+        $this->bootingCallbacks[] = $callback;
+    }
+    
+    /**
+     * Register a booted callback to be run after the "boot" method is called.
+     * 
+     * @param  \Closure  $callback
+     * 
+     * @return void
+     */
+    public function booted(Closure $callback): void
+    {
+        $this->bootedCallbacks[] = $callback;
+    }
+    
+    /**
+     * Call the registered booting callbacks.
+     * 
+     * @return void
+     */
+    public function callBootingCallbacks(): void
+    {
+        $index = 0;
+        
+        while ($index < count($this->bootingCallbacks)) {
+            $this->app->call($this->bootingCallbacks[$index]);
+            
+            $index++;
+        }
+    }
+    
+    /**
+     * Call the registered booted callbacks.
+     * 
+     * @return void
+     */
+    public function callBootedCallbacks(): void
+    {
+        $index = 0;
+        
+        while ($index < count($this->bootedCallbacks)) {
+            $this->app->call($this->bootedCallbacks[$index]);
+            
+            $index++;
+        }
     }
     
     /**
@@ -137,6 +212,135 @@ abstract class ServiceProvider
         Prime::starting(function ($prime) use ($commands) {
             $prime->resolveCommands($commands);
         });
+    }
+    
+    /**
+     * Register paths to be published by the publish command.
+     * 
+     * @param  array  $paths
+     * @param  mixed  $groups
+     * 
+     * @return void
+     */
+    protected function publishes(array $paths, $groups = null): void
+    {
+        $this->ensurePublishArrayInitialized($class = static::class);
+        
+        static::$publishes[$class] = array_merge(static::$publishes[$class], $paths);
+        
+        foreach ((array) $groups as $group) {
+            $this->addPublishGroup($group, $paths);
+        }
+    }
+    
+    /**
+     * Ensure the publish array for the service provider is initialized.
+     * 
+     * @param  string  $class
+     * 
+     * @return void
+     */
+    protected function ensurePublishArrayInitialized($class): void
+    {
+        if ( ! array_key_exists($class, static::$publishes)) {
+            static::$publishes[$class] = [];
+        }
+    }
+    
+    /**
+     * Add a publish group / tag to the service provider.
+     * 
+     * @param  string  $group
+     * @param  array  $paths
+     * 
+     * @return void
+     */
+    protected function addPublishGroup($group, $paths): void
+    {
+        if ( ! array_key_exists($group, static::$publishGroups)) {
+            static::$publishGroups[$group] = [];
+        }
+        
+        static::$publishGroups[$group] = array_merge(
+            static::$publishGroups[$group], $paths
+        );
+    }
+    
+    /**
+     * Get the paths to publish.
+     * 
+     * @param  string|null  $provider
+     * @param  string|null  $group
+     * 
+     * @return array
+     */
+    public static function pathsToPublish($provider = null, $group = null): array
+    {
+        if ( ! is_null($paths = static::pathsForProviderOrGroup($provider, $group))) {
+            return $paths;
+        }
+        
+        return collect(static::$publishes)->reduce(function ($paths, $p) {
+            return array_merge($paths, $p);
+        }, []);
+    }
+    
+    /**
+     * Get the paths for the provider or group (or both).
+     * 
+     * @param  string|null  $provider
+     * @param  string|null  $group
+     * 
+     * @return array
+     */
+    protected static function pathsForProviderOrGroup($provider, $group)
+    {
+        if ($provider && $group) {
+            return static::pathsForProviderAndGroup($provider, $group);
+        } elseif ($group && array_key_exists($group, static::$publishGroups)) {
+            return static::$publishGroups[$group];
+        } elseif ($provider && array_key_exists($provider, static::$publishes)) {
+            return static::$publishes[$provider];
+        } elseif ($group || $provider) {
+            return [];
+        }
+    }
+    
+    /**
+     * Get the paths for the provider and group.
+     * 
+     * @param  string  $provider
+     * @param  string  $group
+     * 
+     * @return array
+     */
+    protected static function pathsForProviderAndGroup($provider, $group): array
+    {
+        if ( ! empty(static::$publishes[$provider]) && ! empty(static::$publishGroups[$group])) {
+            return array_intersect_key(static::$publishes[$provider], static::$publishGroups[$group]);
+        }
+        
+        return [];
+    }
+    
+    /**
+     * Get the service providers available for publishing.
+     * 
+     * @return array
+     */
+    public static function publishableProviders(): array
+    {
+        return array_keys(static::$publishes);
+    }
+    
+    /**
+     * Get the groups available for publishing.
+     * 
+     * @return array
+     */
+    public static function publishableGroups(): array
+    {
+        return array_keys(static::$publishGroups);
     }
 
     /**
