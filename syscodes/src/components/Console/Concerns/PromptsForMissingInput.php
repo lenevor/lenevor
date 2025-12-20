@@ -136,4 +136,18 @@ trait PromptsForMissingInput
 
         return $answer;
     }
+    
+    /**
+     * Whether the input contains any options that differ from the default values.
+     * 
+     * @param  \Symfony\Component\Console\Input\InputInterface  $input
+     * 
+     * @return bool
+     */
+    protected function didReceiveOptions(InputInterface $input): bool
+    {
+        return (new Collection($this->getDefinition()->getOptions()))
+            ->reject(fn ($option) => $input->getOption($option->getName()) === $option->getDefault())
+            ->isNotEmpty();
+    }
 }
