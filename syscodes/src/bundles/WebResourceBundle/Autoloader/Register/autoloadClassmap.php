@@ -203,6 +203,7 @@ return [
     'Syscodes\\Components\\Core\\Console\\Commands\\ConsoleMakeCommand' => SYS_PATH.'src/components/Core/Console/Commands/ConsoleMakeCommand.php',
     'Syscodes\\Components\\Core\\Console\\Commands\\EnvironmentCommand' => SYS_PATH.'src/components/Core/Console/Commands/EnvironmentCommand.php',
     'Syscodes\\Components\\Core\\Console\\Commands\\EventMakeCommand' => SYS_PATH.'src/components/Core/Console/Commands/EventMakeCommand.php',
+    'Syscodes\\Components\\Core\\Console\\Commands\\ExceptionMakeCommand' => SYS_PATH.'src/components/Core/Console/Commands/ExceptionMakeCommand.php',
     'Syscodes\\Components\\Core\\Console\\Commands\\InterfaceMakeCommand' => SYS_PATH.'src/components/Core/Console/Commands/InterfaceMakeCommand.php',
     'Syscodes\\Components\\Core\\Console\\Commands\\KeyGenerateCommand' => SYS_PATH.'src/components/Core/Console/Commands/KeyGenerateCommand.php',
     'Syscodes\\Components\\Core\\Console\\Commands\\RequestMakeCommand' => SYS_PATH.'src/components/Core/Console/Commands/RequestMakeCommand.php',
