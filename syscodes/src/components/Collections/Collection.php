@@ -942,17 +942,17 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
      * 
      * @param  int  $offset
      * @param  int|null  $length
-     * @param  mixed  $replacement
+     * @param  array  $replacement
      * 
      * @return static
      */
-    public function splice(int $offset, ?int $length = null, mixed $replacement = []): static
+    public function splice(int $offset, ?int $length = null, $replacement = []): static
     {
-        if (func_num_args() == 1) {
+        if (func_num_args() === 1) {
             return new static(array_splice($this->items, $offset));
         }
 
-        return new static(array_splice($this->items, $offset, $length, $replacement));
+        return new static(array_splice($this->items, $offset, $length, $this->getArrayableItems($replacement)));
     }
 
     /**
