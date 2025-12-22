@@ -41,6 +41,7 @@ use Syscodes\Components\Core\Console\Commands\ConsoleMakeCommand;
 use Syscodes\Components\Core\Console\Commands\EnvironmentCommand;
 use Syscodes\Components\Core\Console\Commands\KeyGenerateCommand;
 use Syscodes\Components\Core\Console\Commands\RequestMakeCommand;
+use Syscodes\Components\Core\Console\Commands\ProviderMakeCommand;
 use Syscodes\Components\Core\Console\Commands\ResourceMakeCommand;
 use Syscodes\Components\Core\Console\Commands\ClearCompiledCommand;
 use Syscodes\Components\Core\Console\Commands\ExceptionMakeCommand;
@@ -83,6 +84,7 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
         'ExceptionMake' => ExceptionMakeCommand::class,
         'InterfaceMake' => InterfaceMakeCommand::class,
         'MiddlewareMake' => MiddlewareMakeCommand::class,
+        'ProviderMake' => ProviderMakeCommand::class,
         'RequestMake' => RequestMakeCommand::class,
         'ResourceMake' => ResourceMakeCommand::class,
         'Serve' => ServeCommand::class,
@@ -251,6 +253,18 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
     {
         $this->app->singleton(MiddlewareMakeCommand::class, function ($app) {
             return new MiddlewareMakeCommand($app['files']);
+        });
+    }
+    
+    /**
+     * Register the command.
+     * 
+     * @return void
+     */
+    protected function registerProviderMakeCommand()
+    {
+        $this->app->singleton(ProviderMakeCommand::class, function ($app) {
+            return new ProviderMakeCommand($app['files']);
         });
     }
     
