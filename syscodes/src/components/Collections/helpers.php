@@ -57,7 +57,7 @@ if ( ! function_exists('data_get')) {
             if ($segment === '*') {
                 if ($target instanceof Collection) {
                     $target = $target->all();
-                } elseif (! is_array($target)) {
+                } elseif ( ! is_array($target)) {
                     return value($default);
                 }
                 
