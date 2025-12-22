@@ -23,15 +23,14 @@
 namespace Syscodes\Components\Support\Traits;
 
 use Exception;
-use Traversable;
 use JsonSerializable;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Contracts\Support\Arrayable;
-use Syscodes\Components\Contracts\Support\Collectable;
 use Syscodes\Components\Contracts\Collection\Enumerable;
 use Syscodes\Components\Support\HigherOrderCollectionProxy;
+use UnitEnum;
 
 use function Syscodes\Components\Support\enum_value;
 
@@ -56,12 +55,14 @@ trait Enumerates
         'contains',
         'filter',
         'first',
+        'flatMap',
         'flip',
         'intersect',
         'keys',
         'map',
         'merge',
         'pad',
+        'partition',
         'pop',
         'reduce',
         'reject',
@@ -178,6 +179,18 @@ trait Enumerates
         
         return $this;
     }
+    
+    /**
+     * Map a collection and flatten the result by a single level.
+     * 
+     * @param  callable  $callback
+     * 
+     * @return static
+     */
+    public function flatMap(callable $callback): static
+    {
+        return $this->map($callback)->collapse();
+    }
 
     /**
      * Get an operator checker callback.
@@ -188,7 +201,7 @@ trait Enumerates
      * 
      * @return \Closure
      */
-    public function operatorCallback($key, $operator = null, $value = null)
+    protected function operatorCallback($key, $operator = null, $value = null)
     {
         if ($this->useAsCallable($key)) return $key;
         
@@ -314,7 +327,7 @@ trait Enumerates
     {
         $callback = func_num_args() === 1
             ? $this->valueRetriever($key)
-            : $this->operatorForWhere(...func_get_args());
+            : $this->operatorCallback(...func_get_args());
 
         [$passed, $failed] = Arr::partition($this->getIterator(), $callback);
 
@@ -330,9 +343,7 @@ trait Enumerates
      */
     protected function valueRetriever($value)
     {
-        if ($this->useAsCallable($value)) {
-            return $value;
-        }
+        if ($this->useAsCallable($value)) return $value;
         
         return fn ($item) => data_get($item, $value);
     }
@@ -369,15 +380,12 @@ trait Enumerates
     public function jsonSerialize(): array
     {
         return array_map(function ($value) {
-            if ($value instanceof JsonSerializable) {
-                return $value->jsonSerialize();
-            } elseif ($value instanceof Jsonable) {
-                return json_decode($value->toJson(), true);
-            } elseif ($value instanceof Arrayable) {
-                return $value->toArray();
-            }
-            
-            return $value;
+            return match (true) {
+                $value instanceof JsonSerializable => $value->jsonSerialize(),
+                $value instanceof Jsonable => json_decode($value->toJson(), true),
+                $value instanceof Arrayable => $value->toArray(),
+                default => $value,
+            };
         }, $this->all());
     }
     
@@ -416,18 +424,9 @@ trait Enumerates
      */
     protected function getArrayableItems($items)
     {
-        if (is_array($items)) {
-            return $items;
-        }
-        
-        return match (true) {
-            $items instanceof Collectable => $items->all(),
-            $items instanceof Arrayable => $items->toArray(),
-            $items instanceof Traversable => iterator_to_array($items),
-            $items instanceof Jsonable => json_decode($items->toJson(), true),
-            $items instanceof JsonSerializable => (array) $items->jsonSerialize(),
-            default => (array) $items,
-        };
+        return is_null($items) || is_scalar($items) || $items instanceof UnitEnum
+            ? Arr::wrap($items)
+            : Arr::from($items);
     }
 
     /**
