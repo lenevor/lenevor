@@ -325,8 +325,11 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
                 'What should the '.strtolower($this->type).' be named?',
                 match ($this->type) {
                     'Controller' => 'E.g. UserController',
+                    'Event' => 'E.g. PodcastProcessed',
+                    'Exception' => 'E.g. InvalidOrderException',
                     'Interface' => 'E.g. UserContract',
                     'Middleware' => 'E.g. AllowTokenIsValid',
+                    'Provider' => 'E.g. DashboardServiceProvider',
                     'Request' => 'E.g. StoreRequest',
                     'Resource' => 'E.g. UserResource',
                     default => '',
