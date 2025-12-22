@@ -183,6 +183,15 @@ interface Session
     public function erase($keys): void;
 
     /**
+     * Checks if a key exists.
+     * 
+     * @param  string|array  $key
+     * 
+     * @return bool
+     */
+    public function exists($key): bool;
+
+    /**
      * Flash a key / value pair to the session.
      * 
      * @param  string  $key
