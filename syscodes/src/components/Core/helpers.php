@@ -21,7 +21,6 @@
  */
 
 use Psr\Log\LoggerInterface;
-use Syscodes\Components\Http\Cookie;
 use Syscodes\Components\Http\Response;
 use Syscodes\Components\Log\LogManager;
 use Syscodes\Components\Core\Application;
@@ -43,6 +42,7 @@ use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoloader;
 use Syscodes\Components\Contracts\Auth\Factory as AuthFactory;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
 use Syscodes\Components\Contracts\Cookie\Factory as CookieFactory;
+use Symfony\Component\HttpFoundation\Cookie;
 
 if ( ! function_exists('abort')) {
     /**
@@ -338,7 +338,7 @@ if ( ! function_exists('cookie')) {
      * @param  bool  $raw
      * @param  string|null  $sameSite
      * 
-     * @return \Syscodes\Components\Cookie\CookieManager|\Syscodes\Components\Http\Cookie
+     * @return ($name is null ? \Illuminate\Cookie\CookieJar : \Symfony\Component\HttpFoundation\Cookie)
      */
     function cookie(
         ?string $name = null, 
