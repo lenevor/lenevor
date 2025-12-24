@@ -24,14 +24,16 @@ namespace Syscodes\Components\Core;
 
 use Closure;
 use RuntimeException;
-use Syscodes\Components\Version;
 use Composer\Autoload\ClassLoader;
+use Syscodes\Components\Version;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Config\Configure;
+use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Container\Container;
 use Syscodes\Components\Support\Environment;
+use Syscodes\Components\Core\PackageManifest;
 use Syscodes\Components\Filesystem\Filesystem;
 use Syscodes\Components\Log\LogServiceProvider;
 use Syscodes\Components\Support\ServiceProvider;
@@ -301,6 +303,10 @@ class Application extends Container implements ApplicationContract
         $this->instance('app', $this);
         $this->instance(Container::class, $this);
         $this->bind('config', fn() => new Configure($this->getConfigurationFiles($this)));
+
+        $this->singleton(PackageManifest::class, fn () => new PackageManifest(
+            new Filesystem, $this->basePath(), $this->getCachedPackagesPath()
+        ));
     }
 
     /**
@@ -914,8 +920,13 @@ class Application extends Container implements ApplicationContract
      */
     public function registerConfiguredProviders(): void
     {
+        $providers = (new Collection($this->make('config')->get('services.providers')))
+            ->partition(fn ($provider) => str::startsWith($provider, 'Syscodes\\Components\\'));
+
+        $providers->splice(1, 0, [$this->make(PackageManifest::class)->providers()]);
+            
         (new ProviderRepository($this, new Filesystem, $this->getCachedServicesPath()))
-                ->load($this['config']['services.providers']);
+                ->load($providers->collapse()->toArray());
 
         $this->bootAppCallbacks($this->registeredCallbacks);
     }
@@ -1217,6 +1228,16 @@ class Application extends Container implements ApplicationContract
     public function getCachedServicesPath()
     {
         return $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/services.php');
+    }
+    
+    /**
+     * Get the path to the cached packages.php file.
+     * 
+     * @return string
+     */
+    public function getCachedPackagesPath()
+    {
+        return $this->normalizeCachePath('APP_PACKAGES_CACHE', 'cache/packages.php');
     }
 
     /**
