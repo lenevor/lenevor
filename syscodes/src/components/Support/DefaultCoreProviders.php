@@ -58,6 +58,7 @@ class DefaultCoreProviders
             \Syscodes\Components\Pagination\PaginationServiceProvider::class,
             \Syscodes\Components\Pipeline\PipelineServiceProvider::class,
             \Syscodes\Components\Session\SessionServiceProvider::class,
+            \Syscodes\Components\Support\Services\TermwindServiceProvider::class,
             \Syscodes\Components\Translation\TranslationServiceProvider::class,
             \Syscodes\Components\Validation\ValidationServiceProvider::class,
             \Syscodes\Components\View\ViewServiceProvider::class,
