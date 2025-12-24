@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Core\Bootstrap;
 
 use Syscodes\Components\Core\AliasLoader;
+use Syscodes\Components\Core\PackageManifest;
 use Syscodes\Components\Support\Facades\Facade;
 use Syscodes\Components\Contracts\Core\Application;
 
@@ -44,8 +45,9 @@ class BootRegisterFacades
 
         Facade::setFacadeApplication($app);
 
-        AliasLoader::getInstance(
-            $app->make('config')->get('services.aliases', [])
-        )->register();
+        AliasLoader::getInstance(array_merge(
+            $app->make('config')->get('services.aliases', []),
+            $app->make(PackageManifest::class)->aliases()
+        ))->register();
     }
 }
