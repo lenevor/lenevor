@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Core\Bootstrap;
 
+use Syscodes\Components\Support\ServiceProvider;
 use Syscodes\Components\Contracts\Core\Application;
 
 /**
@@ -56,7 +57,7 @@ class BootRegisterProviders
 			$this->mergeAdditionalProviders($app);
 		}
 
-		return $app->registerConfiguredProviders();
+		$app->registerConfiguredProviders();
 	}
 	
 	/**
@@ -78,13 +79,12 @@ class BootRegisterProviders
 			}
 		}
 
-		
 		$app->make('config')->set(
 			'services.providers',
 			array_merge(
-				$app->make('config')->get('services.providers'),
+				$app->make('config')->get('services.providers') ?? ServiceProvider::defaultCoreProviders()->toArray(),
 				static::$merge,
-				array_values($packageProviders ?? [])
+				array_values($packageProviders)
 			)
 		);
 	}
