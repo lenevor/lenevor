@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\components\Support;
+namespace Syscodes\Components\Support;
 
 if ( ! function_exists('Syscodes\Components\Support\enum_value')) {
     /**
@@ -28,13 +28,10 @@ if ( ! function_exists('Syscodes\Components\Support\enum_value')) {
      *
      * @internal
      *
-     * @template TValue
-     * @template TDefault
-     *
      * @param  mixed  $value
      * @param  mixed  $default
      * 
-     * @return ($value is empty ? TDefault : mixed)
+     * @return mixed
      */
     function enum_value($value, $default = null)
     {
