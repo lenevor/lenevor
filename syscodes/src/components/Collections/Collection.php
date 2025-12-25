@@ -232,6 +232,63 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
     {
         return new static(array_diff_ukey($this->items, $this->getArrayableItems($items), $callback));
     }
+    
+    /**
+     * Retrieve duplicate items from the collection.
+     * 
+     * @param  callable|string|null  $callback
+     * @param  bool  $strict
+     * 
+     * @return static
+     */
+    public function duplicates($callback = null, $strict = false): static
+    {
+        $items = $this->map($this->valueRetriever($callback));
+        
+        $uniqueItems = $items->unique(null, $strict);
+        
+        $compare = $this->duplicateComparator($strict);
+        
+        $duplicates = new static;
+        
+        foreach ($items as $key => $value) {
+            if ($uniqueItems->isNotEmpty() && $compare($value, $uniqueItems->first())) {
+                $uniqueItems->shift();
+            } else {
+                $duplicates[$key] = $value;
+            }
+        }
+        
+        return $duplicates;
+    }
+    
+    /**
+     * Retrieve duplicate items from the collection using strict comparison.
+     * 
+     * @param  callable|string|null  $callback
+     * 
+     * @return static
+     */
+    public function duplicatesStrict($callback = null): static
+    {
+        return $this->duplicates($callback, true);
+    }
+    
+    /**
+     * Get the comparison function to detect duplicates.
+     * 
+     * @param  bool  $strict
+     * 
+     * @return callable|bool
+     */
+    protected function duplicateComparator($strict)
+    {
+        if ($strict) {
+            return fn ($a, $b) => $a === $b;
+        }
+        
+        return fn ($a, $b) => $a == $b;
+    }
 
     /**
      * Execute a callback over each item.
