@@ -28,14 +28,11 @@ use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Support\Traits\Macroable;
+use Syscodes\Components\Routing\RouteFileRegister;
 use Syscodes\Components\Contracts\Routing\Routable;
 use Syscodes\Components\Contracts\Container\Container;
-use Syscodes\Components\Routing\Resolver\RouteResolver;
-use Syscodes\Components\Routing\Resources\RouteRegister;
 use Syscodes\Components\Routing\Resources\ResourceRegister;
 use Syscodes\Components\Routing\Collections\RouteCollection;
-use Syscodes\Components\Routing\Resolver\MiddlewareResolver;
-use Syscodes\Components\Routing\Supported\RouteFileRegister;
 use Syscodes\Components\Routing\Resources\AwaitingResourceRegistration;
 
 /**
@@ -100,7 +97,7 @@ class Router implements Routable
 	/**
 	 * Resolve the given route.
 	 * 
-	 * @var \Syscodes\Components\Routing\Resolver\RouteResolver $resolves
+	 * @var \Syscodes\Components\Routing\RouteResolver $resolves
 	 */
 	protected $resolves;
 
@@ -550,7 +547,7 @@ class Router implements Routable
 	public function gatherRouteMiddleware(Route $route): array
 	{
 		$middleware = array_map(
-		                    fn ($name) => MiddlewareResolver::resolve($name, $this->middleware, $this->middlewareGroups),
+		                    fn ($name) => RouteMiddlewareResolver::resolve($name, $this->middleware, $this->middlewareGroups),
 		                    $route->gatherMiddleware()
 		              );
 		
