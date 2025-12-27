@@ -179,6 +179,7 @@ abstract class Facade
             'Route' => Route::class,
             'Schema' => Schema::class,
             'Session' => Session::class,
+            'ThrottleLimiter' => ThrottleLimiter::class,
             'URL' => URL::class,
             'Validator' => Validator::class,
             'View' => View::class,
