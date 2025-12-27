@@ -215,6 +215,7 @@ return [
     'Syscodes\\Components\\Core\\Console\\Commands\\VendorPublishedCommand' => SYS_PATH.'src/components/Core/Console/Commands/VendorPublishedCommand.php',
     'Syscodes\\Components\\Core\\Console\\Commands\\ViewClearCommand' => SYS_PATH.'src/components/Core/Console/Commands/ViewClearCommand.php',
     'Syscodes\\Components\\Core\\Console\\Commands\\ViewMakeCommand' => SYS_PATH.'src/components/Core/Console/Commands/ViewMakeCommand.php',
+    'Syscodes\\Components\\Core\\Console\\Kernel' => SYS_PATH.'src/components/Core/Console/Kernel.php',
     'Syscodes\\Components\\Core\\Console\\Events\\Dispatchable' => SYS_PATH.'src/components/Core/Console/Events/Dispatchable.php',
     'Syscodes\\Components\\Core\\Console\\Events\\VendorTagPublished' => SYS_PATH.'src/components/Core/Console/Events/VendorTagPublished.php',
     'Syscodes\\Components\\Core\\Exceptions\\Debugging\\DebugExceptionRender' => SYS_PATH.'src/components/Core/Exceptions/Debugging/DebugExceptionRender.php',
