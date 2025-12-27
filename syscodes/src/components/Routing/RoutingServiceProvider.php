@@ -22,10 +22,11 @@
 
 namespace Syscodes\Components\Routing;
 
+use Syscodes\Components\Routing\RouteResponse;
 use Syscodes\Components\Support\ServiceProvider;
+use Syscodes\Components\Routing\ControllerDispatcher;
 use Syscodes\Components\Routing\Generators\Redirector;
 use Syscodes\Components\Routing\Generators\UrlGenerator;
-use Syscodes\Components\Routing\Generators\RouteResponse;
 use Syscodes\Components\Contracts\Routing\RouteResponse as ResponseContract;
 use Syscodes\Components\Contracts\Routing\UrlGenerator as UrlGeneratorContract;
 use Syscodes\Components\Routing\Contracts\ControllerDispatcher as ControllerDispatcherContract;
