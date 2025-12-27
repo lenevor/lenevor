@@ -117,7 +117,7 @@ class RouteCollection extends BaseRouteCollection
      * Add a route to the controller action dictionary.
      * 
      * @param  array  $action
-     * @param  \Sysodde\Routing\route  $route
+     * @param  \Syscodes\Components\Routing\route  $route
      * 
      * @return void
      */

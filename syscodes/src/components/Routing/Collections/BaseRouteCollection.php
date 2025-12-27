@@ -29,7 +29,7 @@ use IteratorAggregate;
 use InvalidArgumentException;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Routing\Route;
-use Syscodes\Components\Routing\Concerns\RouteRequestMatchesGiven;
+use Syscodes\Components\Routing\Concerns\RequestMatchesGiven;
 use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
 
 /**
@@ -37,7 +37,7 @@ use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
  */
 abstract class BaseRouteCollection implements Countable, IteratorAggregate
 {
-    use RouteRequestMatchesGiven;
+    use RequestMatchesGiven;
 
     /**
      * Handle the matched route.

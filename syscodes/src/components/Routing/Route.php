@@ -43,8 +43,8 @@ use Symfony\Component\Routing\Route as SymfonyRoute;
  */
 class Route 
 {
-	use Concerns\RouteCondition,
-	    Concerns\RouteDependencyResolver;
+	use Concerns\UserRoutesCondition,
+	    Concerns\DependencyResolver;
 
 	/**
 	 * The validators used by the routes.

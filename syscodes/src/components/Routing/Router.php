@@ -40,7 +40,7 @@ use Syscodes\Components\Routing\Resources\AwaitingResourceRegistration;
  */
 class Router implements Routable
 {
-	use Concerns\RouteMap,
+	use Concerns\Mapper,
 	    Macroable {
 		    __call as macroCall;
 	    }
