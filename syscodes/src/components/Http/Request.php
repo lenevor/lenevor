@@ -22,25 +22,32 @@
 
 namespace Syscodes\Components\Http;
 
-use Closure;
 use ArrayAccess;
+use Closure;
 use RuntimeException;
-use Syscodes\Components\Support\Arr;
-use Syscodes\Components\Support\Str;
-use Syscodes\Components\Support\Collection;
-use Syscodes\Components\Session\SessionDecorator;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Http\Concerns\CanBePrecognitive;
 use Syscodes\Components\Http\Concerns\InteractsWithInput;
 use Syscodes\Components\Http\Concerns\InteractsWithFlashData;
 use Syscodes\Components\Http\Concerns\InteractsWithContentTypes;
 use Syscodes\Components\Http\Exceptions\SessionNotFoundException;
+use Syscodes\Components\Session\SessionDecorator;
+use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\Collection;
 use Symfony\Component\HttpFoundation\InputBag;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Request represents an HTTP request.
+ * 
+ * @method array validate(array $rules, ...$params)
+ * @method array validateWithBag(string $errorBag, array $rules, ...$params)
+ * @method bool hasValidSignature(bool $absolute = true)
+ * @method bool hasValidRelativeSignature()
+ * @method bool hasValidSignatureWhileIgnoring($ignore = [], $absolute = true)
+ * @method bool hasValidRelativeSignatureWhileIgnoring($ignore = [])
  */
 class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 {
