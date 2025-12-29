@@ -212,7 +212,8 @@ class MiddlewareBootstrap
     public function getGlobalMiddleware(): array
     {
         $middleware =  $this->global ?: array_values(array_filter([
-            \Syscodes\Components\Core\Http\Middleware\VerifyPostSize::class,
+            \Syscodes\Components\Http\Middleware\ValidatePathEncoding::class,
+            \Syscodes\Components\Core\Http\Middleware\ValidatePostSize::class,
         ]));
         
         $middleware = array_map(function ($middleware) {
@@ -242,7 +243,7 @@ class MiddlewareBootstrap
                 \Syscodes\Components\Cookie\Middleware\AddQueuedCookiesResponse::class,
                 \Syscodes\Components\Session\Middleware\StartSession::class,
                 \Syscodes\Components\View\Middleware\ShareErrorsSession::class,
-                \Syscodes\Components\Core\Http\Middleware\VerifyCsrfToken::class,
+                \Syscodes\Components\Core\Http\Middleware\ValidateCsrfToken::class,
             ])),
 
             'api' => array_values(array_filter([
@@ -340,29 +341,12 @@ class MiddlewareBootstrap
      * Indicate that the API middleware group's throttling middleware should be enabled.
      * 
      * @param  string  $limiter
-     * @param  bool  $redis
      * 
      * @return static
      */
-    public function throttleApi($limiter = 'api', $redis = false): static
+    public function throttleApi($limiter = 'api'): static
     {
         $this->apiLimiter = $limiter;
-        
-        if ($redis) {
-            $this->throttleWithRedis();
-        }
-        
-        return $this;
-    }
-    
-    /**
-     * Indicate that Lenevor's throttling middleware should use Redis.
-     *
-     * @return static
-     */
-    public function throttleWithRedis(): static
-    {
-        $this->throttleWithRedis = true;
         
         return $this;
     }
@@ -379,9 +363,8 @@ class MiddlewareBootstrap
             'auth.basic' => \Syscodes\Components\Auth\Middleware\AuthenticateWithBasicAuth::class,
             'can' => \Syscodes\Components\Auth\Middleware\Authorize::class,
             'guest' => \Syscodes\Components\Auth\Middleware\RedirectIfAuthenticated::class,
-            'throttle' => $this->throttleWithRedis
-                ? \Syscodes\Componens\Routing\Middleware\ThrottleRequestsWithRedis::class
-                : \Syscodes\Componens\Routing\Middleware\ThrottleRequests::class,
+            'signed' => \Syscodes\Components\Routing\Middleware\ValidateSignature::class,
+            'throttle' => \Syscodes\Components\Routing\Middleware\ThrottleRequests::class,
         ];
         
         return $aliases;
