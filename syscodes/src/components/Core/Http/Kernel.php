@@ -89,6 +89,7 @@ class Kernel implements KernelContract
 		\Syscodes\Components\Cookie\Middleware\AddQueuedCookiesResponse::class,
 		\Syscodes\Components\Session\Middleware\StartSession::class,
 		\Syscodes\Components\View\Middleware\ShareErrorsSession::class,
+		\Syscodes\Components\Routing\Middleware\ThrottleRequests::class,
 		\Syscodes\Components\Auth\Middleware\Authenticate::class,
 		\Syscodes\Components\Auth\Middleware\Authorize::class,
 	];
