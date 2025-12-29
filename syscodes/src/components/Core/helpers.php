@@ -25,16 +25,17 @@ use Syscodes\Components\Http\Response;
 use Syscodes\Components\Log\LogManager;
 use Syscodes\Components\Core\Application;
 use Syscodes\Components\Support\WebString;
+use Symfony\Component\HttpFoundation\Cookie;
 use Syscodes\Components\Contracts\View\View;
 use Syscodes\Components\Contracts\Auth\Guard;
 use Syscodes\Components\Cookie\CookieManager;
 use Syscodes\Components\Support\Facades\Date;
 use Syscodes\Components\Http\RedirectResponse;
+use Syscodes\Components\Routing\RouteResponse;
 use Syscodes\Components\Contracts\View\Factory;
 use Syscodes\Components\Contracts\Auth\Access\Gate;
 use Syscodes\Components\Routing\Generators\Redirector;
 use Syscodes\Components\Contracts\Routing\UrlGenerator;
-use Syscodes\Components\Contracts\Routing\RouteResponse;
 use Syscodes\Components\Contracts\Debug\ExceptionHandler;
 use Syscodes\Components\Contracts\Translation\Translator;
 use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoload;
@@ -42,7 +43,6 @@ use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoloader;
 use Syscodes\Components\Contracts\Auth\Factory as AuthFactory;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
 use Syscodes\Components\Contracts\Cookie\Factory as CookieFactory;
-use Symfony\Component\HttpFoundation\Cookie;
 
 if ( ! function_exists('abort')) {
     /**
@@ -702,7 +702,7 @@ if ( ! function_exists('redirect')) {
      * @param  array  $headers  An array of headers
      * @param  bool|null  $secure  Type of protocol (http|https)  
      *
-     * @return \Syscodes\Components\Routing\Supported\Redirector|\Syscodes\Components\Http\RedirectResponse
+     * @return \Syscodes\Components\Routing\Generators\Redirector|\Syscodes\Components\Http\RedirectResponse
      */
     function redirect($url = null, int $code = 302, array $headers = [], ?bool $secure = null): Redirector|RedirectResponse
     {
@@ -780,11 +780,11 @@ if ( ! function_exists('response')) {
      * @param  int  $status  
      * @param  array  $headers
      * 
-     * @return \Syscodes\Components\Http\Response|\Syscodes\Components\Routing\Generators\RouteResponse
+     * @return \Syscodes\Components\Http\Response|\Syscodes\Components\Routing\RouteResponse
      */
     function response($content = '', int $status = 200, array $headers = []): RouteResponse|Response
     {
-        /** @var \Syscodes\Components\Routing\Generators\RouteResponse */
+        /** @var \Syscodes\Components\Routing\RouteResponse */
         $response = app(RouteResponse::class);
 
         if (func_num_args() === 0) {
