@@ -1003,7 +1003,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
      * 
      * @return static
      */
-    public function splice(int $offset, ?int $length = null, $replacement = []): static
+    public function splice($offset, $length = null, $replacement = []): static
     {
         if (func_num_args() === 1) {
             return new static(array_splice($this->items, $offset));
