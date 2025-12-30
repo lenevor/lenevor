@@ -922,7 +922,7 @@ class Application extends Container implements ApplicationContract
     {
         $providers = (new Collection($this->make('config')->get('services.providers')))
             ->partition(fn ($provider) => str::startsWith($provider, 'Syscodes\\Components\\'));
-
+            
         $providers->splice(1, 0, [$this->make(PackageManifest::class)->providers()]);
             
         (new ProviderRepository($this, new Filesystem, $this->getCachedServicesPath()))
