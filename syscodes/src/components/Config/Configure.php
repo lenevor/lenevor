@@ -80,7 +80,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	 *
 	 * @return mixed
 	 */
-	public function get($key, $default = null): mixed
+	public function get($key, $default = null)
 	{
 		$keys = explode('.', $key);
 
@@ -103,7 +103,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	 *
 	 * @return void
 	 */
-	public function set($key, $value = null): void
+	public function set($key, $value = null)
 	{
 		$keys = is_array($key) ? $key : [$key => $value];
 		
@@ -119,7 +119,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	 * 
 	 * @return void
 	 */
-	public function erase(string $key): void
+	public function erase(string $key)
 	{
 		if (isset($this->vars[$key])) {
 			unset($this->vars[$key]);
@@ -137,7 +137,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	 * 
 	 * @return void
 	 */
-	public function prepend($key, $value): void
+	public function prepend($key, $value)
 	{
 		$array = $this->get($key, []);
 		
@@ -154,7 +154,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	 * 
 	 * @return void
 	 */
-	public function push($key, $value): void
+	public function push($key, $value)
 	{
 		$array = $this->get($key, []);
 		

@@ -43,7 +43,7 @@ interface Configure
 	 * 
 	 * @return void
 	 */	
-	public function erase(string $key): void;
+	public function erase(string $key);
 
 	/**
 	 * Returns a (dot notated) config setting.
@@ -53,7 +53,7 @@ interface Configure
 	 *
 	 * @return mixed
 	 */
-	public function get($key, $default = null): mixed;
+	public function get($key, $default = null);
 	
 	/**
 	 * Sets a value in the config array.
@@ -63,7 +63,7 @@ interface Configure
 	 *
 	 * @return void
 	 */
-	public function set($key, $value = null): void;
+	public function set($key, $value = null);
 
 	/**
 	 * Get all of the configuration items for the application.
