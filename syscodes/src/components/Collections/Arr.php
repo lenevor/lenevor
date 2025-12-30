@@ -308,7 +308,7 @@ class Arr
 	 *
 	 * @return mixed
 	 */
-	public static function get($array, $key = null, mixed $default = null)
+	public static function get($array, $key, $default = null)
 	{
 		if ( ! static::accessible($array)) {
 			return value($default);
@@ -323,7 +323,7 @@ class Arr
 		}
 		
 		if ( ! str_contains($key, '.')) {
-			return $array[$key] ?? value($default);
+			return value($default);
 		}
 
 		$segments = explode('.', $key);
@@ -445,12 +445,12 @@ class Arr
 	 * Sets a value in an array using "dot" notation.
 	 *
 	 * @param  array  $array  The search array
-	 * @param  string  $key  The dot-notated key or array of keys
+	 * @param  string|int|null  $key  The dot-notated key or array of keys
 	 * @param  mixed  $value  The default value
 	 *
-	 * @return mixed
+	 * @return array
 	 */
-	public static function set(array &$array, string $key, mixed $value = null): mixed
+	public static function set(&$array, $key, $value): array
 	{
 		if (is_null($key)) {
 			return $array = $value;
