@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Core\Console\Commands;
 
 use Syscodes\Components\Console\GeneratorCommand;
+use Syscodes\Components\Support\ServiceProvider;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -67,6 +68,11 @@ class ProviderMakeCommand extends GeneratorCommand
         if ($result === false) {
             return $result;
         }
+        
+        ServiceProvider::addProviderToBootstrapFile(
+            $this->parseName($this->getNameInput()),
+            $this->lenevor->getBootstrapProvidersPath(),
+        );
 
         return $result;
     }
