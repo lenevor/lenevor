@@ -28,7 +28,7 @@ use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\Environment;
 
 /**
- * 
+ * Allows generate the package manifest.
  */
 class PackageManifest
 {
