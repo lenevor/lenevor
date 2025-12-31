@@ -84,7 +84,7 @@ class BootRegisterProviders
 			array_merge(
 				$app->make('config')->get('services.providers') ?? ServiceProvider::defaultCoreProviders()->toArray(),
 				static::$merge,
-				array_values($packageProviders)
+				array_values($packageProviders ?? []),
 			)
 		);
 	}
