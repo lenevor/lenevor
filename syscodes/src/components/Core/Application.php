@@ -302,7 +302,7 @@ class Application extends Container implements ApplicationContract
         
         $this->instance('app', $this);
         $this->instance(Container::class, $this);
-        $this->bind('config', fn() => new Configure($this->getConfigurationFiles($this)));
+        $this->instance('config', new Configure($this->getConfigurationFiles($this)));
 
         $this->singleton(PackageManifest::class, fn () => new PackageManifest(
             new Filesystem, $this->basePath(), $this->getCachedPackagesPath()
