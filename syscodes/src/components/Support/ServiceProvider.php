@@ -372,4 +372,42 @@ abstract class ServiceProvider
     {
         return $this instanceof Deferrable;
     }
+    
+    /**
+     * Add the given provider to the application's provider bootstrap file.
+     * 
+     * @param  string  $provider
+     * @param  string|null  $path
+     * 
+     * @return bool
+     */
+    public static function addProviderToBootstrapFile(string $provider, ?string $path = null): bool
+    {
+        $path ??= app()->getBootstrapProvidersPath();
+        
+        if ( ! file_exists($path)) {
+            return false;
+        }
+        
+        if (function_exists('opcache_invalidate')) {
+            opcache_invalidate($path, true);
+        }
+        
+        $providers = (new Collection(require $path))
+            ->merge([$provider])
+            ->unique()
+            ->sort()
+            ->values()
+            ->map(fn ($p) => '    '.$p.'::class,')
+            ->implode(PHP_EOL);
+            
+        $content = '<?php
+return [
+'.$providers.'
+];';
+
+        file_put_contents($path, $content.PHP_EOL);
+        
+        return true;
+    }
 }
