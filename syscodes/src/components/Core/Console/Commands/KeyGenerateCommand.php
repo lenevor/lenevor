@@ -16,16 +16,16 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Core\Console\Commands;
 
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Input\InputOption;
 use Syscodes\Components\Console\Command;
 use Syscodes\Components\Encryption\Encrypter;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * This class displays the key generate for a given command.
@@ -55,8 +55,8 @@ class KeyGenerateCommand extends Command
     protected function configure()
     {
         $this->setDefinition([
-                    new InputOption('show', null, InputOption::VALUE_NONE, 'Display the key instead of modifying files.'),
-                    new InputOption('force', null, InputOption::VALUE_OPTIONAL, 'Force the operation to run when in production.'),
+                    new InputOption('show', null, InputOption::VALUE_NONE, 'Display the key instead of modifying files'),
+                    new InputOption('force', null, InputOption::VALUE_OPTIONAL, 'Force the operation to run when in production'),
         ]);
     }
 

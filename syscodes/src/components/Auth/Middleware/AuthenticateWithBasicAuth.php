@@ -16,15 +16,15 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Auth\Middleware;
 
 use Closure;
-use Syscodes\Components\Contracts\Auth\Factory;
 use Symfony\Component\HttpFoundation\Response;
+use Syscodes\Components\Contracts\Auth\Factory;
 
 /**
  * Determine if the user is logged using a given guards basic.

@@ -16,16 +16,16 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Core\Bootstrap;
 
+use Syscodes\Components\Contracts\Core\Application;
 use Syscodes\Components\Core\AliasLoader;
 use Syscodes\Components\Core\PackageManifest;
 use Syscodes\Components\Support\Facades\Facade;
-use Syscodes\Components\Contracts\Core\Application;
 
 /**
  * Initialize boot the register facades from setting file called services.

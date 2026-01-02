@@ -16,37 +16,37 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Core\Providers;
 
-use Syscodes\Components\Support\ServiceProvider;
 use Syscodes\Components\Contracts\Support\Deferrable;
 use Syscodes\Components\Core\Console\Commands\AboutCommand;
-use Syscodes\Components\Core\Console\Commands\ServeCommand;
-use Syscodes\Components\Core\Console\Commands\ViewMakeCommand;
-use Syscodes\Components\Routing\Console\ControllerMakeCommand;
-use Syscodes\Components\Routing\Console\MiddlewareMakeCommand;
-use Syscodes\Components\Core\Console\Commands\ClassMakeCommand;
-use Syscodes\Components\Core\Console\Commands\EventMakeCommand;
-use Syscodes\Components\Core\Console\Commands\TraitMakeCommand;
-use Syscodes\Components\Core\Console\Commands\ViewClearCommand;
 use Syscodes\Components\Core\Console\Commands\ApiInstallCommand;
+use Syscodes\Components\Core\Console\Commands\ClassMakeCommand;
+use Syscodes\Components\Core\Console\Commands\ClearCompiledCommand;
 use Syscodes\Components\Core\Console\Commands\ConfigMakeCommand;
 use Syscodes\Components\Core\Console\Commands\ConfigCacheCommand;
 use Syscodes\Components\Core\Console\Commands\ConfigClearCommand;
 use Syscodes\Components\Core\Console\Commands\ConsoleMakeCommand;
 use Syscodes\Components\Core\Console\Commands\EnvironmentCommand;
-use Syscodes\Components\Core\Console\Commands\KeyGenerateCommand;
-use Syscodes\Components\Core\Console\Commands\RequestMakeCommand;
-use Syscodes\Components\Core\Console\Commands\ProviderMakeCommand;
-use Syscodes\Components\Core\Console\Commands\ResourceMakeCommand;
-use Syscodes\Components\Core\Console\Commands\ClearCompiledCommand;
+use Syscodes\Components\Core\Console\Commands\EventMakeCommand;
 use Syscodes\Components\Core\Console\Commands\ExceptionMakeCommand;
 use Syscodes\Components\Core\Console\Commands\InterfaceMakeCommand;
+use Syscodes\Components\Core\Console\Commands\KeyGenerateCommand;
+use Syscodes\Components\Core\Console\Commands\ProviderMakeCommand;
+use Syscodes\Components\Core\Console\Commands\RequestMakeCommand;
+use Syscodes\Components\Core\Console\Commands\ResourceMakeCommand;
+use Syscodes\Components\Core\Console\Commands\ServeCommand;
+use Syscodes\Components\Core\Console\Commands\TraitMakeCommand;
 use Syscodes\Components\Core\Console\Commands\VendorPublishCommand;
+use Syscodes\Components\Core\Console\Commands\ViewClearCommand;
+use Syscodes\Components\Core\Console\Commands\ViewMakeCommand;
+use Syscodes\Components\Routing\Console\ControllerMakeCommand;
+use Syscodes\Components\Routing\Console\MiddlewareMakeCommand;
+use Syscodes\Components\Support\ServiceProvider;
 
 /**
  * The Prime service provider allows the register of a namespace of 

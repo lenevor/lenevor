@@ -16,16 +16,16 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Auth\Guards;
 
-use Syscodes\Components\Http\Request;
+use Syscodes\Components\Auth\Concerns\GuardAuthenticationUser;
 use Syscodes\Components\Contracts\Auth\Guard;
 use Syscodes\Components\Contracts\Auth\UserProvider;
-use Syscodes\Components\Auth\Concerns\GuardAuthenticationUser;
+use Syscodes\Components\Http\Request;
 
 /**
  * Capture the user data using a token header. 

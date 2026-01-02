@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -26,11 +26,11 @@ use Closure;
 use Exception;
 use Throwable;
 use ErrorException;
-use Syscodes\Components\Log\LogManager;
-use Syscodes\Components\Contracts\Core\Application;
-use Syscodes\Components\Contracts\Debug\ExceptionHandler;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\ErrorHandler\Error\FatalError;
+use Syscodes\Components\Contracts\Core\Application;
+use Syscodes\Components\Contracts\Debug\ExceptionHandler;
+use Syscodes\Components\Log\LogManager;
 
 /**
  * It is an integrated exception handler that allows you to report and 

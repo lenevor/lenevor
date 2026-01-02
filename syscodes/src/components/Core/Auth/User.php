@@ -15,17 +15,17 @@
  *
  * @package     Lenevor
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Core\Auth;
 
-use Syscodes\Components\Database\Erostrine\Model;
 use Syscodes\Components\Auth\Concerns\Authenticatable;
-use Syscodes\Components\Core\Auth\Access\Authorizable;
 use Syscodes\Components\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Syscodes\Components\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Syscodes\Components\Core\Auth\Access\Authorizable;
+use Syscodes\Components\Database\Erostrine\Model;
 
 /**
  * Called the User model when connection to database.

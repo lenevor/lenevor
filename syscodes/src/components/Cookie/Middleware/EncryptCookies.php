@@ -16,20 +16,20 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Cookie\Middleware;
 
 use Closure;
-use Syscodes\Components\Support\Arr;
-use Syscodes\Components\Cookie\CookieValue;
-use Syscodes\Components\Encryption\Exceptions\DecryptException;
-use Syscodes\Components\Contracts\Encryption\Encrypter as EncryptContract;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Syscodes\Components\Contracts\Encryption\Encrypter as EncryptContract;
+use Syscodes\Components\Cookie\CookieValue;
+use Syscodes\Components\Encryption\Exceptions\DecryptException;
+use Syscodes\Components\Support\Arr;
 
 /**
  * Allows the encrypt of a cookie string according to your the request.

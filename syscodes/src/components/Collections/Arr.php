@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -26,9 +26,9 @@ use ArrayAccess;
 use Traversable;
 use JsonSerializable;
 use InvalidArgumentException;
-use Syscodes\Components\Contracts\Support\Jsonable;
-use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Collection\Enumerable;
+use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Contracts\Support\Jsonable;
 
 /**
  * Gets all a given array for return dot-notated key from an array.
