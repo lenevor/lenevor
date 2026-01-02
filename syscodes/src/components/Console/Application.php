@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -24,20 +24,20 @@ namespace Syscodes\Components\Console;
 
 use Closure;
 use ReflectionClass;
-use Syscodes\Components\Version;
-use Syscodes\Components\Events\Dispatcher;
-use Syscodes\Components\Support\PromptUtility;
+use Symfony\Component\Console\Application as SymfonyApplication;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Symfony\Component\Console\Exception\CommandNotFoundException;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\StringInput;
 use Syscodes\Components\Console\Events\PrimeStarting;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Contracts\Console\Application as ApplicationContract;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\StringInput;
-use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Input\InputDefinition;
-use Symfony\Component\Console\Application as SymfonyApplication;
-use Symfony\Component\Console\Command\Command as SymfonyCommand;
-use Symfony\Component\Console\Exception\CommandNotFoundException;
+use Syscodes\Components\Events\Dispatcher;
+use Syscodes\Components\Support\PromptUtility;
+use Syscodes\Components\Version;
 
 use function Syscodes\Components\Support\php_binary;
 use function Syscodes\Components\Support\prime_binary;

@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -24,11 +24,11 @@ namespace Syscodes\Components\Auth\Access;
 
 use Exception;
 use InvalidArgumentException;
-use Syscodes\Components\Support\Arr;
-use Syscodes\Components\Support\Str;
-use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Auth\Access\Concerns\HandlesAuthorization;
 use Syscodes\Components\Contracts\Auth\Access\Gate as GateContract;
+use Syscodes\Components\Contracts\Container\Container;
+use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Str;
 
 /**
  * Allows the registered of authorizations into given abilities.

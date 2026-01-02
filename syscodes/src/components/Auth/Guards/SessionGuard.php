@@ -16,33 +16,33 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Auth\Guards;
 
 use RuntimeException;
-use Syscodes\Components\Support\Str;
-use Syscodes\Components\Http\Request;
-use Syscodes\Components\Auth\Recaller;
-use Syscodes\Components\Auth\Events\Login;
-use Syscodes\Components\Auth\Events\Failed;
-use Syscodes\Components\Auth\Events\Logout;
-use Syscodes\Components\Auth\Events\Validated;
+use Syscodes\Components\Auth\Concerns\GuardAuthenticationUser;
 use Syscodes\Components\Auth\Events\Attempting;
-use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Auth\Events\Authenticated;
+use Syscodes\Components\Auth\Events\Failed;
+use Syscodes\Components\Auth\Events\Login;
+use Syscodes\Components\Auth\Events\Logout;
+use Syscodes\Components\Auth\Events\OtherDeviceLogout;
+use Syscodes\Components\Auth\Events\Validated;
+use Syscodes\Components\Auth\Recaller;
 use Syscodes\Components\Contracts\Auth\StateGuard;
+use Syscodes\Components\Contracts\Cookie\QueueingFactory as Cookie;
 use Syscodes\Components\Contracts\Session\Session;
 use Syscodes\Components\Contracts\Auth\UserProvider;
 use Syscodes\Components\Contracts\Events\Dispatcher;
-use Syscodes\Components\Auth\Events\OtherDeviceLogout;
 use Syscodes\Components\Contracts\Auth\Authenticatable;
 use Syscodes\Components\Contracts\Auth\SupportedBasicAuth;
-use Syscodes\Components\Auth\Concerns\GuardAuthenticationUser;
-use Syscodes\Components\Contracts\Cookie\QueueingFactory as Cookie;
 use Syscodes\Components\Core\Http\Exceptions\UnauthorizedHttpException;
+use Syscodes\Components\Http\Request;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\Traits\Macroable;
 
 /**
  * Capture the user data using a session. 

@@ -16,33 +16,33 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 use Psr\Log\LoggerInterface;
-use Syscodes\Components\Http\Response;
-use Syscodes\Components\Log\LogManager;
-use Syscodes\Components\Core\Application;
-use Syscodes\Components\Support\WebString;
 use Symfony\Component\HttpFoundation\Cookie;
-use Syscodes\Components\Contracts\View\View;
-use Syscodes\Components\Contracts\Auth\Guard;
-use Syscodes\Components\Cookie\CookieManager;
-use Syscodes\Components\Support\Facades\Date;
-use Syscodes\Components\Http\RedirectResponse;
-use Syscodes\Components\Routing\RouteResponse;
-use Syscodes\Components\Contracts\View\Factory;
-use Syscodes\Components\Contracts\Auth\Access\Gate;
-use Syscodes\Components\Routing\Generators\Redirector;
-use Syscodes\Components\Contracts\Routing\UrlGenerator;
-use Syscodes\Components\Contracts\Debug\ExceptionHandler;
-use Syscodes\Components\Contracts\Translation\Translator;
 use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoload;
 use Syscodes\Bundles\WebResourceBundle\Autoloader\Autoloader;
+use Syscodes\Components\Cookie\CookieManager;
+use Syscodes\Components\Contracts\Auth\Access\Gate;
 use Syscodes\Components\Contracts\Auth\Factory as AuthFactory;
-use Syscodes\Components\Http\Exceptions\HttpResponseException;
+use Syscodes\Components\Contracts\Auth\Guard;
 use Syscodes\Components\Contracts\Cookie\Factory as CookieFactory;
+use Syscodes\Components\Contracts\Debug\ExceptionHandler;
+use Syscodes\Components\Contracts\Routing\UrlGenerator;
+use Syscodes\Components\Contracts\Translation\Translator;
+use Syscodes\Components\Contracts\View\Factory;
+use Syscodes\Components\Contracts\View\View;
+use Syscodes\Components\Core\Application;
+use Syscodes\Components\Http\Exceptions\HttpResponseException;
+use Syscodes\Components\Http\Response;
+use Syscodes\Components\Log\LogManager;
+use Syscodes\Components\Http\RedirectResponse;
+use Syscodes\Components\Routing\Generators\Redirector;
+use Syscodes\Components\Routing\RouteResponse;
+use Syscodes\Components\Support\Facades\Date;
+use Syscodes\Components\Support\WebString;
 
 if ( ! function_exists('abort')) {
     /**

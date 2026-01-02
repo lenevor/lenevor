@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -24,32 +24,32 @@ namespace Syscodes\Components\Core\Exceptions;
 
 use Exception;
 use Throwable;
-use Syscodes\Components\Support\Arr;
-use Syscodes\Components\Support\Str;
-use Syscodes\Components\Http\Response;
-use Syscodes\Components\Routing\Router;
-use Syscodes\Components\Support\ViewErrorBag;
-use Syscodes\Components\Http\RedirectResponse;
-use Syscodes\Components\Console\View\Components\Error;
-use Syscodes\Components\Contracts\Container\Container;
-use Syscodes\Components\Contracts\Core\ExceptionRender;
-use Syscodes\Components\Console\View\Components\BulletList;
-use Syscodes\Components\Core\Http\Exceptions\HttpException;
-use Syscodes\Components\Http\Exceptions\HttpResponseException;
-use Syscodes\Components\Auth\Exceptions\AuthenticationException;
-use Syscodes\Components\Session\Exceptions\TokenMismatchException;
-use Syscodes\Components\Validation\Exceptions\ValidationException;
-use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
-use Syscodes\Components\Core\Http\Exceptions\BadRequestHttpException;
-use Syscodes\Components\Auth\Access\Exceptions\AuthorizationException;
-use Syscodes\Components\Core\Http\Exceptions\AccessDeniedHttpException;
-use Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException;
-use Syscodes\Components\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
 use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
 use Symfony\Component\HttpFoundation\Exception\RequestExceptionInterface;
+use Syscodes\Components\Auth\Access\Exceptions\AuthorizationException;
+use Syscodes\Components\Auth\Exceptions\AuthenticationException;
+use Syscodes\Components\Console\View\Components\BulletList;
+use Syscodes\Components\Console\View\Components\Error;
+use Syscodes\Components\Contracts\Container\Container;
+use Syscodes\Components\Contracts\Core\ExceptionRender;
+use Syscodes\Components\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
+use Syscodes\Components\Core\Http\Exceptions\BadRequestHttpException;
+use Syscodes\Components\Core\Http\Exceptions\HttpException;
+use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
+use Syscodes\Components\Core\Http\Exceptions\AccessDeniedHttpException;
+use Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException;
+use Syscodes\Components\Http\Exceptions\HttpResponseException;
+use Syscodes\Components\Http\RedirectResponse;
+use Syscodes\Components\Http\Response;
+use Syscodes\Components\Routing\Router;
+use Syscodes\Components\Session\Exceptions\TokenMismatchException;
+use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\ViewErrorBag;
+use Syscodes\Components\Validation\Exceptions\ValidationException;
 
 /**
  * The system's main exception class is loaded for activate the render method of debugging.

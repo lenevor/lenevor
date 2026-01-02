@@ -16,17 +16,17 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Core\Configuration;
 
-use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Auth\Middleware\Authenticate;
-use Syscodes\Components\Cookie\Middleware\EncryptCookies;
 use Syscodes\Components\Auth\Exceptions\AuthenticationException;
 use Syscodes\Components\Auth\Middleware\RedirectIfAuthenticated;
+use Syscodes\Components\Cookie\Middleware\EncryptCookies;
+use Syscodes\Components\Support\Arr;
 
 /**
  * Allows the bootstrap of the middlewares.

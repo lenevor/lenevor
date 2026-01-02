@@ -16,21 +16,21 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Core\Http\Middleware;
 
 use Closure;
+use Symfony\Component\HttpFoundation\Cookie;
 use Syscodes\Components\Cookie\CookieValue;
-use Syscodes\Components\Support\InteractsWithTime;
 use Syscodes\Components\Contracts\Core\Application;
 use Syscodes\Components\Contracts\Encryption\Encrypter;
 use Syscodes\Components\Cookie\Middleware\EncryptCookies;
 use Syscodes\Components\Encryption\Exceptions\DecryptException;
 use Syscodes\Components\Session\Exceptions\TokenMismatchException;
-use Symfony\Component\HttpFoundation\Cookie;
+use Syscodes\Components\Support\InteractsWithTime;
 
 /**
  * Checks if exists a the CSRF token in the cookie.

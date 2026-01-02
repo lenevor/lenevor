@@ -16,16 +16,16 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Auth\Middleware;
 
 use Closure;
-use Syscodes\Components\Contracts\Auth\Factory as Auth;
-use Syscodes\Components\Auth\Exceptions\AuthenticationException;
 use Symfony\Component\HttpFoundation\Response;
+use Syscodes\Components\Auth\Exceptions\AuthenticationException;
+use Syscodes\Components\Contracts\Auth\Factory as Auth;
 
 /**
  * Determine if the user is logged using a given guards.

@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -151,24 +151,24 @@ class AliasLoader
      */
     protected function ensureFacadeExists($alias)
     {
-        if (file_exists($path = storagePath('cache/facade-'.sha1($alias).'.php'))) {
+        if (file_exists($path = storage_Path('cache/facade-'.sha1($alias).'.php'))) {
             return $path;
         }
         
-        file_put_contents($path, $this->formatFacadeStub($alias, file_get_contents(__DIR__.'/Templates/facade.tpl')));
+        file_put_contents($path, $this->formatFacadeTemplate($alias, file_get_contents(__DIR__.'/Templates/facade.tpl')));
         
         return $path;
     }
 
     /**
-     * Format the facade stub with the proper namespace and class.
+     * Format the facade template with the proper namespace and class.
      *
      * @param  string  $alias
-     * @param  string  $stub
+     * @param  string  $template
      * 
      * @return string
      */
-    protected function formatFacadeStub($alias, $stub): string
+    protected function formatFacadeTemplate($alias, $template): string
     {
         $replacements = [
             str_replace('/', '\\', dirname(str_replace('\\', '/', $alias))),
@@ -176,7 +176,7 @@ class AliasLoader
             substr($alias, strlen(static::$facadeNamespace)),
         ];
 
-        return str_replace(['DummyNamespace', 'DummyClass', 'DummyTarget'], $replacements, $stub);
+        return str_replace(['DummyNamespace', 'DummyClass', 'DummyTarget'], $replacements, $template);
     }
 
     /**
@@ -259,7 +259,7 @@ class AliasLoader
     }
 
     /**
-     * Magin method.
+     * Magic method.
      * 
      * Private clone.
      * 
