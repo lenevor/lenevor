@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -25,6 +25,9 @@ namespace Syscodes\Components\Http;
 use ArrayAccess;
 use Closure;
 use RuntimeException;
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
+use Symfony\Component\HttpFoundation\InputBag;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Http\Concerns\CanBePrecognitive;
 use Syscodes\Components\Http\Concerns\InteractsWithInput;
@@ -33,11 +36,8 @@ use Syscodes\Components\Http\Concerns\InteractsWithContentTypes;
 use Syscodes\Components\Http\Exceptions\SessionNotFoundException;
 use Syscodes\Components\Session\SessionDecorator;
 use Syscodes\Components\Support\Arr;
-use Syscodes\Components\Support\Str;
 use Syscodes\Components\Support\Collection;
-use Symfony\Component\HttpFoundation\InputBag;
-use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Syscodes\Components\Support\Str;
 
 /**
  * Request represents an HTTP request.

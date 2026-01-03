@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -25,8 +25,8 @@ namespace Syscodes\Components\Database\Schema\Builders;
 use Closure;
 use LogicException;
 use Syscodes\Components\Container\Container;
-use Syscodes\Components\Database\Schema\Dataprint;
 use Syscodes\Components\Database\Connections\Connection;
+use Syscodes\Components\Database\Schema\Dataprint;
 
 /**
  * Creates a Erostrine schema builder.

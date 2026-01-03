@@ -16,17 +16,17 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Database\Capsule;
 
 use Syscodes\Components\Container\Container;
+use Syscodes\Components\Database\Concerns\CapsuleManager;
+use Syscodes\Components\Database\ConnectionFactory;
 use Syscodes\Components\Database\DatabaseManager;
 use Syscodes\Components\Database\Erostrine\Model;
-use Syscodes\Components\Database\ConnectionFactory;
-use Syscodes\Components\Database\Concerns\CapsuleManager;
 
 /**
  * Capsules the manager database.
