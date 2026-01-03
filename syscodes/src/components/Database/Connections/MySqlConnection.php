@@ -16,16 +16,16 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Database\Connections;
 
-use Syscodes\Components\Database\Schema\Builders\MySqlBuilder;
 use Syscodes\Components\Database\Query\Grammars\MySqlGrammar as QueryGrammar;
-use Syscodes\Components\Database\Schema\Grammars\MySqlGrammar as SchemaGrammar;
 use Syscodes\Components\Database\Query\Processors\MySqlProcessor as QueryProcessor;
+use Syscodes\Components\Database\Schema\Builders\MySqlBuilder;
+use Syscodes\Components\Database\Schema\Grammars\MySqlGrammar as SchemaGrammar;
 
 /**
  * Mysql connection.

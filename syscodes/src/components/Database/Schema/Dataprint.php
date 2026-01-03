@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -24,13 +24,13 @@ namespace Syscodes\Components\Database\Schema;
 
 use Closure;
 use BadMethodCallException;
-use Syscodes\Components\Support\Flowing;
-use Syscodes\Components\Support\Traits\Macroable;
-use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Database\Connections\Connection;
+use Syscodes\Components\Database\Connections\SQLiteConnection;
+use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Database\Schema\Builders\Builder;
 use Syscodes\Components\Database\Schema\Grammars\Grammar;
-use Syscodes\Components\Database\Connections\SQLiteConnection;
+use Syscodes\Components\Support\Flowing;
+use Syscodes\Components\Support\Traits\Macroable;
 
 /**
  * Extracts the column names to using in creating migrations.

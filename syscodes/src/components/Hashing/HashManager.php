@@ -16,17 +16,17 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Hashing;
 
-use Syscodes\Components\Support\Manager;
 use Syscodes\Components\Contracts\Hashing\Hasher;
+use Syscodes\Components\Hashing\Drivers\Argon2IdHasher;
 use Syscodes\Components\Hashing\Drivers\ArgonHasher;
 use Syscodes\Components\Hashing\Drivers\BcryptHasher;
-use Syscodes\Components\Hashing\Drivers\Argon2IdHasher;
+use Syscodes\Components\Support\Manager;
 
 /**
  * The Lenevor hash system for encrypted.

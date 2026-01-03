@@ -16,24 +16,24 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Debug\Handlers;
 
 use Closure;
-use Exception;
-use Traversable;
 use ErrorException;
-use RuntimeException;
+use Exception;
 use InvalidArgumentException;
+use RuntimeException;
+use Traversable;
 use UnexpectedValueException;
-use Syscodes\Components\Debug\Util\Misc;
 use Syscodes\Components\Contracts\Debug\Table;
-use Syscodes\Components\Debug\Util\ArrayTable;
-use Syscodes\Components\Debug\Util\TemplateHandler;
 use Syscodes\Components\Debug\FrameHandler\Formatter;  
+use Syscodes\Components\Debug\Util\ArrayTable;
+use Syscodes\Components\Debug\Util\Misc;
+use Syscodes\Components\Debug\Util\TemplateHandler;
 
 /**
  * Generates exceptions in mode of graphic interface.

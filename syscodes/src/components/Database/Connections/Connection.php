@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
  
@@ -28,23 +28,23 @@ use DateTime;
 use Exception;
 use PDOStatement;
 use LogicException;
-use Syscodes\Components\Support\Arr;
-use Syscodes\Components\Database\Grammar;
-use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Contracts\Events\Dispatcher;
+use Syscodes\Components\Database\Concerns\DetectLostConnections;
+use Syscodes\Components\Database\Concerns\ManagesTransactions;
+use Syscodes\Components\Database\Grammar;
+use Syscodes\Components\Database\Exceptions\QueryException;
 use Syscodes\Components\Database\Events\QueryExecuted;
 use Syscodes\Components\Database\Events\TransactionBegin;
 use Syscodes\Components\Database\Events\StatementPrepared;
-use Syscodes\Components\Database\Exceptions\QueryException;
 use Syscodes\Components\Database\Events\TransactionRollback;
-use Syscodes\Components\Database\Query\Processors\Processor;
 use Syscodes\Components\Database\Events\TransactionCommitted;
-use Syscodes\Components\Database\Concerns\ManagesTransactions;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
-use Syscodes\Components\Database\Concerns\DetectLostConnections;
+use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Database\Query\Grammars\Grammar as QueryGrammar;
+use Syscodes\Components\Database\Query\Processors\Processor;
 use Syscodes\Components\Database\Schema\Builders\Builder as SchemaBuilder;
 use Syscodes\Components\Database\Schema\Grammars\Grammar as SchemaGrammar;
+use Syscodes\Components\Support\Arr;
 
 /**
  * Creates a database connection using PDO.

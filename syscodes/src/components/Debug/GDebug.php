@@ -16,23 +16,23 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Debug;
 
-use Throwable;
 use ErrorException;
 use InvalidArgumentException;
-use Syscodes\Components\Debug\Util\Misc;
-use Syscodes\Components\Debug\Util\System;
-use Syscodes\Components\Stopwatch\Benchmark;
-use Syscodes\Components\Debug\Handlers\Handler;
+use Throwable;
+use Syscodes\Components\Contracts\Debug\Handler as DebugContract;
 use Syscodes\Components\Contracts\Debug\MainHandler;
 use Syscodes\Components\Debug\FrameHandler\Supervisor;
 use Syscodes\Components\Debug\Handlers\CallbackHandler;
-use Syscodes\Components\Contracts\Debug\Handler as DebugContract;
+use Syscodes\Components\Debug\Handlers\Handler;
+use Syscodes\Components\Debug\Util\Misc;
+use Syscodes\Components\Debug\Util\System;
+use Syscodes\Components\Stopwatch\Benchmark;
 
 /**
  * Allows automatically load everything related to exception handlers.

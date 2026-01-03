@@ -16,19 +16,19 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Http;
 
-use JsonSerializable;
 use InvalidArgumentException;
-use Syscodes\Components\Support\Traits\Macroable;
-use Syscodes\Components\Contracts\Support\Jsonable;
-use Syscodes\Components\Contracts\Support\Arrayable;
-use Syscodes\Components\Http\Concerns\ResponseContent;
+use JsonSerializable;
 use Symfony\Component\HttpFoundation\JsonResponse as BaseJsonResponse;
+use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Contracts\Support\Jsonable;
+use Syscodes\Components\Http\Concerns\ResponseContent;
+use Syscodes\Components\Support\Traits\Macroable;
 
 /**
  * Response represents an HTTP response in JSON format.

@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -24,19 +24,19 @@ namespace Syscodes\Components\Database\Erostrine;
 
 use ArrayAccess;
 use LogicException;
-use Syscodes\Components\Support\Str;
 use Syscodes\Components\Contracts\Support\Arrayable;
-use Syscodes\Components\Support\Traits\ForwardsCalls;
-use Syscodes\Components\Database\Erostrine\Relations\Pivot;
 use Syscodes\Components\Database\ConnectionResolverInterface;
-use Syscodes\Components\Database\Erostrine\Concerns\HasEvents;
-use Syscodes\Components\Database\Query\Builder as QueryBuilder;
-use Syscodes\Components\Database\Erostrine\Concerns\HasRelations;
+use Syscodes\Components\Database\Erostrine\Concerns\GuardsAttributes;
 use Syscodes\Components\Database\Erostrine\Concerns\HasAttributes;
+use Syscodes\Components\Database\Erostrine\Concerns\HasEvents;
+use Syscodes\Components\Database\Erostrine\Concerns\HasRelations;
 use Syscodes\Components\Database\Erostrine\Concerns\HasTimestamps;
 use Syscodes\Components\Database\Erostrine\Concerns\HidesAttributes;
-use Syscodes\Components\Database\Erostrine\Concerns\GuardsAttributes;
 use Syscodes\Components\Database\Erostrine\Exceptions\MassAssignmentException;
+use Syscodes\Components\Database\Erostrine\Relations\Pivot;
+use Syscodes\Components\Database\Query\Builder as QueryBuilder;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\Traits\ForwardsCalls;
 
 /**
  * Creates a ORM model instance.
