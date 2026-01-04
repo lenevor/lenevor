@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -172,6 +172,7 @@ abstract class Facade
             'Mail' => Mail::class,
             'Plaze' => Plaze::class,
             'Prime' => Prime::class,
+            'RateLimiter' => RateLimiter::class,
             'Redirect' => Redirect::class,
             'Redis' => Redis::class,
             'Request' => Request::class,
@@ -179,7 +180,6 @@ abstract class Facade
             'Route' => Route::class,
             'Schema' => Schema::class,
             'Session' => Session::class,
-            'ThrottleLimiter' => ThrottleLimiter::class,
             'URL' => URL::class,
             'Validator' => Validator::class,
             'View' => View::class,

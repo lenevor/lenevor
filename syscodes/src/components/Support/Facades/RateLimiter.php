@@ -16,16 +16,16 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Support\Facades;
 
 /**
- * Initialize the ThrottleLimiter class facade.
+ * Initialize the RateLimiter class facade.
  * 
- * @method static \Syscodes\Components\ThrottleLimiter\ThrottleLimiter register(\BackedEnum|\UnitEnum|string $name, \Closure $callback)
+ * @method static \Syscodes\Components\Limiter\RateLimiter register(\BackedEnum|\UnitEnum|string $name, \Closure $callback)
  * @method static \Closure|null limiter(\BackedEnum|\UnitEnum|string $name)
  * @method static mixed attempt(string $key, int $maxAttempts, \Closure $callback, \DateTimeInterface|\DateInterval|int $decaySeconds = 60)
  * @method static bool tooManyAttempts(string $key, int $maxAttempts)
@@ -42,7 +42,7 @@ namespace Syscodes\Components\Support\Facades;
  * 
  * @see \Syscodes\Components\ThrottleLimiter\ThrottleLimiter
  */
-class ThrottleLimiter extends Facade
+class RateLimiter extends Facade
 {
     /**
      * Get the registered name of the component.
@@ -53,6 +53,6 @@ class ThrottleLimiter extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return \Syscodes\Components\ThrottleLimiter\ThrottleLimiter::class;
+        return \Syscodes\Components\Limiter\RateLimiter::class;
     }
 }

@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -24,16 +24,16 @@ namespace Syscodes\Components\Routing;
 
 use Closure;
 use InvalidArgumentException;
-use Syscodes\Components\Support\Arr;
-use Syscodes\Components\Support\Str;
-use Syscodes\Components\Http\Request;
-use Syscodes\Components\Support\Traits\Macroable;
-use Syscodes\Components\Routing\RouteFileRegister;
-use Syscodes\Components\Contracts\Routing\Routable;
 use Syscodes\Components\Contracts\Container\Container;
-use Syscodes\Components\Routing\Resources\ResourceRegister;
+use Syscodes\Components\Contracts\Routing\Routable;
+use Syscodes\Components\Http\Request;
 use Syscodes\Components\Routing\Collections\RouteCollection;
 use Syscodes\Components\Routing\Resources\AwaitingResourceRegistration;
+use Syscodes\Components\Routing\Resources\ResourceRegister;
+use Syscodes\Components\Routing\RouteFileRegister;
+use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\Traits\Macroable;
 
 /**
  * The Router class allows the integration of an easy-to-use routing system.

@@ -16,16 +16,16 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\View\Middleware;
 
 use Closure;
-use Syscodes\Components\Support\ViewErrorBag;
-use Syscodes\Components\Contracts\View\Factory as ViewFactory;
 use Symfony\Component\HttpFoundation\Response;
+use Syscodes\Components\Contracts\View\Factory as ViewFactory;
+use Syscodes\Components\Support\ViewErrorBag;
 
 /**
  * Determines an error message when using sessions.

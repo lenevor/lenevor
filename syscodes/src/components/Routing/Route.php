@@ -16,27 +16,27 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Routing;
 
 use Closure;
+use InvalidArgumentException;
 use LogicException;
 use ReflectionFunction;
-use InvalidArgumentException;
-use Syscodes\Components\Support\Arr;
-use Syscodes\Components\Support\Str;
-use Syscodes\Components\Http\Request;
+use Symfony\Component\Routing\Route as SymfonyRoute;
 use Syscodes\Components\Container\Container;
+use Syscodes\Components\Http\Exceptions\HttpResponseException;
+use Syscodes\Components\Http\Request;
 use Syscodes\Components\Routing\ControllerDispatcher;
-use Syscodes\Components\Routing\Matching\UriValidator;
 use Syscodes\Components\Routing\Matching\HostValidator;
 use Syscodes\Components\Routing\Matching\MethodValidator;
 use Syscodes\Components\Routing\Matching\SchemeValidator;
-use Syscodes\Components\Http\Exceptions\HttpResponseException;
-use Symfony\Component\Routing\Route as SymfonyRoute;
+use Syscodes\Components\Routing\Matching\UriValidator;
+use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Str;
 
 /**
  * A Route describes a route and its parameters.

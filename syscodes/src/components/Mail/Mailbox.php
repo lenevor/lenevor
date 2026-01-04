@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -24,17 +24,17 @@ namespace Syscodes\Components\Mail;
 
 use ReflectionClass;
 use ReflectionProperty;
-use Syscodes\Components\Support\Str;
-use Syscodes\Components\Core\Application;
-use Syscodes\Components\Support\WebString;
-use Syscodes\Components\Support\Collection;
-use Syscodes\Components\Mail\Mailables\Address;
-use Syscodes\Components\Support\Traits\Macroable;
-use Syscodes\Components\Support\Traits\Localizable;
-use Syscodes\Components\Contracts\Support\Renderable;
-use Syscodes\Components\Support\Traits\ForwardsCalls;
 use Syscodes\Components\Contracts\Mail\Factory as MailFactory;
 use Syscodes\Components\Contracts\Mail\Mailbox as MailboxContract;
+use Syscodes\Components\Contracts\Support\Renderable;
+use Syscodes\Components\Core\Application;
+use Syscodes\Components\Mail\Mailables\Address;
+use Syscodes\Components\Support\Collection;
+use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\Traits\Localizable;
+use Syscodes\Components\Support\Traits\Macroable;
+use Syscodes\Components\Support\Traits\ForwardsCalls;
+use Syscodes\Components\Support\WebString;
 
 /**
  * Allows the send the message using the given mailer.

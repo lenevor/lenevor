@@ -16,23 +16,23 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Mail\Transport\Smtp;
 
+use BadMethodCallException;
 use Exception;
 use LogicException;
-use BadMethodCallException;
 use Psr\Log\LoggerInterface;
+use Syscodes\Components\Contracts\Events\Dispatcher;
+use Syscodes\Components\Mail\Exceptions\TransportException;
+use Syscodes\Components\Mail\Helpers\BaseSentMessage;
 use Syscodes\Components\Mail\Helpers\Envelope;
 use Syscodes\Components\Mail\Helpers\SentMessage;
 use Syscodes\Components\Mail\Mailables\RawMessage;
-use Syscodes\Components\Contracts\Events\Dispatcher;
-use Syscodes\Components\Mail\Helpers\BaseSentMessage;
 use Syscodes\Components\Mail\Transport\AbstractTransport;
-use Syscodes\Components\Mail\Exceptions\TransportException;
 
 /**
  * Sends emails over SMTP.

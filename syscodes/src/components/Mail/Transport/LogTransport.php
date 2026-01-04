@@ -16,16 +16,16 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Mail\Transport;
 
 use Psr\Log\LoggerInterface;
+use Syscodes\Components\Mail\Helpers\BaseSentMessage;
 use Syscodes\Components\Mail\Helpers\Envelope;
 use Syscodes\Components\Mail\Mailables\RawMessage;
-use Syscodes\Components\Mail\Helpers\BaseSentMessage;
 
 /**
  * LogTransport for sending mail using a logger of data notification.

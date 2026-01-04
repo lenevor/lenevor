@@ -16,21 +16,21 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\View;
 
 use InvalidArgumentException;
+use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Contracts\Container\Container;
+use Syscodes\Components\Contracts\Events\Dispatcher;
+use Syscodes\Components\Contracts\View\Factory as FactoryContract;
+use Syscodes\Components\Contracts\View\ViewFinder;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
-use Syscodes\Components\Contracts\View\ViewFinder;
-use Syscodes\Components\Contracts\Events\Dispatcher;
-use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\View\Engines\EngineResolver;
-use Syscodes\Components\Contracts\Container\Container;
-use Syscodes\Components\Contracts\View\Factory as FactoryContract;
 
 /**
  * This class allows parser of a view.

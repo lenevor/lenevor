@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -24,8 +24,8 @@ namespace Syscodes\Components\Support;
 
 use ArrayAccess;
 use JsonSerializable;
-use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Contracts\Support\Jsonable;
 
 /**
  * Checks if exist an attribute in flowing instance for collections of data.
@@ -107,7 +107,7 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      * 
      * @return string
      */
-    public function toJson($options = 0)
+    public function toJson($options = 0): string
     {
         return json_encode($this->jsonSerialize(), $options);
     }
