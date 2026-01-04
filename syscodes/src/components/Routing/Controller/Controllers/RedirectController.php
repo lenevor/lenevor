@@ -16,19 +16,19 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Routing\Controllers;
 
-use Syscodes\Components\Support\Str;
-use Syscodes\Components\Http\Request;
-use Syscodes\Components\Routing\Route;
-use Syscodes\Components\Routing\Controller;
-use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Http\RedirectResponse;
+use Syscodes\Components\Http\Request;
+use Syscodes\Components\Routing\Controller;
 use Syscodes\Components\Routing\Generators\UrlGenerator;
+use Syscodes\Components\Routing\Route;
+use Syscodes\Components\Support\Collection;
+use Syscodes\Components\Support\Str;
 
 /**
  * Returns redirect using a controller for the routes defined 

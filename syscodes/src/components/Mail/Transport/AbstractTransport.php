@@ -16,24 +16,24 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Mail\Transport;
 
 use Throwable;
-use Psr\Log\NullLogger;
 use Psr\Log\LoggerInterface;
-use Syscodes\Components\Mail\Events\Message;
-use Syscodes\Components\Mail\Helpers\Envelope;
-use Syscodes\Components\Contracts\Mail\Transport;
-use Syscodes\Components\Mail\Helpers\SentMessage;
-use Syscodes\Components\Mail\Events\FailedMessage;
-use Syscodes\Components\Mail\Mailables\RawMessage;
+use Psr\Log\NullLogger;
 use Syscodes\Components\Contracts\Events\Dispatcher;
-use Syscodes\Components\Mail\Helpers\BaseSentMessage;
+use Syscodes\Components\Contracts\Mail\Transport;
+use Syscodes\Components\Mail\Events\FailedMessage;
+use Syscodes\Components\Mail\Events\Message;
 use Syscodes\Components\Mail\Events\SentMessageToMail;
+use Syscodes\Components\Mail\Helpers\BaseSentMessage;
+use Syscodes\Components\Mail\Helpers\Envelope;
+use Syscodes\Components\Mail\Helpers\SentMessage;
+use Syscodes\Components\Mail\Mailables\RawMessage;
 
 /**
  * Get the transport for send of messages.

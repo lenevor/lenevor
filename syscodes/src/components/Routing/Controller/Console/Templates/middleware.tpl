@@ -3,8 +3,8 @@
 namespace {{ namespace }};
 
 use Closure;
-use Syscodes\Components\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Syscodes\Components\Http\Request;
 
 class {{ class }}
 {

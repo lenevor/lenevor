@@ -16,26 +16,26 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Mail;
 
 use Closure;
-use Psr\Log\LoggerInterface;
 use InvalidArgumentException;
-use Syscodes\Components\Support\Arr;
-use Syscodes\Components\Support\Str;
+use Psr\Log\LoggerInterface;
+use Syscodes\Components\Contracts\Mail\Factory as FactoryContract;
 use Syscodes\Components\Log\LogManager;
-use Syscodes\Components\Mail\Transport\LogTransport;
 use Syscodes\Components\Mail\Transport\ArrayTransport;
 use Syscodes\Components\Mail\Transport\DomainTransport;
+use Syscodes\Components\Mail\Transport\LogTransport;
 use Syscodes\Components\Mail\Transport\SendmailTransport;
-use Syscodes\Components\Mail\Transport\Smtp\SocketStream;
 use Syscodes\Components\Mail\Transport\Smtp\EsmtpTransport;
-use Syscodes\Components\Contracts\Mail\Factory as FactoryContract;
 use Syscodes\Components\Mail\Transport\Smtp\EsmtpTransportFactory;
+use Syscodes\Components\Mail\Transport\Smtp\SocketStream;
+use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Str;
 
 /**
  * Allows the connection to servers of mail.

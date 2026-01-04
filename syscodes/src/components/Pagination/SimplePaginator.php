@@ -16,20 +16,20 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Pagination;
 
-use Countable;
 use ArrayAccess;
-use JsonSerializable;
+use Countable;
 use IteratorAggregate;
-use Syscodes\Components\Support\Collection;
-use Syscodes\Components\Contracts\Support\Jsonable;
-use Syscodes\Components\Contracts\Support\Arrayable;
+use JsonSerializable;
 use Syscodes\Components\Contracts\Pagination\SimplePaginator as SimplePaginatorContract;
+use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Contracts\Support\Jsonable;
+use Syscodes\Components\Support\Collection;
 
 /**
  * Allows get the links of a simple pagination of database data register.
@@ -195,7 +195,7 @@ class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, 
      * 
      * @return string
      */
-    public function toJson($options = 0)
+    public function toJson($options = 0): string
     {
         return json_encode($this->jsonSerialize(), $options);
     }

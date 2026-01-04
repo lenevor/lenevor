@@ -16,27 +16,27 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Routing;
 
-use stdClass;
 use ArrayObject;
 use JsonSerializable;
+use stdClass;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use Syscodes\Components\Contracts\Container\Container;
+use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Contracts\Support\Jsonable;
+use Syscodes\Components\Http\JsonResponse;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Http\Response;
+use Syscodes\Components\Routing\Collections\RouteCollection;
+use Syscodes\Components\Routing\Resources\Pipeline;
 use Syscodes\Components\Routing\Route;
 use Syscodes\Components\Routing\Router;
-use Syscodes\Components\Http\JsonResponse;
 use Syscodes\Components\Support\Stringable;
-use Syscodes\Components\Contracts\Support\Jsonable;
-use Syscodes\Components\Routing\Resources\Pipeline;
-use Syscodes\Components\Contracts\Support\Arrayable;
-use Syscodes\Components\Contracts\Container\Container;
-use Syscodes\Components\Routing\Collections\RouteCollection;
-use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 /**
  * This trait resolve the given route and called the method that belongs to the route.

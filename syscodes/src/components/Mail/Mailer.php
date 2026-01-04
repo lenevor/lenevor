@@ -16,7 +16,7 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
@@ -24,18 +24,18 @@ namespace Syscodes\Components\Mail;
 
 use Closure;
 use InvalidArgumentException;
-use Syscodes\Components\Mail\SentMessage;
-use Syscodes\Components\Mail\Mailables\Email;
-use Syscodes\Components\Mail\Helpers\Envelope;
-use Syscodes\Components\Contracts\View\Factory;
-use Syscodes\Components\Mail\Mailables\Address;
-use Syscodes\Components\Mail\Events\MessageSent;
+use Syscodes\Components\Contracts\Events\Dispatcher;
+use Syscodes\Components\Contracts\Mail\Mailbox as MailboxContract;
+use Syscodes\Components\Contracts\Mail\Mailer as MailerContract;
 use Syscodes\Components\Contracts\Mail\Transport;
 use Syscodes\Components\Contracts\Support\Webable;
+use Syscodes\Components\Contracts\View\Factory;
 use Syscodes\Components\Mail\Events\MessageSending;
-use Syscodes\Components\Contracts\Events\Dispatcher;
-use Syscodes\Components\Contracts\Mail\Mailer as MailerContract;
-use Syscodes\Components\Contracts\Mail\Mailbox as MailboxContract;
+use Syscodes\Components\Mail\Events\MessageSent;
+use Syscodes\Components\Mail\Helpers\Envelope;
+use Syscodes\Components\Mail\Mailables\Address;
+use Syscodes\Components\Mail\Mailables\Email;
+use Syscodes\Components\Mail\SentMessage;
 
 /**
  * Get the connection with the mail user for send messages.

@@ -16,21 +16,21 @@
  * @package     Lenevor
  * @subpackage  Base
  * @link        https://lenevor.com
- * @copyright   Copyright (c) 2019 - 2025 Alexander Campo <jalexcam@gmail.com>
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
 namespace Syscodes\Components\Routing\Collections;
 
-use Countable;
-use Traversable;
 use ArrayIterator;
+use Countable;
 use IteratorAggregate;
 use InvalidArgumentException;
-use Syscodes\Components\Http\Request;
-use Syscodes\Components\Routing\Route;
-use Syscodes\Components\Routing\Concerns\RequestMatchesGiven;
+use Traversable;
 use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
+use Syscodes\Components\Http\Request;
+use Syscodes\Components\Routing\Concerns\RequestMatchesGiven;
+use Syscodes\Components\Routing\Route;
 
 /**
  * Allows the route collection of base. 
