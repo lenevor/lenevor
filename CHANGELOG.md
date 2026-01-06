@@ -1,5 +1,70 @@
 # Release Notes
 
+## [Version 0.8.16-alpha.8]
+
+Release Date: Jan 05, 2026
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added new functions helper for the given exception
+- Added the variable public $components for calls the components in console
+- Added new methods for confirm and ask in console
+- Added the variable $components for calls the components error and info
+- Added the middleware and clear compiled command
+- Added new method for make prompt when missing the name argument, depending on the type
+- Added function with() for given value, optionally passed through the given callback
+- Added the type output for promptForMissingArguments() method
+- Added the implementation of PromptsForMissingInput interface to the class
+- Added an array of options for the argument->getName()
+- Added the character '?' for identify that the variable have option null
+- Added the method mutate() for modify content of a string
+- Added new method for mutates the given data in `View\Components\Component` in class
+- Added the extends of CacheRoutes and CacheConfiguration in the interface
+- Added new method for gets array of items from the given argument
+- Added the method all() in the Enumerable interface
+- Added the method of bootstrap without booting service providers
+- Added the interface ValidatesResolved for the FormRequest class
+- Added variable $bindingFields for used when reolving binding
+- Added methods for convert the route to a Symfony route
+- Added new method for sort the array using given callback in `Support\Arr` class
+- Added new command for register vendor publish with tags
+- Added conditional for generate translation of phrase in seconds in `Chronos\Traits\Date` trait
+- Added new method for given a start time with format for humanized
+- Added new method for whether the input contains any options `Concerns\PromptsForMissingInput` trait
+- Added in list the keys: Event, Exception and Provider in `Console\GeneratorCommand` class
+- Added the function array_merge() for aggregate the PackageManifest class
+- Added the conditional if the path is different a zero in `Filesystem\functions` file
+- Added TerwindServiceProvider in the list of service providers
+- Added new methods for indicate the API middleware throttling
+- Added in the list of provider RateLimiterServiceProvider class
+- [0.8.x] Conditional if exist data or without data in the array
+- Added method addProviderToBoostrapFile() for assigned a provider new in providers.php in `Commands\ProviderMakeCommand` class
+
+### Changed
+- Changed the name of the function winOS() by win_os() in `Support\helpers` file
+- Changed of function helper collect() to for called of the Collection class
+
+### Created
+- Created method for cap a string with a single instance in `Support\Str` class
+- Created method for get the first view directory for application configuration
+
+### Updated
+- Updated the year of copyright 2025 to 2026
+
+### Fixed
+- [0.8.x] Fix bug at called using a conditional if is string the command name
+- [0.8.x] Fix bug in the argument of function array_flip() by wrong parentheses
+- [0.8.x] Fix bug the call variable $value by variable $cookie wrong
+- [0.8.x] Changed the files of folder initial to Routing folder
+- [0.8.x] Fix bug to changed the method bind() by instance() in `Core\Application` class
+- [0.8.x] Fix bug in placing backslashes '\\' has been corrected in `Autoloader\Register\AutoloadPsr4` file
+
+### Removed
+- Removed the variable $this->output in `Console\Command` class
+- Removed the methods routesAreCached() and getCachedRoutesPath()
+
+
 ## [Version 0.8.15-alpha.8]
 
 Release Date: Nov 26, 2025
