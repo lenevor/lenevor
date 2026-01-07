@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Contracts\Routing;
 
 use Syscodes\Components\Http\Request;
+use Syscodes\Components\Routing\Collections\RouteCollection;
 
 /**
  * Returns the URL generated.
@@ -112,6 +113,15 @@ interface UrlGenerator
     public function setRequest(Request $request): void;
 
     /**
+     * Set the route collection.
+     * 
+     * @param  \Syscodes\Components\Routing\RouteCollection  $routes
+     * 
+     * @return static
+     */
+    public function setRoutes(RouteCollection $routes): static;
+
+    /**
      * Set the session resolver for the generator.
      * 
      * @param  callable  $sessionResolver
@@ -119,6 +129,15 @@ interface UrlGenerator
      * @return static
      */
     public function setSessionResolver(callable $sessionResolver): static;
+    
+    /**
+     * Set the encryption key resolver.
+     * 
+     * @param  callable  $keyResolver
+     * 
+     * @return static
+     */
+    public function setKeyResolver(callable $keyResolver): static;
 
     /**
      * Get the root controller namespace.
