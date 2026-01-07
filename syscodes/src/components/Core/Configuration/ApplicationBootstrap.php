@@ -230,19 +230,20 @@ class ApplicationBootstrap
      */
     public function assignMiddlewares(?callable $callback = null): static
     {
-        $this->app->afterResolving(Kernel::class, function ($lenevor) use ($callback) {
-            $middleware = (new MiddlewareBootstrap);
+        $this->app->afterResolving(Kernel::class, function ($kernel) use ($callback) {
+            $middleware = (new MiddlewareBootstrap)
+                ->redirectGuestsTo(fn () => route('login'));
             
             if ( ! is_null($callback)) {
                 $callback($middleware);
             }
             
-            $lenevor->setGlobalMiddleware($middleware->getGlobalMiddleware());
-            $lenevor->setMiddlewareGroups($middleware->getMiddlewareGroups());
-            $lenevor->setMiddlewareAliases($middleware->getMiddlewareAliases());
+            $kernel->setGlobalMiddleware($middleware->getGlobalMiddleware());
+            $kernel->setMiddlewareGroups($middleware->getMiddlewareGroups());
+            $kernel->setMiddlewareAliases($middleware->getMiddlewareAliases());
             
             if ($priorities = $middleware->getMiddlewareAliases()) {
-                $lenevor->setMiddlewarePriority($priorities);
+                $kernel->setMiddlewarePriority($priorities);
             }
         });
         
