@@ -40,9 +40,9 @@ class AuthServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerAuthenticator();
-        $this->registerAuthenticationGuard();
         $this->registerUserResolver();
         $this->registerAccessGate();
+        $this->registerRequestRebindHandler();
     }
 
     /**
@@ -53,16 +53,7 @@ class AuthServiceProvider extends ServiceProvider
     protected function registerAuthenticator()
     {
         $this->app->singleton('auth', fn ($app) => new AuthManager($app));
-
-    }
-
-    /**
-     * Register the authentication guard services.
-     * 
-     * @return void
-     */
-    protected function registerAuthenticationGuard()
-    {
+        
         $this->app->singleton('auth.driver', fn ($app) => $app['auth']->guard());
     }
     
@@ -85,6 +76,20 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->app->singleton(GateContract::class, function ($app) {
             return new Gate($app, fn() => call_user_func($app['auth']->userResolver()));
+        });
+    }
+
+    /**
+     * Handle the re-binding of the request binding.
+     *
+     * @return void
+     */
+    protected function registerRequestRebindHandler()
+    {
+        $this->app->rebinding('request', function ($app, $request) {
+            $request->setUserResolver(function ($guard = null) use ($app) {
+                return call_user_func($app['auth']->userResolver(), $guard);
+            });
         });
     }
 }

@@ -89,7 +89,7 @@ class AuthManager implements Factory
     {
         $name = $name ?: $this->getDefaultDriver();
         
-        return $this->guards[$name] ?? $this->guards[$name] = $this->resolve($name);
+        return $this->guards[$name] ??= $this->resolve($name);
     }
     
     /**
@@ -161,11 +161,9 @@ class AuthManager implements Factory
      */
     public function createSessionDriver($name, $config)
     {
-        $provider = $this->createUserProvider($config['provider'] ?? null);
-
         $guard = new SessionGuard(
             $name,
-            $provider,
+            $this->createUserProvider($config['provider'] ?? null),
             $this->app['session.store'],
         );
 
@@ -218,7 +216,7 @@ class AuthManager implements Factory
      * 
      * @return array
      */
-    protected function getConfig($name): array
+    protected function getConfig($name)
     {
         return $this->app['config']["auth.guards.{$name}"];
     }

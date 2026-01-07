@@ -61,12 +61,12 @@ class Response
      * Constructor. Create a new Responsen class instance.
      * 
      * @param  bool  $allowed
-     * @param  string  $message
+     * @param  string|null  $message
      * @param  mixed  $code
      * 
      * @return void
      */
-    public function __construct($allowed, string $message, $code = '')
+    public function __construct($allowed, $message = '', $code = '')
     {
         $this->code    = $code;
         $this->allowed = $allowed;
@@ -124,7 +124,7 @@ class Response
      * 
      * @return string|null
      */
-    public function message(): ?string
+    public function message()
     {
         return $this->message;
     }
@@ -134,7 +134,7 @@ class Response
      * 
      * @return mixed
      */
-    public function code(): mixed
+    public function code()
     {
         return $this->code;
     }
