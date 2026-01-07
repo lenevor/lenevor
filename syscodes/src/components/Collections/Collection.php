@@ -478,6 +478,31 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
     }
     
     /**
+     * Join all items from the collection using a string. The final items can use a separate glue string.
+     * 
+     * @param  string  $glue
+     * @param  string  $finalGlue
+     * 
+     * @return TValue|string
+     */
+    public function join($glue, $finalGlue = ''): string
+    {
+        if ($finalGlue === '') return $this->implode($glue);
+        
+        $count = $this->count();
+        
+        if ($count === 0) return '';
+        
+        if ($count === 1) return $this->last();
+        
+        $collection = new static($this->items);
+        
+        $finalItem = $collection->pop();
+        
+        return $collection->implode($glue).$finalGlue.$finalItem;
+    }
+    
+    /**
      * Reset the keys of the collection.
      * 
      * @return static
