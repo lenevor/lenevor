@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [ 
-        'guard' => 'web',
-        'passwords' => 'users',
+        'guard' => env('AUTH_GUARD', 'web'),
+        'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
     ],
 
     /*
@@ -59,7 +59,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'erostrine',
-            'model' => App\Models\User::class,
+            'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
     ],
 
@@ -81,8 +81,9 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'table' => 'password_resets',
+            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_resets_tokens'),
             'expires' => 60,
+            'throttle' => 60,
         ],
     ],
 
