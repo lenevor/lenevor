@@ -34,6 +34,6 @@ class MalformedUrlException extends HttpException
      */
     public function __construct()
     {
-        parent::__construct(400, 'Malformed URL.');
+        parent::__construct(400, 'Malformed URL');
     }
 }

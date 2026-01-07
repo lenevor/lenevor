@@ -38,6 +38,7 @@ use Syscodes\Components\Session\SessionDecorator;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\Traits\Macroable;
 
 /**
  * Request represents an HTTP request.
@@ -54,7 +55,8 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	use CanBePrecognitive,	    
 	    InteractsWithInput,
 	    InteractsWithFlashData,
-	    InteractsWithContentTypes;
+	    InteractsWithContentTypes,
+		Macroable;
 
 	/**
 	 * The decoded JSON content for the request.
