@@ -22,12 +22,13 @@
 
 namespace Syscodes\Components\Routing;
 
+use Closure;
 use Syscodes\Components\Contracts\Routing\RouteResponse as ResponseContract;
 use Syscodes\Components\Contracts\Routing\UrlGenerator as UrlGeneratorContract;
 use Syscodes\Components\Routing\Contracts\ControllerDispatcher as ControllerDispatcherContract;
+use Syscodes\Components\Routing\ControllerDispatcher;
 use Syscodes\Components\Routing\Generators\Redirector;
 use Syscodes\Components\Routing\Generators\UrlGenerator;
-use Syscodes\Components\Routing\ControllerDispatcher;
 use Syscodes\Components\Routing\RouteResponse;
 use Syscodes\Components\Support\ServiceProvider;
 
@@ -88,20 +89,33 @@ class RoutingServiceProvider extends ServiceProvider
         });
 
         $this->app->extend('url', function (UrlGeneratorContract $url, $app) {
-            $url->setSessionResolver(function () use ($app) {
+            $url->setSessionResolver(function () {
                 return $this->app['session'] ?? null;
+            });
+
+            $url->setKeyResolver(function () {
+                $config = $this->app->make('config');
+
+                return [$config->get('app.key'), ...($config->get('app.previous_keys') ?? [])];
+            });
+
+            // If the route collection is "rebound", for example, when the routes stay
+            // cached for the application, we will need to rebind the routes on the
+            // URL generator instance so it has the latest version of the routes.
+            $app->rebinding('routes', function ($app, $routes) {
+                $app['url']->setRoutes($routes);
             });
 
             return $url;
         });
     }
-
+    
     /**
      * Get the URL generator request rebinder.
-     *
+     * 
      * @return \Closure
      */
-    protected function requestRebinder()
+    protected function requestRebinder(): Closure
     {
         return function ($app, $request) {
             $app['url']->setRequest($request);
