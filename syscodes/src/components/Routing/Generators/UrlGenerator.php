@@ -22,11 +22,14 @@
 
 namespace Syscodes\Components\Routing\Generators;
 
+use Closure;
 use InvalidArgumentException;
 use Syscodes\Components\Contracts\Routing\UrlGenerator as UrlGeneratorContract;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Routing\Collections\RouteCollection;
 use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Chronos;
+use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\Str;
 
 /**
@@ -61,6 +64,13 @@ class UrlGenerator implements UrlGeneratorContract
      * @var string $forcedScheme
      */
     protected $forcedScheme;
+    
+    /**
+     * The encryption key resolver callable.
+     * 
+     * @var callable
+     */
+    protected $keyResolver;
 
     /**
      * The Request instance.
@@ -289,6 +299,95 @@ class UrlGenerator implements UrlGeneratorContract
     }
 
     /**
+     * Determine if the given request has a valid signature.
+     *
+     * @param  \Syscodes\Components\Http\Request  $request
+     * @param  bool  $absolute
+     * @param  \Closure|array  $ignoreQuery
+     * 
+     * @return bool
+     */
+    public function hasValidSignature(Request $request, $absolute = true, Closure|array $ignoreQuery = []): bool
+    {
+        return $this->hasCorrectSignature($request, $absolute, $ignoreQuery)
+            && $this->signatureHasNotExpired($request);
+    }
+
+    /**
+     * Determine if the given request has a valid signature for a relative URL.
+     *
+     * @param  \Syscodes\Components\Http\Request  $request
+     * @param  \Closure|array  $ignoreQuery
+     * 
+     * @return bool
+     */
+    public function hasValidRelativeSignature(Request $request, Closure|array $ignoreQuery = []): bool
+    {
+        return $this->hasValidSignature($request, false, $ignoreQuery);
+    }
+
+    /**
+     * Determine if the signature from the given request matches the URL.
+     *
+     * @param  \Syscodes\Components\Http\Request  $request
+     * @param  bool  $absolute
+     * @param  \Closure|array  $ignoreQuery
+     * 
+     * @return bool
+     */
+    public function hasCorrectSignature(Request $request, $absolute = true, Closure|array $ignoreQuery = []): bool
+    {
+        $url = $absolute ? $request->url() : '/'.$request->path();
+
+        $queryString = (new Collection(explode('&', (string) $request->server->get('QUERY_STRING'))))
+            ->reject(function ($parameter) use ($ignoreQuery) {
+                $parameter = Str::before($parameter, '=');
+
+                if ($parameter === 'signature') {
+                    return true;
+                }
+
+                if ($ignoreQuery instanceof Closure) {
+                    return $ignoreQuery($parameter);
+                }
+
+                return in_array($parameter, $ignoreQuery);
+            })
+            ->join('&');
+
+        $original = rtrim($url.'?'.$queryString, '?');
+
+        $keys = call_user_func($this->keyResolver);
+
+        $keys = is_array($keys) ? $keys : [$keys];
+
+        foreach ($keys as $key) {
+            if (hash_equals(
+                hash_hmac('sha256', $original, $key),
+                (string) $request->query('signature', '')
+            )) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Determine if the expires timestamp from the given request is not from the past.
+     *
+     * @param  \Syscodes\Components\Http\Request  $request
+     * 
+     * @return bool
+     */
+    public function signatureHasNotExpired(Request $request): bool
+    {
+        $expires = $request->query('expires');
+
+        return ! ($expires && Chronos::parse()->getTimestamp() > $expires);
+    }
+
+    /**
      * Get the URL to a named route.
      * 
      * @param  string  $name
@@ -488,6 +587,20 @@ class UrlGenerator implements UrlGeneratorContract
     }
     
     /**
+     * Set the encryption key resolver.
+     * 
+     * @param  callable  $keyResolver
+     * 
+     * @return static
+     */
+    public function setKeyResolver(callable $keyResolver): static
+    {
+        $this->keyResolver = $keyResolver;
+        
+        return $this;
+    }
+    
+    /**
      * Get the root controller namespace.
      * 
      * @return string
@@ -519,6 +632,20 @@ class UrlGenerator implements UrlGeneratorContract
     public function getRequest(): Request
     {
         return $this->request;
+    }
+    
+    /**
+     * Set the route collection.
+     * 
+     * @param  \Syscodes\Components\Routing\RouteCollection  $routes
+     * 
+     * @return static
+     */
+    public function setRoutes(RouteCollection $routes):static
+    {
+        $this->routes = $routes;
+        
+        return $this;
     }
 
     /**
