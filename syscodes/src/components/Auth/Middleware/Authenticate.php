@@ -26,11 +26,12 @@ use Closure;
 use Symfony\Component\HttpFoundation\Response;
 use Syscodes\Components\Auth\Exceptions\AuthenticationException;
 use Syscodes\Components\Contracts\Auth\Factory as Auth;
+use Syscodes\Components\Contracts\Auth\Middleware\AuthenticateRequest;
 
 /**
  * Determine if the user is logged using a given guards.
  */
-class Authenticate
+class Authenticate implements AuthenticateRequest
 {
     /**
      * The authentication factory instance.
@@ -47,7 +48,7 @@ class Authenticate
     protected static $redirectToCallback;
 
     /**
-     * Constructor. Create a new Authenticate class instance.
+     * Constructor. Create a new middleware class instance.
      * 
      * @param  \Syscodes\components\Contracts\Auth\Factory  $auth
      * 

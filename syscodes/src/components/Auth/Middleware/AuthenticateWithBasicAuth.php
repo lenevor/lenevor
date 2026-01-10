@@ -39,7 +39,7 @@ class AuthenticateWithBasicAuth
     protected $auth;
     
     /**
-     * Constructor. Create a new  AuthenticateWithBasicAuth class instance.
+     * Constructor. Create a new middleware class instance.
      * 
      * @param  \Syscodes\Components\Contracts\Auth\Factory  $auth
      * 

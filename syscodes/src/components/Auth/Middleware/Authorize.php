@@ -41,7 +41,7 @@ class Authorize
     protected $gate;
     
     /**
-     * Create a new middleware instance.
+     * Constructor. Create a new middleware class instance.
      * 
      * @param  \Syscodes\Components\Contracts\Auth\Access\Gate  $gate
      * 
