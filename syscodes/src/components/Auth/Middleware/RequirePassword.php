@@ -27,7 +27,7 @@ use Syscodes\Components\Contracts\Routing\RouteResponse;
 use Syscodes\Components\Contracts\Routing\UrlGenerator;
 
 /**
- * 
+ * Allows the require password for authenticate user.
  */
 class RequirePassword
 {
