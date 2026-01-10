@@ -34,6 +34,5 @@ use Syscodes\Components\Database\Erostrine\Model;
  */
 class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
-    use Authenticatable,
-        Authorizable;
+    use Authenticatable, Authorizable;
 }
