@@ -165,6 +165,7 @@ class AuthManager implements Factory
             $name,
             $this->createUserProvider($config['provider'] ?? null),
             $this->app['session.store'],
+            hashKey: $this->app['config']->get('app.key'),
         );
 
         if (method_exists($guard, 'setCookie')) {
