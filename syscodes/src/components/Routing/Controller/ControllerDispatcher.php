@@ -22,10 +22,10 @@
  
 namespace Syscodes\Components\Routing;
 
-use Syscodes\Components\Routing\Route;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Routing\Concerns\DependencyResolver;
 use Syscodes\Components\Routing\Contracts\ControllerDispatcher as ControllerDispatcherContract;
+use Syscodes\Components\Routing\Route;
 
 /**
  * Dispatch requests when called a given controller and method.
