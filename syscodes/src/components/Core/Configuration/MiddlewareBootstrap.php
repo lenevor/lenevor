@@ -22,10 +22,11 @@
 
 namespace Syscodes\Components\Core\Configuration;
 
-use Syscodes\Components\Auth\Middleware\Authenticate;
 use Syscodes\Components\Auth\Exceptions\AuthenticationException;
+use Syscodes\Components\Auth\Middleware\Authenticate;
 use Syscodes\Components\Auth\Middleware\RedirectIfAuthenticated;
 use Syscodes\Components\Cookie\Middleware\EncryptCookies;
+use Syscodes\Components\Session\Middleware\AuthenticateSession;
 use Syscodes\Components\Support\Arr;
 
 /**
@@ -46,6 +47,13 @@ class MiddlewareBootstrap
      * @var array $appends
      */
     protected $appends = [];
+    
+    /**
+     * Indicates if sessions should be authenticated for the "web" middleware group.
+     * 
+     * @var bool
+     */
+    protected $authenticatedSessions = false;
     
     /**
      * The custom middleware aliases.
@@ -244,6 +252,7 @@ class MiddlewareBootstrap
                 \Syscodes\Components\Session\Middleware\StartSession::class,
                 \Syscodes\Components\View\Middleware\ShareErrorsSession::class,
                 \Syscodes\Components\Core\Http\Middleware\ValidateCsrfToken::class,
+                $this->authenticatedSessions ? 'auth.session' : null,
             ])),
 
             'api' => array_values(array_filter([
@@ -313,6 +322,7 @@ class MiddlewareBootstrap
         
         if ($guests) {
             Authenticate::redirectUsing($guests);
+            AuthenticateSession::redirectUsing($guests);
             AuthenticationException::redirectUsing($guests);
         }
         
@@ -361,8 +371,10 @@ class MiddlewareBootstrap
         $aliases = [
             'auth' => \Syscodes\Components\Auth\Middleware\Authenticate::class,
             'auth.basic' => \Syscodes\Components\Auth\Middleware\AuthenticateWithBasicAuth::class,
+            'auth.session' => \Syscodes\Components\Session\Middleware\AuthenticateSession::class,
             'can' => \Syscodes\Components\Auth\Middleware\Authorize::class,
             'guest' => \Syscodes\Components\Auth\Middleware\RedirectIfAuthenticated::class,
+            'password.confirm' => \Syscodes\Components\Auth\Middleware\RequirePassword::class,
             'signed' => \Syscodes\Components\Routing\Middleware\ValidateSignature::class,
             'throttle' => \Syscodes\Components\Routing\Middleware\ThrottleRequests::class,
         ];
