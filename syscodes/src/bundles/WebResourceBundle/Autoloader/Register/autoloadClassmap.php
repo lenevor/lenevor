@@ -517,7 +517,7 @@ return [
     'Syscodes\\Components\\Routing\\Controllers\\RedirectController' => SYS_PATH.'src/components/Routing/Controller/Controllers/RedirectController.php',
     'Syscodes\\Components\\Routing\\Controllers\\ViewController' => SYS_PATH.'src/components/Routing/Controller/Controllers/ViewController.php',
     'Syscodes\\Components\\Routing\\Controller' => SYS_PATH.'src/components/Routing/Controller/Controller.php',
-    'Syscodes\\Components\\Routing\\ControllerDispatcher' => SYS_PATH.'src/componentsRouting//Controller/ControllerDispatcher.php',
+    'Syscodes\\Components\\Routing\\ControllerDispatcher' => SYS_PATH.'src/components/Routing/Controller/ControllerDispatcher.php',
     'Syscodes\\Components\\Routing\\ControllerMiddlewareOptions' => SYS_PATH.'src/components/Routing/Controller/ControllerMiddlewareOptions.php',
     'Syscodes\\Components\\Routing\\Exceptions\\ActionNotFoundException' => SYS_PATH.'src/components/Routing/Exceptions/ActionNotFoundException.php',
     'Syscodes\\Components\\Routing\\Exceptions\\InvalidSignatureException' => SYS_PATH.'src/components/Routing/Exceptions/InvalidSignatureException.php',
