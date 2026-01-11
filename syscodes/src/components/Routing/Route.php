@@ -30,6 +30,7 @@ use Symfony\Component\Routing\Route as SymfonyRoute;
 use Syscodes\Components\Container\Container;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
 use Syscodes\Components\Http\Request;
+use Syscodes\Components\Routing\Contracts\ControllerDispatcher as controllerDispatcherContract;
 use Syscodes\Components\Routing\ControllerDispatcher;
 use Syscodes\Components\Routing\Matching\HostValidator;
 use Syscodes\Components\Routing\Matching\MethodValidator;
@@ -255,10 +256,14 @@ class Route
 	/**
 	 * Get the dispatcher for the route's controller.
 	 * 
-	 * @return \Syscodes\Components\Routing\ControllerDispatcher
+	 * @return \Syscodes\Components\Routing\Contracts\ControllerDispatcher
 	 */
-	private function controllerDispatcher(): ControllerDispatcher
+	private function controllerDispatcher()
 	{
+		if ($this->container->bound(ControllerDispatcherContract::class)) {
+			return $this->container->make(ControllerDispatcherContract::class);
+		}
+
 		return new ControllerDispatcher($this->container);
 	}
 	
