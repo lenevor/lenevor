@@ -27,6 +27,8 @@ use Throwable;
 use Syscodes\Components\Contracts\Core\Application;
 use Syscodes\Components\Contracts\Debug\ExceptionHandler;
 use Syscodes\Components\Contracts\Http\Kernel as KernelContract;
+use Syscodes\Components\Core\Events\Finalizing;
+use Syscodes\Components\Core\Http\Events\RequestHandled;
 use Syscodes\Components\Routing\Resources\Pipeline;
 use Syscodes\Components\Routing\Router;
 use Syscodes\Components\Support\Chronos;
@@ -89,8 +91,9 @@ class Kernel implements KernelContract
 		\Syscodes\Components\Cookie\Middleware\AddQueuedCookiesResponse::class,
 		\Syscodes\Components\Session\Middleware\StartSession::class,
 		\Syscodes\Components\View\Middleware\ShareErrorsSession::class,
+		\Syscodes\Components\Contracts\Auth\Middleware\AuthenticateRequest::class,
 		\Syscodes\Components\Routing\Middleware\ThrottleRequests::class,
-		\Syscodes\Components\Auth\Middleware\Authenticate::class,
+		\Syscodes\Components\Contracts\Session\Middleware\AuthenticateSession::class,
 		\Syscodes\Components\Auth\Middleware\Authorize::class,
 	];
 	
@@ -149,7 +152,11 @@ class Kernel implements KernelContract
 			$this->reportException($e);
 
 			$response = $this->renderException($request, $e);
-		}		
+		}
+		
+		$this->app['events']->dispatch(
+			new RequestHandled($request, $response)
+		);
 
 		return $response;
 	}
@@ -240,6 +247,8 @@ class Kernel implements KernelContract
 	 */
 	public function finalize($request, $response)
 	{
+		$this->app['events']->dispatch(new Finalizing);
+
 		$this->finalizeMiddleware($request, $response);
 
 		$this->app->finalize();
