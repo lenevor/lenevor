@@ -74,6 +74,11 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * @var \Syscodes\Components\Contracts\Events\Dispatcher
      */
     protected $events;
+    
+    /**
+     * The key used to hash recaller cookie values.
+     */
+    protected $hashKey;
 
     /**
      * The user we last attempted to retrieve.
@@ -131,6 +136,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * @param  \Syscodes\Components\Contracts\Auth\UserProvider  $provider
      * @param  \Syscodes\Components\Contracts\Session\Session  $session
      * @param  \Syscodes\Components\Http\Request|null  $request
+     * @param  string|null  $hasKey
      * 
      * @return void
      */
@@ -138,12 +144,14 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
         string $name,
         UserProvider $provider,
         Session $session,
-        ?Request $request = null
+        ?Request $request = null,
+        ?string $hashKey = null,
     ) {
-        $this->name     = $name;
+        $this->name = $name;
         $this->provider = $provider;
-        $this->session  = $session;
-        $this->request  = $request;
+        $this->session = $session;
+        $this->request = $request;
+        $this->hashKey = $hashKey;
     }
 
     /**
@@ -516,6 +524,22 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
     public function viaRemember(): bool
     {
         return $this->viaRemember;
+    }
+    
+    /**
+     * Create a HMAC of the password hash for storage in cookies.
+     * 
+     * @param  string  $passwordHash
+     * 
+     * @return string
+     */
+    public function hashPasswordForCookie($passwordHash): string
+    {
+        return hash_hmac(
+            'sha256',
+            $passwordHash,
+            $this->hashKey ?? 'base-key-for-password-hash-mac'
+        );
     }
 
     /**
