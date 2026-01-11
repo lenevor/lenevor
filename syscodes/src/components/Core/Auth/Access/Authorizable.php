@@ -38,21 +38,45 @@ trait Authorizable
      */
     public function can($ability, $arguments = []): bool
     {
-        $gate = app(Gate::class)->forUser($this);
-        
-        return $gate->check($ability, $arguments);
+        return app(Gate::class)->forUser($this)->check($ability, $arguments);
     }
     
     /**
-     * Determine if the entity does not have a given ability.
+     * Determine if the entity has any of the given abilities.
      * 
-     * @param  string  $ability
-     * @param  array|mixed  $arguments
+     * @param  iterable|\UnitEnum|string  $abilities
+     * @param  mixed  $arguments
      * 
      * @return bool
      */
-    public function cannot($ability, $arguments = []): bool
+    public function canAny($abilities, $arguments = []): bool
     {
-        return ! $this->can($ability, $arguments);
+        return app(Gate::class)->forUser($this)->any($abilities, $arguments);
+    }
+    
+    /**
+     * Determine if the entity does not have the given abilities.
+     * 
+     * @param  iterable|\UnitEnum|string  $abilities
+     * @param  mixed  $arguments
+     * 
+     * @return bool
+     */
+    public function cant($abilities, $arguments = []): bool
+    {
+        return ! $this->can($abilities, $arguments);
+    }
+    
+    /**
+     * Determine if the entity does not have a given abilities.
+     * 
+     * @param  iterable|\UnitEnum|string  $abilities
+     * @param  mixed  $arguments
+     * 
+     * @return bool
+     */
+    public function cannot($abilities, $arguments = []): bool
+    {
+        return $this->cant($abilities, $arguments);
     }
 }
