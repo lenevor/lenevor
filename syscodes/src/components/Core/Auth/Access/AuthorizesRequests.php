@@ -22,6 +22,9 @@
 namespace Syscodes\Components\Core\Auth\Access;
 
 use Syscodes\Components\Contracts\Auth\Access\Gate;
+use Syscodes\Components\Support\Str;
+
+use function Syscodes\Components\Support\enum_value;
 
 /**
  * Get authorize a given actions in a set of arguments.
@@ -73,13 +76,15 @@ trait AuthorizesRequests
      */
     protected function parseAbilityAndArguments($ability, $arguments): array
     {
-        if (is_string($ability) && (strpos($ability, '\\') === false)) {
-            return array($ability, $arguments);
+        $ability = enum_value($ability);
+
+        if (is_string($ability) && ! str_contains($ability, '\\')) {
+            return [$ability, $arguments];
         }
         
-        [,, $method] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
+        $method = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3)[2]['function'];
         
-        return array($this->normalizeGuessedAbilityName($method['function']), $ability);
+        return [$this->normalizeGuessedAbilityName($method), $ability];
     }
     
     /**
@@ -97,6 +102,37 @@ trait AuthorizesRequests
     }
     
     /**
+     * Authorize a resource action based on the incoming request.
+     * 
+     * @param  string|array  $model
+     * @param  string|array|null  $parameter
+     * @param  array  $options
+     * @param  \Syscodes\Components\Http\Request|null  $request
+     * 
+     * @return void
+     */
+    public function authorizeResource($model, $parameter = null, array $options = [], $request = null): void
+    {
+        $model = is_array($model) ? implode(',', $model) : $model;
+        
+        $parameter = is_array($parameter) ? implode(',', $parameter) : $parameter;
+        
+        $parameter = $parameter ?: Str::snake(class_basename($model));
+        
+        $middleware = [];
+        
+        foreach ($this->resourceAbilityMap() as $method => $ability) {
+            $modelName = in_array($method, $this->resourceMethodsWithoutModels()) ? $model : $parameter;
+            
+            $middleware["can:{$ability},{$modelName}"][] = $method;
+        }
+        
+        foreach ($middleware as $middlewareName => $methods) {
+            $this->middleware($middlewareName, $options)->only($methods);
+        }
+    }
+    
+    /**
      * Get the map of resource methods to ability names.
      * 
      * @return array
@@ -104,13 +140,23 @@ trait AuthorizesRequests
     protected function resourceAbilityMap(): array
     {
         return [
-                'index'   => 'lists',
-                'show'    => 'view',
-                'create'  => 'create',
-                'store'   => 'create',
-                'edit'    => 'update',
-                'update'  => 'update',
-                'destroy' => 'delete',
-            ];
+            'index' => 'viewAny',
+            'show' => 'view',
+            'create' => 'create',
+            'store' => 'create',
+            'edit' => 'update',
+            'update' => 'update',
+            'destroy' => 'delete',
+        ];
+    }
+    
+    /**
+     * Get the list of resource methods which do not have model parameters.
+     * 
+     * @return list<string>
+     */
+    protected function resourceMethodsWithoutModels(): array
+    {
+        return ['index', 'create', 'store'];
     }
 }
