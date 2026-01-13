@@ -33,14 +33,21 @@ class EventServiceProvider extends ServiceProvider
     /**
      * The event handler mappings for the application.
      * 
-     * @var array $listen
+     * @var array
      */
     protected $listen = [];
+    
+    /**
+     * The model observers to register.
+     * 
+     * @var array
+     */
+    protected $observers = [];
 
     /**
      * The subscriber classes to register.
      * 
-     * @var array $suscribe
+     * @var array
      */
     protected $subscribe = [];
 
@@ -69,10 +76,10 @@ class EventServiceProvider extends ServiceProvider
     public function register()
     {
         $this->booting(function () {
-            $events = $this->listens();
+            $events = $this->getEvents();
 
             foreach ((array) $events as $event => $listeners) {
-                foreach ($listeners as $listener) {
+                foreach (array_unique($listeners, SORT_REGULAR) as $listener) {
                     Event::listen($event, $listener);
                 }
             }
@@ -80,7 +87,27 @@ class EventServiceProvider extends ServiceProvider
             foreach ($this->subscribe as $subscriber) {
                 Event::subscribe($subscriber);
             }
+            
+            foreach ($this->observers as $model => $observers) {
+                $model::observe($observers);
+            }
         });
+    }
+    
+    /**
+     * Get the listeners for the application.
+     * 
+     * @return array
+     */
+    public function getEvents(): array
+    {
+        if ($this->app->eventsAreCached()) {
+            $cache = require $this->app->getCachedEventsPath();
+            
+            return $cache[get_class($this)] ?? [];
+        } else {
+            return $this->listens() ?? [];
+        }
     }
 
     /**
