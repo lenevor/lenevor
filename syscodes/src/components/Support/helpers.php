@@ -105,9 +105,13 @@ if ( ! function_exists('class_recursive'))
      */
     function class_recursive($class): array
     {
+        if (is_object($class)) {
+            $class = get_class($class);
+        }
+
         $results = [];
-        
-        foreach (array_merge(array($class => $class), class_parents($class)) as $class) {
+
+        foreach (array_reverse(class_parents($class) ?: []) + [$class => $class] as $class) {
             $results += trait_recursive($class);
         }
         
@@ -290,9 +294,9 @@ if ( ! function_exists('trait_recursive'))
      * 
      * @return array
      */
-    function trait_recursive($trait)
+    function trait_recursive($trait): array
     {
-        $traits = class_uses($trait);
+        $traits = class_uses($trait) ?: [];
         
         foreach ($traits as $trait) {
             $traits += trait_recursive($trait);

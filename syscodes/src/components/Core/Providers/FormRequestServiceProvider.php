@@ -33,16 +33,6 @@ use Syscodes\Components\Support\ServiceProvider;
 class FormRequestServiceProvider extends ServiceProvider
 {
     /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
-    }
-
-    /**
      * Bootstrap the application services.
      *
      * @return void
@@ -58,5 +48,15 @@ class FormRequestServiceProvider extends ServiceProvider
 
             $request->setContainer($app)->setRedirector($app->make(Redirector::class));
         });
+    }
+
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
     }
 }
