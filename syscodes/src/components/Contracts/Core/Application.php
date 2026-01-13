@@ -29,7 +29,7 @@ use Syscodes\Components\Contracts\Container\Container;
  * Allows the loading of service providers and functions to activate 
  * routes, environments and calls of main classes.
  */
-interface Application extends Container, CacheRoutes, CachesConfiguration
+interface Application extends Container, CacheEvents, CacheRoutes, CachesConfiguration
 {
     /**
      * Get the version number of the application.
