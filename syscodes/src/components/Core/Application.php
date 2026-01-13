@@ -1239,6 +1239,32 @@ class Application extends Container implements ApplicationContract
     {
         return $this->normalizeCachePath('APP_PACKAGES_CACHE', 'cache/packages.php');
     }
+    
+    /**
+     * Determine if the application events are cached.
+     * 
+     * @return bool
+     */
+    public function eventsAreCached()
+    {
+        if ($this->bound('events.cached')) {
+            return (bool) $this->make('events.cached');
+        }
+        
+        return $this->instance(
+            'events.cached', $this['files']->exists($this->getCachedEventsPath())
+        );
+    }
+    
+    /**
+     * Get the path to the events cache file.
+     * 
+     * @return string
+     */
+    public function getCachedEventsPath()
+    {
+        return $this->normalizeCachePath('APP_EVENTS_CACHE', 'cache/events.php');
+    }
 
     /**
      * Normalize a relative or absolute path to a cache file.
