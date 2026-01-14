@@ -30,9 +30,13 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionParameter;
 use TypeError;
+use Syscodes\Components\Container\Attributes\Bind;
+use Syscodes\Components\Container\Attributes\Scoped;
+use Syscodes\Components\Container\Attributes\Singleton;
 use Syscodes\Components\Container\Exceptions\EntryIdentifierException;
 use Syscodes\Components\Contracts\Container\BindingResolutionException;
 use Syscodes\Components\Contracts\Container\Container as ContainerContract;
+use Syscodes\Components\Contracts\Container\ContextualAttribute;
 
 /**
  * Class responsible of registering the bindings, instances and 
@@ -70,6 +74,13 @@ class Container implements ArrayAccess, ContainerContract
     protected $aliases = [];
     
     /**
+     * The registered aliases keyed by the abstract name.
+     * 
+     * @var array[]
+     */
+    protected $abstractAliases = [];
+    
+    /**
      * All of the before resolving callbacks by class type.
      * 
      * @var array[] $beforeResolvingCallbacks
@@ -89,6 +100,34 @@ class Container implements ArrayAccess, ContainerContract
      * @var array $buildStack
      */
     protected $buildStack = [];
+    
+    /**
+     * Whether an abstract class has already had its attributes checked for bindings.
+     * 
+     * @var array
+     */
+    protected $checkedAttributeBindings = [];
+    
+    /**
+     * Whether a class has already been checked for Singleton or Scoped attributes.
+     * 
+     * @var array
+     */
+    protected $checkedSingletonOrScopedAttributes = [];
+    
+    /**
+     * The contextual binding map.
+     * 
+     * @var array
+     */
+    public $contextual = [];
+    
+    /**
+     * The callback used to determine the container's environment.
+     * 
+     * @var (callable(array<int, string>|string): bool|string)|null
+     */
+    protected $environmentResolver = null;
 
     /**
      * The extension closures for services.
@@ -145,6 +184,13 @@ class Container implements ArrayAccess, ContainerContract
      * @var array[] $resolvingCallbacks
      */
     protected $resolvingCallbacks = [];
+    
+    /**
+     * The container's scoped instances.
+     * 
+     * @var array
+     */
+    protected $scopedInstances = [];
 
     /**
      * Set the globally available instance of the container.
@@ -169,6 +215,45 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
+     * Determine if the given id type has been bound.
+     * 
+     * @param  string  $id
+     * 
+     * @return bool
+     */
+    public function bound($id): bool
+    {
+        return isset($this->bindings[$id]) ||
+               isset($this->instances[$id]) ||
+               $this->isAlias($id);
+    }
+
+    /**
+     * Determine if a given string is an alias.
+     * 
+     * @param  string  $name
+     * 
+     * @return bool
+     */
+    public function isAlias($name): bool
+    {
+        return isset($this->aliases[$name]);
+    }
+
+    /**
+     * Determine if the given id is buildable.
+     * 
+     * @param  string  $class
+     * @param  string  $id
+     * 
+     * @return string
+     */
+    protected function isBuildable($class, $id)
+    {
+        return $class === $id || $class instanceof Closure;
+    }
+
+    /**
      * Alias a type to a diferent name.
      * 
      * @param  string  $id
@@ -181,8 +266,12 @@ class Container implements ArrayAccess, ContainerContract
         if ($alias === $id) {
             throw new LogicException("[{$id}] is aliased to itself");
         }
+        
+        $this->removeAbstractAlias($alias);
 
         $this->aliases[$alias] = $id;
+        
+        $this->abstractAliases[$id][] = $alias;
     }
     
     /**
@@ -215,43 +304,21 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * Extender an id type in the container.
-     *
-     * @param  string  $id
-     * @param  \Closure  $closure
-     * 
-     * @return mixed
-     */
-    public function extend($id, Closure $closure)
-    {
-        $id = $this->getAlias($id);
-        
-        if (isset($this->instances[$id])) {
-            $this->instances[$id] = $closure($this->instances[$id], $this);
-            
-            return $this->reBound($id);
-        } else {
-            $this->extenders[$id][] = $closure;
-
-            if ($this->resolved($id)) {
-                $this->rebound($id);
-            }
-        }
-    }
-
-    /**
      * Register a binding with container.
      * 
-     * @param  string  $id
+     * @param  \Closure|string  $id
      * @param  \Closure|string|null  $value
-     * @param  bool  $singleton
+     * @param  bool  $shared
      * 
      * @return void
      */
-    public function bind($id, $value = null, bool $singleton = false): void
+    public function bind($id, $value = null, bool $shared = false): void
     {   
         $this->dropInstances($id);
 
+        // If no value type was given, we will simply set the value type to the
+        // id type. After that, the value type to be registered as shared
+        // without being forced to state their classes in both of the parameters.
         if (is_null($value)) {
             $value = $id;
         }
@@ -264,7 +331,7 @@ class Container implements ArrayAccess, ContainerContract
             $value = $this->getClosure($id, $value);
         }
 
-        $this->bindings[$id] = compact('value', 'singleton');
+        $this->bindings[$id] = ['value' => $value, 'shared' => $shared];
 
         if ($this->resolved($id)) {
             $this->reBound($id);
@@ -298,7 +365,9 @@ class Container implements ArrayAccess, ContainerContract
                 return $container->build($value);
             }
                        
-            return $container->resolve($value, $parameters);
+            return $container->resolve(
+                $value, $parameters, raiseEvents: false
+            );
         };
 
     }
@@ -317,6 +386,31 @@ class Container implements ArrayAccess, ContainerContract
         }
 
         return isset($this->resolved[$id]) || isset($this->instances[$id]);
+    }
+
+    /**
+     * Extender an id type in the container.
+     *
+     * @param  string  $id
+     * @param  \Closure  $closure
+     * 
+     * @return mixed
+     */
+    public function extend($id, Closure $closure)
+    {
+        $id = $this->getAlias($id);
+        
+        if (isset($this->instances[$id])) {
+            $this->instances[$id] = $closure($this->instances[$id], $this);
+            
+            return $this->reBound($id);
+        } else {
+            $this->extenders[$id][] = $closure;
+
+            if ($this->resolved($id)) {
+                $this->rebound($id);
+            }
+        }
     }
 
     /**
@@ -350,23 +444,23 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Register a binding if it hasn't already been registered.
      * 
-     * @param  string  $id
+     * @param  \Closure|string  $id
      * @param  \Closure|string|null  $value
-     * @param  bool  $singleton
+     * @param  bool  $shared
      * 
      * @return void
      */
-    public function bindIf($id, $value = null, $singleton = false): void
+    public function bindIf($id, $value = null, $shared = false): void
     {
         if ( ! $this->bound($id)) {
-            $this->bind($id, $value, $singleton);
+            $this->bind($id, $value, $shared);
         }
     }
 
     /**
      * Register a singleton binding in the container.
      * 
-     * @param  string  $id
+     * @param  \Closure|string  $id
      * @param  \Closure|string|null  $value
      * 
      * @return void
@@ -379,7 +473,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Register a singleton if it hasn't already been registered.
      * 
-     * @param  string  $id
+     * @param  \Closure|string  $id
      * @param  \Closure|string|null  $value
      * 
      * @return void
@@ -388,6 +482,36 @@ class Container implements ArrayAccess, ContainerContract
     {
         if ( ! $this->bound($id)) {
             $this->singleton($id, $value);
+        }
+    }
+
+    /**
+     * Register a scoped binding in the container.
+     *
+     * @param  \Closure|string  $id
+     * @param  \Closure|string|null  $value
+     * 
+     * @return void
+     */
+    public function scoped($id, $value = null)
+    {
+        $this->scopedInstances[] = $id;
+
+        $this->singleton($id, $value);
+    }
+    
+    /**
+     * Register a scoped binding if it hasn't already been registered.
+     * 
+     * @param  \Closure|string  $id
+     * @param  \Closure|string|null  $value
+     * 
+     * @return void
+     */
+    public function scopedIf($id, $value = null)
+    {
+        if ( ! $this->bound($id)) {
+            $this->scoped($id, $value);
         }
     }
 
@@ -435,13 +559,9 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      */
-    public function instance($id, mixed $instance)
+    public function instance($id, $instance)
     {
-        if (is_array($id)) {
-            [$id, $alias] = $id;
-            
-            $this->alias($id, $alias);
-        }
+        $this->removeAbstractAlias($id);
 
         $isBound = $this->bound($id);
         
@@ -454,6 +574,28 @@ class Container implements ArrayAccess, ContainerContract
         }
 
         return $instance;
+    }
+    
+    /**
+     * Remove an alias from the contextual binding alias cache.
+     * 
+     * @param  string  $id
+     * 
+     * @return void
+     */
+    protected function removeAbstractAlias($id)
+    {
+        if ( ! isset($this->aliases[$id])) {
+            return;
+        }
+        
+        foreach ($this->abstractAliases as $abstract => $aliases) {
+            foreach ($aliases as $index => $alias) {
+                if ($alias == $id) {
+                    unset($this->abstractAliases[$abstract][$index]);
+                }
+            }
+        }
     }
 
     /**
@@ -505,37 +647,49 @@ class Container implements ArrayAccess, ContainerContract
     {
         $id = $this->getAlias($id);
         
+        // First we'll fire any event handlers which handle the "before" 
+        // resolving of specific types.
         if ($raiseEvents) {
             $this->fireBeforeResolvingCallbacks($id, $parameters);
         }
 
-        if (isset($this->instances[$id])) {
+        $value = $this->getContextualValue($id);
+        
+        $needsContextualBuild = ! empty($parameters) || ! is_null($value);
+
+        if (isset($this->instances[$id]) && ! $needsContextualBuild) {
             return $this->instances[$id];
         }
 
         $this->across[] = $parameters;
         
-        $value = $this->getValue($id);
-
-        if ($this->isBuildable($value, $id)) {
-            $object = $this->build($value);
-        } else {
-            $object = $this->make($value);
+        if (is_null($value)) {
+            $value = $this->getValue($id);
         }
 
+        $object = ($this->isBuildable($value, $id))
+            ? $this->build($value)
+            : $this->make($value);
+            
+        // If we defined any extenders for this type, we'll need to spin 
+        // through them and apply them to the object being built.
         foreach ($this->getExtenders($id) as $extenders) {
             $object = $extenders($object, $this);
         }
 
-        if ($this->isSingleton($id)) {
+        if ($this->isShared($id)) {
             $this->instances[$id] = $object;
         }
         
         if ($raiseEvents) {
             $this->fireResolvingCallbacks($id, $object);
         }
-
-        $this->resolved[$id] = true;
+        
+        // Before returning, we will also set the resolved flag to "true" 
+        // and pop off the parameter overrides for this build.
+        if ( ! $needsContextualBuild) {
+            $this->resolved[$id] = true;
+        }
 
         array_pop($this->across);
         
@@ -558,59 +712,171 @@ class Container implements ArrayAccess, ContainerContract
 
     /**
      * Get the class type for a given id.
-     * 
-     * @param  string  $id
+     *
+     * @param  string|callable  $id
      * 
      * @return mixed
      */
-    protected function getValue($id): mixed
+    protected function getvalue($id)
     {
+        // If we don't have a registered resolver or value for the type, we'll just
+        // assume each type is a value name and will attempt to resolve it as is
+        // since the container should be able to resolve values automatically.
         if (isset($this->bindings[$id])) {
             return $this->bindings[$id]['value'];
         }
 
-        return $id;
+        if ($this->environmentResolver === null ||
+            ($this->checkedAttributeBindings[$id] ?? false) || ! is_string($id)) {
+            return $id;
+        }
+
+        return $this->getValueBindingFromAttributes($id);
     }
 
     /**
-     * Instantiate a class instance of the given type.
+     * Get the class binding for an id from the Bind attribute.
+     *
+     * @param  string  $id
      * 
-     * @param  string  $class
+     * @return mixed
+     */
+    protected function getValueBindingFromAttributes($id)
+    {
+        $this->checkedAttributeBindings[$id] = true;
+
+        try {
+            $reflected = new ReflectionClass($id);
+        } catch (ReflectionException) {
+            return $id;
+        }
+
+        $bindAttributes = $reflected->getAttributes(Bind::class);
+
+        if ($bindAttributes === []) {
+            return $id;
+        }
+
+        $value = $maybeValue = null;
+
+        foreach ($bindAttributes as $reflectedAttribute) {
+            $instance = $reflectedAttribute->newInstance();
+
+            if ($instance->environments === ['*']) {
+                $maybeValue = $instance->value;
+
+                continue;
+            }
+
+            if ($this->currentEnvironmentIs($instance->environments)) {
+                $class = $instance->value;
+
+                break;
+            }
+        }
+
+        if ($maybeValue !== null && $value === null) {
+            $value = $maybeValue;
+        }
+
+        if ($value === null) {
+            return $id;
+        }
+
+        match ($this->getScopedTyped($reflected)) {
+            'scoped' => $this->scoped($id, $value),
+            'singleton' => $this->singleton($id, $value),
+            null => $this->bind($id, $value),
+        };
+
+        return $this->bindings[$id]['value'];
+    }
+    
+    /**
+     * Get the contextual value binding for the given id.
+     * 
+     * @param  string|callable  $id
+     * 
+     * @return \Closure|string|array|null
+     */
+    protected function getContextualValue($id)
+    {
+        if ( ! is_null($binding = $this->findInContextualBindings($id))) {
+            return $binding;
+        }
+        
+        if (empty($this->abstractAliases[$id])) {
+            return;
+        }
+        
+        foreach ($this->abstractAliases[$id] as $alias) {
+            if ( ! is_null($binding = $this->findInContextualBindings($alias))) {
+                return $binding;
+            }
+        }
+    }
+    
+    /**
+     * Find the value binding for the given id in the contextual binding array.
+     * 
+     * @param  string|callable  $id
+     * 
+     * @return \Closure|string|null
+     */
+    protected function findInContextualBindings($id)
+    {
+        return $this->contextual[end($this->buildStack)][$id] ?? null;
+    }
+
+    /**
+     * Instantiate a value instance of the given type.
+     * 
+     * @param  \Closure|string  $value
      * 
      * @return mixed
      * 
      * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
      */
-    public function build($class): mixed
+    public function build($value): mixed
     {
-        if ($class instanceof Closure) {
-            return $class($this, $this->getLastParameterOverride());
+        if ($value instanceof Closure) {
+            $this->buildStack[] = spl_object_hash($value);
+
+            try {
+                return $value($this, $this->getLastParameterOverride());
+            } finally {
+                array_pop($this->buildStack);
+            }
         }
         
         try {
-            $reflection = new ReflectionClass($class);
+            $reflection = new ReflectionClass($value);
         } catch (ReflectionException $e) {
-            throw new BindingResolutionException("Target class [$class] does not exist", 0, $e);
+            throw new BindingResolutionException("Target class [$value] does not exist", 0, $e);
         }
 
         if ( ! $reflection->isInstantiable()) {
-            return $this->buildNotInstantiable($class);
+            return $this->buildNotInstantiable($value);
         }
 
-        $this->buildStack[] = $class;
+        $this->buildStack[] = $value;
 
         $constructor = $reflection->getConstructor();
 
         if (is_null($constructor)) {
             array_pop($this->buildStack);
-
-            return new $class();
+            
+            $this->fireAfterResolvingAttributeCallbacks(
+                $reflection->getAttributes(), $instance = new $value
+            );
+            
+            return $instance;
         }
 
         $dependencies = $constructor->getParameters();
         
         try {
-            $instances = $this->getDependencies($dependencies);
+            $instances = $this->resolveDependencies($dependencies);
         } catch (BindingResolutionException $e) {
             array_pop($this->buildStack);
             
@@ -619,25 +885,30 @@ class Container implements ArrayAccess, ContainerContract
 
         array_pop($this->buildStack);
         
-        return $reflection->newInstanceArgs($instances);
+        $this->fireAfterResolvingAttributeCallbacks(
+            $reflection->getAttributes(), $instance = $reflection->newInstanceArgs($instances)
+        );
+        
+        return $instance;
     }
 
     /**
-     * Throw an exception that the class is not instantiable.
+     * Throw an exception that the value is not instantiable.
      *
-     * @param  string  $class
+     * @param  string  $value
      * 
-     * @return mixed
+     * @return void
      *
      * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
      */
-    protected function buildNotInstantiable(string $class): mixed
+    protected function buildNotInstantiable(string $value): void
     {
         if ( ! empty($this->buildStack)) {
            $reset   = implode(', ', $this->buildStack);
-           $message = "Target [{$class}] is not instantiable while building [{$reset}]"; 
+
+           $message = "Target [{$value}] is not instantiable while building [{$reset}]"; 
         } else {
-            $message = "Target [{$class}] is not instantiable";
+            $message = "Target [{$value}] is not instantiable";
         }
 
         throw new BindingResolutionException($message);
@@ -650,7 +921,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return array
      */
-    protected function getDependencies(array $dependencies): array
+    protected function resolveDependencies(array $dependencies): array
     {
         $params = [];
 
@@ -664,6 +935,8 @@ class Container implements ArrayAccess, ContainerContract
             $param = is_null(Util::getParameterClassName($dependency)) 
                        ? $this->getResolveNonClass($dependency) 
                        : $this->getResolveClass($dependency);
+
+            $this->fireAfterResolvingAttributeCallbacks($dependency->getAttributes(), $param);
                        
             if ($dependency->isVariadic()) {
                 $params = array_merge($params, $param);
@@ -720,7 +993,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     protected function getResolveNonClass(ReflectionParameter $parameter)
     {
-        if ( ! is_null($class = Util::getParameterClassName($parameter))) {
+        if ( ! is_null($class = $this->getContextualValue('$'.$parameter->getName()))) {
             return Util::unwrapExistOfClosure($class, $this);
         }
 
@@ -730,6 +1003,10 @@ class Container implements ArrayAccess, ContainerContract
 
         if ($parameter->isVariadic()) {
             return [];
+        }
+        
+        if ($parameter->hasType() && $parameter->allowsNull()) {
+            return null;
         }
 
         return $this->unresolvableNonClass($parameter);
@@ -762,17 +1039,19 @@ class Container implements ArrayAccess, ContainerContract
      */
     protected function getResolveClass(ReflectionParameter $parameter): mixed
     {
-        try {
-            return $parameter->isVariadic() 
-                              ? $this->resolveVariadicClass($parameter)
-                              : $this->make(Util::getParameterClassName($parameter));
-        } catch (BindingResolutionException $e) {
-            if ($parameter->isDefaultValueAvailable()) {
-                array_pop($this->across);
-                
-                return $parameter->getDefaultValue();
-            }
+        $className = Util::getParameterClassName($parameter);
+
+        if ($parameter->isDefaultValueAvailable() && ! $this->bound($className)) {
+            array_pop($this->across);
             
+            return $parameter->getDefaultValue();
+        }
+
+        try {
+            return $parameter->isVariadic()
+                ? $this->resolveVariadicClass($parameter)
+                : $this->make($className);
+        } catch (BindingResolutionException $e) {            
             if ($parameter->isVariadic()) {
                 array_pop($this->across);
                 
@@ -796,11 +1075,11 @@ class Container implements ArrayAccess, ContainerContract
         
         $id = $this->getAlias($className);
         
-        if ( ! is_array($id)) {
+        if ( ! is_array($value = $this->getContextualValue($id))) {
             return $this->make($className);
         }
         
-        return array_map(fn ($id) => $this->resolve($id), $id);
+        return array_map(fn ($id) => $this->resolve($id), $value);
     }
     
     /**
@@ -938,6 +1217,35 @@ class Container implements ArrayAccess, ContainerContract
     }
     
     /**
+     * Fire all of the after resolving attribute callbacks.
+     * 
+     * @param  \ReflectionAttribute[]  $attributes
+     * @param  mixed  $object
+     * 
+     * @return void
+     */
+    public function fireAfterResolvingAttributeCallbacks(array $attributes, $object)
+    {
+        foreach ($attributes as $attribute) {
+            if (is_a($attribute->getName(), ContextualAttribute::class, true)) {
+                $instance = $attribute->newInstance();
+                
+                if (method_exists($instance, 'after')) {
+                    $instance->after($instance, $object, $this);
+                }
+            }
+            
+            $callbacks = $this->getCallbacksForType(
+                $attribute->getName(), $object, $this->afterResolvingAttributeCallbacks
+            );
+            
+            foreach ($callbacks as $callback) {
+                $callback($attribute->newInstance(), $object, $this);
+            }
+        }
+    }
+    
+    /**
      * Get all callbacks for a given type.
      * 
      * @param  string  $id
@@ -975,56 +1283,71 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     * Determine if the given id type has been bound.
+     * Determine if a given type is shared.
      * 
      * @param  string  $id
      * 
      * @return bool
      */
-    public function bound($id): bool
+    protected function isShared($id): bool
     {
-        return isset($this->bindings[$id]) ||
-               isset($this->instances[$id]) ||
-               $this->isAlias($id);
-    }
-
-    /**
-     * Determine if a given string is an alias.
+        if (isset($this->instances[$id])) {
+            return true;
+        }
+        
+        if (isset($this->bindings[$id]['shared']) && $this->bindings[$id]['shared'] === true) {
+            return true;
+        }
+        
+        if ( ! class_exists($id)) {
+            return false;
+        }
+        
+        if (($scopedType = $this->getScopedTyped($id)) === null) {
+            return false;
+        }
+        
+        if ($scopedType === 'scoped') {
+            if ( ! in_array($id, $this->scopedInstances, true)) {
+                $this->scopedInstances[] = $id;
+            }
+        }
+        
+        return true;
+    }/**
+     * Determine if a ReflectionClass has scoping attributes applied.
+     *
+     * @param  ReflectionClass|string  $reflection
      * 
-     * @param  string  $name
-     * 
-     * @return bool
+     * @return "singleton"|"scoped"|null
      */
-    public function isAlias($name): bool
+    protected function getScopedTyped(ReflectionClass|string $reflection): ?string
     {
-        return isset($this->aliases[$name]);
-    }
+        $className = $reflection instanceof ReflectionClass
+            ? $reflection->getName()
+            : $reflection;
 
-    /**
-     * Determine if the given id is buildable.
-     * 
-     * @param  string  $class
-     * @param  string  $id
-     * 
-     * @return string
-     */
-    protected function isBuildable($class, $id)
-    {
-        return $class === $id || $class instanceof Closure;
-    }
+        if (array_key_exists($className, $this->checkedSingletonOrScopedAttributes)) {
+            return $this->checkedSingletonOrScopedAttributes[$className];
+        }
 
-    /**
-     * Determine if a given type is singleton.
-     * 
-     * @param  string  $id
-     * 
-     * @return bool
-     */
-    protected function isSingleton($id): mixed
-    {
-        return isset($this->instances[$id]) ||
-               (isset($this->bindings[$id]['singleton']) &&
-               $this->bindings[$id]['singleton'] === true);
+        try {
+            $reflection = $reflection instanceof ReflectionClass
+                ? $reflection
+                : new ReflectionClass($reflection);
+        } catch (ReflectionException) {
+            return $this->checkedSingletonOrScopedAttributes[$className] = null;
+        }
+
+        $type = null;
+
+        if ( ! empty($reflection->getAttributes(Singleton::class))) {
+            $type = 'singleton';
+        } elseif ( ! empty($reflection->getAttributes(Scoped::class))) {
+            $type = 'scoped';
+        }
+
+        return $this->checkedSingletonOrScopedAttributes[$className] = $type;
     }
 
     /**
@@ -1057,17 +1380,13 @@ class Container implements ArrayAccess, ContainerContract
      * Set the binding with given key / value.
      * 
      * @param  string  $id
-     * @param  string  $value
+     * @param  mixed  $value
      * 
      * @return static
      */
-    public function set($id, string $value): static
+    public function set($id, $value): static
     {
-        if ( ! $this->bound($id)) {
-            throw new LogicException($id);
-        }
-
-        $this->bindings[$id] = $value;
+        $this->bind($id, $value instanceof Closure ? $value : fn () => $value);
 
         return $this;
     }
@@ -1097,6 +1416,20 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
+     * Determine the environment for the container.
+     *
+     * @param  array<int, string>|string  $environments
+     * 
+     * @return bool
+     */
+    public function currentEnvironmentIs($environments)
+    {
+        return $this->environmentResolver === null
+            ? false
+            : call_user_func($this->environmentResolver, $environments);
+    }
+
+    /**
      * Flush the container of all bindings and resolved instances.
      * 
      * @return void
@@ -1107,6 +1440,9 @@ class Container implements ArrayAccess, ContainerContract
         $this->resolved  = [];
         $this->bindings  = [];
         $this->instances = [];
+        $this->abstractAliases = [];
+        $this->scopedInstances = [];
+        $this->checkedSingletonOrScopedAttributes = [];
     }
 
     /*
