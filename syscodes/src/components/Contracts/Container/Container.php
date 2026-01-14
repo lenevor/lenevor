@@ -45,24 +45,24 @@ interface Container extends ContainerInterface
     /**
      * Register a binding with container.
      * 
-     * @param  string  $id
+     * @param  \Closure|string  $id
      * @param  \Closure|string|null  $value
-     * @param  bool  $singleton
+     * @param  bool  $shared
      * 
      * @return void
      */
-    public function bind($id, $value = null, bool $singleton = false): void;
+    public function bind($id, $value = null, bool $shared = false): void;
 
     /**
      * Register a binding if it hasn't already been registered.
      * 
-     * @param  string  $id
+     * @param  \Closure|string  $id
      * @param  \Closure|string|null  $value
-     * @param  bool  $singleton
+     * @param  bool  $shared
      * 
      * @return void
      */
-    public function bindIf($id, $value = null, $singleton = false): void;
+    public function bindIf($id, $value = null, $shared = false): void;
 
     /**
      * Determine if the given id type has been resolved.
@@ -86,7 +86,7 @@ interface Container extends ContainerInterface
     /**
      * Register a singleton binding in the container.
      * 
-     * @param  string  $id
+     * @param  \Closure|string  $id
      * @param  \Closure|string|null  $value
      * 
      * @return void
@@ -96,7 +96,7 @@ interface Container extends ContainerInterface
     /**
      * Instantiate a class instance of the given type.
      * 
-     * @param  string  $class
+     * @param  \Closure|string   $class
      * 
      * @return mixed
      * 
