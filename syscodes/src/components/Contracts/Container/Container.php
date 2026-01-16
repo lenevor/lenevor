@@ -94,6 +94,36 @@ interface Container extends ContainerInterface
     public function singleton($id, $value = null): void;
 
     /**
+     * Register a singleton if it hasn't already been registered.
+     * 
+     * @param  \Closure|string  $id
+     * @param  \Closure|string|null  $value
+     * 
+     * @return void
+     */
+    public function singletonIf($id, $value = null): void;
+
+    /**
+     * Register a scoped binding in the container.
+     *
+     * @param  \Closure|string  $id
+     * @param  \Closure|string|null  $value
+     * 
+     * @return void
+     */
+    public function scoped($id, $value = null): void;
+
+    /**
+     * Register a scoped binding if it hasn't already been registered.
+     * 
+     * @param  \Closure|string  $id
+     * @param  \Closure|string|null  $value
+     * 
+     * @return void
+     */
+    public function scopedIf($id, $value = null): void;
+
+    /**
      * Instantiate a class instance of the given type.
      * 
      * @param  \Closure|string   $class
