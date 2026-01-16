@@ -125,7 +125,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * The callback used to determine the container's environment.
      * 
-     * @var (callable(array<int, string>|string): bool|string)|null
+     * @var callable|array|string|bool|null
      */
     protected $environmentResolver = null;
 
@@ -493,7 +493,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return void
      */
-    public function scoped($id, $value = null)
+    public function scoped($id, $value = null): void
     {
         $this->scopedInstances[] = $id;
 
@@ -508,7 +508,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return void
      */
-    public function scopedIf($id, $value = null)
+    public function scopedIf($id, $value = null): void
     {
         if ( ! $this->bound($id)) {
             $this->scoped($id, $value);
