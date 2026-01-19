@@ -196,7 +196,7 @@ class ProviderRepository
         }
         
         $this->files->replace(
-            $this->manifestPath, "<?php\n\nreturn ".var_export($manifest, true).';'
+            $this->manifestPath, '<?php return '.var_export($manifest, true).';'
         );
         
         return array_merge(['when' => []], $manifest);
