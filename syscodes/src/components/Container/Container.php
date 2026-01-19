@@ -1236,7 +1236,7 @@ class Container implements ArrayAccess, ContainerContract
             }
             
             $callbacks = $this->getCallbacksForType(
-                $attribute->getName(), $object, $this->afterResolvingAttributeCallbacks
+                $attribute->getName(), $object, $this->afterResolvingCallbacks
             );
             
             foreach ($callbacks as $callback) {
@@ -1413,6 +1413,18 @@ class Container implements ArrayAccess, ContainerContract
     public function eraseExtenders(string $id): void
     {
         unset($this->extenders[$this->getAlias($id)]);
+    }
+    
+    /**
+     * Remove a resolved instance from the instance cache.
+     * 
+     * @param  string  $id
+     * 
+     * @return void
+     */
+    public function eraseInstance($id): void
+    {
+        unset($this->instances[$id]);
     }
 
     /**
