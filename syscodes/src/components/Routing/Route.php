@@ -38,6 +38,7 @@ use Syscodes\Components\Routing\Matching\SchemeValidator;
 use Syscodes\Components\Routing\Matching\UriValidator;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\Traits\Macroable;
 
 /**
  * A Route describes a route and its parameters.
@@ -45,7 +46,8 @@ use Syscodes\Components\Support\Str;
 class Route 
 {
 	use Concerns\UserRoutesCondition,
-	    Concerns\DependencyResolver;
+	    Concerns\DependencyResolver,
+	    Macroable;
 
 	/**
 	 * The validators used by the routes.
