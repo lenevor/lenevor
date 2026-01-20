@@ -22,10 +22,13 @@
 
 namespace Syscodes\Components\Routing\Concerns;
 
-use ReflectionFunctionAbstract;
+use ReflectionClass;
 use ReflectionMethod;
 use ReflectionParameter;
+use ReflectionFunctionAbstract;
+use stdClass;
 use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Reflector;
 
 /**
  * This trait resolver the methods given for the dependencies.
@@ -56,26 +59,30 @@ trait DependencyResolver
      * Resolve the object method's with a type of dependencies.
      * 
      * @param  array  $parameters
-     * @param  \ReflectionFunctionAbstract  $reflection
+     * @param  \ReflectionFunctionAbstract  $reflector
      * 
      * @return array
      */
-    public function resolveMethodDependencies(array $parameters, ReflectionFunctionAbstract $reflection): array
+    public function resolveMethodDependencies(array $parameters, ReflectionFunctionAbstract $reflector): array
     {
         $count = 0;
 
         $values = array_values($parameters);
 
-        foreach ($reflection->getParameters() as $key => $parameter) {
-            $instance = $this->transformGivenDependency($parameter, $parameters);
+        $value = new stdClass;
 
-            if ( ! is_null($instance)) {
+        foreach ($reflector->getParameters() as $key => $parameter) {
+            $instance = $this->transformGivenDependency($parameter, $parameters, $value);
+
+            if ($instance !== $value) {
                 $count++;
 
                 $this->spliceOnParameters($parameters, $key, $instance);
             } elseif ( ! isset($values[$key - $count]) && $parameter->isDefaultValueAvailable()) {
                 $this->spliceOnParameters($parameters, $key, $parameter->getDefaultValue());
-            }            
+            }
+            
+            $this->container->fireAfterResolvingAttributeCallbacks($parameter->getAttributes(), $instance);
         }
 
         return $parameters;
@@ -86,16 +93,23 @@ trait DependencyResolver
      * 
      * @param  \ReflectionParameter  $parameter
      * @param  array  $parameters
+     * @param  object  $value
      * 
      * @return mixed
      */
-    protected function transformGivenDependency(ReflectionParameter $parameter, array $parameters)
+    protected function transformGivenDependency(ReflectionParameter $parameter, array $parameters, $value)
     {
-        $class = $parameter->getType();
+        $className = Reflector::getParameterClassName($parameter);
 
-        if ( ! is_null($class) && ! $this->getInParameters($className = $class->getName(), $parameters)) {
-            return $parameter->isDefaultValueAvailable() ? null : $this->container->make($className);
+        if ($className && ! $this->getInParameters($className, $parameters)) {
+            $isEnum = (new ReflectionClass($className))->isEnum();
+
+            return $parameter->isDefaultValueAvailable()
+                ? ($isEnum ? $parameter->getDefaultValue() : null)
+                : $this->container->make($className);
         }
+        
+        return $value;
     }
 
     /**
@@ -108,9 +122,7 @@ trait DependencyResolver
      */
     protected function getInParameters($class, array $parameters): bool
     {
-        return ! is_null(Arr::first($parameters, function ($value) use ($class) {
-            return $value instanceof $class;
-        }));
+        return ! is_null(Arr::first($parameters, fn ($value) => $value instanceof $class));
     }
 
     /**
