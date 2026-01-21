@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Support;
 
 use ReflectionMethod;
+use ReflectionNamedType;
 
 /**
  * Allows the reflection methods for get the specified methods, 
@@ -35,6 +36,7 @@ class Reflector
      *
      * @param  mixed  $var
      * @param  bool  $syntaxOnly
+     * 
      * @return bool
      */
     public static function isCallable($var, $syntaxOnly = false)
@@ -74,5 +76,48 @@ class Reflector
         }
 
         return false;
+    }
+    
+    /**
+     * Get the class name of the given parameter's type, if possible.
+     * 
+     * @param  \ReflectionParameter  $parameter
+     * 
+     * @return string|null
+     */
+    public static function getParameterClassName($parameter)
+    {
+        $type = $parameter->getType();
+        
+        if ( ! $type instanceof ReflectionNamedType || $type->isBuiltin()) {
+            return;
+        }
+        
+        return static::getTypeName($parameter, $type);
+    }
+    
+    /**
+     * Get the given type's class name.
+     * 
+     * @param  \ReflectionParameter  $parameter
+     * @param  \ReflectionNamedType  $type
+     * 
+     * @return string
+     */
+    protected static function getTypeName($parameter, $type): string
+    {
+        $name = $type->getName();
+        
+        if ( ! is_null($class = $parameter->getDeclaringClass())) {
+            if ($name === 'self') {
+                return $class->getName();
+            }
+            
+            if ($name === 'parent' && $parent = $class->getParentClass()) {
+                return $parent->getName();
+            }
+        }
+        
+        return $name;
     }
 }
