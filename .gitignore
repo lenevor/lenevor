@@ -8,6 +8,7 @@
 /vendor
 composer.lock
 composer.pchar
+.DS_Store
 
 # Temporary Files
 storage/app/public/*
