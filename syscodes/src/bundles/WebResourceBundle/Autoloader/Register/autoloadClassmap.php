@@ -324,6 +324,7 @@ return [
     'Syscodes\\Components\\Database\\Events\\TransactionRollback' => SYS_PATH.'src/components/Database/Events/TransactionRollback.php',
     'Syscodes\\Components\\Database\\Exceptions\\ConnectionException' => SYS_PATH.'src/components/Database/Exceptions/ConnectionException.php',
     'Syscodes\\Components\\Database\\Exceptions\\QueryException' => SYS_PATH.'src/components/Database/Exceptions/QueryException.php',
+    'Syscodes\\Components\\Database\\Migrations\\Enums\\MigrationResult' => SYS_PATH.'src/components/Database/Migrations/Enums/MigrationResult.php',
     'Syscodes\\Components\\Database\\Migrations\\Migration' => SYS_PATH.'src/components/Database/Migrations/Migration.php',
     'Syscodes\\Components\\Database\\Query\\Grammars\\Grammar' => SYS_PATH.'src/components/Database/Query/Grammars/Grammar.php',
     'Syscodes\\Components\\Database\\Query\\Grammars\\MySqlGrammar' => SYS_PATH.'src/components/Database/Query/Grammars/MySqlGrammar.php',
