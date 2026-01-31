@@ -327,6 +327,7 @@ return [
     'Syscodes\\Components\\Database\\Migrations\\Enums\\MigrationResult' => SYS_PATH.'src/components/Database/Migrations/Enums/MigrationResult.php',
     'Syscodes\\Components\\Database\\Migrations\\DatabaseMigrationRepository' => SYS_PATH.'src/components/Database/Migrations/DatabaseMigrationRepository.php',
     'Syscodes\\Components\\Database\\Migrations\\Migration' => SYS_PATH.'src/components/Database/Migrations/Migration.php',
+    'Syscodes\\Components\\Database\\Migrations\\MigrationCreator' => SYS_PATH.'src/components/Database/Migrations/MigrationCreator.php',
     'Syscodes\\Components\\Database\\Migrations\\MigrationRepositoryInterface' => SYS_PATH.'src/components/Database/Migrations/MigrationRepositoryInterface.php',
     'Syscodes\\Components\\Database\\Query\\Grammars\\Grammar' => SYS_PATH.'src/components/Database/Query/Grammars/Grammar.php',
     'Syscodes\\Components\\Database\\Query\\Grammars\\MySqlGrammar' => SYS_PATH.'src/components/Database/Query/Grammars/MySqlGrammar.php',
