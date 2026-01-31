@@ -550,6 +550,22 @@ class Filesystem
 
 		$this->perms($to, 0777 & ~umask());
 	}
+	
+	/**
+	 * Directory exists.
+	 * 
+	 * @param  string  $path
+	 * @param  int  $mode
+	 * @param  bool  $recursive
+	 * 
+	 * @return void
+	 */
+	public function directoryExists($path, $mode = 0755, $recursive = true)
+	{
+		if ( ! $this->isDirectory($path)) {
+			$this->makeDirectory($path, $mode, $recursive);
+		}
+	}
 
 	/**
 	 * Attempts to determine the file extension based on the trusted
