@@ -158,7 +158,7 @@ class MigrationCreator
      * 
      * @return string
      */
-    protected function populateTemplate($template, $table)
+    protected function populateTemplate($template, $table): string
     {
         if ( ! is_null($table)) {
             $template = str_replace(
@@ -177,7 +177,7 @@ class MigrationCreator
      * 
      * @return string
      */
-    protected function getClassName($name)
+    protected function getClassName($name): string
     {
         return Str::studlyCaps($name);
     }
