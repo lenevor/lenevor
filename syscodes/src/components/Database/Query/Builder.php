@@ -25,7 +25,8 @@ namespace Syscodes\Components\Database\Query;
 use Closure;
 use DateTimeInterface;
 use InvalidArgumentException;
-use Syscodes\Components\Contracts\Database\Query\Expression;
+use Syscodes\Components\Contracts\Database\Query\Builder as BuilderContract;
+use Syscodes\Components\Contracts\Database\Query\Expression as ExpressionContract;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Database\Concerns\MakeQueries;
 use Syscodes\Components\Database\Connections\ConnectionInterface;
@@ -44,7 +45,7 @@ use Syscodes\Components\Support\Traits\Macroable;
  * to creating and running database queries. and works on all supported 
  * database systems.
  */
-class Builder
+class Builder implements BuilderContract
 {
     use MakeQueries,
         ForwardsCalls,
@@ -316,6 +317,21 @@ class Builder
             throw new InvalidArgumentException('A subquery must be a query builder instance, a Closure, or a string');
         }
     }
+    
+    /**
+     * Add a select expression to the query.
+     * 
+     * @param  \Syscodes\Components\Contracts\Database\Query\Expression  $expression
+     * @param  string  $as
+     * 
+     * @return static
+     */
+    public function selectExpression($expression, $as): static
+    {
+        return $this->selectRaw(
+            '('.$expression->getValue($this->grammar).') as '.$this->grammar->wrap($as)
+        );
+    }
 
     /**
      *  Add a new "raw" select expression to the query.
@@ -445,6 +461,14 @@ class Builder
      */
     public function where($column, $operator = null, $value = null, $boolean = 'and'): static
     {
+        if ($column instanceof ExpressionContract) {
+            $type = 'Expression';
+            
+            $this->wheres[] = compact('type', 'column', 'boolean');
+            
+            return $this;
+        }
+
         if (is_array($column)) {
             return $this->addArrayWheres($column, $boolean);
         }
@@ -461,7 +485,7 @@ class Builder
             [$sub, $bindings] = $this->makeSub($column);
             
             return $this->addBinding($bindings, 'where')
-                        ->where(new Expression('('.$sub.')'), $operator, $value, $boolean);
+                ->where(new Expression('('.$sub.')'), $operator, $value, $boolean);
         }
 
         if ($this->invalidOperator($operator)) {
@@ -473,7 +497,7 @@ class Builder
         }
 
         if (is_null($value)) {
-            return $this->whereNull($column, $boolean, $operator !== '=');
+            return $this->whereNull($column, $boolean, ! in_array($operator, ['=', '<=>'], true));
         }
 
         $type = 'Basic';
@@ -482,7 +506,7 @@ class Builder
             'type', 'column', 'operator', 'value', 'boolean'
         );
 
-        if ( ! $value instanceof Expression) {
+        if ( ! $value instanceof ExpressionContract) {
             $this->addBinding($this->flattenValue($value), 'where');
         }
         
