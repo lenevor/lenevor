@@ -25,6 +25,7 @@ namespace Syscodes\Components\Database\Erostrine;
 use Closure;
 use Exception;
 use BadMethodCallException;
+use Syscodes\Components\Contracts\Database\Erostrine\Builder as BuilderContract;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Database\Concerns\MakeQueries;
 use Syscodes\Components\Database\Erostrine\Relations\Relation;
@@ -40,7 +41,7 @@ use Syscodes\Components\Support\Traits\Macroable;
 /**
  * Creates a Erostrine query builder.
  */
-class Builder
+class Builder implements BuilderContract
 {
     use MakeQueries,
         Macroable,
@@ -49,21 +50,21 @@ class Builder
     /**
      * The relationships that should be eagerly loaded by the query.
      * 
-     * @var array $eagerLoad
+     * @var array
      */
     protected $eagerLoad = [];
 
     /**
      * The model being queried.
      * 
-     * @var \Syscodes\Components\Database\Erostrine\Model $model
+     * @var \Syscodes\Components\Database\Erostrine\Model 
      */
     protected $model;
 
     /**
      * The methods that should be returned from query builder.
      * 
-     * @var array $passthru
+     * @var array 
      */
     protected $passthru = [
         'aggregate',
@@ -88,7 +89,7 @@ class Builder
     /**
      * The properties that should be returned from query builder.
      * 
-     * @var string[] $propertyPassthru
+     * @var string[]
      */
     protected $propertyPassthru = [
         'from',
@@ -97,14 +98,14 @@ class Builder
     /**
      * The query builder instance.
      * 
-     * @var \Syscodes\Components\Database\Query\Builder $query
+     * @var \Syscodes\Components\Database\Query\Builder
      */
     protected $query;
 
     /**
      * The relation tables to be instanced.
      * 
-     * @var \Syscodes\Components\Database\Erostrine\Relations\Relation $relation
+     * @var \Syscodes\Components\Database\Erostrine\Relations\Relation
      */
     protected $relation;
 
