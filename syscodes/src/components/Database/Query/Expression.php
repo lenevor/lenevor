@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Database\Query;
 
 use Syscodes\Components\Contracts\Database\Query\Expression as ExpressionContract;
+use Syscodes\Components\Database\Grammar;
 
 /**
  * Get values for query sql.
@@ -43,7 +44,7 @@ class Expression implements ExpressionContract
      * 
      * @return void
      */
-    public function __construct(mixed $value)
+    public function __construct($value)
     {
         $this->value = $value;
     }
@@ -51,22 +52,12 @@ class Expression implements ExpressionContract
     /**
      * Get the value of the expression.
      * 
+     * @param  \Syscodes\Components\Database\Grammar  $grammar
+     * 
      * @return mixed
      */
-    public function getValue(): mixed
+    public function getValue(Grammar $grammar)
     {
         return $this->value;
-    }
-
-    /**
-     * Magic method.
-     *
-     * Get the value of the expression.
-     * 
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return (string) $this->getValue();
     }
 }
