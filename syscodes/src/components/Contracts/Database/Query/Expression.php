@@ -22,6 +22,8 @@
 
 namespace Syscodes\Components\Contracts\Database\Query;
 
+use Syscodes\Components\Database\Grammar;
+
 /**
  * Get values for query sql
  */
@@ -30,7 +32,9 @@ interface Expression
     /**
      * Get the value of the expression.
      * 
+     * @param  \Syscodes\Components\Database\Grammar  $grammar
+     * 
      * @return mixed
      */
-    public function getValue(): mixed;
+    public function getValue(Grammar $grammar);
 }
