@@ -24,14 +24,19 @@ namespace Syscodes\Components\Support;
 
 use ArrayAccess;
 use JsonSerializable;
-use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Support\Jsonable;
+use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Support\Traits\Macroable;
 
 /**
  * Checks if exist an attribute in flowing instance for collections of data.
  */
 class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
 {
+    use Macroable {
+        __call as macroCall;
+    }
+    
     /**
      * All of the attributes set on the container.
      * 
@@ -48,9 +53,19 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      */
     public function __construct($attributes = [])
     {
-        foreach ($attributes as $key => $values) {
-            $this->attributes[$key] = $values;
-        }
+        $this->fill($attributes);
+    }
+    
+    /**
+     * Create a new flowing instance.
+     * 
+     * @param  iterable  $attributes
+     * 
+     * @return static
+     */
+    public static function make($attributes = []): static
+    {
+        return new static($attributes);
     }
 
     /**
@@ -63,11 +78,92 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      */
     public function get($key, $default = null)
     {
+        return data_get($this->attributes, $key, $default);
+    }
+    
+    /**
+     * Set an attribute on the flowing instance using "dot" notation.
+     * 
+     * @param  mixed  $key
+     * @param  mixed  $value
+     * 
+     * @return static
+     */
+    public function set($key, $value): static
+    {
+        data_set($this->attributes, $key, $value);
+        
+        return $this;
+    }
+    
+    /**
+     * Fill the flowing instance with an array of attributes.
+     * 
+     * @param  iterable  $attributes
+     * 
+     * @return static
+     */
+    public function fill($attributes): static
+    {
+        foreach ($attributes as $key => $value) {
+            $this->attributes[$key] = $value;
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * Get an attribute from the flowing instance.
+     * 
+     * @param  string  $key
+     * @param  mixed  $default
+     * 
+     * @return mixed
+     */
+    public function value($key, $default = null)
+    {
         if (array_key_exists($key, $this->attributes)) {
             return $this->attributes[$key];
         }
-
+        
         return value($default);
+    }
+    
+    /**
+     * Get all of the attributes from the flowing instance.
+     * 
+     * @param  mixed  $keys
+     * 
+     * @return array
+     */
+    public function all($keys = null): array
+    {
+        $data = $this->data();
+        
+        if ( ! $keys) {
+            return $data;
+        }
+        
+        $results = [];
+
+        foreach (is_array($keys) ? $keys : func_get_args() as $key) {
+            Arr::set($results, $key, Arr::get($data, $key));
+        }
+
+        return $results;
+    }
+
+    /**
+     * Get data from the flowing instance.
+     *
+     * @param  string|null  $key
+     * @param  mixed  $default
+     * 
+     * @return mixed
+     */
+    protected function data($key = null, $default = null)
+    {
+        return $this->get($key, $default);
     }
 
     /**
@@ -75,7 +171,7 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      * 
      * @return array
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return $this->attributes;
     }
