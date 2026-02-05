@@ -185,7 +185,7 @@ abstract class Grammar
      */
     public function getValue(Expression $expression): string
     {
-        return $expression->getValue();
+        return $expression->getValue($this);
     }
 
     /**
