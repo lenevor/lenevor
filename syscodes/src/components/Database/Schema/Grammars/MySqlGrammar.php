@@ -928,6 +928,10 @@ class MySqlGrammar extends Grammar
      */
     protected function modifyNullable(Dataprint $dataprint, Flowing $column): string
     {
+        if ($column->nullable === false) {
+            return ' not null';
+        }
+
         return $column->nullable ? ' null' : ' not null';
     }
 
