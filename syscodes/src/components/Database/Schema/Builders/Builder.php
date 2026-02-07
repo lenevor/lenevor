@@ -27,39 +27,49 @@ use LogicException;
 use Syscodes\Components\Container\Container;
 use Syscodes\Components\Database\Connections\Connection;
 use Syscodes\Components\Database\Schema\Dataprint;
+use Syscodes\Components\Support\Traits\Macroable;
 
 /**
  * Creates a Erostrine schema builder.
  */
 class Builder
 {
+    use Macroable;
+    
     /**
      * The database connection instance.
      * 
-     * @var \Syscodes\Components\Database\Connections\Connection $connections
+     * @var \Syscodes\Components\Database\Connections\Connection
      */
     protected $connection;
     
     /**
      * The schema grammar instance.
      * 
-     * @var \Syscodes\Components\Database\Schema\Grammars\Grammar $grammar
+     * @var \Syscodes\Components\Database\Schema\Grammars\Grammar
      */
     protected $grammar;
     
     /**
      * The Dataprint resolver callback.
      * 
-     * @var \Closure $resolver
+     * @var \Closure
      */
     protected $resolver;
 
     /**
      * The default string length for migrations.
      * 
-     * @var int|null $defaultStringLength
+     * @var int|null
      */
     public static $defaultStringLength = 255;
+    
+    /**
+     * The default time precision for migrations.
+     * 
+     * @var int|null
+     */
+    public static ?int $defaultTimePrecision = 0;
 
     /**
      * Constructor. Create a new database schema manager.
