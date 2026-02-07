@@ -278,6 +278,40 @@ class Dataprint
     }
     
     /**
+     * Specify the storage engine that should be used for the table.
+     * 
+     * @param  string  $engine
+     * 
+     * @return void
+     */
+    public function engine($engine): void
+    {
+        $this->engine = $engine;
+    }
+    
+    /**
+     * Specify that the InnoDB storage engine should be used for the table (MySQL only).
+     * 
+     * @return void
+     */
+    public function innoDb(): void
+    {
+        $this->engine('InnoDB');
+    }
+    
+    /**
+     * Specify the character set that should be used for the table.
+     * 
+     * @param  string  $charset
+     * 
+     * @return void
+     */
+    public function charset($charset): void
+    {
+        $this->charset = $charset;
+    }
+    
+    /**
      * Indicate that the table needs to be created.
      * 
      * @return \Syscodes\Components\Support\Flowing
@@ -1392,5 +1426,15 @@ class Dataprint
     public function getChangedColumns()
     {
         return array_filter($this->columns, fn ($column) => (bool) $column->change);
+    }
+    
+    /**
+     * Get the default time precision.
+     * 
+     * @return int|null
+     */
+    protected function defaultTimePrecision(): ?int
+    {
+        return $this->connection->getSchemaBuilder()::$defaultTimePrecision;
     }
 }
