@@ -22,13 +22,14 @@
 
 namespace Syscodes\Components\Database\Schema;
 
-use Closure;
 use BadMethodCallException;
+use Closure;
 use Syscodes\Components\Database\Connections\Connection;
 use Syscodes\Components\Database\Connections\SQLiteConnection;
 use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Database\Schema\Builders\Builder;
 use Syscodes\Components\Database\Schema\Grammars\Grammar;
+use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\Flowing;
 use Syscodes\Components\Support\Traits\Macroable;
 
@@ -42,79 +43,87 @@ class Dataprint
     /**
      * The column to add new columns after.
      * 
-     * @var string $after
+     * @var string
      */
     public $after;
 
     /**
      * The default character set that should be used for the table.
      * 
-     * @var string $charset
+     * @var string
      */
     public $charset;
     
     /**
      * The collation that should be used for the table.
      * 
-     * @var string $collation
+     * @var string
      */
     public $collation;
 
     /**
      * The columns that should be added to the table.
      * 
-     * @var array $columns
+     * @var array
      */
     protected $columns = [];
 
     /**
      * The commands that should be run for the table.
      * 
-     * @var array $commands
+     * @var array
      */
     protected $commands = [];
-
+    
+    /**
+     * The database connection instance.
+     * 
+     * @var \Syscodes\Components\Database\Connections\Connection
+     */
+    protected Connection $connection;
+    
     /**
      * The storage engine that should be used for the table.
      * 
-     * @var string $engine
-     */
+     * @var string
+    */
     public $engine;
-
+    
     /**
-     * The prefix of the table.
+     * The schema grammar instance.
      * 
-     * @var string $prefix
+     * @var \Syscodes\Components\Database\Schema\Grammars\Grammar
      */
-    protected $prefix;
-
+    protected Grammar $grammar;
+    
     /**
      * The table the blueprint describes.
      * 
-     * @var string $table
+     * @var string
      */
     protected $table;
     
     /**
      * Whether to make the table temporary.
      * 
-     * @var bool $temporary
+     * @var bool
      */
     public $temporary = false;
 
     /**
-     * Constructor. Create a new schema Dataprint instance.
+     * Constructor. Create a new schema dataprint instance.
      * 
+     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * @param  string  $table
      * @param  \Closure|null  $callback
-     * @param  string  $prefix
      * 
      * @return void
      */
-    public function __construct($table, ?Closure $callback = null, $prefix = '')
+    public function __construct(Connection $connection, $table, ?Closure $callback = null)
     {
+        $this->connection = $connection;
+        $this->grammar = $connection->getSchemaGrammar();
         $this->table = $table;
-        $this->prefix = $prefix;
 
         if ( ! is_null($callback)) $callback($this);
     }
@@ -122,39 +131,37 @@ class Dataprint
     /**
      * Execute the dataprint against the database.
      * 
-     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
-     * @param  \Syscodes\Components\Database\Schema\Grammars\Grammar  $grammar
-     * 
      * @return void
      */
-    public function build(Connection $connection, Grammar $grammar): void
+    public function build(): void
     {
-        foreach ($this->toSql($connection, $grammar) as $statement) {
-            $connection->statement($statement);
+        foreach ($this->toSql() as $statement) {
+            $this->connection->statement($statement);
         }
     }
 
     /**
      * Get the raw SQL statements for the blueprint.
      * 
-     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
-     * @param  \Syscodes\Components\Database\Schema\Grammars\Grammar  $grammar
-     * 
      * @return array
      */
-    public function toSql(Connection $connection, Grammar $grammar): array
+    public function toSql(): array
     {
         $this->addImpliedCommands();
 
         $statements = [];
 
-        $this->ensureCommandsAreValid($connection);
+         $this->ensureCommandsAreValid();
 
         foreach ($this->commands as $command) {
+            if ($command->shouldBeSkipped) {
+                continue;
+            }
+
             $method = 'compile'.ucfirst($command->name);
 
-            if (method_exists($grammar, $method) || $grammar::hasMacro($method)) {
-                if ( ! is_null($sql = $grammar->$method($this, $command, $connection))) {
+            if (method_exists($this->grammar, $method) || $this->grammar::hasMacro($method)) {
+                if ( ! is_null($sql = $this->grammar->$method($this, $command, $this->connection))) {
                     $statements[] = array_merge($statements, (array) $sql);
                 }
             }
@@ -166,15 +173,13 @@ class Dataprint
     /**
      * Ensure the commands on the dataprint are valid for the connection type.
      * 
-     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
-     * 
      * @return void
      * 
      * @throws \BadMethodCallException
      */
-    protected function ensureCommandsAreValid(Connection $connection): void
+    protected function ensureCommandsAreValid(): void
     {
-        if ($connection instanceof SQLiteConnection) {
+        if ($this->connection instanceof SQLiteConnection) {
             if ($this->commandsNamed(['dropColumn', 'renameColumn'])->count() > 1) {
                 throw new BadMethodCallException(
                     "SQLite doesn't support multiple calls to dropColumn / renameColumn in a single modification"
@@ -198,7 +203,8 @@ class Dataprint
      */
     protected function commandsNamed(array $names)
     {
-        return collect($this->commands)->filter(fn ($command) => in_array($command->name, $names));
+        return (new Collection($this->commands))
+            ->filter(fn ($command) => in_array($command->name, $names));
     }
 
     /**
@@ -208,15 +214,17 @@ class Dataprint
      */
     protected function addImpliedCommands(): void
     {
-        if (count($this->getAddedColumns()) > 0 && ! $this->creating()) {
-            array_unshift($this->commands, $this->createCommand('add'));
-        }
-
-        if (count($this->getChangedColumns()) > 0 && ! $this->creating()) {
-            array_unshift($this->commands, $this->createCommand('change'));
-        }
-
         $this->addFlowingIndexes();
+        $this->addFlowingCommands();
+        
+        if ( ! $this->creating()) {
+            $this->commands = array_map(
+                fn ($command) => $command instanceof ColumnDefinition
+                    ? $this->createCommand($command->change ? 'change' : 'add', ['column' => $command])
+                    : $command,
+                $this->commands
+            );
+        }
     }
 
     /**
@@ -241,6 +249,20 @@ class Dataprint
                     
                     continue 2;
                 }
+            }
+        }
+    }
+
+    /**
+     * Add the flowing commands specified on any columns.
+     *
+     * @return void
+     */
+    public function addFlowingCommands()
+    {
+        foreach ($this->columns as $column) {
+            foreach ($this->grammar->getCommands() as $commandName) {
+                $this->addCommand($commandName, compact('column'));
             }
         }
     }
@@ -1239,7 +1261,7 @@ class Dataprint
      */
     protected function createIndexName($type, array $columns): string
     {
-        $index = strtolower($this->prefix.$this->table.'_'.implode('_', $columns).'_'.$type);
+        $index = strtolower($this->table.'_'.implode('_', $columns).'_'.$type);
         
         return str_replace(['-', '.'], '_', $index);
     }

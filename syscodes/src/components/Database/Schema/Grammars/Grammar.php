@@ -23,17 +23,25 @@
 namespace Syscodes\Components\Database\Schema\Grammars;
 
 use LogicException;
-use Syscodes\Components\Database\Connections\Connection;
-use Syscodes\Components\Database\Grammar as BaseGrammar;
+use RuntimeException;
+use Syscodes\Components\Support\Flowing;
 use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Database\Schema\Dataprint;
-use Syscodes\Components\Support\Flowing;
+use Syscodes\Components\Database\Connections\Connection;
+use Syscodes\Components\Database\Grammar as BaseGrammar;
 
 /**
  * Allows the compilation of sql sentences for the connection to database.
  */
 abstract class Grammar extends BaseGrammar
 {
+    /**
+     * The commands to be executed outside of create or alter command.
+     * 
+     * @var array
+     */
+    protected $flowingCommands = [];
+
     /**
      * The possible column modifiers.
      * 
@@ -48,12 +56,12 @@ abstract class Grammar extends BaseGrammar
      * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * 
      * @return string
-     * 
-     * @throws \LogicException
      */
     public function compileCreateDatabase($name, $connection): string
     {
-        throw new LogicException('This database driver does not support creating databases');
+        return sprintf('create database %s',
+            $this->wrapValue($name)
+        );
     }
     
     /**
@@ -62,12 +70,12 @@ abstract class Grammar extends BaseGrammar
      * @param  string  $name
      * 
      * @return string
-     * 
-     * @throws \LogicException
      */
     public function compileDropDatabaseIfExists($name): string
     {
-        throw new LogicException('This database driver does not support dropping databases');
+        return sprintf('drop database if exists %s',
+            $this->wrapValue($name)
+        );
     }
     
     /**
@@ -75,13 +83,16 @@ abstract class Grammar extends BaseGrammar
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
      * @param  \Syscodes\Components\Support\Flowing  $command
-     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * 
      * @return array
      */
-    public function compileRenameColumn(Dataprint $dataprint, Flowing $command, Connection $connection)
+    public function compileRenameColumn(Dataprint $dataprint, Flowing $command)
     {
-        //
+        return sprintf('alter table %s rename column %s to %s',
+            $this->wrapTable($dataprint),
+            $this->wrap($command->from),
+            $this->wrap($command->to)
+        );
     }
 
     /**
@@ -94,29 +105,46 @@ abstract class Grammar extends BaseGrammar
      */
     public function compileForeign(Dataprint $dataprint, Flowing $command)
     {
+        // We need to prepare several of the elements of the foreign key definition
+        // before we can create the SQL.
         $sql = sprintf('alter table %s add constraint %s ',
             $this->wrapTable($dataprint),
             $this->wrap($command->index)
         );
-
+        
+        // Once we have the initial portion of the SQL statement we will add on the
+        // key name, table name, and referenced columns.
         $sql .= sprintf('foreign key (%s) references %s (%s)',
             $this->columnize($command->columns),
             $this->wrapTable($command->on),
-            $this->columnize($command->references)
+            $this->columnize((array) $command->references)
         );
         
         // Once we have the basic foreign key creation statement constructed we can
         // build out the syntax for what should happen on an update or delete of
         // the affected columns, which will get something like "cascade", etc.
         if ( ! is_null($command->onDelete)) {
-            $sql .= " on Delete {$command->onDelete}";
+            $sql .= " on delete {$command->onDelete}";
         }
 
         if ( ! is_null($command->onUpdate)) {
-            $sql .= " on Delete {$command->onUpdate}";
+            $sql .= " on update {$command->onUpdate}";
         }
 
         return $sql;
+    }
+    
+    /**
+     * Compile a drop foreign key command.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileDropForeign(Dataprint $dataprint, Flowing $command): string
+    {
+        throw new RuntimeException('This database driver does not support dropping foreign keys');
     }
 
     /**
@@ -130,13 +158,29 @@ abstract class Grammar extends BaseGrammar
     {
         $columns = [];
 
-        foreach ($dataprint->getColumns() as $column) {
-            $sql = $this->wrap($column).' '.$this->getType($column);
-
-            $columns[] = $this->addModifiers($sql, $dataprint, $column);
+        foreach ($dataprint->getAddedColumns() as $column) {
+            $columns[] = $this->getColumn($dataprint, $column);
         }
 
         return $columns;
+    }
+
+    /**
+     * Compile the column definition.
+     *
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Database\Schema\ColumnDefinition  $column
+     * 
+     * @return string
+     */
+    protected function getColumn(Dataprint $dataprint, $column): string
+    {
+        // Each of the column types has their own compiler functions, which are tasked
+        // with turning the column definition into its SQL format for this platform
+        // used by the connection. 
+        $sql = $this->wrap($column).' '.$this->getType($column);
+
+        return $this->addModifiers($sql, $dataprint, $column);
     }
     
     /**
@@ -146,7 +190,7 @@ abstract class Grammar extends BaseGrammar
      * 
      * @return string
      */
-    protected function getType(Flowing $column)
+    protected function getType(Flowing $column): string
     {
         return $this->{'type'.ucfirst($column->type)}($column);
     }
@@ -184,7 +228,7 @@ abstract class Grammar extends BaseGrammar
         $commands = $this->getCommandsByName($dataprint, $name);
         
         if (count($commands) > 0) {
-            return reset($commands);
+            return array_first($commands);
         }
     }
     
@@ -199,6 +243,25 @@ abstract class Grammar extends BaseGrammar
     protected function getCommandsByName(Dataprint $dataprint, $name): array
     {
         return array_filter($dataprint->getCommands(), fn ($value) => $value->name == $name);
+    }
+    
+    /**
+     * Determine if a command with a given name exists on the dataprint.
+     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  string  $name
+     * 
+     * @return bool
+     */
+    protected function hasCommand(Dataprint $dataprint, $name): bool
+    {
+        foreach ($dataprint->getCommands() as $command) {
+            if ($command->name === $name) {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     /**
@@ -253,11 +316,21 @@ abstract class Grammar extends BaseGrammar
     protected function getDefaultValue($value): string
     {
         if ($value instanceof Expression) {
-            return $value;
+            return $this->getValue($value);
         }
         
         return is_bool($value)
                     ? "'".(int) $value."'"
                     : "'".(string) $value."'";
+    }
+    
+    /**
+     * Get the flowing commands for the grammar.
+     * 
+     * @return array
+     */
+    public function getFlowingCommands(): array
+    {
+        return $this->flowingCommands;
     }
 }
