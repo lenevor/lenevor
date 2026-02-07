@@ -23,15 +23,18 @@
 namespace Syscodes\Components\Support;
 
 use ArrayAccess;
+use ArrayIterator;
+use Traversable;
 use JsonSerializable;
+use IteratorAggregate;
+use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Contracts\Support\Arrayable;
-use Syscodes\Components\Support\Traits\Macroable;
 
 /**
  * Checks if exist an attribute in flowing instance for collections of data.
  */
-class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
+class Flowing implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable, JsonSerializable
 {
     use Macroable {
         __call as macroCall;
@@ -145,17 +148,17 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
         }
         
         $results = [];
-
+        
         foreach (is_array($keys) ? $keys : func_get_args() as $key) {
             Arr::set($results, $key, Arr::get($data, $key));
         }
-
+        
         return $results;
     }
-
+    
     /**
      * Get data from the flowing instance.
-     *
+     * 
      * @param  string|null  $key
      * @param  mixed  $default
      * 
@@ -208,6 +211,38 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
         return json_encode($this->jsonSerialize(), $options);
     }
     
+    /**
+     * Convert the flowing instance to pretty print formatted JSON.
+     * 
+     * @param int $options
+     * 
+     * @return string
+     */
+    public function toPrettyJson(int $options = 0): string
+    {
+        return $this->toJson(JSON_PRETTY_PRINT | $options);
+    }
+    
+    /**
+     * Determine if the flowing instance is empty.
+     * 
+     * @return bool
+     */
+    public function isEmpty(): bool
+    {
+        return empty($this->attributes);
+    }
+    
+    /**
+     * Determine if the flowing instance is not empty.
+     * 
+     * @return bool
+     */
+    public function isNotEmpty(): bool
+    {
+        return ! $this->isEmpty();
+    }
+    
     /*
     |-----------------------------------------------------------------
     | ArrayAccess Methods
@@ -223,7 +258,7 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      */
     public function offsetExists($offset): bool
     {
-        return isset($this->{$offset});
+        return isset($this->attributes[$offset]);
     }
 
     /**
@@ -235,7 +270,7 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      */
     public function offsetGet($offset): mixed
     {
-        return $this->{$offset};
+        return $this->value($offset);
     }
 
     /**
@@ -248,7 +283,7 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      */
     public function offsetSet($offset, $value): void
     {
-        $this->{$offset} = $value;
+        $this->attributes[$offset] = $value;
     }
 
     /**
@@ -260,7 +295,23 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      */
     public function offsetUnset($offset): void
     {
-        unset($this->{$offset});
+        unset($this->attributes[$offset]);
+    }
+
+    /*
+    |-----------------------------------------------------------------
+    | IteratorAggregate Method
+    |-----------------------------------------------------------------
+    */
+    
+    /**
+     * Get an iterator for the attributes.
+     * 
+     * @return ArrayIterator
+     */
+    public function getIterator(): Traversable
+    {
+        return new ArrayIterator($this->attributes);
     }
 
     /**
@@ -274,7 +325,7 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
 	 */
 	public function __get($key) 
 	{
-		return $this->get($key);
+		return $this->value($key);
 	}
 
 	/**
@@ -332,6 +383,10 @@ class Flowing implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      */
     public function __call($method, $parameters)
     {
+        if (static::hasMacro($method)) {
+            return $this->macroCall($method, $parameters);
+        }
+
         $this->attributes[$method] = count($parameters) > 0 ? $parameters[0] : true;
 
         return $this;
