@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'sqlite'),
 
     /*
     |------------------------------------------------------------------------
@@ -26,7 +26,10 @@ return [
     |
     */
 
-    'migrations' => 'migrations',
+    'migrations' => [
+        'table' => 'migrations',
+        'update_date_on_publish' => true,
+    ],
 
     /*
     |------------------------------------------------------------------------
@@ -63,8 +66,21 @@ return [
             'database' => env('DB_DATABASE', 'lenevor'),
             'username' => env('DB_USERNAME', 'home'),
             'password' => env('DB_PASSWORD', ''),
-            'charset' => 'utf8',
-            'collation' => 'utf8_unicode_ci',
+            'charset' => env('DB_CHARSET', 'utf8mb4'),
+            'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null
+        ],
+        'mysqldb' => [
+            'driver' => 'mysqldb',
+            'host' => env('DB_HOST', 'localhost'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE', 'lenevor'),
+            'username' => env('DB_USERNAME', 'home'),
+            'password' => env('DB_PASSWORD', ''),
+            'charset' => env('DB_CHARSET', 'utf8mb4'),
+            'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),
             'prefix' => '',
             'strict' => true,
             'engine' => null
@@ -76,15 +92,15 @@ return [
             'database' => env('DB_DATABASE', 'lenevor'),
             'username' => env('DB_USERNAME', 'home'),
             'password' => env('DB_PASSWORD', ''),
-            'charset' => 'utf8',
+            'charset' => env('DB_CHARSET', 'utf8'),
             'prefix' => '',
             'schema' => 'public',
-            'sslmode' => 'prefer'
+            'sslmode' => env('DB_SSLMODE', 'prefer'),
         ],
         'sqlite' => [
             'driver' => 'sqlite',
             'database' => env('DB_DATABASE', database_path('data/database.sqlite')),
-            'prefix' => ''
+            'prefix' => '',
         ],
         'sqlsrv' => [
             'driver' => 'sqlsrv',
@@ -93,8 +109,8 @@ return [
             'database' => env('DB_DATABASE', 'lenevor'),
             'username' => env('DB_USERNAME', 'home'),
             'password' => env('DB_PASSWORD', ''),
-            'charset' => 'utf8',
-            'prefix' => ''
+            'charset' => env('DB_CHARSET', 'utf8'),
+            'prefix' => '',
         ],
     
     ],
