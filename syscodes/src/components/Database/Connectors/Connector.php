@@ -23,14 +23,19 @@
 namespace Syscodes\Components\Database\Connectors;
 
 use PDO;
+use Exception;
+use Throwable;
 use PDOException;
+use Syscodes\Components\Database\Concerns\DetectLostConnections;
 use Syscodes\Components\Database\Exceptions\ConnectionException;
 
 /**
  * The default PDO connection.
  */
-abstract class Connector
+class Connector
 {
+    use DetectLostConnections;
+
     /**
      * The default PDO connection options.
      * 
@@ -43,20 +48,6 @@ abstract class Connector
         PDO::ATTR_STRINGIFY_FETCHES => false,
         PDO::ATTR_EMULATE_PREPARES => false,
     ];
-
-    /**
-     * Get the PDO options based on the configuration.
-     * 
-     * @param  array  $config
-     * 
-     * @return array
-     */
-    public function getOptions(array $config): array
-    {
-        $options = $config['options'] ?? [];
-
-        return array_diff_assoc($this->options, $options) + $options;
-    }
 
     /**
      * Create a new PDO connection.
@@ -72,15 +63,71 @@ abstract class Connector
     public function createConnection($dsn, array $config, array $options)
     {
         list($username, $password) = [
-            $config['username'] ?? null,
-            $config['password'] ?? null
+            $config['username'] ?? null, $config['password'] ?? null
         ];
 
         try {
-            return new PDO($dsn, $username, $password, $options);
-        } catch (PDOException $e) {
-            throw new ConnectionException("Connection to [{$dsn}] failed: ".$e->getMessage(), $e);
+            return $this->createPdoConnection(
+                $dsn, $username, $password, $options
+            );
+        } catch (Exception $e) {
+            return $this->tryAgainIfCausedByLostConnection(
+                $e, $dsn, $username, $password, $options
+            );
         }
+    }
+    
+    /**
+     * Create a new PDO connection instance.
+     *
+     * @param  string  $dsn
+     * @param  string  $username
+     * @param  string  $password
+     * @param  array  $options
+     * 
+     * @return \PDO
+     */
+    protected function createPdoConnection($dsn, $username, $password, $options): PDO
+    {
+        return version_compare(PHP_VERSION, '8.4.0', '<')
+            ? new PDO($dsn, $username, $password, $options)
+            : PDO::connect($dsn, $username, $password, $options);
+    }
+
+    /**
+     * Handle an exception that occurred during connect execution.
+     *
+     * @param  \Throwable  $e
+     * @param  string  $dsn
+     * @param  string  $username
+     * @param  string  $password
+     * @param  array  $options
+     * 
+     * @return \PDO
+     *
+     * @throws \Throwable
+     */
+    protected function tryAgainIfCausedByLostConnection(Throwable $e, $dsn, $username, $password, $options)
+    {
+        if ($this->causedByLostConnection($e)) {
+            return $this->createPdoConnection($dsn, $username, $password, $options);
+        }
+
+        throw $e;
+    }
+
+    /**
+     * Get the PDO options based on the configuration.
+     * 
+     * @param  array  $config
+     * 
+     * @return array
+     */
+    public function getOptions(array $config): array
+    {
+        $options = $config['options'] ?? [];
+
+        return array_diff_assoc($this->options, $options) + $options;
     }
 
     /**
@@ -100,8 +147,8 @@ abstract class Connector
      * 
      * @return void
      */
-    public function setDefaultOptions(array $options)
+    public function setDefaultOptions(array $options): void
     {
-        return $this->options = $options;
+        $this->options = $options;
     }
 }
