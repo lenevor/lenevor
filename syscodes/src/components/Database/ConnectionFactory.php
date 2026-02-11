@@ -26,12 +26,14 @@ use InvalidArgumentException;
 use Syscodes\Components\Container\Container;
 use Syscodes\Components\Support\Arr;
 // Connector
+use Syscodes\Components\Database\Connectors\MariaDbConnector;
 use Syscodes\Components\Database\Connectors\MySqlConnector;
 use Syscodes\Components\Database\Connectors\PostgresConnector;
 use Syscodes\Components\Database\Connectors\SQLiteConnector;
 use Syscodes\Components\Database\Connectors\SqlServerConnector;
 // Connection
 use Syscodes\Components\Database\Connections\Connection;
+use Syscodes\Components\Database\Connection\MariaDbConnection;
 use Syscodes\Components\Database\Connections\MySqlConnection;
 use Syscodes\Components\Database\Connections\PostgresConnection;
 use Syscodes\Components\Database\Connections\SQLiteConnection;
@@ -45,14 +47,14 @@ class ConnectionFactory
     /**
      * The IoC container instance.
      * 
-     * @var \Syscodes\Components\Container\Container $container
+     * @var \Syscodes\Components\Container\Container
      */
     protected $container;
 
     /**
      * Constructor. Create a new ConnectionFactory class instance.
      * 
-     * @param  \Syscodes\Components\Container\Container  $container
+     * @param  \Syscodes\Components\Container\Container
      * 
      * @return void
      */
@@ -210,6 +212,7 @@ class ConnectionFactory
 
         return match ($config['driver']) {
             'mysql' => new MySqlConnector,
+            'mariadb' => new MariaDbConnector,
             'pgsql' => new PostgresConnector,
             'sqlite' => new SQLiteConnector,
             'sqlsrv' => new SqlServerConnector,
@@ -238,6 +241,7 @@ class ConnectionFactory
 
         return match ($driver) {
             'mysql' => new MySqlConnection($connection, $database, $prefix, $config),
+            'mariadb' => new MariaDbConnection($connection, $database, $prefix, $config),
             'pgsql' => new PostgresConnection($connection, $database, $prefix, $config),
             'sqlite' => new SQLiteConnection($connection, $database, $prefix, $config),
             'sqlsrv' => new SqlServerConnection($connection, $database, $prefix, $config),
