@@ -50,7 +50,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
 
         $this->configureEncoding($connection, $config);
         $this->configureTimezone($connection, $config);        
-        $this->setModes($connection, $config);
+        $this->setSqlModes($connection, $config);
 
         return $connection;
     }
@@ -103,11 +103,9 @@ class MySqlConnector extends Connector implements ConnectorInterface
      */
     protected function getHostDsn(array $config): string
     {
-        extract($config, EXTR_SKIP);
-        
-        return isset($port)
-                ? "mysql:host={$host};port={$port};dbname={$database}"
-                : "mysql:host={$host};dbname={$database}";
+        return isset($config['port'])
+                ? "mysql:host={$config['host']};port={$config['port']};dbname={$config['database']}"
+                : "mysql:host={$config['host']};dbname={$config['database']}";
     }
 
     /**
@@ -162,15 +160,28 @@ class MySqlConnector extends Connector implements ConnectorInterface
      * @param  \PDO  $connection
      * @param  array  $config
      * 
-     * @return void
+     * @return string|null
      */
-    protected function setModes($connection, array $config): void
+    protected function setSqlModes(PDO $connection, array $config): ?string
     {
-        // If the "strict" option has been configured for the connection we'll enable
-        // strict mode on all of these tables. This enforces some extra rules when
-        // using the MySQL database system and is a quicker way to enforce them.
-        if (isset($config['strict']) && $config['strict']) {
-            $connection->prepare("set session sql_mode='STRICT_ALL_TABLES'")->execute();
+        if (isset($config['modes'])) {
+            return implode(',', $config['modes']);
         }
+
+        if ( ! isset($config['strict'])) {
+            return null;
+        }
+
+        if ( ! $config['strict']) {
+            return 'NO_ENGINE_SUBSTITUTION';
+        }
+
+        $version = $config['version'] ?? $connection->getAttribute(PDO::ATTR_SERVER_VERSION);
+
+        if (version_compare($version, '8.0.11', '>=')) {
+            return 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+        }
+
+        return 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
     }
 }
