@@ -26,7 +26,7 @@ use Syscodes\Components\Database\Query\Builder;
 
 /**
  * Allows make the grammar's for get results of the database
- * using the mysql database manager.
+ * using the Mysql database manager.
  */
 class MySqlGrammar extends Grammar
 {
