@@ -47,6 +47,13 @@ class QueryExecuted
      * @var string $ConnectionName
      */
     public $connectionName;
+    
+    /**
+     * The PDO read / write type for the executed query.
+     * 
+     * @var null|'read'|'write'
+     */
+    public $readWriteType;
 
     /**
      * The SQL query that was executed.
@@ -69,15 +76,17 @@ class QueryExecuted
      * @param  array  $bindings
      * @param  float|null  $time
      * @param  \Syscodes\Components\Database\Connection  $connection
+     * @param  null|'read'|'write'  $readWriteType
      * 
      * @return void
      */
-    public function __construct($sql, $bindings, $time, $connection)
+    public function __construct($sql, $bindings, $time, $connection, $readWriteType)
     {
-        $this->sql            = $sql;
-        $this->bindings       = $bindings;
-        $this->time           = $time;
-        $this->connection     = $connection;
+        $this->sql = $sql;
+        $this->bindings = $bindings;
+        $this->time = $time;
+        $this->connection = $connection;
         $this->connectionName = $connection->getName();
+        $this->readWriteType = $readWriteType;
     }
 }
