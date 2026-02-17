@@ -38,6 +38,7 @@ use Syscodes\Components\Database\Events\TransactionBegin;
 use Syscodes\Components\Database\Events\StatementPrepared;
 use Syscodes\Components\Database\Events\TransactionRollback;
 use Syscodes\Components\Database\Events\TransactionCommitted;
+use Syscodes\Components\Database\Exceptions\ConstraintViolationException;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
 use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Database\Query\Grammars\Grammar as QueryGrammar;
@@ -45,44 +46,81 @@ use Syscodes\Components\Database\Query\Processors\Processor;
 use Syscodes\Components\Database\Schema\Builders\Builder as SchemaBuilder;
 use Syscodes\Components\Database\Schema\Grammars\Grammar as SchemaGrammar;
 use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Traits\Macroable;
 
 /**
  * Creates a database connection using PDO.
  */
 class Connection implements ConnectionInterface
 {
-    use ManagesTransactions,
-        DetectLostConnections;
+    use DetectLostConnections,
+        Macroable,
+        ManagesTransactions;
     
     /**
      * The database connection configuration options.
      * 
-     * @var array $config
+     * @var array
      */
     protected $config = [];
 
     /**
      * The name of the connected database.
      * 
-     * @var string $database
+     * @var string
      */
     protected $database;
 
     /**
      * The event dispatcher instance.
      * 
-     * @var \Syscodes\Components\Contracts\Events\Dispatcher  $events
+     * @var \Syscodes\Components\Contracts\Events\Dispatcher
      */
     protected $events;
 
     /**
      * The default fetch mode of the connection.
      * 
-     * @var int $fetchMode
+     * @var int
      */
-    protected $fetchMode = PDO::FETCH_OBJ; 
+    protected $fetchMode = PDO::FETCH_OBJ;
+    
+    /**
+     * The last retrieved PDO read / write type.
+     * 
+     * @var null|'read'|'write'
+     */
+    protected $latestPdoTypeRetrieved = null;
 
     /**
+     * Indicates whether queries are being logged.
+     * 
+     * @var bool
+     */
+    protected $loggingQueries = false;
+    
+    /**
+     * The active PDO connection.
+     * 
+     * @var \PDO
+     */
+    protected $pdo;
+
+    /**
+     * The query post processor implementation.
+     * 
+     * @var \Syscodes\Components\Database\Query\Processor|string
+     */
+    protected $postProcessor;
+
+    /**
+     * Indicates if the connection is in a "dry run".
+     * 
+     * @var bool
+     */
+    protected $pretending = false;
+
+     /**
      * The query grammar implementation.
      * 
      * @var \Syscodes\Components\Database\Query\Grammar|string
@@ -92,77 +130,63 @@ class Connection implements ConnectionInterface
     /**
      * All of the queries run against the connection.
      * 
-     * @var array $queryLog
+     * @var array
      */
     protected $queryLog = [];
 
     /**
-     * Indicates whether queries are being logged.
-     * 
-     * @var bool $loggingQueries
-     */
-    protected $loggingQueries = false;
-    
-    /**
-     * The active PDO connection.
-     * 
-     * @var \PDO $pdo
-     */
-    protected $pdo;
-
-    /**
-     * The query post processor implementation.
-     * 
-     * @var \Syscodes\Components\Database\Query\Processor|string $postProcessor
-     */
-    protected $postProcessor;
-
-    /**
-     * Indicates if the connection is in a "dry run".
-     * 
-     * @var bool $pretending
-     */
-    protected $pretending = false;
-
-    /**
      * The active PDO connection used for reads.
      * 
-     * @var \PDO $readPdo
+     * @var \PDO
      */
     protected $readPdo;
+    
+    /**
+     * The database connection configuration options for reading.
+     * 
+     * @var array
+     */
+    protected $readPdoConfig = [];
+    
+    /**
+     * The type of the connection.
+     * 
+     * @var string|null
+     */
+    protected $readWriteType;
 
     /**
      * The reconnector instance for the connection.
      * 
-     * @var callable $reconnector
+     * @var callable
      */
     protected $reconnector;
     
     /**
      * The schema grammar implementation.
      * 
-     * @var \Syscodes\Components\Database\Schema\Grammars\Grammar $schemaGrammar
+     * @var \Syscodes\Components\Database\Schema\Grammars\Grammar
      */
     protected $schemaGrammar;
 
     /**
      * The connection resolvers.
      * 
-     * @var array $resolvers
+     * @var array
      */
     protected static $resolvers = [];
 
     /**
      * The table prefix for the connection.
      * 
-     * @var string $tablePrefix
+     * @var string
      */
     protected $tablePrefix;
 
     /**
      * The number of active transactions.
      * 
-     * @var int $transactions
+     * @var int
      */
     protected $transactions = 0;
 
@@ -489,10 +513,30 @@ class Connection implements ConnectionInterface
         try {
             return $callback($query, $bindings);
         } catch (Exception $e) {
-            throw new QueryException(
-                $query, $this->prepareBindings($bindings), $e 
+            $exceptionType = $this->isConstraintError($e)
+                ? ConstraintViolationException::class
+                : QueryException::class;
+
+            throw new $exceptionType(
+                $this->getNameWithReadWriteType(),
+                $query,
+                $this->prepareBindings($bindings),
+                $e,
+                $this->getConnectionDetails(),
             );
         }
+    }
+    
+    /**
+     * Determine if the given database exception was caused by a constraint violation.
+     * 
+     * @param  \Exception  $exception
+     * 
+     * @return bool
+     */
+    protected function isConstraintError(Exception $exception)
+    {
+        return false;
     }
 
     /**
@@ -552,7 +596,7 @@ class Connection implements ConnectionInterface
      */
     protected function tryIfAgainCausedByLostConnection(QueryException $e, string $query, array $bindings, Closure $callback): mixed
     {
-        if ($this->causedByLostConnections($e->getPrevious())) {
+        if ($this->causedByLostConnection($e->getPrevious())) {
             $this->reconnect();
 
             return $this->runQueryCallback($query, $bindings, $callback);
@@ -572,10 +616,12 @@ class Connection implements ConnectionInterface
      */
     public function logQuery(string $query, array $bindings, ?float $time = null): void
     {
-        $this->event(new QueryExecuted($query, $bindings, $time, $this));
+        $readWriteType = $this->latestReadWriteTypeUsed();
+
+        $this->event(new QueryExecuted($query, $bindings, $time, $this, $readWriteType));
 
         if ($this->loggingQueries) {
-            $this->queryLog[] = compact('query', 'bindings', 'time');
+            $this->queryLog[] = compact('query', 'bindings', 'time', 'readWriteType');
         }
     }
 
@@ -700,6 +746,8 @@ class Connection implements ConnectionInterface
      */
     public function getPdo()
     {
+        $this->latestPdoTypeRetrieved = 'write';
+
         if ($this->pdo instanceof Closure) {
             return $this->pdo = call_user_func($this->pdo);
         }
@@ -727,6 +775,8 @@ class Connection implements ConnectionInterface
         if ($this->transactions > 0) {
             return $this->getPdo();
         }
+        
+        $this->latestPdoTypeRetrieved = 'read';
         
         if ($this->readPdo instanceof Closure) {
             return $this->readPdo = call_user_func($this->readPdo);
@@ -788,21 +838,43 @@ class Connection implements ConnectionInterface
 
         return $this;
     }
+    
+    /**
+     * Get the database connection with its read / write type.
+     * 
+     * @return string|null
+     */
+    public function getNameWithReadWriteType()
+    {
+        $name = $this->getName().($this->readWriteType ? '::'.$this->readWriteType : '');
+        
+        return empty($name) ? null : $name;
+    }
 
     /**
      * Get the PDO driver name.
      * 
      * @return string
      */
-    public function getConfigDriver()
+    public function getDriverName()
     {
         return $this->getConfig('driver');
     }
-
+    
+    /**
+     * Get a human-readable name for the given connection driver.
+     * 
+     * @return string
+     */
+    public function getDriverTitle()
+    {
+        return $this->getDriverName();
+    }
+    
     /**
      * Get the database connection name.
      * 
-     * @return string
+     * @return string|null
      */
     public function getName()
     {
@@ -819,6 +891,27 @@ class Connection implements ConnectionInterface
     public function getConfig($option = null)
     {
         return Arr::get($this->config, $option);
+    }
+    
+    /**
+     * Get the basic connection information as an array for debugging.
+     * 
+     * @return array
+     */
+    protected function getConnectionDetails(): array
+    {
+        $config = $this->latestReadWriteTypeUsed() === 'read'
+            ? $this->readPdoConfig
+            : $this->config;
+            
+        return [
+            'driver' => $this->getDriverName(),
+            'name' => $this->getNameWithReadWriteType(),
+            'host' => $config['host'] ?? null,
+            'port' => $config['port'] ?? null,
+            'database' => $config['database'] ?? null,
+            'unix_socket' => $config['unix_socket'] ?? null,
+        ];
     }
 
     /**
@@ -892,6 +985,20 @@ class Connection implements ConnectionInterface
         }
 
         return new SchemaBuilder($this);
+    }
+    
+    /**
+     * Set the read PDO connection configuration.
+     * 
+     * @param  array  $config
+     * 
+     * @return static
+     */
+    public function setReadPdoConfig(array $config): static
+    {
+        $this->readPdoConfig = $config;
+        
+        return $this;
     }
     
     /**
@@ -1031,6 +1138,16 @@ class Connection implements ConnectionInterface
     public function logging(): bool
     {
         return $this->loggingQueries;
+    }
+    
+    /**
+     * Retrieve the latest read / write type used.
+     * 
+     * @return 'read'|'write'|null
+     */
+    protected function latestReadWriteTypeUsed()
+    {
+        return $this->readWriteType ?? $this->latestPdoTypeRetrieved;
     }
 
     /**
