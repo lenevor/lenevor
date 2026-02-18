@@ -22,7 +22,9 @@
  
 namespace Syscodes\Components\Database;
 
+use RuntimeException;
 use Syscodes\Components\Database\Query\Expression;
+use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\Traits\Macroable;
 
 /**
@@ -43,15 +45,34 @@ abstract class Grammar
      * Wrap a table in keyword identifiers.
      * 
      * @param  \Syscodes\Components\Database\Query\Expression|string  $table
+     * @param  string|null  $prefix
      * 
      * @return string
      */
-    public function wrapTable($table): string
+    public function wrapTable($table, $prefix = null): string
     {
-        if ( ! $this->isExpression($table)) {
-            return $this->wrap($this->tablePrefix.$table, true);
+        if ($this->isExpression($table)) {
+            return $this->getValue($table);
         }
 
+        $prefix ??= $this->tablePrefix;
+        
+        // If the table being wrapped has an alias we'll need to separate the pieces
+        // so we can prefix the table and then wrap each of the segments on their own.
+        if (stripos($table, ' as ') !== false) {
+            return $this->wrapAliasedTable($table, $prefix);
+        }
+        
+        // If the table being wrapped has a custom schema name specified, we need to
+        // prefix the last segment as the table name then wrap each segment alone.
+        if (str_contains($table, '.')) {
+            $table = substr_replace($table, '.'.$prefix, strrpos($table, '.'), 1);
+            
+            return (new Collection(explode('.', $table)))
+                ->map($this->wrapValue(...))
+                ->implode('.');
+        }
+        
         return $this->getValue($table);
     }
     
@@ -64,25 +85,34 @@ abstract class Grammar
      */
     public function wrapArray(array $values): array
     {
-        return array_map([$this, 'wrap'], $values);
+        return array_map($this->wrap(...), $values);
     }
 
     /**
      * Wrap a value in keyword identifiers.
      * 
      * @param  \Syscodes\Components\Database\Query\Expression|string  $value
-     * @param  bool  $prefix
      * 
      * @return string
      */
-    public function wrap($value, $prefix = false): string
+    public function wrap($value): string
     {
         if ($this->isExpression($value)) {
             return $this->getValue($value);
         }
-
+        
+        // If the value being wrapped has a column alias we will need to separate out
+        // the pieces so we can wrap each of the segments of the expression on its own.
         if (strpos($value, ' as ') !== false) {
-            return $this->wrapAliasedValues($value, $prefix);
+            return $this->wrapAliasedValue($value);
+        }
+        
+        // If the given value is a JSON selector we will wrap it differently than a
+        // traditional value. We will need to split this path and wrap each part
+        // wrapped, etc.
+        
+        if ($this->isJsonSelector($value)) {
+            return $this->wrapJsonSelector($value);
         }
 
         return $this->wrapSegments(explode('.', $value));
@@ -92,19 +122,31 @@ abstract class Grammar
      * Wrap a value that has an alias.
      * 
      * @param  string  $value
-     * @param  bool  $prefix
      * 
      * @return string
      */
-    protected function wrapAliasedValues($value, $prefix = false): string
+    protected function wrapAliasedValue($value): string
     {
         $segments = preg_split('/\s+as\s+/i', $value);
 
-        if ($prefix) {
-            $segments[1] = $this->tablePrefix.$segments[1];
-        }
-
-        return $this->wrap($segments[0].' as '.$this->wrapValue($segments[1]));
+        return $this->wrap($segments[0]).' as '.$this->wrapValue($segments[1]);
+    }
+    
+    /**
+     * Wrap a table that has an alias.
+     * 
+     * @param  string  $value
+     * @param  string|null  $prefix
+     * 
+     * @return string
+     */
+    protected function wrapAliasedTable($value, $prefix = null): string
+    {
+        $segments = preg_split('/\s+as\s+/i', $value);
+        
+        $prefix ??= $this->tablePrefix;
+        
+        return $this->wrapTable($segments[0], $prefix).' as '.$this->wrapValue($prefix.$segments[1]);
     }
 
     /**
@@ -116,12 +158,11 @@ abstract class Grammar
      */
     protected function wrapSegments($segments): string
     {
-        return collect($segments)->map(function ($segment, $key) use ($segments) {
-                    return $key == 0 && count($segments) > 1
-                        ? $this->wrapTable($segment)
-                        : $this->wrapValue($segment);
-                    }
-               )->implode('.');
+        return (new Collection($segments))->map(function ($segment, $key) use ($segments) {
+            return $key == 0 && count($segments) > 1
+                ? $this->wrapTable($segment)
+                : $this->wrapValue($segment);
+        })->implode('.');
     }
 
     /**
@@ -138,6 +179,32 @@ abstract class Grammar
         }
 
         return $value;
+    }
+    
+    /**
+     * Wrap the given JSON selector.
+     * 
+     * @param  string  $value
+     * 
+     * @return string
+     * 
+     * @throws \RuntimeException
+     */
+    protected function wrapJsonSelector($value): string
+    {
+        throw new RuntimeException('This database engine does not support JSON operations.');
+    }
+    
+    /**
+     * Determine if the given string is a JSON selector.
+     * 
+     * @param  string  $value
+     * 
+     * @return bool
+     */
+    protected function isJsonSelector($value): bool
+    {
+        return str_contains($value, '->');
     }
 
     /**
@@ -161,7 +228,7 @@ abstract class Grammar
      */
     public function parameterize(array $values): string
     {
-        return implode(', ', array_map([$this, 'parameter'], $values));
+        return implode(', ', array_map($this->wrap(...), $values));
     }
 
     /**
@@ -179,13 +246,17 @@ abstract class Grammar
     /**
      * Get the value of a raw expression.
      * 
-     * @param  \Syscodes\Components\Database\Query\Expression  $expression
+     * @param  \Syscodes\Components\Database\Query\Expression|string|int|float  $expression
      * 
-     * @return string
+     * @return string|int|float
      */
-    public function getValue(Expression $expression): string
+    public function getValue($expression): string|int|float
     {
-        return $expression->getValue($this);
+        if ($this->isExpression($expression)) {
+            return $this->getValue($expression->getValue($this));
+        }
+
+        return $expression;
     }
 
     /**
