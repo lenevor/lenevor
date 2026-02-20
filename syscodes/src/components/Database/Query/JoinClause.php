@@ -22,78 +22,99 @@
  
 namespace Syscodes\Components\Database\Query;
 
+use Closure;
+
 /**
  * Allows get the clause for add a join of atrributes in query sql.
  */
-class JoinClause
+class JoinClause extends Builder
 {
     /**
-     * The "on" bindings for the join.
-     * 
-     * @var array $bindings
+     * The class name of the parent query builder.
+     *
+     * @var string
      */
-    protected $bindings = [];
+    protected $parentClass;
 
     /**
-     * The "on" clauses for the join.
-     * 
-     * @var array $clauses
+     * The connection of the parent query builder.
+     *
+     * @var \Syscodes\Components\Database\ConnectionInterface
      */
-    protected $clauses = [];
+    protected $parentConnection;
+
+    /**
+     * The grammar of the parent query builder.
+     *
+     * @var \Syscodes\Components\Database\Query\Grammars\Grammar
+     */
+    protected $parentGrammar;
+
+    /**
+     * The processor of the parent query builder.
+     *
+     * @var \Syscodes\Components\Database\Query\Processors\Processor
+     */
+    protected $parentProcessor;    
 
     /**
      * The table the join clause is joining to.
      * 
      * @var string $table
      */
-    protected $table;
+    public $table;
 
     /**
      * The type of join being performed.
      * 
      * @var string $type
      */
-    protected $type;
+    public $type;
 
     /**
      * Constructor. Create a new JoinClause class instance.
      * 
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  string  $type
      * @param  string  $table
      * 
      * @return void
      */
-    public function __construct($type, $table)
+    public function __construct(Builder $builder, $type, $table)
     {
         $this->type  = $type;
         $this->table = $table;
+        $this->parentClass = get_class($builder);
+        $this->parentGrammar = $builder->getQueryGrammar();
+        $this->parentProcessor = $builder->getQueryProcessor();
+        $this->parentConnection = $builder->getConnection();
+
+        parent::__construct(
+            $this->parentConnection, $this->parentGrammar, $this->parentProcessor
+        );
     }
 
     /**
      * Add an "on" clause to the join.
      * 
-     * @param  string  $first
+     * @param  \Closure|\Syscodes\Components\Contracts\Database\Query\Expression|string  $first
      * @param  string|null  $operator  
-     * @param  string|null  $second  
-     * @param  string  $boolean  
-     * @param  bool  $where  
+     * @param  \Syscodes\Components\Contracts\Database\Query\Expression|string|null  $second  
+     * @param  string  $boolean
      * 
      * @return static
      */
     public function on(
-        string $first,
-        ?string $operator = null,
-        ?string $second = null,
-        string $boolean = 'and',
-        bool $where = false
+        $first,
+        $operator = null,
+        $second = null,
+        $boolean = 'and'
     ): static {
-        $this->clauses[] = compact('first', 'operator', 'second', 'boolean', 'where');
-
-        if ($where) {
-            $this->bindings[] = $second;
+        if ($first instanceof Closure) {
+            return $this->whereNested($first, $boolean);
         }
 
-        return $this;
+        return $this->whereColumn($first, $operator, $second, $boolean);
     }
 
     /**
@@ -105,50 +126,40 @@ class JoinClause
      * 
      * @return \Syscodes\Components\Database\Query\JoinClause
      */
-    public function orOn(string $first, ?string $operator = null, ?string $second = null)
+    public function orOn($first, $operator = null, $second = null): static
     {
         return $this->on($first, $operator, $second, 'or');
     }
 
     /**
-     * Add an "on where" clause to the join.
-     * 
-     * @param  string  $first
-     * @param  string|null  $operator  
-     * @param  string|null  $second  
-     * @param  string  $boolean  
-     * 
+     * Get a new instance of the join clause builder.
+     *
      * @return \Syscodes\Components\Database\Query\JoinClause
      */
-    public function where(string $first, ?string $operator = null, ?string $second = null, string $boolean = 'and')
+    public function newQuery(): static
     {
-        return $this->on($first, $operator, $second, $boolean, true);
+        return new static($this->newParentQuery(), $this->type, $this->table);
     }
 
     /**
-     * Add an "or on where" clause to the join.
-     * 
-     * @param  string  $first
-     * @param  string|null  $operator  
-     * @param  string|null  $second  
-     * 
-     * @return \Syscodes\Components\Database\Query\JoinClause
+     * Create a new query instance for sub-query.
+     *
+     * @return \Syscodes\Components\Database\Query\Builder
      */
-    public function orWhere(string $first, ?string $operator = null, ?string $second = null)
+    protected function forSubQuery()
     {
-        return $this->on($first, $operator, $second, 'or', true);
+        return $this->newParentQuery()->newQuery();
     }
 
     /**
-     * Add an "on where is null" clause to the join
-     * 
-     * @param  string  $column
-     * @param  string|null  $operator  
-     * 
-     * @return \Syscodes\Components\Database\Query\JoinClause
+     * Create a new parent query instance.
+     *
+     * @return \Syscodes\Components\Database\Query\Builder
      */
-    public function whereNull(string $column, string $boolean = 'and')
+    protected function newParentQuery()
     {
-        return $this->on($column, 'is', new Expression('null'), $boolean, false);
+        $class = $this->parentClass;
+
+        return new $class($this->parentConnection, $this->parentGrammar, $this->parentProcessor);
     }
 }
