@@ -161,6 +161,20 @@ class Connection implements ConnectionInterface
      * @var callable
      */
     protected $reconnector;
+
+    /**
+     * Indicates if changes have been made to the database.
+     *
+     * @var bool
+     */
+    protected $recordsModified = false;
+
+    /**
+     * Indicates if the connection should use the "write" PDO connection.
+     *
+     * @var bool
+     */
+    protected $readOnWriteConnection = false;
     
     /**
      * The schema grammar implementation.
@@ -740,6 +754,68 @@ class Connection implements ConnectionInterface
     }
 
     /**
+     * Determine if the database connection has modified any database records.
+     *
+     * @return bool
+     */
+    public function hasModifiedRecords(): bool
+    {
+        return $this->recordsModified;
+    }
+
+    /**
+     * Indicate if any records have been modified.
+     *
+     * @param  bool  $value
+     * 
+     * @return void
+     */
+    public function recordsHaveBeenModified($value = true): void
+    {
+        if ( ! $this->recordsModified) {
+            $this->recordsModified = $value;
+        }
+    }
+
+    /**
+     * Set the record modification state.
+     *
+     * @param  bool  $value
+     * 
+     * @return static
+     */
+    public function setRecordModificationState(bool $value): static
+    {
+        $this->recordsModified = $value;
+
+        return $this;
+    }
+
+    /**
+     * Reset the record modification state.
+     *
+     * @return void
+     */
+    public function eraseRecordModificationState(): void
+    {
+        $this->recordsModified = false;
+    }
+
+    /**
+     * Indicate that the connection should use the write PDO connection for reads.
+     *
+     * @param  bool  $value
+     * 
+     * @return static
+     */
+    public function useWriteConnectionWhenReading($value = true): static
+    {
+        $this->readOnWriteConnection = $value;
+
+        return $this;
+    }
+
+    /**
      * Get the PDO instance.
      * 
      * @return \PDO
@@ -773,6 +849,11 @@ class Connection implements ConnectionInterface
     public function getReadPdo()
     {
         if ($this->transactions > 0) {
+            return $this->getPdo();
+        }
+
+        if ($this->readOnWriteConnection ||
+            ($this->recordsModified && $this->getConfig('sticky'))) {
             return $this->getPdo();
         }
         
