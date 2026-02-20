@@ -23,10 +23,12 @@
 namespace Syscodes\Components\Database\Query\Grammars;
 
 use RuntimeException;
+use Syscodes\Components\Database\Concerns\CompilesJsonPaths;
 use Syscodes\Components\Database\Grammar as BaseGrammar;
 use Syscodes\Components\Database\Query\Builder;
 use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Database\Query\JoinClause;
+use Syscodes\Components\Database\Query\JoinLateralClause;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Collection;
 
@@ -35,6 +37,8 @@ use Syscodes\Components\Support\Collection;
  */
 class Grammar extends BaseGrammar
 {
+    use CompilesJsonPaths;
+    
     /**
      * Get the components for use a select statement.
      * 
@@ -186,9 +190,28 @@ class Grammar extends BaseGrammar
             $nestedJoins = is_null($join->joins) ? '' : ' '.$this->compileJoins($builder, $join->joins);
             
             $tableAndNestedJoins = is_null($join->joins) ? $table : '('.$table.$nestedJoins.')';
+
+            if ($join instanceof JoinLateralClause) {
+                return $this->compileJoinLateral($join, $tableAndNestedJoins);
+            }
             
             return trim("{$join->type} join {$tableAndNestedJoins} {$this->compileWheres($join)}");
         })->implode(' ');
+    }
+
+    /**
+     * Compile a "lateral join" clause.
+     *
+     * @param  \Syscodes\Components\Database\Query\JoinLateralClause  $join
+     * @param  string  $expression
+     * 
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    public function compileJoinLateral(JoinLateralClause $join, string $expression): string
+    {
+        throw new RuntimeException('This database engine does not support lateral joins.');
     }
 
     /**
@@ -662,13 +685,16 @@ class Grammar extends BaseGrammar
     protected function compileJsonContains($column, $value): string
     {
         throw new RuntimeException('This database engine does not support JSON contains operations.');
-    }/**
+    }
+    
+    /**
      * Prepare the binding for a "JSON contains" statement.
      *
      * @param  mixed  $binding
+     * 
      * @return string
      */
-    public function prepareBindingForJsonContains($binding)
+    public function prepareBindingForJsonContains($binding): string
     {
         return json_encode($binding, JSON_UNESCAPED_UNICODE);
     }
@@ -732,6 +758,44 @@ class Grammar extends BaseGrammar
     {
         throw new RuntimeException('This database engine does not support JSON length operations.');
     }
+
+    /**
+     * Compile a "JSON value cast" statement into SQL.
+     *
+     * @param  string  $value
+     * 
+     * @return string
+     */
+    public function compileJsonValueCast($value): string
+    {
+        return $value;
+    }
+
+    /**
+     * Compile a "where fulltext" clause.
+     *
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  array  $where
+     * 
+     * @return string
+     */
+    public function whereFullText(Builder $builder, $where): string
+    {
+        throw new RuntimeException('This database engine does not support fulltext search operations.');
+    }
+
+    /**
+     * Compile a clause based on an expression.
+     *
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  array  $where
+     * 
+     * @return string
+     */
+    public function whereExpression(Builder $builder, $where): string
+    {
+        return $where['column']->getValue($this);
+    }
     
     /**
      * Compile the "group by" portions of the query.
@@ -755,7 +819,7 @@ class Grammar extends BaseGrammar
      */
     protected function compileHavings(Builder $builder): string
     {
-        return 'having '.$this->removeLeadingBoolean(collect($builder->havings)->map(function ($having) {
+        return 'having '.$this->removeLeadingBoolean((new collection($builder->havings))->map(function ($having) {
             return $having['boolean'].' '.$this->compileHaving($having);
         })->implode(' '));
     }
@@ -1085,6 +1149,21 @@ class Grammar extends BaseGrammar
     }
 
     /**
+     * Compile an insert ignore statement into SQL.
+     *
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  array  $values
+     * 
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    public function compileInsertOrIgnore(Builder $builder, array $values): string
+    {
+        throw new RuntimeException('This database engine does not support inserting while ignoring errors.');
+    }
+
+    /**
      * Compile an insert statement using a subquery into SQL.
      * 
      * @param  \Syscodes\Components\Database\Query\Builder  $builder
@@ -1105,6 +1184,22 @@ class Grammar extends BaseGrammar
     }
 
     /**
+     * Compile an insert ignore statement using a subquery into SQL.
+     *
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  array  $columns
+     * @param  string  $sql
+     * 
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    public function compileInsertOrIgnoreUsing(Builder $builder, array $columns, string $sql): string
+    {
+        throw new RuntimeException('This database engine does not support inserting while ignoring errors.');
+    }
+
+    /**
      * Compile an update statement into SQL.
      * 
      * @param  \Syscodes\Components\Database\Query\Builder  $builder
@@ -1116,7 +1211,7 @@ class Grammar extends BaseGrammar
     {
         $table = $this->wrapTable($builder->from);
 
-        $columns = $this->compileUpdateColumns($values);
+        $columns = $this->compileUpdateColumns($builder, $values);
 
         $where = $this->compileWheres($builder);
 
@@ -1130,11 +1225,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile the columns for an update statement.
      * 
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
      * @param  array  $values
      * 
      * @return string
      */
-    public function compileUpdateColumns(array $values): string
+    protected function compileUpdateColumns(Builder $builder, array $values): string
     {
         return (new Collection($values))
             ->map(fn ($value, $key) => $this->wrap($key).' = '.$this->parameter($value))
@@ -1151,7 +1247,7 @@ class Grammar extends BaseGrammar
      * 
      * @return string
      */
-    public function compileUpdateWithJoins(Builder $builder, $table, $columns, $where): string
+    protected function compileUpdateWithJoins(Builder $builder, $table, $columns, $where): string
     {
         $joins = $this->compileJoins($builder, $builder->joins);
 
@@ -1168,7 +1264,7 @@ class Grammar extends BaseGrammar
      * 
      * @return string
      */
-    public function compileUpdateWithoutJoins(Builder $builder, $table, $columns, $where): string
+    protected function compileUpdateWithoutJoins(Builder $builder, $table, $columns, $where): string
     {
        return "update {$table} set {$columns} {$where}";
     }
@@ -1203,7 +1299,7 @@ class Grammar extends BaseGrammar
      * 
      * @return string
      */
-    public function compileDeleteWithJoins(Builder $builder, $table, $where): string
+    protected function compileDeleteWithJoins(Builder $builder, $table, $where): string
     {
         $alias = last(explode(' as ', $table));
 
@@ -1221,7 +1317,7 @@ class Grammar extends BaseGrammar
      * 
      * @return string
      */
-    public function compileDeleteWithoutJoins(Builder $builder, $table, $where): string
+    protected function compileDeleteWithoutJoins(Builder $builder, $table, $where): string
     {
        return "delete from {$table} {$where}";
     }
