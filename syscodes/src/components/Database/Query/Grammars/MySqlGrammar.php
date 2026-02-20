@@ -87,7 +87,7 @@ class MySqlGrammar extends Grammar
             $sql .= ' '.$this->compileLimit($builder, $builder->limit);
         }
         
-        return rtrim($sql);
+        return $sql;
     }
 
     /**
