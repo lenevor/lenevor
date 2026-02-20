@@ -283,16 +283,18 @@ class Builder implements BuilderContract
     /**
      * Makes a subquery and parse it.
      * 
-     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|string  $builder
+     * @param  \Closure|\Syscodes\Components\Database\Query\Builder||\Syscodes\Components\Database\Erostrine\Builder|string  $builder
      * 
      * @return array
      */
     protected function makeSub($builder): array
     {
+        // If the given query is a Closure, we will execute it while passing in a new
+        // query instance to the Closure.
         if ($builder instanceof Closure) {
             $callback = $builder;
 
-            $callback($builder = $this->newBuilder());
+            $callback($builder = $this->forSubBuilder());
         }
 
         return $this->parseSub($builder);
@@ -416,7 +418,7 @@ class Builder implements BuilderContract
     /**
      * Makes "from" fetch from a subquery.
      * 
-     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Database\Eloquent\Builder|string  $query
+     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Database\Erostrine\Builder|string  $query
      * @param  string  $as
      * 
      * @return static
@@ -445,6 +447,280 @@ class Builder implements BuilderContract
         $this->addBinding($bindings, 'from');
         
         return $this;
+    }
+
+    /**
+     * Add a "join" clause to the query.
+     *
+     * @param  \Syscodes\Components\Contracts\Database\Query\Expression|string  $table
+     * @param  \Closure|\Syscodes\Components\Contracts\Database\Query\Expression|string  $first
+     * @param  string|null  $operator
+     * @param  \Syscodes\Components\Contracts\Database\Query\Expression|string|null  $second
+     * @param  string  $type
+     * @param  bool  $where
+     * 
+     * @return static
+     */
+    public function join($table, $first, $operator = null, $second = null, $type = 'inner', $where = false): static
+    {
+        $join = $this->newJoinClause($this, $type, $table);
+
+        // If the first "column" of the join is really a Closure instance the developer
+        // is trying to build a join with a complex "on" clause containing.
+        if ($first instanceof Closure) {
+            $first($join);
+
+            $this->joins[] = $join;
+
+            $this->addBinding($join->getBindings(), 'join');
+        }
+        // If the column is simply a string, we can assume the join simply has a basic
+        // "on" clause with a single condition.
+        else {
+            $method = $where ? 'where' : 'on';
+
+            $this->joins[] = $join->$method($first, $operator, $second);
+
+            $this->addBinding($join->getBindings(), 'join');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add a "join where" clause to the query.
+     *
+     * @param  \Syscodes\Components\Contracts\Database\Query\Expression|string  $table
+     * @param  \Closure|\Syscodes\Components\Contracts\Database\Query\Expression|string  $first
+     * @param  string  $operator
+     * @param  \Syscodes\Components\Contracts\Database\Query\Expression|string  $second
+     * @param  string  $type
+     * 
+     * @return static
+     */
+    public function joinWhere($table, $first, $operator, $second, $type = 'inner'): static
+    {
+        return $this->join($table, $first, $operator, $second, $type, true);
+    }
+
+    /**
+     * Add a "subquery join" clause to the query.
+     *
+     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Database\Erostrine\Builder|string  $builder
+     * @param  string  $as
+     * @param  \Closure|\Syscodes\Components\Contracts\Database\Query\Expression|string  $first
+     * @param  string|null  $operator
+     * @param  \Syscodes\Components\Contracts\Database\Query\Expression|string|null  $second
+     * @param  string  $type
+     * @param  bool  $where
+     * 
+     * @return static
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function joinSub($builder, $as, $first, $operator = null, $second = null, $type = 'inner', $where = false): static
+    {
+        [$query, $bindings] = $this->makeSub($builder);
+
+        $expression = '('.$query.') as '.$this->grammar->wrapTable($as);
+
+        $this->addBinding($bindings, 'join');
+
+        return $this->join(new Expression($expression), $first, $operator, $second, $type, $where);
+    }
+
+    /**
+     * Add a "lateral join" clause to the query.
+     *
+     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Database\Erostrine\Builder|string  $builder
+     * 
+     * @return static
+     */
+    public function joinLateral($builder, string $as, string $type = 'inner'): static
+    {
+        [$query, $bindings] = $this->makeSub($builder);
+
+        $expression = '('.$query.') as '.$this->grammar->wrapTable($as);
+
+        $this->addBinding($bindings, 'join');
+
+        $this->joins[] = $this->newJoinLateralClause($this, $type, new Expression($expression));
+
+        return $this;
+    }
+
+    /**
+     * Add a lateral left join to the query.
+     *
+     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Database\Erostrine\Builder|string  $builder
+     * 
+     * @return static
+     */
+    public function leftJoinLateral($builder, string $as): static
+    {
+        return $this->joinLateral($builder, $as, 'left');
+    }
+
+    /**
+     * Add a left join to the query.
+     *
+     * @param  \Syscodes\Components\Contracts\Database\Query\Expression|string  $table
+     * @param  \Closure|\Syscodes\Components\Contracts\Database\Query\Expression|string  $first
+     * @param  string|null  $operator
+     * @param  \Syscodes\Components\Contracts\Database\Query\Expression|string|null  $second
+     * 
+     * @return static
+     */
+    public function leftJoin($table, $first, $operator = null, $second = null): static
+    {
+        return $this->join($table, $first, $operator, $second, 'left');
+    }
+
+    /**
+     * Add a "join where" clause to the query.
+     *
+     * @param  \Syscodes\Components\Contracts\Database\Query\Expression|string  $table
+     * @param  \Closure|\Syscodes\Components\Contracts\Database\Query\Expression|string  $first
+     * @param  string  $operator
+     * @param  \Syscodes\Components\Contracts\Database\Query\Expression|string|null  $second
+     * 
+     * @return static
+     */
+    public function leftJoinWhere($table, $first, $operator, $second): static
+    {
+        return $this->joinWhere($table, $first, $operator, $second, 'left');
+    }
+
+    /**
+     * Add a subquery left join to the query.
+     *
+     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Database\Erostrine\Builder|string  $builder
+     * @param  string  $as
+     * @param  \Closure|\Syscodes\Components\Contracts\Database\Query\Expression|string  $first
+     * @param  string|null  $operator
+     * @param  \Syscodes\Components\Contracts\Database\Query\Expression|string|null  $second
+     * 
+     * @return static
+     */
+    public function leftJoinSub($builder, $as, $first, $operator = null, $second = null): static
+    {
+        return $this->joinSub($builder, $as, $first, $operator, $second, 'left');
+    }
+
+    /**
+     * Add a right join to the query.
+     *
+     * @param  \Syscodes\Components\Contracts\Database\Query\Expression|string  $table
+     * @param  \Closure|string  $first
+     * @param  string|null  $operator
+     * @param  \Syscodes\Components\Contracts\Database\Query\Expression|string|null  $second
+     * 
+     * @return static
+     */
+    public function rightJoin($table, $first, $operator = null, $second = null): static
+    {
+        return $this->join($table, $first, $operator, $second, 'right');
+    }
+
+    /**
+     * Add a "right join where" clause to the query.
+     *
+     * @param  \Syscodes\Components\Contracts\Database\Query\Expression|string  $table
+     * @param  \Closure|\Syscodes\Components\Contracts\Database\Query\Expression|string  $first
+     * @param  string  $operator
+     * @param  \Syscodes\Components\Contracts\Database\Query\Expression|string  $second
+     * 
+     * @return static
+     */
+    public function rightJoinWhere($table, $first, $operator, $second): static
+    {
+        return $this->joinWhere($table, $first, $operator, $second, 'right');
+    }
+
+    /**
+     * Add a subquery right join to the query.
+     *
+     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Database\Erostrine\Builder|string  $builder
+     * @param  string  $as
+     * @param  \Closure|\Syscodes\Components\Contracts\Database\Query\Expression|string  $first
+     * @param  string|null  $operator
+     * @param  \Syscodes\Components\Contracts\Database\Query\Expression|string|null  $second
+     * 
+     * @return static
+     */
+    public function rightJoinSub($builder, $as, $first, $operator = null, $second = null): static
+    {
+        return $this->joinSub($builder, $as, $first, $operator, $second, 'right');
+    }
+
+    /**
+     * Add a "cross join" clause to the query.
+     *
+     * @param  \Syscodes\Components\Contracts\Database\Query\Expression|string  $table
+     * @param  \Closure|\Syscodes\Components\Contracts\Database\Query\Expression|string|null  $first
+     * @param  string|null  $operator
+     * @param  \Syscodes\Components\Contracts\Database\Query\Expression|string|null  $second
+     * 
+     * @return static
+     */
+    public function crossJoin($table, $first = null, $operator = null, $second = null): static
+    {
+        if ($first) {
+            return $this->join($table, $first, $operator, $second, 'cross');
+        }
+
+        $this->joins[] = $this->newJoinClause($this, 'cross', $table);
+
+        return $this;
+    }
+
+    /**
+     * Add a subquery cross join to the query.
+     *
+     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Database\Erostrine\Builder|string  $builder
+     * @param  string  $as
+     * 
+     * @return static
+     */
+    public function crossJoinSub($builder, $as): static
+    {
+        [$query, $bindings] = $this->makeSub($builder);
+
+        $expression = '('.$query.') as '.$this->grammar->wrapTable($as);
+
+        $this->addBinding($bindings, 'join');
+
+        $this->joins[] = $this->newJoinClause($this, 'cross', new Expression($expression));
+
+        return $this;
+    }
+
+    /**
+     * Get a new join clause.
+     * 
+     * @param  \Syscodes\Components\Database\Query\Builder  $parentBuilder
+     * @param  string  $type
+     * @param  \Syscodes\Components\Contracts\Database\Query\Expression|string  $table
+     * 
+     * @return \Syscodes\Components\Database\Query\JoinClause
+     */
+    protected function newJoinClause(self $parentBuilder, $type, $table)
+    {
+        return new JoinClause($$parentBuilder, $type, $table);
+    }
+
+    /**
+     * Get a new "join lateral" clause.
+     *
+     * @param  \Syscodes\Components\Database\Query\Builder  $parentBuilder
+     * @param  string  $type
+     * @param  \Syscodes\Components\Contracts\Database\Query\Expression|string  $table
+     * 
+     * @return \Syscodes\Components\Database\Query\JoinLateralClause
+     */
+    protected function newJoinLateralClause(self $parentBuilder, $type, $table)
+    {
+        return new JoinLateralClause($parentBuilder, $type, $table);
     }
 
     /**
@@ -1311,19 +1587,6 @@ class Builder implements BuilderContract
     public function getSql(): string
     {
         return $this->grammar->compileSelect($this);
-    }
-
-    /**
-     * Get a new join clause.
-     * 
-     * @param  string  $type
-     * @param  string  $table
-     * 
-     * @return \Syscodes\Components\Database\Query\JoinClause
-     */
-    protected function newJoinClause($type, $table)
-    {
-        return new JoinClause($type, $table);
     }
 
     /**
@@ -2417,7 +2680,7 @@ class Builder implements BuilderContract
     /**
      * Get the database connection instance.
      * 
-     * @return \Syscodes\Components\Database\ConnectionInterface
+     * @return \Syscodes\Components\Database\Connections\ConnectionInterface
      */
     public function getConnection()
     {
