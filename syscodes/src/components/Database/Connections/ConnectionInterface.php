@@ -116,6 +116,22 @@ interface ConnectionInterface
     public function prepareBindings(array $bindings): array;
 
     /**
+     * Get the PDO instance.
+     * 
+     * @return \PDO
+     */
+    public function getPdo();
+
+    /**
+     * Get an option from the configuration options.
+     * 
+     * @param  string|null  $option 
+     * 
+     * @return mixed
+     */
+    public function getConfig($option = null);
+
+    /**
      * Execute a Closure within a transaction.
      * 
      * @param  \Closure  $callback
