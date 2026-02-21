@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Database\Query\Grammars;
 
 use Syscodes\Components\Database\Query\Builder;
+use Syscodes\Components\Support\Str;
 
 /**
  * Allows make the grammar's for get results of the database
@@ -53,6 +54,44 @@ class SQLiteGrammar extends Grammar
     protected function wrapUnion($sql): string
     {
         return 'select * from ('.$sql.')';
+    }
+
+    /**
+     * Compile a basic where clause.
+     *
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  array  $where
+     * 
+     * @return string
+     */
+    protected function whereBasic(Builder $builder, $where): string
+    {
+        if ($where['operator'] === '<=>') {
+            $column = $this->wrap($where['column']);
+            $value = $this->parameter($where['value']);
+
+            return "{$column} IS {$value}";
+        }
+
+        return parent::whereBasic($builder, $where);
+    }
+
+    /**
+     * Compile a "where like" clause.
+     *
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  array  $where
+     * 
+     * @return string
+     */
+    protected function whereLike(Builder $builder, $where): string
+    {
+        if ($where['caseSensitive'] == false) {
+            return parent::whereLike($builder, $where);
+        }
+        $where['operator'] = $where['not'] ? 'not glob' : 'glob';
+
+        return $this->whereBasic($builder, $where);
     }
 
     /**
@@ -137,6 +176,90 @@ class SQLiteGrammar extends Grammar
     }
 
     /**
+     * Compile a "JSON length" statement into SQL.
+     *
+     * @param  string  $column
+     * @param  string  $operator
+     * @param  string  $value
+     * 
+     * @return string
+     */
+    protected function compileJsonLength($column, $operator, $value): string
+    {
+        [$field, $path] = $this->wrapJsonFieldAndPath($column);
+
+        return 'json_array_length('.$field.$path.') '.$operator.' '.$value;
+    }
+
+    /**
+     * Compile a "JSON contains" statement into SQL.
+     *
+     * @param  string  $column
+     * @param  mixed  $value
+     * 
+     * @return string
+     */
+    protected function compileJsonContains($column, $value): string
+    {
+        [$field, $path] = $this->wrapJsonFieldAndPath($column);
+
+        return 'exists (select 1 from json_each('.$field.$path.') where '.$this->wrap('json_each.value').' is '.$value.')';
+    }
+
+    /**
+     * Prepare the binding for a "JSON contains" statement.
+     *
+     * @param  string  $binding
+     * 
+     * @return string
+     */
+    public function prepareBindingForJsonContains($binding): string
+    {
+        return $binding;
+    }
+
+    /**
+     * Compile a "JSON contains key" statement into SQL.
+     *
+     * @param  string  $column
+     * 
+     * @return string
+     */
+    protected function compileJsonContainsKey($column): string
+    {
+        [$field, $path] = $this->wrapJsonFieldAndPath($column);
+
+        return 'json_type('.$field.$path.') is not null';
+    }
+
+    /**
+     * Compile an insert ignore statement into SQL.
+     *
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  array  $values
+     * 
+     * @return string
+     */
+    public function compileInsertOrIgnore(Builder $builder, array $values): string
+    {
+        return Str::replaceFirst('insert', 'insert or ignore', $this->compileInsert($builder, $values));
+    }
+
+    /**
+     * Compile an insert ignore statement using a subquery into SQL.
+     *
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  array  $columns
+     * @param  string  $sql
+     * 
+     * @return string
+     */
+    public function compileInsertOrIgnoreUsing(Builder $builder, array $columns, string $sql): string
+    {
+        return Str::replaceFirst('insert', 'insert or ignore', $this->compileInsertUsing($builder, $columns, $sql));
+    }
+
+    /**
      * Compile a truncate table statement into SQL.
      * 
      * @param  \Syscodes\Components\Database\Query\Builder  $builder
@@ -145,9 +268,27 @@ class SQLiteGrammar extends Grammar
      */
     public function truncate(Builder $builder): array
     {
+        [$schema, $table] = $builder->getConnection()->getSchemaBuilder()->parseSchemaAndTable($builder->from);
+
+        $schema = $schema ? $this->wrapValue($schema).'.' : '';
+
         return [
-            'delete from sqlite_sequence where name = ?' => [],
+            'delete from '.$schema.'sqlite_sequence where name = ?' => [$builder->getConnection()->getTablePrefix().$table],
             'delete from '.$this->wrapTable($builder->from) => [],
         ];
+    }
+
+    /**
+     * Wrap the given JSON selector.
+     *
+     * @param  string  $value
+     * 
+     * @return string
+     */
+    protected function wrapJsonSelector($value): string
+    {
+        [$field, $path] = $this->wrapJsonFieldAndPath($value);
+
+        return 'json_extract('.$field.$path.')';
     }
 }
