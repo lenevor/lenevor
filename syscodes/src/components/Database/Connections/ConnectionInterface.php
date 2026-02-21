@@ -178,4 +178,18 @@ interface ConnectionInterface
      * @return array
      */
     public function prepend(Closure $callback): array;
+
+    /**
+     * Get a schema builder instance for the connection.
+     * 
+     * @return \Syscodes\Components\Database\Schema\Builders\Builder
+     */
+    public function getSchemaBuilder();
+
+    /**
+     * Get the table prefix for the connection.
+     * 
+     * @return string
+     */
+    public function getTablePrefix(): string;
 }
