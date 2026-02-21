@@ -27,15 +27,21 @@ namespace Syscodes\Components\Database\Query\Processors;
  */
 class SQLiteProcessor extends Processor
 {
-    /**
-     * Process the results of a column listing query.
-     * 
-     * @param  array  $results
-     * 
-     * @return array
-     */
-    public function accessColumnListing($results): array
+    /** @inheritDoc */
+    public function processForeignKeys($results): array
     {
-        return array_map(fn ($result) => ((object) $result)->column_name, $results);
+        return array_map(function ($result) {
+            $result = (object) $result;
+
+            return [
+                'name' => null,
+                'columns' => explode(',', $result->columns),
+                'foreign_schema' => $result->foreign_schema,
+                'foreign_table' => $result->foreign_table,
+                'foreign_columns' => explode(',', $result->foreign_columns),
+                'on_update' => strtolower($result->on_update),
+                'on_delete' => strtolower($result->on_delete),
+            ];
+        }, $results);
     }
 }
