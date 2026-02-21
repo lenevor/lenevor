@@ -22,7 +22,8 @@
  
 namespace Syscodes\Components\Database\Query\Grammars;
 
-use Syscodes\Components\Database\Query\Builder;
+use RuntimeException;
+use Syscodes\Components\Database\Query\JoinLateralClause;
 
 /**
  * Allows make the grammar's for get results of the database
@@ -30,4 +31,44 @@ use Syscodes\Components\Database\Query\Builder;
  */
 class MariaDbGrammar extends MySqlGrammar
 {
+    /**
+     * Compile a "lateral join" clause.
+     *
+     * @param  \Illuminate\Database\Query\JoinLateralClause  $join
+     * @param  string  $expression
+     * 
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    public function compileJoinLateral(JoinLateralClause $join, string $expression): string
+    {
+        throw new RuntimeException('This database engine does not support lateral joins.');
+    }
+
+    /**
+     * Compile a "JSON value cast" statement into SQL.
+     *
+     * @param  string  $value
+     * 
+     * @return string
+     */
+    public function compileJsonValueCast($value): string
+    {
+        return "json_query({$value}, '$')";
+    }
+    
+    /**
+     * Wrap the given JSON selector.
+     *
+     * @param  string  $value
+     * 
+     * @return string
+     */
+    protected function wrapJsonSelector($value): string
+    {
+        [$field, $path] = $this->wrapJsonFieldAndPath($value);
+
+        return 'json_value('.$field.$path.')';
+    }
 }
