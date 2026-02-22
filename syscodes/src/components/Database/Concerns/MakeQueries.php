@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Database\Concerns;
 
 use Syscodes\Components\Container\Container;
+use Syscodes\Components\Database\Exceptions\RecordNotFoundException;
 use Syscodes\Components\Pagination\Paginator;
 use Syscodes\Components\Pagination\SimplePaginator;
 
@@ -41,6 +42,25 @@ trait MakeQueries
     public function first($columns = ['*'])
     {
         return $this->limit(1)->get($columns)->first();
+    }
+
+    /**
+     * Execute the query and get the first result or throw an exception.
+     *
+     * @param  array|string  $columns
+     * @param  string|null  $message
+     * 
+     * @return mixed
+     *
+     * @throws \Syscodes\Components\Database\Exceptions\RecordNotFoundException
+     */
+    public function firstOrFail($columns = ['*'], $message = null)
+    {
+        if ( ! is_null($result = $this->first($columns))) {
+            return $result;
+        }
+
+        throw new RecordNotFoundException($message ?: 'No record found for the given query.');
     }
 
     /**
