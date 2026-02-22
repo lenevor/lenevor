@@ -28,6 +28,7 @@ use Syscodes\Components\Database\Query\Grammars\MySqlGrammar as QueryGrammar;
 use Syscodes\Components\Database\Query\Processors\MySqlProcessor as QueryProcessor;
 use Syscodes\Components\Database\Schema\Builders\MySqlBuilder;
 use Syscodes\Components\Database\Schema\Grammars\MySqlGrammar as SchemaGrammar;
+use Syscodes\Components\Support\Str;
 
 /**
  * Mysql connection.
@@ -47,6 +48,18 @@ class MySqlConnection extends Connection
     public function getDriverTitle()
     {
         return $this->isMaria() ? 'MariaDB' : 'MySQL';
+    }
+
+    /**
+     * Get the server version for the connection.
+     *
+     * @return string
+     */
+    public function getServerVersion(): string
+    {
+        return str_contains($version = parent::getServerVersion(), 'MariaDB')
+            ? Str::between($version, '5.5.5-', '-MariaDB')
+            : $version;
     }
     
     /**

@@ -27,6 +27,7 @@ use Syscodes\Components\Database\Query\Processors\MariaDbProcessor;
 use Syscodes\Components\Database\Schema\Builders\MariaDbBuilder;
 use Syscodes\Components\Database\Schema\Grammars\MariaDbGrammar as QueryGrammar;
 use Syscodes\Components\Database\Schema\Grammars\MariaDbGrammar as SchemaGrammar;
+use Syscodes\Components\Support\Str;
 
 class MariaDbConnection extends MySqlConnection
 {
@@ -48,7 +49,17 @@ class MariaDbConnection extends MySqlConnection
         return true;
     }
 
-     /**
+    /**
+     * Get the server version for the connection.
+     *
+     * @return string
+     */
+    public function getServerVersion(): string
+    {
+        return Str::between(parent::getServerVersion(), '5.5.5-', '-MariaDB');
+    }
+
+    /**
      * Get the default query grammar instance.
      * 
      * @return \Syscodes\Components\Database\Schema\Grammars\MariaDbGrammar
