@@ -333,6 +333,7 @@ return [
     'Syscodes\\Components\\Database\\Exceptions\\ConnectionException' => SYS_PATH.'src/components/Database/Exceptions/ConnectionException.php',
     'Syscodes\\Components\\Database\\Exceptions\\ContraintViolationException' => SYS_PATH.'src/components/Database/Exceptions/ContraintViolationException.php',
     'Syscodes\\Components\\Database\\Exceptions\\QueryException' => SYS_PATH.'src/components/Database/Exceptions/QueryException.php',
+    'Syscodes\\Components\\Database\\Exceptions\\RecordNotFoundException' => SYS_PATH.'src/components/Database/Exceptions/RecordNotFoundException.php',
     'Syscodes\\Components\\Database\\Exceptions\\SQLiteDatabaseDoesNotExistException' => SYS_PATH.'src/components/Database/Exceptions/SQLiteDatabaseDoesNotExistException.php',
     'Syscodes\\Components\\Database\\Migrations\\Enums\\MigrationResult' => SYS_PATH.'src/components/Database/Migrations/Enums/MigrationResult.php',
     'Syscodes\\Components\\Database\\Migrations\\DatabaseMigrationRepository' => SYS_PATH.'src/components/Database/Migrations/DatabaseMigrationRepository.php',
