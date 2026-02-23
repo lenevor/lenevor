@@ -30,7 +30,7 @@ use Closure;
 interface ConnectionInterface
 {
     /**
-     * Begin a fluent query against a database table.
+     * Begin a flowing query against a database table.
      * 
      * @param  \Closure|\Syscodes\Components\Database\Query\Builder|string  $table
      * @param  string|null  $as 
