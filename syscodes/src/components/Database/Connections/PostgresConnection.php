@@ -22,10 +22,11 @@
 
 namespace Syscodes\Components\Database\Connections;
 
-use Syscodes\Components\Database\Schema\Builders\PostgresBuilder;
+use Exception;
 use Syscodes\Components\Database\Query\Grammars\PostgresGrammar as QueryGrammar;
-use Syscodes\Components\Database\Schema\Grammars\PostgresGrammar as SchemaGrammar;
 use Syscodes\Components\Database\Query\Processors\PostgresProcessor as QueryProcessor;
+use Syscodes\Components\Database\Schema\Builders\PostgresBuilder;
+use Syscodes\Components\Database\Schema\Grammars\PostgresGrammar as SchemaGrammar;
 
 /**
  * Postgres connection.
@@ -33,13 +34,59 @@ use Syscodes\Components\Database\Query\Processors\PostgresProcessor as QueryProc
 class PostgresConnection extends Connection
 {
     /**
+     * {@inheritdoc}
+     */
+    public function getDriverTitle()
+    {
+        return 'PostgreSQL';
+    }
+    
+    /**
+     * Escape a binary value for safe SQL embedding.
+     *
+     * @param  string  $value
+     * 
+     * @return string
+     */
+    protected function escapeBinary($value): string
+    {
+        $hex = bin2hex($value);
+
+        return "'\x{$hex}'::bytea";
+    }
+
+    /**
+     * Escape a bool value for safe SQL embedding.
+     *
+     * @param  bool  $value
+     * 
+     * @return string
+     */
+    protected function escapeBool($value): string
+    {
+        return $value ? 'true' : 'false';
+    }
+
+    /**
+     * Determine if the given database exception was caused by a unique constraint violation.
+     *
+     * @param  \Exception  $exception
+     * 
+     * @return bool
+     */
+    protected function isConstraintError(Exception $exception): bool
+    {
+        return '23505' === $exception->getCode();
+    }
+
+    /**
      * Get the default query grammar instance.
      * 
      * @return Syscodes\Components\Database\QueryMysqlGrammar\
      */
     public function getDefaultQueryGrammar()
     {
-        return $this->withTablePrefix(new QueryGrammar);
+        return $this->withTablePrefix(new QueryGrammar($this));
     }
 
     /**
@@ -73,6 +120,6 @@ class PostgresConnection extends Connection
      */
     protected function getDefaultSchemaGrammar()
     {
-        return $this->withTablePrefix(new SchemaGrammar);
+        return $this->withTablePrefix(new SchemaGrammar($this));
     }
 }
