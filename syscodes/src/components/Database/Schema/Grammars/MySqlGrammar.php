@@ -39,7 +39,7 @@ class MySqlGrammar extends Grammar
      */
     protected $modifiers = [
         'Unsigned', 'Charset', 'Collate', 'Nullable', 'Invisible',
-        'Default', 'Increment', 'Comment', 'After', 'First',
+        'Default', 'OnUpdate', 'Increment', 'Comment', 'After', 'First',
     ];
     
     /**
@@ -48,22 +48,34 @@ class MySqlGrammar extends Grammar
      * @var string[] $serials
      */
     protected $serials = ['bigInteger', 'integer', 'mediumInteger', 'smallInteger', 'tinyInteger'];
+
+    /**
+     * The commands to be executed outside of create or alter command.
+     * 
+     * @var array
+     */
+    protected $flowingCommands = ['AutoIncrementStartingValues'];
     
     /**
      * Compile a create database command.
      * 
      * @param  string  $name
-     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * 
      * @return string
      */
-    public function compileCreateDatabase($name, $connection): string
+    public function compileCreateDatabase($name): string
     {
-        return sprintf('create database %s default character set %s default collate %s',
-            $this->wrapValue($name),
-            $this->wrapValue($connection->getConfig('charset')),
-            $this->wrapValue($connection->getConfig('collation')),
-        );
+        $sql = parent::compileCreateDatabase($name);
+
+        if ($charset = $this->connection->getConfig('charset')) {
+            $sql .= sprintf(' default character set %s', $this->wrapValue($charset));
+        }
+
+        if ($collation = $this->connection->getConfig('collation')) {
+            $sql .= sprintf(' default collate %s', $this->wrapValue($collation));
+        }
+
+        return $sql;
     }
 
     /**
