@@ -24,6 +24,7 @@ namespace Syscodes\Components\Database;
 
 use InvalidArgumentException;
 use Syscodes\Components\Database\Connections\Connection;
+use Syscodes\Components\Database\Events\ConnectionEstablished;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 
@@ -61,6 +62,13 @@ class DatabaseManager implements ConnectionResolverInterface
     protected $extensions = [];
 
     /**
+     * The callback to be executed to reconnect to a database.
+     *
+     * @var callable
+     */
+    protected $reconnector;
+
+    /**
      * Constructor. Create a new DatabaseManager instance.
      * 
      * @param  \Syscodes\Components\Contracts\Core\Application  $app
@@ -72,6 +80,10 @@ class DatabaseManager implements ConnectionResolverInterface
     {
         $this->app     = $app;
         $this->factory = $factory;
+
+        $this->reconnector = function ($connection) {
+            $this->reconnect($connection->getNameWithReadWriteType());
+        };
     }
     
     /**
@@ -91,6 +103,12 @@ class DatabaseManager implements ConnectionResolverInterface
             $connection = $this->makeConnection($name);
 
             $this->connections[$name] = $this->configure($connection, $type);
+
+            if ($this->app->bound('events')) {
+                $this->app['events']->dispatch(
+                    new ConnectionEstablished($this->connections[$name])
+                );
+            }
         }
 
         return $this->connections[$name];
@@ -168,15 +186,23 @@ class DatabaseManager implements ConnectionResolverInterface
      */
     protected function configure(Connection $connection, $type)
     {
-        $connection = $this->setPdoForType($connection, $type);
+        $connection = $this->setPdoForType($connection, $type)->setReadWriteType($type);
 
+        // First we'll set the fetch mode and a few other dependencies of the database
+        // connection. This method basically just configures and prepares it to get
+        // used by the application.
         if ($this->app->bound('events')) {
             $connection->setEventDispatcher($this->app['events']);
         }
 
-        $connection->setReconnector(function ($connection) {
-            $this->reconnect($connection->getName());
-        });
+        if ($this->app->bound('db.transactions')) {
+            $connection->setTransactionManager($this->app['db.transactions']);
+        }
+
+        // Here we'll set a reconnector callback. This reconnector can be any callable
+        // so we will set a Closure to reconnect from this manager with the name of
+        // the connection.
+        $connection->setReconnector($this->reconnector);
 
         return $connection;
     }
@@ -307,6 +333,18 @@ class DatabaseManager implements ConnectionResolverInterface
     public function getConnections(): array
     {
         return $this->connections;
+    }
+
+    /**
+     * Set the database reconnector callback.
+     *
+     * @param  callable  $reconnector
+     * 
+     * @return void
+     */
+    public function setReconnector(callable $reconnector): void
+    {
+        $this->reconnector = $reconnector;
     }
 
     /**
