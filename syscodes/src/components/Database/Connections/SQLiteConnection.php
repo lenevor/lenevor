@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Database\Connections;
 
+use Exception;
 use Syscodes\Components\Database\Query\Grammars\SQLiteGrammar as QueryGrammar;
 use Syscodes\Components\Database\Query\Processors\SQLiteProcessor as QueryProcessor;
 use Syscodes\Components\Database\Schema\Builders\SQLiteBuilder;
@@ -33,13 +34,65 @@ use Syscodes\Components\Database\Schema\Grammars\SQLiteGrammar as SchemaGrammar;
 class SQLiteConnection extends Connection
 {
     /**
+     * {@inheritdoc}
+     */
+    public function getDriverTitle()
+    {
+        return 'SQLite';
+    }
+
+    /**
+     * Run the statement to start a new transaction.
+     *
+     * @return void
+     */
+    protected function executeBeginTransactionStatement()
+    {
+        if (version_compare(PHP_VERSION, '8.4.0', '>=')) {
+            $mode = $this->getConfig('transaction_mode') ?? 'DEFERRED';
+
+            $this->getPdo()->exec("BEGIN {$mode} TRANSACTION");
+
+            return;
+        }
+
+        $this->getPdo()->beginTransaction();
+    }
+
+    /**
+     * Escape a binary value for safe SQL embedding.
+     *
+     * @param  string  $value
+     * 
+     * @return string
+     */
+    protected function escapeBinary($value): string
+    {
+        $hex = bin2hex($value);
+
+        return "x'{$hex}'";
+    }
+
+    /**
+     * Determine if the given database exception was caused by a unique constraint violation.
+     *
+     * @param  \Exception  $exception
+     * 
+     * @return bool
+     */
+    protected function isConstraintError(Exception $exception): bool
+    {
+        return (bool) preg_match('#(column(s)? .* (is|are) not unique|UNIQUE constraint failed: .*)#i', $exception->getMessage());
+    }
+
+    /**
      * Get the default query grammar instance.
      * 
      * @return Syscodes\Components\Database\Query\SQLiteGrammar
      */
     public function getDefaultQueryGrammar()
     {
-        return $this->withTablePrefix(new QueryGrammar);
+        return $this->withTablePrefix(new QueryGrammar($this));
     }
 
     /**
@@ -73,6 +126,6 @@ class SQLiteConnection extends Connection
      */
     protected function getDefaultSchemaGrammar()
     {
-        return $this->withTablePrefix(new SchemaGrammar);
+        return $this->withTablePrefix(new SchemaGrammar($this));
     }
 }
