@@ -89,6 +89,20 @@ class MySqlConnection extends Connection
             return $result;
         });
     }
+
+    /**
+     * Escape a binary value for safe SQL embedding.
+     *
+     * @param  string  $value
+     * 
+     * @return string
+     */
+    protected function escapeBinary($value): string
+    {
+        $hex = bin2hex($value);
+
+        return "x'{$hex}'";
+    }
     
     /**
      * Determine if the given database exception was caused by a unique constraint violation.
@@ -97,7 +111,7 @@ class MySqlConnection extends Connection
      * 
      * @return bool
      */
-    protected function isConstraintError(Exception $exception)
+    protected function isConstraintError(Exception $exception): bool
     {
         return (bool) preg_match('#Integrity constraint violation: 1062#i', $exception->getMessage());
     }
@@ -129,7 +143,7 @@ class MySqlConnection extends Connection
      */
     public function getDefaultQueryGrammar()
     {
-        return $this->withTablePrefix(new QueryGrammar);
+        return $this->withTablePrefix(new QueryGrammar($this));
     }
 
     /**
@@ -163,6 +177,6 @@ class MySqlConnection extends Connection
      */
     protected function getDefaultSchemaGrammar()
     {
-        return $this->withTablePrefix(new SchemaGrammar);
+        return $this->withTablePrefix(new SchemaGrammar($this));
     }
 }
