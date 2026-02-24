@@ -22,10 +22,52 @@
 
 namespace Syscodes\Components\Database\Schema\Grammars;
 
+use Syscodes\Components\Database\Schema\Dataprint;
+use Syscodes\Components\Support\Flowing;
+
 /**
  * Allows the compilation of sql sentences for the
  * MariaDb database.
  */
 class MariaDbGrammar extends MySqlGrammar
 {
+    /** @inheritDoc */
+    public function compileRenameColumn(Dataprint $blueprint, Flowing $command): string
+    {
+        if (version_compare($this->connection->getServerVersion(), '10.5.2', '<')) {
+            return $this->compileLegacyRenameColumn($blueprint, $command);
+        }
+
+        return parent::compileRenameColumn($blueprint, $command);
+    }
+
+    /**
+     * Create the column definition for a uuid type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeUuid(Flowing $column): string
+    {
+        if (version_compare($this->connection->getServerVersion(), '10.7.0', '<')) {
+            return 'char(36)';
+        }
+
+        return 'uuid';
+    }
+
+    /**
+     * Wrap the given JSON selector.
+     *
+     * @param  string  $value
+     * 
+     * @return string
+     */
+    protected function wrapJsonSelector($value): string
+    {
+        [$field, $path] = $this->wrapJsonFieldAndPath($value);
+
+        return 'json_value('.$field.$path.')';
+    }
 }
