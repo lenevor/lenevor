@@ -58,10 +58,18 @@ class DatabaseServiceProvider extends ServiceProvider
      */
     protected function registerConfigurationServices()
     {
+        // The connection factory is used to create the actual connection instances on
+        // the database.
         $this->app->singleton('db.factory', fn ($app) => new ConnectionFactory($app));
 
+        // The database manager is used to resolve various connections, since multiple
+        // connections might be managed.
         $this->app->singleton('db', fn ($app) => new DatabaseManager($app, $app['db.factory']));
         
         $this->app->bind('db.connection', fn ($app) => $app['db']->connection());
+
+        $this->app->bind('db.schema', fn ($app) => $app['db']->connection()->getSchemaBuilder());
+
+        $this->app->singleton('db.transactions', fn ($app) => new DatabaseTransactionsManager);
     }
 }
