@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Database\Schema\Builders;
 
 use Closure;
+use InvalidArgumentException;
 use LogicException;
 use Syscodes\Components\Container\Container;
 use Syscodes\Components\Database\Connections\Connection;
@@ -81,7 +82,7 @@ class Builder
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
-        $this->grammar    = $connection->getSchemaGrammar();
+        $this->grammar = $connection->getSchemaGrammar();
     }
     
     /**
@@ -95,6 +96,18 @@ class Builder
     {
         static::$defaultStringLength = $length;
     }
+
+    /**
+     * Set the default time precision for migrations.
+     * 
+     * @param  int|null  $precision
+     * 
+     * @return void
+     */
+    public static function defaultTimePrecision(?int $precision): void
+    {
+        static::$defaultTimePrecision = $precision;
+    }
     
     /**
      * Create a database in the schema.
@@ -102,12 +115,12 @@ class Builder
      * @param  string  $name
      * 
      * @return bool
-     * 
-     * @throws \LogicException
      */
     public function createDatabase($name): bool
     {
-        throw new LogicException('This database driver does not support creating databases');
+        return $this->connection->statement(
+           $this->grammar->compileCreateDatabase($name, $this->connection)
+        );
     }
     
     /**
@@ -116,12 +129,12 @@ class Builder
      * @param  string  $name
      * 
      * @return bool
-     * 
-     * @throws \LogicException
      */
     public function dropDatabaseIfExists($name): bool
     {
-        throw new LogicException('This database driver does not support dropping databases');
+        return $this->connection->statement(
+            $this->grammar->compileDropDatabaseIfExists($name)
+        );
     }
     
     /**
@@ -133,7 +146,13 @@ class Builder
      */
     public function hasTable($table): bool
     {
+        [$schema, $table] = $this->parseSchemaAndTable($table);
+
         $table = $this->connection->getTablePrefix().$table;
+
+        if ($sql = $this->grammar->compileTableExists($schema, $table)) {
+            return (bool) $this->connection->scalar($sql);
+        }
         
         return count($this->connection->selectFromConnection(
             $this->grammar->compileTableListing(), [$table])
@@ -175,6 +194,36 @@ class Builder
         
         return true;
     }
+
+    /**
+     * Get the tables that belong to the connection.
+     *
+     * @param  string|string[]|null  $schema
+     * 
+     * @return array
+     */
+    public function getTables($schema = null): array
+    {
+        return $this->connection->getPostProcessor()->processTables(
+            $this->connection->selectFromConnection($this->grammar->compileTables($schema))
+        );
+    }
+
+    /**
+     * Get the names of the tables that belong to the connection.
+     *
+     * @param  string|string[]|null  $schema
+     * @param  bool  $schemaQualified
+     * 
+     * @return array
+     */
+    public function getTableListing($schema = null, $schemaQualified = true): array
+    {
+        return array_column(
+            $this->getTables($schema),
+            $schemaQualified ? 'schema_qualified_name' : 'name'
+        );
+    }
     
     /**
      * Get the column listing for a given table.
@@ -190,6 +239,18 @@ class Builder
         $results = $this->connection->selectFromConnection($this->grammar->compileColumnListing($table));
         
         return $this->connection->getPostProcessor()->processColumnListing($results);
+    }
+
+    /**
+     * Get the schemas that belong to the connection.
+     *
+     * @return array
+     */
+    public function getSchemas(): array
+    {
+        return $this->connection->getPostProcessor()->processSchemas(
+            $this->connection->selectFromConnection($this->grammar->compileSchemas())
+        );
     }
     
     /**
@@ -363,6 +424,56 @@ class Builder
         return $this->connection->statement(
             $this->grammar->compileDisableForeignKeyConstraints()
         );
+    }
+
+    /**
+     * Get the names of the current schemas for the connection.
+     *
+     * @return string[]|null
+     */
+    public function getCurrentSchemaListing()
+    {
+        return null;
+    }
+
+    /**
+     * Get the default schema name for the connection.
+     *
+     * @return string|null
+     */
+    public function getCurrentSchemaName()
+    {
+        return $this->getCurrentSchemaListing()[0] ?? null;
+    }
+
+    /**
+     * Parse the given database object reference and extract the schema and table.
+     *
+     * @param  string  $reference
+     * @param  string|bool|null  $withDefaultSchema
+     * 
+     * @return array{string|null, string}
+     */
+    public function parseSchemaAndTable($reference, $withDefaultSchema = null): array
+    {
+        $segments = explode('.', $reference);
+
+        if (count($segments) > 2) {
+            throw new InvalidArgumentException(
+                "Using three-part references is not supported, you may use `Schema::connection('{$segments[0]}')` instead."
+            );
+        }
+
+        $table = $segments[1] ?? $segments[0];
+
+        $schema = match (true) {
+            isset($segments[1]) => $segments[0],
+            is_string($withDefaultSchema) => $withDefaultSchema,
+            $withDefaultSchema => $this->getCurrentSchemaName(),
+            default => null,
+        };
+
+        return [$schema, $table];
     }
     
     /**
