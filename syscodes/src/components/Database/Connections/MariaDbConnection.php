@@ -66,7 +66,7 @@ class MariaDbConnection extends MySqlConnection
      */
     public function getDefaultQueryGrammar()
     {
-        return new QueryGrammar;
+        return new QueryGrammar($this);
     }
 
     /**
