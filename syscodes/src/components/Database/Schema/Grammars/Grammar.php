@@ -22,19 +22,23 @@
 
 namespace Syscodes\Components\Database\Schema\Grammars;
 
-use LogicException;
 use RuntimeException;
-use Syscodes\Components\Support\Flowing;
+use UnitEnum;
+use Syscodes\Components\Database\Concerns\CompilesJsonPaths;
+use Syscodes\Components\Database\Grammar as BaseGrammar;
 use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Database\Schema\Dataprint;
-use Syscodes\Components\Database\Connections\Connection;
-use Syscodes\Components\Database\Grammar as BaseGrammar;
+use Syscodes\Components\Support\Flowing;
+
+use function Syscodes\Components\Support\enum_value;
 
 /**
  * Allows the compilation of sql sentences for the connection to database.
  */
 abstract class Grammar extends BaseGrammar
 {
+    use CompilesJsonPaths;
+
     /**
      * The commands to be executed outside of create or alter command.
      * 
@@ -50,14 +54,20 @@ abstract class Grammar extends BaseGrammar
     protected $modifiers = [];
 
     /**
+     * If this Grammar supports schema changes wrapped in a transaction.
+     *
+     * @var bool
+     */
+    protected $transactions = false;
+
+    /**
      * Compile a create database command.
      * 
      * @param  string  $name
-     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * 
      * @return string
      */
-    public function compileCreateDatabase($name, $connection): string
+    public function compileCreateDatabase($name): string
     {
         return sprintf('create database %s',
             $this->wrapValue($name)
@@ -77,6 +87,118 @@ abstract class Grammar extends BaseGrammar
             $this->wrapValue($name)
         );
     }
+
+    /**
+     * Compile the query to determine the schemas.
+     *
+     * @return string
+     * 
+     * @throws \RuntimeException
+     */
+    public function compileSchemas(): string
+    {
+        throw new RuntimeException('This database driver does not support retrieving schemas.');
+    }
+
+    /**
+     * Compile the query to determine if the given table exists.
+     *
+     * @param  string|null  $schema
+     * @param  string  $table
+     * 
+     * @return string|null
+     */
+    public function compileTableExists($schema, $table)
+    {
+        //
+    }
+
+    /**
+     * Compile the query to determine the tables.
+     *
+     * @param  string|string[]|null  $schema
+     * 
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    public function compileTables($schema): string
+    {
+        throw new RuntimeException('This database driver does not support retrieving tables.');
+    }
+
+    /**
+     * Compile the query to determine the views.
+     *
+     * @param  string|string[]|null  $schema
+     * 
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    public function compileViews($schema): string
+    {
+        throw new RuntimeException('This database driver does not support retrieving views.');
+    }
+
+    /**
+     * Compile the query to determine the user-defined types.
+     *
+     * @param  string|string[]|null  $schema
+     * 
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    public function compileTypes($schema): string
+    {
+        throw new RuntimeException('This database driver does not support retrieving user-defined types.');
+    }
+
+    /**
+     * Compile the query to determine the columns.
+     *
+     * @param  string|null  $schema
+     * @param  string  $table
+     * 
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    public function compileColumns($schema, $table): string
+    {
+        throw new RuntimeException('This database driver does not support retrieving columns.');
+    }
+
+    /**
+     * Compile the query to determine the indexes.
+     *
+     * @param  string|null  $schema
+     * @param  string  $table
+     * 
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    public function compileIndexes($schema, $table): string
+    {
+        throw new RuntimeException('This database driver does not support retrieving indexes.');
+    }
+
+    /**
+     * Compile the query to determine the foreign keys.
+     *
+     * @param  string|null  $schema
+     * @param  string  $table
+     * 
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    public function compileForeignKeys($schema, $table): string
+    {
+        throw new RuntimeException('This database driver does not support retrieving foreign keys.');
+    }
     
     /**
      * Compile a rename column command.
@@ -84,15 +206,60 @@ abstract class Grammar extends BaseGrammar
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
      * @param  \Syscodes\Components\Support\Flowing  $command
      * 
-     * @return array
+     * @return array|string
      */
-    public function compileRenameColumn(Dataprint $dataprint, Flowing $command)
+    public function compileRenameColumn(Dataprint $dataprint, Flowing $command): array|string
     {
         return sprintf('alter table %s rename column %s to %s',
             $this->wrapTable($dataprint),
             $this->wrap($command->from),
             $this->wrap($command->to)
         );
+    }
+
+    /**
+     * Compile a change column command into a series of SQL statements.
+     *
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return array|string
+     *
+     * @throws \RuntimeException
+     */
+    public function compileChange(Dataprint $dataprint, Flowing $command): array|string
+    {
+        throw new RuntimeException('This database driver does not support modifying columns.');
+    }
+
+    /**
+     * Compile a fulltext index key command.
+     *
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    public function compileFulltext(Dataprint $dataprint, Flowing $command): string
+    {
+        throw new RuntimeException('This database driver does not support fulltext index creation.');
+    }
+
+    /**
+     * Compile a drop fulltext index command.
+     *
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    public function compileDropFullText(Dataprint $dataprint, Flowing $command): string
+    {
+        throw new RuntimeException('This database driver does not support fulltext index removal.');
     }
 
     /**
@@ -103,7 +270,7 @@ abstract class Grammar extends BaseGrammar
      * 
      * @return string
      */
-    public function compileForeign(Dataprint $dataprint, Flowing $command)
+    public function compileForeign(Dataprint $dataprint, Flowing $command): string
     {
         // We need to prepare several of the elements of the foreign key definition
         // before we can create the SQL.
@@ -194,6 +361,18 @@ abstract class Grammar extends BaseGrammar
     {
         return $this->{'type'.ucfirst($column->type)}($column);
     }
+
+    /**
+     * Create the column definition for a raw column type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeRaw(Flowing $column): string
+    {
+        return $column->offsetGet('definition');
+    }
     
     /**
      * Add the column modifiers to the definition.
@@ -281,20 +460,22 @@ abstract class Grammar extends BaseGrammar
      * Wrap a table in keyword identifiers.
      * 
      * @param  mixed  $table
+     * @param  string|null  $prefix
      * 
      * @return string
      */
-    public function wrapTable($table): string
+    public function wrapTable($table, $prefix = null): string
     {
         return parent::wrapTable(
-            $table instanceof Dataprint ? $table->getTable() : $table
+            $table instanceof Dataprint ? $table->getTable() : $table,
+            $prefix
         );
     }
     
     /**
      * Wrap a value in keyword identifiers.
      * 
-     * @param  \Syscodes\Components\Database\Query\Expression|string  $value
+     * @param  \Syscodes\Components\Support\Flowing|\Syscodes\Components\Database\Query\Expression|string  $value
      * @param  bool  $prefix
      * 
      * @return string
@@ -318,10 +499,14 @@ abstract class Grammar extends BaseGrammar
         if ($value instanceof Expression) {
             return $this->getValue($value);
         }
+
+        if ($value instanceof UnitEnum) {
+            return "'".str_replace("'", "''", enum_value($value))."'";
+        }
         
         return is_bool($value)
-                    ? "'".(int) $value."'"
-                    : "'".(string) $value."'";
+            ? "'".(int) $value."'"
+            : "'".(string) $value."'";
     }
     
     /**
@@ -332,5 +517,15 @@ abstract class Grammar extends BaseGrammar
     public function getFlowingCommands(): array
     {
         return $this->flowingCommands;
+    }
+
+    /**
+     * Check if this Grammar supports schema changes wrapped in a transaction.
+     *
+     * @return bool
+     */
+    public function supportsSchemaTransactions(): bool
+    {
+        return $this->transactions;
     }
 }
