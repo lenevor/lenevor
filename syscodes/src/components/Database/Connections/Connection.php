@@ -22,23 +22,25 @@
  
 namespace Syscodes\Components\Database\Connections;
 
-use PDO;
 use Closure;
 use DateTime;
 use Exception;
-use PDOStatement;
 use LogicException;
+use PDO;
+use PDOStatement;
+use RuntimeException;
 use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\Database\Concerns\DetectLostConnections;
 use Syscodes\Components\Database\Concerns\ManagesTransactions;
-use Syscodes\Components\Database\Grammar;
-use Syscodes\Components\Database\Exceptions\QueryException;
 use Syscodes\Components\Database\Events\QueryExecuted;
-use Syscodes\Components\Database\Events\TransactionBegin;
 use Syscodes\Components\Database\Events\StatementPrepared;
-use Syscodes\Components\Database\Events\TransactionRollback;
+use Syscodes\Components\Database\Events\TransactionBegin;
 use Syscodes\Components\Database\Events\TransactionCommitted;
+use Syscodes\Components\Database\Events\TransactionCommitting;
+use Syscodes\Components\Database\Events\TransactionRollback;
 use Syscodes\Components\Database\Exceptions\ConstraintViolationException;
+use Syscodes\Components\Database\Exceptions\QueryException;
+use Syscodes\Components\Database\Grammar;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
 use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Database\Query\Grammars\Grammar as QueryGrammar;
@@ -48,14 +50,16 @@ use Syscodes\Components\Database\Schema\Grammars\Grammar as SchemaGrammar;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Traits\Macroable;
 
+use function Syscodes\Components\Support\enum_value;
+
 /**
  * Creates a database connection using PDO.
  */
 class Connection implements ConnectionInterface
 {
     use DetectLostConnections,
-        Macroable,
-        ManagesTransactions;
+        ManagesTransactions,
+        Macroable;
     
     /**
      * The database connection configuration options.
@@ -102,7 +106,7 @@ class Connection implements ConnectionInterface
     /**
      * The active PDO connection.
      * 
-     * @var \PDO
+     * @var \PDO|(\Closure(): \PDO)
      */
     protected $pdo;
 
@@ -137,7 +141,7 @@ class Connection implements ConnectionInterface
     /**
      * The active PDO connection used for reads.
      * 
-     * @var \PDO
+     * @var \PDO|(\Closure(): \PDO)
      */
     protected $readPdo;
     
@@ -195,7 +199,7 @@ class Connection implements ConnectionInterface
      * 
      * @var string
      */
-    protected $tablePrefix;
+    protected $tablePrefix = '';
 
     /**
      * The number of active transactions.
@@ -205,16 +209,23 @@ class Connection implements ConnectionInterface
     protected $transactions = 0;
 
     /**
+     * The transaction manager instance.
+     *
+     * @var \Syscodes\Components\Database\DatabaseTransactionsManager
+     */
+    protected $transactionsManager;
+
+    /**
      * Constructor. Create new a Database connection instance.
      * 
-     * @param  \PDO|Closure  $pdo
+     * @param  \PDO|(\Closure(): \PDO)  $pdo
      * @param  string  $database
      * @param  string  $tablePrefix
      * @param  array  $config
      * 
      * @return  void 
      */
-    public function __construct($pdo, string $database = '', string $tablePrefix = '', array $config = [])
+    public function __construct($pdo, $database = '', $tablePrefix = '', array $config = [])
     {
         $this->pdo = $pdo;
 
@@ -230,7 +241,7 @@ class Connection implements ConnectionInterface
     }
 
     /**
-     * Begin a fluent query against a database table.
+     * Begin a flowing query against a database table.
      * 
      * @param  \Closure|\Syscodes\Components\Database\Query\Builder|string  $table
      * @param  string|null  $as 
@@ -239,7 +250,7 @@ class Connection implements ConnectionInterface
      */
     public function table($table, ?string $as = null)
     {
-        return $this->query()->from($table, $as);
+        return $this->query()->from(enum_value($table), $as);
     }
 
     /**
@@ -264,6 +275,79 @@ class Connection implements ConnectionInterface
     public function raw(mixed $value)
     {
         return new Expression($value);
+    }
+
+    /**
+     * Escape a value for safe SQL embedding.
+     *
+     * @param  string|float|int|bool|null  $value
+     * @param  bool  $binary
+     * 
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    public function escape($value, $binary = false): string
+    {
+        if ($value === null) {
+            return 'null';
+        } elseif ($binary) {
+            return $this->escapeBinary($value);
+        } elseif (is_int($value) || is_float($value)) {
+            return (string) $value;
+        } elseif (is_bool($value)) {
+            return $this->escapeBool($value);
+        } elseif (is_array($value)) {
+            throw new RuntimeException('The database connection does not support escaping arrays.');
+        } else {
+            if (str_contains($value, "\00")) {
+                throw new RuntimeException('Strings with null bytes cannot be escaped. Use the binary escape option.');
+            }
+
+            if (preg_match('//u', $value) === false) {
+                throw new RuntimeException('Strings with invalid UTF-8 byte sequences cannot be escaped.');
+            }
+
+            return $this->escapeString($value);
+        }
+    }
+
+    /**
+     * Escape a string value for safe SQL embedding.
+     *
+     * @param  string  $value
+     * 
+     * @return string
+     */
+    protected function escapeString($value): string
+    {
+        return $this->getReadPdo()->quote($value);
+    }
+
+    /**
+     * Escape a boolean value for safe SQL embedding.
+     *
+     * @param  bool  $value
+     * 
+     * @return string
+     */
+    protected function escapeBool($value): string
+    {
+        return $value ? '1' : '0';
+    }
+
+    /**
+     * Escape a binary value for safe SQL embedding.
+     *
+     * @param  string  $value
+     * 
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    protected function escapeBinary($value): string
+    {
+        throw new RuntimeException('The database connection does not support escaping binary values.');
     }
 
     /**
@@ -548,7 +632,7 @@ class Connection implements ConnectionInterface
      * 
      * @return bool
      */
-    protected function isConstraintError(Exception $exception)
+    protected function isConstraintError(Exception $exception): bool
     {
         return false;
     }
@@ -640,6 +724,18 @@ class Connection implements ConnectionInterface
     }
 
     /**
+     * Register a database query listener with the connection.
+     *
+     * @param  \Closure(\Syscodes\Components\Database\Events\QueryExecuted)  $callback
+     * 
+     * @return void
+     */
+    public function listen(Closure $callback): void
+    {
+        $this->events?->listen(QueryExecuted::class, $callback);
+    }
+
+    /**
      * Fire an event for this connection.
      * 
      * @param  string  $event
@@ -648,15 +744,13 @@ class Connection implements ConnectionInterface
      */
     protected function fireConnectionEvent($event)
     {
-        if ( ! $this->events) {
-            return;
-        }
-
-        return match($event) {
-            'beginTransaction' => $this->events->dispatch(new TransactionBegin($this)),
-            'committed' => $this->events->dispatch(new TransactionCommitted($this)),
-            'rollingback' => $this->events->dispatch(new TransactionRollback($this)),
-        };
+        return $this->events?->dispatch(match ($event) {
+            'beginTransaction' => new TransactionBegin($this),
+            'committed' => new TransactionCommitted($this),
+            'committing' => new TransactionCommitting($this),
+            'rollingback' => new TransactionRollback($this),
+            default => null,
+        });
     }
 
     /**
@@ -702,9 +796,7 @@ class Connection implements ConnectionInterface
      */
     public function event($event): void
     {
-        if (isset($this->events)) {
-            $this->events->dispatch($event);
-        }
+        $this->events?->dispatch($event);
     }
 
     /**
@@ -735,7 +827,7 @@ class Connection implements ConnectionInterface
         $statement->setFetchMode($this->fetchMode);
 
         $this->event(
-            new statementPrepared($this, $statement)
+            new StatementPrepared($this, $statement)
         );
 
         return $statement;
@@ -925,7 +1017,7 @@ class Connection implements ConnectionInterface
      * 
      * @return string|null
      */
-    public function getNameWithReadWriteType()
+    public function getNameWithReadWriteType(): ?string
     {
         $name = $this->getName().($this->readWriteType ? '::'.$this->readWriteType : '');
         
@@ -1022,7 +1114,27 @@ class Connection implements ConnectionInterface
      */
     protected function getDefaultQueryGrammar()
     {
-        return new QueryGrammar;
+        return new QueryGrammar($this);
+    }
+
+    /**
+     * Set the schema grammar to the default implementation.
+     * 
+     * @return void
+     */
+    public function useDefaultSchemaGrammar(): void
+    {
+        $this->schemaGrammar = $this->getDefaultSchemaGrammar();
+    }
+    
+    /**
+     * Get the default schema grammar instance.
+     * 
+     * @return \Syscodes\Components\Database\Schema\Grammars\Grammar
+     */
+    protected function getDefaultSchemaGrammar()
+    {
+        //
     }
 
     /**
@@ -1105,23 +1217,6 @@ class Connection implements ConnectionInterface
         
         return $this;
     }
-    
-    /**
-     * Set the schema grammar to the default implementation.
-     * 
-     * @return void
-     */
-    public function useDefaultSchemaGrammar(): void
-    {
-        $this->schemaGrammar = $this->getDefaultSchemaGrammar();
-    }
-    
-    /**
-     * Get the default schema grammar instance.
-     * 
-     * @return \Syscodes\Components\Database\Schema\Grammars\Grammar
-     */
-    protected function getDefaultSchemaGrammar() {}
 
     /**
      * Get the name of the connected database.
@@ -1159,6 +1254,54 @@ class Connection implements ConnectionInterface
         $this->events = $events;
 
         return $this;
+    }
+
+    /**
+     * Set the transaction manager instance on the connection.
+     *
+     * @param  \Syscodes\Components\Database\DatabaseTransactionsManager  $manager
+     * 
+     * @return static
+     */
+    public function setTransactionManager($manager): static
+    {
+        $this->transactionsManager = $manager;
+
+        return $this;
+    }
+
+    /**
+     * Unset the transaction manager for this connection.
+     *
+     * @return void
+     */
+    public function unsetTransactionManager(): void
+    {
+        $this->transactionsManager = null;
+    }
+
+    /**
+     * Set the read / write type of the connection.
+     *
+     * @param  string|null  $readWriteType
+     * 
+     * @return static
+     */
+    public function setReadWriteType($readWriteType): static
+    {
+        $this->readWriteType = $readWriteType;
+
+        return $this;
+    }
+
+    /**
+     * Run the statement to start a new transaction.
+     *
+     * @return void
+     */
+    protected function executeBeginTransactionStatement()
+    {
+        $this->getPdo()->beginTransaction();
     }
 
     /**
@@ -1251,8 +1394,6 @@ class Connection implements ConnectionInterface
     public function setTablePrefix($tablePrefix): self
     {
         $this->tablePrefix = $tablePrefix;
-
-        $this->getQueryGrammar()->setTablePrefix($tablePrefix);
 
         return $this;
     }
