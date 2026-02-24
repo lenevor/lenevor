@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Database;
 
 use RuntimeException;
+use Syscodes\Components\Database\Connections\Connection;
 use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\Traits\Macroable;
@@ -35,11 +36,23 @@ abstract class Grammar
     use Macroable;
 
     /**
-     * The grammar table prefix.
-     * 
-     * @var string $tablePrefix
+     * The connection used for escaping values.
+     *
+     * @var \Syscodes\Components\Database\Connections\Connection
      */
-    protected $tablePrefix = '';
+    protected $connection;
+
+    /**
+     * Constructor. Create a new grammar instance.
+     *
+     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
+     * 
+     * @return void
+     */
+    public function __construct(Connection $connection)
+    {
+        $this->connection = $connection;
+    }
 
     /**
      * Wrap a table in keyword identifiers.
@@ -55,7 +68,7 @@ abstract class Grammar
             return $this->getValue($table);
         }
 
-        $prefix ??= $this->tablePrefix;
+        $prefix ??= $this->connection->getTablePrefix();
         
         // If the table being wrapped has an alias we'll need to separate the pieces
         // so we can prefix the table and then wrap each of the segments on their own.
@@ -144,7 +157,7 @@ abstract class Grammar
     {
         $segments = preg_split('/\s+as\s+/i', $value);
         
-        $prefix ??= $this->tablePrefix;
+        $prefix ??= $this->connection->getTablePrefix();
         
         return $this->wrapTable($segments[0], $prefix).' as '.$this->wrapValue($prefix.$segments[1]);
     }
@@ -288,6 +301,19 @@ abstract class Grammar
     }
 
     /**
+     * Escapes a value for safe SQL embedding.
+     *
+     * @param  string|float|int|bool|null  $value
+     * @param  bool  $binary
+     * 
+     * @return string
+     */
+    public function escape($value, $binary = false): string
+    {
+        return $this->connection->escape($value, $binary);
+    }
+
+    /**
      * Get the format for database stored dates.
      * 
      * @return string
@@ -304,19 +330,19 @@ abstract class Grammar
      */
     public function getTablePrefix(): string
     {
-        return $this->tablePrefix;
+        return $this->connection->getTablePrefix();
     }
 
     /**
      * Set the grammar's table prefix.
      * 
-     * @param  string  $tablePrefix
+     * @param  string  $prefix
      * 
      * @return static
      */
-    public function setTablePrefix($tablePrefix): static
+    public function setTablePrefix($prefix): static
     {
-        $this->tablePrefix = $tablePrefix;
+        $this->connection->setTablePrefix($prefix);
 
         return $this;
     }
