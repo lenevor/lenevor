@@ -29,34 +29,6 @@ namespace Syscodes\Components\Database\Schema\Builders;
 class MySqlBuilder extends Builder
 {
     /**
-     * Create a database in the schema.
-     * 
-     * @param  string  $name
-     * 
-     * @return bool
-     */
-    public function createDatabase($name): bool
-    {
-        return $this->connection->statement(
-           $this->grammar->compileCreateDatabase($name, $this->connection)
-        );
-    }
-    
-    /**
-     * Drop a database from the schema if the database exists.
-     * 
-     * @param  string  $name
-     * 
-     * @return bool
-     */
-    public function dropDatabaseIfExists($name): bool
-    {
-        return $this->connection->statement(
-            $this->grammar->compileDropDatabaseIfExists($name)
-        );
-    }
-    
-    /**
      * Determine if the given table exists.
      * 
      * @param  string  $table
@@ -97,13 +69,8 @@ class MySqlBuilder extends Builder
      */
     public function dropAllTables()
     {
-        $tables = [];
-        
-        foreach ($this->getAllTables() as $row) {
-            $row = (array) $row;
-            
-            $tables[] = head($row);
-        }
+
+        $tables = $this->getTableListing($this->getCurrentSchemaListing());
         
         if (empty($tables)) {
             return;
@@ -111,11 +78,13 @@ class MySqlBuilder extends Builder
         
         $this->disableForeignKeyConstraints();
         
-        $this->connection->statement(
-            $this->grammar->compileDropAllTables($tables)
-        );
-        
-        $this->enableForeignKeyConstraints();
+        try {
+            $this->connection->statement(
+                $this->grammar->compileDropAllTables($tables)
+            );
+        } finally {
+            $this->enableForeignKeyConstraints();
+        }        
     }
     
     /**
