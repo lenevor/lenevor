@@ -483,7 +483,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
      * @param  string  $glue
      * @param  string  $finalGlue
      * 
-     * @return TValue|string
+     * @return mixed
      */
     public function join($glue, $finalGlue = ''): string
     {
