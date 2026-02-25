@@ -57,6 +57,7 @@ trait Enumerates
         'first',
         'flatMap',
         'flip',
+        'first',
         'intersect',
         'keys',
         'map',
@@ -88,7 +89,7 @@ trait Enumerates
     /**
      * Collect the values into a collection.
      *
-     * @return \Syscodes\Components\Support\Collection<TKey, TValue>
+     * @return \Syscodes\Components\Support\Collection
      */
     public function collect()
     {
@@ -190,6 +191,20 @@ trait Enumerates
     public function flatMap(callable $callback): static
     {
         return $this->map($callback)->collapse();
+    }
+
+    /**
+     * Get the first item by the given key value pair.
+     *
+     * @param  callable|string  $key
+     * @param  mixed  $operator
+     * @param  mixed  $value
+     * 
+     * @return mixed
+     */
+    public function firstWhere($key, $operator = null, $value = null)
+    {
+        return $this->first($this->operatorForWhere(...func_get_args()));
     }
 
     /**
