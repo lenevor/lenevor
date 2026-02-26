@@ -32,13 +32,13 @@ use Syscodes\Components\Support\Flowing;
 class MariaDbGrammar extends MySqlGrammar
 {
     /** @inheritDoc */
-    public function compileRenameColumn(Dataprint $blueprint, Flowing $command): string
+    public function compileRenameColumn(Dataprint $dataprint, Flowing $command): string
     {
         if (version_compare($this->connection->getServerVersion(), '10.5.2', '<')) {
-            return $this->compileLegacyRenameColumn($blueprint, $command);
+            return $this->compileLegacyRenameColumn($dataprint, $command);
         }
 
-        return parent::compileRenameColumn($blueprint, $command);
+        return parent::compileRenameColumn($dataprint, $command);
     }
 
     /**
