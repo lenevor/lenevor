@@ -23,7 +23,10 @@
 namespace Syscodes\Components\Database\Schema\Grammars;
 
 use Syscodes\Components\Database\Connections\Connection;
+use Syscodes\Components\Database\Query\Expression;
+use Syscodes\Components\Database\Schema\ColumnDefinition;
 use Syscodes\Components\Database\Schema\Dataprint;
+use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\Flowing;
 
 /**
@@ -93,6 +96,35 @@ class MySqlGrammar extends Grammar
     }
 
     /**
+     * Compile the query to determine the schemas.
+     *
+     * @return string
+     */
+    public function compileSchemas(): string
+    {
+        return 'select schema_name as name, schema_name = schema() as `default` from information_schema.schemata where '
+            .$this->compileSchemaWhereClause(null, 'schema_name')
+            .' order by schema_name';
+    }
+
+    /**
+     * Compile the query to compare the schema.
+     *
+     * @param  string|string[]|null  $schema
+     * @param  string  $column
+     * 
+     * @return string
+     */
+    protected function compileSchemaWhereClause($schema, $column): string
+    {
+        return $column.(match (true) {
+            ! empty($schema) && is_array($schema) => ' in ('.$this->quoteString($schema).')',
+            ! empty($schema) => ' = '.$this->quoteString($schema),
+            default => " not in ('information_schema', 'mysql', 'ndbinfo', 'performance_schema', 'sys')",
+        });
+    }
+
+    /**
      * Compile the query to determine the list of tables.
      *
      * @return string
@@ -117,23 +149,21 @@ class MySqlGrammar extends Grammar
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
      * @param  \Syscodes\Components\Support\Flowing  $command
-     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * 
      * @return string
      */
-    public function compileCreate(Dataprint $dataprint, Flowing $command, Connection $connection): string
+    public function compileCreate(Dataprint $dataprint, Flowing $command): string
     {
-        $sql = $this->compileCreateTable(
-            $dataprint, $command, $connection
-        );
+        $sql = $this->compileCreateTable($dataprint, $command);
 
-        $sql = $this->compileCreateEncoding(
-            $sql, $connection, $dataprint
-        );
+        // Once we have the primary SQL, we can add the encoding option to the SQL for
+        // the table. Then, we can check if a storage engine has been supplied for
+        // the table.
+        $sql = $this->compileCreateEncoding($sql, $dataprint);
 
-        return $this->compileCreateEngine(
-            $sql, $connection, $dataprint
-        );
+        // Finally, we will append the engine configuration onto this SQL statement as
+        // the final thing we do before returning this finished SQL.
+        return $this->compileCreateEngine($sql, $dataprint);
     }
     
     /**
@@ -141,39 +171,44 @@ class MySqlGrammar extends Grammar
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
      * @param  \Syscodes\Components\Support\Flowing  $command
-     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * 
      * @return string
      */
-    protected function compileCreateTable($dataprint, $command, $connection): string
+    protected function compileCreateTable($dataprint, $command): string
     {
-        return trim(sprintf('%s table %s (%s)',
+        $tableStructure = $this->getColumns($dataprint);
+
+        return sprintf('%s table %s (%s)',
             $dataprint->temporary ? 'create temporary' : 'create',
             $this->wrapTable($dataprint),
-            implode(', ', $this->getColumns($dataprint))
-        ));
+            implode(', ', $tableStructure)
+        );
     }
     
     /**
      * Append the character set specifications to a command.
      * 
      * @param  string  $sql
-     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
      * 
      * @return string
      */
-    protected function compileCreateEncoding($sql, Connection $connection, Dataprint $dataprint): string
+    protected function compileCreateEncoding($sql, Dataprint $dataprint): string
     {
+        // First we will set the character set if one has been set on either the create
+        // blueprint itself or on the root configuration for the connection that the
+        // table is being created on.
         if (isset($dataprint->charset)) {
             $sql .= ' default character set '.$dataprint->charset;
-        } elseif ( ! is_null($charset = $connection->getConfig('charset'))) {
+        } elseif ( ! is_null($charset = $this->connection->getConfig('charset'))) {
             $sql .= ' default character set '.$charset;
         }
         
+        // added to either this create table blueprint or the configuration for this
+        // connection that the query is targeting.
         if (isset($dataprint->collation)) {
             $sql .= " collate '{$dataprint->collation}'";
-        } elseif ( ! is_null($collation = $connection->getConfig('collation'))) {
+        } elseif ( ! is_null($collation = $this->connection->getConfig('collation'))) {
             $sql .= " collate '{$collation}'";
         }
         
@@ -184,16 +219,15 @@ class MySqlGrammar extends Grammar
      * Append the engine specifications to a command.
      * 
      * @param  string  $sql
-     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
      * 
      * @return string
      */
-    protected function compileCreateEngine($sql, Connection $connection, Dataprint $dataprint): string
+    protected function compileCreateEngine($sql, Dataprint $dataprint): string
     {
         if (isset($dataprint->engine)) {
             return $sql.' engine = '.$dataprint->engine;
-        } elseif ( ! is_null($engine = $connection->getConfig('engine'))) {
+        } elseif ( ! is_null($engine = $this->connection->getConfig('engine'))) {
             return $sql.' engine = '.$engine;
         }
         
@@ -210,10 +244,92 @@ class MySqlGrammar extends Grammar
      */
     public function compileAdd(Dataprint $dataprint, Flowing $command): string
     {
-        return sprintf('alter table %s %s',
+        return sprintf('alter table %s add %s%s%s',
             $this->wrapTable($dataprint),
-            implode(', ', $this->prefixArray('add', $this->getColumns($dataprint)))
+            $this->getColumn($dataprint, $command->column),
+            $command->column->instant ? ', algorithm=instant' : '',
+            $command->column->lock ? ', lock='.$command->column->lock : ''
         );
+    }
+
+    /** @inheritDoc */
+    public function compileRenameColumn(Dataprint $dataprint, Flowing $command): string
+    {
+        $isMaria = $this->connection->isMaria();
+        $version = $this->connection->getServerVersion();
+
+        if (($isMaria && version_compare($version, '10.5.2', '<')) ||
+            ( ! $isMaria && version_compare($version, '8.0.3', '<'))) {
+            return $this->compileLegacyRenameColumn($dataprint, $command);
+        }
+
+        return parent::compileRenameColumn($dataprint, $command);
+    }
+
+    /**
+     * Compile a rename column command for legacy versions of MySQL.
+     *
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    protected function compileLegacyRenameColumn(Dataprint $dataprint, Flowing $command): string
+    {
+        $column = (new Collection($this->connection->getSchemaBuilder()->getColumns($dataprint->getTable())))
+            ->firstWhere('name', $command->from);
+
+        $modifiers = $this->addModifiers($column['type'], $dataprint, new ColumnDefinition([
+            'change' => true,
+            'type' => match ($column['type_name']) {
+                'bigint' => 'bigInteger',
+                'int' => 'integer',
+                'mediumint' => 'mediumInteger',
+                'smallint' => 'smallInteger',
+                'tinyint' => 'tinyInteger',
+                default => $column['type_name'],
+            },
+            'nullable' => $column['nullable'],
+            'default' => $column['default'] && (str_starts_with(strtolower($column['default']), 'current_timestamp') || $column['default'] === 'NULL')
+                ? new Expression($column['default'])
+                : $column['default'],
+            'autoIncrement' => $column['auto_increment'],
+            'collation' => $column['collation'],
+            'comment' => $column['comment'],
+        ]));
+
+        return sprintf('alter table %s change %s %s %s',
+            $this->wrapTable($dataprint),
+            $this->wrap($command->from),
+            $this->wrap($command->to),
+            $modifiers
+        );
+    }
+
+    /** @inheritDoc */
+    public function compileChange(Dataprint $dataprint, Flowing $command): string
+    {
+        $column = $command->column;
+
+        $sql = sprintf('alter table %s %s %s%s %s',
+            $this->wrapTable($dataprint),
+            is_null($column->renameTo) ? 'modify' : 'change',
+            $this->wrap($column),
+            is_null($column->renameTo) ? '' : ' '.$this->wrap($column->renameTo),
+            $this->getType($column)
+        );
+
+        $sql = $this->addModifiers($sql, $dataprint, $column);
+
+        if ($column->instant) {
+            $sql .= ', algorithm=instant';
+        }
+
+        if ($column->lock) {
+            $sql .= ', lock='.$column->lock;
+        }
+
+        return $sql;
     }
     
     /**
@@ -294,12 +410,13 @@ class MySqlGrammar extends Grammar
      */
     protected function compileKey(Dataprint $dataprint, Flowing $command, $type): string
     {
-        return sprintf('alter table %s add %s %s%s(%s)',
+        return sprintf('alter table %s add %s %s%s(%s)%s',
             $this->wrapTable($dataprint),
             $type,
             $this->wrap($command->index),
             $command->option ? ' using '.$command->option : '',
-            $this->columnize($command->columns)
+            $this->columnize($command->columns),
+            $command->lock ? ', lock='.$command->lock : ''
         );
     }
     
@@ -341,7 +458,17 @@ class MySqlGrammar extends Grammar
     {
         $columns = $this->prefixArray('drop', $this->wrapArray($command->columns));
         
-        return 'alter table '.$this->wrapTable($dataprint).' '.implode(', ', $columns);
+        $sql = 'alter table '.$this->wrapTable($dataprint).' '.implode(', ', $columns);
+
+        if ($command->instant) {
+            $sql .= ', algorithm=instant';
+        }
+
+        if ($command->lock) {
+            $sql .= ', lock='.$command->lock;
+        }
+
+        return $sql;
     }
     
     /**
@@ -412,6 +539,25 @@ class MySqlGrammar extends Grammar
     {
         return $this->compileDropIndex($dataprint, $command);
     }
+
+    /**
+     * Compile a foreign key command.
+     *
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileForeign(Dataprint $dataprint, Flowing $command): string
+    {
+        $sql = parent::compileForeign($dataprint, $command);
+
+        if ($command->lock) {
+            $sql .= ', lock='.$command->lock;
+        }
+
+        return $sql;
+    }
     
     /**
      * Compile a drop foreign key command.
@@ -469,7 +615,7 @@ class MySqlGrammar extends Grammar
      */
     public function compileDropAllTables($tables): string
     {
-        return 'drop table '.implode(',', $this->wrapArray($tables));
+        return 'drop table '.implode(',', $this->escapeNames($tables));
     }
     
     /**
@@ -481,7 +627,7 @@ class MySqlGrammar extends Grammar
      */
     public function compileDropAllViews($views): string
     {
-        return 'drop view '.implode(',', $this->wrapArray($views));
+        return 'drop view '.implode(',', $this->escapeNames($views));
     }
     
     /**
@@ -522,6 +668,37 @@ class MySqlGrammar extends Grammar
     public function compileDisableForeignKeyConstraints(): string
     {
         return 'SET FOREIGN_KEY_CHECKS=0;';
+    }
+
+    /**
+     * Compile a table comment command.
+     *
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileTableComment(Dataprint $dataprint, Flowing $command): string
+    {
+        return sprintf('alter table %s comment = %s',
+            $this->wrapTable($dataprint),
+            "'".str_replace("'", "''", $command->comment)."'"
+        );
+    }
+
+    /**
+     * Quote-escape the given tables, views, or types.
+     *
+     * @param  array  $names
+     * 
+     * @return array
+     */
+    public function escapeNames($names): array
+    {
+        return array_map(
+            fn ($name) => (new Collection(explode('.', $name)))->map($this->wrapValue(...))->implode('.'),
+            $names
+        );
     }
     
     /**
@@ -665,7 +842,11 @@ class MySqlGrammar extends Grammar
      */
     protected function typeFloat(Flowing $column): string
     {
-        return $this->typeDouble($column);
+        if ($column->precision) {
+            return "float({$column->precision})";
+        }
+
+        return 'float';
     }
     
     /**
@@ -764,6 +945,15 @@ class MySqlGrammar extends Grammar
      */
     protected function typeDate(Flowing $column): string
     {
+        $isMaria = $this->connection->isMaria();
+        $version = $this->connection->getServerVersion();
+
+        if ($isMaria || ( ! $isMaria && version_compare($version, '8.0.13', '>='))) {
+            if ($column->useCurrent) {
+                $column->default(new Expression('(CURDATE())'));
+            }
+        }
+
         return 'date';
     }
     
@@ -776,13 +966,17 @@ class MySqlGrammar extends Grammar
      */
     protected function typeDateTime(Flowing $column): string
     {
-        $columnType = $column->precision ? "datetime($column->precision)" : 'datetime';
-        
         $current = $column->precision ? "CURRENT_TIMESTAMP($column->precision)" : 'CURRENT_TIMESTAMP';
-        
-        $columnType = $column->useCurrent ? "$columnType default $current" : $columnType;
-        
-        return $column->useCurrentOnUpdate ? "$columnType on update $current" : $columnType;
+
+        if ($column->useCurrent) {
+            $column->default(new Expression($current));
+        }
+
+        if ($column->useCurrentOnUpdate) {
+            $column->onUpdate(new Expression($current));
+        }
+
+        return $column->precision ? "datetime($column->precision)" : 'datetime';
     }
     
     /**
@@ -830,13 +1024,17 @@ class MySqlGrammar extends Grammar
      */
     protected function typeTimestamp(Flowing $column): string
     {
-        $columnType = $column->precision ? "timestamp($column->precision)" : 'timestamp';
-        
         $current = $column->precision ? "CURRENT_TIMESTAMP($column->precision)" : 'CURRENT_TIMESTAMP';
-        
-        $columnType = $column->useCurrent ? "$columnType default $current" : $columnType;
-        
-        return $column->useCurrentOnUpdate ? "$columnType on update $current" : $columnType;
+
+        if ($column->useCurrent) {
+            $column->default(new Expression($current));
+        }
+
+        if ($column->useCurrentOnUpdate) {
+            $column->onUpdate(new Expression($current));
+        }
+
+        return $column->precision ? "timestamp($column->precision)" : 'timestamp';
     }
 
     /**
@@ -860,6 +1058,15 @@ class MySqlGrammar extends Grammar
      */
     protected function typeYear(Flowing $column): string
     {
+        $isMaria = $this->connection->isMaria();
+        $version = $this->connection->getServerVersion();
+
+        if ($isMaria || ( ! $isMaria && version_compare($version, '8.0.13', '>='))) {
+            if ($column->useCurrent) {
+                $column->default(new Expression('(YEAR(CURDATE()))'));
+            }
+        }
+
         return 'year';
     }
     
@@ -872,6 +1079,10 @@ class MySqlGrammar extends Grammar
      */
     protected function typeBinary(Flowing $column): string
     {
+        if ($column->length) {
+            return $column->fixed ? "binary({$column->length})" : "varbinary({$column->length})";
+        }
+
         return 'blob';
     }
     
@@ -885,6 +1096,30 @@ class MySqlGrammar extends Grammar
     protected function typeUuid(Flowing $column): string
     {
         return 'char(36)';
+    }
+
+    /**
+     * Create the column definition for an IP address type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeIpAddress(Flowing $column): string
+    {
+        return 'varchar(45)';
+    }
+
+    /**
+     * Create the column definition for a MAC address type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeMacAddress(Flowing $column): string
+    {
+        return 'varchar(17)';
     }
     
     /**
@@ -977,6 +1212,21 @@ class MySqlGrammar extends Grammar
             return " default ".$this->getDefaultValue($column->default);
         }
     }
+
+    /**
+     * Get the SQL for an "on update" column modifier.
+     *
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string|null
+     */
+    protected function modifyOnUpdate(Dataprint $dataprint, Flowing $column)
+    {
+        if ( ! is_null($column->onUpdate)) {
+            return ' on update '.$this->getValue($column->onUpdate);
+        }
+    }
     
     /**
      * Get the SQL for an auto-increment column modifier.
@@ -989,7 +1239,9 @@ class MySqlGrammar extends Grammar
     protected function modifyIncrement(Dataprint $dataprint, Flowing $column)
     {
         if (in_array($column->type, $this->serials) && $column->autoIncrement) {
-            return ' auto_increment primary key';
+            return $this->hasCommand($dataprint, 'primary') || ($column->change && ! $column->primary)
+                ? ' auto_increment'
+                : ' auto_increment primary key';
         }
     }
 
@@ -1004,7 +1256,7 @@ class MySqlGrammar extends Grammar
     protected function modifyComment(Dataprint $dataprint, Flowing $column)
     {
         if ( ! is_null($column->comment)) {
-            return ' comment "'.$column->comment.'"';
+            return " comment '".addslashes($column->comment)."'";
         }
     }
     
@@ -1052,5 +1304,19 @@ class MySqlGrammar extends Grammar
         }
         
         return $value;
+    }
+
+    /**
+     * Wrap the given JSON selector.
+     *
+     * @param  string  $value
+     * 
+     * @return string
+     */
+    protected function wrapJsonSelector($value): string
+    {
+        [$field, $path] = $this->wrapJsonFieldAndPath($value);
+
+        return 'json_unquote(json_extract('.$field.$path.'))';
     }
 }
