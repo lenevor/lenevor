@@ -58,6 +58,27 @@ class MariaDbGrammar extends MySqlGrammar
     }
 
     /**
+     * Create the column definition for a spatial Geometry type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeGeometry(Flowing $column): string
+    {
+        $subtype = $column->subtype ? strtolower($column->subtype) : null;
+
+        if ( ! in_array($subtype, ['point', 'linestring', 'polygon', 'geometrycollection', 'multipoint', 'multilinestring', 'multipolygon'])) {
+            $subtype = null;
+        }
+
+        return sprintf('%s%s',
+            $subtype ?? 'geometry',
+            $column->srid ? ' ref_system_id='.$column->srid : ''
+        );
+    }
+
+    /**
      * Wrap the given JSON selector.
      *
      * @param  string  $value

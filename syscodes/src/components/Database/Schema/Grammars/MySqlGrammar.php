@@ -22,7 +22,6 @@
 
 namespace Syscodes\Components\Database\Schema\Grammars;
 
-use Syscodes\Components\Database\Connections\Connection;
 use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Database\Schema\ColumnDefinition;
 use Syscodes\Components\Database\Schema\Dataprint;
@@ -35,6 +34,13 @@ use Syscodes\Components\Support\Flowing;
  */
 class MySqlGrammar extends Grammar
 {
+    /**
+     * The commands to be executed outside of create or alter command.
+     * 
+     * @var array
+     */
+    protected $flowingCommands = ['AutoIncrementStartingValues'];
+
     /**
      * The possible column modifiers.
      * 
@@ -51,13 +57,6 @@ class MySqlGrammar extends Grammar
      * @var string[] $serials
      */
     protected $serials = ['bigInteger', 'integer', 'mediumInteger', 'smallInteger', 'tinyInteger'];
-
-    /**
-     * The commands to be executed outside of create or alter command.
-     * 
-     * @var array
-     */
-    protected $flowingCommands = ['AutoIncrementStartingValues'];
     
     /**
      * Compile a create database command.
@@ -1120,6 +1119,43 @@ class MySqlGrammar extends Grammar
     protected function typeMacAddress(Flowing $column): string
     {
         return 'varchar(17)';
+    }
+
+    /**
+     * Create the column definition for a spatial Geometry type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeGeometry(Flowing $column): string
+    {
+        $subtype = $column->subtype ? strtolower($column->subtype) : null;
+
+        if ( ! in_array($subtype, ['point', 'linestring', 'polygon', 'geometrycollection', 'multipoint', 'multilinestring', 'multipolygon'])) {
+            $subtype = null;
+        }
+
+        return sprintf('%s%s',
+            $subtype ?? 'geometry',
+            match (true) {
+                $column->srid && $this->connection->isMaria() => ' ref_system_id='.$column->srid,
+                (bool) $column->srid => ' srid '.$column->srid,
+                default => '',
+            }
+        );
+    }
+
+    /**
+     * Create the column definition for a spatial Geography type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeGeography(Flowing $column): string
+    {
+        return $this->typeGeometry($column);
     }
     
     /**
