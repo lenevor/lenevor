@@ -855,7 +855,7 @@ class SQLiteGrammar extends Grammar
      * 
      * @return string
      */
-    protected function typeIpAddress(Flowing $column)
+    protected function typeIpAddress(Flowing $column): string
     {
         return 'varchar';
     }
@@ -867,7 +867,7 @@ class SQLiteGrammar extends Grammar
      * 
      * @return string
      */
-    protected function typeMacAddress(Flowing $column)
+    protected function typeMacAddress(Flowing $column): string
     {
         return 'varchar';
     }
