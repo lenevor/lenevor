@@ -22,7 +22,9 @@
 
 namespace Syscodes\Components\Database\Schema\Grammars;
 
+use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Database\Schema\Dataprint;
+use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\Flowing;
 
 /**
@@ -31,6 +33,13 @@ use Syscodes\Components\Support\Flowing;
  */
 class PostgresGrammar extends Grammar
 {
+    /**
+     * The commands to be executed outside of create or alter command.
+     * 
+     * @var array
+     */
+    protected $flowingCommands = ['AutoIncrementStartingValues', 'Comment'];
+
     /**
      * The possible column modifiers.
      * 
@@ -49,16 +58,18 @@ class PostgresGrammar extends Grammar
      * Compile a create database command.
      * 
      * @param  string  $name
-     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * 
      * @return string
      */
-    public function compileCreateDatabase($name, $connection): string
+    public function compileCreateDatabase($name): string
     {
-        return sprintf('create database %s enconding %s',
-                    $this->wrapValue($name),
-                    $this->wrapValue($connection->getConfig('charset')),
-               );
+        $sql = parent::compileCreateDatabase($name);
+
+        if ($charset = $this->connection->getConfig('charset')) {
+            $sql .= sprintf(' encoding %s', $this->wrapValue($charset));
+        }
+
+        return $sql;
     }
 
     /**
@@ -104,10 +115,10 @@ class PostgresGrammar extends Grammar
     public function compileCreate(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('%s table %s (%s)',
-                    $dataprint->temporary ? 'create temporary' : 'create',
-                    $this->wrapTable($dataprint),
-                    implode(', ', $this->getColumns($dataprint))
-               );
+            $dataprint->temporary ? 'create temporary' : 'create',
+            $this->wrapTable($dataprint),
+            implode(', ', $this->getColumns($dataprint))
+        );
     }
     
     /**
@@ -121,9 +132,36 @@ class PostgresGrammar extends Grammar
     public function compileAdd(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('alter table %s %s',
-                    $this->wrapTable($dataprint),
-                    implode(', ', $this->prefixArray('add column', $this->getColumns($dataprint)))
-               );
+            $this->wrapTable($dataprint),
+            $this->getColumn($dataprint, $command->column)
+        );
+    }
+
+    /** @inheritDoc */
+    public function compileChange(Dataprint $dataprint, Flowing $command): string
+    {
+        $column = $command->column;
+
+        $changes = ['type '.$this->getType($column).$this->modifyCollate($dataprint, $column)];
+
+        foreach ($this->modifiers as $modifier) {
+            if ($modifier === 'Collate') {
+                continue;
+            }
+
+            if (method_exists($this, $method = "modify{$modifier}")) {
+                $constraints = (array) $this->{$method}($dataprint, $column);
+
+                foreach ($constraints as $constraint) {
+                    $changes[] = $constraint;
+                }
+            }
+        }
+
+        return sprintf('alter table %s %s',
+            $this->wrapTable($dataprint),
+            implode(', ', $this->prefixArray('alter column '.$this->wrap($column), $changes))
+        );
     }
     
     /**
@@ -147,15 +185,49 @@ class PostgresGrammar extends Grammar
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
      * @param  \Syscodes\Components\Support\Flowing  $command
      * 
-     * @return string
+     * @return array
      */
-    public function compileUnique(Dataprint $dataprint, Flowing $command): string
+    public function compileUnique(Dataprint $dataprint, Flowing $command): array
     {
-        return sprintf('alter table %s add constraint %s unique (%s)',
-                    $this->wrapTable($dataprint),
-                    $this->wrap($command->index),
-                    $this->columnize($command->columns)
-               );
+        $uniqueStatement = 'unique';
+
+        if (! is_null($command->nullsNotDistinct)) {
+            $uniqueStatement .= ' nulls '.($command->nullsNotDistinct ? 'not distinct' : 'distinct');
+        }
+
+        if ($command->online || $command->algorithm) {
+            $createIndexSql = sprintf('create unique index %s%s on %s%s (%s)',
+                $command->online ? 'concurrently ' : '',
+                $this->wrap($command->index),
+                $this->wrapTable($dataprint),
+                $command->algorithm ? ' using '.$command->algorithm : '',
+                $this->columnize($command->columns)
+            );
+
+            $sql = sprintf('alter table %s add constraint %s unique using index %s',
+                $this->wrapTable($dataprint),
+                $this->wrap($command->index),
+                $this->wrap($command->index)
+            );
+        } else {
+            $sql = sprintf(
+                'alter table %s add constraint %s %s (%s)',
+                $this->wrapTable($dataprint),
+                $this->wrap($command->index),
+                $uniqueStatement,
+                $this->columnize($command->columns)
+            );
+        }
+
+        if (! is_null($command->deferrable)) {
+            $sql .= $command->deferrable ? ' deferrable' : ' not deferrable';
+        }
+
+        if ($command->deferrable && ! is_null($command->initiallyImmediate)) {
+            $sql .= $command->initiallyImmediate ? ' initially immediate' : ' initially deferred';
+        }
+
+        return isset($createIndexSql) ? [$createIndexSql, $sql] : [$sql];
     }
     
     /**
@@ -168,12 +240,13 @@ class PostgresGrammar extends Grammar
      */
     public function compileIndex(Dataprint $dataprint, Flowing $command): string
     {
-        return sprintf('create index %s on %s (%s)',
-                    $this->wrap($command->index),
-                    $this->wrapTable($dataprint),
-                    $command->option ? ' using '.$command->option : '',
-                    $this->columnize($command->columns)
-               );        
+        return sprintf('create index %s%s on %s%s (%s)',
+            $command->online ? 'concurrently ' : '',
+            $this->wrap($command->index),
+            $this->wrapTable($dataprint),
+            $command->algorithm ? ' using '.$command->algorithm : '',
+            $this->columnize($command->columns)
+        );        
     }
     
     /**
@@ -186,11 +259,12 @@ class PostgresGrammar extends Grammar
      */
     public function compileFullText(Dataprint $dataprint, Flowing $command): string
     {
-        return sprintf('create index %s on %s using gin ((%s))',
-                    $this->wrap($command->index),
-                    $this->wrapTable($dataprint),
-                    implode(' || ', $command->columns)
-               );        
+        return sprintf('create index %s%s on %s using gin ((%s))',
+            $command->online ? 'concurrently ' : '',
+            $this->wrap($command->index),
+            $this->wrapTable($dataprint),
+            implode(' || ', $command->columns)
+        );        
     }
     
     /**
@@ -216,7 +290,7 @@ class PostgresGrammar extends Grammar
      * 
      * @return string
      */
-    public function compileForeign(Dataprint $dataprint, Flowing $command)
+    public function compileForeign(Dataprint $dataprint, Flowing $command): string
     {
         $sql = parent::compileForeign($dataprint, $command);
         
@@ -226,6 +300,10 @@ class PostgresGrammar extends Grammar
         
         if ($command->deferrable && ! is_null($command->initiallyImmediate)) {
             $sql .= $command->initiallyImmediate ? ' initially immediate' : ' initially deferred';
+        }
+
+        if ( ! is_null($command->notValid)) {
+            $sql .= ' not valid';
         }
         
         return $sql;
@@ -283,7 +361,8 @@ class PostgresGrammar extends Grammar
      */
     public function compileDropPrimary(Dataprint $dataprint, Flowing $command): string
     {
-        $index = $this->wrap("{$dataprint->getTable()}_pkey");
+        [, $table] = $this->connection->getSchemaBuilder()->parseSchemaAndTable($dataprint->getTable());
+        $index = $this->wrap("{$this->connection->getTablePrefix()}{$table}_pkey");
         
         return 'alter table '.$this->wrapTable($dataprint)." drop constraint {$index}";
     }
@@ -352,9 +431,9 @@ class PostgresGrammar extends Grammar
      */
     public function compileDropForeign(Dataprint $dataprint, Flowing $command): string
     {
-        $table = $this->wrap($dataprint);
+        $index = $this->wrap($command->index);
         
-        return "alter table {table} drop foreign key {$command->index}"; 
+        return "alter table {$this->wrapTable($dataprint)} drop foreign key {$index}"; 
     }
     
     /**
@@ -397,7 +476,7 @@ class PostgresGrammar extends Grammar
      */
     public function compileDropAllTables($tables): string
     {
-        return 'drop table "'.implode('","', $tables).'" cascade';
+        return 'drop table '.implode(', ', $this->escapeNames($tables)).' cascade';
     }
     
     /**
@@ -409,7 +488,31 @@ class PostgresGrammar extends Grammar
      */
     public function compileDropAllViews($views): string
     {
-        return 'drop view "'.implode('","', $views).'" cascade';
+        return 'drop view '.implode(', ', $this->escapeNames($views)).' cascade';
+    }
+
+    /**
+     * Compile the SQL needed to drop all types.
+     *
+     * @param  array  $types
+     * 
+     * @return string
+     */
+    public function compileDropAllTypes($types): string
+    {
+        return 'drop type '.implode(', ', $this->escapeNames($types)).' cascade';
+    }
+
+    /**
+     * Compile the SQL needed to drop all domains.
+     *
+     * @param  array  $domains
+     * 
+     * @return string
+     */
+    public function compileDropAllDomains($domains): string
+    {
+        return 'drop domain '.implode(', ', $this->escapeNames($domains)).' cascade';
     }
     
     /**
@@ -464,13 +567,46 @@ class PostgresGrammar extends Grammar
      * 
      * @return string
      */
-    public function compileComment(Dataprint $dataprint, Flowing $command): string
+    public function compileComment(Dataprint $dataprint, Flowing $command)
     {
-        return sprintf('comment on column %s.%s is %s',
-                    $this->wrapTable($dataprint),
-                    $this->wrap($command->column->name),
-                    "'".str_replace("'", "''", $command->value)."'"
-               );
+        if ( ! is_null($comment = $command->column->comment) || $command->column->change) {
+            return sprintf('comment on column %s.%s is %s',
+                $this->wrapTable($dataprint),
+                $this->wrap($command->column->name),
+                is_null($comment) ? 'NULL' : "'".str_replace("'", "''", $comment)."'"
+            );
+        }
+    }
+
+    /**
+     * Compile a table comment command.
+     *
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string
+     */
+    public function compileTableComment(Dataprint $dataprint, Flowing $command): string
+    {
+        return sprintf('comment on table %s is %s',
+            $this->wrapTable($dataprint),
+            "'".str_replace("'", "''", $command->comment)."'"
+        );
+    }
+
+    /**
+     * Quote-escape the given tables, views, or types.
+     *
+     * @param  array  $names
+     * 
+     * @return array
+     */
+    public function escapeNames($names): array
+    {
+        return array_map(
+            fn ($name) => (new Collection(explode('.', $name)))->map($this->wrapValue(...))->implode('.'),
+            $names
+        );
     }
     
     /**
@@ -562,7 +698,7 @@ class PostgresGrammar extends Grammar
      */
     protected function typeBigInteger(Flowing $column): string
     {
-        return $column->autoIncrement ? 'bigserial' : 'bigint';
+        return $column->autoIncrement && ! $column->change ? 'bigserial' : 'bigint';
     }
     
     /**
@@ -574,7 +710,7 @@ class PostgresGrammar extends Grammar
      */
     protected function typeInteger(Flowing $column): string
     {
-        return $column->autoIncrement ? 'serial' : 'integer';
+        return $column->autoIncrement && ! $column->change ? 'serial' : 'integer';
     }
     
     /**
@@ -586,7 +722,7 @@ class PostgresGrammar extends Grammar
      */
     protected function typeMediumInteger(Flowing $column): string
     {
-        return 'integer';
+        return $this->typeInteger($column);
     }
     
     /**
@@ -598,7 +734,7 @@ class PostgresGrammar extends Grammar
      */
     protected function typeTinyInteger(Flowing $column): string
     {
-        return 'smallint';
+        return $this->typeSmallInteger($column);
     }
     
     /**
@@ -610,7 +746,7 @@ class PostgresGrammar extends Grammar
      */
     protected function typeSmallInteger(Flowing $column): string
     {
-        return 'smallint';
+        return $column->autoIncrement && ! $column->change ? 'smallserial' : 'smallint';
     }
     
     /**
@@ -622,7 +758,11 @@ class PostgresGrammar extends Grammar
      */
     protected function typeFloat(Flowing $column): string
     {
-        return $this->typeDouble($column);
+        if ($column->precision) {
+            return "float({$column->precision})";
+        }
+
+        return 'float';
     }
     
     /**
@@ -681,9 +821,11 @@ class PostgresGrammar extends Grammar
      */
     protected function typeEnum(Flowing $column): string
     {
-        $allowed = array_map(function($a) { return "'".$a."'"; }, $column->allowed);
-        
-        return "varchar(255) check (\"{$column->name}\" in (".implode(', ', $allowed)."))";
+        return sprintf(
+            'varchar(255) check ("%s" in (%s))',
+            $column->name,
+            $this->quoteString($column->allowed)
+        );
     }
 
     /**
@@ -719,6 +861,10 @@ class PostgresGrammar extends Grammar
      */
     protected function typeDate(Flowing $column): string
     {
+        if ($column->useCurrent) {
+            $column->default(new Expression('CURRENT_DATE'));
+        }
+
         return 'date';
     }
     
@@ -779,9 +925,11 @@ class PostgresGrammar extends Grammar
      */
     protected function typeTimestamp(Flowing $column): string
     {
-        $type = 'timestamp'.(is_null($column->precision) ? '' : "($column->precision)").' without time zone';
-        
-        return $column->useCurrent ? "$type default CURRENT_TIMESTAMP" : $type;
+        if ($column->useCurrent) {
+            $column->default(new Expression('CURRENT_TIMESTAMP'));
+        }
+
+        return 'timestamp'.(is_null($column->precision) ? '' : "($column->precision)").' without time zone';
     }
     
     /**
@@ -793,9 +941,11 @@ class PostgresGrammar extends Grammar
      */
     protected function typeTimestampTz(Flowing $column): string
     {
-        $type = 'timestamp'.(is_null($column->precision) ? '' : "($column->precision)").' with time zone';
-        
-        return $column->useCurrent ? "$type default CURRENT_TIMESTAMP" : $type;
+        if ($column->useCurrent) {
+            $column->default(new Expression('CURRENT_TIMESTAMP'));
+        }
+
+        return 'timestamp'.(is_null($column->precision) ? '' : "($column->precision)").' with time zone';
     }
 
     /**
@@ -807,6 +957,10 @@ class PostgresGrammar extends Grammar
      */
     protected function typeYear(Flowing $column): string
     {
+        if ($column->useCurrent) {
+            $column->default(new Expression('EXTRACT(YEAR FROM CURRENT_DATE)'));
+        }
+        
         return $this->typeInteger($column);
     }
     
@@ -835,6 +989,68 @@ class PostgresGrammar extends Grammar
     }
 
     /**
+     * Create the column definition for an IP address type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeIpAddress(Flowing $column): string
+    {
+        return 'inet';
+    }
+
+    /**
+     * Create the column definition for a MAC address type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeMacAddress(Flowing $column): string
+    {
+        return 'macaddr';
+    }
+
+    /**
+     * Create the column definition for a spatial Geometry type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeGeometry(Flowing $column): string
+    {
+        if ($column->subtype) {
+            return sprintf('geometry(%s%s)',
+                strtolower($column->subtype),
+                $column->srid ? ','.$column->srid : ''
+            );
+        }
+
+        return 'geometry';
+    }
+
+    /**
+     * Create the column definition for a spatial Geography type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeGeography(Flowing $column): string
+    {
+        if ($column->subtype) {
+            return sprintf('geography(%s%s)',
+                strtolower($column->subtype),
+                $column->srid ? ','.$column->srid : ''
+            );
+        }
+
+        return 'geography';
+    }
+
+    /**
      * Get the SQL for a collation column modifier.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
@@ -859,6 +1075,10 @@ class PostgresGrammar extends Grammar
      */
     protected function modifyNullable(Dataprint $dataprint, Flowing $column): string
     {
+        if ($column->change) {
+            return $column->nullable ? 'drop not null' : 'set not null';
+        }
+
         return $column->nullable ? ' null' : ' not null';
     }
     
@@ -873,6 +1093,14 @@ class PostgresGrammar extends Grammar
      */
     protected function modifyDefault(Dataprint $dataprint, Flowing $column)
     {
+        if ($column->change) {
+            if ( ! $column->autoIncrement || ! is_null($column->generatedAs)) {
+                return is_null($column->default) ? 'drop default' : 'set default '.$this->getDefaultValue($column->default);
+            }
+
+            return null;
+        }
+
         if ( ! is_null($column->default))  {
             return ' default '.$this->getDefaultValue($column->default);
         }
@@ -888,7 +1116,10 @@ class PostgresGrammar extends Grammar
      */
     protected function modifyIncrement(Dataprint $dataprint, Flowing $column)
     {
-        if (in_array($column->type, $this->serials) && $column->autoIncrement) {
+        if ( ! $column->change
+            && ! $this->hasCommand($dataprint, 'primary')
+            && (in_array($column->type, $this->serials))
+            && $column->autoIncrement) {
             return ' primary key';
         }
     }
