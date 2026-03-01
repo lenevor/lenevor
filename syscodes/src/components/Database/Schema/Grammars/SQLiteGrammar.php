@@ -23,7 +23,9 @@
 namespace Syscodes\Components\Database\Schema\Grammars;
 
 use RuntimeException;
+use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Database\Schema\Dataprint;
+use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\Flowing;
 
 /**
@@ -79,37 +81,28 @@ class SQLiteGrammar extends Grammar
     public function compileCreate(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('%s table %s (%s%s%s)',
-                    $dataprint->temporary ? 'create temporary' : 'create',
-                    $this->wrapTable($dataprint),
-                    implode(', ', $this->getColumns($dataprint)),
-                    (string) $this->addForeignKeys($dataprint),
-                    (string) $this->addPrimaryKeys($dataprint)
-               );
+            $dataprint->temporary ? 'create temporary' : 'create',
+            $this->wrapTable($dataprint),
+            implode(', ', $this->getColumns($dataprint)),
+            $this->addForeignKeys($this->getCommandsByName($dataprint, 'foreign')),
+            $this->addPrimaryKeys($this->getCommandByName($dataprint, 'primary'))
+        );
     }
     
     /**
      * Get the foreign key syntax for a table creation statement.
      * 
-     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Database\Schema\ForeignKeyDefinition[]  $foreignKeys
      * 
      * @return string|null
      */
-    protected function addForeignKeys(Dataprint $dataprint)
+    protected function addForeignKeys($foreignKeys)
     {
-        $foreigns = $this->getCommandsByName($dataprint, 'foreign');
-        
-        return collect($foreigns)->reduce(function ($sql, $foreign) {
-            $sql .= $this->getForeignKey($foreign);
-            
-            if ( ! is_null($foreign->onDelete)) {
-                $sql .= " on delete {$foreign->onDelete}";
-            }
-            
-            if ( ! is_null($foreign->onUpdate)) {
-                $sql .= " on update {$foreign->onUpdate}";
-            }
-            
-            return $sql;
+        return (new Collection($foreignKeys))->reduce(function ($sql, $foreign) {
+            // Once we have all the foreign key commands for the table creation statement
+            // we'll loop through each of them and add them to the create table SQL we
+            // are building.
+            return $sql.$this->getForeignKey($foreign);
         }, '');
     }
     
@@ -122,23 +115,37 @@ class SQLiteGrammar extends Grammar
      */
     protected function getForeignKey($foreign): string
     {
-        return sprintf(', foreign key(%s) references %s(%s)',
-                    $this->columnize($foreign->columns),
-                    $this->wrapTable($foreign->on),
-                    $this->columnize((array) $foreign->references)
-               );
+        // We need to columnize the columns that the foreign key is being defined for
+        // so that it is a properly formatted list. 
+        $sql = sprintf(', foreign key(%s) references %s(%s)',
+            $this->columnize($foreign->columns),
+            $this->wrapTable($foreign->on),
+            $this->columnize((array) $foreign->references)
+        );
+
+        if (! is_null($foreign->onDelete)) {
+            $sql .= " on delete {$foreign->onDelete}";
+        }
+
+        // If this foreign key specifies the action to be taken on update we will add
+        // that to the statement here. 
+        if ( ! is_null($foreign->onUpdate)) {
+            $sql .= " on update {$foreign->onUpdate}";
+        }
+
+        return $sql;
     }
     
     /**
      * Get the primary key syntax for a table creation statement.
      * 
-     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing|null  $primary
      * 
      * @return string|null
      */
-    protected function addPrimaryKeys(Dataprint $dataprint)
+    protected function addPrimaryKeys($primary)
     {
-        if ( ! is_null($primary = $this->getCommandByName($dataprint, 'primary'))) {
+        if ( ! is_null($primary)) {
             return ", primary key ({$this->columnize($primary->columns)})";
         }
     }
@@ -149,16 +156,20 @@ class SQLiteGrammar extends Grammar
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
      * @param  \Syscodes\Components\Support\Flowing  $command
      * 
-     * @return array
+     * @return string
      */
-    public function compileAdd(Dataprint $dataprint, Flowing $command): array
+    public function compileAdd(Dataprint $dataprint, Flowing $command): string
     {
-        $columns = $this->prefixArray('add column', $this->getColumns($dataprint));
+        return sprintf('alter table %s add column %s',
+            $this->wrapTable($dataprint),
+            $this->getColumn($dataprint, $command->column)
+        );
+    }
 
-        return collect($columns)->map(function ($column) use ($dataprint) {
-            return 'alter table '.$this->wrapTable($dataprint).' '.$column;
-        })->all();
-        
+    /** @inheritDoc */
+    public function compileChange(Dataprint $blueprint, Flowing $command): string
+    {
+        // Handled on table alteration...
     }
     
     /**
@@ -171,11 +182,14 @@ class SQLiteGrammar extends Grammar
      */
     public function compileUnique(Dataprint $dataprint, Flowing $command): string
     {
-        return sprintf('create unique index %s on %s (%s)',
-                    $this->wrap($command->index),
-                    $this->wrapTable($dataprint),
-                    $this->columnize($command->columns)
-               );
+        [$schema, $table] = $this->connection->getSchemaBuilder()->parseSchemaAndTable($dataprint->getTable());
+
+        return sprintf('create unique index %s%s on %s (%s)',
+            $schema ? $this->wrapValue($schema).'.' : '',
+            $this->wrap($command->index),
+            $this->wrapTable($table),
+            $this->columnize($command->columns)
+        );
     }
     
     /**
@@ -188,11 +202,14 @@ class SQLiteGrammar extends Grammar
      */
     public function compileIndex(Dataprint $dataprint, Flowing $command): string
     {
-        return sprintf('create index %s on %s (%s)',
-                    $this->wrap($command->index),
-                    $this->wrapTable($dataprint),
-                    $this->columnize($command->columns)
-               );        
+        [$schema, $table] = $this->connection->getSchemaBuilder()->parseSchemaAndTable($dataprint->getTable());
+
+        return sprintf('create index %s%s on %s (%s)',
+            $schema ? $this->wrapValue($schema).'.' : '',
+            $this->wrap($command->index),
+            $this->wrapTable($table),
+            $this->columnize($command->columns)
+        );        
     }
     
     /**
@@ -218,11 +235,10 @@ class SQLiteGrammar extends Grammar
      * 
      * @return string
      */
-    public function compileForeign(Dataprint $dataprint, Flowing $command)
+    public function compileForeign(Dataprint $dataprint, Flowing $command): string
     {
         // Handled on table creation...
     }
-
     
     /**
      * Compile a drop table command.
@@ -256,13 +272,32 @@ class SQLiteGrammar extends Grammar
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
      * @param  \Syscodes\Components\Support\Flowing  $command
      * 
+     * @return array|null
+     */
+    public function compileDropColumn(Dataprint $dataprint, Flowing $command): array|null
+    {
+        if (version_compare($this->connection->getServerVersion(), '3.35', '<')) {
+            return null;
+        }
+
+        $table = $this->wrapTable($dataprint);
+
+        $columns = $this->prefixArray('drop column', $this->wrapArray($command->columns));
+
+        return (new Collection($columns))->map(fn ($column) => 'alter table '.$table.' '.$column)->all();
+    }
+
+    /**
+     * Compile a drop primary key command.
+     *
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
      * @return string
      */
-    public function compileDropColumn(Dataprint $dataprint, Flowing $command): string
+    public function compileDropPrimary(Dataprint $dataprint, Flowing $command)
     {
-        $columns = $this->prefixArray('drop column', $this->wrapArray($command->columns));
-        
-        return 'alter table '.$this->wrapTable($dataprint).' '.implode(', ', $columns);
+        // Handled on table alteration...
     }
     
     /**
@@ -275,9 +310,7 @@ class SQLiteGrammar extends Grammar
      */
     public function compileDropUnique(Dataprint $dataprint, Flowing $command): string
     {
-        $index = $this->wrap($command->index);
-        
-        return "drop index {$index}";
+        return $this->compileDropIndex($dataprint, $command);
     }
     
     /**
@@ -290,9 +323,12 @@ class SQLiteGrammar extends Grammar
      */
     public function compileDropIndex(Dataprint $dataprint, Flowing $command): string
     {
-        $index = $this->wrap($command->index);
-        
-        return "drop index {$index}";
+        [$schema] = $this->connection->getSchemaBuilder()->parseSchemaAndTable($dataprint->getTable());
+
+        return sprintf('drop index %s%s',
+            $schema ? $this->wrapValue($schema).'.' : '',
+            $this->wrap($command->index)
+        );
     }
     
     /**
@@ -336,9 +372,9 @@ class SQLiteGrammar extends Grammar
     public function compileRenameIndex(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('alter table %s rename to %s',
-                    $this->wrap($command->from),
-                    $this->wrap($command->to)
-               );
+            $this->wrap($command->from),
+            $this->wrap($command->to)
+        );
     }
     
     /**
@@ -348,7 +384,9 @@ class SQLiteGrammar extends Grammar
      */
     public function compileRebuild(): string
     {
-        return 'vacuum';
+        return sprintf('vacuum %s',
+            $this->wrapValue($schema ?? 'main')
+        );
     }
     
     /**
@@ -360,7 +398,9 @@ class SQLiteGrammar extends Grammar
      */
     public function compileDropAllTables($tables): string
     {
-        return "delete from sqlite_master where type in ('table', 'index', 'trigger')";
+        return sprintf("delete from %s.sqlite_master where type in ('table', 'index', 'trigger')",
+            $this->wrapValue($schema ?? 'main')
+        );
     }
     
     /**
@@ -372,7 +412,9 @@ class SQLiteGrammar extends Grammar
      */
     public function compileDropAllViews($views): string
     {
-        return "delete from sqlite_master where type in ('view')";
+        return sprintf("delete from %s.sqlite_master where type in ('view')",
+            $this->wrapValue($schema ?? 'main')
+        );
     }
     
     /**
@@ -406,7 +448,7 @@ class SQLiteGrammar extends Grammar
      */
     public function compileEnableForeignKeyConstraints(): string
     {
-        return 'PRAGMA foreign_keys = ON;';
+        return $this->pragma('foreign_keys', 1);
     }
     
     /**
@@ -416,7 +458,7 @@ class SQLiteGrammar extends Grammar
      */
     public function compileDisableForeignKeyConstraints(): string
     {
-        return 'PRAGMA foreign_keys = OFF;';
+        return $this->pragma('foreign_keys', 1);
     }
     
     /**
@@ -426,7 +468,7 @@ class SQLiteGrammar extends Grammar
      */
     public function compileEnableWriteableSchema(): string
     {
-        return 'PRAGMA writable_schema = 1;';
+        return $this->pragma('writable_schema', 1);
     }
     
     /**
@@ -436,7 +478,23 @@ class SQLiteGrammar extends Grammar
      */
     public function compileDisableWriteableSchema(): string
     {
-        return 'PRAGMA writable_schema = 0;';
+        return $this->pragma('writable_schema', 0);
+    }
+
+    /**
+     * Get the SQL to get or set a PRAGMA value.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * 
+     * @return string
+     */
+    public function pragma(string $key, mixed $value = null): string
+    {
+        return sprintf('pragma %s%s',
+            $key,
+            is_null($value) ? '' : ' = '.$value
+        );
     }
     
     /**
@@ -592,7 +650,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeDouble(Flowing $column): string
     {
-        return 'float';
+        return 'double';
     }
    
     /**
@@ -627,10 +685,11 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeEnum(Flowing $column): string
     {
-        return sprintf('varchar check ("%s" in (%s))',
-                    $column->name,
-                    $this->quoteString($column->allowed)
-               );
+        return sprintf(
+            'varchar check ("%s" in (%s))',
+            $column->name,
+            $this->quoteString($column->allowed)
+        );
     }
 
     /**
@@ -642,7 +701,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeJson(Flowing $column): string
     {
-        return 'text';
+        return $this->connection->getConfig('use_native_json') ? 'json' : 'text';
     }
     
     /**
@@ -654,7 +713,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeJsonb(Flowing $column): string
     {
-        return 'text';
+        return $this->connection->getConfig('use_native_jsonb') ? 'jsonb' : 'text';
     }
     
     /**
@@ -666,6 +725,10 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeDate(Flowing $column): string
     {
+        if ($column->useCurrent) {
+            $column->default(new Expression('CURRENT_DATE'));
+        }
+
         return 'date';
     }
     
@@ -726,7 +789,11 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeTimestamp(Flowing $column): string
     {
-        return $column->useCurrent ? 'datetime default CURRENT_TIMESTAMP' : 'datetime';
+        if ($column->useCurrent) {
+            $column->default(new Expression('CURRENT_TIMESTAMP'));
+        }
+
+        return 'datetime';
     }
     
     /**
@@ -750,6 +817,10 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeYear(Flowing $column): string
     {
+        if ($column->useCurrent) {
+            $column->default(new Expression("(CAST(strftime('%Y', 'now') AS INTEGER))"));
+        }
+        
         return $this->typeInteger($column);
     }
     
@@ -776,6 +847,54 @@ class SQLiteGrammar extends Grammar
     {
         return 'varchar';
     }
+
+    /**
+     * Create the column definition for an IP address type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeIpAddress(Flowing $column)
+    {
+        return 'varchar';
+    }
+
+    /**
+     * Create the column definition for a MAC address type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeMacAddress(Flowing $column)
+    {
+        return 'varchar';
+    }
+
+    /**
+     * Create the column definition for a spatial Geometry type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeGeometry(Flowing $column)
+    {
+        return 'geometry';
+    }
+
+    /**
+     * Create the column definition for a spatial Geography type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeGeography(Flowing $column)
+    {
+        return $this->typeGeometry($column);
+    }
     
     /**
      * Get the SQL for a nullable column modifier.
@@ -787,6 +906,10 @@ class SQLiteGrammar extends Grammar
      */
     protected function modifyNullable(Dataprint $dataprint, Flowing $column): string
     {
+        if ($column->nullable === false) {
+            return ' not null';
+        }
+
         return $column->nullable ? ' null' : ' not null';
     }
     
@@ -819,5 +942,34 @@ class SQLiteGrammar extends Grammar
         if (in_array($column->type, $this->serials) && $column->autoIncrement) {
             return ' primary key autoincrement';
         }
+    }
+
+    /**
+     * Get the SQL for a collation column modifier.
+     *
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string|null
+     */
+    protected function modifyCollate(Dataprint $dataprint, Flowing $column)
+    {
+        if (! is_null($column->collation)) {
+            return " collate '{$column->collation}'";
+        }
+    }
+
+    /**
+     * Wrap the given JSON selector.
+     *
+     * @param  string  $value
+     * 
+     * @return string
+     */
+    protected function wrapJsonSelector($value): string
+    {
+        [$field, $path] = $this->wrapJsonFieldAndPath($value);
+
+        return 'json_extract('.$field.$path.')';
     }
 }
