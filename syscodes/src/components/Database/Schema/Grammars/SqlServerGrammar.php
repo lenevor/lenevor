@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\Database\Schema\Grammars;
 
-use RuntimeException;
+use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Database\Schema\Dataprint;
 use Syscodes\Components\Support\Flowing;
 
@@ -50,11 +50,10 @@ class SqlServerGrammar extends Grammar
      * Compile a create database command.
      * 
      * @param  string  $name
-     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * 
      * @return string
      */
-    public function compileCreateDatabase($name, $connection): string
+    public function compileCreateDatabase($name): string
     {
         return sprintf('create database %s',
             $this->wrapValue($name)
@@ -561,6 +560,10 @@ class SqlServerGrammar extends Grammar
      */
     protected function typeFloat(Flowing $column): string
     {
+        if ($column->precision) {
+            return "float({$column->precision})";
+        }
+        
         return 'float';
     }
     
@@ -573,7 +576,7 @@ class SqlServerGrammar extends Grammar
      */
     protected function typeDouble(Flowing $column): string
     {
-        return 'float';
+        return 'double precision';
     }
    
     /**
@@ -608,7 +611,35 @@ class SqlServerGrammar extends Grammar
      */
     protected function typeEnum(Flowing $column): string
     {
-        return 'nvarchar(255)';
+        return sprintf(
+            'nvarchar(255) check ("%s" in (%s))',
+            $column->name,
+            $this->quoteString($column->allowed)
+        );
+    }
+
+    /**
+     * Create the column definition for a json type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeJson(Flowing $column): string
+    {
+        return 'nvarchar(max)';
+    }
+
+    /**
+     * Create the column definition for a jsonb type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeJsonb(Flowing $column): string
+    {
+        return 'nvarchar(max)';
     }
     
     /**
@@ -620,6 +651,10 @@ class SqlServerGrammar extends Grammar
      */
     protected function typeDate(Flowing $column): string
     {
+        if ($column->useCurrent) {
+            $column->default(new Expression('CAST(GETDATE() AS DATE)'));
+        }
+
         return 'date';
     }
     
@@ -635,6 +670,18 @@ class SqlServerGrammar extends Grammar
         return 'datetime';
     }
 
+     /**
+     * Create the column definition for a date-time (with time zone) type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeDateTimeTz(Flowing $column): string
+    {
+        return $this->typeTimestampTz($column);
+    }
+
     /**
      * Create the column definition for a time type.
      * 
@@ -644,7 +691,19 @@ class SqlServerGrammar extends Grammar
      */
     protected function typeTime(Flowing $column): string
     {
-        return 'time';
+        return $column->precision ? "time($column->precision)" : 'time';
+    }
+
+    /**
+     * Create the column definition for a time (with time zone) type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeTimeTz(Flowing $column): String
+    {
+        return $this->typeTime($column);
     }
     
     /**
@@ -656,7 +715,44 @@ class SqlServerGrammar extends Grammar
      */
     protected function typeTimestamp(Flowing $column): string
     {
-        return $column->useCurrent ? 'datetime default CURRENT_TIMESTAMP' : 'datetime';
+        if ($column->useCurrent) {
+            $column->default(new Expression('CURRENT_TIMESTAMP'));
+        }
+
+        return $column->useCurrent ? "datetime2($column->precision)" : 'datetime';
+    }
+
+    /**
+     * Create the column definition for a timestamp (with time zone) type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeTimestampTz(Flowing $column): string
+    {
+        if ($column->useCurrent) {
+            $column->default(new Expression('CURRENT_TIMESTAMP'));
+        }
+
+        return $column->precision ? "datetime2($column->precision)" : 'datetime';
+    }
+
+
+    /**
+     * Create the column definition for a year type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeYear(Flowing $column): string
+    {
+        if ($column->useCurrent) {
+            $column->default(new Expression('CAST(YEAR(GETDATE()) AS INTEGER)'));
+        }
+
+        return $this->typeInteger($column);
     }
     
     /**
@@ -668,7 +764,71 @@ class SqlServerGrammar extends Grammar
      */
     protected function typeBinary(Flowing $column): string
     {
+        if ($column->length) {
+            return $column->fixed ? "binary({$column->length})" : "varbinary({$column->length})";
+        }
+
         return 'varbinary(max)';
+    }
+
+    /**
+     * Create the column definition for a uuid type.
+     *
+     * @param  \Syscodes\Components\Support\Fluent  $column
+     * 
+     * @return string
+     */
+    protected function typeUuid(Flowing $column): string
+    {
+        return 'uniqueidentifier';
+    }
+
+    /**
+     * Create the column definition for an IP address type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeIpAddress(Flowing $column): string
+    {
+        return 'nvarchar(45)';
+    }
+
+    /**
+     * Create the column definition for a MAC address type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeMacAddress(Flowing $column): string
+    {
+        return 'nvarchar(17)';
+    }
+
+    /**
+     * Create the column definition for a spatial Geometry type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeGeometry(Flowing $column): string
+    {
+        return 'geometry';
+    }
+
+    /**
+     * Create the column definition for a spatial Geography type.
+     *
+     * @param  \Syscodes\Components\Support\Flowing  $column
+     * 
+     * @return string
+     */
+    protected function typeGeography(Flowing $column): string
+    {
+        return 'geography';
     }
 
     /**
@@ -681,8 +841,8 @@ class SqlServerGrammar extends Grammar
      */
     protected function modifyIncrement(Dataprint $dataprint, Flowing $column)
     {
-        if (in_array($column->type, $this->serials) && $column->autoIncrement) {
-            return ' identity primary key';
+        if ( ! $column->change && in_array($column->type, $this->serials) && $column->autoIncrement) {
+            return $this->hasCommand($dataprint, 'primary') ? ' identity' : ' identity primary key';
         }
     }
 
@@ -709,9 +869,11 @@ class SqlServerGrammar extends Grammar
      * 
      * @return string|null
      */
-    protected function modifyNullable(Dataprint $dataprint, Flowing $column): string
+    protected function modifyNullable(Dataprint $dataprint, Flowing $column)
     {
-        return $column->nullable ? ' null' : ' not null';
+        if ($column->type !== 'computed') {
+            return $column->nullable ? ' null' : ' not null';
+        }
     }
     
     /**
@@ -725,7 +887,7 @@ class SqlServerGrammar extends Grammar
      */
     protected function modifyDefault(Dataprint $dataprint, Flowing $column)
     {
-        if ( ! is_null($column->default))  {
+        if ( ! $column->change && ! is_null($column->default))  {
             return ' default '.$this->getDefaultValue($column->default);
         }
     }
@@ -740,25 +902,17 @@ class SqlServerGrammar extends Grammar
      */
     protected function modifyPersisted(Dataprint $dataprint, Flowing $column)
     {
+        if ($column->change) {
+            if ($column->type === 'computed') {
+                return $column->persisted ? ' add persisted' : ' drop persisted';
+            }
+
+            return null;
+        }
+
         if ($column->persisted) {
             return ' persisted';
         }
-    }
-    
-    /**
-     * Wrap a table in keyword identifiers.
-     * 
-     * @param  \Syscodes\Components\Database\Query\Expression|string  $table
-     * 
-     * @return string
-     */
-    public function wrapTable($table): string
-    {
-        if ($table instanceof DataPrint && $table->temporary) {
-            $this->setTablePrefix('#');
-        }
-        
-        return parent::wrapTable($table);
     }
     
     /**
