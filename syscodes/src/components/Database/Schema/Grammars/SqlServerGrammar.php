@@ -106,9 +106,10 @@ class SqlServerGrammar extends Grammar
      */
     public function compileCreate(Dataprint $dataprint, Flowing $command): string
     {
-        $columns = implode(', ', $this->getColumns($dataprint));
-        
-        return 'create table '.$this->wrapTable($dataprint)." ($columns)";
+        return sprintf('create table %s (%s)',
+            $this->wrapTable($dataprint, $dataprint->temporary ? '#'.$this->connection->getTablePrefix() : null),
+            implode(', ', $this->getColumns($dataprint))
+        );
     }
     
     /**
@@ -122,10 +123,31 @@ class SqlServerGrammar extends Grammar
     public function compileAdd(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('alter table %s add %s',
-                    $this->wrapTable($dataprint),
-                    implode(', ', $this->getColumns($dataprint))
-               );        
+            $this->wrapTable($dataprint),
+            implode(', ', $this->getColumns($dataprint))
+        );        
     }
+
+    /** @inheritDoc */
+    public function compileRenameColumn(Dataprint $dataprint, Flowing $command): string
+    {
+        return sprintf("sp_rename %s, %s, N'COLUMN'",
+            $this->quoteString($this->wrapTable($dataprint).'.'.$this->wrap($command->from)),
+            $this->wrap($command->to)
+        );
+    }
+
+    /** @inheritDoc */
+    public function compileChange(Dataprint $dataprint, Flowing $command): array
+    {
+        return [
+            sprintf('alter table %s alter column %s',
+                $this->wrapTable($dataprint),
+                $this->getColumn($dataprint, $command->column),
+            ),
+        ];
+    }
+
 
     /**
      * Compile a primary key command.
@@ -138,10 +160,10 @@ class SqlServerGrammar extends Grammar
     public function compilePrimary(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('alter table %s add constraint %s primary key (%s)',
-                    $this->wrapTable($dataprint),
-                    $this->wrap($command->index),
-                    $this->columnize($command->columns)
-               );
+            $this->wrapTable($dataprint),
+            $this->wrap($command->index),
+            $this->columnize($command->columns)
+        );
     }
     
     /**
@@ -154,11 +176,12 @@ class SqlServerGrammar extends Grammar
      */
     public function compileUnique(Dataprint $dataprint, Flowing $command): string
     {
-        return sprintf('create unique index %s on %s (%s)',
-                    $this->wrap($command->index),
-                    $this->wrapTable($dataprint),
-                    $this->columnize($command->columns)
-               );
+        return sprintf('create unique index %s on %s (%s)%s',
+            $this->wrap($command->index),
+            $this->wrapTable($dataprint),
+            $this->columnize($command->columns),
+            $command->online ? ' with (online = on)' : ''
+        );
     }
     
     /**
@@ -171,11 +194,12 @@ class SqlServerGrammar extends Grammar
      */
     public function compileIndex(Dataprint $dataprint, Flowing $command): string
     {
-        return sprintf('create index %s on %s (%s)',
-                    $this->wrap($command->index),
-                    $this->wrapTable($dataprint),
-                    $this->columnize($command->columns)
-               );        
+        return sprintf('create index %s on %s (%s)%s',
+            $this->wrap($command->index),
+            $this->wrapTable($dataprint),
+            $this->columnize($command->columns),
+            $command->online ? ' with (online = on)' : ''
+        );        
     }
     
     /**
@@ -193,6 +217,25 @@ class SqlServerGrammar extends Grammar
                     $this->wrapTable($dataprint),
                     $this->columnize($command->columns)
                );
+    }
+
+    /**
+     * Compile a default command.
+     *
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
+     * @param  \Syscodes\Components\Support\Flowing  $command
+     * 
+     * @return string|null
+     */
+    public function compileDefault(Dataprint $dataprint, Flowing $command)
+    {
+        if ($command->column->change && ! is_null($command->column->default)) {
+            return sprintf('alter table %s add default %s for %s',
+                $this->wrapTable($dataprint),
+                $this->getDefaultValue($command->column->default),
+                $this->wrap($command->column)
+            );
+        }
     }
     
     /**
@@ -218,10 +261,10 @@ class SqlServerGrammar extends Grammar
      */
     public function compileDropIfExists(Dataprint $dataprint, Flowing $command): string
     {
-        return sprintf('if exists (select * from sys.sysobjects where id = object_id(%s, \'U\')) drop table %s',
-                    "'".str_replace("'", "''", $this->getTablePrefix().$dataprint->getTable())."'",
-                    $this->wrapTable($dataprint)
-               );
+        return sprintf('if object_id(%s, \'U\') is not null drop table %s',
+            $this->quoteString($this->wrapTable($dataprint)),
+            $this->wrapTable($dataprint)
+        );
     }
     
     /**
@@ -320,9 +363,10 @@ class SqlServerGrammar extends Grammar
      */
     public function compileRename(Dataprint $dataprint, Flowing $command): string
     {
-        $from = $this->wrapTable($dataprint);
-        
-        return "sp_rename {$from}, ".$this->wrapTable($command->to);
+        return sprintf('sp_rename %s, %s',
+            $this->quoteString($this->wrapTable($dataprint)),
+            $this->wrapTable($command->to)
+        );
     }
     
     /**
@@ -335,10 +379,10 @@ class SqlServerGrammar extends Grammar
      */
     public function compileRenameIndex(Dataprint $dataprint, Flowing $command): string
     {
-        return sprintf("sp_rename N'%s', %s, N'INDEX'",
-                    $this->wrap($dataprint->getTable().'.'.$command->from),
-                    $this->wrap($command->to)
-               );
+        return sprintf("sp_rename %s, %s, N'INDEX'",
+            $this->quoteString($this->wrapTable($dataprint).'.'.$this->wrap($command->from)),
+            $this->wrap($command->to)
+        );
     }
     
     /**
@@ -363,6 +407,7 @@ class SqlServerGrammar extends Grammar
                 + QUOTENAME(OBJECT_SCHEMA_NAME(parent_object_id)) + '.' + + QUOTENAME(OBJECT_NAME(parent_object_id))
                 + ' DROP CONSTRAINT ' + QUOTENAME(name) + ';'
             FROM sys.foreign_keys;
+
             EXEC sp_executesql @sql;";
     }
     
@@ -376,6 +421,7 @@ class SqlServerGrammar extends Grammar
         return "DECLARE @sql NVARCHAR(MAX) = N'';
             SELECT @sql += 'DROP VIEW ' + QUOTENAME(OBJECT_SCHEMA_NAME(object_id)) + '.' + QUOTENAME(name) + ';'
             FROM sys.views;
+
             EXEC sp_executesql @sql;";
     }
     
@@ -452,7 +498,7 @@ class SqlServerGrammar extends Grammar
      */
     protected function typeTinyText(Flowing $column): string
     {
-        return 'nvarchar(max)';
+        return 'nvarchar(255)';
     }
     
     /**
@@ -774,7 +820,7 @@ class SqlServerGrammar extends Grammar
     /**
      * Create the column definition for a uuid type.
      *
-     * @param  \Syscodes\Components\Support\Fluent  $column
+     * @param  \Syscodes\Components\Support\Flowing  $column
      * 
      * @return string
      */
