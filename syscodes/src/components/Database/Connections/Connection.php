@@ -41,6 +41,7 @@ use Syscodes\Components\Database\Events\TransactionRollback;
 use Syscodes\Components\Database\Exceptions\ConstraintViolationException;
 use Syscodes\Components\Database\Exceptions\QueryException;
 use Syscodes\Components\Database\Grammar;
+use Syscodes\Components\Database\MultipleColumnsSelectedException;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
 use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Database\Query\Grammars\Grammar as QueryGrammar;
@@ -364,6 +365,34 @@ class Connection implements ConnectionInterface
         $records = $this->select($query, $bindings, $useReadPdo);
 
         return array_shift($records);
+    }
+
+    /**
+     * Run a select statement and return the first column of the first row.
+     *
+     * @param  string  $query
+     * @param  array  $bindings
+     * @param  bool  $useReadPdo
+     * 
+     * @return mixed
+     *
+     * @throws \Syscodes\Components\Database\MultipleColumnsSelectedException
+     */
+    public function scalar($query, $bindings = [], $useReadPdo = true)
+    {
+        $record = $this->selectOne($query, $bindings, $useReadPdo);
+
+        if (is_null($record)) {
+            return null;
+        }
+
+        $record = (array) $record;
+
+        if (count($record) > 1) {
+            throw new MultipleColumnsSelectedException;
+        }
+
+        return array_first($record);
     }
 
     /**
