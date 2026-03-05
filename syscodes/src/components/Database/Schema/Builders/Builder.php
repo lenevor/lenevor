@@ -136,7 +136,93 @@ class Builder
             $this->grammar->compileDropDatabaseIfExists($name)
         );
     }
+
+    /**
+     * Get the views that belong to the connection.
+     *
+     * @param  string|string[]|null  $schema
+     * 
+     * @return array
+     */
+    public function getViews($schema = null): array
+    {
+        return $this->connection->getPostProcessor()->processViews(
+            $this->connection->selectFromWriteConnection($this->grammar->compileViews($schema))
+        );
+    }
+
+    /**
+     * Get the user-defined types that belong to the connection.
+     *
+     * @param  string|string[]|null  $schema
+     * 
+     * @return array
+     */
+    public function getTypes($schema = null): array
+    {
+        return $this->connection->getPostProcessor()->processTypes(
+            $this->connection->selectFromConnection($this->grammar->compileTypes($schema))
+        );
+    }
     
+    /**
+     * Determine if the given table has a given column.
+     * 
+     * @param  string  $table
+     * @param  string  $column
+     * 
+     * @return bool
+     */
+    public function hasColumn($table, $column): bool
+    {
+        return in_array(
+            strtolower($column), array_map(strtolower(...), $this->getColumnListing($table))
+        );
+    }
+    
+    /**
+     * Determine if the given table has given columns.
+     * 
+     * @param  string  $table
+     * @param  array  $columns
+     * 
+     * @return bool
+     */
+    public function hasColumns($table, array $columns): bool
+    {
+        $tableColumns = array_map(strtolower(...), $this->getColumnListing($table));
+        
+        foreach ($columns as $column) {
+            if ( ! in_array(strtolower($column), $tableColumns)) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+    /**
+     * Determine if the given view exists.
+     *
+     * @param  string  $view
+     * 
+     * @return bool
+     */
+    public function hasView($view): bool
+    {
+        [$schema, $view] = $this->parseSchemaAndTable($view);
+
+        $view = $this->connection->getTablePrefix().$view;
+
+        foreach ($this->getViews($schema ?? $this->getCurrentSchemaName()) as $value) {
+            if (strtolower($view) === strtolower($value['name'])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Determine if the given table exists.
      * 
@@ -154,45 +240,13 @@ class Builder
             return (bool) $this->connection->scalar($sql);
         }
         
-        return count($this->connection->selectFromConnection(
-            $this->grammar->compileTableListing(), [$table])
-        ) > 0;
-    }
-    
-    /**
-     * Determine if the given table has a given column.
-     * 
-     * @param  string  $table
-     * @param  string  $column
-     * 
-     * @return bool
-     */
-    public function hasColumn($table, $column): bool
-    {
-        return in_array(
-            strtolower($column), array_map('strtolower', $this->getColumnListing($table))
-        );
-    }
-    
-    /**
-     * Determine if the given table has given columns.
-     * 
-     * @param  string  $table
-     * @param  array  $columns
-     * 
-     * @return bool
-     */
-    public function hasColumns($table, array $columns): bool
-    {
-        $tableColumns = array_map('strtolower', $this->getColumnListing($table));
-        
-        foreach ($columns as $column) {
-            if ( ! in_array(strtolower($column), $tableColumns)) {
-                return false;
+        foreach ($this->getTables($schema ?? $this->getCurrentSchemaName()) as $value) {
+            if (strtolower($table) === strtolower($value['name'])) {
+                return true;
             }
         }
-        
-        return true;
+
+        return false;
     }
 
     /**
@@ -224,7 +278,29 @@ class Builder
             $schemaQualified ? 'schema_qualified_name' : 'name'
         );
     }
-    
+
+    /**
+     * Get the data type for the given column name.
+     *
+     * @param  string  $table
+     * @param  string  $column
+     * @param  bool  $fullDefinition
+     * 
+     * @return string
+     */
+    public function getColumnType($table, $column, $fullDefinition = false): string
+    {
+        $columns = $this->getColumns($table);
+
+        foreach ($columns as $value) {
+            if (strtolower($value['name']) === strtolower($column)) {
+                return $fullDefinition ? $value['type'] : $value['type_name'];
+            }
+        }
+
+        throw new InvalidArgumentException("There is no column with name '$column' on table '$table'.");
+    }
+
     /**
      * Get the column listing for a given table.
      * 
@@ -234,11 +310,27 @@ class Builder
      */
     public function getColumnListing($table): array
     {
+        return array_column($this->getColumns($table), 'name');
+    }
+
+    /**
+     * Get the columns for a given table.
+     *
+     * @param  string  $table
+     * 
+     * @return array
+     */
+    public function getColumns($table): array
+    {
+        [$schema, $table] = $this->parseSchemaAndTable($table);
+
         $table = $this->connection->getTablePrefix().$table;
-        
-        $results = $this->connection->selectFromConnection($this->grammar->compileColumnListing($table));
-        
-        return $this->connection->getPostProcessor()->processColumnListing($results);
+
+        return $this->connection->getPostProcessor()->processColumns(
+            $this->connection->selectFromConnection(
+                $this->grammar->compileColumns($schema, $table)
+            )
+        );
     }
 
     /**
@@ -250,6 +342,26 @@ class Builder
     {
         return $this->connection->getPostProcessor()->processSchemas(
             $this->connection->selectFromConnection($this->grammar->compileSchemas())
+        );
+    }
+
+    /**
+     * Get the foreign keys for a given table.
+     *
+     * @param  string  $table
+     * 
+     * @return array
+     */
+    public function getForeignKeys($table): array
+    {
+        [$schema, $table] = $this->parseSchemaAndTable($table);
+
+        $table = $this->connection->getTablePrefix().$table;
+
+        return $this->connection->getPostProcessor()->processForeignKeys(
+            $this->connection->selectFromConnection(
+                $this->grammar->compileForeignKeys($schema, $table)
+            )
         );
     }
     
@@ -378,7 +490,7 @@ class Builder
      */
     protected function build(Dataprint $dataprint): void
     {
-        $dataprint->build($this->connection, $this->grammar);
+        $dataprint->build();
     }
     
     /**
@@ -391,15 +503,13 @@ class Builder
      */
     protected function createDataprint($table, ?Closure $callback = null)
     {
-        $prefix = $this->connection->getConfig('prefix_indexes')
-                    ? $this->connection->getConfig('prefix')
-                    : '';
+        $connection = $this->connection;
         
         if (isset($this->resolver)) {
-            return call_user_func($this->resolver, $table, $callback, $prefix);
+            return call_user_func($this->resolver, $connection, $table, $callback);
         }
         
-        return Container::getInstance()->make(Dataprint::class, compact('table', 'callback', 'prefix'));
+        return Container::getInstance()->make(Dataprint::class, compact('connection', 'table', 'callback'));
     }
     
     /**
