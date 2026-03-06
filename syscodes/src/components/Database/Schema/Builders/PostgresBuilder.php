@@ -22,73 +22,15 @@
 
 namespace Syscodes\Components\Database\Schema\Builders;
 
+use Syscodes\Components\Database\Concerns\ParsesSearchPath;
+
 /**
  * Allows you to manipulate of databases, tables and columns
  * for the PostgreSQl database.
  */
 class PostgresBuilder extends Builder
 {
-    /**
-     * Create a database in the schema.
-     * 
-     * @param  string  $name
-     * 
-     * @return bool
-     */
-    public function createDatabase($name): bool
-    {
-        return $this->connection->statement(
-           $this->grammar->compileCreateDatabase($name, $this->connection)
-        );
-    }
-    
-    /**
-     * Drop a database from the schema if the database exists.
-     * 
-     * @param  string  $name
-     * 
-     * @return bool
-     */
-    public function dropDatabaseIfExists($name): bool
-    {
-        return $this->connection->statement(
-            $this->grammar->compileDropDatabaseIfExists($name)
-        );
-    }
-    
-    /**
-     * Determine if the given table exists.
-     * 
-     * @param  string  $table
-     * 
-     * @return bool
-     */
-    public function hasTable($table): bool
-    {
-        $table = $this->connection->getTablePrefix().$table;
-        
-        return count($this->connection->select(
-            $this->grammar->compileTableListing(), [$this->connection->getDatabase(), $table]
-        )) > 0;
-    }
-    
-    /**
-     * Get the column listing for a given table.
-     * 
-     * @param  string  $table
-     * 
-     * @return array
-     */
-    public function getColumnListing($table): array
-    {
-        $table = $this->connection->getTablePrefix().$table;
-        
-        $results = $this->connection->select(
-            $this->grammar->compileColumnListing(), [$this->connection->getDatabase(), $table] 
-        );
-        
-        return $this->connection->getPostProcessor()->processColumnListing($results);
-    }
+    use ParsesSearchPath;
 
     /**
      * Drop all tables from the database.
@@ -127,13 +69,7 @@ class PostgresBuilder extends Builder
      */
     public function dropAllViews()
     {
-        $views = [];
-        
-        foreach ($this->getAllViews() as $row) {
-            $row = (array) $row;
-            
-            $views[] = $row['qualifiedname'] ?? head($row);
-        }
+        $views = array_column($this->getViews($this->getCurrentSchemaListing()), 'schema_qualified_name');
         
         if (empty($views)) {
             return;
@@ -144,31 +80,49 @@ class PostgresBuilder extends Builder
         );
     }
     
-    /**
-     * Get all of the table names for the database.
-     * 
-     * @return array
+     /**
+     * Drop all types from the database.
+     *
+     * @return void
      */
-    public function getAllTables()
+    public function dropAllTypes()
     {
-        return $this->connection->select(
-                      $this->grammar->compileGetAllTables(
-                             $this->connection->getConfig('schema')
-                      )
-               );
+        $types = [];
+        $domains = [];
+
+        foreach ($this->getTypes($this->getCurrentSchemaListing()) as $type) {
+            if ( ! $type['implicit']) {
+                if ($type['type'] === 'domain') {
+                    $domains[] = $type['schema_qualified_name'];
+                } else {
+                    $types[] = $type['schema_qualified_name'];
+                }
+            }
+        }
+
+        if ( ! empty($types)) {
+            $this->connection->statement($this->grammar->compileDropAllTypes($types));
+        }
+
+        if ( ! empty($domains)) {
+            $this->connection->statement($this->grammar->compileDropAllDomains($domains));
+        }
     }
-    
+
     /**
-     * Get all of the view names for the database.
-     * 
-     * @return array
+     * Get the current schemas for the connection.
+     *
+     * @return string[]
      */
-    public function getAllViews()
+    public function getCurrentSchemaListing(): array
     {
-        return $this->connection->select(
-                      $this->grammar->compileGetAllViews(
-                             $this->connection->getConfig('schema')
-                      )
-               );
+        return array_map(
+            fn ($schema) => $schema === '$user' ? $this->connection->getConfig('username') : $schema,
+            $this->parseSearchPath(
+                $this->connection->getConfig('search_path')
+                    ?: $this->connection->getConfig('schema')
+                    ?: 'public'
+            )
+        );
     }
 }
