@@ -22,40 +22,14 @@
 
 namespace Syscodes\Components\Database\Schema\Builders;
 
+use Syscodes\Components\Support\Arr;
+
 /**
  * Allows you to manipulate of databases, tables and columns
  * for the SqlServer database.
  */
 class SqlServerBuilder extends Builder
 {
-    /**
-     * Create a database in the schema.
-     * 
-     * @param  string  $name
-     * 
-     * @return bool
-     */
-    public function createDatabase($name): bool
-    {
-        return $this->connection->statement(
-            $this->grammar->compileCreateDatabase($name, $this->connection)
-        );
-    }
-    
-    /**
-     * Drop a database from the schema if the database exists.
-     * 
-     * @param  string  $name
-     * 
-     * @return bool
-     */
-    public function dropDatabaseIfExists($name): bool
-    {
-        return $this->connection->statement(
-            $this->grammar->compileDropDatabaseIfExists($name)
-        );
-    }
-    
     /**
      * Drop all tables from the database.
      * 
@@ -77,28 +51,14 @@ class SqlServerBuilder extends Builder
     {
         $this->connection->statement($this->grammar->compileDropAllViews());
     }
-    
+
     /**
-     * Drop all tables from the database.
-     * 
-     * @return array
+     * Get the default schema name for the connection.
+     *
+     * @return string|null
      */
-    public function getAllTables()
+    public function getCurrentSchemaName()
     {
-        return $this->connection->select(
-            $this->grammar->compileGetAllTables()
-        );
-    }
-    
-    /**
-     * Get all of the view names for the database.
-     * 
-     * @return array
-     */
-    public function getAllViews()
-    {
-        return $this->connection->select(
-            $this->grammar->compileGetAllViews()
-        );
+        return Arr::first($this->getSchemas(), fn ($schema) => $schema['default'])['name'];
     }
 }
