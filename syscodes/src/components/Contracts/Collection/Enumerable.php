@@ -104,6 +104,15 @@ interface Enumerable extends Arrayable, Countable, IteratorAggregate, Jsonable, 
     public function getCachingIterator($flags = CachingIterator::CALL_TOSTRING);
 
     /**
+     * Key an associative array by a field or using a callback.
+     * 
+     * @param  callable|array|string  $keyBy
+     * 
+     * @return static
+     */
+    public function keyBy($keyBy): static;
+
+    /**
      * Magic method.
      * 
      * Convert the collection to its string representation.

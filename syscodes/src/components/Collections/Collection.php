@@ -22,16 +22,17 @@
 
 namespace Syscodes\Components\Support;
 
-use stdClass;
-use Countable;
 use ArrayAccess;
-use Traversable;
 use ArrayIterator;
+use Countable;
 use IteratorAggregate;
-use Syscodes\Components\Contracts\Support\Collectable;
+use stdClass;
 use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Contracts\Support\Collectable;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Traits\Enumerates;
+use Traversable;
+use UnitEnum;
 
 /**
  * Allows provide a way for working with arrays of data.
@@ -500,6 +501,36 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
         $finalItem = $collection->pop();
         
         return $collection->implode($glue).$finalGlue.$finalItem;
+    }
+
+    /**
+     * Key an associative array by a field or using a callback.
+     * 
+     * @param  callable|array|string  $keyBy
+     * 
+     * @return static
+     */
+    public function keyBy($keyBy): static
+    {
+        $keyBy = $this->valueRetriever($keyBy);
+
+        $results = [];
+
+        foreach ($this->items as $key => $item) {
+            $resolvedKey = $keyBy($item, $key);
+
+            if ($resolvedKey instanceof UnitEnum) {
+                $resolvedKey = enum_value($resolvedKey);
+            }
+
+            if (is_object($resolvedKey)) {
+                $resolvedKey = (string) $resolvedKey;
+            }
+
+            $results[$resolvedKey] = $item;
+        }
+
+        return new static($results);
     }
     
     /**
