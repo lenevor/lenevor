@@ -59,6 +59,7 @@ trait Enumerates
         'flip',
         'first',
         'intersect',
+        'keyBy',
         'keys',
         'map',
         'merge',
