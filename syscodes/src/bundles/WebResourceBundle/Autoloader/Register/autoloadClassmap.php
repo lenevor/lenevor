@@ -428,6 +428,7 @@ return [
     'Syscodes\\Components\\Encryption\\EncryptionServiceProvider' => SYS_PATH.'src/components/Encryption/EncryptionServiceProvider.php',
     'Syscodes\\Components\\Events\\Dispatcher' => SYS_PATH.'src/components/Events/Dispatcher.php', 
     'Syscodes\\Components\\Events\\EventServiceProvider' => SYS_PATH.'src/components/Events/EventServiceProvider.php',
+    'Syscodes\\Components\\Events\\NullDispatcher' => SYS_PATH.'src/components/Events/NullDispatcher.php',
     'Syscodes\\Components\\Filesystem\\Exceptions\\FileException' => SYS_PATH.'src/components/Filesystem/Exceptions/FileException.php',
     'Syscodes\\Components\\Filesystem\\Exceptions\\FileNotFoundException' => SYS_PATH.'src/components/Filesystem/Exceptions/FileNotFoundException.php',
     'Syscodes\\Components\\Filesystem\\Exceptions\\FileUnableToMoveException' => SYS_PATH.'src/components/Filesystem/Exceptions/FileUnableToMoveException.php',
