@@ -27,12 +27,15 @@ use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Contracts\Events\Dispatcher as DispatcherContract;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\Traits\Macroable;
 
 /**
  * Dispatches events to registered listeners.
  */
 class Dispatcher implements DispatcherContract
 {
+    use Macroable;
+    
     /**
      * The registered IoC container instance.
      * 
@@ -229,6 +232,33 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
+     * Register an event and payload to be fired later.
+     *
+     * @param  string  $event
+     * @param  object|array  $payload
+     * 
+     * @return void
+     */
+    public function push($event, $payload = []): void
+    {
+        $this->listen($event.'_pushed', function () use ($event, $payload) {
+            $this->dispatch($event, $payload);
+        });
+    }
+
+    /**
+     * Flush a set of pushed events.
+     *
+     * @param  string  $event
+     * 
+     * @return void
+     */
+    public function flush($event): void
+    {
+        $this->dispatch($event.'_pushed');
+    }
+
+    /**
      * Register an event subscriber with the dispatcher.
      * 
      * @param  object|string  $subscriber
@@ -243,7 +273,13 @@ class Dispatcher implements DispatcherContract
         
         if (is_array($events)) {
             foreach ($events as $event => $listeners) {
-                foreach ($listeners as $listener) {
+                foreach (Arr::wrap($listeners) as $listener) {
+                    if (is_string($listener) && method_exists($subscriber, $listener)) {
+                        $this->listen($event, [get_class($subscriber), $listener]);
+
+                        continue;
+                    }
+
                     $this->listen($event, $listener);
                 }
             }
@@ -304,14 +340,47 @@ class Dispatcher implements DispatcherContract
      */
     public function dispatch($event, $payload = [], $halt = false)
     {        
-        [$event, $payload] = $this->parseEventPayload(
-            $event, $payload
-        );
+        [$parsedEvent, $parsedPayload] = [
+            ...$this->parseEventPayload($event, $payload)
+        ];
 
         $this->dispatching[] = $event;
-
-        $responses = [];
         
+        return $this->invokeListeners($parsedEvent, $parsedPayload, $halt);
+    }
+
+    /**
+     * Parse the given event and payload and prepare them for dispatching.
+     * 
+     * @param  mixed  $event
+     * @param  mixed  $payload
+     * 
+     * @return array
+     */
+    protected function parseEventPayload($event, $payload): array
+    {
+        if (is_object($event)) {
+            [$payload, $event] = [[$event], get_Classname($event, true)];
+        } elseif ( ! is_array($payload)) {
+            $payload = [$payload];
+        }
+
+        return [$event, Arr::wrap($payload)];
+    }
+
+    /**
+     * Broadcast an event and call its listeners.
+     *
+     * @param  string|object  $event
+     * @param  mixed  $payload
+     * @param  bool  $halt
+     * 
+     * @return array|null
+     */
+    protected function invokeListeners($event, $payload, $halt = false)
+    {
+        $responses = [];
+
         foreach ($this->getListeners($event) as $listener) {
             $response = $listener($event, $payload);
 
@@ -338,25 +407,6 @@ class Dispatcher implements DispatcherContract
         array_pop($this->dispatching);
 
         return $halt ? null : $responses;
-    }
-
-    /**
-     * Parse the given event and payload and prepare them for dispatching.
-     * 
-     * @param  mixed  $event
-     * @param  mixed  $payload
-     * 
-     * @return array
-     */
-    protected function parseEventPayload($event, $payload): array
-    {
-        if (is_object($event)) {
-            [$payload, $event] = [[$event], get_Classname($event, true)];
-        } elseif ( ! is_array($payload)) {
-            $payload = [$payload];
-        }
-
-        return [$event, Arr::wrap($payload)];
     }
 
     /**
@@ -441,5 +491,29 @@ class Dispatcher implements DispatcherContract
                 unset($this->wildcardsCache[$key]);
             }
         }
+    }
+
+    /**
+     * Deleted all of the pushed listeners.
+     *
+     * @return void
+     */
+    public function deletePushed(): void
+    {
+        foreach ($this->listeners as $key => $value) {
+            if (str_ends_with($key, '_pushed')) {
+                $this->delete($key);
+            }
+        }
+    }
+
+    /**
+     * Gets the raw, unprepared listeners.
+     *
+     * @return array
+     */
+    public function getRawListeners(): array
+    {
+        return $this->listeners;
     }
 }
