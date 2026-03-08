@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Database\Erostrine\Concerns;
 
 use Syscodes\Components\Contracts\Events\Dispatcher;
+use Syscodes\Components\Events\NullDispatcher;
 
 /**
  * HasEvents.
@@ -277,8 +278,42 @@ trait HasEvents
      * 
      * @return void
      */
-    public static function setEventDispatcher(Dispatcher $dispatcher)
+    public static function setEventDispatcher(Dispatcher $dispatcher): void
     {
-        return static::$dispatcher = $dispatcher;
+        static::$dispatcher = $dispatcher;
+    }
+
+    /**
+     * Unset the event dispatcher for models.
+     *
+     * @return void
+     */
+    public static function unsetEventDispatcher(): void
+    {
+        static::$dispatcher = null;
+    }
+
+    /**
+     * Execute a callback without firing any model events for any model type.
+     *
+     * @param  callable  $callback
+     * 
+     * @return mixed
+     */
+    public static function withoutEvents(callable $callback)
+    {
+        $dispatcher = static::getEventDispatcher();
+
+        if ($dispatcher) {
+            static::setEventDispatcher(new NullDispatcher($dispatcher));
+        }
+
+        try {
+            return $callback();
+        } finally {
+            if ($dispatcher) {
+                static::setEventDispatcher($dispatcher);
+            }
+        }
     }
 }
