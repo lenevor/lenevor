@@ -40,16 +40,6 @@ interface Dispatcher
     public function listen($events, $listener = null): void;
 
     /**
-     * Register an event listener with the dispatcher.
-     * 
-     * @param  \Closure|string  $listener
-     * @param  bool  $wildcard  
-     * 
-     * @return \Closure
-     */
-    public function makeListener($listener, $wildcard = false): Closure;
-
-    /**
      * Determine if a given event has listeners.
      * 
      * @param  string  $eventName
@@ -59,15 +49,6 @@ interface Dispatcher
     public function hasListeners($eventName): bool;
 
     /**
-     * Determine if the given event has any wildcard listeners.
-     * 
-     * @param  string  $eventName
-     * 
-     * @return bool
-     */
-    public function hasWildcardListeners($eventName): bool;
-
-    /**
      * Register an event subscriber with the dispatcher.
      * 
      * @param  object|string  $subscriber
@@ -75,15 +56,6 @@ interface Dispatcher
      * @return void
      */
     public function subscribe($subscriber): void;
-
-    /**
-     * Resolve the subscriber instance.
-     * 
-     * @param  object|string  $subscriber
-     * 
-     * @return mixed
-     */
-    public function resolveSubscriber($subscriber);
     
     /**
      * Fire an event until the first non-null response is returned.
@@ -96,15 +68,23 @@ interface Dispatcher
     public function until($event, $payload = []);
 
     /**
-     * Fire an event and call the listeners.
+     * Register an event and payload to be fired later.
      *
-     * @param  string|object  $event
-     * @param  mixed  $payload
-     * @param  bool  $halt
+     * @param  string  $event
+     * @param  object|array  $payload
      * 
-     * @return array|null
+     * @return void
      */
-    public function fire($event, $payload = [], $halt = false);
+    public function push($event, $payload = []): void;
+
+    /**
+     * Flush a set of pushed events.
+     *
+     * @param  string  $event
+     * 
+     * @return void
+     */
+    public function flush($event): void;
 
     /**
      * Dispatch an event and call the listeners.
@@ -118,15 +98,6 @@ interface Dispatcher
     public function dispatch($event, $payload = [], $halt = false);
 
     /**
-     * Get all of the listeners for a given event name.
-     * 
-     * @param  string  $eventName
-     * 
-     * @return array
-     */
-    public function getListeners($eventName): array;
-
-    /**
      * Remove a set of listeners from the dispatcher.
      * 
      * @param  string  $event
@@ -134,4 +105,11 @@ interface Dispatcher
      * @return void
      */
     public function delete($event): void;
+
+    /**
+     * Deleted all of the pushed listeners.
+     *
+     * @return void
+     */
+    public function deletePushed(): void;
 }
