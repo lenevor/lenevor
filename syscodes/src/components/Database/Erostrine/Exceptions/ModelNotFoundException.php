@@ -22,13 +22,22 @@
 
 namespace Syscodes\Components\Database\Erostrine\Exceptions;
 
-use Syscodes\Components\Core\Http\Exceptions\LenevorException;
+use BackedEnum;
+use Syscodes\Components\Database\Exceptions\RecordNotFoundException;
+use Syscodes\Components\Support\Arr;
 
 /**
  * ModelNotFoundException.
  */
-class ModelNotFoundException extends LenevorException
+class ModelNotFoundException extends RecordNotFoundException
 {
+    /**
+     * The affected model IDs.
+     *
+     * @var array
+     */
+    protected $ids;
+
     /**
      * Name of the affected Erostrine model.
      * 
@@ -40,14 +49,26 @@ class ModelNotFoundException extends LenevorException
      * Set the affected Erostrine model.
      * 
      * @param  string  $model
+     * @param  array  $ids
      * 
      * @return static
      */
-    public function setModel($model): static
+    public function setModel($model, $ids = []): static
     {
         $this->model = $model;
 
+        $this->ids = array_map(
+            fn ($id) => $id instanceof BackedEnum ? $id->value : $id,
+            Arr::wrap($ids)
+        );
+
         $this->message = "No query results for model [{$model}]";
+
+        if (count($this->ids) > 0) {
+            $this->message .= ' '.implode(', ', $this->ids);
+        } else {
+            $this->message .= '.';
+        }
 
         return $this;
     }
@@ -60,5 +81,15 @@ class ModelNotFoundException extends LenevorException
     public function getModel(): string
     {
         return $this->model;
+    }
+
+    /**
+     * Get the affected Erostrine model IDs.
+     *
+     * @return array
+     */
+    public function getIds(): array
+    {
+        return $this->ids;
     }
 }
