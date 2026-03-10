@@ -25,7 +25,7 @@ namespace Syscodes\Components\Contracts\Database\Query;
 use Syscodes\Components\Database\Grammar;
 
 /**
- * Get values for query sql
+ * Get values for query sql.
  */
 interface Expression
 {
