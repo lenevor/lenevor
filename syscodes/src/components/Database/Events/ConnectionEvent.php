@@ -50,7 +50,7 @@ abstract class ConnectionEvent
      */
     public function __construct($connection)
     {
-        $this->connection     = $connection;
+        $this->connection = $connection;
         $this->connectionName = $connection->getName();
     }
 }
