@@ -59,6 +59,13 @@ class Grammar extends BaseGrammar
     ];
 
     /**
+     * The grammar specific operators.
+     *
+     * @var array
+     */
+    protected $operators = [];
+
+    /**
      * Compile a select query into sql.
      * 
      * @param  \Syscodes\Components\Database\Query\Builder  $builder
@@ -819,7 +826,7 @@ class Grammar extends BaseGrammar
      */
     protected function compileHavings(Builder $builder): string
     {
-        return 'having '.$this->removeLeadingBoolean((new collection($builder->havings))->map(function ($having) {
+        return 'having '.$this->removeStatementBoolean((new collection($builder->havings))->map(function ($having) {
             return $having['boolean'].' '.$this->compileHaving($having);
         })->implode(' '));
     }
@@ -833,8 +840,8 @@ class Grammar extends BaseGrammar
      */
     protected function compileHaving(array $having): string
     {
-        return match ($having['tytpe']) {
-            'Raw' => $having['boolean'].' '.$having['sql'],
+        return match ($having['type']) {
+            'Raw' => $having['sql'],
             'between' => $this->compileHavingBetween($having),
             'Null' => $this->compileHavingNull($having),
             'NotNull' => $this->compileHavingNotNull($having),
@@ -859,9 +866,10 @@ class Grammar extends BaseGrammar
         $column = $this->wrap($having['column']);
 
         $min = $this->parameter(head($having['values']));
+
         $max = $this->parameter(last($having['values']));
 
-        return $having['boolean'].' '.$column.' '.$between.' '.$min.' and '.$max;
+        return $column.' '.$between.' '.$min.' and '.$max;
     }
     
     /**
@@ -944,7 +952,7 @@ class Grammar extends BaseGrammar
 
         $parameter = $this->parameter($having['value']);
 
-        return $having['boolean'].' '.$column.' '.$having['operator'].' '.$parameter;
+        return $column.' '.$having['operator'].' '.$parameter;
     }
 
     /**
@@ -1119,17 +1127,17 @@ class Grammar extends BaseGrammar
             return "insert into {$table} default values";
         }
 
-        if ( ! is_array(head($values))) {
+        if ( ! is_array(array_first($values))) {
             $values = [$values];
         }
 
-        $columns = $this->columnize(array_keys(head($values)));
+        $columns = $this->columnize(array_keys(array_first($values)));
         
         // We need to build a list of parameter place-holders of values that are bound
         // to the query.
         $parameters = (new collection($values))
-                        ->map(fn ($record) => '('.$this->parameterize($record).')')
-                        ->implode(', ');
+            ->map(fn ($record) => '('.$this->parameterize($record).')')
+            ->implode(', ');
 
         return "insert into $table ($columns) values $parameters";
     }
@@ -1458,5 +1466,15 @@ class Grammar extends BaseGrammar
     protected function removeStatementBoolean($value): string
     {
         return preg_replace('/and |or /', '', $value, 1);
+    }
+
+    /**
+     * Get the grammar specific operators.
+     *
+     * @return array
+     */
+    public function getOperators(): array
+    {
+        return $this->operators;
     }
 }
