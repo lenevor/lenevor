@@ -149,6 +149,7 @@ return [
     'Syscodes\\Components\\Contracts\\Database\\Erostrine\\Builder' => SYS_PATH.'src/components/Contracts/Database/Erostrine/Builder.php',
     'Syscodes\\Components\\Contracts\\Database\\Events\\MigrationEvent' => SYS_PATH.'src/components/Contracts/Database/Events/MigrationEvent.php',
     'Syscodes\\Components\\Contracts\\Database\\Query\\Builder' => SYS_PATH.'src/components/Contracts/Database/Query/Builder.php',
+    'Syscodes\\Components\\Contracts\\Database\\Query\\ConditionExpression' => SYS_PATH.'src/components/Contracts/Database/Query/ConditionExpression.php',
     'Syscodes\\Components\\Contracts\\Database\\Query\\Expression' => SYS_PATH.'src/components/Contracts/Database/Query/Expression.php',
     'Syscodes\\Components\\Contracts\\Debug\\ExceptionHandler' => SYS_PATH.'src/components/Contracts/Debug/ExceptionHandler.php',
     'Syscodes\\Components\\Contracts\\Debug\\Handler' => SYS_PATH.'src/components/Contracts/Debug/Handler.php',
