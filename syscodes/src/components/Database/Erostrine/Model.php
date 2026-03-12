@@ -71,6 +71,13 @@ class Model implements Arrayable, ArrayAccess
 	 * @var bool $incrementing
 	 */
 	protected $incrementing = true;
+
+	/**
+     * The "type" of the primary key ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'int';
 	
 	/**
 	 * The number of models to return for pagination.
@@ -112,9 +119,7 @@ class Model implements Arrayable, ArrayAccess
 	 * 
 	 * @var array $with
 	 */
-	protected $with = [];
-
-	
+	protected $with = [];	
 
 	/**
 	 * Constructor. The create new Model instance.
@@ -756,6 +761,30 @@ class Model implements Arrayable, ArrayAccess
 		
 		return $this;
 	}
+
+	/**
+     * Get the auto-incrementing key type.
+     *
+     * @return string
+     */
+    public function getKeyType(): string
+    {
+        return $this->keyType;
+    }
+
+    /**
+     * Set the data type for the primary key.
+     *
+     * @param  string  $type
+	 * 
+     * @return static
+     */
+    public function setKeyType($type): static
+    {
+        $this->keyType = $type;
+
+        return $this;
+    }
 
 	/**
 	 * Get the instance as an array.
