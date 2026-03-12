@@ -22,10 +22,12 @@
  
 namespace Syscodes\Components\Database\Query;
 
+use BackedEnum;
 use Closure;
 use DateTimeInterface;
 use InvalidArgumentException;
 use Syscodes\Components\Contracts\Database\Query\Builder as BuilderContract;
+use Syscodes\Components\Contracts\Database\Query\ConditionExpression;
 use Syscodes\Components\Contracts\Database\Query\Expression as ExpressionContract;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Database\Concerns\MakeQueries;
@@ -737,11 +739,11 @@ class Builder implements BuilderContract
      */
     public function where($column, $operator = null, $value = null, $boolean = 'and'): static
     {
-        if ($column instanceof ExpressionContract) {
+        if ($column instanceof ConditionExpression) {
             $type = 'Expression';
-            
+
             $this->wheres[] = compact('type', 'column', 'boolean');
-            
+
             return $this;
         }
 
@@ -1026,6 +1028,75 @@ class Builder implements BuilderContract
     public function orWhereNotIn($column, $values): static
     {
         return $this->whereNotIn($column, $values, 'or');
+    }
+
+     /**
+     * Add a "where in raw" clause for integer values to the query.
+     *
+     * @param  string  $column
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|array  $values
+     * @param  string  $boolean
+     * @param  bool  $not
+     * 
+     * @return static
+     */
+    public function whereIntegerInRaw($column, $values, $boolean = 'and', $not = false): static
+    {
+        $type = $not ? 'NotInRaw' : 'InRaw';
+
+        if ($values instanceof Arrayable) {
+            $values = $values->toArray();
+        }
+
+        $values = Arr::flatten($values);
+
+        foreach ($values as &$value) {
+            $value = (int) ($value instanceof BackedEnum ? $value->value : $value);
+        }
+
+        $this->wheres[] = compact('type', 'column', 'values', 'boolean');
+
+        return $this;
+    }
+
+    /**
+     * Add an "or where in raw" clause for integer values to the query.
+     *
+     * @param  string  $column
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|array  $values
+     * 
+     * @return static
+     */
+    public function orWhereIntegerInRaw($column, $values): static
+    {
+        return $this->whereIntegerInRaw($column, $values, 'or');
+    }
+
+    /**
+     * Add a "where not in raw" clause for integer values to the query.
+     *
+     * @param  string  $column
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|array  $values
+     * @param  string  $boolean
+     * 
+     * @return static
+     */
+    public function whereIntegerNotInRaw($column, $values, $boolean = 'and'): static
+    {
+        return $this->whereIntegerInRaw($column, $values, $boolean, true);
+    }
+
+    /**
+     * Add an "or where not in raw" clause for integer values to the query.
+     *
+     * @param  string  $column
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|array  $values
+     * 
+     * @return static
+     */
+    public function orWhereIntegerNotInRaw($column, $values): static
+    {
+        return $this->whereIntegerNotInRaw($column, $values, 'or');
     }
 
     /**
@@ -2260,6 +2331,14 @@ class Builder implements BuilderContract
     public function having($column, $operator = null, $value = null, $boolean = 'and'): static
     {
         $type = 'basic';
+
+        if ($column instanceof ConditionExpression) {
+            $type = 'Expression';
+
+            $this->havings[] = compact('type', 'column', 'boolean');
+
+            return $this;
+        }
         
         [$value, $operator] = $this->prepareValueAndOperator(
             $value, $operator, func_num_args() === 2
@@ -2275,7 +2354,7 @@ class Builder implements BuilderContract
 
         $this->havings[] = compact('type', 'column', 'operator', 'value', 'boolean');
 
-        if ( ! $value instanceof Expression) {
+        if ( ! $value instanceof ExpressionContract) {
             $this->addBinding($this->flattenValue($value), 'having');
         }
 
