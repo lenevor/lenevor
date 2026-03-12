@@ -75,6 +75,7 @@ class Builder implements BuilderContract
         'getBindings',
         'getConnection',
         'getGrammar',
+        'implode',
         'insert',
         'insertGetId',
         'insertOrIgnore',
@@ -173,9 +174,17 @@ class Builder implements BuilderContract
         $keyName = $this->model->getQualifiedKeyName();
 
         if (is_array($id) || $id instanceof Arrayable) {
-            $this->query->whereIn($keyName, $id);
+            if (in_array($this->model->getKeyType(), ['int', 'integer'])) {
+                $this->query->whereIntegerInRaw($keyName, $id);
+            } else {
+                $this->query->whereIn($keyName, $id);
+            }
 
             return $this;
+        }
+
+        if ($id !== null && $this->model->getKeyType() === 'string') {
+            $id = (string) $id;
         }
 
         return $this->where($keyName, '=', $id);
@@ -260,25 +269,29 @@ class Builder implements BuilderContract
      */
     public function findOrFail($id, array $columns = ['*'])
     {
-        $model = $this->find($id, $columns);
+        $result = $this->find($id, $columns);
 
         $id = $id instanceof Arrayable ? $id->toArray() : $id;
 
         $className = get_class($this->model);
 
         if (is_array($id)) {
-            if (count($model) !== count(array_unique($id))) {
-                throw (new ModelNotFoundException)->setModel($className);
+            if (count($result) !== count(array_unique($id))) {
+                throw (new ModelNotFoundException)->setModel(
+                    $className, $id
+                );
             }
             
-            return $model;
+            return $result;
         } 
         
-        if (is_null($model)) {
-            throw (new ModelNotFoundException)->setModel($className);
+        if (is_null($result)) {
+            throw (new ModelNotFoundException)->setModel(
+                $className, $id
+            );
         }
         
-        return $model;
+        return $result;
     }
     
     /**
