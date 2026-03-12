@@ -123,6 +123,13 @@ interface ConnectionInterface
     public function getPdo();
 
     /**
+     * Get the database connection name.
+     * 
+     * @return string|null
+     */
+    public function getName();
+
+    /**
      * Get an option from the configuration options.
      * 
      * @param  string|null  $option 
