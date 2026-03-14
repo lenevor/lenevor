@@ -389,6 +389,7 @@ return [
     'Syscodes\\Components\\Database\\DatabaseTransactionRecord' => SYS_PATH.'src/components/Database/DatabaseTransactionRecord.php',
     'Syscodes\\Components\\Database\\DatabaseTransactionsManager' => SYS_PATH.'src/components/Database/DatabaseTransactionManager.php',
     'Syscodes\\Components\\Database\\Grammar' => SYS_PATH.'src/components/Database/Grammar.php',
+    'Syscodes\\Components\\Database\\Seeder' => SYS_PATH.'src/components/Database/Seeder.php',
     'Syscodes\\Components\\Debug\\FrameHandler\\Collection' => SYS_PATH.'src/components/Debug/Exceptions/FrameHandler/Collection.php',
     'Syscodes\\Components\\Debug\\FrameHandler\\Formatter' => SYS_PATH.'src/components/Debug/Exceptions/FrameHandler/Formatter.php',
     'Syscodes\\Components\\Debug\\FrameHandler\\Frame' => SYS_PATH.'src/components/Debug/Exceptions/FrameHandler/Frame.php',
