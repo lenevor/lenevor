@@ -39,6 +39,7 @@ use Syscodes\Components\Database\Query\Processors\Processor;
 use Syscodes\Components\Pagination\Paginator;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Chronos;
+use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\Traits\ForwardsCalls;
 use Syscodes\Components\Support\Traits\Macroable;
 
@@ -54,6 +55,13 @@ class Builder implements BuilderContract
         Macroable {
             __call as macroCall;
         }
+    
+    /**
+     * The callbacks that should be invoked after retrieving data from the database.
+     *
+     * @var array
+     */
+    protected $afterQueryCallbacks = [];
 
     /**
      * An aggregate function and column to be run.
@@ -1827,6 +1835,23 @@ class Builder implements BuilderContract
     {
         return $this->where('id', '=', $id)->first($columns);
     }
+
+    /**
+     * Get a single column's value from the first result of a query if it's the sole matching record.
+     *
+     * @param  string  $column
+     * 
+     * @return mixed
+     *
+     * @throws \Syscodes\Components\Database\\Exceptions\RecordsNotFoundException
+     * @throws \Syscodes\Components\Database\\Exceptions\MultipleRecordsFoundException
+     */
+    public function soleValue($column)
+    {
+        $result = (array) $this->sole([$column]);
+
+        return array_first($result);
+    }
     
     /**
      * Execute the query as a "select" statement.
@@ -1837,9 +1862,11 @@ class Builder implements BuilderContract
      */
     public function get($columns = ['*'])
     {
-        return collect($this->getFresh(Arr::wrap($columns), function () {
+        $items = new collection($this->getFresh(Arr::wrap($columns), function () {
             return $this->getWithStatement();
         }));
+
+        return $this->applyAfterQueryCallbacks($items);
     }
     
     /**
@@ -1896,15 +1923,15 @@ class Builder implements BuilderContract
      * 
      * @return \Syscodes\Components\Contracts\Pagination\Paginator
      */
-    public function paginate($perPage = 15, $columns = ['*'], $pageName = 'page', $page = null)
+    public function paginate($perPage = 15, $columns = ['*'], $pageName = 'page', $page = null, $total = null)
     {
         $page = $page ?: Paginator::resolveCurrentPage($pageName);
         
-        $total = func_num_args() === 5 ? value(func_get_arg(4)) : $this->getCountForPagination();
+        $total = value($total) ?? $this->getCountForPagination();
+
+        $perPage = value($perPage, $total);
         
-        $perPage = $perPage instanceof Closure ? $perPage($total) : $perPage;
-        
-        $results = $total ? $this->forPage($page, $perPage)->get($columns) : collect();
+        $results = $total ? $this->forPage($page, $perPage)->get($columns) : new collection();
         
         return $this->paginator($results, $total, $perPage, $page, [
             'path' => Paginator::resolveCurrentPath(),
@@ -1976,10 +2003,10 @@ class Builder implements BuilderContract
                 ->get()->all();
         }
 
-        $without = $this->unions ? ['orders', 'limit', 'offset'] : ['columns', 'orders', 'limit', 'offset'];
+        $without = $this->unions ? ['unionOrders', 'unionLimit', 'unionOffset'] : ['columns', 'orders', 'limit', 'offset'];
 
         return $this->cloneWithoutProperties($without)
-                    ->cloneWithoutBindings($this->unions ? ['order'] : ['select', 'order'])
+                    ->cloneWithoutBindings($this->unions ? ['unionOrder'] : ['select', 'order'])
                     ->setAggregate('count', $this->withoutSelectAliases($columns))
                     ->get()->all();
     }
@@ -2745,6 +2772,36 @@ class Builder implements BuilderContract
     }
 
     /**
+     * Register a closure to be invoked after the query is executed.
+     * 
+     * @param  \Closure  $callback
+     *
+     * @return static
+     */
+    public function afterQuery(Closure $callback): static
+    {
+        $this->afterQueryCallbacks[] = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Invoke the "after query" modification callbacks.
+     *
+     * @param  mixed  $result
+     * 
+     * @return mixed
+     */
+    public function applyAfterQueryCallbacks($result): mixed
+    {
+        foreach ($this->afterQueryCallbacks as $afterQueryCallback) {
+            $result = $afterQueryCallback($result) ?: $result;
+        }
+
+        return $result;
+    }
+
+    /**
      * Get a scalar type value from an unknown type of input.
      * 
      * @param  mixed  $value
@@ -2818,9 +2875,9 @@ class Builder implements BuilderContract
     protected function isQueryable($value)
     {
         return $value instanceof self ||
-               $value instanceof ErostrineBuilder ||
-               $value instanceof Relation ||
-               $value instanceof Closure;
+            $value instanceof ErostrineBuilder ||
+            $value instanceof Relation ||
+            $value instanceof Closure;
     }
     
     /**

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Lenevor Framework
+ * Lenevor PHP Framework
  *
  * LICENSE
  *
@@ -20,33 +20,45 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Components\Database\Erostrine\Relations\Concerns;
+namespace Syscodes\Components\Database\Exceptions;
 
-use Syscodes\Components\Database\Erostrine\Model;
+use RuntimeException;
 
 /**
- * Trait SupportModelRelations.
+ * The multiple records found exception.
  */
-trait SupportModelRelations
+class MultipleRecordsFoundException extends RuntimeException
 {
     /**
-     * Make a new related instance for the given model.
-     * 
-     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
-     * 
-     * @return \Syscodes\Components\Database\Erostrine\Model
+     * The number of records found.
+     *
+     * @var int
      */
-    abstract protected function newRelatedInstanceFor(Model $parent);
+    public $count;
 
     /**
-     * Get the default value for this relation.
+     * Constructor. Create a new exception instance.
+     *
+     * @param  int  $count
+     * @param  int  $code
+     * @param  \Throwable|null  $previous
      * 
-     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
-     * 
-     * @return \Syscodes\Components\Database\Erostrine\Model|null
+     * @return void
      */
-    protected function getDefaultFor(Model $parent)
+    public function __construct($count, $code = 0, $previous = null)
     {
-       return $this->newRelatedInstanceFor($parent);
+        $this->count = $count;
+
+        parent::__construct("$count records were found.", $code, $previous);
+    }
+
+    /**
+     * Get the number of records found.
+     *
+     * @return int
+     */
+    public function getCount(): int
+    {
+        return $this->count;
     }
 }
