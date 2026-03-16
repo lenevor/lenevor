@@ -23,7 +23,9 @@
 namespace Syscodes\Components\Database\Concerns;
 
 use Syscodes\Components\Container\Container;
+use Syscodes\Components\Database\Exceptions\MultipleRecordsFoundException;
 use Syscodes\Components\Database\Exceptions\RecordNotFoundException;
+use Syscodes\Components\Database\Exceptions\RecordsNotFoundException;
 use Syscodes\Components\Pagination\Paginator;
 use Syscodes\Components\Pagination\SimplePaginator;
 
@@ -62,6 +64,34 @@ trait MakeQueries
 
         throw new RecordNotFoundException($message ?: 'No record found for the given query.');
     }
+
+    /**
+     * Execute the query and get the first result if it's the sole matching record.
+     *
+     * @param  array|string  $columns
+     * 
+     * @return \Syscodes\Components\Database\Eloquent\Model|object|static|null
+     *
+     * @throws \Syscodes\Components\Database\Exceptions\RecordsNotFoundException
+     * @throws \Syscodes\Components\Database\Exceptions\MultipleRecordsFoundException
+     */
+    public function sole($columns = ['*'])
+    {
+        $result = $this->limit(2)->get($columns);
+
+        $count = $result->count();
+
+        if ($count === 0) {
+            throw new RecordsNotFoundException;
+        }
+
+        if ($count > 1) {
+            throw new MultipleRecordsFoundException($count);
+        }
+
+        return $result->first();
+    }
+
 
     /**
      * Create a new Paginator instance.
