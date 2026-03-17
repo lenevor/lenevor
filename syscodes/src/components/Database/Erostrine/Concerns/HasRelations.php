@@ -26,7 +26,9 @@ use Syscodes\Components\Database\Erostrine\Builder;
 use Syscodes\Components\Database\Erostrine\Model;
 use Syscodes\Components\Database\Erostrine\Relations\BelongsTo;
 use Syscodes\Components\Database\Erostrine\Relations\HasMany;
+use Syscodes\Components\Database\Erostrine\Relations\HasManyThrough;
 use Syscodes\Components\Database\Erostrine\Relations\HasOne;
+use Syscodes\Components\Database\Erostrine\Relations\HasOneThrough;
 use Syscodes\Components\Support\Str;
 
 /**
@@ -52,12 +54,14 @@ trait HasRelations
      */
     public function hasOne($related, $foreignKey = null, $localKey = null)
     {
-        $instance   = $this->newRelatedInstance($related);        
+        $instance   = $this->newRelatedInstance($related);
+
         $foreignKey = $foreignKey ?: $this->getForeignKey();
+
         $localKey   = $localKey ?: $this->getKeyName();
         
         return $this->newHasOne(
-            $instance->newQuery(), $this, $instance->getTable().'.'.$foreignKey, $localKey
+            $instance->newQuery(), $this, $instance->qualifyColumn($foreignKey), $localKey
         );
     }
     
@@ -77,6 +81,58 @@ trait HasRelations
     }
 
     /**
+     * Define a has-one-through relationship.
+     *
+     * @template TRelatedModel of \Syscodes\Components\Database\Erostrine\Model
+     * @template TIntermediateModel of \Syscodes\Components\Database\Erostrine\Model
+     *
+     * @param  Syscodes\Components\Database\Erostrine\Model  $related
+     * @param  Syscodes\Components\Database\Erostrine\Model  $through
+     * @param  string|null  $firstKey
+     * @param  string|null  $secondKey
+     * @param  string|null  $localKey
+     * @param  string|null  $secondLocalKey
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Relations\HasOneThrough
+     */
+    public function hasOneThrough($related, $through, $firstKey = null, $secondKey = null, $localKey = null, $secondLocalKey = null)
+    {
+        $through = $this->newRelatedThroughInstance($through);
+
+        $firstKey = $firstKey ?: $this->getForeignKey();
+
+        $secondKey = $secondKey ?: $through->getForeignKey();
+
+        return $this->newHasOneThrough(
+            $this->newRelatedInstance($related)->newQuery(),
+            $this,
+            $through,
+            $firstKey,
+            $secondKey,
+            $localKey ?: $this->getKeyName(),
+            $secondLocalKey ?: $through->getKeyName(),
+        );
+    }
+
+    /**
+     * Instantiate a new HasOneThrough relationship.
+     *
+     * @param  \Syscodes\Components\Database\Erostrine\Builder $builder
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $farParent
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $throughParent
+     * @param  string  $firstKey
+     * @param  string  $secondKey
+     * @param  string  $localKey
+     * @param  string  $secondLocalKey
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Relations\HasOneThrough
+     */
+    protected function newHasOneThrough(Builder $builder, Model $farParent, Model $throughParent, $firstKey, $secondKey, $localKey, $secondLocalKey)
+    {
+        return new HasOneThrough($builder, $farParent, $throughParent, $firstKey, $secondKey, $localKey, $secondLocalKey);
+    }
+
+    /**
      * Define a one-to-many relationship.
      * 
      * @param  string  $related
@@ -87,12 +143,14 @@ trait HasRelations
      */
     public function hasMany($related, $foreignKey = null, $localKey = null)
     {
-        $instance   = $this->newRelatedInstance($related);        
+        $instance   = $this->newRelatedInstance($related);
+
         $foreignKey = $foreignKey ?: $this->getForeignKey();
+
         $localKey   = $localKey ?: $this->getKeyName();
         
         return $this->newHasMany(
-            $instance->newQuery(), $this, $instance->getTable().'.'.$foreignKey, $localKey
+            $instance->newQuery(), $this, $instance->qualifyColumn($foreignKey), $localKey
         );
     }
     
@@ -109,6 +167,55 @@ trait HasRelations
     protected function newHasMany(Builder $builder, Model $parent, $foreignKey, $localKey)
     {
         return new HasMany($builder, $parent, $foreignKey, $localKey);
+    }
+
+    /**
+     * Define a has-many-through relationship.
+     *
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $related
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $through
+     * @param  string|null  $firstKey
+     * @param  string|null  $secondKey
+     * @param  string|null  $localKey
+     * @param  string|null  $secondLocalKey
+     * 
+     * @return \Syscodes\Components\Database\Eloquent\Relations\HasManyThrough<TRelatedModel, TIntermediateModel, $this>
+     */
+    public function hasManyThrough($related, $through, $firstKey = null, $secondKey = null, $localKey = null, $secondLocalKey = null)
+    {
+        $through = $this->newRelatedThroughInstance($through);
+
+        $firstKey = $firstKey ?: $this->getForeignKey();
+
+        $secondKey = $secondKey ?: $through->getForeignKey();
+
+        return $this->newHasManyThrough(
+            $this->newRelatedInstance($related)->newQuery(),
+            $this,
+            $through,
+            $firstKey,
+            $secondKey,
+            $localKey ?: $this->getKeyName(),
+            $secondLocalKey ?: $through->getKeyName()
+        );
+    }
+
+    /**
+     * Instantiate a new HasManyThrough relationship.
+     *
+     * @param  \Syscodes\Components\Database\Erostrine\Builder $query
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $farParent
+     * @param  \Syscodes\Components\Database\Erostrine\Model $throughParent
+     * @param  string  $firstKey
+     * @param  string  $secondKey
+     * @param  string  $localKey
+     * @param  string  $secondLocalKey
+     * 
+     * @return \Syscodes\Components\Database\Eloquent\Relations\HasManyThrough
+     */
+    protected function newHasManyThrough(Builder $query, Model $farParent, Model $throughParent, $firstKey, $secondKey, $localKey, $secondLocalKey)
+    {
+        return new HasManyThrough($query, $farParent, $throughParent, $firstKey, $secondKey, $localKey, $secondLocalKey);
     }
 
     /**
@@ -182,6 +289,18 @@ trait HasRelations
                 $instance->setConnection($this->connection);
             }
         });
+    }
+
+     /**
+     * Create a new model instance for a related "through" model.
+     *
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $class
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model
+     */
+    protected function newRelatedThroughInstance($class)
+    {
+        return new $class;
     }
 
     /**
