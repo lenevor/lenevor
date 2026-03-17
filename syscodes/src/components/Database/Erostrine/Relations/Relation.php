@@ -25,7 +25,9 @@ namespace Syscodes\Components\Database\Erostrine\Relations;
 use Closure;
 use Syscodes\Components\Database\Erostrine\Builder;
 use Syscodes\Components\Database\Erostrine\Collection;
+use Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException;
 use Syscodes\Components\Database\Erostrine\Model;
+use Syscodes\Components\Database\Exceptions\MultipleRecordsFoundException;
 use Syscodes\Components\Support\Traits\ForwardsCalls;
 use Syscodes\Components\Support\Traits\Macroable;
 
@@ -38,6 +40,13 @@ abstract class Relation
         Macroable {
             __call as macroCall;   
         }
+    
+    /**
+     * Indicates whether the eagerly loaded relation should implicitly return an empty collection.
+     *
+     * @var bool
+     */
+    protected $eagerKeysWereEmpty = false;
 
     /**
      * The parent model instance.
@@ -147,6 +156,41 @@ abstract class Relation
     abstract public function getResults();
 
     /**
+     * Add a whereIn eager constraint for the given set of model keys to be loaded.
+     *
+     * @param  string  $whereIn
+     * @param  string  $key
+     * @param  array  $modelKeys
+     * @param  \Syscodes\Components\Database\Erostrine\Builder<|null  $builder
+     * 
+     * @return void
+     */
+    protected function whereInEager(string $whereIn, string $key, array $modelKeys, ?Builder $builder = null): void
+    {
+        ($builder ?? $this->query)->{$whereIn}($key, $modelKeys);
+
+        if ($modelKeys === []) {
+            $this->eagerKeysWereEmpty = true;
+        }
+    }
+
+    /**
+     * Get the name of the "where in" method for eager loading.
+     *
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $model
+     * @param  string  $key
+     * 
+     * @return string
+     */
+    protected function whereInMethod(Model $model, $key): string
+    {
+        return $model->getKeyName() === last(explode('.', $key))
+            && in_array($model->getKeyType(), ['int', 'integer'])
+                ? 'whereIntegerInRaw'
+                : 'whereIn';
+    }
+
+    /**
      * Get the relationship for eager loading.
      * 
      * @return \Syscodes\Components\Database\Erostrine\Collection
@@ -154,6 +198,33 @@ abstract class Relation
     public function getEager()
     {
         return $this->get();
+    }
+
+    /**
+     * Execute the query and get the first result if it's the sole matching record.
+     *
+     * @param  array|string  $columns
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model
+     *
+     * @throws \Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException
+     * @throws \Syscodes\Components\Database\Exceptions\MultipleRecordsFoundException
+     */
+    public function sole($columns = ['*'])
+    {
+        $result = $this->limit(2)->get($columns);
+
+        $count = $result->count();
+
+        if ($count === 0) {
+            throw (new ModelNotFoundException)->setModel(get_class($this->related));
+        }
+
+        if ($count > 1) {
+            throw new MultipleRecordsFoundException($count);
+        }
+
+        return $result->first();
     }
 
     /**
@@ -178,11 +249,12 @@ abstract class Relation
      */
     protected function getKeys(array $models, $key = null): array
     {
-        return collect($models)->map(fn ($value) => $key ? $value->getAttribute($key) : $value->getKey())
-                               ->values()
-                               ->unique(null, true)
-                               ->sort()
-                               ->all();
+        return (new Collection($models))
+            ->map(fn ($value) => $key ? $value->getAttribute($key) : $value->getKey())
+            ->values()
+            ->unique(null, true)
+            ->sort()
+            ->all();
     }
 
     /**
@@ -213,6 +285,16 @@ abstract class Relation
     public function getBaseQuery()
     {
         return $this->query->getQuery();
+    }
+
+     /**
+     * Get a base query builder instance.
+     *
+     * @return \Syscodes\Components\Database\Query\Builder
+     */
+    public function toBase()
+    {
+        return $this->query->toBase();
     }
 
     /**
