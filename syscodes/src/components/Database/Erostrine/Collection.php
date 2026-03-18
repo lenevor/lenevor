@@ -23,6 +23,8 @@
 namespace Syscodes\Components\Database\Erostrine;
 
 use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException;
+use Syscodes\Components\Database\Erostrine\Relations\Concerns\InteractsWithDictionary;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Collection as BaseCollection;
 
@@ -31,6 +33,8 @@ use Syscodes\Components\Support\Collection as BaseCollection;
  */
 class Collection extends BaseCollection
 {
+    use InteractsWithDictionary;
+
     /**
      * Find a model in the collection by key.
      * 
@@ -48,8 +52,49 @@ class Collection extends BaseCollection
         if ($key instanceof Arrayable) {
             $key = $key->toArray();
         }
+
+        if (is_array($key)) {
+            if ($this->isEmpty()) {
+                return new static;
+            }
+
+            return $this->whereIn($this->first()->getKeyName(), $key);
+        }
+
         
         return Arr::first($this->items, fn ($model) => $model->getKey() == $key, $default);
+    }
+
+     /**
+     * Find a model in the collection by key or throw an exception.
+     *
+     * @param  mixed  $key
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model
+     *
+     * @throws \Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException
+     */
+    public function findOrFail($key)
+    {
+        $result = $this->find($key);
+
+        if (is_array($key) && count($result) === count(array_unique($key))) {
+            return $result;
+        } elseif (! is_array($key) && ! is_null($result)) {
+            return $result;
+        }
+
+        $exception = new ModelNotFoundException;
+
+        if (! $model = head($this->items)) {
+            throw $exception;
+        }
+
+        $ids = is_array($key) ? array_diff($key, $result->modelKeys()) : $key;
+
+        $exception->setModel(get_class($model), $ids);
+
+        throw $exception;
     }
     
     /**
