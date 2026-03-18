@@ -361,27 +361,143 @@ class Arr
 	 * Check if an item exists in an array using "dot" notation.
 	 * 
 	 * @param  array  $array
-	 * @param  string  $key
+	 * @param  array|string  $keys
 	 * 
 	 * @return bool
 	 */
-	public static function has(array $array, string $key): bool
+	public static function has($array, $keys): bool
 	{
-		if (empty($array) || is_null($key)) return false;
-		
-		if (static::exists($array, $key)) return true;
+		$keys = (array) $keys;
 
-		$segments = explode('.', $key);
+        if ( ! $array || $keys === []) {
+            return false;
+        }
+
+        foreach ($keys as $key) {
+            $subKeyArray = $array;
+
+            if (static::exists($array, $key)) {
+                continue;
+            }
+
+            foreach (explode('.', $key) as $segment) {
+                if (static::accessible($subKeyArray) && static::exists($subKeyArray, $segment)) {
+                    $subKeyArray = $subKeyArray[$segment];
+                } else {
+                    return false;
+                }
+            }
+        }
 		
-		foreach ($segments as $segment) {
-			if ( ! is_array($array) || ! static::exists($array, $segment)) {
+		return true;
+	}
+	
+	/**
+	 * Determine if all keys exist in an array using "dot" notation.
+	 * 
+	 * @param  \ArrayAccess|array  $array
+	 * @param  string|array  $keys
+	 * 
+	 * @return bool
+	 */
+	public static function hasAll($array, $keys): bool
+	{
+		$keys = (array) $keys;
+		
+		if ( ! $array || $keys === []) {
+			return false;
+		}
+		
+		foreach ($keys as $key) {
+			if ( ! static::has($array, $key)) {
 				return false;
 			}
-			
-			$array = $array[$segment];
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * Determine if any of the keys exist in an array using "dot" notation.
+	 * 
+	 * @param  \ArrayAccess|array  $array
+	 * @param  string|array  $keys
+	 * 
+	 * @return bool
+	 */
+	public static function hasAny($array, $keys): bool
+	{
+		if (is_null($keys)) {
+			return false;
+		}
+		
+		$keys = (array) $keys;
+		
+		if ( ! $array) {
+			return false;
+		}
+		
+		if ($keys === []) {
+			return false;
+		}
+		
+		foreach ($keys as $key) {
+			if (static::has($array, $key)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Determine if all items pass the given truth test.
+	 * 
+	 * @param  iterable  $array
+	 * @param  \callable  $callback
+	 * 
+	 * @return bool
+	 */
+	public static function every($array, callable $callback): bool
+	{
+		return array_all($array, $callback);
+	}
+	
+	/**
+	 * Determine if some items pass the given truth test.
+	 * 
+	 * @param  iterable  $array
+	 * @param  \callable  $callback
+	 * 
+	 * @return bool
+	 */
+	public static function some($array, callable $callback): bool
+	{
+		return array_any($array, $callback);
+	}
+	
+	/**
+	 * Get an integer item from an array using "dot" notation.
+	 * 
+	 * @param  \ArrayAccess|array  $array
+	 * @param  string|int|null  $key
+	 * @param  int|null  $default
+	 * 
+	 * @return
+	 * 
+	 * @throws \InvalidArgumentException
+	 */
+	public static function integer(ArrayAccess|array $array, string|int|null $key, ?int $default = null): int
+	{
+		$value = Arr::get($array, $key, $default);
+		
+		if ( ! is_int($value)) {
+			throw new InvalidArgumentException(
+				sprintf('Array value for key [%s] must be an integer, %s found.', $key, gettype($value))
+			);
+		}
+		
+		return $value;
 	}
 
 	/**
@@ -405,6 +521,30 @@ class Arr
 		}
 		
 		return $maxWidth;
+	}
+	
+	/**
+	 * Determines if an array is associative.
+	 * 
+	 * @param  array  $array
+	 * 
+	 * @return bool
+	 */
+	public static function isAssoc(array $array): bool
+	{
+		return ! array_is_list($array);
+	}
+	
+	/**
+	 * Determines if an array is a list.
+	 * 
+	 * @param  array  $array
+	 * 
+	 * @return bool
+	 */
+	public static function isList($array): bool
+	{
+		return array_is_list($array);
 	}
 	
 	/**
