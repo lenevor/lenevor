@@ -22,16 +22,19 @@
 
 namespace Syscodes\Components\Database\Erostrine;
 
+use BadMethodCallException;
 use Closure;
 use Exception;
-use BadMethodCallException;
 use Syscodes\Components\Contracts\Database\Erostrine\Builder as BuilderContract;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Database\Concerns\MakeQueries;
-use Syscodes\Components\Database\Erostrine\Relations\Relation;
 use Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException;
 use Syscodes\Components\Database\Erostrine\Exceptions\RelationNotFoundException;
+use Syscodes\Components\Database\Erostrine\Relations\Relation;
+use Syscodes\Components\Database\Exceptions\RecordsNotFoundException;
+use Syscodes\Components\Database\Exceptions\UniqueConstraintViolationException;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
+use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Pagination\Paginator;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
@@ -121,42 +124,6 @@ class Builder implements BuilderContract
     {
         $this->query = $query;
     }
-    
-    /**
-     * Find a model by its primary key.
-     * 
-     * @param  mixed  $id
-     * @param  array  $columns
-     * 
-     * @return \Syscodes\Components\Database\Erostrine\Model|static|array|null
-     */
-    public function find($id, array $columns = ['*'])
-    {
-        if (is_array($id) || $id instanceof Arrayable) {
-            return $this->findMany($id, $columns);
-        }
-
-        return $this->whereClauseKey($id)->first($columns);
-    }
-    
-    /**
-     * Find a model by its primary key.
-     * 
-     * @param  array  $ids
-     * @param  array  $columns
-     * 
-     * @return \Syscodes\Components\Database\Erostrine\Model|Collection|static
-     */
-    public function findMany($ids, array $columns = ['*'])
-    {
-        $ids = $ids instanceof Arrayable ? $ids->toArray() : $ids;
-
-        if (empty($ids)) {
-            return $this->model->newCollection();
-        }
-
-        return $this->whereClauseKey($ids)->get($columns);
-    }
 
     /**
      * Add a where clause on the primary key to the query.
@@ -204,6 +171,8 @@ class Builder implements BuilderContract
     {
         if ($column instanceof Closure && is_null($operator)) {
             $column($query = $this->model->newQuery());
+
+            $this->eagerLoad = array_merge($this->eagerLoad, $query->getEagerLoads());
             
             $this->query->addNestedWhere($query->getQuery(), $boolean);
         } else {
@@ -256,6 +225,58 @@ class Builder implements BuilderContract
     {
         return $this->whereNot($column, $operator, $value, 'or');
     }
+
+    /**
+     * Find a model by its primary key.
+     * 
+     * @param  mixed  $id
+     * @param  array  $columns
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model|static|array|null
+     */
+    public function find($id, array $columns = ['*'])
+    {
+        if (is_array($id) || $id instanceof Arrayable) {
+            return $this->findMany($id, $columns);
+        }
+
+        return $this->whereClauseKey($id)->first($columns);
+    }
+
+    /**
+     * Find a sole model by its primary key.
+     *
+     * @param  mixed  $id
+     * @param  array|string  $columns
+     * 
+     * @return \Sysocdes\Components\Database\Erostrine\Model
+     *
+     * @throws \Sysocdes\Components\Database\Erostrine\Exceptions\ModelNotFoundException
+     * @throws \Sysocdes\Components\Database\Exceptions\MultipleRecordsFoundException
+     */
+    public function findSole($id, $columns = ['*'])
+    {
+        return $this->whereClauseKey($id)->sole($columns);
+    }
+    
+    /**
+     * Find a model by its primary key.
+     * 
+     * @param  array  $ids
+     * @param  array  $columns
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model|Collection|static
+     */
+    public function findMany($ids, array $columns = ['*'])
+    {
+        $ids = $ids instanceof Arrayable ? $ids->toArray() : $ids;
+
+        if (empty($ids)) {
+            return $this->model->newCollection();
+        }
+
+        return $this->whereClauseKey($ids)->get($columns);
+    }
     
     /**
      * Find a model by its primary key or throw an exception.
@@ -300,7 +321,7 @@ class Builder implements BuilderContract
      * @param  mixed  $id
      * @param  array  $columns
      * 
-     * @return \Syscodes\Components\Database\Eloquent\Model|static
+     * @return \Syscodes\Components\Database\Erostrine\Model|static
      */
     public function findOrNew($id, $columns = ['*'])
     {
@@ -345,6 +366,25 @@ class Builder implements BuilderContract
         return take($this->newModelInstance(array_merge($attributes, $values)), function ($instance) {
             $instance->save();
         });
+    }
+
+    /**
+     * Attempt to create the record. If a unique constraint violation occurs, attempt to find the matching record.
+     *
+     * @param  array  $attributes
+     * @param  \Closure|array  $values
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model
+     *
+     * @throws \Syscodes\Components\Database\Exceptions\UniqueConstraintViolationException
+     */
+    public function createOrFirst(array $attributes = [], Closure|array $values = [])
+    {
+        try {
+            return $this->withSavepointIfNeeded(fn () => $this->create(array_merge($attributes, value($values))));
+        } catch (UniqueConstraintViolationException $e) {
+            return $this->useWritePdo()->where($attributes)->first() ?? throw $e;
+        }
     }
     
     /**
@@ -428,6 +468,74 @@ class Builder implements BuilderContract
         $className = get_class($this->model);
 
         throw (new ModelNotFoundException)->setModel($className);
+    }
+
+    /**
+     * Execute the query and get the first result if it's the sole matching record.
+     *
+     * @param  array|string  $columns
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model
+     *
+     * @throws \Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException
+     * @throws \Syscodes\Components\Database\Exceptions\MultipleRecordsFoundException
+     */
+    public function sole($columns = ['*'])
+    {
+        try {
+            return $this->sole($columns);
+        } catch (RecordsNotFoundException) {
+            throw (new ModelNotFoundException)->setModel(get_class($this->model));
+        }
+    }
+
+     /**
+     * Get a single column's value from the first result of a query.
+     *
+     * @param  string|\Syscodes\Components\Contracts\Database\Query\Expression  $column
+     * 
+     * @return mixed
+     */
+    public function value($column)
+    {
+        if ($result = $this->first([$column])) {
+            $column = $column instanceof Expression ? $column->getValue($this->getGrammar()) : $column;
+
+            return $result->{Str::afterLast($column, '.')};
+        }
+    }
+
+    /**
+     * Get a single column's value from the first result of a query if it's the sole matching record.
+     *
+     * @param  string|\Sysocdes\Components\Contracts\Database\Query\Expression  $column
+     * 
+     * @return mixed
+     *
+     * @throws \Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException
+     * @throws \Syscodes\Components\Database\Exceptions\MultipleRecordsFoundException
+     */
+    public function soleValue($column)
+    {
+        $column = $column instanceof Expression ? $column->getValue($this->getGrammar()) : $column;
+
+        return $this->sole([$column])->{Str::afterLast($column, '.')};
+    }
+
+    /**
+     * Get a single column's value from the first result of the query or throw an exception.
+     *
+     * @param  string|\Syscodes\Components\Contracts\Database\Query\Expression  $column
+     * 
+     * @return mixed
+     *
+     * @throws \Syscodes\Components\Database\Erostrine\ModelNotFoundException
+     */
+    public function valueOrFail($column)
+    {
+        $column = $column instanceof Expression ? $column->getValue($this->getGrammar()) : $column;
+
+        return $this->firstOrFail([$column])->{Str::afterLast($column, '.')};
     }
 
     /**
@@ -694,7 +802,21 @@ class Builder implements BuilderContract
     }
 
     /**
-     * Apply the scopes to the Eloquent builder instance and return it.
+     * Execute the given Closure within a transaction savepoint if needed.
+     *
+     * @param  \Closure  $scope
+     * 
+     * @return mixed
+     */
+    public function withSavepointIfNeeded(Closure $scope): mixed
+    {
+        return $this->getQuery()->getConnection()->transactionLevel() > 0
+            ? $this->getQuery()->getConnection()->transaction($scope)
+            : $scope();
+    }
+
+    /**
+     * Apply the scopes to the Erostrine builder instance and return it.
      * 
      * @return static
      */
@@ -737,6 +859,30 @@ class Builder implements BuilderContract
     public function toBase()
     {
         return $this->applyScopes()->getQuery();
+    }
+
+      /**
+     * Get the relationships being eagerly loaded.
+     *
+     * @return array
+     */
+    public function getEagerLoads(): array
+    {
+        return $this->eagerLoad;
+    }
+
+    /**
+     * Set the relationships being eagerly loaded.
+     *
+     * @param  array  $eagerLoad
+     * 
+     * @return static
+     */
+    public function setEagerLoads(array $eagerLoad): static
+    {
+        $this->eagerLoad = $eagerLoad;
+
+        return $this;
     }
 
     /**
@@ -814,7 +960,7 @@ class Builder implements BuilderContract
             return $this->toBase()->{$key};
         }
         
-        throw new Exception("Property [{$key}] does not exist on the Eloquent builder instance");
+        throw new Exception("Property [{$key}] does not exist on the Erostrine builder instance");
     }
 
     /**
