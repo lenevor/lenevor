@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Config;
 
 use ArrayAccess;
+use InvalidArgumentException;
 use Syscodes\Components\Contracts\Config\Configure as ConfigureContract;
 use Syscodes\Components\Support\Arr;
 
@@ -129,38 +130,73 @@ class Configure implements ArrayAccess, ConfigureContract
 	}
 	
 	/**
-	 * 
-	 * Prepend a value onto an array configuration value.
+	 * Get the specified string configuration value.
 	 * 
 	 * @param  string  $key
-	 * @param  mixed  $value
 	 * 
-	 * @return void
+	 * @param  \Closure|string|null  $default
+	 * 
+	 * @return string
+	 * 
+	 * @throws \InvalidArgumentException
 	 */
-	public function prepend($key, $value)
+	public function string(string $key, $default = null): string
 	{
-		$array = $this->get($key, []);
+		$value = $this->get($key, $default);
 		
-		array_unshift($array, $value);
+		if ( ! is_string($value)) {
+			throw new InvalidArgumentException(
+				sprintf('Configuration value for key [%s] must be a string, %s given.', $key, gettype($value))
+			);
+		}
 		
-		$this->set($key, $array);
+		return $value;
 	}
 	
 	/**
-	 * Push a value onto an array configuration value.
+	 * Get the specified float configuration value.
 	 * 
 	 * @param  string  $key
-	 * @param  mixed  $value
+	 * @param  \Closure|float|null  $default
 	 * 
-	 * @return void
+	 * @return float
+	 * 
+	 * @throws \InvalidArgumentException
 	 */
-	public function push($key, $value)
+	public function float(string $key, $default = null): float
 	{
-		$array = $this->get($key, []);
+		$value = $this->get($key, $default);
 		
-		$array[] = $value;
+		if ( ! is_float($value)) {
+			throw new InvalidArgumentException(
+				sprintf('Configuration value for key [%s] must be a float, %s given.', $key, gettype($value))
+			);
+		}
 		
-		$this->set($key, $array);
+		return $value;
+	}
+	
+	/**
+	 * Get the specified boolean configuration value.
+	 * 
+	 * @param  string  $key
+	 * @param  \Closure|bool|null  $default
+	 * 
+	 * @return bool
+	 * 
+	 * @throws \InvalidArgumentException
+	 */
+	public function boolean(string $key, $default = null): bool
+	{
+		$value = $this->get($key, $default);
+		
+		if ( ! is_bool($value)) {
+			throw new InvalidArgumentException(
+				sprintf('Configuration value for key [%s] must be a boolean, %s given.', $key, gettype($value))
+			);
+		}
+		
+		return $value;
 	}
 
 	/**
