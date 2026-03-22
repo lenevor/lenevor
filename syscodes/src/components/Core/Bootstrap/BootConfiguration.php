@@ -22,13 +22,16 @@
 
 namespace Syscodes\Components\Core\Bootstrap;
 
+use Syscodes\Components\Config\Configure;
 use Syscodes\Components\Contracts\Core\Application;
+use Syscodes\Components\Core\Concerns\ConfigurationFiles;
 
 /**
  * Initialize boot of setting file.
  */
 class BootConfiguration
 {	
+	use ConfigurationFiles;
 	/**
 	 * Bootstrap the given application.
 	 * 
@@ -38,12 +41,16 @@ class BootConfiguration
 	 */
 	public function bootstrap(Application $app)
 	{	
+		$items = $this->getConfigurationFiles($app);
+
+		$app->instance('config', $config = new Configure($items));
+
 		// Finally, we will set the application's environment based on the configuration
 		// values that were loaded. 
-		$app->detectEnvironment(fn () => config()->get('app.env', 'production'));
+		$app->detectEnvironment(fn () => $config->get('app.env', 'production'));
 
 		// Set a default timezone if one is defined
-		date_default_timezone_set(config()->get('app.timezone', 'UTC'));
+		date_default_timezone_set($config->get('app.timezone', 'UTC'));
 
 		mb_internal_encoding('UTF-8');
 	}
