@@ -313,6 +313,7 @@ return [
     'Syscodes\\Components\\Database\\Erostrine\\Exceptions\\MassAssignmentException' => SYS_PATH.'src/components/Database/Erostrine/Exceptions/MassAssignmentException.php',
     'Syscodes\\Components\\Database\\Erostrine\\Exceptions\\ModelNotFoundException' => SYS_PATH.'src/components/Database/Erostrine/Exceptions/ModelNotFoundException.php',
     'Syscodes\\Components\\Database\\Erostrine\\Exceptions\\RelationNotFoundException' => SYS_PATH.'src/components/Database/Erostrine/Exceptions/RelationNotFoundException.php',
+    'Syscodes\\Components\\Database\\Erostrine\\Factories\\Attributes\\UseModel' => SYS_PATH.'src/components/Database/Erostrine/Factories/Attributes/UseModel.php',
     'Syscodes\\Components\\Database\\Erostrine\\Relations\\Concerns\\AsPivotTable' => SYS_PATH.'src/components/Database/Erostrine/Relations/Concerns/AsPivotTable.php',
     'Syscodes\\Components\\Database\\Erostrine\\Relations\\Concerns\\InteractsWithDictionary' => SYS_PATH.'src/components/Database/Erostrine/Relations/Concerns/InteractsWithDictionary.php',
     'Syscodes\\Components\\Database\\Erostrine\\Relations\\Concerns\\InteractsWithPivotTable' => SYS_PATH.'src/components/Database/Erostrine/Relations/Concerns/InteractsWithPivotTable.php',
