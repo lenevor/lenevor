@@ -29,7 +29,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Syscodes\Components\Container\Container;
 use Syscodes\Components\Contracts\Http\Kernel as KernelContract;
-use Syscodes\Components\Core\Concerns\ConfigurationFiles;
 use Syscodes\Components\Core\Http\Exceptions\HttpException;
 use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
 use Syscodes\Components\Core\PackageManifest;
@@ -58,8 +57,6 @@ use function Syscodes\Components\Filesystem\join_paths;
  */
 class Application extends Container implements ApplicationContract
 {
-    use ConfigurationFiles;
-
     /**
      * The current globally available application.
      * 
@@ -302,7 +299,6 @@ class Application extends Container implements ApplicationContract
         
         $this->instance('app', $this);
         $this->instance(Container::class, $this);
-        $this->instance('config', new Configure($this->getConfigurationFiles($this)));
 
         $this->singleton(PackageManifest::class, fn () => new PackageManifest(
             new Filesystem, $this->basePath(), $this->getCachedPackagesPath()
