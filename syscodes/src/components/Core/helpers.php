@@ -338,7 +338,7 @@ if ( ! function_exists('cookie')) {
      * @param  bool  $raw
      * @param  string|null  $sameSite
      * 
-     * @return ($name is null ? \Illuminate\Cookie\CookieJar : \Symfony\Component\HttpFoundation\Cookie)
+     * @return ($name is null ? \Syscodes\Components\Cookie\CookieManager : \Symfony\Component\HttpFoundation\Cookie)
      */
     function cookie(
         ?string $name = null, 
