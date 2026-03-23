@@ -23,8 +23,8 @@
  namespace Syscodes\Components\Auth\Access\Exceptions;
 
 use Exception;
-use Throwable;
 use Syscodes\Components\Auth\Access\Response;
+use Throwable;
 
 /**
  * AuthorizationException.

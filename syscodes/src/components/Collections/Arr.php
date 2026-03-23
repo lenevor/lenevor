@@ -23,12 +23,12 @@
 namespace Syscodes\Components\Support;
 
 use ArrayAccess;
-use Traversable;
-use JsonSerializable;
 use InvalidArgumentException;
+use JsonSerializable;
 use Syscodes\Components\Contracts\Collection\Enumerable;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Support\Jsonable;
+use Traversable;
 
 /**
  * Gets all a given array for return dot-notated key from an array.
