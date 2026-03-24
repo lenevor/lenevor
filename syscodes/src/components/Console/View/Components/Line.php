@@ -22,8 +22,8 @@
 
 namespace Syscodes\Components\Console\View\Components;
 
-use Syscodes\Components\Contracts\Console\NewLineInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Syscodes\Components\Contracts\Console\NewLineInterface;
 
 /**
  * Renders the given component.

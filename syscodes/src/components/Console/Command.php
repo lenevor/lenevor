@@ -23,10 +23,10 @@
 namespace Syscodes\Components\Console;
 
 use LogicException;
-use Syscodes\Components\Console\View\Components\Factory;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Syscodes\Components\Console\View\Components\Factory;
 use Syscodes\Components\Http\Exceptions\ConsoleFailedException;
 
 /**
