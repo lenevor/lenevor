@@ -23,9 +23,8 @@
 namespace Syscodes\Components\Core\Console;
 
 use Closure;
-use Throwable;
-use SplFileInfo;
 use ReflectionClass;
+use SplFileInfo;
 use Syscodes\Components\Console\Application as Prime;
 use Syscodes\Components\Console\Command;
 use Syscodes\Components\Contracts\Console\Kernel as KernelContract;
@@ -37,6 +36,7 @@ use Syscodes\Components\Finder\Finder;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\Str;
+use Throwable;
 
 /**
  * The Lenevor class is the heart of the system when use 

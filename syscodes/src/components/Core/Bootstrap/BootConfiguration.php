@@ -32,6 +32,7 @@ use Syscodes\Components\Core\Concerns\ConfigurationFiles;
 class BootConfiguration
 {	
 	use ConfigurationFiles;
+	
 	/**
 	 * Bootstrap the given application.
 	 * 

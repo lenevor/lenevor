@@ -24,13 +24,13 @@ namespace Syscodes\Components\Core\Bootstrap;
 
 use Closure;
 use Exception;
-use Throwable;
 use ErrorException;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\ErrorHandler\Error\FatalError;
 use Syscodes\Components\Contracts\Core\Application;
 use Syscodes\Components\Contracts\Debug\ExceptionHandler;
 use Syscodes\Components\Log\LogManager;
+use Throwable;
 
 /**
  * It is an integrated exception handler that allows you to report and 

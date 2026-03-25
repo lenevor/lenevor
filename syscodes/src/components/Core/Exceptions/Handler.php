@@ -23,7 +23,6 @@
 namespace Syscodes\Components\Core\Exceptions;
 
 use Exception;
-use Throwable;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
@@ -50,6 +49,7 @@ use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Support\ViewErrorBag;
 use Syscodes\Components\Validation\Exceptions\ValidationException;
+use Throwable;
 
 /**
  * The system's main exception class is loaded for activate the render method of debugging.

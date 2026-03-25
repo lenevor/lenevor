@@ -29,7 +29,6 @@ use LogicException;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionParameter;
-use TypeError;
 use Syscodes\Components\Container\Attributes\Bind;
 use Syscodes\Components\Container\Attributes\Scoped;
 use Syscodes\Components\Container\Attributes\Singleton;
@@ -37,6 +36,7 @@ use Syscodes\Components\Container\Exceptions\EntryIdentifierException;
 use Syscodes\Components\Contracts\Container\BindingResolutionException;
 use Syscodes\Components\Contracts\Container\Container as ContainerContract;
 use Syscodes\Components\Contracts\Container\ContextualAttribute;
+use TypeError;
 
 /**
  * Class responsible of registering the bindings, instances and 

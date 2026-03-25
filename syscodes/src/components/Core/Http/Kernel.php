@@ -23,7 +23,6 @@
 namespace Syscodes\Components\Core\Http;
 
 use Closure;
-use Throwable; 
 use Syscodes\Components\Contracts\Core\Application;
 use Syscodes\Components\Contracts\Debug\ExceptionHandler;
 use Syscodes\Components\Contracts\Http\Kernel as KernelContract;
@@ -33,6 +32,7 @@ use Syscodes\Components\Routing\Resources\Pipeline;
 use Syscodes\Components\Routing\Router;
 use Syscodes\Components\Support\Chronos;
 use Syscodes\Components\Support\Facades\Facade;
+use Throwable; 
 
 /**
  * The Kernel class is the heart of the system framework.
