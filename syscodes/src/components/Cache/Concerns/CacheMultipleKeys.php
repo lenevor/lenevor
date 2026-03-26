@@ -22,6 +22,8 @@
 
 namespace Syscodes\Components\Cache\concerns;
 
+use Syscodes\Components\Support\Collection;
+
 /**
  * Stores multiple items in the cache using an array.
  */
@@ -38,9 +40,10 @@ trait CacheMultipleKeys
     {
         $return = [];
         
-        $keys = collect($keys)->mapKeys(function ($value, $key) {
-            return [is_string($key) ? $key : $value => is_string($key) ? $value : null];
-        })->all();
+        $keys = (new Collection($keys))
+            ->mapKeys(function ($value, $key) {
+                return [is_string($key) ? $key : $value => is_string($key) ? $value : null];
+            })->all();
         
         foreach ($keys as $key => $default) {
             $return[$key] = $this->get($key, $default);
