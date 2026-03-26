@@ -22,13 +22,13 @@
 
 namespace Syscodes\Components\Core\Console\Commands;
 
-use Throwable;
 use LogicException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Syscodes\Components\Console\Command;
 use Syscodes\Components\Contracts\Console\Kernel as ConsoleKernelContract;
 use Syscodes\Components\Filesystem\Filesystem;
 use Syscodes\Components\Support\Arr;
+use Throwable;
 
 /**
  * Allows create a cache file for faster configuration loading.

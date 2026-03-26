@@ -34,7 +34,6 @@ use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
 use Syscodes\Components\Core\PackageManifest;
 use Syscodes\Components\Contracts\Console\Kernel as KernelCommandContract;
 use Syscodes\Components\Contracts\Core\Application as ApplicationContract;
-use Syscodes\Components\Config\Configure;
 use Syscodes\Components\Events\EventServiceProvider;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Filesystem\Filesystem;

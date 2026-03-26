@@ -25,14 +25,14 @@ namespace Syscodes\Components\Database\Erostrine\Relations;
 use Syscodes\Components\Database\Erostrine\Builder;
 use Syscodes\Components\Database\Erostrine\Collection;
 use Syscodes\Components\Database\Erostrine\Model;
-use Syscodes\Components\Database\Erostrine\Relations\Concerns\SupportModelRelations;
+use Syscodes\Components\Database\Erostrine\Relations\Concerns\SupportsDefaultModels;
 
 /**
  * Relation belongTo given on the parent model.
  */
 class BelongsTo extends Relation
 {
-    use SupportModelRelations;
+    use SupportsDefaultModels;
     
     /**
      * The child model instance of the relation.

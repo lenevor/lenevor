@@ -22,8 +22,8 @@
 
 namespace Syscodes\Components\Database\Concerns;
 
-use Throwable;
 use Syscodes\Components\Support\Str;
+use Throwable;
 
 /**
  * Gets exceptions was caused by a lost connection.

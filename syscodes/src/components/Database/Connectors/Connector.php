@@ -24,10 +24,8 @@ namespace Syscodes\Components\Database\Connectors;
 
 use PDO;
 use Exception;
-use Throwable;
-use PDOException;
 use Syscodes\Components\Database\Concerns\DetectLostConnections;
-use Syscodes\Components\Database\Exceptions\ConnectionException;
+use Throwable;
 
 /**
  * The default PDO connection.
