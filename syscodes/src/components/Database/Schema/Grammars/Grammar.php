@@ -23,12 +23,12 @@
 namespace Syscodes\Components\Database\Schema\Grammars;
 
 use RuntimeException;
-use UnitEnum;
 use Syscodes\Components\Database\Concerns\CompilesJsonPaths;
 use Syscodes\Components\Database\Grammar as BaseGrammar;
 use Syscodes\Components\Database\Query\Expression;
 use Syscodes\Components\Database\Schema\Dataprint;
 use Syscodes\Components\Support\Flowing;
+use UnitEnum;
 
 use function Syscodes\Components\Support\enum_value;
 

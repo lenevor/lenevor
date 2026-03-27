@@ -23,8 +23,8 @@
 namespace Syscodes\Components\Database\Exceptions;
 
 use PDOException;
-use Throwable;
 use Syscodes\Components\Support\Str;
+use Throwable;
 
 /**
  * Get a query exception.

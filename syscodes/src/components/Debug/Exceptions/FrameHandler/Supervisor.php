@@ -22,9 +22,9 @@
 
 namespace Syscodes\Components\Debug\FrameHandler;
 
-use Throwable;
 use ErrorException;
 use Syscodes\Components\Debug\Util\Misc;
+use Throwable;
 
 /**
  * Loads the frames to identify a possible exception.

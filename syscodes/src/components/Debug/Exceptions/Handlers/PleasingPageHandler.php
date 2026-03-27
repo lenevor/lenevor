@@ -27,13 +27,13 @@ use ErrorException;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
-use Traversable;
-use UnexpectedValueException;
 use Syscodes\Components\Contracts\Debug\Table;
 use Syscodes\Components\Debug\FrameHandler\Formatter;  
 use Syscodes\Components\Debug\Util\ArrayTable;
 use Syscodes\Components\Debug\Util\Misc;
 use Syscodes\Components\Debug\Util\TemplateHandler;
+use Traversable;
+use UnexpectedValueException;
 
 /**
  * Generates exceptions in mode of graphic interface.

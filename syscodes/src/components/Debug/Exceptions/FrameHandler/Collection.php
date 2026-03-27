@@ -22,12 +22,12 @@
 
 namespace Syscodes\Components\Debug\FrameHandler;
 
+use ArrayAccess;
+use ArrayIterator;
 use Countable;
 use Exception;
-use ArrayAccess;
-use Traversable;
-use ArrayIterator;
 use IteratorAggregate;
+use Traversable;
 
 /**
  * Exposes a fluent interface for dealing with an ordered list
