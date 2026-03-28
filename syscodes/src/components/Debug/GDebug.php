@@ -24,7 +24,6 @@ namespace Syscodes\Components\Debug;
 
 use ErrorException;
 use InvalidArgumentException;
-use Throwable;
 use Syscodes\Components\Contracts\Debug\Handler as DebugContract;
 use Syscodes\Components\Contracts\Debug\MainHandler;
 use Syscodes\Components\Debug\FrameHandler\Supervisor;
@@ -33,6 +32,7 @@ use Syscodes\Components\Debug\Handlers\Handler;
 use Syscodes\Components\Debug\Util\Misc;
 use Syscodes\Components\Debug\Util\System;
 use Syscodes\Components\Stopwatch\Benchmark;
+use Throwable;
 
 /**
  * Allows automatically load everything related to exception handlers.
