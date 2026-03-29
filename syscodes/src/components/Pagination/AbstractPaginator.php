@@ -26,12 +26,12 @@ use ArrayAccess;
 use ArrayIterator;
 use Closure;
 use IteratorAggregate;
-use Traversable;
 use Syscodes\Components\Contracts\Support\Webable;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Support\Traits\ForwardsCalls;
+use Traversable;
 
 /**
  * Allows get the links of pagination of database data register.

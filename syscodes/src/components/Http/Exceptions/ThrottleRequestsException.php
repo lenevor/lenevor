@@ -22,8 +22,8 @@
 
 namespace Syscodes\Components\Http\Exceptions;
 
-use Throwable;
 use Syscodes\Components\Core\Http\Exceptions\TooManyRequestsHttpException;
+use Throwable;
 
 /**
  * Allows get the throttle requests exception.

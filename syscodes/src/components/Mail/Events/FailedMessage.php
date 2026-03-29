@@ -22,8 +22,8 @@
 
 namespace Syscodes\Components\Mail\Events;
 
-use Throwable;
 use Syscodes\Components\Mail\Mailables\RawMessage;
+use Throwable;
 
 /**
  * Get the failed message.

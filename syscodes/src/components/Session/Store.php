@@ -22,8 +22,8 @@
 
 namespace Syscodes\Components\Session;
 
-use stdClass;
 use SessionHandlerInterface;
+use stdClass;
 use Syscodes\Components\Contracts\Session\Session;
 use Syscodes\Components\Session\Handlers\CookieSessionHandler;
 use Syscodes\Components\Support\Arr;

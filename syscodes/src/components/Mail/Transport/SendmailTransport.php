@@ -22,8 +22,8 @@
 
 namespace Syscodes\Components\Mail\Transport;
 
-use Psr\Log\LoggerInterface;
 use InvalidArgumentException;
+use Psr\Log\LoggerInterface;
 use Syscodes\Components\Events\Dispatcher;
 use Syscodes\Components\Mail\Helpers\Envelope;
 use Syscodes\Components\Mail\Mailables\RawMessage;

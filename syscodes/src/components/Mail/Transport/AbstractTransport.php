@@ -22,7 +22,6 @@
 
 namespace Syscodes\Components\Mail\Transport;
 
-use Throwable;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Syscodes\Components\Contracts\Events\Dispatcher;
@@ -34,6 +33,7 @@ use Syscodes\Components\Mail\Helpers\BaseSentMessage;
 use Syscodes\Components\Mail\Helpers\Envelope;
 use Syscodes\Components\Mail\Helpers\SentMessage;
 use Syscodes\Components\Mail\Mailables\RawMessage;
+use Throwable;
 
 /**
  * Get the transport for send of messages.

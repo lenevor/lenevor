@@ -27,12 +27,12 @@ use Countable;
 use IteratorAggregate;
 use IteratorIterator;
 use LogicException;
-use Traversable;
 use Syscodes\Components\Finder\Concerns\FinderHelper;
 use Syscodes\Components\Finder\Comparators\DateComparator;
 use Syscodes\Components\Finder\Exceptions\DirectoryNotFoundException;
 use Syscodes\Components\Finder\Filters\FileFilterIterator;
 use Syscodes\Components\Finder\Filters\LazyFilterIterator;
+use Traversable;
 
 /**
  * Gets the results of search in files and directories.

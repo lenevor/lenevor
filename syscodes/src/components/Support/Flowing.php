@@ -24,12 +24,12 @@ namespace Syscodes\Components\Support;
 
 use ArrayAccess;
 use ArrayIterator;
-use Traversable;
-use JsonSerializable;
 use IteratorAggregate;
+use JsonSerializable;
 use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Contracts\Support\Arrayable;
+use Traversable;
 
 /**
  * Checks if exist an attribute in flowing instance for collections of data.

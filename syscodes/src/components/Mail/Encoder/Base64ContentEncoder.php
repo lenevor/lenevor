@@ -22,8 +22,8 @@
 
 namespace Syscodes\Components\Mail\Encoder;
 
-use TypeError;
 use RuntimeException;
+use TypeError;
 
 /**
  * Get the content Base64 encoded for text strings.

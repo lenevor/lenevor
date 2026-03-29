@@ -23,9 +23,9 @@
 namespace Syscodes\Components\Finder\Filters;
 
 use RecursiveDirectoryIterator;
-use UnexpectedValueException;
 use Syscodes\Components\Finder\Exceptions\AccessDeniedException;
 use Syscodes\Components\Finder\SplFileInfo;
+use UnexpectedValueException;
 
 /**
  * Gets the directory filter for iterator.

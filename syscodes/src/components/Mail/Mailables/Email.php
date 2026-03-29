@@ -24,8 +24,8 @@ namespace Syscodes\Components\Mail\Mailables;
 
 use DateTimeInterface;
 use LogicException;
-use TypeError;
 use Syscodes\Components\Mail\Mailables\Address;
+use TypeError;
 
 /**
  * Allows the send of mail.

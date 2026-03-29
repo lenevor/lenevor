@@ -25,8 +25,6 @@ namespace Syscodes\Components\View;
 use ArrayAccess;
 use BadMethodCallException;
 use InvalidArgumentException;
-use Throwable;
-use Traversable;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Support\Webable;
 use Syscodes\Components\Contracts\Support\MessageBag;
@@ -37,6 +35,8 @@ use Syscodes\Components\Contracts\View\View as ViewContract;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Support\Traits\Macroable;
+use Throwable;
+use Traversable;
 
 /**
  * This class control the views.

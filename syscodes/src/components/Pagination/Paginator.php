@@ -24,8 +24,8 @@ namespace Syscodes\Components\Pagination;
 
 use ArrayAccess;
 use Countable;
-use JsonSerializable;
 use IteratorAggregate;
+use JsonSerializable;
 use Syscodes\Components\Contracts\Pagination\Paginator as PaginatorContract;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Support\Jsonable;

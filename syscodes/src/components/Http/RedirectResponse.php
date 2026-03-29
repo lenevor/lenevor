@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Http;
 
+use Symfony\Component\HttpFoundation\RedirectResponse as BaseRedirectResponse;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Support\MessageBag;
@@ -31,7 +32,6 @@ use Syscodes\Components\Support\Traits\ForwardsCalls;
 use Syscodes\Components\Http\Concerns\ResponseContent;
 use Syscodes\Components\Session\Store as SessionStore;
 use Syscodes\Components\Contracts\Support\MessageProvider;
-use Symfony\Component\HttpFoundation\RedirectResponse as BaseRedirectResponse;
 
 /**
  * Redirects to another URL. Sets the redirect header, sends the headers and exits.

@@ -23,11 +23,11 @@
 namespace Syscodes\Components\Log\Handlers;
 
 use DateTime;
-use Throwable;
 use Syscodes\Components\Contracts\Log\Handler;
 use Syscodes\Components\Log\Concerns\ParseLogEnvironment;
 use Syscodes\Components\Log\Exceptions\LogException;
 use Syscodes\Components\Support\Chronos;
+use Throwable;
 
 /**
  * The Lenevor Logger of errors.

@@ -22,8 +22,8 @@
 
 namespace Syscodes\Components\Http\Exceptions;
 
-use Throwable;
 use LogicException;
+use Throwable;
 
 /**
  * SessionNotFoundException.

@@ -22,10 +22,10 @@
 
 namespace Syscodes\Components\Routing\Resources;
 
-use Throwable;
 use Syscodes\Components\Contracts\Debug\ExceptionHandler;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Pipeline\Pipeline as BasePipeline;
+use Throwable;
 
 /**
  * This extended pipeline catches any exceptions.

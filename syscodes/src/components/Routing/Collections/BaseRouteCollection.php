@@ -26,11 +26,11 @@ use ArrayIterator;
 use Countable;
 use IteratorAggregate;
 use InvalidArgumentException;
-use Traversable;
 use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Routing\Concerns\RequestMatchesGiven;
 use Syscodes\Components\Routing\Route;
+use Traversable;
 
 /**
  * Allows the route collection of base. 

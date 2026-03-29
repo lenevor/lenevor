@@ -24,9 +24,9 @@ namespace Syscodes\Components\Pipeline;
 
 use Closure;
 use RuntimeException;
-use Throwable;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Contracts\Pipeline\Pipeline as PipelineContract;
+use Throwable;
 
 /**
  * Allows sending an object through several classes to perform any type 

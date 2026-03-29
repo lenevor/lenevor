@@ -22,9 +22,9 @@
 
 namespace Syscodes\Components\View\Engines;
 
-use Throwable;
 use Syscodes\Components\Contracts\View\Engine;
 use Syscodes\Components\Filesystem\Filesystem;
+use Throwable;
 
 /**
  * The file PHP engine.

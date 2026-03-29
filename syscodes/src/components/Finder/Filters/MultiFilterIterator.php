@@ -22,8 +22,8 @@
 
 namespace Syscodes\Components\Finder\Filters;
 
-use Iterator;
 use FilterIterator;
+use Iterator;
 
 /**
  * Allows the filters files using patterns.
@@ -47,9 +47,9 @@ abstract class MultiFilterIterator extends FilterIterator
     /**
      * Constructor. Create a new MultiFilterIterator instance.
      * 
-     * @param \Iterator<TKey, TValue> $iterator      The Iterator to filter
-     * @param string[]                $matchRegex    An array of regex that need to match
-     * @param string[]                $noMatchRegex  An array of regex that need to not match
+     * @param \Iterator  $iterator  The Iterator to filter
+     * @param string[]  $matchRegex  An array of regex that need to match
+     * @param string[]  $noMatchRegex  An array of regex that need to not match
      * 
      * @return void 
      */

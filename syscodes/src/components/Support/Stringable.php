@@ -22,8 +22,8 @@
 
 namespace Syscodes\Components\Support;
 
-use Closure;
 use ArrayAccess;
+use Closure;
 use JsonSerializable;
 use Stringable as BaseStringable;
 use Syscodes\Components\Support\Facades\Date;

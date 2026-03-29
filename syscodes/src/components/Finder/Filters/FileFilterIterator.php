@@ -22,8 +22,8 @@
 
 namespace Syscodes\Components\Finder\Filters;
 
-use Iterator;
 use FilterIterator;
+use Iterator;
 
 /**
  * Gets the file filter for iterator.

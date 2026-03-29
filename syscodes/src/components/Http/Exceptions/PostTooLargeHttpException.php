@@ -22,8 +22,8 @@
 
 namespace Syscodes\Components\Http\Exceptions;
 
-use Throwable;
 use Syscodes\Components\Core\Http\Exceptions\HttpException;
+use Throwable;
 
 /**
  * The request entity returns when it is longer than the limits 

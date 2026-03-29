@@ -22,9 +22,9 @@
 
 namespace Syscodes\Components\Http\Concerns;
 
-use Throwable;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
+use Throwable;
 
 /**
  * Loads the response trait of headers, status code and content message.

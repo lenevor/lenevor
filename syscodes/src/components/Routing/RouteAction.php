@@ -23,9 +23,9 @@
 namespace Syscodes\Components\Routing;
 
 use LogicException;
-use UnexpectedValueException;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
+use UnexpectedValueException;
 
 /**
  * Solve the actions obtained from a route.

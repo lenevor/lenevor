@@ -46,7 +46,7 @@ class Validator implements ValidationContract
     /**
      * The message bag instance.
      * 
-     * @var \Syscodes\Components\Support\MessageBag
+     * @var \Syscodes\Components\Support\MessageBag|array
      */
     protected $messages;
     

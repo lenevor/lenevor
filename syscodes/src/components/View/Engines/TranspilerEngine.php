@@ -22,12 +22,12 @@
 
 namespace Syscodes\Components\View\Engines;
 
-use Throwable;
 use Syscodes\Components\Core\Http\Exceptions\HttpException;
 use Syscodes\Components\Filesystem\Filesystem;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
 use Syscodes\Components\View\Exceptions\ViewException;
 use Syscodes\Components\View\Transpilers\TranspilerInterface;
+use Throwable;
 
 /**
  * The file PHP engine.

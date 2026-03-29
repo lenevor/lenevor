@@ -22,8 +22,8 @@
 
 namespace Syscodes\Components\Support\Traits;
 
-use Error;
 use BadMethodCallException;
+use Error;
 
 /**
  * Trait ForwardsCalls.
