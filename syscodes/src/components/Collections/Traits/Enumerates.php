@@ -417,7 +417,7 @@ trait Enumerates
     /**
      * Create a collection of all elements that do not pass a given truth test.
      * 
-     * @param \callable|mixed  $callable
+     * @param callable|bool  $callback
      * 
      * @return static
      */
@@ -425,11 +425,11 @@ trait Enumerates
     {
         $useAsCallable = $this->useAsCallable($callback);
 
-        return $this->filter(
-            fn($value, $key) => $useAsCallable
+        return $this->filter(function ($value, $key) use ($callback, $useAsCallable) {
+            return $useAsCallable
                 ? ! $callback($value, $key)
-                : $value != $callback
-        );
+                : $value != $callback;
+        });
     }
 
     /**
@@ -439,7 +439,7 @@ trait Enumerates
      * 
      * @return bool
      */
-    protected function useAsCallable(mixed $value): bool
+    protected function useAsCallable($value): bool
     {
         return ! is_string($value) && is_callable($value);
     }
@@ -486,7 +486,7 @@ trait Enumerates
      * @param  mixed  $operator
      * @param  mixed  $value
      * 
-     * @return static[]
+     * @return static
      */
     public function partition($key, $operator = null, $value = null): static
     {
