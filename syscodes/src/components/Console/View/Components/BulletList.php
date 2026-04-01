@@ -32,7 +32,7 @@ class BulletList extends Component
     /**
      * Renders the component using the given arguments.
      *
-     * @param  array<int, string>  $elements
+     * @param  array  $elements
      * @param  int  $verbosity
      * 
      * @return void

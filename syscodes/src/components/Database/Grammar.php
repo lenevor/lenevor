@@ -55,6 +55,18 @@ abstract class Grammar
     }
 
     /**
+     * Wrap an array of values.
+     * 
+     * @param  array  $values
+     * 
+     * @return array
+     */
+    public function wrapArray(array $values): array
+    {
+        return array_map($this->wrap(...), $values);
+    }
+
+    /**
      * Wrap a table in keyword identifiers.
      * 
      * @param  \Syscodes\Components\Database\Query\Expression|string  $table
@@ -86,19 +98,7 @@ abstract class Grammar
                 ->implode('.');
         }
         
-        return $this->getValue($table);
-    }
-    
-    /**
-     * Wrap an array of values.
-     * 
-     * @param  array  $values
-     * 
-     * @return array
-     */
-    public function wrapArray(array $values): array
-    {
-        return array_map($this->wrap(...), $values);
+        return $this->wrapValue($table);
     }
 
     /**
@@ -229,7 +229,7 @@ abstract class Grammar
      */
     public function columnize(array $columns): string
     {
-        return implode(', ', array_map([$this, 'wrap'], $columns));
+        return implode(', ', array_map($this->wrap(...), $columns));
     }
 
     /**
@@ -241,7 +241,7 @@ abstract class Grammar
      */
     public function parameterize(array $values): string
     {
-        return implode(', ', array_map($this->wrap(...), $values));
+        return implode(', ', array_map($this->parameter(...), $values));
     }
 
     /**

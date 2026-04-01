@@ -62,7 +62,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Create a new instance of the collection.
      *
-     * @param  \Syscodes\Components\Contracts\Support\Arrayable|array|null  $items
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable|null  $items
      * 
      * @return static
      */
@@ -202,7 +202,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * in the given items, using the callback.
      * 
      * @param  mixed  $items
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return static
      */
@@ -229,7 +229,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * are not present in the given items, using the callback.
      * 
      * @param  mixed  $items
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return static
      */
@@ -256,7 +256,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * not present in the given items, using the callback.
      * 
      * @param  mixed  $items
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return static
      */
@@ -325,7 +325,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Execute a callback over each item.
      * 
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return static
      */
@@ -373,7 +373,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Run a filter over each of the items.
      * 
-     * @param  \callable|null  $callback
+     * @param  callable|null  $callback
      * 
      * @return static
      */
@@ -389,7 +389,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Get the first item from the collection.
      * 
-     * @param  \callable|null  $callback
+     * @param  callable|null  $callback
      * @param  mixed  $default
      * 
      * @return mixed
@@ -581,7 +581,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Get the last item from the collection.
      * 
-     * @param  \callable|null  $callback
+     * @param  callable|null  $callback
      * @param  mixed|null  $default
      * 
      * @return mixed
@@ -594,7 +594,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Run a map over each of the items.
      * 
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return static
      */
@@ -606,7 +606,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Run an associative map over each of the items.
      * 
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return static
      */
@@ -780,7 +780,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Reduce the collection to a single value.
      * 
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * @param  mixed|null  $initial
      * 
      * @return mixed
@@ -899,7 +899,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Sort through each item.
      * 
-     * @param  \callable|int|null  $callback
+     * @param  callable|int|null  $callback
      * 
      * @return static
      */
@@ -942,7 +942,10 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     {
         $items = $this->items;
 
-        $descending ? krsort($items, $options) : ksort($items, $options);
+        match ($descending) {
+            false => ksort($items, $options),
+            true => krsort($items, $options),
+        };
 
         return $this->newInstance($items);
     }
@@ -954,7 +957,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * 
      * @return static
      */
-    public function sortKeysDesc(int $options =  SORT_REGULAR): static
+    public function sortKeysDesc(int $options = SORT_REGULAR): static
     {
         return $this->sortKeys($options, true);
     }
@@ -962,7 +965,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Sort the collection keys using a callback.
      * 
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return static
      */
@@ -994,11 +997,16 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
         
         $callback = $this->valueRetriever($callback);
         
+        // First we will loop through the items and get the comparator from a callback
+        // function which we were given.
         foreach ($this->items as $key => $value) {
             $results[$key] = $callback($value, $key);
         }
         
-        $descending ? arsort($results, $options) : asort($results, $options);
+        match ($descending) {
+            false => asort($results, $options),
+            true => arsort($results, $options),
+        };
         
         foreach (array_keys($results) as $key) {
             $results[$key] = $this->items[$key];
@@ -1025,14 +1033,18 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
                 
                 $prop = $comparison[0];
                 
-                $ascending = Arr::get($comparison, 1, true) === true || Arr::get($comparison, 1, true) === 'asc';
+                $direction = match (Arr::get($comparison, 1, true)) {
+                    true => 'asc',
+                    false => 'desc',
+                    default => 'desc',
+                }; 
                 
                 if ( ! is_string($prop) && is_callable($prop)) {
                     $result = $prop($a, $b);
                 } else {
                     $values = [data_get($a, $prop), data_get($b, $prop)];
                     
-                    if ( ! $ascending) {
+                    if ($direction === false) {
                         $values = array_reverse($values);
                     }
                     
