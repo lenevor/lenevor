@@ -678,7 +678,7 @@ class Model implements Arrayable, ArrayAccess
 	 * 
 	 * @param  array  $models
 	 * 
-	 * @return \Syscodes\Components\Database\Collection
+	 * @return \Syscodes\Components\Database\Erostrine\Collection
 	 */
 	public function newCollection(array $models = [])
 	{
