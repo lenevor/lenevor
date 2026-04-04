@@ -175,11 +175,12 @@ if ( ! function_exists('value')) {
      * Return the default value of the given value.
      *
      * @param  mixed  $value
+     * @param  iterable|array  $args
      * 
      * @return mixed
      */
-    function value(mixed $value)
+    function value(mixed $value, ...$args)
     {
-        return $value instanceof \Closure ? $value() : $value;
+        return $value instanceof \Closure ? $value($args) : $value;
     }
 }
