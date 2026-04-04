@@ -206,7 +206,144 @@ trait Enumerates
      */
     public function firstWhere($key, $operator = null, $value = null)
     {
-        return $this->first($this->operatorForWhere(...func_get_args()));
+        return $this->first($this->operatorCallback(...func_get_args()));
+    }
+
+    /**
+     * Filter items by the given key value pair.
+     *
+     * @param  callable|string  $key
+     * @param  mixed  $operator
+     * @param  mixed  $value
+     * 
+     * @return static
+     */
+    public function where($key, $operator = null, $value = null): static
+    {
+        return $this->filter($this->operatorCallback(...func_get_args()));
+    }
+
+    /**
+     * Filter items where the value for the given key is null.
+     *
+     * @param  string|null  $key
+     * 
+     * @return static
+     */
+    public function whereNull($key = null): static
+    {
+        return $this->whereStrict($key, null);
+    }
+
+    /**
+     * Filter items where the value for the given key is not null.
+     *
+     * @param  string|null  $key
+     * 
+     * @return static
+     */
+    public function whereNotNull($key = null): static
+    {
+        return $this->where($key, '!==', null);
+    }
+
+    /**
+     * Filter items by the given key value pair using strict comparison.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * 
+     * @return static
+     */
+    public function whereStrict($key, $value): static
+    {
+        return $this->where($key, '===', $value);
+    }
+
+    /**
+     * Filter items by the given key value pair.
+     *
+     * @param  string  $key
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable  $values
+     * @param  bool  $strict
+     * 
+     * @return static
+     */
+    public function whereIn($key, $values, $strict = false): static
+    {
+        $values = $this->getArrayableItems($values);
+
+        return $this->filter(fn ($item) => in_array(data_get($item, $key), $values, $strict));
+    }
+
+    /**
+     * Filter items by the given key value pair using strict comparison.
+     *
+     * @param  string  $key
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable  $values
+     * 
+     * @return static
+     */
+    public function whereInStrict($key, $values): static
+    {
+        return $this->whereIn($key, $values, true);
+    }
+
+    /**
+     * Filter items such that the value of the given key is between the given values.
+     *
+     * @param  string  $key
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable  $values
+     * 
+     * @return static
+     */
+    public function whereBetween($key, $values): static
+    {
+        return $this->where($key, '>=', reset($values))->where($key, '<=', end($values));
+    }
+
+    /**
+     * Filter items such that the value of the given key is not between the given values.
+     *
+     * @param  string  $key
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable  $values
+     * 
+     * @return static
+     */
+    public function whereNotBetween($key, $values): static
+    {
+        return $this->filter(
+            fn ($item) => data_get($item, $key) < reset($values) || data_get($item, $key) > end($values)
+        );
+    }
+
+    /**
+     * Filter items by the given key value pair.
+     *
+     * @param  string  $key
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable  $values
+     * @param  bool  $strict
+     * 
+     * @return static
+     */
+    public function whereNotIn($key, $values, $strict = false): static
+    {
+        $values = $this->getArrayableItems($values);
+
+        return $this->reject(fn ($item) => in_array(data_get($item, $key), $values, $strict));
+    }
+
+    /**
+     * Filter items by the given key value pair using strict comparison.
+     *
+     * @param  string  $key
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable  $values
+     * 
+     * @return static
+     */
+    public function whereNotInStrict($key, $values): static
+    {
+        return $this->whereNotIn($key, $values, true);
     }
 
     /**
