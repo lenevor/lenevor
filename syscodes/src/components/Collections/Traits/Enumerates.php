@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Support\Traits;
 
+use Closure;
 use Exception;
 use JsonSerializable;
 use Syscodes\Components\Contracts\Collection\Enumerable;
@@ -263,6 +264,18 @@ trait Enumerates
                 case '!==': return $retrieved !== $value;
             }
         };
+    }
+
+    /**
+     * Pass the collection to the given callback and return the result.
+     *
+     * @param  callable  $callback
+     * 
+     * @return callable
+     */
+    public function pipe(callable $callback): callable
+    {
+        return $callback($this);
     }
 
     /**
