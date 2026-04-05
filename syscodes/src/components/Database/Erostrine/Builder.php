@@ -756,20 +756,17 @@ class Builder implements BuilderContract
      * 
      * @return \Syscodes\Components\Contracts\Pagination\Paginator
      */
-    public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
+    public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null, $total = null)
     {
         $page = $page ?: Paginator::resolveCurrentPage($pageName);
         
-        $total = func_num_args() === 5 ? value(func_get_arg(4)) : $this->toBase()->getCountForPagination();
+        $total = value($total) ?? $this->toBase()->getCountForPagination();
         
-        $perPage = ($perPage instanceof Closure 
-                        ? $perPage($total)
-                        : $perPage
-                   ) ?: $this->model->getPerPage();
+        $perPage = value($perPage, $total) ?: $this->model->getPerPage();
         
         $results = $total
-                   ? $this->forPage($page, $perPage)->get($columns)
-                   : $this->model->newCollection();
+            ? $this->forPage($page, $perPage)->get($columns)
+            : $this->model->newCollection();
         
         return $this->paginator($results, $total, $perPage, $page, [
             'path' => Paginator::resolveCurrentPath(),
@@ -793,6 +790,8 @@ class Builder implements BuilderContract
         
         $perPage = $perPage ?: $this->model->getPerPage();
         
+        // Next we will set the limit and offset for this query so that when we get the
+        // results we get the proper section of results.
         $this->skip(($page - 1) * $perPage)->take($perPage + 1);
         
         return $this->simplePaginator($this->get($columns), $perPage, $page, [

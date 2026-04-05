@@ -78,7 +78,7 @@ class Collection extends BaseCollection
     {
         $result = $this->find($key);
 
-        if (is_array($key) && count($result) === count(array_unique($key))) {
+        if (is_array($key) && count((array) $result) === count(array_unique($key))) {
             return $result;
         } elseif (! is_array($key) && ! is_null($result)) {
             return $result;
@@ -264,13 +264,18 @@ class Collection extends BaseCollection
     /**
      * Return only unique items from the collection.
      * 
+     * @param  callable|string|null  $key
+     * @param  bool  $strict
+     * 
      * @return static
      */
-    public function unique(): static
+    public function unique($key = null, $strict = false): static
     {
-        $dictionary = $this->getDictionary();
-        
-        return new static(array_values($dictionary));
+        if ( ! is_null($key)) {
+            return parent::unique($key, $strict);
+        }
+
+        return new static(array_values($this->getDictionary()));
     }
     
     /**
@@ -327,7 +332,7 @@ class Collection extends BaseCollection
      * @param string|array|int|null  $value
      * @param  string|null  $key
      * 
-     * @return \Syscodes\Components\Collections\Collection
+     * @return static
      */
     public function pluck($value, ?string $key = null): static
     {
@@ -337,9 +342,9 @@ class Collection extends BaseCollection
     /**
      * Get a base Support collection instance from this collection.
      * 
-     * @return \Syscodes\Components\Collections\Collection
+     * @return static
      */
-    public function toBase()
+    public function toBase(): static
     {
         return new BaseCollection($this->items);
     }
