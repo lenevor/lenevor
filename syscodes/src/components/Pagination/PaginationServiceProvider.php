@@ -37,6 +37,12 @@ class PaginationServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadViewsTo(__DIR__.'/resources/views', 'pagination');
+
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__.'/resources/views' => $this->app->resourcePath('views/vendor/pagination'),
+            ], 'lenevor-pagination');
+        }
     }
 
     /**
