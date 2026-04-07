@@ -43,98 +43,112 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, Weba
     /**
      * The default pagination view.
      * 
-     * @var string $defaultView
+     * @var string
      */
     public static $defaultView = 'pagination::default';
     
     /**
      * The default "simple" pagination view.
      * 
-     * @var string $defaultSimpleView
+     * @var string
      */
     public static $defaultSimpleView = 'pagination::simple';
     
     /**
      * The view factory resolver callback.
      * 
-     * @var \Closure $viewFactoryResolver
+     * @var \Closure
      */
     protected static $viewFactoryResolver;
-    
-    /**
-     * The current page being "viewed".
-     * 
-     * @var int $currentPage
-     */
-    protected $currentPage;
 
     /**
      * The current page resolver callback.
      * 
-     * @var \Closure $currentPageResolver
+     * @var \Closure
      */
     protected static $currentPageResolver;
     
     /**
      * The current path resolver callback.
      * 
-     * @var \Closure $currentPathResolver
+     * @var \Closure
      */
     protected static $currentPathResolver;
     
     /**
      * The query string resolver callback.
      * 
-     * @var \Closure $queryStringResolver
+     * @var \Closure
      */
     protected static $queryStringResolver;
+
+    /**
+     * The current page being "viewed".
+     * 
+     * @var int
+     */
+    protected $currentPage;
+
+    /**
+     * Indicates that the paginator's string representation should be escaped when __toString is invoked.
+     *
+     * @var bool
+     */
+    protected $escapeWhenCastingToString = false;
     
     /**
      * The URL fragment to add to all URLs.
      * 
-     * @var string|null $fragment
+     * @var string|null
      */
     protected $fragment;
     
     /**
      * All of the items being paginated.
      * 
-     * @var array|object $items
+     * @var \Syscodes\Components\Support\Collection
      */
-    protected $items = [];
+    protected $items;
     
     /**
      * The number of links to display on each side of current page link.
      * 
-     * @var int $onEachSide
+     * @var int
      */
     public $onEachSide = 3;
+
+    /**
+     * The paginator options.
+     *
+     * @var array
+     */
+    protected $options;
     
     /**
      * The query string variable used to store the page.
      * 
-     * @var string $pageName
+     * @var string
      */
     protected $pageName = 'page';
 
     /**
      * The base path to assign to all URLs.
      * 
-     * @var string $path
+     * @var string
      */
     protected $path = '/';
     
     /**
      * The number of items to be shown per page.
      * 
-     * @var int $perPage
+     * @var int
      */
     protected $perPage;
     
     /**
      * The query parameters to add to all URLs.
      * 
-     * @var array $query
+     * @var array
      */
     protected $query = [];
     
@@ -200,9 +214,9 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, Weba
         }
         
         return $this->getPath()
-                        .(Str::contains($this->getPath(), '?') ? '&' : '?')
-                        .Arr::query($parameters)
-                        .$this->buildFragment();
+            .(Str::contains($this->getPath(), '?') ? '&' : '?')
+            .Arr::query($parameters)
+            .$this->buildFragment();
     }
     
     /**
@@ -226,21 +240,37 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, Weba
     /**
      * Add a set of query string values to the paginator.
      * 
-     * @param  array|string  $keys
+     * @param  array|string|null  $key
      * @param  string|null  $value
      * 
      * @return static
      */
-    public function appends($keys, $value = null): static
+    public function appends($key, $value = null): static
     {
-        if ( ! is_array($keys)) {
-            return $this->addQuery($keys, $value);
+        if (is_null($key)) {
+            return $this;
         }
         
+        if (is_array($key)) {
+            return $this->appendArray($key);
+        }
+        
+        return $this->addQuery($key, $value);
+    }
+
+    /**
+     * Add an array of query string values.
+     *
+     * @param  array  $keys
+     * 
+     * @return static
+     */
+    protected function appendArray(array $keys): static
+    {
         foreach ($keys as $key => $value) {
             $this->addQuery($key, $value);
         }
-        
+
         return $this;
     }
     
@@ -294,13 +324,11 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, Weba
     /**
      * Get the number of the first item in the slice.
      * 
-     * @return int
+     * @return int|null
      */
-    public function firstItem()
+    public function firstItem(): int|null
     {
-        if (count($this->items) > 0) {
-            return (($this->currentPage - 1) * $this->perPage) + 1;
-        }
+        return count($this->items) > 0 ? ($this->currentPage - 1) * $this->perPage + 1 : null;
     }
     
     /**
@@ -308,11 +336,25 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, Weba
      * 
      * @return int
      */
-    public function lastItem()
+    public function lastItem(): int|null
     {
-        if (count($this->items) > 0) {
-            return $this->firstItem() + $this->count() - 1;
-        }
+        return count($this->items) > 0 ? $this->firstItem() + $this->count() - 1 : null;
+    }
+
+    /**
+     * Transform each item in the slice of items using a callback.
+     *
+     * @param  callable  $callback
+     * 
+     * @return static
+     *
+     * @phpstan-this-out static<TKey, TMapValue>
+     */
+    public function through(callable $callback): static
+    {
+        $this->items->transform($callback);
+
+        return $this;
     }
     
     /**
@@ -332,7 +374,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, Weba
      */
     public function hasPages(): bool
     {
-        return ($this->currentPage() != 1) || $this->hasMorePages();
+        return $this->currentPage() != 1 || $this->hasMorePages();
     }
     
     /**
@@ -343,6 +385,16 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, Weba
     public function onFirstPage(): bool
     {
         return $this->currentPage() <= 1;
+    }
+
+    /**
+     * Determine if the paginator is on the last page.
+     *
+     * @return bool
+     */
+    public function onLastPage(): bool
+    {
+        return ! $this->hasMorePages();
     }
     
     /**
@@ -401,6 +453,18 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, Weba
     public function getPath(): string
     {
         return $this->path;
+    }
+
+    /**
+     * Set the base path to assign to all URLs.
+     *
+     * @param  string  $path
+     * 
+     * @return static
+     */
+    public function withPath($path): static
+    {
+        return $this->setPath($path);
     }
     
     /**
@@ -599,7 +663,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, Weba
     /**
      * Set the paginator's underlying collection.
      * 
-     * @param  \Syscodes\Components\Support\Collection  $collection
+     * @param  \Syscodes\Components\Support\Collection
      * 
      * @return static
      */
@@ -608,6 +672,16 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, Weba
         $this->items = $collection;
         
         return $this;
+    }
+
+    /**
+     * Get the paginator options.
+     *
+     * @return array
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 
     /*
@@ -699,6 +773,22 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, Weba
      */
     public function __toString(): string
     {
-        return (string) $this->render();
+        return $this->escapeWhenCastingToString
+           ? e((string) $this->render())
+           : (string) $this->render();
+    }
+
+    /**
+     * Indicate that the paginator's string representation should be escaped when __toString is invoked.
+     *
+     * @param  bool  $escape
+     * 
+     * @return static
+     */
+    public function escapeWhenCastingToString($escape = true): static
+    {
+        $this->escapeWhenCastingToString = $escape;
+
+        return $this;
     }
 }
