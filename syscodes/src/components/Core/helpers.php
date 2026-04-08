@@ -32,8 +32,8 @@ use Syscodes\Components\Contracts\Cookie\Factory as CookieFactory;
 use Syscodes\Components\Contracts\Debug\ExceptionHandler;
 use Syscodes\Components\Contracts\Routing\UrlGenerator;
 use Syscodes\Components\Contracts\Translation\Translator;
-use Syscodes\Components\Contracts\View\Factory;
-use Syscodes\Components\Contracts\View\View;
+use Syscodes\Components\Contracts\View\Factory as ViewFactory;
+use Syscodes\Components\Contracts\View\View as ViewContract;
 use Syscodes\Components\Core\Application;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
 use Syscodes\Components\Http\Response;
@@ -419,21 +419,6 @@ if ( ! function_exists('decrypt')) {
     function decrypt($value, bool $unserialize = true)
     {
         return app('encrypter')->decrypt($value, $unserialize);
-    }
-}
-
-if ( ! function_exists('e')) {
-    /**
-     * Escape HTML entities in a string.
-     *
-     * @param  string  $value
-     * @param  bool  $doubleEncode
-     *
-     * @return string
-     */
-    function e($value, $doubleEncode = true): string
-    {
-        return htmlentities($value ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', $doubleEncode);
     }
 }
 
@@ -1034,17 +1019,18 @@ if ( ! function_exists('view')) {
      *  
      * @param  string|null  $file  View filename
      * @param  array  $data  Array of values
+     * @param  array  $mergeData  Array of merge data
      * 
-     * @return ($view is null ? \Syscodes\Components\Contracs\View\View : \Syscodes\Components\Contracts\View\Factory)
+     * @return ($view is null ? \Syscodes\Components\Contracts\View\Factory : \Syscodes\Components\Contracts\View\View)
      */
-    function view($file = null, $data = []): Factory|View
+    function view($file = null, $data = [], $mergeData = []): ViewFactory|ViewContract
     {
-        $view = app(Factory::class);
+        $factory = app(ViewFactory::class);
 
         if (func_num_args() === 0) {
-            return $view;
+            return $factory;
         }
 
-        return $view->make($file, $data);
+        return $factory->make($file, $data, $mergeData);
     }
 }

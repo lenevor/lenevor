@@ -20,6 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
+use Syscodes\Components\Contracts\Support\Webable;
 use Syscodes\Components\Support\Environment;
 use Syscodes\Components\Support\HigherOrderTakeProxy;
 use Syscodes\Components\Support\Str;
@@ -30,11 +31,9 @@ if ( ! function_exists('blank')) {
     /**
      * Determine if the given value is "blank".
      *
-     * @phpstan-assert-if-false !=null|'' $value
-     *
-     * @phpstan-assert-if-true !=numeric|bool $value
-     *
      * @param  mixed  $value
+     * 
+     * @return bool
      */
     function blank($value): bool
     {
@@ -69,8 +68,6 @@ if ( ! function_exists('camel_case')) {
      * @param  string  $string  
      *
      * @return string
-     * 
-     * @uses   Str::camelcase
      */
     function camel_case($string): string
     {
@@ -119,6 +116,29 @@ if ( ! function_exists('class_recursive'))
     }
 }
 
+if ( ! function_exists('e')) {
+    /**
+     * Escape HTML entities in a string.
+     *
+     * @param  string  $value
+     * @param  bool  $doubleEncode
+     *
+     * @return string
+     */
+    function e($value, $doubleEncode = true): string
+    {
+        if ($value instanceof Webable) {
+            return $value->toHtml() ?? '';
+        }
+
+        if ($value instanceof \BackedEnum) {
+            $value = $value->value;
+        }
+
+        return htmlspecialchars($value ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', $doubleEncode);
+    }
+}
+
 if ( ! function_exists('env')) {
     /**
      * Gets the value of an environment variable.
@@ -138,11 +158,9 @@ if ( ! function_exists('filled')) {
     /**
      * Determine if a value is "filled".
      *
-     * @phpstan-assert-if-true !=null|'' $value
-     *
-     * @phpstan-assert-if-false !=numeric|bool $value
-     *
      * @param  mixed  $value
+     * 
+     * @return bool
      */
     function filled($value): bool
     {
@@ -173,8 +191,6 @@ if ( ! function_exists('str_dash')) {
      * @param  string  $string  
      *
      * @return string
-     *
-     * @uses   Str::dash
      */
     function str_dash($string): string
     {
@@ -189,8 +205,6 @@ if ( ! function_exists('str_humanize')) {
      * @param  string  $string
      *
      * @return string
-     *
-     * @uses   Str::humanize
      */
     function str_humanize($string): string
     {
@@ -205,8 +219,6 @@ if ( ! function_exists('str_smallcase')) {
      * @param  string  $string
      *
      * @return string
-     *
-     * @uses   Str::smallcase
      */
     function str_smallcase($string): string
     {
@@ -221,8 +233,6 @@ if ( ! function_exists('str_underscore')) {
      * @param  string  $string
      *
      * @return string
-     *
-     * @uses   Str::underscore
      */
     function str_underscore($string): string
     {
@@ -237,8 +247,6 @@ if ( ! function_exists('studly_caps')) {
      * @param  string  $string
      *
      * @return string
-     *
-     * @uses   Str::studlycaps
      */
     function studly_caps($string): string
     {
@@ -276,8 +284,6 @@ if ( ! function_exists('title')) {
      * @param  string  $string
      * 
      * @return string
-     * 
-     * @uses   Str::title
      */
     function title($string): string
     {
@@ -314,11 +320,11 @@ if ( ! function_exists('transform')) {
      * @template TReturn
      * @template TDefault
      *
-     * @param  TValue  $value
-     * @param  callable(TValue): TReturn  $callback
-     * @param  TDefault|callable(TValue): TDefault  $default
+     * @param  mixed  $value
+     * @param  callable  $callback
+     * @param  callable  $default
      * 
-     * @return ($value is empty ? TDefault : TReturn)
+     * @return mixed
      */
     function transform($value, callable $callback, $default = null)
     {
@@ -338,8 +344,8 @@ if ( ! function_exists('throw_if')) {
     /**
      * Throw the given exception if the given condition is true.
      *
-     * @param  TValue  $condition
-     * @param  Closure(<Array>): TExceptionValue|TExceptionValue  $exception
+     * @param  mixed  $condition
+     * @param  \Closure|string|object  $exception
      * @param  Array ...$parameters
      * 
      * @return mixed
@@ -368,8 +374,8 @@ if ( ! function_exists('throw_unless')) {
     /**
      * Throw the given exception unless the given condition is true.
      *
-     * @param  TValue  $condition
-     * @param  Closure(<array>): TExceptionValue|TExceptionValue  $exception
+     * @param  mixed  $condition
+     * @param  \Closure|string|object  $exception
      * @param  array  ...$parameters
      * 
      * @return mixed
