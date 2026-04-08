@@ -25,12 +25,21 @@ namespace Syscodes\Components\Contracts\Support;
 use Countable;
 use IteratorAggregate;
 use JsonSerializable;
+use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Contracts\Support\Jsonable;
 
 /**
  * Allows the collection of items from an array.
  */
 interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable, JsonSerializable
 {
+    /**
+     * Create a new instance with no items.
+     * 
+     * @return static
+     */
+    public static function empty(): static;
+
     /**
      * Create a new collection instance if the value isn't one already.
      * 
@@ -41,6 +50,34 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
     public static function make($items = []): static;
 
     /**
+     * Add a method to the list of proxied methods.
+     * 
+     * @param  string  $method
+     * 
+     * @return void
+     */
+    public static function proxy($method): void;
+
+    /**
+     * Wrap the given value in a collection if applicable.
+     *
+     * @param  iterable  $value
+     * @param  mixed  $args
+     * 
+     * @return array
+     */
+    public static function wrap($value, ...$args);
+
+    /**
+     * Get the underlying items from the given collection if applicable.
+     *
+     * @param  array  $value
+     * 
+     * @return array
+     */
+    public static function unwrap($value);
+
+    /**
      * Add an item in the collection.
      * 
      * @param  mixed  $item
@@ -48,13 +85,6 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * @return static
      */
     public function add(mixed $item): static;
-
-    /**
-     * Determine if the collection is not empty.
-     * 
-     * @return bool
-     */
-    public function isNotEmpty(): bool;
 
     /**
      * Get all of the items in the collection.
@@ -69,6 +99,13 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * @return static
      */
     public function collapse(): static;
+
+    /**
+     * Collect the values into a collection.
+     *
+     * @return \Syscodes\Components\Support\Collection
+     */
+    public function collect();
 
     /**
      * Creates a collection by using this collection for 
@@ -181,6 +218,15 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
     public function erase($keys): static;
 
     /**
+     * Indicate that the model's string representation should be escaped when __toString is invoked.
+     * 
+     * @param  bool  $escape
+     * 
+     * @return static
+     */
+    public function escapeWhenLoadingToString($escape = true): static;
+
+    /**
      * Get all items exceptions with the specified keys.
      * 
      * @param  mixed  $keys
@@ -275,6 +321,13 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * @return bool
      */
     public function isEmpty(): bool;
+
+    /**
+     * Determine if the collection is not empty.
+     * 
+     * @return bool
+     */
+    public function isNotEmpty(): bool;
     
     /**
      * Reset the keys of the collection.
@@ -598,24 +651,6 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * @return array
      */
     public function toArray(): array;
-    
-    /**
-     * Indicate that the model's string representation should be escaped when __toString is invoked.
-     * 
-     * @param  bool  $escape
-     * 
-     * @return static
-     */
-    public function escapeWhenLoadingToString($escape = true): static;
-
-    /**
-     * Add a method to the list of proxied methods.
-     * 
-     * @param  string  $method
-     * 
-     * @return void
-     */
-    public static function proxy($method): void;
 
     /**
      * Magic method.
@@ -623,6 +658,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * Dynamically access collection proxies.
      *
      * @param  string  $key
+     * 
      * @return mixed
      *
      * @throws \Exception
@@ -630,8 +666,10 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
     public function __get($key);
 
     /**
-     * Convert the collection to its string representation.
+     * Magic method.
      * 
+     * Convert the collection to its string representation.
+     *
      * @return string
      */
     public function __toString(): string;

@@ -38,18 +38,30 @@ interface Factory
 	 */
     public function exists($view): bool;
 
+	/**
+     * Get the evaluated view contents for the given view.
+     *
+     * @param  string  $path  Path filename
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|array  $data  Array of values
+     * @param  array  $mergeData  Array of merge data
+
+     * @return \Syscodes\Components\Contracts\View\View
+     */
+    public function file($path, $data = [], $mergeData = []);
+
     /**
-     * Global and local data are merged and extracted to create local variables within the view file.
+	 * Global and local data are merged and extracted to create local variables within the view file.
 	 * Renders the view object to a string.
 	 *
 	 * @example $output = $view->make();
 	 *
 	 * @param  string  $view  View filename
-	 * @param  array  $data  Array of values
+	 * @param  \Syscodes\Components\Contracts\Support\Arrayable|array  $data  Array of values
+	 * @param  array  $mergeData  Array of merge data
 	 *
 	 * @return \Syscodes\Components\Contracts\View\View
-     */
-    public function make($view, $data = []);
+	 */
+    public function make($view, $data = [], $mergeData = []);
 
     /**
 	 * Call the creator for a given view.
@@ -61,14 +73,6 @@ interface Factory
 	public function callCreator(View $view): void;
 
     /**
-	 * Get the extension to engine bindings.
-	 * 
-	 * @return array
-	 */
-	public function getExtensions(): array;
-
-
-    /**
 	 * Add a piece of shared data to the environment.
 	 * 
 	 * @param  array|string  $key
@@ -77,6 +81,16 @@ interface Factory
 	 * @return mixed
 	 */
 	public function share($key, $value = null);
+
+	/**
+	 * Add a new namespace to the loader.
+	 * 
+	 * @param  string  $namespace
+	 * @param  string|array  $hints
+	 * 
+	 * @return static
+	 */
+	public function addNamespace($namespace, $hints): static;
 
     /**
 	 * Replace the namespace hints for the given namespace.
@@ -87,46 +101,4 @@ interface Factory
 	 * @return self
 	 */
 	public function replaceNamespace($namespace, $hints): self;
-
-    /**
-	 * Increment the rendering counter.
-	 * 
-	 * @return int
-	 */
-	public function increment(): int;
-
-    /**
-	 * Decrement the rendering counter.
-	 * 
-	 * @return int
-	 */
-	public function decrement(): int;
-
-    /**
-	 * Check if there are no active render operations.
-	 * 
-	 * @return bool
-	 */
-	public function doneRendering(): bool;
-
-    /**
-	 * Flush all of the parser state like sections.
-	 * 
-	 * @return void
-	 */
-	public function flushState(): void;
-
-    /**
-	 * Flush all of the section contents if done rendering.
-	 * 
-	 * @return void
-	 */
-	public function flushStateIfDoneRendering(): void;
-
-    /**
-	 * Get all of the shared data for the environment.
-	 * 
-	 * @return array
-	 */
-	public function getShared(): array;
 }
