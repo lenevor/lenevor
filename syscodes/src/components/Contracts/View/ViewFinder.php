@@ -44,6 +44,26 @@ interface ViewFinder
     public function find($name): string;
 
     /**
+     * Add a namespace hint to the finder.
+     * 
+     * @param  string  $namespace
+     * @param  string|array  $hints
+     * 
+     * @return void
+     */
+    public function addNamespace($namespace, $hints): void;
+
+    /**
+     * Prepend a namespace hint to the finder.
+     *
+     * @param  string  $namespace
+     * @param  string|array  $hints
+     * 
+     * @return void
+     */
+    public function prependNamespace($namespace, $hints): void;
+
+    /**
      * Replace the namespace hints for the given namespace.
      * 
      * @param  string  $namespace
@@ -52,4 +72,20 @@ interface ViewFinder
      * @return void
      */
     public function replaceNamespace($namespace, $hints): void;
+
+    /**
+     * Register an extension with the view finder.
+     *
+     * @param  string  $extension
+     * 
+     * @return void
+     */
+    public function addExtension($extension): void;
+
+    /**
+     * Flush the cache of located views.
+     *
+     * @return void
+     */
+    public function flush(): void;
 }
