@@ -54,7 +54,7 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
     /**
      * Constructor. Create a new Paginator instance.
      * 
-     * @param  mixed  $items
+     * @param  Collection|Arrayable|iterable|null  $items
      * @param  int  $total
      * @param  int  $perPage
      * @param  int|null  $currentPage
@@ -64,15 +64,17 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
      */
     public function __construct($items, $total, $perPage, $currentPage = null, array $options = [])
     {
+        $this->options = $options;
+        
         foreach ($options as $key => $value) {
             $this->{$key} = $value;
         }
         
-        $this->total       = $total;
-        $this->perPage     = (int) $perPage;        
-        $this->lastPage    = max((int) ceil($total / $perPage), 1);        
+        $this->total = $total;
+        $this->perPage = (int) $perPage;        
+        $this->lastPage = max((int) ceil($total / $perPage), 1);        
         $this->currentPage = $this->setCurrentPage($currentPage, $this->pageName);
-        $this->path        = $this->path !== '/' ? rtrim($this->path, '/') : $this->path;
+        $this->path = $this->path !== '/' ? rtrim($this->path, '/') : $this->path;
         
         $this->setItems($items);
     }
@@ -86,7 +88,7 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
      */
     protected function setItems($items): void
     {
-        $this->items = $items instanceof Collection ? $items : Collection::make($items);
+        $this->items = $items instanceof Collection ? $items : new Collection($items);
 
         $this->items = $this->items->all();
     }

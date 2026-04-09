@@ -564,6 +564,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, Weba
      * Resolve the query string or return the default value.
      *
      * @param  string|array|null  $default
+     * 
      * @return string
      */
     public static function resolveQueryString($default = null)
@@ -579,9 +580,10 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, Weba
      * Set with query string resolver callback.
      *
      * @param  \Closure  $resolver
+     * 
      * @return void
      */
-    public static function queryStringResolver(Closure $resolver)
+    public static function queryStringResolver(Closure $resolver): void
     {
         static::$queryStringResolver = $resolver;
     }

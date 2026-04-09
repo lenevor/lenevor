@@ -60,7 +60,6 @@ class Collection extends BaseCollection
 
             return $this->whereIn($this->first()->getKeyName(), $key);
         }
-
         
         return Arr::first($this->items, fn ($model) => $model->getKey() == $key, $default);
     }

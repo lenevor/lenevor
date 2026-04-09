@@ -46,7 +46,7 @@ class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, 
     /**
      * Constructor. Create a new Paginator instance.
      * 
-     * @param  mixed  $items
+     * @param  Collection|Arrayable|iterable|null  $items
      * @param  int  $perPage
      * @param  int|null  $currentPage
      * @param  array  $options (path, query, fragment, pageName)
@@ -55,13 +55,15 @@ class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, 
      */
     public function __construct($items, $perPage, $currentPage = null, array $options = [])
     {
+        $this->options = $options;
+
         foreach ($options as $key => $value) {
             $this->{$key} = $value;
         }
         
-        $this->perPage     = $perPage;        
+        $this->perPage = $perPage;        
         $this->currentPage = $this->setCurrentPage($currentPage);       
-        $this->path        = $this->path !== '/' ? rtrim($this->path, '/') : $this->path;
+        $this->path = $this->path !== '/' ? rtrim($this->path, '/') : $this->path;
 
         $this->setItems($items);
     }
@@ -168,13 +170,14 @@ class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, 
     public function toArray(): array
     {
         return [
-            'per_page'      => $this->perPage(),
+            'per_page' => $this->perPage(),
             'current_page'  => $this->currentPage(),
             'next_page_url' => $this->nextPageUrl(),
             'prev_page_url' => $this->previousPageUrl(),
-            'from'          => $this->firstItem(),
-            'to'            => $this->lastItem(),
-            'data'          => $this->items->toArray(),
+            'from' => $this->firstItem(),
+            'data' => $this->items->toArray(),
+            'path' => $this->path(),
+            'to' => $this->lastItem(),
         ];
     }
     
