@@ -206,6 +206,25 @@ class FileViewFinder implements ViewFinder
     }
 
     /**
+     * Prepend a namespace hint to the finder.
+     *
+     * @param  string  $namespace
+     * @param  string|array  $hints
+     * 
+     * @return void
+     */
+    public function prependNamespace($namespace, $hints): void
+    {
+        $hints = (array) $hints;
+
+        if (isset($this->hints[$namespace])) {
+            $hints = array_merge($hints, $this->hints[$namespace]);
+        }
+
+        $this->hints[$namespace] = $hints;
+    }
+
+    /**
      * Replace the namespace hints for the given namespace.
      * 
      * @param  string  $namespace
@@ -218,6 +237,22 @@ class FileViewFinder implements ViewFinder
         $this->hints[$namespace] = (array) $hints;
     }
 
+     /**
+     * Register an extension with the view finder.
+     *
+     * @param  string  $extension
+     * 
+     * @return void
+     */
+    public function addExtension($extension): void
+    {
+        if (($index = array_search($extension, $this->extensions)) !== false) {
+            unset($this->extensions[$index]);
+        }
+
+        array_unshift($this->extensions, $extension);
+    }
+
     /**
      * Returns whether or not the view name has any hint information.
      * 
@@ -228,5 +263,68 @@ class FileViewFinder implements ViewFinder
     protected function hasHintInfo($name): bool
     {
         return strpos($name, static::HINT_PATH_DELIMITER) > 0;
+    }
+
+    /**
+     * Flush the cache of located views.
+     *
+     * @return void
+     */
+    public function flush(): void
+    {
+        $this->views = [];
+    }
+
+    /**
+     * Get the filesystem instance.
+     *
+     * @return \Illuminate\Filesystem\Filesystem
+     */
+    public function getFilesystem()
+    {
+        return $this->files;
+    }
+
+    /**
+     * Set the active view paths.
+     *
+     * @param  string[]  $paths
+     * @return $this
+     */
+    public function setPaths($paths)
+    {
+        $this->paths = $paths;
+
+        return $this;
+    }
+
+    /**
+     * Get the active view paths.
+     *
+     * @return string[]
+     */
+    public function getPaths(): array
+    {
+        return $this->paths;
+    }
+
+    /**
+     * Get the views that have been located.
+     *
+     * @return string[]
+     */
+    public function getViews(): array
+    {
+        return $this->views;
+    }
+
+    /**
+     * Get the namespace to file path hints.
+     *
+     * @return string[]
+     */
+    public function getHints(): array
+    {
+        return $this->hints;
     }
 }

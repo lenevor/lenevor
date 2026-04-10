@@ -72,6 +72,20 @@ class Factory implements FactoryContract
 	protected $finder;
 
 	/**
+     * The cache of normalized names for views.
+     *
+     * @var array
+     */
+    protected $normalizedNameCache = [];
+
+	/**
+     * The cached array of engines for paths.
+     *
+     * @var array
+     */
+    protected $pathEngineCache = [];
+
+	/**
 	 * The number of active rendering operations.
 	 * 
 	 * @var int $renderCount
@@ -120,6 +134,25 @@ class Factory implements FactoryContract
 
 		return true;
 	}
+
+	/**
+     * Get the evaluated view contents for the given view.
+	 * 
+	 * @example $output = $view->file();
+     *
+     * @param  string  $path  Path filename
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|array  $data  Array of values
+     * @param  array  $mergeData  Array of merge data
+	 * 
+     * @return \Syscodes\Components\Contracts\View\View
+     */
+    public function file($path, $data = [], $mergeData = [])
+    {
+        $data = array_merge($mergeData, $this->parseData($data));
+
+		// Loader class instance.
+        return take($this->viewInstance($path, $path, $data), fn ($view) => $this->callCreator($view));
+    }
 	
 	/**
 	 * Global and local data are merged and extracted to create local variables within the view file.
@@ -128,7 +161,7 @@ class Factory implements FactoryContract
 	 * @example $output = $view->make();
 	 *
 	 * @param  string  $view  View filename
-	 * @param  array  $data  Array of values
+	 * @param  \Syscodes\Components\Contracts\Support\Arrayable|array  $data  Array of values
 	 * @param  array  $mergeData  Array of merge data
 	 *
 	 * @return \Syscodes\Components\Contracts\View\View
@@ -145,6 +178,30 @@ class Factory implements FactoryContract
 		return take($this->viewInstance($view, $path, $data), fn ($view) => $this->callCreator($view));
 	}
 
+	 /**
+     * Get the first view that actually exists from the given list.
+     *
+     * @param  array  $views  Views filename
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|array  $data  Array of values
+     * @param  array  $mergeData  Array of merge data
+	 * 
+     * @return \Syscodes\Components\Contracts\View\View
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function first(array $views, $data = [], $mergeData = [])
+    {
+        $view = Arr::first($views, function ($view) {
+            return $this->exists($view);
+        });
+
+        if ( ! $view) {
+            throw new InvalidArgumentException('None of the views in the given array exist.');
+        }
+
+        return $this->make($view, $data, $mergeData);
+    }
+
 	/**
 	 * Normalize a view name.
 	 * 
@@ -154,7 +211,7 @@ class Factory implements FactoryContract
 	 */
 	protected function normalizeName($name): string
 	{
-		return ViewName::normalize($name);
+		return $this->normalizedNameCache[$name] ??= ViewName::normalize($name);
 	}
 	
 	/**
@@ -194,13 +251,17 @@ class Factory implements FactoryContract
 	 */
 	public function getEngineFromPath($path)
 	{
+		if (isset($this->pathEngineCache[$path])) {
+            return $this->engines->resolve($this->pathEngineCache[$path]);
+        }
+
 		if ( ! $extension = $this->getExtension($path)) {
 			throw new InvalidArgumentException("Unrecognized extension in file: {$path}");
 		}
 		
-		$engine = $this->extensions[$extension];
-		
-		return $this->engines->resolve($engine);
+		return $this->engines->resolve(
+			$this->pathEngineCache[$path] = $this->extensions[$extension]
+		);
 	}
 	
 	/**
@@ -226,7 +287,7 @@ class Factory implements FactoryContract
 	 */
 	public function callCreator(View $view): void
 	{
-		$this->events->dispatch('creating: '.$view->getView(), [$view]);
+		$this->events->dispatch('creating: '.$view->getName(), [$view]);
 	}
 	
 	/**
@@ -272,6 +333,21 @@ class Factory implements FactoryContract
 		
 		return $this;
 	}
+
+	/**
+     * Prepend a new namespace to the loader.
+     *
+     * @param  string  $namespace
+     * @param  string|array  $hints
+	 * 
+     * @return static
+     */
+    public function prependNamespace($namespace, $hints): static
+    {
+        $this->finder->prependNamespace($namespace, $hints);
+
+        return $this;
+    }
 
 	/**
 	 * Replace the namespace hints for the given namespace.
@@ -341,6 +417,63 @@ class Factory implements FactoryContract
 			$this->flushState();
 		}
 	}
+
+	/**
+     * Get the view finder instance.
+     *
+     * @return \Syscodes\Components\Contracts\View\ViewFinder
+     */
+    public function getFinder()
+    {
+        return $this->finder;
+    }
+
+    /**
+     * Set the view finder instance.
+     *
+     * @param  \Syscodes\Components\Contracts\View\ViewFinder  $finder
+	 * 
+     * @return void
+     */
+    public function setFinder(ViewFinder $finder): void
+    {
+        $this->finder = $finder;
+    }
+
+	/**
+     * Get the event dispatcher instance.
+     *
+     * @return \Syscodes\Components\Contracts\Events\Dispatcher
+     */
+    public function getDispatcher()
+    {
+        return $this->events;
+    }
+
+    /**
+     * Set the event dispatcher instance.
+     *
+     * @param  \Syscodes\Components\Contracts\Events\Dispatcher  $events
+	 * 
+     * @return void
+     */
+    public function setDispatcher(Dispatcher $events): void
+    {
+        $this->events = $events;
+    }
+
+	/**
+     * Get an item from the shared data.
+     *
+     * @param  string  $key
+     * @param  mixed  $default
+	 * 
+     * @return mixed
+     */
+    public function shared($key, $default = null)
+    {
+        return Arr::get($this->shared, $key, $default);
+    }
 
 	/**
 	 * Get all of the shared data for the environment.
