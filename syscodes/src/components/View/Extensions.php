@@ -30,7 +30,7 @@ trait Extensions
 	/**
 	 * The file extension.
 	 *
-	 * @var array $extension
+	 * @var array
 	 */
 	protected $extension = [
 		'plaze.php', 
@@ -41,7 +41,7 @@ trait Extensions
 	/**
 	 * The type to engine bindings.
 	 *
-	 * @var array $extensions
+	 * @var array
 	 */
 	protected $extensions = [
 		'plaze.php' => 'plaze', 

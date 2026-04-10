@@ -55,7 +55,7 @@ trait ManagesTranslations
      */
     public function renderTranslation(): string
     {
-        return $this->container->make('translator')->getLine(
+        return $this->container->make('translator')->get(
             trim(ob_get_clean()), $this->replacements
         );
     }

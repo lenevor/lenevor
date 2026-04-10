@@ -25,6 +25,7 @@ namespace Syscodes\Components\View;
 use ArrayAccess;
 use BadMethodCallException;
 use InvalidArgumentException;
+use Stringable;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Support\Webable;
 use Syscodes\Components\Contracts\Support\MessageBag;
@@ -32,16 +33,14 @@ use Syscodes\Components\Contracts\Support\MessageProvider;
 use Syscodes\Components\Contracts\Support\Renderable;
 use Syscodes\Components\Contracts\View\Engine;
 use Syscodes\Components\Contracts\View\View as ViewContract;
-use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Support\Traits\Macroable;
 use Throwable;
-use Traversable;
 
 /**
  * This class control the views.
  */
-class View implements ArrayAccess, Webable, ViewContract
+class View implements ArrayAccess, Webable, Stringable, ViewContract
 {
 	use Macroable {
 		__call as macroCall;
@@ -232,6 +231,20 @@ class View implements ArrayAccess, Webable, ViewContract
 
 		return $this;
 	}
+
+	/**
+     * Add a view instance to the view data.
+     *
+     * @param  string  $key
+     * @param  string  $view
+     * @param  array  $data
+	 * 
+     * @return static
+     */
+    public function nest($key, $view, array $data = []): static
+    {
+        return $this->assign($key, $this->factory->make($view, $data));
+    }
 	
 	/**
 	 * Add validation errors to the view.
@@ -257,7 +270,7 @@ class View implements ArrayAccess, Webable, ViewContract
 	protected function formatErrors($provider)
 	{
 		return $provider instanceof MessageProvider
-		            ? $provider->getMessageBag() : new MessageBag((array) $provider);
+		    ? $provider->getMessageBag() : new MessageBag((array) $provider);
 				
 	}
 
@@ -272,11 +285,21 @@ class View implements ArrayAccess, Webable, ViewContract
 	}
 
 	/**
+     * Get the name of the view.
+     *
+     * @return string
+     */
+    public function name(): string
+    {
+        return $this->getName();
+    }
+
+	/**
 	 * Get the name of the view.
 	 * 
 	 * @return string
 	 */
-	public function getView(): string
+	public function getName(): string
 	{
 		return $this->view;
 	}
@@ -321,63 +344,6 @@ class View implements ArrayAccess, Webable, ViewContract
 	public function getEngine()
 	{
 		return $this->engine;
-	}
-
-	/**
-	 * Searches for the given variable and returns its value.
-	 * Local variables will be returned before global variables.
-	 *
-	 * @example  $value = $view->get('foo', 'bar');
-	 *
-	 * If the key is not given or null, the entire data array is returned.
-	 *
-	 * @param  string  $key      The variable name
-	 * @param  mixed   $default  The default value to return 
-	 *
-	 * @return mixed
-	 *
-	 * @throws \InvalidArgumentException
-	 */
-	public function &get($key, $default = null)
-	{
-		if (strpos($key, '.') === false) {
-			if (array_key_exists($key, $this->data)) {
-				return $this->data[$key];
-			} else {
-				throw new InvalidArgumentException(__('view.variableNotSet'));
-			}
-		} else {
-			return value($default);
-		}
-	}
-
-	/**
-	 * Assigns a variable by name. Assigned values will be available as a
-	 * variable within the view file:
-	 *
-	 * This value can be accessed as $var within the view
-	 * @example $view->set(array('food' => 'bread', 'beverage' => 'water'));
-	 *
-	 * @param  string|array  $key    Variable name
-	 * @param  mixed         $value  Value
-	 *
-	 * @return static
-	 */
-	public function set($key, $value = null): static
-	{
-		if (is_array($key) || $key instanceof Traversable) {
-			foreach ($key as $name => $value) {
-				$this->assign($name, $value);
-			}
-		} else {
-			if (strpos($key, '.') === false) {
-				$this->data[$key] = $value;
-			} else {
-				Arr::set($this->data, $key, $value);
-			}
-		}
-
-		return $this;
 	}
 
 	/*
@@ -446,12 +412,10 @@ class View implements ArrayAccess, Webable, ViewContract
 	 * @param  string  $key  Variable name
 	 *
 	 * @return mixed
-	 *
-	 * @throws \Syscodes\Components\LenevorException
 	 */
 	public function &__get($key) 
 	{
-		return $this->get($key);
+		return $this->data[$key];
 	}
 
 	/**
@@ -468,7 +432,7 @@ class View implements ArrayAccess, Webable, ViewContract
 	 */
 	public function __set($key, $value) 
 	{
-		$this->set($key, $value);
+		$this->assign($key, $value);
 	}
 
 	/**
@@ -521,15 +485,13 @@ class View implements ArrayAccess, Webable, ViewContract
 			return $this->macroCall($method, $parameters);
 		}
 
-		if (Str::startsWith($method, 'assign')) {
-			$name = Str::camelcase(substr($method, 4));
-
-			return $this->assign($name, $parameters[0]);
+		if ( ! Str::startsWith($method, 'assign')) {
+			throw new BadMethodCallException(sprintf(
+                'Method %s::%s does not exist.', static::class, $method
+            ));
 		}
 
-		throw new BadMethodCallException(sprintf(
-			'Method %s::%s() does not exist', static::class, $method)
-		);
+		return $this->with(Str::camelcase(substr($method, 4)), $parameters[0]);
 	}
 
 	/**
