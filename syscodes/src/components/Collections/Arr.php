@@ -25,9 +25,10 @@ namespace Syscodes\Components\Support;
 use ArrayAccess;
 use InvalidArgumentException;
 use JsonSerializable;
-use Syscodes\Components\Contracts\Collection\Enumerable;
 use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Contracts\Support\Collectable;
 use Syscodes\Components\Contracts\Support\Jsonable;
+use Syscodes\Components\Support\Traits\Macroable;
 use Traversable;
 
 /**
@@ -35,16 +36,16 @@ use Traversable;
  */
 class Arr
 {
+	use Macroable;
+	
 	/**
 	 * Determine whether the value is accessible in a array.
 	 *
 	 * @param  mixed  $value The default value
 	 *
-	 * @return mixed
-	 *
-	 * @uses   instanceof ArrayAccess
+	 * @return bool
 	 */
-	public static function accessible(mixed $value): mixed
+	public static function accessible($value): bool
 	{
 		return is_array($value) || $value instanceof ArrayAccess;
 	}
@@ -145,15 +146,23 @@ class Arr
 	 * Determine if the given key exists in the provided array.
 	 *
 	 * @param  ArrayAccess|array  $array  The search array
-	 * @param  string|int  $key  The key exist
+	 * @param  string|int|float  $key  The key exist
 	 *
 	 * @return bool
 	 */
 	public static function exists($array, $key): bool
 	{
+		if ($array instanceof Collectable) {
+            return $array->has($key);
+        }
+
 		if ($array instanceof ArrayAccess) {
 			return $array->offsetExists($key);
 		}
+
+		if (is_float($key) || is_null($key)) {
+            $key = (string) $key;
+        }
 		
 		return array_key_exists($key, $array);
 	}
@@ -207,16 +216,29 @@ class Arr
 	 * Flatten a multi-dimensional array into a single level.
 	 * 
 	 * @param  array  $array
+	 * @param  int  $depth
 	 * 
 	 * @return array
 	 */
-	public static function flatten(array $array): array
+	public static function flatten(array $array, $depth = INF): array
 	{
 		$result = [];
 
-		array_walk_recursive($array, function ($value) use (&$result) {
-			$result[] = $value;
-		});
+		foreach ($array as $item) {
+            $item = $item instanceof Collection ? $item->all() : $item;
+
+            if ( ! is_array($item)) {
+                $result[] = $item;
+            } else {
+                $values = $depth === 1
+                    ? array_values($item)
+                    : static::flatten($item, $depth - 1);
+
+                foreach ($values as $value) {
+                    $result[] = $value;
+                }
+            }
+        }
 
 		return $result;
 	}
@@ -234,7 +256,7 @@ class Arr
 		$segments = explode('.', $key);
 		
 		foreach ($segments as $segment) {
-			$results = array();
+			$results = [];
 			
 			foreach ($array as $value) {
 				if (array_key_exists($segment, $value = (array) $value)) {
@@ -263,14 +285,24 @@ class Arr
 			if (empty($array)) {
 				return value($default);
 			}
+
+			if (is_array($array)) {
+                return array_first($array);
+            }
 			
 			foreach ($array as $item) {
 				return $item;
 			}
+
+			return value($default);
 		}
+
+		$array = static::from($array);
 		
 		foreach ($array as $key => $value) { 
-			if ($callback($value, $key)) return $value;
+			if ($callback($value, $key)) {
+				return $value;
+			}
 		}
 
 		return value($default);
@@ -279,7 +311,7 @@ class Arr
 	/**
 	 * Get the underlying array of items from the given argument.
 	 * 
-	 * @param  array|iterable  $items
+	 * @param  array|iterable|Collectable|Arrayable|Traversable|Jsonable|JsonSerializable|object  $items
 	 * 
 	 * @return mixed
 	 * 
@@ -289,7 +321,7 @@ class Arr
 	{
 		return match (true) {
 			is_array($items) => $items,
-			$items instanceof Enumerable => $items->all(),
+			$items instanceof Collectable => $items->all(),
 			$items instanceof Arrayable => $items->toArray(),
 			$items instanceof Traversable => iterator_to_array($items),
 			$items instanceof Jsonable => json_decode($items->toJson(), true),
@@ -351,10 +383,10 @@ class Arr
 	public static function last(array $array, ?callable $callback = null, mixed $default = null)
 	{
 		if (is_null($callback)) {
-			return empty($array) ? value($default) : last($array);
+			return empty($array) ? value($default) : array_last($array);
 		}
 		
-		return static::first(array_reverse($array), $callback, $default);
+		return static::first(array_reverse($array, true), $callback, $default);
 	}
 
 	/**
@@ -768,11 +800,11 @@ class Arr
 	/**
 	 * If the given value is not an array and not null, wrap it in one.
 	 * 
-	 * @param  mixed  $value
+	 * @param  array|null  $value
 	 * 
 	 * @return array
 	 */
-	public static function wrap(mixed $value): array
+	public static function wrap($value)
 	{
 		if (is_null($value)) {
 			return [];

@@ -152,7 +152,7 @@ if ( ! function_exists('head')) {
      */
     function head(array $array)
     {
-        return empty($array) ? false : reset($array);
+        return empty($array) ? false : array_first($array);
     }
 }
 
@@ -166,7 +166,7 @@ if ( ! function_exists('last')) {
      */
     function last(array $array)
     {
-        return empty($array) ? false : end($array);
+        return empty($array) ? false : array_last($array);
     }
 }
 
@@ -181,6 +181,6 @@ if ( ! function_exists('value')) {
      */
     function value(mixed $value, ...$args)
     {
-        return $value instanceof \Closure ? $value($args) : $value;
+        return $value instanceof \Closure ? $value(...$args) : $value;
     }
 }

@@ -24,34 +24,32 @@ namespace Syscodes\Components\Support;
 
 use ArrayAccess;
 use ArrayIterator;
-use Countable;
-use IteratorAggregate;
-use stdClass;
-use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Support\Collectable;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Traits\Enumerates;
+use Syscodes\Components\Support\Traits\Macroable;
 use Traversable;
 use UnitEnum;
 
 /**
  * Allows provide a way for working with arrays of data.
  */
-class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable, Collectable
+class Collection implements ArrayAccess, Collectable
 {
-    use Enumerates;
+    use Enumerates,
+        Macroable;
 
     /**
      * The items contained in the collection.
      * 
-     * @var array $items
+     * @var array
      */
     protected $items = [];
 
     /**
      * Constructor. Create a new Collection instance.
      * 
-     * @param  mixed  $items
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable|null  $items
      * 
      * @return void
      */
@@ -153,7 +151,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
     {
         if (func_num_args() === 1) {
             if ($this->useAsCallable($key)) {
-                $placeholder = new stdClass;
+                $placeholder = new \stdClass;
                 
                 return $this->first($key, $placeholder) !== $placeholder;
             }
@@ -163,7 +161,6 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
 
         return $this->contains($this->operatorCallback(...func_get_args()));
     }
-
 
     /**
      * Chunk the underlying collection array.
@@ -347,7 +344,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
      */
     public function erase($keys): static
     {
-        foreach ((array) $keys as $key) {
+        foreach ($this->getArrayableItems($keys) as $key) {
             $this->offsetUnset($key);
         }
 
@@ -396,7 +393,7 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
      * 
      * @return mixed
      */
-    public function first(?callable $callback = null, mixed $default = null)
+    public function first(?callable $callback = null, $default = null)
     {
         return Arr::first($this->items, $callback, $default);
     }
@@ -414,11 +411,13 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
     /**
      * Get a flattened array of the items in the collection.
      * 
+     * @param  int  $depth
+     * 
      * @return static
      */
-    public function flatten(): static
+    public function flatten($depth = INF): static
     {
-        return $this->newInstance(Arr::flatten($this->items));
+        return $this->newInstance(Arr::flatten($this->items, $depth));
     }
 
     /**
@@ -431,6 +430,8 @@ class Collection implements ArrayAccess, Arrayable, IteratorAggregate, Countable
      */
     public function get($key, mixed $default = null)
     {
+        $key ??= '';
+
         if (array_key_exists($key, $this->items)) {
             return $this->items[$key];
         }

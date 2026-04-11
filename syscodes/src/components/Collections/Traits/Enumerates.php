@@ -25,8 +25,8 @@ namespace Syscodes\Components\Support\Traits;
 use Closure;
 use Exception;
 use JsonSerializable;
-use Syscodes\Components\Contracts\Collection\Enumerable;
 use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Contracts\Support\Collectable;
 use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Collection;
@@ -43,14 +43,14 @@ trait Enumerates
     /**
      * Indicates that the object's string representation should be escaped when __toString is invoked.
      * 
-     * @var bool $escapeWhenLoadingToString
+     * @var bool
      */
     protected $escapeWhenLoadingToString = false;
 
     /**
      * The methods that can be proxied.
      * 
-     * @var array<int, string> $proxies
+     * @var array
      */
     protected static $proxies = [
         'contains',
@@ -79,56 +79,33 @@ trait Enumerates
     /**
      * Create a new collection instance if the value isn't one already.
      * 
-     * @param  mixed  $items
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable|null  $items
+     * @param  mixed  $args
      * 
      * @return static
      */
-    public static function make($items = []): static
+    public static function make($items = [], ...$args): static
     {
-        return new static($items);
-    }
-
-    /**
-     * Collect the values into a collection.
-     *
-     * @return \Syscodes\Components\Support\Collection
-     */
-    public function collect()
-    {
-        return new Collection($this->all());
-    }
-    
-    /**
-     * Create a new instance with no items.
-     * 
-     * @return static
-     */
-    public static function empty(): static
-    {
-        return new static([]);
+        return new static($items, ...$args);
     }
 
     /**
      * Wrap the given value in a collection if applicable.
      *
-     * @template TWrapValue
-     *
      * @param  iterable  $value
+     * @param  mixed  $args
      * 
      * @return array
      */
-    public static function wrap($value)
+    public static function wrap($value, ...$args)
     {
-        return $value instanceof Enumerable
-            ? new static($value)
-            : new static(Arr::wrap($value));
+        return $value instanceof Collectable
+            ? new static($value, ...$args)
+            : new static(Arr::wrap($value), ...$args);
     }
 
     /**
      * Get the underlying items from the given collection if applicable.
-     *
-     * @template TUnwrapKey of array-key
-     * @template TUnwrapValue
      *
      * @param  array  $value
      * 
@@ -136,7 +113,29 @@ trait Enumerates
      */
     public static function unwrap($value)
     {
-        return $value instanceof Enumerable ? $value->all() : $value;
+        return $value instanceof Collectable ? $value->all() : $value;
+    }
+
+    /**
+     * Create a new instance with no items.
+     * 
+     * @param  mixed  $args
+     * 
+     * @return static
+     */
+    public static function empty(...$args): static
+    {
+        return new static([], ...$args);
+    }
+
+    /**
+     * Collect the values into a collection.
+     *
+     * @return \Syscodes\Components\Support\Collection
+     */
+    public function collect(): Collection
+    {
+        return new Collection($this->all());
     }
     
     /**
