@@ -213,6 +213,19 @@ class Arr
 	}
 
 	/**
+	 * Determine if all items pass the given truth test.
+	 * 
+	 * @param  iterable  $array
+	 * @param  \callable  $callback
+	 * 
+	 * @return bool
+	 */
+	public static function every($array, callable $callback): bool
+	{
+		return array_all($array, $callback);
+	}
+
+	/**
 	 * Flatten a multi-dimensional array into a single level.
 	 * 
 	 * @param  array  $array
@@ -313,7 +326,7 @@ class Arr
 	 * 
 	 * @param  array|iterable|Collectable|Arrayable|Traversable|Jsonable|JsonSerializable|object  $items
 	 * 
-	 * @return mixed
+	 * @return list|array
 	 * 
 	 * @throws \InvalidArgumentException
 	 */
@@ -480,19 +493,6 @@ class Arr
 		}
 		
 		return false;
-	}
-	
-	/**
-	 * Determine if all items pass the given truth test.
-	 * 
-	 * @param  iterable  $array
-	 * @param  \callable  $callback
-	 * 
-	 * @return bool
-	 */
-	public static function every($array, callable $callback): bool
-	{
-		return array_all($array, $callback);
 	}
 	
 	/**
