@@ -24,6 +24,7 @@ namespace Syscodes\Components\Support;
 
 use ArrayAccess;
 use ArrayIterator;
+use Syscodes\Components\Contracts\Support\CanBeEscapedWhenLoadToString;
 use Syscodes\Components\Contracts\Support\Collectable;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Traits\Enumerates;
@@ -34,7 +35,7 @@ use UnitEnum;
 /**
  * Allows provide a way for working with arrays of data.
  */
-class Collection implements ArrayAccess, Collectable
+class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectable
 {
     use Enumerates,
         Macroable;
