@@ -183,6 +183,7 @@ return [
     'Syscodes\\Components\\Contracts\\Session\\Middleware\\AuthenticateSession' => SYS_PATH.'src/components/Contracts/Session/Middleware/AuthenticateSession.php',
     'Syscodes\\Components\\Contracts\\Session\\Session' => SYS_PATH.'src/components/Contracts/Session/Session.php',
     'Syscodes\\Components\\Contracts\\Support\\Arrayable' => SYS_PATH.'src/components/Contracts/Support/Arrayable.php',
+    'Syscodes\\Components\\Contracts\\Support\\CanBeEscapedWhenLoadToString' => SYS_PATH.'src/components/Contracts/Support/CanBeEscapedWhenLoadToString.php',
     'Syscodes\\Components\\Contracts\\Support\\Deferrable' => SYS_PATH.'src/components/Contracts/Support/Deferrable.php',
     'Syscodes\\Components\\Contracts\\Support\\Jsonable' => SYS_PATH.'src/components/Contracts/Support/Jsonable.php',
     'Syscodes\\Components\\Contracts\\Support\\MessageBag' => SYS_PATH.'src/components/Contracts/Support/MessageBag.php',
