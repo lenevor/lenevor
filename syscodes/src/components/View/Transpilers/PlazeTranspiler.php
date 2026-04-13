@@ -143,10 +143,16 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
                 $transpiledPath = $this->getTranspilePath($this->getPath())
             );
             
-            if ($this->files->exists($transpiledPath)) {
+            if ( ! $this->files->exists($transpiledPath)) {
                 $this->files->replace($transpiledPath, $contents);
 
                 return;
+            }
+
+            $transpiledHash = $this->files->hash($transpiledPath, 'xxh128');
+
+            if ($transpiledHash !== hash('xxh128', $contents)) {
+                $this->files->replace($transpiledPath, $contents);
             }
         }        
     }
