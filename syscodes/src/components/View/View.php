@@ -491,7 +491,7 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
             ));
 		}
 
-		return $this->with(Str::camelcase(substr($method, 4)), $parameters[0]);
+		return $this->assign(Str::camelcase(substr($method, 4)), $parameters[0]);
 	}
 
 	/**

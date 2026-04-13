@@ -77,11 +77,11 @@ class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, 
      */
     protected function setItems($items): void
     {
-        $this->items = $items instanceof Collection ? $items : Collection::make($items);
+        $this->items = $items instanceof Collection ? $items : new Collection($items);
 
         $this->hasMore = $this->items->count() > $this->perPage;
 
-        $this->items = $this->items->slice(0, $this->perPage)->all();
+        $this->items = $this->items->slice(0, $this->perPage)->items();
     }
     
     /**

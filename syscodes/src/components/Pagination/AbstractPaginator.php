@@ -26,6 +26,8 @@ use ArrayAccess;
 use ArrayIterator;
 use Closure;
 use IteratorAggregate;
+use Stringable;
+use Syscodes\Components\Contracts\Support\CanBeEscapedWhenLoadToString;
 use Syscodes\Components\Contracts\Support\Webable;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Collection;
@@ -36,7 +38,7 @@ use Traversable;
 /**
  * Allows get the links of pagination of database data register.
  */
-abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, Webable
+abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanBeEscapedWhenLoadToString, Webable, Stringable
 {
     use ForwardsCalls;
 
@@ -90,11 +92,11 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, Weba
     protected $currentPage;
 
     /**
-     * Indicates that the paginator's string representation should be escaped when __toString is invoked.
-     *
+     * Indicates that the object's string representation should be escaped when __toString is invoked.
+     * 
      * @var bool
      */
-    protected $escapeWhenCastingToString = false;
+    protected $escapeWhenLoadingToString = false;
     
     /**
      * The URL fragment to add to all URLs.
@@ -740,6 +742,20 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, Weba
 	{
 		$this->items->erase($offset);
 	}
+
+    /**
+     * Indicate that the paginator's string representation should be escaped when __toString is invoked.
+     *
+     * @param  bool
+     * 
+     * @return static
+     */
+    public function escapeWhenLoadingToString($escape = true): static
+    {
+        $this->escapeWhenLoadingToString = $escape;
+
+        return $this;
+    }
     
     /**
      * Render the contents of the paginator to HTML.
@@ -749,6 +765,20 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, Weba
     public function toHtml(): string
     {
         return (string) $this->render();
+    }
+
+    /**
+     * Magic method.
+     * 
+     * Render the contents of the paginator when casting to string.
+     * 
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->escapeWhenLoadingToString
+           ? e((string) $this->render())
+           : (string) $this->render();
     }
     
     /**
@@ -764,33 +794,5 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, Weba
     public function __call($method, $parameters)
     {
         return $this->forwardCallTo($this->getCollection(), $method, $parameters);
-    }
-    
-    /**
-     * Magic method.
-     * 
-     * Render the contents of the paginator when casting to string.
-     * 
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return $this->escapeWhenCastingToString
-           ? e((string) $this->render())
-           : (string) $this->render();
-    }
-
-    /**
-     * Indicate that the paginator's string representation should be escaped when __toString is invoked.
-     *
-     * @param  bool  $escape
-     * 
-     * @return static
-     */
-    public function escapeWhenCastingToString($escape = true): static
-    {
-        $this->escapeWhenCastingToString = $escape;
-
-        return $this;
     }
 }
