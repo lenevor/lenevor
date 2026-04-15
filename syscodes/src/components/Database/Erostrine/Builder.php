@@ -1021,13 +1021,13 @@ class Builder implements BuilderContract
             static::badMethodCallException($method);
         }
 
-        $macro = static::$macros[$method];
+        $callable = static::$macros[$method];
             
-        if ($macro instanceof Closure) {
-            $macro = $macro->bindTo(null, static::class);
+        if ($callable instanceof Closure) {
+            $callable = $callable->bindTo(null, static::class);
         }
         
-        return $macro(...$parameters);       
+        return $callable(...$parameters);       
     }
     
     /**
