@@ -81,7 +81,9 @@ class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, 
 
         $this->hasMore = $this->items->count() > $this->perPage;
 
-        $this->items = $this->items->slice(0, $this->perPage)->items();
+        $this->items = $this->items->slice(0, $this->perPage);
+
+        $this->items = $this->items();
     }
     
     /**

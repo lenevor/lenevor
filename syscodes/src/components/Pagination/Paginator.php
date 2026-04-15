@@ -90,7 +90,7 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
     {
         $this->items = $items instanceof Collection ? $items : new Collection($items);
 
-        $this->items = $this->items->all();
+        $this->items = $this->items();
     }
     
     /**
