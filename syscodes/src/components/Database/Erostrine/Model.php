@@ -23,8 +23,13 @@
 namespace Syscodes\Components\Database\Erostrine;
 
 use ArrayAccess;
+use JsonSerializable;
 use LogicException;
+use Stringable;
+use Symfony\Component\HttpFoundation\Exception\JsonException;
 use Syscodes\Components\Contracts\Support\Arrayable;
+use Syscodes\Components\Contracts\Support\CanBeEscapedWhenLoadToString;
+use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Database\ConnectionResolverInterface;
 use Syscodes\Components\Database\Erostrine\Concerns\GuardsAttributes;
 use Syscodes\Components\Database\Erostrine\Concerns\HasAttributes;
@@ -32,6 +37,7 @@ use Syscodes\Components\Database\Erostrine\Concerns\HasEvents;
 use Syscodes\Components\Database\Erostrine\Concerns\HasRelations;
 use Syscodes\Components\Database\Erostrine\Concerns\HasTimestamps;
 use Syscodes\Components\Database\Erostrine\Concerns\HidesAttributes;
+use Syscodes\Components\Database\Erostrine\Exceptions\JsonEncodingException;
 use Syscodes\Components\Database\Erostrine\Exceptions\MassAssignmentException;
 use Syscodes\Components\Database\Erostrine\Relations\Pivot;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
@@ -41,7 +47,7 @@ use Syscodes\Components\Support\Traits\ForwardsCalls;
 /**
  * Creates a ORM model instance.
  */
-class Model implements Arrayable, ArrayAccess
+class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jsonable, JsonSerializable, Stringable
 {
 	use HasAttributes,
 	    HasEvents,
@@ -57,6 +63,13 @@ class Model implements Arrayable, ArrayAccess
 	 * @var string|null $connection
 	 */
 	protected $connection;
+
+	/**
+     * Indicates that the object's string representation should be escaped when __toString is invoked.
+     * 
+     * @var bool
+     */
+    protected $escapeWhenLoadingToString = false;
 
 	/**
 	 * Indicates if the model exists.
@@ -642,15 +655,10 @@ class Model implements Arrayable, ArrayAccess
 	 */
 	public function newInstance($attributes = [], $exists = false): static
 	{
-		
-		$model = new static;
-		
-		$model->exists = $exists;
-		
-		$model->setConnection($this->getConnectionName());
-		
-		$model->setTable($this->getTable());
-		
+		$model = new static;		
+		$model->exists = $exists;		
+		$model->setConnection($this->getConnectionName());		
+		$model->setTable($this->getTable());		
 		$model->fill((array) $attributes);
 		
 		return $model;
@@ -694,7 +702,7 @@ class Model implements Arrayable, ArrayAccess
 	 * @param  bool  $exists
 	 * @param  string|null  $using
 	 * 
-	 * @return \Syscodes\Components\Database\Eloquent\Relations\Pivot
+	 * @return \Syscodes\Components\Database\Erostrine\Relations\Pivot
 	 */
 	public function newPivot(self $parent, array $attributes, $table, $exists, $using = null)
 	{
@@ -932,6 +940,64 @@ class Model implements Arrayable, ArrayAccess
 	}
 
 	/**
+     * Convert the model instance to JSON.
+     *
+     * @param  int  $options
+
+     * @return string
+     *
+     * @throws \Syscodes\Components\Database\Erostrine\Exceptions\JsonEncodingException
+     */
+    public function toJson($options = 0): string
+    {
+        try {
+            $json = json_encode($this->jsonSerialize(), $options | JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
+            throw JsonEncodingException::forModel($this, $e->getMessage());
+        }
+
+        return $json;
+    }
+
+    /**
+     * Convert the model instance to pretty print formatted JSON.
+     *
+     * @param  int  $options
+
+     * @return string
+     *
+     * @throws \Syscodes\Components\Database\Erostrine\Exceptions\JsonEncodingException
+     */
+    public function toPrettyJson(int $options = 0): string
+    {
+        return $this->toJson(JSON_PRETTY_PRINT | $options);
+    }
+
+    /**
+     * Convert the object into something JSON serializable.
+     *
+     * @return mixed
+     */
+    public function jsonSerialize(): mixed
+    {
+        return $this->toArray();
+    }
+
+	/**
+     * Indicate that the model's string representation should be escaped when __toString is invoked.
+     * 
+     * @param  bool  $escape
+     * 
+     * @return stati
+     */
+    public function escapeWhenLoadingToString($escape = true): static
+    {
+        $this->escapeWhenLoadingToString = $escape;
+        
+        return $this;
+    }
+
+	/**
 	 * Magic method.
 	 * 
 	 * Dynamically retrieve attributes on the model.
@@ -1019,6 +1085,22 @@ class Model implements Arrayable, ArrayAccess
 	}
 
 	/**
+     * Magic method.
+     * 
+     * Convert the collection to its string representation.
+     * 
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->escapeWhenLoadingToString
+                    ? e($this->toJson())
+                    : $this->toJson();
+    }    
+
+	/**
+	 * Magic method.
+	 * 
 	 * Determine if an attribute or relation exists on the model.
 	 * 
 	 * @param  string  $key
@@ -1031,6 +1113,8 @@ class Model implements Arrayable, ArrayAccess
 	}
 	
 	/**
+	 * Magic method.
+	 * 
 	 * Unset an attribute on the model.
 	 * 
 	 * @param  string  $key
