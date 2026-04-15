@@ -311,6 +311,7 @@ return [
     'Syscodes\\Components\\Database\\Erostrine\\Concerns\\HasRelations' => SYS_PATH.'src/components/Database/Erostrine/Concerns/HasRelations.php',
     'Syscodes\\Components\\Database\\Erostrine\\Concerns\\HasTimestamps' => SYS_PATH.'src/components/Database/Erostrine/Concerns/HasTimestamps.php',
     'Syscodes\\Components\\Database\\Erostrine\\Concerns\\HidesAttributes' => SYS_PATH.'src/components/Database/Erostrine/Concerns/HidesAttributes.php',
+    'Syscodes\\Components\\Database\\Erostrine\\Exceptions\\JsonEncodingException' => SYS_PATH.'src/components/Database/Erostrine/Exceptions/JsonEncodingException.php',
     'Syscodes\\Components\\Database\\Erostrine\\Exceptions\\MassAssignmentException' => SYS_PATH.'src/components/Database/Erostrine/Exceptions/MassAssignmentException.php',
     'Syscodes\\Components\\Database\\Erostrine\\Exceptions\\ModelNotFoundException' => SYS_PATH.'src/components/Database/Erostrine/Exceptions/ModelNotFoundException.php',
     'Syscodes\\Components\\Database\\Erostrine\\Exceptions\\RelationNotFoundException' => SYS_PATH.'src/components/Database/Erostrine/Exceptions/RelationNotFoundException.php',
