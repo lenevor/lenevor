@@ -615,6 +615,8 @@ trait Enumerates
     }
     
     /**
+     * Magic method.
+     * 
      * Convert the collection to its string representation.
      * 
      * @return string
