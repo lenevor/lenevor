@@ -36,7 +36,7 @@ class SessionDecorator implements SessionInterface
     /**
      * The Lenevor session store.
      * 
-     * @var \Syscodes\Components\Contracts\Session\Session $store
+     * @var \Syscodes\Components\Contracts\Session\Session
      */
     public readonly Session $store;
 

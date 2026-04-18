@@ -53,21 +53,21 @@ class RouteRegister
     /**
      * The router instance.
      * 
-     * @var \Syscodes\Components\Routing\Router $router
+     * @var \Syscodes\Components\Routing\Router
      */
     protected $router;
     
     /**
      * The attributes to pass on to the router.
      * 
-     * @var array $attributes
+     * @var array
      */
     protected $attributes = [];
     
     /**
      * The methods to dynamically pass through to the router.
      * 
-     * @var array $verbs
+     * @var array
      */
     protected $verbs = [
         'get', 'post', 'put', 'patch', 'delete', 'options', 'any',
@@ -76,7 +76,7 @@ class RouteRegister
     /**
      * The attributes that can be set through this class.
      * 
-     * @var array $allowedAttributes
+     * @var array
      */
     protected $allowedAttributes = [
         'as',
@@ -92,7 +92,7 @@ class RouteRegister
     /**
      * The attributes that are aliased.
      * 
-     * @var array $aliases
+     * @var array
      */
     protected $aliases = [
         'name' => 'as',

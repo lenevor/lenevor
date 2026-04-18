@@ -32,7 +32,7 @@ class RouteParameter
     /**
      * The route instance.
      * 
-     * @var \Syscodes\Components\Routing\Route $route
+     * @var \Syscodes\Components\Routing\Route
      */
     protected $route;
 

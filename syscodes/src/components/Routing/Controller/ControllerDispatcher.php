@@ -37,7 +37,7 @@ class ControllerDispatcher implements ControllerDispatcherContract
     /**
      * The container instance.
      * 
-     * @var \Syscodes\Contracts\Container\Container  $container
+     * @var \Syscodes\Contracts\Container\Container
      */
     protected $container;
 

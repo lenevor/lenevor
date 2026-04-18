@@ -56,21 +56,21 @@ trait Date
     /**
      * Identifier used to get language.
      * 
-     * @var string $locale
+     * @var string
      */
     protected $locale;
 
     /**
      * Get a timezone.
      * 
-     * @var string|object $timezone
+     * @var string|object
      */
     protected $timezone;
 
     /**
      * Format to use when displaying datetime through __toString.
      * 
-     * @var string $toStringFormat
+     * @var string
      */
     protected $toStringFormat = 'yyyy-MM-dd HH:mm:ss';
 

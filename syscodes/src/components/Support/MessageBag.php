@@ -36,14 +36,14 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
     /**
      * All of the registered messages.
      * 
-     * @var array $messages
+     * @var array
      */
     protected $messages = [];
     
     /**
      * Default format for message output.
      * 
-     * @var string $format
+     * @var string
      */
     protected $format = ':message';
 

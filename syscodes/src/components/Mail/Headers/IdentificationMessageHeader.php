@@ -32,14 +32,14 @@ class IdentificationMessageHeader extends BaseHeader
     /**
      * Get the ids.
      * 
-     * @var array $ids
+     * @var array
      */
     private array $ids = [];
     
     /**
      * Gets the ids addresses.
      * 
-     * @var array $idsAddresses
+     * @var array
      */
     private array $idsAddresses = [];
     

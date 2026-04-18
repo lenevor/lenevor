@@ -39,7 +39,7 @@ class RouteUri
     /**
      * The route uri.
      * 
-     * @var string $uri
+     * @var string
      */
     public $uri;
 

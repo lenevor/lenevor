@@ -37,28 +37,28 @@ class FileViewFinder implements ViewFinder
     /**
      * The filesystem instance.
      * 
-     * @var string|object $files
+     * @var string|object
      */
     protected $files;
 
     /**
      * The namespace to file path hints.
      * 
-     * @var array $hints
+     * @var array
      */
     protected $hints = [];
 
     /**
      * The array of active view paths.
      * 
-     * @var array $paths
+     * @var array
      */
     protected $paths;
 
     /**
      * The array of views that have been located.
      * 
-     * @var array $views
+     * @var array
      */
     protected $views = [];
 

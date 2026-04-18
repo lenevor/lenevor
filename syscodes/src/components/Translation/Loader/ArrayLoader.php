@@ -32,7 +32,7 @@ class ArrayLoader implements Loader
     /**
      * All of the translation messages.
      * 
-     * @var array $messages
+     * @var array
      */
     protected $messages = [];
 

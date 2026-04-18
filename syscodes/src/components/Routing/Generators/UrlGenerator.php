@@ -40,28 +40,28 @@ class UrlGenerator implements UrlGeneratorContract
     /**
      * A cached copy of the URL root for the current request.
      * 
-     * @var string|null $cachedRoo
+     * @var string|null
      */
     protected $cachedRoot;
     
     /**
      * A cached copy of the URL scheme for the current request.
      * 
-     * @var string|null $cachedScheme
+     * @var string|null
      */
     protected $cachedScheme;
 
     /**
      * The force URL root.
      * 
-     * @var string $forcedRoot 
+     * @var string 
      */
     protected $forcedRoot;
 
     /**
      * The force Scheme for URLs.
      * 
-     * @var string $forcedScheme
+     * @var string
      */
     protected $forcedScheme;
     
@@ -75,14 +75,14 @@ class UrlGenerator implements UrlGeneratorContract
     /**
      * The Request instance.
      * 
-     * @var object $request
+     * @var object
      */
     protected $request;
     
     /**
      * The root namespace being applied to controller actions.
      * 
-     * @var string $rootNamespace
+     * @var string
      */
     protected $rootNamespace;
     
@@ -96,14 +96,14 @@ class UrlGenerator implements UrlGeneratorContract
     /**
      * The route collection.
      * 
-     * @var \Syscodes\Components\Routing\Collections\RouteCollection $routes
+     * @var \Syscodes\Components\Routing\Collections\RouteCollection
      */
     protected $routes;
     
     /**
      * The session resolver callable.
      * 
-     * @var callable $sessionResolver
+     * @var callable
      */
     protected $sessionResolver;
 

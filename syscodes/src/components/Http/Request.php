@@ -68,14 +68,14 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	/**
 	 * Get the route resolver callback.
 	 * 
-	 * @var \Closure $routeResolver
+	 * @var \Closure
 	 */
 	protected $routeResolver;
 	
 	/**
 	 * The user resolver callback.
 	 * 
-	 * @var \Closure $userResolver
+	 * @var \Closure
 	 */
 	protected $userResolver;
 

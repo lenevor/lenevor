@@ -40,7 +40,7 @@ class RouteUrlGenerator
     /**
      * Characters that should not be URL encoded.
      * 
-     * @var array $dontEncode
+     * @var array
      */
     protected $dontEncode = [
         '%2F' => '/',

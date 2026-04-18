@@ -30,7 +30,7 @@ trait TranspilesLoops
     /**
      * Counter to keep track of nested forelse statements.
      * 
-     * @var int $forElseCounter
+     * @var int
      */
     protected $forElseCounter = 0;
 

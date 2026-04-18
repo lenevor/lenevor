@@ -32,7 +32,7 @@ class ArrayAdapter implements Adapter
     /**
      * Internal storage for array data.
      * 
-     * @var array $data
+     * @var array
      */
     protected $data = [];
 

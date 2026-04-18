@@ -32,7 +32,7 @@ class RouteFileRegister
     /**
      * The router instance.
      *
-     * @var \Syscodes\Components\Routing\Router $router
+     * @var \Syscodes\Components\Routing\Router
      */
     protected $router;
 

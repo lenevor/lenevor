@@ -34,28 +34,28 @@ class ArgonHasher extends AbstractHasher implements Hasher
     /**
      * The default memory cost factor.
      * 
-     * @var int $memory
+     * @var int
      */
     protected $memory = 1024;
     
     /**
      * The default time cost factor.
      * 
-     * @var int $time
+     * @var int
      */
     protected $time = 2;
     
     /**
      * The default threads factor.
      * 
-     * @var int $threads
+     * @var int
      */
     protected $threads = 2;
     
     /**
      * Indicates whether to perform an algorithm check.
      * 
-     * @var bool $verifyAlgorithm
+     * @var bool
      */
     protected $verifyAlgorithm = false;
 

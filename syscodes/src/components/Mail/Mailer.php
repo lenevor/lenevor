@@ -45,56 +45,56 @@ class Mailer implements MailerContract
     /**
      * The event dispatcher instance.
      * 
-     * @var \Syscodes\Components\Contracts\Events\Dispatcher|null $events
+     * @var \Syscodes\Components\Contracts\Events\Dispatcher|null
      */
     protected $events;
     
     /**
      * The global from address and name.
      * 
-     * @var array $from
+     * @var array
      */
     protected $from;
     
     /**
      * The name that is configured for the mailer.
      * 
-     * @var string $name
+     * @var string
      */
     protected $name;
     
     /**
      * The global reply-to address and name.
      * 
-     * @var array $replyTo
+     * @var array
      */
     protected $replyTo;
     
     /**
      * The global return path address.
      * 
-     * @var array $returnPath
+     * @var array
      */
     protected $returnPath;
     
     /**
      * The global to address and name.
      * 
-     * @var array $to
+     * @var array
      */
     protected $to;
     
     /**
      * Get the Transport instance.
      * 
-     * @var \Syscodes\Components\Contracts\Mail\Transport $transport
+     * @var \Syscodes\Components\Contracts\Mail\Transport
      */
     protected $transport;
     
     /**
      * The view factory instance.
      * 
-     * @var \Syscodes\Components\Contracts\View\Factory $views
+     * @var \Syscodes\Components\Contracts\View\Factory
      */
     protected $views;
     

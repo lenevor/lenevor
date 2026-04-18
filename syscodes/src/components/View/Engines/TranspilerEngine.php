@@ -37,21 +37,21 @@ class TranspilerEngine extends PhpEngine
     /**
      * A stack of the last transpiled templates.
      * 
-     * @var array $lastCompiled
+     * @var array
      */
     protected $lastTranspiled = [];
 
     /**
      * The Plaze transpiler instance.
      * 
-     * @var \Syscodes\Components\View\Transpilers\TranspilerInterface $transpiler
+     * @var \Syscodes\Components\View\Transpilers\TranspilerInterface
      */
     protected $transpiler;
     
     /**
      * The view paths that were compiled or are not expired, keyed by the path.
      * 
-     * @var array<string, true> $transpilerOrNotExpired
+     * @var array
      */
     protected $transpilerOrNotExpired = [];
 

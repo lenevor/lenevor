@@ -32,14 +32,14 @@ class FilesystemAdapter implements Filesystem
     /**
      * Get the config to file system.
      * 
-     * @var array $config
+     * @var array
      */
     protected $config = [];
 
     /**
      * Get the driver of file system.
      * 
-     * @var string|object $driver
+     * @var string|object
      */
     protected $driver;
 

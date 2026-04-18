@@ -40,14 +40,14 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
     /**
      * The last available page.
      * 
-     * @var int $lastPage
+     * @var int
      */
     protected $lastPage;
     
     /**
      * The total number of items.
      * 
-     * @var int $total
+     * @var int
      */
     protected $total;
 

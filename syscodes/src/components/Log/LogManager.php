@@ -35,14 +35,14 @@ class LogManager implements LoggerInterface
     /**
      * The application implementation.
      * 
-     * @var \Syscodes\Components\Contracts\Core\Application $app
+     * @var \Syscodes\Components\Contracts\Core\Application
      */
     protected $app;
     
     /**
      * The array of resolved logges.
      * 
-     * @var array $logges
+     * @var array
      */
     protected $logges = [];
 

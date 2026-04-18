@@ -35,14 +35,14 @@ class HttpResponseException extends RuntimeException
     /**
      * Gets the response instance.
      * 
-     * @var \Syscodes\Components\Http\Response $response
+     * @var \Syscodes\Components\Http\Response
      */
     protected $response;
 
     /**
      * Constructor. The HttpResponseException class instance.
      * 
-     * @param  \Syscodes\Components\Http\Response  $response
+     * @param  \Syscodes\Components\Http\Response
      * 
      * @return void
      */

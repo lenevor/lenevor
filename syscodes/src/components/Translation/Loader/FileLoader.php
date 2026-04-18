@@ -35,14 +35,14 @@ class FileLoader implements LoaderContract
     /**
      * The filesystem instance.
      * 
-     * @var \Syscodes\Components\Filesystem\Filesystem $files
+     * @var \Syscodes\Components\Filesystem\Filesystem
      */
     protected $files;
 
     /**
      * The default path for the loader.
      * 
-     * @var string $path
+     * @var string
      */
     protected $path;
 

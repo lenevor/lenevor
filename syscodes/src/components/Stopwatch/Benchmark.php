@@ -33,7 +33,7 @@ class Benchmark
     /**
      * List all the timers.
      * 
-     * @var array $timers
+     * @var array
      */
     protected $timers = [];
 

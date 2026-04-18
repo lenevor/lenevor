@@ -32,21 +32,21 @@ trait ManagesStacks
     /**
      * Get captured prepend sections.
      * 
-     * @var array $prepends
+     * @var array
      */
     protected $prepends = [];
 
     /**
      * Get captured push sections.
      * 
-     * @var array $push
+     * @var array
      */
     protected $push = [];
 
     /**
      * The stack push sections.
      * 
-     * @var array $pushStack
+     * @var array
      */
     protected $pushStack = [];
 

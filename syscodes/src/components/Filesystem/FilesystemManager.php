@@ -33,21 +33,21 @@ class FilesystemManager implements Factory
     /**
      * The application instance.
      * 
-     * @var \Syscodes\Components\Contracts\Core\Application $app
+     * @var \Syscodes\Components\Contracts\Core\Application
      */
     protected $app;
     
     /**
      * The registered custom driver creators.
      * 
-     * @var array $cumtomCreators
+     * @var array
      */
     protected $customCreators = [];
     
     /**
      * The array of resolved filesystem drivers.
      * 
-     * @var array $disks
+     * @var array
      */
     protected $disks = [];
 

@@ -32,28 +32,28 @@ class MimeTypes
     /**
      * Gets the MIME types by default.
      * 
-     * @var MimeTypes $default
+     * @var MimeTypes
      */
     protected static MimeTypes $default;
 
     /**
      * The extension of mimetypes.
      * 
-     * @var array $extensions
+     * @var array
      */
     protected array $extensions;
 
     /**
      * The guessers instance in array.
      * 
-     * @var array $guessers
+     * @var array
      */
     protected array $guessers = [];
 
     /**
      * Get the mimetypes.
      * 
-     * @var array $mimeTypes
+     * @var array
      */
     protected array $mimeTypes;
 

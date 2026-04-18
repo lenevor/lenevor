@@ -58,7 +58,7 @@ class CookieSessionHandler implements SessionHandlerInterface
     /**
      * The request instance.
      * 
-     * @var \Symfony\Component\HttpFoundation\Request;
+     * @var \Symfony\Component\HttpFoundation\Request
      */
     protected $request;
 

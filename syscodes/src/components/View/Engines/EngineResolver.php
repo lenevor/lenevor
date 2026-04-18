@@ -33,14 +33,14 @@ class EngineResolver
     /**
      * The array of engine resolvers.
      * 
-     * @var array $resolvers
+     * @var array
      */
     protected $resolvers = [];
 
     /**
      * The resolved engine instances.
      * 
-     * @var array $resolved
+     * @var array
      */
     protected $resolved = [];
 

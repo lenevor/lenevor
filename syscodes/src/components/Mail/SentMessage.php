@@ -35,7 +35,7 @@ class SentMessage
     /**
      * The base SentMessage instance.
      * 
-     * @var \Syscodes\Components\Mail\Helpers\BaseSentMessage $sentMessage
+     * @var \Syscodes\Components\Mail\Helpers\BaseSentMessage
      */
     protected $sentMessage;
     

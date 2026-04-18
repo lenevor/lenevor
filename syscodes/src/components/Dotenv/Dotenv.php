@@ -33,21 +33,21 @@ final class Dotenv
     /**
      * The Loader instance.
      * 
-     * @var \Syscodes\Components\Dotenv\Loader\Loader $loader
+     * @var \Syscodes\Components\Dotenv\Loader\Loader
      */
     protected $loader;
 
     /**
      * The Repository creator instance.
      * 
-     * @var \Syscodes\Components\Dotenv\Repository\RepositoryCreator $repository
+     * @var \Syscodes\Components\Dotenv\Repository\RepositoryCreator
      */
     protected $repository;
 
     /**
      * The file store instance.
      * 
-     * @var \Syscodes\Components\Dotenv\Repository\FileStore $store
+     * @var \Syscodes\Components\Dotenv\Repository\FileStore
      */
     protected $store;
 

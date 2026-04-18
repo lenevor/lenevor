@@ -32,14 +32,14 @@ class Same extends Rules
     /** 
      * The message depends of attribute.
      * 
-     * @var string $message
+     * @var string
      */
     protected $message = "The :attribute must be same with :field";
 
     /**
      * The fillable params.
      * 
-     * @var array $fillableParams
+     * @var array
      */
     protected $fillableParams = ['field'];
 

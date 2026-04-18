@@ -35,7 +35,7 @@ trait Macroable
     /**
      * The registered string macros.
      * 
-     * @var array $macros
+     * @var array
      */
     protected static $macros = [];
     

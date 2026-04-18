@@ -37,14 +37,14 @@ class Encrypter implements EncrypterContract
     /**
      * The algoritm used encryption.
      * 
-     * @var string $cipher
+     * @var string
      */
     protected $cipher;
 
     /**
      * The key / seed being used.
      * 
-     * @var string $key
+     * @var string
      */
     protected $key;
 

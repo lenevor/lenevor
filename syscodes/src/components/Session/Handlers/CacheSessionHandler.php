@@ -33,14 +33,14 @@ class CacheSessionHandler implements SessionHandlerInterface
     /**
      * The cache repository instance.
      * 
-     * @var \Syscodes\Components\Contracts\Cache\Store $cache
+     * @var \Syscodes\Components\Contracts\Cache\Store
      */
     protected $cache;
 
     /**
      * The number of minutes the session should be valid.
      * 
-     * @var int $minutes
+     * @var int
      */
     protected $minutes;
 

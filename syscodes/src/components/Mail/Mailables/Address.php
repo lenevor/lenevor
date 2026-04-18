@@ -36,21 +36,21 @@ final class Address
     /**
      * Get the idn address encoder.
      * 
-     * @var IdnAddressEncoder $encoder
+     * @var IdnAddressEncoder
      */
     protected static IdnAddressEncoder $encoder;
 
     /**
      * The recipient's email address.
      * 
-     * @var string $address
+     * @var string
      */
     protected $address;
 
     /**
      * The recipient's name.
      * 
-     * @var string|null $name
+     * @var string|null
      */
     protected $name;
 
@@ -65,7 +65,7 @@ final class Address
     public function __construct(string $address, string $name = '')
     {
         $this->address = trim($address);
-        $this->name    = trim(str_replace(["\n", "\r"], '', $name));      
+        $this->name = trim(str_replace(["\n", "\r"], '', $name));      
     }
 
     /**

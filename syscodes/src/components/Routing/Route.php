@@ -30,7 +30,7 @@ use Symfony\Component\Routing\Route as SymfonyRoute;
 use Syscodes\Components\Container\Container;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
 use Syscodes\Components\Http\Request;
-use Syscodes\Components\Routing\Contracts\ControllerDispatcher as controllerDispatcherContract;
+use Syscodes\Components\Routing\Contracts\ControllerDispatcher as ControllerDispatcherContract;
 use Syscodes\Components\Routing\ControllerDispatcher;
 use Syscodes\Components\Routing\Matching\HostValidator;
 use Syscodes\Components\Routing\Matching\MethodValidator;
@@ -52,14 +52,14 @@ class Route
 	/**
 	 * The validators used by the routes.
 	 * 
-	 * @var array $validators
+	 * @var array
 	 */
 	public static $validators;
 	
 	/**
 	 * Action that the route will use when called.
 	 *
-	 * @var \Closure|string|array $action
+	 * @var \Closure|string|array
 	 */
 	public $action;
 	
@@ -73,77 +73,77 @@ class Route
 	/**
 	 * The compiled version of the route.
 	 * 
-	 * @var \Syscodes\Bundles\ApplicationBundle\Routing\CompiledRoute|string $compiled
+	 * @var \Syscodes\Bundles\ApplicationBundle\Routing\CompiledRoute|string
 	 */
 	public $compiled;
 
 	/**
 	 * The computed gathered middleware.
 	 * 
-	 * @var array|null $computedMiddleware
+	 * @var array|null
 	 */
 	public $computedMiddleware;
 
 	/**
 	 * The container instance used by the route.
 	 * 
-	 * @var \Syscodes\Components\Container\Container $container
+	 * @var \Syscodes\Components\Container\Container
 	 */
 	protected $container;
 
 	/**
 	 * The controller instance.
 	 * 
-	 * @var string $controller
+	 * @var string
 	 */
 	public $controller;
 
 	/**
 	 * The default values for the route.
 	 * 
-	 * @var array $defaults
+	 * @var array
 	 */
 	public $defaults = [];
 
 	/**
 	 * Indicates whether the route is a fallback route.
 	 * 
-	 * @var bool $fallback
+	 * @var bool
 	 */
 	protected $fallback = false;
 
 	/**
 	 * Variable of HTTP method.
 	 *  
-	 * @var array|string $method
+	 * @var array|string
 	 */
 	public $method;
 
 	/**
 	 * The array of matched parameters.
 	 * 
-	 * @var array $parameters
+	 * @var array
 	 */
 	public $parameters = [];
 
 	/**
 	 * The parameter names for the route.
 	 * 
-	 * @var array|null $parameterNames
+	 * @var array|null
 	 */
 	public $parameterNames;
 
 	/**
 	 * The URI pattern the route responds to.
 	 *
-	 * @var string $uri
+	 * @var string
 	 */
 	public $uri;
 
 	/**
 	 * Contains the arguments of the current route.
 	 *
-	 * @var array $where
+	 * @var array
 	 */
 	public $wheres = [];
 

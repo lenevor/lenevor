@@ -35,21 +35,21 @@ class FileSessionHandler implements SessionHandlerInterface
     /**
      * The filesystem instance.
      * 
-     * @var \Syscodes\Components\Filesystem\filesystem $files
+     * @var \Syscodes\Components\Filesystem\filesystem
      */
     protected $files;
 
     /**
      * The file name.
      * 
-     * @var string $path
+     * @var string
      */
     protected $path;
 
     /**
      * The number of minutes the session should be valid.
      * 
-     * @var int $minutes
+     * @var int
      */
     protected $minutes;
 

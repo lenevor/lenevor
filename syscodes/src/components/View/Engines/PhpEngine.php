@@ -34,7 +34,7 @@ class PhpEngine implements Engine
     /**
      * The Filesystem instance
      * 
-     * @var \Syscodes\Components\Filesystem\Filesystem $files
+     * @var \Syscodes\Components\Filesystem\Filesystem
      */
     protected $files;
     

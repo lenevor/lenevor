@@ -32,7 +32,7 @@ class WebString implements Webable
     /**
      * The HTML string.
      * 
-     * @var string $html
+     * @var string
      */
     protected $html;
 

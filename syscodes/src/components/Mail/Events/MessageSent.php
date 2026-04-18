@@ -33,14 +33,14 @@ class MessageSent
     /**
      * The message data.
      * 
-     * @var array $data
+     * @var array
      */
     public $data;
     
     /**
      * The message that was sent.
      * 
-     * @var \Syscodes\Components\Mail\SentMessage $sent
+     * @var \Syscodes\Components\Mail\SentMessage
      */
     public $sent;
     

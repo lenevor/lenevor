@@ -32,21 +32,21 @@ abstract class Facade
     /**
      * The application instance being facaded.
      * 
-     * @var array|object $applications
+     * @var array|object
      */
     protected static $applications;
     
     /**
      * Indicates if the resolved instance should be cached.
      * 
-     * @var bool $cached
+     * @var bool
      */
     protected static $cached = true;
 
     /**
      * Resolved instances of objects in facade.
      * 
-     * @var array $resolvedInstance
+     * @var array
      */
     protected static $resolvedInstance;
 

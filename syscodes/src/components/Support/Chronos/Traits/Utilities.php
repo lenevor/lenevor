@@ -34,7 +34,7 @@ trait Utilities
     /**
 	 * Used to check time string to determine if it is relative time or not.
 	 *
-	 * @var string $relativePattern
+	 * @var string
 	 */
     protected static $relativePattern = '/this|next|last|tomorrow|yesterday|midnight|today|[+-]|first|last|ago/i';
 

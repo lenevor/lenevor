@@ -32,14 +32,14 @@ class Digits extends Rules
     /** 
      * The message depends of attribute.
      * 
-     * @var string $message
+     * @var string
      */
     protected $message = "The :attribute must be numeric and must have an exact length of :length";
     
     /**
      * The fillable params.
      * 
-     * @var array $fillableParams
+     * @var array
      */
     protected $fillableParams = ['length'];
 

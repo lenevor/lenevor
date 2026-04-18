@@ -32,19 +32,21 @@ class Date extends Rules
     /** 
      * The message depends of attribute.
      * 
-     * @var string $message
+     * @var string
      */
     protected $message = "The :attribute is not valid date format";
     
     /**
      * The fillable params.
      * 
-     * @var array $fillableParams
+     * @var array
      */
     protected $fillableParams = ['format'];
 
     /**
      * The parameters according to the type of rule.
+     * 
+     * @var array
      */
     protected $params = [
         'format' => 'Y-m-d'

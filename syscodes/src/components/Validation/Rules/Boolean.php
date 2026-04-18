@@ -32,7 +32,7 @@ class Boolean extends Rules
     /** 
      * Get the message.
      * 
-     * @var string $message
+     * @var string
      */
     protected $message = "The :attribute must be a boolean";
 

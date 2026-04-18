@@ -32,7 +32,7 @@ class Rules
     /**
      * Get the words that should uncountables.
      * 
-     * @var array $uncountables
+     * @var array
      */
     protected $uncountables;
 

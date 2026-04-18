@@ -34,28 +34,28 @@ abstract class Manager
     /**
      * The configuration repository instance.
      * 
-     * @var \Syscodes\Components\Contracts\Config\Configure $config
+     * @var \Syscodes\Components\Contracts\Config\Configure
      */
     protected $config;
 
     /**
      * The container instance.
      * 
-     * @var \Syscodes\Components\Contracts\Container\Container $container
+     * @var \Syscodes\Components\Contracts\Container\Container
      */
     protected $container;
 
     /**
      * The registered custom driver creators.
      * 
-     * @var array $customCreators
+     * @var array
      */
     protected $customCreators = [];
 
     /**
      * The array of created drivers.
      * 
-     * @var array $drivers
+     * @var array
      */
     protected $drivers = [];
 

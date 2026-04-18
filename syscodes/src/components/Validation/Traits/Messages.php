@@ -30,7 +30,7 @@ trait Messages
     /** 
      * The message implementation.
      * 
-     * @var array $messages
+     * @var array
      */
     protected $messages = [];
     

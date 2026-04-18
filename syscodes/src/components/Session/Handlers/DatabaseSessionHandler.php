@@ -40,28 +40,28 @@ class DatabaseSessionHandler implements SessionHandlerInterface
     /**
      * The database connection instance.
      *
-     * @var \Syscodes\Components\Database\Connections\Connection $connection
+     * @var \Syscodes\Components\Database\Connections\Connection
      */
     protected $connection;
 
     /**
      * The name of the session table.
      *
-     * @var string $table
+     * @var string
      */
     protected $table;
 
     /**
      * The number of minutes the session should be valid.
      *
-     * @var int $minutes
+     * @var int
      */
     protected $minutes;
 
     /**
      * The container instance.
      *
-     * @var \Syscodes\Components\Contracts\Container\Container $container
+     * @var \Syscodes\Components\Contracts\Container\Container
      */
     protected $container;
 
@@ -86,7 +86,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface
         ConnectionInterface $connection,
         string $table,
         int $minutes,
-        Container $container = null
+        ?Container $container = null
     ) {
         $this->table      = $table;
         $this->minutes    = $minutes;

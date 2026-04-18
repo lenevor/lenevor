@@ -35,14 +35,14 @@ class Logger implements LoggerInterface
     /**
      * The underlying logger implementation.
      * 
-     * @var \Psr\Log\LoggerInterface $logger
+     * @var \Psr\Log\LoggerInterface
      */
     protected $logger;
 
     /**
      * Array of log levels.
      * 
-     * @var array $loglevels
+     * @var array
      */
     protected $logLevels = [
         LogLevel::EMERGENCY => 0,

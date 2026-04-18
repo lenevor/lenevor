@@ -30,7 +30,7 @@ trait ManagesTranslations
     /**
      * Gets the translation replacements.
      * 
-     * @var array $replacements
+     * @var array
      */
     protected $replacements = [];
 

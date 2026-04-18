@@ -35,35 +35,35 @@ class Email extends Message
     /**
      * Get the attachements.
      * 
-     * @var array $attachments
+     * @var array
      */
     protected array $attachments = [];
 
     /**
      * Get the html.
      * 
-     * @var resource|string|null $html
+     * @var resource|string|null
      */
     protected $html;
     
     /**
      * Get the html charset.
      * 
-     * @var string|null $htmlCharset
+     * @var string|null
      */
     protected ?string $htmlCharset = null;
     
     /**
      * Get the text.
      * 
-     * @var resource|string|null $text
+     * @var resource|string|null
      */
     protected $text;
     
     /**
      * Get the text charset.
      * 
-     * @var string|null $textCharset
+     * @var string|null
      */
     protected ?string $textCharset = null;
 

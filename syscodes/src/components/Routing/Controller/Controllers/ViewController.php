@@ -34,7 +34,7 @@ class ViewController extends Controller
     /**
      * The response factory implementation.
      * 
-     * @var \Syscodes\Components\Routing\Supported\RouteResponse $response
+     * @var \Syscodes\Components\Routing\Supported\RouteResponse
      */
     protected $response;
 

@@ -32,7 +32,7 @@ final class PathHeader extends BaseHeader
     /**
      * Get the address.
      * 
-     * @var Address $address
+     * @var Address
      */
     protected Address $address;
     

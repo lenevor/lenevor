@@ -36,7 +36,7 @@ trait Factory
     /**
      * Get the test of date now.
      * 
-     * @var object|string $testNow
+     * @var object|string
      */
     protected static $testNow;
 

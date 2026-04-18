@@ -32,7 +32,7 @@ class ViewErrorBag implements Countable
     /**
      * The array of the view error bags.
      * 
-     * @var array $bags
+     * @var array
      */
     protected $bags = [];
     

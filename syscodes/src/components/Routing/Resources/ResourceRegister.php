@@ -34,21 +34,21 @@ class ResourceRegister
     /**
      * The parameters set for this resource instance.
      * 
-     * @param array|string $parameters
+     * @param array|string
      */
     protected static $parameters;
 
     /**
      * The router instance.
      * 
-     * @var \Syscodes\Components\Routing\Router $router
+     * @var \Syscodes\Components\Routing\Router
      */
     protected $router;
 
     /**
      * The defaults actions for a resource controller.
      * 
-     * @var array $resourceDefaults
+     * @var array
      */
     protected $resourceDefaults = [
         'index', 'create', 'store', 'show', 'edit', 'update', 'erase'
@@ -57,7 +57,7 @@ class ResourceRegister
     /**
      * The verbs used in the resource URIs.
      * 
-     * @param array $verbs
+     * @param array
      */
     protected static $verbs = [
         'create' => 'create',

@@ -43,7 +43,7 @@ class Flowing implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable, Js
     /**
      * All of the attributes set on the container.
      * 
-     * @var array $attributes
+     * @var array
      */
     protected $attributes = [];
 

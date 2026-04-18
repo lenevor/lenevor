@@ -161,7 +161,7 @@ class NullDispatcher implements DispatcherContract
     }
 
     /**
-     * Method magic.
+     * Magic method.
      * 
      * Dynamically pass method calls to the underlying dispatcher.
      *

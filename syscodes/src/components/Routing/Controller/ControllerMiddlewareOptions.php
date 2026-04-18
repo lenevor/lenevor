@@ -31,7 +31,7 @@ class ControllerMiddlewareOptions
     /**
      * The middleware options.
      * 
-     * @var array $options
+     * @var array
      */
     protected $options;
     

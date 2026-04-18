@@ -45,21 +45,21 @@ class MailManager implements FactoryContract
     /**
      * The application instance.
      * 
-     * @var \Syscodes\Components\Contracts\Core\Application $app
+     * @var \Syscodes\Components\Contracts\Core\Application
      */
     protected $app;
     
     /**
      * The registered custom driver creators.
      * 
-     * @var array $cumstomCreators
+     * @var array
      */
     protected $customCreators = [];
     
     /**
      * The array of resolved mailers.
      * 
-     * @var array $mailers
+     * @var array
      */
     protected $mailers = [];
 

@@ -33,7 +33,7 @@ class RedisManager
     /**
      * The host address of the database.
      * 
-     * @var array $clients
+     * @var array
      */
     protected $clients;
 

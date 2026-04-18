@@ -36,14 +36,14 @@ class BcryptHasher extends AbstractHasher implements Hasher
     /**
      * The default cost factor.
      * 
-     * @var int $rounds
+     * @var int
      */
     protected $rounds = 10;
     
     /**
      * Indicates whether to perform an algorithm check.
      * 
-     * @var bool $veryAlgoritm
+     * @var bool
      */
     protected $verifyAlgorithm = false;
     

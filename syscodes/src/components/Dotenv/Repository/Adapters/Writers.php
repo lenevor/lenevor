@@ -32,7 +32,7 @@ final class Writers implements Writer
     /**
      * The set of writers to use.
      * 
-     * @var \Syscodes\Components\Dotenv\Repository\Adapters\Writers $writers
+     * @var \Syscodes\Components\Dotenv\Repository\Adapters\Writers
      */
     protected $writers;
 

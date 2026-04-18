@@ -48,140 +48,140 @@ class Mailbox implements MailboxContract, Renderable
     /**
      * The callback that should be invoked while building the view data.
      * 
-     * @var callable $viewDataCallback
+     * @var callable
      */
     public static $viewDataCallback;
 
     /**
      * The attachments for the message.
      * 
-     * @var array $attachments
+     * @var array
      */
     public $attachments = [];
     
     /**
      * The "bcc" recipients of the message.
      * 
-     * @var array $bcc
+     * @var array
      */
     public $bcc = [];
     
     /**
      * The callbacks for the message.
      * 
-     * @var array $callbacks
+     * @var array
      */
     public $callbacks = [];
     
     /**
      * The "cc" recipients of the message.
      * 
-     * @var array $cc
+     * @var array
      */
     public $cc = [];
     
     /**
      * The attachments from a storage disk.
      * 
-     * @var array $diskAttachments
+     * @var array
      */
     public $diskAttachments = [];
     
     /**
      * The person the message is from.
      * 
-     * @var array $from
+     * @var array
      */
     public $from = [];
     
     /**
      * The HTML to use for the message.
      * 
-     * @var string $html
+     * @var string
      */
     protected $html;
     
     /**
      * The locale of the message.
      * 
-     * @var string $locale
+     * @var string
      */
     public $locale;
     
     /**
      * The name of the mailer that should send the message.
      * 
-     * @var string $mailer
+     * @var string
      */
     public $mailer;
     
     /**
      * The metadata for the message.
      * 
-     * @var array $metadata
+     * @var array
      */
     protected $metadata = [];
     
     /**
      * The raw attachments for the message.
      * 
-     * @var array $rawAttachments
+     * @var array
      */
     public $rawAttachments = [];
     
     /**
      * The "reply to" recipients of the message.
      * 
-     * @var array $replyTo
+     * @var array
      */
     public $replyTo = [];
     
     /**
      * The subject of the message.
      * 
-     * @var string $subject
+     * @var string
      */
     public $subject;
     
     /**
      * The tags for the message.
      * 
-     * @var array $tags
+     * @var array
      */
     protected $tags = [];
     
     /**
      * The plain text view to use for the message.
      * 
-     * @var string $textView
+     * @var string
      */
     public $textView;
     
     /**
      * The name of the theme that should be used when formatting the message.
      * 
-     * @var string|null $theme
+     * @var string|null
      */
     public $theme;
     
     /**
      * The "to" recipients of the message.
      * 
-     * @var array $to
+     * @var array
      */
     public $to = [];
     
     /**
      * The view to use for the message.
      * 
-     * @var string $view
+     * @var string
      */
     public $view;
     
     /**
      * The view data for the message.
      * 
-     * @var array $viewData
+     * @var array
      */
     public $viewData = [];
 

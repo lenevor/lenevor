@@ -32,21 +32,21 @@ trait UserRoutesCondition
     /**
      * Gets the host.
      * 
-     * @var string $host
+     * @var string
      */
     protected $host;
 
     /**
      * Gets the port.
      * 
-     * @var int $port
+     * @var int
      */
     protected $port;
 
     /**
      * Gets the scheme.
      * 
-     * @var string $scheme
+     * @var string
      */
     protected $scheme;
 

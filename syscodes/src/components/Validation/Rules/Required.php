@@ -35,14 +35,14 @@ class Required extends Rules
     /**
      * The attribute if is implicit.
      * 
-     * @var bool $implicit
+     * @var bool
      */
     protected $implicit = true;
 
     /** 
      * The message depends of attribute.
      * 
-     * @var string $message
+     * @var string
      */
     protected $message = "The :attribute is required";
     

@@ -30,14 +30,14 @@ class AggregateServiceProvider extends ServiceProvider
     /**
      * The provider class names.
      * 
-     * @var array $providers
+     * @var array
      */
     protected $providers = [];
     
     /**
      * An array of the service provider instances.
      * 
-     * @var array $instances
+     * @var array
      */
     protected $instances = [];
     

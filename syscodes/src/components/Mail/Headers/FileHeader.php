@@ -30,7 +30,7 @@ final class FileHeader extends BaseHeader
     /**
      * Get the value.
      * 
-     * @var string $value
+     * @var string
      */
     protected string $value;
     

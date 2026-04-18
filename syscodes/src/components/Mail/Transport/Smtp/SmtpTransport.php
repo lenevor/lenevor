@@ -42,42 +42,42 @@ class SmtpTransport extends AbstractTransport
     /**
      * Get the domain.
      * 
-     * @var string $domain
+     * @var string
      */
     protected string $domain = '[127.0.0.1]';
     
     /**
      * Get the last message time.
      * 
-     * @var float $lastMessageTime
+     * @var float
      */
     protected float $lastMessageTime = 0;
 
     /**
      * Get the result.
      * 
-     * @var string $metaResult
+     * @var string
      */
     protected string $mtaResult = '';
     
     /**
      * Get the pin in seconds.
      * 
-     * @var int $pingThreshold
+     * @var int
      */
     protected int $pingThreshold = 100;
     
     /**
      * Indicates the initialize of variable as boolean.
      * 
-     * @var bool $started
+     * @var bool
      */
     protected bool $started = false;
 
     /**
      * The abstract stream instance.
      * 
-     * @var AbstractStream $stream
+     * @var AbstractStream
      */
     protected AbstractStream $stream;
 
@@ -90,7 +90,7 @@ class SmtpTransport extends AbstractTransport
      * 
      * @return void
      */
-    public function __construct(AbstractStream $stream = null, Dispatcher $dispatcher = null, LoggerInterface $logger = null)
+    public function __construct(?AbstractStream $stream = null, ?Dispatcher $dispatcher = null, ?LoggerInterface $logger = null)
     {
         parent::__construct($dispatcher, $logger);
         
@@ -147,7 +147,7 @@ class SmtpTransport extends AbstractTransport
      * 
      * @return SentMessage|null
      */
-    public function send(RawMessage $message, Envelope $envelope = null): ?BaseSentMessage
+    public function send(RawMessage $message, ?Envelope $envelope = null): ?BaseSentMessage
     {
         try {
             $message = parent::send($message, $envelope);

@@ -34,7 +34,7 @@ abstract class ServiceProvider
     /**
      * The application instance.
      * 
-     * @var \Syscodes\Components\Contracts\Core\Application $app
+     * @var \Syscodes\Components\Contracts\Core\Application
      */
     protected $app;
     

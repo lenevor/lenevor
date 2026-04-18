@@ -32,14 +32,14 @@ class SplFileInfo extends BaseSplFileInfo
     /**
      * Gets the relative path.
      * 
-     * @var string $relativePath
+     * @var string
      */
     protected $relativePath;
 
     /**
      * Gets the relative path name.
      * 
-     * @var string $relativePathname
+     * @var string
      */
     protected $relativePathname;
 

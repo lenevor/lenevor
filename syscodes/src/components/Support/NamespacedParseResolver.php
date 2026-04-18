@@ -31,7 +31,7 @@ class NamespacedParseResolver
     /**
      * A cache of the parsed items.
      * 
-     * @var array $parsed
+     * @var array
      */
     protected $parsed = [];
 

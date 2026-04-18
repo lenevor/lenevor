@@ -35,14 +35,14 @@ class Envelope
     /**
      * Gets the recipients of emails.
      * 
-     * @var array $recipients
+     * @var array
      */
     private array $recipients = [];
 
     /**
      * Gets the sender of email.
      * 
-     * @var Address $senderEnvelope
+     * @var Address
      */
     protected Address $senderEnvelope;
     

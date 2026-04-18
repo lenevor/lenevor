@@ -34,28 +34,28 @@ class RouteCollection extends BaseRouteCollection
     /**
      * Gets a table of routes by controller action.
      * 
-     * @var \Syscodes\Components\Routing\Route[] $actionList
+     * @var \Syscodes\Components\Routing\Route[]
      */
     protected $actionList = [];
 
     /**
      * An array set to all of the routes.
      * 
-     * @var \Syscodes\Components\Routing\Route[] $allRoutes
+     * @var \Syscodes\Components\Routing\Route[]
      */
     protected $allRoutes = [];
 
     /**
      * Gets a table of routes by their names.
      * 
-     * @var \Syscodes\Components\Routing\Route[] $nameList
+     * @var \Syscodes\Components\Routing\Route[]
      */
     protected $nameList = [];
 
     /**
      * An array of the routes keyed by method.
      * 
-     * @var array $routes
+     * @var array
      */
     protected $routes = [];
 

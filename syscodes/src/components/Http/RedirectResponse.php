@@ -48,14 +48,14 @@ class RedirectResponse extends BaseRedirectResponse
     /**
      * The request instance.
      * 
-     * @var \Syscodes\Components\Http\Request $request
+     * @var \Syscodes\Components\Http\Request
      */
     protected $request;
 
     /**
      * The session store implementation.
      * 
-     * @var \Syscodes\Components\Session\Store $session
+     * @var \Syscodes\Components\Session\Store
      */
     protected $session;
 

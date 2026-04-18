@@ -36,7 +36,7 @@ class FileFilterIterator extends FilterIterator
     /**
      * Get the mode for a given file.
      * 
-     * @var int $mode
+     * @var int
      */
     private int $mode;
     

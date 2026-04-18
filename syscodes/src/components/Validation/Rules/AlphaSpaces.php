@@ -32,7 +32,7 @@ class AlphaSpaces extends Rules
     /** 
      * The message depends of attribute.
      * 
-     * @var string $message
+     * @var string
      */
     protected $message = "The :attribute may only allows alphabet and spaces";
 

@@ -32,7 +32,7 @@ class ProcessStream extends AbstractStream
     /**
      * Get the command.
      * 
-     * @var string $command
+     * @var string
      */
     protected string $command;
 

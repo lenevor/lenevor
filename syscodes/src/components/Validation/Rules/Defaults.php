@@ -32,14 +32,14 @@ class Defaults extends Rules
     /** 
      * The message depends of attribute.
      * 
-     * @var string $message
+     * @var string
      */
     protected $message = "The :attribute default is :default";
     
     /**
      * The fillable params.
      * 
-     * @var array $fillableParams
+     * @var array
      */
     protected $fillableParams = ['default'];
 

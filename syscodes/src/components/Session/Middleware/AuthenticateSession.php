@@ -23,11 +23,11 @@
 namespace Syscodes\Components\Session\Middleware;
 
 use Closure;
-use Syscodes\Components\Contracts\Session\Middleware\AuthenticateSession as AuthenticateSessionContract;
 use Syscodes\Components\Auth\Exceptions\AuthenticationException;
+use Syscodes\Components\Contracts\Auth\Factory as AuthFactory;
+use Syscodes\Components\Contracts\Session\Middleware\AuthenticateSession as AuthenticateSessionContract;
 use Syscodes\Components\Http\Request;
 
-use Syscodes\Components\Contracts\Auth\Factory as AuthFactory;
 
 /**
  * This middleware of session allows authenticate logged on users.

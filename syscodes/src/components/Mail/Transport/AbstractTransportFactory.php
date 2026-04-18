@@ -34,14 +34,14 @@ abstract class AbstractTransportFactory
     /**
      * Get the dispatcher event instance.
      * 
-     * @var Dispatcher $dispatcher
+     * @var Dispatcher
      */
     protected ?Dispatcher $dispatcher;
     
     /**
      * Get the logger instance.
      * 
-     * @var LoggerInterface $logger
+     * @var LoggerInterface
      */
     protected ?LoggerInterface $logger;
     
@@ -53,7 +53,7 @@ abstract class AbstractTransportFactory
      * 
      * @return void
      */
-    public function __construct(Dispatcher $dispatcher = null, LoggerInterface $logger = null)
+    public function __construct(?Dispatcher $dispatcher = null, ?LoggerInterface $logger = null)
     {
         $this->dispatcher = $dispatcher;
         $this->logger     = $logger;

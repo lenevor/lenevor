@@ -30,7 +30,7 @@ class HigherOrderTakeProxy
     /**
      * The target being taked.
      * 
-     * @var mixed $target
+     * @var mixed
      */
     public $target;
 

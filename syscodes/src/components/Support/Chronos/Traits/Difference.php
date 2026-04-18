@@ -22,7 +22,6 @@
 
 namespace Syscodes\Components\Support\Chronos\traits;
 
-use Datetime;
 use IntlCalendar;
 
 /**
@@ -33,21 +32,21 @@ trait Difference
     /**
      * The timestamp of the current time.
      * 
-     * @var int|object $currentTime
+     * @var int|object
      */
     protected $currentTime;
 
     /**
      * Difference in seconds.
      * 
-     * @var int $difference
+     * @var int
      */
     protected $difference;
 
     /**
      * The timestamp to compare the current time to.
      * 
-     * @var int $testTime;
+     * @var int
      */
     protected $testTime;
 
@@ -61,7 +60,7 @@ trait Difference
      * 
      * @return self 
      */
-    protected function getDifferenceTime(DateTime $currentTime, DateTime $testTime): self
+    protected function getDifferenceTime(\DateTime $currentTime, \DateTime $testTime): self
     {
         $this->difference  = $currentTime->getTimestamp() - $testTime->getTimestamp();
         $this->currentTime = IntlCalendar::fromDateTime($currentTime->format('Y-m-d H:i:s'), $this->locale);

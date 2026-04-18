@@ -32,56 +32,56 @@ abstract class Rules
     /**
      * Get the attribute.
      * 
-     * @var Attribute|null $attribute
+     * @var Attribute|null
      */
     protected $attribute;
     
     /**
      * The fillable params.
      * 
-     * @var array $fillableParams
+     * @var array
      */
     protected $fillableParams = [];
     
     /** 
      * The implicit implementation.
      * 
-     * @var bool $implicit
+     * @var bool
      */
     protected $implicit = false;
     
     /**
      * The key as rule selected.
      * 
-     * @var string $key
+     * @var string
      */
     protected $key;
     
     /**
      * The message depends of attribute.
      * 
-     * @var string $message
+     * @var string
      */
     protected $message = "The :attribute is invalid";
     
     /**
      * The parameters according to the type of rule.
      * 
-     * @var array $params
+     * @var array
      */
     protected $params = [];
 
     /**
      * The parameters texts according to the type of rule
      * 
-     * @var array $paramsTexts
+     * @var array
      */
     protected $paramsTexts = [];
     
     /**
      * The Validation implementation.
      * 
-     * @var Validation|null $validation
+     * @var Validation|null
      */
     protected $validation;
 

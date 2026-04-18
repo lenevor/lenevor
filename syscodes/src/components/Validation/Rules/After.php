@@ -35,14 +35,14 @@ class After extends Rules
     /** 
      * The message depends of attribute.
      * 
-     * @var string $message
+     * @var string
      */
     protected $message = "The :attribute must be a date after :time";
     
     /**
      * The fillable params.
      * 
-     * @var array $fillableParams
+     * @var array
      */
     protected $fillableParams = ['time'];
 
@@ -53,7 +53,7 @@ class After extends Rules
      * 
      * @return bool
      * 
-     * @throws Exception
+     * @throws \Exception
      */
     public function check($value): bool
     {

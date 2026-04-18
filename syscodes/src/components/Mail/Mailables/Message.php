@@ -32,26 +32,26 @@ class Message extends RawMessage
     /**
      * The body of a message.
      * 
-     * @var string|null $body
+     * @var string|null
      */
     protected string|null $body;
 
     /**
      * The headers for use in a message.
      * 
-     * @var \Syscodes\Components\Mail\Headers\Headers $headers
+     * @var \Syscodes\Components\Mail\Headers\Headers
      */
     protected Headers $headers;
 
     /**
      * Constructor. Create a new Message class instance.
      * 
-     * @param  \Syscodes\Components\Mail\Headers  $headers
+     * @param  \Syscodes\Components\Mail\Headers|null  $headers
      * @param  string|null  $body
      * 
      * @return void
      */
-    public function __construct(Headers $headers = null, string $body = null)
+    public function __construct(?Headers $headers = null, ?string $body = null)
     {
         $this->headers = $headers ? clone $headers : new Headers;
         $this->body    = $body;

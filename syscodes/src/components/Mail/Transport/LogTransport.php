@@ -35,7 +35,7 @@ class LogTransport
     /**
      * The Logger instance.
      * 
-     * @var \Psr\Log\LoggerInterface $logger
+     * @var \Psr\Log\LoggerInterface
      */
     protected $logger;
     
@@ -54,7 +54,7 @@ class LogTransport
     /**
      * {@inheritdoc}
      */
-    public function send(RawMessage $message, Envelope $envelope = null): ?BaseSentMessage
+    public function send(RawMessage $message, ?Envelope $envelope = null): ?BaseSentMessage
     {
         $string = $message->toString();
 

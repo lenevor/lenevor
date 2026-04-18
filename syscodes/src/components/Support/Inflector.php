@@ -36,35 +36,35 @@ class Inflector
     /**
      * Gets the irregular singular word.
      * 
-     * @var array $irregularSingles
+     * @var array
      */
     protected $irregularSingles = [];
     
     /**
      * Gets the irregular plural word.
      * 
-     * @var array $irregularPlurals
+     * @var array
      */
     protected $irregularPlurals = [];
     
     /**
      * Gets a string plural with your rules.
      * 
-     * @var array $pluralRules
+     * @var array
      */
     protected $pluralRules = [];
     
     /**
      * Gets a string singular with your rules.
      * 
-     * @var array $singularRules
+     * @var array
      */
     protected $singularRules = [];
     
     /**
      * Get the rules of application.
      * 
-     * @var \Syscodes\Components\Support\InflectRules\Rules $aplicator
+     * @var \Syscodes\Components\Support\InflectRules\Rules
      */
     protected $aplicator;
     

@@ -32,35 +32,35 @@ class AwaitingResourceRegistration
     /**
      * The resource controller.
      * 
-     * @var string $controller
+     * @var string
      */
     protected $controller;
 
     /**
      * The resource name.
      * 
-     * @var string $name
+     * @var string
      */
     protected $name;
 
     /**
      * The resource options.
      * 
-     * @var array $options
+     * @var array
      */
     protected $options = [];
 
     /**
      * The resource register.
      * 
-     * @var \Syscodes\Components\Routing\Resources\ResourceRegister $register
+     * @var \Syscodes\Components\Routing\Resources\ResourceRegister
      */
     protected $register;
 
     /**
      * The resource's registration status.
      * 
-     * @var bool $registered
+     * @var bool
      */
     protected $registered = false;
 

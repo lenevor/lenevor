@@ -35,7 +35,7 @@ class ShareErrorsSession
     /**
      * The view factory implementation.
      * 
-     * @var \Syscodes\Components\Contracts\View\Factory $view
+     * @var \Syscodes\Components\Contracts\View\Factory
      */
     protected $view;
     

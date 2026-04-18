@@ -34,35 +34,35 @@ class PendingMail
     /**
      * The "bcc" recipients of the message.
      * 
-     * @var array $bcc
+     * @var array
      */
     protected $bcc = [];
     
     /**
      * The "cc" recipients of the message.
      * 
-     * @var array $cc
+     * @var array
      */
     protected $cc = [];
     
     /**
      * The locale of the message.
      * 
-     * @var string $locale
+     * @var string
      */
     protected $locale;
     
     /**
      * The mailer instance.
      * 
-     * @var \Syscodes\Components\Contracts\Mail\Mailer $mailer
+     * @var \Syscodes\Components\Contracts\Mail\Mailer
      */
     protected $mailer;
     
     /**
      * The "to" recipients of the message.
      * 
-     * @var array $to
+     * @var array
      */
     protected $to = [];
     

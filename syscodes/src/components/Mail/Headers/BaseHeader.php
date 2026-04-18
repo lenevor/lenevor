@@ -30,14 +30,14 @@ abstract class BaseHeader
     /**
      * Get the name.
      * 
-     * @var string $name
+     * @var string
      */
     protected string $name;
 
     /**
      * Get the line lenght when send a message.
      * 
-     * @var int $lineLenght
+     * @var int
      */
     protected int $lineLength = 76;
 

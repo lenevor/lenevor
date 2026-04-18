@@ -32,14 +32,14 @@ class MessageSending
     /**
      * The message data.
      * 
-     * @var array $data
+     * @var array
      */
     public $data;
     
     /**
      * The Email class instance.
      * 
-     * @var \Syscodes\Components\Mail\Mailables\Email $message
+     * @var \Syscodes\Components\Mail\Mailables\Email
      */
     public $message;
     

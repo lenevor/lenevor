@@ -33,7 +33,7 @@ class DateFilterIterator extends FilterIterator
     /**
      * Get the comparator of operators.
      * 
-     * @var array $comparators
+     * @var array
      */
     private array $comparators = [];
 

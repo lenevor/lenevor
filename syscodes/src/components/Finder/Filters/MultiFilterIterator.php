@@ -33,14 +33,14 @@ abstract class MultiFilterIterator extends FilterIterator
     /**
      * Get the match regex.
      * 
-     * @var array $matchRegex
+     * @var array
      */
     protected $matchRegex = [];
     
     /**
      * Get the not match regex.
      * 
-     * @var array $noMatchRegex
+     * @var array
      */
     protected $noMatchRegex = [];
     

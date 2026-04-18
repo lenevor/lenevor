@@ -33,28 +33,28 @@ class BaseSentMessage
     /**
      * Gets the debug when be send at mailbox.
      * 
-     * @var string $debug
+     * @var string
      */
     protected string $debug = '';
     
     /**
      * The envelope for send at mailbox.
      * 
-     * @var Envelope $envelope
+     * @var Envelope
      */
     protected Envelope $envelope;
 
     /**
      * The original for send at mailbox.
      * 
-     * @var RawMessage $original 
+     * @var RawMessage 
      */
     protected RawMessage $original;
     
     /**
      * The raw for send at mailbox.
      * 
-     * @var RawMessage $raw 
+     * @var RawMessage
      */
     protected RawMessage $raw;
 

@@ -32,7 +32,7 @@ final class Readers implements Reader
     /**
      * The set of readers to use.
      * 
-     * @var \Syscodes\Components\Dotenv\Repository\Adapters\Readers $readers
+     * @var \Syscodes\Components\Dotenv\Repository\Adapters\Readers
      */
     protected $readers;
 

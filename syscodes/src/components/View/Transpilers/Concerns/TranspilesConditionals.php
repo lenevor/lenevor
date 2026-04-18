@@ -30,7 +30,7 @@ trait TranspilesConditionals
     /**
      * Identifier for the first case in switch statement.
      * 
-     * @var bool $switchIdentifyFirstCase
+     * @var bool
      */
     protected $switchIdentifyFirstCase = true;
 

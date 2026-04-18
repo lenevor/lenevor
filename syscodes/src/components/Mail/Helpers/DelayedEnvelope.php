@@ -35,21 +35,21 @@ final class DelayedEnvelope extends Envelope
     /**
      * The send message.
      * 
-     * @var Message $message
+     * @var Message
      */
     protected Message $message;
 
     /**
      * If have active the recipients to send message.
      * 
-     * @var bool $recipients
+     * @var bool
      */
     protected bool $recipients = false;
 
     /**
      * If have active the sender to send message.
      * 
-     * @var bool $sender
+     * @var bool
      */
     protected bool $sender = false;
     

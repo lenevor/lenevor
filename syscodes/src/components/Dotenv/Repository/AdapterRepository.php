@@ -34,14 +34,14 @@ final class AdapterRepository implements Repository
     /**
      * The set of readers to use.
      * 
-     * @var \Syscodes\Components\Contracts\Dotenv\Reader $reader
+     * @var \Syscodes\Components\Contracts\Dotenv\Reader
      */
     protected $reader;
 
     /**
      * The set of writers to use.
      * 
-     * @var \Syscodes\Components\Contracts\Dotenv\Writer $writer
+     * @var \Syscodes\Components\Contracts\Dotenv\Writer
      */
     protected $writer;
 

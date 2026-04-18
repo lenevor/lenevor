@@ -32,7 +32,7 @@ class Uppercase extends Rules
     /** 
      * The message depends of attribute.
      * 
-     * @var string $message
+     * @var string
      */
     protected $message = "The :attribute must be uppercase";
 

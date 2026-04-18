@@ -32,7 +32,7 @@ class MailboxListHeader extends BaseHeader
     /**
      * Get the addresses.
      * 
-     * @var array $addresses
+     * @var array
      */
     protected array $addresses = [];
     

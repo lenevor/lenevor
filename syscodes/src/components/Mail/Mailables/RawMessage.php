@@ -33,14 +33,14 @@ class RawMessage
     /**
      * A query, is generator closed?.
      * 
-     * @var bool $isGeneratorclosed
+     * @var bool
      */
     protected bool $isGeneratorClosed;
 
     /**
      * Get the message.
      * 
-     * @var iterable|string|null $message
+     * @var iterable|string|null
      */
     protected iterable|string|null $message = null;
 

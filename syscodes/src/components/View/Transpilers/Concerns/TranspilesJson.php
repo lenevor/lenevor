@@ -30,7 +30,7 @@ trait TranspilesJson
     /**
      * The default JSON encoding options.
      * 
-     * @var int $encodingOptionsJson
+     * @var int
      */
     private $encodingOptionsJson = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT;
 

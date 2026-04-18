@@ -39,7 +39,7 @@ class Validator implements ValidationContract
     /**
      * Allows the rules override.
      * 
-     * @var bool $allowRuleOverride
+     * @var bool
      */
     protected $allowRuleOverride = false;
     
@@ -53,35 +53,35 @@ class Validator implements ValidationContract
     /**
      * The Validator resolver instance.
      * 
-     * @var \Closure $resolver
+     * @var \Closure
      */
     protected $resolver;
     
     /**
      * The rules to be applied to the data.
      * 
-     * @var array $rules
+     * @var array
      */
     protected $rules;
     
     /**
      * Allows use humanize keys.
      * 
-     * @var bool $useHumanizeKeys
+     * @var bool
      */
     protected $useHumanizedKeys = true;
     
     /**
      * Gets the validators.
      * 
-     * @var array $validators
+     * @var array
      */
     protected $validators = [];
 
     /**
      * The Presence Verifier implementation.
      * 
-     * @var \Syscodes\Components\Contracts\Validation\PresenceVerifier $verifier
+     * @var \Syscodes\Components\Contracts\Validation\PresenceVerifier
      */
     protected $verifier;
         

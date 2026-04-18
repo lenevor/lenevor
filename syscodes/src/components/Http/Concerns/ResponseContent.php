@@ -34,7 +34,7 @@ trait ResponseContent
     /**
      * The exception that triggered the error response (if applicable).
      * 
-     * @var \Exception|null $exception
+     * @var \Exception|null
      */
     protected $exception;
 

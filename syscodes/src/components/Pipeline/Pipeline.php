@@ -37,28 +37,28 @@ class Pipeline implements PipelineContract
     /**
      * The container instance.
      * 
-     * @var \Syscodes\Components\Contracts\Container\Container $container
+     * @var \Syscodes\Components\Contracts\Container\Container
      */
     protected $container;
 
     /**
      * The method to call on each pipe.
      * 
-     * @var string $method
+     * @var string
      */
     protected $method = 'handle';
 
     /**
      * The object being passed through the pipeline.
      * 
-     * @var mixed $passable
+     * @var mixed
      */
     protected $passable;
 
     /**
      * The array of class pipes.
      * 
-     * @var array $pipes
+     * @var array
      */
     protected $pipes = [];
 

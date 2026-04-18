@@ -32,49 +32,49 @@ final class SocketStream extends AbstractStream
     /**
      * Get the host in the url.
      * 
-     * @var string $host
+     * @var string
      */
     protected string $host = 'localhost';
 
     /**
      * The port to connection of protocol.
      * 
-     * @var int $port
+     * @var int
      */
     protected int $port = 465;
 
     /**
      * The time out for the send of messages.
      * 
-     * @var float $timeout
+     * @var float
      */
     protected float $timeout;
 
     /**
      * If indicate value boolean in true or false.
      * 
-     * @var bool $tls
+     * @var bool
      */
     protected bool $tls = true;
 
     /**
      * Get the source ip.
      * 
-     * @var string|null $sourceIp
+     * @var string|null
      */
     protected ?string $sourceIp = null;
 
     /**
      * Get the stream context options.
      * 
-     * @var array $contextOptions
+     * @var array
      */
     protected array $contextOptions = [];
 
     /**
      * Get the url.
      * 
-     * @var string $url
+     * @var string
      */
     protected string $url;
     

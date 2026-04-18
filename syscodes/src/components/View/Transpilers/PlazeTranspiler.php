@@ -54,14 +54,14 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     /**
      * Array of opening and closing tags for regular echos.
      * 
-     * @var array $contentTags
+     * @var array
      */
     protected $contentTags = ['{{', '}}'];
 
     /**
      * All custom "directives" handlers.
      * 
-     * @var array $customDirectives
+     * @var array
      */
     protected $customDirectives = [];
 
@@ -82,21 +82,21 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     /**
      * All of the registered extensions.
      * 
-     * @var array $extensions
+     * @var array
      */
     protected $extensions = [];
 
     /**
      * Array of footer lines to be added to template.
      * 
-     * @var array $footer
+     * @var array
      */
     protected $footer = [];
 
     /**
      * Gets the path that was transpiled.
      * 
-     * @var string $path
+     * @var string
      */
     protected $path;
 
@@ -110,7 +110,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     /**
      * All of the available transpiler functions.
      * 
-     * @var array $transpilers
+     * @var array
      */
     protected $transpilers = [
         'Comments',

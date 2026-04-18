@@ -32,56 +32,56 @@ final class Attribute
     /**
      * Get alias of a string.
      * 
-     * @var string|null $alias
+     * @var string|null
      */
     protected $alias;
     
     /**
      * Get key.
      * 
-     * @var string $key 
+     * @var string
      */
     protected $key;
     
     /**
      * Get key from the indexes.
      * 
-     * @var array $keyIndexes
+     * @var array
      */
     protected $keyIndexes = [];
     
     /**
      * Gets other attributes.
      * 
-     * @var array $otherAttributes
+     * @var array
      */
     protected $otherAttributes = [];
     
     /**
      * Get the primary attribute of validation.
      * 
-     * @var Validation|null $primaryAttribute
+     * @var Validation|null
      */
     protected $primaryAttribute = null;
     
     /**
      * Get required of a rule.
      * 
-     * @var bool $required
+     * @var bool
      */
     protected $required = false;
     
     /**
      * Get a list of rules.
      * 
-     * @var array $rules
+     * @var array
      */
     protected $rules = [];
     
     /**
      * Get the validation implementation.
      * 
-     * @var Validation $validation
+     * @var Validation
      */
     protected $validation;
     

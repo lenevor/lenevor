@@ -33,14 +33,14 @@ trait ManagesLayouts
 	/**
 	 * Started blocks.
 	 * 
-	 * @var array $sections
+	 * @var array
 	 */
 	protected $sections = [];
 	
 	/**
 	 * The stack of in-progress sections.
 	 * 
-	 * @var array $sectionStack
+	 * @var array
 	 */
 	protected $sectionStack = [];
 	

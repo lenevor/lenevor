@@ -34,7 +34,7 @@ class LazyFilterIterator implements IteratorAggregate
     /**
      * Get the iterator.
      * 
-     * @var Closure $iterator
+     * @var Closure
      */
     private Closure $iterator;
 

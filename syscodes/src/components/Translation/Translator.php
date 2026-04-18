@@ -42,40 +42,40 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
     /**
      * The fallback locale used by the translator.
      * 
-     * @var string $fallback
+     * @var string
      */
     protected $fallback;
 
     /**
      * Array of loaded translation groups.
      * 
-     * @var array $loaded
+     * @var array
      */
     protected $loaded = [];
 
     /**
      * The loader implementation.
      * 
-     * @var \Syscodes\Components\Contracts\Translation\Loader $loader
+     * @var \Syscodes\Components\Contracts\Translation\Loader
      */
     protected $loader;
 
     /**
      * The default locale being used by the translator.
      * 
-     * @var string $locale
+     * @var string
      */
     protected $locale;
 
      /**
      * Boolean value whether the intl libraries exist on the system.
      * 
-     * @var bool $intlSupport
+     * @var bool
      */
     protected $intlSupport = false;
 
     /**
-     * Constructor language.
+     * Constructor. Create a new Translator class instance.
      * 
      * @param  string  $locale
      * @param  \Syscodes\Components\Contracts\Translation\Loader  $loader

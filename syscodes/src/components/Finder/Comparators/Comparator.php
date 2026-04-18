@@ -32,19 +32,22 @@ class Comparator
     /**
      * The type of comparison operator.
      * 
-     * @var string $operator
+     * @var string
      */
     private string $operator;
 
     /**
      * Gets the target.
      * 
-     * @var string $target
+     * @var string
      */
     private string $target;
 
     /**
      * Constructor. Create a new Comparator class instance.
+     * 
+     * @param  string  $target
+     * @param  string  $operator
      * 
      * @return void
      */

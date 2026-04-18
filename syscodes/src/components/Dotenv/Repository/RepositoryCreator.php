@@ -44,21 +44,21 @@ final class RepositoryCreator
     /**
      * Gets adapters allow list to use.
      * 
-     * @var string[] $allowList
+     * @var string[]
      */
     protected $allowList;
 
     /**
      * The set of readers to use.
      * 
-     * @var array|\Syscodes\Components\Contracts\Dotenv\Reader $readers
+     * @var array|\Syscodes\Components\Contracts\Dotenv\Reader
      */
     protected $readers;
 
     /**
      * The set of writers to use.
      * 
-     * @var array|\Syscodes\Components\Contracts\Dotenv\Writer $writers
+     * @var array|\Syscodes\Components\Contracts\Dotenv\Writer
      */
     protected $writers;
 
@@ -71,7 +71,7 @@ final class RepositoryCreator
      * 
      * @return void
      */
-    public function __construct(array $readers = [], array $writers = [], array $allowList = null)
+    public function __construct(array $readers = [], array $writers = [], ?array $allowList = null)
     {
         $this->readers   = $readers;
         $this->writers   = $writers;

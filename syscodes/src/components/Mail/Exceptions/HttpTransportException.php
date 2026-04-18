@@ -32,7 +32,7 @@ class HttpTransportException extends TransportException
     /**
      * The response instance.
      * 
-     * @var \Syscodes\Components\Http\Response|string $response
+     * @var \Syscodes\Components\Http\Response|string
      */
     protected $response;
 

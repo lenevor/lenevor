@@ -30,7 +30,7 @@ trait Mapper
 	/**
 	 * All of the verbs supported by the router.
 	 * 
-	 * @var array $verbs
+	 * @var array
 	 */
 	public static $verbs = ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'];
 

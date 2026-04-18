@@ -47,63 +47,63 @@ class Finder implements IteratorAggregate, Countable
     /**
      * Get the file date.
      * 
-     * @var array $dates
+     * @var array
      */
     private array $dates = [];
 
     /**
      * Get the directories.
      * 
-     * @var array $dirs
+     * @var array
      */
     private array $dirs = [];
 
     /**
      * Get ignore for given type file. 
      * 
-     * @var int $ignore
+     * @var int
      */
     private int $ignore = 0;
 
     /**
      * Get ignore dirs for given type file.
      * 
-     * @var bool $ignoreDirs
+     * @var bool
      */
     private bool $ignoreDirs = false;
 
     /**
      * Get the mode for file.
      * 
-     * @var int $mode
+     * @var int
      */
     private int $mode = 0;
 
     /**
      * Get the names to type of the files.
      * 
-     * @var array $names
+     * @var array
      */
     private array $names = [];
 
     /**
      * Get the names not type of the files.
      * 
-     * @var array $names
+     * @var array
      */
     private array $notNames = [];
 
     /**
      * Get the path not of files.
      * 
-     * @var array $notPaths
+     * @var array
      */
     private array $notPaths = [];
 
     /**
      * Get the path of file.
      * 
-     * @var array $paths
+     * @var array
      */
     private array $paths = [];
 
@@ -117,7 +117,8 @@ class Finder implements IteratorAggregate, Countable
         $this->ignore = static::IGNORE_VCS_FILES | static::IGNORE_DOT_FILES;
     }
     
-    /* Creates a new Finder instance.
+    /**
+     * Creates a new Finder instance.
      * 
      * @return static
      */

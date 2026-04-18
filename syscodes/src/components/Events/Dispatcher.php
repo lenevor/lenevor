@@ -39,35 +39,35 @@ class Dispatcher implements DispatcherContract
     /**
      * The registered IoC container instance.
      * 
-     * @var \Syscodes\Components\Contracts\Container\Container $container
+     * @var \Syscodes\Components\Contracts\Container\Container
      */
     protected $container;
 
     /**
      * The event dispatching.
      * 
-     * @var array $dispatching
+     * @var array
      */
     protected $dispatching = [];
 
     /**
      * The registered event listeners.
      * 
-     * @var array $listeners
+     * @var array
      */
     protected $listeners = [];
 
     /**
      * The wilcards listeners.
      * 
-     * @var array $wilcards
+     * @var array
      */
     protected $wildcards = [];
 
     /**
      * The cached wildcard listeners.
      * 
-     * @var array $wildcardsCache
+     * @var array
      */
     protected $wildcardsCache = [];
 

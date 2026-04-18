@@ -32,14 +32,14 @@ class Present extends Rules
     /** 
      * The implicit implementation.
      * 
-     * @var bool $implicit
+     * @var bool
      */
     protected $implicit = true;
 
     /** 
      * The message depends of attribute.
      * 
-     * @var string $message
+     * @var string
      */
     protected $message = "The :attribute must be present";
 

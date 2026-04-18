@@ -36,21 +36,21 @@ class EsmtpTransport extends SmtpTransport
     /**
      * Get the authenticators.
      * 
-     * @var array $authenticators
+     * @var array
      */
     protected array $authenticators = [];
 
     /**
      * Get the password.
      * 
-     * @var string $password
+     * @var string
      */
     protected string $password = '';
 
     /**
      * Get the username.
      * 
-     * @var string $username
+     * @var string
      */
     protected string $username = '';
     

@@ -33,28 +33,28 @@ abstract class AbstractStream
     /**
      * Get the debug.
      * 
-     * @var string $debug
+     * @var string
      */
     protected string $debug = '';
 
     /**
      * In the remote socket.
      * 
-     * @var resource|null $in
+     * @var resource|null
      */
     protected $in;
 
     /**
      * Out the remote socket.
      * 
-     * @var resource|null $out
+     * @var resource|null
      */
     protected $out;
 
     /**
      * Get the stream remote sockets.
      * 
-     * @var resource|null $stream
+     * @var resource|null
      */
     protected $stream;
 

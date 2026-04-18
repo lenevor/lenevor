@@ -33,7 +33,7 @@ trait ManagesComponents
     /**
      * Component data.
      * 
-     * @var array $components
+     * @var array
      */
     protected $components = [];
 

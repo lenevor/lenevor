@@ -30,7 +30,7 @@ class FileMimeType
 	/**
 	 * Map of extensions to mime types.
 	 *
-	 * @var array $mimes
+	 * @var array
 	 */
 	public static $mimes = [];
 

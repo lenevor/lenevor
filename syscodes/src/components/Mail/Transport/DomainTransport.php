@@ -31,42 +31,42 @@ final class DomainTransport
     /**
      * Get the host.
      * 
-     * @var string $host
+     * @var string
      */
     protected string $host;
     
     /**
      * Get the options.
      * 
-     * @var array $options
+     * @var array
      */
     protected array $options;
     
     /**
      * Get the password.
      * 
-     * @var string|null $password
+     * @var string|null
      */
     protected ?string $password;
     
     /**
      * Get the port.
      * 
-     * @var int|null $port
+     * @var int|null
      */
     protected ?int $port;
 
     /**
      * Get the scheme.
      * 
-     * @var string $scheme
+     * @var string
      */
     protected string $scheme;
     
     /**
      * Get the user.
      * 
-     * @var string|null $user
+     * @var string|null
      */
     protected ?string $user;
 
@@ -85,9 +85,9 @@ final class DomainTransport
     public function __construct(
         string $scheme,
         string $host,
-        string $user = null,
-        string $password = null,
-        int $port = null,
+        ?string $user = null,
+        ?string $password = null,
+        ?int $port = null,
         array $options = []
     ) {
         $this->scheme   = $scheme;
@@ -173,7 +173,7 @@ final class DomainTransport
      * 
      * @return string|null
      */
-    public function getPort(int $default = null): ?int
+    public function getPort(?int $default = null): ?int
     {
         return $this->port ?? $default;
     }

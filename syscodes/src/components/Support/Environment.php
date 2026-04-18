@@ -33,14 +33,14 @@ class Environment
     /**
      * Activate use of putenv, by default is true.
      * 
-     * @var bool $enabledPutenv
+     * @var bool
      */
     protected static $enabledPutenv = true;
 
     /**
      * The environment repository instance.
      * 
-     * @var Syscodes\Components\Dotenv\Repository\RepositoryCreator|null $repository
+     * @var Syscodes\Components\Dotenv\Repository\RepositoryCreator|null
      */
     protected static $repository;
 

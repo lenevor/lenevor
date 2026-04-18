@@ -33,14 +33,14 @@ abstract class Transpiler
     /**
      * The filesystem instance.
      * 
-     * @var \Syscodes\Components\Filesystem\Filesytem $files
+     * @var \Syscodes\Components\Filesystem\Filesytem
      */
     protected $files;
 
     /**
      * Get the cache path for the transpiled views.
      * 
-     * @var string $cachePath
+     * @var string
      */
     protected $cachePath;
 
@@ -60,7 +60,7 @@ abstract class Transpiler
             throw new InvalidArgumentException('Please verify that the cache path is valid.');
         }
 
-        $this->files     = $files;
+        $this->files = $files;
         $this->cachePath = $cachePath;
     }
 

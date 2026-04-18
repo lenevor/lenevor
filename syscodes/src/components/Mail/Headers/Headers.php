@@ -69,28 +69,28 @@ class Headers implements Header
     /**
      * Get the address of the recipients.
      * 
-     * @var array $address
+     * @var array
      */
     protected array $address;
     
     /**
      * An array of HTTP headers.
      * 
-     * @var array $headers
+     * @var array
      */
     protected array $headers = [];
     
     /**
      * Get the line length of a message.
      * 
-     * @var int $lineLenght
+     * @var int
      */
     protected int $lineLength = 76;
 
     /**
      * Get the name.
      * 
-     * @var string $name
+     * @var string
      */
     protected string $name;
 

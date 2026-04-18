@@ -34,14 +34,14 @@ class DatabasePresence implements DatabasePresenceInterface
     /**
      * The database connection instance.
      * 
-     * @var \Syscodes\Components\Database\ConnectionResolverInterface $db
+     * @var \Syscodes\Components\Database\ConnectionResolverInterface
      */
     protected $db;
     
     /**
      * The database connection to use.
      * 
-     * @var string $connection
+     * @var string
      */
     protected $connection;
     

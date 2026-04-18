@@ -36,7 +36,7 @@ class Message
     /**
      * The Email instance.
      * 
-     * @var \Syscodes\Components\Mail\Mailables\Email $message
+     * @var \Syscodes\Components\Mail\Mailables\Email
      */
     protected $message;
 

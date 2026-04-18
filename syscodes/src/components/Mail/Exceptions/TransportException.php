@@ -32,7 +32,7 @@ class TransportException extends RuntimeException
     /**
      * Gets the debug when be send at mailbox.
      * 
-     * @var string $debug
+     * @var string
      */
     protected  string $debug = '';
     

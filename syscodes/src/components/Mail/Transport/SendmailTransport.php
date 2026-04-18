@@ -40,21 +40,21 @@ class SendmailTransport extends AbstractTransport
     /**
      * Get the command for sendmail.
      * 
-     * @var string $command
+     * @var string
      */
     protected string $command = '/usr/sbin/sendmail -bs';
 
     /**
      * Get the stream.
      * 
-     * @var ProcessStream $stream
+     * @var ProcessStream
      */
     protected ProcessStream $stream;
 
     /**
      * Get the transport.
      * 
-     * @var SmtpTransport|null $transport
+     * @var SmtpTransport|null
      */
     protected ?SmtpTransport $transport = null;
     

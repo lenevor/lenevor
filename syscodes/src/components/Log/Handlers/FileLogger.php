@@ -39,49 +39,49 @@ class FileLogger implements Handler
     /**
      * The application implementation.
      * 
-     * @var \Syscodes\Components\Contracts\Core\Application $app
+     * @var \Syscodes\Components\Contracts\Core\Application
      */
     protected $app;
 
     /**
      * Format of the timestamp for log files.
      * 
-     * @var string $logDateFormat
+     * @var string
      */
     protected $logDateFormat = 'Y-m-d H:i:s';
 
     /**
      * Extension to use for log files.
      * 
-     * @var string $logExtension
+     * @var string
      */
     protected $logFileExtension;
 
     /**
      * Path to the log file.
      * 
-     * @var string $logFilePath
+     * @var string
      */
     protected $logFilePath;
 
     /**
      * Octal notation for default permissions of the log file.
      * 
-     * @var int $logFilePermissions
+     * @var int
      */
     protected $logFilePermissions;
 
     /**
      * Caches instances of the handlers.
      * 
-     * @var string $logHandler
+     * @var string
      */
     protected $logHandler;
 
     /**
      * Write message in log file.
      * 
-     * @var string $logMessage
+     * @var string
      */
     protected $logMessage;
 

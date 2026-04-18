@@ -30,7 +30,7 @@ class DefaultCoreProviders
     /**
      * The default providers.
      * 
-     * @var array $providers
+     * @var array
      */
     protected $providers = [];
 

@@ -46,28 +46,28 @@ class Factory implements FactoryContract
 	/**
 	 * The IoC container instance.
 	 * 
-	 * @var \Syscodes\Components\Contracts\Container\Container $container
+	 * @var \Syscodes\Components\Contracts\Container\Container
 	 */
 	protected $container;
 
 	/**
 	 * The engine implementation.
 	 * 
-	 * @var \Syscodes\Components\View\Engines\EngineResolver $engines
+	 * @var \Syscodes\Components\View\Engines\EngineResolver
 	 */
 	protected $engines;
 
 	/**
 	 * The event dispatcher instance.
 	 * 
-	 * @var \Syscodes\Components\Contracts\Events\Dispatcher $events
+	 * @var \Syscodes\Components\Contracts\Events\Dispatcher
 	 */
 	protected $events;
 
 	/**
 	 * The view finder implementation.
 	 * 
-	 * @var \Syscodes\Components\View\FileViewFinder $finder
+	 * @var \Syscodes\Components\View\FileViewFinder
 	 */
 	protected $finder;
 
@@ -88,14 +88,14 @@ class Factory implements FactoryContract
 	/**
 	 * The number of active rendering operations.
 	 * 
-	 * @var int $renderCount
+	 * @var int
 	 */
 	protected $renderCount = 0;
 
 	/**
 	 * Array of shared data.
 	 * 
-	 * @var array $shared
+	 * @var array
 	 */
 	protected $shared = [];
 

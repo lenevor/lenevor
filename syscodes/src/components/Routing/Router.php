@@ -48,70 +48,70 @@ class Router implements Routable
 	/**
 	 * The registered route value binders.
 	 * 
-	 * @var array $binders
+	 * @var array
 	 */
 	protected $binders = [];
 
 	/**
 	 * The container instance used by the router.
 	 * 
-	 * @var \Syscodes\Components\Contracts\Container\Container $container
+	 * @var \Syscodes\Components\Contracts\Container\Container
 	 */
 	protected $container;
 
 	/**
 	 * Variable of group route.
 	 *  
-	 * @var array $groupStack
+	 * @var array
 	 */
 	protected $groupStack = [];
 
 	/**
 	 * Middleware for function of filters
 	 *  
-	 * @var array $middleware
+	 * @var array
 	 */
 	protected $middleware = [];
 	
 	/**
 	 * All of the middleware groups.
 	 * 
-	 * @var array $middlewareGroups
+	 * @var array
 	 */
 	protected $middlewareGroups = [];
 	
 	/**
 	 * The priority-sorted list of middleware.
 	 * 
-	 * @var array $middlewarePriority
+	 * @var array
 	 */
 	public $middlewarePriority = [];
 	
 	/**
 	 * The globally available parameter patterns.
 	 * 
-	 * @var array $patterns
+	 * @var array
 	 */
 	protected $patterns = [];
 
 	/**
 	 * Resolve the given route.
 	 * 
-	 * @var \Syscodes\Components\Routing\RouteResolver $resolves
+	 * @var \Syscodes\Components\Routing\RouteResolver
 	 */
 	protected $resolves;
 
 	/**
 	 * The Resource instance.
 	 * 
-	 * @var \Syscodes\Components\Routing\Resources\ResourceRegister $resources
+	 * @var \Syscodes\Components\Routing\Resources\ResourceRegister
 	 */
 	protected $resources;
 
 	/** 
 	 * The route collection instance. 
 	 * 
-	 * @var \Syscodes\Components\Routing\Collections\RouteCollection $routes
+	 * @var \Syscodes\Components\Routing\Collections\RouteCollection
 	 */
 	protected $routes;
 

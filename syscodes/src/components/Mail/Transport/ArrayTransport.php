@@ -36,7 +36,7 @@ class ArrayTransport implements Transport
     /**
      * The collection of messages.
      * 
-     * @var \Syscodes\Components\Support\Collection $messages
+     * @var \Syscodes\Components\Support\Collection
      */
     protected $messages;
     
@@ -53,7 +53,7 @@ class ArrayTransport implements Transport
     /**
      * {@inheritdoc}
      */
-    public function send(RawMessage $message, Envelope $envelope = null): ?BaseSentMessage
+    public function send(RawMessage $message, ?Envelope $envelope = null): ?BaseSentMessage
     {
         return $this->messages[] = new BaseSentMessage($message, $envelope ?? Envelope::create($message));
     }

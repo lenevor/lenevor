@@ -48,7 +48,7 @@ class Schema extends Facade
     /**
      * Indicates if the resolved facade should be cached.
      * 
-     * @var bool $cached
+     * @var bool
      */
     protected static $cached = false;
     

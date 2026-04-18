@@ -37,14 +37,14 @@ class RouteResponse implements ResponseContract
     /**
      * The View class instance.
      * 
-     * @var Syscodes\Components\Contracts\View\Factory $view
+     * @var Syscodes\Components\Contracts\View\Factory 
      */
     protected $view;
 
     /**
      * The Redirector class instance.
      * 
-     * @var \Syscodes\Components\Routing\Redirector $redirector
+     * @var \Syscodes\Components\Routing\Redirector 
      */
     protected $redirector;
 

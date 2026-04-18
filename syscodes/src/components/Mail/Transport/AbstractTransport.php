@@ -43,28 +43,28 @@ abstract class AbstractTransport implements Transport
     /**
      * The event dispatch implements instance.
      * 
-     * @var Distpacher $dispatcher
+     * @var Distpacher
      */
     protected Dispatcher $dispatcher;
 
     /**
      * The last send of time to mail.
      * 
-     * @var float $lastSent
+     * @var float
      */
     protected float $lastSent = 0;
 
     /**
      * The logger implements instance.
      * 
-     * @var LoggerInterface $logger
+     * @var LoggerInterface
      */
     protected LoggerInterface $logger;
 
     /**
      * Get the rate of time for send of mail.
      * 
-     * @var float $rate
+     * @var float
      */
     protected float $rate = 0;
 
@@ -76,7 +76,7 @@ abstract class AbstractTransport implements Transport
      * 
      * @return void
      */
-    public function __construct(Dispatcher $dispatcher = null, LoggerInterface $logger = null)
+    public function __construct(?Dispatcher $dispatcher = null, ?LoggerInterface $logger = null)
     {
         $this->dispatcher = $dispatcher;
         $this->logger = $logger ?? new NullLogger;
@@ -109,7 +109,7 @@ abstract class AbstractTransport implements Transport
      * 
      * @return SentMessage|null
      */
-    public function send(RawMessage $message, Envelope $envelope = null): ?BaseSentMessage
+    public function send(RawMessage $message, ?Envelope $envelope = null): ?BaseSentMessage
     {
         $message  = clone $message;
         $envelope = null !== $envelope ? clone $envelope : Envelope::create($message);

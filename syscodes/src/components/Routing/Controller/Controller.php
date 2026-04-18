@@ -33,7 +33,7 @@ abstract class Controller
     /**
      * The middleware registered on the controller.
      * 
-     * @var array $middleware
+     * @var array
      */
     protected $middleware = [];
 

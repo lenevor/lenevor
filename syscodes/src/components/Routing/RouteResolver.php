@@ -46,7 +46,7 @@ class RouteResolver
 	/**
 	 * The container instance used by the router.
 	 * 
-	 * @var \Syscodes\Components\Contracts\Container\Container $container
+	 * @var \Syscodes\Components\Contracts\Container\Container 
 	 */
 	protected $container;
 
@@ -67,7 +67,7 @@ class RouteResolver
 	/** 
 	 * The route collection instance. 
 	 * 
-	 * @var \Syscodes\Components\Routing\Collections\RouteCollection $routes
+	 * @var \Syscodes\Components\Routing\Collections\RouteCollection
 	 */
 	protected $routes;
 

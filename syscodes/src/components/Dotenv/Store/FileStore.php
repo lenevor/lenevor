@@ -33,14 +33,14 @@ final class FileStore
     /**
      * The file paths.
      * 
-     * @var string[] $filePaths
+     * @var string[]
      */
     protected $filePaths;
 
     /**
      * Should file loading in enabled mode? 
      * 
-     * @var bool $modeEnabled
+     * @var bool
      */
     protected $modeEnabled;
 

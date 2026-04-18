@@ -49,35 +49,35 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
 	/**
 	 * Array of local variables.
 	 *
-	 * @var array $data
+	 * @var array
 	 */
 	protected $data = [];
 
 	/**
 	 * The engine implementation.
 	 * 
-	 * @var \Syscodes\Components\Contracts\View\Engine $engine
+	 * @var \Syscodes\Components\Contracts\View\Engine
 	 */
 	protected $engine;
 
 	/**
 	 * The view factory instance.
 	 * 
-	 * @var \Syscodes\Components\View\factory $factory
+	 * @var \Syscodes\Components\View\factory
 	 */
 	protected $factory;
 
 	/**
 	 * The path to the view file.
 	 * 
-	 * @var string $path
+	 * @var string
 	 */
 	protected $path;
 
 	/**
 	 * Get the name of the view.
 	 *
-	 * @var string $view
+	 * @var string
 	 */
 	protected $view;
 
@@ -102,10 +102,10 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
 		$data = []
 	) {
 		$this->factory = $factory;
-		$this->engine  = $engine;
-		$this->view    = $view;
-		$this->path    = $path;
-		$this->data    = $data instanceof Arrayable ? $data->toArray() : (array) $data;
+		$this->engine = $engine;
+		$this->view = $view;
+		$this->path = $path;
+		$this->data = $data instanceof Arrayable ? $data->toArray() : (array) $data;
 	}
 
 	/**

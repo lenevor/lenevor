@@ -35,35 +35,35 @@ class DirectoryFilterIterator extends RecursiveDirectoryIterator
     /**
      * Get the directory separator for folders or files.
      * 
-     * @var string $ds
+     * @var string
      */
     private string $ds = '/';
 
     /**
      * The ignore directories or files.
      * 
-     * @var bool $ignoreDirs
+     * @var bool
      */
     private bool $ignoreDirs;
 
     /**
      * Is ignored to rewind dir back to the start.
      * 
-     * @var bool $ignoreRewind
+     * @var bool
      */
     private bool $ignoreRewind = true;
 
     /**
      * Get the root path.
      * 
-     * @var string $rootPath
+     * @var string
      */
     private string $rootPath;
 
     /**
      * Get the sub path.
      * 
-     * @var string $subPath
+     * @var string
      */
     private string $subPath;
 
@@ -73,6 +73,8 @@ class DirectoryFilterIterator extends RecursiveDirectoryIterator
      * @param  string|mixed  $path
      * @param  int  $flags
      * @param  bool  $ignoreDirs
+     * 
+     * @return void
      */
     public function __construct(string $path, int $flags, bool $ignoreDirs = false)
     {

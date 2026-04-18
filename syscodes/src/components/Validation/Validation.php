@@ -39,56 +39,56 @@ final class Validation
     /**
      * Gets array of the aliases.
      * 
-     * @var array $aliases
+     * @var array
      */
     protected $aliases = [];
 
     /**
      * Gets the attributes.
      * 
-     * @var array $attributes
+     * @var array
      */
     protected $attributes = [];
 
     /**
      * Get the errors.
      * 
-     * @var MessageBag $errors
+     * @var MessageBag
      */
     public $errors;
 
     /**
      * Gets the input.
      * 
-     * @var array $inputs
+     * @var array
      */
     protected $inputs = [];
 
     /**
      * Gets the invalid data.
      * 
-     * @var array invalidData
+     * @var array
      */
     protected $invalidData = [];
 
     /**
      * Get the message separator.
      * 
-     * @var string msgSeparator
+     * @var string
      */
     protected $msgSeparator = ':';
 
     /**
      * The validator implementation.
      * 
-     * @var mixed $validator
+     * @var mixed
      */
     protected $validator;
 
     /**
      * Gets the valid data.
      * 
-     * @var array $validData
+     * @var array
      */
     protected $validData = [];
 
@@ -283,7 +283,7 @@ final class Validation
      * Check the rule is optional.
      * 
      * @param  Attribute  $attribute
-     * @param  Rule  $rule
+     * @param  Rules  $rule
      * 
      * @return bool
      */
