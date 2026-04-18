@@ -30,28 +30,28 @@ class AliasLoader
     /**
      * The singleton instance of loader.
      * 
-     * @var \Syscodes\Components\Core\AliasLoader $instance
+     * @var \Syscodes\Components\Core\AliasLoader
      */
     protected static $instance;
 
     /**
      * The namespace for all real-time facades.
      * 
-     * @var string $facadeNamespace
+     * @var string
      */
     protected static $facadeNamespace = 'Facades\\';
 
     /**
      * This array of class aliases.
      * 
-     * @var array $aliases
+     * @var array
      */
     protected $aliases;
 
     /**
      * Indicates if a loader has been registered.
      * 
-     * @var bool $registered
+     * @var bool
      */
     protected $registered = false;
 

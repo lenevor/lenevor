@@ -43,14 +43,14 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * The default number of seconds to store items.
      * 
-     * @var int $cacheTime
+     * @var int
      */
     protected $cacheTime = 3600;
 
     /**
      * The cache store implementation.
      * 
-     * @var \Syscodes\Components\Contracts\Cache\Store $store
+     * @var \Syscodes\Components\Contracts\Cache\Store
      */
     protected $store;
 

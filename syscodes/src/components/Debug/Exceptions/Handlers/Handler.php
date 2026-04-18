@@ -44,21 +44,21 @@ abstract class Handler implements MainHandler
     /**
      * Get debug.
      * 
-     * @var \Syscodes\Components\Contracts\Debug\Handler $debug
+     * @var \Syscodes\Components\Contracts\Debug\Handler
      */
     protected $debug;
     
     /**
      * Get exception.
      * 
-     * @var \Throwable $exception
+     * @var \Throwable
      */
     protected $exception;
     
     /**
      * Get supervisor.
      * 
-     * @var string $supervisor
+     * @var string
      */
     protected $supervisor;
 

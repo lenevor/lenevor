@@ -42,28 +42,28 @@ class VerifyCsrfToken
     /**
      * Indicates whether the XSRF-TOKEN cookie should be set on the response.
      * 
-     * @var bool $addHttpCookie
+     * @var bool
      */
     protected $addHttpCookie = true;
     
     /**
      * The application implementation.
      * 
-     * @var \Syscodes\Components\Core\Application $app
+     * @var \Syscodes\Components\Core\Application
      */
     protected $app;
     
     /**
      * The encrypter implementation.
      * 
-     * @var \Syscodes\Components\Encryption\Encrypter $encrypter
+     * @var \Syscodes\Components\Encryption\Encrypter
      */
     protected $encrypter;
     
     /**
      * The URIs that should be excluded from CSRF verification.
      * 
-     * @var array $except
+     * @var array
      */
     protected $except = [];
 
@@ -77,7 +77,7 @@ class VerifyCsrfToken
      */
     public function __construct(Application $app, Encrypter $encrypter)
     {
-        $this->app       = $app;
+        $this->app = $app;
         $this->encrypter = $encrypter;
     }
     

@@ -47,14 +47,14 @@ class Kernel implements KernelContract
     /**
      * The application implementation.
      * 
-     * @var \Syscodes\Components\Contracts\Core\Application $app
+     * @var \Syscodes\Components\Contracts\Core\Application
      */
     protected $app;
     
     /**
      * The bootstrap classes for the application.
      * 
-     * @var array $bootstrappers
+     * @var array
      */
     protected $bootstrappers = [
         \Syscodes\Components\Core\Bootstrap\BootDetectEnvironment::class,
@@ -68,7 +68,7 @@ class Kernel implements KernelContract
     /**
      * The Prime commands provided by the application.
      * 
-     * @var array $commands
+     * @var array
      */
     protected $commands = [];
 
@@ -103,7 +103,7 @@ class Kernel implements KernelContract
     /**
 	 * The event dispatcher instance.
 	 * 
-	 * @var \Syscodes\Components\Contracts\Events\Dispatcher $events
+	 * @var \Syscodes\Components\Contracts\Events\Dispatcher
 	 */
 	protected $events;
 
@@ -117,7 +117,7 @@ class Kernel implements KernelContract
     /**
      * The Prime application instance.
      * 
-     * @var \Syscodes\Components\Console\Application|null $prime
+     * @var \Syscodes\Components\Console\Application|null
      */
     protected $prime;
     
@@ -313,7 +313,6 @@ class Kernel implements KernelContract
         
         return $this->getPrime()->all();
     }
-
     
     /**
      * Bootstrap the application for artisan commands.

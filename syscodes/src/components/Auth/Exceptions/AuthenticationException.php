@@ -47,7 +47,7 @@ class AuthenticationException extends Exception
     /**
      * The callback that should be used to generate the authentication redirect path.
      * 
-     * @var callable $redirectToCallback
+     * @var callable
      */
     protected static $redirectToCallback;
     

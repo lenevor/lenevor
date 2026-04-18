@@ -35,7 +35,7 @@ class RedirectIfAuthenticated
     /**
      * The callback that should be used to generate the authentication redirect path.
      * 
-     * @var callable|null $redirectToCallback
+     * @var callable|null
      */
     protected static $redirectToCallback;
 

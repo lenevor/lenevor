@@ -33,21 +33,21 @@ class RedisStore implements Store
     /**
      * The Redis connection that should be used.
      * 
-     * @var string $connection
+     * @var string
      */
     protected $connection;
 
     /**
      * A string that should be prepended to keys.
      * 
-     * @var string $prefix
+     * @var string
      */
     protected $prefix;
 
     /**
      * The Redis database connection.
      * 
-     * @var \Syscodes\Components\Redis\RedisManager $redis 
+     * @var \Syscodes\Components\Redis\RedisManager 
      */
     protected $redis;
 

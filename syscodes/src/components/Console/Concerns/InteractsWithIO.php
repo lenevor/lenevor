@@ -42,7 +42,7 @@ trait InteractsWithIO
 	/**
      * The input interface implementation.
      *
-     * @var \ymfony\Component\Console\Input\InputInterface
+     * @var \Symfony\Component\Console\Input\InputInterface
      */
     protected $input;
 

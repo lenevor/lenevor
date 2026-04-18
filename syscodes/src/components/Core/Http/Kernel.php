@@ -42,14 +42,14 @@ class Kernel implements KernelContract
 	/**
 	 * The application implementation.
 	 * 
-	 * @var \Syscodes\Components\Contracts\Core\Application $app
+	 * @var \Syscodes\Components\Contracts\Core\Application
 	 */
 	protected $app;
 	
 	/**
 	 * The bootstrap classes for the application.
 	 * 
-	 * @var array $bootstrappers
+	 * @var array
 	 */
 	protected $bootstrappers = [
 		\Syscodes\Components\Core\Bootstrap\BootDetectEnvironment::class,
@@ -63,12 +63,12 @@ class Kernel implements KernelContract
 	/**
 	 * Get the application's middleware.
 	 * 
-	 * @var array $middleware
+	 * @var array
 	 */
 	protected $middleware = [];
 
 	/**
-	 * 
+	 * Get the application's middleware aliases.
 	 * 
 	 * @var array $middlewareAliases
 	 */
@@ -84,7 +84,7 @@ class Kernel implements KernelContract
 	/**
 	 * The priority list of middleware.
 	 * 
-	 * @var string[] $middlewarePriority
+	 * @var string[]
 	 */
 	protected $middlewarePriority = [
 		\Syscodes\Components\Cookie\Middleware\EncryptCookies::class,
@@ -100,21 +100,21 @@ class Kernel implements KernelContract
 	/**
 	 * When the kernel starting handling the current request.
 	 * 
-	 * @var \Syscodes\Components\Support\Chronos|null $requestStarted
+	 * @var \Syscodes\Components\Support\Chronos|null
 	 */
 	protected $requestStarted;
 
 	/**
 	 * The router instance.
 	 * 
-	 * @var \Syscodes\Components\Routing\Router $router
+	 * @var \Syscodes\Components\Routing\Router
 	 */
 	protected $router;
 
 	/**
 	 * Get the application's route middleware.
 	 * 
-	 * @var array $routeMiddleware
+	 * @var array
 	 */
 	protected $routeMiddleware = [];
 

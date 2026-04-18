@@ -34,7 +34,7 @@ class FileCacheRegister implements Serializable
     /**
      * The data to be stored.
      * 
-     * @var string $data
+     * @var string
      */
     protected $data;
 

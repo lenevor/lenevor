@@ -45,21 +45,21 @@ class CacheManager implements FactoryContract
     /**
      * The application instance.
      * 
-     * @var \Syscodes\Components\Contracts\Core\Application $app
+     * @var \Syscodes\Components\Contracts\Core\Application
      */
     protected $app;
 
     /**
      * The registered custom drivers.
      * 
-     * @var array $customDriver
+     * @var array
      */
     protected $customDriver;
 
     /**
      * The cache store implementation.
      * 
-     * @var array $stores
+     * @var array
      */
     protected $stores = [];
 

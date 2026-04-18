@@ -32,7 +32,7 @@ class SqlServerConnector extends Connector implements ConnectorInterface
     /**
      * The default PDO connection options.
      * 
-     * @var array $options
+     * @var array
      */
     protected $options = [
         PDO::ATTR_CASE => PDO::CASE_NATURAL,

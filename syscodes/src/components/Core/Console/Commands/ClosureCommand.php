@@ -37,7 +37,7 @@ class ClosureCommand extends Command
     /**
      * The command callback.
      *
-     * @var \Closure $callback
+     * @var \Closure
      */
     protected $callback;
     

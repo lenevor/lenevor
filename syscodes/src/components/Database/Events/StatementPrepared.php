@@ -30,14 +30,14 @@ class StatementPrepared
     /**
      * The database connection instance.
      * 
-     * @var \Syscodes\Components\Database\Connection $connection
+     * @var \Syscodes\Components\Database\Connection
      */
     public $connection;
 
     /**
      * The PDO statement.
      * 
-     * @var string $statement
+     * @var string
      */
     public $statement;
 

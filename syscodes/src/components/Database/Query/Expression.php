@@ -33,7 +33,7 @@ class Expression implements ExpressionContract
     /**
      * Get the value of the expression.
      * 
-     * @var mixed $value
+     * @var mixed
      */
     protected $value;
 

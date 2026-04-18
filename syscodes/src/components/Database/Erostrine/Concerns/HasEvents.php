@@ -33,21 +33,21 @@ trait HasEvents
     /**
      * The event map for the model.
      * 
-     * @var array $dispatchEvents
+     * @var array
      */
     protected $dispatchEvents = [];
     
     /**
      * User exposed observable events.
      * 
-     * @var array $observables
+     * @var array
      */
     protected $observables = [];
     
     /**
 	 * The event dispatcher instance.
 	 * 
-	 * @var \Syscodes\Components\Contracts\Events\Dispatcher $dispatcher
+	 * @var \Syscodes\Components\Contracts\Events\Dispatcher
 	 */
 	protected static $dispatcher;
 

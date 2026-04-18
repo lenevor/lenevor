@@ -57,14 +57,14 @@ class Application extends SymfonyApplication implements ApplicationContract
 	/**
 	 * The event dispatcher instance.
 	 * 
-	 * @var \Syscodes\Components\Contracts\Events\Dispatcher $events
+	 * @var \Syscodes\Components\Contracts\Events\Dispatcher
 	 */
 	protected $events;
 
 	/**
 	 * The Lenevor application instance.
 	 * 
-	 * @var \Syscodes\Components\Contracts\Container|Container $lenevor
+	 * @var \Syscodes\Components\Contracts\Container|Container
 	 */
 	protected $lenevor;
 
@@ -78,7 +78,7 @@ class Application extends SymfonyApplication implements ApplicationContract
 	/**
 	 * The console application bootstrappers.
 	 * 
-	 * @var array<array-key, \Closure($this): void>
+	 * @var array
 	 */
 	protected static $bootstrappers = [];
 
@@ -108,7 +108,7 @@ class Application extends SymfonyApplication implements ApplicationContract
 	/**
 	 * Register a console "starting" bootstrapper.
 	 * 
-	 * @param  \Closure($this): void  $callback
+	 * @param  \Closure  $callback
 	 * 
 	 * @return void
 	 */

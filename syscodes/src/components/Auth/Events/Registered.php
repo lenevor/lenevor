@@ -30,7 +30,7 @@ class Registered
     /**
      * The authenticated user.
      * 
-     * @var \Syscodes\Components\Contracts\Auth\Authenticatable $user
+     * @var \Syscodes\Components\Contracts\Auth\Authenticatable
      */
     public $user;
 

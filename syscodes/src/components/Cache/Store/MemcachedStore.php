@@ -37,21 +37,21 @@ class MemcachedStore implements Store
     /**
      * The Memcached instance.
      * 
-     * @var \Memcached $memcached
+     * @var \Memcached
      */
     protected $memcached;
 
     /**
      * Indicates whether we are using Memcached version >= 3.0.0.
      * 
-     * @var bool $onVersion
+     * @var bool
      */
     protected $onVersion;
 
     /**
      * A string that should be prepended to keys.
      * 
-     * @var string $prefix
+     * @var string
      */
     protected $prefix;
 

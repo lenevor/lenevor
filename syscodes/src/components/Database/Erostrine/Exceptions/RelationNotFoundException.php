@@ -32,14 +32,14 @@ class RelationNotFoundException extends RuntimeException
     /**
      * The name of the Erostrine model.
      * 
-     * @var string $model
+     * @var string
      */
     public $model;
 
     /**
      * The name of the relation.
      * 
-     * @var string $relation
+     * @var string
      */
     public $relation;
 

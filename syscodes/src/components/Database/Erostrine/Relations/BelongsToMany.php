@@ -42,84 +42,84 @@ class BelongsToMany extends Relation
     /**
      * The foreign key of the parent model.
      * 
-     * @var string $foreignKey
+     * @var string
      */
     protected $foreignPivotKey;
     
     /**
      * The key name of the parent model.
      * 
-     * @var string $parentKey
+     * @var string
      */
     protected $parentKey;
     
     /**
      * The pivot table columns to retrieve.
      * 
-     * @var array $pivotColumns
+     * @var array
      */
     protected $pivotColumns = [];
     
     /**
      * The default values for the pivot columns.
      * 
-     * @var array $pivotValues
+     * @var array
      */
     protected $pivotValues = [];
     
     /**
      * Any pivot table restrictions for where clauses.
      * 
-     * @var array $pivotWheres
+     * @var array
      */
     protected $pivotWheres = [];
 
     /**
      * Any pivot table restrictions for whereIn clauses.
      * 
-     * @var array $pivotWhereIns
+     * @var array
      */
     protected $pivotWhereIns = [];
     
     /**
      * Any pivot table restrictions for whereNull clauses.
      * 
-     * @var array $pivotWhereNulls
+     * @var array
      */
     protected $pivotWhereNulls = [];
     
     /**
      * The key name of the related model.
      * 
-     * @var string $relatedKey
+     * @var string
      */
     protected $relatedKey;
 
     /**
      * The associated key of the relation.
      * 
-     * @var string $relatedKey
+     * @var string
      */
     protected $relatedPivotKey;
 
     /**
      * The "name" of the relationship.
      * 
-     * @var string $relationName
+     * @var string
      */
     protected $relationName;
 
     /**
      * The intermediate table for the relation.
      * 
-     * @var string $table
+     * @var string
      */
     protected $table;
     
     /**
      * The class name of the custom pivot model to use for the relationship.
      * 
-     * @var string $using
+     * @var string
      */
     protected $using;
     

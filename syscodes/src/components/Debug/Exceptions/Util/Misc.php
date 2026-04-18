@@ -30,7 +30,7 @@ class Misc
     /**
      * The errors of php.
      * 
-     * @var array $phpErrors
+     * @var array
      */
     protected static $phpErrors = [
         E_ERROR,

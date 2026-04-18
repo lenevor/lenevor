@@ -60,7 +60,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	/**
 	 * The database connection name.
 	 * 
-	 * @var string|null $connection
+	 * @var string|null
 	 */
 	protected $connection;
 
@@ -74,14 +74,14 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	/**
 	 * Indicates if the model exists.
 	 * 
-	 * @var bool $exists
+	 * @var bool
 	 */
 	protected $exists = false;
 
 	/**
 	 * Indicates if the IDs are auto-incrementing.
 	 * 
-	 * @var bool $incrementing
+	 * @var bool
 	 */
 	protected $incrementing = true;
 
@@ -95,28 +95,28 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	/**
 	 * The number of models to return for pagination.
 	 * 
-	 * @var int $perPage
+	 * @var int
 	 */
 	protected $perPage = 15;
 
 	/**
 	 * The primary key for the model.
 	 * 
-	 * @var string $primaryKey
+	 * @var string
 	 */
 	protected $primaryKey = 'id';
 
 	/**
 	 * The table associated with the model.
 	 * 
-	 * @var string $table
+	 * @var string
 	 */
 	protected $table;
 
 	/**
 	 * The array of booted models.
 	 * 
-	 * @var array $booted
+	 * @var array
 	 */
 	protected static $booted = [];
 	
@@ -130,7 +130,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	/**
 	 * The relations to eager load on every query.
 	 * 
-	 * @var array $with
+	 * @var array
 	 */
 	protected $with = [];	
 

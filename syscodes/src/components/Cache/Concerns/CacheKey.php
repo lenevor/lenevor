@@ -30,14 +30,14 @@ trait CacheKey
     /**
      * This characters your invalid.
      * 
-     * @var string $invalidCharRegex 
+     * @var string
      */
     protected static $invalidCharRegex = '/[^a-z\-_0-9.]/i';
 
     /**
      * The cache keyName
      * 
-     * @var string $keyName
+     * @var string
      */
     protected $keyName;
 

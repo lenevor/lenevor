@@ -30,21 +30,21 @@ class Attempting
     /**
      * The credentials for the user.
      * 
-     * @var array $credentials
+     * @var array
      */
     public $credentials;
 
     /**
      * The authentication guard name.
      * 
-     * @var string $guard
+     * @var string
      */
     public $guard;
 
     /**
      * Indicates if the user should be "remembered".
      * 
-     * @var bool $remember
+     * @var bool
      */
     public $remember;
 

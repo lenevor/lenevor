@@ -34,28 +34,28 @@ trait HasAttributes
     /**
      * The model's attributes.
      * 
-     * @var array $attributes
+     * @var array
      */
     protected $attributes = [];
 
     /**
 	 * The model attribute's original state.
 	 * 
-	 * @var array $original
+	 * @var array
 	 */
 	protected $original = [];
 
     /**
      * Indicates whether attributes are snake cased on arrays.
      * 
-     * @var bool $snakeAttributes
+     * @var bool
      */
     protected static $snakeAttributes = true;
 
     /**
      * The cache of the mutated attributes for each class.
      * 
-     * @var array $mutatorCache
+     * @var array
      */
     protected static $mutatorCache = [];
 

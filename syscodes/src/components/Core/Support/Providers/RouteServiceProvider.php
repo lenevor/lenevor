@@ -39,14 +39,14 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * The global callback that should be used to load the application's routes.
      * 
-     * @var \Closure|null $AlwaysLoadRoutesUsing
+     * @var \Closure|null
      */
     protected static $alwaysLoadRoutesUsing;
     
     /**
      * The callback that should be used to load the application's routes.
      * 
-     * @var \Closure|null $loadRoutesUsing
+     * @var \Closure|null
      */
     protected $loadRoutesUsing;
 
@@ -60,7 +60,7 @@ class RouteServiceProvider extends ServiceProvider
      *       Example: Route::middleware('web')
      *                     ->namespace($this->namespace)
      * 
-     * @var string|null $namespace
+     * @var string|null
      */
     protected $namespace;
 

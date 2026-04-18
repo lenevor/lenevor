@@ -36,28 +36,28 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * The appilcation instance.
      * 
-     * @var \Syscodes\Components\Contracts\Core\Application $app
+     * @var \Syscodes\Components\Contracts\Core\Application
      */
     protected $app;
 
     /**
      * The active connection instances.
      * 
-     * @var array $connections
+     * @var array
      */
     protected $connections = [];
 
     /**
      * The database connection factory instance.
      * 
-     * @var \Syscodes\Components\Database\ConnectionFactory $factory
+     * @var \Syscodes\Components\Database\ConnectionFactory
      */
     protected $factory;
 
     /**
      * The custom connection resolvers.
      * 
-     * @var array $extensions
+     * @var array
      */
     protected $extensions = [];
 

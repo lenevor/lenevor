@@ -37,14 +37,14 @@ class ErostrineUserProvider implements UserProvider
     /**
      * The hasher implementation.
      * 
-     * @var \Syscodes\Components\Contracts\Hashing\Hasher $hasher
+     * @var \Syscodes\Components\Contracts\Hashing\Hasher
      */
     protected $hasher;
 
     /**
      * The Erostrine user model.
      * 
-     * @var string $model
+     * @var string
      */
     protected $model;
 

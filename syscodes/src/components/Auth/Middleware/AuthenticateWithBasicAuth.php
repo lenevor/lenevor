@@ -34,7 +34,7 @@ class AuthenticateWithBasicAuth
     /**
      * The guard factory instance.
      * 
-     * @var \Syscodes\Components\Contracts\Auth\Factory $auth
+     * @var \Syscodes\Components\Contracts\Auth\Factory
      */
     protected $auth;
     

@@ -30,7 +30,7 @@ trait Authenticatable
     /**
      * The column name of the "remember me" token.
      * 
-     * @var string $rememberTokenName
+     * @var string
      */
     protected $rememberTokenName = 'remember_token';
     

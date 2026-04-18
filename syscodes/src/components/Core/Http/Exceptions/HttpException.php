@@ -32,7 +32,7 @@ class HttpException extends LenevorException
 	/**
 	 * Loader the Status Code HTTP.
 	 * 
-	 * @var int $code
+	 * @var int
 	 */
 	protected $code;
 

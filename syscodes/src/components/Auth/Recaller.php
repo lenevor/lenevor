@@ -30,7 +30,7 @@ class Recaller
     /**
      * The recaller or "remember me" cookie string.
      * 
-     * @var string $recaller
+     * @var string
      */
     protected $recaller;
     

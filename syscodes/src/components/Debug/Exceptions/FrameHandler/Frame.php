@@ -30,12 +30,16 @@ use Syscodes\Components\Contracts\Support\Serializable;
 class Frame implements Serializable
 {
     /**
-     * @var array $comments
+     * Get the comments.
+     * 
+     * @var array
      */
     protected $comments = [];
 
     /**
-     * @var array $frame
+     * Get the frames.
+     * 
+     * @var array
      */
     protected $frame;
 

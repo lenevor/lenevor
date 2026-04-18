@@ -32,7 +32,7 @@ class GenericUser implements UserContract
     /**
      * All of the user's attributes.
      * 
-     * @var array $attributes
+     * @var array
      */
     protected $attributes;
 

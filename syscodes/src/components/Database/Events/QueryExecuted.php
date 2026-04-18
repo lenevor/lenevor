@@ -30,21 +30,21 @@ class QueryExecuted
     /**
      * The array of query bindings.
      * 
-     * @var array $bindings
+     * @var array
      */
     public $bindings;
 
     /**
      * The database connection instance.
      * 
-     * @var \Syscodes\Components\Database\Connection $connection
+     * @var \Syscodes\Components\Database\Connection
      */
     public $connection;
 
     /**
      * The name of the connection.
      * 
-     * @var string $ConnectionName
+     * @var string
      */
     public $connectionName;
     
@@ -58,14 +58,14 @@ class QueryExecuted
     /**
      * The SQL query that was executed.
      * 
-     * @var string $sql
+     * @var string
      */
     public $sql;
 
     /**
      * The number of milliseconds it took to execute the query.
      * 
-     * @var float $time
+     * @var float
      */
     public $time;
 

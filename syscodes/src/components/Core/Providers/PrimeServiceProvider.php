@@ -57,7 +57,7 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
     /**
      * The commands to be registered.
      * 
-     * @var array $commands
+     * @var array
      */
     protected $commands = [
         'About' => AboutCommand::class,
@@ -72,7 +72,7 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
     /**
      * The commands to be registered.
      * 
-     * @var array $devCommands
+     * @var array
      */
     protected $devCommands = [
         'ApiInstall' => ApiInstallCommand::class,

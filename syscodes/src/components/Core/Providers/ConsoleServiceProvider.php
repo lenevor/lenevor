@@ -33,7 +33,7 @@ class ConsoleServiceProvider extends AggregateServiceProvider implements Deferra
     /**
      * The provider class names.
      * 
-     * @var array $providers
+     * @var array
      */
     protected $providers = [
         PrimeServiceProvider::class,

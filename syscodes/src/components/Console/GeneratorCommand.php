@@ -36,14 +36,14 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
     /**
      * The filesystem instance.
      * 
-     * @var \Syscodes\Components\Filesystem\Filesystem $files
+     * @var \Syscodes\Components\Filesystem\Filesystem
      */
     protected $files;
     
     /**
      * The type of class being generated.
      * 
-     * @var string $type
+     * @var string
      */
     protected $type;
 

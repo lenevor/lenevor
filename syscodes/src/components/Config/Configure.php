@@ -38,14 +38,14 @@ class Configure implements ArrayAccess, ConfigureContract
 	/**
 	 * Get the files.
 	 * 
-	 * @var array $files
+	 * @var array
 	 */
 	protected array $files = [];
 
 	/**
 	 * Currently registered routes.
 	 * 
-	 * @var array $vars
+	 * @var array
 	 */
 	protected array $vars = [];
 

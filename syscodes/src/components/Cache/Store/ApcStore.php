@@ -35,14 +35,14 @@ class ApcStore implements Store
     /**
      * The APC wrapper instance.
      * 
-     * @var \Syscodes\Components\Cache\Store\ApcWrapper $apc
+     * @var \Syscodes\Components\Cache\Store\ApcWrapper
      */
     protected $apc;
 
     /**
      * A string that should be prepended to keys.
      * 
-     * @var string $prefix
+     * @var string
      */
     protected $prefix;
 

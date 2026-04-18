@@ -48,56 +48,56 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * The current globally available container.
      * 
-     * @var string $instance
+     * @var string
      */
     protected static $instance;
 
     /**
      * The parameter override stack.
      *
-     * @var array $across
+     * @var array
      */
     protected $across = [];
     
     /**
      * All of the after resolving callbacks by class type.
      * 
-     * @var array[] $afterResolvingCallbacks
+     * @var array
      */
     protected $afterResolvingCallbacks = [];
 
     /**
      * Array of aliased.
      * 
-     * @var array $aliases
+     * @var array
      */
     protected $aliases = [];
     
     /**
      * The registered aliases keyed by the abstract name.
      * 
-     * @var array[]
+     * @var array
      */
     protected $abstractAliases = [];
     
     /**
      * All of the before resolving callbacks by class type.
      * 
-     * @var array[] $beforeResolvingCallbacks
+     * @var array
      */
     protected $beforeResolvingCallbacks = [];
 
     /**
      * Array registry of container bindings.
      * 
-     * @var array $bindings
+     * @var array
      */
     protected $bindings = [];
     
     /**
      * The stack of concretions currently being built.
      *
-     * @var array $buildStack
+     * @var array
      */
     protected $buildStack = [];
     

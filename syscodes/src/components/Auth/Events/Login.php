@@ -30,21 +30,21 @@ class Login
     /**
      * The authentication guard name.
      * 
-     * @var string $guard
+     * @var string
      */
     public $guard;
     
     /**
      * Indicates if the user should be "remembered".
      * 
-     * @var bool $remember
+     * @var bool
      */
     public $remember;
 
     /**
      * The authenticated user.
      * 
-     * @var \Syscodes\Components\Contracts\Auth\Authenticatable $user
+     * @var \Syscodes\Components\Contracts\Auth\Authenticatable
      */
     public $user;
 

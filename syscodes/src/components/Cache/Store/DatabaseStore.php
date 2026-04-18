@@ -43,21 +43,21 @@ class DatabaseStore implements Store
     /**
      * The database connection instance.
      * 
-     * @var \Syscodes\Components\Database\Connections\ConnectionInterface $connection
+     * @var \Syscodes\Components\Database\Connections\ConnectionInterface
      */
     protected $connection;
 
     /**
      * A string that should be prepended to keys.
      * 
-     * @var string $prefix
+     * @var string
      */
     protected $prefix;
 
     /**
      * The name of the cache table.
      * 
-     * @var string $table
+     * @var string
      */
     protected $table;
 

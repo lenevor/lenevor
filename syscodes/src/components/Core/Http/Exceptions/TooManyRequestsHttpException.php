@@ -32,7 +32,7 @@ class TooManyRequestsHttpException extends HttpException
 	/**
 	 * Get the HTTP status code.
 	 * 
-	 * @var int $code
+	 * @var int
 	 */
 	protected $code = 429;
 	

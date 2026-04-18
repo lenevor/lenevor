@@ -35,7 +35,7 @@ class BootDetectEnvironment
     /**
      * The application implementation.
      *
-     * @var \Syscodes\Components\Contracts\Core\Application $app
+     * @var \Syscodes\Components\Contracts\Core\Application
      */
     protected $app;
     

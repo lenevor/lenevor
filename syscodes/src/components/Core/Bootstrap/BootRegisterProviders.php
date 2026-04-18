@@ -33,14 +33,14 @@ class BootRegisterProviders
 	/**
 	 * The service providers that should be merged before registration.
 	 * 
-	 * @var array $merge
+	 * @var array
 	 */
 	protected static $merge = [];
 	
 	/**
 	 * The path to the bootstrap provider configuration file.
 	 * 
-	 * @var string|null $bootstrapProviderPath
+	 * @var string|null
 	 */
 	protected static $bootstrapProviderPath;
 

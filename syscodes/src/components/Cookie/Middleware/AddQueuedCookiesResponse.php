@@ -34,7 +34,7 @@ class AddQueuedCookiesResponse
     /**
      * The cookie manager instance.
      * 
-     * @var \Syscodes\Components\Contracts\Cookie\QueueingFactory $cookies
+     * @var \Syscodes\Components\Contracts\Cookie\QueueingFactory
      */
     protected $cookies;
     

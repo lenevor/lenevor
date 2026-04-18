@@ -34,21 +34,21 @@ class ProviderRepository
     /**
      * The application implementation.
      * 
-     * @var \Syscodes\Components\Contracts\Core\Application $app
+     * @var \Syscodes\Components\Contracts\Core\Application
      */
     protected $app;
 
     /**
      * The filesystem instance.
      * 
-     * @var \Syscodes\Components\Filesystem\Filesystem $files
+     * @var \Syscodes\Components\Filesystem\Filesystem
      */
     protected $files;
 
     /**
      * The path to the manifest file.
      * 
-     * @var string $manifestPath
+     * @var string
      */
     protected $manifestPath;
     

@@ -32,28 +32,28 @@ class Response
     /**
      * Indicates whether the response was allowed.
      * 
-     * @var bool $allowed
+     * @var bool 
      */
     protected $allowed;
 
     /**
      * The response code.
      * 
-     * @var mixed $code
+     * @var mixed
      */
     protected $code;
 
     /**
      * The response message.
      * 
-     * @var string $message
+     * @var string
      */
     protected $message;
     
     /**
      * The HTTP response status code.
      * 
-     * @var int|null $status
+     * @var int|null
      */
     protected $status;
 

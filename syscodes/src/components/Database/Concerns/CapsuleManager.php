@@ -33,14 +33,14 @@ trait CapsuleManager
     /**
      * The current globally used instance.
      * 
-     * @var object $instance
+     * @var object
      */
     protected static $instance;
     
     /**
      * The container instance.
      * 
-     * @var \Syscodes\Components\Contracts\Container\Container $container
+     * @var \Syscodes\Components\Contracts\Container\Container
      */
     protected $container;
 

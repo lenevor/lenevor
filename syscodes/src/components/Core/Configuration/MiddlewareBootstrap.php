@@ -44,7 +44,7 @@ class MiddlewareBootstrap
     /**
      * The middleware that should be appended to the global middleware stack.
      * 
-     * @var array $appends
+     * @var array
      */
     protected $appends = [];
     
@@ -58,42 +58,42 @@ class MiddlewareBootstrap
     /**
      * The custom middleware aliases.
      * 
-     * @var array $customAliases
+     * @var array
      */
     protected $customAliases = [];
     
     /**
      * The user defined global middleware stack.
      * 
-     * @var array $global
+     * @var array
      */
     protected $global = [];
     
     /**
      * The middleware that should be prepended to the global middleware stack.
      * 
-     * @var array $prepends
+     * @var array
      */
     protected $prepends = [];
     
     /**
      * The custom middleware priority definition.
      * 
-     * @var array $priority
+     * @var array
      */
     protected $priority = [];
     
     /**
      * The middleware that should be removed from the global middleware stack.
      * 
-     * @var array $removals
+     * @var array
      */
     protected $removals = [];
     
     /**
      * The middleware that should be replaced in the global middleware stack.
      * 
-     * @var array $replacements
+     * @var array
      */
     protected $replacements = [];
     

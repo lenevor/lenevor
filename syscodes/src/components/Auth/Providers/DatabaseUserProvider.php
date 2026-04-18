@@ -39,21 +39,21 @@ class DatabaseUserProvider implements UserProvider
     /**
      * The active database connection.
      * 
-     * @var \Syscodes\Components\Database\Connections\ConnectionInterface $connection
+     * @var \Syscodes\Components\Database\Connections\ConnectionInterface
      */
     protected $connection;
 
     /**
      * The hasher implementation.
      * 
-     * @var \Syscodes\Components\Contracts\Hashing\Hasher $hasher
+     * @var \Syscodes\Components\Contracts\Hashing\Hasher
      */
     protected $hasher;
 
     /**
      * Get the table containing the users.
      * 
-     * @var string $table
+     * @var string
      */
     protected $table;
 

@@ -32,7 +32,7 @@ class NotFoundHttpException extends HttpException
 	/**
 	 * Get the HTTP status code.
 	 * 
-	 * @var int $code
+	 * @var int
 	 */
 	protected $code = 404;
 

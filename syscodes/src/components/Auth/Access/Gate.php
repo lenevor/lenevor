@@ -40,42 +40,42 @@ class Gate implements GateContract
     /**
      * All of the defined abilities.
      * 
-     * @var array $abilities
+     * @var array
      */
     protected $abilities = [];
     
     /**
      * All of the registered after callbacks.
      * 
-     * @var array $afterCallbacks
+     * @var array
      */
     protected $afterCallbacks = [];
     
     /**
      * All of the registered before callbacks.
      * 
-     * @var array $beforeCallbacks
+     * @var array
      */
     protected $beforeCallbacks = [];
     
     /**
      * The container instance.
      * 
-     * @var \Syscodes\Components\Container\Container $container
+     * @var \Syscodes\Components\Container\Container
      */
     protected $container;
     
     /**
      * All of the defined policies.
      * 
-     * @var array $policies
+     * @var array
      */
     protected $policies = [];
     
     /**
      * The user resolver callable.
      * 
-     * @var \callable $userResolver
+     * @var \callable
      */
     protected $userResolver;
 

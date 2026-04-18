@@ -34,14 +34,14 @@ class Supervisor
 	/**
 	 * Get exception. 
 	 * 
-	 * @var \Throwable $exception
+	 * @var \Throwable
 	 */
 	protected $exception;
 
 	/**
 	 * The frame execute errors.
 	 * 
-	 * @var string $frames
+	 * @var string
 	 */
 	protected $frames;
 

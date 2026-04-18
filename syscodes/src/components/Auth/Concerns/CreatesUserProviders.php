@@ -34,7 +34,7 @@ trait CreatesUserProviders
     /**
      * The registered custom provider creators.
      * 
-     * @var array $customProviderCreators
+     * @var array
      */
     protected $customProviderCreators = [];
     

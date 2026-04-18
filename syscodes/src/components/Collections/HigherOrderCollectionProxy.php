@@ -32,14 +32,14 @@ class HigherOrderCollectionProxy
     /**
      * The collection being operated on.
      * 
-     * @var \Syscodes\Components\Contracts\Support\Collectable $collection
+     * @var \Syscodes\Components\Contracts\Support\Collectable
      */
     protected $collection;
     
     /**
      * The method being proxied.
      * 
-     * @var string $method
+     * @var string
      */
     protected $method;
 

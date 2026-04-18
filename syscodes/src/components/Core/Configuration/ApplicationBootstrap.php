@@ -40,7 +40,7 @@ class ApplicationBootstrap
     /**
      * The service provider that are marked for registration.
      * 
-     * @var array $registerProviders
+     * @var array
      */
     protected array $registerProviders = [];
 

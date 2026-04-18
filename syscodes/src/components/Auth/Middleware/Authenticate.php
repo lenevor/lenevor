@@ -36,14 +36,14 @@ class Authenticate implements AuthenticateRequest
     /**
      * The authentication factory instance.
      * 
-     * @var \Syscodes\Components\Contracts\Auth\Factory $auth
+     * @var \Syscodes\Components\Contracts\Auth\Factory
      */
     protected $auth;
     
     /**
      * The callback that should be used to generate the authentication redirect path.
      * 
-     * @var callable $redirectToCallback
+     * @var callable
      */
     protected static $redirectToCallback;
 

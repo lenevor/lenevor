@@ -44,7 +44,7 @@ trait HasTimestamps
     /**
      * Indicates if the model should be timestamped.
      * 
-     * @var bool $timestamps
+     * @var bool
      */
     public $timestamps = true;
     

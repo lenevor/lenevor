@@ -59,7 +59,7 @@ class Application extends Container implements ApplicationContract
     /**
      * The current globally available application.
      * 
-     * @var string $instance
+     * @var string
      */
     protected static $instance;
 
@@ -71,70 +71,70 @@ class Application extends Container implements ApplicationContract
     /**
      * The prefixes of absolute cache paths for use during normalization.
      * 
-     * @var string[] $absoluteCachePathPrefixes
+     * @var string[]
      */
     protected $absoluteCachePathPrefixes = ['/', '\\'];
     
     /**
      * The custom application path defined by the developer.
      *
-     * @var string $appPath
+     * @var string
      */
     protected $appPath;
 
     /**
      * The base path for the Lenevor installation.
      *
-     * @var string $basePath
+     * @var string
      */
     protected $basePath;
 
     /**
      * Indicates if the application has 'booted'.
      * 
-     * @var bool $booted
+     * @var bool
      */
     protected $booted = false;
 
     /**
      * The array of booted callbacks.
      * 
-     * @var callable[] $bootedCallbacks
+     * @var callable[]
      */
     protected $bootedCallbacks = [];
 
     /**
      * The array of booting callbacks.
      * 
-     * @var callable[] $bootingCallbacks
+     * @var callable[]
      */
     protected $bootingCallbacks = [];
     
     /**
      * The custom bootstrap path defined by the developer.
      * 
-     * @var string $bootstrapPath
+     * @var string
      */
     protected $bootstrapPath;
     
     /**
      * The custom configuration path defined by the developer.
      * 
-     * @var string $configPath
+     * @var string
      */
     protected $configPath;
 
     /**
      * The custom database path defined by the developer.
      * 
-     * @var string $databasePath
+     * @var string
      */
     protected $databasePath;
 
     /**
      * The deferred services and their providers.
      * 
-     * @var array $deferredServices
+     * @var array
      */
     protected $deferredServices = [];
 
@@ -148,56 +148,56 @@ class Application extends Container implements ApplicationContract
     /**
      * The custom environment path defined by the developer.
      *
-     * @var string $environmentPath
+     * @var string
      */
     protected $environmentPath;
 
     /**
      * The environment file to load during bootstrapping.
      *
-     * @var string $environmentFile
+     * @var string
      */
     protected $environmentFile = '.env';
 
     /** 
      * Indicates if the application has been bootstrapped before.
      * 
-     * @var bool $hasBeenBootstrapped
+     * @var bool
      */
     protected $hasBeenBootstrapped = false;
 
     /**
      * Indicates if the application is running in the console.
      * 
-     * @var bool|null $isRunningInConsole
+     * @var bool|null
      */
     protected $isRunningInConsole;
 
     /**
      * The custom language path defined by the developer.
      * 
-     * @var string $langPath
+     * @var string
      */
     protected $langPath;
 
     /**
      * The names of the loaded service providers.
      * 
-     * @var array $loadServiceProviders
+     * @var array
      */
     protected $loadServiceProviders = [];
 
     /**
      * The application namespace.
      * 
-     * @var string $namespace
+     * @var string
      */
     protected $namespace;
     
     /**
      * The custom public / web path defined by the developer.
      * 
-     * @var string $publicPath
+     * @var string
      */
     protected $publicPath;
     
@@ -211,14 +211,14 @@ class Application extends Container implements ApplicationContract
     /**
      * All of the registered services providers.
      * 
-     * @var \Syscodes\Components\Support\ServiceProvider[] $serviceProviders
+     * @var \Syscodes\Components\Support\ServiceProvider[]
      */
     protected $serviceProviders = [];
 
     /**
      * The custom storage path defined by the developer.
      * 
-     * @var string $storagePath
+     * @var string
      */
     protected $storagePath;
 

@@ -34,7 +34,7 @@ class CoreServiceProvider extends AggregateServiceProvider
     /**
      * The provider class names.
      * 
-     * @var array $providers
+     * @var array
      */
     protected $providers = [
         FormRequestServiceProvider::class,

@@ -39,14 +39,14 @@ class RequestGuard implements Guard
     /**
      * The guard callback.
      * 
-     * @var \callable $callback
+     * @var \callable
      */
     protected $callback;
 
     /**
      * The request instance.
      * 
-     * @var \Syscodes\Components\Http\Request $request
+     * @var \Syscodes\Components\Http\Request
      */
     protected $request;
 

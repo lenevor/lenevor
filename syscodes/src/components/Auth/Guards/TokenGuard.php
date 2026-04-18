@@ -37,28 +37,28 @@ class TokenGuard implements Guard
     /**
      * The request instance.
      * 
-     * @var \Syscodes\Components\Http\Request $request
+     * @var \Syscodes\Components\Http\Request
      */
     protected $request;
     
     /**
      * The name of the query string item from the request containing the API token.
      * 
-     * @var string $inputKey
+     * @var string
      */
     protected $inputKey;
     
     /**
      * The name of the token "column" in persistent storage.
      * 
-     * @var string $storageKey
+     * @var string
      */
     protected $storageKey;
     
     /**
      * Indicates if the API token is hashed in storage.
      * 
-     * @var bool $hash
+     * @var bool
      */
     protected $hash = false;
     

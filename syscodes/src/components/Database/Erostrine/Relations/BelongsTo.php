@@ -37,28 +37,28 @@ class BelongsTo extends Relation
     /**
      * The child model instance of the relation.
      * 
-     * @var \Syscodes\Components\Database\Erostrine\Model $child
+     * @var \Syscodes\Components\Database\Erostrine\Model
      */
     protected $child;
 
     /**
      * The foreign key of the parent model.
      * 
-     * @var string $foreignKey
+     * @var string
      */
     protected $foreignKey;
 
     /**
      * The associated key on the parent model.
      * 
-     * @var string $ownerKey
+     * @var string
      */
     protected $ownerKey;
 
     /**
      * The name of the relationship.
      * 
-     * @var string $relationName
+     * @var string
      */
     protected $relationName;
 

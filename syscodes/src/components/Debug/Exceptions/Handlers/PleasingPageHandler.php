@@ -43,7 +43,7 @@ class PleasingPageHandler extends Handler
 	/**
 	 * The brand main of handler.
 	 * 
-	 * @var string $brand
+	 * @var string
 	 */
 	protected $brand = 'Lenevor Debug';
 
@@ -52,14 +52,14 @@ class PleasingPageHandler extends Handler
 	 * that resolves a string that can be used to open a given file
 	 * in an editor.
 	 * 
-	 * @var mixed $editor
+	 * @var mixed
 	 */
 	protected $editor;
 
 	/**
 	 * A list of known editor strings.
 	 * 
-	 * @var array $editors
+	 * @var array
 	 */
 	protected $editors = [
 		"vscode"   => "vscode://file/%file:%line",
@@ -76,42 +76,42 @@ class PleasingPageHandler extends Handler
 	/**
 	 * The page title main of handler.
 	 * 
-	 * @var string $pageTitle
+	 * @var string
 	 */
 	protected $pageTitle = 'Lenevor Debug! There was an error';
 	
 	/**
 	 * Fast lookup cache for known resource locations.
 	 * 
-	 * @var array $resourceCache
+	 * @var array
 	 */
 	protected $resourceCache = [];
 	
 	/**
 	 * The path to the directory containing the html error template directories.
 	 * 
-	 * @var array $searchPaths
+	 * @var array
 	 */
 	protected $searchPaths = [];
 
 	/**
 	 * Gets the table of data.
 	 * 
-	 * @var array $tables
+	 * @var array
 	 */
 	protected $tables = [];
 
 	/**
 	 * Gets the theme default.
 	 * 
-	 * @var string $theme
+	 * @var string
 	 */
 	protected $theme;
 	
 	/**
 	 * The template handler system.
 	 * 
-	 * @var string|object $template
+	 * @var string|object
 	 */
 	protected $template;	
 	

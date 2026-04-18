@@ -37,7 +37,7 @@ class HigherOrderBuilderProxy
     /**
      * The method being proxied.
      * 
-     * @var mixed $method
+     * @var mixed
      */
     public $method;
 

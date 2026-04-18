@@ -34,7 +34,7 @@ class QueryException extends PDOException
     /**
      * The bindings for the query.
      * 
-     * @var array $bindings
+     * @var array
      */
     protected $bindings;
 
@@ -55,7 +55,7 @@ class QueryException extends PDOException
     /**
      * The SQL for the query.
      * 
-     * @var string $sql
+     * @var string
      */
     protected $sql;
 

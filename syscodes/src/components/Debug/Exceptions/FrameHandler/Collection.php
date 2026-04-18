@@ -36,7 +36,9 @@ use Traversable;
 class Collection implements ArrayAccess, IteratorAggregate, Countable
 {
     /**
-     * @var array $frames
+     * Get the frames.
+     * 
+     * @var array
      */
     protected $frames;
 
@@ -54,8 +56,6 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
 
     /**
      * Returns an array with all frames.
-     * 
-     * @see    Collection::getIterator
      * 
      * @return array
      */
@@ -85,8 +85,6 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Whether or not an offset exists.
      * 
-     * @see    \ArrayAccess::offsetExists($offset)
-     * 
      * @return bool
      */
     public function offsetExists(mixed $offset): bool
@@ -97,7 +95,6 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Retrieve a value offset.
      * 
-     * @see    \ArrayAccess::offsetGet($offset)
      * @param  int  $offset
      * 
      * @return mixed
@@ -110,7 +107,6 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Assigns a value to the specified offset.
      * 
-     * @see    \ArrayAccess::offsetSet($offset, $value)
      * @param  int  $offset
      * 
      * @return void
@@ -125,7 +121,6 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Unset an offset.
      * 
-     * @see    \ArrayAccess::offsetUnset($offset)
      * @param  int  $offset
      * 
      * @throws \Exception
@@ -144,8 +139,6 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Retrieve an external iterator.
      * 
-     * @see    \IteratorAggregate::getIterator
-     * 
      * @return new \ArrayIterator
      */
     public function getIterator(): Traversable
@@ -161,8 +154,6 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
 
     /**
      * Count all elements of an object Frame.
-     * 
-     * @see    Countable::count
      * 
      * @return int
      */

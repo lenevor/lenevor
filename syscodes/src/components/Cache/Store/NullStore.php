@@ -35,7 +35,7 @@ class NullStore implements Store
     /**
      * The array storaged value.
      * 
-     * @var array $storage
+     * @var array
      */
     protected $storage = [];
 

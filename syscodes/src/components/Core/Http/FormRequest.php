@@ -42,49 +42,49 @@ class FormRequest extends Request implements ValidatesResolved
     /**
      * The container instance.
      * 
-     * @var \Syscodes\Compopnents\Contracts\Container\Container $container
+     * @var \Syscodes\Compopnents\Contracts\Container\Container
      */
     protected $container;
     
     /**
      * The key to be used for the view error bag.
      * 
-     * @var string $errorBag
+     * @var string
      */
     protected $errorBag = 'default';
     
     /**
      * The input keys that should not be flashed on redirect.
      * 
-     * @var array $dontFlash
+     * @var array
      */
     protected $dontFlash = ['password', 'password_confirmation'];
     
     /**
      * The redirector instance.
      * 
-     * @var \Syscodes\Components\Routing\Generators\Redirector $redirector
+     * @var \Syscodes\Components\Routing\Generators\Redirector
      */
     protected $redirector;
     
     /**
      * The URI to redirect to if validation fails.
      * 
-     * @var string $redirect
+     * @var string
      */
     protected $redirect;
     
     /**
      * The controller action to redirect to if validation fails.
      * 
-     * @var string $redirectAction
+     * @var string
      */
     protected $redirectAction;
     
     /**
      * The route to redirect to if validation fails.
      * 
-     * @var string $redirectRoute
+     * @var string
      */
     protected $redirectRoute;
     

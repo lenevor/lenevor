@@ -42,7 +42,7 @@ class Grammar extends BaseGrammar
     /**
      * Get the components for use a select statement.
      * 
-     * @var array $components
+     * @var array
      */
     protected $components = [
         'aggregate',

@@ -34,14 +34,14 @@ abstract class HasOneOrMany extends Relation
     /**
      * The foreign key of the parent model.
      * 
-     * @var string $foreignKey
+     * @var string
      */
     protected $foreignKey;
 
     /**
      * The local key of the parent model.
      * 
-     * @var string $localKey
+     * @var string
      */
     protected $localKey;
 

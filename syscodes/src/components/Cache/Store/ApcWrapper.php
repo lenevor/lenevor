@@ -30,7 +30,7 @@ class ApcWrapper
     /**
      * Indeicates if APCu is supported.
      * 
-     * @var bool $apcu
+     * @var bool
      */
     protected $apcu = false;
 

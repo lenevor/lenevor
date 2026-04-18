@@ -30,21 +30,21 @@ class Failed
     /**
      * The credentials provided by the attempter.
      * 
-     * @var array $credentials
+     * @var array
      */
     public $credentials;
 
     /**
      * The authentication guard name.
      * 
-     * @var string $guard
+     * @var string
      */
     public $guard;
 
     /**
      * The authenticated user.
      * 
-     * @var \Syscodes\Components\Contracts\Auth\Authenticatable $user
+     * @var \Syscodes\Components\Contracts\Auth\Authenticatable
      */
     public $user;
 

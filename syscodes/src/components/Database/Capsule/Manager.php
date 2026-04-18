@@ -38,7 +38,7 @@ class Manager
     /**
      * The database manager instance.
      * 
-     * @var \Syscodes\Components\Database\DatabaseManager $manager
+     * @var \Syscodes\Components\Database\DatabaseManager
      */
     protected $manager;
 

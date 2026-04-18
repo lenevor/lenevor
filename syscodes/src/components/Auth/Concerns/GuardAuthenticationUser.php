@@ -34,14 +34,14 @@ trait GuardAuthenticationUser
     /**
      * The currently authenticated user.
      * 
-     * @var Authenticatable $user
+     * @var Authenticatable
      */
     protected $user;
     
     /**
      * The user provider implementation.
      * 
-     * @var \Syscodes\Components\Contracts\Auth\UserProvider $provider
+     * @var \Syscodes\Components\Contracts\Auth\UserProvider
      */
     protected $provider;
     

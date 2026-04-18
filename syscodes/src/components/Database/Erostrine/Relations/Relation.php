@@ -51,28 +51,28 @@ abstract class Relation
     /**
      * The parent model instance.
      * 
-     * @var \Syscodes\Components\Database\Erostrine\Model $parent
+     * @var \Syscodes\Components\Database\Erostrine\Model
      */
     protected $parent;
 
     /**
      * The Erostrine query builder instance.
      * 
-     * @var \Syscodes\Components\Database\Erostrine\builder $query
+     * @var \Syscodes\Components\Database\Erostrine\builder
      */
     protected $query;
 
     /**
      * The related model instance.
      * 
-     * @var \Syscodes\Components\Database\Erostrine\Model $related
+     * @var \Syscodes\Components\Database\Erostrine\Model
      */
     protected $related;
 
     /**
      * Indicates if the relation is adding constraints.
      * 
-     * @var bool $constraints
+     * @var bool
      */
     protected static $constraints = true;
 

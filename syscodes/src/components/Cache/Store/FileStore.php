@@ -43,21 +43,21 @@ class FileStore implements Key, Store
     /**
      * The extension file called '.cache'.
      * 
-     * @var string $extension
+     * @var string
      */
     protected $extension = '.cache';
 
     /**
      * The FileSystem instance.
      * 
-     * @var object $files
+     * @var object
      */
     protected $files;
 
     /**
      * The File cache directory.
      * 
-     * @var string $directory
+     * @var string
      */
     protected $directory;
 

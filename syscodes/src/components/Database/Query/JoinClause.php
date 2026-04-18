@@ -60,14 +60,14 @@ class JoinClause extends Builder
     /**
      * The table the join clause is joining to.
      * 
-     * @var string $table
+     * @var string
      */
     public $table;
 
     /**
      * The type of join being performed.
      * 
-     * @var string $type
+     * @var string
      */
     public $type;
 

@@ -33,28 +33,28 @@ class TemplateHandler
 	/**
 	 * Benchmark instance.
 	 * 
-	 * @var string $benchmark
+	 * @var string
 	 */
 	protected $benchmark;
 
 	/**
 	 * Nesting level of the output buffering mechanism.
 	 *
-	 * @var string $obLevel
+	 * @var string
 	 */
 	public $obLevel;
 	
 	/**
 	 * The functions of system what control errors and exceptions.
 	 * 
-	 * @var string|object $system
+	 * @var string|object
 	 */
 	protected $system;
 	
 	/**
 	 * An array of variables to be passed to all templates.
 	 * 
-	 * @var array $variables
+	 * @var array
 	 */
 	protected $variables = [];
 

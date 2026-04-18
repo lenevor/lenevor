@@ -32,21 +32,21 @@ trait GuardsAttributes
     /**
      * The attributes that are mass assignable.
      * 
-     * @var string[] $fillable
+     * @var string[]
      */
     protected $fillable = [];
 
     /**
      * The attributes that aren't mass assignable.
      * 
-     * @var string[]|null $guarded
+     * @var string[]|null
      */
     protected $guarded = ['*'];
 
     /**
      * Indicates if all mass assignment is enabled.
      * 
-     * @var bool $unguarded
+     * @var bool
      */
     protected static $unguarded = false;
 

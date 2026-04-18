@@ -34,7 +34,7 @@ class ArrayTable implements Table
     /**
      * Gets data as associative array.
      * 
-     * @var array $data
+     * @var array
      */
     protected $data = [];
 

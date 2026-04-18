@@ -36,7 +36,7 @@ class Authorize
     /**
      * The gate instance.
      * 
-     * @var \Syscodes\Components\Contracts\Auth\Access\Gate $gate
+     * @var \Syscodes\Components\Contracts\Auth\Access\Gate
      */
     protected $gate;
     

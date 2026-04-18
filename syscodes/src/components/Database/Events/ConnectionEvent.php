@@ -30,14 +30,14 @@ abstract class ConnectionEvent
     /**
      * The database connection instance.
      * 
-     * @var \Syscodes\Components\Database\Connection $connection
+     * @var \Syscodes\Components\Database\Connection
      */
     public $connection;
 
     /**
      * The name of the connection.
      * 
-     * @var string $ConnectionName
+     * @var string
      */
     public $connectionName;
 

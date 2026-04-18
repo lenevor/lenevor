@@ -41,7 +41,7 @@ class ModelNotFoundException extends RecordNotFoundException
     /**
      * Name of the affected Erostrine model.
      * 
-     * @var string $model
+     * @var string
      */
     protected $model;
 

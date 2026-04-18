@@ -30,14 +30,14 @@ trait HidesAttributes
     /**
      * The attributes that should be hidden for arrays.
      * 
-     * @var array $hidden
+     * @var array
      */
     protected $hidden = [];
 
     /**
      * The attributes that should be visible for arrays.
      * 
-     * @var array $visible
+     * @var array
      */
     protected $visible = [];
 

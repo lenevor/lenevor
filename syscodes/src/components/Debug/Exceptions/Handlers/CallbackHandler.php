@@ -34,7 +34,7 @@ class CallbackHandler extends Handler
     /**
      * The contents of a variable can be called as a function.
      * 
-     * @var \Callable $callable
+     * @var \Callable
      */
     protected $callable;
 

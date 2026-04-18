@@ -42,49 +42,49 @@ class GDebug implements DebugContract
 	/**
 	 * Allow Handlers to force the script to quit.
 	 * 
-	 * @var bool $allowQuit
+	 * @var boo
 	 */
 	protected $allowQuit = true;
 	
 	/**
 	 * Benchmark instance.
 	 * 
-	 * @var string|object $benchmark
+	 * @var string|object
 	 */
 	protected $benchmark;
 
 	/**
 	 * The handler stack.
 	 * 
-	 * @var array $handlerStack
+	 * @var array
 	 */
 	protected $handlerStack = [];
 
 	/**
 	 * The send Http code by default: 500 Internal Server Error.
 	 * 
-	 * @var bool $sendHttpCode
+	 * @var bool
 	 */
 	protected $sendHttpCode = 500;
 
 	/**
 	 * The send output.
 	 * 
-	 * @var bool $sendOutput
+	 * @var bool
 	 */
 	protected $sendOutput = true;
 
 	/**
 	 * The functions of system what control errors and exceptions.
 	 * 
-	 * @var string|object $system
+	 * @var string|object
 	 */
 	protected $system;
 
 	/**
 	 * In certain scenarios, like in shutdown handler, we can not throw exceptions.
 	 * 
-	 * @var bool $throwExceptions
+	 * @var bool
 	 */
 	protected $throwExceptions = true;
 

@@ -66,14 +66,14 @@ class Builder implements BuilderContract
     /**
      * An aggregate function and column to be run.
      * 
-     * @var array $aggregate
+     * @var array
      */
     public $aggregate;
 
     /**
      * The current query value bindings.
      * 
-     * @var array $bindings
+     * @var array
      */
     public $bindings = [
         'select' => [],
@@ -89,84 +89,84 @@ class Builder implements BuilderContract
     /**
      * Get the columns of a table.
      * 
-     * @var array $columns
+     * @var array
      */
     public $columns;
 
     /**
      * The database connection instance.
      * 
-     * @var \Syscodes\Components\Database\Connections\ConnectionInterface $connection
+     * @var \Syscodes\Components\Database\Connections\ConnectionInterface
      */
     protected $connection;
 
     /**
      * Indicates if the query returns distinct results.
      * 
-     * @var bool $distinct
+     * @var bool
      */
     public $distinct = false;
 
     /**
      * Get the table name for the query.
      * 
-     * @var string $from
+     * @var string
      */
     public $from;
 
     /**
      * The database query grammar instance.
      * 
-     * @var \Syscodes\Components\Database\Query\Grammars\Grammar $grammar
+     * @var \Syscodes\Components\Database\Query\Grammars\Grammar
      */
     protected $grammar;
 
     /**
      * Get the grouping for the query.
      * 
-     * @var array $groups
+     * @var array
      */
     public $groups;
 
     /**
      * Get the having constraints for the query.
      * 
-     * @var array $havings
+     * @var array
      */
     public $havings;
 
     /**
      * Get the table joins for the query.
      * 
-     * @var array $joins
+     * @var array
      */
     public $joins;
 
     /**
      * Get the maximum number of records to return.
      * 
-     * @var int $limit
+     * @var int
      */
     public $limit;
 
     /**
      * Indicates whether row locking is being used.
      * 
-     * @var string|bool $lock
+     * @var string|bool
      */
     public $lock;
 
     /**
      * Get the number of records to skip.
      * 
-     * @var int $offset
+     * @var int
      */
     public $offset;
 
     /**
      * All of the available clause operators.
      * 
-     * @var array $operators
+     * @var array
      */
     public $operators = [
         '=', '<', '>', '<=', '>=', '<>', '!=',
@@ -177,56 +177,56 @@ class Builder implements BuilderContract
     /**
      * Get the orderings for the query.
      * 
-     * @var array $orders
+     * @var array
      */
     public $orders;
 
     /**
      * The database query post processor instance.
      * 
-     * @var \Syscodes\Components\Database\Query\Processors\Processor $processor
+     * @var \Syscodes\Components\Database\Query\Processors\Processor
      */
     protected $processor;
 
     /**
      * Get the query union statements.
      * 
-     * @var array $unions
+     * @var array
      */
     public $unions;
 
     /**
      * Get the maximum number of union records to return.
      * 
-     * @var int $unionLimit
+     * @var int
      */
     public $unionLimit;
 
     /**
      * Get the number of union records to skip.
      * 
-     * @var int $unionOffset
+     * @var int
      */
     public $unionOffset;
 
     /**
      * Get the orderings for the union query.
      * 
-     * @var array $unionOrders
+     * @var array
      */
     public $unionOrders;
     
     /**
      * Whether to use write pdo for the select.
      * 
-     * @var bool $useWritePdo
+     * @var bool
      */
     public $useWritePdo = false;
 
     /**
      * Get the where constraints for the query.
      * 
-     * @var array $wheres
+     * @var array
      */
     public $wheres;
 

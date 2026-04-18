@@ -30,14 +30,14 @@ class Validated
     /**
      * The authentication guard name.
      * 
-     * @var string $guard
+     * @var string
      */
     public $guard;
 
     /**
      * The retrieved and validated user provider.
      * 
-     * @var \Syscodes\Components\Contracts\Auth\Authenticatable $user
+     * @var \Syscodes\Components\Contracts\Auth\Authenticatable
      */
     public $user;
 

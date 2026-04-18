@@ -34,21 +34,21 @@ class AuthorizationException extends Exception
     /**
      * The Code HTTP response.
      * 
-     * @var int $code
+     * @var int
      */
     protected $code;
 
     /**
      * The response from the gate.
      * 
-     * @var \Syscodes\Components\Auth\Access\Response $response
+     * @var \Syscodes\Components\Auth\Access\Response 
      */
     protected $response;
     
     /**
      * The HTTP response status code.
      * 
-     * @var int|null $status
+     * @var int|null
      */
     protected $status;
     

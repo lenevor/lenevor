@@ -37,14 +37,14 @@ class ArrayStore implements Store
     /**
      * The array storaged value.
      * 
-     * @var array $storage
+     * @var array
      */
     protected $storage = [];
 
     /**
      * Indicates if values are serialized within the store.
      * 
-     * @var bool $serialized
+     * @var bool
      */
     protected $serialized;
 

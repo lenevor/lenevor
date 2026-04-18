@@ -30,7 +30,7 @@ trait TableLabel
     /**
      * Gets the label of data tables.
      * 
-     * @var string $label
+     * @var string
      */
     protected $label;
 

@@ -39,28 +39,28 @@ class AuthManager implements Factory
     /**
      * The applicaction instance.
      * 
-     * @var \Syscodes\Components\Contracts\Core\Application $app
+     * @var \Syscodes\Components\Contracts\Core\Application
      */
     protected $app;
 
     /**
      * The registered custom driver creators.
      * 
-     * @var array $customCreators
+     * @var array
      */
     protected $customCreators = [];
 
     /**
      * The array of created "drivers".
      * 
-     * @var array $guards
+     * @var array
      */
     protected $guards = [];
 
     /**
      * The user resolver shared by various services.
      * 
-     * @var \Closure $userResolver
+     * @var \Closure
      */
     protected $userResolver;
 
