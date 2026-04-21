@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Core\Providers;
 
 use Syscodes\Components\Contracts\Support\Deferrable;
+use Syscodes\Components\Database\MigrationServiceProvider;
 use Syscodes\Components\Support\AggregateServiceProvider;
 
 /**
@@ -37,5 +38,6 @@ class ConsoleServiceProvider extends AggregateServiceProvider implements Deferra
      */
     protected $providers = [
         PrimeServiceProvider::class,
+        MigrationServiceProvider::class,
     ];
 }
