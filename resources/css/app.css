@@ -1,6 +1,4 @@
-/*
- * CONFIGURATION
- */
+/*! App.css | BSD-3 License */
 
 :root {
 	--color-black-1: hsla(0, 0%, 7%, 1);
@@ -640,7 +638,7 @@ header .container h1 {
 }
 
 .dark-theme .container .footer p {
-	color: var(--color-darkgray-theme-3);
+	color: var(--color-darkgray-theme-1);
 }
 
 /*
@@ -1079,10 +1077,6 @@ input[type=submit]:hover {
 		transform: translate(-50%, -50%);
 		max-width: 28rem;
 	}
-
-	.container .footer p {
-		font-size: 0.7em;
-	}
 }
 
 /*
@@ -1284,15 +1278,14 @@ input[type=submit]:hover {
 	.dark-theme .resources .learn h3,
 	.dark-theme .resources .discuss h3,
 	.dark-theme .resources .contribute h3 {
-		font-size: 1.6em;
-		padding: 13px;
-		padding-left: 70px;
+		font-size: 1.4em;
+		padding-left: 60px;
 	}
 
 	.resources .learn h3 .icon-books:before,
 	.resources .discuss h3 .icon-embed:before,
 	.resources .contribute h3 .icon-users:before {
-		font-size: 1.2em;
+		font-size: 1.3em;
 	}
 	
 	.resources .learn p,
@@ -1301,7 +1294,7 @@ input[type=submit]:hover {
 	.dark-theme .resources .learn p,
 	.dark-theme .resources .discuss p,
 	.dark-theme .resources .contribute p {
-		font-size: 1.3em;
+		font-size: 1.1em;
 		margin: 25px;
 		letter-spacing: .4px;
 	}
@@ -1326,12 +1319,8 @@ input[type=submit]:hover {
 
 	.container .footer .btnTheme .fas {
 		font-size: 0.9em;
-		left: 7.5px;
+		left: 8px;
 		top: 0;
-	}
-	
-	.container .footer p {
-		font-size: 0.8em;
 	}
 }
 
