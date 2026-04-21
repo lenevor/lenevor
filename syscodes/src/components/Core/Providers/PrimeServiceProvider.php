@@ -95,6 +95,8 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
 
     /**
      * Register any application services.
+     * 
+     * @return void
      */
     public function register()
     {
