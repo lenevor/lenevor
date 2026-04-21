@@ -151,7 +151,7 @@ class Dataprint
 
         $statements = [];
 
-         $this->ensureCommandsAreValid();
+        $this->ensureCommandsAreValid();
 
         foreach ($this->commands as $command) {
             if ($command->shouldBeSkipped) {
@@ -162,7 +162,7 @@ class Dataprint
 
             if (method_exists($this->grammar, $method) || $this->grammar::hasMacro($method)) {
                 if ( ! is_null($sql = $this->grammar->$method($this, $command, $this->connection))) {
-                    $statements[] = array_merge($statements, (array) $sql);
+                    $statements = array_merge($statements, (array) $sql);
                 }
             }
         }
@@ -261,7 +261,7 @@ class Dataprint
     public function addFlowingCommands()
     {
         foreach ($this->columns as $column) {
-            foreach ($this->grammar->getCommands() as $commandName) {
+            foreach ($this->grammar->getFlowingCommands() as $commandName) {
                 $this->addCommand($commandName, compact('column'));
             }
         }
