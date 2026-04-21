@@ -124,6 +124,25 @@ class MySqlGrammar extends Grammar
     }
 
     /**
+     * Compile the query to determine the tables.
+     *
+     * @param  string|string[]|null  $schema
+     * 
+     * @return string
+     */
+    public function compileTables($schema): string
+    {
+        return sprintf(
+            'select table_name as `name`, table_schema as `schema`, (data_length + index_length) as `size`, '
+            .'table_comment as `comment`, engine as `engine`, table_collation as `collation` '
+            ."from information_schema.tables where table_type in ('BASE TABLE', 'SYSTEM VERSIONED') and "
+            .$this->compileSchemaWhereClause($schema, 'table_schema')
+            .' order by table_schema, table_name',
+            $this->quoteString($schema)
+        );
+    }
+
+    /**
      * Compile the query to determine the list of tables.
      *
      * @return string
