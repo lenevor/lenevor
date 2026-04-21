@@ -78,7 +78,7 @@ class DatabaseManager implements ConnectionResolverInterface
      */
     public function __construct($app, ConnectionFactory $factory)
     {
-        $this->app     = $app;
+        $this->app = $app;
         $this->factory = $factory;
 
         $this->reconnector = function ($connection) {
