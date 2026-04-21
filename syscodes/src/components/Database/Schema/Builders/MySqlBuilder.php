@@ -77,6 +77,6 @@ class MySqlBuilder extends Builder
      */
     public function getCurrentSchemaListing(): array
     {
-        return [$this->connection->getDatabaseName()];
+        return [$this->connection->getDatabase()];
     }
 }
