@@ -12,10 +12,8 @@
 		<link href="https://fonts.googleapis.com/css?family=Heebo:100,200,300,400,600,700,800,900" rel="stylesheet">
 		
 		<!-- Styles -->
-		<style type="text/css">
-			<@php 
-				echo preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(resource_path('css/app.css')));
-			<@endphp
+		<style>
+		<@php echo preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(resource_path('css/app.css'))); <@endphp		
 		</style>
 	</head>
 	<body>
@@ -54,7 +52,7 @@
 				<div class="menu">
 				<@if (Route::has('login'))
 					<@auth
-						<a href="{{ url('/home') }}">Home</a>
+						<a href="{{ url('/dashboard') }}">Dashboard</a>
 					<@else
 						<a href="{{ route('login') }}">Log in</a>
 
@@ -68,13 +66,10 @@
 		</header>
 
 		<@give('content')
-
+		
 		<script src="https://kit.fontawesome.com/ebd73c60e9.js" crossorigin="anonymous"></script>
 		<script type="text/javascript">
-			<@php 
-				echo preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(resource_path('js/app.js')));
-			<@endphp
+			<@php echo preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(resource_path('js/app.js'))); <@endphp
 		</script>
-
 	</body>
 </html>
