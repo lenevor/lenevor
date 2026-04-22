@@ -69,6 +69,7 @@ return [
     'Syscodes\\Components\\Console\\Concerns\\ConfirmProcess' => SYS_PATH.'src/components/Console/Concerns/ConfirmProcess.php',
     'Syscodes\\Components\\Console\\Concerns\\HasParameters' => SYS_PATH.'src/components/Console/Concerns/HasParameters.php',
     'Syscodes\\Components\\Console\\Concerns\\InteractsWithIO' => SYS_PATH.'src/components/Console/Concerns/InteractsWithIO.php',
+    'Syscodes\\Components\\Console\\Concerns\\Prohibitable' => SYS_PATH.'src/components/Console/Concerns/Prohibitable.php',
     'Syscodes\\Components\\Console\\Concerns\\PromptsForMissingInput' => SYS_PATH.'src/components/Console/Concerns/PromptsForMissingInput.php',
     'Syscodes\\Components\\Console\\Events\\CommandFinished' => SYS_PATH.'src/components/Console/Events/CommandFinished.php',
     'Syscodes\\Components\\Console\\Events\\CommandStarting' => SYS_PATH.'src/components/Console/Events/CommandStarting.php',
