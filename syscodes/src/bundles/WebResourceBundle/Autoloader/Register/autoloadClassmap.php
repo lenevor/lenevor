@@ -305,6 +305,7 @@ return [
     'Syscodes\\Components\\Database\\Connectors\\PostgresConnector' => SYS_PATH.'src/components/Database/Connectors/PostgresConnector.php',
     'Syscodes\\Components\\Database\\Connectors\\SQLiteConnector' => SYS_PATH.'src/components/Database/Connectors/SQLiteConnector.php',
     'Syscodes\\Components\\Database\\Connectors\\SqlServerConnector' => SYS_PATH.'src/components/Database/Connectors/SqlServerConnector.php',
+    'Syscodes\\Components\\Database\\Console\\Migrations\\BaseMigrationCommand' => SYS_PATH.'src/components/Database/Console/Migrations/BaseMigrationCommand.php',
     'Syscodes\\Components\\Database\\Console\\Migrations\\InstallCommand' => SYS_PATH.'src/components/Database/Console/Migrations/InstallCommand.php',
     'Syscodes\\Components\\Database\\Console\\Seeds\\WithoutModelEvents' => SYS_PATH.'src/components/Database/Console/Seeds/WithoutModelEvents.php',
     'Syscodes\\Components\\Database\\Erostrine\\Concerns\\GuardsAttributes' => SYS_PATH.'src/components/Database/Erostrine/Concerns/GuardsAttributes.php',
