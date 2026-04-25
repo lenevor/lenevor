@@ -33,7 +33,7 @@ trait InteractsWithTime
     /**
      * Get the number of seconds until the given DateTime.
      * 
-     * @param  \DateTime|\DateInterval|int  $delay
+     * @param  DateTime|DateInterval|int  $delay
      * 
      * @return int
      */
@@ -42,14 +42,14 @@ trait InteractsWithTime
         $delay = $this->parseDateInterval($delay);
 
         return $delay instanceof DateTime
-                            ? max(0, $delay->getTimestamp() - $this->currentTime())
-                            : (int) $delay;
+            ? max(0, $delay->getTimestamp() - $this->currentTime())
+            : (int) $delay;
     }
 
     /**
      * Get the "available at" UNIX timestamp.
      * 
-     * @param  \DataTime|\DateInterval|int  $delay  
+     * @param  DataTime|DateInterval|int  $delay  
      * 
      * @return int
      */
@@ -58,16 +58,16 @@ trait InteractsWithTime
         $delay = $this->parseDateInterval($delay);
 
         return $delay instanceof DateTime
-                            ? $delay->getTimestamp()
-                            : $this->addRealSeconds($delay)->getTimestamp();
+            ? $delay->getTimestamp()
+            : $this->addRealSeconds($delay)->getTimestamp();
     }
 
     /**
      * If the given value is an interval, convert it to a DateTime instance.
      * 
-     * @param  \DateTime|\DateInterval|int  $delay
+     * @param  DateTime|DateInterval|int  $delay
      * 
-     * @return \DateTime|int
+     * @return DateTime|int
      */
     protected function parseDateInterval($delay)
     {

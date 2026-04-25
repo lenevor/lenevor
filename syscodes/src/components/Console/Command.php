@@ -35,7 +35,7 @@ use Syscodes\Components\Http\Exceptions\ConsoleFailedException;
 class Command extends SymfonyCommand
 {
     use Concerns\CallCommands,
-        Concerns\ConfirmProcess,
+        Concerns\Confirmable,
         Concerns\HasParameters,
         Concerns\InteractsWithIO,
         Concerns\PromptsForMissingInput;

@@ -43,7 +43,7 @@ use Syscodes\Components\Support\Traits\Macroable;
  */
 trait Date
 {
-    use Factory,
+    use Creator,
         Schedule,
         Utilities,
         Comparison,
@@ -126,7 +126,7 @@ trait Date
      * 
      * @param  \DateTimeZone  $timezone
      * 
-     * @return \Syscodes\Components\Support\Chronos\Time
+     * @return \Syscodes\Components\Support\Chronos\Chronos
      */
     public function setTimezone($timezone): DateTime
     {
@@ -138,7 +138,7 @@ trait Date
      * 
      * @param  int  $timestamp
      * 
-     * @return \Syscodes\Components\Support\Chronos\Time
+     * @return \Syscodes\Components\Support\Chronos\Chronos
      */
     public function setTimestamp($timestamp): DateTime
     {
@@ -153,7 +153,7 @@ trait Date
      * @param  string  $name
      * @param  string  $value
      * 
-     * @return \Syscodes\Components\Support\Chronos\Time
+     * @return \Syscodes\Components\Support\Chronos\Chronos
      */
     protected function setValue(string $name, $value)
     {

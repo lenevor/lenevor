@@ -1252,7 +1252,7 @@ class Connection implements ConnectionInterface
      * 
      * @return string
      */
-    public function getDatabase(): string
+    public function getDatabaseName(): string
     {
         return $this->database;
     }
@@ -1264,7 +1264,7 @@ class Connection implements ConnectionInterface
      * 
      * @return static
      */
-    public function setDatabase($database): static
+    public function setDatabaseName($database): static
     {
         $this->database = $database;
 

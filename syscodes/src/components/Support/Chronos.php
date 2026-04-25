@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\Support;
 
-use Syscodes\Components\Support\Chronos\Time as BaseTime;
+use Syscodes\Components\Support\Chronos\Chronos as BaseTime;
 
 /**
  * Class that inherits all methods the Time class.

@@ -142,7 +142,7 @@ class Migrator
      * Run the pending migrations at a given path.
      *
      * @param  string[]|string  $paths
-     * @param  array<string, mixed>  $options
+     * @param  array  $options
      * 
      * @return string[]
      */
@@ -271,7 +271,7 @@ class Migrator
             ? $migration->canRun()
             : true;
 
-        if (! $shouldRunMigration) {
+        if ( ! $shouldRunMigration) {
             $this->fireMigrationEvent(new MigrationSkipped($name));
 
             $this->write(Task::class, $name, fn () => MigrationResult::Skipped->value);
@@ -337,7 +337,7 @@ class Migrator
      *
      * @param  array  $migrations
      * @param  string[]|string  $paths
-     * @param  array<string, mixed>  $options
+     * @param  array  $options
      * 
      * @return string[]
      */

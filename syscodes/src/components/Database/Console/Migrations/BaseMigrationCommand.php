@@ -39,7 +39,7 @@ class BaseMigrationCommand extends Command
     {
         if ($this->input->hasOption('path') && $this->option('path')) {
             return (new Collection($this->option('path')))->map(function ($path) {
-                return ! $this->usingRealPath()
+                return ! $this->usingResolvedRealPath()
                     ? $this->lenevor->basePath().'/'.$path
                     : $path;
             })->all();
@@ -53,7 +53,7 @@ class BaseMigrationCommand extends Command
      *
      * @return bool
      */
-    protected function usingRealPath()
+    protected function usingResolvedRealPath(): bool
     {
         return $this->input->hasOption('realpath') && $this->option('realpath');
     }
