@@ -27,7 +27,7 @@ use Syscodes\Components\Contracts\Database\Events\MigrationEvent;
 /**
  * The migration started.
  */
-class MigrationStarted extends MigrationEvent
+class MigrationStarted implements MigrationEvent
 {
     //
 }
