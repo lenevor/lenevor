@@ -22,9 +22,13 @@
 
 namespace Syscodes\Components\Database;
 
+use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\Contracts\Support\Deferrable;
 use Syscodes\Components\Database\Console\Migrations\InstallCommand;
+use Syscodes\Components\Database\Console\Migrations\MigrateCommand;
+use Syscodes\Components\Database\Console\Migrations\MigrateMakeCommand;
 use Syscodes\Components\Database\Migrations\DatabaseMigrationRepository;
+use Syscodes\Components\Database\Migrations\MigrationCreator;
 use Syscodes\Components\Database\Migrations\Migrator;
 use Syscodes\Components\Support\ServiceProvider;
 
@@ -39,7 +43,9 @@ class MigrationServiceProvider extends ServiceProvider implements Deferrable
      * @var array
      */
     protected $commands = [
+        'Migrate' => MigrateCommand::class,
         'MigrateInstall' => InstallCommand::class,
+        'MigrateMake' => MigrateMakeCommand::class,
     ];
 
     /**
@@ -52,6 +58,8 @@ class MigrationServiceProvider extends ServiceProvider implements Deferrable
         $this->registerRepository();
 
         $this->registerMigrator();
+        
+        $this->registerCreator();
 
         $this->registerCommands($this->commands);
     }
@@ -91,6 +99,30 @@ class MigrationServiceProvider extends ServiceProvider implements Deferrable
     }
 
     /**
+     * Register the migration creator.
+     *
+     * @return void
+     */
+    protected function registerCreator()
+    {
+        $this->app->singleton('migration.creator', function ($app) {
+            return new MigrationCreator($app['files'], $app->basePath('templates'));
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerMigrateCommand()
+    {
+        $this->app->singleton(MigrateCommand::class, function ($app) {
+            return new MigrateCommand($app['migrator'], $app[Dispatcher::class]);
+        });
+    }
+
+    /**
      * Register the command.
      *
      * @return void
@@ -99,6 +131,20 @@ class MigrationServiceProvider extends ServiceProvider implements Deferrable
     {
         $this->app->singleton(InstallCommand::class, function ($app) {
             return new InstallCommand($app['migration.repository']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerMigrateMakeCommand()
+    {
+        $this->app->singleton(MigrateMakeCommand::class, function ($app) {
+            $creator = $app['migration.creator'];
+
+            return new MigrateMakeCommand($creator);
         });
     }
 
