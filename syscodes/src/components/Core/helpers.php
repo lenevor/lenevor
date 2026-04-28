@@ -44,6 +44,8 @@ use Syscodes\Components\Routing\RouteResponse;
 use Syscodes\Components\Support\Facades\Date;
 use Syscodes\Components\Support\WebString;
 
+use function Syscodes\Components\Support\enum_value;
+
 if ( ! function_exists('abort')) {
     /**
      * Throw an HttpException with the given data.
@@ -623,13 +625,14 @@ if ( ! function_exists('now')) {
     /**
      * Create a new Chronos class instance for the current time.
      * 
-     * @param  \DateTimeZone|string|null  $timezone
+     * @param  \DateTimeZone|\UnitEnum|string|null  $timezone
+     * @param  string|null  $locale
      * 
      * @return \Syscodes\Components\Support\Chronos
      */
-    function now($timezone = null)
+    function now($timezone = null, $locale = null)
     {
-        return Date::now($timezone);
+        return Date::now(enum_value($timezone), $locale);
     }
 }
 
@@ -924,15 +927,16 @@ if ( ! function_exists('to_route')) {
 if ( ! function_exists('today')) {
     
     /**
-     * Create a new Carbon instance for the current date.
+     * Create a new Chronos instance for the current date.
      * 
-     * @param  \DateTimeZone|string|null  $tz
+     * @param  \DateTimeZone\UnitEnum|string|null  $timezone
+     * @param  string|null  $locale
      * 
      * @return \Syscodes\Components\Support\Chronos
      */
-    function today($timezone = null)
+    function today($timezone = null, $locale = null)
     {
-        return Date::today($timezone);
+        return Date::today(enum_value($timezone));
     }
 }
 
