@@ -25,6 +25,7 @@ use Syscodes\Components\Support\Environment;
 use Syscodes\Components\Support\HigherOrderTakeProxy;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Version;
+use Syscodes\Components\Support\Interval;
 
 
 if ( ! function_exists('blank')) {
@@ -181,6 +182,53 @@ if ( ! function_exists('preg_replace_sub')) {
     function preg_replace_sub($pattern, &$replacements, $subject)
     {
         return preg_replace_callback($pattern, fn ($match) => array_shift($replacements), $subject);
+    }
+}
+
+if ( ! function_exists('retry')) {
+    /**
+     * Retry an operation a given number of times.
+     *
+     * @param  int  $times
+     * @param  callable  $callback
+     * @param  int|\Closure  $sleepMilliseconds
+     * @param  callable|null  $when
+     * 
+     * @return mixed
+     *
+     * @throws \Exception
+     */
+    function retry($times, callable $callback, $sleepMilliseconds = 0, $when = null)
+    {
+        $attempts = 0;
+
+        $backoff = [];
+
+        if (is_array($times)) {
+            $backoff = $times;
+
+            $times = count($times) + 1;
+        }
+
+        beginning:
+        $attempts++;
+        $times--;
+
+        try {
+            return $callback($attempts);
+        } catch (Exception $e) {
+            if ($times < 1 || ($when && ! $when($e))) {
+                throw $e;
+            }
+
+            $sleepMilliseconds = $backoff[$attempts - 1] ?? $sleepMilliseconds;
+
+            if ($sleepMilliseconds) {
+                Interval::usleep(value($sleepMilliseconds, $attempts, $e) * 1000);
+            }
+
+            goto beginning;
+        }
     }
 }
 
