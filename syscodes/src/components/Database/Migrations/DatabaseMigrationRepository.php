@@ -154,7 +154,7 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
     /**
      * Remove a migration from the log.
      *
-     * @param  object
+     * @param  object  $migration
      * 
      * @return void
      */
@@ -246,7 +246,7 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
     /**
      * Resolve the database connection instance.
      *
-     * @return \Syscodes\Components\Database\Connection
+     * @return \Syscodes\Components\Database\Connections\Connection
      */
     public function getConnection()
     {

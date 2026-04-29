@@ -37,7 +37,7 @@ class QueryExecuted
     /**
      * The database connection instance.
      * 
-     * @var \Syscodes\Components\Database\Connection
+     * @var \Syscodes\Components\Database\Connections\Connection
      */
     public $connection;
 
@@ -75,7 +75,7 @@ class QueryExecuted
      * @param  string  $sql
      * @param  array  $bindings
      * @param  float|null  $time
-     * @param  \Syscodes\Components\Database\Connection  $connection
+     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * @param  null|'read'|'write'  $readWriteType
      * 
      * @return void

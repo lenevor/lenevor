@@ -23,7 +23,7 @@
 namespace Syscodes\Components\Database\Capsule;
 
 use Syscodes\Components\Container\Container;
-use Syscodes\Components\Database\Concerns\CapsuleManager;
+use Syscodes\Components\Support\Traits\CapsuleManager;
 use Syscodes\Components\Database\ConnectionFactory;
 use Syscodes\Components\Database\DatabaseManager;
 use Syscodes\Components\Database\Erostrine\Model;

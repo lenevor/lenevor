@@ -71,7 +71,7 @@ class MySqlConnection extends Connection
      * 
      * @return bool
      */
-    public function insert(string $query, array $bindings = [], $sequence = null): bool
+    public function insert($query, $bindings = [], $sequence = null): bool
     {
         return $this->run($query, $bindings, function ($query, $bindings) use ($sequence) {
             if ($this->pretending()) {
@@ -81,6 +81,8 @@ class MySqlConnection extends Connection
             $statement = $this->getPdo()->prepare($query);
 
             $this->bindValues($statement, $this->prepareBindings($bindings));
+
+            $this->recordsHaveBeenModified();
 
             $result = $statement->execute();
 

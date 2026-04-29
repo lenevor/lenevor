@@ -32,7 +32,7 @@ class MigrationSkipped implements MigrationEvent
     /**
      * Constructor. Create a new event instance.
      *
-     * @param  string  $method  The name of the migration that was skipped.
+     * @param  string  $migrationName  The name of the migration that was skipped.
      * 
      * @return void
      */

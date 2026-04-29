@@ -27,12 +27,17 @@ use Syscodes\Components\Database\Connections\Connection;
 use Syscodes\Components\Database\Events\ConnectionEstablished;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\Traits\Macroable;
 
 /**
  * It is used to instantiate the connection and its respective settings.
  */
 class DatabaseManager implements ConnectionResolverInterface
 {
+    use Macroable {
+        __call as macroCall;
+    }
+    
     /**
      * The appilcation instance.
      * 
@@ -316,7 +321,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * Register an extension connection resolver.
      * 
      * @param  string  $name
-     * @param  \Callable  $resolver
+     * @param  callable  $resolver
      * 
      * @return void
      */
@@ -359,6 +364,10 @@ class DatabaseManager implements ConnectionResolverInterface
      */
     public function __call($method, $parameters): mixed
     {
+        if (static::hasMacro($method)) {
+            return $this->macroCall($method, $parameters);
+        }
+
         return $this->connection()->$method(...$parameters);
     }
 }

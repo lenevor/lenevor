@@ -69,7 +69,7 @@ class ConnectionFactory
      * @param  array   $config
      * @param  string|null  $name
      * 
-     * @return \Syscodes\Components\Database\Connection
+     * @return \Syscodes\Components\Database\Connections\Connection
      */
     public function make(array $config, $name = null)
     {
@@ -85,7 +85,7 @@ class ConnectionFactory
      * 
      * @param  array  $config
      * 
-     * @return \Syscodes\Components\Database\Connection
+     * @return \Syscodes\Components\Database\Connections\Connection
      */
     protected function createReadWriteConnection(array $config)
     {
@@ -99,7 +99,7 @@ class ConnectionFactory
      * 
      * @param  array  $config
      * 
-     * @return \Syscodes\Components\Database\Connection
+     * @return \Syscodes\Components\Database\Connections\Connection
      */
     protected function createSingleConnection(array $config)
     {
@@ -229,7 +229,7 @@ class ConnectionFactory
      * @param  string  $prefix
      * @param  array  $config
      * 
-     * @return \Syscodes\Components\Database\Connection
+     * @return \Syscodes\Components\Database\Connections\Connection
      * 
      * @throws \InvalidArgumentException
      */

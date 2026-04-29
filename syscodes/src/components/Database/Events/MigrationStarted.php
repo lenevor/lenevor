@@ -22,12 +22,12 @@
 
 namespace Syscodes\Components\Database\Events;
 
-use Syscodes\Components\Contracts\Database\Events\MigrationEvent;
+use Syscodes\Components\Database\Events\MigrationEvent;
 
 /**
  * The migration started.
  */
-class MigrationStarted implements MigrationEvent
+class MigrationStarted extends MigrationEvent
 {
     //
 }

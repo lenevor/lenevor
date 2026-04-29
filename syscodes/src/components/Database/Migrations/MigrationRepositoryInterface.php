@@ -79,7 +79,7 @@ interface MigrationRepositoryInterface
     /**
      * Remove a migration from the log.
      *
-     * @param  object
+     * @param  object  $migration
      * 
      * @return void
      */

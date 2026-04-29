@@ -31,7 +31,9 @@ use Syscodes\Components\Console\View\Components\Task;
 use Syscodes\Components\Console\View\Components\TwoColumnDetail;
 use Syscodes\Components\Database\ConnectionResolverInterface as Resolver;
 use Syscodes\Components\Database\Events\MigrationEnded;
+use Syscodes\Components\Database\Events\MigrationsEnded;
 use Syscodes\Components\Database\Events\MigrationSkipped;
+use Syscodes\Components\Database\Events\MigrationsStarted;
 use Syscodes\Components\Database\Events\MigrationStarted;
 use Syscodes\Components\Database\Events\NoPendingMigrations;
 use Syscodes\Components\Database\Migrations\Enums\MigrationResult;
@@ -52,13 +54,6 @@ class Migrator
      * @var string
      */
     protected $connection;
-
-    /**
-     * The custom connection resolver callback.
-     *
-     * @var (\Closure(\Syscodes\Components\Database\ConnectionResolverInterface, ?string): \Syscodes\Components\Database\Connection)|null
-     */
-    protected static $connectionResolverCallback;
 
     /**
      * The event dispatcher instance.
@@ -108,6 +103,13 @@ class Migrator
      * @var \Syscodes\Components\Database\ConnectionResolverInterface
      */
     protected $resolver;
+
+    /**
+     * The custom connection resolver callback.
+     *
+     * @var (\Closure(\Syscodes\Components\Database\ConnectionResolverInterface, ?string): \Syscodes\Components\Database\Connections\Connection)|null
+     */
+    protected static $connectionResolverCallback;
 
     /**
      * The pending migrations to skip.
@@ -200,7 +202,7 @@ class Migrator
      * Run an array of migrations.
      *
      * @param  string[]  $migrations
-     * @param  array<string, mixed>  $options
+     * @param  array  $options
      * 
      * @return void
      */
@@ -209,10 +211,10 @@ class Migrator
         // First we will just make sure that there are any migrations to run. If there
         // aren't, we will just make a note of it to the developer so they're aware
         // that all of the migrations have been run against this database system.
-        if (count($migrations) === 0) {
+        if ($migrations === []) {
             $this->fireMigrationEvent(new NoPendingMigrations('up'));
 
-            $this->write(Info::class, 'Nothing to migrate');
+            $this->write(Info::class, 'Nothing to migrate.');
 
             return;
         }
@@ -226,7 +228,7 @@ class Migrator
 
         $step = $options['step'] ?? false;
 
-        $this->fireMigrationEvent(new MigrationStarted('up', $options));
+        $this->fireMigrationEvent(new MigrationsStarted('up', $options));
 
         $this->write(Info::class, 'Running migrations.');
 
@@ -240,7 +242,7 @@ class Migrator
             }
         }
 
-        $this->fireMigrationEvent(new MigrationEnded('up', $options));
+        $this->fireMigrationEvent(new MigrationsEnded('up', $options));
 
         $this->output?->writeln('');
     }
@@ -289,7 +291,7 @@ class Migrator
      * Rollback the last migration operation.
      *
      * @param  string[]|string  $paths
-     * @param  array<string, mixed>  $option
+     * @param  array  $options
      * 
      * @return string[]
      */
@@ -315,7 +317,7 @@ class Migrator
     /**
      * Get the migrations for a rollback operation.
      *
-     * @param  array<string, mixed>  $options
+     * @param  array  $options
      * 
      * @return array
      */
@@ -347,7 +349,7 @@ class Migrator
 
         $this->requireFiles($files = $this->getMigrationFiles($paths));
 
-        $this->fireMigrationEvent(new MigrationStarted('down', $options));
+        $this->fireMigrationEvent(new MigrationsStarted('down', $options));
 
         $this->write(Info::class, 'Rolling back migrations.');
 
@@ -370,7 +372,7 @@ class Migrator
             );
         }
 
-        $this->fireMigrationEvent(new MigrationEnded('down', $options));
+        $this->fireMigrationEvent(new MigrationsEnded('down', $options));
 
         return $rolledBack;
     }
@@ -534,7 +536,7 @@ class Migrator
     /**
      * Run a migration method on the given connection.
      *
-     * @param  \Syscodes\Components\Database\Connection  $connection
+     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * @param  object  $migration
      * @param  string  $method
      * 
@@ -610,12 +612,12 @@ class Migrator
      *
      * @param  string|array  $paths
      * 
-     * @return array<string, string>
+     * @return array
      */
     public function getMigrationFiles($paths): array
     {
         return (new Collection($paths))
-            ->flatMap(fn ($path) => str_ends_with($path, '.php') ? [$path] : $this->files->glob($path.'/*_*.php'))
+            ->flatMap(fn ($path) => Str::endsWith($path, '.php') ? [$path] : $this->files->glob($path.'/*_*.php'))
             ->filter()
             ->values()
             ->keyBy(fn ($file) => $this->getMigrationName($file))
@@ -739,7 +741,7 @@ class Migrator
      *
      * @param  string  $connection
      * 
-     * @return \Syscodes\Components\Database\Connection
+     * @return \Syscodes\Components\Database\Connections\Connection
      */
     public function resolveConnection($connection)
     {
@@ -757,7 +759,7 @@ class Migrator
     /**
      * Set a connection resolver callback.
      *
-     * @param  \Closure(\Syscodes\Components\Database\ConnectionResolverInterface, ?string): \Syscodes\Components\Database\Connection  $callback
+     * @param  \Closure(\Syscodes\Components\Database\ConnectionResolverInterface, ?string): \Syscodes\Components\Database\Connections\Connection  $callback
      * 
      * @return void
      */
@@ -769,7 +771,7 @@ class Migrator
     /**
      * Get the schema grammar out of a migration connection.
      *
-     * @param  \Syscodes\Components\Database\Connection  $connection
+     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * 
      * @return \Syscodes\Components\Database\Schema\Grammars\Grammar
      */
@@ -852,7 +854,7 @@ class Migrator
      * Write to the console's output.
      *
      * @param  string  $component
-     * @param  array<int, string>|string  ...$arguments
+     * @param  array|string  ...$arguments
      * 
      * @return void
      */

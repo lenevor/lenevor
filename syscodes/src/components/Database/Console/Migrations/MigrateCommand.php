@@ -22,14 +22,11 @@
 
 namespace Syscodes\Components\Database\Console\Migrations;
 
-use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\Database\Migrations\Migrator;
 use Throwable;
-use PDOException;
-use Syscodes\Components\Support\Str;
 
 /**
  * Allows up migrations in the database.
@@ -144,7 +141,7 @@ class MigrateCommand extends BaseMigrationCommand
      */
     protected function prepareDatabase()
     {
-        if ( ! $this->repositoryExists()) {
+        if ( ! $this->migrator->repositoryExists()) {
             $this->components->info('Preparing database.');
 
             $this->components->task('Creating migration table', function () {
@@ -154,22 +151,6 @@ class MigrateCommand extends BaseMigrationCommand
             });
 
             $this->newLine();
-        }
-    }
-
-    /**
-     * Determine if the migrator repository exists.
-     *
-     * @return bool
-     */
-    protected function repositoryExists()
-    {
-        $this->migrator->setConnection($this->option('database'));
-
-        if ( ! $this->migrator->repositoryExists()) {
-            $this->call('migrate:install', array_filter([
-                '--database' => $this->option('database'),
-            ]));
         }
     }
 

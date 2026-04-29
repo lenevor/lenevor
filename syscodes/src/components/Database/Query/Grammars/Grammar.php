@@ -68,35 +68,35 @@ class Grammar extends BaseGrammar
     /**
      * Compile a select query into sql.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * 
      * @return string
      */
-    public function compileSelect(Builder $builder): string
+    public function compileSelect(Builder $query): string
     {
-        if (($builder->unions || $builder->havings) && $builder->aggregate) {
-            return $this->compileUnionAggregate($builder);
+        if (($query->unions || $query->havings) && $query->aggregate) {
+            return $this->compileUnionAggregate($query);
         }
         
         // If the query does not have any columns set, we'll set the columns to the
         // character to just get all of the columns from the database.
-        $original = $builder->columns;
+        $original = $query->columns;
 
-        if (is_null($builder->columns)) {
-            $builder->columns = ['*'];
+        if (is_null($query->columns)) {
+            $query->columns = ['*'];
         }
         
         // To compile the query, we'll spin through each component of the query and
         // see if that component exists.
         $sql = trim($this->concatenate(
-            $this->compileComponents($builder))
+            $this->compileComponents($query))
         );
         
-        if ($builder->unions) {
-            $sql = $this->wrapUnion($sql).' '.$this->compileUnions($builder);
+        if ($query->unions) {
+            $sql = $this->wrapUnion($sql).' '.$this->compileUnions($query);
         }
 
-        $builder->columns = $original;
+        $query->columns = $original;
 
         return $sql;
     }
@@ -104,19 +104,19 @@ class Grammar extends BaseGrammar
     /**
      * Compile the components necessary for a select clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * 
      * @return array
      */
-    protected function compileComponents(Builder $builder): array
+    protected function compileComponents(Builder $query): array
     {
         $sql = [];
 
         foreach ($this->components as $component) {
-            if (isset($builder->$component)) {
+            if (isset($query->$component)) {
                 $method = 'compile'.ucfirst($component);
 
-                $sql[$component] = $this->$method($builder, $builder->$component);
+                $sql[$component] = $this->$method($query, $query->$component);
             }
         }
 
@@ -126,20 +126,20 @@ class Grammar extends BaseGrammar
     /**
      * Compile an aggregated select clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $aggregate
      * 
      * @return string
      */
-    protected function compileAggregate(Builder $builder, $aggregate): string
+    protected function compileAggregate(Builder $query, $aggregate): string
     {
         $column = $this->columnize($aggregate['columns']);
         
         // If the query has a "distinct" constraint and we're not asking for all columns
         // we need to prepend "distinct" onto the column name so that the query.
-        if (is_array($builder->distinct)) {
-            $column = 'distinct '.$this->columnize($builder->distinct);
-        } elseif ($builder->distinct && $column !== '*') {
+        if (is_array($query->distinct)) {
+            $column = 'distinct '.$this->columnize($query->distinct);
+        } elseif ($query->distinct && $column !== '*') {
             $column = 'distinct '.$column;
         }
 
@@ -149,21 +149,21 @@ class Grammar extends BaseGrammar
     /**
      * Compile the "select *" portion of the query.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $columns
      * 
      * @return string|null
      */
-    protected function compileColumns(Builder $builder, $columns)
+    protected function compileColumns(Builder $query, $columns)
     {
         // If the query is actually performing an aggregating select, we will let that
         // compiler handle the building of the select clauses, as it will need some
         // more syntax.
-        if ( ! is_null($builder->aggregate)) {
+        if ( ! is_null($query->aggregate)) {
             return;
         }
 
-        $select = $builder->distinct ? 'select distinct ' : 'select ';
+        $select = $query->distinct ? 'select distinct ' : 'select ';
 
         return $select.$this->columnize($columns);
     }
@@ -171,12 +171,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile the "from" portion of the query.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  string  $table
      * 
      * @return string
      */
-    protected function compileFrom(Builder $builder, $table)
+    protected function compileFrom(Builder $query, $table)
     {
         return 'from '.$this->wrapTable($table);
     }
@@ -184,17 +184,17 @@ class Grammar extends BaseGrammar
     /**
      * Compile the "join" portions of the query.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $joins
      * 
      * @return string
      */
-    protected function compileJoins(Builder $builder, $joins): string
+    protected function compileJoins(Builder $query, $joins): string
     {
-        return (new Collection($joins))->map(function ($join) use ($builder) {
+        return (new Collection($joins))->map(function ($join) use ($query) {
             $table = $this->wrapTable($join->table);
             
-            $nestedJoins = is_null($join->joins) ? '' : ' '.$this->compileJoins($builder, $join->joins);
+            $nestedJoins = is_null($join->joins) ? '' : ' '.$this->compileJoins($query, $join->joins);
             
             $tableAndNestedJoins = is_null($join->joins) ? $table : '('.$table.$nestedJoins.')';
 
@@ -224,22 +224,22 @@ class Grammar extends BaseGrammar
     /**
      * Compile the "where" portions of the query.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * 
      * @return string
      */
-    protected function compileWheres(Builder $builder): string
+    protected function compileWheres(Builder $query): string
     {
         // Each type of where clause has its own compiler function, which is responsible
         // for actually creating the where clauses SQL. 
-        if (is_null($builder->wheres)) {
+        if (is_null($query->wheres)) {
             return '';
         }
         
         // If we actually have some where clauses, we will strip off the first boolean
         // operator, which is added by the query builders for convenience
-        if (count($sql = $this->compileWheresToArray($builder)) > 0) {
-            return $this->concatenateWheresClauses($builder, $sql);
+        if (count($sql = $this->compileWheresToArray($query)) > 0) {
+            return $this->concatenateWheresClauses($query, $sql);
         }
         
         return '';
@@ -248,28 +248,28 @@ class Grammar extends BaseGrammar
     /**
      * Get an array of all the where clauses for the query.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * 
      * @return array
      */
-    protected function compileWheresToArray($builder): array
+    protected function compileWheresToArray($query): array
     {
-        return (new collection($builder->wheres))
-            ->map(fn ($where) => $where['boolean'].' '.$this->{"where{$where['type']}"}($builder, $where))
+        return (new collection($query->wheres))
+            ->map(fn ($where) => $where['boolean'].' '.$this->{"where{$where['type']}"}($query, $where))
             ->all();
     }
 
     /**
      * Format the where clause statements into one string.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $sql
      * 
      * @return string
      */
-    protected function concatenateWheresClauses($builder, $sql): string
+    protected function concatenateWheresClauses($query, $sql): string
     {
-        $statement = $builder instanceof JoinClause ? 'on' : 'where';
+        $statement = $query instanceof JoinClause ? 'on' : 'where';
 
         return $statement.' '.$this->removeStatementBoolean(implode(' ', $sql));
     }
@@ -277,12 +277,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile a raw where clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereRaw(Builder $builder, $where): string
+    protected function whereRaw(Builder $query, $where): string
     {
         return $where['sql'] instanceof Expression ? $where['sql']->getValue($this) : $where['sql'];
     }
@@ -290,12 +290,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile a basic where clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereBasic(Builder $builder, $where): string
+    protected function whereBasic(Builder $query, $where): string
     {
         $operator = str_replace('?', '??', $where['operator']);
         $value    = $this->parameter($where['value']);
@@ -306,12 +306,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "between" where clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereBetween(Builder $builder, $where): string
+    protected function whereBetween(Builder $query, $where): string
     {
         $between = $where['negative'] ? 'not between' : 'between';
 
@@ -324,12 +324,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "between" where clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    public function whereBetweenColumns(Builder $builder, $where): string
+    public function whereBetweenColumns(Builder $query, $where): string
     {
         $between = $where['negative'] ? 'not between' : 'between';
 
@@ -342,12 +342,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile a where exists clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereExists(Builder $builder, $where): string
+    protected function whereExists(Builder $query, $where): string
     {
         return 'exists ('.$this->compileSelect($where['query']).')';
     }
@@ -355,12 +355,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile a where exists clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereNotExists(Builder $builder, $where): string
+    protected function whereNotExists(Builder $query, $where): string
     {
         return 'not exists ('.$this->compileSelect($where['query']).')';
     }
@@ -387,12 +387,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "where in" clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereIn(Builder $builder, $where): string
+    protected function whereIn(Builder $query, $where): string
     {
         if (empty($where['values'])) return '0 = 1';
         
@@ -402,12 +402,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "where not in" clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereNotIn(Builder $builder, $where): string
+    protected function whereNotIn(Builder $query, $where): string
     {
         if (empty($where['query'])) return '1 = 1';
 
@@ -417,12 +417,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "where not in raw" clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereNotInRaw(Builder $builder, $where): string
+    protected function whereNotInRaw(Builder $query, $where): string
     {
         if (empty($where['values'])) return '1 = 1';
         
@@ -432,12 +432,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "where in raw" clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereInRaw(Builder $builder, $where): string
+    protected function whereInRaw(Builder $query, $where): string
     {
         if (empty($where['values'])) return '0 = 1';
         
@@ -447,12 +447,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile a where in sub-select clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereInSub(Builder $builder, $where): string
+    protected function whereInSub(Builder $query, $where): string
     {
         $select = $this->compileSelect($where['query']);
 
@@ -462,12 +462,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile a where not in sub-select clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereNotInSub(Builder $builder, $where): string
+    protected function whereNotInSub(Builder $query, $where): string
     {
         $select = $this->compileSelect($where['query']);
 
@@ -477,12 +477,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "where null" clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereNull(Builder $builder, $where): string
+    protected function whereNull(Builder $query, $where): string
     {
         return $this->wrap($where['column']).' is null';
     }
@@ -490,12 +490,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "where not null" clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereNotNull(Builder $builder, $where): string
+    protected function whereNotNull(Builder $query, $where): string
     {
         return $this->wrap($where['column']).' is not null';
     }
@@ -503,78 +503,78 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "where date" clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereDate(Builder $builder, $where): string
+    protected function whereDate(Builder $query, $where): string
     {
-        return $this->dateBasedWhere('date', $builder, $where);
+        return $this->dateBasedWhere('date', $query, $where);
     }
 
     /**
      * Compile a "where time" clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereTime(Builder $builder, $where): string
+    protected function whereTime(Builder $query, $where): string
     {
-        return $this->dateBasedWhere('time', $builder, $where);
+        return $this->dateBasedWhere('time', $query, $where);
     }
 
     /**
      * Compile a "where day" clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereDay(Builder $builder, $where): string
+    protected function whereDay(Builder $query, $where): string
     {
-        return $this->dateBasedWhere('day', $builder, $where);
+        return $this->dateBasedWhere('day', $query, $where);
     }
 
     /**
      * Compile a "where month" clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereMonth(Builder $builder, $where): string
+    protected function whereMonth(Builder $query, $where): string
     {
-        return $this->dateBasedWhere('month', $builder, $where);
+        return $this->dateBasedWhere('month', $query, $where);
     }
 
     /**
      * Compile a "where year" clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereYear(Builder $builder, $where): string
+    protected function whereYear(Builder $query, $where): string
     {
-        return $this->dateBasedWhere('year', $builder, $where);
+        return $this->dateBasedWhere('year', $query, $where);
     }
 
     /**
      * Compile a date based where clause.
      * 
      * @param  string  $type
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function dateBasedWhere($type, Builder $builder, $where): string
+    protected function dateBasedWhere($type, Builder $query, $where): string
     {
         $value = $this->parameter($where['value']);
 
@@ -584,16 +584,16 @@ class Grammar extends BaseGrammar
     /**
      * Compile a nested where clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereNested(Builder $builder, $where): string
+    protected function whereNested(Builder $query, $where): string
     {
         // Here we will calculate what portion of the string we need to remove. If this
         // is a join clause query, we need to remove the "on" portion of the SQL
-        $intClause = $builder instanceof JoinClause ? 3 : 6;
+        $intClause = $query instanceof JoinClause ? 3 : 6;
 
         return '('.substr($this->compileWheres($where['query']), $intClause).')';
     }
@@ -601,12 +601,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile a where condition with a sub-select.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereSub(Builder $builder, $where): string
+    protected function whereSub(Builder $query, $where): string
     {
         $select = $this->compileSelect($where['query']);
 
@@ -616,12 +616,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile a where clause comparing two columns.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereColumn(Builder $builder, $where): string
+    protected function whereColumn(Builder $query, $where): string
     {
         return $this->wrap($where['first']).' '.$where['operator'].' '.$this->wrap($where['second']);
     }
@@ -629,12 +629,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile a where row values condition.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereRowValues(Builder $builder, $where): string
+    protected function whereRowValues(Builder $query, $where): string
     {
         $columns = $this->columnize($where['columns']);
         
@@ -646,12 +646,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "where JSON boolean" clause.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereJsonBoolean(Builder $builder, $where): string
+    protected function whereJsonBoolean(Builder $query, $where): string
     {
         $column = $this->wrapJsonBooleanSelector($where['column']);
         
@@ -664,12 +664,12 @@ class Grammar extends BaseGrammar
     
     /**
      * Compile a "where JSON contains" clause.
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereJsonContains(Builder $builder, $where): string
+    protected function whereJsonContains(Builder $query, $where): string
     {
         $not = $where['not'] ? 'not ' : '';
         
@@ -781,12 +781,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile a "where fulltext" clause.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    public function whereFullText(Builder $builder, $where): string
+    public function whereFullText(Builder $query, $where): string
     {
         throw new RuntimeException('This database engine does not support fulltext search operations.');
     }
@@ -794,12 +794,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile a clause based on an expression.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    public function whereExpression(Builder $builder, $where): string
+    public function whereExpression(Builder $query, $where): string
     {
         return $where['column']->getValue($this);
     }
@@ -807,12 +807,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile the "group by" portions of the query.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $groups
      * 
      * @return string
      */
-    protected function compileGroups(Builder $builder, $groups): string
+    protected function compileGroups(Builder $query, $groups): string
     {
         return 'group by '.$this->columnize($groups);
     }
@@ -820,13 +820,13 @@ class Grammar extends BaseGrammar
     /**
      * Compile the "having" portions of the query.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * 
      * @return string
      */
-    protected function compileHavings(Builder $builder): string
+    protected function compileHavings(Builder $query): string
     {
-        return 'having '.$this->removeStatementBoolean((new collection($builder->havings))->map(function ($having) {
+        return 'having '.$this->removeStatementBoolean((new collection($query->havings))->map(function ($having) {
             return $having['boolean'].' '.$this->compileHaving($having);
         })->implode(' '));
     }
@@ -958,15 +958,15 @@ class Grammar extends BaseGrammar
     /**
      * Compile the "order by" portions of the query.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $orders
      * 
      * @return string
      */
-    protected function compileOrders(Builder $builder, $orders): string
+    protected function compileOrders(Builder $query, $orders): string
     {
         if ( ! empty($orders)) {
-            return 'order by '.implode(', ', $this->compileOrderToArray($builder, $orders));
+            return 'order by '.implode(', ', $this->compileOrderToArray($query, $orders));
         }
 
         return '';
@@ -975,12 +975,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile the query orders to an array.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $orders
      * 
      * @return array
      */
-    protected function compileOrderToArray(Builder $builder, $orders): array
+    protected function compileOrderToArray(Builder $query, $orders): array
     {
         return array_map(fn ($order) => $order['sql'] ?? $this->wrap($order['column']).' '.$order['direction'], $orders);
     }
@@ -988,12 +988,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile the "limit" portions of the query.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  int  $limit
      * 
      * @return string
      */
-    protected function compileLimit(Builder $builder, $limit): string
+    protected function compileLimit(Builder $query, $limit): string
     {
         return 'limit '.(int) $limit;
     }
@@ -1001,12 +1001,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile the "offset" portions of the query.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  int  $offset
      * 
      * @return string
      */
-    protected function compileOffset(Builder $builder, $offset): string
+    protected function compileOffset(Builder $query, $offset): string
     {
         return 'offset '.(int) $offset;
     }
@@ -1014,28 +1014,28 @@ class Grammar extends BaseGrammar
     /**
      * Compile the "union" queries attached to the main query.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * 
      * @return string
      */
-    protected function compileUnions(Builder $builder): string
+    protected function compileUnions(Builder $query): string
     {
         $sql = '';
 
-        foreach ($builder->unions as $union) {
+        foreach ($query->unions as $union) {
             $sql .= $this->compileUnion($union);
         }
 
-        if ( ! empty($builder->unionOrders)) {
-            $sql .= ' '.$this->compileOrders($builder, $builder->unionOrders);
+        if ( ! empty($query->unionOrders)) {
+            $sql .= ' '.$this->compileOrders($query, $query->unionOrders);
         }
 
-        if (isset($builder->unionLimit)) {
-            $sql .= ' '.$this->compileLimit($builder, $builder->unionLimit);
+        if (isset($query->unionLimit)) {
+            $sql .= ' '.$this->compileLimit($query, $query->unionLimit);
         }
 
-        if (isset($builder->unionOffset)) {
-            $sql .= ' '.$this->compileOffset($builder, $builder->unionOffset);
+        if (isset($query->unionOffset)) {
+            $sql .= ' '.$this->compileOffset($query, $query->unionOffset);
         }
 
         return ltrim($sql);
@@ -1082,29 +1082,29 @@ class Grammar extends BaseGrammar
     /**
      * Compile a union aggregate query into SQL.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * 
      * @return string
      */
-    protected function compileUnionAggregate(Builder $builder): string
+    protected function compileUnionAggregate(Builder $query): string
     {
-        $sql = $this->compileAggregate($builder, $builder->aggregate);
+        $sql = $this->compileAggregate($query, $query->aggregate);
         
-        $builder->aggregate = null;
+        $query->aggregate = null;
         
-        return $sql.' from ('.$this->compileSelect($builder).') as '.$this->wrapTable('temp_table');
+        return $sql.' from ('.$this->compileSelect($query).') as '.$this->wrapTable('temp_table');
     }
 
     /**
      * Compile an exists statement into SQL.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * 
      * @return string
      */
-    public function compileExists(Builder $builder): string 
+    public function compileExists(Builder $query): string 
     {
-        $select = $this->compileSelect($builder);
+        $select = $this->compileSelect($query);
 
         return "select exists({$select}) as {$this->wrap('exists')}";
     }
@@ -1112,16 +1112,16 @@ class Grammar extends BaseGrammar
     /**
      * Compile an insert statement into SQL.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $values
      * 
      * @return string
      */
-    public function compileInsert(Builder $builder, array $values): string 
+    public function compileInsert(Builder $query, array $values): string 
     {
         // Essentially we will force every insert to be treated as a batch insert which
         // simply makes creating the SQL easier.
-        $table = $this->wrapTable($builder->from);
+        $table = $this->wrapTable($query->from);
 
         if (empty($values)) {
             return "insert into {$table} default values";
@@ -1145,28 +1145,28 @@ class Grammar extends BaseGrammar
     /**
      * Compile an insert and get ID statement into SQL.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $values
      * @param  string  $sequence
      * 
      * @return string
      */
-    public function compileInsertGetId(Builder $builder, $values, $sequence): string
+    public function compileInsertGetId(Builder $query, $values, $sequence): string
     {
-        return $this->compileInsert($builder, $values);
+        return $this->compileInsert($query, $values);
     }
 
     /**
      * Compile an insert ignore statement into SQL.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $values
      * 
      * @return string
      *
      * @throws \RuntimeException
      */
-    public function compileInsertOrIgnore(Builder $builder, array $values): string
+    public function compileInsertOrIgnore(Builder $query, array $values): string
     {
         throw new RuntimeException('This database engine does not support inserting while ignoring errors.');
     }
@@ -1174,15 +1174,15 @@ class Grammar extends BaseGrammar
     /**
      * Compile an insert statement using a subquery into SQL.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $columns
      * @param  string  $sql
      * 
      * @return string
      */
-    public function compileInsertUsing(Builder $builder, $columns, $sql): string
+    public function compileInsertUsing(Builder $query, $columns, $sql): string
     {
-        $table = $this->wrapTable($builder->from);
+        $table = $this->wrapTable($query->from);
         
         if (empty($columns) || $columns === ['*']) {
             return "insert into {$table} $sql";
@@ -1194,7 +1194,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile an insert ignore statement using a subquery into SQL.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $columns
      * @param  string  $sql
      * 
@@ -1202,7 +1202,7 @@ class Grammar extends BaseGrammar
      *
      * @throws \RuntimeException
      */
-    public function compileInsertOrIgnoreUsing(Builder $builder, array $columns, string $sql): string
+    public function compileInsertOrIgnoreUsing(Builder $query, array $columns, string $sql): string
     {
         throw new RuntimeException('This database engine does not support inserting while ignoring errors.');
     }
@@ -1210,35 +1210,35 @@ class Grammar extends BaseGrammar
     /**
      * Compile an update statement into SQL.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $values
      * 
      * @return string
      */
-    public function compileUpdate(Builder $builder, array $values): string
+    public function compileUpdate(Builder $query, array $values): string
     {
-        $table = $this->wrapTable($builder->from);
+        $table = $this->wrapTable($query->from);
 
-        $columns = $this->compileUpdateColumns($builder, $values);
+        $columns = $this->compileUpdateColumns($query, $values);
 
-        $where = $this->compileWheres($builder);
+        $where = $this->compileWheres($query);
 
         return trim(
-            isset($builder->joins)
-                ? $this->compileUpdateWithJoins($builder, $table, $columns, $where)
-                : $this->compileUpdateWithoutJoins($builder, $table, $columns, $where)
+            isset($query->joins)
+                ? $this->compileUpdateWithJoins($query, $table, $columns, $where)
+                : $this->compileUpdateWithoutJoins($query, $table, $columns, $where)
         );
     }
 
     /**
      * Compile the columns for an update statement.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $values
      * 
      * @return string
      */
-    protected function compileUpdateColumns(Builder $builder, array $values): string
+    protected function compileUpdateColumns(Builder $query, array $values): string
     {
         return (new Collection($values))
             ->map(fn ($value, $key) => $this->wrap($key).' = '.$this->parameter($value))
@@ -1248,16 +1248,16 @@ class Grammar extends BaseGrammar
     /**
      * Compile an update statement with joins into SQL.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  string  $table
      * @param  string  $columns
      * @param  string  $where
      * 
      * @return string
      */
-    protected function compileUpdateWithJoins(Builder $builder, $table, $columns, $where): string
+    protected function compileUpdateWithJoins(Builder $query, $table, $columns, $where): string
     {
-        $joins = $this->compileJoins($builder, $builder->joins);
+        $joins = $this->compileJoins($query, $query->joins);
 
         return "update {$table} {$joins} set {$columns} {$where}";
     }
@@ -1265,14 +1265,14 @@ class Grammar extends BaseGrammar
     /**
      * Compile an update statement without joins into SQL.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  string  $table
      * @param  string  $columns
      * @param  string  $where
      * 
      * @return string
      */
-    protected function compileUpdateWithoutJoins(Builder $builder, $table, $columns, $where): string
+    protected function compileUpdateWithoutJoins(Builder $query, $table, $columns, $where): string
     {
        return "update {$table} set {$columns} {$where}";
     }
@@ -1280,38 +1280,37 @@ class Grammar extends BaseGrammar
     /**
      * Compile a delete statement into SQL.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * 
      * @return string
      */
-    public function compileDelete(Builder $builder): string
+    public function compileDelete(Builder $query): string
     {
-        $table = $this->wrapTable($builder->from);
+        $table = $this->wrapTable($query->from);
 
-        $where = $this->compileWheres($builder);
+        $where = $this->compileWheres($query);
 
         return trim(
-            isset($builder->joins)
-                ? $this->compileDeleteWithJoins($builder, $table, $where)
-                : $this->compileDeleteWithoutJoins($builder, $table, $where)
+            isset($query->joins)
+                ? $this->compileDeleteWithJoins($query, $table, $where)
+                : $this->compileDeleteWithoutJoins($query, $table, $where)
         );
     }
 
     /**
      * Compile an delete statement with joins into SQL.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  string  $table
-     * @param  string  $columns
      * @param  string  $where
      * 
      * @return string
      */
-    protected function compileDeleteWithJoins(Builder $builder, $table, $where): string
+    protected function compileDeleteWithJoins(Builder $query, $table, $where): string
     {
         $alias = last(explode(' as ', $table));
 
-        $joins = $this->compileJoins($builder, $builder->joins);
+        $joins = $this->compileJoins($query, $query->joins);
 
         return "delete {$alias} from {$table} {$joins} {$where}";
     }
@@ -1319,13 +1318,13 @@ class Grammar extends BaseGrammar
     /**
      * Compile an delete statement without joins into SQL.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  string  $table
      * @param  string  $where
      * 
      * @return string
      */
-    protected function compileDeleteWithoutJoins(Builder $builder, $table, $where): string
+    protected function compileDeleteWithoutJoins(Builder $query, $table, $where): string
     {
        return "delete from {$table} {$where}";
     }
@@ -1333,13 +1332,13 @@ class Grammar extends BaseGrammar
     /**
      * Compile a truncate table statement into SQL.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * 
      * @return array
      */
-    public function compileTruncate(Builder $builder): array
+    public function compileTruncate(Builder $query): array
     {
-        return ['truncate table '.$this->wrapTable($builder->from) => []];
+        return ['truncate table '.$this->wrapTable($query->from) => []];
     }
     
     /**
@@ -1376,12 +1375,12 @@ class Grammar extends BaseGrammar
     /**
      * Compile the lock into SQL.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  bool|string  $value
      * 
      * @return string
      */
-    public function compileLock(Builder $builder, $value): string
+    public function compileLock(Builder $query, $value): string
     {
         return is_string($value) ? $value : '';
     }
@@ -1401,7 +1400,7 @@ class Grammar extends BaseGrammar
      * 
      * @param  string  $name
      * 
-     * @return strin
+     * @return string
      */
     public function compileSavepoint($name): string
     {

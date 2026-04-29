@@ -53,6 +53,13 @@ class QueryException extends PDOException
     public $connectionName;
 
     /**
+     * The PDO read / write type for the executed query.
+     *
+     * @var null|'read'|'write'
+     */
+    public $readWriteType;
+
+    /**
      * The SQL for the query.
      * 
      * @var string
@@ -67,18 +74,21 @@ class QueryException extends PDOException
      * @param  array  $bindings
      * @param  \Throwable  $previous
      * @param  array  $connectionDetails
+     * @param  null|'read'|'write'  $readWriteType
      * 
      * @return void
      */
-    public function __construct($connectionName, $sql, array $bindings, Throwable $previous, array $connectionDetails = [])
+    public function __construct($connectionName, $sql, array $bindings, Throwable $previous, array $connectionDetails = [], $readWriteType = null)
     {
         parent::__construct('', 0, $previous);
         
         $this->connectionName = $connectionName;
-        $this->sql      = $sql;
+        $this->sql = $sql;
         $this->bindings = $bindings;
-        $this->code     = $previous->getCode();
-        $this->message  = $this->formatMessage($connectionName, $sql, $bindings, $previous);
+        $this->connectionDetails = $connectionDetails;
+        $this->readWriteType = $readWriteType;
+        $this->code = $previous->getCode();
+        $this->message = $this->formatMessage($connectionName, $sql, $bindings, $previous);
 
         if ($previous instanceof PDOException) {
             $this->errorInfo = $previous->errorInfo;

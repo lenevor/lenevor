@@ -30,7 +30,7 @@ abstract class ConnectionEvent
     /**
      * The database connection instance.
      * 
-     * @var \Syscodes\Components\Database\Connection
+     * @var \Syscodes\Components\Database\Connections\Connection
      */
     public $connection;
 
@@ -44,7 +44,7 @@ abstract class ConnectionEvent
     /**
      * Constructor. Create a new event instance.
      * 
-     * @param  \Syscodes\Components\Database\Connection  $connection
+     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * 
      * @return void
      */

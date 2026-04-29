@@ -45,7 +45,9 @@ class BaseMigrationCommand extends Command
             })->all();
         }
 
-        return array_merge($this->migrator->paths(), [$this->getMigrationPath()]);
+        return array_merge(
+            $this->migrator->paths(), [$this->getMigrationPath()]
+        );
     }
 
     /**

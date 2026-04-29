@@ -48,9 +48,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
             $connection->exec("use `{$config['database']}`;");
         }
 
-        $this->configureEncoding($connection, $config);
-        $this->configureTimezone($connection, $config);        
-        $this->setSqlModes($connection, $config);
+        $this->configureConnection($connection, $config);
 
         return $connection;
     }
@@ -109,48 +107,37 @@ class MySqlConnector extends Connector implements ConnectorInterface
     }
 
     /**
-     * Set the connection character set and collation.
-     * 
+     * Configure the given PDO connection.
+     *
      * @param  \PDO  $connection
      * @param  array  $config
      * 
      * @return void
      */
-    protected function configureEncoding($connection, array $config)
+    protected function configureConnection(PDO $connection, array $config)
     {
-        if ( ! isset($config['charset'])) {
-            return $connection;
+        $statements = [];
+
+        if (isset($config['charset'])) {
+            if (isset($config['collation'])) {
+                $statements[] = sprintf("NAMES '%s' COLLATE '%s'", $config['charset'], $config['collation']);
+            } else {
+                $statements[] = sprintf("NAMES '%s'", $config['charset']);
+            }
         }
 
-        $connection->prepare(
-            "set names '{$config['charset']}'".$this->getCollation($config)
-        )->execute();
-    }
-
-    /**
-     * Get the collation for the configuration.
-     * 
-     * @param  array  $config
-     * 
-     * @return string
-     */
-    protected function getCollation(array $config): string
-    {
-        return isset($config['collation']) ? " collate '{$config['collation']}'" : '';
-    }
-
-    /**
-     * Get the timezone on the connection.
-     * 
-     * @param  \PDO  $connection
-     * @param  array  $config
-     * 
-     * @return void
-     */
-    protected function configureTimezone($connection, array $config)
-    {
         if (isset($config['timezone'])) {
-            $connection->prepare('set time_zone="'.$config['timezone'].'"')->execute();
+            $statements[] = sprintf("time_zone='%s'", $config['timezone']);
+        }
+
+        $sqlMode = $this->getSqlModes($connection, $config);
+
+        if ($sqlMode !== null) {
+            $statements[] = sprintf("SESSION sql_mode='%s'", $sqlMode);
+        }
+
+        if ($statements !== []) {
+            $connection->exec(sprintf('SET %s;', implode(', ', $statements)));
         }
     }
 
@@ -162,7 +149,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
      * 
      * @return string|null
      */
-    protected function setSqlModes(PDO $connection, array $config): ?string
+    protected function getSqlModes(PDO $connection, array $config): ?string
     {
         if (isset($config['modes'])) {
             return implode(',', $config['modes']);

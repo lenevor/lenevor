@@ -161,7 +161,7 @@ class Dataprint
             $method = 'compile'.ucfirst($command->name);
 
             if (method_exists($this->grammar, $method) || $this->grammar::hasMacro($method)) {
-                if ( ! is_null($sql = $this->grammar->$method($this, $command, $this->connection))) {
+                if ( ! is_null($sql = $this->grammar->$method($this, $command))) {
                     $statements = array_merge($statements, (array) $sql);
                 }
             }
@@ -199,7 +199,7 @@ class Dataprint
      * 
      * @param  array  $names
      * 
-     * @return \Syscodes\Components\Collections\Collection
+     * @return \Syscodes\Components\Support\Collection
      */
     protected function commandsNamed(array $names)
     {

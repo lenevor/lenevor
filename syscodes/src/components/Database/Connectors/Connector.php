@@ -50,7 +50,7 @@ class Connector
     /**
      * Create a new PDO connection.
      * 
-     * @param  string  $dns
+     * @param  string  $dsn
      * @param  array  $config
      * @param  array  $options
      * 
@@ -125,7 +125,7 @@ class Connector
     {
         $options = $config['options'] ?? [];
 
-        return array_diff_assoc($this->options, $options) + $options;
+        return array_diff_key($this->options, $options) + $options;
     }
 
     /**
