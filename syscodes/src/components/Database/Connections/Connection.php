@@ -23,11 +23,10 @@
 namespace Syscodes\Components\Database\Connections;
 
 use Closure;
-use DateTime;
+use DateTimeInterface;
 use Exception;
 use LogicException;
 use PDO;
-use PDOStatement;
 use RuntimeException;
 use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\Database\Concerns\DetectLostConnections;
@@ -38,8 +37,8 @@ use Syscodes\Components\Database\Events\TransactionBegin;
 use Syscodes\Components\Database\Events\TransactionCommitted;
 use Syscodes\Components\Database\Events\TransactionCommitting;
 use Syscodes\Components\Database\Events\TransactionRollback;
-use Syscodes\Components\Database\Exceptions\ConstraintViolationException;
 use Syscodes\Components\Database\Exceptions\QueryException;
+use Syscodes\Components\Database\Exceptions\UniqueConstraintViolationException;
 use Syscodes\Components\Database\Grammar;
 use Syscodes\Components\Database\MultipleColumnsSelectedException;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
@@ -114,7 +113,7 @@ class Connection implements ConnectionInterface
     /**
      * The query post processor implementation.
      * 
-     * @var \Syscodes\Components\Database\Query\Processor|string
+     * @var \Syscodes\Components\Database\Query\Processors\Processor|string
      */
     protected $postProcessor;
 
@@ -128,7 +127,7 @@ class Connection implements ConnectionInterface
      /**
      * The query grammar implementation.
      * 
-     * @var \Syscodes\Components\Database\Query\Grammar|string
+     * @var \Syscodes\Components\Database\Query\Grammars\Grammar|string
      */
     protected $queryGrammar;
 
@@ -189,18 +188,18 @@ class Connection implements ConnectionInterface
     protected $schemaGrammar;
 
     /**
-     * The connection resolvers.
-     * 
-     * @var array
-     */
-    protected static $resolvers = [];
-
-    /**
      * The table prefix for the connection.
      * 
      * @var string
      */
     protected $tablePrefix = '';
+
+    /**
+     * The duration of all executed queries in milliseconds.
+     *
+     * @var float
+     */
+    protected $totalQueryDuration = 0.0;
 
     /**
      * The number of active transactions.
@@ -215,6 +214,13 @@ class Connection implements ConnectionInterface
      * @var \Syscodes\Components\Database\DatabaseTransactionsManager
      */
     protected $transactionsManager;
+
+    /**
+     * The connection resolvers.
+     * 
+     * @var array
+     */
+    protected static $resolvers = [];
 
     /**
      * Constructor. Create new a Database connection instance.
@@ -244,12 +250,12 @@ class Connection implements ConnectionInterface
     /**
      * Begin a flowing query against a database table.
      * 
-     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|string  $table
+     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Contracts\Database\Query\Expression|\UnitEnum|string  $table
      * @param  string|null  $as 
      * 
      * @return \Syscodes\Components\Database\Query\Builder
      */
-    public function table($table, ?string $as = null)
+    public function table($table, $as = null)
     {
         return $this->query()->from(enum_value($table), $as);
     }
@@ -360,7 +366,7 @@ class Connection implements ConnectionInterface
      * 
      * @return array 
      */
-    public function selectOne(string $query, array $bindings = [], bool $useReadPdo = true): array
+    public function selectOne($query, $bindings = [], $useReadPdo = true): array
     {
         $records = $this->select($query, $bindings, $useReadPdo);
 
@@ -403,7 +409,7 @@ class Connection implements ConnectionInterface
      * 
      * @return array
      */
-    public function selectFromConnection(string $query, array $bindings = [])
+    public function selectFromConnection($query, $bindings = [])
     {
         return $this->select($query, $bindings, false);
     }
@@ -417,7 +423,7 @@ class Connection implements ConnectionInterface
      * 
      * @return array
      */
-    public function select(string $query, array $bindings = [], bool $useReadPdo = true): array
+    public function select($query, $bindings = [], $useReadPdo = true): array
     {
         return $this->run($query, $bindings, function ($query, $bindings) use ($useReadPdo) {
             if ($this->pretending()) {
@@ -444,7 +450,7 @@ class Connection implements ConnectionInterface
      * 
      * @return bool
      */
-    public function insert(string $query, array $bindings = []): bool
+    public function insert($query, $bindings = []): bool
     {
         return $this->statement($query, $bindings);
     }
@@ -457,7 +463,7 @@ class Connection implements ConnectionInterface
      * 
      * @return int
      */
-    public function update(string $query, array $bindings = []): int
+    public function update($query, $bindings = []): int
     {
         return $this->affectingStatement($query, $bindings);
     }
@@ -470,7 +476,7 @@ class Connection implements ConnectionInterface
      * 
      * @return int
      */
-    public function delete(string $query, array $bindings = []): int
+    public function delete($query, $bindings = []): int
     {
         return $this->affectingStatement($query, $bindings);
     }
@@ -483,7 +489,7 @@ class Connection implements ConnectionInterface
      * 
      * @return bool
      */
-    public function statement(string $query, array $bindings = []): bool
+    public function statement($query, $bindings = []): bool
     {
         return $this->run($query, $bindings, function ($query, $bindings) {
             if ($this->pretending()) {
@@ -494,7 +500,9 @@ class Connection implements ConnectionInterface
 
             $this->bindValues($statement, $this->prepareBindings($bindings));
 
-            return $statement->execute();
+            $this->recordsHaveBeenModified();
+
+            return $statement->execute($bindings);
         });
     }
 
@@ -506,7 +514,7 @@ class Connection implements ConnectionInterface
      * 
      * @return int
      */
-    public function affectingStatement(string $query, array $bindings = []): int
+    public function affectingStatement($query, $bindings = []): int
     {
         return $this->run($query, $bindings, function ($query, $bindings) {
             if ($this->pretending()) {
@@ -519,7 +527,9 @@ class Connection implements ConnectionInterface
 
             $statement->execute();
 
-            $count = $statement->rowCount() > 0;
+            $this->recordsHaveBeenModified(
+                ($count = $statement->rowCount()) > 0
+            );
 
             return $count;
         });
@@ -532,16 +542,21 @@ class Connection implements ConnectionInterface
      * 
      * @return array
      */
-    public function prepend(Closure $callback): array
+    public function pretend(Closure $callback): array
     {
         return $this->withFreshQueryLog(function () use ($callback) {
             $this->pretending = true;
 
-            $callback($this);
+            try {
+                // Basically to make the database connection "pretend", we will just return
+                // the default values for all the query methods, then we will return an
+                // array of queries that were "executed" within the Closure callback.
+                $callback($this);
 
-            $this->pretending = false;
-
-            return $this->queryLog;
+                return $this->queryLog;
+            } finally {
+                $this->pretending = false;
+            }
         });
     }
     
@@ -575,7 +590,7 @@ class Connection implements ConnectionInterface
      * 
      * @return void
      */
-    public function bindValues(PDOStatement $statement, array $bindings)
+    public function bindValues($statement, array $bindings)
     {
         foreach ($bindings as $key => $value) {
             $statement->bindValue(
@@ -601,10 +616,8 @@ class Connection implements ConnectionInterface
      * 
      * @throws \Syscodes\Components\Database\Exceptions\QueryException
      */
-    protected function run(string $query, array $bindings, Closure $callback): mixed
+    protected function run($query, $bindings, Closure $callback): mixed
     {
-        $result = '';
-        
         $this->reconnectIfMissingConnection();
 
         $start = microtime(true);
@@ -635,22 +648,31 @@ class Connection implements ConnectionInterface
      * 
      * @throws \Syscodes\Components\Database\Exceptions\QueryException
      */
-    protected function runQueryCallback(string $query, array $bindings, Closure $callback): mixed
+    protected function runQueryCallback($query, $bindings, Closure $callback): mixed
     {
         try {
             return $callback($query, $bindings);
         } catch (Exception $e) {
-            $exceptionType = $this->isConstraintError($e)
-                ? ConstraintViolationException::class
+            $exceptionType = ($isUniqueConstraintError = $this->isConstraintError($e))
+                ? UniqueConstraintViolationException::class
                 : QueryException::class;
 
-            throw new $exceptionType(
+            $exception = new $exceptionType(
                 $this->getNameWithReadWriteType(),
                 $query,
                 $this->prepareBindings($bindings),
                 $e,
                 $this->getConnectionDetails(),
+                $this->latestReadWriteTypeUsed(),
             );
+
+            if ($isUniqueConstraintError) {
+                ['index' => $index, 'columns' => $columns] = $this->parseUniqueConstraintViolation($e);
+
+                $exception->setIndex($index)->setColumns($columns);
+            }
+
+            throw $exception;
         }
     }
     
@@ -667,6 +689,18 @@ class Connection implements ConnectionInterface
     }
 
     /**
+     * Extract the index and columns that caused a unique constraint violation.
+     *
+     * @param  Exception  $exception
+     * 
+     * @return array
+     */
+    protected function parseUniqueConstraintViolation(Exception $exception): array
+    {
+        return ['index' => null, 'columns' => []];
+    }
+
+    /**
      * Prepare the query bindings for execution.
      * 
      * @param  array  $bindings
@@ -676,7 +710,7 @@ class Connection implements ConnectionInterface
     public function prepareBindings(array $bindings): array
     {
         foreach ($bindings as $key => $value) {
-            if ($value instanceof DateTime) {
+            if ($value instanceof DateTimeInterface) {
                 $bindings[$key] = $value->format($this->getQueryGrammar()->getDateFormat());
             } elseif (is_bool($value)) {
                 $bindings[$key] = (int) $value;
@@ -743,6 +777,8 @@ class Connection implements ConnectionInterface
      */
     public function logQuery(string $query, array $bindings, ?float $time = null): void
     {
+        $this->totalQueryDuration += $time ?? 0.0;
+
         $readWriteType = $this->latestReadWriteTypeUsed();
 
         $this->event(new QueryExecuted($query, $bindings, $time, $this, $readWriteType));
@@ -750,6 +786,26 @@ class Connection implements ConnectionInterface
         if ($this->loggingQueries) {
             $this->queryLog[] = compact('query', 'bindings', 'time', 'readWriteType');
         }
+    }
+    
+    /**
+     * Get the duration of all run queries in milliseconds.
+     * 
+     * @return float
+     */
+    public function totalQueryDuration(): float
+    {
+        return $this->totalQueryDuration;
+    }
+    
+    /**
+     * Reset the duration of all run queries.
+     * 
+     * @return void
+     */
+    public function resetTotalQueryDuration(): void
+    {
+        $this->totalQueryDuration = 0.0;
     }
 
     /**
@@ -851,7 +907,7 @@ class Connection implements ConnectionInterface
      * 
      * @return \PDOStatement
      */
-    protected function prepared(PDOStatement $statement)
+    protected function prepared($statement)
     {
         $statement->setFetchMode($this->fetchMode);
 
@@ -1030,7 +1086,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the reconnect instance on the connection.
      * 
-     * @param  \Callable  $reconnector
+     * @param  callable  $reconnector
      * 
      * @return static
      */
@@ -1139,7 +1195,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the default query grammar instance.
      * 
-     * @return \Syscodes\Components\Database\Query\Grammar
+     * @return \Syscodes\Components\Database\Query\Grammars\Grammar
      */
     protected function getDefaultQueryGrammar()
     {
@@ -1188,7 +1244,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the default post processor instance.
      * 
-     * @return \Syscodes\Components\Database\Query\Processor
+     * @return \Syscodes\Components\Database\Query\Processors\Processor
      */
     protected function getDefaultPostProcessor()
     {
@@ -1461,5 +1517,22 @@ class Connection implements ConnectionInterface
     public static function getResolver($driver)
     {
         return static::$resolvers[$driver] ?? null;
+    }
+
+    /**
+     * Magic method.
+     * 
+     * Prepare the instance for cloning.
+     *
+     * @return void
+     */
+    public function __clone()
+    {
+        // When cloning, re-initialize grammars to reference cloned connection...
+        $this->useDefaultQueryGrammar();
+
+        if ( ! is_null($this->schemaGrammar)) {
+            $this->useDefaultSchemaGrammar();
+        }
     }
 }
