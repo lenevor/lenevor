@@ -43,6 +43,8 @@ use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\Traits\ForwardsCalls;
 use Syscodes\Components\Support\Traits\Macroable;
 
+use function Syscodes\Components\Support\Enum_value;
+
 /**
  * Lenevor database query builder provides a convenient, fluent interface 
  * to creating and running database queries. and works on all supported 
@@ -69,6 +71,13 @@ class Builder implements BuilderContract
      * @var array
      */
     public $aggregate;
+
+    /**
+     * The callbacks that should be invoked before the query is executed.
+     *
+     * @var array
+     */
+    public $beforeQueryCallbacks = [];
 
     /**
      * The current query value bindings.
@@ -234,10 +243,10 @@ class Builder implements BuilderContract
      * Constructor. Create a new query builder instance.
      * 
      * @param  \Syscodes\Components\Database\Connections\ConnectionInterface  $connection
-     * @param  \Syscodes\Components\Database\Query\Grammar  $grammar  
-     * @param  \Syscodes\Components\Database\Query\Processor  $processor  
+     * @param  \Syscodes\Components\Database\Query\Grammars\Grammar  $grammar  
+     * @param  \Syscodes\Components\Database\Query\Processors\Processor  $processor  
      * 
-     * return void
+     * @return void
      */
     public function __construct(ConnectionInterface $connection, ?Grammar $grammar = null, ?Processor $processor = null)
     {
@@ -274,60 +283,83 @@ class Builder implements BuilderContract
     /**
      * Add a subselect expression to the query.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder|string  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder|string  $query
      * @param  string  $as
      * 
      * @return static
      * 
      * @throws \InvalidArgumentException
      */
-    public function selectSub($builder, $as): static
+    public function selectSub($query, $as): static
     {
-        [$builder, $bindings] = $this->makeSub($builder);
+        [$query, $bindings] = $this->makeSub($query);
 
         return $this->selectRaw(
-            '('.$builder.') as '.$this->grammar->wrap($as), $bindings
+            '('.$query.') as '.$this->grammar->wrap($as), $bindings
         );
     }
     
     /**
      * Makes a subquery and parse it.
      * 
-     * @param  \Closure|\Syscodes\Components\Database\Query\Builder||\Syscodes\Components\Database\Erostrine\Builder|string  $builder
+     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Database\Erostrine\Builder|string  $query
      * 
      * @return array
      */
-    protected function makeSub($builder): array
+    protected function makeSub($query): array
     {
         // If the given query is a Closure, we will execute it while passing in a new
         // query instance to the Closure.
-        if ($builder instanceof Closure) {
-            $callback = $builder;
+        if ($query instanceof Closure) {
+            $callback = $query;
 
-            $callback($builder = $this->forSubBuilder());
+            $callback($query = $this->forSubquery());
         }
 
-        return $this->parseSub($builder);
+        return $this->parseSub($query);
     }
 
     /**
      * Parse the subquery into SQL and bindings.
      * 
-     * @param  mixed  $builder
+     * @param  mixed  $query
      * 
      * @return array
      * 
      * @throws \InvalidArgumentException
      */
-    protected function parseSub($builder): array
+    protected function parseSub($query): array
     {
-        if ($builder instanceof static || $builder instanceof ErostrineBuilder || $builder instanceof Relation) {
-            return [$builder->getSql(), $builder->getBindings()];
-        } elseif (is_string($builder)) {
-            return [$builder, []];
+        if ($query instanceof static || $query instanceof ErostrineBuilder || $query instanceof Relation) {
+            $query = $this->prependDatabaseNameIfCrossDatabaseQuery($query);
+
+            return [$query->toSql(), $query->getBindings()];
+        } elseif (is_string($query)) {
+            return [$query, []];
         } else {
             throw new InvalidArgumentException('A subquery must be a query builder instance, a Closure, or a string');
         }
+    }
+
+    /**
+     * Prepend the database name if the given query is on another database.
+     *
+     * @param  mixed  $query
+     * 
+     * @return mixed
+     */
+    protected function prependDatabaseNameIfCrossDatabaseQuery($query)
+    {
+        if ($query->getConnection()->getDatabaseName() !==
+            $this->getConnection()->getDatabaseName()) {
+            $databaseName = $query->getConnection()->getDatabaseName();
+
+            if ( ! str_starts_with($query->from, $databaseName) && ! str_contains($query->from, '.')) {
+                $query->from($databaseName.'.'.$query->from);
+            }
+        }
+
+        return $query;
     }
     
     /**
@@ -367,13 +399,13 @@ class Builder implements BuilderContract
     /**
      * Add a new select column to the query.
      * 
-     * @param  mixed  $column
+     * @param  mixed  $columns
      * 
      * @return static
      */
-    public function addSelect($column): static
+    public function addSelect($columns): static
     {
-        $columns = is_array($column) ? $column : func_get_args();
+        $columns = is_array($columns) ? $columns : func_get_args();
         
         foreach ($columns as $as => $column) {
             if (is_string($as) && $this->isQueryable($column)) {
@@ -401,7 +433,13 @@ class Builder implements BuilderContract
      */
     public function distinct(): static
     {
-        $this->distinct = true;
+        $columns = func_get_args();
+
+        if ($columns !== []) {
+            $this->distinct = is_array($columns[0]) || is_bool($columns[0]) ? $columns[0] : $columns;
+        } else {
+            $this->distinct = true;
+        }
 
         return $this;
     }
@@ -516,7 +554,7 @@ class Builder implements BuilderContract
     /**
      * Add a "subquery join" clause to the query.
      *
-     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Database\Erostrine\Builder|string  $builder
+     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Database\Erostrine\Builder|string  $query
      * @param  string  $as
      * @param  \Closure|\Syscodes\Components\Contracts\Database\Query\Expression|string  $first
      * @param  string|null  $operator
@@ -528,9 +566,9 @@ class Builder implements BuilderContract
      *
      * @throws \InvalidArgumentException
      */
-    public function joinSub($builder, $as, $first, $operator = null, $second = null, $type = 'inner', $where = false): static
+    public function joinSub($query, $as, $first, $operator = null, $second = null, $type = 'inner', $where = false): static
     {
-        [$query, $bindings] = $this->makeSub($builder);
+        [$query, $bindings] = $this->makeSub($query);
 
         $expression = '('.$query.') as '.$this->grammar->wrapTable($as);
 
@@ -542,13 +580,13 @@ class Builder implements BuilderContract
     /**
      * Add a "lateral join" clause to the query.
      *
-     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Database\Erostrine\Builder|string  $builder
+     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Database\Erostrine\Builder|string  $query
      * 
      * @return static
      */
-    public function joinLateral($builder, string $as, string $type = 'inner'): static
+    public function joinLateral($query, string $as, string $type = 'inner'): static
     {
-        [$query, $bindings] = $this->makeSub($builder);
+        [$query, $bindings] = $this->makeSub($query);
 
         $expression = '('.$query.') as '.$this->grammar->wrapTable($as);
 
@@ -562,13 +600,13 @@ class Builder implements BuilderContract
     /**
      * Add a lateral left join to the query.
      *
-     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Database\Erostrine\Builder|string  $builder
+     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Database\Erostrine\Builder|string  $query
      * 
      * @return static
      */
-    public function leftJoinLateral($builder, string $as): static
+    public function leftJoinLateral($query, string $as): static
     {
-        return $this->joinLateral($builder, $as, 'left');
+        return $this->joinLateral($query, $as, 'left');
     }
 
     /**
@@ -604,7 +642,7 @@ class Builder implements BuilderContract
     /**
      * Add a subquery left join to the query.
      *
-     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Database\Erostrine\Builder|string  $builder
+     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Database\Erostrine\Builder|string  $query
      * @param  string  $as
      * @param  \Closure|\Syscodes\Components\Contracts\Database\Query\Expression|string  $first
      * @param  string|null  $operator
@@ -612,9 +650,9 @@ class Builder implements BuilderContract
      * 
      * @return static
      */
-    public function leftJoinSub($builder, $as, $first, $operator = null, $second = null): static
+    public function leftJoinSub($query, $as, $first, $operator = null, $second = null): static
     {
-        return $this->joinSub($builder, $as, $first, $operator, $second, 'left');
+        return $this->joinSub($query, $as, $first, $operator, $second, 'left');
     }
 
     /**
@@ -650,7 +688,7 @@ class Builder implements BuilderContract
     /**
      * Add a subquery right join to the query.
      *
-     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Database\Erostrine\Builder|string  $builder
+     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Database\Erostrine\Builder|string  $query
      * @param  string  $as
      * @param  \Closure|\Syscodes\Components\Contracts\Database\Query\Expression|string  $first
      * @param  string|null  $operator
@@ -658,9 +696,9 @@ class Builder implements BuilderContract
      * 
      * @return static
      */
-    public function rightJoinSub($builder, $as, $first, $operator = null, $second = null): static
+    public function rightJoinSub($query, $as, $first, $operator = null, $second = null): static
     {
-        return $this->joinSub($builder, $as, $first, $operator, $second, 'right');
+        return $this->joinSub($query, $as, $first, $operator, $second, 'right');
     }
 
     /**
@@ -687,14 +725,14 @@ class Builder implements BuilderContract
     /**
      * Add a subquery cross join to the query.
      *
-     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Database\Erostrine\Builder|string  $builder
+     * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Database\Erostrine\Builder|string  $query
      * @param  string  $as
      * 
      * @return static
      */
-    public function crossJoinSub($builder, $as): static
+    public function crossJoinSub($query, $as): static
     {
-        [$query, $bindings] = $this->makeSub($builder);
+        [$query, $bindings] = $this->makeSub($query);
 
         $expression = '('.$query.') as '.$this->grammar->wrapTable($as);
 
@@ -992,6 +1030,10 @@ class Builder implements BuilderContract
         }
 
         $this->wheres[] = compact('type', 'column', 'values', 'boolean');
+
+        if (count($values) !== count(Arr::flatten($values, 1))) {
+            throw new InvalidArgumentException('Nested arrays may not be passed to whereIn method.');
+        }
 
         $this->addBinding($this->cleanBindings($values), 'where');
 
@@ -1663,8 +1705,10 @@ class Builder implements BuilderContract
      * 
      * @return string
      */
-    public function getSql(): string
+    public function toSql(): string
     {
+        $this->applyBeforeQueryCallbacks();
+
         return $this->grammar->compileSelect($this);
     }
 
@@ -1742,20 +1786,20 @@ class Builder implements BuilderContract
     /**
      * Add a union statement to the query.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder|\Closure  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder|\Closure  $query
      * @param  bool  $all  
      * 
      * @return static
      */
-    public function union($builder, $all = false): static
+    public function union($query, $all = false): static
     {
-        if ($builder instanceof Closure) {
-            $builder($builder = $this->newBuilder());
+        if ($query instanceof Closure) {
+            $query($query = $this->newBuilder());
         }
 
         $this->unions[] = compact('builder', 'all');
 
-        $this->addBinding($builder->getBindings(), 'union');
+        $this->addBinding($query->getBindings(), 'union');
 
         return $this;
     }
@@ -1763,13 +1807,13 @@ class Builder implements BuilderContract
     /**
      * Add a union all statement to the query.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder|\Closure  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder|\Closure  $query
      * 
      * @return static
      */
-    public function unionAll($builder): static
+    public function unionAll($query): static
     {
-        return $this->union($builder, true);
+        return $this->union($query, true);
     }
 
     /**
@@ -1807,20 +1851,183 @@ class Builder implements BuilderContract
     }
 
     /**
-     * Get an array with the values of a given column.
+     * Get a collection instance containing the values of a given column.
      * 
      * @param  string  $column
      * @param  string|null  $key
      * 
-     * @return \Syscodes\Components\Collections\Collection
+     * @return \Syscodes\Components\Support\Collection
      */
     public function pluck($column, $key = null)
     {
-        $columns = is_null($key) ? [$column] : [$column, $key];
+        $original = $this->columns;
+        
+        // First, we will need to select the results of the query accounting for the
+        // given columns / key.
+        $this->columns ??= is_null($key) || $key === $column
+            ? [$column]
+            : [$column, $key];
+            
+        $queryResult = $this->getWithStatement();
+        
+        $this->columns = $original;
+        
+        if (empty($queryResult)) {
+            return new Collection;
+        }
 
-        $results = $this->get($columns);
+         // If the columns are qualified with a table or have an alias, we cannot use
+        // those directly in the "pluck" operations since the results from the DB
+        // are only keyed by the column itself.
+        $column = $this->stripTableForPluck($column);
 
-        return $results->pluck($column, $key);
+        $key = $this->stripTableForPluck($key);
+
+        return $this->applyAfterQueryCallbacks(
+            is_array($queryResult[0])
+                ? $this->pluckFromArrayColumn($queryResult, $column, $key)
+                : $this->pluckFromObjectColumn($queryResult, $column, $key)
+        );
+    }
+
+    /**
+     * Strip off the table name or alias from a column identifier.
+     *
+     * @param  string  $column
+     * 
+     * @return string|null
+     */
+    protected function stripTableForPluck($column)
+    {
+        if (is_null($column)) {
+            return $column;
+        }
+
+        $columnString = $column instanceof ExpressionContract
+            ? $this->grammar->getValue($column)
+            : $column;
+
+        $separator = str_contains(strtolower($columnString), ' as ') ? ' as ' : '\.';
+
+        return last(preg_split('~'.$separator.'~i', $columnString));
+    }
+
+    /**
+     * Retrieve column values from rows represented as objects.
+     *
+     * @param  array  $query
+     * @param  string  $column
+     * @param  string  $key
+     * 
+     * @return \Syscodes\Components\Support\Collection
+     */
+    protected function pluckFromObjectColumn($query, $column, $key)
+    {
+        $results = [];
+
+        if (is_null($key)) {
+            foreach ($query as $row) {
+                $results[] = $row->$column;
+            }
+        } else {
+            foreach ($query as $row) {
+                $results[$row->$key] = $row->$column;
+            }
+        }
+
+        return new Collection($results);
+    }
+
+    /**
+     * Retrieve column values from rows represented as arrays.
+     *
+     * @param  array  $queryResult
+     * @param  string  $column
+     * @param  string  $key
+     * 
+     * @return \Syscodes\Components\Support\Collection
+     */
+    protected function pluckFromArrayColumn($queryResult, $column, $key)
+    {
+        $results = [];
+
+        if (is_null($key)) {
+            foreach ($queryResult as $row) {
+                $results[] = $row[$column];
+            }
+        } else {
+            foreach ($queryResult as $row) {
+                $results[$row[$key]] = $row[$column];
+            }
+        }
+
+        return new Collection($results);
+    }
+
+    /**
+     * Concatenate values of a given column as a string.
+     *
+     * @param  string  $column
+     * @param  string  $glue
+     * @return string
+     */
+    public function implode($column, $glue = '')
+    {
+        return $this->pluck($column)->implode($glue);
+    }
+
+    /**
+     * Determine if any rows exist for the current query.
+     *
+     * @return bool
+     */
+    public function exists(): bool
+    {
+        $this->applyBeforeQueryCallbacks();
+
+        $results = $this->connection->select(
+            $this->grammar->compileExists($this), $this->getBindings(), ! $this->useWritePdo
+        );
+
+        // If the results have rows, we will get the row and see if the exists column is a
+        // boolean true.
+        if (isset($results[0])) {
+            $results = (array) $results[0];
+
+            return (bool) $results['exists'];
+        }
+
+        return false;
+    }
+
+    /**
+     * Determine if no rows exist for the current query.
+     *
+     * @return bool
+     */
+    public function doesntExist(): bool
+    {
+        return ! $this->exists();
+    }
+
+    /**
+     * Execute the given callback if no rows exist for the current query.
+     *
+     * @return mixed
+     */
+    public function existsOr(Closure $callback)
+    {
+        return $this->exists() ? true : $callback();
+    }
+
+    /**
+     * Execute the given callback if rows exist for the current query.
+     *
+     * @return mixed
+     */
+    public function doesntExistOr(Closure $callback)
+    {
+        return $this->doesntExist() ? true : $callback();
     }
 
     /**
@@ -1843,8 +2050,8 @@ class Builder implements BuilderContract
      * 
      * @return mixed
      *
-     * @throws \Syscodes\Components\Database\\Exceptions\RecordsNotFoundException
-     * @throws \Syscodes\Components\Database\\Exceptions\MultipleRecordsFoundException
+     * @throws \Syscodes\Components\Database\Exceptions\RecordsNotFoundException
+     * @throws \Syscodes\Components\Database\Exceptions\MultipleRecordsFoundException
      */
     public function soleValue($column)
     {
@@ -1862,34 +2069,15 @@ class Builder implements BuilderContract
      */
     public function get($columns = ['*'])
     {
-        $items = new collection($this->getFresh(Arr::wrap($columns), function () {
-            return $this->getWithStatement();
-        }));
-
-        return $this->applyAfterQueryCallbacks($items);
-    }
-    
-    /**
-     * Execute the given callback while selecting the given columns.
-     * 
-     * @param  array  $columns
-     * @param  \callable  $callback
-     * 
-     * @return mixed 
-     */
-    protected function getFresh($columns, Closure $callback)
-    {
         $original = $this->columns;
 
-        if (is_null($original)) {
-            $this->columns = $columns;
-        }
-
-        $result = $callback();
+        $this->columns ??= Arr::wrap($columns);
+        
+        $items = new Collection($this->getWithStatement());
 
         $this->columns = $original;
 
-        return $result;
+        return $this->applyAfterQueryCallbacks($items);
     }
 
     /**
@@ -1907,9 +2095,11 @@ class Builder implements BuilderContract
      * 
      * @return array
      */
-    public function runOnSelectStatement()
+    public function runOnSelectStatement(): array
     {
-        return $this->connection->select($this->getSql(), $this->getBindings(), ! $this->useWritePdo);
+        return $this->connection->select(
+            $this->toSql(), $this->getBindings(), ! $this->useWritePdo
+        );
     }
     
     /**
@@ -2110,21 +2300,10 @@ class Builder implements BuilderContract
      */
     public function aggregate($function, $columns = ['*'])
     {
-        $this->aggregate = compact('function', 'columns');
-
-        $previous = $this->columns;
-
-        $previousSelectBindings = $this->bindings['select'];
-
-        $this->bindings['select'] = [];
-
-        $results = $this->get($columns);
-
-        $this->aggregate = null;
-
-        $this->columns = $previous;
-
-        $this->bindings['select'] = $previousSelectBindings;
+        $results = $this->cloneWithoutProperties($this->unions || $this->havings ? [] : ['columns'])
+            ->cloneWithoutBindings($this->unions || $this->havings ? [] : ['columns'])
+            ->setAggregate($function, $columns)
+            ->get($columns);
 
         if ( ! $results->isEmpty())  {
             return array_change_key_case((array) $results[0])['aggregate'];
@@ -2165,7 +2344,7 @@ class Builder implements BuilderContract
             return true;
         }
 
-        if ( ! is_array(head($values))) {
+        if ( ! is_array(array_first($values))) {
             $values = [$values];
         } else {
             foreach ($values as $key => $value) {
@@ -2175,31 +2354,12 @@ class Builder implements BuilderContract
             }
         }
 
-        $sql      = $this->grammar->compileInsert($this, $values);
-        $bindings = $this->cleanBindings($this->buildInsertBinding($values));
+        $this->applyBeforeQueryCallbacks();
 
-        return $this->connection->insert($sql, $bindings);
-    }
-
-    /**
-     * It insert like a batch data so we can easily insert each 
-     * records into the database consistenly.
-     * 
-     * @param  array  $values
-     * 
-     * @return array
-     */
-    private function buildInsertBinding(array $values): array
-    {
-        $bindings = [];
-
-        foreach ($values as $record) {
-            foreach ((array) $record as $value) {
-                $bindings[] = $value;
-            }
-        }
-
-        return $bindings;
+        return $this->connection->insert(
+            $this->grammar->compileInsert($this, $values), 
+            $this->cleanBindings(Arr::flatten($values, 1))
+        );
     }
 
     /**
@@ -2212,6 +2372,8 @@ class Builder implements BuilderContract
      */
     public function insertGetId(array $values, $sequence = null): int
     {
+        $this->applyBeforeQueryCallbacks();
+
         $sql    = $this->grammar->compileInsertGetId($this, $values, $sequence);
         $values = $this->cleanBindings($values);
 
@@ -2227,6 +2389,8 @@ class Builder implements BuilderContract
      */
     public function update(array $values): int
     {
+        $this->applyBeforeQueryCallbacks();
+        
         $sql = $this->grammar->compileUpdate($this, $values);
         
         return $this->connection->update($sql, $this->cleanBindings(
@@ -2291,7 +2455,9 @@ class Builder implements BuilderContract
             $this->where($this->from.'id', '=', $id);
         }
 
-        $sql      = $this->grammar->compileDelete($this);
+         $this->applyBeforeQueryCallbacks();
+
+        $sql = $this->grammar->compileDelete($this);
         $bindings = $this->cleanBindings($this->getBindings());
 
         return $this->connection->delete($sql, $bindings);
@@ -2304,8 +2470,10 @@ class Builder implements BuilderContract
      */
     public function truncate()
     {
+         $this->applyBeforeQueryCallbacks();
+
         foreach ($this->grammar->compileTruncate($this) as $sql => $bindings) {
-            $this->connection->query($sql, $bindings);
+            $this->connection->statement($sql, $bindings);
         }
     }
 
@@ -2687,7 +2855,13 @@ class Builder implements BuilderContract
      */
     public function cleanBindings(array $bindings): array
     {
-        return array_values(array_filter($bindings, fn ($binding) => ! $binding instanceof Expression));
+         return (new Collection($bindings))
+            ->reject(function ($binding) {
+                return $binding instanceof ExpressionContract;
+            })
+            ->map($this->castBinding(...))
+            ->values()
+            ->all();
     }
 
     /**
@@ -2749,26 +2923,69 @@ class Builder implements BuilderContract
         }
 
         if (is_array($value)) {
-            $this->bindings[$type] = array_values(array_merge($this->bindings[$type], $value));
+            $this->bindings[$type] = array_values(array_map(
+                $this->castBinding(...),
+                array_merge($this->bindings[$type], $value),
+            ));
         } else {
-            $this->bindings[$type][] = $value;
+            $this->bindings[$type][] = $this->castBinding($value);
         }
 
         return $this;
     }
 
     /**
+     * Cast the given binding value.
+     *
+     * @param  mixed  $value
+     * 
+     * @return mixed
+     */
+    public function castBinding($value)
+    {
+        return enum_value($value);
+    }
+
+    /**
      * Merge an array of bindings into our bindings.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * 
      * @return static
      */
-    public function mergeBindings(self $builder): static
+    public function mergeBindings(self $query): static
     {
-        $this->bindings = array_merge_recursive($this->bindings, $builder->bindings);
+        $this->bindings = array_merge_recursive($this->bindings, $query->bindings);
 
         return $this;
+    }
+
+    /**
+     * Register a closure to be invoked before the query is executed.
+     * 
+     * @param callable  $callback
+     *
+     * @return static
+     */
+    public function beforeQuery(callable $callback): static
+    {
+        $this->beforeQueryCallbacks[] = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Invoke the "before query" modification callbacks.
+     *
+     * @return void
+     */
+    public function applyBeforeQueryCallbacks(): void
+    {
+        foreach ($this->beforeQueryCallbacks as $callback) {
+            $callback($this);
+        }
+
+        $this->beforeQueryCallbacks = [];
     }
 
     /**
@@ -2826,7 +3043,7 @@ class Builder implements BuilderContract
     /**
      * Get the database query processor instance.
      * 
-     * @return \Syscodes\Components\Database\Query\Processor
+     * @return \Syscodes\Components\Database\Query\Processors\Processor
      */
     public function getQueryProcessor()
     {
@@ -2836,7 +3053,7 @@ class Builder implements BuilderContract
     /**
      * Get the database query grammar instance.
      * 
-     * @return \Syscodes\Components\Database\Query\Grammar
+     * @return \Syscodes\Components\Database\Query\Grammars\Grammar
      */
     public function getQueryGrammar()
     {
@@ -2919,7 +3136,7 @@ class Builder implements BuilderContract
      */
     public function dd(): void
     {
-        dd($this->getSql(), $this->getBindings());
+        dd($this->toSql(), $this->getBindings());
     }
 
     /**
@@ -2934,7 +3151,7 @@ class Builder implements BuilderContract
      * 
      * @throws \BadMethodCallException
      */
-    public function __call(string $method, array $parameters): mixed
+    public function __call(string $method, array $parameters)
     {
         if ( ! static::hasMacro($method)) {
             static::badMethodCallException($method);

@@ -42,7 +42,7 @@ class Str
     /**
      * The cache of snake-cased words.
      * 
-     * @var arraye
+     * @var array
      */
     protected static $snakeCache = [];
 
@@ -383,19 +383,28 @@ class Str
      * 
      * @param  string  $pattern
      * @param  string  $value
+     * @param  bool  $ignoreCase
      * 
      * @return bool
      */
-    public static function is($pattern, $value): bool
+    public static function is($pattern, $value, $ignoreCase = false): bool
     {
-        $patterns = Arr::wrap($pattern);
+         $value = (string) $value;
 
-        if (is_null($patterns)) {
-            return false;
+        if (! is_iterable($pattern)) {
+            $pattern = [$pattern];
         }
 
-        foreach ($patterns as $pattern) {
-            if ($pattern == $value) {
+        foreach ($pattern as $pattern) {
+            $pattern = (string) $pattern;
+
+            // If the given value is an exact match we can of course return true right
+            // from the beginning.
+            if ($pattern === '*' || $pattern === $value) {
+                return true;
+            }
+
+            if ($ignoreCase && mb_strtolower($pattern) === mb_strtolower($value)) {
                 return true;
             }
 
@@ -404,7 +413,7 @@ class Str
             // Asterisks are translate into regular expression wildcards to verify a string
             $pattern = str_replace('\*', '.*', $pattern).'\z';
 
-            if (preg_match('#^'.$pattern.'#u', $value) === 1) {
+            if (preg_match('#^'.$pattern.'#'.($ignoreCase ? 'isu' : 'su'), $value) === 1) {
                 return true;
             }
         }
@@ -764,7 +773,7 @@ class Str
     public static function replaceArray($search, $replace, $subject): string
     {
         if ($replace instanceof Traversable) {
-            $replace = Arr::from($replace);
+            $replace = iterator_to_array($replace);
         }
 
         $segments = explode($search, $subject);
@@ -921,7 +930,7 @@ class Str
      * @param  string|string[]  $subject
      * @param  bool  $caseReplace
      * 
-     * @param  string
+     * @return string
      */
     public static function remove($search, $subject, bool $caseReplace = true)
     {
