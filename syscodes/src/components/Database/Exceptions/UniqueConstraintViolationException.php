@@ -27,5 +27,45 @@ namespace Syscodes\Components\Database\Exceptions;
  */
 class UniqueConstraintViolationException extends QueryException
 {
-    //
+    /**
+     * The unique index which prevented the query.
+     *
+     * @var string|null
+     */
+    public ?string $index = null;
+
+    /**
+     * The columns which caused the violation.
+     *
+     * @var array
+     */
+    public array $columns = [];
+
+    /**
+     * Set the unique index which caused the violation.
+     *
+     * @param  string|null  $index
+     * 
+     * @return self
+     */
+    public function setIndex(?string $index): self
+    {
+        $this->index = $index;
+
+        return $this;
+    }
+
+    /**
+     * Set the columns that caused the violation.
+     *
+     * @param  array  $columns
+     * 
+     * @return self
+     */
+    public function setColumns(array $columns): self
+    {
+        $this->columns = $columns;
+
+        return $this;
+    }
 }
