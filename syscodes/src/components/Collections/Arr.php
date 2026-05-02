@@ -22,7 +22,9 @@
 
 namespace Syscodes\Components\Support;
 
+use ArgumentCountError;
 use ArrayAccess;
+use Closure;
 use InvalidArgumentException;
 use JsonSerializable;
 use Syscodes\Components\Contracts\Support\Arrayable;
@@ -127,6 +129,23 @@ class Arr
 		return $results;
 	}
 
+	 /**
+     * Explode the "value" and "key" arguments passed to "pluck".
+     *
+     * @param  Closure|array|string  $value
+     * @param  string|array|Closure|null  $key
+	 * 
+     * @return array
+     */
+    protected static function explodePluckParameters($value, $key): array
+    {
+        $value = is_string($value) ? explode('.', $value) : $value;
+
+        $key = is_null($key) || is_array($key) || $key instanceof Closure ? $key : explode('.', $key);
+
+        return [$value, $key];
+    }
+
 	/**
 	 * Get all of the given array except for a specified array of items.
 	 *
@@ -216,7 +235,7 @@ class Arr
 	 * Determine if all items pass the given truth test.
 	 * 
 	 * @param  iterable  $array
-	 * @param  \callable  $callback
+	 * @param  callable  $callback
 	 * 
 	 * @return bool
 	 */
@@ -273,7 +292,7 @@ class Arr
 			
 			foreach ($array as $value) {
 				if (array_key_exists($segment, $value = (array) $value)) {
-					$results[] = $value[$segment];
+					$results = $value[$segment];
 				}
 			}
 			
@@ -287,7 +306,7 @@ class Arr
 	 * Return the first element in an array passing a given truth test.
 	 *
 	 * @param  array  $array 
-	 * @param  \callable|null  $callback
+	 * @param  callable|null  $callback
 	 * @param  mixed  $default
 	 *
 	 * @return mixed
@@ -385,21 +404,26 @@ class Arr
 	}
 
 	/**
-	 * Return the last element in an array passing a given truth test.
-	 *
-	 * @param  array  $array 
-	 * @param  \callable|null  $callback
-	 * @param  mixed  $default 
-	 *
-	 * @return mixed
+	 * Gets max width of an array.
+	 * 
+	 * @param  array  $data
+	 * @param  bool  $exclude
+	 * 
+	 * @return int
 	 */
-	public static function last(array $array, ?callable $callback = null, mixed $default = null)
+	public static function getMaxWidth(array $data, bool $exclude = true): int
 	{
-		if (is_null($callback)) {
-			return empty($array) ? value($default) : array_last($array);
+		$maxWidth = 0;
+		
+		foreach ($data as $key => $value) {
+			// key is not a integer
+			if ( ! $exclude || ! is_numeric($key)) {
+				$width    = mb_strlen((string) $key, 'UTF-8');
+				$maxWidth = $width > $maxWidth ? $width : $maxWidth;
+			}
 		}
 		
-		return static::first(array_reverse($array, true), $callback, $default);
+		return $maxWidth;
 	}
 
 	/**
@@ -496,28 +520,15 @@ class Arr
 	}
 	
 	/**
-	 * Determine if some items pass the given truth test.
-	 * 
-	 * @param  iterable  $array
-	 * @param  \callable  $callback
-	 * 
-	 * @return bool
-	 */
-	public static function some($array, callable $callback): bool
-	{
-		return array_any($array, $callback);
-	}
-	
-	/**
 	 * Get an integer item from an array using "dot" notation.
 	 * 
 	 * @param  \ArrayAccess|array  $array
 	 * @param  string|int|null  $key
 	 * @param  int|null  $default
 	 * 
-	 * @return
+	 * @return int
 	 * 
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	public static function integer(ArrayAccess|array $array, string|int|null $key, ?int $default = null): int
 	{
@@ -530,29 +541,6 @@ class Arr
 		}
 		
 		return $value;
-	}
-
-	/**
-	 * Gets max width of an array.
-	 * 
-	 * @param  array  $data
-	 * @param  bool  $exclude
-	 * 
-	 * @return int
-	 */
-	public static function getMaxWidth(array $data, bool $exclude = true): int
-	{
-		$maxWidth = 0;
-		
-		foreach ($data as $key => $value) {
-			// key is not a integer
-			if ( ! $exclude || ! is_numeric($key)) {
-				$width    = mb_strlen((string) $key, 'UTF-8');
-				$maxWidth = $width > $maxWidth ? $width : $maxWidth;
-			}
-		}
-		
-		return $maxWidth;
 	}
 	
 	/**
@@ -578,6 +566,37 @@ class Arr
 	{
 		return array_is_list($array);
 	}
+
+	/**
+     * Key an associative array by a field or using a callback.
+     *
+     * @param  iterable  $array
+     * @param  callable|array|string  $keyBy
+	 * 
+     * @return array
+     */
+    public static function keyBy($array, $keyBy): array
+    {
+        return (new Collection($array))->keyBy($keyBy)->all();
+    }
+
+	/**
+	 * Return the last element in an array passing a given truth test.
+	 *
+	 * @param  array  $array 
+	 * @param  callable|null  $callback
+	 * @param  mixed  $default 
+	 *
+	 * @return mixed
+	 */
+	public static function last(array $array, ?callable $callback = null, mixed $default = null)
+	{
+		if (is_null($callback)) {
+			return empty($array) ? value($default) : array_last($array);
+		}
+		
+		return static::first(array_reverse($array, true), $callback, $default);
+	}
 	
 	/**
 	 * Run a map over each of the items in the array.
@@ -593,7 +612,7 @@ class Arr
 		
 		try {
 			$items = array_map($callback, $array, $keys);
-		} catch (InvalidArgumentException) {
+		} catch (ArgumentCountError) {
 			$items = array_map($callback, $array);
 		}
 		
@@ -608,7 +627,7 @@ class Arr
 	 * 
 	 * @return array
 	 */
-	public static function only(array $array, array|string $keys): array
+	public static function only($array, $keys): array
 	{
 		return array_intersect_key($array, array_flip((array) $keys));
 	}
@@ -675,13 +694,13 @@ class Arr
 	/**
 	 * Push an item onto the beginning of an array.
 	 * 
-	 * @param  mixed  $array
+	 * @param  array  $array
 	 * @param  mixed  $value
-	 * @param  mixed  key
+	 * @param  mixed  $key
 	 * 
 	 * @return array
 	 */
-	public static function prepend(mixed $array, mixed $value, mixed $key = null): array
+	public static function prepend($array, $value, $key = null): array
 	{
 		if (func_num_args() == 2) {
 			array_unshift($array, $value);
@@ -701,7 +720,7 @@ class Arr
 	 * 
 	 * @return mixed
 	 */
-	public static function pull(array &$array, string $key, mixed $default = null): mixed
+	public static function pull(&$array, $key, $default = null): mixed
 	{
 		$value = static::get($array, $key, $default);
 
@@ -713,7 +732,7 @@ class Arr
 	/**
 	 * Pluck an array of values from an array.
 	 * 
-	 * @param  \iterable  $array
+	 * @param  iterable  $array
 	 * @param  string|array|int|null  $value
 	 * @param  string|array|null  $key
 	 * 
@@ -722,17 +741,26 @@ class Arr
 	public static function pluck($array, $value, $key = null): array
 	{
 		$results = [];
+		
+		[$value, $key] = static::explodePluckParameters($value, $key);
 
 		foreach ($array as $item) {
-			$itemValue = is_object($item) ? $item->{$value} : $item[$value];
+			$itemValue = $value instanceof Closure
+			    ? $value($item)
+				: data_get($item, $value);
 			
 			// If the key is "null", we will just append the value to the array and keep
-			// looping. Otherwise we will key the array using the value of the key we
-			// received from the developer. Then we'll return the final array form.
+			// looping. 
 			if (is_null($key)) {
 				$results[] = $itemValue;
 			} else {
-				$itemKey = is_object($item) ? $item->{$key} : $item[$key];
+				$itemKey = $key instanceof Closure
+				    ? $key($item)
+					: data_get($item, $key);
+				
+				if (is_object($itemKey) && method_exists($itemKey, '__toString')) {
+					$itemKey = (string) $itemKey;
+				}
 				
 				$results[$itemKey] = $itemValue;
 			}
@@ -748,9 +776,22 @@ class Arr
 	 * 
 	 * @return string
 	 */
-	public static function query(array $array): string
+	public static function query($array): string
 	{
 		return http_build_query($array, '', '&', PHP_QUERY_RFC3986);
+	}
+
+	/**
+	 * Determine if some items pass the given truth test.
+	 * 
+	 * @param  iterable  $array
+	 * @param  callable  $callback
+	 * 
+	 * @return bool
+	 */
+	public static function some($array, callable $callback): bool
+	{
+		return array_any($array, $callback);
 	}
 	
 	/**
@@ -788,11 +829,11 @@ class Arr
 	 * Filter the array using the given callback.
 	 * 
 	 * @param  array  $array
-	 * @param  \Callable  $callback
+	 * @param  callable  $callback
 	 * 
 	 * @return array
 	 */
-	public static function where(array $array, Callable $callback): array
+	public static function where($array, callable $callback): array
 	{
 		return array_filter($array, $callback, ARRAY_FILTER_USE_BOTH);
 	}
