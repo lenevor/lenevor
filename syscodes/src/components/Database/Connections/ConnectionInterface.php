@@ -107,6 +107,16 @@ interface ConnectionInterface
     public function delete(string $query, array $bindings = []): int;
 
     /**
+     * Execute an SQL statement and return the boolean result.
+     * 
+     * @param  string  $query
+     * @param  array  $bindings
+     * 
+     * @return bool
+     */
+    public function statement(string $query, array $bindings = []): bool;
+
+    /**
      * Prepare the query bindings for execution.
      * 
      * @param  array  $bindings
@@ -114,6 +124,13 @@ interface ConnectionInterface
      * @return array
      */
     public function prepareBindings(array $bindings): array;
+
+    /**
+     * Get the name of the connected database.
+     * 
+     * @return string
+     */
+    public function getDatabaseName(): string;
 
     /**
      * Get the PDO instance.
@@ -184,7 +201,7 @@ interface ConnectionInterface
      * 
      * @return array
      */
-    public function prepend(Closure $callback): array;
+    public function pretend(Closure $callback): array;
 
     /**
      * Get a schema builder instance for the connection.
