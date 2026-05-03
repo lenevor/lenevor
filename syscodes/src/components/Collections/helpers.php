@@ -37,6 +37,53 @@ if ( ! function_exists('collect')) {
     }
 }
 
+if ( ! function_exists('data_fill')) {
+    /**
+     * Fill in data where it's missing.
+     *
+     * @param  mixed  $target
+     * @param  string|array  $key
+     * @param  mixed  $value
+     * 
+     * @return mixed
+     */
+    function data_fill(&$target, $key, $value)
+    {
+        return data_set($target, $key, $value, false);
+    }
+}
+
+if ( ! function_exists('data_has')) {
+    /**
+     * Determine if a key / property exists on an array or object using "dot" notation.
+     *
+     * @param  mixed  $target
+     * @param  string|array|int|null  $key
+     * 
+     * @return bool
+     */
+    function data_has($target, $key): bool
+    {
+        if (is_null($key) || $key === []) {
+            return false;
+        }
+
+        $key = is_array($key) ? $key : explode('.', $key);
+
+        foreach ($key as $segment) {
+            if (Arr::accessible($target) && Arr::exists($target, $segment)) {
+                $target = $target[$segment];
+            } elseif (is_object($target) && property_exists($target, $segment)) {
+                $target = $target->{$segment};
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+
 if ( ! function_exists('data_get')) {
     /**
      * Get an item from an array or object using "dot" notation.
@@ -47,24 +94,43 @@ if ( ! function_exists('data_get')) {
      * 
      * @return mixed
      */
-    function data_get($target, $key, mixed $default = null)
+    function data_get($target, $key, $default = null)
     {
         if (is_null($key)) return $target;
         
         $key = is_array($key) ? $key : explode('.', $key);
         
-        while (($segment = array_shift($key)) !== null) {
+        foreach ($key as $i => $segment) {
+            unset($key[$i]);
+
+            if (is_null($segment)) {
+                return $target;
+            }
+
             if ($segment === '*') {
                 if ($target instanceof Collection) {
                     $target = $target->all();
-                } elseif ( ! is_array($target)) {
+                } elseif ( ! is_iterable($target)) {
                     return value($default);
                 }
-                
-                $result = Arr::pluck($target, $key);
-                
+
+                $result = [];
+
+                foreach ($target as $item) {
+                    $result[] = data_get($item, $key);
+                }
+
                 return in_array('*', $key) ? Arr::collapse($result) : $result;
             }
+
+            $segment = match ($segment) {
+                '\*' => '*',
+                '\{first}' => '{first}',
+                '{first}' => array_key_first(Arr::from($target)),
+                '\{last}' => '{last}',
+                '{last}' => array_key_last(Arr::from($target)),
+                default => $segment,
+            };
             
             if (Arr::accessible($target) && Arr::exists($target, $segment)) {
                 $target = $target[$segment];
@@ -90,7 +156,7 @@ if( ! function_exists('data_set')) {
      * 
      * @return mixed
      */
-    function data_set(&$target, string|array $key, mixed $value, bool $overwrite = true)
+    function data_set(&$target, $key, $value, $overwrite = true)
     {
         $segments = is_array($key) ? $key : explode('.', $key);
         
@@ -138,6 +204,43 @@ if( ! function_exists('data_set')) {
             }
         }
         
+        return $target;
+    }
+}
+
+if ( ! function_exists('data_forget')) {
+    /**
+     * Remove / unset an item from an array or object using "dot" notation.
+     *
+     * @param  mixed  $target
+     * @param  string|array|int|null  $key
+     * 
+     * @return mixed
+     */
+    function data_erase(&$target, $key)
+    {
+        $segments = is_array($key) ? $key : explode('.', $key);
+
+        if (($segment = array_shift($segments)) === '*' && Arr::accessible($target)) {
+            if ($segments) {
+                foreach ($target as &$inner) {
+                    data_erase($inner, $segments);
+                }
+            }
+        } elseif (Arr::accessible($target)) {
+            if ($segments && Arr::exists($target, $segment)) {
+                data_erase($target[$segment], $segments);
+            } else {
+                Arr::erase($target, $segment);
+            }
+        } elseif (is_object($target)) {
+            if ($segments && isset($target->{$segment})) {
+                data_erase($target->{$segment}, $segments);
+            } elseif (isset($target->{$segment})) {
+                unset($target->{$segment});
+            }
+        }
+
         return $target;
     }
 }
