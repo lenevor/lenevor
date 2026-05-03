@@ -24,9 +24,13 @@ namespace Syscodes\Components\Database;
 
 use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\Contracts\Support\Deferrable;
+use Syscodes\Components\Database\Console\Migrations\FreshCommand;
 use Syscodes\Components\Database\Console\Migrations\InstallCommand;
 use Syscodes\Components\Database\Console\Migrations\MigrateCommand;
 use Syscodes\Components\Database\Console\Migrations\MigrateMakeCommand;
+use Syscodes\Components\Database\Console\Migrations\RefreshCommand;
+use Syscodes\Components\Database\Console\Migrations\ResetCommand;
+use Syscodes\Components\Database\Console\Migrations\RollbackCommand;
 use Syscodes\Components\Database\Migrations\DatabaseMigrationRepository;
 use Syscodes\Components\Database\Migrations\MigrationCreator;
 use Syscodes\Components\Database\Migrations\Migrator;
@@ -44,8 +48,12 @@ class MigrationServiceProvider extends ServiceProvider implements Deferrable
      */
     protected $commands = [
         'Migrate' => MigrateCommand::class,
+        'MigrateFresh' => FreshCommand::class,
         'MigrateInstall' => InstallCommand::class,
         'MigrateMake' => MigrateMakeCommand::class,
+        'MigrateRefresh' => RefreshCommand::class,
+        'MigrateReset' => ResetCommand::class,
+        'MigrateRollback' => RollbackCommand::class,
     ];
 
     /**
@@ -127,6 +135,18 @@ class MigrationServiceProvider extends ServiceProvider implements Deferrable
      *
      * @return void
      */
+    protected function registerMigrateFreshCommand()
+    {
+        $this->app->singleton(FreshCommand::class, function ($app) {
+            return new FreshCommand($app['migrator']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
     protected function registerMigrateInstallCommand()
     {
         $this->app->singleton(InstallCommand::class, function ($app) {
@@ -145,6 +165,40 @@ class MigrationServiceProvider extends ServiceProvider implements Deferrable
             $creator = $app['migration.creator'];
 
             return new MigrateMakeCommand($creator);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerMigrateRefreshCommand()
+    {
+        $this->app->singleton(RefreshCommand::class);
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerMigrateResetCommand()
+    {
+        $this->app->singleton(ResetCommand::class, function ($app) {
+            return new ResetCommand($app['migrator']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerMigrateRollbackCommand()
+    {
+        $this->app->singleton(RollbackCommand::class, function ($app) {
+            return new RollbackCommand($app['migrator']);
         });
     }
 
