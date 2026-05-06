@@ -483,7 +483,7 @@ abstract class Grammar extends BaseGrammar
     public function wrap($value, $prefix = false): string
     {
         return parent::wrap(
-            $value instanceof Flowing ? $value->name : $value, $prefix
+            $value instanceof Flowing ? $value->name : $value
         );
     }
     
