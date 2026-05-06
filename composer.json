@@ -32,13 +32,16 @@
 		"setup": [
             "composer install",
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
-            "@php prime key:generate"
+            "@php prime key:generate",
+			"@php artisan migrate --force"
         ],
 		"post-root-package-install": [
 			"@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
 		],	
 		"post-create-project-cmd": [
-			"@php prime key:generate --ansi"
+			"@php prime key:generate --ansi",
+			"@php -r \"file_exists('database/data/database.sqlite') || touch('database/data/database.sqlite');\"",
+			"@php artisan migrate --graceful --ansi"
 		]
 	},
 	"extra": {
