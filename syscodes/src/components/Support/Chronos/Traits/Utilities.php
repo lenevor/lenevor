@@ -62,7 +62,7 @@ trait Utilities
      * @param  \DateTime|string  $time
      * @param  \DateTimeZone|string|null  $timezone  
      * 
-     * @return \DateTime|\Syscodes\Components\Support\Chronos\Time
+     * @return \DateTime|\Syscodes\Components\Support\Chronos\Chronos
      */
     protected function getConvertedUTC($time, ?string $timezone = null)
     {

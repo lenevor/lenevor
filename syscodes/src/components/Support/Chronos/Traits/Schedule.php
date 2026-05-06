@@ -186,7 +186,7 @@ trait Schedule
      * 
      * @param  string  $value
      * 
-     * @return \Syscodes\Components\Support\Chronos\Time
+     * @return \Syscodes\Components\Support\Chronos\Chronos
      * 
      * @throws \Syscodes\Components\Support\Chronos\Exceptions\InvalidDateTimeException
      */
@@ -200,7 +200,7 @@ trait Schedule
      * 
      * @param  string  $value
      * 
-     * @return \Syscodes\Components\Support\Chronos\Time
+     * @return \Syscodes\Components\Support\Chronos\Chronos
      * 
      * @throws \Syscodes\Components\Support\Chronos\Exceptions\InvalidDateTimeException
      */
@@ -222,7 +222,7 @@ trait Schedule
      * 
      * @param  string  $value
      * 
-     * @return \Syscodes\Components\Support\Chronos\Time
+     * @return \Syscodes\Components\Support\Chronos\Chronos
      * 
      * @throws \Syscodes\Components\Support\Chronos\Exceptions\InvalidDateTimeException
      */
@@ -247,7 +247,7 @@ trait Schedule
      * 
      * @param  string  $value
      * 
-     * @return \Syscodes\Components\Support\Chronos\Time
+     * @return \Syscodes\Components\Support\Chronos\Chronos
      * 
      * @throws \Syscodes\Components\Support\Chronos\Exceptions\InvalidDateTimeException
      */
@@ -265,7 +265,7 @@ trait Schedule
      * 
      * @param  string  $value
      * 
-     * @return \Syscodes\Components\Support\Chronos\Time
+     * @return \Syscodes\Components\Support\Chronos\Chronos
      * 
      * @throws \Syscodes\Components\Support\Chronos\Exceptions\InvalidDateTimeException
      */
@@ -283,7 +283,7 @@ trait Schedule
      * 
      * @param  string  $value
      * 
-     * @return \Syscodes\Components\Support\Chronos\Time
+     * @return \Syscodes\Components\Support\Chronos\Chronos
      * 
      * @throws \Syscodes\Components\Support\Chronos\Exceptions\InvalidDateTimeException
      */

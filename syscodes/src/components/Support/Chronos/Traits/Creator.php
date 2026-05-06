@@ -26,7 +26,6 @@ use DateMalformedStringException;
 use DateTime;
 use DateTimeZone;
 use Exception;
-use Locale;
 use Syscodes\Components\Support\Chronos\Exceptions\InvalidFormatException;
 use DateTimeInterface;
 
@@ -50,18 +49,14 @@ trait Creator
      * Constructor. The Date class instance.
      * 
      * @param  DateTimeInterface|string|int|float|null  $time  
-     * @param  DateTimeZone|string|int|null  $timezone  
-     * @param  string|null  $locale
+     * @param  DateTimeZone|string|int|null  $timezone 
      * 
      * @return void
      */
     public function __construct(
         DateTimeInterface|string|int|float|null $time = null,
-        DateTimeZone|string|int|null $timezone = null, 
-        ?string $locale = null)
-    {
-        $this->locale = ! empty($locale) ? $locale : Locale::getDefault();
-
+        DateTimeZone|string|int|null $timezone = null
+    ) {
         if (is_null($time) && static::$testNow instanceof static) {
             if (empty($timezone)) {
                 $timezone = static::$testNow->getTimezone();
@@ -115,7 +110,6 @@ trait Creator
      *
      * @param  DateTimeInterface|string|int|float|null  $time
      * @param  DateTimeZone|string|int|null  $timezone
-     * @param  string|null  $locale
      * 
      * @return static
      *
@@ -123,15 +117,14 @@ trait Creator
      */
     public static function rawParse(
         DateTimeInterface|string|int|float|null $time,
-        DateTimeZone|string|int|null $timezone = null,
-        ?string $locale = null
+        DateTimeZone|string|int|null $timezone = null
     ): static {
         if ($time instanceof DateTimeInterface) {
             return static::instance($time);
         }
 
         try {
-            return new static($time, $timezone, $locale);
+            return new static($time, $timezone);
         } catch (Exception $exception) {
             // @codeCoverageIgnoreStart
             try {
@@ -150,20 +143,18 @@ trait Creator
      * Returns a new Time instance while parsing a datetime string.
      * 
      * @param  DateTimeInterface|string|int|float|null  $time
-     * @param  DateTimeZone|string|int|null  $timezone  
-     * @param  string|null  $locale  
+     * @param  DateTimeZone|string|int|null  $timezone    
      * 
      * @return static
      */
     public static function parse(
         DateTimeInterface|string|int|float|null $time,
-        DateTimeZone|string|int|null $timezone = null,
-        ?string $locale = null
+        DateTimeZone|string|int|null $timezone = null
     ): static {
         $function = static::$parseFunction;
 
         if ( ! $function) {
-            return static::rawParse($time, $timezone, $locale);
+            return static::rawParse($time, $timezone);
         }
 
         if (\is_string($function) && method_exists(static::class, $function)) {
@@ -176,55 +167,49 @@ trait Creator
     /**
      * Returns a new Time instance with the timezone set.
      * 
-     * @param  DateTimeZone|string|int|null  $timezone  
-     * @param  string|null  $locale  
+     * @param  DateTimeZone|string|int|null  $timezone
      * 
      * @return static
      */
-    public static function now(
-        DateTimeZone|string|int|null $timezone = null,
-        ?string $locale = null
-    ): static {
-        return new static(null, $timezone, $locale);
+    public static function now(DateTimeZone|string|int|null $timezone = null): static
+    {
+        return new static(null, $timezone);
     }
 
     /**
      * Return a new time with the time set to midnight.
      * 
      * @param  string|null  $timezone  
-     * @param  string|null  $locale  
      * 
-     * @return \Syscodes\Components\Support\Chronos\Chronos
+     * @return static
      */
-    public static function today($timezone = null, ?string $locale = null): static
+    public static function today($timezone = null): static
     {
-        return static::rawParse('today', $timezone, $locale);
+        return static::rawParse('today', $timezone);
     }
     
     /**
      * Returns an instance set to midnight yesterday morning.
      * 
-     * @param  string|null  $timezone  
-     * @param  string|null  $locale  
+     * @param  string|null  $timezone   
      * 
-     * @return \Syscodes\Components\Support\Chronos\Chronos
+     * @return static
      */
-    public static function yesterday($timezone = null, ?string $locale = null): static
+    public static function yesterday($timezone = null): static
 	{
-		return static::rawParse('yesterday', $timezone, $locale);
+		return static::rawParse('yesterday', $timezone);
     }
 
     /**
      * Returns an instance set to midnight tomorrow morning.
      * 
-     * @param  string|null  $timezone  
-     * @param  string|null  $locale  
+     * @param  string|null  $timezone    
      * 
-     * @return \Syscodes\Components\Support\Chronos\Chronos
+     * @return static
      */
-    public static function tomorrow($timezone = null, ?string $locale = null): static
+    public static function tomorrow($timezone = null): static
 	{
-		return static::rawParse('tomorrow', $timezone, $locale);
+		return static::rawParse('tomorrow', $timezone);
     }
 
     /**
@@ -349,6 +334,8 @@ trait Creator
      */
     public static function setTestNow($datetime = null, $timezone = null, ?string $locale = null)
     {
+        $time = '';
+        
         if (null === $datetime) {
             static::$testNow = null;
 

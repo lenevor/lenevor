@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Support\Chronos\Traits;
 
+use BadMethodCallException;
 use DateTime;
 use IntlCalendar;
 use IntlDateFormatter;
@@ -36,10 +37,10 @@ use Syscodes\Components\Support\Traits\Macroable;
  * 
  * Requires the intl PHP extension.
  * 
- * @method now($timezone = null, string $locale = null)            Returns a new Time instance with the timezone
- * @method today($timezone = null, string $locale = null)          Return a new time with the time set to midnight.
- * @method yesterday($timezone = null, string $locale = null)      Returns an instance set to midnight yesterday morning. 
- * @method tomorrow($timezone = null, string $locale = null)       Returns an instance set to midnight tomorrow morning.
+ * @method now($timezone = null, string $locale = null)  Returns a new Time instance with the timezone
+ * @method today($timezone = null, string $locale = null)  Return a new time with the time set to midnight.
+ * @method yesterday($timezone = null, string $locale = null) Returns an instance set to midnight yesterday morning. 
+ * @method tomorrow($timezone = null, string $locale = null)  Returns an instance set to midnight tomorrow morning.
  */
 trait Date
 {
@@ -248,7 +249,7 @@ trait Date
      */
     public function humanize()
     {
-        $now     = IntlCalendar::fromDateTime(static::now($this->timezone)->toDateTimeString(), $this->locale);
+        $now     = IntlCalendar::fromDateTime(static::parse($this->timezone)->toDateTimeString(), $this->locale);
         $time    = $this->getCalendar()->getTime();
         $years   = $now->fieldDifference($time, IntlCalendar::FIELD_YEAR);
         $months  = $now->fieldDifference($time, IntlCalendar::FIELD_MONTH);

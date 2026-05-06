@@ -33,7 +33,7 @@ trait Comparison
     /**
      * Determines if the datetime passed in is equal to the current instance.
      * 
-     * @param  \Syscodes\Components\Support\Chronos\Time|\DateTime|string  $time
+     * @param  \Syscodes\Components\Support\Chronos\Chronos|\DateTime|string  $time
      * @param  \DateTimeZone|string|null  $timezone
      * 
      * @return bool
@@ -85,7 +85,7 @@ trait Comparison
     /**
      * Ensures that the times are identical, taking timezone into account.
      * 
-     * @param  \Syscodes\Components\Support\Chronos\Time\DateTime|string  $time
+     * @param  \Syscodes\Components\Support\Chronos\Chronos|DateTime|string  $time
      * @param  \DatetimeZone|string|null  $timezone
      * 
      * @return bool
