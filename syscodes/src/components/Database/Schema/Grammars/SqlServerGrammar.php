@@ -97,6 +97,42 @@ class SqlServerGrammar extends Grammar
     }
 
     /**
+     * Compile the query to determine the tables.
+     *
+     * @param  string|string[]|null  $schema
+     * 
+     * @return string
+     */
+    public function compileTables($schema): string
+    {
+        return 'select t.name as name, schema_name(t.schema_id) as [schema], sum(u.total_pages) * 8 * 1024 as size '
+            .'from sys.tables as t '
+            .'join sys.partitions as p on p.object_id = t.object_id '
+            .'join sys.allocation_units as u on u.container_id = p.hobt_id '
+            ."where t.is_ms_shipped = 0 and t.name <> 'sysdiagrams'"
+            .$this->compileSchemaWhereClause($schema, 'schema_name(t.schema_id)')
+            .' group by t.name, t.schema_id '
+            .'order by [schema], t.name';
+    }
+
+    /**
+     * Compile the query to compare the schema.
+     *
+     * @param  string|string[]|null  $schema
+     * @param  string  $column
+     * 
+     * @return string
+     */
+    protected function compileSchemaWhereClause($schema, $column): string
+    {
+        return match (true) {
+            ! empty($schema) && is_array($schema) => " and $column in (".$this->quoteString($schema).')',
+            ! empty($schema) => " and $column = ".$this->quoteString($schema),
+            default => '',
+        };
+    }
+
+    /**
      * Compile a create table command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint

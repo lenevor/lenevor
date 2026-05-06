@@ -440,6 +440,30 @@ class SQLiteGrammar extends Grammar
     {
         return 'select type, name from sqlite_master where type = \'view\'';
     }
+
+    /**
+     * Compile the query to determine the tables.
+     *
+     * @param  string|string[]|null  $schema
+     * @param  bool  $withSize
+     * 
+     * @return string
+     */
+    public function compileTables($schema, $withSize = false): string
+    {
+        return 'select tl.name as name, tl.schema as schema'
+            .($withSize ? ', (select sum(s.pgsize) '
+                .'from (select tl.name as name union select il.name as name from pragma_index_list(tl.name, tl.schema) as il) as es '
+                .'join dbstat(tl.schema) as s on s.name = es.name) as size' : '')
+            .' from pragma_table_list as tl where'
+            .(match (true) {
+                ! empty($schema) && is_array($schema) => ' tl.schema in ('.$this->quoteString($schema).') and',
+                ! empty($schema) => ' tl.schema = '.$this->quoteString($schema).' and',
+                default => '',
+            })
+            ." tl.type in ('table', 'virtual') and tl.name not like 'sqlite\_%' escape '\' "
+            .'order by tl.schema, tl.name';
+    }
     
     /**
      * Compile the command to enable foreign key constraints.
