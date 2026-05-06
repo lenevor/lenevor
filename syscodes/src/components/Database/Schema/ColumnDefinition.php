@@ -36,7 +36,7 @@ use Syscodes\Components\Support\Flowing;
  * @method $this first() Place the column "first" in the table (MySQL)
  * @method $this from(int $startingValue) Set the starting value of an auto-incrementing field (MySQL/PostgreSQL)
  * @method $this fulltext(bool|string $indexName = null) Add a fulltext index
- * @method $this generatedAs(string|\Illuminate\Contracts\Database\Query\Expression $expression = null) Create a SQL compliant identity column (PostgreSQL)
+ * @method $this generatedAs(string|\Syscodes\Components\Contracts\Database\Query\Expression $expression = null) Create a SQL compliant identity column (PostgreSQL)
  * @method $this instant() Specify that algorithm=instant should be used for the column operation (MySQL)
  * @method $this index(bool|string $indexName = null) Add an index
  * @method $this invisible() Specify that the column should be invisible to "SELECT *" (MySQL)
@@ -47,7 +47,7 @@ use Syscodes\Components\Support\Flowing;
  * @method $this spatialIndex(bool|string $indexName = null) Add a spatial index
  * @method $this vectorIndex(bool|string $indexName = null) Add a vector index
  * @method $this startingValue(int $startingValue) Set the starting value of an auto-incrementing field (MySQL/PostgreSQL)
- * @method $this storedAs(string|\Illuminate\Contracts\Database\Query\Expression $expression) Create a stored generated column (MySQL/PostgreSQL/SQLite)
+ * @method $this storedAs(string|\Syscodes\Components\Contracts\Database\Query\Expression $expression) Create a stored generated column (MySQL/PostgreSQL/SQLite)
  * @method $this type(string $type) Specify a type for the column
  * @method $this unique(bool|string $indexName = null) Add a unique index
  * @method $this unsigned() Set the INTEGER column as UNSIGNED (MySQL)

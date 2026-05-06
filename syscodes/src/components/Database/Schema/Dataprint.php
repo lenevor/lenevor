@@ -1281,7 +1281,7 @@ class Dataprint
         $index = $index ?: $this->createIndexName($type, $columns);
         
         return $this->addCommand(
-            $type, compact('index', 'columns', $option)
+            $type, compact('index', 'columns', 'option')
         );
     }
     
@@ -1358,7 +1358,7 @@ class Dataprint
      * 
      * @return \Syscodes\Components\Support\Flowing
      */
-    protected function addCommand($name, array $parameters = array())
+    protected function addCommand($name, array $parameters = [])
     {
         $this->commands[] = $command = $this->createCommand($name, $parameters);
         
@@ -1373,7 +1373,7 @@ class Dataprint
      * 
      * @return \Syscodes\Components\Support\Flowing
      */
-    protected function createCommand($name, array $parameters = array())
+    protected function createCommand($name, array $parameters = [])
     {
         return new Flowing(array_merge(compact('name'), $parameters));
     }

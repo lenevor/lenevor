@@ -352,8 +352,8 @@ if ( ! function_exists('trait_recursive'))
     {
         $traits = class_uses($trait) ?: [];
         
-        foreach ($traits as $trait) {
-            $traits += trait_recursive($trait);
+        foreach ($traits as $value) {
+            $traits += trait_recursive($value);
         }
         
         return $traits;
@@ -394,7 +394,7 @@ if ( ! function_exists('throw_if')) {
      *
      * @param  mixed  $condition
      * @param  \Closure|string|object  $exception
-     * @param  Array ...$parameters
+     * @param  array  ...$parameters
      * 
      * @return mixed
      *
@@ -467,7 +467,7 @@ if ( ! function_exists('with')) {
      * Return the given value, optionally passed through the given callback.
      * 
      * @param  mixed  $value
-     * @param  \callable|null  $callback
+     * @param  callable|null  $callback
      * 
      * @return mixed
      */

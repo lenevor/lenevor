@@ -62,7 +62,7 @@ class SQLiteConnector extends Connector implements ConnectorInterface
      * 
      * @return string
      *
-     * @throws \Syscodes\Components\Database\SQLiteDatabaseDoesNotExistException
+     * @throws \Syscodes\Components\Database\Exceptions\SQLiteDatabaseDoesNotExistException
      */
     protected function parseDatabasePath(string $path): string
     {
