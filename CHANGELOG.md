@@ -1,5 +1,56 @@
 # Release Notes
 
+## [Version 0.9.0-alpha.9]
+
+Release Date: May 06, 2026
+
+**Next alpha release of Lenevor**
+
+### Added
+- Added the function env() for get values of environment .env file
+- Added methods for route collection and the session resolver for the generator
+- Added the variable $middlewareAliases fot at activate the aliases
+- Added new methods for determine the given request has a valid signature
+- [0.8.x] Conditionals for set session resolver and key resolver
+- [0.8.x] Added the parameter hasKey for encription of data
+- Added method for create a HMAC of the password hash
+- Added new aliases of middlewares to be using for the user
+- Added events related with the request handled and finalization middleware
+- [0.8.x] Added conditional for instance the ControllerDispatcher interface
+- [0.8.x] Added the type of output method :void in scoped() and scopedIf()
+- Added the mariadb database in the list of connections and connectors
+- [0.8.x] Added new methods the configuration options and PDO instance
+- Added new variables of indicates if have connection using PDO
+- [0.8.x] Added new functions for get the join clause to a query
+- Added new methods for get schema builder and the table prefix
+- Added the callback to be executed to reconnect to a database
+- Added method for the column definition a spatial geometry type
+- Added new method for run a select statement and return the first column
+- Added new class for the run a migration in given a path
+- [0.8.x] Added new methods for the has through relationship
+- [0.8.x] Added the method findOrFail() for fin a model in the collection
+- Added conditional for validate if the views are published in resources folder
+- [0.8.x] Added new interface in collection class
+- Added new methods for convert the model instance formatted JSON
+- Added items of options for selected a type command
+- Added new methods for execute an SQL and get the name connected
+
+### Changed
+- [0.8.x] Changed function by Collection class instance
+
+### Created
+- Created method for join all items for the collection using a string
+- Created method for register the hasValid Signature macro on the request
+
+### Updated
+- Updated release 0.8.16 to 0.9.0
+
+### Fixed
+- [0.8.x] Fix bug adding character '?' for identify that parameter is null in `Auth/Guards/RequestGuard` class
+- [0.8.x] Fix bug to remove double slash in path of the ControllerDispatcher class
+- [0.8.x] Fix bug in call method of the Connection class
+
+
 ## [Version 0.8.16-alpha.8]
 
 Release Date: Jan 05, 2026
@@ -51,6 +102,7 @@ Release Date: Jan 05, 2026
 
 ### Updated
 - Updated the year of copyright 2025 to 2026
+- Updated release 0.8.15 to 0.8.16
 
 ### Fixed
 - [0.8.x] Fix bug at called using a conditional if is string the command name
