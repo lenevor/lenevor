@@ -407,6 +407,8 @@ return [
     'Syscodes\\Components\\Database\\Schema\\Grammars\\SqlServerGrammar' => SYS_PATH.'src/components/Database/Schema/Grammars/SqlServerGrammar.php',
     'Syscodes\\Components\\Database\\Schema\\ColumnDefinition' => SYS_PATH.'src/components/Database/Schema/ColumnDefinition.php',
     'Syscodes\\Components\\Database\\Schema\\Dataprint' => SYS_PATH.'src/components/Database/Schema/Dataprint.php',
+    'Syscodes\\Components\\Database\\Schema\\ForeignIdColumnDefinition' => SYS_PATH.'src/components/Database/Schema/ForeignIdColumnDefinition.php',
+    'Syscodes\\Components\\Database\\Schema\\ForeignKeyDefinition' => SYS_PATH.'src/components/Database/Schema/ForeignKeyDefinition.php',
     'Syscodes\\Components\\Database\\ConnectionFactory' => SYS_PATH.'src/components/Database/ConnectionFactory.php',
     'Syscodes\\Components\\Database\\ConnectionResolverInterface' => SYS_PATH.'src/components/Database/ConnectionResolverInterface.php',
     'Syscodes\\Components\\Database\\DatabaseManager' => SYS_PATH.'src/components/Database/DatabaseManager.php',
