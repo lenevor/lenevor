@@ -481,6 +481,16 @@ class Dataprint
     {
         $this->dropColumn($column);
     }
+
+    /**
+     * Indicate that the remember token column should be dropped.
+     *
+     * @return void
+     */
+    public function dropRememberToken(): void
+    {
+        $this->dropColumn('remember_token');
+    }
     
     /**
      * Rename the table to a given name.
@@ -599,7 +609,13 @@ class Dataprint
      */
     public function foreign($columns, $name = null)
     {
-        return $this->indexCommand('foreign', $columns, $name);
+        $command = new ForeignKeyDefinition(
+            $this->indexCommand('foreign', $columns, $name)->getAttributes()
+        );
+
+        $this->commands[count($this->commands) - 1] = $command;
+
+        return $command;
     }
     
     /**
@@ -897,6 +913,23 @@ class Dataprint
     public function unsignedBigInteger($column, $autoIncrement = false)
     {
         return $this->bigInteger($column, $autoIncrement, true);
+    }
+
+    /**
+     * Create a new unsigned big integer column on the table (8-byte, 0 to 18,446,744,073,709,551,615).
+     *
+     * @param  string  $column
+     * 
+     * @return \Syscodes\Components\Database\Schema\ForeignIdColumnDefinition
+     */
+    public function foreignId($column)
+    {
+        return $this->addColumnDefinition(new ForeignIdColumnDefinition($this, [
+            'type' => 'bigInteger',
+            'name' => $column,
+            'autoIncrement' => false,
+            'unsigned' => true,
+        ]));
     }
     
     /**
@@ -1240,6 +1273,16 @@ class Dataprint
     public function uuid($column = 'uuid')
     {
         return $this->addColumn('uuid', $column);
+    }
+
+     /**
+     * Add the `remember_token` column to the table.
+     *
+     * @return \Syscodes\Components\Database\Schema\ColumnDefinition
+     */
+    public function rememberToken()
+    {
+        return $this->string('remember_token', 100)->nullable();
     }
     
     /**
