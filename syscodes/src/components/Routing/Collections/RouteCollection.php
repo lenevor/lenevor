@@ -62,7 +62,7 @@ class RouteCollection extends BaseRouteCollection
     /**
      * Add a Route instance to the collection.
      * 
-     * @param  \Syscodes\Components\Routing\Route  $routes
+     * @param  \Syscodes\Components\Routing\Route  $route
      * 
      * @return \Syscodes\Components\Routing\Route
      */
@@ -207,8 +207,8 @@ class RouteCollection extends BaseRouteCollection
     public function get($method = null)
     {
         return is_null($method) 
-                      ? $this->getRoutes() 
-                      : Arr::get($this->routes, $method, []);
+            ? $this->getRoutes() 
+            : Arr::get($this->routes, $method, []);
     }
 
     /**
