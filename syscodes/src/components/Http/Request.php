@@ -266,15 +266,15 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	/**
 	 * Gets the Session.
 	 * 
-	 * @return \Syscodes\Components\Http\Session\SessionInterface
+	 * @return \Symfony\Component\HttpFoundation\Session\SessionInterface
 	 * 
 	 * @throws \Syscodes\Components\Http\Exceptions\SessionNotFoundException
 	 */
 	public function getSession(): SessionInterface
 	{
 		return $this->hasSession()
-		            ? $this->session
-					: throw new SessionNotFoundException;
+		    ? $this->session
+		    : throw new SessionNotFoundException;
 	}
 
 	/**
@@ -469,7 +469,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	public function is(...$patterns): bool
 	{
 	    return (new Collection($patterns))
-		       ->contains(fn ($pattern) => Str::is($pattern, $this->decodedPath()));
+		    ->contains(fn ($pattern) => Str::is($pattern, $this->decodedPath()));
 	}
 
 	/**
