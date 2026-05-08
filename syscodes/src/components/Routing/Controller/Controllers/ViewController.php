@@ -34,14 +34,14 @@ class ViewController extends Controller
     /**
      * The response factory implementation.
      * 
-     * @var \Syscodes\Components\Routing\Supported\RouteResponse
+     * @var \Syscodes\Components\Routing\RouteResponse
      */
     protected $response;
 
     /**
      * Constructor. Create a new ViewController class instance.
      * 
-     * @param  \Syscodes\Components\Routing\Supported\RouteResponse  $response
+     * @param  \Syscodes\Components\Routing\RouteResponse  $response
      * 
      * @return void
      */
@@ -79,9 +79,9 @@ class ViewController extends Controller
      * @param  string  $method
      * @param  array  $parameters
      * 
-     * @return mixed
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function callAction($method, $parameters): mixed
+    public function callAction($method, $parameters)
     {
         return $this->{$method}(...$parameters);
     }

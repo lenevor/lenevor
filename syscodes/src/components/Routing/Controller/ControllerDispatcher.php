@@ -25,6 +25,8 @@ namespace Syscodes\Components\Routing;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Routing\Concerns\DependencyResolver;
 use Syscodes\Components\Routing\Contracts\ControllerDispatcher as ControllerDispatcherContract;
+use Syscodes\Components\Support\Collection;
+use Syscodes\Components\Routing\Concerns\FiltersControllerMiddleware;
 use Syscodes\Components\Routing\Route;
 
 /**
@@ -32,12 +34,12 @@ use Syscodes\Components\Routing\Route;
  */
 class ControllerDispatcher implements ControllerDispatcherContract
 {
-    use DependencyResolver;
+    use FiltersControllerMiddleware, DependencyResolver;
 
     /**
      * The container instance.
      * 
-     * @var \Syscodes\Contracts\Container\Container
+     * @var \Syscodes\Components\Contracts\Container\Container
      */
     protected $container;
 
@@ -64,15 +66,29 @@ class ControllerDispatcher implements ControllerDispatcherContract
      */
     public function dispatch(Route $route, mixed $controller, string $method): mixed
     {
-        $parameters = $this->resolveObjectMethodDependencies(
-            $route->parametersWithouNulls(), $controller, $method
-        );
+        $parameters = $this->resolveParameters($route, $controller, $method);
         
         if (method_exists($controller, 'callAction')) {
             return $controller->callAction($method, $parameters);
         }
         
         return $controller->{$method}(...array_values($parameters));
+    }
+
+    /**
+     * Resolve the parameters for the controller.
+     *
+     * @param  \Syscodes\Components\Routing\Route  $route
+     * @param  mixed  $controller
+     * @param  string  $method
+     * 
+     * @return array
+     */
+    protected function resolveParameters(Route $route, $controller, $method)
+    {
+        return $this->resolveObjectMethodDependencies(
+            $route->parametersWithoutNulls(), $controller, $method
+        );
     }
 
     /**
@@ -85,30 +101,15 @@ class ControllerDispatcher implements ControllerDispatcherContract
      */
     public function getMiddleware($controller, string $method): array
     {
-        if ( ! method_exists($controller, 'getMiddleware'))
-        {
+        if ( ! method_exists($controller, 'getMiddleware')) {
             return [];
         }
 
         $middleware = $controller->getMiddleware();
 
-        return collect($middleware)
-                    ->reject(fn ($data) => $this->methodExcludedByOptions($method, $data['options']))
-                    ->pluck('middleware')
-                    ->all();
-    }
-
-    /**
-     * Determine if the given options exclude a particular method.
-     * 
-     * @param  string  $method
-     * @param  array  $options
-     * 
-     * @return bool
-     */
-    protected function methodExcludedByOptions($method, array $options): bool
-    {
-        return (isset($options['only']) && ! in_array($method, (array) $options['only'])) ||
-            ( ! empty($options['except']) && in_array($method, (array) $options['except']));
+        return (new Collection($middleware))
+            ->reject(fn ($data) => $this->methodExcludedByOptions($method, $data['options']))
+            ->pluck('middleware')
+            ->all();
     }
 }

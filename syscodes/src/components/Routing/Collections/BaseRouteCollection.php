@@ -30,6 +30,7 @@ use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Routing\Concerns\RequestMatchesGiven;
 use Syscodes\Components\Routing\Route;
+use Syscodes\Components\Support\Collection;
 use Traversable;
 
 /**
@@ -43,7 +44,7 @@ abstract class BaseRouteCollection implements Countable, IteratorAggregate
      * Handle the matched route.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Syscodes\Components\Routing\Route|array|null  $routes
+     * @param  \Syscodes\Components\Routing\Route|array|null  $route
      * 
      * @return \Syscodes\Components\Routing\Route
      * 
@@ -116,7 +117,7 @@ abstract class BaseRouteCollection implements Countable, IteratorAggregate
      */
     private function getMatchedToRegex(array $routes, Request $request, bool $method = true)
     {
-        return collect($routes)->first(
+        return (new Collection($routes))->first(
             fn ($route) => $route->matches($request, $method)
         );
     }

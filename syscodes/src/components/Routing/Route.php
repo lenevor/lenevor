@@ -683,7 +683,7 @@ class Route
 	 * 
 	 * @return array
 	 */
-	public function parametersWithouNulls(): array
+	public function parametersWithoutNulls(): array
 	{
 		return array_filter($this->parameters(), fn ($parameter) => ! is_null($parameter));
 	}

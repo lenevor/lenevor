@@ -50,7 +50,7 @@ class ControllerMiddlewareOptions
     /**
      * Set the controller methods the middleware should apply to.
      * 
-     * @param  array|string|dynamic  $methods
+     * @param  mixed  $methods
      * 
      * @return static
      */
@@ -64,7 +64,7 @@ class ControllerMiddlewareOptions
     /**
      * Set the controller methods the middleware should exclude.
      * 
-     * @param  array|string|dynamic  $methods
+     * @param  mixed  $methods
      * 
      * @return static
      */

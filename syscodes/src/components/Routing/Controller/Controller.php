@@ -73,9 +73,9 @@ abstract class Controller
      * @param  string  $method
      * @param  array  $parameters
      * 
-     * @return mixed
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function callAction($method, $parameters): mixed
+    public function callAction($method, $parameters)
     {
         return $this->{$method}(...array_values($parameters));
     }
