@@ -179,8 +179,8 @@ class EncryptCookies
     protected function validateValue(string $key, $value)
     {
         return is_array($value)
-                    ? $this->validateArray($key, $value)
-                    : CookieValue::validate($key, $value, $this->encrypter->getKey());
+            ? $this->validateArray($key, $value)
+            : CookieValue::validate($key, $value, $this->encrypter->getKey());
     }
     
     /**

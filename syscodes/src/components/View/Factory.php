@@ -102,7 +102,7 @@ class Factory implements FactoryContract
 	/**
 	 * Constructor. Create a new Parser class instance.
 	 * 
-	 * @param  \Syscodes\Components\View\Engines\EngineResolver  $engine
+	 * @param  \Syscodes\Components\View\Engines\EngineResolver  $engines
 	 * @param  \Syscodes\Components\Contracts\View\ViewFinder  $finder
 	 * @param  \Syscodes\Components\Contracts\Events\Dispatcher  $events
 	 *
@@ -110,9 +110,9 @@ class Factory implements FactoryContract
 	 */
 	public function __construct(EngineResolver $engines, ViewFinder $finder, Dispatcher $events)
 	{
-		$this->finder  = $finder;
+		$this->finder = $finder;
 		$this->engines = $engines;
-		$this->events  = $events;
+		$this->events = $events;
 
 		$this->share('__env', $this);
 	}
@@ -229,7 +229,7 @@ class Factory implements FactoryContract
 	/**
 	 * Create a new view instance from the given arguments.
 	 * 
-	 * @param  string  $file  View filename
+	 * @param  string  $view  View filename
 	 * @param  string  $path  Path filename
 	 * @param  array  $data  Array of values
 	 * 

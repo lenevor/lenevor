@@ -117,9 +117,9 @@ class RouteParameter
         $parameters = array_intersect_key($matches, array_flip($parameterNames));
         
         return array_filter(
-                    $parameters, 
-                    fn ($value) => is_string($value) && strlen($value) > 0
-                );
+            $parameters,
+            fn ($value) => is_string($value) && strlen($value) > 0
+        );
     }
     
     /**

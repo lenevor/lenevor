@@ -55,8 +55,8 @@ class KeyGenerateCommand extends Command
     protected function configure()
     {
         $this->setDefinition([
-                    new InputOption('show', null, InputOption::VALUE_NONE, 'Display the key instead of modifying files'),
-                    new InputOption('force', null, InputOption::VALUE_OPTIONAL, 'Force the operation to run when in production'),
+            new InputOption('show', null, InputOption::VALUE_NONE, 'Display the key instead of modifying files'),
+            new InputOption('force', null, InputOption::VALUE_OPTIONAL, 'Force the operation to run when in production'),
         ]);
     }
 
@@ -125,7 +125,7 @@ class KeyGenerateCommand extends Command
     {
         $replaced = preg_replace(
             $this->keyReplacementPattern(),
-            'APP_KEY = '.$key,
+            'APP_KEY='.$key,
             $input = file_get_contents($this->lenevor->environmentFilePath())
         );
         
@@ -147,7 +147,7 @@ class KeyGenerateCommand extends Command
      */
     protected function keyReplacementPattern(): string
     {
-        $escaped = preg_quote(' = '.$this->lenevor['config']['security.key'], '/');
+        $escaped = preg_quote('='.$this->lenevor['config']['security.key'], '/');
 
         return "/^APP_KEY{$escaped}/m";
     }

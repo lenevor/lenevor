@@ -65,6 +65,8 @@ class Application extends Container implements ApplicationContract
 
     /**
      * Php version.
+     * 
+     * @var string
      */
     protected static $phpVersion = \PHP_VERSION;
     
@@ -360,8 +362,8 @@ class Application extends Container implements ApplicationContract
         
         $this->setBootstrapPath(value(function () {
             return is_dir($directory = $this->basePath('lenevor'))
-                        ? $directory
-                        : $this->basePath('bootstrap');
+                ? $directory
+                : $this->basePath('bootstrap');
         }));
 
         $this->setLangPath(value(function () {
@@ -823,6 +825,8 @@ class Application extends Container implements ApplicationContract
     /**
      * You can empty out this file, if you are certain that you match all requirements.
      * You can remove this if you are confident that your PHP version is sufficient.
+     * 
+     * @param  int  $version
      * 
      * @return string
      */

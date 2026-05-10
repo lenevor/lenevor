@@ -128,7 +128,7 @@ class Kernel implements KernelContract
 	 */
 	public function __construct(Application $app, Router $router)
 	{
-		$this->app    = $app;
+		$this->app = $app;
 		$this->router = $router;
 
 		$this->syncMiddlewareRoute();
