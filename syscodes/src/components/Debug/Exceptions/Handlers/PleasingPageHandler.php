@@ -111,9 +111,9 @@ class PleasingPageHandler extends Handler
 	/**
 	 * The template handler system.
 	 * 
-	 * @var string|object
+	 * @var \Syscodes\Components\Debug\Util\TemplateHandler
 	 */
-	protected $template;	
+	protected $templateHandler;	
 	
 	/**
 	 * Constructor. The PleasingPageHandler class.
@@ -122,7 +122,7 @@ class PleasingPageHandler extends Handler
 	 */
 	public function __construct()
 	{
-		$this->template      = new TemplateHandler;
+		$this->templateHandler = new TemplateHandler();
 		$this->searchPaths[] = dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR.'Resources';
 	}
 
@@ -131,7 +131,7 @@ class PleasingPageHandler extends Handler
 	 * string path, or a callable resolver.
 	 * 
 	 * @param  string            $identifier
-	 * @param  string|\Callable  $resolver
+	 * @param  string|callable  $resolver
 	 * 
 	 * @return void
 	 */
@@ -159,15 +159,15 @@ class PleasingPageHandler extends Handler
 	 * 
 	 * @return  array
 	 */
-	protected function collectionVars(): array
+	protected function collectionVariables(): array
 	{
 		$supervisor = $this->getSupervisor();
-		$style      = file_get_contents($this->getResource('compiled/css/debug.base.css'));
-		$jscript    = file_get_contents($this->getResource('compiled/js/debug.base.js'));
-		$servers    = array_merge($this->getDefaultServers(), $this->tables);
-		$routing    = array_merge($this->getDefaultRouting(), $this->tables);
-		$databases  = array_merge($this->getDefaultDatabase(), $this->tables);
-		$context    = array_merge($this->getDefaultContext(), $this->tables);
+		$style = file_get_contents($this->getResource('compiled/css/debug.base.css'));
+		$jscript = file_get_contents($this->getResource('compiled/js/debug.base.js'));
+		$servers = array_merge($this->getDefaultServers(), $this->tables);
+		$routing = array_merge($this->getDefaultRouting(), $this->tables);
+		$databases = array_merge($this->getDefaultDatabase(), $this->tables);
+		$context = array_merge($this->getDefaultContext(), $this->tables);
 		
 		return [ 
 			'class' => explode('\\', $supervisor->getExceptionName()),
@@ -326,7 +326,7 @@ class PleasingPageHandler extends Handler
 	protected function getExceptionCode()
 	{
 		$exception = $this->getException();
-		$code      = $exception->getCode();
+		$code = $exception->getCode();
 
 		if ($exception instanceof ErrorException) {
 			$code = Misc::translateErrorCode($exception->getSeverity());
@@ -431,12 +431,12 @@ class PleasingPageHandler extends Handler
 	{	
 		$templatePath = $this->getResource('views/layout.php');
 
-		$vars = $this->collectionVars();
+		$variables = $this->collectionVariables();
 		
-		if (empty($vars['message'])) $vars['message'] = __('exception.noMessage');
+		if (empty($variables['message'])) $variables['message'] = __('exception.noMessage');
 		
-		$this->template->setVariables($vars);
-		$this->template->render($templatePath);
+		$this->templateHandler->setVariables($variables);
+		$this->templateHandler->render($templatePath);
 		
 		return Handler::QUIT;
 	}
@@ -548,7 +548,7 @@ class PleasingPageHandler extends Handler
 	 * 
 	 * @return string
 	 */
-	public function getTheme(): string
+	public function getTheme()
 	{
 		return $this->theme = config('gdebug.theme');
 	}

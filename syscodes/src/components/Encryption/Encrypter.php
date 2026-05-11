@@ -63,7 +63,7 @@ class Encrypter implements EncrypterContract
         $this->key = (string) $key;
         
         if (static::supported($key, $cipher)) {
-            $this->key    = $key;
+            $this->key = $key;
             $this->cipher = $cipher;
         } else   {
             throw new RuntimeException('The only supported ciphers are AES-128-CBC and AES-256-CBC with the correct key lengths');
@@ -122,7 +122,7 @@ class Encrypter implements EncrypterContract
             throw new EncryptException('Could not encrypt the data');
         }
 
-        $iv   = base64_encode($iv);
+        $iv = base64_encode($iv);
         $hmac = $this->hash($iv, $value);
         $json = json_encode(compact('iv', 'value', 'hmac'));
 
@@ -170,8 +170,8 @@ class Encrypter implements EncrypterContract
      */
     public function decrypt($value, $unserialize = true)
     {
-        $payload   = $this->getJsonPayload($value);
-        $iv        = base64_decode($payload['iv']);
+        $payload = $this->getJsonPayload($value);
+        $iv = base64_decode($payload['iv']);
         $decrypted = openssl_decrypt($payload['value'], $this->cipher, $this->key, 0, $iv);
 
         if (false === $decrypted) {
@@ -188,7 +188,7 @@ class Encrypter implements EncrypterContract
      * 
      * @return array
      * 
-     * @throws \Syscodes\Components\Encryption\Enxceptions\DecryptException
+     * @throws \Syscodes\Components\Encryption\Exceptions\DecryptException
      */
     public function getJsonPayload($value)
     {
@@ -230,9 +230,9 @@ class Encrypter implements EncrypterContract
         $calc = $this->calcHmac($payload, $bytes = random_bytes(16));
 
         return hash_equals(
-                    hash_hmac('sha256', $payload['hmac'], $bytes, true),
-                    $calc
-               );
+            hash_hmac('sha256', $payload['hmac'], $bytes, true),
+            $calc
+        );
     }
 
     /**
@@ -255,7 +255,7 @@ class Encrypter implements EncrypterContract
      * 
      * @return string
      * 
-     * @throws \Syscodes\Components\Encryption\Enxceptions\DecryptException
+     * @throws \Syscodes\Components\Encryption\Exceptions\DecryptException
      */
     public function decryptString($value)
     {
