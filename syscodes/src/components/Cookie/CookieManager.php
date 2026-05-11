@@ -50,7 +50,7 @@ class CookieManager implements CookieFactory
     /**
      * All of the cookies queued for sending.
      *
-     * @var \Syscodes\Components\Http\Cookie[]
+     * @var \Syscodes\Components\Cookie\CookieManager[]
      */
     protected $queued = [];
 
@@ -81,7 +81,7 @@ class CookieManager implements CookieFactory
      * @param  bool $raw
      * @param  string|null  $sameSite
      * 
-     * @return \Syscodes\Components\Http\Cookie
+     * @return \Symfony\Component\HttpFoundation\Cookie
      */
     public function make(
         string $name,
@@ -113,7 +113,7 @@ class CookieManager implements CookieFactory
      * @param  bool $raw
      * @param  string|null  $sameSite
      * 
-     * @return \Syscodes\Components\Http\Cookie
+     * @return\Symfony\Component\HttpFoundation\Cookie
      */
     public function forever(
         string $name,
@@ -135,7 +135,7 @@ class CookieManager implements CookieFactory
      * @param  string|null  $path
      * @param  string|null  $domain
      * 
-     * @return \Syscodes\Components\Http\Cookie
+     * @return \Symfony\Component\HttpFoundation\Cookie
      */
     public function erase(string $name, ?string $path = null, ?string $domain = null) 
     {
@@ -162,7 +162,7 @@ class CookieManager implements CookieFactory
      * @param  mixed  $default
      * @param  string|null  $path
      * 
-     * @return \Syscodes\Components\Http\Cookie|null
+     * @return \Symfony\Component\HttpFoundation\Cookie|null
      */
     public function queued(string $key, mixed $default = null, ?string $path = null)
     {

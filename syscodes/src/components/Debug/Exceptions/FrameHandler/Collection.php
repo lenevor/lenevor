@@ -139,7 +139,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Retrieve an external iterator.
      * 
-     * @return new \ArrayIterator
+     * @return \ArrayIterator
      */
     public function getIterator(): Traversable
     {

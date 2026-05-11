@@ -256,8 +256,6 @@ if ( ! function_exists('cache')) {
      * Get / set the specified cache value.
      *
      * If an array is passed, we'll assume you want to put to the cache.
-     *
-     * @param  dynamic  key|key,default|data,expiration|null
      * 
      * @return mixed|\Syscodes\Components\Cache\CacheManager
      *
@@ -293,10 +291,10 @@ if ( ! function_exists('config')) {
      * If an array is passed as the key, we will assume you want to set 
      * an array of values.
      *
-     * @param   array|string  $key  
-     * @param   mixed  $default  
+     * @param  array|string  $key  
+     * @param  mixed  $value  
      *
-     * @return  mixed|\Syscodes\Components\Config\Configure
+     * @return \Syscodes\Components\Config\Configure
      */
     function config($key = null, $value = null)
     {
@@ -443,9 +441,7 @@ if ( ! function_exists('event')) {
     /**
      * Dispatch an event and call the listeners.
      * 
-     * @param  string|object  $event
-     * @param  mixed  $payload
-     * @param  bool  $halt
+     * @param  mixed  ...$args
      * 
      * @return array|null
      */
@@ -596,9 +592,9 @@ if ( ! function_exists('log')) {
     /**
      * Get a log driver instance.
      * 
-     * @param  string|null drivere 
+     * @param  string|null  $driver
      * 
-     * @return ($driver is null ? \Illuminate\Log\LogManager : \Psr\Log\LoggerInterface)
+     * @return ($driver is null ? \Syscodes\Components\Log\LogManager : \Psr\Log\LoggerInterface)
      */
     function logs($driver = null): LogManager|LoggerInterface
     {
@@ -706,7 +702,7 @@ if ( ! function_exists('report')) {
     /**
      * The report an exception.
      * 
-     * @param  \Throwable|string  $xception
+     * @param  \Throwable|string  $exception
      * 
      * @return void
      */
@@ -870,7 +866,7 @@ if ( ! function_exists('segment')) {
   /**
      * Returns the desired segment, or $default if it does not exist.
      *
-     * @param  int  $segment  
+     * @param  int  $index  
      * @param  mixed  $default  
      *
      * @return mixed
@@ -929,7 +925,7 @@ if ( ! function_exists('today')) {
     /**
      * Create a new Chronos instance for the current date.
      * 
-     * @param  \DateTimeZone\UnitEnum|string|null  $timezone
+     * @param  \DateTimeZone|\UnitEnum|string|null  $timezone
      * @param  string|null  $locale
      * 
      * @return \Syscodes\Components\Support\Chronos
@@ -957,7 +953,7 @@ if ( ! function_exists('trans')) {
      * A convenience method to translate a string and format it
      * with the intl extension's MessageFormatter object.
      * 
-     * @param  strin|null  $line
+     * @param  string|null  $key
      * @param  array  $replace
      * @param  string|null  $locale
      * 

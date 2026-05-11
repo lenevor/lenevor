@@ -7,7 +7,7 @@
     <?php endif; ?>    
     <div class="source">
         <code>
-            <?= $template->highlightFile($frame->getFile(), $frame->getLine(), 32); ?>
+            <?= $template->highlightFile($frame->getFile(), $frame->getLine(), 42); ?>
         </code>
     </div>
 </div>

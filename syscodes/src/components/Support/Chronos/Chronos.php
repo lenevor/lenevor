@@ -33,19 +33,19 @@ use Syscodes\Components\Support\Chronos\Traits\Date;
  * @method today(string $timezone = null, string $locale = null)
  * @method yesterday(string $timezone = null, string $locale = null)
  * @method tomorrow(string $timezone = null, string $locale = null)
- * @method createFromDate(int $year = null, int $month = null, int $day = null, string $timezone = null, string $locale = null
+ * @method createFromDate(int $year = null, int $month = null, int $day = null, string $timezone = null, string $locale = null)
  * @method createFromTime(int $hour = null, int $minutes = null, int $seconds = null, string $timezone = null, string $locale = null)
  * @method create(int $year = null, int $month = null, int $day = null, int $hour = null, int $minutes = null, int $seconds = null, string $timezone = null, string $locale = null)
  * @method createFromFormat(string $format, string $datetime, \DateTimeZone|string $timezone = null)
  * @method createFromTimestamp(int $timestamp, string $timezone = null, string $locale = null)
  * @method instance(\DateTime $datetime, string $locale = null)
- * @method setTestNow(\Syscodes\Components\Support\Chronos\Time|string $datetime = null, string $timezone = null, string $locale = null)
+ * @method setTestNow(\Syscodes\Components\Support\Chronos\Chronos|string $datetime = null, string $timezone = null, string $locale = null)
  * @method bool hasTestNow()
  * @method void difference(string $time, string $timezone = null)
- * @method bool equals(\Syscodes\Components\Support\Chronos\Time|\DateTime|string $time, \DateTimeZone|string string $timezone = null)
- * @method bool isBefore(\DateTime|string $time, \DatetimeZone|string string $timezone = null)
- * @method bool isAfter(\DateTime|string $time, \DatetimeZone|string string $timezone = null)
- * @method bool sameAs(\Syscodes\Components\Support\Chronos\Time\DateTime|string $time, \DatetimeZone|string string $timezone = null)
+ * @method bool equals(\Syscodes\Components\Support\Chronos\Chronos|\DateTime|string $time, \DateTimeZone|string $timezone = null)
+ * @method bool isBefore(\DateTime|string $time, \DatetimeZone|string $timezone = null)
+ * @method bool isAfter(\DateTime|string $time, \DatetimeZone|string $timezone = null)
+ * @method bool sameAs(\Syscodes\Components\Support\Chronos\Chronos|DateTime|string $time, \DatetimeZone|string $timezone = null)
  * @method float|int getYears(bool $raw = false)
  * @method float|int getMonths(bool $raw = false)
  * @method float|int getWeeks(bool $raw = false)
@@ -87,7 +87,7 @@ use Syscodes\Components\Support\Chronos\Traits\Date;
  * @method int|object subDays(int $days)
  * @method \IntlCalendar getCalendar()
  */
-class Chronos extends Datetime
+class Chronos extends DateTime
 {
     use Date;
 }

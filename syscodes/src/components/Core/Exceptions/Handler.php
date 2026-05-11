@@ -122,7 +122,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Register a reportable callback.
      * 
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return static
      */
@@ -136,7 +136,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Register a renderable callback.
      * 
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return static
      */

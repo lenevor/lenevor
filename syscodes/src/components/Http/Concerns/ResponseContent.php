@@ -107,7 +107,7 @@ trait ResponseContent
     /**
      * Add a cookie to the response.
      *
-     * @param  \Syscodes\Components\Http\Cookie|mixed  $cookie
+     * @param  \Syscodes\Components\Cookie\CookieManager|mixed  $cookie
      * 
      * @return static
      */
@@ -119,7 +119,7 @@ trait ResponseContent
     /**
      * Add a cookie to the response.
      *
-     * @param  \Syscodes\Components\Http\Cookie|mixed  $cookie
+     * @param  \Syscodes\Components\Cookie\CookieManager|mixed  $cookie
      * 
      * @return static
      */

@@ -47,7 +47,7 @@ class TemplateHandler
 	/**
 	 * The functions of system what control errors and exceptions.
 	 * 
-	 * @var string|object
+	 * @var \Syscodes\Components\Debug\Util\System
 	 */
 	protected $system;
 	
@@ -65,9 +65,9 @@ class TemplateHandler
 	 */
 	public function __construct()
 	{
-		$this->system    = new System;
+		$this->system = new System;
 		$this->benchmark = new Benchmark;
-		$this->obLevel   = $this->system->getOutputBufferLevel();
+		$this->obLevel = $this->system->getOutputBufferLevel();
 	}
 
 	/**
@@ -149,14 +149,14 @@ class TemplateHandler
 	 * Creates a syntax-highlighted version of a PHP file.
 	 *
 	 * @param  string  $file
-	 * @param  int     $lineNumber
-	 * @param  int     $lines
+	 * @param  int  $lineNumber
+	 * @param  int  $lines
 	 *
-	 * @return bool|string
+	 * @return string
 	 * 
 	 * @throws \Exception
 	 */
-	public function highlightFile($file, $lineNumber, $lines = 15)
+	public function highlightFile($file, $lineNumber, $lines = 15): string
 	{
 		if (empty ($file) || ! is_readable($file)) {
 			return false;
@@ -177,29 +177,35 @@ class TemplateHandler
 		} catch (Exception $e) {
 			return false;
 		}
+		
+		$origin = str_replace(["\r\n", "\r"], "\n", $origin);
+		$origin = explode("\n", highlight_string($origin, true));
+		
+		if (PHP_VERSION_ID < 80300) {
+            $origin = str_replace('<br />', "\n", $origin[1]);
+            $origin = explode("\n", str_replace("\r\n", "\n", $origin));
+        } else {
+            // We have to remove these tags since we're preparing the result
+            $origin = str_replace(['<pre>', '</pre>'], '', $origin);
+            // ourselves and these tags are added manually at the end.
+        }
 
-		$origin  = str_replace(["\r\n", "\r"], "\n", $origin);
-		$origin  = explode("\n", highlight_string($origin , true));
-		$origin  = str_replace('<br />', "\n", $origin [1]);
-
-		$origin  = explode("\n", str_replace("\r\n", "\n", $origin));
-
-		// Get just the part to show
-		$start = $lineNumber - (int) round($lines / 2);
+		// Get just the part to show		
+		$start = max($lineNumber - (int) round($lines / 2), 0);
 		$start = $start < 0 ? 0 : $start;
 
 		// Get just the lines we need to display, while keeping line numbers...
-		$origin  = array_splice($origin, $start, $lines, true);
+		$origin = array_splice($origin, $start, $lines, true);
 
 		// Used to format the line number in the source
-		$format = '% '.strlen($start + $lines).'d';
+		$format = '% '.strlen((string) ($start + $lines)).'d';
 
 		$out = '';
 		// Because the highlighting may have an uneven number
 		// of open and close span tags on one line, we need
 		// to ensure we can close them all to get the lines
 		// showing correctly.
-		$spans = 1;
+		$spans = 0;
 
 		foreach ($origin as $n => $row) {
 			$spans += substr_count($row, '<span') - substr_count($row, '</span');
@@ -217,7 +223,9 @@ class TemplateHandler
 			}
 		}
 
-		$out .= str_repeat('</span>', $spans);
+		if ($spans > 0) {
+            $out .= str_repeat('</span>', $spans);
+        }
 
 		return '<pre class="code-blocks"><code>'.$out.'</code></pre>';
 	}
@@ -257,11 +265,11 @@ class TemplateHandler
 	 * 
 	 * @return void
 	 */
-	public function render($template): void
+	public function render($template)
 	{
-		$vars = $this->getVariables();
+		$variables = $this->getVariables();
 
-		$vars['template'] = $this;
+		$variables["template"] = $this;
 		
 		if ($this->system->getOutputBufferLevel() > $this->obLevel + 1) {
 			@$this->system->endOutputBuffering();
@@ -270,7 +278,7 @@ class TemplateHandler
 		// Instantiate the error view and prepare the vars
 		call_user_func(function () {
 			extract(func_get_arg(1));
-			include func_get_arg(0);
-		}, $template, $vars);
+			require func_get_arg(0);
+		}, $template, $variables);
 	}
 }

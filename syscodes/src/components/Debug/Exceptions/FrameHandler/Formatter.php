@@ -33,7 +33,7 @@ class Formatter
     /**
      * Returns all basic information about the exception in a simple array.
      * 
-     * @param  \Syscodes\Components\Debug\Engine\Supervisor  $supervisor
+     * @param  \Syscodes\Components\Debug\FrameHandler\Supervisor  $supervisor
      * 
      * @return array
      */
@@ -62,14 +62,14 @@ class Formatter
     /**
      * Returns all basic information about the exception in a plain text.
      * 
-     * @param  \Syscodes\Components\Debug\Engine\Supervisor  $supervisor
+     * @param  \Syscodes\Components\Debug\FrameHandler\Supervisor  $supervisor
      * 
      * @return string
      */
     public static function formatExceptionAsPlainText(Supervisor $supervisor): string
     {
-        $message  = $supervisor->getException()->getMessage();
-        $frames   = $supervisor->getFrames();
+        $message = $supervisor->getException()->getMessage();
+        $frames = $supervisor->getFrames();
         $template = new TemplateHandler;
 
         $plainText  = $supervisor->getExceptionName();

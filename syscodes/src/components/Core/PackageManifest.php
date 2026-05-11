@@ -74,7 +74,7 @@ class PackageManifest
      * @param  string  $basePath
      * @param  string  $manifestPath
      * 
-     * @return voiod
+     * @return void
      */
     public function __construct(Filesystem $files, $basePath, $manifestPath)
     {

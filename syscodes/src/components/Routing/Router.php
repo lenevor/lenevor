@@ -23,8 +23,7 @@
 namespace Syscodes\Components\Routing;
 
 use Closure;
-use InvalidArgumentException;
-use Syscodes\Components\Contracts\Container\Container;
+use Syscodes\Components\Container\Container;
 use Syscodes\Components\Contracts\Routing\Routable;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Routing\Collections\RouteCollection;
@@ -55,7 +54,7 @@ class Router implements Routable
 	/**
 	 * The container instance used by the router.
 	 * 
-	 * @var \Syscodes\Components\Contracts\Container\Container
+	 * @var \Syscodes\Components\Container\Container
 	 */
 	protected $container;
 
@@ -118,7 +117,7 @@ class Router implements Routable
 	/**
 	 * Constructor. Create a new Router instance.
 	 *
-	 * @param  \Syscodes\Components\Contracts\Container\Container|null  $container
+	 * @param  \Syscodes\Components\Container\Container|null  $container
 	 * 
 	 * @return void
 	 */
@@ -160,7 +159,7 @@ class Router implements Routable
 	 *      }); /admin/user
 	 *
 	 * @param  array  $attributes
-	 * @param  \Closure|array|string  $callback
+	 * @param  \Closure|array|string  $routes
 	 *
 	 * @return void
 	 */
@@ -442,7 +441,7 @@ class Router implements Routable
 	/**
 	 * Merge the group stack with the controller action.
 	 * 
-	 * @param  \Syscpde\Routing\Route  $route
+	 * @param  \Syscodes\Components\Routing\Route  $route
 	 * 
 	 * @return void
 	 */
@@ -514,7 +513,7 @@ class Router implements Routable
 	/**
 	 * Get a Resource instance.
 	 * 
-	 * @return \Syscodes\Components\Routing\ResourceRegister
+	 * @return \Syscodes\Components\Routing\Resources\ResourceRegister
 	 */
 	public function getResource()
 	{
@@ -547,9 +546,9 @@ class Router implements Routable
 	public function gatherRouteMiddleware(Route $route): array
 	{
 		$middleware = array_map(
-		                    fn ($name) => RouteMiddlewareResolver::resolve($name, $this->middleware, $this->middlewareGroups),
-		                    $route->gatherMiddleware()
-		              );
+			fn ($name) => RouteMiddlewareResolver::resolve($name, $this->middleware, $this->middlewareGroups),
+			$route->gatherMiddleware()
+		);
 		
 		return Arr::flatten($middleware);
 	}
@@ -719,7 +718,7 @@ class Router implements Routable
 	 * @param  string  $controller
 	 * @param  array  $options
 	 * 
-	 * @return \Syscodes\Components\Routing\AwaitingResourceRegistration
+	 * @return \Syscodes\Components\Routing\Resources\AwaitingResourceRegistration
 	 */
 	public function apiResource($name, $controller, array $options = [])
 	{
