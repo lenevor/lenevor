@@ -95,12 +95,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($data as $key => $value) : ?>
+                        <?php if (null != $data) : ?>                
+                            <?php foreach ($data as $key => $value) : ?>
                         <tr>
                             <td><?= e($key) ?></td>
                             <td><?= e($value) ?></td>
                         </tr>
-                        <?php endforeach; ?>	
+                            <?php endforeach; ?>              
+                        <?php else: ?>
+                        <pre>
+                            <span class="text-no-routing">// No routing content</span>
+                        </pre>	
+                        <?php endif; ?>
                     </tbody>
                 </table>
             <?php endforeach; ?>  
