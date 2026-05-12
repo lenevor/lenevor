@@ -270,8 +270,8 @@ a.active {
 @media (width > 1100px)
 {
     .container {
-        margin-left: 88px;
-        margin-right: 88px;
+        margin-left: 200px;
+        margin-right: 200px;
     }
 }
 
@@ -715,7 +715,7 @@ header .message a:hover {
     }
 
     header .space nav:nth-child(2) ul li .dropdown {
-        right: 5.1rem;
+        right: 12.2rem;
         width: 310px;
     }
 
@@ -2123,6 +2123,7 @@ header .message a:hover {
     font-size: var(--font-size-initial);
     font-weight: 500;
     margin-left: -1px;
+    text-transform: uppercase;
     width: 100%;
     word-break: break-all;
 }
@@ -2218,37 +2219,45 @@ header .message a:hover {
 
 /* BODY */
 
-.section-details .section-detail-info .section-info-request .info-body-title pre {
+.section-details .section-detail-info .section-info-request .info-body-title pre,
+.section-details .section-detail-info .section-info-app .info-routing-title pre {
     align-items: center;
     background: var(--gray-100);
     display: flex;
+    justify-content: center;
     margin-bottom: 10px;
     margin-top: 10px;
     min-height: 30px;
-    padding: 0.5rem;
+    padding: 0.5rem 0.5rem;
     width: 100%;
     word-break: break-all;
 }
 
-.section-details .section-detail-info .section-info-request .info-body-title pre .text-no-body {
-    color: var(--gray-400);
-    text-transform: uppercase;
-}
-
-[data-theme="dark"] .section-details .section-detail-info .info-body-title pre {
+[data-theme="dark"] .section-details .section-detail-info .info-body-title pre,
+[data-theme="dark"] .section-details .section-detail-info .info-routing-title pre {
     background: var(--dark-magenta-250);
 }
 
-.section-details .section-detail-info .info-body-title pre span {
+.section-details .section-detail-info .info-body-title pre span,
+.section-details .section-detail-info .info-routing-title pre span  {
     color: var(--gray-800);
 }
 
-[data-theme="dark"] .section-details .section-detail-info .info-body-title pre span {
+[data-theme="dark"] .section-details .section-detail-info .info-body-title pre span,
+[data-theme="dark"] .section-details .section-detail-info .info-routing-title pre span {
     color: var(--dark-gray-700);
 }
 
-[data-theme="dark"] .section-details .section-detail-info .section-info-request .info-body-title pre .text-no-body {
-    color: var(--dark-magenta-500);
+.section-details .section-detail-info .section-info-request .info-body-title pre .text-no-body,
+.section-details .section-detail-info .section-info-app .info-routing-title pre .text-no-routing {
+    color: var(--gray-400);
+    font-size: var(--font-size-medium-xx);
+    text-transform: uppercase;
+}
+
+[data-theme="dark"] .section-details .section-detail-info .section-info-request .info-body-title pre .text-no-body,
+[data-theme="dark"] .section-details .section-detail-info .section-info-app .info-routing-title pre .text-no-routing {
+    color: var(--dark-gray-300);
 }
 
 /* SECTION APP | CONTEXT */
@@ -2495,6 +2504,7 @@ header .message a:hover {
     .section-details .section-detail-info .section-info-context .info-version-title .data-table td:last-child {
         font-size: var(--font-size-medium-x);
         position: relative;
+        display: flex;
         width: 100%;
     }
 
