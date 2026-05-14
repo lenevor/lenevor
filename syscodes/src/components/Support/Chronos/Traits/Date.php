@@ -181,6 +181,25 @@ trait Date
     }
 
     /**
+     * Determine if a time string will produce a relative date.
+     *
+     * @return bool true if time match a relative date, false if absolute or invalid time string
+     */
+    public static function hasRelativeKeywords(?string $time): bool
+    {
+        if (!$time || strtotime($time) === false) {
+            return false;
+        }
+
+        $date1 = new DateTime('2000-01-01T00:00:00Z');
+        $date1->modify($time);
+        $date2 = new DateTime('2001-12-25T00:00:00Z');
+        $date2->modify($time);
+
+        return $date1 != $date2;
+    }
+
+    /**
      * Returns the localized value of the date in the format 'Y-m-d H:i:s'.
      * 
      * @return mixed
