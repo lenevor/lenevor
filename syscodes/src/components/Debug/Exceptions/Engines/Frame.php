@@ -1,0 +1,222 @@
+<?php 
+
+/**
+ * Lenevor Framework
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file license.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://lenevor.com/license
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@Lenevor.com so we can send you a copy immediately.
+ *
+ * @package     Lenevor
+ * @subpackage  Base
+ * @link        https://lenevor.com
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
+ * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
+ */
+
+namespace Syscodes\Components\Debug\Engines;
+
+use Syscodes\Components\Contracts\Support\Serializable;
+
+/**
+ * Returns the content of an exception through a trace.
+ */
+class Frame implements Serializable
+{
+    /**
+     * Get the comments.
+     * 
+     * @var array
+     */
+    protected $comments = [];
+
+    /**
+     * Get the frames.
+     * 
+     * @var array
+     */
+    protected $frame;
+
+    /**
+     * Constructor. Initialize Frame class
+     * 
+     * @param  array  $frame
+     * 
+     * @return void
+     */
+    public function __construct(array $frame)
+    {
+        $this->frame = $frame;
+    }
+
+    /**
+     * Gets the trace path of a file.
+     * 
+     * @param  bool  $shortened
+     * 
+     * @return string|null
+     */
+    public function getFile($shortened = false)
+    {
+        if (empty($this->frame['file'])) {
+            return null;
+        }
+
+        $file = $this->frame['file'];
+
+        if ($shortened && is_string($file)) {
+            // Replace the part of the path that all frames have in common, and add 'soft hyphens' for smoother line-breaks.
+            $dirname = dirname(dirname(dirname(dirname(dirname(dirname(__DIR__))))));
+            
+            if ($dirname !== '/') {
+                $file = str_replace($dirname, "&hellip;", $file);
+            }
+
+            $file = str_replace("/", "/&shy;", $file);
+        }
+
+        return $file;
+    }
+
+    /**
+     * Returns the array containing the raw frame data from which
+     * this Frame object was built.
+     * 
+     * @return array
+     */
+    public function getFrame(): array
+    {
+        return $this->frame;
+    }
+
+    /**
+     * Gets the trace class of a file.
+     * 
+     * @return string|null
+     */
+    public function getClass()
+    {
+        return isset($this->frame['class']) ? $this->frame['class'] : null;
+    }
+
+    /**
+     * Gets the trace function of a file.
+     * 
+     * @return string|null
+     */
+    public function getFunction()
+    {
+        return isset($this->frame['function']) ? $this->frame['function'] : null;
+    }
+
+    /**
+     * Gets the trace line of a file.
+     * 
+     * @return int|null
+     */
+    public function getLine()
+    {
+        return isset($this->frame['line']) ? $this->frame['line'] : null;
+    }
+
+    /**
+     * Gets the trace args of a file.
+     * 
+     * @return array
+     */
+    public function getArgs(): array
+    {
+        return isset($this->frame['args']) ? (array) $this->frame['args'] : [];
+    }
+
+    /**
+     * Adds a comment to this frame can be used by other handlers.
+     * By default, it is used by the PleasingPageHandler handler.
+     * An interesting use for comments would be, for example, code 
+     * analysis, annotations, etc.
+     * 
+     * @param  string  $comment
+     * @param  string  $context  Optional
+     * 
+     * @return void
+     */
+    public function addComment($comment, $context = 'default'): void
+    {
+        $this->comments[] = [
+            'comments' => $comment,
+            'context' => $context
+        ];
+    }
+
+    /**
+     * Returns all comments for this frame. Optionally allows
+     * a filter to only retrieve comments from a specific context.
+     * 
+     * @param  string|null  $filter
+     * 
+     * @return array
+     */
+    public function getComments($filter = null): array
+    {
+        $comments = $this->comments;
+
+        if ($filter !== null) {
+            $comments = array_filter($comments, fn ($comment) => $comment['context'] == $filter);
+        }
+
+        return $comments;
+    }
+
+    /**
+     * Compares Frame against one another.
+     * 
+     * @param  Frame $frame
+     * 
+     * @return bool
+     */
+    public function equals(Frame $frame): bool
+    {
+        if ( ! $this->getFile() || $this->getFile() === 'Unknown' || ! $this->getLine()) {
+            return false;
+        }
+        return $frame->getFile() === $this->getFile() && $frame->getLine() === $this->getLine();
+    }
+
+    /*
+    |-----------------------------------------------------------------
+    | Serializable Methods
+    |-----------------------------------------------------------------
+    */
+
+    /**
+     * String representation of object.
+     * 
+     * @return string
+     */
+    final public function serialize(): string
+    {
+        $frame = $this->frame;
+
+        return serialize($frame);
+    }
+
+    /**
+     * Constructs the object.
+     * 
+     * @param  string  $serialized
+     * 
+     * @return void
+     */
+    final public function unserialize(string $serialized): void
+    {
+        $frame = unserialize($serialized);
+
+        $this->frame = $frame;
+    }
+}

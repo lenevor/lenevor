@@ -1,0 +1,191 @@
+<?php 
+
+/**
+ * Lenevor Framework
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file license.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://lenevor.com/license
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@Lenevor.com so we can send you a copy immediately.
+ *
+ * @package     Lenevor
+ * @subpackage  Base
+ * @link        https://lenevor.com
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
+ * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
+ */
+
+namespace Syscodes\Components\Debug\Engines;
+
+use ArrayAccess;
+use ArrayIterator;
+use Countable;
+use Exception;
+use IteratorAggregate;
+use Traversable;
+
+/**
+ * Exposes a fluent interface for dealing with an ordered list
+ * of stack-trace frames.
+ */
+class Collection implements ArrayAccess, IteratorAggregate, Countable
+{
+    /**
+     * Get the frames.
+     * 
+     * @var array
+     */
+    protected $frames;
+
+    /**
+     * Constructor. Initialize Collection class.
+     * 
+     * @param  array  $frames
+     * 
+     * @return void
+     */
+    public function __construct(array $frames)
+    {
+        $this->frames = array_map(fn ($frame) => new Frame($frame), $frames);
+    }
+
+    /**
+     * Returns an array with all frames.
+     * 
+     * @return array
+     */
+    public function getArray(): array
+    {
+        return $this->frames;
+    }
+    
+    /**
+     * Array of Frame instances.
+     * 
+     * @param  array  $frames
+     * 
+     * @return void
+     */
+    public function prependFrames(array $frames): void
+    {
+        $this->frames = array_merge($frames, $this->frames);
+    }
+
+    /**
+     * Gets the innermost part of stack trace that is not the same as that of outer exception
+     *
+     * @param  Collection $parentFrames Outer exception frames to compare tail against
+     * 
+     * @return Frame[]
+     */
+    public function topDiff(Collection $parentFrames)
+    {
+        $diff = $this->frames;
+
+        $parentFrames = $parentFrames->getArray();
+        $p = count($parentFrames)-1;
+
+        for ($i = count($diff)-1; $i >= 0 && $p >= 0; $i--) {
+            /** @var Frame $tailFrame */
+            $tailFrame = $diff[$i];
+            
+            if ($tailFrame->equals($parentFrames[$p])) {
+                unset($diff[$i]);
+            }
+
+            $p--;
+        }
+        return $diff;
+    }
+
+    /*
+    |-----------------------------------------------------------------
+    | ArrayAccess Methods
+    |-----------------------------------------------------------------
+    */
+
+    /**
+     * Whether or not an offset exists.
+     * 
+     * @return bool
+     */
+    public function offsetExists(mixed $offset): bool
+    {
+        return isset($this->frames[$offset]);
+    }
+
+    /**
+     * Retrieve a value offset.
+     * 
+     * @param  int  $offset
+     * 
+     * @return mixed
+     */
+    public function offsetGet(mixed $offset): mixed
+    {
+        return $this->frames[$offset];
+    }
+
+    /**
+     * Assigns a value to the specified offset.
+     * 
+     * @param  int  $offset
+     * 
+     * @return void
+     * 
+     * @throws \Exception
+     */
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        throw new Exception(__CLASS__.' is read only');
+    }
+
+    /**
+     * Unset an offset.
+     * 
+     * @param  int  $offset
+     * 
+     * @throws \Exception
+     */
+    public function offsetUnset(mixed $offset): void
+    {
+        throw new Exception(__CLASS__.' is read only');
+    }
+
+    /*
+    |-----------------------------------------------------------------
+    | IteratorAggregate Method
+    |-----------------------------------------------------------------
+    */
+
+    /**
+     * Retrieve an external iterator.
+     * 
+     * @return \ArrayIterator
+     */
+    public function getIterator(): Traversable
+    {
+        return new ArrayIterator($this->frames);
+    }
+
+    /*
+    |-----------------------------------------------------------------
+    | Countable Method
+    |-----------------------------------------------------------------
+    */
+
+    /**
+     * Count all elements of an object Frame.
+     * 
+     * @return int
+     */
+    public function count(): int
+    {
+        return count($this->frames);
+    }
+}

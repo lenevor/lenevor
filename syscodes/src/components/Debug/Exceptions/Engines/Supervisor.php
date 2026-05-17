@@ -1,0 +1,278 @@
+<?php 
+
+/**
+ * Lenevor Framework
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file license.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://lenevor.com/license
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@Lenevor.com so we can send you a copy immediately.
+ *
+ * @package     Lenevor
+ * @subpackage  Base
+ * @link        https://lenevor.com
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
+ * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
+ */
+
+namespace Syscodes\Components\Debug\Engines;
+
+use ErrorException;
+use Syscodes\Components\Debug\Inspector\SupervisorFactory;
+use Syscodes\Components\Debug\Util\Misc;
+use Throwable;
+
+/**
+ * Loads the frames to identify a possible exception.
+ */
+class Supervisor
+{
+	/**
+	 * Get exception. 
+	 * 
+	 * @var \Throwable
+	 */
+	protected $exception;
+
+	/**
+	 * The frame execute errors.
+	 * 
+	 * @var array
+	 */
+	protected $frames;
+
+	/**
+	 * Get the supervisor instance.
+	 * 
+     * @var \Syscodes\Components\Debug\Engines\Supervisor
+     */
+    protected $previousExceptionSupervisor;
+
+	/**
+	 * Get the supervisor factory.
+	 * 
+     * @var \Syscodes\Components\Debug\Inspector\SupervisorFactoryInterface|null
+     */
+    protected $supervisorFactory;
+
+	/**
+	 * Constructor. Create a new Supervisor class instance.
+	 * 
+	 * @param  \Throwable  $exception
+	 * @param  \Syscodes\Components\Debug\Inspector\SupervisorFactoryInterface|null  $factory
+	 * 
+	 * @return void
+	 */
+	public function __construct($exception, $factory = null)
+	{
+		$this->exception = $exception;
+		$this->supervisorFactory = $factory ?: new SupervisorFactory();
+	}
+
+	/**
+     * Does the wrapped Exception has a previous Exception?
+     * @return bool
+     */
+    public function hasPreviousException()
+    {
+        return $this->previousExceptionSupervisor || $this->exception->getPrevious();
+    }
+
+    /**
+     * Returns an Inspector for a previous Exception, if any.
+	 * 
+     * @todo   Clean this up a bit, cache stuff a bit better.
+	 * 
+     * @return static
+     */
+    public function getPreviousExceptionSupervisor()
+    {
+        if ($this->previousExceptionSupervisor === null) {
+            $previousException = $this->exception->getPrevious();
+
+            if ($previousException) {
+                $this->previousExceptionSupervisor = $this->supervisorFactory->create($previousException);
+            }
+        }
+
+        return $this->previousExceptionSupervisor;
+    }
+	
+	/**
+	 * Returns an iterator for the inspected exception's frames.
+	 * 
+	 * @return array 
+	 */
+	public function getFrames()
+	{
+		if ($this->frames === null) {
+			$frames = $this->getTrace($this->exception);	
+
+			// Fill empty line/file info for call_user_func_array usages 
+			foreach ($frames as $k => $frame) {
+				if (empty($frame['file'])) {
+					// Default values when file and line are missing
+					$file = '[PHP internal Code]';
+					$line = 0;
+
+					$next_frame = ! empty($frames[$k + 1]) ? $frames[$k + 1] : [];
+
+					if ($this->isValidNextFrame($next_frame)) {
+                        $file = $next_frame['file'];
+                        $line = $next_frame['line'];
+                    }
+
+					$frames[$k]['file'] = $file;
+					$frames[$k]['line'] = $line;
+				}
+			}
+			
+			// Find latest non-error handling frame index ($i) used to remove error handling frames
+			$i = 0;
+
+			foreach ($frames as $k => $frame) {
+				if ($frame['file'] == $this->exception->getFile() && $frame['line'] == $this->exception->getLine()) {
+					$i = $k;
+				}
+			}
+			// Remove error handling frames
+			if ($i > 0) {
+				array_splice($frames, 0, $i);
+			}
+	
+			$firstFrame = $this->getFrameFromException($this->exception);	
+			array_unshift($frames, $firstFrame);
+
+			$this->frames = new Collection($frames);
+
+			if ($previousSupervisor = $this->getPreviousExceptionSupervisor()) {
+                // Keep outer frame on top of the inner one
+                $outerFrames = $this->frames;
+                $newFrames = clone $previousSupervisor->getFrames();
+
+                // I assume it will always be set, but let's be safe
+                if (isset($newFrames[0])) {
+                    $newFrames[0]->addComment(
+                        $previousSupervisor->getExceptionMessage(),
+                        'Exception message:'
+                    );
+                }
+				
+                $newFrames->prependFrames($outerFrames->topDiff($newFrames));
+                $this->frames = $newFrames;
+            }
+		}
+
+		return $this->frames;
+	}
+
+	/**
+	 * Given an exception, generates an array in the format generated by Exception::getTrace().
+	 * 
+	 * @param  \Throwable  $exception
+	 * 
+	 * @return array
+	 */
+	protected function getFrameFromException(Throwable $exception): array
+	{
+		return [
+			'file' => $exception->getFile(),
+			'line' => $exception->getLine(),
+			'class' => get_classname($exception),
+			'code' => $exception->getCode(),
+			'args' => [
+				$exception->getMessage(),
+			],
+		];
+	}
+
+	/**
+	 * Gets exception already specified.
+	 * 
+	 * @return \Throwable
+	 */
+	public function getException()
+	{
+		return $this->exception;
+	}
+
+	/**
+	 * Gets the message of exception.
+	 * 
+	 * @return string
+	 */
+	public function getExceptionMessage(): string
+	{
+		return $this->exception->getMessage();
+	}
+
+	/**
+	 * Gets the class name of exception.
+	 * 
+	 * @return mixed
+	 */
+	public function getExceptionName()
+	{
+		return get_classname($this->exception, true);
+	}
+	
+	/**
+	 * Gets the backtrace from an exception.
+	 * 
+	 * @param  \Throwable  $exception
+	 * 
+	 * @return array
+	 */
+	protected function getTrace($exception): array
+	{
+		$traces = $exception->getTrace();
+
+		if ( ! $exception instanceof ErrorException) {
+			return $traces;
+		}
+
+		if ( ! Misc::isFatalError($exception->getSeverity())) {
+			return $traces;
+		}
+
+		if ( ! extension_loaded('xdebug') || ! function_exists('xdebug_is_enabled') || ! \xdebug_is_enabled()) {
+			return $traces;
+		}
+		
+		// Use xdebug to get the full stack trace and remove the shutdown handler stack trace
+		$stack = array_reverse(\xdebug_get_function_stack());
+		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+		$traces = array_diff_key($stack, $trace);
+		
+		return $traces;
+	}
+
+	/**
+     * Determine if the frame can be used to fill in previous frame's missing info.
+	 * 
+	 * @param  array  $frame
+	 * 
+     * @return bool
+     */
+    protected function isValidNextFrame(array $frame): bool
+    {
+        if (empty($frame['file'])) {
+            return false;
+        }
+
+        if (empty($frame['line'])) {
+            return false;
+        }
+
+        if (empty($frame['function']) || ! stristr($frame['function'], 'call_user_func')) {
+            return false;
+        }
+
+        return true;
+	}
+}
