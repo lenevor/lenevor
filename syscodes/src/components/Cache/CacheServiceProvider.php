@@ -52,8 +52,6 @@ class CacheServiceProvider extends ServiceProvider implements Deferrable
      */
     public function provides(): array
     {
-        return [
-            'cache', 'cache.store', 'memcached.connector',
-        ];
+        return ['cache', 'cache.store', 'memcached.connector'];
     }
 }

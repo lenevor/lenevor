@@ -132,7 +132,7 @@ interface Container extends ContainerInterface
      * 
      * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
      */
-    public function build($class): mixed;
+    public function build($class);
 
     /**
      * Marks a callable as being a factory service.
@@ -238,7 +238,7 @@ interface Container extends ContainerInterface
     /**
      * Call the given callable / class@method and inject its dependencies.
      * 
-     * @param  \callable|string  $callback
+     * @param  callable|string  $callback
      * @param  array  $parameters
      * @param  string|null  $defaultMethod
      * 

@@ -57,7 +57,7 @@ trait AuthorizesRequests
      * 
      * @return \Syscodes\Components\Auth\Access\Response
      * 
-     * @throws \Syscodes\Components\Auth\Access\AuthorizationException
+     * @throws \Syscodes\Components\Auth\Access\Exceptions\AuthorizationException
      */
     public function authorizeForUser($user, $ability, $arguments = [])
     {

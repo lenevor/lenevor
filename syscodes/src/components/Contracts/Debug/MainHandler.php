@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\Contracts\Debug;
 
-use Syscodes\Components\Debug\FrameHandler\Supervisor;
+use Syscodes\Components\Debug\Engines\Supervisor;
 
 /**
  * Gets debug interface.
@@ -32,7 +32,7 @@ interface MainHandler
     /**
      * Given an exception and status code will display the error to the client.
      * 
-     * @return \callable|int|null
+     * @return callable|int|null
      */
     public function handle();
     
@@ -57,7 +57,7 @@ interface MainHandler
     /**
      * Sets supervisor.
      * 
-     * @param  \Syscodes\Components\Debug\FrameHandler\Supervisor  $supervisor
+     * @param  \Syscodes\Components\Debug\Engines\Supervisor  $supervisor
      * 
      * @return void
      */

@@ -36,16 +36,16 @@ class MySqlGrammar extends Grammar
     /**
      * Compile a select query into sql.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * 
      * @return string
      */
-    public function compileSelect(Builder $builder): string
+    public function compileSelect(Builder $query): string
     {
-        $sql = parent::compileSelect($builder);
+        $sql = parent::compileSelect($query);
 
-        if ($builder->unions) {
-            $sql = '('.$sql.') '.$this->compileUnions($builder);
+        if ($query->unions) {
+            $sql = '('.$sql.') '.$this->compileUnions($query);
         }
 
         return $sql;
@@ -54,29 +54,29 @@ class MySqlGrammar extends Grammar
     /**
      * Compile a "where like" clause.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereLike(Builder $builder, $where): string
+    protected function whereLike(Builder $query, $where): string
     {
         $where['operator'] = $where['not'] ? 'not ' : '';
 
         $where['operator'] .= $where['caseSensitive'] ? 'like binary' : 'like';
 
-        return $this->whereBasic($builder, $where);
+        return $this->whereBasic($query, $where);
     }
 
     /**
      * Add a "where null" clause to the query.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereNull(Builder $builder, $where): string
+    protected function whereNull(Builder $query, $where): string
     {
         $columnValue = (string) $this->getValue($where['column']);
 
@@ -86,18 +86,18 @@ class MySqlGrammar extends Grammar
             return '(json_extract('.$field.$path.') is null OR json_type(json_extract('.$field.$path.')) = \'NULL\')';
         }
 
-        return parent::whereNull($builder, $where);
+        return parent::whereNull($query, $where);
     }
 
     /**
      * Add a "where not null" clause to the query.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereNotNull(Builder $builder, $where): string
+    protected function whereNotNull(Builder $query, $where): string
     {
         $columnValue = (string) $this->getValue($where['column']);
 
@@ -107,7 +107,7 @@ class MySqlGrammar extends Grammar
             return '(json_extract('.$field.$path.') is not null AND json_type(json_extract('.$field.$path.')) != \'NULL\')';
         }
 
-        return parent::whereNotNull($builder, $where);
+        return parent::whereNotNull($query, $where);
     }
 
     /**
@@ -138,28 +138,28 @@ class MySqlGrammar extends Grammar
     /**
      * Compile an insert ignore statement into SQL.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $values
      * 
      * @return string
      */
-    public function compileInsertOrIgnore(Builder $builder, array $values): string
+    public function compileInsertOrIgnore(Builder $query, array $values): string
     {
-        return Str::replaceFirst('insert', 'insert ignore', $this->compileInsert($builder, $values));
+        return Str::replaceFirst('insert', 'insert ignore', $this->compileInsert($query, $values));
     }
 
     /**
      * Compile an insert ignore statement using a subquery into SQL.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $columns
      * @param  string  $sql
      * 
      * @return string
      */
-    public function compileInsertOrIgnoreUsing(Builder $builder, array $columns, string $sql): string
+    public function compileInsertOrIgnoreUsing(Builder $query, array $columns, string $sql): string
     {
-        return Str::replaceFirst('insert', 'insert ignore', $this->compileInsertUsing($builder, $columns, $sql));
+        return Str::replaceFirst('insert', 'insert ignore', $this->compileInsertUsing($query, $columns, $sql));
     }
 
     /**
@@ -245,12 +245,12 @@ class MySqlGrammar extends Grammar
     /**
      * Compile the lock into SQL.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  bool|string  $value
      * 
      * @return string
      */
-    public function compileLock(Builder $builder, $value): string
+    public function compileLock(Builder $query, $value): string
     {
         if ( ! is_string($value)) {
             return $value ? 'for update' : 'lock in share mode';
@@ -262,29 +262,29 @@ class MySqlGrammar extends Grammar
     /**
      * Compile an insert statement into SQL.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $values
      * 
      * @return string
      */
-    public function compileInsert(Builder $builder, array $values): string
+    public function compileInsert(Builder $query, array $values): string
     {
         if (empty($values)) {
             $values = [[]];
         }
 
-        return parent::compileInsert($builder, $values);
+        return parent::compileInsert($query, $values);
     }
 
     /**
      * Compile the columns for an update statement.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $values
      * 
      * @return string
      */
-    protected function compileUpdateColumns(Builder $builder, array $values): string
+    protected function compileUpdateColumns(Builder $query, array $values): string
     {
         return (new Collection($values))->map(function ($value, $key) {
             if ($this->isJsonSelector($key)) {
@@ -321,23 +321,23 @@ class MySqlGrammar extends Grammar
     /**
      * Compile an update statement without joins into SQL.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  string  $table
      * @param  string  $columns
      * @param  string  $where
      * 
      * @return string
      */
-    public function compileUpdateWithoutJoins(Builder $builder, $table, $columns, $where): string
+    public function compileUpdateWithoutJoins(Builder $query, $table, $columns, $where): string
     {
-        $sql = parent::compileUpdateWithoutJoins($builder, $table, $columns, $where);
+        $sql = parent::compileUpdateWithoutJoins($query, $table, $columns, $where);
 
-        if ( ! empty($builder->orders)) {
-            $sql .= ' '.$this->compileOrders($builder, $builder->orders);
+        if ( ! empty($query->orders)) {
+            $sql .= ' '.$this->compileOrders($query, $query->orders);
         }
 
-        if (isset($builder->limit)) {
-            $sql .= ' '.$this->compileLimit($builder, $builder->limit);
+        if (isset($query->limit)) {
+            $sql .= ' '.$this->compileLimit($query, $query->limit);
         }
         
         return $sql;
@@ -366,24 +366,24 @@ class MySqlGrammar extends Grammar
     /**
      * Compile an delete statement without joins into SQL.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  string  $table
      * @param  string  $where
      * 
      * @return string
      */
-    protected function compileDeleteWithoutJoins(Builder $builder, $table, $where): string
+    protected function compileDeleteWithoutJoins(Builder $query, $table, $where): string
     {
-        $sql = parent::compileDeleteWithoutJoins($builder, $table, $where);
+        $sql = parent::compileDeleteWithoutJoins($query, $table, $where);
         
         // When using MySQL, delete statements may contain order by statements and limits
         // so we will compile both of those here.
-        if ( ! empty($builder->orders)) {
-            $sql .= ' '.$this->compileOrders($builder, $builder->orders);
+        if ( ! empty($query->orders)) {
+            $sql .= ' '.$this->compileOrders($query, $query->orders);
         }
 
-        if (isset($builder->limit)) {
-            $sql .= ' '.$this->compileLimit($builder, $builder->limit);
+        if (isset($query->limit)) {
+            $sql .= ' '.$this->compileLimit($query, $query->limit);
         }
         
         return rtrim($sql);

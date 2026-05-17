@@ -59,7 +59,7 @@ class ProviderMakeCommand extends GeneratorCommand
      *
      * @return bool|null
      *
-     * @throws \Syscodes\Components\Contracts\Filesystem\FileNotFoundException
+     * @throws \Syscodes\Components\Filesystem\Exceptions\FileNotFoundException
      */
     public function handle()
     {

@@ -22,7 +22,6 @@
 
 namespace Syscodes\Components\Database\Erostrine\Relations\Concerns;
 
-use Syscodes\Components\Database\Erostrine\Builder;
 use Syscodes\Components\Database\Erostrine\Model;
 use Syscodes\Components\Support\Str;
 
@@ -55,7 +54,7 @@ trait AsPivotTable
     /**
      * Create a new Pivot model instance.
      * 
-     * @param  \Syscodes\Components\Database\Erostrine\Model  $model
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
      * @param  array  $attributes
      * @param  string  $table
      * @param  bool  $exists
@@ -71,9 +70,9 @@ trait AsPivotTable
         $instance = new static;
 
         $instance->setConnection($parent->getConnectionName())
-                 ->setTable($table)
-                 ->fill($attributes)
-                 ->syncOriginal();
+            ->setTable($table)
+            ->fill($attributes)
+            ->syncOriginal();
 
         $instance->pivotParent = $parent;
 
@@ -85,7 +84,7 @@ trait AsPivotTable
     /**
      * Create a new pivot model from raw values.
      * 
-     * @param  \Syscodes\Components\Database\Erostrine\Model  $model
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
      * @param  array  $attributes
      * @param  string  $table
      * @param  bool  $exists
@@ -108,21 +107,21 @@ trait AsPivotTable
     /**
      * Set the keys for a save update query.
      * 
-     * @param  \Syscodes\Components\Database\Erostrine\Builder  $builder
+     * @param  \Syscodes\Components\Database\Erostrine\Builder  $query
      * 
      * @return \Syscodes\Components\Database\Erostrine\Builder
      */
-    public function setKeysForSaveQuery(Builder $builder)
+    protected function setKeysForSaveQuery($query)
     {
         if (isset($this->attributes[$this->getKeyName()])) {
-            return parent::setKeysForSaveQuery($builder);
+            return parent::setKeysForSaveQuery($query);
         }
         
-        $builder->where($this->foreignKey, $this->getOriginal(
+        $query->where($this->foreignKey, $this->getOriginal(
             $this->foreignKey, $this->getAttribute($this->foreignKey)
         ));
         
-        return $builder->where($this->relatedKey, $this->getOriginal(
+        return $query->where($this->relatedKey, $this->getOriginal(
             $this->relatedKey, $this->getAttribute($this->relatedKey)
         ));
     }
@@ -193,7 +192,7 @@ trait AsPivotTable
      */
     public function getRelatedKey(): string
     {
-        return $this->relatedkey;
+        return $this->relatedKey;
     }
 
     /**
@@ -207,7 +206,7 @@ trait AsPivotTable
     public function setPivotKeys($foreignKey, $relatedKey): static
     {
         $this->foreignKey = $foreignKey;
-        $this->relatedkey = $relatedKey;
+        $this->relatedKey = $relatedKey;
 
         return $this;
     }

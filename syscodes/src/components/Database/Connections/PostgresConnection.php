@@ -82,7 +82,7 @@ class PostgresConnection extends Connection
     /**
      * Get the default query grammar instance.
      * 
-     * @return Syscodes\Components\Database\QueryMysqlGrammar\
+     * @return \Syscodes\Components\Database\Query\Grammars\MysqlGrammar
      */
     public function getDefaultQueryGrammar()
     {
@@ -92,7 +92,7 @@ class PostgresConnection extends Connection
     /**
      * Get the default post processor instance.
      * 
-     * @return Syscodes\Components\Database\Query\Post Processor
+     * @return \Syscodes\Components\Database\Query\Processors\PostgresProcessor
      */
     public function getDefaultPostProcessor()
     {

@@ -64,7 +64,7 @@ class Application extends SymfonyApplication implements ApplicationContract
 	/**
 	 * The Lenevor application instance.
 	 * 
-	 * @var \Syscodes\Components\Contracts\Container|Container
+	 * @var \Syscodes\Components\Contracts\Container\Container
 	 */
 	protected $lenevor;
 
@@ -220,13 +220,13 @@ class Application extends SymfonyApplication implements ApplicationContract
 	/**
      * Run an Artisan console command by name.
      *
-     * @param  \Syscodes\Components\Console\Command\Command|string  $command
+     * @param  \Symfony\Component\Console\Command\Command|string  $command
      * @param  array  $parameters
-     * @param  \Syscodes\Components\Console\Output\OutputInterface|null  $outputBuffer
+     * @param  \Symfony\Component\Console\Output\OutputInterface|null  $outputBuffer
 	 * 
      * @return int
      *
-     * @throws \Syscodes\Components\Console\Exception\CommandNotFoundException
+     * @throws \Symfony\Component\Console\Exception\CommandNotFoundException
      */
     public function call($command, array $parameters = [], $outputBuffer = null)
     {

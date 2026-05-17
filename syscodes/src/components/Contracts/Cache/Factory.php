@@ -33,7 +33,7 @@ interface Factory
     /**
      * Get a cache driver instance.
      * 
-     * @param  string|null
+     * @param  string|null  $driver
      * 
      * @return \Syscodes\Components\Cache\CacheRepository
      */
@@ -42,7 +42,7 @@ interface Factory
     /**
      * Get a cache store instance by name.
      * 
-     * @param  string|null  $name
+     * @param  string|null  $store
      * 
      * @return \Syscodes\Components\Cache\CacheRepository
      */

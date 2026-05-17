@@ -55,7 +55,7 @@ class RequirePassword
     /**
      * Constructor. Create a new middleware class instance.
      *
-     * @param  \Syscodes\Components\Contracts\Routing\RouteResponse  $ResponseFactory
+     * @param  \Syscodes\Components\Contracts\Routing\RouteResponse  $responseFactory
      * @param  \Syscodes\Components\Contracts\Routing\UrlGenerator  $urlGenerator
      * @param  int|null  $passwordTimeout
      * 

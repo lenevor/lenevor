@@ -36,7 +36,7 @@ interface Application
 	 * 
      * @return int
      *
-     * @throws \Syscodes\Components\Console\Exception\CommandNotFoundException
+     * @throws \Symfony\Component\Console\Exception\CommandNotFoundException
      */
     public function call($command, array $parameters = [], $outputBuffer = null);
 }

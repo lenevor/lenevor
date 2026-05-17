@@ -219,6 +219,8 @@ class SessionStore implements Store
 
     /**
      * Get the cache key prefix.
+     * 
+     * @param  string  $key
      *
      * @return string
      */

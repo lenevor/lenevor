@@ -34,7 +34,7 @@ class MariaDbGrammar extends MySqlGrammar
     /**
      * Compile a "lateral join" clause.
      *
-     * @param  \Illuminate\Database\Query\JoinLateralClause  $join
+     * @param  \Syscodes\Components\Database\Query\JoinLateralClause  $join
      * @param  string  $expression
      * 
      * @return string

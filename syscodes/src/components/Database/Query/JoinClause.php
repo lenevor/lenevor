@@ -39,7 +39,7 @@ class JoinClause extends Builder
     /**
      * The connection of the parent query builder.
      *
-     * @var \Syscodes\Components\Database\ConnectionInterface
+     * @var \Syscodes\Components\Database\Connections\ConnectionInterface
      */
     protected $parentConnection;
 
@@ -74,20 +74,20 @@ class JoinClause extends Builder
     /**
      * Constructor. Create a new JoinClause class instance.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  string  $type
      * @param  string  $table
      * 
      * @return void
      */
-    public function __construct(Builder $builder, $type, $table)
+    public function __construct(Builder $query, $type, $table)
     {
-        $this->type  = $type;
+        $this->type = $type;
         $this->table = $table;
-        $this->parentClass = get_class($builder);
-        $this->parentGrammar = $builder->getQueryGrammar();
-        $this->parentProcessor = $builder->getQueryProcessor();
-        $this->parentConnection = $builder->getConnection();
+        $this->parentClass = get_class($query);
+        $this->parentGrammar = $query->getQueryGrammar();
+        $this->parentProcessor = $query->getQueryProcessor();
+        $this->parentConnection = $query->getConnection();
 
         parent::__construct(
             $this->parentConnection, $this->parentGrammar, $this->parentProcessor
@@ -124,7 +124,7 @@ class JoinClause extends Builder
      * @param  string|null  $operator  
      * @param  string|null  $second  
      * 
-     * @return \Syscodes\Components\Database\Query\JoinClause
+     * @return static
      */
     public function orOn($first, $operator = null, $second = null): static
     {
@@ -134,7 +134,7 @@ class JoinClause extends Builder
     /**
      * Get a new instance of the join clause builder.
      *
-     * @return \Syscodes\Components\Database\Query\JoinClause
+     * @return static
      */
     public function newQuery(): static
     {

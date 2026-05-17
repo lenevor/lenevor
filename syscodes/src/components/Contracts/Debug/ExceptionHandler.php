@@ -43,7 +43,7 @@ interface ExceptionHandler
     /**
      * Register a reportable callback.
      * 
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return static
      */
@@ -80,7 +80,7 @@ interface ExceptionHandler
     /**
      * Register a renderable callback.
      * 
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return static
      */
@@ -89,7 +89,7 @@ interface ExceptionHandler
     /**
      * Render an exception to the console.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Output\ConsoleOutput  $output
+     * @param  \Symfony\Component\Console\Output\ConsoleOutput  $output
      * @param  \Throwable  $e
      * 
      * @return void

@@ -67,7 +67,7 @@ class ResolveCommandLoader implements CommandLoaderInterface
      * 
      * @return \Symfony\Component\Console\Command\Command
      *
-     * @throws \Syscodes\Components\Console\Exception\CommandNotFoundException
+     * @throws \Symfony\Component\Console\Exception\CommandNotFoundException
      */
     public function get(string $name): Command
     {

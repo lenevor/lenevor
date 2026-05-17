@@ -200,7 +200,7 @@ abstract class HasOneOrManyThrough extends Relation
      * 
      * @return \Syscodes\Components\Database\Erostrine\Model
      *
-     * @throws \Syscodes\Components\Database\Erostrine\ModelNotFoundException
+     * @throws \Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException
      */
     public function firstOrFail($columns = ['*'])
     {
@@ -216,7 +216,7 @@ abstract class HasOneOrManyThrough extends Relation
      *
      * @template TValue
      *
-     * @param  aray|string  $columns
+     * @param  array|string  $columns
      * @param  \Closure|null  $callback
      * 
      * @return \Closure
@@ -284,7 +284,7 @@ abstract class HasOneOrManyThrough extends Relation
      * 
      * @return \Syscodes\Components\Contracts\Support\Arrayable|null
      *
-     * @throws \Syscodes\Components\Database\Erostrine\ModelNotFoundException
+     * @throws \Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException
      */
     public function findOrFail($id, $columns = ['*'])
     {
@@ -364,7 +364,7 @@ abstract class HasOneOrManyThrough extends Relation
      * @param  string  $pageName
      * @param  int|null  $page
      * 
-     * @return \Syscodes\Components\Pagination\LengthAwarePaginator
+     * @return \Syscodes\Components\Pagination\Paginator
      */
     public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {

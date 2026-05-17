@@ -75,8 +75,8 @@ class Authorize
      * 
      * @return \Symfony\Component\HttpFoundation\Response
      * 
-     * @throws \Syscodes\Components\Auth\AuthenticationException
-     * @throws \Syscodes\Components\Auth\Access\AuthorizationException
+     * @throws \Syscodes\Components\Auth\Exceptions\AuthenticationException
+     * @throws \Syscodes\Components\Auth\Access\Exceptions\AuthorizationException
      */
     public function handle($request, Closure $next, $ability, ...$models): Response
     {

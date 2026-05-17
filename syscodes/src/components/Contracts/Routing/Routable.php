@@ -134,7 +134,7 @@ interface Routable
 	 *      }); /admin/user
 	 * 
 	 * @param  array  $attributes
-	 * @param  \Closure|array|string  $callback
+	 * @param  \Closure|array|string  $routes
 	 *
 	 * @return void
 	 */

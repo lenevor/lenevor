@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\Debug\Handlers;
 
-use Syscodes\Components\Debug\FrameHandler\Formatter;
+use Syscodes\Components\Debug\Engines\Formatter;
 
 /**
  * Catches an exception and converts it to a JSON response.

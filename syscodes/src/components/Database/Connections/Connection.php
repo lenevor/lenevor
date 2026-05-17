@@ -57,9 +57,7 @@ use function Syscodes\Components\Support\enum_value;
  */
 class Connection implements ConnectionInterface
 {
-    use DetectLostConnections,
-        ManagesTransactions,
-        Macroable;
+    use DetectLostConnections, ManagesTransactions, Macroable;
     
     /**
      * The database connection configuration options.

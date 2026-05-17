@@ -59,16 +59,11 @@ trait CreatesUserProviders
             );
         }
         
-        switch ($driver) {
-            case 'database':
-                return $this->createDatabaseProvider($config);
-            case 'erostrine':
-                return $this->createErostrineProvider($config);
-            default:
-                break;
-        }
-        
-        throw new InvalidArgumentException("Authentication user provider [{$driver}] is not defined.");
+        return match ($driver) {
+            'database' => $this->createDatabaseProvider($config),
+            'erostrine' => $this->createErostrineProvider($config),
+            default => throw new InvalidArgumentException("Authentication user provider [{$driver}] is not defined."),
+        };
     }
     
     /**
@@ -90,7 +85,7 @@ trait CreatesUserProviders
      * 
      * @param  array  $config
      * 
-     * @return \Syscodes\Components\Auth\DatabaseUserProvider
+     * @return \Syscodes\Components\Auth\Providers\DatabaseUserProvider
      */
     protected function createDatabaseProvider($config)
     {
@@ -104,7 +99,7 @@ trait CreatesUserProviders
      * 
      * @param  array  $config
      * 
-     * @return \Syscodes\Components\Auth\ErostrineUserProvider
+     * @return \Syscodes\Components\Auth\Providers\ErostrineUserProvider
      */
     protected function createErostrineProvider($config)
     {

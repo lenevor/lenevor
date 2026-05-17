@@ -152,7 +152,7 @@ interface Session
      * 
      * @return void
      */
-    public function replace(array $atributes): void;
+    public function replace(array $attributes): void;
 
     /**
      * Put a key / value pair or array of key / value pairs in the session.

@@ -76,13 +76,12 @@ class BootHandleExceptions
      * @param  string  $message
      * @param  string|null  $file
      * @param  int  $line
-     * @param  array  $context
      * 
      * @return void
      * 
      * @throws \ErrorException
      */
-    public function handleError($level, $message, $file = '', $line = 0, $context = [])
+    public function handleError($level, $message, $file = '', $line = 0)
     {
         if ($this->isDeprecation($level)) {
             $this->handleDeprecationError($message, $file, $line, $level);
@@ -103,6 +102,10 @@ class BootHandleExceptions
      */
     public function handleDeprecationError($message, $file, $line, $level = E_DEPRECATED)
     {
+        if ($this->shouldIgnoreDeprecationErrors()) {
+            return;
+        }
+        
         try {
             $logger = static::$app->make(LogManager::class);
         } catch (Exception) {
@@ -113,9 +116,21 @@ class BootHandleExceptions
             if ($level ?? false) {
                 $log->warning((string) new ErrorException($message, 0, $level, $file, $line));
             } else {
-                $log->warning(sprintf('%s in %s on line %s', $message, $file, $line));
+                $log->warning(sprintf('%s in %s on line %s', 
+                    $message, $file, $line
+                ));
             }
         });   
+    }
+
+    /**
+     * Determine if deprecation errors should be ignored.
+     *
+     * @return bool
+     */
+    protected function shouldIgnoreDeprecationErrors(): bool
+    {
+        return ! class_exists(LogManager::class) || ! static::$app->hasBeenBootstrapped();
     }
 
     /**
@@ -182,6 +197,8 @@ class BootHandleExceptions
     
     /**
      * Forward a method call to the given method if an application instance exists.
+     * 
+     * @param  string|object  $method
      * 
      * @return callable
      */

@@ -40,7 +40,7 @@ interface Gate
      * Define a new ability.
      * 
      * @param  string  $ability
-     * @param  \callable|string  $callback
+     * @param  callable|string  $callback
      * 
      * @return static
      */
@@ -70,7 +70,7 @@ interface Gate
     /**
      * Register a callback to run before all Gate checks.
      * 
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return static
      */
@@ -79,7 +79,7 @@ interface Gate
     /**
      * Register a callback to run after all Gate checks.
      * 
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return static
      */
@@ -118,7 +118,7 @@ interface Gate
     /**
      * Determine if any one of the given abilities should be granted for the current user.
      * 
-     * @param  \iterable|string  $abilities
+     * @param  iterable|string  $abilities
      * @param  array  $arguments
      * 
      * @return bool
@@ -133,7 +133,7 @@ interface Gate
      * 
      * @return \Syscodes\Components\Auth\Access\Response
      * 
-     * @throws \Syscodes\Components\Auth\Access\AuthorizationException
+     * @throws \Syscodes\Components\Auth\Access\Exceptions\AuthorizationException
      */
     public function authorize(string $ability, array $arguments = []);
     
@@ -155,7 +155,7 @@ interface Gate
      * 
      * @return mixed
      * 
-     * @throws \Syscodes\Components\Auth\Access\AuthorizationException
+     * @throws \Syscodes\Components\Auth\Access\Exceptions\AuthorizationException
      */
     public function raw(string $ability, array $arguments): mixed;
     

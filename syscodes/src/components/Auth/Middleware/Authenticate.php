@@ -79,7 +79,7 @@ class Authenticate implements AuthenticateRequest
      * Determine if the user is logged in to any of the given guards.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  array  guards
+     * @param  array  $guards
      * 
      * @return void
      * 
@@ -108,7 +108,7 @@ class Authenticate implements AuthenticateRequest
      * 
      * @return void
      * 
-     * @throws \Syscodes\Components\Auth\AuthenticationException
+     * @throws \Syscodes\Components\Auth\Exceptions\AuthenticationException
      */
     protected function unauthenticated($request, array $guards): void
     {

@@ -837,7 +837,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
      */
-    public function build($value): mixed
+    public function build($value)
     {
         if ($value instanceof Closure) {
             $this->buildStack[] = spl_object_hash($value);
@@ -989,7 +989,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      *
-     * @throws \Syscodes\Components\Container\Exceptions\BindingResolutionException
+     * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
      */
     protected function getResolveNonClass(ReflectionParameter $parameter)
     {
@@ -1035,7 +1035,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @return mixed
      *
-     * @throws \Syscodes\Components\Container\Exceptions\BindingResolutionException
+     * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
      */
     protected function getResolveClass(ReflectionParameter $parameter): mixed
     {
@@ -1353,7 +1353,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Call the given callable / class@method and inject its dependencies.
      * 
-     * @param  \callable|string  $callback
+     * @param  callable|string  $callback
      * @param  array  $parameters
      * @param  string|null  $defaultMethod
      * 

@@ -44,12 +44,12 @@ class PostgresGrammar extends Grammar
     /**
      * Compile a basic where clause.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereBasic(Builder $builder, $where): string
+    protected function whereBasic(Builder $query, $where): string
     {
         if (str_contains(strtolower($where['operator']), 'like')) {
             return sprintf(
@@ -60,35 +60,35 @@ class PostgresGrammar extends Grammar
             );
         }
 
-        return parent::whereBasic($builder, $where);
+        return parent::whereBasic($query, $where);
     }
 
     /**
      * Compile a "where like" clause.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereLike(Builder $builder, $where): string
+    protected function whereLike(Builder $query, $where): string
     {
         $where['operator'] = $where['not'] ? 'not ' : '';
 
         $where['operator'] .= $where['caseSensitive'] ? 'like' : 'ilike';
 
-        return $this->whereBasic($builder, $where);
+        return $this->whereBasic($query, $where);
     }
 
     /**
      * Compile a "where date" clause.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereDate(Builder $builder, $where): string
+    protected function whereDate(Builder $query, $where): string
     {
         $column = $this->wrap($where['column']);
         $value = $this->parameter($where['value']);
@@ -103,12 +103,12 @@ class PostgresGrammar extends Grammar
     /**
      * Compile a "where time" clause.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function whereTime(Builder $builder, $where): string
+    protected function whereTime(Builder $query, $where): string
     {
         $column = $this->wrap($where['column']);
         $value = $this->parameter($where['value']);
@@ -124,12 +124,12 @@ class PostgresGrammar extends Grammar
      * Compile a date based where clause.
      *
      * @param  string  $type
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    protected function dateBasedWhere($type, Builder $builder, $where): string
+    protected function dateBasedWhere($type, Builder $query, $where): string
     {
         $value = $this->parameter($where['value']);
 
@@ -139,12 +139,12 @@ class PostgresGrammar extends Grammar
     /**
      * Compile a "where fulltext" clause.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
      * 
      * @return string
      */
-    public function whereFullText(Builder $builder, $where): string
+    public function whereFullText(Builder $query, $where): string
     {
         $language = $where['options']['language'] ?? 'english';
 
@@ -213,22 +213,22 @@ class PostgresGrammar extends Grammar
     /**
      * Compile the "select *" portion of the builder.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $columns
      * 
      * @return string|null
      */
-    protected function compileColumns(Builder $builder, $columns)
+    protected function compileColumns(Builder $query, $columns)
     {
         // If the builder is actually performing an aggregating select, we will 
         // let that compiler handle the building of the select clauses.
-        if (! is_null($builder->aggregate)) {
+        if ( ! is_null($query->aggregate)) {
             return;
         }
 
-        if (is_array($builder->distinct)) {
-            $select = 'select distinct on ('.$this->columnize($builder->distinct).') ';
-        } elseif ($builder->distinct) {
+        if (is_array($query->distinct)) {
+            $select = 'select distinct on ('.$this->columnize($query->distinct).') ';
+        } elseif ($query->distinct) {
             $select = 'select distinct ';
         } else {
             $select = 'select ';
@@ -306,12 +306,12 @@ class PostgresGrammar extends Grammar
     /**
      * Compile the lock into SQL.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  bool|string  $value
      * 
      * @return string
      */
-    public function compileLock(Builder $builder, $value): string
+    public function compileLock(Builder $query, $value): string
     {
         if ( ! is_string($value)) {
             return $value ? 'for update' : 'for share';
@@ -323,39 +323,39 @@ class PostgresGrammar extends Grammar
     /**
      * Compile an insert ignore statement into SQL.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $values
      * 
      * @return string
      */
-    public function compileInsertOrIgnore(Builder $builder, array $values): string
+    public function compileInsertOrIgnore(Builder $query, array $values): string
     {
-        return $this->compileInsert($builder, $values).' on conflict do nothing';
+        return $this->compileInsert($query, $values).' on conflict do nothing';
     }
 
     /**
      * Compile an insert ignore statement using a subquery into SQL.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $columns
      * @param  string  $sql
      * 
      * @return string
      */
-    public function compileInsertOrIgnoreUsing(Builder $builder, array $columns, string $sql): string
+    public function compileInsertOrIgnoreUsing(Builder $query, array $columns, string $sql): string
     {
-        return $this->compileInsertUsing($builder, $columns, $sql).' on conflict do nothing';
+        return $this->compileInsertUsing($query, $columns, $sql).' on conflict do nothing';
     }
     
     /**
      * Compile the columns for an update statement.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $values
      * 
      * @return string
      */
-    protected function compileUpdateColumns(Builder $builder, array $values): string
+    protected function compileUpdateColumns(Builder $query, array $values): string
     {
         return (new Collection($values))->map(function ($value, $key) {
             $column = last(explode('.', $key));
@@ -410,33 +410,33 @@ class PostgresGrammar extends Grammar
     /**
      * Compile a delete statement into SQL.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * 
      * @return string
      */
-    public function compileDelete(Builder $builder): string
+    public function compileDelete(Builder $query): string
     {
-        if (isset($builder->joins) || isset($builder->limit)) {
-            return $this->compileDeleteWithJoinsOrLimit($builder);
+        if (isset($query->joins) || isset($query->limit)) {
+            return $this->compileDeleteWithJoinsOrLimit($query);
         }
 
-        return parent::compileDelete($builder);
+        return parent::compileDelete($query);
     }
     
     /**
      * Compile a delete statement with joins or limit into SQL.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * 
      * @return string
      */
-    protected function compileDeleteWithJoinsOrLimit(Builder $builder): string
+    protected function compileDeleteWithJoinsOrLimit(Builder $query): string
     {
-        $table = $this->wrapTable($builder->from);
+        $table = $this->wrapTable($query->from);
 
-        $alias = last(preg_split('/\s+as\s+/i', $builder->from));
+        $alias = last(preg_split('/\s+as\s+/i', $query->from));
 
-        $selectSql = $this->compileSelect($builder->select($alias.'.ctid'));
+        $selectSql = $this->compileSelect($query->select($alias.'.ctid'));
 
         return "delete from {$table} where {$this->wrap('ctid')} in ({$selectSql})";
     }
@@ -444,27 +444,27 @@ class PostgresGrammar extends Grammar
     /**
      * Compile an insert and get ID statement into SQL.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $values
      * @param  string  $sequence
      * 
      * @return string
      */
-    public function compileInsertGetId(Builder $builder, $values, $sequence): string
+    public function compileInsertGetId(Builder $query, $values, $sequence): string
     {
-        return $this->compileInsert($builder, $values).' returning '.$this->wrap($sequence ?: 'id');
+        return $this->compileInsert($query, $values).' returning '.$this->wrap($sequence ?: 'id');
     }
 
      /**
      * Compile a truncate table statement into SQL.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * 
      * @return array
      */
-    public function truncate(Builder $builder): array
+    public function truncate(Builder $query): array
     {
-        return ['truncate '.$this->wrapTable($builder->from).' restart identity'.(static::$cascadeTruncate ? ' cascade' : '') => []];
+        return ['truncate '.$this->wrapTable($query->from).' restart identity'.(static::$cascadeTruncate ? ' cascade' : '') => []];
     }
     
     /**

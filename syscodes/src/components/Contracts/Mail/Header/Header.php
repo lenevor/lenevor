@@ -59,7 +59,7 @@ interface Header
      * 
      * @param  string|null  $name
      * 
-     * @return \iterable
+     * @return iterable
      */
     public function all(?string $name = null): iterable;
 

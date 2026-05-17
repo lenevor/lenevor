@@ -111,7 +111,7 @@ class SqlServerConnection extends Connection
     /**
      * Get the default query grammar instance.
      * 
-     * @return Syscodes\Components\Database\Query\SqlServerGrammar
+     * @return \Syscodes\Components\Database\Query\Grammars\SqlServerGrammar
      */
     public function getDefaultQueryGrammar()
     {
@@ -121,7 +121,7 @@ class SqlServerConnection extends Connection
     /**
      * Get the default post processor instance.
      * 
-     * @return Syscodes\Components\Database\Query\SqlServerProcessor
+     * @return \Syscodes\Components\Database\Query\Processors\SqlServerProcessor
      */
     public function getDefaultPostProcessor()
     {

@@ -226,7 +226,7 @@ class MigrationServiceProvider extends ServiceProvider implements Deferrable
     public function provides(): array
     {
         return array_merge([
-            'migrator', 'migration.repository', Migrator::class,
+            'migrator', 'migration.repository', 'migration.creator', Migrator::class,
         ], array_values($this->commands));
     }
 }

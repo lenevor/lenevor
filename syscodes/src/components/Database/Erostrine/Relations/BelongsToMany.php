@@ -620,7 +620,8 @@ class BelongsToMany extends Relation
      *
      * @param  mixed  $id
      * @param  array  $columns
-     * @return \Illuminate\Support\Collection|\Illuminate\Database\Eloquent\Model
+     * 
+     * @return \Syscodes\Components\Support\Collection|\Syscodes\Components\Database\Erostrine\Model
      */
     public function findOrNew($id, $columns = ['*'])
     {
@@ -636,7 +637,8 @@ class BelongsToMany extends Relation
      *
      * @param  array  $attributes
      * @param  array  $values
-     * @return \Illuminate\Database\Eloquent\Model
+     * 
+     * @return \Syscodes\Components\Database\Erostrine\Model
      */
     public function firstOrNew(array $attributes = [], array $values = [])
     {
@@ -654,7 +656,7 @@ class BelongsToMany extends Relation
      * @param  array  $values
      * @param  array  $joining
      * @param  bool  $touch
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Syscodes\Components\Database\Erostrine\Model
      */
     public function firstOrCreate(array $attributes = [], array $values = [], array $joining = [], $touch = true)
     {
@@ -672,7 +674,7 @@ class BelongsToMany extends Relation
      * @param  array  $values
      * @param  array  $joining
      * @param  bool  $touch
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Syscodes\Components\Database\Erostrine\Model
      */
     public function updateOrCreate(array $attributes, array $values = [], array $joining = [], $touch = true)
     {
@@ -712,7 +714,7 @@ class BelongsToMany extends Relation
      * @param  \Syscodes\Components\Contracts\Support\Arrayable|array  $ids
      * @param  array  $columns
      * 
-     * @return \Syscodes\Components\Database\Eloquent\Collection
+     * @return \Syscodes\Components\Database\Erostrine\Collection
      */
     public function findMany($ids, $columns = ['*'])
     {
@@ -733,9 +735,9 @@ class BelongsToMany extends Relation
      * @param  mixed  $id
      * @param  array  $columns
      * 
-     * @return \Syscodes\Database\Erostrine\Model|\Syscodes\Database\Erostrine\Collection
+     * @return \Syscodes\Components\Database\Erostrine\Model|\Syscodes\Components\Database\Erostrine\Collection
      * 
-     * @throws \Syscodes\Database\Erostrine\ModelNotFoundException<\Syscodes\Database\Erostrine\Model>
+     * @throws \Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException
      */
     public function findOrFail($id, $columns = ['*'])
     {
@@ -789,7 +791,7 @@ class BelongsToMany extends Relation
      * @param  array  $columns
      * @return \Syscodes\Components\Database\Erostrine\Model|static
      * 
-     * @throws \Syscodes\Components\Database\Erostrine\ModelNotFoundException<\Syscodes\Components\Database\Erostrine\Model>
+     * @throws \Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException
      */
     public function firstOrFail($columns = ['*'])
     {
@@ -806,7 +808,7 @@ class BelongsToMany extends Relation
      * @param  \Closure|array  $columns
      * @param  \Closure|null  $callback
      *
-     * @return \Syscodes\Components\Database\Eloquent\Model|static|mixed
+     * @return \Syscodes\Components\Database\Erostrine\Model|static|mixed
      */
     public function firstOr($columns = ['*'], ?Closure $callback = null)
     {
@@ -986,7 +988,7 @@ class BelongsToMany extends Relation
     public function qualifyPivotColumn($column): string
     {
         return Str::contains($column, '.')
-                    ? $column
-                    : $this->table.'.'.$column;
+            ? $column
+            : $this->table.'.'.$column;
     }
 }

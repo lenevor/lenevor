@@ -88,7 +88,7 @@ interface Encrypter
      * 
      * @return array
      * 
-     * @throws \Syscodes\Components\Encryption\Enxceptions\DecryptException
+     * @throws \Syscodes\Components\Encryption\Exceptions\DecryptException
      */
     public function getJsonPayload($value);
 
@@ -99,7 +99,7 @@ interface Encrypter
      * 
      * @return string
      * 
-     * @throws \Syscodes\Components\Encryption\Enxceptions\DecryptException
+     * @throws \Syscodes\Components\Encryption\Exceptions\DecryptException
      */
     public function decryptString($value);
 

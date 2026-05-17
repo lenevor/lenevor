@@ -39,7 +39,7 @@ interface Factory
      * @param  bool $raw
      * @param  string|null  $sameSite
      * 
-     * @return \Syscodes\Components\Http\Cookie
+     * @return \Symfony\Component\HttpFoundation\Cookie
      */
     public function make(
         string $name,
@@ -65,7 +65,7 @@ interface Factory
      * @param  bool $raw
      * @param  string|null  $sameSite
      * 
-     * @return \Syscodes\Components\Http\Cookie
+     * @return \Symfony\Component\HttpFoundation\Cookie
      */
     public function forever(
         string $name,
@@ -85,7 +85,7 @@ interface Factory
      * @param  string|null  $path
      * @param  string|null  $domain
      * 
-     * @return \Syscodes\Components\Http\Cookie
+     * @return \Symfony\Component\HttpFoundation\Cookie
      */
     public function erase(string $name, ?string $path = null, ?string $domain = null);
 }

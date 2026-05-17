@@ -75,7 +75,7 @@ class Gate implements GateContract
     /**
      * The user resolver callable.
      * 
-     * @var \callable
+     * @var callable
      */
     protected $userResolver;
 
@@ -83,7 +83,7 @@ class Gate implements GateContract
      * Constructor. Create a new Gate class instance.
      * 
      * @param  \Syscodes\Components\Contracts\Container\container  $container
-     * @param  \callable  $userResolver
+     * @param  callable  $userResolver
      * @param  array  $abilities
      * @param  array  $policies
      * @param  array  $beforeCallbacks
@@ -222,7 +222,7 @@ class Gate implements GateContract
     /**
      * Register a callback to run before all Gate checks.
      * 
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return static
      */
@@ -236,7 +236,7 @@ class Gate implements GateContract
     /**
      * Register a callback to run after all Gate checks.
      * 
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return static
      */
@@ -295,7 +295,7 @@ class Gate implements GateContract
     /**
      * Determine if any one of the given abilities should be granted for the current user.
      * 
-     * @param  \iterable|string  $abilities
+     * @param  iterable|string  $abilities
      * @param  array  $arguments
      * 
      * @return bool
@@ -313,7 +313,7 @@ class Gate implements GateContract
      * 
      * @return \Syscodes\Components\Auth\Access\Response
      * 
-     * @throws \Syscodes\Components\Auth\Access\AuthorizationException
+     * @throws \Syscodes\Components\Auth\Access\Exceptions\AuthorizationException
      */
     public function authorize(string $ability, array $arguments = [])
     {
@@ -351,7 +351,7 @@ class Gate implements GateContract
      * 
      * @return mixed
      * 
-     * @throws \Syscodes\Components\Auth\Access\AuthorizationException
+     * @throws \Syscodes\Components\Auth\Access\Exceptions\AuthorizationException
      */
     public function raw(string $ability, array $arguments): mixed
     {
@@ -434,7 +434,7 @@ class Gate implements GateContract
      * @param  string  $ability
      * @param  array  $arguments
      * 
-     * @return \callable
+     * @return callable
      */
     protected function resolveAuthCallback($user, string $ability, array $arguments): callable
     {
@@ -479,7 +479,7 @@ class Gate implements GateContract
      * @param  string  $ability
      * @param  array  $arguments
      * 
-     * @return \callable
+     * @return callable
      */
     protected function resolvePolicyCallback($user, string $ability, array $arguments): callable
     {

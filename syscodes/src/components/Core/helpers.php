@@ -848,7 +848,7 @@ if ( ! function_exists('session')) {
      * 
      * @return ($key is null ? \Syscodes\Components\Session\SessionManager : ($key is string ? mixed : null))
      */
-    function session($key = null, mixed $default = null)
+    function session($key = null, $default = null)
     {
         if (is_null($key)) {
             return app('session');

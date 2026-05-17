@@ -37,7 +37,7 @@ interface Translator
      * 
      * @return string|array
      */
-    public function get($key, array $replace = [], string $locale = null, bool $fallback = true);
+    public function get($key, array $replace = [], ?string $locale = null, bool $fallback = true);
 
     /**
      * Determine if a translation exists for a given locale.
@@ -86,7 +86,7 @@ interface Translator
     /**
      * Set the default locale.
      * 
-     * @param  string  $locale
+     * @param  string  $fallback
      * 
      * @return void
      */

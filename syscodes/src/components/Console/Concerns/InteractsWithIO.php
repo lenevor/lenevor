@@ -325,7 +325,7 @@ trait InteractsWithIO
 	/**
 	 * Set the input interface implementation.
 	 * 
-	 * @param  \Symfony\Component\Console\Output\OutputInterface  $input
+	 * @param  \Symfony\Component\Console\Input\InputInterface  $input
 	 * 
 	 * @return void
 	 */

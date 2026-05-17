@@ -32,7 +32,7 @@ interface Mailbox
      * 
      * @param  \Syscodes\Components\Contracts\Mail\Factory|\Syscodes\Components\Contracts\Mail\Mailer  $mailer
      * 
-     * @return \Syscodes\Components\Mail\Helpers\SentMessage|null
+     * @return \Syscodes\Components\Mail\Helpers\BaseSentMessage|null
      */
     public function send($mailer);
 

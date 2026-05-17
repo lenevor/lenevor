@@ -50,7 +50,7 @@ trait GuardAuthenticationUser
      * 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable
      * 
-     * @throws \Syscodes\Components\Auth\AuthenticationException
+     * @throws \Syscodes\Components\Auth\Exceptions\AuthenticationException
      */
     public function authenticate()
     {

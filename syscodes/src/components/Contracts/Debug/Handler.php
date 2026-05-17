@@ -29,9 +29,9 @@ use Throwable;
  */
 interface Handler
 {
-	const ERROR_HANDLER     = "HandleError";
+	const ERROR_HANDLER = "HandleError";
 	const EXCEPTION_HANDLER = "handleException";
-	const SHUTDOWN_HANDLER  = "handleShutdown"; 
+	const SHUTDOWN_HANDLER = "handleShutdown"; 
 	
 	/**
 	 * Catches any uncaught errors and exceptions, including most Fatal errors. Will log the 
@@ -56,7 +56,7 @@ interface Handler
 	/**
 	 * Appends a handler to the end of the stack.
 	 * 
-	 * @param  \Callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
+	 * @param  callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
 	 * 
 	 * @return self
 	 */
@@ -65,7 +65,7 @@ interface Handler
 	/**
 	 * Prepends a handler to the start of the stack.
 	 * 
-	 * @param  \Callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
+	 * @param  callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
 	 * 
 	 * @return self
 	 */

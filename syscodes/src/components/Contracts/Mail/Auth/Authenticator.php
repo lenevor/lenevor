@@ -22,7 +22,7 @@
 
 namespace Syscodes\components\Constracts\Mail\Auth;
 
-use Syscodes\components\Mail\Transport\Smtp\EsmtpTransport;
+use Syscodes\Components\Mail\Transport\Smtp\EsmtpTransport;
 
 /**
  * Allows the authentication of user for send a mail.
@@ -32,7 +32,7 @@ interface Authenticator
     /**
      * The authenticate of the user.
      * 
-     * @param  EsmpTransport  $client
+     * @param  \Syscodes\Components\Mail\Transport\Smtp\EsmtpTransport  $client
      * 
      * @return void
      */

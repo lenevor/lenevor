@@ -115,7 +115,7 @@ interface UrlGenerator
     /**
      * Set the route collection.
      * 
-     * @param  \Syscodes\Components\Routing\RouteCollection  $routes
+     * @param  \Syscodes\Components\Routing\Collections\RouteCollection  $routes
      * 
      * @return static
      */

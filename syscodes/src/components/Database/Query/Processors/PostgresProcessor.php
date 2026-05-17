@@ -32,16 +32,16 @@ class PostgresProcessor extends Processor
     /**
      * Process an  "insert get ID" query.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  string  $sql
      * @param  array  $values
      * @param  string  $sequence 
      * 
      * @return int
      */
-    public function processInsertGetId(Builder $builder, $sql, $values, $sequence = null): int
+    public function processInsertGetId(Builder $query, $sql, $values, $sequence = null): int
     {
-        $connection = $builder->getConnection();
+        $connection = $query->getConnection();
 
         $connection->recordsHaveBeenModified();
 

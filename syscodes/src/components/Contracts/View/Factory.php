@@ -66,7 +66,7 @@ interface Factory
     /**
 	 * Call the creator for a given view.
 	 * 
-	 * @param  \Syscodes\View\View  $view
+	 * @param  \Syscodes\Components\View\View  $view
 	 * 
 	 * @return void
 	 */

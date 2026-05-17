@@ -23,7 +23,7 @@
 namespace Syscodes\Components\Debug\Handlers;
 
 use Syscodes\Components\Contracts\Debug\MainHandler;
-use Syscodes\Components\Debug\FrameHandler\Supervisor;
+use Syscodes\Components\Debug\Engines\Supervisor;
 
 /**
  * Abstract implementation of a Handler.
@@ -109,7 +109,7 @@ abstract class Handler implements MainHandler
     /**
      * Gets supervisor already specified.
      * 
-     * @return \Syscodes\Components\Debug\FrameHandler\Supervisor
+     * @return \Syscodes\Components\Debug\Engines\Supervisor
      */
     public function getSupervisor()
     {
@@ -119,7 +119,7 @@ abstract class Handler implements MainHandler
     /**
      * Sets supervisor.
      * 
-     * @param  \Syscodes\Components\Debug\FrameHandler\Supervisor  $supervisor
+     * @param  \Syscodes\Components\Debug\Engines\Supervisor  $supervisor
      * 
      * @return void
      */

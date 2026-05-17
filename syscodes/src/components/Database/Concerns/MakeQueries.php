@@ -39,7 +39,7 @@ trait MakeQueries
      * 
      * @param  array|string|int  $columns
      * 
-     * @return \Syscodes\Components\Database\Eloquent\Model|object|static|null
+     * @return \Syscodes\Components\Database\Erostrine\Model|object|static|null
      */
     public function first($columns = ['*'])
     {
@@ -70,7 +70,7 @@ trait MakeQueries
      *
      * @param  array|string  $columns
      * 
-     * @return \Syscodes\Components\Database\Eloquent\Model|object|static|null
+     * @return \Syscodes\Components\Database\Erostrine\Model|object|static|null
      *
      * @throws \Syscodes\Components\Database\Exceptions\RecordsNotFoundException
      * @throws \Syscodes\Components\Database\Exceptions\MultipleRecordsFoundException

@@ -23,7 +23,7 @@
 namespace Syscodes\Components\Database\Erostrine\Concerns;
 
 use Syscodes\Components\Database\Erostrine\Builder;
-use Syscodes\Components\Database\Erostrine\Model;
+use \Syscodes\Components\Database\Erostrine\Model;
 use Syscodes\Components\Database\Erostrine\Relations\BelongsTo;
 use Syscodes\Components\Database\Erostrine\Relations\HasMany;
 use Syscodes\Components\Database\Erostrine\Relations\HasManyThrough;
@@ -86,8 +86,8 @@ trait HasRelations
      * @template TRelatedModel of \Syscodes\Components\Database\Erostrine\Model
      * @template TIntermediateModel of \Syscodes\Components\Database\Erostrine\Model
      *
-     * @param  Syscodes\Components\Database\Erostrine\Model  $related
-     * @param  Syscodes\Components\Database\Erostrine\Model  $through
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $related
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $through
      * @param  string|null  $firstKey
      * @param  string|null  $secondKey
      * @param  string|null  $localKey
@@ -179,7 +179,7 @@ trait HasRelations
      * @param  string|null  $localKey
      * @param  string|null  $secondLocalKey
      * 
-     * @return \Syscodes\Components\Database\Eloquent\Relations\HasManyThrough<TRelatedModel, TIntermediateModel, $this>
+     * @return \Syscodes\Components\Database\Erostrine\Relations\HasManyThrough
      */
     public function hasManyThrough($related, $through, $firstKey = null, $secondKey = null, $localKey = null, $secondLocalKey = null)
     {
@@ -211,7 +211,7 @@ trait HasRelations
      * @param  string  $localKey
      * @param  string  $secondLocalKey
      * 
-     * @return \Syscodes\Components\Database\Eloquent\Relations\HasManyThrough
+     * @return \Syscodes\Components\Database\Erostrine\Relations\HasManyThrough
      */
     protected function newHasManyThrough(Builder $query, Model $farParent, Model $throughParent, $firstKey, $secondKey, $localKey, $secondLocalKey)
     {

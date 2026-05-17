@@ -151,7 +151,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * in the given items, using the callback.
      * 
      * @param  mixed  $items
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return static
      */
@@ -172,7 +172,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * are not present in the given items, using the callback.
      * 
      * @param  mixed  $items
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return static
      */
@@ -193,7 +193,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * not present in the given items, using the callback.
      * 
      * @param  mixed  $items
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return static
      */
@@ -202,7 +202,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
     /**
      * Execute a callback over each item.
      * 
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return static
      */
@@ -238,7 +238,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
     /**
      * Run a filter over each of the items.
      * 
-     * @param  \callable|null  $callback
+     * @param  callable|null  $callback
      * 
      * @return static
      */
@@ -247,7 +247,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
     /**
      * Get the first item from the collection.
      * 
-     * @param  \callable|null  $callback
+     * @param  callable|null  $callback
      * @param  mixed  $default
      * 
      * @return mixed
@@ -339,7 +339,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
     /**
      * Get the last item from the collection.
      * 
-     * @param  \callable|null  $callback
+     * @param  callable|null  $callback
      * @param  mixed|null  $default
      * 
      * @return mixed
@@ -349,7 +349,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
     /**
      * Run a map over each of the items.
      * 
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return static
      */
@@ -358,7 +358,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
     /**
      * Run an associative map over each of the items.
      * 
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return static
      */
@@ -470,7 +470,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
     /**
      * Reduce the collection to a single value.
      * 
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * @param  mixed|null  $initial
      * 
      * @return mixed
@@ -550,7 +550,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
     /**
      * Sort through each item.
      * 
-     * @param  \callable|int|null  $callback
+     * @param  callable|int|null  $callback
      * 
      * @return static
      */
@@ -587,7 +587,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
     /**
      * Sort the collection keys using a callback.
      * 
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return static
      */

@@ -25,6 +25,7 @@ namespace Syscodes\Components\Database\Erostrine\Relations;
 use Syscodes\Components\Database\Erostrine\Builder;
 use Syscodes\Components\Database\Erostrine\Collection;
 use Syscodes\Components\Database\Erostrine\Model;
+use Syscodes\Components\Support\Arr;
 
 /**
  * Relation HasOneOrMany given on the parent model.
@@ -50,7 +51,7 @@ abstract class HasOneOrMany extends Relation
      * 
      * @param  \Syscodes\Components\Database\Erostrine\Builder  $builder
      * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
-     * @param  string  $foreingnKey
+     * @param  string  $foreignKey
      * @param  string  $localKey
      * 
      * @return void
@@ -62,7 +63,7 @@ abstract class HasOneOrMany extends Relation
         $localKey
     ) {
         $this->foreignKey = $foreignKey;
-        $this->localKey   = $localKey;
+        $this->localKey = $localKey;
         
         parent::__construct($builder, $parent);
     }
@@ -171,7 +172,7 @@ abstract class HasOneOrMany extends Relation
     {
         $value = $dictionary[$key];
         
-        return $type == 'one' ? head($value, true) : $this->related->newCollection($value);
+        return $type == 'one' ? head($value) : $this->related->newCollection($value);
     }
     
     /**
@@ -185,12 +186,22 @@ abstract class HasOneOrMany extends Relation
     {
         $dictionary = [];
         
-        $foreign = $this->getPlainForeignKey();
+        $foreign = $this->getForeignKeyName();
+
+        $isAssociative = Arr::isAssoc($results->all());
         
-        foreach ($results as $result) {
-            $key = $result->{$foreign};
+        foreach ($results as $key => $value) {
+            $pairKey = $value->{$foreign};
             
-            $dictionary[$key][] = $result;
+           if ($pairKey === null) {
+                continue;
+            }
+
+            if ($isAssociative) {
+                $dictionary[$pairKey][$key] = $value;
+            } else {
+                $dictionary[$pairKey][] = $value;
+            }
         }
         
         return $dictionary;

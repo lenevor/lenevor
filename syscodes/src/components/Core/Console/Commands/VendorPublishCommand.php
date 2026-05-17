@@ -285,7 +285,6 @@ class VendorPublishCommand extends Command
      *
      * @param  string  $directory
      * @param  string  $destination
-     * @param  bool  $force
      * 
      * @return bool
      */

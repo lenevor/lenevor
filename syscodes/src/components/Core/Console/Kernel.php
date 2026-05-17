@@ -135,7 +135,7 @@ class Kernel implements KernelContract
             define('PRIME_BINARY', 'prime');
         }
 
-        $this->app    = $app;
+        $this->app = $app;
         $this->events = $events;
     }
     
@@ -351,7 +351,7 @@ class Kernel implements KernelContract
     /**
      * Shutdown the application.
      * 
-     * @param  \Syscodes\Components\Contracts\Console\Input\Input  $input
+     * @param  \Symfony\Component\Console\Input\InputInterface  $input
 	 * @param  int  $status
      * 
      * @return void
@@ -378,8 +378,8 @@ class Kernel implements KernelContract
     {
         if (is_null($this->prime)) {
             $this->prime = (new Prime($this->app, $this->events, $this->app->version()))
-                 ->resolveCommands($this->commands)
-                 ->setResolveCommandLoader();
+                ->resolveCommands($this->commands)
+                ->setResolveCommandLoader();
         }
 
         return $this->prime;
@@ -454,7 +454,7 @@ class Kernel implements KernelContract
     /**
      * Render the exception to a response.
      * 
-     * @param  \Syscodes\Contracts\Console\Output  $output 
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output 
      * @param  \Throwable  $e
      * 
      * @return void

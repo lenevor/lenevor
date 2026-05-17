@@ -52,7 +52,7 @@ interface Validator
     /**
      * An alternative more semantic shortcut to the message container.
      *
-     * @return \Syscodes\Compoenents\Support\MessageBag
+     * @return \Syscodes\Components\Support\MessageBag
      */
     public function errors();
 
@@ -116,14 +116,14 @@ interface Validator
     /**
      * Get can use humanized Keys value.
      * 
-     * @return void
+     * @return bool
      */
     public function isUsingHumanizedKey(): bool;
 
     /**
      * Get the messages for the instance.
      *
-     * @return \Syscodes\Compoenents\Support\MessageBag
+     * @return \Syscodes\Components\Support\MessageBag
      */
     public function getMessageBag();
 }

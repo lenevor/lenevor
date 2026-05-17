@@ -61,7 +61,7 @@ class ViewMakeCommand extends GeneratorCommand
      * 
      * @return string
      *
-     * @throws \Syscodes\Components\Contracts\Filesystem\FileNotFoundException
+     * @throws \Syscodes\Components\Filesystem\Exceptions\FileNotFoundException
      */
     protected function buildClass($name): string
     {

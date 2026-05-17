@@ -166,7 +166,7 @@ interface Repository
     /**
      * Get the cache store implementation.
      * 
-     * @return \Syscodes\Contracts\Cache\Store
+     * @return \Syscodes\Components\Contracts\Cache\Store
      */
     public function getStore();
 

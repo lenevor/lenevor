@@ -43,7 +43,7 @@ interface QueueingFactory extends Factory
      * @param  mixed  $default
      * @param  string|null  $path
      * 
-     * @return \Syscodes\Components\Http\Cookie|null
+     * @return \Symfony\Component\HttpFoundation\Cookie|null
      */
     public function queued(string $key, mixed $default = null, ?string $path = null);
 
