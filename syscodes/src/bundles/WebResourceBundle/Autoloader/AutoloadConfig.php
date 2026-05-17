@@ -89,14 +89,14 @@ class AutoloadConfig
 	protected $corePsr4 = __DIR__.DIRECTORY_SEPARATOR.'Register'.DIRECTORY_SEPARATOR.'autoloadPsr4.php';
 
 	/**
-	 * Constructor. Create a new Autoload instance.
+	 * Constructor. Create a new AutoloadConfig instance.
 	 * 
 	 * @return void
 	 */
 	public function __construct()
 	{
-		$this->psr4     = array_merge(require $this->corePsr4, $this->psr4);
+		$this->psr4 = array_merge(require $this->corePsr4, $this->psr4);
 		$this->classmap = array_merge(require $this->coreClassmap, $this->classmap);
-		$this->files    = array_merge(require $this->coreFiles, $this->files);
+		$this->files = array_merge(require $this->coreFiles, $this->files);
 	}
 }

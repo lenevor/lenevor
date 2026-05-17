@@ -84,7 +84,7 @@ class Autoloader
     {
         $this->prefixes = [];
         $this->classmap = [];
-        $this->files    = [];
+        $this->files = [];
 
         if (empty($config->psr4) && empty($config->classmap) && empty($config->files)) {
             throw new InvalidArgumentException(
@@ -331,8 +331,8 @@ class Autoloader
         }
 
         $composer = include COMPOSER_PATH;        
-        $paths    = $composer->getPrefixesPsr4();
-        $classes  = $composer->getClassMap();
+        $paths = $composer->getPrefixesPsr4();
+        $classes = $composer->getClassMap();
 
         unset($composer);
         
