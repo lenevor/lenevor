@@ -33,7 +33,7 @@ final class EightBitContentEncoder
      * @param  mixed  $stream
      * @param  int  $maxLineLength
      * 
-     * @return \iterable 
+     * @return iterable 
      */
     public function encodeByteStream($stream, int $maxLineLength = 0): iterable
     {

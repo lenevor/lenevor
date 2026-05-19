@@ -47,7 +47,7 @@ final class Dotenv
     /**
      * The file store instance.
      * 
-     * @var \Syscodes\Components\Dotenv\Repository\FileStore
+     * @var \Syscodes\Components\Dotenv\Store\FileStore
      */
     protected $store;
 
@@ -72,11 +72,11 @@ final class Dotenv
      * Builds the path to our file.
      * 
      * @param  \Syscodes\Components\Dotenv\Repository\RepositoryCreator  $repository
-     * @param  string|string[]  $path
+     * @param  string|string[]  $paths
      * @param  string|string[]  $names
      * @param  bool  $modeEnabled
      * 
-     * @return \Syscodes\Components\Dotenv\Dotenv
+     * @return static
      */
     public static function create($repository, $paths, $names = null, bool $modeEnabled = true): static
     {

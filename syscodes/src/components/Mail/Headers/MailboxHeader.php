@@ -99,7 +99,7 @@ class MailboxHeader extends BaseHeader
     /**
      * Get the body as string.
      * 
-     * @return void
+     * @return string
      */
     public function getBodyAsString(): string
     {

@@ -33,7 +33,7 @@ abstract class Transpiler
     /**
      * The filesystem instance.
      * 
-     * @var \Syscodes\Components\Filesystem\Filesytem
+     * @var \Syscodes\Components\Filesystem\Filesystem
      */
     protected $files;
 
@@ -91,8 +91,7 @@ abstract class Transpiler
             return true;
         }
 
-        return $this->files->lastModified($path) >=
-               $this->files->lastModified($compiled);
+        return $this->files->lastModified($path) >= $this->files->lastModified($compiled);
     }
 
     /**

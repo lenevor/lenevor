@@ -67,7 +67,7 @@ class Filesystem
 	 * 
 	 * @return array
 	 * 
-	 * @throws \Syscodes\Components\Contracts\Filesystem\FileNotFoundException
+	 * @throws \Syscodes\Components\Filesystem\Exceptions\FileNotFoundException
 	 */
 	public function json(string $path, int $flags = 0, bool $lock = false)
 	{
@@ -184,7 +184,7 @@ class Filesystem
 	 * 
 	 * @return mixed
 	 * 
-	 * @throws \Syscodes\Filesystem\Exceptions\FileNotFoundException
+	 * @throws \Syscodes\Components\Filesystem\Exceptions\FileNotFoundException
 	 */
 	public function getRequire(string $path, array $data = [])
 	{
@@ -210,7 +210,7 @@ class Filesystem
 	 * 
 	 * @return mixed
 	 * 
-	 * @throws \Syscodes\Filesystem\Exceptions\FileNotFoundException
+	 * @throws \Syscodes\Components\Filesystem\Exceptions\FileNotFoundException
 	 */
 	public function getRequireOnce(string $path, array $data = [])
 	{

@@ -68,15 +68,15 @@ final class StoreBuilder
      */
     public function __construct(array $paths = [], array $names = [], bool $modeEnabled = false)
     {
-        $this->paths       = $paths;
-        $this->names       = $names;
+        $this->paths = $paths;
+        $this->names = $names;
         $this->modeEnabled = $modeEnabled;
     }
     
     /**
      * Create a new file store instance with no names.
      * 
-     * @return \Syscodes\Components\Dotenv\Store\StoreBuilder
+     * @return static
      */
     public static function createWithNoNames()
     {
@@ -86,7 +86,7 @@ final class StoreBuilder
     /**
      * Create a new file store instance with the default name.
      * 
-     * @return \Syscodes\Components\Dotenv\Store\StoreBuilder
+     * @return static
      */
     public static function createWithDefaultName(): static
     {
@@ -98,7 +98,7 @@ final class StoreBuilder
      * 
      * @param  string  $path
      * 
-     * @return \Syscodes\Components\Dotenv\Store\StoreBuilder
+     * @return static
      */
     public function addPath(string $path): static
     {
@@ -110,7 +110,7 @@ final class StoreBuilder
      * 
      * @param  string  $name
      * 
-     * @return \Syscodes\Components\Dotenv\Store\StoreBuilder
+     * @return static
      */
     public function addName(string $name): static
     {
@@ -120,7 +120,7 @@ final class StoreBuilder
     /**
      * Creates a store builder with mode enabled break.
      * 
-     * @return \Syscodes\Components\Dotenv\Store\StoreBuilder
+     * @return static
      */
     public function modeEnabled(): static
     {

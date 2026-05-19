@@ -75,6 +75,8 @@ trait ManagesComponents
     /**
      * Get the data for the given component.
      * 
+     * @param  array  $component
+     * 
      * @return array
      */
     protected function getComponentData($component)

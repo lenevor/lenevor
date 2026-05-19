@@ -79,7 +79,7 @@ class SendmailTransport extends AbstractTransport
             $this->command = $command;
         }
         
-        $this->stream = new AbstractStream();
+        $this->stream = new AbstractStream;
         
         if (str_contains($this->command, ' -bs')) {
             $this->stream->setCommand($this->command);

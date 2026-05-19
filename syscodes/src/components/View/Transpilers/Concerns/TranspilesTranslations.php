@@ -30,7 +30,7 @@ trait TranspilesTranslations
     /**
      * Transpile the lang statements into valid PHP.
      * 
-     * @param  string  $expresion
+     * @param  string  $expression
      * 
      * @return string
      */

@@ -27,7 +27,7 @@ namespace Syscodes\Components\Support\Facades;
  *
  * @method static 
  * 
- * @see \Syscodes\Components\Database\Connection
+ * @see \Syscodes\Components\Database\Connections\Connection
  * @see \Syscodes\Components\Database\DatabaseManager
  */
 class DB extends Facade

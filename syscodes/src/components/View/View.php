@@ -28,7 +28,7 @@ use InvalidArgumentException;
 use Stringable;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Support\Webable;
-use Syscodes\Components\Contracts\Support\MessageBag;
+use Syscodes\Components\Support\MessageBag;
 use Syscodes\Components\Contracts\Support\MessageProvider;
 use Syscodes\Components\Contracts\Support\Renderable;
 use Syscodes\Components\Contracts\View\Engine;
@@ -113,7 +113,7 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
 	 *
 	 * @example View::render();
 	 *
-	 * @param  \Callable|null  $callback  
+	 * @param  callable|null  $callback  
 	 * 
 	 * @return array|string
 	 * 
@@ -139,7 +139,7 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
 	/**
 	 * Get the contents of the view instance.
 	 * 
-	 * @return void
+	 * @return string
 	 */
 	protected function renderContents()
 	{

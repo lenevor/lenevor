@@ -70,11 +70,11 @@ class EsmtpTransport extends SmtpTransport
     public function __construct(
         string $host = 'localhost',
         int $port = 0,
-        bool $tls = null,
-        Dispatcher $dispatcher = null,
-        LoggerInterface $logger = null,
-        AbstractStream $stream = null,
-        array $authenticators = null
+        ?bool $tls = null,
+        ?Dispatcher $dispatcher = null,
+        ?LoggerInterface $logger = null,
+        ?AbstractStream $stream = null,
+        ?array $authenticators = null
     ) {
         parent::__construct($stream, $dispatcher, $logger);
         
@@ -194,12 +194,12 @@ class EsmtpTransport extends SmtpTransport
      * 
      * @return string
      * 
-     * @throws TransportException
+     * @throws \Syscodes\Components\Mail\Exceptions\TransportException
      */
     public function executeCommand(string $command, array $codes): string
     {
         return [250] === $codes && Str::startsWith($command, 'HELO ') 
-                                            ? parent::executeCommand(sprintf("HELO %s\r\n", $this->getLocalDomain()), [250]) 
-                                            : parent::executeCommand($command, $codes);
+            ? parent::executeCommand(sprintf("HELO %s\r\n", $this->getLocalDomain()), [250]) 
+            : parent::executeCommand($command, $codes);
     }
 }

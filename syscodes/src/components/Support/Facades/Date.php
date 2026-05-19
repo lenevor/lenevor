@@ -27,24 +27,24 @@ use Syscodes\Components\Support\Chronos;
 /**
  * Initialize the Date class facade.
  *
- * @method static \Syscodes\Components\Support\Chronos\Time now(string $timezone = null, string $locale = null)
- * @method static \Syscodes\Components\Support\Chronos\Time parse(string $time, string $timezone = null, string $locale = null)
- * @method static \Syscodes\Components\Support\Chronos\Time today(string $timezone = null, string $locale = null)
- * @method static \Syscodes\Components\Support\Chronos\Time yesterday(string $timezone = null, string $locale = null)
- * @method static \Syscodes\Components\Support\Chronos\Time tomorrow(string $timezone = null, string $locale = null)
- * @method static \Syscodes\Components\Support\Chronos\Time createFromDate(int $year = null, int $month = null, int $day = null, string $timezone = null, string $locale = null
- * @method static \Syscodes\Components\Support\Chronos\Time createFromTime(int $hour = null, int $minutes = null, int $seconds = null, string $timezone = null, string $locale = null)
- * @method static \Syscodes\Components\Support\Chronos\Time create(int $year = null, int $month = null, int $day = null, int $hour = null, int $minutes = null, int $seconds = null, string $timezone = null, string $locale = null)
- * @method static \Syscodes\Components\Support\Chronos\Time createFromFormat(string $format, string $datetime, \DateTimeZone|string $timezone = null)
- * @method static \Syscodes\Components\Support\Chronos\Time createFromTimestamp(int $timestamp, string $timezone = null, string $locale = null)
- * @method static \Syscodes\Components\Support\Chronos\Time instance(\DateTime $datetime, string $locale = null)
- * @method static setTestNow(\Syscodes\Components\Support\Chronos\Time|string $datetime = null, string $timezone = null, string $locale = null)
+ * @method static \Syscodes\Components\Support\Chronos\Chronos now(string $timezone = null, string $locale = null)
+ * @method static \Syscodes\Components\Support\Chronos\Chronos parse(string $time, string $timezone = null, string $locale = null)
+ * @method static \Syscodes\Components\Support\Chronos\Chronos today(string $timezone = null, string $locale = null)
+ * @method static \Syscodes\Components\Support\Chronos\Chronos yesterday(string $timezone = null, string $locale = null)
+ * @method static \Syscodes\Components\Support\Chronos\Chronos tomorrow(string $timezone = null, string $locale = null)
+ * @method static \Syscodes\Components\Support\Chronos\Chronos createFromDate(int $year = null, int $month = null, int $day = null, string $timezone = null, string $locale = null)
+ * @method static \Syscodes\Components\Support\Chronos\Chronos createFromTime(int $hour = null, int $minutes = null, int $seconds = null, string $timezone = null, string $locale = null)
+ * @method static \Syscodes\Components\Support\Chronos\Chronos create(int $year = null, int $month = null, int $day = null, int $hour = null, int $minutes = null, int $seconds = null, string $timezone = null, string $locale = null)
+ * @method static \Syscodes\Components\Support\Chronos\Chronos createFromFormat(string $format, string $datetime, \DateTimeZone|string $timezone = null)
+ * @method static \Syscodes\Components\Support\Chronos\Chronos createFromTimestamp(int $timestamp, string $timezone = null, string $locale = null)
+ * @method static \Syscodes\Components\Support\Chronos\Chronos instance(\DateTime $datetime, string $locale = null)
+ * @method static setTestNow(\Syscodes\Components\Support\Chronos\Chronos|string $datetime = null, string $timezone = null, string $locale = null)
  * @method static bool hasTestNow()
  * @method static void difference(string $time, string $timezone = null)
- * @method static bool equals(\Syscodes\Components\Support\Chronos\Time|\DateTime|string $time, \DateTimeZone|string string $timezone = null)
- * @method static bool isBefore(\DateTime|string $time, \DatetimeZone|string string $timezone = null)
- * @method static bool isAfter(\DateTime|string $time, \DatetimeZone|string string $timezone = null)
- * @method static bool sameAs(\Syscodes\Components\Support\Chronos\Time\DateTime|string $time, \DatetimeZone|string string $timezone = null)
+ * @method static bool equals(\Syscodes\Components\Support\Chronos\Chronos|\DateTime|string $time, \DateTimeZone|string $timezone = null)
+ * @method static bool isBefore(\DateTime|string $time, \DatetimeZone|string $timezone = null)
+ * @method static bool isAfter(\DateTime|string $time, \DatetimeZone|string $timezone = null)
+ * @method static bool sameAs(\Syscodes\Components\Support\Chronos\Chronos|\DateTime|string $time, \DatetimeZone|string $timezone = null)
  * @method static float|int getYears(bool $raw = false)
  * @method static float|int getMonths(bool $raw = false)
  * @method static float|int getWeeks(bool $raw = false)
@@ -66,12 +66,12 @@ use Syscodes\Components\Support\Chronos;
  * @method static int getAge()
  * @method static bool getDst()
  * @method static string getQuater()
- * @method static \Syscodes\Components\Support\Chronos\Time setYear(string $value)
- * @method static \Syscodes\Components\Support\Chronos\Time setMonth(string $value)
- * @method static \Syscodes\Components\Support\Chronos\Time setDay(string $value)
- * @method static \Syscodes\Components\Support\Chronos\Time setHour(string $value)
- * @method static \Syscodes\Components\Support\Chronos\Time setMinute(string $value)
- * @method static \Syscodes\Components\Support\Chronos\Time setSecond(string $value)
+ * @method static \Syscodes\Components\Support\Chronos\Chronos setYear(string $value)
+ * @method static \Syscodes\Components\Support\Chronos\Chronos setMonth(string $value)
+ * @method static \Syscodes\Components\Support\Chronos\Chronos setDay(string $value)
+ * @method static \Syscodes\Components\Support\Chronos\Chronos setHour(string $value)
+ * @method static \Syscodes\Components\Support\Chronos\Chronos setMinute(string $value)
+ * @method static \Syscodes\Components\Support\Chronos\Chronos setSecond(string $value)
  * @method static int addHours(int $hours)
  * @method static int addMinutes(int $minutes)
  * @method static int addSeconds(int $seconds)
@@ -86,7 +86,7 @@ use Syscodes\Components\Support\Chronos;
  * @method static int subDays(int $days)
  * @method static \IntlCalendar getCalendar()
  * 
- * @see \Syscodes\Components\Support\time
+ * @see \Syscodes\Components\Support\Chronos
  */
 class Date extends Facade
 {

@@ -33,7 +33,7 @@ trait InteractsWithFlashData
      * Retrieve an old input item.
      * 
      * @param  string|null  $key
-     * @param  \Syscodes\Components\Database\Eloquent\Model|string|array|null  $default
+     * @param  \Syscodes\Components\Database\Erostrine\Model|string|array|null  $default
      * 
      * @return string|array|null
      */

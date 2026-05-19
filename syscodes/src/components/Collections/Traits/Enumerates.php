@@ -348,7 +348,7 @@ trait Enumerates
     /**
      * Get an operator checker callback.
      * 
-     * @param  \callable|string  $key
+     * @param  callable|string  $key
      * @param  string|null  $operator
      * @param  mixed  $value
      * 
@@ -559,7 +559,7 @@ trait Enumerates
      * 
      * @param  bool  $escape
      * 
-     * @return stati
+     * @return static
      */
     public function escapeWhenLoadingToString($escape = true): static
     {

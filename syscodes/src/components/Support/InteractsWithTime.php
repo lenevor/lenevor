@@ -49,7 +49,7 @@ trait InteractsWithTime
     /**
      * Get the "available at" UNIX timestamp.
      * 
-     * @param  DataTime|DateInterval|int  $delay  
+     * @param  DateTime|DateInterval|int  $delay  
      * 
      * @return int
      */

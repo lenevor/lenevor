@@ -46,7 +46,7 @@ class Message extends RawMessage
     /**
      * Constructor. Create a new Message class instance.
      * 
-     * @param  \Syscodes\Components\Mail\Headers|null  $headers
+     * @param  \Syscodes\Components\Mail\Headers\Headers|null  $headers
      * @param  string|null  $body
      * 
      * @return void
@@ -116,7 +116,7 @@ class Message extends RawMessage
     /**
      * Constructs the object.
      * 
-     * @param  string  $serialized
+     * @param  array  $serialized
      * 
      * @return void
      */

@@ -25,7 +25,7 @@ namespace Syscodes\Components\Log;
 use Psr\Log\LoggerInterface;
 use Syscodes\Components\Contracts\Log\Handler;
 use Syscodes\Components\Log\Exceptions\LogException;
-use Syscodes\Components\Log\Handlers\FileLogger;
+use Syscodes\Components\Log\Handlers\Single;
 
 /**
  * The Lenevor Logger of errors.
@@ -131,7 +131,7 @@ class LogManager implements LoggerInterface
      */
     protected function configurationLogger(string $name): array
     {
-        return $this->app['config']["logger.handlers.{$name}"];
+        return $this->app['config']["logging.channels.{$name}"];
     }
 
     /**
@@ -142,9 +142,9 @@ class LogManager implements LoggerInterface
      * 
      * @return \Psr\Log\LoggerInterface
      */
-    protected function createFileDriver(array $config, $app)
+    protected function createSingleDriver(array $config, $app)
     {
-        return $this->getLogger(new FileLogger($config, $app));
+        return $this->getLogger(new Single($config, $app));
     }
 
     /**
@@ -166,7 +166,7 @@ class LogManager implements LoggerInterface
      */
     public function getDefaultDriver(): string
     {
-        return $this->app['config']['logger.default'];
+        return $this->app['config']['logging.default'];
     }
     
     /**
@@ -178,7 +178,7 @@ class LogManager implements LoggerInterface
      */
     public function setDefaultDriver(string $name)
     {
-        $this->app['config']['logger.default'] = $name;
+        $this->app['config']['logging.default'] = $name;
     }
 
     /**

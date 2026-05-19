@@ -32,7 +32,7 @@ class SentMessageToMail
     /**
      * Constructor. Create a new SentMessageToMail class instance.
      * 
-     * @param  SentMessage  $message
+     * @param  BaseSentMessage  $message
      * 
      * @return void
      */

@@ -200,7 +200,7 @@ class Finder implements IteratorAggregate, Countable
     /**
      * Adds rules that filenames must not match.
      * 
-     * @param  string|string[]
+     * @param  string|string[]  $patterns
      * 
      * @return static
      */

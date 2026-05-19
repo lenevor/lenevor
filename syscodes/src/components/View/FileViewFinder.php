@@ -278,7 +278,7 @@ class FileViewFinder implements ViewFinder
     /**
      * Get the filesystem instance.
      *
-     * @return \Illuminate\Filesystem\Filesystem
+     * @return \Syscodes\Components\Filesystem\Filesystem
      */
     public function getFilesystem()
     {
@@ -289,9 +289,10 @@ class FileViewFinder implements ViewFinder
      * Set the active view paths.
      *
      * @param  string[]  $paths
-     * @return $this
+     * 
+     * @return static
      */
-    public function setPaths($paths)
+    public function setPaths($paths): static
     {
         $this->paths = $paths;
 

@@ -42,7 +42,7 @@ class HttpResponseException extends RuntimeException
     /**
      * Constructor. The HttpResponseException class instance.
      * 
-     * @param  \Syscodes\Components\Http\Response
+     * @param  \Syscodes\Components\Http\Response  $response
      * 
      * @return void
      */

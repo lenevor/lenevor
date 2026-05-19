@@ -31,7 +31,7 @@ class UnexpectedTypeException extends FileException
      * Constructor. Initialize UnexpectedTypeException class.
      * 
      * @param  string  $value
-     * @param  bool  $type
+     * @param  string  $type
      * 
      * @return void
      */

@@ -28,6 +28,7 @@ use JsonSerializable;
 use Stringable as BaseStringable;
 use Syscodes\Components\Support\Facades\Date;
 use Syscodes\Components\Support\Traits\Macroable;
+use InvalidArgumentException;
 
 /**
  * Allows manipulate a string value.
@@ -93,8 +94,6 @@ class Stringable implements JsonSerializable, ArrayAccess, BaseStringable
 
     /**
      * Transliterate a UTF-8 value to ASCII.
-     *
-     * @param  string  $language
      * 
      * @return static
      */
@@ -455,7 +454,7 @@ class Stringable implements JsonSerializable, ArrayAccess, BaseStringable
      *
      * @param  string  $pattern
      * 
-     * @return \Syscodes\Support\Collection
+     * @return \Syscodes\Components\Support\Collection
      */
     public function matchAll($pattern): Collection
     {
@@ -1064,7 +1063,7 @@ class Stringable implements JsonSerializable, ArrayAccess, BaseStringable
      * 
      * @return \Syscodes\Components\Support\Chronos
      *
-     * @throws \InvalidException
+     * @throws InvalidArgumentException
      */
     public function toDate($format = null, $tz = null)
     {

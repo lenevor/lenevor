@@ -39,7 +39,7 @@ class RequestGuard implements Guard
     /**
      * The guard callback.
      * 
-     * @var \callable
+     * @var callable
      */
     protected $callback;
 
@@ -53,7 +53,7 @@ class RequestGuard implements Guard
     /**
      * Constructor. The create new RequestGuard class instance.
      * 
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * @param  \Syscodes\Components\Http\Request  $request
      * @param  \Syscodes\Components\Contracts\Auth\UserProvider|null  $provider
      * 
@@ -62,7 +62,7 @@ class RequestGuard implements Guard
     public function __construct(callable $callback, Request $request, ?UserProvider $provider = null)
     {
         $this->callback = $callback;
-        $this->request  = $request;
+        $this->request = $request;
         $this->provider = $provider; 
     }
     

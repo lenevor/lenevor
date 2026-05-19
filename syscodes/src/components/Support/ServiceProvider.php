@@ -69,7 +69,7 @@ abstract class ServiceProvider
     /**
      * Constructor. Create a new service provider instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Core\Applicacion  $app
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app
      * 
      * @return void
      */

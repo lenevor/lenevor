@@ -40,14 +40,14 @@ class Environment
     /**
      * The environment repository instance.
      * 
-     * @var Syscodes\Components\Dotenv\Repository\RepositoryCreator|null
+     * @var \Syscodes\Components\Dotenv\Repository\RepositoryCreator|null
      */
     protected static $repository;
 
     /**
      * Get the environment repository instance.
      * 
-     * @return  Syscodes\Components\Dotenv\Repository\RepositoryCreator
+     * @return  \Syscodes\Components\Dotenv\Repository\RepositoryCreator
      */
     public static function getRepositoryCreator()
     {

@@ -35,7 +35,7 @@ final class QpContentEncoder
      * @param  mixed  $stream
      * @param  int  $maxLineLength
      * 
-     * @return \iterable 
+     * @return iterable 
      */
     public function encodeByteStream($stream, int $maxLineLength = 0): iterable
     {
@@ -43,7 +43,7 @@ final class QpContentEncoder
             throw new TypeError(sprintf('Method "%s" takes a stream as a first argument', __METHOD__));
         }
         
-        yield $this->encodeString(stream_get_contents($stream), 'utf-8', 0, $maxLineLength);
+        yield $this->encodeString(stream_get_contents($stream), 0, $maxLineLength);
     }
     
     /**

@@ -26,6 +26,7 @@ use Locale;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Syscodes\Components\Console\Application;
 use Syscodes\Components\Console\Command;
+
 /**
  * A console command to display information about of system.
  */
@@ -54,11 +55,11 @@ class AboutCommand extends Command
     protected function define()
     {
         $this->setHelp(<<<'EOT'
-             The <comment>%command-name%</> command displays information about the current Lenevor project.
-            
-             The <comment>PHP</> section displays important configuration that could affect your application. The values might
-             be different between web and CLI.
-             EOT
+            The <comment>%command-name%</> command displays information about the current Lenevor project.
+        
+            The <comment>PHP</> section displays important configuration that could affect your application. The values might
+            be different between web and CLI.
+            EOT
         );
     }
 

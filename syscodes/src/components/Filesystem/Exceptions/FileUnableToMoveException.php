@@ -30,13 +30,13 @@ class FileUnableToMoveException extends FileException
     /**
      * Constructor. Initialize FileUnableToMoveException class.
      * 
-     * @param  string  $path  
-     * @param  string  $to  
-     * @param  string  $error  
+     * @param  string|null  $from  
+     * @param  string|null  $to  
+     * @param  string|null  $error  
      * 
      * @return void
      */
-    public function __construct(string $from = null, string $to = null, string $error = null)
+    public function __construct(?string $from = null, ?string $to = null, ?string $error = null)
     {
         parent::__construct(__('file.cannotMove', [$from, $to, $error]));
     }

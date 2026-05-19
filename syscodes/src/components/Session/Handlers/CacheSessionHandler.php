@@ -54,7 +54,7 @@ class CacheSessionHandler implements SessionHandlerInterface
      */
     public function __construct(Store $cache, $minutes)
     {
-        $this->cache   = $cache;
+        $this->cache = $cache;
         $this->minutes = $minutes;
     } 
     
@@ -90,7 +90,7 @@ class CacheSessionHandler implements SessionHandlerInterface
      */
     public function read($sessionId): string
     {
-        return $this->cache->get($sessionId, '');
+        return $this->cache->get($sessionId);
     }
     
     /**

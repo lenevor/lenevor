@@ -262,7 +262,7 @@ class Headers implements Header
      * Adds the date header.
      * 
      * @param  string  $name
-     * @param  \DateTimeInterface  $dataTime
+     * @param  \DateTimeInterface  $dateTime
      * 
      * @return static
      */
@@ -301,7 +301,7 @@ class Headers implements Header
             $headerClass = $headerClass[0];
         }
         
-        $parts  = explode('\\', $headerClass);
+        $parts = explode('\\', $headerClass);
         $method = 'add'.ucfirst(array_pop($parts));
         
         if ('addFileHeader' === $method) {
@@ -352,7 +352,7 @@ class Headers implements Header
      * 
      * @param  string|null  $name
      * 
-     * @return \iterable
+     * @return iterable
      */
     public function all(?string $name = null): iterable
     {

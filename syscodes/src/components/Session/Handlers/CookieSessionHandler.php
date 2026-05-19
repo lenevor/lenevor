@@ -37,7 +37,7 @@ class CookieSessionHandler implements SessionHandlerInterface
     /**
      * The cookie manager instance.
      * 
-     * @var \Syscodes\Components\Contracts\Auth\QueueingFactory
+     * @var \Syscodes\Components\Contracts\Cookie\QueueingFactory
      */
     protected $cookie;
     

@@ -667,7 +667,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
     /**
      * Set the paginator's underlying collection.
      * 
-     * @param  \Syscodes\Components\Support\Collection
+     * @param  \Syscodes\Components\Support\Collection  $collection
      * 
      * @return static
      */
@@ -746,7 +746,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
     /**
      * Indicate that the paginator's string representation should be escaped when __toString is invoked.
      *
-     * @param  bool
+     * @param  bool  $escape
      * 
      * @return static
      */

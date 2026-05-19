@@ -238,8 +238,8 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
         $shouldReplace = [];
 
         foreach ($replace as $key => $value) {
-            $shouldReplace[':'.$key]               = $value;
-            $shouldReplace[':'.Str::upper($key)]   = Str::upper($value); 
+            $shouldReplace[':'.$key] = $value;
+            $shouldReplace[':'.Str::upper($key)] = Str::upper($value); 
             $shouldReplace[':'.Str::ucfirst($key)] = Str::ucfirst($value);
         }
 
@@ -341,7 +341,7 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
     /**
      * Set the default locale.
      * 
-     * @param  string  $locale
+     * @param  string  $fallback
      * 
      * @return void
      */
@@ -351,9 +351,9 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
     }
 
     /**
-     * Set the loaded translation groups.
+     * Set the parsed translation groups.
      * 
-     * @param  array  $loaded
+     * @param  array  $parsed
      * 
      * @return void
      */

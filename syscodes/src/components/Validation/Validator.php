@@ -158,7 +158,7 @@ class Validator implements ValidationContract
     /**
      * Get the message container for the validator.
      * 
-     * @return \Syscodes\Compoenents\Support\MessageBag
+     * @return \Syscodes\Components\Support\MessageBag
      */
     public function messages()
     {
@@ -172,7 +172,7 @@ class Validator implements ValidationContract
     /**
      * An alternative more semantic shortcut to the message container.
      * 
-     * @return \Syscodes\Compoenents\Support\MessageBag
+     * @return \Syscodes\Components\Support\MessageBag
      */
     public function errors()
     {
@@ -182,7 +182,7 @@ class Validator implements ValidationContract
     /**
      * Get the messages for the instance.
      *
-     * @return \Syscodes\Compoenents\Support\MessageBag
+     * @return \Syscodes\Components\Support\MessageBag
      */
     public function getMessageBag()
     {
@@ -321,7 +321,7 @@ class Validator implements ValidationContract
     /**
      * Get can use humanized Keys value.
      * 
-     * @return void
+     * @return bool
      */
     public function isUsingHumanizedKey(): bool
     {
@@ -341,9 +341,9 @@ class Validator implements ValidationContract
      */
     public function __invoke(string $rule): Rules
     {
-        $args      = func_get_args();
-        $rule      = array_shift($args);
-        $params    = $args;
+        $args = func_get_args();
+        $rule = array_shift($args);
+        $params = $args;
         $validator = $this->getValidator($rule);
         
         if ( ! $validator) {

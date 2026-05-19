@@ -30,7 +30,6 @@ use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\Mail\Exceptions\TransportException;
 use Syscodes\Components\Mail\Helpers\BaseSentMessage;
 use Syscodes\Components\Mail\Helpers\Envelope;
-use Syscodes\Components\Mail\Helpers\SentMessage;
 use Syscodes\Components\Mail\Mailables\RawMessage;
 use Syscodes\Components\Mail\Transport\AbstractTransport;
 
@@ -145,7 +144,7 @@ class SmtpTransport extends AbstractTransport
      * @param  RawMessage  $message
      * @param  Envelope|null  $envelope
      * 
-     * @return SentMessage|null
+     * @return BaseSentMessage|null
      */
     public function send(RawMessage $message, ?Envelope $envelope = null): ?BaseSentMessage
     {
@@ -169,7 +168,7 @@ class SmtpTransport extends AbstractTransport
     /**
      * Do send to mail.
      * 
-     * @param  SentMessage  $message
+     * @param  BaseSentMessage  $message
      * 
      * @return void
      */
@@ -334,7 +333,7 @@ class SmtpTransport extends AbstractTransport
         $response = '';
         
         do {
-            $line      = $this->stream->readLine();
+            $line = $this->stream->readLine();
             $response .= $line;
         } while ($line && isset($line[3]) && ' ' !== $line[3]);
         

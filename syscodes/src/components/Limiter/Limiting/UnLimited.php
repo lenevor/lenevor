@@ -29,6 +29,8 @@ class Unlimited extends GlobalLimit
 {
     /**
      * Constructor. Create a new limit class instance.
+     * 
+     * @return void
      */
     public function __construct()
     {

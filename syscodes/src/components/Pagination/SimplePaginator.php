@@ -41,7 +41,7 @@ class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, 
      * 
      * @return bool
      */
-    protected $hasMore;
+    protected bool $hasMore;
 
     /**
      * Constructor. Create a new Paginator instance.
@@ -173,7 +173,7 @@ class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, 
     {
         return [
             'per_page' => $this->perPage(),
-            'current_page'  => $this->currentPage(),
+            'current_page' => $this->currentPage(),
             'next_page_url' => $this->nextPageUrl(),
             'prev_page_url' => $this->previousPageUrl(),
             'from' => $this->firstItem(),

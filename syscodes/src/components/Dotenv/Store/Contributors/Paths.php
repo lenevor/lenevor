@@ -30,8 +30,8 @@ final class Paths
     /**
      * Returns the full path to the file.
      * 
-     * @param  string[]  $path
-     * @param  string[]  $file
+     * @param  string[]  $paths
+     * @param  string[]  $names
      * 
      * @return string[]
      */

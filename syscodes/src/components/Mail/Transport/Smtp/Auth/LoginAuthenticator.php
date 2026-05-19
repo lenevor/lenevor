@@ -32,7 +32,7 @@ class LoginAuthenticator implements Authenticator
     /**
      * The authenticate of the user.
      * 
-     * @param  EsmpTransport  $client
+     * @param  EsmtpTransport  $client
      * 
      * @return void
      */

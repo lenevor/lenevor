@@ -270,7 +270,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * 
      * @param  string  $contents
      * 
-     * @return \Syscodes\Components\Collections\Collection
+     * @return \Syscodes\Components\Support\Collection
      */
     protected function getCollectionPHPTokens($contents)
     {
@@ -338,7 +338,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * Register an "if" statement directive.
      * 
      * @param  string  $name
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
      * @return void
      */
@@ -418,9 +418,9 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * Register a callback for custom directives.
      * 
      * @param  string  $name
-     * @param  \callable  $callback
+     * @param  callable  $callback
      * 
-     * @param  void
+     * @return  void
      * 
      * @throws \InvalidArgumentException
      */
@@ -458,7 +458,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     /**
      * Register a custom transpiler the Plaze engine.
      * 
-     * @param  \Callable  $extend
+     * @param  callable  $extend
      * 
      * @return void
      */

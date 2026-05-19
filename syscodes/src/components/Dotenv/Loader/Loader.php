@@ -32,14 +32,14 @@ final class Loader
     /**
      * The Repository creator instance.
      * 
-     * @var \Syscodes\Dotenv\Repository\RepositoryCreator
+     * @var \Syscodes\Components\Dotenv\Repository\RepositoryCreator
      */
     protected $repository;
 
     /**
      * Constructor. Create a new Loader instance.
      * 
-     * @param  \Syscodes\Dotenv\Repository\RepositoryCreator  $repository
+     * @param  \Syscodes\Components\Dotenv\Repository\RepositoryCreator  $repository
      * 
      * @return void 
      */

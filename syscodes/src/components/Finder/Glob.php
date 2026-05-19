@@ -32,7 +32,7 @@ class Glob
      * 
      * @param  string  $glob
      * @param  bool  $strictLeadingDot
-     * @param  bool  $strictWilcardSlash
+     * @param  bool  $strictWildcardSlash
      * @param  string  $delimiter
      * 
      * @return string
