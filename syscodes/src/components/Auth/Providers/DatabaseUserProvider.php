@@ -68,8 +68,8 @@ class DatabaseUserProvider implements UserProvider
      */
     public function __construct(ConnectionInterface $connection, HasherContract $hasher, string $table)
     {
-        $this->table      = $table;
-        $this->hasher     = $hasher;
+        $this->table = $table;
+        $this->hasher = $hasher;
         $this->connection = $connection;
     }
 
@@ -102,8 +102,8 @@ class DatabaseUserProvider implements UserProvider
         );
 
         return $user && $user->getRememberToken() && hash_equals($user->getRememberToken(), $token)
-                    ? $user
-                    : null;
+            ? $user
+            : null;
     }
     
     /**
@@ -117,8 +117,8 @@ class DatabaseUserProvider implements UserProvider
     public function updateRememberToken(UserContract $user, string $token): void
     {
         $this->connection->table($this->table)
-             ->where($user->getAuthIdentifierName(), $user->getAuthIdentifier())
-             ->update([$user->getRememberTokenName() => $token]);
+            ->where($user->getAuthIdentifierName(), $user->getAuthIdentifier())
+            ->update([$user->getRememberTokenName() => $token]);
     }
     
     /**

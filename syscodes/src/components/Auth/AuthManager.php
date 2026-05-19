@@ -157,7 +157,7 @@ class AuthManager implements Factory
      * @param  string  $name
      * @param  array  $config
      * 
-     * @return \Syscodes\Components\Auth\SessionGuard
+     * @return \Syscodes\Components\Auth\Guards\SessionGuard
      */
     public function createSessionDriver($name, $config)
     {
@@ -198,12 +198,12 @@ class AuthManager implements Factory
     public function createTokenDriver($name, $config)
     {
         $guard = new TokenGuard(
-                        $this->createUserProvider($config['provider'] ?? null),
-                        $this->app['request'],
-                        $config['input_key'] ?? 'api_token',
-                        $config['storage_key'] ?? 'api_token',
-                        $config['hash'] ?? false
-                 );
+            $this->createUserProvider($config['provider'] ?? null),
+            $this->app['request'],
+            $config['input_key'] ?? 'api_token',
+            $config['storage_key'] ?? 'api_token',
+            $config['hash'] ?? false
+        );
         
         $this->app->refresh('request', $guard, 'setRequest');
         

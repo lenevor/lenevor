@@ -251,8 +251,8 @@ class Builder implements BuilderContract
     public function __construct(ConnectionInterface $connection, ?Grammar $grammar = null, ?Processor $processor = null)
     {
         $this->connection = $connection;
-        $this->grammar    = $grammar ?: $this->getQueryGrammar();
-        $this->processor  = $processor ?: $this->getQueryProcessor();
+        $this->grammar = $grammar ?: $this->getQueryGrammar();
+        $this->processor = $processor ?: $this->getQueryProcessor();
     }
 
     /**

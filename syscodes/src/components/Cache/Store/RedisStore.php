@@ -108,17 +108,17 @@ class RedisStore implements Store
      * Store an item in the cache for a given number of seconds.
      * 
      * @param  string  $key
-     * @param  mixed   $value
-     * @param  int     $seconds
+     * @param  mixed  $value
+     * @param  int  $seconds
      * 
      * @return bool
      */
     public function put(string $key, mixed $value, int $seconds): bool
     {
         return (bool) $this->connection()->setex(
-                $this->prefix.$key,
-                (int) max(1, $seconds),
-                $this->serialize($value)
+            $this->prefix.$key,
+            (int) max(1, $seconds),
+            $this->serialize($value)
         );
     }
 
@@ -151,7 +151,7 @@ class RedisStore implements Store
      * Increment the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return int|bool
      */
@@ -164,7 +164,7 @@ class RedisStore implements Store
      * Decrement the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return int|bool
      */
@@ -189,7 +189,7 @@ class RedisStore implements Store
      * Stores an item in the cache indefinitely.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return bool
      */

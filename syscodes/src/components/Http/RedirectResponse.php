@@ -143,8 +143,8 @@ class RedirectResponse extends BaseRedirectResponse
     protected function parseErrors($provider)
     {
         return $provider instanceof MessageProvider 
-                   ? $provider->getMessageBag() 
-                   : new MessageBag((array) $provider);
+            ? $provider->getMessageBag() 
+            : new MessageBag((array) $provider);
     }
     
     /**

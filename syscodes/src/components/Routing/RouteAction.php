@@ -48,8 +48,8 @@ class RouteAction
 
         if (is_callable($action, true)) {
             return ! is_array($action) ? ['uses' => $action] : [
-                    'uses' => $action[0].'@'.$action[1],
-                    'controller' => $action[0].'@'.$action[1],
+                'uses' => $action[0].'@'.$action[1],
+                'controller' => $action[0].'@'.$action[1],
             ];
         } elseif ( ! isset($action['uses'])) {
             $action['uses'] = static::findClosureAction($action);

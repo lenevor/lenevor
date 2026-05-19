@@ -26,9 +26,9 @@ use ErrorException;
 use InvalidArgumentException;
 use Syscodes\Components\Contracts\Debug\Handler as DebugContract;
 use Syscodes\Components\Contracts\Debug\MainHandler;
-use Syscodes\Components\Debug\FrameHandler\Supervisor;
 use Syscodes\Components\Debug\Handlers\CallbackHandler;
 use Syscodes\Components\Debug\Handlers\Handler;
+use Syscodes\Components\Debug\Inspector\SupervisorFactory;
 use Syscodes\Components\Debug\Util\Misc;
 use Syscodes\Components\Debug\Util\System;
 use Syscodes\Components\Stopwatch\Benchmark;
@@ -42,7 +42,7 @@ class GDebug implements DebugContract
 	/**
 	 * Allow Handlers to force the script to quit.
 	 * 
-	 * @var boo
+	 * @var bool
 	 */
 	protected $allowQuit = true;
 	
@@ -59,6 +59,13 @@ class GDebug implements DebugContract
 	 * @var array
 	 */
 	protected $handlerStack = [];
+
+	/**
+     * The inspector factory to create inspectors.
+     *
+	* @var \Syscodes\Components\Debug\Inspector\SupervisorFactoryInterface
+     */
+    private $supervisorFactory;
 
 	/**
 	 * The send Http code by default: 500 Internal Server Error.
@@ -97,8 +104,9 @@ class GDebug implements DebugContract
 	 */
 	public function __construct(?System $system = null)
 	{
-		$this->system    = $system ?: new System;
+		$this->system = $system ?: new System;
 		$this->benchmark = new Benchmark;
+		$this->supervisorFactory = new SupervisorFactory();
 	}
 
 	/**
@@ -120,7 +128,7 @@ class GDebug implements DebugContract
 		// Start buffer
 		$this->system->startOutputBuferring();
 
-		$handlerResponse    = null;
+		$handlerResponse = null;
 		$handlerContentType = null;
 		
 		try {
@@ -147,7 +155,8 @@ class GDebug implements DebugContract
 
 		// Returns the contents of the output buffer for loading time of page
 		$totalTime = $this->benchmark->getElapsedTime('total_execution');
-		$output    = str_replace('{{ elapsed_time }}', $totalTime, $output);
+
+		$output = str_replace('{{ elapsed_time }}', $totalTime, $output);
 
 		if ($this->writeToOutput()) {
 			if ($quit) {
@@ -263,7 +272,7 @@ class GDebug implements DebugContract
 	/**
 	 * Appends a handler to the end of the stack.
 	 * 
-	 * @param  \Callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
+	 * @param  callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
 	 * 
 	 * @return static
 	 */
@@ -277,7 +286,7 @@ class GDebug implements DebugContract
 	/**
 	 * Prepends a handler to the start of the stack.
 	 * 
-	 * @param  \Callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
+	 * @param  callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
 	 * 
 	 * @return static
 	 */
@@ -301,13 +310,13 @@ class GDebug implements DebugContract
 	}
 
 	/**
-	 * Create a CallbackHandler from callable and throw if handler is invalid.
+	 * Create a CallbackHandler from ccallable and throw if handler is invalid.
 	 * 
-	 * @param  \Callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
+	 * @param  callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
 	 * 
 	 * @return \Syscodes\Components\Contracts\Debug\Handler
 	 * 
-	 * @throws \InvalidArgumentException If argument is not callable or instance of \Syscodes\Components\Contracts\Debug\Handler
+	 * @throws \InvalidArgumentException If argument is not ccallable or instance of \Syscodes\Components\Contracts\Debug\Handler
 	 */
 	protected function resolveHandler($handler)
 	{
@@ -317,7 +326,7 @@ class GDebug implements DebugContract
 
 		if ( ! $handler instanceof MainHandler) {
 			throw new InvalidArgumentException(
-				"Argument to " . __METHOD__ . " must be a callable, or instance of ".
+				"Argument to " . __METHOD__ . " must be a ccallable, or instance of ".
 				"Syscodes\Components\\Contracts\\Debug\\MainHandler"
 			);
 		}
@@ -362,11 +371,11 @@ class GDebug implements DebugContract
 	 * 
 	 * @param  \Throwable  $exception
 	 * 
-	 * @return \Syscodes\Components\Debug\Engine\Supervisor
+	 * @return \Syscodes\Components\Debug\Engines\Supervisor
 	 */
 	protected function getSupervisor(Throwable $exception)
 	{
-		return new Supervisor($exception);
+		 return $this->supervisorFactory->create($exception);
 	}
 
 	/**

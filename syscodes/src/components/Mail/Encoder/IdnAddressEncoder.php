@@ -40,7 +40,7 @@ final class IdnAddressEncoder
         $addr = strrpos($address, '@');
         
         if (false !== $addr) {
-            $local  = substr($address, 0, $addr);
+            $local = substr($address, 0, $addr);
             $domain = substr($address, $addr + 1);
             
             if (preg_match('~[^\x00-\x7F]~', $domain)) {

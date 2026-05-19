@@ -69,7 +69,7 @@ class MemcachedStore implements Store
 
         $this->memcached = $memcached;
         $this->onVersion = (new ReflectionMethod('Memcached', 'getMulti'))
-                           ->getNumberOfParameters() == 2;
+            ->getNumberOfParameters() == 2;
     }
 
     /**

@@ -166,7 +166,7 @@ class ServeCommand extends Command
     protected function canTryAnotherPort(): bool
     {
         return is_null($this->input->getOption('port')) &&
-               ($this->input->getOption('tries') > $this->portOffset);
+            ($this->input->getOption('tries') > $this->portOffset);
     }
 
     /**

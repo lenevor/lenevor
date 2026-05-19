@@ -64,7 +64,7 @@ class AuthenticationException extends Exception
     {
         parent::__construct($message);
         
-        $this->guards     = $guards;
+        $this->guards = $guards;
         $this->redirectTo = $redirectTo;
     }
     

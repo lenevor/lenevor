@@ -165,8 +165,8 @@ class Pipeline implements PipelineContract
                     }
                     
                     $pipeline = method_exists($pipe, $this->method)
-                                ? $pipe->{$this->method}(...$parameters)
-                                : $pipe(...$parameters);
+                        ? $pipe->{$this->method}(...$parameters)
+                        : $pipe(...$parameters);
                                 
                     return $pipeline;
                 } catch (Throwable $e) {

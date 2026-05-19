@@ -40,13 +40,13 @@ class EsmtpTransportFactory extends AbstractTransportFactory
     public function create(DomainTransport $domain)
     {
         $autoTls = '' === $domain->getOption('auto_tls') || filter_var($domain->getOption('auto_tls', true), \FILTER_VALIDATE_BOOL);
-        $tls     = 'smtps' === $domain->getScheme() ? true : ($autoTls ? null : false);
-        $port    = $domain->getPort(0);
-        $host    = $domain->getHost();
+        $tls = 'smtps' === $domain->getScheme() ? true : ($autoTls ? null : false);
+        $port = $domain->getPort(0);
+        $host = $domain->getHost();
         
         $transport = new EsmtpTransport($host, $port, $tls, $this->dispatcher, $this->logger);
         /** @var SocketStream $stream */
-        $stream        = $transport->getStream();
+        $stream = $transport->getStream();
         $streamOptions = $stream->getStreamOptions();
         
         if ('' !== $domain->getOption('verify_peer') && ! filter_var($domain->getOption('verify_peer', true), FILTER_VALIDATE_BOOL)) {

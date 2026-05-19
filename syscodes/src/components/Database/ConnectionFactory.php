@@ -54,7 +54,7 @@ class ConnectionFactory
     /**
      * Constructor. Create a new ConnectionFactory class instance.
      * 
-     * @param  \Syscodes\Components\Container\Container
+     * @param  \Syscodes\Components\Container\Container  $container
      * 
      * @return void
      */
@@ -76,8 +76,8 @@ class ConnectionFactory
         $config = $this->parseConfig($config, $name);
         
         return isset($config['read'])
-                    ? $this->createReadWriteConnection($config)
-                    : $this->createSingleConnection($config);
+            ? $this->createReadWriteConnection($config)
+            : $this->createSingleConnection($config);
     }
     
     /**
@@ -161,8 +161,8 @@ class ConnectionFactory
     protected function getReadWriteConfig(array $config, $type): array
     {
         return isset($config[$type][0])
-                    ? $config[$type][array_rand($config[$type])]
-                    : $config[$type];
+            ? $config[$type][array_rand($config[$type])]
+            : $config[$type];
     }
 
     /**

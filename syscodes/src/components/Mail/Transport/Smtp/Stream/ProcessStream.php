@@ -71,7 +71,7 @@ class ProcessStream extends AbstractStream
             throw new TransportException('Process could not be started: '.$err);
         }
         
-        $this->in  = &$pipes[0];
+        $this->in = &$pipes[0];
         $this->out = &$pipes[1];
     }
     

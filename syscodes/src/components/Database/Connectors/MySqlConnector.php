@@ -64,8 +64,8 @@ class MySqlConnector extends Connector implements ConnectorInterface
     protected function getDsn(array $config): string
     {
         return $this->hasSocket($config)
-                    ? $this->getSocketDsn($config)
-                    : $this->getHostDsn($config);
+            ? $this->getSocketDsn($config)
+            : $this->getHostDsn($config);
     }
 
     /**
@@ -102,8 +102,8 @@ class MySqlConnector extends Connector implements ConnectorInterface
     protected function getHostDsn(array $config): string
     {
         return isset($config['port'])
-                ? "mysql:host={$config['host']};port={$config['port']};dbname={$config['database']}"
-                : "mysql:host={$config['host']};dbname={$config['database']}";
+            ? "mysql:host={$config['host']};port={$config['port']};dbname={$config['database']}"
+            : "mysql:host={$config['host']};dbname={$config['database']}";
     }
 
     /**

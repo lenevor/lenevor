@@ -59,8 +59,8 @@ class Login
      */
     public function __construct($guard, $user, $remember)
     {
-        $this->user     = $user;
-        $this->guard    = $guard;
+        $this->user = $user;
+        $this->guard = $guard;
         $this->remember = $remember;
     }
 }

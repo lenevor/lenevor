@@ -52,6 +52,6 @@ class StatementPrepared
     public function __construct($connection, $statement)
     {
         $this->connection = $connection;
-        $this->statement  = $statement;
+        $this->statement = $statement;
     }
 }

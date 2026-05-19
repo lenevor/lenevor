@@ -31,7 +31,6 @@ use Syscodes\Components\Mail\Events\Message;
 use Syscodes\Components\Mail\Events\SentMessageToMail;
 use Syscodes\Components\Mail\Helpers\BaseSentMessage;
 use Syscodes\Components\Mail\Helpers\Envelope;
-use Syscodes\Components\Mail\Helpers\SentMessage;
 use Syscodes\Components\Mail\Mailables\RawMessage;
 use Throwable;
 
@@ -43,7 +42,7 @@ abstract class AbstractTransport implements Transport
     /**
      * The event dispatch implements instance.
      * 
-     * @var Distpacher
+     * @var Dispatcher
      */
     protected Dispatcher $dispatcher;
 
@@ -107,11 +106,11 @@ abstract class AbstractTransport implements Transport
      * @param  RawMessage  $message
      * @param  Envelope|null  $envelope
      * 
-     * @return SentMessage|null
+     * @return BaseSentMessage|null
      */
     public function send(RawMessage $message, ?Envelope $envelope = null): ?BaseSentMessage
     {
-        $message  = clone $message;
+        $message = clone $message;
         $envelope = null !== $envelope ? clone $envelope : Envelope::create($message);
         
         try {
@@ -126,7 +125,7 @@ abstract class AbstractTransport implements Transport
             $this->dispatcher->dispatch($event);
             
             $envelope = $event->getEnvelope();
-            $message  = $event->getMessage();
+            $message = $event->getMessage();
             
             $sentMessage = new BaseSentMessage($message, $envelope);
             

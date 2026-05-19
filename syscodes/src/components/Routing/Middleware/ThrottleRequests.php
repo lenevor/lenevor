@@ -30,6 +30,7 @@ use Syscodes\Components\Http\Exceptions\ThrottleRequestsException;
 use Syscodes\Components\Limiter\RateLimiter;
 use Syscodes\Components\Limiter\RateLimiting\Unlimited;
 use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\InteractsWithTime;
 
 /**
@@ -117,7 +118,7 @@ class ThrottleRequests
         return $this->handleRequest(
             $request,
             $next,
-            collect(Arr::wrap($limiterResponse))->map(function ($limit) use ($limiterName) {
+            (new Collection(Arr::wrap($limiterResponse)))->map(function ($limit) use ($limiterName) {
                 return (object) [
                     'key' => md5($limiterName.$limit->key),
                     'maxAttempts' => $limit->maxAttempts,
@@ -224,8 +225,8 @@ class ThrottleRequests
         );
 
         return is_callable($responseCallback)
-                    ? new HttpResponseException($responseCallback($request, $headers))
-                    : new ThrottleRequestsException('Too Many Attempts.', null, $headers);
+            ? new HttpResponseException($responseCallback($request, $headers))
+            : new ThrottleRequestsException('Too Many Attempts.', null, $headers);
     }
 
     /**
@@ -269,11 +270,12 @@ class ThrottleRequests
      * 
      * @return array
      */
-    protected function getHeaders($maxAttempts,
-                                  $remainingAttempts,
-                                  $retryAfter = null,
-                                  ?Response $response = null): array
-    {
+    protected function getHeaders(
+        $maxAttempts,
+        $remainingAttempts,
+        $retryAfter = null,
+        ?Response $response = null
+    ): array {
         if ($response &&
             ! is_null($response->headers->get('X-RateLimit-Remaining')) &&
             (int) $response->headers->get('X-RateLimit-Remaining') <= (int) $remainingAttempts) {

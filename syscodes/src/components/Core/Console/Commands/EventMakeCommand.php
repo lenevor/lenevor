@@ -63,7 +63,7 @@ class EventMakeCommand extends GeneratorCommand
     protected function alreadyExists($rawName): bool
     {
         return class_exists($rawName) ||
-               $this->files->exists($this->getPath($this->parseName($rawName)));
+            $this->files->exists($this->getPath($this->parseName($rawName)));
     }
 
     /**

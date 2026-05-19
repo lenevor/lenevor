@@ -72,8 +72,8 @@ class DatabaseStore implements Store
      */
     public function __construct(ConnectionInterface $connection, $table, $prefix = '')
     {
-        $this->table      = $table;
-        $this->prefix     = $prefix;
+        $this->table = $table;
+        $this->prefix = $prefix;
         $this->connection = $connection;
     }
 
@@ -114,8 +114,8 @@ class DatabaseStore implements Store
      */
     public function put(string $key, mixed $value, int $seconds): bool
     {
-        $key        = $this->prefix.$key;
-        $value      = $this->serialize($value);
+        $key = $this->prefix.$key;
+        $value = $this->serialize($value);
         $expiration = $this->getTime() + $seconds;
         
         try {
@@ -138,8 +138,8 @@ class DatabaseStore implements Store
      */
     public function add(string $key, mixed $value, int $seconds): bool
     {
-        $key        = $this->prefix.$key;
-        $value      = $this->serialize($value);
+        $key = $this->prefix.$key;
+        $value = $this->serialize($value);
         $expiration = $this->getTime() + $seconds;
         
         try {
@@ -159,7 +159,7 @@ class DatabaseStore implements Store
      * Increment the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return int|bool
      */
@@ -174,7 +174,7 @@ class DatabaseStore implements Store
      * Decrement the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return int|bool
      */
@@ -198,7 +198,7 @@ class DatabaseStore implements Store
     {
         return $this->connection->transaction(function () use ($key, $value, $callback) {
             $prefixed = $this->prefix.$key;
-            $cache    = $this->table()->where('key', $prefixed)->first();
+            $cache = $this->table()->where('key', $prefixed)->first();
             
             if (is_null($cache)) return false;
             

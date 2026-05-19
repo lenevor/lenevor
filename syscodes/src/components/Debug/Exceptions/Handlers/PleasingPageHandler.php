@@ -28,7 +28,7 @@ use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 use Syscodes\Components\Contracts\Debug\Table;
-use Syscodes\Components\Debug\FrameHandler\Formatter;  
+use Syscodes\Components\Debug\Engines\Formatter;
 use Syscodes\Components\Debug\Util\ArrayTable;
 use Syscodes\Components\Debug\Util\Misc;
 use Syscodes\Components\Debug\Util\TemplateHandler;
@@ -62,15 +62,15 @@ class PleasingPageHandler extends Handler
 	 * @var array
 	 */
 	protected $editors = [
-		"vscode"   => "vscode://file/%file:%line",
+		"vscode" => "vscode://file/%file:%line",
 		"netbeans" => "netbeans://open/?f=%file:%line",
-		"idea"     => "idea://open?file=%file&line=%line",
-		"sublime"  => "subl://open?url=file://%file&line=%line",
+		"idea" => "idea://open?file=%file&line=%line",
+		"sublime" => "subl://open?url=file://%file&line=%line",
 		"phpstorm" => "phpstorm://open?file://%file&line=%line",
 		"textmate" => "txmt://open?url=file://%file&line=%line",
-		"emacs"    => "emacs://open?url=file://%file&line=%line",
-        "macvim"   => "mvim://open/?url=file://%file&line=%line",
-		"atom"     => "atom://core/open/file?filename=%file&line=%line",
+		"emacs" => "emacs://open?url=file://%file&line=%line",
+        "macvim" => "mvim://open/?url=file://%file&line=%line",
+		"atom" => "atom://core/open/file?filename=%file&line=%line",
 	];
 	
 	/**
@@ -116,7 +116,7 @@ class PleasingPageHandler extends Handler
 	protected $templateHandler;	
 	
 	/**
-	 * Constructor. The PleasingPageHandler class.
+	 * Constructor. Create new PleasingPageHandler class instance.
 	 * 
 	 * @return void
 	 */
@@ -130,7 +130,7 @@ class PleasingPageHandler extends Handler
 	 * Adds an editor resolver, identified by a string name, and that may be a 
 	 * string path, or a callable resolver.
 	 * 
-	 * @param  string            $identifier
+	 * @param  string  $identifier
 	 * @param  string|callable  $resolver
 	 * 
 	 * @return void

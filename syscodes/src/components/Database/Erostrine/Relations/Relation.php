@@ -86,9 +86,9 @@ abstract class Relation
      */
     public function __construct(Builder $builder, Model $parent)
     {
-        $this->query    = $builder;
-        $this->parent   = $parent;
-        $this->related  = $builder->getModel();
+        $this->query = $builder;
+        $this->parent = $parent;
+        $this->related = $builder->getModel();
 
         $this->addConstraints();
     }
@@ -161,7 +161,7 @@ abstract class Relation
      * @param  string  $whereIn
      * @param  string  $key
      * @param  array  $modelKeys
-     * @param  \Syscodes\Components\Database\Erostrine\Builder<|null  $builder
+     * @param  \Syscodes\Components\Database\Erostrine\Builder|null  $builder
      * 
      * @return void
      */

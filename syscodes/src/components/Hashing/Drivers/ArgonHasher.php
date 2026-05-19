@@ -68,9 +68,9 @@ class ArgonHasher extends AbstractHasher implements Hasher
      */
     public function __construct(array $options = [])
     {
-        $this->time            = $this->time($options);
-        $this->memory          = $this->memory($options);
-        $this->threads         = $this->threads($options);
+        $this->time  = $this->time($options);
+        $this->memory = $this->memory($options);
+        $this->threads = $this->threads($options);
         $this->verifyAlgorithm = $options['verify'] ?? $this->verifyAlgorithm;    
     }
 
@@ -78,17 +78,17 @@ class ArgonHasher extends AbstractHasher implements Hasher
      * Hash the given value.
      * 
      * @param  string  $value
-     * @param  array   $options
+     * @param  array  $options
      * 
      * @return string
      */
     public function make($value, array $options = []): string
     {
         $hash = @password_hash($value, $this->algorithm(), [
-                    'memory_cost' => $this->memory($options),
-                    'time_cost' => $this->time($options),
-                    'threads' => $this->threads($options),
-                ]);
+            'memory_cost' => $this->memory($options),
+            'time_cost' => $this->time($options),
+            'threads' => $this->threads($options),
+        ]);
         
         if ( ! is_string($hash)) {
             throw new RuntimeException('Argon2 hashing not supported');
@@ -102,7 +102,7 @@ class ArgonHasher extends AbstractHasher implements Hasher
      * 
      * @param  string  $value
      * @param  string  $hashedValue
-     * @param  array   $options
+     * @param  array  $options
      * 
      * @return bool
      */
@@ -119,7 +119,7 @@ class ArgonHasher extends AbstractHasher implements Hasher
      * Check if the given hash has been hashed using the given options.
      * 
      * @param  string  $hashedValue
-     * @param  array   $options
+     * @param  array  $options
      * 
      * @return bool
      */

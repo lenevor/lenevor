@@ -214,7 +214,7 @@ trait ManagesLayouts
 	 */
 	public function flushSections(): void
 	{
-		$this->sections     = [];
+		$this->sections = [];
 		$this->sectionStack = [];
 	}
 }

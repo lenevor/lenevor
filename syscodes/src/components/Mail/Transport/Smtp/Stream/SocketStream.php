@@ -242,8 +242,8 @@ final class SocketStream extends AbstractStream
         }
         
         $options['ssl']['crypto_method'] ??= STREAM_CRYPTO_METHOD_TLS_CLIENT | 
-                                             STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT | 
-                                             STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT;
+            STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT | 
+            STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT;
                                              
         $streamContext = stream_context_create($options);
         
@@ -262,7 +262,7 @@ final class SocketStream extends AbstractStream
         stream_set_blocking($this->stream, true);
         stream_set_timeout($this->stream, $timeout);
         
-        $this->in  = &$this->stream;
+        $this->in = &$this->stream;
         $this->out = &$this->stream;
     }
     

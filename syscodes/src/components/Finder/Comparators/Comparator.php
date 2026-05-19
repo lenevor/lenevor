@@ -57,7 +57,7 @@ class Comparator
             throw new InvalidArgumentException(sprintf('Invalid operator "%s"', $operator));
         }
 
-        $this->target   = $target;
+        $this->target = $target;
         $this->operator = $operator;        
     }
 

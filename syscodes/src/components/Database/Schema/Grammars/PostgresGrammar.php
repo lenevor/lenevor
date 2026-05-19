@@ -207,7 +207,7 @@ class PostgresGrammar extends Grammar
     {
         $uniqueStatement = 'unique';
 
-        if (! is_null($command->nullsNotDistinct)) {
+        if ( ! is_null($command->nullsNotDistinct)) {
             $uniqueStatement .= ' nulls '.($command->nullsNotDistinct ? 'not distinct' : 'distinct');
         }
 
@@ -235,7 +235,7 @@ class PostgresGrammar extends Grammar
             );
         }
 
-        if (! is_null($command->deferrable)) {
+        if ( ! is_null($command->deferrable)) {
             $sql .= $command->deferrable ? ' deferrable' : ' not deferrable';
         }
 

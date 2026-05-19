@@ -172,11 +172,11 @@ class PendingMail
     protected function fill(MailboxContract $mailable)
     {
         return take($mailable->to($this->to)
-                    ->cc($this->cc)
-                    ->bcc($this->bcc), function (MailboxContract $mailable) {
-                        if ($this->locale) {
-                            $mailable->locale($this->locale);
-                        }
-               });
+            ->cc($this->cc)
+            ->bcc($this->bcc), function (MailboxContract $mailable) {
+                if ($this->locale) {
+                    $mailable->locale($this->locale);
+                }
+            });
     }
 }

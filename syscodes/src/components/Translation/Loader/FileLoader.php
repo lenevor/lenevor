@@ -57,7 +57,7 @@ class FileLoader implements LoaderContract
     public function __construct(Filesystem $files, array|string $path)
     {
         $this->files = $files;
-        $this->path  = is_string($path) ? [$path] : $path;
+        $this->path = is_string($path) ? [$path] : $path;
     }
 
     /**

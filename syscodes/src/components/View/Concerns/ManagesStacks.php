@@ -200,8 +200,8 @@ trait ManagesStacks
      */
     public function flushStacks(): void
     {
-        $this->prepends  = [];
-        $this->push      = [];
+        $this->prepends = [];
+        $this->push = [];
         $this->pushStack = [];
     }
 }

@@ -58,7 +58,7 @@ class ErostrineUserProvider implements UserProvider
      */
     public function __construct(HasherContract $hasher, $model)
     {
-        $this->model  = $model;
+        $this->model = $model;
         $this->hasher = $hasher;
     }
 
@@ -184,8 +184,8 @@ class ErostrineUserProvider implements UserProvider
     protected function newModelQuery($model = null)
     {
         return is_null($model)
-                ? $this->createModel()->newQuery()
-                : $model->newQuery();
+            ? $this->createModel()->newQuery()
+            : $model->newQuery();
     }
     
     /**

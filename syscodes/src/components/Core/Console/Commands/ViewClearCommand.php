@@ -85,8 +85,8 @@ class ViewClearCommand extends Command
         }
         
         $this->lenevor['view.engine.resolver']
-             ->resolve('plaze')
-             ->eraseTranspiledOrNotExpired();
+            ->resolve('plaze')
+            ->eraseTranspiledOrNotExpired();
 
         foreach ($this->files->glob("{$path}/*") as $view) {
             $this->files->delete($view);

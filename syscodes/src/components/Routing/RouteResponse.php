@@ -37,14 +37,14 @@ class RouteResponse implements ResponseContract
     /**
      * The View class instance.
      * 
-     * @var Syscodes\Components\Contracts\View\Factory 
+     * @var \Syscodes\Components\Contracts\View\Factory
      */
     protected $view;
 
     /**
      * The Redirector class instance.
      * 
-     * @var \Syscodes\Components\Routing\Redirector 
+     * @var \Syscodes\Components\Routing\Generators\Redirector 
      */
     protected $redirector;
 
@@ -58,7 +58,7 @@ class RouteResponse implements ResponseContract
      */
     public function __construct(Factory $factory, Redirector $redirector)
     {
-        $this->view       = $factory;
+        $this->view = $factory;
         $this->redirector = $redirector;
     }
 

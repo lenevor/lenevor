@@ -64,8 +64,8 @@ class FileSessionHandler implements SessionHandlerInterface
      */
     public function __construct(Filesystem $file, $path, $minutes)
     {
-        $this->files   = $file;
-        $this->path    = $path;
+        $this->files = $file;
+        $this->path = $path;
         $this->minutes = $minutes;
     }    
     
@@ -148,10 +148,10 @@ class FileSessionHandler implements SessionHandlerInterface
     public function gc($lifetime): int
     {
         $files = Finder::create()
-                       ->in($this->path)
-                       ->files()
-                       ->ignoreDotFiles(true)
-                       ->date('<= now - '.$lifetime.' seconds');
+            ->in($this->path)
+            ->files()
+            ->ignoreDotFiles(true)
+            ->date('<= now - '.$lifetime.' seconds');
 
         $countSessions = 0;
 

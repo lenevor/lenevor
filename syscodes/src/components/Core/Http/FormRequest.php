@@ -42,7 +42,7 @@ class FormRequest extends Request implements ValidatesResolved
     /**
      * The container instance.
      * 
-     * @var \Syscodes\Compopnents\Contracts\Container\Container
+     * @var \Syscodes\Components\Contracts\Container\Container
      */
     protected $container;
     
@@ -158,8 +158,8 @@ class FormRequest extends Request implements ValidatesResolved
         }
         
         return $this->redirector->to($this->getRedirectUrl())
-               ->withInput($this->except($this->dontFlash))
-               ->withErrors($errors, $this->errorBag);
+            ->withInput($this->except($this->dontFlash))
+            ->withErrors($errors, $this->errorBag);
     }
     
     /**

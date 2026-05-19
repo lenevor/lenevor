@@ -77,6 +77,8 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
     
     /**
      * The key used to hash recaller cookie values.
+     * 
+     * @var string
      */
     protected $hashKey;
 
@@ -111,7 +113,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
     /**
      * The request instance.
      *
-     * @var \Syscodes\Component\Http\Request
+     * @var \Syscodes\Components\Http\Request
      */
     protected $request;
 
@@ -136,7 +138,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * @param  \Syscodes\Components\Contracts\Auth\UserProvider  $provider
      * @param  \Syscodes\Components\Contracts\Session\Session  $session
      * @param  \Syscodes\Components\Http\Request|null  $request
-     * @param  string|null  $hasKey
+     * @param  string|null  $hashKey
      * 
      * @return void
      */
@@ -238,8 +240,8 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
         }
 
         return $this->user()
-                    ? $this->user()->getAuthIdentifier()
-                    : $this->session->get($this->getName());
+            ? $this->user()->getAuthIdentifier()
+            : $this->session->get($this->getName());
     }
 
     /**
@@ -474,7 +476,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @param  string  $value
      * 
-     * @return \Syscodes\Components\Http\Cookie
+     * @return \Symfony\Component\Http-foundation\Cookie
      */
     protected function createRecaller(string $value)
     {

@@ -56,7 +56,7 @@ class ApcStore implements Store
      */
     public function __construct(ApcWrapper $apc, $prefix = '')
     {
-        $this->apc    = $apc;
+        $this->apc = $apc;
         $this->prefix = $prefix;
     }
 
@@ -80,8 +80,8 @@ class ApcStore implements Store
      * Store an item in the cache for a given number of seconds.
      * 
      * @param  string  $key
-     * @param  mixed   $value
-     * @param  int     $seconds
+     * @param  mixed  $value
+     * @param  int  $seconds
      * 
      * @return bool
      */
@@ -94,7 +94,7 @@ class ApcStore implements Store
      * Increment the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return int|bool
      */
@@ -107,7 +107,7 @@ class ApcStore implements Store
      * Decrement the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return int|bool
      */
@@ -132,7 +132,7 @@ class ApcStore implements Store
      * Stores an item in the cache indefinitely.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return bool
      */

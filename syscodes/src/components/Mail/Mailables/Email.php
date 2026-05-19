@@ -92,7 +92,7 @@ class Email extends Message
     /**
      * Set the date of the message.
      * 
-     * @param  string  $dateTime
+     * @param  \DateTimeInterface  $dateTime
      * 
      * @return static
      */
@@ -342,7 +342,7 @@ class Email extends Message
             throw new TypeError(sprintf('The body must be a string, a resource or null (got "%s")', get_debug_type($body)));
         }
         
-        $this->text        = $body;
+        $this->text = $body;
         $this->textCharset = $charset;
         
         return $this;
@@ -381,7 +381,7 @@ class Email extends Message
             throw new TypeError(sprintf('The body must be a string, a resource or null (got "%s")', get_debug_type($body)));
         }
         
-        $this->html        = $body;
+        $this->html = $body;
         $this->htmlCharset = $charset;
         
         return $this;
@@ -453,7 +453,7 @@ class Email extends Message
     private function setListAddressHeaderBody(string $name, array $addresses): static
     {
         $addresses = Address::createArray($addresses);
-        $headers   = $this->getHeaders();
+        $headers = $this->getHeaders();
         
         if ($header = $headers->get($name)) {
             $header->setAddresses($addresses);

@@ -41,9 +41,9 @@ trait Comparison
     public function equals($time, ?string $timezone = null): bool
     {
         $testTime = $this->getConvertedUTC($time, $timezone);
-        $ourTime  = $this->toDateTime()
-                         ->setTimezone(new DateTimeZone('UTC'))
-                         ->format('Y-m-d H:i:s');
+        $ourTime = $this->toDateTime()
+            ->setTimezone(new DateTimeZone('UTC'))
+            ->format('Y-m-d H:i:s');
 
         return $testTime->format('Y-m-d H:i:s') === $ourTime;
     }
@@ -60,7 +60,7 @@ trait Comparison
     public function isBefore($time, ?string $timezone = null): bool
     {
         $testTime = $this->getConvertedUTC($time, $timezone)->getTimestamp();
-        $ourTime  = $this->getTimestamp();
+        $ourTime = $this->getTimestamp();
 
         return $testTime < $ourTime;
     }
@@ -77,7 +77,7 @@ trait Comparison
     public function isAfter($time, ?string $timezone = null): bool
     {
         $testTime = $this->getConvertedUTC($time, $timezone)->getTimestamp();
-        $ourTime  = $this->getTimestamp();
+        $ourTime = $this->getTimestamp();
 
         return $testTime > $ourTime;
     }

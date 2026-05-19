@@ -174,7 +174,7 @@ abstract class AbstractStream
             return;
         }
         
-        $carry   = '';
+        $carry = '';
         $fromLen = strlen($from);
         
         foreach ($chunks as $chunk) {

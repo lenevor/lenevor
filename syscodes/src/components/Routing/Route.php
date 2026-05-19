@@ -231,8 +231,8 @@ class Route
 	public function getDomain(): ?string
 	{
 		return isset($this->action['domain'])
-                ? str_replace(['http://', 'https://'], '', $this->action['domain'])
-				: null;
+		    ? str_replace(['http://', 'https://'], '', $this->action['domain'])
+		    : null;
 	}
 
 	/**

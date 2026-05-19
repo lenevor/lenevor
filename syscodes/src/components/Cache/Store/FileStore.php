@@ -71,7 +71,7 @@ class FileStore implements Key, Store
      */
     public function __construct(Filesystem $files, $directory)
     {
-        $this->files     = $files;
+        $this->files = $files;
         $this->directory = $directory;
     }
 
@@ -114,8 +114,8 @@ class FileStore implements Key, Store
 
         try {
             $data = (new FileCacheRegister)
-                    ->unserialize(substr($contents, 10))
-                    ->getData();
+                ->unserialize(substr($contents, 10))
+                ->getData();
         } catch (Exception $e) {
             return $this->emptyPayLoad();
         }

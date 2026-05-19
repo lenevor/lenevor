@@ -62,9 +62,9 @@ trait Difference
      */
     protected function getDifferenceTime(\DateTime $currentTime, \DateTime $testTime): self
     {
-        $this->difference  = $currentTime->getTimestamp() - $testTime->getTimestamp();
+        $this->difference = $currentTime->getTimestamp() - $testTime->getTimestamp();
         $this->currentTime = IntlCalendar::fromDateTime($currentTime->format('Y-m-d H:i:s'), $this->locale);
-        $this->testTime    = IntlCalendar::fromDateTime($testTime->format('Y-m-d H:i:s'), $this->locale)->getTime();
+        $this->testTime = IntlCalendar::fromDateTime($testTime->format('Y-m-d H:i:s'), $this->locale)->getTime();
 
         return $this;
     }
@@ -205,10 +205,10 @@ trait Difference
     public function humanize(?string $locale = null): string
     {
         $current = clone($this->currentTime);
-        $years   = $current->fieldDifference($this->testTime, IntlCalendar::FIELD_YEAR);
-        $months  = $current->fieldDifference($this->testTime, IntlCalendar::FIELD_MONTH);
-        $days    = $current->fieldDifference($this->testTime, IntlCalendar::FIELD_DAY_OF_YEAR);
-        $hours   = $current->fieldDifference($this->testTime, IntlCalendar::FIELD_HOUR_OF_DAY);
+        $years = $current->fieldDifference($this->testTime, IntlCalendar::FIELD_YEAR);
+        $months = $current->fieldDifference($this->testTime, IntlCalendar::FIELD_MONTH);
+        $days = $current->fieldDifference($this->testTime, IntlCalendar::FIELD_DAY_OF_YEAR);
+        $hours = $current->fieldDifference($this->testTime, IntlCalendar::FIELD_HOUR_OF_DAY);
         $minutes = $current->fieldDifference($this->testTime, IntlCalendar::FIELD_MINUTE);
         $seconds = $current->fieldDifference($this->testTime, IntlCalendar::FIELD_SECOND);
 

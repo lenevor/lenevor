@@ -208,7 +208,7 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
      * 
      * @param  array   $messages
      * @param  string  $format
-     * @param  string  $messageKey
+     * @param  string  $key
      * 
      * @return array
      */
@@ -219,9 +219,9 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
         }
 
         return collect((array) $messages)
-               ->map(function ($message) use ($format, $key) {
-                    return str_replace([':message', ':key'], [$message, $key], $format);
-               })->all();
+            ->map(function ($message) use ($format, $key) {
+                return str_replace([':message', ':key'], [$message, $key], $format);
+            })->all();
     }
     
     /**

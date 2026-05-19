@@ -133,7 +133,7 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
     {
         return static::viewFactory()->make($view ?: static::$defaultView, array_merge($data, [
             'paginator' => $this,
-            'elements'  => $this->elements(),
+            'elements' => $this->elements(),
         ]));
     }
     

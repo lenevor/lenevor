@@ -42,7 +42,7 @@ class Base64Encoder
         }
         
         $encodedString = base64_encode($string);
-        $firstLine     = '';
+        $firstLine = '';
         
         if (0 !== $firstLineOffset) {
             $firstLine = substr($encodedString, 0, $maxLineLength - $firstLineOffset)."\r\n";

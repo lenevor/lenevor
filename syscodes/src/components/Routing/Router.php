@@ -123,9 +123,9 @@ class Router implements Routable
 	 */
 	public function __construct(?Container $container = null)
 	{
-		$this->routes    = new RouteCollection;
+		$this->routes = new RouteCollection;
 		$this->container = $container ?: new Container;
-		$this->resolves  = new RouteResolver($this, $this->routes, $this->container);
+		$this->resolves = new RouteResolver($this, $this->routes, $this->container);
 	}
 
 	/**
@@ -245,8 +245,8 @@ class Router implements Routable
 		$placeholder = 'fallbackPlaceholder';
 		
 		return $this->addRoute('GET', "{{$placeholder}}", $action)
-		            ->where($placeholder, '.*')
-		            ->fallback();
+		    ->where($placeholder, '.*')
+		   ->fallback();
 	}
 
 	/**
@@ -261,8 +261,8 @@ class Router implements Routable
 	public function redirect($uri, $destination, $status = 302)
 	{
 		return $this->any($uri, '\Syscodes\Components\Routing\Controllers\RedirectController')
-		            ->defaults('destination', $destination)
-		            ->defaults('status', $status);
+		    ->defaults('destination', $destination)
+		    ->defaults('status', $status);
 	}
 	
 	/**
@@ -292,12 +292,12 @@ class Router implements Routable
 	public function view($uri, $view, $data = [], $status = 200, array $headers = [])
 	{
 		return $this->match(['GET', 'HEAD'], $uri, '\Syscodes\Components\Routing\Controllers\ViewController')
-		            ->setDefaults([
-		                'view' => $view,
-		                'data' => $data,
-		                'status' => is_array($status) ? 200 : $status,
-		                'headers' => is_array($status) ? $status : $headers,
-		            ]);
+		->setDefaults([
+			'view' => $view,
+			'data' => $data,
+			'status' => is_array($status) ? 200 : $status,
+			'headers' => is_array($status) ? $status : $headers,
+		]);
 	}
 
 	/**
@@ -318,10 +318,10 @@ class Router implements Routable
 		}
 
 		$route = $this->newRoute(
-		              $method,
-		              $this->prefix($route),
-		              $action
-		         );
+            $method,
+            $this->prefix($route),
+            $action
+		);
 
 		if ($this->hasGroupStack()) {
 			$this->mergeGroupAttributesIntoRoute($route);			
@@ -383,8 +383,8 @@ class Router implements Routable
 		$group = end($this->groupStack);
 		
 		return isset($group['namespace']) && ! Str::startsWith($class, '\\') && ! Str::startsWith($class, $group['namespace']) 
-		            ? $group['namespace'].'\\'.$class 
-					: $class;
+		    ? $group['namespace'].'\\'.$class 
+		    : $class;
 	}
 	
 	/**
@@ -425,7 +425,7 @@ class Router implements Routable
 	public function newRoute($method, $uri, $action): route
 	{
 		return take(new Route($method, $uri, $action))
-		                ->setContainer($this->container);
+		    ->setContainer($this->container);
 	}
 	
 	/**

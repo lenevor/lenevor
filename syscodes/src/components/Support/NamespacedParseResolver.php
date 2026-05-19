@@ -46,6 +46,8 @@ class NamespacedParseResolver
      */
     public function parseLine($key): array
     {
+        $parsed = [];
+
         // The stored cache key is referenced back to the 
         // parsing processing key again.
         if (isset($this->parsed[$key])) {
@@ -79,8 +81,8 @@ class NamespacedParseResolver
         $group = $segments[0];
         
         $item = count($segments) === 1
-                    ? null
-                    : implode('.', array_slice($segments, 1));
+            ? null
+            : implode('.', array_slice($segments, 1));
                     
         return [null, $group, $item];
     }

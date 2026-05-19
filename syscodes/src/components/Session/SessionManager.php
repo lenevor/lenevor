@@ -90,7 +90,7 @@ class SessionManager extends Manager
      */
     protected function createFileDriver()
     {
-        $path     = $this->config->get('session.files');
+        $path = $this->config->get('session.files');
         $lifetime = $this->config->get('session.lifetime');
 
         return $this->buildSession(new FileSessionHandler(
@@ -105,7 +105,7 @@ class SessionManager extends Manager
      */
     protected function createDatabaseDriver()
     {
-        $table    = $this->config->get('session.table');
+        $table = $this->config->get('session.table');
         $lifetime = $this->config->get('session.lifetime') ;
 
         return $this->buildSession(new DatabaseSessionHandler(

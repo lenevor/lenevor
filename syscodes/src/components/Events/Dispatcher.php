@@ -23,7 +23,7 @@
 namespace Syscodes\Components\Events;
 
 use Closure;
-use Syscodes\Components\Contracts\Container\Container;
+use Syscodes\Components\Container\Container;
 use Syscodes\Components\Contracts\Events\Dispatcher as DispatcherContract;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
@@ -170,13 +170,13 @@ class Dispatcher implements DispatcherContract
      * 
      * @param  string  $listener
      * 
-     * @return \Callable
+     * @return callable
      */
     protected function createClassClosure($listener)
     {
         [$class, $method] = is_array($listener)
-                          ? $listener
-                          : $this->parseClassCallback($listener);
+            ? $listener
+            : $this->parseClassCallback($listener);
                                 
         if ( ! method_exists($class, $method)) {
             $method = '__invoke';
@@ -426,8 +426,8 @@ class Dispatcher implements DispatcherContract
         );
 
         return class_exists($eventName, false) 
-                    ? $this->addInterfaceListener($eventName, $listeners)
-                    : $listeners;
+            ? $this->addInterfaceListener($eventName, $listeners)
+            : $listeners;
     }
 
     /**

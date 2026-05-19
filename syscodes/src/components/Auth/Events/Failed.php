@@ -59,7 +59,7 @@ class Failed
      */
     public function __construct($guard, $user, $credentials)
     {
-        $this->user  = $user;
+        $this->user = $user;
         $this->guard = $guard;
         $this->credentials = $credentials;
     }

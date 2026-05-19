@@ -59,10 +59,10 @@ trait RequestMatchesGiven
     private function regexUri(string $route, array $patterns): string
     {
         return preg_replace_callback(
-                    '~/\{([^}]+)\}~', 
-                    fn (array $match) => $this->regexParameter($match[1], $patterns), 
-                    $route
-                );
+            '~/\{([^}]+)\}~',
+            fn (array $match) => $this->regexParameter($match[1], $patterns),
+            $route
+        );
     }
     
     /**

@@ -242,8 +242,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	 * Returns the full request string.
 	 * 
 	 * @param  string  $key
-	 * @param  mixed  $default
-	 * 
+	 * @param  mixed  $default	 * 
 	 *
 	 * @return mixed 
 	 */
@@ -393,8 +392,8 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	public function prefetch(): bool
 	{
 		return strcasecmp($this->server->get('HTTP_X_MOZ') ?? '', 'prefetch') === 0 ||
-		       strcasecmp($this->headers->get('Purpose') ?? '', 'prefetch') === 0 ||
-               strcasecmp($this->headers->get('Sec-Purpose') ?? '', 'prefetch') === 0;
+	        strcasecmp($this->headers->get('Purpose') ?? '', 'prefetch') === 0 ||
+	        strcasecmp($this->headers->get('Sec-Purpose') ?? '', 'prefetch') === 0;
 	}
 	
 	/**

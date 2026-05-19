@@ -68,7 +68,7 @@ class Response
      */
     public function __construct($allowed, $message = '', $code = '')
     {
-        $this->code    = $code;
+        $this->code = $code;
         $this->allowed = $allowed;
         $this->message = $message;     
     }

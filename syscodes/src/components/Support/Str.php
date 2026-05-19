@@ -706,11 +706,11 @@ class Str
             $string = '';
             
             while (($len = strlen($string)) < $length) {
-                $size    = $length - $len;
+                $size = $length - $len;
 
                 $bytesSize = (int) ceil($size / 3) * 3;
 
-                $bytes   = random_bytes($bytesSize);
+                $bytes = random_bytes($bytesSize);
 
                 $string .= substr(str_replace(['/', '+', '='], '', base64_encode($bytes)), 0, $size);
             }
@@ -980,7 +980,7 @@ class Str
         $title = static::ascii($title);
         
         // Convert all dashes/underscores into separator
-        $flip  = $separator == '-' ? '_' : '-';
+        $flip = $separator == '-' ? '_' : '-';
         $title = preg_replace('!['.preg_quote($flip).']+!u', $separator, $title);
         
         // Remove all characters that are not the separator, letters, numbers, or whitespace.

@@ -190,20 +190,20 @@ class Mailbox implements MailboxContract, Renderable
      * 
      * @param  \Syscodes\Components\Contracts\Mail\Factory|\Syscodes\Components\Contracts\Mail\Mailer  $mailer
      * 
-     * @return \Syscodes\Components\Mail\Helpers\SentMessage|null
+     * @return \Syscodes\Components\Mail\Helpers\BaseSentMessage|null
      */
     public function send($mailer)
     {
         return $this->assignLocale($this->locale, function () use ($mailer) {
-                    $mailer = $mailer instanceof MailFactory
-                            ? $mailer->mailer($this->mailer)
-                            : $mailer;
+            $mailer = $mailer instanceof MailFactory
+                ? $mailer->mailer($this->mailer)
+                : $mailer;
                 
-                return $mailer->send($this->buildView(), $this->buildViewData(), function ($message) {
-                            $this->buildFrom($message)
-                                 ->buildRecipients($message)
-                                 ->buildSubject($message);
-                });
+            return $mailer->send($this->buildView(), $this->buildViewData(), function ($message) {
+                $this->buildFrom($message)
+                ->buildRecipients($message)
+                ->buildSubject($message);
+            });
         });
     }
 
@@ -332,7 +332,7 @@ class Mailbox implements MailboxContract, Renderable
      */
     public function view($view, array $data = []): static
     {
-        $this->view     = $view;
+        $this->view = $view;
         $this->viewData = array_merge($this->viewData, $data);
         
         return $this;
@@ -516,17 +516,17 @@ class Mailbox implements MailboxContract, Renderable
             $recipient = $this->normalizeRecipient($recipient);
             
             $this->{$property}[] = [
-                'name'    => $recipient->name ?? null,
+                'name' => $recipient->name ?? null,
                 'address' => $recipient->email,
             ];
         }
         
         $this->{$property} = collect($this->{$property})
-             ->reverse()
-             ->unique('address')
-             ->reverse()
-             ->values()
-             ->all();
+            ->reverse()
+            ->unique('address')
+            ->reverse()
+            ->values()
+            ->all();
         
         return $this;
     }

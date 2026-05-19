@@ -249,10 +249,10 @@ class SqlServerGrammar extends Grammar
     public function compileSpatialIndex(Dataprint $dataprint, Flowing $command): string
     {
         return sprintf('create spatial index %s on %s (%s)',
-                    $this->wrap($command->index),
-                    $this->wrapTable($dataprint),
-                    $this->columnize($command->columns)
-               );
+            $this->wrap($command->index),
+            $this->wrapTable($dataprint),
+            $this->columnize($command->columns)
+        );
     }
 
     /**

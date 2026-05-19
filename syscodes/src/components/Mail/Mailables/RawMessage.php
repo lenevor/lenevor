@@ -103,7 +103,7 @@ class RawMessage
             }
             
             $this->isGeneratorClosed = ! $this->message->valid();
-            $this->message           = $message;
+            $this->message = $message;
             
             return;
         }
@@ -126,7 +126,7 @@ class RawMessage
     /**
      * Constructs the object.
      * 
-     * @param  string  $serialized
+     * @param  array  $serialized
      * 
      * @return void
      */

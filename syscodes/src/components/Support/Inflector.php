@@ -75,9 +75,9 @@ class Inflector
      */
     public function __construct()
     {
-        $this->pluralRules   = Pluralize::all();
+        $this->pluralRules = Pluralize::all();
         $this->singularRules = Singularize::all();
-        $this->aplicator     = new Rules();
+        $this->aplicator = new Rules();
         
         foreach (Irregularize::all() as $rule) {
             $this->irregularSingles[$rule[0]] = $rule[1];

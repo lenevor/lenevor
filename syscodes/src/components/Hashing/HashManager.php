@@ -46,7 +46,7 @@ class HashManager extends Manager implements Hasher
     /**
      * Create an instance of the Argon2i hash Driver.
      * 
-     * @return \Syscodes\Components\Hashing\ArgonHasher
+     * @return \Syscodes\Components\Hashing\Drivers\ArgonHasher
      */
     public function createArgonDriver()
     {
@@ -56,7 +56,7 @@ class HashManager extends Manager implements Hasher
     /**
      * Create an instance of the Argon2id hash Driver.
      * 
-     * @return \Syscodes\Components\Hashing\Argon2IdHasher
+     * @return \Syscodes\Components\Hashing\Drivers\Argon2IdHasher
      */
     public function createArgon2idDriver()
     {
@@ -79,7 +79,7 @@ class HashManager extends Manager implements Hasher
      * Hash the given value.
      * 
      * @param  string  $value
-     * @param  array   $options
+     * @param  array  $options
      * 
      * @return string
      */
@@ -93,7 +93,7 @@ class HashManager extends Manager implements Hasher
      * 
      * @param  string  $value
      * @param  string  $hashedValue
-     * @param  array   $options
+     * @param  array  $options
      * 
      * @return bool
      */
@@ -106,7 +106,7 @@ class HashManager extends Manager implements Hasher
      * Check if the given hash has been hashed using the given options.
      * 
      * @param  string  $hashedValue
-     * @param  array   $options
+     * @param  array  $options
      * 
      * @return bool
      */

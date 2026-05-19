@@ -46,7 +46,7 @@ class HigherOrderCollectionProxy
     /**
      * Constructor. Create a new collection proxy instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Support\Collectable  $Collection
+     * @param  \Syscodes\Components\Contracts\Support\Collectable  $collection
      * @param  string  $method
      * 
      * @return void
@@ -54,7 +54,7 @@ class HigherOrderCollectionProxy
     public function __construct(Collectable $collection, string $method)
     {
         $this->collection = $collection;
-        $this->method     = $method;
+        $this->method = $method;
     }
     
     /**

@@ -141,7 +141,7 @@ trait Schedule
      */
     public function getAge()
     {
-        $now  = static::now()->getTimestamp();
+        $now = static::now()->getTimestamp();
         $time = $this->getTimestamp();
 
         return max(0, date('Y', $now) - date('Y', $time));
@@ -154,8 +154,8 @@ trait Schedule
      */
     public function getDst()
     {
-        $start       = strtotime('-1 year', $this->getTimestamp());
-        $end         = strtotime('+2 year', $start);
+        $start = strtotime('-1 year', $this->getTimestamp());
+        $end = strtotime('+2 year', $start);
         $transitions = $this->timezone->getTransitions($start, $end);
 
         $dayLightSaving = false;
@@ -232,7 +232,7 @@ trait Schedule
             throw new InvalidDateTimeException(__('time.invalidDay', [$value]));
         }
         
-        $date    = $this->getYear().'-'.$this->getMonth();
+        $date = $this->getYear().'-'.$this->getMonth();
         $lastDay = date('t', strtotime($date));
         
         if ($value > $lastDay) {

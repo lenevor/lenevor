@@ -140,9 +140,9 @@ class Benchmark
     protected function formatPeriod(float $operation): string
     { 
         $duration = $operation; 
-        $hours    = (int) ($duration / 60 / 60); 
-        $minutes  = (int) (($duration / 60) - $hours * 60); 
-        $seconds  = (int) ($duration - $hours * 60 * 60 - $minutes * 60); 
+        $hours = (int) ($duration / 60 / 60); 
+        $minutes = (int) (($duration / 60) - $hours * 60); 
+        $seconds = (int) ($duration - $hours * 60 * 60 - $minutes * 60); 
         
         if ($seconds <= 0) {
            return ' ms';

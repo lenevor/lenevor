@@ -73,8 +73,8 @@ trait Utilities
         } elseif (is_string($time)) {
             $timezone = $timezone ?: $this->timezone;
             $timezone = $timezone instanceof DateTimeZone ? $timezone : new DateTimeZone('UTC');
-            $time     = new DateTime($time, $timezone);
-            $time     = $time->setTimezone(new DateTimeZone('UTC'));
+            $time = new DateTime($time, $timezone);
+            $time = $time->setTimezone(new DateTimeZone('UTC'));
         }
 
         return $time;

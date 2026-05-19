@@ -65,7 +65,7 @@ class RouteUrlGenerator
     /**
      * The URL generator instance.
      * 
-     * @var \Syscodes\Components\Routing\UrlGenerator
+     * @var \Syscodes\Components\Routing\Generators\UrlGenerator
      */
     protected $url;
 
@@ -73,7 +73,7 @@ class RouteUrlGenerator
      * Constructor. Create a new RouteUrlGenerator class instance.
      * 
      * @param  \Syscodes\Components\Routing\Generators\UrlGenerator  $url
-     * @param  \Syscodes\Components\Http\Request
+     * @param  \Syscodes\Components\Http\Request  $request
      * 
      * @return void
      */
@@ -92,7 +92,7 @@ class RouteUrlGenerator
      * 
      * @return string
      * 
-     * @throws Syscodes\Components\Routing\Exceptions\UrlGeneratorException
+     * @throws \Syscodes\Components\Routing\Exceptions\UrlGeneratorException
      */
     public function to($route, $parameters = [], $forced = false): string
     {
@@ -171,10 +171,10 @@ class RouteUrlGenerator
     protected function replaceNamedParameters($path, &$parameters)
     {
         return preg_replace_callback(
-                    '/\{(.*?)\??\}/', 
-                    fn ($match) => isset($parameters[$match[1]]) ? Arr::pull($parameters, $match[1]) : $match[0], 
-                    $path
-                );
+            '/\{(.*?)\??\}/',
+            fn ($match) => isset($parameters[$match[1]]) ? Arr::pull($parameters, $match[1]) : $match[0],
+            $path
+        );
     }
 
     /**

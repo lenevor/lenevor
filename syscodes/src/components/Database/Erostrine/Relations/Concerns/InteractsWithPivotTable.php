@@ -187,8 +187,8 @@ trait InteractsWithPivotTable
     protected function getAttachIdAndAttributes($key, $value, array $attributes): array
     {
         return is_array($value)
-                    ? [$key, array_merge($value, $attributes)]
-                    : [$value, $attributes];
+            ? [$key, array_merge($value, $attributes)]
+            : [$value, $attributes];
     }
     
     /**

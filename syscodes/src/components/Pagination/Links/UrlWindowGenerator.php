@@ -86,9 +86,9 @@ class UrlWindowGenerator
     protected function getSmallSlider(): array
     {
         return [
-            'first'  => $this->paginator->getUrlRange(1, $this->lastPage()),
+            'first' => $this->paginator->getUrlRange(1, $this->lastPage()),
             'slider' => null,
-            'last'   => null,
+            'last' => null,
         ];
     }
     
@@ -140,9 +140,9 @@ class UrlWindowGenerator
     protected function getSliderTooCloseToBeginning($window, $onEachSide): array
     {
         return [
-            'first'  => $this->paginator->getUrlRange(1, $window + $onEachSide),
+            'first' => $this->paginator->getUrlRange(1, $window + $onEachSide),
             'slider' => null,
-            'last'   => $this->getFinish(),
+            'last' => $this->getFinish(),
         ];
     }
     
@@ -162,9 +162,9 @@ class UrlWindowGenerator
         );
         
         return [
-            'first'  => $this->getStart(),
+            'first' => $this->getStart(),
             'slider' => null,
-            'last'   => $last,
+            'last' => $last,
         ];
     }
 

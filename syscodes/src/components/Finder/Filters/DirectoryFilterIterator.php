@@ -81,7 +81,7 @@ class DirectoryFilterIterator extends RecursiveDirectoryIterator
         parent::__construct($path, $flags);
         
         $this->ignoreDirs = $ignoreDirs;
-        $this->rootPath   = $path;
+        $this->rootPath = $path;
         
         if ('/' !== DIRECTORY_SEPARATOR && ! ($flags & self::UNIX_PATHS)) {
             $this->ds = DIRECTORY_SEPARATOR;

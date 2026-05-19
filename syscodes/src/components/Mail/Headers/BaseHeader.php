@@ -66,7 +66,7 @@ abstract class BaseHeader
     /**
      * Set the max line lenght.
      * 
-     * @param  int  $lineLenght
+     * @param  int  $lineLength
      * 
      * @return void
      */
@@ -140,10 +140,10 @@ abstract class BaseHeader
      */
     private function tokensToString(array $tokens): string
     {
-        $lineCount     = 0;
-        $headerLines   = [];
+        $lineCount = 0;
+        $headerLines = [];
         $headerLines[] = $this->getName().': ';
-        $currentLine   = &$headerLines[$lineCount++];
+        $currentLine = &$headerLines[$lineCount++];
         
         foreach ($tokens as $i => $token) {
             if (("\r\n" === $token) || 

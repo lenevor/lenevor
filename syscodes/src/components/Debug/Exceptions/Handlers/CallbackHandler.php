@@ -34,14 +34,14 @@ class CallbackHandler extends Handler
     /**
      * The contents of a variable can be called as a function.
      * 
-     * @var \Callable
+     * @var callable
      */
     protected $callable;
 
     /**
      * Constructor. The CallableHandler class.
      * 
-     * @param  \callable  $callable
+     * @param  callable  $callable
      * 
      * @return void
      * 
@@ -59,14 +59,14 @@ class CallbackHandler extends Handler
     /**
      * Given an exception and status code will display the error to the client.
      * 
-     * @return \callable|int|null
+     * @return callable|int|null
      */
     public function handle()
     {
-        $exception  = $this->getException();
+        $exception = $this->getException();
         $supervisor = $this->getSupervisor();
-        $debug      = $this->getDebug();
-        $callable   = $this->callable;
+        $debug = $this->getDebug();
+        $callable = $this->callable;
 
         return $callable($exception, $supervisor, $debug);
     }

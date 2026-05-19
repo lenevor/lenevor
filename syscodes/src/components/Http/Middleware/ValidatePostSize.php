@@ -38,7 +38,7 @@ class ValidatePostSize
      * 
      * @return mixed
      * 
-     * @throws \Syscodes\Components\Http\Exceptions\PostTooLargeException
+     * @throws \Syscodes\Components\Http\Exceptions\PostTooLargeHttpException
      */
     public function handle($request, Closure $next)
     {
@@ -62,7 +62,7 @@ class ValidatePostSize
             return (int) $postMaxSize;
         }
         
-        $metric      = strtoupper(substr($postMaxSize, -1));
+        $metric = strtoupper(substr($postMaxSize, -1));
         $postMaxSize = (int) $postMaxSize;
         
         return match ($metric) {

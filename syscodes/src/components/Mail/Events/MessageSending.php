@@ -53,7 +53,7 @@ class MessageSending
      */
     public function __construct(Email $message, array $data = [])
     {
-        $this->data    = $data;
+        $this->data = $data;
         $this->message = $message;
     }
 }

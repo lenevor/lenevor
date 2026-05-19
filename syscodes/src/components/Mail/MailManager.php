@@ -179,8 +179,8 @@ class MailManager implements FactoryContract
         
         if ( ! $scheme) {
             $scheme = ! empty($config['encryption']) && $config['encryption'] === 'tls'
-                    ? (($config['port'] == 465) ? 'smtps' : 'smtp')
-                    : '';
+                ? (($config['port'] == 465) ? 'smtps' : 'smtp')
+                : '';
         }
         
         $transport = $factory->create(new DomainTransport(
@@ -284,8 +284,8 @@ class MailManager implements FactoryContract
     protected function getConfig(string $name): array
     {
         $config = $this->app['config']['mail.driver']
-                ? $this->app['config']['mail']
-                : $this->app['config']["mail.mailers.{$name}"];
+            ? $this->app['config']['mail']
+            : $this->app['config']["mail.mailers.{$name}"];
                 
         if (isset($config['url'])) {
             $config['transport'] = Arr::pull($config, 'driver');
@@ -302,7 +302,7 @@ class MailManager implements FactoryContract
     public function getDefaultDriver(): string
     {
         return $this->app['config']['mail.driver'] ??
-               $this->app['config']['mail.default'];
+            $this->app['config']['mail.default'];
     }
     
     /**

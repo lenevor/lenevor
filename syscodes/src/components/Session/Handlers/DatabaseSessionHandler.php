@@ -88,9 +88,9 @@ class DatabaseSessionHandler implements SessionHandlerInterface
         int $minutes,
         ?Container $container = null
     ) {
-        $this->table      = $table;
-        $this->minutes    = $minutes;
-        $this->container  = $container;
+        $this->table = $table;
+        $this->minutes = $minutes;
+        $this->container = $container;
         $this->connection = $connection;
     }    
     

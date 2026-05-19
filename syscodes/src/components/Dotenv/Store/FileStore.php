@@ -54,7 +54,7 @@ final class FileStore
      */
     public function __construct(array $filePaths, bool $modeEnabled)
     {
-        $this->filePaths   = $filePaths;
+        $this->filePaths = $filePaths;
         $this->modeEnabled = $modeEnabled;
     }
 

@@ -78,7 +78,7 @@ class CacheManager implements FactoryContract
     /**
      * Get a cache driver instance.
      * 
-     * @param  string|null
+     * @param  string|null  $driver
      * 
      * @return \Syscodes\Components\Cache\CacheRepository
      */
@@ -108,7 +108,7 @@ class CacheManager implements FactoryContract
      * 
      * @return \Syscodes\Components\Cache\CacheRepository
      * 
-     * @throws \CacheException
+     * @throws CacheException
      */
     protected function resolve(string $name)
     {
@@ -170,7 +170,7 @@ class CacheManager implements FactoryContract
     {
         $prefix = $this->getPrefix($config);
 
-        return $this->getRepository(new ApcStore(new ApcWrapper), $prefix);
+        return $this->getRepository(new ApcStore(new ApcWrapper, $prefix));
     }
 
     /**
@@ -193,8 +193,8 @@ class CacheManager implements FactoryContract
     protected function createDatabaseDriver(array $config)
     {
         $connection = $this->app['db']->connection($config['connection'] ?? null);
-        $table      = $config['table'];
-        $prefix     = $this->getPrefix($config);
+        $table = $config['table'];
+        $prefix = $this->getPrefix($config);
         
         return $this->repository(new DatabaseStore($connection, $table, $prefix));
     }
@@ -251,8 +251,8 @@ class CacheManager implements FactoryContract
      */
     protected function createRedisDriver(array $config)
     {
-        $redis      = $this->app['redis'];
-        $prefix     = $this->getPrefix($config);
+        $redis = $this->app['redis'];
+        $prefix = $this->getPrefix($config);
         $connection = $config['connection'] ?? 'default';
 
         return $this->getRepository(new RedisStore($redis, $prefix, $connection));

@@ -95,7 +95,7 @@ final class Validation
     /**
      * The Presence Verifier implementation.
      * 
-     * @var \Syscodes\Components\Contracts\Validation\PresenceVerifier $verifier
+     * @var \Syscodes\Components\Contracts\Validation\PresenceVerifier
      */
     protected $verifier;
 
@@ -116,9 +116,9 @@ final class Validation
         array $messages = []
     ) {
         $this->validator = $validator;
-        $this->inputs    = $this->resolveInputAttributes($inputs);
-        $this->messages  = $messages;
-        $this->errors    = new MessageBag;
+        $this->inputs = $this->resolveInputAttributes($inputs);
+        $this->messages = $messages;
+        $this->errors = new MessageBag;
         
         foreach ($rules as $attributeKey => $rules) {
             $this->addAttribute($attributeKey, $rules);
@@ -128,7 +128,7 @@ final class Validation
     /**
      * Add attribute rules.
      * 
-     * @param  string  $key
+     * @param  string  $attributeKey
      * @param  string|array  $rules
      * 
      * @return void
@@ -136,7 +136,7 @@ final class Validation
     public function addAttribute(string $attributeKey, $rules): void
     {
         $resolvedRules = $this->resolveRules($rules);
-        $attribute     = new Attribute($this, $attributeKey, $this->getAlias($attributeKey), $resolvedRules);
+        $attribute = new Attribute($this, $attributeKey, $this->getAlias($attributeKey), $resolvedRules);
         
         $this->attributes[$attributeKey] = $attribute;
     }
@@ -189,7 +189,7 @@ final class Validation
     protected function addError(Attribute $attribute, $value, Rules $ruleValidator): void
     {
         $ruleName = $ruleValidator->getKey();
-        $message  = $this->resolveMessage($attribute, $value, $ruleValidator);
+        $message = $this->resolveMessage($attribute, $value, $ruleValidator);
         
         $this->errors->add($attribute->getKey(), $ruleName, $message);
     }
@@ -214,8 +214,8 @@ final class Validation
         }
         
         $attributeKey = $attribute->getKey();
-        $rules        = $attribute->getRules();
-        $value        = $this->getValue($attributeKey);
+        $rules = $attribute->getRules();
+        $value = $this->getValue($attributeKey);
         $isEmptyValue = $this->isEmptyValue($value);
         
         if ($attribute->hasRule('nullable') && $isEmptyValue) {
@@ -290,8 +290,8 @@ final class Validation
     protected function ruleIsOptional(Attribute $attribute, Rules $rule): bool
     {
         return false === $attribute->isRequired() &&
-               false === $rule->isImplicit() &&
-               false === $rule instanceof Required;
+            false === $rule->isImplicit() &&
+            false === $rule instanceof Required;
     }
     
     /**
@@ -347,7 +347,7 @@ final class Validation
      */
     protected function parseRule(string $rule): array
     {
-        $exp      = explode(':', $rule, 2);
+        $exp = explode(':', $rule, 2);
         $rulename = $exp[0];
         
         if ($rulename !== 'regex') {
@@ -403,21 +403,21 @@ final class Validation
     /**
      * Gather a copy of the attribute data filled with any missing attributes.
      * 
-     * @param  string  $attribute
+     * @param  string  $attributeKey
      * 
      * @return array
      */
     protected function initializeAttributeOnData(string $attributeKey): array
     {
         $explicitPath = $this->getLeadingExplicitAttributePath($attributeKey);
-        $data         = $this->extractDataFromPath($explicitPath);
-        $asteriskPos  = strpos($attributeKey, '*');
+        $data = $this->extractDataFromPath($explicitPath);
+        $asteriskPos = strpos($attributeKey, '*');
         
         if (false === $asteriskPos || $asteriskPos === (mb_strlen($attributeKey, 'UTF-8') - 1)) {
             return $data;
         }
         
-        return Arr::Set($data, $attributeKey, null, true);
+        return Arr::Set($data, $attributeKey, null);
     }
     
     /**
@@ -498,12 +498,12 @@ final class Validation
     protected function resolveMessage(Attribute $attribute, $value, Rules $validator): string
     {
         $primaryAttribute = $attribute->getPrimaryAttribute();
-        $params           = array_merge($validator->getParameters(), $validator->getParametersTexts());
-        $attributeKey     = $attribute->getKey();
-        $ruleKey          = $validator->getKey();
-        $alias            = $attribute->getAlias() ?: $this->resolveAttributeName($attribute);
-        $message          = $validator->getMessage(); // default rule message
-        $messageKeys      = [
+        $params = array_merge($validator->getParameters(), $validator->getParametersTexts());
+        $attributeKey = $attribute->getKey();
+        $ruleKey = $validator->getKey();
+        $alias = $attribute->getAlias() ?: $this->resolveAttributeName($attribute);
+        $message = $validator->getMessage(); // default rule message
+        $messageKeys = [
             $attributeKey.$this->msgSeparator.$ruleKey,
             $attributeKey,
             $ruleKey,

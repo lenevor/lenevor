@@ -65,16 +65,16 @@ final class RepositoryCreator
     /**
      * Constructor. Create a new Repository creator instance.
      * 
-     * @param  array|\Syscodes\Components\Contracts\Dotenv\Readers  $readers
-     * @param  array|\Syscodes\Components\Contracts\Dotenv\Writers  $writers
+     * @param  array|\Syscodes\Components\Contracts\Dotenv\Reader  $readers
+     * @param  array|\Syscodes\Components\Contracts\Dotenv\Writer  $writers
      * @param  string[]|null  $allowList
      * 
      * @return void
      */
     public function __construct(array $readers = [], array $writers = [], ?array $allowList = null)
     {
-        $this->readers   = $readers;
-        $this->writers   = $writers;
+        $this->readers = $readers;
+        $this->writers = $writers;
         $this->allowList = $allowList;
     }
 
@@ -123,7 +123,7 @@ final class RepositoryCreator
      * 
      * @param  string  $adapter
      * 
-     * @return new static
+     * @return static
      * 
      * @return \InvalidArgumentException
      */

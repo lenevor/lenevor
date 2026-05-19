@@ -159,10 +159,10 @@ trait Date
     protected function setValue(string $name, $value)
     {
         list($year, $month, $day, $hour, $minute, $second) = explode('-', $this->format('Y-n-j-G-i-s'));
-        $$name                                             = $value;
+        $$name = $value;
 
         return static::create(
-            $year, $month, $day, $hour, $minute, $second, $this->getTimezoneName(), $this->locale
+            $year, $month, $day, $hour, $minute, $second, $this->getTimezoneName()
         );
     }
 
@@ -268,12 +268,12 @@ trait Date
      */
     public function humanize()
     {
-        $now     = IntlCalendar::fromDateTime(static::parse($this->timezone)->toDateTimeString(), $this->locale);
-        $time    = $this->getCalendar()->getTime();
-        $years   = $now->fieldDifference($time, IntlCalendar::FIELD_YEAR);
-        $months  = $now->fieldDifference($time, IntlCalendar::FIELD_MONTH);
-        $days    = $now->fieldDifference($time, IntlCalendar::FIELD_DAY_OF_YEAR);
-        $hours   = $now->fieldDifference($time, IntlCalendar::FIELD_HOUR_OF_DAY);
+        $now = IntlCalendar::fromDateTime(static::parse($this->timezone)->toDateTimeString(), $this->locale);
+        $time = $this->getCalendar()->getTime();
+        $years = $now->fieldDifference($time, IntlCalendar::FIELD_YEAR);
+        $months = $now->fieldDifference($time, IntlCalendar::FIELD_MONTH);
+        $days = $now->fieldDifference($time, IntlCalendar::FIELD_DAY_OF_YEAR);
+        $hours = $now->fieldDifference($time, IntlCalendar::FIELD_HOUR_OF_DAY);
         $minutes = $now->fieldDifference($time, IntlCalendar::FIELD_MINUTE);
         $seconds = $now->fieldDifference($time, IntlCalendar::FIELD_SECOND);
 

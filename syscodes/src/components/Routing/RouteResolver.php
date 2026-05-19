@@ -157,15 +157,15 @@ class RouteResolver
 	protected function runRouteStack(Route $route, Request $request)
 	{
 		$skipMiddleware = $this->container->bound('middleware.disable') &&
-						  ($this->container->make('middleware.disable') === true);
+		    ($this->container->make('middleware.disable') === true);
 						  
 		
 		$middleware = $skipMiddleware ? [] : $this->router->gatherRouteMiddleware($route);
 
 		return (new Pipeline($this->container))
-				->send($request)
-				->through($middleware)
-				->then(fn ($request) => $this->callResponse($request, $route->runResolver()));
+		    ->send($request)
+		    ->through($middleware)
+		    ->then(fn ($request) => $this->callResponse($request, $route->runResolver()));
 	}
 
 	/**

@@ -51,7 +51,7 @@ class Logout
      */
     public function __construct($guard, $user)
     {
-        $this->user  = $user;
+        $this->user = $user;
         $this->guard = $guard;
     }
 }

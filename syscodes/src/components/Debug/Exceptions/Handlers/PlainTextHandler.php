@@ -50,12 +50,12 @@ class PlainTextHandler extends Handler
     protected function getResponse(Throwable $exception): string
     {
         return sprintf("%s: %s in file %s on line %d%s\n",
-                    get_class($exception),
-                    $exception->getMessage(),
-                    $exception->getFile(),
-                    $exception->getLine(),
-                    $this->getTraceOutput()
-               );
+            get_class($exception),
+            $exception->getMessage(),
+            $exception->getFile(),
+            $exception->getLine(),
+            $this->getTraceOutput()
+        );
     }
 
     /**
@@ -66,9 +66,9 @@ class PlainTextHandler extends Handler
     protected function getTraceOutput(): string
     {
         $supervisor = $this->getSupervisor();
-        $frames     = $supervisor->getFrames();
+        $frames = $supervisor->getFrames();
         
-        $response   = "\nStack trace:";
+        $response = "\nStack trace:";
 
         $line = count($frames);
 
@@ -82,12 +82,12 @@ class PlainTextHandler extends Handler
             }
 
             $response .= sprintf($template,
-                            $line,
-                            $class,
-                            $frame->getFunction(),
-                            $frame->getFile(),
-                            $frame->getLine()
-                       );
+                $line,
+                $class,
+                $frame->getFunction(),
+                $frame->getFile(),
+                $frame->getLine()
+            );
 
             $line--;
         }

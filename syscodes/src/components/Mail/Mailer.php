@@ -36,6 +36,7 @@ use Syscodes\Components\Mail\Helpers\Envelope;
 use Syscodes\Components\Mail\Mailables\Address;
 use Syscodes\Components\Mail\Mailables\Email;
 use Syscodes\Components\Mail\SentMessage;
+use Syscodes\Components\Support\WebString;
 
 /**
  * Get the connection with the mail user for send messages.
@@ -181,7 +182,7 @@ class Mailer implements MailerContract
      */
     public function html($html, $callback)
     {
-        return $this->send(['html' => new Webable($html)], [], $callback);
+        return $this->send(['html' => new WebString($html)], [], $callback);
     }
     
     /**
@@ -284,7 +285,8 @@ class Mailer implements MailerContract
      * Send the given mailable.
      *
      * @param  \Syscodes\Components\Contracts\Mail\Mailbox  $mailable
-     * @return \Syscodes\Components\Mail\Helpers\SentMessage|null
+     * 
+     * @return \Syscodes\Components\Mail\Helpers\BaseSentMessage|null
      */
     protected function sendMailbox(MailboxContract $mailable)
     {
@@ -298,13 +300,13 @@ class Mailer implements MailerContract
      * @param  array  $data
      * @param  \Closure|string|null  $callback
      * 
-     * @return \Syscodes\Components\Mail\Helpers\SentMessage|null
+     * @return \Syscodes\Components\Mail\Helpers\BaseSentMessage|null
      */
     public function sendNow($mailable, array $data = [], $callback = null)
     {
         return $mailable instanceof MailboxContract
-                ? $mailable->mailer($this->name)->send($this)
-                : $this->send($mailable, $data, $callback);
+            ? $mailable->mailer($this->name)->send($this)
+            : $this->send($mailable, $data, $callback);
     }
     
     /**
@@ -376,8 +378,8 @@ class Mailer implements MailerContract
         $view = value($view, $data);
         
         return $view instanceof Webable
-                        ? $view->toHtml()
-                        : $this->views->make($view, $data)->render();
+            ? $view->toHtml()
+            : $this->views->make($view, $data)->render();
     }
     
     /**

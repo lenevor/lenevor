@@ -62,7 +62,7 @@ class HttpException extends LenevorException
 		?int $code = 0
 	) {
 		$this->headers = $headers;
-		$this->code    = $statusCode;
+		$this->code = $statusCode;
 				
 		parent::__construct($message, $code, $previous);
 	}

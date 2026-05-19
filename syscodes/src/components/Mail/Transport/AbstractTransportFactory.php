@@ -56,7 +56,7 @@ abstract class AbstractTransportFactory
     public function __construct(?Dispatcher $dispatcher = null, ?LoggerInterface $logger = null)
     {
         $this->dispatcher = $dispatcher;
-        $this->logger     = $logger;
+        $this->logger = $logger;
     }
     
     /**

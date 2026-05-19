@@ -52,7 +52,7 @@ trait FinderHelper
             $notPaths[] = '#(^|/)\..+(/|$)#';
         }
 
-        $flags    = RecursiveDirectoryIterator::SKIP_DOTS;
+        $flags = RecursiveDirectoryIterator::SKIP_DOTS;
         $iterator = new DirectoryFilterIterator($dir, $flags, $this->ignoreDirs);
         $iterator = new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::SELF_FIRST);
 

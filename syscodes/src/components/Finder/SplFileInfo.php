@@ -56,7 +56,7 @@ class SplFileInfo extends BaseSplFileInfo
     {
         parent::__construct($file);
 
-        $this->relativePath     = $relativePath;
+        $this->relativePath = $relativePath;
         $this->relativePathname = $relativePathname;
     }
 

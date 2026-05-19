@@ -85,6 +85,6 @@ final class Version
     public static function longVersion(): string
     {
         return self::COPY.' '.self::YEAR.' '.self::COPYRIGHT.' - '.self::NAME.' ' .self::RELEASE. ' '. 
-               self::STATUS.' [ '.self::CODENAME.' ] '.self::RELEASEDATE;
+            self::STATUS.' [ '.self::CODENAME.' ] '.self::RELEASEDATE;
     }
 }
