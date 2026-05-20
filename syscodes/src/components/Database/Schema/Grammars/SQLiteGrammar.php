@@ -88,6 +88,24 @@ class SQLiteGrammar extends Grammar
             $this->addPrimaryKeys($this->getCommandByName($dataprint, 'primary'))
         );
     }
+
+    /**
+     * Compile the query to determine the SQL text that describes the given object.
+     *
+     * @param  string|null  $schema
+     * @param  string  $name
+     * @param  string  $type
+     * 
+     * @return string
+     */
+    public function compileSqlCreateStatement($schema, $name, $type = 'table'): string
+    {
+        return sprintf('select "sql" from %s.sqlite_master where type = %s and name = %s',
+            $this->wrapValue($schema ?? 'main'),
+            $this->quoteString($type),
+            $this->quoteString($name)
+        );
+    }
     
     /**
      * Get the foreign key syntax for a table creation statement.
