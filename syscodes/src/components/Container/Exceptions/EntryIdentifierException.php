@@ -30,15 +30,5 @@ use Psr\Container\NotFoundExceptionInterface;
  */
 class EntryIdentifierException extends Exception implements NotFoundExceptionInterface
 {
-    /**
-     * Constructor. Message error.
-     * 
-     * @param  string  $id  The unknown identifier
-     * 
-     * @return void
-     */
-    public function __construct($id)
-    {
-        parent::__construct(sprintf('Identifier [ %s ] is not defined', $id));
-    }
+    //
 }
