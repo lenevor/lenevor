@@ -170,7 +170,7 @@ class FilesystemManager implements Factory
      * 
      * @return array
      */
-    protected function getConfig($name): string
+    protected function getConfig($name): array
     {
         return $this->app['config']["filesystems.disks.{$name}"] ?: [];
     }
