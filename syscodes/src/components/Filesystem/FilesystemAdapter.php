@@ -91,7 +91,7 @@ class FilesystemAdapter implements Filesystem
 	 *
 	 * @return string
 	 *
-	 * @throws FileNotFoundException
+	 * @throws \Syscodes\Components\Filesystem\Exceptions\FileNotFoundException
 	 */
 	public function get(string $path, bool $lock = false): string
     {
@@ -185,7 +185,7 @@ class FilesystemAdapter implements Filesystem
 	 *
 	 * @return bool
 	 * 
-	 * @throws FileException
+	 * @throws \Syscodes\Components\Filesystem\Exceptions\FileException
 	 */
 	public function makeDirectory(string $path, int $mode = 0755, bool $recursive = false, bool $force = false)
     {
