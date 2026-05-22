@@ -23,6 +23,8 @@
 namespace Syscodes\Components\Database\Erostrine\Factories;
 
 use Syscodes\Components\Database\Erostrine\Factories\Factory;
+use Syscodes\Components\Database\Erostrine\Attributes\UseFactory;
+use ReflectionClass;
 
 /**
  * Allows the factory instance for start a model.
@@ -52,6 +54,31 @@ trait HasFactory
      */
     protected static function newFactory()
     {
-        //
+        if (isset(static::$factory)) {
+            return static::$factory::new();
+        }
+
+        return static::getUseFactoryAttribute() ?? null;
+    }
+
+     /**
+     * Get the factory from the UseFactory class attribute.
+     *
+     * @return static|null
+     */
+    protected static function getUseFactoryAttribute()
+    {
+        $attributes = (new ReflectionClass(static::class))
+            ->getAttributes(UseFactory::class);
+
+        if ($attributes !== []) {
+            $useFactory = $attributes[0]->newInstance();
+
+            $factory = $useFactory->factoryClass::new();
+
+            $factory->guessModelNamesUsing(fn () => static::class);
+
+            return $factory;
+        }
     }
 }
