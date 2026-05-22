@@ -440,6 +440,58 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
         return value($default);
     }
 
+   /**
+     * Group an associative array by a field or using a callback.
+     *
+     * @param  callable|array|string  $groupBy
+     * @param  bool  $preserveKeys
+     * 
+     * @return static
+     */
+    public function groupBy($groupBy, $preserveKeys = false): static
+    {
+        if ( ! $this->useAsCallable($groupBy) && is_array($groupBy)) {
+            $nextGroups = $groupBy;
+
+            $groupBy = array_shift($nextGroups);
+        }
+
+        $groupBy = $this->valueRetriever($groupBy);
+
+        $results = [];
+
+        foreach ($this->items as $key => $value) {
+            $groupKeys = $groupBy($value, $key);
+
+            if ( ! is_array($groupKeys)) {
+                $groupKeys = [$groupKeys];
+            }
+
+            foreach ($groupKeys as $groupKey) {
+                $groupKey = match (true) {
+                    is_bool($groupKey) => (int) $groupKey,
+                    $groupKey instanceof \UnitEnum => enum_value($groupKey),
+                    $groupKey instanceof \Stringable, is_null($groupKey) => (string) $groupKey,
+                    default => $groupKey,
+                };
+
+                if ( ! array_key_exists($groupKey, $results)) {
+                    $results[$groupKey] = $this->newInstance();
+                }
+
+                $results[$groupKey]->offsetSet($preserveKeys ? $key : null, $value);
+            }
+        }
+
+        $result = $this->newInstance($results);
+
+        if ( ! empty($nextGroups)) {
+            return $result->map->groupBy($nextGroups, $preserveKeys);
+        }
+
+        return $result;
+    }
+
     /**
      * Determine if an item exists in the collection by key.
      * 

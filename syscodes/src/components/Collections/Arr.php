@@ -95,6 +95,34 @@ class Arr
     }
 
 	/**
+     * Cross join the given arrays, returning all possible permutations.
+     *
+     * @param  iterable  ...$arrays
+	 * 
+     * @return array
+     */
+    public static function crossJoin(...$arrays): array
+    {
+        $results = [[]];
+
+        foreach ($arrays as $index => $array) {
+            $append = [];
+
+            foreach ($results as $product) {
+                foreach ($array as $item) {
+                    $product[$index] = $item;
+
+                    $append[] = $product;
+                }
+            }
+
+            $results = $append;
+        }
+
+        return $results;
+    }
+
+	/**
 	 * Divide an array into two arrays. One with keys and the other with values.
 	 *
 	 * @param  array  $array
