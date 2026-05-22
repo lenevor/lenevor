@@ -59,6 +59,7 @@ trait Enumerates
         'flatMap',
         'flip',
         'first',
+        'groupBy',
         'intersect',
         'keyBy',
         'keys',
