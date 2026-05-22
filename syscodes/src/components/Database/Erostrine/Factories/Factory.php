@@ -36,7 +36,7 @@ use Throwable;
 use function Syscodes\Components\Support\enum_value;
 
 /**
- * 
+ * Allows load all the data faker of test in register of the database.
  */
 abstract class Factory
 {
@@ -93,6 +93,13 @@ abstract class Factory
      * @var string|null
      */
     protected $model;
+
+    /**
+     * The model instances to always use when creating relationships.
+     *
+     * @var \Syscodes\Components\Support\Collection
+     */
+    protected $recycle;
     
     /**
      * The state transformations that will be applied to the model.
@@ -132,6 +139,7 @@ abstract class Factory
      * @param  \Syscodes\Components\Support\Collection|null  $afterMaking
      * @param  \Syscodes\Components\Support\Collection|null  $afterCreating
      * @param  string|null  $connection
+     * @param  \Syscodes\Components\Support\Collection|null  $recycle
      * 
      * @return void
      */
@@ -142,7 +150,8 @@ abstract class Factory
         ?Collection $for = null,
         ?Collection $afterMaking = null,
         ?Collection $afterCreating = null,
-        $connection = null
+        $connection = null,
+        ?Collection $recycle = null
     ) {
         $this->count = $count;
         $this->states = $states ?: new Collection;
@@ -151,6 +160,7 @@ abstract class Factory
         $this->afterMaking = $afterMaking ?: new Collection;
         $this->afterCreating = $afterCreating ?: new Collection;
         $this->connection = $connection;
+        $this->recycle = $recycle ?? new Collection;
     }
 
     /**
@@ -158,7 +168,7 @@ abstract class Factory
      *
      * @return array
      */
-    abstract public function definition();
+    abstract public function definition(): array;
 
     /**
      * Get a new factory instance for the given attributes.
@@ -254,7 +264,7 @@ abstract class Factory
         }
         
         return new ErostrineCollection(
-            collect($records)->map(function ($record) {
+            (new Collection($records))->map(function ($record) {
                 return $this->state($record)->create();
             })
         );
@@ -266,7 +276,7 @@ abstract class Factory
      * @param  iterable  $records
      * 
      * @return \Syscodes\Components\Database\Erostrine\Collection
-     */
+     */ 
     public function createManyQuietly(iterable $records)
     {
         return Model::withoutEvents(function () use ($records) {
@@ -284,19 +294,18 @@ abstract class Factory
      */
     public function create($attributes = [], ?Model $parent = null)
     {
-        if (! empty($attributes)) {
+        if ( ! empty($attributes)) {
             return $this->state($attributes)->create([], $parent);
         }
 
         $results = $this->make($attributes, $parent);
 
         if ($results instanceof Model) {
-            $this->store(collect([$results]));
+            $this->store(new Collection([$results]));
 
-            $this->callAfterCreating(collect([$results]), $parent);
+            $this->callAfterCreating(new Collection([$results]), $parent);
         } else {
             $this->store($results);
-
             $this->callAfterCreating($results, $parent);
         }
 
@@ -324,9 +333,9 @@ abstract class Factory
      * @param  array  $attributes
      * @param  \Syscodes\Components\Database\Erostrine\Model|null  $parent
      * 
-     * @return \Closure
+     * @return Closure
      */
-    public function lazy(array $attributes = [], ?Model $parent = null)
+    public function lazy(array $attributes = [], ?Model $parent = null): Closure
     {
         return function () use ($attributes, $parent) {
             return $this->create($attributes, $parent);
@@ -364,7 +373,7 @@ abstract class Factory
     {
         Model::unguarded(function () use ($model) {
             $this->has->each(function ($has) use ($model) {
-                $has->createFor($model);
+                $has->recycle($this->recycle)->createFor($model);
             });
         });
     }
@@ -397,7 +406,7 @@ abstract class Factory
 
         if ($this->count === null) {
             return take($this->makeInstance($parent), function ($instance) {
-                $this->callAfterMaking(collect([$instance]));
+                $this->callAfterMaking(new Collection([$instance]));
             });
         }
 
@@ -475,9 +484,10 @@ abstract class Factory
     {
         $model = $this->newModel();
 
-        return $this->for->map(function (BelongsToRelationship $for) use ($model) {
-            return $for->attributesFor($model);
-        })->collapse()->all();
+        return $this->for
+            ->map(fn (BelongsToRelationship $for) => $for->recycle($this->recycle)->attributesFor($model))
+            ->collapse()
+            ->all();
     }
 
     /**
@@ -489,20 +499,21 @@ abstract class Factory
      */
     protected function expandAttributes(array $definition): array
     {
-        return (new collection($definition))->map(function ($attribute, $key) use (&$definition) {
-            if (is_callable($attribute) && ! is_string($attribute) && ! is_array($attribute)) {
-                $attribute = $attribute($definition);
-            }
+        return (new collection($definition))
+            ->map(function ($attribute, $key) use (&$definition) {
+                if (is_callable($attribute) && ! is_string($attribute) && ! is_array($attribute)) {
+                    $attribute = $attribute($definition);
+                }
 
-            if ($attribute instanceof self) {
-                $attribute = $attribute->create()->getKey();
-            } elseif ($attribute instanceof Model) {
-                $attribute = $attribute->getKey();
-            }
+                if ($attribute instanceof self) {
+                    $attribute = $attribute->recycle($this->recycle)->create()->getKey();
+                } elseif ($attribute instanceof Model) {
+                    $attribute = $attribute->getKey();
+                }
 
-            $definition[$key] = $attribute;
+                $definition[$key] = $attribute;
 
-            return $attribute;
+                return $attribute;
         })->all();
     }
 
@@ -513,7 +524,7 @@ abstract class Factory
      * 
      * @return static
      */
-    public function state($state)
+    public function state($state): static
     {
         return $this->newInstance([
             'states' => $this->states->concat([
@@ -525,13 +536,29 @@ abstract class Factory
     }
 
     /**
+     * Prepend a new state transformation to the model definition.
+     *
+     * @param  callable|array  $state
+     * 
+     * @return static
+     */
+    public function prependState($state): static
+    {
+        return $this->newInstance([
+            'states' => $this->states->prepend(
+                is_callable($state) ? $state : fn () => $state,
+            ),
+        ]);
+    }
+
+    /**
      * Add a new sequenced state transformation to the model definition.
      *
      * @param  array  $sequence
      * 
      * @return static
      */
-    public function sequence(...$sequence)
+    public function sequence(...$sequence): static
     {
         return $this->state(new Sequence(...$sequence));
     }
@@ -543,7 +570,7 @@ abstract class Factory
      * 
      * @return static
      */
-    public function crossJoinSequence(...$sequence)
+    public function crossJoinSequence(...$sequence): static
     {
         return $this->state(new CrossJoinSequence(...$sequence));
     }
@@ -556,7 +583,7 @@ abstract class Factory
      * 
      * @return static
      */
-    public function has(self $factory, $relationship = null)
+    public function has(self $factory, $relationship = null): static
     {
         return $this->newInstance([
             'has' => $this->has->concat([new Relationship(
@@ -572,7 +599,7 @@ abstract class Factory
      * 
      * @return string
      */
-    protected function guessRelationship(string $related)
+    protected function guessRelationship(string $related): string
     {
         $guess = Str::camelcase(Str::plural(class_basename($related)));
 
@@ -620,6 +647,25 @@ abstract class Factory
         )])]);
     }
 
+     /**
+     * Provide model instances to use instead of any nested factory calls when creating relationships.
+     *
+     * @param  \Syscodes\Components\Database\Erostrine\Model|\Syscodes\Components\Support\Collection|array  $model
+     * 
+     * @return static
+     */
+    public function recycle($model): static
+    {
+        return $this->newInstance([
+            'recycle' => $this->recycle
+                ->flatten()
+                ->merge(
+                    Collection::wrap($model instanceof Model ? func_get_args() : $model)
+                    ->flatten()
+                )->groupBy(fn ($model) => get_class($model)),
+        ]);
+    }
+
     /**
      * Add a new "after making" callback to the model definition.
      *
@@ -638,7 +684,7 @@ abstract class Factory
      * 
      * @return static
      */
-    public function afterCreating(Closure $callback)
+    public function afterCreating(Closure $callback): static
     {
         return $this->newInstance(['afterCreating' => $this->afterCreating->concat([$callback])]);
     }
@@ -765,8 +811,8 @@ abstract class Factory
             $appNamespace = static::appNamespace();
 
             return class_exists($appNamespace.'Models\\'.$namespacedFactoryBasename)
-                        ? $appNamespace.'Models\\'.$namespacedFactoryBasename
-                        : $appNamespace.$factoryBasename;
+                ? $appNamespace.'Models\\'.$namespacedFactoryBasename
+                : $appNamespace.$factoryBasename;
         };
 
         return $resolver($this);
@@ -814,6 +860,7 @@ abstract class Factory
      * Specify the callback that should be invoked to guess factory names based on dynamic relationship names.
      *
      * @param  callable  $callback
+     * 
      * @return void
      */
     public static function guessFactoryNamesUsing(callable $callback)
