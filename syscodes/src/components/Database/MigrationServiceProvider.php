@@ -31,6 +31,7 @@ use Syscodes\Components\Database\Console\Migrations\MigrateMakeCommand;
 use Syscodes\Components\Database\Console\Migrations\RefreshCommand;
 use Syscodes\Components\Database\Console\Migrations\ResetCommand;
 use Syscodes\Components\Database\Console\Migrations\RollbackCommand;
+use Syscodes\Components\Database\Console\Migrations\StatusCommand;
 use Syscodes\Components\Database\Migrations\DatabaseMigrationRepository;
 use Syscodes\Components\Database\Migrations\MigrationCreator;
 use Syscodes\Components\Database\Migrations\Migrator;
@@ -54,6 +55,7 @@ class MigrationServiceProvider extends ServiceProvider implements Deferrable
         'MigrateRefresh' => RefreshCommand::class,
         'MigrateReset' => ResetCommand::class,
         'MigrateRollback' => RollbackCommand::class,
+        'MigrateStatus' => StatusCommand::class,
     ];
 
     /**
@@ -199,6 +201,18 @@ class MigrationServiceProvider extends ServiceProvider implements Deferrable
     {
         $this->app->singleton(RollbackCommand::class, function ($app) {
             return new RollbackCommand($app['migrator']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerMigrateStatusCommand()
+    {
+        $this->app->singleton(StatusCommand::class, function ($app) {
+            return new StatusCommand($app['migrator']);
         });
     }
 
