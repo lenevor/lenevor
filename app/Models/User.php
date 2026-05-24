@@ -22,12 +22,16 @@
 namespace App\Models;
 
 use Syscodes\Components\Core\Auth\User as Authentication;
+use Syscodes\Components\Database\Erostrine\Factories\HasFactory;
 
 /**
  * Called the User model when connection to database.
  */
 class User extends Authentication
 {
+    /** @use HasFactory */
+    use HasFactory;
+    
     /**
      * The attributes that are mass assignable.
      * 
