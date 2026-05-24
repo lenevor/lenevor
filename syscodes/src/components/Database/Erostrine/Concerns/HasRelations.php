@@ -54,11 +54,11 @@ trait HasRelations
      */
     public function hasOne($related, $foreignKey = null, $localKey = null)
     {
-        $instance   = $this->newRelatedInstance($related);
+        $instance = $this->newRelatedInstance($related);
 
         $foreignKey = $foreignKey ?: $this->getForeignKey();
 
-        $localKey   = $localKey ?: $this->getKeyName();
+        $localKey = $localKey ?: $this->getKeyName();
         
         return $this->newHasOne(
             $instance->newQuery(), $this, $instance->qualifyColumn($foreignKey), $localKey
@@ -143,11 +143,11 @@ trait HasRelations
      */
     public function hasMany($related, $foreignKey = null, $localKey = null)
     {
-        $instance   = $this->newRelatedInstance($related);
+        $instance = $this->newRelatedInstance($related);
 
         $foreignKey = $foreignKey ?: $this->getForeignKey();
 
-        $localKey   = $localKey ?: $this->getKeyName();
+        $localKey = $localKey ?: $this->getKeyName();
         
         return $this->newHasMany(
             $instance->newQuery(), $this, $instance->qualifyColumn($foreignKey), $localKey
