@@ -37,8 +37,7 @@ use UnitEnum;
  */
 class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectable
 {
-    use Enumerates,
-        Macroable;
+    use Enumerates, Macroable;
 
     /**
      * The items contained in the collection.
@@ -684,7 +683,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * 
      * @return static
      */
-    public function merge(array $items): static
+    public function merge($items): static
     {
         return $this->newInstance(array_merge($this->items, $this->getArrayableItems($items)));
     }
