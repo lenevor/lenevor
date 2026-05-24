@@ -207,6 +207,16 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 			}
 		}
 	}
+
+	/**
+     * Get a new query builder that have any global scopes.
+     *
+     * @return \Syscodes\Components\Database\Erostrine\Builder
+     */
+    public function newQueryWithScopes()
+    {
+        return $this->newQuery()->with($this->with);
+    }
 	
 	/**
 	 * Get the table qualified key name.
