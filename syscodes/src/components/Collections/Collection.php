@@ -37,8 +37,7 @@ use UnitEnum;
  */
 class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectable
 {
-    use Enumerates,
-        Macroable;
+    use Enumerates, Macroable;
 
     /**
      * The items contained in the collection.
