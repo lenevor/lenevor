@@ -22,7 +22,6 @@
 
 namespace Syscodes\Components\Database\Erostrine\Factories;
 
-use Syscodes\Components\Database\Erostrine\Factories\Factory;
 use Syscodes\Components\Database\Erostrine\Attributes\UseFactory;
 use ReflectionClass;
 
