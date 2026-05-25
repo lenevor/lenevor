@@ -352,7 +352,7 @@ abstract class Factory
     protected function store(Collection $results)
     {
         $results->each(function ($model) {
-            if (! isset($this->connection)) {
+            if ( ! isset($this->connection)) {
                 $model->setConnection($model->newQueryWithoutScopes()->getConnection()->getName());
             }
 
