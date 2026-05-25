@@ -334,6 +334,7 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
                     'Provider' => 'E.g. DashboardServiceProvider',
                     'Request' => 'E.g. StoreRequest',
                     'Resource' => 'E.g. UserResource',
+                    'Seeder' => 'E.g. UserSeeder',
                     default => '',
                 },
             ],
