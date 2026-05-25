@@ -40,6 +40,8 @@ use Syscodes\Components\Support\HigherOrderWhenProxy;
  */
 trait Enumerates
 {
+    use Conditionable;
+    
     /**
      * Indicates that the object's string representation should be escaped when __toString is invoked.
      * 
@@ -498,6 +500,58 @@ trait Enumerates
         [$passed, $failed] = Arr::partition($this->getIterator(), $callback);
 
         return new static([new static($passed), new static($failed)]);
+    }
+
+    /**
+     * Apply the callback if the collection is empty.
+     *
+     * @param  callable  $callback
+     * @param  callable|null  $default
+     * 
+     * @return static
+     */
+    public function whenEmpty(callable $callback, ?callable $default = null): static
+    {
+        return $this->when($this->isEmpty(), $callback, $default);
+    }
+
+    /**
+     * Apply the callback if the collection is not empty.
+     *
+     * @param  callable  $callback
+     * @param  callable|null  $default
+     * 
+     * @return static
+     */
+    public function whenNotEmpty(callable $callback, ?callable $default = null): static
+    {
+        return $this->when($this->isNotEmpty(), $callback, $default);
+    }
+
+    /**
+     * Apply the callback unless the collection is empty.
+     *
+     * @param  callable  $callback
+     * @param  callable|null  $default
+     * 
+     * @return static
+     */
+    public function unlessEmpty(callable $callback, ?callable $default = null): static
+    {
+        return $this->whenNotEmpty($callback, $default);
+    }
+
+    /**
+     * Apply the callback unless the collection is not empty.
+     *
+     * @param  callable  $callback
+     * @param  callable|null  $default
+     * 
+     * @return static
+     */
+    public function unlessNotEmpty(callable $callback, ?callable $default = null): static
+    {
+        return $this->whenEmpty($callback, $default);
     }
     
     /**

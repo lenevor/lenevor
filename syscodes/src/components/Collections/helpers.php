@@ -287,3 +287,25 @@ if ( ! function_exists('value')) {
         return $value instanceof \Closure ? $value(...$args) : $value;
     }
 }
+
+if ( ! function_exists('when')) {
+    /**
+     * Return a value if the given condition is true.
+     *
+     * @param  mixed  $condition
+     * @param  \Closure|mixed  $value
+     * @param  \Closure|mixed  $default
+     * 
+     * @return mixed
+     */
+    function when($condition, $value, $default = null)
+    {
+        $condition = $condition instanceof Closure ? $condition() : $condition;
+
+        if ($condition) {
+            return value($value, $condition);
+        }
+
+        return value($default, $condition);
+    }
+}

@@ -683,7 +683,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * 
      * @return static
      */
-    public function merge(array $items): static
+    public function merge($items): static
     {
         return $this->newInstance(array_merge($this->items, $this->getArrayableItems($items)));
     }
