@@ -148,7 +148,7 @@ class BootHandleExceptions
             $exceptionHandlerFailed = true;
         }
 
-        if ($this->app->runningInConsole()) { 
+        if (static::$app->runningInConsole()) { 
             $this->renderForConsole($e);
             
             if ($exceptionHandlerFailed ?? false) {
