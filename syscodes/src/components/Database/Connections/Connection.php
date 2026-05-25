@@ -853,9 +853,9 @@ class Connection implements ConnectionInterface
      * 
      * @return void
      */
-    public function disconnect(): void
+    public function disconnect()
     {
-        $this->setPdo(null)->$this->setReadPdo(null);
+        $this->setPdo(null)->setReadPdo(null);
     }
 
     /**
