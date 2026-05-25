@@ -25,8 +25,6 @@ namespace Syscodes\Components\Contracts\Support;
 use Countable;
 use IteratorAggregate;
 use JsonSerializable;
-use Syscodes\Components\Contracts\Support\Arrayable;
-use Syscodes\Components\Contracts\Support\Jsonable;
 
 /**
  * Allows the collection of items from an array.
@@ -651,6 +649,68 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * @return array
      */
     public function toArray(): array;
+
+    /**
+     * Apply the callback if the given "value" is (or resolves to) truthy.
+     *
+     * @param  bool  $value
+     * @param  callable|null  $callback
+     * @param  callable|null  $default
+     * 
+     * @return static
+     */
+    public function when($value = null, ?callable $callback = null, ?callable $default = null): static;
+
+    /**
+     * Apply the callback if the collection is empty.
+     *
+     * @param  callable|null  $callback
+     * @param  callable|null  $default
+     * 
+     * @return static
+     */
+    public function whenEmpty(callable $callback, ?callable $default = null): static;
+
+    /**
+     * Apply the callback if the collection is not empty.
+     *
+     * @param  callable|null  $callback
+     * @param  callable|null  $default
+     * 
+     * @return static
+     */
+    public function whenNotEmpty(callable $callback, ?callable $default = null): static;
+
+    /**
+     * Apply the callback if the given "value" is (or resolves to) falsy.
+     *
+     * @param  \Closure|null  $value
+     * @param  callable|null  $callback
+     * @param  callable|null  $default
+     * 
+     * @return static
+     */
+    public function unless($value = null, ?callable $callback = null, ?callable $default = null): static;
+
+    /**
+     * Apply the callback unless the collection is empty.
+     *
+     * @param  callable  $callback
+     * @param  callable|null  $default
+     * 
+     * @return static
+     */
+    public function unlessEmpty(callable $callback, ?callable $default = null): static;
+
+    /**
+     * Apply the callback unless the collection is not empty.
+     *
+     * @param  callable  $callback
+     * @param  callable|null  $default
+     * 
+     * @return static
+     */
+    public function unlessNotEmpty(callable $callback, ?callable $default = null): static;
 
     /**
      * Magic method.
