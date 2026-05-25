@@ -44,9 +44,12 @@ use Syscodes\Components\Core\Console\Commands\TraitMakeCommand;
 use Syscodes\Components\Core\Console\Commands\VendorPublishCommand;
 use Syscodes\Components\Core\Console\Commands\ViewClearCommand;
 use Syscodes\Components\Core\Console\Commands\ViewMakeCommand;
+use Syscodes\Components\Database\Console\Seeds\SeederMakeCommand;
+use Syscodes\Components\Database\Console\Seeds\SeedCommand;
 use Syscodes\Components\Routing\Console\ControllerMakeCommand;
 use Syscodes\Components\Routing\Console\MiddlewareMakeCommand;
 use Syscodes\Components\Support\ServiceProvider;
+use Syscodes\Components\Database\Console\WipeCommand;
 
 /**
  * The Prime service provider allows the register of a namespace of 
@@ -64,8 +67,10 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
         'ClearCompiled' => ClearCompiledCommand::class,
         'ConfigCache' => ConfigCacheCommand::class,
         'ConfigClear' => ConfigClearCommand::class,
+        'DbWipe' => WipeCommand::class,
         'Environment' => EnvironmentCommand::class,
         'KeyGenerate' => KeyGenerateCommand::class,
+        'Seed' => SeedCommand::class,
         'ViewClear' => ViewClearCommand::class,
     ];
 
@@ -87,6 +92,7 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
         'ProviderMake' => ProviderMakeCommand::class,
         'RequestMake' => RequestMakeCommand::class,
         'ResourceMake' => ResourceMakeCommand::class,
+        'SeederMake' => SeederMakeCommand::class,
         'Serve' => ServeCommand::class,
         'TraitMake' => TraitMakeCommand::class,
         'VendorPublish' => VendorPublishCommand::class,
@@ -291,6 +297,30 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
     {
         $this->app->singleton(ResourceMakeCommand::class, function ($app) {
             return new ResourceMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerSeederMakeCommand()
+    {
+        $this->app->singleton(SeederMakeCommand::class, function ($app) {
+            return new SeederMakeCommand($app['files']);
+        });
+    }
+
+     /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerSeedCommand()
+    {
+        $this->app->singleton(SeedCommand::class, function ($app) {
+            return new SeedCommand($app['db']);
         });
     }
 
