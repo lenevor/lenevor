@@ -11,12 +11,14 @@
 |
 */
 
+$baseDir = dirname(SYS_PATH);
+
 return [
 
     // Apps
-    'App\\Http\\Controller' => APP_PATH.'Http/Controller.php',
-    'App\\Models\\User' => APP_PATH.'Models/User.php',
-    'App\\Providers\\AppServiceProvider' => APP_PATH.'Providers/AppServiceProvider.php',
+    'App\\Http\\Controller' => $baseDir.'/app/Http/Controller.php',
+    'App\\Models\\User' => $baseDir.'/app/Models/User.php',
+    'App\\Providers\\AppServiceProvider' => $baseDir.'/app/Providers/AppServiceProvider.php',
     // Components
     'Syscodes\\Components\\Auth\\Access\\Concerns\\HandlesAuthorization' => SYS_PATH.'src/components/Auth/Access/Concerns/HandlesAuthorization.php',
     'Syscodes\\Components\\Auth\\Access\\Exceptions\\AuthorizationException' => SYS_PATH.'src/components/Auth/Access/Exceptions/AuthorizationException.php',
@@ -312,8 +314,12 @@ return [
     'Syscodes\\Components\\Database\\Console\\Migrations\\RefreshCommand' => SYS_PATH.'src/components/Database/Console/Migrations\RefreshCommand.php',
     'Syscodes\\Components\\Database\\Console\\Migrations\\ResetCommand' => SYS_PATH.'src/components/Database/Console/Migrations/ResetCommand.php',
     'Syscodes\\Components\\Database\\Console\\Migrations\\RollbackCommand' => SYS_PATH.'src/components/Database/Console/Migrations/RollbackCommand.php',
+    'Syscodes\\Components\\Database\\Console\\Migrations\\StatusCommand' => SYS_PATH.'src/components/Database/Console/Migrations/StatusCommand.php',
     'Syscodes\\Components\\Database\\Console\\Migrations\\TableGuesser' => SYS_PATH.'src/components/Database/Console/Migrations/TableGuesser.php',
+    'Syscodes\\Components\\Database\\Console\\Seeds\\SeedCommand' => SYS_PATH.'src/components/Database/Console/Seeds/SeedCommand.php',
+    'Syscodes\\Components\\Database\\Console\\Seeds\\SeederMakeCommand' => SYS_PATH.'src/components/Database/Console/Seeds/SeederMakeCommand.php',
     'Syscodes\\Components\\Database\\Console\\Seeds\\WithoutModelEvents' => SYS_PATH.'src/components/Database/Console/Seeds/WithoutModelEvents.php',
+    'Syscodes\\Components\\Database\\Console\\WipeCommand' => SYS_PATH.'src/components/Database/Console/WipeCommand.php',
     'Syscodes\\Components\\Database\\Erostrine\\Attributes\\UseFactory' => SYS_PATH.'src/components/Database/Erostrine/Attributes/UseFactory.php',
     'Syscodes\\Components\\Database\\Erostrine\\Concerns\\GuardsAttributes' => SYS_PATH.'src/components/Database/Erostrine/Concerns/GuardsAttributes.php',
     'Syscodes\\Components\\Database\\Erostrine\\Concerns\\HasAttributes' => SYS_PATH.'src/components/Database/Erostrine/Concerns/HasAttributes.php',
@@ -326,7 +332,7 @@ return [
     'Syscodes\\Components\\Database\\Erostrine\\Exceptions\\ModelNotFoundException' => SYS_PATH.'src/components/Database/Erostrine/Exceptions/ModelNotFoundException.php',
     'Syscodes\\Components\\Database\\Erostrine\\Exceptions\\RelationNotFoundException' => SYS_PATH.'src/components/Database/Erostrine/Exceptions/RelationNotFoundException.php',
     'Syscodes\\Components\\Database\\Erostrine\\Factories\\Attributes\\UseModel' => SYS_PATH.'src/components/Database/Erostrine/Factories/Attributes/UseModel.php',
-    'Syscodes\\Components\\Database\\Erostrine\\Factories\\Concerns\\HasFactory' => SYS_PATH.'src/components/Database/Erostrine/Factories/Concerns/HasFactory.php',
+    'Syscodes\\Components\\Database\\Erostrine\\Factories\\HasFactory' => SYS_PATH.'src/components/Database/Erostrine/Factories/Concerns/HasFactory.php',
     'Syscodes\\Components\\Database\\Erostrine\\Factories\\BelongsToManyRelationship' => SYS_PATH.'src/components/Database/Erostrine/Factories/BelongsToManyRelationship.php',
     'Syscodes\\Components\\Database\\Erostrine\\Factories\\BelongsToRelationship' => SYS_PATH.'src/components/Database/Erostrine/Factories/BelongsToRelationship.php',
     'Syscodes\\Components\\Database\\Erostrine\\Factories\\CrossJoinSequence' => SYS_PATH.'src/components/Database/Erostrine/Factories/CrossJoinSequence.php',
@@ -685,6 +691,7 @@ return [
     'Syscodes\\Components\\Support\\InflectRules\\English\\Uncountable' => SYS_PATH.'src/components/Support/InflectRules/English/Uncountable.php',
     'Syscodes\\Components\\Support\\InflectRules\\Rules' => SYS_PATH.'src/components/Support/InflectRules/Rules.php',
     'Syscodes\\Components\\Support\\Traits\\CapsuleManager' => SYS_PATH.'src/components/Support/Traits/CapsuleManager.php',
+    'Syscodes\\Components\\Support\\Traits\\Conditionable' => SYS_PATH.'src/components/Conditionable/Traits/Conditionable.php',
     'Syscodes\\Components\\Support\\Traits\\Enumerates' => SYS_PATH.'src/components/Collections/Traits/Enumerates.php',
     'Syscodes\\Components\\Support\\Traits\\Localizable' => SYS_PATH.'src/components/Support/Traits/Localizable.php',
     'Syscodes\\Components\\Support\\Traits\\ForwardsCalls' => SYS_PATH.'src/components/Support/Traits/ForwardsCalls.php',
@@ -698,6 +705,7 @@ return [
     'Syscodes\\Components\\Support\\Flowing' => SYS_PATH.'src/components/Support/Flowing.php',
     'Syscodes\\Components\\Support\\HigherOrderCollectionProxy' => SYS_PATH.'src/components/Collections/HigherOrderCollectionProxy.php',
     'Syscodes\\Components\\Support\\HigherOrderTakeProxy' => SYS_PATH.'src/components/Support/HigherOrderTakeProxy.php',
+    'Syscodes\\Components\\Support\\HigherOrderWhenProxy' => SYS_PATH.'src/components/Conditionable/HigherOrderWhenProxy.php',
     'Syscodes\\Components\\Support\\Inflector' => SYS_PATH.'src/components/Support/Inflector.php',
     'Syscodes\\Components\\Support\\InteractsWithTime' => SYS_PATH.'src/components/Support/InteractsWithTime.php',
     'Syscodes\\Components\\Support\\Interval' => SYS_PATH.'src/components/Support/Interval.php',
