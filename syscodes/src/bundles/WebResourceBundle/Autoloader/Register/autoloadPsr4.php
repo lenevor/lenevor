@@ -11,10 +11,15 @@
 |
 */
 
+$baseDir = dirname(SYS_PATH);
+
 return [
 
-    'Syscodes\\Components\\' => SYS_PATH.'src'.DIRECTORY_SEPARATOR.'components',
-    'Syscodes\\Bundles\\' => SYS_PATH.'src'.DIRECTORY_SEPARATOR.'bundles',    
-    'App\\' => APP_PATH,
+    'Syscodes\\Components\\Support\\' => [SYS_PATH.'src/components/Macroable', SYS_PATH.'src/components/Collections', SYS_PATH.'src/components/Conditionable'],
+    'Syscodes\\Components\\' => SYS_PATH.'src/components',
+    'Syscodes\\Bundles\\' => SYS_PATH.'src/bundles',  
+    'Database\\Seeders\\' => $baseDir.'/database/seeders', 
+    'Database\\Factories\\' => $baseDir.'/database/factories',  
+    'App\\' => $baseDir.'/app',
 
 ];
