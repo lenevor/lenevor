@@ -13,11 +13,11 @@ return [
     | requests. By default, we will use the lightweight native driver but
     | you may specify any of the other wonderful drivers provided here.
     |
-    | Supported: "array", "file", "null"
+    | Supported: "array", "cache", "cookie", "database", "file", "null"
     |
     */
     
-    'driver' => env('SESSION_DRIVER', 'file'),
+    'driver' => env('SESSION_DRIVER', 'database'),
 
     /*
     |--------------------------------------------------------------------------
