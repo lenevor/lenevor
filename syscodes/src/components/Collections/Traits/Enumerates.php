@@ -33,7 +33,6 @@ use Syscodes\Components\Support\HigherOrderCollectionProxy;
 use UnitEnum;
 
 use function Syscodes\Components\Support\enum_value;
-use Syscodes\Components\Support\HigherOrderWhenProxy;
 
 /**
  * Trait Enumerates.
@@ -76,7 +75,9 @@ trait Enumerates
         'reverse',
         'shift',
         'unique',
+        'unless',
         'values',
+        'when',
     ];
 
     /**
@@ -609,96 +610,6 @@ trait Enumerates
         }, $this->all());
     }
 
-    /**
-     * Apply the callback if the given "value" is (or resolves to) truthy.
-     *
-     * @param  bool  $value
-     * @param  callable|null  $callback
-     * @param  callable|null  $default
-     * 
-     * @return static
-     */
-    public function when($value = null, ?callable $callback = null, ?callable $default = null): static
-    {
-        if ( ! $callback) {
-            return new HigherOrderWhenProxy($value);
-        }
-
-        if ($value) {
-            return $callback($this, $value);
-        } elseif ($default) {
-            return $default($this, $value);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Apply the callback if the collection is empty.
-     *
-     * @param  callable  $callback
-     * @param  callable|null  $default
-     * 
-     * @return static
-     */
-    public function whenEmpty(callable $callback, ?callable $default = null): static
-    {
-        return $this->when($this->isEmpty(), $callback, $default);
-    }
-
-    /**
-     * Apply the callback if the collection is not empty.
-     *
-     * @param  callable  $callback
-     * @param  callable|null  $default
-     * 
-     * @return static
-     */
-    public function whenNotEmpty(callable $callback, ?callable $default = null): static
-    {
-        return $this->when($this->isNotEmpty(), $callback, $default);
-    }
-
-    /**
-     * Apply the callback if the given "value" is (or resolves to) falsy.
-     *
-     * @param  \Closure|null  $value
-     * @param  callable|null  $callback
-     * @param  callable|null  $default
-     * 
-     * @return static
-     */
-    public function unless($value = null, ?callable $callback = null, ?callable $default = null): static
-    {
-        return $this->when( ! $value, $callback, $default);
-    }
-
-    /**
-     * Apply the callback unless the collection is empty.
-     *
-     * @param  callable  $callback
-     * @param  callable|null  $default
-     * 
-     * @return static
-     */
-    public function unlessEmpty(callable $callback, ?callable $default = null): static
-    {
-        return $this->whenNotEmpty($callback, $default);
-    }
-
-    /**
-     * Apply the callback unless the collection is not empty.
-     *
-     * @param  callable  $callback
-     * @param  callable|null  $default
-     * 
-     * @return static
-     */
-    public function unlessNotEmpty(callable $callback, ?callable $default = null): static
-    {
-        return $this->whenEmpty($callback, $default);
-    }
-    
     /**
      * Indicate that the model's string representation should be escaped when __toString is invoked.
      * 
