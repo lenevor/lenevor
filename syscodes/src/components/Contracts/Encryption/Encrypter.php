@@ -30,25 +30,6 @@ namespace Syscodes\Components\Contracts\Encryption;
 interface Encrypter
 {
     /**
-     * Determine if the given key and cipher combination is valid.
-     * 
-     * @param  string  $key
-     * @param  string  $cipher
-     * 
-     * @return bool
-     */
-    public static function supported($key, $cipher): bool;
-
-    /**
-     * Generate the IV size for the cipher.
-     * 
-     * @param  string  $cipher
-     * 
-     * @return string
-     */
-    public static function generateRandomKey($cipher): string;
-
-    /**
      * Encrypt the given value.
      * 
      * @param  mixed  $value
@@ -58,16 +39,7 @@ interface Encrypter
      * 
      * @throws \Syscodes\Components\Encryption\Exceptions\EncryptException
      */
-    public function encrypt($value, $serialize = true): string;
-
-    /**
-     * Encrypt the given string without serialization.
-     * 
-     * @param  string  $value
-     * 
-     * @return string
-     */
-    public function encryptString($value): string;
+    public function encrypt(#[\SensitiveParameter] $value, $serialize = true): string;
 
     /**
      * Encrypt the given value.
@@ -80,17 +52,6 @@ interface Encrypter
      * @throws \Syscodes\Components\Encryption\Exceptions\DecryptException
      */
     public function decrypt($value, $unserialize = true);
-
-    /**
-     * Gets the JSON array from the given payload.
-     * 
-     * @param  string  $value
-     * 
-     * @return array
-     * 
-     * @throws \Syscodes\Components\Encryption\Exceptions\DecryptException
-     */
-    public function getJsonPayload($value);
 
     /**
      * Decrypt the given string without unserialization.
@@ -109,4 +70,18 @@ interface Encrypter
      * @return string
      */
     public function getKey(): string;
+
+    /**
+     * Get the current encryption key and all previous encryption keys.
+     *
+     * @return array
+     */
+    public function getAllKeys(): array;
+
+    /**
+     * Get the previous encryption keys.
+     *
+     * @return array
+     */
+    public function getPreviousKeys(): array;
 }
