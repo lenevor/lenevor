@@ -33,7 +33,7 @@ trait Conditionable
     /**
      * Apply the callback if the given "value" is (or resolves to) truthy.
      *
-     * @param  bool  $value
+     * @param  \Closure|null  $value
      * @param  callable|null  $callback
      * @param  callable|null  $default
      * 
