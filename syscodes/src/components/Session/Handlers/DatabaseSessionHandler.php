@@ -134,7 +134,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface
             return '';
         }
 
-        if ($session->payload) {
+        if (isset($session->payload)) {
             $this->exists = true;
 
             return base64_decode($session->payload);
@@ -153,7 +153,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface
     protected function expired($session): bool
     {
         return isset($session->last_activity) &&
-               $session->last_activity < Chronos::now()->subMinutes($this->minutes)->getTimestamp();
+            $session->last_activity < Chronos::now()->subMinutes($this->minutes)->getTimestamp();
     }
     
     /**
@@ -222,7 +222,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface
     {
         $payload = [
             'payload' => base64_encode($data),
-            'last-activity' => $this->currentTime()
+            'last_activity' => $this->currentTime()
         ];
         
         if ( ! $this->container) {
