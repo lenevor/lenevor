@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Support\Facades;
 
 use RuntimeException;
+use Syscodes\Components\Support\Collection;
 
 /**
  * Initialize the Facade class.
@@ -149,11 +150,11 @@ abstract class Facade
     /**
      * Get the application default aliases.
      * 
-     * @return \Syscodes\Components\Collections\Collection
+     * @return \Syscodes\Components\Support\Collection
      */
     public static function defaultAliases() 
     {
-        return collect([
+        return new Collection([
             'App' => App::class,
             'Auth' => Auth::class,
             'Cache' => Cache::class,
@@ -204,7 +205,7 @@ abstract class Facade
      * Call method in application object.
      * 
      * @param  string  $method
-     * @param  array   $args
+     * @param  array  $args
      * 
      * @return mixed
      * 

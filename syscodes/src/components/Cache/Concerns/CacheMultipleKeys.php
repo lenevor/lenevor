@@ -41,9 +41,8 @@ trait CacheMultipleKeys
         $return = [];
         
         $keys = (new Collection($keys))
-            ->mapKeys(function ($value, $key) {
-                return [is_string($key) ? $key : $value => is_string($key) ? $value : null];
-            })->all();
+            ->mapKeys(fn ($value, $key) => [is_string($key) ? $key : $value => is_string($key) ? $value : null])
+            ->all();
         
         foreach ($keys as $key => $default) {
             $return[$key] = $this->get($key, $default);
@@ -62,12 +61,14 @@ trait CacheMultipleKeys
      */
     public function putMany(array $values, $seconds): bool
     {
-        $result = null;
+        $manyResult = null;
 
         foreach ($values as $key => $value) {
             $result = $this->put($key, $value, $seconds);
+
+            $manyResult = is_null($manyResult) ? $result : $result && $manyResult;
         }
 
-        return $result;
+        return $manyResult ?: false;
     }
 }
