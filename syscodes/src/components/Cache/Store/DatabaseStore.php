@@ -23,22 +23,22 @@
 namespace Syscodes\Components\Cache\Store;
 
 use Closure;
-use Exception;
-use Syscodes\Components\Cache\concerns\CacheMultipleKeys;
 use Syscodes\Components\Contracts\Cache\Store;
 use Syscodes\Components\Database\Connections\ConnectionInterface;
 use Syscodes\Components\Database\Connections\PostgresConnection;
+use Syscodes\Components\Database\Connections\SQLiteConnection;
+use Syscodes\Components\Database\Connections\SqlServerConnection;
 use Syscodes\Components\Database\Exceptions\QueryException;
 use Syscodes\Components\Support\InteractsWithTime;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\Arr;
 
 /**
  * Database cache handler.
  */
 class DatabaseStore implements Store
 {
-    use CacheMultipleKeys,
-        InteractsWithTime;
+    use InteractsWithTime;
 
     /**
      * The database connection instance.
@@ -86,45 +86,89 @@ class DatabaseStore implements Store
      */
     public function get($key)
     {
-        $prefixed = $this->prefix.$key;
+        return $this->many([$key])[$key];
+    }
 
-        $cache = $this->table()->where('key', '=', $prefixed)->first();
-        
-        if (is_null($cache)) return;
-        
-        $cache = is_array($cache) ? (object) $cache : $cache;
-        
-        if ($this->currentTime() >= $cache->expiration) {
-            $this->delete($key);
-            
-            return;
+    /**
+     * Retrieve multiple items from the cache by key.
+     *
+     * @param  array  $keys
+     *
+     * @return array
+     */
+    public function many(array $keys): array
+    {
+        if ($keys === []) {
+            return [];
         }
-        
-        return $this->unserialize($cache->value);
+
+        $results = array_fill_keys($keys, null);
+
+        // First we will retrieve all of the items from the cache using their keys and
+        // the prefix value.
+        $values = $this->table()
+            ->whereIn('key', array_map(function ($key) {
+                return $this->prefix.$key;
+            }, $keys))
+            ->get()
+            ->map(function ($value) {
+                return is_array($value) ? (object) $value : $value;
+            });
+
+        $currentTime = $this->currentTime();
+
+        // If this cache expiration date is past the current time, we will remove this
+        // item from the cache.
+        [$values, $expired] = $values->partition(function ($cache) use ($currentTime) {
+            return $cache->expiration > $currentTime;
+        });
+
+        return Arr::map($results, function ($value, $key) use ($values) {
+            if ($cache = $values->firstWhere('key', $this->prefix.$key)) {
+                return $this->unserialize($cache->value);
+            }
+
+            return $value;
+        });
     }
 
     /**
      * Store an item in the cache for a given number of seconds.
      * 
      * @param  string  $key
-     * @param  mixed   $value
-     * @param  int     $seconds
+     * @param  mixed  $value
+     * @param  int  $seconds
      * 
      * @return bool
      */
-    public function put(string $key, mixed $value, int $seconds): bool
+    public function put($key, $value, $seconds): bool
     {
-        $key = $this->prefix.$key;
-        $value = $this->serialize($value);
+        return $this->putMany([$key => $value], $seconds);
+    }
+
+    /**
+     * Store multiple items in the cache for a given number of seconds.
+     *
+     * @param  array  $values
+     * @param  int  $seconds
+     * 
+     * @return bool
+     */
+    public function putMany(array $values, $seconds): bool
+    {
+        $serializedValues = [];
+
         $expiration = $this->getTime() + $seconds;
-        
-        try {
-            return $this->table()->insert(compact('key', 'value', 'expiration'));
-        } catch (Exception $e) {
-            $result = $this->table()->where('key', $key)->update(compact('value', 'expiration'));
-            
-            return $result > 0;
+
+        foreach ($values as $key => $value) {
+            $serializedValues[] = [
+                'key' => $this->prefix.$key,
+                'value' => $this->serialize($value),
+                'expiration' => $expiration,
+            ];
         }
+
+        return $this->table()->upsert($serializedValues, 'key') > 0;
     }
     
     /**
@@ -136,23 +180,24 @@ class DatabaseStore implements Store
      * 
      * @return bool
      */
-    public function add(string $key, mixed $value, int $seconds): bool
+    public function add($key, $value, $seconds): bool
     {
+        if ( ! is_null($this->get($key))) return false;
+
         $key = $this->prefix.$key;
         $value = $this->serialize($value);
         $expiration = $this->getTime() + $seconds;
+
+        if ( ! $this->getConnection() instanceof SqlServerConnection) {
+            return $this->table()->insertOrIgnore(['key' => $key, 'value' => $value, 'expiration' => $expiration]) > 0;
+        }
         
         try {
-            return $this->table()->insert(compact('key', 'value', 'expiration'));
+            return $this->table()->insert(['key' => $key, 'value' => $value, 'expiration' => $expiration]);
         } catch (QueryException $e) {
-            return $this->table()
-                ->where('key', $key)
-                ->where('expiration', '<=', $this->getTime())
-                ->update([
-                    'value' => $value,
-                    'expiration' => $expiration,
-                ]) >= 1;
+            // ...
         }
+        return false;
     }
 
     /**
@@ -163,7 +208,7 @@ class DatabaseStore implements Store
      * 
      * @return int|bool
      */
-    public function increment(string $key, mixed $value = 1): int|bool
+    public function increment($key, $value = 1): int|bool
     {
         return $this->incrementOrDecrement($key, $value, function ($current, $value) {
             return $current + $value;
@@ -178,7 +223,7 @@ class DatabaseStore implements Store
      * 
      * @return int|bool
      */
-    public function decrement(string $key, mixed $value = 1): int|bool
+    public function decrement($key, $value = 1): int|bool
     {
         return $this->incrementOrDecrement($key, $value, function ($current, $value) {
             return $current - $value;
@@ -198,6 +243,7 @@ class DatabaseStore implements Store
     {
         return $this->connection->transaction(function () use ($key, $value, $callback) {
             $prefixed = $this->prefix.$key;
+
             $cache = $this->table()->where('key', $prefixed)->first();
             
             if (is_null($cache)) return false;
@@ -225,7 +271,7 @@ class DatabaseStore implements Store
      * 
      * @return mixed
      */
-    public function delete(string $key): mixed
+    public function delete($key): bool
     {
         $this->table()->where('key', '=', $this->prefix.$key)->delete();
 
@@ -236,13 +282,29 @@ class DatabaseStore implements Store
      * Stores an item in the cache indefinitely.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return bool
      */
-    public function forever(string $key, mixed $value): bool
+    public function forever($key, $value): bool
     {
         return $this->put($key, $value, 315360000);
+    }
+
+    /**
+     * Adjust the expiration time of a cached item.
+     *
+     * @param  string  $key
+     * @param  int  $seconds
+     * 
+     * @return bool
+     */
+    public function touch($key, $seconds): bool
+    {
+        return (bool) $this->table()
+            ->where('key', '=', $this->getPrefix().$key)
+            ->where('expiration', '>', $now = $this->getTime())
+            ->update(['expiration' => $now + $seconds]);
     }
     
     /**
@@ -286,6 +348,20 @@ class DatabaseStore implements Store
     {
         return $this->connection;
     }
+
+    /**
+     * Set the underlying database connection.
+     *
+     * @param  \Syscodes\Components\Database\Connections\ConnectionInterface  $connection
+     * 
+     * @return static
+     */
+    public function setConnection($connection): static
+    {
+        $this->connection = $connection;
+
+        return $this;
+    }
     
     /**
      * Gets the cache key prefix.
@@ -295,6 +371,18 @@ class DatabaseStore implements Store
     public function getPrefix(): string
     {
         return $this->prefix;
+    }
+
+    /**
+     * Set the cache key prefix.
+     *
+     * @param  string  $prefix
+     * 
+     * @return void
+     */
+    public function setPrefix($prefix): void
+    {
+        $this->prefix = $prefix;
     }
     
     /**
@@ -308,7 +396,9 @@ class DatabaseStore implements Store
     {
         $result = serialize($value);
         
-        if ($this->connection instanceof PostgresConnection && str_contains($result, "\0")) {
+        if (($this->connection instanceof PostgresConnection ||
+            $this->connection instanceof SQLiteConnection) &&
+            str_contains($result, "\0")) {
             $result = base64_encode($result);
         }
         
@@ -322,9 +412,11 @@ class DatabaseStore implements Store
      * 
      * @return mixed
      */
-    protected function unserialize($value): mixed
+    protected function unserialize($value)
     {
-        if ($this->connection instanceof PostgresConnection && ! Str::contains($value, [':', ';'])) {
+        if (($this->connection instanceof PostgresConnection ||
+            $this->connection instanceof SQLiteConnection) &&
+            ! Str::contains($value, [':', ';'])) {
             $value = base64_decode($value);
         }
         

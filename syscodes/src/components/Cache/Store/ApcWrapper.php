@@ -28,32 +28,17 @@ namespace Syscodes\Components\Cache\Store;
 class ApcWrapper
 {
     /**
-     * Indeicates if APCu is supported.
-     * 
-     * @var bool
-     */
-    protected $apcu = false;
-
-    /**
-     * Constructor. The ApcWrapper class instance.
-     * 
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->apcu = function_exists('apcu_fetch');
-    }
-
-    /**
      * Get an item from the cache.
      * 
      * @param  string  $key
      * 
      * @return mixed
      */
-    public function get(string $key)
+    public function get($key)
     {
-        return $this->apcu ? apcu_fetch($key) : apc_fetch($key);
+        $fetchedValue = apcu_fetch($key, $success);
+
+        return $success ? $fetchedValue : null;
     }
 
     /**
@@ -65,9 +50,9 @@ class ApcWrapper
      * 
      * @return bool
      */
-    public function put(string $key, mixed $value, int $seconds): bool
+    public function put($key, $value, $seconds): bool
     {
-        return $this->apcu ? apcu_fetch($key, $value, $seconds) : apc_fetch($key, $value, $seconds);
+        return apcu_store($key, $value, $seconds);
     }
 
     /**
@@ -78,9 +63,9 @@ class ApcWrapper
      * 
      * @return int|bool
      */
-    public function increment(string $key, mixed $value): int|bool
+    public function increment($key, $value): int|bool
     {
-        return $this->apcu ? apcu_inc($key, $value) : apc_inc($key, $value);
+        return apcu_inc($key, $value);
     }
 
     /**
@@ -91,9 +76,9 @@ class ApcWrapper
      * 
      * @return int|bool
      */
-    public function decrement(string $key, mixed $value): int|bool
+    public function decrement($key, $value): int|bool
     {
-        return $this->apcu ? apcu_dec($key, $value) : apc_dec($key, $value);
+        return apcu_dec($key, $value);
     }
 
     /**
@@ -105,7 +90,7 @@ class ApcWrapper
      */
     public function delete(string $key): bool
     {
-        return $this->apcu ? apcu_delete($key) : apc_delete($key);
+        return apcu_delete($key);
     }
 
     /**
@@ -115,6 +100,6 @@ class ApcWrapper
      */
     public function flush(): bool
     {
-        return $this->apcu ? apcu_clear_cache() : apc_clear_cache('user');
+        return apcu_clear_cache();
     }
 }

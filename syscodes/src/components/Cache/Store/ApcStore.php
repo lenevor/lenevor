@@ -67,7 +67,7 @@ class ApcStore implements Store
      * 
      * @return mixed
      */
-    public function get(string $key)
+    public function get($key)
     {
         $value = $this->apc->get($this->prefix.$key);
 
@@ -85,7 +85,7 @@ class ApcStore implements Store
      * 
      * @return bool
      */
-    public function put(string $key, mixed $value, int $seconds): bool
+    public function put($key, $value, $seconds): bool
     {
         return $this->apc->put($this->prefix.$key, $value, $seconds);
     }
@@ -98,7 +98,7 @@ class ApcStore implements Store
      * 
      * @return int|bool
      */
-    public function increment(string $key, mixed $value = 1): int|bool
+    public function increment($key, $value = 1): int|bool
     {
         return $this->apc->increment($this->prefix.$key, $value);
     }
@@ -111,7 +111,7 @@ class ApcStore implements Store
      * 
      * @return int|bool
      */
-    public function decrement(string $key, mixed $value = 1): int|bool
+    public function decrement($key, $value = 1): int|bool
     {
         return $this->apc->decrement($this->prefix.$key, $value);
     }
@@ -121,9 +121,9 @@ class ApcStore implements Store
      * 
      * @param  string  $key
      * 
-     * @return mixed
+     * @return bool
      */
-    public function delete($key): mixed
+    public function delete($key): bool
     {
         return $this->apc->delete($this->prefix.$key);
     }
@@ -136,10 +136,30 @@ class ApcStore implements Store
      * 
      * @return bool
      */
-    public function forever(string $key, mixed $value): bool
+    public function forever($key, $value): bool
     {
         return $this->put($key, $value, 0);
     }
+
+    /**
+     * Adjust the expiration time of a cached item.
+     *
+     * @param  string  $key
+     * @param  int  $seconds
+     * 
+     * @return bool
+     */
+    public function touch($key, $seconds): bool
+    {
+        $value = $this->apc->get($key = $this->getPrefix().$key);
+
+        if (is_null($value)) {
+            return false;
+        }
+
+        return $this->apc->put($key, $value, $seconds);
+    }
+
 
     /**
      * Remove all items from the cache.
@@ -159,5 +179,17 @@ class ApcStore implements Store
     public function getPrefix(): string
     {
         return $this->prefix;
+    }
+
+    /**
+     * Set the cache key prefix.
+     *
+     * @param  string  $prefix
+     * 
+     * @return void
+     */
+    public function setPrefix($prefix): void
+    {
+        $this->prefix = $prefix;
     }
 }

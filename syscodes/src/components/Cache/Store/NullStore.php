@@ -60,7 +60,7 @@ class NullStore implements Store
      * 
      * @return bool
      */
-    public function put(string $key, mixed $value, int $seconds): bool
+    public function put($key, $value, $seconds): bool
     {
         return false;
     }
@@ -73,7 +73,7 @@ class NullStore implements Store
      * 
      * @return int|bool
      */
-    public function increment(string $key, mixed $value = 1): int|bool
+    public function increment($key, $value = 1): int|bool
     {
         return false;
     }
@@ -86,7 +86,7 @@ class NullStore implements Store
      * 
      * @return int|bool
      */
-    public function decrement(string $key, mixed $value = 1): int|bool
+    public function decrement($key, $value = 1): int|bool
     {
         return false;
     }
@@ -96,9 +96,9 @@ class NullStore implements Store
      * 
      * @param  string  $key
      * 
-     * @return mixed
+     * @return bool
      */
-    public function delete(string $key): mixed
+    public function delete($key): bool
     {
         return true;
     }
@@ -111,7 +111,20 @@ class NullStore implements Store
      * 
      * @return bool
      */
-    public function forever(string $key, mixed $value): bool
+    public function forever($key, $value): bool
+    {
+        return false;
+    }
+
+    /**
+     * Adjust the expiration time of a cached item.
+     *
+     * @param  string  $key
+     * @param  int  $seconds
+     * 
+     * @return bool
+     */
+    public function touch($key, $seconds): bool
     {
         return false;
     }

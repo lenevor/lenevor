@@ -24,6 +24,7 @@ namespace Syscodes\Components\Cache\Store;
 
 use Syscodes\Components\Cache\concerns\CacheMultipleKeys;
 use Syscodes\Components\Contracts\Cache\Store;
+use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\InteractsWithTime;
 
 /**
@@ -31,8 +32,7 @@ use Syscodes\Components\Support\InteractsWithTime;
  */
 class ArrayStore implements Store
 {
-    use CacheMultipleKeys,
-        InteractsWithTime;
+    use CacheMultipleKeys, InteractsWithTime;
 
     /**
      * The array storaged value.
@@ -61,13 +61,38 @@ class ArrayStore implements Store
     }
 
     /**
+     * Get all of the cached values and their expiration times.
+     *
+     * @param  bool  $unserialize
+     * 
+     * @return array
+     */
+    public function all($unserialize = true): array
+    {
+        if ($unserialize === false) {
+            return $this->storage;
+        }
+
+        $storage = [];
+
+        foreach ($this->storage as $key => $data) {
+            $storage[$key] = [
+                'value' => unserialize($data['value']),
+                'expiresAt' => $data['expiresAt'],
+            ];
+        }
+
+        return $storage;
+    }
+
+    /**
      * Gets an item from the cache by key.
      * 
      * @param  string  $key
      * 
      * @return mixed
      */
-    public function get(string $key)
+    public function get($key)
     {
         if ( ! isset($this->storage[$key])) return;
 
@@ -89,15 +114,15 @@ class ArrayStore implements Store
      * 
      * @param  string  $key
      * @param  mixed   $value
-     * @param  int     $seconds
+     * @param  int   $seconds
      * 
      * @return bool
      */
-    public function put(string $key, mixed $value, int $seconds): bool
+    public function put($key, $value, $seconds): bool
     {
         $this->storage[$key] = [
             'value' => $this->serialized ? serialize($value) : $value,
-            'expiration' => $this->calcExpiration($seconds)
+            'expiration' => $this->calculateExpiration($seconds)
         ];
 
         return true;
@@ -107,11 +132,11 @@ class ArrayStore implements Store
      * Increment the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return int|bool
      */
-    public function increment(string $key, mixed $value = 1): int|bool
+    public function increment($key, $value = 1): int|bool
     {
         if ( ! is_null($existing = $this->get($key))) {
             return take(((int) $existing) + $value, function ($incremented) use ($key) {
@@ -130,11 +155,11 @@ class ArrayStore implements Store
      * Decrement the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return int|bool
      */
-    public function decrement(string $key, mixed $value = 1): int|bool
+    public function decrement($key, $value = 1): int|bool
     {
         return $this->increment($key, $value * -1);
     }
@@ -144,9 +169,9 @@ class ArrayStore implements Store
      * 
      * @param  string  $key
      * 
-     * @return mixed
+     * @return bool
      */
-    public function delete(string $key): mixed
+    public function delete($key): bool
     {
         if (array_key_exists($key, $this->storage)) {
             unset($this->storage[$key]);
@@ -161,14 +186,38 @@ class ArrayStore implements Store
      * Stores an item in the cache indefinitely.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return bool
      */
-    public function forever(string $key, mixed $value): bool
+    public function forever($key, $value): bool
     {
         return $this->put($key, $value, 0);
     }
+
+    /**
+     * Adjust the expiration time of a cached item.
+     *
+     * @param  string  $key
+     * @param  int  $seconds
+     * 
+     * @return bool
+     */
+    public function touch($key, $seconds): bool
+    {
+        $item = Arr::get($this->storage, $key = $this->getPrefix().$key, null);
+
+        if (is_null($item)) {
+            return false;
+        }
+
+        $item['expiration'] = $this->calculateExpiration($seconds);
+
+        $this->storage = array_merge($this->storage, [$key => $item]);
+
+        return true;
+    }
+
 
     /**
      * Remove all items from the cache.
@@ -199,7 +248,7 @@ class ArrayStore implements Store
      * 
      * @return int
      */
-    protected function calcExpiration(int $seconds): int
+    protected function calculateExpiration(int $seconds): int
     {
         return $this->toTimestamp($seconds);
     }

@@ -34,7 +34,7 @@ interface Store
      * 
      * @return mixed
      */
-    public function get(string $key);
+    public function get($key);
     
     /**
      * Gets multiple items from the cache by key.
@@ -49,12 +49,12 @@ interface Store
      * Store an item in the cache for a given number of seconds.
      * 
      * @param  string  $key
-     * @param  mixed   $value
-     * @param  int     $seconds
+     * @param  mixed  $value
+     * @param  int  $seconds
      * 
      * @return bool
      */
-    public function put(string $key, mixed $value, int $seconds): bool;
+    public function put($key, $value, $seconds): bool;
     
     /**
      * Store multiple items in the cache for a given number of seconds.
@@ -64,46 +64,56 @@ interface Store
      * 
      * @return bool
      */
-    public function putMany(array $values, int $seconds): bool;
+    public function putMany(array $values, $seconds): bool;
 
     /**
      * Increment the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return int|bool
      */
-    public function increment(string $key, mixed $value = 1): int|bool;
+    public function increment($key, $value = 1): int|bool;
 
     /**
      * Decrement the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return int|bool
      */
-    public function decrement(string $key, mixed $value = 1): int|bool;
+    public function decrement($key, $value = 1): int|bool;
 
     /**
      * Deletes a specific item from the cache store.
      * 
      * @param  string  $key
      * 
-     * @return mixed
+     * @return bool
      */
-    public function delete(string $key): mixed;
+    public function delete($key): bool;
 
     /**
      * Stores an item in the cache indefinitely.
      * 
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * 
      * @return bool
      */
-    public function forever(string $key, mixed $value): bool;
+    public function forever($key, $value): bool;
+
+    /**
+     * Adjust the expiration time of a cached item.
+     *
+     * @param  string  $key
+     * @param  int  $seconds
+     * 
+     * @return bool
+     */
+    public function touch($key, $seconds): bool;
 
     /**
      * Remove all items from the cache.

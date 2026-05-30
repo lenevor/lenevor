@@ -91,7 +91,7 @@ class MemcachedStore implements Store
      * 
      * @return mixed
      */
-    public function get(string $key)
+    public function get($key)
     {
         $value = $this->memcached->get($this->prefix.$key);
 
@@ -135,7 +135,7 @@ class MemcachedStore implements Store
      * 
      * @return bool
      */
-    public function add(string $key, mixed $value, int $seconds): bool
+    public function add($key, $value, $seconds): bool
     {
         return $this->memcached->add($this->prefix.$key, $value, $this->calcExpiration($seconds));
     }
@@ -149,9 +149,9 @@ class MemcachedStore implements Store
      * 
      * @return bool
      */
-    public function put(string $key, mixed $value, int $seconds): bool
+    public function put($key, $value, $seconds): bool
     {
-        return $this->memcached->set($this->prefix.$key, $value, $this->calcExpiration($seconds));
+        return $this->memcached->set($this->prefix.$key, $value, $this->calculateExpiration($seconds));
     }
 
     /**
@@ -162,7 +162,7 @@ class MemcachedStore implements Store
      * 
      * @return bool
      */
-    public function putMany(array $values, int $seconds): bool
+    public function putMany(array $values, $seconds): bool
     {
         $prefixed = [];
         
@@ -183,7 +183,7 @@ class MemcachedStore implements Store
      * 
      * @return int|bool
      */
-    public function increment(string $key, mixed $value = 1): int|bool
+    public function increment($key, $value = 1): int|bool
     {
         return $this->memcached->increment($this->prefix.$key, $value);
     }
@@ -196,7 +196,7 @@ class MemcachedStore implements Store
      * 
      * @return int|bool
      */
-    public function decrement(string $key, mixed $value = 1): int|bool
+    public function decrement($key, $value = 1): int|bool
     {
         return $this->memcached->decrement($this->prefix.$key, $value = 1);
     }
@@ -208,7 +208,7 @@ class MemcachedStore implements Store
      * 
      * @return mixed
      */
-    public function delete(string $key): mixed
+    public function delete($key): bool
     {
         return $this->memcached->delete($this->prefix.$key);
     }
@@ -221,10 +221,24 @@ class MemcachedStore implements Store
      * 
      * @return bool
      */
-    public function forever(string $key, mixed $value): bool
+    public function forever($key, $value): bool
     {
         return $this->put($this->prefix.$key, $value, 0);
     }
+
+    /**
+     * Adjust the expiration time of a cached item.
+     *
+     * @param  string  $key
+     * @param  int  $seconds
+     * 
+     * @return bool
+     */
+    public function touch($key, $seconds): bool
+    {
+        return $this->memcached->touch($this->getPrefix().$key, $this->calculateExpiration($seconds));
+    }
+
 
     /**
      * Remove all items from the cache.
@@ -275,7 +289,7 @@ class MemcachedStore implements Store
      * 
      * @return int
      */
-    protected function calcExpiration(int $seconds): int
+    protected function calculateExpiration(int $seconds): int
     {
         return $this->toTimestamp($seconds);
     }

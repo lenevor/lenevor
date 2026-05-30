@@ -36,9 +36,7 @@ use Syscodes\Components\Support\InteractsWithTime;
  */
 class FileStore implements Key, Store
 {
-    use CacheKey,
-        CacheMultipleKeys,
-        InteractsWithTime;
+    use CacheKey, CacheMultipleKeys, InteractsWithTime;
 
     /**
      * The extension file called '.cache'.
@@ -82,7 +80,7 @@ class FileStore implements Key, Store
      * 
      * @return mixed
      */
-    public function get(string $key)
+    public function get($key)
     {
         return $this->getPayLoad($key)['data'] ?? null;
     }
@@ -94,19 +92,21 @@ class FileStore implements Key, Store
      * 
      * @return array
      */
-    protected function getPayLoad(string $key): array
+    protected function getPayLoad($key): array
     {
         $path = $this->path($key);
 
         try {
-            $expires = substr(
-                $contents = $this->files->get($path, true), 0, 10
-            );
+            if (is_null($contents = $this->files->get($path, true))) {
+                return $this->emptyPayload();
+            }
+
+            $expire = substr($contents, 0, 10);
         } catch (Exception $e) {
             return $this->emptyPayLoad();
         }
 
-        if ($this->currentTime() >= $expires) {
+        if ($this->currentTime() >= $expire) {
             $this->delete($key);
 
             return $this->emptyPayLoad();
@@ -117,12 +117,14 @@ class FileStore implements Key, Store
                 ->unserialize(substr($contents, 10))
                 ->getData();
         } catch (Exception $e) {
+            $this->delete($key);
+
             return $this->emptyPayLoad();
         }
 
-        $time = $expires - $this->currentTime();
+        $time = $expire - $this->currentTime();
 
-        return compact('data', 'time');
+        return ['data' => $data, 'time' => $time];
     }
 
     /**
@@ -153,12 +155,12 @@ class FileStore implements Key, Store
      * Store an item in the cache for a given number of seconds.
      * 
      * @param  string  $key
-     * @param  mixed   $value
-     * @param  int     $seconds
+     * @param  mixed  $value
+     * @param  int  $seconds
      * 
      * @return bool
      */
-    public function put(string $key, mixed $value, int $seconds): bool
+    public function put($key, $value, $seconds): bool
     {
         $value = $this->expiration($seconds).(new FileCacheRegister($value))->serialize();
 
@@ -205,14 +207,13 @@ class FileStore implements Key, Store
      * 
      * @return int|bool
      */
-    public function increment(string $key, mixed $value = 1): int|bool
+    public function increment($key, $value = 1): int|bool
     {
         $raw = $this->getPayLoad($key);
-        $int = ((int) $raw['data']) + $value;
-
-        $this->put($key, $int, $raw['time'] ?? 0);
-
-        return $int;
+        
+        return take(((int) $raw['data']) + $value, function ($newValue) use ($key, $raw) {
+            $this->put($key, $newValue, $raw['time'] ?? 0);
+        });
     }
 
     /**
@@ -223,7 +224,7 @@ class FileStore implements Key, Store
      * 
      * @return int|bool
      */
-    public function decrement(string $key, mixed $value = 1): int|bool
+    public function decrement($key, $value = 1): int|bool
     {
         return $this->increment($key, $value * -1);
     }
@@ -235,13 +236,32 @@ class FileStore implements Key, Store
      * 
      * @return mixed
      */
-    public function delete(string $key): mixed
+    public function delete($key): bool
     {
         if ($this->files->exists($file = $this->path($key))) {
             return $this->files->delete($file);
         }
 
         return false;
+    }
+
+    /**
+     * Adjust the expiration time of a cached item.
+     *
+     * @param  string  $key
+     * @param  int  $seconds
+     * 
+     * @return bool
+     */
+    public function touch($key, $seconds): bool
+    {
+        $payload = $this->getPayload($this->getPrefix().$key);
+
+        if (is_null($payload['data'])) {
+            return false;
+        }
+
+        return $this->put($key, $payload['data'], $seconds);
     }
 
     /**
@@ -252,7 +272,7 @@ class FileStore implements Key, Store
      * 
      * @return bool
      */
-    public function forever(string $key, mixed $value): bool
+    public function forever($key, $value): bool
     {
         return $this->put($key, $value, 0);
     }
@@ -269,7 +289,9 @@ class FileStore implements Key, Store
         }
 
         foreach ($this->files->directories($this->directory) as $directory) {
-            if ( ! $this->files->deleteDirectory($directory)) {
+            $deleted = $this->files->deleteDirectory($directory);
+                
+            if ( ! $deleted || $this->files->exists($directory)) {
                 return false;
             }
         }

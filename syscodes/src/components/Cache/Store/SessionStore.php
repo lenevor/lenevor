@@ -20,7 +20,7 @@
  * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
  */
 
-namespace Syscodes\Components\Cache;
+namespace Syscodes\Components\Cache\Store;
 
 use Syscodes\Components\Cache\concerns\CacheMultipleKeys;
 use Syscodes\Components\Contracts\Cache\Store;
@@ -32,8 +32,7 @@ use Syscodes\Components\Support\InteractsWithTime;
  */
 class SessionStore implements Store
 {
-    use InteractsWithTime,
-        CacheMultipleKeys;
+    use InteractsWithTime, CacheMultipleKeys;
 
     /**
      * The key for cache items.
@@ -88,7 +87,7 @@ class SessionStore implements Store
 
         $item = $this->session->get($this->itemKey($key));
 
-        $expiresAt = $item['expiresAt'] ?? 0;
+        $expiresAt = $item['expiration'] ?? 0;
 
         if ($this->isExpired($expiresAt)) {
             $this->delete($key);
@@ -103,11 +102,12 @@ class SessionStore implements Store
      * Determine if the given expiration time is expired.
      *
      * @param  int|float  $expiresAt
+     * 
      * @return bool
      */
-    protected function isExpired($expiresAt)
+    protected function isExpired($expiresAt): bool
     {
-        return $expiresAt !== 0 && (Chronos::now()->getPreciseTimestamp(3) / 1000) >= $expiresAt;
+        return $expiresAt !== 0 && $this->currentTime() >= $expiresAt;
     }
 
     /**
@@ -123,7 +123,7 @@ class SessionStore implements Store
     {
         $this->session->put($this->itemKey($key), [
             'value' => $value,
-            'expiresAt' => $this->toTimestamp($seconds),
+            'expiration' => $this->toTimestamp($seconds),
         ]);
 
         return true;
@@ -133,11 +133,12 @@ class SessionStore implements Store
      * Get the UNIX timestamp, with milliseconds, for the given number of seconds in the future.
      *
      * @param  int  $seconds
+     * 
      * @return float
      */
     protected function toTimestamp($seconds)
     {
-        return $seconds > 0 ? (Chronos::now()->getPreciseTimestamp(3) / 1000) + $seconds : 0;
+        return $seconds > 0 ? $this->currentTime() + $seconds : 0;
     }
 
     /**
@@ -146,9 +147,9 @@ class SessionStore implements Store
      * @param  string  $key
      * @param  mixed  $value
      * 
-     * @return int
+     * @return int|bool
      */
-    public function increment($key, $value = 1): int
+    public function increment($key, $value = 1): int|bool
     {
         if ( ! is_null($existing = $this->get($key))) {
             return take(((int) $existing) + $value, function ($incremented) use ($key) {
@@ -167,9 +168,9 @@ class SessionStore implements Store
      * @param  string  $key
      * @param  mixed  $value
      * 
-     * @return int
+     * @return int|bool
      */
-    public function decrement($key, $value = 1): int
+    public function decrement($key, $value = 1): int|bool
     {
         return $this->increment($key, $value * -1);
     }
@@ -203,6 +204,27 @@ class SessionStore implements Store
         }
 
         return false;
+    }
+
+    /**
+     * Adjust the expiration time of a cached item.
+     *
+     * @param  string  $key
+     * @param  int  $seconds
+     * 
+     * @return bool
+     */
+    public function touch($key, $seconds): bool
+    {
+        $value = $this->get($key);
+
+        if (is_null($value)) {
+            return false;
+        }
+
+        $this->put($key, $value, $seconds);
+
+        return true;
     }
 
     /**

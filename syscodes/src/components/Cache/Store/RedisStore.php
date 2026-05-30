@@ -113,7 +113,7 @@ class RedisStore implements Store
      * 
      * @return bool
      */
-    public function put(string $key, mixed $value, int $seconds): bool
+    public function put($key, $value, $seconds): bool
     {
         return (bool) $this->connection()->setex(
             $this->prefix.$key,
@@ -130,7 +130,7 @@ class RedisStore implements Store
      * 
      * @return bool
      */
-    public function putMany(array $values, int $seconds): bool
+    public function putMany(array $values, $seconds): bool
     {
         $this->connection()->multi();
         
@@ -155,7 +155,7 @@ class RedisStore implements Store
      * 
      * @return int|bool
      */
-    public function increment(string $key, mixed $value = 1): int|bool
+    public function increment($key, $value = 1): int|bool
     {
         return $this->connection()->incrby($this->prefix.$key, $value);
     }
@@ -168,7 +168,7 @@ class RedisStore implements Store
      * 
      * @return int|bool
      */
-    public function decrement(string $key, mixed $value = 1): int|bool
+    public function decrement($key, $value = 1): int|bool
     {
         return $this->connection()->decrby($this->prefix.$key, $value);
     }
@@ -180,7 +180,7 @@ class RedisStore implements Store
      * 
      * @return mixed
      */
-    public function delete(string $key): mixed
+    public function delete($key): bool
     {
         return (bool) $this->connection()->del($this->prefix.$key);
     }
@@ -193,10 +193,24 @@ class RedisStore implements Store
      * 
      * @return bool
      */
-    public function forever(string $key, mixed $value): bool
+    public function forever($key, $value): bool
     {
         return (bool) $this->connection()->set($this->prefix.$key, $this->serialize($value));
     }
+
+    /**
+     * Adjust the expiration time of a cached item.
+     *
+     * @param  string  $key
+     * @param  int  $seconds
+     * 
+     * @return bool
+     */
+    public function touch($key, $seconds): bool
+    {
+        return (bool) $this->connection()->expire($this->getPrefix().$key, (int) max(1, $seconds));
+    }
+
 
     /**
      * Remove all items from the cache.

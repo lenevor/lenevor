@@ -22,49 +22,24 @@
 
 namespace Syscodes\Components\Contracts\Cache;
 
+use Closure;
+use UnitEnum;
+
 /**
  * Sets functions by the item from the cache repository store.
  */
 interface Repository
 {
     /**
-     * Determine if an item exists in the cache.
-     * 
-     * @param  string  $key
-     * 
-     * @return bool
-     */
-    public function has(string $key): bool;
-
-    /**
-     * Attempts to retrieve an item from the cache by key.
-     * 
-     * @param  string  $key  Cache item name
-     * @param  mixed  $default
-     * 
-     * @return mixed
-     */
-    public function get(string $key, mixed $default = null): mixed;
-
-    /**
-     * Gets multiple items from the cache by key.
-     * 
-     * @param  array  $keys
-     * 
-     * @return array
-     */
-    public function many(array $keys): array;
-
-    /**
      * Store an item in the cache if the key does not exist.
      * 
-     * @param  string  $key
+     * @param  \UnitEnum|string  $key
      * @param  mixed  $value
      * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
      * 
      * @return bool
      */
-    public function add(string $key, mixed $value, $ttl = null): bool;
+    public function add($key, $value, $ttl = null): bool;
 
     /**
      * Store an item in the cache.
@@ -75,86 +50,87 @@ interface Repository
      * 
      * @return bool
      */
-    public function put(string $key, mixed $value, $ttl = null): bool;
-
-    /**
-     * Store multiple items in the cache for a given number of seconds.
-     * 
-     * @param  array  $values
-     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
-     * 
-     * @return bool
-     */
-    public function putMany(array $values, $ttl = null): bool;
+    public function put($key, $value, $ttl = null): bool;
 
     /**
      * Retrieve an item from the cache and delete it.
      * 
-     * @param  string  $key
+     * @param  \UnitEnum|array|string  $key
      * @param  mixed  $default
      * 
      * @return mixed
      */
-    public function pull(string $key, mixed $default = null): mixed;
-
-    /**
-     * Saves an item to the cache store.
-     * 
-     * @param  string  $key  Cache item name
-     * @param  mixed  $value  The data to save 
-     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl  Time To Live, in second
-     * 
-     * @return bool
-     */
-    public function save(string $key, mixed $value, $ttl = null): bool;
+    public function pull($key, $default = null);
 
     /**
      * Increment the value of an item in the cache.
      * 
-     * @param  string  $key
+     * @param  \UnitEnum|string  $key
      * @param  mixed  $value
      * 
      * @return int|bool
      */
-    public function increment(string $key, mixed $value = 1): int|bool;
+    public function increment($key, $value = 1): int|bool;
 
     /**
      * Decrement the value of an item in the cache.
      * 
-     * @param  string  $key
+     * @param  \UnitEnum|string  $key
      * @param  mixed  $value
      * 
      * @return int|bool
      */
-    public function decrement(string $key, mixed $value = 1): int|bool;
+    public function decrement($key, $value = 1): int|bool;
 
     /**
      * Remove a specific item from the cache store.
      * 
-     * @param  string  $key
+     * @param  \UnitEnum|string  $key
      * 
      * @return mixed
      */
-    public function delete(string $key): mixed;
+    public function delete($key);
+
+     /**
+     * Get an item from the cache, or execute the given Closure and store the result.
+     *
+     * @param  \UnitEnum|string  $key
+     * @param  \DateTimeInterface|\DateInterval|\Closure|int|null  $ttl
+     * @param  \Closure  $callback
+     * 
+     * @return mixed
+     */
+    public function remember($key, $ttl, Closure $callback);
 
     /**
-     * Removes multiple items from the cache store.
+     * Get an item from the cache, or execute the given Closure and store the result forever.
+     *
+     * @param  \UnitEnum|string  $key
+     * @param  \Closure  $callback
      * 
-     * @param  array  $keys
+     * @return mixed
+     */
+    public function rememberForever($key, Closure $callback);
+
+    /**
+     * Set the expiration of a cached item.
+     *
+     * @param  \UnitEnum|string  $key
+     * @param  \DateTimeInterface|\DateInterval|int  $ttl
      * 
      * @return bool
      */
-    public function deleteMultiple(array $keys): bool;
+    public function touch($key, $ttl): bool;
 
     /**
      * Stores an item in the cache indefinitely.
      * 
-     * @param  string  $key
+     * @param  \UnitEnum|string  $key
      * @param  mixed  $value
      * 
      * @return bool
      */
-    public function forever(string $key, mixed $value): bool;
+    public function forever($key, $value): bool;
 
     /**
      * Remove all items from the cache.
@@ -169,20 +145,4 @@ interface Repository
      * @return \Syscodes\Components\Contracts\Cache\Store
      */
     public function getStore();
-
-    /**
-     * Get the default cache time.
-     * 
-     * @return int
-     */
-    public function getCacheTime(): int;
-
-    /**
-     * Set the default cache time in seconds
-     * 
-     * @param  int|null  $seconds
-     * 
-     * @return static
-     */
-    public function setCacheTime(?int $seconds): static;
 }
