@@ -23,21 +23,24 @@
 namespace Syscodes\Components\Cache;
 
 use ArrayAccess;
+use Closure;
 use DateTime;
 use Syscodes\Components\Contracts\Cache\Repository;
 use Syscodes\Components\Contracts\Cache\Store;
-use Syscodes\Components\Support\Chronos;
+use Syscodes\Components\Contracts\Events\Dispatcher;
+use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\InteractsWithTime;
 use Syscodes\Components\Support\Traits\Macroable;
+
+use function Syscodes\Components\Support\enum_value;
 
 /**
  * Begin executing operations of storage data if the store supports it.
  */
 class CacheRepository implements ArrayAccess, Repository
 {
-    use InteractsWithTime,
-        Macroable {
-            __call as macroCall;
+    use InteractsWithTime, Macroable {
+        __call as macroCall;
     }
 
     /**
@@ -46,6 +49,20 @@ class CacheRepository implements ArrayAccess, Repository
      * @var int
      */
     protected $cacheTime = 3600;
+
+    /**
+     * The cache store configuration options.
+     *
+     * @var array
+     */
+    protected $config = [];
+
+    /**
+     * The event dispatcher implementation.
+     *
+     * @var \Syscodes\Components\Contracts\Events\Dispatcher|null
+     */
+    protected $events;
 
     /**
      * The cache store implementation.
@@ -58,12 +75,14 @@ class CacheRepository implements ArrayAccess, Repository
      * Constructor. Create a new cache repository instance.
      * 
      * @param  \Syscodes\Components\Contracts\Cache\Store  $store
+     * @param  array  $config
      * 
      * @return void
      */
-    public function __construct(Store $store)
+    public function __construct(Store $store, array $config = [])
     {
         $this->store = $store;
+        $this->config = $config;
     }
 
     /**
@@ -79,6 +98,18 @@ class CacheRepository implements ArrayAccess, Repository
     }
 
     /**
+     * Determine if an item doesn't exist in the cache.
+     *
+     * @param  \UnitEnum|string  $key
+     * 
+     * @return bool
+     */
+    public function missing($key): bool
+    {
+        return ! $this->has($key);
+    }
+
+    /**
      * Attempts to retrieve an item from the cache by key.
      * 
      * @param  string  $key  Cache item name
@@ -86,15 +117,21 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @return mixed
      */
-    public function get(string $key, mixed $default = null): mixed
+    public function get($key, $default = null)
     {
         if (is_array($key)) {
             return $this->many($key);
         }
 
+        $key = enum_value($key);
+        
+        // $this->event(new RetrievingKey($this->getName(), $key));
+
         $value = $this->store->get($this->itemKey($key));
 
         if (is_null($value)) {
+            // $this->event(new CacheMissed($this->getName(), $key));
+
             $value = value($default);
         }
 
@@ -110,13 +147,15 @@ class CacheRepository implements ArrayAccess, Repository
      */
     public function many(array $keys): array
     {
-        $values = $this->store->many(collect($keys)->map(
-            fn ($value, $key)  => is_string($key) ? $key : $value)->values()->all()
+        $values = $this->store->many((new Collection($keys))
+            ->map(fn ($value, $key)  => is_string($key) ? $key : $value)
+            ->values()
+            ->all()
         );
         
-        return collect($values)->map(
-            fn ($value, $key) => $this->handleMany($keys, $key, $value)
-        )->all();
+        return (new Collection($values))
+            ->map(fn ($value, $key) => $this->handleMany($keys, $key, $value))
+            ->all();
     }
     
     /**
@@ -128,7 +167,7 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @return mixed
      */
-    protected function handleMany(array $keys, string $key, mixed $value): mixed
+    protected function handleMany($keys, $key, $value)
     {
         if (is_null($value)) {
             return isset($keys[$key]) ? value($keys[$key]) : null;
@@ -140,13 +179,13 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Store an item in the cache if the key does not exist.
      * 
-     * @param  string  $key
+     * @param  \UnitEnum|string  $key
      * @param  mixed  $value
      * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
      * 
      * @return bool
      */
-    public function add(string $key, mixed $value, $ttl = null): bool
+    public function add($key, $value, $ttl = null): bool
     {
         $seconds = null;
 
@@ -168,13 +207,13 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Store an item in the cache.
      * 
-     * @param  string  $key
+     * @param  \UnitEnum|array|string  $key
      * @param  mixed   $value
      * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
      * 
      * @return bool
      */
-    public function put(string $key, mixed $value, $ttl = null): bool
+    public function put($key, $value, $ttl = null): bool
     {
         if (null === $ttl) {
             return $this->forever($key, $value);
@@ -186,9 +225,21 @@ class CacheRepository implements ArrayAccess, Repository
             return $this->delete($key);
         }
 
-        $result = $this->store->put($this->itemKey($key), $value, $seconds);
+        return $this->store->put($this->itemKey($key), $value, $seconds);
+    }
 
-        return $result;
+    /**
+     * Store an item in the cache.
+     *
+     * @param  \UnitEnum|array|string  $key
+     * @param  mixed  $value
+     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
+     * 
+     * @return bool
+     */
+    public function set($key, $value, $ttl = null): bool
+    {
+        return $this->put($key, $value, $ttl);
     }
     
     /**
@@ -211,9 +262,7 @@ class CacheRepository implements ArrayAccess, Repository
             return $this->deleteMultiple(array_keys($values));
         }
         
-        $result = $this->store->putMany($values, $seconds);
-        
-        return $result;
+        return $this->store->putMany($values, $seconds);
     }
     
     /**
@@ -237,12 +286,12 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Retrieve an item from the cache and delete it.
      * 
-     * @param  string  $key
+     * @param  \UnitEnum|array|string  $key
      * @param  mixed  $default
      * 
      * @return mixed
      */
-    public function pull(string $key, mixed $default = null): mixed
+    public function pull($key, $default = null)
     {
         return take($this->get($key, $default), fn () => $this->delete($key));
     }
@@ -250,13 +299,13 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Saves an item to the cache store.
      * 
-     * @param  string  $key  Cache item name
+     * @param  \UnitEnum|string  $key  Cache item name
      * @param  mixed  $value  The data to save 
      * @param  \DateTimeInterface|\DateInterval|int|null  $ttl  Time To Live, in second
      * 
      * @return bool
      */
-    public function save(string $key, mixed $value, $ttl = null): bool
+    public function save($key, $value, $ttl = null): bool
     {
         if (null === $ttl) {
             return $this->forever($key, $value);
@@ -274,12 +323,12 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Increment the value of an item in the cache.
      * 
-     * @param  string  $key
+     * @param  \UnitEnum|string  $key
      * @param  mixed  $value
      * 
      * @return int|bool
      */
-    public function increment(string $key, mixed $value = 1): int|bool
+    public function increment($key, $value = 1): int|bool
     {
         return $this->store->increment($key, $value);
     }
@@ -287,24 +336,85 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Decrement the value of an item in the cache.
      * 
-     * @param  string  $key
+     * @param  \UnitEnum|string  $key
      * @param  mixed  $value
      * 
      * @return int|bool
      */
-    public function decrement(string $key, mixed $value = 1): int|bool
+    public function decrement($key, $value = 1): int|bool
     {
         return $this->store->decrement($key, $value);
     }
 
     /**
-     * Remove a specific item from the cache store.
-     * 
-     * @param  string  $key
+     * Get an item from the cache, or execute the given Closure and store the result.
+     *
+     * @param  \UnitEnum|string  $key
+     * @param  \Closure|\DateTimeInterface|\DateInterval|int|null  $ttl
+     * @param  \Closure $callback
      * 
      * @return mixed
      */
-    public function delete(string $key): mixed
+    public function remember($key, $ttl, Closure $callback)
+    {
+        $value = $this->get($key);
+
+        if ( ! is_null($value)) {
+            return $value;
+        }
+
+        $value = $callback();
+
+        $this->put($key, $value, value($ttl, $value));
+
+        return $value;
+    }
+
+    /**
+     * Get an item from the cache, or execute the given Closure and store the result forever.
+     *
+     * @param  \UnitEnum|string  $key
+     * @param  \Closure  $callback
+     * 
+     * @return mixed
+     */
+    public function rememberForever($key, Closure $callback)
+    {
+        $value = $this->get($key);
+
+        if ( ! is_null($value)) {
+            return $value;
+        }
+
+        $this->forever($key, $value = $callback());
+
+        return $value;
+    }
+
+
+    /**
+     * Set the expiration of a cached item.
+     *
+     * @param  \UnitEnum|string  $key
+     * @param  \DateTimeInterface|\DateInterval|int  $ttl
+     * 
+     * @return bool
+     */
+    public function touch($key, $ttl): bool
+    {
+        $key = enum_value($key);
+
+        return $this->store->touch($this->itemKey($key), $this->getSeconds($ttl));
+    }
+
+    /**
+     * Remove a specific item from the cache store.
+     * 
+     * @param  \UnitEnum|string  $key
+     * 
+     * @return mixed
+     */
+    public function delete($key)
     {
         return $this->store->delete($this->itemKey($key));
     }
@@ -319,7 +429,7 @@ class CacheRepository implements ArrayAccess, Repository
     public function deleteMultiple(array $keys): bool
     {
         foreach ($keys as $key) {
-            if ( ! $this->forget($key)) {
+            if ( ! $this->delete($key)) {
                 return false;
             }
         }
@@ -330,12 +440,12 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Stores an item in the cache indefinitely.
      * 
-     * @param  string  $key
+     * @param  \UnitEnum|string  $key
      * @param  mixed  $value
      * 
      * @return bool
      */
-    public function forever(string $key, mixed $value): bool
+    public function forever($key, $value): bool
     {
         return $this->store->forever($this->itemKey($key), $value);
     }
@@ -349,23 +459,15 @@ class CacheRepository implements ArrayAccess, Repository
     {
         return $this->store->flush();
     }
-    
+
     /**
-     * Calculate the number of minutes with the given duration.
-     * 
-     * @param  \DateTime|int  $duration
-     * 
-     * @return int|null
+     * Get the name of the cache store.
+     *
+     * @return string|null
      */
-    protected function getMinutes($duration): ?int
+    public function getName()
     {
-        if ($duration instanceof DateTime) {
-            $fromNow = Chronos::instance($duration)->getMinutes();
-            
-            return $fromNow > 0 ? $fromNow : null;
-        }
-        
-        return is_string($duration) ? (int) $duration : $duration;
+        return $this->config['store'] ?? null;
     }
 
     /**
@@ -420,6 +522,38 @@ class CacheRepository implements ArrayAccess, Repository
         $this->store = $store;
 
         return $this;
+    }
+
+    /**
+     * Fire an event for this cache instance.
+     *
+     * @param  object|string  $event
+     * 
+     * @return void
+     */
+    protected function event($event)
+    {
+        $this->events?->dispatch($event);
+    }
+
+    /**
+     * Get the event dispatcher instance.
+     *
+     * @return \Syscodes\Components\Contracts\Events\Dispatcher|null
+     */
+    public function getEventDispatcher()
+    {
+        return $this->events;
+    }
+
+    /**
+     * Set the event dispatcher instance.
+     *
+     * @return void
+     */
+    public function setEventDispatcher(Dispatcher $events): void
+    {
+        $this->events = $events;
     }
 
     /**
