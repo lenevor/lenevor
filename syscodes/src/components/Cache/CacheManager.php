@@ -31,9 +31,17 @@ use Syscodes\Components\Cache\Store\FileStore;
 use Syscodes\Components\Cache\Store\NullStore;
 use Syscodes\Components\Cache\Store\MemcachedStore;
 use Syscodes\Components\Cache\Store\RedisStore;
+use Syscodes\Components\Cache\Store\SessionStore;
 use Syscodes\Components\Cache\Exceptions\CacheException;
 use Syscodes\Components\Contracts\Cache\Factory as FactoryContract;
 use Syscodes\Components\Contracts\Cache\Store;
+use Syscodes\Components\Contracts\Events\Dispatcher as DispatcherContract;
+use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Traits\RebindsCallbacksToSelf;
+use ReflectionException;
+use RuntimeException;
+
+use function Syscodes\Components\Support\enum_value;
 
 /**
  * Class cache manager.
@@ -42,6 +50,8 @@ use Syscodes\Components\Contracts\Cache\Store;
  */
 class CacheManager implements FactoryContract
 {
+    use RebindsCallbacksToSelf;
+
     /**
      * The application instance.
      * 
@@ -78,11 +88,11 @@ class CacheManager implements FactoryContract
     /**
      * Get a cache driver instance.
      * 
-     * @param  string|null  $driver
+     * @param  \UnitEnum|string|null  $driver
      * 
      * @return \Syscodes\Components\Cache\CacheRepository
      */
-    public function driver(?string $driver = null)
+    public function driver($driver = null)
     {
         return $this->store($driver);
     }
@@ -94,11 +104,11 @@ class CacheManager implements FactoryContract
      * 
      * @return \Syscodes\Components\Cache\CacheRepository
      */
-    public function store(?string $name = null)
+    public function store($name = null)
     {
-        $name = $name ?: $this->getDefaultDriver();
+        $name = enum_value($name) ?? $this->getDefaultDriver();
 
-        return $this->stores[$name] = $this->resolve($name);
+        return $this->stores[$name] ??= $this->resolve($name);
     }
 
     /**
@@ -108,27 +118,45 @@ class CacheManager implements FactoryContract
      * 
      * @return \Syscodes\Components\Cache\CacheRepository
      * 
-     * @throws CacheException
+     * @throws \Syscodes\Components\Cache\Exceptions\CacheException
      */
     protected function resolve(string $name)
     {
         $config = $this->getConfig($name);
 
         if (is_null($config)) {
-            throw new CacheException(__('cache.storeNotDefined', ['name' => $name]));
+            throw new CacheException("Cache store [{$name}] is not defined.");
         }
+
+        $config = Arr::add($config, 'store', $name);
+
+        return $this->build($config);
+    }
+
+    /**
+     * Build a cache repository with the given configuration.
+     *
+     * @param  array  $config
+     * 
+     * @return \Syscodes\Components\Cache\CacheRepository
+     *
+     * @throws \Syscodes\Components\Cache\Exceptions\CacheException
+     */
+    public function build(array $config)
+    {
+        $config = Arr::add($config, 'store', $config['name'] ?? 'ondemand');
 
         if (isset($this->customDriver[$config['driver']])) {
             return $this->callCustomDriver($config);
-        } else {
-            $driver = 'create'.ucfirst($config['driver']).'Driver';
-    
-            if (method_exists($this, $driver)) {
-                return $this->{$driver}($config);
-            } else {
-                throw new CacheException(__('cache.driverNotSupported', ['config' => $config]));
-            }
         }
+
+        $driver = 'create'.ucfirst($config['driver']).'Driver';
+
+        if (method_exists($this, $driver)) {
+            return $this->{$driver}($config);
+        }
+
+        throw new CacheException(__('cache.driverNotSupported', ['config' => $config['driver']]));
     }
 
     /**
@@ -138,9 +166,9 @@ class CacheManager implements FactoryContract
      * 
      * @return mixed
      */
-    protected function callCustomDriver(array $config): mixed
+    protected function callCustomDriver(array $config)
     {
-        return $this->customDriver[$config['default']]($this->app, $config);
+        return $this->customDriver[$config['driver']]($this->app, $config);
     }
     
     /**
@@ -148,15 +176,13 @@ class CacheManager implements FactoryContract
      * 
      * @param  string  $name
      * 
-     * @return array
+     * @return array|null
      */
-    protected function getConfig(string $name): array
+    protected function getConfig(string $name): array|null
     {
-        if ( ! is_null($name) && $name !== 'null') {
-            return $this->app['config']["cache.stores.{$name}"];
-        }
-        
-        return ['driver' => 'null'];
+        return $name !== 'null'
+            ? $this->app['config']["cache.stores.{$name}"]
+            : ['driver' => 'null'];
     }
 
     /**
@@ -170,17 +196,25 @@ class CacheManager implements FactoryContract
     {
         $prefix = $this->getPrefix($config);
 
-        return $this->getRepository(new ApcStore(new ApcWrapper, $prefix));
+        return $this->getRepository(
+            new ApcStore(new ApcWrapper, $prefix),
+            $config
+        );
     }
 
     /**
      * Create an instance of the Array cache driver.
      * 
+     * @param  array  $config
+     * 
      * @return \Syscodes\Components\Cache\CacheRepository
      */
-    protected function createArrayDriver()
+    protected function createArrayDriver(array $config)
     {
-        return $this->getRepository(new ArrayStore);
+        return $this->getRepository(
+            new ArrayStore($config['serialize'] ?? false),
+            $config
+        );
     }
 
     /**
@@ -193,10 +227,15 @@ class CacheManager implements FactoryContract
     protected function createDatabaseDriver(array $config)
     {
         $connection = $this->app['db']->connection($config['connection'] ?? null);
-        $table = $config['table'];
-        $prefix = $this->getPrefix($config);
         
-        return $this->repository(new DatabaseStore($connection, $table, $prefix));
+        return $this->repository(
+            new DatabaseStore(
+                $connection,
+                $config['table'],
+                $this->getPrefix($config)
+            ),
+            $config
+        );
     }
 
     /**
@@ -208,7 +247,10 @@ class CacheManager implements FactoryContract
      */
     protected function createFileDriver(array $config)
     {
-        return $this->getRepository(new FileStore($this->app['files'], $config['path']));
+        return $this->getRepository(
+            new FileStore($this->app['files'], $config['path']),
+            $config
+        );
     }
 
     /**
@@ -239,7 +281,7 @@ class CacheManager implements FactoryContract
      */
     protected function createNullDriver()
     {
-        return $this->getRepository(new NullStore);
+        return $this->getRepository(new NullStore, []);
     }
 
     /**
@@ -259,6 +301,42 @@ class CacheManager implements FactoryContract
     }
 
     /**
+     * Create an instance of the session cache driver.
+     *
+     * @param  array  $config
+     * 
+     * @return \Syscodes\Components\Cache\CacheRepository
+     */
+    protected function createSessionDriver(array $config)
+    {
+        return $this->getRepository(
+            new SessionStore(
+                $this->getSession(),
+                $config['key'] ?? '_cache',
+            ),
+            $config
+        );
+    }
+
+    /**
+     * Get the session store implementation.
+     *
+     * @return \Syscodes\Components\Contracts\Session\Session
+     *
+     * @throws \InvalidArgumentException
+     */
+    protected function getSession()
+    {
+        $session = $this->app['session'] ?? null;
+
+        if ( ! $session) {
+            throw new CacheException('Session store requires session manager to be available in container.');
+        }
+
+        return $session;
+    }
+
+    /**
      * Get the cache prefix. 
      * 
      * @param  array  $config
@@ -274,12 +352,35 @@ class CacheManager implements FactoryContract
      * Create a new cache repository with the given implementation.
      * 
      * @param  \Syscodes\Components\Contracts\Cache\Store  $store
+     * @param  array  $config
      *
      * @return \Syscodes\Components\Cache\CacheRepository
      */
-    public function getRepository(Store $store)
+    public function getRepository(Store $store, array $config = [])
     {
-        return new CacheRepository($store);
+        return take(new CacheRepository($store, Arr::only($config, ['store'])), function ($repository) use ($config) {
+            if ($config['events'] ?? true) {
+                $this->setEventDispatcher($repository);
+            }
+        });
+    }
+
+    /**
+     * Set the event dispatcher on the given repository instance.
+     *
+     * @param  \Syscodes\Components\Cache\CacheRepository  $repository
+     * 
+     * @return void
+     */
+    protected function setEventDispatcher(CacheRepository $repository)
+    {
+        if ( ! $this->app->bound(DispatcherContract::class)) {
+            return;
+        }
+
+        $repository->setEventDispatcher(
+            $this->app[DispatcherContract::class]
+        );
     }
 
     /**
@@ -289,7 +390,7 @@ class CacheManager implements FactoryContract
      */
     public function getDefaultDriver(): string
     {
-       return $this->app['config']['cache.default'];
+       return $this->app['config']['cache.default'] ?? 'null';
     }
     
     /**
@@ -301,7 +402,7 @@ class CacheManager implements FactoryContract
      */
     public function setDefaultDriver(string $name): void
     {
-        $this->app['config']['cache.default'] = $name;
+        $this->app['config']['cache.default'] = enum_value($name);
     }
 
     /**
@@ -314,7 +415,13 @@ class CacheManager implements FactoryContract
      */
     public function extend(string $driver, Closure $callback): static
     {
-        $this->customDriver[$driver] = $callback->bindTo($this, $this);
+        try {
+            $callback = $this->bindCallbackToSelf($callback) ?? throw new RuntimeException('Unable to bind custom driver callback');
+        } catch (ReflectionException $e) {
+            throw new RuntimeException('Unable to bind custom driver callback', previous: $e);
+        }
+
+        $this->customDriver[$driver] = $callback;
 
         return $this;
     }
@@ -325,12 +432,12 @@ class CacheManager implements FactoryContract
      * Dynamically call the default driver instance.
      * 
      * @param  string  $method
-     * @param  array  $params
+     * @param  array  $parameters
      * 
      * @return mixed
      */
-    public function __call(string $method, array $params): mixed
+    public function __call(string $method, array $parameters): mixed
     {
-        return $this->store()->$method(...$params);
+        return $this->store()->$method(...$parameters);
     }
 }

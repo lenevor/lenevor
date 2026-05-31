@@ -38,11 +38,17 @@ class CacheServiceProvider extends ServiceProvider implements Deferrable
      */
     public function register()
     {
-        $this->app->singleton('cache', fn ($app) => (new CacheManager($app)));
+        $this->app->singleton('cache', function ($app) {
+            return new CacheManager($app);
+        });
 
-        $this->app->singleton('cache.store', fn ($app) => $app['cache']->driver());
+        $this->app->singleton('cache.store', function ($app) {
+            return $app['cache']->driver();
+        });
 
-        $this->app->singleton('memcached.connector', fn () => new MemcachedConnector);
+        $this->app->singleton('memcached.connector', function () {
+            return new MemcachedConnector;
+        });
     }
     
     /**
