@@ -224,8 +224,8 @@ class Container implements ArrayAccess, ContainerContract
     public function bound($id): bool
     {
         return isset($this->bindings[$id]) ||
-               isset($this->instances[$id]) ||
-               $this->isAlias($id);
+            isset($this->instances[$id]) ||
+            $this->isAlias($id);
     }
 
     /**
@@ -706,8 +706,8 @@ class Container implements ArrayAccess, ContainerContract
     public function getAlias($id): string
     {
         return isset($this->aliases[$id]) 
-                ? $this->getAlias($this->aliases[$id])
-                : $id;
+            ? $this->getAlias($this->aliases[$id])
+            : $id;
     }
 
     /**
@@ -904,7 +904,7 @@ class Container implements ArrayAccess, ContainerContract
     protected function buildNotInstantiable(string $value): void
     {
         if ( ! empty($this->buildStack)) {
-           $reset   = implode(', ', $this->buildStack);
+           $reset = implode(', ', $this->buildStack);
 
            $message = "Target [{$value}] is not instantiable while building [{$reset}]"; 
         } else {
@@ -932,9 +932,9 @@ class Container implements ArrayAccess, ContainerContract
                 continue;
             }
             
-            $param = is_null(Util::getParameterClassName($dependency)) 
-                       ? $this->getResolveNonClass($dependency) 
-                       : $this->getResolveClass($dependency);
+            $param = is_null(Util::getParameterClassName($dependency))
+                ? $this->getResolveNonClass($dependency)
+                : $this->getResolveClass($dependency);
 
             $this->fireAfterResolvingAttributeCallbacks($dependency->getAttributes(), $param);
                        
@@ -1448,9 +1448,9 @@ class Container implements ArrayAccess, ContainerContract
      */
     public function flush(): void
     {
-        $this->aliases   = [];
-        $this->resolved  = [];
-        $this->bindings  = [];
+        $this->aliases = [];
+        $this->resolved = [];
+        $this->bindings = [];
         $this->instances = [];
         $this->abstractAliases = [];
         $this->scopedInstances = [];
