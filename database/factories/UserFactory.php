@@ -25,7 +25,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => Str::random(10),
+            'name' => fibber()->name(),
             'email' => Str::random(10).'@lenevor.com',
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
