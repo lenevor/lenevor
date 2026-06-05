@@ -135,7 +135,7 @@ return [
 
     'fallbackLocale' => env('APP_FALLBACK_LOCALE', 'en'),
     
-    'fibber_locale' => env('APP_FIBBER_LOCALE', 'en_US'),
+    'fibberLocale' => env('APP_FIBBER_LOCALE', 'en_US'),
 
 
     /*
