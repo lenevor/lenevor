@@ -451,6 +451,32 @@ if ( ! function_exists('event')) {
     }
 }
 
+if ( ! function_exists('fake') && class_exists(\Fibber\Factory::class)) {
+    /**
+     * Get a fibber instance.
+     *
+     * @param  string|null  $locale
+     * 
+     * @return \Fibber\Generator
+     */
+    function fibber($locale = null): \Fibber\Generator
+    {
+        if (app()->bound('config')) {
+            $locale ??= app('config')->get('app.fibberLocale');
+        }
+
+        $locale ??= 'en_US';
+
+        $abstract = \Fibber\Generator::class.':'.$locale;
+
+        if ( ! app()->bound($abstract)) {
+            app()->singleton($abstract, fn () => \Fibber\Factory::create($locale));
+        }
+
+        return app()->make($abstract);
+    }
+}
+
 if ( ! function_exists('get_classname')) {
     /**
      * Function to crop the full name of the namespace and leave 
