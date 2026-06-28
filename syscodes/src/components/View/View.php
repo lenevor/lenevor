@@ -24,7 +24,6 @@ namespace Syscodes\Components\View;
 
 use ArrayAccess;
 use BadMethodCallException;
-use InvalidArgumentException;
 use Stringable;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Support\Webable;
