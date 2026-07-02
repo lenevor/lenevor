@@ -44,6 +44,7 @@ use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\Environment;
 use Syscodes\Components\Support\ServiceProvider;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Version;
 
 use function Syscodes\Components\Filesystem\join_paths;
@@ -56,6 +57,8 @@ use function Syscodes\Components\Filesystem\join_paths;
  */
 class Application extends Container implements ApplicationContract
 {
+    use Macroable;
+    
     /**
      * The current globally available application.
      * 
@@ -950,6 +953,22 @@ class Application extends Container implements ApplicationContract
 
         $provider->register();
 
+        // If there are bindings / singletons set as properties on the provider we
+        // will spin through them and register them with the application.
+        if (property_exists($provider, 'bindings')) {
+            foreach ($provider->bindings as $key => $value) {
+                $this->bind($key, $value);
+            }
+        }
+
+        if (property_exists($provider, 'singletons')) {
+            foreach ($provider->singletons as $key => $value) {
+                $key = is_int($key) ? $value : $key;
+
+                $this->singleton($key, $value);
+            }
+        }
+
         $this->markAsRegistered($provider);
 
         if ($this->isBooted()) {
@@ -1280,8 +1299,8 @@ class Application extends Container implements ApplicationContract
         }
 
         return Str::startsWith($env, $this->absoluteCachePathPrefixes)
-                ? $env
-                : $this->basePath($env);
+            ? $env
+            : $this->basePath($env);
     }
     
     /**
