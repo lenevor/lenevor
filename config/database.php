@@ -130,15 +130,15 @@ return [
 
         'cluster' => false,
         'default' => [
-            'host'     => 'localhost',
+            'host' => 'localhost',
             'password' => null,
-            'port'     => 6379,
+            'port' => 6379,
             'database' => 0
         ],
         'cache' => [
-            'host'     => 'localhost',
+            'host' => 'localhost',
             'password' => null,
-            'port'     => 6379,
+            'port' => 6379,
             'database' => 1
         ],
 

@@ -24,9 +24,9 @@ defined('COMPOSER_PATH') OR define('COMPOSER_PATH', dirname(__DIR__).'/vendor/au
 |
 */
 
-defined('FILE_READ_MODE')  		OR define('FILE_READ_MODE', 0644);
-defined('FILE_WRITE_MODE') 		OR define('FILE_WRITE_MODE', 0666);
+defined('FILE_READ_MODE') OR define('FILE_READ_MODE', 0644);
+defined('FILE_WRITE_MODE') OR define('FILE_WRITE_MODE', 0666);
 defined('FILE_READ_WRITE_MODE') OR define('FILE_READ_WRITE_MODE', 0777); 
-defined('DIR_READ_MODE')   		OR define('DIR_READ_MODE', 0755);
-defined('DIR_WRITE_MODE')  		OR define('DIR_WRITE_MODE', 0755);
+defined('DIR_READ_MODE') OR define('DIR_READ_MODE', 0755);
+defined('DIR_WRITE_MODE') OR define('DIR_WRITE_MODE', 0755);
 defined('DIR_READ_WRITE_MODE')  OR define('DIR_READ_WRITE_MODE', 0777);

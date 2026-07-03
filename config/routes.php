@@ -15,9 +15,7 @@ return [
     */
 
     'routes' => [
-
         'web',
-
     ],
 
 ];
