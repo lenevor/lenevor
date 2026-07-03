@@ -60,12 +60,22 @@ trait Extensions
 	}
 
 	/**
-	 * Get type to engine bindings.
+	 * Get type to engine bindings the given an array keys.
 	 * 
 	 * @return array
 	 */
 	public function getKeysToExtensions(): array
 	{
 		return array_keys($this->extensions);
+	}
+
+	/**
+	 * Get type to engine bindings the given an array values.
+	 * 
+	 * @return array
+	 */
+	public function getValuesToExtensions(): array
+	{
+		return array_values($this->extensions);
 	}
 }
