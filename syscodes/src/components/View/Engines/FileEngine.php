@@ -23,6 +23,7 @@
 namespace Syscodes\Components\View\Engines;
 
 use Syscodes\Components\Contracts\View\Engine;
+use Syscodes\Components\Filesystem\Filesystem;
 
 /**
  * The file engine.
@@ -30,15 +31,32 @@ use Syscodes\Components\Contracts\View\Engine;
 class FileEngine implements Engine
 {
     /**
+     * The filesystem instance.
+     *
+     * @var \Syscodes\Components\Filesystem\Filesystem
+     */
+    protected $files;
+
+    /**
+     * Create a new file engine instance.
+     *
+     * @param  \Syscodes\Components\Filesystem\Filesystem  $files
+     * @return void
+     */
+    public function __construct(Filesystem $files)
+    {
+        $this->files = $files;
+    }
+    
+    /**
      * Get the evaluated contents of the view.
      * 
      * @param  string  $path
-     * @param  array  $data
-     * 
+     * @param  array  $data 
      * @return string
      */
     public function get($path, array $data = []): string
     {
-        return file_get_contents($path);
+        return $this->files->get($path);
     }
 }
