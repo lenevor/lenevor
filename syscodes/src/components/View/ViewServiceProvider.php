@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\View;
 
+use Syscodes\Components\Core\Application;
 use Syscodes\Components\Support\ServiceProvider;
 use Syscodes\Components\View\Engines\EngineResolver;
 use Syscodes\Components\View\Engines\FileEngine;
@@ -41,7 +42,7 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerView();
+        $this->registerFactory();
         $this->registerViewFinder();
         $this->registerPlazeTranspiler();
         $this->registerEngineResolver();
@@ -52,7 +53,7 @@ class ViewServiceProvider extends ServiceProvider
      * 
      * @return void
      */
-    public function registerView()
+    public function registerFactory()
     {
         $this->app->singleton('view', function ($app) {
             // The resolver will be used by an environment to get each of the various 
@@ -63,7 +64,7 @@ class ViewServiceProvider extends ServiceProvider
             
             $events = $app['events'];
 
-            $factory = new Factory($resolver, $finder, $events);
+            $factory = $this->createFactory($resolver, $finder, $events);
 
             $factory->setContainer($app);
 
@@ -75,13 +76,28 @@ class ViewServiceProvider extends ServiceProvider
     }
 
     /**
+     * Create a new Factory Instance.
+     *
+     * @param  \Syscodes\Components\View\Engines\EngineResolver  $resolver
+     * @param  \Syscodes\Components\Contracts\View\ViewFinder  $finder
+     * @param  \Syscodes\Components\Contracts\Events\Dispatcher  $events
+     * @return \Syscodes\Components\View\Factory
+     */
+    protected function createFactory($resolver, $finder, $events)
+    {
+        return new Factory($resolver, $finder, $events);
+    }
+
+    /**
      * Register the view finder implementation.
      * 
      * @return void
      */
     public function registerViewFinder()
     {
-        $this->app->bind('view.finder', fn ($app) => new FileViewFinder($app['files'], $app['config']['view.paths']));
+        $this->app->bind('view.finder', function ($app) { 
+            return new FileViewFinder($app['files'], $app['config']['view.paths']);
+        });
     }
 
     /**
@@ -91,7 +107,12 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function registerPlazeTranspiler()
     {
-        $this->app->singleton('plaze.transpiler', fn ($app) => new PlazeTranspiler($app['files'], $app['config']['view.transpiled']));
+        $this->app->singleton('plaze.transpiler', function ($app) {
+            return new PlazeTranspiler(
+                $app['files'], 
+                $app['config']['view.transpiled']
+            );
+        });
     }
     
     /**
@@ -118,35 +139,45 @@ class ViewServiceProvider extends ServiceProvider
      * Register the file engine implementation.
      * 
      * @param  \Syscodes\Components\View\Engines\EngineResolver  $resolver
-     * 
      * @return void
      */
     public function registerFileEngine($resolver)
     {
-        $resolver->register('file', fn () => new FileEngine);
+        $resolver->register('file', function() {
+            return new FileEngine(Application::getInstance()->make('files'));
+        });
     }
     
     /**
      * Register the PHP engine implementation.
      * 
      * @param  \Syscodes\Components\View\Engines\EngineResolver  $resolver
-     * 
      * @return void
      */
     public function registerPhpEngine($resolver)
     {
-        $resolver->register('php', fn () => new PhpEngine($this->app['files']));
+        $resolver->register('php', function() {
+            return new PhpEngine(Application::getInstance()->make('files'));
+        });
     }
     
     /**
      * Register the Plaze engine implementation.
      * 
      * @param  \Syscodes\Components\View\Engines\EngineResolver  $resolver
-     * 
      * @return void
      */
     public function registerPlazeEngine($resolver)
     {
-        $resolver->register('plaze', fn () => new TranspilerEngine($this->app['plaze.transpiler'], $this->app['files']));
+        $resolver->register('plaze', function () {
+            $app = Application::getInstance();
+
+            $transpiler = new TranspilerEngine(
+                $app->make('plaze.transpiler'),
+                $app->make('files')
+            );
+
+            return $transpiler;
+        });
     }
 }

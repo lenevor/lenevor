@@ -30,6 +30,7 @@ use Syscodes\Components\Contracts\View\Factory as FactoryContract;
 use Syscodes\Components\Contracts\View\ViewFinder;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\View\Engines\EngineResolver;
 
 /**
@@ -37,7 +38,8 @@ use Syscodes\Components\View\Engines\EngineResolver;
  */
 class Factory implements FactoryContract
 {
-	use Extensions,
+	use Macroable,
+	    Extensions,
 	    Concerns\ManagesStacks,
 	    Concerns\ManagesLayouts,
 	    Concerns\ManagesComponents,

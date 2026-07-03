@@ -55,7 +55,6 @@ class PhpEngine implements Engine
      * 
      * @param  string  $path
      * @param  array  $data
-     * 
      * @return string
      */
     public function get($path, array $data = []): string
@@ -68,7 +67,6 @@ class PhpEngine implements Engine
      * 
      * @param  string  $path
      * @param  array  $data
-     * 
      * @return string
      */
     protected function evaluatePath($path, $data)
@@ -91,7 +89,6 @@ class PhpEngine implements Engine
      * 
      * @param  \Throwable  $e
      * @param  int  $obLevel
-     * 
      * @return void
      * 
      * @throws \Throwable
