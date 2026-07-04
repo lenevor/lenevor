@@ -67,8 +67,7 @@ class AuthManager implements Factory
     /**
      * Constructor. Create a new AuthManager class instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Core\Application  $app
-     * 
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app 
      * @return void
      */
     public function __construct($app)
@@ -81,8 +80,7 @@ class AuthManager implements Factory
     /**
      * Get a guard instance by name.
      * 
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return \Syscodes\Components\Contracts\Auth\Guard|\Syscodes\Components\Contracts\Auth\StateGuard
      */
     public function guard(?string $name = null)
@@ -105,8 +103,7 @@ class AuthManager implements Factory
     /**
      * Resolve the given guard.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return \Syscodes\Components\Contracts\Auth\Guard|\Syscodes\Components\Contracts\Auth\StateGuard
      * 
      * @throws \InvalidArgumentException
@@ -139,7 +136,6 @@ class AuthManager implements Factory
      * 
      * @param  string  $name
      * @param  array  $config
-     * 
      * @return mixed
      */
     protected function callCustomCreator($name, array $config): mixed
@@ -155,8 +151,7 @@ class AuthManager implements Factory
      * Create a session based authentication guard.
      *
      * @param  string  $name
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Syscodes\Components\Auth\Guards\SessionGuard
      */
     public function createSessionDriver($name, $config)
@@ -191,8 +186,7 @@ class AuthManager implements Factory
      * Create a token based authentication guard.
      * 
      * @param  string  $name
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Syscodes\Components\Auth\Guards\TokenGuard
      */
     public function createTokenDriver($name, $config)
@@ -213,8 +207,7 @@ class AuthManager implements Factory
     /**
      * Get the guard configuration.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return array
      */
     protected function getConfig($name)
@@ -225,8 +218,7 @@ class AuthManager implements Factory
     /**
      * Set the default guard the factory should serve.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return void
      */
     public function shouldUse(string $name): void
@@ -241,8 +233,7 @@ class AuthManager implements Factory
     /**
      * set the default authentication driver name.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return void
      */
     public function setDefaultDriver($name): void
@@ -263,8 +254,7 @@ class AuthManager implements Factory
     /**
      * Set the callback to be used to resolve users.
      * 
-     * @param  \Closure  $userResolver
-     * 
+     * @param  \Closure  $userResolver 
      * @return static
      */
     public function resolveUsersUsing(Closure $userResolver): static
@@ -278,8 +268,7 @@ class AuthManager implements Factory
      * Register a custom driver creator Closure.
      * 
      * @param  string  $driver
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return static
      */
     public function extend($driver, Closure $callback): static
@@ -294,7 +283,6 @@ class AuthManager implements Factory
      * 
      * @param  string  $name
      * @param  \Closure  $callback
-     * 
      * @return static
      */
     public function provider($name, Closure $callback): static
@@ -329,8 +317,7 @@ class AuthManager implements Factory
     /**
      * Set the application instance used by the manager.
      * 
-     * @param  \Syscodes\Components\Contracts\Core\Application  $app
-     * 
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app 
      * @return static
      */
     public function setApplication($app): static
@@ -346,8 +333,7 @@ class AuthManager implements Factory
      * Dynamically call the default driver instance.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      */
     public function __call(string $method, array $parameters): mixed

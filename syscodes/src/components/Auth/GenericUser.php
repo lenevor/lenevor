@@ -40,7 +40,6 @@ class GenericUser implements UserContract
      * Constructor. Create a new GenericUser class instance.
      * 
      * @param  array  $attributes
-     * 
      * @return void
      */
     public function __construct(array $attributes)
@@ -91,8 +90,7 @@ class GenericUser implements UserContract
     /**
      * Set the token value for the "remember me" session.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return void
      */
     public function setRememberToken(string $value): void
@@ -115,8 +113,7 @@ class GenericUser implements UserContract
      * 
      * Dynamically access the user's attributes.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return mixed
      */
     public function __get($key)
@@ -130,8 +127,7 @@ class GenericUser implements UserContract
      * Dynamically set an attribute on the user.
      * 
      * @param  string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return void
      */
     public function __set($key, $value)
@@ -144,8 +140,7 @@ class GenericUser implements UserContract
      * 
      * Dynamically check if a value is set on the user.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return bool
      */
     public function __isset($key)
@@ -157,7 +152,6 @@ class GenericUser implements UserContract
      * Dynamically unset a value on the user.
      * 
      * @param  string  $key
-     * 
      * @return void
      */
     public function __unset($key)

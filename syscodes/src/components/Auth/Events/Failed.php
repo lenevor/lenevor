@@ -53,8 +53,7 @@ class Failed
      * 
      * @param  string  $guard
      * @param  \Syscodes\Components\Contracts\Auth\Authenticatable|null  $user
-     * @param  array  $credentials
-     * 
+     * @param  array  $credentials 
      * @return void
      */
     public function __construct($guard, $user, $credentials)

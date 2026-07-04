@@ -57,8 +57,7 @@ class AuthorizationException extends Exception
      * 
      * @param  string|null  $message
      * @param  mixed  $code
-     * @param  \Throwable|null  $previous
-     * 
+     * @param  \Throwable|null  $previous 
      * @return void
      */
     public function __construct(?string $message = null, mixed $code = null, ?Throwable $previous = null)
@@ -81,8 +80,7 @@ class AuthorizationException extends Exception
     /**
      * Set the response from the gate.
      * 
-     * @param  \Syscodes\Components\Auth\Access\Response  $response
-     * 
+     * @param  \Syscodes\Components\Auth\Access\Response  $response 
      * @return static
      */
     public function setResponse($response): static
@@ -95,8 +93,7 @@ class AuthorizationException extends Exception
     /**
      * Set the HTTP response status code.
      * 
-     * @param  int|null  $status
-     * 
+     * @param  int|null  $status 
      * @return static
      */
     public function withStatus(?int $status): static

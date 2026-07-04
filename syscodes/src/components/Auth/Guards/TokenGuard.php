@@ -69,8 +69,7 @@ class TokenGuard implements Guard
      * @param  \Syscodes\Components\Http\Request  $request
      * @param  string  $inputKey
      * @param  string  $storageKey
-     * @param  bool  $hash
-     * 
+     * @param  bool  $hash 
      * @return void
      */
     public function __construct(
@@ -138,8 +137,7 @@ class TokenGuard implements Guard
     /**
      * Validate a user's credentials.
      * 
-     * @param  array  $credentials
-     * 
+     * @param  array  $credentials 
      * @return bool
      */
     public function validate(array $credentials = []): bool
@@ -160,8 +158,7 @@ class TokenGuard implements Guard
     /**
      * Set the current request instance.
      * 
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return static
      */
     public function setRequest(Request $request): static

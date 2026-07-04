@@ -62,8 +62,7 @@ class Response
      * 
      * @param  bool  $allowed
      * @param  string|null  $message
-     * @param  mixed  $code
-     * 
+     * @param  mixed  $code 
      * @return void
      */
     public function __construct($allowed, $message = '', $code = '')
@@ -77,8 +76,7 @@ class Response
      * Create a new "allow" Response.
      * 
      * @param  string|null  $message
-     * @param  mixed  $code
-     * 
+     * @param  mixed  $code 
      * @return \Syscodes\Components\Auth\Access\Response
      */
     public static function allow(?string $message = null, mixed $code = null)
@@ -90,8 +88,7 @@ class Response
      * Create a new "deny" Response.
      * 
      * @param  string|null  $message
-     * @param  mixed  $code
-     * 
+     * @param  mixed  $code 
      * @return \Syscodes\Components\Auth\Access\Response
      */
     public static function deny(?string $message = null, mixed $code = null)
@@ -160,8 +157,7 @@ class Response
     /**
      * Set the HTTP response status code.
      * 
-     * @param  null|int  $status
-     * 
+     * @param  null|int  $status 
      * @return static
      */
     public function withStatus(?int $status): static

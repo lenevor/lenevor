@@ -37,8 +37,7 @@ class Recaller
     /**
      * Constructor. Create a new Recaller class instance.
      * 
-     * @param  string  $recaller
-     * 
+     * @param  string  $recaller 
      * @return void
      */
     public function __construct($recaller)

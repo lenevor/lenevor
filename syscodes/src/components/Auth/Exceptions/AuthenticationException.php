@@ -56,8 +56,7 @@ class AuthenticationException extends Exception
      * 
      * @param  string  $message
      * @param  array  $guards
-     * @param  string|null  $redirectTo
-     * 
+     * @param  string|null  $redirectTo 
      * @return void
      */
     public function __construct(string $message = 'Unauthenticated', array $guards = [], $redirectTo = null)
@@ -81,8 +80,7 @@ class AuthenticationException extends Exception
     /**
      * Get the path the user should be redirected to.
      * 
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return string|null
      */
     public function redirectTo(Request $request)
@@ -99,8 +97,7 @@ class AuthenticationException extends Exception
     /**
      * Specify the callback that should be used to generate the redirect path.
      * 
-     * @param  callable  $redirectToCallback
-     * 
+     * @param  callable  $redirectToCallback 
      * @return void
      */
     public static function redirectUsing(callable $redirectToCallback): void

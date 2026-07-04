@@ -55,8 +55,7 @@ class RequestGuard implements Guard
      * 
      * @param  callable  $callback
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Syscodes\Components\Contracts\Auth\UserProvider|null  $provider
-     * 
+     * @param  \Syscodes\Components\Contracts\Auth\UserProvider|null  $provider 
      * @return void
      */
     public function __construct(callable $callback, Request $request, ?UserProvider $provider = null)
@@ -85,8 +84,7 @@ class RequestGuard implements Guard
     /**
      * Validate a user's credentials.
      * 
-     * @param  array  $credentials
-     * 
+     * @param  array  $credentials 
      * @return bool
      */
     public function validate(array $credentials = []): bool
@@ -100,7 +98,6 @@ class RequestGuard implements Guard
      * Set the current request instance.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * 
      * @return static
      */
     public function setRequest(Request $request): static

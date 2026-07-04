@@ -33,8 +33,7 @@ trait HandlesAuthorization
      * Create a new access response.
      * 
      * @param  string|null  $message
-     * @param  mixed  $code
-     * 
+     * @param  mixed  $code 
      * @return \Syscodes\Components\Auth\Access\Response
      */
     protected function allow(?string $message = null, mixed $code = null)
@@ -46,8 +45,7 @@ trait HandlesAuthorization
      * Throws an unauthorized exception.
      * 
      * @param  string|null  $message
-     * @param  mixed  $code
-     * 
+     * @param  mixed  $code 
      * @return \Syscodes\Components\Auth\Access\Response
      */
     protected function deny(?string $message = null, mixed $code = null)

@@ -79,8 +79,7 @@ trait Authenticatable
     /**
      * Set the token value for the "remember me" session.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return void
      */
     public function setRememberToken($value): void

@@ -139,7 +139,6 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * @param  \Syscodes\Components\Contracts\Session\Session  $session
      * @param  \Syscodes\Components\Http\Request|null  $request
      * @param  string|null  $hashKey
-     * 
      * @return void
      */
     public function __construct(
@@ -210,7 +209,6 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * Pull a user from the repository by its "remember me" cookie token.
      * 
      * @param  \Syscodes\Components\Auth\Recaller  $recaller
-     * 
      * @return mixed
      */
     protected function userFromRecaller($recaller)
@@ -247,8 +245,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
     /**
      * Validate a user's credentials.
      * 
-     * @param  array  $credentials
-     * 
+     * @param  array  $credentials 
      * @return bool
      */
     public function validate(array $credentials = []): bool
@@ -262,8 +259,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * Attempt to authenticate using HTTP Basic Auth.
      * 
      * @param  string  $field
-     * @param  array  $extraConditions
-     * 
+     * @param  array  $extraConditions 
      * @return \Syscodes\Components\Http\Response|null
      * 
      * @throws \Syscodes\Components\Core\Http\Exceptions\UnauthorizedHttpException 

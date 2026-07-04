@@ -41,8 +41,7 @@ class AuthenticateWithBasicAuth
     /**
      * Constructor. Create a new middleware class instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Auth\Factory  $auth
-     * 
+     * @param  \Syscodes\Components\Contracts\Auth\Factory  $auth 
      * @return void
      */
     public function __construct(Factory $auth)
@@ -57,7 +56,6 @@ class AuthenticateWithBasicAuth
      * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next
      * @param  string|null  $guard
      * @param  string|null  $field
-     * 
      * @return \Symfony\Component\HttpFoundation\Response
      * 
      * @throws \Syscodes\Components\Core\Http\Exceptions\UnauthorizedHttpException

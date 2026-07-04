@@ -43,8 +43,7 @@ class Authorize
     /**
      * Constructor. Create a new middleware class instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Auth\Access\Gate  $gate
-     * 
+     * @param  \Syscodes\Components\Contracts\Auth\Access\Gate  $gate 
      * @return void
      */
     public function __construct(Gate $gate)
@@ -56,8 +55,7 @@ class Authorize
      * Specify the ability and models for the middleware.
      * 
      * @param  string  $ability
-     * @param  string  ...$models
-     * 
+     * @param  string  ...$models 
      * @return string
      */
     public static function using($ability, ...$models): string
@@ -71,8 +69,7 @@ class Authorize
      * @param  \Syscodes\Components\Http\Request  $request
      * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next
      * @param  string  $ability
-     * @param  array|null  ...$models
-     * 
+     * @param  array|null  ...$models 
      * @return \Symfony\Component\HttpFoundation\Response
      * 
      * @throws \Syscodes\Components\Auth\Exceptions\AuthenticationException
@@ -89,8 +86,7 @@ class Authorize
      * Get the arguments parameter for the gate.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  array|null  $models
-     * 
+     * @param  array|null  $models 
      * @return array
      */
     protected function getGateArguments($request, $models): array
@@ -108,8 +104,7 @@ class Authorize
      * Get the model to authorize.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  string  $model
-     * 
+     * @param  string  $model 
      * @return \Syscodes\Components\Database\Erostrine\Model|string
      */
     protected function getModel($request, $model)
@@ -125,8 +120,7 @@ class Authorize
     /**
      * Checks if the given string looks like a fully qualified class name.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return bool
      */
     protected function isClassName($value): bool

@@ -87,8 +87,7 @@ class Gate implements GateContract
      * @param  array  $abilities
      * @param  array  $policies
      * @param  array  $beforeCallbacks
-     * @param  array  $afterCallbacks
-     * 
+     * @param  array  $afterCallbacks 
      * @return void
      */
     public function __construct(
@@ -110,8 +109,7 @@ class Gate implements GateContract
     /**
      * Determine if a given ability has been defined.
      * 
-     * @param  string[]  $ability
-     * 
+     * @param  string[]  $ability 
      * @return bool
      */
     public function has($ability): bool
@@ -131,8 +129,7 @@ class Gate implements GateContract
      * Define a new ability.
      * 
      * @param  string  $ability
-     * @param  callable|string  $callback
-     * 
+     * @param  callable|string  $callback 
      * @return static
      */
     public function define(string $ability, callable|string $callback): static
@@ -157,8 +154,7 @@ class Gate implements GateContract
      * 
      * @param  string  $name
      * @param  string  $class
-     * @param  array|null  $abilities
-     * 
+     * @param  array|null  $abilities 
      * @return static
      */
     public function resource(string $name, string $class, ?array $abilities = null): static
@@ -182,7 +178,6 @@ class Gate implements GateContract
      * 
      * @param  string  $ability
      * @param  string  $callback
-     * 
      * @return \Closure
      */
     protected function buildAbilityCallback(string $ability, string $callback)
@@ -208,8 +203,7 @@ class Gate implements GateContract
      * Define a policy class for a given class type.
      * 
      * @param  string  $class
-     * @param  string  $policy
-     * 
+     * @param  string  $policy 
      * @return static
      */
     public function policy(string $class, string $policy): static
@@ -222,8 +216,7 @@ class Gate implements GateContract
     /**
      * Register a callback to run before all Gate checks.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return static
      */
     public function before(callable $callback): static
@@ -236,8 +229,7 @@ class Gate implements GateContract
     /**
      * Register a callback to run after all Gate checks.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return static
      */
     public function after(callable $callback): static
@@ -251,8 +243,7 @@ class Gate implements GateContract
      * Determine if the given ability should be granted for the current user.
      * 
      * @param  string  $ability
-     * @param  array  $arguments
-     * 
+     * @param  array  $arguments 
      * @return bool
      */
     public function allows(string $ability, array $arguments = []): bool
@@ -264,8 +255,7 @@ class Gate implements GateContract
      * Determine if the given ability should be denied for the current user.
      * 
      * @param  string  $ability
-     * @param  array  $arguments
-     * 
+     * @param  array  $arguments 
      * @return bool
      */
     public function denies(string $ability, array $arguments = []): bool
@@ -277,8 +267,7 @@ class Gate implements GateContract
      * Determine if the given ability should be granted.
      * 
      * @param  string  $ability
-     * @param  array  $arguments
-     * 
+     * @param  array  $arguments 
      * @return bool
      */
     public function check(string $ability, array $arguments = []): bool
@@ -296,8 +285,7 @@ class Gate implements GateContract
      * Determine if any one of the given abilities should be granted for the current user.
      * 
      * @param  iterable|string  $abilities
-     * @param  array  $arguments
-     * 
+     * @param  array  $arguments 
      * @return bool
      */
     public function any($abilities, array $arguments = []): bool
@@ -309,8 +297,7 @@ class Gate implements GateContract
      * Determine if the given ability should be granted for the current user.
      * 
      * @param  string  $ability
-     * @param  array  $arguments
-     * 
+     * @param  array  $arguments 
      * @return \Syscodes\Components\Auth\Access\Response
      * 
      * @throws \Syscodes\Components\Auth\Access\Exceptions\AuthorizationException
@@ -324,8 +311,7 @@ class Gate implements GateContract
      * Inspect the user for the given ability.
      * 
      * @param  string  $ability
-     * @param  array  $arguments
-     * 
+     * @param  array  $arguments 
      * @return \Syscodes\Components\Auth\Access\Response
      */
     public function inspect(string $ability, array $arguments = [])
@@ -347,8 +333,7 @@ class Gate implements GateContract
      * Get the raw result from the authorization callback.
      * 
      * @param  string  $ability
-     * @param  array  $arguments
-     * 
+     * @param  array  $arguments 
      * @return mixed
      * 
      * @throws \Syscodes\Components\Auth\Access\Exceptions\AuthorizationException
@@ -378,7 +363,6 @@ class Gate implements GateContract
      * @param  \Syscodes\Components\Contracts\Auth\Authenticatable|null  $user
      * @param  string  $ability
      * @param  array  $arguments
-     * 
      * @return bool
      */
     protected function callAuthCallback($user, string $ability, array $arguments): bool
@@ -393,8 +377,7 @@ class Gate implements GateContract
      * 
      * @param  \Syscodes\Components\Contracts\Auth\Authenticatable|null  $user
      * @param  string  $ability
-     * @param  array  $arguments
-     * 
+     * @param  array  $arguments 
      * @return bool|null
      */
     protected function callBeforeCallbacks($user, string $ability, array $arguments)
@@ -414,8 +397,7 @@ class Gate implements GateContract
      * @param  \Syscodes\Components\Contracts\Auth\Authenticatable|null  $user
      * @param  string  $ability
      * @param  array  $arguments
-     * @param  bool  $result
-     * 
+     * @param  bool  $result 
      * @return void
      */
     protected function callAfterCallbacks($user, string $ability, array $arguments, $result): void
@@ -432,8 +414,7 @@ class Gate implements GateContract
      * 
      * @param  \Syscodes\Components\Contracts\Auth\Authenticatable|null  $user
      * @param  string  $ability
-     * @param  array  $arguments
-     * 
+     * @param  array  $arguments 
      * @return callable
      */
     protected function resolveAuthCallback($user, string $ability, array $arguments): callable
@@ -451,8 +432,7 @@ class Gate implements GateContract
     /**
      * Determine if the first argument in the array corresponds to a policy.
      * 
-     * @param  array  $arguments
-     * 
+     * @param  array  $arguments 
      * @return bool
      */
     protected function firstArgumentToPolicy(array $arguments): bool
@@ -477,8 +457,7 @@ class Gate implements GateContract
      * 
      * @param  \Syscodes\Components\Contracts\Auth\Authenticatable|null  $user
      * @param  string  $ability
-     * @param  array  $arguments
-     * 
+     * @param  array  $arguments 
      * @return callable
      */
     protected function resolvePolicyCallback($user, string $ability, array $arguments): callable
@@ -505,8 +484,7 @@ class Gate implements GateContract
     /**
      * Get a policy instance for a given class.
      * 
-     * @param  object|string  $class
-     * 
+     * @param  object|string  $class 
      * @return mixed
      * 
      * @throws \InvalidArgumentException
@@ -537,8 +515,7 @@ class Gate implements GateContract
     /**
      * Build a policy class instance of the given type.
      * 
-     * @param  object|string  $class
-     * 
+     * @param  object|string  $class 
      * @return mixed
      */
     public function resolvePolicy($class): mixed
@@ -549,8 +526,7 @@ class Gate implements GateContract
     /**
      * Get a guard instance for the given user.
      * 
-     * @param  \Syscodes\Components\Contracts\Auth\Authenticatable|mixed  $user
-     * 
+     * @param  \Syscodes\Components\Contracts\Auth\Authenticatable|mixed  $user 
      * @return static
      */
     public function forUser($user): static
@@ -597,8 +573,7 @@ class Gate implements GateContract
     /**
      * Set the container instance used by the gate.
      * 
-     * @param  \Syscodes\Components\Contracts\Container\Container  $container
-     * 
+     * @param  \Syscodes\Components\Contracts\Container\Container  $container 
      * @return static
      */
     public function setContainer(Container $container): static

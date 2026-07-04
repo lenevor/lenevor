@@ -77,7 +77,6 @@ class Autoloader
      * Initialize variables of configuration.
      * 
      * @param  \Syscodes\Bundles\WebResourceBundle\Autoloader\Autoload  $config
-     *
      * @return self
      */
     public function initialize(Autoload $config): self
@@ -136,7 +135,6 @@ class Autoloader
      *
      * @param  array|string  $namespace  The namespace
      * @param  string|null  $path  The path
-     *
      * @return self
      */
     public function addNamespace($namespace, ?string $path = null): self
@@ -166,7 +164,6 @@ class Autoloader
      * Get namespaces with prefixes as keys and paths as values.
      * 
      * @param  string|null  $prefix
-     *
      * @return array
      */
     public function getNamespace(?string $prefix = null): array
@@ -182,7 +179,6 @@ class Autoloader
      * Removes a single namespace from the psr4 settings.
      * 
      * @param  string  $namespace
-     * 
      * @return self
      */
     public function removeNamespace(string $namespace): self
@@ -198,7 +194,6 @@ class Autoloader
      * Load a class using available class mapping.
      * 
      * @param  string  $class  The classname to load
-     * 
      * @return mixed
      */
     public function loadClassmap(string $class)
@@ -217,7 +212,6 @@ class Autoloader
      * 
      * @param  bool|int  $fileIdentifier
      * @param  string  $file
-     * 
      * @return mixed
      */
     public function getAutoloaderFileRequire($fileIdentifier, string $file)
@@ -233,7 +227,6 @@ class Autoloader
      * Loads a class.
      *
      * @param  string  $class  The classname to load
-     *
      * @return mixed   
      */
     public function loadClass(string $class)
@@ -248,7 +241,6 @@ class Autoloader
      * Loads the class file for a given class name.
      *
      * @param  string  $class  The fully-qualified class name
-     *
      * @return mixed
      */
     protected function loadInNamespace(string $class)
@@ -280,7 +272,6 @@ class Autoloader
      * for testing purposes.
      *
      * @param  string  $file
-     *
      * @return bool
      */
     protected function sendFilePath(string $file): bool
@@ -306,7 +297,6 @@ class Autoloader
      * beginning and end of filename.
      *
      * @param  string  $filename
-     *
      * @return string    
      */
     public function sanitizeFile(string $filename): string

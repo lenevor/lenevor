@@ -41,8 +41,7 @@ trait CreatesUserProviders
     /**
      * Create the user provider implementation for the driver.
      * 
-     * @param  string  $provider
-     * 
+     * @param  string  $provider 
      * @return \Syscodes\Components\Contracts\Auth\UserProvider
      * 
      * @throws \InvalidArgumentException
@@ -69,8 +68,7 @@ trait CreatesUserProviders
     /**
      * Get the user provider configuration.
      * 
-     * @param  string|null  $provider
-     * 
+     * @param  string|null  $provider 
      * @return array|null
      */
     protected function getProviderConfiguration($provider)
@@ -83,8 +81,7 @@ trait CreatesUserProviders
     /**
      * Create an instance of the database user provider.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Syscodes\Components\Auth\Providers\DatabaseUserProvider
      */
     protected function createDatabaseProvider($config)
@@ -97,8 +94,7 @@ trait CreatesUserProviders
     /**
      * Create an instance of the Erostrine user provider.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Syscodes\Components\Auth\Providers\ErostrineUserProvider
      */
     protected function createErostrineProvider($config)

@@ -53,8 +53,7 @@ class Login
      * 
      * @param  string  $guard
      * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user
-     * @param  bool  $remember
-     * 
+     * @param  bool  $remember 
      * @return void
      */
     public function __construct($guard, $user, $remember)

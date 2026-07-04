@@ -62,8 +62,7 @@ class DatabaseUserProvider implements UserProvider
      * 
      * @param  \Syscodes\Components\Database\Connections\ConnectionInterface  $connection
      * @param  \Syscodes\Components\Contracts\Hashing\Hasher  $hasher
-     * @param  string  $table
-     * 
+     * @param  string  $table 
      * @return void
      */
     public function __construct(ConnectionInterface $connection, HasherContract $hasher, string $table)
@@ -76,8 +75,7 @@ class DatabaseUserProvider implements UserProvider
     /**
      * Retrieve a user by their unique identifier.
      * 
-     * @param  mixed  $identifier
-     * 
+     * @param  mixed  $identifier 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable|null
      */
     public function retrieveById(mixed $identifier)
@@ -91,8 +89,7 @@ class DatabaseUserProvider implements UserProvider
      * Retrieve a user by their unique identifier and "remember me" token.
      * 
      * @param  mixed  $identifier
-     * @param  string  $token
-     * 
+     * @param  string  $token 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByToken(mixed $identifier, string $token)
@@ -110,8 +107,7 @@ class DatabaseUserProvider implements UserProvider
      * Update the "remember me" token for the given user in storage.
      * 
      * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user
-     * @param  string  $token
-     * 
+     * @param  string  $token 
      * @return void
      */
     public function updateRememberToken(UserContract $user, string $token): void
@@ -124,8 +120,7 @@ class DatabaseUserProvider implements UserProvider
     /**
      * Retrieve a user by the given credentials.
      * 
-     * @param  array  $credentials
-     * 
+     * @param  array  $credentials 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByCredentials(array $credentials)
@@ -159,8 +154,7 @@ class DatabaseUserProvider implements UserProvider
      * Validate a user against the given credentials.
      * 
      * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user
-     * @param  array  $credentials
-     * 
+     * @param  array  $credentials 
      * @return bool
      */
     public function validateCredentials(UserContract $user, array $credentials): bool
@@ -173,8 +167,7 @@ class DatabaseUserProvider implements UserProvider
     /**
      * Get the generic user.
      * 
-     * @param  mixed  $user
-     * 
+     * @param  mixed  $user 
      * @return \Syscodes\Components\Auth\GenericUser|null
      */
     private function getGenericUser(mixed $user)

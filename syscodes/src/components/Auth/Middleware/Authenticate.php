@@ -51,7 +51,6 @@ class Authenticate implements AuthenticateRequest
      * Constructor. Create a new middleware class instance.
      * 
      * @param  \Syscodes\components\Contracts\Auth\Factory  $auth
-     * 
      * @return void
      */
     public function __construct(Auth $auth)
@@ -64,8 +63,7 @@ class Authenticate implements AuthenticateRequest
      * 
      * @param  \Syscodes\Components\Http\Request  $request
      * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next
-     * @param  string[]  $guards
-     * 
+     * @param  string[]  $guards 
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle($request, Closure $next, ...$guards): Response
@@ -79,8 +77,7 @@ class Authenticate implements AuthenticateRequest
      * Determine if the user is logged in to any of the given guards.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  array  $guards
-     * 
+     * @param  array  $guards 
      * @return void
      * 
      * @throws \Syscodes\Components\Auth\Exceptions\AuthenticationException
@@ -104,8 +101,7 @@ class Authenticate implements AuthenticateRequest
      * Handle an unauthenticated user.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  array  $guards
-     * 
+     * @param  array  $guards 
      * @return void
      * 
      * @throws \Syscodes\Components\Auth\Exceptions\AuthenticationException
@@ -120,8 +116,7 @@ class Authenticate implements AuthenticateRequest
     /**
      * Get the path the user should be redirected to when they are not authenticated.
      * 
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return string|null
      */
     protected function redirectTo($request)
@@ -134,8 +129,7 @@ class Authenticate implements AuthenticateRequest
     /**
      * Specify the callback that should be used to generate the redirect path.
      * 
-     * @param  callable  $redirectToCallback
-     * 
+     * @param  callable  $redirectToCallback 
      * @return void
      */
     public static function redirectUsing(callable $redirectToCallback): void

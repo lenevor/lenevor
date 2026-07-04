@@ -53,8 +53,7 @@ class Attempting
      * 
      * @param  string  $guard
      * @param  array  $credentials
-     * @param  bool  $remember
-     * 
+     * @param  bool  $remember 
      * @return void
      */
     public function __construct($guard, $credentials, $remember)

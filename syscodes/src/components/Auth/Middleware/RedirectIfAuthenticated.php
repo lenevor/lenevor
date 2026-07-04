@@ -44,8 +44,7 @@ class RedirectIfAuthenticated
      * 
      * @param  \Syscodes\Components\Http\Request  $request
      * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next
-     * @param  string|null  ...$guards
-     * 
+     * @param  string|null  ...$guards 
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle(Request $request, Closure $next, string ...$guards): Response
@@ -64,8 +63,7 @@ class RedirectIfAuthenticated
     /**
      * Get the path the user should be redirected to when they are authenticated.
      *
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return string|null 
      */
     protected function redirectTo(Request $request): ?string
@@ -102,8 +100,7 @@ class RedirectIfAuthenticated
     /**
      * Specify the callback that should be used to generate the redirect path.
      * 
-     * @param  callable  $redirectToCallback
-     * 
+     * @param  callable  $redirectToCallback 
      * @return void
      */
     public static function redirectUsing(callable $redirectToCallback): void

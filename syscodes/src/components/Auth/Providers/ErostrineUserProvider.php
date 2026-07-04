@@ -52,8 +52,7 @@ class ErostrineUserProvider implements UserProvider
      * Constructor. Create a new DatabaseUserProvider class instance.
      * 
      * @param  \Syscodes\Components\Contracts\Hashing\Hasher  $hasher
-     * @param  string  $model
-     * 
+     * @param  string  $model 
      * @return void
      */
     public function __construct(HasherContract $hasher, $model)
@@ -65,8 +64,7 @@ class ErostrineUserProvider implements UserProvider
     /**
      * Retrieve a user by their unique identifier.
      * 
-     * @param  mixed  $identifier
-     * 
+     * @param  mixed  $identifier 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable|null
      */
     public function retrieveById(mixed $identifier)
@@ -74,16 +72,15 @@ class ErostrineUserProvider implements UserProvider
         $model = $this->createModel();
         
         return $this->newModelQuery($model)
-                    ->where($model->getAuthIdentifierName(), $identifier)
-                    ->first();
+            ->where($model->getAuthIdentifierName(), $identifier)
+            ->first();
     }
     
     /**
      * Retrieve a user by their unique identifier and "remember me" token.
      * 
      * @param  mixed  $identifier
-     * @param  string  $token
-     * 
+     * @param  string  $token 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByToken(mixed $identifier, string $token)
@@ -101,8 +98,8 @@ class ErostrineUserProvider implements UserProvider
         $rememberToken = $queryModel->getRememberToken();
         
         return $rememberToken && hash_equals($rememberToken, $token)
-                        ? $queryModel
-                        : null;
+            ? $queryModel
+            : null;
     }
     
     /**
@@ -110,7 +107,6 @@ class ErostrineUserProvider implements UserProvider
      * 
      * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user
      * @param  string  $token
-     * 
      * @return void
      */
     public function updateRememberToken(UserContract $user, string $token): void
@@ -129,8 +125,7 @@ class ErostrineUserProvider implements UserProvider
     /**
      * Retrieve a user by the given credentials.
      * 
-     * @param  array  $credentials
-     * 
+     * @param  array  $credentials 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByCredentials(array $credentials)
@@ -163,8 +158,7 @@ class ErostrineUserProvider implements UserProvider
      * Validate a user against the given credentials.
      * 
      * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user
-     * @param  array  $credentials
-     * 
+     * @param  array  $credentials 
      * @return bool
      */
     public function validateCredentials(UserContract $user, array $credentials): bool
@@ -177,8 +171,7 @@ class ErostrineUserProvider implements UserProvider
     /**
      * Get a new query builder for the model instance.
      * 
-     * @param  \Syscodes\Components\Database\Erostrine\Model|null  $model
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model|null  $model 
      * @return \Syscodes\Components\Database\Erostrine\Builder
      */
     protected function newModelQuery($model = null)
@@ -213,8 +206,7 @@ class ErostrineUserProvider implements UserProvider
     /**
      * Sets the hasher implementation.
      * 
-     * @param  \Syscodes\Components\Contracts\Hashing\Hasher  $hasher
-     * 
+     * @param  \Syscodes\Components\Contracts\Hashing\Hasher  $hasher 
      * @return static
      */
     public function setHasher(HasherContract $hasher): static
@@ -237,8 +229,7 @@ class ErostrineUserProvider implements UserProvider
     /**
      * Sets the name of the Erostrine user model.
      * 
-     * @param  string  $model
-     * 
+     * @param  string  $model 
      * @return static
      */
     public function setModel($model): static

@@ -37,8 +37,7 @@ class Registered
     /**
      * Constructor. Create a new Registered class instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user
-     * 
+     * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user 
      * @return void
      */
     public function __construct($user)

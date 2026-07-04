@@ -106,8 +106,7 @@ trait GuardAuthenticationUser
     /**
      * Set the current user.
      * 
-     * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user
-     * 
+     * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user 
      * @return static
      */
     public function setUser(AuthenticatableInterface $user): static
@@ -130,8 +129,7 @@ trait GuardAuthenticationUser
     /**
      * Set the user provider used by the guard.
      * 
-     * @param  \Syscodes\Components\Contracts\Auth\UserProvider  $provider
-     * 
+     * @param  \Syscodes\Components\Contracts\Auth\UserProvider  $provider 
      * @return void
      */
     public function setProvider(UserProvider $provider): void

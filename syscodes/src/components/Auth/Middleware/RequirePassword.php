@@ -57,8 +57,7 @@ class RequirePassword
      *
      * @param  \Syscodes\Components\Contracts\Routing\RouteResponse  $responseFactory
      * @param  \Syscodes\Components\Contracts\Routing\UrlGenerator  $urlGenerator
-     * @param  int|null  $passwordTimeout
-     * 
+     * @param  int|null  $passwordTimeout 
      * @return void
      */
     public function __construct(RouteResponse $responseFactory, UrlGenerator $urlGenerator, $passwordTimeout = null)
@@ -72,8 +71,7 @@ class RequirePassword
      * Specify the redirect route and timeout for the middleware.
      *
      * @param  string|null  $redirectToRoute
-     * @param  string|int|null  $passwordTimeoutSeconds
-     * 
+     * @param  string|int|null  $passwordTimeoutSeconds 
      * @return string
      *
      * @named-arguments-supported
@@ -89,8 +87,7 @@ class RequirePassword
      * @param  \Syscodes\Components\Http\Request  $request
      * @param  \Closure  $next
      * @param  string|null  $redirectToRoute
-     * @param  string|int|null  $passwordTimeoutSeconds
-     * 
+     * @param  string|int|null  $passwordTimeoutSeconds 
      * @return mixed
      */
     public function handle($request, Closure $next, $redirectToRoute = null, $passwordTimeoutSeconds = null)
@@ -115,7 +112,6 @@ class RequirePassword
      *
      * @param  \Syscodes\Components\Http\Request  $request
      * @param  int|null  $passwordTimeoutSeconds
-     * 
      * @return bool
      */
     protected function shouldConfirmPassword($request, $passwordTimeoutSeconds = null): bool
