@@ -76,8 +76,7 @@ class CacheManager implements FactoryContract
     /**
      * Constructor. Create a new cache manager instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Core\Application  $app
-     * 
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app 
      * @return void  
      */
     public function __construct($app)
@@ -88,8 +87,7 @@ class CacheManager implements FactoryContract
     /**
      * Get a cache driver instance.
      * 
-     * @param  \UnitEnum|string|null  $driver
-     * 
+     * @param  \UnitEnum|string|null  $driver 
      * @return \Syscodes\Components\Cache\CacheRepository
      */
     public function driver($driver = null)
@@ -100,8 +98,7 @@ class CacheManager implements FactoryContract
     /**
      * Get a cache store instance by name.
      * 
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return \Syscodes\Components\Cache\CacheRepository
      */
     public function store($name = null)
@@ -114,8 +111,7 @@ class CacheManager implements FactoryContract
     /**
      * Resolve the given store.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return \Syscodes\Components\Cache\CacheRepository
      * 
      * @throws \Syscodes\Components\Cache\Exceptions\CacheException
@@ -136,8 +132,7 @@ class CacheManager implements FactoryContract
     /**
      * Build a cache repository with the given configuration.
      *
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Syscodes\Components\Cache\CacheRepository
      *
      * @throws \Syscodes\Components\Cache\Exceptions\CacheException
@@ -162,8 +157,7 @@ class CacheManager implements FactoryContract
     /**
      * Call a custom driver.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return mixed
      */
     protected function callCustomDriver(array $config)
@@ -174,8 +168,7 @@ class CacheManager implements FactoryContract
     /**
      * Get the cache connection configuration.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return array|null
      */
     protected function getConfig(string $name): array|null
@@ -188,8 +181,7 @@ class CacheManager implements FactoryContract
     /**
      * Create an instance of the Apc cache driver.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Syscodes\Components\Cache\CacheRepository
      */
     protected function createApcDriver(array $config)
@@ -205,8 +197,7 @@ class CacheManager implements FactoryContract
     /**
      * Create an instance of the Array cache driver.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Syscodes\Components\Cache\CacheRepository
      */
     protected function createArrayDriver(array $config)
@@ -220,8 +211,7 @@ class CacheManager implements FactoryContract
     /**
      * Create an instance of the File cache driver.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Syscodes\Components\Cache\CacheRepository
      */
     protected function createDatabaseDriver(array $config)
@@ -241,8 +231,7 @@ class CacheManager implements FactoryContract
     /**
      * Create an instance of the File cache driver.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Syscodes\Components\Cache\CacheRepository
      */
     protected function createFileDriver(array $config)
@@ -256,8 +245,7 @@ class CacheManager implements FactoryContract
     /**
      * Create an instance of the Memcached cache driver.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Syscodes\Components\Cache\CacheRepository
      */
     protected function createMemcachedDriver(array $config)
@@ -288,7 +276,6 @@ class CacheManager implements FactoryContract
      * Create an instance of the Redis cache driver.
      * 
      * @param  array  $config
-     * 
      * @return \Syscodes\Components\Cache\CacheRepository
      */
     protected function createRedisDriver(array $config)
@@ -303,8 +290,7 @@ class CacheManager implements FactoryContract
     /**
      * Create an instance of the session cache driver.
      *
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Syscodes\Components\Cache\CacheRepository
      */
     protected function createSessionDriver(array $config)
@@ -339,8 +325,7 @@ class CacheManager implements FactoryContract
     /**
      * Get the cache prefix. 
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return string
      */
     protected function getPrefix(array $config): string
@@ -353,7 +338,6 @@ class CacheManager implements FactoryContract
      * 
      * @param  \Syscodes\Components\Contracts\Cache\Store  $store
      * @param  array  $config
-     *
      * @return \Syscodes\Components\Cache\CacheRepository
      */
     public function getRepository(Store $store, array $config = [])
@@ -368,8 +352,7 @@ class CacheManager implements FactoryContract
     /**
      * Set the event dispatcher on the given repository instance.
      *
-     * @param  \Syscodes\Components\Cache\CacheRepository  $repository
-     * 
+     * @param  \Syscodes\Components\Cache\CacheRepository  $repository 
      * @return void
      */
     protected function setEventDispatcher(CacheRepository $repository)
@@ -396,8 +379,7 @@ class CacheManager implements FactoryContract
     /**
      * Set the default cache driver name.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return void
      */
     public function setDefaultDriver(string $name): void
@@ -409,8 +391,7 @@ class CacheManager implements FactoryContract
      * Register a custom driver creator Closure.
      * 
      * @param  string  $driver
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return static
      */
     public function extend(string $driver, Closure $callback): static
@@ -432,8 +413,7 @@ class CacheManager implements FactoryContract
      * Dynamically call the default driver instance.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      */
     public function __call(string $method, array $parameters): mixed

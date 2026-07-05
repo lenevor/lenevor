@@ -63,8 +63,7 @@ class FileStore implements Key, Store
      * Constructor. Create a new file cache store instance.
      * 
      * @param   \Syscodes\Components\FileSystem\Filesystem  $files
-     * @param   string  $directory
-     * 
+     * @param   string  $directory 
      * @return  void
      */
     public function __construct(Filesystem $files, $directory)
@@ -76,8 +75,7 @@ class FileStore implements Key, Store
     /**
      * Gets an item from the cache by key.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return mixed
      */
     public function get($key)
@@ -88,8 +86,7 @@ class FileStore implements Key, Store
     /**
      * Retrieve an item and expiry time from the cache by key.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return array
      */
     protected function getPayLoad($key): array
@@ -130,8 +127,7 @@ class FileStore implements Key, Store
     /**
      * Gets the path for a given key.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return string
      */
     protected function path(string $key): string
@@ -156,8 +152,7 @@ class FileStore implements Key, Store
      * 
      * @param  string  $key
      * @param  mixed  $value
-     * @param  int  $seconds
-     * 
+     * @param  int  $seconds 
      * @return bool
      */
     public function put($key, $value, $seconds): bool
@@ -174,8 +169,7 @@ class FileStore implements Key, Store
     /**
      * Create the file cache directory if necessary.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return void
      */
     protected function createCacheDirectory(string $path): void
@@ -188,8 +182,7 @@ class FileStore implements Key, Store
     /**
      * Get the expiration time based on the given seconds.
      * 
-     * @param  int  $seconds
-     * 
+     * @param  int  $seconds 
      * @return int
      */
     protected function expiration(int $seconds): int
@@ -203,8 +196,7 @@ class FileStore implements Key, Store
      * Increment the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value
-     * 
+     * @param  mixed   $value 
      * @return int|bool
      */
     public function increment($key, $value = 1): int|bool
@@ -220,8 +212,7 @@ class FileStore implements Key, Store
      * Decrement the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value
-     * 
+     * @param  mixed   $value 
      * @return int|bool
      */
     public function decrement($key, $value = 1): int|bool
@@ -232,8 +223,7 @@ class FileStore implements Key, Store
     /**
      * Deletes a specific item from the cache store.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return mixed
      */
     public function delete($key): bool
@@ -249,8 +239,7 @@ class FileStore implements Key, Store
      * Adjust the expiration time of a cached item.
      *
      * @param  string  $key
-     * @param  int  $seconds
-     * 
+     * @param  int  $seconds 
      * @return bool
      */
     public function touch($key, $seconds): bool
@@ -268,8 +257,7 @@ class FileStore implements Key, Store
      * Stores an item in the cache indefinitely.
      * 
      * @param  string  $key
-     * @param  mixed   $value
-     * 
+     * @param  mixed   $value 
      * @return bool
      */
     public function forever($key, $value): bool
@@ -332,8 +320,7 @@ class FileStore implements Key, Store
     /**
      * Sets the extension file cache.
      * 
-     * @param  string  $extension
-     * 
+     * @param  string  $extension 
      * @return void
      */
     public function setExtension($extension): void

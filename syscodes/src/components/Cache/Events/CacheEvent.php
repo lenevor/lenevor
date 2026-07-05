@@ -45,8 +45,7 @@ abstract class CacheEvent
      * Constructor. Create a new event instance.
      *
      * @param  string|null  $storeName
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return void
      */
     public function __construct($storeName, $key)

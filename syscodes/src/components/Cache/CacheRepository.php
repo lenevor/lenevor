@@ -75,8 +75,7 @@ class CacheRepository implements ArrayAccess, Repository
      * Constructor. Create a new cache repository instance.
      * 
      * @param  \Syscodes\Components\Contracts\Cache\Store  $store
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return void
      */
     public function __construct(Store $store, array $config = [])
@@ -88,8 +87,7 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Determine if an item exists in the cache.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return bool
      */
     public function has(string $key): bool
@@ -100,8 +98,7 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Determine if an item doesn't exist in the cache.
      *
-     * @param  \UnitEnum|string  $key
-     * 
+     * @param  \UnitEnum|string  $key 
      * @return bool
      */
     public function missing($key): bool
@@ -113,8 +110,7 @@ class CacheRepository implements ArrayAccess, Repository
      * Attempts to retrieve an item from the cache by key.
      * 
      * @param  string  $key  Cache item name
-     * @param  mixed  $default
-     * 
+     * @param  mixed  $default 
      * @return mixed
      */
     public function get($key, $default = null)
@@ -141,8 +137,7 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Gets multiple items from the cache by key.
      * 
-     * @param  array  $keys
-     * 
+     * @param  array  $keys 
      * @return array
      */
     public function many(array $keys): array
@@ -163,8 +158,7 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @param  array  $keys
      * @param  string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return mixed
      */
     protected function handleMany($keys, $key, $value)
@@ -209,8 +203,7 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @param  \UnitEnum|array|string  $key
      * @param  mixed   $value
-     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
-     * 
+     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl 
      * @return bool
      */
     public function put($key, $value, $ttl = null): bool
@@ -233,8 +226,7 @@ class CacheRepository implements ArrayAccess, Repository
      *
      * @param  \UnitEnum|array|string  $key
      * @param  mixed  $value
-     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
-     * 
+     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl 
      * @return bool
      */
     public function set($key, $value, $ttl = null): bool
@@ -246,8 +238,7 @@ class CacheRepository implements ArrayAccess, Repository
      * Store multiple items in the cache for a given number of seconds.
      * 
      * @param  array  $values
-     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
-     * 
+     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl 
      * @return bool
      */
     public function putMany(array $values, $ttl = null): bool
@@ -268,8 +259,7 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Store multiple items in the cache indefinitely.
      * 
-     * @param  array  $values
-     * 
+     * @param  array  $values 
      * @return bool
      */
     protected function putManyForever(array $values): bool
@@ -287,8 +277,7 @@ class CacheRepository implements ArrayAccess, Repository
      * Retrieve an item from the cache and delete it.
      * 
      * @param  \UnitEnum|array|string  $key
-     * @param  mixed  $default
-     * 
+     * @param  mixed  $default 
      * @return mixed
      */
     public function pull($key, $default = null)
@@ -301,8 +290,7 @@ class CacheRepository implements ArrayAccess, Repository
      * 
      * @param  \UnitEnum|string  $key  Cache item name
      * @param  mixed  $value  The data to save 
-     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl  Time To Live, in second
-     * 
+     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl  Time To Live, in second 
      * @return bool
      */
     public function save($key, $value, $ttl = null): bool
@@ -324,8 +312,7 @@ class CacheRepository implements ArrayAccess, Repository
      * Increment the value of an item in the cache.
      * 
      * @param  \UnitEnum|string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return int|bool
      */
     public function increment($key, $value = 1): int|bool
@@ -337,8 +324,7 @@ class CacheRepository implements ArrayAccess, Repository
      * Decrement the value of an item in the cache.
      * 
      * @param  \UnitEnum|string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return int|bool
      */
     public function decrement($key, $value = 1): int|bool
@@ -351,8 +337,7 @@ class CacheRepository implements ArrayAccess, Repository
      *
      * @param  \UnitEnum|string  $key
      * @param  \Closure|\DateTimeInterface|\DateInterval|int|null  $ttl
-     * @param  \Closure $callback
-     * 
+     * @param  \Closure $callback 
      * @return mixed
      */
     public function remember($key, $ttl, Closure $callback)
@@ -375,7 +360,6 @@ class CacheRepository implements ArrayAccess, Repository
      *
      * @param  \UnitEnum|string  $key
      * @param  \Closure  $callback
-     * 
      * @return mixed
      */
     public function rememberForever($key, Closure $callback)
@@ -391,13 +375,11 @@ class CacheRepository implements ArrayAccess, Repository
         return $value;
     }
 
-
     /**
      * Set the expiration of a cached item.
      *
      * @param  \UnitEnum|string  $key
-     * @param  \DateTimeInterface|\DateInterval|int  $ttl
-     * 
+     * @param  \DateTimeInterface|\DateInterval|int  $ttl 
      * @return bool
      */
     public function touch($key, $ttl): bool
@@ -410,8 +392,7 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Remove a specific item from the cache store.
      * 
-     * @param  \UnitEnum|string  $key
-     * 
+     * @param  \UnitEnum|string  $key 
      * @return mixed
      */
     public function delete($key)
@@ -422,8 +403,7 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Removes multiple items from the cache store.
      * 
-     * @param  array  $keys
-     * 
+     * @param  array  $keys 
      * @return bool
      */
     public function deleteMultiple(array $keys): bool
@@ -441,8 +421,7 @@ class CacheRepository implements ArrayAccess, Repository
      * Stores an item in the cache indefinitely.
      * 
      * @param  \UnitEnum|string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      */
     public function forever($key, $value): bool
@@ -474,7 +453,6 @@ class CacheRepository implements ArrayAccess, Repository
      * Calculate the number of seconds with the given duration.
      * 
      * @param  \DateTime|\DateInterval|int  $ttl
-     * 
      * @return int
      */
     protected function getSeconds($ttl): int
@@ -491,8 +469,7 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Format the key for a cache item.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return string
      */
     protected function itemKey(string $key): string
@@ -513,8 +490,7 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Set the cache store implementation.
      *
-     * @param  \Syscodes\Components\Contracts\Cache\Store  $store
-     * 
+     * @param  \Syscodes\Components\Contracts\Cache\Store  $store 
      * @return static
      */
     public function setStore($store): static
@@ -527,8 +503,7 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Fire an event for this cache instance.
      *
-     * @param  object|string  $event
-     * 
+     * @param  object|string  $event 
      * @return void
      */
     protected function event($event)
@@ -548,7 +523,8 @@ class CacheRepository implements ArrayAccess, Repository
 
     /**
      * Set the event dispatcher instance.
-     *
+     * 
+     * @param  Dispatcher  $events
      * @return void
      */
     public function setEventDispatcher(Dispatcher $events): void
@@ -569,8 +545,7 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Set the default cache time in seconds
      * 
-     * @param  int|null  $seconds
-     * 
+     * @param  int|null  $seconds 
      * @return static
      */
     public function setCacheTime(?int $seconds): static
@@ -589,8 +564,7 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Determine if a cached value exists.
      * 
-     * @param  mixed  $offset
-     * 
+     * @param  mixed  $offset 
      * @return bool
      */
     public function offsetExists(mixed $offset): bool
@@ -601,8 +575,7 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Retrieve an item from the cache by key.
      * 
-     * @param  mixed  $offset
-     * 
+     * @param  mixed  $offset 
      * @return mixed
      */
     public function offsetGet(mixed $offset): mixed
@@ -614,8 +587,7 @@ class CacheRepository implements ArrayAccess, Repository
      * Store an item in the cache for the default time.
      * 
      * @param  mixed  $offset
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return void
      */
     public function offsetSet(mixed $offset, mixed $value): void
@@ -626,8 +598,7 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Remove an item from the cache.
      * 
-     * @param  mixed  $offset
-     * 
+     * @param  mixed  $offset 
      * @return void
      */
     public function offsetUnset(mixed $offset): void
@@ -641,8 +612,7 @@ class CacheRepository implements ArrayAccess, Repository
      * Handle dynamic calls into missing methods to the store.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      */
     public function __call($method, $parameters)

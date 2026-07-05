@@ -66,8 +66,7 @@ class DatabaseStore implements Store
      * 
      * @param  \Syscodes\Components\Database\Connections\ConnectionInterface  $connection
      * @param  string  $table
-     * @param  string  $prefix
-     * 
+     * @param  string  $prefix 
      * @return void
      */
     public function __construct(ConnectionInterface $connection, $table, $prefix = '')
@@ -80,8 +79,7 @@ class DatabaseStore implements Store
     /**
      * Gets an item from the cache by key.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return mixed
      */
     public function get($key)
@@ -93,7 +91,6 @@ class DatabaseStore implements Store
      * Retrieve multiple items from the cache by key.
      *
      * @param  array  $keys
-     *
      * @return array
      */
     public function many(array $keys): array
@@ -137,8 +134,7 @@ class DatabaseStore implements Store
      * 
      * @param  string  $key
      * @param  mixed  $value
-     * @param  int  $seconds
-     * 
+     * @param  int  $seconds 
      * @return bool
      */
     public function put($key, $value, $seconds): bool
@@ -150,8 +146,7 @@ class DatabaseStore implements Store
      * Store multiple items in the cache for a given number of seconds.
      *
      * @param  array  $values
-     * @param  int  $seconds
-     * 
+     * @param  int  $seconds 
      * @return bool
      */
     public function putMany(array $values, $seconds): bool
@@ -176,8 +171,7 @@ class DatabaseStore implements Store
      * 
      * @param  string  $key
      * @param  mixed  $value
-     * @param  int  $seconds
-     * 
+     * @param  int  $seconds 
      * @return bool
      */
     public function add($key, $value, $seconds): bool
@@ -204,8 +198,7 @@ class DatabaseStore implements Store
      * Increment the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return int|bool
      */
     public function increment($key, $value = 1): int|bool
@@ -219,8 +212,7 @@ class DatabaseStore implements Store
      * Decrement the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return int|bool
      */
     public function decrement($key, $value = 1): int|bool
@@ -235,8 +227,7 @@ class DatabaseStore implements Store
      * 
      * @param  string  $key
      * @param  mixed  $value
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return int|bool
      */
     protected function incrementOrDecrement(string $key, mixed $value, Closure $callback): int|bool
@@ -267,8 +258,7 @@ class DatabaseStore implements Store
     /**
      * Deletes a specific item from the cache store.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return mixed
      */
     public function delete($key): bool
@@ -282,8 +272,7 @@ class DatabaseStore implements Store
      * Stores an item in the cache indefinitely.
      * 
      * @param  string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      */
     public function forever($key, $value): bool
@@ -295,8 +284,7 @@ class DatabaseStore implements Store
      * Adjust the expiration time of a cached item.
      *
      * @param  string  $key
-     * @param  int  $seconds
-     * 
+     * @param  int  $seconds 
      * @return bool
      */
     public function touch($key, $seconds): bool
@@ -352,8 +340,7 @@ class DatabaseStore implements Store
     /**
      * Set the underlying database connection.
      *
-     * @param  \Syscodes\Components\Database\Connections\ConnectionInterface  $connection
-     * 
+     * @param  \Syscodes\Components\Database\Connections\ConnectionInterface  $connection 
      * @return static
      */
     public function setConnection($connection): static
@@ -376,8 +363,7 @@ class DatabaseStore implements Store
     /**
      * Set the cache key prefix.
      *
-     * @param  string  $prefix
-     * 
+     * @param  string  $prefix 
      * @return void
      */
     public function setPrefix($prefix): void
@@ -388,8 +374,7 @@ class DatabaseStore implements Store
     /**
      * Serialize the given value.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return string
      */
     protected function serialize($value): string
@@ -408,8 +393,7 @@ class DatabaseStore implements Store
     /**
      * Unserialize the given value.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return mixed
      */
     protected function unserialize($value)

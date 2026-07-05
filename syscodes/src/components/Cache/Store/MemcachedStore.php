@@ -59,8 +59,7 @@ class MemcachedStore implements Store
      * Constructor. The new Memcached store instance.
      * 
      * @param  \Memcached  $memcached
-     * @param  string  $prefix
-     * 
+     * @param  string  $prefix 
      * @return void
      */
     public function __construct($memcached, $prefix = '')
@@ -87,8 +86,7 @@ class MemcachedStore implements Store
     /**
      * Gets an item from the cache by key.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return mixed
      */
     public function get($key)
@@ -103,8 +101,7 @@ class MemcachedStore implements Store
     /**
      * Gets multiple items from the cache by key.
      * 
-     * @param  array  $keys
-     * 
+     * @param  array  $keys 
      * @return array
      */
     public function many(array $keys): array
@@ -131,8 +128,7 @@ class MemcachedStore implements Store
      * 
      * @param  string  $key
      * @param  mixed  $value
-     * @param  int  $seconds
-     * 
+     * @param  int  $seconds 
      * @return bool
      */
     public function add($key, $value, $seconds): bool
@@ -145,8 +141,7 @@ class MemcachedStore implements Store
      * 
      * @param  string  $key
      * @param  mixed   $value
-     * @param  int     $seconds
-     * 
+     * @param  int     $seconds 
      * @return bool
      */
     public function put($key, $value, $seconds): bool
@@ -159,7 +154,6 @@ class MemcachedStore implements Store
      * 
      * @param  array  $values
      * @param  int  $seconds
-     * 
      * @return bool
      */
     public function putMany(array $values, $seconds): bool
@@ -179,8 +173,7 @@ class MemcachedStore implements Store
      * Increment the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value
-     * 
+     * @param  mixed   $value 
      * @return int|bool
      */
     public function increment($key, $value = 1): int|bool
@@ -192,8 +185,7 @@ class MemcachedStore implements Store
      * Decrement the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed   $value
-     * 
+     * @param  mixed   $value 
      * @return int|bool
      */
     public function decrement($key, $value = 1): int|bool
@@ -204,8 +196,7 @@ class MemcachedStore implements Store
      /**
      * Deletes a specific item from the cache store.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return mixed
      */
     public function delete($key): bool
@@ -217,8 +208,7 @@ class MemcachedStore implements Store
      * Stores an item in the cache indefinitely.
      * 
      * @param  string  $key
-     * @param  mixed   $value
-     * 
+     * @param  mixed   $value 
      * @return bool
      */
     public function forever($key, $value): bool
@@ -230,8 +220,7 @@ class MemcachedStore implements Store
      * Adjust the expiration time of a cached item.
      *
      * @param  string  $key
-     * @param  int  $seconds
-     * 
+     * @param  int  $seconds 
      * @return bool
      */
     public function touch($key, $seconds): bool
@@ -273,8 +262,7 @@ class MemcachedStore implements Store
     /**
      * Set the cache key prefix.
      * 
-     * @param  string  $prefix
-     * 
+     * @param  string  $prefix 
      * @return void
      */
     public function setPrefix(string $prefix): void
@@ -285,8 +273,7 @@ class MemcachedStore implements Store
     /**
      * Gets the expiration time of the key.
      * 
-     * @param  int  $seconds
-     * 
+     * @param  int  $seconds 
      * @return int
      */
     protected function calculateExpiration(int $seconds): int
@@ -297,8 +284,7 @@ class MemcachedStore implements Store
     /**
      * Gets the UNIX timestamp for the given number of seconds.
      * 
-     * @param  int  $seconds
-     * 
+     * @param  int  $seconds 
      * @return int
      */
     protected function toTimestamp(int $seconds): int

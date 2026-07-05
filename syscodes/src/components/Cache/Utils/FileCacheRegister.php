@@ -41,8 +41,7 @@ class FileCacheRegister implements Serializable
     /**
      * Constructor class.
      * 
-     * @param  string|null  $data
-     * 
+     * @param  string|null  $data 
      * @return string
      */
     public function __construct($data = null)
@@ -75,8 +74,7 @@ class FileCacheRegister implements Serializable
     /**
      * Constructs the object.
      * 
-     * @param  string  $unserialize
-     * 
+     * @param  string  $unserialize 
      * @return static
      */
     public function unserialize($unserialize): static

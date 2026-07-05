@@ -51,8 +51,7 @@ class ArrayStore implements Store
     /**
      * Constructor. Create a new ArrayStore class instance.
      * 
-     * @param  bool  $serialized
-     * 
+     * @param  bool  $serialized 
      * @return void
      */
     public function __construct($serialized = false)
@@ -63,8 +62,7 @@ class ArrayStore implements Store
     /**
      * Get all of the cached values and their expiration times.
      *
-     * @param  bool  $unserialize
-     * 
+     * @param  bool  $unserialize 
      * @return array
      */
     public function all($unserialize = true): array
@@ -88,8 +86,7 @@ class ArrayStore implements Store
     /**
      * Gets an item from the cache by key.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return mixed
      */
     public function get($key)
@@ -114,8 +111,7 @@ class ArrayStore implements Store
      * 
      * @param  string  $key
      * @param  mixed   $value
-     * @param  int   $seconds
-     * 
+     * @param  int   $seconds 
      * @return bool
      */
     public function put($key, $value, $seconds): bool
@@ -132,8 +128,7 @@ class ArrayStore implements Store
      * Increment the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return int|bool
      */
     public function increment($key, $value = 1): int|bool
@@ -155,8 +150,7 @@ class ArrayStore implements Store
      * Decrement the value of an item in the cache.
      * 
      * @param  string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return int|bool
      */
     public function decrement($key, $value = 1): int|bool
@@ -167,8 +161,7 @@ class ArrayStore implements Store
     /**
      * Deletes a specific item from the cache store.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return bool
      */
     public function delete($key): bool
@@ -186,8 +179,7 @@ class ArrayStore implements Store
      * Stores an item in the cache indefinitely.
      * 
      * @param  string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      */
     public function forever($key, $value): bool
@@ -199,8 +191,7 @@ class ArrayStore implements Store
      * Adjust the expiration time of a cached item.
      *
      * @param  string  $key
-     * @param  int  $seconds
-     * 
+     * @param  int  $seconds 
      * @return bool
      */
     public function touch($key, $seconds): bool
@@ -245,7 +236,6 @@ class ArrayStore implements Store
      * Gets the expiration time of the key.
      * 
      * @param  int  $seconds
-     * 
      * @return int
      */
     protected function calculateExpiration(int $seconds): int
@@ -256,8 +246,7 @@ class ArrayStore implements Store
     /**
      * Gets the UNIX timestamp for the given number of seconds.
      * 
-     * @param  int  $seconds
-     * 
+     * @param  int  $seconds 
      * @return int
      */
     protected function toTimestamp(int $seconds): int

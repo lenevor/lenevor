@@ -30,8 +30,7 @@ class ApcWrapper
     /**
      * Get an item from the cache.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return mixed
      */
     public function get($key)
@@ -46,8 +45,7 @@ class ApcWrapper
      * 
      * @param  string  $key
      * @param  mixed  $value
-     * @param  int  $seconds
-     * 
+     * @param  int  $seconds 
      * @return bool
      */
     public function put($key, $value, $seconds): bool
@@ -59,8 +57,7 @@ class ApcWrapper
      * Increment the value of an time in the cache.
      * 
      * @param  string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return int|bool
      */
     public function increment($key, $value): int|bool
@@ -72,8 +69,7 @@ class ApcWrapper
      * Decrement the value of an time in the cache.
      * 
      * @param  string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return int|bool
      */
     public function decrement($key, $value): int|bool
@@ -84,8 +80,7 @@ class ApcWrapper
     /**
      * Remove an item in the cache.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return bool
      */
     public function delete(string $key): bool

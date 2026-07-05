@@ -32,8 +32,7 @@ trait CacheMultipleKeys
     /**
      * Gets multiple items from the cache by key.
      * 
-     * @param  array  $keys
-     * 
+     * @param  array  $keys 
      * @return array
      */
     public function many(array $keys): array
@@ -55,8 +54,7 @@ trait CacheMultipleKeys
      * Store multiple items in the cache for a given number of seconds.
      * 
      * @param  array $values
-     * @param  int  $seconds
-     * 
+     * @param  int  $seconds 
      * @return bool
      */
     public function putMany(array $values, $seconds): bool
