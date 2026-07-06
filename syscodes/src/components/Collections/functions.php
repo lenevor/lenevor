@@ -30,7 +30,6 @@ if ( ! function_exists('Syscodes\Components\Support\enum_value')) {
      *
      * @param  mixed  $value
      * @param  mixed  $default
-     * 
      * @return mixed
      */
     function enum_value($value, $default = null)

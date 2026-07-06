@@ -49,8 +49,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Constructor. Create a new Collection instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable|null  $items
-     * 
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable|null  $items 
      * @return void
      */
     public function __construct($items = [])
@@ -61,8 +60,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Create a new instance of the collection.
      *
-     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable|null  $items
-     * 
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable|null  $items 
      * @return static
      */
     protected function newInstance($items = []): static
@@ -73,8 +71,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Add an item in the collection.
      * 
-     * @param  mixed  $item
-     * 
+     * @param  mixed  $item 
      * @return static
      */
     public function add(mixed $item): static
@@ -108,8 +105,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Creates a collection by using this collection for 
      * keys and other its values.
      * 
-     * @param  mixed  $items
-     * 
+     * @param  mixed  $items 
      * @return static
      */
     public function combine(mixed $items): static
@@ -120,11 +116,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Push all of the given items onto the collection.
      *
-     * @template TConcatKey of array-key
-     * @template TConcatValue
-     *
-     * @param  iterable  $source
-     * 
+     * @param  iterable  $source 
      * @return static
      */
     public function concat($source): static
@@ -143,8 +135,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * 
      * @param  mixed  $key
      * @param  mixed  $operator
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      */
     public function contains($key, mixed $operator = null, mixed $value = null): bool
@@ -165,8 +156,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Chunk the underlying collection array.
      * 
-     * @param  int  $size
-     * 
+     * @param  int  $size 
      * @return static
      */
     public function chunk(int $size): static
@@ -187,8 +177,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Diff the collection with the given items.
      * 
-     * @param  mixed  $items
-     * 
+     * @param  mixed  $items 
      * @return static
      */
     public function diff(mixed $items): static
@@ -201,8 +190,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * in the given items, using the callback.
      * 
      * @param  mixed  $items
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return static
      */
     public function diffUsing(mixed $items, callable $callback): static
@@ -214,8 +202,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Returns the items in the collection when the keys and values 
      * are not present in the given items.
      * 
-     * @param  mixed  $items
-     * 
+     * @param  mixed  $items 
      * @return static
      */
     public function diffAssoc(mixed $items): static
@@ -228,8 +215,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * are not present in the given items, using the callback.
      * 
      * @param  mixed  $items
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return static
      */
     public function diffAssocUsing(mixed $items, callable $callback): static
@@ -241,8 +227,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Returns the items in the collection when the keys 
      * are not present in the given items.
      * 
-     * @param  mixed  $items
-     * 
+     * @param  mixed  $items 
      * @return static
      */
     public function diffKeys(mixed $items): static
@@ -255,8 +240,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * not present in the given items, using the callback.
      * 
      * @param  mixed  $items
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return static
      */
     public function diffKeyUsing(mixed $items, callable $callback): static
@@ -268,8 +252,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Retrieve duplicate items from the collection.
      * 
      * @param  callable|string|null  $callback
-     * @param  bool  $strict
-     * 
+     * @param  bool  $strict 
      * @return static
      */
     public function duplicates($callback = null, $strict = false): static
@@ -296,8 +279,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Retrieve duplicate items from the collection using strict comparison.
      * 
-     * @param  callable|string|null  $callback
-     * 
+     * @param  callable|string|null  $callback 
      * @return static
      */
     public function duplicatesStrict($callback = null): static
@@ -308,8 +290,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Get the comparison function to detect duplicates.
      * 
-     * @param  bool  $strict
-     * 
+     * @param  bool  $strict 
      * @return callable|bool
      */
     protected function duplicateComparator($strict)
@@ -324,8 +305,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Execute a callback over each item.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return static
      */
     public function each(callable $callback): static
@@ -338,8 +318,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Remove an item from the collection by key.
      * 
-     * @param  string|array  $keys
-     * 
+     * @param  string|array  $keys 
      * @return static
      */
     public function erase($keys): static
@@ -355,7 +334,6 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Get all items exceptions with the specified keys.
      * 
      * @param  mixed  $keys
-     *
      * @return static
      */
     public function except(mixed $keys): static
@@ -372,8 +350,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Run a filter over each of the items.
      * 
-     * @param  callable|null  $callback
-     * 
+     * @param  callable|null  $callback 
      * @return static
      */
     public function filter(?callable $callback = null): static
@@ -389,8 +366,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Get the first item from the collection.
      * 
      * @param  callable|null  $callback
-     * @param  mixed  $default
-     * 
+     * @param  mixed  $default 
      * @return mixed
      */
     public function first(?callable $callback = null, $default = null)
@@ -411,8 +387,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Get a flattened array of the items in the collection.
      * 
-     * @param  int  $depth
-     * 
+     * @param  int  $depth 
      * @return static
      */
     public function flatten($depth = INF): static
@@ -424,8 +399,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Get an item from the collection.
      * 
      * @param  mixed  $key
-     * @param  mixed  $default
-     * 
+     * @param  mixed  $default 
      * @return mixed
      */
     public function get($key, mixed $default = null)
@@ -443,8 +417,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Group an associative array by a field or using a callback.
      *
      * @param  callable|array|string  $groupBy
-     * @param  bool  $preserveKeys
-     * 
+     * @param  bool  $preserveKeys 
      * @return static
      */
     public function groupBy($groupBy, $preserveKeys = false): static
@@ -494,8 +467,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Determine if an item exists in the collection by key.
      * 
-     * @param  mixed  $key
-     * 
+     * @param  mixed  $key 
      * @return bool
      */
     public function has(mixed $key): bool
@@ -515,8 +487,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Concatenate values of a given key as a string.
      * 
      * @param  string  $value
-     * @param  string|null  $string
-     * 
+     * @param  string|null  $string 
      * @return string
      */
     public function implode(string $value, ?string $string = null): string
@@ -533,8 +504,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Intersect the collection with the given items.
      * 
-     * @param  mixed  $items
-     * 
+     * @param  mixed  $items 
      * @return static
      */
     public function intersect(mixed $items): static
@@ -545,8 +515,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Intersect the collection with the given items by key.
      * 
-     * @param  mixed  $items
-     * 
+     * @param  mixed  $items 
      * @return static
      */
     public function intersectKey(mixed $items): static
@@ -568,8 +537,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Join all items from the collection using a string. The final items can use a separate glue string.
      * 
      * @param  string  $glue
-     * @param  string  $finalGlue
-     * 
+     * @param  string  $finalGlue 
      * @return mixed
      */
     public function join($glue, $finalGlue = ''): string
@@ -592,8 +560,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Key an associative array by a field or using a callback.
      * 
-     * @param  callable|array|string  $keyBy
-     * 
+     * @param  callable|array|string  $keyBy 
      * @return static
      */
     public function keyBy($keyBy): static
@@ -633,8 +600,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Get the last item from the collection.
      * 
      * @param  callable|null  $callback
-     * @param  mixed|null  $default
-     * 
+     * @param  mixed|null  $default 
      * @return mixed
      */
     public function last(?callable $callback = null, mixed $default = null)
@@ -645,8 +611,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Run a map over each of the items.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return static
      */
     public function map(callable $callback): static
@@ -657,8 +622,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Run an associative map over each of the items.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return static
      */
     public function mapKeys(callable $callback): static
@@ -679,8 +643,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Merge the collection with the given items.
      * 
-     * @param  mixed  $items
-     * 
+     * @param  mixed  $items 
      * @return static
      */
     public function merge($items): static
@@ -691,8 +654,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Recursively Merge the collection with the given items.
      * 
-     * @param  mixed  $items
-     * 
+     * @param  mixed  $items 
      * @return static
      */
     public function mergeRecursive($items): static
@@ -703,8 +665,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Get the items with the specified keys.
      * 
-     * @param  mixed  $keys
-     * 
+     * @param  mixed  $keys 
      * @return static
      */
     public function only(mixed $keys): static
@@ -726,8 +687,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Pad collection to the specified length with a value.
      * 
      * @param  int  $size
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return static
      */
     public function pad(int $size, mixed $value): static
@@ -739,8 +699,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Get the values of a given key.
      * 
      * @param  string|array|int|null  $value
-     * @param  string|null  $key
-     * 
+     * @param  string|null  $key 
      * @return static
      */
     public function pluck($value, ?string $key = null): static
@@ -762,8 +721,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Push an item onto the beginning of the collection.
      * 
      * @param  mixed  $value
-     * @param  mixed|null  $key
-     * 
+     * @param  mixed|null  $key 
      * @return array
      */
     public function prepend(mixed $value, mixed $key = null): array
@@ -775,8 +733,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Get and remove an item from the collection.
      * 
      * @param  mixed  $key
-     * @param  mixed|null  $default
-     * 
+     * @param  mixed|null  $default 
      * @return mixed
      */
     public function pull(mixed $key, mixed $default = null): mixed
@@ -787,8 +744,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Push an item onto the end of the collection.
      * 
-     * @param  mixed  $values  [optional]
-     * 
+     * @param  mixed  $values  [optional] 
      * @return static
      */
     public function push(...$values): static
@@ -804,8 +760,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Put an item in the collection by key.
      * 
      * @param  mixed  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return static
      */
     public function put(mixed $key, mixed $value): static
@@ -819,8 +774,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Create a collection with the given range.
      * 
      * @param  int  $from
-     * @param  int  $to
-     * 
+     * @param  int  $to 
      * @return static
      */
     public function range(int $from, int $to): static
@@ -832,8 +786,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Reduce the collection to a single value.
      * 
      * @param  callable  $callback
-     * @param  mixed|null  $initial
-     * 
+     * @param  mixed|null  $initial 
      * @return mixed
      */
     public function reduce(callable $callback, mixed $initial = null): mixed
@@ -844,8 +797,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Replace the collection items with the given items.
      * 
-     * @param  mixed  $items
-     * 
+     * @param  mixed  $items 
      * @return static
      */
     public function replace(mixed $items): static
@@ -856,8 +808,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Recursively replace the collection items with the given items.
      * 
-     * @param  mixed  $items
-     * 
+     * @param  mixed  $items 
      * @return static
      */
     public function replaceRecursive(mixed $items): static
@@ -879,8 +830,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Search the collection for a given value and return the corresponding key if successful.
      * 
      * @param  mixed  $value
-     * @param  bool  $strict
-     * 
+     * @param  bool  $strict 
      * @return mixed
      */
     public function search(mixed $value, bool $strict = false): mixed
@@ -901,8 +851,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Get one or more items randomly from the collection.
      * 
-     * @param  int  $amount
-     * 
+     * @param  int  $amount 
      * @return mixed
      */
     public function random(int $amount = 1): mixed
@@ -925,8 +874,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Skip the first {$count} items.
      * 
-     * @param  int  $count
-     * 
+     * @param  int  $count 
      * @return static
      */
     public function skip(int $count): static
@@ -938,8 +886,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Slice the underlying collection array.
      * 
      * @param  int  $offset
-     * @param  int|null  $length
-     * 
+     * @param  int|null  $length 
      * @return static
      */
     public function slice(int $offset, ?int $length = null): static
@@ -950,8 +897,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Sort through each item.
      * 
-     * @param  callable|int|null  $callback
-     * 
+     * @param  callable|int|null  $callback 
      * @return static
      */
     public function sort($callback = null): static
@@ -968,8 +914,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Sort items in descending order.
      * 
-     * @param  int  $options
-     * 
+     * @param  int  $options 
      * @return static
      */
     public function sortDesc(int $options = SORT_REGULAR): static
@@ -985,8 +930,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Sort the collection keys.
      * 
      * @param  int  $options
-     * @param  bool  $descending
-     * 
+     * @param  bool  $descending 
      * @return static
      */
     public function sortKeys(int $options = SORT_REGULAR, bool $descending = false): static
@@ -1004,8 +948,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Sort the collection keys in descending order.
      * 
-     * @param  int  $options
-     * 
+     * @param  int  $options 
      * @return static
      */
     public function sortKeysDesc(int $options = SORT_REGULAR): static
@@ -1016,8 +959,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Sort the collection keys using a callback.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return static
      */
     public function sortKeysUsing(callable $callback): static
@@ -1034,8 +976,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * 
      * @param  \Closure|string  $callback
      * @param  int  $options
-     * @param  bool  $descending
-     * 
+     * @param  bool  $descending 
      * @return static
      */
     public function sortBy($callback, $options = SORT_REGULAR, $descending = false): static
@@ -1070,8 +1011,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Sort the collection using multiple comparisons.
      * 
      * @param  array  $comparisons
-     * @param  int  $options
-     * 
+     * @param  int  $options 
      * @return static
      */
     protected function sortByMany(array $comparisons = [], int $options = SORT_REGULAR): static
@@ -1131,8 +1071,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Sort the collection in descending order using the given callback.
      * 
      * @param  \Closure|string  $callback
-     * @param  int  $options
-     * 
+     * @param  int  $options 
      * @return static
      */
     public function sortByDesc($callback, $options = SORT_REGULAR): static
@@ -1153,8 +1092,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * 
      * @param  int  $offset
      * @param  int|null  $length
-     * @param  array  $replacement
-     * 
+     * @param  array  $replacement 
      * @return static
      */
     public function splice($offset, $length = null, $replacement = []): static
@@ -1169,8 +1107,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Take the first or last {$limit} items.
      * 
-     * @param  int  $limit
-     * 
+     * @param  int  $limit 
      * @return static
      */
     public function take(int $limit): static
@@ -1195,8 +1132,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Transform each item in the collection.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return static
      */
     public function transform(callable $callback): static
@@ -1209,8 +1145,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Union the collection with the given items.
      * 
-     * @param  mixed  $items
-     * 
+     * @param  mixed  $items 
      * @return static
      */
     public function union(mixed $items): static
@@ -1222,8 +1157,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Return only unique items from the collection array.
      * 
      * @param  callable|string|null  $key
-     * @param  bool  $strict
-     * 
+     * @param  bool  $strict 
      * @return static
      */
     public function unique($key = null, $strict = false): static
@@ -1296,8 +1230,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Determine if a given offset exists.
      * 
-     * @param  mixed  $offset
-     * 
+     * @param  mixed  $offset 
      * @return bool
      */
     public function offsetExists(mixed $offset): bool
@@ -1308,8 +1241,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Get the value at a given offset.
      * 
-     * @param  mixed  $offset
-     * 
+     * @param  mixed  $offset 
      * @return mixed
      */
     public function offsetGet(mixed $offset): mixed
@@ -1321,8 +1253,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * Set the value at a given offset.
      * 
      * @param  mixed  $offset
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return void
      */
     public function offsetSet(mixed $offset, mixed $value): void
@@ -1337,8 +1268,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     /**
      * Unset the value at a given offset.
      * 
-     * @param  mixed  $offset
-     * 
+     * @param  mixed  $offset 
      * @return void
      */
     public function offsetUnset(mixed $offset): void

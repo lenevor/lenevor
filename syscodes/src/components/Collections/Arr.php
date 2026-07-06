@@ -44,7 +44,6 @@ class Arr
 	 * Determine whether the value is accessible in a array.
 	 *
 	 * @param  mixed  $value The default value
-	 *
 	 * @return bool
 	 */
 	public static function accessible($value): bool
@@ -58,7 +57,6 @@ class Arr
 	 * @param  array  $array  The search array 
 	 * @param  string  $key  The key exist
 	 * @param  mixed  $value  The default value
-	 *
 	 * @return array 
 	 */
 	public static function add(array $array, string $key, mixed $value): array
@@ -73,8 +71,7 @@ class Arr
 	/**
      * Collapse the collection items into a single array.
 	 * 
-	 * @param  array  $array
-     * 
+	 * @param  array  $array 
      * @return array
      */
     public static function collapse(array $array): array
@@ -98,7 +95,6 @@ class Arr
      * Cross join the given arrays, returning all possible permutations.
      *
      * @param  iterable  ...$arrays
-	 * 
      * @return array
      */
     public static function crossJoin(...$arrays): array
@@ -126,7 +122,6 @@ class Arr
 	 * Divide an array into two arrays. One with keys and the other with values.
 	 *
 	 * @param  array  $array
-	 *
 	 * @return array
 	 */
 	public static function divide(array $array): array
@@ -138,8 +133,7 @@ class Arr
 	 * Flatten a multi-dimensional associative array with dots.
 	 * 
 	 * @param  iterable  $array
-	 * @param  string  $prepend
-	 * 
+	 * @param  string  $prepend 
 	 * @return array
 	 */
 	public static function dot($array, $prepend = ''): array
@@ -161,8 +155,7 @@ class Arr
      * Explode the "value" and "key" arguments passed to "pluck".
      *
      * @param  Closure|array|string  $value
-     * @param  string|array|Closure|null  $key
-	 * 
+     * @param  string|array|Closure|null  $key 
      * @return array
      */
     protected static function explodePluckParameters($value, $key): array
@@ -179,7 +172,6 @@ class Arr
 	 *
 	 * @param  array  $array
 	 * @param  string|array  $keys
-	 *
 	 * @return array
 	 */
 	public static function except(array $array, string|array $keys): array
@@ -194,7 +186,6 @@ class Arr
 	 *
 	 * @param  ArrayAccess|array  $array  The search array
 	 * @param  string|int|float  $key  The key exist
-	 *
 	 * @return bool
 	 */
 	public static function exists($array, $key): bool
@@ -219,7 +210,6 @@ class Arr
 	 *
 	 * @param  array  $array  The search array
 	 * @param  mixed  $keys  The dot-notated key or array of keys
-	 *
 	 * @return mixed
 	 */
 	public static function erase(array &$array, mixed $keys)
@@ -264,7 +254,6 @@ class Arr
 	 * 
 	 * @param  iterable  $array
 	 * @param  callable  $callback
-	 * 
 	 * @return bool
 	 */
 	public static function every($array, callable $callback): bool
@@ -277,7 +266,6 @@ class Arr
 	 * 
 	 * @param  array  $array
 	 * @param  int  $depth
-	 * 
 	 * @return array
 	 */
 	public static function flatten(array $array, $depth = INF): array
@@ -308,7 +296,6 @@ class Arr
 	 * 
 	 * @param  array  $array
 	 * @param  string  $key
-	 * 
 	 * @return array
 	 */
 	public static function fetch(array $array, string $key): array
@@ -336,7 +323,6 @@ class Arr
 	 * @param  array  $array 
 	 * @param  callable|null  $callback
 	 * @param  mixed  $default
-	 *
 	 * @return mixed
 	 */
 	public static function first(array $array, ?callable $callback = null, mixed $default = null)
@@ -371,8 +357,7 @@ class Arr
 	/**
 	 * Get the underlying array of items from the given argument.
 	 * 
-	 * @param  array|iterable|Collectable|Arrayable|Traversable|Jsonable|JsonSerializable|object  $items
-	 * 
+	 * @param  array|iterable|Collectable|Arrayable|Traversable|Jsonable|JsonSerializable|object  $items 
 	 * @return list|array
 	 * 
 	 * @throws \InvalidArgumentException
@@ -397,7 +382,6 @@ class Arr
 	 * @param  \ArrayAccess|array  $array  The search array
 	 * @param  string|array|null  $key  The dot-notated key or array of keys or null
 	 * @param  mixed  $default  The default value
-	 *
 	 * @return mixed
 	 */
 	public static function get($array, $key, $default = null)
@@ -435,8 +419,7 @@ class Arr
 	 * Gets max width of an array.
 	 * 
 	 * @param  array  $data
-	 * @param  bool  $exclude
-	 * 
+	 * @param  bool  $exclude 
 	 * @return int
 	 */
 	public static function getMaxWidth(array $data, bool $exclude = true): int
@@ -458,8 +441,7 @@ class Arr
 	 * Check if an item exists in an array using "dot" notation.
 	 * 
 	 * @param  array  $array
-	 * @param  array|string  $keys
-	 * 
+	 * @param  array|string  $keys 
 	 * @return bool
 	 */
 	public static function has($array, $keys): bool
@@ -493,8 +475,7 @@ class Arr
 	 * Determine if all keys exist in an array using "dot" notation.
 	 * 
 	 * @param  \ArrayAccess|array  $array
-	 * @param  string|array  $keys
-	 * 
+	 * @param  string|array  $keys 
 	 * @return bool
 	 */
 	public static function hasAll($array, $keys): bool
@@ -518,8 +499,7 @@ class Arr
 	 * Determine if any of the keys exist in an array using "dot" notation.
 	 * 
 	 * @param  \ArrayAccess|array  $array
-	 * @param  string|array  $keys
-	 * 
+	 * @param  string|array  $keys 
 	 * @return bool
 	 */
 	public static function hasAny($array, $keys): bool
@@ -552,8 +532,7 @@ class Arr
 	 * 
 	 * @param  \ArrayAccess|array  $array
 	 * @param  string|int|null  $key
-	 * @param  int|null  $default
-	 * 
+	 * @param  int|null  $default 
 	 * @return int
 	 * 
 	 * @throws InvalidArgumentException
@@ -574,8 +553,7 @@ class Arr
 	/**
 	 * Determines if an array is associative.
 	 * 
-	 * @param  array  $array
-	 * 
+	 * @param  array  $array 
 	 * @return bool
 	 */
 	public static function isAssoc(array $array): bool
@@ -586,8 +564,7 @@ class Arr
 	/**
 	 * Determines if an array is a list.
 	 * 
-	 * @param  array  $array
-	 * 
+	 * @param  array  $array 
 	 * @return bool
 	 */
 	public static function isList($array): bool
@@ -599,8 +576,7 @@ class Arr
      * Key an associative array by a field or using a callback.
      *
      * @param  iterable  $array
-     * @param  callable|array|string  $keyBy
-	 * 
+     * @param  callable|array|string  $keyBy 
      * @return array
      */
     public static function keyBy($array, $keyBy): array
@@ -613,8 +589,7 @@ class Arr
 	 *
 	 * @param  array  $array 
 	 * @param  callable|null  $callback
-	 * @param  mixed  $default 
-	 *
+	 * @param  mixed  $default
 	 * @return mixed
 	 */
 	public static function last(array $array, ?callable $callback = null, mixed $default = null)
@@ -630,8 +605,7 @@ class Arr
 	 * Run a map over each of the items in the array.
 	 * 
 	 * @param  array  $array
-	 * @param  callable  $callback
-	 * 
+	 * @param  callable  $callback 
 	 * @return array
 	 */
 	public static function map(array $array, callable $callback): array
@@ -652,7 +626,6 @@ class Arr
 	 * 
 	 * @param  array  $array
 	 * @param  array|string  $keys
-	 * 
 	 * @return array
 	 */
 	public static function only($array, $keys): array
@@ -666,7 +639,6 @@ class Arr
 	 * @param  array  $array  The search array
 	 * @param  string|int|null  $key  The dot-notated key or array of keys
 	 * @param  mixed  $value  The default value
-	 *
 	 * @return array
 	 */
 	public static function set(&$array, $key, $value): array
@@ -695,12 +667,8 @@ class Arr
 	/**
 	 * Partition the array into two arrays using the given callback.
 	 * 
-	 * @template TKey of array-key
-	 * @template TValue of mixed
-	 * 
 	 * @param  array  $array
-	 * @param  callable  $callback
-	 * 
+	 * @param  callable  $callback 
 	 * @return mixed
 	 */
 	public static function partition($array, callable $callback)
@@ -724,8 +692,7 @@ class Arr
 	 * 
 	 * @param  array  $array
 	 * @param  mixed  $value
-	 * @param  mixed  $key
-	 * 
+	 * @param  mixed  $key 
 	 * @return array
 	 */
 	public static function prepend($array, $value, $key = null): array
@@ -744,8 +711,7 @@ class Arr
 	 * 
 	 * @param  array  $array
 	 * @param  string  $key
-	 * @param  mixed  $default
-	 * 
+	 * @param  mixed  $default 
 	 * @return mixed
 	 */
 	public static function pull(&$array, $key, $default = null): mixed
@@ -762,8 +728,7 @@ class Arr
 	 * 
 	 * @param  iterable  $array
 	 * @param  string|array|int|null  $value
-	 * @param  string|array|null  $key
-	 * 
+	 * @param  string|array|null  $key 
 	 * @return array
 	 */
 	public static function pluck($array, $value, $key = null): array
@@ -800,8 +765,7 @@ class Arr
 	/**
 	 * Convert the array into a query string.
 	 * 
-	 * @param  array  $array
-	 * 
+	 * @param  array  $array 
 	 * @return string
 	 */
 	public static function query($array): string
@@ -813,8 +777,7 @@ class Arr
 	 * Determine if some items pass the given truth test.
 	 * 
 	 * @param  iterable  $array
-	 * @param  callable  $callback
-	 * 
+	 * @param  callable  $callback 
 	 * @return bool
 	 */
 	public static function some($array, callable $callback): bool
@@ -826,8 +789,7 @@ class Arr
 	 * Sort the array using the given callback or "dot" notation.
 	 * 
 	 * @param  array  $array
-	 * @param  callable|array|string|null  $callback
-	 * 
+	 * @param  callable|array|string|null  $callback 
 	 * @return array
 	 */
 	public static function sort($array, $callback = null): array
@@ -838,8 +800,7 @@ class Arr
 	/**
 	 * Convert a flatten "dot" notation array into an expanded array.
 	 * 
-	 * @param  iterable  $array
-	 * 
+	 * @param  iterable  $array 
 	 * @return mixed
 	 */
 	public static function undot($array): mixed
@@ -857,8 +818,7 @@ class Arr
 	 * Filter the array using the given callback.
 	 * 
 	 * @param  array  $array
-	 * @param  callable  $callback
-	 * 
+	 * @param  callable  $callback 
 	 * @return array
 	 */
 	public static function where($array, callable $callback): array
@@ -869,8 +829,7 @@ class Arr
 	/**
 	 * If the given value is not an array and not null, wrap it in one.
 	 * 
-	 * @param  array|null  $value
-	 * 
+	 * @param  array|null  $value 
 	 * @return array
 	 */
 	public static function wrap($value)

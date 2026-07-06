@@ -84,8 +84,7 @@ trait Enumerates
      * Create a new collection instance if the value isn't one already.
      * 
      * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable|null  $items
-     * @param  mixed  $args
-     * 
+     * @param  mixed  $args 
      * @return static
      */
     public static function make($items = [], ...$args): static
@@ -97,8 +96,7 @@ trait Enumerates
      * Wrap the given value in a collection if applicable.
      *
      * @param  iterable  $value
-     * @param  mixed  $args
-     * 
+     * @param  mixed  $args 
      * @return array
      */
     public static function wrap($value, ...$args)
@@ -111,8 +109,7 @@ trait Enumerates
     /**
      * Get the underlying items from the given collection if applicable.
      *
-     * @param  array  $value
-     * 
+     * @param  array  $value 
      * @return array
      */
     public static function unwrap($value)
@@ -123,8 +120,7 @@ trait Enumerates
     /**
      * Create a new instance with no items.
      * 
-     * @param  mixed  $args
-     * 
+     * @param  mixed  $args 
      * @return static
      */
     public static function empty(...$args): static
@@ -145,8 +141,7 @@ trait Enumerates
     /**
      * Dump the given arguments and terminate execution.
      * 
-     * @param  mixed  ...$args
-     * 
+     * @param  mixed  ...$args 
      * @return never
      */
     public function dd(...$args)
@@ -157,8 +152,7 @@ trait Enumerates
     /**
      * Dump the items.
      * 
-     * @param  mixed  ...$args
-     * 
+     * @param  mixed  ...$args 
      * @return static
      */
     public function dump(...$args): static
@@ -171,8 +165,7 @@ trait Enumerates
     /**
      * Execute a callback over each item.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return static
      */
     public function each(callable $callback): static
@@ -189,8 +182,7 @@ trait Enumerates
     /**
      * Map a collection and flatten the result by a single level.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return static
      */
     public function flatMap(callable $callback): static
@@ -203,8 +195,7 @@ trait Enumerates
      *
      * @param  callable|string  $key
      * @param  mixed  $operator
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return mixed
      */
     public function firstWhere($key, $operator = null, $value = null)
@@ -217,8 +208,7 @@ trait Enumerates
      *
      * @param  callable|string  $key
      * @param  mixed  $operator
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return static
      */
     public function where($key, $operator = null, $value = null): static
@@ -229,8 +219,7 @@ trait Enumerates
     /**
      * Filter items where the value for the given key is null.
      *
-     * @param  string|null  $key
-     * 
+     * @param  string|null  $key 
      * @return static
      */
     public function whereNull($key = null): static
@@ -241,8 +230,7 @@ trait Enumerates
     /**
      * Filter items where the value for the given key is not null.
      *
-     * @param  string|null  $key
-     * 
+     * @param  string|null  $key 
      * @return static
      */
     public function whereNotNull($key = null): static
@@ -254,8 +242,7 @@ trait Enumerates
      * Filter items by the given key value pair using strict comparison.
      *
      * @param  string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return static
      */
     public function whereStrict($key, $value): static
@@ -268,8 +255,7 @@ trait Enumerates
      *
      * @param  string  $key
      * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable  $values
-     * @param  bool  $strict
-     * 
+     * @param  bool  $strict 
      * @return static
      */
     public function whereIn($key, $values, $strict = false): static
@@ -283,8 +269,7 @@ trait Enumerates
      * Filter items by the given key value pair using strict comparison.
      *
      * @param  string  $key
-     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable  $values
-     * 
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable  $values 
      * @return static
      */
     public function whereInStrict($key, $values): static
@@ -296,8 +281,7 @@ trait Enumerates
      * Filter items such that the value of the given key is between the given values.
      *
      * @param  string  $key
-     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable  $values
-     * 
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable  $values 
      * @return static
      */
     public function whereBetween($key, $values): static
@@ -309,8 +293,7 @@ trait Enumerates
      * Filter items such that the value of the given key is not between the given values.
      *
      * @param  string  $key
-     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable  $values
-     * 
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable  $values 
      * @return static
      */
     public function whereNotBetween($key, $values): static
@@ -325,8 +308,7 @@ trait Enumerates
      *
      * @param  string  $key
      * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable  $values
-     * @param  bool  $strict
-     * 
+     * @param  bool  $strict 
      * @return static
      */
     public function whereNotIn($key, $values, $strict = false): static
@@ -340,8 +322,7 @@ trait Enumerates
      * Filter items by the given key value pair using strict comparison.
      *
      * @param  string  $key
-     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable  $values
-     * 
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable  $values 
      * @return static
      */
     public function whereNotInStrict($key, $values): static
@@ -354,8 +335,7 @@ trait Enumerates
      * 
      * @param  callable|string  $key
      * @param  string|null  $operator
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return \Closure
      */
     protected function operatorCallback($key, $operator = null, $value = null)
@@ -393,13 +373,13 @@ trait Enumerates
             switch ($operator) {
                 default:
                 case '=':
-                case '==':  return $retrieved == $value;
+                case '==': return $retrieved == $value;
                 case '!=':
-                case '<>':  return $retrieved != $value;
-                case '<':   return $retrieved < $value;
-                case '>':   return $retrieved > $value;
-                case '<=':  return $retrieved <= $value;
-                case '>=':  return $retrieved >= $value;
+                case '<>': return $retrieved != $value;
+                case '<': return $retrieved < $value;
+                case '>': return $retrieved > $value;
+                case '<=': return $retrieved <= $value;
+                case '>=': return $retrieved >= $value;
                 case '===': return $retrieved === $value;
                 case '!==': return $retrieved !== $value;
             }
@@ -409,8 +389,7 @@ trait Enumerates
     /**
      * Pass the collection to the given callback and return the result.
      *
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return callable
      */
     public function pipe(callable $callback)
@@ -421,8 +400,7 @@ trait Enumerates
     /**
      * Create a collection of all elements that do not pass a given truth test.
      * 
-     * @param callable|bool  $callback
-     * 
+     * @param callable|bool  $callback 
      * @return static
      */
     public function reject($callback = true): static
@@ -439,8 +417,7 @@ trait Enumerates
     /**
      * Determine if the given value is callable, but not a string.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      */
     protected function useAsCallable($value): bool
@@ -473,7 +450,6 @@ trait Enumerates
      * 
      * @param  int  $page
      * @param  int  $perPage
-     * 
      * @return static
      */
     public function forPage(int $page, int $perPage): static
@@ -488,8 +464,7 @@ trait Enumerates
      *
      * @param  callable|string  $key
      * @param  mixed  $operator
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return static
      */
     public function partition($key, $operator = null, $value = null): static
@@ -507,8 +482,7 @@ trait Enumerates
      * Apply the callback if the collection is empty.
      *
      * @param  callable  $callback
-     * @param  callable|null  $default
-     * 
+     * @param  callable|null  $default 
      * @return static
      */
     public function whenEmpty(callable $callback, ?callable $default = null): static
@@ -520,8 +494,7 @@ trait Enumerates
      * Apply the callback if the collection is not empty.
      *
      * @param  callable  $callback
-     * @param  callable|null  $default
-     * 
+     * @param  callable|null  $default 
      * @return static
      */
     public function whenNotEmpty(callable $callback, ?callable $default = null): static
@@ -533,8 +506,7 @@ trait Enumerates
      * Apply the callback unless the collection is empty.
      *
      * @param  callable  $callback
-     * @param  callable|null  $default
-     * 
+     * @param  callable|null  $default 
      * @return static
      */
     public function unlessEmpty(callable $callback, ?callable $default = null): static
@@ -546,8 +518,7 @@ trait Enumerates
      * Apply the callback unless the collection is not empty.
      *
      * @param  callable  $callback
-     * @param  callable|null  $default
-     * 
+     * @param  callable|null  $default 
      * @return static
      */
     public function unlessNotEmpty(callable $callback, ?callable $default = null): static
@@ -559,7 +530,6 @@ trait Enumerates
      * Get a value retrieving callback.
      * 
      * @param  callable|string|null  $value
-     * 
      * @return callable
      */
     protected function valueRetriever($value)
@@ -572,8 +542,7 @@ trait Enumerates
     /**
      * Get the collection of items as JSON.
      * 
-     * @param  int  $options
-     * 
+     * @param  int  $options 
      * @return string
      */
     public function toJson($options = 0): string
@@ -584,8 +553,7 @@ trait Enumerates
     /**
      * Get the collection of items as pretty print formatted JSON.
      * 
-     * @param  int  $options
-     * 
+     * @param  int  $options 
      * @return string
      */
     public function toPrettyJson(int $options = 0): string
@@ -613,8 +581,7 @@ trait Enumerates
     /**
      * Indicate that the model's string representation should be escaped when __toString is invoked.
      * 
-     * @param  bool  $escape
-     * 
+     * @param  bool  $escape 
      * @return static
      */
     public function escapeWhenLoadingToString($escape = true): static
@@ -627,8 +594,7 @@ trait Enumerates
     /**
      * Add a method to the list of proxied methods.
      * 
-     * @param  string  $method
-     * 
+     * @param  string  $method 
      * @return void
      */
     public static function proxy($method): void
@@ -639,8 +605,7 @@ trait Enumerates
     /**
      * Results array of items from Collection.
      * 
-     * @param  mixed  $items
-     * 
+     * @param  mixed  $items 
      * @return array
      */
     protected function getArrayableItems($items)
@@ -655,8 +620,7 @@ trait Enumerates
      * 
      * Dynamically access collection proxies.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return mixed
      * 
      * @throws \Exception

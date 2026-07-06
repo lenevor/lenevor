@@ -27,8 +27,7 @@ if ( ! function_exists('collect')) {
     /**
      * Create a collection from the given value.
      * 
-     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable  $value
-     * 
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|iterable  $value 
      * @return \Syscodes\Components\Support\Collection
      */
     function collect($value = []): Collection
@@ -43,8 +42,7 @@ if ( ! function_exists('data_fill')) {
      *
      * @param  mixed  $target
      * @param  string|array  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return mixed
      */
     function data_fill(&$target, $key, $value)
@@ -58,8 +56,7 @@ if ( ! function_exists('data_has')) {
      * Determine if a key / property exists on an array or object using "dot" notation.
      *
      * @param  mixed  $target
-     * @param  string|array|int|null  $key
-     * 
+     * @param  string|array|int|null  $key 
      * @return bool
      */
     function data_has($target, $key): bool
@@ -90,8 +87,7 @@ if ( ! function_exists('data_get')) {
      * 
      * @param  mixed   $target
      * @param  string|array|int|null  $key
-     * @param  mixed   $default
-     * 
+     * @param  mixed   $default 
      * @return mixed
      */
     function data_get($target, $key, $default = null)
@@ -152,8 +148,7 @@ if( ! function_exists('data_set')) {
      * @param  mixed  $target
      * @param  string|array  $key
      * @param  mixed  $value
-     * @param  bool  $overwrite
-     * 
+     * @param  bool  $overwrite 
      * @return mixed
      */
     function data_set(&$target, $key, $value, $overwrite = true)
@@ -213,8 +208,7 @@ if ( ! function_exists('data_forget')) {
      * Remove / unset an item from an array or object using "dot" notation.
      *
      * @param  mixed  $target
-     * @param  string|array|int|null  $key
-     * 
+     * @param  string|array|int|null  $key 
      * @return mixed
      */
     function data_erase(&$target, $key)
@@ -250,7 +244,6 @@ if ( ! function_exists('head')) {
      * Get the actual element of an array. Useful for method chaining.
      *
      * @param  array  $array
-     *
      * @return mixed
      */
     function head(array $array)
@@ -264,7 +257,6 @@ if ( ! function_exists('last')) {
      * Get the last element from an array.
      *
      * @param  array  $array
-     *
      * @return mixed
      */
     function last(array $array)
@@ -278,8 +270,7 @@ if ( ! function_exists('value')) {
      * Return the default value of the given value.
      *
      * @param  mixed  $value
-     * @param  iterable|array  $args
-     * 
+     * @param  iterable|array  $args 
      * @return mixed
      */
     function value(mixed $value, ...$args)
@@ -294,8 +285,7 @@ if ( ! function_exists('when')) {
      *
      * @param  mixed  $condition
      * @param  \Closure|mixed  $value
-     * @param  \Closure|mixed  $default
-     * 
+     * @param  \Closure|mixed  $default 
      * @return mixed
      */
     function when($condition, $value, $default = null)

@@ -47,8 +47,7 @@ class HigherOrderCollectionProxy
      * Constructor. Create a new collection proxy instance.
      * 
      * @param  \Syscodes\Components\Contracts\Support\Collectable  $collection
-     * @param  string  $method
-     * 
+     * @param  string  $method 
      * @return void
      */
     public function __construct(Collectable $collection, string $method)
@@ -62,8 +61,7 @@ class HigherOrderCollectionProxy
      * 
      * Gets the proxy accessing an attribute onto the collection items.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return mixed
      */
     public function __get($key)
@@ -79,16 +77,15 @@ class HigherOrderCollectionProxy
      * Dynamically pass method calls to the collection.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      */
     public function __call(string $method, array $parameters): mixed
     {
         return $this->collection->{$this->method}(function ($value) use ($method, $parameters) {
-            return is_string($value) 
-                   ? $value::{$method}(...$parameters)
-                   : $value->{$method}(...$parameters);
+            return is_string($value)
+                ? $value::{$method}(...$parameters)
+                : $value->{$method}(...$parameters);
         });
     }
 }
