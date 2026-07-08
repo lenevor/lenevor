@@ -52,8 +52,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	/**
 	 * Constructor. Create a new Configure class instance.
 	 * 
-	 * @param  array  $files
-	 * 
+	 * @param  array  $files 
 	 * @return void
 	 */
 	public function __construct(array $files = [])
@@ -64,8 +63,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	/**
 	 * Determine if the given configuration value exists.
 	 * 
-	 * @param  string  $key
-	 * 
+	 * @param  string  $key 
 	 * @return bool
 	 */
 	public function has(string $key): bool
@@ -78,7 +76,6 @@ class Configure implements ArrayAccess, ConfigureContract
 	 *
 	 * @param  string  $key  The dot-notated key or array of keys
 	 * @param  mixed  $default  The default value
-	 *
 	 * @return mixed
 	 */
 	public function get($key, $default = null)
@@ -101,7 +98,6 @@ class Configure implements ArrayAccess, ConfigureContract
 	 *
 	 * @param  array|string  $key  The dot-notated key or array of keys
 	 * @param  mixed  $value  The default value
-	 *
 	 * @return void
 	 */
 	public function set($key, $value = null)
@@ -116,8 +112,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	/**
 	 * Deletes a (dot notated) config item.
 	 * 
-	 * @param  string  $key  A (dot notated) config key
-	 * 
+	 * @param  string  $key  A (dot notated) config key 
 	 * @return void
 	 */
 	public function erase(string $key)
@@ -135,7 +130,6 @@ class Configure implements ArrayAccess, ConfigureContract
 	 * @param  string  $key
 	 * 
 	 * @param  \Closure|string|null  $default
-	 * 
 	 * @return string
 	 * 
 	 * @throws \InvalidArgumentException
@@ -157,8 +151,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	 * Get the specified float configuration value.
 	 * 
 	 * @param  string  $key
-	 * @param  \Closure|float|null  $default
-	 * 
+	 * @param  \Closure|float|null  $default 
 	 * @return float
 	 * 
 	 * @throws \InvalidArgumentException
@@ -180,8 +173,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	 * Get the specified boolean configuration value.
 	 * 
 	 * @param  string  $key
-	 * @param  \Closure|bool|null  $default
-	 * 
+	 * @param  \Closure|bool|null  $default 
 	 * @return bool
 	 * 
 	 * @throws \InvalidArgumentException
@@ -218,8 +210,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	/**
 	 * Determine if the given configuration option exists.
 	 * 
-	 * @param  mixed  $key
-	 * 
+	 * @param  mixed  $key 
 	 * @return bool
 	 */
 	public function offsetExists(mixed $key): bool
@@ -230,8 +221,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	/**
 	 * Get a configuration option.
 	 * 
-	 * @param  mixed  $key
-	 * 
+	 * @param  mixed  $key 
 	 * @return mixed
 	 */
 	public function offsetGet(mixed $key): mixed
@@ -243,8 +233,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	 * Set a configuration option.
 	 * 
 	 * @param  mixed  $key
-	 * @param  mixed  $value
-	 * 
+	 * @param  mixed  $value 
 	 * @return void
 	 */
 	public function offsetSet(mixed $key, mixed $value): void
@@ -255,8 +244,7 @@ class Configure implements ArrayAccess, ConfigureContract
 	/**
 	 * Unset a configuration option.
 	 * 
-	 * @param  mixed  $key
-	 * 
+	 * @param  mixed  $key 
 	 * @return void
 	 */
 	public function offsetUnset(mixed $key): void
