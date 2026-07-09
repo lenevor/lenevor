@@ -32,8 +32,7 @@ class EnsureRelativePaths
      * 
      * Ensures the given string only contains relative paths.
      * 
-     * @param  string  $string
-     * 
+     * @param  string  $string 
      * @return string
      */
     public function __invoke($string): string

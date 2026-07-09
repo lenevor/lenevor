@@ -42,7 +42,6 @@ class Task extends Component
      * @param  string  $description
      * @param  (callable(): bool)|null  $task
      * @param  int  $verbosity
-     * 
      * @return void
      */
     public function render($description, $task = null, $verbosity = OutputInterface::VERBOSITY_NORMAL)

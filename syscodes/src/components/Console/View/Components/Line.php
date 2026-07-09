@@ -63,8 +63,7 @@ class Line extends Component
      *
      * @param  string  $style
      * @param  string  $string
-     * @param  int  $verbosity
-     * 
+     * @param  int  $verbosity 
      * @return void
      */
     public function render($style, $string, $verbosity = OutputInterface::VERBOSITY_NORMAL)

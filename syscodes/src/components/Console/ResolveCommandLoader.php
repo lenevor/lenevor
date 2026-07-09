@@ -50,8 +50,7 @@ class ResolveCommandLoader implements CommandLoaderInterface
      * Constructor. Create a new command loader instance.
      *
      * @param  \Psr\Container\ContainerInterface  $container
-     * @param  array  $commandMap
-     * 
+     * @param  array  $commandMap 
      * @return void
      */
     public function __construct(ContainerInterface $container, array $commandMap)
@@ -64,7 +63,6 @@ class ResolveCommandLoader implements CommandLoaderInterface
      * Resolve a command from the container.
      *
      * @param  string  $name
-     * 
      * @return \Symfony\Component\Console\Command\Command
      *
      * @throws \Symfony\Component\Console\Exception\CommandNotFoundException
@@ -81,9 +79,7 @@ class ResolveCommandLoader implements CommandLoaderInterface
     /**
      * Determines if a command exists.
      *
-     * @param  string  $name
-     * 
-     * @return bool
+     * @param  string  $name@return bool
      */
     public function has(string $name): bool
     {

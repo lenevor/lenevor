@@ -34,7 +34,6 @@ class Success extends Component
      *
      * @param  string  $string
      * @param  int  $verbosity
-     * 
      * @return void
      */
     public function render($string, $verbosity = OutputInterface::VERBOSITY_NORMAL)

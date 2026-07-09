@@ -52,8 +52,7 @@ abstract class Component
     /**
      * Constructor. Create a new Component class instance.
      * 
-     * @param  \Syscodes\Components\Console\OutputStyle  $output
-     * 
+     * @param  \Syscodes\Components\Console\OutputStyle  $output 
      * @return void
      */
     public function __construct($output)
@@ -66,8 +65,7 @@ abstract class Component
      *
      * @param  string  $view
      * @param  \Syscodes\Components\Contracts\Support\Arrayable|array  $data
-     * @param  int  $verbosity
-     * 
+     * @param  int  $verbosity 
      * @return void
      */
     protected function renderView($view, $data, $verbosity)
@@ -82,7 +80,6 @@ abstract class Component
      *
      * @param  string  $view
      * @param  array  $data
-     * 
      * @return string
      */
     protected function compile($view, $data)
@@ -102,8 +99,7 @@ abstract class Component
      * Mutates the given data with the given set of mutators.
      * 
      * @param  array|string  $data
-     * @param  array  $mutators
-     * 
+     * @param  array  $mutators 
      * @return array|string
      */
     protected function mutate($data, $mutators): array|string
@@ -126,8 +122,7 @@ abstract class Component
     /**
      * Eventually performs a question using the component's question helper.
      *
-     * @param  callable  $callable
-     * 
+     * @param  callable  $callable 
      * @return mixed
      */
     protected function usingQuestionHelper($callable)

@@ -86,16 +86,14 @@ class Application extends SymfonyApplication implements ApplicationContract
 	 * Console constructor. Initialize the console of Lenevor.
 	 *
 	 * @param  \Syscodes\Components\Contracts\Container\Container  $lenevor
-	 * 
 	 * @param  string  $version
-	 * 
 	 * @return void
 	 */
 	public function __construct(Container $lenevor, Dispatcher $events, string $version)
 	{
 		parent::__construct(Version::NAME, $version);
 
-		$this->events  = $events;
+		$this->events = $events;
 		$this->lenevor = $lenevor;
         $this->setAutoExit(false);
         $this->setCatchExceptions(false);
@@ -108,8 +106,7 @@ class Application extends SymfonyApplication implements ApplicationContract
 	/**
 	 * Register a console "starting" bootstrapper.
 	 * 
-	 * @param  \Closure  $callback
-	 * 
+	 * @param  \Closure  $callback 
 	 * @return void
 	 */
 	public static function starting(Closure $callback): void
@@ -162,8 +159,7 @@ class Application extends SymfonyApplication implements ApplicationContract
     /**
      * Format the given command as a fully-qualified executable command.
      * 
-     * @param  string  $string
-     * 
+     * @param  string  $string 
      * @return string
      */
     public static function formatCommandString($string): string
@@ -175,7 +171,6 @@ class Application extends SymfonyApplication implements ApplicationContract
 	 * Add a command, resolving through the application.
 	 * 
 	 * @param  \Syscodes\Components\Console\Command|string  $command
-	 * 
 	 * @return \Symfony\Component\Console\Command\Command|null
 	 */
 	public function resolve($command)
@@ -203,7 +198,6 @@ class Application extends SymfonyApplication implements ApplicationContract
 	 * Resolve an array of commands through the application.
 	 * 
 	 * @param  mixed  $commands
-	 * 
 	 * @return static
 	 */
 	public function resolveCommands($commands): static
@@ -223,7 +217,6 @@ class Application extends SymfonyApplication implements ApplicationContract
      * @param  \Symfony\Component\Console\Command\Command|string  $command
      * @param  array  $parameters
      * @param  \Symfony\Component\Console\Output\OutputInterface|null  $outputBuffer
-	 * 
      * @return int
      *
      * @throws \Symfony\Component\Console\Exception\CommandNotFoundException
@@ -246,7 +239,6 @@ class Application extends SymfonyApplication implements ApplicationContract
      *
      * @param  \Symfony\Component\Console\Command\Command|string  $command
      * @param  array  $parameters
-     * 
      * @return array
      */
     protected function parseCommand($command, $parameters)
@@ -276,7 +268,6 @@ class Application extends SymfonyApplication implements ApplicationContract
      * Add an array of commands to the console.
      * 
      * @param  array<int, \Symfony\Component\Console\Command\Command>  $commands
-     * 
      * @return void
      */
     #[\Override]
@@ -291,7 +282,6 @@ class Application extends SymfonyApplication implements ApplicationContract
      * Add a command to the console.
      *
      * @param  \Syscodes\Components\Console\Command  $command
-	 * 
      * @return \Syscodes\Components\Console\Command|null
      */
     #[\Override]
@@ -303,8 +293,7 @@ class Application extends SymfonyApplication implements ApplicationContract
      /**
      * Add a command to the console.
      *
-     * @param  \Symfony\Component\Console\Command\Command|callable  $command
-     * 
+     * @param  \Symfony\Component\Console\Command\Command|callable  $command 
      * @return \Symfony\Component\Console\Command\Command|null
      */
     public function addCommand(SymfonyCommand|callable $command): ?SymfonyCommand
@@ -320,7 +309,6 @@ class Application extends SymfonyApplication implements ApplicationContract
      * Add the command to the parent instance.
      *
      * @param  \Symfony\Component\Console\Command\Command  $command
-	 * 
      * @return \Symfony\Component\Console\Command\Command
      */
     protected function addToParent(SymfonyCommand $command)

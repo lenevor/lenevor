@@ -125,8 +125,7 @@ class Command extends SymfonyCommand
      * Runs a command given.
      * 
      * @param  \Symfony\Component\Console\Input\InputInterface  $input
-     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
-     * 
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output 
      * @return int|mixed
      */
     public function run(InputInterface $input, OutputInterface $output): int
@@ -146,8 +145,7 @@ class Command extends SymfonyCommand
      * Executes the current command.
      * 
      * @param  \Symfony\Component\Console\Input\InputInterface  $input
-     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
-     * 
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output 
      * @return int
      * 
      * @throws \LogicException
@@ -168,8 +166,7 @@ class Command extends SymfonyCommand
     /**
      * Resolve the console command instance for the given command.
      * 
-     * @param  \Symfony\Component\Console\Command\Command|string  $command
-     * 
+     * @param  \Symfony\Component\Console\Command\Command|string  $command 
      * @return \Symfony\Component\Console\Command\Command
      */
     protected function resolveCommand($command)
@@ -206,8 +203,7 @@ class Command extends SymfonyCommand
     /**
      * Set the Lenevor application instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Core\Application  $lenevor
-     * 
+     * @param  \Syscodes\Components\Contracts\Core\Application  $lenevor 
      * @return void
      */
     public function setLenevor($lenevor): void

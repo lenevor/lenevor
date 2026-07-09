@@ -37,8 +37,7 @@ class PrimeStarting
     /**
      * Constructor. Create a new event class instance.
      * 
-     * @param  \Syscodes\Components\Console\Application  $prime
-     * 
+     * @param  \Syscodes\Components\Console\Application  $prime 
      * @return void
      */
     public function __construct($prime)

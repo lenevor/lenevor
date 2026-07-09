@@ -33,8 +33,7 @@ class Secret extends Component
      * Renders the component using the given arguments.
      *
      * @param  string  $question
-     * @param  bool  $fallback
-     * 
+     * @param  bool  $fallback 
      * @return mixed
      */
     public function render($question, $fallback = true)

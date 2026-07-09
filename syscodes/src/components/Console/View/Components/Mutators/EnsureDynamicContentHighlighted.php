@@ -32,8 +32,7 @@ class EnsureDynamicContentHighlighted
      * 
      * Highlight dynamic content within the given string.
      * 
-     * @param  string  $string
-     * 
+     * @param  string  $string 
      * @return string
      */
     public function __invoke($string): string

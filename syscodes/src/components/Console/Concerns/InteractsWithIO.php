@@ -76,8 +76,7 @@ trait InteractsWithIO
 	/**
 	 * Determine if the given argument is present.
 	 * 
-	 * @param  string|int  $name
-	 * 
+	 * @param  string|int  $name 
 	 * @return bool
 	 */
 	public function hasArgument($name): bool
@@ -88,8 +87,7 @@ trait InteractsWithIO
 	/**
 	 * Get the value of a command argument.
 	 * 
-	 * @param  string|null  $key
-	 * 
+	 * @param  string|null  $key 
 	 * @return array|string|bool|null
 	 */
 	public function argument($key): array|string|bool|null
@@ -114,8 +112,7 @@ trait InteractsWithIO
 	/**
 	 * Determine whether the option is defined in the command signature.
 	 * 
-	 * @param  string  $name
-	 * 
+	 * @param  string  $name 
 	 * @return bool
 	 */
 	public function hasOption($name): bool
@@ -126,8 +123,7 @@ trait InteractsWithIO
 	/**
 	 * Get the value of a command option.
 	 * 
-	 * @param  string|null  $key
-	 * 
+	 * @param  string|null  $key 
 	 * @return string|array|bool|null
 	 */
 	public function option($key = null): array|string|bool|null
@@ -153,8 +149,7 @@ trait InteractsWithIO
 	 * Confirm a question with the user.
 	 * 
 	 * @param  string  $question
-	 * @param  bool  $default
-	 * 
+	 * @param  bool  $default 
 	 * @return bool
 	 */
 	public function confirm($question, $default = false)
@@ -166,8 +161,7 @@ trait InteractsWithIO
 	 * Prompt the user for input.
 	 * 
 	 * @param  string  $question
-	 * @param  string|null  $default
-	 * 
+	 * @param  string|null  $default 
 	 * @return mixed
 	 */
 	public function ask($question, $default = null)
@@ -178,8 +172,7 @@ trait InteractsWithIO
 	/**
 	 * Enter a number of empty lines.
 	 * 
-	 * @param  int  $num  Number of lines to output
-	 * 
+	 * @param  int  $num  Number of lines to output 
 	 * @return string
 	 */
 	public function newLine(int $num = 1)
@@ -191,8 +184,7 @@ trait InteractsWithIO
 	 * Writes a string formatting for comment output.
 	 * 
 	 * @param  string  $message
-	 * @param  int|string|null  $verbosity
-	 * 
+	 * @param  int|string|null  $verbosity 
 	 * @return void
 	 */
 	public function comment(string $message, $verbosity = null)
@@ -204,8 +196,7 @@ trait InteractsWithIO
 	 * Writes a string formatting for note output.
 	 * 
 	 * @param  string  $message
-	 * @param  int|string|null  $verbosity
-	 * 
+	 * @param  int|string|null  $verbosity 
 	 * @return void
 	 */
 	public function note(string $message, $verbosity = null)
@@ -218,7 +209,6 @@ trait InteractsWithIO
 	 * 
 	 * @param  string  $message
 	 * @param  int|string|null  $verbosity
-	 * 
 	 * @return void
 	 */
 	public function success(string $message, $verbosity = null)
@@ -230,8 +220,7 @@ trait InteractsWithIO
 	 * Writes a string formatting for info output.
 	 * 
 	 * @param  string  $message
-	 * @param  int|string|null  $verbosity
-	 * 
+	 * @param  int|string|null  $verbosity 
 	 * @return void
 	 */
 	public function info(string $message, $verbosity = null)
@@ -243,8 +232,7 @@ trait InteractsWithIO
 	 * Writes a string formatting for caution output.
 	 * 
 	 * @param  string  $message
-	 * @param  int|string|null  $verbosity
-	 * 
+	 * @param  int|string|null  $verbosity 
 	 * @return void
 	 */
 	public function caution(string $message, $verbosity = null)
@@ -256,8 +244,7 @@ trait InteractsWithIO
 	 * Writes a string formatting for question output.
 	 * 
 	 * @param  string  $message
-	 * @param  int|string|null  $verbosity
-	 * 
+	 * @param  int|string|null  $verbosity 
 	 * @return void
 	 */
 	public function question(string $message, $verbosity = null)
@@ -269,8 +256,7 @@ trait InteractsWithIO
 	 * Writes a string formatting for warning output.
 	 * 
 	 * @param  string  $message
-	 * @param  int|string|null  $verbosity
-	 * 
+	 * @param  int|string|null  $verbosity 
 	 * @return void
 	 */
 	public function warning(string $message, $verbosity = null)
@@ -282,8 +268,7 @@ trait InteractsWithIO
 	 * Writes a string formatting for error output.
 	 * 
 	 * @param  string  $message
-	 * @param  int|string|null  $verbosity
-	 * 
+	 * @param  int|string|null  $verbosity 
 	 * @return void
 	 */
 	public function error(string $message, $verbosity = null)
@@ -296,8 +281,7 @@ trait InteractsWithIO
 	 * 
 	 * @param  string  $message
 	 * @param  string|null  $style
-	 * @param  int|string|null  $verbosity
-	 * 
+	 * @param  int|string|null  $verbosity 
 	 * @return void
 	 */
 	public function line(string $message, ?string $style = null, $verbosity = null)
@@ -311,8 +295,7 @@ trait InteractsWithIO
 	 * Outputs series of minus characters to CLI output, specified as a visual separator.
 	 * 
 	 * @param  int  $newlines  Number of lines to output, defaults to 0
-	 * @param  int  $width  Width of the line, default to 79
-	 * 
+	 * @param  int  $width  Width of the line, default to 79 
 	 * @return string
 	 */
 	public function hr(int $newlines = 0, $width = 79) 
@@ -325,8 +308,7 @@ trait InteractsWithIO
 	/**
 	 * Set the input interface implementation.
 	 * 
-	 * @param  \Symfony\Component\Console\Input\InputInterface  $input
-	 * 
+	 * @param  \Symfony\Component\Console\Input\InputInterface  $input 
 	 * @return void
 	 */
 	public function setInput(InputInterface $input): void
@@ -337,8 +319,7 @@ trait InteractsWithIO
 	/**
 	 * Set the output interface implementation.
 	 * 
-	 * @param  \Symfony\Component\Console\Output\OutputInterface  $output
-	 * 
+	 * @param  \Symfony\Component\Console\Output\OutputInterface  $output 
 	 * @return void
 	 */
 	public function setOutput(OutputInterface $output): void
@@ -349,8 +330,7 @@ trait InteractsWithIO
 	/**
 	 * Set the verbosity level.
 	 * 
-	 * @param  string|int  $level
-	 * 
+	 * @param  string|int  $level 
 	 * @return void
 	 */
 	protected function setVerbosity($level): void
@@ -361,8 +341,7 @@ trait InteractsWithIO
 	/**
 	 * Get the verbosity level in terms of OutputInterface level.
 	 * 
-	 * @param  string|int|null  $level
-	 * 
+	 * @param  string|int|null  $level 
 	 * @return int
 	 */
 	protected function parseVerbosity($level = null): int

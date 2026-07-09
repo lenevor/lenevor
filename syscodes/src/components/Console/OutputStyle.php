@@ -58,7 +58,6 @@ class OutputStyle extends SymfonyStyle implements NewLineInterface
      * 
      * @param  \Symfony\Component\Console\Input\InputInterface  $input
      * @param  \Symfony\Component\Console\Output\OutputInterface  $output
-     * 
      * @return void
      */
     public function __construct(InputInterface $input, OutputInterface $output)
@@ -136,7 +135,6 @@ class OutputStyle extends SymfonyStyle implements NewLineInterface
      * Count the number of trailing new lines in a string.
      *
      * @param  string|iterable  $messages
-     * 
      * @return int
      */
     protected function trailingNewLineCount($messages)

@@ -51,7 +51,6 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
      * Constructor. Create a new controller creator command instance.
      * 
      * @param  \Syscodes\Components\Filesystem\Filesystem  $files
-     * 
      * @return void
      */
     public function __construct(Filesystem $files)
@@ -104,7 +103,6 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
      * Determine if the class already exists.
      * 
      * @param  string  $rawName
-     * 
      * @return bool
      */
     protected function alreadyExists($rawName): bool
@@ -116,7 +114,6 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
      * Get the destination class path.
      * 
      * @param  string  $name
-     * 
      * @return string
      */
     protected function getPath($name): string
@@ -130,7 +127,6 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
      * Parse the class name and format according to the root namespace.
      * 
      * @param  string  $name
-     * 
      * @return string
      */
     protected function parseName($name): string
@@ -151,8 +147,7 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
     /**
      * Get the default namespace for the class.
      * 
-     * @param  string  $rootNamespace
-     * 
+     * @param  string  $rootNamespace 
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace): string
@@ -163,8 +158,7 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
     /**
      * Build the directory for the class if necessary.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return string
      */
     protected function makeDirectory($path) 
@@ -177,8 +171,7 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
     /**
      * Build the class with the given name.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return string
      */
     protected function buildClass($name): string
@@ -192,8 +185,7 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
      * Replace the namespace for the given template.
      * 
      * @param  string  $template
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return static
      */
     protected function replaceNamespace(&$template, $name): static
@@ -218,7 +210,6 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
      * Get the full namespace name for a given class.
      * 
      * @param  string  $name
-     * 
      * @return string
      */
     protected function getNamespace($name): string
@@ -230,8 +221,7 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
      * Replace the class name for the given template.
      * 
      * @param  string  $template
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return string
      */
     protected function replaceClass($template, $name): string
@@ -245,7 +235,6 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
      * Alphabetically sorts the imports for the given stub.
      * 
      * @param  string  $template
-     * 
      * @return string
      */
     protected function sortImports($template): string
@@ -291,7 +280,6 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
      * Get the first view directory path from the application configuration.
      * 
      * @param  string  $path
-     * 
      * @return string
      */
     protected function viewPath($path = ''): string

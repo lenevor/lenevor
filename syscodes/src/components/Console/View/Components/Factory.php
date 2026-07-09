@@ -39,8 +39,7 @@ class Factory
     /**
      * Constructor. Create a new Factory class instance.
      * 
-     * @param  \Syscodes\Components\Console\OutputStyle  $output
-     * 
+     * @param  \Syscodes\Components\Console\OutputStyle  $output 
      * @return void
      */
     public function __construct($output)
@@ -54,8 +53,7 @@ class Factory
      * Dynamically handle calls into the component instance.
      *
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      *
      * @throws \InvalidArgumentException

@@ -29,6 +29,9 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
+/**
+ * Allows that Console Style Guide compliant question helper.
+ */
 class QuestionHelper extends SymfonyQuestionHelper
 {
     /**

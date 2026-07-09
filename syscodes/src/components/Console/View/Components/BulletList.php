@@ -33,8 +33,7 @@ class BulletList extends Component
      * Renders the component using the given arguments.
      *
      * @param  array  $elements
-     * @param  int  $verbosity
-     * 
+     * @param  int  $verbosity 
      * @return void
      */
     public function render($elements, $verbosity = OutputInterface::VERBOSITY_NORMAL)
