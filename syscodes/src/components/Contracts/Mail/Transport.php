@@ -36,8 +36,7 @@ interface Transport extends Stringable
      * Send the message of mail.
      * 
      * @param  RawMessage  $message
-     * @param  Envelope|null  $envelope
-     * 
+     * @param  Envelope|null  $envelope 
      * @return BaseSentMessage|null
      */
     public function send(RawMessage $message, ?Envelope $envelope = null): ?BaseSentMessage;

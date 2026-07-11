@@ -37,8 +37,7 @@ interface Factory
      * @param  bool|null  $secure
      * @param  bool  $httpOnly
      * @param  bool $raw
-     * @param  string|null  $sameSite
-     * 
+     * @param  string|null  $sameSite 
      * @return \Symfony\Component\HttpFoundation\Cookie
      */
     public function make(
@@ -63,8 +62,7 @@ interface Factory
      * @param  bool|null  $secure
      * @param  bool  $httpOnly
      * @param  bool $raw
-     * @param  string|null  $sameSite
-     * 
+     * @param  string|null  $sameSite 
      * @return \Symfony\Component\HttpFoundation\Cookie
      */
     public function forever(
@@ -83,8 +81,7 @@ interface Factory
      * 
      * @param  string  $name
      * @param  string|null  $path
-     * @param  string|null  $domain
-     * 
+     * @param  string|null  $domain 
      * @return \Symfony\Component\HttpFoundation\Cookie
      */
     public function erase(string $name, ?string $path = null, ?string $domain = null);

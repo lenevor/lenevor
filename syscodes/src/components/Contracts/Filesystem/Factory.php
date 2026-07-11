@@ -30,8 +30,7 @@ interface Factory
     /**
      * Get a filesystem instance.
      * 
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return \Syscodes\Components\Contracts\Filesystem\Filesystem 
      */
     public function disk(?string $name = null);

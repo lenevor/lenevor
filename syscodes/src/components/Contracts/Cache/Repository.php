@@ -35,8 +35,7 @@ interface Repository
      * 
      * @param  \UnitEnum|string  $key
      * @param  mixed  $value
-     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
-     * 
+     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl 
      * @return bool
      */
     public function add($key, $value, $ttl = null): bool;
@@ -46,8 +45,7 @@ interface Repository
      * 
      * @param  string  $key
      * @param  mixed   $value
-     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
-     * 
+     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl 
      * @return bool
      */
     public function put($key, $value, $ttl = null): bool;
@@ -57,7 +55,6 @@ interface Repository
      * 
      * @param  \UnitEnum|array|string  $key
      * @param  mixed  $default
-     * 
      * @return mixed
      */
     public function pull($key, $default = null);
@@ -66,8 +63,7 @@ interface Repository
      * Increment the value of an item in the cache.
      * 
      * @param  \UnitEnum|string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return int|bool
      */
     public function increment($key, $value = 1): int|bool;
@@ -76,8 +72,7 @@ interface Repository
      * Decrement the value of an item in the cache.
      * 
      * @param  \UnitEnum|string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return int|bool
      */
     public function decrement($key, $value = 1): int|bool;
@@ -85,8 +80,7 @@ interface Repository
     /**
      * Remove a specific item from the cache store.
      * 
-     * @param  \UnitEnum|string  $key
-     * 
+     * @param  \UnitEnum|string  $key 
      * @return mixed
      */
     public function delete($key);
@@ -96,8 +90,7 @@ interface Repository
      *
      * @param  \UnitEnum|string  $key
      * @param  \DateTimeInterface|\DateInterval|\Closure|int|null  $ttl
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return mixed
      */
     public function remember($key, $ttl, Closure $callback);
@@ -106,8 +99,7 @@ interface Repository
      * Get an item from the cache, or execute the given Closure and store the result forever.
      *
      * @param  \UnitEnum|string  $key
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return mixed
      */
     public function rememberForever($key, Closure $callback);
@@ -116,8 +108,7 @@ interface Repository
      * Set the expiration of a cached item.
      *
      * @param  \UnitEnum|string  $key
-     * @param  \DateTimeInterface|\DateInterval|int  $ttl
-     * 
+     * @param  \DateTimeInterface|\DateInterval|int  $ttl 
      * @return bool
      */
     public function touch($key, $ttl): bool;
@@ -127,7 +118,6 @@ interface Repository
      * 
      * @param  \UnitEnum|string  $key
      * @param  mixed  $value
-     * 
      * @return bool
      */
     public function forever($key, $value): bool;

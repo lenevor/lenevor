@@ -32,8 +32,7 @@ final class EnvironmentDetector
     /**
      * Detect the application's current environment.
      * 
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return string
      */
     public function detect(Closure $callback)

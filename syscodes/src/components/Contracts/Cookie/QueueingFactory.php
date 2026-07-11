@@ -30,8 +30,7 @@ interface QueueingFactory extends Factory
      * Determine if a cookie has been queued.
      * 
      * @param  string  $key
-     * @param  string|null  $path
-     * 
+     * @param  string|null  $path 
      * @return bool
      */
     public function hasQueued(string $key, ?string $path = null): bool;
@@ -41,8 +40,7 @@ interface QueueingFactory extends Factory
      * 
      * @param  string  $key
      * @param  mixed  $default
-     * @param  string|null  $path
-     * 
+     * @param  string|null  $path 
      * @return \Symfony\Component\HttpFoundation\Cookie|null
      */
     public function queued(string $key, mixed $default = null, ?string $path = null);
@@ -50,8 +48,7 @@ interface QueueingFactory extends Factory
     /**
      * Queue a cookie to send with the next response.
      * 
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return void
      */
     public function queue(...$parameters): void;
@@ -61,8 +58,7 @@ interface QueueingFactory extends Factory
      * 
      * @param  string  $name
      * @param  string|null  $path
-     * @param  string|null  $domain
-     * 
+     * @param  string|null  $domain 
      * @return void
      */
     public function expire(string $name, ?string $path = null, ?string $domain = null): void;
@@ -71,8 +67,7 @@ interface QueueingFactory extends Factory
      * Remove a cookie from the queue.
      * 
      * @param  string  $name
-     * @param  string|null  $path
-     * 
+     * @param  string|null  $path 
      * @return void
      */
     public function unqueue(string $name, ?string $path = null): void;
@@ -83,8 +78,7 @@ interface QueueingFactory extends Factory
      * @param  string  $path
      * @param  string  $domain
      * @param  bool  $secure
-     * @param  string|null  $sameSite
-     * 
+     * @param  string|null  $sameSite 
      * @return static
      */
     public function setDefaultPathAndDomain(string $path, string $domain, bool $secure = false, ?string $sameSite = null): static;

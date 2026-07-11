@@ -47,8 +47,7 @@ class ApplicationBootstrap
     /**
      * Constructor. Create a new aplication bootstrap instance.
      * 
-     * @param  \Syscodes\Components\Core\Application  $app
-     * 
+     * @param  \Syscodes\Components\Core\Application  $app 
      * @return void
      */
     public function __construct(protected Application $app)
@@ -78,8 +77,7 @@ class ApplicationBootstrap
     /**
      * Register and configure the application's exception handler.
      * 
-     * @param  callable|null  $using
-     * 
+     * @param  callable|null  $using 
      * @return static
      */
     public function assignExceptions(?callable $using = null): static
@@ -105,8 +103,7 @@ class ApplicationBootstrap
      * @param  string|null  $web
      * @param  string|null  $api
      * @param  string  $apiPrefix
-     * @param  callable|null  $then
-     * 
+     * @param  callable|null  $then 
      * @return static
      */
     public function assignRouting(
@@ -140,8 +137,7 @@ class ApplicationBootstrap
      * @param  array|string|null  $web
      * @param  array|string|null  $api
      * @param  string  $apiPrefix
-     * @param  callable|null  $then
-     * 
+     * @param  callable|null  $then 
      * @return \Closure
      */
     protected function makeRoutingCallback(
@@ -184,8 +180,7 @@ class ApplicationBootstrap
      /**
      * Register the core event service provider for the application.
      * 
-     * @param  array|bool  $discover
-     * 
+     * @param  array|bool  $discover 
      * @return static
      */
     public function assignEvents(array|bool $discover = []): static
@@ -205,8 +200,7 @@ class ApplicationBootstrap
      * Register additional service providers.
      * 
      * @param  array  $providers
-     * @param  bool  $assignBootstrapProviders
-     * 
+     * @param  bool  $assignBootstrapProviders 
      * @return static
      */
     public function assignProviders(array $providers = [], bool $assignBootstrapProviders = true): static
@@ -224,8 +218,7 @@ class ApplicationBootstrap
     /**
      * Register the global middleware, middleware groups, and middleware aliases for the application.
      * 
-     * @param  callable|null  $callback
-     * 
+     * @param  callable|null  $callback 
      * @return static
      */
     public function assignMiddlewares(?callable $callback = null): static
@@ -253,8 +246,7 @@ class ApplicationBootstrap
     /**
      * Register additional Prime commands with the application.
      * 
-     * @param  array  $commands
-     * 
+     * @param  array  $commands 
      * @return static
      */
     public function assignCommands(array $commands = []): static 
@@ -280,8 +272,7 @@ class ApplicationBootstrap
     /**
      * Register additional Prime route paths.
      * 
-     * @param  array  $paths
-     * 
+     * @param  array  $paths 
      * @return static
      */
     protected function assingCommandRouting(array $paths): static
@@ -296,8 +287,7 @@ class ApplicationBootstrap
     /**
      * Register an array of container bindings to be bound when the application is booting.
      *
-     * @param  array  $bindings
-     * 
+     * @param  array  $bindings 
      * @return static
      */
     public function withBindings(array $bindings): static
@@ -312,8 +302,7 @@ class ApplicationBootstrap
     /**
      * Register an array of singleton container bindings to be bound when the application is booting.
      *
-     * @param  array  $singletons
-     * 
+     * @param  array  $singletons 
      * @return static
      */
     public function withSingletons(array $singletons): static
@@ -332,8 +321,7 @@ class ApplicationBootstrap
     /**
      * Register a callback to be invoked when the application's service providers are registered.
      *
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return static
      */
     public function registered(callable $callback): static
@@ -346,8 +334,7 @@ class ApplicationBootstrap
     /**
      * Register a callback to be invoked when the application is "booting".
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return static
      */
     public function booting(callable $callback): static
@@ -360,8 +347,7 @@ class ApplicationBootstrap
     /**
      * Register a callback to be invoked when the application is "booted".
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return static
      */
     public function booted(callable $callback): static

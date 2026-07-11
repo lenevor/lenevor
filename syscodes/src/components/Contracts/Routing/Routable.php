@@ -33,7 +33,6 @@ interface Routable
 	 *
 	 * @param  string  $route
 	 * @param  \Closure|array|string  $action
-	 *
 	 * @return void
 	 */
 	public function any($route, $action);
@@ -43,7 +42,6 @@ interface Routable
 	 *
 	 * @param  string  $route
 	 * @param  \Closure|array|string  $action
-	 *
 	 * @return void
 	 */
 	public function delete($route, $action);
@@ -53,7 +51,6 @@ interface Routable
 	 * 
 	 * @param  string  $route
 	 * @param  \Closure|array|string  $action
-	 *
 	 * @return void
 	 */
 	public function get($route, $action);
@@ -63,7 +60,6 @@ interface Routable
 	 *
 	 * @param  string  $route
 	 * @param  \Closure|array|string  $action
-	 *
 	 * @return void
 	 */
 	public function head($route, $action);
@@ -73,8 +69,7 @@ interface Routable
 	 * 
 	 * @param  array|string  $methods
 	 * @param  string  $route
-	 * @param  string|callable|null  $action
-	 * 
+	 * @param  string|callable|null  $action 
 	 * @return void
 	 */
 	public function match($methods, $route, $action = null);
@@ -84,7 +79,6 @@ interface Routable
 	 *
 	 * @param  string  $route
 	 * @param  \Closure|array|string  $action
-	 *
 	 * @return void
 	 */
 	public function options($route, $action);
@@ -94,7 +88,6 @@ interface Routable
 	 *
 	 * @param  string  $route
 	 * @param  \Closure|array|string  $action
-	 *
 	 * @return void
 	 */
 	public function patch($route, $action);
@@ -104,7 +97,6 @@ interface Routable
 	 *
 	 * @param  string  $route
 	 * @param  \Closure|array|string  $action
-	 *
 	 * @return void
 	 */
 	public function post($route, $action);
@@ -114,7 +106,6 @@ interface Routable
 	 *
 	 * @param  string  $route
 	 * @param  \Closure|array|string  $action
-	 *
 	 * @return void
 	 */
 	public function put($route, $action);
@@ -135,7 +126,6 @@ interface Routable
 	 * 
 	 * @param  array  $attributes
 	 * @param  \Closure|array|string  $routes
-	 *
 	 * @return void
 	 */
 	public function group(array $attributes, $routes): void;

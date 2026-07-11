@@ -48,8 +48,7 @@ class ServiceUnavailableHttpException extends HttpException
 	 * @param  string|null $message
 	 * @param  \Throwable|null  $previous
 	 * @param  int  $code
-	 * @param  array  $headers
-	 * 
+	 * @param  array  $headers 
 	 * @return void
 	 */
 	public function __construct(

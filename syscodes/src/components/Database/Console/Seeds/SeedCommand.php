@@ -63,8 +63,7 @@ class SeedCommand extends Command
     /**
      * Constructor. Create a new database seed command instance.
      *
-     * @param  \Syscodes\Components\Database\ConnectionResolverInterface  $resolver
-     * 
+     * @param  \Syscodes\Components\Database\ConnectionResolverInterface  $resolver 
      * @return void
      */
     public function __construct(Resolver $resolver)

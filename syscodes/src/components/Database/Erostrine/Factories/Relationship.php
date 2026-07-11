@@ -49,8 +49,7 @@ class Relationship
      * Constructor. Create a new child relationship instance.
      *
      * @param  \Syscodes\Components\Database\Erostrine\Factories\Factory  $factory
-     * @param  string  $relationship
-     * 
+     * @param  string  $relationship 
      * @return void
      */
     public function __construct(Factory $factory, $relationship)
@@ -62,8 +61,7 @@ class Relationship
     /**
      * Create the child relationship for the given parent model.
      *
-     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent 
      * @return void
      */
     public function createFor(Model $parent)
@@ -84,8 +82,7 @@ class Relationship
     /**
      * Specify the model instances to always use when creating relationships.
      *
-     * @param  \Syscodes\Components\Support\Collection  $recycle
-     * 
+     * @param  \Syscodes\Components\Support\Collection  $recycle 
      * @return static
      */
     public function recycle($recycle): static

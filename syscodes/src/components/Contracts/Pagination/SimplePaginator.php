@@ -30,8 +30,7 @@ interface SimplePaginator
     /**
      * Get the URL for a given page number.
      * 
-     * @param  int  $page
-     * 
+     * @param  int  $page 
      * @return string
      */
     public function url(int $page): string;
@@ -47,8 +46,7 @@ interface SimplePaginator
      * Add a set of query string values to the paginator.
      * 
      * @param  array|string  $keys
-     * @param  string|null  $value
-     * 
+     * @param  string|null  $value 
      * @return static
      */
     public function appends($keys, $value = null): static;
@@ -127,8 +125,7 @@ interface SimplePaginator
      * Render the paginator using the given view.
      * 
      * @param  string|null  $view
-     * @param  array  $data
-     * 
+     * @param  array  $data 
      * @return string
      */
     public function render($view = null, $data = []);

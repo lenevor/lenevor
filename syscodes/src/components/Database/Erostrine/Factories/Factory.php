@@ -139,8 +139,7 @@ abstract class Factory
      * @param  \Syscodes\Components\Support\Collection|null  $afterMaking
      * @param  \Syscodes\Components\Support\Collection|null  $afterCreating
      * @param  string|null  $connection
-     * @param  \Syscodes\Components\Support\Collection|null  $recycle
-     * 
+     * @param  \Syscodes\Components\Support\Collection|null  $recycle 
      * @return void
      */
     public function __construct(
@@ -173,8 +172,7 @@ abstract class Factory
     /**
      * Get a new factory instance for the given attributes.
      *
-     * @param  callable|array  $attributes
-     * 
+     * @param  callable|array  $attributes 
      * @return static
      */
     public static function new($attributes = []): static
@@ -185,8 +183,7 @@ abstract class Factory
     /**
      * Get a new factory instance for the given number of models.
      *
-     * @param  int  $count
-     * 
+     * @param  int  $count 
      * @return static
      */
     public static function times(int $count): static
@@ -225,8 +222,7 @@ abstract class Factory
     /**
      * Create a single model and persist it to the database.
      *
-     * @param  array  $attributes
-     * 
+     * @param  array  $attributes 
      * @return \Syscodes\Components\Database\Erostrine\Model
      */
     public function createOne($attributes = [])
@@ -237,8 +233,7 @@ abstract class Factory
     /**
      * Create a single model and persist it to the database.
      *
-     * @param  array  $attributes
-     * 
+     * @param  array  $attributes 
      * @return \Syscodes\Components\Database\Erostrine\Model
      */
     public function createOneQuietly($attributes = [])
@@ -249,8 +244,7 @@ abstract class Factory
     /**
      * Create a collection of models and persist them to the database.
      *
-     * @param  int|iterable|null  $records
-     * 
+     * @param  int|iterable|null  $records 
      * @return \Syscodes\Components\Database\Erostrine\Collection
      */
     public function createMany(int|iterable|null $records)
@@ -273,8 +267,7 @@ abstract class Factory
     /**
      * Create a collection of models and persist them to the database.
      *
-     * @param  iterable  $records
-     * 
+     * @param  iterable  $records 
      * @return \Syscodes\Components\Database\Erostrine\Collection
      */ 
     public function createManyQuietly(iterable $records)
@@ -288,8 +281,7 @@ abstract class Factory
      * Create a collection of models and persist them to the database.
      *
      * @param  array  $attributes
-     * @param  \Syscodes\Components\Database\Erostrine\Model|null  $parent
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model|null  $parent 
      * @return \Syscodes\Components\Database\Erostrine\Collection|\Syscodes\Components\Database\Erostrine\Model
      */
     public function create($attributes = [], ?Model $parent = null)
@@ -316,8 +308,7 @@ abstract class Factory
      * Create a collection of models and persist them to the database.
      *
      * @param  array  $attributes
-     * @param  \Syscodes\Components\Database\Erostrine\Model|null  $parent
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model|null  $parent 
      * @return \Syscodes\Components\Database\Erostrine\Collection|\Syscodes\Components\Database\Erostrine\Model
      */
     public function createQuietly($attributes = [], ?Model $parent = null)
@@ -331,8 +322,7 @@ abstract class Factory
      * Create a callback that persists a model in the database when invoked.
      *
      * @param  array  $attributes
-     * @param  \Syscodes\Components\Database\Erostrine\Model|null  $parent
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model|null  $parent 
      * @return Closure
      */
     public function lazy(array $attributes = [], ?Model $parent = null): Closure
@@ -345,8 +335,7 @@ abstract class Factory
     /**
      * Set the connection name on the results and store them.
      *
-     * @param  \Syscodes\Components\Support\Collection  $results
-     * 
+     * @param  \Syscodes\Components\Support\Collection  $results 
      * @return void
      */
     protected function store(Collection $results)
@@ -365,8 +354,7 @@ abstract class Factory
     /**
      * Create the children for the given model.
      *
-     * @param  \Syscodes\Components\Database\Erostrine\Model  $model
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $model 
      * @return void
      */
     protected function createChildren(Model $model)
@@ -381,8 +369,7 @@ abstract class Factory
     /**
      * Make a single instance of the model.
      *
-     * @param  callable|array  $attributes
-     * 
+     * @param  callable|array  $attributes 
      * @return \Syscodes\Components\Database\Erostrine\Model
      */
     public function makeOne($attributes = [])
@@ -394,8 +381,7 @@ abstract class Factory
      * Create a collection of models.
      *
      * @param  array  $attributes
-     * @param  \Syscodes\Components\Database\Erostrine\Model|null  $parent
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model|null  $parent 
      * @return \Syscodes\Components\Database\Erostrine\Collection|\Syscodes\Components\Database\Erostrine\Model
      */
     public function make($attributes = [], ?Model $parent = null)
@@ -426,8 +412,7 @@ abstract class Factory
     /**
      * Make an instance of the model with the given attributes.
      *
-     * @param  \Syscodes\Components\Database\Erostrine\Model|null  $parent
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model|null  $parent 
      * @return \Syscodes\Components\Database\Erostrine\Model
      */
     protected function makeInstance(?Model $parent)
@@ -445,7 +430,6 @@ abstract class Factory
      * Get a raw attributes array for the model.
      *
      * @param  \Syscodes\Components\Database\Erostrine\Model|null  $parent
-     * 
      * @return mixed
      */
     protected function getExpandedAttributes(?Model $parent)
@@ -456,8 +440,7 @@ abstract class Factory
     /**
      * Get the raw attributes for the model as an array.
      *
-     * @param  \Syscodes\Components\Database\Erostrine\Model|null  $parent
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model|null  $parent 
      * @return array
      */
     protected function getRawAttributes(?Model $parent): array
@@ -493,8 +476,7 @@ abstract class Factory
     /**
      * Expand all attributes to their underlying values.
      *
-     * @param  array  $definition
-     * 
+     * @param  array  $definition 
      * @return array
      */
     protected function expandAttributes(array $definition): array
@@ -520,8 +502,7 @@ abstract class Factory
     /**
      * Add a new state transformation to the model definition.
      *
-     * @param  callable|array  $state
-     * 
+     * @param  callable|array  $state 
      * @return static
      */
     public function state($state): static
@@ -538,8 +519,7 @@ abstract class Factory
     /**
      * Prepend a new state transformation to the model definition.
      *
-     * @param  callable|array  $state
-     * 
+     * @param  callable|array  $state 
      * @return static
      */
     public function prependState($state): static
@@ -554,8 +534,7 @@ abstract class Factory
     /**
      * Add a new sequenced state transformation to the model definition.
      *
-     * @param  array  $sequence
-     * 
+     * @param  array  $sequence 
      * @return static
      */
     public function sequence(...$sequence): static
@@ -566,8 +545,7 @@ abstract class Factory
     /**
      * Add a new cross joined sequenced state transformation to the model definition.
      *
-     * @param  array  $sequence
-     * 
+     * @param  array  $sequence 
      * @return static
      */
     public function crossJoinSequence(...$sequence): static
@@ -579,8 +557,7 @@ abstract class Factory
      * Define a child relationship for the model.
      *
      * @param  \Syscodes\Components\Database\Erostrine\Factories\Factory  $factory
-     * @param  string|null  $relationship
-     * 
+     * @param  string|null  $relationship 
      * @return static
      */
     public function has(self $factory, $relationship = null): static
@@ -595,8 +572,7 @@ abstract class Factory
     /**
      * Attempt to guess the relationship name for a "has" relationship.
      *
-     * @param  string  $related
-     * 
+     * @param  string  $related 
      * @return string
      */
     protected function guessRelationship(string $related): string
@@ -611,8 +587,7 @@ abstract class Factory
      *
      * @param  \Syscodes\Components\Database\Erostrine\Factories\Factory|\Syscodes\Components\Support\Collection|\Syscodes\Components\Database\Erostrine\Model  $factory
      * @param  callable|array  $pivot
-     * @param  string|null  $relationship
-     * 
+     * @param  string|null  $relationship 
      * @return static
      */
     public function hasAttached($factory, $pivot = [], $relationship = null)
@@ -650,8 +625,7 @@ abstract class Factory
      /**
      * Provide model instances to use instead of any nested factory calls when creating relationships.
      *
-     * @param  \Syscodes\Components\Database\Erostrine\Model|\Syscodes\Components\Support\Collection|array  $model
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model|\Syscodes\Components\Support\Collection|array  $model 
      * @return static
      */
     public function recycle($model): static
@@ -680,8 +654,7 @@ abstract class Factory
     /**
      * Add a new "after creating" callback to the model definition.
      *
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return static
      */
     public function afterCreating(Closure $callback): static
@@ -693,7 +666,6 @@ abstract class Factory
      * Call the "after making" callbacks for the given model instances.
      *
      * @param  \Syscodes\Components\Support\Collection  $instances
-     
      * @return void
      */
     protected function callAfterMaking(Collection $instances)
@@ -710,7 +682,6 @@ abstract class Factory
      *
      * @param  \Syscodes\Components\Support\Collection  $instances
      * @param  \Syscodes\Components\Database\Erostrine\Model|null  $parent
-
      * @return void
      */
     protected function callAfterCreating(Collection $instances, ?Model $parent = null)
@@ -726,7 +697,6 @@ abstract class Factory
      * Specify how many models should be generated.
      *
      * @param  int|null  $count
-
      * @return static
      */
     public function count(?int $count): static
@@ -748,7 +718,6 @@ abstract class Factory
      * Specify the database connection that should be used to generate models.
      *
      * @param  string  $connection
-
      * @return static
      */
     public function connection(string $connection): static
@@ -760,7 +729,6 @@ abstract class Factory
      * Create a new instance of the factory builder with the given mutated properties.
      *
      * @param  array  $arguments
-
      * @return static
      */
     protected function newInstance(array $arguments = []): static
@@ -779,8 +747,7 @@ abstract class Factory
     /**
      * Get a new model instance.
      *
-     * @param  array  $attributes
-     * 
+     * @param  array  $attributes 
      * @return \Syscodes\Components\Database\Erostrine\Model
      */
     public function newModel(array $attributes = []): Model
@@ -822,7 +789,6 @@ abstract class Factory
      * Specify the callback that should be invoked to guess model names based on factory names.
      *
      * @param  callable  $callback
-     * 
      * @return void
      */
     public static function guessModelNamesUsing(callable $callback): void
@@ -833,8 +799,7 @@ abstract class Factory
     /**
      * Specify the default namespace that contains the application's model factories.
      *
-     * @param  string  $namespace
-     * 
+     * @param  string  $namespace 
      * @return void
      */
     public static function useNamespace(string $namespace): void
@@ -845,8 +810,7 @@ abstract class Factory
     /**
      * Get a new factory instance for the given model name.
      *
-     * @param  string  $modelName
-     * 
+     * @param  string  $modelName 
      * @return static
      */
     public static function factoryForModel(string $modelName): static
@@ -859,8 +823,7 @@ abstract class Factory
     /**
      * Specify the callback that should be invoked to guess factory names based on dynamic relationship names.
      *
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return void
      */
     public static function guessFactoryNamesUsing(callable $callback)
@@ -871,8 +834,7 @@ abstract class Factory
     /**
      * Get the factory name for the given model name.
      *
-     * @param  string  $modelName
-     * 
+     * @param  string  $modelName 
      * @return string
      */
     public static function resolveFactoryName(string $modelName): string
@@ -912,8 +874,7 @@ abstract class Factory
      * Proxy dynamic factory methods onto their proper methods.
      *
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      */
     public function __call($method, $parameters)

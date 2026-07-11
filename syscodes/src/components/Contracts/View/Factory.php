@@ -33,7 +33,6 @@ interface Factory
 	 * Check existance view file.
 	 * 
 	 * @param  string  $view
-	 *
 	 * @return bool
 	 */
     public function exists($view): bool;
@@ -44,8 +43,7 @@ interface Factory
      * @param  string  $path  Path filename
      * @param  \Syscodes\Components\Contracts\Support\Arrayable|array  $data  Array of values
      * @param  array  $mergeData  Array of merge data
-
-     * @return \Syscodes\Components\Contracts\View\View
+	 * @return \Syscodes\Components\Contracts\View\View
      */
     public function file($path, $data = [], $mergeData = []);
 
@@ -58,7 +56,6 @@ interface Factory
 	 * @param  string  $view  View filename
 	 * @param  \Syscodes\Components\Contracts\Support\Arrayable|array  $data  Array of values
 	 * @param  array  $mergeData  Array of merge data
-	 *
 	 * @return \Syscodes\Components\Contracts\View\View
 	 */
     public function make($view, $data = [], $mergeData = []);
@@ -66,8 +63,7 @@ interface Factory
     /**
 	 * Call the creator for a given view.
 	 * 
-	 * @param  \Syscodes\Components\View\View  $view
-	 * 
+	 * @param  \Syscodes\Components\View\View  $view 
 	 * @return void
 	 */
 	public function callCreator(View $view): void;
@@ -76,8 +72,7 @@ interface Factory
 	 * Add a piece of shared data to the environment.
 	 * 
 	 * @param  array|string  $key
-	 * @param  mixed|null  $value  
-	 * 
+	 * @param  mixed|null  $value
 	 * @return mixed
 	 */
 	public function share($key, $value = null);
@@ -86,8 +81,7 @@ interface Factory
 	 * Add a new namespace to the loader.
 	 * 
 	 * @param  string  $namespace
-	 * @param  string|array  $hints
-	 * 
+	 * @param  string|array  $hints 
 	 * @return static
 	 */
 	public function addNamespace($namespace, $hints): static;
@@ -96,8 +90,7 @@ interface Factory
 	 * Replace the namespace hints for the given namespace.
 	 * 
 	 * @param  string  $namespace
-	 * @param  string|array  $hints
-	 * 
+	 * @param  string|array  $hints 
 	 * @return self
 	 */
 	public function replaceNamespace($namespace, $hints): self;

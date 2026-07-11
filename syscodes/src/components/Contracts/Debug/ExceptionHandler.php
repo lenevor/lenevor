@@ -32,8 +32,7 @@ interface ExceptionHandler
     /**
      * Report or log an exception.
      * 
-     * @param  \Throwable  $e
-     * 
+     * @param  \Throwable  $e 
      * @return mixed
      * 
      * @throws \Exception
@@ -43,8 +42,7 @@ interface ExceptionHandler
     /**
      * Register a reportable callback.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return static
      */
     public function reportable(callable $callback): static;
@@ -52,8 +50,7 @@ interface ExceptionHandler
     /**
      * Determine if the exception should be reported.
      * 
-     * @param  \Throwable  $e
-     * 
+     * @param  \Throwable  $e 
      * @return bool
      */
     public function shouldReport(Throwable $e): bool;
@@ -61,8 +58,7 @@ interface ExceptionHandler
     /**
      * Determine if the exception is in the "do not report" list.
      * 
-     * @param  \Throwable  $e
-     * 
+     * @param  \Throwable  $e 
      * @return bool
      */
     public function shouldntReport(Throwable $e): bool;
@@ -71,8 +67,7 @@ interface ExceptionHandler
      * Render an exception into an HTTP response.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Throwable  $e
-     * 
+     * @param  \Throwable  $e 
      * @return \Syscodes\Components\Http\Response
      */
     public function render($request, Throwable $e);
@@ -80,8 +75,7 @@ interface ExceptionHandler
     /**
      * Register a renderable callback.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return static
      */
     public function renderable(callable $callback): static;
@@ -90,8 +84,7 @@ interface ExceptionHandler
      * Render an exception to the console.
      * 
      * @param  \Symfony\Component\Console\Output\ConsoleOutput  $output
-     * @param  \Throwable  $e
-     * 
+     * @param  \Throwable  $e 
      * @return void
      */
     public function renderForConsole($output, Throwable $e);

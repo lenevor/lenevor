@@ -45,8 +45,7 @@ class StatementPrepared
      * Constructor. Create a new event instance.
      * 
      * @param  \Syscodes\Components\Database\Connections\Connection  $connection
-     * @param  \PDOStatement  $statement
-     * 
+     * @param  \PDOStatement  $statement 
      * @return void
      */
     public function __construct($connection, $statement)

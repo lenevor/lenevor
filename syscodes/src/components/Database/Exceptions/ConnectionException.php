@@ -34,8 +34,7 @@ class ConnectionException extends PDOException
      * Constructor. Create a new query exception instance.
      * 
      * @param  string  $message
-     * @param  \Exception  $exception
-     * 
+     * @param  \Exception  $exception 
      * @return void
      */
     public function __construct(string $message, Exception $exception)

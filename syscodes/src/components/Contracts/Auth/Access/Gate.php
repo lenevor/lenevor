@@ -30,8 +30,7 @@ interface Gate
     /**
      * Determine if a given ability has been defined.
      * 
-     * @param  string[]  $ability
-     * 
+     * @param  string[]  $ability 
      * @return bool
      */
     public function has($ability): bool;
@@ -40,8 +39,7 @@ interface Gate
      * Define a new ability.
      * 
      * @param  string  $ability
-     * @param  callable|string  $callback
-     * 
+     * @param  callable|string  $callback 
      * @return static
      */
     public function define(string $ability, callable|string $callback): static;
@@ -51,8 +49,7 @@ interface Gate
      * 
      * @param  string  $name
      * @param  string  $class
-     * @param  array|null  $abilities
-     * 
+     * @param  array|null  $abilities 
      * @return static
      */
     public function resource(string $name, string $class, ?array $abilities = null): static;
@@ -61,8 +58,7 @@ interface Gate
      * Define a policy class for a given class type.
      * 
      * @param  string  $class
-     * @param  string  $policy
-     * 
+     * @param  string  $policy 
      * @return static
      */
     public function policy(string $class, string $policy): static;
@@ -70,8 +66,7 @@ interface Gate
     /**
      * Register a callback to run before all Gate checks.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return static
      */
     public function before(callable $callback): static;
@@ -79,8 +74,7 @@ interface Gate
     /**
      * Register a callback to run after all Gate checks.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return static
      */
     public function after(callable $callback): static;
@@ -89,8 +83,7 @@ interface Gate
      * Determine if the given ability should be granted for the current user.
      * 
      * @param  string  $ability
-     * @param  array  $arguments
-     * 
+     * @param  array  $arguments 
      * @return bool
      */
     public function allows(string $ability, array $arguments = []): bool;
@@ -99,8 +92,7 @@ interface Gate
      * Determine if the given ability should be denied for the current user.
      * 
      * @param  string  $ability
-     * @param  array  $arguments
-     * 
+     * @param  array  $arguments 
      * @return bool
      */
     public function denies(string $ability, array $arguments = []): bool;
@@ -109,8 +101,7 @@ interface Gate
      * Determine if the given ability should be granted.
      * 
      * @param  string  $ability
-     * @param  array  $arguments
-     * 
+     * @param  array  $arguments 
      * @return bool
      */
     public function check(string $ability, array $arguments = []): bool;
@@ -119,8 +110,7 @@ interface Gate
      * Determine if any one of the given abilities should be granted for the current user.
      * 
      * @param  iterable|string  $abilities
-     * @param  array  $arguments
-     * 
+     * @param  array  $arguments 
      * @return bool
      */
     public function any($abilities, array $arguments = []): bool;
@@ -129,8 +119,7 @@ interface Gate
      * Determine if the given ability should be granted for the current user.
      * 
      * @param  string  $ability
-     * @param  array  $arguments
-     * 
+     * @param  array  $arguments 
      * @return \Syscodes\Components\Auth\Access\Response
      * 
      * @throws \Syscodes\Components\Auth\Access\Exceptions\AuthorizationException
@@ -141,8 +130,7 @@ interface Gate
      * Inspect the user for the given ability.
      * 
      * @param  string  $ability
-     * @param  array  $arguments
-     * 
+     * @param  array  $arguments 
      * @return \Syscodes\Components\Auth\Access\Response
      */
     public function inspect(string $ability, array $arguments = []);
@@ -151,8 +139,7 @@ interface Gate
      * Get the raw result from the authorization callback.
      * 
      * @param  string  $ability
-     * @param  array  $arguments
-     * 
+     * @param  array  $arguments 
      * @return mixed
      * 
      * @throws \Syscodes\Components\Auth\Access\Exceptions\AuthorizationException
@@ -162,8 +149,7 @@ interface Gate
     /**
      * Get a policy instance for a given class.
      * 
-     * @param  object|string  $class
-     * 
+     * @param  object|string  $class 
      * @return mixed
      * 
      * @throws \InvalidArgumentException
@@ -173,8 +159,7 @@ interface Gate
     /**
      * Get a guard instance for the given user.
      * 
-     * @param  \Syscodes\Components\Contracts\Auth\Authenticatable|mixed  $user
-     * 
+     * @param  \Syscodes\Components\Contracts\Auth\Authenticatable|mixed  $user 
      * @return static
      */
     public function forUser($user): static;

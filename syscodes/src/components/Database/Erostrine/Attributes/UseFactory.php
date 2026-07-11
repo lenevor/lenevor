@@ -33,8 +33,7 @@ class UseFactory
     /**
      * Constructor. Create a new attribute instance.
      *
-     * @param  string  $factoryClass
-     * 
+     * @param  string  $factoryClass 
      * @return void
      */
     public function __construct(public string $factoryClass)

@@ -57,8 +57,7 @@ class MigrationCreator
      * Constructor. Create a new migration creator instance.
      *
      * @param  \Syscodes\Components\Filesystem\Filesystem  $files
-     * @param  string  $customTemplatePath
-     * 
+     * @param  string  $customTemplatePath 
      * @return void
      */
     public function __construct(Filesystem $files, $customTemplatePath)
@@ -73,8 +72,7 @@ class MigrationCreator
      * @param  string  $name
      * @param  string  $path
      * @param  string|null  $table
-     * @param  bool  $create
-     * 
+     * @param  bool  $create 
      * @return string
      *
      * @throws \Exception
@@ -102,8 +100,7 @@ class MigrationCreator
      * Ensure that a migration with the given name doesn't already exist.
      *
      * @param  string  $name
-     * @param  string|null  $migrationPath
-     * 
+     * @param  string|null  $migrationPath 
      * @return void
      *
      * @throws \InvalidArgumentException
@@ -127,8 +124,7 @@ class MigrationCreator
      * Get the migration template file.
      *
      * @param  string|null  $table
-     * @param  bool  $create
-     * 
+     * @param  bool  $create 
      * @return string
      */
     protected function getTemplate($table, $create): string
@@ -154,8 +150,7 @@ class MigrationCreator
      * Populate the place-holders in the migration template.
      *
      * @param  string  $template
-     * @param  string|null  $table
-     * 
+     * @param  string|null  $table 
      * @return string
      */
     protected function populateTemplate($template, $table): string
@@ -173,8 +168,7 @@ class MigrationCreator
     /**
      * Get the class name of a migration name.
      *
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return string
      */
     protected function getClassName($name): string
@@ -186,8 +180,7 @@ class MigrationCreator
      * Get the full path to the migration.
      *
      * @param  string  $name
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return string
      */
     protected function getPath($name, $path): string
@@ -199,8 +192,7 @@ class MigrationCreator
      * Fire the registered post create hooks.
      *
      * @param  string|null  $table
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return void
      */
     protected function firePostCreateHooks($table, $path): void
@@ -213,8 +205,7 @@ class MigrationCreator
     /**
      * Register a post migration create hook.
      *
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return void
      */
     public function afterCreate(Closure $callback): void

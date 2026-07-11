@@ -30,8 +30,7 @@ interface CanBeEscapedWhenLoadToString
     /**
      * Indicate that the paginator's string representation should be escaped when __toString is invoked.
      *
-     * @param  bool  $escape
-     * 
+     * @param  bool  $escape 
      * @return static
      */
     public function escapeWhenLoadingToString($escape = true): static;

@@ -59,8 +59,7 @@ class MigrateMakeCommand extends BaseMigrationCommand implements PromptsForMissi
     /**
      * Constructor. Create a new migration install command instance.
      *
-     * @param  \Syscodes\Components\Database\Migrations\MigrationCreator  $creator
-     * 
+     * @param  \Syscodes\Components\Database\Migrations\MigrationCreator  $creator 
      * @return void
      */
     public function __construct(MigrationCreator $creator)
@@ -110,8 +109,7 @@ class MigrateMakeCommand extends BaseMigrationCommand implements PromptsForMissi
      *
      * @param  string  $name
      * @param  string  $table
-     * @param  bool  $create
-     * 
+     * @param  bool  $create 
      * @return void
      */
     protected function writeMigration($name, $table, $create)

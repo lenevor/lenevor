@@ -66,8 +66,7 @@ class RequestMakeCommand extends GeneratorCommand
     /**
      * Resolve the fully-qualified path to the template.
      *
-     * @param  string  $template
-     * 
+     * @param  string  $template 
      * @return string
      */
     protected function resolveTemplatePath($template): string
@@ -80,8 +79,7 @@ class RequestMakeCommand extends GeneratorCommand
     /**
      * Get the default namespace for the class.
      *
-     * @param  string  $rootNamespace
-     * 
+     * @param  string  $rootNamespace 
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace): string

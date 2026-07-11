@@ -30,8 +30,7 @@ interface Repository
     /**
      * Get an environment variable.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return mixed
      */
     public function get(string $name);
@@ -40,8 +39,7 @@ interface Repository
      * Set an environment variable.
      * 
      * @param  string  $name
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return bool
      */
     public function set(string $name, string $value): bool;
@@ -49,8 +47,7 @@ interface Repository
     /**
      * Clear an environment variable.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     public function clear(string $name): bool;

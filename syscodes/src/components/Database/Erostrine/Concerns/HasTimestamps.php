@@ -75,8 +75,7 @@ trait HasTimestamps
     /**
      * Set the value of the "created at" attribute.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return static
      */
     public function setCreatedAt($value): static
@@ -89,8 +88,7 @@ trait HasTimestamps
     /**
      * Set the value of the "updated at" attribute.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return static
      */
     public function setUpdatedAt($value): static
@@ -163,8 +161,7 @@ trait HasTimestamps
     /**
      * Convert a DateTime to a storable string.
      * 
-     * @param  \DateTime|int  $value
-     * 
+     * @param  \DateTime|int  $value 
      * @return string
      */
     public function fromDateTime($value): string

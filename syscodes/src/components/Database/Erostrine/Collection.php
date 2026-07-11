@@ -39,8 +39,7 @@ class Collection extends BaseCollection
      * Find a model in the collection by key.
      * 
      * @param  mixed  $key
-     * @param  mixed  $default
-     * 
+     * @param  mixed  $default 
      * @return \Syscodes\Components\Database\Erostrine\Model
      */
     public function find($key, $default = null)
@@ -67,8 +66,7 @@ class Collection extends BaseCollection
      /**
      * Find a model in the collection by key or throw an exception.
      *
-     * @param  mixed  $key
-     * 
+     * @param  mixed  $key 
      * @return \Syscodes\Components\Database\Erostrine\Model
      *
      * @throws \Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException
@@ -99,8 +97,7 @@ class Collection extends BaseCollection
     /**
      * Load a set of relationships onto the collection.
      * 
-     * @param  mixed  $relations
-     * 
+     * @param  mixed  $relations 
      * @return static
      */
     public function load($relations): static
@@ -119,8 +116,7 @@ class Collection extends BaseCollection
     /**
      * Add an item to the collection.
      * 
-     * @param  mixed  $item
-     * 
+     * @param  mixed  $item 
      * @return static
      */
     public function add($item): static
@@ -135,8 +131,7 @@ class Collection extends BaseCollection
      * 
      * @param  mixed  $key
      * @param  mixed  $operator
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      */
     public function contains($key, $operator = null, $value = null): bool
@@ -155,8 +150,7 @@ class Collection extends BaseCollection
     /**
      * Fetch a nested element of the collection.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return static
      */
     public function fetch($key): static
@@ -168,7 +162,6 @@ class Collection extends BaseCollection
      * Get the max value of a given key.
      * 
      * @param  string  $key
-     *
      * @return mixed
      */
     public function max($key)
@@ -179,8 +172,7 @@ class Collection extends BaseCollection
     /**
      * Get the min value of a given key.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return mixed
      */
     public function min($key)
@@ -201,8 +193,7 @@ class Collection extends BaseCollection
     /**
      * Merge the collection with the given items.
      * 
-     * @param  \ArrayAccess|array  $items
-     * 
+     * @param  \ArrayAccess|array  $items 
      * @return static
      */
     public function merge($items): static
@@ -219,8 +210,7 @@ class Collection extends BaseCollection
     /**
      * Diff the collection with the given items.
      * 
-     * @param  \ArrayAccess|array  $items
-     * 
+     * @param  \ArrayAccess|array  $items 
      * @return static
      */
     public function diff($items): static
@@ -241,8 +231,7 @@ class Collection extends BaseCollection
     /**
      * Intersect the collection with the given items.
      * 
-     * @param  \ArrayAccess|array  $items
-     * 
+     * @param  \ArrayAccess|array  $items 
      * @return static
      */
     public function intersect($items): static
@@ -264,8 +253,7 @@ class Collection extends BaseCollection
      * Return only unique items from the collection.
      * 
      * @param  callable|string|null  $key
-     * @param  bool  $strict
-     * 
+     * @param  bool  $strict 
      * @return static
      */
     public function unique($key = null, $strict = false): static
@@ -280,8 +268,7 @@ class Collection extends BaseCollection
     /**
      * Returns only the models from the collection with the specified keys.
      * 
-     * @param  mixed  $keys
-     * 
+     * @param  mixed  $keys 
      * @return static
      */
     public function only($keys): static
@@ -294,8 +281,7 @@ class Collection extends BaseCollection
     /**
      * Returns all models in the collection except the models with specified keys.
      * 
-     * @param  mixed  $keys
-     * 
+     * @param  mixed  $keys 
      * @return static
      */
     public function except($keys): static
@@ -308,8 +294,7 @@ class Collection extends BaseCollection
     /**
      * Get a dictionary keyed by primary keys.
      * 
-     * @param  \ArrayAccess|array  $items
-     * 
+     * @param  \ArrayAccess|array  $items 
      * @return array
      */
     public function getDictionary($items = null): array
@@ -329,8 +314,7 @@ class Collection extends BaseCollection
      * Get an array with the values of a given key.
      * 
      * @param string|array|int|null  $value
-     * @param  string|null  $key
-     * 
+     * @param  string|null  $key 
      * @return static
      */
     public function pluck($value, ?string $key = null): static

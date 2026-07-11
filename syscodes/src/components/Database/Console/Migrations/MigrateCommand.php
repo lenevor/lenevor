@@ -66,8 +66,7 @@ class MigrateCommand extends BaseMigrationCommand
      * Constructor. Create a new migration command instance.
      * 
      * @param  \Syscodes\Components\Database\Migrations\Migrator  $migrator
-     * @param  \Syscodes\Components\Contracts\Events\Dispatcher  $dispatcher
-     * 
+     * @param  \Syscodes\Components\Contracts\Events\Dispatcher  $dispatcher 
      * @return void
      */
     public function __construct(Migrator $migrator, Dispatcher $dispatcher)

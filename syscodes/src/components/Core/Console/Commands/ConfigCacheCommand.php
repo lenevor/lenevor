@@ -60,7 +60,8 @@ class ConfigCacheCommand extends Command
     /**
      * Create a new config cache command instance.
      *
-     * @param  \Syscodes\Components\Filesystem\Filesystem  $files
+     * @param  \Syscodes\Components\Filesystem\Filesystem  $files 
+     * @return void
      */
     public function __construct(Filesystem $files)
     {

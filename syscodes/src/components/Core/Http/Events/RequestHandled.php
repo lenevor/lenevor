@@ -46,7 +46,6 @@ class RequestHandled
      * 
      * @param  \Syscodes\Components\Http\Request  $request
      * @param  \Syscodes\Components\Http\Response  $response
-     *
      * @return void 
      */
     public function __construct($request, $response)

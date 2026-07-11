@@ -76,8 +76,7 @@ class ExceptionMakeCommand extends GeneratorCommand
     /**
      * Determine if the class already exists.
      *
-     * @param  string  $rawName
-     * 
+     * @param  string  $rawName 
      * @return bool
      */
     protected function alreadyExists($rawName): bool
@@ -88,8 +87,7 @@ class ExceptionMakeCommand extends GeneratorCommand
     /**
      * Get the default namespace for the class.
      *
-     * @param  string  $rootNamespace
-     * 
+     * @param  string  $rootNamespace 
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace): string
@@ -101,8 +99,7 @@ class ExceptionMakeCommand extends GeneratorCommand
      * Interact further with the user if they were prompted for missing arguments.
      *
      * @param  \Symfony\Component\Console\Input\InputInterface  $input
-     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
-     * 
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output 
      * @return void
      */
     protected function afterPromptingForMissingArguments(InputInterface $input, OutputInterface $output): void

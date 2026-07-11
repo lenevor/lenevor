@@ -70,8 +70,7 @@ trait HasEvents
     /**
      * Set the observable event names.
      * 
-     * @param  array  $observables
-     * 
+     * @param  array  $observables 
      * @return static
      */
     public function setObservableEvents(array $observables): static
@@ -84,8 +83,7 @@ trait HasEvents
     /**
      * Add an observable event name.
      * 
-     * @param  mixed  $observables
-     * 
+     * @param  mixed  $observables 
      * @return void
      */
     public function addObservableEvents($observables): void
@@ -98,8 +96,7 @@ trait HasEvents
     /**
      * Remove an observable event name.
      * 
-     * @param  mixed  $observables
-     * 
+     * @param  mixed  $observables 
      * @return void
      */
     public function removeObservableEvents($observables): void
@@ -113,8 +110,7 @@ trait HasEvents
      * Register a model event with the dispatcher.
      * 
      * @param  string  $event
-     * @param  \Closure|string  $callback
-     * 
+     * @param  \Closure|string  $callback 
      * @return void
      */
     public static function registerModelEvent($event, $callback): void
@@ -130,8 +126,7 @@ trait HasEvents
      * Fire the given event for the model.
      * 
      * @param  string  $event
-     * @param  bool  $detain
-     * 
+     * @param  bool  $detain 
      * @return mixed
      */
     public function fireModelEvent($event, bool $detain = true)
@@ -148,8 +143,7 @@ trait HasEvents
     /**
      * Register a creating model event with the dispatcher.
      * 
-     * @param  \Closure|string  $callback
-     * 
+     * @param  \Closure|string  $callback 
      * @return void
      */
     public static function creating($callback): void
@@ -160,8 +154,7 @@ trait HasEvents
     /**
      * Register a created model event with the dispatcher.
      * 
-     * @param  \Closure|string  $callback
-     * 
+     * @param  \Closure|string  $callback 
      * @return void
      */
     public static function created($callback): void
@@ -172,8 +165,7 @@ trait HasEvents
     /**
      * Register a updating model event with the dispatcher.
      * 
-     * @param  \Closure|string  $callback
-     * 
+     * @param  \Closure|string  $callback 
      * @return void
      */
     public static function updating($callback): void
@@ -184,8 +176,7 @@ trait HasEvents
     /**
      * Register a updated model event with the dispatcher.
      * 
-     * @param  \Closure|string  $callback
-     * 
+     * @param  \Closure|string  $callback 
      * @return void
      */
     public static function updated($callback): void
@@ -196,8 +187,7 @@ trait HasEvents
     /**
      * Register a deleting model event with the dispatcher.
      * 
-     * @param  \Closure|string  $callback
-     * 
+     * @param  \Closure|string  $callback 
      * @return void
      */
     public static function deleting($callback): void
@@ -208,8 +198,7 @@ trait HasEvents
     /**
      * Register a deleted model event with the dispatcher.
      * 
-     * @param  \Closure|string  $callback
-     * 
+     * @param  \Closure|string  $callback 
      * @return void
      */
     public static function deleted($callback): void
@@ -220,8 +209,7 @@ trait HasEvents
     /**
      * Register a saving model event with the dispatcher.
      * 
-     * @param  \Closure|string  $callback
-     * 
+     * @param  \Closure|string  $callback 
      * @return void
      */
     public static function saving($callback): void
@@ -232,8 +220,7 @@ trait HasEvents
     /**
      * Register a saved model event with the dispatcher.
      * 
-     * @param  \Closure|string  $callback
-     * 
+     * @param  \Closure|string  $callback 
      * @return void
      */
     public static function saved($callback): void
@@ -274,8 +261,7 @@ trait HasEvents
     /**
      * Set the event dispatcher instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Events\Dispatcher  $dispatcher
-     * 
+     * @param  \Syscodes\Components\Contracts\Events\Dispatcher  $dispatcher 
      * @return void
      */
     public static function setEventDispatcher(Dispatcher $dispatcher): void
@@ -296,8 +282,7 @@ trait HasEvents
     /**
      * Execute a callback without firing any model events for any model type.
      *
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return mixed
      */
     public static function withoutEvents(callable $callback)

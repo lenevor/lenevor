@@ -30,8 +30,7 @@ interface UserProvider
     /**
      * Retrieve a user by their unique identifier.
      * 
-     * @param  mixed  $identifier
-     * 
+     * @param  mixed  $identifier 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable|null
      */
     public function retrieveById(mixed $identifier);
@@ -40,8 +39,7 @@ interface UserProvider
      * Retrieve a user by their unique identifier and "remember me" token.
      * 
      * @param  mixed  $identifier
-     * @param  string  $token
-     * 
+     * @param  string  $token 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByToken(mixed $identifier, string $token);
@@ -50,8 +48,7 @@ interface UserProvider
      * Update the "remember me" token for the given user in storage.
      * 
      * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user
-     * @param  string  $token
-     * 
+     * @param  string  $token 
      * @return void
      */
     public function updateRememberToken(Authenticatable $user, string $token): void;
@@ -59,8 +56,7 @@ interface UserProvider
     /**
      * Retrieve a user by the given credentials.
      * 
-     * @param  array  $credentials
-     * 
+     * @param  array  $credentials 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByCredentials(array $credentials);
@@ -69,8 +65,7 @@ interface UserProvider
      * Validate a user against the given credentials.
      * 
      * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user
-     * @param  array  $credentials
-     * 
+     * @param  array  $credentials 
      * @return bool
      */
     public function validateCredentials(Authenticatable $user, array $credentials): bool;

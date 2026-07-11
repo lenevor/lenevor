@@ -42,8 +42,7 @@ class BootDetectEnvironment
     /**
      * Bootstrap the given application.
      *
-     * @param  \Syscodes\Components\Contracts\Core\Application  $app
-     * 
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app 
      * @return void
      */
     public function bootstrap(Application $app)
@@ -60,8 +59,7 @@ class BootDetectEnvironment
     /**
      * Detect if a custom environment file matching the APP_ENV exists.
      * 
-     * @param  \Syscodes\Components\Contracts\Core\Application  $app
-     * 
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app 
      * @return bool
      */
     protected function detectEnvironmentFile($app)
@@ -81,8 +79,7 @@ class BootDetectEnvironment
      * Load a custom environment file.
      * 
      * @param  \Syscodes\Components\Contracts\Core\Application  $app
-     * @param  string  $file
-     * 
+     * @param  string  $file 
      * @return bool
      */
     protected function setEnvironmentFilePath($app, $file)
@@ -99,8 +96,7 @@ class BootDetectEnvironment
     /**
      * Create a ParseEnv instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Core\Application  $app
-     * 
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app 
      * @return \Syscodes\Components\Dotenv\Dotenv
      */
     protected function createEnv($app)

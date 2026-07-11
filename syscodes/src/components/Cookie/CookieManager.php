@@ -79,8 +79,7 @@ class CookieManager implements CookieFactory
      * @param  bool|null  $secure
      * @param  bool  $httpOnly
      * @param  bool $raw
-     * @param  string|null  $sameSite
-     * 
+     * @param  string|null  $sameSite 
      * @return \Symfony\Component\HttpFoundation\Cookie
      */
     public function make(
@@ -111,8 +110,7 @@ class CookieManager implements CookieFactory
      * @param  bool|null  $secure
      * @param  bool  $httpOnly
      * @param  bool $raw
-     * @param  string|null  $sameSite
-     * 
+     * @param  string|null  $sameSite 
      * @return\Symfony\Component\HttpFoundation\Cookie
      */
     public function forever(
@@ -133,8 +131,7 @@ class CookieManager implements CookieFactory
      * 
      * @param  string  $name
      * @param  string|null  $path
-     * @param  string|null  $domain
-     * 
+     * @param  string|null  $domain 
      * @return \Symfony\Component\HttpFoundation\Cookie
      */
     public function erase(string $name, ?string $path = null, ?string $domain = null) 
@@ -146,8 +143,7 @@ class CookieManager implements CookieFactory
      * Determine if a cookie has been queued.
      * 
      * @param  string  $key
-     * @param  string|null  $path
-     * 
+     * @param  string|null  $path 
      * @return bool
      */
     public function hasQueued(string $key, ?string $path = null): bool
@@ -160,8 +156,7 @@ class CookieManager implements CookieFactory
      * 
      * @param  string  $key
      * @param  mixed  $default
-     * @param  string|null  $path
-     * 
+     * @param  string|null  $path 
      * @return \Symfony\Component\HttpFoundation\Cookie|null
      */
     public function queued(string $key, mixed $default = null, ?string $path = null)
@@ -178,8 +173,7 @@ class CookieManager implements CookieFactory
     /**
      * Queue a cookie to send with the next response.
      * 
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return void
      */
     public function queue(...$parameters): void
@@ -202,8 +196,7 @@ class CookieManager implements CookieFactory
      * 
      * @param  string  $name
      * @param  string|null  $path
-     * @param  string|null  $domain
-     * 
+     * @param  string|null  $domain 
      * @return void
      */
     public function expire(string $name, ?string $path = null, ?string $domain = null): void
@@ -215,8 +208,7 @@ class CookieManager implements CookieFactory
      * Remove a cookie from the queue.
      * 
      * @param  string  $name
-     * @param  string|null  $path
-     * 
+     * @param  string|null  $path 
      * @return void
      */
     public function unqueue(string $name, ?string $path = null): void
@@ -240,8 +232,7 @@ class CookieManager implements CookieFactory
      * @param  string  $path
      * @param  string  $domain
      * @param  bool|null  $secure
-     * @param  string|null  $sameSite
-     * 
+     * @param  string|null  $sameSite 
      * @return array
      */
     protected function getPathAndDomain(string $path, string $domain, ?bool $secure = null, ?string $sameSite = null): array
@@ -255,8 +246,7 @@ class CookieManager implements CookieFactory
      * @param  string  $path
      * @param  string  $domain
      * @param  bool  $secure
-     * @param  string|null  $sameSite
-     * 
+     * @param  string|null  $sameSite 
      * @return static
      */
     public function setDefaultPathAndDomain(string $path, string $domain, bool $secure = false, ?string $sameSite = null): static

@@ -33,7 +33,6 @@ class RouteParameter implements ContextualAttribute
      * Constructor. Create a new class instance.
      * 
      * @param  string  $parameter
-     * 
      * @return void
      */
     public function __construct(public string $parameter)
@@ -45,7 +44,6 @@ class RouteParameter implements ContextualAttribute
      *
      * @param  self  $attribute
      * @param  \Syscodes\Components\Contracts\Container\Container  $container
-     * 
      * @return mixed
      */
     public static function resolve(self $attribute, Container $container)

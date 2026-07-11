@@ -57,8 +57,7 @@ class ViewMakeCommand extends GeneratorCommand
     /**
      * Build the class with the given name.
      *
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return string
      *
      * @throws \Syscodes\Components\Filesystem\Exceptions\FileNotFoundException
@@ -77,8 +76,7 @@ class ViewMakeCommand extends GeneratorCommand
     /**
      * Get the destination view path.
      *
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return string
      */
     protected function getPath($name): string
@@ -117,8 +115,7 @@ class ViewMakeCommand extends GeneratorCommand
     /**
      * Resolve the fully-qualified path to the template.
      *
-     * @param  string  $template
-     * 
+     * @param  string  $template 
      * @return string
      */
     protected function resolveTemplatePath($template): string

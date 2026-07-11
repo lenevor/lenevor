@@ -48,8 +48,7 @@ trait HasRelations
      * 
      * @param  string  $related
      * @param  string|null  $foreignKey
-     * @param  string|null  $localKey
-     * 
+     * @param  string|null  $localKey 
      * @return \Syscodes\Components\Database\Erostrine\Relations\HasOne
      */
     public function hasOne($related, $foreignKey = null, $localKey = null)
@@ -71,8 +70,7 @@ trait HasRelations
      * @param  \Syscodes\Components\Database\Erostrine\Builder  $builder
      * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
      * @param  string  $foreignKey
-     * @param  string  $localKey
-     * 
+     * @param  string  $localKey 
      * @return \Syscodes\Components\Database\Erostrine\Relations\HasOne
      */
     protected function newHasOne(Builder $builder, Model $parent, $foreignKey, $localKey)
@@ -91,8 +89,7 @@ trait HasRelations
      * @param  string|null  $firstKey
      * @param  string|null  $secondKey
      * @param  string|null  $localKey
-     * @param  string|null  $secondLocalKey
-     * 
+     * @param  string|null  $secondLocalKey 
      * @return \Syscodes\Components\Database\Erostrine\Relations\HasOneThrough
      */
     public function hasOneThrough($related, $through, $firstKey = null, $secondKey = null, $localKey = null, $secondLocalKey = null)
@@ -123,8 +120,7 @@ trait HasRelations
      * @param  string  $firstKey
      * @param  string  $secondKey
      * @param  string  $localKey
-     * @param  string  $secondLocalKey
-     * 
+     * @param  string  $secondLocalKey 
      * @return \Syscodes\Components\Database\Erostrine\Relations\HasOneThrough
      */
     protected function newHasOneThrough(Builder $builder, Model $farParent, Model $throughParent, $firstKey, $secondKey, $localKey, $secondLocalKey)
@@ -137,8 +133,7 @@ trait HasRelations
      * 
      * @param  string  $related
      * @param  string|null  $foreignKey
-     * @param  string|null  $localKey
-     * 
+     * @param  string|null  $localKey 
      * @return \Syscodes\Components\Database\Erostrine\Relations\HasOne
      */
     public function hasMany($related, $foreignKey = null, $localKey = null)
@@ -160,8 +155,7 @@ trait HasRelations
      * @param  \Syscodes\Components\Database\Erostrine\Builder  $builder
      * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
      * @param  string  $foreignKey
-     * @param  string  $localKey
-     * 
+     * @param  string  $localKey 
      * @return \Syscodes\Components\Database\Erostrine\Relations\HasMany
      */
     protected function newHasMany(Builder $builder, Model $parent, $foreignKey, $localKey)
@@ -177,8 +171,7 @@ trait HasRelations
      * @param  string|null  $firstKey
      * @param  string|null  $secondKey
      * @param  string|null  $localKey
-     * @param  string|null  $secondLocalKey
-     * 
+     * @param  string|null  $secondLocalKey 
      * @return \Syscodes\Components\Database\Erostrine\Relations\HasManyThrough
      */
     public function hasManyThrough($related, $through, $firstKey = null, $secondKey = null, $localKey = null, $secondLocalKey = null)
@@ -209,8 +202,7 @@ trait HasRelations
      * @param  string  $firstKey
      * @param  string  $secondKey
      * @param  string  $localKey
-     * @param  string  $secondLocalKey
-     * 
+     * @param  string  $secondLocalKey 
      * @return \Syscodes\Components\Database\Erostrine\Relations\HasManyThrough
      */
     protected function newHasManyThrough(Builder $query, Model $farParent, Model $throughParent, $firstKey, $secondKey, $localKey, $secondLocalKey)
@@ -224,8 +216,7 @@ trait HasRelations
      * @param  string  $related
      * @param  string|null  $foreignKey
      * @param  string|null  $ownerKey
-     * @param  string|null  $relation
-     * 
+     * @param  string|null  $relation 
      * @return \Syscodes\Components\Database\Erostrine\Relations\BelongsTo
      */
     public function belongsTo($related, $foreignKey = null, $ownerKey = null, $relation = null)
@@ -254,8 +245,7 @@ trait HasRelations
      * @param  \Syscodes\Components\Database\Erostrine\Model  $child
      * @param  string  $foreignKey
      * @param  string  $ownerKey
-     * @param  string  $relation
-     * 
+     * @param  string  $relation 
      * @return \Syscodes\Components\Database\Erostrine\Relations\BelongsTo
      */
     protected function newBelongsTo(Builder $builder, Model $child, $foreignKey, $ownerKey, $relation)
@@ -278,8 +268,7 @@ trait HasRelations
     /**
      * Create a new model instance for a related model.
      * 
-     * @param  string  $class
-     * 
+     * @param  string  $class 
      * @return mixed
      */
     protected function newRelatedInstance($class)
@@ -294,8 +283,7 @@ trait HasRelations
      /**
      * Create a new model instance for a related "through" model.
      *
-     * @param  \Syscodes\Components\Database\Erostrine\Model  $class
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $class 
      * @return \Syscodes\Components\Database\Erostrine\Model
      */
     protected function newRelatedThroughInstance($class)
@@ -316,8 +304,7 @@ trait HasRelations
     /**
      * Get a specified relationship.
      * 
-     * @param  string  $relation
-     * 
+     * @param  string  $relation 
      * @return mixed
      */
     public function getRelation(string $relation): mixed
@@ -329,8 +316,7 @@ trait HasRelations
      * Set the given relationship on the model.
      * 
      * @param  string  $relation
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return self
      */
     public function setRelation(string $relation, $value): self
@@ -343,8 +329,7 @@ trait HasRelations
     /**
      * Determine if the given relation is loaded.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return bool
      */
     public function relationLoaded(string $key): bool
@@ -355,8 +340,7 @@ trait HasRelations
     /**
      * Set the entire relations array on the model.
      * 
-     * @param  array  $relations
-     * 
+     * @param  array  $relations 
      * @return static
      */
     public function setRelations(array $relations): static
@@ -369,8 +353,7 @@ trait HasRelations
     /**
      * Unset a loaded relationship.
      * 
-     * @param  string  $relation
-     * 
+     * @param  string  $relation 
      * @return static
      */
     public function unsetRelation(string $relation): static

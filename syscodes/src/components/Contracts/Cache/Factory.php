@@ -30,8 +30,7 @@ interface Factory
     /**
      * Get a cache store instance by name.
      * 
-     * @param  \UnitEnum|string|null  $store
-     * 
+     * @param  \UnitEnum|string|null  $store 
      * @return \Syscodes\Components\Cache\CacheRepository
      */
     public function store($store = null);

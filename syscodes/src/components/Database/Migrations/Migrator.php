@@ -124,8 +124,7 @@ class Migrator
      * @param  \Syscodes\Components\Database\Migrations\MigrationRepositoryInterface  $repository
      * @param  \Syscodes\Components\Database\ConnectionResolverInterface  $resolver
      * @param  \Syscodes\Components\Filesystem\Filesystem  $files
-     * @param  \Syscodes\Components\Contracts\Events\Dispatcher|null  $dispatcher
-     * 
+     * @param  \Syscodes\Components\Contracts\Events\Dispatcher|null  $dispatcher 
      * @return void
      */
     public function __construct(
@@ -144,8 +143,7 @@ class Migrator
      * Run the pending migrations at a given path.
      *
      * @param  string[]|string  $paths
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return string[]
      */
     public function run($paths = [], array $options = []): array
@@ -170,8 +168,7 @@ class Migrator
      * Get the migration files that have not yet run.
      *
      * @param  string[]  $files
-     * @param  string[]  $ran
-     * 
+     * @param  string[]  $ran 
      * @return string[]
      */
     protected function pendingMigrations($files, $ran): array
@@ -202,8 +199,7 @@ class Migrator
      * Run an array of migrations.
      *
      * @param  string[]  $migrations
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return void
      */
     public function runPending(array $migrations, array $options = []): void
@@ -252,8 +248,7 @@ class Migrator
      *
      * @param  string  $file
      * @param  int  $batch
-     * @param  bool  $pretend
-     * 
+     * @param  bool  $pretend 
      * @return void
      */
     protected function runUp($file, $batch, $pretend)
@@ -291,8 +286,7 @@ class Migrator
      * Rollback the last migration operation.
      *
      * @param  string[]|string  $paths
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return string[]
      */
     public function rollback($paths = [], array $options = []): array
@@ -317,8 +311,7 @@ class Migrator
     /**
      * Get the migrations for a rollback operation.
      *
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return array
      */
     protected function getMigrationsForRollback(array $options): array
@@ -339,8 +332,7 @@ class Migrator
      *
      * @param  array  $migrations
      * @param  string[]|string  $paths
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return string[]
      */
     protected function rollbackMigrations(array $migrations, $paths, array $options): array
@@ -382,7 +374,6 @@ class Migrator
      *
      * @param  string[]|string  $paths
      * @param  bool  $pretend
-     * 
      * @return array
      */
     public function reset($paths = [], $pretend = false): array
@@ -408,8 +399,7 @@ class Migrator
      *
      * @param  string[]  $migrations
      * @param  string[]  $paths
-     * @param  bool  $pretend
-     * 
+     * @param  bool  $pretend 
      * @return array
      */
     protected function resetMigrations(array $migrations, array $paths, $pretend = false): array
@@ -429,8 +419,7 @@ class Migrator
      *
      * @param  string  $file
      * @param  object  $migration
-     * @param  bool  $pretend
-     * 
+     * @param  bool  $pretend 
      * @return void
      */
     protected function runDown($file, $migration, $pretend)
@@ -457,8 +446,7 @@ class Migrator
      * Run a migration inside a transaction if the database supports it.
      *
      * @param  object  $migration
-     * @param  string  $method
-     * 
+     * @param  string  $method 
      * @return void
      */
     protected function runMigration($migration, $method): void
@@ -487,8 +475,7 @@ class Migrator
      * Pretend to run the migrations.
      *
      * @param  object  $migration
-     * @param  string  $method
-     * 
+     * @param  string  $method 
      * @return void
      */
     protected function pretendToRun($migration, $method): void
@@ -513,8 +500,7 @@ class Migrator
      * Get all of the queries that would be run for a migration.
      *
      * @param  object  $migration
-     * @param  string  $method
-     * 
+     * @param  string  $method 
      * @return array
      */
     protected function getQueries($migration, $method): array
@@ -538,8 +524,7 @@ class Migrator
      *
      * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * @param  object  $migration
-     * @param  string  $method
-     * 
+     * @param  string  $method 
      * @return void
      */
     protected function runMethod($connection, $migration, $method)
@@ -558,8 +543,7 @@ class Migrator
     /**
      * Resolve a migration instance from a file.
      *
-     * @param  string  $file
-     * 
+     * @param  string  $file 
      * @return object
      */
     public function resolve($file): object
@@ -572,8 +556,7 @@ class Migrator
     /**
      * Resolve a migration instance from a migration path.
      *
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return object
      */
     protected function resolvePath(string $path): object
@@ -598,8 +581,7 @@ class Migrator
     /**
      * Generate a migration class name based on the migration file name.
      *
-     * @param  string  $migrationName
-     * 
+     * @param  string  $migrationName 
      * @return string
      */
     protected function getMigrationClass(string $migrationName): string
@@ -610,8 +592,7 @@ class Migrator
     /**
      * Get all of the migration files in a given path.
      *
-     * @param  string|array  $paths
-     * 
+     * @param  string|array  $paths 
      * @return array
      */
     public function getMigrationFiles($paths): array
@@ -628,8 +609,7 @@ class Migrator
     /**
      * Require in all the migration files in a given path.
      *
-     * @param  string[]  $files
-     * 
+     * @param  string[]  $files 
      * @return void
      */
     public function requireFiles(array $files)
@@ -642,8 +622,7 @@ class Migrator
     /**
      * Get the name of the migration.
      *
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return string
      */
     public function getMigrationName($path): string
@@ -654,8 +633,7 @@ class Migrator
     /**
      * Register a custom migration path.
      *
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return void
      */
     public function path($path): void
@@ -676,8 +654,7 @@ class Migrator
     /**
      * Set the pending migrations to skip.
      *
-     * @param  array  $migrations
-     * 
+     * @param  array  $migrations 
      * @return void
      */
     public static function withoutMigrations(array $migrations)
@@ -701,8 +678,7 @@ class Migrator
      * @template TReturn
      *
      * @param  string  $name
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return mixed
      */
     public function usingConnection($name, callable $callback)
@@ -721,13 +697,12 @@ class Migrator
     /**
      * Set the default connection name.
      *
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return void
      */
     public function setConnection($name): void
     {
-        if (! is_null($name)) {
+        if ( ! is_null($name)) {
             $this->resolver->setDefaultConnection($name);
         }
 
@@ -740,7 +715,6 @@ class Migrator
      * Resolve the database connection instance.
      *
      * @param  string  $connection
-     * 
      * @return \Syscodes\Components\Database\Connections\Connection
      */
     public function resolveConnection($connection)
@@ -759,8 +733,7 @@ class Migrator
     /**
      * Set a connection resolver callback.
      *
-     * @param  \Closure(\Syscodes\Components\Database\ConnectionResolverInterface, ?string): \Syscodes\Components\Database\Connections\Connection  $callback
-     * 
+     * @param  \Closure(\Syscodes\Components\Database\ConnectionResolverInterface, ?string): \Syscodes\Components\Database\Connections\Connection  $callback 
      * @return void
      */
     public static function resolveConnectionsUsing(Closure $callback): void
@@ -771,8 +744,7 @@ class Migrator
     /**
      * Get the schema grammar out of a migration connection.
      *
-     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
-     * 
+     * @param  \Syscodes\Components\Database\Connections\Connection  $connection 
      * @return \Syscodes\Components\Database\Schema\Grammars\Grammar
      */
     protected function getSchemaGrammar($connection)
@@ -839,8 +811,7 @@ class Migrator
     /**
      * Set the output implementation that should be used by the console.
      *
-     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
-     * 
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output 
      * @return static
      */
     public function setOutput(OutputInterface $output): static
@@ -855,7 +826,6 @@ class Migrator
      *
      * @param  string  $component
      * @param  array|string  ...$arguments
-     * 
      * @return void
      */
     protected function write($component, ...$arguments)
@@ -874,8 +844,7 @@ class Migrator
     /**
      * Fire the given event for the migration.
      *
-     * @param  \Syscodes\Components\Contracts\Database\Events\MigrationEvent  $event
-     * 
+     * @param  \Syscodes\Components\Contracts\Database\Events\MigrationEvent  $event 
      * @return void
      */
     public function fireMigrationEvent($event)

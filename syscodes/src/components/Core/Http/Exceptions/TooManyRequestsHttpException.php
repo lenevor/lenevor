@@ -43,8 +43,7 @@ class TooManyRequestsHttpException extends HttpException
 	 * 										 which the request may be retried
 	 * @param  string|null  $message
 	 * @param  \Throwable|null  $previous
-	 * @param  array  $headers
-	 * 
+	 * @param  array  $headers 
 	 * @return void
 	 */
 	public function __construct(

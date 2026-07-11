@@ -126,7 +126,6 @@ class Kernel implements KernelContract
      * 
      * @param  \Syscodes\Components\Contracts\Core\Application $app
      * @param  \Syscodes\Components\Contracts\Events\Dispatcher  $events
-     * 
      * @return void
      */
     public function __construct(Application $app, Dispatcher $events)
@@ -143,8 +142,7 @@ class Kernel implements KernelContract
      * Handle an incoming console command.
      * 
      * @param  \Symfony\Component\Console\Input\InputInterface  $input
-     * @param  \Symfony\Component\Console\Output\OutputInterface|null  $output
-     * 
+     * @param  \Symfony\Component\Console\Output\OutputInterface|null  $output 
      * @return int
      */
     public function handle($input, $output = null): int
@@ -169,8 +167,7 @@ class Kernel implements KernelContract
     /**
      * Register the given command with the console application.
      * 
-     * @param  \Syscodes\Components\Console\Command  $command
-     * 
+     * @param  \Syscodes\Components\Console\Command  $command 
      * @return void
      */
     public function registerCommand($command): void
@@ -192,8 +189,7 @@ class Kernel implements KernelContract
      * Register a Closure based command with the application.
      *
      * @param  string  $signature
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return \Syscodes\Components\Core\Console\Commands\ClosureCommand
      */
     public function command($signature, Closure $callback)
@@ -289,8 +285,7 @@ class Kernel implements KernelContract
      * Extract the command class name from the given file path.
      *
      * @param  \SplFileInfo  $file
-     * @param  string  $namespace
-     * 
+     * @param  string  $namespace 
      * @return string
      */
     protected function commandClassFromFile(SplFileInfo $file, string $namespace): string
@@ -353,7 +348,6 @@ class Kernel implements KernelContract
      * 
      * @param  \Symfony\Component\Console\Input\InputInterface  $input
 	 * @param  int  $status
-     * 
      * @return void
      */
     public function finalize($input, int $status): void
@@ -388,8 +382,7 @@ class Kernel implements KernelContract
     /**
      * Set the Prime application instance.
      * 
-     * @param  \Syscodes\Components\Console\Application  $prime
-     * 
+     * @param  \Syscodes\Components\Console\Application  $prime 
      * @return void
      */
     public function setPrime($prime): void
@@ -400,9 +393,8 @@ class Kernel implements KernelContract
     /**
      * Set the Prime commands provided by the application.
      * 
-     * @param  array  $commands
-     * 
-     * @return $this
+     * @param  array  $commands 
+     * @return static
      */
     public function addCommands(array $commands): static
     {
@@ -414,8 +406,7 @@ class Kernel implements KernelContract
     /**
      * Set the paths that should have their Prime commands automatically discovered.
      * 
-     * @param  array  $paths
-     * 
+     * @param  array  $paths 
      * @return static
      */
     public function addCommandPaths(array $paths): static
@@ -428,8 +419,7 @@ class Kernel implements KernelContract
     /**
      * Set the paths that should have their Prime "routes" automatically discovered.
      * 
-     * @param  array  $paths
-     * 
+     * @param  array  $paths 
      * @return static
      */
     public function addCommandRoutePaths(array $paths): static
@@ -442,8 +432,7 @@ class Kernel implements KernelContract
     /**
      * Report the exception to the exception handler.
      * 
-     * @param  \Throwable  $e
-     * 
+     * @param  \Throwable  $e 
      * @return void
      */
     protected function reportException(Throwable $e): void
@@ -455,8 +444,7 @@ class Kernel implements KernelContract
      * Render the exception to a response.
      * 
      * @param  \Symfony\Component\Console\Output\OutputInterface  $output 
-     * @param  \Throwable  $e
-     * 
+     * @param  \Throwable  $e 
      * @return void
      */
     protected function renderException($output, Throwable $e): void

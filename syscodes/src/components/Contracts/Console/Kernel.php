@@ -31,8 +31,7 @@ interface Kernel
      * Handle an incoming console command.
      * 
      * @param  \Symfony\Component\Console\Input\InputInterface  $input
-     * @param  \Symfony\Component\Console\Output\OutputInterface|null  $output
-     * 
+     * @param  \Symfony\Component\Console\Output\OutputInterface|null  $output 
      * @return int
      */
     public function handle($input, $output = null): int;
@@ -48,8 +47,7 @@ interface Kernel
      * Shutdown the application.
      * 
      * @param  \Symfony\Component\Console\Input\InputInterface  $input
-	 * @param  int  $status
-     * 
+	 * @param  int  $status 
      * @return void
      */
     public function finalize($input, int $status): void;

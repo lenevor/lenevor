@@ -46,7 +46,6 @@ interface Filesystem
 	 *
 	 * @param  string  $path
 	 * @param  mixed  $data
-	 *
 	 * @return int|false
 	 */
 	public function append(string $path, mixed $data): int|false;
@@ -55,8 +54,7 @@ interface Filesystem
 	 * Copy a file to a new location.
 	 *
 	 * @param  string  $path
-	 * @param  string  $target
-	 * 
+	 * @param  string  $target 
 	 * @return bool
 	 */
 	public function copy(string $path, string $target): bool;
@@ -65,8 +63,7 @@ interface Filesystem
 	 * Get the contents of a file.
 	 *
 	 * @param  string  $path
-	 * @param  bool  $lock 
-	 *
+	 * @param  bool  $lock
 	 * @return string
 	 *
 	 * @throws \Syscodes\Components\Filesystem\Exceptions\FileNotFoundException
@@ -76,8 +73,7 @@ interface Filesystem
     /**
 	 * Get contents of a file with shared access.
 	 *
-	 * @param  string  $path  
-	 *
+	 * @param  string  $path
 	 * @return string
 	 */
 	public function read(string $path): string;
@@ -86,7 +82,6 @@ interface Filesystem
 	 * Creates the file.
 	 * 
 	 * @param  string  $path
-	 * 
 	 * @return bool
 	 */
 	public function create(string $path): bool;
@@ -95,7 +90,6 @@ interface Filesystem
 	 * Determine if a file exists.
 	 *
 	 * @param  string  $path
-	 *
 	 * @return bool
 	 */
 	public function exists(string $path): bool;
@@ -109,7 +103,6 @@ interface Filesystem
 	 *
 	 * @param  string  $path
 	 * @param  string  $unit
-	 * 
 	 * @return int|null  The file size in bytes or null if unknown
 	 */
 	public function size(string $path, string $unit = 'b'): int|null;
@@ -117,8 +110,7 @@ interface Filesystem
     /**
 	 * Get all of the directories within a given directory.
 	 * 
-	 * @param  string  $directory
-	 * 
+	 * @param  string  $directory 
 	 * @return array
 	 */
 	public function directories(string $directory): array;
@@ -126,8 +118,7 @@ interface Filesystem
     /**
 	 * Delete the file at a given path.
 	 * 
-	 * @param  string  $paths
-	 * 
+	 * @param  string  $paths 
 	 * @return bool
 	 */
 	public function delete(string $paths): bool;
@@ -139,7 +130,6 @@ interface Filesystem
 	 * @param  int  $mode
 	 * @param  bool  $recursive
 	 * @param  bool  $force
-	 *
 	 * @return bool
 	 * 
 	 * @throws \Syscodes\Components\Filesystem\Exceptions\FileException
@@ -152,7 +142,6 @@ interface Filesystem
 	 * 
 	 * @param  string  $directory
 	 * @param  bool  $keep
-	 * 
 	 * @return bool
 	 */
 	public function deleteDirectory(string $directory, bool $keep = false): bool;
@@ -162,7 +151,6 @@ interface Filesystem
 	 *
 	 * @param  string  $path
 	 * @param  string  $target
-	 *
 	 * @return bool
 	 */
 	public function move(string $path, string $target): bool;
@@ -172,7 +160,6 @@ interface Filesystem
 	 * 
 	 * @param  string  $path
 	 * @param  string  $contents
-	 * 
 	 * @return int|bool
 	 */
 	public function prepend(string $path, string $contents): int|bool;
@@ -182,8 +169,7 @@ interface Filesystem
 	 *
 	 * @param  string  $path
 	 * @param  string  $contents
-	 * @param  bool  $lock  
-	 *
+	 * @param  bool  $lock
 	 * @return int|bool
 	 */
 	public function put(string $path, string $contents, bool $lock = false): int|bool;
@@ -194,7 +180,6 @@ interface Filesystem
 	 * @param  string  $path
 	 * @param  string  $contents  Content to write to this File
 	 * @param  bool|null  $lock
-	 *
 	 * @return bool
 	 */
 	public function write(string $path, string $contents, ?bool $lock = null): bool;

@@ -32,8 +32,7 @@ interface Authenticator
     /**
      * The authenticate of the user.
      * 
-     * @param  \Syscodes\Components\Mail\Transport\Smtp\EsmtpTransport  $client
-     * 
+     * @param  \Syscodes\Components\Mail\Transport\Smtp\EsmtpTransport  $client 
      * @return void
      */
     public function authenticate(EsmtpTransport $client): void;

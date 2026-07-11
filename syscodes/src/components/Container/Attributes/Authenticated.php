@@ -32,8 +32,7 @@ class Authenticated implements ContextualAttribute
     /**
      * Constructor. Create a new class instance.
      * 
-     * @param  string|null  $guard
-     * 
+     * @param  string|null  $guard 
      * @return void
      */
     public function __construct(public ?string $guard = null)
@@ -45,7 +44,6 @@ class Authenticated implements ContextualAttribute
      *
      * @param  self  $attribute
      * @param  \Syscodes\Components\Contracts\Container\Container  $container
-     * 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable|null
      */
     public static function resolve(self $attribute, Container $container)

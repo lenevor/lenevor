@@ -45,8 +45,7 @@ class Manager
     /**
      * Constructor. Create a new Manager instance.
      * 
-     * @param  \Syscodes\Components\Container\Container|null  $container
-     * 
+     * @param  \Syscodes\Components\Container\Container|null  $container 
      * @return void
      */
     public function __construct(?Container $container = null)
@@ -85,8 +84,7 @@ class Manager
      * 
      * @param  \Closure|\Syscodes\Components\Database\Query\Builder|string  $table
      * @param  string|null  $as
-     * @param  string|null  $connection
-     * 
+     * @param  string|null  $connection 
      * @return \Syscodes\Components\Database\Query\Builder
      */
     public static function table($table, ?string $as = null, ?string $connection = null)
@@ -97,8 +95,7 @@ class Manager
     /**
      * Get a connection instance from the global manager.
      * 
-     * @param  string|null  $connection
-     * 
+     * @param  string|null  $connection 
      * @return \Syscodes\Components\Database\Connections\Connection
      */
     public static function connection(?string $connection = null)
@@ -109,8 +106,7 @@ class Manager
     /**
      * Get a registered connection instance.
      * 
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return \Syscodes\Components\Database\Connections\Connection
      */
     public function getConnection(?string $name = null)
@@ -122,8 +118,7 @@ class Manager
      * Register a connection with the manager.
      * 
      * @param  array  $config
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return void
      */
     public function addConnection(array $config, string $name = 'default'): void
@@ -161,8 +156,7 @@ class Manager
      * Dynamically pass methods to the default connection.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      */
     public static function __callStatic($method, $parameters)

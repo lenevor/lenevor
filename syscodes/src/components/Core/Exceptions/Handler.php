@@ -101,8 +101,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Constructor. Create a new exception handler instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Container\Container  $container
-     * 
+     * @param  \Syscodes\Components\Contracts\Container\Container  $container 
      * @return void
      */
     public function __construct(Container $container)
@@ -122,8 +121,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Register a reportable callback.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return static
      */
     public function reportable(callable $callback): static
@@ -136,8 +134,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Register a renderable callback.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return static
      */
     public function renderable(callable $callback): static
@@ -150,8 +147,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Report or log an exception.
      * 
-     * @param  \Throwable  $e
-     * 
+     * @param  \Throwable  $e 
      * @return mixed
      * 
      * @throws \Exception
@@ -184,8 +180,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Determine if the exception should be reported.
      * 
-     * @param  \Throwable  $e
-     * 
+     * @param  \Throwable  $e 
      * @return bool
      */
     public function shouldReport(Throwable $e): bool
@@ -196,8 +191,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Determine if the exception is in the "do not report" list.
      * 
-     * @param  \Throwable  $e
-     * 
+     * @param  \Throwable  $e 
      * @return bool
      */
     public function shouldntReport(Throwable $e): bool
@@ -211,8 +205,7 @@ class Handler implements ExceptionHandlerContract
      * Render an exception into an HTTP response.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Throwable  $e
-     * 
+     * @param  \Throwable  $e 
      * @return \Syscodes\Components\Http\Response
      */
     public function render($request, Throwable $e)
@@ -249,8 +242,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Prepare exception for rendering.
      * 
-     * @param  Throwable  $e
-     * 
+     * @param  Throwable  $e 
      * @return Throwable
      */
     protected function prepareException(Throwable $e): Throwable
@@ -271,8 +263,7 @@ class Handler implements ExceptionHandlerContract
      * Prepare a response for the given exception.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  Throwable  $e
-     * 
+     * @param  Throwable  $e 
      * @return \Syscodes\Components\Http\Response
      * 
      * @uses   \Syscodes\Components\Core\Http\Exceptions\HttpException
@@ -296,8 +287,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Render the given HttpException.
      * 
-     * @param  \Syscodes\Components\Core\Http\Exceptions\HttpException  $e
-     * 
+     * @param  \Syscodes\Components\Core\Http\Exceptions\HttpException  $e 
      * @return \Syscodes\Components\Http\Response
      */
     protected function renderHttpException(HttpException $e)
@@ -333,8 +323,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Get the view used to render HTTP exceptions.
      * 
-     * @param  \Syscodes\Components\Core\Http\Exceptions\HttpException  $e
-     * 
+     * @param  \Syscodes\Components\Core\Http\Exceptions\HttpException  $e 
      * @return string|null
      */
     protected function getHttpExceptionView(HttpException $e): string|null
@@ -351,8 +340,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Create a response for the given exception.
      * 
-     * @param  Throwable  $e
-     * 
+     * @param  Throwable  $e 
      * @return \Syscodes\Components\Http\Response
      */
     protected function convertExceptionToResponse(Throwable $e)
@@ -367,8 +355,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Gets the response content for the given exception.
      * 
-     * @param  Throwable  $e
-     * 
+     * @param  Throwable  $e 
      * @return string
      */
     protected function renderExceptionContent(Throwable $e)
@@ -389,8 +376,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Render an exception to a string of debug.
      * 
-     * @param  Throwable  $e
-     * 
+     * @param  Throwable  $e 
      * @return void
      * 
      * @uses   \Syscodes\Components\Contracts\Core\ExceptionRender  
@@ -404,8 +390,7 @@ class Handler implements ExceptionHandlerContract
      * Render an exception to a string using Symfony.
      * 
      * @param  Throwable  $e
-     * @param  bool  $debug
-     * 
+     * @param  bool  $debug 
      * @return string
      */
     protected function renderExceptionWithSymfony(Throwable $e, $debug)
@@ -420,7 +405,6 @@ class Handler implements ExceptionHandlerContract
      * 
      * @param  \Syscodes\Components\Http\Response  $response
      * @param  Throwable  $e 
-     * 
      * @return \Syscodes\Components\Http\Response
      */
     protected function toSyscodesResponse($response, Throwable $e)
@@ -442,8 +426,7 @@ class Handler implements ExceptionHandlerContract
      * Render an exception to the console.
      * 
      * @param  \Symfony\Component\Console\Output\OutputInterface  $output
-     * @param  Throwable  $e
-     * 
+     * @param  Throwable  $e 
      * @return void
      */
     public function renderForConsole($output, Throwable $e)
@@ -471,8 +454,7 @@ class Handler implements ExceptionHandlerContract
     /**
      * Determine if the given exception is an HTTP exception.
      * 
-     * @param  Throwable  $e
-     * 
+     * @param  Throwable  $e 
      * @return bool
      */
     protected function isHttpException(Throwable $e): bool

@@ -52,8 +52,7 @@ class ClosureCommand extends Command
      * Constructor. Create a new command instance.
      *
      * @param  string  $signature
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return void
      */
     public function __construct($signature, Closure $callback)
@@ -68,8 +67,7 @@ class ClosureCommand extends Command
      * Executes the current command.
      * 
      * @param  \Symfony\Component\Console\Input\InputInterface  $input
-     * @param  \Symfony\Component\Console\Output\OutputInterface|null  $output
-     * 
+     * @param  \Symfony\Component\Console\Output\OutputInterface|null  $output 
      * @return int
      * 
      * @throws \LogicException
@@ -102,8 +100,7 @@ class ClosureCommand extends Command
     /**
      * Set the description for the command.
      *
-     * @param  string  $description
-     * 
+     * @param  string  $description 
      * @return static
      */
     public function describe($description): static

@@ -37,8 +37,7 @@ interface Serializable
     /**
      * Constructs the object.
      * 
-     * @param  string  $serialized
-     * 
+     * @param  string  $serialized 
      * @return void
      */
     public function unserialize(string $serialized): void;

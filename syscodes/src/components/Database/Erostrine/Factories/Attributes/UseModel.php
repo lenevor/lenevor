@@ -33,8 +33,7 @@ class UseModel
     /**
      * Constructor. Create a new attribute class instance.
      *
-     * @param  string  $class
-     * 
+     * @param  string  $class 
      * @return void
      */
     public function __construct(public string $class)

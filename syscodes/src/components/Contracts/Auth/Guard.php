@@ -58,8 +58,7 @@ interface Guard
     /**
      * Validate a user's credentials.
      * 
-     * @param  array  $credentials
-     * 
+     * @param  array  $credentials 
      * @return bool
      */
     public function validate(array $credentials = []): bool;
@@ -74,8 +73,7 @@ interface Guard
     /**
      * Set the current user.
      * 
-     * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user
-     * 
+     * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user 
      * @return static
      */
     public function setUser(Authenticatable $user): static;

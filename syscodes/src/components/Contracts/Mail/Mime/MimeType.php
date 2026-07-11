@@ -30,8 +30,7 @@ interface MimeType extends MimeTypeGuesser
     /**
      * Gets the extensions for the given MIME type.
      * 
-     * @param  string  $mimeType
-     * 
+     * @param  string  $mimeType 
      * @return string[]
      */
     public function getExtensions(string $mimeType): array;
@@ -39,8 +38,7 @@ interface MimeType extends MimeTypeGuesser
     /**
      * Gets the MIME types for the given extension.
      * 
-     * @param  string  $extension
-     * 
+     * @param  string  $extension 
      * @return string[]
      */
     public function getMimeTypes(string $extension): array;

@@ -33,8 +33,7 @@ interface Encrypter
      * Encrypt the given value.
      * 
      * @param  mixed  $value
-     * @param  bool  $serialize
-     * 
+     * @param  bool  $serialize 
      * @return string
      * 
      * @throws \Syscodes\Components\Encryption\Exceptions\EncryptException
@@ -45,8 +44,7 @@ interface Encrypter
      * Encrypt the given value.
      * 
      * @param  string  $value
-     * @param  bool  $unserialize
-     * 
+     * @param  bool  $unserialize 
      * @return mixed
      * 
      * @throws \Syscodes\Components\Encryption\Exceptions\DecryptException
@@ -56,8 +54,7 @@ interface Encrypter
     /**
      * Decrypt the given string without unserialization.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      * 
      * @throws \Syscodes\Components\Encryption\Exceptions\DecryptException

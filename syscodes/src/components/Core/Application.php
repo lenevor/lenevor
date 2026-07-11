@@ -238,7 +238,6 @@ class Application extends Container implements ApplicationContract
      * Constructor. Create a new Application instance.
      * 
      * @param  string|null  $path 
-     * 
      * @return void
      */
     public function __construct($path = null)
@@ -257,8 +256,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Begin configuring a new Lenevor application instance.
      * 
-     * @param  string|null  $basePath
-     * 
+     * @param  string|null  $basePath 
      * @return \Syscodes\Components\Core\Configuration\ApplicationBootstrap
      */
     public static function configure(?string $basePath = null)
@@ -322,8 +320,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Set the base path for the application.
      *
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return static
      */
     public function setBasePath(string $path): static
@@ -381,8 +378,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Get the path to the application "app" directory.
      *
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return string
      */
     public function path($path = ''): string
@@ -393,8 +389,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Set the application directory.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return static
      */
     public function setAppPath($path): static
@@ -409,8 +404,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Get the base path of the Lenevor installation.
      *
-     * @param  string  $path  Optionally, a path to append to the base path
-     * 
+     * @param  string  $path  Optionally, a path to append to the base path 
      * @return string
      */
     public function basePath($path = ''): string
@@ -421,9 +415,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Get the path to the bootstrap directory.
      *
-     * @param  string  $path  Optionally, a path to append to the bootstrap path
-     * 
-     * 
+     * @param  string  $path  Optionally, a path to append to the bootstrap path 
      * @return string
      */
     public function bootstrapPath($path = ''): string
@@ -434,8 +426,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Set the bootstrap file directory.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return static
      */
     public function setBootstrapPath($path): static
@@ -460,8 +451,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Get the path to the application configuration files.
      *
-     * @param  string  $path  Optionally, a path to append to the config path
-     * 
+     * @param  string  $path  Optionally, a path to append to the config path 
      * @return string
      */
     public function configPath($path = ''): string
@@ -472,8 +462,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Set the database directory.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return static
      */
     public function setConfigPath($path): static
@@ -489,7 +478,6 @@ class Application extends Container implements ApplicationContract
      * Get the path to the database directory.
      *
      * @param  string  $path  Optionally, a path to append to the database path
-     * 
      * @return string
      */
     public function databasePath($path = ''): string
@@ -500,8 +488,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Set the database directory.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return static
      */
     public function setDatabasePath($path): static
@@ -516,8 +503,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Get the path to the lang directory.
      * 
-     * @param  string  $path  Optionally, a path to append to the lang path
-     * 
+     * @param  string  $path  Optionally, a path to append to the lang path 
      * @return string
      */
     public function langPath($path = ''): string
@@ -528,8 +514,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Set the lang directory.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return static
      */
     public function setlangPath($path): static
@@ -544,8 +529,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Get the path to the public / web directory.
      * 
-     *  @param  string  $path  Optionally, a path to append to the public path
-     * 
+     * @param  string  $path  Optionally, a path to append to the public path 
      * @return string
      */
     public function publicPath($path = ''): string
@@ -556,8 +540,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Set the public / web directory.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return static
      */
     public function setPublicPath($path): static
@@ -572,8 +555,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Get the path to the resources directory.
      *
-     * @param  string  $path $path  Optionally, a path to append to the resources path
-     * 
+     * @param  string  $path $path  Optionally, a path to append to the resources path 
      * @return string
      */
     public function resourcePath($path = ''): string
@@ -584,8 +566,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Get the path to the storage directory.
      * 
-     * @param  string  $path  Optionally, a path to append to the storage path
-     * 
+     * @param  string  $path  Optionally, a path to append to the storage path 
      * @return string
      */
     public function storagePath($path = ''): string
@@ -604,8 +585,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Set the database directory.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return static
      */
     public function setStoragePath($path): static
@@ -620,8 +600,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Get the path to the views directory.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return string
      */
     public function viewPath($path = ''): string
@@ -635,8 +614,7 @@ class Application extends Container implements ApplicationContract
      * Join the given paths together.
      * 
      * @param  string  $basePath
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return string
      */
     public function joinPaths($basePath, $path = '')
@@ -647,8 +625,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Run the given array of bootstap classes.
      * 
-     * @param  string[]  $bootstrappers
-     * 
+     * @param  string[]  $bootstrappers 
      * @return void
      */
     public function bootstrapWith(array $bootstrappers): void
@@ -668,14 +645,13 @@ class Application extends Container implements ApplicationContract
     public function skipGoingMiddleware(): bool
     {
         return $this->bound('middleware.disable') &&
-               $this->make('middleware.disable') === true;
+            $this->make('middleware.disable') === true;
     }
 
     /**
      * Set the directory for the environment file.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return static
      */
     public function setEnvironmentPath($path): static
@@ -698,8 +674,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Set the environment file to be loaded during bootstrapping.
      * 
-     * @param  string  $file
-     * 
+     * @param  string  $file 
      * @return static
      */
     public function setEnvironmentFile($file): static
@@ -732,8 +707,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Get or check the current application environment.
      * 
-     * @param  string|array  ...$environments
-     * 
+     * @param  string|array  ...$environments 
      * @return string|bool
      */
     public function environment(...$environments)
@@ -751,7 +725,6 @@ class Application extends Container implements ApplicationContract
      * Detect the application's current environment.
      * 
      * @param  \Closure  $callback
-     *
      * @return string
      */
     public function detectEnvironment(Closure $callback)
@@ -806,8 +779,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Register a new registered listener.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return void
      */
     public function registered($callback): void
@@ -829,8 +801,7 @@ class Application extends Container implements ApplicationContract
      * You can empty out this file, if you are certain that you match all requirements.
      * You can remove this if you are confident that your PHP version is sufficient.
      * 
-     * @param  int  $version
-     * 
+     * @param  int  $version 
      * @return string
      */
     protected function requerimentPhpVersion($version)
@@ -872,8 +843,7 @@ class Application extends Container implements ApplicationContract
      * (Overriding Container::make)
      * 
      * @param  string  $id
-     * @param  array   $parameters
-     * 
+     * @param  array   $parameters 
      * @return mixed
      */
     public function make($id, array $parameters = []): mixed
@@ -890,8 +860,7 @@ class Application extends Container implements ApplicationContract
      * 
      * @param  string  $id
      * @param  array   $parameters
-     * @param  bool  $raiseEvents
-     * 
+     * @param  bool  $raiseEvents 
      * @return mixed
      */
     protected function resolve($id, array $parameters = [], bool $raiseEvents = true): mixed
@@ -904,8 +873,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Load the deferred provider if the given type is a deferred service.
      * 
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return void
      */
     protected function loadDeferredProviderInstance($id)
@@ -928,7 +896,7 @@ class Application extends Container implements ApplicationContract
         $providers->splice(1, 0, [$this->make(PackageManifest::class)->providers()]);
             
         (new ProviderRepository($this, new Filesystem, $this->getCachedServicesPath()))
-                ->load($providers->collapse()->toArray());
+            ->load($providers->collapse()->toArray());
 
         $this->bootAppCallbacks($this->registeredCallbacks);
     }
@@ -937,8 +905,7 @@ class Application extends Container implements ApplicationContract
      * Register a service provider.
      * 
      * @param  \Syscodes\Components\Support\ServiceProvider|string  $provider
-     * @param  bool  $force
-     * 
+     * @param  bool  $force 
      * @return \Syscodes\Components\Support\ServiceProvider
      */
     public function register($provider, $force = false)
@@ -981,8 +948,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Get the registered service provider instance if it exists.
      * 
-     * @param  \Syscodes\Components\Support\ServiceProvider|string  $provider
-     * 
+     * @param  \Syscodes\Components\Support\ServiceProvider|string  $provider 
      * @return \Syscodes\Components\Support\ServiceProvider|null
      */
     public function getProvider($provider)
@@ -993,8 +959,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Get the registered service provider instances if any exist.
      * 
-     * @param  \Syscodes\Components\Support\ServiceProvider|string  $provider
-     * 
+     * @param  \Syscodes\Components\Support\ServiceProvider|string  $provider 
      * @return array
      */
     public function getProviders($provider)
@@ -1009,8 +974,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Resolve a service provider instance from the class name.
      * 
-     * @param  string  $provider
-     * 
+     * @param  string  $provider 
      * @return \Syscodes\Components\Support\ServiceProvider
      */
     public function resolveProviderClass($provider)
@@ -1021,8 +985,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Mark the given provider as registered.
      * 
-     * @param  \Syscodes\Components\Support\ServiceProvider  $provider
-     * 
+     * @param  \Syscodes\Components\Support\ServiceProvider  $provider 
      * @return void
      */
     protected function markAsRegistered($provider)
@@ -1049,8 +1012,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Load the provider for a deferred service.
      *
-     * @param  string  $service
-     * 
+     * @param  string  $service 
      * @return void
      */
     protected function loadDeferredProvider($service)
@@ -1089,8 +1051,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Determine if the given id type has been bound.
      * 
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return bool
      */
     public function bound($id): bool
@@ -1133,8 +1094,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Call the booting callbacks for the application.
      * 
-     * @param  callable[]  $callbacks
-     * 
+     * @param  callable[]  $callbacks 
      * @return void
      */
     protected function bootAppCallbacks(array $callbacks)
@@ -1151,8 +1111,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Boot the given service provider.
      * 
-     * @param  \Syscodes\Components\Support\ServiceProvider  $provider
-     * 
+     * @param  \Syscodes\Components\Support\ServiceProvider  $provider 
      * @return mixed
      */
     protected function bootProviderClass(ServiceProvider $provider)
@@ -1169,8 +1128,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Register a new boot listener.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return void
      */
     public function booting($callback): void
@@ -1181,8 +1139,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Register a new 'booted' listener.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return void
      */
     public function booted($callback): void
@@ -1288,8 +1245,7 @@ class Application extends Container implements ApplicationContract
      * Normalize a relative or absolute path to a cache file.
      * 
      * @param  string  $key
-     * @param  string  $default
-     * 
+     * @param  string  $default 
      * @return string
      */
     protected function normalizeCachePath($key, $default)
@@ -1330,8 +1286,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Determine if the given service provider is loaded.
      * 
-     * @param  string  $provider
-     * 
+     * @param  string  $provider 
      * @return bool
      */
     public function providerIsLoaded(string $provider): bool
@@ -1352,8 +1307,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Set the application's deferred services.
      * 
-     * @param  array  $services
-     * 
+     * @param  array  $services 
      * @return void
      */
     public function setDeferredServices(array $services): void
@@ -1364,8 +1318,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Determine if the given service is a deferred service.
      * 
-     * @param  string  $service
-     * 
+     * @param  string  $service 
      * @return bool
      */
     public function isDeferredService($service): bool
@@ -1376,8 +1329,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Add an array of services to the application's deferred services.
      * 
-     * @param  array  $services
-     * 
+     * @param  array  $services 
      * @return void
      */
     public function addDeferredServices(array $services): void
@@ -1388,8 +1340,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Handle the incoming HTTP request and send the response to the browser.
      * 
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return void
      */
     public function handleRequest(Request $request)
@@ -1405,8 +1356,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Handle the incoming Prime command.
      * 
-     * @param  \Symfony\Component\Console\Input\InputInterface  $input
-     * 
+     * @param  \Symfony\Component\Console\Input\InputInterface  $input 
      * @return int
      */
     public function handleCommand(InputInterface $input)
@@ -1429,8 +1379,7 @@ class Application extends Container implements ApplicationContract
      *
      * @param  int  $code
      * @param  string  $message
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return never
      *
      * @throws \Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException
@@ -1451,8 +1400,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Register a terminating callback with the application.
      * 
-     * @param  callable|string  $callback
-     * 
+     * @param  callable|string  $callback 
      * @return static
      */
     public function terminating($callback): static
@@ -1501,8 +1449,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Set the current application locale.
      * 
-     * @param  string  $locale
-     * 
+     * @param  string  $locale 
      * @return void
      */
     public function setLocale($locale): void
@@ -1525,8 +1472,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Set the current application fallback locale.
      * 
-     * @param  string  $fallbackLocale
-     * 
+     * @param  string  $fallbackLocale 
      * @return void
      */
     public function setFallbackLocale($fallbackLocale): void
@@ -1539,8 +1485,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Determine if application locale is the given locale.
      * 
-     * @param  string  $locale
-     * 
+     * @param  string  $locale 
      * @return bool
      */
     public function isLocale($locale): bool

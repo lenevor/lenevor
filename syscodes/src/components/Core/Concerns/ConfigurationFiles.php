@@ -34,8 +34,7 @@ trait ConfigurationFiles
     /**
      * Get all of the configuration files for the application.
      * 
-     * @param  \Syscodes\Components\Contracts\Core\Application  $app
-     * 
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app 
      * @return array
      */
     protected function getConfigurationFiles(Application $app): array
@@ -62,8 +61,7 @@ trait ConfigurationFiles
      * Get the configuration file nesting path.
      * 
      * @param  SplFileInfo  $file
-     * @param  string  $configPath
-     * 
+     * @param  string  $configPath 
      * @return string
      */
     protected function getNestedDirectory(SplFileInfo $file, $configPath): string

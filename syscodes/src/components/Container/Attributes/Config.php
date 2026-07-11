@@ -34,7 +34,6 @@ class Config implements ContextualAttribute
      * 
      * @param  string  $key
      * @param  mixed  $default
-     * 
      * @return void
      */
     public function __construct(public string $key, public mixed $default = null)
@@ -46,7 +45,6 @@ class Config implements ContextualAttribute
      *
      * @param  self  $attribute
      * @param  \Syscodes\Components\Contracts\Container\Container  $container
-     * 
      * @return mixed
      */
     public static function resolve(self $attribute, Container $container)

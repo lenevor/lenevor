@@ -50,8 +50,7 @@ class HttpException extends LenevorException
 	 * @param  string  $message  
 	 * @param  \Throwable  $previous 
 	 * @param  array  $headers
-	 * @param  int  $code
-	 * 
+	 * @param  int  $code 
 	 * @return void
 	 */
 	public function __construct(
@@ -90,8 +89,7 @@ class HttpException extends LenevorException
 	/**
 	 * Set response headers.
 	 * 
-	 * @param  array  $headers  Response headers
-	 * 
+	 * @param  array  $headers  Response headers 
 	 * @return mixed
 	 */
 	public function setHeaders(array $headers)

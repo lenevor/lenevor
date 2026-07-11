@@ -39,8 +39,7 @@ trait SupportsDefaultModels
     /**
      * Make a new related instance for the given model.
      * 
-     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent 
      * @return \Syscodes\Components\Database\Erostrine\Model
      */
     abstract protected function newRelatedInstanceFor(Model $parent);
@@ -48,8 +47,7 @@ trait SupportsDefaultModels
     /**
      * Return a new model instance in case the relationship does not exist.
      *
-     * @param  \Closure|array|bool  $callback
-     * 
+     * @param  \Closure|array|bool  $callback 
      * @return static
      */
     public function withDefault($callback = true): static
@@ -62,8 +60,7 @@ trait SupportsDefaultModels
     /**
      * Get the default value for this relation.
      * 
-     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent 
      * @return \Syscodes\Components\Database\Erostrine\Model|null
      */
     protected function getDefaultFor(Model $parent)

@@ -35,8 +35,7 @@ class DebugExceptionRender implements ExceptionRender
     /**
      * Renders the given exception as HTML.
      * 
-     * @param  \Throwable  $exception
-     * 
+     * @param  \Throwable  $exception 
      * @return string
      */
     public function render($exception): string

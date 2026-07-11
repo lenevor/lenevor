@@ -32,8 +32,7 @@ interface Handler
      * 
      * @param  mixed  $level
      * @param  string  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return bool
      */
     public function log($level, $message, array $context = []): bool;
@@ -42,8 +41,7 @@ interface Handler
      * Handles logging the message.
      * 
      * @param  string  $level
-     * @param  string  $message
-     * 
+     * @param  string  $message 
      * @return bool
      */
     public function handle($level, $message): bool;

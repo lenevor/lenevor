@@ -37,8 +37,7 @@ interface MimeTypeGuesser
     /**
      * Guesses the MIME type of the file with the given path.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return string
      */
     public function guessMimeType(string $path): ?string;

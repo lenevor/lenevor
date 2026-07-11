@@ -32,7 +32,6 @@ interface Kernel
 	 * Launch the application.
 	 * 
 	 * @param  \Syscodes\Components\http\Request  $request
-	 *
 	 * @return void
 	 */
  	public function handle($request);
@@ -41,8 +40,7 @@ interface Kernel
 	 * Call the finalize method on any terminable middleware.
 	 * 
 	 * @param  \Syscodes\Components\Http\Request  $request
-	 * @param  \Syscodes\Components\Http\Response  $response
-	 * 
+	 * @param  \Syscodes\Components\Http\Response  $response 
 	 * @return void
 	 */
 	public function finalize($request, $response);

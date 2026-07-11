@@ -73,8 +73,7 @@ trait HasAttributes
     /**
      * Get a given attribute on the model.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return array
      */
     public function getAttribute($key)
@@ -99,8 +98,7 @@ trait HasAttributes
      * Set a given attribute on the model.
      * 
      * @param  string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return static
      */
     public function setAttribute($key, $value): static
@@ -119,8 +117,7 @@ trait HasAttributes
     /**
      * Determine if a get mutator exists for an attribute.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return bool
      */
     public function hasGetMutator($key): bool
@@ -133,8 +130,7 @@ trait HasAttributes
     /**
      * Determine if a set mutator exists for an attribute.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return bool
      */
     public function hasSetMutator($key)
@@ -147,8 +143,7 @@ trait HasAttributes
     /**
      * Get a plain attribute (not a relationship).
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return mixed
      */
     protected function getAttributeValue($key)
@@ -165,8 +160,7 @@ trait HasAttributes
     /**
      * Get an attribute from the $attributes array.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return mixed
      */
     protected function getAttributeFromArray($key)
@@ -180,8 +174,7 @@ trait HasAttributes
      * Get the value of an attribute using its mutator.
      * 
      * @param  string  $key
-     * @param  mixed   $value
-     * 
+     * @param  mixed   $value 
      * @return mixed
      */
     protected function mutateAttribute($key, $value)
@@ -194,8 +187,7 @@ trait HasAttributes
     /**
      * Get a relationship.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return mixed
      */
     public function getRelationValue($key)
@@ -213,7 +205,6 @@ trait HasAttributes
      * Get a relationship value from a method.
      * 
      * @param  string  $method
-     * 
      * @return mixed
      */
     protected function getRelationFromMethod($method)
@@ -241,8 +232,7 @@ trait HasAttributes
      * Set the array of model attributes. No checking is done.
      * 
      * @param  array  $attributes
-     * @param  bool   $sync
-     * 
+     * @param  bool   $sync 
      * @return static
      */
     public function setRawAttributes(array $attributes, $sync = false): static
@@ -260,8 +250,7 @@ trait HasAttributes
      * Get the model's original attribute values.
      *
      * @param  string|null  $key
-     * @param  mixed  $default
-     * 
+     * @param  mixed  $default 
      * @return mixed|array
      */
     public function getOriginal($key = null, $default = null)
@@ -282,8 +271,7 @@ trait HasAttributes
     /**
      * Get an attribute array of all arrayable values.
      * 
-     * @param  array  $values
-     * 
+     * @param  array  $values 
      * @return array
      */
     protected function getArrayableItems(array $values): array
@@ -302,8 +290,7 @@ trait HasAttributes
     /**
      * Determine if the model or given attribute(s) have been modified.
      * 
-     * @param  array|string|null  $attributes
-     * 
+     * @param  array|string|null  $attributes 
      * @return bool
      */
     public function isDirty($attributes = null)
@@ -348,8 +335,7 @@ trait HasAttributes
     /**
      * Determine if the new and old values for a given key are numerically equivalent.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return bool
      */
     protected function originalIsNumericallyEquivalent($key): bool

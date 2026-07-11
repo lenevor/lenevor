@@ -123,7 +123,6 @@ class Kernel implements KernelContract
 	 * 
 	 * @param  \Syscodes\Components\Contracts\Core\Application  $app
 	 * @param  \Syscodes\Components\Routing\Router  $router
-	 * 
 	 * @return void
 	 */
 	public function __construct(Application $app, Router $router)
@@ -139,7 +138,6 @@ class Kernel implements KernelContract
 	 * Launch the application.
 	 * 
 	 * @param  \Syscodes\Components\http\Request  $request
-	 *
 	 * @return void
 	 */
 	public function handle($request)
@@ -164,8 +162,7 @@ class Kernel implements KernelContract
 	/**
 	 * Send the given request through the router.
 	 * 
-	 * @param  \Syscodes\Components\Http\Request  $request
-	 * 
+	 * @param  \Syscodes\Components\Http\Request  $request 
 	 * @return \Syscodes\Components\Http\Response
 	 */
 	protected function sendRequestThroughRouter($request)
@@ -241,8 +238,7 @@ class Kernel implements KernelContract
 	 * Call the finalize method on any terminable middleware.
 	 * 
 	 * @param  \Syscodes\Components\Http\Request  $request
-	 * @param  \Syscodes\Components\Http\Response  $response
-	 * 
+	 * @param  \Syscodes\Components\Http\Response  $response 
 	 * @return void
 	 */
 	public function finalize($request, $response)
@@ -266,8 +262,7 @@ class Kernel implements KernelContract
 	 * Call the finalize method on any terminable middleware.
 	 * 
 	 * @param  \Syscodes\Components\Http\Request  $request
-	 * @param  \Syscodes\Components\Http\Response  $response
-	 * 
+	 * @param  \Syscodes\Components\Http\Response  $response 
 	 * @return void
 	 */
 	protected function finalizeMiddleware($request, $response)
@@ -295,8 +290,7 @@ class Kernel implements KernelContract
 	/**
 	 * Gather the route middleware for the given request.
 	 * 
-	 * @param  \Syscodes\Components\Http\Request  $request
-	 * 
+	 * @param  \Syscodes\Components\Http\Request  $request 
 	 * @return array
 	 */
 	protected function gatherRouteMiddleware($request): array
@@ -311,8 +305,7 @@ class Kernel implements KernelContract
 	/**
 	 * Parse a middleware string to get the name and parameters.
 	 * 
-	 * @param  string  $middleware
-	 * 
+	 * @param  string  $middleware 
 	 * @return array
 	 */
 	protected function parseMiddleware($middleware): array
@@ -339,8 +332,7 @@ class Kernel implements KernelContract
 	/**
 	 * Set the application's global middleware.
 	 * 
-	 * @param  array  $middleware
-	 * 
+	 * @param  array  $middleware 
 	 * @return static
 	 */
 	public function setGlobalMiddleware(array $middleware): static
@@ -365,8 +357,7 @@ class Kernel implements KernelContract
 	/**
 	 * Set the application's middleware groups.
 	 * 
-	 * @param  array  $groups
-	 * 
+	 * @param  array  $groups 
 	 * @return static
 	 */
 	public function setMiddlewareGroups(array $groups): static
@@ -403,8 +394,7 @@ class Kernel implements KernelContract
 	/**
 	 * Set the application's route middleware aliases.
 	 * 
-	 * @param  array  $aliases
-	 * 
+	 * @param  array  $aliases 
 	 * @return static
 	 */
 	public function setMiddlewareAliases(array $aliases): static
@@ -429,8 +419,7 @@ class Kernel implements KernelContract
 	/**
 	 * Set the application's middleware priority.
 	 * 
-	 * @param  array  $priority
-	 * 
+	 * @param  array  $priority 
 	 * @return static
 	 */
 	public function setMiddlewarePriority(array $priority)
@@ -455,8 +444,7 @@ class Kernel implements KernelContract
 	/**
 	 * Sets the Lenevor application instance.
 	 * 
-	 * @param  \Syscodes\Components\Contracts\Core\Application  $app
-	 * 
+	 * @param  \Syscodes\Components\Contracts\Core\Application  $app 
 	 * @return static
 	 */
 	public function setApplication(Application $app): static
@@ -469,8 +457,7 @@ class Kernel implements KernelContract
 	/**
 	 * Report the exception to the exception handler.
 	 * 
-	 * @param  \Throwable  $e
-	 * 
+	 * @param  \Throwable  $e 
 	 * @return void
 	 */
 	protected function reportException(Throwable $e)
@@ -482,8 +469,7 @@ class Kernel implements KernelContract
 	 * Render the exception to a response.
 	 * 
 	 * @param  \Syscodes\Components\Http\Request  $request
-	 * @param  \Throwable  $e
-	 * 
+	 * @param  \Throwable  $e 
 	 * @return \Syscodes\Components\Http\Response
 	 */
 	protected function renderException($request, Throwable $e)

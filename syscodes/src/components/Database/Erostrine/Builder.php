@@ -116,8 +116,7 @@ class Builder implements BuilderContract
     /**
      * Constructor. The new Holisen query builder instance.
      * 
-     * @param  \Syscodes\Components\Database\query\Builder  $query
-     * 
+     * @param  \Syscodes\Components\Database\query\Builder  $query 
      * @return void
      */
     public function __construct(QueryBuilder $query)
@@ -128,8 +127,7 @@ class Builder implements BuilderContract
     /**
      * Add a where clause on the primary key to the query.
      * 
-     * @param  mixed  $id
-     * 
+     * @param  mixed  $id 
      * @return static
      */
     public function whereClauseKey($id): static
@@ -163,8 +161,7 @@ class Builder implements BuilderContract
      * @param  \Closure|string|array|\Syscodes\Components\Database\Query\Expression  $column
      * @param  mixed  $operator
      * @param  mixed  $value
-     * @param  string  $boolean
-     * 
+     * @param  string  $boolean 
      * @return static
      */
     public function where($column, $operator = null, $value = null, $boolean = 'and'): static
@@ -188,8 +185,7 @@ class Builder implements BuilderContract
      * @param  \Closure|string|array|\Syscodes\Components\Database\Query\Expression  $column
      * @param  mixed  $operator
      * @param  mixed  $value
-     * @param  string  $boolean
-     * 
+     * @param  string  $boolean 
      * @return \Syscodes\Components\Database\Erostrine\Model|static|null
      */
     public function firstWhere($column, $operator = null, $value = null, $boolean = 'and')
@@ -203,8 +199,7 @@ class Builder implements BuilderContract
      * @param  \Closure|string|array|\Syscodes\Components\Database\Query\Expression  $column
      * @param  mixed  $operator
      * @param  mixed  $value
-     * @param  string  $boolean
-     * 
+     * @param  string  $boolean 
      * @return static
      */
     public function whereNot($column, $operator = null, $value = null, $boolean = 'and'): static
@@ -217,8 +212,7 @@ class Builder implements BuilderContract
      * 
      * @param  \Closure|array|string|\Syscodes\Components\Database\Query\Expression  $column
      * @param  mixed  $operator
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return static
      */
     public function orWhereNot($column, $operator = null, $value = null): static
@@ -230,8 +224,7 @@ class Builder implements BuilderContract
      * Find a model by its primary key.
      * 
      * @param  mixed  $id
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return \Syscodes\Components\Database\Erostrine\Model|static|array|null
      */
     public function find($id, array $columns = ['*'])
@@ -248,7 +241,6 @@ class Builder implements BuilderContract
      *
      * @param  mixed  $id
      * @param  array|string  $columns
-     * 
      * @return \Syscodes\Components\Database\Erostrine\Model
      *
      * @throws \Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException
@@ -263,8 +255,7 @@ class Builder implements BuilderContract
      * Find a model by its primary key.
      * 
      * @param  array  $ids
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return \Syscodes\Components\Database\Erostrine\Model|Collection|static
      */
     public function findMany($ids, array $columns = ['*'])
@@ -282,8 +273,7 @@ class Builder implements BuilderContract
      * Find a model by its primary key or throw an exception.
      * 
      * @param  mixed  $id
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return \Syscodes\Components\Database\Erostrine\Model|\Syscodes\Components\Database\Erostrine\Collection|static|static[]
      * 
      * @throws \Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException
@@ -319,8 +309,7 @@ class Builder implements BuilderContract
      * Find a model by its primary key or return fresh model instance.
      * 
      * @param  mixed  $id
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return \Syscodes\Components\Database\Erostrine\Model|static
      */
     public function findOrNew($id, $columns = ['*'])
@@ -336,8 +325,7 @@ class Builder implements BuilderContract
      * Get the first record matching the attributes or instantiate it.
      * 
      * @param  array  $attributes
-     * @param  array  $values
-     * 
+     * @param  array  $values 
      * @return \Syscodes\Components\Database\Erostrine\Model|static
      */
     public function firstOrNew(array $attributes = [], array $values = [])
@@ -353,8 +341,7 @@ class Builder implements BuilderContract
      * Get the first record matching the attributes or create it.
      * 
      * @param  array  $attributes
-     * @param  array  $values
-     * 
+     * @param  array  $values 
      * @return \Syscodes\Components\Database\Erostrine\Model|static
      */
     public function firstOrCreate(array $attributes = [], array $values = [])
@@ -372,8 +359,7 @@ class Builder implements BuilderContract
      * Attempt to create the record. If a unique constraint violation occurs, attempt to find the matching record.
      *
      * @param  array  $attributes
-     * @param  \Closure|array  $values
-     * 
+     * @param  \Closure|array  $values 
      * @return \Syscodes\Components\Database\Erostrine\Model
      *
      * @throws \Syscodes\Components\Database\Exceptions\UniqueConstraintViolationException
@@ -391,8 +377,7 @@ class Builder implements BuilderContract
      * Create or update a record matching the attributes, and fill it with values.
      * 
      * @param  array  $attributes
-     * @param  array  $values
-     * 
+     * @param  array  $values 
      * @return \Syscodes\Components\Database\Erostrine\Model|static
      */
     public function updateOrCreate(array $attributes, array $values = [])
@@ -403,8 +388,7 @@ class Builder implements BuilderContract
     /**
      * Update records in the database.
      * 
-     * @param  array  $values
-     * 
+     * @param  array  $values 
      * @return int
      */
     public function update(array $values): int
@@ -415,8 +399,7 @@ class Builder implements BuilderContract
     /**
      * Add the "updated at" column to an array of values.
      * 
-     * @param  array  $values
-     * 
+     * @param  array  $values 
      * @return array
      */
     protected function addUpdatedAtColumn(array $values): array
@@ -432,8 +415,8 @@ class Builder implements BuilderContract
             
             if ($this->model->hasSetMutator($column)) {
                 $timestamp = $this->model->newInstance()
-                                  ->forceFill([$column => $timestamp])
-                                  ->getAttributes()[$column] ?? $timestamp;
+                    ->forceFill([$column => $timestamp])
+                    ->getAttributes()[$column] ?? $timestamp;
             }
             
             $values = array_merge([$column => $timestamp], $values);
@@ -453,8 +436,7 @@ class Builder implements BuilderContract
     /**
      * Execute the query and get the first result or throw an exception.
      *
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return \Syscodes\Components\Database\Erostrine\Model|static
      *
      * @throws \Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException
@@ -473,8 +455,7 @@ class Builder implements BuilderContract
     /**
      * Execute the query and get the first result if it's the sole matching record.
      *
-     * @param  array|string  $columns
-     * 
+     * @param  array|string  $columns 
      * @return \Syscodes\Components\Database\Erostrine\Model
      *
      * @throws \Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException
@@ -492,8 +473,7 @@ class Builder implements BuilderContract
      /**
      * Get a single column's value from the first result of a query.
      *
-     * @param  string|\Syscodes\Components\Contracts\Database\Query\Expression  $column
-     * 
+     * @param  string|\Syscodes\Components\Contracts\Database\Query\Expression  $column 
      * @return mixed
      */
     public function value($column)
@@ -508,8 +488,7 @@ class Builder implements BuilderContract
     /**
      * Get a single column's value from the first result of a query if it's the sole matching record.
      *
-     * @param  string|\Syscodes\Components\Contracts\Database\Query\Expression  $column
-     * 
+     * @param  string|\Syscodes\Components\Contracts\Database\Query\Expression  $column 
      * @return mixed
      *
      * @throws \Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException
@@ -525,8 +504,7 @@ class Builder implements BuilderContract
     /**
      * Get a single column's value from the first result of the query or throw an exception.
      *
-     * @param  string|\Syscodes\Components\Contracts\Database\Query\Expression  $column
-     * 
+     * @param  string|\Syscodes\Components\Contracts\Database\Query\Expression  $column 
      * @return mixed
      *
      * @throws \Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException
@@ -541,8 +519,7 @@ class Builder implements BuilderContract
     /**
      * Execute the query as a "select" statement.
      *
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return \Syscodes\Components\Database\Erostrine\Collection|static[]
      */
     public function get($columns = ['*'])
@@ -559,8 +536,7 @@ class Builder implements BuilderContract
     /**
      * Get the hydrated models.
      * 
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return \Syscodes\Components\Database\Erostrine\Model[]
      */
     public function getModels($columns = ['*'])
@@ -573,8 +549,7 @@ class Builder implements BuilderContract
     /**
      * Create a collection of models from plain arrays.
      * 
-     * @param  array  $items
-     * 
+     * @param  array  $items 
      * @return \Syscodes\Components\Database\Erostrine\Model[]
      */
     public function hydrate(array $items)
@@ -587,8 +562,7 @@ class Builder implements BuilderContract
     /**
      * Save a new model and return the instance.
      *
-     * @param  array  $attributes
-     * 
+     * @param  array  $attributes 
      * @return \Syscodes\Components\Database\Erostrine\Model|$this
      */
     public function create(array $attributes = [])
@@ -599,8 +573,7 @@ class Builder implements BuilderContract
     /**
      * Eager load the relationships for the models.
      * 
-     * @param  array  $models
-     * 
+     * @param  array  $models 
      * @return array
      */
     public function eagerLoadRelations(array $models): array
@@ -619,8 +592,7 @@ class Builder implements BuilderContract
      * 
      * @param  array  $models
      * @param  string  $name
-     * @param  \Closure|null  $constraints
-     * 
+     * @param  \Closure|null  $constraints 
      * @return array
      */
     protected function eagerLoadRelation(array $models, string $name, ?Closure $constraints = null): array
@@ -641,8 +613,7 @@ class Builder implements BuilderContract
     /**
      * Get the relation instance for the given relation name.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return \Syscodes\Components\Database\Erostrine\Relations\Relation
      * 
      * @throws \BadMethodCallException
@@ -670,8 +641,7 @@ class Builder implements BuilderContract
     /**
      * Gather the nested includes for a given relationship.
      * 
-     * @param  string  $relation
-     * 
+     * @param  string  $relation 
      * @return array
      */
     protected function nestedRelations($relation): array
@@ -693,8 +663,7 @@ class Builder implements BuilderContract
      * Determine if the relationship is nested.
      * 
      * @param  string  $relation
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     protected function isNested($relation, $name): bool
@@ -706,8 +675,7 @@ class Builder implements BuilderContract
      * Set the relationships that should be eager loaded.
      * 
      * @param  string|array  $relations
-     * @param  string|\Closure|null  $callback
-     * 
+     * @param  string|\Closure|null  $callback 
      * @return static
      */
     public function with($relations, $callback = null): static
@@ -726,8 +694,7 @@ class Builder implements BuilderContract
     /**
      * Get the eagerly loaded relationships for the model.
      * 
-     * @param  array  $relations
-     * 
+     * @param  array  $relations 
      * @return array
      */
     protected function parseWithRelations(array $relations): array
@@ -752,8 +719,7 @@ class Builder implements BuilderContract
      * @param  array|string  $columns
      * @param  string  $pageName
      * @param  int|null  $page
-     * @param  \Closure|int|null  $total
-     * 
+     * @param  \Closure|int|null  $total 
      * @return \Syscodes\Components\Contracts\Pagination\Paginator
      */
     public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null, $total = null)
@@ -780,8 +746,7 @@ class Builder implements BuilderContract
      * @param  int|null  $perPage
      * @param  array|string  $columns
      * @param  string  $pageName
-     * @param  int|null  $page
-     * 
+     * @param  int|null  $page 
      * @return \Syscodes\Components\Contracts\Pagination\SimplePaginator
      */
     public function simplePaginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
@@ -803,8 +768,7 @@ class Builder implements BuilderContract
     /**
      * Execute the given Closure within a transaction savepoint if needed.
      *
-     * @param  \Closure  $scope
-     * 
+     * @param  \Closure  $scope 
      * @return mixed
      */
     public function withSavepointIfNeeded(Closure $scope): mixed
@@ -839,8 +803,7 @@ class Builder implements BuilderContract
     /**
      * Set the query builder instance.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $builder
-     * 
+     * @param  \Syscodes\Components\Database\Query\Builder  $builder 
      * @return static
      */
     public function setQuery($builder): static
@@ -873,8 +836,7 @@ class Builder implements BuilderContract
     /**
      * Set the relationships being eagerly loaded.
      *
-     * @param  array  $eagerLoad
-     * 
+     * @param  array  $eagerLoad 
      * @return static
      */
     public function setEagerLoads(array $eagerLoad): static
@@ -897,8 +859,7 @@ class Builder implements BuilderContract
     /**
      * Set the model instance.
      * 
-     * @param  \Syscodes\Components\Database\Erostrine\Model  $model
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $model 
      * @return static
      */
     public function setModel(Model $model): static
@@ -913,8 +874,7 @@ class Builder implements BuilderContract
     /**
      * Set a master relation instance.
      * 
-     * @param  \Syscodes\Components\Database\Erostrine\Relations\Relation  $relation
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Relations\Relation  $relation 
      * @return static
      */
     public function setRelation(Relation $relation): static
@@ -927,8 +887,7 @@ class Builder implements BuilderContract
     /**
      * Create a new instance of the model being queried.
      * 
-     * @param  array  $attributes
-     * 
+     * @param  array  $attributes 
      * @return \Syscodes\Components\Database\Erostrine\Model|static
      */
     public function newModelInstance($attributes = [])
@@ -943,8 +902,7 @@ class Builder implements BuilderContract
      * 
      * Dynamically access builder proxies.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return mixed
      * 
      * @throws \Exception
@@ -968,8 +926,7 @@ class Builder implements BuilderContract
      * Dynamically handle method calls into the Builder instance.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      */
     public function __call(string $method, array $parameters): mixed
@@ -999,8 +956,7 @@ class Builder implements BuilderContract
      * Dynamically handle method calls into the Builder instance.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      * 
      * @throws BadMethodCallException

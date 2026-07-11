@@ -49,7 +49,6 @@ class Bind
      *
      * @param  string  $id
      * @param  string|array|UnitEnum  $environments
-     * 
      * @return void
      *
      * @throws \InvalidArgumentException

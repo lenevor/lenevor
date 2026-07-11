@@ -32,8 +32,7 @@ class ExceptionBootstrap
     /**
      * Constructor. Create a new exception handling configuration instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Debug\ExceptionHandler  $handler
-     * 
+     * @param  \Syscodes\Components\Contracts\Debug\ExceptionHandler  $handler 
      * @return void
      */
     public function __construct(protected ExceptionHandler $handler)
@@ -43,8 +42,7 @@ class ExceptionBootstrap
     /**
      * Register a reportable callback.
      * 
-     * @param  callable  $using
-     * 
+     * @param  callable  $using 
      * @return \Syscodes\Components\Core\Exceptions\Handler
      */
     public function report(callable $using)
@@ -55,8 +53,7 @@ class ExceptionBootstrap
     /**
      * Register a reportable callback.
      * 
-     * @param  callable  $reportUsing
-     * 
+     * @param  callable  $reportUsing 
      * @return \Syscodes\Components\Core\Exceptions\Handler
      */
     public function reportable(callable $reportUsing)
@@ -67,8 +64,7 @@ class ExceptionBootstrap
     /**
      * Register a renderable callback.
      * 
-     * @param  callable  $using
-     * 
+     * @param  callable  $using 
      * @return static
      */
     public function render(callable $using): static
@@ -81,8 +77,7 @@ class ExceptionBootstrap
     /**
      * Register a renderable callback.
      * 
-     * @param  callable  $renderUsing
-     * 
+     * @param  callable  $renderUsing 
      * @return static
      */
     public function renderable(callable $renderUsing): static

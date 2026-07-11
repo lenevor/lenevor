@@ -45,8 +45,7 @@ class HasMany extends HasOneOrMany
      * Initialize the relation on a set of models.
      * 
      * @param  array  $models
-     * @param  string  $relation
-     * 
+     * @param  string  $relation 
      * @return array
      */
     public function initRelation(array $models, $relation): array
@@ -63,8 +62,7 @@ class HasMany extends HasOneOrMany
      * 
      * @param  array   $models
      * @param  \Syscodes\Components\Database\Erostrine\Collection  $results
-     * @param  string  $relation
-     * 
+     * @param  string  $relation 
      * @return array
      */
     public function match(array $models, Collection $results, $relation): array

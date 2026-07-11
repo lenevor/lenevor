@@ -53,8 +53,7 @@ class Sequence implements Countable
     /**
      * Constructor. Create a new sequence instance.
      *
-     * @param  array  $sequence
-     * 
+     * @param  array  $sequence 
      * @return void
      */
     public function __construct(...$sequence)

@@ -37,8 +37,7 @@ interface Key
     /**
      * Fixes the string to remove unallowed characters.
      *
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return void
      */
     public function getFixKeyChars(string $key): void;

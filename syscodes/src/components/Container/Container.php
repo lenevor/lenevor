@@ -206,7 +206,6 @@ class Container implements ArrayAccess, ContainerContract
      * Set the shared instance of the container.
      *
      * @param  \Syscodes\Components\Contracts\Container\Container|null  $container
-     * 
      * @return \Syscodes\Components\Contracts\Container\Container|static
      */
     public static function setInstance(?ContainerContract $container = null)
@@ -217,8 +216,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Determine if the given id type has been bound.
      * 
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return bool
      */
     public function bound($id): bool
@@ -232,7 +230,6 @@ class Container implements ArrayAccess, ContainerContract
      * Determine if a given string is an alias.
      * 
      * @param  string  $name
-     * 
      * @return bool
      */
     public function isAlias($name): bool
@@ -244,8 +241,7 @@ class Container implements ArrayAccess, ContainerContract
      * Determine if the given id is buildable.
      * 
      * @param  string  $class
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return string
      */
     protected function isBuildable($class, $id)
@@ -258,7 +254,6 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @param  string  $id
      * @param  string  $alias
-     * 
      * @return void
      */
     public function alias($id, string $alias): void
@@ -280,7 +275,6 @@ class Container implements ArrayAccess, ContainerContract
      * @param  string  $id
      * @param  mixed  $target
      * @param  string  $method
-     * 
      * @return mixed
      */
     public function refresh($id, $target, $method): mixed
@@ -292,8 +286,7 @@ class Container implements ArrayAccess, ContainerContract
      * Bind a new callback to an id rebind event.
      * 
      * @param  string  $id
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return mixed
      */
     public function rebinding($id, Closure $callback)
@@ -309,7 +302,6 @@ class Container implements ArrayAccess, ContainerContract
      * @param  \Closure|string  $id
      * @param  \Closure|string|null  $value
      * @param  bool  $shared
-     * 
      * @return void
      */
     public function bind($id, $value = null, bool $shared = false): void
@@ -341,8 +333,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Drop all of the stale instances and aliases.
      *
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return void
      */
     protected function dropInstances($id): void
@@ -354,8 +345,7 @@ class Container implements ArrayAccess, ContainerContract
      * Get the closure to be used when building a type.
      * 
      * @param  string  $id
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return mixed
      */
     protected function getClosure($id, string $value): mixed
@@ -375,8 +365,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Determine if the given id type has been resolved.
      *
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return bool
      */
     public function resolved($id): bool
@@ -392,8 +381,7 @@ class Container implements ArrayAccess, ContainerContract
      * Extender an id type in the container.
      *
      * @param  string  $id
-     * @param  \Closure  $closure
-     * 
+     * @param  \Closure  $closure 
      * @return mixed
      */
     public function extend($id, Closure $closure)
@@ -416,8 +404,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Activate the  callbacks for the given id type.
      * 
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return void
      */
     protected function reBound($id): void
@@ -432,8 +419,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Get the has callbacks for a given type.
      * 
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return array
      */
     protected function getReBound($id): array
@@ -446,8 +432,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @param  \Closure|string  $id
      * @param  \Closure|string|null  $value
-     * @param  bool  $shared
-     * 
+     * @param  bool  $shared 
      * @return void
      */
     public function bindIf($id, $value = null, $shared = false): void
@@ -462,7 +447,6 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @param  \Closure|string  $id
      * @param  \Closure|string|null  $value
-     * 
      * @return void
      */
     public function singleton($id, $value = null): void
@@ -475,7 +459,6 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @param  \Closure|string  $id
      * @param  \Closure|string|null  $value
-     * 
      * @return void
      */
     public function singletonIf($id, $value = null): void
@@ -489,8 +472,7 @@ class Container implements ArrayAccess, ContainerContract
      * Register a scoped binding in the container.
      *
      * @param  \Closure|string  $id
-     * @param  \Closure|string|null  $value
-     * 
+     * @param  \Closure|string|null  $value 
      * @return void
      */
     public function scoped($id, $value = null): void
@@ -504,8 +486,7 @@ class Container implements ArrayAccess, ContainerContract
      * Register a scoped binding if it hasn't already been registered.
      * 
      * @param  \Closure|string  $id
-     * @param  \Closure|string|null  $value
-     * 
+     * @param  \Closure|string|null  $value 
      * @return void
      */
     public function scopedIf($id, $value = null): void
@@ -518,8 +499,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Remove all id traces of the specified binding.
      * 
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return void
      */
     protected function destroyBinding($id): void
@@ -532,8 +512,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Marks a callable as being a factory service.
      * 
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return \Closure
      */
     public function factory($id): Closure
@@ -555,8 +534,7 @@ class Container implements ArrayAccess, ContainerContract
      * Register an existing instance as singleton in the container.
      *
      * @param  string  $id
-     * @param  mixed  $instance
-     * 
+     * @param  mixed  $instance 
      * @return mixed
      */
     public function instance($id, $instance)
@@ -579,8 +557,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Remove an alias from the contextual binding alias cache.
      * 
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return void
      */
     protected function removeAbstractAlias($id)
@@ -612,8 +589,7 @@ class Container implements ArrayAccess, ContainerContract
      * An alias function name for make().
      * 
      * @param  string  $id
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      */
     public function makeAssign($id, array $parameters = []): mixed
@@ -625,8 +601,7 @@ class Container implements ArrayAccess, ContainerContract
      * Resolve the given type from the container.
      * 
      * @param  string  $id
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return object
      */
     public function make($id, array $parameters = []): mixed 
@@ -639,8 +614,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @param  string  $id
      * @param  array  $parameters
-     * @param  bool $raiseEvents
-     * 
+     * @param  bool $raiseEvents 
      * @return mixed
      */
     protected function resolve($id, array $parameters = [], bool $raiseEvents = true)
@@ -699,8 +673,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Get the alias for an id if available.
      * 
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return string
      */
     public function getAlias($id): string
@@ -713,8 +686,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Get the class type for a given id.
      *
-     * @param  string|callable  $id
-     * 
+     * @param  string|callable  $id 
      * @return mixed
      */
     protected function getvalue($id)
@@ -737,8 +709,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Get the class binding for an id from the Bind attribute.
      *
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return mixed
      */
     protected function getValueBindingFromAttributes($id)
@@ -796,7 +767,6 @@ class Container implements ArrayAccess, ContainerContract
      * Get the contextual value binding for the given id.
      * 
      * @param  string|callable  $id
-     * 
      * @return \Closure|string|array|null
      */
     protected function getContextualValue($id)
@@ -819,8 +789,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Find the value binding for the given id in the contextual binding array.
      * 
-     * @param  string|callable  $id
-     * 
+     * @param  string|callable  $id 
      * @return \Closure|string|null
      */
     protected function findInContextualBindings($id)
@@ -831,8 +800,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Instantiate a value instance of the given type.
      * 
-     * @param  \Closure|string  $value
-     * 
+     * @param  \Closure|string  $value 
      * @return mixed
      * 
      * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
@@ -895,8 +863,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Throw an exception that the value is not instantiable.
      *
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return void
      *
      * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
@@ -917,8 +884,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Resolve all of the dependencies from the ReflectionParameters.
      * 
-     * @param  array  $dependencies
-     * 
+     * @param  array  $dependencies 
      * @return array
      */
     protected function resolveDependencies(array $dependencies): array
@@ -951,8 +917,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Determine if the given dependency has a parameter override.
      *
-     * @param  \ReflectionParameter  $dependency
-     * 
+     * @param  \ReflectionParameter  $dependency 
      * @return bool
      */
     protected function getHasParameters($dependency): bool
@@ -973,8 +938,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Get a parameter override for a dependency.
      *
-     * @param  \ReflectionParameter  $dependency
-     * 
+     * @param  \ReflectionParameter  $dependency 
      * @return mixed
      */
     protected function getParameterOverride($dependency): mixed
@@ -985,8 +949,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Resolve a non-class hinted dependency.
      *
-     * @param  \ReflectionParameter  $parameter
-     * 
+     * @param  \ReflectionParameter  $parameter 
      * @return mixed
      *
      * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
@@ -1015,8 +978,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Throw an exception for an unresolvable class.
      * 
-     * @param  \ReflectionParameter  $parameter
-     * 
+     * @param  \ReflectionParameter  $parameter 
      * @return void
      * 
      * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
@@ -1031,8 +993,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Resolve a class based dependency from the container.
      *
-     * @param  \ReflectionParameter  $parameter
-     * 
+     * @param  \ReflectionParameter  $parameter 
      * @return mixed
      *
      * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
@@ -1065,8 +1026,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Resolve a class based variadic dependency from the container.
      * 
-     * @param  \ReflectionParameter  $parameter
-     * 
+     * @param  \ReflectionParameter  $parameter 
      * @return mixed
      */
     protected function resolveVariadicClass(ReflectionParameter $parameter): mixed
@@ -1086,8 +1046,7 @@ class Container implements ArrayAccess, ContainerContract
      * Register a new before resolving callback for all types.
      * 
      * @param  \Closure|string  $id 
-     * @param  \Closure|null  $callback
-     * 
+     * @param  \Closure|null  $callback 
      * @return void
      */
     public function beforeResolving($id, ?Closure $callback = null)
@@ -1107,8 +1066,7 @@ class Container implements ArrayAccess, ContainerContract
      * Register a new resolving callback.
      * 
      * @param  \Closure|string  $id
-     * @param  \Closure|null  $callback
-     * 
+     * @param  \Closure|null  $callback 
      * @return void
      */
     public function resolving($id, ?Closure $callback = null)
@@ -1128,8 +1086,7 @@ class Container implements ArrayAccess, ContainerContract
      * Register a new after resolving callback for all types.
      * 
      * @param  \Closure|string  $id
-     * @param  \Closure|null  $callback
-     * 
+     * @param  \Closure|null  $callback 
      * @return void
      */
     public function afterResolving($id, ?Closure $callback = null)
@@ -1149,8 +1106,7 @@ class Container implements ArrayAccess, ContainerContract
      * Fire all of the before resolving callbacks.
      * 
      * @param  string  $id
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return void
      */
     protected function fireBeforeResolvingCallbacks($id, $parameters = [])
@@ -1169,8 +1125,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @param  string  $id
      * @param  array  $parameters
-     * @param  array  $callbacks
-     * 
+     * @param  array  $callbacks 
      * @return void
      */
     protected function fireBeforeCallbackArray($id, $parameters, array $callbacks)
@@ -1184,8 +1139,7 @@ class Container implements ArrayAccess, ContainerContract
      * Fire all of the resolving callbacks.
      * 
      * @param  string  $id
-     * @param  mixed  $object
-     * 
+     * @param  mixed  $object 
      * @return void
      */
     protected function fireResolvingCallbacks($id, $object)
@@ -1203,8 +1157,7 @@ class Container implements ArrayAccess, ContainerContract
      * Fire all of the after resolving callbacks.
      * 
      * @param  string  $id
-     * @param  mixed  $object
-     * 
+     * @param  mixed  $object 
      * @return void
      */
     protected function fireAfterResolvingCallbacks($id, $object)
@@ -1220,8 +1173,7 @@ class Container implements ArrayAccess, ContainerContract
      * Fire all of the after resolving attribute callbacks.
      * 
      * @param  \ReflectionAttribute[]  $attributes
-     * @param  mixed  $object
-     * 
+     * @param  mixed  $object 
      * @return void
      */
     public function fireAfterResolvingAttributeCallbacks(array $attributes, $object)
@@ -1250,8 +1202,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @param  string  $id
      * @param  object  $object
-     * @param  array  $callbacksPerType
-     * 
+     * @param  array  $callbacksPerType 
      * @return array
      */
     protected function getCallbacksForType($id, $object, array $callbacksPerType)
@@ -1271,8 +1222,7 @@ class Container implements ArrayAccess, ContainerContract
      * Fire an array of callbacks with an object.
      * 
      * @param  mixed  $object
-     * @param  array  $callbacks
-     * 
+     * @param  array  $callbacks 
      * @return void
      */
     protected function fireCallbackArray($object, array $callbacks)
@@ -1285,8 +1235,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Determine if a given type is shared.
      * 
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return bool
      */
     protected function isShared($id): bool
@@ -1317,8 +1266,7 @@ class Container implements ArrayAccess, ContainerContract
     }/**
      * Determine if a ReflectionClass has scoping attributes applied.
      *
-     * @param  ReflectionClass|string  $reflection
-     * 
+     * @param  ReflectionClass|string  $reflection 
      * @return "singleton"|"scoped"|null
      */
     protected function getScopedTyped(ReflectionClass|string $reflection): ?string
@@ -1355,8 +1303,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * @param  callable|string  $callback
      * @param  array  $parameters
-     * @param  string|null  $defaultMethod
-     * 
+     * @param  string|null  $defaultMethod 
      * @return mixed
      */
     public function call($callback, array $parameters = [], $defaultMethod = null)
@@ -1367,8 +1314,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Remove all id traces of the specified binding.
      * 
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return void
      */
     public function remove($id): void
@@ -1380,8 +1326,7 @@ class Container implements ArrayAccess, ContainerContract
      * Set the binding with given key / value.
      * 
      * @param  string  $id
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return static
      */
     public function set($id, $value): static
@@ -1394,8 +1339,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Get the extender callbacks for a given type.
      * 
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return array
      */
     protected function getExtenders(string $id): array
@@ -1406,8 +1350,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Remove all of the extender callbacks.
      * 
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return void
      */
     public function eraseExtenders(string $id): void
@@ -1418,8 +1361,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Remove a resolved instance from the instance cache.
      * 
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return void
      */
     public function eraseInstance($id): void
@@ -1430,8 +1372,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Determine the environment for the container.
      *
-     * @param  array<int, string>|string  $environments
-     * 
+     * @param  array<int, string>|string  $environments 
      * @return bool
      */
     public function currentEnvironmentIs($environments)
@@ -1466,9 +1407,8 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Finds an entry of the container by its identifier and returns it.
      *
-     * @param  string  $id  Identifier of the entry to look for.
-     * 
-     * @return mixed Entry.
+     * @param  string  $id  Identifier of the entry to look for
+     * @return mixed Entry
      *
      * @throws EntryIdentifierException
      */
@@ -1489,8 +1429,7 @@ class Container implements ArrayAccess, ContainerContract
      * Returns true if the container can return an entry for the given identifier.
      * Returns false otherwise.
      * 
-     * @param  string  $id  Identifier of the entry to look for.
-     * 
+     * @param  string  $id  Identifier of the entry to look for
      * @return bool
      */
     public function has(string $id): bool
@@ -1507,8 +1446,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Determine if a given offset exists.
      * 
-     * @param  mixed  $offset
-     * 
+     * @param  mixed  $offset 
      * @return bool
      */
     public function offsetExists(mixed $offset): bool
@@ -1519,8 +1457,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Get the value at a given offset.
      * 
-     * @param  mixed  $offset
-     * 
+     * @param  mixed  $offset 
      * @return mixed
      */
     public function offsetGet(mixed $offset): mixed
@@ -1532,8 +1469,7 @@ class Container implements ArrayAccess, ContainerContract
      * Set the value at a given offset.
      * 
      * @param  mixed  $offset
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return void
      */
     public function offsetSet(mixed $offset, mixed $value): void
@@ -1544,8 +1480,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Unset the value at a given offset.
      * 
-     * @param  mixed  $offset
-     * 
+     * @param  mixed  $offset 
      * @return void
      */
     public function offsetUnset(mixed $offset): void
@@ -1558,8 +1493,7 @@ class Container implements ArrayAccess, ContainerContract
      * 
      * Dynamically access container services.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return mixed
      */
     public function __get(string $key): mixed
@@ -1573,8 +1507,7 @@ class Container implements ArrayAccess, ContainerContract
      * Dynamically set container services.
      * 
      * @param  string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return void
      */
     public function __set(string $key, mixed $value)

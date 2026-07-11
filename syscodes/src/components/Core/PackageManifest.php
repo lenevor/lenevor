@@ -72,8 +72,7 @@ class PackageManifest
      *
      * @param  \Syscodes\Components\Filesystem\Filesystem  $files
      * @param  string  $basePath
-     * @param  string  $manifestPath
-     * 
+     * @param  string  $manifestPath 
      * @return void
      */
     public function __construct(Filesystem $files, $basePath, $manifestPath)
@@ -107,8 +106,7 @@ class PackageManifest
     /**
      * Get all of the values for all packages for the given configuration name.
      *
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return array
      */
     public function config($key): array
@@ -167,8 +165,7 @@ class PackageManifest
     /**
      * Format the given package name.
      *
-     * @param  string  $package
-     * 
+     * @param  string  $package 
      * @return string
      */
     protected function format($package): string
@@ -195,8 +192,7 @@ class PackageManifest
     /**
      * Write the given manifest array to disk.
      *
-     * @param  array  $manifest
-     * 
+     * @param  array  $manifest 
      * @return void
      *
      * @throws \Exception

@@ -35,7 +35,6 @@ class CookieValue
      * @param  string  $cookieName
      * @param  string  $cookieValue
      * @param  string  $key
-     * 
      * @return string|null
      */
     public static function validate(string $cookieName, string $cookieValue, string $key): ?string
@@ -49,8 +48,7 @@ class CookieValue
      * Create a new cookie value prefix for the given cookie name.
      * 
      * @param  string  $cookieName
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return string
      */
     public static function create(string $cookieName, string $key): string
@@ -61,8 +59,7 @@ class CookieValue
     /**
      * Remove the cookie value prefix.
      * 
-     * @param  string  $cookieValue
-     * 
+     * @param  string  $cookieValue 
      * @return string
      */
     public static function remove(string $cookieValue): string

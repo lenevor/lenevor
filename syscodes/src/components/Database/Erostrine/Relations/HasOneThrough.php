@@ -83,8 +83,7 @@ class HasOneThrough extends HasOneOrManyThrough
     /**
      * Make a new related instance for the given model.
      *
-     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent 
      * @return \Syscodes\Components\Database\Erostrine\Model
      */
     public function newRelatedInstanceFor(Model $parent)

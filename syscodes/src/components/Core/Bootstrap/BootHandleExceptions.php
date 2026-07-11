@@ -48,8 +48,7 @@ class BootHandleExceptions
     /**
      * Bootstrap the given application.
      *
-     * @param  \Syscodes\Components\Contracts\Core\Application  $app
-     * 
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app 
      * @return void
      */
     public function bootstrap(Application $app)
@@ -75,8 +74,7 @@ class BootHandleExceptions
      * @param  int  $level
      * @param  string  $message
      * @param  string|null  $file
-     * @param  int  $line
-     * 
+     * @param  int  $line 
      * @return void
      * 
      * @throws \ErrorException
@@ -96,8 +94,7 @@ class BootHandleExceptions
      * @param  string  $message
      * @param  string  $file
      * @param  int  $line
-     * @param  int  $level
-     * 
+     * @param  int  $level 
      * @return void
      */
     public function handleDeprecationError($message, $file, $line, $level = E_DEPRECATED)
@@ -136,8 +133,7 @@ class BootHandleExceptions
     /**
      * Handle an exception for the application.
      * 
-     * @param  \Throwable  $e
-     * 
+     * @param  \Throwable  $e 
      * @return void
      */
     public function handleException(Throwable $e)
@@ -162,8 +158,7 @@ class BootHandleExceptions
     /**
      * Render an exception to the console.
      * 
-     * @param  \Throwable  $e
-     * 
+     * @param  \Throwable  $e 
      * @return void
      */
     protected function renderForConsole(Throwable $e)
@@ -174,8 +169,7 @@ class BootHandleExceptions
     /**
      * Render an exception as an HTTP response and send it.
      * 
-     * @param  \Throwable  $e
-     * 
+     * @param  \Throwable  $e 
      * @return void
      */
     protected function renderHttpResponse(Throwable $e)
@@ -198,8 +192,7 @@ class BootHandleExceptions
     /**
      * Forward a method call to the given method if an application instance exists.
      * 
-     * @param  string|object  $method
-     * 
+     * @param  string|object  $method 
      * @return callable
      */
     protected function forwardsTo($method): Closure
@@ -212,8 +205,7 @@ class BootHandleExceptions
     /**
      * Determine if the error level is a deprecation.
      * 
-     * @param  int  $level
-     * 
+     * @param  int  $level 
      * @return bool
      */
     protected function isDeprecation($level): bool
@@ -224,8 +216,7 @@ class BootHandleExceptions
     /**
      * Determine if the error type is fatal.
      * 
-     * @param  int  $type
-     * 
+     * @param  int  $type 
      * @return bool
      */
     protected function isFatal($type): bool
@@ -237,8 +228,7 @@ class BootHandleExceptions
      * Create a new fatal exception instance from an error array.
      * 
      * @param  array  $error
-     * @param  int|null  $traceOffset
-     * 
+     * @param  int|null  $traceOffset 
      * @return \Symfony\Component\ErrorHandler\Error\FatalError
      */
     protected function fatalExceptionFromError(array $error, ?int $traceOffset = null)

@@ -57,8 +57,7 @@ trait AsPivotTable
      * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
      * @param  array  $attributes
      * @param  string  $table
-     * @param  bool  $exists
-     * 
+     * @param  bool  $exists 
      * @return static
      */
     public static function fromAttributes(
@@ -87,8 +86,7 @@ trait AsPivotTable
      * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
      * @param  array  $attributes
      * @param  string  $table
-     * @param  bool  $exists
-     * 
+     * @param  bool  $exists 
      * @return static
      */
     public static function fromRawAttributtes(
@@ -107,8 +105,7 @@ trait AsPivotTable
     /**
      * Set the keys for a save update query.
      * 
-     * @param  \Syscodes\Components\Database\Erostrine\Builder  $query
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Builder  $query 
      * @return \Syscodes\Components\Database\Erostrine\Builder
      */
     protected function setKeysForSaveQuery($query)
@@ -199,8 +196,7 @@ trait AsPivotTable
      * Set the key names for the pivot model instance.
      * 
      * @param  string  $foreignKey
-     * @param  string  $relatedKey
-     * 
+     * @param  string  $relatedKey 
      * @return static
      */
     public function setPivotKeys($foreignKey, $relatedKey): static

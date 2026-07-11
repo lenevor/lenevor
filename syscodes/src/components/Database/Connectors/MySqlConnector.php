@@ -32,8 +32,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
     /**
      * Establish a database connection.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \PDO
      */
     public function connect(array $config)
@@ -57,8 +56,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
      * Create a DSN string from a configuration. Chooses socket or host / port based on
      * the 'unix_socket' config value.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return string
      */
     protected function getDsn(array $config): string
@@ -71,8 +69,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
     /**
      * Determine if the given configuration array has a UNIX socket value.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return bool
      */
     protected function hasSocket(array $config): bool
@@ -83,8 +80,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
     /**
      * Get the DSN string for a socket configuration.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return string
      */
     protected function getSocketDsn(array $config): string
@@ -95,8 +91,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
     /**
      * Get the DSN string for a host / port configuration.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return string
      */
     protected function getHostDsn(array $config): string
@@ -110,8 +105,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
      * Configure the given PDO connection.
      *
      * @param  \PDO  $connection
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return void
      */
     protected function configureConnection(PDO $connection, array $config)
@@ -145,8 +139,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
      * Set the modes for the connection.
      * 
      * @param  \PDO  $connection
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return string|null
      */
     protected function getSqlModes(PDO $connection, array $config): ?string

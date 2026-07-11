@@ -35,8 +35,7 @@ trait AuthorizesRequests
      * Authorize a given action against a set of arguments.
      * 
      * @param  mixed  $ability
-     * @param  mixed|array  $arguments
-     * 
+     * @param  mixed|array  $arguments 
      * @return \Syscodes\Components\Auth\Access\Response
      * 
      * @throws \Syscodes\Components\Auth\Access\Exceptions\AuthorizationException
@@ -53,8 +52,7 @@ trait AuthorizesRequests
      * 
      * @param  \Syscodes\Components\Contracts\Auth\Authenticatable|mixed  $user
      * @param  mixed  $ability
-     * @param  mixed|array  $arguments
-     * 
+     * @param  mixed|array  $arguments 
      * @return \Syscodes\Components\Auth\Access\Response
      * 
      * @throws \Syscodes\Components\Auth\Access\Exceptions\AuthorizationException
@@ -70,8 +68,7 @@ trait AuthorizesRequests
      * Guesses the ability's name if it wasn't provided.
      * 
      * @param  mixed  $ability
-     * @param  mixed|array  $arguments
-     * 
+     * @param  mixed|array  $arguments 
      * @return array
      */
     protected function parseAbilityAndArguments($ability, $arguments): array
@@ -90,8 +87,7 @@ trait AuthorizesRequests
     /**
      * Normalize the ability name that has been guessed from the method name.
      * 
-     * @param  string  $ability
-     * 
+     * @param  string  $ability 
      * @return string
      */
     protected function normalizeGuessedAbilityName($ability): string
@@ -107,8 +103,7 @@ trait AuthorizesRequests
      * @param  string|array  $model
      * @param  string|array|null  $parameter
      * @param  array  $options
-     * @param  \Syscodes\Components\Http\Request|null  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request|null  $request 
      * @return void
      */
     public function authorizeResource($model, $parameter = null, array $options = [], $request = null): void

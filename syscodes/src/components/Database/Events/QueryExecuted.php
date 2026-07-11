@@ -76,8 +76,7 @@ class QueryExecuted
      * @param  array  $bindings
      * @param  float|null  $time
      * @param  \Syscodes\Components\Database\Connections\Connection  $connection
-     * @param  null|'read'|'write'  $readWriteType
-     * 
+     * @param  null|'read'|'write'  $readWriteType 
      * @return void
      */
     public function __construct($sql, $bindings, $time, $connection, $readWriteType)

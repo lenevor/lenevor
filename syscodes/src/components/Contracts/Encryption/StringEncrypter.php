@@ -30,8 +30,7 @@ interface StringEncrypter
     /**
      * Encrypt a string without serialization.
      *
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      *
      * @throws \Syscodes\components\Encryption\Exceptions\EncryptException
@@ -41,8 +40,7 @@ interface StringEncrypter
     /**
      * Decrypt the given string without unserialization.
      *
-     * @param  string  $payload
-     * 
+     * @param  string  $payload 
      * @return string
      *
      * @throws \Syscodes\components\Encryption\Exceptions\EncryptException

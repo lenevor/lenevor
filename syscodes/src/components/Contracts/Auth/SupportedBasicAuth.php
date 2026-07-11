@@ -31,8 +31,7 @@ interface SupportedBasicAuth
      * Attempt to authenticate using HTTP Basic Auth.
      * 
      * @param  string  $field
-     * @param  array  $extraConditions
-     * 
+     * @param  array  $extraConditions 
      * @return \Syscodes\Components\Http\Response|null
      * 
      * @throws \Syscodes\Components\Core\Http\Exceptions\UnauthorizedHttpException
@@ -43,8 +42,7 @@ interface SupportedBasicAuth
      * Perform a stateless HTTP Basic login attempt.
      * 
      * @param  string  $field
-     * @param  array  $extraConditions
-     * 
+     * @param  array  $extraConditions 
      * @return \Syscodes\Components\Http\Response|null
      * 
      * @throws \Syscodes\Components\Core\Http\Exceptions\UnauthorizedHttpException

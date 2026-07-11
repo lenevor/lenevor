@@ -54,8 +54,7 @@ trait HidesAttributes
     /**
      * Set the hidden attributes for the model.
      * 
-     * @param  array  $hidden
-     * 
+     * @param  array  $hidden 
      * @return static
      */
     public function setHidden(array $hidden): static
@@ -78,8 +77,7 @@ trait HidesAttributes
     /**
      * Set the visible attributes for the model.
      * 
-     * @param  array  $visible
-     * 
+     * @param  array  $visible 
      * @return static
      */
     public function setVisible(array $visible): static

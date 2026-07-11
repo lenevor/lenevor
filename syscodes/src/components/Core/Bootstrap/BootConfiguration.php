@@ -36,8 +36,7 @@ class BootConfiguration
 	/**
 	 * Bootstrap the given application.
 	 * 
-	 * @param  \Syscodes\Components\Contracts\Core\Application  $app
-	 * 
+	 * @param  \Syscodes\Components\Contracts\Core\Application  $app 
 	 * @return void
 	 */
 	public function bootstrap(Application $app)

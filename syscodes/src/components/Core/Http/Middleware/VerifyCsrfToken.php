@@ -71,8 +71,7 @@ class VerifyCsrfToken
      * Constructor. Create a new VerifyCsrftoken class instance.
      * 
      * @param  \Syscodes\Components\Contracts\Core\Application  $app
-     * @param  \Syscodes\Components\Contracts\Encryption\Encrypter  $encrypter
-     * 
+     * @param  \Syscodes\Components\Contracts\Encryption\Encrypter  $encrypter 
      * @return void
      */
     public function __construct(Application $app, Encrypter $encrypter)
@@ -86,7 +85,6 @@ class VerifyCsrfToken
      * 
      * @param  \Syscodes\Components\Http\Request  $request
      * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next
-     * 
      * @return \Syscodes\Components\Http\Response
      */
     public function handle($request, Closure $next)
@@ -108,8 +106,7 @@ class VerifyCsrfToken
     /**
      * Determine if the HTTP request uses a ‘read’ verb.
      * 
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return bool
      */
     protected function isReading($request): bool
@@ -130,8 +127,7 @@ class VerifyCsrfToken
     /**
      * Determine if the request has a URI that should pass through CSRF verification.
      * 
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return bool
      */
     protected function inExceptArray($request): bool
@@ -152,8 +148,7 @@ class VerifyCsrfToken
     /**
      * Determine if the session and input CSRF tokens match.
      * 
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return bool
      */
     protected function tokensMatch($request): bool
@@ -168,8 +163,7 @@ class VerifyCsrfToken
     /**
      * Get the CSRF token from the request.
      * 
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return string|null
      */
     protected function getTokenFromRequest($request)
@@ -201,8 +195,7 @@ class VerifyCsrfToken
      * Add the CSRF token to the response cookies.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Symfony\Component\HttpFoundation\Response  $response
-     * 
+     * @param  \Symfony\Component\HttpFoundation\Response  $response 
      * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function addCookieToResponse($request, $response)
@@ -218,8 +211,7 @@ class VerifyCsrfToken
      * Create a new "XSRF-TOKEN" cookie that contains the CSRF token.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Symfony\Component\HttpFoundation\Cookie
      */
     protected function newCookie($request, $config)

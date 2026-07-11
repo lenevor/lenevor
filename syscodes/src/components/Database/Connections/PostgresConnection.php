@@ -44,8 +44,7 @@ class PostgresConnection extends Connection
     /**
      * Escape a binary value for safe SQL embedding.
      *
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function escapeBinary($value): string
@@ -58,8 +57,7 @@ class PostgresConnection extends Connection
     /**
      * Escape a bool value for safe SQL embedding.
      *
-     * @param  bool  $value
-     * 
+     * @param  bool  $value 
      * @return string
      */
     protected function escapeBool($value): string
@@ -70,8 +68,7 @@ class PostgresConnection extends Connection
     /**
      * Determine if the given database exception was caused by a unique constraint violation.
      *
-     * @param  \Exception  $exception
-     * 
+     * @param  \Exception  $exception 
      * @return bool
      */
     protected function isConstraintError(Exception $exception): bool

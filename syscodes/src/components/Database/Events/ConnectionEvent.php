@@ -44,8 +44,7 @@ abstract class ConnectionEvent
     /**
      * Constructor. Create a new event instance.
      * 
-     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
-     * 
+     * @param  \Syscodes\Components\Database\Connections\Connection  $connection 
      * @return void
      */
     public function __construct($connection)

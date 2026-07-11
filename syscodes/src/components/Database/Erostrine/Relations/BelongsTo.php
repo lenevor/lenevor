@@ -69,8 +69,7 @@ class BelongsTo extends Relation
      * @param  \Syscodes\Components\Database\Erostrine\Model  $child
      * @param  string  $foreignKey
      * @param  string  $ownerKey
-     * @param  string  $relationName
-     * 
+     * @param  string  $relationName 
      * @return void
      */
     public function __construct(
@@ -119,8 +118,7 @@ class BelongsTo extends Relation
     /**
      * Set the constraints for an eager load of the relation.
      * 
-     * @param  array  $models
-     * 
+     * @param  array  $models 
      * @return void
      */
     public function addEagerConstraints(array $models): void
@@ -133,8 +131,7 @@ class BelongsTo extends Relation
     /**
      * Gather the keys from an array of related models.
      * 
-     * @param  array  $models
-     * 
+     * @param  array  $models 
      * @return array
      */
     public function getEagerModelKeys(array $models): array
@@ -156,8 +153,7 @@ class BelongsTo extends Relation
      * Initialize the relation on a set of models.
      * 
      * @param  array  $models
-     * @param  string  $relation
-     * 
+     * @param  string  $relation 
      * @return array
      */
     public function initRelation(array $models, $relation): array
@@ -174,8 +170,7 @@ class BelongsTo extends Relation
      * 
      * @param  array  $models
      * @param  \Syscodes\Components\Database\Erostrine\Collection  $results
-     * @param  string  $relation
-     * 
+     * @param  string  $relation 
      * @return array
      */
     public function match(array $models, Collection $results, $relation): array
@@ -201,8 +196,7 @@ class BelongsTo extends Relation
     /**
      * Associate the model instance to the given parent.
      * 
-     * @param  \Syscodes\Components\Database\Erostrine\Model|int|string|null  $model
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model|int|string|null  $model 
      * @return \Syscodes\Components\Database\Erostrine\Model
      */
     public function associate($model)
@@ -235,8 +229,7 @@ class BelongsTo extends Relation
     /**
      * Update the parent model on the relationship.
      * 
-     * @param  array  $attributes
-     * 
+     * @param  array  $attributes 
      * @return mixed
      */
     public function update(array $attributes)
@@ -247,8 +240,7 @@ class BelongsTo extends Relation
     /**
      * Make a new related instance for the given model.
      * 
-     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent 
      * @return \Syscodes\Components\Database\Erostrine\Model
      */
     protected function newRelatedInstanceFor(Model $parent)

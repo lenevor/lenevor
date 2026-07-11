@@ -109,8 +109,7 @@ class FormRequest extends Request implements ValidatesResolved
     /**
      * Handle a failed validation attempt.
      * 
-     * @param  \Syscodes\Components\Contracts\Validation\Validator  $validator
-     * 
+     * @param  \Syscodes\Components\Contracts\Validation\Validator  $validator 
      * @return mixed
      */
     protected function failedValidation(Validator $validator)
@@ -147,8 +146,7 @@ class FormRequest extends Request implements ValidatesResolved
     /**
      * Get the proper failed validation response for the request.
      * 
-     * @param  array  $errors
-     * 
+     * @param  array  $errors 
      * @return \Syscodes\Components\Http\Response
      */
     public function response(array $errors)
@@ -175,8 +173,7 @@ class FormRequest extends Request implements ValidatesResolved
     /**
      * Format the errors from the given Validator instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Validation\Validator  $validator
-     * 
+     * @param  \Syscodes\Components\Contracts\Validation\Validator  $validator 
      * @return array
      */
     protected function formatErrors(Validator $validator): array
@@ -227,8 +224,7 @@ class FormRequest extends Request implements ValidatesResolved
     /**
      * Set the Redirector instance.
      * 
-     * @param  \Syscodes\Components\Routing\Generators\Redirector  $redirector
-     * 
+     * @param  \Syscodes\Components\Routing\Generators\Redirector  $redirector 
      * @return static
      */
     public function setRedirector(Redirector $redirector): static
@@ -241,8 +237,7 @@ class FormRequest extends Request implements ValidatesResolved
     /**
      * Set the container implementation.
      * 
-     * @param  \Syscodes\Components\Contracts\Container\Container  $container
-     * 
+     * @param  \Syscodes\Components\Contracts\Container\Container  $container 
      * @return static
      */
     public function setContainer(Container $container): static

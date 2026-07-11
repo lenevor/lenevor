@@ -31,8 +31,7 @@ class MariaDbConnector extends MySqlConnector
      * Set the modes for the connection.
      * 
      * @param  \PDO  $connection
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return string|null
      */
     protected function setSqlModes(PDO $connection, array $config): ?string

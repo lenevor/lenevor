@@ -75,8 +75,7 @@ class VendorPublishCommand extends Command
     /**
      * Constructor. Create a new vendor publish command instance.
      *
-     * @param  \Syscodes\Components\Filesystem\Filesystem  $files
-     * 
+     * @param  \Syscodes\Components\Filesystem\Filesystem  $files 
      * @return void
      */
     public function __construct(Filesystem $files)
@@ -156,8 +155,7 @@ class VendorPublishCommand extends Command
     /**
      * Parse the answer that was given via the prompt.
      *
-     * @param  string  $choice
-     * 
+     * @param  string  $choice 
      * @return void
      */
     protected function parseChoice($choice)
@@ -174,8 +172,7 @@ class VendorPublishCommand extends Command
     /**
      * Publishes the assets for a tag.
      *
-     * @param  string  $tag
-     * 
+     * @param  string  $tag 
      * @return mixed
      */
     protected function publishTag($tag)
@@ -206,7 +203,6 @@ class VendorPublishCommand extends Command
      * Get all of the paths to publish.
      *
      * @param  string  $tag
-     * 
      * @return array
      */
     protected function pathsToPublish($tag): array
@@ -221,7 +217,6 @@ class VendorPublishCommand extends Command
      *
      * @param  string  $from
      * @param  string  $to
-     * 
      * @return void
      */
     protected function publishItem($from, $to)
@@ -239,8 +234,7 @@ class VendorPublishCommand extends Command
      * Publish the file to the given path.
      *
      * @param  string  $from
-     * @param  string  $to
-     * 
+     * @param  string  $to 
      * @return void
      */
     protected function publishFile($from, $to)
@@ -271,8 +265,7 @@ class VendorPublishCommand extends Command
      * Publish the directory to the given directory.
      *
      * @param  string  $from
-     * @param  string  $to
-     * 
+     * @param  string  $to 
      * @return void
      */
     protected function publishDirectory($from, $to)
@@ -280,12 +273,13 @@ class VendorPublishCommand extends Command
         $this->copyDirectory($from, $to);    
 
         $this->status($from, $to, 'directory');
-    }/**
+    }
+    
+    /**
      * Copy a directory from one location to another.
      *
      * @param  string  $directory
-     * @param  string  $destination
-     * 
+     * @param  string  $destination 
      * @return bool
      */
     public function copyDirectory($directory, $destination): bool
@@ -325,8 +319,7 @@ class VendorPublishCommand extends Command
     /**
      * Create the directory to house the published files if needed.
      *
-     * @param  string  $directory
-     * 
+     * @param  string  $directory 
      * @return void
      */
     protected function createParentDirectory($directory)
@@ -341,8 +334,7 @@ class VendorPublishCommand extends Command
      *
      * @param  string  $from
      * @param  string  $to
-     * @param  string  $type
-     *  
+     * @param  string  $type  
      * @return void
      */
     protected function status($from, $to, $type)

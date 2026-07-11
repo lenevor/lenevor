@@ -41,8 +41,7 @@ class AddQueuedCookiesResponse
     /**
      * Constructor. Create a new CookieQueue instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Cookie\QueueingFactory  $cookies
-     * 
+     * @param  \Syscodes\Components\Contracts\Cookie\QueueingFactory  $cookies 
      * @return void
      */
     public function __construct(Cookie $cookies)
@@ -54,8 +53,7 @@ class AddQueuedCookiesResponse
      * Handle an incoming request.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next
-     * 
+     * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next 
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle($request, Closure $next): Response

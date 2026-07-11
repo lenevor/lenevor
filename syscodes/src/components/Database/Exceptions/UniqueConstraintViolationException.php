@@ -44,8 +44,7 @@ class UniqueConstraintViolationException extends QueryException
     /**
      * Set the unique index which caused the violation.
      *
-     * @param  string|null  $index
-     * 
+     * @param  string|null  $index 
      * @return self
      */
     public function setIndex(?string $index): self
@@ -58,8 +57,7 @@ class UniqueConstraintViolationException extends QueryException
     /**
      * Set the columns that caused the violation.
      *
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return self
      */
     public function setColumns(array $columns): self

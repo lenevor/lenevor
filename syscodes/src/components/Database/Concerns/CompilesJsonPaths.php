@@ -34,8 +34,7 @@ trait CompilesJsonPaths
      * Split the given JSON selector into the field and the optional 
      * path and wrap them separately.
      *
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return array
      */
     protected function wrapJsonFieldAndPath($column): array
@@ -53,8 +52,7 @@ trait CompilesJsonPaths
      * Wrap the given JSON path.
      *
      * @param  string  $value
-     * @param  string  $delimiter
-     * 
+     * @param  string  $delimiter 
      * @return string
      */
     protected function wrapJsonPath($value, $delimiter = '->'): string
@@ -72,7 +70,6 @@ trait CompilesJsonPaths
      * Wrap the given JSON path segment.
      *
      * @param  string  $segment
-     * 
      * @return string
      */
     protected function wrapJsonPathSegment($segment): string

@@ -58,8 +58,7 @@ class ViewClearCommand extends Command
     /**
      * Constructor. Create a new config clear command instance.
      *
-     * @param  \Syscodes\Components\Filesystem\Filesystem  $files
-     * 
+     * @param  \Syscodes\Components\Filesystem\Filesystem  $files 
      * @return void
      */
     public function __construct(Filesystem $files)

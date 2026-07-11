@@ -76,8 +76,7 @@ class SeederMakeCommand extends GeneratorCommand
     /**
      * Resolve the fully-qualified path to the template.
      *
-     * @param  string  $template
-     * 
+     * @param  string  $template 
      * @return string
      */
     protected function resolveTemplatePath($template): string
@@ -90,8 +89,7 @@ class SeederMakeCommand extends GeneratorCommand
     /**
      * Get the destination class path.
      *
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return string
      */
     protected function getPath($name): string

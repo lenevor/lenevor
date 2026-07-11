@@ -33,8 +33,7 @@ class BelongsToManyRelationship
      *
      * @param  \Syscodes\Components\Database\Erostrine\Factories\Factory|\Syscodes\Components\Support\Collection|\Syscodes\Components\Database\Erostrine\Model|array  $factory
      * @param  callable|array  $pivot
-     * @param  string  $relationship
-     * 
+     * @param  string  $relationship 
      * @return void
      */
     public function __construct($factory, $pivot, $relationship)
@@ -47,8 +46,7 @@ class BelongsToManyRelationship
     /**
      * Create the attached relationship for the given model.
      *
-     * @param  \Syscodes\Components\Database\Erostrine\Model  $model
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $model 
      * @return void
      */
     public function createFor(Model $model)
@@ -70,8 +68,7 @@ class BelongsToManyRelationship
     /**
      * Specify the model instances to always use when creating relationships.
      *
-     * @param  \Syscodes\Components\Support\Collection  $recycle
-     * 
+     * @param  \Syscodes\Components\Support\Collection  $recycle 
      * @return static
      */
     public function recycle($recycle): static

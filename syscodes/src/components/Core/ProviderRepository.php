@@ -57,8 +57,7 @@ class ProviderRepository
      * 
      * @param  \Syscodes\Components\Contracts\Core\Application  $app
      * @param  \Syscodes\Components\Filesystem\Filesystem  $files
-     * @param  string  $manifestPath
-     * 
+     * @param  string  $manifestPath 
      * @return void
      */
     public function __construct(Application $app, Filesystem $files, $manifestPath)
@@ -71,8 +70,7 @@ class ProviderRepository
     /**
      * Register the application service providers.
      * 
-     * @param  array  $providers
-     * 
+     * @param  array  $providers 
      * @return void
      */
     public function load(array $providers)
@@ -114,8 +112,7 @@ class ProviderRepository
      * Determine if the manifest should be compiled.
      * 
      * @param  array  $manifest
-     * @param  array  $providers
-     * 
+     * @param  array  $providers 
      * @return bool
      */
     public function shouldRecompile($manifest, $providers): bool
@@ -127,8 +124,7 @@ class ProviderRepository
      * Register the load events for the given provider.
      * 
      * @param  string  $provider
-     * @param  array  $events
-     * 
+     * @param  array  $events 
      * @return void
      */
     protected function registerLoadEvents($provider, array $events): void
@@ -143,8 +139,7 @@ class ProviderRepository
     /**
      * Compile the application service manifest file.
      * 
-     * @param  array  $providers
-     * 
+     * @param  array  $providers 
      * @return array
      */
     protected function compileManifest($providers): array
@@ -171,8 +166,7 @@ class ProviderRepository
     /**
      * Create a fresh service manifest data structure.
      * 
-     * @param  array  $providers
-     * 
+     * @param  array  $providers 
      * @return array
      */
     protected function freshManifest(array $providers): array
@@ -183,8 +177,7 @@ class ProviderRepository
     /**
      * Write the service manifest file to disk.
      * 
-     * @param  array  $manifest
-     * 
+     * @param  array  $manifest 
      * @return array
      * 
      * @throws \Exception
@@ -205,8 +198,7 @@ class ProviderRepository
     /**
      * Create a new provider instance.
      * 
-     * @param  string  $provider
-     * 
+     * @param  string  $provider 
      * @return \Syscodes\Components\Support\ServiceProvider
      */
     public function createProvider($provider)

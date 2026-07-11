@@ -61,8 +61,7 @@ class ResetCommand extends BaseMigrationCommand
     /**
      * Create a new migration rollback command instance.
      *
-     * @param  \Syscodes\Components\Database\Migrations\Migrator  $migrator
-     * 
+     * @param  \Syscodes\Components\Database\Migrations\Migrator  $migrator 
      * @return void
      */
     public function __construct(Migrator $migrator)

@@ -33,8 +33,7 @@ trait HasFactory
     /**
      * Get a new factory instance for the model.
      *
-     * @param  mixed  $parameters
-     * 
+     * @param  mixed  $parameters 
      * @return \Syscodes\Components\Database\Erostrine\Factories\Factory
      */
     public static function factory(...$parameters)

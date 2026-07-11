@@ -32,8 +32,7 @@ interface Pipeline
     /**
      * Set the given object being sent on the pipeline.
      * 
-     * @param  mixed  $sender
-     * 
+     * @param  mixed  $sender 
      * @return self
      */
     public function send($sender): self;
@@ -41,8 +40,7 @@ interface Pipeline
     /**
      * Set the array of pipes.
      * 
-     * @param  array|mixed  $pipes
-     * 
+     * @param  array|mixed  $pipes 
      * @return self
      */
     public function through($pipes): self;
@@ -50,8 +48,7 @@ interface Pipeline
     /**
      * Set the method to call on the stops.
      * 
-     * @param  string  $method
-     * 
+     * @param  string  $method 
      * @return self
      */
     public function method($method): self;
@@ -59,8 +56,7 @@ interface Pipeline
     /**
      * Run the pipeline with a final destination callback.
      * 
-     * @param  \Closure  $destination
-     * 
+     * @param  \Closure  $destination 
      * @return mixed
      */
     public function then(Closure $destination);

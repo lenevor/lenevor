@@ -45,8 +45,7 @@ class HigherOrderBuilderProxy
      * Constructor. Create a new builder proxy instance.
      * 
      * @param  \Syscodes\Components\Database\Erostrine\Builder  $builder 
-     * @param  string  $method
-     * 
+     * @param  string  $method 
      * @return void
      */
     public function __construct(Builder $builder, $method)
@@ -62,7 +61,6 @@ class HigherOrderBuilderProxy
      * 
      * @param  string  $method
      * @param  array  $parameters
-     * 
      * @return mixed
      */
     public function __call(string $method, array $parameters): mixed

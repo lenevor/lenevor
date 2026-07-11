@@ -41,8 +41,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Set the base path for the application.
      *
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return static
      */
     public function setBasePath(string $path): static;
@@ -50,8 +49,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Get the base path of the Lenevor installation.
      *
-     * @param  string  $path  Optionally, a path to append to the base path
-     * 
+     * @param  string  $path  Optionally, a path to append to the base path 
      * @return string
      */
     public function basePath($path = ''): string;
@@ -59,8 +57,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Get the path to the bootstrap directory.
      *
-     * @param  string  $path  Optionally, a path to append to the bootstrap path
-     * 
+     * @param  string  $path  Optionally, a path to append to the bootstrap path 
      * @return string
      */
     public function bootstrapPath($path = ''): string;
@@ -75,8 +72,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Get the path to the application configuration files.
      *
-     * @param  string  $path  Optionally, a path to append to the config path
-     * 
+     * @param  string  $path  Optionally, a path to append to the config path 
      * @return string
      */
     public function configPath($path = ''): string;
@@ -84,8 +80,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Get the path to the database directory.
      *
-     * @param  string  $path  Optionally, a path to append to the database path
-     * 
+     * @param  string  $path  Optionally, a path to append to the database path 
      * @return string
      */
     public function databasePath($path = ''): string;
@@ -93,8 +88,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Get the path to the lang directory.
      * 
-     * @param  string  $path  Optionally, a path to append to the lang path
-     * 
+     * @param  string  $path  Optionally, a path to append to the lang path 
      * @return string
      */
     public function langPath($path = ''): string;
@@ -109,8 +103,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Get the path to the resources directory.
      *
-     * @param  string  $path $path  Optionally, a path to append to the resources path
-     * 
+     * @param  string  $path $path  Optionally, a path to append to the resources path 
      * @return string
      */
     public function resourcePath($path = ''): string;
@@ -118,8 +111,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Get the path to the storage directory.
      * 
-     * @param  string  $path  Optionally, a path to append to the storage path
-     * 
+     * @param  string  $path  Optionally, a path to append to the storage path 
      * @return string
      */
     public function storagePath($path = ''): string;
@@ -127,8 +119,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Get the path to the views directory.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return string
      */
     public function viewPath($path = ''): string;
@@ -136,8 +127,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Run the given array of bootstap classes.
      * 
-     * @param  string[]  $bootstrappers
-     * 
+     * @param  string[]  $bootstrappers 
      * @return void
      */
     public function bootstrapWith(array $bootstrappers): void;
@@ -173,8 +163,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Set the environment file to be loaded during bootstrapping.
      * 
-     * @param  string  $file
-     * 
+     * @param  string  $file 
      * @return static
      */
     public function setEnvironmentFile($file): static;
@@ -183,7 +172,6 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
      * Detect the application's current environment.
      * 
      * @param  \Closure  $callback
-     *
      * @return string
      */
     public function detectEnvironment(Closure $callback);
@@ -234,8 +222,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
      * Register a service provider.
      * 
      * @param  \Syscodes\Components\Support\ServiceProvider|string  $provider
-     * @param  bool  $force
-     * 
+     * @param  bool  $force 
      * @return \Syscodes\Components\Support\ServiceProvider
      */
     public function register($provider, $force = false);
@@ -243,8 +230,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Register a new registered listener.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return void
      */
     public function registered($callback): void;
@@ -252,8 +238,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Resolve a service provider instance from the class name.
      * 
-     * @param  string  $provider
-     * 
+     * @param  string  $provider 
      * @return \Syscodes\Components\Support\ServiceProvider
      */
     public function resolveProviderClass($provider);
@@ -275,8 +260,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Determine if the given service provider is loaded.
      * 
-     * @param  string  $provider
-     * 
+     * @param  string  $provider 
      * @return bool
      */
     public function providerIsLoaded(string $provider): bool;
@@ -291,8 +275,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Set the application's deferred services.
      * 
-     * @param  array  $services
-     * 
+     * @param  array  $services 
      * @return void
      */
     public function setDeferredServices(array $services): void;
@@ -300,8 +283,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Determine if the given service is a deferred service.
      * 
-     * @param  string  $service
-     * 
+     * @param  string  $service 
      * @return bool
      */
     public function isDeferredService($service): bool;
@@ -309,8 +291,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Add an array of services to the application's deferred services.
      * 
-     * @param  array  $services
-     * 
+     * @param  array  $services 
      * @return void
      */
     public function addDeferredServices(array $services);
@@ -318,8 +299,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Determine if the given id type has been bound.
      * 
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return bool
      */
     public function bound($id): bool;
@@ -341,8 +321,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Register a new boot listener.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return void
      */
     public function booting($callback): void;
@@ -350,8 +329,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Register a new 'booted' listener.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return void
      */
     public function booted($callback): void;
@@ -373,8 +351,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Set the current application locale.
      * 
-     * @param  string  $locale
-     * 
+     * @param  string  $locale 
      * @return void
      */
     public function setLocale($locale): void;
@@ -389,8 +366,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Set the current application fallback locale.
      * 
-     * @param  string  $fallbackLocale
-     * 
+     * @param  string  $fallbackLocale 
      * @return void
      */
     public function setFallbackLocale($fallbackLocale): void;
@@ -398,8 +374,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Determine if application locale is the given locale.
      * 
-     * @param  string  $locale
-     * 
+     * @param  string  $locale 
      * @return bool
      */
     public function isLocale($locale): bool;
@@ -407,8 +382,7 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     /**
      * Register a terminating callback with the application.
      * 
-     * @param  callable|string  $callback
-     * 
+     * @param  callable|string  $callback 
      * @return static
      */
     public function terminating($callback): static;

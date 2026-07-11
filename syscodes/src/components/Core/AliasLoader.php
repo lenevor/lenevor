@@ -58,8 +58,7 @@ class AliasLoader
     /**
      * Get o create the singleton alias loader instance.
      * 
-     * @param  array  $aliases
-     * 
+     * @param  array  $aliases 
      * @return \Syscodes\Components\Core\AliasLoader
      */
     public static function getInstance(array $aliases = []) 
@@ -78,8 +77,7 @@ class AliasLoader
     /**
      * Set the value of the singleton alias loader.
      * 
-     * @param  \Syscodes\Components\Core\AliasLoader  $loader
-     * 
+     * @param  \Syscodes\Components\Core\AliasLoader  $loader 
      * @return void
      */
     public static function setInstance($loader): void
@@ -90,8 +88,7 @@ class AliasLoader
     /**
      * Set the real-time facade namespace.
      * 
-     * @param  string  $namespace
-     * 
+     * @param  string  $namespace 
      * @return void
      */
     public static function setFacadeNamespace($namespace): void
@@ -102,8 +99,7 @@ class AliasLoader
     /**
      * Constructor. Create a new AliasLoader instance.
      * 
-     * @param  array  $aliases
-     * 
+     * @param  array  $aliases 
      * @return void
      */
     private function __construct($aliases)
@@ -114,8 +110,7 @@ class AliasLoader
     /**
      * Load a class alias if it is registered.
      *
-     * @param  string  $alias
-     * 
+     * @param  string  $alias 
      * @return bool|null
      */
     public function load($alias)
@@ -133,8 +128,7 @@ class AliasLoader
     /**
      * Load a real-time facade for the given alias.
      *
-     * @param  string  $alias
-     * 
+     * @param  string  $alias 
      * @return void
      */
     protected function loadFacade($alias)
@@ -145,8 +139,7 @@ class AliasLoader
     /**
      * Ensure that the given alias has an existing real-time facade class.
      *
-     * @param  string  $alias
-     * 
+     * @param  string  $alias 
      * @return string
      */
     protected function ensureFacadeExists($alias)
@@ -164,8 +157,7 @@ class AliasLoader
      * Format the facade template with the proper namespace and class.
      *
      * @param  string  $alias
-     * @param  string  $template
-     * 
+     * @param  string  $template 
      * @return string
      */
     protected function formatFacadeTemplate($alias, $template): string
@@ -216,6 +208,8 @@ class AliasLoader
     /**
      * Set the registered aliases.
      * 
+     * @param  array  $aliases
+     * 
      * @return void
      */
     public function setAliases(array $aliases): void
@@ -227,8 +221,7 @@ class AliasLoader
      * Add an alias to the loader.
      * 
      * @param  string  $class
-     * @param  string  $alias
-     * 
+     * @param  string  $alias 
      * @return void
      */
     public function alias($class, $alias): void
@@ -249,8 +242,7 @@ class AliasLoader
     /**
      * Set the registered state of the loader.
      * 
-     * @param  bool  $value
-     * 
+     * @param  bool  $value 
      * @return void
      */
     public function setResgistered($value): void

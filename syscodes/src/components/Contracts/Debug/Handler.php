@@ -39,7 +39,6 @@ interface Handler
 	 * to be taken at this point.
 	 *
 	 * @param  \Throwable  $exception
-	 *
 	 * @return string
 	 */
 	public function handleException(Throwable $exception): string;
@@ -47,8 +46,7 @@ interface Handler
 	/**
 	 * Pushes a handler to the end of the stack.
 	 * 
-	 * @param  string|callable  $handler
-	 * 
+	 * @param  string|callable  $handler 
 	 * @return \Syscodes\Components\Contracts\Debug\Handler
 	 */
 	public function pushHandler($handler);
@@ -57,7 +55,6 @@ interface Handler
 	 * Appends a handler to the end of the stack.
 	 * 
 	 * @param  callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
-	 * 
 	 * @return self
 	 */
 	public function appendHandler($handler): self;
@@ -65,8 +62,7 @@ interface Handler
 	/**
 	 * Prepends a handler to the start of the stack.
 	 * 
-	 * @param  callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
-	 * 
+	 * @param  callable|\Syscodes\Components\Contracts\Debug\Handler  $handler 
 	 * @return self
 	 */
 	public function prependHandler($handler): self;
@@ -88,8 +84,7 @@ interface Handler
 	/**
 	 * Allow Handlers to force the script to quit.
 	 * 
-	 * @param  bool|int|null  $exit
-	 * 
+	 * @param  bool|int|null  $exit 
 	 * @return bool
 	 */
 	public function allowQuit($exit = null);
@@ -100,7 +95,6 @@ interface Handler
 	 * by exception.
 	 * 
 	 * @param  bool|int|null  $send
-	 *
 	 * @return bool
 	 */
 	public function writeToOutput($send = null);
@@ -135,8 +129,7 @@ interface Handler
 	 * @param  int  $level
 	 * @param  string  $message
 	 * @param  string|null  $file
-	 * @param  int|null  $line
-	 * 
+	 * @param  int|null  $line 
 	 * @return bool
 	 * 
 	 * @throws \ErrorException
@@ -152,8 +145,7 @@ interface Handler
 	 * Lenevor Exception will by default send HTTP code 500, but you may wish
 	 * to use 502, 503, or another 5xx family code.
 	 * 
-	 * @param  bool|int  $code
-	 * 
+	 * @param  bool|int  $code 
 	 * @return int|false
 	 * 
 	 * @throws \InvalidArgumentException

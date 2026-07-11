@@ -47,8 +47,7 @@ class HasOne extends HasOneOrMany
      * Initialize the relation on a set of models.
      * 
      * @param  array  $models
-     * @param  string  $relation
-     * 
+     * @param  string  $relation 
      * @return array
      */
     public function initRelation(array $models, $relation): array
@@ -65,8 +64,7 @@ class HasOne extends HasOneOrMany
      * 
      * @param  array   $models
      * @param  \Syscodes\Components\Database\Erostrine\Collection  $results
-     * @param  string  $relation
-     * 
+     * @param  string  $relation 
      * @return array
      */
     public function match(array $models, Collection $results, $relation): array
@@ -77,8 +75,7 @@ class HasOne extends HasOneOrMany
     /**
      * Make a new related instance for the given model.
      * 
-     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent 
      * @return \Syscodes\Components\Database\Erostrine\Model
      */
     public function newRelatedInstanceFor(Model $parent)

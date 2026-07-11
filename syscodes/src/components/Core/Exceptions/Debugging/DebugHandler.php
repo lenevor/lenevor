@@ -44,8 +44,7 @@ class DebugHandler
     /**
      * Register the editor with the handler.
      *
-     * @param  \Syscodes\Components\Debug\Handlers\PleasingPageHandler $handler
-     * 
+     * @param  \Syscodes\Components\Debug\Handlers\PleasingPageHandler $handler 
      * @return static
      */
     protected function registerEditor($handler): static

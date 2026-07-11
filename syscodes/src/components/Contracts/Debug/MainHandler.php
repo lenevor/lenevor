@@ -39,8 +39,7 @@ interface MainHandler
     /**
      * Sets debug.
      * 
-     * @param  \Syscodes\Components\Contracts\Debug\Handler  $debug
-     * 
+     * @param  \Syscodes\Components\Contracts\Debug\Handler  $debug 
      * @return void
      */
     public function setDebug($debug): void;
@@ -48,8 +47,7 @@ interface MainHandler
     /**
      * Sets exception.
      * 
-     * @param  \Throwable  $exception
-     * 
+     * @param  \Throwable  $exception 
      * @return void
      */
     public function setException($exception): void;
@@ -57,8 +55,7 @@ interface MainHandler
     /**
      * Sets supervisor.
      * 
-     * @param  \Syscodes\Components\Debug\Engines\Supervisor  $supervisor
-     * 
+     * @param  \Syscodes\Components\Debug\Engines\Supervisor  $supervisor 
      * @return void
      */
     public function setSupervisor(Supervisor $supervisor): void;

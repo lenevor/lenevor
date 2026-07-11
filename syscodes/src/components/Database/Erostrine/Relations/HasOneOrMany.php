@@ -52,8 +52,7 @@ abstract class HasOneOrMany extends Relation
      * @param  \Syscodes\Components\Database\Erostrine\Builder  $builder
      * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
      * @param  string  $foreignKey
-     * @param  string  $localKey
-     * 
+     * @param  string  $localKey 
      * @return void
      */
     public function __construct(
@@ -87,8 +86,7 @@ abstract class HasOneOrMany extends Relation
     /**
      * Set the constraints for an eager load of the relation.
      * 
-     * @param  array  $models
-     * 
+     * @param  array  $models 
      * @return void
      */
     public function addEagerConstraints(array $models): void
@@ -105,8 +103,7 @@ abstract class HasOneOrMany extends Relation
      * 
      * @param  array   $models
      * @param  \Syscodes\Components\Database\Erostrine\Collection  $results
-     * @param  string  $relation
-     * 
+     * @param  string  $relation 
      * @return array
      */
     public function matchOne(array $models, Collection $results, $relation): array
@@ -119,8 +116,7 @@ abstract class HasOneOrMany extends Relation
      * 
      * @param  array   $models
      * @param  \Syscodes\Components\Database\Erostrine\Collection  $results
-     * @param  string  $relation
-     * 
+     * @param  string  $relation 
      * @return array
      */
     public function matchMany(array $models, Collection $results, $relation): array
@@ -134,8 +130,7 @@ abstract class HasOneOrMany extends Relation
      * @param  array   $models
      * @param  \Syscodes\Components\Database\Erostrine\Collection  $results
      * @param  string  $relation
-     * @param  string  $type
-     * 
+     * @param  string  $type 
      * @return array
      */
     protected function matchOneOrMany(
@@ -164,8 +159,7 @@ abstract class HasOneOrMany extends Relation
      * 
      * @param  array   $dictionary
      * @param  string  $key
-     * @param  string  $type
-     * 
+     * @param  string  $type 
      * @return mixed
      */
     protected function getRelationValue(array $dictionary, $key, $type)
@@ -178,8 +172,7 @@ abstract class HasOneOrMany extends Relation
     /**
      * Build model dictionary keyed by the relation's foreign key.
      * 
-     * @param  \Syscodes\Components\Database\Erostrine\Collection  $results
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Collection  $results 
      * @return array
      */
     protected function buildDictionary(Collection $results): array
@@ -210,8 +203,7 @@ abstract class HasOneOrMany extends Relation
     /**
      * Attach a model instance to the parent model.
      * 
-     * @param  \Syscodes\Components\Database\Erostrine\Model  $model
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $model 
      * @return \Syscodes\Components\Database\Erostrine\Model
      */
     public function save(Model $model)
@@ -224,8 +216,7 @@ abstract class HasOneOrMany extends Relation
     /**
      * Attach an array of models to the parent instance.
      * 
-     * @param  array  $models
-     * 
+     * @param  array  $models 
      * @return array
      */
     public function saveMany(array $models): array

@@ -35,8 +35,7 @@ interface RouteResponse
      *
      * @param  string  $body
      * @param  int  $status
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return \Syscodes\Components\Http\Response
      */
     public function make($body = '', $status = 200, array $headers = []): Response;
@@ -45,8 +44,7 @@ interface RouteResponse
      * Creates a new 'no content' response.
      * 
      * @param  int  $status
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return \Syscodes\Components\Http\Response
      */
     public function noContent($status = 204, array $headers = []): Response;
@@ -57,8 +55,7 @@ interface RouteResponse
      * @param  string  $view
      * @param  array  $data
      * @param  int  $status
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return  \Syscodes\Components\Http\Response
      */
     public function view(
@@ -74,8 +71,7 @@ interface RouteResponse
      * @param  mixed  $data
      * @param  int  $status
      * @param  array  $headers
-     * @param  int  $options
-     * 
+     * @param  int  $options 
      * @return \Syscodes\Components\Http\JsonResponse
      */
     public function json(
@@ -91,8 +87,7 @@ interface RouteResponse
      * @param  string  $path
      * @param  int  $status
      * @param  array  $headers
-     * @param  bool|null  $secure
-     * 
+     * @param  bool|null  $secure 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function redirectTo(
@@ -108,8 +103,7 @@ interface RouteResponse
      * @param  string  $route
      * @param  mixed  $parameters
      * @param  int  $status
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function redirectToRoute(
@@ -125,8 +119,7 @@ interface RouteResponse
      * @param  string  $action
      * @param  mixed  $parameters
      * @param  int  $status
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function redirectToAction(
@@ -142,8 +135,7 @@ interface RouteResponse
      * @param  string  $path
      * @param  int  $status
      * @param  array  $headers
-     * @param  bool|null  $secure
-     * 
+     * @param  bool|null  $secure 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function redirectGuest(
@@ -159,8 +151,7 @@ interface RouteResponse
      * @param  string  $default
      * @param  int  $status
      * @param  array  $headers
-     * @param  bool|null  $secure
-     * 
+     * @param  bool|null  $secure 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function redirectToIntended(

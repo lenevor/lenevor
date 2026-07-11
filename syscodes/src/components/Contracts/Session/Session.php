@@ -38,7 +38,6 @@ interface Session
      * Set the name of the session.
      * 
      * @param  string  $name
-     * 
      * @return void
      */
     public function setName($name): void;
@@ -76,8 +75,7 @@ interface Session
     /**
      * Set the session ID.
      * 
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return void
      */
     public function setId($id): void;
@@ -85,8 +83,7 @@ interface Session
     /**
      * Determine if this is a valid session ID.
      * 
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return bool
      */
     public function isValidId($id): bool;
@@ -109,8 +106,7 @@ interface Session
      * Remove one or many items from the session.
      * 
      * @param  string  $key
-     * @param  mixed  $default
-     * 
+     * @param  mixed  $default 
      * @return mixed
      */
     public function pull($key, $default = null): mixed;
@@ -119,8 +115,7 @@ interface Session
      * Push a value onto a session array.
      * 
      * @param  string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return void
      */
     public function push($key, $value): void;
@@ -128,8 +123,7 @@ interface Session
     /**
      * Checks if an a key is present and not null.
      * 
-     * @param  string|array  $key
-     * 
+     * @param  string|array  $key 
      * @return bool
      */
     public function has($key): bool;
@@ -139,8 +133,7 @@ interface Session
      * the default value as the second argument to the get method.
      * 
      * @param  string  $key
-     * @param  mixed  $default
-     * 
+     * @param  mixed  $default 
      * @return mixed
      */
     public function get($key, $default = null): mixed;
@@ -148,8 +141,7 @@ interface Session
     /**
      * Replace the given session attributes entirely.
      * 
-     * @param  array  $attributes
-     * 
+     * @param  array  $attributes 
      * @return void
      */
     public function replace(array $attributes): void;
@@ -158,8 +150,7 @@ interface Session
      * Put a key / value pair or array of key / value pairs in the session.
      * 
      * @param  string|array  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return void
      */
     public function put($key, $value = null): void;
@@ -167,8 +158,7 @@ interface Session
     /**
      * Remove an key from the session.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return mixed
      */
     public function remove($key): mixed;
@@ -176,8 +166,7 @@ interface Session
     /**
      * Remove one or many items from the session.
      * 
-     * @param  string|array  $keys
-     * 
+     * @param  string|array  $keys 
      * @return void
      */
     public function erase($keys): void;
@@ -185,8 +174,7 @@ interface Session
     /**
      * Checks if a key exists.
      * 
-     * @param  string|array  $key
-     * 
+     * @param  string|array  $key 
      * @return bool
      */
     public function exists($key): bool;
@@ -195,8 +183,7 @@ interface Session
      * Flash a key / value pair to the session.
      * 
      * @param  string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return void
      */
     public function flash(string $key, $value = true): void;
@@ -233,16 +220,14 @@ interface Session
      * Generate a new session identifier.
      * 
      * @param  bool  $destroy
-     * 
-     * @return void
+     * @return callable
      */
     public function regenerate($destroy = false): callable;
 
     /**
      * Generate a new session ID for the session.
      * 
-     * @param  bool  $destroy
-     * 
+     * @param  bool  $destroy 
      * @return bool
      */
     public function migrate(bool $destroy = false): bool;
@@ -264,8 +249,7 @@ interface Session
     /**
      * Set the "previous" URL in the session.
      * 
-     * @param  string  $url
-     * 
+     * @param  string  $url 
      * @return void
      */
     public function setPreviousUrl($url): void;
@@ -287,8 +271,7 @@ interface Session
     /**
      * Set the request on the handler instance.
      *
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return void
      */
     public function setRequestOnHandler($request): void;

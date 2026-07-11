@@ -33,7 +33,6 @@ interface Application
      * @param  \Symfony\Component\Console\Command\Command|string  $command
      * @param  array  $parameters
      * @param  \Symfony\Component\Console\Output\OutputInterface|null  $outputBuffer
-	 * 
      * @return int
      *
      * @throws \Symfony\Component\Console\Exception\CommandNotFoundException

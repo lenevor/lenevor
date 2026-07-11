@@ -55,8 +55,7 @@ class BelongsToRelationship
      * Constructor. Create a new "belongs to" relationship definition.
      *
      * @param  \Syscodes\Components\Database\Erostrine\Factories\Factory|\Syscodes\Components\Database\Erostrine\Model  $factory
-     * @param  string  $relationship
-     * 
+     * @param  string  $relationship 
      * @return void
      */
     public function __construct($factory, $relationship)
@@ -68,8 +67,7 @@ class BelongsToRelationship
     /**
      * Get the parent model attributes and resolvers for the given child model.
      *
-     * @param  \Syscodes\Components\Database\Erostrine\Model  $model
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $model 
      * @return array
      */
     public function attributesFor(Model $model): array
@@ -84,8 +82,7 @@ class BelongsToRelationship
     /**
      * Get the deferred resolver for this relationship's parent ID.
      *
-     * @param  string|null  $key
-     * 
+     * @param  string|null  $key 
      * @return Closure
      */
     protected function resolver($key): Closure
@@ -104,8 +101,7 @@ class BelongsToRelationship
     /**
      * Specify the model instances to always use when creating relationships.
      *
-     * @param  \Syscodes\Components\Support\Collection  $recycle
-     * 
+     * @param  \Syscodes\Components\Support\Collection  $recycle 
      * @return static
      */
     public function recycle($recycle): static

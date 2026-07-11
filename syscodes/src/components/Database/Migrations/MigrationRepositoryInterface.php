@@ -37,8 +37,7 @@ interface MigrationRepositoryInterface
     /**
      * Get the list of migrations.
      *
-     * @param  int  $limit
-     * 
+     * @param  int  $limit 
      * @return array
      */
     public function getMigrations($limit): array;
@@ -46,8 +45,7 @@ interface MigrationRepositoryInterface
     /**
      * Get the list of the migrations by batch.
      *
-     * @param  int  $batch
-     * 
+     * @param  int  $batch 
      * @return array
      */
     public function getMigrationsByBatch($batch): array;
@@ -70,8 +68,7 @@ interface MigrationRepositoryInterface
      * Log that a migration was run.
      *
      * @param  string  $file
-     * @param  int  $batch
-     * 
+     * @param  int  $batch 
      * @return void
      */
     public function log($file, $batch);
@@ -79,8 +76,7 @@ interface MigrationRepositoryInterface
     /**
      * Remove a migration from the log.
      *
-     * @param  object  $migration
-     * 
+     * @param  object  $migration 
      * @return void
      */
     public function delete($migration);

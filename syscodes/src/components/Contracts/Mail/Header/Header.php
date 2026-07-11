@@ -31,7 +31,6 @@ interface Header
 	 * Adds multiple header.
 	 * 
 	 * @param  string  $headers  The header name
-	 * 
 	 * @return static
 	 */
     public function add(string $headers): static;
@@ -39,8 +38,7 @@ interface Header
     /**
      * If exist the name of header.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     public function has(string $name): bool;
@@ -48,8 +46,7 @@ interface Header
     /**
      * Gets a header value by name.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return mixed
      */
     public function get(string $name): mixed;
@@ -57,8 +54,7 @@ interface Header
     /**
      * Returns all the headers.
      * 
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return iterable
      */
     public function all(?string $name = null): iterable;
@@ -67,7 +63,6 @@ interface Header
 	 * Removes a header.
 	 * 
 	 * @param  string  $name  The header name
-	 * 
 	 * @return void
 	 */
     public function remove(string $name): void;
@@ -82,8 +77,7 @@ interface Header
     /**
      * Sets the max line length.
      * 
-     * @param  int  $lineLength
-     * 
+     * @param  int  $lineLength 
      * @return void
      */
     public function setMaxLineLength(int $lineLength): void;

@@ -48,8 +48,7 @@ abstract class MigrationEvent implements MigrationEventContract
      * Create a new event instance.
      *
      * @param  \Syscodes\Components\Database\Migrations\Migration  $migration
-     * @param  string  $method
-     * 
+     * @param  string  $method 
      * @return void
      */
     public function __construct(Migration $migration, $method)

@@ -32,8 +32,7 @@ trait WithoutModelEvents
     /**
      * Prevent model events from being dispatched by the given callback.
      *
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return callable
      */
     public function withoutModelEvents(callable $callback): callable

@@ -31,8 +31,7 @@ interface Writer
      * Write to an environment variable.
      * 
      * @param  string  $name
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return bool
      */
     public function write(string $name, string $value): bool;
@@ -40,8 +39,7 @@ interface Writer
     /**
      * Delete an environment variable.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     public function delete(string $name): bool;

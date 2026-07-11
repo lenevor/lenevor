@@ -67,8 +67,7 @@ class EncryptCookies
     /**
      * Constructor. Create a new EncryptCookies class instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Encryption\Encrypter  $encrypter
-     * 
+     * @param  \Syscodes\Components\Contracts\Encryption\Encrypter  $encrypter 
      * @return void
      */
     public function __construct(EncryptContract $encrypter)
@@ -79,8 +78,7 @@ class EncryptCookies
     /**
      * Disable encryption for the given cookie name(s).
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return void
      */
     public function disableFor($name): void
@@ -92,8 +90,7 @@ class EncryptCookies
      * Handle an incoming request.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next
-     * 
+     * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next 
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle($request, Closure $next): Response
@@ -106,8 +103,7 @@ class EncryptCookies
     /**
      * Decrypt the cookies on the request.
      * 
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return \Syscodes\Components\Http\Request
      */
     protected function decrypt(Request $request): Request
@@ -133,8 +129,7 @@ class EncryptCookies
      * Decrypt the given cookie and return the value.
      * 
      * @param  string  $name
-     * @param  array|string  $cookie
-     * 
+     * @param  array|string  $cookie 
      * @return string|array
      */
     protected function decryptCookie($name, $cookie)
@@ -147,8 +142,7 @@ class EncryptCookies
     /**
      * Decrypt an array based cookie.
      * 
-     * @param  array  $cookie
-     * 
+     * @param  array  $cookie 
      * @return array
      */
     protected function decryptArray(array $cookie): array
@@ -172,8 +166,7 @@ class EncryptCookies
      * Validate and remove the cookie value prefix from the value.
      * 
      * @param  string  $key
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string|array|null
      */
     protected function validateValue(string $key, $value)
@@ -187,8 +180,7 @@ class EncryptCookies
      * Validate and remove the cookie value prefix from all values of an array.
      * 
      * @param  string  $key
-     * @param  array  $value
-     * 
+     * @param  array  $value 
      * @return array
      */
     protected function validateArray(string $key, array $value): array
@@ -205,8 +197,7 @@ class EncryptCookies
     /**
      * Encrypt the cookies on an outgoing response.
      * 
-     * @param  \Symfony\Component\HttpFoundation\Response  $response
-     * 
+     * @param  \Symfony\Component\HttpFoundation\Response  $response 
      * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function encrypt(Response $response): Response
@@ -232,8 +223,7 @@ class EncryptCookies
      * Duplicate a cookie with a new value.
      * 
      * @param  \Symfony\Component\HttpFoundation\Cookie  $cookie
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return \Symfony\Component\HttpFoundation\Cookie
      */
     protected function duplicate(Cookie $cookie, $value)
@@ -244,8 +234,7 @@ class EncryptCookies
     /**
      * Determine whether encryption has been disabled for the given cookie.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     protected function isDisabled($name): bool
@@ -256,8 +245,7 @@ class EncryptCookies
     /**
      * Indicate that the given cookies should never be encrypted.
      * 
-     * @param  array|string  $cookies
-     * 
+     * @param  array|string  $cookies 
      * @return void
      */
     public static function except($cookies): void
@@ -270,8 +258,7 @@ class EncryptCookies
     /**
      * Determine if the cookie contents should be serialized.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     public static function serialized($name): bool

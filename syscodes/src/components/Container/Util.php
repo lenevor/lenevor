@@ -35,8 +35,7 @@ class Util
      * Return the default value of the given value.
      * 
      * @param  mixed  $value
-     * @param  mixed  ...$args
-     * 
+     * @param  mixed  ...$args 
      * @return mixed
      */
     public static function unwrapExistOfClosure(mixed $value, mixed ...$args): mixed
@@ -47,8 +46,7 @@ class Util
     /**
      * Get the class name of the given parameter's type.
      * 
-     * @param  \ReflectionParameter  $parameter
-     * 
+     * @param  \ReflectionParameter  $parameter 
      * @return string|null
      */
     public static function getParameterClassName(ReflectionParameter $parameter): string|null

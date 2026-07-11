@@ -31,8 +31,7 @@ interface StateGuard extends Guard
      * Attempt to authenticate a user using the given credentials.
      * 
      * @param  array  $credentials
-     * @param  bool  $remember
-     * 
+     * @param  bool  $remember 
      * @return bool
      */
     public function attempt(array $credentials = [], bool $remember = false): bool;
@@ -40,8 +39,7 @@ interface StateGuard extends Guard
     /**
      * Log a user into the application without sessions or cookies.
      * 
-     * @param  array  $credentials
-     * 
+     * @param  array  $credentials 
      * @return bool
      */
     public function once(array $credentials = []): bool;
@@ -50,8 +48,7 @@ interface StateGuard extends Guard
      * Log a user into the application.
      * 
      * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user
-     * @param  bool  $remember
-     * 
+     * @param  bool  $remember 
      * @return void
      */
     public function login(Authenticatable $user, bool $remember = false): void;
@@ -60,8 +57,7 @@ interface StateGuard extends Guard
      * Log the given user ID into the application.
      * 
      * @param  mixed  $id
-     * @param  bool  $remember
-     * 
+     * @param  bool  $remember 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable|bool
      */
     public function loginUsingId(mixed $id, bool $remember = false);
@@ -70,7 +66,6 @@ interface StateGuard extends Guard
      * Log the given user ID into the application without sessions or cookies.
      * 
      * @param  mixed  $id
-     * 
      * @return \Syscodes\Components\Contracts\Auth\Authenticatable|bool
      */
     public function onceUsingId(mixed $id);

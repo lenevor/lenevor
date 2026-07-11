@@ -40,8 +40,7 @@ interface UrlGenerator
     /**
      * Get the URL for the previous request.
      * 
-     * @param  mixed  $fallback  
-     * 
+     * @param  mixed  $fallback 
      * @return string
      */
     public function previous($fallback = false): string;
@@ -51,8 +50,7 @@ interface UrlGenerator
      * 
      * @param  string  $path
      * @param  mixed  $options
-     * @param  bool|null  $secure
-     * 
+     * @param  bool|null  $secure 
      * @return string
      */
     public function to($path, $options = [], $secure = null): string;
@@ -61,8 +59,7 @@ interface UrlGenerator
      * Generate a secure, absolute URL to the given path.
      * 
      * @param  string  $path
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return string
      */
     public function secure($path, $parameters = []): string;
@@ -71,8 +68,7 @@ interface UrlGenerator
      * Generate a URL to an application asset.
      * 
      * @param  string  $path
-     * @param  bool|null  $secure  
-     * 
+     * @param  bool|null  $secure 
      * @return string
      */
     public function asset($path, $secure = null): string;
@@ -83,7 +79,6 @@ interface UrlGenerator
      * @param  string  $name
      * @param  array  $parameters
      * @param  bool  $forced 
-     * 
      * @return string
      * 
      * @throws \InvalidArgumentException
@@ -95,8 +90,7 @@ interface UrlGenerator
      * 
      * @param  string  $action
      * @param  mixed  $parameters
-     * @param  bool  $forced  
-     * 
+     * @param  bool  $forced
      * @return string
      * 
      * @throws \InvalidArgumentException
@@ -106,8 +100,7 @@ interface UrlGenerator
     /**
      * Sets the current Request instance.
      * 
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return void
      */
     public function setRequest(Request $request): void;
@@ -115,8 +108,7 @@ interface UrlGenerator
     /**
      * Set the route collection.
      * 
-     * @param  \Syscodes\Components\Routing\Collections\RouteCollection  $routes
-     * 
+     * @param  \Syscodes\Components\Routing\Collections\RouteCollection  $routes 
      * @return static
      */
     public function setRoutes(RouteCollection $routes): static;
@@ -124,8 +116,7 @@ interface UrlGenerator
     /**
      * Set the session resolver for the generator.
      * 
-     * @param  callable  $sessionResolver
-     * 
+     * @param  callable  $sessionResolver 
      * @return static
      */
     public function setSessionResolver(callable $sessionResolver): static;
@@ -133,8 +124,7 @@ interface UrlGenerator
     /**
      * Set the encryption key resolver.
      * 
-     * @param  callable  $keyResolver
-     * 
+     * @param  callable  $keyResolver 
      * @return static
      */
     public function setKeyResolver(callable $keyResolver): static;
@@ -149,8 +139,7 @@ interface UrlGenerator
     /**
      * Set the root controller namespace.
      * 
-     * @param  string  $rootNamespace
-     * 
+     * @param  string  $rootNamespace 
      * @return static
      */
     public function setRootControllerNamespace($rootNamespace): static;

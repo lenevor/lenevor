@@ -47,8 +47,7 @@ class BootRegisterProviders
 	/**
 	 * Bootstrap the given application.
 	 * 
-	 * @param  \Syscodes\Components\Contracts\Core\Application  $app
-	 * 
+	 * @param  \Syscodes\Components\Contracts\Core\Application  $app 
 	 * @return void
 	 */
 	public function bootstrap(Application $app)
@@ -64,7 +63,6 @@ class BootRegisterProviders
 	 * Merge the additional configured providers into the configuration.
 	 * 
 	 * @param  \Syscodes\Components\Contracts\Core\Application  $app
-	 * 
 	 * @return mixed
 	 */
 	protected function mergeAdditionalProviders(Application $app)
@@ -93,8 +91,7 @@ class BootRegisterProviders
 	 * Merge the given providers into the provider configuration before registration.
 	 * 
 	 * @param  array  $providers
-	 * @param  string|null  $bootstrapProviderPath
-	 * 
+	 * @param  string|null  $bootstrapProviderPath 
 	 * @return void
 	 */
 	public static function merge(array $providers, ?string $bootstrapProviderPath = null): void

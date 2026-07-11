@@ -52,8 +52,7 @@ if ( ! function_exists('abort')) {
      *
      * @param  \Syscodes\Components\Http\Response|int  $code
      * @param  string  $message
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return void
      *
      * @throws \Syscodes\Components\Core\Http\Exceptions\HttpException
@@ -75,8 +74,7 @@ if ( ! function_exists('about_if')) {
      * @param  bool  $boolean
      * @param  \Syscodes\Components\Http\Response|int  $code
      * @param  string  $message
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return void
      * 
      * @throws \Syscodes\Components\Core\Http\Exceptions\HttpException
@@ -97,8 +95,7 @@ if ( ! function_exists('abort_unless')) {
      * @param  bool  $boolean
      * @param  \Syscodes\Components\Http\Response|int  $code
      * @param  string  $message
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return void
      * 
      * @throws \Syscodes\Components\Core\Http\Exceptions\HttpException
@@ -118,8 +115,7 @@ if ( ! function_exists('action')) {
      * 
      * @param  string|array  $name
      * @param  mixed  $parameters
-     * @param  bool  $absolute
-     * 
+     * @param  bool  $absolute 
      * @return string
      */
     function action($name, $parameters = [], $absolute = true): string
@@ -133,8 +129,7 @@ if ( ! function_exists('app')) {
      * Get the available Application instance.
      *
      * @param  string  $id  
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed|\Syscodes\Components\Core\Application
      */
     function app($id = null, array $parameters = [])
@@ -163,8 +158,7 @@ if ( ! function_exists('app_path')) {
     /**
      * Get the path to the application folder.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return string
      */
     function app_path($path = ''): string
@@ -178,8 +172,7 @@ if ( ! function_exists('asset')) {
      * Generate an asset path for the application.
      * 
      * @param  string  $path
-     * @param  bool  $secure  
-     * 
+     * @param  bool  $secure 
      * @return string
      */
     function asset($path, $secure = null): string
@@ -192,8 +185,7 @@ if ( ! function_exists('auth')) {
     /**
      * Get the available auth instance.
      * 
-     * @param  string|null  $guard
-     * 
+     * @param  string|null  $guard 
      * @return \Syscodes\Components\Contracts\Auth\Factory|\Syscodes\Components\Contracts\Auth\Guard|\Syscodes\Components\Contracts\Auth\StateGuard
      */
     function auth($guard = null): AuthFactory|Guard
@@ -212,8 +204,7 @@ if ( ! function_exists('back')) {
      * 
      * @param  int  $status    
      * @param  array  $headers
-     * @param  mixed  $fallback  
-     * 
+     * @param  mixed  $fallback 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     function back(int $status = 302, array $headers = [], mixed $fallback = false): RedirectResponse 
@@ -226,8 +217,7 @@ if ( ! function_exists('base_path')) {
     /**
      * Get the path to the base of the install.
      *
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return string
      */
     function base_path($path = ''): string
@@ -241,8 +231,7 @@ if ( ! function_exists('bcrypt')) {
      * Hash the given value against the bcrypt algorithm.
      * 
      * @param  string  $value
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return string
      */
     function bcrypt($value, $options = []): string
@@ -292,8 +281,7 @@ if ( ! function_exists('config')) {
      * an array of values.
      *
      * @param  array|string  $key  
-     * @param  mixed  $value  
-     *
+     * @param  mixed  $value
      * @return \Syscodes\Components\Config\Configure
      */
     function config($key = null, $value = null)
@@ -336,8 +324,7 @@ if ( ! function_exists('cookie')) {
      * @param  bool|null  $secure
      * @param  bool  $httpOnly
      * @param  bool  $raw
-     * @param  string|null  $sameSite
-     * 
+     * @param  string|null  $sameSite 
      * @return ($name is null ? \Syscodes\Components\Cookie\CookieManager : \Symfony\Component\HttpFoundation\Cookie)
      */
     function cookie(
@@ -397,8 +384,7 @@ if ( ! function_exists('database_path')) {
     /**
      * Get the path to the database directory.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return string
      */
     function database_path($path = ''): string
@@ -412,8 +398,7 @@ if ( ! function_exists('decrypt')) {
      * Decrypt the given value.
      * 
      * @param  mixed  $value
-     * @param  bool  $unserialize  
-     * 
+     * @param  bool  $unserialize 
      * @return string
      */
     function decrypt($value, bool $unserialize = true)
@@ -427,8 +412,7 @@ if ( ! function_exists('encrypt')) {
      * Encrypt the given value.
      * 
      * @param  mixed  $value
-     * @param  bool  $serialize  
-     * 
+     * @param  bool  $serialize 
      * @return string
      */
     function encrypt($value, bool $serialize = true)
@@ -441,8 +425,7 @@ if ( ! function_exists('event')) {
     /**
      * Dispatch an event and call the listeners.
      * 
-     * @param  mixed  ...$args
-     * 
+     * @param  mixed  ...$args 
      * @return array|null
      */
     function event(...$args) 
@@ -455,8 +438,7 @@ if ( ! function_exists('fake') && class_exists(\Fibber\Factory::class)) {
     /**
      * Get a fibber instance.
      *
-     * @param  string|null  $locale
-     * 
+     * @param  string|null  $locale 
      * @return \Fibber\Generator
      */
     function fibber($locale = null): \Fibber\Generator
@@ -483,8 +465,7 @@ if ( ! function_exists('get_classname')) {
      * only the name of the class.
      * 
      * @param  string|object  $classname
-     * @param  bool  $bool  
-     * 
+     * @param  bool  $bool 
      * @return array|string
      */
     function get_classname($classname, bool $bool = false): array|string
@@ -500,8 +481,7 @@ if ( ! function_exists('info')) {
      * Write some information to the log.
      * 
      * @param  string  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return void
      */
     function info($message, array $context = []): void
@@ -526,14 +506,13 @@ if ( ! function_exists('isGetCommonPath')) {
     /**
      * Find the common "root" path of two given paths or FQFN's.
      * 
-     * @param  array  $paths  Array with the paths to compare
-     * 
+     * @param  array  $paths  Array with the paths to compare 
      * @return string  The determined common path section
      */
     function isGetCommonPath($paths): string
     {
         $lastOffset = 1;
-        $common     = '/';
+        $common = '/';
         
         while (($index = strpos($paths[0], '/', $lastOffset)) !== false) {
             $dirLen = $index - $lastOffset + 1; // include
@@ -545,7 +524,7 @@ if ( ! function_exists('isGetCommonPath')) {
                 }
             }
             
-            $common    .= $dir;
+            $common .= $dir;
             $lastOffset = $index + 1;
         }
         
@@ -558,8 +537,7 @@ if ( ! function_exists('isImport')) {
      * Loads in a core class and optionally an app class override if it exists.
      * 
      * @param  string  $path
-     * @param  string  $folder
-     * 
+     * @param  string  $folder 
      * @return void
      */
     function isImport($path, $folder = 'classes'): void
@@ -584,8 +562,7 @@ if ( ! function_exists('lang_path')) {
     /**
      * Get the path to the language folder.
      *
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return string
      */
     function lang_path($path = ''): string
@@ -599,8 +576,7 @@ if ( ! function_exists('logger')) {
      * Log a debug message to the logs.
      * 
      * @param  string|null  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return ($message is null ? \Psr\Log\LoggerInterface : null)
      */
     function logger($message = null, array $context = []): ?LoggerInterface
@@ -618,8 +594,7 @@ if ( ! function_exists('log')) {
     /**
      * Get a log driver instance.
      * 
-     * @param  string|null  $driver
-     * 
+     * @param  string|null  $driver 
      * @return ($driver is null ? \Syscodes\Components\Log\LogManager : \Psr\Log\LoggerInterface)
      */
     function logs($driver = null): LogManager|LoggerInterface
@@ -633,8 +608,7 @@ if ( ! function_exists('method_field'))
     /**
      * Generate a form field to spoof the HTTP verb used by forms.
      * 
-     * @param  string  $method
-     * 
+     * @param  string  $method 
      * @return \Syscodes\Components\Support\WebString
      */
     function method_field($method): WebString
@@ -648,8 +622,7 @@ if ( ! function_exists('now')) {
      * Create a new Chronos class instance for the current time.
      * 
      * @param  \DateTimeZone|\UnitEnum|string|null  $timezone
-     * @param  string|null  $locale
-     * 
+     * @param  string|null  $locale 
      * @return \Syscodes\Components\Support\Chronos
      */
     function now($timezone = null, $locale = null)
@@ -663,8 +636,7 @@ if ( ! function_exists('old')) {
      * Retrieve an old input item.
      * 
      * @param  string|null  $key
-     * @param  mixed  $default
-     * 
+     * @param  mixed  $default 
      * @return mixed
      */
     function old($key = null, $default = null)
@@ -677,8 +649,7 @@ if ( ! function_exists('policy')) {
     /**
      * Get a policy instance for a given class.
      * 
-     * @param  object|string  $class
-     * 
+     * @param  object|string  $class 
      * @return mixed
      * 
      * @throws \InvalidArgumentException
@@ -693,8 +664,7 @@ if ( ! function_exists('public_path')) {
     /**
      * Get the path to the public folder.
      *
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return string
      */
     function public_path($path = ''): string
@@ -710,8 +680,7 @@ if ( ! function_exists('redirect')) {
      * @param  string|null  $url  The url  
      * @param  int   $code  The redirect status code  
      * @param  array  $headers  An array of headers
-     * @param  bool|null  $secure  Type of protocol (http|https)  
-     *
+     * @param  bool|null  $secure  Type of protocol (http|https)
      * @return \Syscodes\Components\Routing\Generators\Redirector|\Syscodes\Components\Http\RedirectResponse
      */
     function redirect($url = null, int $code = 302, array $headers = [], ?bool $secure = null): Redirector|RedirectResponse
@@ -728,8 +697,7 @@ if ( ! function_exists('report')) {
     /**
      * The report an exception.
      * 
-     * @param  \Throwable|string  $exception
-     * 
+     * @param  \Throwable|string  $exception 
      * @return void
      */
     function report($exception): void
@@ -747,8 +715,7 @@ if ( ! function_exists('request')) {
      * Get an instance of the current request or an input item from the request.
      * 
      * @param  array|string|null  $key  
-     * @param  mixed  $default  
-     * 
+     * @param  mixed  $default 
      * @return \Syscodes\Components\Http\Request|string|array 
      */
     function request($key = null, mixed $default = null)
@@ -772,8 +739,7 @@ if ( ! function_exists('resolve')) {
      * Resolve a service from the container.
      * 
      * @param  string  $id
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      */
     function resolve($id, array $parameters = []) 
@@ -788,8 +754,7 @@ if ( ! function_exists('response')) {
      *
      * @param  string  $content
      * @param  int  $status  
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return \Syscodes\Components\Http\Response|\Syscodes\Components\Routing\RouteResponse
      */
     function response($content = '', int $status = 200, array $headers = []): RouteResponse|Response
@@ -809,8 +774,7 @@ if ( ! function_exists('resource_path')) {
     /**
      * Get the path to the resources folder.
      *
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return string
      */
     function resource_path($path = ''): string
@@ -826,8 +790,7 @@ if ( ! function_exists('route')) {
      * @param  string  $name
      * @param  array  $parameters
      * @param  bool  $forced  
-     * @param  \Syscodes\Components\Routing\Route|null  $route  
-     * 
+     * @param  \Syscodes\Components\Routing\Route|null  $route 
      * @return string
      */
     function route($name, array $parameters = [], bool $forced = true, $route = null)
@@ -840,8 +803,7 @@ if ( ! function_exists('secure_asset')) {
     /**
      * Generate an asset path for the application.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return string
      */
     function secure_asset($path)
@@ -855,8 +817,7 @@ if ( ! function_exists('secure_url')) {
      * Generate a HTTPS URL for the application.
      * 
      * @param  string  $path
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return string
      */
     function secure_url($path, array $parameters = [])
@@ -870,8 +831,7 @@ if ( ! function_exists('session')) {
      * Get / set the specified session value.
      * 
      * @param  string  $key  
-     * @param  mixed  $default  
-     * 
+     * @param  mixed  $default 
      * @return ($key is null ? \Syscodes\Components\Session\SessionManager : ($key is string ? mixed : null))
      */
     function session($key = null, $default = null)
@@ -893,8 +853,7 @@ if ( ! function_exists('segment')) {
      * Returns the desired segment, or $default if it does not exist.
      *
      * @param  int  $index  
-     * @param  mixed  $default  
-     *
+     * @param  mixed  $default
      * @return mixed
      */
     function segment($index, $default = null): mixed
@@ -919,8 +878,7 @@ if ( ! function_exists('storage_path')) {
     /**
      * Get the path to the storage folder.
      *
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return string
      */
     function storage_path($path = ''): string
@@ -936,8 +894,7 @@ if ( ! function_exists('to_route')) {
      * @param  string  $route
      * @param  mixed  $parameters
      * @param  int  $status
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     function to_route($route, $parameters = [], $status = 302, $headers = [])
@@ -952,8 +909,7 @@ if ( ! function_exists('today')) {
      * Create a new Chronos instance for the current date.
      * 
      * @param  \DateTimeZone|\UnitEnum|string|null  $timezone
-     * @param  string|null  $locale
-     * 
+     * @param  string|null  $locale 
      * @return \Syscodes\Components\Support\Chronos
      */
     function today($timezone = null, $locale = null)
@@ -981,8 +937,7 @@ if ( ! function_exists('trans')) {
      * 
      * @param  string|null  $key
      * @param  array  $replace
-     * @param  string|null  $locale
-     * 
+     * @param  string|null  $locale 
      * @return ($key is null ? \Syscodes\Components\Contracts\Translation\Translator : array|string)
      */
     function trans($key = null, array $replace = [], $locale = null): Translator|array|string
@@ -1002,8 +957,7 @@ if ( ! function_exists('__')) {
      * 
      * @param  string|null  $key
      * @param  array  $replace
-     * @param  string|null  $locale
-     * 
+     * @param  string|null  $locale 
      * @return string|array|null
      */
     function __($key = null, array $replace = [], $locale = null): string|array|null
@@ -1022,8 +976,7 @@ if ( ! function_exists('url')) {
      *
      * @param  string|null  $path  
      * @param  array  $parameters
-     * @param  bool|null  $secure  
-     *
+     * @param  bool|null  $secure
      * @return ($path is null ? \Syscodes\Components\Contracts\Routing\UrlGenerator : string)
      */
     function url($path = null, array $parameters = [], ?bool $secure = null): UrlGenerator|string
@@ -1046,7 +999,6 @@ if ( ! function_exists('view')) {
      * @param  string|null  $file  View filename
      * @param  array  $data  Array of values
      * @param  array  $mergeData  Array of merge data
-     * 
      * @return ($view is null ? \Syscodes\Components\Contracts\View\Factory : \Syscodes\Components\Contracts\View\View)
      */
     function view($file = null, $data = [], $mergeData = []): ViewFactory|ViewContract

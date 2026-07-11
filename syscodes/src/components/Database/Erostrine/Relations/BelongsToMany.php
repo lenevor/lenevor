@@ -133,8 +133,7 @@ class BelongsToMany extends Relation
      * @param  string  $relatedPivotKey
      * @param  string  $parentKey
      * @param  string  $relatedKey
-     * @param  string|null  $relationName
-     * 
+     * @param  string|null  $relationName 
      * @return void
      */
     public function __construct(
@@ -160,8 +159,7 @@ class BelongsToMany extends Relation
     /**
      * Resolve the table name from the given string.
      * 
-     * @param  string  $table
-     * 
+     * @param  string  $table 
      * @return string
      */
     protected function resolveTable($table): string
@@ -196,8 +194,7 @@ class BelongsToMany extends Relation
     /**
      * Get all of the model results.
      * 
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return \Syscodes\Components\Database\Erostrine\Collection
      */
     public function get($columns = ['*'])
@@ -222,8 +219,7 @@ class BelongsToMany extends Relation
     /**
      * Set the select clause for the relation query.
      * 
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return array
      */
     protected function getSelectColumns(array $columns = array('*')): array
@@ -252,8 +248,7 @@ class BelongsToMany extends Relation
     /**
      * Hydrate the pivot table relationship on the models.
      * 
-     * @param  array  $models
-     * 
+     * @param  array  $models 
      * @return void
      */
     protected function hydratePivotRelation(array $models): void
@@ -268,8 +263,7 @@ class BelongsToMany extends Relation
     /**
      * Get the pivot attributes from a model.
      * 
-     * @param  \Syscodes\Components\Database\Erostrine\Model  $model
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $model 
      * @return array
      */
     protected function migratePivotAttributes(Model $model): array
@@ -304,8 +298,7 @@ class BelongsToMany extends Relation
     /**
      * Set the join clause for the relation query.
      * 
-     * @param  \Syscodes\Components\Database\Erostrine\Builder|null $query
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Builder|null $query 
      * @return static
      */
     protected function setJoin($query = null): static
@@ -334,8 +327,7 @@ class BelongsToMany extends Relation
     /**
      * Set the constraints for an eager load of the relation.
      * 
-     * @param  array  $models
-     * 
+     * @param  array  $models 
      * @return void
      */
     public function addEagerConstraints(array $models): void
@@ -350,8 +342,7 @@ class BelongsToMany extends Relation
      * Initialize the relation on a set of models.
      * 
      * @param  array  $models
-     * @param  string  $relation
-     * 
+     * @param  string  $relation 
      * @return array
      */
     public function initRelation(array $models, $relation): array
@@ -368,8 +359,7 @@ class BelongsToMany extends Relation
      * 
      * @param  array  $models
      * @param  \Syscodes\Components\Database\Erostrine\Collection  $results
-     * @param  string  $relation
-     * 
+     * @param  string  $relation 
      * @return array
      */
     public function match(array $models, Collection $results, $relation): array
@@ -390,8 +380,7 @@ class BelongsToMany extends Relation
     /**
      * Build model dictionary keyed by the relation's foreign key.
      * 
-     * @param  \Syscodes\Components\Database\Erostrine\Collection  $results
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Collection  $results 
      * @return array
      */
     protected function buildDictionary(Collection $results): array
@@ -411,8 +400,7 @@ class BelongsToMany extends Relation
      * @param  string  $column
      * @param  mixed  $operator
      * @param  mixed  $value
-     * @param  mixed  $boolean
-     * 
+     * @param  mixed  $boolean 
      * @return static
      */
     public function wherePivot($column, $operator = null, $value = null, $boolean = 'and'): static
@@ -427,8 +415,7 @@ class BelongsToMany extends Relation
      * 
      * @param  string  $column
      * @param  mixed  $operator
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return static
      */
     public function orWherePivot($column, $operator = null, $value = null): static
@@ -442,8 +429,7 @@ class BelongsToMany extends Relation
      * @param  string  $column
      * @param  array  $values
      * @param  string  $boolean
-     * @param  bool  $negative
-     * 
+     * @param  bool  $negative 
      * @return static
      */
     public function wherePivotBetween($column, array $values, $boolean = 'and', $negative = false): static
@@ -455,8 +441,7 @@ class BelongsToMany extends Relation
      * Set a "or where between" clause for a pivot table column.
      * 
      * @param  string  $column
-     * @param  array  $values
-     * 
+     * @param  array  $values 
      * @return static
      */
     public function orWherePivotBetween($column, array $values): static
@@ -469,8 +454,7 @@ class BelongsToMany extends Relation
      * 
      * @param  string  $column
      * @param  array  $values
-     * @param  string  $boolean
-     * 
+     * @param  string  $boolean 
      * @return static
      */
     public function wherePivotNotBetween($column, array $values, $boolean = 'and'): static
@@ -482,8 +466,7 @@ class BelongsToMany extends Relation
      * Set a "or where not between" clause for a pivot table column.
      * 
      * @param  string  $column
-     * @param  array  $values
-     * 
+     * @param  array  $values 
      * @return static
      */
     public function orWherePivotNotBetween($column, array $values): static
@@ -497,8 +480,7 @@ class BelongsToMany extends Relation
      * @param  string  $column
      * @param  mixed  $values
      * @param  string boolean
-     * @param  bool  $negative
-     * 
+     * @param  bool  $negative 
      * @return static
      */
     public function wherePivotIn($column, array $values, $boolean = 'and', $negative = false): static
@@ -512,8 +494,7 @@ class BelongsToMany extends Relation
      * Set an "or where in" clause for a pivot table column.
      * 
      * @param  string  $column
-     * @param  mixed  $values
-     * 
+     * @param  mixed  $values 
      * @return static
      */
     public function orWherePivotIn($column, array $values): static
@@ -526,8 +507,7 @@ class BelongsToMany extends Relation
      * 
      * @param  string  $column
      * @param  mixed  $values
-     * @param  string  $boolean
-     * 
+     * @param  string  $boolean 
      * @return static
      */
     public function wherePivotNotIn($column, $values, $boolean = 'and'): static
@@ -539,8 +519,7 @@ class BelongsToMany extends Relation
      * Set an "or where not in" clause for a pivot table column.
      * 
      * @param  string  $column
-     * @param  mixed  $values
-     * 
+     * @param  mixed  $values 
      * @return static
      */
     public function orWherePivotNotIn($column, $values): static
@@ -553,8 +532,7 @@ class BelongsToMany extends Relation
      * 
      * @param  string  $column
      * @param  string  $boolean
-     * @param  bool  $negative
-     * 
+     * @param  bool  $negative 
      * @return static
      */
     public function wherePivotNull($column, $boolean = 'and', $negative =  false): static
@@ -568,8 +546,7 @@ class BelongsToMany extends Relation
      * Set a "where not null" clause for a pivot table column.
      * 
      * @param  string  $column
-     * @param  string  $boolean
-     * 
+     * @param  string  $boolean 
      * @return static
      */
     public function wherePivotNotNull($column, $boolean = 'and'): static
@@ -581,8 +558,7 @@ class BelongsToMany extends Relation
      * Set a "or where null" clause for a pivot table column.
      * 
      * @param  string  $column
-     * @param  bool  $negative
-     * 
+     * @param  bool  $negative 
      * @return static
      */
     public function orWherePivotNull($column, $negative = false): static
@@ -593,8 +569,7 @@ class BelongsToMany extends Relation
     /**
      * Set a "or where not null" clause for a pivot table column.
      * 
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return static
      */
     public function orWherePivotNotNull($column): static
@@ -606,8 +581,7 @@ class BelongsToMany extends Relation
      * Add an "order by" clause for a pivot table column.
      * 
      * @param  string  $column
-     * @param  string  $direction
-     * 
+     * @param  string  $direction 
      * @return static
      */
     public function orderByPivot($column, $direction = 'asc'): static
@@ -619,8 +593,7 @@ class BelongsToMany extends Relation
      * Find a related model by its primary key or return a new instance of the related model.
      *
      * @param  mixed  $id
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return \Syscodes\Components\Support\Collection|\Syscodes\Components\Database\Erostrine\Model
      */
     public function findOrNew($id, $columns = ['*'])
@@ -636,8 +609,7 @@ class BelongsToMany extends Relation
      * Get the first related model record matching the attributes or instantiate it.
      *
      * @param  array  $attributes
-     * @param  array  $values
-     * 
+     * @param  array  $values 
      * @return \Syscodes\Components\Database\Erostrine\Model
      */
     public function firstOrNew(array $attributes = [], array $values = [])
@@ -693,8 +665,7 @@ class BelongsToMany extends Relation
      * Find a related model by its primary key.
      * 
      * @param  mixed  $id
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return \Syscodes\components\Database\Erostrine\Model|\Syscodes\components\Database\Erostrine\Collection|null
      */
     public function find($id, $columns = ['*'])
@@ -712,8 +683,7 @@ class BelongsToMany extends Relation
      * Find multiple related models by their primary keys.
      * 
      * @param  \Syscodes\Components\Contracts\Support\Arrayable|array  $ids
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return \Syscodes\Components\Database\Erostrine\Collection
      */
     public function findMany($ids, $columns = ['*'])
@@ -733,8 +703,7 @@ class BelongsToMany extends Relation
      * Find a related model by its primary key or throw an exception.
      * 
      * @param  mixed  $id
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return \Syscodes\Components\Database\Erostrine\Model|\Syscodes\Components\Database\Erostrine\Collection
      * 
      * @throws \Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException
@@ -762,8 +731,7 @@ class BelongsToMany extends Relation
      * @param  \Closure|string|array  $column
      * @param  mixed  $operator
      * @param  mixed  $value
-     * @param  string  $boolean
-     * 
+     * @param  string  $boolean 
      * @return \Syscodes\Components\Database\Erostrine\Model|static
      */
     public function firstWhere($column, $operator = null, $value = null, $boolean = 'and')
@@ -774,8 +742,7 @@ class BelongsToMany extends Relation
     /**
      * Execute the query and get the first result.
      * 
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return mixed
      */
     public function first($columns = ['*'])
@@ -807,7 +774,6 @@ class BelongsToMany extends Relation
      * 
      * @param  \Closure|array  $columns
      * @param  \Closure|null  $callback
-     *
      * @return \Syscodes\Components\Database\Erostrine\Model|static|mixed
      */
     public function firstOr($columns = ['*'], ?Closure $callback = null)
@@ -829,8 +795,7 @@ class BelongsToMany extends Relation
      * Set a where clause for a pivot table column.
      * 
      * @param  string|array  $column
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return static
      * 
      * @throws \InvalidArgumentException
@@ -857,8 +822,7 @@ class BelongsToMany extends Relation
     /**
      * Specify the custom Pivot Model to use for the relationship.
      * 
-     * @param  string  $classname
-     * 
+     * @param  string  $classname 
      * @return static
      */
     public function using($classname): static
@@ -981,8 +945,7 @@ class BelongsToMany extends Relation
     /**
      * Qualify the given column name by the pivot table.
      * 
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return string
      */
     public function qualifyPivotColumn($column): string

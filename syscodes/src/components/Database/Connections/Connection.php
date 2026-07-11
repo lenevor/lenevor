@@ -226,8 +226,7 @@ class Connection implements ConnectionInterface
      * @param  \PDO|(\Closure(): \PDO)  $pdo
      * @param  string  $database
      * @param  string  $tablePrefix
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return  void 
      */
     public function __construct($pdo, $database = '', $tablePrefix = '', array $config = [])
@@ -250,7 +249,6 @@ class Connection implements ConnectionInterface
      * 
      * @param  \Closure|\Syscodes\Components\Database\Query\Builder|\Syscodes\Components\Contracts\Database\Query\Expression|\UnitEnum|string  $table
      * @param  string|null  $as 
-     * 
      * @return \Syscodes\Components\Database\Query\Builder
      */
     public function table($table, $as = null)
@@ -273,8 +271,7 @@ class Connection implements ConnectionInterface
     /**
      * Get a new raw query expression.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return \Syscodes\Components\Database\Query\Expression
      */
     public function raw(mixed $value)
@@ -286,8 +283,7 @@ class Connection implements ConnectionInterface
      * Escape a value for safe SQL embedding.
      *
      * @param  string|float|int|bool|null  $value
-     * @param  bool  $binary
-     * 
+     * @param  bool  $binary 
      * @return string
      *
      * @throws \RuntimeException
@@ -320,8 +316,7 @@ class Connection implements ConnectionInterface
     /**
      * Escape a string value for safe SQL embedding.
      *
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function escapeString($value): string
@@ -332,8 +327,7 @@ class Connection implements ConnectionInterface
     /**
      * Escape a boolean value for safe SQL embedding.
      *
-     * @param  bool  $value
-     * 
+     * @param  bool  $value 
      * @return string
      */
     protected function escapeBool($value): string
@@ -344,8 +338,7 @@ class Connection implements ConnectionInterface
     /**
      * Escape a binary value for safe SQL embedding.
      *
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      *
      * @throws \RuntimeException
@@ -360,8 +353,7 @@ class Connection implements ConnectionInterface
      * 
      * @param  string  $query
      * @param  array  $bindings
-     * @param  bool  $useReadPdo  
-     * 
+     * @param  bool  $useReadPdo 
      * @return array 
      */
     public function selectOne($query, $bindings = [], $useReadPdo = true): array
@@ -376,8 +368,7 @@ class Connection implements ConnectionInterface
      *
      * @param  string  $query
      * @param  array  $bindings
-     * @param  bool  $useReadPdo
-     * 
+     * @param  bool  $useReadPdo 
      * @return mixed
      *
      * @throws \Syscodes\Components\Database\MultipleColumnsSelectedException
@@ -403,8 +394,7 @@ class Connection implements ConnectionInterface
      * Run a select statement against the database.
      * 
      * @param  string  $query
-     * @param  array  $bindings
-     * 
+     * @param  array  $bindings 
      * @return array
      */
     public function selectFromConnection($query, $bindings = [])
@@ -417,8 +407,7 @@ class Connection implements ConnectionInterface
      * 
      * @param  string  $query
      * @param  array  $bindings
-     * @param  bool  $useReadPdo  
-     * 
+     * @param  bool  $useReadPdo 
      * @return array
      */
     public function select($query, $bindings = [], $useReadPdo = true): array
@@ -444,8 +433,7 @@ class Connection implements ConnectionInterface
      * Run an insert statement against the database.
      * 
      * @param  string  $query
-     * @param  array  $bindings
-     * 
+     * @param  array  $bindings 
      * @return bool
      */
     public function insert($query, $bindings = []): bool
@@ -457,8 +445,7 @@ class Connection implements ConnectionInterface
      * Run an update statement against the database.
      * 
      * @param  string  $query
-     * @param  array  $bindings
-     * 
+     * @param  array  $bindings 
      * @return int
      */
     public function update($query, $bindings = []): int
@@ -470,8 +457,7 @@ class Connection implements ConnectionInterface
      * Run an delete statement against the database.
      * 
      * @param  string  $query
-     * @param  array  $bindings
-     * 
+     * @param  array  $bindings 
      * @return int
      */
     public function delete($query, $bindings = []): int
@@ -483,8 +469,7 @@ class Connection implements ConnectionInterface
      * Execute an SQL statement and return the boolean result.
      * 
      * @param  string  $query
-     * @param  array  $bindings
-     * 
+     * @param  array  $bindings 
      * @return bool
      */
     public function statement($query, $bindings = []): bool
@@ -508,8 +493,7 @@ class Connection implements ConnectionInterface
      * Run an SQL statement and get the number of rows affected.
      * 
      * @param  string  $query
-     * @param  array  $bindings
-     * 
+     * @param  array  $bindings 
      * @return int
      */
     public function affectingStatement($query, $bindings = []): int
@@ -536,8 +520,7 @@ class Connection implements ConnectionInterface
     /**
      * Execute the given callback in "dry run" mode.
      * 
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return array
      */
     public function pretend(Closure $callback): array
@@ -561,8 +544,7 @@ class Connection implements ConnectionInterface
     /**
      * Execute the given callback in "dry run" mode.
      * 
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return array|Closure
      */
     protected function withFreshQueryLog(Closure $callback): array|Closure
@@ -584,8 +566,7 @@ class Connection implements ConnectionInterface
      * Bind values to their parameters in the given statement.
      * 
      * @param  \PDOStatement  $statement
-     * @param  array  $bindings
-     * 
+     * @param  array  $bindings 
      * @return void
      */
     public function bindValues($statement, array $bindings)
@@ -608,8 +589,7 @@ class Connection implements ConnectionInterface
      * 
      * @param  string  $query
      * @param  array  $bindings
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return mixed
      * 
      * @throws \Syscodes\Components\Database\Exceptions\QueryException
@@ -640,8 +620,7 @@ class Connection implements ConnectionInterface
      * 
      * @param  string  $query
      * @param  array  $bindings
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return mixed
      * 
      * @throws \Syscodes\Components\Database\Exceptions\QueryException
@@ -677,8 +656,7 @@ class Connection implements ConnectionInterface
     /**
      * Determine if the given database exception was caused by a constraint violation.
      * 
-     * @param  \Exception  $exception
-     * 
+     * @param  \Exception  $exception 
      * @return bool
      */
     protected function isConstraintError(Exception $exception): bool
@@ -689,8 +667,7 @@ class Connection implements ConnectionInterface
     /**
      * Extract the index and columns that caused a unique constraint violation.
      *
-     * @param  Exception  $exception
-     * 
+     * @param  Exception  $exception 
      * @return array
      */
     protected function parseUniqueConstraintViolation(Exception $exception): array
@@ -701,8 +678,7 @@ class Connection implements ConnectionInterface
     /**
      * Prepare the query bindings for execution.
      * 
-     * @param  array  $bindings
-     * 
+     * @param  array  $bindings 
      * @return array
      */
     public function prepareBindings(array $bindings): array
@@ -724,8 +700,7 @@ class Connection implements ConnectionInterface
      * @param  \Syscodes\Components\Database\Exceptions\QueryException  $e
      * @param  string  $query
      * @param  array  $bindings
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return mixed
      * 
      * @throws \Syscodes\Components\Database\Exceptions\QueryException
@@ -747,8 +722,7 @@ class Connection implements ConnectionInterface
      * @param  \Syscodes\Components\Database\Exceptions\QueryException  $e
      * @param  string  $query
      * @param  array  $bindings
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return mixed
      * 
      * @throws \Syscodes\Components\Database\Exceptions\QueryException
@@ -770,7 +744,6 @@ class Connection implements ConnectionInterface
      * @param  string  $query
      * @param  array  $bindings
      * @param  float|null  $time 
-     * 
      * @return void
      */
     public function logQuery(string $query, array $bindings, ?float $time = null): void
@@ -809,8 +782,7 @@ class Connection implements ConnectionInterface
     /**
      * Register a database query listener with the connection.
      *
-     * @param  \Closure(\Syscodes\Components\Database\Events\QueryExecuted)  $callback
-     * 
+     * @param  \Closure(\Syscodes\Components\Database\Events\QueryExecuted)  $callback 
      * @return void
      */
     public function listen(Closure $callback): void
@@ -821,8 +793,7 @@ class Connection implements ConnectionInterface
     /**
      * Fire an event for this connection.
      * 
-     * @param  string  $event
-     * 
+     * @param  string  $event 
      * @return array|null
      */
     protected function fireConnectionEvent($event)
@@ -861,8 +832,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the elapsed time since a given starting point.
      * 
-     * @param  int  $start
-     * 
+     * @param  int  $start 
      * @return float
      */
     protected function getElapsedTime($start)
@@ -873,8 +843,7 @@ class Connection implements ConnectionInterface
     /**
      * Fire the given event if possible.
      * 
-     * @param  mixed  $event
-     * 
+     * @param  mixed  $event 
      * @return void
      */
     public function event($event): void
@@ -901,8 +870,7 @@ class Connection implements ConnectionInterface
     /**
      * Configure the PDO prepared statement.
      * 
-     * @param  \PDOStatement  $statement
-     * 
+     * @param  \PDOStatement  $statement 
      * @return \PDOStatement
      */
     protected function prepared($statement)
@@ -919,8 +887,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the PDO connection to use for a select query.
      * 
-     * @param  bool  $useReadPdo  
-     * 
+     * @param  bool  $useReadPdo 
      * @return \PDO
      */
     protected function getPdoForSelect(bool $useReadPdo = true)
@@ -941,8 +908,7 @@ class Connection implements ConnectionInterface
     /**
      * Indicate if any records have been modified.
      *
-     * @param  bool  $value
-     * 
+     * @param  bool  $value 
      * @return void
      */
     public function recordsHaveBeenModified($value = true): void
@@ -955,8 +921,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the record modification state.
      *
-     * @param  bool  $value
-     * 
+     * @param  bool  $value 
      * @return static
      */
     public function setRecordModificationState(bool $value): static
@@ -979,8 +944,7 @@ class Connection implements ConnectionInterface
     /**
      * Indicate that the connection should use the write PDO connection for reads.
      *
-     * @param  bool  $value
-     * 
+     * @param  bool  $value 
      * @return static
      */
     public function useWriteConnectionWhenReading($value = true): static
@@ -1054,8 +1018,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the PDO connection.
      * 
-     * @param  \PDO|\Closure|null  $pdo
-     * 
+     * @param  \PDO|\Closure|null  $pdo 
      * @return static
      */
     public function setPdo($pdo): static
@@ -1070,8 +1033,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the PDO connection used for reading.
      * 
-     * @param  \PDO|\Closure|null  $pdo
-     * 
+     * @param  \PDO|\Closure|null  $pdo 
      * @return static
      */
     public function setReadPdo($pdo): static
@@ -1084,8 +1046,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the reconnect instance on the connection.
      * 
-     * @param  callable  $reconnector
-     * 
+     * @param  callable  $reconnector 
      * @return static
      */
     public function setReconnector(callable $reconnector): static
@@ -1140,8 +1101,7 @@ class Connection implements ConnectionInterface
     /**
      * Get an option from the configuration options.
      * 
-     * @param  string|null  $option 
-     * 
+     * @param  string|null  $option
      * @return mixed
      */
     public function getConfig($option = null)
@@ -1266,8 +1226,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the read PDO connection configuration.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return static
      */
     public function setReadPdoConfig(array $config): static
@@ -1290,11 +1249,10 @@ class Connection implements ConnectionInterface
     /**
      * Set the schema grammar used by the connection.
      * 
-     * @param  \Syscodes\Components\Database\Schema\Grammars\Grammar  $grammar
-     * 
-     * @return $this
+     * @param  \Syscodes\Components\Database\Schema\Grammars\Grammar  $grammar 
+     * @return static
      */
-    public function setSchemaGrammar(SchemaGrammar $grammar)
+    public function setSchemaGrammar(SchemaGrammar $grammar): static
     {
         $this->schemaGrammar = $grammar;
         
@@ -1314,8 +1272,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the name of the connected database.
      * 
-     * @param  string  $database
-     * 
+     * @param  string  $database 
      * @return static
      */
     public function setDatabaseName($database): static
@@ -1328,8 +1285,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the event dispatcher instance on the connection.
      * 
-     * @param  \Syscodes\Components\Contracts\Events\Dispatcher  $events
-     * 
+     * @param  \Syscodes\Components\Contracts\Events\Dispatcher  $events 
      * @return static
      */
     public function setEventDispatcher(Dispatcher $events): static
@@ -1342,8 +1298,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the transaction manager instance on the connection.
      *
-     * @param  \Syscodes\Components\Database\DatabaseTransactionsManager  $manager
-     * 
+     * @param  \Syscodes\Components\Database\DatabaseTransactionsManager  $manager 
      * @return static
      */
     public function setTransactionManager($manager): static
@@ -1366,8 +1321,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the read / write type of the connection.
      *
-     * @param  string|null  $readWriteType
-     * 
+     * @param  string|null  $readWriteType 
      * @return static
      */
     public function setReadWriteType($readWriteType): static
@@ -1470,8 +1424,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the table prefix in use by the connection.
      * 
-     * @param  string  $tablePrefix
-     * 
+     * @param  string  $tablePrefix 
      * @return self
      */
     public function setTablePrefix($tablePrefix): self
@@ -1484,8 +1437,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the table prefix and return the grammar.
      * 
-     * @param  \Syscodes\Components\Database\Grammar  $grammar
-     * 
+     * @param  \Syscodes\Components\Database\Grammar  $grammar 
      * @return \Syscodes\Components\Database\Grammar
      */
     public function withTablePrefix(Grammar $grammar)
@@ -1508,8 +1460,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the connection resolver for the given driver.
      * 
-     * @param  string  $driver
-     * 
+     * @param  string  $driver 
      * @return mixed
      */
     public static function getResolver($driver)

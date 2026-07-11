@@ -67,8 +67,7 @@ class MySqlConnection extends Connection
      *
      * @param  string  $query
      * @param  array  $bindings
-     * @param  string|null  $sequence
-     * 
+     * @param  string|null  $sequence 
      * @return bool
      */
     public function insert($query, $bindings = [], $sequence = null): bool
@@ -95,8 +94,7 @@ class MySqlConnection extends Connection
     /**
      * Escape a binary value for safe SQL embedding.
      *
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function escapeBinary($value): string
@@ -109,8 +107,7 @@ class MySqlConnection extends Connection
     /**
      * Determine if the given database exception was caused by a unique constraint violation.
      * 
-     * @param  \Exception  $exception
-     * 
+     * @param  \Exception  $exception 
      * @return bool
      */
     protected function isConstraintError(Exception $exception): bool

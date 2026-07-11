@@ -31,7 +31,6 @@ interface Configure
 	 * Determine if the given configuration value exists.
 	 * 
 	 * @param  string  $key
-	 * 
 	 * @return bool
 	 */
 	public function has(string $key): bool;
@@ -40,7 +39,6 @@ interface Configure
 	 * Deletes a (dot notated) config item.
 	 * 
 	 * @param  string  $key  A (dot notated) config key
-	 * 
 	 * @return void
 	 */	
 	public function erase(string $key);
@@ -50,7 +48,6 @@ interface Configure
 	 *
 	 * @param  string  $key  The dot-notated key or array of keys
 	 * @param  mixed  $default  The default value
-	 *
 	 * @return mixed
 	 */
 	public function get($key, $default = null);
@@ -60,7 +57,6 @@ interface Configure
 	 *
 	 * @param  string  $key  The dot-notated key or array of keys
 	 * @param  mixed  $value  The default value
-	 *
 	 * @return void
 	 */
 	public function set($key, $value = null);

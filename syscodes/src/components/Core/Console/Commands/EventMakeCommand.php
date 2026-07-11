@@ -56,8 +56,7 @@ class EventMakeCommand extends GeneratorCommand
     /**
      * Determine if the class already exists.
      *
-     * @param  string  $rawName
-     * 
+     * @param  string  $rawName 
      * @return bool
      */
     protected function alreadyExists($rawName): bool
@@ -79,8 +78,7 @@ class EventMakeCommand extends GeneratorCommand
     /**
      * Resolve the fully-qualified path to the template.
      *
-     * @param  string  $template
-     * 
+     * @param  string  $template 
      * @return string
      */
     protected function resolveTemplatePath($template): string
@@ -93,8 +91,7 @@ class EventMakeCommand extends GeneratorCommand
     /**
      * Get the default namespace for the class.
      *
-     * @param  string  $rootNamespace
-     * 
+     * @param  string  $rootNamespace 
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace): string

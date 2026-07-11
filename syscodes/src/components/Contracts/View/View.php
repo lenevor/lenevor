@@ -35,8 +35,7 @@ interface View extends Renderable
 	 * @example  $view->assign($content, $data);
 	 * 
 	 * @param  string|array  $key
-	 * @param  mixed  $value
-	 * 
+	 * @param  mixed  $value 
 	 * @return static
 	 */
 	public function assign($key, $value = null): static;

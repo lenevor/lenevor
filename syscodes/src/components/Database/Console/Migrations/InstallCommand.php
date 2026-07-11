@@ -57,8 +57,7 @@ class InstallCommand extends Command
     /**
      * Constructor. Create a new migration install command instance.
      *
-     * @param  \Syscodes\Components\Database\Migrations\MigrationRepositoryInterface  $repository
-     * 
+     * @param  \Syscodes\Components\Database\Migrations\MigrationRepositoryInterface  $repository 
      * @return void
      */
     public function __construct(MigrationRepositoryInterface $repository)

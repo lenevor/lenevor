@@ -37,8 +37,7 @@ trait MakeQueries
     /**
      * Execute the query and get the first result.
      * 
-     * @param  array|string|int  $columns
-     * 
+     * @param  array|string|int  $columns 
      * @return \Syscodes\Components\Database\Erostrine\Model|object|static|null
      */
     public function first($columns = ['*'])
@@ -50,8 +49,7 @@ trait MakeQueries
      * Execute the query and get the first result or throw an exception.
      *
      * @param  array|string  $columns
-     * @param  string|null  $message
-     * 
+     * @param  string|null  $message 
      * @return mixed
      *
      * @throws \Syscodes\Components\Database\Exceptions\RecordNotFoundException
@@ -68,8 +66,7 @@ trait MakeQueries
     /**
      * Execute the query and get the first result if it's the sole matching record.
      *
-     * @param  array|string  $columns
-     * 
+     * @param  array|string  $columns 
      * @return \Syscodes\Components\Database\Erostrine\Model|object|static|null
      *
      * @throws \Syscodes\Components\Database\Exceptions\RecordsNotFoundException
@@ -100,8 +97,7 @@ trait MakeQueries
      * @param  int  $total
      * @param  int  $perPage
      * @param  int|null  $currentPage
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return \Syscodes\Components\Pagination\Paginator
      */
     protected function paginator($items, $total, $perPage, $currentPage, $options)
@@ -117,8 +113,7 @@ trait MakeQueries
      * @param  \Syscodes\Components\Support\Collection  $items
      * @param  int  $perPage
      * @param  int|null  $currentPage
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return \Syscodes\Components\Pagination\SimplePaginator
      */
     protected function simplePaginator($items, $perPage, $currentPage, $options)

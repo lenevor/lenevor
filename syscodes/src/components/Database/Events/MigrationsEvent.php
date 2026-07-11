@@ -33,7 +33,8 @@ abstract class MigrationsEvent implements MigrationEventContract
      * Constructor. Create a new event instance.
      *
      * @param  string  $method  The migration method that was invoked.
-     * @param  array  $options  The options provided when the migration method was invoked.
+     * @param  array  $options  The options provided when the migration method was invoked.     * 
+     * @return void
      */
     public function __construct(
         public $method,

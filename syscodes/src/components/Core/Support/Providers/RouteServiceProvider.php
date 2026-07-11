@@ -100,8 +100,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Register the callback that will be used to load the application's routes.
      * 
-     * @param  \Closure  $routesCallback
-     * 
+     * @param  \Closure  $routesCallback 
      * @return static
      */
     protected function routes(Closure $routesCallback): static
@@ -114,8 +113,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Register the callback that will be used to load the application's routes.
      * 
-     * @param  \Closure|null  $routesCallback
-     * 
+     * @param  \Closure|null  $routesCallback 
      * @return void
      */
     public static function loadRoutesUsing(?Closure $routesCallback)
@@ -181,8 +179,7 @@ class RouteServiceProvider extends ServiceProvider
      * Pass dynamic methods onto the router instance.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      */
     public function __call($method, $parameters)

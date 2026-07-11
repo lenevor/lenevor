@@ -32,8 +32,7 @@ interface Expression
     /**
      * Get the value of the expression.
      * 
-     * @param  \Syscodes\Components\Database\Grammar  $grammar
-     * 
+     * @param  \Syscodes\Components\Database\Grammar  $grammar 
      * @return mixed
      */
     public function getValue(Grammar $grammar);

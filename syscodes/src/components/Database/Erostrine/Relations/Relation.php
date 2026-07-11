@@ -80,8 +80,7 @@ abstract class Relation
      * Constructor. Create a new Relation instance.
      * 
      * @param  \Syscodes\Components\Database\Erostrine\Builder  $builder
-     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model  $parent 
      * @return void
      */
     public function __construct(Builder $builder, Model $parent)
@@ -96,8 +95,7 @@ abstract class Relation
     /**
      * Run a callback with constraints disabled on the relation.
      * 
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return mixed
      */
     public static function noConstraints(Closure $callback)
@@ -121,8 +119,7 @@ abstract class Relation
     /**
      * Set the constraints for an eager load of the relation.
      * 
-     * @param  array  $models
-     * 
+     * @param  array  $models 
      * @return void
      */
     abstract public function addEagerConstraints(array $models): void;
@@ -131,8 +128,7 @@ abstract class Relation
      * Initialize the relation on a set of models.
      * 
      * @param  array  $models
-     * @param  string  $relation
-     * 
+     * @param  string  $relation 
      * @return array
      */
     abstract public function initRelation(array $models, $relation): array;
@@ -142,8 +138,7 @@ abstract class Relation
      * 
      * @param  array  $models
      * @param  \Syscodes\Components\Database\Erostrine\Collection  $results
-     * @param  string  $relation
-     * 
+     * @param  string  $relation 
      * @return array
      */
     abstract public function match(array $models, Collection $results, $relation): array;
@@ -161,8 +156,7 @@ abstract class Relation
      * @param  string  $whereIn
      * @param  string  $key
      * @param  array  $modelKeys
-     * @param  \Syscodes\Components\Database\Erostrine\Builder|null  $builder
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Builder|null  $builder 
      * @return void
      */
     protected function whereInEager(string $whereIn, string $key, array $modelKeys, ?Builder $builder = null): void
@@ -178,8 +172,7 @@ abstract class Relation
      * Get the name of the "where in" method for eager loading.
      *
      * @param  \Syscodes\Components\Database\Erostrine\Model  $model
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return string
      */
     protected function whereInMethod(Model $model, $key): string
@@ -203,8 +196,7 @@ abstract class Relation
     /**
      * Execute the query and get the first result if it's the sole matching record.
      *
-     * @param  array|string  $columns
-     * 
+     * @param  array|string  $columns 
      * @return \Syscodes\Components\Database\Erostrine\Model
      *
      * @throws \Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException
@@ -230,8 +222,7 @@ abstract class Relation
     /**
      * Get all of the model results.
      * 
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return array
      */
     public function get($columns = ['*'])
@@ -243,8 +234,7 @@ abstract class Relation
      * Get all of the primary key for an array of models.
      * 
      * @param  array  $models
-     * @param  string|null  $key
-     * 
+     * @param  string|null  $key 
      * @return array
      */
     protected function getKeys(array $models, $key = null): array
@@ -333,8 +323,7 @@ abstract class Relation
      * Handle dynamic method calls to the relationship.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      */
     public function __call($method, $parameters)

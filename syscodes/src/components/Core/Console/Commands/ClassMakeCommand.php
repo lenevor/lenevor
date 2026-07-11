@@ -68,8 +68,7 @@ class ClassMakeCommand extends GeneratorCommand
     /**
      * Resolve the fully-qualified path to the template.
      *
-     * @param  string  $template
-     * 
+     * @param  string  $template 
      * @return string
      */
     protected function resolveTemplatePath($template): string

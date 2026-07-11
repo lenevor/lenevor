@@ -79,16 +79,15 @@ class AboutCommand extends Command
      * Returns the info of the console with logo.
      * 
      * @param  \Syscodes\Components\Console\Application  $application
-     *
      * @return string
      */
     public function buildInfo(Application $application): string
     {
-        $logo         = '';
-        $phpVersion   = \PHP_VERSION;
-        $phpVersion   = \PHP_VERSION;
+        $logo = '';
+        $phpVersion = \PHP_VERSION;
+        $phpVersion = \PHP_VERSION;
         $architecture = \PHP_INT_SIZE * 16;
-        $locale       = class_exists(Locale::class, false) && Locale::getDefault() ? Locale::getDefault() : 'n/a';
+        $locale = class_exists(Locale::class, false) && Locale::getDefault() ? Locale::getDefault() : 'n/a';
 
         $info = "$logo\n";
         $info .= "  {$application->getName()} Version ".$application->getVersion()."\n";

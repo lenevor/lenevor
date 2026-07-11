@@ -49,8 +49,7 @@ class ModelNotFoundException extends RecordNotFoundException
      * Set the affected Erostrine model.
      * 
      * @param  string  $model
-     * @param  array  $ids
-     * 
+     * @param  array  $ids 
      * @return static
      */
     public function setModel($model, $ids = []): static

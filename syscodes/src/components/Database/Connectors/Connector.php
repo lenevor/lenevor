@@ -52,8 +52,7 @@ class Connector
      * 
      * @param  string  $dsn
      * @param  array  $config
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return \PDO
      * 
      * @throws \Syscodes\Components\Database\Exceptions\ConnectionException  
@@ -82,7 +81,6 @@ class Connector
      * @param  string  $username
      * @param  string  $password
      * @param  array  $options
-     * 
      * @return \PDO
      */
     protected function createPdoConnection($dsn, $username, $password, $options): PDO
@@ -99,8 +97,7 @@ class Connector
      * @param  string  $dsn
      * @param  string  $username
      * @param  string  $password
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return \PDO
      *
      * @throws \Throwable
@@ -117,8 +114,7 @@ class Connector
     /**
      * Get the PDO options based on the configuration.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return array
      */
     public function getOptions(array $config): array
@@ -141,8 +137,7 @@ class Connector
     /**
      * Set the default PDO connection options.
      * 
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return void
      */
     public function setDefaultOptions(array $options): void

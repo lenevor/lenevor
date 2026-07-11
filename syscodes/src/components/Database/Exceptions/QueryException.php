@@ -74,8 +74,7 @@ class QueryException extends PDOException
      * @param  array  $bindings
      * @param  \Throwable  $previous
      * @param  array  $connectionDetails
-     * @param  null|'read'|'write'  $readWriteType
-     * 
+     * @param  null|'read'|'write'  $readWriteType 
      * @return void
      */
     public function __construct($connectionName, $sql, array $bindings, Throwable $previous, array $connectionDetails = [], $readWriteType = null)
@@ -101,8 +100,7 @@ class QueryException extends PDOException
      * @param  string  $connectionName
      * @param  string  $sql
      * @param  array  $bindings
-     * @param  \Throwable  $previous
-     * 
+     * @param  \Throwable  $previous 
      * @return string
      */
     protected function formatMessage($connectionName, $sql, array $bindings, Throwable $previous): string

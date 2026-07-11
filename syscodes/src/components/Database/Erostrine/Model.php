@@ -138,7 +138,6 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * Constructor. The create new Model instance.
 	 *
 	 * @param  array  $attributes
-	 *
 	 * @return void
 	 */
 	public function __construct(array $attributes = [])
@@ -231,8 +230,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	/**
 	 * Qualify the given column name by the model's table.
 	 * 
-	 * @param  string  $column
-	 * 
+	 * @param  string  $column 
 	 * @return string
 	 */
 	public function qualifyColumn($column): string
@@ -247,8 +245,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	/**
 	 * Get all of the models from the database.
 	 * 
-	 * @param  array|mixed  $columns
-	 * 
+	 * @param  array|mixed  $columns 
 	 * @return \Syscodes\Components\Database\Erostrine\Collection|static[]
 	 */
 	public static function all($columns = ['*'])
@@ -262,7 +259,6 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * Begin querying the model on a given connection. 
 	 * 
 	 * @param  string|null	$connection
-	 * 
 	 * @return \Syscodes\Components\Database\Erostrine\Builder
 	 */
 	public static function on($connection = null)
@@ -297,7 +293,6 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * Set the primary key for the model.
 	 * 
 	 * @param  string  $key
-	 * 
 	 * @return void
 	 */
 	public function setKeyName($key): void
@@ -310,7 +305,6 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * 
 	 * @param  array  $attributes
 	 * @param  array  $options
-	 * 
 	 * @return bool
 	 */
 	public function update(array $attributes = [], array $options = []): bool
@@ -326,7 +320,6 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * Save the model to the database.
 	 * 
 	 * @param  array  $options
-	 * 
 	 * @return bool
 	 */
 	public function save(array $options = []): bool
@@ -355,8 +348,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	/**
 	 * Perform a model update operation.
 	 * 
-	 * @param  \Syscodes\Components\Database\Erostrine\Builder $query
-	 * 
+	 * @param  \Syscodes\Components\Database\Erostrine\Builder $query 
 	 * @return bool
 	 */
 	public function performUpdate(Builder $query): bool
@@ -383,8 +375,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	/**
 	 * Set the keys for a save update query.
 	 * 
-	 * @param  \Syscodes\Components\Database\Erostrine\Builder  $query
-	 * 
+	 * @param  \Syscodes\Components\Database\Erostrine\Builder  $query 
 	 * @return \Syscodes\Components\Database\Erostrine\Builder
 	 */
 	protected function setKeysForSaveQuery($query)
@@ -408,7 +399,6 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * Perform a model insert operation.
 	 * 
 	 * @param  \Syscodes\Components\Database\Erostrine\Builder  $query
-	 * 
 	 * @return bool
 	 */
 	public function performInsert(Builder $query): bool
@@ -445,7 +435,6 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * 
 	 * @param  \Syscodes\Components\Database\Erostrine\Builder  $query
 	 * @param  array  $attributes
-	 * 
 	 * @return void
 	 */
 	protected function insertAndSetId(Builder $query, $attributes)
@@ -514,8 +503,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	/**
 	 * Deleting the models for the given IDs.
 	 * 
-	 * @param  \Syscodes\Components\Support\Collection|array|int|string  $ids
-	 * 
+	 * @param  \Syscodes\Components\Support\Collection|array|int|string  $ids 
 	 * @return int
 	 */
 	public static function deleting($ids): int
@@ -553,7 +541,6 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * Set the value indicating whether the IDs are incrementing.
 	 * 
 	 * @param  bool  $value
-	 * 
 	 * @return static
 	 */
 	public function setIncrementing($value): static
@@ -588,8 +575,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	/**
 	 * Create a new Erostrine query builder for the model.
 	 * 
-	 * @param  \Syscodes\Components\Database\Query\Builder  $query
-	 * 
+	 * @param  \Syscodes\Components\Database\Query\Builder  $query 
 	 * @return \Syscodes\Components\Database\Erostrine\Builder
 	 */
 	public function newQueryBuilder(QueryBuilder $query)
@@ -617,8 +603,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	/**
 	 * Fill the model with an array of attributes.
 	 * 
-	 * @param  array  $attributes
-	 * 
+	 * @param  array  $attributes 
 	 * @return static
 	 * 
 	 * @throws \Syscodes\Components\Database\Erostrine\Exceptions\MassAssignmentException
@@ -647,7 +632,6 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * Fill the model with an array of attributes. Force mass assignment.
 	 * 
 	 * @param  array  $attributes
-	 * 
 	 * @return static
 	 */
 	public function forceFill(array $attributes): static
@@ -659,8 +643,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * Create a new instance of the given model.
 	 * 
 	 * @param  array  $attributes
-	 * @param  bool   $exists
-	 * 
+	 * @param  bool  $exists 
 	 * @return static
 	 */
 	public function newInstance($attributes = [], $exists = false): static
@@ -678,8 +661,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * Create a new model instance that is existing.
 	 * 
 	 * @param  array  $attributes
-	 * @param  string|null  $connection
-	 * 
+	 * @param  string|null  $connection 
 	 * @return static
 	 */
 	public function newFromBuilder($attributes = [], $connection = null): static
@@ -694,8 +676,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	/**
 	 * Create a new ORM Collection instance.
 	 * 
-	 * @param  array  $models
-	 * 
+	 * @param  array  $models 
 	 * @return \Syscodes\Components\Database\Erostrine\Collection
 	 */
 	public function newCollection(array $models = [])
@@ -710,8 +691,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * @param  array  $attributes
 	 * @param  string  $table
 	 * @param  bool  $exists
-	 * @param  string|null  $using
-	 * 
+	 * @param  string|null  $using 
 	 * @return \Syscodes\Components\Database\Erostrine\Relations\Pivot
 	 */
 	public function newPivot(self $parent, array $attributes, $table, $exists, $using = null)
@@ -736,8 +716,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	/**
 	 * Set the table associated with the model.
 	 * 
-	 * @param  string  $table
-	 * 
+	 * @param  string  $table 
 	 * @return void
 	 */
 	public function setTable(string $table): void
@@ -770,8 +749,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	/**
 	 * Set the number of models to return per page.
 	 * 
-	 * @param  int  $perPage
-	 * 
+	 * @param  int  $perPage 
 	 * @return static
 	 */
 	public function setPerPage(int $perPage): static
@@ -794,8 +772,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
     /**
      * Set the data type for the primary key.
      *
-     * @param  string  $type
-	 * 
+     * @param  string  $type 
      * @return static
      */
     public function setKeyType($type): static
@@ -843,7 +820,6 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * Remove the table name from a given key.
 	 * 
 	 * @param  string  $key
-	 * 
 	 * @return string
 	 */
 	protected function removeTableFromKey($key): string
@@ -858,8 +834,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	/**
 	 * Determine if two models have the same ID and belong to the same table.
 	 * 
-	 * @param  \Syscodes\Components\Database\Erostrine\Model|null  $model
-	 * 
+	 * @param  \Syscodes\Components\Database\Erostrine\Model|null  $model 
 	 * @return bool
 	 */
 	public function is($model): bool
@@ -874,7 +849,6 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * Determine if two models are not the same.
 	 * 
 	 * @param  \Syscodes\Components\Database\Erostrine\Model|null  $model
-	 * 
 	 * @return bool
 	 */
 	public function isNot($model): bool
@@ -905,8 +879,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	/**
 	 * Set the connection associated with the model.
 	 * 
-	 * @param  string  $name
-	 * 
+	 * @param  string  $name 
 	 * @return static
 	 */
 	public function setConnection($name): static
@@ -919,8 +892,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	/**
 	 * The resolver connection a instance.
 	 * 
-	 * @param  string|null  $connection
-	 * 
+	 * @param  string|null  $connection 
 	 * @return \Syscodes\Components\Database\Connections\Connection
 	 */
 	public static function resolveConnection(?string $connection = null)
@@ -941,8 +913,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	/**
 	 * Set the connection resolver instance.
 	 * 
-	 * @param  \Syscodes\Components\Database\ConnectionResolverInterface  $resolver
-	 * 
+	 * @param  \Syscodes\Components\Database\ConnectionResolverInterface  $resolver 
 	 * @return void
 	 */
 	public static function setConnectionResolver(ConnectionResolverInterface $resolver): void
@@ -954,8 +925,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
      * Convert the model instance to JSON.
      *
      * @param  int  $options
-
-     * @return string
+	 * @return string
      *
      * @throws \Syscodes\Components\Database\Erostrine\Exceptions\JsonEncodingException
      */
@@ -974,8 +944,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
      * Convert the model instance to pretty print formatted JSON.
      *
      * @param  int  $options
-
-     * @return string
+	 * @return string
      *
      * @throws \Syscodes\Components\Database\Erostrine\Exceptions\JsonEncodingException
      */
@@ -997,8 +966,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	/**
      * Indicate that the model's string representation should be escaped when __toString is invoked.
      * 
-     * @param  bool  $escape
-     * 
+     * @param  bool  $escape 
      * @return static
      */
     public function escapeWhenLoadingToString($escape = true): static
@@ -1014,7 +982,6 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * Dynamically retrieve attributes on the model.
 	 * 
 	 * @param  string  $key
-	 * 
 	 * @return mixed
 	 */
 	public function __get($key): mixed
@@ -1028,8 +995,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * Dynamically set attributes on the model.
 	 * 
 	 * @param  string  $key
-	 * @param  mixed  $value
-	 * 
+	 * @param  mixed  $value 
 	 * @return void
 	 */
 	public function __set($key, $value)
@@ -1046,8 +1012,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	/**
 	 * Whether or not an offset exists.
 	 * 
-	 * @param  mixed  $offset
-	 * 
+	 * @param  mixed  $offset 
 	 * @return bool
 	 */
 	public function offsetExists(mixed $offset): bool
@@ -1062,7 +1027,6 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * Returns the value at specified offset.
 	 * 
 	 * @param  mixed  $offset
-	 * 
 	 * @return mixed
 	 */
 	public function offsetGet(mixed $offset): mixed
@@ -1074,8 +1038,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * Set a value to the specified offset
 	 * 
 	 * @param  mixed  $offset
-	 * @param  mixed  $value
-	 * 
+	 * @param  mixed  $value 
 	 * @return void
 	 */
 	public function offsetSet(mixed $offset, mixed $value): void
@@ -1087,7 +1050,6 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * Unset the value for a given offset.
 	 * 
 	 * @param  mixed  $offset
-	 * 
 	 * @return void
 	 */
 	public function offsetUnset(mixed $offset): void
@@ -1114,8 +1076,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * 
 	 * Determine if an attribute or relation exists on the model.
 	 * 
-	 * @param  string  $key
-	 * 
+	 * @param  string  $key 
 	 * @return bool
 	 */
 	public function __isset($key)
@@ -1128,8 +1089,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * 
 	 * Unset an attribute on the model.
 	 * 
-	 * @param  string  $key
-	 * 
+	 * @param  string  $key 
 	 * @return void
 	 */
 	public function __unset($key)
@@ -1143,8 +1103,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * Dynamically handle method calls into the model instance.
 	 * 
 	 * @param  string  $method
-	 * @param  array  $parameters
-	 * 
+	 * @param  array  $parameters 
 	 * @return mixed
 	 */
 	public function __call(string $method, array $parameters): mixed
@@ -1158,8 +1117,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 * Dynamically handle static method calls into the model instance.
 	 * 
 	 * @param  string  $method
-	 * @param  array  $parameters
-	 * 
+	 * @param  array  $parameters 
 	 * @return mixed
 	 */
 	public static function __callStatic(string $method, array $parameters): mixed

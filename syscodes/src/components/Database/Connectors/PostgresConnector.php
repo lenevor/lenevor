@@ -47,8 +47,7 @@ class PostgresConnector extends Connector implements ConnectorInterface
     /**
      * Establish a database connection.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \PDO
      */
     public function connect(array $config)
@@ -73,8 +72,7 @@ class PostgresConnector extends Connector implements ConnectorInterface
      /**
      * Create a DSN string from a configuration.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return string
      */
     protected function getDsn(array $config): string
@@ -110,8 +108,7 @@ class PostgresConnector extends Connector implements ConnectorInterface
      * Add the SSL options to the DSN.
      *
      * @param  string  $dsn
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return string
      */
     protected function addSslOptions($dsn, array $config): string
@@ -129,8 +126,7 @@ class PostgresConnector extends Connector implements ConnectorInterface
      * Set the connection character set and collation.
      * 
      * @param  \PDO  $connection
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return void
      */
     protected function configureEncoding($connection, array $config)
@@ -146,8 +142,7 @@ class PostgresConnector extends Connector implements ConnectorInterface
      * Get the timezone on the connection.
      * 
      * @param  \PDO  $connection
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return void
      */
     protected function configureTimezone($connection, array $config): void
@@ -161,8 +156,7 @@ class PostgresConnector extends Connector implements ConnectorInterface
      * Get the "search_path" on the connection.
      * 
      * @param  \PDO  $connection
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return void
      */
     protected function configureSearchPath($connection, array $config): void
@@ -179,8 +173,7 @@ class PostgresConnector extends Connector implements ConnectorInterface
     /**
      * Format the search path for the DSN.
      *
-     * @param  array  $searchPath
-     * 
+     * @param  array  $searchPath 
      * @return string
      */
     protected function quoteSearchPath($searchPath): string

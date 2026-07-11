@@ -10,6 +10,7 @@ class {{ class }} extends JsonResource
     /**
      * Transform the resource into an array.
      *
+     * @param  \Syscodes\Compoenents\Http\Request  $request
      * @return array<string, mixed>
      */
     public function toArray(Request $request): array

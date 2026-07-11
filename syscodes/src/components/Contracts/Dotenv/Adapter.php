@@ -37,8 +37,7 @@ interface Adapter extends Reader, Writer
     /**
      * Check if a variable exists.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     public function has(string $name): bool;

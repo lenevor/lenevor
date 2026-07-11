@@ -30,8 +30,7 @@ interface Mailbox
     /**
      * Send the message using the given mailer.
      * 
-     * @param  \Syscodes\Components\Contracts\Mail\Factory|\Syscodes\Components\Contracts\Mail\Mailer  $mailer
-     * 
+     * @param  \Syscodes\Components\Contracts\Mail\Factory|\Syscodes\Components\Contracts\Mail\Mailer  $mailer 
      * @return \Syscodes\Components\Mail\Helpers\BaseSentMessage|null
      */
     public function send($mailer);
@@ -40,8 +39,7 @@ interface Mailbox
      * Set the sender of the message.
      * 
      * @param  object|array|string  $address
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return static
      */
     public function from($address, $name = null): static;
@@ -50,8 +48,7 @@ interface Mailbox
      * Set the recipients of the message.
      * 
      * @param  object|array|string  $address
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return static
      */
     public function cc($address, $name = null): static;
@@ -60,8 +57,7 @@ interface Mailbox
      * Set the recipients of the message.
      * 
      * @param  object|array|string  $address
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return static
      */
     public function bcc($address, $name = null): static;
@@ -70,8 +66,7 @@ interface Mailbox
      * Set the recipients of the message.
      * 
      * @param  object|array|string  $address
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return static
      */
     public function to($address, $name = null): static;
@@ -79,8 +74,7 @@ interface Mailbox
     /**
      * Set the locale of the message.
      * 
-     * @param  string  $locale
-     * 
+     * @param  string  $locale 
      * @return static
      */
     public function locale($locale): static;
@@ -88,8 +82,7 @@ interface Mailbox
     /**
      * Set the name of the mailer that should be used to send the message.
      * 
-     * @param  string  $mailer
-     * 
+     * @param  string  $mailer 
      * @return static
      */
     public function mailer($mailer): static;

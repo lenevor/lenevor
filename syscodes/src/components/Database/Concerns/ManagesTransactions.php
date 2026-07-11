@@ -36,8 +36,7 @@ trait ManagesTransactions
      * Execute a Closure within a transaction.
      * 
      * @param  \Closure  $callback
-     * @param  int  $attempts
-     * 
+     * @param  int  $attempts 
      * @return mixed
      * 
      * @throws \Throwable
@@ -185,8 +184,7 @@ trait ManagesTransactions
     /**
      * Handle an exception from a transaction beginning.
      *
-     * @param  \Throwable  $e
-     * 
+     * @param  \Throwable  $e 
      * @return void
      *
      * @throws \Throwable
@@ -240,8 +238,7 @@ trait ManagesTransactions
      *
      * @param  \Throwable  $e
      * @param  int  $currentAttempt
-     * @param  int  $maxAttempts
-     * 
+     * @param  int  $maxAttempts 
      * @return void
      *
      * @throws \Throwable
@@ -264,8 +261,7 @@ trait ManagesTransactions
     /**
      * Rollback the active database transaction.
      * 
-     * @param  int|null  $toLevel
-     * 
+     * @param  int|null  $toLevel 
      * @return void
      */
     public function rollback($toLevel = null): void
@@ -301,8 +297,7 @@ trait ManagesTransactions
     /**
      * Perform a rollback within the database.
      *
-     * @param  int  $toLevel
-     * 
+     * @param  int  $toLevel 
      * @return void
      *
      * @throws \Throwable
@@ -325,8 +320,7 @@ trait ManagesTransactions
     /**
      * Handle an exception from a rollback.
      *
-     * @param  \Throwable  $e
-     * 
+     * @param  \Throwable  $e 
      * @return void
      *
      * @throws \Throwable

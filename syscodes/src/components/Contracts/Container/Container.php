@@ -36,8 +36,7 @@ interface Container extends ContainerInterface
      * Alias a type to a diferent name.
      * 
      * @param  string  $id
-     * @param  string  $alias
-     * 
+     * @param  string  $alias 
      * @return void
      */
     public function alias($id, string $alias): void;
@@ -47,8 +46,7 @@ interface Container extends ContainerInterface
      * 
      * @param  \Closure|string  $id
      * @param  \Closure|string|null  $value
-     * @param  bool  $shared
-     * 
+     * @param  bool  $shared 
      * @return void
      */
     public function bind($id, $value = null, bool $shared = false): void;
@@ -58,8 +56,7 @@ interface Container extends ContainerInterface
      * 
      * @param  \Closure|string  $id
      * @param  \Closure|string|null  $value
-     * @param  bool  $shared
-     * 
+     * @param  bool  $shared 
      * @return void
      */
     public function bindIf($id, $value = null, $shared = false): void;
@@ -67,8 +64,7 @@ interface Container extends ContainerInterface
     /**
      * Determine if the given id type has been resolved.
      *
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return bool
      */
     public function resolved($id): bool;
@@ -77,8 +73,7 @@ interface Container extends ContainerInterface
      * Extender an id type in the container.
      *
      * @param  string    $id
-     * @param  \Closure  $closure
-     * 
+     * @param  \Closure  $closure 
      * @return mixed
      */
     public function extend($id, Closure $closure);
@@ -87,8 +82,7 @@ interface Container extends ContainerInterface
      * Register a singleton binding in the container.
      * 
      * @param  \Closure|string  $id
-     * @param  \Closure|string|null  $value
-     * 
+     * @param  \Closure|string|null  $value 
      * @return void
      */
     public function singleton($id, $value = null): void;
@@ -97,8 +91,7 @@ interface Container extends ContainerInterface
      * Register a singleton if it hasn't already been registered.
      * 
      * @param  \Closure|string  $id
-     * @param  \Closure|string|null  $value
-     * 
+     * @param  \Closure|string|null  $value 
      * @return void
      */
     public function singletonIf($id, $value = null): void;
@@ -107,8 +100,7 @@ interface Container extends ContainerInterface
      * Register a scoped binding in the container.
      *
      * @param  \Closure|string  $id
-     * @param  \Closure|string|null  $value
-     * 
+     * @param  \Closure|string|null  $value 
      * @return void
      */
     public function scoped($id, $value = null): void;
@@ -117,8 +109,7 @@ interface Container extends ContainerInterface
      * Register a scoped binding if it hasn't already been registered.
      * 
      * @param  \Closure|string  $id
-     * @param  \Closure|string|null  $value
-     * 
+     * @param  \Closure|string|null  $value 
      * @return void
      */
     public function scopedIf($id, $value = null): void;
@@ -126,8 +117,7 @@ interface Container extends ContainerInterface
     /**
      * Instantiate a class instance of the given type.
      * 
-     * @param  \Closure|string   $class
-     * 
+     * @param  \Closure|string   $class 
      * @return mixed
      * 
      * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
@@ -137,8 +127,7 @@ interface Container extends ContainerInterface
     /**
      * Marks a callable as being a factory service.
      * 
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return \Closure
      */
     public function factory($id): Closure;
@@ -146,8 +135,7 @@ interface Container extends ContainerInterface
     /**
      * Get the alias for an id if available.
      * 
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return string
      */
     public function getAlias($id): string;
@@ -156,8 +144,7 @@ interface Container extends ContainerInterface
      * Bind a new callback to an id rebind event.
      * 
      * @param  string  $id
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return mixed
      */
     public function rebinding($id, Closure $callback);
@@ -167,8 +154,7 @@ interface Container extends ContainerInterface
      * 
      * @param  string  $id
      * @param  mixed  $target
-     * @param  string  $method
-     * 
+     * @param  string  $method 
      * @return mixed
      */
     public function refresh($id, mixed $target, string $method): mixed;
@@ -184,8 +170,7 @@ interface Container extends ContainerInterface
      * Register an existing instance as singleton in the container.
      *
      * @param  string  $id
-     * @param  mixed  $instance
-     * 
+     * @param  mixed  $instance 
      * @return mixed
      */
     public function instance($id, mixed $instance);
@@ -201,8 +186,7 @@ interface Container extends ContainerInterface
      * An alias function name for make().
      * 
      * @param  string  $id
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      */
     public function makeAssign($id, array $parameters = []): mixed;
@@ -211,8 +195,7 @@ interface Container extends ContainerInterface
      * Resolve the given type from the container.
      * 
      * @param  string  $id
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      */
     public function make($id, array $parameters = []): mixed;
@@ -220,8 +203,7 @@ interface Container extends ContainerInterface
     /**
      * Determine if the given id type has been bound.
      * 
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return bool
      */
     public function bound($id): bool;
@@ -229,8 +211,7 @@ interface Container extends ContainerInterface
     /**
      * Determine if a given string is an alias.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     public function isAlias($name): bool;
@@ -240,8 +221,7 @@ interface Container extends ContainerInterface
      * 
      * @param  callable|string  $callback
      * @param  array  $parameters
-     * @param  string|null  $defaultMethod
-     * 
+     * @param  string|null  $defaultMethod 
      * @return mixed
      */
     public function call($callback, array $parameters = [], $defaultMethod = null);
@@ -249,8 +229,7 @@ interface Container extends ContainerInterface
     /**
      * Remove all id traces of the specified binding.
      * 
-     * @param  string  $id
-     * 
+     * @param  string  $id 
      * @return void
      */
     public function remove($id): void;
@@ -259,8 +238,7 @@ interface Container extends ContainerInterface
      * Set the binding with given key / value.
      * 
      * @param  string  $id
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return static
      */
     public function set($id, string $value): static;
@@ -276,8 +254,7 @@ interface Container extends ContainerInterface
      * Register a new before resolving callback for all types.
      * 
      * @param  \Closure|string  $id 
-     * @param  \Closure|null  $callback
-     * 
+     * @param  \Closure|null  $callback 
      * @return void
      */
     public function beforeResolving($id, ?Closure $callback = null);
@@ -286,8 +263,7 @@ interface Container extends ContainerInterface
      * Register a new resolving callback.
      * 
      * @param  \Closure|string  $id
-     * @param  \Closure|null  $callback
-     * 
+     * @param  \Closure|null  $callback 
      * @return void
      */
     public function resolving($id, ?Closure $callback = null);
@@ -296,8 +272,7 @@ interface Container extends ContainerInterface
      * Register a new after resolving callback for all types.
      * 
      * @param  \Closure|string  $id
-     * @param  \Closure|null  $callback
-     * 
+     * @param  \Closure|null  $callback 
      * @return void
      */
     public function afterResolving($id, ?Closure $callback = null);

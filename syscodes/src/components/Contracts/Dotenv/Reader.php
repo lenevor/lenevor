@@ -30,8 +30,7 @@ interface Reader
     /**
      * Read an environment variable.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return mixed
      */
     public function read(string $name);

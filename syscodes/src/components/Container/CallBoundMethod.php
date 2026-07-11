@@ -41,7 +41,6 @@ class CallBoundMethod
      * @param  callable|string  $callback
      * @param  array  $parameters
      * @param  string|null  $defaultMethod
-     * 
      * @return mixed
      * 
      * @throws \InvalidArgumentException
@@ -75,7 +74,6 @@ class CallBoundMethod
      * @param  \Syscodes\Components\Container\Container  $container
      * @param  string  $callback
      * @param  string|null  $defaultMethod
-     * 
      * @return array
      */
     protected static function resolveStringCallback($container, $callback, ?string $defaultMethod = null): array
@@ -95,7 +93,6 @@ class CallBoundMethod
      * @param  \Syscodes\Components\Container\Container  $container
      * @param  array  $parameters
      * @param  \ReflectionFunctionAbstract  $reflector
-     * 
      * @return array
      */
     protected static function getMethodDependencies(Container $container, array $parameters, ReflectionFunctionAbstract $reflector): array

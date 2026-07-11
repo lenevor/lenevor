@@ -33,8 +33,7 @@ interface Translator
      * @param  string  $key
      * @param  array  $replace
      * @param  string|null  $locale
-     * @param  bool  $fallback
-     * 
+     * @param  bool  $fallback 
      * @return string|array
      */
     public function get($key, array $replace = [], ?string $locale = null, bool $fallback = true);
@@ -43,8 +42,7 @@ interface Translator
      * Determine if a translation exists for a given locale.
      * 
      * @param  string  $key
-     * @param  string|null  $locale
-     * 
+     * @param  string|null  $locale 
      * @return bool
      */
     public function hasForLocale($key, $locale = null): bool;
@@ -54,8 +52,7 @@ interface Translator
      * 
      * @param  string  $key
      * @param  string|null  $locale
-     * @param  bool  $fallback
-     * 
+     * @param  bool  $fallback 
      * @return bool
      */
     public function has($key, $locale = null, $fallback = true): bool;
@@ -70,8 +67,7 @@ interface Translator
     /**
      * Set the default locale.
      * 
-     * @param  string  $locale
-     * 
+     * @param  string  $locale 
      * @return void
      */
     public function setLocale(string $locale): void;
@@ -86,8 +82,7 @@ interface Translator
     /**
      * Set the default locale.
      * 
-     * @param  string  $fallback
-     * 
+     * @param  string  $fallback 
      * @return void
      */
     public function setFallback($fallback): void;
@@ -95,8 +90,7 @@ interface Translator
     /**
      * Set the loaded translation groups.
      * 
-     * @param  array  $loaded
-     * 
+     * @param  array  $loaded 
      * @return void
      */
     public function setLoaded(array $loaded): void;

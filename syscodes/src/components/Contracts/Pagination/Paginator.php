@@ -31,8 +31,7 @@ interface Paginator extends SimplePaginator
      * Create a range of pagination URLs.
      * 
      * @param  int  $start
-     * @param  int  $end
-     * 
+     * @param  int  $end 
      * @return array
      */
     public function getUrlRange(int $start, int $end): array;

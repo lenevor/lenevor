@@ -108,8 +108,7 @@ class RefreshCommand extends Command
      *
      * @param  string  $database
      * @param  string  $path
-     * @param  int  $step
-     * 
+     * @param  int  $step 
      * @return void
      */
     protected function runRollback($database, $path, $step)
@@ -127,8 +126,7 @@ class RefreshCommand extends Command
      * Run the reset command.
      *
      * @param  string  $database
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return void
      */
     protected function runReset($database, $path)
@@ -154,8 +152,7 @@ class RefreshCommand extends Command
     /**
      * Run the database seeder command.
      *
-     * @param  string  $database
-     * 
+     * @param  string  $database 
      * @return void
      */
     protected function runSeeder($database)

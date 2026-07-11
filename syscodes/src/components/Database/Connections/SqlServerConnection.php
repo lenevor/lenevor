@@ -47,8 +47,7 @@ class SqlServerConnection extends Connection
      * Execute a Closure within a transaction.
      *
      * @param  \Closure  $callback
-     * @param  int  $attempts
-     * 
+     * @param  int  $attempts 
      * @return mixed
      *
      * @throws \Throwable
@@ -85,8 +84,7 @@ class SqlServerConnection extends Connection
     /**
      * Escape a binary value for safe SQL embedding.
      *
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function escapeBinary($value): string
@@ -99,8 +97,7 @@ class SqlServerConnection extends Connection
     /**
      * Determine if the given database exception was caused by a unique constraint violation.
      *
-     * @param  \Exception  $exception
-     * 
+     * @param  \Exception  $exception 
      * @return bool
      */
     protected function isUniqueConstraintError(Exception $exception): bool

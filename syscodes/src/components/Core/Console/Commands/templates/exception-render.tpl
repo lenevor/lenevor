@@ -10,6 +10,9 @@ class {{ class }} extends Exception
 {
     /**
      * Render the exception as an HTTP response.
+     *
+     * @param  \Syscodes\Components\Http\Request  $request
+     * @return \Syscodes\Components\Http\Response
      */
     public function render(Request $request): Response
     {

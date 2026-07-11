@@ -65,8 +65,7 @@ class WipeCommand extends Command
     /**
      * Drop all of the database tables.
      *
-     * @param  string  $database
-     * 
+     * @param  string  $database 
      * @return void
      */
     protected function dropAllTables($database)
@@ -79,8 +78,7 @@ class WipeCommand extends Command
     /**
      * Drop all of the database views.
      *
-     * @param  string  $database
-     * 
+     * @param  string  $database 
      * @return void
      */
     protected function dropAllViews($database)
@@ -93,8 +91,7 @@ class WipeCommand extends Command
     /**
      * Drop all of the database types.
      *
-     * @param  string  $database
-     * 
+     * @param  string  $database 
      * @return void
      */
     protected function dropAllTypes($database)
@@ -107,8 +104,7 @@ class WipeCommand extends Command
     /**
      * Flush the given database connection.
      *
-     * @param  string  $database
-     * 
+     * @param  string  $database 
      * @return void
      */
     protected function flushDatabaseConnection($database)

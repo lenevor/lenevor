@@ -89,8 +89,7 @@ abstract class HasOneOrManyThrough extends Relation
      * @param  string  $firstKey
      * @param  string  $secondKey
      * @param  string  $localKey
-     * @param  string  $secondLocalKey
-     * 
+     * @param  string  $secondLocalKey 
      * @return void
      */
     public function __construct(Builder $builder, Model $farParent, Model $throughParent, $firstKey, $secondKey, $localKey, $secondLocalKey)
@@ -139,8 +138,7 @@ abstract class HasOneOrManyThrough extends Relation
     /**
      * Set the join clause on the query.
      *
-     * @param  \Syscodes\Components\Database\Erostrine\Builder|null  $builder
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Builder|null  $builder 
      * @return void
      */
     protected function performJoin(?Builder $builder = null): void
@@ -155,8 +153,7 @@ abstract class HasOneOrManyThrough extends Relation
      /**
      * Build model dictionary keyed by the relation's foreign key.
      *
-     * @param  \Syscodes\Components\Database\Erostrine\Collection  $results
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Collection  $results 
      * @return array
      */
     protected function buildDictionary(ErostrineCollection $results): array
@@ -182,8 +179,7 @@ abstract class HasOneOrManyThrough extends Relation
     /**
      * Execute the query and get the first related model.
      *
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return \Syscodes\Components\Database\Erostrine\Model|null
      */
     public function first($columns = ['*'])
@@ -196,8 +192,7 @@ abstract class HasOneOrManyThrough extends Relation
     /**
      * Execute the query and get the first result or throw an exception.
      *
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return \Syscodes\Components\Database\Erostrine\Model
      *
      * @throws \Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException
@@ -214,11 +209,8 @@ abstract class HasOneOrManyThrough extends Relation
     /**
      * Execute the query and get the first result or call a callback.
      *
-     * @template TValue
-     *
      * @param  array|string  $columns
-     * @param  \Closure|null  $callback
-     * 
+     * @param  \Closure|null  $callback 
      * @return \Closure
      */
     public function firstOr($columns = ['*'], ?Closure $callback = null)
@@ -229,7 +221,7 @@ abstract class HasOneOrManyThrough extends Relation
             $columns = ['*'];
         }
 
-        if (! is_null($model = $this->first($columns))) {
+        if ( ! is_null($model = $this->first($columns))) {
             return $model;
         }
 
@@ -240,8 +232,7 @@ abstract class HasOneOrManyThrough extends Relation
      * Find a related model by its primary key.
      *
      * @param  mixed  $id
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return void
      */
     public function find($id, $columns = ['*'])
@@ -259,8 +250,7 @@ abstract class HasOneOrManyThrough extends Relation
      * Find multiple related models by their primary keys.
      *
      * @param  \Syscodes\Components\Contracts\Support\Arrayable|array  $ids
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return \Syscodes\Components\Database\Erostrine\Collection
      */
     public function findMany($ids, $columns = ['*'])
@@ -280,8 +270,7 @@ abstract class HasOneOrManyThrough extends Relation
      * Find a related model by its primary key or throw an exception.
      *
      * @param  mixed  $id
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return \Syscodes\Components\Contracts\Support\Arrayable|null
      *
      * @throws \Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException
@@ -310,8 +299,7 @@ abstract class HasOneOrManyThrough extends Relation
      *
      * @param  mixed  $id
      * @param  array|string  $columns
-     * @param  \Closure|null  $callback
-     * 
+     * @param  \Closure|null  $callback 
      * @return callable
      */
     public function findOr($id, $columns = ['*'], ?Closure $callback = null)
@@ -362,8 +350,7 @@ abstract class HasOneOrManyThrough extends Relation
      * @param  int|null  $perPage
      * @param  array  $columns
      * @param  string  $pageName
-     * @param  int|null  $page
-     * 
+     * @param  int|null  $page 
      * @return \Syscodes\Components\Pagination\Paginator
      */
     public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
@@ -379,8 +366,7 @@ abstract class HasOneOrManyThrough extends Relation
      * @param  int|null  $perPage
      * @param  array  $columns
      * @param  string  $pageName
-     * @param  int|null  $page
-     * 
+     * @param  int|null  $page 
      * @return \Syscodes\Components\Contracts\Pagination\Paginator
      */
     public function simplePaginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
@@ -393,8 +379,7 @@ abstract class HasOneOrManyThrough extends Relation
     /**
      * Set the select clause for the relation query.
      *
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return array
      */
     protected function shouldSelect(array $columns = ['*']): array
@@ -409,8 +394,7 @@ abstract class HasOneOrManyThrough extends Relation
     /**
      * Prepare the query builder for query execution.
      *
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return \Syscodes\Components\Database\Erostrine\Builder
      */
     protected function prepareQueryBuilder($columns = ['*'])
@@ -425,8 +409,7 @@ abstract class HasOneOrManyThrough extends Relation
     /**
      * Set the "limit" value of the query.
      *
-     * @param  int  $value
-     * 
+     * @param  int  $value 
      * @return static
      */
     public function limit($value): static

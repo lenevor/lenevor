@@ -32,8 +32,7 @@ class Cache implements ContextualAttribute
     /**
      * Constructor. Create a new class instance.
      * 
-     * @param  string|null  $store
-     * 
+     * @param  string|null  $store 
      * @return void
      */
     public function __construct(public ?string $store = null)
@@ -44,8 +43,7 @@ class Cache implements ContextualAttribute
      * Resolve the authentication guard.
      *
      * @param  self  $attribute
-     * @param  \Syscodes\Components\Contracts\Container\Container  $container
-     * 
+     * @param  \Syscodes\Components\Contracts\Container\Container  $container 
      * @return \Syscodes\Components\Contracts\Cache\Repository
      */
     public static function resolve(self $attribute, Container $container)

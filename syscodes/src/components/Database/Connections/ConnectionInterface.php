@@ -34,7 +34,6 @@ interface ConnectionInterface
      * 
      * @param  \Closure|\Syscodes\Components\Database\Query\Builder|string  $table
      * @param  string|null  $as 
-     * 
      * @return \Syscodes\Components\Database\Query\Builder
      */
     public function table($table, ?string $as = null);
@@ -42,8 +41,7 @@ interface ConnectionInterface
     /**
      * Get a new raw query expression.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return \Syscodes\Components\Database\Query\Expression
      */
     public function raw(mixed $value);
@@ -52,8 +50,7 @@ interface ConnectionInterface
      * Run a select statement and return a single result.
      * 
      * @param  string  $query
-     * @param  array  $bindings
-     * 
+     * @param  array  $bindings 
      * @return mixed
      */
     public function selectOne(string $query, array $bindings = []): mixed;
@@ -64,7 +61,6 @@ interface ConnectionInterface
      * @param  string  $query
      * @param  array  $bindings
      * @param  bool  $useReadPdo 
-     * 
      * @return array
      */
     public function select(string $query, array $bindings = [], bool $useReadPdo = true): array;
@@ -80,8 +76,7 @@ interface ConnectionInterface
      * Run an insert statement against the database.
      * 
      * @param  string  $query
-     * @param  array  $bindings
-     * 
+     * @param  array  $bindings 
      * @return bool
      */
     public function insert(string $query, array $bindings = []): bool;
@@ -90,8 +85,7 @@ interface ConnectionInterface
      * Run an update statement against the database.
      * 
      * @param  string  $query
-     * @param  array  $bindings
-     * 
+     * @param  array  $bindings 
      * @return int
      */
     public function update(string $query, array $bindings = []): int;
@@ -100,8 +94,7 @@ interface ConnectionInterface
      * Run an delete statement against the database.
      * 
      * @param  string  $query
-     * @param  array  $bindings
-     * 
+     * @param  array  $bindings 
      * @return int
      */
     public function delete(string $query, array $bindings = []): int;
@@ -110,8 +103,7 @@ interface ConnectionInterface
      * Execute an SQL statement and return the boolean result.
      * 
      * @param  string  $query
-     * @param  array  $bindings
-     * 
+     * @param  array  $bindings 
      * @return bool
      */
     public function statement(string $query, array $bindings = []): bool;
@@ -119,8 +111,7 @@ interface ConnectionInterface
     /**
      * Prepare the query bindings for execution.
      * 
-     * @param  array  $bindings
-     * 
+     * @param  array  $bindings 
      * @return array
      */
     public function prepareBindings(array $bindings): array;
@@ -150,7 +141,6 @@ interface ConnectionInterface
      * Get an option from the configuration options.
      * 
      * @param  string|null  $option 
-     * 
      * @return mixed
      */
     public function getConfig($option = null);
@@ -158,8 +148,7 @@ interface ConnectionInterface
     /**
      * Execute a Closure within a transaction.
      * 
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return mixed
      * 
      * @throws \Throwable
@@ -197,8 +186,7 @@ interface ConnectionInterface
     /**
      * Execute the given callback in "dry run" mode.
      * 
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return array
      */
     public function pretend(Closure $callback): array;

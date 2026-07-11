@@ -63,8 +63,7 @@ trait GuardsAttributes
     /**
      * Set the fillable attributes for the model.
      * 
-     * @param  array  $fillable
-     * 
+     * @param  array  $fillable 
      * @return static
      */
     public function setFillable(array $fillable): static
@@ -77,8 +76,7 @@ trait GuardsAttributes
     /**
      * Merge new fillable attributes with existing fillable attributes on the model.
      * 
-     * @param  array  $fillable
-     * 
+     * @param  array  $fillable 
      * @return static
      */
     public function mergeFillable(array $fillable): static
@@ -103,8 +101,7 @@ trait GuardsAttributes
     /**
      * Set the guarded attributes for the model.
      * 
-     * @param  array  $guarded
-     * 
+     * @param  array  $guarded 
      * @return static
      */
     public function setGuarded(array $guarded): static
@@ -117,8 +114,7 @@ trait GuardsAttributes
     /**
      * Merge new guarded attributes with existing guarded attributes on the model.
      * 
-     * @param  array  $guarded
-     * 
+     * @param  array  $guarded 
      * @return static
      */
     public function mergeGuarded(array $guarded): static
@@ -131,8 +127,7 @@ trait GuardsAttributes
     /**
      * Disable all mass assignable restrictions.
      * 
-     * @param  bool  $state
-     * 
+     * @param  bool  $state 
      * @return void
      */
     public static function unguard($state = true): void
@@ -163,8 +158,7 @@ trait GuardsAttributes
     /**
      * Run the given callable while being unguarded.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return mixed
      */
     public static function unguarded(callable $callback)
@@ -185,8 +179,7 @@ trait GuardsAttributes
     /**
      * Determine if the given attribute may be mass assigned.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return bool
      */
     public function isFillable($key): bool
@@ -209,8 +202,7 @@ trait GuardsAttributes
     /**
      * Determine if the given key is guarded.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return bool
      */
     public function isGuarded($key): bool
@@ -231,8 +223,7 @@ trait GuardsAttributes
     /**
      * Get the fillable attributes of a given array.
      * 
-     * @param  array  $attributes
-     * 
+     * @param  array  $attributes 
      * @return array
      */
     protected function fillableFromArray(array $attributes): array

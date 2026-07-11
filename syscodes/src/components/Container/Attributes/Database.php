@@ -34,7 +34,6 @@ class Database implements ContextualAttribute
      * Constructor. Create a new class instance.
      * 
      * @param  \UnitEnum|string|null  $connection
-     * 
      * @return void
      */
     public function __construct(public UnitEnum|string|null $connection = null)
@@ -46,7 +45,6 @@ class Database implements ContextualAttribute
      *
      * @param  self  $attribute
      * @param  \Syscodes\Components\Contracts\Container\Container  $container
-     * 
      * @return \Syscodes\Components\Database\Connections\Connection
      */
     public static function resolve(self $attribute, Container $container)

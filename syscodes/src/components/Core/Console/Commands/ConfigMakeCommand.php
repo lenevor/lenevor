@@ -67,7 +67,6 @@ class ConfigMakeCommand extends GeneratorCommand
      * Get the destination file path.
      *
      * @param  string  $name
-     * 
      * @return string
      */
     protected function getPath($name): string
