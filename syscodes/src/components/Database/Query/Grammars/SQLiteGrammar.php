@@ -35,8 +35,7 @@ class SQLiteGrammar extends Grammar
      * Compile the lock into SQL.
      * 
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  bool|string  $value
-     * 
+     * @param  bool|string  $value 
      * @return string
      */
     public function compileLock(Builder $query, $value): string
@@ -47,8 +46,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Wrap a union subquery in parentheses.
      * 
-     * @param  string  $sql
-     * 
+     * @param  string  $sql 
      * @return string
      */
     protected function wrapUnion($sql): string
@@ -60,8 +58,7 @@ class SQLiteGrammar extends Grammar
      * Compile a basic where clause.
      *
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $where
-     * 
+     * @param  array  $where 
      * @return string
      */
     protected function whereBasic(Builder $query, $where): string
@@ -81,7 +78,6 @@ class SQLiteGrammar extends Grammar
      *
      * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
-     * 
      * @return string
      */
     protected function whereLike(Builder $query, $where): string
@@ -98,8 +94,7 @@ class SQLiteGrammar extends Grammar
      * Compile a "where date" clause.
      * 
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $where
-     * 
+     * @param  array  $where 
      * @return string
      */
     protected function whereDate(Builder $query, $where): string
@@ -111,8 +106,7 @@ class SQLiteGrammar extends Grammar
      * Compile a "where time" clause.
      * 
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $where
-     * 
+     * @param  array  $where 
      * @return string
      */
     protected function whereTime(Builder $query, $where): string
@@ -124,8 +118,7 @@ class SQLiteGrammar extends Grammar
      * Compile a "where day" clause.
      * 
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $where
-     * 
+     * @param  array  $where 
      * @return string
      */
     protected function whereDay(Builder $query, $where): string
@@ -137,8 +130,7 @@ class SQLiteGrammar extends Grammar
      * Compile a "where month" clause.
      * 
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $where
-     * 
+     * @param  array  $where 
      * @return string
      */
     protected function whereMonth(Builder $query, $where): string
@@ -150,8 +142,7 @@ class SQLiteGrammar extends Grammar
      * Compile a "where year" clause.
      * 
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $where
-     * 
+     * @param  array  $where 
      * @return string
      */
     protected function whereYear(Builder $query, $where): string
@@ -164,8 +155,7 @@ class SQLiteGrammar extends Grammar
      * 
      * @param  string  $type
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $where
-     * 
+     * @param  array  $where 
      * @return string
      */
     protected function dateBasedWhere($type, Builder $query, $where): string
@@ -180,8 +170,7 @@ class SQLiteGrammar extends Grammar
      *
      * @param  string  $column
      * @param  string  $operator
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function compileJsonLength($column, $operator, $value): string
@@ -195,8 +184,7 @@ class SQLiteGrammar extends Grammar
      * Compile a "JSON contains" statement into SQL.
      *
      * @param  string  $column
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return string
      */
     protected function compileJsonContains($column, $value): string
@@ -209,8 +197,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Prepare the binding for a "JSON contains" statement.
      *
-     * @param  string  $binding
-     * 
+     * @param  string  $binding 
      * @return string
      */
     public function prepareBindingForJsonContains($binding): string
@@ -221,8 +208,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile a "JSON contains key" statement into SQL.
      *
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return string
      */
     protected function compileJsonContainsKey($column): string
@@ -236,8 +222,7 @@ class SQLiteGrammar extends Grammar
      * Compile an insert ignore statement into SQL.
      *
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $values
-     * 
+     * @param  array  $values 
      * @return string
      */
     public function compileInsertOrIgnore(Builder $query, array $values): string
@@ -250,8 +235,7 @@ class SQLiteGrammar extends Grammar
      *
      * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $columns
-     * @param  string  $sql
-     * 
+     * @param  string  $sql 
      * @return string
      */
     public function compileInsertOrIgnoreUsing(Builder $query, array $columns, string $sql): string
@@ -262,8 +246,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile a truncate table statement into SQL.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * 
+     * @param  \Syscodes\Components\Database\Query\Builder  $query 
      * @return array
      */
     public function truncate(Builder $query): array
@@ -281,8 +264,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Wrap the given JSON selector.
      *
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function wrapJsonSelector($value): string

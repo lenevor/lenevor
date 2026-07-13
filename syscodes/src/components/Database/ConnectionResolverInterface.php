@@ -30,8 +30,7 @@ interface ConnectionResolverInterface
     /**
      * Get a Database Connection instance.
      * 
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return \Syscodes\Components\Database\Connections\Connection
      */
     public function connection($name = null);
@@ -39,8 +38,7 @@ interface ConnectionResolverInterface
     /**
      * Reconnect to the given database.
      * 
-     * @param  string|null  $name  
-     * 
+     * @param  string|null  $name 
      * @return \Syscodes\Components\Database\Connections\Connection
      */
     public function reconnect($name = null);
@@ -48,8 +46,7 @@ interface ConnectionResolverInterface
     /**
      * Disconnect from the given database.
      * 
-     * @param  string|null  $name  
-     * 
+     * @param  string|null  $name
      * @return void
      */
     public function disconnect($name = null);
@@ -57,8 +54,7 @@ interface ConnectionResolverInterface
     /**
      * Disconnect from the given database and remove from local cache.
      * 
-     * @param  string|null  $name  
-     * 
+     * @param  string|null  $name 
      * @return void
      */
     public function purge($name = null): void;
@@ -73,8 +69,7 @@ interface ConnectionResolverInterface
     /**
      * Set the default Connection name.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return void
      */
     public function setDefaultConnection($name): void;
@@ -83,8 +78,7 @@ interface ConnectionResolverInterface
      * Register an extension connection resolver.
      * 
      * @param  string  $name
-     * @param  callable  $resolver
-     * 
+     * @param  callable  $resolver 
      * @return void
      */
     public function extend($name, Callable $resolver): void;

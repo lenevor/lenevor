@@ -40,8 +40,7 @@ class ForeignIdColumnDefinition extends ColumnDefinition
      * Constructor. Create a new foreign ID column definition.
      *
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  array  $attributes
-     * 
+     * @param  array  $attributes 
      * @return void
      */
     public function __construct(Dataprint $dataprint, $attributes = [])
@@ -56,8 +55,7 @@ class ForeignIdColumnDefinition extends ColumnDefinition
      *
      * @param  string|null  $table
      * @param  string|null  $column
-     * @param  string|null  $indexName
-     * 
+     * @param  string|null  $indexName 
      * @return \Syscodes\Components\Database\Schema\ForeignKeyDefinition
      */
     public function constrained($table = null, $column = null, $indexName = null)
@@ -72,8 +70,7 @@ class ForeignIdColumnDefinition extends ColumnDefinition
      * Specify which column this foreign ID references on another table.
      *
      * @param  string  $column
-     * @param  string|null  $indexName
-     * 
+     * @param  string|null  $indexName 
      * @return \Syscodes\Components\Database\Schema\ForeignKeyDefinition
      */
     public function references($column, $indexName = null)

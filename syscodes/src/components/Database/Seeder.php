@@ -60,8 +60,7 @@ abstract class Seeder
      *
      * @param  array|string  $class
      * @param  bool  $silent
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return static
      */
     public function call($class, $silent = false, array $parameters = []): static
@@ -101,8 +100,7 @@ abstract class Seeder
      * Run the given seeder class.
      *
      * @param  array|string  $class
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return void
      */
     public function callWith($class, array $parameters = [])
@@ -114,8 +112,7 @@ abstract class Seeder
      * Silently run the given seeder class.
      *
      * @param  array|string  $class
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return void
      */
     public function callSilent($class, array $parameters = [])
@@ -128,8 +125,7 @@ abstract class Seeder
      *
      * @param  array|string  $class
      * @param  bool  $silent
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return void
      */
     public function callOnce($class, $silent = false, array $parameters = [])
@@ -148,8 +144,7 @@ abstract class Seeder
     /**
      * Resolve an instance of the given seeder class.
      *
-     * @param  string  $class
-     * 
+     * @param  string  $class 
      * @return \Syscodes\Components\Database\Seeder
      */
     protected function resolve($class): self
@@ -173,7 +168,6 @@ abstract class Seeder
      * Set the IoC container instance.
      *
      * @param  \Syscodes\components\Contracts\Container\Container  $container
-
      * @return static
      */
     public function setContainer(Container $container): static
@@ -186,8 +180,7 @@ abstract class Seeder
     /**
      * Set the console command instance.
      *
-     * @param  \Syscodes\components\Console\Command  $command
-     * 
+     * @param  \Syscodes\components\Console\Command  $command 
      * @return static
      */
     public function setCommand(Command $command): static
@@ -200,8 +193,7 @@ abstract class Seeder
     /**
      * Run the database seeds.
      *
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      *
      * @throws \InvalidArgumentException

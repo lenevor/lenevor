@@ -52,8 +52,7 @@ class DatabaseTransactionRecord
      * Constructor. Create a new database transaction record instance.
      *
      * @param  string  $connection
-     * @param  int  $level
-     * 
+     * @param  int  $level 
      * @return void
      */
     public function __construct($connection, $level)
@@ -65,8 +64,7 @@ class DatabaseTransactionRecord
     /**
      * Register a callback to be executed after committing.
      *
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return void
      */
     public function addCallback($callback): void

@@ -57,8 +57,7 @@ class DatabaseTransactionsManager
      * Start a new database transaction.
      *
      * @param  string  $connection
-     * @param  int  $level
-     * 
+     * @param  int  $level 
      * @return void
      */
     public function begin($connection, $level): void
@@ -72,8 +71,7 @@ class DatabaseTransactionsManager
      * Rollback the active database transaction.
      *
      * @param  string  $connection
-     * @param  int  $level
-     * 
+     * @param  int  $level 
      * @return void
      */
     public function rollback($connection, $level): void
@@ -90,8 +88,7 @@ class DatabaseTransactionsManager
     /**
      * Commit the active database transaction.
      *
-     * @param  string  $connection
-     * 
+     * @param  string  $connection 
      * @return void
      */
     public function commit($connection): void
@@ -112,8 +109,7 @@ class DatabaseTransactionsManager
     /**
      * Register a transaction callback.
      *
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return void
      */
     public function addCallback($callback)
@@ -128,8 +124,7 @@ class DatabaseTransactionsManager
     /**
      * Specify that callbacks should ignore the given transaction when determining if they should be executed.
      *
-     * @param  \Syscodes\Components\Database\DatabaseTransactionRecord  $transaction
-     * 
+     * @param  \Syscodes\Components\Database\DatabaseTransactionRecord  $transaction 
      * @return static
      */
     public function callbacksShouldIgnore(DatabaseTransactionRecord $transaction): static

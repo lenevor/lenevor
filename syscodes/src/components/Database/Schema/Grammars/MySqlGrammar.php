@@ -61,8 +61,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile a create database command.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return string
      */
     public function compileCreateDatabase($name): string
@@ -83,8 +82,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile a drop database if exists command.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return string
      */
     public function compileDropDatabaseIfExists($name): string
@@ -110,8 +108,7 @@ class MySqlGrammar extends Grammar
      * Compile the query to compare the schema.
      *
      * @param  string|string[]|null  $schema
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return string
      */
     protected function compileSchemaWhereClause($schema, $column): string
@@ -126,8 +123,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile the query to determine the tables.
      *
-     * @param  string|string[]|null  $schema
-     * 
+     * @param  string|string[]|null  $schema 
      * @return string
      */
     public function compileTables($schema): string
@@ -166,8 +162,7 @@ class MySqlGrammar extends Grammar
      * Compile a create table command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileCreate(Dataprint $dataprint, Flowing $command): string
@@ -188,8 +183,7 @@ class MySqlGrammar extends Grammar
      * Create the main create table clause.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     protected function compileCreateTable($dataprint, $command): string
@@ -207,8 +201,7 @@ class MySqlGrammar extends Grammar
      * Append the character set specifications to a command.
      * 
      * @param  string  $sql
-     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint 
      * @return string
      */
     protected function compileCreateEncoding($sql, Dataprint $dataprint): string
@@ -237,8 +230,7 @@ class MySqlGrammar extends Grammar
      * Append the engine specifications to a command.
      * 
      * @param  string  $sql
-     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint 
      * @return string
      */
     protected function compileCreateEngine($sql, Dataprint $dataprint): string
@@ -256,8 +248,7 @@ class MySqlGrammar extends Grammar
      * Compile an add column command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileAdd(Dataprint $dataprint, Flowing $command): string
@@ -288,8 +279,7 @@ class MySqlGrammar extends Grammar
      * Compile a rename column command for legacy versions of MySQL.
      *
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     protected function compileLegacyRenameColumn(Dataprint $dataprint, Flowing $command): string
@@ -355,7 +345,6 @@ class MySqlGrammar extends Grammar
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
      * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
      * @return string
      */
     public function compilePrimary(Dataprint $dataprint, Flowing $command): string
@@ -369,8 +358,7 @@ class MySqlGrammar extends Grammar
      * Compile a unique key command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileUnique(Dataprint $dataprint, Flowing $command): string
@@ -382,8 +370,7 @@ class MySqlGrammar extends Grammar
      * Compile a plain index key command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileIndex(Dataprint $dataprint, Flowing $command): string
@@ -395,8 +382,7 @@ class MySqlGrammar extends Grammar
      * Compile a fulltext index key command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileFullText(Dataprint $dataprint, Flowing $command): string
@@ -408,8 +394,7 @@ class MySqlGrammar extends Grammar
      * Compile a spatial index key command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileSpatialIndex(Dataprint $dataprint, Flowing $command): string
@@ -442,8 +427,7 @@ class MySqlGrammar extends Grammar
      * Compile a drop table command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileDrop(Dataprint $dataprint, Flowing $command): string
@@ -455,8 +439,7 @@ class MySqlGrammar extends Grammar
      * Compile a drop table (if exists) command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileDropIfExists(Dataprint $dataprint, Flowing $command): string
@@ -468,8 +451,7 @@ class MySqlGrammar extends Grammar
      * Compile a drop column command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileDropColumn(Dataprint $dataprint, Flowing $command): string
@@ -493,8 +475,7 @@ class MySqlGrammar extends Grammar
      * Compile a drop primary key command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileDropPrimary(Dataprint $dataprint, Flowing $command): string
@@ -506,8 +487,7 @@ class MySqlGrammar extends Grammar
      * Compile a drop unique key command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileDropUnique(Dataprint $dataprint, Flowing $command): string
@@ -521,8 +501,7 @@ class MySqlGrammar extends Grammar
      * Compile a drop index command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileDropIndex(Dataprint $dataprint, Flowing $command): string
@@ -536,8 +515,7 @@ class MySqlGrammar extends Grammar
      * Compile a drop fulltext index command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileDropFullText(Dataprint $dataprint, Flowing $command): string
@@ -549,8 +527,7 @@ class MySqlGrammar extends Grammar
      * Compile a drop spatial index command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileDropSpatialIndex(Dataprint $dataprint, Flowing $command): string
@@ -562,8 +539,7 @@ class MySqlGrammar extends Grammar
      * Compile a foreign key command.
      *
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileForeign(Dataprint $dataprint, Flowing $command): string
@@ -581,8 +557,7 @@ class MySqlGrammar extends Grammar
      * Compile a drop foreign key command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileDropForeign(Dataprint $dataprint, Flowing $command): string
@@ -596,8 +571,7 @@ class MySqlGrammar extends Grammar
      * Compile a rename table command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileRename(Dataprint $dataprint, Flowing $command): string
@@ -611,8 +585,7 @@ class MySqlGrammar extends Grammar
      * Compile a rename index command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileRenameIndex(Dataprint $dataprint, Flowing $command): string
@@ -627,8 +600,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile the SQL needed to drop all tables.
      * 
-     * @param  array  $tables
-     * 
+     * @param  array  $tables 
      * @return string
      */
     public function compileDropAllTables($tables): string
@@ -639,8 +611,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile the SQL needed to drop all views.
      * 
-     * @param  array  $views
-     * 
+     * @param  array  $views 
      * @return string
      */
     public function compileDropAllViews($views): string
@@ -692,8 +663,7 @@ class MySqlGrammar extends Grammar
      * Compile a table comment command.
      *
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileTableComment(Dataprint $dataprint, Flowing $command): string
@@ -707,8 +677,7 @@ class MySqlGrammar extends Grammar
     /**
      * Quote-escape the given tables, views, or types.
      *
-     * @param  array  $names
-     * 
+     * @param  array  $names 
      * @return array
      */
     public function escapeNames($names): array
@@ -722,8 +691,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a char type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeChar(Flowing $column): string
@@ -734,8 +702,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a string type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeString(Flowing $column): string
@@ -746,8 +713,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a tiny text type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeTinyText(Flowing $column): string
@@ -758,8 +724,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a text type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeText(Flowing $column): string
@@ -770,8 +735,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a medium text type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeMediumText(Flowing $column): string
@@ -782,8 +746,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a long text type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeLongText(Flowing $column): string
@@ -795,7 +758,6 @@ class MySqlGrammar extends Grammar
      * Create the column definition for a big integer type.
      * 
      * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
      * @return string
      */
     protected function typeBigInteger(Flowing $column): string
@@ -806,8 +768,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for an integer type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeInteger(Flowing $column): string
@@ -818,8 +779,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a medium integer type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeMediumInteger(Flowing $column): string
@@ -830,8 +790,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a tiny integer type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeTinyInteger(Flowing $column): string
@@ -842,8 +801,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a small integer type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeSmallInteger(Flowing $column): string
@@ -854,8 +812,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a float type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeFloat(Flowing $column): string
@@ -870,8 +827,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a double type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeDouble(Flowing $column): string
@@ -885,8 +841,7 @@ class MySqlGrammar extends Grammar
    
     /**
      * Create the column definition for a decimal type.
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeDecimal(Flowing $column): string
@@ -897,8 +852,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a boolean type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeBoolean(Flowing $column): string
@@ -909,8 +863,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for an enum type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeEnum(Flowing $column): string
@@ -921,8 +874,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a set enumeration type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeSet(Flowing $column): string
@@ -933,8 +885,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a json type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeJson(Flowing $column): string
@@ -945,8 +896,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a jsonb type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeJsonb(Flowing $column): string
@@ -957,8 +907,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a date type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeDate(Flowing $column): string
@@ -978,8 +927,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a date-time type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeDateTime(Flowing $column): string
@@ -1000,8 +948,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a date-time (with time zone) type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeDateTimeTz(Flowing $column): string
@@ -1012,8 +959,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a time type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeTime(Flowing $column): string
@@ -1024,8 +970,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a time (with time zone) type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeTimeTz(Flowing $column): string
@@ -1036,8 +981,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a timestamp type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeTimestamp(Flowing $column): string
@@ -1058,8 +1002,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a timestamp (with time zone) type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing $column 
      * @return string
      */
     protected function typeTimestampTz(Flowing $column): string
@@ -1070,8 +1013,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a year type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeYear(Flowing $column): string
@@ -1091,8 +1033,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a binary type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeBinary(Flowing $column): string
@@ -1107,8 +1048,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a uuid type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeUuid(Flowing $column): string
@@ -1119,8 +1059,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for an IP address type.
      *
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeIpAddress(Flowing $column): string
@@ -1131,8 +1070,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a MAC address type.
      *
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeMacAddress(Flowing $column): string
@@ -1143,8 +1081,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a spatial Geometry type.
      *
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeGeometry(Flowing $column): string
@@ -1168,8 +1105,7 @@ class MySqlGrammar extends Grammar
     /**
      * Create the column definition for a spatial Geography type.
      *
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeGeography(Flowing $column): string
@@ -1181,8 +1117,7 @@ class MySqlGrammar extends Grammar
      * Get the SQL for an unsigned column modifier.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string|null
      */
     protected function modifyUnsigned(Dataprint $dataprint, Flowing $column)
@@ -1194,8 +1129,7 @@ class MySqlGrammar extends Grammar
      * Get the SQL for a character set column modifier.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string|null
      */
     protected function modifyCharset(Dataprint $dataprint, Flowing $column)
@@ -1209,8 +1143,7 @@ class MySqlGrammar extends Grammar
      * Get the SQL for a collation column modifier.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string|null
      */
     protected function modifyCollate(Dataprint $dataprint, Flowing $column)
@@ -1224,8 +1157,7 @@ class MySqlGrammar extends Grammar
      * Get the SQL for a nullable column modifier.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string|null
      */
     protected function modifyNullable(Dataprint $dataprint, Flowing $column): string
@@ -1241,8 +1173,7 @@ class MySqlGrammar extends Grammar
      * Get the SQL for an invisible column modifier.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string|null
      */
     protected function modifyInvisible(Dataprint $dataprint, Flowing $column)
@@ -1257,8 +1188,7 @@ class MySqlGrammar extends Grammar
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string|null
      */
     protected function modifyDefault(Dataprint $dataprint, Flowing $column)
@@ -1272,8 +1202,7 @@ class MySqlGrammar extends Grammar
      * Get the SQL for an "on update" column modifier.
      *
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string|null
      */
     protected function modifyOnUpdate(Dataprint $dataprint, Flowing $column)
@@ -1287,8 +1216,7 @@ class MySqlGrammar extends Grammar
      * Get the SQL for an auto-increment column modifier.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string|null
      */
     protected function modifyIncrement(Dataprint $dataprint, Flowing $column)
@@ -1304,8 +1232,7 @@ class MySqlGrammar extends Grammar
      * Get the SQL for an "comment" column modifier.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string|null
      */
     protected function modifyComment(Dataprint $dataprint, Flowing $column)
@@ -1320,7 +1247,6 @@ class MySqlGrammar extends Grammar
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
      * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
      * @return string|null
      */
     protected function modifyAfter(Dataprint $dataprint, Flowing $column)
@@ -1334,8 +1260,7 @@ class MySqlGrammar extends Grammar
      * Get the SQL for a "first" column modifier.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string|null
      */
     protected function modifyFirst(Dataprint $dataprint, Flowing $column)
@@ -1348,8 +1273,7 @@ class MySqlGrammar extends Grammar
     /**
      * Wrap a single string in keyword identifiers.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function wrapValue($value): string
@@ -1364,8 +1288,7 @@ class MySqlGrammar extends Grammar
     /**
      * Wrap the given JSON selector.
      *
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function wrapJsonSelector($value): string

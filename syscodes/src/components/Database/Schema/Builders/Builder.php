@@ -75,8 +75,7 @@ class Builder
     /**
      * Constructor. Create a new database schema manager.
      * 
-     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
-     * 
+     * @param  \Syscodes\Components\Database\Connections\Connection  $connection 
      * @return void
      */
     public function __construct(Connection $connection)
@@ -88,8 +87,7 @@ class Builder
     /**
      * Set the default string length for migrations.
      * 
-     * @param  int  $length
-     * 
+     * @param  int  $length 
      * @return void
      */
     public static function defaultStringLength($length): void
@@ -100,8 +98,7 @@ class Builder
     /**
      * Set the default time precision for migrations.
      * 
-     * @param  int|null  $precision
-     * 
+     * @param  int|null  $precision 
      * @return void
      */
     public static function defaultTimePrecision(?int $precision): void
@@ -112,8 +109,7 @@ class Builder
     /**
      * Create a database in the schema.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     public function createDatabase($name): bool
@@ -126,8 +122,7 @@ class Builder
     /**
      * Drop a database from the schema if the database exists.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     public function dropDatabaseIfExists($name): bool
@@ -140,8 +135,7 @@ class Builder
     /**
      * Get the views that belong to the connection.
      *
-     * @param  string|string[]|null  $schema
-     * 
+     * @param  string|string[]|null  $schema 
      * @return array
      */
     public function getViews($schema = null): array
@@ -154,8 +148,7 @@ class Builder
     /**
      * Get the user-defined types that belong to the connection.
      *
-     * @param  string|string[]|null  $schema
-     * 
+     * @param  string|string[]|null  $schema 
      * @return array
      */
     public function getTypes($schema = null): array
@@ -169,8 +162,7 @@ class Builder
      * Determine if the given table has a given column.
      * 
      * @param  string  $table
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return bool
      */
     public function hasColumn($table, $column): bool
@@ -184,8 +176,7 @@ class Builder
      * Determine if the given table has given columns.
      * 
      * @param  string  $table
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return bool
      */
     public function hasColumns($table, array $columns): bool
@@ -204,8 +195,7 @@ class Builder
     /**
      * Determine if the given view exists.
      *
-     * @param  string  $view
-     * 
+     * @param  string  $view 
      * @return bool
      */
     public function hasView($view): bool
@@ -226,8 +216,7 @@ class Builder
     /**
      * Determine if the given table exists.
      * 
-     * @param  string  $table
-     * 
+     * @param  string  $table 
      * @return bool
      */
     public function hasTable($table): bool
@@ -252,8 +241,7 @@ class Builder
     /**
      * Get the tables that belong to the connection.
      *
-     * @param  string|string[]|null  $schema
-     * 
+     * @param  string|string[]|null  $schema 
      * @return array
      */
     public function getTables($schema = null): array
@@ -267,8 +255,7 @@ class Builder
      * Get the names of the tables that belong to the connection.
      *
      * @param  string|string[]|null  $schema
-     * @param  bool  $schemaQualified
-     * 
+     * @param  bool  $schemaQualified 
      * @return array
      */
     public function getTableListing($schema = null, $schemaQualified = true): array
@@ -284,8 +271,7 @@ class Builder
      *
      * @param  string  $table
      * @param  string  $column
-     * @param  bool  $fullDefinition
-     * 
+     * @param  bool  $fullDefinition 
      * @return string
      */
     public function getColumnType($table, $column, $fullDefinition = false): string
@@ -304,8 +290,7 @@ class Builder
     /**
      * Get the column listing for a given table.
      * 
-     * @param  string  $table
-     * 
+     * @param  string  $table 
      * @return array
      */
     public function getColumnListing($table): array
@@ -316,8 +301,7 @@ class Builder
     /**
      * Get the columns for a given table.
      *
-     * @param  string  $table
-     * 
+     * @param  string  $table 
      * @return array
      */
     public function getColumns($table): array
@@ -348,8 +332,7 @@ class Builder
     /**
      * Get the foreign keys for a given table.
      *
-     * @param  string  $table
-     * 
+     * @param  string  $table 
      * @return array
      */
     public function getForeignKeys($table): array
@@ -369,8 +352,7 @@ class Builder
      * Modify a table on the schema.
      * 
      * @param  string  $table
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return void
      */
     public function table($table, Closure $callback): void
@@ -382,8 +364,7 @@ class Builder
      * Create a new table on the schema.
      * 
      * @param  string  $table
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return void
      */
     public function create($table, Closure $callback): void
@@ -398,8 +379,7 @@ class Builder
     /**
      * Drop a table from the schema.
      * 
-     * @param  string  $table
-     * 
+     * @param  string  $table 
      * @return void
      */
     public function drop($table): void
@@ -410,8 +390,7 @@ class Builder
     /**
      * Drop a table from the schema if it exists.
      * 
-     * @param  string  $table
-     * 
+     * @param  string  $table 
      * @return void
      */
     public function dropIfExists($table): void
@@ -423,8 +402,7 @@ class Builder
      * Drop columns from a table schema.
      * 
      * @param  string  $table
-     * @param  string|array  $columns
-     * 
+     * @param  string|array  $columns 
      * @return void
      */
     public function dropColumns($table, $columns): void
@@ -472,8 +450,7 @@ class Builder
      * Rename a table on the schema.
      * 
      * @param  string  $from
-     * @param  string  $to
-     * 
+     * @param  string  $to 
      * @return void
      */
     public function rename($from, $to): void
@@ -484,8 +461,7 @@ class Builder
     /**
      * Execute the Dataprint to build / modify the table.
      * 
-     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * 
+     * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint 
      * @return void
      */
     protected function build(Dataprint $dataprint): void
@@ -497,8 +473,7 @@ class Builder
      * Create a new command set with a Closure.
      * 
      * @param  string  $table
-     * @param  \Closure|null  $callback
-     * 
+     * @param  \Closure|null  $callback 
      * @return \Syscodes\Components\Database\Schema\Dataprint
      */
     protected function createDataprint($table, ?Closure $callback = null)
@@ -560,9 +535,8 @@ class Builder
      * Parse the given database object reference and extract the schema and table.
      *
      * @param  string  $reference
-     * @param  string|bool|null  $withDefaultSchema
-     * 
-     * @return array{string|null, string}
+     * @param  string|bool|null  $withDefaultSchema 
+     * @return array<string|null, string>
      */
     public function parseSchemaAndTable($reference, $withDefaultSchema = null): array
     {
@@ -599,8 +573,7 @@ class Builder
     /**
      * Set the database connection instance.
      * 
-     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
-     * 
+     * @param  \Syscodes\Components\Database\Connections\Connection  $connection 
      * @return static
      */
     public function setConnection(Connection $connection): static
@@ -613,8 +586,7 @@ class Builder
     /**
      * Set the Schema Dataprint resolver callback.
      * 
-     * @param  \Closure  $resolver
-     * 
+     * @param  \Closure  $resolver 
      * @return void
      */
     public function dataprintResolver(Closure $resolver): void

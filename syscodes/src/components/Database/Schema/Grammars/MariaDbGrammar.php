@@ -44,8 +44,7 @@ class MariaDbGrammar extends MySqlGrammar
     /**
      * Create the column definition for a uuid type.
      *
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeUuid(Flowing $column): string
@@ -60,8 +59,7 @@ class MariaDbGrammar extends MySqlGrammar
     /**
      * Create the column definition for a spatial Geometry type.
      *
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeGeometry(Flowing $column): string
@@ -81,8 +79,7 @@ class MariaDbGrammar extends MySqlGrammar
     /**
      * Wrap the given JSON selector.
      *
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function wrapJsonSelector($value): string

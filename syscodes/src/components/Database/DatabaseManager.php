@@ -77,8 +77,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * Constructor. Create a new DatabaseManager instance.
      * 
      * @param  \Syscodes\Components\Contracts\Core\Application  $app
-     * @param  \Syscodes\Components\Database\ConnectionFactory  $factory
-     * 
+     * @param  \Syscodes\Components\Database\ConnectionFactory  $factory 
      * @return void
      */
     public function __construct($app, ConnectionFactory $factory)
@@ -94,8 +93,7 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Get a Database Connection instance.
      * 
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return \Syscodes\Components\Database\Connections\Connection
      */
     public function connection($name = null)
@@ -122,8 +120,7 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Parse the connection into an array of the name and read / write type.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return array 
      */
     protected function parseConnectionName($name): array
@@ -138,8 +135,7 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Make the database connection instance.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return \Syscodes\Components\Database\Connections\Connection 
      */
     protected function makeConnection($name)
@@ -162,8 +158,7 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Get the configuration for a connection.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return array
      * 
      * @throws \InvalidArgumentException
@@ -185,8 +180,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * Prepare the database connection instance.
      * 
      * @param  \Syscodes\Components\Database\Connections\Connection  $connection
-     * @param  string  $type
-     * 
+     * @param  string  $type 
      * @return \Syscodes\Components\Database\Connections\Connection
      */
     protected function configure(Connection $connection, $type)
@@ -216,8 +210,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * Prepare the read / write mode for database connection instance.
      * 
      * @param  \Syscodes\Components\Database\Connections\Connection  $connection
-     * @param  string|null  $type
-     * 
+     * @param  string|null  $type 
      * @return \Syscodes\Components\Database\Connections\Connection
      */
     protected function setPdoForType(Connection $connection, $type)
@@ -234,8 +227,7 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Reconnect to the given database.
      * 
-     * @param  string|null  $name  
-     * 
+     * @param  string|null  $name
      * @return \Syscodes\Components\Database\Connections\Connection
      */
     public function reconnect($name = null)
@@ -252,8 +244,7 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Disconnect from the given database.
      * 
-     * @param  string|null  $name  
-     * 
+     * @param  string|null  $name 
      * @return void
      */
     public function disconnect($name = null)
@@ -266,8 +257,7 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Refresh the PDO connections on a given connection.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return \Syscodes\Components\Database\Connections\Connection
      */
     protected function refreshPdoConnections($name)
@@ -282,8 +272,7 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Disconnect from the given database and remove from local cache.
      * 
-     * @param  string|null  $name  
-     * 
+     * @param  string|null  $name 
      * @return void
      */
     public function purge($name = null): void
@@ -308,8 +297,7 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Set the default Connection name.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return void
      */
     public function setDefaultConnection($name): void
@@ -321,8 +309,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * Register an extension connection resolver.
      * 
      * @param  string  $name
-     * @param  callable  $resolver
-     * 
+     * @param  callable  $resolver 
      * @return void
      */
     public function extend($name, Callable $resolver): void
@@ -343,8 +330,7 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Set the database reconnector callback.
      *
-     * @param  callable  $reconnector
-     * 
+     * @param  callable  $reconnector 
      * @return void
      */
     public function setReconnector(callable $reconnector): void
@@ -358,8 +344,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * Dynamically pass methods to the default connection.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      */
     public function __call($method, $parameters): mixed

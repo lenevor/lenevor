@@ -76,8 +76,7 @@ class JoinClause extends Builder
      * 
      * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  string  $type
-     * @param  string  $table
-     * 
+     * @param  string  $table 
      * @return void
      */
     public function __construct(Builder $query, $type, $table)
@@ -100,8 +99,7 @@ class JoinClause extends Builder
      * @param  \Closure|\Syscodes\Components\Contracts\Database\Query\Expression|string  $first
      * @param  string|null  $operator  
      * @param  \Syscodes\Components\Contracts\Database\Query\Expression|string|null  $second  
-     * @param  string  $boolean
-     * 
+     * @param  string  $boolean 
      * @return static
      */
     public function on(
@@ -122,8 +120,7 @@ class JoinClause extends Builder
      * 
      * @param  string  $first
      * @param  string|null  $operator  
-     * @param  string|null  $second  
-     * 
+     * @param  string|null  $second 
      * @return static
      */
     public function orOn($first, $operator = null, $second = null): static

@@ -36,8 +36,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile a select query into sql.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * 
+     * @param  \Syscodes\Components\Database\Query\Builder  $query 
      * @return string
      */
     public function compileSelect(Builder $query): string
@@ -55,8 +54,7 @@ class MySqlGrammar extends Grammar
      * Compile a "where like" clause.
      *
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $where
-     * 
+     * @param  array  $where 
      * @return string
      */
     protected function whereLike(Builder $query, $where): string
@@ -72,8 +70,7 @@ class MySqlGrammar extends Grammar
      * Add a "where null" clause to the query.
      *
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $where
-     * 
+     * @param  array  $where 
      * @return string
      */
     protected function whereNull(Builder $query, $where): string
@@ -93,8 +90,7 @@ class MySqlGrammar extends Grammar
      * Add a "where not null" clause to the query.
      *
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $where
-     * 
+     * @param  array  $where 
      * @return string
      */
     protected function whereNotNull(Builder $query, $where): string
@@ -114,8 +110,7 @@ class MySqlGrammar extends Grammar
      * Compile a "where fulltext" clause.
      *
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $where
-     * 
+     * @param  array  $where 
      * @return string
      */
     public function whereFullText(Builder $query, $where): string
@@ -139,8 +134,7 @@ class MySqlGrammar extends Grammar
      * Compile an insert ignore statement into SQL.
      *
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $values
-     * 
+     * @param  array  $values 
      * @return string
      */
     public function compileInsertOrIgnore(Builder $query, array $values): string
@@ -154,7 +148,6 @@ class MySqlGrammar extends Grammar
      * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $columns
      * @param  string  $sql
-     * 
      * @return string
      */
     public function compileInsertOrIgnoreUsing(Builder $query, array $columns, string $sql): string
@@ -166,8 +159,7 @@ class MySqlGrammar extends Grammar
      * Compile a "JSON contains" statement into SQL.
      *
      * @param  string  $column
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function compileJsonContains($column, $value): string
@@ -180,8 +172,7 @@ class MySqlGrammar extends Grammar
      /**
      * Compile a "JSON contains key" statement into SQL.
      *
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return string
      */
     protected function compileJsonContainsKey($column): string
@@ -196,8 +187,7 @@ class MySqlGrammar extends Grammar
      *
      * @param  string  $column
      * @param  string  $operator
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function compileJsonLength($column, $operator, $value): string
@@ -210,8 +200,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile a "JSON value cast" statement into SQL.
      *
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     public function compileJsonValueCast($value): string
@@ -223,8 +212,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile the random statement into SQL.
      * 
-     * @param  string|int  $seed
-     * 
+     * @param  string|int  $seed 
      * @return string
      * 
      * @throws \InvalidArgumentException
@@ -246,8 +234,7 @@ class MySqlGrammar extends Grammar
      * Compile the lock into SQL.
      * 
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  bool|string  $value
-     * 
+     * @param  bool|string  $value 
      * @return string
      */
     public function compileLock(Builder $query, $value): string
@@ -263,8 +250,7 @@ class MySqlGrammar extends Grammar
      * Compile an insert statement into SQL.
      * 
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $values
-     * 
+     * @param  array  $values 
      * @return string
      */
     public function compileInsert(Builder $query, array $values): string
@@ -280,8 +266,7 @@ class MySqlGrammar extends Grammar
      * Compile the columns for an update statement.
      *
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $values
-     * 
+     * @param  array  $values 
      * @return string
      */
     protected function compileUpdateColumns(Builder $query, array $values): string
@@ -299,8 +284,7 @@ class MySqlGrammar extends Grammar
      * Prepare a JSON column being updated using the JSON_SET function.
      *
      * @param  string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return string
      */
     protected function compileJsonUpdateColumn($key, $value): string
@@ -324,8 +308,7 @@ class MySqlGrammar extends Grammar
      * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  string  $table
      * @param  string  $columns
-     * @param  string  $where
-     * 
+     * @param  string  $where 
      * @return string
      */
     public function compileUpdateWithoutJoins(Builder $query, $table, $columns, $where): string
@@ -347,8 +330,7 @@ class MySqlGrammar extends Grammar
      * Prepare the bindings for an update statement.
      *
      * @param  array  $bindings
-     * @param  array  $values
-     * 
+     * @param  array  $values 
      * @return array
      */
     #[\Override]
@@ -368,8 +350,7 @@ class MySqlGrammar extends Grammar
      * 
      * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  string  $table
-     * @param  string  $where
-     * 
+     * @param  string  $where 
      * @return string
      */
     protected function compileDeleteWithoutJoins(Builder $query, $table, $where): string
@@ -392,8 +373,7 @@ class MySqlGrammar extends Grammar
     /**
      * Wrap a single string in keyword identifiers.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function wrapValue($value): string
@@ -404,8 +384,7 @@ class MySqlGrammar extends Grammar
     /**
      * Wrap the given JSON selector.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function wrapJsonSelector($value): string
@@ -418,8 +397,7 @@ class MySqlGrammar extends Grammar
     /**
      * Wrap the given JSON selector for boolean values.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function wrapJsonBooleanSelector($value): string

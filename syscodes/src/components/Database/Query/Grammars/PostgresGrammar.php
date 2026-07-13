@@ -45,8 +45,7 @@ class PostgresGrammar extends Grammar
      * Compile a basic where clause.
      *
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $where
-     * 
+     * @param  array  $where 
      * @return string
      */
     protected function whereBasic(Builder $query, $where): string
@@ -67,8 +66,7 @@ class PostgresGrammar extends Grammar
      * Compile a "where like" clause.
      *
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $where
-     * 
+     * @param  array  $where 
      * @return string
      */
     protected function whereLike(Builder $query, $where): string
@@ -84,8 +82,7 @@ class PostgresGrammar extends Grammar
      * Compile a "where date" clause.
      *
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $where
-     * 
+     * @param  array  $where 
      * @return string
      */
     protected function whereDate(Builder $query, $where): string
@@ -105,7 +102,6 @@ class PostgresGrammar extends Grammar
      *
      * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $where
-     * 
      * @return string
      */
     protected function whereTime(Builder $query, $where): string
@@ -125,8 +121,7 @@ class PostgresGrammar extends Grammar
      *
      * @param  string  $type
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $where
-     * 
+     * @param  array  $where 
      * @return string
      */
     protected function dateBasedWhere($type, Builder $query, $where): string
@@ -140,8 +135,7 @@ class PostgresGrammar extends Grammar
      * Compile a "where fulltext" clause.
      *
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $where
-     * 
+     * @param  array  $where 
      * @return string
      */
     public function whereFullText(Builder $query, $where): string
@@ -214,8 +208,7 @@ class PostgresGrammar extends Grammar
      * Compile the "select *" portion of the builder.
      *
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return string|null
      */
     protected function compileColumns(Builder $query, $columns)
@@ -241,8 +234,7 @@ class PostgresGrammar extends Grammar
      * Compile a "JSON contains" statement into SQL.
      *
      * @param  string  $column
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function compileJsonContains($column, $value): string
@@ -255,8 +247,7 @@ class PostgresGrammar extends Grammar
     /**
      * Compile a "JSON contains key" statement into SQL.
      *
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return string
      */
     protected function compileJsonContainsKey($column): string
@@ -292,8 +283,7 @@ class PostgresGrammar extends Grammar
      *
      * @param  string  $column
      * @param  string  $operator
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function compileJsonLength($column, $operator, $value): string
@@ -307,8 +297,7 @@ class PostgresGrammar extends Grammar
      * Compile the lock into SQL.
      * 
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  bool|string  $value
-     * 
+     * @param  bool|string  $value 
      * @return string
      */
     public function compileLock(Builder $query, $value): string
@@ -324,8 +313,7 @@ class PostgresGrammar extends Grammar
      * Compile an insert ignore statement into SQL.
      *
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $values
-     * 
+     * @param  array  $values 
      * @return string
      */
     public function compileInsertOrIgnore(Builder $query, array $values): string
@@ -338,8 +326,7 @@ class PostgresGrammar extends Grammar
      *
      * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $columns
-     * @param  string  $sql
-     * 
+     * @param  string  $sql 
      * @return string
      */
     public function compileInsertOrIgnoreUsing(Builder $query, array $columns, string $sql): string
@@ -351,8 +338,7 @@ class PostgresGrammar extends Grammar
      * Compile the columns for an update statement.
      *
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $values
-     * 
+     * @param  array  $values 
      * @return string
      */
     protected function compileUpdateColumns(Builder $query, array $values): string
@@ -372,8 +358,7 @@ class PostgresGrammar extends Grammar
      * Prepare the bindings for an update statement.
      *
      * @param  array  $bindings
-     * @param  array  $values
-     * 
+     * @param  array  $values 
      * @return array
      */
     #[\Override]
@@ -398,8 +383,7 @@ class PostgresGrammar extends Grammar
      * Compile a "lateral join" clause.
      *
      * @param  \Syscodes\Components\Database\Query\JoinLateralClause  $join
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     public function compileJoinLateral(JoinLateralClause $join, string $expression): string
@@ -410,8 +394,7 @@ class PostgresGrammar extends Grammar
     /**
      * Compile a delete statement into SQL.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * 
+     * @param  \Syscodes\Components\Database\Query\Builder  $query 
      * @return string
      */
     public function compileDelete(Builder $query): string
@@ -426,8 +409,7 @@ class PostgresGrammar extends Grammar
     /**
      * Compile a delete statement with joins or limit into SQL.
      *
-     * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * 
+     * @param  \Syscodes\Components\Database\Query\Builder  $query 
      * @return string
      */
     protected function compileDeleteWithJoinsOrLimit(Builder $query): string
@@ -446,8 +428,7 @@ class PostgresGrammar extends Grammar
      * 
      * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  array  $values
-     * @param  string  $sequence
-     * 
+     * @param  string  $sequence 
      * @return string
      */
     public function compileInsertGetId(Builder $query, $values, $sequence): string
@@ -458,8 +439,7 @@ class PostgresGrammar extends Grammar
      /**
      * Compile a truncate table statement into SQL.
      * 
-     * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * 
+     * @param  \Syscodes\Components\Database\Query\Builder  $query 
      * @return array
      */
     public function truncate(Builder $query): array
@@ -470,8 +450,7 @@ class PostgresGrammar extends Grammar
     /**
      * Wrap the given JSON selector.
      *
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function wrapJsonSelector($value): string
@@ -494,8 +473,7 @@ class PostgresGrammar extends Grammar
     /**
      * Wrap the given JSON selector for boolean values.
      *
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function wrapJsonBooleanSelector($value): string
@@ -511,8 +489,7 @@ class PostgresGrammar extends Grammar
     /**
      * Wrap the given JSON boolean value.
      *
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function wrapJsonBooleanValue($value): string
@@ -523,8 +500,7 @@ class PostgresGrammar extends Grammar
     /**
      * Enable or disable the "cascade" option when compiling the truncate statement.
      *
-     * @param  bool  $value
-     * 
+     * @param  bool  $value 
      * @return void
      */
     public static function cascadeOnTruncate(bool $value = true): void

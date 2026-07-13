@@ -63,8 +63,7 @@ abstract class Grammar extends BaseGrammar
     /**
      * Compile a create database command.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return string
      */
     public function compileCreateDatabase($name): string
@@ -77,8 +76,7 @@ abstract class Grammar extends BaseGrammar
     /**
      * Compile a drop database if exists command.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return string
      */
     public function compileDropDatabaseIfExists($name): string
@@ -104,8 +102,7 @@ abstract class Grammar extends BaseGrammar
      * Compile the query to determine if the given table exists.
      *
      * @param  string|null  $schema
-     * @param  string  $table
-     * 
+     * @param  string  $table 
      * @return string|null
      */
     public function compileTableExists($schema, $table)
@@ -116,8 +113,7 @@ abstract class Grammar extends BaseGrammar
     /**
      * Compile the query to determine the tables.
      *
-     * @param  string|string[]|null  $schema
-     * 
+     * @param  string|string[]|null  $schema 
      * @return string
      *
      * @throws \RuntimeException
@@ -130,8 +126,7 @@ abstract class Grammar extends BaseGrammar
     /**
      * Compile the query to determine the views.
      *
-     * @param  string|string[]|null  $schema
-     * 
+     * @param  string|string[]|null  $schema 
      * @return string
      *
      * @throws \RuntimeException
@@ -144,8 +139,7 @@ abstract class Grammar extends BaseGrammar
     /**
      * Compile the query to determine the user-defined types.
      *
-     * @param  string|string[]|null  $schema
-     * 
+     * @param  string|string[]|null  $schema 
      * @return string
      *
      * @throws \RuntimeException
@@ -159,8 +153,7 @@ abstract class Grammar extends BaseGrammar
      * Compile the query to determine the columns.
      *
      * @param  string|null  $schema
-     * @param  string  $table
-     * 
+     * @param  string  $table 
      * @return string
      *
      * @throws \RuntimeException
@@ -174,8 +167,7 @@ abstract class Grammar extends BaseGrammar
      * Compile the query to determine the indexes.
      *
      * @param  string|null  $schema
-     * @param  string  $table
-     * 
+     * @param  string  $table 
      * @return string
      *
      * @throws \RuntimeException
@@ -189,8 +181,7 @@ abstract class Grammar extends BaseGrammar
      * Compile the query to determine the foreign keys.
      *
      * @param  string|null  $schema
-     * @param  string  $table
-     * 
+     * @param  string  $table 
      * @return string
      *
      * @throws \RuntimeException
@@ -204,8 +195,7 @@ abstract class Grammar extends BaseGrammar
      * Compile a rename column command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return array|string
      */
     public function compileRenameColumn(Dataprint $dataprint, Flowing $command): array|string
@@ -221,8 +211,7 @@ abstract class Grammar extends BaseGrammar
      * Compile a change column command into a series of SQL statements.
      *
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return array|string
      *
      * @throws \RuntimeException
@@ -236,8 +225,7 @@ abstract class Grammar extends BaseGrammar
      * Compile a fulltext index key command.
      *
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      *
      * @throws \RuntimeException
@@ -251,8 +239,7 @@ abstract class Grammar extends BaseGrammar
      * Compile a drop fulltext index command.
      *
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      *
      * @throws \RuntimeException
@@ -266,8 +253,7 @@ abstract class Grammar extends BaseGrammar
      * Compile a foreign key command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileForeign(Dataprint $dataprint, Flowing $command): string
@@ -305,8 +291,7 @@ abstract class Grammar extends BaseGrammar
      * Compile a drop foreign key command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileDropForeign(Dataprint $dataprint, Flowing $command): string
@@ -318,7 +303,6 @@ abstract class Grammar extends BaseGrammar
      * Compile the dataprint's column definitions.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * 
      * @return array
      */
     protected function getColumns(Dataprint $dataprint): array
@@ -336,8 +320,7 @@ abstract class Grammar extends BaseGrammar
      * Compile the column definition.
      *
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Database\Schema\ColumnDefinition  $column
-     * 
+     * @param  \Syscodes\Components\Database\Schema\ColumnDefinition  $column 
      * @return string
      */
     protected function getColumn(Dataprint $dataprint, $column): string
@@ -353,8 +336,7 @@ abstract class Grammar extends BaseGrammar
     /**
      * Get the SQL for the column data type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function getType(Flowing $column): string
@@ -366,7 +348,6 @@ abstract class Grammar extends BaseGrammar
      * Create the column definition for a raw column type.
      *
      * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
      * @return string
      */
     protected function typeRaw(Flowing $column): string
@@ -379,8 +360,7 @@ abstract class Grammar extends BaseGrammar
      * 
      * @param  string  $sql
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function addModifiers($sql, Dataprint $dataprint, Flowing $column): string
@@ -398,8 +378,7 @@ abstract class Grammar extends BaseGrammar
      * Get the primary key command if it exists on the dataprint.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return \Syscodes\Components\Support\Flowing|null
      */
     protected function getCommandByName(Dataprint $dataprint, $name)
@@ -416,7 +395,6 @@ abstract class Grammar extends BaseGrammar
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
      * @param  string  $name
-     *
      * @return array
      */
     protected function getCommandsByName(Dataprint $dataprint, $name): array
@@ -428,8 +406,7 @@ abstract class Grammar extends BaseGrammar
      * Determine if a command with a given name exists on the dataprint.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     protected function hasCommand(Dataprint $dataprint, $name): bool
@@ -447,8 +424,7 @@ abstract class Grammar extends BaseGrammar
      * Add a prefix to an array of values.
      * 
      * @param  string  $prefix
-     * @param  array  $values
-     * 
+     * @param  array  $values 
      * @return array
      */
     public function prefixArray($prefix, array $values): array
@@ -460,8 +436,7 @@ abstract class Grammar extends BaseGrammar
      * Wrap a table in keyword identifiers.
      * 
      * @param  mixed  $table
-     * @param  string|null  $prefix
-     * 
+     * @param  string|null  $prefix 
      * @return string
      */
     public function wrapTable($table, $prefix = null): string
@@ -476,8 +451,7 @@ abstract class Grammar extends BaseGrammar
      * Wrap a value in keyword identifiers.
      * 
      * @param  \Syscodes\Components\Support\Flowing|\Syscodes\Components\Database\Query\Expression|string  $value
-     * @param  bool  $prefix
-     * 
+     * @param  bool  $prefix 
      * @return string
      */
     public function wrap($value, $prefix = false): string
@@ -490,8 +464,7 @@ abstract class Grammar extends BaseGrammar
     /**
      * Format a value so that it can be used in "default" clauses.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return string
      */
     protected function getDefaultValue($value): string

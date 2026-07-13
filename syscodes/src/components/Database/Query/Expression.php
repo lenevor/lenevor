@@ -41,7 +41,6 @@ class Expression implements ExpressionContract
      * Constructor. Create a new Expression class instance.
      * 
      * @param  mixed  $value
-     * 
      * @return void
      */
     public function __construct($value)
@@ -53,7 +52,6 @@ class Expression implements ExpressionContract
      * Get the value of the expression.
      * 
      * @param  \Syscodes\Components\Database\Grammar  $grammar
-     * 
      * @return mixed
      */
     public function getValue(Grammar $grammar)

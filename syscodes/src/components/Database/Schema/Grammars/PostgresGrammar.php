@@ -57,8 +57,7 @@ class PostgresGrammar extends Grammar
     /**
      * Compile a create database command.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return string
      */
     public function compileCreateDatabase($name): string
@@ -75,8 +74,7 @@ class PostgresGrammar extends Grammar
     /**
      * Compile a drop database if exists command.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return string
      */
     public function compileDropDatabaseIfExists($name): string
@@ -107,8 +105,7 @@ class PostgresGrammar extends Grammar
     /**
      * Compile the query to determine the tables.
      *
-     * @param  string|string[]|null  $schema
-     * 
+     * @param  string|string[]|null  $schema 
      * @return string
      */
     public function compileTables($schema): string
@@ -124,8 +121,7 @@ class PostgresGrammar extends Grammar
      * Compile a create table command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileCreate(Dataprint $dataprint, Flowing $command): string
@@ -141,8 +137,7 @@ class PostgresGrammar extends Grammar
      * Compile an add column command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileAdd(Dataprint $dataprint, Flowing $command): string
@@ -184,8 +179,7 @@ class PostgresGrammar extends Grammar
      * Compile a primary key command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compilePrimary(Dataprint $dataprint, Flowing $command): string
@@ -199,8 +193,7 @@ class PostgresGrammar extends Grammar
      * Compile a unique key command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return array
      */
     public function compileUnique(Dataprint $dataprint, Flowing $command): array
@@ -250,8 +243,7 @@ class PostgresGrammar extends Grammar
      * Compile a plain index key command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileIndex(Dataprint $dataprint, Flowing $command): string
@@ -269,8 +261,7 @@ class PostgresGrammar extends Grammar
      * Compile a fulltext index key command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileFullText(Dataprint $dataprint, Flowing $command): string
@@ -287,8 +278,7 @@ class PostgresGrammar extends Grammar
      * Compile a spatial index key command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileSpatialIndex(Dataprint $dataprint, Flowing $command): string
@@ -302,8 +292,7 @@ class PostgresGrammar extends Grammar
      * Compile a foreign key command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileForeign(Dataprint $dataprint, Flowing $command): string
@@ -330,8 +319,7 @@ class PostgresGrammar extends Grammar
      * Compile a drop table command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileDrop(Dataprint $dataprint, Flowing $command): string
@@ -343,8 +331,7 @@ class PostgresGrammar extends Grammar
      * Compile a drop table (if exists) command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileDropIfExists(Dataprint $dataprint, Flowing $command): string
@@ -356,8 +343,7 @@ class PostgresGrammar extends Grammar
      * Compile a drop column command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileDropColumn(Dataprint $dataprint, Flowing $command): string
@@ -371,8 +357,7 @@ class PostgresGrammar extends Grammar
      * Compile a drop primary key command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileDropPrimary(Dataprint $dataprint, Flowing $command): string
@@ -388,7 +373,6 @@ class PostgresGrammar extends Grammar
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
      * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
      * @return string
      */
     public function compileDropUnique(Dataprint $dataprint, Flowing $command): string
@@ -402,8 +386,7 @@ class PostgresGrammar extends Grammar
      * Compile a drop index command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileDropIndex(Dataprint $dataprint, Flowing $command): string
@@ -415,8 +398,7 @@ class PostgresGrammar extends Grammar
      * Compile a drop fulltext index command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileDropFullText(Dataprint $dataprint, Flowing $command): string
@@ -428,8 +410,7 @@ class PostgresGrammar extends Grammar
      * Compile a drop spatial index command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileDropSpatialIndex(Dataprint $dataprint, Flowing $command): string
@@ -441,8 +422,7 @@ class PostgresGrammar extends Grammar
      * Compile a drop foreign key command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileDropForeign(Dataprint $dataprint, Flowing $command): string
@@ -456,8 +436,7 @@ class PostgresGrammar extends Grammar
      * Compile a rename table command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileRename(Dataprint $dataprint, Flowing $command): string
@@ -471,8 +450,7 @@ class PostgresGrammar extends Grammar
      * Compile a rename index command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileRenameIndex(Dataprint $dataprint, Flowing $command): string
@@ -486,8 +464,7 @@ class PostgresGrammar extends Grammar
     /**
      * Compile the SQL needed to drop all tables.
      * 
-     * @param  array  $tables
-     * 
+     * @param  array  $tables 
      * @return string
      */
     public function compileDropAllTables($tables): string
@@ -498,8 +475,7 @@ class PostgresGrammar extends Grammar
     /**
      * Compile the SQL needed to drop all views.
      * 
-     * @param  array  $views
-     * 
+     * @param  array  $views 
      * @return string
      */
     public function compileDropAllViews($views): string
@@ -510,8 +486,7 @@ class PostgresGrammar extends Grammar
     /**
      * Compile the SQL needed to drop all types.
      *
-     * @param  array  $types
-     * 
+     * @param  array  $types 
      * @return string
      */
     public function compileDropAllTypes($types): string
@@ -522,8 +497,7 @@ class PostgresGrammar extends Grammar
     /**
      * Compile the SQL needed to drop all domains.
      *
-     * @param  array  $domains
-     * 
+     * @param  array  $domains 
      * @return string
      */
     public function compileDropAllDomains($domains): string
@@ -534,8 +508,7 @@ class PostgresGrammar extends Grammar
     /**
      * Compile the SQL needed to retrieve all table names.
      * 
-     * @param  array|string  $schema
-     * 
+     * @param  array|string  $schema 
      * @return string
      */
     public function compileGetAllTables($schema): string
@@ -546,8 +519,7 @@ class PostgresGrammar extends Grammar
     /**
      * Compile the SQL needed to retrieve all view names.
      * 
-     * @param  array|string  $schema
-     * 
+     * @param  array|string  $schema 
      * @return string
      */
     public function compileGetAllViews($schema): string
@@ -579,8 +551,7 @@ class PostgresGrammar extends Grammar
      * Compile a comment command.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileComment(Dataprint $dataprint, Flowing $command)
@@ -598,8 +569,7 @@ class PostgresGrammar extends Grammar
      * Compile a table comment command.
      *
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $command
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $command 
      * @return string
      */
     public function compileTableComment(Dataprint $dataprint, Flowing $command): string
@@ -613,8 +583,7 @@ class PostgresGrammar extends Grammar
     /**
      * Quote-escape the given tables, views, or types.
      *
-     * @param  array  $names
-     * 
+     * @param  array  $names 
      * @return array
      */
     public function escapeNames($names): array
@@ -628,8 +597,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a char type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeChar(Flowing $column): string
@@ -644,8 +612,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a string type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeString(Flowing $column): string
@@ -660,8 +627,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a tiny text type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeTinyText(Flowing $column): string
@@ -672,8 +638,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a text type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeText(Flowing $column): string
@@ -684,8 +649,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a medium text type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeMediumText(Flowing $column): string
@@ -696,8 +660,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a long text type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeLongText(Flowing $column): string
@@ -708,8 +671,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a big integer type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeBigInteger(Flowing $column): string
@@ -720,8 +682,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for an integer type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeInteger(Flowing $column): string
@@ -732,8 +693,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a medium integer type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeMediumInteger(Flowing $column): string
@@ -744,8 +704,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a tiny integer type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeTinyInteger(Flowing $column): string
@@ -756,8 +715,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a small integer type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeSmallInteger(Flowing $column): string
@@ -768,8 +726,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a float type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeFloat(Flowing $column): string
@@ -784,8 +741,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a double type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeDouble(Flowing $column): string
@@ -796,8 +752,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a real type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeReal(Flowing $column): string
@@ -807,8 +762,8 @@ class PostgresGrammar extends Grammar
    
     /**
      * Create the column definition for a decimal type.
-     * @param  \Syscodes\Components\Support\Flowing  $column
      * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeDecimal(Flowing $column): string
@@ -819,8 +774,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a boolean type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeBoolean(Flowing $column): string
@@ -831,8 +785,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for an enum type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeEnum(Flowing $column): string
@@ -847,8 +800,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a json type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeJson(Flowing $column): string
@@ -859,8 +811,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a jsonb type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeJsonb(Flowing $column): string
@@ -871,8 +822,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a date type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeDate(Flowing $column): string
@@ -887,8 +837,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a date-time type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeDateTime(Flowing $column): string
@@ -900,7 +849,6 @@ class PostgresGrammar extends Grammar
      * Create the column definition for a date-time (with time zone) type.
      * 
      * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
      * @return string
      */
     protected function typeDateTimeTz(Flowing $column): string
@@ -911,8 +859,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a time type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeTime(Flowing $column): string
@@ -923,8 +870,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a time (with time zone) type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeTimeTz(Flowing $column): string
@@ -935,8 +881,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a timestamp type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeTimestamp(Flowing $column): string
@@ -951,8 +896,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a timestamp (with time zone) type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing $column 
      * @return string
      */
     protected function typeTimestampTz(Flowing $column): string
@@ -967,8 +911,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a year type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeYear(Flowing $column): string
@@ -983,8 +926,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a binary type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeBinary(Flowing $column): string
@@ -995,8 +937,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a uuid type.
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeUuid(Flowing $column): string
@@ -1007,8 +948,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for an IP address type.
      *
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeIpAddress(Flowing $column): string
@@ -1019,8 +959,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a MAC address type.
      *
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeMacAddress(Flowing $column): string
@@ -1032,7 +971,6 @@ class PostgresGrammar extends Grammar
      * Create the column definition for a spatial Geometry type.
      *
      * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
      * @return string
      */
     protected function typeGeometry(Flowing $column): string
@@ -1050,8 +988,7 @@ class PostgresGrammar extends Grammar
     /**
      * Create the column definition for a spatial Geography type.
      *
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string
      */
     protected function typeGeography(Flowing $column): string
@@ -1070,8 +1007,7 @@ class PostgresGrammar extends Grammar
      * Get the SQL for a collation column modifier.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string|null
      */
     protected function modifyCollate(Dataprint $dataprint, Flowing $column)
@@ -1085,8 +1021,7 @@ class PostgresGrammar extends Grammar
      * Get the SQL for a nullable column modifier.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string|null
      */
     protected function modifyNullable(Dataprint $dataprint, Flowing $column): string
@@ -1103,8 +1038,7 @@ class PostgresGrammar extends Grammar
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
      * 
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string|null
      */
     protected function modifyDefault(Dataprint $dataprint, Flowing $column)
@@ -1126,8 +1060,7 @@ class PostgresGrammar extends Grammar
      * Get the SQL for an auto-increment column modifier.
      * 
      * @param  \Syscodes\Components\Database\Schema\Dataprint  $dataprint
-     * @param  \Syscodes\Components\Support\Flowing  $column
-     * 
+     * @param  \Syscodes\Components\Support\Flowing  $column 
      * @return string|null
      */
     protected function modifyIncrement(Dataprint $dataprint, Flowing $column)

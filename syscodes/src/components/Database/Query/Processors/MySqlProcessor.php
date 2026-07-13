@@ -32,8 +32,7 @@ class MySqlProcessor extends Processor
     /**
      * Process the results of a column listing query.
      * 
-     * @param  array  $results
-     * 
+     * @param  array  $results 
      * @return array
      */
     public function processColumnListing($results): array
@@ -47,8 +46,7 @@ class MySqlProcessor extends Processor
      * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  string  $sql
      * @param  array  $values
-     * @param  string|null  $sequence
-     * 
+     * @param  string|null  $sequence 
      * @return int
      */
     public function processInsertGetId(Builder $query, $sql, $values, $sequence = null): int

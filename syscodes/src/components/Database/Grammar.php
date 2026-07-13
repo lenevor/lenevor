@@ -45,8 +45,7 @@ abstract class Grammar
     /**
      * Constructor. Create a new grammar instance.
      *
-     * @param  \Syscodes\Components\Database\Connections\Connection  $connection
-     * 
+     * @param  \Syscodes\Components\Database\Connections\Connection  $connection 
      * @return void
      */
     public function __construct(Connection $connection)
@@ -57,8 +56,7 @@ abstract class Grammar
     /**
      * Wrap an array of values.
      * 
-     * @param  array  $values
-     * 
+     * @param  array  $values 
      * @return array
      */
     public function wrapArray(array $values): array
@@ -70,8 +68,7 @@ abstract class Grammar
      * Wrap a table in keyword identifiers.
      * 
      * @param  \Syscodes\Components\Database\Query\Expression|string  $table
-     * @param  string|null  $prefix
-     * 
+     * @param  string|null  $prefix 
      * @return string
      */
     public function wrapTable($table, $prefix = null): string
@@ -104,8 +101,7 @@ abstract class Grammar
     /**
      * Wrap a value in keyword identifiers.
      * 
-     * @param  \Syscodes\Components\Database\Query\Expression|string  $value
-     * 
+     * @param  \Syscodes\Components\Database\Query\Expression|string  $value 
      * @return string
      */
     public function wrap($value): string
@@ -134,8 +130,7 @@ abstract class Grammar
     /**
      * Wrap a value that has an alias.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function wrapAliasedValue($value): string
@@ -149,8 +144,7 @@ abstract class Grammar
      * Wrap a table that has an alias.
      * 
      * @param  string  $value
-     * @param  string|null  $prefix
-     * 
+     * @param  string|null  $prefix 
      * @return string
      */
     protected function wrapAliasedTable($value, $prefix = null): string
@@ -165,8 +159,7 @@ abstract class Grammar
     /**
      * Wrap the given value segments.
      * 
-     * @param  array  $segments
-     * 
+     * @param  array  $segments 
      * @return string
      */
     protected function wrapSegments($segments): string
@@ -181,8 +174,7 @@ abstract class Grammar
     /**
      * Wrap a single string in keyword identifiers.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function wrapValue($value): string
@@ -197,8 +189,7 @@ abstract class Grammar
     /**
      * Wrap the given JSON selector.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      * 
      * @throws \RuntimeException
@@ -211,8 +202,7 @@ abstract class Grammar
     /**
      * Determine if the given string is a JSON selector.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return bool
      */
     protected function isJsonSelector($value): bool
@@ -223,8 +213,7 @@ abstract class Grammar
     /**
      * An array of column names.
      * 
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return string
      */
     public function columnize(array $columns): string
@@ -235,8 +224,7 @@ abstract class Grammar
     /**
      * Create query parameter place-holders for an array.
      * 
-     * @param  mixed  $values
-     * 
+     * @param  mixed  $values 
      * @return string
      */
     public function parameterize(array $values): string
@@ -247,8 +235,7 @@ abstract class Grammar
     /**
      * Get the appropriate query parameter place-holder for a value.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return string
      */
     public function parameter($value): string
@@ -259,8 +246,7 @@ abstract class Grammar
     /**
      * Get the value of a raw expression.
      * 
-     * @param  \Syscodes\Components\Database\Query\Expression|string|int|float  $expression
-     * 
+     * @param  \Syscodes\Components\Database\Query\Expression|string|int|float  $expression 
      * @return string|int|float
      */
     public function getValue($expression): string|int|float
@@ -275,8 +261,7 @@ abstract class Grammar
     /**
      * Determine if the given value is a raw expression.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      */
     public function isExpression($value): bool
@@ -287,8 +272,7 @@ abstract class Grammar
     /**
      * Quote the given string literal.
      * 
-     * @param  string|array  $value
-     * 
+     * @param  string|array  $value 
      * @return string
      */
     public function quoteString($value): string
@@ -304,8 +288,7 @@ abstract class Grammar
      * Escapes a value for safe SQL embedding.
      *
      * @param  string|float|int|bool|null  $value
-     * @param  bool  $binary
-     * 
+     * @param  bool  $binary 
      * @return string
      */
     public function escape($value, $binary = false): string
@@ -336,8 +319,7 @@ abstract class Grammar
     /**
      * Set the grammar's table prefix.
      * 
-     * @param  string  $prefix
-     * 
+     * @param  string  $prefix 
      * @return static
      */
     public function setTablePrefix($prefix): static

@@ -34,8 +34,7 @@ class SQLiteBuilder extends Builder
     /**
      * Create a database in the schema.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     public function createDatabase($name): bool
@@ -46,8 +45,7 @@ class SQLiteBuilder extends Builder
     /**
      * Drop a database from the schema if the database exists.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     public function dropDatabaseIfExists($name): bool
@@ -135,8 +133,7 @@ class SQLiteBuilder extends Builder
      * Get the value for the given pragma name or set the given value.
      *
      * @param  string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return mixed
      */
     public function pragma($key, $value = null)
@@ -150,7 +147,6 @@ class SQLiteBuilder extends Builder
      * Empty the database file.
      * 
      * @param  string|null  $path
-     *
      * @return void
      */
     public function refreshDatabaseFile($path = null): void

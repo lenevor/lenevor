@@ -219,8 +219,7 @@ class MigrationServiceProvider extends ServiceProvider implements Deferrable
     /**
      * Register the given commands.
      * 
-     * @param  array  $commands
-     * 
+     * @param  array  $commands 
      * @return void
      */
     protected function registerCommands(array $commands)

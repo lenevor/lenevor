@@ -115,8 +115,7 @@ class Dataprint
      * 
      * @param  \Syscodes\Components\Database\Connections\Connection  $connection
      * @param  string  $table
-     * @param  \Closure|null  $callback
-     * 
+     * @param  \Closure|null  $callback 
      * @return void
      */
     public function __construct(Connection $connection, $table, ?Closure $callback = null)
@@ -197,8 +196,7 @@ class Dataprint
     /**
      * Get all of the commands matching the given names.
      * 
-     * @param  array  $names
-     * 
+     * @param  array  $names 
      * @return \Syscodes\Components\Support\Collection
      */
     protected function commandsNamed(array $names)
@@ -280,8 +278,7 @@ class Dataprint
     /**
      * Specify the storage engine that should be used for the table.
      * 
-     * @param  string  $engine
-     * 
+     * @param  string  $engine 
      * @return void
      */
     public function engine($engine): void
@@ -302,8 +299,7 @@ class Dataprint
     /**
      * Specify the character set that should be used for the table.
      * 
-     * @param  string  $charset
-     * 
+     * @param  string  $charset 
      * @return void
      */
     public function charset($charset): void
@@ -354,8 +350,7 @@ class Dataprint
     /**
      * Indicate that the given columns should be dropped.
      * 
-     * @param  string|array  $columns
-     * 
+     * @param  string|array  $columns 
      * @return \Syscodes\Components\Support\Flowing
      */
     public function dropColumn($columns)
@@ -369,8 +364,7 @@ class Dataprint
      * Indicate that the given columns should be renamed.
      * 
      * @param  string  $from
-     * @param  string  $to
-     * 
+     * @param  string  $to 
      * @return \Syscodes\Components\Support\Flowing
      */
     public function renameColumn($from, $to)
@@ -381,8 +375,7 @@ class Dataprint
     /**
      * Indicate that the given primary key should be dropped.
      * 
-     * @param  string|array|null  $index
-     * 
+     * @param  string|array|null  $index 
      * @return \Syscodes\Components\Support\Flowing
      */
     public function dropPrimary($index = null)
@@ -393,8 +386,7 @@ class Dataprint
     /**
      * Indicate that the given unique key should be dropped.
      * 
-     * @param  string|array  $index
-     * 
+     * @param  string|array  $index 
      * @return \Syscodes\Components\Support\Flowing
      */
     public function dropUnique($index)
@@ -405,8 +397,7 @@ class Dataprint
     /**
      * Indicate that the given index should be dropped.
      * 
-     * @param  string|array  $index
-     * 
+     * @param  string|array  $index 
      * @return \Syscodes\Components\Support\Flowing
      */
     public function dropIndex($index)
@@ -417,8 +408,7 @@ class Dataprint
     /**
      * Indicate that the given fulltext index should be dropped.
      * 
-     * @param  string|array  $index
-     * 
+     * @param  string|array  $index 
      * @return \Syscodes\Components\Support\Flowing
      */
     public function dropFullText($index)
@@ -429,8 +419,7 @@ class Dataprint
     /**
      * Indicate that the given spatial index should be dropped.
      * 
-     * @param  string|array  $index
-     * 
+     * @param  string|array  $index 
      * @return \Syscodes\Components\Support\Flowing
      */
     public function dropSpatialIndex($index)
@@ -441,8 +430,7 @@ class Dataprint
     /**
      * Indicate that the given foreign key should be dropped.
      * 
-     * @param  string|array  $index
-     * 
+     * @param  string|array  $index 
      * @return \Syscodes\Components\Support\Flowing
      */
     public function dropForeign($index)
@@ -473,8 +461,7 @@ class Dataprint
     /**
      * Indicate that the soft delete column should be dropped.
      * 
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return void
      */
     public function dropSoftDeletes($column = 'deleted_at'): void
@@ -495,8 +482,7 @@ class Dataprint
     /**
      * Rename the table to a given name.
      * 
-     * @param  string  $to
-     * 
+     * @param  string  $to 
      * @return \Syscodes\Components\Support\Flowing
      */
     public function rename($to)
@@ -508,8 +494,7 @@ class Dataprint
      * Indicate that the given indexes should be renamed.
      * 
      * @param  string  $from
-     * @param  string  $to
-     * 
+     * @param  string  $to 
      * @return \Syscodes\Components\Support\Flowing
      */
     public function renameIndex($from, $to)
@@ -522,8 +507,7 @@ class Dataprint
      * 
      * @param  string|array  $columns
      * @param  string|null  $name
-     * @param  string|null  $option
-     * 
+     * @param  string|null  $option 
      * @return \Syscodes\Components\Support\Flowing
      */
     public function primary($columns, $name = null, $option = null)
@@ -536,8 +520,7 @@ class Dataprint
      * 
      * @param  string|array  $columns
      * @param  string|null  $name
-     * @param  string|null  $option
-     * 
+     * @param  string|null  $option 
      * @return \Syscodes\Components\Support\Flowing
      */
     public function unique($columns, $name = null, $option = null)
@@ -550,8 +533,7 @@ class Dataprint
      * 
      * @param  string|array  $columns
      * @param  string|null  $name
-     * @param  string|null  $option
-     * 
+     * @param  string|null  $option 
      * @return \Syscodes\Components\Support\Flowing
      */
     public function index($columns, $name = null, $option = null)
@@ -564,8 +546,7 @@ class Dataprint
      * 
      * @param  string|array  $columns
      * @param  string|null  $name
-     * @param  string|null  $option
-     * 
+     * @param  string|null  $option 
      * @return \Syscodes\Components\Support\Flowing
      */
     public function fullText($columns, $name = null, $option = null)
@@ -577,8 +558,7 @@ class Dataprint
      * Specify a spatial index for the table.
      * 
      * @param  string|array  $columns
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return \Syscodes\Components\Support\Flowing
      */
     public function spatialIndex($columns, $name = null)
@@ -590,8 +570,7 @@ class Dataprint
      * Specify a raw index for the table.
      * 
      * @param  string  $expression
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return \Syscodes\Components\Support\Flowing
      */
     public function rawIndex($expression, $name)
@@ -603,8 +582,7 @@ class Dataprint
      * Specify a foreign key for the table.
      * 
      * @param  string|array  $columns
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return \Syscodes\Components\Support\Flowing
      */
     public function foreign($columns, $name = null)
@@ -621,8 +599,7 @@ class Dataprint
     /**
      * Create a new auto-incrementing big integer (8-byte) column on the table.
      * 
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function id($column = 'id')
@@ -633,8 +610,7 @@ class Dataprint
     /**
      * Create a new auto-incrementing integer (4-byte) column on the table.
      * 
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function increments($column)
@@ -645,8 +621,7 @@ class Dataprint
     /**
      * Create a new auto-incrementing integer (4-byte) column on the table.
      * 
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function integerIncrements($column)
@@ -657,8 +632,7 @@ class Dataprint
     /**
      * Create a new auto-incrementing tiny integer (1-byte) column on the table.
      *
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function tinyIncrements($column)
@@ -669,8 +643,7 @@ class Dataprint
     /**
      * Create a new auto-incrementing small integer (2-byte) column on the table.
      * 
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function smallIncrements($column)
@@ -681,8 +654,7 @@ class Dataprint
     /**
      * Create a new auto-incrementing medium integer (3-byte) column on the table.
      * 
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function mediumIncrements($column)
@@ -693,8 +665,7 @@ class Dataprint
     /**
      * Create a new auto-incrementing big integer (8-byte) column on the table.
      * 
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function bigIncrements($column)
@@ -706,8 +677,7 @@ class Dataprint
      * Create a new char column on the table.
      * 
      * @param  string  $column
-     * @param  int|null  $length
-     * 
+     * @param  int|null  $length 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function char($column, $length = null)
@@ -721,8 +691,7 @@ class Dataprint
      * Create a new string column on the table.
      * 
      * @param  string  $column
-     * @param  int|null  $length
-     * 
+     * @param  int|null  $length 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function string($column, $length = null)
@@ -735,8 +704,7 @@ class Dataprint
     /**
      * Create a new tiny text column on the table.
      * 
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function tinyText($column)
@@ -747,8 +715,7 @@ class Dataprint
     /**
      * Create a new text column on the table.
      * 
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function text($column)
@@ -759,8 +726,7 @@ class Dataprint
     /**
      * Create a new medium text column on the table.
      * 
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function mediumText($column)
@@ -771,8 +737,7 @@ class Dataprint
     /**
      * Create a new long text column on the table.
      * 
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function longText($column)
@@ -785,8 +750,7 @@ class Dataprint
      * 
      * @param  string  $column
      * @param  bool  $autoIncrement
-     * @param  bool  $unsigned
-     * 
+     * @param  bool  $unsigned 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function integer($column, $autoIncrement = false, $unsigned = false)
@@ -799,8 +763,7 @@ class Dataprint
      * 
      * @param  string  $column
      * @param  bool  $autoIncrement
-     * @param  bool  $unsigned
-     * 
+     * @param  bool  $unsigned 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function tinyInteger($column, $autoIncrement = false, $unsigned = false)
@@ -813,8 +776,7 @@ class Dataprint
      * 
      * @param  string  $column
      * @param  bool  $autoIncrement
-     * @param  bool  $unsigned
-     * 
+     * @param  bool  $unsigned 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function smallInteger($column, $autoIncrement = false, $unsigned = false)
@@ -827,8 +789,7 @@ class Dataprint
      * 
      * @param  string  $column
      * @param  bool  $autoIncrement
-     * @param  bool  $unsigned
-     * 
+     * @param  bool  $unsigned 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function mediumInteger($column, $autoIncrement = false, $unsigned = false)
@@ -841,8 +802,7 @@ class Dataprint
      * 
      * @param  string  $column
      * @param  bool  $autoIncrement
-     * @param  bool  $unsigned
-     * 
+     * @param  bool  $unsigned 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function bigInteger($column, $autoIncrement = false, $unsigned = false)
@@ -855,7 +815,6 @@ class Dataprint
      * 
      * @param  string  $column
      * @param  bool  $autoIncrement
-     * 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function unsignedInteger($column, $autoIncrement = false)
@@ -867,8 +826,7 @@ class Dataprint
      * Create a new unsigned tiny integer (1-byte) column on the table.
      * 
      * @param  string  $column
-     * @param  bool  $autoIncrement
-     * 
+     * @param  bool  $autoIncrement 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function unsignedTinyInteger($column, $autoIncrement = false)
@@ -880,8 +838,7 @@ class Dataprint
      * Create a new unsigned small integer (2-byte) column on the table.
      * 
      * @param  string  $column
-     * @param  bool  $autoIncrement
-     * 
+     * @param  bool  $autoIncrement 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function unsignedSmallInteger($column, $autoIncrement = false)
@@ -894,7 +851,6 @@ class Dataprint
      * 
      * @param  string  $column
      * @param  bool  $autoIncrement
-     * 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function unsignedMediumInteger($column, $autoIncrement = false)
@@ -906,8 +862,7 @@ class Dataprint
      * Create a new unsigned big integer (8-byte) column on the table.
      * 
      * @param  string  $column
-     * @param  bool  $autoIncrement
-     * 
+     * @param  bool  $autoIncrement 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function unsignedBigInteger($column, $autoIncrement = false)
@@ -918,8 +873,7 @@ class Dataprint
     /**
      * Create a new unsigned big integer column on the table (8-byte, 0 to 18,446,744,073,709,551,615).
      *
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return \Syscodes\Components\Database\Schema\ForeignIdColumnDefinition
      */
     public function foreignId($column)
@@ -938,8 +892,7 @@ class Dataprint
      * @param  string  $column
      * @param  int  $total
      * @param  int  $places
-     * @param  bool  $unsigned
-     * 
+     * @param  bool  $unsigned 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function float($column, $total = 8, $places = 2, $unsigned = false)
@@ -953,8 +906,7 @@ class Dataprint
      * @param  string  $column
      * @param  int|null  $total
      * @param  int|null  $places
-     * @param  bool  $unsigned
-     * 
+     * @param  bool  $unsigned 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function double($column, $total = null, $places = null, $unsigned = false)
@@ -968,8 +920,7 @@ class Dataprint
      * @param  string  $column
      * @param  int  $total
      * @param  int  $places
-     * @param  bool  $unsigned
-     * 
+     * @param  bool  $unsigned 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function decimal($column, $total = 8, $places = 2, $unsigned = false)
@@ -982,8 +933,7 @@ class Dataprint
      * 
      * @param  string  $column
      * @param  int  $total
-     * @param  int  $places
-     * 
+     * @param  int  $places 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function unsignedFloat($column, $total = 8, $places = 2)
@@ -996,8 +946,7 @@ class Dataprint
      * 
      * @param  string  $column
      * @param  int  $total
-     * @param  int  $places
-     * 
+     * @param  int  $places 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function unsignedDouble($column, $total = null, $places = null)
@@ -1010,8 +959,7 @@ class Dataprint
      * 
      * @param  string  $column
      * @param  int  $total
-     * @param  int  $places
-     * 
+     * @param  int  $places 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function unsignedDecimal($column, $total = 8, $places = 2)
@@ -1022,8 +970,7 @@ class Dataprint
     /**
      * Create a new boolean column on the table.
      * 
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function boolean($column)
@@ -1035,8 +982,7 @@ class Dataprint
      * Create a new enum column on the table.
      *
      * @param  string  $column
-     * @param  array  $allowed
-     * 
+     * @param  array  $allowed 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function enum($column, array $allowed)
@@ -1048,8 +994,7 @@ class Dataprint
      * Create a new set column on the table.
      * 
      * @param  string  $column
-     * @param  array  $allowed
-     * 
+     * @param  array  $allowed 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function set($column, array $allowed)
@@ -1060,8 +1005,7 @@ class Dataprint
     /**
      * Create a new json column on the table.
      * 
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function json($column)
@@ -1072,8 +1016,7 @@ class Dataprint
     /**
      * Create a new jsonb column on the table.
      * 
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function jsonb($column)
@@ -1084,8 +1027,7 @@ class Dataprint
     /**
      * Create a new date column on the table.
      * 
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function date($column)
@@ -1097,8 +1039,7 @@ class Dataprint
      * Create a new date-time column on the table.
      * 
      * @param  string  $column
-     * @param  int|null  $precision
-     * 
+     * @param  int|null  $precision 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function dateTime($column, $precision = 0)
@@ -1110,8 +1051,7 @@ class Dataprint
      * Create a new date-time column (with time zone) on the table.
      * 
      * @param  string  $column
-     * @param  int|null  $precision
-     * 
+     * @param  int|null  $precision 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function dateTimeTz($column, $precision = 0)
@@ -1123,8 +1063,7 @@ class Dataprint
      * Create a new time column on the table.
      * 
      * @param  string  $column
-     * @param  int|null  $precision
-     * 
+     * @param  int|null  $precision 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function time($column, $precision = 0)
@@ -1136,8 +1075,7 @@ class Dataprint
      * Create a new time column (with time zone) on the table.
      * 
      * @param  string  $column
-     * @param  int|null  $precision
-     * 
+     * @param  int|null  $precision 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function timeTz($column, $precision = 0)
@@ -1150,7 +1088,6 @@ class Dataprint
      * 
      * @param  string  $column
      * @param  int|null  $precision
-     * 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function timestamp($column, $precision = 0)
@@ -1162,8 +1099,7 @@ class Dataprint
      * Create a new timestamp (with time zone) column on the table.
      * 
      * @param  string  $column
-     * @param  int|null  $precision
-     * 
+     * @param  int|null  $precision 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function timestampTz($column, $precision = 0)
@@ -1174,8 +1110,7 @@ class Dataprint
     /**
      * Add nullable creation and update timestamps to the table.
      * 
-     * @param  int|null  $precision
-     * 
+     * @param  int|null  $precision 
      * @return void
      */
     public function timestamps($precision = 0): void
@@ -1191,7 +1126,6 @@ class Dataprint
      * Alias for self::timestamps().
      * 
      * @param  int|null  $precision
-     * 
      * @return void
      */
     public function nullableTimestamps($precision = 0): void
@@ -1202,8 +1136,7 @@ class Dataprint
     /**
      * Add creation and update timestampTz columns to the table.
      * 
-     * @param  int|null  $precision
-     * 
+     * @param  int|null  $precision 
      * @return void
      */
     public function timestampsTz($precision = 0): void
@@ -1218,7 +1151,6 @@ class Dataprint
      * 
      * @param  string  $column
      * @param  int|null  $precision
-     *
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function softDeletes($column = 'deleted_at', $precision = 0)
@@ -1230,8 +1162,7 @@ class Dataprint
      * Add a "deleted at" timestampTz for the table.
      * 
      * @param  string  $column
-     * @param  int|null  $precision
-     * 
+     * @param  int|null  $precision 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function softDeletesTz($column = 'deleted_at', $precision = 0)
@@ -1242,8 +1173,7 @@ class Dataprint
     /**
      * Create a new year column on the table.
      * 
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function year($column)
@@ -1254,8 +1184,7 @@ class Dataprint
     /**
      * Create a new binary column on the table.
      * 
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function binary($column)
@@ -1266,8 +1195,7 @@ class Dataprint
     /**
      * Create a new uuid column on the table.
      * 
-     * @param  string  $column
-     * 
+     * @param  string  $column 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     public function uuid($column = 'uuid')
@@ -1290,8 +1218,7 @@ class Dataprint
      * 
      * @param  string  $command
      * @param  string  $type
-     * @param  string|array  $index
-     * 
+     * @param  string|array  $index 
      * @return \Syscodes\Components\Support\Flowing
      */
     protected function dropIndexCommand($command, $type, $index)
@@ -1313,8 +1240,7 @@ class Dataprint
      * @param  string  $type
      * @param  string|array  $columns
      * @param  string  $index
-     * @param  string|null  $option
-     * 
+     * @param  string|null  $option 
      * @return \Syscodes\Components\Support\Flowing
      */
     protected function indexCommand($type, $columns, $index, $option = null)
@@ -1332,8 +1258,7 @@ class Dataprint
      * Create a default index name for the table.
      * 
      * @param  string  $type
-     * @param  array  $columns
-     * 
+     * @param  array  $columns 
      * @return string
      */
     protected function createIndexName($type, array $columns): string
@@ -1348,8 +1273,7 @@ class Dataprint
      * 
      * @param  string  $type
      * @param  string  $name
-     * @param  array   $parameters
-     * 
+     * @param  array   $parameters 
      * @return \Syscodes\Components\Support\Flowing
      */
     protected function addColumn($type, $name, array $parameters = [])
@@ -1362,8 +1286,7 @@ class Dataprint
     /**
      * Add a new column definition to the dataprint.
      * 
-     * @param  \Syscodes\Components\Database\Schema\ColumnDefinition  $definition
-     * 
+     * @param  \Syscodes\Components\Database\Schema\ColumnDefinition  $definition 
      * @return \Syscodes\Components\Database\Schema\ColumnDefinition
      */
     protected function addColumnDefinition($definition)
@@ -1382,8 +1305,7 @@ class Dataprint
     /**
      * Remove a column from the schema data print.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return static
      */
     public function removeColumn($name): static
@@ -1397,8 +1319,7 @@ class Dataprint
      * Add a new command to the data print.
      * 
      * @param  string  $name
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return \Syscodes\Components\Support\Flowing
      */
     protected function addCommand($name, array $parameters = [])
@@ -1412,8 +1333,7 @@ class Dataprint
      * Create a new Flowing command.
      * 
      * @param  string  $name
-     * @param  array   $parameters
-     * 
+     * @param  array   $parameters 
      * @return \Syscodes\Components\Support\Flowing
      */
     protected function createCommand($name, array $parameters = [])

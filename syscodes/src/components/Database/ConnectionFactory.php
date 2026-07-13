@@ -54,8 +54,7 @@ class ConnectionFactory
     /**
      * Constructor. Create a new ConnectionFactory class instance.
      * 
-     * @param  \Syscodes\Components\Container\Container  $container
-     * 
+     * @param  \Syscodes\Components\Container\Container  $container 
      * @return void
      */
     public function __construct(Container $container)
@@ -67,8 +66,7 @@ class ConnectionFactory
      * Establish a PDO connection based on the configuration.
      * 
      * @param  array   $config
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return \Syscodes\Components\Database\Connections\Connection
      */
     public function make(array $config, $name = null)
@@ -83,8 +81,7 @@ class ConnectionFactory
     /**
      * Create a read / write database connection instance.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Syscodes\Components\Database\Connections\Connection
      */
     protected function createReadWriteConnection(array $config)
@@ -97,8 +94,7 @@ class ConnectionFactory
     /**
      * Create a single database connection instance.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Syscodes\Components\Database\Connections\Connection
      */
     protected function createSingleConnection(array $config)
@@ -111,8 +107,7 @@ class ConnectionFactory
     /**
      * Create a new PDO instance for reading.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \PDO
      */
     protected function createReadPdo(array $config)
@@ -125,8 +120,7 @@ class ConnectionFactory
     /**
      * Get the read configuration for a read / write connection.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return array
      */
     protected function getReadConfig(array $config): array
@@ -140,7 +134,6 @@ class ConnectionFactory
      * Get the read configuration for a read / write connection.
      * 
      * @param  array  $config
-     * 
      * @return array
      */
     protected function getWriteConfig(array $config): array
@@ -154,8 +147,7 @@ class ConnectionFactory
      * Get a read / write level configuration.
      * 
      * @param  array  $config
-     * @param  string  $type
-     * 
+     * @param  string  $type 
      * @return array
      */
     protected function getReadWriteConfig(array $config, $type): array
@@ -169,8 +161,7 @@ class ConnectionFactory
      * Merge a configuration for a read / write connection.
      * 
      * @param  array  $config
-     * @param  array  $merge
-     * 
+     * @param  array  $merge 
      * @return array
      */
     protected function mergeReadWriteConfig(array $config, array $merge): array
@@ -182,8 +173,7 @@ class ConnectionFactory
      * Parse and prepare the database configuration.
      * 
      * @param  array  $config
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return array
      */
     protected function parseConfig(array $config, $name): array
@@ -194,8 +184,7 @@ class ConnectionFactory
     /**
      * Create a connector instance based on the configuration.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Syscodes\Components\Database\Connectors\ConnectorInterface
      * 
      * @throws \InvalidArgumentException
@@ -227,8 +216,7 @@ class ConnectionFactory
      * @param  \PDO|\Closure  $connection
      * @param  string  $database
      * @param  string  $prefix
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Syscodes\Components\Database\Connections\Connection
      * 
      * @throws \InvalidArgumentException

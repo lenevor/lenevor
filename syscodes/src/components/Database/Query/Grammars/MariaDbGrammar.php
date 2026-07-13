@@ -35,8 +35,7 @@ class MariaDbGrammar extends MySqlGrammar
      * Compile a "lateral join" clause.
      *
      * @param  \Syscodes\Components\Database\Query\JoinLateralClause  $join
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      *
      * @throws \RuntimeException
@@ -49,8 +48,7 @@ class MariaDbGrammar extends MySqlGrammar
     /**
      * Compile a "JSON value cast" statement into SQL.
      *
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     public function compileJsonValueCast($value): string
@@ -61,8 +59,7 @@ class MariaDbGrammar extends MySqlGrammar
     /**
      * Wrap the given JSON selector.
      *
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function wrapJsonSelector($value): string
