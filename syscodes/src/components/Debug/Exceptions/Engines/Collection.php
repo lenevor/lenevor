@@ -45,8 +45,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Constructor. Initialize Collection class.
      * 
-     * @param  array  $frames
-     * 
+     * @param  array  $frames 
      * @return void
      */
     public function __construct(array $frames)
@@ -67,8 +66,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Array of Frame instances.
      * 
-     * @param  array  $frames
-     * 
+     * @param  array  $frames 
      * @return void
      */
     public function prependFrames(array $frames): void
@@ -79,8 +77,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Gets the innermost part of stack trace that is not the same as that of outer exception
      *
-     * @param  Collection $parentFrames Outer exception frames to compare tail against
-     * 
+     * @param  Collection $parentFrames Outer exception frames to compare tail against 
      * @return Frame[]
      */
     public function topDiff(Collection $parentFrames)
@@ -112,6 +109,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Whether or not an offset exists.
      * 
+     * @param  mixed  $offset 
      * @return bool
      */
     public function offsetExists(mixed $offset): bool
@@ -122,8 +120,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Retrieve a value offset.
      * 
-     * @param  int  $offset
-     * 
+     * @param  mixed  $offset 
      * @return mixed
      */
     public function offsetGet(mixed $offset): mixed
@@ -134,8 +131,8 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Assigns a value to the specified offset.
      * 
-     * @param  int  $offset
-     * 
+     * @param  mixed  $offset
+     * @param  mixed  $value 
      * @return void
      * 
      * @throws \Exception
@@ -148,7 +145,8 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Unset an offset.
      * 
-     * @param  int  $offset
+     * @param  mixed  $offset
+     * @return void
      * 
      * @throws \Exception
      */

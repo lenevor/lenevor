@@ -32,8 +32,7 @@ class SupervisorFactory implements SupervisorFactoryInterface
     /**
      * Creates a exception.
      * 
-     * @param  \Throwable  $exception
-     * 
+     * @param  \Throwable  $exception 
      * @return \Syscodes\Components\Debug\Engines\Supervisor
      */
     public function create($exception)

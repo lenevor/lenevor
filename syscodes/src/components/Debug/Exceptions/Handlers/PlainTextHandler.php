@@ -43,8 +43,7 @@ class PlainTextHandler extends Handler
     /**
      * Create plain text response and return it as a string.
      * 
-     * @param  \Throwable  $exception
-     * 
+     * @param  \Throwable  $exception 
      * @return string
      */
     protected function getResponse(Throwable $exception): string

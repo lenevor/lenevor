@@ -131,8 +131,7 @@ class PleasingPageHandler extends Handler
 	 * string path, or a callable resolver.
 	 * 
 	 * @param  string  $identifier
-	 * @param  string|callable  $resolver
-	 * 
+	 * @param  string|callable  $resolver 
 	 * @return void
 	 */
 	public function addEditor($identifier, $resolver): void
@@ -145,8 +144,7 @@ class PleasingPageHandler extends Handler
 	 * The expected data is a simple associative array. Any nested arrays
 	 * will be flattened with print_r.
 	 * 
-	 * @param  \Syscodes\Components\Contracts\Debug\Table  $table
-	 * 
+	 * @param  \Syscodes\Components\Contracts\Debug\Table  $table 
 	 * @return void
 	 */
 	public function addTables(Table $table): void
@@ -360,8 +358,7 @@ class PleasingPageHandler extends Handler
 	/**
 	 * Processes an array of tables making sure everything is all right.
 	 * 
-	 * @param  \Syscodes\Components\Contracts\Debug\Table[]  $tables
-	 * 
+	 * @param  \Syscodes\Components\Contracts\Debug\Table[]  $tables 
 	 * @return array
 	 */
 	protected function getProcessTables(array $tables): array
@@ -394,8 +391,7 @@ class PleasingPageHandler extends Handler
 	/**
 	 * Finds a resource, by its relative path, in all available search paths.
 	 *
-	 * @param  string  $resource
-	 * 
+	 * @param  string  $resource 
 	 * @return string
 	 * 
 	 * @throws \RuntimeException
@@ -448,8 +444,7 @@ class PleasingPageHandler extends Handler
 	 * @example  $debug->setEditor(function($file, $line) { return "file:///{$file}"; });
 	 * @example  $debug->setEditor('vscode');
 	 * 
-	 * @param  string  $editor
-	 * 
+	 * @param  string  $editor 
 	 * @return void
 	 * 
 	 * @throws \InvalidArgumentException
@@ -470,8 +465,7 @@ class PleasingPageHandler extends Handler
 	 * executes the editor resolver and returns.
 	 * 
 	 * @param  string  $file
-	 * @param  int	   $line
-	 * 
+	 * @param  int	$line 
 	 * @return string|bool
 	 * 
 	 * @throws \UnexpectedValueException
@@ -498,8 +492,7 @@ class PleasingPageHandler extends Handler
 	 * The editor must be a valid callable function/closure.
 	 * 
 	 * @param  string  $file
-	 * @param  int	   $line
-	 * 
+	 * @param  int	$line 
 	 * @return array
 	 */
 	protected function getEditor($file, $line): array
@@ -556,8 +549,7 @@ class PleasingPageHandler extends Handler
 	/**
 	 * Sets the brand of project.
 	 * 
-	 * @param  string  $brand
-	 * 
+	 * @param  string  $brand 
 	 * @return void
 	 */
 	public function setBrand(string $brand): void
@@ -568,8 +560,7 @@ class PleasingPageHandler extends Handler
 	/**
 	 * Sets the page title web.
 	 * 
-	 * @param  string  $title
-	 * 
+	 * @param  string  $title 
 	 * @return void
 	 */
 	public function setPageTitle(string $title): void
@@ -580,8 +571,7 @@ class PleasingPageHandler extends Handler
 	/**
 	 * Set the theme manually.
 	 * 
-	 * @param  string  $theme
-	 * 
+	 * @param  string  $theme 
 	 * @return void
 	 */
 	public function setTheme(string $theme): void

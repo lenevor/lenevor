@@ -41,8 +41,7 @@ class CallbackHandler extends Handler
     /**
      * Constructor. The CallableHandler class.
      * 
-     * @param  callable  $callable
-     * 
+     * @param  callable  $callable 
      * @return void
      * 
      * @throws \InvalidArgumentException

@@ -74,7 +74,6 @@ class TemplateHandler
 	 * Clean Path: This makes nicer looking paths for the error output.
 	 *
 	 * @param  string  $file
-	 *
 	 * @return string
 	 */
 	public function cleanPath($file): string
@@ -97,7 +96,6 @@ class TemplateHandler
 	 * with memory_get_usage, etc.
 	 *
 	 * @param  int  $bytes
-	 *
 	 * @return string
 	 */
 	public function displayMemory(int $bytes): string
@@ -114,8 +112,7 @@ class TemplateHandler
 	/**
 	 * Escapes a string for output in an HTML document.
 	 * 
-	 * @param  string  $text
-	 * 
+	 * @param  string  $text 
 	 * @return string
 	 */
 	public function escape($text): string
@@ -151,7 +148,6 @@ class TemplateHandler
 	 * @param  string  $file
 	 * @param  int  $lineNumber
 	 * @param  int  $lines
-	 *
 	 * @return string
 	 * 
 	 * @throws \Exception
@@ -234,8 +230,7 @@ class TemplateHandler
 	 * Sets the variables to be passed to all templates rendered 
 	 * by this template helper.
 	 * 
-	 * @param  array  $variables
-	 * 
+	 * @param  array  $variables 
 	 * @return void
 	 */
 	public function setVariables(array $variables): void
@@ -246,8 +241,7 @@ class TemplateHandler
 	/**
 	 * Convert a string to a slug version of itself.
 	 * 
-	 * @param  string  $original
-	 * 
+	 * @param  string  $original 
 	 * @return string
 	 */
 	public function slug($original): string
@@ -261,8 +255,7 @@ class TemplateHandler
 	/**
 	 * Given an exception and status code will display the error to the client.
 	 *
-	 * @param  string  $template
-	 * 
+	 * @param  string  $template 
 	 * @return void
 	 */
 	public function render($template)

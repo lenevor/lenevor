@@ -46,8 +46,7 @@ class Frame implements Serializable
     /**
      * Constructor. Initialize Frame class
      * 
-     * @param  array  $frame
-     * 
+     * @param  array  $frame 
      * @return void
      */
     public function __construct(array $frame)
@@ -58,8 +57,7 @@ class Frame implements Serializable
     /**
      * Gets the trace path of a file.
      * 
-     * @param  bool  $shortened
-     * 
+     * @param  bool  $shortened 
      * @return string|null
      */
     public function getFile($shortened = false)
@@ -142,8 +140,7 @@ class Frame implements Serializable
      * analysis, annotations, etc.
      * 
      * @param  string  $comment
-     * @param  string  $context  Optional
-     * 
+     * @param  string  $context  Optional 
      * @return void
      */
     public function addComment($comment, $context = 'default'): void
@@ -158,8 +155,7 @@ class Frame implements Serializable
      * Returns all comments for this frame. Optionally allows
      * a filter to only retrieve comments from a specific context.
      * 
-     * @param  string|null  $filter
-     * 
+     * @param  string|null  $filter 
      * @return array
      */
     public function getComments($filter = null): array
@@ -176,8 +172,7 @@ class Frame implements Serializable
     /**
      * Compares Frame against one another.
      * 
-     * @param  Frame $frame
-     * 
+     * @param  Frame $frame 
      * @return bool
      */
     public function equals(Frame $frame): bool
@@ -209,8 +204,7 @@ class Frame implements Serializable
     /**
      * Constructs the object.
      * 
-     * @param  string  $serialized
-     * 
+     * @param  string  $serialized 
      * @return void
      */
     final public function unserialize(string $serialized): void

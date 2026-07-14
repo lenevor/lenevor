@@ -33,8 +33,7 @@ class Formatter
     /**
      * Returns all basic information about the exception in a simple array.
      * 
-     * @param  \Syscodes\Components\Debug\Engines\Supervisor  $supervisor
-     * 
+     * @param  \Syscodes\Components\Debug\Engines\Supervisor  $supervisor 
      * @return array
      */
     public static function formatExceptionAsDataArray(Supervisor $supervisor): array
@@ -62,8 +61,7 @@ class Formatter
     /**
      * Returns all basic information about the exception in a plain text.
      * 
-     * @param  \Syscodes\Components\Debug\Engines\Supervisor  $supervisor
-     * 
+     * @param  \Syscodes\Components\Debug\Engines\Supervisor  $supervisor 
      * @return string
      */
     public static function formatExceptionAsPlainText(Supervisor $supervisor): string
@@ -72,7 +70,7 @@ class Formatter
         $frames = $supervisor->getFrames();
         $template = new TemplateHandler;
 
-        $plainText  = $supervisor->getExceptionName();
+        $plainText = $supervisor->getExceptionName();
         $plainText .= " thrown with message: \n";
         $plainText .= ucfirst($message);
         $plainText .= '"'."\n\n";

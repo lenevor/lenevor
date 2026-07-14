@@ -75,8 +75,7 @@ abstract class Handler implements MainHandler
     /**
      * Sets debug.
      * 
-     * @param  \Syscodes\Components\Contracts\Debug\Handler  $debug
-     * 
+     * @param  \Syscodes\Components\Contracts\Debug\Handler  $debug 
      * @return void
      */
     public function setDebug($debug): void
@@ -97,8 +96,7 @@ abstract class Handler implements MainHandler
     /**
      * Sets exception.
      * 
-     * @param  \Throwable  $exception
-     * 
+     * @param  \Throwable  $exception 
      * @return void
      */
     public function setException($exception): void
@@ -119,8 +117,7 @@ abstract class Handler implements MainHandler
     /**
      * Sets supervisor.
      * 
-     * @param  \Syscodes\Components\Debug\Engines\Supervisor  $supervisor
-     * 
+     * @param  \Syscodes\Components\Debug\Engines\Supervisor  $supervisor 
      * @return void
      */
     public function setSupervisor(Supervisor $supervisor): void

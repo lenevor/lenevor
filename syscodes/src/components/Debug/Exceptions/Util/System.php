@@ -44,8 +44,7 @@ class System
      * provide a full back trace on all errors.
      * 
      * @param  callable  $handler
-     * @param  int       $types
-     * 
+     * @param  int  $types 
      * @return callable|null
      */
     public function setErrorHandler(callable $handler, $types = 'use-php-defaults') 
@@ -62,8 +61,7 @@ class System
      * 
      * Catches any uncaught errors and exceptions, including most Fatal errors.
      * 
-     * @param  callable  $handler
-     * 
+     * @param  callable  $handler 
      * @return callable|null
      */
     public function setExceptionHandler(callable $handler)
@@ -95,8 +93,7 @@ class System
      * Registers a callback to be executed after script execution finishes or 
      * exit() is called.
      * 
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return void
      */
     public function registerShutdownFunction(callable $callback): void
@@ -170,7 +167,6 @@ class System
      * Set the HTTP response code.
      * 
      * @param  int  $httpCode
-     *
      * @return int
      */
     public function setHttpResponseCode($httpCode): int
@@ -181,8 +177,7 @@ class System
     /**
      * Output a message and terminate the current script.
      * 
-     * @param  int  $status
-     * 
+     * @param  int  $status 
      * @return void
      */
     public function stopException($status): void

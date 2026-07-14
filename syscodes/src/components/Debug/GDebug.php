@@ -98,8 +98,7 @@ class GDebug implements DebugContract
 	/**
 	 * Constructor. The Debug class instance.
 	 * 
-	 * @param  \Syscodes\Components\Debug\Util\System|null  $system
-	 * 
+	 * @param  \Syscodes\Components\Debug\Util\System|null  $system 
 	 * @return void
 	 */
 	public function __construct(?System $system = null)
@@ -115,7 +114,6 @@ class GDebug implements DebugContract
 	 * to be taken at this point.
 	 *
 	 * @param  \Throwable  $exception
-	 *
 	 * @return string
 	 */
 	public function handleException(Throwable $exception): string
@@ -184,8 +182,7 @@ class GDebug implements DebugContract
 	/**
 	 * Allow Handlers to force the script to quit.
 	 * 
-	 * @param  bool|int|null  $exit
-	 * 
+	 * @param  bool|int|null  $exit 
 	 * @return bool
 	 */
 	public function allowQuit($exit = null): bool
@@ -203,7 +200,6 @@ class GDebug implements DebugContract
 	 * by exception.
 	 * 
 	 * @param  bool|int|null  $send
-	 *
 	 * @return bool
 	 */
 	public function writeToOutput($send = null): bool
@@ -219,7 +215,6 @@ class GDebug implements DebugContract
 	 * Generate output to the browser.
 	 * 
 	 * @param  string  $output
-	 * 
 	 * @return static
 	 */
 	protected function writeToOutputBuffer($output): static
@@ -242,8 +237,7 @@ class GDebug implements DebugContract
 	 * @param  int  $level
 	 * @param  string  $message
 	 * @param  string|null  $file
-	 * @param  int|null  $line
-	 * 
+	 * @param  int|null  $line 
 	 * @return bool
 	 * 
 	 * @throws \ErrorException
@@ -272,8 +266,7 @@ class GDebug implements DebugContract
 	/**
 	 * Appends a handler to the end of the stack.
 	 * 
-	 * @param  callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
-	 * 
+	 * @param  callable|\Syscodes\Components\Contracts\Debug\Handler  $handler 
 	 * @return static
 	 */
 	public function appendHandler($handler): static
@@ -286,8 +279,7 @@ class GDebug implements DebugContract
 	/**
 	 * Prepends a handler to the start of the stack.
 	 * 
-	 * @param  callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
-	 * 
+	 * @param  callable|\Syscodes\Components\Contracts\Debug\Handler  $handler 
 	 * @return static
 	 */
 	public function prependHandler($handler): static
@@ -298,8 +290,7 @@ class GDebug implements DebugContract
 	/**
 	 * Pushes a handler to the end of the stack.
 	 * 
-	 * @param  string|callable  $handler
-	 * 
+	 * @param  string|callable  $handler 
 	 * @return static
 	 */
 	public function pushHandler($handler): static
@@ -312,8 +303,7 @@ class GDebug implements DebugContract
 	/**
 	 * Create a CallbackHandler from ccallable and throw if handler is invalid.
 	 * 
-	 * @param  callable|\Syscodes\Components\Contracts\Debug\Handler  $handler
-	 * 
+	 * @param  callable|\Syscodes\Components\Contracts\Debug\Handler  $handler 
 	 * @return \Syscodes\Components\Contracts\Debug\Handler
 	 * 
 	 * @throws \InvalidArgumentException If argument is not ccallable or instance of \Syscodes\Components\Contracts\Debug\Handler
@@ -369,8 +359,7 @@ class GDebug implements DebugContract
 	/**
 	 * Gets supervisor already specified.
 	 * 
-	 * @param  \Throwable  $exception
-	 * 
+	 * @param  \Throwable  $exception 
 	 * @return \Syscodes\Components\Debug\Engines\Supervisor
 	 */
 	protected function getSupervisor(Throwable $exception)
@@ -408,8 +397,7 @@ class GDebug implements DebugContract
 	 * Lenevor Exception will by default send HTTP code 500, but you may wish
 	 * to use 502, 503, or another 5xx family code.
 	 * 
-	 * @param  bool|int  $code
-	 * 
+	 * @param  bool|int  $code 
 	 * @return int|false
 	 * 
 	 * @throws \InvalidArgumentException

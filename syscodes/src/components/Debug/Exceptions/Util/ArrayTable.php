@@ -42,8 +42,7 @@ class ArrayTable implements Table
      * Contructor. Get an associated label with its respective data array.
      * 
      * @param  array   $data
-     * @param  string  $label
-     * 
+     * @param  string  $label 
      * @return void
      */
     public function __construct(array $data = [], string $label = '')
