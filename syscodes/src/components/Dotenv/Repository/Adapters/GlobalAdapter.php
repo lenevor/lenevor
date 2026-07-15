@@ -43,8 +43,7 @@ class GlobalAdapter implements Adapter
     /**
      * Check if a variable exists.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     public function has(string $name): bool
@@ -57,8 +56,7 @@ class GlobalAdapter implements Adapter
     /**
      * Read an environment variable.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return mixed
      */
     public function read(string $name)
@@ -76,8 +74,7 @@ class GlobalAdapter implements Adapter
      * Write to an environment variable.
      * 
      * @param  string  $name
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return bool
      */
     public function write(string $name, string $value): bool
@@ -94,8 +91,7 @@ class GlobalAdapter implements Adapter
     /**
      * Delete an environment variable.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     public function delete(string $name): bool

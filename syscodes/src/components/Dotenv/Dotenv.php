@@ -56,14 +56,13 @@ final class Dotenv
      * 
      * @param  \Syscodes\Components\Dotenv\Store\StoreBuilder  $store
      * @param  \Syscodes\Components\Dotenv\Loader\Loader  $loader
-     * @param  \Syscodes\Components\Dotenv\Repository\RepositoryCreator  $repository
-     * 
+     * @param  \Syscodes\Components\Dotenv\Repository\RepositoryCreator  $repository 
      * @return void
      */
     public function __construct($store, Loader $loader, $repository)
     {
-        $this->store      = $store;
-        $this->loader     = $loader;
+        $this->store = $store;
+        $this->loader = $loader;
         $this->repository = $repository;
     }
 
@@ -74,8 +73,7 @@ final class Dotenv
      * @param  \Syscodes\Components\Dotenv\Repository\RepositoryCreator  $repository
      * @param  string|string[]  $paths
      * @param  string|string[]  $names
-     * @param  bool  $modeEnabled
-     * 
+     * @param  bool  $modeEnabled 
      * @return static
      */
     public static function create($repository, $paths, $names = null, bool $modeEnabled = true): static

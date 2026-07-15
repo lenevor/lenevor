@@ -22,7 +22,6 @@
 
 namespace Syscodes\Components\Encryption;
 
-use RuntimeException;
 use Syscodes\Components\Encryption\Exceptions\MissingAppKeyException;
 use Syscodes\Components\Support\ServiceProvider;
 use Syscodes\Components\Support\Str;
@@ -54,7 +53,6 @@ class EncryptionServiceProvider extends ServiceProvider
      * Get parse the encryption key.
      * 
      * @param  array  $config 
-     * 
      * @return string
      */
     protected function parseKey(array $config): string
@@ -70,7 +68,6 @@ class EncryptionServiceProvider extends ServiceProvider
      * Extract the encryption key from the given configuration.
      * 
      * @param  array  $config
-     * 
      * @return string
      * 
      * @return \RuntimeException

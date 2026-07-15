@@ -39,8 +39,7 @@ final class Readers implements Reader
     /**
      * Constructor. The create new Readers instance.
      * 
-     * @param  \Syscodes\Components\Dotenv\Repository\Adapters\Readers|array  $readers
-     * 
+     * @param  \Syscodes\Components\Dotenv\Repository\Adapters\Readers|array  $readers 
      * return void
      */
     public function __construct(array $readers)
@@ -51,8 +50,7 @@ final class Readers implements Reader
     /**
      * Read an environment variable
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return mixed
      */
     public function read(string $name)

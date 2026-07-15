@@ -22,8 +22,6 @@
 
 namespace Syscodes\Components\Dotenv\Store\Contributors;
 
-use InvalidArgumentException;
-
 /**
  * Allows the read files and converting string in array.
  */
@@ -33,8 +31,7 @@ final class Reader
      * Read the file(s), and return their raw content.
      * 
      * @param  string[]  $filePaths
-     * @param  bool  $modeEnabled  (true by default)
-     * 
+     * @param  bool  $modeEnabled 
      * @return array 
      */
     public static function read(array $filePaths, bool $modeEnabled = true)

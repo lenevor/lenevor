@@ -67,8 +67,7 @@ final class RepositoryCreator
      * 
      * @param  array|\Syscodes\Components\Contracts\Dotenv\Reader  $readers
      * @param  array|\Syscodes\Components\Contracts\Dotenv\Writer  $writers
-     * @param  string[]|null  $allowList
-     * 
+     * @param  string[]|null  $allowList 
      * @return void
      */
     public function __construct(array $readers = [], array $writers = [], ?array $allowList = null)
@@ -105,8 +104,7 @@ final class RepositoryCreator
     /**
      * Determine if the given name if of an adapter class.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     protected static function inAdapterClass(string $name): bool
@@ -121,8 +119,7 @@ final class RepositoryCreator
     /**
      * Creates a repository builder with the given reader added.
      * 
-     * @param  string  $adapter
-     * 
+     * @param  string  $adapter 
      * @return static
      * 
      * @return \InvalidArgumentException
@@ -149,8 +146,7 @@ final class RepositoryCreator
     /**
      * Gets class.
      * 
-     * @param  string  $class
-     * 
+     * @param  string  $class 
      * @return string|object
      */
     protected function getReflectionClass($class): string|object

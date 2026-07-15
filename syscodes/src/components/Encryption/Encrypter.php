@@ -72,8 +72,7 @@ class Encrypter implements EncrypterContract, StringEncrypter
      * Constructor. Create a new Encrypter instance.
      * 
      * @param  string  $key
-     * @param  string  $cipher
-     * 
+     * @param  string  $cipher 
      * @return void
      * 
      * @throws \RuntimeException
@@ -96,8 +95,7 @@ class Encrypter implements EncrypterContract, StringEncrypter
      * Determine if the given key and cipher combination is valid.
      * 
      * @param  string  $key
-     * @param  string  $cipher
-     * 
+     * @param  string  $cipher 
      * @return bool
      */
     public static function supported($key, $cipher): bool
@@ -112,8 +110,7 @@ class Encrypter implements EncrypterContract, StringEncrypter
     /**
      * Generate the IV size for the cipher.
      * 
-     * @param  string  $cipher
-     * 
+     * @param  string  $cipher 
      * @return string
      */
     public static function generateRandomKey($cipher): string
@@ -125,8 +122,7 @@ class Encrypter implements EncrypterContract, StringEncrypter
      * Encrypt the given value.
      * 
      * @param  mixed  $value
-     * @param  bool  $serialize
-     * 
+     * @param  bool  $serialize 
      * @return string
      * 
      * @throws \Syscodes\Components\Encryption\Exceptions\EncryptException
@@ -166,8 +162,7 @@ class Encrypter implements EncrypterContract, StringEncrypter
      * 
      * @param  string  $iv
      * @param  mixed  $value
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return string
      */
     protected function hash(#[\SensitiveParameter] $iv, #[\SensitiveParameter] $value, #[\SensitiveParameter] $key): string
@@ -178,8 +173,7 @@ class Encrypter implements EncrypterContract, StringEncrypter
     /**
      * Encrypt the given string without serialization.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      * 
      * @throws \Syscodes\Components\Encryption\Exceptions\EncryptException
@@ -193,8 +187,7 @@ class Encrypter implements EncrypterContract, StringEncrypter
      * Encrypt the given value.
      * 
      * @param  string  $payload
-     * @param  bool  $unserialize
-     * 
+     * @param  bool  $unserialize 
      * @return mixed
      * 
      * @throws \Syscodes\Components\Encryption\Exceptions\DecryptException
@@ -255,8 +248,7 @@ class Encrypter implements EncrypterContract, StringEncrypter
     /**
      * Decrypt the given string without unserialization.
      * 
-     * @param  string  $payload
-     * 
+     * @param  string  $payload 
      * @return string
      * 
      * @throws \Syscodes\Components\Encryption\Exceptions\DecryptException
@@ -269,8 +261,7 @@ class Encrypter implements EncrypterContract, StringEncrypter
     /**
      * Gets the JSON array from the given payload.
      * 
-     * @param  string  $payload
-     * 
+     * @param  string  $payload 
      * @return array
      * 
      * @throws \Syscodes\Components\Encryption\Exceptions\DecryptException
@@ -293,8 +284,7 @@ class Encrypter implements EncrypterContract, StringEncrypter
         /**
      * Verify that the encryption payload is valid.
      * 
-     * @param  mixed  $payload
-     * 
+     * @param  mixed  $payload 
      * @return bool
      */
     protected function validPayload($payload): bool
@@ -319,8 +309,7 @@ class Encrypter implements EncrypterContract, StringEncrypter
     /**
      * Determine if the MAC for the given payload is valid for the primary key.
      * 
-     * @param  array  $payload
-     * 
+     * @param  array  $payload 
      * @return bool
      */
     protected function validMac(array $payload): bool
@@ -332,8 +321,7 @@ class Encrypter implements EncrypterContract, StringEncrypter
      * Determine if the MAC is valid for the given payload and key.
      *
      * @param  array  $payload
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return bool
      */
     protected function validMacForKey(#[\SensitiveParameter] $payload, $key): bool
@@ -346,8 +334,7 @@ class Encrypter implements EncrypterContract, StringEncrypter
      /**
      * Ensure the given tag is a valid tag given the selected cipher.
      *
-     * @param  string  $tag
-     * 
+     * @param  string  $tag 
      * @return void
      *
      * @throws \Syscodes\Components\Encryption\Exceptions\DecryptException
@@ -406,8 +393,7 @@ class Encrypter implements EncrypterContract, StringEncrypter
     /**
      * Set the previous / legacy encryption keys that should be utilized if decryption fails.
      *
-     * @param  array  $keys
-     * 
+     * @param  array  $keys 
      * @return static
      *
      * @throws \RuntimeException

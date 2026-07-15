@@ -39,8 +39,7 @@ final class Loader
     /**
      * Constructor. Create a new Loader instance.
      * 
-     * @param  \Syscodes\Components\Dotenv\Repository\RepositoryCreator  $repository
-     * 
+     * @param  \Syscodes\Components\Dotenv\Repository\RepositoryCreator  $repository 
      * @return void 
      */
     public function __construct($repository)
@@ -52,8 +51,7 @@ final class Loader
      * Will load the .env file and process it. So that we end all settings in the PHP 
      * environment vars: getenv(), $_ENV, and $_SERVER.
      * 
-     * @param  array  $entries
-     * 
+     * @param  array  $entries 
      * @return bool
      */
     public function load(array $entries): bool
@@ -78,8 +76,7 @@ final class Loader
     /**
      * Determine if the line in the file is a comment.
      * 
-     * @param  string  $line
-     * 
+     * @param  string  $line 
      * @return bool
      */
     protected function isComment(string $line): bool
@@ -90,8 +87,7 @@ final class Loader
     /**
      * Determine if the given line looks like it's setting a variable.
      * 
-     * @param  string  $line
-     * 
+     * @param  string  $line 
      * @return bool
      */
     protected function checkedLikeSetter(string $line): bool
@@ -103,8 +99,7 @@ final class Loader
      * Normalise the given environment variable.
      * 
      * @param  string  $name
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return array
      */
     public function normaliseEnvironmentVariable(string $name, string $value = ''): array
@@ -132,8 +127,7 @@ final class Loader
     /**
      * Strips quotes and the optional leading "export" from the environment variable name.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return string
      */
     protected function sanitizeName(string $name): string
@@ -146,8 +140,7 @@ final class Loader
      * Will parse the string to look for {name}={value} pattern.
      * 
      * @param  string  $name
-     * @param  string|null  $value  (null by default)
-     * 
+     * @param  string|null  $value
      * @return bool
      */
     protected function setVariable(string $name, $value = null): bool
@@ -161,8 +154,7 @@ final class Loader
      * This was borrowed from the excellent phpdotenv with very few changes.
      * https://github.com/vlucas/phpdotenv
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      * 
      * @throws \InvalidArgumentException
@@ -217,8 +209,7 @@ final class Loader
      * This was borrowed from the excellent phpdotenv with very few changes.
      * https://github.com/vlucas/phpdotenv
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function getResolverVariables(string $value): string

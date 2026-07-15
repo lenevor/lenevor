@@ -31,8 +31,7 @@ final class Paths
      * Returns the full path to the file.
      * 
      * @param  string[]  $paths
-     * @param  string[]  $names
-     * 
+     * @param  string[]  $names 
      * @return string[]
      */
     public static function getFilePath(array $paths, array $names)

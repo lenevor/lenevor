@@ -39,8 +39,7 @@ final class Writers implements Writer
     /**
      * Constructor. Create a new Writers instance.
      * 
-     * @param  \Syscodes\Components\Dotenv\Repository\Adapters\Writers|array  $writers
-     * 
+     * @param  \Syscodes\Components\Dotenv\Repository\Adapters\Writers|array  $writers 
      * @return void
      */
     public function __construct(array $writers)
@@ -52,8 +51,7 @@ final class Writers implements Writer
      * Write to an environment variable.
      * 
      * @param  string  $name
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return bool 
      */
     public function write(string $name, string $value): bool
@@ -70,8 +68,7 @@ final class Writers implements Writer
     /**
      * Write to an environment variable.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool 
      */
     public function delete(string $name): bool

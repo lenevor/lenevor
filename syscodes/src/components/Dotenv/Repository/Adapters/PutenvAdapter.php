@@ -43,8 +43,7 @@ class PutenvAdapter implements Adapter
     /**
      * Check if a variable exists.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     public function has(string $name): bool
@@ -55,8 +54,7 @@ class PutenvAdapter implements Adapter
     /**
      * Read an environment variable.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return mixed
      */
     public function read(string $name)
@@ -74,8 +72,7 @@ class PutenvAdapter implements Adapter
      * Write to an environment variable.
      * 
      * @param  string  $name
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return bool
      */
     public function write(string $name, string $value): bool
@@ -88,8 +85,7 @@ class PutenvAdapter implements Adapter
     /**
      * Delete an environment variable.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     public function delete(string $name): bool

@@ -62,8 +62,7 @@ final class StoreBuilder
      * 
      * @param  string|string[]  $paths
      * @param  string|string[]  $names
-     * @param  bool  $modeEnabled  (false by default)
-     * 
+     * @param  bool  $modeEnabled* 
      * @return void
      */
     public function __construct(array $paths = [], array $names = [], bool $modeEnabled = false)
@@ -96,8 +95,7 @@ final class StoreBuilder
     /**
      * Creates a file store with the given path added.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return static
      */
     public function addPath(string $path): static
@@ -108,8 +106,7 @@ final class StoreBuilder
     /**
      * Creates a file store with the given name added.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return static
      */
     public function addName(string $name): static

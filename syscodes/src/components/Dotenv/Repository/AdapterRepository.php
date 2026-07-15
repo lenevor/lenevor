@@ -49,8 +49,7 @@ final class AdapterRepository implements Repository
      * Constructor. Create a new AdapterRepository instance.
      * 
      * @param  \Syscodes\Components\Contracts\Dotenv\Reader  $reader
-     * @param  \Syscodes\Components\Contracts\Dotenv\Writer  $writer
-     * 
+     * @param  \Syscodes\Components\Contracts\Dotenv\Writer  $writer 
      * @return void
      */
     public function __construct(Reader $reader, Writer $writer)
@@ -62,8 +61,7 @@ final class AdapterRepository implements Repository
     /**
      * Get an environment variable.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return mixed
      */
     public function get(string $name)
@@ -76,7 +74,6 @@ final class AdapterRepository implements Repository
      * 
      * @param  string  $name
      * @param  string  $value
-     * 
      * @return bool
      */
     public function set(string $name, string $value): bool
@@ -87,8 +84,7 @@ final class AdapterRepository implements Repository
     /**
      * Clear an environment variable.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     public function clear(string $name): bool

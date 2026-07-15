@@ -48,8 +48,7 @@ final class FileStore
      * Constructor. Create a new FileStore instance.
      * 
      * @param  string[]  $filePaths
-     * @param  bool  $modeEnabled
-     * 
+     * @param  bool  $modeEnabled 
      * @return void
      */
     public function __construct(array $filePaths, bool $modeEnabled)
