@@ -74,8 +74,7 @@ class Dispatcher implements DispatcherContract
     /**
      * Constructor. Create a new event distpacher instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Container\Container|null  $container  (null by default)
-     * 
+     * @param  \Syscodes\Components\Contracts\Container\Container|null  $container 
      * @return void
      */
     public function __construct(?Container $container = null)
@@ -87,8 +86,7 @@ class Dispatcher implements DispatcherContract
      * Register an event listener with the dispatcher.
      * 
      * @param  string|array  $events
-     * @param  \Closure|string|null  $listener
-     * 
+     * @param  \Closure|string|null  $listener 
      * @return void
      */
     public function listen($events, $listener = null): void
@@ -106,8 +104,7 @@ class Dispatcher implements DispatcherContract
      * Setup a wildcard listener callback.
      * 
      * @param  string|array  $event
-     * @param  \Closure|string  $listener
-     * 
+     * @param  \Closure|string  $listener 
      * @return void
      */
     protected function setupWilcardListen($event, $listener): void
@@ -121,8 +118,7 @@ class Dispatcher implements DispatcherContract
      * Register an event listener with the dispatcher.
      * 
      * @param  \Closure|string  $listener
-     * @param  bool  $wildcard  
-     * 
+     * @param  bool  $wildcard 
      * @return \Closure
      */
     public function makeListener($listener, $wildcard = false): Closure
@@ -148,8 +144,7 @@ class Dispatcher implements DispatcherContract
      * Create a class based listener using the IoC container.
      * 
      * @param  string  $listener
-     * @param  bool  $wildcard  
-     * 
+     * @param  bool  $wildcard 
      * @return \Closure
      */
     public function createClassListener($listener, $wildcard = false): Closure
@@ -168,8 +163,7 @@ class Dispatcher implements DispatcherContract
     /**
      * Create the class based event callable.
      * 
-     * @param  string  $listener
-     * 
+     * @param  string  $listener 
      * @return callable
      */
     protected function createClassClosure($listener)
@@ -190,8 +184,7 @@ class Dispatcher implements DispatcherContract
     /**
      * Parse the class listener into class and method.
      * 
-     * @param  string  $listener
-     * 
+     * @param  string  $listener 
      * @return array
      */
     protected function parseClassCallback($listener): array
@@ -202,22 +195,20 @@ class Dispatcher implements DispatcherContract
     /**
      * Determine if a given event has listeners.
      * 
-     * @param  string  $eventName
-     * 
+     * @param  string  $eventName 
      * @return bool
      */
     public function hasListeners($eventName): bool
     {
-        return isset($this->listeners[$eventName]) || 
-               isset($this->wildcards[$eventName]) ||
-               $this->hasWildcardListeners($eventName);
+        return isset($this->listeners[$eventName]) ||
+            isset($this->wildcards[$eventName]) ||
+            $this->hasWildcardListeners($eventName);
     }
 
     /**
      * Determine if the given event has any wildcard listeners.
      * 
-     * @param  string  $eventName
-     * 
+     * @param  string  $eventName 
      * @return bool
      */
     public function hasWildcardListeners($eventName): bool
@@ -235,8 +226,7 @@ class Dispatcher implements DispatcherContract
      * Register an event and payload to be fired later.
      *
      * @param  string  $event
-     * @param  object|array  $payload
-     * 
+     * @param  object|array  $payload 
      * @return void
      */
     public function push($event, $payload = []): void
@@ -249,8 +239,7 @@ class Dispatcher implements DispatcherContract
     /**
      * Flush a set of pushed events.
      *
-     * @param  string  $event
-     * 
+     * @param  string  $event 
      * @return void
      */
     public function flush($event): void
@@ -261,8 +250,7 @@ class Dispatcher implements DispatcherContract
     /**
      * Register an event subscriber with the dispatcher.
      * 
-     * @param  object|string  $subscriber
-     * 
+     * @param  object|string  $subscriber 
      * @return void
      */
     public function subscribe($subscriber): void
@@ -290,7 +278,6 @@ class Dispatcher implements DispatcherContract
      * Resolve the subscriber instance.
      * 
      * @param  object|string  $subscriber
-     * 
      * @return mixed
      */
     public function resolveSubscriber($subscriber)
@@ -306,8 +293,7 @@ class Dispatcher implements DispatcherContract
      * Fire an event until the first non-null response is returned.
      * 
      * @param  string|object  $event
-     * @param  mixed  $payload
-     * 
+     * @param  mixed  $payload 
      * @return array|null
      */
     public function until($event, $payload = [])
@@ -320,8 +306,7 @@ class Dispatcher implements DispatcherContract
      *
      * @param  string|object  $event
      * @param  mixed  $payload
-     * @param  bool  $halt
-     * 
+     * @param  bool  $halt 
      * @return array|null
      */
     public function fire($event, $payload = [], $halt = false)
@@ -334,8 +319,7 @@ class Dispatcher implements DispatcherContract
      * 
      * @param  string|object  $event
      * @param  mixed  $payload
-     * @param  bool  $halt
-     * 
+     * @param  bool  $halt 
      * @return array|null
      */
     public function dispatch($event, $payload = [], $halt = false)
@@ -353,8 +337,7 @@ class Dispatcher implements DispatcherContract
      * Parse the given event and payload and prepare them for dispatching.
      * 
      * @param  mixed  $event
-     * @param  mixed  $payload
-     * 
+     * @param  mixed  $payload 
      * @return array
      */
     protected function parseEventPayload($event, $payload): array
@@ -373,8 +356,7 @@ class Dispatcher implements DispatcherContract
      *
      * @param  string|object  $event
      * @param  mixed  $payload
-     * @param  bool  $halt
-     * 
+     * @param  bool  $halt 
      * @return array|null
      */
     protected function invokeListeners($event, $payload, $halt = false)
@@ -412,8 +394,7 @@ class Dispatcher implements DispatcherContract
     /**
      * Get all of the listeners for a given event name.
      * 
-     * @param  string  $eventName
-     * 
+     * @param  string  $eventName 
      * @return array
      */
     public function getListeners($eventName): array
@@ -433,8 +414,7 @@ class Dispatcher implements DispatcherContract
     /**
      * Get the wildcard listeners for the event.
      * 
-     * @param  string  $eventName
-     * 
+     * @param  string  $eventName 
      * @return array
      */
     protected function getWilcardListeners($eventName): array
@@ -454,8 +434,7 @@ class Dispatcher implements DispatcherContract
      * Add the listeners for the event's interfaces to the given array.
      * 
      * @param  string  $eventName
-     * @param  array  $listeners
-     * 
+     * @param  array  $listeners 
      * @return array
      */
     protected function addInterfaceListener($eventName, array $listeners = []): array
@@ -474,8 +453,7 @@ class Dispatcher implements DispatcherContract
     /**
      * Remove a set of listeners from the dispatcher.
      * 
-     * @param  string  $event
-     * 
+     * @param  string  $event 
      * @return void
      */
     public function delete($event): void
