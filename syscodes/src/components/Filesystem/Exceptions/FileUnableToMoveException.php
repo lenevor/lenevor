@@ -32,8 +32,7 @@ class FileUnableToMoveException extends FileException
      * 
      * @param  string|null  $from  
      * @param  string|null  $to  
-     * @param  string|null  $error  
-     * 
+     * @param  string|null  $error 
      * @return void
      */
     public function __construct(?string $from = null, ?string $to = null, ?string $error = null)

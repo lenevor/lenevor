@@ -37,7 +37,6 @@ class Filesystem
 	 *
 	 * @param  string  $path
 	 * @param  mixed  $data
-	 *
 	 * @return int|false
 	 */
 	public function append(string $path, mixed $data): int|false
@@ -50,7 +49,6 @@ class Filesystem
 	 *
 	 * @param  string  $path
 	 * @param  string  $target
-	 * 
 	 * @return bool
 	 */
 	public function copy(string $path, string $target): bool
@@ -63,8 +61,7 @@ class Filesystem
 	 * 
 	 * @param  string  $path
 	 * @param  int  $flags
-	 * @param  bool  $lock
-	 * 
+	 * @param  bool  $lock 
 	 * @return array
 	 * 
 	 * @throws \Syscodes\Components\Filesystem\Exceptions\FileNotFoundException
@@ -78,8 +75,7 @@ class Filesystem
 	 * Get the contents of a file.
 	 *
 	 * @param  string  $path
-	 * @param  bool  $lock 
-	 *
+	 * @param  bool  $lock
 	 * @return string
 	 *
 	 * @throws FileNotFoundException
@@ -96,8 +92,7 @@ class Filesystem
 	/**
 	 * Get contents of a file with shared access.
 	 *
-	 * @param  string  $path  
-	 *
+	 * @param  string  $path
 	 * @return string
 	 */
 	public function read(string $path): string
@@ -130,8 +125,7 @@ class Filesystem
 	/**
 	 * Creates the file.
 	 * 
-	 * @param  string  $path
-	 * 
+	 * @param  string  $path 
 	 * @return bool
 	 */
 	public function create(string $path): bool
@@ -149,7 +143,6 @@ class Filesystem
 	 * Determine if a file exists.
 	 *
 	 * @param  string  $path
-	 *
 	 * @return bool
 	 */
 	public function exists(string $path): bool
@@ -164,7 +157,6 @@ class Filesystem
 	 *
 	 * @param  string  $path
 	 * @param  bool  $all  Clear all cache or not
-	 *
 	 * @return void
 	 */
 	public function clearStatCache(string $path, bool $all = false): void
@@ -180,8 +172,7 @@ class Filesystem
 	 * Get the returned value of a file.
 	 * 
 	 * @param  string  $path
-	 * @param  array  $data
-	 * 
+	 * @param  array  $data 
 	 * @return mixed
 	 * 
 	 * @throws \Syscodes\Components\Filesystem\Exceptions\FileNotFoundException
@@ -206,8 +197,7 @@ class Filesystem
 	 * Require the given file once.
 	 * 
 	 * @param  string  $path
-	 * @param  array  $data
-	 * 
+	 * @param  array  $data 
 	 * @return mixed
 	 * 
 	 * @throws \Syscodes\Components\Filesystem\Exceptions\FileNotFoundException
@@ -236,8 +226,7 @@ class Filesystem
 	 * based on the actual size transmitted.
 	 *
 	 * @param  string  $path
-	 * @param  string  $unit
-	 * 
+	 * @param  string  $unit 
 	 * @return int|null  The file size in bytes or null if unknown
 	 */
 	public function size(string $path, string $unit = 'b'): int|null
@@ -258,8 +247,7 @@ class Filesystem
 	/**
 	 * Returns the file's group.
 	 *
-	 * @param  string  $path
-	 * 
+	 * @param  string  $path 
 	 * @return int|bool  The file group, or false in case of an error
 	 */
 	public function group(string $path)
@@ -274,8 +262,7 @@ class Filesystem
 	/**
 	 * Returns true if the file is executable.
 	 *
-	 * @param  string  $path
-	 * 
+	 * @param  string  $path 
 	 * @return bool  True if file is executable, false otherwise
 	 */
 	public function exec(string $path): bool
@@ -287,7 +274,6 @@ class Filesystem
 	 * Determine if the given path is a directory.
 	 *
 	 * @param  string  $directory
-	 *
 	 * @return bool
 	 */
 	public function isDirectory(string $directory): bool
@@ -299,7 +285,6 @@ class Filesystem
 	 * Determine if the given path is a file.
 	 *
 	 * @param  string  $file
-	 *
 	 * @return bool
 	 */
 	public function isFile(string $file): bool
@@ -310,8 +295,7 @@ class Filesystem
 	/**
 	 * Determine if the given path is writable.
 	 * 
-	 * @param  string  $path
-	 * 
+	 * @param  string  $path 
 	 * @return bool
 	 */
 	public function isWritable(string $path): bool
@@ -322,8 +306,7 @@ class Filesystem
 	/**
 	 * Returns if true the file is readable.
 	 *
-	 * @param  string  $path
-	 * 
+	 * @param  string  $path 
 	 * @return bool  True if file is readable, false otherwise
 	 */
 	public function isReadable(string $path): bool
@@ -334,8 +317,7 @@ class Filesystem
 	/**
 	 * Returns last access time.
 	 *
-	 * @param  string  $path
-	 * 
+	 * @param  string  $path 
 	 * @return int|bool  Timestamp of last access time, or false in case of an error
 	 */
 	public function lastAccess(string $path)
@@ -350,8 +332,7 @@ class Filesystem
 	/**
 	 * Returns last modified time.
 	 *
-	 * @param  string  $path
-	 * 
+	 * @param  string  $path 
 	 * @return int|bool  Timestamp of last modified time, or false in case of an error
 	 */
 	public function lastModified(string $path)
@@ -366,8 +347,7 @@ class Filesystem
 	/**
 	 * Get all of the directories within a given directory.
 	 * 
-	 * @param  string  $directory
-	 * 
+	 * @param  string  $directory 
 	 * @return array
 	 */
 	public function directories(string $directory): array
@@ -386,8 +366,7 @@ class Filesystem
 	/**
 	 * Delete the file at a given path.
 	 * 
-	 * @param  string  $paths
-	 * 
+	 * @param  string  $paths 
 	 * @return bool
 	 */
 	public function delete(string $paths): bool
@@ -407,8 +386,7 @@ class Filesystem
 	 * Get the hash of the file at the given path.
 	 * 
 	 * @param  string  $path
-	 * @param  string  $algorithm
-	 * 
+	 * @param  string  $algorithm 
 	 * @return string
 	 */
 	public function hash(string $path, string $algorithm = 'md5'): string
@@ -423,7 +401,6 @@ class Filesystem
 	 * @param  int  $mode
 	 * @param  bool  $recursive
 	 * @param  bool  $force
-	 *
 	 * @return bool
 	 * 
 	 * @throws FileException
@@ -442,8 +419,7 @@ class Filesystem
 	 * 
 	 * @param  string  $directory
 	 * @param  string  $destination
-	 * @param  int|null  $options  
-	 * 
+	 * @param  int|null  $options
 	 * @return bool
 	 */
 	public function copyDirectory(string $directory, string $destination, ?int $options = null): bool
@@ -486,8 +462,7 @@ class Filesystem
 	 * the directory if you wish.
 	 * 
 	 * @param  string  $directory
-	 * @param  bool  $keep
-	 * 
+	 * @param  bool  $keep 
 	 * @return bool
 	 */
 	public function deleteDirectory(string $directory, bool $keep = false): bool
@@ -518,10 +493,8 @@ class Filesystem
 
 	/**
 	 * Empty the specified directory of all files and folders.
-	 * 
-	 * 
+	 *  
 	 * @param  string  $directory
-	 * 
 	 * @return bool
 	 */
 	public function cleanDirectory(string $directory): bool
@@ -534,8 +507,7 @@ class Filesystem
 	 * 
 	 * @param  string  $from
 	 * @param  string  $to
-	 * @param  bool  $overwrite  
-	 * 
+	 * @param  bool  $overwrite 
 	 * @return bool
 	 */
 	public function moveDirectory(string $from, string $to, bool $overwrite = false)
@@ -556,8 +528,7 @@ class Filesystem
 	 * 
 	 * @param  string  $path
 	 * @param  int  $mode
-	 * @param  bool  $recursive
-	 * 
+	 * @param  bool  $recursive 
 	 * @return void
 	 */
 	public function directoryExists($path, $mode = 0755, $recursive = true)
@@ -571,8 +542,7 @@ class Filesystem
 	 * Attempts to determine the file extension based on the trusted
 	 * getType() method. If the mime type is unknown, will return null.
 	 * 
-	 * @param  string  $path
-	 * 
+	 * @param  string  $path 
 	 * @return string|null
 	 */
 	public function guessExtension(string $path)
@@ -583,8 +553,7 @@ class Filesystem
 	/**
 	 * Retrieve the media type of the file. 
 	 * 
-	 * @param  string  $path
-	 * 
+	 * @param  string  $path 
 	 * @return string|null
 	 */
 	public function getMimeType(string $path)
@@ -597,7 +566,6 @@ class Filesystem
 	 *
 	 * @param  string  $path
 	 * @param  string  $target
-	 *
 	 * @return bool
 	 */
 	public function move(string $path, string $target): bool
@@ -612,8 +580,7 @@ class Filesystem
 	/**
 	 * Extract the file name from a file path.
 	 * 
-	 * @param  string  $path
-	 * 
+	 * @param  string  $path 
 	 * @return string
 	 */
 	public function name(string $path)
@@ -624,8 +591,7 @@ class Filesystem
 	/**
 	 * Extract the trailing name component from a file path.
 	 * 
-	 * @param  string  $path
-	 * 
+	 * @param  string  $path 
 	 * @return string
 	 */
 	public function basename(string $path)
@@ -636,8 +602,7 @@ class Filesystem
 	/**
 	 * Extract the parent directory from a file path.
 	 * 
-	 * @param  string  $path
-	 * 
+	 * @param  string  $path 
 	 * @return string
 	 */
 	public function dirname(string $path)
@@ -648,8 +613,7 @@ class Filesystem
 	/**
 	 * Extract the file extension from a file path.
 	 * 
-	 * @param  string  $path
-	 * 
+	 * @param  string  $path 
 	 * @return string
 	 */
 	public function extension(string $path)
@@ -661,8 +625,7 @@ class Filesystem
 	 *  Find path names matching a given pattern.
 	 * 
 	 * @param  string  $pattern
-	 * @param  int  $flags  (0 by default)
-	 * 
+	 * @param  int  $flags 
 	 * @return array|bool
 	 */
 	public function glob(string $pattern, int $flags = 0): array|bool
@@ -673,8 +636,7 @@ class Filesystem
 	/**
 	 * Returns the file's owner.
 	 *
-	 * @param  string  $path
-	 * 
+	 * @param  string  $path 
 	 * @return int|bool  The file owner, or false in case of an error
 	 */
 	public function owner(string $path)
@@ -690,8 +652,7 @@ class Filesystem
 	 * Returns the "chmod" (permissions) of the file.
 	 *
 	 * @param  string  $path
-	 * @param  int|null  $mode  
-	 * 
+	 * @param  int|null  $mode 
 	 * @return mixed  Permissions for the file, or false in case of an error
 	 */
 	public function perms($path, $mode = null): mixed
@@ -708,7 +669,6 @@ class Filesystem
 	 * 
 	 * @param  string  $path
 	 * @param  string  $contents
-	 * 
 	 * @return int|bool
 	 */
 	public function prepend(string $path, string $contents): int|bool
@@ -725,8 +685,7 @@ class Filesystem
 	 *
 	 * @param  string  $path
 	 * @param  string  $contents
-	 * @param  bool  $lock  
-	 *
+	 * @param  bool  $lock
 	 * @return int|bool
 	 */
 	public function put(string $path, string $contents, bool $lock = false): int|bool
@@ -737,8 +696,7 @@ class Filesystem
 	/**
 	 * Get the file type of a given file.
 	 * 
-	 * @param  string  $path
-	 * 
+	 * @param  string  $path 
 	 * @return string
 	 */
 	public function type(string $path): string
@@ -751,8 +709,7 @@ class Filesystem
 	 * 
 	 * @param  string  $path
 	 * @param  string  $contents
-	 * @param  int|null  $mode
-	 * 
+	 * @param  int|null  $mode 
 	 * @return void
 	 */
 	public function replace(string $path, string $contents, ?int $mode = null): void
@@ -780,8 +737,7 @@ class Filesystem
 	 * 
 	 * @param  array|string  $search
 	 * @param  array|string  $replace
-	 * @param  string  $path
-	 * 
+	 * @param  string  $path 
 	 * @return void
 	 */
 	public function replaceInFile(array|string $search, array|string $replace, string $path): void
@@ -796,7 +752,6 @@ class Filesystem
 	 * @param  string  $search
 	 * @param  string  $replace
 	 * @param  bool|null  $lock
-	 *
 	 * @return bool
 	 */
 	public function replaceText(string $path, string $search, string $replace, ?bool $lock = null): bool
@@ -828,7 +783,6 @@ class Filesystem
 	 * @param  string  $path
 	 * @param  string  $contents  Content to write to this File
 	 * @param  bool|null  $lock
-	 *
 	 * @return bool
 	 */
 	public function write(string $path, string $contents, ?bool $lock = null): bool

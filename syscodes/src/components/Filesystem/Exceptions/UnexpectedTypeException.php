@@ -31,8 +31,7 @@ class UnexpectedTypeException extends FileException
      * Constructor. Initialize UnexpectedTypeException class.
      * 
      * @param  string  $value
-     * @param  string  $type
-     * 
+     * @param  string  $type 
      * @return void
      */
     public function __construct($value, string $type)

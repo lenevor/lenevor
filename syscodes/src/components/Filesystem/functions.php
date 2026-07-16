@@ -27,8 +27,7 @@ if ( ! function_exists('Syscodes\Components\Filesystem\join_paths')) {
      * Join the given paths together.
      * 
      * @param  string|null  $basePath
-     * @param  string  ...$paths
-     * 
+     * @param  string  ...$paths 
      * @return string
      */
     function join_paths($basePath, ...$paths): string

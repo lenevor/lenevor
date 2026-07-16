@@ -30,8 +30,7 @@ class FileNotFoundException extends FileException
     /**
      * Constructor. Initialize FileNotFoundException class.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return void
      */
     public function __construct($path)

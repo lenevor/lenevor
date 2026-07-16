@@ -47,8 +47,7 @@ class FilesystemAdapter implements Filesystem
      * Constructor. Create a new FilesystemAdapter instance.
      * 
      * @param  string|object  $driver
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return void
      */
     public function __construct($driver, array $config = [])
@@ -62,7 +61,6 @@ class FilesystemAdapter implements Filesystem
 	 *
 	 * @param  string  $path
 	 * @param  mixed  $data
-	 *
 	 * @return int|false
 	 */
 	public function append(string $path, mixed $data): int|false
@@ -74,8 +72,7 @@ class FilesystemAdapter implements Filesystem
 	 * Copy a file to a new location.
 	 *
 	 * @param  string  $path
-	 * @param  string  $target
-	 * 
+	 * @param  string  $target 
 	 * @return bool
 	 */
 	public function copy(string $path, string $target): bool
@@ -87,8 +84,7 @@ class FilesystemAdapter implements Filesystem
 	 * Get the contents of a file.
 	 *
 	 * @param  string  $path
-	 * @param  bool  $lock 
-	 *
+	 * @param  bool  $lock
 	 * @return string
 	 *
 	 * @throws \Syscodes\Components\Filesystem\Exceptions\FileNotFoundException
@@ -101,8 +97,7 @@ class FilesystemAdapter implements Filesystem
     /**
 	 * Get contents of a file with shared access.
 	 *
-	 * @param  string  $path  
-	 *
+	 * @param  string  $path
 	 * @return string
 	 */
 	public function read(string $path): string
@@ -113,8 +108,7 @@ class FilesystemAdapter implements Filesystem
     /**
 	 * Creates the file.
 	 * 
-	 * @param  string  $path
-	 * 
+	 * @param  string  $path 
 	 * @return bool
 	 */
 	public function create(string $path): bool
@@ -126,7 +120,6 @@ class FilesystemAdapter implements Filesystem
 	 * Determine if a file exists.
 	 *
 	 * @param  string  $path
-	 *
 	 * @return bool
 	 */
 	public function exists(string $path): bool
@@ -142,8 +135,7 @@ class FilesystemAdapter implements Filesystem
 	 * based on the actual size transmitted.
 	 *
 	 * @param  string  $path
-	 * @param  string  $unit
-	 * 
+	 * @param  string  $unit 
 	 * @return int|null  The file size in bytes or null if unknown
 	 */
 	public function size(string $path, string $unit = 'b'): int|null
@@ -154,8 +146,7 @@ class FilesystemAdapter implements Filesystem
     /**
 	 * Get all of the directories within a given directory.
 	 * 
-	 * @param  string  $directory
-	 * 
+	 * @param  string  $directory 
 	 * @return array
 	 */
 	public function directories(string $directory): array
@@ -166,8 +157,7 @@ class FilesystemAdapter implements Filesystem
     /**
 	 * Delete the file at a given path.
 	 * 
-	 * @param  string  $paths
-	 * 
+	 * @param  string  $paths 
 	 * @return bool
 	 */
 	public function delete(string $paths): bool
@@ -182,7 +172,6 @@ class FilesystemAdapter implements Filesystem
 	 * @param  int  $mode
 	 * @param  bool  $recursive
 	 * @param  bool  $force
-	 *
 	 * @return bool
 	 * 
 	 * @throws \Syscodes\Components\Filesystem\Exceptions\FileException
@@ -197,8 +186,7 @@ class FilesystemAdapter implements Filesystem
 	 * the directory if you wish.
 	 * 
 	 * @param  string  $directory
-	 * @param  bool  $keep
-	 * 
+	 * @param  bool  $keep 
 	 * @return bool
 	 */
 	public function deleteDirectory(string $directory, bool $keep = false): bool
@@ -211,7 +199,6 @@ class FilesystemAdapter implements Filesystem
 	 *
 	 * @param  string  $path
 	 * @param  string  $target
-	 *
 	 * @return bool
 	 */
 	public function move(string $path, string $target): bool
@@ -223,8 +210,7 @@ class FilesystemAdapter implements Filesystem
 	 * Prepend to a file.
 	 * 
 	 * @param  string  $path
-	 * @param  string  $contents
-	 * 
+	 * @param  string  $contents 
 	 * @return int|bool
 	 */
 	public function prepend(string $path, string $contents): int|bool
@@ -237,8 +223,7 @@ class FilesystemAdapter implements Filesystem
 	 *
 	 * @param  string  $path
 	 * @param  string  $contents
-	 * @param  bool  $lock  
-	 *
+	 * @param  bool  $lock
 	 * @return int|bool
 	 */
 	public function put(string $path, string $contents, bool $lock = false): int|bool
@@ -252,7 +237,6 @@ class FilesystemAdapter implements Filesystem
 	 * @param  string  $path
 	 * @param  string  $contents  Content to write to this File
 	 * @param  bool|null  $lock
-	 *
 	 * @return bool
 	 */
 	public function write(string $path, string $contents, ?bool $lock = null): bool

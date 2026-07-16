@@ -54,8 +54,7 @@ class FilesystemManager implements Factory
     /**
      * Constructor. Create a new FilesystemManager instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Core\Application  $app
-     * 
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app 
      * @return void
      */
     public function __construct($app)
@@ -66,8 +65,7 @@ class FilesystemManager implements Factory
     /**
      * Get a filesystem instance.
      * 
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return \Syscodes\Components\Contracts\Filesystem\Filesystem 
      */
     public function disk(?string $name = null)
@@ -80,8 +78,7 @@ class FilesystemManager implements Factory
     /**
      * Attempt to get the disk from the local cache.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return \Syscodes\Components\Contracts\Filesystem\Filesystem
      */
     protected function get($name)
@@ -93,8 +90,7 @@ class FilesystemManager implements Factory
      * Resolve the given disk.
      * 
      * @param  string  $name
-     * @param  array|null  $config
-     * 
+     * @param  array|null  $config 
      * @return \Syscodes\Components\Contracts\Filesystem\Filesystem
      * 
      * @throws \InvalidArgumentException
@@ -125,8 +121,7 @@ class FilesystemManager implements Factory
     /**
      * Call a custom driver creator.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Syscodes\Components\Contracts\Filesystem\Filesystem
      */
     protected function callCustomCreator(array $config)
@@ -137,8 +132,7 @@ class FilesystemManager implements Factory
     /**
      * Create an instance of the local driver.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Syscodes\Components\Contracts\Filesystem\Filesystem
      */
     public function createLocalDriver(array $config)
@@ -152,8 +146,7 @@ class FilesystemManager implements Factory
      * Set the given disk instance.
      * 
      * @param  string  $name
-     * @param  mixed  $disk
-     * 
+     * @param  mixed  $disk 
      * @return static
      */
     public function set($name, $disk): static
@@ -166,8 +159,7 @@ class FilesystemManager implements Factory
     /**
      * Get the filesystem connection configuration.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return array
      */
     protected function getConfig($name): array

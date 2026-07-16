@@ -49,7 +49,6 @@ class FileMimeType
 	 * Attempts to determine the best mime type for the given file extension.
 	 *
 	 * @param  string  $extension
-	 *
 	 * @return string|null  The mime type found, or none if unable to determine
 	 */
 	public static function guessTypeFromExtension($extension)
@@ -67,7 +66,6 @@ class FileMimeType
 	 * Attempts to determine the best file extension for a given mime type.
 	 *
 	 * @param  string  $type
-	 *
 	 * @return string|null The extension determined, or null if unable to match
 	 */
 	public static function guessExtensionFromType($type)
