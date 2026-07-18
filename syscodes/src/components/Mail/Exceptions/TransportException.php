@@ -50,7 +50,6 @@ class TransportException extends RuntimeException
      * Appends to debug.
      * 
      * @param  string  $debug
-     * 
      * @return void
      */
     public function appendDebug(string $debug): void

@@ -63,8 +63,7 @@ class SendmailTransport extends AbstractTransport
      * 
      * @param  string|null  $command
      * @param  Dispatcher|null  $dispatcher
-     * @param  LoggerInterface|null  $logger
-     * 
+     * @param  LoggerInterface|null  $logger 
      * @return void
      */
     public function __construct(?string $command = null, ?Dispatcher $dispatcher = null, ?LoggerInterface $logger = null)
@@ -102,8 +101,7 @@ class SendmailTransport extends AbstractTransport
     /**
      * Do send to mail.
      * 
-     * @param  BaseSentMessage  $message
-     * 
+     * @param  BaseSentMessage  $message 
      * @return void
      */
     protected function doSend(BaseSentMessage $message): void

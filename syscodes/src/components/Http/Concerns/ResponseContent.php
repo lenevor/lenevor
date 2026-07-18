@@ -73,8 +73,7 @@ trait ResponseContent
      * 
      * @param  string  $key  The header name
      * @param  string  $values  The value or an array of values
-     * @param  bool  $replace  If you want to replace the value exists by the header
-     * 
+     * @param  bool  $replace  If you want to replace the value exists by the header 
      * @return static
      */
     public function header($key, $values, $replace = true): static
@@ -87,8 +86,7 @@ trait ResponseContent
     /**
      * Add an array of headers to the response.
      *
-     * @param  \Symfony\Component\HttpFoundation\HeaderBag|array  $headers
-     * 
+     * @param  \Symfony\Component\HttpFoundation\HeaderBag|array  $headers 
      * @return static
      */
     public function withHeaders($headers): static
@@ -107,8 +105,7 @@ trait ResponseContent
     /**
      * Add a cookie to the response.
      *
-     * @param  \Syscodes\Components\Cookie\CookieManager|mixed  $cookie
-     * 
+     * @param  \Syscodes\Components\Cookie\CookieManager|mixed  $cookie 
      * @return static
      */
     public function cookie($cookie): static
@@ -119,8 +116,7 @@ trait ResponseContent
     /**
      * Add a cookie to the response.
      *
-     * @param  \Syscodes\Components\Cookie\CookieManager|mixed  $cookie
-     * 
+     * @param  \Syscodes\Components\Cookie\CookieManager|mixed  $cookie 
      * @return static
      */
     public function withCookie($cookie): static
@@ -147,8 +143,7 @@ trait ResponseContent
     /**
      * Sets the exception to the response.
      * 
-     * @param  \Throwable  $e
-     * 
+     * @param  \Throwable  $e 
      * @return static
      */
     public function withException(Throwable $e): static

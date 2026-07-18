@@ -53,8 +53,7 @@ class RateLimiter
     /**
      * Constructor. Create a new rate limiter class instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Cache\Repository  $cache
-     * 
+     * @param  \Syscodes\Components\Contracts\Cache\Repository  $cache 
      * @return void
      */
     public function __construct(Cache $cache)
@@ -66,8 +65,7 @@ class RateLimiter
      * Register a named limiter configuration.
      * 
      * @param  \BackedEnum|\UnitEnum|string  $name
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return static
      */
     public function register($name, Closure $callback): static
@@ -82,8 +80,7 @@ class RateLimiter
     /**
      * Get the given named rate limiter.
      * 
-     * @param  \BackedEnum|\UnitEnum|string  $name
-     * 
+     * @param  \BackedEnum|\UnitEnum|string  $name 
      * @return \Closure|null
      */
     public function limiter($name)
@@ -125,8 +122,7 @@ class RateLimiter
      * @param  string  $key
      * @param  int  $maxAttempts
      * @param  \Closure  $callback
-     * @param  \DateTimeInterface|\DateInterval|int  $decaySeconds
-     * 
+     * @param  \DateTimeInterface|\DateInterval|int  $decaySeconds 
      * @return mixed
      */
     public function attempt($key, $maxAttempts, Closure $callback, $decaySeconds = 60)
@@ -148,8 +144,7 @@ class RateLimiter
      * Determine if the given key has been "accessed" too many times.
      * 
      * @param  string  $key
-     * @param  int  $maxAttempts
-     * 
+     * @param  int  $maxAttempts 
      * @return bool
      */
     public function tooManyAttempts($key, $maxAttempts): bool
@@ -169,8 +164,7 @@ class RateLimiter
      * Increment the counter for a given key for a given decay time.
      * 
      * @param  string  $key
-     * @param  \DateTimeInterface|\DateInterval|int  $decaySeconds
-     * 
+     * @param  \DateTimeInterface|\DateInterval|int  $decaySeconds 
      * @return int
      */
     public function hit($key, $decaySeconds = 60): int
@@ -183,8 +177,7 @@ class RateLimiter
      * 
      * @param  string  $key
      * @param  \DateTimeInterface|\DateInterval|int  $decaySeconds
-     * @param  int  $amount
-     * 
+     * @param  int  $amount 
      * @return int
      */
     public function increment($key, $decaySeconds = 60, $amount = 1): int
@@ -211,8 +204,7 @@ class RateLimiter
      * 
      * @param  string  $key
      * @param  \DateTimeInterface|\DateInterval|int  $decaySeconds
-     * @param  int  $amount
-     * 
+     * @param  int  $amount 
      * @return int
      */
     public function decrement($key, $decaySeconds = 60, $amount = 1): int
@@ -224,8 +216,7 @@ class RateLimiter
      * Get the number of retries left for the given key.
      * 
      * @param  string  $key
-     * @param  int  $maxAttempts
-     * 
+     * @param  int  $maxAttempts 
      * @return int
      */
     public function retriesLeft($key, $maxAttempts): int
@@ -237,8 +228,7 @@ class RateLimiter
      * Get the number of retries left for the given key.
      * 
      * @param  string  $key
-     * @param  int  $maxAttempts
-     * 
+     * @param  int  $maxAttempts 
      * @return int
      */
     public function remaining($key, $maxAttempts): int
@@ -253,8 +243,7 @@ class RateLimiter
     /**
      * Get the number of attempts for the given key.
      *
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return mixed
      */
     public function attempts($key)
@@ -267,8 +256,7 @@ class RateLimiter
     /**
      * Clear the hits and lockout timer for the given key.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return void
      */
     public function clear($key): void
@@ -283,8 +271,7 @@ class RateLimiter
     /**
      * Reset the number of attempts for the given key.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return bool
      */
     public function resetAttempts($key): bool
@@ -297,8 +284,7 @@ class RateLimiter
     /**
      * Get the number of seconds until the "key" is accessible again.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return int
      */
     public function availableIn($key): int
@@ -311,8 +297,7 @@ class RateLimiter
     /**
      * Clean the rate limiter key from unicode characters.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return string
      */
     public function cleanRateLimiterKey($key): string
@@ -323,8 +308,7 @@ class RateLimiter
     /**
      * Resolve the throttle limiter name.
      *
-     * @param  \BackedEnum|\UnitEnum|string  $name
-     * 
+     * @param  \BackedEnum|\UnitEnum|string  $name 
      * @return string
      */
     private function resolveLimiterName($name): string

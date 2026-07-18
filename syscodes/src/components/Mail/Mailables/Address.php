@@ -58,8 +58,7 @@ final class Address
      * Constructor. Create a new Address class instance.
      * 
      * @param  string  $address
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return void
      */
     public function __construct(string $address, string $name = '')
@@ -128,7 +127,6 @@ final class Address
      * Creates a parse for display name and address of a mailbox.
      * 
      * @param  self|string  $address
-     * 
      * @return self
      */
     public static function create(self|string $address): self
@@ -151,8 +149,7 @@ final class Address
     /**
      * Creates a parse for display name and address of a mailbox using an array.
      * 
-     * @param  array<Address|string>  $addresses
-     * 
+     * @param  array<Address|string>  $addresses 
      * @return Address[]
      */
     public static function createArray(array $addresses): array

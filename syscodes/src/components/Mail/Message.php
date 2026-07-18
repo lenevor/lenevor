@@ -43,8 +43,7 @@ class Message
     /**
      * Constructor. Create a new Message class instance.
      * 
-     * @param  \Syscodes\Components\Mail\Mailables\Email  $message
-     * 
+     * @param  \Syscodes\Components\Mail\Mailables\Email  $message 
      * @return void
      */
     public function __construct(Email $message)
@@ -56,8 +55,7 @@ class Message
      * Add a "from" address to the message.
      * 
      * @param  string|array  $address
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return static
      */
     public function from($address, $name = null): static
@@ -73,8 +71,7 @@ class Message
      * Set the "sender" of the message.
      * 
      * @param  string|array  $address
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return static
      */
     public function sender($address, $name = null): static
@@ -89,8 +86,7 @@ class Message
     /**
      * Set the "return path" of the message.
      * 
-     * @param  string  $address
-     * 
+     * @param  string  $address 
      * @return static
      */
     public function returnPath($address): static
@@ -105,8 +101,7 @@ class Message
      * 
      * @param  string|array  $address
      * @param  string|null  $name
-     * @param  bool  $override
-     * 
+     * @param  bool  $override 
      * @return static
      */
     public function to($address, $name = null, $override = false): static
@@ -126,8 +121,7 @@ class Message
      * Add a "reply to" address to the message.
      * 
      * @param  string|array  $address
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return static
      */
     public function replyTo($address, $name = null): static
@@ -140,8 +134,7 @@ class Message
      * 
      * @param  string|array  $address
      * @param  string  $name
-     * @param  string  $type
-     * 
+     * @param  string  $type 
      * @return static
      */
     protected function addAddresses($address, $name, $type): static
@@ -177,8 +170,7 @@ class Message
      * Add an address debug header for a list of recipients.
      * 
      * @param  string  $header
-     * @param  \Syscodes\Components\Mail\Mailables\Address[]  $addresses
-     * 
+     * @param  \Syscodes\Components\Mail\Mailables\Address[]  $addresses 
      * @return static
      */
     protected function addAddressDebugHeader(string $header, array $addresses): static
@@ -194,8 +186,7 @@ class Message
     /**
      * Set the subject of the message.
      * 
-     * @param  string  $subject
-     * 
+     * @param  string  $subject 
      * @return static
      */
     public function subject($subject): static
@@ -211,8 +202,7 @@ class Message
      * Dynamically pass missing methods to the class instance.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      */
     public function __call($method, $parameters): mixed

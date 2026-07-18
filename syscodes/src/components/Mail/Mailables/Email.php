@@ -70,8 +70,7 @@ class Email extends Message
     /**
      * Set the subject of the message.
      * 
-     * @param  string  $subject
-     * 
+     * @param  string  $subject 
      * @return static
      */
     public function subject(string $subject): static
@@ -92,8 +91,7 @@ class Email extends Message
     /**
      * Set the date of the message.
      * 
-     * @param  \DateTimeInterface  $dateTime
-     * 
+     * @param  \DateTimeInterface  $dateTime 
      * @return static
      */
     public function date(DateTimeInterface $dateTime): static
@@ -114,8 +112,7 @@ class Email extends Message
     /**
      * Set the return-path of the message.
      * 
-     * @param  Address|string  $address
-     * 
+     * @param  Address|string  $address 
      * @return static
      */
     public function returnPath(Address|string $address): static
@@ -136,8 +133,7 @@ class Email extends Message
     /**
      * Set the sender of the message.
      * 
-     * @param  Address|string  $address
-     * 
+     * @param  Address|string  $address 
      * @return static
      */
     public function sender(Address|string $address): static
@@ -158,8 +154,7 @@ class Email extends Message
     /**
      * Adds the list from of header body.
      * 
-     * @param  Address|string[]  $addresses
-     * 
+     * @param  Address|string[]  $addresses 
      * @return static
      */
     public function addFrom(Address|string ...$addresses): static
@@ -170,8 +165,7 @@ class Email extends Message
     /**
      * Sets the list from address on header body.
      * 
-     * @param  Address|string[]  $addresses
-     * 
+     * @param  Address|string[]  $addresses 
      * @return static
      */
     public function from(Address|string ...$addresses): static
@@ -196,8 +190,7 @@ class Email extends Message
     /**
      * Adds the 'ReplyTo' address list to header body.
      * 
-     * @param  Address|string[]  $addresses
-     * 
+     * @param  Address|string[]  $addresses 
      * @return static
      */
     public function addReplyTo(Address|string ...$addresses): static
@@ -208,8 +201,7 @@ class Email extends Message
     /**
      * Sets the list 'ReplyTo' address on header body.
      * 
-     * @param  Address|string[]  $addresses
-     * 
+     * @param  Address|string[]  $addresses 
      * @return static
      */
     public function replyTo(Address|string ...$addresses): static
@@ -230,8 +222,7 @@ class Email extends Message
     /**
      * Adds the address list to header body.
      * 
-     * @param  Address|string[]  $addresses
-     * 
+     * @param  Address|string[]  $addresses 
      * @return static
      */
     public function addTo(Address|string ...$addresses): static
@@ -242,8 +233,7 @@ class Email extends Message
     /**
      * Sets the address list to header body.
      * 
-     * @param  Address|string[]  $addresses
-     * 
+     * @param  Address|string[]  $addresses 
      * @return static
      */
     public function to(Address|string ...$addresses): static
@@ -264,8 +254,7 @@ class Email extends Message
     /**
      * Adds the 'Cc' address list to header body.
      * 
-     * @param  Address|string[]  $addresses
-     * 
+     * @param  Address|string[]  $addresses 
      * @return static
      */
     public function addCc(Address|string ...$addresses): static
@@ -276,8 +265,7 @@ class Email extends Message
     /**
      * Sets the 'Cc' address list to header body.
      * 
-     * @param  Address|string[]  $addresses
-     * 
+     * @param  Address|string[]  $addresses 
      * @return static
      */
     public function cc(Address|string ...$addresses): static
@@ -298,8 +286,7 @@ class Email extends Message
     /**
      * Adds the 'Bcc' address list to header body.
      * 
-     * @param  Address|string[]  $addresses
-     * 
+     * @param  Address|string[]  $addresses 
      * @return static
      */
     public function addBcc(Address|string ...$addresses): static
@@ -310,8 +297,7 @@ class Email extends Message
     /**
      * Sets the 'Bcc' address list to header body.
      * 
-     * @param  Address|string[]  $addresses
-     * 
+     * @param  Address|string[]  $addresses 
      * @return static
      */
     public function bcc(Address|string ...$addresses): static
@@ -332,8 +318,7 @@ class Email extends Message
     /**
      * The text content in the email.
      * 
-     * @param  resource|string|null  $body
-     * 
+     * @param  resource|string|null  $body 
      * @return static
      */
     public function text($body, string $charset = 'utf-8'): static
@@ -371,8 +356,7 @@ class Email extends Message
     /**
      * The html content in the email.
      * 
-     * @param  resource|string|null  $body
-     * 
+     * @param  resource|string|null  $body 
      * @return static
      */
     public function html($body, string $charset = 'utf-8'): static
@@ -412,8 +396,7 @@ class Email extends Message
      * 
      * @param  string  $type
      * @param  string  $name
-     * @param  mixed  $body
-     * 
+     * @param  mixed  $body 
      * @return static
      */
     private function setHeaderBody(string $type, string $name, mixed $body): static
@@ -427,8 +410,7 @@ class Email extends Message
      * Adds the list address a header body.
      * 
      * @param  string  $name
-     * @param  string[]  $addresses
-     * 
+     * @param  string[]  $addresses 
      * @return static
      */
     private function addListAddressHeaderBody(string $name, array $addresses): static
@@ -446,8 +428,7 @@ class Email extends Message
      * Sets the list address a header body.
      * 
      * @param  string  $name
-     * @param  string[]  $addresses
-     * 
+     * @param  string[]  $addresses 
      * @return static
      */
     private function setListAddressHeaderBody(string $name, array $addresses): static

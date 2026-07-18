@@ -30,8 +30,7 @@ abstract class AbstractHasher
     /**
      * Get information about the given hashed value.
      * 
-     * @param  string  $hashedValue
-     * 
+     * @param  string  $hashedValue 
      * @return array
      */
     public function info($hashedValue): array
@@ -44,8 +43,7 @@ abstract class AbstractHasher
      * 
      * @param  string  $value
      * @param  string  $hashedValue
-     * @param  array   $options
-     * 
+     * @param  array   $options 
      * @return bool
      */
     public function check($value, $hashedValue, array $options = []): bool

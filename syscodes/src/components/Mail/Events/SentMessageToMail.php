@@ -32,8 +32,7 @@ class SentMessageToMail
     /**
      * Constructor. Create a new SentMessageToMail class instance.
      * 
-     * @param  BaseSentMessage  $message
-     * 
+     * @param  BaseSentMessage  $message 
      * @return void
      */
     public function __construct(protected BaseSentMessage $message) {}

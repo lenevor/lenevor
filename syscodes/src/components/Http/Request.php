@@ -94,8 +94,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	/**
 	 * Creates an Syscodes request from of the Request class instance.
 	 * 
-	 * @param  \Symfony\Component\HttpFoundation\Request  $request
-	 * 
+	 * @param  \Symfony\Component\HttpFoundation\Request  $request 
 	 * @return static
 	 */
 	public static function createFromRequest(SymfonyRequest $request): static
@@ -134,8 +133,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	/**
 	 * Filter the given array of files, removing any empty values.
 	 * 
-	 * @param  mixed  $files
-	 * 
+	 * @param  mixed  $files 
 	 * @return mixed
 	 */
 	protected function filterFiles($files)
@@ -161,8 +159,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	 * Create a new request instance from the given Lenevor request.
 	 * 
 	 * @param  \Syscodes\Components\Http\Request  $from
-	 * @param  \Syscodes\Components\Http\Request|null  $to
-	 * 
+	 * @param  \Syscodes\Components\Http\Request|null  $to 
 	 * @return static
 	 */
 	public static function createFrom(self $from, $to = null): static
@@ -206,7 +203,6 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	 *
 	 * @param  int  $index  The 1-based segment index
 	 * @param  mixed  $default  The default value
-	 *
 	 * @return mixed
 	 */
 	public function segment(int $index, $default = null): mixed
@@ -242,8 +238,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	 * Returns the full request string.
 	 * 
 	 * @param  string  $key
-	 * @param  mixed  $default	 * 
-	 *
+	 * @param  mixed  $default
 	 * @return mixed 
 	 */
 	#[\Override]
@@ -305,8 +300,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	/**
 	 * Set the session instance on the request.
 	 * 
-	 * @param  \Syscodes\Components\Contracts\Session\Session  $session
-	 * 
+	 * @param  \Syscodes\Components\Contracts\Session\Session  $session 
 	 * @return void
 	 */
 	public function setLenevorSession($session): void
@@ -318,8 +312,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	 * Get the JSON payload for the request.
 	 * 
 	 * @param  string|null  $key  
-	 * @param  mixed  $default  
-	 * 
+	 * @param  mixed  $default 
 	 * @return ($key is null ? \Symfony\Component\HttpFoundation\InputBag : mixed)
 	 */
 	public function json($key = null, $default = null)
@@ -338,8 +331,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	/**
 	 * Set the JSON payload for the request.
 	 * 
-	 * @param  \Symfony\Component\HttpFoundation\InputBag  $json
-	 * 
+	 * @param  \Symfony\Component\HttpFoundation\InputBag  $json 
 	 * @return static
 	 */
 	public function setJson($json): static
@@ -409,8 +401,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	/**
      * Replace the input for the current request.
      * 
-     * @param  array  $key
-     * 
+     * @param  array  $key 
      * @return static
      */
     public function replace(array $key): static
@@ -437,8 +428,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	/**
 	 * Set the locale for the request instance.
 	 * 
-	 * @param  string  $locale
-	 * 
+	 * @param  string  $locale 
 	 * @return void
 	 */
 	public function setRequestLocale(string $locale): void
@@ -449,8 +439,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	/**
 	 * Set the default locale for the request instance.
 	 * 
-	 * @param  string  $locale
-	 * 
+	 * @param  string  $locale 
 	 * @return void
 	 */
 	public function setDefaultRequestLocale(string $locale): void
@@ -461,8 +450,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	/**
 	 * Determine if the current request URI matches a pattern.
 	 * 
-	 * @param  mixed  ...$patterns
-	 * 
+	 * @param  mixed  ...$patterns 
 	 * @return bool
 	 */
 	public function is(...$patterns): bool
@@ -474,8 +462,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	/**
 	 * Determine if the route name matches a given pattern.
 	 * 
-	 * @param  mixed  ...$patterns
-	 * 
+	 * @param  mixed  ...$patterns 
 	 * @return bool
 	 */
 	public function routeIs(...$patterns): bool
@@ -487,8 +474,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	 * Get the route handling the request.
 	 * 
 	 * @param  string|null  $param  
-	 * @param  mixed  $default  
-	 * 
+	 * @param  mixed  $default 
 	 * @return \Syscodes\Components\Routing\Route|object|string|null
 	 */
 	public function route($param = null, $default = null)
@@ -535,8 +521,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	/**
 	 * Get the user making the request.
 	 * 
-	 * @param  string|null  $guard
-	 * 
+	 * @param  string|null  $guard 
 	 * @return mixed
 	 */
 	public function user($guard = null)
@@ -603,8 +588,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	/**
 	 * Returns the referer.
 	 * 
-	 * @param  string  $default
-	 * 
+	 * @param  string  $default 
 	 * @return string
 	 */
 	public function referer(string $default = ''): string
@@ -657,8 +641,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	/**
 	 * Set the user resolver callback.
 	 * 
-	 * @param  \Closure  $callback
-	 * 
+	 * @param  \Closure  $callback 
 	 * @return static
 	 */
 	public function setUserResolver(Closure $callback): static
@@ -683,8 +666,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	/**
 	 * Set the route resolver callback.
 	 * 
-	 * @param  \Closure  $callback
-	 * 
+	 * @param  \Closure  $callback 
 	 * @return static
 	 */
 	public function setRouteResolver(Closure $callback): static
@@ -707,8 +689,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	/**
      * Determine if the given offset exists.
      *
-     * @param  string  $offset
-	 * 
+     * @param  string  $offset 
      * @return bool
      */
     public function offsetExists($offset): bool
@@ -724,8 +705,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
     /**
      * Get the value at the given offset.
      *
-     * @param  string  $offset
-	 * 
+     * @param  string  $offset 
      * @return mixed
      */
     public function offsetGet($offset): mixed
@@ -737,8 +717,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
      * Set the value at the given offset.
      *
      * @param  string  $offset
-     * @param  mixed  $value
-	 * 
+     * @param  mixed  $value 
      * @return void
      */
     public function offsetSet($offset, $value): void
@@ -749,8 +728,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
     /**
      * Remove the value at the given offset.
      *
-     * @param  string  $offset
-	 * 
+     * @param  string  $offset 
      * @return void
      */
     public function offsetUnset($offset): void
@@ -763,8 +741,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	 * 
 	 * Check if an input element is set on the request.
 	 * 
-	 * @param  string  $key
-	 * 
+	 * @param  string  $key 
 	 * @return bool
 	 */
 	public function __isset(string $key): bool
@@ -777,6 +754,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	 * 
 	 * Get an element from the request.
 	 * 
+	 * @param  string  $key 
 	 * @return string[]
 	 */
 	public function __get(string $key): mixed

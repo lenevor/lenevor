@@ -41,8 +41,7 @@ class LazyFilterIterator implements IteratorAggregate
     /**
      * Constructor. Create a new LazyFilterIterator instance.
      * 
-     * @param  callable  $iterator
-     * 
+     * @param  callable  $iterator 
      * @return void
      */
     public function __construct(callable $iterator)

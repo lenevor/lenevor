@@ -50,8 +50,7 @@ class BcryptHasher extends AbstractHasher implements Hasher
     /**
      * Constructor. Create a new hasher instance.
      * 
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return void
      */
     public function __construct(array $options = [])
@@ -64,8 +63,7 @@ class BcryptHasher extends AbstractHasher implements Hasher
      * Hash the given value.
      * 
      * @param  string  $value
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return string
      * 
      * @throws \RuntimeException
@@ -88,8 +86,7 @@ class BcryptHasher extends AbstractHasher implements Hasher
      * 
      * @param  string  $value
      * @param  string  $hashedValue
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return bool
      * 
      * @throws \RuntimeException
@@ -107,8 +104,7 @@ class BcryptHasher extends AbstractHasher implements Hasher
      * Check if the given hash has been hashed using the given options.
      * 
      * @param  string  $hashedValue
-     * @param  array   $options
-     * 
+     * @param  array   $options 
      * @return bool
      */
     public function needsRehash($hashedValue, array $options = []): bool
@@ -121,8 +117,7 @@ class BcryptHasher extends AbstractHasher implements Hasher
     /**
      * Set the default password work factor.
      * 
-     * @param  int  $rounds
-     * 
+     * @param  int  $rounds 
      * @return static
      */
     public function setRounds($rounds): static
@@ -135,8 +130,7 @@ class BcryptHasher extends AbstractHasher implements Hasher
     /**
      * Extract the cost value from the options array.
      * 
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return int
      */
     protected function cost(array $options = []): int

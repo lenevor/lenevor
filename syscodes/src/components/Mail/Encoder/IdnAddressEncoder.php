@@ -31,8 +31,7 @@ final class IdnAddressEncoder
     /**
      * Encodes the domain part of an address using IDN.
      * 
-     * @param  string  $address
-     * 
+     * @param  string  $address 
      * @return string
      */
     public function encodeString(string $address): string

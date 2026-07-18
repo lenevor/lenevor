@@ -34,6 +34,7 @@ class NumberComparator extends Comparator
      * Constructor. Create a new NumberComparator instance,
      * 
      * @param  string|null  $value  A comparison string or null
+     * @return void
      * 
      * @throws \InvalidArgumentException
      */

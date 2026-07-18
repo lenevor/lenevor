@@ -85,8 +85,7 @@ class SmtpTransport extends AbstractTransport
      * 
      * @param  AbstractStream|null  $stream
      * @param  Dispatcher|null  $dispatcher
-     * @param  LoggerInterface|null  $logger
-     * 
+     * @param  LoggerInterface|null  $logger 
      * @return void
      */
     public function __construct(?AbstractStream $stream = null, ?Dispatcher $dispatcher = null, ?LoggerInterface $logger = null)
@@ -109,8 +108,7 @@ class SmtpTransport extends AbstractTransport
     /**
      * Sets the name of the local domain that will be used in HELO.
      * 
-     * @param  string  $domain
-     * 
+     * @param  string  $domain 
      * @return static
      */
     public function setLocalDomain(string $domain): static
@@ -142,8 +140,7 @@ class SmtpTransport extends AbstractTransport
      * Send the message of mail.
      * 
      * @param  RawMessage  $message
-     * @param  Envelope|null  $envelope
-     * 
+     * @param  Envelope|null  $envelope 
      * @return BaseSentMessage|null
      */
     public function send(RawMessage $message, ?Envelope $envelope = null): ?BaseSentMessage
@@ -168,8 +165,7 @@ class SmtpTransport extends AbstractTransport
     /**
      * Do send to mail.
      * 
-     * @param  BaseSentMessage  $message
-     * 
+     * @param  BaseSentMessage  $message 
      * @return void
      */
     protected function doSend(BaseSentMessage $message): void
@@ -218,7 +214,6 @@ class SmtpTransport extends AbstractTransport
      * 
      * @param  string  $command 
      * @param  int[]  $codes 
-     * 
      * @return string
      * 
      * @throws TransportException
@@ -265,7 +260,7 @@ class SmtpTransport extends AbstractTransport
         $this->stream->initialize();
         $this->assertResponseCode($this->getFullResponse(), [220]);
         
-        $this->started         = true;
+        $this->started = true;
         $this->lastMessageTime = 0;
         
         $this->getLogger()->debug(sprintf('Email transport "%s" started', __CLASS__));
@@ -300,8 +295,7 @@ class SmtpTransport extends AbstractTransport
      * Get assert of response code.
      * 
      * @param  string  $response
-     * @param  array  $codes
-     * 
+     * @param  array  $codes 
      * @return void
      * 
      * @throws TransportException
@@ -313,10 +307,10 @@ class SmtpTransport extends AbstractTransport
         }
         
         [$code] = sscanf($response, '%3d');
-        $valid  = in_array($code, $codes);
+        $valid = in_array($code, $codes);
         
         if ( ! $valid || !$response) {
-            $codeStr     = $code ? sprintf('code "%s"', $code) : 'empty code';
+            $codeStr = $code ? sprintf('code "%s"', $code) : 'empty code';
             $responseStr = $response ? sprintf(', with message "%s"', trim($response)) : '';
             
             throw new TransportException(sprintf('Expected response code "%s" but got ', implode('/', $codes)).$codeStr.$responseStr.'.', $code ?: 0);

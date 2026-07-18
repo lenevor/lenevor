@@ -58,8 +58,7 @@ class Logger implements LoggerInterface
     /**
      * Constructor. The Logger class instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Log\Handler  $logger
-     * 
+     * @param  \Syscodes\Components\Contracts\Log\Handler  $logger 
      * @return void
      */
     public function __construct(Handler $logger)
@@ -71,8 +70,7 @@ class Logger implements LoggerInterface
      * Log a warning message to the logs.
      * 
      * @param  string  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return void
      */
     public function emergency($message, array $context = []): void
@@ -84,8 +82,7 @@ class Logger implements LoggerInterface
      * Log a alert message to the logs.
      * 
      * @param  string  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return void
      */
     public function alert($message, array $context = []): void
@@ -97,8 +94,7 @@ class Logger implements LoggerInterface
      * Log a critical message to the logs.
      * 
      * @param  string  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return void
      */
     public function critical($message, array $context = []): void
@@ -110,8 +106,7 @@ class Logger implements LoggerInterface
      * Log a error message to the logs.
      * 
      * @param  string  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return void
      */
     public function error($message, array $context = []): void
@@ -123,8 +118,7 @@ class Logger implements LoggerInterface
      * Log a warning message to the logs.
      * 
      * @param  string  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return void
      */
     public function warning($message, array $context = []): void
@@ -136,8 +130,7 @@ class Logger implements LoggerInterface
      * Log a notice message to the logs.
      * 
      * @param  string  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return void
      */
     public function notice($message, array $context = []): void
@@ -149,8 +142,7 @@ class Logger implements LoggerInterface
      * Log a info message to the logs.
      * 
      * @param  string  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return void
      */
     public function info($message, array $context = []): void
@@ -162,8 +154,7 @@ class Logger implements LoggerInterface
      * Log a debug message to the logs.
      * 
      * @param  string  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return void
      */
     public function debug($message, array $context = []): void
@@ -176,8 +167,7 @@ class Logger implements LoggerInterface
      * 
      * @param  string  $level
      * @param  string|null  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return void
      */
     public function log($level, $message = null, array $context = []): void
@@ -190,8 +180,7 @@ class Logger implements LoggerInterface
      * 
      * @param  string  $level
      * @param  string  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return void
      */
     protected function writeLog($level, $message, array $context = [])
@@ -213,8 +202,7 @@ class Logger implements LoggerInterface
      * Dynamically proxy method calls to the underlying logger.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      */
     public function __call($method, $parameters)

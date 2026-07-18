@@ -65,8 +65,7 @@ class Pipeline implements PipelineContract
     /**
      * Constructor. Create new Pipeline class instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Container\Container|null  $container  
-     * 
+     * @param  \Syscodes\Components\Contracts\Container\Container|null  $container
      * @return void
      */
     public function __construct(?Container $container = null)
@@ -77,8 +76,7 @@ class Pipeline implements PipelineContract
     /**
      * Set the given object being sent on the pipeline.
      * 
-     * @param  mixed  $sender
-     * 
+     * @param  mixed  $sender 
      * @return static
      */
     public function send($sender): static
@@ -91,8 +89,7 @@ class Pipeline implements PipelineContract
     /**
      * Set the array of pipes.
      * 
-     * @param  array|mixed  $pipes
-     * 
+     * @param  array|mixed  $pipes 
      * @return static
      */
     public function through($pipes): static
@@ -105,8 +102,7 @@ class Pipeline implements PipelineContract
     /**
      * Set the method to call on the stops.
      * 
-     * @param  string  $method
-     * 
+     * @param  string  $method 
      * @return static
      */
     public function method($method): static
@@ -119,8 +115,7 @@ class Pipeline implements PipelineContract
     /**
      * Run the pipeline with a final destination callback.
      * 
-     * @param  \Closure  $destination
-     * 
+     * @param  \Closure  $destination 
      * @return mixed
      */
     public function then(Closure $destination)
@@ -179,8 +174,7 @@ class Pipeline implements PipelineContract
     /**
      * Parse full pipe string to get name and parameters.
      * 
-     * @param  string  $pipe
-     * 
+     * @param  string  $pipe 
      * @return array
      */
     protected function parsePipeString($pipe): array
@@ -197,8 +191,7 @@ class Pipeline implements PipelineContract
     /**
      * Get the initial slice to begin the stack call.
      * 
-     * @param  \Closure  $destination
-     * 
+     * @param  \Closure  $destination 
      * @return \Closure
      */
     protected function prepareDestination(Closure $destination): Closure
@@ -217,7 +210,6 @@ class Pipeline implements PipelineContract
      * 
      * @param  mixed  $passable
      * @param  \Throwable  $e
-     * 
      * @return mixed
      * 
      * @throws \Throwable
@@ -246,8 +238,7 @@ class Pipeline implements PipelineContract
     /**
      * set the container instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Container\Container  $container
-     * 
+     * @param  \Syscodes\Components\Contracts\Container\Container  $container 
      * @return static
      */
     protected function setContainer(Container $container): static

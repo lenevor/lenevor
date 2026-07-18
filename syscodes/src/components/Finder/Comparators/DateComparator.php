@@ -34,8 +34,7 @@ class DateComparator extends Comparator
     /**
      * Constructor. Create a new DateComparator class instance.
      * 
-     * @param  string  $comparison
-     * 
+     * @param  string  $comparison 
      * @return void
      */
     public function __construct(string $comparison)

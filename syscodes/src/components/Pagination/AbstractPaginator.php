@@ -157,8 +157,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
     /**
      * Determine if the given value is a valid page number.
      * 
-     * @param  int  $pageNumber
-     * 
+     * @param  int  $pageNumber 
      * @return bool
      */
     protected function isValidPageNumber(int $pageNumber): bool
@@ -182,8 +181,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
      * Create a range of pagination URLs.
      * 
      * @param  int  $start
-     * @param  int  $end
-     * 
+     * @param  int  $end 
      * @return array
      */
     public function getUrlRange($start, $end): array
@@ -196,8 +194,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
     /**
      * Get the URL for a given page number.
      * 
-     * @param  int  $page
-     * 
+     * @param  int  $page 
      * @return string
      */
     public function url($page): string
@@ -224,8 +221,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
     /**
      * Get / set the URL fragment to be appended to URLs.
      * 
-     * @param  string|null  $fragment
-     * 
+     * @param  string|null  $fragment 
      * @return static|string|null
      */
     public function fragment($fragment = null): static|string|null
@@ -243,8 +239,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
      * Add a set of query string values to the paginator.
      * 
      * @param  array|string|null  $key
-     * @param  string|null  $value
-     * 
+     * @param  string|null  $value 
      * @return static
      */
     public function appends($key, $value = null): static
@@ -263,8 +258,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
     /**
      * Add an array of query string values.
      *
-     * @param  array  $keys
-     * 
+     * @param  array  $keys 
      * @return static
      */
     protected function appendArray(array $keys): static
@@ -280,8 +274,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
      * Add a query string value to the paginator.
      * 
      * @param  string  $key
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return static
      */
     protected function addQuery($key, $value): static
@@ -346,8 +339,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
     /**
      * Transform each item in the slice of items using a callback.
      *
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return static
      *
      * @phpstan-this-out static<TKey, TMapValue>
@@ -422,8 +414,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
     /**
      * Set the query string variable used to store the page.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return static
      */
     public function setPageName(string $name): static
@@ -437,7 +428,6 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
      * Set the number of links to display on each side of current page link.
      * 
      * @param  int  $count
-     * 
      * @return static
      */
     public function onEachSide(int $count): static
@@ -460,8 +450,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
     /**
      * Set the base path to assign to all URLs.
      *
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return static
      */
     public function withPath($path): static
@@ -472,8 +461,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
     /**
      * Set the base path to assign to all URLs.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return static
      */
     public function setPath(string $path): static
@@ -486,8 +474,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
     /**
      * Resolve the current request path or return the default value.
      * 
-     * @param  string  $default
-     * 
+     * @param  string  $default 
      * @return string
      */
     public static function resolveCurrentPath($default = '/')
@@ -502,8 +489,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
     /**
      * Set the current request path resolver callback.
      * 
-     * @param  \Closure  $resolver
-     * 
+     * @param  \Closure  $resolver 
      * @return void
      */
     public static function currentPathResolver(Closure $resolver): void
@@ -515,8 +501,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
      * Resolve the current page or return the default value.
      * 
      * @param  string  $pageName
-     * @param  int  $default
-     * 
+     * @param  int  $default 
      * @return int
      */
     public static function resolveCurrentPage($pageName = 'page', $default = 1)
@@ -531,8 +516,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
     /**
      * Set the current page resolver callback.
      * 
-     * @param  \Closure  $resolver
-     * 
+     * @param  \Closure  $resolver 
      * @return void
      */
     public static function currentPageResolver(Closure $resolver): void
@@ -553,8 +537,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
     /**
      * Set the view factory resolver callback.
      * 
-     * @param  \Closure  $resolver
-     * 
+     * @param  \Closure  $resolver 
      * @return void
      */
     public static function viewFactoryResolver(Closure $resolver): void
@@ -565,8 +548,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
      /**
      * Resolve the query string or return the default value.
      *
-     * @param  string|array|null  $default
-     * 
+     * @param  string|array|null  $default 
      * @return string
      */
     public static function resolveQueryString($default = null)
@@ -581,8 +563,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
     /**
      * Set with query string resolver callback.
      *
-     * @param  \Closure  $resolver
-     * 
+     * @param  \Closure  $resolver 
      * @return void
      */
     public static function queryStringResolver(Closure $resolver): void
@@ -593,8 +574,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
     /**
      * Set the default pagination view.
      * 
-     * @param  string  $view
-     * 
+     * @param  string  $view 
      * @return void
      */
     public static function defaultView($view): void
@@ -605,8 +585,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
     /**
      * Set the default "simple" pagination view.
      * 
-     * @param  string  $view
-     * 
+     * @param  string  $view 
      * @return void
      */
     public static function defaultSimpleView($view): void
@@ -667,8 +646,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
     /**
      * Set the paginator's underlying collection.
      * 
-     * @param  \Syscodes\Components\Support\Collection  $collection
-     * 
+     * @param  \Syscodes\Components\Support\Collection  $collection 
      * @return static
      */
     public function setCollection(Collection $collection): static
@@ -698,7 +676,6 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
 	 * Whether or not an offset exists.
 	 * 
 	 * @param  mixed  $offset
-	 * 
 	 * @return bool
 	 */
 	public function offsetExists(mixed $offset): bool
@@ -710,7 +687,6 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
 	 * Returns the value at specified offset.
 	 * 
 	 * @param  mixed  $offset
-	 * 
 	 * @return mixed
 	 */
 	public function offsetGet(mixed $offset): mixed
@@ -723,7 +699,6 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
 	 * 
 	 * @param  mixed  $offset
 	 * @param  mixed  $value
-	 * 
 	 * @return void
 	 */
 	public function offsetSet(mixed $offset, mixed $value): void
@@ -734,8 +709,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
 	/**
 	 * Unsets an offset.
 	 * 
-	 * @param  mixed  $offset
-	 * 
+	 * @param  mixed  $offset 
 	 * @return void
 	 */
 	public function offsetUnset(mixed $offset): void
@@ -746,8 +720,7 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
     /**
      * Indicate that the paginator's string representation should be escaped when __toString is invoked.
      *
-     * @param  bool  $escape
-     * 
+     * @param  bool  $escape 
      * @return static
      */
     public function escapeWhenLoadingToString($escape = true): static
@@ -788,7 +761,6 @@ abstract class AbstractPaginator implements ArrayAccess, IteratorAggregate, CanB
      * 
      * @param  string  $method
      * @param  array  $parameters
-     * 
      * @return mixed
      */
     public function __call($method, $parameters)

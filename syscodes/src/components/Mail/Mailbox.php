@@ -188,8 +188,7 @@ class Mailbox implements MailboxContract, Renderable
     /**
      * Send the message using the given mailer.
      * 
-     * @param  \Syscodes\Components\Contracts\Mail\Factory|\Syscodes\Components\Contracts\Mail\Mailer  $mailer
-     * 
+     * @param  \Syscodes\Components\Contracts\Mail\Factory|\Syscodes\Components\Contracts\Mail\Mailer  $mailer 
      * @return \Syscodes\Components\Mail\Helpers\BaseSentMessage|null
      */
     public function send($mailer)
@@ -224,8 +223,7 @@ class Mailbox implements MailboxContract, Renderable
     /**
      * Add the sender to the message.
      * 
-     * @param  \Syscodes\Components\Mail\Message  $message
-     * 
+     * @param  \Syscodes\Components\Mail\Message  $message 
      * @return static
      */
     protected function buildFrom($message): static
@@ -240,8 +238,7 @@ class Mailbox implements MailboxContract, Renderable
     /**
      * Add all of the recipients to the message.
      * 
-     * @param  \Syscodes\Components\Mail\Message  $message
-     * 
+     * @param  \Syscodes\Components\Mail\Message  $message 
      * @return static
      */
     protected function buildRecipients($message): static
@@ -306,9 +303,8 @@ class Mailbox implements MailboxContract, Renderable
     
     /**
      * Set the subject for the message.
-     * 
-    * @param  \Syscodes\Components\Mail\Message  $message
-     * 
+     *
+     * @param  \Syscodes\Components\Mail\Message  $message 
      * @return static
      */
     protected function buildSubject($message): static
@@ -326,8 +322,7 @@ class Mailbox implements MailboxContract, Renderable
      * Set the view and view data for the message.
      * 
      * @param  string  $view
-     * @param  array  $data
-     * 
+     * @param  array  $data 
      * @return static
      */
     public function view($view, array $data = []): static
@@ -341,8 +336,7 @@ class Mailbox implements MailboxContract, Renderable
     /**
      * Set the rendered HTML content for the message.
      * 
-     * @param  string  $html
-     * 
+     * @param  string  $html 
      * @return static
      */
     public function html($html): static
@@ -356,8 +350,7 @@ class Mailbox implements MailboxContract, Renderable
      * Set the plain text view for the message.
      * 
      * @param  string  $textView
-     * @param  array  $data
-     * 
+     * @param  array  $data 
      * @return static
      */
     public function text($textView, array $data = []): static
@@ -372,8 +365,7 @@ class Mailbox implements MailboxContract, Renderable
      * Set the sender of the message.
      * 
      * @param  object|array|string  $address
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return static
      */
     public function from($address, $name = null): static
@@ -385,8 +377,7 @@ class Mailbox implements MailboxContract, Renderable
      * Determine if the given recipient is set on the mailabox.
      * 
      * @param  object|array|string  $address
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return bool
      */
     public function hasFrom($address, $name = null): bool
@@ -398,8 +389,7 @@ class Mailbox implements MailboxContract, Renderable
      * Set the recipients of the message.
      * 
      * @param  object|array|string  $address
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return static
      */
     public function to($address, $name = null): static
@@ -423,8 +413,7 @@ class Mailbox implements MailboxContract, Renderable
      * Set the recipients of the message.
      * 
      * @param  object|array|string  $address
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return static
      */
     public function cc($address, $name = null): static
@@ -436,8 +425,7 @@ class Mailbox implements MailboxContract, Renderable
      * Determine if the given recipient is set on the mailable.
      * 
      * @param  object|array|string  $address
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return bool
      */
     public function hasCc($address, $name = null): bool
@@ -449,8 +437,7 @@ class Mailbox implements MailboxContract, Renderable
      * Set the recipients of the message.
      * 
      * @param  object|array|string  $address
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return static
      */
     public function bcc($address, $name = null): static
@@ -462,8 +449,7 @@ class Mailbox implements MailboxContract, Renderable
      * Determine if the given recipient is set on the mailable.
      * 
      * @param  object|array|string  $address
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return bool
      */
     public function hasBcc($address, $name = null): bool
@@ -476,7 +462,6 @@ class Mailbox implements MailboxContract, Renderable
      * 
      * @param  object|array|string  $address
      * @param  string|null  $name
-     * 
      * @return static
      */
     public function replyTo($address, $name = null): static
@@ -488,8 +473,7 @@ class Mailbox implements MailboxContract, Renderable
      * Determine if the given replyTo is set on the mailable.
      * 
      * @param  object|array|string  $address
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return bool
      */
     public function hasReplyTo($address, $name = null): bool
@@ -502,8 +486,7 @@ class Mailbox implements MailboxContract, Renderable
      * 
      * @param  object|array|string  $address
      * @param  string|null  $name
-     * @param  string  $property
-     * 
+     * @param  string  $property 
      * @return static
      */
     protected function setAddress($address, $name = null, $property = 'to'): static
@@ -535,8 +518,7 @@ class Mailbox implements MailboxContract, Renderable
      * Convert the given recipient arguments to an array.
      * 
      * @param  object|array|string  $address
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return array
      */
     protected function addressesToArray($address, $name): array
@@ -551,8 +533,7 @@ class Mailbox implements MailboxContract, Renderable
     /**
      * Convert the given recipient into an object.
      * 
-     * @param  mixed  $recipient
-     * 
+     * @param  mixed  $recipient 
      * @return object
      */
     protected function normalizeRecipient($recipient)
@@ -579,8 +560,7 @@ class Mailbox implements MailboxContract, Renderable
      * 
      * @param  object|array|string  $address
      * @param  string|null  $name
-     * @param  string  $property
-     * 
+     * @param  string  $property 
      * @return bool
      */
     protected function hasRecipient($address, $name = null, $property = 'to'): bool
@@ -610,8 +590,7 @@ class Mailbox implements MailboxContract, Renderable
     /**
      * Set the locale of the message.
      * 
-     * @param  string  $locale
-     * 
+     * @param  string  $locale 
      * @return static
      */
     public function locale($locale): static
@@ -622,8 +601,7 @@ class Mailbox implements MailboxContract, Renderable
     /**
      * Set the name of the mailer that should be used to send the message.
      * 
-     * @param  string  $mailer
-     * 
+     * @param  string  $mailer 
      * @return static
      */
     public function mailer($mailer): static
@@ -637,8 +615,7 @@ class Mailbox implements MailboxContract, Renderable
      * Set the view data for the message.
      * 
      * @param  string|array  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return static
      */
     public function with($key, $value = null): static
@@ -658,8 +635,7 @@ class Mailbox implements MailboxContract, Renderable
      * Dynamically bind parameters to the message.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return static
      * 
      * @throws \BadMethodCallException

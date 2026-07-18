@@ -42,8 +42,7 @@ class SentMessage
     /**
      * Constructor. Create a new SentMessage class instance.
      * 
-     * @param  \Syscodes\Components\Mail\Helpers\BaseSentMessage  $sentMessage
-     * 
+     * @param  \Syscodes\Components\Mail\Helpers\BaseSentMessage  $sentMessage 
      * @return void
      */
     public function __construct(BaseSentMessage $sentMessage)
@@ -67,8 +66,7 @@ class SentMessage
      * Dynamically pass missing methods to the base instance.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      */
     public function __call($method, $parameters)

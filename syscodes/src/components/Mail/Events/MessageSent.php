@@ -48,8 +48,7 @@ class MessageSent
      * Constructor. Create a new event class instance.
      * 
      * @param  \Syscodes\Components\Mail\SentMessage  $message
-     * @param  array  $data
-     * 
+     * @param  array  $data 
      * @return void
      */
     public function __construct(SentMessage $message, array $data = [])
@@ -75,7 +74,6 @@ class MessageSent
      * Marshal the object from its serialized data.
      * 
      * @param  array  $data
-     * 
      * @return void
      */
     public function __unserialize(array $data)
@@ -89,8 +87,7 @@ class MessageSent
      * 
      * Dynamically get the original message.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return mixed
      * 
      * @throws \Exception

@@ -58,8 +58,7 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
      * @param  int  $total
      * @param  int  $perPage
      * @param  int|null  $currentPage
-     * @param  array  $options (path, query, fragment, pageName)
-     * 
+     * @param  array  $options (path, query, fragment, pageName) 
      * @return void
      */
     public function __construct($items, $total, $perPage, $currentPage = null, array $options = [])
@@ -82,8 +81,7 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
      /**
      * Set the items for the paginator.
      *
-     * @param  mixed  $items
-     * 
+     * @param  mixed  $items 
      * @return void
      */
     protected function setItems($items): void
@@ -97,8 +95,7 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
      * Get the current page for the request.
      * 
      * @param  int  $currentPage
-     * @param  string  $pageName
-     * 
+     * @param  string  $pageName 
      * @return int
      */
     protected function setCurrentPage(int $currentPage, string $pageName): int
@@ -112,8 +109,7 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
      * Render the paginator using the given view.
      * 
      * @param  string|null  $view
-     * @param  array  $data
-     * 
+     * @param  array  $data 
      * @return string
      */
     public function links($view = null, $data = [])
@@ -125,8 +121,7 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
      * Render the paginator using the given view.
      * 
      * @param  string|null  $view
-     * @param  array  $data
-     * 
+     * @param  array  $data 
      * @return string
      */
     public function render($view = null, $data = [])
@@ -244,8 +239,7 @@ class Paginator extends AbstractPaginator implements Arrayable, Jsonable, JsonSe
     /**
      * Convert the object to its JSON representation.
      * 
-     * @param  int  $options
-     * 
+     * @param  int  $options 
      * @return string
      */
     public function toJson($options = 0): string

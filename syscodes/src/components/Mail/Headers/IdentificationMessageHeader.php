@@ -47,8 +47,7 @@ class IdentificationMessageHeader extends BaseHeader
      * Constructor. Create a new IdentificationMessageHeader class instance.
      * 
      * @param  string  $name
-     * @param  string|string[]  $ids
-     * 
+     * @param  string|string[]  $ids 
      * @return void
      */
     public function __construct(string $name, string|array $ids)
@@ -61,8 +60,7 @@ class IdentificationMessageHeader extends BaseHeader
     /**
      * Set the body.
      * 
-     * @param  string|string[]  $body  A string ID or an array of IDs
-     * 
+     * @param  string|string[]  $body  A string ID or an array of IDs 
      * @return void
      */
     public function setBody(mixed $body): void
@@ -83,8 +81,7 @@ class IdentificationMessageHeader extends BaseHeader
     /**
      * Set the ID used in the value of this header.
      * 
-     * @param  string|string[]  $id
-     * 
+     * @param  string|string[]  $id 
      * @return void
      */
     public function setId(string|array $id): void
@@ -105,8 +102,7 @@ class IdentificationMessageHeader extends BaseHeader
     /**
      * Set a collection of IDs to use in the value of this Header.
      * 
-     * @param string[] $ids
-     * 
+     * @param  string[]  $ids 
      * @return void
      */
     public function setIds(array $ids): void
@@ -122,8 +118,6 @@ class IdentificationMessageHeader extends BaseHeader
     
     /**
      * Get the list of IDs used in this Header.
-     * 
-     * @return string[]
      * 
      * @return array
      */

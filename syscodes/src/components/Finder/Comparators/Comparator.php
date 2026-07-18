@@ -47,8 +47,7 @@ class Comparator
      * Constructor. Create a new Comparator class instance.
      * 
      * @param  string  $target
-     * @param  string  $operator
-     * 
+     * @param  string  $operator 
      * @return void
      */
     public function __construct(string $target, string $operator = '==')
@@ -84,8 +83,7 @@ class Comparator
     /**
      * Tests against the target.
      *
-     * @param  mixed  $test
-     * 
+     * @param  mixed  $test 
      * @return bool 
      */
     public function test(mixed $test): bool

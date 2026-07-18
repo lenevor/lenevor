@@ -33,8 +33,7 @@ class Glob
      * @param  string  $glob
      * @param  bool  $strictLeadingDot
      * @param  bool  $strictWildcardSlash
-     * @param  string  $delimiter
-     * 
+     * @param  string  $delimiter 
      * @return string
      */
     public static function toRegex(

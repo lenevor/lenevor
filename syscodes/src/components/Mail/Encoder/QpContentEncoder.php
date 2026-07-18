@@ -33,8 +33,7 @@ final class QpContentEncoder
      * Gets the encoded byte stream.
      * 
      * @param  mixed  $stream
-     * @param  int  $maxLineLength
-     * 
+     * @param  int  $maxLineLength 
      * @return iterable 
      */
     public function encodeByteStream($stream, int $maxLineLength = 0): iterable
@@ -61,8 +60,7 @@ final class QpContentEncoder
      * 
      * @param  string  $string
      * @param  int  $firstLineOffset
-     * @param  int  $maxLineLength
-     * 
+     * @param  int  $maxLineLength 
      * @return string
      */
     public function encodeString(string $string, int $firstLineOffset = 0, int $maxLineLength = 0): string
@@ -73,8 +71,7 @@ final class QpContentEncoder
     /**
      * Make sure CRLF is correct and HT/SPACE are in valid places.
      *
-     * @param  string  $string
-     * 
+     * @param  string  $string 
      * @return string
      */
     private function standardize(string $string): string

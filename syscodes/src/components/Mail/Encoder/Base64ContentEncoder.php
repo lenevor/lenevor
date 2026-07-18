@@ -34,8 +34,7 @@ final class Base64ContentEncoder extends Base64Encoder
      * Gets the encoded byte stream.
      * 
      * @param  mixed  $stream
-     * @param  int  $maxLineLength
-     * 
+     * @param  int  $maxLineLength 
      * @return iterable 
      */
     public function encodeByteStream($stream, int $maxLineLength = 0): iterable

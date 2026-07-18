@@ -142,8 +142,7 @@ class Finder implements IteratorAggregate, Countable
     /**
      * Adds filters for file dates (last modified).
      * 
-     * @param  string|string[]  $dates
-     * 
+     * @param  string|string[]  $dates 
      * @return static
      */
     public function date(string|array $dates): static
@@ -158,8 +157,7 @@ class Finder implements IteratorAggregate, Countable
     /**
      * Adds rules that files must match.
      * 
-     * @param  string|string[]  $patterns  A pattern (a regexp, a glob, or a string) or an array of patterns
-     * 
+     * @param  string|string[]  $patterns  A pattern (a regexp, a glob, or a string) or an array of patterns 
      * @return static
      */
     public function name(string|array $patterns): static
@@ -172,8 +170,7 @@ class Finder implements IteratorAggregate, Countable
     /**
      * Adds rules that files must not match.
      * 
-     * @param  string|string[]  $patterns  A pattern (a regexp, a glob, or a string) or an array of patterns
-     * 
+     * @param  string|string[]  $patterns  A pattern (a regexp, a glob, or a string) or an array of patterns 
      * @return static
      */
     public function notName(string|array $patterns): static
@@ -186,8 +183,7 @@ class Finder implements IteratorAggregate, Countable
     /**
      * Adds rules that filenames must match.
      * 
-     * @param  string|string[]  $patterns
-     * 
+     * @param  string|string[]  $patterns 
      * @return static
      */
     public function path(string|array $patterns): static
@@ -200,8 +196,7 @@ class Finder implements IteratorAggregate, Countable
     /**
      * Adds rules that filenames must not match.
      * 
-     * @param  string|string[]  $patterns
-     * 
+     * @param  string|string[]  $patterns 
      * @return static
      */
     public function notPath(string|array $patterns): static
@@ -214,8 +209,7 @@ class Finder implements IteratorAggregate, Countable
     /**
      * Excludes "hidden" directories and files (starting with a dot).
      * 
-     * @param  bool  $ignore
-     * 
+     * @param  bool  $ignore 
      * @return static
      */
     public function ignoreDotFiles(bool $ignore): static
@@ -232,8 +226,7 @@ class Finder implements IteratorAggregate, Countable
     /**
      * Searches files and directories which match defined rules.
      * 
-     * @param  string|string[]  $dirs  A directory path or an array of directories
-     * 
+     * @param  string|string[]  $dirs  A directory path or an array of directories 
      * @return static
      * 
      * @throws DirectoryNotFoundException  if one of the directories does not exist

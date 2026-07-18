@@ -35,8 +35,7 @@ trait InteractsWithInput
      * Retrieve a server variable from the request.
      * 
      * @param  string|null  $key
-     * @param  string|null  $default
-     * 
+     * @param  string|null  $default 
      * @return mixed
      */
     public function server($key = null, $default = null)
@@ -47,8 +46,7 @@ trait InteractsWithInput
     /**
      * Determine if a header is set on the request.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return bool
      */
     public function hasHeader($key): bool
@@ -60,8 +58,7 @@ trait InteractsWithInput
      * Retrieve a header from the request.
      * 
      * @param  string|null  $key
-     * @param  string|null  $default
-     * 
+     * @param  string|null  $default 
      * @return mixed
      */
     public function header($key = null, $default = null)
@@ -90,8 +87,7 @@ trait InteractsWithInput
     /**
      * Determine if a cookie is set on the request.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return bool
      */
     public function hasCookie($key): bool
@@ -103,8 +99,7 @@ trait InteractsWithInput
      * Retrieve a cookie from the request.
      * 
      * @param  string|null  $key
-     * @param  string|null  $default
-     * 
+     * @param  string|null  $default 
      * @return mixed
      */
     public function cookie($key = null, $default = null)
@@ -116,8 +111,7 @@ trait InteractsWithInput
      * Retrieve a 'request' item from the request.
      * 
      * @param  string|null  $key
-     * @param  string|null  $default
-     * 
+     * @param  string|null  $default 
      * @return string|array|null
      */
     public function post($key = null, $default = null)
@@ -129,8 +123,7 @@ trait InteractsWithInput
      * Retrieve a 'request' item from the request.
      * 
      * @param  string|null  $key
-     * @param  string|null  $default
-     * 
+     * @param  string|null  $default 
      * @return string|array|null
      */
     public function file($key = null, $default = null)
@@ -141,8 +134,7 @@ trait InteractsWithInput
     /**
      * Get a subset of the items from the input data.
      * 
-     * @param  array|mixed  $keys
-     * 
+     * @param  array|mixed  $keys 
      * @return array
      */
     public function only($keys): array
@@ -164,8 +156,7 @@ trait InteractsWithInput
     /**
      * Get all of the input except for a specified array of items.
      * 
-     * @param  array  $keys
-     * 
+     * @param  array  $keys 
      * @return array
      */
     public function except($keys): array
@@ -184,8 +175,7 @@ trait InteractsWithInput
      * Retrieve a 'query' item from the request.
      * 
      * @param  string|null  $key
-     * @param  string|null  $default
-     * 
+     * @param  string|null  $default 
      * @return string|array|null
      */
     public function query($key = null, $default = null)
@@ -197,7 +187,6 @@ trait InteractsWithInput
      * Adds parameters.
      * 
      * @param  string|array  $key
-     * 
      * @return array
      */
     public function add($key): array
@@ -210,8 +199,7 @@ trait InteractsWithInput
     /**
      * Get all of the input and files for the request.
      * 
-     * @param  array|mixed|null  $keys
-     * 
+     * @param  array|mixed|null  $keys 
      * @return array
      */
     public function all($keys = null): array
@@ -235,8 +223,7 @@ trait InteractsWithInput
      * Retrieve an input item from the request.
      * 
      * @param  string|null  $key
-     * @param  mixed  $default
-     * 
+     * @param  mixed  $default 
      * @return mixed
      */
     public function input($key = null, $default = null)
@@ -269,8 +256,7 @@ trait InteractsWithInput
     /**
      * Gets a request containing a given input item key.
      * 
-     * @param  string|array  $key
-     * 
+     * @param  string|array  $key 
      * @return bool
      */
     public function has($key): bool
@@ -291,9 +277,8 @@ trait InteractsWithInput
     /**
 	 * Remove a parameter array item.
 	 *
-	 * @param  string  $key 
-	 *
-	 * @return void
+	 * @param  string  $key
+     * @return void
 	 */
 	public function remove($key)
     {
@@ -305,8 +290,7 @@ trait InteractsWithInput
      * 
      * @param  string  $source
      * @param  string  $key
-     * @param  mixed  $default
-     * 
+     * @param  mixed  $default 
      * @return mixed
      */
     protected function retrieveItem($source, $key, $default)

@@ -41,8 +41,7 @@ class DateFilterIterator extends FilterIterator
      * Constructor. Create a new DateFilteriterator class instance.
      * 
      * @param \Iterator<string, \SplFileInfo>  $iterator  The Iterator to filter
-     * @param \Syscodes\Components\Finder\Comparators\DateComparator[]  $comparators
-     * 
+     * @param \Syscodes\Components\Finder\Comparators\DateComparator[]  $comparators 
      * @return void
      */
     public function __construct(Iterator $iterator, array $comparators)

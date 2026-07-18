@@ -33,8 +33,7 @@ class EsmtpTransportFactory extends AbstractTransportFactory
     /**
      * Create the filters for allows the connection with the server.
      * 
-     * @param  DomainTransport  $domain
-     * 
+     * @param  DomainTransport  $domain 
      * @return \Syscodes\Components\Mail\Transport\Smtp\EsmtpTransport
      */
     public function create(DomainTransport $domain)

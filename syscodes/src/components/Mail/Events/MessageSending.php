@@ -47,8 +47,7 @@ class MessageSending
      * Constructor. Create a new event class instance.
      * 
      * @param  \Syscodes\Components\Mail\Mailables\Email  $message
-     * @param  array  $data
-     * 
+     * @param  array  $data 
      * @return void
      */
     public function __construct(Email $message, array $data = [])

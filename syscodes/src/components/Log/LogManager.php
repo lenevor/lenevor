@@ -49,8 +49,7 @@ class LogManager implements LoggerInterface
     /**
      * Constructor. The LogManager class instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Core\Application  $app
-     * 
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app 
      * @return void
      */
     public function __construct($app)
@@ -61,8 +60,7 @@ class LogManager implements LoggerInterface
     /**
      * Get a log driver instance.
      * 
-     * @param  string|null  $driver  
-     * 
+     * @param  string|null  $driver 
      * @return mixed
      */
     public function driver($driver = null)
@@ -73,8 +71,7 @@ class LogManager implements LoggerInterface
     /**
      * Get a log store instance by name.
      * 
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return \Psr\Log\LoggerInterface
      */
     public function store(?string $name = null)
@@ -87,8 +84,7 @@ class LogManager implements LoggerInterface
     /**
      * Get the log from the local cache.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return \Psr\Log\LoggerInterface
      */
     public function get($name)
@@ -99,8 +95,7 @@ class LogManager implements LoggerInterface
     /**
      * Resolve the given log.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return \Psr\Log\LoggerInterface
      * 
      * @throws \Syscodes\Components\Log\Exceptions\LogException
@@ -125,8 +120,7 @@ class LogManager implements LoggerInterface
     /**
      * Get the log connection configuration.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return array
      */
     protected function configurationLogger(string $name): array
@@ -138,8 +132,7 @@ class LogManager implements LoggerInterface
      * Create an instance of the File log driver.
      * 
      * @param  array  $config
-     * @param  \Syscodes\Components\Contracts\Core\Application  $app
-     * 
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app 
      * @return \Psr\Log\LoggerInterface
      */
     protected function createSingleDriver(array $config, $app)
@@ -151,7 +144,6 @@ class LogManager implements LoggerInterface
      * Create a new log with the given implementation.
      * 
      * @param  \Syscodes\Components\Contracts\Log\Handler  $logger
-     *
      * @return \Syscodes\Components\Contracts\Log\Handler
      */
     public function getLogger(Handler $logger)
@@ -172,8 +164,7 @@ class LogManager implements LoggerInterface
     /**
      * Set the default log driver name.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return array
      */
     public function setDefaultDriver(string $name)
@@ -185,8 +176,7 @@ class LogManager implements LoggerInterface
      * System is unusable.
      * 
      * @param  string  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return void
      */
     public function emergency($message, array $context = []): void
@@ -198,8 +188,7 @@ class LogManager implements LoggerInterface
      * Action must be taken immediately.
      * 
      * @param  string  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return void
      */
     public function alert($message, array $context = []): void
@@ -211,8 +200,7 @@ class LogManager implements LoggerInterface
      * Critical conditions.
      * 
      * @param  string  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return void
      */
     public function critical($message, array $context = []): void
@@ -225,8 +213,7 @@ class LogManager implements LoggerInterface
      * be logged and monitored.
      * 
      * @param  string  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return void
      */
     public function error($message, array $context = []): void
@@ -238,8 +225,7 @@ class LogManager implements LoggerInterface
      * Exceptional occurrences that are not errors.
      * 
      * @param  string  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return void
      */
     public function warning($message, array $context = []): void
@@ -251,8 +237,7 @@ class LogManager implements LoggerInterface
      * Normal but significant events.
      * 
      * @param  string  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return void
      */
     public function notice($message, array $context = []): void
@@ -264,8 +249,7 @@ class LogManager implements LoggerInterface
      * Interesting events.
      * 
      * @param  string  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return void
      */
     public function info($message, array $context = []): void
@@ -277,8 +261,7 @@ class LogManager implements LoggerInterface
      * Detailed debug information.
      * 
      * @param  string  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return void
      */
     public function debug($message, array $context = []): void
@@ -291,8 +274,7 @@ class LogManager implements LoggerInterface
      * 
      * @param  string  $level
      * @param  string  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return void
      */
     public function log($level, $message, array $context = []): void
@@ -306,8 +288,7 @@ class LogManager implements LoggerInterface
      * Dynamically call the default driver instance.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      */
     public function __call($method, $parameters)

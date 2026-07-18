@@ -41,8 +41,7 @@ class Benchmark
      * Starts a timer running.
      * 
      * @param  string  $name
-     * @param  float|null  $time
-     * 
+     * @param  float|null  $time 
      * @return static
      */
     public function start(string $name, ?float $time = null): static
@@ -62,8 +61,7 @@ class Benchmark
     /**
      * Stop a running timer.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return static
      */
     public function stop(string $name): static
@@ -83,8 +81,7 @@ class Benchmark
      * Returns the duration of a recorded timer.
      * 
      * @param  string  $name
-     * @param  int  $decimals
-     * 
+     * @param  int  $decimals 
      * @return null|float
      */
     public function getElapsedTime(string $name, int $decimals = 4)
@@ -109,8 +106,7 @@ class Benchmark
     /**
      * Returns the array of timers, with the duration pre-calculated for you.
      * 
-     * @param  int  $decimals
-     * 
+     * @param  int  $decimals 
      * @return array
      */
     public function getTimers(int $decimals = 4): array
@@ -133,8 +129,7 @@ class Benchmark
     /**
      * Returns the converter in words of the loading time.
      * 
-     * @param  float  $operation
-     * 
+     * @param  float  $operation 
      * @return string
      */
     protected function formatPeriod(float $operation): string
@@ -156,8 +151,7 @@ class Benchmark
     /**
      * Checks whether or not a timer with the specified name exists.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     public function has(string $name): bool

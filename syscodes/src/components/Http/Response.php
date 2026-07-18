@@ -44,7 +44,6 @@ class Response extends SymfonyResponse
 	 * @param  mixed  $content  The response content 
 	 * @param  int  $status  The response status  
 	 * @param  array  $headers  Array of HTTP headers for this response
-	 *
 	 * @return string
 	 */
 	public function __construct($content = '', int $status = 200, array $headers = [])
@@ -63,7 +62,6 @@ class Response extends SymfonyResponse
 	 * @param  mixed  $content  The response content  
 	 * @param  int  $status  The HTTP response status for this response  
 	 * @param  array  $headers  Array of HTTP headers for this response
-	 *
 	 * @return static
 	 */
 	public static function render($content = '', $status = 200, $headers = []): static
@@ -85,7 +83,6 @@ class Response extends SymfonyResponse
 	 * Sends the content of the message to the browser.
 	 *
 	 * @param  mixed  $content  The response content
-	 *
 	 * @return static
 	 */
 	#[\Override]
@@ -111,8 +108,7 @@ class Response extends SymfonyResponse
 	/**
 	 * Determine if the given content should be turned into JSON.
 	 * 
-	 * @param  mixed  $content
-	 * 
+	 * @param  mixed  $content 
 	 * @return bool
 	 */
 	protected function shouldBeJson($content): bool
@@ -127,8 +123,7 @@ class Response extends SymfonyResponse
 	/**
 	 * Convert the given content into JSON.
 	 * 
-	 * @param  mixed  $content
-	 * 
+	 * @param  mixed  $content 
 	 * @return string|false
      */
 	protected function convertToJson($content): string|false

@@ -33,8 +33,7 @@ trait InteractsWithFlashData
      * Retrieve an old input item.
      * 
      * @param  string|null  $key
-     * @param  \Syscodes\Components\Database\Erostrine\Model|string|array|null  $default
-     * 
+     * @param  \Syscodes\Components\Database\Erostrine\Model|string|array|null  $default 
      * @return string|array|null
      */
     public function old($key = null, $default = null)
@@ -58,7 +57,6 @@ trait InteractsWithFlashData
      * Flash only some of the input to the session.
      * 
      * @param  array|mixed  $keys
-     * 
      * @return void
      */
     public function flashOnly($keys): void
@@ -71,8 +69,7 @@ trait InteractsWithFlashData
     /**
      * Flash only some of the input to the session.
      * 
-     * @param  array|mixed  $keys
-     * 
+     * @param  array|mixed  $keys 
      * @return void
      */
     public function flashExcept($keys): void

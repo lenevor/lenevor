@@ -49,8 +49,7 @@ class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, 
      * @param  Collection|Arrayable|iterable|null  $items
      * @param  int  $perPage
      * @param  int|null  $currentPage
-     * @param  array  $options (path, query, fragment, pageName)
-     * 
+     * @param  array  $options (path, query, fragment, pageName) 
      * @return void
      */
     public function __construct($items, $perPage, $currentPage = null, array $options = [])
@@ -71,8 +70,7 @@ class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, 
     /**
      * Set the items for the paginator.
      *
-     * @param  mixed  $items
-     * 
+     * @param  mixed  $items 
      * @return void
      */
     protected function setItems($items): void
@@ -89,8 +87,7 @@ class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, 
     /**
      * Get the current page for the request.
      * 
-     * @param  int  $currentPage
-     * 
+     * @param  int  $currentPage 
      * @return int
      */
     protected function setCurrentPage(int $currentPage): int
@@ -116,8 +113,7 @@ class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, 
      * Render the paginator using the given view.
      * 
      * @param  string|null  $view
-     * @param  array  $data
-     * 
+     * @param  array  $data 
      * @return string
      */
     public function links($view = null, $data = [])
@@ -129,8 +125,7 @@ class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, 
      * Render the paginator using the given view.
      * 
      * @param  string|null  $view
-     * @param  array  $data
-     * 
+     * @param  array  $data 
      * @return string
      */
     public function render($view = null, $data = [])
@@ -143,8 +138,7 @@ class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, 
     /**
      * Manually indicate that the paginator does have more pages.
      * 
-     * @param  bool  $value
-     * 
+     * @param  bool  $value 
      * @return static
      */
     public function hasMorePagesWhen(bool $value = true): static
@@ -196,8 +190,7 @@ class SimplePaginator extends AbstractPaginator implements Arrayable, Jsonable, 
     /**
      * Convert the object to its JSON representation.
      * 
-     * @param  int  $options
-     * 
+     * @param  int  $options 
      * @return string
      */
     public function toJson($options = 0): string

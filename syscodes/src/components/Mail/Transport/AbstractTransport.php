@@ -71,8 +71,7 @@ abstract class AbstractTransport implements Transport
      * Constructor. Create a new AbstractTransport class instance.
      * 
      * @param  Dispatcher|null  $dispatcher
-     * @param  LoggerInterface|null  $logger
-     * 
+     * @param  LoggerInterface|null  $logger 
      * @return void
      */
     public function __construct(?Dispatcher $dispatcher = null, ?LoggerInterface $logger = null)
@@ -84,8 +83,7 @@ abstract class AbstractTransport implements Transport
     /**
      * Sets the maximum number of messages to send per second (0 to disable).
      * 
-     * @param  float  $rate
-     * 
+     * @param  float  $rate 
      * @return static
      */
     public function setMaxToSeconds(float $rate): static
@@ -104,8 +102,7 @@ abstract class AbstractTransport implements Transport
      * Send the message of mail.
      * 
      * @param  RawMessage  $message
-     * @param  Envelope|null  $envelope
-     * 
+     * @param  Envelope|null  $envelope 
      * @return BaseSentMessage|null
      */
     public function send(RawMessage $message, ?Envelope $envelope = null): ?BaseSentMessage
@@ -149,8 +146,7 @@ abstract class AbstractTransport implements Transport
     /**
      * Do send to mail.
      * 
-     * @param  BaseSentMessage  $message
-     * 
+     * @param  BaseSentMessage  $message 
      * @return void
      */
     abstract protected function doSend(BaseSentMessage $message): void;

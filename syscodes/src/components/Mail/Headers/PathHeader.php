@@ -40,8 +40,7 @@ final class PathHeader extends BaseHeader
      * Constructor. Create a new PathHeader class instance.
      * 
      * @param  string  $name
-     * @param  Address  $address
-     * 
+     * @param  Address  $address 
      * @return void
      */
     public function __construct(string $name, Address $address)
@@ -54,8 +53,7 @@ final class PathHeader extends BaseHeader
     /**
      * Set the body.
      * 
-     * @param  Address  $body
-     * 
+     * @param  Address  $body 
      * @return void
      */
     public function setBody(mixed $body): void
@@ -76,8 +74,7 @@ final class PathHeader extends BaseHeader
     /**
      * Set the address.
      * 
-     * @param  Address  $address
-     * 
+     * @param  Address  $address 
      * @return void
      */
     public function setAddress(Address $address): void

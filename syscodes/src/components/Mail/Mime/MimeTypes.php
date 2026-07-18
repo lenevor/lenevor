@@ -60,8 +60,7 @@ class MimeTypes
     /**
      * Constructor. Create a new MimeTypes class instance.
      * 
-     * @param  array  $maps
-     * 
+     * @param  array  $maps 
      * @return void
      */
     public function __construct(array $maps = [])
@@ -89,7 +88,6 @@ class MimeTypes
      * Set the MIME type by default.
      * 
      * @param  self  $default
-     * 
      * @return void 
      */
     public static function setDefault(self $default): void
@@ -100,8 +98,7 @@ class MimeTypes
     /**
      * Registers a MIME type guesser.
      * 
-     * @param  MimetypeGuesser  $guesser
-     * 
+     * @param  MimeTypeGuesser  $guesser 
      * @return void
      */
     public function registerGuesser(MimeTypeGuesser $guesser): void
@@ -112,8 +109,7 @@ class MimeTypes
     /**
      * Gets the extensions of MIME type.
      * 
-     * @param  string  $mimeType
-     * 
+     * @param  string  $mimeType 
      * @return array
      */
     public function getExtensions(string $mimeType): array
@@ -128,8 +124,7 @@ class MimeTypes
     /**
      * Gets the MIME types with yours extensions.
      * 
-     * @param  string  $extension
-     * 
+     * @param  string  $extension 
      * @return array
      */
     public function getMimeTypes(string $extension): array

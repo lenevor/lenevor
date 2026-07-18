@@ -33,8 +33,7 @@ class FrameGuard
      * Handle the given request and get the response.
      *
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Closure  $next
-     * 
+     * @param  \Closure  $next 
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle($request, Closure $next)

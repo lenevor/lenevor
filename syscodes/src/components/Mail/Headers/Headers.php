@@ -98,8 +98,7 @@ class Headers implements Header
      * Constructor. Create a new Headers class instance.
      * 
      * @param array  $address
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return void
      */
     public function __construct(array $address = [], array $headers = [])
@@ -114,8 +113,7 @@ class Headers implements Header
     /**
      * Adds multiple header.
      * 
-     * @param  mixed  $headers  The header name
-     * 
+     * @param  mixed  $headers  The header name 
      * @return static
      */
     public function add(mixed $headers): static
@@ -150,8 +148,7 @@ class Headers implements Header
     /**
      * Sets the name.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return void
      */
     public function setName(string $name): void
@@ -163,6 +160,7 @@ class Headers implements Header
      * Sets a list of addresses to be shown in this Header.
      * 
      * @param  Address[]  $address
+     * @return void
      */
     public function setAddress(array $address): void
     {
@@ -174,7 +172,6 @@ class Headers implements Header
      * Sets a list of addresses to be shown in this Header.
      * 
      * @param  Address[]  $addresses
-     *
      * @return void 
      */
     public function addAddresses(array $addresses): void
@@ -187,8 +184,7 @@ class Headers implements Header
     /**
      * Adds the address to send of mailbox.
      * 
-     * @param  Address  $address
-     * 
+     * @param  Address  $address 
      * @return void
      */
     public function addAddress(Address $address): void
@@ -210,8 +206,7 @@ class Headers implements Header
      * Adds the mailbox list header.
      * 
      * @param  string  $name
-     * @param  array<Address|string>  $addresses
-     * 
+     * @param  array<Address|string>  $addresses 
      * @return static
      */
     public function addMailboxListHeader(string $name, array $addresses): static
@@ -223,8 +218,7 @@ class Headers implements Header
      * Adds the mailbox header.
      * 
      * @param  string  $name
-     * @param  Address|string  $address
-     * 
+     * @param  Address|string  $address 
      * @return static
      */
     public function addMailboxHeader(string $name, Address|string $address): static
@@ -236,8 +230,7 @@ class Headers implements Header
      * Adds the identification message header.
      * 
      * @param  string  $name
-     * @param  string|string[]  $ids
-     * 
+     * @param  string|string[]  $ids 
      * @return static
      */
     public function addIdnHeader(string $name, string|array $ids): static
@@ -249,8 +242,7 @@ class Headers implements Header
      * Adds the identification message header.
      * 
      * @param  string  $name
-     * @param  string|string[]  $path
-     * 
+     * @param  string|string[]  $path 
      * @return static
      */
     public function addPathHeader(string $name, Address|string $path): static
@@ -262,8 +254,7 @@ class Headers implements Header
      * Adds the date header.
      * 
      * @param  string  $name
-     * @param  \DateTimeInterface  $dateTime
-     * 
+     * @param  \DateTimeInterface  $dateTime 
      * @return static
      */
     public function addDateHeader(string $name, DateTimeInterface $dateTime): static
@@ -275,8 +266,7 @@ class Headers implements Header
      * Adds the text header.
      * 
      * @param  string  $name
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return static
      */
     public function addTextHeader(string $name, string $value): static
@@ -289,8 +279,7 @@ class Headers implements Header
      * 
      * @param  string  $name
      * @param  mixed  $argument
-     * @param  array  $array
-     * 
+     * @param  array  $array 
      * @return static
      */
     public function addHeader(string $name, mixed $argument, array $array = []): static
@@ -318,8 +307,7 @@ class Headers implements Header
     /**
      * If exist the name of header.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     public function has(string $name): bool
@@ -330,8 +318,7 @@ class Headers implements Header
     /**
      * Gets a header value by name.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return mixed
      */
     public function get(string $name): mixed
@@ -350,8 +337,7 @@ class Headers implements Header
     /**
      * Returns all the headers.
      * 
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return iterable
      */
     public function all(?string $name = null): iterable
@@ -372,8 +358,7 @@ class Headers implements Header
     /**
      * Removes a header.
      * 
-     * @param  string  $name  The header name
-     * 
+     * @param  string  $name  The header name 
      * @return void
      */
     public function remove(string $name): void
@@ -404,8 +389,7 @@ class Headers implements Header
     /**
      * Sets the max line length.
      * 
-     * @param  int  $lineLength
-     * 
+     * @param  int  $lineLength 
      * @return void
      */
     public function setMaxLineLength(int $lineLength): void
@@ -426,8 +410,7 @@ class Headers implements Header
     /**
      * Get the header body.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return mixed
      */
     public function getHeaderBody(string $name): mixed
@@ -440,8 +423,7 @@ class Headers implements Header
      * 
      * @param  string  $type
      * @param  string  $name
-     * @param  mixed  $body
-     * 
+     * @param  mixed  $body 
      * @return void
      */
     public function setHeaderBody(string $type, string $name, mixed $body): void
@@ -456,8 +438,7 @@ class Headers implements Header
     /**
      * Checks the header class.
      * 
-     * @param  mixed  $header
-     * 
+     * @param  mixed  $header 
      * @return void
      */
     public static function checkHeaderClass(mixed $header): void

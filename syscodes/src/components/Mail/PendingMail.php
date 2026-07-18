@@ -69,8 +69,7 @@ class PendingMail
     /**
      * Constructor. Create a new mailable mailer instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Mail\Mailer  $mailer
-     * 
+     * @param  \Syscodes\Components\Contracts\Mail\Mailer  $mailer 
      * @return void
      */
     public function __construct(MailerContract $mailer)
@@ -81,8 +80,7 @@ class PendingMail
     /**
      * Set the locale of the message.
      * 
-     * @param  string  $locale
-     * 
+     * @param  string  $locale 
      * @return static
      */
     public function locale($locale): static
@@ -95,8 +93,7 @@ class PendingMail
     /**
      * Set the recipients of the message.
      * 
-     * @param  mixed  $users
-     * 
+     * @param  mixed  $users 
      * @return static
      */
     public function to($users): static
@@ -113,8 +110,7 @@ class PendingMail
     /**
      * Set the recipients of the message.
      * 
-     * @param  mixed  $users
-     * 
+     * @param  mixed  $users 
      * @return static
      */
     public function cc($users): static
@@ -127,8 +123,7 @@ class PendingMail
     /**
      * Set the recipients of the message.
      * 
-     * @param  mixed  $users
-     * 
+     * @param  mixed  $users 
      * @return static
      */
     public function bcc($users): static
@@ -141,8 +136,7 @@ class PendingMail
     /**
      * Send a new mailable message instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Mail\Mailbox  $mailable
-     * 
+     * @param  \Syscodes\Components\Contracts\Mail\Mailbox  $mailable 
      * @return \Syscodes\Components\Mail\SentMessage|null
      */
     public function send(MailboxContract $mailable)
@@ -154,7 +148,6 @@ class PendingMail
      * Send a new mailable message instance synchronously.
      * 
      * @param  \Syscodes\Components\Contracts\Mail\Mailbox  $mailable
-     * 
      * @return \Syscodes\Components\Mail\SentMessage|null
      */
     public function sendNow(MailboxContract $mailable)
@@ -165,8 +158,7 @@ class PendingMail
     /**
      * Populate the mailable with the addresses.
      * 
-     * @param  \Syscodes\Components\Contracts\Mail\Mailbox $mailable
-     * 
+     * @param  \Syscodes\Components\Contracts\Mail\Mailbox $mailable 
      * @return \Syscodes\Components\Mail\Mailbox
      */
     protected function fill(MailboxContract $mailable)

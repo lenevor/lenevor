@@ -50,8 +50,7 @@ class Envelope
      * Constructor. Create new a Envelope class instance.
      * 
      * @param Address  $senderEnvelope
-     * @param Address[] $recipients
-     * 
+     * @param Address[] $recipients 
      * @return void
      */
     public function __construct(Address $senderEnvelope, array $recipients)
@@ -63,8 +62,7 @@ class Envelope
     /**
      * For the send of delayed envelope.
      * 
-     * @param  RawMessage  $message
-     * 
+     * @param  RawMessage  $message 
      * @return self
      */
     public static function create(RawMessage $message): self
@@ -101,8 +99,7 @@ class Envelope
     /**
      * Sets the recipients custom.
      * 
-     * @param Address[] $recipients
-     * 
+     * @param  Address[]  $recipients 
      * @return void
      */
     public function setRecipients(array $recipients): void

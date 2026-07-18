@@ -49,8 +49,7 @@ abstract class AbstractTransportFactory
      * Constructor. Create a new AbstractTransportFactory class instance.
      * 
      * @param  Dispatcher|null  $dispatcher
-     * @param  LoggerInterface|null  $logger
-     * 
+     * @param  LoggerInterface|null  $logger 
      * @return void
      */
     public function __construct(?Dispatcher $dispatcher = null, ?LoggerInterface $logger = null)
@@ -62,8 +61,7 @@ abstract class AbstractTransportFactory
     /**
      * Gets the supports of schemes.
      * 
-     * @param  DomainTransport  $domain
-     * 
+     * @param  DomainTransport  $domain 
      * @return bool
      */
     public function supports(DomainTransport $domain): bool
@@ -81,8 +79,7 @@ abstract class AbstractTransportFactory
     /**
      * Gets the user.
      * 
-     * @param  DomainTransport  $domain
-     * 
+     * @param  DomainTransport  $domain 
      * @return string
      */
     protected function getUser(DomainTransport $domain): string
@@ -93,8 +90,7 @@ abstract class AbstractTransportFactory
     /**
      * Gets the password.
      * 
-     * @param  DomainTransport  $domain
-     * 
+     * @param  DomainTransport  $domain 
      * @return string
      */
     protected function getPassword(DomainTransport $domain): string

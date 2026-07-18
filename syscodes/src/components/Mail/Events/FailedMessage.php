@@ -34,8 +34,7 @@ class FailedMessage
      * Constructor. Create a new FailedMessage class instance.
      * 
      * @param  RawMessage  $message
-     * @param  Throwable  $error
-     * 
+     * @param  Throwable  $error 
      * @return void
      */
     public function __construct(

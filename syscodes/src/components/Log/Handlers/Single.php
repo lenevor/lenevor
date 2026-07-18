@@ -82,8 +82,7 @@ class Single implements Handler
      * Constructor. Create new Single class instance.
      * 
      * @param  array  $config
-     * @param  \Syscodes\Components\Contracts\Core\Application  $app
-     * 
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app 
      * @return void
      */
     public function __construct(array $config, $app)
@@ -112,8 +111,7 @@ class Single implements Handler
      * 
      * @param  mixed  $level
      * @param  string  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return bool
      */
     public function log($level, $message, array $context = []): bool
@@ -130,8 +128,7 @@ class Single implements Handler
      * from the context.
      * 
      * @param  string  $message
-     * @param  array  $context
-     * 
+     * @param  array  $context 
      * @return mixed
      */
     protected function exchangeProcess($message, array $context = [])
@@ -176,8 +173,7 @@ class Single implements Handler
      * 
      * APPPATH/Http/Controllers/Home.php
      * 
-     * @param  string  $file
-     * 
+     * @param  string  $file 
      * @return string
      */
     protected function cleanFileNames(string $file)
@@ -192,8 +188,7 @@ class Single implements Handler
      * Handles logging the message.
      * 
      * @param  string  $level
-     * @param  string  $message
-     * 
+     * @param  string  $message 
      * @return bool
      */
     public function handle($level, $message): bool
@@ -233,8 +228,7 @@ class Single implements Handler
     /**
      * Opens the current file.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return bool
      */
     private function open($path): bool
@@ -250,8 +244,7 @@ class Single implements Handler
      * Write message of log file.
      * 
      * @param  mixed  $level
-     * @param  string  $message
-     * 
+     * @param  string  $message 
      * @return static
      */
     private function logMessage($level, $message): static

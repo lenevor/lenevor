@@ -46,8 +46,7 @@ class PathFilterIterator extends MultiFilterIterator
     /**
      * Converts string into regexp.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function toRegex(string $value): string

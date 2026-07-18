@@ -39,8 +39,7 @@ class UrlWindowGenerator
     /**
      * Constructor. Create a new UrlWindowGenerator instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Pagination\Paginator  $paginator
-     * 
+     * @param  \Syscodes\Components\Contracts\Pagination\Paginator  $paginator 
      * @return void
      */
     public function __construct(Paginator $paginator)
@@ -51,8 +50,7 @@ class UrlWindowGenerator
     /**
      * Create a new URL window instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Pagination\Paginator  $paginator
-     * 
+     * @param  \Syscodes\Components\Contracts\Pagination\Paginator  $paginator 
      * @return array
      */
     public static function make(Paginator $paginator): array
@@ -95,8 +93,7 @@ class UrlWindowGenerator
     /**
      * Get the slider of URLs when a full slider can be made.
      * 
-     * @param  int  $onEachSide
-     * 
+     * @param  int  $onEachSide 
      * @return array
      */
     protected function getUrlSlider($onEachSide): array
@@ -133,8 +130,7 @@ class UrlWindowGenerator
      * Get the slider of URLs when too close to beginning of window.
      * 
      * @param  int  $window
-     * @param  int  $onEachSide
-     * 
+     * @param  int  $onEachSide 
      * @return array
      */
     protected function getSliderTooCloseToBeginning($window, $onEachSide): array
@@ -150,8 +146,7 @@ class UrlWindowGenerator
      * Get the slider of URLs when too close to ending of window.
      * 
      * @param  int  $window
-     * @param  int  $onEachSide
-     * 
+     * @param  int  $onEachSide 
      * @return array
      */
     protected function getSliderTooCloseToEnding($window, $onEachSide): array
@@ -171,8 +166,7 @@ class UrlWindowGenerator
     /**
      * Get the slider of URLs when a full slider can be made.
      *
-     * @param  int  $onEachSide
-     * 
+     * @param  int  $onEachSide 
      * @return array
      */
     protected function getFullSlider($onEachSide): array
@@ -187,8 +181,7 @@ class UrlWindowGenerator
     /**
      * Get the page range for the current page window.
      *
-     * @param  int  $onEachSide
-     * 
+     * @param  int  $onEachSide 
      * @return array
      */
     public function getPageUrlRange($onEachSide): array

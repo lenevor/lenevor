@@ -47,8 +47,7 @@ class RawMessage
     /**
      * Constructor. Create a new RawMessage class instance.
      * 
-     * @param  iterable|string  $message
-     * 
+     * @param  iterable|string  $message 
      * @return void
      */
     public function __construct(iterable|string $message)
@@ -126,8 +125,7 @@ class RawMessage
     /**
      * Constructs the object.
      * 
-     * @param  array  $serialized
-     * 
+     * @param  array  $serialized 
      * @return void
      */
     public function __unserialize(array $serialized): void

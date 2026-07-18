@@ -72,8 +72,7 @@ class DirectoryFilterIterator extends RecursiveDirectoryIterator
      * 
      * @param  string|mixed  $path
      * @param  int  $flags
-     * @param  bool  $ignoreDirs
-     * 
+     * @param  bool  $ignoreDirs 
      * @return void
      */
     public function __construct(string $path, int $flags, bool $ignoreDirs = false)
@@ -117,8 +116,7 @@ class DirectoryFilterIterator extends RecursiveDirectoryIterator
     /**
      * Returns whether current entry is a directory and not '.' or '..'.
      * 
-     * @param  bool  $value
-     * 
+     * @param  bool  $value 
      * @return bool
      */
     public function hasChildren(bool $value = false): bool

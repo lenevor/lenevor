@@ -81,8 +81,7 @@ final class SocketStream extends AbstractStream
     /**
      * Set the host.
      * 
-     * @param  string  $host
-     * 
+     * @param  string  $host 
      * @return static
      */
     public function setHost(string $host): static
@@ -105,8 +104,7 @@ final class SocketStream extends AbstractStream
     /**
      * Set the port.
      * 
-     * @param  int  $port
-     * 
+     * @param  int  $port 
      * @return static
      */
     public function setPort(int $port): static
@@ -151,8 +149,7 @@ final class SocketStream extends AbstractStream
     /**
      * Sets the stream options.
      * 
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return static
      */
     public function setStreamOptions(array $options): static
@@ -175,8 +172,7 @@ final class SocketStream extends AbstractStream
     /**
      * Sets the source IP.
      * 
-     * @param  string  $ip
-     * 
+     * @param  string  $ip 
      * @return static
      */
     public function setSourceIp(string $ip): static
@@ -198,6 +194,8 @@ final class SocketStream extends AbstractStream
     
     /**
      * Sets the timeout for send of messages.
+     * 
+     * @param  float  $timeout
      * 
      * @return static
      */

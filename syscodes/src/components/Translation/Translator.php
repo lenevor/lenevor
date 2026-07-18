@@ -78,8 +78,7 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
      * Constructor. Create a new Translator class instance.
      * 
      * @param  string  $locale
-     * @param  \Syscodes\Components\Contracts\Translation\Loader  $loader
-     * 
+     * @param  \Syscodes\Components\Contracts\Translation\Loader  $loader 
      * @return void
      */
     public function __construct(string $locale, Loader $loader)
@@ -99,8 +98,7 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
      * @param  string  $key
      * @param  array  $replace
      * @param  string|null  $locale
-     * @param  bool  $fallback
-     * 
+     * @param  bool  $fallback 
      * @return string|array
      */
     public function get(
@@ -141,8 +139,7 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
      * @param  string  $group
      * @param  string  $locale
      * @param  string  $item
-     * @param  array  $replace
-     * 
+     * @param  array  $replace 
      * @return string|array  Returns line
      */
     protected function getLine(
@@ -171,8 +168,7 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
      * existing language lines.
      * 
      * @param  string  $group
-     * @param  string  $locale  
-     * 
+     * @param  string  $locale 
      * @return void
      */
     protected function load($group, $locale): void
@@ -190,8 +186,7 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
      * Determine if the given group has been loaded.
      * 
      * @param  string  $group
-     * @param  string  $locale
-     * 
+     * @param  string  $locale 
      * @return bool
      */
     protected function isLoaded($group, $locale): bool
@@ -204,8 +199,7 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
      * filename as the first segment into namespace, groups
      * and item.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return array
      */
     public function parseLine($key): array
@@ -223,8 +217,7 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
      * Make the place-holder replacements on a line.
      * 
      * @param  string  $line
-     * @param  array  $replace
-     * 
+     * @param  array  $replace 
      * @return string
      */
     protected function makeReplacements($line, array $replace): string
@@ -250,8 +243,7 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
      * Advanced line formatting.
      * 
      * @param  string  $line
-     * @param  array  $replace
-     * 
+     * @param  array  $replace 
      * @return string|bool
      */
     protected function formatMessage($line, array $replace = []): string|bool
@@ -266,8 +258,7 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
     /**
      * Get the array of locales to be checked.
      * 
-     * @param  string|null  $locale
-     * 
+     * @param  string|null  $locale 
      * @return array
      */
     protected function localeArray($locale): array
@@ -279,8 +270,7 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
      * Determine if a translation exists for a given locale.
      * 
      * @param  string  $key
-     * @param  string|null  $locale
-     * 
+     * @param  string|null  $locale 
      * @return bool
      */
     public function hasForLocale($key, $locale = null): bool
@@ -293,8 +283,7 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
      * 
      * @param  string  $key
      * @param  string|null  $locale
-     * @param  bool  $fallback
-     * 
+     * @param  bool  $fallback 
      * @return bool
      */
     public function has($key, $locale = null, $fallback = true): bool
@@ -315,8 +304,7 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
     /**
      * Set the default locale.
      * 
-     * @param  string  $locale
-     * 
+     * @param  string  $locale 
      * @return void
      */
     public function setLocale($locale): void
@@ -341,8 +329,7 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
     /**
      * Set the default locale.
      * 
-     * @param  string  $fallback
-     * 
+     * @param  string  $fallback 
      * @return void
      */
     public function setFallback($fallback): void
@@ -353,8 +340,7 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
     /**
      * Set the parsed translation groups.
      * 
-     * @param  array  $parsed
-     * 
+     * @param  array  $parsed 
      * @return void
      */
     public function setLoaded(array $parsed): void

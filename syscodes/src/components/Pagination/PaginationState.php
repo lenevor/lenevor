@@ -30,8 +30,7 @@ class PaginationState
     /**
      * Bind the pagination state resolvers using the given application container as a base.
      * 
-     * @param  \Syscodes\Components\Contracts\Core\Application  $app
-     * 
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app 
      * @return void
      */
     public static function resolvingUsing($app)

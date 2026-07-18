@@ -35,8 +35,7 @@ class ValidatePathEncoding
      * Validate that the incoming request has a valid UTF-8 encoded path.
      *
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Closure  $next
-     * 
+     * @param  \Closure  $next 
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle(Request $request, Closure $next)

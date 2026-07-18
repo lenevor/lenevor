@@ -40,8 +40,7 @@ class RedisManager
     /**
      * Constructor. The new Redis connection instance.
      * 
-     * @param  array  $servers
-     * 
+     * @param  array  $servers 
      * @return void
      */
     public function __construct(array $servers = [])
@@ -56,8 +55,7 @@ class RedisManager
     /**
      * Create a new aggregate client supporting sharding.
      * 
-     * @param  array  $servers
-     * 
+     * @param  array  $servers 
      * @return array
      */
     protected function createAggregateclient(array $servers): array
@@ -70,8 +68,7 @@ class RedisManager
     /**
      * Create an array of single connection clients.
      * 
-     * @param  array  $servers
-     * 
+     * @param  array  $servers 
      * @return array
      */
     protected function createSingleClient(array $servers): array
@@ -88,8 +85,7 @@ class RedisManager
     /**
      * Get a Redis connection by name.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return \Predis\Connection\SingleConnectionInterface
      */
     public function connection($name = null)
@@ -107,8 +103,7 @@ class RedisManager
      * Dynamically make a Redis connection.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      */
     public function __call($method, $parameters)

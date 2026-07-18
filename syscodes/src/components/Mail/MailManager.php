@@ -66,8 +66,7 @@ class MailManager implements FactoryContract
     /**
      * Constructor. Create a new MailManager class instance.
      * 
-     * @param  \Syscodes\Components\Core\Application  $app
-     * 
+     * @param  \Syscodes\Components\Core\Application  $app 
      * @return void
      */
     public function __construct($app)
@@ -78,8 +77,7 @@ class MailManager implements FactoryContract
     /**
      * Get a mailer instance by name.
      *
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return \Syscodes\Components\Contracts\Mail\Mailer
      */
     public function mailer($name = null)
@@ -92,8 +90,7 @@ class MailManager implements FactoryContract
     /**
      * Get a mailer driver instance.
      * 
-     * @param  string|null  $driver
-     * 
+     * @param  string|null  $driver 
      * @return \Syscodes\Components\Mail\Mailer
      */
     public function driver($driver = null)
@@ -104,8 +101,7 @@ class MailManager implements FactoryContract
     /**
      * Attempt to get the mailer from the local cache.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return \Syscodes\Components\Mail\Mailer
      */
     protected function get($name)
@@ -116,8 +112,7 @@ class MailManager implements FactoryContract
     /**
      * Resolve the given mailer.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return \Syscodes\Components\Mail\Mailer
      * 
      * @throws \InvalidArgumentException
@@ -143,8 +138,7 @@ class MailManager implements FactoryContract
     /**
      * Create a new transport instance.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Syscodes\Components\Contracts\Mail\Transport
      * 
      * @throws \InvalidArgumentException
@@ -168,8 +162,7 @@ class MailManager implements FactoryContract
     /**
      * Create an instance of the SMTP Transport driver.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Syscodes\Components\Mail\Transport\Smtp\EsmtpTransport
      */
     protected function createSmtpTransport(array $config)
@@ -199,8 +192,7 @@ class MailManager implements FactoryContract
      * Configure the additional SMTP driver options.
      * 
      * @param  \Syscodes\Components\Mail\Transport\Smtp\EsmtpTransport  $transport
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Syscodes\Components\Mail\Transport\Smtp\EsmtpTransport
      */
     protected function configureSmtpTransport(EsmtpTransport $transport, array $config)
@@ -223,8 +215,7 @@ class MailManager implements FactoryContract
     /**
      * Create an instance of the Sendmail Transport driver.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Syscodes\Components\Mail\Transport\SendmailTransport
      */
     protected function createSendmailTransport(array $config)
@@ -247,8 +238,7 @@ class MailManager implements FactoryContract
     /**
      * Create an instance of the Log Transport driver.
      * 
-     * @param  array  $config
-     * 
+     * @param  array  $config 
      * @return \Syscodes\Components\Mail\Transport\LogTransport
      */
     protected function createLogTransport(array $config)
@@ -277,8 +267,7 @@ class MailManager implements FactoryContract
     /**
      * Get the mail connection configuration.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return array
      */
     protected function getConfig(string $name): array
@@ -308,8 +297,7 @@ class MailManager implements FactoryContract
     /**
      * Set the default mail driver name.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return void
      */
     public function setDefaultDriver(string $name): void
@@ -324,8 +312,7 @@ class MailManager implements FactoryContract
     /**
      * Disconnect the given mailer and remove from local cache.
      * 
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return void
      */
     public function purge($name = null): void
@@ -339,8 +326,7 @@ class MailManager implements FactoryContract
      * Register a custom transport creator Closure.
      * 
      * @param  string  $driver
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return static
      */
     public function extend($driver, Closure $callback): static
@@ -363,8 +349,7 @@ class MailManager implements FactoryContract
     /**
      * Set the application instance used by the manager.
      * 
-     * @param  \Syscodes\Components\Contracts\Core\Application  $app
-     * 
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app 
      * @return static
      */
     public function setApplication($app): static
@@ -392,8 +377,7 @@ class MailManager implements FactoryContract
      * Dynamically call the default driver instance.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      */
     public function __call($method, $parameters)

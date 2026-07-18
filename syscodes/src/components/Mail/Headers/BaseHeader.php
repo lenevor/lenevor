@@ -44,8 +44,7 @@ abstract class BaseHeader
     /**
      * Constructor. Create a new BaseHeader class instance.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return void
      */
     public function __construct(string $name)
@@ -66,8 +65,7 @@ abstract class BaseHeader
     /**
      * Set the max line lenght.
      * 
-     * @param  int  $lineLength
-     * 
+     * @param  int  $lineLength 
      * @return void
      */
     public function setMaxLineLength(int $lineLength): void
@@ -99,7 +97,6 @@ abstract class BaseHeader
      * Generates tokens from the given string which include CRLF as individual tokens.
      * 
      * @param  string  $token
-     *
      * @return string[]
      */
     protected function generateTokenLines(string $token): array
@@ -110,8 +107,7 @@ abstract class BaseHeader
     /**
      * Generate a list of all tokens in the final header.
      * 
-     * @param  string|null  $string
-     * 
+     * @param  string|null  $string 
      * @return array
      */
     protected function toTokens(?string $string = null): array
@@ -134,8 +130,7 @@ abstract class BaseHeader
     /**
      * Takes an array of tokens which appear in the header.
      * 
-     * @param string[] $tokens
-     * 
+     * @param string[] $tokens 
      * @return string
      */
     private function tokensToString(array $tokens): string

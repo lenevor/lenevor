@@ -106,7 +106,6 @@ class Mailer implements MailerContract
      * @param  \Syscodes\Components\Contracts\View\Factory  $views
      * @param  \Syscodes\Components\Contracts\Mail\Transport  $transport
      * @param  \Syscodes\Components\Contracts\Events\Dispatcher|null  $events
-     *
      * @return void
      */
     public function __construct(
@@ -142,8 +141,7 @@ class Mailer implements MailerContract
      * Begin the process of mailing a mailable class instance.
      * 
      * @param  mixed  $users
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return \Syscodes\Components\Mail\PendingMail
      */
     public function cc($users, $name = null)
@@ -159,8 +157,7 @@ class Mailer implements MailerContract
      * Begin the process of mailing a mailable class instance.
      * 
      * @param  mixed  $users
-     * @param  string|null  $name
-     * 
+     * @param  string|null  $name 
      * @return \Syscodes\Components\Mail\PendingMail
      */
     public function bcc($users, $name = null)
@@ -176,8 +173,7 @@ class Mailer implements MailerContract
      * Send a new message with only an HTML part.
      * 
      * @param  string  $html
-     * @param  mixed  $callback
-     * 
+     * @param  mixed  $callback 
      * @return \Syscodes\Components\Mail\SentMessage|null
      */
     public function html($html, $callback)
@@ -190,7 +186,6 @@ class Mailer implements MailerContract
      * 
      * @param  string  $text
      * @param  mixed  $callback
-     * 
      * @return \Syscodes\Components\Mail\SentMessage|null
      */
     public function raw($text, $callback)
@@ -203,8 +198,7 @@ class Mailer implements MailerContract
      * 
      * @param  string  $view
      * @param  array  $data
-     * @param  mixed  $callback
-     * 
+     * @param  mixed  $callback 
      * @return \Syscodes\Components\Mail\SentMessage|null
      */
     public function plain($view, array $data, $callback)
@@ -285,7 +279,6 @@ class Mailer implements MailerContract
      * Send the given mailable.
      *
      * @param  \Syscodes\Components\Contracts\Mail\Mailbox  $mailable
-     * 
      * @return \Syscodes\Components\Mail\Helpers\BaseSentMessage|null
      */
     protected function sendMailbox(MailboxContract $mailable)
@@ -298,8 +291,7 @@ class Mailer implements MailerContract
      * 
      * @param  \Syscodes\Components\Contracts\Mail\Mailbox|string|array  $mailable
      * @param  array  $data
-     * @param  \Closure|string|null  $callback
-     * 
+     * @param  \Closure|string|null  $callback 
      * @return \Syscodes\Components\Mail\Helpers\BaseSentMessage|null
      */
     public function sendNow($mailable, array $data = [], $callback = null)
@@ -312,8 +304,7 @@ class Mailer implements MailerContract
     /**
      * Parse the given view name or array.
      * 
-     * @param  \Closure|array|string  $view
-     * 
+     * @param  \Closure|array|string  $view 
      * @return array
      * 
      * @throws \InvalidArgumentException
@@ -346,8 +337,7 @@ class Mailer implements MailerContract
      * @param  string  $view
      * @param  string  $plain
      * @param  string  $raw
-     * @param  array  $data
-     * 
+     * @param  array  $data 
      * @return void
      */
     protected function addContent($message, $view, $plain, $raw, $data): void
@@ -369,8 +359,7 @@ class Mailer implements MailerContract
      * Render the given view.
      * 
      * @param  \Closure|string  $view
-     * @param  array  $data
-     * 
+     * @param  array  $data 
      * @return string
      */
     protected function renderView($view, $data): string
@@ -385,8 +374,7 @@ class Mailer implements MailerContract
     /**
      * Set the global "to" address on the given message.
      * 
-     * @param  \Syscodes\Components\Mail\Message  $message
-     * 
+     * @param  \Syscodes\Components\Mail\Message  $message 
      * @return void
      */
     protected function setGlobalToAndRemove($message)
@@ -403,8 +391,7 @@ class Mailer implements MailerContract
      * Determines if the email can be sent.
      * 
      * @param  \Syscodes\Components\Mail\Mailables\Email  $message
-     * @param  array  $data
-     * 
+     * @param  array  $data 
      * @return bool
      */
     protected function shouldSendMessage($message, $data = []): bool
@@ -422,8 +409,7 @@ class Mailer implements MailerContract
      * Dispatch the message sent event.
      * 
      * @param  \Syscodes\Components\Mail\SentMessage  $message
-     * @param  array  $data
-     * 
+     * @param  array  $data 
      * @return void
      */
     protected function dispatchSentEvent($message, $data = []): void
@@ -438,8 +424,7 @@ class Mailer implements MailerContract
     /**
      * Send a Email instance.
      * 
-     * @param  \Syscodes\Components\Mail\Mailables\Email  $message
-     * 
+     * @param  \Syscodes\Components\Mail\Mailables\Email  $message 
      * @return \Syscodes\Components\Mail\Helpers\BaseSentMessage|null
      */
     protected function sendMessage(Email $message)

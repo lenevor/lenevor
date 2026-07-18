@@ -48,8 +48,7 @@ class SplFileInfo extends BaseSplFileInfo
      * 
      * @param  string  $file  The file name
      * @param  string  $relativePath  The relative path
-     * @param  string  $relativePathname  The relative path name
-     * 
+     * @param  string  $relativePathname  The relative path name 
      * @return void
      */
     public function __construct($file, $relativePath, $relativePathname)

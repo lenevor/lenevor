@@ -49,8 +49,7 @@ abstract class MultiFilterIterator extends FilterIterator
      * 
      * @param \Iterator  $iterator  The Iterator to filter
      * @param string[]  $matchRegex  An array of regex that need to match
-     * @param string[]  $noMatchRegex  An array of regex that need to not match
-     * 
+     * @param string[]  $noMatchRegex  An array of regex that need to not match 
      * @return void 
      */
     public function __construct(Iterator $iterator, array $matchRegex, array $noMatchRegex)
@@ -69,8 +68,7 @@ abstract class MultiFilterIterator extends FilterIterator
     /**
      * Checks whether the string is accepted by the regex filters.
      * 
-     * @param  string  $string
-     * 
+     * @param  string  $string 
      * @return bool
      */
     protected function isAccepted(string $string): bool
@@ -101,6 +99,7 @@ abstract class MultiFilterIterator extends FilterIterator
      * Checks whether the string is a regex.
      * 
      * @param  string  $value
+     * @return bool
      */
     protected function isRegex(string $value): bool
     {
@@ -127,8 +126,7 @@ abstract class MultiFilterIterator extends FilterIterator
     /**
      * Converts string into regexp.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     abstract protected function toRegex(string $value): string;

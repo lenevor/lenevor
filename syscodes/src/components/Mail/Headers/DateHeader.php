@@ -42,7 +42,6 @@ final class DateHeader extends BaseHeader
      * 
      * @param  string  $name
      * @param  \DateTimeInterface  $date
-     * 
      * @return void
      */
     public function __construct(string $name, DateTimeInterface $date)
@@ -55,8 +54,7 @@ final class DateHeader extends BaseHeader
     /**
      * Set the body content.
      * 
-     * @param  DateTimeInterface  $body
-     * 
+     * @param  DateTimeInterface  $body 
      * @return void
      */
     public function setBody(mixed $body): void
@@ -87,8 +85,7 @@ final class DateHeader extends BaseHeader
     /**
      * Set the date-time of the Date in this Header.
      * 
-     * @param  \DateTimeInterface  $dateTime
-     * 
+     * @param  \DateTimeInterface  $dateTime 
      * @return void
      */
     public function setDateTime(DateTimeInterface $dateTime): void

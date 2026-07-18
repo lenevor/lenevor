@@ -31,8 +31,7 @@ final class EightBitContentEncoder
      * Gets the encoded byte stream.
      * 
      * @param  mixed  $stream
-     * @param  int  $maxLineLength
-     * 
+     * @param  int  $maxLineLength 
      * @return iterable 
      */
     public function encodeByteStream($stream, int $maxLineLength = 0): iterable
@@ -57,8 +56,7 @@ final class EightBitContentEncoder
      * 
      * @param  string  $string
      * @param  int  $firstLineOffset
-     * @param  int  $maxLineLength
-     * 
+     * @param  int  $maxLineLength 
      * @return string
      */
     public function encodeString(string $string, int $firstLineOffset = 0, int $maxLineLength = 0): string

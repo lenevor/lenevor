@@ -47,8 +47,7 @@ class JsonResponse extends BaseJsonResponse
      * @param  int  $status  
      * @param  array  $headers  
      * @param  int  $options  
-     * @param  bool  $json  
-     * 
+     * @param  bool  $json 
      * @return void
      */
     public function __construct($data = null, int $status = 200, array $headers = [], int $options = 0, bool $json = false)
@@ -71,7 +70,6 @@ class JsonResponse extends BaseJsonResponse
      * @param  array  $headers  An array of response headers
      * @param  int  $options  
      * @param  bool  $json 
-     * 
      * @return static
      */
     public static function render($data = null, int $status = 200, array $headers = [], int $options = 0, bool $json = false): static
@@ -85,8 +83,7 @@ class JsonResponse extends BaseJsonResponse
      * 
      * @param  string|null  $data  
      * @param  int  $status  
-     * @param  array  $headers  
-     * 
+     * @param  array  $headers 
      * @return static
      */
     public static function toJsonString(?string $data = null, int $status = 200, array $headers = []): static
@@ -97,8 +94,7 @@ class JsonResponse extends BaseJsonResponse
     /**
      * Sets the JSONP callback.
      * 
-     * @param  string|null  $callback
-     * 
+     * @param  string|null  $callback 
      * @return static
      */
     public function withCallback($callback = null): static
@@ -106,13 +102,11 @@ class JsonResponse extends BaseJsonResponse
         return $this->setCallback($callback);
     }
 
-
     /**
      * Get the json_decoded() data from the response.
      * 
      * @param  bool  $options 
-     * @param  int  $depth  
-     * 
+     * @param  int  $depth 
      * @return mixed
      */
     public function getData($options = false, $depth = 512)
@@ -147,8 +141,7 @@ class JsonResponse extends BaseJsonResponse
     /**
      * Determine if an error occurred during JSON encoding.
      * 
-     * @param  int  $jsonError
-     * 
+     * @param  int  $jsonError 
      * @return bool
      */
     protected function hasValidJson($jsonError): bool
@@ -168,8 +161,7 @@ class JsonResponse extends BaseJsonResponse
     /**
      * Determine if a JSON encoding option is set.
      * 
-     * @param  int  $option
-     * 
+     * @param  int  $option 
      * @return bool
      */
     public function hasEncondingOption($option): bool

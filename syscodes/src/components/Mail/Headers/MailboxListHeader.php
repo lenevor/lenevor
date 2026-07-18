@@ -40,8 +40,7 @@ class MailboxListHeader extends BaseHeader
      * Constructor. Create a new MailBoxListHeader class instance.
      * 
      * @param  string  $name
-     * @param  Address[]  $addresses
-     * 
+     * @param  Address[]  $addresses 
      * @return void
      */
     public function __construct(string $name, array $addresses)
@@ -64,8 +63,7 @@ class MailboxListHeader extends BaseHeader
     /**
      * Set the body.
      * 
-     * @param Address[] $body
-     * 
+     * @param  Address[]  $body 
      * @return void
      */
     public function setBody(mixed $body): void
@@ -87,7 +85,6 @@ class MailboxListHeader extends BaseHeader
      * Sets a list of addresses to be shown in this Header.
      * 
      * @param  Address[]  $addresses
-     *
      * @return void
      */
     public function setAddresses(array $addresses): void
@@ -100,8 +97,7 @@ class MailboxListHeader extends BaseHeader
     /**
      * Sets a list of addresses to be shown in this Header.
      * 
-     * @param  Address[]  $addresses
-     * 
+     * @param  Address[]  $addresses 
      * @return void 
      */
     public function addAddresses(array $addresses): void
@@ -114,8 +110,7 @@ class MailboxListHeader extends BaseHeader
     /**
      * Set the address.
      * 
-     * @param  Address  $address
-     * 
+     * @param  Address  $address 
      * @return void
      */
     public function addAddress(Address $address): void

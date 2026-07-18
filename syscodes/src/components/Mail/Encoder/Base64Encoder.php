@@ -31,8 +31,7 @@ class Base64Encoder
      * 
      * @param  string  $string
      * @param  int  $firstLineOffset
-     * @param  int  $maxLineLength
-     * 
+     * @param  int  $maxLineLength 
      * @return string
      */
     public function encodeString(string $string, int $firstLineOffset = 0, int $maxLineLength = 0): string

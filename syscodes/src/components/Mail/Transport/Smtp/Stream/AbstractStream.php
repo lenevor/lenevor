@@ -77,8 +77,7 @@ abstract class AbstractStream
      * Get the write of content for send to socket.
      * 
      * @param  string  $bytes
-     * @param  bool  $debug
-     * 
+     * @param  bool  $debug 
      * @return void
      */
     public function write(string $bytes, bool $debug = true): void
@@ -162,8 +161,7 @@ abstract class AbstractStream
      * 
      * @param  string  $from
      * @param  string  $to
-     * @param  iterable  $chunks
-     * 
+     * @param  iterable  $chunks 
      * @return Generator
      */
     public static function replace(string $from, string $to, iterable $chunks): Generator

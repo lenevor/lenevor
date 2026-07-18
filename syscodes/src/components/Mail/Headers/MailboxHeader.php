@@ -41,8 +41,7 @@ class MailboxHeader extends BaseHeader
      * Constructor. Create a new MailboxHeader class instance.
      * 
      * @param  string  $name
-     * @param  Address  $address
-     * 
+     * @param  Address  $address 
      * @return void
      */
     public function __construct(string $name, Address $address)
@@ -66,7 +65,6 @@ class MailboxHeader extends BaseHeader
      * Set the body.
      * 
      * @param  mixed  $body
-     * 
      * @return void
      */
     public function setBody(mixed $body): void
@@ -87,8 +85,7 @@ class MailboxHeader extends BaseHeader
     /**
      * Set the address. 
      * 
-     * @param  Address  $address
-     * 
+     * @param  Address  $address 
      * @return void
      */
     public function setAddress(Address $address): void

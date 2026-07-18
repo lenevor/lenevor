@@ -34,8 +34,7 @@ class ValidatePostSize
      * Handle an incoming request.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next
-     * 
+     * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next 
      * @return mixed
      * 
      * @throws \Syscodes\Components\Http\Exceptions\PostTooLargeHttpException

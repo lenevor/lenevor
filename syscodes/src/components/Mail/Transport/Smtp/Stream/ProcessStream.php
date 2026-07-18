@@ -39,8 +39,7 @@ class ProcessStream extends AbstractStream
     /**
      * Sets the command.
      * 
-     * @param  string  $command
-     * 
+     * @param  string  $command 
      * @return void
      */
     public function setCommand(string $command): void

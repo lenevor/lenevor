@@ -62,8 +62,7 @@ class BaseSentMessage
      * Constructor. Create a new SentMessage class instance.
      * 
      * @param  RawMessage  $message
-     * @param  Envelope  $envelope
-     * 
+     * @param  Envelope  $envelope 
      * @return void
      */
     public function __construct(RawMessage $message, Envelope $envelope)
@@ -133,8 +132,7 @@ class BaseSentMessage
     /**
      * Appends to debug.
      * 
-     * @param  string  $debug
-     * 
+     * @param  string  $debug 
      * @return void
      */
     public function appendDebug(string $debug): void

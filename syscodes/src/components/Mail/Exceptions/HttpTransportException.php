@@ -42,8 +42,7 @@ class HttpTransportException extends TransportException
      * @param  string  $message
      * @param  \Syscodes\Components\Http\Response|string  $response
      * @param  int  $code
-     * @param  \Throwable  $previous
-     * 
+     * @param  \Throwable  $previous 
      * @return void
      */
     public function __construct(

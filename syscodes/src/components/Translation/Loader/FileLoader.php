@@ -50,8 +50,7 @@ class FileLoader implements LoaderContract
      * Constructor. Create a new File Loader instance.
      * 
      * @param  \Syscodes\Components\Filesystem\Filesystem  $files
-     * @param  array|string  $path
-     * 
+     * @param  array|string  $path 
      * @return void
      */
     public function __construct(Filesystem $files, array|string $path)
@@ -65,7 +64,6 @@ class FileLoader implements LoaderContract
      * 
      * @param  string  $locale
      * @param  string  $group
-     * 
      * @return array
      */
     public function load($locale, $group): array
@@ -81,8 +79,7 @@ class FileLoader implements LoaderContract
      * Load a locale from a given file path.
      * 
      * @param  string  $locale
-     * @param  string  $group
-     * 
+     * @param  string  $group 
      * @return array
      */
     protected function loadFilePaths($locale, $group): array
@@ -102,8 +99,7 @@ class FileLoader implements LoaderContract
     /**
      * Load a locale from a given Json file path.
      * 
-     * @param  string  $locale
-     * 
+     * @param  string  $locale 
      * @return array
      */
     protected function loadJsonPaths($locale): array

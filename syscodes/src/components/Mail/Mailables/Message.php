@@ -47,21 +47,19 @@ class Message extends RawMessage
      * Constructor. Create a new Message class instance.
      * 
      * @param  \Syscodes\Components\Mail\Headers\Headers|null  $headers
-     * @param  string|null  $body
-     * 
+     * @param  string|null  $body 
      * @return void
      */
     public function __construct(?Headers $headers = null, ?string $body = null)
     {
         $this->headers = $headers ? clone $headers : new Headers;
-        $this->body    = $body;
+        $this->body = $body;
     }
     
     /**
      * Sets the body.
      * 
-     * @param  mixed  $body
-     * 
+     * @param  mixed  $body 
      * @return void
      */
     public function setBody(mixed $body): void
@@ -82,8 +80,7 @@ class Message extends RawMessage
     /**
      * Sets the headers.
      * 
-     * @param  \Syscodes\Components\Mail\Headers\Headers  $headers
-     * 
+     * @param  \Syscodes\Components\Mail\Headers\Headers  $headers 
      * @return static
      */
     public function setHeaders(Headers $headers): static
@@ -116,8 +113,7 @@ class Message extends RawMessage
     /**
      * Constructs the object.
      * 
-     * @param  array  $serialized
-     * 
+     * @param  array  $serialized 
      * @return void
      */
     public function __unserialize(array $serialized): void

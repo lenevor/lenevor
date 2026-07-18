@@ -38,8 +38,7 @@ final class FileHeader extends BaseHeader
      * Constructor. Create a new FileHeader class instance.
      * 
      * @param  string  $name
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return void
      */
     public function __construct(string $name, string $value)
@@ -62,8 +61,7 @@ final class FileHeader extends BaseHeader
     /**
      * Set the body.
      * 
-     * @param mixed $body
-     * 
+     * @param mixed $body 
      * @return void
      */
     public function setBody(mixed $body): void
@@ -84,8 +82,7 @@ final class FileHeader extends BaseHeader
     /**
      * Set the (unencoded) value of this header.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return void
      */
     public function setValue(string $value): void

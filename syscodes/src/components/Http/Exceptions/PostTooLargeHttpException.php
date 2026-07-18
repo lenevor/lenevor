@@ -45,7 +45,6 @@ class PostTooLargeHttpException extends HttpException
 	 * @param  \Throwable|null  $previous  
 	 * @param  int  $code 
 	 * @param  array  $headers
-	 * 
 	 * @return void
 	 */
 	public function __construct(

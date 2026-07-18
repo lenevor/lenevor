@@ -33,7 +33,6 @@ class HttpURIException extends LenevorException
      * Show a message of unable to parse URI.
      * 
      * @param  string  $uri
-     * 
      * @return \Syscodes\Components\Http\Exceptions\HttpURIException
      */
     public static function UnableToParseURI(string $uri)
@@ -44,8 +43,7 @@ class HttpURIException extends LenevorException
     /**
      * Show a message of invalid port.
      * 
-     * @param  int  $port
-     * 
+     * @param  int  $port 
      * @return \Syscodes\Components\Http\Exceptions\HttpURIException
      */
     public static function InvalidPort(int $port)

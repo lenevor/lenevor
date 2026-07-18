@@ -34,8 +34,7 @@ class ValidateResponseForModifications
      * Handle an incoming request.
      *
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Closure  $next
-     * 
+     * @param  \Closure  $next 
      * @return mixed
      */
     public function handle($request, Closure $next)

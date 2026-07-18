@@ -35,8 +35,7 @@ class Message
      * 
      * @param  RawMessage  $message
      * @param  Envelope  $envelope
-     * @param  string  $transport
-     * 
+     * @param  string  $transport 
      * @return void
      */
     
@@ -59,8 +58,7 @@ class Message
     /**
      * Set the raw message for send to mail.
      * 
-     * @param  RawMessage  $message
-     * 
+     * @param  RawMessage  $message 
      * @return void
      */
     public function setMessage(RawMessage $message): void
@@ -81,8 +79,7 @@ class Message
     /**
      * Set the envelope for send to mail.
      * 
-     * @param  Envelope  $envelope
-     * 
+     * @param  Envelope  $envelope 
      * @return void
      */
     public function setEnvelope(Envelope $envelope): void

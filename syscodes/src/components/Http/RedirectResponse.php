@@ -65,8 +65,7 @@ class RedirectResponse extends BaseRedirectResponse
      * 
      * @param  mixed  $url  The URL to redirect to
      * @param  int  $status  The HTTP response status for this response  
-     * @param  array  $headers  Array of HTTP headers for this response
-     * 
+     * @param  array  $headers  Array of HTTP headers for this response 
      * @return static
      */
     public static function render($url = '', $status = 302, $headers = []): static
@@ -78,8 +77,7 @@ class RedirectResponse extends BaseRedirectResponse
      * Flash a piece of data to the session.
      * 
      * @param  string|array  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return static
      */
     public function with($key, $value = null): static
@@ -96,8 +94,7 @@ class RedirectResponse extends BaseRedirectResponse
     /**
      * Add multiple cookies to the response.
      * 
-     * @param  array  $cookies
-     * 
+     * @param  array  $cookies 
      * @return static
      */
     public function withCookies(array $cookies): static
@@ -113,8 +110,7 @@ class RedirectResponse extends BaseRedirectResponse
      * Flash a container of errors to the session.
      * 
      * @param  \Syscodes\Components\Contracts\Support\MessageProvider|array|string  $provider
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return static
      */
     public function withErrors($provider, $key = 'default'): static
@@ -136,8 +132,7 @@ class RedirectResponse extends BaseRedirectResponse
     /**
      * Parse the given errors into an appropriate value.
      * 
-     * @param  \Syscodes\Components\Contracts\Support\MessageProvider|array|string  $provider
-     * 
+     * @param  \Syscodes\Components\Contracts\Support\MessageProvider|array|string  $provider 
      * @return \Syscodes\Components\Support\MessageBag
      */
     protected function parseErrors($provider)
@@ -160,8 +155,7 @@ class RedirectResponse extends BaseRedirectResponse
     /**
      * Sets the current Request instance.
      * 
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return void
      */
     public function setRequest(Request $request): void
@@ -182,8 +176,7 @@ class RedirectResponse extends BaseRedirectResponse
     /**
      * Set the session store instance.
      * 
-     * @param  \Syscodes\Components\Session\Store  $session
-     * 
+     * @param  \Syscodes\Components\Session\Store  $session 
      * @return void
      */
     public function setSession(SessionStore $session): void
@@ -197,8 +190,7 @@ class RedirectResponse extends BaseRedirectResponse
      * Dynamically bind flash data in the session.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      * 
      * @throws \BadMethodCallException

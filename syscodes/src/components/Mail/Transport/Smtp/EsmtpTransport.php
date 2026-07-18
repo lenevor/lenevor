@@ -63,8 +63,7 @@ class EsmtpTransport extends SmtpTransport
      * @param  Dispatcher|null  $dispatcher
      * @param  LoggerInterface|null  $logger
      * @param  AbstractStream|null  $stream
-     * @param  array|null  $authenticators
-     * 
+     * @param  array|null  $authenticators 
      * @return void
      */
     public function __construct(
@@ -113,8 +112,7 @@ class EsmtpTransport extends SmtpTransport
     /**
      * Sets the username.
      * 
-     * @param  string  $username
-     * 
+     * @param  string  $username 
      * @return static
      */
     public function setUsername(string $username): static
@@ -137,8 +135,7 @@ class EsmtpTransport extends SmtpTransport
     /**
      * Sets the password.
      * 
-     * @param  string  $password
-     * 
+     * @param  string  $password 
      * @return static
      */
     public function setPassword(string $password): static
@@ -161,8 +158,7 @@ class EsmtpTransport extends SmtpTransport
     /**
      * Sets the autenticators.
      * 
-     * @param  array  $authenticators
-     * 
+     * @param  array  $authenticators 
      * @return void
      */    
     public function setAuthenticators(array $authenticators): void
@@ -177,8 +173,7 @@ class EsmtpTransport extends SmtpTransport
     /**
      * Adds a authenticator in an array.
      * 
-     * @param  Authenticator  $authenticator
-     * 
+     * @param  Authenticator  $authenticator 
      * @return void
      */
     public function addAuthenticator(Authenticator $authenticator): void
@@ -191,7 +186,6 @@ class EsmtpTransport extends SmtpTransport
      * 
      * @param  string  $command 
      * @param  int[]  $codes 
-     * 
      * @return string
      * 
      * @throws \Syscodes\Components\Mail\Exceptions\TransportException

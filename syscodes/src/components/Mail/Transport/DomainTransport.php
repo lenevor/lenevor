@@ -78,8 +78,7 @@ final class DomainTransport
      * @param  string|null  $user
      * @param  string|null  $password
      * @param  int|null  $port
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return void
      */
     public function __construct(
@@ -101,8 +100,7 @@ final class DomainTransport
     /**
      * Gets the string of URL from domain.
      * 
-     * @param  string  $domain
-     * 
+     * @param  string  $domain 
      * @return self
      */
     public static function fromString(string $domain): self
@@ -171,6 +169,8 @@ final class DomainTransport
     /**
      * Gets the port.
      * 
+     * @param  int|null  $default
+     * 
      * @return string|null
      */
     public function getPort(?int $default = null): ?int
@@ -180,6 +180,9 @@ final class DomainTransport
 
     /**
      * Gets the options.
+     * 
+     * @param  string  $key
+     * @param  mixed  $default
      * 
      * @return mixed
      */

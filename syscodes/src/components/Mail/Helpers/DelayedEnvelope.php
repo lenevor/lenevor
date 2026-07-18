@@ -56,8 +56,7 @@ final class DelayedEnvelope extends Envelope
     /**
      * Constructor. Create a new DelayedEnvelope class instance.
      * 
-     * @param  Message  $message
-     * 
+     * @param  Message  $message 
      * @return void
      */
     public function __construct(Message $message)
@@ -68,8 +67,7 @@ final class DelayedEnvelope extends Envelope
     /**
      * Sets the sender.
      * 
-     * @param  Address  $sender
-     * 
+     * @param  Address  $sender 
      * @return void
      */
     public function setSender(Address $sender): void
@@ -96,8 +94,7 @@ final class DelayedEnvelope extends Envelope
     /**
      * Sets the recipients.
      * 
-     * @param  array  $recipients
-     * 
+     * @param  array  $recipients 
      * @return void
      */
     public function setRecipients(array $recipients): void
@@ -124,8 +121,7 @@ final class DelayedEnvelope extends Envelope
     /**
      * Gets the recipients from headers.
      * 
-     * @param  Headers  $headers
-     * 
+     * @param  Headers  $headers 
      * @return array
      */
     private static function getRecipientsFromHeaders(Headers $headers): array
@@ -146,8 +142,7 @@ final class DelayedEnvelope extends Envelope
     /**
      * Gets the sender from headers.
      * 
-     * @param  Headers  $headers
-     * 
+     * @param  Headers  $headers 
      * @return Address
      */
     private static function getSenderFromHeaders(Headers $headers): Address

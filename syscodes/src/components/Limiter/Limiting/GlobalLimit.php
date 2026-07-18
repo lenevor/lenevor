@@ -31,8 +31,7 @@ class GlobalLimit extends Limit
      * Constructor. Create a new limit instance.
      *
      * @param  int  $maxAttempts
-     * @param  int  $decaySeconds
-     * 
+     * @param  int  $decaySeconds 
      * @return void
      */
     public function __construct(int $maxAttempts, int $decaySeconds = 60)

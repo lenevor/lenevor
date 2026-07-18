@@ -40,8 +40,7 @@ trait FinderHelper
     /**
      * Search in directories for iterator.
      * 
-     * @param  string  $dir
-     * 
+     * @param  string  $dir 
      * @return \Iterator
      */
     private function searchInDirectory(string $dir): Iterator
@@ -78,8 +77,7 @@ trait FinderHelper
     /**
      * Normalizes given directory names by removing trailing slashes.
      * 
-     * @param  string  $dir
-     * 
+     * @param  string  $dir 
      * @return string
      */
     private function normalizeDir(string $dir): string
